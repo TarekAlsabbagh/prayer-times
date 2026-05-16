@@ -42,3 +42,13 @@ db/places/candidates/it-geonames-candidates.json
 db/places/candidates/pl-geonames-raw.json
 db/places/candidates/pl-geonames-normalized.json
 db/places/candidates/pl-geonames-candidates.json
+
+# CURATED-GEODATA-AMERICAS-1A — US candidates 277 MB + normalized 170 MB
+# + raw 100 MB. MX candidates 410 MB + normalized 250 MB + raw 156 MB.
+# All vastly over GitHub 100 MB hard limit. Regeneratable from Stages 1-3.
+db/places/candidates/us-geonames-raw.json
+db/places/candidates/us-geonames-normalized.json
+db/places/candidates/us-geonames-candidates.json
+db/places/candidates/mx-geonames-raw.json
+db/places/candidates/mx-geonames-normalized.json
+db/places/candidates/mx-geonames-candidates.json

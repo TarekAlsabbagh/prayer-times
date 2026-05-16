@@ -63005,5 +63005,7450 @@
     "source": "curated",
     "sourceId": "geonames:786714",
     "verified": true
+  },
+  {
+    "slug": "little-rock",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 34.74648,
+    "lng": -92.28959,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "ليتل روك",
+      "en": "Little Rock",
+      "fr": "Little Rock",
+      "de": "Little Rock",
+      "tr": "Little Rock",
+      "ur": "Little Rock",
+      "id": "Little Rock",
+      "es": "Little Rock",
+      "bn": "Little Rock",
+      "ms": "Little Rock"
+    },
+    "aliases": {
+      "ar": [
+        "لتل راك",
+        "لتل راك، آركنساس",
+        "ليتل راك",
+        "ليتل راك، آركانزاس"
+      ],
+      "en": [
+        "Acropolis",
+        "Anilco",
+        "Arkopolis",
+        "LIT",
+        "La Petit Roche",
+        "Litl Rok",
+        "Litl Rokas",
+        "Litl Roks",
+        "Litl-Rok",
+        "Litlroka",
+        "Littl Rok",
+        "Littlerock",
+        "Litul Rok",
+        "Old Channel",
+        "Old Channel Little River",
+        "Petit Roche",
+        "Petit Rochelle",
+        "Petit Rocher",
+        "lie du luo bu",
+        "litala raka",
+        "litala roka",
+        "liteullog",
+        "litil rak",
+        "litila raka",
+        "litiል roki",
+        "littil rak",
+        "lytl rak",
+        "lytl rak  arkanzas",
+        "lytl rwk",
+        "lytl rwq",
+        "ritorurokku",
+        "xiao shi cheng",
+        "xiao yan cheng"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أركنساس",
+      "regionEn": "Arkansas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4119403",
+    "verified": true
+  },
+  {
+    "slug": "cape-coral",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 26.56285,
+    "lng": -81.94953,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "كيب كورال",
+      "en": "Cape Coral",
+      "fr": "Cape Coral",
+      "de": "Cape Coral",
+      "tr": "Cape Coral",
+      "ur": "Cape Coral",
+      "id": "Cape Coral",
+      "es": "Cape Coral",
+      "bn": "Cape Coral",
+      "ms": "Cape Coral"
+    },
+    "aliases": {
+      "ar": [
+        "كيب كورال، فلوريدا",
+        "كيب كورل، فلوريدا"
+      ],
+      "en": [
+        "Cabo Coral",
+        "Keip Koralas",
+        "Kejp Koral",
+        "Kejp Korul",
+        "Kejp-Koral",
+        "kai pu ke lei er",
+        "keipeukoleol",
+        "kepa korala",
+        "kepukoraru",
+        "kyb kwral",
+        "kyp kwral  flwryda",
+        "qyyp qwrl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4149962",
+    "verified": true
+  },
+  {
+    "slug": "coral-springs",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 26.27119,
+    "lng": -80.2706,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "كورال سبرينغز",
+      "en": "Coral Springs",
+      "fr": "Coral Springs",
+      "de": "Coral Springs",
+      "tr": "Coral Springs",
+      "ur": "Coral Springs",
+      "id": "Coral Springs",
+      "es": "Coral Springs",
+      "bn": "Coral Springs",
+      "ms": "Coral Springs"
+    },
+    "aliases": {
+      "ar": [
+        "كورال اسبرينغز، فلوريدا",
+        "كورل اسبرنغز، فلوريدا"
+      ],
+      "en": [
+        "Koral Springs",
+        "Koral Springsas",
+        "Koral-Springs",
+        "ke lei er si pu lin si",
+        "koleolseupeulingseu",
+        "korala springas",
+        "korarusupuringusu",
+        "kwral aspryngz  flwryda",
+        "kwral sbrnghz"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4151909",
+    "verified": true
+  },
+  {
+    "slug": "davie",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 26.06287,
+    "lng": -80.2331,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "ديفي",
+      "en": "Davie",
+      "fr": "Davie",
+      "de": "Davie",
+      "tr": "Davie",
+      "ur": "Davie",
+      "id": "Davie",
+      "es": "Davie",
+      "bn": "Davie",
+      "ms": "Davie"
+    },
+    "aliases": {
+      "ar": [
+        "ديوي، فلوريدا"
+      ],
+      "en": [
+        "Dehvi",
+        "Dejvi",
+        "Devi",
+        "dai wei",
+        "debhi",
+        "dyfy",
+        "dywy  flwryda"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4152820",
+    "verified": true
+  },
+  {
+    "slug": "gainesville",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 29.65163,
+    "lng": -82.32483,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "غينزفيل",
+      "en": "Gainesville",
+      "fr": "Gainesville",
+      "de": "Gainesville",
+      "tr": "Gainesville",
+      "ur": "Gainesville",
+      "id": "Gainesville",
+      "es": "Gainesville",
+      "bn": "Gainesville",
+      "ms": "Gainesville"
+    },
+    "aliases": {
+      "ar": [
+        "غينزويل، فلوريدا"
+      ],
+      "en": [
+        "GNV",
+        "Gainesopolis",
+        "Geinsvilis",
+        "Gejnsvil",
+        "Gejnsvill",
+        "Hog Town",
+        "ga'insabhila",
+        "gai en si wei er",
+        "geinjeubil",
+        "geinzubiru",
+        "ghynzfyl",
+        "gynzwyl  flwryda",
+        "gyynswwyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4156404",
+    "verified": true
+  },
+  {
+    "slug": "hialeah",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 25.8576,
+    "lng": -80.27811,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "هياليه",
+      "en": "Hialeah",
+      "fr": "Hialeah",
+      "de": "Hialeah",
+      "tr": "Hialeah",
+      "ur": "Hialeah",
+      "id": "Hialeah",
+      "es": "Hialeah",
+      "bn": "Hialeah",
+      "ms": "Hialeah"
+    },
+    "aliases": {
+      "ar": [
+        "هياليا، فلوريدا",
+        "هيالياه، فلوريدا",
+        "هياليح"
+      ],
+      "en": [
+        "Hajalija",
+        "Khajalia",
+        "Khajalija",
+        "hai e li ya",
+        "haiaria",
+        "haieollia",
+        "hayali'ah",
+        "hyalya  flwryda",
+        "hyalyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4158476",
+    "verified": true
+  },
+  {
+    "slug": "miami-gardens",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 25.94204,
+    "lng": -80.2456,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "ميامي غاردنز",
+      "en": "Miami Gardens",
+      "fr": "Miami Gardens",
+      "de": "Miami Gardens",
+      "tr": "Miami Gardens",
+      "ur": "Miami Gardens",
+      "id": "Miami Gardens",
+      "es": "Miami Gardens",
+      "bn": "Miami Gardens",
+      "ms": "Miami Gardens"
+    },
+    "aliases": {
+      "ar": [
+        "ميامي غاردنز، فلوريدا"
+      ],
+      "en": [
+        "Majami Gardens",
+        "Majami-Gardens",
+        "mai a mi hua yuan",
+        "maiaemigadeunseu",
+        "maiamigadenzu",
+        "mayami gardensa",
+        "myamy gardnz  flwryda",
+        "myamy ghardnz"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4164167",
+    "verified": true
+  },
+  {
+    "slug": "orlando",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 28.53834,
+    "lng": -81.37924,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "أورلاندو",
+      "en": "Orlando",
+      "fr": "Orlando",
+      "de": "Orlando",
+      "tr": "Orlando",
+      "ur": "Orlando",
+      "id": "Orlando",
+      "es": "Orlando",
+      "bn": "Orlando",
+      "ms": "Orlando"
+    },
+    "aliases": {
+      "ar": [
+        "اورلندو، فلوريدا",
+        "اورليندو",
+        "اورليندو، فلوريدا"
+      ],
+      "en": [
+        "ORL",
+        "Orlandas",
+        "Orlanto",
+        "ao lan duo",
+        "aralyando",
+        "awrlandw",
+        "awrlndw  flwryda",
+        "ollaendo",
+        "oralamdo",
+        "orando",
+        "orlanto"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4167147",
+    "verified": true
+  },
+  {
+    "slug": "palm-bay",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 28.03446,
+    "lng": -80.58866,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "بالم باي",
+      "en": "Palm Bay",
+      "fr": "Palm Bay",
+      "de": "Palm Bay",
+      "tr": "Palm Bay",
+      "ur": "Palm Bay",
+      "id": "Palm Bay",
+      "es": "Palm Bay",
+      "bn": "Palm Bay",
+      "ms": "Palm Bay"
+    },
+    "aliases": {
+      "ar": [
+        "بالم بي، فلوريدا"
+      ],
+      "en": [
+        "Palm Bej",
+        "Palm-Bej",
+        "balm bay",
+        "palm by  flwryda",
+        "pama be",
+        "pamubei",
+        "zong lu wan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4167499",
+    "verified": true
+  },
+  {
+    "slug": "pembroke-pines",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 26.00315,
+    "lng": -80.22394,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "بيمبروك باينز",
+      "en": "Pembroke Pines",
+      "fr": "Pembroke Pines",
+      "de": "Pembroke Pines",
+      "tr": "Pembroke Pines",
+      "ur": "Pembroke Pines",
+      "id": "Pembroke Pines",
+      "es": "Pembroke Pines",
+      "bn": "Pembroke Pines",
+      "ms": "Pembroke Pines"
+    },
+    "aliases": {
+      "ar": [
+        "بمبروك بائينز",
+        "بمبروك باينز، فلوريدا",
+        "بيمبروك بائنز، فلوريدا"
+      ],
+      "en": [
+        "Pembrok-Pajns",
+        "Pembrouk Pajns",
+        "Pembruk Pajns",
+        "bymbrwk baynz",
+        "pembeulokeupainjeu",
+        "pembroka pa'insa",
+        "penburokupainzu",
+        "peng bu luo ke pai en si",
+        "pmbrwk paynz  flwryda",
+        "pmbrwk payynz"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4168139",
+    "verified": true
+  },
+  {
+    "slug": "pompano-beach",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 26.23786,
+    "lng": -80.12477,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "بومبانو بيتش",
+      "en": "Pompano Beach",
+      "fr": "Pompano Beach",
+      "de": "Pompano Beach",
+      "tr": "Pompano Beach",
+      "ur": "Pompano Beach",
+      "id": "Pompano Beach",
+      "es": "Pompano Beach",
+      "bn": "Pompano Beach",
+      "ms": "Pompano Beach"
+    },
+    "aliases": {
+      "ar": [
+        "بومبانو سيتي",
+        "بومبانو بيج، فلوريدا"
+      ],
+      "en": [
+        "PPM",
+        "Pompano",
+        "Pompano Bich",
+        "Pompano Bits",
+        "Pompano Bycas",
+        "Pompano Byčas",
+        "Pompano-Bich",
+        "Pompanobica",
+        "Pompanobīča",
+        "bwmbanw syty",
+        "pampan bic",
+        "pampano bica",
+        "pang pa nuo bi qi",
+        "pompano bic",
+        "pompano bica",
+        "pompano pic",
+        "pompanobichi",
+        "ponpanobichi",
+        "pwmpanw bych  flwryda",
+        "pwmpnw byz'",
+        "pxm pa no bich"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4169014",
+    "verified": true
+  },
+  {
+    "slug": "tallahassee",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 30.43826,
+    "lng": -84.28073,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "تالاهاسي",
+      "en": "Tallahassee",
+      "fr": "Tallahassee",
+      "de": "Tallahassee",
+      "tr": "Tallahassee",
+      "ur": "Tallahassee",
+      "id": "Tallahassee",
+      "es": "Tallahassee",
+      "bn": "Tallahassee",
+      "ms": "Tallahassee"
+    },
+    "aliases": {
+      "ar": [
+        "تالاهاسي، فلوريدا",
+        "تاليحسي"
+      ],
+      "en": [
+        "Apalache Old Fields",
+        "Newton",
+        "Newtown",
+        "Old Field Town",
+        "Pueblo Nueva",
+        "TLH",
+        "Talachasi",
+        "Talahasi",
+        "Talahasis",
+        "Talahasī",
+        "Talajasy",
+        "Talakhasi",
+        "Talakhassi",
+        "Tallahassa",
+        "Tallahassee Talofa",
+        "Tallahassi",
+        "Tallahassia",
+        "Tallakhassi",
+        "Tonabys Town",
+        "Tunapy",
+        "Villanueva",
+        "da la ha xi",
+        "ta la he xi",
+        "taelleohaesi",
+        "talahaci",
+        "talahase",
+        "talahasi",
+        "talahasy",
+        "tallahasai",
+        "tarahashi",
+        "telahasi"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4174715",
+    "verified": true
+  },
+  {
+    "slug": "tampa",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 27.94752,
+    "lng": -82.45843,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "تامبا",
+      "en": "Tampa",
+      "fr": "Tampa",
+      "de": "Tampa",
+      "tr": "Tampa",
+      "ur": "Tampa",
+      "id": "Tampa",
+      "es": "Tampa",
+      "bn": "Tampa",
+      "ms": "Tampa"
+    },
+    "aliases": {
+      "ar": [
+        "تمبا، فلوريدا",
+        "تيمبا، فلوريدا"
+      ],
+      "en": [
+        "TPA",
+        "Tampo",
+        "taempa",
+        "taimpa",
+        "tamba",
+        "tamppa",
+        "tan pa",
+        "tanpa",
+        "tmpa  flwryda",
+        "tmph"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فلوريدا",
+      "regionEn": "Florida"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4174757",
+    "verified": true
+  },
+  {
+    "slug": "sandy-springs",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.92427,
+    "lng": -84.37854,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "ساندي سبرينغز",
+      "en": "Sandy Springs",
+      "fr": "Sandy Springs",
+      "de": "Sandy Springs",
+      "tr": "Sandy Springs",
+      "ur": "Sandy Springs",
+      "id": "Sandy Springs",
+      "es": "Sandy Springs",
+      "bn": "Sandy Springs",
+      "ms": "Sandy Springs"
+    },
+    "aliases": {
+      "ar": [
+        "سندي اسبرينغ، جورجيا",
+        "سيندي سبرنغز، جارجيا"
+      ],
+      "en": [
+        "Burdal",
+        "Sandi-Springs",
+        "Sendi Springs",
+        "sandisupuringusu",
+        "sandy sbrynghz",
+        "sang di si pu lin si",
+        "sndy aspryng  jwrjya",
+        "syandi springas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "جورجيا",
+      "regionEn": "Georgia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4221333",
+    "verified": true
+  },
+  {
+    "slug": "savannah",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.08354,
+    "lng": -81.09983,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "سافانا",
+      "en": "Savannah",
+      "fr": "Savannah",
+      "de": "Savannah",
+      "tr": "Savannah",
+      "ur": "Savannah",
+      "id": "Savannah",
+      "es": "Savannah",
+      "bn": "Savannah",
+      "ms": "Savannah"
+    },
+    "aliases": {
+      "ar": [
+        "ساوانا، جورجيا",
+        "ساواناه، جارجيا"
+      ],
+      "en": [
+        "SAV",
+        "Sarannah",
+        "Savana",
+        "Savanah",
+        "Savanna",
+        "Savannah (Georgia)",
+        "Sawanna",
+        "Yamacraw",
+        "sa fan na",
+        "saban'na",
+        "sabhana",
+        "safana",
+        "savhana",
+        "sawana  jwrjya",
+        "seobaeneo",
+        "sha wa na"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "جورجيا",
+      "regionEn": "Georgia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4221552",
+    "verified": true
+  },
+  {
+    "slug": "olathe",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 38.8814,
+    "lng": -94.81913,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "أولاث",
+      "en": "Olathe",
+      "fr": "Olathe",
+      "de": "Olathe",
+      "tr": "Olathe",
+      "ur": "Olathe",
+      "id": "Olathe",
+      "es": "Olathe",
+      "bn": "Olathe",
+      "ms": "Olathe"
+    },
+    "aliases": {
+      "ar": [
+        "اوليتا، كانزاس",
+        "اوليتھي، كنساس"
+      ],
+      "en": [
+        "Olat",
+        "Olejt",
+        "Olejte",
+        "ao la xi",
+        "awlath",
+        "awlyta  kanzas",
+        "oreisa"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كانساس",
+      "regionEn": "Kansas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4276614",
+    "verified": true
+  },
+  {
+    "slug": "overland-park",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 38.98223,
+    "lng": -94.67079,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "أوفرلاند بارك",
+      "en": "Overland Park",
+      "fr": "Overland Park",
+      "de": "Overland Park",
+      "tr": "Overland Park",
+      "ur": "Overland Park",
+      "id": "Overland Park",
+      "es": "Overland Park",
+      "bn": "Overland Park",
+      "ms": "Overland Park"
+    },
+    "aliases": {
+      "ar": [
+        "اوورلند بارك، كانزاس",
+        "اوورليند بارك، كنساس"
+      ],
+      "en": [
+        "Ouvurlund Park",
+        "Overlend-Park",
+        "awfrland bark",
+        "awwrlnd park  kanzas",
+        "obarandopaku",
+        "obeollaendeupakeu",
+        "ou fu lan pa ke"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كانساس",
+      "regionEn": "Kansas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4276873",
+    "verified": true
+  },
+  {
+    "slug": "wichita",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 37.69224,
+    "lng": -97.33754,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "ويتشيتا",
+      "en": "Wichita",
+      "fr": "Wichita",
+      "de": "Wichita",
+      "tr": "Wichita",
+      "ur": "Wichita",
+      "id": "Wichita",
+      "es": "Wichita",
+      "bn": "Wichita",
+      "ms": "Wichita"
+    },
+    "aliases": {
+      "ar": [
+        "ويجيتا، كانزاس",
+        "ويجيتا، كنساس"
+      ],
+      "en": [
+        "Camp Beecher",
+        "Camp Davidson",
+        "Doo-Dah",
+        "Doodah",
+        "ICT",
+        "Ouitsita",
+        "Uichita",
+        "Uichito",
+        "Uichyta",
+        "Vichita",
+        "Vicita",
+        "Vicito",
+        "Viçita",
+        "Viĉito",
+        "Vičita",
+        "uichita",
+        "uichitʼo",
+        "vicita",
+        "wei qi tuo",
+        "wi chi thx",
+        "wichito",
+        "wychyta  kanzas",
+        "wychyta  knsas",
+        "wytshyta",
+        "wyzyth"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كانساس",
+      "regionEn": "Kansas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4281730",
+    "verified": true
+  },
+  {
+    "slug": "lafayette",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 30.22409,
+    "lng": -92.01984,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "لافاييت",
+      "en": "Lafayette",
+      "fr": "Lafayette",
+      "de": "Lafayette",
+      "tr": "Lafayette",
+      "ur": "Lafayette",
+      "id": "Lafayette",
+      "es": "Lafayette",
+      "bn": "Lafayette",
+      "ms": "Lafayette"
+    },
+    "aliases": {
+      "ar": [
+        "لافايت، لوئيزيانا",
+        "لافيت، لوسيانه"
+      ],
+      "en": [
+        "LFT",
+        "La Fayette",
+        "Lafajet",
+        "Lafejet",
+        "Lafejett",
+        "Little Manchac",
+        "Pinhool",
+        "Vermilion",
+        "Vermilionville",
+        "Vermillion Bridge",
+        "Vermillionville",
+        "Village of Saint Jean Au Vermilion",
+        "la fa ye",
+        "lafayt  lwyyzyana",
+        "lafayyt",
+        "lapies",
+        "rafaietto"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "لويزيانا",
+      "regionEn": "Louisiana"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4330145",
+    "verified": true
+  },
+  {
+    "slug": "shreveport",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.52515,
+    "lng": -93.75018,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "شريفبورت",
+      "en": "Shreveport",
+      "fr": "Shreveport",
+      "de": "Shreveport",
+      "tr": "Shreveport",
+      "ur": "Shreveport",
+      "id": "Shreveport",
+      "es": "Shreveport",
+      "bn": "Shreveport",
+      "ms": "Shreveport"
+    },
+    "aliases": {
+      "ar": [
+        "شريوبورت، لوئيزيانا",
+        "شريوبورت، لوزيانا"
+      ],
+      "en": [
+        "SHV",
+        "Shreve Town",
+        "Shreves Landing",
+        "Shrivport",
+        "shen li fu bo te",
+        "shryfbwrt",
+        "shrywpwrt  lwyyzyana",
+        "shuribupoto",
+        "srivaporta",
+        "srybpwrt",
+        "syulibeupoteu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "لويزيانا",
+      "regionEn": "Louisiana"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4341513",
+    "verified": true
+  },
+  {
+    "slug": "independence",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 39.09112,
+    "lng": -94.41551,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "إنديبندنس",
+      "en": "Independence",
+      "fr": "Independence",
+      "de": "Independence",
+      "tr": "Independence",
+      "ur": "Independence",
+      "id": "Independence",
+      "es": "Independence",
+      "bn": "Independence",
+      "ms": "Independence"
+    },
+    "aliases": {
+      "ar": [
+        "انديبندنس",
+        "انديبيندينس، مسوري",
+        "اينديبندنس، ميزوري"
+      ],
+      "en": [
+        "Bristol",
+        "Indehpendehns",
+        "Indehpendens",
+        "Indenpendens",
+        "Independence i Missouri",
+        "Independens",
+        "Independensa",
+        "Independensas",
+        "Indipenduns",
+        "Intipentens",
+        "andybndns",
+        "ayndypndns  myzwry",
+        "du li cheng",
+        "indipendannsa",
+        "indipendens",
+        "indipendensa",
+        "indipendensu",
+        "indipendeonseu",
+        "intipentens",
+        "xin di phen den s",
+        "İndependens"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "ميزوري",
+      "regionEn": "Missouri"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4391812",
+    "verified": true
+  },
+  {
+    "slug": "jefferson-city",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 38.5767,
+    "lng": -92.17352,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "جفرسن سيتي",
+      "en": "Jefferson City",
+      "fr": "Jefferson City",
+      "de": "Jefferson City",
+      "tr": "Jefferson City",
+      "ur": "Jefferson City",
+      "id": "Jefferson City",
+      "es": "Jefferson City",
+      "bn": "Jefferson City",
+      "ms": "Jefferson City"
+    },
+    "aliases": {
+      "ar": [
+        "جفرسون سيتي",
+        "جفرسون‌سيتي",
+        "جيفرسن ستي",
+        "جيفرسن ستي، مسوري"
+      ],
+      "en": [
+        "City of Jefferson",
+        "Dinas Jefferson",
+        "Dzeferson Siti",
+        "Dzeferson Sitis",
+        "Dzefersonsitija",
+        "Dzhefersun Siti",
+        "Dzhefferson Siti",
+        "Dzhefferson-Siti",
+        "Dzhehfersan-Sici",
+        "Dzhehfferson Siti",
+        "Džeferson Sitis",
+        "Džefersonsitija",
+        "JEF",
+        "Jefferson",
+        "Jefferson Shehri",
+        "Jeffersonurbo",
+        "Kota Jefferson",
+        "Lungsod ng Jefferson",
+        "Tzeferson Siti",
+        "gprswn syty",
+        "jefasonshiti",
+        "jeparcan nakaram",
+        "jepeoseunsiti",
+        "jepharasana siti",
+        "jepharsan-nagaram",
+        "jepharsana siti",
+        "jeፈriseni siti",
+        "jfrsn syty",
+        "jfrswn syty",
+        "jie fei xun cheng"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "ميزوري",
+      "regionEn": "Missouri"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:4392388",
+    "verified": true
+  },
+  {
+    "slug": "kansas-city",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 39.09973,
+    "lng": -94.57857,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "كانساس سيتي",
+      "en": "Kansas City",
+      "fr": "Kansas City",
+      "de": "Kansas City",
+      "tr": "Kansas City",
+      "ur": "Kansas City",
+      "id": "Kansas City",
+      "es": "Kansas City",
+      "bn": "Kansas City",
+      "ms": "Kansas City"
+    },
+    "aliases": {
+      "ar": [
+        "كانزاس‌سيتي، ميزوري",
+        "كنساس شهر، مسوري"
+      ],
+      "en": [
+        "Caasimada Kansas",
+        "City of Kansas",
+        "Dinas Kansas",
+        "Greenwood",
+        "Ilu Kansas",
+        "KCMO",
+        "Kansas City i Missouri",
+        "Kansas Lakanbalen",
+        "Kansas Sity",
+        "Kansasurbo",
+        "Kanzas Shehiri",
+        "Kanzas Siti",
+        "Kanzas Sitis",
+        "Kanzas-Sici",
+        "Kanzas-Siti",
+        "Kanzassitija",
+        "Kota Kansas",
+        "Lungsod ng Kansas",
+        "MKC",
+        "Maple Gardens",
+        "Milton",
+        "Town of Kansas",
+        "Westport",
+        "Winnetonka",
+        "Winnwood",
+        "kaenjaseusiti",
+        "kan sa si cheng",
+        "kanasasa siti",
+        "kansas syty",
+        "kanzasushiti",
+        "kanzas‌syty  myzwry",
+        "kencas nakaram",
+        "kensasa siti",
+        "kʼanzas-sitʼi",
+        "qnzs syty",
+        "Ìlú Kansas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "ميزوري",
+      "regionEn": "Missouri"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4393217",
+    "verified": true
+  },
+  {
+    "slug": "cary",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 35.79154,
+    "lng": -78.78112,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "كاري",
+      "en": "Cary",
+      "fr": "Cary",
+      "de": "Cary",
+      "tr": "Cary",
+      "ur": "Cary",
+      "id": "Cary",
+      "es": "Cary",
+      "bn": "Cary",
+      "ms": "Cary"
+    },
+    "aliases": {
+      "ar": [
+        "كري، كاروليناي شمالي",
+        "كيري، شمالي كيرولائنا"
+      ],
+      "en": [
+        "Kehri",
+        "Keri",
+        "Keris",
+        "Pages Siding",
+        "Pages Tavern",
+        "Pages Turnout",
+        "ka rui",
+        "kary",
+        "keli",
+        "keri",
+        "kry  karwlynay shmaly",
+        "kyry  shmaly kyrwlayna"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كارولاينا الشمالية",
+      "regionEn": "North Carolina"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4459467",
+    "verified": true
+  },
+  {
+    "slug": "charlotte",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 35.22709,
+    "lng": -80.84313,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "تشارلوت",
+      "en": "Charlotte",
+      "fr": "Charlotte",
+      "de": "Charlotte",
+      "tr": "Charlotte",
+      "ur": "Charlotte",
+      "id": "Charlotte",
+      "es": "Charlotte",
+      "bn": "Charlotte",
+      "ms": "Charlotte"
+    },
+    "aliases": {
+      "ar": [
+        "شارلوت، كاروليناي شمالي",
+        "شارلوت، شمالي كيرولائنا"
+      ],
+      "en": [
+        "CLT",
+        "Carolinum",
+        "Charlotte i Nord-Carolina",
+        "Charlottesburg",
+        "Charlottesburgh",
+        "Sarlot",
+        "Sarlota",
+        "Sarlote",
+        "Sarloto",
+        "Sarlott",
+        "Sharlt",
+        "Sharlat",
+        "Sharlot",
+        "Sharlott",
+        "carlat",
+        "charlxtt",
+        "saralata",
+        "sarlata",
+        "sarlet",
+        "sharlotʼi",
+        "sharlwt  karwlynay shmaly",
+        "sharotto",
+        "syalleos",
+        "syallos",
+        "tsharlwt",
+        "xia luo te",
+        "Ŝarloto",
+        "Şarlott",
+        "Šarlota",
+        "Šarlotė"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كارولاينا الشمالية",
+      "regionEn": "North Carolina"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4460243",
+    "verified": true
+  },
+  {
+    "slug": "greensboro",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.07264,
+    "lng": -79.79198,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "غرينزبورو",
+      "en": "Greensboro",
+      "fr": "Greensboro",
+      "de": "Greensboro",
+      "tr": "Greensboro",
+      "ur": "Greensboro",
+      "id": "Greensboro",
+      "es": "Greensboro",
+      "bn": "Greensboro",
+      "ms": "Greensboro"
+    },
+    "aliases": {
+      "ar": [
+        "غرينزبورو، شمالي كيرولائنا",
+        "غرينزبورو، كاروليناي شمالي"
+      ],
+      "en": [
+        "GSO",
+        "Grijnsburo",
+        "Grinsboras",
+        "Grinsboro",
+        "Grynsbara",
+        "Qrinsboro",
+        "ge lin si bo lei",
+        "geulinjeubeoleo",
+        "ghrynzbwrw",
+        "grinsaboro",
+        "grynsbwrw",
+        "grynzbwrw  karwlynay shmaly",
+        "grynzbwrw  shmaly kyrwlayna",
+        "gurinzuboro",
+        "kri ns bo ro"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كارولاينا الشمالية",
+      "regionEn": "North Carolina"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4469146",
+    "verified": true
+  },
+  {
+    "slug": "wilmington",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.23556,
+    "lng": -77.94604,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "ويلمينغتون",
+      "en": "Wilmington",
+      "fr": "Wilmington",
+      "de": "Wilmington",
+      "tr": "Wilmington",
+      "ur": "Wilmington",
+      "id": "Wilmington",
+      "es": "Wilmington",
+      "bn": "Wilmington",
+      "ms": "Wilmington"
+    },
+    "aliases": {
+      "ar": [
+        "ويلمينغتن، كاروليناي شمالي",
+        "ويلمينغتن، شمالي كيرولائنا"
+      ],
+      "en": [
+        "ILM",
+        "New Carthage",
+        "New Liverpool",
+        "New Town",
+        "Newton",
+        "Uilmington",
+        "Uilmingtun",
+        "Vilmington",
+        "Wilmington (North Carolina)",
+        "uiruminton",
+        "wei er ming dun",
+        "wilmingteon",
+        "wylmynghtwn",
+        "wylmyngtn  karwlynay shmaly",
+        "wylmyngtwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كارولاينا الشمالية",
+      "regionEn": "North Carolina"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4499379",
+    "verified": true
+  },
+  {
+    "slug": "columbus",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 39.96118,
+    "lng": -82.99879,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "كولومبوس",
+      "en": "Columbus",
+      "fr": "Columbus",
+      "de": "Columbus",
+      "tr": "Columbus",
+      "ur": "Columbus",
+      "id": "Columbus",
+      "es": "Columbus",
+      "bn": "Columbus",
+      "ms": "Columbus"
+    },
+    "aliases": {
+      "ar": [
+        "كلمبوس، اوهايو",
+        "كولمبس",
+        "كولمبس، اوهائيو"
+      ],
+      "en": [
+        "CMH",
+        "Columbopolis",
+        "Columbus i Ohio",
+        "Franklin",
+        "Franklinton",
+        "Kalumbus",
+        "Kolambus",
+        "Kolompous",
+        "Kolumbas",
+        "Kolumbo",
+        "Kolumbs",
+        "Kolumbu",
+        "Kolumbus",
+        "Kolumbusa",
+        "Kulumbus",
+        "ge lun bu",
+        "kalabasa",
+        "kalambasa",
+        "kholambas",
+        "klmbws  awhayw",
+        "kolambas",
+        "kolambasa",
+        "kolampas",
+        "kolleombeoseu",
+        "koronbasu",
+        "kweloምbesi",
+        "kwlmbs",
+        "kwlwmbws",
+        "qwlwmbws"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أوهايو",
+      "regionEn": "Ohio"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4509177",
+    "verified": true
+  },
+  {
+    "slug": "broken-arrow",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.0526,
+    "lng": -95.79082,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "بروكن أرو",
+      "en": "Broken Arrow",
+      "fr": "Broken Arrow",
+      "de": "Broken Arrow",
+      "tr": "Broken Arrow",
+      "ur": "Broken Arrow",
+      "id": "Broken Arrow",
+      "es": "Broken Arrow",
+      "bn": "Broken Arrow",
+      "ms": "Broken Arrow"
+    },
+    "aliases": {
+      "ar": [
+        "بروكن اروو، اكلاهما",
+        "بروكن ايرو، اوكلاهوما"
+      ],
+      "en": [
+        "Broken Arou",
+        "Broken-Ehrrou",
+        "Broken-Errov",
+        "Broukehn Arrou",
+        "beulokeun-aelo",
+        "brwkn arw",
+        "brwkn arww  aklahma",
+        "burokun'aro"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أوكلاهوما",
+      "regionEn": "Oklahoma"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4531405",
+    "verified": true
+  },
+  {
+    "slug": "columbia",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 34.00071,
+    "lng": -81.03481,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "كولومبيا",
+      "en": "Columbia",
+      "fr": "Columbia",
+      "de": "Columbia",
+      "tr": "Columbia",
+      "ur": "Columbia",
+      "id": "Columbia",
+      "es": "Columbia",
+      "bn": "Columbia",
+      "ms": "Columbia"
+    },
+    "aliases": {
+      "ar": [
+        "كلمبيا، كاروليناي جنوبي",
+        "كولمبيا",
+        "كولمبيا، جنوبي كيرولائنا"
+      ],
+      "en": [
+        "CAE",
+        "Columbia i Sor-Carolina",
+        "Columbia i Sør-Carolina",
+        "Colùmbia",
+        "Colúmbia",
+        "Kalumbija",
+        "Kolambija",
+        "Koloumpia",
+        "Kolumbi",
+        "Kolumbia",
+        "Kolumbija",
+        "Kolumbiya",
+        "Kuolumbeje",
+        "Kuolumbėjė",
+        "ge lun bi ya",
+        "kalambiya",
+        "keolleombia",
+        "klmbya  karwlynay jnwby",
+        "kolabi'a",
+        "kolambiya",
+        "kolampiya",
+        "koronbia",
+        "kweloምbiya",
+        "kwlmbya",
+        "kwlmbya  jnwby kyrwlayna",
+        "kwlwmbya",
+        "qwlwmbyh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كارولاينا الجنوبية",
+      "regionEn": "South Carolina"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4575352",
+    "verified": true
+  },
+  {
+    "slug": "chattanooga",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 35.04563,
+    "lng": -85.30968,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "تشاتانوغا",
+      "en": "Chattanooga",
+      "fr": "Chattanooga",
+      "de": "Chattanooga",
+      "tr": "Chattanooga",
+      "ur": "Chattanooga",
+      "id": "Chattanooga",
+      "es": "Chattanooga",
+      "bn": "Chattanooga",
+      "ms": "Chattanooga"
+    },
+    "aliases": {
+      "ar": [
+        "جاتانوغا، تنسي",
+        "جتانوغا، تينيسي"
+      ],
+      "en": [
+        "A'tla'nuwa",
+        "Atala'nuwa'",
+        "CHA",
+        "Catanuga",
+        "Chatanuga",
+        "Chattanuga",
+        "Lookout City",
+        "Old French Store",
+        "Ross Landing",
+        "Ross's Landing",
+        "Ross's Store",
+        "Ross's Warehouse",
+        "Ross's Wharf",
+        "Tsattanounka",
+        "cetanuga",
+        "cha ta nu jia",
+        "chaeteonuga",
+        "chatanuga",
+        "chatanwga  tnsy",
+        "tshatanwgha",
+        "ztnwgh",
+        "Čatanuga"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تينيسي",
+      "regionEn": "Tennessee"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4612862",
+    "verified": true
+  },
+  {
+    "slug": "memphis",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 35.14953,
+    "lng": -90.04898,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "ممفيس",
+      "en": "Memphis",
+      "fr": "Memphis",
+      "de": "Memphis",
+      "tr": "Memphis",
+      "ur": "Memphis",
+      "id": "Memphis",
+      "es": "Memphis",
+      "bn": "Memphis",
+      "ms": "Memphis"
+    },
+    "aliases": {
+      "ar": [
+        "ممفيس، تنسي",
+        "ميمفس، تينيسي"
+      ],
+      "en": [
+        "MEM",
+        "Memfis",
+        "Memfisa",
+        "Memphis Tennesiae",
+        "Menfis",
+        "Mémfis",
+        "Mênfis",
+        "memfis",
+        "memhpis",
+        "memphisa",
+        "mempiseu",
+        "mempisi",
+        "menfisu",
+        "meng fei si",
+        "mmfys",
+        "mmfys  tnsy",
+        "mmpys"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تينيسي",
+      "regionEn": "Tennessee"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4641239",
+    "verified": true
+  },
+  {
+    "slug": "carrollton",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.95373,
+    "lng": -96.89028,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "كارولتون",
+      "en": "Carrollton",
+      "fr": "Carrollton",
+      "de": "Carrollton",
+      "tr": "Carrollton",
+      "ur": "Carrollton",
+      "id": "Carrollton",
+      "es": "Carrollton",
+      "bn": "Carrollton",
+      "ms": "Carrollton"
+    },
+    "aliases": {
+      "ar": [
+        "كرولتون، تغزاس",
+        "كيرولتن",
+        "كيرولتن، تيكساس"
+      ],
+      "en": [
+        "Karolton",
+        "Karoltonas",
+        "Karrolton",
+        "Kerrolton",
+        "ka luo er dun",
+        "kaeleolteon",
+        "karwltwn",
+        "krwltwn  tgzas",
+        "kyaroruton"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4679195",
+    "verified": true
+  },
+  {
+    "slug": "cypress",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 29.96911,
+    "lng": -95.69717,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "سايبرس",
+      "en": "Cypress",
+      "fr": "Cypress",
+      "de": "Cypress",
+      "tr": "Cypress",
+      "ur": "Cypress",
+      "id": "Cypress",
+      "es": "Cypress",
+      "bn": "Cypress",
+      "ms": "Cypress"
+    },
+    "aliases": {
+      "ar": [
+        "سايبرس، تغزاس"
+      ],
+      "en": [
+        "saybrs",
+        "sayprs  tgzas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4684724",
+    "verified": true
+  },
+  {
+    "slug": "fort-worth",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.72541,
+    "lng": -97.32085,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "فورت وورث",
+      "en": "Fort Worth",
+      "fr": "Fort Worth",
+      "de": "Fort Worth",
+      "tr": "Fort Worth",
+      "ur": "Fort Worth",
+      "id": "Fort Worth",
+      "es": "Fort Worth",
+      "bn": "Fort Worth",
+      "ms": "Fort Worth"
+    },
+    "aliases": {
+      "ar": [
+        "فورت وورث، تغزاس",
+        "فورت ورتھ",
+        "فورت ورتھ، تيكساس"
+      ],
+      "en": [
+        "Arx Vorthensis",
+        "Camp Worth",
+        "FTW",
+        "Fort Gouorth",
+        "Fort Uehrt",
+        "Fort Uert",
+        "Fort Uurt",
+        "Fort Vort",
+        "Fort-Owert",
+        "Fort-Uehrt",
+        "Fort-Vort",
+        "Fortverta",
+        "Fortvortas",
+        "Fortvorto",
+        "Fortvērta",
+        "Ft Worth",
+        "f xrtweirth",
+        "forata varatha",
+        "fotowasu",
+        "fwrt wwrth",
+        "fwrt wwrth  tgzas",
+        "phorta oyartha",
+        "phorta vartha",
+        "portʼ-uerti",
+        "poteuwoseu",
+        "pwrt wwrt",
+        "vort kottai",
+        "wo si bao"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4691930",
+    "verified": true
+  },
+  {
+    "slug": "frisco",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.15067,
+    "lng": -96.82361,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "فريسكو",
+      "en": "Frisco",
+      "fr": "Frisco",
+      "de": "Frisco",
+      "tr": "Frisco",
+      "ur": "Frisco",
+      "id": "Frisco",
+      "es": "Frisco",
+      "bn": "Frisco",
+      "ms": "Frisco"
+    },
+    "aliases": {
+      "ar": [
+        "فريسكو، تغزاس",
+        "فريسكو، تيكساس"
+      ],
+      "en": [
+        "Firsco",
+        "Frisko",
+        "fryskw",
+        "fryskw  tgzas",
+        "furisuko",
+        "peuliseuko",
+        "phriskea"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4692559",
+    "verified": true
+  },
+  {
+    "slug": "grand-prairie",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.74596,
+    "lng": -96.99778,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "غراند براري",
+      "en": "Grand Prairie",
+      "fr": "Grand Prairie",
+      "de": "Grand Prairie",
+      "tr": "Grand Prairie",
+      "ur": "Grand Prairie",
+      "id": "Grand Prairie",
+      "es": "Grand Prairie",
+      "bn": "Grand Prairie",
+      "ms": "Grand Prairie"
+    },
+    "aliases": {
+      "ar": [
+        "غرند بريري، تغزاس",
+        "غريند بريري"
+      ],
+      "en": [
+        "Deckman",
+        "Grand Preri",
+        "Grand Preris",
+        "Grand-Preri",
+        "da cao yuan cheng",
+        "geulaendeupeuleli",
+        "ghrand brary",
+        "grnd pryry  tgzas",
+        "gurandopureri"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4694482",
+    "verified": true
+  },
+  {
+    "slug": "irving",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.81402,
+    "lng": -96.94889,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "إيرفينغ",
+      "en": "Irving",
+      "fr": "Irving",
+      "de": "Irving",
+      "tr": "Irving",
+      "ur": "Irving",
+      "id": "Irving",
+      "es": "Irving",
+      "bn": "Irving",
+      "ms": "Irving"
+    },
+    "aliases": {
+      "ar": [
+        "ارونغ، تيكساس",
+        "ايرفينج",
+        "ايروينق، تكزاس",
+        "ايروينغ، تغزاس"
+      ],
+      "en": [
+        "rving",
+        "Erving",
+        "Irvin'nk",
+        "Irving i Texas",
+        "Irvinga",
+        "Irvingas",
+        "abingu",
+        "ai rong",
+        "arabhim",
+        "ayrfyngh",
+        "ayrfynj",
+        "ayrwyng  tgzas",
+        "ayrwynq  tkzas",
+        "eobing",
+        "iravinga",
+        "irvin",
+        "irvinga",
+        "ou lin",
+        "ou wen",
+        "xe wing"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4700168",
+    "verified": true
+  },
+  {
+    "slug": "killeen",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 31.11712,
+    "lng": -97.7278,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "كيلين",
+      "en": "Killeen",
+      "fr": "Killeen",
+      "de": "Killeen",
+      "tr": "Killeen",
+      "ur": "Killeen",
+      "id": "Killeen",
+      "es": "Killeen",
+      "bn": "Killeen",
+      "ms": "Killeen"
+    },
+    "aliases": {
+      "ar": [
+        "كايلين، تغزاس",
+        "كلين",
+        "كيلين، تيكساس"
+      ],
+      "en": [
+        "ILE",
+        "Kilin",
+        "Kilinas",
+        "Killean",
+        "Killin",
+        "ji lin",
+        "kaylyn  tgzas",
+        "killin",
+        "kirin",
+        "klyn",
+        "kylyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4703223",
+    "verified": true
+  },
+  {
+    "slug": "mcallen",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 26.20341,
+    "lng": -98.23001,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "ماكالين",
+      "en": "McAllen",
+      "fr": "McAllen",
+      "de": "McAllen",
+      "tr": "McAllen",
+      "ur": "McAllen",
+      "id": "McAllen",
+      "es": "McAllen",
+      "bn": "McAllen",
+      "ms": "McAllen"
+    },
+    "aliases": {
+      "ar": [
+        "مك ايلن، تيكساس",
+        "مك‌آلن"
+      ],
+      "en": [
+        "MFE",
+        "Mak-Allen",
+        "Makalen",
+        "maekaelleon",
+        "mai ka lun",
+        "makalyn",
+        "makkaren"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4709796",
+    "verified": true
+  },
+  {
+    "slug": "mckinney",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.19762,
+    "lng": -96.61527,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "ماككيني",
+      "en": "McKinney",
+      "fr": "McKinney",
+      "de": "McKinney",
+      "tr": "McKinney",
+      "ur": "McKinney",
+      "id": "McKinney",
+      "es": "McKinney",
+      "bn": "McKinney",
+      "ms": "McKinney"
+    },
+    "aliases": {
+      "ar": [
+        "مك كيني، تيكساس",
+        "مك‌كيني، تغزاس"
+      ],
+      "en": [
+        "Mak-Kinni",
+        "Makini",
+        "maekini",
+        "mai jin ni",
+        "makkini",
+        "makkinni",
+        "makkyny"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4710178",
+    "verified": true
+  },
+  {
+    "slug": "pearland",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 29.56357,
+    "lng": -95.28605,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "بيرلاند",
+      "en": "Pearland",
+      "fr": "Pearland",
+      "de": "Pearland",
+      "tr": "Pearland",
+      "ur": "Pearland",
+      "id": "Pearland",
+      "es": "Pearland",
+      "bn": "Pearland",
+      "ms": "Pearland"
+    },
+    "aliases": {
+      "ar": [
+        "بئيرليند، تيكساس",
+        "بير لند، تغزاس"
+      ],
+      "en": [
+        "Pehrlend",
+        "Perland",
+        "byrland",
+        "pyr lnd  tgzas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4718097",
+    "verified": true
+  },
+  {
+    "slug": "plano",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.01984,
+    "lng": -96.69889,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "بلانو",
+      "en": "Plano",
+      "fr": "Plano",
+      "de": "Plano",
+      "tr": "Plano",
+      "ur": "Plano",
+      "id": "Plano",
+      "es": "Plano",
+      "bn": "Plano",
+      "ms": "Plano"
+    },
+    "aliases": {
+      "ar": [
+        "بلانو، تيكساس",
+        "بلينو"
+      ],
+      "en": [
+        "Planas",
+        "Planom",
+        "Plejno",
+        "Plejnou",
+        "blanw",
+        "peulleino",
+        "planw",
+        "plenea",
+        "pleno",
+        "plynw",
+        "pu lai nuo",
+        "pureino"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4719457",
+    "verified": true
+  },
+  {
+    "slug": "tyler",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 32.35126,
+    "lng": -95.30106,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "تايلر",
+      "en": "Tyler",
+      "fr": "Tyler",
+      "de": "Tyler",
+      "tr": "Tyler",
+      "ur": "Tyler",
+      "id": "Tyler",
+      "es": "Tyler",
+      "bn": "Tyler",
+      "ms": "Tyler"
+    },
+    "aliases": {
+      "ar": [
+        "تايلر، تغزاس",
+        "تائلر",
+        "تائلر، تيكساس"
+      ],
+      "en": [
+        "TYR",
+        "Tajler",
+        "tai lei",
+        "taira",
+        "taylr",
+        "taylr  tgzas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4738214",
+    "verified": true
+  },
+  {
+    "slug": "wichita-falls",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.91371,
+    "lng": -98.49339,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "ويتشيتا فولز",
+      "en": "Wichita Falls",
+      "fr": "Wichita Falls",
+      "de": "Wichita Falls",
+      "tr": "Wichita Falls",
+      "ur": "Wichita Falls",
+      "id": "Wichita Falls",
+      "es": "Wichita Falls",
+      "bn": "Wichita Falls",
+      "ms": "Wichita Falls"
+    },
+    "aliases": {
+      "ar": [
+        "وجيتا فالز",
+        "ويجيتا فالز، تغزاس",
+        "ويجيتا فالز، تيكساس"
+      ],
+      "en": [
+        "SPS",
+        "Uichito Fols",
+        "Uichito-Fols",
+        "Vichita Fols",
+        "Vichita-Fols",
+        "uichitaforuzu",
+        "vicita pholsa",
+        "wei qi tuo fu er si",
+        "wichitopolseu",
+        "wychyta falz  tgzas",
+        "wytshyta fwlz"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "تكساس",
+      "regionEn": "Texas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4741752",
+    "verified": true
+  },
+  {
+    "slug": "chesapeake",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.81904,
+    "lng": -76.27494,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "تشيسابيك",
+      "en": "Chesapeake",
+      "fr": "Chesapeake",
+      "de": "Chesapeake",
+      "tr": "Chesapeake",
+      "ur": "Chesapeake",
+      "id": "Chesapeake",
+      "es": "Chesapeake",
+      "bn": "Chesapeake",
+      "ms": "Chesapeake"
+    },
+    "aliases": {
+      "ar": [
+        "جسابيك، ورجينيا",
+        "جسابيك، ويرجينيا"
+      ],
+      "en": [
+        "Cesapikas",
+        "Chesapeack",
+        "Chesapijk",
+        "Chesapik",
+        "Norfolk County",
+        "South Norfolk",
+        "cespik",
+        "chesapiku",
+        "cheseopikeu",
+        "chsapyk  wrjynya",
+        "chsapyk  wyrjynya",
+        "qie sa pi ke",
+        "tshysabyk",
+        "z'spyq",
+        "Česapikas"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فرجينيا",
+      "regionEn": "Virginia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4752186",
+    "verified": true
+  },
+  {
+    "slug": "roanoke",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 37.27097,
+    "lng": -79.94143,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "روانوك",
+      "en": "Roanoke",
+      "fr": "Roanoke",
+      "de": "Roanoke",
+      "tr": "Roanoke",
+      "ur": "Roanoke",
+      "id": "Roanoke",
+      "es": "Roanoke",
+      "bn": "Roanoke",
+      "ms": "Roanoke"
+    },
+    "aliases": {
+      "ar": [
+        "روانوك، ورجينيا",
+        "رونوك، ويرجينيا"
+      ],
+      "en": [
+        "Big Lick",
+        "Old Lick",
+        "ROA",
+        "Rawrenock",
+        "Rhoanoke",
+        "Roanok",
+        "Roanoke City",
+        "Rowrenoc",
+        "Rōwrenoc",
+        "Star City",
+        "Star City of the SouMagic City",
+        "The own",
+        "lo-eonokeu",
+        "luo a nuo ke",
+        "ro'anoka",
+        "roanoku",
+        "rwanwk",
+        "rwanwk  wrjynya",
+        "rwnwk  wyrjynya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فرجينيا",
+      "regionEn": "Virginia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4782167",
+    "verified": true
+  },
+  {
+    "slug": "virginia-beach",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.85293,
+    "lng": -75.97799,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "فرجينيا بيتش",
+      "en": "Virginia Beach",
+      "fr": "Virginia Beach",
+      "de": "Virginia Beach",
+      "tr": "Virginia Beach",
+      "ur": "Virginia Beach",
+      "id": "Virginia Beach",
+      "es": "Virginia Beach",
+      "bn": "Virginia Beach",
+      "ms": "Virginia Beach"
+    },
+    "aliases": {
+      "ar": [
+        "ورجينيا بيج",
+        "ويرجينيا بيج، ويرجينيا"
+      ],
+      "en": [
+        "Litus Virginiae",
+        "NTU",
+        "Verdzhinija-Bich",
+        "Vijini Beach",
+        "Virciniya Bic",
+        "Virciniya Biç",
+        "Virdzhini-Bich",
+        "Virdzhinija Bijch",
+        "Virdzhinija-Bich",
+        "Virdzhynija-Bich",
+        "Virdzinija Bich",
+        "Virdzinija Bycas",
+        "Virdzinijabica",
+        "Virdžinija Byčas",
+        "Virdžīnijabīča",
+        "Virginia Beach City",
+        "Virginian Bch",
+        "Virginija-Bich",
+        "Virginijabico",
+        "Virgìnia Beach",
+        "Virtzinia Bits",
+        "Virĝinijabiĉo",
+        "bajiniabichi",
+        "beojiniabichi",
+        "bharjiniya bica",
+        "frjynya bytsh",
+        "vharjiniya bica",
+        "virjinia-bichi",
+        "wei zhen ni ya hai tan",
+        "wexr ci neiy bich",
+        "wrjynya bych",
+        "wyrgynyh byz",
+        "wyrjynya bych  wyrjynya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فرجينيا",
+      "regionEn": "Virginia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4791259",
+    "verified": true
+  },
+  {
+    "slug": "north-stamford",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 41.13815,
+    "lng": -73.54346,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "نورت استامفورد",
+      "en": "North Stamford",
+      "fr": "North Stamford",
+      "de": "North Stamford",
+      "tr": "North Stamford",
+      "ur": "North Stamford",
+      "id": "North Stamford",
+      "es": "North Stamford",
+      "bn": "North Stamford",
+      "ms": "North Stamford"
+    },
+    "aliases": {
+      "ar": [
+        "نورت ايستامفورد"
+      ],
+      "en": [
+        "bei shi dan fu",
+        "nwrt astamfwrd",
+        "nwrt aystamfwrd"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كونيتيكت",
+      "regionEn": "Connecticut"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4839745",
+    "verified": true
+  },
+  {
+    "slug": "naperville",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 41.78586,
+    "lng": -88.14729,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "نابرفيل",
+      "en": "Naperville",
+      "fr": "Naperville",
+      "de": "Naperville",
+      "tr": "Naperville",
+      "ur": "Naperville",
+      "id": "Naperville",
+      "es": "Naperville",
+      "bn": "Naperville",
+      "ms": "Naperville"
+    },
+    "aliases": {
+      "ar": [
+        "نابرس‌ويل، ايلينوي",
+        "نيبرويل، الينوائي"
+      ],
+      "en": [
+        "Fort Naper",
+        "Naper Settlement",
+        "Napervillium",
+        "Napiersville",
+        "Napierville",
+        "Nejpervil",
+        "Nejpervill",
+        "Nepervill",
+        "QMX",
+        "nabrfyl",
+        "nei po wei er",
+        "neipabiru",
+        "neipeobil",
+        "neparabhila"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "إلينوي",
+      "regionEn": "Illinois"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4903279",
+    "verified": true
+  },
+  {
+    "slug": "fort-wayne",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 41.1306,
+    "lng": -85.12886,
+    "timezone": "America/Indiana/Indianapolis",
+    "names": {
+      "ar": "فورت واين",
+      "en": "Fort Wayne",
+      "fr": "Fort Wayne",
+      "de": "Fort Wayne",
+      "tr": "Fort Wayne",
+      "ur": "Fort Wayne",
+      "id": "Fort Wayne",
+      "es": "Fort Wayne",
+      "bn": "Fort Wayne",
+      "ms": "Fort Wayne"
+    },
+    "aliases": {
+      "ar": [
+        "فورت‌وين، اينديانا",
+        "فورت وين، انديانا"
+      ],
+      "en": [
+        "Arx Vainensis",
+        "FWA",
+        "Fort Gouein",
+        "Fort Miami",
+        "Fort Uejn",
+        "Fort Veinas",
+        "Fort Vejn",
+        "Fort Veyn",
+        "Fort-Uehjn",
+        "Fort-Vejn",
+        "Fortveina",
+        "Frenchtown",
+        "Kekionga",
+        "Kiskakon",
+        "Miami Town",
+        "Omee Town",
+        "Post Miami",
+        "Twightwee Village",
+        "fotouein",
+        "fwrt wayn",
+        "fwrt‌wyn  ayndyana",
+        "phorta vena",
+        "poteuwein",
+        "pwrt wyyn",
+        "wei en bao"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "إنديانا",
+      "regionEn": "Indiana"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4920423",
+    "verified": true
+  },
+  {
+    "slug": "ann-arbor",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 42.27756,
+    "lng": -83.74088,
+    "timezone": "America/Detroit",
+    "names": {
+      "ar": "آن آربر",
+      "en": "Ann Arbor",
+      "fr": "Ann Arbor",
+      "de": "Ann Arbor",
+      "tr": "Ann Arbor",
+      "ur": "Ann Arbor",
+      "id": "Ann Arbor",
+      "es": "Ann Arbor",
+      "bn": "Ann Arbor",
+      "ms": "Ann Arbor"
+    },
+    "aliases": {
+      "ar": [
+        "ان آربر، ميشيغان",
+        "اين آربر، مشي غن"
+      ],
+      "en": [
+        "ARB",
+        "An Arboras",
+        "An Arbur",
+        "Ann Armpor",
+        "Ann-Arbor",
+        "Arbaro de Ana",
+        "Ehnn-Arbor",
+        "En Arbor",
+        "Enarbora",
+        "Enn Arbor",
+        "Enn-Arbor",
+        "Enārbora",
+        "aen-abeo",
+        "aena arbara",
+        "aina arbara",
+        "an arbr",
+        "an arbr  myshygan",
+        "an nuo bao",
+        "anaba",
+        "ayn arbr  mshy gn",
+        "en arpar",
+        "ena arbar"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "ميشيغان",
+      "regionEn": "Michigan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4984247",
+    "verified": true
+  },
+  {
+    "slug": "detroit",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 42.33143,
+    "lng": -83.04575,
+    "timezone": "America/Detroit",
+    "names": {
+      "ar": "ديترويت",
+      "en": "Detroit",
+      "fr": "Detroit",
+      "de": "Detroit",
+      "tr": "Detroit",
+      "ur": "Detroit",
+      "id": "Detroit",
+      "es": "Detroit",
+      "bn": "Detroit",
+      "ms": "Detroit"
+    },
+    "aliases": {
+      "ar": [
+        "ديترائت"
+      ],
+      "en": [
+        "D-town",
+        "DTT",
+        "Dehtrojt",
+        "Detroita",
+        "Detroitas",
+        "Detroitum",
+        "Detrojt",
+        "Detrojto",
+        "Detroyt",
+        "Détroit",
+        "Détroyt",
+        "Mo-Town",
+        "Motor City",
+        "Motown",
+        "Ntitroit",
+        "The D",
+        "Tiughsaghrondy",
+        "Tsi kiohsahron:ta",
+        "Tsi kiohsahrón:ta",
+        "Wawyachtenok",
+        "detoroito",
+        "detra'ita",
+        "detrayeta",
+        "detrayit",
+        "detro'ita",
+        "detʼroitʼi",
+        "di te lu",
+        "di thrx yt",
+        "ditara'ita",
+        "diteuloiteu",
+        "dtrwyt",
+        "dytrwyt",
+        "titrayit"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "ميشيغان",
+      "regionEn": "Michigan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4990729",
+    "verified": true
+  },
+  {
+    "slug": "fargo",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 46.87719,
+    "lng": -96.7898,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "فارغو",
+      "en": "Fargo",
+      "fr": "Fargo",
+      "de": "Fargo",
+      "tr": "Fargo",
+      "ur": "Fargo",
+      "id": "Fargo",
+      "es": "Fargo",
+      "bn": "Fargo",
+      "ms": "Fargo"
+    },
+    "aliases": {
+      "ar": [
+        "فارغو، داكوتاي شمالي"
+      ],
+      "en": [
+        "Centralia",
+        "FAR",
+        "Fago",
+        "Farga",
+        "Fargas",
+        "Fàgo",
+        "Fārgo",
+        "fa ge",
+        "fago",
+        "farghw",
+        "fargw",
+        "fargw  dakwtay shmaly",
+        "pago",
+        "pargo",
+        "phargo"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "داكوتا الشمالية",
+      "regionEn": "North Dakota"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5059163",
+    "verified": true
+  },
+  {
+    "slug": "omaha",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 41.25626,
+    "lng": -95.94043,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "أوماها",
+      "en": "Omaha",
+      "fr": "Omaha",
+      "de": "Omaha",
+      "tr": "Omaha",
+      "ur": "Omaha",
+      "id": "Omaha",
+      "es": "Omaha",
+      "bn": "Omaha",
+      "ms": "Omaha"
+    },
+    "aliases": {
+      "ar": [
+        "اوماها نبراسكا",
+        "اوماها، نبراسكا",
+        "اوماها، نيبراسكا"
+      ],
+      "en": [
+        "OMA",
+        "Omacha",
+        "Omakha",
+        "ao ma ha",
+        "awmaha",
+        "awmaha nbraska",
+        "awmaha  nbraska",
+        "xo ma ha"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "نبراسكا",
+      "regionEn": "Nebraska"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5074472",
+    "verified": true
+  },
+  {
+    "slug": "manhattan",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.78343,
+    "lng": -73.96625,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "مانهاتن",
+      "en": "Manhattan",
+      "fr": "Manhattan",
+      "de": "Manhattan",
+      "tr": "Manhattan",
+      "ur": "Manhattan",
+      "id": "Manhattan",
+      "es": "Manhattan",
+      "bn": "Manhattan",
+      "ms": "Manhattan"
+    },
+    "aliases": {
+      "en": [
+        "Borough of Manhattan",
+        "Manatans",
+        "Manathans",
+        "Manathas",
+        "Manathes",
+        "Manatte",
+        "Manhatano",
+        "Manhattanville",
+        "Mankhetten",
+        "Mannahattan",
+        "Menathans",
+        "maenhaeteun",
+        "man ha dun",
+        "manhatn",
+        "mnhtn",
+        "mæn hat tan",
+        "nyc"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "نيويورك",
+      "regionEn": "New York"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:5125771",
+    "verified": true
+  },
+  {
+    "slug": "rochester",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 43.15478,
+    "lng": -77.61556,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "روتشستر",
+      "en": "Rochester",
+      "fr": "Rochester",
+      "de": "Rochester",
+      "tr": "Rochester",
+      "ur": "Rochester",
+      "id": "Rochester",
+      "es": "Rochester",
+      "bn": "Rochester",
+      "ms": "Rochester"
+    },
+    "aliases": {
+      "ar": [
+        "روجستر، نيويورك",
+        "روجستر",
+        "روجيستر، نيو يارك"
+      ],
+      "en": [
+        "Ga-sko-sa-ga",
+        "Gaskosago",
+        "ROC",
+        "Rocestera",
+        "Rocesteris",
+        "Rocestro",
+        "Rochesterville",
+        "Rochestur",
+        "Roffa",
+        "Rotsester",
+        "Roĉestro",
+        "Ročestera",
+        "Ročesteris",
+        "locheseuteo",
+        "luo che si te",
+        "racestara",
+        "rocestar",
+        "rocestara",
+        "rochesuta",
+        "rwchstr  nywywrk",
+        "rwtshstr",
+        "rwzstr",
+        "rx ches texr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "نيويورك",
+      "regionEn": "New York"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5134086",
+    "verified": true
+  },
+  {
+    "slug": "yonkers",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.9304,
+    "lng": -73.89789,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "يونكيرس",
+      "en": "Yonkers",
+      "fr": "Yonkers",
+      "de": "Yonkers",
+      "tr": "Yonkers",
+      "ur": "Yonkers",
+      "id": "Yonkers",
+      "es": "Yonkers",
+      "bn": "Yonkers",
+      "ms": "Yonkers"
+    },
+    "aliases": {
+      "ar": [
+        "يانكرز",
+        "يونكرز",
+        "يونكرز، نيو يارك"
+      ],
+      "en": [
+        "Ionkers",
+        "Jonkers",
+        "Jonkersas",
+        "Jonkurs",
+        "Yonckers",
+        "yang ke si",
+        "yankrz",
+        "yongkeoseu",
+        "yonkazu",
+        "ywnkrz",
+        "ywnkrz  nyw yark",
+        "ywnkyrs",
+        "ywnqrs"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "نيويورك",
+      "regionEn": "New York"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5145215",
+    "verified": true
+  },
+  {
+    "slug": "akron",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 41.08144,
+    "lng": -81.51901,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "آكرون",
+      "en": "Akron",
+      "fr": "Akron",
+      "de": "Akron",
+      "tr": "Akron",
+      "ur": "Akron",
+      "id": "Akron",
+      "es": "Akron",
+      "bn": "Akron",
+      "ms": "Akron"
+    },
+    "aliases": {
+      "ar": [
+        "اكران، اوهايو",
+        "اكرون، اوهائيو"
+      ],
+      "en": [
+        "Akron City",
+        "Akrona",
+        "Akronas",
+        "Akrono",
+        "Akrun",
+        "CAK",
+        "Ehkron",
+        "New Portage",
+        "Summitville",
+        "a ke lun",
+        "aekeuleon",
+        "akran  awhayw",
+        "akrwn",
+        "akuron",
+        "ekran"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أوهايو",
+      "regionEn": "Ohio"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5145476",
+    "verified": true
+  },
+  {
+    "slug": "pittsburgh",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.44062,
+    "lng": -79.99589,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "بيتسبرغ",
+      "en": "Pittsburgh",
+      "fr": "Pittsburgh",
+      "de": "Pittsburgh",
+      "tr": "Pittsburgh",
+      "ur": "Pittsburgh",
+      "id": "Pittsburgh",
+      "es": "Pittsburgh",
+      "bn": "Pittsburgh",
+      "ms": "Pittsburgh"
+    },
+    "aliases": {
+      "ar": [
+        "بتس برغ",
+        "بتسبرغ",
+        "بيتسبرغ، بنسيلوانيا"
+      ],
+      "en": [
+        "Allegheny",
+        "Fort Dunmore",
+        "Fort Duquesne",
+        "Fort Pitt",
+        "Fort Trent",
+        "PIT",
+        "Pitsbrg",
+        "Pitsburg",
+        "Pitsburga",
+        "Pitsburgas",
+        "Pitsburgo",
+        "Pitsmpernk",
+        "Pitts-Bourg",
+        "Pittsbarig",
+        "Pittsburg",
+        "Pittsburgum",
+        "Pittsburq",
+        "The Manor of Pittsburgh",
+        "bytsbrgh",
+        "phitts beirk",
+        "pi ci bao",
+        "pi zi bao",
+        "picheubeogeu",
+        "pitasabaraga",
+        "pitsabarga",
+        "pitspark",
+        "pits‌barg",
+        "pittsubagu",
+        "pytsbrg  pnsylwanya",
+        "pytsbwrg"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "بنسلفانيا",
+      "regionEn": "Pennsylvania"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5206379",
+    "verified": true
+  },
+  {
+    "slug": "sioux-falls",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 43.54369,
+    "lng": -96.72796,
+    "timezone": "America/Chicago",
+    "names": {
+      "ar": "سو فولز",
+      "en": "Sioux Falls",
+      "fr": "Sioux Falls",
+      "de": "Sioux Falls",
+      "tr": "Sioux Falls",
+      "ur": "Sioux Falls",
+      "id": "Sioux Falls",
+      "es": "Sioux Falls",
+      "bn": "Sioux Falls",
+      "ms": "Sioux Falls"
+    },
+    "aliases": {
+      "ar": [
+        "سو فالز، داكوتاي جنوبي",
+        "سيو فالز، جنوبي دكوتا"
+      ],
+      "en": [
+        "FSD",
+        "Siou Fols",
+        "Siuks Fols",
+        "Su Fols",
+        "Su-Fols",
+        "Sufolsa",
+        "Sūfolsa",
+        "saywks falz",
+        "siyuka folsa",
+        "su fxls",
+        "su pholsa",
+        "su pu",
+        "suforuzu",
+        "supolseu",
+        "sw falz  dakwtay jnwby",
+        "sw pwls"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "داكوتا الجنوبية",
+      "regionEn": "South Dakota"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5231851",
+    "verified": true
+  },
+  {
+    "slug": "montpelier",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 44.26006,
+    "lng": -72.57539,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "مونبلييه",
+      "en": "Montpelier",
+      "fr": "Montpelier",
+      "de": "Montpelier",
+      "tr": "Montpelier",
+      "ur": "Montpelier",
+      "id": "Montpelier",
+      "es": "Montpelier",
+      "bn": "Montpelier",
+      "ms": "Montpelier"
+    },
+    "aliases": {
+      "ar": [
+        "مونتبيليير",
+        "مونتبليئر",
+        "مونتبيليئر، ورمونت",
+        "مونبليه، ورمونت"
+      ],
+      "en": [
+        "MPV",
+        "Mantpilier",
+        "Monpelie",
+        "Montpe'e",
+        "Montpel'e",
+        "Montpelier City",
+        "Montpelier on Uermonte",
+        "Montpelier-on-the Onion",
+        "Montpilier",
+        "Montpilijer",
+        "Montpiljera",
+        "Montpiljeres",
+        "Montpiljeris",
+        "Montpiljerės",
+        "Montpīljera",
+        "mamtapeli'e",
+        "mantapeliyara",
+        "mantpeliyar",
+        "mantpiliyar",
+        "mauntapeli'ara",
+        "meng bi li ai",
+        "monitiፔliyeri",
+        "montapeliyara",
+        "monteupillieo",
+        "montopiria",
+        "mwnblyyh",
+        "mwnplyh  wrmwnt",
+        "mwntplyyr",
+        "mwntpylyyr",
+        "mxn t phe leiy r"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "فيرمونت",
+      "regionEn": "Vermont"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:5238685",
+    "verified": true
+  },
+  {
+    "slug": "scottsdale",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.50921,
+    "lng": -111.89903,
+    "timezone": "America/Phoenix",
+    "names": {
+      "ar": "سكوتسديل",
+      "en": "Scottsdale",
+      "fr": "Scottsdale",
+      "de": "Scottsdale",
+      "tr": "Scottsdale",
+      "ur": "Scottsdale",
+      "id": "Scottsdale",
+      "es": "Scottsdale",
+      "bn": "Scottsdale",
+      "ms": "Scottsdale"
+    },
+    "aliases": {
+      "ar": [
+        "سكاتزديل، آريزونا",
+        "سكاتسديل، ايريزونا"
+      ],
+      "en": [
+        "SCF",
+        "Skotsdejl",
+        "Skotsdejlo",
+        "Skottsdejl",
+        "seukocheudeil",
+        "si ke ci dai er",
+        "skatasdela",
+        "skatzdyl  aryzwna",
+        "skwtsdyl",
+        "sqwtsdyyl",
+        "sukottsuderu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أريزونا",
+      "regionEn": "Arizona"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5313457",
+    "verified": true
+  },
+  {
+    "slug": "tempe",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.41477,
+    "lng": -111.90931,
+    "timezone": "America/Phoenix",
+    "names": {
+      "ar": "تمب",
+      "en": "Tempe",
+      "fr": "Tempe",
+      "de": "Tempe",
+      "tr": "Tempe",
+      "ur": "Tempe",
+      "id": "Tempe",
+      "es": "Tempe",
+      "bn": "Tempe",
+      "ms": "Tempe"
+    },
+    "aliases": {
+      "ar": [
+        "تمبي، آريزونا",
+        "تيمبي، ايريزونا"
+      ],
+      "en": [
+        "Butte City",
+        "Haydens Butte",
+        "Haydens Ferry",
+        "Haydens Mill",
+        "San Pablo",
+        "Tempi",
+        "tan pei",
+        "tempi",
+        "tenpi",
+        "tmb",
+        "tmpy  aryzwna"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أريزونا",
+      "regionEn": "Arizona"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5317058",
+    "verified": true
+  },
+  {
+    "slug": "anaheim",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.83529,
+    "lng": -117.9145,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "آناهايم",
+      "en": "Anaheim",
+      "fr": "Anaheim",
+      "de": "Anaheim",
+      "tr": "Anaheim",
+      "ur": "Anaheim",
+      "id": "Anaheim",
+      "es": "Anaheim",
+      "bn": "Anaheim",
+      "ms": "Anaheim"
+    },
+    "aliases": {
+      "ar": [
+        "آناهايم، كاليفرنيا",
+        "اناهيم، كيليفورنيا",
+        "ايناهيم"
+      ],
+      "en": [
+        "ANA",
+        "Anachaim",
+        "Anahaima",
+        "Anahaym",
+        "Anaheimas",
+        "Anakhajm",
+        "Campo Aleman",
+        "a na hai mu",
+        "aeneohaim",
+        "an na han",
+        "anahaimi",
+        "anahaimu",
+        "anahaym",
+        "anahaym  kalyfrnya",
+        "enaha'ima"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5323810",
+    "verified": true
+  },
+  {
+    "slug": "bakersfield",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 35.37329,
+    "lng": -119.01871,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "بيكرسفيلد",
+      "en": "Bakersfield",
+      "fr": "Bakersfield",
+      "de": "Bakersfield",
+      "tr": "Bakersfield",
+      "ur": "Bakersfield",
+      "id": "Bakersfield",
+      "es": "Bakersfield",
+      "bn": "Bakersfield",
+      "ms": "Bakersfield"
+    },
+    "aliases": {
+      "ar": [
+        "بيكرزفيلد، كاليفرنيا",
+        "بيكرزفيلد",
+        "بيكرزفيلد، كيليفورنيا"
+      ],
+      "en": [
+        "Alkali City",
+        "BFL",
+        "Baker's Field",
+        "Beikersfilda",
+        "Beikersfildas",
+        "Beikersfilnt",
+        "Beikersfīlda",
+        "Bejkersfild",
+        "Bejkursfijld",
+        "Beykersfild",
+        "Kern Island",
+        "bei ke si fei er de",
+        "beikeojeupildeu",
+        "bekarsaphilda",
+        "bekazufirudo",
+        "bykrsfyld",
+        "bykrzfyld  kalyfrnya",
+        "byyqrspyld"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5325738",
+    "verified": true
+  },
+  {
+    "slug": "burbank",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.18084,
+    "lng": -118.30897,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "بربانك",
+      "en": "Burbank",
+      "fr": "Burbank",
+      "de": "Burbank",
+      "tr": "Burbank",
+      "ur": "Burbank",
+      "id": "Burbank",
+      "es": "Burbank",
+      "bn": "Burbank",
+      "ms": "Burbank"
+    },
+    "aliases": {
+      "ar": [
+        "بربنك",
+        "بربنك، كاليفرنيا",
+        "بربينك، كيليفورنيا"
+      ],
+      "en": [
+        "Brbank",
+        "BUR",
+        "Berbank",
+        "Berbanka",
+        "Berbankas",
+        "Bermpan'k",
+        "Bērbanka",
+        "babanku",
+        "barbyanka",
+        "beobaengkeu",
+        "bo ban ke",
+        "brbank",
+        "brbnk",
+        "brbnk  kalyfrnya",
+        "brbnq",
+        "brbynk  kylyfwrnya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5331835",
+    "verified": true
+  },
+  {
+    "slug": "chico",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 39.72849,
+    "lng": -121.83748,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "تشيكو",
+      "en": "Chico",
+      "fr": "Chico",
+      "de": "Chico",
+      "tr": "Chico",
+      "ur": "Chico",
+      "id": "Chico",
+      "es": "Chico",
+      "bn": "Chico",
+      "ms": "Chico"
+    },
+    "aliases": {
+      "ar": [
+        "جيكو",
+        "جيكو، كاليفرنيا"
+      ],
+      "en": [
+        "CIC",
+        "Chiko",
+        "chiko",
+        "chykw",
+        "chykw  kalyfrnya",
+        "ciko",
+        "qi ke",
+        "tshykw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5336269",
+    "verified": true
+  },
+  {
+    "slug": "clovis",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.82523,
+    "lng": -119.70292,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "كلوفيس",
+      "en": "Clovis",
+      "fr": "Clovis",
+      "de": "Clovis",
+      "tr": "Clovis",
+      "ur": "Clovis",
+      "id": "Clovis",
+      "es": "Clovis",
+      "bn": "Clovis",
+      "ms": "Clovis"
+    },
+    "aliases": {
+      "ar": [
+        "كلاويس، كاليفرنيا",
+        "كلووس",
+        "كلوويس، كاليفورنيا",
+        "كلوويس، كيليفورنيا"
+      ],
+      "en": [
+        "Klovis",
+        "Niʼiijíhí Díílid",
+        "ke luo wei si",
+        "keullobiseu",
+        "klawys  kalyfrnya",
+        "kleavis",
+        "klobhisa",
+        "klwfys",
+        "klwws",
+        "klwwys  kalyfwrnya",
+        "klwwys  kylyfwrnya",
+        "kurovuisu",
+        "qlwbys"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5338122",
+    "verified": true
+  },
+  {
+    "slug": "costa-mesa",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.64113,
+    "lng": -117.91867,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "كوستا ميسا",
+      "en": "Costa Mesa",
+      "fr": "Costa Mesa",
+      "de": "Costa Mesa",
+      "tr": "Costa Mesa",
+      "ur": "Costa Mesa",
+      "id": "Costa Mesa",
+      "es": "Costa Mesa",
+      "bn": "Costa Mesa",
+      "ms": "Costa Mesa"
+    },
+    "aliases": {
+      "ar": [
+        "كوستا مسا، كاليفرنيا"
+      ],
+      "en": [
+        "Costa Mesa (Orange County)",
+        "Fairview",
+        "Goat Hill",
+        "Harper",
+        "Kosta Mesa",
+        "Kosta-Mesa",
+        "Thurin",
+        "ke si ta mei sa",
+        "kosta mesa",
+        "kosutamesa",
+        "kwsta msa  kalyfrnya",
+        "kwsta mysa"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5339840",
+    "verified": true
+  },
+  {
+    "slug": "daly-city",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 37.70577,
+    "lng": -122.46192,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "دالي سيتي",
+      "en": "Daly City",
+      "fr": "Daly City",
+      "de": "Daly City",
+      "tr": "Daly City",
+      "ur": "Daly City",
+      "id": "Daly City",
+      "es": "Daly City",
+      "bn": "Daly City",
+      "ms": "Daly City"
+    },
+    "aliases": {
+      "ar": [
+        "ديلي سيتي، كاليفرنيا",
+        "دالي ستي",
+        "دالي ستي، كيليفورنيا"
+      ],
+      "en": [
+        "Dalyurbo",
+        "Dejli Siti",
+        "Dejli-Siti",
+        "Lungsod ng Daly",
+        "Thanh pho Daly",
+        "Thành phố Daly",
+        "dai li cheng",
+        "daly syty",
+        "deillisiti",
+        "deirishiti",
+        "deli siti",
+        "dyly syty  kalyfrnya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5341430",
+    "verified": true
+  },
+  {
+    "slug": "downey",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.94001,
+    "lng": -118.13257,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "داونى",
+      "en": "Downey",
+      "fr": "Downey",
+      "de": "Downey",
+      "tr": "Downey",
+      "ur": "Downey",
+      "id": "Downey",
+      "es": "Downey",
+      "bn": "Downey",
+      "ms": "Downey"
+    },
+    "aliases": {
+      "ar": [
+        "داوني",
+        "دوني، كاليفرنيا",
+        "دوني، كاليفورنيا",
+        "داؤني",
+        "داوني، كيليفورنيا"
+      ],
+      "en": [
+        "Dauni",
+        "Daunis",
+        "Davni",
+        "Davnija",
+        "Ntaouni",
+        "da wniy",
+        "da'uni",
+        "dauni",
+        "dawny",
+        "deni",
+        "dovani",
+        "dwny  kalyfrnya",
+        "dwny  kalyfwrnya",
+        "tang ni",
+        "tauni"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5343858",
+    "verified": true
+  },
+  {
+    "slug": "east-los-angeles",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.0239,
+    "lng": -118.17202,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "إيست لوس أنجيلس",
+      "en": "East Los Angeles",
+      "fr": "East Los Angeles",
+      "de": "East Los Angeles",
+      "tr": "East Los Angeles",
+      "ur": "East Los Angeles",
+      "id": "East Los Angeles",
+      "es": "East Los Angeles",
+      "bn": "East Los Angeles",
+      "ms": "East Los Angeles"
+    },
+    "aliases": {
+      "ar": [
+        "ايست لس آنجلس"
+      ],
+      "en": [
+        "Arevelyan Los Anjeles",
+        "Dogu Los Angeles",
+        "Doğu Los Angeles",
+        "Este de Los Angeles",
+        "Este de Los Ángeles",
+        "Ist Los Andzeles",
+        "Ist-Los-Andzheles",
+        "Orienta Losangeleso",
+        "Orienta Losanĝeleso",
+        "ayst ls anjls",
+        "ayst lws anjyls",
+        "dong luo shan ji",
+        "iseuteuloseuaenjelleseu",
+        "ista lasa enjelsa",
+        "isutorosanzerusu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5344994",
+    "verified": true
+  },
+  {
+    "slug": "elk-grove",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 38.4088,
+    "lng": -121.37162,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "إلك غروفي",
+      "en": "Elk Grove",
+      "fr": "Elk Grove",
+      "de": "Elk Grove",
+      "tr": "Elk Grove",
+      "ur": "Elk Grove",
+      "id": "Elk Grove",
+      "es": "Elk Grove",
+      "bn": "Elk Grove",
+      "ms": "Elk Grove"
+    },
+    "aliases": {
+      "ar": [
+        "ال كغروو، كاليفرنيا",
+        "الك غروو"
+      ],
+      "en": [
+        "Ehlk-Grov",
+        "Elk Grouv",
+        "Elk-Grouv",
+        "Elkgrove",
+        "ai er ke ge luo fu",
+        "al kgrww  kalyfrnya",
+        "alk ghrwfy",
+        "alk grww",
+        "elka grobha",
+        "elkeugeulobeu",
+        "erukugurobu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5346111",
+    "verified": true
+  },
+  {
+    "slug": "fontana",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.09223,
+    "lng": -117.43505,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "فونتانا",
+      "en": "Fontana",
+      "fr": "Fontana",
+      "de": "Fontana",
+      "tr": "Fontana",
+      "ur": "Fontana",
+      "id": "Fontana",
+      "es": "Fontana",
+      "bn": "Fontana",
+      "ms": "Fontana"
+    },
+    "aliases": {
+      "ar": [
+        "فونتانا، كاليفرنيا",
+        "فونتانا، كيليفورنيا"
+      ],
+      "en": [
+        "Rosena",
+        "fang ta na",
+        "fwntana",
+        "fwntana  kalyfrnya",
+        "phontana",
+        "pontaena"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5349755",
+    "verified": true
+  },
+  {
+    "slug": "garden-grove",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.77391,
+    "lng": -117.94145,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "غاردين غروفي",
+      "en": "Garden Grove",
+      "fr": "Garden Grove",
+      "de": "Garden Grove",
+      "tr": "Garden Grove",
+      "ur": "Garden Grove",
+      "id": "Garden Grove",
+      "es": "Garden Grove",
+      "bn": "Garden Grove",
+      "ms": "Garden Grove"
+    },
+    "aliases": {
+      "ar": [
+        "غاردن غروو، كاليفرنيا",
+        "غاردن غروو"
+      ],
+      "en": [
+        "Garden Grouv",
+        "Garden Grov",
+        "Garden Grovas",
+        "Garden-Grov",
+        "Gardengrove",
+        "Gardun Grouv",
+        "gadengurobu",
+        "gadeungeulobeu",
+        "gardena grobha",
+        "gardn grww  kalyfrnya",
+        "ghardyn ghrwfy",
+        "jia deng ge luo fu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5351515",
+    "verified": true
+  },
+  {
+    "slug": "norwalk",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.90224,
+    "lng": -118.08173,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "نوروالك",
+      "en": "Norwalk",
+      "fr": "Norwalk",
+      "de": "Norwalk",
+      "tr": "Norwalk",
+      "ur": "Norwalk",
+      "id": "Norwalk",
+      "es": "Norwalk",
+      "bn": "Norwalk",
+      "ms": "Norwalk"
+    },
+    "aliases": {
+      "ar": [
+        "نوروالك، كاليفورنيا",
+        "نورواك، كاليفرنيا",
+        "نورواك، كيليفورنيا"
+      ],
+      "en": [
+        "Corvallis",
+        "Naruolk",
+        "Norgouok",
+        "Noruok",
+        "Noruolk",
+        "Norvok",
+        "Norvolk",
+        "Norvolka",
+        "Norvolkas",
+        "nara'oyaka",
+        "naravaka",
+        "narvak",
+        "noravoka",
+        "norvak",
+        "norvelk",
+        "nouoku",
+        "nowokeu",
+        "nuo wo ke",
+        "nwrwak  kalyfrnya",
+        "nwrwak  kylyfwrnya",
+        "nwrwalk",
+        "nwrwalk  kalyfwrnya",
+        "nwrwwq",
+        "nxr wxlkh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5377995",
+    "verified": true
+  },
+  {
+    "slug": "oceanside",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.19587,
+    "lng": -117.37948,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "أوسيانسيدي",
+      "en": "Oceanside",
+      "fr": "Oceanside",
+      "de": "Oceanside",
+      "tr": "Oceanside",
+      "ur": "Oceanside",
+      "id": "Oceanside",
+      "es": "Oceanside",
+      "bn": "Oceanside",
+      "ms": "Oceanside"
+    },
+    "aliases": {
+      "ar": [
+        "اوشن سايد، كاليفرنيا",
+        "اوشينسائد"
+      ],
+      "en": [
+        "OCN",
+        "Ocean Side",
+        "Oushansajd",
+        "Oushensajd",
+        "Oushunsajd",
+        "awshn sayd  kalyfrnya",
+        "awsyansydy",
+        "osanasa'ida",
+        "oshansaido",
+        "osyeonsaideu",
+        "ou shen sai de"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5378771",
+    "verified": true
+  },
+  {
+    "slug": "ontario",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.06334,
+    "lng": -117.65089,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "أونتاريو",
+      "en": "Ontario",
+      "fr": "Ontario",
+      "de": "Ontario",
+      "tr": "Ontario",
+      "ur": "Ontario",
+      "id": "Ontario",
+      "es": "Ontario",
+      "bn": "Ontario",
+      "ms": "Ontario"
+    },
+    "aliases": {
+      "ar": [
+        "انتاريو، كاليفرنيا",
+        "اونتاريو،كيليفورنيا"
+      ],
+      "en": [
+        "ONT",
+        "Ontehrio",
+        "an da e",
+        "antaryw  kalyfrnya",
+        "awntaryw",
+        "ontalio",
+        "ontariyo"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5379439",
+    "verified": true
+  },
+  {
+    "slug": "orange",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.78779,
+    "lng": -117.85311,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "أورانج",
+      "en": "Orange",
+      "fr": "Orange",
+      "de": "Orange",
+      "tr": "Orange",
+      "ur": "Orange",
+      "id": "Orange",
+      "es": "Orange",
+      "bn": "Orange",
+      "ms": "Orange"
+    },
+    "aliases": {
+      "ar": [
+        "اورنج، كاليفرنيا",
+        "اورينج"
+      ],
+      "en": [
+        "JOR",
+        "Orandzh",
+        "Orange (Kalifornien)",
+        "Orindz",
+        "Orindzh",
+        "Richland",
+        "arenja",
+        "awranj",
+        "awrnj  kalyfrnya",
+        "awrynj",
+        "chen shi",
+        "olenji",
+        "orenji"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5379513",
+    "verified": true
+  },
+  {
+    "slug": "palmdale",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.57943,
+    "lng": -118.11646,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "بالمديل",
+      "en": "Palmdale",
+      "fr": "Palmdale",
+      "de": "Palmdale",
+      "tr": "Palmdale",
+      "ur": "Palmdale",
+      "id": "Palmdale",
+      "es": "Palmdale",
+      "bn": "Palmdale",
+      "ms": "Palmdale"
+    },
+    "aliases": {
+      "ar": [
+        "بالم ديل، كاليفرنيا",
+        "بالم ديل"
+      ],
+      "en": [
+        "PMD",
+        "Palmdejl",
+        "balmdyl",
+        "palm dyl  kalyfrnya",
+        "pamadela",
+        "pamuderu",
+        "zong lu gu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5380698",
+    "verified": true
+  },
+  {
+    "slug": "rancho-cucamonga",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.1064,
+    "lng": -117.59311,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "رانتشو كوكامونغا",
+      "en": "Rancho Cucamonga",
+      "fr": "Rancho Cucamonga",
+      "de": "Rancho Cucamonga",
+      "tr": "Rancho Cucamonga",
+      "ur": "Rancho Cucamonga",
+      "id": "Rancho Cucamonga",
+      "es": "Rancho Cucamonga",
+      "bn": "Rancho Cucamonga",
+      "ms": "Rancho Cucamonga"
+    },
+    "aliases": {
+      "ar": [
+        "رانجو كوكامونغا، كاليفرنيا",
+        "رانجھو كيوكامونغا"
+      ],
+      "en": [
+        "Cucamonga",
+        "North Cucamonga",
+        "Nuestra Senora del Pilar de Cucamonga",
+        "Rancho Kukamanga",
+        "Rancho Kukamonga",
+        "Rancho-Kukamonga",
+        "ku ka meng ge mu chang",
+        "laenchokukamong-ga",
+        "ranchokukamonga",
+        "ranchw kwkamwnga  kalyfrnya",
+        "rantshw kwkamwngha",
+        "rryanco kukamonga"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5385955",
+    "verified": true
+  },
+  {
+    "slug": "rialto",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.1064,
+    "lng": -117.37032,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "ريالتو",
+      "en": "Rialto",
+      "fr": "Rialto",
+      "de": "Rialto",
+      "tr": "Rialto",
+      "ur": "Rialto",
+      "id": "Rialto",
+      "es": "Rialto",
+      "bn": "Rialto",
+      "ms": "Rialto"
+    },
+    "aliases": {
+      "ar": [
+        "ريالتو، كاليفرنيا"
+      ],
+      "en": [
+        "Rial'to",
+        "Rijalto",
+        "li ya tuo",
+        "liaelto",
+        "ri xal to",
+        "riaruto",
+        "riyalto",
+        "ryaltw",
+        "ryaltw  kalyfrnya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5387288",
+    "verified": true
+  },
+  {
+    "slug": "sunnyvale",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 37.36883,
+    "lng": -122.03635,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "سانيفال",
+      "en": "Sunnyvale",
+      "fr": "Sunnyvale",
+      "de": "Sunnyvale",
+      "tr": "Sunnyvale",
+      "ur": "Sunnyvale",
+      "id": "Sunnyvale",
+      "es": "Sunnyvale",
+      "bn": "Sunnyvale",
+      "ms": "Sunnyvale"
+    },
+    "aliases": {
+      "ar": [
+        "ساني‌ويل، كاليفرنيا",
+        "سنيويل"
+      ],
+      "en": [
+        "Encinal",
+        "Snivejl",
+        "Sanivejl",
+        "Sannivejl",
+        "saniberu",
+        "sanivela",
+        "sannibhela",
+        "sanyfal",
+        "sany‌wyl  kalyfrnya",
+        "sen ni wei er",
+        "seonibeil",
+        "snywyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5400075",
+    "verified": true
+  },
+  {
+    "slug": "victorville",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 34.53611,
+    "lng": -117.29116,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "فيكتورفيل",
+      "en": "Victorville",
+      "fr": "Victorville",
+      "de": "Victorville",
+      "tr": "Victorville",
+      "ur": "Victorville",
+      "id": "Victorville",
+      "es": "Victorville",
+      "bn": "Victorville",
+      "ms": "Victorville"
+    },
+    "aliases": {
+      "ar": [
+        "فيكتورفيلى",
+        "وكترويل، كيليفورنيا",
+        "وكتورولي",
+        "ويكتور ويل، كاليفرنيا",
+        "ويكتورويل، كاليفورنيا"
+      ],
+      "en": [
+        "Mormon Crossing",
+        "Séídą́ąʼjįʼ Kin",
+        "VCV",
+        "Victor",
+        "Viktorvil",
+        "Viktorvil'",
+        "Viktorvile",
+        "Viktorvilis",
+        "Viktorvill",
+        "Vikturvil",
+        "bhiktarabhila",
+        "bhiktobhila",
+        "bigteobil",
+        "fyktwrfyl",
+        "fyktwrfyly",
+        "vhiktoravile",
+        "viktarville",
+        "viktoravila",
+        "viktoravile",
+        "viktoriville",
+        "viktorvilli",
+        "vuikutavuiru",
+        "wei ke duo wei er",
+        "wik te xr will",
+        "wyktwr wyl  kalyfrnya",
+        "wyktwrwyl  kalyfwrnya",
+        "wyqtwrwwyl"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5406222",
+    "verified": true
+  },
+  {
+    "slug": "visalia",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.33023,
+    "lng": -119.29206,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "فيساليا",
+      "en": "Visalia",
+      "fr": "Visalia",
+      "de": "Visalia",
+      "tr": "Visalia",
+      "ur": "Visalia",
+      "id": "Visalia",
+      "es": "Visalia",
+      "bn": "Visalia",
+      "ms": "Visalia"
+    },
+    "aliases": {
+      "ar": [
+        "ويساليا",
+        "ويساليا، كاليفرنيا"
+      ],
+      "en": [
+        "Buena Vista",
+        "VIS",
+        "Vajsejlija",
+        "Vajselija",
+        "Vicealia",
+        "Visaija",
+        "Visejlija",
+        "baiseiria",
+        "bhisaliya",
+        "fysalya",
+        "wei sai li ya",
+        "wysalya",
+        "wysalya  kalyfrnya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5406567",
+    "verified": true
+  },
+  {
+    "slug": "vista",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 33.20004,
+    "lng": -117.24254,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "فيستا",
+      "en": "Vista",
+      "fr": "Vista",
+      "de": "Vista",
+      "tr": "Vista",
+      "ur": "Vista",
+      "id": "Vista",
+      "es": "Vista",
+      "bn": "Vista",
+      "ms": "Vista"
+    },
+    "aliases": {
+      "ar": [
+        "وستا",
+        "وستا، كيليفورنيا",
+        "ويستا، كاليفرنيا",
+        "ويستا، كاليفورنيا"
+      ],
+      "en": [
+        "Chéchʼil Dootłʼizhíiʼii",
+        "bhista",
+        "biseuta",
+        "bisuta",
+        "fysta",
+        "vhista",
+        "wei si ta",
+        "wi s ta",
+        "wysta  kalyfrnya",
+        "wysta  kalyfwrnya",
+        "wysth"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كاليفورنيا",
+      "regionEn": "California"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5406602",
+    "verified": true
+  },
+  {
+    "slug": "colorado-springs",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 38.83388,
+    "lng": -104.82136,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "كولورادو سبرينغز",
+      "en": "Colorado Springs",
+      "fr": "Colorado Springs",
+      "de": "Colorado Springs",
+      "tr": "Colorado Springs",
+      "ur": "Colorado Springs",
+      "id": "Colorado Springs",
+      "es": "Colorado Springs",
+      "bn": "Colorado Springs",
+      "ms": "Colorado Springs"
+    },
+    "aliases": {
+      "ar": [
+        "كلرادو اسبرينغز",
+        "كولاريدو سبرنغس، كولاريدو"
+      ],
+      "en": [
+        "COS",
+        "Colorado Spgs",
+        "El Paso",
+        "Fontes Coloratenses",
+        "Kalarada-Spryngs",
+        "Kolorado Springs",
+        "Kolorado Springsas",
+        "Kolorado Sprinqs",
+        "Kolorado-Springs",
+        "Kolorado-Springz",
+        "Koloradospringsa",
+        "Koloranto Sprin'nks",
+        "Kolorādospringsa",
+        "kalorado sprinsa",
+        "ke luo la duo si pu lin si",
+        "klradw aspryngz",
+        "kolloladoseupeulingseu",
+        "kolorado springja",
+        "kolorado springs",
+        "kolorryado springas",
+        "kororadosupuringusu",
+        "kwlwradw sbrynghs",
+        "qwlwrdw spryngs"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كولورادو",
+      "regionEn": "Colorado"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5417598",
+    "verified": true
+  },
+  {
+    "slug": "pueblo",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 38.25445,
+    "lng": -104.60914,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "بويبلو",
+      "en": "Pueblo",
+      "fr": "Pueblo",
+      "de": "Pueblo",
+      "tr": "Pueblo",
+      "ur": "Pueblo",
+      "id": "Pueblo",
+      "es": "Pueblo",
+      "bn": "Pueblo",
+      "ms": "Pueblo"
+    },
+    "aliases": {
+      "ar": [
+        "بوابلو، كلرادو",
+        "بوابلو، كولورادو",
+        "بيوبلو"
+      ],
+      "en": [
+        "Independence",
+        "PUB",
+        "Puehblo",
+        "bwyblw",
+        "peblo",
+        "phiw bol",
+        "pu wei bu luo",
+        "puebeullo",
+        "pueburo",
+        "pwablw  klradw",
+        "pyu'eblo",
+        "pywblw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كولورادو",
+      "regionEn": "Colorado"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5435464",
+    "verified": true
+  },
+  {
+    "slug": "carson-city",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 39.1638,
+    "lng": -119.7674,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "كارسون سيتي",
+      "en": "Carson City",
+      "fr": "Carson City",
+      "de": "Carson City",
+      "tr": "Carson City",
+      "ur": "Carson City",
+      "id": "Carson City",
+      "es": "Carson City",
+      "bn": "Carson City",
+      "ms": "Carson City"
+    },
+    "aliases": {
+      "ar": [
+        "كارسن ستي",
+        "كارسن سيتي",
+        "كارسن شهر، نيوادا",
+        "كارسون‌سيتي"
+      ],
+      "en": [
+        "Altepetl Carson",
+        "CSN",
+        "Carson",
+        "Carson City County",
+        "Carsonurbo",
+        "Karsan-Sici",
+        "Karson Siti",
+        "Karson Sitis",
+        "Karson-Siti",
+        "Karsonsitija",
+        "Karsun Siti",
+        "Kota Carson",
+        "Kārsonsitija",
+        "Lungsod ng Carson",
+        "Thanh pho Carson",
+        "Thành phố Carson",
+        "ka sen cheng",
+        "karasana siti",
+        "karcan nakaram",
+        "kariseni siti",
+        "karsan siti",
+        "karsana siti",
+        "karsn syty",
+        "karswn syty",
+        "kaseunsiti",
+        "kasonshiti",
+        "kharsansiti",
+        "qrswn syty"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "نيفادا",
+      "regionEn": "Nevada"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:5501344",
+    "verified": true
+  },
+  {
+    "slug": "henderson",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 36.0397,
+    "lng": -114.98194,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "هندرسون",
+      "en": "Henderson",
+      "fr": "Henderson",
+      "de": "Henderson",
+      "tr": "Henderson",
+      "ur": "Henderson",
+      "id": "Henderson",
+      "es": "Henderson",
+      "bn": "Henderson",
+      "ms": "Henderson"
+    },
+    "aliases": {
+      "ar": [
+        "هندرسون، نوادا",
+        "هيندرسن، نيوادا"
+      ],
+      "en": [
+        "Basic",
+        "Chenterson",
+        "Genderson",
+        "Hendersonas",
+        "Jericho Heights",
+        "Khendehrsan",
+        "Khenderson",
+        "Khendersun",
+        "Midway City",
+        "Pittman",
+        "hendason",
+        "hendeoseun",
+        "heng de sen",
+        "hndrswn",
+        "hndrswn  nwada"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "نيفادا",
+      "regionEn": "Nevada"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5505411",
+    "verified": true
+  },
+  {
+    "slug": "boulder",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.01499,
+    "lng": -105.27055,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "بولدر",
+      "en": "Boulder",
+      "fr": "Boulder",
+      "de": "Boulder",
+      "tr": "Boulder",
+      "ur": "Boulder",
+      "id": "Boulder",
+      "es": "Boulder",
+      "bn": "Boulder",
+      "ms": "Boulder"
+    },
+    "aliases": {
+      "ar": [
+        "بولدر، كلرادو",
+        "بولدر، كولورادو"
+      ],
+      "en": [
+        "Bolder",
+        "Bouldur",
+        "WBU",
+        "ba'uldara",
+        "bo de",
+        "boldara",
+        "bolde xr",
+        "boldeo",
+        "boruda",
+        "bwldr",
+        "bwldr  klradw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كولورادو",
+      "regionEn": "Colorado"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5574991",
+    "verified": true
+  },
+  {
+    "slug": "fort-collins",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.58526,
+    "lng": -105.08442,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "فورت كولنز",
+      "en": "Fort Collins",
+      "fr": "Fort Collins",
+      "de": "Fort Collins",
+      "tr": "Fort Collins",
+      "ur": "Fort Collins",
+      "id": "Fort Collins",
+      "es": "Fort Collins",
+      "bn": "Fort Collins",
+      "ms": "Fort Collins"
+    },
+    "aliases": {
+      "ar": [
+        "فورت كالينز، كلرادو",
+        "فورت كولنز، كولورادو"
+      ],
+      "en": [
+        "Camp Collins",
+        "FNL",
+        "Fort Kolins",
+        "Fort Kolinsas",
+        "Fort Kollins",
+        "Fort-Kollins",
+        "Ft Collins",
+        "Ft. Collins",
+        "fwrt kalynz  klradw",
+        "fwrt kwlnz",
+        "ke lin si bao",
+        "pharta kolinsa",
+        "phorta kolinsa",
+        "poteukollinseu",
+        "pwrt qwlyns"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كولورادو",
+      "regionEn": "Colorado"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5577147",
+    "verified": true
+  },
+  {
+    "slug": "greeley",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.42331,
+    "lng": -104.70913,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "غريلي",
+      "en": "Greeley",
+      "fr": "Greeley",
+      "de": "Greeley",
+      "tr": "Greeley",
+      "ur": "Greeley",
+      "id": "Greeley",
+      "es": "Greeley",
+      "bn": "Greeley",
+      "ms": "Greeley"
+    },
+    "aliases": {
+      "ar": [
+        "غريلي، كلرادو",
+        "غريلي، كولورادو"
+      ],
+      "en": [
+        "GXY",
+        "Greely",
+        "Grijli",
+        "Grili",
+        "ge li li",
+        "ghryly",
+        "grili",
+        "gryly",
+        "gryly  klradw",
+        "guriri"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "كولورادو",
+      "regionEn": "Colorado"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5577592",
+    "verified": true
+  },
+  {
+    "slug": "eugene",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 44.05207,
+    "lng": -123.08675,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "يوجين",
+      "en": "Eugene",
+      "fr": "Eugene",
+      "de": "Eugene",
+      "tr": "Eugene",
+      "ur": "Eugene",
+      "id": "Eugene",
+      "es": "Eugene",
+      "bn": "Eugene",
+      "ms": "Eugene"
+    },
+    "aliases": {
+      "ar": [
+        "يوجين، اورغن"
+      ],
+      "en": [
+        "EUG",
+        "Eugine City",
+        "Judzhijn",
+        "Judzhin",
+        "Judzhyn",
+        "Judzin",
+        "Judzinas",
+        "Judžinas",
+        "you jin",
+        "yujin",
+        "ywgyn",
+        "ywjyn",
+        "ywjyn  awrgn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أوريغون",
+      "regionEn": "Oregon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5725846",
+    "verified": true
+  },
+  {
+    "slug": "gresham",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 45.49818,
+    "lng": -122.43148,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "غريشام",
+      "en": "Gresham",
+      "fr": "Gresham",
+      "de": "Gresham",
+      "tr": "Gresham",
+      "ur": "Gresham",
+      "id": "Gresham",
+      "es": "Gresham",
+      "bn": "Gresham",
+      "ms": "Gresham"
+    },
+    "aliases": {
+      "ar": [
+        "قرشام، اورقن",
+        "غرشام، اورغن",
+        "غريشام، اوريغون"
+      ],
+      "en": [
+        "Grehskham",
+        "Greshem",
+        "ge lei she mu",
+        "ge lei si han",
+        "geulesyeom",
+        "ghrysham",
+        "grsham  awrgn",
+        "grsm",
+        "grysham  awrygwn",
+        "gureshamu",
+        "qrsham  awrqn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "أوريغون",
+      "regionEn": "Oregon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5729485",
+    "verified": true
+  },
+  {
+    "slug": "provo",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 40.23384,
+    "lng": -111.65853,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "بروفو",
+      "en": "Provo",
+      "fr": "Provo",
+      "de": "Provo",
+      "tr": "Provo",
+      "ur": "Provo",
+      "id": "Provo",
+      "es": "Provo",
+      "bn": "Provo",
+      "ms": "Provo"
+    },
+    "aliases": {
+      "ar": [
+        "برووو",
+        "برووو، يوتا",
+        "برووو، يوتاه"
+      ],
+      "en": [
+        "Fort Utah",
+        "PVU",
+        "Provas",
+        "Provo City",
+        "Provou",
+        "brwfw",
+        "peulobo",
+        "prwbw",
+        "prwww",
+        "prwww  ywta",
+        "pu ruo fu",
+        "purobo"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "يوتاه",
+      "regionEn": "Utah"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5780026",
+    "verified": true
+  },
+  {
+    "slug": "salt-lake-city",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 40.76078,
+    "lng": -111.89105,
+    "timezone": "America/Denver",
+    "names": {
+      "ar": "سولت ليك سيتي",
+      "en": "Salt Lake City",
+      "fr": "Salt Lake City",
+      "de": "Salt Lake City",
+      "tr": "Salt Lake City",
+      "ur": "Salt Lake City",
+      "id": "Salt Lake City",
+      "es": "Salt Lake City",
+      "bn": "Salt Lake City",
+      "ms": "Salt Lake City"
+    },
+    "aliases": {
+      "ar": [
+        "سالت ليك سيتي",
+        "سالت‌ليك‌سيتي",
+        "سالت ليك ستي",
+        "سالت ليك ستي، يوتاه"
+      ],
+      "en": [
+        "Cathair Salt Lake",
+        "Civitas Lacus Salsi",
+        "Kota Salt Lake",
+        "Lungsod ng Salt Lake",
+        "SLC",
+        "Sallaga Urbo",
+        "Salt Lake",
+        "Salt Lake Ceety",
+        "Salt-Lejk-Siti",
+        "Sol Lek Siti",
+        "Solt Leik Sites",
+        "Solt Leik Siti",
+        "Solt Leik Sitis",
+        "Solt Leik Sitės",
+        "Solt Lejk Siti",
+        "Solt Leyk Siti",
+        "Solt-Lehjk-Sici",
+        "Solt-Lejk-Siti",
+        "Soltleiksitija",
+        "Thanh pho Salt Lake",
+        "Thành phố Salt Lake",
+        "calt lek nakaram",
+        "salata leka siti",
+        "salt lek siti",
+        "salt lyk",
+        "salt lyk syty",
+        "salta leka siti",
+        "saልti leki siti",
+        "solta leka siti",
+        "solteuleikeusiti",
+        "sorutoreikushiti",
+        "swlt lyyq syty",
+        "sxltleksiti",
+        "yan hu cheng"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "يوتاه",
+      "regionEn": "Utah"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5780993",
+    "verified": true
+  },
+  {
+    "slug": "olympia",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 47.04491,
+    "lng": -122.90169,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "أولمبيا",
+      "en": "Olympia",
+      "fr": "Olympia",
+      "de": "Olympia",
+      "tr": "Olympia",
+      "ur": "Olympia",
+      "id": "Olympia",
+      "es": "Olympia",
+      "bn": "Olympia",
+      "ms": "Olympia"
+    },
+    "aliases": {
+      "ar": [
+        "اولمبيا",
+        "اولمبيا، واشنغتن",
+        "اولمبيا، واشينغتن"
+      ],
+      "en": [
+        "Alimpija",
+        "Marshville",
+        "OLM",
+        "Olimpeje",
+        "Olimpi",
+        "Olimpia",
+        "Olimpija",
+        "Olimpiya",
+        "Olimpėjė",
+        "alampiya",
+        "ao lin pi ya",
+        "awlmbya",
+        "awlmpya",
+        "awlmpya  washyngtn",
+        "olampiya",
+        "olapi'a",
+        "olimpiya",
+        "ollimpia",
+        "orinpia",
+        "ʿoliምፒya"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "واشنطن",
+      "regionEn": "Washington"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:5805687",
+    "verified": true
+  },
+  {
+    "slug": "tacoma",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 47.25288,
+    "lng": -122.44429,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "تاكوما",
+      "en": "Tacoma",
+      "fr": "Tacoma",
+      "de": "Tacoma",
+      "tr": "Tacoma",
+      "ur": "Tacoma",
+      "id": "Tacoma",
+      "es": "Tacoma",
+      "bn": "Tacoma",
+      "ms": "Tacoma"
+    },
+    "aliases": {
+      "ar": [
+        "تاكوما، واشينغتن",
+        "تاكوما، واشنغتن"
+      ],
+      "en": [
+        "Chebaulip",
+        "Commencement City",
+        "Puyallup",
+        "T'kope",
+        "T'kopt",
+        "TIW",
+        "Takoma",
+        "Takouma",
+        "da jin ma",
+        "ta ke ma",
+        "takoma",
+        "takwma",
+        "takwma  washyngtn",
+        "teokoma",
+        "tqwmh"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "واشنطن",
+      "regionEn": "Washington"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5812944",
+    "verified": true
+  },
+  {
+    "slug": "honolulu",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 21.30694,
+    "lng": -157.85833,
+    "timezone": "Pacific/Honolulu",
+    "names": {
+      "ar": "هونولولو",
+      "en": "Honolulu",
+      "fr": "Honolulu",
+      "de": "Honolulu",
+      "tr": "Honolulu",
+      "ur": "Honolulu",
+      "id": "Honolulu",
+      "es": "Honolulu",
+      "bn": "Honolulu",
+      "ms": "Honolulu"
+    },
+    "aliases": {
+      "ar": [
+        "هونولولو، هوائي"
+      ],
+      "en": [
+        "Anorourou",
+        "Big Pineapple",
+        "Chonoloulou",
+        "Gana-Rura",
+        "Gana-ruru",
+        "Ganalulu",
+        "Ganaruro",
+        "Ganaruru",
+        "Gonolulu",
+        "HNL",
+        "Hana-Rura",
+        "Hana-ruru",
+        "Honoloulou",
+        "Honolulo",
+        "Honolulú",
+        "Honolúlú",
+        "Honoruru",
+        "Khonolulu",
+        "Than-hiong-san",
+        "The Big Pineapple",
+        "Thàn-hiông-sân",
+        "hanalulu",
+        "hanululu",
+        "honalulu",
+        "honollullu",
+        "honoruru",
+        "hwnwlwlw",
+        "tan xiang shan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "هاواي",
+      "regionEn": "Hawaii"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5856195",
+    "verified": true
+  },
+  {
+    "slug": "anchorage",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 61.21806,
+    "lng": -149.90028,
+    "timezone": "America/Anchorage",
+    "names": {
+      "ar": "أنكوريج",
+      "en": "Anchorage",
+      "fr": "Anchorage",
+      "de": "Anchorage",
+      "tr": "Anchorage",
+      "ur": "Anchorage",
+      "id": "Anchorage",
+      "es": "Anchorage",
+      "bn": "Anchorage",
+      "ms": "Anchorage"
+    },
+    "aliases": {
+      "ar": [
+        "انكوريج",
+        "اينكرايج، الاسكا"
+      ],
+      "en": [
+        "ANC",
+        "Alaska City",
+        "An'koreitz",
+        "Ancoraria",
+        "Angits",
+        "Ankoric",
+        "Ankoridz",
+        "Ankoridza",
+        "Ankoridzas",
+        "Ankoridzh",
+        "Ankoridž",
+        "Ankoridža",
+        "Ankoridžas",
+        "Ankorigo",
+        "Ankorij",
+        "Ankoriĝo",
+        "Ankorydzh",
+        "Ankuridzh",
+        "Brownville",
+        "Dgheyay Kaq'",
+        "Enkoridz",
+        "Kisagvik",
+        "Kisaġvik",
+        "Port Woodrow",
+        "Qatuk'e'usht",
+        "Ship Creek",
+        "Tan",
+        "Ves Dnaghildeqt",
+        "Woodrow",
+        "aengkeoliji",
+        "amkareja",
+        "an ke la zhi",
+        "ancorage byuro",
+        "ankarej",
+        "ankarejji",
+        "ankwryj",
+        "aynkrayj  alaska",
+        "enkarej",
+        "enkoreja",
+        "ʼnqwrg"
+      ]
+    },
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States",
+      "regionAr": "ألاسكا",
+      "regionEn": "Alaska"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5879400",
+    "verified": true
+  },
+  {
+    "slug": "coquitlam",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 49.2846,
+    "lng": -122.78217,
+    "timezone": "America/Vancouver",
+    "names": {
+      "ar": "كوكويتلام",
+      "en": "Coquitlam",
+      "fr": "Coquitlam",
+      "de": "Coquitlam",
+      "tr": "Coquitlam",
+      "ur": "Coquitlam",
+      "id": "Coquitlam",
+      "es": "Coquitlam",
+      "bn": "Coquitlam",
+      "ms": "Coquitlam"
+    },
+    "aliases": {
+      "ar": [
+        "كوكوئتلم",
+        "كوكوتلام",
+        "كوكيتلام"
+      ],
+      "en": [
+        "Kokuitlam",
+        "Kokvitlam",
+        "gao gui lin",
+        "kokittoramu",
+        "kokwiteulleom",
+        "kwkwytlam",
+        "kwkytlam"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كولومبيا البريطانية",
+      "regionEn": "British Columbia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5927690",
+    "verified": true
+  },
+  {
+    "slug": "gatineau",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 45.47723,
+    "lng": -75.70164,
+    "timezone": "America/Toronto",
+    "names": {
+      "ar": "غاتينو",
+      "en": "Gatineau",
+      "fr": "Gatineau",
+      "de": "Gatineau",
+      "tr": "Gatineau",
+      "ur": "Gatineau",
+      "id": "Gatineau",
+      "es": "Gatineau",
+      "bn": "Gatineau",
+      "ms": "Gatineau"
+    },
+    "aliases": {
+      "ar": [
+        "غيتينؤ",
+        "غيتينيو"
+      ],
+      "en": [
+        "Gatino",
+        "Sablono:TabelKapoLauCarta",
+        "gatino",
+        "gatynw",
+        "ghatynw",
+        "gytynw",
+        "jia di nuo",
+        "jia di nuo shi",
+        "kettinov",
+        "Ŝablono:TabelKapoLaŭĈarta"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كيبيك",
+      "regionEn": "Quebec"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5959974",
+    "verified": true
+  },
+  {
+    "slug": "iqaluit",
+    "type": "city",
+    "countryCode": "ca",
+    "lat": 63.74697,
+    "lng": -68.51727,
+    "timezone": "America/Iqaluit",
+    "names": {
+      "ar": "إيكالويت",
+      "en": "Iqaluit",
+      "fr": "Iqaluit",
+      "de": "Iqaluit",
+      "tr": "Iqaluit",
+      "ur": "Iqaluit",
+      "id": "Iqaluit",
+      "es": "Iqaluit",
+      "bn": "Iqaluit",
+      "ms": "Iqaluit"
+    },
+    "aliases": {
+      "ar": [
+        "اقالويت",
+        "اكالوئت",
+        "ايكالويت"
+      ],
+      "en": [
+        "Crystal Two",
+        "Frobisher Bay",
+        "Ikaliuit",
+        "Ikalouit",
+        "Ikaluit",
+        "Ikaluita",
+        "Ikaluitas",
+        "Ikaluito",
+        "YFB",
+        "aqalwyt",
+        "aykalwyt",
+        "ikallu-iteu",
+        "ikalu'ita",
+        "ikaruito",
+        "ikkaluyit",
+        "ikvalyu'ita",
+        "yi kui te",
+        "İkaliuit",
+        "ʿiqaluyiti"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "نونافوت",
+      "regionEn": "Nunavut"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:5983720",
+    "verified": true
+  },
+  {
+    "slug": "kamloops",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 50.66648,
+    "lng": -120.3192,
+    "timezone": "America/Vancouver",
+    "names": {
+      "ar": "كاملوبس",
+      "en": "Kamloops",
+      "fr": "Kamloops",
+      "de": "Kamloops",
+      "tr": "Kamloops",
+      "ur": "Kamloops",
+      "id": "Kamloops",
+      "es": "Kamloops",
+      "bn": "Kamloops",
+      "ms": "Kamloops"
+    },
+    "aliases": {
+      "en": [
+        "Kamlups",
+        "YKA",
+        "kaimalupasa",
+        "kamlwbs",
+        "kamlwps",
+        "kamurupusu",
+        "kan lu pu si"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كولومبيا البريطانية",
+      "regionEn": "British Columbia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5989045",
+    "verified": true
+  },
+  {
+    "slug": "kelowna",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 49.88307,
+    "lng": -119.48568,
+    "timezone": "America/Vancouver",
+    "names": {
+      "ar": "كيلونا",
+      "en": "Kelowna",
+      "fr": "Kelowna",
+      "de": "Kelowna",
+      "tr": "Kelowna",
+      "ur": "Kelowna",
+      "id": "Kelowna",
+      "es": "Kelowna",
+      "bn": "Kelowna",
+      "ms": "Kelowna"
+    },
+    "aliases": {
+      "ar": [
+        "كلونا",
+        "كيلوونا"
+      ],
+      "en": [
+        "Kelouna",
+        "YLW",
+        "ji long na",
+        "kellona",
+        "kerouna",
+        "klwna",
+        "kylwna",
+        "kylwwna",
+        "qlwnh"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كولومبيا البريطانية",
+      "regionEn": "British Columbia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:5990579",
+    "verified": true
+  },
+  {
+    "slug": "laval",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 45.56995,
+    "lng": -73.692,
+    "timezone": "America/Toronto",
+    "names": {
+      "ar": "لافال",
+      "en": "Laval",
+      "fr": "Laval",
+      "de": "Laval",
+      "tr": "Laval",
+      "ur": "Laval",
+      "id": "Laval",
+      "es": "Laval",
+      "bn": "Laval",
+      "ms": "Laval"
+    },
+    "aliases": {
+      "ar": [
+        "لاوال، كبك",
+        "لاول"
+      ],
+      "en": [
+        "Laval'",
+        "Lavalis",
+        "Lavalo",
+        "la wa lei",
+        "lafal",
+        "lawal  kbk",
+        "lawl",
+        "ravuaru"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كيبيك",
+      "regionEn": "Quebec"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6050610",
+    "verified": true
+  },
+  {
+    "slug": "longueuil",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 45.5152,
+    "lng": -73.46818,
+    "timezone": "America/Toronto",
+    "names": {
+      "ar": "لونغوي",
+      "en": "Longueuil",
+      "fr": "Longueuil",
+      "de": "Longueuil",
+      "tr": "Longueuil",
+      "ur": "Longueuil",
+      "id": "Longueuil",
+      "es": "Longueuil",
+      "bn": "Longueuil",
+      "ms": "Longueuil"
+    },
+    "aliases": {
+      "ar": [
+        "لونغؤل"
+      ],
+      "en": [
+        "Langjoj",
+        "Long'oj",
+        "Longej",
+        "Longejlo",
+        "Longjoj",
+        "lang ji er",
+        "long-goei",
+        "lwnghwy",
+        "lwngwl",
+        "lwngwy",
+        "rongeru"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كيبيك",
+      "regionEn": "Quebec"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6059891",
+    "verified": true
+  },
+  {
+    "slug": "saanich",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 48.54964,
+    "lng": -123.36931,
+    "timezone": "America/Vancouver",
+    "names": {
+      "ar": "سانيتش",
+      "en": "Saanich",
+      "fr": "Saanich",
+      "de": "Saanich",
+      "tr": "Saanich",
+      "ur": "Saanich",
+      "id": "Saanich",
+      "es": "Saanich",
+      "bn": "Saanich",
+      "ms": "Saanich"
+    },
+    "aliases": {
+      "en": [
+        "Sanich",
+        "Sanytsh",
+        "Sha ni zhi",
+        "sanytsh",
+        "sha ni zhi"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كولومبيا البريطانية",
+      "regionEn": "British Columbia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6136944",
+    "verified": true
+  },
+  {
+    "slug": "saguenay",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 48.41675,
+    "lng": -71.06573,
+    "timezone": "America/Toronto",
+    "names": {
+      "ar": "ساغينيه",
+      "en": "Saguenay",
+      "fr": "Saguenay",
+      "de": "Saguenay",
+      "tr": "Saguenay",
+      "ur": "Saguenay",
+      "id": "Saguenay",
+      "es": "Saguenay",
+      "bn": "Saguenay",
+      "ms": "Saguenay"
+    },
+    "aliases": {
+      "ar": [
+        "ساغونه، كبك",
+        "سغيني، كيوبك"
+      ],
+      "en": [
+        "Sagene",
+        "Sagenej",
+        "Sagenė",
+        "Sagne",
+        "YBG",
+        "sa ge nai",
+        "sageune",
+        "saghynyh",
+        "sagune",
+        "sagwnh  kbk"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "كيبيك",
+      "regionEn": "Quebec"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6137270",
+    "verified": true
+  },
+  {
+    "slug": "saskatoon",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 52.13238,
+    "lng": -106.66892,
+    "timezone": "America/Regina",
+    "names": {
+      "ar": "ساسكاتون",
+      "en": "Saskatoon",
+      "fr": "Saskatoon",
+      "de": "Saskatoon",
+      "tr": "Saskatoon",
+      "ur": "Saskatoon",
+      "id": "Saskatoon",
+      "es": "Saskatoon",
+      "bn": "Saskatoon",
+      "ms": "Saskatoon"
+    },
+    "aliases": {
+      "en": [
+        "Saskatoun",
+        "Saskatun",
+        "Saskatuna",
+        "Saskatunas",
+        "Saskatuno",
+        "Saskatūna",
+        "Saskatūnas",
+        "YXE",
+        "caskatun",
+        "sa si ka tong",
+        "saeseukeotun",
+        "saskatuna",
+        "saskatwn",
+        "sasukatoun",
+        "ssqtwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "ساسكاتشوان",
+      "regionEn": "Saskatchewan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6141256",
+    "verified": true
+  },
+  {
+    "slug": "st-catharines",
+    "type": "town",
+    "countryCode": "ca",
+    "lat": 43.17126,
+    "lng": -79.24267,
+    "timezone": "America/Toronto",
+    "names": {
+      "ar": "سانت كاثرينز",
+      "en": "St. Catharines",
+      "fr": "St. Catharines",
+      "de": "St. Catharines",
+      "tr": "St. Catharines",
+      "ur": "St. Catharines",
+      "id": "St. Catharines",
+      "es": "St. Catharines",
+      "bn": "St. Catharines",
+      "ms": "St. Catharines"
+    },
+    "aliases": {
+      "ar": [
+        "سنت كاترينز، انتاريو",
+        "سينت كيتھرائنز"
+      ],
+      "en": [
+        "Sainte-Catharine",
+        "Sankta Katarino",
+        "Sent Katerinsas",
+        "Sent Ketrins",
+        "Sent-Katarins",
+        "Sent-Kataryns",
+        "Sent-Keterins",
+        "YCM",
+        "sant kathrynz",
+        "seinteukaeseolinseu",
+        "sentokyasarinzu",
+        "sheng kai se lin si",
+        "snt katrynz  antaryw"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "أونتاريو",
+      "regionEn": "Ontario"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6155721",
+    "verified": true
+  },
+  {
+    "slug": "st-johns",
+    "type": "city",
+    "countryCode": "ca",
+    "lat": 47.56494,
+    "lng": -52.70931,
+    "timezone": "America/St_Johns",
+    "names": {
+      "ar": "سانت جونز",
+      "en": "St. John's",
+      "fr": "St. John's",
+      "de": "St. John's",
+      "tr": "St. John's",
+      "ur": "St. John's",
+      "id": "St. John's",
+      "es": "St. John's",
+      "bn": "St. John's",
+      "ms": "St. John's"
+    },
+    "aliases": {
+      "ar": [
+        "سنت جانز",
+        "سينت جان",
+        "سينت جانز، نيوفنليند اور ليبرادار"
+      ],
+      "en": [
+        "Agios Ioannis Neas Gis",
+        "Baile Naoimh Eoin",
+        "Baile Naoimh Eòin",
+        "Baile Sheain",
+        "Baile Sheáin",
+        "Saint John",
+        "Saint John's",
+        "Saint-Jean",
+        "Saint-Jean de Terre-Neuve",
+        "San Juan de Terranova",
+        "Sanctus Ioannes Terrae Novae",
+        "Sejnt Dzhons",
+        "Sent DZons",
+        "Sent Dzonsas",
+        "Sent Džonsas",
+        "Sent-Cons",
+        "Sent-Dzhons",
+        "Sent-Jons",
+        "St Johns",
+        "St. John’s",
+        "YYT",
+        "ceyint jans",
+        "sant jwnz",
+        "seinteujonseu",
+        "seniti jonisi",
+        "senta jansa",
+        "senta jaunaza",
+        "senta jonsa",
+        "sentojonzu",
+        "sheng yue han si",
+        "snt g'wns",
+        "snt janz"
+      ]
+    },
+    "admin": {
+      "countryAr": "كندا",
+      "countryEn": "Canada",
+      "regionAr": "نيوفاوندلاند ولابرادور",
+      "regionEn": "Newfoundland and Labrador"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:6324733",
+    "verified": true
+  },
+  {
+    "slug": "puebla",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 19.04778,
+    "lng": -98.20723,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "بويبلا",
+      "en": "Puebla",
+      "fr": "Puebla",
+      "de": "Puebla",
+      "tr": "Puebla",
+      "ur": "Puebla",
+      "id": "Puebla",
+      "es": "Puebla",
+      "bn": "Puebla",
+      "ms": "Puebla"
+    },
+    "aliases": {
+      "ar": [
+        "بوئبلا، بوئبلا",
+        "بوئبلا٬ بوئبلا"
+      ],
+      "en": [
+        "Angelopolis",
+        "Byen Puebla",
+        "Cuetlaxcoapan",
+        "Ehroika-Puehbla-deh-Saragosa",
+        "Heroica Puebla de Zaragoza",
+        "Heróica Puebla de Zaragoza",
+        "Lungsod ng Puebla",
+        "PBC",
+        "Pouempla",
+        "Puebl",
+        "Puebla City",
+        "Puebla de Saragosa",
+        "Puebla de Zaragoza",
+        "Puebla de los Angeles",
+        "Puebla de los Ángeles",
+        "Pueblo",
+        "Puehbla",
+        "Puehbla-de-Saragosa",
+        "Puehblae-de-Saragosae",
+        "Yucha Nchu'u",
+        "bwybla",
+        "pu ai bu la",
+        "pu'aibala",
+        "pu'ebala",
+        "pu'ebla",
+        "puebeulla",
+        "puebura",
+        "puyebala",
+        "pwybla",
+        "pwybla  pwybla",
+        "pwybla. pwybla",
+        "ፑwebila"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "بويبلا",
+      "regionEn": "Puebla"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3521081",
+    "verified": true
+  },
+  {
+    "slug": "playa-del-carmen",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 20.6274,
+    "lng": -87.07987,
+    "timezone": "America/Cancun",
+    "names": {
+      "ar": "بلايا ديل كارمن",
+      "en": "Playa del Carmen",
+      "fr": "Playa del Carmen",
+      "de": "Playa del Carmen",
+      "tr": "Playa del Carmen",
+      "ur": "Playa del Carmen",
+      "id": "Playa del Carmen",
+      "es": "Playa del Carmen",
+      "bn": "Playa del Carmen",
+      "ms": "Playa del Carmen"
+    },
+    "aliases": {
+      "ar": [
+        "بلائيا ديل كارمين",
+        "بلايا دێل كارمێن"
+      ],
+      "en": [
+        "PCM",
+        "Plagia ntel Karmen",
+        "Plaja del Karmen",
+        "Plaja del Karmena",
+        "Plaja-del'-Karmen",
+        "Plaja-del-Karmen",
+        "Playa del Karmen",
+        "blaya dyl karmn",
+        "peullayadelkaleumen",
+        "pilaya tel karmen",
+        "pla ya de lkar men",
+        "pla'iya dela karamena",
+        "playa del karmen",
+        "playa dela karamena",
+        "playya dyl karmyn",
+        "pu la ya de er ka man",
+        "pyalaya dela kamena"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "كينتانا رو",
+      "regionEn": "Quintana Roo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3521342",
+    "verified": true
+  },
+  {
+    "slug": "oaxaca",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 17.06025,
+    "lng": -96.72544,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "أوخاكا",
+      "en": "Oaxaca",
+      "fr": "Oaxaca",
+      "de": "Oaxaca",
+      "tr": "Oaxaca",
+      "ur": "Oaxaca",
+      "id": "Oaxaca",
+      "es": "Oaxaca",
+      "bn": "Oaxaca",
+      "ms": "Oaxaca"
+    },
+    "aliases": {
+      "ar": [
+        "اوآخاكا د خوارز",
+        "اوكساكا ستي",
+        "واهاكا"
+      ],
+      "en": [
+        "Byen Oaxaca",
+        "Guaxaca",
+        "Huaxyacac Juarez",
+        "Huaxyacac Juárez",
+        "Lungsod ng Oaxaca",
+        "Ndua",
+        "OAX",
+        "Oachaka",
+        "Oachaka nte Chouares",
+        "Oahaka",
+        "Oakhaka",
+        "Oakhaka de Khuares",
+        "Oakhaka-de-Khuares",
+        "Oakhakae-de-Khuares",
+        "Oaksaka de Khuarez",
+        "Oaxaca City",
+        "Oaxaca by",
+        "Oaxaca de Juarez",
+        "Oaxaca de Juárez",
+        "Oaxaka de Juarez",
+        "Oaxaka de Juárez",
+        "Oaxaka de Xuares",
+        "Santa Maria",
+        "awakhaka d khwarz",
+        "awkhaka",
+        "oagsaka",
+        "oahaka",
+        "oyaksaka",
+        "vahaka de ju'ereza",
+        "vahaka de khu'arisa",
+        "vasaka de hu'arejha",
+        "wa ha ka",
+        "wa ha ka shi",
+        "wahaka"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "واهاكا",
+      "regionEn": "Oaxaca"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3522507",
+    "verified": true
+  },
+  {
+    "slug": "nuevo-laredo",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 27.47629,
+    "lng": -99.51639,
+    "timezone": "America/Matamoros",
+    "names": {
+      "ar": "نوئوو لاردو",
+      "en": "Nuevo Laredo",
+      "fr": "Nuevo Laredo",
+      "de": "Nuevo Laredo",
+      "tr": "Nuevo Laredo",
+      "ur": "Nuevo Laredo",
+      "id": "Nuevo Laredo",
+      "es": "Nuevo Laredo",
+      "bn": "Nuevo Laredo",
+      "ms": "Nuevo Laredo"
+    },
+    "aliases": {
+      "ar": [
+        "نوئوو لاريدو"
+      ],
+      "en": [
+        "NLD",
+        "Novo Laredo",
+        "Novum Laredum",
+        "Nuehvo-Laredo",
+        "Nuevo Laredas",
+        "Opstina Nuevo Laredo",
+        "Opština Nuevo Laredo",
+        "nuebolaledo",
+        "nuevo-laredo",
+        "nwyww lardw",
+        "nwyww larydw",
+        "xin la lei duo"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "تاماوليباس",
+      "regionEn": "Tamaulipas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3522551",
+    "verified": true
+  },
+  {
+    "slug": "naucalpan-de-juarez",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 19.47851,
+    "lng": -99.23963,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "ناوكالبان دي خواريز",
+      "en": "Naucalpan de Juárez",
+      "fr": "Naucalpan de Juárez",
+      "de": "Naucalpan de Juárez",
+      "tr": "Naucalpan de Juárez",
+      "ur": "Naucalpan de Juárez",
+      "id": "Naucalpan de Juárez",
+      "es": "Naucalpan de Juárez",
+      "bn": "Naucalpan de Juárez",
+      "ms": "Naucalpan de Juárez"
+    },
+    "aliases": {
+      "ar": [
+        "ناوكالبان د خوارز، استادو د مخيكو",
+        "كاوكالبان"
+      ],
+      "en": [
+        "Municipio Naucalpan de Juarez",
+        "Municipio Naucalpan de Juárez",
+        "Naoukalpan",
+        "Naucalpan",
+        "Naucalpan de Juarez",
+        "Nauhcalpan Juarez",
+        "Nauhcalpan Juárez",
+        "Naukal'pan",
+        "Naukal'pan-de-Khuares",
+        "Naukalpan",
+        "Naukalpan de Khuarez",
+        "San Bartolo Naucalpan",
+        "kawkalpan",
+        "nao ka er pan",
+        "naukalpan",
+        "naukarupan",
+        "nawkalban dy khwaryz",
+        "nawkalpan d khwarz  astadw d mkhykw"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "ولاية مكسيكو",
+      "regionEn": "Estado de México"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3522790",
+    "verified": true
+  },
+  {
+    "slug": "cuernavaca",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 18.9261,
+    "lng": -99.23075,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "كويرنافاكا",
+      "en": "Cuernavaca",
+      "fr": "Cuernavaca",
+      "de": "Cuernavaca",
+      "tr": "Cuernavaca",
+      "ur": "Cuernavaca",
+      "id": "Cuernavaca",
+      "es": "Cuernavaca",
+      "bn": "Cuernavaca",
+      "ms": "Cuernavaca"
+    },
+    "aliases": {
+      "ar": [
+        "كورناواك",
+        "كويرناواكا",
+        "كويرناوكا"
+      ],
+      "en": [
+        "CVJ",
+        "Cuauhnahuac",
+        "Cuauhnāhuac",
+        "Kuehrnavaka",
+        "Kuernavaka",
+        "ku ai na wa ka",
+        "ku'eranavaka",
+        "kueleunabaka",
+        "kuerunabaka",
+        "kuwerinavaka",
+        "kuyernabhaka",
+        "kwrnawak",
+        "kwyrnafaka",
+        "kwyrnawaka",
+        "kwyrnawka"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "موريلوس",
+      "regionEn": "Morelos"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3529947",
+    "verified": true
+  },
+  {
+    "slug": "ciudad-victoria",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 23.74061,
+    "lng": -99.14364,
+    "timezone": "America/Monterrey",
+    "names": {
+      "ar": "سيوداد فيكتوريا",
+      "en": "Ciudad Victoria",
+      "fr": "Ciudad Victoria",
+      "de": "Ciudad Victoria",
+      "tr": "Ciudad Victoria",
+      "ur": "Ciudad Victoria",
+      "id": "Ciudad Victoria",
+      "es": "Ciudad Victoria",
+      "bn": "Ciudad Victoria",
+      "ms": "Ciudad Victoria"
+    },
+    "aliases": {
+      "ar": [
+        "سيوداد ويكتوريا",
+        "سيوداد وكتوريه"
+      ],
+      "en": [
+        "Altepetl Victoria",
+        "CVM",
+        "Cd. Victoria",
+        "Lungsod ng Victoria",
+        "S'judad-Viktorija",
+        "Sijudad Viktorija",
+        "Siudad Viktorija",
+        "Victoria",
+        "Victoria llaqta",
+        "shiudabikutoria",
+        "si'udada bhiktoriya",
+        "si'udada vikatori'a",
+        "si'udada viktoriya",
+        "siudadeubigtolia",
+        "siw dad wik to reiy",
+        "siውdadi vikitoriya",
+        "sywdad fyktwrya",
+        "sywdad wyktwrya",
+        "sywdd wyqtwryh",
+        "wei duo li ya cheng"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "تاماوليباس",
+      "regionEn": "Tamaulipas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3530580",
+    "verified": true
+  },
+  {
+    "slug": "chilpancingo",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 17.55228,
+    "lng": -99.50124,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "تشيلبانسينجو",
+      "en": "Chilpancingo",
+      "fr": "Chilpancingo",
+      "de": "Chilpancingo",
+      "tr": "Chilpancingo",
+      "ur": "Chilpancingo",
+      "id": "Chilpancingo",
+      "es": "Chilpancingo",
+      "bn": "Chilpancingo",
+      "ms": "Chilpancingo"
+    },
+    "aliases": {
+      "ar": [
+        "جلبانسنغو",
+        "جيلبانسينغو"
+      ],
+      "en": [
+        "Chilpancingo de los Bravo",
+        "Chilpancingo de los Bravos",
+        "Chilpansingo",
+        "Ciudad Bravos",
+        "chirupanshingo",
+        "chlpansngw",
+        "chylpansyngw",
+        "cilapanasingo",
+        "cilapansingo",
+        "ciልፓnisinigo",
+        "tshylbansynjw"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "غيريرو",
+      "regionEn": "Guerrero"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3530870",
+    "verified": true
+  },
+  {
+    "slug": "chetumal",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 18.51957,
+    "lng": -88.30397,
+    "timezone": "America/Cancun",
+    "names": {
+      "ar": "تشيتومال",
+      "en": "Chetumal",
+      "fr": "Chetumal",
+      "de": "Chetumal",
+      "tr": "Chetumal",
+      "ur": "Chetumal",
+      "id": "Chetumal",
+      "es": "Chetumal",
+      "bn": "Chetumal",
+      "ms": "Chetumal"
+    },
+    "aliases": {
+      "ar": [
+        "جتومال",
+        "جتومال٬ كينتانا رو",
+        "جيتومل"
+      ],
+      "en": [
+        "CTM",
+        "Cetumal",
+        "Cetumalis",
+        "Chetumal'",
+        "Ciudad Chetumal",
+        "Payo Obispo",
+        "cetumala",
+        "cetumaል",
+        "che tuma l",
+        "chetoumaru",
+        "chtwmal",
+        "chtwmal. kyntana rw",
+        "chytwml",
+        "qie tu ma er",
+        "tshytwmal",
+        "ztwml",
+        "Četumalis"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "كينتانا رو",
+      "regionEn": "Quintana Roo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3531023",
+    "verified": true
+  },
+  {
+    "slug": "cancun",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 21.17429,
+    "lng": -86.84656,
+    "timezone": "America/Cancun",
+    "names": {
+      "ar": "كانكون",
+      "en": "Cancún",
+      "fr": "Cancún",
+      "de": "Cancún",
+      "tr": "Cancún",
+      "ur": "Cancún",
+      "id": "Cancún",
+      "es": "Cancún",
+      "bn": "Cancún",
+      "ms": "Cancún"
+    },
+    "aliases": {
+      "ar": [
+        "كانكون٬ كينتانا رو"
+      ],
+      "en": [
+        "CUN",
+        "Cancun",
+        "Ciudad Cancun",
+        "Ciudad Cancún",
+        "Kan'koun",
+        "Kankun",
+        "Kankuna",
+        "Kankunas",
+        "gang guan",
+        "kan kun",
+        "kang kun",
+        "kangkun",
+        "kankun",
+        "kankuna",
+        "kankwn",
+        "kankwn. kyntana rw",
+        "qnqwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "كينتانا رو",
+      "regionEn": "Quintana Roo"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3531673",
+    "verified": true
+  },
+  {
+    "slug": "tlaxcala",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 19.31777,
+    "lng": -98.23846,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "تلاكسكالا",
+      "en": "Tlaxcala",
+      "fr": "Tlaxcala",
+      "de": "Tlaxcala",
+      "tr": "Tlaxcala",
+      "ur": "Tlaxcala",
+      "id": "Tlaxcala",
+      "es": "Tlaxcala",
+      "bn": "Tlaxcala",
+      "ms": "Tlaxcala"
+    },
+    "aliases": {
+      "ar": [
+        "تلاكسالا"
+      ],
+      "en": [
+        "Tlakskˌala",
+        "Tlaskala",
+        "Tlaxcala City",
+        "Tlaxcala de Xicohtencatl",
+        "Tlaxcala de Xicohténcatl",
+        "Tlaxcala de Xicotencatl",
+        "Tlaxcala de Xicoténcatl",
+        "talakasala",
+        "talaksakala",
+        "talaskala",
+        "tilakisikala",
+        "tlaksala",
+        "tlakskala",
+        "torasukara"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "تلاكسكالا",
+      "regionEn": "Tlaxcala"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:3815415",
+    "verified": true
+  },
+  {
+    "slug": "tijuana",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 32.5027,
+    "lng": -117.00371,
+    "timezone": "America/Tijuana",
+    "names": {
+      "ar": "تيخوانا",
+      "en": "Tijuana",
+      "fr": "Tijuana",
+      "de": "Tijuana",
+      "tr": "Tijuana",
+      "ur": "Tijuana",
+      "id": "Tijuana",
+      "es": "Tijuana",
+      "bn": "Tijuana",
+      "ms": "Tijuana"
+    },
+    "aliases": {
+      "en": [
+        "TIJ",
+        "Tia Juana",
+        "Tichouana",
+        "Tichuana",
+        "Tihuana",
+        "Tijuano",
+        "Tikhuana",
+        "Tikhuanae",
+        "Tixuana",
+        "Tykhuana",
+        "Tíjúana",
+        "di hua na",
+        "tifuana",
+        "tihaw na",
+        "tihu'ana",
+        "tihuana",
+        "tihvana",
+        "tikhavana",
+        "tykhwana"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "باها كاليفورنيا",
+      "regionEn": "Baja California"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3981609",
+    "verified": true
+  },
+  {
+    "slug": "tepic",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 21.50733,
+    "lng": -104.89332,
+    "timezone": "America/Mazatlan",
+    "names": {
+      "ar": "تيبيك",
+      "en": "Tepic",
+      "fr": "Tepic",
+      "de": "Tepic",
+      "tr": "Tepic",
+      "ur": "Tepic",
+      "id": "Tepic",
+      "es": "Tepic",
+      "bn": "Tepic",
+      "ms": "Tepic"
+    },
+    "aliases": {
+      "ar": [
+        "تبيك",
+        "تيبِك",
+        "ټيبيك"
+      ],
+      "en": [
+        "Nayarit",
+        "TPQ",
+        "Tepik",
+        "Tepikas",
+        "Tepīc",
+        "te pi ke",
+        "tepig",
+        "tepika",
+        "tepiku",
+        "teፒki",
+        "tpyk",
+        "tpyq",
+        "tybyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "نايريت",
+      "regionEn": "Nayarit"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3981941",
+    "verified": true
+  },
+  {
+    "slug": "san-miguel-de-allende",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 20.91528,
+    "lng": -100.74389,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "سان ميغيل دي الليندي",
+      "en": "San Miguel de Allende",
+      "fr": "San Miguel de Allende",
+      "de": "San Miguel de Allende",
+      "tr": "San Miguel de Allende",
+      "ur": "San Miguel de Allende",
+      "id": "San Miguel de Allende",
+      "es": "San Miguel de Allende",
+      "bn": "San Miguel de Allende",
+      "ms": "San Miguel de Allende"
+    },
+    "aliases": {
+      "ar": [
+        "سن ميغول د الند"
+      ],
+      "en": [
+        "San Migel de Al'ende",
+        "San Migel de Alende",
+        "San Migel de Aljende",
+        "San Migel de Aljendė",
+        "San Miguel Allende",
+        "San Minkel nte Agiente",
+        "San-Migel'-de-Al'ende",
+        "San-Migel'-deh-Al'endeh",
+        "san myghyl dy allyndy",
+        "san-migel-de-aliende",
+        "sanmigeldeayende",
+        "sheng mi ge er de a lian de",
+        "sheng mi ge er-de a lian de",
+        "sn mygwl d alnd"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "غواناخواتو",
+      "regionEn": "Guanajuato"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3985344",
+    "verified": true
+  },
+  {
+    "slug": "cabo-san-lucas",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 22.89088,
+    "lng": -109.91238,
+    "timezone": "America/Mazatlan",
+    "names": {
+      "ar": "كابو سان لوكاس",
+      "en": "Cabo San Lucas",
+      "fr": "Cabo San Lucas",
+      "de": "Cabo San Lucas",
+      "tr": "Cabo San Lucas",
+      "ur": "Cabo San Lucas",
+      "id": "Cabo San Lucas",
+      "es": "Cabo San Lucas",
+      "bn": "Cabo San Lucas",
+      "ms": "Cabo San Lucas"
+    },
+    "aliases": {
+      "ar": [
+        "كابو سن لوكاس",
+        "كابو سن لوكس",
+        "كابۆ سان لوكاس"
+      ],
+      "en": [
+        "CSW",
+        "Kabo San Lukas",
+        "Kabo Sanlukasa",
+        "Kabo san Lukas",
+        "Kabo-San-Lukas",
+        "Kavo San Loukas",
+        "Mys svaeteho Lukasa",
+        "Mys svätého Lukáša",
+        "San Lucas",
+        "ka bo san luka s",
+        "ka bo sheng lu ka si",
+        "ka bu sheng lu ka si",
+        "kabo saina lukasa",
+        "kabo san lukas",
+        "kabo sana lukasa",
+        "kabo syan lyukas",
+        "kabosanlukaseu",
+        "kabu sana lukasa",
+        "kabw san lwkas",
+        "kabw sn lwkas",
+        "kabw sn lwks",
+        "kebo sena lukasa",
+        "kopo can lukas",
+        "sanrukasu jia"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "باها كاليفورنيا سور",
+      "regionEn": "Baja California Sur"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3985710",
+    "verified": true
+  },
+  {
+    "slug": "santiago-de-queretaro",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 20.58806,
+    "lng": -100.38806,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "سانتياغو دي كويريتارو",
+      "en": "Santiago de Querétaro",
+      "fr": "Santiago de Querétaro",
+      "de": "Santiago de Querétaro",
+      "tr": "Santiago de Querétaro",
+      "ur": "Santiago de Querétaro",
+      "id": "Santiago de Querétaro",
+      "es": "Santiago de Querétaro",
+      "bn": "Santiago de Querétaro",
+      "ms": "Santiago de Querétaro"
+    },
+    "aliases": {
+      "ar": [
+        "كرتارو، كرتارو",
+        "كوارتارو، كوارتارو"
+      ],
+      "en": [
+        "Ciudad Queretaro",
+        "Kepetapo",
+        "Kepeтapo",
+        "Keretaro",
+        "QRO",
+        "Queretaro",
+        "Queretaro City",
+        "Queretarum",
+        "Querétaro",
+        "Querétaro City",
+        "Sant'jago-de-Keretaro",
+        "Santiago Tlachco",
+        "Santiago de Queretaro",
+        "Santiago nte Keretaro",
+        "Santiagu di Queretaro",
+        "Santiagu di Querétaro",
+        "Santijago de Keretaro",
+        "Santjago de Keretaras",
+        "Santjago de Keretaro",
+        "ke lei ta luo",
+        "keletalo",
+        "kere ta ro",
+        "keretaro",
+        "krtarw  krtarw",
+        "kwartarw  kwartarw",
+        "qrtrw",
+        "sainti'ago de kveretaro",
+        "saintiyago de kveretaro",
+        "sanitiyago de keritaro",
+        "santiyago de keretaro",
+        "santyaghw dy kwyrytarw",
+        "santʼiago-de-kʼeretʼaro"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "كيريتارو",
+      "regionEn": "Querétaro"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:3991164",
+    "verified": true
+  },
+  {
+    "slug": "puerto-vallarta",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 20.617,
+    "lng": -105.23018,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "بويرتو فالارتا",
+      "en": "Puerto Vallarta",
+      "fr": "Puerto Vallarta",
+      "de": "Puerto Vallarta",
+      "tr": "Puerto Vallarta",
+      "ur": "Puerto Vallarta",
+      "id": "Puerto Vallarta",
+      "es": "Puerto Vallarta",
+      "bn": "Puerto Vallarta",
+      "ms": "Puerto Vallarta"
+    },
+    "aliases": {
+      "ar": [
+        "بورتو بايارتا، خاليسكو",
+        "بورتو ويئيارتا"
+      ],
+      "en": [
+        "Las Penas",
+        "Las Peñas",
+        "PVR",
+        "Pouerto Valarta",
+        "Pto Vallarta",
+        "Puehrto-Val'jarta",
+        "Puerto Valarta",
+        "Puerto Valjarta",
+        "Puerto Valyarta",
+        "Puerto-Val'jarta",
+        "Puertovalarta",
+        "Pverto-Val'jarta",
+        "ba ya er ta gang",
+        "bwyrtw falarta",
+        "porto vallarta",
+        "pueleutobayaleuta",
+        "purato valarta",
+        "purte vallarta",
+        "puyerto ba'iyarta",
+        "puyerto vallartta",
+        "pverto valarta",
+        "pwrtw bayarta  khalyskw",
+        "pwrtw wyyyarta",
+        "pxrtu bar ya ta",
+        "pyurto valarta",
+        "valarta"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "خاليسكو",
+      "regionEn": "Jalisco"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3991328",
+    "verified": true
+  },
+  {
+    "slug": "navojoa",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 27.07057,
+    "lng": -109.44345,
+    "timezone": "America/Hermosillo",
+    "names": {
+      "ar": "ناووخوا",
+      "en": "Navojoa",
+      "fr": "Navojoa",
+      "de": "Navojoa",
+      "tr": "Navojoa",
+      "ur": "Navojoa",
+      "id": "Navojoa",
+      "es": "Navojoa",
+      "bn": "Navojoa",
+      "ms": "Navojoa"
+    },
+    "aliases": {
+      "ar": [
+        "ناوويوا"
+      ],
+      "en": [
+        "NVJ",
+        "Navoioa",
+        "Navokhoa",
+        "na wo hua",
+        "nawwkhwa",
+        "nawwywa"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "سونورا",
+      "regionEn": "Sonora"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3995019",
+    "verified": true
+  },
+  {
+    "slug": "mazatlan",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 23.22163,
+    "lng": -106.41885,
+    "timezone": "America/Mazatlan",
+    "names": {
+      "ar": "ماساتلان",
+      "en": "Mazatlán",
+      "fr": "Mazatlán",
+      "de": "Mazatlán",
+      "tr": "Mazatlán",
+      "ur": "Mazatlán",
+      "id": "Mazatlán",
+      "es": "Mazatlán",
+      "bn": "Mazatlán",
+      "ms": "Mazatlán"
+    },
+    "aliases": {
+      "ar": [
+        "مزاتلان، سينالوآ"
+      ],
+      "en": [
+        "Ciudad Mazatlan",
+        "Ciudad Mazatlán",
+        "MZT",
+        "Macatlan",
+        "Masatlan",
+        "Masatlanas",
+        "Mazatlan",
+        "ma sa te lan",
+        "masateullan",
+        "masatlan",
+        "masatoran",
+        "mzatlan  synalwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "سينالوا",
+      "regionEn": "Sinaloa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:3996322",
+    "verified": true
+  },
+  {
+    "slug": "irapuato",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 20.671,
+    "lng": -101.35577,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "ايرابواتو",
+      "en": "Irapuato",
+      "fr": "Irapuato",
+      "de": "Irapuato",
+      "tr": "Irapuato",
+      "ur": "Irapuato",
+      "id": "Irapuato",
+      "es": "Irapuato",
+      "bn": "Irapuato",
+      "ms": "Irapuato"
+    },
+    "aliases": {
+      "ar": [
+        "ايربواتو، غوانخواتو"
+      ],
+      "en": [
+        "Irapuatas",
+        "Iraputa",
+        "ayrabwatw",
+        "ayrapwatw",
+        "ayrpwatw  gwankhwatw",
+        "yi la pu a tuo"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "غواناخواتو",
+      "regionEn": "Guanajuato"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4004330",
+    "verified": true
+  },
+  {
+    "slug": "hermosillo",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 29.08874,
+    "lng": -110.96677,
+    "timezone": "America/Hermosillo",
+    "names": {
+      "ar": "ارموسييو سونورا",
+      "en": "Hermosillo",
+      "fr": "Hermosillo",
+      "de": "Hermosillo",
+      "tr": "Hermosillo",
+      "ur": "Hermosillo",
+      "id": "Hermosillo",
+      "es": "Hermosillo",
+      "bn": "Hermosillo",
+      "ms": "Hermosillo"
+    },
+    "aliases": {
+      "ar": [
+        "ارموسيو",
+        "ارموسييو، سونورا",
+        "هيرموسيلو"
+      ],
+      "en": [
+        "Ehrmosil'o",
+        "Ermosijo",
+        "Ermosil'o",
+        "Ermosilo",
+        "Germosil'o",
+        "HMO",
+        "Hermosiljas",
+        "Pitic",
+        "ai mo xi yue",
+        "armwsyw",
+        "armwsyyw swnwra",
+        "armwsyyw  swnwra",
+        "eleumosiyo",
+        "ermosilio",
+        "erumoshijo",
+        "haramosilo",
+        "harmosilo",
+        "herimosilo",
+        "hyrmwsylw",
+        "xer mo si yo"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "سونورا",
+      "regionEn": "Sonora"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4004898",
+    "verified": true
+  },
+  {
+    "slug": "culiacan",
+    "type": "city",
+    "countryCode": "mx",
+    "lat": 24.80209,
+    "lng": -107.39421,
+    "timezone": "America/Mazatlan",
+    "names": {
+      "ar": "كوليتاكان",
+      "en": "Culiacán",
+      "fr": "Culiacán",
+      "de": "Culiacán",
+      "tr": "Culiacán",
+      "ur": "Culiacán",
+      "id": "Culiacán",
+      "es": "Culiacán",
+      "bn": "Culiacán",
+      "ms": "Culiacán"
+    },
+    "aliases": {
+      "ar": [
+        "كولياكان",
+        "كولياكن"
+      ],
+      "en": [
+        "CUL",
+        "Colhuahcan Rosales",
+        "Cuilacan",
+        "Culiacan",
+        "Culiacan Rosales",
+        "Culiacana",
+        "Culiacán Rosales",
+        "Cōlhuahcān Rosales",
+        "Kul'jakan",
+        "Kuliakan",
+        "Kulijakan",
+        "Kuljakanas",
+        "Kulyakan",
+        "ku leiy kan",
+        "ku li ya kan",
+        "kuli'akana",
+        "kuliyakana",
+        "kuliyakani",
+        "kuriakan",
+        "kwlyakan",
+        "kwlyakn",
+        "kwlytakan"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "سينالوا",
+      "regionEn": "Sinaloa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4012176",
+    "verified": true
+  },
+  {
+    "slug": "ciudad-juarez",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 31.72024,
+    "lng": -106.46084,
+    "timezone": "America/Ciudad_Juarez",
+    "names": {
+      "ar": "سيوداد خواريز",
+      "en": "Ciudad Juárez",
+      "fr": "Ciudad Juárez",
+      "de": "Ciudad Juárez",
+      "tr": "Ciudad Juárez",
+      "ur": "Ciudad Juárez",
+      "id": "Ciudad Juárez",
+      "es": "Ciudad Juárez",
+      "bn": "Ciudad Juárez",
+      "ms": "Ciudad Juárez"
+    },
+    "aliases": {
+      "ar": [
+        "سيوداد خوارس٬ جيئوائوا"
+      ],
+      "en": [
+        "Altepetl Juarez",
+        "Altepetl Juárez",
+        "CJS",
+        "Chuaresas",
+        "Ciudad Juarez",
+        "El Paso del Norte",
+        "Huaresa",
+        "Juarez",
+        "Juarezo",
+        "Juárez",
+        "Lungsod Juarez",
+        "Lungsod Juárez",
+        "Paso del Norte",
+        "S'judad-Khuarehs",
+        "S'judad-Khuares",
+        "Sioudad Chouares",
+        "Siudad Chuaresas",
+        "Siudad Khuares",
+        "Sjudad Khvarez",
+        "Syudat Xuares",
+        "hua lei si cheng",
+        "si'udada hu'arejha",
+        "siudad-khuaresi",
+        "siudadeuhualeseu",
+        "sywdad khwars. chyywaywa",
+        "sywdad khwaryz"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "تشيواوا",
+      "regionEn": "Chihuahua"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:4013708",
+    "verified": true
+  },
+  {
+    "slug": "ciudad-guzman",
+    "type": "town",
+    "countryCode": "mx",
+    "lat": 19.70413,
+    "lng": -103.46383,
+    "timezone": "America/Mexico_City",
+    "names": {
+      "ar": "ثيوداد جوثمان",
+      "en": "Ciudad Guzmán",
+      "fr": "Ciudad Guzmán",
+      "de": "Ciudad Guzmán",
+      "tr": "Ciudad Guzmán",
+      "ur": "Ciudad Guzmán",
+      "id": "Ciudad Guzmán",
+      "es": "Ciudad Guzmán",
+      "bn": "Ciudad Guzmán",
+      "ms": "Ciudad Guzmán"
+    },
+    "aliases": {
+      "ar": [
+        "سيوداد غوزمان"
+      ],
+      "en": [
+        "Altepetl Guzman",
+        "Cd Guzman",
+        "Cd Guzmán",
+        "Cd. Guzman",
+        "Cd. Guzmán",
+        "Ciudad Guzman",
+        "S'judad-Gusman",
+        "gu si man cheng",
+        "sywdad gwzman",
+        "thywdad jwthman"
+      ]
+    },
+    "admin": {
+      "countryAr": "المكسيك",
+      "countryEn": "Mexico",
+      "regionAr": "خاليسكو",
+      "regionEn": "Jalisco"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:4013714",
+    "verified": true
   }
 ]

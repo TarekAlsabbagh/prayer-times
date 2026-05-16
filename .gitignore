@@ -36,3 +36,9 @@ db/places/candidates/de-geonames-candidates.json
 db/places/candidates/it-geonames-raw.json
 db/places/candidates/it-geonames-normalized.json
 db/places/candidates/it-geonames-candidates.json
+
+# CURATED-GEODATA-EUROPE-3 — PL candidates 72 MB + normalized 43 MB
+# (over GitHub 50 MB warn threshold). Regeneratable from Stages 1-3.
+db/places/candidates/pl-geonames-raw.json
+db/places/candidates/pl-geonames-normalized.json
+db/places/candidates/pl-geonames-candidates.json

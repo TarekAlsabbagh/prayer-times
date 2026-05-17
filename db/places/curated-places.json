@@ -101667,5 +101667,2544 @@
     "source": "curated",
     "sourceId": "geonames:616631",
     "verified": true
+  },
+  {
+    "slug": "tirmiz",
+    "type": "city",
+    "countryCode": "uz",
+    "lat": 37.22417,
+    "lng": 67.27833,
+    "timezone": "Asia/Samarkand",
+    "names": {
+      "ar": "الترمذ",
+      "en": "Tirmiz",
+      "fr": "Tirmiz",
+      "de": "Tirmiz",
+      "tr": "Tirmiz",
+      "ur": "Tirmiz",
+      "id": "Tirmiz",
+      "es": "Tirmiz",
+      "bn": "Tirmiz",
+      "ms": "Tirmiz"
+    },
+    "aliases": {
+      "ar": [
+        "ترمذ",
+        "ترمز"
+      ],
+      "en": [
+        "Termez",
+        "Termiz",
+        "altrmdh",
+        "tai er mei zi",
+        "tarameza",
+        "taramija",
+        "tarmeza",
+        "terimeዝ",
+        "terumezu",
+        "trmdh",
+        "trmz"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة صرخندريا",
+      "regionEn": "Surxondaryo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1215957",
+    "verified": true
+  },
+  {
+    "slug": "shahrisabz",
+    "type": "town",
+    "countryCode": "uz",
+    "lat": 39.05778,
+    "lng": 66.83417,
+    "timezone": "Asia/Samarkand",
+    "names": {
+      "ar": "شهرسبز",
+      "en": "Shahrisabz",
+      "fr": "Shahrisabz",
+      "de": "Shahrisabz",
+      "tr": "Shahrisabz",
+      "ur": "Shahrisabz",
+      "id": "Shahrisabz",
+      "es": "Shahrisabz",
+      "bn": "Shahrisabz",
+      "ms": "Shahrisabz"
+    },
+    "aliases": {
+      "ar": [
+        "شهريسبز",
+        "شهر سبز"
+      ],
+      "en": [
+        "Chakhrisabz",
+        "Sachrisabz",
+        "Sachrizabz",
+        "Sahrisabz",
+        "Sahrisabzas",
+        "Schachrissjabs",
+        "Sehr-i-Sebz",
+        "Shahri-i-Sabz",
+        "Shahrisabz na ɔkyerɛwee",
+        "Shakhrisab",
+        "Shakhrisabz",
+        "Shakhrisabzs",
+        "Shakhrisyabz",
+        "Shakhrysabz",
+        "Shaҳrisabz",
+        "Sjachrisabz",
+        "Xahrisabz",
+        "cakaricapcu",
+        "chah rux saps",
+        "ke shi",
+        "saharisabaja",
+        "saharisabaza",
+        "sakhrisabja",
+        "sakhrisabjako etihasika kendra",
+        "sha he li sa bu zi",
+        "shafurisabusu",
+        "shahrisabzi",
+        "shhrsbz",
+        "Ŝahrisabz",
+        "Şehr-i-Sebz",
+        "Şəhrisəbz",
+        "Šachrizabz",
+        "Šahrisabz",
+        "Šahrisabzas"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة قشقاديريا",
+      "regionEn": "Qashqadaryo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1216187",
+    "verified": true
+  },
+  {
+    "slug": "urganch",
+    "type": "city",
+    "countryCode": "uz",
+    "lat": 41.55177,
+    "lng": 60.63143,
+    "timezone": "Asia/Samarkand",
+    "names": {
+      "ar": "أورجينج",
+      "en": "Urganch",
+      "fr": "Urganch",
+      "de": "Urganch",
+      "tr": "Urganch",
+      "ur": "Urganch",
+      "id": "Urganch",
+      "es": "Urganch",
+      "bn": "Urganch",
+      "ms": "Urganch"
+    },
+    "aliases": {
+      "ar": [
+        "ارجنج",
+        "أورغنج"
+      ],
+      "en": [
+        "Novo-Urgench",
+        "Ourguentch",
+        "UErgenc",
+        "UGC",
+        "Urgench",
+        "Urgentj",
+        "Urgunҷ",
+        "Yrgench",
+        "arjnch",
+        "arjnj",
+        "awrjynj",
+        "uleugenchi",
+        "uragenca",
+        "urgenca",
+        "urugenchi",
+        "Ürgenç",
+        "ʿurigenici",
+        "Үrgensh"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة خوارزم",
+      "regionEn": "Khorezm Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1512473",
+    "verified": true
+  },
+  {
+    "slug": "xiva",
+    "type": "town",
+    "countryCode": "uz",
+    "lat": 41.38555,
+    "lng": 60.36408,
+    "timezone": "Asia/Samarkand",
+    "names": {
+      "ar": "خيوة",
+      "en": "Xiva",
+      "fr": "Xiva",
+      "de": "Xiva",
+      "tr": "Xiva",
+      "ur": "Xiva",
+      "id": "Xiva",
+      "es": "Xiva",
+      "bn": "Xiva",
+      "ms": "Xiva"
+    },
+    "aliases": {
+      "ar": [
+        "خيوا",
+        "خيوه"
+      ],
+      "en": [
+        "Chiva",
+        "Chiwa",
+        "Hiiva",
+        "Hiva",
+        "Jiva",
+        "Khiva",
+        "Khivà",
+        "Khiwa",
+        "Khorezm",
+        "khywa",
+        "khywh",
+        "khywt",
+        "Ĥiva"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة خوارزم",
+      "regionEn": "Khorezm Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1513604",
+    "verified": true
+  },
+  {
+    "slug": "jizzax",
+    "type": "city",
+    "countryCode": "uz",
+    "lat": 40.13351,
+    "lng": 67.82956,
+    "timezone": "Asia/Samarkand",
+    "names": {
+      "ar": "جيزاخ",
+      "en": "Jizzax",
+      "fr": "Jizzax",
+      "de": "Jizzax",
+      "tr": "Jizzax",
+      "ur": "Jizzax",
+      "id": "Jizzax",
+      "es": "Jizzax",
+      "bn": "Jizzax",
+      "ms": "Jizzax"
+    },
+    "aliases": {
+      "ar": [
+        "جيزك",
+        "جيزخ"
+      ],
+      "en": [
+        "Cizzak",
+        "Cizzax",
+        "Dishsak",
+        "Djizak",
+        "Djizaks",
+        "Dschizak",
+        "Dzhizak",
+        "Dzhizzak",
+        "Dzizakas",
+        "Dzjizak",
+        "Dzyzak",
+        "Dżyzak",
+        "Džizakas",
+        "Gizaho",
+        "Jizak",
+        "Jizzak",
+        "Jizzakh",
+        "Jizzaq",
+        "Zhyzak",
+        "dzyzq",
+        "ji zha ke",
+        "jijaheu",
+        "jijjakha",
+        "jizafu",
+        "jizakha",
+        "jizaki",
+        "jyzakh",
+        "jyzk",
+        "jyzkh",
+        "Ĝizaĥo",
+        "Ҷizokˌ"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة جيزاخ",
+      "regionEn": "Jizzax Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1513886",
+    "verified": true
+  },
+  {
+    "slug": "fergana",
+    "type": "city",
+    "countryCode": "uz",
+    "lat": 40.38421,
+    "lng": 71.78432,
+    "timezone": "Asia/Tashkent",
+    "names": {
+      "ar": "فرغانة",
+      "en": "Fergana",
+      "fr": "Fergana",
+      "de": "Fergana",
+      "tr": "Fergana",
+      "ur": "Fergana",
+      "id": "Fergana",
+      "es": "Fergana",
+      "bn": "Fergana",
+      "ms": "Fergana"
+    },
+    "aliases": {
+      "ar": [
+        "فرغانه",
+        "فرغانه‎",
+        "فيرغانا",
+        "فەرغانە"
+      ],
+      "en": [
+        "FEG",
+        "Farg'ona",
+        "Farghana",
+        "Farghona",
+        "Farghāna",
+        "Fargona",
+        "Fargʻona",
+        "Fergan",
+        "Fergano",
+        "Ferganá",
+        "Ferghana",
+        "Fergona",
+        "Fernkana",
+        "Fərqanə",
+        "Novyy Margelan",
+        "Skobelev",
+        "Skobelevo",
+        "fei er gan na",
+        "ferugana",
+        "frghanh",
+        "frghanh‎",
+        "frghant",
+        "fyrghana",
+        "peleugana",
+        "pharagana",
+        "phargana",
+        "phargona",
+        "prgnh",
+        "ፈrigana"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة فرغانة",
+      "regionEn": "Fergana Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1514019",
+    "verified": true
+  },
+  {
+    "slug": "amir-timur",
+    "type": "city",
+    "countryCode": "uz",
+    "lat": 41.01944,
+    "lng": 68.94083,
+    "timezone": "Asia/Tashkent",
+    "names": {
+      "ar": "أمير تيمور",
+      "en": "Amir Timur",
+      "fr": "Amir Timur",
+      "de": "Amir Timur",
+      "tr": "Amir Timur",
+      "ur": "Amir Timur",
+      "id": "Amir Timur",
+      "es": "Amir Timur",
+      "bn": "Amir Timur",
+      "ms": "Amir Timur"
+    },
+    "aliases": {
+      "ar": [
+        "امير تيمور"
+      ],
+      "en": [
+        "Amir Temur",
+        "Amiri Tamura",
+        "Emir Timur",
+        "Eski Toshkent",
+        "Eski-Tashkent",
+        "Iski-Tashkent",
+        "amira taimura",
+        "amiru・timuru",
+        "amyr tymwr",
+        "Əmir Timur",
+        "ʿemiri timuri"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة طشقند",
+      "regionEn": "Tashkent Region"
+    },
+    "priority": 60,
+    "source": "curated",
+    "sourceId": "geonames:1514027",
+    "verified": true
+  },
+  {
+    "slug": "chirchiq",
+    "type": "town",
+    "countryCode": "uz",
+    "lat": 41.46889,
+    "lng": 69.58222,
+    "timezone": "Asia/Tashkent",
+    "names": {
+      "ar": "تشيرتشيق",
+      "en": "Chirchiq",
+      "fr": "Chirchiq",
+      "de": "Chirchiq",
+      "tr": "Chirchiq",
+      "ur": "Chirchiq",
+      "id": "Chirchiq",
+      "es": "Chirchiq",
+      "bn": "Chirchiq",
+      "ms": "Chirchiq"
+    },
+    "aliases": {
+      "ar": [
+        "جيرجيق",
+        "جيرجيق، ازبكستان"
+      ],
+      "en": [
+        "Chirchik",
+        "Chyrchyk",
+        "Circig",
+        "Circik",
+        "Circikas",
+        "Tchirtchik",
+        "Tjirtjik",
+        "Tschirtschik",
+        "chileuchikeu",
+        "chiruchiku",
+        "chyrchyq",
+        "chyrchyq  azbkstan",
+        "qi er qi ke",
+        "tshyrtshyq",
+        "Çirçig",
+        "Çirçik",
+        "Ĉirĉik",
+        "Čirčik",
+        "Čirčikas"
+      ]
+    },
+    "admin": {
+      "countryAr": "أوزبكستان",
+      "countryEn": "Uzbekistan",
+      "regionAr": "منطقة طشقند",
+      "regionEn": "Tashkent Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1514210",
+    "verified": true
+  },
+  {
+    "slug": "oral",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 51.24601,
+    "lng": 51.42558,
+    "timezone": "Asia/Oral",
+    "names": {
+      "ar": "أورال",
+      "en": "Oral",
+      "fr": "Oral",
+      "de": "Oral",
+      "tr": "Oral",
+      "ur": "Oral",
+      "id": "Oral",
+      "es": "Oral",
+      "bn": "Oral",
+      "ms": "Oral"
+    },
+    "aliases": {
+      "ar": [
+        "أورال، كازاخستان",
+        "ئورال، كازاخستان",
+        "اورال",
+        "اورال، قازقستان",
+        "اورال، قزاقستان"
+      ],
+      "en": [
+        "O'ral",
+        "Orala",
+        "Oralas",
+        "Oural",
+        "Oʻral",
+        "URA",
+        "Ural's'k",
+        "Ural'sk",
+        "Uralsk",
+        "Ural’sk",
+        "awral",
+        "awral  kazakhstan",
+        "awral  qazqstan",
+        "awral  qzaqstan",
+        "olal",
+        "orala",
+        "oraru",
+        "wu la er",
+        "ʿoraል"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "كازاخستان الغربية",
+      "regionEn": "West Kazakhstan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:608668",
+    "verified": true
+  },
+  {
+    "slug": "aktau",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 43.66105,
+    "lng": 51.17392,
+    "timezone": "Asia/Aqtau",
+    "names": {
+      "ar": "آقتاؤ",
+      "en": "Aktau",
+      "fr": "Aktau",
+      "de": "Aktau",
+      "tr": "Aktau",
+      "ur": "Aktau",
+      "id": "Aktau",
+      "es": "Aktau",
+      "bn": "Aktau",
+      "ms": "Aktau"
+    },
+    "aliases": {
+      "ar": [
+        "آقتاو",
+        "أكتاو",
+        "ئاقتاو",
+        "اقتاؤ",
+        "اكتاو"
+      ],
+      "en": [
+        "Akhtau",
+        "Aktaou",
+        "Aktauskiy",
+        "Aktav",
+        "Aqtau",
+        "Aqtaw",
+        "Aqtaū",
+        "SCO",
+        "Shevchenko",
+        "a ke tao",
+        "agtau",
+        "akata'u",
+        "akta'u",
+        "aktaw",
+        "akutau",
+        "aqata'u",
+        "aqtaw",
+        "aq‌taw",
+        "yaqtaw",
+        "ʿekitaው"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة منغستاو",
+      "regionEn": "Mangystau"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:610612",
+    "verified": true
+  },
+  {
+    "slug": "zhezqazghan",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 47.79411,
+    "lng": 67.70628,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "جيزقازغان",
+      "en": "Zhezqazghan",
+      "fr": "Zhezqazghan",
+      "de": "Zhezqazghan",
+      "tr": "Zhezqazghan",
+      "ur": "Zhezqazghan",
+      "id": "Zhezqazghan",
+      "es": "Zhezqazghan",
+      "bn": "Zhezqazghan",
+      "ms": "Zhezqazghan"
+    },
+    "aliases": {
+      "ar": [
+        "جيز قازغان"
+      ],
+      "en": [
+        "Bol'shoy Dzhezkazgan",
+        "Bol’shoy Dzhezkazgan",
+        "DZN",
+        "Dzhezkazgan",
+        "Jez-Kazgan",
+        "Jezgazgan",
+        "Jezkazgan",
+        "Jezqazg'on",
+        "Jezqazgan",
+        "Jezqazğan",
+        "Schesqasghan",
+        "Zhezkazgan",
+        "Zhezkˌazgan",
+        "Zhezkˌazgon",
+        "jejakajagana",
+        "jezukazugan",
+        "jeዝqaዝgani",
+        "jhezakazagana",
+        "jhezakazaghana",
+        "jyz qazghan",
+        "jyzqazghan"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة جيزقازغان",
+      "regionEn": "Ulytau (Zhezqazghan)"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1516589",
+    "verified": true
+  },
+  {
+    "slug": "taraz",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 42.89799,
+    "lng": 71.37334,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "تاراز",
+      "en": "Taraz",
+      "fr": "Taraz",
+      "de": "Taraz",
+      "tr": "Taraz",
+      "ur": "Taraz",
+      "id": "Taraz",
+      "es": "Taraz",
+      "bn": "Taraz",
+      "ms": "Taraz"
+    },
+    "aliases": {
+      "ar": [
+        "تراز",
+        "طراز"
+      ],
+      "en": [
+        "Aulie-Ata",
+        "Auliye-Ata",
+        "DMB",
+        "Dzhambul",
+        "Jambul",
+        "Talas",
+        "Taras",
+        "Taraza",
+        "Tarazas",
+        "Toraz",
+        "Zhambyl",
+        "ta la ci",
+        "talajeu",
+        "taraja",
+        "taraza",
+        "tarazu",
+        "taraዝ",
+        "traz"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة جامبيل",
+      "regionEn": "Zhambyl"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1516905",
+    "verified": true
+  },
+  {
+    "slug": "temirtau",
+    "type": "town",
+    "countryCode": "kz",
+    "lat": 50.05197,
+    "lng": 72.95497,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "تميرتاو",
+      "en": "Temirtau",
+      "fr": "Temirtau",
+      "de": "Temirtau",
+      "tr": "Temirtau",
+      "ur": "Temirtau",
+      "id": "Temirtau",
+      "es": "Temirtau",
+      "bn": "Temirtau",
+      "ms": "Temirtau"
+    },
+    "aliases": {
+      "ar": [
+        "تميرتاؤ",
+        "تێميرتاو"
+      ],
+      "en": [
+        "Samarand",
+        "Samarka",
+        "Samarkand",
+        "Samarkandskoye",
+        "Temirtaou",
+        "Temirtaw",
+        "Temirtaū",
+        "Temyrtau",
+        "temileutau",
+        "tie mi er tao",
+        "tmyrtaw"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة قاراغندي",
+      "regionEn": "Karagandy"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1518262",
+    "verified": true
+  },
+  {
+    "slug": "kyzylorda",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 44.85278,
+    "lng": 65.50917,
+    "timezone": "Asia/Qyzylorda",
+    "names": {
+      "ar": "قزل اوردا",
+      "en": "Kyzylorda",
+      "fr": "Kyzylorda",
+      "de": "Kyzylorda",
+      "tr": "Kyzylorda",
+      "ur": "Kyzylorda",
+      "id": "Kyzylorda",
+      "es": "Kyzylorda",
+      "bn": "Kyzylorda",
+      "ms": "Kyzylorda"
+    },
+    "aliases": {
+      "ar": [
+        "قيزيل اردا",
+        "قيزيلوردا",
+        "قيزيلاوردا",
+        "كيزيلوردا",
+        "قيزيل أوردا"
+      ],
+      "en": [
+        "Ak-Mechet",
+        "Ak-Mechet'",
+        "Fort Perovskij",
+        "Fort Perovsky",
+        "KZO",
+        "Khizilorda",
+        "Khizilordà",
+        "Kizilorda",
+        "Kizilornta",
+        "Kozolorda",
+        "Kuzulorda",
+        "Kyzylarda",
+        "Kyzyłorda",
+        "Kzyl-Orda",
+        "Kîzîlorda",
+        "Kõzõlorda",
+        "Kızılorda",
+        "Kˌizilurda",
+        "Kˌyzyl Orda",
+        "Kˌyzylorda",
+        "Perovsk",
+        "Qizilo'rda",
+        "Qizilorda",
+        "Qiziloʻrda",
+        "Qysylorda",
+        "Qyzylorda",
+        "Qızılorda",
+        "ke zi lei ao er da",
+        "khuy si lxx r da",
+        "kijilloleuda",
+        "kijilorada",
+        "kijilorda",
+        "kiዝyilorida",
+        "kuzuroruda",
+        "kyzylwrda",
+        "qizilorda",
+        "qyzyl arda",
+        "qyzylwrda",
+        "qzl awrda"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة قيزيلوردا",
+      "regionEn": "Kyzylorda"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1519922",
+    "verified": true
+  },
+  {
+    "slug": "konayev",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 43.86681,
+    "lng": 77.06304,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "كونايف",
+      "en": "Konayev",
+      "fr": "Konayev",
+      "de": "Konayev",
+      "tr": "Konayev",
+      "ur": "Konayev",
+      "id": "Konayev",
+      "es": "Konayev",
+      "bn": "Konayev",
+      "ms": "Konayev"
+    },
+    "aliases": {
+      "ar": [
+        "كوناييف"
+      ],
+      "en": [
+        "Ili",
+        "Iliisk",
+        "Ilijek",
+        "Iliysk",
+        "Iliyskoye",
+        "Kapchagaj",
+        "Kapchagay",
+        "Kapshagaj",
+        "Konaev",
+        "Kˌapshagaj",
+        "Kˌonaev",
+        "Qonayev",
+        "kona'eva",
+        "konaefu",
+        "konayebha",
+        "konayeva",
+        "kwenayevi",
+        "kwnayf",
+        "kwnayyf"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة ألما آتا",
+      "regionEn": "Almaty Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1519948",
+    "verified": true
+  },
+  {
+    "slug": "petropavl",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 54.87343,
+    "lng": 69.15065,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "بتروبافل",
+      "en": "Petropavl",
+      "fr": "Petropavl",
+      "de": "Petropavl",
+      "tr": "Petropavl",
+      "ur": "Petropavl",
+      "id": "Petropavl",
+      "es": "Petropavl",
+      "bn": "Petropavl",
+      "ms": "Petropavl"
+    },
+    "aliases": {
+      "ar": [
+        "بتروباول، قزاقستان",
+        "بيتروباول"
+      ],
+      "en": [
+        "Kazakh",
+        "Kizilyar",
+        "Kızılyar",
+        "PPK",
+        "Petropavel",
+        "Petropavla",
+        "Petropavlas",
+        "Petropavlovs'k",
+        "Petropavlovsk",
+        "Petropawl",
+        "Petropawlowsk",
+        "Petropawł",
+        "Pietropawlowsk",
+        "Pietropawłowsk",
+        "Qizilzhar",
+        "Qyzyljar",
+        "bi de luo ba fu er",
+        "btrwbafl",
+        "petaropavala",
+        "peteulopabeul",
+        "petoropaburu",
+        "petropabhala",
+        "petropavala",
+        "ptrwpawl  qzaqstan",
+        "pytrwpawl",
+        "ፔtiroፓviል"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "كازاخستان الشمالية",
+      "regionEn": "North Kazakhstan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1520172",
+    "verified": true
+  },
+  {
+    "slug": "pavlodar",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 52.27601,
+    "lng": 76.96881,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "بافلودار",
+      "en": "Pavlodar",
+      "fr": "Pavlodar",
+      "de": "Pavlodar",
+      "tr": "Pavlodar",
+      "ur": "Pavlodar",
+      "id": "Pavlodar",
+      "es": "Pavlodar",
+      "bn": "Pavlodar",
+      "ms": "Pavlodar"
+    },
+    "aliases": {
+      "ar": [
+        "باؤلودار",
+        "باولودار",
+        "باولودار، قزاقستان",
+        "باولودر"
+      ],
+      "en": [
+        "Kereku",
+        "Kerekū",
+        "PWQ",
+        "Pauladar",
+        "Pavlodara",
+        "Pavlodaras",
+        "Pavlontar",
+        "Pawlodar",
+        "Pawłodar",
+        "ba fu luo da er",
+        "baflwdar",
+        "pabeullodaleu",
+        "pabhalodara",
+        "paf lod ar",
+        "pavalodara",
+        "pavurodaru",
+        "pawlwdar",
+        "pawlwdar  qzaqstan",
+        "pawlwdr",
+        "pblwdr",
+        "ፓvilodari"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة بافلودار",
+      "regionEn": "Pavlodar"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1520240",
+    "verified": true
+  },
+  {
+    "slug": "baikonur",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 45.61667,
+    "lng": 63.31667,
+    "timezone": "Asia/Qostanay",
+    "names": {
+      "ar": "بايكونور",
+      "en": "Baikonur",
+      "fr": "Baikonur",
+      "de": "Baikonur",
+      "tr": "Baikonur",
+      "ur": "Baikonur",
+      "id": "Baikonur",
+      "es": "Baikonur",
+      "bn": "Baikonur",
+      "ms": "Baikonur"
+    },
+    "aliases": {
+      "en": [
+        "BXY",
+        "Baikonour",
+        "Bajkonur",
+        "Bajkˌoniur",
+        "Bajkˌoңyr",
+        "Baykonur",
+        "Bayqomir",
+        "Baïkonour",
+        "Leninsk",
+        "Leninskiy",
+        "Tyuratam",
+        "Zarya",
+        "Zvezdograd",
+        "ba'ikonura",
+        "bai ke nu",
+        "baikonuleu",
+        "baikonura",
+        "baikonuru",
+        "bayakonura",
+        "bayikwenuri",
+        "baykwnwr",
+        "byyqwnwr",
+        "paikkanur"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة قيزيلوردا",
+      "regionEn": "Kyzylorda"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1521368",
+    "verified": true
+  },
+  {
+    "slug": "kokshetau",
+    "type": "city",
+    "countryCode": "kz",
+    "lat": 53.28414,
+    "lng": 69.39364,
+    "timezone": "Asia/Almaty",
+    "names": {
+      "ar": "كوكشيتو",
+      "en": "Kokshetau",
+      "fr": "Kokshetau",
+      "de": "Kokshetau",
+      "tr": "Kokshetau",
+      "ur": "Kokshetau",
+      "id": "Kokshetau",
+      "es": "Kokshetau",
+      "bn": "Kokshetau",
+      "ms": "Kokshetau"
+    },
+    "aliases": {
+      "ar": [
+        "كوكشهتاو",
+        "كوكشيتاؤ",
+        "كوێكشێتاو"
+      ],
+      "en": [
+        "KOV",
+        "Keksetau",
+        "Kekšetau",
+        "Ko'kshetau",
+        "Kochetayev",
+        "Koekschetau",
+        "Koeksetaw",
+        "Koeksjetau",
+        "Kokcetau",
+        "Kokchetaou",
+        "Kokchetar",
+        "Kokchetau",
+        "Kokchetav",
+        "Kokczetaw",
+        "Koksetau",
+        "Koksjetau",
+        "Kokxetau",
+        "Kokčetau",
+        "Kokšetau",
+        "Kokșetau",
+        "Koshetau",
+        "Koʻkshetau",
+        "Kökschetau",
+        "Kökshetaū",
+        "Köksjetau",
+        "Kökşetaw",
+        "Köshetaū",
+        "Kˌukˌshetau",
+        "ke ke she tao",
+        "kogsyetau",
+        "kokaseta'u",
+        "kokseta'u",
+        "kokushetau",
+        "kwekishetaው",
+        "kwkshh‌taw",
+        "kwkshytaw",
+        "kwkshytw"
+      ]
+    },
+    "admin": {
+      "countryAr": "كازاخستان",
+      "countryEn": "Kazakhstan",
+      "regionAr": "منطقة أقمولا",
+      "regionEn": "Akmola"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1522203",
+    "verified": true
+  },
+  {
+    "slug": "istaravshan",
+    "type": "town",
+    "countryCode": "tj",
+    "lat": 39.9142,
+    "lng": 69.00328,
+    "timezone": "Asia/Dushanbe",
+    "names": {
+      "ar": "استروشن",
+      "en": "Istaravshan",
+      "fr": "Istaravshan",
+      "de": "Istaravshan",
+      "tr": "Istaravshan",
+      "ur": "Istaravshan",
+      "id": "Istaravshan",
+      "es": "Istaravshan",
+      "bn": "Istaravshan",
+      "ms": "Istaravshan"
+    },
+    "aliases": {
+      "en": [
+        "Bundzhikat",
+        "Istaravchan",
+        "Istaravsan",
+        "Istaravsanas",
+        "Istaravsjan",
+        "Istaravson",
+        "Istaravŝan",
+        "Istaravšan",
+        "Istaravšanas",
+        "Istaravšon",
+        "Istaravșan",
+        "Istarawschan",
+        "Istarawshan",
+        "Istarawszan",
+        "Ura-Tyube",
+        "Uroteppa",
+        "astrwshn",
+        "iseuteulabeusyan",
+        "isutarafushan",
+        "yi si ta la fu shang",
+        "İstərövşən",
+        "Ŭroteppa"
+      ]
+    },
+    "admin": {
+      "countryAr": "طاجيكستان",
+      "countryEn": "Tajikistan",
+      "regionAr": "منطقة سغد",
+      "regionEn": "Sughd"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1220253",
+    "verified": true
+  },
+  {
+    "slug": "bokhtar",
+    "type": "city",
+    "countryCode": "tj",
+    "lat": 37.83654,
+    "lng": 68.77762,
+    "timezone": "Asia/Dushanbe",
+    "names": {
+      "ar": "بختار",
+      "en": "Bokhtar",
+      "fr": "Bokhtar",
+      "de": "Bokhtar",
+      "tr": "Bokhtar",
+      "ur": "Bokhtar",
+      "id": "Bokhtar",
+      "es": "Bokhtar",
+      "bn": "Bokhtar",
+      "ms": "Bokhtar"
+    },
+    "aliases": {
+      "en": [
+        "KQT",
+        "Kurgan Tjube",
+        "Kurgan-Tyube",
+        "Qurghan Tyube",
+        "Qurghonteppa",
+        "Qurghān Tyube",
+        "Qŭrghonteppa",
+        "bkhtar",
+        "bofutaru",
+        "bokhatara",
+        "bokhtara",
+        "bokitari"
+      ]
+    },
+    "admin": {
+      "countryAr": "طاجيكستان",
+      "countryEn": "Tajikistan",
+      "regionAr": "منطقة خاتلون",
+      "regionEn": "Khatlon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1220747",
+    "verified": true
+  },
+  {
+    "slug": "khorugh",
+    "type": "city",
+    "countryCode": "tj",
+    "lat": 37.49039,
+    "lng": 71.55337,
+    "timezone": "Asia/Dushanbe",
+    "names": {
+      "ar": "خروغ",
+      "en": "Khorugh",
+      "fr": "Khorugh",
+      "de": "Khorugh",
+      "tr": "Khorugh",
+      "ur": "Khorugh",
+      "id": "Khorugh",
+      "es": "Khorugh",
+      "bn": "Khorugh",
+      "ms": "Khorugh"
+    },
+    "aliases": {
+      "en": [
+        "Khorog",
+        "Khorug",
+        "Xorog",
+        "Xoroğ",
+        "horogu",
+        "khoruga",
+        "khrwgh",
+        "kweroግ"
+      ]
+    },
+    "admin": {
+      "countryAr": "طاجيكستان",
+      "countryEn": "Tajikistan",
+      "regionAr": "كوهستان بدخشان",
+      "regionEn": "GBAO (Gorno-Badakhshan)"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1221328",
+    "verified": true
+  },
+  {
+    "slug": "khujand",
+    "type": "city",
+    "countryCode": "tj",
+    "lat": 40.28256,
+    "lng": 69.62216,
+    "timezone": "Asia/Dushanbe",
+    "names": {
+      "ar": "خجند",
+      "en": "Khujand",
+      "fr": "Khujand",
+      "de": "Khujand",
+      "tr": "Khujand",
+      "ur": "Khujand",
+      "id": "Khujand",
+      "es": "Khujand",
+      "bn": "Khujand",
+      "ms": "Khujand"
+    },
+    "aliases": {
+      "en": [
+        "Choedzjand",
+        "Chudschand",
+        "Chudzandas",
+        "Chudzjand",
+        "Chudžandas",
+        "Hodjent",
+        "Hucand",
+        "Hudzand",
+        "Hudžand",
+        "Khodjent",
+        "Khodyent",
+        "Khodzhent",
+        "Khojend",
+        "Khudzhand",
+        "Khuzhant",
+        "Khŭjand",
+        "Kojend",
+        "LBD",
+        "Leninabad",
+        "Leninobod",
+        "Ursaten",
+        "Xo'jand",
+        "Xoʻjand",
+        "Xucənd",
+        "hojendo",
+        "khjnd",
+        "khujada",
+        "khujanda",
+        "ku zhan",
+        "ኁjanidi"
+      ],
+      "ar": [
+        "خوجند"
+      ]
+    },
+    "admin": {
+      "countryAr": "طاجيكستان",
+      "countryEn": "Tajikistan",
+      "regionAr": "منطقة سغد",
+      "regionEn": "Sughd"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1514879",
+    "verified": true
+  },
+  {
+    "slug": "isfara",
+    "type": "town",
+    "countryCode": "tj",
+    "lat": 40.12649,
+    "lng": 70.62526,
+    "timezone": "Asia/Dushanbe",
+    "names": {
+      "ar": "اسفرة",
+      "en": "Isfara",
+      "fr": "Isfara",
+      "de": "Isfara",
+      "tr": "Isfara",
+      "ur": "Isfara",
+      "id": "Isfara",
+      "es": "Isfara",
+      "bn": "Isfara",
+      "ms": "Isfara"
+    },
+    "aliases": {
+      "ar": [
+        "اسفره"
+      ],
+      "en": [
+        "asfrh",
+        "asfrt",
+        "iseupala",
+        "isufara",
+        "yi si fa la",
+        "İsfərah"
+      ]
+    },
+    "admin": {
+      "countryAr": "طاجيكستان",
+      "countryEn": "Tajikistan",
+      "regionAr": "منطقة سغد",
+      "regionEn": "Sughd"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1514896",
+    "verified": true
+  },
+  {
+    "slug": "osh",
+    "type": "city",
+    "countryCode": "kg",
+    "lat": 40.52828,
+    "lng": 72.7985,
+    "timezone": "Asia/Bishkek",
+    "names": {
+      "ar": "أوش",
+      "en": "Osh",
+      "fr": "Osh",
+      "de": "Osh",
+      "tr": "Osh",
+      "ur": "Osh",
+      "id": "Osh",
+      "es": "Osh",
+      "bn": "Osh",
+      "ms": "Osh"
+    },
+    "aliases": {
+      "ar": [
+        "اوش"
+      ],
+      "en": [
+        "O'sh",
+        "OSS",
+        "Och",
+        "Oix",
+        "Os",
+        "Osa",
+        "Osas",
+        "Osch",
+        "Osj",
+        "Osz",
+        "Ox",
+        "Oŝ",
+        "Oş",
+        "Oš",
+        "Oša",
+        "Ošas",
+        "Oʻsh",
+        "ao shen",
+        "awsh",
+        "osa",
+        "oshi",
+        "osi",
+        "xxch",
+        "ʿoshi",
+        "Өsh"
+      ]
+    },
+    "admin": {
+      "countryAr": "قيرغيزستان",
+      "countryEn": "Kyrgyzstan",
+      "regionAr": "أوش",
+      "regionEn": "Osh (city)"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1527534",
+    "verified": true
+  },
+  {
+    "slug": "batken",
+    "type": "city",
+    "countryCode": "kg",
+    "lat": 40.0604,
+    "lng": 70.81929,
+    "timezone": "Asia/Bishkek",
+    "names": {
+      "ar": "باتكن",
+      "en": "Batken",
+      "fr": "Batken",
+      "de": "Batken",
+      "tr": "Batken",
+      "ur": "Batken",
+      "id": "Batken",
+      "es": "Batken",
+      "bn": "Batken",
+      "ms": "Batken"
+    },
+    "aliases": {
+      "ar": [
+        "باتكێن",
+        "بادكند"
+      ],
+      "en": [
+        "Batkena",
+        "Batkenas",
+        "Batkén",
+        "Botken",
+        "ba te ken",
+        "badknd",
+        "basken",
+        "batakena",
+        "batikini",
+        "batkn",
+        "batoken"
+      ]
+    },
+    "admin": {
+      "countryAr": "قيرغيزستان",
+      "countryEn": "Kyrgyzstan",
+      "regionAr": "منطقة باتكن",
+      "regionEn": "Batken"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1528735",
+    "verified": true
+  },
+  {
+    "slug": "balkanabat",
+    "type": "city",
+    "countryCode": "tm",
+    "lat": 39.51075,
+    "lng": 54.36713,
+    "timezone": "Asia/Ashgabat",
+    "names": {
+      "ar": "بالكانابات",
+      "en": "Balkanabat",
+      "fr": "Balkanabat",
+      "de": "Balkanabat",
+      "tr": "Balkanabat",
+      "ur": "Balkanabat",
+      "id": "Balkanabat",
+      "es": "Balkanabat",
+      "bn": "Balkanabat",
+      "ms": "Balkanabat"
+    },
+    "aliases": {
+      "ar": [
+        "بلخان آباد",
+        "بلخانآباد"
+      ],
+      "en": [
+        "Balkanabad",
+        "Balkanabatas",
+        "Balkˌanabat",
+        "Bolqonobod",
+        "Nebit-Dag",
+        "Nebitdag",
+        "Neftedag",
+        "ba er kan na ba de",
+        "balakanabata",
+        "balaqanabata",
+        "balkanabateu",
+        "barukanabato",
+        "baልkanabati",
+        "blkhan abad"
+      ]
+    },
+    "admin": {
+      "countryAr": "تركمانستان",
+      "countryEn": "Turkmenistan",
+      "regionAr": "منطقة بلخان",
+      "regionEn": "Balkan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:161616",
+    "verified": true
+  },
+  {
+    "slug": "aenew",
+    "type": "city",
+    "countryCode": "tm",
+    "lat": 37.88754,
+    "lng": 58.51596,
+    "timezone": "Asia/Ashgabat",
+    "names": {
+      "ar": "آب نو",
+      "en": "Änew",
+      "fr": "Änew",
+      "de": "Änew",
+      "tr": "Änew",
+      "ur": "Änew",
+      "id": "Änew",
+      "es": "Änew",
+      "bn": "Änew",
+      "ms": "Änew"
+    },
+    "aliases": {
+      "ar": [
+        "إينيو",
+        "اينيو"
+      ],
+      "en": [
+        "Aen'ju",
+        "Aenew",
+        "Anau",
+        "Anev",
+        "Anew",
+        "Annau",
+        "Enev",
+        "ab nw",
+        "aenyu",
+        "aynyw",
+        "eneva",
+        "eni'u",
+        "AEnew"
+      ]
+    },
+    "admin": {
+      "countryAr": "تركمانستان",
+      "countryEn": "Turkmenistan",
+      "regionAr": "منطقة أحال",
+      "regionEn": "Ahal"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:162199",
+    "verified": true
+  },
+  {
+    "slug": "dasoguz",
+    "type": "city",
+    "countryCode": "tm",
+    "lat": 41.83625,
+    "lng": 59.96661,
+    "timezone": "Asia/Ashgabat",
+    "names": {
+      "ar": "داسوغوز",
+      "en": "Daşoguz",
+      "fr": "Daşoguz",
+      "de": "Daşoguz",
+      "tr": "Daşoguz",
+      "ur": "Daşoguz",
+      "id": "Daşoguz",
+      "es": "Daşoguz",
+      "bn": "Daşoguz",
+      "ms": "Daşoguz"
+    },
+    "aliases": {
+      "ar": [
+        "داسوغز",
+        "داش اوغوز",
+        "داشوغوز",
+        "داشاغوز"
+      ],
+      "en": [
+        "Dashaguz",
+        "Dashhowuz",
+        "Dashkhovuz",
+        "Dashoguz",
+        "Dashogyz",
+        "Dashowuz",
+        "Dasoguz",
+        "Dasoguzas",
+        "Daszoguz",
+        "Daşoğuz",
+        "Dašhowuz",
+        "Dašoguz",
+        "Dašoguzas",
+        "Dașoguz",
+        "TAZ",
+        "Tashauz",
+        "Tasjauz",
+        "Toshhovuz",
+        "da sha gu ci",
+        "dash awghwz",
+        "dashoguzi",
+        "dashoguzu",
+        "dashwghwz",
+        "dasoguja",
+        "dasoguza",
+        "dasoguዝ",
+        "daswghwz",
+        "daswgz",
+        "dasyogujeu"
+      ]
+    },
+    "admin": {
+      "countryAr": "تركمانستان",
+      "countryEn": "Turkmenistan",
+      "regionAr": "منطقة داشوغوز",
+      "regionEn": "Daşoguz"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:601734",
+    "verified": true
+  },
+  {
+    "slug": "mary",
+    "type": "city",
+    "countryCode": "tm",
+    "lat": 37.59378,
+    "lng": 61.83031,
+    "timezone": "Asia/Ashgabat",
+    "names": {
+      "ar": "ماري",
+      "en": "Mary",
+      "fr": "Mary",
+      "de": "Mary",
+      "tr": "Mary",
+      "ur": "Mary",
+      "id": "Mary",
+      "es": "Mary",
+      "bn": "Mary",
+      "ms": "Mary"
+    },
+    "aliases": {
+      "ar": [
+        "ماري، تركمانستان",
+        "مرو"
+      ],
+      "en": [
+        "MYP",
+        "Maras",
+        "Margiana",
+        "Mari",
+        "Mary shaary",
+        "Marı",
+        "Merv",
+        "ma lei",
+        "ma ri",
+        "mairi",
+        "mali",
+        "mari",
+        "maru",
+        "mary  trkmanstan",
+        "meri",
+        "mrw"
+      ]
+    },
+    "admin": {
+      "countryAr": "تركمانستان",
+      "countryEn": "Turkmenistan",
+      "regionAr": "منطقة مرو",
+      "regionEn": "Mary"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1218667",
+    "verified": true
+  },
+  {
+    "slug": "tuerkmenabat",
+    "type": "city",
+    "countryCode": "tm",
+    "lat": 39.07328,
+    "lng": 63.57861,
+    "timezone": "Asia/Ashgabat",
+    "names": {
+      "ar": "تركمينابات",
+      "en": "Türkmenabat",
+      "fr": "Türkmenabat",
+      "de": "Türkmenabat",
+      "tr": "Türkmenabat",
+      "ur": "Türkmenabat",
+      "id": "Türkmenabat",
+      "es": "Türkmenabat",
+      "bn": "Türkmenabat",
+      "ms": "Türkmenabat"
+    },
+    "aliases": {
+      "ar": [
+        "تركمان آباد",
+        "تركمن آباد",
+        "تركمنآباد",
+        "جارجو",
+        "جهارجوي"
+      ],
+      "en": [
+        "CRZ",
+        "Caerjew",
+        "Chardzha",
+        "Chardzhev",
+        "Chardzhou",
+        "Chardzhui",
+        "Chardzhuy",
+        "Charjew",
+        "Charjou",
+        "Chärjew",
+        "Leninsk-Turkmenski",
+        "Leninsk-Turmenski",
+        "Nov Charjui",
+        "Nov Chārjui",
+        "Novo Chardzhou",
+        "Novo-Chardzhuy",
+        "Tuerkmenabat",
+        "Turkmanobod",
+        "Turkmenabad",
+        "Turkmenabat",
+        "Turkmenabatas",
+        "Türkmənabad",
+        "Tүrikmenabat",
+        "Tүrkmenabat",
+        "charjw",
+        "chharjwy",
+        "teyurukumenabato",
+        "trkman abad",
+        "trkmn abad",
+        "trkmn‌abad",
+        "trkmynabat",
+        "tu ku man na ba de",
+        "tuleukeumenabateu",
+        "turakamenabata",
+        "turikimenabati",
+        "turkamenabata",
+        "turkmenabadi",
+        "Çärjew"
+      ]
+    },
+    "admin": {
+      "countryAr": "تركمانستان",
+      "countryEn": "Turkmenistan",
+      "regionAr": "منطقة لباب",
+      "regionEn": "Lebap"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1219649",
+    "verified": true
+  },
+  {
+    "slug": "ulaangom",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 49.98111,
+    "lng": 92.06667,
+    "timezone": "Asia/Hovd",
+    "names": {
+      "ar": "أولاانجوم",
+      "en": "Ulaangom",
+      "fr": "Ulaangom",
+      "de": "Ulaangom",
+      "tr": "Ulaangom",
+      "ur": "Ulaangom",
+      "id": "Ulaangom",
+      "es": "Ulaangom",
+      "bn": "Ulaangom",
+      "ms": "Ulaangom"
+    },
+    "aliases": {
+      "ar": [
+        "اولاانغوم"
+      ],
+      "en": [
+        "ULO",
+        "Ulaan Goom",
+        "Ulaanggom",
+        "Ulaangom sumu",
+        "Ulan Kan",
+        "Ulangom",
+        "Ulankom",
+        "Wu-lan-ku-mu",
+        "awlaangwm",
+        "awlaanjwm",
+        "ula'agoma",
+        "ula'angoma",
+        "urangomu",
+        "ʿulaʿenigoም",
+        "Өlangөm"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "أوبس",
+      "regionEn": "Uvs"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1515029",
+    "verified": true
+  },
+  {
+    "slug": "oelgii",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 48.96833,
+    "lng": 89.9625,
+    "timezone": "Asia/Hovd",
+    "names": {
+      "ar": "أولجي",
+      "en": "Ölgii",
+      "fr": "Ölgii",
+      "de": "Ölgii",
+      "tr": "Ölgii",
+      "ur": "Ölgii",
+      "id": "Ölgii",
+      "es": "Ölgii",
+      "bn": "Ölgii",
+      "ms": "Ölgii"
+    },
+    "aliases": {
+      "ar": [
+        "الغي"
+      ],
+      "en": [
+        "Bayan-Ulegey",
+        "OElgii",
+        "OElgij",
+        "OElgiy",
+        "Olgii",
+        "Ologey",
+        "ULG",
+        "Ul'gey",
+        "Ulegei",
+        "Ulegey",
+        "Ulegy",
+        "Ulgij",
+        "Ulgiy",
+        "algy",
+        "awljy",
+        "olagi",
+        "orugi",
+        "Ölgiy",
+        "Ölögey",
+        "ʿoልgi",
+        "Өlgij",
+        "Өlke"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "بايانخونغور",
+      "regionEn": "Bayankhongor"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1515436",
+    "verified": true
+  },
+  {
+    "slug": "khovd",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 48.00556,
+    "lng": 91.64194,
+    "timezone": "Asia/Hovd",
+    "names": {
+      "ar": "خوفد",
+      "en": "Khovd",
+      "fr": "Khovd",
+      "de": "Khovd",
+      "tr": "Khovd",
+      "ur": "Khovd",
+      "id": "Khovd",
+      "es": "Khovd",
+      "bn": "Khovd",
+      "ms": "Khovd"
+    },
+    "aliases": {
+      "en": [
+        "Chirgalantu",
+        "Chzhirgalantu",
+        "Djirgalantu",
+        "Dund-Us",
+        "Dzhaghalantu",
+        "Dzhargalantu",
+        "Dzhirgalantu",
+        "HVD",
+        "Hobdo",
+        "Hobdo Gol",
+        "Jargalant",
+        "Jirgalanta",
+        "Jirgalantu",
+        "Khobdo",
+        "Khovda",
+        "Kobdo",
+        "Xovd",
+        "hobeudeu",
+        "hobudo",
+        "khobhada",
+        "khovada",
+        "khwfd",
+        "kwevidi"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "خوفد",
+      "regionEn": "Khovd"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1516048",
+    "verified": true
+  },
+  {
+    "slug": "altai",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 46.37222,
+    "lng": 96.25833,
+    "timezone": "Asia/Hovd",
+    "names": {
+      "ar": "ألتاي",
+      "en": "Altai",
+      "fr": "Altai",
+      "de": "Altai",
+      "tr": "Altai",
+      "ur": "Altai",
+      "id": "Altai",
+      "es": "Altai",
+      "bn": "Altai",
+      "ms": "Altai"
+    },
+    "aliases": {
+      "ar": [
+        "البرز",
+        "الطائي"
+      ],
+      "en": [
+        "Altaj",
+        "Altay",
+        "Altaï",
+        "Jusenbulag",
+        "LTI",
+        "Usan Bulag",
+        "Yosonbulag",
+        "Yusun-bulak",
+        "Yösönbulag",
+        "alata'i",
+        "albrz",
+        "alta'i",
+        "altay",
+        "altayy",
+        "arutai",
+        "ʿeልtayi"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "غوبي ألطاي",
+      "regionEn": "Govi-Altai"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1516393",
+    "verified": true
+  },
+  {
+    "slug": "ulan-bator",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 47.90771,
+    "lng": 106.88324,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "أولان باتور",
+      "en": "Ulan Bator",
+      "fr": "Ulan Bator",
+      "de": "Ulan Bator",
+      "tr": "Ulan Bator",
+      "ur": "Ulan Bator",
+      "id": "Ulan Bator",
+      "es": "Ulan Bator",
+      "bn": "Ulan Bator",
+      "ms": "Ulan Bator"
+    },
+    "aliases": {
+      "ar": [
+        "اولانباتور"
+      ],
+      "en": [
+        "Da Hueryee",
+        "Da Hüryee",
+        "Da Khure",
+        "Da-Kure",
+        "K'u-lun",
+        "Orgoo",
+        "Oulan Mpator",
+        "Oulan-Bator",
+        "Ourga",
+        "ULN",
+        "Ula Bator",
+        "Ulaan Baatar",
+        "Ulaan Baatar Hoto",
+        "Ulaanbaatar",
+        "Ulaanbaataro",
+        "Ulaanbaator",
+        "Ulaanbaator hota",
+        "Ulaanbaatur",
+        "Ulan Bator Hoto",
+        "Ulan Batoras",
+        "Ulan Batur",
+        "Ulan-Bator",
+        "Ulan-Bator Khoto",
+        "Ulanbatar",
+        "Ulanbator",
+        "Ulanbátar",
+        "Ulán Bator",
+        "Ulán Bátor",
+        "Ulánbátar",
+        "Ulánbátor",
+        "Ulã Bator",
+        "Uranbatoru",
+        "Urga",
+        "Uruga",
+        "Ułan Bator",
+        "awlan batwr",
+        "ku lun",
+        "ulanabatara",
+        "ullanbataleu",
+        "ullanbatoleu",
+        "uranbatoru",
+        "wu lan ba tuo",
+        "xulanbatxr",
+        "Örgöö",
+        "Úlan Bator",
+        "Ұlanbatyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "أولان باتور",
+      "regionEn": "Ulaanbaatar"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2028462",
+    "verified": true
+  },
+  {
+    "slug": "tsetserleg",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 47.475,
+    "lng": 101.45417,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "تسيتسيرليج",
+      "en": "Tsetserleg",
+      "fr": "Tsetserleg",
+      "de": "Tsetserleg",
+      "tr": "Tsetserleg",
+      "ur": "Tsetserleg",
+      "id": "Tsetserleg",
+      "es": "Tsetserleg",
+      "bn": "Tsetserleg",
+      "ms": "Tsetserleg"
+    },
+    "aliases": {
+      "ar": [
+        "تسيتسرليغ",
+        "ججرلغ"
+      ],
+      "en": [
+        "Cecerleg",
+        "Cecerlegas",
+        "Cehcehrlehg",
+        "Cehcehrlehg khot",
+        "TSZ",
+        "Tsetserlig",
+        "Tsetserlig-khoto",
+        "Tsetserlik",
+        "Tsetserurigu",
+        "chchrlg",
+        "che che er lei ge",
+        "setaseralega",
+        "tasetaseralega",
+        "tsetaseralega",
+        "tsuetsueruregu",
+        "tsytsrlyg",
+        "tsytsyrlyj",
+        "ፀፀrileግ"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "أرخانغاي",
+      "regionEn": "Arkhangai"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2028606",
+    "verified": true
+  },
+  {
+    "slug": "undurkhaan",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 47.31944,
+    "lng": 110.65556,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "اندورخان",
+      "en": "Undurkhaan",
+      "fr": "Undurkhaan",
+      "de": "Undurkhaan",
+      "tr": "Undurkhaan",
+      "ur": "Undurkhaan",
+      "id": "Undurkhaan",
+      "es": "Undurkhaan",
+      "bn": "Undurkhaan",
+      "ms": "Undurkhaan"
+    },
+    "aliases": {
+      "ar": [
+        "اندوركهان"
+      ],
+      "en": [
+        "Ondorkhaan",
+        "Tsetsen Khan",
+        "Tsetsen Khan's Palace",
+        "Tsetsen Khan’s Palace",
+        "UNR",
+        "Under-Khan",
+        "Undur Khan",
+        "Undurhan",
+        "Undurkhon",
+        "Undurxon",
+        "andwrkhan",
+        "undouruhan",
+        "undurakhana",
+        "Öndörkhaan",
+        "ʿunidurikani",
+        "Өndөrkhaan"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "خنتي",
+      "regionEn": "Khentii"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2029656",
+    "verified": true
+  },
+  {
+    "slug": "moeroen",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 49.63417,
+    "lng": 100.1625,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "موران",
+      "en": "Mörön",
+      "fr": "Mörön",
+      "de": "Mörön",
+      "tr": "Mörön",
+      "ur": "Mörön",
+      "id": "Mörön",
+      "es": "Mörön",
+      "bn": "Mörön",
+      "ms": "Mörön"
+    },
+    "aliases": {
+      "ar": [
+        "مورون"
+      ],
+      "en": [
+        "Moeroen",
+        "Moeron",
+        "Moron",
+        "Moron'i hurie",
+        "Moronii Huryee",
+        "Moronii khuree",
+        "Moronu hurie",
+        "Mu-lin",
+        "Mu-lin-fu-lieh",
+        "Murehn",
+        "Muren",
+        "Murenfure",
+        "Muringoru",
+        "Murun",
+        "Murun-kuren",
+        "Möron",
+        "Mörönii Hüryee",
+        "Mörönii khüree",
+        "Mörönu hurie",
+        "Mörön’i hürie",
+        "Mөrөn",
+        "morana",
+        "moron",
+        "morona",
+        "moroni",
+        "mwran",
+        "mwrwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "خوبسغول",
+      "regionEn": "Khövsgöl"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2029945",
+    "verified": true
+  },
+  {
+    "slug": "erdenet",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 49.03333,
+    "lng": 104.08333,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "إردنيت",
+      "en": "Erdenet",
+      "fr": "Erdenet",
+      "de": "Erdenet",
+      "tr": "Erdenet",
+      "ur": "Erdenet",
+      "id": "Erdenet",
+      "es": "Erdenet",
+      "bn": "Erdenet",
+      "ms": "Erdenet"
+    },
+    "aliases": {
+      "ar": [
+        "اردنت",
+        "ايردنيت",
+        "إردنت"
+      ],
+      "en": [
+        "Ehrdehneht",
+        "Ehrdehneht khot",
+        "Ehrdenet",
+        "Erdenetas",
+        "airadeneta",
+        "ardenaita",
+        "ardnt",
+        "ardnyt",
+        "ayrdnyt",
+        "e er deng te",
+        "eleudeneteu",
+        "eradeneta",
+        "erudeneto",
+        "Ərdənet",
+        "ʿirideneti"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "أورخون",
+      "regionEn": "Orkhon"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:2031405",
+    "verified": true
+  },
+  {
+    "slug": "dzuunmod",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 47.70694,
+    "lng": 106.95278,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "جزون مود",
+      "en": "Dzuunmod",
+      "fr": "Dzuunmod",
+      "de": "Dzuunmod",
+      "tr": "Dzuunmod",
+      "ur": "Dzuunmod",
+      "id": "Dzuunmod",
+      "es": "Dzuunmod",
+      "bn": "Dzuunmod",
+      "ms": "Dzuunmod"
+    },
+    "aliases": {
+      "ar": [
+        "دزون مد",
+        "دزون ماد",
+        "ډزون مد"
+      ],
+      "en": [
+        "Dzun-mod",
+        "Dzun-modo",
+        "Dzuun Modo",
+        "Zun-Mod",
+        "Zuunmod",
+        "dajunamada",
+        "dizunimodi",
+        "djunmoda",
+        "dzwn md",
+        "junamada",
+        "junmodo",
+        "jzwn mwd"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "توف",
+      "regionEn": "Töv"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2031517",
+    "verified": true
+  },
+  {
+    "slug": "choyr",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 46.36111,
+    "lng": 108.36111,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "تشوير",
+      "en": "Choyr",
+      "fr": "Choyr",
+      "de": "Choyr",
+      "tr": "Choyr",
+      "ur": "Choyr",
+      "id": "Choyr",
+      "es": "Choyr",
+      "bn": "Choyr",
+      "ms": "Choyr"
+    },
+    "aliases": {
+      "ar": [
+        "جوئر",
+        "جوير"
+      ],
+      "en": [
+        "Chojr",
+        "Coyr",
+        "Sumber",
+        "Sumber Suma",
+        "Sumbur",
+        "Sumbur Somon",
+        "Sumbur Sume",
+        "Sumbur sumu",
+        "Sümber",
+        "Sümber Suma",
+        "cayara",
+        "choiru",
+        "chwyr",
+        "co'ira",
+        "coyara",
+        "coyiri",
+        "tshwyr",
+        "Çoyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "غوفي سومبر",
+      "regionEn": "Govisümber"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2032050",
+    "verified": true
+  },
+  {
+    "slug": "choibalsan",
+    "type": "city",
+    "countryCode": "mn",
+    "lat": 48.07257,
+    "lng": 114.53264,
+    "timezone": "Asia/Ulaanbaatar",
+    "names": {
+      "ar": "تشويبالسان",
+      "en": "Choibalsan",
+      "fr": "Choibalsan",
+      "de": "Choibalsan",
+      "tr": "Choibalsan",
+      "ur": "Choibalsan",
+      "id": "Choibalsan",
+      "es": "Choibalsan",
+      "bn": "Choibalsan",
+      "ms": "Choibalsan"
+    },
+    "aliases": {
+      "ar": [
+        "جويبالسان"
+      ],
+      "en": [
+        "Bain Tumen",
+        "Baintomenhashu",
+        "Baintōmenhashū",
+        "Bajan Tumen",
+        "Bajan Tүmehn",
+        "Bayan Tuemen",
+        "Bayan Tumen",
+        "Bayan Tümen",
+        "Bayn-Tumen",
+        "Brin Tumen",
+        "COQ",
+        "Choibolsan",
+        "Chojbalsan",
+        "Choybalsan",
+        "Choybolsan",
+        "Cojbalsan",
+        "Coybalsan",
+        "Herelen",
+        "K'o-lu-lun",
+        "Karulen",
+        "Kerulen",
+        "Kerulen Urgo",
+        "Kerulun",
+        "Kerulyun",
+        "Kurulun",
+        "Kyrylun",
+        "K’o-lu-lun",
+        "Pa-yin-t'u-men",
+        "Pa-yin-t’u-men",
+        "Sain Beise",
+        "San Beisa-Urgo",
+        "San Beise",
+        "San-beyse",
+        "Say-Beyse",
+        "Tschoibalsan",
+        "Urgo",
+        "cayabalasana",
+        "choibarusan",
+        "chwybalsan",
+        "co'ibalasana",
+        "coyibaልsani",
+        "tshwybalsan",
+        "Çoybalsan",
+        "Čojbalsan"
+      ]
+    },
+    "admin": {
+      "countryAr": "منغوليا",
+      "countryEn": "Mongolia",
+      "regionAr": "دورنود",
+      "regionEn": "Dornod"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:2032054",
+    "verified": true
   }
 ]

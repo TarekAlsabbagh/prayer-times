@@ -328,8 +328,8 @@ function renderMainReport(stats, sample, ctx) {
                      + ' | ' + c.featureCode
                      + ' | ' + e.qualityScore
                      + ' | ' + (c.population || '-')
-                     + ' | ' + e.distanceToNearestKm.toFixed(2)
-                     + ' | ' + e.nearestCuratedSlug
+                     + ' | ' + (e.distanceToNearestKm != null ? e.distanceToNearestKm.toFixed(2) : '-')
+                     + ' | ' + (e.nearestCuratedSlug || '-')
                      + ' |');
         }
         lines.push('');
@@ -352,7 +352,7 @@ function renderMainReport(stats, sample, ctx) {
                      + ' | ' + (c.admin?.regionAr || '')
                      + ' | ' + c.featureCode
                      + ' | ' + e.qualityScore
-                     + ' | ' + e.distanceToNearestKm.toFixed(2)
+                     + ' | ' + (e.distanceToNearestKm != null ? e.distanceToNearestKm.toFixed(2) : '-')
                      + ' |');
         }
         lines.push('');

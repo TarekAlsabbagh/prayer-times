@@ -85630,5 +85630,3675 @@
     "source": "curated",
     "sourceId": "geonames:1621035",
     "verified": true
+  },
+  {
+    "slug": "yokosuka",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.28361,
+    "lng": 139.66722,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "يوكوسوكا",
+      "en": "Yokosuka",
+      "fr": "Yokosuka",
+      "de": "Yokosuka",
+      "tr": "Yokosuka",
+      "ur": "Yokosuka",
+      "id": "Yokosuka",
+      "es": "Yokosuka",
+      "bn": "Yokosuka",
+      "ms": "Yokosuka"
+    },
+    "aliases": {
+      "ar": [
+        "يوكوسوكا، كاناغاوا",
+        "يوكوسكا، كناغوا"
+      ],
+      "en": [
+        "Iakosuka",
+        "Jokosuka",
+        "Yokosuka-chhi",
+        "Yokosuka-chhī",
+        "heng xu he",
+        "heng xu he shi",
+        "yoa koa suk a",
+        "yokoseuka si",
+        "ywkwska  knagwa",
+        "ywkwswka",
+        "ywkwswka  kanagawa",
+        "ywqwswqh"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاناغاوا",
+      "regionEn": "Kanagawa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1848313",
+    "verified": true
+  },
+  {
+    "slug": "yokkaichi",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.96667,
+    "lng": 136.61667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "يوكايتشي",
+      "en": "Yokkaichi",
+      "fr": "Yokkaichi",
+      "de": "Yokkaichi",
+      "tr": "Yokkaichi",
+      "ur": "Yokkaichi",
+      "id": "Yokkaichi",
+      "es": "Yokkaichi",
+      "bn": "Yokkaichi",
+      "ms": "Yokkaichi"
+    },
+    "aliases": {
+      "ar": [
+        "يوكايجي، ميه",
+        "يوكاي‌ايجي، ميه",
+        "يوكيجي، مئي"
+      ],
+      "en": [
+        "Jokaichi",
+        "Jokaici",
+        "Jokkaichi",
+        "Jokkaiti",
+        "Yokkaiti",
+        "Yokkaiti-chhi",
+        "Yokkaiti-chhī",
+        "Yokkaitsi",
+        "si ri",
+        "si ri shi shi",
+        "yk ki chi",
+        "yoskaichi si",
+        "ywkaychy  myh",
+        "ywkaytshy",
+        "ywkychy  myy"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "ميي",
+      "regionEn": "Mie"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1848373",
+    "verified": true
+  },
+  {
+    "slug": "yamaguchi",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.18333,
+    "lng": 131.46667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ياماغوتشي",
+      "en": "Yamaguchi",
+      "fr": "Yamaguchi",
+      "de": "Yamaguchi",
+      "tr": "Yamaguchi",
+      "ur": "Yamaguchi",
+      "id": "Yamaguchi",
+      "es": "Yamaguchi",
+      "bn": "Yamaguchi",
+      "ms": "Yamaguchi"
+    },
+    "aliases": {
+      "en": [
+        "Jamaguci",
+        "Jamaguti",
+        "Jamaguči",
+        "Yamaguchi-shi",
+        "Yamaguchishi",
+        "Yamaguti",
+        "shan kou",
+        "shan kou shi",
+        "yamaghwtshy",
+        "yamaguchi si",
+        "yamaguchishi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "ياماغوتشي",
+      "regionEn": "Yamaguchi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1848689",
+    "verified": true
+  },
+  {
+    "slug": "toyota",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.08333,
+    "lng": 137.15,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تويوتا",
+      "en": "Toyota",
+      "fr": "Toyota",
+      "de": "Toyota",
+      "tr": "Toyota",
+      "ur": "Toyota",
+      "id": "Toyota",
+      "es": "Toyota",
+      "bn": "Toyota",
+      "ms": "Toyota"
+    },
+    "aliases": {
+      "ar": [
+        "تويوتا، آيجي",
+        "تويوتا، ايجي",
+        "تويوته"
+      ],
+      "en": [
+        "Koromo",
+        "Tojoota khot",
+        "Tojota",
+        "Toyoda",
+        "Toyota i Aichi",
+        "Toyota-chhi",
+        "Toyota-chhī",
+        "doyota si",
+        "feng tian shi",
+        "li tian",
+        "li tian shi",
+        "thoa yoa ta",
+        "twywta",
+        "twywta  aychy"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "آيتشي",
+      "regionEn": "Aichi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1849814",
+    "verified": true
+  },
+  {
+    "slug": "tottori-shi",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.5,
+    "lng": 134.23333,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "توتوري",
+      "en": "Tottori-shi",
+      "fr": "Tottori-shi",
+      "de": "Tottori-shi",
+      "tr": "Tottori-shi",
+      "ur": "Tottori-shi",
+      "id": "Tottori-shi",
+      "es": "Tottori-shi",
+      "bn": "Tottori-shi",
+      "ms": "Tottori-shi"
+    },
+    "aliases": {
+      "ar": [
+        "توتوري، توتوري",
+        "توتوري شي"
+      ],
+      "en": [
+        "Lungsod ng Tottori",
+        "TTJ",
+        "Totori",
+        "Totoris",
+        "Tottori",
+        "Tottori-chhi",
+        "Tottori-chhī",
+        "Tottori-su",
+        "Tottori-sṳ",
+        "Toturi",
+        "dostoli si",
+        "niao qu",
+        "niao qu shi",
+        "tht toa ri",
+        "twtwry",
+        "twtwry  twtwry"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "توتوري",
+      "regionEn": "Tottori"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1849892",
+    "verified": true
+  },
+  {
+    "slug": "tokorozawa",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.79916,
+    "lng": 139.46903,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "توكوروزاوا",
+      "en": "Tokorozawa",
+      "fr": "Tokorozawa",
+      "de": "Tokorozawa",
+      "tr": "Tokorozawa",
+      "ur": "Tokorozawa",
+      "id": "Tokorozawa",
+      "es": "Tokorozawa",
+      "bn": "Tokorozawa",
+      "ms": "Tokorozawa"
+    },
+    "aliases": {
+      "ar": [
+        "توكوروزاوا، سائيتاما",
+        "توكوروزاوا، سايتاما"
+      ],
+      "en": [
+        "Tokorodzava",
+        "Tokorosawa",
+        "Tokorozaua",
+        "Tokorozava",
+        "Tokorozawa-chhi",
+        "Tokorozawa-chhī",
+        "dokolojawa si",
+        "suo ze",
+        "suo ze shi",
+        "thoa koa roa sa wa",
+        "twkwrwzawa",
+        "twkwrwzawa  saytama",
+        "twkwrwzawa  sayytama"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "سايتاما",
+      "regionEn": "Saitama"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1850181",
+    "verified": true
+  },
+  {
+    "slug": "takasaki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 36.33333,
+    "lng": 139.01667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تاكاساكي",
+      "en": "Takasaki",
+      "fr": "Takasaki",
+      "de": "Takasaki",
+      "tr": "Takasaki",
+      "ur": "Takasaki",
+      "id": "Takasaki",
+      "es": "Takasaki",
+      "bn": "Takasaki",
+      "ms": "Takasaki"
+    },
+    "aliases": {
+      "ar": [
+        "تاكاساكي، غونما"
+      ],
+      "en": [
+        "Takasaki-chhi",
+        "Takasaki-chhī",
+        "dakasaki si",
+        "gao qi",
+        "gao qi shi",
+        "takasaky",
+        "takasaky  gwnma",
+        "tha ka saki"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "غونما",
+      "regionEn": "Gunma"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1851002",
+    "verified": true
+  },
+  {
+    "slug": "takarazuka",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.79936,
+    "lng": 135.35697,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تاكارازوكا",
+      "en": "Takarazuka",
+      "fr": "Takarazuka",
+      "de": "Takarazuka",
+      "tr": "Takarazuka",
+      "ur": "Takarazuka",
+      "id": "Takarazuka",
+      "es": "Takarazuka",
+      "bn": "Takarazuka",
+      "ms": "Takarazuka"
+    },
+    "aliases": {
+      "ar": [
+        "تاكارازوكا، هيوغو"
+      ],
+      "en": [
+        "Takaradzuka",
+        "Takarazuka-chhi",
+        "Takarazuka-chhī",
+        "bao zhong",
+        "bao zhong shi",
+        "dakalajeuka si",
+        "takarazwka",
+        "takarazwka  hywgw",
+        "tha ka ra suk a"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "هيوغو",
+      "regionEn": "Hyogo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1851012",
+    "verified": true
+  },
+  {
+    "slug": "takamatsu",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.33333,
+    "lng": 134.05,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تاكاماتسو",
+      "en": "Takamatsu",
+      "fr": "Takamatsu",
+      "de": "Takamatsu",
+      "tr": "Takamatsu",
+      "ur": "Takamatsu",
+      "id": "Takamatsu",
+      "es": "Takamatsu",
+      "bn": "Takamatsu",
+      "ms": "Takamatsu"
+    },
+    "aliases": {
+      "ar": [
+        "تاكاماتسو، كاغاوا"
+      ],
+      "en": [
+        "TAK",
+        "Takamacu",
+        "Takamatsu-shi",
+        "Takamatsushi",
+        "Takamatu",
+        "Takamatu-chhi",
+        "Takamatu-chhī",
+        "dakamasseu si",
+        "gao song",
+        "gao song shi",
+        "takamastu",
+        "takamatsushi",
+        "takamatsw",
+        "takamatsw  kagawa",
+        "tha ka masu"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاغاوا",
+      "regionEn": "Kagawa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1851100",
+    "verified": true
+  },
+  {
+    "slug": "shizuoka",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.98333,
+    "lng": 138.38333,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "شيزوكا",
+      "en": "Shizuoka",
+      "fr": "Shizuoka",
+      "de": "Shizuoka",
+      "tr": "Shizuoka",
+      "ur": "Shizuoka",
+      "id": "Shizuoka",
+      "es": "Shizuoka",
+      "bn": "Shizuoka",
+      "ms": "Shizuoka"
+    },
+    "aliases": {
+      "ar": [
+        "شيزوئوكا"
+      ],
+      "en": [
+        "FSZ",
+        "Lungsod ng Shizuoka",
+        "Shidzuoka",
+        "Shizuoka-shi",
+        "Shizuokashi",
+        "Siduoka",
+        "Sidzuok",
+        "Sidzuoka",
+        "Sizuoka",
+        "Sizuoka-chhi",
+        "Sizuoka-chhī",
+        "chisu xoa ka",
+        "jing gang",
+        "jing gang shi",
+        "shizuokashi",
+        "shyzwka",
+        "shyzwywka",
+        "sijeuoka si",
+        "sijhu'oka",
+        "Ŝizuoka",
+        "Şizuoka",
+        "Šidzuoka",
+        "Šizuoka"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "شيزوكا",
+      "regionEn": "Shizuoka"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1851717",
+    "verified": true
+  },
+  {
+    "slug": "shimonoseki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 33.95548,
+    "lng": 130.93713,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "شيمونوسكي",
+      "en": "Shimonoseki",
+      "fr": "Shimonoseki",
+      "de": "Shimonoseki",
+      "tr": "Shimonoseki",
+      "ur": "Shimonoseki",
+      "id": "Shimonoseki",
+      "es": "Shimonoseki",
+      "bn": "Shimonoseki",
+      "ms": "Shimonoseki"
+    },
+    "aliases": {
+      "ar": [
+        "شيمونوسكي، ياماغوجي",
+        "شيمونوسيكي، ياماغوجي"
+      ],
+      "en": [
+        "Simanaseki",
+        "Simonoseki",
+        "Simonoseki-chhi",
+        "Simonoseki-chhī",
+        "chi moa noa seaki",
+        "shymwnwsky",
+        "shymwnwsky  yamagwchy",
+        "shymwnwsyky  yamagwchy",
+        "simonoseki si",
+        "xia guan shi",
+        "Ŝimonoseki",
+        "Şimonoseki"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "ياماغوتشي",
+      "regionEn": "Yamaguchi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1852225",
+    "verified": true
+  },
+  {
+    "slug": "saga",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 33.23333,
+    "lng": 130.3,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ساغا",
+      "en": "Saga",
+      "fr": "Saga",
+      "de": "Saga",
+      "tr": "Saga",
+      "ur": "Saga",
+      "id": "Saga",
+      "es": "Saga",
+      "bn": "Saga",
+      "ms": "Saga"
+    },
+    "aliases": {
+      "en": [
+        "HSG",
+        "Saga Japonija",
+        "Saga-shi",
+        "Sagashi",
+        "sa nga",
+        "saga si",
+        "sagashi",
+        "sagha",
+        "zuo he",
+        "zuo he shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "ساغا",
+      "regionEn": "Saga"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1853303",
+    "verified": true
+  },
+  {
+    "slug": "otsu",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35,
+    "lng": 135.86667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "أوتسو",
+      "en": "Ōtsu",
+      "fr": "Ōtsu",
+      "de": "Ōtsu",
+      "tr": "Ōtsu",
+      "ur": "Ōtsu",
+      "id": "Ōtsu",
+      "es": "Ōtsu",
+      "bn": "Ōtsu",
+      "ms": "Ōtsu"
+    },
+    "aliases": {
+      "ar": [
+        "اتسو، شيغا"
+      ],
+      "en": [
+        "Ocu",
+        "Otsu",
+        "Otsu-shi",
+        "Otsushi",
+        "Otu",
+        "Otu-chhi",
+        "atsw  shyga",
+        "awtsw",
+        "da jin",
+        "da jin shi",
+        "ootsu",
+        "ootsushi",
+        "osseu si",
+        "xosu",
+        "Ócu",
+        "Ôtu-chhī",
+        "Ōtsu-shi",
+        "Ōtsushi",
+        "Ōtu"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "شيغا",
+      "regionEn": "Shiga"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1853574",
+    "verified": true
+  },
+  {
+    "slug": "ota",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 36.3,
+    "lng": 139.36667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "أوتا",
+      "en": "Ōta",
+      "fr": "Ōta",
+      "de": "Ōta",
+      "tr": "Ōta",
+      "ur": "Ōta",
+      "id": "Ōta",
+      "es": "Ōta",
+      "bn": "Ōta",
+      "ms": "Ōta"
+    },
+    "aliases": {
+      "ar": [
+        "اوتا، غونما"
+      ],
+      "en": [
+        "Ota",
+        "Ota-chhi",
+        "awta",
+        "awta  gwnma",
+        "ota si",
+        "tai tian",
+        "tai tian shi",
+        "xo ta",
+        "Ôta-chhī"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "غونما",
+      "regionEn": "Gunma"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1853677",
+    "verified": true
+  },
+  {
+    "slug": "okazaki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.95,
+    "lng": 137.16667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "أوكازاكي",
+      "en": "Okazaki",
+      "fr": "Okazaki",
+      "de": "Okazaki",
+      "tr": "Okazaki",
+      "ur": "Okazaki",
+      "id": "Okazaki",
+      "es": "Okazaki",
+      "bn": "Okazaki",
+      "ms": "Okazaki"
+    },
+    "aliases": {
+      "ar": [
+        "اوكازاكي، آيجي",
+        "اوكازاكي، ايجي"
+      ],
+      "en": [
+        "Aichi",
+        "Okadzaki",
+        "Okasaki",
+        "Okazaki-chhi",
+        "Okazaki-chhī",
+        "awkazaky",
+        "awkazaky  aychy",
+        "gang qi",
+        "gang qi shi",
+        "okajaki si",
+        "xoa ka saki"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "آيتشي",
+      "regionEn": "Aichi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1854376",
+    "verified": true
+  },
+  {
+    "slug": "nara-shi",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 34.68505,
+    "lng": 135.80485,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "نارا",
+      "en": "Nara-shi",
+      "fr": "Nara-shi",
+      "de": "Nara-shi",
+      "tr": "Nara-shi",
+      "ur": "Nara-shi",
+      "id": "Nara-shi",
+      "es": "Nara-shi",
+      "bn": "Nara-shi",
+      "ms": "Nara-shi"
+    },
+    "aliases": {
+      "en": [
+        "Nara",
+        "nai liang",
+        "nai liang shi",
+        "nala si",
+        "nara",
+        "narashi"
+      ],
+      "ar": [
+        "نارا شي"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "نارا",
+      "regionEn": "Nara"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1855612",
+    "verified": true
+  },
+  {
+    "slug": "nagareyama",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.8563,
+    "lng": 139.90266,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ناغاره ياما",
+      "en": "Nagareyama",
+      "fr": "Nagareyama",
+      "de": "Nagareyama",
+      "tr": "Nagareyama",
+      "ur": "Nagareyama",
+      "id": "Nagareyama",
+      "es": "Nagareyama",
+      "bn": "Nagareyama",
+      "ms": "Nagareyama"
+    },
+    "aliases": {
+      "ar": [
+        "ناغارياما، جيبا",
+        "ناغاريياما، جيبا"
+      ],
+      "en": [
+        "Nagarejama",
+        "Nagareyama-chhi",
+        "Nagareyama-chhī",
+        "liu shan",
+        "liu shan shi",
+        "na ngarea ya ma",
+        "nagaleyama si",
+        "nagaryama  chyba",
+        "nagaryyama  chyba",
+        "nagharh yama"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "تشيبا",
+      "regionEn": "Chiba"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1856184",
+    "verified": true
+  },
+  {
+    "slug": "nagaoka",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 37.45,
+    "lng": 138.85,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ناغاوكا",
+      "en": "Nagaoka",
+      "fr": "Nagaoka",
+      "de": "Nagaoka",
+      "tr": "Nagaoka",
+      "ur": "Nagaoka",
+      "id": "Nagaoka",
+      "es": "Nagaoka",
+      "bn": "Nagaoka",
+      "ms": "Nagaoka"
+    },
+    "aliases": {
+      "ar": [
+        "ناغائوكا، نيغاتا",
+        "ناغاوكا، نيغاتا"
+      ],
+      "en": [
+        "Nagaoka-chhi",
+        "Nagaoka-chhī",
+        "na nga xoa ka",
+        "nagaoka si",
+        "nagawka  nygata",
+        "nagaywka  nygata",
+        "naghawka",
+        "zhang gang",
+        "zhang gang shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "نييغاتا",
+      "regionEn": "Niigata"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1856199",
+    "verified": true
+  },
+  {
+    "slug": "matsumoto",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 36.23333,
+    "lng": 137.96667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ماتسوموتو",
+      "en": "Matsumoto",
+      "fr": "Matsumoto",
+      "de": "Matsumoto",
+      "tr": "Matsumoto",
+      "ur": "Matsumoto",
+      "id": "Matsumoto",
+      "es": "Matsumoto",
+      "bn": "Matsumoto",
+      "ms": "Matsumoto"
+    },
+    "aliases": {
+      "ar": [
+        "ماتسوموتو، ناغانو"
+      ],
+      "en": [
+        "Fukase",
+        "Fukashi",
+        "MMJ",
+        "Macumoto",
+        "Matumoto",
+        "Matumoto-chhi",
+        "Matumoto-chhī",
+        "Shonai",
+        "masseumoto si",
+        "masu moa toa",
+        "matswmwtw",
+        "matswmwtw  naganw",
+        "song ben",
+        "song ben shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "ناغانو",
+      "regionEn": "Nagano"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1857519",
+    "verified": true
+  },
+  {
+    "slug": "matsudo",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.77995,
+    "lng": 139.90144,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ماتسودو",
+      "en": "Matsudo",
+      "fr": "Matsudo",
+      "de": "Matsudo",
+      "tr": "Matsudo",
+      "ur": "Matsudo",
+      "id": "Matsudo",
+      "es": "Matsudo",
+      "bn": "Matsudo",
+      "ms": "Matsudo"
+    },
+    "aliases": {
+      "ar": [
+        "ماتسودو، جيبا"
+      ],
+      "en": [
+        "Macudo",
+        "Matudo-chhi",
+        "Matudo-chhī",
+        "masseudo si",
+        "masu doa",
+        "matswdw",
+        "matswdw  chyba",
+        "song hu",
+        "song hu shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "تشيبا",
+      "regionEn": "Chiba"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1857553",
+    "verified": true
+  },
+  {
+    "slug": "machida",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.54028,
+    "lng": 139.45083,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ماتشيدا",
+      "en": "Machida",
+      "fr": "Machida",
+      "de": "Machida",
+      "tr": "Machida",
+      "ur": "Machida",
+      "id": "Machida",
+      "es": "Machida",
+      "bn": "Machida",
+      "ms": "Machida"
+    },
+    "aliases": {
+      "ar": [
+        "ماجيدا، توكيو"
+      ],
+      "en": [
+        "Macida",
+        "Matida",
+        "Matida-chhi",
+        "Matida-chhī",
+        "Mačida",
+        "ding tian",
+        "ding tian shi",
+        "ma chi da",
+        "machida si",
+        "machyda  twkyw",
+        "matshyda",
+        "ting tian shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "طوكيو",
+      "regionEn": "Tokyo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1857871",
+    "verified": true
+  },
+  {
+    "slug": "kurume",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 33.31667,
+    "lng": 130.51667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كورومي",
+      "en": "Kurume",
+      "fr": "Kurume",
+      "de": "Kurume",
+      "tr": "Kurume",
+      "ur": "Kurume",
+      "id": "Kurume",
+      "es": "Kurume",
+      "bn": "Kurume",
+      "ms": "Kurume"
+    },
+    "aliases": {
+      "ar": [
+        "كورومه، فوكوئوكا",
+        "كورومي، فوكوكا"
+      ],
+      "en": [
+        "Kurume-chhi",
+        "Kurume-chhī",
+        "gulume si",
+        "jiu liu mi",
+        "jiu liu mi shi",
+        "khuru mea",
+        "kwrwmh  fwkwywka",
+        "kwrwmy",
+        "kwrwmy  fwkwka"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "فوكوكا",
+      "regionEn": "Fukuoka"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1858088",
+    "verified": true
+  },
+  {
+    "slug": "kure",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.23222,
+    "lng": 132.56658,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كورشي",
+      "en": "Kure",
+      "fr": "Kure",
+      "de": "Kure",
+      "tr": "Kure",
+      "ur": "Kure",
+      "id": "Kure",
+      "es": "Kure",
+      "bn": "Kure",
+      "ms": "Kure"
+    },
+    "aliases": {
+      "ar": [
+        "كوره، هيروشيما",
+        "كوري، هيروشيما"
+      ],
+      "en": [
+        "Kure-chhi",
+        "Kure-chhī",
+        "gule si",
+        "khurea",
+        "kwrh  hyrwshyma",
+        "kwrshy",
+        "qwrh",
+        "wu",
+        "wu shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "هيروشيما",
+      "regionEn": "Hiroshima"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1858296",
+    "verified": true
+  },
+  {
+    "slug": "koshigaya",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.89035,
+    "lng": 139.78916,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كوشيغايا",
+      "en": "Koshigaya",
+      "fr": "Koshigaya",
+      "de": "Koshigaya",
+      "tr": "Koshigaya",
+      "ur": "Koshigaya",
+      "id": "Koshigaya",
+      "es": "Koshigaya",
+      "bn": "Koshigaya",
+      "ms": "Koshigaya"
+    },
+    "aliases": {
+      "ar": [
+        "كوشيغايا، سائيتاما",
+        "كوشيغايا، سايتاما"
+      ],
+      "en": [
+        "Koshigaja",
+        "Kosigaja",
+        "Kosigaya-chhi",
+        "Kosigaya-chhī",
+        "Kosyigaya",
+        "gosigaya si",
+        "khoa chi nga ya",
+        "kwshygaya  saytama",
+        "kwshygaya  sayytama",
+        "kwshyghaya",
+        "yue gu",
+        "yue gu shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "سايتاما",
+      "regionEn": "Saitama"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1858729",
+    "verified": true
+  },
+  {
+    "slug": "kofu",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.66667,
+    "lng": 138.56667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كوفو",
+      "en": "Kofu",
+      "fr": "Kofu",
+      "de": "Kofu",
+      "tr": "Kofu",
+      "ur": "Kofu",
+      "id": "Kofu",
+      "es": "Kofu",
+      "bn": "Kofu",
+      "ms": "Kofu"
+    },
+    "aliases": {
+      "ar": [
+        "كوفو، ياماناشي"
+      ],
+      "en": [
+        "Kofe",
+        "Kofu-shi",
+        "Kofushi",
+        "Kohu",
+        "Kohu-chhi",
+        "Kófu",
+        "Kôhu-chhī",
+        "Kōfu",
+        "Kōfu-shi",
+        "Kōfushi",
+        "Kōhu",
+        "gohu si",
+        "jia fu",
+        "jia fu shi",
+        "kho fu",
+        "koufu",
+        "koufushi",
+        "kwfw",
+        "kwfw  yamanashy",
+        "qwpw"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "ياماناشي",
+      "regionEn": "Yamanashi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1859100",
+    "verified": true
+  },
+  {
+    "slug": "kitakyushu",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 33.85181,
+    "lng": 130.85034,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كيتاكيوشو",
+      "en": "Kitakyushu",
+      "fr": "Kitakyushu",
+      "de": "Kitakyushu",
+      "tr": "Kitakyushu",
+      "ur": "Kitakyushu",
+      "id": "Kitakyushu",
+      "es": "Kitakyushu",
+      "bn": "Kitakyushu",
+      "ms": "Kitakyushu"
+    },
+    "aliases": {
+      "ar": [
+        "كيتاكيوشو، فوكوئوكا"
+      ],
+      "en": [
+        "KKJ",
+        "Kita-Kjushju",
+        "Kitakiusiu",
+        "Kitakiūšiū",
+        "Kitakjushju",
+        "Kitakjushu",
+        "Kitakjusju",
+        "Kitakjusu",
+        "Kitakjuŝu",
+        "Kitakjúsú",
+        "Kitakjúšú",
+        "Kitakjūshū",
+        "Kitakyuesue",
+        "Kitakyusyu",
+        "Kitakyüşü",
+        "Kitakyūshū",
+        "Pak-kiu-chiu-chhi",
+        "Pak-kiú-chiu-chhī",
+        "bei jiu zhou",
+        "bei jiu zhou shi",
+        "gitakyusyu si",
+        "khi ta kiw chu",
+        "kytakywshw",
+        "kytakywshw  fwkwywka"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "فوكوكا",
+      "regionEn": "Fukuoka"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1859307",
+    "verified": true
+  },
+  {
+    "slug": "kawasaki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.52056,
+    "lng": 139.71722,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاواساكي",
+      "en": "Kawasaki",
+      "fr": "Kawasaki",
+      "de": "Kawasaki",
+      "tr": "Kawasaki",
+      "ur": "Kawasaki",
+      "id": "Kawasaki",
+      "es": "Kawasaki",
+      "bn": "Kawasaki",
+      "ms": "Kawasaki"
+    },
+    "aliases": {
+      "ar": [
+        "كاواساكي، كاناغاوا"
+      ],
+      "en": [
+        "Cita de Kawasaki",
+        "Cità de Kawasaki",
+        "Kauasaki",
+        "Kavasaki",
+        "Kavasakis",
+        "Kavaszaki",
+        "Kawasaki City",
+        "Kawasaki Si",
+        "Kawasaki-chhi",
+        "Kawasaki-chhī",
+        "Kaŭasaki",
+        "chuan qi",
+        "chuan qi shi",
+        "gawasaki si",
+        "kavasaki",
+        "kawasaky",
+        "kawasaky  kanagawa",
+        "kha wa saki"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاناغاوا",
+      "regionEn": "Kanagawa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1859642",
+    "verified": true
+  },
+  {
+    "slug": "kawaguchi",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.80521,
+    "lng": 139.71072,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاواغوتشي",
+      "en": "Kawaguchi",
+      "fr": "Kawaguchi",
+      "de": "Kawaguchi",
+      "tr": "Kawaguchi",
+      "ur": "Kawaguchi",
+      "id": "Kawaguchi",
+      "es": "Kawaguchi",
+      "bn": "Kawaguchi",
+      "ms": "Kawaguchi"
+    },
+    "aliases": {
+      "ar": [
+        "كاواغوجي، سائيتاما",
+        "كاواغوجي، سايتاما"
+      ],
+      "en": [
+        "Kauaguchi",
+        "Kavaguchi",
+        "Kavagucis",
+        "Kavaguti",
+        "Kavagučis",
+        "Kavaquci",
+        "Kavaquçi",
+        "Kawaguti-chhi",
+        "Kawaguti-chhī",
+        "Kawagutsi",
+        "chuan kou",
+        "chuan kou shi",
+        "gawaguchi si",
+        "kawaghwtshy",
+        "kawagwchy  saytama",
+        "kawagwchy  sayytama",
+        "kha wangu chi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "سايتاما",
+      "regionEn": "Saitama"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1859730",
+    "verified": true
+  },
+  {
+    "slug": "kawagoe",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.90861,
+    "lng": 139.48528,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاواغويه",
+      "en": "Kawagoe",
+      "fr": "Kawagoe",
+      "de": "Kawagoe",
+      "tr": "Kawagoe",
+      "ur": "Kawagoe",
+      "id": "Kawagoe",
+      "es": "Kawagoe",
+      "bn": "Kawagoe",
+      "ms": "Kawagoe"
+    },
+    "aliases": {
+      "ar": [
+        "كاواغوئه، سايتاما",
+        "كاواغوي، سائيتاما"
+      ],
+      "en": [
+        "Kavagoe",
+        "Kavagoeh",
+        "Kawagoe-chhi",
+        "Kawagoe-chhī",
+        "chuan yue",
+        "chuan yue shi",
+        "gawago-e si",
+        "kawaghwyh",
+        "kawagwyh  saytama",
+        "kha wa ngoa xea"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "سايتاما",
+      "regionEn": "Saitama"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1859740",
+    "verified": true
+  },
+  {
+    "slug": "kasukabe",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.98308,
+    "lng": 139.74966,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاسوكابي",
+      "en": "Kasukabe",
+      "fr": "Kasukabe",
+      "de": "Kasukabe",
+      "tr": "Kasukabe",
+      "ur": "Kasukabe",
+      "id": "Kasukabe",
+      "es": "Kasukabe",
+      "bn": "Kasukabe",
+      "ms": "Kasukabe"
+    },
+    "aliases": {
+      "ar": [
+        "كاسوكابه، سايتاما",
+        "كاسوكابي، سائيتاما"
+      ],
+      "en": [
+        "Kasukabe-chhi",
+        "Kasukabe-chhī",
+        "chun ri bu",
+        "chun ri bu shi",
+        "gaseukabe si",
+        "kaswkabh  saytama",
+        "kaswkaby",
+        "kha suk a bea",
+        "po bi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "سايتاما",
+      "regionEn": "Saitama"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1859884",
+    "verified": true
+  },
+  {
+    "slug": "kasugai",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.24762,
+    "lng": 136.97229,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاسوغاي",
+      "en": "Kasugai",
+      "fr": "Kasugai",
+      "de": "Kasugai",
+      "tr": "Kasugai",
+      "ur": "Kasugai",
+      "id": "Kasugai",
+      "es": "Kasugai",
+      "bn": "Kasugai",
+      "ms": "Kasugai"
+    },
+    "aliases": {
+      "ar": [
+        "كاسوغائي، ايجي",
+        "كاسوغاي، آيجي",
+        "كسوغا‌‍‌ئ"
+      ],
+      "en": [
+        "Kasugai-chhi",
+        "Kasugai-chhī",
+        "Kasugaj",
+        "chun ri jing",
+        "chun ri jing shi",
+        "gaseugai si",
+        "kaswgay",
+        "kaswgay  aychy",
+        "kaswgayy  aychy",
+        "kaswghay",
+        "khasu ngi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "آيتشي",
+      "regionEn": "Aichi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1859891",
+    "verified": true
+  },
+  {
+    "slug": "kashiwa",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.86224,
+    "lng": 139.97732,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاشيوا",
+      "en": "Kashiwa",
+      "fr": "Kashiwa",
+      "de": "Kashiwa",
+      "tr": "Kashiwa",
+      "ur": "Kashiwa",
+      "id": "Kashiwa",
+      "es": "Kashiwa",
+      "bn": "Kashiwa",
+      "ms": "Kashiwa"
+    },
+    "aliases": {
+      "ar": [
+        "كاشيوا، جيبا"
+      ],
+      "en": [
+        "Kashiva",
+        "Kasiva",
+        "Kasiwa-chhi",
+        "Kasiwa-chhī",
+        "Kaşiva",
+        "bai",
+        "bai shi",
+        "gasiwa si",
+        "kashywa",
+        "kashywa  chyba",
+        "kha chi wa"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "تشيبا",
+      "regionEn": "Chiba"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1859924",
+    "verified": true
+  },
+  {
+    "slug": "kagoshima",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 31.56667,
+    "lng": 130.55,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كاغوشيما",
+      "en": "Kagoshima",
+      "fr": "Kagoshima",
+      "de": "Kagoshima",
+      "tr": "Kagoshima",
+      "ur": "Kagoshima",
+      "id": "Kagoshima",
+      "es": "Kagoshima",
+      "bn": "Kagoshima",
+      "ms": "Kagoshima"
+    },
+    "aliases": {
+      "en": [
+        "KOJ",
+        "Kagoshima-shi",
+        "Kagoshimashi",
+        "Kagosima",
+        "Kagošima",
+        "gagosima si",
+        "kaghwshyma",
+        "kagoshimashi",
+        "lu er dao",
+        "lu er dao shi",
+        "lu r dao shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاغوشيما",
+      "regionEn": "Kagoshima"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1860827",
+    "verified": true
+  },
+  {
+    "slug": "isesaki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 36.31667,
+    "lng": 139.2,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "إسيساكي",
+      "en": "Isesaki",
+      "fr": "Isesaki",
+      "de": "Isesaki",
+      "tr": "Isesaki",
+      "ur": "Isesaki",
+      "id": "Isesaki",
+      "es": "Isesaki",
+      "bn": "Isesaki",
+      "ms": "Isesaki"
+    },
+    "aliases": {
+      "ar": [
+        "اسيساكي، غونما",
+        "ايسه‌ساكي، غونما"
+      ],
+      "en": [
+        "Iseaki",
+        "Isehsaki",
+        "Isesaki-chhi",
+        "Isesaki-chhī",
+        "Isezaki",
+        "asysaky",
+        "asysaky  gwnma",
+        "isesaki si",
+        "xi sea saki",
+        "yi shi qi",
+        "yi shi qi shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "غونما",
+      "regionEn": "Gunma"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1861436",
+    "verified": true
+  },
+  {
+    "slug": "ichinomiya",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.3,
+    "lng": 136.8,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "إيتشينوميا",
+      "en": "Ichinomiya",
+      "fr": "Ichinomiya",
+      "de": "Ichinomiya",
+      "tr": "Ichinomiya",
+      "ur": "Ichinomiya",
+      "id": "Ichinomiya",
+      "es": "Ichinomiya",
+      "bn": "Ichinomiya",
+      "ms": "Ichinomiya"
+    },
+    "aliases": {
+      "ar": [
+        "اجينوميا، ايجي",
+        "ايجينوميا، آيجي"
+      ],
+      "en": [
+        "Ichinomija",
+        "Itinomija",
+        "Itinomiya",
+        "Itinomiya-chhi",
+        "Itinomiya-chhī",
+        "Owari-ichinomiya",
+        "achynwmya  aychy",
+        "aychynwmya  aychy",
+        "aytshynwmya",
+        "ichinomiya si",
+        "xi chi noa mi ya",
+        "yi gong",
+        "yi gong shi",
+        "İtinomiya"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "آيتشي",
+      "regionEn": "Aichi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1861949",
+    "verified": true
+  },
+  {
+    "slug": "ibaraki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.81641,
+    "lng": 135.56828,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "إباراكي",
+      "en": "Ibaraki",
+      "fr": "Ibaraki",
+      "de": "Ibaraki",
+      "tr": "Ibaraki",
+      "ur": "Ibaraki",
+      "id": "Ibaraki",
+      "es": "Ibaraki",
+      "bn": "Ibaraki",
+      "ms": "Ibaraki"
+    },
+    "aliases": {
+      "ar": [
+        "ايباراكي، اوساكا"
+      ],
+      "en": [
+        "IBR",
+        "Ibaragi",
+        "Ibaraki-chhi",
+        "Ibaraki-chhī",
+        "abaraky",
+        "aybaraky  awsaka",
+        "ci cheng shi",
+        "ci mu",
+        "ci mu shi",
+        "ibalaki si",
+        "xiba raki"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "أوساكا",
+      "regionEn": "Osaka"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1862033",
+    "verified": true
+  },
+  {
+    "slug": "hiratsuka",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.32785,
+    "lng": 139.33735,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "هيراتسوكا",
+      "en": "Hiratsuka",
+      "fr": "Hiratsuka",
+      "de": "Hiratsuka",
+      "tr": "Hiratsuka",
+      "ur": "Hiratsuka",
+      "id": "Hiratsuka",
+      "es": "Hiratsuka",
+      "bn": "Hiratsuka",
+      "ms": "Hiratsuka"
+    },
+    "aliases": {
+      "ar": [
+        "هيراتسوكا، كاناغاوا"
+      ],
+      "en": [
+        "Hiracuka",
+        "Hiratuka",
+        "Hiratuka-chhi",
+        "Hiratuka-chhī",
+        "Khiracuka",
+        "hi ra suk a",
+        "hilasseuka si",
+        "hyratswka",
+        "hyratswka  kanagawa",
+        "ping zhong",
+        "ping zhong shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاناغاوا",
+      "regionEn": "Kanagawa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1862462",
+    "verified": true
+  },
+  {
+    "slug": "himeji",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.81667,
+    "lng": 134.7,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "هيميجي",
+      "en": "Himeji",
+      "fr": "Himeji",
+      "de": "Himeji",
+      "tr": "Himeji",
+      "ur": "Himeji",
+      "id": "Himeji",
+      "es": "Himeji",
+      "bn": "Himeji",
+      "ms": "Himeji"
+    },
+    "aliases": {
+      "ar": [
+        "هيمه‌جي، هيوغو",
+        "هيميجي، هيوغو"
+      ],
+      "en": [
+        "Hime",
+        "Himeci",
+        "Himedi",
+        "Himegi",
+        "Himezi",
+        "Himezi-chhi",
+        "Himezi-chhī",
+        "Himeĝi",
+        "Khimedzhi",
+        "Khimedzi",
+        "Khimehdzi",
+        "Khimeđi",
+        "hi mea ci",
+        "himeji si",
+        "hymgy",
+        "hymyjy",
+        "ji lu shi",
+        "zhen lu"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "هيوغو",
+      "regionEn": "Hyogo"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1862627",
+    "verified": true
+  },
+  {
+    "slug": "hamamatsu",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 34.7,
+    "lng": 137.73333,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "هاماماتسو",
+      "en": "Hamamatsu",
+      "fr": "Hamamatsu",
+      "de": "Hamamatsu",
+      "tr": "Hamamatsu",
+      "ur": "Hamamatsu",
+      "id": "Hamamatsu",
+      "es": "Hamamatsu",
+      "bn": "Hamamatsu",
+      "ms": "Hamamatsu"
+    },
+    "aliases": {
+      "ar": [
+        "هاماماتسو، شيزوئوكا"
+      ],
+      "en": [
+        "Hamamacu",
+        "Hamamatsu City",
+        "Hamamatsu-shi",
+        "Hamamatu",
+        "Hamamatu-chhi",
+        "Hamamatu-chhī",
+        "Khamamacu",
+        "bang song",
+        "bang song shi",
+        "bin song shi",
+        "ha ma masu",
+        "hamamasseu si",
+        "hamamatsw",
+        "hamamatsw  shyzwywka"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "شيزوكا",
+      "regionEn": "Shizuoka"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1863289",
+    "verified": true
+  },
+  {
+    "slug": "hachioji",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.65583,
+    "lng": 139.32389,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "هاتشيؤوجي",
+      "en": "Hachiōji",
+      "fr": "Hachiōji",
+      "de": "Hachiōji",
+      "tr": "Hachiōji",
+      "ur": "Hachiōji",
+      "id": "Hachiōji",
+      "es": "Hachiōji",
+      "bn": "Hachiōji",
+      "ms": "Hachiōji"
+    },
+    "aliases": {
+      "ar": [
+        "هاجي‌اوجي، توكيو",
+        "هاجيوجي، توكيو"
+      ],
+      "en": [
+        "Hachioji",
+        "Hachiouji",
+        "Haciodzis",
+        "Haciogi",
+        "Hatiozi",
+        "Hatiozi-chhi",
+        "Hatiôzi",
+        "Hatiôzi-chhī",
+        "Haĉioĝi",
+        "Hačiodžis",
+        "Khachiodzhi",
+        "Khachiodzi",
+        "Khatiodzi",
+        "ba wang zi",
+        "ba wang zi shi",
+        "ha chi xo ci",
+        "hachioji si",
+        "hatshywwjy"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "طوكيو",
+      "regionEn": "Tokyo"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1863440",
+    "verified": true
+  },
+  {
+    "slug": "fujisawa",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.34926,
+    "lng": 139.47666,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "فوجيساوا",
+      "en": "Fujisawa",
+      "fr": "Fujisawa",
+      "de": "Fujisawa",
+      "tr": "Fujisawa",
+      "ur": "Fujisawa",
+      "id": "Fujisawa",
+      "es": "Fujisawa",
+      "bn": "Fujisawa",
+      "ms": "Fujisawa"
+    },
+    "aliases": {
+      "ar": [
+        "فوجيساوا، كاناغاوا"
+      ],
+      "en": [
+        "Fudzhisava",
+        "Fudzisava",
+        "Fudžisava",
+        "Fujisava",
+        "Huzisawa-chhi",
+        "Huzisawa-chhī",
+        "Pudyisawa",
+        "fu ci sa wa",
+        "fwjysawa",
+        "fwjysawa  kanagawa",
+        "hujisawa si",
+        "teng ze",
+        "teng ze shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاناغاوا",
+      "regionEn": "Kanagawa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1864092",
+    "verified": true
+  },
+  {
+    "slug": "chigasaki",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.33638,
+    "lng": 139.40434,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تشيغاساكي",
+      "en": "Chigasaki",
+      "fr": "Chigasaki",
+      "de": "Chigasaki",
+      "tr": "Chigasaki",
+      "ur": "Chigasaki",
+      "id": "Chigasaki",
+      "es": "Chigasaki",
+      "bn": "Chigasaki",
+      "ms": "Chigasaki"
+    },
+    "aliases": {
+      "ar": [
+        "جيغاساكي، كاناغاوا"
+      ],
+      "en": [
+        "Chigaraki",
+        "Cigasakis",
+        "Tigasaki",
+        "Tigasaki-chhi",
+        "Tigasaki-chhī",
+        "chi nga saki",
+        "chygasaky  kanagawa",
+        "jigasaki si",
+        "mao qi shi",
+        "maoke qi",
+        "maoke qi shi",
+        "tshyghasaky",
+        "Čigasakis"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاناغاوا",
+      "regionEn": "Kanagawa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1864624",
+    "verified": true
+  },
+  {
+    "slug": "matsuyama",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 33.83916,
+    "lng": 132.76574,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ماتسوياما",
+      "en": "Matsuyama",
+      "fr": "Matsuyama",
+      "de": "Matsuyama",
+      "tr": "Matsuyama",
+      "ur": "Matsuyama",
+      "id": "Matsuyama",
+      "es": "Matsuyama",
+      "bn": "Matsuyama",
+      "ms": "Matsuyama"
+    },
+    "aliases": {
+      "ar": [
+        "ماتسوياما، اهيمه",
+        "ماتسوياما، اهيمي"
+      ],
+      "en": [
+        "MYJ",
+        "Macujama",
+        "Matsujama",
+        "Matsuyama-shi",
+        "Matuyama",
+        "Matuyama-chhi",
+        "Matuyama-chhī",
+        "masseuyama si",
+        "masu ya ma",
+        "matsuyamashi",
+        "matswyama",
+        "matswyama  ahymh",
+        "song shan",
+        "song shan shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "إيهيمي",
+      "regionEn": "Ehime"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1926099",
+    "verified": true
+  },
+  {
+    "slug": "tsukuba",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 36.08333,
+    "lng": 140.11667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تسوكوبا",
+      "en": "Tsukuba",
+      "fr": "Tsukuba",
+      "de": "Tsukuba",
+      "tr": "Tsukuba",
+      "ur": "Tsukuba",
+      "id": "Tsukuba",
+      "es": "Tsukuba",
+      "bn": "Tsukuba",
+      "ms": "Tsukuba"
+    },
+    "aliases": {
+      "ar": [
+        "تسوكوبا، ايباراكي"
+      ],
+      "en": [
+        "Cukuba",
+        "Tsukuba-kenkyugakuen-toshi",
+        "Tsukuba-kenkyūgakuen-toshi",
+        "Tukuba-chhi",
+        "Tukuba-chhī",
+        "XEI",
+        "sseukuba si",
+        "suku ba",
+        "tsukuba shi",
+        "tswkwba",
+        "tswkwba  aybaraky",
+        "zhu bo",
+        "zhu bo shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "إيباراكي",
+      "regionEn": "Ibaraki"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2110681",
+    "verified": true
+  },
+  {
+    "slug": "morioka",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 39.7,
+    "lng": 141.15,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "موريوكا",
+      "en": "Morioka",
+      "fr": "Morioka",
+      "de": "Morioka",
+      "tr": "Morioka",
+      "ur": "Morioka",
+      "id": "Morioka",
+      "es": "Morioka",
+      "bn": "Morioka",
+      "ms": "Morioka"
+    },
+    "aliases": {
+      "ar": [
+        "موريوكا، ايواته",
+        "موريوكا، ايواتي"
+      ],
+      "en": [
+        "Morioka-chhi",
+        "Morioka-chhī",
+        "Morioka-shi",
+        "Moriokashi",
+        "moa ri xoa ka",
+        "molioka si",
+        "moriokashi",
+        "mwrywka",
+        "mwrywka  aywath",
+        "sheng gang",
+        "sheng gang shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "إيواتي",
+      "regionEn": "Iwate"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2111834",
+    "verified": true
+  },
+  {
+    "slug": "koriyama",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 37.4,
+    "lng": 140.38333,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "كورياما",
+      "en": "Kōriyama",
+      "fr": "Kōriyama",
+      "de": "Kōriyama",
+      "tr": "Kōriyama",
+      "ur": "Kōriyama",
+      "id": "Kōriyama",
+      "es": "Kōriyama",
+      "bn": "Kōriyama",
+      "ms": "Kōriyama"
+    },
+    "aliases": {
+      "ar": [
+        "كورياما، فوكوشيما",
+        "كوريياما، فوكوشيما",
+        "كوري‌ياما، فوكوشيما"
+      ],
+      "en": [
+        "Ginqsan Si",
+        "Korijama",
+        "Koriyama",
+        "Koriyama-chhi",
+        "Kôriyama-chhī",
+        "goliyama si",
+        "jun shan",
+        "jun shan shi",
+        "kho ri ya ma",
+        "kwryama",
+        "kwryama  fwkwshyma",
+        "kwryyama  fwkwshyma"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "فوكوشيما",
+      "regionEn": "Fukushima"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2112141",
+    "verified": true
+  },
+  {
+    "slug": "ichihara",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.51667,
+    "lng": 140.08333,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "إيتشيهارا",
+      "en": "Ichihara",
+      "fr": "Ichihara",
+      "de": "Ichihara",
+      "tr": "Ichihara",
+      "ur": "Ichihara",
+      "id": "Ichihara",
+      "es": "Ichihara",
+      "bn": "Ichihara",
+      "ms": "Ichihara"
+    },
+    "aliases": {
+      "ar": [
+        "اجيهارا، جيبا",
+        "ايجيهارا، جيبا"
+      ],
+      "en": [
+        "Ichikhara",
+        "Icihara",
+        "Itihara-chhi",
+        "Itihara-chhī",
+        "Itikhara",
+        "Iĉihara",
+        "aychyhara  chyba",
+        "aytshyhara",
+        "ichihala si",
+        "shi yuan shi",
+        "xi chi ha ra",
+        "yuan"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "تشيبا",
+      "regionEn": "Chiba"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2112664",
+    "verified": true
+  },
+  {
+    "slug": "chiba",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.6,
+    "lng": 140.11667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "تشيبا",
+      "en": "Chiba",
+      "fr": "Chiba",
+      "de": "Chiba",
+      "tr": "Chiba",
+      "ur": "Chiba",
+      "id": "Chiba",
+      "es": "Chiba",
+      "bn": "Chiba",
+      "ms": "Chiba"
+    },
+    "aliases": {
+      "en": [
+        "Chiba-shi",
+        "Chibashi",
+        "Ciba",
+        "QCB",
+        "Tiba",
+        "chibashi",
+        "jiba si",
+        "qian ye",
+        "qian ye shi",
+        "tshyba",
+        "Ĉiba",
+        "Čiba"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "تشيبا",
+      "regionEn": "Chiba"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:2113015",
+    "verified": true
+  },
+  {
+    "slug": "hakodate",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 41.77583,
+    "lng": 140.73667,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "هاكوداته",
+      "en": "Hakodate",
+      "fr": "Hakodate",
+      "de": "Hakodate",
+      "tr": "Hakodate",
+      "ur": "Hakodate",
+      "id": "Hakodate",
+      "es": "Hakodate",
+      "bn": "Hakodate",
+      "ms": "Hakodate"
+    },
+    "aliases": {
+      "ar": [
+        "هاكوداته، هوكايدو",
+        "هاكوداتي، هوكائيدو"
+      ],
+      "en": [
+        "HKD",
+        "Hakodate-chhi",
+        "Hakodate-chhī",
+        "Hakodatė",
+        "Hokodate",
+        "Khakodate",
+        "Khakodateh",
+        "ha koa da tea",
+        "hakodate si",
+        "hakwdath",
+        "hakwdath  hwkaydw",
+        "han guan",
+        "han guan shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "هوكايدو",
+      "regionEn": "Hokkaido"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2130188",
+    "verified": true
+  },
+  {
+    "slug": "aomori",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 40.81667,
+    "lng": 140.73333,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "آوموري",
+      "en": "Aomori",
+      "fr": "Aomori",
+      "de": "Aomori",
+      "tr": "Aomori",
+      "ur": "Aomori",
+      "id": "Aomori",
+      "es": "Aomori",
+      "bn": "Aomori",
+      "ms": "Aomori"
+    },
+    "aliases": {
+      "en": [
+        "AOJ",
+        "Aomori-shi",
+        "Aomorishi",
+        "aomoli si",
+        "aomorishi",
+        "awmwry",
+        "qing sen",
+        "qing sen shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "آوموري",
+      "regionEn": "Aomori"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:2130658",
+    "verified": true
+  },
+  {
+    "slug": "saitama",
+    "type": "city",
+    "countryCode": "jp",
+    "lat": 35.90807,
+    "lng": 139.65657,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "سايتاما",
+      "en": "Saitama",
+      "fr": "Saitama",
+      "de": "Saitama",
+      "tr": "Saitama",
+      "ur": "Saitama",
+      "id": "Saitama",
+      "es": "Saitama",
+      "bn": "Saitama",
+      "ms": "Saitama"
+    },
+    "aliases": {
+      "en": [
+        "saytama"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "سايتاما",
+      "regionEn": "Saitama"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:6940394",
+    "verified": true
+  },
+  {
+    "slug": "nakano",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.70449,
+    "lng": 139.66946,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ناكانو",
+      "en": "Nakano",
+      "fr": "Nakano",
+      "de": "Nakano",
+      "tr": "Nakano",
+      "ur": "Nakano",
+      "id": "Nakano",
+      "es": "Nakano",
+      "bn": "Nakano",
+      "ms": "Nakano"
+    },
+    "aliases": {
+      "ar": [
+        "ناكانو، توكيو"
+      ],
+      "en": [
+        "Kvartalo Nakano",
+        "Nakanas",
+        "Nakano City",
+        "Nakano-khu",
+        "Rajon Nakano",
+        "na ka noa",
+        "nakano gu",
+        "nakanw",
+        "nakanw  twkyw",
+        "zhong ye",
+        "zhong ye qu"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "طوكيو",
+      "regionEn": "Tokyo"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:8715035",
+    "verified": true
+  },
+  {
+    "slug": "sagamihara",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 35.56707,
+    "lng": 139.24167,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "ساغاميهارا",
+      "en": "Sagamihara",
+      "fr": "Sagamihara",
+      "de": "Sagamihara",
+      "tr": "Sagamihara",
+      "ur": "Sagamihara",
+      "id": "Sagamihara",
+      "es": "Sagamihara",
+      "bn": "Sagamihara",
+      "ms": "Sagamihara"
+    },
+    "aliases": {
+      "en": [
+        "saghamyhara",
+        "xiang mo yuan"
+      ]
+    },
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan",
+      "regionAr": "كاناغاوا",
+      "regionEn": "Kanagawa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:11611609",
+    "verified": true
+  },
+  {
+    "slug": "ulsan",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 35.53722,
+    "lng": 129.31667,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "ألسان",
+      "en": "Ulsan",
+      "fr": "Ulsan",
+      "de": "Ulsan",
+      "tr": "Ulsan",
+      "ur": "Ulsan",
+      "id": "Ulsan",
+      "es": "Ulsan",
+      "bn": "Ulsan",
+      "ms": "Ulsan"
+    },
+    "aliases": {
+      "ar": [
+        "الزان",
+        "اولسان"
+      ],
+      "en": [
+        "USN",
+        "Ul'san",
+        "Ulsan-si",
+        "Ulsano",
+        "Urusan",
+        "alsan",
+        "alzan",
+        "awlsan",
+        "ulasana",
+        "ulsangwang-yeogsi",
+        "ulsansi",
+        "wei shan",
+        "wei shan guang yu shi",
+        "ʿuልsani"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "أولسان",
+      "regionEn": "Ulsan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1833747",
+    "verified": true
+  },
+  {
+    "slug": "daejeon",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 36.34913,
+    "lng": 127.38493,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "دائجئون",
+      "en": "Daejeon",
+      "fr": "Daejeon",
+      "de": "Daejeon",
+      "tr": "Daejeon",
+      "ur": "Daejeon",
+      "id": "Daejeon",
+      "es": "Daejeon",
+      "bn": "Daejeon",
+      "ms": "Daejeon"
+    },
+    "aliases": {
+      "ar": [
+        "دايجيون",
+        "ديجيون",
+        "ډيجيون"
+      ],
+      "en": [
+        "Daejeon-si",
+        "Daejon",
+        "Daiden",
+        "Daigono",
+        "Daiĝono",
+        "QTW",
+        "Taejon",
+        "Taejŏn",
+        "Taiden",
+        "Tehdzhon",
+        "Tetyan",
+        "Thai-tyen",
+        "Thāi-tyen",
+        "Tētyan",
+        "da tian guang yu shi",
+        "da'ejona",
+        "daejeongwang-yeogsi",
+        "daejeonsi",
+        "dayijoni",
+        "dayjywn",
+        "deji'ona"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "دايجون",
+      "regionEn": "Daejeon"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1835235",
+    "verified": true
+  },
+  {
+    "slug": "daegu",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 35.87028,
+    "lng": 128.59111,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "دائجو",
+      "en": "Daegu",
+      "fr": "Daegu",
+      "de": "Daegu",
+      "tr": "Daegu",
+      "ur": "Daegu",
+      "id": "Daegu",
+      "es": "Daegu",
+      "bn": "Daegu",
+      "ms": "Daegu"
+    },
+    "aliases": {
+      "ar": [
+        "ديغو",
+        "ډيغو"
+      ],
+      "en": [
+        "Daegu Kong-hek-chhi",
+        "Daegu Kóng-he̍k-chhī",
+        "Daegu-si",
+        "Daikyu",
+        "Daikyū",
+        "GJai Khau",
+        "Ntenkou",
+        "TAE",
+        "Taegu",
+        "Taikando",
+        "Taikandō",
+        "Taiku",
+        "Taikyu",
+        "Taikyū",
+        "Tegu",
+        "Teguo",
+        "Tehgu",
+        "Tägu",
+        "da qiu guang yu shi",
+        "da'egu",
+        "daegugwang-yeogsi",
+        "daegusi",
+        "daigu",
+        "dayigu",
+        "dayjw",
+        "degu",
+        "dyghw",
+        "tgw",
+        "Đại Khâu"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "دايغو",
+      "regionEn": "Daegu"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1835329",
+    "verified": true
+  },
+  {
+    "slug": "suwon",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 37.29111,
+    "lng": 127.00889,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "سوون",
+      "en": "Suwon",
+      "fr": "Suwon",
+      "de": "Suwon",
+      "tr": "Suwon",
+      "ur": "Suwon",
+      "id": "Suwon",
+      "es": "Suwon",
+      "bn": "Suwon",
+      "ms": "Suwon"
+    },
+    "aliases": {
+      "ar": [
+        "سووون"
+      ],
+      "en": [
+        "SWU",
+        "Sououon",
+        "Suigen",
+        "Suvon",
+        "Suwon-si",
+        "Suwŏn",
+        "shui yuan shi",
+        "su'oyana",
+        "suvona",
+        "suwoni",
+        "suwonsi",
+        "suwxn",
+        "swwn",
+        "swwwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "غيونغي",
+      "regionEn": "Gyeonggi"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1835553",
+    "verified": true
+  },
+  {
+    "slug": "osan",
+    "type": "town",
+    "countryCode": "kr",
+    "lat": 37.15222,
+    "lng": 127.07056,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "اوسان",
+      "en": "Osan",
+      "fr": "Osan",
+      "de": "Osan",
+      "tr": "Osan",
+      "ur": "Osan",
+      "id": "Osan",
+      "es": "Osan",
+      "bn": "Osan",
+      "ms": "Osan"
+    },
+    "aliases": {
+      "en": [
+        "OSN",
+        "Osan-ni",
+        "Usan'",
+        "Usan-ri",
+        "Vu-san-su",
+        "Vû-sân-sṳ",
+        "awsan",
+        "osansi",
+        "wu shan shi",
+        "xo san"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "غيونغي",
+      "regionEn": "Gyeonggi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1839652",
+    "verified": true
+  },
+  {
+    "slug": "muan",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 34.99014,
+    "lng": 126.47899,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "موآن",
+      "en": "Muan",
+      "fr": "Muan",
+      "de": "Muan",
+      "tr": "Muan",
+      "ur": "Muan",
+      "id": "Muan",
+      "es": "Muan",
+      "bn": "Muan",
+      "ms": "Muan"
+    },
+    "aliases": {
+      "ar": [
+        "موان"
+      ],
+      "en": [
+        "MWX",
+        "Muan-gun",
+        "Muap",
+        "mu'ana",
+        "muwani",
+        "muyana",
+        "mwan",
+        "wu an"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "جيولا الجنوبية",
+      "regionEn": "South Jeolla"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1840982",
+    "verified": true
+  },
+  {
+    "slug": "gwangju",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 35.15472,
+    "lng": 126.91556,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "غوانغجو",
+      "en": "Gwangju",
+      "fr": "Gwangju",
+      "de": "Gwangju",
+      "tr": "Gwangju",
+      "ur": "Gwangju",
+      "id": "Gwangju",
+      "es": "Gwangju",
+      "bn": "Gwangju",
+      "ms": "Gwangju"
+    },
+    "aliases": {
+      "ar": [
+        "غوانجو",
+        "غوانغ جو"
+      ],
+      "en": [
+        "Gouanjou",
+        "Gwangju Kong-hek-chhi",
+        "Gwangju Kóng-he̍k-chhī",
+        "Gwangju-si",
+        "KWJ",
+        "Koshu",
+        "Kosyu",
+        "Kuandzhu",
+        "Kuangju",
+        "Kuangjuo",
+        "Kvandzhu",
+        "Kvandzu",
+        "Kvandžu",
+        "Kvangdzsu",
+        "Kvangdzu",
+        "Kvanju",
+        "Kvanzhe",
+        "Kvaңdzhu",
+        "Kwang-choo",
+        "Kwang-dschu",
+        "Kwangdzu",
+        "Kwangdžu",
+        "Kwangju",
+        "Kōshū",
+        "Kōsyū",
+        "Kŭangĵuo",
+        "Quansua",
+        "ghwanghjw",
+        "goyanju",
+        "gu'angaju",
+        "guang zhou",
+        "guang zhou guang yu shi",
+        "guang zhou shi",
+        "gvangaju",
+        "gwang jw",
+        "gwangjugwang-yeogsi",
+        "gwangjusi",
+        "gwangjw",
+        "gwaniጁ",
+        "gwanjw",
+        "kh wang cu"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "غوانغجو",
+      "regionEn": "Gwangju"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1841811",
+    "verified": true
+  },
+  {
+    "slug": "chungju",
+    "type": "town",
+    "countryCode": "kr",
+    "lat": 36.97666,
+    "lng": 127.9287,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "تشنغجو",
+      "en": "Chungju",
+      "fr": "Chungju",
+      "de": "Chungju",
+      "tr": "Chungju",
+      "ur": "Chungju",
+      "id": "Chungju",
+      "es": "Chungju",
+      "bn": "Chungju",
+      "ms": "Chungju"
+    },
+    "aliases": {
+      "ar": [
+        "جونغجو"
+      ],
+      "en": [
+        "Cchungdzu",
+        "Ch'ungju",
+        "Chhung",
+        "Chkhundzhu",
+        "Chung-chu-su",
+        "Chushu",
+        "Chûng-chû-sṳ",
+        "Chūshū",
+        "Ch’ungju",
+        "Cungcu",
+        "Cungdzu",
+        "JWO",
+        "Tsch-hung",
+        "Tyusyu",
+        "Tyūsyū",
+        "chungjusi",
+        "chwngjw",
+        "cunju",
+        "tshnghjw",
+        "zhong zhou shi",
+        "Çungcu",
+        "Čchungdžu",
+        "Čungdžu"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "تشونغتشيونغ الشمالية",
+      "regionEn": "North Chungcheong"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1845033",
+    "verified": true
+  },
+  {
+    "slug": "chuncheon",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 37.87472,
+    "lng": 127.73417,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "تشنتشون",
+      "en": "Chuncheon",
+      "fr": "Chuncheon",
+      "de": "Chuncheon",
+      "tr": "Chuncheon",
+      "ur": "Chuncheon",
+      "id": "Chuncheon",
+      "es": "Chuncheon",
+      "bn": "Chuncheon",
+      "ms": "Chuncheon"
+    },
+    "aliases": {
+      "ar": [
+        "جانجئون",
+        "جنجيون",
+        "جونجيون"
+      ],
+      "en": [
+        "Cchuncchon",
+        "Ch'unch'on",
+        "Ch'unch'ŏn",
+        "Chhun-chhen",
+        "Chhun-chhon-su",
+        "Chhûn-chhôn-sṳ",
+        "Chkhunchkhon",
+        "Chүn'chon'",
+        "Ch’unch’ŏn",
+        "Cunceon",
+        "Cuncon",
+        "Cunconas",
+        "QUN",
+        "Shunsen",
+        "Shusen",
+        "Syunsen",
+        "Tsch-hun-tsch-hon",
+        "Tsch-hun-tsch-hŏn",
+        "chanchywn",
+        "chnchywn",
+        "chun chuan",
+        "chun chuan shi",
+        "chuncheonsi",
+        "chwnchywn",
+        "cunaci'ona",
+        "cunciyona",
+        "cuniconi",
+        "tshntshwn",
+        "Çunçeon",
+        "Ĉunĉon",
+        "Čchunčchon",
+        "Čunčonas"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "كانغوون",
+      "regionEn": "Gangwon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1845136",
+    "verified": true
+  },
+  {
+    "slug": "jeonju",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 35.82194,
+    "lng": 127.14889,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "جئونجو",
+      "en": "Jeonju",
+      "fr": "Jeonju",
+      "de": "Jeonju",
+      "tr": "Jeonju",
+      "ur": "Jeonju",
+      "id": "Jeonju",
+      "es": "Jeonju",
+      "bn": "Jeonju",
+      "ms": "Jeonju"
+    },
+    "aliases": {
+      "ar": [
+        "جونجو",
+        "جيونجو"
+      ],
+      "en": [
+        "CHN",
+        "Chenju",
+        "Chonchzhu",
+        "Chondzhu",
+        "Chongju",
+        "Chonju",
+        "Chunju",
+        "Chŏngju",
+        "Chŏnju",
+        "Condzu",
+        "Dzondzu",
+        "Džondžu",
+        "Jenchu",
+        "Jeon Ju",
+        "Tjyen-tjyou",
+        "Tschon-dschu",
+        "Tschön-dschu",
+        "Tsiuentcheou",
+        "Tyondyu",
+        "Tyondyū",
+        "je'onaju",
+        "jeonjusi",
+        "ji'onaju",
+        "joniጁ",
+        "jonju",
+        "jwnjw",
+        "jywnjw",
+        "quan zhou",
+        "quan zhou shi",
+        "Čondžu"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "جيولا الشمالية",
+      "regionEn": "North Jeolla"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1845457",
+    "verified": true
+  },
+  {
+    "slug": "cheongju-si",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 36.63722,
+    "lng": 127.48972,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "تشيونغجو",
+      "en": "Cheongju-si",
+      "fr": "Cheongju-si",
+      "de": "Cheongju-si",
+      "tr": "Cheongju-si",
+      "ur": "Cheongju-si",
+      "id": "Cheongju-si",
+      "es": "Cheongju-si",
+      "bn": "Cheongju-si",
+      "ms": "Cheongju-si"
+    },
+    "aliases": {
+      "ar": [
+        "جئونغجو-سي",
+        "جيونغجو-سي",
+        "تشيونغجو سي"
+      ],
+      "en": [
+        "CJJ",
+        "Cheongju",
+        "Chkhundzhu",
+        "ceweniግጁ-si",
+        "cheongju",
+        "cheongjusi",
+        "chywngjw-sy",
+        "ci'ongaju-si",
+        "ci'onju-si",
+        "ciyonagju-si",
+        "qing zhou shi",
+        "tshywnghjw"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "تشونغتشيونغ الشمالية",
+      "regionEn": "North Chungcheong"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1845604",
+    "verified": true
+  },
+  {
+    "slug": "cheonan",
+    "type": "town",
+    "countryCode": "kr",
+    "lat": 36.8065,
+    "lng": 127.1522,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "تشونان",
+      "en": "Cheonan",
+      "fr": "Cheonan",
+      "de": "Cheonan",
+      "tr": "Cheonan",
+      "ur": "Cheonan",
+      "id": "Cheonan",
+      "es": "Cheonan",
+      "bn": "Cheonan",
+      "ms": "Cheonan"
+    },
+    "aliases": {
+      "ar": [
+        "جئونان",
+        "جيونان"
+      ],
+      "en": [
+        "Cchonan",
+        "Ch'onan",
+        "Ch'ŏnan",
+        "Chkhonan",
+        "Chonan'",
+        "Ch’ŏnan",
+        "Tenan",
+        "Thien-on-su",
+        "Thiên-ôn-sṳ",
+        "Thyen-an",
+        "Thyen-ān",
+        "cheon-an",
+        "cheon-ansi",
+        "chywnan",
+        "tian an shi",
+        "tshwnan",
+        "Čchonan"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "تشونغتشيونغ الجنوبية",
+      "regionEn": "South Chungcheong"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1845759",
+    "verified": true
+  },
+  {
+    "slug": "changwon",
+    "type": "city",
+    "countryCode": "kr",
+    "lat": 35.22806,
+    "lng": 128.68111,
+    "timezone": "Asia/Seoul",
+    "names": {
+      "ar": "تشانغوون",
+      "en": "Changwon",
+      "fr": "Changwon",
+      "de": "Changwon",
+      "tr": "Changwon",
+      "ur": "Changwon",
+      "id": "Changwon",
+      "es": "Changwon",
+      "bn": "Changwon",
+      "ms": "Changwon"
+    },
+    "aliases": {
+      "ar": [
+        "جانغ وون",
+        "جانغون",
+        "جانغوون",
+        "جانغ‌وون"
+      ],
+      "en": [
+        "Cangvonas",
+        "Cangvono",
+        "Cchangwon",
+        "Ch'angwon",
+        "Ch'angwŏn",
+        "Changuon",
+        "Chanvon",
+        "Chkhangvon",
+        "Chkhanvon",
+        "Ch’angwŏn",
+        "Cshangvon",
+        "Sangwon",
+        "Shogen",
+        "Shōgen",
+        "camoyana",
+        "canga vona",
+        "cangvona",
+        "caniግwoni",
+        "chang wwn",
+        "chang yuan",
+        "chang yuan shi",
+        "chang-wonsi",
+        "changwn",
+        "changwwn",
+        "tshanghwwn",
+        "zngwwn",
+        "Ĉangvono",
+        "Čangvonas",
+        "Čchangwon"
+      ]
+    },
+    "admin": {
+      "countryAr": "كوريا الجنوبية",
+      "countryEn": "South Korea",
+      "regionAr": "كيونغسانغ الجنوبية",
+      "regionEn": "South Gyeongsang"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1846326",
+    "verified": true
+  },
+  {
+    "slug": "central",
+    "type": "city",
+    "countryCode": "hk",
+    "lat": 22.28299,
+    "lng": 114.15846,
+    "timezone": "Asia/Hong_Kong",
+    "names": {
+      "ar": "سنترال",
+      "en": "Central",
+      "fr": "Central",
+      "de": "Central",
+      "tr": "Central",
+      "ur": "Central",
+      "id": "Central",
+      "es": "Central",
+      "bn": "Central",
+      "ms": "Central"
+    },
+    "aliases": {
+      "en": [
+        "Central'nyj",
+        "Centralo",
+        "Chung Wan",
+        "City of Victoria",
+        "Victoria",
+        "Victoria City",
+        "jjung-wan",
+        "maiyam",
+        "sntral",
+        "sntrl",
+        "zhong huan"
+      ]
+    },
+    "admin": {
+      "countryAr": "هونغ كونغ",
+      "countryEn": "Hong Kong",
+      "regionAr": "سنترال",
+      "regionEn": "Central (HK Island)"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:8223932",
+    "verified": true
+  },
+  {
+    "slug": "tainan",
+    "type": "town",
+    "countryCode": "tw",
+    "lat": 22.99083,
+    "lng": 120.21333,
+    "timezone": "Asia/Taipei",
+    "names": {
+      "ar": "تاينان",
+      "en": "Tainan",
+      "fr": "Tainan",
+      "de": "Tainan",
+      "tr": "Tainan",
+      "ur": "Tainan",
+      "id": "Tainan",
+      "es": "Tainan",
+      "bn": "Tainan",
+      "ms": "Tainan"
+    },
+    "aliases": {
+      "en": [
+        "Dai-nang",
+        "Dài-nàng",
+        "GJai Nam",
+        "Kota Tainan",
+        "T'ai-nan",
+        "TNN",
+        "Tai-lam-chhi",
+        "Tainan City",
+        "Tainanas",
+        "Tajnan",
+        "Tajnan'",
+        "Tajnano",
+        "Taynam",
+        "Tchaj-nan",
+        "Teynen shehiri",
+        "Thoi-nam-su",
+        "Thòi-nàm-sṳ",
+        "Táinán",
+        "Tâi-lâm-chhī",
+        "T’ai-nan",
+        "tai nan",
+        "tai nan shi",
+        "tainan si",
+        "taynan",
+        "thi hnan",
+        "Đài Nam"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايوان",
+      "countryEn": "Taiwan",
+      "regionAr": "تايوان (مقاطعة)",
+      "regionEn": "Taiwan Province"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1668355",
+    "verified": true
+  },
+  {
+    "slug": "taichung",
+    "type": "town",
+    "countryCode": "tw",
+    "lat": 24.1469,
+    "lng": 120.6839,
+    "timezone": "Asia/Taipei",
+    "names": {
+      "ar": "تاي شانغ",
+      "en": "Taichung",
+      "fr": "Taichung",
+      "de": "Taichung",
+      "tr": "Taichung",
+      "ur": "Taichung",
+      "id": "Taichung",
+      "es": "Taichung",
+      "bn": "Taichung",
+      "ms": "Taichung"
+    },
+    "aliases": {
+      "en": [
+        "GJai Trung",
+        "Kota Taichung",
+        "RMQ",
+        "Tai-tiong-chhi",
+        "Taicungas",
+        "Taizhong",
+        "Taizhong Shi",
+        "Taičungas",
+        "Tajchzhun",
+        "Tajcungo",
+        "Tajzhun",
+        "Tajĉungo",
+        "Taychun",
+        "Tchaj-cung",
+        "Tchaj-čung",
+        "Teyjong shehiri",
+        "Thoi-chung-su",
+        "Thòi-chûng-sṳ",
+        "Tâi-tiong-chhī",
+        "tai zhong",
+        "tai zhong shi",
+        "taijung si",
+        "tay shangh",
+        "Đài Trung"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايوان",
+      "countryEn": "Taiwan",
+      "regionAr": "تايوان (مقاطعة)",
+      "regionEn": "Taiwan Province"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1668399",
+    "verified": true
+  },
+  {
+    "slug": "hsinchu",
+    "type": "town",
+    "countryCode": "tw",
+    "lat": 24.80361,
+    "lng": 120.96861,
+    "timezone": "Asia/Taipei",
+    "names": {
+      "ar": "سين شو",
+      "en": "Hsinchu",
+      "fr": "Hsinchu",
+      "de": "Hsinchu",
+      "tr": "Hsinchu",
+      "ur": "Hsinchu",
+      "id": "Hsinchu",
+      "es": "Hsinchu",
+      "bn": "Hsinchu",
+      "ms": "Hsinchu"
+    },
+    "aliases": {
+      "en": [
+        "HSZ",
+        "Hsin-Chuan City",
+        "Hsin-Chung",
+        "Hsin-chu",
+        "Hsin-chu-hsien",
+        "Hsin-chu-shih",
+        "Kota Hsinchu",
+        "Sin'chzhu",
+        "Sin-chuk-su",
+        "Sin-cu",
+        "Sin-tek-chhi",
+        "Sin-tek-chhī",
+        "Sin-ču",
+        "Sinhcuz",
+        "Sinjhushih",
+        "Sîn-chuk-sṳ",
+        "Tan Truc",
+        "Tân Trúc",
+        "Xinzhu",
+        "Xinzhushi",
+        "nkhr sin cu",
+        "sinju si",
+        "syn shw",
+        "xin zhu",
+        "xin zhu shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايوان",
+      "countryEn": "Taiwan",
+      "regionAr": "تايوان (مقاطعة)",
+      "regionEn": "Taiwan Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1675151",
+    "verified": true
+  },
+  {
+    "slug": "keelung",
+    "type": "town",
+    "countryCode": "tw",
+    "lat": 25.13089,
+    "lng": 121.74094,
+    "timezone": "Asia/Taipei",
+    "names": {
+      "ar": "كي لنغ",
+      "en": "Keelung",
+      "fr": "Keelung",
+      "de": "Keelung",
+      "tr": "Keelung",
+      "ur": "Keelung",
+      "id": "Keelung",
+      "es": "Keelung",
+      "bn": "Keelung",
+      "ms": "Keelung"
+    },
+    "aliases": {
+      "en": [
+        "Chi-lung",
+        "Chi-lung-shih",
+        "Chilung",
+        "Co Long",
+        "Czilun",
+        "Cơ Long",
+        "Gie-leng",
+        "Giĕ-lè̤ng",
+        "Jilong",
+        "Jilongshi",
+        "Jilongshih",
+        "Ke-lang-chhi",
+        "Ke-lâng-chhī",
+        "Ki-lung-su",
+        "Kota Keelung",
+        "Kî-lùng-sṳ",
+        "Shi-lun",
+        "Ti-lung",
+        "ji long",
+        "ji long shi",
+        "jilung si",
+        "ky lngh",
+        "Ťi-lung"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايوان",
+      "countryEn": "Taiwan",
+      "regionAr": "تايوان (مقاطعة)",
+      "regionEn": "Taiwan Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1678228",
+    "verified": true
   }
 ]

@@ -73,3 +73,14 @@ db/places/candidates/vn-geonames-candidates.json
 db/places/candidates/ph-geonames-raw.json
 db/places/candidates/ph-geonames-normalized.json
 db/places/candidates/ph-geonames-candidates.json
+
+# CURATED-GEODATA-ASIA-1C — KR candidates 100 MB (at GitHub 100 MB hard limit)
+# + normalized 62 MB + raw 33 MB. JP candidates 72 MB + normalized 44 MB +
+# raw 28 MB. Both gitignored for safety. HK (2 MB), TW (26 MB), MO (15 KB)
+# stay committed. Regeneratable via Stages 1-3.
+db/places/candidates/jp-geonames-raw.json
+db/places/candidates/jp-geonames-normalized.json
+db/places/candidates/jp-geonames-candidates.json
+db/places/candidates/kr-geonames-raw.json
+db/places/candidates/kr-geonames-normalized.json
+db/places/candidates/kr-geonames-candidates.json

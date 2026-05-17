@@ -59,3 +59,17 @@ db/places/candidates/mx-geonames-candidates.json
 db/places/candidates/id-geonames-raw.json
 db/places/candidates/id-geonames-normalized.json
 db/places/candidates/id-geonames-candidates.json
+
+# CURATED-GEODATA-ASIA-1B — TH candidates 144 MB (over 100 MB hard limit)
+# + normalized 89 MB + raw 49 MB. VN candidates 67 MB + normalized 41 MB.
+# PH candidates 67 MB + normalized 40 MB. All gitignored for consistency.
+# Regeneratable via Stages 1-3.
+db/places/candidates/th-geonames-raw.json
+db/places/candidates/th-geonames-normalized.json
+db/places/candidates/th-geonames-candidates.json
+db/places/candidates/vn-geonames-raw.json
+db/places/candidates/vn-geonames-normalized.json
+db/places/candidates/vn-geonames-candidates.json
+db/places/candidates/ph-geonames-raw.json
+db/places/candidates/ph-geonames-normalized.json
+db/places/candidates/ph-geonames-candidates.json

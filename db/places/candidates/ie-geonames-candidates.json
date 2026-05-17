@@ -70818,8 +70818,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 2963350,
@@ -70878,8 +70881,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 2963351,
@@ -183377,8 +183383,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3230775,
@@ -202050,8 +202059,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3291998,
@@ -395780,8 +395792,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3311802,
@@ -412137,8 +412152,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "montpelier",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "montpelier-ie"
   },
   {
     "geonameid": 3312521,
@@ -415949,8 +415967,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3313045,
@@ -416497,8 +416518,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3313055,
@@ -445901,8 +445925,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3314141,
@@ -484432,8 +484459,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3315603,
@@ -500003,8 +500033,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 3316225,
@@ -589974,8 +590007,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 10130612,
@@ -604778,8 +604814,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 12105177,
@@ -613118,8 +613157,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 12105342,
@@ -615578,8 +615620,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 12105391,
@@ -619598,8 +619643,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 12105464,
@@ -724363,8 +724411,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "killeen",
+      "existingCc": "us"
+    },
+    "suggestedSlugIfCollision": "killeen-ie"
   },
   {
     "geonameid": 12133506,

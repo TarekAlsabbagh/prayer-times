@@ -373523,7 +373523,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "laval",
+      "existingCc": "ca"
+    },
     "suggestedSlugIfCollision": "laval-be"
   },
   {
@@ -426554,7 +426557,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "kiel",
+      "existingCc": "de"
+    },
     "suggestedSlugIfCollision": "kiel-be"
   },
   {
@@ -484474,7 +484480,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "herne",
+      "existingCc": "de"
+    },
     "suggestedSlugIfCollision": "herne-be"
   },
   {
@@ -496255,8 +496264,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "heidelberg",
+      "existingCc": "de"
+    },
+    "suggestedSlugIfCollision": "heidelberg-be"
   },
   {
     "geonameid": 2796240,
@@ -579422,7 +579434,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "essen",
+      "existingCc": "de"
+    },
     "suggestedSlugIfCollision": "essen-be"
   },
   {
@@ -596146,8 +596161,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "duisburg",
+      "existingCc": "de"
+    },
+    "suggestedSlugIfCollision": "duisburg-be"
   },
   {
     "geonameid": 2799080,

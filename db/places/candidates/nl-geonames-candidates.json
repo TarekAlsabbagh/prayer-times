@@ -185406,8 +185406,11 @@
       "fromArTag": false
     },
     "collisionInWave": false,
-    "collisionAgainstCurated": null,
-    "suggestedSlugIfCollision": null
+    "collisionAgainstCurated": {
+      "existingSlug": "mataram",
+      "existingCc": "id"
+    },
+    "suggestedSlugIfCollision": "mataram-nl"
   },
   {
     "geonameid": 2751101,
@@ -228401,7 +228404,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "kiel",
+      "existingCc": "de"
+    },
     "suggestedSlugIfCollision": "kiel-nl"
   },
   {
@@ -306764,7 +306770,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "essen",
+      "existingCc": "de"
+    },
     "suggestedSlugIfCollision": "essen-nl"
   },
   {
@@ -306824,7 +306833,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "essen",
+      "existingCc": "de"
+    },
     "suggestedSlugIfCollision": "essen-nl"
   },
   {
@@ -380523,7 +380535,10 @@
       "fromArTag": false
     },
     "collisionInWave": true,
-    "collisionAgainstCurated": null,
+    "collisionAgainstCurated": {
+      "existingSlug": "bern",
+      "existingCc": "ch"
+    },
     "suggestedSlugIfCollision": "bern-nl"
   },
   {

@@ -84,3 +84,13 @@ db/places/candidates/jp-geonames-candidates.json
 db/places/candidates/kr-geonames-raw.json
 db/places/candidates/kr-geonames-normalized.json
 db/places/candidates/kr-geonames-candidates.json
+
+# CURATED-GEODATA-ASIA-1G-IR — IR candidates 123 MB (over GitHub 100 MB
+# hard limit) + normalized 76 MB + raw 47 MB. Also asia-1g-ir-persian-pregate.json
+# is 26 MB (per-row audit of all 45k touched rows). Regeneratable via Stages 1-3.4.
+# The smaller asia-1g-ir-arabic-quality.json (30 KB, high-tier summary) stays.
+db/places/candidates/ir-geonames-raw.json
+db/places/candidates/ir-geonames-normalized.json
+db/places/candidates/ir-geonames-candidates.json
+db/places/candidates/ir-geonames-candidates.preStage3_4.json
+db/places/candidates/asia-1g-ir-persian-pregate.json

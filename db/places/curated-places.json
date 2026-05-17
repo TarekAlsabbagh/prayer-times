@@ -106132,5 +106132,1970 @@
     "source": "curated",
     "sourceId": "geonames:1514891",
     "verified": true
+  },
+  {
+    "slug": "azadshahr",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 34.79049,
+    "lng": 48.57011,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "آزادشهر",
+      "en": "Āzādshahr",
+      "fr": "Āzādshahr",
+      "de": "Āzādshahr",
+      "tr": "Āzādshahr",
+      "ur": "Āzādshahr",
+      "id": "Āzādshahr",
+      "es": "Āzādshahr",
+      "bn": "Āzādshahr",
+      "ms": "Āzādshahr"
+    },
+    "aliases": {
+      "en": [
+        "Azad Shahr",
+        "Azadshahr",
+        "azadshhr"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "همدان",
+      "regionEn": "Hamadan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:14256",
+    "verified": true
+  },
+  {
+    "slug": "qarchak",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.42873,
+    "lng": 51.57757,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "قرجك",
+      "en": "Qarchak",
+      "fr": "Qarchak",
+      "de": "Qarchak",
+      "tr": "Qarchak",
+      "ur": "Qarchak",
+      "id": "Qarchak",
+      "es": "Qarchak",
+      "bn": "Qarchak",
+      "ms": "Qarchak"
+    },
+    "aliases": {
+      "en": [
+        "qrchk"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "طهران",
+      "regionEn": "Tehran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:32767",
+    "verified": true
+  },
+  {
+    "slug": "golestan",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.5183,
+    "lng": 51.1819,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "شهرك غلستان",
+      "en": "Golestān",
+      "fr": "Golestān",
+      "de": "Golestān",
+      "tr": "Golestān",
+      "ur": "Golestān",
+      "id": "Golestān",
+      "es": "Golestān",
+      "bn": "Golestān",
+      "ms": "Golestān"
+    },
+    "aliases": {
+      "ar": [
+        "غلستان"
+      ],
+      "en": [
+        "Golestan",
+        "Shahrak-e Golestan",
+        "Shahrak-e Golestān",
+        "glstan",
+        "shhrk glstan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "طهران",
+      "regionEn": "Tehran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:32900",
+    "verified": true
+  },
+  {
+    "slug": "yasuj",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 30.66824,
+    "lng": 51.58796,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "ياسوج",
+      "en": "Yasuj",
+      "fr": "Yasuj",
+      "de": "Yasuj",
+      "tr": "Yasuj",
+      "ur": "Yasuj",
+      "id": "Yasuj",
+      "es": "Yasuj",
+      "bn": "Yasuj",
+      "ms": "Yasuj"
+    },
+    "aliases": {
+      "ar": [
+        "يَسُّج",
+        "يِسوج",
+        "يسوج"
+      ],
+      "en": [
+        "Jasudz",
+        "Jasudzh",
+        "Jasudż",
+        "Jasudž",
+        "Jásúdž",
+        "YES",
+        "Yasooj",
+        "Yasuc",
+        "Yasudsch",
+        "Yasûc",
+        "Yesuj",
+        "Yesūj",
+        "Yāsūj",
+        "ya su ji",
+        "yasuja",
+        "yasujeu",
+        "yasuju",
+        "yaswj",
+        "yiswj",
+        "yswj"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "كهكيلويه وبوير أحمد",
+      "regionEn": "Kohgiluyeh and Boyer-Ahmad"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:66093",
+    "verified": true
+  },
+  {
+    "slug": "zanjan",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 36.67642,
+    "lng": 48.49628,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "زنجان",
+      "en": "Zanjan",
+      "fr": "Zanjan",
+      "de": "Zanjan",
+      "tr": "Zanjan",
+      "ur": "Zanjan",
+      "id": "Zanjan",
+      "es": "Zanjan",
+      "bn": "Zanjan",
+      "ms": "Zanjan"
+    },
+    "aliases": {
+      "en": [
+        "JWN",
+        "Zandschan",
+        "Zandzan",
+        "Zandžan",
+        "Zanjān",
+        "Zendzhan",
+        "Zenjan",
+        "Zenjān",
+        "Zəncan",
+        "znjan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "زنجان",
+      "regionEn": "Zanjan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:111453",
+    "verified": true
+  },
+  {
+    "slug": "sirjan",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 29.45137,
+    "lng": 55.6809,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "سيرجان",
+      "en": "Sirjan",
+      "fr": "Sirjan",
+      "de": "Sirjan",
+      "tr": "Sirjan",
+      "ur": "Sirjan",
+      "id": "Sirjan",
+      "es": "Sirjan",
+      "bn": "Sirjan",
+      "ms": "Sirjan"
+    },
+    "aliases": {
+      "en": [
+        "SYJ",
+        "Sa'idabad",
+        "Sa‘īdābād",
+        "Sircan",
+        "Sirdschan",
+        "Sirdzan",
+        "Sirdzhan",
+        "Sirdżan",
+        "Sirdžan",
+        "Sīrjān",
+        "sirajana",
+        "syrjan",
+        "xi er zhan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "كرمان",
+      "regionEn": "Kerman"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:114259",
+    "verified": true
+  },
+  {
+    "slug": "shahr-e-kord",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 32.32612,
+    "lng": 50.8572,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "شهر كرد",
+      "en": "Shahr-e Kord",
+      "fr": "Shahr-e Kord",
+      "de": "Shahr-e Kord",
+      "tr": "Shahr-e Kord",
+      "ur": "Shahr-e Kord",
+      "id": "Shahr-e Kord",
+      "es": "Shahr-e Kord",
+      "bn": "Shahr-e Kord",
+      "ms": "Shahr-e Kord"
+    },
+    "aliases": {
+      "en": [
+        "CQD",
+        "QHK",
+        "Shahr Kord",
+        "Shahr Kurd",
+        "Shahrekord",
+        "Shakhre-Kord",
+        "shhr krd"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "تشهارمحال وبختياري",
+      "regionEn": "Chaharmahal and Bakhtiari"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:115770",
+    "verified": true
+  },
+  {
+    "slug": "semnan",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 35.57691,
+    "lng": 53.39205,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "سمنان",
+      "en": "Semnan",
+      "fr": "Semnan",
+      "de": "Semnan",
+      "tr": "Semnan",
+      "ur": "Semnan",
+      "id": "Semnan",
+      "es": "Semnan",
+      "bn": "Semnan",
+      "ms": "Semnan"
+    },
+    "aliases": {
+      "en": [
+        "SNX",
+        "Semnān",
+        "smnan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "سمنان",
+      "regionEn": "Semnan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:116402",
+    "verified": true
+  },
+  {
+    "slug": "saveh",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.0213,
+    "lng": 50.3566,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "ساوه",
+      "en": "Sāveh",
+      "fr": "Sāveh",
+      "de": "Sāveh",
+      "tr": "Sāveh",
+      "ur": "Sāveh",
+      "id": "Sāveh",
+      "es": "Sāveh",
+      "bn": "Sāveh",
+      "ms": "Sāveh"
+    },
+    "aliases": {
+      "en": [
+        "Sava",
+        "Saveh",
+        "sawh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "مركزي",
+      "regionEn": "Markazi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:116667",
+    "verified": true
+  },
+  {
+    "slug": "sari",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 36.56332,
+    "lng": 53.06009,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "سارى",
+      "en": "Sari",
+      "fr": "Sari",
+      "de": "Sari",
+      "tr": "Sari",
+      "ur": "Sari",
+      "id": "Sari",
+      "es": "Sari",
+      "bn": "Sari",
+      "ms": "Sari"
+    },
+    "aliases": {
+      "ar": [
+        "ساري",
+        "ساري، ايران"
+      ],
+      "en": [
+        "SRY",
+        "Sari i Iran",
+        "Saris",
+        "Sariyo",
+        "Sarí",
+        "Sarî",
+        "Shahr-i-Tajan",
+        "Shari-i-Tajan",
+        "Sori",
+        "Szari",
+        "Szári",
+        "Sárí",
+        "Sārī",
+        "sa li shi",
+        "sali",
+        "sary",
+        "sary  ayran"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "مازندران",
+      "regionEn": "Mazandaran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:116996",
+    "verified": true
+  },
+  {
+    "slug": "sanandaj",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 35.31495,
+    "lng": 46.99883,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "سنندج",
+      "en": "Sanandaj",
+      "fr": "Sanandaj",
+      "de": "Sanandaj",
+      "tr": "Sanandaj",
+      "ur": "Sanandaj",
+      "id": "Sanandaj",
+      "es": "Sanandaj",
+      "bn": "Sanandaj",
+      "ms": "Sanandaj"
+    },
+    "aliases": {
+      "ar": [
+        "سنه",
+        "سِنَّ",
+        "سِنِّه"
+      ],
+      "en": [
+        "SDG",
+        "Sanandadsch",
+        "Sanandadz",
+        "Sanandadż",
+        "Sanandadž",
+        "Sanandago",
+        "Sanandaĝo",
+        "Sanandij",
+        "Senendec",
+        "Senendedzas",
+        "Senendedzh",
+        "Senendedžas",
+        "Senendehdzh",
+        "Senna",
+        "Senneh",
+        "Sinandij",
+        "Sine",
+        "Sinneh",
+        "Sənəndəc",
+        "sa nan da ji",
+        "sanandaja",
+        "sanandaji",
+        "sina",
+        "sinih",
+        "snndj"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "كردستان",
+      "regionEn": "Kurdistan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:117574",
+    "verified": true
+  },
+  {
+    "slug": "sabzevar",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 36.2126,
+    "lng": 57.68191,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "سبزوار",
+      "en": "Sabzevar",
+      "fr": "Sabzevar",
+      "de": "Sabzevar",
+      "tr": "Sabzevar",
+      "ur": "Sabzevar",
+      "id": "Sabzevar",
+      "es": "Sabzevar",
+      "bn": "Sabzevar",
+      "ms": "Sabzevar"
+    },
+    "aliases": {
+      "en": [
+        "AFZ",
+        "Sabzawar",
+        "Sabzawār",
+        "Sabzevār",
+        "Sabzewar",
+        "Sabzivor",
+        "Sebzevar",
+        "Səbzivar",
+        "sa bo ze wa er",
+        "sab si war",
+        "sabzevara",
+        "sbzwar"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "خراسان رضوي",
+      "regionEn": "Razavi Khorasan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:118063",
+    "verified": true
+  },
+  {
+    "slug": "qazvin",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 36.26877,
+    "lng": 50.0041,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "قزوين",
+      "en": "Qazvin",
+      "fr": "Qazvin",
+      "de": "Qazvin",
+      "tr": "Qazvin",
+      "ur": "Qazvin",
+      "id": "Qazvin",
+      "es": "Qazvin",
+      "bn": "Qazvin",
+      "ms": "Qazvin"
+    },
+    "aliases": {
+      "ar": [
+        "قهزوين"
+      ],
+      "en": [
+        "Dakbayan sa Qazvin",
+        "GZW",
+        "Gazvin",
+        "Kazvin",
+        "Kazvinas",
+        "Kazvín",
+        "Kazwin",
+        "Kuazvin",
+        "Qazvín",
+        "Qazvīn",
+        "Qazwen",
+        "Qazwên",
+        "Qəzvin",
+        "gazuvuin",
+        "jia ci wen",
+        "kajeubin",
+        "kazvina",
+        "kxs win",
+        "qzwyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "قزوين",
+      "regionEn": "Qazvin"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:119505",
+    "verified": true
+  },
+  {
+    "slug": "qods",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.7214,
+    "lng": 51.109,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "شهر قدس",
+      "en": "Qods",
+      "fr": "Qods",
+      "de": "Qods",
+      "tr": "Qods",
+      "ur": "Qods",
+      "id": "Qods",
+      "es": "Qods",
+      "bn": "Qods",
+      "ms": "Qods"
+    },
+    "aliases": {
+      "ar": [
+        "شهرك قدس",
+        "قدس",
+        "قلعه حسن خان",
+        "قَلعِه هَسَن",
+        "كَرَج"
+      ],
+      "en": [
+        "Karaj",
+        "Qal'eh Hasan",
+        "Qal'eh-ye Hasan Khan",
+        "Qal‘eh Hasan",
+        "Qal‘eh-ye Ḩasan Khān",
+        "Shahr-e Qods",
+        "Shahrak-e Qods",
+        "karaj",
+        "qalʿih hasan",
+        "qds",
+        "qlʿh hsn khan",
+        "shhr qds",
+        "shhrk qds"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "طهران",
+      "regionEn": "Tehran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:120292",
+    "verified": true
+  },
+  {
+    "slug": "qaem-shahr",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 36.46306,
+    "lng": 52.86007,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "قائم شهر",
+      "en": "Qā’em Shahr",
+      "fr": "Qā’em Shahr",
+      "de": "Qā’em Shahr",
+      "tr": "Qā’em Shahr",
+      "ur": "Qā’em Shahr",
+      "id": "Qā’em Shahr",
+      "es": "Qā’em Shahr",
+      "bn": "Qā’em Shahr",
+      "ms": "Qā’em Shahr"
+    },
+    "aliases": {
+      "ar": [
+        "شاهي",
+        "عَلي آباد",
+        "قائم‌شهر",
+        "قائم"
+      ],
+      "en": [
+        "Qa'em Shahr",
+        "Shahabad",
+        "Shahi",
+        "Shāhābād",
+        "Shāhī",
+        "`Aliabad",
+        "qaym shhr",
+        "shah abad",
+        "shahy",
+        "‘Alīābād"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "مازندران",
+      "regionEn": "Mazandaran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:120695",
+    "verified": true
+  },
+  {
+    "slug": "neyshabur",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 36.21329,
+    "lng": 58.79575,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "نيسابور",
+      "en": "Neyshābūr",
+      "fr": "Neyshābūr",
+      "de": "Neyshābūr",
+      "tr": "Neyshābūr",
+      "ur": "Neyshābūr",
+      "id": "Neyshābūr",
+      "es": "Neyshābūr",
+      "bn": "Neyshābūr",
+      "ms": "Neyshābūr"
+    },
+    "aliases": {
+      "ar": [
+        "نيشابور"
+      ],
+      "en": [
+        "Nejsaburo",
+        "Nejŝaburo",
+        "Neyshabur",
+        "Nichapur",
+        "Nisabur",
+        "Nischapur",
+        "Nishabur",
+        "Nishapur",
+        "Nishopur",
+        "Nişabur",
+        "Nīshābūr",
+        "Nīshāpūr",
+        "nishapu",
+        "nysabwr",
+        "nyshabwr",
+        "nyshapwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "خراسان رضوي",
+      "regionEn": "Razavi Khorasan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:122285",
+    "verified": true
+  },
+  {
+    "slug": "nazarabad",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.95411,
+    "lng": 50.60607,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "نظر آباد",
+      "en": "Naz̧arābād",
+      "fr": "Naz̧arābād",
+      "de": "Naz̧arābād",
+      "tr": "Naz̧arābād",
+      "ur": "Naz̧arābād",
+      "id": "Naz̧arābād",
+      "es": "Naz̧arābād",
+      "bn": "Naz̧arābād",
+      "ms": "Naz̧arābād"
+    },
+    "aliases": {
+      "ar": [
+        "نَظَرابادِ بُزُرغ"
+      ],
+      "en": [
+        "Nazarabad",
+        "Nazarabad-e Bozorg",
+        "Naz̧arābād-e Bozorg",
+        "nazarabadi buzurg",
+        "nzr abad"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "البرز",
+      "regionEn": "Alborz"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:122438",
+    "verified": true
+  },
+  {
+    "slug": "maragheh",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 37.39206,
+    "lng": 46.23909,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "مراغه",
+      "en": "Marāgheh",
+      "fr": "Marāgheh",
+      "de": "Marāgheh",
+      "tr": "Marāgheh",
+      "ur": "Marāgheh",
+      "id": "Marāgheh",
+      "es": "Marāgheh",
+      "bn": "Marāgheh",
+      "ms": "Marāgheh"
+    },
+    "aliases": {
+      "en": [
+        "ACP",
+        "Maragheh",
+        "Maraghen",
+        "Marāghen",
+        "mraghh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "أذربيجان الشرقية",
+      "regionEn": "East Azerbaijan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:124877",
+    "verified": true
+  },
+  {
+    "slug": "khorramshahr",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 30.44079,
+    "lng": 48.18428,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "الخرمشهر",
+      "en": "Khorramshahr",
+      "fr": "Khorramshahr",
+      "de": "Khorramshahr",
+      "tr": "Khorramshahr",
+      "ur": "Khorramshahr",
+      "id": "Khorramshahr",
+      "es": "Khorramshahr",
+      "bn": "Khorramshahr",
+      "ms": "Khorramshahr"
+    },
+    "aliases": {
+      "ar": [
+        "بندر خرمشهر",
+        "خرمشهر"
+      ],
+      "en": [
+        "Al-Muhammarah",
+        "Choremsehras",
+        "Choremšehras",
+        "Chorramsahr",
+        "Chorramschahr",
+        "Chorramszahr",
+        "Chorramšahr",
+        "Horamsaher",
+        "Horamšaher",
+        "Huerremsehr",
+        "Hürremşehr",
+        "Jorramchar",
+        "Khoramshahr",
+        "Khorram Shahr Abadan",
+        "Khorram Shahr Ābādān",
+        "Khorramchahre",
+        "Khorramxahr",
+        "Khorremshekhr",
+        "Khunin Shahr",
+        "Khurramshahr",
+        "Khūnīn Shahr",
+        "Koramshar",
+        "Koramsjar",
+        "Mohammerah",
+        "Muhammerah",
+        "Xürrəmşəhr",
+        "alkhrmshhr",
+        "bndr khrmshhr",
+        "horramushafuru",
+        "huo la mu sha he er",
+        "khrmshhr",
+        "khurramasahara"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "خوزستان",
+      "regionEn": "Khuzestan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:127319",
+    "verified": true
+  },
+  {
+    "slug": "khorramabad",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 33.48778,
+    "lng": 48.35583,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "خرم آباد",
+      "en": "Khorramabad",
+      "fr": "Khorramabad",
+      "de": "Khorramabad",
+      "tr": "Khorramabad",
+      "ur": "Khorramabad",
+      "id": "Khorramabad",
+      "es": "Khorramabad",
+      "bn": "Khorramabad",
+      "ms": "Khorramabad"
+    },
+    "aliases": {
+      "en": [
+        "KHD",
+        "Khorramābād",
+        "Khur Ramabad",
+        "Khur Ramābād",
+        "Khurramobod",
+        "khrm abad"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "لرستان",
+      "regionEn": "Lorestan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:127349",
+    "verified": true
+  },
+  {
+    "slug": "karaj",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 35.83266,
+    "lng": 50.99155,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "كرج",
+      "en": "Karaj",
+      "fr": "Karaj",
+      "de": "Karaj",
+      "tr": "Karaj",
+      "ur": "Karaj",
+      "id": "Karaj",
+      "es": "Karaj",
+      "bn": "Karaj",
+      "ms": "Karaj"
+    },
+    "aliases": {
+      "ar": [
+        "كهرهج",
+        "قَصَبِهِ كَرَج"
+      ],
+      "en": [
+        "Heredi",
+        "Karadj",
+        "Karadje",
+        "Karadsch",
+        "Karadz",
+        "Karadzs",
+        "Karadż",
+        "Karadž",
+        "Karago",
+        "Karatz",
+        "Karaĝo",
+        "Karej",
+        "Kerec",
+        "Keredi",
+        "Keredzas",
+        "Keredzh",
+        "Keredžas",
+        "Kerezh",
+        "Kərəc",
+        "Leredi",
+        "PYK",
+        "QKC",
+        "Qasabeh-e Karaj",
+        "Qaşabeh-e Karaj",
+        "ka la ji",
+        "kairaija",
+        "kalaji",
+        "karaji",
+        "kha rac",
+        "krj",
+        "kyaraji",
+        "qasabihi karaj"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "البرز",
+      "regionEn": "Alborz"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:128747",
+    "verified": true
+  },
+  {
+    "slug": "ilam",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 33.6374,
+    "lng": 46.4227,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "اِلام",
+      "en": "Īlām",
+      "fr": "Īlām",
+      "de": "Īlām",
+      "tr": "Īlām",
+      "ur": "Īlām",
+      "id": "Īlām",
+      "es": "Īlām",
+      "bn": "Īlām",
+      "ms": "Īlām"
+    },
+    "aliases": {
+      "ar": [
+        "ايلام",
+        "يلام"
+      ],
+      "en": [
+        "Elam",
+        "Elām",
+        "IIL",
+        "Ilam",
+        "ailam",
+        "aylam",
+        "ylam"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "إيلام",
+      "regionEn": "Ilam"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:130802",
+    "verified": true
+  },
+  {
+    "slug": "hamadan",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 34.79922,
+    "lng": 48.51456,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "همدان",
+      "en": "Hamadān",
+      "fr": "Hamadān",
+      "de": "Hamadān",
+      "tr": "Hamadān",
+      "ur": "Hamadān",
+      "id": "Hamadān",
+      "es": "Hamadān",
+      "bn": "Hamadān",
+      "ms": "Hamadān"
+    },
+    "aliases": {
+      "en": [
+        "Ecbatana",
+        "HDM",
+        "Hamadan",
+        "Hamedan",
+        "Hamedān",
+        "Khamadan",
+        "hmdan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "همدان",
+      "regionEn": "Hamadan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:132144",
+    "verified": true
+  },
+  {
+    "slug": "gorgan",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 36.8427,
+    "lng": 54.44391,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "اَستِر آباد",
+      "en": "Gorgān",
+      "fr": "Gorgān",
+      "de": "Gorgān",
+      "tr": "Gorgān",
+      "ur": "Gorgān",
+      "id": "Gorgān",
+      "es": "Gorgān",
+      "bn": "Gorgān",
+      "ms": "Gorgān"
+    },
+    "aliases": {
+      "ar": [
+        "غرغان",
+        "غورغان"
+      ],
+      "en": [
+        "Asterabad",
+        "Asterābād",
+        "GBT",
+        "Gorgan",
+        "Gurgan",
+        "Gurgon",
+        "Gūrgān",
+        "Hirkanio",
+        "aastir abad",
+        "grgan",
+        "gwrgan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "كلستان",
+      "regionEn": "Golestan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:132892",
+    "verified": true
+  },
+  {
+    "slug": "bushehr",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 28.96887,
+    "lng": 50.83657,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بندر بوشهر",
+      "en": "Bushehr",
+      "fr": "Bushehr",
+      "de": "Bushehr",
+      "tr": "Bushehr",
+      "ur": "Bushehr",
+      "id": "Bushehr",
+      "es": "Bushehr",
+      "bn": "Bushehr",
+      "ms": "Bushehr"
+    },
+    "aliases": {
+      "ar": [
+        "بوشهر",
+        "بوشِهر"
+      ],
+      "en": [
+        "Abu Shahr",
+        "Abu Shehr",
+        "Abuschehr",
+        "BUZ",
+        "Bandar Abu Shehr",
+        "Bandar Bushehr",
+        "Bandar Būshehr",
+        "Bandar-e Bushehr",
+        "Bandar-e Būshehr",
+        "Bouchehr",
+        "Buschehr",
+        "Buschir",
+        "Busehr",
+        "Busher",
+        "Bushir",
+        "Bushire",
+        "Būshehr",
+        "Būšehr",
+        "bndr bwshhr",
+        "bwshhr",
+        "bwshihr"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "بوشهر",
+      "regionEn": "Bushehr"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:139817",
+    "verified": true
+  },
+  {
+    "slug": "bukan",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 36.521,
+    "lng": 46.2089,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بوكان",
+      "en": "Būkān",
+      "fr": "Būkān",
+      "de": "Būkān",
+      "tr": "Būkān",
+      "ur": "Būkān",
+      "id": "Būkān",
+      "es": "Būkān",
+      "bn": "Būkān",
+      "ms": "Būkān"
+    },
+    "aliases": {
+      "en": [
+        "Bokan",
+        "Bowkan",
+        "Bowkān",
+        "Bukan",
+        "bwkan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "أذربيجان الغربية",
+      "regionEn": "West Azerbaijan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:139889",
+    "verified": true
+  },
+  {
+    "slug": "borujerd",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 33.8973,
+    "lng": 48.7516,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بروجرد",
+      "en": "Borūjerd",
+      "fr": "Borūjerd",
+      "de": "Borūjerd",
+      "tr": "Borūjerd",
+      "ur": "Borūjerd",
+      "id": "Borūjerd",
+      "es": "Borūjerd",
+      "bn": "Borūjerd",
+      "ms": "Borūjerd"
+    },
+    "aliases": {
+      "ar": [
+        "بوروجيرد"
+      ],
+      "en": [
+        "Borudzherd",
+        "Borujerd",
+        "Burujird",
+        "Būrūjīrd",
+        "brwjrd",
+        "bwrwjyrd"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "لرستان",
+      "regionEn": "Lorestan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:140044",
+    "verified": true
+  },
+  {
+    "slug": "bojnurd",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 37.47473,
+    "lng": 57.32903,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بجنورد",
+      "en": "Bojnūrd",
+      "fr": "Bojnūrd",
+      "de": "Bojnūrd",
+      "tr": "Bojnūrd",
+      "ur": "Bojnūrd",
+      "id": "Bojnūrd",
+      "es": "Bojnūrd",
+      "bn": "Bojnūrd",
+      "ms": "Bojnūrd"
+    },
+    "aliases": {
+      "en": [
+        "BJB",
+        "Bodzhnurd",
+        "Bojnord",
+        "Bojnourd",
+        "Bojnurd",
+        "Bujnurd",
+        "Bujnūrd",
+        "bjnwrd"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "خراسان الشمالية",
+      "regionEn": "North Khorasan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:140380",
+    "verified": true
+  },
+  {
+    "slug": "birjand",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 32.86628,
+    "lng": 59.22114,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بيرجند",
+      "en": "Bīrjand",
+      "fr": "Bīrjand",
+      "de": "Bīrjand",
+      "tr": "Bīrjand",
+      "ur": "Bīrjand",
+      "id": "Bīrjand",
+      "es": "Bīrjand",
+      "bn": "Bīrjand",
+      "ms": "Bīrjand"
+    },
+    "aliases": {
+      "en": [
+        "Birdjand",
+        "Birdschand",
+        "Birdzhend",
+        "Birjand",
+        "XBJ",
+        "byrjnd"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "خراسان الجنوبية",
+      "regionEn": "South Khorasan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:140463",
+    "verified": true
+  },
+  {
+    "slug": "bandar-abbas",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 27.1865,
+    "lng": 56.2808,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بندر عباس",
+      "en": "Bandar Abbas",
+      "fr": "Bandar Abbas",
+      "de": "Bandar Abbas",
+      "tr": "Bandar Abbas",
+      "ur": "Bandar Abbas",
+      "id": "Bandar Abbas",
+      "es": "Bandar Abbas",
+      "bn": "Bandar Abbas",
+      "ms": "Bandar Abbas"
+    },
+    "aliases": {
+      "ar": [
+        "بندرعباس",
+        "بَندَر عَبّاسي",
+        "بَندَرِ عَبّاس",
+        "بهندهر عهباس",
+        "غُمبرُّن"
+      ],
+      "en": [
+        "BND",
+        "Bandar Abas",
+        "Bandar Abbás",
+        "Bandar `Abbas",
+        "Bandar `Abbasi",
+        "Bandar ‘Abbās",
+        "Bandar ‘Abbāsī",
+        "Bandar-Abbas",
+        "Bandar-Abbasz",
+        "Bandar-Abbos",
+        "Bandar-Abbász",
+        "Bandar-e Abbas",
+        "Bandar-e `Abbas",
+        "Bandar-e ‘Abbās",
+        "Bandare Abasas",
+        "Bander Abbas",
+        "Bantar Ampas",
+        "Bendehr-Abas",
+        "Bender Abas",
+        "Bender Abbas",
+        "Bender Ebbas",
+        "Bender-Abbas",
+        "Bəndər Abbas",
+        "Cambarao",
+        "Cambarão",
+        "Gombroon",
+        "Gumrun",
+        "Port Comorao",
+        "Port Comorão",
+        "a ba si gang",
+        "ban dar xab bas",
+        "bandaleuabaseu",
+        "bandara abbasa",
+        "bandara-e-abbasa",
+        "bender-abasi",
+        "bndr ʻbʼs",
+        "bndr ʿbas",
+        "gumbrun"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "هرمزغان",
+      "regionEn": "Hormozgan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:141681",
+    "verified": true
+  },
+  {
+    "slug": "babol",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 36.55102,
+    "lng": 52.6786,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "بابل",
+      "en": "Bābol",
+      "fr": "Bābol",
+      "de": "Bābol",
+      "tr": "Bābol",
+      "ur": "Bābol",
+      "id": "Bābol",
+      "es": "Bābol",
+      "bn": "Bābol",
+      "ms": "Bābol"
+    },
+    "aliases": {
+      "en": [
+        "Babol",
+        "Babol'",
+        "Babul",
+        "Balfrush",
+        "Barfarush",
+        "Barfrush",
+        "Barfurush",
+        "Bābul",
+        "Bārfurush",
+        "babl"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "مازندران",
+      "regionEn": "Mazandaran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:142363",
+    "verified": true
+  },
+  {
+    "slug": "ardabil",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 38.2498,
+    "lng": 48.2933,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "اردبيل",
+      "en": "Ardabīl",
+      "fr": "Ardabīl",
+      "de": "Ardabīl",
+      "tr": "Ardabīl",
+      "ur": "Ardabīl",
+      "id": "Ardabīl",
+      "es": "Ardabīl",
+      "bn": "Ardabīl",
+      "ms": "Ardabīl"
+    },
+    "aliases": {
+      "ar": [
+        "اَردِبيل"
+      ],
+      "en": [
+        "ADU",
+        "Ardabel",
+        "Ardabil",
+        "Ardebil",
+        "Ardebīl",
+        "Erdebil",
+        "aardibyl",
+        "ardbyl",
+        "Ərdəbil"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "أردبيل",
+      "regionEn": "Ardabil"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:143083",
+    "verified": true
+  },
+  {
+    "slug": "arak",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 34.09493,
+    "lng": 49.69809,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "اراك",
+      "en": "Arāk",
+      "fr": "Arāk",
+      "de": "Arāk",
+      "tr": "Arāk",
+      "ur": "Arāk",
+      "id": "Arāk",
+      "es": "Arāk",
+      "bn": "Arāk",
+      "ms": "Arāk"
+    },
+    "aliases": {
+      "ar": [
+        "ساوه",
+        "سُلطان آباد"
+      ],
+      "en": [
+        "Arak",
+        "Arak - sawh",
+        "Arok",
+        "Ehrak",
+        "Soltanabad",
+        "Solţānābād",
+        "Sultanabad",
+        "Sultānābād",
+        "`Iraq",
+        "arak",
+        "sawh",
+        "sultan abad",
+        "‘Irāq"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "مركزي",
+      "regionEn": "Markazi"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:143127",
+    "verified": true
+  },
+  {
+    "slug": "amol",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 36.46961,
+    "lng": 52.35072,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "آمل",
+      "en": "Āmol",
+      "fr": "Āmol",
+      "de": "Āmol",
+      "tr": "Āmol",
+      "ur": "Āmol",
+      "id": "Āmol",
+      "es": "Āmol",
+      "bn": "Āmol",
+      "ms": "Āmol"
+    },
+    "aliases": {
+      "en": [
+        "Amol",
+        "Amol'",
+        "Amul",
+        "aml"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "مازندران",
+      "regionEn": "Mazandaran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:143534",
+    "verified": true
+  },
+  {
+    "slug": "shahriar",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.65884,
+    "lng": 51.05775,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "شهريار",
+      "en": "Shahrīār",
+      "fr": "Shahrīār",
+      "de": "Shahrīār",
+      "tr": "Shahrīār",
+      "ur": "Shahrīār",
+      "id": "Shahrīār",
+      "es": "Shahrīār",
+      "bn": "Shahrīār",
+      "ms": "Shahrīār"
+    },
+    "aliases": {
+      "en": [
+        "Ali Shah `Iwaz",
+        "Ali Shāh ‘Iwaz",
+        "Shahreyar",
+        "Shahreyār",
+        "Shahriar",
+        "Shahriyar",
+        "Shahriyār",
+        "Shakhrijar",
+        "`Ali Shah `Avaz",
+        "shhryar",
+        "‘Alī Shāh ‘Avaẕ"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "طهران",
+      "regionEn": "Tehran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:143860",
+    "verified": true
+  },
+  {
+    "slug": "abadan",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 30.3392,
+    "lng": 48.3043,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "آبادان",
+      "en": "Abadan",
+      "fr": "Abadan",
+      "de": "Abadan",
+      "tr": "Abadan",
+      "ur": "Abadan",
+      "id": "Abadan",
+      "es": "Abadan",
+      "bn": "Abadan",
+      "ms": "Abadan"
+    },
+    "aliases": {
+      "ar": [
+        "ابادان",
+        "عبادان"
+      ],
+      "en": [
+        "ABD",
+        "Abadana",
+        "Abadanas",
+        "Abadano",
+        "Abadán",
+        "Ampantan",
+        "Obodon",
+        "a ba dan",
+        "abadana",
+        "abadani",
+        "Ábádán",
+        "Ābadāna",
+        "Ābādān",
+        "ʿbadan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "خوزستان",
+      "regionEn": "Khuzestan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:145459",
+    "verified": true
+  },
+  {
+    "slug": "najafabad",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 32.63464,
+    "lng": 51.36525,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "نجف آباد",
+      "en": "Najafābād",
+      "fr": "Najafābād",
+      "de": "Najafābād",
+      "tr": "Najafābād",
+      "ur": "Najafābād",
+      "id": "Najafābād",
+      "es": "Najafābād",
+      "bn": "Najafābād",
+      "ms": "Najafābād"
+    },
+    "aliases": {
+      "en": [
+        "Nadzhafabad",
+        "Najafabad",
+        "Nejafabad",
+        "Nejafābād",
+        "njf abad"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "أصفهان",
+      "regionEn": "Isfahan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:418606",
+    "verified": true
+  },
+  {
+    "slug": "khomeyni-shahr",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 32.6856,
+    "lng": 51.53609,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "خميني شهر",
+      "en": "Khomeynī Shahr",
+      "fr": "Khomeynī Shahr",
+      "de": "Khomeynī Shahr",
+      "tr": "Khomeynī Shahr",
+      "ur": "Khomeynī Shahr",
+      "id": "Khomeynī Shahr",
+      "es": "Khomeynī Shahr",
+      "bn": "Khomeynī Shahr",
+      "ms": "Khomeynī Shahr"
+    },
+    "aliases": {
+      "ar": [
+        "سده",
+        "مهربين"
+      ],
+      "en": [
+        "Homayoon Shahr",
+        "Homayunshahr",
+        "Homāyūnshahr",
+        "Khomeyni Shahr",
+        "Khomeynishahr",
+        "Khomeynīshahr",
+        "Mehrbin",
+        "Sedeh",
+        "Three Castles",
+        "khmyny shhr",
+        "mhrbyn",
+        "sdh"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "أصفهان",
+      "regionEn": "Isfahan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:418710",
+    "verified": true
+  },
+  {
+    "slug": "eslamshahr",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.55222,
+    "lng": 51.23504,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "اسلامشهر",
+      "en": "Eslamshahr",
+      "fr": "Eslamshahr",
+      "de": "Eslamshahr",
+      "tr": "Eslamshahr",
+      "ur": "Eslamshahr",
+      "id": "Eslamshahr",
+      "es": "Eslamshahr",
+      "bn": "Eslamshahr",
+      "ms": "Eslamshahr"
+    },
+    "aliases": {
+      "en": [
+        "Eslamchahr",
+        "Eslamsaher",
+        "Eslamschahr",
+        "Eslamšaher",
+        "Eslāmshahr",
+        "Islamshekhr",
+        "Islamsəhr",
+        "Shadshahr",
+        "aslamshhr",
+        "İslamşəhr"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "طهران",
+      "regionEn": "Tehran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:449504",
+    "verified": true
+  },
+  {
+    "slug": "zahedan",
+    "type": "city",
+    "countryCode": "ir",
+    "lat": 29.4963,
+    "lng": 60.8629,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "زاهدان",
+      "en": "Zahedan",
+      "fr": "Zahedan",
+      "de": "Zahedan",
+      "tr": "Zahedan",
+      "ur": "Zahedan",
+      "id": "Zahedan",
+      "es": "Zahedan",
+      "bn": "Zahedan",
+      "ms": "Zahedan"
+    },
+    "aliases": {
+      "en": [
+        "Dowzdab",
+        "Dowzdāb",
+        "Duzdab",
+        "Duzdap",
+        "Duzdāb",
+        "Duzdāp",
+        "ZAH",
+        "Zahedan-e (Yek)",
+        "Zahedanas",
+        "Zahedano",
+        "Zahedán",
+        "Zahidan",
+        "Zaidan",
+        "Zaidān",
+        "Zakhedan",
+        "Záhedán",
+        "Zāhedān",
+        "Zāhedān-e (Yek)",
+        "cakitan",
+        "jahedan",
+        "jahedana",
+        "zahdan",
+        "zahedana",
+        "zahedani",
+        "zha hei dan"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "سيستان وبلوشستان",
+      "regionEn": "Sistan and Baluchestan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1159301",
+    "verified": true
+  },
+  {
+    "slug": "pakdasht",
+    "type": "town",
+    "countryCode": "ir",
+    "lat": 35.47854,
+    "lng": 51.6834,
+    "timezone": "Asia/Tehran",
+    "names": {
+      "ar": "مامازان",
+      "en": "Pākdasht",
+      "fr": "Pākdasht",
+      "de": "Pākdasht",
+      "tr": "Pākdasht",
+      "ur": "Pākdasht",
+      "id": "Pākdasht",
+      "es": "Pākdasht",
+      "bn": "Pākdasht",
+      "ms": "Pākdasht"
+    },
+    "aliases": {
+      "ar": [
+        "باكدشت"
+      ],
+      "en": [
+        "Mamazan",
+        "Māmāzān",
+        "Pakdasht",
+        "mamazan",
+        "pakdsht"
+      ]
+    },
+    "admin": {
+      "countryAr": "إيران",
+      "countryEn": "Iran",
+      "regionAr": "طهران",
+      "regionEn": "Tehran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:9478811",
+    "verified": true
   }
 ]

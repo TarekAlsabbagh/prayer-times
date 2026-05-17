@@ -97172,5 +97172,3249 @@
     "source": "curated",
     "sourceId": "geonames:1632533",
     "verified": true
+  },
+  {
+    "slug": "zangilan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.08371,
+    "lng": 46.65988,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "زنجيلان",
+      "en": "Zangilan",
+      "fr": "Zangilan",
+      "de": "Zangilan",
+      "tr": "Zangilan",
+      "ur": "Zangilan",
+      "id": "Zangilan",
+      "es": "Zangilan",
+      "bn": "Zangilan",
+      "ms": "Zangilan"
+    },
+    "aliases": {
+      "en": [
+        "Icari",
+        "Ikari",
+        "Kovsakan",
+        "ZZE",
+        "Zangelan",
+        "Zangilak",
+        "Zengilan",
+        "Zəngilan",
+        "jangilana",
+        "zangilana",
+        "zangiran",
+        "zanigilani",
+        "znjylan",
+        "İçəri"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "زنجيلان",
+      "regionEn": "Zangilan"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:146901",
+    "verified": true
+  },
+  {
+    "slug": "yardimli",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 38.90771,
+    "lng": 48.24052,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "يارديملي",
+      "en": "Yardımlı",
+      "fr": "Yardımlı",
+      "de": "Yardımlı",
+      "tr": "Yardımlı",
+      "ur": "Yardımlı",
+      "id": "Yardımlı",
+      "es": "Yardımlı",
+      "bn": "Yardımlı",
+      "ms": "Yardımlı"
+    },
+    "aliases": {
+      "ar": [
+        "ياردملي"
+      ],
+      "en": [
+        "Iardymly",
+        "Jardimli",
+        "Jardymly",
+        "Yardimli",
+        "Yardymly",
+        "iyardimali",
+        "yaradimali",
+        "yardimali",
+        "yardmly",
+        "yardymly",
+        "yaridiምli",
+        "yarudimuri"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "ياردمالي",
+      "regionEn": "Yardimli"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:146961",
+    "verified": true
+  },
+  {
+    "slug": "novyy-karanlug",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.79496,
+    "lng": 47.1117,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "نوفي كارانلوغ",
+      "en": "Novyy Karanlug",
+      "fr": "Novyy Karanlug",
+      "de": "Novyy Karanlug",
+      "tr": "Novyy Karanlug",
+      "ur": "Novyy Karanlug",
+      "id": "Novyy Karanlug",
+      "es": "Novyy Karanlug",
+      "bn": "Novyy Karanlug",
+      "ms": "Novyy Karanlug"
+    },
+    "aliases": {
+      "ar": [
+        "نوي كاران لوغ",
+        "نوي كارانلوغ",
+        "نويي كاران لوغ"
+      ],
+      "en": [
+        "Jaңa Karanlyk",
+        "Khodzhavend",
+        "Mardouni",
+        "Marduni",
+        "Martouni",
+        "Martuni",
+        "Navi Kˌaronlug",
+        "Xocavand",
+        "Xocavənd",
+        "Yangi Karanliq",
+        "Yeni Karanlig",
+        "Zhaңa Kˌaranlykˌ",
+        "Zhaңy Karanlyk",
+        "nabhya karanaluga",
+        "novi karanaluga",
+        "novi karaniluግ",
+        "novui・karanyugu",
+        "novya karanaluga",
+        "nwfy karanlwgh",
+        "nwy karan lwg",
+        "nwy karanlwgh",
+        "nwyy karan lwg"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "خانكندي",
+      "regionEn": "Khankendi"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:146969",
+    "verified": true
+  },
+  {
+    "slug": "susa",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.76006,
+    "lng": 46.74989,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "سوسا",
+      "en": "Şuşa",
+      "fr": "Şuşa",
+      "de": "Şuşa",
+      "tr": "Şuşa",
+      "ur": "Şuşa",
+      "id": "Şuşa",
+      "es": "Şuşa",
+      "bn": "Şuşa",
+      "ms": "Şuşa"
+    },
+    "aliases": {
+      "ar": [
+        "سوسة",
+        "شوشي"
+      ],
+      "en": [
+        "Choucha",
+        "Shoushi",
+        "Shusha",
+        "Shushe",
+        "Shushi",
+        "Susa",
+        "Suse",
+        "Susha",
+        "Susi",
+        "Szusza",
+        "shusha",
+        "shwshy",
+        "susa",
+        "swsa",
+        "swsh",
+        "swst",
+        "Şuşi",
+        "Şûşa"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "شوشا",
+      "regionEn": "Shusha"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:147105",
+    "verified": true
+  },
+  {
+    "slug": "salyan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.59621,
+    "lng": 48.98479,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "ساليان",
+      "en": "Salyan",
+      "fr": "Salyan",
+      "de": "Salyan",
+      "tr": "Salyan",
+      "ur": "Salyan",
+      "id": "Salyan",
+      "es": "Salyan",
+      "bn": "Salyan",
+      "ms": "Salyan"
+    },
+    "aliases": {
+      "en": [
+        "Sal'jan",
+        "Sal'yany",
+        "Salian",
+        "Saljan",
+        "Saljon",
+        "Sal’yany",
+        "Ssaljany",
+        "salayana",
+        "sali'ana",
+        "saliyana",
+        "sariyan",
+        "saልyani"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "سالين",
+      "regionEn": "Salyan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:147271",
+    "verified": true
+  },
+  {
+    "slug": "saatli",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.93214,
+    "lng": 48.36892,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "ساتلي",
+      "en": "Saatlı",
+      "fr": "Saatlı",
+      "de": "Saatlı",
+      "tr": "Saatlı",
+      "ur": "Saatlı",
+      "id": "Saatlı",
+      "es": "Saatlı",
+      "bn": "Saatlı",
+      "ms": "Saatlı"
+    },
+    "aliases": {
+      "en": [
+        "Saatli",
+        "Saatly",
+        "Saotly",
+        "Sotli",
+        "satali",
+        "satili",
+        "satly",
+        "satori"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "سعتلي",
+      "regionEn": "Saatli"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:147288",
+    "verified": true
+  },
+  {
+    "slug": "qubadli",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.34441,
+    "lng": 46.58183,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قبادلي",
+      "en": "Qubadlı",
+      "fr": "Qubadlı",
+      "de": "Qubadlı",
+      "tr": "Qubadlı",
+      "ur": "Qubadlı",
+      "id": "Qubadlı",
+      "es": "Qubadlı",
+      "bn": "Qubadlı",
+      "ms": "Qubadlı"
+    },
+    "aliases": {
+      "ar": [
+        "قوبادلي"
+      ],
+      "en": [
+        "Ghubat'ly",
+        "Ghubat’ly",
+        "Koubatly",
+        "Kubadli",
+        "Kubadly",
+        "Kubadlı",
+        "Kubatli",
+        "Kubatlu",
+        "Kubatly",
+        "Kˌubadli",
+        "Kˌұbadly",
+        "Qubadli",
+        "Qubadly",
+        "Sanasar",
+        "ku ba te lei",
+        "kubadali",
+        "kubadori",
+        "qbadly",
+        "qwbadly",
+        "ቁbadili"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "قبادلي",
+      "regionEn": "Qubadli"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:147305",
+    "verified": true
+  },
+  {
+    "slug": "neftcala",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.3768,
+    "lng": 49.247,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "نفتجالا",
+      "en": "Neftçala",
+      "fr": "Neftçala",
+      "de": "Neftçala",
+      "tr": "Neftçala",
+      "ur": "Neftçala",
+      "id": "Neftçala",
+      "es": "Neftçala",
+      "bn": "Neftçala",
+      "ms": "Neftçala"
+    },
+    "aliases": {
+      "en": [
+        "Neftcala",
+        "Neftchala",
+        "Neftchola",
+        "Neftechala",
+        "Nephte Chala",
+        "Poselok Tresta",
+        "nefutochara",
+        "nephatacala",
+        "nephtacala",
+        "nftchala",
+        "nftjala",
+        "ነፍtechala"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "نفط تشالا",
+      "regionEn": "Neftchala"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:147425",
+    "verified": true
+  },
+  {
+    "slug": "naxcivan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.20889,
+    "lng": 45.41222,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "ناختشيفان",
+      "en": "Naxçıvan",
+      "fr": "Naxçıvan",
+      "de": "Naxçıvan",
+      "tr": "Naxçıvan",
+      "ur": "Naxçıvan",
+      "id": "Naxçıvan",
+      "es": "Naxçıvan",
+      "bn": "Naxçıvan",
+      "ms": "Naxçıvan"
+    },
+    "aliases": {
+      "ar": [
+        "نخجوان",
+        "نخجيوان"
+      ],
+      "en": [
+        "NAJ",
+        "Nachitschewan",
+        "Nahcivan",
+        "Nahicevan",
+        "Nahičevan",
+        "Nahçıvan",
+        "Najchiven",
+        "Najchivén",
+        "Nakhchivan",
+        "Nakhchivon",
+        "Nakhchyvan",
+        "Nakhichevan'",
+        "Nakhichevan’",
+        "Nakhichivan",
+        "Nakhitchevan",
+        "Nakhitsjevan",
+        "Nakhshyvan",
+        "Naxcawan",
+        "Naxchivan",
+        "Naxcivan",
+        "Naxcivan Səhəri",
+        "Naxijevan",
+        "Naxijewan",
+        "Naxçıvan Şəhəri",
+        "nafuchivuan",
+        "nakhacibhana",
+        "nakhacivana",
+        "nakhtshyfan",
+        "nakishaውhani",
+        "nkhchywan",
+        "nkhjwan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "ناختشيفان",
+      "regionEn": "Nakhchivan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:147429",
+    "verified": true
+  },
+  {
+    "slug": "masally",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.03532,
+    "lng": 48.6654,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "ماسالي",
+      "en": "Masally",
+      "fr": "Masally",
+      "de": "Masally",
+      "tr": "Masally",
+      "ur": "Masally",
+      "id": "Masally",
+      "es": "Masally",
+      "bn": "Masally",
+      "ms": "Masally"
+    },
+    "aliases": {
+      "ar": [
+        "مسالي"
+      ],
+      "en": [
+        "Masala",
+        "Masali",
+        "Masalli",
+        "Masallı",
+        "Masalı",
+        "Massaly",
+        "masali",
+        "masalli",
+        "masaly",
+        "masari",
+        "msaly"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "مسالي",
+      "regionEn": "Masally"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:147552",
+    "verified": true
+  },
+  {
+    "slug": "lerik",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 38.77388,
+    "lng": 48.41497,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "لريك",
+      "en": "Lerik",
+      "fr": "Lerik",
+      "de": "Lerik",
+      "tr": "Lerik",
+      "ur": "Lerik",
+      "id": "Lerik",
+      "es": "Lerik",
+      "bn": "Lerik",
+      "ms": "Lerik"
+    },
+    "aliases": {
+      "ar": [
+        "ليرك",
+        "ليريك"
+      ],
+      "en": [
+        "lerika",
+        "leriki",
+        "lryk",
+        "lyrk",
+        "lyryk",
+        "reriku"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "ليريك",
+      "regionEn": "Lerik"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:147611",
+    "verified": true
+  },
+  {
+    "slug": "lankaran",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 38.75428,
+    "lng": 48.85062,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "لنكاران",
+      "en": "Lankaran",
+      "fr": "Lankaran",
+      "de": "Lankaran",
+      "tr": "Lankaran",
+      "ur": "Lankaran",
+      "id": "Lankaran",
+      "es": "Lankaran",
+      "bn": "Lankaran",
+      "ms": "Lankaran"
+    },
+    "aliases": {
+      "en": [
+        "LLK",
+        "Lencoran",
+        "Lenkoran",
+        "Lenkoran'",
+        "Ljankjaran",
+        "Länkäran",
+        "Lǝnkǝran",
+        "Lənkəran",
+        "lakarana",
+        "lanikarani",
+        "lankarana",
+        "lnkaran",
+        "rankaran"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "لنكران",
+      "regionEn": "Lankaran"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:147622",
+    "verified": true
+  },
+  {
+    "slug": "imishli",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.87095,
+    "lng": 48.05995,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "إميشلي",
+      "en": "Imishli",
+      "fr": "Imishli",
+      "de": "Imishli",
+      "tr": "Imishli",
+      "ur": "Imishli",
+      "id": "Imishli",
+      "es": "Imishli",
+      "bn": "Imishli",
+      "ms": "Imishli"
+    },
+    "aliases": {
+      "ar": [
+        "امشلي",
+        "اميشلي"
+      ],
+      "en": [
+        "Emishti",
+        "Imishly",
+        "Imisli",
+        "amshly",
+        "amyshly",
+        "imaishli",
+        "imisali",
+        "imishuri",
+        "imisli",
+        "İmişli",
+        "ইमishሊ"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "إيميشلي",
+      "regionEn": "Imishli"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:147982",
+    "verified": true
+  },
+  {
+    "slug": "jebrail",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.39917,
+    "lng": 47.02835,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "جبرائيل",
+      "en": "Jebrail",
+      "fr": "Jebrail",
+      "de": "Jebrail",
+      "tr": "Jebrail",
+      "ur": "Jebrail",
+      "id": "Jebrail",
+      "es": "Jebrail",
+      "bn": "Jebrail",
+      "ms": "Jebrail"
+    },
+    "aliases": {
+      "en": [
+        "Cabrayil",
+        "Cebrail",
+        "Cəbrayıl",
+        "Djebrail",
+        "Dzhebrail",
+        "Jabrail",
+        "Jabrayyl",
+        "Jebraiele",
+        "Jebrayil",
+        "Jrakan",
+        "Jäbrayyl",
+        "Mekhakavan",
+        "Mexakavan",
+        "jbrayyl",
+        "jebara'ila",
+        "jebirayiል",
+        "jebraila",
+        "jebrela",
+        "jeburairu"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "جبرائيل",
+      "regionEn": "Jabrayil"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:148141",
+    "verified": true
+  },
+  {
+    "slug": "jalilabad",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.20963,
+    "lng": 48.49186,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "جليلاباد",
+      "en": "Jalilabad",
+      "fr": "Jalilabad",
+      "de": "Jalilabad",
+      "tr": "Jalilabad",
+      "ur": "Jalilabad",
+      "id": "Jalilabad",
+      "es": "Jalilabad",
+      "bn": "Jalilabad",
+      "ms": "Jalilabad"
+    },
+    "aliases": {
+      "ar": [
+        "جليل آباد"
+      ],
+      "en": [
+        "Astrahanka",
+        "Astrakhan-Bazar",
+        "Astrakhanka",
+        "Astrakhanovka",
+        "Calilaabad",
+        "Cəlilabad",
+        "Dzhalil'abad",
+        "Dzhalilabad",
+        "Dzhalilobod",
+        "Jaliloabad",
+        "Jälilabad",
+        "jalilabada",
+        "jalilabadi",
+        "jarirabado",
+        "jlyl abad",
+        "jlylabad"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "جليلاباد",
+      "regionEn": "Jalilabad"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:148290",
+    "verified": true
+  },
+  {
+    "slug": "beylagan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.77556,
+    "lng": 47.61861,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "بيلاجان",
+      "en": "Beylagan",
+      "fr": "Beylagan",
+      "de": "Beylagan",
+      "tr": "Beylagan",
+      "ur": "Beylagan",
+      "id": "Beylagan",
+      "es": "Beylagan",
+      "bn": "Beylagan",
+      "ms": "Beylagan"
+    },
+    "aliases": {
+      "ar": [
+        "بيلاغان"
+      ],
+      "en": [
+        "Bejlagan",
+        "Bejlakˌon",
+        "Beylaganli",
+        "Beylaganliq",
+        "Beylaganlı",
+        "Beylaqan",
+        "Beyləqan",
+        "Jdanov",
+        "Zhdanov",
+        "Zhdanovsk",
+        "be'ilagana",
+        "beiragan",
+        "belagana",
+        "beyalagana",
+        "beyilagani",
+        "bylagan",
+        "bylajan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "بيلاغان",
+      "regionEn": "Beylagan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:148354",
+    "verified": true
+  },
+  {
+    "slug": "sirvan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.93778,
+    "lng": 48.929,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "سروان",
+      "en": "Şirvan",
+      "fr": "Şirvan",
+      "de": "Şirvan",
+      "tr": "Şirvan",
+      "ur": "Şirvan",
+      "id": "Şirvan",
+      "es": "Şirvan",
+      "bn": "Şirvan",
+      "ms": "Şirvan"
+    },
+    "aliases": {
+      "ar": [
+        "سيرفان",
+        "سيروان"
+      ],
+      "en": [
+        "Ali Bairamly",
+        "Ali Bayramli",
+        "Ali-Bairamli",
+        "Ali-Bajramly",
+        "Ali-Bayramli",
+        "Ali-Bayramly",
+        "Aly-Bayramly",
+        "Arab Shakhverdi",
+        "Arab-Shakhberdy",
+        "Arab-Shakhverdy",
+        "Shirvan",
+        "Sirvan",
+        "Zubovka",
+        "shiruvuan",
+        "sirabhana",
+        "siravana",
+        "sirivani",
+        "srwan",
+        "syrfan",
+        "syrwan",
+        "Əli Bayramlı"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "شيرفان",
+      "regionEn": "Shirvan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:148565",
+    "verified": true
+  },
+  {
+    "slug": "agdam",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 39.99096,
+    "lng": 46.92736,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "آغدام",
+      "en": "Ağdam",
+      "fr": "Ağdam",
+      "de": "Ağdam",
+      "tr": "Ağdam",
+      "ur": "Ağdam",
+      "id": "Ağdam",
+      "es": "Ağdam",
+      "bn": "Ağdam",
+      "ms": "Ağdam"
+    },
+    "aliases": {
+      "ar": [
+        "آق دام",
+        "اغدام"
+      ],
+      "en": [
+        "Ag'dam",
+        "Agdam",
+        "Agdamas",
+        "Agdom",
+        "Aghdam",
+        "Agtam",
+        "Agʻdam",
+        "Akn",
+        "Akna",
+        "Ankntam",
+        "a ge da mu",
+        "agadama",
+        "agdam",
+        "ageudam",
+        "aghdam",
+        "aghdami",
+        "agudamu",
+        "aq dam",
+        "ʿeግdaም"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "أغدام",
+      "regionEn": "Agdam"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:148619",
+    "verified": true
+  },
+  {
+    "slug": "zardob",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.2184,
+    "lng": 47.71214,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "زاردوب",
+      "en": "Zardob",
+      "fr": "Zardob",
+      "de": "Zardob",
+      "tr": "Zardob",
+      "ur": "Zardob",
+      "id": "Zardob",
+      "es": "Zardob",
+      "bn": "Zardob",
+      "ms": "Zardob"
+    },
+    "aliases": {
+      "en": [
+        "Zardab",
+        "Zǝrdab",
+        "Zərdab",
+        "Zərdob",
+        "jardoba",
+        "zaradoba",
+        "zardoba",
+        "zardwb",
+        "zaridobi",
+        "zarudobu"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "زردب",
+      "regionEn": "Zardab"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:584586",
+    "verified": true
+  },
+  {
+    "slug": "zaqatala",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.6316,
+    "lng": 46.64479,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "زاقاتالا",
+      "en": "Zaqatala",
+      "fr": "Zaqatala",
+      "de": "Zaqatala",
+      "tr": "Zaqatala",
+      "ur": "Zaqatala",
+      "id": "Zaqatala",
+      "es": "Zaqatala",
+      "bn": "Zaqatala",
+      "ms": "Zaqatala"
+    },
+    "aliases": {
+      "ar": [
+        "زاقتالا"
+      ],
+      "en": [
+        "Sakataly",
+        "ZTU",
+        "Zagatala",
+        "Zakatala",
+        "Zakatali",
+        "Zakatalsk",
+        "Zakataly",
+        "Zakˌatala",
+        "Zokˌotala",
+        "jakatala",
+        "zakatala",
+        "zakatara",
+        "zaqetala",
+        "zaqtala"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "زاكاتالا",
+      "regionEn": "Zaqatala"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:584596",
+    "verified": true
+  },
+  {
+    "slug": "yevlakh",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.61832,
+    "lng": 47.15014,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "يفلاخ",
+      "en": "Yevlakh",
+      "fr": "Yevlakh",
+      "de": "Yevlakh",
+      "tr": "Yevlakh",
+      "ur": "Yevlakh",
+      "id": "Yevlakh",
+      "es": "Yevlakh",
+      "bn": "Yevlakh",
+      "ms": "Yevlakh"
+    },
+    "aliases": {
+      "ar": [
+        "يولاخ"
+      ],
+      "en": [
+        "Avlakh",
+        "Evlak",
+        "Evlakh",
+        "Evlokh",
+        "Gəncə",
+        "Jewlach",
+        "YLV",
+        "Yevlax",
+        "ievurafu",
+        "iyebhalakha",
+        "yevalakha",
+        "yevilaki",
+        "yflakh",
+        "ywlakh"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "يفلاخ",
+      "regionEn": "Yevlakh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:584649",
+    "verified": true
+  },
+  {
+    "slug": "goygol",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.58584,
+    "lng": 46.3189,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "جويجول",
+      "en": "Göygöl",
+      "fr": "Göygöl",
+      "de": "Göygöl",
+      "tr": "Göygöl",
+      "ur": "Göygöl",
+      "id": "Göygöl",
+      "es": "Göygöl",
+      "bn": "Göygöl",
+      "ms": "Göygöl"
+    },
+    "aliases": {
+      "ar": [
+        "غوائي غول",
+        "غوي غول"
+      ],
+      "en": [
+        "Elenendorf",
+        "Gejgel'",
+        "Gjojgjol'",
+        "Goeygoel",
+        "Goygol",
+        "Helenendorf",
+        "Khanlar",
+        "Kol-Yelendorf",
+        "Xanlar",
+        "Yelenendorf",
+        "gayagola",
+        "go'igola",
+        "goigoru",
+        "goyagola",
+        "goyigoል",
+        "gwayy gwl",
+        "gwy gwl",
+        "jwyjwl"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "غويغل",
+      "regionEn": "Goygol"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:584716",
+    "verified": true
+  },
+  {
+    "slug": "xacmaz",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.46426,
+    "lng": 48.80565,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "خاشماز",
+      "en": "Xaçmaz",
+      "fr": "Xaçmaz",
+      "de": "Xaçmaz",
+      "tr": "Xaçmaz",
+      "ur": "Xaçmaz",
+      "id": "Xaçmaz",
+      "es": "Xaçmaz",
+      "bn": "Xaçmaz",
+      "ms": "Xaçmaz"
+    },
+    "aliases": {
+      "ar": [
+        "خاجماز",
+        "خجماز"
+      ],
+      "en": [
+        "Chatschmas",
+        "Hacimaz",
+        "Hacmaz",
+        "Haçmaz",
+        "Kegna Khachmas",
+        "Kekhna-Khachmaz",
+        "Khachmas",
+        "Khachmaz",
+        "Khachmos",
+        "Khuachmaz",
+        "Këgna Khachmas",
+        "Xachmaz",
+        "Xacmaz",
+        "ha qi ma si",
+        "hachimazu",
+        "hajimaዝ",
+        "khacamaja",
+        "khacamaza",
+        "khachmaz",
+        "khashmaz",
+        "khchmaz"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "خاتشماز",
+      "regionEn": "Khachmaz"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:584717",
+    "verified": true
+  },
+  {
+    "slug": "ujar",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.51902,
+    "lng": 47.65423,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "أوجار",
+      "en": "Ujar",
+      "fr": "Ujar",
+      "de": "Ujar",
+      "tr": "Ujar",
+      "ur": "Ujar",
+      "id": "Ujar",
+      "es": "Ujar",
+      "bn": "Ujar",
+      "ms": "Ujar"
+    },
+    "aliases": {
+      "ar": [
+        "اجار"
+      ],
+      "en": [
+        "Ucar",
+        "Udshary",
+        "Udzhar",
+        "Udzhara",
+        "Udzhary",
+        "Uzhar",
+        "Uzhor",
+        "ajar",
+        "awjar",
+        "ujara",
+        "ujaru",
+        "Ұzhar",
+        "ጁyuri"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "أوجار",
+      "regionEn": "Ujar"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:584791",
+    "verified": true
+  },
+  {
+    "slug": "tovuz",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.99249,
+    "lng": 45.62838,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "توز",
+      "en": "Tovuz",
+      "fr": "Tovuz",
+      "de": "Tovuz",
+      "tr": "Tovuz",
+      "ur": "Tovuz",
+      "id": "Tovuz",
+      "es": "Tovuz",
+      "bn": "Tovuz",
+      "ms": "Tovuz"
+    },
+    "aliases": {
+      "ar": [
+        "توفوز",
+        "تووز",
+        "تويوز"
+      ],
+      "en": [
+        "Tauz",
+        "Tavus",
+        "Tovyz",
+        "tobhuja",
+        "tovuza",
+        "tovuzu",
+        "tovuዝ",
+        "twfwz",
+        "twwz",
+        "twz"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "توفوز",
+      "regionEn": "Tovuz"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:584821",
+    "verified": true
+  },
+  {
+    "slug": "kyzyl-burun",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.07811,
+    "lng": 49.11564,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قيزيل بورون",
+      "en": "Kyzyl-Burun",
+      "fr": "Kyzyl-Burun",
+      "de": "Kyzyl-Burun",
+      "tr": "Kyzyl-Burun",
+      "ur": "Kyzyl-Burun",
+      "id": "Kyzyl-Burun",
+      "es": "Kyzyl-Burun",
+      "bn": "Kyzyl-Burun",
+      "ms": "Kyzyl-Burun"
+    },
+    "aliases": {
+      "ar": [
+        "كيزيل برون"
+      ],
+      "en": [
+        "Kisil-burun",
+        "Kizil-Burun",
+        "Kyzyl-Buryn",
+        "Kızıl-Burun",
+        "Kˌizili-Burun",
+        "Kˌyzyl-Buryn",
+        "Qizil-Burun",
+        "Siazan'",
+        "Siazan’",
+        "Siyazan",
+        "Siyǝzǝn",
+        "Siyəzən",
+        "kijila-buruna",
+        "kizila-buruna",
+        "kizuiru・burun",
+        "kiዝyiል-buruni",
+        "kyazyala-buruna",
+        "kyzyl brwn",
+        "qyzyl bwrwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "سيازان",
+      "regionEn": "Siyazan"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:584954",
+    "verified": true
+  },
+  {
+    "slug": "shamkhor",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.82975,
+    "lng": 46.0178,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "شامخور",
+      "en": "Shamkhor",
+      "fr": "Shamkhor",
+      "de": "Shamkhor",
+      "tr": "Shamkhor",
+      "ur": "Shamkhor",
+      "id": "Shamkhor",
+      "es": "Shamkhor",
+      "bn": "Shamkhor",
+      "ms": "Shamkhor"
+    },
+    "aliases": {
+      "ar": [
+        "شمكير"
+      ],
+      "en": [
+        "Anenfelt",
+        "Anino",
+        "Annenfel'd",
+        "Annenfel’d",
+        "Annino",
+        "Samkir",
+        "Samxor",
+        "Shamkir",
+        "samakhora",
+        "shamkhwr",
+        "shamukoru",
+        "shaምkweri",
+        "shmkyr",
+        "Şamkır",
+        "Şamxor",
+        "Şǝmkir",
+        "Şəmkir"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "شامكير",
+      "regionEn": "Shamkir"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585152",
+    "verified": true
+  },
+  {
+    "slug": "shamakhi",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.63141,
+    "lng": 48.64137,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "شماخي",
+      "en": "Shamakhi",
+      "fr": "Shamakhi",
+      "de": "Shamakhi",
+      "tr": "Shamakhi",
+      "ur": "Shamakhi",
+      "id": "Shamakhi",
+      "es": "Shamakhi",
+      "bn": "Shamakhi",
+      "ms": "Shamakhi"
+    },
+    "aliases": {
+      "en": [
+        "Samahi",
+        "Samaxi",
+        "Schemacha",
+        "Shamakha",
+        "Shamakhy",
+        "Shamokha",
+        "Shemakha",
+        "samakhi",
+        "shamahi",
+        "shamaki",
+        "shmakhy",
+        "Şamahı",
+        "Şamaxı"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "شماخي",
+      "regionEn": "Shamakhi"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585156",
+    "verified": true
+  },
+  {
+    "slug": "sheki",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.19194,
+    "lng": 47.17056,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "شكي",
+      "en": "Sheki",
+      "fr": "Sheki",
+      "de": "Sheki",
+      "tr": "Sheki",
+      "ur": "Sheki",
+      "id": "Sheki",
+      "es": "Sheki",
+      "bn": "Sheki",
+      "ms": "Sheki"
+    },
+    "aliases": {
+      "ar": [
+        "شيكي"
+      ],
+      "en": [
+        "Nucha",
+        "Nukha",
+        "Nuxa",
+        "Saki",
+        "Seki",
+        "Shaki",
+        "Shäki",
+        "Səki",
+        "seki",
+        "shky",
+        "shyky",
+        "Şeki",
+        "Şǝki",
+        "Şəki"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "شكي",
+      "regionEn": "Shaki"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:585170",
+    "verified": true
+  },
+  {
+    "slug": "samux",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.76485,
+    "lng": 46.40868,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "سامخ",
+      "en": "Samux",
+      "fr": "Samux",
+      "de": "Samux",
+      "tr": "Samux",
+      "ur": "Samux",
+      "id": "Samux",
+      "es": "Samux",
+      "bn": "Samux",
+      "ms": "Samux"
+    },
+    "aliases": {
+      "ar": [
+        "سموكس"
+      ],
+      "en": [
+        "Nabiagali",
+        "Nǝbiağalı",
+        "Nəbiağalı",
+        "Sabarkend",
+        "Sabir",
+        "Sabira",
+        "Safarabad",
+        "Safaraliev",
+        "Safaraliyav",
+        "Safaraliyeb",
+        "Safaraliyev",
+        "Samukh",
+        "Səfərəliyəv",
+        "samkh",
+        "samukasa",
+        "samukisi",
+        "samuksa",
+        "samukusu",
+        "smwks"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "ساموخ",
+      "regionEn": "Samukh"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:585177",
+    "verified": true
+  },
+  {
+    "slug": "qusar",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.4275,
+    "lng": 48.4302,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قوسار",
+      "en": "Qusar",
+      "fr": "Qusar",
+      "de": "Qusar",
+      "tr": "Qusar",
+      "ur": "Qusar",
+      "id": "Qusar",
+      "es": "Qusar",
+      "bn": "Qusar",
+      "ms": "Qusar"
+    },
+    "aliases": {
+      "en": [
+        "Kusar",
+        "Kusary",
+        "Kˌusar",
+        "Kˌұsar",
+        "kusara",
+        "kusari",
+        "kusaru",
+        "qwsar"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "قوسار",
+      "regionEn": "Qusar"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585220",
+    "verified": true
+  },
+  {
+    "slug": "quba",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.36108,
+    "lng": 48.51341,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قوبا",
+      "en": "Quba",
+      "fr": "Quba",
+      "de": "Quba",
+      "tr": "Quba",
+      "ur": "Quba",
+      "id": "Quba",
+      "es": "Quba",
+      "bn": "Quba",
+      "ms": "Quba"
+    },
+    "aliases": {
+      "ar": [
+        "مدينة قوبا"
+      ],
+      "en": [
+        "Guba",
+        "Kuba",
+        "Kuuba",
+        "Kuuval",
+        "Kuwa",
+        "Kˌuba",
+        "Kˌұba",
+        "ku ba",
+        "kuba",
+        "mdynt qwba",
+        "qwba",
+        "qwbh"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "قوبا",
+      "regionEn": "Quba"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585221",
+    "verified": true
+  },
+  {
+    "slug": "haciqabul",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.03874,
+    "lng": 48.94286,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "حاجي قابول",
+      "en": "Hacıqabul",
+      "fr": "Hacıqabul",
+      "de": "Hacıqabul",
+      "tr": "Hacıqabul",
+      "ur": "Hacıqabul",
+      "id": "Hacıqabul",
+      "es": "Hacıqabul",
+      "bn": "Hacıqabul",
+      "ms": "Hacıqabul"
+    },
+    "aliases": {
+      "ar": [
+        "حاجيقابول"
+      ],
+      "en": [
+        "Adshikabul",
+        "Adzha-Kabul",
+        "Adzhikabul",
+        "Aja Kabul",
+        "Haciqabul",
+        "Kasi-Mahomed",
+        "Kazi Mahomed",
+        "Kazi-Magomed",
+        "Kazi-Magomet",
+        "Khachmas",
+        "Khaҷikˌabul",
+        "Qazimammad",
+        "Qazımǝmmǝd",
+        "Qazıməmməd",
+        "hajikabula",
+        "hajikaburu",
+        "hajiqabuል",
+        "hajy qabwl",
+        "hajyqabwl",
+        "hajy‌qabwl"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "حاجي قابل",
+      "regionEn": "Hajigabul"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585225",
+    "verified": true
+  },
+  {
+    "slug": "qazax",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.09246,
+    "lng": 45.36561,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قازاخ",
+      "en": "Qazax",
+      "fr": "Qazax",
+      "de": "Qazax",
+      "tr": "Qazax",
+      "ur": "Qazax",
+      "id": "Qazax",
+      "es": "Qazax",
+      "bn": "Qazax",
+      "ms": "Qazax"
+    },
+    "aliases": {
+      "ar": [
+        "قزاخ"
+      ],
+      "en": [
+        "Agkeynak",
+        "Agkëynak",
+        "Gazakh",
+        "Kasach",
+        "Kasachisee",
+        "Kazachas",
+        "Kazah",
+        "Kazak",
+        "Kazakh",
+        "Kˌazakˌ",
+        "Kˌazokˌ",
+        "Qazakh",
+        "Qazox",
+        "ha sa ke",
+        "kajakha",
+        "kazafu",
+        "kazakha",
+        "qazakh",
+        "qazaki",
+        "qzakh"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "قازاخ",
+      "regionEn": "Qazax"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585226",
+    "verified": true
+  },
+  {
+    "slug": "qax",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.41826,
+    "lng": 46.92043,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قاخ",
+      "en": "Qax",
+      "fr": "Qax",
+      "de": "Qax",
+      "tr": "Qax",
+      "ur": "Qax",
+      "id": "Qax",
+      "es": "Qax",
+      "bn": "Qax",
+      "ms": "Qax"
+    },
+    "aliases": {
+      "en": [
+        "Kah",
+        "Kakh",
+        "Kakhi",
+        "Kˌakh",
+        "Kˌokh",
+        "Qakh",
+        "kakha",
+        "kaku",
+        "qahi",
+        "qakh"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "قاخ",
+      "regionEn": "Qakh"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585227",
+    "verified": true
+  },
+  {
+    "slug": "oguz",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.07128,
+    "lng": 47.46528,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "أوغوز",
+      "en": "Oğuz",
+      "fr": "Oğuz",
+      "de": "Oğuz",
+      "tr": "Oğuz",
+      "ur": "Oğuz",
+      "id": "Oğuz",
+      "es": "Oğuz",
+      "bn": "Oğuz",
+      "ms": "Oğuz"
+    },
+    "aliases": {
+      "ar": [
+        "اغوز",
+        "اوغز"
+      ],
+      "en": [
+        "Bartashen",
+        "Gouuz",
+        "Gouz",
+        "Guz",
+        "O'guz",
+        "Oguz",
+        "Oʻguz",
+        "Vartasen",
+        "Vartashen",
+        "Vartashin",
+        "Vartaşen",
+        "aghwz",
+        "awghwz",
+        "awghz",
+        "oguja",
+        "oguza",
+        "oguzu",
+        "ʿoguዝ",
+        "Өgүz"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "أوغوز",
+      "regionEn": "Oghuz"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:585333",
+    "verified": true
+  },
+  {
+    "slug": "naftalan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.50821,
+    "lng": 46.8203,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "نافتالان",
+      "en": "Naftalan",
+      "fr": "Naftalan",
+      "de": "Naftalan",
+      "tr": "Naftalan",
+      "ur": "Naftalan",
+      "id": "Naftalan",
+      "es": "Naftalan",
+      "bn": "Naftalan",
+      "ms": "Naftalan"
+    },
+    "aliases": {
+      "ar": [
+        "نفتالان"
+      ],
+      "en": [
+        "nafatalana",
+        "naftalana",
+        "nafutaran",
+        "naphtalana",
+        "naፍtalani",
+        "nftalan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "نفطالان",
+      "regionEn": "Naftalan"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:585400",
+    "verified": true
+  },
+  {
+    "slug": "qobustan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.5336,
+    "lng": 48.92819,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "قوبوستان",
+      "en": "Qobustan",
+      "fr": "Qobustan",
+      "de": "Qobustan",
+      "tr": "Qobustan",
+      "ur": "Qobustan",
+      "id": "Qobustan",
+      "es": "Qobustan",
+      "bn": "Qobustan",
+      "ms": "Qobustan"
+    },
+    "aliases": {
+      "en": [
+        "Gobustan",
+        "Kubustan",
+        "Kˌubuston",
+        "Kˌұbystan",
+        "Maraza",
+        "Marazi",
+        "Marazy",
+        "Mǝrǝzǝ",
+        "Mərəzə",
+        "kobusatana",
+        "kobustana",
+        "kobusutan",
+        "qobusitani",
+        "qwbwstan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "قوبستان",
+      "regionEn": "Gobustan"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:585570",
+    "verified": true
+  },
+  {
+    "slug": "kyurdarmir",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.34257,
+    "lng": 48.15649,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "كيوردامير",
+      "en": "Kyurdarmir",
+      "fr": "Kyurdarmir",
+      "de": "Kyurdarmir",
+      "tr": "Kyurdarmir",
+      "ur": "Kyurdarmir",
+      "id": "Kyurdarmir",
+      "es": "Kyurdarmir",
+      "bn": "Kyurdarmir",
+      "ms": "Kyurdarmir"
+    },
+    "aliases": {
+      "ar": [
+        "كوردامير",
+        "كيوردرمير"
+      ],
+      "en": [
+        "Kiordamir",
+        "Kjurdamir",
+        "Kuerdemir",
+        "Kurdamir",
+        "Kurdemir",
+        "Kyurdamir",
+        "Kürdemir",
+        "Kürdǝmir",
+        "Kürdəmir",
+        "Kүrdemir",
+        "Kүrdəmir",
+        "ki'uradaramira",
+        "kiyuridarimiri",
+        "kwrdamyr",
+        "kyudarumiru",
+        "kyuradaramira",
+        "kywrdamyr",
+        "kywrdrmyr"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "كوردمير",
+      "regionEn": "Kurdamir"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585763",
+    "verified": true
+  },
+  {
+    "slug": "xizi",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.90847,
+    "lng": 49.07481,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "خيزي",
+      "en": "Xızı",
+      "fr": "Xızı",
+      "de": "Xızı",
+      "tr": "Xızı",
+      "ur": "Xızı",
+      "id": "Xızı",
+      "es": "Xızı",
+      "bn": "Xızı",
+      "ms": "Xızı"
+    },
+    "aliases": {
+      "en": [
+        "Hizi",
+        "Hızı",
+        "Khizi",
+        "Khizy",
+        "Khyzy",
+        "Xizi",
+        "hizi",
+        "hizui",
+        "khiji",
+        "khizi",
+        "khyzy"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "خيزي",
+      "regionEn": "Khizi"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:585909",
+    "verified": true
+  },
+  {
+    "slug": "khirdalan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.44808,
+    "lng": 49.75502,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "خيردالان",
+      "en": "Khirdalan",
+      "fr": "Khirdalan",
+      "de": "Khirdalan",
+      "tr": "Khirdalan",
+      "ur": "Khirdalan",
+      "id": "Khirdalan",
+      "es": "Khirdalan",
+      "bn": "Khirdalan",
+      "ms": "Khirdalan"
+    },
+    "aliases": {
+      "en": [
+        "Hirdalan",
+        "Hırdalan",
+        "Khurdalan",
+        "Khyrdalan",
+        "Xirdalan",
+        "khiradalana",
+        "khyrdalan",
+        "kiridalani",
+        "kirudaran"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "أبشيرون",
+      "regionEn": "Absheron"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:585915",
+    "verified": true
+  },
+  {
+    "slug": "kalbajar",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.10984,
+    "lng": 46.04446,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "كالباجار",
+      "en": "Kalbajar",
+      "fr": "Kalbajar",
+      "de": "Kalbajar",
+      "tr": "Kalbajar",
+      "ur": "Kalbajar",
+      "id": "Kalbajar",
+      "es": "Kalbajar",
+      "bn": "Kalbajar",
+      "ms": "Kalbajar"
+    },
+    "aliases": {
+      "en": [
+        "K'arvacharr",
+        "Kalbazhar",
+        "Kel'badzhar",
+        "Kelbadshar",
+        "Kelbajar",
+        "Kel’badzhar",
+        "Kerbakhiar",
+        "Kälbäjär",
+        "Kəlbəcər",
+        "Kʻarvacar",
+        "Kʻelbajar",
+        "Kˌalbazhar",
+        "Kˌalbaҷar",
+        "K’arvacharr",
+        "kalabajara",
+        "kalabazara",
+        "karubajaru",
+        "kaልbajari"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "كلبجار",
+      "regionEn": "Kalbajar"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:586268",
+    "verified": true
+  },
+  {
+    "slug": "ismayilli",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.78485,
+    "lng": 48.15141,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "إسماعيلي",
+      "en": "İsmayıllı",
+      "fr": "İsmayıllı",
+      "de": "İsmayıllı",
+      "tr": "İsmayıllı",
+      "ur": "İsmayıllı",
+      "id": "İsmayıllı",
+      "es": "İsmayıllı",
+      "bn": "İsmayıllı",
+      "ms": "İsmayıllı"
+    },
+    "aliases": {
+      "ar": [
+        "اسماعيلي",
+        "اسميلي"
+      ],
+      "en": [
+        "Ismaili",
+        "Ismailli",
+        "Ismaillisi",
+        "Ismailly",
+        "Ismaily",
+        "Ismanlli",
+        "Ismayilli",
+        "Ismayylly",
+        "Ismoylly",
+        "Jsmailly",
+        "asmaʿyly",
+        "asmyly",
+        "isama'ili",
+        "isama'illi",
+        "ismayilli",
+        "isumairuri",
+        "ʿisimayili"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "إسماعيلي",
+      "regionEn": "Ismayilli"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:586318",
+    "verified": true
+  },
+  {
+    "slug": "ganja",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.68157,
+    "lng": 46.36134,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "جنجا",
+      "en": "Ganja",
+      "fr": "Ganja",
+      "de": "Ganja",
+      "tr": "Ganja",
+      "ur": "Ganja",
+      "id": "Ganja",
+      "es": "Ganja",
+      "bn": "Ganja",
+      "ms": "Ganja"
+    },
+    "aliases": {
+      "ar": [
+        "كنجه",
+        "غانجا شهر",
+        "غنجه",
+        "غنجة"
+      ],
+      "en": [
+        "Elisavetpol",
+        "Elizavetpol'",
+        "Elizavetpol’",
+        "Gaencae",
+        "Gaendz",
+        "Gaendzjae",
+        "Ganca",
+        "Gandja",
+        "Gandza",
+        "Gandzha",
+        "Gandzhe",
+        "Gandża",
+        "Gandža",
+        "Ganga",
+        "Ganjak",
+        "Ganzha",
+        "Ganĝa",
+        "Ganҷa",
+        "Gence",
+        "Gendzakh",
+        "Gendze",
+        "Gendže",
+        "Gendžė",
+        "Gjandzha",
+        "Gjanzha",
+        "Gyandzha",
+        "Gäncä",
+        "Gändzjä",
+        "Gändž",
+        "Gǝncǝ",
+        "Gəncə",
+        "KVD",
+        "Kirovabad",
+        "Kirowabad",
+        "Nkantza",
+        "Yelizavetpol'",
+        "Yelizavetpol’",
+        "gaja",
+        "ganija",
+        "gngh",
+        "gnjh",
+        "gyanja",
+        "jnja",
+        "knjh",
+        "zhan gu"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "غنجة",
+      "regionEn": "Ganja"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:586523",
+    "verified": true
+  },
+  {
+    "slug": "kyadabek",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.57055,
+    "lng": 45.81229,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "كيادابك",
+      "en": "Kyadabek",
+      "fr": "Kyadabek",
+      "de": "Kyadabek",
+      "tr": "Kyadabek",
+      "ur": "Kyadabek",
+      "id": "Kyadabek",
+      "es": "Kyadabek",
+      "bn": "Kyadabek",
+      "ms": "Kyadabek"
+    },
+    "aliases": {
+      "ar": [
+        "كيادابيك"
+      ],
+      "en": [
+        "Gadabay",
+        "Gǝdǝbǝy",
+        "Gədəbəy",
+        "Kedabek",
+        "Kedabeko",
+        "Kedalek",
+        "Kiadabak",
+        "Kjadabek",
+        "Kˌjadabek",
+        "ki'adabeka",
+        "kiyadabeka",
+        "kiyadabeki",
+        "kyadabeka",
+        "kyadabeku",
+        "kyadabk",
+        "kyadabyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "كاداباي",
+      "regionEn": "Gadabay"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:586573",
+    "verified": true
+  },
+  {
+    "slug": "divichibazar",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.20117,
+    "lng": 48.98712,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "ديفيتشي بازار",
+      "en": "Divichibazar",
+      "fr": "Divichibazar",
+      "de": "Divichibazar",
+      "tr": "Divichibazar",
+      "ur": "Divichibazar",
+      "id": "Divichibazar",
+      "es": "Divichibazar",
+      "bn": "Divichibazar",
+      "ms": "Divichibazar"
+    },
+    "aliases": {
+      "ar": [
+        "ديويجي بازار",
+        "ديويجيبازار",
+        "ديوجي بازار"
+      ],
+      "en": [
+        "Davachi",
+        "Davaci",
+        "Divachi",
+        "Divichi",
+        "Divichibazor",
+        "Dävächi",
+        "Dǝvǝçi",
+        "Dəvəçi",
+        "Sabran",
+        "Shabran",
+        "dibhicibajara",
+        "divicibajara",
+        "divicibazara",
+        "divicibazari",
+        "divuichibazaru",
+        "dyfytshy bazar",
+        "dywychy bazar",
+        "dywychy‌bazar"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "شاباران",
+      "regionEn": "Shabran"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:586763",
+    "verified": true
+  },
+  {
+    "slug": "yukhary-dashkesan",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.52393,
+    "lng": 46.08186,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "يوخاري-داشكيسان",
+      "en": "Yukhary-Dashkesan",
+      "fr": "Yukhary-Dashkesan",
+      "de": "Yukhary-Dashkesan",
+      "tr": "Yukhary-Dashkesan",
+      "ur": "Yukhary-Dashkesan",
+      "id": "Yukhary-Dashkesan",
+      "es": "Yukhary-Dashkesan",
+      "bn": "Yukhary-Dashkesan",
+      "ms": "Yukhary-Dashkesan"
+    },
+    "aliases": {
+      "ar": [
+        "يوخاري داشكيسان",
+        "يوخاري دشكسان",
+        "يوخاري دشكيسان"
+      ],
+      "en": [
+        "Dashkasan",
+        "Dashkesan",
+        "Dashkezan",
+        "Dashkäsän",
+        "Daskasan",
+        "Daşkǝsǝn",
+        "Daşkəsən",
+        "Jokary-Dəskesen",
+        "Jukˌori-Doshkˌesan",
+        "Verkhniy Dashkesan",
+        "Yukari-Daskesen",
+        "Yukarı-Daşkesen",
+        "Yuqori-Dashkesan",
+        "Yuxari-Daskəsən",
+        "Yuxarı-Daşkəsən",
+        "Zhogargy Dəskesen",
+        "i'ukhari-dasakesana",
+        "yuharui・dashukesan",
+        "yukari-dashikesani",
+        "yukhari-dasakesana",
+        "yukhari-daskesana",
+        "ywkhary dashkysan",
+        "ywkhary dshksan",
+        "ywkhary dshkysan",
+        "ywkhary-dashkysan",
+        "Үstүnkү-Dashkesen"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "داشكيسان",
+      "regionEn": "Dashkasan"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:586765",
+    "verified": true
+  },
+  {
+    "slug": "aghsu",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 40.57028,
+    "lng": 48.40087,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "آغسو",
+      "en": "Aghsu",
+      "fr": "Aghsu",
+      "de": "Aghsu",
+      "tr": "Aghsu",
+      "ur": "Aghsu",
+      "id": "Aghsu",
+      "es": "Aghsu",
+      "bn": "Aghsu",
+      "ms": "Aghsu"
+    },
+    "aliases": {
+      "ar": [
+        "أغسو",
+        "اغسو"
+      ],
+      "en": [
+        "Agsu",
+        "Akhsu",
+        "Aksu",
+        "Aqsu",
+        "Ağsu",
+        "agasu",
+        "aghasu",
+        "aghsw",
+        "agsu",
+        "agusu",
+        "ʿeግsu"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "أغسو",
+      "regionEn": "Agsu"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:587361",
+    "verified": true
+  },
+  {
+    "slug": "aghstafa",
+    "type": "city",
+    "countryCode": "az",
+    "lat": 41.11889,
+    "lng": 45.45389,
+    "timezone": "Asia/Baku",
+    "names": {
+      "ar": "آغستافا",
+      "en": "Aghstafa",
+      "fr": "Aghstafa",
+      "de": "Aghstafa",
+      "tr": "Aghstafa",
+      "ur": "Aghstafa",
+      "id": "Aghstafa",
+      "es": "Aghstafa",
+      "bn": "Aghstafa",
+      "ms": "Aghstafa"
+    },
+    "aliases": {
+      "ar": [
+        "أغستافا",
+        "اغستافا"
+      ],
+      "en": [
+        "Agastew",
+        "Agstafa",
+        "Agstew",
+        "Akstafa",
+        "Akstafal",
+        "Aqstafa",
+        "Ağstafa",
+        "agasatapha",
+        "aghastapha",
+        "agstapha",
+        "agusutafa",
+        "ʿeግsitaፋ"
+      ]
+    },
+    "admin": {
+      "countryAr": "أذربيجان",
+      "countryEn": "Azerbaijan",
+      "regionAr": "آغستافا",
+      "regionEn": "Agstafa"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:587362",
+    "verified": true
+  },
+  {
+    "slug": "zugdidi",
+    "type": "city",
+    "countryCode": "ge",
+    "lat": 42.5084,
+    "lng": 41.86796,
+    "timezone": "Asia/Tbilisi",
+    "names": {
+      "ar": "زوغديدي",
+      "en": "Zugdidi",
+      "fr": "Zugdidi",
+      "de": "Zugdidi",
+      "tr": "Zugdidi",
+      "ur": "Zugdidi",
+      "id": "Zugdidi",
+      "es": "Zugdidi",
+      "bn": "Zugdidi",
+      "ms": "Zugdidi"
+    },
+    "aliases": {
+      "en": [
+        "Sugdidi",
+        "Zugdidis",
+        "Zygdidi",
+        "zwgdydy"
+      ]
+    },
+    "admin": {
+      "countryAr": "جورجيا",
+      "countryEn": "Georgia",
+      "regionAr": "سامغريلو-زيمو سفانيتي",
+      "regionEn": "Samegrelo-Zemo Svaneti"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:610824",
+    "verified": true
+  },
+  {
+    "slug": "telavi",
+    "type": "city",
+    "countryCode": "ge",
+    "lat": 41.91957,
+    "lng": 45.47002,
+    "timezone": "Asia/Tbilisi",
+    "names": {
+      "ar": "تيلافي",
+      "en": "Telavi",
+      "fr": "Telavi",
+      "de": "Telavi",
+      "tr": "Telavi",
+      "ur": "Telavi",
+      "id": "Telavi",
+      "es": "Telavi",
+      "bn": "Telavi",
+      "ms": "Telavi"
+    },
+    "aliases": {
+      "en": [
+        "T'elavi",
+        "Telav",
+        "Telavis",
+        "Telawi",
+        "Telev",
+        "Thelavi"
+      ]
+    },
+    "admin": {
+      "countryAr": "جورجيا",
+      "countryEn": "Georgia",
+      "regionAr": "كاخيتيا",
+      "regionEn": "Kakheti"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:611694",
+    "verified": true
+  },
+  {
+    "slug": "sokhumi",
+    "type": "city",
+    "countryCode": "ge",
+    "lat": 43.00697,
+    "lng": 40.9893,
+    "timezone": "Europe/Moscow",
+    "names": {
+      "ar": "سوخومي",
+      "en": "Sokhumi",
+      "fr": "Sokhumi",
+      "de": "Sokhumi",
+      "tr": "Sokhumi",
+      "ur": "Sokhumi",
+      "id": "Sokhumi",
+      "es": "Sokhumi",
+      "bn": "Sokhumi",
+      "ms": "Sokhumi"
+    },
+    "aliases": {
+      "en": [
+        "Akva",
+        "Aqwa",
+        "Aҟəa",
+        "SUI",
+        "Sochumi",
+        "Sohum",
+        "Sohumi",
+        "Soukhoumi",
+        "Ssuchum",
+        "Suchum",
+        "Suchumi",
+        "Suhhumi",
+        "Suhumi",
+        "Suhumo",
+        "Sujumi",
+        "Sukhum",
+        "Sukhumi",
+        "Suĥumo",
+        "su hu mi",
+        "sufumi",
+        "suhumi",
+        "swhwmy"
+      ]
+    },
+    "admin": {
+      "countryAr": "جورجيا",
+      "countryEn": "Georgia",
+      "regionAr": "أبخازيا",
+      "regionEn": "Abkhazia AR"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:611847",
+    "verified": true
+  },
+  {
+    "slug": "rustavi",
+    "type": "city",
+    "countryCode": "ge",
+    "lat": 41.56271,
+    "lng": 44.9787,
+    "timezone": "Asia/Tbilisi",
+    "names": {
+      "ar": "روستافي",
+      "en": "Rustavi",
+      "fr": "Rustavi",
+      "de": "Rustavi",
+      "tr": "Rustavi",
+      "ur": "Rustavi",
+      "id": "Rustavi",
+      "es": "Rustavi",
+      "bn": "Rustavi",
+      "ms": "Rustavi"
+    },
+    "aliases": {
+      "en": [
+        "Roustavi",
+        "Rust'avi",
+        "Rustavis",
+        "Rustawi",
+        "Rusthavi",
+        "Rust’avi",
+        "rwstwwy"
+      ]
+    },
+    "admin": {
+      "countryAr": "جورجيا",
+      "countryEn": "Georgia",
+      "regionAr": "كفيمو كارتلي",
+      "regionEn": "Kvemo Kartli"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:612287",
+    "verified": true
+  },
+  {
+    "slug": "mtskheta",
+    "type": "city",
+    "countryCode": "ge",
+    "lat": 41.84514,
+    "lng": 44.71875,
+    "timezone": "Asia/Tbilisi",
+    "names": {
+      "ar": "متسختا",
+      "en": "Mtskheta",
+      "fr": "Mtskheta",
+      "de": "Mtskheta",
+      "tr": "Mtskheta",
+      "ur": "Mtskheta",
+      "id": "Mtskheta",
+      "es": "Mtskheta",
+      "bn": "Mtskheta",
+      "ms": "Mtskheta"
+    },
+    "aliases": {
+      "ar": [
+        "محمية المدينة ومتحف متسخيتا"
+      ],
+      "en": [
+        "Ckheta",
+        "Mccheta",
+        "Mcheta",
+        "Mckheta",
+        "Mcĥeta",
+        "Miskheta",
+        "Msxeta",
+        "Mtheta",
+        "Mtscheta",
+        "Mtsheta",
+        "Mtshetha",
+        "Mtsketa",
+        "Mtskhera",
+        "Mtskhetha",
+        "Mtzkhet",
+        "Mzcheta",
+        "Mțheta",
+        "meucheuheta",
+        "mhmyt almdynt wmthf mtskhyta",
+        "mtskhta",
+        "mu ci he ta",
+        "mutsuheta",
+        "mzhth"
+      ]
+    },
+    "admin": {
+      "countryAr": "جورجيا",
+      "countryEn": "Georgia",
+      "regionAr": "موتسخيتا-منيانيتي",
+      "regionEn": "Mtskheta-Mtianeti"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:612890",
+    "verified": true
+  },
+  {
+    "slug": "kutaisi",
+    "type": "city",
+    "countryCode": "ge",
+    "lat": 42.26791,
+    "lng": 42.69459,
+    "timezone": "Asia/Tbilisi",
+    "names": {
+      "ar": "كوتايسي",
+      "en": "Kutaisi",
+      "fr": "Kutaisi",
+      "de": "Kutaisi",
+      "tr": "Kutaisi",
+      "ur": "Kutaisi",
+      "id": "Kutaisi",
+      "es": "Kutaisi",
+      "bn": "Kutaisi",
+      "ms": "Kutaisi"
+    },
+    "aliases": {
+      "en": [
+        "KUT",
+        "Khuthaisi",
+        "Koetaisi",
+        "Koutaissi",
+        "Koutaïssi",
+        "Kutais",
+        "Kutaisk",
+        "Kutaiso",
+        "Kutaissi",
+        "Kutayis",
+        "Kutayıs",
+        "Kutaïsi",
+        "kutaishi"
+      ]
+    },
+    "admin": {
+      "countryAr": "جورجيا",
+      "countryEn": "Georgia",
+      "regionAr": "إيميريتيا",
+      "regionEn": "Imereti"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:613607",
+    "verified": true
+  },
+  {
+    "slug": "kapan",
+    "type": "city",
+    "countryCode": "am",
+    "lat": 39.20762,
+    "lng": 46.40678,
+    "timezone": "Asia/Yerevan",
+    "names": {
+      "ar": "قابان",
+      "en": "Kapan",
+      "fr": "Kapan",
+      "de": "Kapan",
+      "tr": "Kapan",
+      "ur": "Kapan",
+      "id": "Kapan",
+      "es": "Kapan",
+      "bn": "Kapan",
+      "ms": "Kapan"
+    },
+    "aliases": {
+      "ar": [
+        "كابان"
+      ],
+      "en": [
+        "Ghap'an",
+        "Ghapan",
+        "Ghap’an",
+        "Kafan",
+        "Kafin",
+        "Kapanas",
+        "Katan",
+        "Kˌapan",
+        "Madan",
+        "Qafan",
+        "YUK",
+        "Zangezur",
+        "ka pan",
+        "kapana",
+        "kaፓni",
+        "qaban"
+      ]
+    },
+    "admin": {
+      "countryAr": "أرمينيا",
+      "countryEn": "Armenia",
+      "regionAr": "سيونيك",
+      "regionEn": "Syunik"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:174875",
+    "verified": true
+  },
+  {
+    "slug": "artashat",
+    "type": "city",
+    "countryCode": "am",
+    "lat": 39.95484,
+    "lng": 44.54874,
+    "timezone": "Asia/Yerevan",
+    "names": {
+      "ar": "آرتاشات",
+      "en": "Artashat",
+      "fr": "Artashat",
+      "de": "Artashat",
+      "tr": "Artashat",
+      "ur": "Artashat",
+      "id": "Artashat",
+      "es": "Artashat",
+      "bn": "Artashat",
+      "ms": "Artashat"
+    },
+    "aliases": {
+      "ar": [
+        "أرتاشات",
+        "ئارتاشات"
+      ],
+      "en": [
+        "Armenian Carthage",
+        "Artachat",
+        "Artasat",
+        "Artasata",
+        "Artasatas",
+        "Artasato",
+        "Artaschat",
+        "Artasjat",
+        "Artaszat",
+        "Artaxat",
+        "Artaxata",
+        "Artaŝato",
+        "Artaşat",
+        "Artašat",
+        "Artašata",
+        "Artašatas",
+        "Artașat",
+        "Ghamarlu",
+        "Haykakan Kartʻagen",
+        "Kamarl",
+        "Kamarlu",
+        "Kamarlyu",
+        "Qəmərli",
+        "a er ta sha te",
+        "aleutasyateu",
+        "aratasata",
+        "artasata",
+        "artʼashatʼi",
+        "arutashato",
+        "aർttasatt",
+        "yartashat",
+        "ʿeritashati"
+      ]
+    },
+    "admin": {
+      "countryAr": "أرمينيا",
+      "countryEn": "Armenia",
+      "regionAr": "آرارات",
+      "regionEn": "Ararat"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:174979",
+    "verified": true
+  },
+  {
+    "slug": "ijevan",
+    "type": "city",
+    "countryCode": "am",
+    "lat": 40.88037,
+    "lng": 45.14776,
+    "timezone": "Asia/Yerevan",
+    "names": {
+      "ar": "إيجيفان",
+      "en": "Ijevan",
+      "fr": "Ijevan",
+      "de": "Ijevan",
+      "tr": "Ijevan",
+      "ur": "Ijevan",
+      "id": "Ijevan",
+      "es": "Ijevan",
+      "bn": "Ijevan",
+      "ms": "Ijevan"
+    },
+    "aliases": {
+      "ar": [
+        "اجيوان",
+        "ايجوان"
+      ],
+      "en": [
+        "Icevan",
+        "Iczewan",
+        "Idjevan",
+        "Idschewan",
+        "Idzevan",
+        "Idzevanas",
+        "Idzhevan",
+        "Idževan",
+        "Idževanas",
+        "Igevano",
+        "Ijewan",
+        "Istibulag",
+        "Istibulagh",
+        "Istibulakh",
+        "Iĝevano",
+        "K'aravansaray",
+        "K'arvansara",
+        "Karavan Savan",
+        "Karavansara",
+        "Karavansarai",
+        "Karavansaraj",
+        "Karvansara",
+        "Karvansaray",
+        "Karvansera",
+        "Kʻaravansara",
+        "Kʻaravansaray",
+        "Kʻarvansara",
+        "Kʻarvansera",
+        "K’aravansaray",
+        "K’arvansara",
+        "ajywan",
+        "ayjwan",
+        "ayjyfan",
+        "cagk",
+        "ijeban",
+        "ijebhana",
+        "ijevana",
+        "ijevani",
+        "ijevuan",
+        "yi jie wan",
+        "İcevan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أرمينيا",
+      "countryEn": "Armenia",
+      "regionAr": "تافوش",
+      "regionEn": "Tavush"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:616627",
+    "verified": true
+  },
+  {
+    "slug": "hrazdan",
+    "type": "city",
+    "countryCode": "am",
+    "lat": 40.5169,
+    "lng": 44.75591,
+    "timezone": "Asia/Yerevan",
+    "names": {
+      "ar": "هرازدان",
+      "en": "Hrazdan",
+      "fr": "Hrazdan",
+      "de": "Hrazdan",
+      "tr": "Hrazdan",
+      "ur": "Hrazdan",
+      "id": "Hrazdan",
+      "es": "Hrazdan",
+      "bn": "Hrazdan",
+      "ms": "Hrazdan"
+    },
+    "aliases": {
+      "en": [
+        "Akhta",
+        "Akhtala",
+        "Akhti",
+        "Asagi Axta",
+        "Aşağı Axta",
+        "Hrasdan",
+        "Hrazdanas",
+        "Khrazdan",
+        "Nerkin Akhta",
+        "Nizhne Akhti",
+        "Nizhniye Akhty",
+        "Nizhnyaya Akhta",
+        "Razdan",
+        "furazudan",
+        "harajadana",
+        "he la zi dan",
+        "heulajeudan",
+        "hrajadana",
+        "hrazadana",
+        "razdani"
+      ]
+    },
+    "admin": {
+      "countryAr": "أرمينيا",
+      "countryEn": "Armenia",
+      "regionAr": "كوتايك",
+      "regionEn": "Kotayk"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:616629",
+    "verified": true
+  },
+  {
+    "slug": "gyumri",
+    "type": "city",
+    "countryCode": "am",
+    "lat": 40.79305,
+    "lng": 43.84635,
+    "timezone": "Asia/Yerevan",
+    "names": {
+      "ar": "غيومري",
+      "en": "Gyumri",
+      "fr": "Gyumri",
+      "de": "Gyumri",
+      "tr": "Gyumri",
+      "ur": "Gyumri",
+      "id": "Gyumri",
+      "es": "Gyumri",
+      "bn": "Gyumri",
+      "ms": "Gyumri"
+    },
+    "aliases": {
+      "en": [
+        "Alek'pol",
+        "Alek'sandrapol",
+        "Alek'sandrobol",
+        "Aleksandrapol'",
+        "Aleksandropol'",
+        "Aleksandropol’",
+        "Alekʻpol",
+        "Alekʻsandrabol",
+        "Alekʻsandrapol",
+        "Alek’pol",
+        "Alek’sandrapol",
+        "Alek’sandrobol",
+        "Alexandropol'",
+        "Alexandropol’",
+        "Ghiumri",
+        "Gimri",
+        "Giumri",
+        "Giwmri",
+        "Gjoemri",
+        "Gjumri",
+        "Gjumry",
+        "Guemrue",
+        "Gumbri",
+        "Gumri",
+        "Gumru",
+        "Gumry",
+        "Gümrü",
+        "Kumajri",
+        "Kumayri",
+        "Kumri",
+        "Kyumayri",
+        "Kyumri",
+        "Kümri",
+        "LWN",
+        "Leninakan",
+        "gayumari",
+        "ghywmry",
+        "gi'umari",
+        "giumri",
+        "gyumari",
+        "gyumeuli",
+        "gyumuri",
+        "gywmry",
+        "jiu mu li"
+      ]
+    },
+    "admin": {
+      "countryAr": "أرمينيا",
+      "countryEn": "Armenia",
+      "regionAr": "شيراك",
+      "regionEn": "Shirak"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:616635",
+    "verified": true
+  },
+  {
+    "slug": "ashtarak",
+    "type": "city",
+    "countryCode": "am",
+    "lat": 40.2976,
+    "lng": 44.36152,
+    "timezone": "Asia/Yerevan",
+    "names": {
+      "ar": "آشتاراك",
+      "en": "Ashtarak",
+      "fr": "Ashtarak",
+      "de": "Ashtarak",
+      "tr": "Ashtarak",
+      "ur": "Ashtarak",
+      "id": "Ashtarak",
+      "es": "Ashtarak",
+      "bn": "Ashtarak",
+      "ms": "Ashtarak"
+    },
+    "aliases": {
+      "ar": [
+        "اشتارك"
+      ],
+      "en": [
+        "Achtarak",
+        "Aschtarak",
+        "Ashharak",
+        "Ashtarakats' Gyugh",
+        "Ashtarakats’ Gyugh",
+        "Astarak",
+        "Astarakas",
+        "Astarako",
+        "Asztarak",
+        "Aŝtarako",
+        "Aştarak",
+        "Aštarak",
+        "Aštarakas",
+        "Aștarak",
+        "a shen ta la ke",
+        "asataraka",
+        "ashtark",
+        "ashutaraku",
+        "astarak",
+        "astaraka",
+        "asyutalakeu",
+        "Əştərək"
+      ]
+    },
+    "admin": {
+      "countryAr": "أرمينيا",
+      "countryEn": "Armenia",
+      "regionAr": "أراغاتسوتن",
+      "regionEn": "Aragatsotn"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:616877",
+    "verified": true
   }
 ]

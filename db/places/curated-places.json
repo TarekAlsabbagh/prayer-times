@@ -90638,5 +90638,3096 @@
     "source": "curated",
     "sourceId": "geonames:1821274",
     "verified": true
+  },
+  {
+    "slug": "janakpur",
+    "type": "city",
+    "countryCode": "np",
+    "lat": 26.72882,
+    "lng": 85.92628,
+    "timezone": "Asia/Kathmandu",
+    "names": {
+      "ar": "جانكبور",
+      "en": "Janakpur",
+      "fr": "Janakpur",
+      "de": "Janakpur",
+      "tr": "Janakpur",
+      "ur": "Janakpur",
+      "id": "Janakpur",
+      "es": "Janakpur",
+      "bn": "Janakpur",
+      "ms": "Janakpur"
+    },
+    "aliases": {
+      "ar": [
+        "جناكبور",
+        "جنكبور",
+        "جاناكبور"
+      ],
+      "en": [
+        "Dzanakpuras",
+        "Dzhanakpur",
+        "Džanakpuras",
+        "JKR",
+        "Janakpur Dham",
+        "Zhanakpur",
+        "gu na ke bu er",
+        "janagpuleu",
+        "janakapura",
+        "janakapura nagarapalika",
+        "janakapura upamahanagarapalika",
+        "janakiፑri",
+        "janakupuru",
+        "jankbwr",
+        "jank‌pwr",
+        "jnakpwr",
+        "jnkpwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "نيبال",
+      "countryEn": "Nepal",
+      "regionAr": "الإقليم الأوسط",
+      "regionEn": "Central Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1283318",
+    "verified": true
+  },
+  {
+    "slug": "birganj",
+    "type": "town",
+    "countryCode": "np",
+    "lat": 27.01736,
+    "lng": 84.88047,
+    "timezone": "Asia/Kathmandu",
+    "names": {
+      "ar": "برغنج",
+      "en": "Birgañj",
+      "fr": "Birgañj",
+      "de": "Birgañj",
+      "tr": "Birgañj",
+      "ur": "Birgañj",
+      "id": "Birgañj",
+      "es": "Birgañj",
+      "bn": "Birgañj",
+      "ms": "Birgañj"
+    },
+    "aliases": {
+      "ar": [
+        "بيرغونج"
+      ],
+      "en": [
+        "Birganj",
+        "Birgunj",
+        "Bi̇̄rganj",
+        "brghnj",
+        "brgnj",
+        "byrghwnj"
+      ]
+    },
+    "admin": {
+      "countryAr": "نيبال",
+      "countryEn": "Nepal",
+      "regionAr": "الإقليم الأوسط",
+      "regionEn": "Central Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1283581",
+    "verified": true
+  },
+  {
+    "slug": "biratnagar",
+    "type": "town",
+    "countryCode": "np",
+    "lat": 26.45505,
+    "lng": 87.27007,
+    "timezone": "Asia/Kathmandu",
+    "names": {
+      "ar": "بيراتناغار",
+      "en": "Biratnagar",
+      "fr": "Biratnagar",
+      "de": "Biratnagar",
+      "tr": "Biratnagar",
+      "ur": "Biratnagar",
+      "id": "Biratnagar",
+      "es": "Biratnagar",
+      "bn": "Biratnagar",
+      "ms": "Biratnagar"
+    },
+    "aliases": {
+      "ar": [
+        "بيراتنغر",
+        "بيرات نغر"
+      ],
+      "en": [
+        "BIR",
+        "Biratnagur",
+        "bi la de ne ge er",
+        "bilasnagaleu",
+        "biratanagara",
+        "biratanagara upamahanagarapalika",
+        "biratonagaru",
+        "byrat ngr",
+        "byratnaghar",
+        "byratnghr",
+        "byratngr",
+        "viratanagara"
+      ]
+    },
+    "admin": {
+      "countryAr": "نيبال",
+      "countryEn": "Nepal",
+      "regionAr": "الإقليم الشرقي",
+      "regionEn": "Eastern Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1283582",
+    "verified": true
+  },
+  {
+    "slug": "dipayal",
+    "type": "city",
+    "countryCode": "np",
+    "lat": 29.26083,
+    "lng": 80.94,
+    "timezone": "Asia/Kathmandu",
+    "names": {
+      "ar": "ديبايال",
+      "en": "Dipayal",
+      "fr": "Dipayal",
+      "de": "Dipayal",
+      "tr": "Dipayal",
+      "ur": "Dipayal",
+      "id": "Dipayal",
+      "es": "Dipayal",
+      "bn": "Dipayal",
+      "ms": "Dipayal"
+    },
+    "aliases": {
+      "ar": [
+        "دبايال",
+        "ډبايال"
+      ],
+      "en": [
+        "Dipajal",
+        "Dipayal Silgadhi",
+        "SIH",
+        "dipa'ila",
+        "dipayala",
+        "dipayaru",
+        "diፓyaል",
+        "dybayal",
+        "dypayal"
+      ]
+    },
+    "admin": {
+      "countryAr": "نيبال",
+      "countryEn": "Nepal",
+      "regionAr": "الإقليم الغربي البعيد",
+      "regionEn": "Far-Western Region"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:6254845",
+    "verified": true
+  },
+  {
+    "slug": "ratnapura",
+    "type": "city",
+    "countryCode": "lk",
+    "lat": 6.6858,
+    "lng": 80.4036,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "راتنابورا",
+      "en": "Ratnapura",
+      "fr": "Ratnapura",
+      "de": "Ratnapura",
+      "tr": "Ratnapura",
+      "ur": "Ratnapura",
+      "id": "Ratnapura",
+      "es": "Ratnapura",
+      "bn": "Ratnapura",
+      "ms": "Ratnapura"
+    },
+    "aliases": {
+      "ar": [
+        "رتن بورا",
+        "رتنابوره",
+        "رتنبورا"
+      ],
+      "en": [
+        "Ratnapur",
+        "Ratnapury",
+        "irattinapuri",
+        "la te na pu lei",
+        "lateunapula",
+        "ratanapura",
+        "ratinaፑra",
+        "ratn pu ra",
+        "ratnabwra",
+        "ratounapura",
+        "rtn pwra",
+        "rtn‌pwra"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "مقاطعة سابراغاموا",
+      "regionEn": "Sabaragamuwa Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1228730",
+    "verified": true
+  },
+  {
+    "slug": "negombo",
+    "type": "town",
+    "countryCode": "lk",
+    "lat": 7.2083,
+    "lng": 79.8358,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "نجومبو",
+      "en": "Negombo",
+      "fr": "Negombo",
+      "de": "Negombo",
+      "tr": "Negombo",
+      "ur": "Negombo",
+      "id": "Negombo",
+      "es": "Negombo",
+      "bn": "Negombo",
+      "ms": "Negombo"
+    },
+    "aliases": {
+      "ar": [
+        "نغومبو",
+        "نيغومبو"
+      ],
+      "en": [
+        "Negombas",
+        "Negumbo",
+        "Neqombo",
+        "Nirkolumpu",
+        "Nīrkoḻumpu",
+        "ne kxm bo",
+        "nei gong bo",
+        "nghwmbw",
+        "ngwmbw",
+        "nigonbo",
+        "nirkolumpu",
+        "njwmbw",
+        "nygwmbw"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "المقاطعة الغربية",
+      "regionEn": "Western Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1233369",
+    "verified": true
+  },
+  {
+    "slug": "moratuwa",
+    "type": "town",
+    "countryCode": "lk",
+    "lat": 6.773,
+    "lng": 79.8816,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "موراتووا",
+      "en": "Moratuwa",
+      "fr": "Moratuwa",
+      "de": "Moratuwa",
+      "tr": "Moratuwa",
+      "ur": "Moratuwa",
+      "id": "Moratuwa",
+      "es": "Moratuwa",
+      "bn": "Moratuwa",
+      "ms": "Moratuwa"
+    },
+    "aliases": {
+      "en": [
+        "Moratuva",
+        "mo la tu wa",
+        "moratouwa",
+        "morattuvai",
+        "mwratwwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "المقاطعة الغربية",
+      "regionEn": "Western Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1234633",
+    "verified": true
+  },
+  {
+    "slug": "kurunegala",
+    "type": "city",
+    "countryCode": "lk",
+    "lat": 7.4839,
+    "lng": 80.3683,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "كورونيغالا",
+      "en": "Kurunegala",
+      "fr": "Kurunegala",
+      "de": "Kurunegala",
+      "tr": "Kurunegala",
+      "ur": "Kurunegala",
+      "id": "Kurunegala",
+      "es": "Kurunegala",
+      "bn": "Kurunegala",
+      "ms": "Kurunegala"
+    },
+    "aliases": {
+      "ar": [
+        "كرنيغالا",
+        "كرونيغالا"
+      ],
+      "en": [
+        "Kornegalle",
+        "Kurunegal",
+        "Kurunegald",
+        "Kˌұrynegala",
+        "krnygala",
+        "krwnygala",
+        "kulunegalla",
+        "kurunakal",
+        "kurunegara",
+        "kwrwnyghala"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "المقاطعة الشمالية الغربية",
+      "regionEn": "North Western Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1237980",
+    "verified": true
+  },
+  {
+    "slug": "jaffna",
+    "type": "city",
+    "countryCode": "lk",
+    "lat": 9.66845,
+    "lng": 80.00742,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "جافنا",
+      "en": "Jaffna",
+      "fr": "Jaffna",
+      "de": "Jaffna",
+      "tr": "Jaffna",
+      "ur": "Jaffna",
+      "id": "Jaffna",
+      "es": "Jaffna",
+      "bn": "Jaffna",
+      "ms": "Jaffna"
+    },
+    "aliases": {
+      "ar": [
+        "جفنا"
+      ],
+      "en": [
+        "Dzafn",
+        "Dzafna",
+        "Dzhafna",
+        "Dżafna",
+        "Džafn",
+        "Džafna",
+        "JAF",
+        "Jaffna Town",
+        "gu fu na",
+        "jafna",
+        "jafuna",
+        "japeuna",
+        "japhana",
+        "japhna",
+        "japna",
+        "jaፍna",
+        "jfna",
+        "yalppanam"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "المقاطعة الشمالية",
+      "regionEn": "Northern Province"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1242833",
+    "verified": true
+  },
+  {
+    "slug": "galle",
+    "type": "city",
+    "countryCode": "lk",
+    "lat": 6.0461,
+    "lng": 80.2103,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "غالي",
+      "en": "Galle",
+      "fr": "Galle",
+      "de": "Galle",
+      "tr": "Galle",
+      "ur": "Galle",
+      "id": "Galle",
+      "es": "Galle",
+      "bn": "Galle",
+      "ms": "Galle"
+    },
+    "aliases": {
+      "ar": [
+        "غال",
+        "جالي"
+      ],
+      "en": [
+        "Gale",
+        "Galla",
+        "Galė",
+        "Gálla",
+        "gal",
+        "gala",
+        "gale",
+        "gali",
+        "galla",
+        "galy",
+        "ghaly",
+        "goru",
+        "jia lei",
+        "kali",
+        "kxll"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "المقاطعة الجنوبية",
+      "regionEn": "Southern Province"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1246294",
+    "verified": true
+  },
+  {
+    "slug": "badulla",
+    "type": "city",
+    "countryCode": "lk",
+    "lat": 6.9802,
+    "lng": 81.0577,
+    "timezone": "Asia/Colombo",
+    "names": {
+      "ar": "بادولا",
+      "en": "Badulla",
+      "fr": "Badulla",
+      "de": "Badulla",
+      "tr": "Badulla",
+      "ur": "Badulla",
+      "id": "Badulla",
+      "es": "Badulla",
+      "bn": "Badulla",
+      "ms": "Badulla"
+    },
+    "aliases": {
+      "en": [
+        "Badula",
+        "Badull",
+        "Badully",
+        "ba du lei",
+        "badourra",
+        "badula",
+        "badwla",
+        "patulai"
+      ]
+    },
+    "admin": {
+      "countryAr": "سريلانكا",
+      "countryEn": "Sri Lanka",
+      "regionAr": "مقاطعة أوفا",
+      "regionEn": "Uva Province"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1250615",
+    "verified": true
+  },
+  {
+    "slug": "hithadhoo",
+    "type": "city",
+    "countryCode": "mv",
+    "lat": -0.6,
+    "lng": 73.08333,
+    "timezone": "Indian/Maldives",
+    "names": {
+      "ar": "هيثاذو",
+      "en": "Hithadhoo",
+      "fr": "Hithadhoo",
+      "de": "Hithadhoo",
+      "tr": "Hithadhoo",
+      "ur": "Hithadhoo",
+      "id": "Hithadhoo",
+      "es": "Hithadhoo",
+      "bn": "Hithadhoo",
+      "ms": "Hithadhoo"
+    },
+    "aliases": {
+      "ar": [
+        "هتھادھو",
+        "هيثادهو"
+      ],
+      "en": [
+        "Hitaddu",
+        "Khitkhadu",
+        "hitada",
+        "hitadu",
+        "hitazo",
+        "hithadhu",
+        "hythadhw"
+      ]
+    },
+    "admin": {
+      "countryAr": "جزر المالديف",
+      "countryEn": "Maldives",
+      "regionAr": "أتول سيينو",
+      "regionEn": "Seenu Atoll"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1282256",
+    "verified": true
+  },
+  {
+    "slug": "viligili",
+    "type": "city",
+    "countryCode": "mv",
+    "lat": 0.75906,
+    "lng": 73.43296,
+    "timezone": "Indian/Maldives",
+    "names": {
+      "ar": "فيليجيلي",
+      "en": "Viligili",
+      "fr": "Viligili",
+      "de": "Viligili",
+      "tr": "Viligili",
+      "ur": "Viligili",
+      "id": "Viligili",
+      "es": "Viligili",
+      "bn": "Viligili",
+      "ms": "Viligili"
+    },
+    "aliases": {
+      "ar": [
+        "ويلي غيلي"
+      ],
+      "en": [
+        "Villingili",
+        "bhiligili",
+        "fylyjyly",
+        "vuirigiri",
+        "wyly gyly"
+      ]
+    },
+    "admin": {
+      "countryAr": "جزر المالديف",
+      "countryEn": "Maldives",
+      "regionAr": "أتول غاف ألف",
+      "regionEn": "Gaafu Alif"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1337609",
+    "verified": true
+  },
+  {
+    "slug": "dhihdhoo",
+    "type": "city",
+    "countryCode": "mv",
+    "lat": 6.88744,
+    "lng": 73.11402,
+    "timezone": "Indian/Maldives",
+    "names": {
+      "ar": "ذيذو",
+      "en": "Dhihdhoo",
+      "fr": "Dhihdhoo",
+      "de": "Dhihdhoo",
+      "tr": "Dhihdhoo",
+      "ur": "Dhihdhoo",
+      "id": "Dhihdhoo",
+      "es": "Dhihdhoo",
+      "bn": "Dhihdhoo",
+      "ms": "Dhihdhoo"
+    },
+    "aliases": {
+      "ar": [
+        "دھيدھو"
+      ],
+      "en": [
+        "Dhidhdhoo",
+        "Dkhidkhu",
+        "dhidhu",
+        "dhydhw",
+        "dida",
+        "dihidiyu"
+      ]
+    },
+    "admin": {
+      "countryAr": "جزر المالديف",
+      "countryEn": "Maldives",
+      "regionAr": "أتول هاء ألف",
+      "regionEn": "Haa Alif"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1337612",
+    "verified": true
+  },
+  {
+    "slug": "ungoofaaru",
+    "type": "city",
+    "countryCode": "mv",
+    "lat": 5.66812,
+    "lng": 73.03017,
+    "timezone": "Indian/Maldives",
+    "names": {
+      "ar": "أن جوفارو",
+      "en": "Un’goofaaru",
+      "fr": "Un’goofaaru",
+      "de": "Un’goofaaru",
+      "tr": "Un’goofaaru",
+      "ur": "Un’goofaaru",
+      "id": "Un’goofaaru",
+      "es": "Un’goofaaru",
+      "bn": "Un’goofaaru",
+      "ms": "Un’goofaaru"
+    },
+    "aliases": {
+      "ar": [
+        "ان غوفارو"
+      ],
+      "en": [
+        "U'ngoofaaru",
+        "Ugoofaaru",
+        "Un'goofaaru",
+        "Ungoofaaru",
+        "Ungufaru",
+        "U’ngoofaaru",
+        "an gwfarw",
+        "an jwfarw",
+        "anagupharu",
+        "angofaru",
+        "unagupharu",
+        "ʿiniguፋru"
+      ]
+    },
+    "admin": {
+      "countryAr": "جزر المالديف",
+      "countryEn": "Maldives",
+      "regionAr": "أتول راء",
+      "regionEn": "Raa Atoll"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1337619",
+    "verified": true
+  },
+  {
+    "slug": "veymandoo",
+    "type": "city",
+    "countryCode": "mv",
+    "lat": 2.18772,
+    "lng": 73.09556,
+    "timezone": "Indian/Maldives",
+    "names": {
+      "ar": "فيمندو",
+      "en": "Veymandoo",
+      "fr": "Veymandoo",
+      "de": "Veymandoo",
+      "tr": "Veymandoo",
+      "ur": "Veymandoo",
+      "id": "Veymandoo",
+      "es": "Veymandoo",
+      "bn": "Veymandoo",
+      "ms": "Veymandoo"
+    },
+    "aliases": {
+      "ar": [
+        "ويمندو"
+      ],
+      "en": [
+        "Vejmandu",
+        "Veymandhoo",
+        "bhemandu",
+        "fymndw",
+        "vemandu",
+        "veyimanidu",
+        "vueimandou",
+        "wymndw"
+      ]
+    },
+    "admin": {
+      "countryAr": "جزر المالديف",
+      "countryEn": "Maldives",
+      "regionAr": "أتول ثاء",
+      "regionEn": "Thaa Atoll"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1337622",
+    "verified": true
+  },
+  {
+    "slug": "paro",
+    "type": "city",
+    "countryCode": "bt",
+    "lat": 27.4305,
+    "lng": 89.41334,
+    "timezone": "Asia/Thimphu",
+    "names": {
+      "ar": "بارو",
+      "en": "Paro",
+      "fr": "Paro",
+      "de": "Paro",
+      "tr": "Paro",
+      "ur": "Paro",
+      "id": "Paro",
+      "es": "Paro",
+      "bn": "Paro",
+      "ms": "Paro"
+    },
+    "aliases": {
+      "ar": [
+        "بارو، بھوتان"
+      ],
+      "en": [
+        "PBH",
+        "Paras",
+        "Paro Dzong",
+        "Rimpung Dzong",
+        "barw",
+        "pa luo",
+        "palo",
+        "paro-bhutana",
+        "parw",
+        "ፓro"
+      ]
+    },
+    "admin": {
+      "countryAr": "بوتان",
+      "countryEn": "Bhutan",
+      "regionAr": "دزونغخاغ بارو",
+      "regionEn": "Paro"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1252490",
+    "verified": true
+  },
+  {
+    "slug": "ha",
+    "type": "city",
+    "countryCode": "bt",
+    "lat": 27.38747,
+    "lng": 89.28074,
+    "timezone": "Asia/Thimphu",
+    "names": {
+      "ar": "ها",
+      "en": "Ha",
+      "fr": "Ha",
+      "de": "Ha",
+      "tr": "Ha",
+      "ur": "Ha",
+      "id": "Ha",
+      "es": "Ha",
+      "bn": "Ha",
+      "ms": "Ha"
+    },
+    "aliases": {
+      "en": [
+        "Ha Dzong",
+        "Kha"
+      ]
+    },
+    "admin": {
+      "countryAr": "بوتان",
+      "countryEn": "Bhutan",
+      "regionAr": "دزونغخاغ هاآ",
+      "regionEn": "Haa"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1252563",
+    "verified": true
+  },
+  {
+    "slug": "gasa",
+    "type": "city",
+    "countryCode": "bt",
+    "lat": 27.90372,
+    "lng": 89.72689,
+    "timezone": "Asia/Thimphu",
+    "names": {
+      "ar": "غاسا",
+      "en": "Gasa",
+      "fr": "Gasa",
+      "de": "Gasa",
+      "tr": "Gasa",
+      "ur": "Gasa",
+      "id": "Gasa",
+      "es": "Gasa",
+      "bn": "Gasa",
+      "ms": "Gasa"
+    },
+    "aliases": {
+      "en": [
+        "Gasa Dzong",
+        "Gaza",
+        "Qasa",
+        "ghasa"
+      ]
+    },
+    "admin": {
+      "countryAr": "بوتان",
+      "countryEn": "Bhutan",
+      "regionAr": "دزونغخاغ غاسا",
+      "regionEn": "Gasa"
+    },
+    "priority": 65,
+    "source": "curated",
+    "sourceId": "geonames:1252578",
+    "verified": true
+  },
+  {
+    "slug": "tsimasham",
+    "type": "city",
+    "countryCode": "bt",
+    "lat": 27.0989,
+    "lng": 89.53604,
+    "timezone": "Asia/Thimphu",
+    "names": {
+      "ar": "تسيماشام",
+      "en": "Tsimasham",
+      "fr": "Tsimasham",
+      "de": "Tsimasham",
+      "tr": "Tsimasham",
+      "ur": "Tsimasham",
+      "id": "Tsimasham",
+      "es": "Tsimasham",
+      "bn": "Tsimasham",
+      "ms": "Tsimasham"
+    },
+    "aliases": {
+      "en": [
+        "Chhukha",
+        "Chhukha Dzong",
+        "Chukha",
+        "Chukkha",
+        "Cimasham",
+        "simasama",
+        "tsimasama",
+        "tsuimashamu",
+        "tsymasham",
+        "ፆmashaም"
+      ]
+    },
+    "admin": {
+      "countryAr": "بوتان",
+      "countryEn": "Bhutan",
+      "regionAr": "دزونغخاغ تشوكا",
+      "regionEn": "Chukha"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1252610",
+    "verified": true
+  },
+  {
+    "slug": "jakar",
+    "type": "city",
+    "countryCode": "bt",
+    "lat": 27.54918,
+    "lng": 90.7525,
+    "timezone": "Asia/Thimphu",
+    "names": {
+      "ar": "جاكار",
+      "en": "Jakar",
+      "fr": "Jakar",
+      "de": "Jakar",
+      "tr": "Jakar",
+      "ur": "Jakar",
+      "id": "Jakar",
+      "es": "Jakar",
+      "bn": "Jakar",
+      "ms": "Jakar"
+    },
+    "aliases": {
+      "ar": [
+        "جاكر"
+      ],
+      "en": [
+        "BUT",
+        "Bjakar",
+        "Bya-kar",
+        "Cakar",
+        "Dzakar",
+        "Dzakaras",
+        "Dzhakar",
+        "Džakaras",
+        "Jakaro",
+        "Jokhar Dzong",
+        "jakara",
+        "jakari",
+        "jakaru",
+        "jakr"
+      ]
+    },
+    "admin": {
+      "countryAr": "بوتان",
+      "countryEn": "Bhutan",
+      "regionAr": "دزونغخاغ بومثانغ",
+      "regionEn": "Bumthang"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1337301",
+    "verified": true
+  },
+  {
+    "slug": "tutong",
+    "type": "city",
+    "countryCode": "bn",
+    "lat": 4.80278,
+    "lng": 114.64917,
+    "timezone": "Asia/Brunei",
+    "names": {
+      "ar": "توتونج",
+      "en": "Tutong",
+      "fr": "Tutong",
+      "de": "Tutong",
+      "tr": "Tutong",
+      "ur": "Tutong",
+      "id": "Tutong",
+      "es": "Tutong",
+      "bn": "Tutong",
+      "ms": "Tutong"
+    },
+    "aliases": {
+      "ar": [
+        "توتونغ"
+      ],
+      "en": [
+        "Pekan Tutong",
+        "touton",
+        "tutam",
+        "tutonga",
+        "tutoniግ",
+        "twtwng",
+        "twtwnj"
+      ]
+    },
+    "admin": {
+      "countryAr": "بروناي",
+      "countryEn": "Brunei",
+      "regionAr": "منطقة توتونغ",
+      "regionEn": "Tutong"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1820071",
+    "verified": true
+  },
+  {
+    "slug": "kuala-belait",
+    "type": "city",
+    "countryCode": "bn",
+    "lat": 4.58361,
+    "lng": 114.2312,
+    "timezone": "Asia/Brunei",
+    "names": {
+      "ar": "كوالا بيلايت",
+      "en": "Kuala Belait",
+      "fr": "Kuala Belait",
+      "de": "Kuala Belait",
+      "tr": "Kuala Belait",
+      "ur": "Kuala Belait",
+      "id": "Kuala Belait",
+      "es": "Kuala Belait",
+      "bn": "Kuala Belait",
+      "ms": "Kuala Belait"
+    },
+    "aliases": {
+      "ar": [
+        "كوالا بلايت",
+        "كوالا بيليت"
+      ],
+      "en": [
+        "Belait",
+        "KUB",
+        "Kuala-Belait",
+        "Kuala-Belajt",
+        "Kvala Belaitas",
+        "Kwala Belait",
+        "ku'ala belaita",
+        "kuallabeullais",
+        "kuaraburaito",
+        "kuwala belayiti",
+        "kuyala bela'ita",
+        "kwala blayt",
+        "kwala bylayt",
+        "kwala bylyt",
+        "ma lai yi"
+      ]
+    },
+    "admin": {
+      "countryAr": "بروناي",
+      "countryEn": "Brunei",
+      "regionAr": "منطقة بليت",
+      "regionEn": "Belait"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1820491",
+    "verified": true
+  },
+  {
+    "slug": "taunggyi",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 20.78919,
+    "lng": 97.03776,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "تاونجي",
+      "en": "Taunggyi",
+      "fr": "Taunggyi",
+      "de": "Taunggyi",
+      "tr": "Taunggyi",
+      "ur": "Taunggyi",
+      "id": "Taunggyi",
+      "es": "Taunggyi",
+      "bn": "Taunggyi",
+      "ms": "Taunggyi"
+    },
+    "aliases": {
+      "ar": [
+        "تاونغئي"
+      ],
+      "en": [
+        "Taundzhi",
+        "Taundzi",
+        "Taundzis",
+        "Taundžis",
+        "Taunggi Mong",
+        "Taunji",
+        "Taunjī",
+        "dong zhi",
+        "ta'ungi",
+        "ta'ungyi",
+        "ta'unji",
+        "taungji",
+        "taunji",
+        "tawngyy",
+        "tawnjy",
+        "taውniji",
+        "txng yi"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية شان",
+      "regionEn": "Shan State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1293960",
+    "verified": true
+  },
+  {
+    "slug": "sittwe",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 20.14624,
+    "lng": 92.89835,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "سيتوي",
+      "en": "Sittwe",
+      "fr": "Sittwe",
+      "de": "Sittwe",
+      "tr": "Sittwe",
+      "ur": "Sittwe",
+      "id": "Sittwe",
+      "es": "Sittwe",
+      "bn": "Sittwe",
+      "ms": "Sittwe"
+    },
+    "aliases": {
+      "ar": [
+        "سيتوه",
+        "ويتوي"
+      ],
+      "en": [
+        "AKY",
+        "Ak'jab",
+        "Akjab",
+        "Akyab",
+        "Sittvi",
+        "Situe",
+        "Situeh",
+        "Sitve",
+        "Sitvė",
+        "shi dui",
+        "shittoue",
+        "sitave",
+        "siteuwe",
+        "sitiwe",
+        "sitta'oye",
+        "sytwh",
+        "sytwy",
+        "wytwy"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية راخين",
+      "regionEn": "Rakhine State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1295765",
+    "verified": true
+  },
+  {
+    "slug": "bago",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 17.33521,
+    "lng": 96.48135,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "باغو",
+      "en": "Bago",
+      "fr": "Bago",
+      "de": "Bago",
+      "tr": "Bago",
+      "ur": "Bago",
+      "id": "Bago",
+      "es": "Bago",
+      "bn": "Bago",
+      "ms": "Bago"
+    },
+    "aliases": {
+      "ar": [
+        "باغو، برما",
+        "باغو، ميانمار"
+      ],
+      "en": [
+        "Bagas",
+        "Begu",
+        "Pegou",
+        "Pegu",
+        "Pégou",
+        "baghw",
+        "bagw  brma",
+        "bagw  myanmar",
+        "bo gu",
+        "peku",
+        "pha kho"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "منطقة باغو",
+      "regionEn": "Bago Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1300466",
+    "verified": true
+  },
+  {
+    "slug": "hpa-an",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 16.88953,
+    "lng": 97.63482,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "هبا آن",
+      "en": "Hpa-An",
+      "fr": "Hpa-An",
+      "de": "Hpa-An",
+      "tr": "Hpa-An",
+      "ur": "Hpa-An",
+      "id": "Hpa-An",
+      "es": "Hpa-An",
+      "bn": "Hpa-An",
+      "ms": "Hpa-An"
+    },
+    "aliases": {
+      "en": [
+        "Khpa-An",
+        "PAA",
+        "Pa-an",
+        "Pan",
+        "hapa-ana",
+        "hapan",
+        "hba an",
+        "hiፓ-ʿeni",
+        "hpa an",
+        "hpa-ana"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية كاين",
+      "regionEn": "Kayin State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1302849",
+    "verified": true
+  },
+  {
+    "slug": "myitkyina",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 25.38327,
+    "lng": 97.39637,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "ميتكينا",
+      "en": "Myitkyina",
+      "fr": "Myitkyina",
+      "de": "Myitkyina",
+      "tr": "Myitkyina",
+      "ur": "Myitkyina",
+      "id": "Myitkyina",
+      "es": "Myitkyina",
+      "bn": "Myitkyina",
+      "ms": "Myitkyina"
+    },
+    "aliases": {
+      "ar": [
+        "ميئتكيئنا"
+      ],
+      "en": [
+        "M'ichina",
+        "M'itkina",
+        "MYT",
+        "Michina",
+        "Mitkina",
+        "Mjicina",
+        "Mjičina",
+        "Myitkyin",
+        "Myitkyinā",
+        "ma'itaka'ina",
+        "mi zhi na",
+        "michina",
+        "mit ci na",
+        "mitchina",
+        "mitikina",
+        "myitaka'ina",
+        "mytkyna",
+        "myytkyyna"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية كاتشين",
+      "regionEn": "Kachin State"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1307741",
+    "verified": true
+  },
+  {
+    "slug": "myingyan",
+    "type": "town",
+    "countryCode": "mm",
+    "lat": 21.46002,
+    "lng": 95.3884,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "ماينجيان",
+      "en": "Myingyan",
+      "fr": "Myingyan",
+      "de": "Myingyan",
+      "tr": "Myingyan",
+      "ur": "Myingyan",
+      "id": "Myingyan",
+      "es": "Myingyan",
+      "bn": "Myingyan",
+      "ms": "Myingyan"
+    },
+    "aliases": {
+      "ar": [
+        "ماينغيان",
+        "ميينجيان"
+      ],
+      "en": [
+        "M'indzhan",
+        "Mgin'nkgian",
+        "Mijngjan",
+        "Mjindzana",
+        "Mjindzanas",
+        "Mjindžana",
+        "Mjindžanas",
+        "Myingan",
+        "Myringyan",
+        "m yi n chan",
+        "ma'in'gyana",
+        "ma'inyana",
+        "maiyinkiyan",
+        "mayajina",
+        "mayingyan",
+        "maynghyan",
+        "maynjyan",
+        "min jian",
+        "mindjan",
+        "minjian",
+        "myynjyan",
+        "yinajnana"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "منطقة ماندالاي",
+      "regionEn": "Mandalay Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1307835",
+    "verified": true
+  },
+  {
+    "slug": "monywa",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 22.10856,
+    "lng": 95.13583,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "مونيوا",
+      "en": "Monywa",
+      "fr": "Monywa",
+      "de": "Monywa",
+      "tr": "Monywa",
+      "ur": "Monywa",
+      "id": "Monywa",
+      "es": "Monywa",
+      "bn": "Monywa",
+      "ms": "Monywa"
+    },
+    "aliases": {
+      "en": [
+        "Moniva",
+        "Mounujua",
+        "Munya",
+        "Munywa",
+        "NYW",
+        "mani'oya",
+        "meng yu wa",
+        "mon'yava",
+        "mon'yuwa",
+        "moni'a",
+        "moniwa",
+        "mony wa",
+        "mwnywa"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "منطقة سعجاينغ",
+      "regionEn": "Sagaing Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1308522",
+    "verified": true
+  },
+  {
+    "slug": "myeik",
+    "type": "town",
+    "countryCode": "mm",
+    "lat": 12.43954,
+    "lng": 98.60028,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "ماييك",
+      "en": "Myeik",
+      "fr": "Myeik",
+      "de": "Myeik",
+      "tr": "Myeik",
+      "ur": "Myeik",
+      "id": "Myeik",
+      "es": "Myeik",
+      "bn": "Myeik",
+      "ms": "Myeik"
+    },
+    "aliases": {
+      "ar": [
+        "ماييك، ميانمار",
+        "ميييك"
+      ],
+      "en": [
+        "M'ej",
+        "M'joj",
+        "MGZ",
+        "Mergui",
+        "Merguj",
+        "Mgeik",
+        "Mjeik",
+        "Mjeika",
+        "Mjeikas",
+        "Mjejk",
+        "dan lao",
+        "ma'eka",
+        "ma'inyeka",
+        "maiyik",
+        "marid",
+        "maya'eka",
+        "mayek",
+        "mayeka",
+        "mayyk",
+        "mayyk  myanmar",
+        "meleugwi",
+        "meykka",
+        "myeiku",
+        "myyyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "منطقة تاينثاري",
+      "regionEn": "Tanintharyi Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1309611",
+    "verified": true
+  },
+  {
+    "slug": "loikaw",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 19.67798,
+    "lng": 97.20975,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "لويكاو",
+      "en": "Loikaw",
+      "fr": "Loikaw",
+      "de": "Loikaw",
+      "tr": "Loikaw",
+      "ur": "Loikaw",
+      "id": "Loikaw",
+      "es": "Loikaw",
+      "bn": "Loikaw",
+      "ms": "Loikaw"
+    },
+    "aliases": {
+      "ar": [
+        "لويكاؤ"
+      ],
+      "en": [
+        "LIW",
+        "Lojkaun",
+        "Lojko",
+        "Loykau",
+        "Lwegaw",
+        "Lwègaw",
+        "la'ika'o",
+        "lo'ika'o",
+        "lo'iko",
+        "loyika",
+        "lwykaw",
+        "roika"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية كايا",
+      "regionEn": "Kayah State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1313479",
+    "verified": true
+  },
+  {
+    "slug": "lashio",
+    "type": "town",
+    "countryCode": "mm",
+    "lat": 22.9359,
+    "lng": 97.7498,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "لاشيو",
+      "en": "Lashio",
+      "fr": "Lashio",
+      "de": "Lashio",
+      "tr": "Lashio",
+      "ur": "Lashio",
+      "id": "Lashio",
+      "es": "Lashio",
+      "bn": "Lashio",
+      "ms": "Lashio"
+    },
+    "aliases": {
+      "ar": [
+        "لاشيئو"
+      ],
+      "en": [
+        "LSH",
+        "Lasha",
+        "Lasho",
+        "Lasijas",
+        "Lasio",
+        "Laŝio",
+        "Lašijas",
+        "Lašio",
+        "la seiyw",
+        "la shu",
+        "lashyw",
+        "lashyyw",
+        "lasi'o",
+        "lasio",
+        "lasiyo",
+        "rasho"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية شان",
+      "regionEn": "Shan State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1314759",
+    "verified": true
+  },
+  {
+    "slug": "kyaukpyu",
+    "type": "town",
+    "countryCode": "mm",
+    "lat": 19.42793,
+    "lng": 93.55134,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "كياوكبيو",
+      "en": "Kyaukpyu",
+      "fr": "Kyaukpyu",
+      "de": "Kyaukpyu",
+      "tr": "Kyaukpyu",
+      "ur": "Kyaukpyu",
+      "id": "Kyaukpyu",
+      "es": "Kyaukpyu",
+      "bn": "Kyaukpyu",
+      "ms": "Kyaukpyu"
+    },
+    "aliases": {
+      "en": [
+        "KYP",
+        "Kyaukpyn",
+        "ceaa ph yu",
+        "chauppyu",
+        "jiao piao",
+        "kyawkbyw"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية راخين",
+      "regionEn": "Rakhine State"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1316752",
+    "verified": true
+  },
+  {
+    "slug": "hakha",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 22.64452,
+    "lng": 93.61076,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "هاخا",
+      "en": "Hakha",
+      "fr": "Hakha",
+      "de": "Hakha",
+      "tr": "Hakha",
+      "ur": "Hakha",
+      "id": "Hakha",
+      "es": "Hakha",
+      "bn": "Hakha",
+      "ms": "Hakha"
+    },
+    "aliases": {
+      "en": [
+        "Haha",
+        "Haka",
+        "Khakha",
+        "haka",
+        "haxa"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "ولاية تشين",
+      "regionEn": "Chin State"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1325443",
+    "verified": true
+  },
+  {
+    "slug": "pathein",
+    "type": "city",
+    "countryCode": "mm",
+    "lat": 16.77919,
+    "lng": 94.73212,
+    "timezone": "Asia/Yangon",
+    "names": {
+      "ar": "باثيين",
+      "en": "Pathein",
+      "fr": "Pathein",
+      "de": "Pathein",
+      "tr": "Pathein",
+      "ur": "Pathein",
+      "id": "Pathein",
+      "es": "Pathein",
+      "bn": "Pathein",
+      "ms": "Pathein"
+    },
+    "aliases": {
+      "ar": [
+        "باتھين",
+        "باتين",
+        "باتهين"
+      ],
+      "en": [
+        "BSX",
+        "Basejn",
+        "Bassein",
+        "Bassejn",
+        "Pantejn",
+        "Patein",
+        "Patejn",
+        "Patheinas",
+        "Puthein",
+        "bathyyn",
+        "bo sheng",
+        "patein",
+        "patha'ina",
+        "pathe'ina",
+        "pathina",
+        "patyn",
+        "ፓteyini"
+      ]
+    },
+    "admin": {
+      "countryAr": "ميانمار",
+      "countryEn": "Myanmar",
+      "regionAr": "منطقة آيياروادي",
+      "regionEn": "Ayeyarwady Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1328421",
+    "verified": true
+  },
+  {
+    "slug": "ta-khmau",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 11.48333,
+    "lng": 104.95,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "تا خماؤ",
+      "en": "Ta Khmau",
+      "fr": "Ta Khmau",
+      "de": "Ta Khmau",
+      "tr": "Ta Khmau",
+      "ur": "Ta Khmau",
+      "id": "Ta Khmau",
+      "es": "Ta Khmau",
+      "bn": "Ta Khmau",
+      "ms": "Ta Khmau"
+    },
+    "aliases": {
+      "ar": [
+        "تا خماو"
+      ],
+      "en": [
+        "Ta Kmau",
+        "Takhman",
+        "Takhmau",
+        "Takkhmau",
+        "ta Kmau",
+        "ta khama'o",
+        "ta khama'u",
+        "ta khmaw",
+        "ta kimaው",
+        "ta・kumau"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة كانديل",
+      "regionEn": "Kandal"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1821935",
+    "verified": true
+  },
+  {
+    "slug": "takeo",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 10.99081,
+    "lng": 104.78498,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "تاكيو",
+      "en": "Takeo",
+      "fr": "Takeo",
+      "de": "Takeo",
+      "tr": "Takeo",
+      "ur": "Takeo",
+      "id": "Takeo",
+      "es": "Takeo",
+      "bn": "Takeo",
+      "ms": "Takeo"
+    },
+    "aliases": {
+      "ar": [
+        "تاكئو"
+      ],
+      "en": [
+        "Prasat",
+        "Pràsàt",
+        "Takev",
+        "Takéo",
+        "Takêv",
+        "take'o",
+        "takeyo",
+        "takyw"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة تاكيو",
+      "regionEn": "Takéo"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1821940",
+    "verified": true
+  },
+  {
+    "slug": "sisophon",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 13.58588,
+    "lng": 102.97369,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "سسوفون",
+      "en": "Sisophon",
+      "fr": "Sisophon",
+      "de": "Sisophon",
+      "tr": "Sisophon",
+      "ur": "Sisophon",
+      "id": "Sisophon",
+      "es": "Sisophon",
+      "bn": "Sisophon",
+      "ms": "Sisophon"
+    },
+    "aliases": {
+      "ar": [
+        "سيسوفون"
+      ],
+      "en": [
+        "Serei Saophoan",
+        "Sesopone",
+        "Sisobhon",
+        "Sisofon",
+        "Sisofón",
+        "Sisŏphŏn",
+        "shisofon",
+        "sisophana",
+        "sisophona",
+        "sisoፎni",
+        "sswfwn",
+        "syswfwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة بانتيي مينتشي",
+      "regionEn": "Banteay Meanchey"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1822207",
+    "verified": true
+  },
+  {
+    "slug": "sen-monorom",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 12.45583,
+    "lng": 107.18811,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "سن مونوروم",
+      "en": "Sen Monorom",
+      "fr": "Sen Monorom",
+      "de": "Sen Monorom",
+      "tr": "Sen Monorom",
+      "ur": "Sen Monorom",
+      "id": "Sen Monorom",
+      "es": "Sen Monorom",
+      "bn": "Sen Monorom",
+      "ms": "Sen Monorom"
+    },
+    "aliases": {
+      "ar": [
+        "سين منوروم",
+        "سين مونوروم"
+      ],
+      "en": [
+        "Krong Saen Monourom",
+        "Mondul Kiri",
+        "Saen Monourom",
+        "Sen Monorum",
+        "Sen Moronom",
+        "Senmanorum",
+        "Senmonorom",
+        "Senmonourom",
+        "Sênmônoŭrôm",
+        "sena monorama",
+        "sena monoroma",
+        "seni monoroም",
+        "sen・monoromu",
+        "sn mwnwrwm",
+        "syn mnwrwm",
+        "syn mwnwrwm"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة موندولكيري",
+      "regionEn": "Mondulkiri"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1822227",
+    "verified": true
+  },
+  {
+    "slug": "pursat",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 12.53878,
+    "lng": 103.9192,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "بورسات",
+      "en": "Pursat",
+      "fr": "Pursat",
+      "de": "Pursat",
+      "tr": "Pursat",
+      "ur": "Pursat",
+      "id": "Pursat",
+      "es": "Pursat",
+      "bn": "Pursat",
+      "ms": "Pursat"
+    },
+    "aliases": {
+      "ar": [
+        "برسات"
+      ],
+      "en": [
+        "Porsat",
+        "Pousat",
+        "Pouthisat",
+        "Poŭsăt",
+        "Poŭthĭsăt",
+        "bwrsat",
+        "prsat",
+        "purasata",
+        "purusatto",
+        "pwrsat",
+        "ፑrisati"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة بورسات",
+      "regionEn": "Pursat"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1822768",
+    "verified": true
+  },
+  {
+    "slug": "samraong",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 14.18175,
+    "lng": 103.51761,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "سامراونج",
+      "en": "Samraong",
+      "fr": "Samraong",
+      "de": "Samraong",
+      "tr": "Samraong",
+      "ur": "Samraong",
+      "id": "Samraong",
+      "es": "Samraong",
+      "bn": "Samraong",
+      "ms": "Samraong"
+    },
+    "aliases": {
+      "ar": [
+        "سمراؤنغ",
+        "سمراونج",
+        "سمراونغ"
+      ],
+      "en": [
+        "Phumi Samraong",
+        "Phumi Samrong",
+        "Phumi Samroung",
+        "Phumi Sâmroŭng",
+        "Phumĭ Sâmraông",
+        "Phumĭ Sâmrông",
+        "Samrong",
+        "Somrong",
+        "Sâmraông",
+        "samara'onga",
+        "samaram",
+        "samrawnj",
+        "samuraon",
+        "saምraʾoniግ",
+        "smrawng",
+        "smrawnj"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة أودار مينتشي",
+      "regionEn": "Oddar Meanchey"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1825093",
+    "verified": true
+  },
+  {
+    "slug": "pailin",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 12.84895,
+    "lng": 102.60928,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "بايلين",
+      "en": "Pailin",
+      "fr": "Pailin",
+      "de": "Pailin",
+      "tr": "Pailin",
+      "ur": "Pailin",
+      "id": "Pailin",
+      "es": "Pailin",
+      "bn": "Pailin",
+      "ms": "Pailin"
+    },
+    "aliases": {
+      "ar": [
+        "بيلين"
+      ],
+      "en": [
+        "Ciudad de Pailin",
+        "Ciudad de Pailín",
+        "Krong Pailin",
+        "Pailĭn",
+        "baylyn",
+        "pa'ilina",
+        "pailina",
+        "pairin",
+        "paylyn",
+        "pylyn",
+        "ፓyilini"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة بايلين",
+      "regionEn": "Pailin"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1830205",
+    "verified": true
+  },
+  {
+    "slug": "kampot",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 10.61041,
+    "lng": 104.18145,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "كامبوت",
+      "en": "Kampot",
+      "fr": "Kampot",
+      "de": "Kampot",
+      "tr": "Kampot",
+      "ur": "Kampot",
+      "id": "Kampot",
+      "es": "Kampot",
+      "bn": "Kampot",
+      "ms": "Kampot"
+    },
+    "aliases": {
+      "ar": [
+        "كمبوت",
+        "كمبوت شهر"
+      ],
+      "en": [
+        "Compong Bai",
+        "Compong Baï",
+        "Kampat",
+        "Kampot Lalawigan",
+        "Kampotas",
+        "Kamput",
+        "Kompong Bai",
+        "Krong Kampot",
+        "Krŏng Kâmpôt",
+        "Kâmpôt",
+        "gong bu",
+        "kambwt",
+        "kampota",
+        "kampoteu",
+        "kampwt",
+        "kanpotto",
+        "kapota",
+        "kaምፖti",
+        "kmpwt",
+        "kyampata"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة كامبوت",
+      "regionEn": "Kampot"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1831112",
+    "verified": true
+  },
+  {
+    "slug": "kampong-speu",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 11.45332,
+    "lng": 104.52085,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "كامبونج سبيو",
+      "en": "Kampong Speu",
+      "fr": "Kampong Speu",
+      "de": "Kampong Speu",
+      "tr": "Kampong Speu",
+      "ur": "Kampong Speu",
+      "id": "Kampong Speu",
+      "es": "Kampong Speu",
+      "bn": "Kampong Speu",
+      "ms": "Kampong Speu"
+    },
+    "aliases": {
+      "ar": [
+        "كامبونغ اسبئو",
+        "كمبونج سبيو",
+        "كمبونغ سبيو"
+      ],
+      "en": [
+        "Kampong Spoe",
+        "Kompon Spu",
+        "Kompong Speu",
+        "Kâmpóng Spœ",
+        "Kŏmpon Spu",
+        "kambwnj sbyw",
+        "kamponga spe'u",
+        "kampwng aspyw",
+        "kaponga sapu",
+        "kaምፖniግ siፑ",
+        "kmpwng spyw",
+        "kmpwnj spyw",
+        "konponsupeu",
+        "kyampam spe'u"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة كامبونغ سبو",
+      "regionEn": "Kampong Speu"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1831133",
+    "verified": true
+  },
+  {
+    "slug": "kampong-cham",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 11.99339,
+    "lng": 105.4635,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "كامبونج تشام",
+      "en": "Kampong Cham",
+      "fr": "Kampong Cham",
+      "de": "Kampong Cham",
+      "tr": "Kampong Cham",
+      "ur": "Kampong Cham",
+      "id": "Kampong Cham",
+      "es": "Kampong Cham",
+      "bn": "Kampong Cham",
+      "ms": "Kampong Cham"
+    },
+    "aliases": {
+      "ar": [
+        "كامبونغ جام",
+        "كمبونج جام",
+        "كمبونغ جام"
+      ],
+      "en": [
+        "Compon-lina",
+        "Kampongtjam",
+        "Kompon Cam",
+        "Kompong Cham",
+        "Kâmpóng Cham",
+        "kambwnj tsham",
+        "kamponga cama",
+        "kampwng cham",
+        "kaponga cama",
+        "kaምፖniግ caም",
+        "kmpwng cham",
+        "kmpwnj cham",
+        "konponchamu",
+        "kyampam cama"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة كامبونغ تشام",
+      "regionEn": "Kampong Cham"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1831173",
+    "verified": true
+  },
+  {
+    "slug": "battambang",
+    "type": "city",
+    "countryCode": "kh",
+    "lat": 13.10271,
+    "lng": 103.19822,
+    "timezone": "Asia/Phnom_Penh",
+    "names": {
+      "ar": "باتامبانج",
+      "en": "Battambang",
+      "fr": "Battambang",
+      "de": "Battambang",
+      "tr": "Battambang",
+      "ur": "Battambang",
+      "id": "Battambang",
+      "es": "Battambang",
+      "bn": "Battambang",
+      "ms": "Battambang"
+    },
+    "aliases": {
+      "ar": [
+        "باتمبنغ",
+        "باتامبانغ",
+        "بتام بانغ"
+      ],
+      "en": [
+        "BBM",
+        "Bat Dambang",
+        "Batambang",
+        "Batambangas",
+        "Batdamban",
+        "Batdambang",
+        "Batdâmbâng",
+        "Battamban",
+        "Battampan'nk",
+        "Băt Dâmbâng",
+        "Bătdâmbâng",
+        "Ciudad de Battambang",
+        "Khett Batdambang",
+        "Phratabong",
+        "batamabanga",
+        "batambang",
+        "batambanj",
+        "batanban",
+        "batitaምbaniግ",
+        "battamabanga",
+        "btam bang",
+        "byatamabam",
+        "ma de wang",
+        "pattampan",
+        "phra tabxng"
+      ]
+    },
+    "admin": {
+      "countryAr": "كمبوديا",
+      "countryEn": "Cambodia",
+      "regionAr": "مقاطعة باتامبانغ",
+      "regionEn": "Battambang"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1831797",
+    "verified": true
+  },
+  {
+    "slug": "xam-nua",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 20.4164,
+    "lng": 104.045,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "خام نوا",
+      "en": "Xam Nua",
+      "fr": "Xam Nua",
+      "de": "Xam Nua",
+      "tr": "Xam Nua",
+      "ur": "Xam Nua",
+      "id": "Xam Nua",
+      "es": "Xam Nua",
+      "bn": "Xam Nua",
+      "ms": "Xam Nua"
+    },
+    "aliases": {
+      "en": [
+        "Muang Sam",
+        "Muang Xam Nua",
+        "NEU",
+        "Sam Neua",
+        "Sam Nua",
+        "Sammeua",
+        "Samnua",
+        "Sầm Nưa",
+        "Sầm Nứa",
+        "Xam Neua",
+        "kham nwa",
+        "khama nu'a",
+        "khama nuya",
+        "samunua",
+        "zaም nuwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة هوافان",
+      "regionEn": "Houaphanh"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1652203",
+    "verified": true
+  },
+  {
+    "slug": "savannakhet",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 16.5703,
+    "lng": 104.7622,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "سافان ناخيت",
+      "en": "Savannakhet",
+      "fr": "Savannakhet",
+      "de": "Savannakhet",
+      "tr": "Savannakhet",
+      "ur": "Savannakhet",
+      "id": "Savannakhet",
+      "es": "Savannakhet",
+      "bn": "Savannakhet",
+      "ms": "Savannakhet"
+    },
+    "aliases": {
+      "ar": [
+        "ساوان ناخت",
+        "سافاناكيت"
+      ],
+      "en": [
+        "Kaysone Phomvihane",
+        "Khwaeng Savannakhet",
+        "Khwaeng_Savannakhet",
+        "Muang Kaysone Phomvihane",
+        "Muang Savannaket",
+        "Savannaket",
+        "Savannakhét",
+        "Savannakkhet",
+        "Suvannakhet",
+        "Suwanakhet",
+        "Svannakhet",
+        "Svannakhét",
+        "ZVK",
+        "sabhannakheta",
+        "safan nakhyt",
+        "savanakheta",
+        "savanakhti",
+        "savannakheta",
+        "sawan nakht",
+        "sawan'naketo xian"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة سافاناخيت",
+      "regionEn": "Savannakhet"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1653316",
+    "verified": true
+  },
+  {
+    "slug": "salavan",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 15.71652,
+    "lng": 106.41744,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "سالافان",
+      "en": "Salavan",
+      "fr": "Salavan",
+      "de": "Salavan",
+      "tr": "Salavan",
+      "ur": "Salavan",
+      "id": "Salavan",
+      "es": "Salavan",
+      "bn": "Salavan",
+      "ms": "Salavan"
+    },
+    "aliases": {
+      "ar": [
+        "سالاوان"
+      ],
+      "en": [
+        "Muang Salavan",
+        "Muang Saravane",
+        "Salanvan",
+        "Saravan",
+        "Saravane",
+        "Sarawan",
+        "VNA",
+        "salabhana",
+        "salafan",
+        "salavana",
+        "salavani",
+        "salawan",
+        "sarawan"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة سالافان",
+      "regionEn": "Salavan"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1653334",
+    "verified": true
+  },
+  {
+    "slug": "phongsali",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 21.6808,
+    "lng": 102.1003,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "فونغسالي",
+      "en": "Phôngsali",
+      "fr": "Phôngsali",
+      "de": "Phôngsali",
+      "tr": "Phôngsali",
+      "ur": "Phôngsali",
+      "id": "Phôngsali",
+      "es": "Phôngsali",
+      "bn": "Phôngsali",
+      "ms": "Phôngsali"
+    },
+    "aliases": {
+      "en": [
+        "Fong Sali",
+        "Fongsali",
+        "Muang Phongsali",
+        "Muang Phôngsali",
+        "Muong Hou",
+        "Phong Saly",
+        "Phongsali",
+        "fonsari",
+        "fwnghsaly",
+        "fwngsaly",
+        "phansali",
+        "phongasali",
+        "ፎniግsali"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة فونغسالي",
+      "regionEn": "Phongsaly"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1653894",
+    "verified": true
+  },
+  {
+    "slug": "pakse",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 15.12022,
+    "lng": 105.79898,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "باكسي",
+      "en": "Pakse",
+      "fr": "Pakse",
+      "de": "Pakse",
+      "tr": "Pakse",
+      "ur": "Pakse",
+      "id": "Pakse",
+      "es": "Pakse",
+      "bn": "Pakse",
+      "ms": "Pakse"
+    },
+    "aliases": {
+      "ar": [
+        "باكسيه",
+        "باكسه"
+      ],
+      "en": [
+        "PKZ",
+        "Paksé",
+        "Paksė",
+        "Pakxe",
+        "Pakxé",
+        "ba se",
+        "baksy",
+        "baksyh",
+        "pagse",
+        "pak se",
+        "pakase",
+        "paksh",
+        "pakuse jun",
+        "ፓkise"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة تشامباساك",
+      "regionEn": "Champasak"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1654379",
+    "verified": true
+  },
+  {
+    "slug": "sainyabuli",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 19.25756,
+    "lng": 101.71032,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "سايني آبولي",
+      "en": "Sainyabuli",
+      "fr": "Sainyabuli",
+      "de": "Sainyabuli",
+      "tr": "Sainyabuli",
+      "ur": "Sainyabuli",
+      "id": "Sainyabuli",
+      "es": "Sainyabuli",
+      "bn": "Sainyabuli",
+      "ms": "Sainyabuli"
+    },
+    "aliases": {
+      "ar": [
+        "سايان آبولي",
+        "سينيابولي"
+      ],
+      "en": [
+        "Ban Samaboury",
+        "Khwaeng Sainyabuli",
+        "Muang Xaignabouri",
+        "Muong Samaboury",
+        "Muong Sayaboury",
+        "Sajnjabuli",
+        "San'jabuli",
+        "Saniabouri",
+        "Sayaboury",
+        "Xaignabouli",
+        "Xayaboury",
+        "Xayaburi",
+        "Xayabury",
+        "ZBY",
+        "sa'in'yabuli",
+        "sain'yabuli",
+        "sainayabuli",
+        "sainyaburi",
+        "sayan abwly",
+        "sayiniyabuli",
+        "sayny abwly",
+        "synyabwly"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة سايابولي",
+      "regionEn": "Sainyabuli"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1655084",
+    "verified": true
+  },
+  {
+    "slug": "pakxan",
+    "type": "city",
+    "countryCode": "la",
+    "lat": 18.3942,
+    "lng": 103.6611,
+    "timezone": "Asia/Vientiane",
+    "names": {
+      "ar": "باكسان",
+      "en": "Pakxan",
+      "fr": "Pakxan",
+      "de": "Pakxan",
+      "tr": "Pakxan",
+      "ur": "Pakxan",
+      "id": "Pakxan",
+      "es": "Pakxan",
+      "bn": "Pakxan",
+      "ms": "Pakxan"
+    },
+    "aliases": {
+      "en": [
+        "Muang Pakxan",
+        "Pakkhan",
+        "Paksan",
+        "Paksane",
+        "baksan",
+        "pakasana",
+        "paksan",
+        "paksana",
+        "pakusan",
+        "ፓkisani"
+      ]
+    },
+    "admin": {
+      "countryAr": "لاوس",
+      "countryEn": "Laos",
+      "regionAr": "مقاطعة بوليخامساي",
+      "regionEn": "Bolikhamsai"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1655140",
+    "verified": true
+  },
+  {
+    "slug": "viqueque",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.8575,
+    "lng": 126.36472,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "فيكيك",
+      "en": "Viqueque",
+      "fr": "Viqueque",
+      "de": "Viqueque",
+      "tr": "Viqueque",
+      "ur": "Viqueque",
+      "id": "Viqueque",
+      "es": "Viqueque",
+      "bn": "Viqueque",
+      "ms": "Viqueque"
+    },
+    "aliases": {
+      "ar": [
+        "ويكيك"
+      ],
+      "en": [
+        "VIQ",
+        "Vikeke",
+        "bhikeka",
+        "bikeke",
+        "fykyk",
+        "vikeka",
+        "vikiki",
+        "wei ke ke",
+        "wykyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية فيكيكي",
+      "regionEn": "Viqueque"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1622471",
+    "verified": true
+  },
+  {
+    "slug": "manatutu",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.51139,
+    "lng": 126.01306,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "مانتوتو",
+      "en": "Manatutu",
+      "fr": "Manatutu",
+      "de": "Manatutu",
+      "tr": "Manatutu",
+      "ur": "Manatutu",
+      "id": "Manatutu",
+      "es": "Manatutu",
+      "bn": "Manatutu",
+      "ms": "Manatutu"
+    },
+    "aliases": {
+      "ar": [
+        "مناتوتو",
+        "منتوتو"
+      ],
+      "en": [
+        "Manatoetoe",
+        "Manatuto",
+        "Vila de Manatuto",
+        "manatoutou",
+        "mantwtw",
+        "mnatwtw",
+        "mntwtw"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية مانتوتو",
+      "regionEn": "Manatuto"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1636526",
+    "verified": true
+  },
+  {
+    "slug": "maliana",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.99167,
+    "lng": 125.21972,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "ماليانا",
+      "en": "Maliana",
+      "fr": "Maliana",
+      "de": "Maliana",
+      "tr": "Maliana",
+      "ur": "Maliana",
+      "id": "Maliana",
+      "es": "Maliana",
+      "bn": "Maliana",
+      "ms": "Maliana"
+    },
+    "aliases": {
+      "en": [
+        "MPT",
+        "ma li ya na",
+        "mali'ana",
+        "maliyana",
+        "malliana",
+        "malyana",
+        "mariana"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية بوبونارو",
+      "regionEn": "Bobonaro"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1636670",
+    "verified": true
+  },
+  {
+    "slug": "likisa",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.5875,
+    "lng": 125.34194,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "ليكيسا",
+      "en": "Likisá",
+      "fr": "Likisá",
+      "de": "Likisá",
+      "tr": "Likisá",
+      "ur": "Likisá",
+      "id": "Likisá",
+      "es": "Likisá",
+      "bn": "Likisá",
+      "ms": "Likisá"
+    },
+    "aliases": {
+      "en": [
+        "Likisa",
+        "Likisia",
+        "Liquica",
+        "Liquissa",
+        "Liquiçá",
+        "Vila de Liquica",
+        "Vila de Liquiçá",
+        "Vila de liquissa",
+        "likisa",
+        "lykysa",
+        "rikisa"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية ليكيسا",
+      "regionEn": "Liquiçá"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1637730",
+    "verified": true
+  },
+  {
+    "slug": "dili",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.55861,
+    "lng": 125.57361,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "دلي",
+      "en": "Dili",
+      "fr": "Dili",
+      "de": "Dili",
+      "tr": "Dili",
+      "ur": "Dili",
+      "id": "Dili",
+      "es": "Dili",
+      "bn": "Dili",
+      "ms": "Dili"
+    },
+    "aliases": {
+      "ar": [
+        "دىلى",
+        "ديلى",
+        "ديلي"
+      ],
+      "en": [
+        "DIL",
+        "Delhi",
+        "Dilhi",
+        "Dilis",
+        "Dilium",
+        "Dilli",
+        "Dilly",
+        "Dilo",
+        "Dily",
+        "Dyli",
+        "Díli",
+        "Nova Dili",
+        "Ntili",
+        "di li",
+        "dilli",
+        "diri",
+        "dly",
+        "dyly",
+        "tili"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية ديلي",
+      "regionEn": "Dili"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1645457",
+    "verified": true
+  },
+  {
+    "slug": "baukau",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.47572,
+    "lng": 126.45633,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "باوكاو",
+      "en": "Baukau",
+      "fr": "Baukau",
+      "de": "Baukau",
+      "tr": "Baukau",
+      "ur": "Baukau",
+      "id": "Baukau",
+      "es": "Baukau",
+      "bn": "Baukau",
+      "ms": "Baukau"
+    },
+    "aliases": {
+      "en": [
+        "BCH",
+        "Bacau",
+        "Baucau",
+        "Vila Salazar",
+        "ba'uka'u",
+        "bao kao",
+        "baw khaw",
+        "bawkaw",
+        "baውkaው",
+        "khet bea kea"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية باوكاو",
+      "regionEn": "Baucau"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1649539",
+    "verified": true
+  },
+  {
+    "slug": "ainaro",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.99241,
+    "lng": 125.50816,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "آينارو",
+      "en": "Ainaro",
+      "fr": "Ainaro",
+      "de": "Ainaro",
+      "tr": "Ainaro",
+      "ur": "Ainaro",
+      "id": "Ainaro",
+      "es": "Ainaro",
+      "bn": "Ainaro",
+      "ms": "Ainaro"
+    },
+    "aliases": {
+      "ar": [
+        "ائنارو",
+        "اينارو"
+      ],
+      "en": [
+        "Ainaru",
+        "Ajnaro",
+        "Builico",
+        "Dystrykt Ainaro",
+        "Hato-Builico",
+        "Vila de Ainaro",
+        "a'inaro",
+        "aynarw",
+        "ʿeyinaro"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية أينارو",
+      "regionEn": "Ainaro"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1651810",
+    "verified": true
+  },
+  {
+    "slug": "aileu",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.72806,
+    "lng": 125.56639,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "آيليو",
+      "en": "Aileu",
+      "fr": "Aileu",
+      "de": "Aileu",
+      "tr": "Aileu",
+      "ur": "Aileu",
+      "id": "Aileu",
+      "es": "Aileu",
+      "bn": "Aileu",
+      "ms": "Aileu"
+    },
+    "aliases": {
+      "ar": [
+        "ائيليو",
+        "ايلئو",
+        "ايليو"
+      ],
+      "en": [
+        "Aileou",
+        "Ajleu",
+        "Vila General Camona",
+        "Vila General Carmona",
+        "a yi lai wu",
+        "a'ile'u",
+        "aila'o",
+        "aile'u",
+        "aireu",
+        "aylyw",
+        "ayylyw",
+        "ʿeyilu"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية أيليو",
+      "regionEn": "Aileu"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1651816",
+    "verified": true
+  },
+  {
+    "slug": "lospalos",
+    "type": "city",
+    "countryCode": "tl",
+    "lat": -8.52167,
+    "lng": 126.99833,
+    "timezone": "Asia/Dili",
+    "names": {
+      "ar": "لوسبالوس",
+      "en": "Lospalos",
+      "fr": "Lospalos",
+      "de": "Lospalos",
+      "tr": "Lospalos",
+      "ur": "Lospalos",
+      "id": "Lospalos",
+      "es": "Lospalos",
+      "bn": "Lospalos",
+      "ms": "Lospalos"
+    },
+    "aliases": {
+      "en": [
+        "Los Palos",
+        "Lospalus",
+        "lasapalosa",
+        "losapalosa",
+        "loseupalloseu",
+        "losiፓlosi",
+        "lwsbalws",
+        "lwspalws",
+        "rosuparosu",
+        "sheng bao luo"
+      ]
+    },
+    "admin": {
+      "countryAr": "تيمور الشرقية",
+      "countryEn": "Timor-Leste",
+      "regionAr": "بلدية لاوتيم",
+      "regionEn": "Lautém"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1937274",
+    "verified": true
   }
 ]

@@ -81027,5 +81027,4608 @@
     "source": "curated",
     "sourceId": "geonames:1722186",
     "verified": true
+  },
+  {
+    "slug": "vi-thanh",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 9.78449,
+    "lng": 105.47012,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "في ثان",
+      "en": "Vị Thanh",
+      "fr": "Vị Thanh",
+      "de": "Vị Thanh",
+      "tr": "Vị Thanh",
+      "ur": "Vị Thanh",
+      "id": "Vị Thanh",
+      "es": "Vị Thanh",
+      "bn": "Vị Thanh",
+      "ms": "Vị Thanh"
+    },
+    "aliases": {
+      "ar": [
+        "وي تان"
+      ],
+      "en": [
+        "Duc Long",
+        "Vi Tanh",
+        "Vi Thanh",
+        "Vi Tkhan'",
+        "bhi thana",
+        "fy than",
+        "vi tani",
+        "vi thana",
+        "vui・tan",
+        "wy tan",
+        "Đức Long"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كانتو",
+      "regionEn": "Can Tho / Soc Trang / Hau Giang"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1562538",
+    "verified": true
+  },
+  {
+    "slug": "vinh-long",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.25369,
+    "lng": 105.9722,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "فينه لونج",
+      "en": "Vĩnh Long",
+      "fr": "Vĩnh Long",
+      "de": "Vĩnh Long",
+      "tr": "Vĩnh Long",
+      "ur": "Vĩnh Long",
+      "id": "Vĩnh Long",
+      "es": "Vĩnh Long",
+      "bn": "Vĩnh Long",
+      "ms": "Vĩnh Long"
+    },
+    "aliases": {
+      "ar": [
+        "فين لونج",
+        "وِنه لانغ",
+        "وينه لانغ"
+      ],
+      "en": [
+        "Vin' Long",
+        "Vinh Long",
+        "XVL",
+        "bhinaha lam",
+        "binron",
+        "fyn lwnj",
+        "vina langa",
+        "vinha langa",
+        "vinihi loniግ",
+        "wynh lang"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "فينه لونغ/ترا فينه",
+      "regionEn": "Vinh Long / Tra Vinh / Ben Tre"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1562693",
+    "verified": true
+  },
+  {
+    "slug": "viet-tri",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 21.32274,
+    "lng": 105.40198,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فيت تري",
+      "en": "Việt Trì",
+      "fr": "Việt Trì",
+      "de": "Việt Trì",
+      "tr": "Việt Trì",
+      "ur": "Việt Trì",
+      "id": "Việt Trì",
+      "es": "Việt Trì",
+      "bn": "Việt Trì",
+      "ms": "Việt Trì"
+    },
+    "aliases": {
+      "ar": [
+        "ويت تري"
+      ],
+      "en": [
+        "V'et Tri",
+        "Viet Tri",
+        "Vietri",
+        "betotori",
+        "bhiyeta tri",
+        "fyt try",
+        "vi'eta tri",
+        "viyata tri",
+        "viyeti tiri",
+        "wyt try"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "فو ثو",
+      "regionEn": "Phu Tho"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1562820",
+    "verified": true
+  },
+  {
+    "slug": "tuy-hoa",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 13.09546,
+    "lng": 109.32094,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "توي هوا",
+      "en": "Tuy Hòa",
+      "fr": "Tuy Hòa",
+      "de": "Tuy Hòa",
+      "tr": "Tuy Hòa",
+      "ur": "Tuy Hòa",
+      "id": "Tuy Hòa",
+      "es": "Tuy Hòa",
+      "bn": "Tuy Hòa",
+      "ms": "Tuy Hòa"
+    },
+    "aliases": {
+      "ar": [
+        "تويي هوا",
+        "تُوي هوا"
+      ],
+      "en": [
+        "Chau Thanh",
+        "TBB",
+        "Thanh pho Tuy Hoa",
+        "Thuy Hoa",
+        "Thành phố Tuy Hòa",
+        "Toy Hoa",
+        "Tuikhoa",
+        "Tuj Khoa",
+        "Tuy Hoa",
+        "sui he shi",
+        "touihoa",
+        "tu'e ho'a",
+        "tu'i hoya",
+        "tuya ho'a",
+        "tuyi howa",
+        "twy hwa",
+        "twyy hwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "داكلاك/فو ينه",
+      "regionEn": "Dak Lak / Phu Yen"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1563281",
+    "verified": true
+  },
+  {
+    "slug": "tra-vinh",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 9.94719,
+    "lng": 106.34225,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "ترا فينه",
+      "en": "Trà Vinh",
+      "fr": "Trà Vinh",
+      "de": "Trà Vinh",
+      "tr": "Trà Vinh",
+      "ur": "Trà Vinh",
+      "id": "Trà Vinh",
+      "es": "Trà Vinh",
+      "bn": "Trà Vinh",
+      "ms": "Trà Vinh"
+    },
+    "aliases": {
+      "ar": [
+        "تان فو ترا وينه",
+        "ثانه فو ترا فين"
+      ],
+      "en": [
+        "PHU",
+        "Phu Vinh",
+        "Phú Vinh",
+        "Thanh pho Tra Vinh",
+        "Tkhan' Fo Tra Vin'",
+        "Tra Vin",
+        "Tra Vinh",
+        "tan fw tra wynh",
+        "tana pho tra vina",
+        "tanfotorabin",
+        "tani ፎ tira vinihi",
+        "thanh fw tra fyn",
+        "thanha pho tra vinha",
+        "thantha pho tra bhinaha"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "فينه لونغ/ترا فينه",
+      "regionEn": "Vinh Long / Tra Vinh / Ben Tre"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1563926",
+    "verified": true
+  },
+  {
+    "slug": "thanh-hoa",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 19.8,
+    "lng": 105.76667,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "تانه هوا",
+      "en": "Thanh Hóa",
+      "fr": "Thanh Hóa",
+      "de": "Thanh Hóa",
+      "tr": "Thanh Hóa",
+      "ur": "Thanh Hóa",
+      "id": "Thanh Hóa",
+      "es": "Thanh Hóa",
+      "bn": "Thanh Hóa",
+      "ms": "Thanh Hóa"
+    },
+    "aliases": {
+      "ar": [
+        "تان هوا",
+        "ثانه هوا"
+      ],
+      "en": [
+        "THD",
+        "Tan Khoa",
+        "Tan'һoa",
+        "Than Hoa",
+        "Thanh Hoa",
+        "Than” Hoa",
+        "Tkhan Khoa",
+        "Tkhan' Khoa",
+        "Tkhan'khaa",
+        "Tkhan'khoa",
+        "Tʻhanhoa",
+        "qing hua shi",
+        "tainhoa",
+        "tainhoa shi",
+        "tan hwa",
+        "tana ho'a",
+        "tanh hwa",
+        "tanhoa",
+        "tanhuaia",
+        "tani howa",
+        "thanha ho'a",
+        "thantha hoya"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "ثانه هوا",
+      "regionEn": "Thanh Hoa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1566166",
+    "verified": true
+  },
+  {
+    "slug": "thai-nguyen",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 21.59422,
+    "lng": 105.84817,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "تاي نجوين",
+      "en": "Thái Nguyên",
+      "fr": "Thái Nguyên",
+      "de": "Thái Nguyên",
+      "tr": "Thái Nguyên",
+      "ur": "Thái Nguyên",
+      "id": "Thái Nguyên",
+      "es": "Thái Nguyên",
+      "bn": "Thái Nguyên",
+      "ms": "Thái Nguyên"
+    },
+    "aliases": {
+      "ar": [
+        "تايي نغويين"
+      ],
+      "en": [
+        "Taj-Nguen",
+        "Thai Nguyen",
+        "Thanh Pho Thai Nguyen",
+        "Thành Phố Thái Nguyên",
+        "Tkhaj Nguen",
+        "ta'i nagu'ena",
+        "taiguen",
+        "tay njwyn",
+        "tayi niguyeni",
+        "tayy ngwyyn",
+        "tha'i n'guyena",
+        "tha'i naguyena"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "تاي نغوين",
+      "regionEn": "Thai Nguyen"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1566319",
+    "verified": true
+  },
+  {
+    "slug": "soc-trang",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 9.59995,
+    "lng": 105.97193,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "سوك ترانج",
+      "en": "Sóc Trăng",
+      "fr": "Sóc Trăng",
+      "de": "Sóc Trăng",
+      "tr": "Sóc Trăng",
+      "ur": "Sóc Trăng",
+      "id": "Sóc Trăng",
+      "es": "Sóc Trăng",
+      "bn": "Sóc Trăng",
+      "ms": "Sóc Trăng"
+    },
+    "aliases": {
+      "ar": [
+        "سوك ترانغ"
+      ],
+      "en": [
+        "Khanh Hong",
+        "Khanh Hung",
+        "Khánh Hưng",
+        "SOA",
+        "Shokchang",
+        "Soc Trang",
+        "Sok Chang",
+        "Sok Trang",
+        "soka tram",
+        "soka tranga",
+        "soki tiraniግ",
+        "sokkuchan",
+        "swk trang",
+        "swk tranj"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كانتو",
+      "regionEn": "Can Tho / Soc Trang / Hau Giang"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1567788",
+    "verified": true
+  },
+  {
+    "slug": "qui-nhon",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 13.77648,
+    "lng": 109.22367,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "كويه نهون",
+      "en": "Qui Nhon",
+      "fr": "Qui Nhon",
+      "de": "Qui Nhon",
+      "tr": "Qui Nhon",
+      "ur": "Qui Nhon",
+      "id": "Qui Nhon",
+      "es": "Qui Nhon",
+      "bn": "Qui Nhon",
+      "ms": "Qui Nhon"
+    },
+    "aliases": {
+      "ar": [
+        "كوئي نهون",
+        "كوي نون"
+      ],
+      "en": [
+        "Ki N'on",
+        "Ki N’on",
+        "Kin-hon",
+        "Kui Nkhon",
+        "Kuinjon",
+        "Kwinhon",
+        "Qui Nhan",
+        "Qui Nhơn",
+        "Quinn Yan",
+        "Quinton",
+        "Quy Nhon",
+        "Quy Nhơn",
+        "UIH",
+        "gui ren shi",
+        "kku-inyeon",
+        "ku nihoni",
+        "ku'i nhana",
+        "ku'i nhona",
+        "kuinyon",
+        "kwyh nhwn",
+        "kwyy nhwn",
+        "kyu'i nhona"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "بينه دينه/جيا لاي",
+      "regionEn": "Binh Dinh / Gia Lai"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1568574",
+    "verified": true
+  },
+  {
+    "slug": "phan-thiet",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.92889,
+    "lng": 108.10208,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "فان تييت",
+      "en": "Phan Thiết",
+      "fr": "Phan Thiết",
+      "de": "Phan Thiết",
+      "tr": "Phan Thiết",
+      "ur": "Phan Thiết",
+      "id": "Phan Thiết",
+      "es": "Phan Thiết",
+      "bn": "Phan Thiết",
+      "ms": "Phan Thiết"
+    },
+    "aliases": {
+      "ar": [
+        "فان تيت"
+      ],
+      "en": [
+        "Fan Thiet",
+        "Fan Tkhiet",
+        "Fant'et",
+        "Fanthit",
+        "Fantiet",
+        "Fantkh'et",
+        "PHH",
+        "Phan Thiet",
+        "Phan Tiet",
+        "Xa Phan Thiet",
+        "fan tyt",
+        "fan tyyt",
+        "fantietto",
+        "pan qie",
+        "phana thi'eta",
+        "phana thiyeta",
+        "ፋni tiyeti"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "لام دونغ/بينه ثوان",
+      "regionEn": "Lam Dong / Binh Thuan / Dak Nong"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1571058",
+    "verified": true
+  },
+  {
+    "slug": "phan-rang-thap-cham",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 11.56432,
+    "lng": 108.98858,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "فان رانج ثاب تشام",
+      "en": "Phan Rang-Tháp Chàm",
+      "fr": "Phan Rang-Tháp Chàm",
+      "de": "Phan Rang-Tháp Chàm",
+      "tr": "Phan Rang-Tháp Chàm",
+      "ur": "Phan Rang-Tháp Chàm",
+      "id": "Phan Rang-Tháp Chàm",
+      "es": "Phan Rang-Tháp Chàm",
+      "bn": "Phan Rang-Tháp Chàm",
+      "ms": "Phan Rang-Tháp Chàm"
+    },
+    "aliases": {
+      "ar": [
+        "فان رانج-ثاب تشام",
+        "فان رانغ-تاب جام"
+      ],
+      "en": [
+        "Fan Rang-Tkhap Cham",
+        "Fanrang-Tkhaptjam",
+        "PHA",
+        "Phan Rang",
+        "Phan Rang- Thap Cham",
+        "Phan Rang-Thap Cham",
+        "Phan Ranh",
+        "fan rang-tap cham",
+        "fan ranj-thab tsham",
+        "fanran=tappuchamu",
+        "phana ram-thapa cama",
+        "phana ranga-thapa cama",
+        "ፋni raniግ-taፕ chaም"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كانهوا/نينه ثوان",
+      "regionEn": "Khanh Hoa / Ninh Thuan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1571067",
+    "verified": true
+  },
+  {
+    "slug": "ninh-binh",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 20.25809,
+    "lng": 105.97965,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "نينه بينه",
+      "en": "Ninh Bình",
+      "fr": "Ninh Bình",
+      "de": "Ninh Bình",
+      "tr": "Ninh Bình",
+      "ur": "Ninh Bình",
+      "id": "Ninh Bình",
+      "es": "Ninh Bình",
+      "bn": "Ninh Bình",
+      "ms": "Ninh Bình"
+    },
+    "aliases": {
+      "ar": [
+        "نِنه بِنه"
+      ],
+      "en": [
+        "Nin Bin",
+        "Nin' Bin'",
+        "Ninbinh",
+        "Ninh Binh",
+        "Thanh Pho Ninh Binh",
+        "Thành Phố Ninh Bình",
+        "nina bina",
+        "ninaha binaha",
+        "ninbin",
+        "ninha binha",
+        "ninihi binihi",
+        "nynh bynh"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "نام دينه",
+      "regionEn": "Nam Dinh"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1571968",
+    "verified": true
+  },
+  {
+    "slug": "nha-trang",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 12.24507,
+    "lng": 109.19432,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "نها ترانج",
+      "en": "Nha Trang",
+      "fr": "Nha Trang",
+      "de": "Nha Trang",
+      "tr": "Nha Trang",
+      "ur": "Nha Trang",
+      "id": "Nha Trang",
+      "es": "Nha Trang",
+      "bn": "Nha Trang",
+      "ms": "Nha Trang"
+    },
+    "aliases": {
+      "ar": [
+        "نها ترانغ",
+        "نها ترنغ"
+      ],
+      "en": [
+        "INhatrang",
+        "Kanh-Hoa",
+        "NHA",
+        "Nacana",
+        "Nga-tsong-su",
+        "Ngà-tsông-sṳ",
+        "Niacangas",
+        "Niačangas",
+        "Nja Chang",
+        "Njachang",
+        "naha tranga",
+        "nateulang",
+        "nha tram",
+        "nha tranga",
+        "nha tranj",
+        "nha trng",
+        "niha tiraniግ",
+        "nyachan",
+        "nyajjang",
+        "ya cang",
+        "ya zhuang",
+        "ya zhuang shi",
+        "Ņačana"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كانهوا/نينه ثوان",
+      "regionEn": "Khanh Hoa / Ninh Thuan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1572151",
+    "verified": true
+  },
+  {
+    "slug": "nam-gjinh",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 20.43389,
+    "lng": 106.17729,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "نام دينه",
+      "en": "Nam Định",
+      "fr": "Nam Định",
+      "de": "Nam Định",
+      "tr": "Nam Định",
+      "ur": "Nam Định",
+      "id": "Nam Định",
+      "es": "Nam Định",
+      "bn": "Nam Định",
+      "ms": "Nam Định"
+    },
+    "aliases": {
+      "ar": [
+        "نام ديه",
+        "نام دِنه"
+      ],
+      "en": [
+        "Nam Din",
+        "Nam Din'",
+        "Nam Dinh",
+        "Nam GJinh",
+        "Namdin'",
+        "Thanh Pho Nam Dinh",
+        "Thành Phố Nam Định",
+        "nam dyh",
+        "nam dynh",
+        "nama dina",
+        "nama dinaha",
+        "nama dinha",
+        "namudin",
+        "naም dinihi"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "نام دينه",
+      "regionEn": "Nam Dinh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1573517",
+    "verified": true
+  },
+  {
+    "slug": "my-tho",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.36004,
+    "lng": 106.35996,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "مي ثو",
+      "en": "Mỹ Tho",
+      "fr": "Mỹ Tho",
+      "de": "Mỹ Tho",
+      "tr": "Mỹ Tho",
+      "ur": "Mỹ Tho",
+      "id": "Mỹ Tho",
+      "es": "Mỹ Tho",
+      "bn": "Mỹ Tho",
+      "ms": "Mỹ Tho"
+    },
+    "aliases": {
+      "ar": [
+        "ماي تو"
+      ],
+      "en": [
+        "Mita",
+        "Mitho",
+        "My Tho",
+        "ma'i tho",
+        "may tw",
+        "maya tho",
+        "mi to",
+        "miso",
+        "my thw"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "تين زانغ/دونغ ثاب",
+      "regionEn": "Tien Giang / Dong Thap"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1574023",
+    "verified": true
+  },
+  {
+    "slug": "long-xuyen",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.38639,
+    "lng": 105.43518,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "لونج سوين",
+      "en": "Long Xuyên",
+      "fr": "Long Xuyên",
+      "de": "Long Xuyên",
+      "tr": "Long Xuyên",
+      "ur": "Long Xuyên",
+      "id": "Long Xuyên",
+      "es": "Long Xuyên",
+      "bn": "Long Xuyên",
+      "ms": "Long Xuyên"
+    },
+    "aliases": {
+      "ar": [
+        "لانغ زويين"
+      ],
+      "en": [
+        "Cholong Xuyen",
+        "Chơlong Xuyen",
+        "Long Suehn",
+        "Long Swiyen",
+        "Long Xuyen",
+        "Long-Shuyen",
+        "lam juyena",
+        "lang zwyin",
+        "lang zwyyn",
+        "langa ju'ena",
+        "langa svena",
+        "loniግ zowayini",
+        "lwnj swyn",
+        "ronguzuen"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كين زانغ/آن زيانغ",
+      "regionEn": "Kien Giang / An Giang"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1575627",
+    "verified": true
+  },
+  {
+    "slug": "lao-cai",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 22.48556,
+    "lng": 103.97066,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "لاو كاي",
+      "en": "Lào Cai",
+      "fr": "Lào Cai",
+      "de": "Lào Cai",
+      "tr": "Lào Cai",
+      "ur": "Lào Cai",
+      "id": "Lào Cai",
+      "es": "Lào Cai",
+      "bn": "Lào Cai",
+      "ms": "Lào Cai"
+    },
+    "aliases": {
+      "ar": [
+        "لاو كائي"
+      ],
+      "en": [
+        "Lao Cai",
+        "Lao Cai Lalawigan",
+        "Lao Kaj",
+        "Lao Kay",
+        "Laokai",
+        "Laokaj",
+        "Laokajus",
+        "Laos",
+        "Lo-kie-su",
+        "Ló-kiê-sṳ",
+        "Vilojati Lao Kai",
+        "hla wkay",
+        "la'o ka'i",
+        "lao jie shi",
+        "laokkai",
+        "law kay",
+        "law kayy",
+        "lawa kayi",
+        "layw kay",
+        "raokai"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "لاو كاي",
+      "regionEn": "Lao Cai"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1576303",
+    "verified": true
+  },
+  {
+    "slug": "ha-long",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 20.95045,
+    "lng": 107.07336,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "ها لونج",
+      "en": "Hạ Long",
+      "fr": "Hạ Long",
+      "de": "Hạ Long",
+      "tr": "Hạ Long",
+      "ur": "Hạ Long",
+      "id": "Hạ Long",
+      "es": "Hạ Long",
+      "bn": "Hạ Long",
+      "ms": "Hạ Long"
+    },
+    "aliases": {
+      "ar": [
+        "ها لونغ",
+        "هالونج",
+        "ها لانغ"
+      ],
+      "en": [
+        "Ha Long",
+        "Hon Cay",
+        "Hon Gai",
+        "Hon Gay",
+        "Hon Goi",
+        "Hong Gai",
+        "Honggay",
+        "Hồng Gai",
+        "Khalong",
+        "Thanh Pho Ha Long",
+        "Thành Phố Hạ Long",
+        "VDO",
+        "ha lam",
+        "ha lang",
+        "ha langa",
+        "ha lon'ga",
+        "ha loniግ",
+        "ha lwng",
+        "hallong",
+        "halwnj",
+        "haron shi",
+        "xia long shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كوانغ نينه",
+      "regionEn": "Quang Ninh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1580410",
+    "verified": true
+  },
+  {
+    "slug": "cao-lanh",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.46017,
+    "lng": 105.63294,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "كاو لانه",
+      "en": "Cao Lãnh",
+      "fr": "Cao Lãnh",
+      "de": "Cao Lãnh",
+      "tr": "Cao Lãnh",
+      "ur": "Cao Lãnh",
+      "id": "Cao Lãnh",
+      "es": "Cao Lãnh",
+      "bn": "Cao Lãnh",
+      "ms": "Cao Lãnh"
+    },
+    "aliases": {
+      "ar": [
+        "كاؤ لانه",
+        "كاولانه"
+      ],
+      "en": [
+        "Cao Lanh",
+        "Kao Lanh",
+        "Kao Lankh",
+        "Phong Thanh",
+        "ka'o lanha",
+        "kaoran",
+        "kaw lanh",
+        "kawlanh",
+        "kaʿo lanihi"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "تين زانغ/دونغ ثاب",
+      "regionEn": "Tien Giang / Dong Thap"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1586151",
+    "verified": true
+  },
+  {
+    "slug": "can-tho",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.03711,
+    "lng": 105.78825,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "كان ثو",
+      "en": "Cần Thơ",
+      "fr": "Cần Thơ",
+      "de": "Cần Thơ",
+      "tr": "Cần Thơ",
+      "ur": "Cần Thơ",
+      "id": "Cần Thơ",
+      "es": "Cần Thơ",
+      "bn": "Cần Thơ",
+      "ms": "Cần Thơ"
+    },
+    "aliases": {
+      "ar": [
+        "كانتو"
+      ],
+      "en": [
+        "Can Tho",
+        "Kan Tho",
+        "Kan Tkho",
+        "VCA",
+        "kaina tho",
+        "kan thw",
+        "kana tho",
+        "kani to",
+        "kanto",
+        "kantw",
+        "kyana tho",
+        "qin ju shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "كانتو",
+      "regionEn": "Can Tho / Soc Trang / Hau Giang"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1586203",
+    "verified": true
+  },
+  {
+    "slug": "buon-ma-thuot",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 12.66747,
+    "lng": 108.03775,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "بوون ما توت",
+      "en": "Buôn Ma Thuột",
+      "fr": "Buôn Ma Thuột",
+      "de": "Buôn Ma Thuột",
+      "tr": "Buôn Ma Thuột",
+      "ur": "Buôn Ma Thuột",
+      "id": "Buôn Ma Thuột",
+      "es": "Buôn Ma Thuột",
+      "bn": "Buôn Ma Thuột",
+      "ms": "Buôn Ma Thuột"
+    },
+    "aliases": {
+      "ar": [
+        "بوون ما ثوت",
+        "بون ما ثوت"
+      ],
+      "en": [
+        "BMV",
+        "Ban Me Thaut",
+        "Ban Me Thnot",
+        "Ban Me Thot",
+        "Ban Me Thout",
+        "Ban Me Thuot",
+        "Ban Mê Thuột",
+        "Ban-me-Thurt",
+        "Benmethout",
+        "Buon Ma Thuot",
+        "Buon Ma Tkhuot",
+        "Buon Me Thuot",
+        "Buôn Mê Thuột",
+        "Lac Giao",
+        "Lạc Giao",
+        "Me Thuot",
+        "Metuotas",
+        "bu'ona ma thu'ota",
+        "buonmatouotto",
+        "buʾoni ma tuʾoti",
+        "bwwn ma thwt",
+        "bwwn ma twt"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "داكلاك/فو ينه",
+      "regionEn": "Dak Lak / Phu Yen"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1586896",
+    "verified": true
+  },
+  {
+    "slug": "bien-hoa",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.94469,
+    "lng": 106.82432,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "بيان هوا",
+      "en": "Biên Hòa",
+      "fr": "Biên Hòa",
+      "de": "Biên Hòa",
+      "tr": "Biên Hòa",
+      "ur": "Biên Hòa",
+      "id": "Biên Hòa",
+      "es": "Biên Hòa",
+      "bn": "Biên Hòa",
+      "ms": "Biên Hòa"
+    },
+    "aliases": {
+      "ar": [
+        "بين هوا"
+      ],
+      "en": [
+        "B'en Khoa",
+        "Ben Khoa",
+        "Bia Hoa",
+        "Bien Hoa",
+        "Bien Hoa City",
+        "Bienhoa",
+        "bi'ena ho'a",
+        "bienhoa",
+        "biyena hoya",
+        "biyeni howa",
+        "byan hwa"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "دونغ ناي/بينه فوك",
+      "regionEn": "Dong Nai / Binh Phuoc"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1587923",
+    "verified": true
+  },
+  {
+    "slug": "ben-tre",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.24147,
+    "lng": 106.37585,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "بن تره",
+      "en": "Bến Tre",
+      "fr": "Bến Tre",
+      "de": "Bến Tre",
+      "tr": "Bến Tre",
+      "ur": "Bến Tre",
+      "id": "Bến Tre",
+      "es": "Bến Tre",
+      "bn": "Bến Tre",
+      "ms": "Bến Tre"
+    },
+    "aliases": {
+      "ar": [
+        "بن تري",
+        "بين تري"
+      ],
+      "en": [
+        "Ben Tre",
+        "Truc Giang",
+        "Trúc Giang",
+        "bena tare",
+        "bena tre",
+        "beni tire",
+        "bentore",
+        "bn trh",
+        "bn try"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "فينه لونغ/ترا فينه",
+      "regionEn": "Vinh Long / Tra Vinh / Ben Tre"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1587976",
+    "verified": true
+  },
+  {
+    "slug": "bac-ninh",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 21.18608,
+    "lng": 106.07631,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "باك نينه",
+      "en": "Bắc Ninh",
+      "fr": "Bắc Ninh",
+      "de": "Bắc Ninh",
+      "tr": "Bắc Ninh",
+      "ur": "Bắc Ninh",
+      "id": "Bắc Ninh",
+      "es": "Bắc Ninh",
+      "bn": "Bắc Ninh",
+      "ms": "Bắc Ninh"
+    },
+    "aliases": {
+      "ar": [
+        "بيك نينه"
+      ],
+      "en": [
+        "Bac Ninh",
+        "Bacht Ninh",
+        "Bak Nin",
+        "Bak Nin'",
+        "Bak Ninh",
+        "baika nina",
+        "baika ninha",
+        "bak nynh",
+        "baka ninha",
+        "baki ninihi",
+        "bakunin"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "باك نينه",
+      "regionEn": "Bac Ninh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1591449",
+    "verified": true
+  },
+  {
+    "slug": "bac-giang",
+    "type": "town",
+    "countryCode": "vn",
+    "lat": 21.27307,
+    "lng": 106.1946,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "باك جيانغ",
+      "en": "Bắc Giang",
+      "fr": "Bắc Giang",
+      "de": "Bắc Giang",
+      "tr": "Bắc Giang",
+      "ur": "Bắc Giang",
+      "id": "Bắc Giang",
+      "es": "Bắc Giang",
+      "bn": "Bắc Giang",
+      "ms": "Bắc Giang"
+    },
+    "aliases": {
+      "ar": [
+        "باك غيانغ"
+      ],
+      "en": [
+        "Bac Giang",
+        "Bakziangas",
+        "Bakzjang",
+        "Pet-kong",
+        "Pet-kông",
+        "Phu Lang Thong",
+        "Phu Lang Thuong",
+        "Phu Long Thuong",
+        "Thuong",
+        "Vilojati Bak Giang",
+        "bagjang",
+        "bak gyang",
+        "bak zyang",
+        "bakuzan",
+        "bei jiang shi"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "باك نينه",
+      "regionEn": "Bac Ninh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1591527",
+    "verified": true
+  },
+  {
+    "slug": "lai-chau",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 22.39644,
+    "lng": 103.45824,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "لاي تشاو",
+      "en": "Lai Châu",
+      "fr": "Lai Châu",
+      "de": "Lai Châu",
+      "tr": "Lai Châu",
+      "ur": "Lai Châu",
+      "id": "Lai Châu",
+      "es": "Lai Châu",
+      "bn": "Lai Châu",
+      "ms": "Lai Châu"
+    },
+    "aliases": {
+      "ar": [
+        "لاي جاو"
+      ],
+      "en": [
+        "Lai Chau",
+        "Laj Chau",
+        "Muang Lay",
+        "la'i ca'u",
+        "lay chaw",
+        "lay tshaw",
+        "layi caው",
+        "layy chaw",
+        "raichau"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "لاي تشاو",
+      "regionEn": "Lai Chau"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:8456741",
+    "verified": true
+  },
+  {
+    "slug": "thanh-pho-ba-ria",
+    "type": "city",
+    "countryCode": "vn",
+    "lat": 10.49626,
+    "lng": 107.1685,
+    "timezone": "Asia/Ho_Chi_Minh",
+    "names": {
+      "ar": "ثانه فو با ريا",
+      "en": "Thành Phố Bà Rịa",
+      "fr": "Thành Phố Bà Rịa",
+      "de": "Thành Phố Bà Rịa",
+      "tr": "Thành Phố Bà Rịa",
+      "ur": "Thành Phố Bà Rịa",
+      "id": "Thành Phố Bà Rịa",
+      "es": "Thành Phố Bà Rịa",
+      "bn": "Thành Phố Bà Rịa",
+      "ms": "Thành Phố Bà Rịa"
+    },
+    "aliases": {
+      "ar": [
+        "تهانه فو با ريا",
+        "ثان فو با ريا"
+      ],
+      "en": [
+        "Ba Ria",
+        "Bà Rịa",
+        "Tanh Fo Ba Ria",
+        "Thanh Pho Ba Ria",
+        "Tkhan' Fo Ba Ria",
+        "tainfobaria",
+        "teʾanihi ፎ ba riya",
+        "than fw ba rya",
+        "thana pho ba ri'a",
+        "thanh fw ba rya",
+        "thanha pho ba riya"
+      ]
+    },
+    "admin": {
+      "countryAr": "فيتنام",
+      "countryEn": "Vietnam",
+      "regionAr": "بينه دونغ",
+      "regionEn": "Binh Duong / Ba Ria-Vung Tau"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:8594709",
+    "verified": true
+  },
+  {
+    "slug": "tuguegarao",
+    "type": "city",
+    "countryCode": "ph",
+    "lat": 17.61577,
+    "lng": 121.72285,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "توجيجاراو",
+      "en": "Tuguegarao",
+      "fr": "Tuguegarao",
+      "de": "Tuguegarao",
+      "tr": "Tuguegarao",
+      "ur": "Tuguegarao",
+      "id": "Tuguegarao",
+      "es": "Tuguegarao",
+      "bn": "Tuguegarao",
+      "ms": "Tuguegarao"
+    },
+    "aliases": {
+      "ar": [
+        "تجيغاراؤ",
+        "توغغاراو"
+      ],
+      "en": [
+        "Lungsod ng Tuguegarao",
+        "TUG",
+        "Tugegarao",
+        "Tuguegarao City",
+        "Tuguegaro",
+        "Tүgegarao",
+        "tjygaraw",
+        "touguegarao",
+        "tugu'egara'o",
+        "tugugeraʾo",
+        "tuguyegara'o",
+        "twggaraw",
+        "twjyjaraw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "وادي كاغايان",
+      "regionEn": "Cagayan Valley"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1680932",
+    "verified": true
+  },
+  {
+    "slug": "pagadian",
+    "type": "city",
+    "countryCode": "ph",
+    "lat": 7.8257,
+    "lng": 123.437,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "باجاديان",
+      "en": "Pagadian",
+      "fr": "Pagadian",
+      "de": "Pagadian",
+      "tr": "Pagadian",
+      "ur": "Pagadian",
+      "id": "Pagadian",
+      "es": "Pagadian",
+      "bn": "Pagadian",
+      "ms": "Pagadian"
+    },
+    "aliases": {
+      "ar": [
+        "باغاديان"
+      ],
+      "en": [
+        "Lungsod ng Pagad",
+        "PAG",
+        "Pagadian City",
+        "bajadyan",
+        "pagadi'ana",
+        "pagadiyana",
+        "pagadyan",
+        "ፓgadiyani"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "شبه جزيرة زامبوانغا",
+      "regionEn": "Zamboanga Peninsula"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1696710",
+    "verified": true
+  },
+  {
+    "slug": "ormoc",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 11.00639,
+    "lng": 124.6075,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "أورموك",
+      "en": "Ormoc",
+      "fr": "Ormoc",
+      "de": "Ormoc",
+      "tr": "Ormoc",
+      "ur": "Ormoc",
+      "id": "Ormoc",
+      "es": "Ormoc",
+      "bn": "Ormoc",
+      "ms": "Ormoc"
+    },
+    "aliases": {
+      "en": [
+        "Ciudad ti Ormoc",
+        "Dakbayan sa Ormoc",
+        "Kota Ormoc",
+        "Lungsod ng Ormoc",
+        "MacArthur",
+        "OMC",
+        "Ormco",
+        "Ormoc City",
+        "Ormoc Lakanbalen",
+        "Ormok",
+        "Oromoc",
+        "Syudad han Ormoc",
+        "awrmwk",
+        "oleumokeu",
+        "orumokku"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "فيساياس الشرقية",
+      "regionEn": "Eastern Visayas"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1697018",
+    "verified": true
+  },
+  {
+    "slug": "olongapo",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 14.82917,
+    "lng": 120.28278,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "أولونغابو",
+      "en": "Olongapo",
+      "fr": "Olongapo",
+      "de": "Olongapo",
+      "tr": "Olongapo",
+      "ur": "Olongapo",
+      "id": "Olongapo",
+      "es": "Olongapo",
+      "bn": "Olongapo",
+      "ms": "Olongapo"
+    },
+    "aliases": {
+      "en": [
+        "Bandaraya Olongapo",
+        "Ciudad ti Olongapo",
+        "Dakbayan sa Olongapo",
+        "Kota Olongapo",
+        "Lungsod ng Olongapo",
+        "Olongapo City",
+        "Olongapo Lakanbalen",
+        "Olóngapo",
+        "Siyudad na Olongapo",
+        "Siyudad na Olóngapo",
+        "Syodad nin Olongapo",
+        "ao long a bo",
+        "awlwngapw",
+        "ollong-gapo"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "لوزون المركزية",
+      "regionEn": "Central Luzon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1697175",
+    "verified": true
+  },
+  {
+    "slug": "meycauayan",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 14.73694,
+    "lng": 120.96083,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "ميكاوايان",
+      "en": "Meycauayan",
+      "fr": "Meycauayan",
+      "de": "Meycauayan",
+      "tr": "Meycauayan",
+      "ur": "Meycauayan",
+      "id": "Meycauayan",
+      "es": "Meycauayan",
+      "bn": "Meycauayan",
+      "ms": "Meycauayan"
+    },
+    "aliases": {
+      "en": [
+        "Kota Meycauayan",
+        "Meycauayan City",
+        "Meycawayan",
+        "myykawayan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "لوزون المركزية",
+      "regionEn": "Central Luzon"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1699802",
+    "verified": true
+  },
+  {
+    "slug": "lucena",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 13.93139,
+    "lng": 121.61722,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "لوسينا",
+      "en": "Lucena",
+      "fr": "Lucena",
+      "de": "Lucena",
+      "tr": "Lucena",
+      "ur": "Lucena",
+      "id": "Lucena",
+      "es": "Lucena",
+      "bn": "Lucena",
+      "ms": "Lucena"
+    },
+    "aliases": {
+      "en": [
+        "Dakbayan sa Lucena",
+        "Kota Lucena",
+        "Lucena City",
+        "Lucena Lakanbalen",
+        "Lungsod ng Lucena",
+        "Lusena",
+        "Siudad ti Lucena",
+        "lu sai na",
+        "lusena",
+        "lwsyna  flpayn"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "كالاباسون",
+      "regionEn": "CALABARZON"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1705357",
+    "verified": true
+  },
+  {
+    "slug": "dasmarinas",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 14.32944,
+    "lng": 120.93667,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "داسمارينياس",
+      "en": "Dasmariñas",
+      "fr": "Dasmariñas",
+      "de": "Dasmariñas",
+      "tr": "Dasmariñas",
+      "ur": "Dasmariñas",
+      "id": "Dasmariñas",
+      "es": "Dasmariñas",
+      "bn": "Dasmariñas",
+      "ms": "Dasmariñas"
+    },
+    "aliases": {
+      "ar": [
+        "داسماريناس"
+      ],
+      "en": [
+        "Dasmarin'jas",
+        "Dasmarinas",
+        "Dasmarinas Lakanbalen",
+        "Dasmarines",
+        "Dasmariñas Lakanbalen",
+        "Kota Dasmarinas",
+        "Kota Dasmariñas",
+        "da si ma li ni ya si",
+        "daseumalinyaseu",
+        "dasmarngas",
+        "dasmarynyas",
+        "dasumarinyasu"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "كالاباسون",
+      "regionEn": "CALABARZON"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1715430",
+    "verified": true
+  },
+  {
+    "slug": "cotabato",
+    "type": "city",
+    "countryCode": "ph",
+    "lat": 7.22361,
+    "lng": 124.24639,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "كوتاباتو",
+      "en": "Cotabato",
+      "fr": "Cotabato",
+      "de": "Cotabato",
+      "tr": "Cotabato",
+      "ur": "Cotabato",
+      "id": "Cotabato",
+      "es": "Cotabato",
+      "bn": "Cotabato",
+      "ms": "Cotabato"
+    },
+    "aliases": {
+      "ar": [
+        "كوتابايتو"
+      ],
+      "en": [
+        "CBO",
+        "Catabate",
+        "Catabato",
+        "Cotabato City",
+        "Cottabato",
+        "Dakbayan sa Cotabato",
+        "Kota-Bato",
+        "Kotabato",
+        "kotabato",
+        "kwetabato",
+        "kwtabatw",
+        "kwtabaytw"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "بانغسامورو",
+      "regionEn": "Bangsamoro"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1716771",
+    "verified": true
+  },
+  {
+    "slug": "calapan",
+    "type": "city",
+    "countryCode": "ph",
+    "lat": 13.4117,
+    "lng": 121.1803,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "كالابان",
+      "en": "Calapan",
+      "fr": "Calapan",
+      "de": "Calapan",
+      "tr": "Calapan",
+      "ur": "Calapan",
+      "id": "Calapan",
+      "es": "Calapan",
+      "bn": "Calapan",
+      "ms": "Calapan"
+    },
+    "aliases": {
+      "en": [
+        "Calapan City",
+        "Calapan Lakanbalen",
+        "Calapán",
+        "Dakbayan sa Calapan",
+        "Kalapan",
+        "Kota Calapan",
+        "Lungsod ng Calapan",
+        "ka la pan",
+        "kalapan",
+        "kalapana",
+        "kalaፓni",
+        "kallapan",
+        "karapan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "ميماروبا",
+      "regionEn": "MIMAROPA"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1720561",
+    "verified": true
+  },
+  {
+    "slug": "binan",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 14.34267,
+    "lng": 121.08071,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "بينيان",
+      "en": "Biñan",
+      "fr": "Biñan",
+      "de": "Biñan",
+      "tr": "Biñan",
+      "ur": "Biñan",
+      "id": "Biñan",
+      "es": "Biñan",
+      "bn": "Biñan",
+      "ms": "Biñan"
+    },
+    "aliases": {
+      "en": [
+        "Binan",
+        "Binan City",
+        "Binyang",
+        "Biñan City",
+        "Biñán",
+        "Ciudad nin Binan",
+        "Ciudad nin Biñan",
+        "Kota Binan",
+        "Kota Biñan",
+        "Lungsod ng Binan",
+        "Lungsod ng Biñan",
+        "bngan"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "كالاباسون",
+      "regionEn": "CALABARZON"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1725115",
+    "verified": true
+  },
+  {
+    "slug": "baguio",
+    "type": "city",
+    "countryCode": "ph",
+    "lat": 16.41639,
+    "lng": 120.59306,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "باغيو",
+      "en": "Baguio",
+      "fr": "Baguio",
+      "de": "Baguio",
+      "tr": "Baguio",
+      "ur": "Baguio",
+      "id": "Baguio",
+      "es": "Baguio",
+      "bn": "Baguio",
+      "ms": "Baguio"
+    },
+    "aliases": {
+      "ar": [
+        "باجيو",
+        "باغيؤ"
+      ],
+      "en": [
+        "BAG",
+        "Bagijas",
+        "Bagio",
+        "Baguio City",
+        "Baguio Lakanbalen",
+        "Ciudad ti Baguio",
+        "Dakbayan sa Baguio",
+        "Kota Baguio",
+        "Lungsod ng Baguio",
+        "Siyudad na Baguio",
+        "Syudad nin Baguio",
+        "ba keiy w",
+        "bagio",
+        "bagiyo",
+        "bagu'i'o",
+        "bagyw",
+        "bajyw",
+        "bi yao shi",
+        "pakiyo"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "المنطقة الإدارية كورديليرا",
+      "regionEn": "Cordillera Administrative Region"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1728930",
+    "verified": true
+  },
+  {
+    "slug": "bacoor",
+    "type": "town",
+    "countryCode": "ph",
+    "lat": 14.45896,
+    "lng": 120.93851,
+    "timezone": "Asia/Manila",
+    "names": {
+      "ar": "باكوور",
+      "en": "Bacoor",
+      "fr": "Bacoor",
+      "de": "Bacoor",
+      "tr": "Bacoor",
+      "ur": "Bacoor",
+      "id": "Bacoor",
+      "es": "Bacoor",
+      "bn": "Bacoor",
+      "ms": "Bacoor"
+    },
+    "aliases": {
+      "en": [
+        "Bacoor Lakanbalen",
+        "Bakoor",
+        "Lungsod ng Bacoor",
+        "bakwwr"
+      ]
+    },
+    "admin": {
+      "countryAr": "الفلبين",
+      "countryEn": "Philippines",
+      "regionAr": "كالاباسون",
+      "regionEn": "CALABARZON"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1729524",
+    "verified": true
+  },
+  {
+    "slug": "phetchaburi",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 13.11189,
+    "lng": 99.94467,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فتشابوري",
+      "en": "Phetchaburi",
+      "fr": "Phetchaburi",
+      "de": "Phetchaburi",
+      "tr": "Phetchaburi",
+      "ur": "Phetchaburi",
+      "id": "Phetchaburi",
+      "es": "Phetchaburi",
+      "bn": "Phetchaburi",
+      "ms": "Phetchaburi"
+    },
+    "aliases": {
+      "ar": [
+        "فتجابوري",
+        "بتجبوري"
+      ],
+      "en": [
+        "Amphoe Khlong Krachaeng",
+        "Amphoe Muang Phet Buri",
+        "Bejraburi",
+        "Bhej Buri",
+        "Changwat Phet Buri",
+        "Fetcaburi",
+        "Fetchaburi",
+        "Fetçaburi",
+        "Moeang Bhejburi",
+        "Muang Bheja Buri",
+        "Muang Pecha Buri",
+        "Muang Petchaboun",
+        "Mueang Phetchaburi",
+        "Pechaburi",
+        "Petchaburi",
+        "Phet Buri",
+        "Pkhetchaburi",
+        "ftchabry",
+        "ftchabwry",
+        "meuxng phechrburi",
+        "petchaburi",
+        "phecaburi",
+        "phechrburi",
+        "phetacaburi",
+        "ptchbwry",
+        "ፌcibori"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "فيتشابوري",
+      "regionEn": "Phetchaburi"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1149698",
+    "verified": true
+  },
+  {
+    "slug": "trang",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 7.55633,
+    "lng": 99.61141,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "ترانج",
+      "en": "Trang",
+      "fr": "Trang",
+      "de": "Trang",
+      "tr": "Trang",
+      "ur": "Trang",
+      "id": "Trang",
+      "es": "Trang",
+      "bn": "Trang",
+      "ms": "Trang"
+    },
+    "aliases": {
+      "ar": [
+        "ترنغ"
+      ],
+      "en": [
+        "Amphoe Muang Trang",
+        "Changwat Trang",
+        "TST",
+        "Tran",
+        "tiraniግ",
+        "toran",
+        "tr a ng",
+        "tranga",
+        "trng"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ترانغ",
+      "regionEn": "Trang"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1150007",
+    "verified": true
+  },
+  {
+    "slug": "tak",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.86968,
+    "lng": 99.12898,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "تاك",
+      "en": "Tak",
+      "fr": "Tak",
+      "de": "Tak",
+      "tr": "Tak",
+      "ur": "Tak",
+      "id": "Tak",
+      "es": "Tak",
+      "bn": "Tak",
+      "ms": "Tak"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Mueang Tak",
+        "Baheng",
+        "Ban Rahaeng",
+        "Ban Raheang",
+        "Changwat Tak",
+        "Muang Raheng",
+        "Muang Tak",
+        "Rahaeng",
+        "Rahaong",
+        "Raheng",
+        "TKT",
+        "Takas",
+        "Tark",
+        "taka",
+        "taki",
+        "taku",
+        "thesbal meuxng tak",
+        "ttag"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "تاك",
+      "regionEn": "Tak"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1150490",
+    "verified": true
+  },
+  {
+    "slug": "surat-thani",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 9.14011,
+    "lng": 99.33311,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سورات تاني",
+      "en": "Surat Thani",
+      "fr": "Surat Thani",
+      "de": "Surat Thani",
+      "tr": "Surat Thani",
+      "ur": "Surat Thani",
+      "id": "Surat Thani",
+      "es": "Surat Thani",
+      "bn": "Surat Thani",
+      "ms": "Surat Thani"
+    },
+    "aliases": {
+      "ar": [
+        "سورت تاني"
+      ],
+      "en": [
+        "Amphoe Ban Don",
+        "Amphoe Muang Surat Thani",
+        "Ban Dohn",
+        "Ban Don",
+        "Ban Makham Tia",
+        "Ban Makham Tir",
+        "Bandaun",
+        "Changwat Surat",
+        "Changwat Surat Thani",
+        "Makham Tia",
+        "Mueang Surat Thani",
+        "Suras",
+        "Surashtradhani",
+        "Surat Tani",
+        "Surat-Tani",
+        "Surathanis",
+        "Surattkhani",
+        "Szuratthani",
+        "URT",
+        "su le ta ni",
+        "sulastani",
+        "surasʹdrthani",
+        "surata thani",
+        "surati tani",
+        "suratotani",
+        "swrat tany",
+        "swrt tany",
+        "thesbal nkhr surasʹdrthani"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سوراث ثاني",
+      "regionEn": "Surat Thani"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1150515",
+    "verified": true
+  },
+  {
+    "slug": "sukhothai",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 17.00778,
+    "lng": 99.823,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سوخوتاي",
+      "en": "Sukhothai",
+      "fr": "Sukhothai",
+      "de": "Sukhothai",
+      "tr": "Sukhothai",
+      "ur": "Sukhothai",
+      "id": "Sukhothai",
+      "es": "Sukhothai",
+      "bn": "Sukhothai",
+      "ms": "Sukhothai"
+    },
+    "aliases": {
+      "ar": [
+        "سكهوتاي"
+      ],
+      "en": [
+        "Amphoe Muang Sukhothai",
+        "Amphoe Mueang Sukhothai",
+        "Amphoe Sukhodhai",
+        "Amphoe Sukhothai",
+        "Ban Thani",
+        "Changwat Sukhobhai",
+        "Changwat Sukhodhai",
+        "Changwat Sukhothai",
+        "Muang Soukotai",
+        "Muang Sukotai",
+        "Sukanthai",
+        "Sukauthai",
+        "Sukhobhai",
+        "Sukhodhai",
+        "Sukhotay",
+        "Sukhothai Thani",
+        "Sukhothaj",
+        "Sukhothat",
+        "Sukhothaï",
+        "Sukkhotaj",
+        "Sukkhotkhaj",
+        "Sukodhai",
+        "Sukotajus",
+        "THS",
+        "skhwtay",
+        "sukhota'i",
+        "sukhotha'i",
+        "sukhothay",
+        "sukotai",
+        "sukxotayi",
+        "swkhwtay"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سوكوثاي",
+      "regionEn": "Sukhothai"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1150533",
+    "verified": true
+  },
+  {
+    "slug": "ratchaburi",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 13.53671,
+    "lng": 99.81712,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "راتشابوري",
+      "en": "Ratchaburi",
+      "fr": "Ratchaburi",
+      "de": "Ratchaburi",
+      "tr": "Ratchaburi",
+      "ur": "Ratchaburi",
+      "id": "Ratchaburi",
+      "es": "Ratchaburi",
+      "bn": "Ratchaburi",
+      "ms": "Ratchaburi"
+    },
+    "aliases": {
+      "ar": [
+        "راجابري",
+        "راجبوري"
+      ],
+      "en": [
+        "Amphoe Muang Rat Buri",
+        "Changwat Rat Buri",
+        "Mondhol Rajburi",
+        "Muang Rajburi",
+        "Muang Ratburi",
+        "Mueang Ratchaburi",
+        "Racaburi",
+        "Rachaburi",
+        "Rajburi",
+        "Rat Buri",
+        "Raçaburi",
+        "racaburi",
+        "rachabry",
+        "rachaburi",
+        "rachburi",
+        "rachbwry"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "راتشابوري",
+      "regionEn": "Ratchaburi"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1150954",
+    "verified": true
+  },
+  {
+    "slug": "ranong",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 9.96583,
+    "lng": 98.63476,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "رانونج",
+      "en": "Ranong",
+      "fr": "Ranong",
+      "de": "Ranong",
+      "tr": "Ranong",
+      "ur": "Ranong",
+      "id": "Ranong",
+      "es": "Ranong",
+      "bn": "Ranong",
+      "ms": "Ranong"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Ranong",
+        "Changwat Ranong",
+        "Muang Ra Nohng",
+        "Muang Ranawng",
+        "Muang Ranong",
+        "Ranaong",
+        "Ranaung",
+        "Ranawng",
+        "Ranohng",
+        "Ranonq",
+        "Renawng",
+        "Renong",
+        "UNN",
+        "ranam",
+        "ranon",
+        "ranonga",
+        "ranoniግ",
+        "ranwng",
+        "ranxng"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "رانونغ",
+      "regionEn": "Ranong"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1150965",
+    "verified": true
+  },
+  {
+    "slug": "prachuap-khiri-khan",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 11.82098,
+    "lng": 99.7841,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "براشواب خيري خان",
+      "en": "Prachuap Khiri Khan",
+      "fr": "Prachuap Khiri Khan",
+      "de": "Prachuap Khiri Khan",
+      "tr": "Prachuap Khiri Khan",
+      "ur": "Prachuap Khiri Khan",
+      "id": "Prachuap Khiri Khan",
+      "es": "Prachuap Khiri Khan",
+      "bn": "Prachuap Khiri Khan",
+      "ms": "Prachuap Khiri Khan"
+    },
+    "aliases": {
+      "ar": [
+        "براجوب خيري خان"
+      ],
+      "en": [
+        "Changwat Prachuap Khiri Khan",
+        "PRACHUAB KHIRI KHAN",
+        "Prachuab",
+        "Prachuab Girikhan",
+        "Prachuab Khirakhanda",
+        "Prachuab Kirikan",
+        "Prachuap",
+        "Prachuap Giri Khan",
+        "Prachuap Kirikan",
+        "Prachuap-Kkhiri-Khan",
+        "Prachuapgirikhand",
+        "Prachūab Gīrīkhan",
+        "Pracuap Kiri Han",
+        "Praçuap Kiri Han",
+        "prachwap khyry khan",
+        "prachwp khyry khan",
+        "pracu'apa khiri khana",
+        "pracuyapa khiri khana",
+        "pracwbkhirikhanth",
+        "purajuappukirikan",
+        "ፕracuʿeፕ kiri kani"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "براشواب خيري خان",
+      "regionEn": "Prachuap Khiri Khan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1151074",
+    "verified": true
+  },
+  {
+    "slug": "phayao",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 19.19203,
+    "lng": 99.87883,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فياو",
+      "en": "Phayao",
+      "fr": "Phayao",
+      "de": "Phayao",
+      "tr": "Phayao",
+      "ur": "Phayao",
+      "id": "Phayao",
+      "es": "Phayao",
+      "bn": "Phayao",
+      "ms": "Phayao"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Moeang Bha Yao",
+        "Amphoe Muang Phayao",
+        "Amphoe Muang Pra Yao",
+        "Amphoe Phayao",
+        "Ban Nai Wiang",
+        "Bhayao",
+        "Changwat Phayao",
+        "Fajao",
+        "Fayao",
+        "Moeangbhayao",
+        "Muang Phayao",
+        "Muang Prao",
+        "Muang Prayao",
+        "Mueang Chang Wat Pha Yao",
+        "Mueang Phayao",
+        "Pkhajao",
+        "Prayao",
+        "canghwad phayea",
+        "fyaw",
+        "payao",
+        "phaya'o",
+        "phayea",
+        "ፋyaው"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "فاياو",
+      "regionEn": "Phayao"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1151426",
+    "verified": true
+  },
+  {
+    "slug": "phang-nga",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 8.45091,
+    "lng": 98.52985,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فانج نجا",
+      "en": "Phang Nga",
+      "fr": "Phang Nga",
+      "de": "Phang Nga",
+      "tr": "Phang Nga",
+      "ur": "Phang Nga",
+      "id": "Phang Nga",
+      "es": "Phang Nga",
+      "bn": "Phang Nga",
+      "ms": "Phang Nga"
+    },
+    "aliases": {
+      "ar": [
+        "فانغ نغا"
+      ],
+      "en": [
+        "Amphoe Mueang Phangnga",
+        "Bhangnga",
+        "Changwat Phangnga",
+        "Fan Nqa",
+        "Muang Bhang-nga",
+        "Muang Pha Nga",
+        "Pan Nga",
+        "Panga",
+        "Phangnga",
+        "Phung Nga",
+        "Pkhang-Nga",
+        "Pkhangnga",
+        "Pungah",
+        "fang nga",
+        "panga",
+        "pham nga",
+        "phanga n'ga",
+        "phanga nga",
+        "phangnga",
+        "ፋniግ niga"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "فانغا",
+      "regionEn": "Phang Nga"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1151464",
+    "verified": true
+  },
+  {
+    "slug": "nakhon-si-thammarat",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 8.43333,
+    "lng": 99.96667,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "نخون سي تمارت",
+      "en": "Nakhon Si Thammarat",
+      "fr": "Nakhon Si Thammarat",
+      "de": "Nakhon Si Thammarat",
+      "tr": "Nakhon Si Thammarat",
+      "ur": "Nakhon Si Thammarat",
+      "id": "Nakhon Si Thammarat",
+      "es": "Nakhon Si Thammarat",
+      "bn": "Nakhon Si Thammarat",
+      "ms": "Nakhon Si Thammarat"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Nakhon Si Thammarat",
+        "Changwat Nakhon Si Thammarat",
+        "Lakawn",
+        "Lakon",
+        "Ligor",
+        "Muang Nagorn Sridharmaraj",
+        "Muang Nakawn Sri Tamarat",
+        "Mueang Nakhon Si Thammarat",
+        "NST",
+        "Nagara Sridharmaraj",
+        "Nagor Sridhamaraj",
+        "Nagorn Sridharmrat",
+        "Nagorri Sridharmrat",
+        "Nakawn Sitamarat",
+        "Nakawn Sritamarat",
+        "Nakhaun Si Thammarat",
+        "Nakhon Si Tammarat",
+        "Nakhon Si Thammarht",
+        "Nakhon Sritamarai",
+        "Nakhon Srithamarat",
+        "Nakhon Srithamrat",
+        "Nakhon Szi Thammarat",
+        "Nakhonsithamrat",
+        "Nakkhon-Si-Tkhammarat",
+        "Nakkhonsitkhammarat",
+        "Nakon",
+        "Nakon Si Tham Rat",
+        "Nakon Sitamarat",
+        "Nakon Sri Tammarat",
+        "Nakon Sritamaraj",
+        "Nakon Sritamarat",
+        "Nakorn Si Thamarat",
+        "Nakorn Sridamaraja",
+        "Naxon Si Tamarat",
+        "na kong shi tan ma le",
+        "nakhana si tham'marata",
+        "nakhona si tham'marata",
+        "nakhona si thamarata",
+        "nakonshitanmarato",
+        "nakonsitammalas",
+        "nanyoni si tamarati",
+        "nkhrsrithrrmrach",
+        "nkhwn sy tmart",
+        "thesbal nkhr nkhrsrithrrmrach"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ناخون سيتاماراج",
+      "regionEn": "Nakhon Si Thammarat"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1151933",
+    "verified": true
+  },
+  {
+    "slug": "mae-hong-son",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 19.30029,
+    "lng": 97.96852,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "ماي هونج سون",
+      "en": "Mae Hong Son",
+      "fr": "Mae Hong Son",
+      "de": "Mae Hong Son",
+      "tr": "Mae Hong Son",
+      "ur": "Mae Hong Son",
+      "id": "Mae Hong Son",
+      "es": "Mae Hong Son",
+      "bn": "Mae Hong Son",
+      "ms": "Mae Hong Son"
+    },
+    "aliases": {
+      "ar": [
+        "مائي هانغ سن",
+        "مائي هونغ سون",
+        "ماي هونغ سون",
+        "مه هانغ سان"
+      ],
+      "en": [
+        "Amphoe Muang Mae Hong Son",
+        "Ban Me Tau",
+        "Ban Muai Tau",
+        "Ban Muai To",
+        "Ban Muai Toh",
+        "Changwat Mae Hong Son",
+        "Changwat Me Hohng Sohn",
+        "HGN",
+        "Haung Saun",
+        "Mae Hingsorn",
+        "Mae Hung Son",
+        "Mae Khong Son",
+        "Me Hawng Sawn",
+        "Me Hong Sawn",
+        "Mea Haung Saun",
+        "Meh-Khong-Son",
+        "Mehawnghsawn",
+        "Mehkhongson",
+        "Mehohngsohn",
+        "Mehongsonas",
+        "Mehungsong",
+        "Muai Tau",
+        "Mə Hong San",
+        "ma'e haunga sana",
+        "ma'e honga sana",
+        "maehongson",
+        "may hwngh swn",
+        "maye ham sana",
+        "me honiግ sani",
+        "mehonson",
+        "mh hang san",
+        "mæhxngsxn"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ماي هونغ سون",
+      "regionEn": "Mae Hong Son"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1152222",
+    "verified": true
+  },
+  {
+    "slug": "lamphun",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 18.58054,
+    "lng": 99.00745,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "لمفون",
+      "en": "Lamphun",
+      "fr": "Lamphun",
+      "de": "Lamphun",
+      "tr": "Lamphun",
+      "ur": "Lamphun",
+      "id": "Lamphun",
+      "es": "Lamphun",
+      "bn": "Lamphun",
+      "ms": "Lamphun"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Lamphun",
+        "Amphoe Mueang Lamphun",
+        "Changwat Lamphun",
+        "Changwat Muang Lamphun",
+        "Lambhun",
+        "Lamfun",
+        "Lampkhun",
+        "Lampoon",
+        "Lampun",
+        "Muang Lam Poun",
+        "Muang Lamphun",
+        "Muang Lampun",
+        "Mueang Lamphun",
+        "lamaphuna",
+        "lampuna",
+        "laphun",
+        "laምፉni",
+        "lmfwn",
+        "lyamphuna",
+        "ranpun"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "لامفون",
+      "regionEn": "Lamphun"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1152468",
+    "verified": true
+  },
+  {
+    "slug": "lampang",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 18.29232,
+    "lng": 99.49277,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "لامبانج",
+      "en": "Lampang",
+      "fr": "Lampang",
+      "de": "Lampang",
+      "tr": "Lampang",
+      "ur": "Lampang",
+      "id": "Lampang",
+      "es": "Lampang",
+      "bn": "Lampang",
+      "ms": "Lampang"
+    },
+    "aliases": {
+      "ar": [
+        "لامبانغ",
+        "لمبانغ",
+        "ليمبينغ"
+      ],
+      "en": [
+        "Amphoe Muang Lampang",
+        "Amphoe Mueang Lampang",
+        "Changwat Lampang",
+        "Changwat Muang Lampang",
+        "Changwat Muang Nagorn Lambang",
+        "LPT",
+        "Lakhon",
+        "Lakhon Lampang",
+        "Lampangas",
+        "Lampanq",
+        "Muang Lakhon Lampang",
+        "Muang Lampang",
+        "Muang Nagorn Lambang",
+        "Muang Nakon Lampang",
+        "Mueang Lampang",
+        "Nakawn",
+        "Nakawn Lampang",
+        "Nakhon Lampang",
+        "Nakon Lampang",
+        "Nakorn Lampang",
+        "lamapanga",
+        "lampanga",
+        "lamppang",
+        "lapang",
+        "laምፓniግ",
+        "lmpang",
+        "lyampam",
+        "lympyng",
+        "ranpan",
+        "thesbal nkhr lapang"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "لامبانغ",
+      "regionEn": "Lampang"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1152473",
+    "verified": true
+  },
+  {
+    "slug": "krabi",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 8.07257,
+    "lng": 98.91052,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "كرابي",
+      "en": "Krabi",
+      "fr": "Krabi",
+      "de": "Krabi",
+      "tr": "Krabi",
+      "ur": "Krabi",
+      "id": "Krabi",
+      "es": "Krabi",
+      "bn": "Krabi",
+      "ms": "Krabi"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Krabi",
+        "Amphoe Mueang Krabi",
+        "Amphoe Pak Nam",
+        "Changwat Krabi",
+        "Ghirbi",
+        "KBV",
+        "Krampi",
+        "Moeang Kra-bi",
+        "Muang Krabi",
+        "Mueang Krabi",
+        "canghwad krabi",
+        "jia mi",
+        "kirabi",
+        "kkeulabi",
+        "kraby",
+        "kurabi",
+        "meuxng krabi",
+        "thesbal meuxng krabi"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "كرابي",
+      "regionEn": "Krabi"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1152633",
+    "verified": true
+  },
+  {
+    "slug": "kanchanaburi",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.00412,
+    "lng": 99.54832,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "كانجانابوري",
+      "en": "Kanchanaburi",
+      "fr": "Kanchanaburi",
+      "de": "Kanchanaburi",
+      "tr": "Kanchanaburi",
+      "ur": "Kanchanaburi",
+      "id": "Kanchanaburi",
+      "es": "Kanchanaburi",
+      "bn": "Kanchanaburi",
+      "ms": "Kanchanaburi"
+    },
+    "aliases": {
+      "ar": [
+        "كنجانبوري",
+        "كنجنابري"
+      ],
+      "en": [
+        "Changwat Kanchanaburi",
+        "Kanburi",
+        "Kancanaburi",
+        "Kanchana",
+        "Kancsanaburi",
+        "Kanpuri",
+        "Kançanaburi",
+        "Moeang Kanchana Buri",
+        "Muang Kanchana Buri",
+        "kacanaburi",
+        "kancanaburi",
+        "kancanapuri",
+        "kanchanabwry",
+        "kanicanaburi",
+        "kaycnburi",
+        "kkanjjanabuli",
+        "knchanbwry",
+        "knchnabry",
+        "qnznbwry",
+        "thesbal meuxng kaycnburi"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "كانتشاناوبوري",
+      "regionEn": "Kanchanaburi"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1153081",
+    "verified": true
+  },
+  {
+    "slug": "kamphaeng-phet",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.48344,
+    "lng": 99.52153,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "كامفنج بيت",
+      "en": "Kamphaeng Phet",
+      "fr": "Kamphaeng Phet",
+      "de": "Kamphaeng Phet",
+      "tr": "Kamphaeng Phet",
+      "ur": "Kamphaeng Phet",
+      "id": "Kamphaeng Phet",
+      "es": "Kamphaeng Phet",
+      "bn": "Kamphaeng Phet",
+      "ms": "Kamphaeng Phet"
+    },
+    "aliases": {
+      "ar": [
+        "كمفنغ بت",
+        "كمفنغ بيت"
+      ],
+      "en": [
+        "Amphoe Muang Kamphaeng Phet",
+        "Amphoe Mueang Kamphaeng Phet",
+        "Changwat Kamphaeng Phet",
+        "Changwat Muang Kam Bheng Bhej",
+        "Gamphaeng Phet",
+        "Gampheang Phet",
+        "Kam Baeng Bejr",
+        "Kambheng Bhej",
+        "Kamfenq Pet",
+        "Kampkheng-Pkhet",
+        "Meuangkamphayng",
+        "Muang Kam Bheng Bhej",
+        "Muang Kam Phaeng Phet",
+        "Muang Kum Pang Pet",
+        "kamphem peta",
+        "kamphenga peta",
+        "kamupenpetto",
+        "kaphenga peta",
+        "kaphængphechr",
+        "kaምፌniግ ፔti",
+        "kmfng pt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "كامفايبيت",
+      "regionEn": "Kamphaeng Phet"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1153090",
+    "verified": true
+  },
+  {
+    "slug": "chumphon",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 10.4957,
+    "lng": 99.17971,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "جمفون",
+      "en": "Chumphon",
+      "fr": "Chumphon",
+      "de": "Chumphon",
+      "tr": "Chumphon",
+      "ur": "Chumphon",
+      "id": "Chumphon",
+      "es": "Chumphon",
+      "bn": "Chumphon",
+      "ms": "Chumphon"
+    },
+    "aliases": {
+      "ar": [
+        "جومفون"
+      ],
+      "en": [
+        "Amphoe Muang Chumphon",
+        "CJM",
+        "Champawn",
+        "Changwat Chumphon",
+        "Chumphaun",
+        "Chumpkhon",
+        "Chumpon",
+        "Chumporn",
+        "Csumphon",
+        "Cumfon",
+        "Cumphonas",
+        "Jumbhorn",
+        "Jumbor",
+        "Muang Champawn",
+        "Muang Choum Pon",
+        "Muang Chum Pon",
+        "Muang Chumporn",
+        "Muang Jum Bhorn",
+        "Mueang Chumphon",
+        "chmfwn",
+        "chumphr",
+        "chumpon",
+        "chumupon",
+        "chwmfwn",
+        "cumaphona",
+        "cumphana",
+        "cumphona",
+        "cuምፎni",
+        "thesbal meuxng chumphr",
+        "Çumfon",
+        "Čumphonas"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "تشومفون",
+      "regionEn": "Chumphon"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1153557",
+    "verified": true
+  },
+  {
+    "slug": "chiang-rai",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 19.90858,
+    "lng": 99.8325,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "جيانج راي",
+      "en": "Chiang Rai",
+      "fr": "Chiang Rai",
+      "de": "Chiang Rai",
+      "tr": "Chiang Rai",
+      "ur": "Chiang Rai",
+      "id": "Chiang Rai",
+      "es": "Chiang Rai",
+      "bn": "Chiang Rai",
+      "ms": "Chiang Rai"
+    },
+    "aliases": {
+      "ar": [
+        "جيانغ رائي",
+        "جيانغ راي"
+      ],
+      "en": [
+        "Amphoe Chiang Rai",
+        "Amphoe Muang Chiang Rai",
+        "CEI",
+        "Chang Rai",
+        "Changwat Chiang Rai",
+        "Changwat Muang Chiang Rai",
+        "Changwat Muang Jieng Rai",
+        "Chiang-Rai",
+        "Chiangraj",
+        "Chiengrai",
+        "Cian Ray",
+        "Ciangrajus",
+        "Cziang Raj",
+        "Jieng Rai",
+        "Muang Chiang Rai",
+        "Muang Chieng Rai",
+        "Muang Jieng Rai",
+        "Mueang Chiang Rai",
+        "Propinsi Chiang Rai",
+        "Thanh pho Chiang Rai",
+        "Thành phố Chiang Rai",
+        "Xieng Rai",
+        "cheiyngray",
+        "chianglai",
+        "chienrai",
+        "chyang ray",
+        "chyang rayy",
+        "ci'anga ra'i",
+        "ci'enga raya",
+        "ciyam ra'i",
+        "ciyaniግ rayi",
+        "qing lai",
+        "thesbal nkhr cheiyngray",
+        "zyʼng rʼy",
+        "Çian Ray",
+        "Čiangrajus"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "تشيانغ راي",
+      "regionEn": "Chiang Rai"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1153669",
+    "verified": true
+  },
+  {
+    "slug": "yasothon",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 15.79408,
+    "lng": 104.1451,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "ياسوتون",
+      "en": "Yasothon",
+      "fr": "Yasothon",
+      "de": "Yasothon",
+      "tr": "Yasothon",
+      "ur": "Yasothon",
+      "id": "Yasothon",
+      "es": "Yasothon",
+      "bn": "Yasothon",
+      "ms": "Yasothon"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Yasothon",
+        "Amphoe Yasodhom",
+        "Amphoe Yasodhorn",
+        "Amphoe Yasothon",
+        "Ban Nai Muang",
+        "Ban Singh Tha",
+        "Changwat Yasothon",
+        "Jasotkhon",
+        "Muang Iott-so Ton",
+        "Muang Yasothaun",
+        "Muang Yasothon",
+        "Mueang Yasothon",
+        "Yasodhorn",
+        "Yasotawn",
+        "Yasotorn",
+        "Yasotxon",
+        "iyasothana",
+        "yasothana",
+        "yasothona",
+        "yasoton",
+        "yasotoni",
+        "yaswtwn",
+        "ysothr"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ياسوثون",
+      "regionEn": "Yasothon"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1604769",
+    "verified": true
+  },
+  {
+    "slug": "yala",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 6.53995,
+    "lng": 101.28128,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "يالا",
+      "en": "Yala",
+      "fr": "Yala",
+      "de": "Yala",
+      "tr": "Yala",
+      "ur": "Yala",
+      "id": "Yala",
+      "es": "Yala",
+      "bn": "Yala",
+      "ms": "Yala"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Mueang Yala",
+        "Amphoe Yala",
+        "Ban Yala",
+        "Changwat Yala",
+        "Jala",
+        "Muang Yala",
+        "Mueang Yala",
+        "iyala",
+        "yara"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "يالا",
+      "regionEn": "Yala"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1604870",
+    "verified": true
+  },
+  {
+    "slug": "uthai-thani",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 15.37939,
+    "lng": 100.0245,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "أوثاي ثاني",
+      "en": "Uthai Thani",
+      "fr": "Uthai Thani",
+      "de": "Uthai Thani",
+      "tr": "Uthai Thani",
+      "ur": "Uthai Thani",
+      "id": "Uthai Thani",
+      "es": "Uthai Thani",
+      "bn": "Uthai Thani",
+      "ms": "Uthai Thani"
+    },
+    "aliases": {
+      "ar": [
+        "اتهاي تاني",
+        "اتهاي ثاني"
+      ],
+      "en": [
+        "Amphoe Nam Sum",
+        "Ban Nam Sum",
+        "Changwat Muang Uthai Thani",
+        "Changwat Uthai Thani",
+        "Muang Udhai Dhani",
+        "Muang Utai Tani",
+        "Muang Uthai Thani",
+        "Mueang Uthai Thani",
+        "Udhaidhani",
+        "Utay Tani",
+        "Utkhaj-Tkhani",
+        "athay tany",
+        "athay thany",
+        "utaitani",
+        "utha'i thani",
+        "xuthaythani",
+        "ʿuteyi tani"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "أوثاي ثاني",
+      "regionEn": "Uthai Thani"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1605221",
+    "verified": true
+  },
+  {
+    "slug": "udon-thani",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 17.41567,
+    "lng": 102.78589,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "أودون تاني",
+      "en": "Udon Thani",
+      "fr": "Udon Thani",
+      "de": "Udon Thani",
+      "tr": "Udon Thani",
+      "ur": "Udon Thani",
+      "id": "Udon Thani",
+      "es": "Udon Thani",
+      "bn": "Udon Thani",
+      "ms": "Udon Thani"
+    },
+    "aliases": {
+      "ar": [
+        "اودون تاني",
+        "ودون تاني"
+      ],
+      "en": [
+        "Ban Dua Makeng",
+        "Ban Ma Keng",
+        "Ban Mak Khaeng",
+        "Bar Deua Ma Khong",
+        "Changwat Udaunthani",
+        "Changwat Udon Thani",
+        "Mak Khaeng",
+        "Mueang Udon Thani",
+        "UTH",
+        "Udaun Thani",
+        "Udon",
+        "Udon Tani",
+        "Udon-Tkhani",
+        "Udonthani",
+        "Udonthanis",
+        "Udontkhani",
+        "Udorn",
+        "Udorndhani",
+        "Udornthani",
+        "awdwn tany",
+        "thesbal nkhr xudrthani",
+        "udana thani",
+        "udona thani",
+        "udontani",
+        "wdwn tany",
+        "wu long ta ni",
+        "xudrthani",
+        "ʿudoni tani"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "أودون ثاني",
+      "regionEn": "Udon Thani"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1605239",
+    "verified": true
+  },
+  {
+    "slug": "trat",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 12.24364,
+    "lng": 102.51514,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "تراد",
+      "en": "Trat",
+      "fr": "Trat",
+      "de": "Trat",
+      "tr": "Trat",
+      "ur": "Trat",
+      "id": "Trat",
+      "es": "Trat",
+      "bn": "Trat",
+      "ms": "Trat"
+    },
+    "aliases": {
+      "ar": [
+        "تريت"
+      ],
+      "en": [
+        "Ban Bang Phra",
+        "Ban Prah",
+        "Bang Phra",
+        "Changwat Trat",
+        "Krat",
+        "Muang Krat",
+        "TDX",
+        "Trad",
+        "tirati",
+        "torato",
+        "trad",
+        "traita",
+        "trata"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ترات",
+      "regionEn": "Trat"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1605279",
+    "verified": true
+  },
+  {
+    "slug": "surin",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.88181,
+    "lng": 103.49364,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سورين",
+      "en": "Surin",
+      "fr": "Surin",
+      "de": "Surin",
+      "tr": "Surin",
+      "ur": "Surin",
+      "id": "Surin",
+      "es": "Surin",
+      "bn": "Surin",
+      "ms": "Surin"
+    },
+    "aliases": {
+      "en": [
+        "Changwat Surin",
+        "Muang Sourin",
+        "Muang Surin",
+        "Mueang Surin",
+        "PXR",
+        "Surindr",
+        "Surindra",
+        "sryn",
+        "surina",
+        "surini",
+        "surinthr",
+        "swryn"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سورين",
+      "regionEn": "Surin"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1606030",
+    "verified": true
+  },
+  {
+    "slug": "suphan-buri",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.47418,
+    "lng": 100.12218,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سوفان بوري",
+      "en": "Suphan Buri",
+      "fr": "Suphan Buri",
+      "de": "Suphan Buri",
+      "tr": "Suphan Buri",
+      "ur": "Suphan Buri",
+      "id": "Suphan Buri",
+      "es": "Suphan Buri",
+      "bn": "Suphan Buri",
+      "ms": "Suphan Buri"
+    },
+    "aliases": {
+      "ar": [
+        "سوفان بري"
+      ],
+      "en": [
+        "Amphoe Muang Suphan Buri",
+        "Ban Tha Phi Liang",
+        "Changwat Suphan Buri",
+        "Muang Subharn",
+        "Muang Supan",
+        "Muang Suphan",
+        "Mueang Suphan Buri",
+        "Subhan Buri",
+        "Subharn",
+        "Sufan Buri",
+        "Supan",
+        "Supanburi",
+        "Supham Buri",
+        "Supkhan-Buri",
+        "Thaphi Liang",
+        "supana buri",
+        "supanburi",
+        "suphana buri",
+        "suphrrnburi",
+        "suፋni buri",
+        "swfan bry",
+        "swfan bwry"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سوبان بوري",
+      "regionEn": "Suphan Buri"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1606033",
+    "verified": true
+  },
+  {
+    "slug": "songkhla",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 7.19882,
+    "lng": 100.5951,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سونغخلا",
+      "en": "Songkhla",
+      "fr": "Songkhla",
+      "de": "Songkhla",
+      "tr": "Songkhla",
+      "ur": "Songkhla",
+      "id": "Songkhla",
+      "es": "Songkhla",
+      "bn": "Songkhla",
+      "ms": "Songkhla"
+    },
+    "aliases": {
+      "ar": [
+        "سونجخلا"
+      ],
+      "en": [
+        "Amphoe Muang Songkhla",
+        "Changwat Songkhla",
+        "Monthon Nakhon Si Thamarat",
+        "Monthon Nakhon Si Thammarat",
+        "Muang Sawng Kla",
+        "Muang Songkla",
+        "SGZ",
+        "Sawng Kla",
+        "Senggora",
+        "Singgora",
+        "Singora",
+        "Singorra",
+        "Songkkhla",
+        "Songkla",
+        "Songkˌla",
+        "Sung Kla",
+        "Thanh pho Songkhla",
+        "Thành phố Songkhla",
+        "sankhala",
+        "sngkhla",
+        "song ka",
+        "song ka shi",
+        "songakhala",
+        "songkeulla",
+        "soniግkila",
+        "sonkura",
+        "swngkhla",
+        "swnjkhla",
+        "thesbal nkhr sngkhla"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سونغخلا",
+      "regionEn": "Songkhla"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1606147",
+    "verified": true
+  },
+  {
+    "slug": "si-sa-ket",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 15.11481,
+    "lng": 104.32938,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سي سا كيت",
+      "en": "Si Sa Ket",
+      "fr": "Si Sa Ket",
+      "de": "Si Sa Ket",
+      "tr": "Si Sa Ket",
+      "ur": "Si Sa Ket",
+      "id": "Si Sa Ket",
+      "es": "Si Sa Ket",
+      "bn": "Si Sa Ket",
+      "ms": "Si Sa Ket"
+    },
+    "aliases": {
+      "ar": [
+        "سي ساكيت",
+        "سي ساكت"
+      ],
+      "en": [
+        "Amphoe Muang Sisaket",
+        "Amphoe Sisaket",
+        "Cangwat Khukhan",
+        "Changwat Khu Khan",
+        "Changwat Si Sa Ket",
+        "Khukhan",
+        "Muang Sisaket",
+        "Muang Srisaket",
+        "Mueang Si Sa Ket",
+        "Si Saket",
+        "Sisakate",
+        "Sisaket",
+        "Srisakesa",
+        "Srisaket",
+        "shisaketto",
+        "si sa keta",
+        "si sa keti",
+        "sy sakt",
+        "sy sakyt"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سيساكيت",
+      "regionEn": "Si Sa Ket"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1606239",
+    "verified": true
+  },
+  {
+    "slug": "sing-buri",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.88786,
+    "lng": 100.40464,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سينج بوري",
+      "en": "Sing Buri",
+      "fr": "Sing Buri",
+      "de": "Sing Buri",
+      "tr": "Sing Buri",
+      "ur": "Sing Buri",
+      "id": "Sing Buri",
+      "es": "Sing Buri",
+      "bn": "Sing Buri",
+      "ms": "Sing Buri"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Sing Buri",
+        "Ban Bang Phutsa",
+        "Ban Bang Putsa",
+        "Bang Phutsa",
+        "Changwat Sing Buri",
+        "Muang Sing",
+        "Mueang Sing Buri",
+        "Sing",
+        "Singburi",
+        "Singha Buri",
+        "shinburi",
+        "siga buri",
+        "sim buri",
+        "singa buri",
+        "singhburi",
+        "siniግ buri",
+        "sng bwry",
+        "synj bwry"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سينغ بوري",
+      "regionEn": "Sing Buri"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1606270",
+    "verified": true
+  },
+  {
+    "slug": "samut-songkhram",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 13.41456,
+    "lng": 100.00264,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "سامت سونغخرام",
+      "en": "Samut Songkhram",
+      "fr": "Samut Songkhram",
+      "de": "Samut Songkhram",
+      "tr": "Samut Songkhram",
+      "ur": "Samut Songkhram",
+      "id": "Samut Songkhram",
+      "es": "Samut Songkhram",
+      "bn": "Samut Songkhram",
+      "ms": "Samut Songkhram"
+    },
+    "aliases": {
+      "ar": [
+        "سمت سونغ خرام"
+      ],
+      "en": [
+        "Amphoe Ban Prok",
+        "Amphoe Lam Thuan",
+        "Changwat Samut Songkkhram",
+        "Mae Khlaung",
+        "Mae Klong",
+        "Maikulaung",
+        "Maklong",
+        "Me Klawng",
+        "Me-klohng",
+        "Meh Klong",
+        "Meklong",
+        "Muang Samudh Songgram",
+        "Muang Samut Sang Khran",
+        "Muang Samut Songgram",
+        "Mueang Samut Songkhram",
+        "Samudh Songgram",
+        "Samudh Sŏnggrām",
+        "Samut Songkram",
+        "Samut Songkˌram",
+        "Smut Songkhram",
+        "samt songkhram",
+        "samuta sangakrama",
+        "samuta songakhrama",
+        "samuta songakrama",
+        "samuti soniግkiraም",
+        "samuttosonkuramu",
+        "smt swng khram",
+        "smuthrsngkhram"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "سامُت سونغخرام",
+      "regionEn": "Samut Songkhram"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1606586",
+    "verified": true
+  },
+  {
+    "slug": "roi-et",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.0567,
+    "lng": 103.65309,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "روي إت",
+      "en": "Roi Et",
+      "fr": "Roi Et",
+      "de": "Roi Et",
+      "tr": "Roi Et",
+      "ur": "Roi Et",
+      "id": "Roi Et",
+      "es": "Roi Et",
+      "bn": "Roi Et",
+      "ms": "Roi Et"
+    },
+    "aliases": {
+      "ar": [
+        "روئي ايت",
+        "روي ات"
+      ],
+      "en": [
+        "ROI",
+        "Rio Et",
+        "Roi Ech",
+        "Roi Eht",
+        "Roi-ed",
+        "Roiet",
+        "Roj Et",
+        "raya'i eta",
+        "ro'i eta",
+        "ro'i ita",
+        "roietto",
+        "royi ʿeti",
+        "rwy at",
+        "rxyxed"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "روي إت",
+      "regionEn": "Roi Et"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1607001",
+    "verified": true
+  },
+  {
+    "slug": "phra-nakhon-si-ayutthaya",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.35167,
+    "lng": 100.57739,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فرا ناخون سي ايوتايا",
+      "en": "Phra Nakhon Si Ayutthaya",
+      "fr": "Phra Nakhon Si Ayutthaya",
+      "de": "Phra Nakhon Si Ayutthaya",
+      "tr": "Phra Nakhon Si Ayutthaya",
+      "ur": "Phra Nakhon Si Ayutthaya",
+      "id": "Phra Nakhon Si Ayutthaya",
+      "es": "Phra Nakhon Si Ayutthaya",
+      "bn": "Phra Nakhon Si Ayutthaya",
+      "ms": "Phra Nakhon Si Ayutthaya"
+    },
+    "aliases": {
+      "ar": [
+        "فرا ناخون سي أيوتايا",
+        "فرا ناخون سي آيوتايا"
+      ],
+      "en": [
+        "Ajuthaja",
+        "Ajuttkhaja",
+        "Amphoe Krung Kao",
+        "Amphoe Phra Nakhon Si Ayutthaya",
+        "Amphoe Rop Krung",
+        "Ayouthia",
+        "Ayudhya",
+        "Ayuthaya",
+        "Ayuthia",
+        "Ayuthya",
+        "Ayutia",
+        "Ayutthaya",
+        "Ayutthaya - phrankhrsrixyuthya",
+        "Ayutthia",
+        "Ayutya",
+        "Changwat Phra Nakhon Si Ayutthaya",
+        "Krung Kao",
+        "Monthon Ayutthaya",
+        "Phra Nakhon Si Ax Ayutthaya",
+        "Pkhra Nakˌkhon Si Ajuttkhaja",
+        "fra nakhwn sy aywtaya",
+        "phra nakhona si ayut'thaya",
+        "phra nakhona si ayuthaya",
+        "phrankhrsrixyuthya",
+        "tesaban'nakon・puranakonshiayuttaya",
+        "thesbal nkhr phrankhrsrixyuthya",
+        "ፍra naxoni si ʿeyutihya"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "أيوتايا",
+      "regionEn": "Phra Nakhon Si Ayutthaya"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1607532",
+    "verified": true
+  },
+  {
+    "slug": "phichit",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.44184,
+    "lng": 100.34879,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فيتشيت",
+      "en": "Phichit",
+      "fr": "Phichit",
+      "de": "Phichit",
+      "tr": "Phichit",
+      "ur": "Phichit",
+      "id": "Phichit",
+      "es": "Phichit",
+      "bn": "Phichit",
+      "ms": "Phichit"
+    },
+    "aliases": {
+      "ar": [
+        "فيجيت"
+      ],
+      "en": [
+        "Amphoe Muang Phichit",
+        "Amphoe Ta Luang",
+        "Amphoe Tha Luang",
+        "Ban Nai Muang",
+        "Bhichit",
+        "Changwat Muang Bichit",
+        "Changwat Muang Phichit",
+        "Changwat Phichit",
+        "Fichit",
+        "Muang Bhichit",
+        "Muang Phichit",
+        "Muang Phijit",
+        "Muang Pitchit",
+        "Okhaburi",
+        "Pichit",
+        "Pkhichit",
+        "Sra Luang",
+        "Tha Luang",
+        "fychyt",
+        "fytshyt",
+        "phicita",
+        "phicitr",
+        "pichitto",
+        "ፊciti"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "فيتشيت",
+      "regionEn": "Phichit"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1607725",
+    "verified": true
+  },
+  {
+    "slug": "phetchabun",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.41904,
+    "lng": 101.16056,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فيتشابون",
+      "en": "Phetchabun",
+      "fr": "Phetchabun",
+      "de": "Phetchabun",
+      "tr": "Phetchabun",
+      "ur": "Phetchabun",
+      "id": "Phetchabun",
+      "es": "Phetchabun",
+      "bn": "Phetchabun",
+      "ms": "Phetchabun"
+    },
+    "aliases": {
+      "ar": [
+        "فتشابون",
+        "فتجابون"
+      ],
+      "en": [
+        "Amphoe Muang Phetchabun",
+        "Bhejaburn",
+        "Changwat Muang Bheia Burn",
+        "Changwat Muang Bhĕia Būrn",
+        "Changwat Muang Phetchabun",
+        "Changwat Phetchabun",
+        "Fetchabun",
+        "Muang Bheia Burn",
+        "Muang Petchboun",
+        "Muang Phecha Bun",
+        "Muang Phetchabun",
+        "PHY",
+        "Pechabun",
+        "Petchabun",
+        "Pkhetchabun",
+        "ftchabwn",
+        "ftshabwn",
+        "petchabun",
+        "phechrburn",
+        "phetacabuna",
+        "phetcabuna",
+        "ፌthabani"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "فيتشابون",
+      "regionEn": "Phetchabun"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1607737",
+    "verified": true
+  },
+  {
+    "slug": "phatthalung",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 7.61786,
+    "lng": 100.07792,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "فاتالونج",
+      "en": "Phatthalung",
+      "fr": "Phatthalung",
+      "de": "Phatthalung",
+      "tr": "Phatthalung",
+      "ur": "Phatthalung",
+      "id": "Phatthalung",
+      "es": "Phatthalung",
+      "bn": "Phatthalung",
+      "ms": "Phatthalung"
+    },
+    "aliases": {
+      "ar": [
+        "فاتالونغ"
+      ],
+      "en": [
+        "Amphoe Klang Mueang",
+        "Amphoe Lampam",
+        "Amphoe Muang Phatthalung",
+        "Badalung",
+        "Bhadhalung",
+        "Changwat Phattalung",
+        "Changwat Phatthalung",
+        "Fattһalung",
+        "Muang Patalung",
+        "Mueang Phatthalung",
+        "Patalung",
+        "Phatalung",
+        "Phathalung",
+        "Phattalung",
+        "Pkhetchabun",
+        "fatalwng",
+        "fatalwnj",
+        "pattarun",
+        "phataluga",
+        "phathlung",
+        "phatthalum",
+        "phatthalunga",
+        "ፋteluniግ"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "فاتالونغ",
+      "regionEn": "Phatthalung"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1607779",
+    "verified": true
+  },
+  {
+    "slug": "pathum-thani",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.01346,
+    "lng": 100.53049,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "باثوم ثاني",
+      "en": "Pathum Thani",
+      "fr": "Pathum Thani",
+      "de": "Pathum Thani",
+      "tr": "Pathum Thani",
+      "ur": "Pathum Thani",
+      "id": "Pathum Thani",
+      "es": "Pathum Thani",
+      "bn": "Pathum Thani",
+      "ms": "Pathum Thani"
+    },
+    "aliases": {
+      "ar": [
+        "باتوم تاني"
+      ],
+      "en": [
+        "Amphoe Bang Kadi",
+        "Amphoe Muang Pathum Thani",
+        "Amphoe Pathum Thani",
+        "Ban Bang Kadi",
+        "Ban Patok",
+        "Bang Kadi",
+        "Changwat Pathum Thani",
+        "Muang Pradhum Dhani",
+        "Muang Prathum Tani",
+        "Muang Prathum Thani",
+        "Mueang Pathum Thani",
+        "Padumdhani",
+        "Pathum Rani",
+        "Pathumthani",
+        "Patһum Tani",
+        "Pradhum Dhani",
+        "Prathum Thani",
+        "Pthumthani",
+        "Ratkhum Tkhani",
+        "bathwm thany",
+        "pathuma thani",
+        "patoumutani",
+        "patwm tany",
+        "ppatumtani",
+        "pthumthani",
+        "thesbal meuxng pthumthani",
+        "ፓtuም tani"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "باتوم تاني",
+      "regionEn": "Pathum Thani"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1607983",
+    "verified": true
+  },
+  {
+    "slug": "mueang-nonthaburi",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 13.86075,
+    "lng": 100.51477,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "موانج نونتابوري",
+      "en": "Mueang Nonthaburi",
+      "fr": "Mueang Nonthaburi",
+      "de": "Mueang Nonthaburi",
+      "tr": "Mueang Nonthaburi",
+      "ur": "Mueang Nonthaburi",
+      "id": "Mueang Nonthaburi",
+      "es": "Mueang Nonthaburi",
+      "bn": "Mueang Nonthaburi",
+      "ms": "Mueang Nonthaburi"
+    },
+    "aliases": {
+      "ar": [
+        "موآنغ نونتابوري",
+        "مويانغ نونثابوري"
+      ],
+      "en": [
+        "Muehng Nontһaburi",
+        "Non Buri",
+        "Nondaburi",
+        "Nondha Buri",
+        "Nonthaburi",
+        "Nontkhaburi",
+        "mu'enga nonthaburi",
+        "muan'nontaburi",
+        "muwaniግ nonitaburi",
+        "muyem nonathaburi",
+        "mwang nwntabwry",
+        "mwanj nwntabwry",
+        "thesbal nkhr nnthburi"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "نونتابوري",
+      "regionEn": "Nonthaburi"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1608133",
+    "verified": true
+  },
+  {
+    "slug": "narathiwat",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 6.42639,
+    "lng": 101.82308,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "نارثيوات",
+      "en": "Narathiwat",
+      "fr": "Narathiwat",
+      "de": "Narathiwat",
+      "tr": "Narathiwat",
+      "ur": "Narathiwat",
+      "id": "Narathiwat",
+      "es": "Narathiwat",
+      "bn": "Narathiwat",
+      "ms": "Narathiwat"
+    },
+    "aliases": {
+      "ar": [
+        "نارتيوات"
+      ],
+      "en": [
+        "Ban Bangnara",
+        "Bang Nara",
+        "Changwat Naradhiwas",
+        "Changwat Narathiwat",
+        "NAW",
+        "Naradhivas",
+        "Naradhiwas",
+        "Narativas",
+        "Narativat",
+        "Naratkhivat",
+        "Naratһivat",
+        "narathi'oyata",
+        "narathivata",
+        "naratiwati",
+        "naratiwato",
+        "narthywat",
+        "nartywat",
+        "nrathiwas"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "نارثيوات",
+      "regionEn": "Narathiwat"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1608409",
+    "verified": true
+  },
+  {
+    "slug": "nan",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 18.78378,
+    "lng": 100.77899,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "نان",
+      "en": "Nan",
+      "fr": "Nan",
+      "de": "Nan",
+      "tr": "Nan",
+      "ur": "Nan",
+      "id": "Nan",
+      "es": "Nan",
+      "bn": "Nan",
+      "ms": "Nan"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Nam",
+        "Amphoe Mueang Nam",
+        "Ban Muang Nan",
+        "Changwat Muang Nan",
+        "Changwat Nan",
+        "Changwat Nana",
+        "Muang Nan",
+        "Mueang Nan",
+        "NNT",
+        "Nagor Nan",
+        "Nanas",
+        "nana",
+        "nani",
+        "thesbal meuxng nan"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "نان",
+      "regionEn": "Nan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1608452",
+    "verified": true
+  },
+  {
+    "slug": "nakhon-nayok",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.20463,
+    "lng": 101.21295,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "ناخون نايوك",
+      "en": "Nakhon Nayok",
+      "fr": "Nakhon Nayok",
+      "de": "Nakhon Nayok",
+      "tr": "Nakhon Nayok",
+      "ur": "Nakhon Nayok",
+      "id": "Nakhon Nayok",
+      "es": "Nakhon Nayok",
+      "bn": "Nakhon Nayok",
+      "ms": "Nakhon Nayok"
+    },
+    "aliases": {
+      "ar": [
+        "نخون نائيك",
+        "نخون نايوك"
+      ],
+      "en": [
+        "Amphoe Muang Nakhon Nayok",
+        "Amphoe Nakhon Nayok",
+        "Changwat Nakhon Nayok",
+        "Muang Nagorn Nayok",
+        "Muang Nakawn Nayok",
+        "Muang Nakhon Nayok",
+        "Mueang Lablae",
+        "Mueang Nakhon Nayok",
+        "Nagorn Nayok",
+        "Nakaunnayok",
+        "Nakaunnoyok",
+        "Nakhaun Nayok",
+        "Nakhon Najok",
+        "Nakhon Nauok",
+        "Nakkhon Najok",
+        "Nakon Nayok",
+        "Nayok",
+        "nakhona nayoka",
+        "nakhwn naywk",
+        "nakon'nayokku",
+        "nakweni nayoki",
+        "nkhawn naywk",
+        "nkhrnayk",
+        "nkhwn naywk",
+        "nkhwn nayyk"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ناخون نايوك",
+      "regionEn": "Nakhon Nayok"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1608539",
+    "verified": true
+  },
+  {
+    "slug": "mukdahan",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.54531,
+    "lng": 104.72351,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "موكدهان",
+      "en": "Mukdahan",
+      "fr": "Mukdahan",
+      "de": "Mukdahan",
+      "tr": "Mukdahan",
+      "ur": "Mukdahan",
+      "id": "Mukdahan",
+      "es": "Mukdahan",
+      "bn": "Mukdahan",
+      "ms": "Mukdahan"
+    },
+    "aliases": {
+      "ar": [
+        "مكدهان",
+        "مكداهان"
+      ],
+      "en": [
+        "Amphoe Mueang Mukdahan",
+        "Amphoe Mukdahan",
+        "Ban Mouk",
+        "Ban Si Mongkhon",
+        "Ban Srimongkhon",
+        "Makdaharn",
+        "Mokdaharn",
+        "Muang Ban Muk Dahan",
+        "Muang Muk Da Han",
+        "Mueang Mukdahan",
+        "Mueng Mukdahan",
+        "Muk",
+        "Mukdaharn",
+        "Mukdakhan",
+        "Mukdatarn",
+        "Mұkˌdakhan",
+        "Si Mongkhon",
+        "Srimongkhon",
+        "mkdhan",
+        "mukadahana",
+        "mukdahar",
+        "mukidahani",
+        "mukudahan",
+        "mwkdhan"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "موكدا هان",
+      "regionEn": "Mukdahan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1608597",
+    "verified": true
+  },
+  {
+    "slug": "maha-sarakham",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 16.18483,
+    "lng": 103.30067,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "ماها سارخام",
+      "en": "Maha Sarakham",
+      "fr": "Maha Sarakham",
+      "de": "Maha Sarakham",
+      "tr": "Maha Sarakham",
+      "ur": "Maha Sarakham",
+      "id": "Maha Sarakham",
+      "es": "Maha Sarakham",
+      "bn": "Maha Sarakham",
+      "ms": "Maha Sarakham"
+    },
+    "aliases": {
+      "ar": [
+        "ماهاسارخام"
+      ],
+      "en": [
+        "Amphoe Muang Maha Sarakham",
+        "Ban Khlong Khleng",
+        "Ban Lat",
+        "Ban Talat",
+        "Changwat Maha Sarakham",
+        "Maha Saragam",
+        "Maha Sarakam",
+        "Makha Sarakham",
+        "Mueang Maha Sarakham",
+        "Talat",
+        "Uthai Sarakham",
+        "maha sarakaም",
+        "maha sarakhama",
+        "maha sarkham",
+        "mahasarakamu",
+        "mahasarkham",
+        "mhasarkham"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "ماها ساراكام",
+      "regionEn": "Maha Sarakham"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1608900",
+    "verified": true
+  },
+  {
+    "slug": "loei",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 17.49052,
+    "lng": 101.72749,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "لوي",
+      "en": "Loei",
+      "fr": "Loei",
+      "de": "Loei",
+      "tr": "Loei",
+      "ur": "Loei",
+      "id": "Loei",
+      "es": "Loei",
+      "bn": "Loei",
+      "ms": "Loei"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Loei",
+        "Changwat Loei",
+        "Changwat Muang Lai",
+        "Changwat Muang Loei",
+        "LOE",
+        "Leui",
+        "Loeh",
+        "Loej",
+        "Loey",
+        "Muang Lai",
+        "Muang Leoi",
+        "Muang Loei",
+        "Muang Loeui",
+        "Muang Loi",
+        "Mueang Loei",
+        "ley",
+        "lo'e'i",
+        "lo'i",
+        "loye'i",
+        "loyi",
+        "lwy",
+        "lwyy",
+        "rui"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "لوي",
+      "regionEn": "Loei"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1609071",
+    "verified": true
+  },
+  {
+    "slug": "chanthaburi",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 12.60961,
+    "lng": 102.10447,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "جنتابوري",
+      "en": "Chanthaburi",
+      "fr": "Chanthaburi",
+      "de": "Chanthaburi",
+      "tr": "Chanthaburi",
+      "ur": "Chanthaburi",
+      "id": "Chanthaburi",
+      "es": "Chanthaburi",
+      "bn": "Chanthaburi",
+      "ms": "Chanthaburi"
+    },
+    "aliases": {
+      "en": [
+        "Amphoe Muang Chanthaburi",
+        "Canthaburis",
+        "Chandaburi",
+        "Chandha Buri",
+        "Changwat Chanthaburi",
+        "Chantaboun",
+        "Chantabun",
+        "Chantaburi",
+        "Chantkhaburi",
+        "Chentabun",
+        "Chiyandburii",
+        "Mueang Chanthaburi",
+        "canitaburi",
+        "canthaburi",
+        "canthburi",
+        "cathaburi",
+        "chantaburi",
+        "chntabwry",
+        "jjantabuli",
+        "jntabwry",
+        "thesbal meuxng canthburi",
+        "zhuang ta wu li",
+        "Čanthaburis"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "تشانتابوري",
+      "regionEn": "Chanthaburi"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1611269",
+    "verified": true
+  },
+  {
+    "slug": "ang-thong",
+    "type": "city",
+    "countryCode": "th",
+    "lat": 14.58839,
+    "lng": 100.45283,
+    "timezone": "Asia/Bangkok",
+    "names": {
+      "ar": "آنج تونج",
+      "en": "Ang Thong",
+      "fr": "Ang Thong",
+      "de": "Ang Thong",
+      "tr": "Ang Thong",
+      "ur": "Ang Thong",
+      "id": "Ang Thong",
+      "es": "Ang Thong",
+      "bn": "Ang Thong",
+      "ms": "Ang Thong"
+    },
+    "aliases": {
+      "ar": [
+        "انج تونج",
+        "انغ تونغ"
+      ],
+      "en": [
+        "Amphoe Bang Kaeo",
+        "Amphoe Muang Ang Thong",
+        "Ang Thaung",
+        "Ang Thong - xangthxng",
+        "Ang Tong",
+        "Angdhohng",
+        "Ban Bang Kaeo",
+        "Bang Kaeo",
+        "Bang Keo",
+        "Changwat Ang Thong",
+        "Muang Ang Dhohng",
+        "Muang Ang Tawng",
+        "Muang Ang Thong",
+        "Muang Ang Ton",
+        "aga thaunga",
+        "ang twng",
+        "anga thonga",
+        "anguton",
+        "anj twnj",
+        "ayam tham",
+        "xangthxng",
+        "ʿaniግ toniግ"
+      ]
+    },
+    "admin": {
+      "countryAr": "تايلاند",
+      "countryEn": "Thailand",
+      "regionAr": "آنغ ثونغ",
+      "regionEn": "Ang Thong"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1621035",
+    "verified": true
   }
 ]

@@ -5,7 +5,34 @@
 // ========= المتغيرات العامة =========
 let currentLat = 21.4225;
 let currentLng = 39.8262;
-let currentCity = 'مكة المكرمة';
+// PLACE-NAMES-HOMEPAGE-DEFAULT-CITY-L10N-FIX-1 (2026-05-18):
+// The hardcoded default-Mecca strings used to leak Arabic into non-AR
+// homepages (e.g. /ur/ showed `مكة المكرمة` in #city-name + #qibla-city
+// because the global `currentCity` started life as Arabic and the
+// _initialSyncHydrate IIFE only runs for city routes with a slug —
+// homepages match nothing in its regex and the default stands).
+// Read the SSR-set `<html lang>` and pick the matching localized
+// Mecca name from the same lang map as `curated_places.json`. Falls
+// back to Arabic on any error.
+let currentCity = (function () {
+    // Values aligned with _LOCALIZED_CITY_MAPS (CITY_NAMES_*) defined later
+    // in this file, so first-paint default matches what getDisplayCity()
+    // would compute once init runs. For `id` + `ms` this means "Makkah"
+    // (the form CITY_NAMES_ID + CITY_NAMES_MS use) rather than the
+    // curated_places.json `Mekkah`/`Mekah` — avoids a brief flash on the
+    // homepage default. Both forms are valid Indonesian/Malay; "Makkah"
+    // matches the legacy site copy used elsewhere.
+    var _MECCA_BY_LANG = {
+        ar: 'مكة المكرمة', en: 'Mecca',   fr: 'La Mecque', de: 'Mekka',
+        tr: 'Mekke',        ur: 'مکہ',    id: 'Makkah',    es: 'La Meca',
+        bn: 'মক্কা',         ms: 'Makkah'
+    };
+    try {
+        var _lang = (typeof document !== 'undefined' && document.documentElement)
+            ? (document.documentElement.lang || 'ar') : 'ar';
+        return _MECCA_BY_LANG[_lang] || _MECCA_BY_LANG.ar;
+    } catch (_) { return _MECCA_BY_LANG.ar; }
+})();
 let currentEnglishName = 'Mecca'; // الاسم الإنجليزي للمدينة (للـ slug)
 let currentEnglishDisplayName = 'Mecca'; // الاسم الإنجليزي مع الحي (للعرض)
 let currentCountry = 'المملكة العربية السعودية';

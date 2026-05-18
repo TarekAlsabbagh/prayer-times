@@ -660,7 +660,15 @@ function _isDisplayScriptAcceptable(s, lang) {
     if (/[\u0370-\u03FF\u0400-\u04FF\u0500-\u052F\u0530-\u058F\u0590-\u05FF\u0700-\u074F\u0900-\u097F\u0A00-\u0A7F\u0A80-\u0AFF\u0B00-\u0B7F\u0B80-\u0BFF\u0C00-\u0C7F\u0C80-\u0CFF\u0D00-\u0D7F\u0D80-\u0DFF\u0E00-\u0E7F\u0E80-\u0EFF\u0F00-\u0FFF\u1000-\u109F\u10A0-\u10FF\u1100-\u11FF\u1200-\u137F]/.test(s)) return false;
     const hasArabic  = /[\u0600-\u06FF]/.test(s);
     const hasBengali = /[\u0980-\u09FF]/.test(s);
-    const hasUrduSpecific = /[\u067E\u0686\u0698\u06A9\u06AF\u0688\u0691\u0679\u06BA\u06CC\u06D2\u06C1]/.test(s);
+    // PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1 (2026-05-18): added the three
+    // missing Urdu-distinct letters that were absent from the original
+    // regex \u2014 without them, real Urdu names that happen to use them
+    // were misclassified as "pure Arabic" and rejected on /ur/ pages:
+    //   \u2022 U+06BE \u06BE (do-chashmi heh, used for aspirated consonants:
+    //     \u0642\u0646\u062F\u06BE\u0627\u0631\u060C \u0628\u06BE\u0627\u0626\u06CC\u060C \u06A9\u06BE\u0627\u0646\u0627 \u2014 VERY common in Urdu)
+    //   \u2022 U+06C2 \u06C2 (heh goal with hamza above, used for ez\u0101fe in Urdu)
+    //   \u2022 U+06D3 \u06D3 (yeh-barree with hamza above)
+    const hasUrduSpecific = /[\u067E\u0686\u0698\u06A9\u06AF\u0688\u0691\u0679\u06BA\u06CC\u06D2\u06C1\u06BE\u06C2\u06D3]/.test(s);
     if (lang === 'ar') return !hasBengali;
     if (lang === 'ur') { if (hasArabic && !hasUrduSpecific) return false; return !hasBengali; }
     if (lang === 'bn') return !hasArabic;
@@ -712,10 +720,21 @@ function getDisplayCity() {
     // it only blocks non-Latin foreign scripts (CJK, Bengali on AR
     // pages, etc.), not pure Latin.
     if (lang === 'ur' || lang === 'bn') {
+        // Simpler script test (defense in depth — independent of
+        // _isDisplayScriptAcceptable's Urdu-specific-char strictness).
+        // On UR: require Arabic Unicode block + no Latin.
+        // On BN: require Bengali block + no Latin.
+        // This catches real Urdu names whose only Urdu-distinct char is
+        // U+06BE ھ (e.g. "قندھار") even when the regex above hasn't been
+        // updated to include it.
         if (typeof currentCity === 'string' && currentCity
-            && !/[A-Za-z]/.test(currentCity)
-            && _isDisplayScriptAcceptable(currentCity, lang)) {
-            return currentCity;
+            && !/[A-Za-z]/.test(currentCity)) {
+            const _hasArBlock = /[؀-ۿ]/.test(currentCity);
+            const _hasBnBlock = /[ঀ-৿]/.test(currentCity);
+            if ((lang === 'ur' && _hasArBlock)
+                || (lang === 'bn' && _hasBnBlock)) {
+                return currentCity;
+            }
         }
     }
 
@@ -12266,6 +12285,39 @@ function initRamadanBadge() {
 function getCurrentCityLabel() {
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _strip = (s) => (typeof _stripCityAdminPrefix === 'function') ? _stripCityAdminPrefix(s) : s;
+
+    // PT-LANG-GUARD-4 (PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1, 2026-05-18):
+    // for absence-langs UR/BN — where curated_places.json ships real
+    // localized names in proper script — prefer `currentCity` whenever
+    // it's in the correct script, BEFORE falling through to the legacy
+    // chain (currentLocalizedName → cityMap[currentEnglishName] → enName).
+    //
+    // Same root cause as PT-LANG-GUARD-3 in getDisplayCity(): the legacy
+    // chain preferred English over the SSR-injected Urdu name. Surfaces
+    // that consume getCurrentCityLabel() (sticky bar #snb-city, hero
+    // tagline #loc-hero-title, prayer-card aria-labels, moon CTA title,
+    // weekly button title) were rendering "Charikar میں اوقاتِ نماز" —
+    // Urdu sentence with Latin city name embedded. This guard returns
+    // the correct Urdu currentCity so those templates render fully Urdu.
+    if (_ln === 'ur' || _ln === 'bn') {
+        // Simpler script test (defense in depth, independent of
+        // _isDisplayScriptAcceptable). On UR: require Arabic Unicode
+        // block presence + no Latin. On BN: require Bengali block + no
+        // Latin. This intentionally bypasses _isDisplayScriptAcceptable's
+        // Urdu-specific-char strictness so a real Urdu name like
+        // "قندھار" (whose only Urdu-distinct char is U+06BE) is still
+        // accepted even if some other consumer's regex is missing it.
+        if (typeof currentCity === 'string' && currentCity
+            && !/[A-Za-z]/.test(currentCity)) {
+            const _hasArabicBlock  = /[؀-ۿ]/.test(currentCity);
+            const _hasBengaliBlock = /[ঀ-৿]/.test(currentCity);
+            if ((_ln === 'ur' && _hasArabicBlock)
+                || (_ln === 'bn' && _hasBengaliBlock)) {
+                return _strip(currentCity);
+            }
+        }
+    }
+
     if (_ln === 'ar') {
         // PT-LANG-GUARD-2 (2026-05-12): same Latin-guard as
         // getDisplayCity() — reject Latin `currentCity` and fall back
@@ -13525,7 +13577,31 @@ function renderNearbyGrid(places, grid) {
             placeLabel = place.nameAr;
         } else {
             const cityMap = _LOCALIZED_CITY_MAPS[_nLng];
-            placeLabel = (cityMap && cityMap[place.nameEn]) || place.nameEn || place.nameAr;
+            placeLabel = (cityMap && cityMap[place.nameEn]) || '';
+            // PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1 (2026-05-18): for langs
+            // not covered by _LOCALIZED_CITY_MAPS (e.g. UR for non-popular
+            // nearby cities), try the SSR-injected __POPULAR_CITY_NAMES__
+            // by bare-slug. This pulls real curated localized names from
+            // server-side POPULAR_CITY_NAMES (Mecca/Riyadh/Kabul/Charikar
+            // etc.) so a nearby tile on a /ur/ page renders the Urdu name
+            // instead of leaking English ("Kabul") into Urdu sentences.
+            if (!placeLabel) {
+                try {
+                    const _pop = (typeof window !== 'undefined') && window.__POPULAR_CITY_NAMES__;
+                    if (_pop) {
+                        const _bareSlug = String(place.nameEn || '')
+                            .toLowerCase()
+                            .replace(/[^a-z0-9]+/g, '-')
+                            .replace(/^-+|-+$/g, '');
+                        if (_bareSlug && _pop[_bareSlug] && _pop[_bareSlug][_nLng]) {
+                            placeLabel = _pop[_bareSlug][_nLng];
+                        }
+                    }
+                } catch (_e) { /* silent */ }
+            }
+            if (!placeLabel) {
+                placeLabel = place.nameEn || place.nameAr;
+            }
         }
         const distLabel = isArNearby ? `${place.dist} كم` : `${place.dist} km`;
         // Polish Round (C): إضافة "اليوم" — SEO boost + اتّساق مع chips الصفحة الرئيسيّة
@@ -16161,6 +16237,22 @@ function _moonCityDisplayName(slug) {
         const localized = t(key);
         if (localized && localized !== key) return localized;
     }
+    // 1.05) PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1 (2026-05-18): when the
+    // requested slug matches `window.__PRAYER_CITY__.slug`, the server's
+    // SSR has already provided the authoritative localized city name
+    // in `__PRAYER_CITY__.name` (selected from curated_places.json via
+    // _pickCuratedName(entry, pageLang)). Use it directly — it's
+    // page-lang-correct by construction. Bypasses Tier 1.5's stale
+    // sessionStorage (which may carry a different lang from a previous
+    // visit) and Tier 2's slug-from-currentEnglishName match (which
+    // fails on endonym↔exonym mismatches like slug="makkah" vs
+    // currentEnglishName="Mecca").
+    try {
+        const _pc05 = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
+        if (_pc05 && _pc05.slug === slug && typeof _pc05.name === 'string' && _pc05.name) {
+            return _pc05.name;
+        }
+    } catch (_e) { /* silent */ }
     // 1.5) UAT-Q5g: sessionStorage seed FIRST — يَحوي الاسم الموطَّن لأيّ مدينة
     //      (Persian/Asian/non-Latin) من صفحة المنشأ. أعلى أولويّة من
     //      currentCity/قواميس لأنّه يَحمل الاسم بلغة الواجهة الحاليّة.
@@ -16177,7 +16269,20 @@ function _moonCityDisplayName(slug) {
                     }
                     return true;
                 };
-                if (_scriptOk0(_o0.name)) return _o0.name;
+                // PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1 (2026-05-18): reject
+                // a Latin sessionStorage seed on absence-lang pages (ar/ur/bn).
+                // The legacy `_isDisplayScriptAcceptable("Charikar", "ur")`
+                // returns true (it only blocks CJK/Bengali on AR, not pure
+                // Latin), so a stale seed left by a previous /en/ visit
+                // would leak "Charikar" into .qa-title / hero / sticky-bar.
+                // For absence-langs require the seed to be NON-Latin.
+                const _absenceLangs0 = (typeof Set === 'function')
+                    ? new Set(['ar', 'ur', 'bn']) : null;
+                const _isAbsenceLang0 = _absenceLangs0
+                    ? _absenceLangs0.has(_lng0)
+                    : (_lng0 === 'ar' || _lng0 === 'ur' || _lng0 === 'bn');
+                const _seedHasLatin = /[A-Za-z]/.test(_o0.name);
+                if (!(_isAbsenceLang0 && _seedHasLatin) && _scriptOk0(_o0.name)) return _o0.name;
                 if (_lng0 === 'en' && _o0.englishName) return _o0.englishName;
             }
         }
@@ -16185,9 +16290,21 @@ function _moonCityDisplayName(slug) {
     // 2) الاسم الحاليّ (lang-aware) إن كان يُمثِّل نفس المدينة في الـ slug
     //    نستخدم getDisplayCity() التي ترجع الاسم بلغة الواجهة:
     //      AR → currentCity (عربيّ)، EN → currentEnglishDisplayName/Name، غيرها → currentLocalizedName أو قاموس
+    //
+    // PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1 (2026-05-18): apply NFD
+    // Unicode normalization + combining-mark strip BEFORE alphanum-only
+    // filter. Without this, names with diacritics (e.g. "Kandahār"
+    // U+0101) would slugify as "kandah-r" — the macron ā gets replaced
+    // by `-` instead of being decomposed to plain `a`. That mismatched
+    // the canonical slug "kandahar", so Tier 2 fell through to Tier 5
+    // (Nominatim placeholder = "Kandahar"), and the qa-title hero
+    // showed Latin on /ur/ pages.
     try {
         if (typeof currentEnglishName === 'string' && currentEnglishName) {
-            const _simpleCurEn = currentEnglishName.toLowerCase().trim()
+            const _simpleCurEn = currentEnglishName
+                .normalize('NFD')
+                .replace(/[̀-ͯ]/g, '')
+                .toLowerCase().trim()
                 .replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
             // slug يُطابق إذا كان currentEnglishName = slug أو يبدأ بـ slug + '-'
             //   مثال: slug="tokyo" مع currentEnglishName="Tokyo Metropolitan Government Main Building 1"

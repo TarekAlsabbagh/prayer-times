@@ -677,6 +677,49 @@ function _isDisplayScriptAcceptable(s, lang) {
 }
 function getDisplayCity() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+
+    // PT-LANG-GUARD-5 (PLACE-NAMES-TEMPLATE-CONSISTENCY-ALL-LANGS-FIX-1,
+    // 2026-05-18): Tier-0 — trust the SSR-injected
+    // `window.__PRAYER_CITY__.name` whenever the URL slug matches
+    // `__PRAYER_CITY__.slug`. The server's `_pickCuratedName(entry,
+    // pageLang)` already selected the page-lang-correct localized name
+    // from curated_places.json (Londres for /fr/london, München for
+    // /de/munich, مکہ for /ur/makkah, تشاريكار for /charikar, etc.).
+    // This eliminates the cold-load FOUC where Latin-script lang pages
+    // briefly showed `currentEnglishName` ("London") before
+    // `currentLocalizedName` arrived async from Nominatim ("Londres").
+    //
+    // Safety: for absence-langs (ar/ur/bn), only honor the seed when
+    // it's NON-Latin. When curated has a fillchain row (names[lang]
+    // === names.en === English), `_pickCuratedName` returns Latin via
+    // the en-fallback; on a /ur/ or /bn/ page that would leak Latin
+    // into Urdu/Bengali templates — fall through to the existing
+    // PT-LANG-GUARD-2/3 guards instead.
+    //
+    // For Latin-script langs (en/fr/de/tr/id/es/ms), the seed is always
+    // usable: when curated lacks a localized name, the seed equals
+    // names.en which is the correct fallback for Latin-script display.
+    try {
+        const _pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
+        if (_pc && typeof _pc.slug === 'string' && _pc.slug
+            && typeof _pc.name === 'string' && _pc.name) {
+            const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+            const _slugM = _path.match(
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+            );
+            if (_slugM && _slugM[1] === _pc.slug) {
+                const _isAbsenceLang = (lang === 'ar' || lang === 'ur' || lang === 'bn');
+                const _seedHasLatin = /[A-Za-z]/.test(_pc.name);
+                if (!_isAbsenceLang || !_seedHasLatin) {
+                    return _pc.name;
+                }
+                // Absence-lang + fillchain Latin seed: fall through so
+                // PT-LANG-GUARD-2/3 below can decide (typically returns
+                // an empty / safer value than the Latin seed).
+            }
+        }
+    } catch (_) { /* silent */ }
+
     if (lang === 'ar') {
         // PT-LANG-GUARD-2 (2026-05-12): reject Latin `currentCity` on
         // Arabic pages and fall back to the safe localized resolver
@@ -12285,6 +12328,30 @@ function initRamadanBadge() {
 function getCurrentCityLabel() {
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _strip = (s) => (typeof _stripCityAdminPrefix === 'function') ? _stripCityAdminPrefix(s) : s;
+
+    // PT-LANG-GUARD-5 (PLACE-NAMES-TEMPLATE-CONSISTENCY-ALL-LANGS-FIX-1,
+    // 2026-05-18): Tier-0 — see twin block in getDisplayCity() for the
+    // full rationale. Same logic, applied to every surface that consumes
+    // getCurrentCityLabel(): #snb-city, #loc-hero-title, prayer-card
+    // aria-labels, #mtc-cta title, weekly button title, info-location
+    // hero. Fixes the cold-load FOUC on /fr/london, /de/munich, etc.
+    try {
+        const _pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
+        if (_pc && typeof _pc.slug === 'string' && _pc.slug
+            && typeof _pc.name === 'string' && _pc.name) {
+            const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+            const _slugM = _path.match(
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+            );
+            if (_slugM && _slugM[1] === _pc.slug) {
+                const _isAbsenceLang = (_ln === 'ar' || _ln === 'ur' || _ln === 'bn');
+                const _seedHasLatin = /[A-Za-z]/.test(_pc.name);
+                if (!_isAbsenceLang || !_seedHasLatin) {
+                    return _strip(_pc.name);
+                }
+            }
+        }
+    } catch (_) { /* silent */ }
 
     // PT-LANG-GUARD-4 (PLACE-NAMES-UR-TEMPLATE-CONSISTENCY-1, 2026-05-18):
     // for absence-langs UR/BN — where curated_places.json ships real

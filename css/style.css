@@ -11151,6 +11151,23 @@ html:not(.city-page) .faq-city-only {
 html.city-page .city-page-search {
     display: block;
 }
+
+/* MOON-QIBLA-SEARCH-BOX-PRODUCTION-VISIBILITY-FIX-1 (2026-05-18):
+   The base `.city-page-search` is hidden by default and only enabled
+   on `html.city-page` (prayer-times city pages). When we reused the
+   homepage search component on /moon-today and /qibla in
+   MOON+QIBLA-GENERAL-HOME-SEARCH-BOX-1, the wrappers
+   `.city-page-search--moon` and `.city-page-search--qibla` inherited
+   the hidden default and the box was invisible to users despite
+   being in the DOM. These per-page-family overrides make the moon
+   and qibla variants always visible regardless of the html class.
+   The wrapper is sized inside the existing `.qibla-hub-hero-actions`
+   flex container, so the surrounding layout already provides margin
+   + spacing — no extra positioning needed. */
+.city-page-search--moon,
+.city-page-search--qibla {
+    display: block !important;
+}
 .city-page-search .cps-inner {
     position: relative;
     display: flex;

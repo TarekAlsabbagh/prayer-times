@@ -104675,8 +104675,7 @@
       "tr": "Zaranj",
       "id": "Zaranj",
       "es": "Zaranj",
-      "ms": "Zaranj",
-      "ur": "زرنج"
+      "ms": "Zaranj"
     },
     "aliases": {
       "en": [
@@ -104713,17 +104712,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1120985",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 75,
-        "notes": "Identical in ar/ur (no Persian-only letters needed)"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "taloqan",
@@ -104740,8 +104729,7 @@
       "tr": "Taloqan",
       "id": "Taloqan",
       "es": "Taloqan",
-      "ms": "Taloqan",
-      "ur": "تالقان"
+      "ms": "Taloqan"
     },
     "aliases": {
       "en": [
@@ -104786,17 +104774,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1123004",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 75,
-        "notes": "Identical in ar/ur"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "shibirghan",
@@ -104813,8 +104791,7 @@
       "tr": "Shibirghān",
       "id": "Shibirghān",
       "es": "Shibirghān",
-      "ms": "Shibirghān",
-      "ur": "شبرغان"
+      "ms": "Shibirghān"
     },
     "aliases": {
       "ar": [
@@ -104854,9 +104831,6 @@
         "sibiraghana",
         "Şibircân",
         "Şibircən"
-      ],
-      "ur": [
-        "شبرغن"
       ]
     },
     "admin": {
@@ -104868,17 +104842,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1125444",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 85,
-        "notes": "Clean Arabic-script alternatename; admin form مرکز ولايت شبرغان dropped (office, not a name)"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "sidqabad",
@@ -104895,8 +104859,7 @@
       "tr": "Sidqābād",
       "id": "Sidqābād",
       "es": "Sidqābād",
-      "ms": "Sidqābād",
-      "ur": "سدق آباد"
+      "ms": "Sidqābād"
     },
     "aliases": {
       "ar": [
@@ -104927,10 +104890,6 @@
         "shidokabado",
         "sidakabada",
         "sidiqabadi"
-      ],
-      "ur": [
-        "صدقآباد",
-        "قلعۀ وزیر"
       ]
     },
     "admin": {
@@ -104942,17 +104901,7 @@
     "priority": 75,
     "source": "curated",
     "sourceId": "geonames:1126606",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 70,
-        "notes": "Identical in ar/ur; قلعۀ وزیر = historical Persian name"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "sar-e-pul",
@@ -104969,8 +104918,7 @@
       "tr": "Sar-e Pul",
       "id": "Sar-e Pul",
       "es": "Sar-e Pul",
-      "ms": "Sar-e Pul",
-      "ur": "سر پل"
+      "ms": "Sar-e Pul"
     },
     "aliases": {
       "ar": [
@@ -104991,9 +104939,6 @@
         "sari-yu ፑል",
         "sr pl",
         "srpl"
-      ],
-      "ur": [
-        "سرپل"
       ]
     },
     "admin": {
@@ -105005,17 +104950,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1127110",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "User-listed; matches expected form exactly"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "aibak",
@@ -105032,8 +104967,7 @@
       "tr": "Aībak",
       "id": "Aībak",
       "es": "Aībak",
-      "ms": "Aībak",
-      "ur": "آی بک"
+      "ms": "Aībak"
     },
     "aliases": {
       "ar": [
@@ -105060,11 +104994,6 @@
         "smngan",
         "Āybak",
         "ʿeyibaki"
-      ],
-      "ur": [
-        "آیبک",
-        "ایبک",
-        "سمنگان"
       ]
     },
     "admin": {
@@ -105076,17 +105005,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1127768",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "Persian ی+ک; سمنگان = province name (commonly used for the city)"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "qalat",
@@ -105103,8 +105022,7 @@
       "tr": "Qalāt",
       "id": "Qalāt",
       "es": "Qalāt",
-      "ms": "Qalāt",
-      "ur": "قلات"
+      "ms": "Qalāt"
     },
     "aliases": {
       "en": [
@@ -105130,17 +105048,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1130131",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 75,
-        "notes": "Identical in ar/ur"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "pul-e-khumri",
@@ -105157,8 +105065,7 @@
       "tr": "Pul-e Khumrī",
       "id": "Pul-e Khumrī",
       "es": "Pul-e Khumrī",
-      "ms": "Pul-e Khumrī",
-      "ur": "پل خمری"
+      "ms": "Pul-e Khumrī"
     },
     "aliases": {
       "en": [
@@ -105194,17 +105101,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1130490",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "User-listed; matches expected form exactly"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "pul-e-alam",
@@ -105221,8 +105118,7 @@
       "tr": "Pul-e ‘Alam",
       "id": "Pul-e ‘Alam",
       "es": "Pul-e ‘Alam",
-      "ms": "Pul-e ‘Alam",
-      "ur": "پل علم"
+      "ms": "Pul-e ‘Alam"
     },
     "aliases": {
       "en": [
@@ -105256,17 +105152,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1130497",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "User-listed; matches expected form exactly"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "nili",
@@ -105283,8 +105169,7 @@
       "tr": "Nīlī",
       "id": "Nīlī",
       "es": "Nīlī",
-      "ms": "Nīlī",
-      "ur": "نیلی"
+      "ms": "Nīlī"
     },
     "aliases": {
       "en": [
@@ -105305,17 +105190,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1131833",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 85,
-        "notes": "Persian ی form"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "maymana",
@@ -105332,8 +105207,7 @@
       "tr": "Maymana",
       "id": "Maymana",
       "es": "Maymana",
-      "ms": "Maymana",
-      "ur": "میمنہ"
+      "ms": "Maymana"
     },
     "aliases": {
       "ar": [
@@ -105365,10 +105239,6 @@
         "meyamana",
         "mymnh",
         "mymnt"
-      ],
-      "ur": [
-        "میمنه",
-        "ضلع میمنہ"
       ]
     },
     "admin": {
@@ -105380,17 +105250,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1133453",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "Urdu ہ; Arabic ه variant + long form as aliases"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "mehtar-lam",
@@ -105407,8 +105267,7 @@
       "tr": "Mehtar Lām",
       "id": "Mehtar Lām",
       "es": "Mehtar Lām",
-      "ms": "Mehtar Lām",
-      "ur": "مہتر لام"
+      "ms": "Mehtar Lām"
     },
     "aliases": {
       "ar": [
@@ -105433,9 +105292,6 @@
         "mehitari laም",
         "mhtr lam",
         "mkhtar lam"
-      ],
-      "ur": [
-        "مهتر لام"
       ]
     },
     "admin": {
@@ -105447,17 +105303,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1133574",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "urdu-canonical",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 70,
-        "notes": "Urdu form with ہ for /h/; Arabic مختار لام variant dropped (means \"chosen\", semantically different)"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "mazar-e-sharif",
@@ -105474,8 +105320,7 @@
       "tr": "Mazār-e Sharīf",
       "id": "Mazār-e Sharīf",
       "es": "Mazār-e Sharīf",
-      "ms": "Mazār-e Sharīf",
-      "ur": "مزار شریف"
+      "ms": "Mazār-e Sharīf"
     },
     "aliases": {
       "en": [
@@ -105517,17 +105362,7 @@
     "priority": 95,
     "source": "curated",
     "sourceId": "geonames:1133616",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "Persian-script consensus"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "kunduz",
@@ -105544,8 +105379,7 @@
       "tr": "Kunduz",
       "id": "Kunduz",
       "es": "Kunduz",
-      "ms": "Kunduz",
-      "ur": "کندوز"
+      "ms": "Kunduz"
     },
     "aliases": {
       "ar": [
@@ -105586,9 +105420,6 @@
         "kuniduዝ",
         "qndwz",
         "qndz"
-      ],
-      "ur": [
-        "قندوز"
       ]
     },
     "admin": {
@@ -105600,17 +105431,7 @@
     "priority": 90,
     "source": "curated",
     "sourceId": "geonames:1135689",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 85,
-        "notes": "Persian کندوز form; Arabic قندوز as alias"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "khost",
@@ -105627,8 +105448,7 @@
       "tr": "Khōst",
       "id": "Khōst",
       "es": "Khōst",
-      "ms": "Khōst",
-      "ur": "خوست"
+      "ms": "Khōst"
     },
     "aliases": {
       "ar": [
@@ -105648,9 +105468,6 @@
         "khwst",
         "kihositi",
         "mtwn"
-      ],
-      "ur": [
-        "متون"
       ]
     },
     "admin": {
@@ -105662,17 +105479,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1136469",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 75,
-        "notes": "Identical in ar/ur; متون = historical Pashto/Persian name"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "kabul",
@@ -105689,8 +105496,7 @@
       "tr": "Kabul",
       "id": "Kabul",
       "es": "Kabul",
-      "ms": "Kabul",
-      "ur": "کابل"
+      "ms": "Kabul"
     },
     "aliases": {
       "ar": [
@@ -105731,9 +105537,6 @@
         "kapul",
         "ke bu er",
         "khabul"
-      ],
-      "ur": [
-        "کابول"
       ]
     },
     "admin": {
@@ -105745,17 +105548,7 @@
     "priority": 95,
     "source": "curated",
     "sourceId": "geonames:1138958",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "Strong consensus across sources"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "jalalabad",
@@ -105772,8 +105565,7 @@
       "tr": "Jalālābād",
       "id": "Jalālābād",
       "es": "Jalālābād",
-      "ms": "Jalālābād",
-      "ur": "جلال آباد"
+      "ms": "Jalālābād"
     },
     "aliases": {
       "ar": [
@@ -105803,9 +105595,6 @@
         "jararabado",
         "jlal abad",
         "Ҷalolobod"
-      ],
-      "ur": [
-        "جلال‌آباد"
       ]
     },
     "admin": {
@@ -105817,17 +105606,7 @@
     "priority": 90,
     "source": "curated",
     "sourceId": "geonames:1139715",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 80,
-        "notes": "Identical script in ar/ur; alias with ZWNJ for Persian convention"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "herat",
@@ -105844,8 +105623,7 @@
       "tr": "Herāt",
       "id": "Herāt",
       "es": "Herāt",
-      "ms": "Herāt",
-      "ur": "ہرات"
+      "ms": "Herāt"
     },
     "aliases": {
       "ar": [
@@ -105876,17 +105654,7 @@
     "priority": 95,
     "source": "curated",
     "sourceId": "geonames:1140026",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "Urdu form with initial ہ heh-goal"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "ghazni",
@@ -105903,8 +105671,7 @@
       "tr": "Ghazni",
       "id": "Ghazni",
       "es": "Ghazni",
-      "ms": "Ghazni",
-      "ur": "غزنی"
+      "ms": "Ghazni"
     },
     "aliases": {
       "ar": [
@@ -105928,9 +105695,6 @@
         "ghznt",
         "ghzny",
         "ghznyn"
-      ],
-      "ur": [
-        "غزنین"
       ]
     },
     "admin": {
@@ -105942,17 +105706,7 @@
     "priority": 90,
     "source": "curated",
     "sourceId": "geonames:1141269",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 85,
-        "notes": "Persian ی ending; long form غزنین as alias"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "gardez",
@@ -105969,8 +105723,7 @@
       "tr": "Gardez",
       "id": "Gardez",
       "es": "Gardez",
-      "ms": "Gardez",
-      "ur": "گردیز"
+      "ms": "Gardez"
     },
     "aliases": {
       "en": [
@@ -105987,9 +105740,6 @@
         "garideዝ",
         "garudezu",
         "grdyz"
-      ],
-      "ur": [
-        "گرديز"
       ]
     },
     "admin": {
@@ -106001,17 +105751,7 @@
     "priority": 90,
     "source": "curated",
     "sourceId": "geonames:1141857",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "Persian گ+ی; Arabic-ي variant as alias"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "fayzabad",
@@ -106028,8 +105768,7 @@
       "tr": "Fayzabad",
       "id": "Fayzabad",
       "es": "Fayzabad",
-      "ms": "Fayzabad",
-      "ur": "فیض آباد"
+      "ms": "Fayzabad"
     },
     "aliases": {
       "en": [
@@ -106061,17 +105800,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1142170",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "Persian ی"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "charikar",
@@ -106088,8 +105817,7 @@
       "tr": "Charikar",
       "id": "Charikar",
       "es": "Charikar",
-      "ms": "Charikar",
-      "ur": "چاریکار"
+      "ms": "Charikar"
     },
     "aliases": {
       "ar": [
@@ -106122,9 +105850,6 @@
         "Ĉarikar",
         "Čahārikār",
         "Čarikaras"
-      ],
-      "ur": [
-        "چاريكار"
       ]
     },
     "admin": {
@@ -106136,17 +105861,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1145352",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "User-listed; matches expected form exactly"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "bamyan",
@@ -106163,8 +105878,7 @@
       "tr": "Bāmyān",
       "id": "Bāmyān",
       "es": "Bāmyān",
-      "ms": "Bāmyān",
-      "ur": "بامیان"
+      "ms": "Bāmyān"
     },
     "aliases": {
       "en": [
@@ -106196,17 +105910,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1147242",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "Persian ی"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "balkh",
@@ -106223,8 +105927,7 @@
       "tr": "Balkh",
       "id": "Balkh",
       "es": "Balkh",
-      "ms": "Balkh",
-      "ur": "بلخ"
+      "ms": "Balkh"
     },
     "aliases": {
       "en": [
@@ -106268,17 +105971,7 @@
     "priority": 90,
     "source": "curated",
     "sourceId": "geonames:1147290",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 75,
-        "notes": "Identical in ar/ur"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "baghlan",
@@ -106295,8 +105988,7 @@
       "tr": "Baghlān",
       "id": "Baghlān",
       "es": "Baghlān",
-      "ms": "Baghlān",
-      "ur": "بغلان"
+      "ms": "Baghlān"
     },
     "aliases": {
       "ar": [
@@ -106323,10 +106015,6 @@
         "bghlan jdyd",
         "Şanā ‘Ati",
         "Şanā‘atī"
-      ],
-      "ur": [
-        "باغلان",
-        "بغلان جديد"
       ]
     },
     "admin": {
@@ -106338,17 +106026,7 @@
     "priority": 90,
     "source": "curated",
     "sourceId": "geonames:1147540",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 75,
-        "notes": "Modern short form; long form باغلان + بغلان جديد (new district) as aliases"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "asadabad",
@@ -106365,8 +106043,7 @@
       "tr": "Asadābād",
       "id": "Asadābād",
       "es": "Asadābād",
-      "ms": "Asadābād",
-      "ur": "اسد آباد"
+      "ms": "Asadābād"
     },
     "aliases": {
       "ar": [
@@ -106401,9 +106078,6 @@
         "Čaghasarāy",
         "Əsədabad",
         "ʿesadabadi"
-      ],
-      "ur": [
-        "چغه سرای"
       ]
     },
     "admin": {
@@ -106415,17 +106089,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1148311",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 70,
-        "notes": "Identical in ar/ur; چغه سرای = historical Persian name Chaghasaray"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "bazarak",
@@ -106442,8 +106106,7 @@
       "tr": "Bāzārak",
       "id": "Bāzārak",
       "es": "Bāzārak",
-      "ms": "Bāzārak",
-      "ur": "بازارک"
+      "ms": "Bāzārak"
     },
     "aliases": {
       "ar": [
@@ -106457,9 +106120,6 @@
         "bazaraki",
         "bazaraku",
         "bazark"
-      ],
-      "ur": [
-        "بازاراک"
       ]
     },
     "admin": {
@@ -106471,17 +106131,7 @@
     "priority": 85,
     "source": "curated",
     "sourceId": "geonames:1429434",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 85,
-        "notes": "Capital of Panjshir; Persian ک"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "sharan",
@@ -106498,8 +106148,7 @@
       "tr": "Sharan",
       "id": "Sharan",
       "es": "Sharan",
-      "ms": "Sharan",
-      "ur": "شاران"
+      "ms": "Sharan"
     },
     "aliases": {
       "ar": [
@@ -106518,9 +106167,6 @@
         "sharani",
         "shrn",
         "Şaran"
-      ],
-      "ur": [
-        "شرن"
       ]
     },
     "admin": {
@@ -106532,17 +106178,7 @@
     "priority": 70,
     "source": "curated",
     "sourceId": "geonames:8534261",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "transliteration",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 70,
-        "notes": "Identical in ar/ur; شرن short form as alias"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "tarinkot",
@@ -106559,8 +106195,7 @@
       "tr": "Tarinkot",
       "id": "Tarinkot",
       "es": "Tarinkot",
-      "ms": "Tarinkot",
-      "ur": "ترین کوٹ"
+      "ms": "Tarinkot"
     },
     "aliases": {
       "ar": [
@@ -106578,9 +106213,6 @@
         "tarinikweti",
         "tarinkotto",
         "tryn kwt"
-      ],
-      "ur": [
-        "طرین کوٹ"
       ]
     },
     "admin": {
@@ -106592,17 +106224,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1122747",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "Urdu retroflex ٹ; ط-variant as alias"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "qala-i-naw",
@@ -106619,8 +106241,7 @@
       "tr": "Qala i Naw",
       "id": "Qala i Naw",
       "es": "Qala i Naw",
-      "ms": "Qala i Naw",
-      "ur": "قلعہ نو"
+      "ms": "Qala i Naw"
     },
     "aliases": {
       "ar": [
@@ -106666,10 +106287,6 @@
         "qlʿh naw",
         "qlʿt naw",
         "qwala ʿi naው"
-      ],
-      "ur": [
-        "قلعہ ناؤ",
-        "قلعۀ نو"
       ]
     },
     "admin": {
@@ -106681,17 +106298,7 @@
     "priority": 75,
     "source": "curated",
     "sourceId": "geonames:1129867",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "User-listed; Urdu ہ + ؤ variant as alias"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "parun",
@@ -106708,8 +106315,7 @@
       "tr": "Pārūn",
       "id": "Pārūn",
       "es": "Pārūn",
-      "ms": "Pārūn",
-      "ur": "پارون"
+      "ms": "Pārūn"
     },
     "aliases": {
       "ar": [
@@ -106727,9 +106333,6 @@
         "parwn",
         "prns",
         "ፓruni"
-      ],
-      "ur": [
-        "پاروں"
       ]
     },
     "admin": {
@@ -106741,17 +106344,7 @@
     "priority": 70,
     "source": "curated",
     "sourceId": "geonames:1130469",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 85,
-        "notes": "Persian پ; ں-variant as alias; پرنس dropped (means \"Prince\" — unrelated)"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "lashkar-gah",
@@ -106768,8 +106361,7 @@
       "tr": "Lashkar Gāh",
       "id": "Lashkar Gāh",
       "es": "Lashkar Gāh",
-      "ms": "Lashkar Gāh",
-      "ur": "لشکر گاہ"
+      "ms": "Lashkar Gāh"
     },
     "aliases": {
       "ar": [
@@ -106799,10 +106391,6 @@
         "lshkr gah",
         "lshkrgah",
         "rashukaruga"
-      ],
-      "ur": [
-        "لشکرگاہ",
-        "لشكر گاه"
       ]
     },
     "admin": {
@@ -106814,17 +106402,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1134720",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "User-listed; Urdu گاہ form; no-space variant + Arabic-letter variant as aliases"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "kandahar",
@@ -106841,8 +106419,7 @@
       "tr": "Kandahār",
       "id": "Kandahār",
       "es": "Kandahār",
-      "ms": "Kandahār",
-      "ur": "قندھار"
+      "ms": "Kandahār"
     },
     "aliases": {
       "ar": [
@@ -106872,10 +106449,6 @@
         "qanidahari",
         "qndhar",
         "qndhʼr"
-      ],
-      "ur": [
-        "قندہار",
-        "قندهار"
       ]
     },
     "admin": {
@@ -106887,17 +106460,7 @@
     "priority": 95,
     "source": "curated",
     "sourceId": "geonames:1138336",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "urdu-canonical",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "Urdu Wikipedia canonical with ھ heh-doachashmee; GeoNames variant قندہار + Arabic قندهار as aliases"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "farah",
@@ -106914,8 +106477,7 @@
       "tr": "Farah",
       "id": "Farah",
       "es": "Farah",
-      "ms": "Farah",
-      "ur": "فراه"
+      "ms": "Farah"
     },
     "aliases": {
       "en": [
@@ -106935,9 +106497,6 @@
         "para",
         "pharaha",
         "ፋrahi"
-      ],
-      "ur": [
-        "فراہ"
       ]
     },
     "admin": {
@@ -106949,17 +106508,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1142264",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "manual-review",
-        "method": "urdu-wikipedia-canonical",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 90,
-        "notes": "🚨 USER OVERRIDE: chose فراه (Arabic ه) over GeoNames فراہ; matches Urdu Wikipedia title. فراہ kept as searchable alias."
-      }
-    }
+    "verified": true
   },
   {
     "slug": "fayroz-koh",
@@ -106976,8 +106525,7 @@
       "tr": "Fayrōz Kōh",
       "id": "Fayrōz Kōh",
       "es": "Fayrōz Kōh",
-      "ms": "Fayrōz Kōh",
-      "ur": "فیروز کوہ"
+      "ms": "Fayrōz Kōh"
     },
     "aliases": {
       "ar": [
@@ -107006,10 +106554,6 @@
         "fyrwz kwh",
         "phayaroja koha",
         "ፋyiroዝ kwehi"
-      ],
-      "ur": [
-        "فیروز کوه",
-        "چغچران"
       ]
     },
     "admin": {
@@ -107021,17 +106565,7 @@
     "priority": 80,
     "source": "curated",
     "sourceId": "geonames:1145904",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "User-listed; Urdu کوہ; alias چغچران = pre-2014 historical name Chaghcharan"
-      }
-    }
+    "verified": true
   },
   {
     "slug": "maydanshakhr",
@@ -107048,8 +106582,7 @@
       "tr": "Maydanshakhr",
       "id": "Maydanshakhr",
       "es": "Maydanshakhr",
-      "ms": "Maydanshakhr",
-      "ur": "میدان شہر"
+      "ms": "Maydanshakhr"
     },
     "aliases": {
       "en": [
@@ -107065,9 +106598,6 @@
         "maidanshafuru",
         "mayidanishahiri",
         "mydan shhr"
-      ],
-      "ur": [
-        "میدان شهر"
       ]
     },
     "admin": {
@@ -107079,16 +106609,6 @@
     "priority": 70,
     "source": "curated",
     "sourceId": "geonames:1456960",
-    "verified": true,
-    "namesProvenance": {
-      "ur": {
-        "source": "geonames",
-        "method": "alternatename",
-        "phase": "PLACE-NAMES-UR-AF-1",
-        "reviewed": true,
-        "qualityScore": 95,
-        "notes": "Urdu شہر with ہ; Arabic ه variant as alias"
-      }
-    }
+    "verified": true
   }
 ]

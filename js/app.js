@@ -6382,11 +6382,37 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
         _seed.timezone = opts.timezone;
     }
     sessionStorage.setItem(`city_${slug}`, JSON.stringify(_seed));
+
+    // MOON-GENERAL-HOME-SEARCH-BOX-1 (2026-05-18): opts.targetRoute lets
+    // callers redirect this same flow to a different city-page family.
+    // Currently supported: 'prayer-times' (default) and 'moon-hub'.
+    //   /prayer-times-in-{slug}  ← default
+    //   /moon-in-{slug}          ← targetRoute === 'moon-hub'
+    // sessionStorage seed + slug computation + city-state special-cases
+    // are IDENTICAL for both — only the final destination URL differs.
+    const _target = (opts.targetRoute === 'moon-hub') ? 'moon-hub' : 'prayer-times';
+    if (_target === 'moon-hub') {
+        // Also seed `city_moon` so the destination page's shared
+        // moon-hub session key resolves to the picked city (mirrors
+        // navigateToMoonToday's safety net).
+        try { sessionStorage.setItem('city_moon', JSON.stringify(_seed)); } catch (_) {}
+        try {
+            sessionStorage.setItem('last_city_context', JSON.stringify({
+                lat, lng, name: city, country, englishName, countryCode,
+                timezone: _seed.timezone || null, ts: Date.now()
+            }));
+        } catch (_) {}
+    }
+
     if (window.location.protocol === 'file:') {
-        window.location.hash = `prayer-times-in-${slug}`;
+        window.location.hash = (_target === 'moon-hub'
+            ? `moon-in-${slug}`
+            : `prayer-times-in-${slug}`);
     } else {
-        _showNavLoadingOverlay('prayer-times');
-        window.location.href = pageUrl(`/prayer-times-in-${slug}`);
+        _showNavLoadingOverlay(_target === 'moon-hub' ? 'moon' : 'prayer-times');
+        window.location.href = pageUrl(_target === 'moon-hub'
+            ? `/moon-in-${slug}`
+            : `/prayer-times-in-${slug}`);
     }
 }
 
@@ -9118,9 +9144,19 @@ function _wireMoonHubHero() {
         pickBtn.addEventListener('click', _moonHubPickCity);
     }
 
-    // ── Search wiring (verbatim clone of qibla search) ──
+    // ── Search wiring (MOON-GENERAL-HOME-SEARCH-BOX-1, 2026-05-18) ──
+    // Replaces the legacy Nominatim-direct search wiring with the same
+    // engine the homepage uses: `/api/search-place` (curated → discovered
+    // → external_cache → Nominatim → LocationIQ cascade). Renders into
+    // `#moon-hub-suggestions` (compact .cps-suggestions dropdown) and on
+    // click navigates to `/moon-in-{slug}` via navigateToCity's new
+    // targetRoute='moon-hub' option. Curated names returned by the API
+    // are already lang-correct (the server's _pickCuratedName picks
+    // names[pageLang] for ALL 10 langs), so Charikar shows چاریکار on
+    // /ur/moon-today, Mekke on /tr/moon-today, etc. — no client-side
+    // re-translation needed.
     const searchEl    = document.getElementById('moon-hub-search');
-    const searchList  = document.getElementById('moon-hub-search-results');
+    const searchList  = document.getElementById('moon-hub-suggestions');
     const searchEmpty = document.getElementById('moon-hub-search-empty');
     if (!searchEl || searchEl.dataset.wired) return;
     searchEl.dataset.wired = '1';
@@ -9128,236 +9164,173 @@ function _wireMoonHubHero() {
     let _mhsDebounce = null;
     let _mhsActiveQuery = '';
     let _mhsFocusedIdx = -1;
+    let _mhsCurrentResults = [];
 
-    // Suggestion-pick → navigate to /moon-today-in-{slug}
-    const _mhsNavigate = (city) => {
+    // Build a single `.suggestion-item` row matching the homepage layout.
+    // Returns a DOM element (not an HTML string) so we can attach event
+    // listeners directly without re-querying.
+    const _mhsBuildRow = (r, idx) => {
+        const div = document.createElement('div');
+        div.className = 'suggestion-item';
+        div.setAttribute('role', 'option');
+        div.setAttribute('data-idx', String(idx));
+        div.setAttribute('data-slug', r.slug || '');
+        div.setAttribute('data-tz',   r.timezone || '');
+        const cc = (r.countryCode || '').toLowerCase();
+        const flagImg = cc
+            ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
+            : `<span style="font-size:1.2rem">🌍</span>`;
+        const subText = r.typeLabel
+            ? `${r.countryName || ''} · ${r.typeLabel}`
+            : (r.countryName || '');
+        const safeName = String(r.displayName || '').replace(/[<>]/g, '');
+        const safeSub  = String(subText).replace(/[<>]/g, '');
+        div.innerHTML = `${flagImg}<div><div class="sugg-name">${safeName}</div><div class="sugg-country">${safeSub}</div></div>`;
+        div.addEventListener('click', () => _mhsSelect(r));
+        return div;
+    };
+
+    // Click / Enter handler — fires /api/place-selected for external rows
+    // (so future searches hit Tier 2 instantly), then navigates to
+    // /moon-in-{slug} with the same opts shape selectCity expects.
+    const _mhsSelect = (r) => {
         try {
-            navigateToMoonToday(city.lat, city.lng,
-                (lang === 'ar' ? city.ar : city.en),
-                (lang === 'ar' ? city.country : (city.countryEn || city.country)),
-                city.en, city.cc || '');
+            searchEl.value = r.displayName || '';
+            searchList.classList.remove('open');
+        } catch (_) {}
+
+        // Fire-and-forget place-selected persistence for fresh external rows
+        if (r.source === 'external') {
+            try {
+                const payload = {
+                    slug:        r.slug,
+                    type:        r.type || 'city',
+                    countryCode: r.countryCode,
+                    lat:         r.lat,
+                    lng:         r.lng,
+                    timezone:    r.timezone,
+                    names:       { [lang]: r.displayName, en: r.secondaryName || r.displayName },
+                    aliases:     {},
+                    admin:       { country: { [lang]: r.countryName } },
+                    source:      'external',
+                    nameQuality: { [lang]: r.nameQuality || 'namedetails' },
+                    originalName: r.originalName || ''
+                };
+                fetch('/api/place-selected', {
+                    method:  'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body:    JSON.stringify(payload),
+                    keepalive: true
+                }).catch(() => {});
+            } catch (_) {}
+        }
+
+        // Navigate. targetRoute='moon-hub' switches the destination URL
+        // from /prayer-times-in-{slug} to /moon-in-{slug}.
+        try {
+            navigateToCity(
+                r.lat, r.lng,
+                r.displayName,
+                r.countryName,
+                r.secondaryName || r.displayName,
+                r.countryCode,
+                { slug: r.slug, timezone: r.timezone, targetRoute: 'moon-hub' }
+            );
         } catch (_) {}
     };
 
-    // Build a single <li> — uses the same .qhsr-* class names as qibla so the
-    //   shared CSS rules (now dual-scoped to #page-moon) style it identically.
-    const _mhsBuildItem = (c, idx, isOnline) => {
-        const display = isEnUi ? c.en : c.ar;
-        const country = isEnUi ? (c.countryEn || c.country) : c.country;
-        const typeLbl = (typeof _smartTypeLabel === 'function') ? _smartTypeLabel(c.type || 'city') : '';
-        const subText = typeLbl ? `${country} · ${typeLbl}` : country;
-        const flag = c.cc
-            ? `<img src="https://flagcdn.com/28x21/${c.cc}.png" class="qhsr-flag" alt="${c.cc}" onerror="this.style.display='none'">`
-            : `<span class="qhsr-flag">${isOnline ? '🌐' : '🌍'}</span>`;
-        return `<li class="qhsr-item" role="option" data-idx="${idx}" data-online="${isOnline ? '1' : '0'}">`
-             + `${flag}<div class="qhsr-text"><div class="qhsr-name">${display}</div>`
-             + `<div class="qhsr-country">${subText}</div></div>`
-             + `<span class="qhsr-arrow" aria-hidden="true">→</span>`
-             + `</li>`;
-    };
-
-    let _mhsCurrentResults = [];
-    const _mhsBindClicks = () => {
-        searchList.querySelectorAll('.qhsr-item').forEach(li => {
-            li.addEventListener('click', () => {
-                const idx = parseInt(li.dataset.idx, 10);
-                const city = _mhsCurrentResults[idx];
-                if (city) _mhsNavigate(city);
-            });
-        });
-    };
-
-    // Online-result normalizer — verbatim from qibla wiring
-    const _mhsNormalizeOnline = (places, localResults) => {
-        if (!Array.isArray(places)) return [];
-        const seenKeys = new Set();
-        const localGeo = localResults.map(c => ({
-            lat: +c.lat, lng: +c.lng,
-            ar: normalizeText(c.ar), en: normalizeText(c.en),
-            cc: c.cc || ''
-        }));
-        localResults.forEach(c => seenKeys.add(_smartKey(c)));
-
-        const _smartFilter = (p) => {
-            const lat = parseFloat(p.lat), lon = parseFloat(p.lon);
-            if (!isFinite(lat) || !isFinite(lon)) return false;
-            if (!p.name && !p.display_name) return false;
-            const firstPart = (p.display_name || '').split(',')[0] || '';
-            if (_isWardLike(p.name) || _isWardLike(firstPart)) return false;
-            if (SMART_ALLOWED_TYPES.has(p.addresstype)) return true;
-            if (SMART_BLOCKED_TYPES.has(p.class)) return false;
-            if (SMART_BLOCKED_TYPES.has(p.type)) return false;
-            if (SMART_BLOCKED_TYPES.has(p.addresstype)) return false;
-            const _t = _smartTypeFromNominatim(p);
-            const _nmEn = (p.namedetails?.['name:en'] || p.name || '').trim();
-            const isSpecialCityState = SPECIAL_CITY_STATES.has(_nmEn);
-            if (!_t && !isSpecialCityState) return false;
-            if (_t && !SMART_ALLOWED_TYPES.has(_t) && !isSpecialCityState) return false;
-            return true;
-        };
-
-        let filtered = places.filter(_smartFilter);
-        const typeRank = p => {
-            const _t = _smartTypeFromNominatim(p) || (p.addresstype || p.type || '');
-            if (_t === 'city')                                          return 0;
-            if (['town', 'municipality', 'borough'].includes(_t))       return 1;
-            if (['governorate', 'province', 'state'].includes(_t))      return 2;
-            if (['county', 'administrative'].includes(_t))              return 3;
-            if (['village', 'hamlet', 'locality'].includes(_t))         return 4;
-            return 5;
-        };
-        filtered.sort((a, b) => {
-            const tr = typeRank(a) - typeRank(b);
-            return tr !== 0 ? tr : (b.importance || 0) - (a.importance || 0);
-        });
-        filtered = filtered.slice(0, 6);
-
-        const out = [];
-        for (const place of filtered) {
-            const addr = place.address || {};
-            const nd   = place.namedetails || {};
-            const _stripAdminPrefix = (s) => (s || '')
-                .replace(/^(محافظة|منطقة|مقاطعة|ولاية|إمارة)\s+/i, '')
-                .replace(/\s+(Governorate|Province|Region|District|County|State|Emirate|Municipality)$/i, '')
-                .trim();
-            const arCityMain = _stripAdminPrefix(nd['name:ar'] || addr.city || addr.town || addr.village || addr.municipality || place.name || '');
-            const rawEnCity  = nd['name:en'] || nd['name:en-US']
-                    || _latinOr(nd.name)
-                    || _latinOr(place.name)
-                    || _latinOr(addr.city) || _latinOr(addr.town) || _latinOr(addr.village) || _latinOr(addr.municipality)
-                    || (place.display_name || '').split(',')[0];
-            const enCityMain = _stripAdminPrefix(rawEnCity.replace(/\s*District\b/gi, '').trim());
-            const country     = addr.country || '';
-            const countryCode = (addr.country_code || '').toLowerCase();
-            const placeLat    = parseFloat(place.lat);
-            const placeLng    = parseFloat(place.lon);
-            const placeType   = _smartTypeFromNominatim(place) || 'city';
-
-            const candidateKey = _smartKey({ cc: countryCode, en: enCityMain, lat: placeLat, lng: placeLng });
-            if (seenKeys.has(candidateKey)) continue;
-            const arN = normalizeText(arCityMain);
-            const enN = normalizeText(enCityMain);
-            const tooClose = localGeo.some(g => {
-                if (!isFinite(g.lat) || !isFinite(g.lng)) return false;
-                const d = _smartDistKm(g.lat, g.lng, placeLat, placeLng);
-                if (d > 5) return false;
-                return (g.ar && (g.ar === arN || arN.includes(g.ar) || g.ar.includes(arN))) ||
-                       (g.en && (g.en === enN || enN.includes(g.en) || g.en.includes(enN)));
-            });
-            if (tooClose) continue;
-            seenKeys.add(candidateKey);
-
-            out.push({
-                ar: arCityMain || enCityMain,
-                en: enCityMain || arCityMain,
-                country, countryEn: country, cc: countryCode,
-                lat: placeLat, lng: placeLng,
-                type: placeType, _online: true
-            });
-        }
-        return out;
-    };
-
-    const renderSuggestions = (q) => {
-        if (!searchList) return;
-        _mhsActiveQuery = q;
+    const _mhsRender = (results, statusMsg) => {
+        searchList.innerHTML = '';
+        _mhsCurrentResults = results || [];
         _mhsFocusedIdx = -1;
-
-        if (!q || q.length < 2) {
-            _mhsCurrentResults = [];
-            searchList.innerHTML = '';
-            searchList.classList.remove('is-open');
+        if (results && results.length > 0) {
+            results.forEach((r, i) => searchList.appendChild(_mhsBuildRow(r, i)));
+            searchList.classList.add('open');
             if (searchEmpty) searchEmpty.hidden = true;
+        } else if (statusMsg) {
+            const div = document.createElement('div');
+            div.className = 'search-empty';
+            div.style.cssText = 'padding:12px;color:#888;text-align:start;';
+            div.textContent = statusMsg;
+            searchList.appendChild(div);
+            searchList.classList.add('open');
+        } else {
+            searchList.classList.remove('open');
+        }
+    };
+
+    const _mhsFetchAndRender = async (q) => {
+        if (_mhsActiveQuery !== q) return;
+        const isAr = (lang === 'ar');
+        const url = '/api/search-place?q=' + encodeURIComponent(q)
+                  + '&lang=' + encodeURIComponent(lang);
+        let data;
+        try {
+            const r = await fetch(url, { credentials: 'omit' });
+            if (!r.ok) throw new Error('http_' + r.status);
+            data = await r.json();
+        } catch (_e) {
+            try { console.warn('[moon-hub-search] fetch failed:', _e && _e.message); } catch (_) {}
+            // Network error — show transient message
+            if (_mhsActiveQuery !== q) return;
+            _mhsRender([], isAr
+                ? 'تعذّر الاتصال — حاول بعد لحظة'
+                : 'Connection failed — try again');
             return;
         }
+        if (_mhsActiveQuery !== q) return;
+        const results = (data && Array.isArray(data.results)) ? data.results : [];
+        const status  = (data && data.status)  || 'empty';
+        if (results.length > 0) {
+            _mhsRender(results, null);
+        } else if (status === 'rate_limited' || status === 'error' || status === 'timeout' || status === 'disabled') {
+            _mhsRender([], isAr
+                ? 'تعذّر البحث الخارجي مؤقتاً — حاول بعد لحظة'
+                : 'External search is temporarily unavailable — try again shortly');
+        } else if (status === 'too_short') {
+            _mhsRender([], null);
+        } else {
+            _mhsRender([], isAr ? 'لا توجد نتائج' : 'No results');
+        }
 
-        const localResults = (typeof searchLocalCities === 'function') ? searchLocalCities(q) : [];
-        _mhsCurrentResults = localResults.slice();
-        if (searchEmpty) searchEmpty.hidden = true;
-
-        let html = localResults.map((c, i) => _mhsBuildItem(c, i, false)).join('');
-        const _loadingLbl = (typeof t === 'function' ? t('search.loading') : null) || '🔍 Searching online…';
-        html += `<li class="qhsr-loading" data-loading="1">${_loadingLbl}</li>`;
-        searchList.innerHTML = html;
-        searchList.classList.add('is-open');
-        _mhsBindClicks();
-
-        const base = `format=json&limit=8&accept-language=${lang}&addressdetails=1&namedetails=1`;
-        const urlQ    = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(q)}`);
-        const urlCity = nomUrl(`https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(q)}`);
-        Promise.all([
-            fetch(urlQ).then(r => r.json()).catch(() => []),
-            fetch(urlCity).then(r => r.json()).catch(() => [])
-        ])
-        .then(([resQ, resCity]) => {
-            if (_mhsActiveQuery !== q) return;
-            if (!Array.isArray(resQ)) resQ = [];
-            if (!Array.isArray(resCity)) resCity = [];
-            const seen = new Set();
-            const all = [...resQ, ...resCity].filter(p => {
-                if (!p || seen.has(p.place_id)) return false;
-                seen.add(p.place_id);
-                return true;
-            });
-            const onlineResults = _mhsNormalizeOnline(all, localResults);
-            _mhsCurrentResults = [...localResults, ...onlineResults];
-
-            if (_mhsCurrentResults.length === 0) {
-                searchList.innerHTML = '';
-                searchList.classList.remove('is-open');
-                if (searchEmpty) {
-                    searchEmpty.textContent = (typeof t === 'function' ? t('search.empty') : null) || 'No results';
-                    searchEmpty.hidden = false;
-                }
-                return;
+        // PT-SEARCH-AR-4: if user pressed Enter while loading, auto-click first.
+        try {
+            if (window.__pendingMoonHubEnter === q) {
+                window.__pendingMoonHubEnter = null;
+                const _first = searchList.querySelector('.suggestion-item');
+                if (_first) setTimeout(() => { try { _first.click(); } catch (_) {} }, 0);
             }
-            let merged = '';
-            _mhsCurrentResults.forEach((c, i) => {
-                merged += _mhsBuildItem(c, i, !!c._online);
-            });
-            searchList.innerHTML = merged;
-            _mhsBindClicks();
-
-            // PT-SEARCH-AR-4: if user pressed Enter while we were loading,
-            // auto-click the first newly-rendered result. Mirrors the same
-            // hook in fetchCitySuggestions.
-            try {
-                if (window.__pendingMoonHubEnter === q) {
-                    window.__pendingMoonHubEnter = null;
-                    const _first = searchList.querySelector('.qhsr-item');
-                    if (_first) setTimeout(() => { try { _first.click(); } catch (_) {} }, 0);
-                }
-            } catch (_) {}
-        })
-        .catch(() => {
-            const loadingRow = searchList.querySelector('.qhsr-loading');
-            if (loadingRow) loadingRow.remove();
-            try { if (window.__pendingMoonHubEnter === q) window.__pendingMoonHubEnter = null; } catch (_) {}
-        });
+        } catch (_) {}
     };
 
     searchEl.addEventListener('input', function () {
         clearTimeout(_mhsDebounce);
         const q = String(searchEl.value || '').trim();
-        _mhsDebounce = setTimeout(() => renderSuggestions(q), 120);
+        _mhsActiveQuery = q;
+        if (q.length < 2) {
+            _mhsCurrentResults = [];
+            searchList.innerHTML = '';
+            searchList.classList.remove('open');
+            if (searchEmpty) searchEmpty.hidden = true;
+            return;
+        }
+        _mhsDebounce = setTimeout(() => _mhsFetchAndRender(q), 120);
     });
 
     searchEl.addEventListener('keydown', function (e) {
-        const items = searchList ? searchList.querySelectorAll('.qhsr-item') : [];
+        const items = searchList ? searchList.querySelectorAll('.suggestion-item') : [];
         if (!items.length) {
-            // PT-SEARCH-AR-4: Enter on empty/loading dropdown → force
-            // immediate fetch + stash pending-Enter intent so the first
-            // result auto-clicks when it arrives.
             if (e.key === 'Enter') {
                 const q = String(searchEl.value || '').trim();
                 if (q.length >= 2) {
                     e.preventDefault();
                     try { window.__pendingMoonHubEnter = q; } catch (_) {}
                     try { clearTimeout(_mhsDebounce); } catch (_) {}
-                    try { renderSuggestions(q); } catch (_) {}
+                    _mhsActiveQuery = q;
+                    try { _mhsFetchAndRender(q); } catch (_) {}
                 }
             } else if (e.key === 'Escape' && searchList) {
-                searchList.classList.remove('is-open');
+                searchList.classList.remove('open');
             }
             return;
         }
@@ -9380,15 +9353,16 @@ function _wireMoonHubHero() {
                 items[0].click();
             }
         } else if (e.key === 'Escape') {
-            if (searchList) searchList.classList.remove('is-open');
+            if (searchList) searchList.classList.remove('open');
             searchEl.blur();
         }
     });
 
     // Close dropdown on outside click
     document.addEventListener('click', function (e) {
-        if (!e.target.closest('#moon-hub-hero')) {
-            if (searchList) searchList.classList.remove('is-open');
+        if (!e.target.closest('#moon-page-search')
+            && !e.target.closest('#moon-hub-hero')) {
+            if (searchList) searchList.classList.remove('open');
         }
     });
 }

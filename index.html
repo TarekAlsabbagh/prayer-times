@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=654" as="script">
+    <link rel="preload" href="js/app.js?v=655" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1494,10 +1494,27 @@
                     </div>
 
                     <div class="qibla-hub-hero-actions">
-                        <label class="qibla-hub-search-wrap">
-                            <input type="search" id="moon-hub-search" class="qibla-hub-search qibla-hub-search--hero" autocomplete="off" placeholder="ابحث عن مدينة لمعرفة حالة القمر اليوم…" data-i18n-placeholder="moon.hub.search_placeholder">
-                        </label>
-                        <ul id="moon-hub-search-results" class="qibla-hub-search-results" role="listbox"></ul>
+                        <!-- MOON-GENERAL-HOME-SEARCH-BOX-1 (2026-05-18):
+                             Replaced the legacy `.qibla-hub-search` input + UL
+                             with the same compact search component used on
+                             /prayer-times-in-{slug} (`.city-page-search` →
+                             `.cps-input`/`.cps-suggestions`). The container
+                             keeps `id="moon-hub-search"` on the input and
+                             `id="moon-hub-suggestions"` on the dropdown so
+                             existing JS / CSS auto-wire hooks still find it,
+                             but the look + DOM shape match the homepage. -->
+                        <section class="city-page-search city-page-search--moon" id="moon-page-search" role="search" aria-label="ابحث عن مدينة لمعرفة حالة القمر" data-i18n-aria-label="moon.hub.search_placeholder">
+                            <div class="cps-inner">
+                                <svg class="icon cps-icon" aria-hidden="true"><use href="#i-search"/></svg>
+                                <input type="search" id="moon-hub-search" class="cps-input cps-input--moon"
+                                       autocomplete="off"
+                                       placeholder="ابحث عن مدينة لمعرفة حالة القمر اليوم…"
+                                       data-i18n-placeholder="moon.hub.search_placeholder"
+                                       aria-label="ابحث عن مدينة لمعرفة حالة القمر"
+                                       data-i18n-aria-label="moon.hub.search_placeholder">
+                                <div class="cps-suggestions" id="moon-hub-suggestions" role="listbox"></div>
+                            </div>
+                        </section>
                         <p id="moon-hub-search-empty" class="qibla-hub-search-empty" hidden></p>
 
                         <div id="moon-dual-cta" class="qibla-dual-cta">
@@ -3862,7 +3879,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=8"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=654"></script>
+    <script defer src="js/app.js?v=655"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

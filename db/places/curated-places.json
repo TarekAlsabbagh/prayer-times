@@ -108111,7 +108111,7 @@
       "fr": "Zaranj",
       "de": "Zaranj",
       "tr": "Zaranj",
-      "ur": "Zaranj",
+      "ur": "زرنج",
       "id": "Zaranj",
       "es": "Zaranj",
       "bn": "Zaranj",
@@ -108167,7 +108167,7 @@
       "fr": "Taloqan",
       "de": "Taloqan",
       "tr": "Taloqan",
-      "ur": "Taloqan",
+      "ur": "تالقان",
       "id": "Taloqan",
       "es": "Taloqan",
       "bn": "Taloqan",
@@ -108231,7 +108231,7 @@
       "fr": "Shibirghān",
       "de": "Shibirghān",
       "tr": "Shibirghān",
-      "ur": "Shibirghān",
+      "ur": "شبرغان",
       "id": "Shibirghān",
       "es": "Shibirghān",
       "bn": "Shibirghān",
@@ -108275,6 +108275,9 @@
         "sibiraghana",
         "Şibircân",
         "Şibircən"
+      ],
+      "ur": [
+        "شبرغن"
       ]
     },
     "admin": {
@@ -108301,7 +108304,7 @@
       "fr": "Sidqābād",
       "de": "Sidqābād",
       "tr": "Sidqābād",
-      "ur": "Sidqābād",
+      "ur": "سدق آباد",
       "id": "Sidqābād",
       "es": "Sidqābād",
       "bn": "Sidqābād",
@@ -108336,6 +108339,10 @@
         "shidokabado",
         "sidakabada",
         "sidiqabadi"
+      ],
+      "ur": [
+        "صدقآباد",
+        "قلعۀ وزیر"
       ]
     },
     "admin": {
@@ -108362,7 +108369,7 @@
       "fr": "Sar-e Pul",
       "de": "Sar-e Pul",
       "tr": "Sar-e Pul",
-      "ur": "Sar-e Pul",
+      "ur": "سر پل",
       "id": "Sar-e Pul",
       "es": "Sar-e Pul",
       "bn": "Sar-e Pul",
@@ -108387,6 +108394,9 @@
         "sari-yu ፑል",
         "sr pl",
         "srpl"
+      ],
+      "ur": [
+        "سرپل"
       ]
     },
     "admin": {
@@ -108413,7 +108423,7 @@
       "fr": "Aībak",
       "de": "Aībak",
       "tr": "Aībak",
-      "ur": "Aībak",
+      "ur": "آی بک",
       "id": "Aībak",
       "es": "Aībak",
       "bn": "Aībak",
@@ -108444,6 +108454,11 @@
         "smngan",
         "Āybak",
         "ʿeyibaki"
+      ],
+      "ur": [
+        "آیبک",
+        "ایبک",
+        "سمنگان"
       ]
     },
     "admin": {
@@ -108470,7 +108485,7 @@
       "fr": "Qalāt",
       "de": "Qalāt",
       "tr": "Qalāt",
-      "ur": "Qalāt",
+      "ur": "قلات",
       "id": "Qalāt",
       "es": "Qalāt",
       "bn": "Qalāt",
@@ -108515,7 +108530,7 @@
       "fr": "Pul-e Khumrī",
       "de": "Pul-e Khumrī",
       "tr": "Pul-e Khumrī",
-      "ur": "Pul-e Khumrī",
+      "ur": "پل خمری",
       "id": "Pul-e Khumrī",
       "es": "Pul-e Khumrī",
       "bn": "Pul-e Khumrī",
@@ -108570,7 +108585,7 @@
       "fr": "Pul-e ‘Alam",
       "de": "Pul-e ‘Alam",
       "tr": "Pul-e ‘Alam",
-      "ur": "Pul-e ‘Alam",
+      "ur": "پل علم",
       "id": "Pul-e ‘Alam",
       "es": "Pul-e ‘Alam",
       "bn": "Pul-e ‘Alam",
@@ -108623,7 +108638,7 @@
       "fr": "Nīlī",
       "de": "Nīlī",
       "tr": "Nīlī",
-      "ur": "Nīlī",
+      "ur": "نیلی",
       "id": "Nīlī",
       "es": "Nīlī",
       "bn": "Nīlī",
@@ -108663,7 +108678,7 @@
       "fr": "Maymana",
       "de": "Maymana",
       "tr": "Maymana",
-      "ur": "Maymana",
+      "ur": "میمنہ",
       "id": "Maymana",
       "es": "Maymana",
       "bn": "Maymana",
@@ -108699,6 +108714,10 @@
         "meyamana",
         "mymnh",
         "mymnt"
+      ],
+      "ur": [
+        "میمنه",
+        "ضلع میمنہ"
       ]
     },
     "admin": {
@@ -108725,7 +108744,7 @@
       "fr": "Mehtar Lām",
       "de": "Mehtar Lām",
       "tr": "Mehtar Lām",
-      "ur": "Mehtar Lām",
+      "ur": "مہتر لام",
       "id": "Mehtar Lām",
       "es": "Mehtar Lām",
       "bn": "Mehtar Lām",
@@ -108754,6 +108773,9 @@
         "mehitari laም",
         "mhtr lam",
         "mkhtar lam"
+      ],
+      "ur": [
+        "مهتر لام"
       ]
     },
     "admin": {
@@ -108780,7 +108802,7 @@
       "fr": "Mazār-e Sharīf",
       "de": "Mazār-e Sharīf",
       "tr": "Mazār-e Sharīf",
-      "ur": "Mazār-e Sharīf",
+      "ur": "مزار شریف",
       "id": "Mazār-e Sharīf",
       "es": "Mazār-e Sharīf",
       "bn": "Mazār-e Sharīf",
@@ -108841,7 +108863,7 @@
       "fr": "Kunduz",
       "de": "Kunduz",
       "tr": "Kunduz",
-      "ur": "Kunduz",
+      "ur": "کندوز",
       "id": "Kunduz",
       "es": "Kunduz",
       "bn": "Kunduz",
@@ -108886,6 +108908,9 @@
         "kuniduዝ",
         "qndwz",
         "qndz"
+      ],
+      "ur": [
+        "قندوز"
       ]
     },
     "admin": {
@@ -108912,7 +108937,7 @@
       "fr": "Khōst",
       "de": "Khōst",
       "tr": "Khōst",
-      "ur": "Khōst",
+      "ur": "خوست",
       "id": "Khōst",
       "es": "Khōst",
       "bn": "Khōst",
@@ -108936,6 +108961,9 @@
         "khwst",
         "kihositi",
         "mtwn"
+      ],
+      "ur": [
+        "متون"
       ]
     },
     "admin": {
@@ -108962,7 +108990,7 @@
       "fr": "Kabul",
       "de": "Kabul",
       "tr": "Kabul",
-      "ur": "Kabul",
+      "ur": "کابل",
       "id": "Kabul",
       "es": "Kabul",
       "bn": "Kabul",
@@ -109007,6 +109035,9 @@
         "kapul",
         "ke bu er",
         "khabul"
+      ],
+      "ur": [
+        "کابول"
       ]
     },
     "admin": {
@@ -109033,7 +109064,7 @@
       "fr": "Jalālābād",
       "de": "Jalālābād",
       "tr": "Jalālābād",
-      "ur": "Jalālābād",
+      "ur": "جلال آباد",
       "id": "Jalālābād",
       "es": "Jalālābād",
       "bn": "Jalālābād",
@@ -109067,6 +109098,9 @@
         "jararabado",
         "jlal abad",
         "Ҷalolobod"
+      ],
+      "ur": [
+        "جلال‌آباد"
       ]
     },
     "admin": {
@@ -109093,7 +109127,7 @@
       "fr": "Herāt",
       "de": "Herāt",
       "tr": "Herāt",
-      "ur": "Herāt",
+      "ur": "ہرات",
       "id": "Herāt",
       "es": "Herāt",
       "bn": "Herāt",
@@ -109143,7 +109177,7 @@
       "fr": "Ghazni",
       "de": "Ghazni",
       "tr": "Ghazni",
-      "ur": "Ghazni",
+      "ur": "غزنی",
       "id": "Ghazni",
       "es": "Ghazni",
       "bn": "Ghazni",
@@ -109171,6 +109205,9 @@
         "ghznt",
         "ghzny",
         "ghznyn"
+      ],
+      "ur": [
+        "غزنین"
       ]
     },
     "admin": {
@@ -109197,7 +109234,7 @@
       "fr": "Gardez",
       "de": "Gardez",
       "tr": "Gardez",
-      "ur": "Gardez",
+      "ur": "گردیز",
       "id": "Gardez",
       "es": "Gardez",
       "bn": "Gardez",
@@ -109218,6 +109255,9 @@
         "garideዝ",
         "garudezu",
         "grdyz"
+      ],
+      "ur": [
+        "گرديز"
       ]
     },
     "admin": {
@@ -109244,7 +109284,7 @@
       "fr": "Fayzabad",
       "de": "Fayzabad",
       "tr": "Fayzabad",
-      "ur": "Fayzabad",
+      "ur": "فیض آباد",
       "id": "Fayzabad",
       "es": "Fayzabad",
       "bn": "Fayzabad",
@@ -109295,7 +109335,7 @@
       "fr": "Charikar",
       "de": "Charikar",
       "tr": "Charikar",
-      "ur": "Charikar",
+      "ur": "چاریکار",
       "id": "Charikar",
       "es": "Charikar",
       "bn": "Charikar",
@@ -109332,6 +109372,9 @@
         "Ĉarikar",
         "Čahārikār",
         "Čarikaras"
+      ],
+      "ur": [
+        "چاريكار"
       ]
     },
     "admin": {
@@ -109358,7 +109401,7 @@
       "fr": "Bāmyān",
       "de": "Bāmyān",
       "tr": "Bāmyān",
-      "ur": "Bāmyān",
+      "ur": "بامیان",
       "id": "Bāmyān",
       "es": "Bāmyān",
       "bn": "Bāmyān",
@@ -109409,7 +109452,7 @@
       "fr": "Balkh",
       "de": "Balkh",
       "tr": "Balkh",
-      "ur": "Balkh",
+      "ur": "بلخ",
       "id": "Balkh",
       "es": "Balkh",
       "bn": "Balkh",
@@ -109472,7 +109515,7 @@
       "fr": "Baghlān",
       "de": "Baghlān",
       "tr": "Baghlān",
-      "ur": "Baghlān",
+      "ur": "بغلان",
       "id": "Baghlān",
       "es": "Baghlān",
       "bn": "Baghlān",
@@ -109503,6 +109546,10 @@
         "bghlan jdyd",
         "Şanā ‘Ati",
         "Şanā‘atī"
+      ],
+      "ur": [
+        "باغلان",
+        "بغلان جديد"
       ]
     },
     "admin": {
@@ -109529,7 +109576,7 @@
       "fr": "Asadābād",
       "de": "Asadābād",
       "tr": "Asadābād",
-      "ur": "Asadābād",
+      "ur": "اسد آباد",
       "id": "Asadābād",
       "es": "Asadābād",
       "bn": "Asadābād",
@@ -109568,6 +109615,9 @@
         "Čaghasarāy",
         "Əsədabad",
         "ʿesadabadi"
+      ],
+      "ur": [
+        "چغه سرای"
       ]
     },
     "admin": {
@@ -109594,7 +109644,7 @@
       "fr": "Bāzārak",
       "de": "Bāzārak",
       "tr": "Bāzārak",
-      "ur": "Bāzārak",
+      "ur": "بازارک",
       "id": "Bāzārak",
       "es": "Bāzārak",
       "bn": "Bāzārak",
@@ -109612,6 +109662,9 @@
         "bazaraki",
         "bazaraku",
         "bazark"
+      ],
+      "ur": [
+        "بازاراک"
       ]
     },
     "admin": {
@@ -109638,7 +109691,7 @@
       "fr": "Sharan",
       "de": "Sharan",
       "tr": "Sharan",
-      "ur": "Sharan",
+      "ur": "شاران",
       "id": "Sharan",
       "es": "Sharan",
       "bn": "Sharan",
@@ -109661,6 +109714,9 @@
         "sharani",
         "shrn",
         "Şaran"
+      ],
+      "ur": [
+        "شرن"
       ]
     },
     "admin": {
@@ -109687,7 +109743,7 @@
       "fr": "Tarinkot",
       "de": "Tarinkot",
       "tr": "Tarinkot",
-      "ur": "Tarinkot",
+      "ur": "ترین کوٹ",
       "id": "Tarinkot",
       "es": "Tarinkot",
       "bn": "Tarinkot",
@@ -109709,6 +109765,9 @@
         "tarinikweti",
         "tarinkotto",
         "tryn kwt"
+      ],
+      "ur": [
+        "طرین کوٹ"
       ]
     },
     "admin": {
@@ -109735,7 +109794,7 @@
       "fr": "Qala i Naw",
       "de": "Qala i Naw",
       "tr": "Qala i Naw",
-      "ur": "Qala i Naw",
+      "ur": "قلعہ نو",
       "id": "Qala i Naw",
       "es": "Qala i Naw",
       "bn": "Qala i Naw",
@@ -109785,6 +109844,12 @@
         "qlʿh naw",
         "qlʿt naw",
         "qwala ʿi naው"
+      ],
+      "ur": [
+        "قلعہ ناؤ",
+        "قلعۀ نو",
+        "قلعة ناو",
+        "قلعه ناو"
       ]
     },
     "admin": {
@@ -109811,7 +109876,7 @@
       "fr": "Pārūn",
       "de": "Pārūn",
       "tr": "Pārūn",
-      "ur": "Pārūn",
+      "ur": "پارون",
       "id": "Pārūn",
       "es": "Pārūn",
       "bn": "Pārūn",
@@ -109833,6 +109898,9 @@
         "parwn",
         "prns",
         "ፓruni"
+      ],
+      "ur": [
+        "پاروں"
       ]
     },
     "admin": {
@@ -109859,7 +109927,7 @@
       "fr": "Lashkar Gāh",
       "de": "Lashkar Gāh",
       "tr": "Lashkar Gāh",
-      "ur": "Lashkar Gāh",
+      "ur": "لشکر گاہ",
       "id": "Lashkar Gāh",
       "es": "Lashkar Gāh",
       "bn": "Lashkar Gāh",
@@ -109893,6 +109961,10 @@
         "lshkr gah",
         "lshkrgah",
         "rashukaruga"
+      ],
+      "ur": [
+        "لشکرگاہ",
+        "لشكر گاه"
       ]
     },
     "admin": {
@@ -109919,7 +109991,7 @@
       "fr": "Kandahār",
       "de": "Kandahār",
       "tr": "Kandahār",
-      "ur": "Kandahār",
+      "ur": "قندھار",
       "id": "Kandahār",
       "es": "Kandahār",
       "bn": "Kandahār",
@@ -109953,6 +110025,10 @@
         "qanidahari",
         "qndhar",
         "qndhʼr"
+      ],
+      "ur": [
+        "قندہار",
+        "قندهار"
       ]
     },
     "admin": {
@@ -109979,7 +110055,7 @@
       "fr": "Farah",
       "de": "Farah",
       "tr": "Farah",
-      "ur": "Farah",
+      "ur": "فراه",
       "id": "Farah",
       "es": "Farah",
       "bn": "Farah",
@@ -110003,6 +110079,9 @@
         "para",
         "pharaha",
         "ፋrahi"
+      ],
+      "ur": [
+        "فراہ"
       ]
     },
     "admin": {
@@ -110029,7 +110108,7 @@
       "fr": "Fayrōz Kōh",
       "de": "Fayrōz Kōh",
       "tr": "Fayrōz Kōh",
-      "ur": "Fayrōz Kōh",
+      "ur": "فیروز کوہ",
       "id": "Fayrōz Kōh",
       "es": "Fayrōz Kōh",
       "bn": "Fayrōz Kōh",
@@ -110062,6 +110141,10 @@
         "fyrwz kwh",
         "phayaroja koha",
         "ፋyiroዝ kwehi"
+      ],
+      "ur": [
+        "فیروز کوه",
+        "چغچران"
       ]
     },
     "admin": {
@@ -110088,7 +110171,7 @@
       "fr": "Maydanshakhr",
       "de": "Maydanshakhr",
       "tr": "Maydanshakhr",
-      "ur": "Maydanshakhr",
+      "ur": "میدان شہر",
       "id": "Maydanshakhr",
       "es": "Maydanshakhr",
       "bn": "Maydanshakhr",
@@ -110108,6 +110191,9 @@
         "maidanshafuru",
         "mayidanishahiri",
         "mydan shhr"
+      ],
+      "ur": [
+        "میدان شهر"
       ]
     },
     "admin": {

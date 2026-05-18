@@ -18765,8 +18765,28 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // (`/prayer-times-in-{slug}-{lat}-{lng}`) is also skipped:
             // long-tail coord URLs are reverse-geocoded fresh.
             try {
-                const _isBarePrayer = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-[a-z][a-z0-9-]+$/.test(urlPath.replace(/\.html$/, ''));
-                if (_isBarePrayer && typeof _findPlaceBySlug === 'function') {
+                // PLACE-NAMES-CROSS-PAGE-NAVIGATION-CONSISTENCY-FIX-1
+                // (2026-05-18): extend the seed-injection gate from
+                // ONLY `/prayer-times-in-{slug}` to also cover
+                // `/moon-in-{slug}`, `/moon-today-in-{slug}`, and
+                // `/qibla-in-{slug}`. Previously, navigating from
+                // /ur/prayer-times-in-charikar to /ur/moon-in-charikar
+                // (via a related-tools link) landed on a page WITHOUT
+                // any SSR seed — PT-LANG-GUARD-5 Tier-0 had nothing to
+                // trust, so `currentCity` fell through to the English
+                // slug-prettify (`Charikar`) and the templates rendered
+                // Latin in Urdu sentences. Now every bare city-page
+                // route in the 4 main families serves the authoritative
+                // `__PRAYER_CITY__` seed (lang-correct via
+                // `_pickCuratedName(entry, pageLang)`), so the client's
+                // Tier-0 always finds it.
+                //
+                // Bare-slug only (no coord-suffix, no date suffix). The
+                // coord-suffixed variants (legacy bookmarks) keep the
+                // existing reverse-geocode flow; the dated moon variants
+                // (/moon-in-{slug}/{date}) inherit from sessionStorage.
+                const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+$/.test(urlPath.replace(/\.html$/, ''));
+                if (_bareCityRoute && typeof _findPlaceBySlug === 'function') {
                     const _curatedEntry = _findPlaceBySlug(_ssrCitySlug);
                     if (_curatedEntry) {
                         const _placeData = _buildSlugLookupResult(_curatedEntry, seo.lang, 'curated');

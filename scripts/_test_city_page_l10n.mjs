@@ -180,13 +180,16 @@ console.log('\n── B2. AR Makkah — no Latin leak in SSR header ──');
 
 // ── C. Negative — country listing + unknown slugs MUST NOT receive pre-fill
 console.log('\n── C. Negative cases — pre-fill MUST NOT leak ──');
+// PLACE-NAMES-CROSS-PAGE-NAVIGATION-CONSISTENCY-FIX-1 (2026-05-18):
+// /qibla-in-{slug} and /moon-in-{slug} now ALSO receive the seed (was
+// previously gated to /prayer-times-in-* only). Removed those entries
+// from this negative-cases list — they're verified positively in
+// `_test_place_names_cross_page_navigation_consistency_fix_1.mjs`.
 const negativeCases = [
     ['/prayer-times-in-saudi-arabia', 'country listing'],
     ['/prayer-times-in-syria',         'country listing'],
     ['/prayer-times-in-unknown-fake-slug-xyz', 'unknown slug'],
     ['/prayer-times-in-some-place',    'unknown slug'],
-    ['/qibla-in-shaqra',               'qibla route (different page pipeline)'],
-    ['/moon-in-shaqra',                'moon route (different page pipeline)'],
 ];
 for (const [path, why] of negativeCases) {
     const r = await get(path);

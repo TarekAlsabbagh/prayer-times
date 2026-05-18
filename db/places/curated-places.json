@@ -109673,5 +109673,452 @@
     "source": "curated",
     "sourceId": "geonames:8534261",
     "verified": true
+  },
+  {
+    "slug": "tarinkot",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 32.62998,
+    "lng": 65.87806,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "ترين كوت",
+      "en": "Tarinkot",
+      "fr": "Tarinkot",
+      "de": "Tarinkot",
+      "tr": "Tarinkot",
+      "ur": "Tarinkot",
+      "id": "Tarinkot",
+      "es": "Tarinkot",
+      "bn": "Tarinkot",
+      "ms": "Tarinkot"
+    },
+    "aliases": {
+      "ar": [
+        "طرين كوت"
+      ],
+      "en": [
+        "TII",
+        "Tareen",
+        "Tarin Kowt",
+        "Tarinkˌot",
+        "Tarīn Kowt",
+        "Tirin",
+        "Tirinkot",
+        "tarinakota",
+        "tarinikweti",
+        "tarinkotto",
+        "tryn kwt"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "أوروزغان",
+      "regionEn": "Urozgan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1122747",
+    "verified": true
+  },
+  {
+    "slug": "qala-i-naw",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.98735,
+    "lng": 63.12891,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "قلعة نو",
+      "en": "Qala i Naw",
+      "fr": "Qala i Naw",
+      "de": "Qala i Naw",
+      "tr": "Qala i Naw",
+      "ur": "Qala i Naw",
+      "id": "Qala i Naw",
+      "es": "Qala i Naw",
+      "bn": "Qala i Naw",
+      "ms": "Qala i Naw"
+    },
+    "aliases": {
+      "ar": [
+        "قلعة ناو",
+        "قلعه ناو",
+        "قلعه نو",
+        "قلعه ناؤ"
+      ],
+      "en": [
+        "Kala Nao",
+        "Kala-i Naw",
+        "Kala-i-Nau",
+        "Kalai-Naw",
+        "Kalayi-Nau",
+        "Kˌal'ai Nau",
+        "Kˌala-i-Nau",
+        "LQN",
+        "Qal'ai Now",
+        "Qal'eh Now",
+        "Qal`a-i-Naw",
+        "Qal`ah-ye Now",
+        "Qal`eh Nau",
+        "Qal`eh-ye Now",
+        "Qala Nau",
+        "Qala Naw",
+        "Qala-e-Nau",
+        "Qala-i Naw",
+        "Qala-i-Nau",
+        "Qala-i-Naw",
+        "Qalaenaw",
+        "Qal‘a-i-Naw",
+        "Qal‘ah-ye Now",
+        "Qal‘eh Nau",
+        "Qal‘eh-ye Now",
+        "Qal’eh Now",
+        "Qula-i-nau",
+        "Shehr Qaleh",
+        "Shehr Qeleh",
+        "kala i na'o",
+        "kala i nava",
+        "karainau",
+        "qala i nava",
+        "qlʿh naw",
+        "qlʿt naw",
+        "qwala ʿi naው"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بادغيس",
+      "regionEn": "Badghis"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1129867",
+    "verified": true
+  },
+  {
+    "slug": "parun",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 35.42064,
+    "lng": 70.92261,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "بارون",
+      "en": "Pārūn",
+      "fr": "Pārūn",
+      "de": "Pārūn",
+      "tr": "Pārūn",
+      "ur": "Pārūn",
+      "id": "Pārūn",
+      "es": "Pārūn",
+      "bn": "Pārūn",
+      "ms": "Pārūn"
+    },
+    "aliases": {
+      "ar": [
+        "برنس"
+      ],
+      "en": [
+        "Parun",
+        "Poruns",
+        "Prasun",
+        "Prasungul",
+        "Prasûn",
+        "Puruns",
+        "parun",
+        "paruna",
+        "parwn",
+        "prns",
+        "ፓruni"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "نورستان",
+      "regionEn": "Nuristan"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1130469",
+    "verified": true
+  },
+  {
+    "slug": "lashkar-gah",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 31.59382,
+    "lng": 64.37161,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "لشكر جاه",
+      "en": "Lashkar Gāh",
+      "fr": "Lashkar Gāh",
+      "de": "Lashkar Gāh",
+      "tr": "Lashkar Gāh",
+      "ur": "Lashkar Gāh",
+      "id": "Lashkar Gāh",
+      "es": "Lashkar Gāh",
+      "bn": "Lashkar Gāh",
+      "ms": "Lashkar Gāh"
+    },
+    "aliases": {
+      "ar": [
+        "لشكر غاه",
+        "لشكرغاه"
+      ],
+      "en": [
+        "BST",
+        "Bist",
+        "Bost",
+        "Bust",
+        "Lachkargah",
+        "Lashkar Gah",
+        "Lashkargah",
+        "Lashkargah Bust",
+        "Lashkargakh",
+        "Lashkargaһ",
+        "Lashkˌargaҳ",
+        "Lashkˌargaһ",
+        "Laskargah",
+        "Las̲h̲kargāh Busṯ",
+        "Laškargāh",
+        "Nawab City",
+        "lasakara gaha",
+        "lasikari gahi",
+        "laskara gaha",
+        "lshkr gah",
+        "lshkrgah",
+        "rashukaruga"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "هلمند",
+      "regionEn": "Helmand"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1134720",
+    "verified": true
+  },
+  {
+    "slug": "kandahar",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 31.61332,
+    "lng": 65.71013,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "قندهار",
+      "en": "Kandahār",
+      "fr": "Kandahār",
+      "de": "Kandahār",
+      "tr": "Kandahār",
+      "ur": "Kandahār",
+      "id": "Kandahār",
+      "es": "Kandahār",
+      "bn": "Kandahār",
+      "ms": "Kandahār"
+    },
+    "aliases": {
+      "ar": [
+        "كندهار"
+      ],
+      "en": [
+        "Candahar",
+        "KDH",
+        "Kandagar",
+        "Kandahar",
+        "Kandaharo",
+        "Kandehar",
+        "Kandhar",
+        "Kˌandagar",
+        "Kˌandaҳor",
+        "Qandahar",
+        "Qandahor",
+        "Qandahār",
+        "Qanḏahāṟ",
+        "Qəndəhər",
+        "kadhara",
+        "kan da ha",
+        "kandahara",
+        "kandaharu",
+        "kandhara",
+        "kndhar",
+        "qanidahari",
+        "qndhar",
+        "qndhʼr"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "قندهار",
+      "regionEn": "Kandahar"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1138336",
+    "verified": true
+  },
+  {
+    "slug": "farah",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 32.37451,
+    "lng": 62.11638,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "فراه",
+      "en": "Farah",
+      "fr": "Farah",
+      "de": "Farah",
+      "tr": "Farah",
+      "ur": "Farah",
+      "id": "Farah",
+      "es": "Farah",
+      "bn": "Farah",
+      "ms": "Farah"
+    },
+    "aliases": {
+      "en": [
+        "FAH",
+        "Farahas",
+        "Farakh",
+        "Faro",
+        "Farâh",
+        "Farāh",
+        "Ferah",
+        "Fora",
+        "fa la",
+        "fara",
+        "faraha",
+        "frah",
+        "pala",
+        "para",
+        "pharaha",
+        "ፋrahi"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "فراه",
+      "regionEn": "Farah"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1142264",
+    "verified": true
+  },
+  {
+    "slug": "fayroz-koh",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.51952,
+    "lng": 65.25093,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "فيروز كوه",
+      "en": "Fayrōz Kōh",
+      "fr": "Fayrōz Kōh",
+      "de": "Fayrōz Kōh",
+      "tr": "Fayrōz Kōh",
+      "ur": "Fayrōz Kōh",
+      "id": "Fayrōz Kōh",
+      "es": "Fayrōz Kōh",
+      "bn": "Fayrōz Kōh",
+      "ms": "Fayrōz Kōh"
+    },
+    "aliases": {
+      "ar": [
+        "جغجران"
+      ],
+      "en": [
+        "CCN",
+        "Caghcaran",
+        "Caghcaṟān",
+        "Cakhcaran",
+        "Cakhcaṟān",
+        "Chaghcharan",
+        "Chaghcharān",
+        "Chakcharan",
+        "Chakhcharan",
+        "Chekcheran",
+        "Fajruzkukh",
+        "Fayroz Koh",
+        "Fayruz Koh",
+        "Fejruz-Kokhi",
+        "Feyruz Koh",
+        "Feyruz Kuh",
+        "chghchran",
+        "fairoza koha",
+        "fairozuko",
+        "fyrwz kwh",
+        "phayaroja koha",
+        "ፋyiroዝ kwehi"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "غور",
+      "regionEn": "Ghor"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1145904",
+    "verified": true
+  },
+  {
+    "slug": "maydanshakhr",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.39561,
+    "lng": 68.86618,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "ميدان شهر",
+      "en": "Maydanshakhr",
+      "fr": "Maydanshakhr",
+      "de": "Maydanshakhr",
+      "tr": "Maydanshakhr",
+      "ur": "Maydanshakhr",
+      "id": "Maydanshakhr",
+      "es": "Maydanshakhr",
+      "bn": "Maydanshakhr",
+      "ms": "Maydanshakhr"
+    },
+    "aliases": {
+      "en": [
+        "Maidan Shahr",
+        "Maidan Shar",
+        "Majdanshakhr",
+        "Maīdān Shahr",
+        "Maīdān S̲h̲ār",
+        "Meydan Shahr",
+        "Meydān Shahr",
+        "ma'idanasahara",
+        "maidanasahara",
+        "maidanshafuru",
+        "mayidanishahiri",
+        "mydan shhr"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "وردك",
+      "regionEn": "Wardak"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:1456960",
+    "verified": true
   }
 ]

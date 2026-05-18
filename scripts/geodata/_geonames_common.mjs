@@ -391,12 +391,44 @@ export function haversineKm(lat1, lng1, lat2, lng2) {
     return 2 * R * Math.asin(Math.sqrt(a));
 }
 
-// 10-language map: fill any missing langs from `fallback`.
+// 10-language map.
+// PLACE-NAMES-L10N-PIPELINE-GUARD-1 (2026-05-18) — pipeline-guard redesign:
+//   ONLY `en` is auto-filled from `fallback`. All other 9 langs are
+//   present in the output IFF explicitly provided in `partial`.
+//   "Missing means missing" — never produce `names.ur = "Charikar"`
+//   (or `names.bn = "Charikar"`, etc.) just because the Urdu/Bengali
+//   localized name is absent from the source data.
+//
+//   See: reports/place-names-ur-data-source-audit-1.md §8a.
+//   The previous behavior (cascade `fallback` into all 10 lang slots)
+//   was the root cause of the Charikar/Kandahar/Karaj/Pul-e-Khumri etc.
+//   Urdu-leak: 1,755 GeoNames-pipeline-imported curated rows ended up
+//   with `names.ur === names.en === <Latin English name>`, and the SSR
+//   then read `names.ur` and rendered Latin as if it were the Urdu name.
+//
+//   `ar` is preserved when `partial.ar` is set (every Strategy-E
+//   candidate carries a clean Arabic name from Stage 3.5). It is NOT
+//   filled from the fallback — if Stage 2 didn't extract an Arabic
+//   name, Stage 3 / Stage 3.5 will flag the row separately.
+//
+//   This change is a PIPELINE GUARD: it stops FUTURE waves from
+//   producing fillchain rows. It does NOT modify the 1,755 existing
+//   fillchain rows in `curated-places.json` — those will be addressed
+//   later via per-country enrichment batches (e.g. PLACE-NAMES-UR-AF-1).
 export const SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
 export function fillLangMap(partial, fallback) {
     const out = {};
+    // en is the canonical anchor — always present (filled from fallback if absent)
+    out.en = (partial && partial.en) ? partial.en : fallback;
+    // ar is the curated invariant — present only if `partial.ar` was provided.
+    // Stage 3.5 enforces ar-presence on high-tier wave rows; absent ar at
+    // this point is a Stage-2 input gap, not something Stage 2 should mask.
+    if (partial && partial.ar) out.ar = partial.ar;
+    // All 8 other langs (fr/de/tr/ur/id/es/bn/ms): present iff explicitly
+    // provided. Missing means missing.
     for (const l of SUPPORTED_LANGS) {
-        out[l] = (partial && partial[l]) ? partial[l] : fallback;
+        if (l === 'en' || l === 'ar') continue;
+        if (partial && partial[l]) out[l] = partial[l];
     }
     return out;
 }

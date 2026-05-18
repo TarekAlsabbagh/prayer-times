@@ -3160,17 +3160,84 @@ function _findPlaceBySlug(slug) {
 // Pick a curated entry's localized name for `lang`. Walks the same
 // fallback chain the search endpoint uses (LANG-1 contract) so SSR text
 // matches what search results show: lang → en → first non-empty → null.
+// PLACE-NAMES-L10N-FOUNDATION-CODE-1 (2026-05-18): non-Latin-script langs.
+// `ar`, `ur`, `bn` use Arabic/Urdu/Bengali scripts respectively — Latin
+// transliterations of these are NEVER acceptable as a "translation" in
+// the user-visible SSR. When `names[lang]` is missing OR equals
+// `names.en` (a fillLangMap leftover), `_pickCuratedName` returns null
+// so callers can render an honest absence-state UI instead of silently
+// leaking the English name as if it were the localized translation.
+//
+// Latin-script langs (`en`, `fr`, `de`, `es`, `tr`, `id`, `ms`) retain
+// the existing fallback chain — Latin → Latin is acceptable rendering.
+//
+// See reports/curated-place-names-l10n-foundation-and-generation-1.md §4 + §12.
+const _ABSENCE_LANGS = new Set(['ar', 'ur', 'bn']);
+
 function _pickCuratedName(entry, lang) {
     if (!entry || typeof entry !== 'object') return null;
     const _n = entry.names || {};
     const _code = String(lang || 'ar').toLowerCase();
-    if (typeof _n[_code] === 'string' && _n[_code].trim()) return _n[_code];
-    if (typeof _n.en === 'string' && _n.en.trim())         return _n.en;
+    const _langValue = (typeof _n[_code] === 'string') ? _n[_code].trim() : '';
+    const _enValue   = (typeof _n.en === 'string')      ? _n.en.trim()    : '';
+
+    if (_ABSENCE_LANGS.has(_code)) {
+        // Honest absence: a real localized value exists only if it's
+        // present AND differs from the English value (the latter
+        // catches fillLangMap leftovers like `names.ur === "Charikar"`).
+        if (_langValue && _langValue !== _enValue) return _langValue;
+        return null;
+    }
+
+    // Latin-script langs (or `en` itself): existing fallback chain.
+    if (_langValue) return _langValue;
+    if (_enValue)   return _enValue;
     for (const k of Object.keys(_n)) {
         if (typeof _n[k] === 'string' && _n[k].trim()) return _n[k];
     }
     return null;
 }
+
+// Parallel helper exposing the SOURCE of the chosen name. Used by the
+// SSR layer to render the absence-state UI for ar/ur/bn when no real
+// localized name exists. Return shape: { name, source } where source ∈
+//   'explicit-localized'         — names[lang] is a real translation
+//   'fallback-en-latin-script'   — fr/de/es/tr/id/ms displays names.en
+//   'missing-localized'          — ar/ur/bn has no real translation
+//                                  (callers must render absence UI; the
+//                                   returned `name` is names.en as a
+//                                   SECONDARY display, not a primary)
+//   'missing'                    — no name at all
+function _pickCuratedNameWithSource(entry, lang) {
+    if (!entry || typeof entry !== 'object') return { name: null, source: 'missing' };
+    const _n = entry.names || {};
+    const _code = String(lang || 'ar').toLowerCase();
+    const _langValue = (typeof _n[_code] === 'string') ? _n[_code].trim() : '';
+    const _enValue   = (typeof _n.en === 'string')      ? _n.en.trim()    : '';
+
+    if (_langValue && (_code === 'en' || _langValue !== _enValue)) {
+        return { name: _langValue, source: 'explicit-localized' };
+    }
+    if (_ABSENCE_LANGS.has(_code)) {
+        // ar/ur/bn: no honest localized value → tag as missing-localized.
+        // We still pass `names.en` as the `name` field so callers have
+        // SOMETHING to display as a secondary marker — but the source
+        // flag signals "this is NOT a real translation, render absence".
+        if (_enValue) return { name: _enValue, source: 'missing-localized' };
+        return { name: null, source: 'missing' };
+    }
+    // Latin-script langs accept names.en as a Latin fallback.
+    if (_enValue) return { name: _enValue, source: 'fallback-en-latin-script' };
+    return { name: null, source: 'missing' };
+}
+
+// Absence-state labels per lang (used by SSR when source === 'missing-localized').
+// User-provided wording in CURATED-PLACE-NAMES-L10N-FOUNDATION-AND-GENERATION-1 §13.
+const _ABSENCE_LABELS = {
+    ar: { text: 'الاسم المحلي غير متوفر',  dir: 'rtl' },
+    ur: { text: 'مقامی نام دستیاب نہیں',  dir: 'rtl' },
+    bn: { text: 'স্থানীয় নাম উপলব্ধ নয়', dir: 'ltr' }
+};
 
 // Build the /api/place-by-slug response shape from a curated entry. This
 // is the *same* contract `geocodeSlug` (js/app.js) expects from its
@@ -3182,7 +3249,15 @@ function _pickCuratedName(entry, lang) {
 function _buildSlugLookupResult(entry, lang, source) {
     if (!entry || typeof entry !== 'object') return null;
     const _code = String(lang || 'ar').toLowerCase();
-    const _name = _pickCuratedName(entry, _code) || '';
+    // PLACE-NAMES-L10N-FOUNDATION-CODE-1: use the source-aware helper so the
+    // caller (SSR pre-fill at server.js:18746+) can detect when the chosen
+    // name is a fallback (missing-localized for ar/ur/bn,
+    // fallback-en-latin-script for fr/de/es/tr/id/ms) and render the
+    // absence-state UI instead of treating the English name as a real
+    // translation.
+    const _nameInfo = _pickCuratedNameWithSource(entry, _code);
+    const _name = _nameInfo.name || '';
+    const _nameSource = _nameInfo.source;
     const _englishName = _pickCuratedName(entry, 'en') || '';
     // Country name — prefer admin.country[lang] (explicit override like
     // "المملكة العربية السعودية"), then admin.countryAr/En, then Intl
@@ -3202,6 +3277,7 @@ function _buildSlugLookupResult(entry, lang, source) {
         lat:          entry.lat,
         lng:          entry.lng,
         name:         _name,
+        nameSource:   _nameSource,  // PLACE-NAMES-L10N-FOUNDATION-CODE-1
         englishName:  _englishName,
         country:      _country,
         countryCode:  entry.countryCode,
@@ -18693,15 +18769,35 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/);
         if (_cityRouteMatch && _cityRouteMatch[1]) {
             const _ssrCitySlug = _cityRouteMatch[1];
-            const _ssrCityName = (typeof _resolveCityName === 'function')
-                ? (_resolveCityName(_ssrCitySlug, seo.lang) || _slugToTitle(_ssrCitySlug))
-                : _slugToTitle(_ssrCitySlug);
+            // PLACE-NAMES-L10N-FOUNDATION-CODE-1 (2026-05-18): also compute
+            // the SOURCE (explicit-localized / missing-localized /
+            // fallback-en-latin-script / fallback-slug-title) so the SSR
+            // can inject a sibling `<meta name="ssr-city-name-source">`.
+            // Clients (smoke tests, future CSS hooks) read this to decide
+            // whether to render the absence-state UI.
+            let _ssrCityName = null;
+            let _ssrCityNameSource = 'fallback-slug-title';
+            const _curatedForSsr = (typeof _findPlaceBySlug === 'function')
+                ? _findPlaceBySlug(_ssrCitySlug) : null;
+            if (_curatedForSsr) {
+                const _info = _pickCuratedNameWithSource(_curatedForSsr, seo.lang);
+                if (_info && _info.name) {
+                    _ssrCityName = _info.name;
+                    _ssrCityNameSource = _info.source;
+                }
+            }
+            if (!_ssrCityName && typeof _resolveCityName === 'function') {
+                _ssrCityName = _resolveCityName(_ssrCitySlug, seo.lang);
+                if (_ssrCityName) _ssrCityNameSource = 'legacy-resolver';
+            }
+            if (!_ssrCityName) _ssrCityName = _slugToTitle(_ssrCitySlug);
             if (_ssrCityName) {
                 const _metaTag = `<meta name="ssr-city-name" content="${_escHtml(_ssrCityName)}">`;
+                const _metaSourceTag = `<meta name="ssr-city-name-source" content="${_escHtml(_ssrCityNameSource)}">`;
                 // Inject right before </head> so the meta is available before
                 // app.js executes (preload + defer).
                 if (html.indexOf(_metaTag) === -1) {
-                    html = html.replace('</head>', _metaTag + '\n</head>');
+                    html = html.replace('</head>', _metaTag + '\n' + _metaSourceTag + '\n</head>');
                 }
             }
 
@@ -18751,11 +18847,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                             const _cityEsc    = _escHtml(_placeData.name);
                             const _countryEsc = _escHtml(_placeData.country);
                             const _sep        = (seo.lang === 'ar' || seo.lang === 'ur') ? '، ' : ', ';
+
+                            // ═══ PLACE-NAMES-L10N-FOUNDATION-CODE-1 (2026-05-18) ═══
+                            // When the requested lang is ar/ur/bn but the
+                            // curated entry has no localized `names[lang]`,
+                            // `_placeData.nameSource === 'missing-localized'`.
+                            // Render an HONEST absence state — a label saying
+                            // "local name not available" + the English name
+                            // as a smaller secondary line — rather than the
+                            // bare English passing as the localized translation.
+                            //
+                            // See reports/curated-place-names-l10n-foundation-
+                            //         and-generation-1.md §11 + §13.
+                            let _cityHtml;
+                            if (_placeData.nameSource === 'missing-localized'
+                                && _ABSENCE_LABELS[seo.lang]) {
+                                const _absence = _ABSENCE_LABELS[seo.lang];
+                                _cityHtml =
+                                    '<span class="city-name-absence-label" lang="' + seo.lang + '" dir="' + _absence.dir + '">' +
+                                        _escHtml(_absence.text) +
+                                    '</span>' +
+                                    '<span class="city-name-en-secondary" lang="en" dir="ltr">' +
+                                        _cityEsc +
+                                    '</span>';
+                            } else {
+                                _cityHtml = _cityEsc;
+                            }
+                            const _dataNameSource = ' data-name-source="' + (_placeData.nameSource || 'unknown') + '"';
+
                             // 1) #city-name — strip data-i18n so i18n.js
                             // doesn't overwrite with "header.locating" key.
                             html = html.replace(
                                 /<div class="city-name" id="city-name"[^>]*>[^<]*<\/div>/,
-                                `<div class="city-name" id="city-name">${_cityEsc}</div>`
+                                `<div class="city-name" id="city-name"${_dataNameSource}>${_cityHtml}</div>`
                             );
                             // 2) #country-name
                             html = html.replace(

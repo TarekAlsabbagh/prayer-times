@@ -2299,6 +2299,22 @@ function _resolveCityForMoon(slug) {
     if (c && typeof c.lat === 'number' && typeof c.lng === 'number') {
         return { lat: c.lat, lng: c.lng, cc: c.cc || '' };
     }
+    // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18):
+    // also consult `_CURATED_SLUG_INDEX` (built from curated_places.json
+    // at startup). FAMOUS_CITY_OVERRIDES + db/cities-*.json don't know
+    // about cities curated only in the GLOBAL-PLACE-SEARCH pipeline
+    // (Charikar, Kandahar, smaller Afghan/Iranian/Asian cities, etc.).
+    // Without this, `/qibla-in-charikar` SSR fell through to the generic
+    // homepage title because the qibla resolver returned null even
+    // though `_resolveCityName` correctly resolved the localized
+    // display name from curated. Now both branches agree on what
+    // counts as a known city.
+    if (_CURATED_SLUG_INDEX && _CURATED_SLUG_INDEX[s]) {
+        const _cur = _CURATED_SLUG_INDEX[s];
+        if (typeof _cur.lat === 'number' && typeof _cur.lng === 'number') {
+            return { lat: _cur.lat, lng: _cur.lng, cc: (_cur.countryCode || '').toLowerCase() };
+        }
+    }
     // Reverse-redirect lookup: if some `oldSlug` in CURATED_REDIRECTS points
     // to `s` (e.g. mecca → makkah, madinah-region → madinah), try the source
     // slug — it likely exists in the dicts under its semantic name.
@@ -2310,6 +2326,13 @@ function _resolveCityForMoon(slug) {
             const cOld = idx[oldSlug];
             if (cOld && typeof cOld.lat === 'number' && typeof cOld.lng === 'number') {
                 return { lat: cOld.lat, lng: cOld.lng, cc: cOld.cc || '' };
+            }
+            // Also try curated for the source slug
+            if (_CURATED_SLUG_INDEX && _CURATED_SLUG_INDEX[oldSlug]) {
+                const _curOld = _CURATED_SLUG_INDEX[oldSlug];
+                if (typeof _curOld.lat === 'number' && typeof _curOld.lng === 'number') {
+                    return { lat: _curOld.lat, lng: _curOld.lng, cc: (_curOld.countryCode || '').toLowerCase() };
+                }
             }
         }
     }

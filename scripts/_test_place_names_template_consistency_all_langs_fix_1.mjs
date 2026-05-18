@@ -86,11 +86,15 @@ ok('Tier-0 marker (PT-LANG-GUARD-5) present in js/app.js',
 // Both functions must have the slug-match + __PRAYER_CITY__.name return
 const getDisplayCityIdx = diskSrc.indexOf('function getDisplayCity()');
 const getCurrentCityLabelIdx = diskSrc.indexOf('function getCurrentCityLabel()');
+// PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 added a __QIBLA_CITY__
+// Tier-0 BEFORE the __PRAYER_CITY__ block, expanding both function
+// bodies. Use a larger substring window (or whole source) and accept
+// either seed reference.
 const getDisplayCityBody = diskSrc.substring(
-    getDisplayCityIdx, getDisplayCityIdx + 3000
+    getDisplayCityIdx, getDisplayCityIdx + 5000
 );
 const getCurrentCityLabelBody = diskSrc.substring(
-    getCurrentCityLabelIdx, getCurrentCityLabelIdx + 3000
+    getCurrentCityLabelIdx, getCurrentCityLabelIdx + 5000
 );
 
 const inGDC = /_slugM\[1\]\s*===\s*_pc\.slug/.test(getDisplayCityBody)

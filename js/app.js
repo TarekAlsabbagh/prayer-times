@@ -700,6 +700,33 @@ function getDisplayCity() {
     // usable: when curated lacks a localized name, the seed equals
     // names.en which is the correct fallback for Latin-script display.
     try {
+        // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18):
+        // also consult `window.__QIBLA_CITY__` (injected by server.js on
+        // /qibla-in-{slug} routes). It has a richer shape — full per-lang
+        // `names` map — so we can pick names[currentLang] precisely.
+        // Without this, /de/qibla-in-munich rendered "Qibla-Richtung in
+        // ميونخ | …" because PT-LANG-GUARD-5 only knew __PRAYER_CITY__
+        // (which isn't injected on qibla pages), fell through to the
+        // legacy chain, and currentCity got seeded with Arabic from the
+        // qibla city payload. Now Tier-0 grabs `names[lang]` directly.
+        const _qc = (typeof window !== 'undefined') && window.__QIBLA_CITY__;
+        if (_qc && typeof _qc.slug === 'string' && _qc.slug
+            && _qc.names && typeof _qc.names === 'object') {
+            const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+            const _slugM = _path.match(
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/
+            );
+            if (_slugM && _slugM[1] === _qc.slug) {
+                const _qcName = _qc.names[lang] || _qc.name || '';
+                if (_qcName) {
+                    const _isAbsenceLangQc = (lang === 'ar' || lang === 'ur' || lang === 'bn');
+                    const _seedHasLatinQc = /[A-Za-z]/.test(_qcName);
+                    if (!_isAbsenceLangQc || !_seedHasLatinQc) {
+                        return _qcName;
+                    }
+                }
+            }
+        }
         const _pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
         if (_pc && typeof _pc.slug === 'string' && _pc.slug
             && typeof _pc.name === 'string' && _pc.name) {
@@ -7082,6 +7109,20 @@ function _syncCityNameInDom() {
     // (e.g. "بروفنس" vs "بروفانس") — we trust the server's curated resolver.
     if (_isAbsenceLang && !_hasLatin(ssrName) && _hasLatin(goodName)) return;
 
+    // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18):
+    // SYMMETRIC guard for Latin-script langs (en/fr/de/tr/id/es/ms) —
+    // if the SSR name is Latin-script and goodName contains Arabic or
+    // Bengali characters, don't replace. This stops the bug where on
+    // /de/qibla-in-munich the `currentCity` got set to Arabic "ميونخ"
+    // (from __QIBLA_CITY__.names.ar leaking via a stale code path),
+    // and the walker rewrote every "München" in body + title + h1 to
+    // "ميونخ" — producing "Qibla-Richtung in ميونخ" instead of
+    // "Qibla-Richtung in München". The new guard ensures Latin-script
+    // pages NEVER swap their Latin-script SSR names with non-Latin
+    // candidates (Arabic / Bengali / etc.) coming from globals.
+    const _hasArOrBn = /[؀-ۿঀ-৿]/.test(goodName);
+    if (!_isAbsenceLang && _hasLatin(ssrName) && _hasArOrBn) return;
+
     // Walk all visible text nodes in <body> + replace each occurrence
     // of ssrName. Text nodes only — never touches attributes, URLs,
     // or <script> bodies. This catches H1, H2, FAQ, cards, breadcrumb,
@@ -7830,8 +7871,21 @@ function injectPrayerEventsSchema() {
     const isEn = lang !== 'ar';
     const origin = window.SITE_URL || window.location.origin;
     const pageUrl = origin + window.location.pathname;
-    const cityDisplay = isEn ? (currentEnglishName || currentCity) : currentCity;
-    const countryName = isEn ? (currentEnglishCountry || currentCountry) : currentCountry;
+    // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18): use
+    // the lang-aware display picker for JSON-LD schema too. The legacy
+    // `isEn ? currentEnglishName : currentCity` ternary made ALL non-AR
+    // languages (UR/BN/FR/DE/TR/ID/ES/MS) write English to the schema
+    // even when curated had a localized name. Arabic Google Search and
+    // similar non-English crawlers index the schema's localized name —
+    // so /ur/prayer-times-in-charikar should expose "چاریکار", not
+    // "Charikar". getDisplayCity() handles this correctly (Tier-0
+    // trust-SSR for matching slugs, then PT-LANG-GUARD chains).
+    const cityDisplay = (typeof getDisplayCity === 'function')
+        ? (getDisplayCity() || currentEnglishName || currentCity)
+        : (isEn ? (currentEnglishName || currentCity) : currentCity);
+    const countryName = (typeof getDisplayCountry === 'function')
+        ? (getDisplayCountry() || currentEnglishCountry || currentCountry)
+        : (isEn ? (currentEnglishCountry || currentCountry) : currentCountry);
 
     const now = new Date();
     const localOffset = -now.getTimezoneOffset() / 60;
@@ -12209,12 +12263,33 @@ function getCurrentCityLabel() {
     const _strip = (s) => (typeof _stripCityAdminPrefix === 'function') ? _stripCityAdminPrefix(s) : s;
 
     // PT-LANG-GUARD-5 (PLACE-NAMES-TEMPLATE-CONSISTENCY-ALL-LANGS-FIX-1,
-    // 2026-05-18): Tier-0 — see twin block in getDisplayCity() for the
-    // full rationale. Same logic, applied to every surface that consumes
-    // getCurrentCityLabel(): #snb-city, #loc-hero-title, prayer-card
-    // aria-labels, #mtc-cta title, weekly button title, info-location
-    // hero. Fixes the cold-load FOUC on /fr/london, /de/munich, etc.
+    // 2026-05-18 + SITEWIDE-FIX-1, 2026-05-18): Tier-0 — see twin block
+    // in getDisplayCity() for the full rationale. Same logic, applied
+    // to every surface that consumes getCurrentCityLabel(): #snb-city,
+    // #loc-hero-title, prayer-card aria-labels, #mtc-cta title, weekly
+    // button title, info-location hero. Also consults `__QIBLA_CITY__`
+    // (richer per-lang `names` map injected on /qibla-in-{slug} routes)
+    // before the prayer-city path so qibla page templates get the right
+    // localized name.
     try {
+        const _qc = (typeof window !== 'undefined') && window.__QIBLA_CITY__;
+        if (_qc && typeof _qc.slug === 'string' && _qc.slug
+            && _qc.names && typeof _qc.names === 'object') {
+            const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
+            const _slugM = _path.match(
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/
+            );
+            if (_slugM && _slugM[1] === _qc.slug) {
+                const _qcName = _qc.names[_ln] || _qc.name || '';
+                if (_qcName) {
+                    const _isAbsenceLangQc = (_ln === 'ar' || _ln === 'ur' || _ln === 'bn');
+                    const _seedHasLatinQc = /[A-Za-z]/.test(_qcName);
+                    if (!_isAbsenceLangQc || !_seedHasLatinQc) {
+                        return _strip(_qcName);
+                    }
+                }
+            }
+        }
         const _pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
         if (_pc && typeof _pc.slug === 'string' && _pc.slug
             && typeof _pc.name === 'string' && _pc.name) {
@@ -20601,8 +20676,15 @@ function loadHijriDayPage() {
     try {
         locDisplay = (typeof getDisplayCity === 'function') ? (getDisplayCity() || '') : '';
         if (!locDisplay) {
-            locDisplay = (lang === 'ar') ? (currentCity || currentEnglishName || '')
-                                         : (currentEnglishName || currentCity || '');
+            // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18):
+            // absence-langs (ar/ur/bn) prefer `currentCity` (lang-correct
+            // script) over Latin `currentEnglishName` even in the
+            // fallback chain. Latin-script langs still prefer English
+            // as a safe Latin-acceptable display.
+            const _isAbsLang = (lang === 'ar' || lang === 'ur' || lang === 'bn');
+            locDisplay = _isAbsLang
+                ? (currentCity || currentEnglishName || '')
+                : (currentEnglishName || currentCity || '');
         }
         if (typeof currentEnglishName === 'string' && currentEnglishName) {
             locSlug = currentEnglishName.toLowerCase().trim()
@@ -20821,10 +20903,16 @@ function loadHijriDayPage() {
         const prayerHref2 = _citySlug2
             ? `${prefix}/prayer-times-in-${_citySlug2}`
             : ((lang === 'ar') ? '/' : (prefix + '/'));
-        // Geo-aware prayer + moon labels (city known) — localized via getDisplayCity()
+        // Geo-aware prayer + moon labels (city known) — localized via getDisplayCity().
+        // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18):
+        // absence-langs (ar/ur/bn) prefer `currentCity` over `currentEnglishName`
+        // even in the final fallback (same rule as Fix #2 above).
+        const _isAbsLang_cd = (lang === 'ar' || lang === 'ur' || lang === 'bn');
         const _cityDisplay = locDisplay
             || ((typeof getDisplayCity === 'function') ? (getDisplayCity() || '') : '')
-            || ((lang === 'ar') ? (currentCity || currentEnglishName || '') : (currentEnglishName || currentCity || ''));
+            || (_isAbsLang_cd
+                ? (currentCity || currentEnglishName || '')
+                : (currentEnglishName || currentCity || ''));
         // HD-3 (2026-05-07): force generic related-link labels — never name
         //   a city/country in the labels even when one is in sessionStorage.
         //   The labels are still useful navigation; they just stay neutral.

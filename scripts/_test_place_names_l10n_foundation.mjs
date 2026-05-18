@@ -40,20 +40,23 @@ function hasArabic(s) { return /[؀-ۿ]/.test(s || ''); }
 function hasBengali(s){ return /[ঀ-৿]/.test(s || ''); }
 
 // ─── Tests ─────────────────────────────────────────────────────────────
-// `charikar` was the user-reported case. After Phase 2 strip, names.ur and
-// names.bn are ABSENT for af/charikar. /ur and /bn pages must therefore
-// render the absence state.
+// `qibah` (SA) is a small curated entry with no names.ur and no names.bn —
+// suitable for the absence-state check. Previously this test used `charikar`,
+// but after PLACE-NAMES-UR-AF-1 charikar HAS names.ur="چاریکار" so the
+// absence-state no longer fires for it. The foundation behavior (showing the
+// absence-state UI when names.ur is missing) is still active for all other
+// non-enriched rows in curated.
 const TESTS = [
-    // The HEADLINE — must NOT show "Charikar" as if it were the Urdu name.
+    // ABSENCE-STATE — fires when names.ur is missing
     {
         name: 'ur — absence-state when names.ur missing',
-        url: '/ur/prayer-times-in-charikar',
+        url: '/ur/prayer-times-in-qibah',
         assert: (html) => {
             const source = extractMeta(html, 'ssr-city-name-source');
             const cityDiv = extractCityNameDiv(html);
             const expectAbsenceLabel = 'مقامی نام دستیاب نہیں';
             const hasAbsenceLabel = cityDiv.includes(expectAbsenceLabel);
-            const hasSecondaryEn = cityDiv.includes('Charikar') && cityDiv.includes('city-name-en-secondary');
+            const hasSecondaryEn = cityDiv.includes('city-name-en-secondary');
             const hasDataAttr = /data-name-source="missing-localized"/.test(cityDiv);
             return {
                 ok: source === 'missing-localized'
@@ -67,7 +70,7 @@ const TESTS = [
     // Bengali — same absence state.
     {
         name: 'bn — absence-state when names.bn missing',
-        url: '/bn/prayer-times-in-charikar',
+        url: '/bn/prayer-times-in-qibah',
         assert: (html) => {
             const source = extractMeta(html, 'ssr-city-name-source');
             const cityDiv = extractCityNameDiv(html);
@@ -77,6 +80,19 @@ const TESTS = [
                     && cityDiv.includes(expectAbsenceLabel)
                     && cityDiv.includes('city-name-en-secondary'),
                 detail: 'source=' + source + ' divFragment=' + cityDiv.slice(0, 200),
+            };
+        }
+    },
+    // POST-UR-AF-1 — charikar NOW has names.ur (no longer absence). Spot-check.
+    {
+        name: 'ur — charikar after UR-AF-1 enrichment (no absence)',
+        url: '/ur/prayer-times-in-charikar',
+        assert: (html) => {
+            const source = extractMeta(html, 'ssr-city-name-source');
+            const cityName = extractMeta(html, 'ssr-city-name');
+            return {
+                ok: source === 'explicit-localized' && cityName === 'چاریکار',
+                detail: 'source=' + source + ' cityName=' + cityName,
             };
         }
     },
@@ -188,19 +204,18 @@ for (const t of TESTS) {
 console.log('\n' + '═'.repeat(60));
 console.log('Result: ' + pass + ' pass / ' + fail + ' fail (out of ' + TESTS.length + ')');
 
-// ─── 🚨 CRITICAL CHECK — the user-reported case ────────────────────────
-const r = await get('/ur/prayer-times-in-charikar');
+// ─── 🚨 CRITICAL CHECK — absence-state still fires for non-enriched rows ──
+// After PLACE-NAMES-UR-AF-1, charikar HAS a real names.ur="چاریکار" so it no
+// longer renders absence state. Pick a non-enriched row (qibah) to verify the
+// absence-state mechanism is still active for any other row without names.ur.
+const r = await get('/ur/prayer-times-in-qibah');
 const cityDiv = extractCityNameDiv(r.body);
 const source = extractMeta(r.body, 'ssr-city-name-source');
-// MUST NOT have "Charikar" as the bare primary city-name text.
-// "Charikar" may appear ONLY inside .city-name-en-secondary AND the
-// absence label must be PRIMARY.
-const looksLikeBareCharikar = />\s*Charikar\s*</.test(cityDiv);
 const hasProperAbsenceMarkup =
     cityDiv.includes('مقامی نام دستیاب نہیں')
     && cityDiv.includes('city-name-en-secondary')
     && source === 'missing-localized';
-console.log('\n🚨 CRITICAL: /ur/prayer-times-in-charikar must NOT present "Charikar" as the Urdu name');
+console.log('\n🚨 CRITICAL: /ur/prayer-times-in-qibah (no names.ur) must render absence-state UI');
 console.log(hasProperAbsenceMarkup
     ? '  ✓ PASS: absence label + secondary English markup rendered (source=' + source + ')'
     : '  ✗ FAIL: absence markup not detected. cityDiv=' + cityDiv.slice(0, 300));

@@ -108097,5 +108097,1581 @@
     "source": "curated",
     "sourceId": "geonames:9478811",
     "verified": true
+  },
+  {
+    "slug": "zaranj",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 30.95962,
+    "lng": 61.86037,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "زرنج",
+      "en": "Zaranj",
+      "fr": "Zaranj",
+      "de": "Zaranj",
+      "tr": "Zaranj",
+      "ur": "Zaranj",
+      "id": "Zaranj",
+      "es": "Zaranj",
+      "bn": "Zaranj",
+      "ms": "Zaranj"
+    },
+    "aliases": {
+      "en": [
+        "Sarandsch",
+        "ZAJ",
+        "Zaranas",
+        "Zarandj",
+        "Zarandz",
+        "Zarandzas",
+        "Zarandzh",
+        "Zarandż",
+        "Zarandžas",
+        "Zarang",
+        "Zarani",
+        "Zaranzh",
+        "Zaranĝ",
+        "Zerenc",
+        "Zhazang",
+        "Zərənc",
+        "jaranja",
+        "zaraniji",
+        "zaranja",
+        "zaranji",
+        "zha lan ji",
+        "zrnj"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "نيمروز",
+      "regionEn": "Nimroz"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1120985",
+    "verified": true
+  },
+  {
+    "slug": "taloqan",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 36.73605,
+    "lng": 69.53451,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "تالقان",
+      "en": "Taloqan",
+      "fr": "Taloqan",
+      "de": "Taloqan",
+      "tr": "Taloqan",
+      "ur": "Taloqan",
+      "id": "Taloqan",
+      "es": "Taloqan",
+      "bn": "Taloqan",
+      "ms": "Taloqan"
+    },
+    "aliases": {
+      "en": [
+        "Khanabad",
+        "TQN",
+        "Taikhan",
+        "Taleqan",
+        "Talikan",
+        "Talikhan",
+        "Talikˌon",
+        "Taliqan",
+        "Talkan",
+        "Talogan",
+        "Talokan",
+        "Talokˌan",
+        "Talugan",
+        "Talukan",
+        "Talukanas",
+        "Taluqan",
+        "Tologan",
+        "Tâloqân",
+        "Tāleqān",
+        "Tāloqān",
+        "Tāluqān",
+        "Tālīqān",
+        "ta lu kan",
+        "talokam",
+        "talokana",
+        "talokuvan",
+        "taloqana",
+        "taloqani",
+        "talqan",
+        "tarokan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "تخار",
+      "regionEn": "Takhar"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1123004",
+    "verified": true
+  },
+  {
+    "slug": "shibirghan",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 36.66757,
+    "lng": 65.7529,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "شبرغان",
+      "en": "Shibirghān",
+      "fr": "Shibirghān",
+      "de": "Shibirghān",
+      "tr": "Shibirghān",
+      "ur": "Shibirghān",
+      "id": "Shibirghān",
+      "es": "Shibirghān",
+      "bn": "Shibirghān",
+      "ms": "Shibirghān"
+    },
+    "aliases": {
+      "ar": [
+        "شبرغن",
+        "مركز ولايت شبرغان"
+      ],
+      "en": [
+        "Chibirchan",
+        "Markaz-e Wilayat-e Shibirghan",
+        "Markaz-e Wilāyat-e Shibirghan",
+        "Schibirgan",
+        "Seberghan",
+        "Sebeṟghān",
+        "Shahr-e Sheberghan",
+        "Shahr-e Sheberghān",
+        "Shayurgan",
+        "Shebergan",
+        "Sheberghan",
+        "Sheberghān",
+        "Sheberkhan",
+        "Shefrogan",
+        "Shibarghan",
+        "Shibarghān",
+        "Shibergan",
+        "Shibirgan",
+        "Shibirghan",
+        "Shibirgon",
+        "Shibirgán",
+        "Shoburgon",
+        "Sibircan",
+        "Sibircən",
+        "mrkz wlayt shbrghan",
+        "shbrghan",
+        "shbrghn",
+        "shibirigani",
+        "shibirugan",
+        "sibiraghana",
+        "Şibircân",
+        "Şibircən"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "جوزجان",
+      "regionEn": "Jowzjan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1125444",
+    "verified": true
+  },
+  {
+    "slug": "sidqabad",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 35.02298,
+    "lng": 69.35112,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "سدق آباد",
+      "en": "Sidqābād",
+      "fr": "Sidqābād",
+      "de": "Sidqābād",
+      "tr": "Sidqābād",
+      "ur": "Sidqābād",
+      "id": "Sidqābād",
+      "es": "Sidqābād",
+      "bn": "Sidqābād",
+      "ms": "Sidqābād"
+    },
+    "aliases": {
+      "ar": [
+        "سدغ آباد",
+        "صدقآباد",
+        "قلعه وزير"
+      ],
+      "en": [
+        "Makhmudraki",
+        "Qal'eh-i-Wazir",
+        "Qal`a Wazir",
+        "Qal`ah-ye Wazir",
+        "Qal‘a Wazīṟ",
+        "Qal‘ah-ye Wazīr",
+        "Qal’eh-i-Wazīr",
+        "Sedgabad",
+        "Sedgābād",
+        "Sedqabad",
+        "Seḏqābāḏ",
+        "Sidkabad",
+        "Sidkˌabad",
+        "Sidkˌobod",
+        "Sidqabad",
+        "Sidqobod",
+        "sdg abad",
+        "sdq abad",
+        "sdqabad",
+        "shidokabado",
+        "sidakabada",
+        "sidiqabadi"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "كابيسا",
+      "regionEn": "Kapisa"
+    },
+    "priority": 75,
+    "source": "curated",
+    "sourceId": "geonames:1126606",
+    "verified": true
+  },
+  {
+    "slug": "sar-e-pul",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 36.21544,
+    "lng": 65.93249,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "سر بول",
+      "en": "Sar-e Pul",
+      "fr": "Sar-e Pul",
+      "de": "Sar-e Pul",
+      "tr": "Sar-e Pul",
+      "ur": "Sar-e Pul",
+      "id": "Sar-e Pul",
+      "es": "Sar-e Pul",
+      "bn": "Sar-e Pul",
+      "ms": "Sar-e Pul"
+    },
+    "aliases": {
+      "ar": [
+        "سربل",
+        "سر بل"
+      ],
+      "en": [
+        "Sar-e Pol",
+        "Sar-e Poul",
+        "Sar-i-Pul",
+        "Sari Pul",
+        "Sari-Pul",
+        "Sari-Pul'",
+        "Saripo'l",
+        "sara-e pula",
+        "sara-i pula",
+        "sarepuru",
+        "sari-yu ፑል",
+        "sr pl",
+        "srpl"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "سار اي بل",
+      "regionEn": "Sar-e Pol"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1127110",
+    "verified": true
+  },
+  {
+    "slug": "aibak",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 36.26468,
+    "lng": 68.01551,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "آي بك",
+      "en": "Aībak",
+      "fr": "Aībak",
+      "de": "Aībak",
+      "tr": "Aībak",
+      "ur": "Aībak",
+      "id": "Aībak",
+      "es": "Aībak",
+      "bn": "Aībak",
+      "ms": "Aībak"
+    },
+    "aliases": {
+      "ar": [
+        "آيبك",
+        "ايبك",
+        "سمنغان"
+      ],
+      "en": [
+        "Aibak",
+        "Ajbak",
+        "Ajbakˌ",
+        "Aybak",
+        "Aïbak",
+        "Eybak",
+        "Haibak",
+        "Samagan",
+        "Samangan",
+        "Samangān",
+        "a'ibaka",
+        "aibaka",
+        "aibaku",
+        "ay bk",
+        "aybk",
+        "smngan",
+        "Āybak",
+        "ʿeyibaki"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "سمنغان",
+      "regionEn": "Samangan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1127768",
+    "verified": true
+  },
+  {
+    "slug": "qalat",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 32.10575,
+    "lng": 66.90833,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "قلات",
+      "en": "Qalāt",
+      "fr": "Qalāt",
+      "de": "Qalāt",
+      "tr": "Qalāt",
+      "ur": "Qalāt",
+      "id": "Qalāt",
+      "es": "Qalāt",
+      "bn": "Qalāt",
+      "ms": "Qalāt"
+    },
+    "aliases": {
+      "en": [
+        "Kalat",
+        "Kalat-i-Ghilzai",
+        "Kalāt-i-Ghilzai",
+        "Kˌalat",
+        "Kˌalot",
+        "Qalat",
+        "kalata",
+        "karatto",
+        "qalata",
+        "qlat",
+        "qwalati"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "زابل",
+      "regionEn": "Zabul"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1130131",
+    "verified": true
+  },
+  {
+    "slug": "pul-e-khumri",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 35.94458,
+    "lng": 68.71512,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "بول خمري",
+      "en": "Pul-e Khumrī",
+      "fr": "Pul-e Khumrī",
+      "de": "Pul-e Khumrī",
+      "tr": "Pul-e Khumrī",
+      "ur": "Pul-e Khumrī",
+      "id": "Pul-e Khumrī",
+      "es": "Pul-e Khumrī",
+      "bn": "Pul-e Khumrī",
+      "ms": "Pul-e Khumrī"
+    },
+    "aliases": {
+      "en": [
+        "Pol-e Khomri",
+        "Pol-e Khomrī",
+        "Poul-e Khoumri",
+        "Pul'-i-Khumri",
+        "Pul-e Khumri",
+        "Pul-i-Khomri",
+        "Pul-i-Khumri",
+        "Pule Humri",
+        "Pule Khumri",
+        "Pule Khumṟi",
+        "Puli Khumri",
+        "Puli Xumri",
+        "Puli-Khumri",
+        "pl khmry",
+        "pula-e khumari",
+        "pula-i khumari",
+        "purue・kumuri",
+        "ፑል-ʿi kimuri"
+      ],
+      "ar": [
+        "بل خمري"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بغلان",
+      "regionEn": "Baghlan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1130490",
+    "verified": true
+  },
+  {
+    "slug": "pul-e-alam",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 33.99529,
+    "lng": 69.02274,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "بول علم",
+      "en": "Pul-e ‘Alam",
+      "fr": "Pul-e ‘Alam",
+      "de": "Pul-e ‘Alam",
+      "tr": "Pul-e ‘Alam",
+      "ur": "Pul-e ‘Alam",
+      "id": "Pul-e ‘Alam",
+      "es": "Pul-e ‘Alam",
+      "bn": "Pul-e ‘Alam",
+      "ms": "Pul-e ‘Alam"
+    },
+    "aliases": {
+      "en": [
+        "Pol-e `Alam",
+        "Pol-e ‘Alam",
+        "Poul-e Alam",
+        "Pul'-i-Alam",
+        "Pul-e 'Alam",
+        "Pul-e Alam",
+        "Pul-e `Alam",
+        "Pul-e Əlem",
+        "Pul-i-Alam",
+        "Pule Alam",
+        "Puli Olam",
+        "pl ʿlm",
+        "pula-e alama",
+        "pula-i alama",
+        "purue・aramu",
+        "ፑል-yu ʾalaም"
+      ],
+      "ar": [
+        "بل علم"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "لوكر",
+      "regionEn": "Logar"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1130497",
+    "verified": true
+  },
+  {
+    "slug": "nili",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 33.72178,
+    "lng": 66.13023,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "نيلي",
+      "en": "Nīlī",
+      "fr": "Nīlī",
+      "de": "Nīlī",
+      "tr": "Nīlī",
+      "ur": "Nīlī",
+      "id": "Nīlī",
+      "es": "Nīlī",
+      "bn": "Nīlī",
+      "ms": "Nīlī"
+    },
+    "aliases": {
+      "en": [
+        "Nili",
+        "Qaryah-e Nili",
+        "Qaryah-e Nīlī",
+        "nili",
+        "niri",
+        "nyly"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "دايكندي",
+      "regionEn": "Daykundi"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1131833",
+    "verified": true
+  },
+  {
+    "slug": "maymana",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 35.92139,
+    "lng": 64.78361,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "ضلع ميمنه",
+      "en": "Maymana",
+      "fr": "Maymana",
+      "de": "Maymana",
+      "tr": "Maymana",
+      "ur": "Maymana",
+      "id": "Maymana",
+      "es": "Maymana",
+      "bn": "Maymana",
+      "ms": "Maymana"
+    },
+    "aliases": {
+      "ar": [
+        "ميمنة",
+        "ميمنه ولسوالۍ",
+        "ميمنه"
+      ],
+      "en": [
+        "Daerah Maymana",
+        "MMZ",
+        "Maimana",
+        "Maimanah",
+        "Maimāna",
+        "Majmana",
+        "Maymanah",
+        "Maïmana",
+        "Maīmanah",
+        "Meimana",
+        "Mejmene",
+        "Meymaneh",
+        "Meymene",
+        "Mimana",
+        "Quan Maymana",
+        "Quận Maymana",
+        "mai ma na",
+        "maimana",
+        "mayamana",
+        "mayimana",
+        "meyamana",
+        "mymnh",
+        "mymnt"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "فارياب",
+      "regionEn": "Faryab"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1133453",
+    "verified": true
+  },
+  {
+    "slug": "mehtar-lam",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.67139,
+    "lng": 70.20944,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "مختار لام",
+      "en": "Mehtar Lām",
+      "fr": "Mehtar Lām",
+      "de": "Mehtar Lām",
+      "tr": "Mehtar Lām",
+      "ur": "Mehtar Lām",
+      "id": "Mehtar Lām",
+      "es": "Mehtar Lām",
+      "bn": "Mehtar Lām",
+      "ms": "Mehtar Lām"
+    },
+    "aliases": {
+      "ar": [
+        "مهتر لام"
+      ],
+      "en": [
+        "Laghman",
+        "Mehtar Lam",
+        "Mekhtar-Lam",
+        "Mekhtari Lom",
+        "Mekhtarlam",
+        "Metarlam",
+        "Mextar Lam",
+        "Mir Talam Saheb Ziarat",
+        "Mitarlam",
+        "Miterlam",
+        "Mīr Talām Şāḩeb Zīārat",
+        "Nawar Lam",
+        "Nāwar Lam",
+        "mehatara lama",
+        "mehataramu",
+        "mehitari laም",
+        "mhtr lam",
+        "mkhtar lam"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "لغمان",
+      "regionEn": "Laghman"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1133574",
+    "verified": true
+  },
+  {
+    "slug": "mazar-e-sharif",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 36.70904,
+    "lng": 67.11087,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "مزار شريف",
+      "en": "Mazār-e Sharīf",
+      "fr": "Mazār-e Sharīf",
+      "de": "Mazār-e Sharīf",
+      "tr": "Mazār-e Sharīf",
+      "ur": "Mazār-e Sharīf",
+      "id": "Mazār-e Sharīf",
+      "es": "Mazār-e Sharīf",
+      "bn": "Mazār-e Sharīf",
+      "ms": "Mazār-e Sharīf"
+    },
+    "aliases": {
+      "en": [
+        "MZR",
+        "Masar-e Scharif",
+        "Mazar-e Charif",
+        "Mazar-e Sarif",
+        "Mazar-e Sharif",
+        "Mazar-e Sərif",
+        "Mazar-e Şərif",
+        "Mazar-e Šarif",
+        "Mazar-e-Sharif",
+        "Mazar-i Sharif",
+        "Mazar-i Szarif",
+        "Mazar-i-Sharif",
+        "Mazare Srif",
+        "Mazari Sharif",
+        "Mazari-Sharif",
+        "Mazori Sharif",
+        "Mazār-e Šarīf",
+        "Mazār-i-Sharīf",
+        "Mazāre S̄rīf",
+        "Mezirek-i Serif",
+        "Mezirek-i Şerif",
+        "majaleu-isyalipeu",
+        "majara-i saripha",
+        "mazara-e saripha",
+        "mazari-ʿo shariፍ",
+        "mazarisharifu",
+        "mzar shryf"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بلخ",
+      "regionEn": "Balkh"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1133616",
+    "verified": true
+  },
+  {
+    "slug": "kunduz",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 36.72895,
+    "lng": 68.857,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "قندز",
+      "en": "Kunduz",
+      "fr": "Kunduz",
+      "de": "Kunduz",
+      "tr": "Kunduz",
+      "ur": "Kunduz",
+      "id": "Kunduz",
+      "es": "Kunduz",
+      "bn": "Kunduz",
+      "ms": "Kunduz"
+    },
+    "aliases": {
+      "ar": [
+        "قندوز",
+        "كندز",
+        "كندوز"
+      ],
+      "en": [
+        "Kondoz",
+        "Konduz",
+        "Kondôz",
+        "Kondūz",
+        "Kundus",
+        "Kunduz khot",
+        "Kunduzas",
+        "Kundúz",
+        "Kundūz",
+        "Kundūzas",
+        "Kˌunduz",
+        "Kˌұndұz",
+        "Qonduz",
+        "Qondūz",
+        "Qunduz",
+        "Qundūz",
+        "Qunḏūz",
+        "Shahr-e Qondoz",
+        "UND",
+        "kantacu",
+        "kndwz",
+        "kndz",
+        "kuduza",
+        "kun dou shi",
+        "kundouzu",
+        "kunduja",
+        "kundujeu",
+        "kundus",
+        "kunduza",
+        "kuniduዝ",
+        "qndwz",
+        "qndz"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "قندوز",
+      "regionEn": "Kunduz"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1135689",
+    "verified": true
+  },
+  {
+    "slug": "khost",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 33.33951,
+    "lng": 69.92041,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "خوست",
+      "en": "Khōst",
+      "fr": "Khōst",
+      "de": "Khōst",
+      "tr": "Khōst",
+      "ur": "Khōst",
+      "id": "Khōst",
+      "es": "Khōst",
+      "bn": "Khōst",
+      "ms": "Khōst"
+    },
+    "aliases": {
+      "ar": [
+        "متون"
+      ],
+      "en": [
+        "Houst",
+        "KHT",
+        "Khost",
+        "Khowst",
+        "Matun",
+        "Matūn",
+        "Xost",
+        "hosuto",
+        "khosata",
+        "khosta",
+        "khwst",
+        "kihositi",
+        "mtwn"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "خوست",
+      "regionEn": "Khost"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1136469",
+    "verified": true
+  },
+  {
+    "slug": "kabul",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.52813,
+    "lng": 69.17233,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "كابل",
+      "en": "Kabul",
+      "fr": "Kabul",
+      "de": "Kabul",
+      "tr": "Kabul",
+      "ur": "Kabul",
+      "id": "Kabul",
+      "es": "Kabul",
+      "bn": "Kabul",
+      "ms": "Kabul"
+    },
+    "aliases": {
+      "ar": [
+        "كابۇل",
+        "كابول"
+      ],
+      "en": [
+        "Cabool",
+        "Caboul",
+        "Cabul",
+        "Cabura",
+        "Cabúl",
+        "Caubul",
+        "KBL",
+        "Kabil",
+        "Kaboel",
+        "Kabol",
+        "Kaboul",
+        "Kabula",
+        "Kabulas",
+        "Kabuli",
+        "Kabulo",
+        "Kabura",
+        "Kabúl",
+        "Kabûl",
+        "Kampoul",
+        "Kobul",
+        "Kubha",
+        "Kábul",
+        "Kâbil",
+        "Kābol",
+        "ka bu er",
+        "kabl",
+        "kabula",
+        "kabuli",
+        "kaburu",
+        "kabwl",
+        "kapul",
+        "ke bu er",
+        "khabul"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "كابول",
+      "regionEn": "Kabul"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1138958",
+    "verified": true
+  },
+  {
+    "slug": "jalalabad",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.42647,
+    "lng": 70.45153,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "جلال آباد",
+      "en": "Jalālābād",
+      "fr": "Jalālābād",
+      "de": "Jalālābād",
+      "tr": "Jalālābād",
+      "ur": "Jalālābād",
+      "id": "Jalālābād",
+      "es": "Jalālābād",
+      "bn": "Jalālābād",
+      "ms": "Jalālābād"
+    },
+    "aliases": {
+      "ar": [
+        "جلالآباد"
+      ],
+      "en": [
+        "Celalabad",
+        "Cəlalabad",
+        "Djelalabad",
+        "Dschalalabad",
+        "Dzalalabad",
+        "Dzhalalabad",
+        "Dzhelalabad",
+        "Dżalalabad",
+        "JAA",
+        "Jalakot",
+        "Jalal-Kut",
+        "Jalalabad",
+        "Jalalkoat",
+        "Jalalkot",
+        "Jalolobod",
+        "Jalālkot",
+        "Jelalabad",
+        "Tarun City",
+        "jalalabada",
+        "jalalabadi",
+        "jararabado",
+        "jlal abad",
+        "Ҷalolobod"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "نانكرهار",
+      "regionEn": "Nangarhar"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1139715",
+    "verified": true
+  },
+  {
+    "slug": "herat",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.34817,
+    "lng": 62.19967,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "هراة",
+      "en": "Herāt",
+      "fr": "Herāt",
+      "de": "Herāt",
+      "tr": "Herāt",
+      "ur": "Herāt",
+      "id": "Herāt",
+      "es": "Herāt",
+      "bn": "Herāt",
+      "ms": "Herāt"
+    },
+    "aliases": {
+      "ar": [
+        "هرات"
+      ],
+      "en": [
+        "Gerat",
+        "Gerot",
+        "HEA",
+        "Herat",
+        "Hérat",
+        "Kherat",
+        "Shahr-e Herat",
+        "Shahr-e Herāt",
+        "he la te",
+        "herata",
+        "herati",
+        "herato",
+        "hrat"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "هرات",
+      "regionEn": "Herat"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1140026",
+    "verified": true
+  },
+  {
+    "slug": "ghazni",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 33.55391,
+    "lng": 68.42096,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "غزنة",
+      "en": "Ghazni",
+      "fr": "Ghazni",
+      "de": "Ghazni",
+      "tr": "Ghazni",
+      "ur": "Ghazni",
+      "id": "Ghazni",
+      "es": "Ghazni",
+      "bn": "Ghazni",
+      "ms": "Ghazni"
+    },
+    "aliases": {
+      "ar": [
+        "غزني",
+        "غزنين"
+      ],
+      "en": [
+        "GZI",
+        "Gazna",
+        "Gazni",
+        "Ghaznī",
+        "Qazni",
+        "Shahr-e Ghazni",
+        "Shahr-e Ghaznī",
+        "gazani",
+        "gazni",
+        "gazuni",
+        "gaዝni",
+        "ghajani",
+        "ghazani",
+        "ghznt",
+        "ghzny",
+        "ghznyn"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "غزني",
+      "regionEn": "Ghazni"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1141269",
+    "verified": true
+  },
+  {
+    "slug": "gardez",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 33.59744,
+    "lng": 69.22592,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "غرديز",
+      "en": "Gardez",
+      "fr": "Gardez",
+      "de": "Gardez",
+      "tr": "Gardez",
+      "ur": "Gardez",
+      "id": "Gardez",
+      "es": "Gardez",
+      "bn": "Gardez",
+      "ms": "Gardez"
+    },
+    "aliases": {
+      "en": [
+        "GRG",
+        "Gardeyz",
+        "Gardiz",
+        "Gardêz",
+        "Gardēz",
+        "Gardīz",
+        "Gaṟḏēz",
+        "garadeza",
+        "gardeja",
+        "gardeza",
+        "garideዝ",
+        "garudezu",
+        "grdyz"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "باكتيا",
+      "regionEn": "Paktia"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1141857",
+    "verified": true
+  },
+  {
+    "slug": "fayzabad",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 37.11664,
+    "lng": 70.58002,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "فيض آباد",
+      "en": "Fayzabad",
+      "fr": "Fayzabad",
+      "de": "Fayzabad",
+      "tr": "Fayzabad",
+      "ur": "Fayzabad",
+      "id": "Fayzabad",
+      "es": "Fayzabad",
+      "bn": "Fayzabad",
+      "ms": "Fayzabad"
+    },
+    "aliases": {
+      "en": [
+        "FBD",
+        "Faizabad",
+        "Faizābād",
+        "Fajzabad",
+        "Fajzobod",
+        "Faydz Abad",
+        "Fayzobod",
+        "Fayḏẕ Ābāḏ",
+        "Fazelabad",
+        "Faīẕābād",
+        "Feyzabad",
+        "Feyẕābād",
+        "faizabada",
+        "faizabado",
+        "fyd abad",
+        "phayajabada",
+        "ፋyizabadi"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بدخشان",
+      "regionEn": "Badakhshan"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1142170",
+    "verified": true
+  },
+  {
+    "slug": "charikar",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 35.01361,
+    "lng": 69.17139,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "تشاريكار",
+      "en": "Charikar",
+      "fr": "Charikar",
+      "de": "Charikar",
+      "tr": "Charikar",
+      "ur": "Charikar",
+      "id": "Charikar",
+      "es": "Charikar",
+      "bn": "Charikar",
+      "ms": "Charikar"
+    },
+    "aliases": {
+      "ar": [
+        "جاريكار",
+        "شاريكار"
+      ],
+      "en": [
+        "Caharikar",
+        "Carikar",
+        "Carikaras",
+        "Chaharikar",
+        "Chahārīkār",
+        "Chairkar",
+        "Charekar",
+        "Charikor",
+        "Chāirkār",
+        "Chārīkār",
+        "Czarikar",
+        "Cāṟikāṟ",
+        "Tcharikar",
+        "Tscharikar",
+        "carikar",
+        "carikara",
+        "carikari",
+        "charikari",
+        "charikaru",
+        "charykar",
+        "qia li ka er",
+        "Çarikar",
+        "Ĉarikar",
+        "Čahārikār",
+        "Čarikaras"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بروان",
+      "regionEn": "Parwan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1145352",
+    "verified": true
+  },
+  {
+    "slug": "bamyan",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.82156,
+    "lng": 67.82734,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "باميان",
+      "en": "Bāmyān",
+      "fr": "Bāmyān",
+      "de": "Bāmyān",
+      "tr": "Bāmyān",
+      "ur": "Bāmyān",
+      "id": "Bāmyān",
+      "es": "Bāmyān",
+      "bn": "Bāmyān",
+      "ms": "Bāmyān"
+    },
+    "aliases": {
+      "en": [
+        "BIN",
+        "Bamian",
+        "Bamion",
+        "Bamiyan",
+        "Bamyan",
+        "Bomijon",
+        "Bāmīān",
+        "Kala Sarkari",
+        "Qal`a Sarkarit",
+        "Qala Sarkari",
+        "Qala Sarkāri",
+        "Qal‘a Sarkārit",
+        "bami'ana",
+        "bamiyan",
+        "bamiyana",
+        "bamiyani",
+        "bamyan"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "باميان",
+      "regionEn": "Bamyan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1147242",
+    "verified": true
+  },
+  {
+    "slug": "balkh",
+    "type": "town",
+    "countryCode": "af",
+    "lat": 36.75635,
+    "lng": 66.8972,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "بلخ",
+      "en": "Balkh",
+      "fr": "Balkh",
+      "de": "Balkh",
+      "tr": "Balkh",
+      "ur": "Balkh",
+      "id": "Balkh",
+      "es": "Balkh",
+      "bn": "Balkh",
+      "ms": "Balkh"
+    },
+    "aliases": {
+      "en": [
+        "Bactra",
+        "Bactresh",
+        "Bakhtar",
+        "Balch",
+        "Balchas",
+        "Balh",
+        "Balhika",
+        "Balho",
+        "Balj",
+        "Balx",
+        "Balĥo",
+        "Bamik",
+        "Bazirabad",
+        "Belh",
+        "Belx",
+        "Bkahdi",
+        "Bākhtar",
+        "Daerah Balkh",
+        "Quan Balkh",
+        "Quận Balkh",
+        "Vazirabad",
+        "ba er he",
+        "balakha",
+        "balheu",
+        "balkha",
+        "barufu",
+        "baልki",
+        "blk",
+        "blkh"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بلخ",
+      "regionEn": "Balkh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1147290",
+    "verified": true
+  },
+  {
+    "slug": "baghlan",
+    "type": "town",
+    "countryCode": "af",
+    "lat": 36.13068,
+    "lng": 68.70829,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "باغلان",
+      "en": "Baghlān",
+      "fr": "Baghlān",
+      "de": "Baghlān",
+      "tr": "Baghlān",
+      "ur": "Baghlān",
+      "id": "Baghlān",
+      "es": "Baghlān",
+      "bn": "Baghlān",
+      "ms": "Baghlān"
+    },
+    "aliases": {
+      "ar": [
+        "بغلان",
+        "بغلان جديد",
+        "صناعتي"
+      ],
+      "en": [
+        "Baghlan",
+        "Baghlan - bghlan",
+        "Baghlan-e Jadid",
+        "Baghlin",
+        "Baghlān-e Jadīd",
+        "Baglan",
+        "Baglon",
+        "Bagolaggo",
+        "Sana `Ati",
+        "Sana`ati",
+        "baghalana",
+        "baghlan",
+        "baguran",
+        "baግlani",
+        "bghlan",
+        "bghlan jdyd",
+        "Şanā ‘Ati",
+        "Şanā‘atī"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بغلان",
+      "regionEn": "Baghlan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1147540",
+    "verified": true
+  },
+  {
+    "slug": "asadabad",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 34.87311,
+    "lng": 71.14697,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "اسد آباد",
+      "en": "Asadābād",
+      "fr": "Asadābād",
+      "de": "Asadābād",
+      "tr": "Asadābād",
+      "ur": "Asadābād",
+      "id": "Asadābād",
+      "es": "Asadābād",
+      "bn": "Asadābād",
+      "ms": "Asadābād"
+    },
+    "aliases": {
+      "ar": [
+        "جغه سراي"
+      ],
+      "en": [
+        "Asadabad",
+        "Asadabada",
+        "Asadabadas",
+        "Asadobod",
+        "Assad-Abad",
+        "Caghasaray",
+        "Chagha Serai",
+        "Chagha-Sari",
+        "Chaghah Saray",
+        "Chaghah Sarāy",
+        "Chaghasarai",
+        "Chaghasaray",
+        "Chaghasarāy",
+        "Chagsarai",
+        "Chegheh Saray",
+        "Chegheh Sarāy",
+        "Chigha Sarai",
+        "Chigha Sarāi",
+        "Chigha Serai",
+        "Chigkhasaray",
+        "Esedabad",
+        "asadabada",
+        "asadabado",
+        "asd abad",
+        "chghh sray",
+        "Čaghasarāy",
+        "Əsədabad",
+        "ʿesadabadi"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "كنر",
+      "regionEn": "Kunar"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1148311",
+    "verified": true
+  },
+  {
+    "slug": "bazarak",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 35.31292,
+    "lng": 69.51519,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "بازاراك",
+      "en": "Bāzārak",
+      "fr": "Bāzārak",
+      "de": "Bāzārak",
+      "tr": "Bāzārak",
+      "ur": "Bāzārak",
+      "id": "Bāzārak",
+      "es": "Bāzārak",
+      "bn": "Bāzārak",
+      "ms": "Bāzārak"
+    },
+    "aliases": {
+      "ar": [
+        "بازارك"
+      ],
+      "en": [
+        "Bazarak",
+        "bajaraka",
+        "bazarak",
+        "bazaraka",
+        "bazaraki",
+        "bazaraku",
+        "bazark"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "بانشير",
+      "regionEn": "Panjshir"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1429434",
+    "verified": true
+  },
+  {
+    "slug": "sharan",
+    "type": "city",
+    "countryCode": "af",
+    "lat": 33.17568,
+    "lng": 68.73045,
+    "timezone": "Asia/Kabul",
+    "names": {
+      "ar": "شاران",
+      "en": "Sharan",
+      "fr": "Sharan",
+      "de": "Sharan",
+      "tr": "Sharan",
+      "ur": "Sharan",
+      "id": "Sharan",
+      "es": "Sharan",
+      "bn": "Sharan",
+      "ms": "Sharan"
+    },
+    "aliases": {
+      "ar": [
+        "شرن"
+      ],
+      "en": [
+        "OAS",
+        "Saran",
+        "Sharan Woluswali",
+        "Sharan Woluswālī",
+        "Sharan Wuleswali",
+        "Sharan Wulêswālī",
+        "Sharana",
+        "Sharán",
+        "sarana",
+        "sharani",
+        "shrn",
+        "Şaran"
+      ]
+    },
+    "admin": {
+      "countryAr": "أفغانستان",
+      "countryEn": "Afghanistan",
+      "regionAr": "باكتيكا",
+      "regionEn": "Paktika"
+    },
+    "priority": 70,
+    "source": "curated",
+    "sourceId": "geonames:8534261",
+    "verified": true
   }
 ]

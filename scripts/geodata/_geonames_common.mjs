@@ -391,31 +391,12 @@ export function haversineKm(lat1, lng1, lat2, lng2) {
     return 2 * R * Math.asin(Math.sqrt(a));
 }
 
-// 10-language map.
-// PLACE-NAMES-L10N-FOUNDATION-CODE-1 (2026-05-18) — redesigned:
-//   ONLY `en` is auto-filled from `fallback`. All other langs are present
-//   in the output iff explicitly provided in `partial`. "Missing means
-//   missing" — never produce `names.ur = "Charikar"` just because the
-//   Urdu name is absent.
-//
-//   See: reports/curated-place-names-l10n-foundation-and-generation-1.md §4
-//   Layer A. Previous behavior (fill all 10 langs from the English
-//   fallback) was the root cause of the Urdu Latin-leak bug: every wave
-//   produced `names[lang] === names.en === "Charikar"` for lang ∈
-//   {ur, bn, fr, de, es, tr, id, ms}, which then surfaced as Latin
-//   strings in `/ur/...` and `/bn/...` SSR.
-//
-//   `ar` is kept if `partial.ar` is set (the wave invariant — every
-//   Strategy-E candidate has a clean Arabic name from Stage 3.5).
-//   Other 7 langs: present only if `partial[lang]` is truthy.
+// 10-language map: fill any missing langs from `fallback`.
 export const SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
 export function fillLangMap(partial, fallback) {
     const out = {};
-    out.en = (partial && partial.en) ? partial.en : fallback;
-    if (partial && partial.ar) out.ar = partial.ar;
     for (const l of SUPPORTED_LANGS) {
-        if (l === 'en' || l === 'ar') continue;
-        if (partial && partial[l]) out[l] = partial[l];
+        out[l] = (partial && partial[l]) ? partial[l] : fallback;
     }
     return out;
 }

@@ -1268,39 +1268,6 @@ html[data-theme="dark"] .top-header {
 }
 html[data-theme="dark"] .city-name { color: var(--text); }
 html[data-theme="dark"] .country { color: var(--text-light); }
-
-/* ═══ PLACE-NAMES-L10N-FOUNDATION-CODE-1 (2026-05-18) ═══════════════════
-   Absence-state UI for /ur/, /bn/, /ar/ prayer-times pages when the curated
-   entry has no localized `names[lang]`. SSR injects a two-line markup:
-     <div class="city-name" data-name-source="missing-localized">
-       <span class="city-name-absence-label">مقامی نام دستیاب نہیں</span>
-       <span class="city-name-en-secondary">Charikar</span>
-     </div>
-   The absence label is the PRIMARY visual element; the English name is
-   secondary, smaller, and lighter — so the reader understands the
-   English is a fallback display, NOT the localized translation.
-   See reports/curated-place-names-l10n-foundation-and-generation-1.md §13. */
-.city-name[data-name-source="missing-localized"] {
-    display: inline-flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 2px;
-    line-height: 1.15;
-}
-.city-name-absence-label {
-    display: block;
-    font-size: 0.82em;
-    font-weight: 600;
-    opacity: 0.92;
-}
-.city-name-en-secondary {
-    display: block;
-    font-size: 0.70em;
-    font-weight: 400;
-    font-style: italic;
-    opacity: 0.65;
-    letter-spacing: 0.01em;
-}
 /* Prayer cards */
 html[data-theme="dark"] .prayer-card {
     background: var(--surface-raised);

@@ -693,6 +693,32 @@ function getDisplayCity() {
         return currentCity || '';
     }
     if (lang === 'en') return currentEnglishDisplayName || currentEnglishName || currentCity;
+
+    // PT-LANG-GUARD-3 (PLACE-NAMES-UR-CLIENT-SEED-HYDRATION-FIX-1, 2026-05-18):
+    // for absence-langs UR/BN — where curated_places.json ships real
+    // localized names in proper script (names.ur / names.bn) — prefer
+    // `currentCity` whenever it's in the correct script, BEFORE falling
+    // through to the cityMap-lookup-or-English chain.
+    //
+    // The bug this closes: when SSR injected `__PRAYER_CITY__.name =
+    // "چاریکار"` from `names.ur`, currentCity was set correctly, but
+    // `currentEnglishName` and `currentEnglishDisplayName` ALSO got
+    // populated (to "Charikar" from `names.en`). The legacy fallback
+    // chain at the bottom of this function preferred
+    // `currentEnglishDisplayName` over `currentCity`, so a UR page would
+    // render "Charikar" even when the proper Urdu name was already loaded.
+    // The Latin reject is explicit (not just script-acceptable) because
+    // `_isDisplayScriptAcceptable("Charikar", "ur")` returns true —
+    // it only blocks non-Latin foreign scripts (CJK, Bengali on AR
+    // pages, etc.), not pure Latin.
+    if (lang === 'ur' || lang === 'bn') {
+        if (typeof currentCity === 'string' && currentCity
+            && !/[A-Za-z]/.test(currentCity)
+            && _isDisplayScriptAcceptable(currentCity, lang)) {
+            return currentCity;
+        }
+    }
+
     // Nominatim أعاد اسماً مترجَماً حقيقياً (ليس endonym إنجليزي) وبخطّ متوافق → استخدمه
     if (currentLocalizedName
         && currentLocalizedName !== currentEnglishName
@@ -6819,31 +6845,45 @@ function _syncCityNameInDom() {
     // "لو بونت" with "Le Pontet" everywhere — including <title>,
     // <h1>, FAQ, JSON-LD. The Latin guard ensures Arabic pages NEVER
     // accept a goodName containing Latin letters; the SSR name stays.
+    //
+    // PLACE-NAMES-UR-CLIENT-SEED-HYDRATION-FIX-1 (2026-05-18): extend
+    // the Latin guard from AR-only to ALL absence-langs (ar + ur + bn).
+    // These are the three languages where curated_places.json ships
+    // real localized names in proper script (Arabic / Urdu / Bengali)
+    // and Latin is NEVER an acceptable display. The bug that motivated
+    // this extension: /ur/prayer-times-in-charikar rendered the
+    // correct Urdu "چاریکار" from SSR, then a stale sessionStorage
+    // seed (left over from a previous /en/ visit) overwrote
+    // `currentCity = "Charikar"` — and because `_isAr` was false on
+    // the /ur/ page, the Latin guard didn't fire, so the walker
+    // rewrote every "چاریکار" to "Charikar" in the DOM. Treating UR
+    // and BN like AR closes that path symmetrically.
     const _docLang = (
         (typeof getCurrentLang === 'function') ? getCurrentLang() :
         (document.documentElement.getAttribute('lang') || 'ar')
     );
-    const _isAr = (_docLang === 'ar');
+    const _ABSENCE_LANGS = (typeof Set === 'function') ? new Set(['ar', 'ur', 'bn']) : null;
+    const _isAbsenceLang = _ABSENCE_LANGS ? _ABSENCE_LANGS.has(_docLang) : (_docLang === 'ar' || _docLang === 'ur' || _docLang === 'bn');
     const _hasLatin = (s) => /[A-Za-z]/.test(String(s || ''));
 
     // Pick the best-known display name for the city. Priority:
     //   1. currentCity (already set by loadCityData from sessionStorage)
     //   2. currentLocalizedName (per-lang Nominatim cache, fr/tr/etc.)
     //   3. _moonCityDisplayName(slug) — multi-tier resolver
-    // Each candidate must pass the Latin-script guard on AR pages.
+    // Each candidate must pass the Latin-script guard on absence-lang pages.
     let goodName = '';
     try {
         if (typeof currentCity === 'string' && currentCity
             && currentCity !== 'مكة المكرمة') {
             const v = currentCity.trim();
-            if (!(_isAr && _hasLatin(v))) goodName = v;
+            if (!(_isAbsenceLang && _hasLatin(v))) goodName = v;
         }
     } catch (_) {}
     if (!goodName) {
         try {
             if (typeof currentLocalizedName === 'string' && currentLocalizedName) {
                 const v = currentLocalizedName.trim();
-                if (!(_isAr && _hasLatin(v))) goodName = v;
+                if (!(_isAbsenceLang && _hasLatin(v))) goodName = v;
             }
         } catch (_) {}
     }
@@ -6856,7 +6896,7 @@ function _syncCityNameInDom() {
                 const _resolved = _moonCityDisplayName(_slugMatch[1]);
                 if (_resolved) {
                     const v = String(_resolved).trim();
-                    if (!(_isAr && _hasLatin(v))) goodName = v;
+                    if (!(_isAbsenceLang && _hasLatin(v))) goodName = v;
                 }
             }
         } catch (_) {}
@@ -6864,11 +6904,11 @@ function _syncCityNameInDom() {
     if (!goodName || goodName === ssrName) return;
 
     // Final safety: even if a goodName passed all guards but the SSR name
-    // is ALREADY a clean Arabic name (no Latin), don't replace it on AR
-    // pages. This protects against edge cases where `currentCity` got
-    // a slightly-different Arabic spelling than the SSR (e.g. "بروفنس"
-    // vs "بروفانس") — we trust the server's curated resolver.
-    if (_isAr && !_hasLatin(ssrName) && _hasLatin(goodName)) return;
+    // is ALREADY a clean Arabic/Urdu/Bengali name (no Latin), don't
+    // replace it on absence-lang pages. This protects against edge cases
+    // where `currentCity` got a slightly-different spelling than the SSR
+    // (e.g. "بروفنس" vs "بروفانس") — we trust the server's curated resolver.
+    if (_isAbsenceLang && !_hasLatin(ssrName) && _hasLatin(goodName)) return;
 
     // Walk all visible text nodes in <body> + replace each occurrence
     // of ssrName. Text nodes only — never touches attributes, URLs,

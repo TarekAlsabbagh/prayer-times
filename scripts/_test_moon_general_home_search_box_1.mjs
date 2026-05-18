@@ -82,12 +82,25 @@ const navTargetRouteOk = appSrc.includes("targetRoute === 'moon-hub'")
 ok('navigateToCity has targetRoute="moon-hub" branch routing to /moon-in-{slug}',
     navTargetRouteOk);
 
+// Revised approach: moon wiring REUSES the homepage search pipeline
+// (onCitySearchInput + onSearchKeyDown) via the new ctx parameter.
+// The wiring just declares a MOON_SEARCH_CTX and forwards events.
 const wireOk = appSrc.includes("MOON-GENERAL-HOME-SEARCH-BOX-1")
-    && /document\.getElementById\(['"]moon-hub-suggestions['"]\)/.test(appSrc)
-    && appSrc.includes("'/api/search-place?q='")
-    && /targetRoute:\s*'moon-hub'/.test(appSrc);
-ok('_wireMoonHubHero search wiring uses /api/search-place + targetRoute=moon-hub',
+    && /MOON_SEARCH_CTX\s*=\s*\{/.test(appSrc)
+    && /targetRoute:\s*'moon-hub'/.test(appSrc)
+    && /onCitySearchInput\(searchEl\.value,\s*MOON_SEARCH_CTX\)/.test(appSrc)
+    && /onSearchKeyDown\(e,\s*MOON_SEARCH_CTX\)/.test(appSrc);
+ok('Moon wiring reuses homepage onCitySearchInput + onSearchKeyDown via MOON_SEARCH_CTX',
     wireOk);
+
+// New: shared pipeline must have _DEFAULT_SEARCH_CTX defined + ctx-aware fetchers.
+const ctxOk = /_DEFAULT_SEARCH_CTX\s*=\s*\{/.test(appSrc)
+    && /function onCitySearchInput\(query,\s*ctx\)/.test(appSrc)
+    && /async function fetchCitySuggestionsV2\(query,\s*ctx\)/.test(appSrc)
+    && /function fetchCitySuggestions\(query,\s*ctx\)/.test(appSrc)
+    && /function _renderV2Row\(r,\s*suggestionsEl,\s*lang,\s*ctx\)/.test(appSrc);
+ok('Homepage search pipeline parameterized with ctx (DEFAULT + onCity + V2 + V1 + renderRow)',
+    ctxOk);
 
 // index.html cache-buster bumped (>= 655)
 const verMatch = indexSrc.match(/js\/app\.js\?v=(\d+)/g);

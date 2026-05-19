@@ -280,10 +280,23 @@ entry, all 2,326 non-PK curated entries.
 
 ---
 
-## Status: 🟢 CLOSED — 🏆 Pakistan now FULLY complete at 119/119 Arabic + 119/119 Urdu
+## Status: 🟢 CLOSED — user-approved 2026-05-19 — 🏆 Pakistan FULLY complete at 119/119 Arabic + 119/119 Urdu
 
-**Rollback**: `git revert <commit>`. Backup at
+**Commit**: `4bc27d8` (pushed to origin/main)
+**Rollback**: `git revert 4bc27d8`. Backup at
 `db/places/curated-places.json.prePlaceNamesUrPk5.bak`.
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | PLACE-NAMES-UR-PK-5 closed | ✓ |
+| 2 | Pakistan curated coverage restored: Arabic 119/119 + Urdu 119/119 | ✓ |
+| 3 | No runtime translation | ✓ (static Urdu Wikipedia source) |
+| 4 | No code changes (server.js/js/app.js/fillLangMap/index.html) | ✓ |
+| 5 | names.ar and names.en unchanged | ✓ (byte-for-byte post-mutation verified) |
+| 6 | Prior 90 PK entries untouched | ✓ (PRIOR_90_SLUGS post-mutation assertion) |
+| 7 | Fast Track policy validated again | ✓ (3rd consecutive Fast Track wave: UR-PK-4 → MAJORS-1B → UR-PK-5) |
 
 **Held (per user direction — DO NOT auto-start)**:
 - ASIA-1D-PK-MISSING-AR-MAJORS-1C (~32 remaining Tier 3 PPL cities)

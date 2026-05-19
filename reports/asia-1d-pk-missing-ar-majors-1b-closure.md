@@ -301,14 +301,28 @@ Recommended order when user opens next phase:
 
 ---
 
-## Status: 🟢 CLOSED — Pakistan now 119 Arabic-complete, 90/119 Urdu (UR-PK-5 pending)
+## Status: 🟢 CLOSED — user-approved 2026-05-19 — Pakistan now 119 Arabic-complete, 90/119 Urdu (UR-PK-5 pending)
 
-**Rollback**: `git revert <commit>` reverts the merge. Backup file available
+**Commit**: `cfd7015` (pushed to origin/main)
+**Rollback**: `git revert cfd7015`. Backup file available
 at `db/places/curated-places.json.preAsia1dPkMissingAr1B.bak`.
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | ASIA-1D-PK-MISSING-AR-MAJORS-1B closed | ✓ |
+| 2 | 29 Pakistan Batch-B missing-ar cities merged | ✓ |
+| 3 | PK count is now 119 | ✓ |
+| 4 | PK Arabic coverage is 119/119 | ✓ |
+| 5 | PK Urdu coverage is 90/119 | ✓ |
+| 6 | No fake localized fillchain was written | ✓ (0 leaks 232 checks) |
+| 7 | Batch-C remains deferred | ✓ |
+| 8 | Next recommended phase is PLACE-NAMES-UR-PK-5 | ✓ |
 
 **Held (per user direction — DO NOT auto-start)**:
 - PLACE-NAMES-UR-PK-5 (Urdu enrichment for BATCH-B 29 cities)
-- ASIA-1D-PK-MISSING-AR-MAJORS-1C (32 BATCH-C cities)
+- ASIA-1D-PK-MISSING-AR-MAJORS-1C (~32 remaining Tier 3 PPL cities + admin stubs)
 - ASIA-1D-BD / ASIA-1D-IN / ASIA-1F
 - AMERICAS-1B-MCF
 - Search-ranking / Alias enrichment / DELETE-V1

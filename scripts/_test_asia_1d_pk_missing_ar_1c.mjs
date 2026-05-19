@@ -91,8 +91,9 @@ for (const slug of ['qubo-saeed-khan','daharki','rabwah','shabqadar','shakargarh
 }
 
 // PART C — no Latin fillchain
-console.log('\n── Part C — NO Latin fillchain ──');
-const LANGS = ['ur','bn','fr','de','tr','id','es','ms'];
+// Note: post-UR-PK-6 (2026-05-19) Urdu is expected; dropped 'ur' from leak-check list.
+console.log('\n── Part C — NO Latin fillchain (ur expected post-UR-PK-6) ──');
+const LANGS = ['bn','fr','de','tr','id','es','ms'];
 let leaks = 0;
 for (const slug of Object.keys(BATCH_C_EXPECTED)) {
     const e = pk.find(x => x.slug === slug);
@@ -101,16 +102,17 @@ for (const slug of Object.keys(BATCH_C_EXPECTED)) {
         if (e.names && e.names[lang]) { console.log('  ✗', slug, lang); leaks++; }
     }
 }
-ok('NO Latin fillchain (0 leaks across 8 locales × 29 = 232 checks)', leaks === 0);
+ok('NO Latin fillchain (0 leaks across 7 locales × 29 = 203 checks)', leaks === 0);
 
-let arEn = 0;
+let arEnPlus = 0;
 for (const slug of Object.keys(BATCH_C_EXPECTED)) {
     const e = pk.find(x => x.slug === slug);
     if (!e || !e.names) continue;
     const keys = Object.keys(e.names).sort().join(',');
-    if (keys === 'ar,en') arEn++;
+    // Post-UR-PK-6: accept {ar,en} or {ar,en,ur}
+    if (keys === 'ar,en' || keys === 'ar,en,ur') arEnPlus++;
 }
-ok('All 29 entries have names = {ar, en} only', arEn === 29, '(got ' + arEn + ' / 29)');
+ok('All 29 entries have names = {ar, en} or {ar, en, ur} only', arEnPlus === 29, '(got ' + arEnPlus + ' / 29)');
 
 // PART D — Excluded items
 console.log('\n── Part D — Out-of-scope guards ──');

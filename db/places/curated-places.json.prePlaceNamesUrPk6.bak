@@ -114070,8 +114070,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شريف آباد",
-      "en": "Sharifabad",
-      "ur": "شریف آباد"
+      "en": "Sharifabad"
     },
     "aliases": {
       "en": [
@@ -114099,8 +114098,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "توبي",
-      "en": "Topi",
-      "ur": "ٹوپی"
+      "en": "Topi"
     },
     "aliases": {},
     "admin": {
@@ -114123,8 +114121,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شجاع آباد",
-      "en": "Shujaabad",
-      "ur": "شجاع آباد"
+      "en": "Shujaabad"
     },
     "aliases": {
       "en": [
@@ -114151,15 +114148,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شور كوت",
-      "en": "Shorkot",
-      "ur": "شور کوٹ"
+      "en": "Shorkot"
     },
     "aliases": {
       "en": [
         "Shorko"
-      ],
-      "ur": [
-        "شورکوٹ"
       ]
     },
     "admin": {
@@ -114182,15 +114175,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شكر غره",
-      "en": "Shakargarh",
-      "ur": "شکر گڑھ"
+      "en": "Shakargarh"
     },
     "aliases": {
       "en": [
         "Shakargarr"
-      ],
-      "ur": [
-        "شکرگڑھ"
       ]
     },
     "admin": {
@@ -114213,8 +114202,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شب قدر",
-      "en": "Shabqadar",
-      "ur": "شبقدر"
+      "en": "Shabqadar"
     },
     "aliases": {
       "en": [
@@ -114243,14 +114231,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سنغلا هيل",
-      "en": "Sangla Hill",
-      "ur": "سانگلا ہل"
+      "en": "Sangla Hill"
     },
-    "aliases": {
-      "ur": [
-        "سنگلا ہل"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -114271,16 +114254,12 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ربوة",
-      "en": "Rabwah",
-      "ur": "ربوہ"
+      "en": "Rabwah"
     },
     "aliases": {
       "en": [
         "Chenab Nagar",
         "Rabwāh"
-      ],
-      "ur": [
-        "چناب نگر"
       ]
     },
     "admin": {
@@ -114303,8 +114282,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "قبو سعيد خان",
-      "en": "Qubo Saeed Khan",
-      "ur": "قبو سعید خان"
+      "en": "Qubo Saeed Khan"
     },
     "aliases": {
       "en": [
@@ -114332,15 +114310,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "قابولا",
-      "en": "Qabula",
-      "ur": "قبولا"
+      "en": "Qabula"
     },
     "aliases": {
       "en": [
         "Qabala"
-      ],
-      "ur": [
-        "قبولہ"
       ]
     },
     "admin": {
@@ -114363,8 +114337,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بانو عاقل",
-      "en": "Pano Aqil",
-      "ur": "پانو عاقل"
+      "en": "Pano Aqil"
     },
     "aliases": {
       "en": [
@@ -114391,8 +114364,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بابي",
-      "en": "Pabbi",
-      "ur": "پبی"
+      "en": "Pabbi"
     },
     "aliases": {},
     "admin": {
@@ -114415,8 +114387,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مورو",
-      "en": "Moro",
-      "ur": "مورو"
+      "en": "Moro"
     },
     "aliases": {},
     "admin": {
@@ -114439,17 +114410,13 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مينتشين آباد",
-      "en": "Minchinabad",
-      "ur": "منچن آباد"
+      "en": "Minchinabad"
     },
     "aliases": {
       "en": [
         "Manchinabad",
         "Minchianabad",
         "Minchinābād"
-      ],
-      "ur": [
-        "منچین آباد"
       ]
     },
     "admin": {
@@ -114472,8 +114439,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ميان جانون",
-      "en": "Mian Channun",
-      "ur": "میاں چنوں"
+      "en": "Mian Channun"
     },
     "aliases": {
       "en": [
@@ -114500,14 +114466,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كنده كوت",
-      "en": "Kandhkot",
-      "ur": "کندھ کوٹ"
+      "en": "Kandhkot"
     },
-    "aliases": {
-      "ur": [
-        "کندھکوٹ"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -114528,8 +114489,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كاهرور باكا",
-      "en": "Kahror Pakka",
-      "ur": "کہروڑ پکا"
+      "en": "Kahror Pakka"
     },
     "aliases": {
       "en": [
@@ -114559,15 +114519,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جام بور",
-      "en": "Jampur",
-      "ur": "جام پور"
+      "en": "Jampur"
     },
     "aliases": {
       "en": [
         "Jāmpur"
-      ],
-      "ur": [
-        "جامپور"
       ]
     },
     "admin": {
@@ -114590,16 +114546,12 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جلال بور جتان",
-      "en": "Jalalpur Jattan",
-      "ur": "جلال پور جٹاں"
+      "en": "Jalalpur Jattan"
     },
     "aliases": {
       "en": [
         "Jalalpur",
         "Jalālpur"
-      ],
-      "ur": [
-        "جلالپور جٹاں"
       ]
     },
     "admin": {
@@ -114622,8 +114574,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جهانيان",
-      "en": "Jahanian",
-      "ur": "جہانیاں"
+      "en": "Jahanian"
     },
     "aliases": {
       "en": [
@@ -114651,8 +114602,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "حجرة شاه مقيم",
-      "en": "Hujra Shah Muqim",
-      "ur": "حجرہ شاہ مقیم"
+      "en": "Hujra Shah Muqim"
     },
     "aliases": {
       "en": [
@@ -114679,15 +114629,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "حويلي لاكا",
-      "en": "Haveli Lakha",
-      "ur": "حویلی لکھا"
+      "en": "Haveli Lakha"
     },
     "aliases": {
       "en": [
         "Haveli"
-      ],
-      "ur": [
-        "حویلی لاکھا"
       ]
     },
     "admin": {
@@ -114710,8 +114656,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "هارون آباد",
-      "en": "Harunabad",
-      "ur": "ہارون آباد"
+      "en": "Harunabad"
     },
     "aliases": {
       "en": [
@@ -114741,8 +114686,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "فاتح جانغ",
-      "en": "Fatehjang",
-      "ur": "فتح جنگ"
+      "en": "Fatehjang"
     },
     "aliases": {
       "en": [
@@ -114769,8 +114713,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جوهار كانا",
-      "en": "Chuhar Kana",
-      "ur": "چوہڑ کانا"
+      "en": "Chuhar Kana"
     },
     "aliases": {
       "en": [
@@ -114778,9 +114721,6 @@
         "Chuhar Kand",
         "Chūhar Kāna",
         "Chūhar Kānd"
-      ],
-      "ur": [
-        "چوہڑکانہ"
       ]
     },
     "admin": {
@@ -114803,14 +114743,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جيجاواتني",
-      "en": "Chichawatni",
-      "ur": "چیچہ وطنی"
+      "en": "Chichawatni"
     },
-    "aliases": {
-      "ur": [
-        "چیچا وطنی"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -114831,14 +114766,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "نوشيرا كلان",
-      "en": "Nowshera Kalan",
-      "ur": "نوشہرہ کلاں"
+      "en": "Nowshera Kalan"
     },
-    "aliases": {
-      "ur": [
-        "نوشہرہ کلان"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -114859,8 +114789,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "داهاركي",
-      "en": "Daharki",
-      "ur": "ڈہرکی"
+      "en": "Daharki"
     },
     "aliases": {},
     "admin": {
@@ -114883,8 +114812,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "الله آباد",
-      "en": "Alahabad",
-      "ur": "اللہ آباد"
+      "en": "Alahabad"
     },
     "aliases": {
       "en": [

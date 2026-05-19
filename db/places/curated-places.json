@@ -112018,7 +112018,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "راولاكوت",
-      "en": "Rawalakot"
+      "en": "Rawalakot",
+      "ur": "راولاکوٹ"
     },
     "aliases": {
       "ar": [
@@ -112029,6 +112030,9 @@
         "Ravalakot",
         "la wo la guo de",
         "ravalakota"
+      ],
+      "ur": [
+        "راولا کوٹ"
       ]
     },
     "admin": {
@@ -112051,7 +112055,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "أمركوت",
-      "en": "Umarkot"
+      "en": "Umarkot",
+      "ur": "عمرکوٹ"
     },
     "aliases": {
       "en": [
@@ -112079,7 +112084,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ساهيوال",
-      "en": "Sahiwal"
+      "en": "Sahiwal",
+      "ur": "ساہیوال"
     },
     "aliases": {
       "en": [
@@ -112091,6 +112097,9 @@
         "sahivala",
         "sahywal",
         "sahywal  pakstan"
+      ],
+      "ur": [
+        "ساهیوال"
       ]
     },
     "admin": {
@@ -112113,7 +112122,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "روهري",
-      "en": "Rohri"
+      "en": "Rohri",
+      "ur": "روہڑی"
     },
     "aliases": {
       "en": [
@@ -112141,7 +112151,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "نيا ميربر شهر",
-      "en": "New Mirpur City"
+      "en": "New Mirpur City",
+      "ur": "نیا میرپور شہر"
     },
     "aliases": {
       "ar": [
@@ -112152,6 +112163,9 @@
         "mi er bu er",
         "mirapura",
         "myrpwr"
+      ],
+      "ur": [
+        "میرپور"
       ]
     },
     "admin": {
@@ -112174,7 +112188,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مظفر غره",
-      "en": "Muzaffargarh"
+      "en": "Muzaffargarh",
+      "ur": "مظفر گڑھ"
     },
     "aliases": {
       "en": [
@@ -112186,6 +112201,9 @@
         "mu zha fa er ge er xian",
         "muzaffaragarha",
         "mzfr grh  pakstan"
+      ],
+      "ur": [
+        "مظفر گرہ"
       ]
     },
     "admin": {
@@ -112208,7 +112226,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "لاله موسي",
-      "en": "Lala Musa"
+      "en": "Lala Musa",
+      "ur": "لالہ موسیٰ"
     },
     "aliases": {
       "en": [
@@ -112216,6 +112235,9 @@
         "Lála Musa",
         "Lāla Mūsa",
         "lalh mwsy"
+      ],
+      "ur": [
+        "لالہ موسی"
       ]
     },
     "admin": {
@@ -112238,9 +112260,14 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كهاريان",
-      "en": "Kharian"
+      "en": "Kharian",
+      "ur": "کھاریاں"
     },
-    "aliases": {},
+    "aliases": {
+      "ur": [
+        "کھاریان"
+      ]
+    },
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -112261,7 +112288,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جيكب آباد",
-      "en": "Jacobabad"
+      "en": "Jacobabad",
+      "ur": "جیکب آباد"
     },
     "aliases": {
       "ar": [
@@ -112277,6 +112305,9 @@
         "jykb abad",
         "jykb‌abad  pakstan",
         "ya ge bu a ba de"
+      ],
+      "ur": [
+        "جیکب اباد"
       ]
     },
     "admin": {
@@ -112299,7 +112330,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "غوجرانوالا",
-      "en": "Gujranwala"
+      "en": "Gujranwala",
+      "ur": "گوجرانوالہ"
     },
     "aliases": {
       "ar": [
@@ -112317,6 +112349,9 @@
         "gu jie lan wa la",
         "gujaranvala",
         "gwg'rʼnwwʼlh"
+      ],
+      "ur": [
+        "گوجرانوالا"
       ]
     },
     "admin": {
@@ -112339,7 +112374,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "غوجر خان",
-      "en": "Gujar Khan"
+      "en": "Gujar Khan",
+      "ur": "گجر خاں"
     },
     "aliases": {
       "ar": [
@@ -112353,6 +112389,10 @@
         "gujara khana",
         "gwjr khan",
         "gwjrkhan"
+      ],
+      "ur": [
+        "گوجر خان",
+        "گوجرخان"
       ]
     },
     "admin": {
@@ -112375,7 +112415,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ديرة غازي خان",
-      "en": "Dera Ghazi Khan"
+      "en": "Dera Ghazi Khan",
+      "ur": "ڈیرہ غازی خان"
     },
     "aliases": {
       "ar": [
@@ -112393,6 +112434,9 @@
         "de la jia qi han",
         "de ra ka si khan",
         "dera gazi khana"
+      ],
+      "ur": [
+        "دیرہ غازی خان"
       ]
     },
     "admin": {
@@ -112415,7 +112459,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جونيان",
-      "en": "Chunian"
+      "en": "Chunian",
+      "ur": "چونیاں"
     },
     "aliases": {
       "ar": [
@@ -112425,6 +112470,9 @@
         "Chūniān",
         "chnyan",
         "chwnyan"
+      ],
+      "ur": [
+        "چونیان"
       ]
     },
     "admin": {
@@ -112447,7 +112495,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جترال",
-      "en": "Chitral"
+      "en": "Chitral",
+      "ur": "چترال"
     },
     "aliases": {
       "ar": [
@@ -112466,6 +112515,9 @@
         "citrala",
         "Çitral",
         "Čitral"
+      ],
+      "ur": [
+        "چیترال"
       ]
     },
     "admin": {
@@ -112488,7 +112540,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جنيوت",
-      "en": "Chiniot"
+      "en": "Chiniot",
+      "ur": "چنیوٹ"
     },
     "aliases": {
       "en": [
@@ -112496,6 +112549,9 @@
         "Chinot",
         "chnywt  pakstan",
         "ji ni ao de"
+      ],
+      "ur": [
+        "چنیوت"
       ]
     },
     "admin": {
@@ -112518,7 +112574,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بنو",
-      "en": "Bannu"
+      "en": "Bannu",
+      "ur": "بنوں"
     },
     "aliases": {
       "en": [
@@ -112547,7 +112604,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بدين",
-      "en": "Badin"
+      "en": "Badin",
+      "ur": "بدین"
     },
     "aliases": {
       "en": [

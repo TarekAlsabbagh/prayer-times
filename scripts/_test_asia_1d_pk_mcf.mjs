@@ -113,7 +113,9 @@ for (const [slug, expectedAr] of Object.entries(FIXES_EXPECTED)) {
 // ───────────────────────────────────────────────────────────────────────
 console.log('\n── Part C — NO Latin fillchain in names.X for 17 MCF entries ──');
 
-const FILLCHAIN_LANGS = ['ur','bn','fr','de','tr','id','es','ms'];
+// Post-PLACE-NAMES-UR-PK-3-APPLY (2026-05-19): names.ur is intentionally
+// populated for all 17 MCF entries. Check fillchain on the OTHER 7 langs only.
+const FILLCHAIN_LANGS = ['bn','fr','de','tr','id','es','ms']; // ur excluded post-UR-PK-3
 let fillchainLeaks = 0;
 for (const slug of MCF_SLUGS) {
     const e = pkEntries.find(x => x.slug === slug);
@@ -125,20 +127,20 @@ for (const slug of MCF_SLUGS) {
         }
     }
 }
-ok('NO Latin fillchain in 17 MCF entries (0 leaks across 8 locales × 17 = 136 checks)',
+ok('NO Latin fillchain in 17 MCF entries (0 leaks across 7 locales × 17 = 119 checks; names.ur populated by UR-PK-3)',
     fillchainLeaks === 0);
 
-// All 17 should have names: {ar, en} only
-let onlyArEn = 0;
+// All 17 should now have names = {ar, en, ur} (UR-PK-3 added the ur key)
+let arEnUr = 0;
 for (const slug of MCF_SLUGS) {
     const e = pkEntries.find(x => x.slug === slug);
     if (!e || !e.names) continue;
     const keys = Object.keys(e.names).sort().join(',');
-    if (keys === 'ar,en') onlyArEn++;
+    if (keys === 'ar,en,ur') arEnUr++;
 }
-ok('All 17 MCF entries have names = {ar, en} only',
-    onlyArEn === 17,
-    '(got ' + onlyArEn + ' / 17)');
+ok('All 17 MCF entries have names = {ar, en, ur} (post-UR-PK-3)',
+    arEnUr === 17,
+    '(got ' + arEnUr + ' / 17)');
 
 // ───────────────────────────────────────────────────────────────────────
 // PART D — Existing PK entries (10 seed + 43 clean) unchanged

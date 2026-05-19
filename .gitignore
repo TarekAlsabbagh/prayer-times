@@ -43,6 +43,13 @@ db/places/candidates/pl-geonames-raw.json
 db/places/candidates/pl-geonames-normalized.json
 db/places/candidates/pl-geonames-candidates.json
 
+# CURATED-GEODATA-ASIA-1D-BD — BD candidates 54 MB + normalized 36 MB
+# + raw 25 MB (over GitHub 50 MB warn threshold for candidates).
+# Regeneratable from Stages 1-3 via the BD.zip GeoNames source.
+db/places/candidates/bd-geonames-raw.json
+db/places/candidates/bd-geonames-normalized.json
+db/places/candidates/bd-geonames-candidates.json
+
 # CURATED-GEODATA-AMERICAS-1A — US candidates 277 MB + normalized 170 MB
 # + raw 100 MB. MX candidates 410 MB + normalized 250 MB + raw 156 MB.
 # All vastly over GitHub 100 MB hard limit. Regeneratable from Stages 1-3.

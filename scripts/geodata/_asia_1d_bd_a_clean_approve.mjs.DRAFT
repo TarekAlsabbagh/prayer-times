@@ -1,0 +1,187 @@
+// scripts/geodata/_asia_1d_bd_a_clean_approve.mjs (DRAFT — NOT YET ACTIVE)
+// ─────────────────────────────────────────────────────────────────────────
+// ASIA-1D-BD-A (Fast Track) — DRAFT clean-approve script for first
+// Bangladesh geodata wave.
+//
+// ⚠️ THIS IS A DRAFT (filename ends `.DRAFT`). It is NOT executable as-is
+// and must be reviewed + renamed (drop `.DRAFT`) before user approves
+// the actual ASIA-1D-BD-A execution.
+//
+// Mirrors structure of:
+//   - scripts/geodata/_asia_1d_pk_clean_approve.mjs (PK clean wave)
+//   - scripts/geodata/_asia_1d_pk_missing_ar_1a_apply.mjs (PK MAJORS-1A)
+//
+// SCOPE: 13 cities = 10 high-tier pending + 3 anomaly-resolved
+//   (rangpur false-positive fix + nilphamari/gaibandha low-tier promotions)
+//
+// NOT INCLUDED (deferred):
+//   - barishal PPLA pop=202k — duplicate of existing curated `barisal`
+//     (handle via separate alias-enrichment phase for `barisal` entry)
+//   - chandpur PPLA2 pop=203k — in needs_review (missing-ar); defer to
+//     ASIA-1D-BD-MISSING-AR-MAJORS-1A wave
+//   - 63 other pop≥50k PPLs in needs_review — same as above
+//   - all PPL with pop=0 (~48,800 micro-localities)
+//
+// ─────────────────────────────────────────────────────────────────────────
+import fs from 'node:fs';
+import { pathsFor } from './_geonames_common.mjs';
+
+const CC = 'bd';
+
+// ─── Script-purity helpers (mirror PK MAJORS-1C) ─────────────────────────
+const PERSIAN_URDU       = /[پچژگٹڈڑښګڵݫݬیکہےۀڤڥڨۆۇۈېەڕڼ]/;
+const LATIN              = /[A-Za-z]/;
+const URDU_NUN_GHUNNA    = /[ں]/;
+const PASHTO_SINDHI      = /[ټېڪڙٻٺڀٽڄڃڌڍڠڳڱڻ]/;
+
+function isCleanArabic(s) {
+    if (!s) return false;
+    const stripped = String(s).replace(/[ً-ٰٟۖ-ۭـ]/g, '')
+        .replace(/[\s.,()'\-/؛؟،]/g, '')
+        .replace(/[0-9٠-٩]/g, '');
+    if (!stripped) return false;
+    if (PERSIAN_URDU.test(stripped))     return false;
+    if (LATIN.test(stripped))            return false;
+    if (URDU_NUN_GHUNNA.test(stripped))  return false;
+    if (PASHTO_SINDHI.test(stripped))    return false;
+    return /^[ء-يٰ-ٳـ]+$/.test(stripped);
+}
+
+// ─── 13 BATCH-A FIXES — manual Wikipedia AR + alias-promotion ────────────
+// score-source key:
+//   PROMOTE — promote existing clean alias to primary
+//   MANUAL  — fresh manual Wikipedia AR / standard Arabic transliteration
+//   KEEP    — primary already clean Arabic; no change needed
+const FIXES = [
+    // ────── 10 high-tier pending (from current Stage 3) ──────
+    { slug: 'gazipur',     newAr: 'غازيبور',       source: 'PROMOTE',
+      addAliasesEn: [],
+      note: 'pop=2.67M PPLA2 Dhaka Div; promote from aliases.ar[0]' },
+
+    { slug: 'comilla',     newAr: 'كوميلا',        source: 'MANUAL',
+      addAliasesEn: ['Cumilla'],  // 2018 official rename
+      note: 'pop=1.03M PPL Chittagong Div; AR Wikipedia kūmīlā; Cumilla 2018 rename → alias' },
+
+    { slug: 'bagerhat',    newAr: 'باغرهات',       source: 'PROMOTE',
+      addAliasesEn: [], keepAliasesAr: ['باغر هات'],
+      note: 'pop=266k PPLA2 Khulna Div; promote from aliases.ar[2]' },
+
+    { slug: 'mymensingh',  newAr: 'ميمنسينغ',      source: 'PROMOTE',
+      addAliasesEn: [],
+      note: 'pop=225k PPLA Mymensingh Div (admin1=H); promote from aliases.ar[1]' },
+
+    { slug: 'bogra',       newAr: 'بوغرا',         source: 'MANUAL',
+      addAliasesEn: ['Bogura'],   // 2018 official rename
+      note: 'pop=210k PPL Rajshahi Div; standard AR (Persian گ→Arabic غ); Bogura 2018 rename' },
+
+    { slug: 'jamalpur',    newAr: 'جمالبور',       source: 'KEEP',
+      addAliasesEn: [],
+      note: 'pop=168k PPLA2 Mymensingh Div; primary already clean Arabic' },
+
+    { slug: 'habiganj',    newAr: 'حبيغنج',        source: 'PROMOTE',
+      addAliasesEn: [],
+      note: 'pop=89k PPL Sylhet Div; promote from aliases.ar[0] (Bengali গ→غ)' },
+
+    { slug: 'feni',        newAr: 'فيني',          source: 'PROMOTE',
+      addAliasesEn: [],
+      note: 'pop=84k PPL Chittagong Div; promote from aliases.ar[0]' },
+
+    { slug: 'netrakona',   newAr: 'نيتراكونا',     source: 'MANUAL',
+      addAliasesEn: [],
+      note: 'pop=79k PPLA2 Mymensingh Div; standard AR (replace Persian ک/ی)' },
+
+    { slug: 'lalmonirhat', newAr: 'لالمونيرهات',   source: 'PROMOTE',
+      addAliasesEn: [], keepAliasesAr: ['لال منير هات'],
+      note: 'pop=65k PPLA2 Rangpur Div; promote from aliases.ar[2]; keep spaced variant' },
+
+    // ────── 3 anomaly-resolved cities ──────
+    { slug: 'rangpur',     newAr: 'رنغبور',        source: 'MANUAL',
+      addAliasesEn: [], keepAliasesAr: ['رانجبور'],
+      anomalyOverride: 'religious_false_positive',
+      note: 'pop=1.03M PPLA Rangpur Div; was REJECTED (Mosque-keyword false positive in aliases.en="Mosque Rangpur"); standard AR Wikipedia translit' },
+
+    { slug: 'nilphamari',  newAr: 'نيلفاماري',     source: 'KEEP',
+      addAliasesEn: [],
+      anomalyOverride: 'low_tier_admin_promotion',
+      note: 'pop=0 PPLA2 Rangpur Div admin center; primary already clean; promote from low→high' },
+
+    { slug: 'gaibandha',   newAr: 'غايباندا',      source: 'MANUAL',
+      addAliasesEn: [], keepAliasesAr: ['غيبندا'],
+      anomalyOverride: 'low_tier_admin_promotion',
+      note: 'pop=0 PPLA2 Rangpur Div admin center; standard AR Wikipedia translit; promote from low→high' },
+];
+
+// ─── Slugs we MUST NOT include ───────────────────────────────────────────
+// 1. Duplicates of existing curated entries (handled via alias enrichment)
+// 2. needs_review entries (deferred to ASIA-1D-BD-MISSING-AR-MAJORS-* waves)
+const DROP_SLUGS = new Set([
+    'barishal',     // pop=202k PPLA — DUPLICATE of curated `barisal` (1.76km away)
+                    //                 → enrich `barisal` aliases instead (separate phase)
+    'chandpur',     // pop=203k PPLA2 — in needs_review (missing real AR);
+                    //                  defer to ASIA-1D-BD-MISSING-AR-MAJORS-1A
+    'magura',       // pop=0 PPLA2 — needs_review; defer
+    'jessore',      // pop=244k PPL — needs_review (Jashore 2018 rename); defer
+    'cox-s-bazar', 'coxs-bazar',  // pop=254k PPL — needs_review; defer
+]);
+
+// ─── Anomaly overrides (Stage 3 false-rejections + low-tier promotions) ─
+// Each maps to the fix above; documented here for visibility.
+const ANOMALY_NOTES = {
+    'rangpur':    'Stage 3 rejected via religious-keyword "/\\bmosque\\b/i" matching alias "Mosque Rangpur". This is a substring leak. Permanent fix: add PPLC/PPLA exemption to religious blocklist in validate_candidates.mjs (RECOMMENDED), or use this script-level override.',
+    'nilphamari': 'Stage 3 tier=low because pop=0 + PPLA2 not in alwaysIncludeFeatureCodes. PPLA2 is district admin center — promote.',
+    'gaibandha':  'Same as nilphamari.',
+};
+
+// ─── Validators ────────────────────────────────────────────────────────────
+function preflight() {
+    const errors = [];
+    const seenSlugs = new Set();
+    const seenAr = new Map();
+    for (const f of FIXES) {
+        if (DROP_SLUGS.has(f.slug)) errors.push('FIXES targets DROP_SLUG: ' + f.slug);
+        if (seenSlugs.has(f.slug))  errors.push('Duplicate slug: ' + f.slug);
+        seenSlugs.add(f.slug);
+
+        if (!isCleanArabic(f.newAr)) {
+            errors.push(f.slug + ' → newAr="' + f.newAr + '" failed clean-Arabic check');
+        }
+        if (seenAr.has(f.newAr)) {
+            errors.push('DUP-AR: "' + f.newAr + '" used by ' + seenAr.get(f.newAr) + ' AND ' + f.slug);
+        }
+        seenAr.set(f.newAr, f.slug);
+
+        // Cross-check against existing 6 BD curated Arabic names
+        const curated = JSON.parse(fs.readFileSync(
+            'C:/Users/Tarek/Downloads/TIME PRAYER/db/places/curated-places.json', 'utf8'));
+        const existingArSet = new Set(
+            curated.filter(x => x.countryCode === 'bd')
+                   .map(e => e && e.names && e.names.ar).filter(Boolean));
+        if (existingArSet.has(f.newAr)) {
+            errors.push(f.slug + ' → "' + f.newAr + '" collides with existing BD curated entry');
+        }
+    }
+    return errors;
+}
+
+// ─── Main (DRAFT — not executable until user approval) ───────────────────
+function main() {
+    const errors = preflight();
+    if (errors.length) {
+        console.error('[bd-a DRAFT] pre-flight FAILED — must resolve before execution:');
+        for (const e of errors) console.error('  - ' + e);
+        process.exit(1);
+    }
+    console.log('[bd-a DRAFT] pre-flight OK — ' + FIXES.length + ' fixes validated');
+    console.log('[bd-a DRAFT] DROP_SLUGS:', [...DROP_SLUGS].join(', '));
+    console.log('[bd-a DRAFT] Anomaly overrides:', Object.keys(ANOMALY_NOTES).length);
+    console.log('');
+    console.log('═══ DRAFT script — STOPPED before mutating candidates ═══');
+    console.log('Per ASIA-1D-BD-A-PLAN spec (2026-05-19):');
+    console.log('  - No candidate mutation');
+    console.log('  - No Stage 4 merge (apply_curated_candidates.mjs bd not invoked)');
+    console.log('  - No curated-places.json change');
+    console.log('  - This file ends in .DRAFT — rename to drop suffix when approved');
+    process.exit(0);
+}
+
+main();

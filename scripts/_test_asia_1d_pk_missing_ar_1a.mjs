@@ -78,8 +78,10 @@ const BATCH_A_EXPECTED = {
 };
 
 // PART A
-console.log('\n── Part A — PK count = 90 ──');
-ok('PK total = 90 entries (70 + 20 Batch A)', pk.length === 90, '(got ' + pk.length + ')');
+// Post-MAJORS-1B (2026-05-19): PK grew from 90 to 119 (+29 BATCH-B). Allow growth.
+console.log('\n── Part A — PK count >= 90 (MAJORS-1A baseline) ──');
+ok('PK total >= 90 entries (70 + 20 Batch A; may grow via MAJORS waves)',
+    pk.length >= 90, '(got ' + pk.length + ')');
 
 // PART B
 console.log('\n── Part B — 20 Batch A names.ar applied ──');

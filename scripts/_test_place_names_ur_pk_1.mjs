@@ -175,18 +175,20 @@ ok('PK entry count >= 10 (UR-PK-1 baseline; may grow via ASIA-1D-PK)',
     pkCount >= 10,
     '(got ' + pkCount + ')');
 
-// Post-ASIA-1D-PK-MISSING-AR-MAJORS-1A (2026-05-19): these 5 are now
-// added. The list shifts to the deferred BATCH-B/C entries.
+// Post-ASIA-1D-PK-MISSING-AR-MAJORS-1B (2026-05-19): MAJORS-1A merged 20
+// BATCH-A entries; MAJORS-1B merged 29 BATCH-B entries (incl. tando-adam,
+// toba-tek-singh, pakpattan). Deferred list now shifts to BATCH-C
+// pop=0 admin stubs which remain unmerged.
 const SHOULD_NOT_EXIST_YET = [
-    'tando-adam',       // BATCH-B deferred (pop=125k PPL)
-    'toba-tek-singh',   // BATCH-B (pop=123k PPLA2)
-    'pakpattan',        // BATCH-B (pop=126k PPLA2)
+    'timargara',        // BATCH-C deferred (pop=0 admin stub)
+    'tolti',            // BATCH-C deferred (pop=0 admin stub)
+    'shigar',           // BATCH-C deferred (pop=0 admin stub)
     'jhang-city',       // user explicit "leave for later" decision
     'model-town'        // user explicit "leave for later" decision
 ];
 for (const slug of SHOULD_NOT_EXIST_YET) {
     const entry = curated.find(x => x.countryCode === 'pk' && x.slug === slug);
-    ok('pk/' + slug.padEnd(20) + ' NOT yet added (deferred to BATCH-B/C)',
+    ok('pk/' + slug.padEnd(20) + ' NOT yet added (deferred to BATCH-C / model-town)',
         !entry);
 }
 

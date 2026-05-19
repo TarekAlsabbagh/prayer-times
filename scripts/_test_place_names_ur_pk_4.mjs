@@ -191,8 +191,12 @@ for (const c of REGRESSION) {
 console.log('\n── Part H — 🏆 PK Urdu coverage = 90/90 ──');
 const allPk = curated.filter(x => x.countryCode === 'pk');
 const pkWithUrdu = allPk.filter(x => x.names && x.names.ur && !/^[A-Za-z]/.test(x.names.ur));
-ok('PK total = 90', allPk.length === 90, '(got ' + allPk.length + ')');
-ok('🏆 PK Urdu-complete: ALL 90 have real names.ur', pkWithUrdu.length === 90, '(' + pkWithUrdu.length + ' / 90)');
+// Post-MAJORS-1B (2026-05-19): PK grew from 90 to 119 (+29 BATCH-B Arabic).
+// Urdu enrichment for BATCH-B pending in UR-PK-5.
+ok('PK total >= 90 (UR-PK-4 baseline; may grow via MAJORS waves)',
+    allPk.length >= 90, '(got ' + allPk.length + ')');
+ok('🏆 PK 90 UR-PK-4 baseline still Urdu-complete',
+    pkWithUrdu.length >= 90, '(' + pkWithUrdu.length + ' / ' + allPk.length + ')');
 
 const total = pass + fail;
 console.log('\n═══════════════════════════════════════════════════════════════════════');

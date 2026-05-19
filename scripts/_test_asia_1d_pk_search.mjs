@@ -115,22 +115,35 @@ ok('mailsi aliases.ar does NOT include "تصيل ميلسي" (admin-prefix)',
 // ───────────────────────────────────────────────────────────────────────
 console.log('\n── Part C — fillLangMap guard verified (no Latin in names.X) ──');
 
-const FILLCHAIN_LANGS = ['ur','bn','fr','de','tr','id','es','ms'];
+// Note: PLACE-NAMES-UR-PK-2-APPLY (2026-05-19) intentionally added real
+// names.ur for all 43 entries. The fillchain-leak check should now
+// allow names.ur (since it has REAL Urdu, not Latin fillchain), but
+// still reject Latin in names.bn/fr/de/tr/id/es/ms (those should still
+// be absent — no real source exists for them).
+const FILLCHAIN_LANGS = ['bn','fr','de','tr','id','es','ms']; // ur excluded post-UR-PK-2
 let fillchainLeaks = 0;
 for (const slug of NEW_SLUGS) {
     const e = pkEntries.find(x => x.slug === slug);
     if (!e) continue;
     for (const lang of FILLCHAIN_LANGS) {
         if (e.names && e.names[lang]) {
-            // Any per-lang value present is a leak — Stage 2 fillLangMap
-            // should have omitted these (they're not in GeoNames source)
             fillchainLeaks++;
         }
     }
 }
-ok('NO Latin fillchain in any of the 43 new PK entries (0 leaks across 8 locales × 43 entries = 344 checks)',
+ok('NO Latin fillchain in names.bn/fr/de/tr/id/es/ms for 43 new PK entries (0 leaks across 7 locales × 43 = 301 checks; names.ur populated by UR-PK-2)',
     fillchainLeaks === 0,
     '(detected ' + fillchainLeaks + ' leaks)');
+
+// Also verify that names.ur IS now populated (UR-PK-2 baseline)
+let namesUrSet = 0;
+for (const slug of NEW_SLUGS) {
+    const e = pkEntries.find(x => x.slug === slug);
+    if (e && e.names && e.names.ur && !/^[A-Za-z]/.test(e.names.ur)) namesUrSet++;
+}
+ok('All 43 new PK entries have real names.ur (UR-PK-2 applied)',
+    namesUrSet === 43,
+    '(got ' + namesUrSet + ' / 43)');
 
 // ───────────────────────────────────────────────────────────────────────
 // PART D — Existing 10 PK seed entries unchanged

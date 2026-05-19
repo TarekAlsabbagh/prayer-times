@@ -110298,7 +110298,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "وزير آباد",
-      "en": "Wazirabad"
+      "en": "Wazirabad",
+      "ur": "وزیر آباد"
     },
     "aliases": {
       "ar": [
@@ -110321,6 +110322,9 @@
         "wzyr abad",
         "wzyrabad",
         "wzyrabad  pakstan"
+      ],
+      "ur": [
+        "وزیرآباد"
       ]
     },
     "admin": {
@@ -110343,7 +110347,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "تربت",
-      "en": "Turbat"
+      "en": "Turbat",
+      "ur": "تربت"
     },
     "aliases": {
       "ar": [
@@ -110376,12 +110381,16 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "توردهر",
-      "en": "Tordher"
+      "en": "Tordher",
+      "ur": "توردھر"
     },
     "aliases": {
       "en": [
         "Tordkher",
         "twrdhr"
+      ],
+      "ur": [
+        "توردهر"
       ]
     },
     "admin": {
@@ -110404,7 +110413,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سكر",
-      "en": "Sukkur"
+      "en": "Sukkur",
+      "ur": "سکھر"
     },
     "aliases": {
       "ar": [
@@ -110423,6 +110433,9 @@
         "skr  pakstan",
         "su ku er",
         "sukuleu"
+      ],
+      "ur": [
+        "سکر"
       ]
     },
     "admin": {
@@ -110445,7 +110458,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سكردو",
-      "en": "Skardu"
+      "en": "Skardu",
+      "ur": "سکردو"
     },
     "aliases": {
       "en": [
@@ -110474,7 +110488,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سبي",
-      "en": "Sibi"
+      "en": "Sibi",
+      "ur": "سبی"
     },
     "aliases": {
       "en": [
@@ -110504,7 +110519,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شيخوبوره",
-      "en": "Shekhupura"
+      "en": "Shekhupura",
+      "ur": "شیخوپورہ"
     },
     "aliases": {
       "ar": [
@@ -110525,6 +110541,10 @@
         "shykhwpwrh  pakstan",
         "xie hu bu er",
         "Śekhupura"
+      ],
+      "ur": [
+        "شیخوپورا",
+        "شیخوپوره"
       ]
     },
     "admin": {
@@ -110547,7 +110567,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شهدادبور",
-      "en": "Shahdadpur"
+      "en": "Shahdadpur",
+      "ur": "شہدادپور"
     },
     "aliases": {
       "en": [
@@ -110555,6 +110576,9 @@
         "sha he da de bu er",
         "shhdadbwr",
         "shhdadpwr"
+      ],
+      "ur": [
+        "شهدادپور"
       ]
     },
     "admin": {
@@ -110577,7 +110601,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سرغودها",
-      "en": "Sargodha"
+      "en": "Sargodha",
+      "ur": "سرگودھا"
     },
     "aliases": {
       "en": [
@@ -110589,6 +110614,9 @@
         "saragodha",
         "sarugoda",
         "srgwdha"
+      ],
+      "ur": [
+        "سرگودها"
       ]
     },
     "admin": {
@@ -110611,7 +110639,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سمبريال",
-      "en": "Sambrial"
+      "en": "Sambrial",
+      "ur": "سمبڑیال"
     },
     "aliases": {
       "ar": [
@@ -110622,6 +110651,9 @@
         "sa mu bo li a er",
         "sabari'ala",
         "smbryal"
+      ],
+      "ur": [
+        "سمبریال"
       ]
     },
     "admin": {
@@ -110644,7 +110676,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "رحيم يار خان",
-      "en": "Rahim Yar Khan"
+      "en": "Rahim Yar Khan",
+      "ur": "رحیم یار خان"
     },
     "aliases": {
       "ar": [
@@ -110688,7 +110721,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "قمبر",
-      "en": "Kambar"
+      "en": "Kambar",
+      "ur": "قمبر"
     },
     "aliases": {
       "en": [
@@ -110716,7 +110750,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بتوكى",
-      "en": "Pattoki"
+      "en": "Pattoki",
+      "ur": "پتوکی"
     },
     "aliases": {
       "ar": [
@@ -110750,7 +110785,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بسرور",
-      "en": "Pasrur"
+      "en": "Pasrur",
+      "ur": "پسرور"
     },
     "aliases": {
       "en": [
@@ -110782,7 +110818,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "نانكانا صاحب",
-      "en": "Nankana Sahib"
+      "en": "Nankana Sahib",
+      "ur": "ننکانہ صاحب"
     },
     "aliases": {
       "ar": [
@@ -110808,6 +110845,9 @@
         "nankana cakip",
         "nankana sahb",
         "nnkanh sahb"
+      ],
+      "ur": [
+        "ننکانه صاحب"
       ]
     },
     "admin": {
@@ -110830,7 +110870,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مظفر آباد",
-      "en": "Muzaffarābād"
+      "en": "Muzaffarābād",
+      "ur": "مظفر آباد"
     },
     "aliases": {
       "ar": [
@@ -110853,6 +110894,9 @@
         "muzaፋrabadi",
         "mzfr abad",
         "mzfrabad"
+      ],
+      "ur": [
+        "مظفرآباد"
       ]
     },
     "admin": {
@@ -110875,7 +110919,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مريدكي",
-      "en": "Muridke"
+      "en": "Muridke",
+      "ur": "مریدکے"
     },
     "aliases": {
       "ar": [
@@ -110893,6 +110938,9 @@
         "muridouke cun",
         "mwrydk",
         "mwrydky"
+      ],
+      "ur": [
+        "مریدکی"
       ]
     },
     "admin": {
@@ -110915,7 +110963,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ميربور خاص",
-      "en": "Mirpur Khas"
+      "en": "Mirpur Khas",
+      "ur": "میرپور خاص"
     },
     "aliases": {
       "ar": [
@@ -110929,6 +110978,9 @@
         "myr pwr khas",
         "myrpwr khas",
         "myrpwr khas  pakstan"
+      ],
+      "ur": [
+        "میر پور خاص"
       ]
     },
     "admin": {
@@ -110951,7 +111003,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "منغورا",
-      "en": "Mingora"
+      "en": "Mingora",
+      "ur": "مینگورہ"
     },
     "aliases": {
       "ar": [
@@ -110975,6 +111028,10 @@
         "myngwra",
         "myngwrh",
         "mynjwra"
+      ],
+      "ur": [
+        "مینگورا",
+        "مینگوره"
       ]
     },
     "admin": {
@@ -110997,7 +111054,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ماتلى",
-      "en": "Matli"
+      "en": "Matli",
+      "ur": "ماتلی"
     },
     "aliases": {
       "ar": [
@@ -111028,7 +111086,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مردان",
-      "en": "Mardan"
+      "en": "Mardan",
+      "ur": "مردان"
     },
     "aliases": {
       "en": [
@@ -111058,7 +111117,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ميلسي",
-      "en": "Mailsi"
+      "en": "Mailsi",
+      "ur": "میلسی"
     },
     "aliases": {
       "en": [
@@ -111086,7 +111146,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كوتري",
-      "en": "Kotri"
+      "en": "Kotri",
+      "ur": "کوٹری"
     },
     "aliases": {
       "en": [
@@ -111113,7 +111174,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كماليا",
-      "en": "Kamalia"
+      "en": "Kamalia",
+      "ur": "کمالیہ"
     },
     "aliases": {
       "ar": [
@@ -111128,6 +111190,10 @@
         "kamaliya",
         "kmalya",
         "kmalyh  pakstan"
+      ],
+      "ur": [
+        "کمالیا",
+        "کمالیه"
       ]
     },
     "admin": {
@@ -111150,7 +111216,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كبير والا",
-      "en": "Kabirwala"
+      "en": "Kabirwala",
+      "ur": "کبیر والا"
     },
     "aliases": {
       "ar": [
@@ -111181,7 +111248,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جهلم",
-      "en": "Jhelum"
+      "en": "Jhelum",
+      "ur": "جہلم"
     },
     "aliases": {
       "ar": [
@@ -111200,6 +111268,9 @@
         "jhelama sahara",
         "jhlm",
         "jie he lei mu"
+      ],
+      "ur": [
+        "جهلم"
       ]
     },
     "admin": {
@@ -111222,7 +111293,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جانغ صدر",
-      "en": "Jhang Sadr"
+      "en": "Jhang Sadr",
+      "ur": "جھنگ صدر"
     },
     "aliases": {
       "ar": [
@@ -111275,7 +111347,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جرانوالا",
-      "en": "Jaranwala"
+      "en": "Jaranwala",
+      "ur": "جڑانوالا"
     },
     "aliases": {
       "ar": [
@@ -111306,6 +111379,10 @@
         "jranwala",
         "jranwalh  pakstan",
         "Ĝaranvala"
+      ],
+      "ur": [
+        "جڑانوالہ",
+        "جرانوالا"
       ]
     },
     "admin": {
@@ -111328,7 +111405,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جمرود",
-      "en": "Jamrud"
+      "en": "Jamrud",
+      "ur": "جمرود"
     },
     "aliases": {
       "en": [
@@ -111365,7 +111443,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جهانغيرا",
-      "en": "Jahangira"
+      "en": "Jahangira",
+      "ur": "جہانگیرا"
     },
     "aliases": {
       "en": [
@@ -111374,6 +111453,9 @@
         "Dżehangira",
         "Jehangira",
         "jhangyra"
+      ],
+      "ur": [
+        "جهانگیرا"
       ]
     },
     "admin": {
@@ -111396,7 +111478,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "حاصل بور",
-      "en": "Hasilpur"
+      "en": "Hasilpur",
+      "ur": "حاصل پور"
     },
     "aliases": {
       "ar": [
@@ -111444,7 +111527,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جوادر",
-      "en": "Gwadar"
+      "en": "Gwadar",
+      "ur": "گوادر"
     },
     "aliases": {
       "ar": [
@@ -111483,7 +111567,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "غجرات",
-      "en": "Gujrat"
+      "en": "Gujrat",
+      "ur": "گجرات"
     },
     "aliases": {
       "en": [
@@ -111516,7 +111601,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جوجرا",
-      "en": "Gojra"
+      "en": "Gojra",
+      "ur": "گوجرہ"
     },
     "aliases": {
       "ar": [
@@ -111546,6 +111632,9 @@
         "jwjra",
         "kujra",
         "kx cra"
+      ],
+      "ur": [
+        "گوجرا"
       ]
     },
     "admin": {
@@ -111568,7 +111657,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كلكت",
-      "en": "Gilgit"
+      "en": "Gilgit",
+      "ur": "گلگت"
     },
     "aliases": {
       "ar": [
@@ -111608,7 +111698,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ديبالبور",
-      "en": "Dipalpur"
+      "en": "Dipalpur",
+      "ur": "دیپالپور"
     },
     "aliases": {
       "ar": [
@@ -111620,6 +111711,9 @@
         "dypal pwr",
         "dypalpwr",
         "tipalpur"
+      ],
+      "ur": [
+        "دیپال پور"
       ]
     },
     "admin": {
@@ -111642,11 +111736,15 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "دادُو",
-      "en": "Dadu"
+      "en": "Dadu",
+      "ur": "دادو"
     },
     "aliases": {
       "en": [
         "DDU"
+      ],
+      "ur": [
+        "دادُو"
       ]
     },
     "admin": {
@@ -111669,7 +111767,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ششتيان",
-      "en": "Chishtian"
+      "en": "Chishtian",
+      "ur": "چشتیاں"
     },
     "aliases": {
       "ar": [
@@ -111691,6 +111790,10 @@
         "chshtyan  pakstan",
         "shshtyan shryf",
         "Ĉiŝtian"
+      ],
+      "ur": [
+        "چشتیان",
+        "چشتیان شریف"
       ]
     },
     "admin": {
@@ -111713,7 +111816,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جمن",
-      "en": "Chaman"
+      "en": "Chaman",
+      "ur": "چمن"
     },
     "aliases": {
       "en": [
@@ -111745,12 +111849,16 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بُنِي",
-      "en": "Buni"
+      "en": "Buni",
+      "ur": "بنی"
     },
     "aliases": {
       "en": [
         "Bunī",
         "buniy"
+      ],
+      "ur": [
+        "بُنِی"
       ]
     },
     "admin": {
@@ -111773,7 +111881,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بالوال",
-      "en": "Bhalwal"
+      "en": "Bhalwal",
+      "ur": "بھلوال"
     },
     "aliases": {
       "ar": [
@@ -111822,13 +111931,17 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بهاولنغر",
-      "en": "Bahawalnagar"
+      "en": "Bahawalnagar",
+      "ur": "بہاولنگر"
     },
     "aliases": {
       "en": [
         "Bahawalpur",
         "Bahawatnagar",
         "Bahawâlpur"
+      ],
+      "ur": [
+        "بہاول نگر"
       ]
     },
     "admin": {
@@ -111851,7 +111964,8 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "احمد بور",
-      "en": "Ahmadpur East"
+      "en": "Ahmadpur East",
+      "ur": "احمد پور شرقیہ"
     },
     "aliases": {
       "ar": [
@@ -111878,6 +111992,10 @@
         "ahmdpwr shrqy",
         "shrq ahmdbwr",
         "thsyl ahmdpwr shrqy  pakstan"
+      ],
+      "ur": [
+        "احمد پور",
+        "احمدپور"
       ]
     },
     "admin": {

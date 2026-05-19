@@ -58,8 +58,10 @@ const CURATED_PATH = new URL('../db/places/curated-places.json', import.meta.url
 const curated = JSON.parse(readFileSync(CURATED_PATH, 'utf8'));
 const pkEntries = curated.filter(e => e.countryCode === 'pk');
 
-ok('PK total = 70 entries (10 seed + 43 ASIA-1D-PK clean + 17 MCF)',
-    pkEntries.length === 70,
+// Post-ASIA-1D-PK-MISSING-AR-MAJORS-1A (2026-05-19): PK grew from 70 to 90
+// (+20 missing-ar majors). MCF entries verified separately below.
+ok('PK total >= 70 entries (10 seed + 43 clean + 17 MCF baseline; may grow via MISSING-AR waves)',
+    pkEntries.length >= 70,
     '(got ' + pkEntries.length + ')');
 
 const MCF_SLUGS = [

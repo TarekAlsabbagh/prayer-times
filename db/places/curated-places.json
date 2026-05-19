@@ -112623,5 +112623,549 @@
     "source": "curated",
     "sourceId": "geonames:1184055",
     "verified": true
+  },
+  {
+    "slug": "khairpur-mirs",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 27.52948,
+    "lng": 68.75915,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "خيربور مير",
+      "en": "Khairpur Mir’s"
+    },
+    "aliases": {
+      "en": [
+        "Khaipur",
+        "Khairpur",
+        "Khairpur Mir's",
+        "Khairpur Mirs",
+        "Khairpur Mīrs",
+        "Khajrpura"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "السند",
+      "regionEn": "Sindh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1162004",
+    "verified": true
+  },
+  {
+    "slug": "tando-allahyar",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 25.4605,
+    "lng": 68.71745,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "تاندو اللهيار",
+      "en": "Tando Allahyar"
+    },
+    "aliases": {
+      "en": [
+        "Tando Alahyar"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "السند",
+      "regionEn": "Sindh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1163965",
+    "verified": true
+  },
+  {
+    "slug": "shikarpur",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 27.95558,
+    "lng": 68.63823,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "شكاربور",
+      "en": "Shikarpur"
+    },
+    "aliases": {
+      "en": [
+        "Shikārpur"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "السند",
+      "regionEn": "Sindh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1165108",
+    "verified": true
+  },
+  {
+    "slug": "shahkot",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 31.5709,
+    "lng": 73.48531,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "شاه كوت",
+      "en": "Shahkot"
+    },
+    "aliases": {
+      "en": [
+        "Shah kot",
+        "Shāh kot",
+        "Shāhkot"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1165569",
+    "verified": true
+  },
+  {
+    "slug": "saddiqabad",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 28.3091,
+    "lng": 70.12652,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "صديق آباد",
+      "en": "Saddiqabad"
+    },
+    "aliases": {
+      "en": [
+        "Sadikabad",
+        "Sadiqabad",
+        "Sādikābād",
+        "Sādiqābād"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1166652",
+    "verified": true
+  },
+  {
+    "slug": "okara",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 30.81029,
+    "lng": 73.45155,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "أوكاره",
+      "en": "Okara"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1168718",
+    "verified": true
+  },
+  {
+    "slug": "nawabshah",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 26.23939,
+    "lng": 68.40369,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "نواب شاه",
+      "en": "Nawabshah"
+    },
+    "aliases": {
+      "en": [
+        "Nawābshāh",
+        "WNS"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "السند",
+      "regionEn": "Sindh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1169116",
+    "verified": true
+  },
+  {
+    "slug": "larkana",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 27.55898,
+    "lng": 68.21204,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "لاركانة",
+      "en": "Larkana"
+    },
+    "aliases": {
+      "en": [
+        "Larkane",
+        "Larkāna"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "السند",
+      "regionEn": "Sindh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1172128",
+    "verified": true
+  },
+  {
+    "slug": "kohat",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 33.58196,
+    "lng": 71.44929,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "كوهات",
+      "en": "Kohat"
+    },
+    "aliases": {
+      "en": [
+        "Kokhat",
+        "OHT"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "خيبر بختونخوا",
+      "regionEn": "Khyber Pakhtunkhwa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1173491",
+    "verified": true
+  },
+  {
+    "slug": "garhi-khairo",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 28.05717,
+    "lng": 67.97898,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "غره خيرو",
+      "en": "Garhi Khairo"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "السند",
+      "regionEn": "Sindh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1174376",
+    "verified": true
+  },
+  {
+    "slug": "kasur",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 31.11866,
+    "lng": 74.45025,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "قصور",
+      "en": "Kasur"
+    },
+    "aliases": {
+      "en": [
+        "Kansur",
+        "Kansūr",
+        "Kasūr"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1174625",
+    "verified": true
+  },
+  {
+    "slug": "kamoke",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 31.97526,
+    "lng": 74.22304,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "كاموكي",
+      "en": "Kamoke"
+    },
+    "aliases": {
+      "en": [
+        "Kamoki",
+        "Kāmoki"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1175088",
+    "verified": true
+  },
+  {
+    "slug": "hafizabad",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 32.07095,
+    "lng": 73.68802,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "حافظ آباد",
+      "en": "Hafizabad"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1177384",
+    "verified": true
+  },
+  {
+    "slug": "dera-ismail-khan",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 31.83129,
+    "lng": 70.9017,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "ديرة إسماعيل خان",
+      "en": "Dera Ismail Khan"
+    },
+    "aliases": {
+      "en": [
+        "DSK"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "خيبر بختونخوا",
+      "regionEn": "Khyber Pakhtunkhwa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1180281",
+    "verified": true
+  },
+  {
+    "slug": "burewala",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 30.16667,
+    "lng": 72.65,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "بوريوالا",
+      "en": "Burewala"
+    },
+    "aliases": {
+      "en": [
+        "Būrewāla"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1182092",
+    "verified": true
+  },
+  {
+    "slug": "battagram",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 34.67719,
+    "lng": 73.02329,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "بطغرام",
+      "en": "Battagram"
+    },
+    "aliases": {
+      "en": [
+        "Batagram",
+        "Batagrām",
+        "Batgram",
+        "Batgran",
+        "Batgrām",
+        "Batgrān",
+        "Battagram City",
+        "Battagrām"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "خيبر بختونخوا",
+      "regionEn": "Khyber Pakhtunkhwa"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1183105",
+    "verified": true
+  },
+  {
+    "slug": "bahawalpur",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 29.39779,
+    "lng": 71.6752,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "بهاولبور",
+      "en": "Bahawalpur"
+    },
+    "aliases": {
+      "en": [
+        "BHV",
+        "Bakhavalpura"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "البنجاب",
+      "regionEn": "Punjab"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1183880",
+    "verified": true
+  },
+  {
+    "slug": "abbottabad",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 34.1463,
+    "lng": 73.21168,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "إبت آباد",
+      "en": "Abbottabad"
+    },
+    "aliases": {
+      "en": [
+        "Abbotabad"
+      ]
+    },
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "خيبر بختونخوا",
+      "regionEn": "Khyber Pakhtunkhwa"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1185056",
+    "verified": true
+  },
+  {
+    "slug": "arif-wala",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 26.32478,
+    "lng": 66.29587,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "عارف والا",
+      "en": "Arif Wala"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "بلوشستان",
+      "regionEn": "Balochistan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:11250625",
+    "verified": true
+  },
+  {
+    "slug": "hub",
+    "type": "town",
+    "countryCode": "pk",
+    "lat": 25.02555,
+    "lng": 66.88534,
+    "timezone": "Asia/Karachi",
+    "names": {
+      "ar": "هب",
+      "en": "Hub"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باكستان",
+      "countryEn": "Pakistan",
+      "regionAr": "بلوشستان",
+      "regionEn": "Balochistan"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:12524485",
+    "verified": true
   }
 ]

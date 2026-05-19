@@ -271,11 +271,15 @@ console.log('\n── Part J — Milestone: PK Urdu coverage = 70/70 ──');
 
 const allPk = curated.filter(x => x.countryCode === 'pk');
 const pkWithUrdu = allPk.filter(x => x.names && x.names.ur && !/^[A-Za-z]/.test(x.names.ur));
-ok('PK total = 70 entries',
-    allPk.length === 70,
+// Post-ASIA-1D-PK-MISSING-AR-MAJORS-1A (2026-05-19): PK grew to 90.
+// Urdu enrichment for the 20 new entries is a SEPARATE follow-up (UR-PK-4),
+// so post-MAJORS-1A: PK Urdu coverage = 70/90 (the original 70 still
+// complete; 20 new entries pending Urdu).
+ok('PK total >= 70 entries (UR-PK-3 baseline; may grow via MISSING-AR-MAJORS waves)',
+    allPk.length >= 70,
     '(got ' + allPk.length + ')');
-ok('🏆 PK Urdu-complete: ALL 70 entries have real names.ur',
-    pkWithUrdu.length === 70,
+ok('🏆 PK 70 baseline still Urdu-complete (later MISSING-AR-MAJORS waves expand the queue)',
+    pkWithUrdu.length >= 70,
     '(' + pkWithUrdu.length + ' / ' + allPk.length + ')');
 
 // ───────────────────────────────────────────────────────────────────────

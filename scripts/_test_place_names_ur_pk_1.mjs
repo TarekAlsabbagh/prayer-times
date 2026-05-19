@@ -175,19 +175,18 @@ ok('PK entry count >= 10 (UR-PK-1 baseline; may grow via ASIA-1D-PK)',
     pkCount >= 10,
     '(got ' + pkCount + ')');
 
-// Cities deferred to a future ASIA-1D-PK-MISSING-AR-MAJORS-1 phase
-// (missing Arabic name in GeoNames; 98 majors deferred per ASIA-1D-PK
-// premerge decision). These should still be absent post-ASIA-1D-PK.
+// Post-ASIA-1D-PK-MISSING-AR-MAJORS-1A (2026-05-19): these 5 are now
+// added. The list shifts to the deferred BATCH-B/C entries.
 const SHOULD_NOT_EXIST_YET = [
-    'bahawalpur',       // 904k PPLA2 — missing-ar in GeoNames
-    'dera-ismail-khan', // 763k PPLA2 — missing-ar
-    'okara',            // 534k PPLA2 — missing-ar
-    'kasur',            // 511k PPLA2 — missing-ar
-    'larkana'           // 364k PPLA2 — missing-ar
+    'tando-adam',       // BATCH-B deferred (pop=125k PPL)
+    'toba-tek-singh',   // BATCH-B (pop=123k PPLA2)
+    'pakpattan',        // BATCH-B (pop=126k PPLA2)
+    'jhang-city',       // user explicit "leave for later" decision
+    'model-town'        // user explicit "leave for later" decision
 ];
 for (const slug of SHOULD_NOT_EXIST_YET) {
     const entry = curated.find(x => x.countryCode === 'pk' && x.slug === slug);
-    ok('pk/' + slug.padEnd(20) + ' NOT yet added (deferred to ASIA-1D-PK-MISSING-AR-MAJORS-1)',
+    ok('pk/' + slug.padEnd(20) + ' NOT yet added (deferred to BATCH-B/C)',
         !entry);
 }
 

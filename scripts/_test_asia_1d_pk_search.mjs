@@ -52,8 +52,11 @@ const CURATED_PATH = new URL('../db/places/curated-places.json', import.meta.url
 const curated = JSON.parse(readFileSync(CURATED_PATH, 'utf8'));
 const pkEntries = curated.filter(e => e.countryCode === 'pk');
 
-ok('PK total = 53 entries (10 seed + 43 ASIA-1D-PK)',
-    pkEntries.length === 53,
+// Post-ASIA-1D-PK-MCF (2026-05-19): PK count grew from 53 to 70 with the
+// 17 blocked-major fixes. Accept >=53 (this wave covers the 43 clean entries;
+// MCF entries verified in _test_asia_1d_pk_mcf.mjs).
+ok('PK total >= 53 entries (10 seed + 43 ASIA-1D-PK clean; may grow via MCF/MISSING-AR)',
+    pkEntries.length >= 53,
     '(got ' + pkEntries.length + ')');
 
 // 43 specific new slugs

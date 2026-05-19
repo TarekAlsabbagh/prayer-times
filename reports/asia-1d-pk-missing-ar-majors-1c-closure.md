@@ -289,10 +289,38 @@ prior PK entry, all 2,326 non-PK curated entries.
 
 ---
 
-## Status: 🟢 CLOSED — Pakistan now 148/148 Arabic-complete, 119/148 Urdu (UR-PK-6 pending)
+## Status: 🟢 CLOSED — user-approved 2026-05-19 — Pakistan now 148/148 Arabic-complete, 119/148 Urdu (UR-PK-6 pending)
 
-**Rollback**: `git revert <commit>`. Backup at
+**Commit**: `12f3c89` (pushed to origin/main)
+**Rollback**: `git revert 12f3c89`. Backup at
 `db/places/curated-places.json.preAsia1dPkMissingAr1C.bak`.
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | ASIA-1D-PK-MISSING-AR-MAJORS-1C closed | ✓ |
+| 2 | 29 Pakistan Batch-C cities merged | ✓ |
+| 3 | PK count is now 148 | ✓ |
+| 4 | PK Arabic coverage is 148/148 | ✓ |
+| 5 | PK Urdu coverage is 119/148 | ✓ |
+| 6 | No fake localized fillchain was written | ✓ (0 leaks 232 checks) |
+| 7 | No code changes | ✓ (server.js/js/app.js/fillLangMap/index.html unchanged) |
+| 8 | Prior 119 PK entries untouched | ✓ |
+| 9 | Next recommended phase is PLACE-NAMES-UR-PK-6 | ✓ |
+
+### User-approved exclusions (8 total)
+
+| # | Excluded slug | Reason |
+|---|---|---|
+| 1 | `arifwala` | Duplicate Arabic `عارف والا` with existing `arif-wala` (MAJORS-1A) |
+| 2 | `jhang-city` | Semantic dup with `jhang-sadr` already merged |
+| 3 | `eidghah` | Generic Eidgah prayer-ground name, not a real city |
+| 4 | `dambudas` | Obscure village stub in Diamer area |
+| 5 | `tolti` | Small village near Skardu, low SEO value |
+| 6 | `musa-khel-bazar` | Unusual `-bazar` suffix (district HQ but borderline) |
+| 7 | `model-town` | Generic English neighborhood (re-listed from MAJORS-1A) |
+| 8 | `bahawalnagar` PPL dup | Duplicate of existing PPLA2 (re-listed from MAJORS-1A) |
 
 **Held (per user direction — DO NOT auto-start)**:
 - PLACE-NAMES-UR-PK-6 (Urdu enrichment for 29 BATCH-C cities)

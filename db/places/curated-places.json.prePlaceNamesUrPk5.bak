@@ -113236,8 +113236,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "زهوب",
-      "en": "Zhob",
-      "ur": "ژوب"
+      "en": "Zhob"
     },
     "aliases": {
       "en": [
@@ -113267,15 +113266,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "فيهاري",
-      "en": "Vihari",
-      "ur": "وہاڑی"
+      "en": "Vihari"
     },
     "aliases": {
       "en": [
         "Vehari"
-      ],
-      "ur": [
-        "ویہاڑی"
       ]
     },
     "admin": {
@@ -113298,8 +113293,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "توبا تيك سينغ",
-      "en": "Toba Tek Singh",
-      "ur": "ٹوبہ ٹیک سنگھ"
+      "en": "Toba Tek Singh"
     },
     "aliases": {},
     "admin": {
@@ -113322,15 +113316,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "تاندو محمد خان",
-      "en": "Tando Muhammad Khan",
-      "ur": "ٹنڈو محمد خان"
+      "en": "Tando Muhammad Khan"
     },
     "aliases": {
       "en": [
         "Tando Mohammad Khan"
-      ],
-      "ur": [
-        "ٹنڈو محمد خاں"
       ]
     },
     "admin": {
@@ -113353,14 +113343,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "تاندو آدم",
-      "en": "Tando Adam",
-      "ur": "ٹنڈو آدم"
+      "en": "Tando Adam"
     },
-    "aliases": {
-      "ur": [
-        "ٹنڈوآدم"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -113381,8 +113366,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "صوابي",
-      "en": "Swabi",
-      "ur": "صوابی"
+      "en": "Swabi"
     },
     "aliases": {},
     "admin": {
@@ -113405,8 +113389,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شهداد كوت",
-      "en": "Shahdad Kot",
-      "ur": "شہداد کوٹ"
+      "en": "Shahdad Kot"
     },
     "aliases": {
       "en": [
@@ -113414,9 +113397,6 @@
         "Shahdadpur",
         "Shāhdādkot",
         "Shāhdādpur"
-      ],
-      "ur": [
-        "شہدادکوٹ"
       ]
     },
     "admin": {
@@ -113439,15 +113419,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "سنغر",
-      "en": "Sanghar",
-      "ur": "سانگھڑ"
+      "en": "Sanghar"
     },
     "aliases": {
       "en": [
         "Sangar"
-      ],
-      "ur": [
-        "سنگھڑ"
       ]
     },
     "admin": {
@@ -113470,14 +113446,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "رجن بور",
-      "en": "Rajanpur",
-      "ur": "راجن پور"
+      "en": "Rajanpur"
     },
-    "aliases": {
-      "ur": [
-        "راجنپور"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -113498,14 +113469,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "باكباتان",
-      "en": "Pakpattan",
-      "ur": "پاکپتن"
+      "en": "Pakpattan"
     },
-    "aliases": {
-      "ur": [
-        "پاک پتن"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -113526,8 +113492,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "نارووال",
-      "en": "Narowal",
-      "ur": "نارووال"
+      "en": "Narowal"
     },
     "aliases": {},
     "admin": {
@@ -113550,8 +113515,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ميانوالي",
-      "en": "Mianwali",
-      "ur": "میانوالی"
+      "en": "Mianwali"
     },
     "aliases": {
       "en": [
@@ -113578,15 +113542,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مانسهره",
-      "en": "Mansehra",
-      "ur": "مانسہرہ"
+      "en": "Mansehra"
     },
     "aliases": {
       "en": [
         "Mansekhra"
-      ],
-      "ur": [
-        "مانسہرا"
       ]
     },
     "admin": {
@@ -113609,8 +113569,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مانجاند",
-      "en": "Manjhand",
-      "ur": "منجھند"
+      "en": "Manjhand"
     },
     "aliases": {},
     "admin": {
@@ -113633,15 +113592,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "مندي بهاء الدين",
-      "en": "Mandi Bahauddin",
-      "ur": "منڈی بہاؤالدین"
+      "en": "Mandi Bahauddin"
     },
     "aliases": {
       "en": [
         "Bahauddin"
-      ],
-      "ur": [
-        "منڈی بہاؤ الدین"
       ]
     },
     "admin": {
@@ -113664,14 +113619,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "لودهران",
-      "en": "Lodhran",
-      "ur": "لودھراں"
+      "en": "Lodhran"
     },
-    "aliases": {
-      "ur": [
-        "لودھران"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -113692,8 +113642,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ليه",
-      "en": "Layyah",
-      "ur": "لیہ"
+      "en": "Layyah"
     },
     "aliases": {
       "en": [
@@ -113720,15 +113669,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "كوت أدو",
-      "en": "Kot Addu",
-      "ur": "کوٹ ادو"
+      "en": "Kot Addu"
     },
     "aliases": {
       "en": [
         "Kot-Adu"
-      ],
-      "ur": [
-        "کوٹادو"
       ]
     },
     "admin": {
@@ -113751,8 +113696,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "خضدار",
-      "en": "Khuzdar",
-      "ur": "خضدار"
+      "en": "Khuzdar"
     },
     "aliases": {
       "en": [
@@ -113780,8 +113724,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "خوشاب",
-      "en": "Khushāb",
-      "ur": "خوشاب"
+      "en": "Khushāb"
     },
     "aliases": {
       "en": [
@@ -113809,14 +113752,9 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "خانبور",
-      "en": "Khanpur",
-      "ur": "خانپور"
+      "en": "Khanpur"
     },
-    "aliases": {
-      "ur": [
-        "خان پور"
-      ]
-    },
+    "aliases": {},
     "admin": {
       "countryAr": "باكستان",
       "countryEn": "Pakistan",
@@ -113837,15 +113775,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "هاريبور",
-      "en": "Haripur",
-      "ur": "ہری پور"
+      "en": "Haripur"
     },
     "aliases": {
       "en": [
         "Kharipur"
-      ],
-      "ur": [
-        "ہریپور"
       ]
     },
     "admin": {
@@ -113868,8 +113802,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "غوتكي",
-      "en": "Ghotki",
-      "ur": "گھوٹکی"
+      "en": "Ghotki"
     },
     "aliases": {
       "en": [
@@ -113896,8 +113829,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "شارسده",
-      "en": "Charsadda",
-      "ur": "چارسدہ"
+      "en": "Charsadda"
     },
     "aliases": {},
     "admin": {
@@ -113920,8 +113852,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "جكوال",
-      "en": "Chakwal",
-      "ur": "چکوال"
+      "en": "Chakwal"
     },
     "aliases": {},
     "admin": {
@@ -113944,8 +113875,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بهاكر",
-      "en": "Bhakkar",
-      "ur": "بھکر"
+      "en": "Bhakkar"
     },
     "aliases": {},
     "admin": {
@@ -113968,8 +113898,7 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "بهول ناغر",
-      "en": "Phool Nagar",
-      "ur": "پھول نگر"
+      "en": "Phool Nagar"
     },
     "aliases": {
       "en": [
@@ -113981,9 +113910,6 @@
         "Mianwala",
         "Miān-ki-Maur",
         "Miānwāla"
-      ],
-      "ur": [
-        "پھولنگر"
       ]
     },
     "admin": {
@@ -114006,17 +113932,13 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "أتوك",
-      "en": "Attock City",
-      "ur": "اٹک"
+      "en": "Attock City"
     },
     "aliases": {
       "en": [
         "Attock",
         "Campbellpore",
         "Campbellpur"
-      ],
-      "ur": [
-        "اٹاک"
       ]
     },
     "admin": {
@@ -114039,15 +113961,11 @@
     "timezone": "Asia/Karachi",
     "names": {
       "ar": "ديرة مراد جمالي",
-      "en": "Dera Murad Jamali",
-      "ur": "ڈیرہ مراد جمالی"
+      "en": "Dera Murad Jamali"
     },
     "aliases": {
       "en": [
         "Temple Dera"
-      ],
-      "ur": [
-        "ڈیرا مراد جمالی"
       ]
     },
     "admin": {

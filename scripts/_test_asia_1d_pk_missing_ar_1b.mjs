@@ -73,8 +73,10 @@ for (const slug of ['layyah','attock-city','khuzdar','mianwali','swabi','khushab
 }
 
 // PART C — no Latin fillchain
+// Post-PLACE-NAMES-UR-PK-5 (2026-05-19): names.ur intentionally populated for
+// all 29 BATCH-B entries. Check fillchain on the OTHER 7 langs only.
 console.log('\n── Part C — NO Latin fillchain ──');
-const LANGS = ['ur','bn','fr','de','tr','id','es','ms'];
+const LANGS = ['bn','fr','de','tr','id','es','ms']; // ur excluded post-UR-PK-5
 let leaks = 0;
 for (const slug of Object.keys(BATCH_B_EXPECTED)) {
     const e = pk.find(x => x.slug === slug);
@@ -83,16 +85,17 @@ for (const slug of Object.keys(BATCH_B_EXPECTED)) {
         if (e.names && e.names[lang]) { console.log('  ✗', slug, lang); leaks++; }
     }
 }
-ok('NO Latin fillchain (0 leaks across 8 locales × 29 = 232 checks)', leaks === 0);
+ok('NO Latin fillchain (0 leaks across 7 locales × 29 = 203 checks; names.ur populated by UR-PK-5)',
+    leaks === 0);
 
-let arEn = 0;
+let arEnUr = 0;
 for (const slug of Object.keys(BATCH_B_EXPECTED)) {
     const e = pk.find(x => x.slug === slug);
     if (!e || !e.names) continue;
     const keys = Object.keys(e.names).sort().join(',');
-    if (keys === 'ar,en') arEn++;
+    if (keys === 'ar,en,ur') arEnUr++;
 }
-ok('All 29 entries have names = {ar, en} only', arEn === 29, '(got ' + arEn + ' / 29)');
+ok('All 29 entries have names = {ar, en, ur} (post-UR-PK-5)', arEnUr === 29, '(got ' + arEnUr + ' / 29)');
 
 // PART D — Excluded items
 console.log('\n── Part D — Out-of-scope guards ──');

@@ -352,24 +352,39 @@ Pakistan has reached **full bilingual coverage** (Arabic 148/148 + Urdu 148/148)
 
 ---
 
-## Rollback
+## Status: 🟢 CLOSED — user-approved 2026-05-19 — 🏆 Pakistan FULLY complete at 148/148 Arabic + 148/148 Urdu
 
-```bash
-git revert HEAD     # if commit not yet pushed and approved
-# OR
-cp db/places/curated-places.json.prePlaceNamesUrPk6.bak db/places/curated-places.json
-```
+**Commit**: `87d43d6` (on main)
+**Rollback**: `git revert 87d43d6`. Backup at
+`db/places/curated-places.json.prePlaceNamesUrPk6.bak`.
 
----
+### User-approval acceptance criteria (all met)
 
-## Next steps (per user spec — do NOT auto-start)
+| # | Criterion | Status |
+|---|---|---|
+| 1 | PLACE-NAMES-UR-PK-6 closed | ✓ |
+| 2 | Pakistan curated coverage now Arabic-complete AND Urdu-complete: 148/148 | ✓ |
+| 3 | No runtime translation | ✓ (static Urdu Wikipedia source; no Google Translate / OpenAI / Anthropic / browser translate references in SSR HTML) |
+| 4 | No code changes (server.js/js/app.js/fillLangMap/index.html) | ✓ |
+| 5 | `names.ar` and `names.en` unchanged | ✓ (byte-for-byte post-mutation verified vs `.prePlaceNamesUrPk6.bak`) |
+| 6 | Prior 119 PK entries untouched | ✓ (PRIOR_119_SLUGS post-mutation assertion + pre-flight cross-collision guard) |
+| 7 | PK Urdu coverage restored to 148/148 | ✓ |
+| 8 | No fake fillchain | ✓ (0 leaks across 7 langs × 29 = 203 checks) |
+| 9 | Relevant smoke/regression suites passed | ✓ (69/69 UR-PK-6 + 53/53 MAJORS-1C + 30+ carry-forward) |
+| 10 | Fast Track policy validated (5th consecutive wave: MAJORS-1A → UR-PK-4 → MAJORS-1B → UR-PK-5 → MAJORS-1C → UR-PK-6) | ✓ |
 
-- ❌ `ASIA-1D-BD` (Bangladesh Urdu/Bengali wave)
-- ❌ `ASIA-1D-IN` (India Urdu wave)
-- ❌ `ASIA-1F` (China solo wave)
-- ❌ `AMERICAS-1B-MCF` (151 entries incl. 120 majors)
-- ❌ `SEARCH-RANKING-IMPROVEMENT-1` (Galle EN ranking)
-- ❌ Alias enrichment phase
-- ❌ `DELETE-V1-AND-GEOCODE-PROXY-1`
+### Known deferred (unrelated to UR-PK-6)
+
+- **SEARCH-RANKING-IMPROVEMENT-1** — pre-existing `Galle` EN ranking issue (`halle-saale` ranked higher) — unrelated to this phase, accepted as known-deferred.
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ASIA-1D-BD (Bangladesh Bengali/Urdu wave)
+- ASIA-1D-IN (India Urdu wave)
+- ASIA-1F (China solo wave)
+- AMERICAS-1B-MCF (151 entries incl. 120 majors)
+- SEARCH-RANKING-IMPROVEMENT-1
+- Alias enrichment phase
+- DELETE-V1-AND-GEOCODE-PROXY-1
 
 Hold queue until user explicitly requests the next wave.

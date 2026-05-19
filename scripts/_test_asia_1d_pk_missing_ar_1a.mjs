@@ -95,7 +95,9 @@ for (const [slug, expected] of Object.entries(BATCH_A_EXPECTED)) {
 
 // PART C
 console.log('\n── Part C — NO Latin fillchain in 20 new entries ──');
-const LANGS = ['ur','bn','fr','de','tr','id','es','ms'];
+// Post-PLACE-NAMES-UR-PK-4 (2026-05-19): names.ur intentionally populated
+// for all 20 BATCH-A entries. Check fillchain on the OTHER 7 langs only.
+const LANGS = ['bn','fr','de','tr','id','es','ms']; // ur excluded post-UR-PK-4
 let leaks = 0;
 for (const slug of Object.keys(BATCH_A_EXPECTED)) {
     const e = pk.find(x => x.slug === slug);
@@ -107,17 +109,17 @@ for (const slug of Object.keys(BATCH_A_EXPECTED)) {
         }
     }
 }
-ok('NO Latin fillchain in 20 entries (0 leaks across 8 locales × 20 = 160 checks)',
+ok('NO Latin fillchain in 20 entries (0 leaks across 7 locales × 20 = 140; names.ur populated by UR-PK-4)',
     leaks === 0);
 
-let arEn = 0;
+let arEnUr = 0;
 for (const slug of Object.keys(BATCH_A_EXPECTED)) {
     const e = pk.find(x => x.slug === slug);
     if (!e || !e.names) continue;
     const keys = Object.keys(e.names).sort().join(',');
-    if (keys === 'ar,en') arEn++;
+    if (keys === 'ar,en,ur') arEnUr++;
 }
-ok('All 20 entries have names = {ar, en} only', arEn === 20, '(got ' + arEn + ' / 20)');
+ok('All 20 entries have names = {ar, en, ur} (post-UR-PK-4)', arEnUr === 20, '(got ' + arEnUr + ' / 20)');
 
 // PART D
 console.log('\n── Part D — bahawalnagar PPLA2 (existing) untouched ──');

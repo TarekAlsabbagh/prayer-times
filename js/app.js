@@ -697,7 +697,19 @@ function _isDisplayScriptAcceptable(s, lang) {
     //   \u2022 U+06D3 \u06D3 (yeh-barree with hamza above)
     const hasUrduSpecific = /[\u067E\u0686\u0698\u06A9\u06AF\u0688\u0691\u0679\u06BA\u06CC\u06D2\u06C1\u06BE\u06C2\u06D3]/.test(s);
     if (lang === 'ar') return !hasBengali;
-    if (lang === 'ur') { if (hasArabic && !hasUrduSpecific) return false; return !hasBengali; }
+    // PLACE-NAMES-UR-IR-1-APPLY (2026-05-19): relaxed the Urdu rule.
+    // The previous strict rule `if (hasArabic && !hasUrduSpecific) return false`
+    // was designed before PLACE-NAMES-L10N-PIPELINE-GUARD-1 closed (which
+    // stopped fillchain from leaking Arabic into names.ur). After
+    // PLACE-NAMES-UR-AF-1 + UR-IR-1, we have legitimate user-approved Urdu
+    // names that share all letters with Arabic (e.g. بندر عباس, زنجان, سنندج,
+    // آبادان, بابل, سمنان — 13 IR cities). The strict rule rejected those on
+    // /ur/ titles, leaking Latin "Bandar Abbas" into <title> even though
+    // #city-name and SSR seed had the correct Urdu form. The new rule mirrors
+    // AR: accept any Arabic-block content as readable Urdu (Urdu script is a
+    // superset of Arabic script). hasUrduSpecific remains computed for other
+    // call sites that may use the check via a different code path.
+    if (lang === 'ur') return !hasBengali;
     if (lang === 'bn') return !hasArabic;
     // EN/FR/TR/DE/ID/ES/MS: لاتينيّ بحت — ارفض العربيّ والبنغاليّة
     return !hasArabic && !hasBengali;

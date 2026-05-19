@@ -106146,7 +106146,7 @@
       "fr": "Āzādshahr",
       "de": "Āzādshahr",
       "tr": "Āzādshahr",
-      "ur": "Āzādshahr",
+      "ur": "آزادشہر",
       "id": "Āzādshahr",
       "es": "Āzādshahr",
       "bn": "Āzādshahr",
@@ -106157,6 +106157,9 @@
         "Azad Shahr",
         "Azadshahr",
         "azadshhr"
+      ],
+      "ur": [
+        "آزادشهر"
       ]
     },
     "admin": {
@@ -106183,7 +106186,7 @@
       "fr": "Qarchak",
       "de": "Qarchak",
       "tr": "Qarchak",
-      "ur": "Qarchak",
+      "ur": "قرچک",
       "id": "Qarchak",
       "es": "Qarchak",
       "bn": "Qarchak",
@@ -106218,7 +106221,7 @@
       "fr": "Golestān",
       "de": "Golestān",
       "tr": "Golestān",
-      "ur": "Golestān",
+      "ur": "گلستان",
       "id": "Golestān",
       "es": "Golestān",
       "bn": "Golestān",
@@ -106234,6 +106237,9 @@
         "Shahrak-e Golestān",
         "glstan",
         "shhrk glstan"
+      ],
+      "ur": [
+        "شہرک گلستان"
       ]
     },
     "admin": {
@@ -106260,7 +106266,7 @@
       "fr": "Yasuj",
       "de": "Yasuj",
       "tr": "Yasuj",
-      "ur": "Yasuj",
+      "ur": "یاسوج",
       "id": "Yasuj",
       "es": "Yasuj",
       "bn": "Yasuj",
@@ -106293,6 +106299,9 @@
         "yaswj",
         "yiswj",
         "yswj"
+      ],
+      "ur": [
+        "یسوج"
       ]
     },
     "admin": {
@@ -106319,7 +106328,7 @@
       "fr": "Zanjan",
       "de": "Zanjan",
       "tr": "Zanjan",
-      "ur": "Zanjan",
+      "ur": "زنجان",
       "id": "Zanjan",
       "es": "Zanjan",
       "bn": "Zanjan",
@@ -106363,7 +106372,7 @@
       "fr": "Sirjan",
       "de": "Sirjan",
       "tr": "Sirjan",
-      "ur": "Sirjan",
+      "ur": "سیرجان",
       "id": "Sirjan",
       "es": "Sirjan",
       "bn": "Sirjan",
@@ -106410,7 +106419,7 @@
       "fr": "Shahr-e Kord",
       "de": "Shahr-e Kord",
       "tr": "Shahr-e Kord",
-      "ur": "Shahr-e Kord",
+      "ur": "شہر کرد",
       "id": "Shahr-e Kord",
       "es": "Shahr-e Kord",
       "bn": "Shahr-e Kord",
@@ -106425,6 +106434,9 @@
         "Shahrekord",
         "Shakhre-Kord",
         "shhr krd"
+      ],
+      "ur": [
+        "شهر كرد"
       ]
     },
     "admin": {
@@ -106451,7 +106463,7 @@
       "fr": "Semnan",
       "de": "Semnan",
       "tr": "Semnan",
-      "ur": "Semnan",
+      "ur": "سمنان",
       "id": "Semnan",
       "es": "Semnan",
       "bn": "Semnan",
@@ -106488,7 +106500,7 @@
       "fr": "Sāveh",
       "de": "Sāveh",
       "tr": "Sāveh",
-      "ur": "Sāveh",
+      "ur": "ساوہ",
       "id": "Sāveh",
       "es": "Sāveh",
       "bn": "Sāveh",
@@ -106499,6 +106511,9 @@
         "Sava",
         "Saveh",
         "sawh"
+      ],
+      "ur": [
+        "ساوه"
       ]
     },
     "admin": {
@@ -106525,7 +106540,7 @@
       "fr": "Sari",
       "de": "Sari",
       "tr": "Sari",
-      "ur": "Sari",
+      "ur": "ساری",
       "id": "Sari",
       "es": "Sari",
       "bn": "Sari",
@@ -106554,6 +106569,10 @@
         "sali",
         "sary",
         "sary  ayran"
+      ],
+      "ur": [
+        "ساري",
+        "سارى"
       ]
     },
     "admin": {
@@ -106580,7 +106599,7 @@
       "fr": "Sanandaj",
       "de": "Sanandaj",
       "tr": "Sanandaj",
-      "ur": "Sanandaj",
+      "ur": "سنندج",
       "id": "Sanandaj",
       "es": "Sanandaj",
       "bn": "Sanandaj",
@@ -106644,7 +106663,7 @@
       "fr": "Sabzevar",
       "de": "Sabzevar",
       "tr": "Sabzevar",
-      "ur": "Sabzevar",
+      "ur": "سبزوار",
       "id": "Sabzevar",
       "es": "Sabzevar",
       "bn": "Sabzevar",
@@ -106690,7 +106709,7 @@
       "fr": "Qazvin",
       "de": "Qazvin",
       "tr": "Qazvin",
-      "ur": "Qazvin",
+      "ur": "قزوین",
       "id": "Qazvin",
       "es": "Qazvin",
       "bn": "Qazvin",
@@ -106746,7 +106765,7 @@
       "fr": "Qods",
       "de": "Qods",
       "tr": "Qods",
-      "ur": "Qods",
+      "ur": "شہر قدس",
       "id": "Qods",
       "es": "Qods",
       "bn": "Qods",
@@ -106774,6 +106793,12 @@
         "qlʿh hsn khan",
         "shhr qds",
         "shhrk qds"
+      ],
+      "ur": [
+        "شهر قدس",
+        "قدس",
+        "شهرک قدس",
+        "قلعہ حسن خان"
       ]
     },
     "admin": {
@@ -106800,7 +106825,7 @@
       "fr": "Qā’em Shahr",
       "de": "Qā’em Shahr",
       "tr": "Qā’em Shahr",
-      "ur": "Qā’em Shahr",
+      "ur": "قائم شہر",
       "id": "Qā’em Shahr",
       "es": "Qā’em Shahr",
       "bn": "Qā’em Shahr",
@@ -106824,6 +106849,11 @@
         "shah abad",
         "shahy",
         "‘Alīābād"
+      ],
+      "ur": [
+        "قائم شهر",
+        "شاهی",
+        "علی آباد"
       ]
     },
     "admin": {
@@ -106850,7 +106880,7 @@
       "fr": "Neyshābūr",
       "de": "Neyshābūr",
       "tr": "Neyshābūr",
-      "ur": "Neyshābūr",
+      "ur": "نیشاپور",
       "id": "Neyshābūr",
       "es": "Neyshābūr",
       "bn": "Neyshābūr",
@@ -106877,6 +106907,10 @@
         "nysabwr",
         "nyshabwr",
         "nyshapwr"
+      ],
+      "ur": [
+        "نیشابور",
+        "نيسابور"
       ]
     },
     "admin": {
@@ -106903,7 +106937,7 @@
       "fr": "Naz̧arābād",
       "de": "Naz̧arābād",
       "tr": "Naz̧arābād",
-      "ur": "Naz̧arābād",
+      "ur": "نظر آباد",
       "id": "Naz̧arābād",
       "es": "Naz̧arābād",
       "bn": "Naz̧arābād",
@@ -106945,7 +106979,7 @@
       "fr": "Marāgheh",
       "de": "Marāgheh",
       "tr": "Marāgheh",
-      "ur": "Marāgheh",
+      "ur": "مراغہ",
       "id": "Marāgheh",
       "es": "Marāgheh",
       "bn": "Marāgheh",
@@ -106958,6 +106992,9 @@
         "Maraghen",
         "Marāghen",
         "mraghh"
+      ],
+      "ur": [
+        "مراغه"
       ]
     },
     "admin": {
@@ -106984,7 +107021,7 @@
       "fr": "Khorramshahr",
       "de": "Khorramshahr",
       "tr": "Khorramshahr",
-      "ur": "Khorramshahr",
+      "ur": "خرمشھر",
       "id": "Khorramshahr",
       "es": "Khorramshahr",
       "bn": "Khorramshahr",
@@ -107028,6 +107065,11 @@
         "huo la mu sha he er",
         "khrmshhr",
         "khurramasahara"
+      ],
+      "ur": [
+        "خرمشهر",
+        "بندر خرمشهر",
+        "الخرمشهر"
       ]
     },
     "admin": {
@@ -107054,7 +107096,7 @@
       "fr": "Khorramabad",
       "de": "Khorramabad",
       "tr": "Khorramabad",
-      "ur": "Khorramabad",
+      "ur": "خرم آباد",
       "id": "Khorramabad",
       "es": "Khorramabad",
       "bn": "Khorramabad",
@@ -107094,7 +107136,7 @@
       "fr": "Karaj",
       "de": "Karaj",
       "tr": "Karaj",
-      "ur": "Karaj",
+      "ur": "کرج",
       "id": "Karaj",
       "es": "Karaj",
       "bn": "Karaj",
@@ -107164,7 +107206,7 @@
       "fr": "Īlām",
       "de": "Īlām",
       "tr": "Īlām",
-      "ur": "Īlām",
+      "ur": "ایلام",
       "id": "Īlām",
       "es": "Īlām",
       "bn": "Īlām",
@@ -107183,6 +107225,9 @@
         "ailam",
         "aylam",
         "ylam"
+      ],
+      "ur": [
+        "اِلام"
       ]
     },
     "admin": {
@@ -107209,7 +107254,7 @@
       "fr": "Hamadān",
       "de": "Hamadān",
       "tr": "Hamadān",
-      "ur": "Hamadān",
+      "ur": "ہمدان",
       "id": "Hamadān",
       "es": "Hamadān",
       "bn": "Hamadān",
@@ -107224,6 +107269,9 @@
         "Hamedān",
         "Khamadan",
         "hmdan"
+      ],
+      "ur": [
+        "همدان"
       ]
     },
     "admin": {
@@ -107250,7 +107298,7 @@
       "fr": "Gorgān",
       "de": "Gorgān",
       "tr": "Gorgān",
-      "ur": "Gorgān",
+      "ur": "گرگان",
       "id": "Gorgān",
       "es": "Gorgān",
       "bn": "Gorgān",
@@ -107273,6 +107321,10 @@
         "aastir abad",
         "grgan",
         "gwrgan"
+      ],
+      "ur": [
+        "گورگان",
+        "استرآباد"
       ]
     },
     "admin": {
@@ -107299,7 +107351,7 @@
       "fr": "Bushehr",
       "de": "Bushehr",
       "tr": "Bushehr",
-      "ur": "Bushehr",
+      "ur": "بوشہر",
       "id": "Bushehr",
       "es": "Bushehr",
       "bn": "Bushehr",
@@ -107332,6 +107384,10 @@
         "bndr bwshhr",
         "bwshhr",
         "bwshihr"
+      ],
+      "ur": [
+        "بوشهر",
+        "بندر بوشهر"
       ]
     },
     "admin": {
@@ -107358,7 +107414,7 @@
       "fr": "Būkān",
       "de": "Būkān",
       "tr": "Būkān",
-      "ur": "Būkān",
+      "ur": "بوکان",
       "id": "Būkān",
       "es": "Būkān",
       "bn": "Būkān",
@@ -107397,7 +107453,7 @@
       "fr": "Borūjerd",
       "de": "Borūjerd",
       "tr": "Borūjerd",
-      "ur": "Borūjerd",
+      "ur": "بروجرد",
       "id": "Borūjerd",
       "es": "Borūjerd",
       "bn": "Borūjerd",
@@ -107414,6 +107470,9 @@
         "Būrūjīrd",
         "brwjrd",
         "bwrwjyrd"
+      ],
+      "ur": [
+        "بوروجيرد"
       ]
     },
     "admin": {
@@ -107440,7 +107499,7 @@
       "fr": "Bojnūrd",
       "de": "Bojnūrd",
       "tr": "Bojnūrd",
-      "ur": "Bojnūrd",
+      "ur": "بجنورد",
       "id": "Bojnūrd",
       "es": "Bojnūrd",
       "bn": "Bojnūrd",
@@ -107482,7 +107541,7 @@
       "fr": "Bīrjand",
       "de": "Bīrjand",
       "tr": "Bīrjand",
-      "ur": "Bīrjand",
+      "ur": "بیرجند",
       "id": "Bīrjand",
       "es": "Bīrjand",
       "bn": "Bīrjand",
@@ -107522,7 +107581,7 @@
       "fr": "Bandar Abbas",
       "de": "Bandar Abbas",
       "tr": "Bandar Abbas",
-      "ur": "Bandar Abbas",
+      "ur": "بندر عباس",
       "id": "Bandar Abbas",
       "es": "Bandar Abbas",
       "bn": "Bandar Abbas",
@@ -107575,6 +107634,9 @@
         "bndr ʻbʼs",
         "bndr ʿbas",
         "gumbrun"
+      ],
+      "ur": [
+        "بندرعباس"
       ]
     },
     "admin": {
@@ -107601,7 +107663,7 @@
       "fr": "Bābol",
       "de": "Bābol",
       "tr": "Bābol",
-      "ur": "Bābol",
+      "ur": "بابل",
       "id": "Bābol",
       "es": "Bābol",
       "bn": "Bābol",
@@ -107645,7 +107707,7 @@
       "fr": "Ardabīl",
       "de": "Ardabīl",
       "tr": "Ardabīl",
-      "ur": "Ardabīl",
+      "ur": "اردبیل",
       "id": "Ardabīl",
       "es": "Ardabīl",
       "bn": "Ardabīl",
@@ -107691,7 +107753,7 @@
       "fr": "Arāk",
       "de": "Arāk",
       "tr": "Arāk",
-      "ur": "Arāk",
+      "ur": "اراک",
       "id": "Arāk",
       "es": "Arāk",
       "bn": "Arāk",
@@ -107716,6 +107778,9 @@
         "sawh",
         "sultan abad",
         "‘Irāq"
+      ],
+      "ur": [
+        "سلطان آباد"
       ]
     },
     "admin": {
@@ -107742,7 +107807,7 @@
       "fr": "Āmol",
       "de": "Āmol",
       "tr": "Āmol",
-      "ur": "Āmol",
+      "ur": "آمل",
       "id": "Āmol",
       "es": "Āmol",
       "bn": "Āmol",
@@ -107780,7 +107845,7 @@
       "fr": "Shahrīār",
       "de": "Shahrīār",
       "tr": "Shahrīār",
-      "ur": "Shahrīār",
+      "ur": "شہریار",
       "id": "Shahrīār",
       "es": "Shahrīār",
       "bn": "Shahrīār",
@@ -107799,6 +107864,10 @@
         "`Ali Shah `Avaz",
         "shhryar",
         "‘Alī Shāh ‘Avaẕ"
+      ],
+      "ur": [
+        "شهریار",
+        "شهريار"
       ]
     },
     "admin": {
@@ -107825,7 +107894,7 @@
       "fr": "Abadan",
       "de": "Abadan",
       "tr": "Abadan",
-      "ur": "Abadan",
+      "ur": "آبادان",
       "id": "Abadan",
       "es": "Abadan",
       "bn": "Abadan",
@@ -107851,6 +107920,9 @@
         "Ābadāna",
         "Ābādān",
         "ʿbadan"
+      ],
+      "ur": [
+        "ابادان"
       ]
     },
     "admin": {
@@ -107877,7 +107949,7 @@
       "fr": "Najafābād",
       "de": "Najafābād",
       "tr": "Najafābād",
-      "ur": "Najafābād",
+      "ur": "نجف آباد",
       "id": "Najafābād",
       "es": "Najafābād",
       "bn": "Najafābād",
@@ -107916,7 +107988,7 @@
       "fr": "Khomeynī Shahr",
       "de": "Khomeynī Shahr",
       "tr": "Khomeynī Shahr",
-      "ur": "Khomeynī Shahr",
+      "ur": "خمینی شہر",
       "id": "Khomeynī Shahr",
       "es": "Khomeynī Shahr",
       "bn": "Khomeynī Shahr",
@@ -107940,6 +108012,10 @@
         "khmyny shhr",
         "mhrbyn",
         "sdh"
+      ],
+      "ur": [
+        "خمینی شهر",
+        "مهربین"
       ]
     },
     "admin": {
@@ -107966,7 +108042,7 @@
       "fr": "Eslamshahr",
       "de": "Eslamshahr",
       "tr": "Eslamshahr",
-      "ur": "Eslamshahr",
+      "ur": "اسلام شہر",
       "id": "Eslamshahr",
       "es": "Eslamshahr",
       "bn": "Eslamshahr",
@@ -107984,6 +108060,9 @@
         "Shadshahr",
         "aslamshhr",
         "İslamşəhr"
+      ],
+      "ur": [
+        "اسلامشهر"
       ]
     },
     "admin": {
@@ -108010,7 +108089,7 @@
       "fr": "Zahedan",
       "de": "Zahedan",
       "tr": "Zahedan",
-      "ur": "Zahedan",
+      "ur": "زاہدان",
       "id": "Zahedan",
       "es": "Zahedan",
       "bn": "Zahedan",
@@ -108069,7 +108148,7 @@
       "fr": "Pākdasht",
       "de": "Pākdasht",
       "tr": "Pākdasht",
-      "ur": "Pākdasht",
+      "ur": "پاکدشت",
       "id": "Pākdasht",
       "es": "Pākdasht",
       "bn": "Pākdasht",

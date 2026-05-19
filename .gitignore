@@ -104,3 +104,14 @@ db/places/candidates/af-geonames-normalized.json
 db/places/candidates/af-geonames-candidates.json
 db/places/candidates/af-geonames-candidates.preStage3_4.json
 db/places/candidates/asia-1g-af-persian-pregate.json
+
+# CURATED-GEODATA-ASIA-1D-PK — pre-emptive (preflight estimate: PK
+# normalized 60-120 MB + candidates 70-140 MB likely over GitHub 100 MB
+# hard limit). Pakistan ~240M population with ~80-120k GeoNames rows.
+# Regeneratable via Stages 1-3.4. The smaller asia-1d-pk-arabic-quality.json
+# (high-tier summary) stays.
+db/places/candidates/pk-geonames-raw.json
+db/places/candidates/pk-geonames-normalized.json
+db/places/candidates/pk-geonames-candidates.json
+db/places/candidates/pk-geonames-candidates.preStage3_4.json
+db/places/candidates/asia-1d-pk-persian-pregate.json

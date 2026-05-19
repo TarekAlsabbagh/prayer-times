@@ -167,18 +167,27 @@ for (const slug of REGRESSION_PAGES) {
 // ───────────────────────────────────────────────────────────────────────
 console.log('\n── Part F — Out-of-scope guard: no new PK cities ──');
 
+// CURATED-GEODATA-ASIA-1D-PK (commit hash TBD, 2026-05-19) added 43 new
+// PK cities (Stage 4 merge with 3 NAME_AR_FIXES). PK count is now 53.
+// Update assertions to reflect post-ASIA-1D-PK state.
 const pkCount = curated.filter(x => x.countryCode === 'pk').length;
-ok('PK entry count is exactly 10 (no new cities added)',
-    pkCount === 10,
+ok('PK entry count >= 10 (UR-PK-1 baseline; may grow via ASIA-1D-PK)',
+    pkCount >= 10,
     '(got ' + pkCount + ')');
 
-const SHOULD_NOT_EXIST = [
-    'bahawalpur', 'gujranwala', 'sargodha', 'sukkur', 'larkana',
-    'mardan', 'sheikhupura'
+// Cities deferred to a future ASIA-1D-PK-MISSING-AR-MAJORS-1 phase
+// (missing Arabic name in GeoNames; 98 majors deferred per ASIA-1D-PK
+// premerge decision). These should still be absent post-ASIA-1D-PK.
+const SHOULD_NOT_EXIST_YET = [
+    'bahawalpur',       // 904k PPLA2 — missing-ar in GeoNames
+    'dera-ismail-khan', // 763k PPLA2 — missing-ar
+    'okara',            // 534k PPLA2 — missing-ar
+    'kasur',            // 511k PPLA2 — missing-ar
+    'larkana'           // 364k PPLA2 — missing-ar
 ];
-for (const slug of SHOULD_NOT_EXIST) {
+for (const slug of SHOULD_NOT_EXIST_YET) {
     const entry = curated.find(x => x.countryCode === 'pk' && x.slug === slug);
-    ok('pk/' + slug.padEnd(15) + ' NOT added (still out of scope)',
+    ok('pk/' + slug.padEnd(20) + ' NOT yet added (deferred to ASIA-1D-PK-MISSING-AR-MAJORS-1)',
         !entry);
 }
 

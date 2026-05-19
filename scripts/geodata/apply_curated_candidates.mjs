@@ -51,8 +51,21 @@ function candidateToCuratedEntry(cand) {
         names:       {},
         aliases:     {}
     };
-    for (const l of SUPPORTED_LANGS) {
-        out.names[l] = cand.names && cand.names[l] ? cand.names[l] : (cand.names && cand.names.en) || '';
+    // PLACE-NAMES-L10N-PIPELINE-GUARD-1 (extension applied during
+    // ASIA-1D-PK Stage 4, 2026-05-19): only carry langs explicitly
+    // present in `cand.names` — DO NOT fill Latin placeholders into
+    // names.ur/bn/fr/de/tr/id/es/ms. Server's `_pickCuratedName`
+    // gracefully falls back to names.en when a per-lang value is
+    // missing, so absent langs are safe. The previous behavior
+    // (fillchain en-as-fallback for every lang) was the source of
+    // 1,755 legacy fillchain rows that PLACE-NAMES-UR-AF-1 + UR-IR-1
+    // had to clean up retroactively. Stop creating new fillchain.
+    if (cand.names && typeof cand.names === 'object') {
+        for (const l of SUPPORTED_LANGS) {
+            if (cand.names[l] && typeof cand.names[l] === 'string' && cand.names[l].trim()) {
+                out.names[l] = cand.names[l];
+            }
+        }
     }
     // Carry aliases as-is (already filtered in Stage 2)
     if (cand.aliases && typeof cand.aliases === 'object') {

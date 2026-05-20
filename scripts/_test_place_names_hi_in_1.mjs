@@ -156,23 +156,27 @@ for (const slug of SEED_SLUGS) {
        JSON.stringify(langs) === JSON.stringify(EXPECTED_SEED_LANGS) ? '' : '(actual: [' + langs.join(',') + '])');
 }
 
-// ─── Group 5: BATCH-A-22 has 3-lang set ar/en/hi ────────────────────────
+// ─── Group 5: BATCH-A-22 contains ar/en/hi (may have additional langs from later waves) ──
+// Note: relaxed from strict-equal to set-inclusion to remain stable across
+// subsequent UR-IN-1 / BN-IN-1 / TA-IN-1 / MR-IN-1 enrichment waves which
+// add more langs to these 22 entries.
 console.log('');
-console.log('── Group 5: BATCH-A-22 has 3-lang set (ar/en + hi) ──');
+console.log('── Group 5: BATCH-A-22 contains ar/en/hi (set-inclusion; tolerates later waves) ──');
 const BATCH_SLUGS_22 = [
     'visakhapatnam','vijayawada','varanasi','vadodara','tirunelveli','thane',
     'ranchi','nashik','meerut','madurai','jodhpur','jamshedpur','ghaziabad',
     'faridabad','dombivali','dhanbad','coimbatore','aurangabad','amritsar',
     'prayagraj','agra','pimpri-chinchwad'
 ];
-const EXPECTED_BATCH_LANGS = ['ar','en','hi'];
+const REQUIRED_BATCH_LANGS = ['ar','en','hi'];
 for (const slug of BATCH_SLUGS_22) {
     const e = inEntries.find(x => x.slug === slug);
     if (!e) { ok('in/' + slug + ' exists', false); continue; }
-    const langs = Object.keys(e.names || {}).sort();
-    ok('in/' + slug.padEnd(20) + ' langs = [' + EXPECTED_BATCH_LANGS.join(',') + ']',
-       JSON.stringify(langs) === JSON.stringify(EXPECTED_BATCH_LANGS),
-       JSON.stringify(langs) === JSON.stringify(EXPECTED_BATCH_LANGS) ? '' : '(actual: [' + langs.join(',') + '])');
+    const langs = new Set(Object.keys(e.names || {}));
+    const missing = REQUIRED_BATCH_LANGS.filter(l => !langs.has(l));
+    ok('in/' + slug.padEnd(20) + ' includes [ar,en,hi]',
+       missing.length === 0,
+       missing.length === 0 ? '' : '(missing: [' + missing.join(',') + '])');
 }
 
 // ─── Group 6: No other Indian local langs added to names ────────────────

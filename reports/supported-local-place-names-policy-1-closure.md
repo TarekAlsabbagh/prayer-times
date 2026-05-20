@@ -2,8 +2,37 @@
 
 **Date**: 2026-05-21
 **Phase**: Data enrichment — replace fillchain copies with real local-language names
-**Status**: ✅ Implementation complete — awaiting user closure approval
+**Status**: ✅ **CLOSED — user-approved 2026-05-21**
 **Mode**: Conservative Option A (36 changes only — Indonesian Kota X + 2 Spanish accent fixes)
+**Implementation commit**: `32be018` — `feat(geodata): SUPPORTED-LOCAL-PLACE-NAMES-POLICY-1 — 36 local-language name fixes (conservative Option A)`
+**Audit commit**: `714e10d` — `docs: adopt place-data maintenance policy + deep audit (read-only, no curated mutation)`
+
+---
+
+## 0. Acceptance criteria (user-approved 2026-05-21)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | 36 / 36 changes applied | ✅ |
+| 2 | 34 Indonesia `names.id` fixes (Kota X form) | ✅ |
+| 3 | 2 Spain `names.es` fixes (Cádiz, San Sebastián) | ✅ |
+| 4 | Malang → Kota Malang verified across title/H1/#city-name/`__PRAYER_CITY__`/breadcrumb | ✅ Live SSR + hydration confirmed (87 hits "Kota Malang"; 0 bare "Malang") |
+| 5 | No slug changes (2,597 slugs identical) | ✅ |
+| 6 | No canonical URL changes | ✅ |
+| 7 | No city added or deleted (count 2,597 → 2,597) | ✅ |
+| 8 | No runtime translation (Google/OpenAI/Anthropic/browser MT) | ✅ |
+| 9 | No fillchain (`names[L] === names.en` rejected by apply script) | ✅ |
+| 10 | No unsupported languages added (no new hi/ta/mr/etc.) | ✅ |
+| 11 | `names.ar` + `names.en` unchanged across all 2,597 entries | ✅ Post-mutation assertion verified |
+| 12 | `server.js` unchanged (0-byte diff) | ✅ |
+| 13 | `js/app.js` unchanged (0-byte diff) | ✅ |
+| 14 | `index.html` unchanged (0-byte diff) | ✅ |
+| 15 | `server/place-l10n/index.js` unchanged (0-byte diff) | ✅ |
+| 16 | Place-data maintenance policy adopted (`docs/place-data-maintenance-policy.md`) | ✅ Permanent reference adopted alongside this closure |
+| 17 | Full audit completed read-only (`reports/supported-local-place-names-full-audit-1.md`) | ✅ 612 cities × 24 countries scanned; recommendation: keep just the 36 |
+| 18 | NO extra needs-review fixes applied from full audit | ✅ All 36 candidates surfaced by deep scan remain `needs-review`; none applied |
+| 19 | Tests: 958 / 958 PASS (77 new + 881 carry-forward) | ✅ |
+| 20 | Backup created before mutation (`db/places/curated-places.json.preSupportedLocalNames1.bak`) | ✅ |
 
 ---
 
@@ -338,10 +367,14 @@ This phase complies with every rule in the new policy. Future phases that touch 
 
 ---
 
-## 12. Awaiting user closure approval
+## 12. Closure marker
 
-Implementation complete. No further phases opened. Specifically held back per user constraint:
-- ❌ SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2 (broader Wikipedia/Wikidata verification)
+**Approved by user 2026-05-21**:
+> أعتمد إغلاق SUPPORTED-LOCAL-PLACE-NAMES-POLICY-1 رسميًا، وأوافق على رفع الـ commits.
+> Marker: `docs(closure): mark SUPPORTED-LOCAL-PLACE-NAMES-POLICY-1 user-approved 2026-05-21`
+
+No further phases opened. Specifically held back per user constraint:
+- ❌ SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2 (broader Wikipedia/Wikidata verification — would require `alternateNamesV2.txt` download first)
 - ❌ Search-ranking wave
 - ❌ Hijri pages
 - ❌ DELETE-V1 / geocode-proxy

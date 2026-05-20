@@ -41,6 +41,145 @@ const script   = require('./detect-script');
 // ── 10 UI languages this site supports ─────────────────────────────────────
 const SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
 
+// ── CITY-NAME-SEO-FALLBACK-POLICY-1 (2026-05-20) ──────────────────────────
+// Per-lang script-acceptance check. Used both as a guard inside
+// `pickLocalizedDisplayQ` (rejects Latin pollution in non-Latin lang slots
+// so the value falls through to fallback_en) AND as the script test inside
+// the new `getLocalizedPlaceName` helper.
+//
+// Why: curated-places.json contains legacy fillchain pollution where
+// `names.ur = "Gwangju"` (Latin in Urdu slot — Urdu uses Arabic script).
+// Without this guard, SSR templates inject Latin "Gwangju" into RTL Urdu
+// `<title>` / `<h1>` / breadcrumb / JSON-LD strings:
+//     `${cityDisplay} میں سمتِ قبلہ` → "Gwangju میں سمتِ قبلہ"
+// breaking the unified-localization promise across the whole city page.
+//
+// This guard rejects the polluted value at runtime WITHOUT mutating
+// curated-places.json. Polluted entries fall through to fallback_en
+// (still "Gwangju" in this example, but tagged with `sourceLang='en'`
+// + `isFallback=true` so consumers can wrap with `<span lang="en">` for
+// SEO/a11y on RTL pages — and search-ranking drops it from `curated`
+// to `fallback_en` quality).
+//
+// Mirrors the client-side `_isDisplayScriptAcceptable` in js/app.js but
+// stricter for ur/bn (rejects Latin where the client-side defensively
+// allowed it — server is the single source of truth for SSR text).
+function _isAcceptableScriptForLang(s, lang) {
+    if (!s || typeof s !== 'string') return false;
+    const code = String(lang || 'ar').toLowerCase();
+    // Non-Latin non-supported scripts (CJK / Hangul / Cyrillic / Greek /
+    // Hebrew / Devanagari / Thai / Tamil / Ethiopic / etc.) — always
+    // rejected for any of our 10 UI langs. The L10N pipeline's
+    // transliteration tiers (AR-only) handle these explicitly.
+    if (/[　-ヿ㐀-䶿一-鿿가-힯豈-﫿＀-￯]/.test(s)) return false;
+    if (/[Ͱ-ϿЀ-ӿԀ-ԯ԰-֏֐-׿܀-ݏऀ-ॿ਀-੿઀-૿଀-୿஀-௿ఀ-౿ಀ-೿ഀ-ൿ඀-෿฀-๿຀-໿ༀ-࿿က-႟Ⴀ-ჿᄀ-ᇿሀ-፿]/.test(s)) return false;
+    const hasArabic  = /[؀-ۿ]/.test(s);
+    const hasBengali = /[ঀ-৿]/.test(s);
+    const hasLatin   = /[A-Za-z]/.test(s);
+    // ar: Arabic-script required; no Bengali, no pure-Latin
+    if (code === 'ar') return hasArabic && !hasBengali && !hasLatin;
+    // ur: Arabic-script required (Urdu uses Arabic script + 14 extras);
+    //     reject pure-Latin pollution like `names.ur = "Gwangju"`
+    if (code === 'ur') return hasArabic && !hasBengali && !hasLatin;
+    // bn: Bengali block required; reject pure-Latin pollution
+    if (code === 'bn') return hasBengali && !hasArabic && !hasLatin;
+    // en/fr/de/tr/id/es/ms: Latin script — reject Arabic/Bengali leak
+    return hasLatin && !hasArabic && !hasBengali;
+}
+
+// ── CITY-NAME-SEO-FALLBACK-POLICY-1 (2026-05-20) ──────────────────────────
+// Central place-name helper for the whole SSR layer. Single entry point
+// used by `_pickCuratedName` (server.js) → which is in turn used by
+// `_resolveCityName` (SSR title/H1/breadcrumb/JSON-LD), `_buildSlugLookup
+// Result` (/api/place-by-slug), and the qiblaRef.names per-lang table
+// injected as `window.__QIBLA_CITY__.names`. Routing every city-name
+// rendering through this one helper gives uniform behaviour across:
+//
+//   * `<title>` / `<meta description>` / Open Graph / Twitter Card /
+//     og:image:alt — all derived from `_resolveCityName(slug, lang)`
+//   * H1, subtitles, breadcrumb labels, JSON-LD `name`, FAQ `q`/`a`
+//   * Hero text, prayer cards, internal-link anchor text
+//   * Qibla / Moon / Hijri links built off the same cityDisplay variable
+//
+// Signature: `getLocalizedPlaceName(place, lang, options) → result`
+//
+// `place` may be:
+//   * a curated-places entry (preferred; has `names`, `aliases`)
+//   * the legacy `{ nameAr, nameEn }` shape from cities-DB
+//   * any object exposing a `names` map
+//
+// `options`:
+//   * `acceptAlias` (default true): try `aliases[lang][0]` as a Tier 2.5
+//     before falling back to English. Useful when curated `names[lang]`
+//     is missing but a curated alias exists (e.g., legacy data shape).
+//
+// Return shape (always returned; never throws):
+//   {
+//     displayName:   string,   // the value to render (may be '')
+//     sourceLang:    string|null, // which lang the value actually came from
+//     isFallback:    boolean,  // true if not from the requested lang
+//     hasNativeName: boolean   // true only if requested lang had a
+//                              // script-acceptable native value
+//   }
+//
+// Tier order:
+//   1. names[lang]   IF _isAcceptableScriptForLang(value, lang)
+//   2. aliases[lang][0]   IF script-acceptable AND options.acceptAlias
+//   3. names.en   (untranslated proper-noun fallback per user policy —
+//                   NO runtime translation, NO fillchain)
+//   4. legacy nameAr/nameEn (cities-DB compatibility shim)
+//   5. any other names[k] that is script-acceptable for lang en
+//   6. empty string
+function getLocalizedPlaceName(place, lang, options) {
+    const opts = options || {};
+    const acceptAlias = opts.acceptAlias !== false;
+    const code = String(lang || 'ar').toLowerCase();
+    if (!place || typeof place !== 'object') {
+        return { displayName: '', sourceLang: null, isFallback: true, hasNativeName: false };
+    }
+    const names   = (place.names   && typeof place.names   === 'object') ? place.names   : {};
+    const aliases = (place.aliases && typeof place.aliases === 'object') ? place.aliases : {};
+
+    // Tier 1: requested-lang native value IF script-acceptable.
+    const native = (typeof names[code] === 'string' && names[code].trim()) ? names[code].trim() : '';
+    if (native && _isAcceptableScriptForLang(native, code)) {
+        return { displayName: native, sourceLang: code, isFallback: false, hasNativeName: true };
+    }
+    // Tier 2: requested-lang alias[0] IF script-acceptable.
+    if (acceptAlias && Array.isArray(aliases[code]) && aliases[code].length > 0) {
+        const a0 = (typeof aliases[code][0] === 'string') ? aliases[code][0].trim() : '';
+        if (a0 && _isAcceptableScriptForLang(a0, code)) {
+            return { displayName: a0, sourceLang: code, isFallback: false, hasNativeName: true };
+        }
+    }
+    // Tier 3: English fallback — untranslated proper-noun (no runtime
+    //         translation, no fillchain, no transliteration). For ar code
+    //         specifically we still accept Latin English as the LAST
+    //         resort because Arabic transliteration tiers belong to the
+    //         search pipeline (pickLocalizedDisplayQ), not this SSR helper.
+    const en = (typeof names.en === 'string' && names.en.trim()) ? names.en.trim() : '';
+    if (en) {
+        return { displayName: en, sourceLang: 'en', isFallback: code !== 'en', hasNativeName: false };
+    }
+    // Tier 4: legacy cities-DB shape — `{ nameAr, nameEn }`.
+    if (typeof place.nameEn === 'string' && place.nameEn.trim()) {
+        const v = place.nameEn.trim();
+        return { displayName: v, sourceLang: 'en', isFallback: code !== 'en', hasNativeName: false };
+    }
+    if (typeof place.nameAr === 'string' && place.nameAr.trim()) {
+        const v = place.nameAr.trim();
+        return { displayName: v, sourceLang: 'ar', isFallback: code !== 'ar', hasNativeName: code === 'ar' };
+    }
+    // Tier 5: any non-empty names[k] (defensive last resort).
+    for (const k of Object.keys(names)) {
+        const v = (typeof names[k] === 'string') ? names[k].trim() : '';
+        if (v) {
+            return { displayName: v, sourceLang: k, isFallback: k !== code, hasNativeName: k === code };
+        }
+    }
+    return { displayName: '', sourceLang: null, isFallback: true, hasNativeName: false };
+}
+
 // ── Generic Latin → Arabic transliteration tables ─────────────────────────
 // NOT perfect transliteration — known limitations:
 //   * vowels are dropped/duplicated approximately ("Pontet" → "بونت")
@@ -235,8 +374,17 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
     const nd      = namedetailsByLang || {};
 
     // 1. curated/discovered names[lang]
+    //    CITY-NAME-SEO-FALLBACK-POLICY-1 (2026-05-20): apply the per-lang
+    //    script-acceptance guard so legacy Latin pollution in non-Latin
+    //    lang slots (e.g., gwangju.names.ur = "Gwangju" — Urdu uses
+    //    Arabic script, never Latin) falls through to fallback_en rather
+    //    than getting tagged with the high-confidence `curated` quality.
     if (typeof names[code] === 'string' && names[code].trim()) {
-        return { value: names[code].trim(), quality: 'curated' };
+        const v = names[code].trim();
+        if (_isAcceptableScriptForLang(v, code)) {
+            return { value: v, quality: 'curated' };
+        }
+        // pollution detected — fall through
     }
     // 2. AR-only CJK override (cn/jp canonical dict) — beats Nominatim
     //    name:ar because some Nominatim entries include disambiguation
@@ -251,13 +399,27 @@ function pickLocalizedDisplayQ(place, lang, namedetailsByLang, fallbackRawName, 
         }
     }
     // 3. external namedetails name:lang
+    //    CITY-NAME-SEO-FALLBACK-POLICY-1 (2026-05-20): mirror the Tier 1
+    //    script-acceptance guard so a Nominatim `name:ur="Karachi"`
+    //    Latin annotation (rare but possible) is rejected on /ur/ rather
+    //    than leaking Latin into Urdu RTL templates.
     if (typeof nd[code] === 'string' && nd[code].trim()) {
-        return { value: nd[code].trim(), quality: 'official' };
+        const v = nd[code].trim();
+        if (_isAcceptableScriptForLang(v, code)) {
+            return { value: v, quality: 'official' };
+        }
+        // pollution detected — fall through
     }
     // 3. first alias in this lang
+    //    CITY-NAME-SEO-FALLBACK-POLICY-1: same script-acceptance guard
+    //    applied to aliases — defensive against legacy alias pollution.
     if (Array.isArray(aliases[code]) && aliases[code].length > 0
         && typeof aliases[code][0] === 'string' && aliases[code][0].trim()) {
-        return { value: aliases[code][0].trim(), quality: 'alias' };
+        const v = aliases[code][0].trim();
+        if (_isAcceptableScriptForLang(v, code)) {
+            return { value: v, quality: 'alias' };
+        }
+        // pollution detected — fall through
     }
     // 4. AR-only — refuse Latin if any Arabic-script alternative exists,
     //    EXCEPT skip name:ur for IN/PK/BD where the dedicated tier 6d
@@ -493,6 +655,11 @@ module.exports = {
     pickLocalizedDisplayQ,
     extractNamedetailsByLang,
     transliterateLatinToArabic,
+    // CITY-NAME-SEO-FALLBACK-POLICY-1 (2026-05-20) — central place-name
+    // helper used by SSR / API / search to render per-lang city names
+    // with explicit fallback metadata. See top of file for tier order.
+    getLocalizedPlaceName,
+    isAcceptableScriptForLang: _isAcceptableScriptForLang,
     // Re-export country-specific helpers so server.js / tests can reach
     // them via the single entry point if they need to.
     turkish,

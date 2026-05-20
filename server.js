@@ -3183,16 +3183,23 @@ function _findPlaceBySlug(slug) {
 // Pick a curated entry's localized name for `lang`. Walks the same
 // fallback chain the search endpoint uses (LANG-1 contract) so SSR text
 // matches what search results show: lang → en → first non-empty → null.
+//
+// CITY-NAME-SEO-FALLBACK-POLICY-1 (2026-05-20): rewired through the new
+// central `_placeL10n.getLocalizedPlaceName` helper so every SSR position
+// downstream (_resolveCityName → SSR title/H1/breadcrumb/JSON-LD,
+// _buildSlugLookupResult → /api/place-by-slug response,
+// qiblaRef.names → window.__QIBLA_CITY__.names per-lang map,
+// __PRAYER_CITY__.name → client hydration seed) inherits the same
+// script-validated fallback chain. The chain now rejects legacy
+// fillchain pollution like `gwangju.names.ur = "Gwangju"` (Latin in
+// Urdu slot) and transparently falls back to `names.en` so Urdu/Bengali
+// RTL templates aren't broken by un-localized Latin proper nouns.
+// curated-places.json is NOT mutated by this change — the helper is a
+// pure runtime read-side filter.
 function _pickCuratedName(entry, lang) {
     if (!entry || typeof entry !== 'object') return null;
-    const _n = entry.names || {};
-    const _code = String(lang || 'ar').toLowerCase();
-    if (typeof _n[_code] === 'string' && _n[_code].trim()) return _n[_code];
-    if (typeof _n.en === 'string' && _n.en.trim())         return _n.en;
-    for (const k of Object.keys(_n)) {
-        if (typeof _n[k] === 'string' && _n[k].trim()) return _n[k];
-    }
-    return null;
+    const r = _placeL10n.getLocalizedPlaceName(entry, lang);
+    return r.displayName || null;
 }
 
 // Build the /api/place-by-slug response shape from a curated entry. This

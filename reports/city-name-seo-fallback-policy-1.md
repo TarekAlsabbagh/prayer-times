@@ -2,9 +2,50 @@
 
 **Date**: 2026-05-20
 **Phase**: Runtime-only SEO/SSR fix (NO data wave, NO L10N wave, NO runtime translation, NO fillchain)
-**Status**: ✅ CLOSED pending user approval
+**Status**: ✅ **CLOSED — user-approved 2026-05-20**
+**Implementation commit**: `5e0e6d1` — `feat(l10n): CITY-NAME-SEO-FALLBACK-POLICY-1 — central place-name helper with script guard`
 **Files touched**: `server/place-l10n/index.js`, `server.js`, `scripts/_test_city_name_seo_fallback_1.mjs`, this report
 **Byte-diff on `db/places/curated-places.json`**: **0 bytes** — curated data NOT mutated
+
+---
+
+## 0. Acceptance criteria (user-approved 2026-05-20)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | Central helper implemented: `getLocalizedPlaceName(place, lang, options)` returning `{displayName, sourceLang, isFallback, hasNativeName}` | ✅ `server/place-l10n/index.js` |
+| 2 | No runtime translation for city names | ✅ Verified — no Google / Browser / OpenAI / Anthropic / any translation API touched |
+| 3 | No fillchain for city names | ✅ Fallback is single-tier (`names.en`) — not iterative |
+| 4 | Fallback is **single-tier to `names.en` only** when `names[lang]` missing or pollution-rejected | ✅ Tier 3 of helper; no further-language cascade |
+| 5 | `db/places/curated-places.json` unchanged | ✅ `git diff` confirms **0-byte diff** between implementation commit (`5e0e6d1`) and this closure marker |
+| 6 | No `names.*` generated at runtime | ✅ Helper is read-side only; writes nothing back |
+| 7 | No slug changes | ✅ Slug routing untouched |
+| 8 | No canonical URL changes | ✅ Canonical builder unmodified |
+| 9 | City page SSR / SEO / social metadata / JSON-LD / breadcrumb / hero / internal links / qibla / moon / hijri chain unified | ✅ Audited in §1; all positions flow through `_pickCuratedName → getLocalizedPlaceName` |
+| 10 | Gwangju Latin-pollution fallback verified | ✅ `/ur/` + `/bn/` route via `sourceLang='en'`, `isFallback=true`, `hasNativeName=false` |
+| 11 | Native-name regressions all pass (Karachi `کراچی`, Dhaka `ঢাকা`, Mumbai `ممبئی` / `মুম্বই`, Varanasi `বারাণসী`, Makkah `مكة المكرمة`) | ✅ Verified via offline test + live SSR curl |
+| 12 | Tests: new suite 107/107 PASS + search-place-endpoint 659/659 PASS + carry-forward suites green | ✅ Aggregate ≈ 1,798 passes |
+| 13 | Pre-existing `_test_place_names_ur_pk_1.mjs` single failure (`حیدر آباد` → `in/hyderabad-in` instead of `pk/hyderabad-pk`) documented as unrelated to this phase — pure search-ranking issue independent of script-validation and fallback policy | ✅ Documented (§4.2 + §13 below) |
+
+---
+
+## 13. Pre-existing residual (acknowledged, NOT in scope of this phase)
+
+`_test_place_names_ur_pk_1.mjs` reports a single search-ranking failure:
+
+```
+✗ search "حیدر آباد" → top result pk/hyderabad-pk   (got in/hyderabad-in)
+```
+
+**Root-cause analysis (re-confirmed at closure)**:
+- Both `pk/hyderabad-pk` and `in/hyderabad-in` carry `names.ur = "حیدرآباد"` — clean Arabic-block Urdu, **both pass** the new `_isAcceptableScriptForLang('حیدرآباد', 'ur')` guard identically.
+- Both therefore retain `quality: 'curated'` after this commit; **the script-validation fix changes nothing about their relative ranking**.
+- The query "حیدر آباد" (with a space) exactly matches `pk/hyderabad-pk`'s `aliases.ur[1]` but only partial-matches `in/hyderabad-in`'s name. The ranking algorithm currently prefers IN over PK for this with-space query.
+- This is a **pure search-ranking issue** in the existing scoring code, independent of script-validation, fallback policy, helper architecture, or any L10N data.
+
+**Status**: Deferred. NOT opened in this phase. Awaiting a future explicit user request to investigate search-ranking.
+
+---
 
 ---
 
@@ -424,8 +465,19 @@ This phase is ready for user closure when ALL the following are true (all curren
 - [x] No new `names.*` written to disk
 - [x] No runtime translation invoked
 - [x] No fillchain logic added
-- [x] Carry-forward suites (18+ files, 1,000+ tests) all green save 1 pre-existing UR-PK-1 search-ranking failure (confirmed unrelated to this commit by data inspection)
+- [x] Carry-forward suites (18+ files, 1,000+ tests) all green save 1 pre-existing UR-PK-1 search-ranking failure (confirmed unrelated to this commit by data inspection — see §13)
+- [x] **`_test_search_place_endpoint.mjs` full server-booted run = 659 / 659 PASS** (verified post-closure)
 
 ---
 
-*Awaiting user closure approval. No further phases will be opened.*
+## 11. Closure marker
+
+**Approved by user 2026-05-20**:
+> أعتمد إغلاق CITY-NAME-SEO-FALLBACK-POLICY-1 رسميًا.
+> Marker: `docs(closure): mark CITY-NAME-SEO-FALLBACK-POLICY-1 user-approved 2026-05-20`
+
+No further phases opened. Specifically held back per user constraint:
+geodata wave • L10N wave • search-ranking wave • Hijri pages •
+DELETE-V1 • geocode-proxy • any modification to `curated-places.json`.
+
+*— End of report —*

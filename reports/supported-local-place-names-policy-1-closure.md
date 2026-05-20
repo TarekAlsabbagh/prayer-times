@@ -314,7 +314,31 @@ For these, the runtime helper correctly serves `names.en` via the en-fallback ch
 
 ---
 
-## 11. Awaiting user closure approval
+## 11. Maintenance policy created and adopted
+
+Alongside this phase's closure, a **permanent maintenance policy** has been written and adopted:
+
+**📜 `docs/place-data-maintenance-policy.md`** — the canonical reference for ALL future place-data work.
+
+The policy covers (in 12 sections):
+1. Supported UI Languages — closed set of 10 (ar/en/fr/de/tr/ur/id/es/bn/ms)
+2. Required Names Policy — per-country required `names.<lang>` keys (incl. India special-case ur+bn, NOT hi)
+3. Unsupported Languages Policy — prohibited list (hi/ta/mr/te/kn/ml/gu/pa/or/as/sa) with the legacy HI carve-out
+4. Fallback Policy — strict tier chain; NO runtime translation, NO fillchain, NO close-lang substitution, NO external-provider override on canonical pages
+5. Local Name Correction Policy — source priority (GeoNames → Wikipedia local → Wikidata → manual verified)
+6. New Place Addition Policy — required fields + forbidden patterns
+7. Alias Policy — what aliases are allowed vs forbidden
+8. Script Guard Policy — per-lang script validators (Arabic/Bengali/Latin diacritics)
+9. Audit Before Apply — 3-stage workflow (audit / apply / closure) for standard waves; fast-wave minimum requirements
+10. Post-Mutation Invariants — 12 invariants enforced by every apply script
+11. SEO Compatibility Policy — single-display-name-per-page rule; canonical-page = curated-only
+12. Closure and Memory Policy — phase closure + MEMORY.md entry + no-auto-close rule
+
+This phase complies with every rule in the new policy. Future phases that touch `db/places/curated-places.json` MUST reference this document.
+
+---
+
+## 12. Awaiting user closure approval
 
 Implementation complete. No further phases opened. Specifically held back per user constraint:
 - ❌ SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2 (broader Wikipedia/Wikidata verification)

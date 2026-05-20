@@ -1,0 +1,1274 @@
+{
+  "timestamp": "2026-05-20T21:21:03.286Z",
+  "totalCities": 612,
+  "distinctCountries": 24,
+  "perCountry": {
+    "tr": {
+      "total": 14,
+      "byLang": {
+        "tr": {
+          "native_ok": 4,
+          "fillchain_acceptable": 10,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "fr": {
+      "total": 25,
+      "byLang": {
+        "fr": {
+          "native_ok": 0,
+          "fillchain_acceptable": 19,
+          "fillchain_suspicious": 6,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "es": {
+      "total": 45,
+      "byLang": {
+        "es": {
+          "native_ok": 3,
+          "fillchain_acceptable": 30,
+          "fillchain_suspicious": 12,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "de": {
+      "total": 56,
+      "byLang": {
+        "de": {
+          "native_ok": 4,
+          "fillchain_acceptable": 46,
+          "fillchain_suspicious": 6,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "at": {
+      "total": 5,
+      "byLang": {
+        "de": {
+          "native_ok": 1,
+          "fillchain_acceptable": 4,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "ch": {
+      "total": 14,
+      "byLang": {
+        "de": {
+          "native_ok": 1,
+          "fillchain_acceptable": 13,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "in": {
+      "total": 109,
+      "byLang": {
+        "ur": {
+          "native_ok": 109,
+          "fillchain_acceptable": 0,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        },
+        "bn": {
+          "native_ok": 109,
+          "fillchain_acceptable": 0,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "pk": {
+      "total": 148,
+      "byLang": {
+        "ur": {
+          "native_ok": 148,
+          "fillchain_acceptable": 0,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "bd": {
+      "total": 38,
+      "byLang": {
+        "bn": {
+          "native_ok": 38,
+          "fillchain_acceptable": 0,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "be": {
+      "total": 7,
+      "byLang": {
+        "fr": {
+          "native_ok": 1,
+          "fillchain_acceptable": 6,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        },
+        "de": {
+          "native_ok": 1,
+          "fillchain_acceptable": 6,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "lu": {
+      "total": 3,
+      "byLang": {
+        "de": {
+          "native_ok": 1,
+          "fillchain_acceptable": 2,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        },
+        "fr": {
+          "native_ok": 0,
+          "fillchain_acceptable": 3,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "my": {
+      "total": 21,
+      "byLang": {
+        "ms": {
+          "native_ok": 1,
+          "fillchain_acceptable": 8,
+          "fillchain_suspicious": 12,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "sg": {
+      "total": 1,
+      "byLang": {
+        "ms": {
+          "native_ok": 1,
+          "fillchain_acceptable": 0,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "id": {
+      "total": 41,
+      "byLang": {
+        "id": {
+          "native_ok": 34,
+          "fillchain_acceptable": 6,
+          "fillchain_suspicious": 1,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "mx": {
+      "total": 31,
+      "byLang": {
+        "es": {
+          "native_ok": 1,
+          "fillchain_acceptable": 30,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "ar": {
+      "total": 10,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 10,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "cl": {
+      "total": 6,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 6,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "co": {
+      "total": 9,
+      "byLang": {
+        "es": {
+          "native_ok": 1,
+          "fillchain_acceptable": 8,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "pe": {
+      "total": 13,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 13,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "ve": {
+      "total": 9,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 9,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "uy": {
+      "total": 1,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 1,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "ec": {
+      "total": 1,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 1,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "bo": {
+      "total": 1,
+      "byLang": {
+        "es": {
+          "native_ok": 0,
+          "fillchain_acceptable": 1,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    },
+    "bn": {
+      "total": 4,
+      "byLang": {
+        "ms": {
+          "native_ok": 0,
+          "fillchain_acceptable": 4,
+          "fillchain_suspicious": 0,
+          "missing": 0,
+          "polluted": 0
+        }
+      }
+    }
+  },
+  "newProposedFixesCount": 36,
+  "confidenceBreakdown": {
+    "needs-review": 36
+  },
+  "newProposedFixes": [
+    {
+      "countryCode": "fr",
+      "slug": "paris",
+      "lang": "fr",
+      "currentValue": "Paris",
+      "proposedValue": "París",
+      "source": "geonames:alternatenames",
+      "hint": "fr diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "madrid",
+      "lang": "es",
+      "currentValue": "Madrid",
+      "proposedValue": "Madríd",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "zaragoza",
+      "lang": "es",
+      "currentValue": "Zaragoza",
+      "proposedValue": "Żaragoża",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "valencia",
+      "lang": "es",
+      "currentValue": "Valencia",
+      "proposedValue": "València",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "de",
+      "slug": "berlin",
+      "lang": "de",
+      "currentValue": "Berlin",
+      "proposedValue": "Berlín",
+      "source": "geonames:alternatenames",
+      "hint": "de diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "de",
+      "slug": "hamburg",
+      "lang": "de",
+      "currentValue": "Hamburg",
+      "proposedValue": "Hambûrg",
+      "source": "geonames:alternatenames",
+      "hint": "de diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "bilbao",
+      "lang": "es",
+      "currentValue": "Bilbao",
+      "proposedValue": "bilbao",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "kuala-lumpur",
+      "lang": "ms",
+      "currentValue": "Kuala Lumpur",
+      "proposedValue": "Kualalumpura",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "george-town",
+      "lang": "ms",
+      "currentValue": "George Town",
+      "proposedValue": "Georgetown",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "ipoh",
+      "lang": "ms",
+      "currentValue": "Ipoh",
+      "proposedValue": "Ipoha",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "kota-kinabalu",
+      "lang": "ms",
+      "currentValue": "Kota Kinabalu",
+      "proposedValue": "kotakinabalu",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "kuching",
+      "lang": "ms",
+      "currentValue": "Kuching",
+      "proposedValue": "kuching",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "fr",
+      "slug": "metz",
+      "lang": "fr",
+      "currentValue": "Metz",
+      "proposedValue": "Mètz",
+      "source": "geonames:alternatenames",
+      "hint": "fr diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "fr",
+      "slug": "le-havre",
+      "lang": "fr",
+      "currentValue": "Le Havre",
+      "proposedValue": "Lé Hâvre",
+      "source": "geonames:alternatenames",
+      "hint": "fr diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "fr",
+      "slug": "grenoble",
+      "lang": "fr",
+      "currentValue": "Grenoble",
+      "proposedValue": "Grenòble",
+      "source": "geonames:alternatenames",
+      "hint": "fr diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "fr",
+      "slug": "dijon",
+      "lang": "fr",
+      "currentValue": "Dijon",
+      "proposedValue": "Dij·on",
+      "source": "geonames:alternatenames",
+      "hint": "fr diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "fr",
+      "slug": "caen",
+      "lang": "fr",
+      "currentValue": "Caen",
+      "proposedValue": "Caën",
+      "source": "geonames:alternatenames",
+      "hint": "fr diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "santa-cruz-de-tenerife",
+      "lang": "es",
+      "currentValue": "Santa Cruz de Tenerife",
+      "proposedValue": "Santa Cruz de Ténérife",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "murcia",
+      "lang": "es",
+      "currentValue": "Murcia",
+      "proposedValue": "Múrcia",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "marbella",
+      "lang": "es",
+      "currentValue": "Marbella",
+      "proposedValue": "marbella",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "elche",
+      "lang": "es",
+      "currentValue": "Elche",
+      "proposedValue": "elche",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "valladolid",
+      "lang": "es",
+      "currentValue": "Valladolid",
+      "proposedValue": "Valladolíd",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "santander",
+      "lang": "es",
+      "currentValue": "Santander",
+      "proposedValue": "Santandèr",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "oviedo",
+      "lang": "es",
+      "currentValue": "Oviedo",
+      "proposedValue": "oviedo",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "es",
+      "slug": "badalona",
+      "lang": "es",
+      "currentValue": "Badalona",
+      "proposedValue": "badalona",
+      "source": "geonames:alternatenames",
+      "hint": "es diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "de",
+      "slug": "herne",
+      "lang": "de",
+      "currentValue": "Herne",
+      "proposedValue": "Hernė",
+      "source": "geonames:alternatenames",
+      "hint": "de diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "de",
+      "slug": "hannover",
+      "lang": "de",
+      "currentValue": "Hannover",
+      "proposedValue": "Hannóver",
+      "source": "geonames:alternatenames",
+      "hint": "de diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "de",
+      "slug": "essen",
+      "lang": "de",
+      "currentValue": "Essen",
+      "proposedValue": "essen",
+      "source": "geonames:alternatenames",
+      "hint": "de diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "de",
+      "slug": "bremen",
+      "lang": "de",
+      "currentValue": "Bremen",
+      "proposedValue": "Brémén",
+      "source": "geonames:alternatenames",
+      "hint": "de diacritic form",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "sandakan",
+      "lang": "ms",
+      "currentValue": "Sandakan",
+      "proposedValue": "Sandakan Town",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "tawau",
+      "lang": "ms",
+      "currentValue": "Tawau",
+      "proposedValue": "tawau",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "kuala-terengganu",
+      "lang": "ms",
+      "currentValue": "Kuala Terengganu",
+      "proposedValue": "Bandar Kuala Terengganu",
+      "source": "geonames:alternatenames",
+      "hint": "Bandar/Pekan X",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "seremban",
+      "lang": "ms",
+      "currentValue": "Seremban",
+      "proposedValue": "serembana",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "kuantan",
+      "lang": "ms",
+      "currentValue": "Kuantan",
+      "proposedValue": "Kuala Kuantan",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "kangar",
+      "lang": "ms",
+      "currentValue": "Kangar",
+      "proposedValue": "kangara",
+      "source": "geonames:alternatenames",
+      "hint": "ms spelling variant",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    },
+    {
+      "countryCode": "my",
+      "slug": "miri",
+      "lang": "ms",
+      "currentValue": "Miri",
+      "proposedValue": "Bandar Miri",
+      "source": "geonames:alternatenames",
+      "hint": "Bandar/Pekan X",
+      "confidence": "needs-review",
+      "reason": "fillchain_suspicious — geonames alt has documented variant"
+    }
+  ],
+  "detailRows": [
+    {
+      "slug": "paris",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Paris",
+      "enValue": "Paris",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "París",
+        "Parîs",
+        "paris"
+      ],
+      "candidateHints": [
+        "fr diacritic form",
+        "fr diacritic form",
+        "fr diacritic form"
+      ]
+    },
+    {
+      "slug": "madrid",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Madrid",
+      "enValue": "Madrid",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Madríd",
+        "Madrîd",
+        "madrid"
+      ],
+      "candidateHints": [
+        "es diacritic form",
+        "es diacritic form",
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "zaragoza",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Zaragoza",
+      "enValue": "Zaragoza",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Żaragoża"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "valencia",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Valencia",
+      "enValue": "Valencia",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "València",
+        "Valéncia",
+        "Valência"
+      ],
+      "candidateHints": [
+        "es diacritic form",
+        "es diacritic form",
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "berlin",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Berlin",
+      "enValue": "Berlin",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Berlín",
+        "Berlîn",
+        "Bèrlîn"
+      ],
+      "candidateHints": [
+        "de diacritic form",
+        "de diacritic form",
+        "de diacritic form"
+      ]
+    },
+    {
+      "slug": "hamburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Hamburg",
+      "enValue": "Hamburg",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Hambûrg"
+      ],
+      "candidateHints": [
+        "de diacritic form"
+      ]
+    },
+    {
+      "slug": "bilbao",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Bilbao",
+      "enValue": "Bilbao",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "bilbao"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "kuala-lumpur",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuala Lumpur",
+      "enValue": "Kuala Lumpur",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Kualalumpura"
+      ],
+      "candidateHints": [
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "yogyakarta",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Yogyakarta",
+      "enValue": "Yogyakarta",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Kota Yogyakarta"
+      ],
+      "candidateHints": [
+        "Kota X"
+      ]
+    },
+    {
+      "slug": "george-town",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "George Town",
+      "enValue": "George Town",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Georgetown"
+      ],
+      "candidateHints": [
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "ipoh",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Ipoh",
+      "enValue": "Ipoh",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Ipoha",
+        "Ipohas",
+        "ipoha"
+      ],
+      "candidateHints": [
+        "ms spelling variant",
+        "ms spelling variant",
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "kota-kinabalu",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kota Kinabalu",
+      "enValue": "Kota Kinabalu",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "kotakinabalu"
+      ],
+      "candidateHints": [
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "kuching",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuching",
+      "enValue": "Kuching",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "kuching"
+      ],
+      "candidateHints": [
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "metz",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Metz",
+      "enValue": "Metz",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Mètz",
+        "Métz"
+      ],
+      "candidateHints": [
+        "fr diacritic form",
+        "fr diacritic form"
+      ]
+    },
+    {
+      "slug": "le-havre",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Le Havre",
+      "enValue": "Le Havre",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Lé Hâvre"
+      ],
+      "candidateHints": [
+        "fr diacritic form"
+      ]
+    },
+    {
+      "slug": "grenoble",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Grenoble",
+      "enValue": "Grenoble",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Grenòble"
+      ],
+      "candidateHints": [
+        "fr diacritic form"
+      ]
+    },
+    {
+      "slug": "dijon",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Dijon",
+      "enValue": "Dijon",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Dij·on",
+        "dijon"
+      ],
+      "candidateHints": [
+        "fr diacritic form",
+        "fr diacritic form"
+      ]
+    },
+    {
+      "slug": "caen",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Caen",
+      "enValue": "Caen",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Caën"
+      ],
+      "candidateHints": [
+        "fr diacritic form"
+      ]
+    },
+    {
+      "slug": "santa-cruz-de-tenerife",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Santa Cruz de Tenerife",
+      "enValue": "Santa Cruz de Tenerife",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Santa Cruz de Ténérife"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "murcia",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Murcia",
+      "enValue": "Murcia",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Múrcia"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "marbella",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Marbella",
+      "enValue": "Marbella",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "marbella"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "elche",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Elche",
+      "enValue": "Elche",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "elche"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "valladolid",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Valladolid",
+      "enValue": "Valladolid",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Valladolíd"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "santander",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Santander",
+      "enValue": "Santander",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Santandèr",
+        "Santandér"
+      ],
+      "candidateHints": [
+        "es diacritic form",
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "oviedo",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Oviedo",
+      "enValue": "Oviedo",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "oviedo"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "badalona",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Badalona",
+      "enValue": "Badalona",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "badalona"
+      ],
+      "candidateHints": [
+        "es diacritic form"
+      ]
+    },
+    {
+      "slug": "herne",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Herne",
+      "enValue": "Herne",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Hernė",
+        "herne"
+      ],
+      "candidateHints": [
+        "de diacritic form",
+        "de diacritic form"
+      ]
+    },
+    {
+      "slug": "hannover",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Hannover",
+      "enValue": "Hannover",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Hannóver"
+      ],
+      "candidateHints": [
+        "de diacritic form"
+      ]
+    },
+    {
+      "slug": "essen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Essen",
+      "enValue": "Essen",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "essen"
+      ],
+      "candidateHints": [
+        "de diacritic form"
+      ]
+    },
+    {
+      "slug": "bremen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Bremen",
+      "enValue": "Bremen",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Brémén"
+      ],
+      "candidateHints": [
+        "de diacritic form"
+      ]
+    },
+    {
+      "slug": "sandakan",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Sandakan",
+      "enValue": "Sandakan",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Sandakan Town",
+        "sandakan"
+      ],
+      "candidateHints": [
+        "ms spelling variant",
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "tawau",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Tawau",
+      "enValue": "Tawau",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "tawau"
+      ],
+      "candidateHints": [
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "kuala-terengganu",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuala Terengganu",
+      "enValue": "Kuala Terengganu",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Bandar Kuala Terengganu"
+      ],
+      "candidateHints": [
+        "Bandar/Pekan X"
+      ]
+    },
+    {
+      "slug": "seremban",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Seremban",
+      "enValue": "Seremban",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "serembana"
+      ],
+      "candidateHints": [
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "kuantan",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuantan",
+      "enValue": "Kuantan",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Kuala Kuantan",
+        "kuantan"
+      ],
+      "candidateHints": [
+        "ms spelling variant",
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "kangar",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kangar",
+      "enValue": "Kangar",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "kangara",
+        "kangaru"
+      ],
+      "candidateHints": [
+        "ms spelling variant",
+        "ms spelling variant"
+      ]
+    },
+    {
+      "slug": "miri",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Miri",
+      "enValue": "Miri",
+      "status": "fillchain_suspicious",
+      "candidates": [
+        "Bandar Miri",
+        "miri"
+      ],
+      "candidateHints": [
+        "Bandar/Pekan X",
+        "ms spelling variant"
+      ]
+    }
+  ]
+}

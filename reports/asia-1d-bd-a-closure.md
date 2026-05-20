@@ -1,6 +1,7 @@
 # ASIA-1D-BD-A — Closure report
 
-**Status**: 🟢 EXECUTED — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `5b32825` (feat(geodata): ASIA-1D-BD-A — 13 Bangladesh cities merged BD 6→19)
 **Date**: 2026-05-20
 **Phase**: First Bangladesh geodata wave (Fast Track + anomaly overrides)
 **Plan ref**: [reports/asia-1d-bd-a-plan.md](asia-1d-bd-a-plan.md)
@@ -314,14 +315,15 @@ Bengali enrichment fully deferred to `PLACE-NAMES-BN-BD-1`. The 9/10 high-tier c
 
 ---
 
-## Status: 🟢 ASIA-1D-BD-A EXECUTED SUCCESSFULLY — AWAITING USER APPROVAL
+## Status: 🟢 ASIA-1D-BD-A CLOSED — user-approved 2026-05-20
 
 ### Summary
 
 | Metric | Value |
 |--------|-------|
 | Closure report | `reports/asia-1d-bd-a-closure.md` |
-| Apply commit | (pending — to be made after user approval) |
+| Apply commit | `5b32825` (pushed to main) |
+| Closure-approval commit | (this docs commit) |
 | BD entries before → after | 6 → **19** |
 | New cities merged | **13** |
 | Anomaly overrides | 3 (rangpur religious false-positive, nilphamari + gaibandha low-tier promotion) |
@@ -331,5 +333,38 @@ Bengali enrichment fully deferred to `PLACE-NAMES-BN-BD-1`. The 9/10 high-tier c
 | Runtime translation used | **NONE** |
 | Brunei data used | **NONE** |
 | Code files modified | **0** (server.js, js/app.js, index.html, fillLangMap, validate_candidates.mjs, normalize_places.mjs all unchanged) |
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | BD entries became exactly 19 (6 → 19) | ✓ |
+| 2 | Curated total grew exactly +13 (2,474 → 2,487) | ✓ |
+| 3 | 13 BATCH-A cities only — no extras | ✓ |
+| 4 | All new cities have `names.ar` + `names.en` | ✓ |
+| 5 | No `names.bn` in this phase | ✓ |
+| 6 | No runtime translation | ✓ |
+| 7 | No fillchain | ✓ |
+| 8 | No Brunei (`bn-*` / `bn.mjs`) data used | ✓ |
+| 9 | `server.js` / `js/app.js` / `index.html` unchanged | ✓ |
+| 10 | `_geonames_common.mjs` unchanged | ✓ |
+| 11 | `barishal` NOT merged (duplicate of `barisal`) | ✓ |
+| 12 | `chittagong` + `barisal` slugs preserved | ✓ |
+| 13 | `rangpur` added via documented script-level override | ✓ |
+| 14 | `nilphamari` + `gaibandha` added via documented script-level override | ✓ |
+| 15 | Tests 229/229 PASS | ✓ |
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ❌ PLACE-NAMES-BN-BD-1
+- ❌ ASIA-1D-BD-MCF
+- ❌ ASIA-1D-BD-MISSING-AR-MAJORS-1A
+- ❌ PLACE-NAMES-ALIASES-BD-SEED-1
+- ❌ STAGE-3-RELIGIOUS-EXEMPTION-1
+- ❌ ASIA-1D-IN
+- ❌ ASIA-1F
+- ❌ AMERICAS-1B-MCF
+- ❌ SEARCH-RANKING-IMPROVEMENT-1
+- ❌ DELETE-V1-AND-GEOCODE-PROXY-1
 
 **No further work until user direction.**

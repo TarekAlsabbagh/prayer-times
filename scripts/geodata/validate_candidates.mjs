@@ -105,18 +105,32 @@ function distanceToNearestCurated(cand, saList) {
 }
 
 // ─── Detect blocklist hits ───
-// Returns { hit: 'religious' | 'non_place' | null, keyword: '...' }
+// Returns { hit: 'religious' | 'non_place' | null, keyword: '...', in: 'primary'|'alias'|null }
 // `religiousKw` and `nonPlaceKw` allow per-country extensions on top of
 // the cross-Arabic defaults.
-function checkBlocklist(cand, religiousKw, nonPlaceKw) {
-    const combined = (cand.names.ar || '') + ' ' + (cand.names.en || '') + ' '
-                   + ((cand.aliases && cand.aliases.ar) || []).join(' ') + ' '
-                   + ((cand.aliases && cand.aliases.en) || []).join(' ');
-    const rel = matchAnyKeyword(combined, religiousKw);
-    if (rel) return { hit: 'religious', keyword: rel };
+//
+// STAGE-3-RELIGIOUS-EXEMPTION-1 (2026-05-20): religious-keyword check now
+// separates `primary` (names.ar/names.en) from `alias` (aliases.ar/aliases.en)
+// hits so `decideStatusAndTier` can apply differentiated routing per the
+// approved 3-tier policy (admin-exempt + primary-reject + alias-only-review).
+// `non_place` check kept on the combined string (no behavior change).
+export function checkBlocklist(cand, religiousKw, nonPlaceKw) {
+    const primaryStr = (cand.names.ar || '') + ' ' + (cand.names.en || '');
+    const aliasStr   = ((cand.aliases && cand.aliases.ar) || []).join(' ') + ' '
+                     + ((cand.aliases && cand.aliases.en) || []).join(' ');
+
+    // Religious — check primary first, then aliases. Distinction matters
+    // for admin centers + alias-only routing in decideStatusAndTier.
+    const relPrimary = matchAnyKeyword(primaryStr, religiousKw);
+    if (relPrimary) return { hit: 'religious', keyword: relPrimary, in: 'primary' };
+    const relAlias   = matchAnyKeyword(aliasStr,   religiousKw);
+    if (relAlias)   return { hit: 'religious', keyword: relAlias,   in: 'alias' };
+
+    // Non-place — same as before (combined check; no breakdown needed)
+    const combined = primaryStr + ' ' + aliasStr;
     const np = matchAnyKeyword(combined, nonPlaceKw);
-    if (np) return { hit: 'non_place', keyword: np };
-    return { hit: null, keyword: null };
+    if (np) return { hit: 'non_place', keyword: np, in: null };
+    return { hit: null, keyword: null, in: null };
 }
 
 // ─── Quality scoring (same scale as before, 0-100) ───
@@ -147,7 +161,7 @@ function qualityScore(cand) {
 // either pop ≥ popMin OR feature_code in config.alwaysIncludeFeatureCodes.
 // When config.popMin is undefined (MENA legacy waves), the original
 // logic is preserved exactly — no behavior change for SA/QA/AE/.../MR.
-function decideStatusAndTier(cand, blocklist, distInfo, config) {
+export function decideStatusAndTier(cand, blocklist, distInfo, config) {
     // Hard rejections (data integrity)
     if (!isFinite(cand.lat) || !isFinite(cand.lng) ||
         cand.lat < -90 || cand.lat > 90 ||
@@ -158,10 +172,55 @@ function decideStatusAndTier(cand, blocklist, distInfo, config) {
     if (!cand.timezone) return { status: 'rejected', reason: 'no_timezone', tier: null };
     if (!cand.names.en) return { status: 'rejected', reason: 'no_en_name', tier: null };
 
-    // Religious blocklist → outright rejected (these are never cities)
+    // ─── STAGE-3-RELIGIOUS-EXEMPTION-1 (2026-05-20) ───
+    // Original behavior was: religious-keyword hit anywhere (primary name
+    // OR aliases) → reject candidate. That caused false positives like
+    // `bd/rangpur` (PPLA pop=1M rejected because aliases.en contained
+    // "Mosque Rangpur"), `ir/masjed-soleyman` (real PPLA2 city named after
+    // a famous mosque), and `us/lexington` (PPLA2 with "Shrine of the
+    // South" descriptor alias).
+    //
+    // Plan ref: reports/stage-3-religious-exemption-1-plan.md (Option C —
+    // admin-exempt + primary-reject + alias-only → needs_review).
+    //
+    // New 3-tier rule applied below:
+    //   (a) Admin centers (PPLC/PPLA/PPLA2/PPLA3): NEVER reject via
+    //       religious-keyword. Trust GeoNames featureCode — these are
+    //       real cities by definition. Log warning via
+    //       `_religiousExemptionWarning` and fall through to normal
+    //       tier-assignment. (suspicious alias remains attached;
+    //       downstream apply scripts may drop it explicitly — the BD-A
+    //       `Mosque Rangpur` drop pattern.)
+    //
+    //   (b) Non-admin + primary-name hit: REJECT (status quo). Preserves
+    //       the ~360 true positives across all countries — small villages
+    //       whose primary name literally identifies them as a mosque/
+    //       shrine/mausoleum site.
+    //
+    //   (c) Non-admin + alias-only hit: SOFT-REJECT → `needs_review`
+    //       with reason `religious_alias_only`. User can manually audit
+    //       (drop the alias + approve) or confirm the rejection. Avoids
+    //       the previous hard-reject that conflated descriptive aliases
+    //       with actual religious-site classification.
     if (blocklist.hit === 'religious') {
-        return { status: 'rejected', reason: 'religious_site_not_city', tier: null,
-                 keyword: blocklist.keyword };
+        const ADMIN_FEATURES = new Set(['PPLC', 'PPLA', 'PPLA2', 'PPLA3']);
+
+        if (ADMIN_FEATURES.has(cand.featureCode)) {
+            // (a) Admin exemption — DO NOT reject. Annotate for audit.
+            // Flow falls through to the rest of decideStatusAndTier
+            // (missing_ar_name check, non_place check, tier-assignment).
+            cand._religiousExemptionWarning = blocklist.keyword
+                + ' (' + (blocklist.in || 'unknown') + ')';
+            // (intentional no early return — continue below)
+        } else if (blocklist.in === 'primary') {
+            // (b) Primary-name explicit religious → reject (true positive)
+            return { status: 'rejected', reason: 'religious_site_not_city',
+                     tier: null, keyword: blocklist.keyword };
+        } else {
+            // (c) Alias-only on non-admin → soft-reject (needs_review)
+            return { status: 'needs_review', reason: 'religious_alias_only',
+                     tier: null, keyword: blocklist.keyword };
+        }
     }
 
     const flags = cand._normalizationFlags || [];

@@ -117942,5 +117942,917 @@
         "Belgaum"
       ]
     }
+  },
+  {
+    "slug": "virar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 19.45587,
+    "lng": 72.81136,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "فيرار",
+      "en": "Virar",
+      "ur": "ویرار",
+      "bn": "ভিরার"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1253133",
+    "verified": true
+  },
+  {
+    "slug": "puducherry",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.93428,
+    "lng": 79.83356,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بودوتشيري",
+      "en": "Puducherry",
+      "ur": "پانڈیچری",
+      "bn": "পন্ডিচেরী"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Puducherry"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1259425",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Pondicherry"
+      ]
+    }
+  },
+  {
+    "slug": "amravati",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.93333,
+    "lng": 77.75,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أمراواتي",
+      "en": "Amravati",
+      "ur": "امراوتی",
+      "bn": "অমরাবতী"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1278718",
+    "verified": true
+  },
+  {
+    "slug": "cuttack",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.46497,
+    "lng": 85.87927,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كوتاك",
+      "en": "Cuttack",
+      "ur": "کٹک",
+      "bn": "কটক"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Odisha"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1273780",
+    "verified": true
+  },
+  {
+    "slug": "sangli",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 16.85438,
+    "lng": 74.56417,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سانغلي",
+      "en": "Sangli",
+      "ur": "سانگلی",
+      "bn": "সাঙ্গলি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1257416",
+    "verified": true
+  },
+  {
+    "slug": "bokaro",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.6693,
+    "lng": 86.15119,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بوكارو",
+      "en": "Bokaro",
+      "ur": "بوکارو",
+      "bn": "বোকারো"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Jharkhand"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1275362",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Bokaro Steel City"
+      ]
+    }
+  },
+  {
+    "slug": "nanded",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 19.15535,
+    "lng": 77.30032,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ناندد",
+      "en": "Nanded",
+      "ur": "ناندیڑ",
+      "bn": "নান্দেড়"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1261977",
+    "verified": true
+  },
+  {
+    "slug": "kolhapur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 16.69282,
+    "lng": 74.21813,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كولهابور",
+      "en": "Kolhapur",
+      "ur": "کولھاپور",
+      "bn": "কোলহাপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1266285",
+    "verified": true
+  },
+  {
+    "slug": "durgapur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.49997,
+    "lng": 87.32501,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "دورغابور",
+      "en": "Durgapur",
+      "ur": "درگاپور",
+      "bn": "দুর্গাপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "West Bengal"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1272175",
+    "verified": true
+  },
+  {
+    "slug": "siliguri",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.71004,
+    "lng": 88.42851,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سيليغوري",
+      "en": "Siliguri",
+      "ur": "سلیگوڑی",
+      "bn": "শিলিগুড়ি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "West Bengal"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1256525",
+    "verified": true
+  },
+  {
+    "slug": "asansol",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.68333,
+    "lng": 86.98333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أسانسول",
+      "en": "Asansol",
+      "ur": "آسنسول",
+      "bn": "আসানসোল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "West Bengal"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1278314",
+    "verified": true
+  },
+  {
+    "slug": "malegaon",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.55,
+    "lng": 74.53333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ماليغاون",
+      "en": "Malegaon",
+      "ur": "مالیگاؤں",
+      "bn": "মালেগাঁও"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1264115",
+    "verified": true
+  },
+  {
+    "slug": "kurnool",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 15.83093,
+    "lng": 78.04358,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كورنول",
+      "en": "Kurnool",
+      "ur": "کرنول",
+      "bn": "কুর্নল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Andhra Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1265491",
+    "verified": true
+  },
+  {
+    "slug": "jhansi",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 25.44811,
+    "lng": 78.56871,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "جانسي",
+      "en": "Jhansi",
+      "ur": "جھانسی",
+      "bn": "ঝাঁসি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1269006",
+    "verified": true
+  },
+  {
+    "slug": "agartala",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.83603,
+    "lng": 91.27939,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أغرتلا",
+      "en": "Agartala",
+      "ur": "اگرتلا",
+      "bn": "আগরতলা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Tripura"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1279290",
+    "verified": true
+  },
+  {
+    "slug": "kakinada",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 16.96292,
+    "lng": 82.23764,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كاكينادا",
+      "en": "Kakinada",
+      "ur": "کاکیناڈا",
+      "bn": "কাকিনাড়া"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Andhra Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1268561",
+    "verified": true
+  },
+  {
+    "slug": "latur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 18.40817,
+    "lng": 76.58471,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "لاتور",
+      "en": "Latur",
+      "ur": "لاتور",
+      "bn": "লাতুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1265014",
+    "verified": true
+  },
+  {
+    "slug": "rohtak",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.89446,
+    "lng": 76.58932,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "روهتك",
+      "en": "Rohtak",
+      "ur": "روہتک",
+      "bn": "রোহতক"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Haryana"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1258076",
+    "verified": true
+  },
+  {
+    "slug": "bilaspur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.07975,
+    "lng": 82.1375,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بيلاسبور",
+      "en": "Bilaspur",
+      "ur": "بلاس پور",
+      "bn": "বিলাসপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Chhattisgarh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1275637",
+    "verified": true
+  },
+  {
+    "slug": "muzaffarnagar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 29.47165,
+    "lng": 77.7085,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "مظفر نغر",
+      "en": "Muzaffarnagar",
+      "ur": "مظفر نگر",
+      "bn": "মুজাফরনগর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1262332",
+    "verified": true
+  },
+  {
+    "slug": "kadapa",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 14.46667,
+    "lng": 78.81667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كادابا",
+      "en": "Kadapa",
+      "ur": "کڑپہ",
+      "bn": "কাড়পা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Andhra Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1273800",
+    "verified": true
+  },
+  {
+    "slug": "mathura",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 27.5,
+    "lng": 77.66667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ماثورا",
+      "en": "Mathura",
+      "ur": "متھرا",
+      "bn": "মথুরা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1263364",
+    "verified": true
+  },
+  {
+    "slug": "nizamabad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 18.67196,
+    "lng": 78.10079,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "نظام آباد",
+      "en": "Nizamabad",
+      "ur": "نظام آباد",
+      "bn": "নিজামাবাদ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Telangana"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1261258",
+    "verified": true
+  },
+  {
+    "slug": "tumkur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 13.34199,
+    "lng": 77.10166,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تومكور",
+      "en": "Tumkur",
+      "ur": "تمکور",
+      "bn": "তুমকুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Karnataka"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1254089",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Tumakuru"
+      ]
+    }
+  },
+  {
+    "slug": "firozabad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 27.15139,
+    "lng": 78.39517,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "فيروز آباد",
+      "en": "Firozabad",
+      "ur": "فیروز آباد",
+      "bn": "ফিরোজাবাদ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1271885",
+    "verified": true
+  },
+  {
+    "slug": "karnal",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 29.6857,
+    "lng": 76.9905,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كارنال",
+      "en": "Karnal",
+      "ur": "کرنال",
+      "bn": "কারনাল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Haryana"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1267708",
+    "verified": true
+  },
+  {
+    "slug": "rampur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.81517,
+    "lng": 79.02531,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "رامبور",
+      "en": "Rampur",
+      "ur": "رام پور",
+      "bn": "রামপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1258599",
+    "verified": true
+  },
+  {
+    "slug": "panipat",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 29.39091,
+    "lng": 76.96336,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بانيبات",
+      "en": "Panipat",
+      "ur": "پانی پت",
+      "bn": "পানিপথ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Haryana"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1260476",
+    "verified": true
+  },
+  {
+    "slug": "noida",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.57003,
+    "lng": 77.32196,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "نويدا",
+      "en": "Noida",
+      "ur": "نوئیڈا",
+      "bn": "নোইদা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:7279746",
+    "verified": true
+  },
+  {
+    "slug": "greater-noida",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.49579,
+    "lng": 77.5358,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غريتر نويدا",
+      "en": "Greater Noida",
+      "ur": "گریٹر نوئیڈا",
+      "bn": "বৃহত্তর নয়ডা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:6954929",
+    "verified": true
+  },
+  {
+    "slug": "aizawl",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.72784,
+    "lng": 92.71761,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أيزاول",
+      "en": "Aizawl",
+      "ur": "آئزال",
+      "bn": "আইজল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Mizoram"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1279186",
+    "verified": true
+  },
+  {
+    "slug": "karimnagar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 18.43521,
+    "lng": 79.12873,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كريم نغر",
+      "en": "Karimnagar",
+      "ur": "کریم نگر",
+      "bn": "করিমনগর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Telangana"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1267755",
+    "verified": true
+  },
+  {
+    "slug": "imphal",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 24.81696,
+    "lng": 93.93827,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "إمفال",
+      "en": "Imphal",
+      "ur": "امفال",
+      "bn": "ইম্ফল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Manipur"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1269771",
+    "verified": true
+  },
+  {
+    "slug": "rourkela",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.20389,
+    "lng": 84.85364,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "روركيلا",
+      "en": "Rourkela",
+      "ur": "رورکلا",
+      "bn": "রাউরকেলা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Odisha"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1258315",
+    "verified": true
+  },
+  {
+    "slug": "anantapur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 14.68152,
+    "lng": 77.60272,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أنانتابور",
+      "en": "Anantapur",
+      "ur": "اننت پور",
+      "bn": "অনন্তপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Andhra Pradesh"
+    },
+    "priority": 82,
+    "source": "curated",
+    "sourceId": "geonames:1278672",
+    "verified": true
+  },
+  {
+    "slug": "shillong",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 25.5788,
+    "lng": 91.8933,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "شيلونغ",
+      "en": "Shillong",
+      "ur": "شیلانگ",
+      "bn": "শিলং"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Meghalaya"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1256523",
+    "verified": true
+  },
+  {
+    "slug": "gangtok",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 27.32574,
+    "lng": 88.6116,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غانغتوك",
+      "en": "Gangtok",
+      "ur": "گنگتوک",
+      "bn": "গ্যাংটক"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Sikkim"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1271631",
+    "verified": true
+  },
+  {
+    "slug": "kohima",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 25.66667,
+    "lng": 94.11667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كوهيما",
+      "en": "Kohima",
+      "ur": "کوہیما",
+      "bn": "কোহিমা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Nagaland"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1266366",
+    "verified": true
+  },
+  {
+    "slug": "itanagar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 27.10384,
+    "lng": 93.61991,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "إيتاناغار",
+      "en": "Itanagar",
+      "ur": "ایٹا نگر",
+      "bn": "ইটানগর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Arunachal Pradesh"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1269655",
+    "verified": true
   }
 ]

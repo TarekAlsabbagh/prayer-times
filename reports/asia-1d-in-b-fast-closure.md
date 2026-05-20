@@ -1,6 +1,7 @@
 # ASIA-1D-IN-B-FAST — Closure report
 
-**Status**: ✅ APPLY COMPLETE — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `5a566e7`
 **Date**: 2026-05-20
 **Phase**: Fast IN BATCH-B — 30 next-tier cities, ar+en only
 **Scope**: launch-readiness data fill; no plan phase, no L10N, no ranking change
@@ -198,8 +199,46 @@ This BATCH-B-FAST brings IN coverage to **70 entries** across major regions incl
 
 ---
 
-## Status: ✅ APPLY COMPLETE — AWAITING USER APPROVAL
+## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
 
 ### Summary one-liner
 
-**ASIA-1D-IN-B-FAST closed**: +30 IN cities (gorakhpur/raipur/tiruchirappalli/kota/sholapur/chandigarh/tiruppur/guwahati/mysuru/salem-in/gurugram/bhubaneswar/jalandhar/bhayandar/aligarh/bareilly/moradabad/warangal/guntur/bikaner/bhilai/jammu/kozhikode/nellore/ajmer/dehradun/erode/ujjain/mangaluru/belagavi). ar+en only. IN 40→70, curated 2528→2558. 10 documented rename-pair aliases.en (Trichy/Solapur/Tirupur/Mysore/Salem/Gurgaon/Bhayander/Calicut/Mangalore/Belgaum). Smoke tests 23/23. Regression tests 558/558. No L10N added. No ranking change. server.js/js/app.js/index.html unchanged.
+**ASIA-1D-IN-B-FAST CLOSED — user-approved 2026-05-20**: +30 IN cities (gorakhpur/raipur/tiruchirappalli/kota/sholapur/chandigarh/tiruppur/guwahati/mysuru/salem-in/gurugram/bhubaneswar/jalandhar/bhayandar/aligarh/bareilly/moradabad/warangal/guntur/bikaner/bhilai/jammu/kozhikode/nellore/ajmer/dehradun/erode/ujjain/mangaluru/belagavi). ar+en only. IN 40→70, curated 2528→2558. 10 documented rename-pair aliases.en (Trichy/Solapur/Tirupur/Mysore/Salem/Gurgaon/Bhayander/Calicut/Mangalore/Belgaum). Smoke tests 23/23. Regression tests 558/558. No L10N added. No ranking change. server.js/js/app.js/index.html unchanged. Apply commit: `5a566e7`.
+
+---
+
+## 10. User-approved acceptance criteria (closure marker)
+
+User formally approved closure 2026-05-20 with marker:
+
+> `docs(closure): mark ASIA-1D-IN-B-FAST user-approved 2026-05-20`
+
+Documented acceptance checklist:
+
+| # | User-cited criterion | Status |
+|---|---|:------:|
+| 1 | IN 40 → 70 | ✅ |
+| 2 | Total curated 2,528 → 2,558 | ✅ |
+| 3 | 30 cities added (within 20–35 range) | ✅ |
+| 4 | All new cities have `names.ar` + `names.en` ONLY | ✅ |
+| 5 | No `names.hi` added on new cities | ✅ |
+| 6 | No `names.ur` added on new cities | ✅ |
+| 7 | No `names.bn` added on new cities | ✅ |
+| 8 | No `names.ta` added on new cities | ✅ |
+| 9 | No `names.mr` added on new cities | ✅ |
+| 10 | No other Indian/regional langs added | ✅ |
+| 11 | Prior 40 IN entries byte-identical | ✅ (hash assertion) |
+| 12 | PK / BD / all other countries byte-identical | ✅ |
+| 13 | No `server.js` change | ✅ (0 lines diff) |
+| 14 | No `js/app.js` change | ✅ (0 lines diff) |
+| 15 | No `index.html` change | ✅ |
+| 16 | No shared geodata scripts change | ✅ |
+| 17 | No `db/places/candidates/*` change | ✅ |
+| 18 | No search ranking patch | ✅ |
+| 19 | No runtime translation | ✅ |
+| 20 | No fillchain | ✅ |
+| 21 | Smoke tests 23/23 PASS | ✅ |
+| 22 | Regression tests 558/558 PASS | ✅ |
+| 23 | Closure report at `reports/asia-1d-in-b-fast-closure.md` | ✅ |
+| 24 | Apply commit recorded: `5a566e7` | ✅ |
+| 25 | No Held-Queue phase started post-closure | ✅ |

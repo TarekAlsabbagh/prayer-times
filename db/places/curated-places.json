@@ -117196,5 +117196,691 @@
     "source": "curated",
     "sourceId": "geonames:7626690",
     "verified": true
+  },
+  {
+    "slug": "gorakhpur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.76542,
+    "lng": 83.36989,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غوراكبور",
+      "en": "Gorakhpur"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1270926",
+    "verified": true
+  },
+  {
+    "slug": "raipur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 21.23333,
+    "lng": 81.63333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "رايبور",
+      "en": "Raipur"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Chhattisgarh"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1258980",
+    "verified": true
+  },
+  {
+    "slug": "tiruchirappalli",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.80502,
+    "lng": 78.68707,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تيروتشيرابالي",
+      "en": "Tiruchirappalli"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Tamil Nadu"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1254388",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Trichy",
+        "Tiruchirapalli"
+      ]
+    }
+  },
+  {
+    "slug": "kota",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 25.18254,
+    "lng": 75.83907,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كوتا",
+      "en": "Kota"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Rajasthan"
+    },
+    "priority": 95,
+    "source": "curated",
+    "sourceId": "geonames:1266049",
+    "verified": true
+  },
+  {
+    "slug": "sholapur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 17.67152,
+    "lng": 75.90606,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سولابور",
+      "en": "Sholapur"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1256436",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Solapur"
+      ]
+    }
+  },
+  {
+    "slug": "chandigarh",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 30.73629,
+    "lng": 76.7884,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "شانديغار",
+      "en": "Chandigarh"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Chandigarh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1274746",
+    "verified": true
+  },
+  {
+    "slug": "tiruppur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.10854,
+    "lng": 77.34103,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تيروبور",
+      "en": "Tiruppur"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Tamil Nadu"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1254348",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Tirupur"
+      ]
+    }
+  },
+  {
+    "slug": "guwahati",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.18121,
+    "lng": 91.75395,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غواهاتي",
+      "en": "Guwahati"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Assam"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1271476",
+    "verified": true
+  },
+  {
+    "slug": "mysuru",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.30715,
+    "lng": 76.65595,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ميسور",
+      "en": "Mysuru"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Karnataka"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1262321",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Mysore"
+      ]
+    }
+  },
+  {
+    "slug": "salem-in",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.65,
+    "lng": 78.16667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سالم",
+      "en": "Salem"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Tamil Nadu"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1257629",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Salem"
+      ]
+    }
+  },
+  {
+    "slug": "gurugram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.45836,
+    "lng": 77.02641,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غوروغرام",
+      "en": "Gurugram"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Haryana"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1270642",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Gurgaon"
+      ]
+    }
+  },
+  {
+    "slug": "bhubaneswar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.27241,
+    "lng": 85.83385,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بوبانسوار",
+      "en": "Bhubaneswar"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Odisha"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1275817",
+    "verified": true
+  },
+  {
+    "slug": "jalandhar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 31.32556,
+    "lng": 75.57917,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "جلندار",
+      "en": "Jalandhar"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Punjab"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1268782",
+    "verified": true
+  },
+  {
+    "slug": "bhayandar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 19.30157,
+    "lng": 72.85107,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بهايندر",
+      "en": "Bhayandar"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Maharashtra"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1276014",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Bhayander"
+      ]
+    }
+  },
+  {
+    "slug": "aligarh",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 27.88145,
+    "lng": 78.07464,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أليكره",
+      "en": "Aligarh"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1279017",
+    "verified": true
+  },
+  {
+    "slug": "bareilly",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.34702,
+    "lng": 79.43044,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بريلي",
+      "en": "Bareilly"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1277013",
+    "verified": true
+  },
+  {
+    "slug": "moradabad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.83893,
+    "lng": 78.77684,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "مراد آباد",
+      "en": "Moradabad"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttar Pradesh"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1262801",
+    "verified": true
+  },
+  {
+    "slug": "warangal",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 17.99506,
+    "lng": 79.59409,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ورنغل",
+      "en": "Warangal"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Telangana"
+    },
+    "priority": 90,
+    "source": "curated",
+    "sourceId": "geonames:1252948",
+    "verified": true
+  },
+  {
+    "slug": "guntur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 16.30667,
+    "lng": 80.43667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غونتور",
+      "en": "Guntur"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Andhra Pradesh"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1270668",
+    "verified": true
+  },
+  {
+    "slug": "bikaner",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 28.0181,
+    "lng": 73.31495,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بيكانير",
+      "en": "Bikaner"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Rajasthan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1275665",
+    "verified": true
+  },
+  {
+    "slug": "bhilai",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 21.20919,
+    "lng": 81.4285,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بهيلاي",
+      "en": "Bhilai"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Chhattisgarh"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1275971",
+    "verified": true
+  },
+  {
+    "slug": "jammu",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 32.7359,
+    "lng": 74.86866,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "جامو",
+      "en": "Jammu"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Jammu and Kashmir"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1269321",
+    "verified": true
+  },
+  {
+    "slug": "kozhikode",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.24802,
+    "lng": 75.7804,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كاليكوت",
+      "en": "Kozhikode"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Kerala"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1265873",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Calicut"
+      ]
+    }
+  },
+  {
+    "slug": "nellore",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 14.43,
+    "lng": 79.96,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "نيلور",
+      "en": "Nellore"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Andhra Pradesh"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1261529",
+    "verified": true
+  },
+  {
+    "slug": "ajmer",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.4521,
+    "lng": 74.6376,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أجمير",
+      "en": "Ajmer"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Rajasthan"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1279159",
+    "verified": true
+  },
+  {
+    "slug": "dehradun",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 30.32443,
+    "lng": 78.03392,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ديهرادون",
+      "en": "Dehradun"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Uttarakhand"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1273313",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Dehra Dun"
+      ]
+    }
+  },
+  {
+    "slug": "erode",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.34228,
+    "lng": 77.72831,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "إيرود",
+      "en": "Erode"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Tamil Nadu"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1272013",
+    "verified": true
+  },
+  {
+    "slug": "ujjain",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.18,
+    "lng": 75.77,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أوجاين",
+      "en": "Ujjain"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Madhya Pradesh"
+    },
+    "priority": 85,
+    "source": "curated",
+    "sourceId": "geonames:1253914",
+    "verified": true
+  },
+  {
+    "slug": "mangaluru",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.86562,
+    "lng": 74.84265,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "منغالور",
+      "en": "Mangaluru"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Karnataka"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1263780",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Mangalore"
+      ]
+    }
+  },
+  {
+    "slug": "belagavi",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 15.85363,
+    "lng": 74.5045,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بلغاوم",
+      "en": "Belagavi"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionEn": "Karnataka"
+    },
+    "priority": 80,
+    "source": "curated",
+    "sourceId": "geonames:1276533",
+    "verified": true,
+    "aliases": {
+      "en": [
+        "Belgaum"
+      ]
+    }
   }
 ]

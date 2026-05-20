@@ -93,14 +93,16 @@ const EXPECTED_HI = {
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2528', curated.length === 2528, '(actual: ' + curated.length + ')');
-ok('IN total == 40',         inEntries.length === 40,  '(actual: ' + inEntries.length + ')');
+// Counts updated post ASIA-1D-IN-B-FAST (curated 2528→2558, IN 40→70).
+// Hindi coverage applies only to the original 40 cohort (BATCH-B is ar+en only).
+ok('Total curated == 2558', curated.length === 2558, '(actual: ' + curated.length + ')');
+ok('IN total == 70',         inEntries.length === 70,  '(actual: ' + inEntries.length + ')');
 const withHi = inEntries.filter(e => e.names && e.names.hi).length;
-ok('IN with names.hi == 40', withHi === 40, '(actual: ' + withHi + '/40)');
+ok('IN with names.hi == 40 (HI-IN-1 cohort)', withHi === 40, '(actual: ' + withHi + '/70)');
 const withAr = inEntries.filter(e => e.names && e.names.ar).length;
-ok('IN with names.ar == 40 (unchanged)', withAr === 40, '(actual: ' + withAr + '/40)');
+ok('IN with names.ar == 70 (BATCH-B included)', withAr === 70, '(actual: ' + withAr + '/70)');
 const withEn = inEntries.filter(e => e.names && e.names.en).length;
-ok('IN with names.en == 40 (unchanged)', withEn === 40, '(actual: ' + withEn + '/40)');
+ok('IN with names.en == 70 (BATCH-B included)', withEn === 70, '(actual: ' + withEn + '/70)');
 
 // ─── Group 2: Devanagari script guard ───────────────────────────────────
 console.log('');

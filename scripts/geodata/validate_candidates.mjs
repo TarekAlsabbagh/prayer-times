@@ -674,8 +674,24 @@ async function main() {
 
     stats.aliasEnrichCount = aliasEnrich.length;
 
-    fs.writeFileSync(paths.candidatesJson, JSON.stringify(out, null, 2) + '\n');
-    console.log('[stage3] wrote', paths.candidatesJson);
+    // STAGE-3-LARGE-COUNTRY-OUTPUT-FIX-1 (2026-05-20):
+    // Large countries (IN 547k candidates, future CN ~700k, full US ~200k)
+    // hit V8's max string length (~512 MB on 64-bit) when JSON.stringify
+    // is called with indent=2. Empirical: IN at indent=2 → ~1.5 GB
+    // (rejects); IN at indent=0 → ~329 MB (fits comfortably).
+    //
+    // Policy: pretty-print (indent=2) for ≤100k entries (status quo for
+    // BD/PK/AF/IR and all current countries); compact (indent=0) only
+    // when list exceeds 100k. Output remains valid JSON in both cases;
+    // downstream consumers (Stage 4, audit scripts) parse identically.
+    //
+    // Threshold of 100k chosen because:
+    //   - BD largest current candidate count is ~49k → unaffected
+    //   - IN is the first country to exceed it (547k)
+    //   - Headroom for future expansions without changing the cutoff
+    const indent = out.length > 100000 ? 0 : 2;
+    fs.writeFileSync(paths.candidatesJson, JSON.stringify(out, null, indent) + '\n');
+    console.log('[stage3] wrote', paths.candidatesJson, '(' + out.length + ' entries, indent=' + indent + ')');
 
     const mainReport = renderMainReport(stats, sample, ctx);
     fs.writeFileSync(paths.reportMd, mainReport);

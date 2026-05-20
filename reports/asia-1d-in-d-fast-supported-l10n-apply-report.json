@@ -1,0 +1,274 @@
+{
+  "timestamp": "2026-05-20T21:39:33.083Z",
+  "citiesAdded": 33,
+  "inCountBefore": 109,
+  "inCountAfter": 142,
+  "totalCuratedBefore": 2597,
+  "totalCuratedAfter": 2630,
+  "addedDetail": [
+    {
+      "slug": "jalgaon",
+      "en": "Jalgaon",
+      "ar": "جالغاون",
+      "ur": "جلگاؤں",
+      "bn": "জালগাঁও",
+      "pop": 460228
+    },
+    {
+      "slug": "akola",
+      "en": "Akola",
+      "ar": "أكولا",
+      "ur": "اکولہ",
+      "bn": "অকোলা",
+      "pop": 428857
+    },
+    {
+      "slug": "ballari",
+      "en": "Ballari",
+      "ar": "بلاري",
+      "ur": "بلاری",
+      "bn": "বেল্লারী",
+      "pop": 410445
+    },
+    {
+      "slug": "dhule",
+      "en": "Dhule",
+      "ar": "دهولي",
+      "ur": "دھولے",
+      "bn": "ধুলে",
+      "pop": 375559
+    },
+    {
+      "slug": "avadi",
+      "en": "Avadi",
+      "ar": "أفادي",
+      "ur": "اوادی",
+      "bn": "আভাদি",
+      "pop": 345996
+    },
+    {
+      "slug": "parbhani",
+      "en": "Parbhani",
+      "ar": "باربهاني",
+      "ur": "پربھنی",
+      "bn": "পারভানি",
+      "pop": 307170
+    },
+    {
+      "slug": "hisar",
+      "en": "Hisar",
+      "ar": "حصار",
+      "ur": "ہسار",
+      "bn": "হিসার",
+      "pop": 307024
+    },
+    {
+      "slug": "sonipat",
+      "en": "Sonipat",
+      "ar": "سونيبات",
+      "ur": "سونی پت",
+      "bn": "সোনিপত",
+      "pop": 289333
+    },
+    {
+      "slug": "ichalkaranji",
+      "en": "Ichalkaranji",
+      "ar": "إيشالكارانجي",
+      "ur": "اچل کرنجی",
+      "bn": "ইচালকরনজি",
+      "pop": 287353
+    },
+    {
+      "slug": "jalna",
+      "en": "Jalna",
+      "ar": "جالنا",
+      "ur": "جلنا",
+      "bn": "জলনা",
+      "pop": 285577
+    },
+    {
+      "slug": "satna",
+      "en": "Satna",
+      "ar": "ساتنا",
+      "ur": "ستنا",
+      "bn": "সাতনা",
+      "pop": 282977
+    },
+    {
+      "slug": "ratlam",
+      "en": "Ratlam",
+      "ar": "راتلام",
+      "ur": "رتلام",
+      "bn": "রতলাম",
+      "pop": 264914
+    },
+    {
+      "slug": "etawah",
+      "en": "Etawah",
+      "ar": "إيتاوه",
+      "ur": "اٹاوہ",
+      "bn": "ইটাওয়া",
+      "pop": 257448
+    },
+    {
+      "slug": "bharatpur-in",
+      "en": "Bharatpur",
+      "ar": "بهاراتبور",
+      "ur": "بھرت پور",
+      "bn": "ভরতপুর",
+      "pop": 252838
+    },
+    {
+      "slug": "hapur",
+      "en": "Hapur",
+      "ar": "هابور",
+      "ur": "ہاپوڑ",
+      "bn": "হাপুর",
+      "pop": 242920
+    },
+    {
+      "slug": "rewa",
+      "en": "Rewa",
+      "ar": "ريوا",
+      "ur": "ریوا",
+      "bn": "রেওয়া",
+      "pop": 235654
+    },
+    {
+      "slug": "vizianagaram",
+      "en": "Vizianagaram",
+      "ar": "فيزياناغارام",
+      "ur": "وجایانگرم",
+      "bn": "বিজিয়ানগরম",
+      "pop": 228720
+    },
+    {
+      "slug": "murwara",
+      "en": "Murwara",
+      "ar": "موروارا",
+      "ur": "مرواڑہ",
+      "bn": "মুরওয়াড়া",
+      "pop": 221883
+    },
+    {
+      "slug": "eluru",
+      "en": "Eluru",
+      "ar": "إيلورو",
+      "ur": "ایلورو",
+      "bn": "এলুরু",
+      "pop": 218020
+    },
+    {
+      "slug": "bidar",
+      "en": "Bidar",
+      "ar": "بيدار",
+      "ur": "بیدر",
+      "bn": "বিডর",
+      "pop": 216020
+    },
+    {
+      "slug": "ongole",
+      "en": "Ongole",
+      "ar": "أونغول",
+      "ur": "اونگول",
+      "bn": "অনগোলে",
+      "pop": 208344
+    },
+    {
+      "slug": "sambhal",
+      "en": "Sambhal",
+      "ar": "سامبال",
+      "ur": "سنبھل",
+      "bn": "সাম্ভাল",
+      "pop": 196109
+    },
+    {
+      "slug": "panvel",
+      "en": "Panvel",
+      "ar": "بانفل",
+      "ur": "پنویل",
+      "bn": "পানওয়েল",
+      "pop": 195373
+    },
+    {
+      "slug": "ambala",
+      "en": "Ambala",
+      "ar": "أمبالا",
+      "ur": "امبالا",
+      "bn": "আম্বালা",
+      "pop": 195153
+    },
+    {
+      "slug": "machilipatnam",
+      "en": "Machilipatnam",
+      "ar": "ماشيليباتنام",
+      "ur": "مچلی پٹنم",
+      "bn": "মছিলীপটনম",
+      "pop": 192827
+    },
+    {
+      "slug": "sambalpur",
+      "en": "Sambalpur",
+      "ar": "سامبالبور",
+      "ur": "سمبل پور",
+      "bn": "সাম্বালপুর",
+      "pop": 189366
+    },
+    {
+      "slug": "haridwar",
+      "en": "Haridwar",
+      "ar": "هاريدوار",
+      "ur": "ہریدوار",
+      "bn": "হরিদ্বার",
+      "pop": 186079
+    },
+    {
+      "slug": "adoni",
+      "en": "Adoni",
+      "ar": "أدوني",
+      "ur": "ادونی",
+      "bn": "আদোনি",
+      "pop": 184625
+    },
+    {
+      "slug": "proddatur",
+      "en": "Proddatur",
+      "ar": "بروداتور",
+      "ur": "پروڈاٹور",
+      "bn": "প্রোদ্দাতুর",
+      "pop": 177797
+    },
+    {
+      "slug": "hassan",
+      "en": "Hassan",
+      "ar": "هاسان",
+      "ur": "ہاسن",
+      "bn": "হাসান",
+      "pop": 155006
+    },
+    {
+      "slug": "haldwani",
+      "en": "Haldwani",
+      "ar": "هالدواني",
+      "ur": "ہلدوانی",
+      "bn": "হলদ্বানি",
+      "pop": 139497
+    },
+    {
+      "slug": "srikakulam",
+      "en": "Srikakulam",
+      "ar": "سريكاكولم",
+      "ur": "سری کاکولم",
+      "bn": "শ্রীকাকুলম",
+      "pop": 137944
+    },
+    {
+      "slug": "roorkee",
+      "en": "Roorkee",
+      "ar": "روركي",
+      "ur": "روڑکی",
+      "bn": "রূড়কী",
+      "pop": 103894
+    }
+  ]
+}

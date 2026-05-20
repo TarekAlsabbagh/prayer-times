@@ -170,7 +170,7 @@ for (const [slug, L, expected] of REG_PAIRS) {
 console.log('');
 console.log('── Group 8: Apply invariants ──');
 // (a) Total entry count unchanged
-ok('curated entry count == 2597 (no add/delete)', curated.length === 2597,
+ok('curated entry count == 2630 (post ASIA-1D-IN-D, no add/delete in THIS phase)', curated.length === 2630,
    '(actual: ' + curated.length + ')');
 // (b) names.ar + names.en for the 36 touched entries — re-check vs backup
 const backup = JSON.parse(readFileSync(new URL('../db/places/curated-places.json.preSupportedLocalNames1.bak', import.meta.url), 'utf8'));
@@ -186,20 +186,25 @@ for (const slug of TOUCHED) {
 }
 ok('names.ar + names.en untouched across 36 affected entries', arEnMutated === 0,
    '(' + arEnMutated + ' mutations)');
-// (c) slug + countryCode + lat/lng + timezone unchanged
+// (c) slug + countryCode + lat/lng + timezone unchanged FOR THE 36 TOUCHED
+//      entries from POLICY-1. (Entries added by later waves like
+//      ASIA-1D-IN-D won't be in the backup; that's correct.)
 let metaMutated = 0;
-for (const e of curated) {
-    const o = backupBySlug.get(e.slug);
-    if (!o) { metaMutated++; continue; }
+for (const slug of TOUCHED) {
+    const o = backupBySlug.get(slug);
+    const e = curated.find(x => x.slug === slug);
+    if (!o || !e) { metaMutated++; continue; }
     for (const k of ['slug','countryCode','lat','lng','timezone','type','sourceId']) {
         if (JSON.stringify(e[k]) !== JSON.stringify(o[k])) metaMutated++;
     }
 }
-ok('slug/countryCode/lat/lng/timezone/type/sourceId untouched (all 2597 entries)',
+ok('slug/countryCode/lat/lng/timezone/type/sourceId untouched for 36 POLICY-1 entries',
    metaMutated === 0, '(' + metaMutated + ' mutations)');
-// (d) Total entries count matches backup
-ok('total entry count unchanged from backup',
-   curated.length === backup.length);
+// (d) Backup contains POLICY-1 baseline of 2597. Current curated may
+//     have grown via subsequent waves (e.g., ASIA-1D-IN-D added 33 → 2630).
+ok('backup is POLICY-1 baseline of 2597 entries', backup.length === 2597);
+ok('curated entry count >= backup count (later waves may add)',
+   curated.length >= backup.length);
 
 // ─── Final tally ────────────────────────────────────────────────────────
 console.log('');

@@ -98,20 +98,21 @@ const SEED_18_BN = {
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-// Counts updated post ASIA-1D-IN-B-FAST (curated 2528→2558, IN 40→70).
-// Bengali coverage applies only to the original 40 cohort (BATCH-B is ar+en only).
+// Counts updated post PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST.
+// Bengali coverage now extends to 70 (BN-IN-1 40 + BATCH-B-L10N 30).
+// Urdu also extends to 70 same wave. Hindi remains 40 (HI-IN-1 only).
 ok('Total curated == 2558', curated.length === 2558, '(actual: ' + curated.length + ')');
 ok('IN total == 70',         inEntries.length === 70,  '(actual: ' + inEntries.length + ')');
 const withBn = inEntries.filter(e => e.names && e.names.bn).length;
-ok('IN with names.bn == 40 (BN-IN-1 cohort)', withBn === 40, '(actual: ' + withBn + '/70)');
+ok('IN with names.bn == 70 (BN-IN-1 + BATCH-B-L10N)', withBn === 70, '(actual: ' + withBn + '/70)');
 const withAr = inEntries.filter(e => e.names && e.names.ar).length;
-ok('IN with names.ar == 70 (BATCH-B included)', withAr === 70);
+ok('IN with names.ar == 70', withAr === 70);
 const withEn = inEntries.filter(e => e.names && e.names.en).length;
-ok('IN with names.en == 70 (BATCH-B included)', withEn === 70);
+ok('IN with names.en == 70', withEn === 70);
 const withHi = inEntries.filter(e => e.names && e.names.hi).length;
-ok('IN with names.hi == 40 (HI-IN-1 cohort)', withHi === 40);
+ok('IN with names.hi == 40 (HI-IN-1 cohort only)', withHi === 40);
 const withUr = inEntries.filter(e => e.names && e.names.ur).length;
-ok('IN with names.ur == 40 (UR-IN-1 cohort)', withUr === 40);
+ok('IN with names.ur == 70 (UR-IN-1 + BATCH-B-L10N)', withUr === 70);
 
 // ─── Group 2: Bengali script guard ──────────────────────────────────────
 console.log('');

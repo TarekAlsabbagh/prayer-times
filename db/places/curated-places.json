@@ -117206,7 +117206,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "غوراكبور",
-      "en": "Gorakhpur"
+      "en": "Gorakhpur",
+      "ur": "گورکھپور",
+      "bn": "গোরক্ষপুর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117227,7 +117229,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "رايبور",
-      "en": "Raipur"
+      "en": "Raipur",
+      "ur": "رائے پور",
+      "bn": "রায়পুর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117248,7 +117252,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "تيروتشيرابالي",
-      "en": "Tiruchirappalli"
+      "en": "Tiruchirappalli",
+      "ur": "تیروچیراپالی",
+      "bn": "তিরুচিরাপল্লী"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117275,7 +117281,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "كوتا",
-      "en": "Kota"
+      "en": "Kota",
+      "ur": "کوٹا",
+      "bn": "কোটা"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117296,7 +117304,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "سولابور",
-      "en": "Sholapur"
+      "en": "Sholapur",
+      "ur": "شولاپور",
+      "bn": "শোলাপুর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117322,7 +117332,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "شانديغار",
-      "en": "Chandigarh"
+      "en": "Chandigarh",
+      "ur": "چنڈی گڑھ",
+      "bn": "চণ্ডীগড়"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117343,7 +117355,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "تيروبور",
-      "en": "Tiruppur"
+      "en": "Tiruppur",
+      "ur": "تیروپور",
+      "bn": "তিরুপ্পুর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117369,7 +117383,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "غواهاتي",
-      "en": "Guwahati"
+      "en": "Guwahati",
+      "ur": "گوہاٹی",
+      "bn": "গুয়াহাটি"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117390,7 +117406,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "ميسور",
-      "en": "Mysuru"
+      "en": "Mysuru",
+      "ur": "میسور",
+      "bn": "মহীশূর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117416,7 +117434,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "سالم",
-      "en": "Salem"
+      "en": "Salem",
+      "ur": "سالم",
+      "bn": "সালেম"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117442,7 +117462,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "غوروغرام",
-      "en": "Gurugram"
+      "en": "Gurugram",
+      "ur": "گڑگاؤں",
+      "bn": "গুরুগ্রাম"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117468,7 +117490,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بوبانسوار",
-      "en": "Bhubaneswar"
+      "en": "Bhubaneswar",
+      "ur": "بھونیشور",
+      "bn": "ভুবনেশ্বর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117489,7 +117513,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "جلندار",
-      "en": "Jalandhar"
+      "en": "Jalandhar",
+      "ur": "جالندھر",
+      "bn": "জলন্ধর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117510,7 +117536,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بهايندر",
-      "en": "Bhayandar"
+      "en": "Bhayandar",
+      "ur": "بھائندر",
+      "bn": "ভাইন্দর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117536,7 +117564,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "أليكره",
-      "en": "Aligarh"
+      "en": "Aligarh",
+      "ur": "علی گڑھ",
+      "bn": "আলিগড়"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117557,7 +117587,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بريلي",
-      "en": "Bareilly"
+      "en": "Bareilly",
+      "ur": "بریلی",
+      "bn": "বেরেলি"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117578,7 +117610,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "مراد آباد",
-      "en": "Moradabad"
+      "en": "Moradabad",
+      "ur": "مراد آباد",
+      "bn": "মোরাদাবাদ"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117599,7 +117633,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "ورنغل",
-      "en": "Warangal"
+      "en": "Warangal",
+      "ur": "ورنگل",
+      "bn": "ওয়ারঙ্গল"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117620,7 +117656,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "غونتور",
-      "en": "Guntur"
+      "en": "Guntur",
+      "ur": "گنٹور",
+      "bn": "গুন্টুর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117641,7 +117679,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بيكانير",
-      "en": "Bikaner"
+      "en": "Bikaner",
+      "ur": "بیکانیر",
+      "bn": "বিকানের"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117662,7 +117702,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بهيلاي",
-      "en": "Bhilai"
+      "en": "Bhilai",
+      "ur": "بھلائی",
+      "bn": "ভিলাই"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117683,7 +117725,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "جامو",
-      "en": "Jammu"
+      "en": "Jammu",
+      "ur": "جموں",
+      "bn": "জম্মু"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117704,7 +117748,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "كاليكوت",
-      "en": "Kozhikode"
+      "en": "Kozhikode",
+      "ur": "کوزیکوڈ",
+      "bn": "কোঝিকোড়"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117730,7 +117776,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "نيلور",
-      "en": "Nellore"
+      "en": "Nellore",
+      "ur": "نیلور",
+      "bn": "নেল্লোর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117751,7 +117799,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "أجمير",
-      "en": "Ajmer"
+      "en": "Ajmer",
+      "ur": "اجمیر",
+      "bn": "আজমির"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117772,7 +117822,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "ديهرادون",
-      "en": "Dehradun"
+      "en": "Dehradun",
+      "ur": "ڈیرہ دون",
+      "bn": "দেরাদুন"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117798,7 +117850,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "إيرود",
-      "en": "Erode"
+      "en": "Erode",
+      "ur": "ایروڈ",
+      "bn": "ইরোড"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117819,7 +117873,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "أوجاين",
-      "en": "Ujjain"
+      "en": "Ujjain",
+      "ur": "اجین",
+      "bn": "উজ্জয়িনী"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117840,7 +117896,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "منغالور",
-      "en": "Mangaluru"
+      "en": "Mangaluru",
+      "ur": "منگلور",
+      "bn": "ম্যাঙ্গালোর"
     },
     "admin": {
       "countryAr": "الهند",
@@ -117866,7 +117924,9 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بلغاوم",
-      "en": "Belagavi"
+      "en": "Belagavi",
+      "ur": "بیلگاؤم",
+      "bn": "বেলগাউম"
     },
     "admin": {
       "countryAr": "الهند",

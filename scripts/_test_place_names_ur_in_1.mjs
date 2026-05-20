@@ -166,17 +166,21 @@ for (const slug of Object.keys(SEED_18_UR).sort()) {
        JSON.stringify(langs) === JSON.stringify(EXPECTED_SEED_LANGS) ? '' : '(actual: [' + langs.join(',') + '])');
 }
 
-// ─── Group 6: BATCH-A-22 has 4-lang set (ar/en/hi + new ur) ──────────────
+// ─── Group 6: BATCH-A-22 contains ar/en/hi/ur (may have more from later waves) ──
+// Note: relaxed from strict-equal to set-inclusion to remain stable across
+// subsequent BN-IN-1 / TA-IN-1 / MR-IN-1 enrichment waves which add more
+// langs to these 22 entries.
 console.log('');
-console.log('── Group 6: BATCH-A-22 has 4-lang set (ar/en/hi/ur) ──');
-const EXPECTED_BATCH_LANGS = ['ar','en','hi','ur'];
+console.log('── Group 6: BATCH-A-22 contains ar/en/hi/ur (set-inclusion; tolerates later waves) ──');
+const REQUIRED_BATCH_LANGS = ['ar','en','hi','ur'];
 for (const slug of Object.keys(EXPECTED_UR).sort()) {
     const e = inEntries.find(x => x.slug === slug);
     if (!e) { ok('in/' + slug + ' exists', false); continue; }
-    const langs = Object.keys(e.names || {}).sort();
-    ok('in/' + slug.padEnd(20) + ' langs = [ar,en,hi,ur]',
-       JSON.stringify(langs) === JSON.stringify(EXPECTED_BATCH_LANGS),
-       JSON.stringify(langs) === JSON.stringify(EXPECTED_BATCH_LANGS) ? '' : '(actual: [' + langs.join(',') + '])');
+    const langs = new Set(Object.keys(e.names || {}));
+    const missing = REQUIRED_BATCH_LANGS.filter(l => !langs.has(l));
+    ok('in/' + slug.padEnd(20) + ' includes [ar,en,hi,ur]',
+       missing.length === 0,
+       missing.length === 0 ? '' : '(missing: [' + missing.join(',') + '])');
 }
 
 // ─── Group 7: No other Indian local langs added ─────────────────────────

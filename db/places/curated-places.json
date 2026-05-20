@@ -2566,7 +2566,8 @@
       "id": "Delhi",
       "es": "Delhi",
       "bn": "দিল্লি",
-      "ms": "Delhi"
+      "ms": "Delhi",
+      "hi": "नई दिल्ली"
     },
     "aliases": {
       "en": [
@@ -2609,14 +2610,17 @@
       "id": "Mumbai",
       "es": "Bombay",
       "bn": "মুম্বই",
-      "ms": "Mumbai"
+      "ms": "Mumbai",
+      "hi": "मुंबई"
     },
     "aliases": {
       "en": [
         "Bombay"
       ],
       "hi": [
-        "मुंबई"
+        "मुंबई",
+        "बम्बई",
+        "ग्रेटर मुम्बई"
       ],
       "ur": [
         "ممبئی"
@@ -2650,14 +2654,16 @@
       "id": "Kolkata",
       "es": "Calcuta",
       "bn": "কলকাতা",
-      "ms": "Kolkata"
+      "ms": "Kolkata",
+      "hi": "कोलकाता"
     },
     "aliases": {
       "en": [
         "Calcutta"
       ],
       "hi": [
-        "कोलकाता"
+        "कोलकाता",
+        "कलकत्ता"
       ],
       "bn": [
         "কলকাতা"
@@ -2692,7 +2698,8 @@
       "id": "Hyderabad",
       "es": "Hyderabad",
       "bn": "হায়দরাবাদ",
-      "ms": "Hyderabad"
+      "ms": "Hyderabad",
+      "hi": "हैदराबाद"
     },
     "aliases": {
       "en": [],
@@ -2731,14 +2738,16 @@
       "id": "Chennai",
       "es": "Chennai",
       "bn": "চেন্নাই",
-      "ms": "Chennai"
+      "ms": "Chennai",
+      "hi": "चेन्नई"
     },
     "aliases": {
       "en": [
         "Madras"
       ],
       "hi": [
-        "चेन्नई"
+        "चेन्नई",
+        "मद्रास"
       ],
       "ta": [
         "சென்னை"
@@ -2769,7 +2778,8 @@
       "id": "Bengaluru",
       "es": "Bangalore",
       "bn": "বেঙ্গালুরু",
-      "ms": "Bengaluru"
+      "ms": "Bengaluru",
+      "hi": "बेंगलुरु"
     },
     "aliases": {
       "en": [
@@ -2808,7 +2818,8 @@
       "id": "Lucknow",
       "es": "Lucknow",
       "bn": "লখনউ",
-      "ms": "Lucknow"
+      "ms": "Lucknow",
+      "hi": "लखनऊ"
     },
     "aliases": {
       "en": [],
@@ -2844,7 +2855,8 @@
       "id": "Ahmedabad",
       "es": "Ahmedabad",
       "bn": "আহমেদাবাদ",
-      "ms": "Ahmedabad"
+      "ms": "Ahmedabad",
+      "hi": "अहमदाबाद"
     },
     "aliases": {
       "en": [],
@@ -6364,7 +6376,8 @@
       "id": "Pune",
       "es": "Pune",
       "bn": "পুনে",
-      "ms": "Pune"
+      "ms": "Pune",
+      "hi": "पुणे"
     },
     "aliases": {
       "mr": [
@@ -6399,7 +6412,8 @@
       "id": "Jaipur",
       "es": "Jaipur",
       "bn": "জয়পুর",
-      "ms": "Jaipur"
+      "ms": "Jaipur",
+      "hi": "जयपुर"
     },
     "aliases": {
       "hi": [
@@ -6431,7 +6445,8 @@
       "id": "Surat",
       "es": "Surat",
       "bn": "সুরাট",
-      "ms": "Surat"
+      "ms": "Surat",
+      "hi": "सूरत"
     },
     "aliases": {
       "hi": [
@@ -6466,7 +6481,8 @@
       "id": "Kanpur",
       "es": "Kanpur",
       "bn": "কানপুর",
-      "ms": "Kanpur"
+      "ms": "Kanpur",
+      "hi": "कानपुर"
     },
     "aliases": {
       "hi": [
@@ -6498,7 +6514,8 @@
       "id": "Indore",
       "es": "Indore",
       "bn": "ইন্দোর",
-      "ms": "Indore"
+      "ms": "Indore",
+      "hi": "इंदौर"
     },
     "aliases": {
       "hi": [
@@ -6530,7 +6547,8 @@
       "id": "Nagpur",
       "es": "Nagpur",
       "bn": "নাগপুর",
-      "ms": "Nagpur"
+      "ms": "Nagpur",
+      "hi": "नागपुर"
     },
     "aliases": {
       "hi": [
@@ -12989,7 +13007,8 @@
       "id": "Bhopal",
       "es": "Bhopal",
       "bn": "ভোপাল",
-      "ms": "Bhopal"
+      "ms": "Bhopal",
+      "hi": "भोपाल"
     },
     "aliases": {
       "ar": [
@@ -13025,7 +13044,8 @@
       "id": "Patna",
       "es": "Patna",
       "bn": "পাটনা",
-      "ms": "Patna"
+      "ms": "Patna",
+      "hi": "पटना"
     },
     "aliases": {
       "ar": [
@@ -13060,7 +13080,8 @@
       "id": "Srinagar",
       "es": "Srinagar",
       "bn": "শ্রীনগর",
-      "ms": "Srinagar"
+      "ms": "Srinagar",
+      "hi": "श्रीनगर"
     },
     "aliases": {
       "ar": [
@@ -13096,7 +13117,8 @@
       "id": "Kochi",
       "es": "Kochi",
       "bn": "কোচি",
-      "ms": "Kochi"
+      "ms": "Kochi",
+      "hi": "कोच्चि"
     },
     "aliases": {
       "ar": [
@@ -115958,7 +115980,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "فيساكاباتنام",
-      "en": "Visakhapatnam"
+      "en": "Visakhapatnam",
+      "hi": "विशाखपट्टणम्"
     },
     "aliases": {
       "ar": [
@@ -115998,6 +116021,9 @@
         "wisakha pat tnam",
         "wshakapatnm",
         "wysakapatnam"
+      ],
+      "hi": [
+        "विज़ाग"
       ]
     },
     "admin": {
@@ -116020,7 +116046,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "فيجاياوادا",
-      "en": "Vijayawada"
+      "en": "Vijayawada",
+      "hi": "विजयवाड़ा"
     },
     "aliases": {
       "ar": [
@@ -116083,7 +116110,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بنارس",
-      "en": "Varanasi"
+      "en": "Varanasi",
+      "hi": "वाराणसी"
     },
     "aliases": {
       "ar": [
@@ -116117,6 +116145,10 @@
         "waranashi",
         "waranasy",
         "waransy"
+      ],
+      "hi": [
+        "काशी",
+        "बनारस"
       ]
     },
     "admin": {
@@ -116139,7 +116171,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "فادودارا",
-      "en": "Vadodara"
+      "en": "Vadodara",
+      "hi": "वडोदरा"
     },
     "aliases": {
       "ar": [
@@ -116169,6 +116202,10 @@
         "wadwdara",
         "wdwdrh",
         "wtho thra"
+      ],
+      "hi": [
+        "बड़ौदा",
+        "वड़ोदरा"
       ]
     },
     "admin": {
@@ -116191,7 +116228,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "تيرونلفيلي",
-      "en": "Tirunelveli"
+      "en": "Tirunelveli",
+      "hi": "तिरुनेलवेली"
     },
     "aliases": {
       "ar": [
@@ -116215,6 +116253,9 @@
         "tyrwnlwly",
         "tyrwnlwyly",
         "tyrwnylwyly"
+      ],
+      "hi": [
+        "तिरुनलवेली"
       ]
     },
     "admin": {
@@ -116237,7 +116278,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "تاني",
-      "en": "Thāne"
+      "en": "Thāne",
+      "hi": "ठाणे"
     },
     "aliases": {
       "ar": [
@@ -116281,7 +116323,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "رانشي",
-      "en": "Ranchi"
+      "en": "Ranchi",
+      "hi": "राँची"
     },
     "aliases": {
       "en": [
@@ -116326,7 +116369,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "ناسيك",
-      "en": "Nashik"
+      "en": "Nashik",
+      "hi": "नाशिक"
     },
     "aliases": {
       "en": [
@@ -116368,7 +116412,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "ميروت",
-      "en": "Meerut"
+      "en": "Meerut",
+      "hi": "मेरठ"
     },
     "aliases": {
       "en": [
@@ -116389,6 +116434,9 @@
         "mirata",
         "miruta",
         "myrwt"
+      ],
+      "hi": [
+        "मीरत"
       ]
     },
     "admin": {
@@ -116411,7 +116459,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "مادوراي",
-      "en": "Madurai"
+      "en": "Madurai",
+      "hi": "मदुरई"
     },
     "aliases": {
       "en": [
@@ -116432,6 +116481,9 @@
         "maturai",
         "mdwray",
         "mdwrayy"
+      ],
+      "hi": [
+        "मदुराई"
       ]
     },
     "admin": {
@@ -116454,7 +116506,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "جودبور",
-      "en": "Jodhpur"
+      "en": "Jodhpur",
+      "hi": "जोधपुर"
     },
     "aliases": {
       "en": [
@@ -116509,7 +116562,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "جمشدبور",
-      "en": "Jamshedpur"
+      "en": "Jamshedpur",
+      "hi": "जमशेदपुर"
     },
     "aliases": {
       "ar": [
@@ -116573,7 +116627,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "غازي آباد",
-      "en": "Ghāziābād"
+      "en": "Ghāziābād",
+      "hi": "ग़ाज़ियाबाद"
     },
     "aliases": {
       "en": [
@@ -116603,6 +116658,9 @@
         "gʼzyʼbʼd",
         "jia ji a ba de",
         "kaciyapat"
+      ],
+      "hi": [
+        "गाजियाबाद"
       ]
     },
     "admin": {
@@ -116625,7 +116683,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "فريد آباد",
-      "en": "Faridabad"
+      "en": "Faridabad",
+      "hi": "फ़रीदाबाद"
     },
     "aliases": {
       "en": [
@@ -116638,6 +116697,9 @@
         "frydabad",
         "pharidabada",
         "prydʼbʼd"
+      ],
+      "hi": [
+        "फरीदाबाद"
       ]
     },
     "admin": {
@@ -116658,7 +116720,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "دومبيفلي",
-      "en": "Dombivali"
+      "en": "Dombivali",
+      "hi": "डोंबिवली"
     },
     "aliases": {
       "en": [
@@ -116690,7 +116753,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "دانباد",
-      "en": "Dhanbad"
+      "en": "Dhanbad",
+      "hi": "धनबाद"
     },
     "aliases": {
       "ar": [
@@ -116730,7 +116794,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "كويمباتور",
-      "en": "Coimbatore"
+      "en": "Coimbatore",
+      "hi": "कोयंबटूर"
     },
     "aliases": {
       "en": [
@@ -116761,6 +116826,9 @@
         "koyanbuttouru",
         "kwymbatwr",
         "kwymbtwr"
+      ],
+      "hi": [
+        "कोइंबतूर"
       ]
     },
     "admin": {
@@ -116783,7 +116851,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "أورنك آباد",
-      "en": "Aurangabad"
+      "en": "Aurangabad",
+      "hi": "औरंगाबाद"
     },
     "aliases": {
       "en": [
@@ -116804,6 +116873,9 @@
         "awrnk abad",
         "Chhatrapati Sambhajinagar",
         "Sambhajinagar"
+      ],
+      "hi": [
+        "छत्रपति संभाजीनगर"
       ]
     },
     "admin": {
@@ -116826,7 +116898,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "أمريتسار",
-      "en": "Amritsar"
+      "en": "Amritsar",
+      "hi": "अमृतसर"
     },
     "aliases": {
       "ar": [
@@ -116879,7 +116952,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "برايا غراج",
-      "en": "Prayagraj"
+      "en": "Prayagraj",
+      "hi": "प्रयागराज"
     },
     "aliases": {
       "ar": [
@@ -116904,6 +116978,9 @@
         "elahabada",
         "ilahabada",
         "irahabado"
+      ],
+      "hi": [
+        "इलाहाबाद"
       ]
     },
     "admin": {
@@ -116926,7 +117003,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "أغرا",
-      "en": "Agra"
+      "en": "Agra",
+      "hi": "आगरा"
     },
     "aliases": {
       "en": [
@@ -116963,7 +117041,8 @@
     "timezone": "Asia/Kolkata",
     "names": {
       "ar": "بيمبري تشينتشواد",
-      "en": "Pimpri-Chinchwad"
+      "en": "Pimpri-Chinchwad",
+      "hi": "पिंपरी-चिंचवाड़"
     },
     "aliases": {
       "en": [
@@ -116986,6 +117065,9 @@
         "pimpeulichinchiwadeu",
         "pimpiri-cincvatu",
         "pympry-chynchwad"
+      ],
+      "hi": [
+        "पिंपरी चिंचवड"
       ]
     },
     "admin": {

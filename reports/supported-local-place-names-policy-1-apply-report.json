@@ -1,0 +1,308 @@
+{
+  "overrideApplied": 2,
+  "overrideSkippedNotFillchain": 11,
+  "overrideSkippedScriptInvalid": 0,
+  "overrideSkippedSlugNotInCurated": 0,
+  "idKotaApplied": 34,
+  "idKotaSkippedNotFillchain": 0,
+  "idKotaSkippedNoData": 7,
+  "totalEntriesTouched": 36,
+  "perLangApplied": {
+    "id": 34,
+    "ms": 0,
+    "tr": 0,
+    "fr": 0,
+    "de": 0,
+    "es": 2
+  },
+  "appliedDetail": [
+    {
+      "slug": "surabaya",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Surabaya",
+      "to": "Kota Surabaya",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "bandung",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Bandung",
+      "to": "Kota Bandung",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "medan",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Medan",
+      "to": "Kota Medan",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "makassar",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Makassar",
+      "to": "Kota Makassar",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "semarang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Semarang",
+      "to": "Kota Semarang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "palembang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Palembang",
+      "to": "Kota Palembang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "banda-aceh",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Banda Aceh",
+      "to": "Kota Banda Aceh",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "cadiz",
+      "countryCode": "es",
+      "lang": "es",
+      "from": "Cadiz",
+      "to": "Cádiz",
+      "source": "wikipedia:es"
+    },
+    {
+      "slug": "san-sebastian",
+      "countryCode": "es",
+      "lang": "es",
+      "from": "Donostia / San Sebastián",
+      "to": "San Sebastián",
+      "source": "wikipedia:es"
+    },
+    {
+      "slug": "tegal",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Tegal",
+      "to": "Kota Tegal",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "tarakan",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Tarakan",
+      "to": "Kota Tarakan",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "tanjung-pinang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Tanjung Pinang",
+      "to": "Kota Tanjung Pinang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "surakarta",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Surakarta",
+      "to": "Kota Surakarta",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "samarinda",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Samarinda",
+      "to": "Kota Samarinda",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "padang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Padang",
+      "to": "Kota Padang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "mataram",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Mataram",
+      "to": "Kota Mataram",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "manado",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Manado",
+      "to": "Kota Manado",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "malang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Malang",
+      "to": "Kota Malang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "kediri",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Kediri",
+      "to": "Kota Kediri",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "cirebon",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Cirebon",
+      "to": "Kota Cirebon",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "bogor",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Bogor",
+      "to": "Kota Bogor",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "bitung",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Bitung",
+      "to": "Kota Bitung",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "bengkulu",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Bengkulu",
+      "to": "Kota Bengkulu",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "bekasi",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Bekasi",
+      "to": "Kota Bekasi",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "ambon",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Ambon",
+      "to": "Kota Ambon",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "batam",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Batam",
+      "to": "Kota Batam",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "bandar-lampung",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Bandar Lampung",
+      "to": "Kota Bandar Lampung",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "tangerang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Tangerang",
+      "to": "Kota Tangerang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "sukabumi",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Sukabumi",
+      "to": "Kota Sukabumi",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "pontianak",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Pontianak",
+      "to": "Kota Pontianak",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "pekanbaru",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Pekanbaru",
+      "to": "Kota Pekanbaru",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "kendari",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Kendari",
+      "to": "Kota Kendari",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "denpasar",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Denpasar",
+      "to": "Kota Denpasar",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "balikpapan",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Balikpapan",
+      "to": "Kota Balikpapan",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "kupang",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Kupang",
+      "to": "Kota Kupang",
+      "source": "geonames:alt+id-wp"
+    },
+    {
+      "slug": "jayapura",
+      "countryCode": "id",
+      "lang": "id",
+      "from": "Jayapura",
+      "to": "Kota Jayapura",
+      "source": "geonames:alt+id-wp"
+    }
+  ]
+}

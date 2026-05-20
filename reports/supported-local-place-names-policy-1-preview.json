@@ -1,0 +1,686 @@
+{
+  "timestamp": "2026-05-20T21:00:22.428Z",
+  "summary": {
+    "totalChanges": 36,
+    "totalEntriesAffected": 36,
+    "skippedCounts": {
+      "alreadyNative_notFillchain": 11,
+      "scriptInvalid": 0,
+      "overrideEqualsEn": 16
+    }
+  },
+  "perCountry": {
+    "id": {
+      "id": 34
+    },
+    "es": {
+      "es": 2
+    }
+  },
+  "byCountryLang": [
+    {
+      "country": "id",
+      "lang": "id",
+      "count": 34,
+      "samples": [
+        {
+          "slug": "surabaya",
+          "en": "Surabaya",
+          "to": "Kota Surabaya",
+          "source": "geonames:alt+id-wp"
+        },
+        {
+          "slug": "bandung",
+          "en": "Bandung",
+          "to": "Kota Bandung",
+          "source": "geonames:alt+id-wp"
+        },
+        {
+          "slug": "medan",
+          "en": "Medan",
+          "to": "Kota Medan",
+          "source": "geonames:alt+id-wp"
+        },
+        {
+          "slug": "makassar",
+          "en": "Makassar",
+          "to": "Kota Makassar",
+          "source": "geonames:alt+id-wp"
+        },
+        {
+          "slug": "semarang",
+          "en": "Semarang",
+          "to": "Kota Semarang",
+          "source": "geonames:alt+id-wp"
+        }
+      ]
+    },
+    {
+      "country": "es",
+      "lang": "es",
+      "count": 2,
+      "samples": [
+        {
+          "slug": "cadiz",
+          "en": "Cadiz",
+          "to": "Cádiz",
+          "source": "wikipedia:es"
+        },
+        {
+          "slug": "san-sebastian",
+          "en": "Donostia / San Sebastián",
+          "to": "San Sebastián",
+          "source": "wikipedia:es"
+        }
+      ]
+    }
+  ],
+  "wouldApply": [
+    {
+      "slug": "surabaya",
+      "cc": "id",
+      "lang": "id",
+      "en": "Surabaya",
+      "from": "Surabaya",
+      "to": "Kota Surabaya",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "bandung",
+      "cc": "id",
+      "lang": "id",
+      "en": "Bandung",
+      "from": "Bandung",
+      "to": "Kota Bandung",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "medan",
+      "cc": "id",
+      "lang": "id",
+      "en": "Medan",
+      "from": "Medan",
+      "to": "Kota Medan",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "makassar",
+      "cc": "id",
+      "lang": "id",
+      "en": "Makassar",
+      "from": "Makassar",
+      "to": "Kota Makassar",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "semarang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Semarang",
+      "from": "Semarang",
+      "to": "Kota Semarang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "palembang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Palembang",
+      "from": "Palembang",
+      "to": "Kota Palembang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "banda-aceh",
+      "cc": "id",
+      "lang": "id",
+      "en": "Banda Aceh",
+      "from": "Banda Aceh",
+      "to": "Kota Banda Aceh",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "cadiz",
+      "cc": "es",
+      "lang": "es",
+      "en": "Cadiz",
+      "from": "Cadiz",
+      "to": "Cádiz",
+      "source": "wikipedia:es",
+      "confidence": "very-safe",
+      "category": "manual-override-es"
+    },
+    {
+      "slug": "san-sebastian",
+      "cc": "es",
+      "lang": "es",
+      "en": "Donostia / San Sebastián",
+      "from": "Donostia / San Sebastián",
+      "to": "San Sebastián",
+      "source": "wikipedia:es",
+      "confidence": "very-safe",
+      "category": "manual-override-es"
+    },
+    {
+      "slug": "tegal",
+      "cc": "id",
+      "lang": "id",
+      "en": "Tegal",
+      "from": "Tegal",
+      "to": "Kota Tegal",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "tarakan",
+      "cc": "id",
+      "lang": "id",
+      "en": "Tarakan",
+      "from": "Tarakan",
+      "to": "Kota Tarakan",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "tanjung-pinang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Tanjung Pinang",
+      "from": "Tanjung Pinang",
+      "to": "Kota Tanjung Pinang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "surakarta",
+      "cc": "id",
+      "lang": "id",
+      "en": "Surakarta",
+      "from": "Surakarta",
+      "to": "Kota Surakarta",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "samarinda",
+      "cc": "id",
+      "lang": "id",
+      "en": "Samarinda",
+      "from": "Samarinda",
+      "to": "Kota Samarinda",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "padang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Padang",
+      "from": "Padang",
+      "to": "Kota Padang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "mataram",
+      "cc": "id",
+      "lang": "id",
+      "en": "Mataram",
+      "from": "Mataram",
+      "to": "Kota Mataram",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "manado",
+      "cc": "id",
+      "lang": "id",
+      "en": "Manado",
+      "from": "Manado",
+      "to": "Kota Manado",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "malang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Malang",
+      "from": "Malang",
+      "to": "Kota Malang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "kediri",
+      "cc": "id",
+      "lang": "id",
+      "en": "Kediri",
+      "from": "Kediri",
+      "to": "Kota Kediri",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "cirebon",
+      "cc": "id",
+      "lang": "id",
+      "en": "Cirebon",
+      "from": "Cirebon",
+      "to": "Kota Cirebon",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "bogor",
+      "cc": "id",
+      "lang": "id",
+      "en": "Bogor",
+      "from": "Bogor",
+      "to": "Kota Bogor",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "bitung",
+      "cc": "id",
+      "lang": "id",
+      "en": "Bitung",
+      "from": "Bitung",
+      "to": "Kota Bitung",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "bengkulu",
+      "cc": "id",
+      "lang": "id",
+      "en": "Bengkulu",
+      "from": "Bengkulu",
+      "to": "Kota Bengkulu",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "bekasi",
+      "cc": "id",
+      "lang": "id",
+      "en": "Bekasi",
+      "from": "Bekasi",
+      "to": "Kota Bekasi",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "ambon",
+      "cc": "id",
+      "lang": "id",
+      "en": "Ambon",
+      "from": "Ambon",
+      "to": "Kota Ambon",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "batam",
+      "cc": "id",
+      "lang": "id",
+      "en": "Batam",
+      "from": "Batam",
+      "to": "Kota Batam",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "bandar-lampung",
+      "cc": "id",
+      "lang": "id",
+      "en": "Bandar Lampung",
+      "from": "Bandar Lampung",
+      "to": "Kota Bandar Lampung",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "tangerang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Tangerang",
+      "from": "Tangerang",
+      "to": "Kota Tangerang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "sukabumi",
+      "cc": "id",
+      "lang": "id",
+      "en": "Sukabumi",
+      "from": "Sukabumi",
+      "to": "Kota Sukabumi",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "pontianak",
+      "cc": "id",
+      "lang": "id",
+      "en": "Pontianak",
+      "from": "Pontianak",
+      "to": "Kota Pontianak",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "pekanbaru",
+      "cc": "id",
+      "lang": "id",
+      "en": "Pekanbaru",
+      "from": "Pekanbaru",
+      "to": "Kota Pekanbaru",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "kendari",
+      "cc": "id",
+      "lang": "id",
+      "en": "Kendari",
+      "from": "Kendari",
+      "to": "Kota Kendari",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "denpasar",
+      "cc": "id",
+      "lang": "id",
+      "en": "Denpasar",
+      "from": "Denpasar",
+      "to": "Kota Denpasar",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "balikpapan",
+      "cc": "id",
+      "lang": "id",
+      "en": "Balikpapan",
+      "from": "Balikpapan",
+      "to": "Kota Balikpapan",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "kupang",
+      "cc": "id",
+      "lang": "id",
+      "en": "Kupang",
+      "from": "Kupang",
+      "to": "Kota Kupang",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    },
+    {
+      "slug": "jayapura",
+      "cc": "id",
+      "lang": "id",
+      "en": "Jayapura",
+      "from": "Jayapura",
+      "to": "Kota Jayapura",
+      "source": "geonames:alt+id-wp",
+      "confidence": "very-safe",
+      "category": "indonesian-kota-x"
+    }
+  ],
+  "skipped": {
+    "notFillchain": [
+      {
+        "slug": "istanbul",
+        "cc": "tr",
+        "lang": "tr",
+        "current": "İstanbul",
+        "proposed": "İstanbul",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "munich",
+        "cc": "de",
+        "lang": "de",
+        "current": "München",
+        "proposed": "München",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "cologne",
+        "cc": "de",
+        "lang": "de",
+        "current": "Köln",
+        "proposed": "Köln",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "nuremberg",
+        "cc": "de",
+        "lang": "de",
+        "current": "Nürnberg",
+        "proposed": "Nürnberg",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "vienna",
+        "cc": "at",
+        "lang": "de",
+        "current": "Wien",
+        "proposed": "Wien",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "zurich",
+        "cc": "ch",
+        "lang": "de",
+        "current": "Zürich",
+        "proposed": "Zürich",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "izmir",
+        "cc": "tr",
+        "lang": "tr",
+        "current": "İzmir",
+        "proposed": "İzmir",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "mexico-city",
+        "cc": "mx",
+        "lang": "es",
+        "current": "Ciudad de México",
+        "proposed": "Ciudad de México",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "bogota",
+        "cc": "co",
+        "lang": "es",
+        "current": "Bogotá",
+        "proposed": "Bogotá",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "diyarbakir",
+        "cc": "tr",
+        "lang": "tr",
+        "current": "Diyarbakır",
+        "proposed": "Diyarbakır",
+        "reason": "already-non-fillchain (real native)"
+      },
+      {
+        "slug": "sanliurfa",
+        "cc": "tr",
+        "lang": "tr",
+        "current": "Şanlıurfa",
+        "proposed": "Şanlıurfa",
+        "reason": "already-non-fillchain (real native)"
+      }
+    ],
+    "scriptInvalid": [],
+    "noDataNeeded": [
+      {
+        "slug": "cordoba",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "malaga",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "dusseldorf",
+        "cc": "de",
+        "lang": "de",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "palma-de-mallorca",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "merida",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "jaen",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "logrono",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "leon",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "gijon",
+        "cc": "es",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "wuerzburg",
+        "cc": "de",
+        "lang": "de",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "osnabrueck",
+        "cc": "de",
+        "lang": "de",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "luebeck",
+        "cc": "de",
+        "lang": "de",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "goettingen",
+        "cc": "de",
+        "lang": "de",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "cancun",
+        "cc": "mx",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "mazatlan",
+        "cc": "mx",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      },
+      {
+        "slug": "culiacan",
+        "cc": "mx",
+        "lang": "es",
+        "reason": "override-same-as-en"
+      }
+    ]
+  },
+  "invariants": {
+    "no_slug_changes": true,
+    "no_canonical_changes": true,
+    "no_city_add": true,
+    "no_city_delete": true,
+    "no_runtime_translation": true,
+    "no_fillchain": true,
+    "no_unsupported_langs": true,
+    "no_ar_en_mutation": true,
+    "only_replaces_fillchain_copies": true,
+    "all_values_script_validated": true,
+    "sources": [
+      "wikipedia:de",
+      "wikipedia:es",
+      "wikipedia:tr",
+      "wikipedia:ms",
+      "geonames:alt+id-wp"
+    ]
+  }
+}

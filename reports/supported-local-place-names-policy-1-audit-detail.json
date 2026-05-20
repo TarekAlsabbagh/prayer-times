@@ -1,0 +1,2479 @@
+{
+  "native": [],
+  "fillchain": [
+    {
+      "slug": "paris",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Paris",
+      "enValue": "Paris",
+      "slugCanonical": "paris"
+    },
+    {
+      "slug": "madrid",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Madrid",
+      "enValue": "Madrid",
+      "slugCanonical": "madrid"
+    },
+    {
+      "slug": "barcelona",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Barcelona",
+      "enValue": "Barcelona",
+      "slugCanonical": "barcelona"
+    },
+    {
+      "slug": "cordoba",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Córdoba",
+      "enValue": "Córdoba",
+      "slugCanonical": "cordoba"
+    },
+    {
+      "slug": "granada-es",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Granada",
+      "enValue": "Granada",
+      "slugCanonical": "granada-es"
+    },
+    {
+      "slug": "malaga",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Málaga",
+      "enValue": "Málaga",
+      "slugCanonical": "malaga"
+    },
+    {
+      "slug": "zaragoza",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Zaragoza",
+      "enValue": "Zaragoza",
+      "slugCanonical": "zaragoza"
+    },
+    {
+      "slug": "valencia",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Valencia",
+      "enValue": "Valencia",
+      "slugCanonical": "valencia"
+    },
+    {
+      "slug": "berlin",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Berlin",
+      "enValue": "Berlin",
+      "slugCanonical": "berlin"
+    },
+    {
+      "slug": "hamburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Hamburg",
+      "enValue": "Hamburg",
+      "slugCanonical": "hamburg"
+    },
+    {
+      "slug": "stuttgart",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Stuttgart",
+      "enValue": "Stuttgart",
+      "slugCanonical": "stuttgart"
+    },
+    {
+      "slug": "dusseldorf",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Düsseldorf",
+      "enValue": "Düsseldorf",
+      "slugCanonical": "dusseldorf"
+    },
+    {
+      "slug": "bonn",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Bonn",
+      "enValue": "Bonn",
+      "slugCanonical": "bonn"
+    },
+    {
+      "slug": "marseille",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Marseille",
+      "enValue": "Marseille",
+      "slugCanonical": "marseille"
+    },
+    {
+      "slug": "lyon",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Lyon",
+      "enValue": "Lyon",
+      "slugCanonical": "lyon"
+    },
+    {
+      "slug": "toulouse",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Toulouse",
+      "enValue": "Toulouse",
+      "slugCanonical": "toulouse"
+    },
+    {
+      "slug": "nice-fr",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Nice",
+      "enValue": "Nice",
+      "slugCanonical": "nice-fr"
+    },
+    {
+      "slug": "bordeaux",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Bordeaux",
+      "enValue": "Bordeaux",
+      "slugCanonical": "bordeaux"
+    },
+    {
+      "slug": "palma-de-mallorca",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Palma de Mallorca",
+      "enValue": "Palma de Mallorca",
+      "slugCanonical": "palma-de-mallorca"
+    },
+    {
+      "slug": "bilbao",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Bilbao",
+      "enValue": "Bilbao",
+      "slugCanonical": "bilbao"
+    },
+    {
+      "slug": "luxembourg-city",
+      "countryCode": "lu",
+      "lang": "fr",
+      "currentValue": "Luxembourg",
+      "enValue": "Luxembourg",
+      "slugCanonical": "luxembourg-city"
+    },
+    {
+      "slug": "ankara",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Ankara",
+      "enValue": "Ankara",
+      "slugCanonical": "ankara"
+    },
+    {
+      "slug": "bursa",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Bursa",
+      "enValue": "Bursa",
+      "slugCanonical": "bursa"
+    },
+    {
+      "slug": "antalya",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Antalya",
+      "enValue": "Antalya",
+      "slugCanonical": "antalya"
+    },
+    {
+      "slug": "konya",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Konya",
+      "enValue": "Konya",
+      "slugCanonical": "konya"
+    },
+    {
+      "slug": "adana",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Adana",
+      "enValue": "Adana",
+      "slugCanonical": "adana"
+    },
+    {
+      "slug": "kuala-lumpur",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuala Lumpur",
+      "enValue": "Kuala Lumpur",
+      "slugCanonical": "kuala-lumpur"
+    },
+    {
+      "slug": "jakarta",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Jakarta",
+      "enValue": "Jakarta",
+      "slugCanonical": "jakarta"
+    },
+    {
+      "slug": "surabaya",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Surabaya",
+      "enValue": "Surabaya",
+      "slugCanonical": "surabaya"
+    },
+    {
+      "slug": "bandung",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Bandung",
+      "enValue": "Bandung",
+      "slugCanonical": "bandung"
+    },
+    {
+      "slug": "buenos-aires",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Buenos Aires",
+      "enValue": "Buenos Aires",
+      "slugCanonical": "buenos-aires"
+    },
+    {
+      "slug": "santiago-cl",
+      "countryCode": "cl",
+      "lang": "es",
+      "currentValue": "Santiago",
+      "enValue": "Santiago",
+      "slugCanonical": "santiago-cl"
+    },
+    {
+      "slug": "lima",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Lima",
+      "enValue": "Lima",
+      "slugCanonical": "lima"
+    },
+    {
+      "slug": "caracas",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Caracas",
+      "enValue": "Caracas",
+      "slugCanonical": "caracas"
+    },
+    {
+      "slug": "montevideo",
+      "countryCode": "uy",
+      "lang": "es",
+      "currentValue": "Montevideo",
+      "enValue": "Montevideo",
+      "slugCanonical": "montevideo"
+    },
+    {
+      "slug": "quito",
+      "countryCode": "ec",
+      "lang": "es",
+      "currentValue": "Quito",
+      "enValue": "Quito",
+      "slugCanonical": "quito"
+    },
+    {
+      "slug": "la-paz",
+      "countryCode": "bo",
+      "lang": "es",
+      "currentValue": "La Paz",
+      "enValue": "La Paz",
+      "slugCanonical": "la-paz"
+    },
+    {
+      "slug": "guadalajara",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Guadalajara",
+      "enValue": "Guadalajara",
+      "slugCanonical": "guadalajara"
+    },
+    {
+      "slug": "monterrey",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Monterrey",
+      "enValue": "Monterrey",
+      "slugCanonical": "monterrey"
+    },
+    {
+      "slug": "gaziantep",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Gaziantep",
+      "enValue": "Gaziantep",
+      "slugCanonical": "gaziantep"
+    },
+    {
+      "slug": "kayseri",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Kayseri",
+      "enValue": "Kayseri",
+      "slugCanonical": "kayseri"
+    },
+    {
+      "slug": "mersin",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Mersin",
+      "enValue": "Mersin",
+      "slugCanonical": "mersin"
+    },
+    {
+      "slug": "trabzon",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Trabzon",
+      "enValue": "Trabzon",
+      "slugCanonical": "trabzon"
+    },
+    {
+      "slug": "erzurum",
+      "countryCode": "tr",
+      "lang": "tr",
+      "currentValue": "Erzurum",
+      "enValue": "Erzurum",
+      "slugCanonical": "erzurum"
+    },
+    {
+      "slug": "medan",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Medan",
+      "enValue": "Medan",
+      "slugCanonical": "medan"
+    },
+    {
+      "slug": "makassar",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Makassar",
+      "enValue": "Makassar",
+      "slugCanonical": "makassar"
+    },
+    {
+      "slug": "yogyakarta",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Yogyakarta",
+      "enValue": "Yogyakarta",
+      "slugCanonical": "yogyakarta"
+    },
+    {
+      "slug": "semarang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Semarang",
+      "enValue": "Semarang",
+      "slugCanonical": "semarang"
+    },
+    {
+      "slug": "palembang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Palembang",
+      "enValue": "Palembang",
+      "slugCanonical": "palembang"
+    },
+    {
+      "slug": "banda-aceh",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Banda Aceh",
+      "enValue": "Banda Aceh",
+      "slugCanonical": "banda-aceh"
+    },
+    {
+      "slug": "george-town",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "George Town",
+      "enValue": "George Town",
+      "slugCanonical": "george-town"
+    },
+    {
+      "slug": "johor-bahru",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Johor Bahru",
+      "enValue": "Johor Bahru",
+      "slugCanonical": "johor-bahru"
+    },
+    {
+      "slug": "ipoh",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Ipoh",
+      "enValue": "Ipoh",
+      "slugCanonical": "ipoh"
+    },
+    {
+      "slug": "kota-kinabalu",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kota Kinabalu",
+      "enValue": "Kota Kinabalu",
+      "slugCanonical": "kota-kinabalu"
+    },
+    {
+      "slug": "kuching",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuching",
+      "enValue": "Kuching",
+      "slugCanonical": "kuching"
+    },
+    {
+      "slug": "shah-alam",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Shah Alam",
+      "enValue": "Shah Alam",
+      "slugCanonical": "shah-alam"
+    },
+    {
+      "slug": "villeurbanne",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Villeurbanne",
+      "enValue": "Villeurbanne",
+      "slugCanonical": "villeurbanne"
+    },
+    {
+      "slug": "tours",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Tours",
+      "enValue": "Tours",
+      "slugCanonical": "tours"
+    },
+    {
+      "slug": "toulon",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Toulon",
+      "enValue": "Toulon",
+      "slugCanonical": "toulon"
+    },
+    {
+      "slug": "saint-etienne",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Saint-Étienne",
+      "enValue": "Saint-Étienne",
+      "slugCanonical": "saint-etienne"
+    },
+    {
+      "slug": "rouen",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Rouen",
+      "enValue": "Rouen",
+      "slugCanonical": "rouen"
+    },
+    {
+      "slug": "rennes",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Rennes",
+      "enValue": "Rennes",
+      "slugCanonical": "rennes"
+    },
+    {
+      "slug": "perpignan",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Perpignan",
+      "enValue": "Perpignan",
+      "slugCanonical": "perpignan"
+    },
+    {
+      "slug": "orleans",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Orléans",
+      "enValue": "Orléans",
+      "slugCanonical": "orleans"
+    },
+    {
+      "slug": "nantes",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Nantes",
+      "enValue": "Nantes",
+      "slugCanonical": "nantes"
+    },
+    {
+      "slug": "nancy",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Nancy",
+      "enValue": "Nancy",
+      "slugCanonical": "nancy"
+    },
+    {
+      "slug": "metz",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Metz",
+      "enValue": "Metz",
+      "slugCanonical": "metz"
+    },
+    {
+      "slug": "le-mans",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Le Mans",
+      "enValue": "Le Mans",
+      "slugCanonical": "le-mans"
+    },
+    {
+      "slug": "le-havre",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Le Havre",
+      "enValue": "Le Havre",
+      "slugCanonical": "le-havre"
+    },
+    {
+      "slug": "grenoble",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Grenoble",
+      "enValue": "Grenoble",
+      "slugCanonical": "grenoble"
+    },
+    {
+      "slug": "dijon",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Dijon",
+      "enValue": "Dijon",
+      "slugCanonical": "dijon"
+    },
+    {
+      "slug": "clermont-ferrand",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Clermont-Ferrand",
+      "enValue": "Clermont-Ferrand",
+      "slugCanonical": "clermont-ferrand"
+    },
+    {
+      "slug": "caen",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Caen",
+      "enValue": "Caen",
+      "slugCanonical": "caen"
+    },
+    {
+      "slug": "besancon",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Besançon",
+      "enValue": "Besançon",
+      "slugCanonical": "besancon"
+    },
+    {
+      "slug": "aix-en-provence",
+      "countryCode": "fr",
+      "lang": "fr",
+      "currentValue": "Aix-en-Provence",
+      "enValue": "Aix-en-Provence",
+      "slugCanonical": "aix-en-provence"
+    },
+    {
+      "slug": "namur",
+      "countryCode": "be",
+      "lang": "fr",
+      "currentValue": "Namur",
+      "enValue": "Namur",
+      "slugCanonical": "namur"
+    },
+    {
+      "slug": "namur",
+      "countryCode": "be",
+      "lang": "de",
+      "currentValue": "Namur",
+      "enValue": "Namur",
+      "slugCanonical": "namur"
+    },
+    {
+      "slug": "liege",
+      "countryCode": "be",
+      "lang": "fr",
+      "currentValue": "Liège",
+      "enValue": "Liège",
+      "slugCanonical": "liege"
+    },
+    {
+      "slug": "liege",
+      "countryCode": "be",
+      "lang": "de",
+      "currentValue": "Liège",
+      "enValue": "Liège",
+      "slugCanonical": "liege"
+    },
+    {
+      "slug": "gent",
+      "countryCode": "be",
+      "lang": "fr",
+      "currentValue": "Gent",
+      "enValue": "Gent",
+      "slugCanonical": "gent"
+    },
+    {
+      "slug": "gent",
+      "countryCode": "be",
+      "lang": "de",
+      "currentValue": "Gent",
+      "enValue": "Gent",
+      "slugCanonical": "gent"
+    },
+    {
+      "slug": "charleroi",
+      "countryCode": "be",
+      "lang": "fr",
+      "currentValue": "Charleroi",
+      "enValue": "Charleroi",
+      "slugCanonical": "charleroi"
+    },
+    {
+      "slug": "charleroi",
+      "countryCode": "be",
+      "lang": "de",
+      "currentValue": "Charleroi",
+      "enValue": "Charleroi",
+      "slugCanonical": "charleroi"
+    },
+    {
+      "slug": "brugge",
+      "countryCode": "be",
+      "lang": "fr",
+      "currentValue": "Brugge",
+      "enValue": "Brugge",
+      "slugCanonical": "brugge"
+    },
+    {
+      "slug": "brugge",
+      "countryCode": "be",
+      "lang": "de",
+      "currentValue": "Brugge",
+      "enValue": "Brugge",
+      "slugCanonical": "brugge"
+    },
+    {
+      "slug": "anderlecht",
+      "countryCode": "be",
+      "lang": "fr",
+      "currentValue": "Anderlecht",
+      "enValue": "Anderlecht",
+      "slugCanonical": "anderlecht"
+    },
+    {
+      "slug": "anderlecht",
+      "countryCode": "be",
+      "lang": "de",
+      "currentValue": "Anderlecht",
+      "enValue": "Anderlecht",
+      "slugCanonical": "anderlecht"
+    },
+    {
+      "slug": "mersch",
+      "countryCode": "lu",
+      "lang": "de",
+      "currentValue": "Mersch",
+      "enValue": "Mersch",
+      "slugCanonical": "mersch"
+    },
+    {
+      "slug": "mersch",
+      "countryCode": "lu",
+      "lang": "fr",
+      "currentValue": "Mersch",
+      "enValue": "Mersch",
+      "slugCanonical": "mersch"
+    },
+    {
+      "slug": "grevenmacher",
+      "countryCode": "lu",
+      "lang": "de",
+      "currentValue": "Grevenmacher",
+      "enValue": "Grevenmacher",
+      "slugCanonical": "grevenmacher"
+    },
+    {
+      "slug": "grevenmacher",
+      "countryCode": "lu",
+      "lang": "fr",
+      "currentValue": "Grevenmacher",
+      "enValue": "Grevenmacher",
+      "slugCanonical": "grevenmacher"
+    },
+    {
+      "slug": "telde",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Telde",
+      "enValue": "Telde",
+      "slugCanonical": "telde"
+    },
+    {
+      "slug": "santa-cruz-de-tenerife",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Santa Cruz de Tenerife",
+      "enValue": "Santa Cruz de Tenerife",
+      "slugCanonical": "santa-cruz-de-tenerife"
+    },
+    {
+      "slug": "orihuela",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Orihuela",
+      "enValue": "Orihuela",
+      "slugCanonical": "orihuela"
+    },
+    {
+      "slug": "murcia",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Murcia",
+      "enValue": "Murcia",
+      "slugCanonical": "murcia"
+    },
+    {
+      "slug": "merida",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Mérida",
+      "enValue": "Mérida",
+      "slugCanonical": "merida"
+    },
+    {
+      "slug": "melilla",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Melilla",
+      "enValue": "Melilla",
+      "slugCanonical": "melilla"
+    },
+    {
+      "slug": "marbella",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Marbella",
+      "enValue": "Marbella",
+      "slugCanonical": "marbella"
+    },
+    {
+      "slug": "jaen",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Jaén",
+      "enValue": "Jaén",
+      "slugCanonical": "jaen"
+    },
+    {
+      "slug": "elche",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Elche",
+      "enValue": "Elche",
+      "slugCanonical": "elche"
+    },
+    {
+      "slug": "cartagena",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Cartagena",
+      "enValue": "Cartagena",
+      "slugCanonical": "cartagena"
+    },
+    {
+      "slug": "cadiz",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Cadiz",
+      "enValue": "Cadiz",
+      "slugCanonical": "cadiz"
+    },
+    {
+      "slug": "badajoz",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Badajoz",
+      "enValue": "Badajoz",
+      "slugCanonical": "badajoz"
+    },
+    {
+      "slug": "algeciras",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Algeciras",
+      "enValue": "Algeciras",
+      "slugCanonical": "algeciras"
+    },
+    {
+      "slug": "albacete",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Albacete",
+      "enValue": "Albacete",
+      "slugCanonical": "albacete"
+    },
+    {
+      "slug": "valladolid",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Valladolid",
+      "enValue": "Valladolid",
+      "slugCanonical": "valladolid"
+    },
+    {
+      "slug": "santiago-de-compostela",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Santiago de Compostela",
+      "enValue": "Santiago de Compostela",
+      "slugCanonical": "santiago-de-compostela"
+    },
+    {
+      "slug": "santander",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Santander",
+      "enValue": "Santander",
+      "slugCanonical": "santander"
+    },
+    {
+      "slug": "san-sebastian",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Donostia / San Sebastián",
+      "enValue": "Donostia / San Sebastián",
+      "slugCanonical": "san-sebastian"
+    },
+    {
+      "slug": "salamanca",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Salamanca",
+      "enValue": "Salamanca",
+      "slugCanonical": "salamanca"
+    },
+    {
+      "slug": "parla",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Parla",
+      "enValue": "Parla",
+      "slugCanonical": "parla"
+    },
+    {
+      "slug": "pamplona",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Pamplona",
+      "enValue": "Pamplona",
+      "slugCanonical": "pamplona"
+    },
+    {
+      "slug": "oviedo",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Oviedo",
+      "enValue": "Oviedo",
+      "slugCanonical": "oviedo"
+    },
+    {
+      "slug": "mostoles",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Móstoles",
+      "enValue": "Móstoles",
+      "slugCanonical": "mostoles"
+    },
+    {
+      "slug": "logrono",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Logroño",
+      "enValue": "Logroño",
+      "slugCanonical": "logrono"
+    },
+    {
+      "slug": "leon",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "León",
+      "enValue": "León",
+      "slugCanonical": "leon"
+    },
+    {
+      "slug": "leganes",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Leganés",
+      "enValue": "Leganés",
+      "slugCanonical": "leganes"
+    },
+    {
+      "slug": "gijon",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Gijón",
+      "enValue": "Gijón",
+      "slugCanonical": "gijon"
+    },
+    {
+      "slug": "getafe",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Getafe",
+      "enValue": "Getafe",
+      "slugCanonical": "getafe"
+    },
+    {
+      "slug": "fuenlabrada",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Fuenlabrada",
+      "enValue": "Fuenlabrada",
+      "slugCanonical": "fuenlabrada"
+    },
+    {
+      "slug": "ciudad-lineal",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Ciudad Lineal",
+      "enValue": "Ciudad Lineal",
+      "slugCanonical": "ciudad-lineal"
+    },
+    {
+      "slug": "burgos",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Burgos",
+      "enValue": "Burgos",
+      "slugCanonical": "burgos"
+    },
+    {
+      "slug": "badalona",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Badalona",
+      "enValue": "Badalona",
+      "slugCanonical": "badalona"
+    },
+    {
+      "slug": "alcorcon",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Alcorcón",
+      "enValue": "Alcorcón",
+      "slugCanonical": "alcorcon"
+    },
+    {
+      "slug": "alcobendas",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Alcobendas",
+      "enValue": "Alcobendas",
+      "slugCanonical": "alcobendas"
+    },
+    {
+      "slug": "alcala-de-henares",
+      "countryCode": "es",
+      "lang": "es",
+      "currentValue": "Alcalá de Henares",
+      "enValue": "Alcalá de Henares",
+      "slugCanonical": "alcala-de-henares"
+    },
+    {
+      "slug": "wuerzburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Würzburg",
+      "enValue": "Würzburg",
+      "slugCanonical": "wuerzburg"
+    },
+    {
+      "slug": "wuppertal",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Wuppertal",
+      "enValue": "Wuppertal",
+      "slugCanonical": "wuppertal"
+    },
+    {
+      "slug": "wolfsburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Wolfsburg",
+      "enValue": "Wolfsburg",
+      "slugCanonical": "wolfsburg"
+    },
+    {
+      "slug": "ulm",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Ulm",
+      "enValue": "Ulm",
+      "slugCanonical": "ulm"
+    },
+    {
+      "slug": "trier",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Trier",
+      "enValue": "Trier",
+      "slugCanonical": "trier"
+    },
+    {
+      "slug": "solingen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Solingen",
+      "enValue": "Solingen",
+      "slugCanonical": "solingen"
+    },
+    {
+      "slug": "schwerin",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Schwerin",
+      "enValue": "Schwerin",
+      "slugCanonical": "schwerin"
+    },
+    {
+      "slug": "salzgitter",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Salzgitter",
+      "enValue": "Salzgitter",
+      "slugCanonical": "salzgitter"
+    },
+    {
+      "slug": "reutlingen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Reutlingen",
+      "enValue": "Reutlingen",
+      "slugCanonical": "reutlingen"
+    },
+    {
+      "slug": "remscheid",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Remscheid",
+      "enValue": "Remscheid",
+      "slugCanonical": "remscheid"
+    },
+    {
+      "slug": "regensburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Regensburg",
+      "enValue": "Regensburg",
+      "slugCanonical": "regensburg"
+    },
+    {
+      "slug": "pforzheim",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Pforzheim",
+      "enValue": "Pforzheim",
+      "slugCanonical": "pforzheim"
+    },
+    {
+      "slug": "paderborn",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Paderborn",
+      "enValue": "Paderborn",
+      "slugCanonical": "paderborn"
+    },
+    {
+      "slug": "osnabrueck",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Osnabrück",
+      "enValue": "Osnabrück",
+      "slugCanonical": "osnabrueck"
+    },
+    {
+      "slug": "oldenburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Oldenburg",
+      "enValue": "Oldenburg",
+      "slugCanonical": "oldenburg"
+    },
+    {
+      "slug": "neuss",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Neuss",
+      "enValue": "Neuss",
+      "slugCanonical": "neuss"
+    },
+    {
+      "slug": "moenchengladbach",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Mönchengladbach",
+      "enValue": "Mönchengladbach",
+      "slugCanonical": "moenchengladbach"
+    },
+    {
+      "slug": "moers",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Moers",
+      "enValue": "Moers",
+      "slugCanonical": "moers"
+    },
+    {
+      "slug": "mannheim",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Mannheim",
+      "enValue": "Mannheim",
+      "slugCanonical": "mannheim"
+    },
+    {
+      "slug": "mainz",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Mainz",
+      "enValue": "Mainz",
+      "slugCanonical": "mainz"
+    },
+    {
+      "slug": "ludwigshafen-am-rhein",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Ludwigshafen am Rhein",
+      "enValue": "Ludwigshafen am Rhein",
+      "slugCanonical": "ludwigshafen-am-rhein"
+    },
+    {
+      "slug": "luebeck",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Lübeck",
+      "enValue": "Lübeck",
+      "slugCanonical": "luebeck"
+    },
+    {
+      "slug": "krefeld",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Krefeld",
+      "enValue": "Krefeld",
+      "slugCanonical": "krefeld"
+    },
+    {
+      "slug": "kiel",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Kiel",
+      "enValue": "Kiel",
+      "slugCanonical": "kiel"
+    },
+    {
+      "slug": "kassel",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Kassel",
+      "enValue": "Kassel",
+      "slugCanonical": "kassel"
+    },
+    {
+      "slug": "karlsruhe",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Karlsruhe",
+      "enValue": "Karlsruhe",
+      "slugCanonical": "karlsruhe"
+    },
+    {
+      "slug": "hildesheim",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Hildesheim",
+      "enValue": "Hildesheim",
+      "slugCanonical": "hildesheim"
+    },
+    {
+      "slug": "herne",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Herne",
+      "enValue": "Herne",
+      "slugCanonical": "herne"
+    },
+    {
+      "slug": "heilbronn",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Heilbronn",
+      "enValue": "Heilbronn",
+      "slugCanonical": "heilbronn"
+    },
+    {
+      "slug": "heidelberg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Heidelberg",
+      "enValue": "Heidelberg",
+      "slugCanonical": "heidelberg"
+    },
+    {
+      "slug": "hannover",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Hannover",
+      "enValue": "Hannover",
+      "slugCanonical": "hannover"
+    },
+    {
+      "slug": "hamm",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Hamm",
+      "enValue": "Hamm",
+      "slugCanonical": "hamm"
+    },
+    {
+      "slug": "halle-saale",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Halle (Saale)",
+      "enValue": "Halle (Saale)",
+      "slugCanonical": "halle-saale"
+    },
+    {
+      "slug": "goettingen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Göttingen",
+      "enValue": "Göttingen",
+      "slugCanonical": "goettingen"
+    },
+    {
+      "slug": "gelsenkirchen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Gelsenkirchen",
+      "enValue": "Gelsenkirchen",
+      "slugCanonical": "gelsenkirchen"
+    },
+    {
+      "slug": "freiburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Freiburg",
+      "enValue": "Freiburg",
+      "slugCanonical": "freiburg"
+    },
+    {
+      "slug": "essen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Essen",
+      "enValue": "Essen",
+      "slugCanonical": "essen"
+    },
+    {
+      "slug": "duisburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Duisburg",
+      "enValue": "Duisburg",
+      "slugCanonical": "duisburg"
+    },
+    {
+      "slug": "dortmund",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Dortmund",
+      "enValue": "Dortmund",
+      "slugCanonical": "dortmund"
+    },
+    {
+      "slug": "darmstadt",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Darmstadt",
+      "enValue": "Darmstadt",
+      "slugCanonical": "darmstadt"
+    },
+    {
+      "slug": "chemnitz",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Chemnitz",
+      "enValue": "Chemnitz",
+      "slugCanonical": "chemnitz"
+    },
+    {
+      "slug": "bremerhaven",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Bremerhaven",
+      "enValue": "Bremerhaven",
+      "slugCanonical": "bremerhaven"
+    },
+    {
+      "slug": "bremen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Bremen",
+      "enValue": "Bremen",
+      "slugCanonical": "bremen"
+    },
+    {
+      "slug": "bochum",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Bochum",
+      "enValue": "Bochum",
+      "slugCanonical": "bochum"
+    },
+    {
+      "slug": "bielefeld",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Bielefeld",
+      "enValue": "Bielefeld",
+      "slugCanonical": "bielefeld"
+    },
+    {
+      "slug": "augsburg",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Augsburg",
+      "enValue": "Augsburg",
+      "slugCanonical": "augsburg"
+    },
+    {
+      "slug": "aachen",
+      "countryCode": "de",
+      "lang": "de",
+      "currentValue": "Aachen",
+      "enValue": "Aachen",
+      "slugCanonical": "aachen"
+    },
+    {
+      "slug": "innsbruck",
+      "countryCode": "at",
+      "lang": "de",
+      "currentValue": "Innsbruck",
+      "enValue": "Innsbruck",
+      "slugCanonical": "innsbruck"
+    },
+    {
+      "slug": "graz",
+      "countryCode": "at",
+      "lang": "de",
+      "currentValue": "Graz",
+      "enValue": "Graz",
+      "slugCanonical": "graz"
+    },
+    {
+      "slug": "eisenstadt",
+      "countryCode": "at",
+      "lang": "de",
+      "currentValue": "Eisenstadt",
+      "enValue": "Eisenstadt",
+      "slugCanonical": "eisenstadt"
+    },
+    {
+      "slug": "bregenz",
+      "countryCode": "at",
+      "lang": "de",
+      "currentValue": "Bregenz",
+      "enValue": "Bregenz",
+      "slugCanonical": "bregenz"
+    },
+    {
+      "slug": "winterthur",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Winterthur",
+      "enValue": "Winterthur",
+      "slugCanonical": "winterthur"
+    },
+    {
+      "slug": "schwyz",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Schwyz",
+      "enValue": "Schwyz",
+      "slugCanonical": "schwyz"
+    },
+    {
+      "slug": "sarnen",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Sarnen",
+      "enValue": "Sarnen",
+      "slugCanonical": "sarnen"
+    },
+    {
+      "slug": "neuchatel",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Neuchâtel",
+      "enValue": "Neuchâtel",
+      "slugCanonical": "neuchatel"
+    },
+    {
+      "slug": "luzern",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Luzern",
+      "enValue": "Luzern",
+      "slugCanonical": "luzern"
+    },
+    {
+      "slug": "lausanne",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Lausanne",
+      "enValue": "Lausanne",
+      "slugCanonical": "lausanne"
+    },
+    {
+      "slug": "glarus",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Glarus",
+      "enValue": "Glarus",
+      "slugCanonical": "glarus"
+    },
+    {
+      "slug": "geneve",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Genève",
+      "enValue": "Genève",
+      "slugCanonical": "geneve"
+    },
+    {
+      "slug": "fribourg",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Fribourg",
+      "enValue": "Fribourg",
+      "slugCanonical": "fribourg"
+    },
+    {
+      "slug": "delemont",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Delémont",
+      "enValue": "Delémont",
+      "slugCanonical": "delemont"
+    },
+    {
+      "slug": "bern",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Bern",
+      "enValue": "Bern",
+      "slugCanonical": "bern"
+    },
+    {
+      "slug": "appenzell",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Appenzell",
+      "enValue": "Appenzell",
+      "slugCanonical": "appenzell"
+    },
+    {
+      "slug": "aarau",
+      "countryCode": "ch",
+      "lang": "de",
+      "currentValue": "Aarau",
+      "enValue": "Aarau",
+      "slugCanonical": "aarau"
+    },
+    {
+      "slug": "puebla",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Puebla",
+      "enValue": "Puebla",
+      "slugCanonical": "puebla"
+    },
+    {
+      "slug": "playa-del-carmen",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Playa del Carmen",
+      "enValue": "Playa del Carmen",
+      "slugCanonical": "playa-del-carmen"
+    },
+    {
+      "slug": "oaxaca",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Oaxaca",
+      "enValue": "Oaxaca",
+      "slugCanonical": "oaxaca"
+    },
+    {
+      "slug": "nuevo-laredo",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Nuevo Laredo",
+      "enValue": "Nuevo Laredo",
+      "slugCanonical": "nuevo-laredo"
+    },
+    {
+      "slug": "naucalpan-de-juarez",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Naucalpan de Juárez",
+      "enValue": "Naucalpan de Juárez",
+      "slugCanonical": "naucalpan-de-juarez"
+    },
+    {
+      "slug": "cuernavaca",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Cuernavaca",
+      "enValue": "Cuernavaca",
+      "slugCanonical": "cuernavaca"
+    },
+    {
+      "slug": "ciudad-victoria",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Ciudad Victoria",
+      "enValue": "Ciudad Victoria",
+      "slugCanonical": "ciudad-victoria"
+    },
+    {
+      "slug": "chilpancingo",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Chilpancingo",
+      "enValue": "Chilpancingo",
+      "slugCanonical": "chilpancingo"
+    },
+    {
+      "slug": "chetumal",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Chetumal",
+      "enValue": "Chetumal",
+      "slugCanonical": "chetumal"
+    },
+    {
+      "slug": "cancun",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Cancún",
+      "enValue": "Cancún",
+      "slugCanonical": "cancun"
+    },
+    {
+      "slug": "tlaxcala",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Tlaxcala",
+      "enValue": "Tlaxcala",
+      "slugCanonical": "tlaxcala"
+    },
+    {
+      "slug": "tijuana",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Tijuana",
+      "enValue": "Tijuana",
+      "slugCanonical": "tijuana"
+    },
+    {
+      "slug": "tepic",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Tepic",
+      "enValue": "Tepic",
+      "slugCanonical": "tepic"
+    },
+    {
+      "slug": "san-miguel-de-allende",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "San Miguel de Allende",
+      "enValue": "San Miguel de Allende",
+      "slugCanonical": "san-miguel-de-allende"
+    },
+    {
+      "slug": "cabo-san-lucas",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Cabo San Lucas",
+      "enValue": "Cabo San Lucas",
+      "slugCanonical": "cabo-san-lucas"
+    },
+    {
+      "slug": "santiago-de-queretaro",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Santiago de Querétaro",
+      "enValue": "Santiago de Querétaro",
+      "slugCanonical": "santiago-de-queretaro"
+    },
+    {
+      "slug": "puerto-vallarta",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Puerto Vallarta",
+      "enValue": "Puerto Vallarta",
+      "slugCanonical": "puerto-vallarta"
+    },
+    {
+      "slug": "navojoa",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Navojoa",
+      "enValue": "Navojoa",
+      "slugCanonical": "navojoa"
+    },
+    {
+      "slug": "mazatlan",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Mazatlán",
+      "enValue": "Mazatlán",
+      "slugCanonical": "mazatlan"
+    },
+    {
+      "slug": "irapuato",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Irapuato",
+      "enValue": "Irapuato",
+      "slugCanonical": "irapuato"
+    },
+    {
+      "slug": "hermosillo",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Hermosillo",
+      "enValue": "Hermosillo",
+      "slugCanonical": "hermosillo"
+    },
+    {
+      "slug": "culiacan",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Culiacán",
+      "enValue": "Culiacán",
+      "slugCanonical": "culiacan"
+    },
+    {
+      "slug": "ciudad-juarez",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Ciudad Juárez",
+      "enValue": "Ciudad Juárez",
+      "slugCanonical": "ciudad-juarez"
+    },
+    {
+      "slug": "ciudad-guzman",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Ciudad Guzmán",
+      "enValue": "Ciudad Guzmán",
+      "slugCanonical": "ciudad-guzman"
+    },
+    {
+      "slug": "merida-mx",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Mérida",
+      "enValue": "Mérida",
+      "slugCanonical": "merida-mx"
+    },
+    {
+      "slug": "ecatepec",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Ecatepec",
+      "enValue": "Ecatepec",
+      "slugCanonical": "ecatepec"
+    },
+    {
+      "slug": "cordoba-mx",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Córdoba",
+      "enValue": "Córdoba",
+      "slugCanonical": "cordoba-mx"
+    },
+    {
+      "slug": "zapopan",
+      "countryCode": "mx",
+      "lang": "es",
+      "currentValue": "Zapopan",
+      "enValue": "Zapopan",
+      "slugCanonical": "zapopan"
+    },
+    {
+      "slug": "tandil",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Tandil",
+      "enValue": "Tandil",
+      "slugCanonical": "tandil"
+    },
+    {
+      "slug": "quilmes",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Quilmes",
+      "enValue": "Quilmes",
+      "slugCanonical": "quilmes"
+    },
+    {
+      "slug": "merlo",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Merlo",
+      "enValue": "Merlo",
+      "slugCanonical": "merlo"
+    },
+    {
+      "slug": "ezeiza",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Ezeiza",
+      "enValue": "Ezeiza",
+      "slugCanonical": "ezeiza"
+    },
+    {
+      "slug": "castelar",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Castelar",
+      "enValue": "Castelar",
+      "slugCanonical": "castelar"
+    },
+    {
+      "slug": "ushuaia",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Ushuaia",
+      "enValue": "Ushuaia",
+      "slugCanonical": "ushuaia"
+    },
+    {
+      "slug": "salta",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Salta",
+      "enValue": "Salta",
+      "slugCanonical": "salta"
+    },
+    {
+      "slug": "rawson",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "Rawson",
+      "enValue": "Rawson",
+      "slugCanonical": "rawson"
+    },
+    {
+      "slug": "la-rioja",
+      "countryCode": "ar",
+      "lang": "es",
+      "currentValue": "La Rioja",
+      "enValue": "La Rioja",
+      "slugCanonical": "la-rioja"
+    },
+    {
+      "slug": "yopal",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Yopal",
+      "enValue": "Yopal",
+      "slugCanonical": "yopal"
+    },
+    {
+      "slug": "tulua",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Tuluá",
+      "enValue": "Tuluá",
+      "slugCanonical": "tulua"
+    },
+    {
+      "slug": "inirida",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Inírida",
+      "enValue": "Inírida",
+      "slugCanonical": "inirida"
+    },
+    {
+      "slug": "popayan",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Popayán",
+      "enValue": "Popayán",
+      "slugCanonical": "popayan"
+    },
+    {
+      "slug": "neiva",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Neiva",
+      "enValue": "Neiva",
+      "slugCanonical": "neiva"
+    },
+    {
+      "slug": "mocoa",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Mocoa",
+      "enValue": "Mocoa",
+      "slugCanonical": "mocoa"
+    },
+    {
+      "slug": "mitu",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Mitú",
+      "enValue": "Mitú",
+      "slugCanonical": "mitu"
+    },
+    {
+      "slug": "buenaventura",
+      "countryCode": "co",
+      "lang": "es",
+      "currentValue": "Buenaventura",
+      "enValue": "Buenaventura",
+      "slugCanonical": "buenaventura"
+    },
+    {
+      "slug": "talcahuano",
+      "countryCode": "cl",
+      "lang": "es",
+      "currentValue": "Talcahuano",
+      "enValue": "Talcahuano",
+      "slugCanonical": "talcahuano"
+    },
+    {
+      "slug": "talca",
+      "countryCode": "cl",
+      "lang": "es",
+      "currentValue": "Talca",
+      "enValue": "Talca",
+      "slugCanonical": "talca"
+    },
+    {
+      "slug": "curico",
+      "countryCode": "cl",
+      "lang": "es",
+      "currentValue": "Curicó",
+      "enValue": "Curicó",
+      "slugCanonical": "curico"
+    },
+    {
+      "slug": "copiapo",
+      "countryCode": "cl",
+      "lang": "es",
+      "currentValue": "Copiapó",
+      "enValue": "Copiapó",
+      "slugCanonical": "copiapo"
+    },
+    {
+      "slug": "alto-hospicio",
+      "countryCode": "cl",
+      "lang": "es",
+      "currentValue": "Alto Hospicio",
+      "enValue": "Alto Hospicio",
+      "slugCanonical": "alto-hospicio"
+    },
+    {
+      "slug": "tumbes",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Tumbes",
+      "enValue": "Tumbes",
+      "slugCanonical": "tumbes"
+    },
+    {
+      "slug": "piura",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Piura",
+      "enValue": "Piura",
+      "slugCanonical": "piura"
+    },
+    {
+      "slug": "moyobamba",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Moyobamba",
+      "enValue": "Moyobamba",
+      "slugCanonical": "moyobamba"
+    },
+    {
+      "slug": "iquitos",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Iquitos",
+      "enValue": "Iquitos",
+      "slugCanonical": "iquitos"
+    },
+    {
+      "slug": "huaraz",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Huaraz",
+      "enValue": "Huaraz",
+      "slugCanonical": "huaraz"
+    },
+    {
+      "slug": "chiclayo",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Chiclayo",
+      "enValue": "Chiclayo",
+      "slugCanonical": "chiclayo"
+    },
+    {
+      "slug": "chachapoyas",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Chachapoyas",
+      "enValue": "Chachapoyas",
+      "slugCanonical": "chachapoyas"
+    },
+    {
+      "slug": "puno",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Puno",
+      "enValue": "Puno",
+      "slugCanonical": "puno"
+    },
+    {
+      "slug": "moquegua",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Moquegua",
+      "enValue": "Moquegua",
+      "slugCanonical": "moquegua"
+    },
+    {
+      "slug": "ica",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Ica",
+      "enValue": "Ica",
+      "slugCanonical": "ica"
+    },
+    {
+      "slug": "cusco",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Cusco",
+      "enValue": "Cusco",
+      "slugCanonical": "cusco"
+    },
+    {
+      "slug": "arequipa",
+      "countryCode": "pe",
+      "lang": "es",
+      "currentValue": "Arequipa",
+      "enValue": "Arequipa",
+      "slugCanonical": "arequipa"
+    },
+    {
+      "slug": "turmero",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Turmero",
+      "enValue": "Turmero",
+      "slugCanonical": "turmero"
+    },
+    {
+      "slug": "puerto-la-cruz",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Puerto La Cruz",
+      "enValue": "Puerto La Cruz",
+      "slugCanonical": "puerto-la-cruz"
+    },
+    {
+      "slug": "puerto-ayacucho",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Puerto Ayacucho",
+      "enValue": "Puerto Ayacucho",
+      "slugCanonical": "puerto-ayacucho"
+    },
+    {
+      "slug": "los-teques",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Los Teques",
+      "enValue": "Los Teques",
+      "slugCanonical": "los-teques"
+    },
+    {
+      "slug": "cabimas",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Cabimas",
+      "enValue": "Cabimas",
+      "slugCanonical": "cabimas"
+    },
+    {
+      "slug": "barquisimeto",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Barquisimeto",
+      "enValue": "Barquisimeto",
+      "slugCanonical": "barquisimeto"
+    },
+    {
+      "slug": "barinas",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Barinas",
+      "enValue": "Barinas",
+      "slugCanonical": "barinas"
+    },
+    {
+      "slug": "maturin",
+      "countryCode": "ve",
+      "lang": "es",
+      "currentValue": "Maturín",
+      "enValue": "Maturín",
+      "slugCanonical": "maturin"
+    },
+    {
+      "slug": "tegal",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Tegal",
+      "enValue": "Tegal",
+      "slugCanonical": "tegal"
+    },
+    {
+      "slug": "tarakan",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Tarakan",
+      "enValue": "Tarakan",
+      "slugCanonical": "tarakan"
+    },
+    {
+      "slug": "tanjung-pinang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Tanjung Pinang",
+      "enValue": "Tanjung Pinang",
+      "slugCanonical": "tanjung-pinang"
+    },
+    {
+      "slug": "surakarta",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Surakarta",
+      "enValue": "Surakarta",
+      "slugCanonical": "surakarta"
+    },
+    {
+      "slug": "samarinda",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Samarinda",
+      "enValue": "Samarinda",
+      "slugCanonical": "samarinda"
+    },
+    {
+      "slug": "padang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Padang",
+      "enValue": "Padang",
+      "slugCanonical": "padang"
+    },
+    {
+      "slug": "mataram",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Mataram",
+      "enValue": "Mataram",
+      "slugCanonical": "mataram"
+    },
+    {
+      "slug": "manokwari",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Manokwari",
+      "enValue": "Manokwari",
+      "slugCanonical": "manokwari"
+    },
+    {
+      "slug": "manado",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Manado",
+      "enValue": "Manado",
+      "slugCanonical": "manado"
+    },
+    {
+      "slug": "mamuju",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Mamuju",
+      "enValue": "Mamuju",
+      "slugCanonical": "mamuju"
+    },
+    {
+      "slug": "malang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Malang",
+      "enValue": "Malang",
+      "slugCanonical": "malang"
+    },
+    {
+      "slug": "kediri",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Kediri",
+      "enValue": "Kediri",
+      "slugCanonical": "kediri"
+    },
+    {
+      "slug": "jepara",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Jepara",
+      "enValue": "Jepara",
+      "slugCanonical": "jepara"
+    },
+    {
+      "slug": "jambi-city",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Jambi City",
+      "enValue": "Jambi City",
+      "slugCanonical": "jambi-city"
+    },
+    {
+      "slug": "cirebon",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Cirebon",
+      "enValue": "Cirebon",
+      "slugCanonical": "cirebon"
+    },
+    {
+      "slug": "bogor",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Bogor",
+      "enValue": "Bogor",
+      "slugCanonical": "bogor"
+    },
+    {
+      "slug": "bitung",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Bitung",
+      "enValue": "Bitung",
+      "slugCanonical": "bitung"
+    },
+    {
+      "slug": "bengkulu",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Bengkulu",
+      "enValue": "Bengkulu",
+      "slugCanonical": "bengkulu"
+    },
+    {
+      "slug": "bekasi",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Bekasi",
+      "enValue": "Bekasi",
+      "slugCanonical": "bekasi"
+    },
+    {
+      "slug": "ambon",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Ambon",
+      "enValue": "Ambon",
+      "slugCanonical": "ambon"
+    },
+    {
+      "slug": "merauke",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Merauke",
+      "enValue": "Merauke",
+      "slugCanonical": "merauke"
+    },
+    {
+      "slug": "batam",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Batam",
+      "enValue": "Batam",
+      "slugCanonical": "batam"
+    },
+    {
+      "slug": "sandakan",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Sandakan",
+      "enValue": "Sandakan",
+      "slugCanonical": "sandakan"
+    },
+    {
+      "slug": "tawau",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Tawau",
+      "enValue": "Tawau",
+      "slugCanonical": "tawau"
+    },
+    {
+      "slug": "kuala-terengganu",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuala Terengganu",
+      "enValue": "Kuala Terengganu",
+      "slugCanonical": "kuala-terengganu"
+    },
+    {
+      "slug": "seremban",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Seremban",
+      "enValue": "Seremban",
+      "slugCanonical": "seremban"
+    },
+    {
+      "slug": "bukit-mertajam",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Bukit Mertajam",
+      "enValue": "Bukit Mertajam",
+      "slugCanonical": "bukit-mertajam"
+    },
+    {
+      "slug": "petaling-jaya",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Petaling Jaya",
+      "enValue": "Petaling Jaya",
+      "slugCanonical": "petaling-jaya"
+    },
+    {
+      "slug": "kuantan",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kuantan",
+      "enValue": "Kuantan",
+      "slugCanonical": "kuantan"
+    },
+    {
+      "slug": "kangar",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kangar",
+      "enValue": "Kangar",
+      "slugCanonical": "kangar"
+    },
+    {
+      "slug": "alor-setar",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Alor Setar",
+      "enValue": "Alor Setar",
+      "slugCanonical": "alor-setar"
+    },
+    {
+      "slug": "bandar-lampung",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Bandar Lampung",
+      "enValue": "Bandar Lampung",
+      "slugCanonical": "bandar-lampung"
+    },
+    {
+      "slug": "tangerang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Tangerang",
+      "enValue": "Tangerang",
+      "slugCanonical": "tangerang"
+    },
+    {
+      "slug": "sukabumi",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Sukabumi",
+      "enValue": "Sukabumi",
+      "slugCanonical": "sukabumi"
+    },
+    {
+      "slug": "pontianak",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Pontianak",
+      "enValue": "Pontianak",
+      "slugCanonical": "pontianak"
+    },
+    {
+      "slug": "pekanbaru",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Pekanbaru",
+      "enValue": "Pekanbaru",
+      "slugCanonical": "pekanbaru"
+    },
+    {
+      "slug": "kendari",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Kendari",
+      "enValue": "Kendari",
+      "slugCanonical": "kendari"
+    },
+    {
+      "slug": "denpasar",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Denpasar",
+      "enValue": "Denpasar",
+      "slugCanonical": "denpasar"
+    },
+    {
+      "slug": "balikpapan",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Balikpapan",
+      "enValue": "Balikpapan",
+      "slugCanonical": "balikpapan"
+    },
+    {
+      "slug": "kupang",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Kupang",
+      "enValue": "Kupang",
+      "slugCanonical": "kupang"
+    },
+    {
+      "slug": "jayapura",
+      "countryCode": "id",
+      "lang": "id",
+      "currentValue": "Jayapura",
+      "enValue": "Jayapura",
+      "slugCanonical": "jayapura"
+    },
+    {
+      "slug": "pasir-gudang",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Pasir Gudang",
+      "enValue": "Pasir Gudang",
+      "slugCanonical": "pasir-gudang"
+    },
+    {
+      "slug": "labuan",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Labuan",
+      "enValue": "Labuan",
+      "slugCanonical": "labuan"
+    },
+    {
+      "slug": "kota-bharu",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Kota Bharu",
+      "enValue": "Kota Bharu",
+      "slugCanonical": "kota-bharu"
+    },
+    {
+      "slug": "miri",
+      "countryCode": "my",
+      "lang": "ms",
+      "currentValue": "Miri",
+      "enValue": "Miri",
+      "slugCanonical": "miri"
+    },
+    {
+      "slug": "tutong",
+      "countryCode": "bn",
+      "lang": "ms",
+      "currentValue": "Tutong",
+      "enValue": "Tutong",
+      "slugCanonical": "tutong"
+    },
+    {
+      "slug": "kuala-belait",
+      "countryCode": "bn",
+      "lang": "ms",
+      "currentValue": "Kuala Belait",
+      "enValue": "Kuala Belait",
+      "slugCanonical": "kuala-belait"
+    },
+    {
+      "slug": "bangar-bn",
+      "countryCode": "bn",
+      "lang": "ms",
+      "currentValue": "Bangar",
+      "enValue": "Bangar",
+      "slugCanonical": "bangar-bn"
+    },
+    {
+      "slug": "bandar-seri-begawan",
+      "countryCode": "bn",
+      "lang": "ms",
+      "currentValue": "Bandar Seri Begawan",
+      "enValue": "Bandar Seri Begawan",
+      "slugCanonical": "bandar-seri-begawan"
+    }
+  ],
+  "missing": [],
+  "polluted": []
+}

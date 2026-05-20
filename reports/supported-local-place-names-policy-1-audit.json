@@ -1,0 +1,284 @@
+{
+  "tr": {
+    "total": 14,
+    "byLang": {
+      "tr": {
+        "native": 4,
+        "fillchain": 10,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "fr": {
+    "total": 25,
+    "byLang": {
+      "fr": {
+        "native": 0,
+        "fillchain": 25,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "es": {
+    "total": 45,
+    "byLang": {
+      "es": {
+        "native": 1,
+        "fillchain": 44,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "de": {
+    "total": 56,
+    "byLang": {
+      "de": {
+        "native": 4,
+        "fillchain": 52,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "at": {
+    "total": 5,
+    "byLang": {
+      "de": {
+        "native": 1,
+        "fillchain": 4,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "ch": {
+    "total": 14,
+    "byLang": {
+      "de": {
+        "native": 1,
+        "fillchain": 13,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "in": {
+    "total": 109,
+    "byLang": {
+      "ur": {
+        "native": 109,
+        "fillchain": 0,
+        "missing": 0,
+        "polluted": 0
+      },
+      "bn": {
+        "native": 109,
+        "fillchain": 0,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "pk": {
+    "total": 148,
+    "byLang": {
+      "ur": {
+        "native": 148,
+        "fillchain": 0,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "bd": {
+    "total": 38,
+    "byLang": {
+      "bn": {
+        "native": 38,
+        "fillchain": 0,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "be": {
+    "total": 7,
+    "byLang": {
+      "fr": {
+        "native": 1,
+        "fillchain": 6,
+        "missing": 0,
+        "polluted": 0
+      },
+      "de": {
+        "native": 1,
+        "fillchain": 6,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "lu": {
+    "total": 3,
+    "byLang": {
+      "de": {
+        "native": 1,
+        "fillchain": 2,
+        "missing": 0,
+        "polluted": 0
+      },
+      "fr": {
+        "native": 0,
+        "fillchain": 3,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "my": {
+    "total": 21,
+    "byLang": {
+      "ms": {
+        "native": 1,
+        "fillchain": 20,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "sg": {
+    "total": 1,
+    "byLang": {
+      "ms": {
+        "native": 1,
+        "fillchain": 0,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "id": {
+    "total": 41,
+    "byLang": {
+      "id": {
+        "native": 0,
+        "fillchain": 41,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "mx": {
+    "total": 31,
+    "byLang": {
+      "es": {
+        "native": 1,
+        "fillchain": 30,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "ar": {
+    "total": 10,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 10,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "cl": {
+    "total": 6,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 6,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "co": {
+    "total": 9,
+    "byLang": {
+      "es": {
+        "native": 1,
+        "fillchain": 8,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "pe": {
+    "total": 13,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 13,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "ve": {
+    "total": 9,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 9,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "uy": {
+    "total": 1,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 1,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "ec": {
+    "total": 1,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 1,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "bo": {
+    "total": 1,
+    "byLang": {
+      "es": {
+        "native": 0,
+        "fillchain": 1,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  },
+  "bn": {
+    "total": 4,
+    "byLang": {
+      "ms": {
+        "native": 0,
+        "fillchain": 4,
+        "missing": 0,
+        "polluted": 0
+      }
+    }
+  }
+}

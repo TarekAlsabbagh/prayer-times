@@ -1,6 +1,7 @@
 # PLACE-NAMES-BN-BD-1 (Fast Track) — Closure report
 
-**Status**: 🟢 EXECUTED — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `7e664a1` (feat(l10n): PLACE-NAMES-BN-BD-1 — Bengali for 13 BD-A → BD 19/19 🏆)
 **Date**: 2026-05-20
 **Phase**: First Bangladesh Bengali enrichment wave
 **Plan ref**: BN-WORKFLOW-DESIGN-1 (Option A) + ASIA-1D-BD-A-PLAN §2 + closure (`4a2f899`)
@@ -311,14 +312,15 @@ For `/bn/prayer-times-in-rangpur` SSR output:
 
 ---
 
-## Status: 🟢 PLACE-NAMES-BN-BD-1 EXECUTED SUCCESSFULLY — AWAITING USER APPROVAL
+## Status: 🟢 PLACE-NAMES-BN-BD-1 CLOSED — user-approved 2026-05-20
 
 ### Summary
 
 | Metric | Value |
 |--------|-------|
 | Closure report | `reports/place-names-bn-bd-1-closure.md` |
-| Apply commit | (pending — to be made after this closure) |
+| Apply commit | `7e664a1` (pushed to main) |
+| Closure-approval commit | (this docs commit) |
 | BD Bengali coverage before → after | 6/19 → **19/19** ⭐ |
 | `names.bn` added | **13** (11 from GeoNames raw + 2 from Bengali Wikipedia) |
 | `aliases.bn` added | 0 |
@@ -330,5 +332,38 @@ For `/bn/prayer-times-in-rangpur` SSR output:
 | Runtime translation used | **NONE** |
 | Brunei data used | **NONE** |
 | Code files modified | **0** (server.js, js/app.js, index.html, fillLangMap, validate_candidates.mjs, normalize_places.mjs, all unchanged) |
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | BD total stayed 19 (no add, no delete) | ✓ |
+| 2 | BD Bengali coverage 6/19 → 19/19 | ✓ |
+| 3 | BD Arabic coverage stayed 19/19 (byte-for-byte) | ✓ |
+| 4 | BD English coverage stayed 19/19 (byte-for-byte) | ✓ |
+| 5 | 13 BD-A target slugs only — no PRIOR-6 mutations | ✓ |
+| 6 | 11 names from GeoNames raw + 2 from Bengali Wikipedia | ✓ |
+| 7 | 0 Wikidata, 0 manual transliteration, 0 runtime translation | ✓ |
+| 8 | No `aliases.bn` random additions (only documented sources) | ✓ |
+| 9 | No `names.ar` / `names.en` / `slug` changes | ✓ |
+| 10 | Total curated stayed 2,487 (no city add/delete) | ✓ |
+| 11 | Bengali script guard 13/13 PASS (no Latin, no Arabic, no Devanagari, no Assamese-only ৰৱ, no other Indic) | ✓ |
+| 12 | 0 duplicate Bengali names within BD | ✓ |
+| 13 | No fillchain (8 langs × 13 cities = 104 checks, 0 leaks) | ✓ |
+| 14 | No Brunei (`bn-*` / `bn.mjs`) data used | ✓ |
+| 15 | No `server.js` / `js/app.js` / `index.html` / `_geonames_common.mjs` / other shared infra changes | ✓ |
+| 16 | Tests 284/284 PASS | ✓ |
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ❌ ASIA-1D-BD-MCF
+- ❌ ASIA-1D-BD-MISSING-AR-MAJORS-1A
+- ❌ PLACE-NAMES-ALIASES-BD-SEED-1
+- ❌ STAGE-3-RELIGIOUS-EXEMPTION-1
+- ❌ ASIA-1D-IN
+- ❌ ASIA-1F
+- ❌ AMERICAS-1B-MCF
+- ❌ SEARCH-RANKING-IMPROVEMENT-1
+- ❌ DELETE-V1-AND-GEOCODE-PROXY-1
 
 **No further work until user direction.**

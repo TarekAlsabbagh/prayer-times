@@ -1,6 +1,7 @@
 # PLACE-NAMES-UR-IN-1 — Closure report
 
-**Status**: ✅ APPLY COMPLETE — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `c077433`
 **Date**: 2026-05-20
 **Phase**: India Urdu enrichment — 22 BATCH-A entries (SEED-18 untouched)
 **Decision**: Option A — 22 BATCH-A only in single wave
@@ -366,8 +367,49 @@ User direction required.
 
 ---
 
-## Status: ✅ APPLY COMPLETE — AWAITING USER APPROVAL
+## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
 
 ### Summary one-liner
 
-**PLACE-NAMES-UR-IN-1 (Option A) closed**: 22 BATCH-A IN entries gained clean Urdu `names.ur` + 17 net-new `aliases.ur`. India is now **quad-lingual ar+en+hi+ur 40/40/40/40**. SEED-18 byte-identical. Zero mutations to non-Urdu fields. 1,105/1,105 tests pass. Curated 2528 unchanged, IN 40 unchanged.
+**PLACE-NAMES-UR-IN-1 (Option A) CLOSED — user-approved 2026-05-20**: 22 BATCH-A IN entries gained clean Urdu `names.ur` + 17 net-new `aliases.ur`. India is now **quad-lingual ar+en+hi+ur 40/40/40/40**. SEED-18 byte-identical. Zero mutations to non-Urdu fields. 1,105/1,105 tests pass. Curated 2528 unchanged, IN 40 unchanged. Apply commit: `c077433`.
+
+---
+
+## 12. User-approved acceptance criteria (closure marker)
+
+User formally approved closure 2026-05-20 with marker:
+
+> `docs(closure): mark PLACE-NAMES-UR-IN-1 user-approved 2026-05-20`
+
+Documented acceptance checklist (mirrors §10 plus user-cited criteria):
+
+| # | User-cited criterion | Status |
+|---|---|:------:|
+| 1 | IN Urdu 18/40 → 40/40 | ✅ |
+| 2 | IN total stayed 40 | ✅ |
+| 3 | Total curated stayed 2,528 | ✅ |
+| 4 | BATCH-A-22 only gained names.ur (no SEED-18 mutation) | ✅ |
+| 5 | SEED-18 byte-identical (names + aliases + all metadata) | ✅ |
+| 6 | IN Arabic unchanged (40/40) | ✅ |
+| 7 | IN English unchanged (40/40) | ✅ |
+| 8 | IN Hindi unchanged (40/40) | ✅ |
+| 9 | No new city added | ✅ |
+| 10 | No city deleted | ✅ |
+| 11 | No slug / coordinate / timezone / admin / priority / source / verified / type changes | ✅ |
+| 12 | No `names.ar` / `names.en` / `names.hi` mutations | ✅ |
+| 13 | No `aliases.ar` / `aliases.en` / `aliases.hi` mutations | ✅ |
+| 14 | No other Indian-language `names` added (bn/ta/mr/te/kn/ml/gu/pa/or/as/sa) | ✅ |
+| 15 | `aliases.ur` only documented entries (17 net-new across 14 slugs) | ✅ |
+| 16 | Urdu script guard 100% pass | ✅ |
+| 17 | Urdu end-to-end search OK via `/api/search-place` | ✅ (20/20) |
+| 18 | Alias lookups OK (Banaras→varanasi, Allahabad→prayagraj, Vizag→visakhapatnam, Chhatrapati Sambhajinagar→aurangabad) | ✅ |
+| 19 | SSR `/ur/` spot-check pass | ✅ (5/5) |
+| 20 | No runtime translation (Google/OpenAI/Anthropic/browser) | ✅ |
+| 21 | No fillchain (fillLangMap unit tests intact 11/11) | ✅ |
+| 22 | `server.js` / `js/app.js` / `index.html` unchanged | ✅ |
+| 23 | `validate_candidates.mjs` / `_geonames_common.mjs` / `normalize_places.mjs` / `apply_curated_candidates.mjs` unchanged | ✅ |
+| 24 | `scripts/_test_place_names_hi_in_1.mjs` Group 5 relaxed (future-proof set-inclusion only — no data/runtime change) | ✅ (user-acknowledged in approval) |
+| 25 | Tests 1,105/1,105 PASS | ✅ |
+| 26 | Closure report at `reports/place-names-ur-in-1-closure.md` | ✅ |
+| 27 | Apply commit recorded: `c077433` | ✅ |
+| 28 | No Held-Queue phase started post-closure | ✅ |

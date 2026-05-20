@@ -2717,7 +2717,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 85,
+    "priority": 95,
     "source": "curated",
     "verified": true
   },
@@ -2757,7 +2757,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 85,
+    "priority": 95,
     "source": "curated",
     "verified": true
   },
@@ -2797,7 +2797,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 85,
+    "priority": 95,
     "source": "curated",
     "verified": true
   },
@@ -2834,7 +2834,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 80,
+    "priority": 90,
     "source": "curated",
     "verified": true
   },
@@ -2874,7 +2874,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 80,
+    "priority": 95,
     "source": "curated",
     "verified": true
   },
@@ -6391,7 +6391,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 82,
+    "priority": 95,
     "source": "curated",
     "verified": true
   },
@@ -6424,7 +6424,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 80,
+    "priority": 90,
     "source": "curated",
     "verified": true
   },
@@ -6460,7 +6460,7 @@
       "countryAr": "الهند",
       "countryEn": "India"
     },
-    "priority": 78,
+    "priority": 90,
     "source": "curated",
     "verified": true
   },
@@ -13235,6 +13235,9 @@
       ],
       "bn": [
         "বরিশাল"
+      ],
+      "en": [
+        "Barishal"
       ]
     },
     "admin": {
@@ -65911,7 +65914,6 @@
       ],
       "en": [
         "Centralia",
-        "FAR",
         "Fago",
         "Farga",
         "Fargas",
@@ -71253,7 +71255,6 @@
         "ایندیاناپولیس"
       ],
       "en": [
-        "IND",
         "Indianapoles",
         "Indianapoli",
         "Indianapolisa",
@@ -75577,7 +75578,6 @@
         "Kota Samarinda",
         "Kuta Samarinda",
         "Kutha Samarinda",
-        "SRI",
         "Samarynda",
         "camarinta",
         "sa ma rin da",
@@ -82943,7 +82943,6 @@
         "باغيؤ"
       ],
       "en": [
-        "BAG",
         "Bagijas",
         "Bagio",
         "Baguio City",
@@ -94515,7 +94514,6 @@
     },
     "aliases": {
       "en": [
-        "MUM",
         "muri",
         "mwly"
       ]

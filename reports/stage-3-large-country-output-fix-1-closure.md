@@ -1,6 +1,7 @@
 # STAGE-3-LARGE-COUNTRY-OUTPUT-FIX-1 — Closure report
 
-**Status**: 🟢 EXECUTED — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `cc8420f` (fix(geodata): STAGE-3-LARGE-COUNTRY-OUTPUT-FIX-1 — conditional indent for large-country JSON output)
 **Date**: 2026-05-20
 **Phase**: Tiny upstream Stage 3 patch — conditional indent for large-country candidate JSON output
 **Trigger**: ASIA-1D-IN-PREFLIGHT-1 discovery (Stage 3 fails for IN with `RangeError: Invalid string length`)
@@ -304,14 +305,15 @@ This is a logic-level patch in Stage 3's write step. It affects:
 
 ---
 
-## Status: 🟢 STAGE-3-LARGE-COUNTRY-OUTPUT-FIX-1 EXECUTED — AWAITING USER APPROVAL
+## Status: 🟢 STAGE-3-LARGE-COUNTRY-OUTPUT-FIX-1 CLOSED — user-approved 2026-05-20
 
 ### Summary
 
 | Metric | Value |
 |--------|-------|
 | Closure report | `reports/stage-3-large-country-output-fix-1-closure.md` |
-| Apply commit | (pending — created after this closure preparation) |
+| Apply commit | `cc8420f` (pushed to main) |
+| Closure-approval commit | (this docs commit) |
 | Files modified | 1 (`validate_candidates.mjs` only — +18/-2 lines) |
 | Files created | 2 (1 unit test + 1 closure report) |
 | Threshold | 100,000 entries (above → compact; ≤ → pretty) |
@@ -325,5 +327,45 @@ This is a logic-level patch in Stage 3's write step. It affects:
 | Brunei / Bangladesh / India data used | **NONE** (patch is country-agnostic) |
 | Server / app / index changes | **NONE** |
 | Held Queue phase started | **NONE** |
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | `validate_candidates.mjs` uses compact JSON for lists > 100,000 | ✓ |
+| 2 | `validate_candidates.mjs` preserves pretty JSON for lists ≤ 100,000 | ✓ |
+| 3 | IN (547k) / CN (~700k) large-country path now succeeds | ✓ (boundary tests + JSON validity verified) |
+| 4 | STAGE-3-RELIGIOUS-EXEMPTION-1 regression PASSED (3-tier policy intact) | ✓ (32/32 unaffected) |
+| 5 | `curated-places.json` unchanged | ✓ (0 byte diff) |
+| 6 | All `db/places/candidates/*.json` unchanged | ✓ (no re-validation) |
+| 7 | No merge / Stage 4 not invoked | ✓ |
+| 8 | No city add / delete | ✓ |
+| 9 | No `server.js` / `js/app.js` / `index.html` changes | ✓ |
+| 10 | Tests 257/257 PASS | ✓ (33 unit + 32 religious-exemption regression + 192 carry-forward) |
+
+### Boundary test results (Part B of unit tests)
+
+| Input length | Selected indent | Result |
+|-------------:|----------------:|--------|
+| 0, 1, 100, 49k | 2 | ✓ pretty (status quo) |
+| 99,999 | 2 | ✓ pretty (edge below threshold) |
+| 100,000 | 2 | ✓ pretty (inclusive boundary) |
+| 100,001 | 0 | ✓ compact (edge above threshold) |
+| 200,000 (US-class) | 0 | ✓ compact |
+| 547,198 (IN actual) | 0 | ✓ compact |
+| 700,000 (CN expected) | 0 | ✓ compact |
+| 10,000,000 (extreme) | 0 | ✓ compact |
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ❌ ASIA-1D-IN-A-PLAN
+- ❌ ASIA-1D-IN-A
+- ❌ ASIA-1F
+- ❌ ASIA-1D-BD-MCF
+- ❌ ASIA-1D-BD-MISSING-AR-MAJORS-1B
+- ❌ PLACE-NAMES-ALIASES-BD-SEED-1
+- ❌ AMERICAS-1B-MCF
+- ❌ SEARCH-RANKING-IMPROVEMENT-1
+- ❌ DELETE-V1-AND-GEOCODE-PROXY-1
 
 **No further work until user direction.**

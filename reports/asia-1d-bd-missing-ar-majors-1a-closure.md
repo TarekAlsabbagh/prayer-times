@@ -1,6 +1,7 @@
 # ASIA-1D-BD-MISSING-AR-MAJORS-1A — Closure report
 
-**Status**: 🟢 EXECUTED — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `e7bdec1` (feat(geodata+l10n): ASIA-1D-BD-MISSING-AR-MAJORS-1A — 19 BD cities trilingual (BD 19→38, full 38/38/38))
 **Date**: 2026-05-20
 **Phase**: Bangladesh BATCH-1A combined wave (geodata + l10n in single merge)
 **Plan ref**: [reports/asia-1d-bd-missing-ar-majors-1a-plan.md](asia-1d-bd-missing-ar-majors-1a-plan.md) (Option A: Top-19)
@@ -346,27 +347,64 @@ Each new entry has `names = {ar, en, bn}` exactly (per spec; no auto-filled loca
 
 ---
 
-## Status: 🟢 ASIA-1D-BD-MISSING-AR-MAJORS-1A EXECUTED — AWAITING USER APPROVAL
+## Status: 🟢 ASIA-1D-BD-MISSING-AR-MAJORS-1A CLOSED — user-approved 2026-05-20
 
 ### Summary
 
 | Metric | Value |
 |--------|-------|
 | Closure report | `reports/asia-1d-bd-missing-ar-majors-1a-closure.md` |
-| Apply commit | (pending — to be made after this closure) |
+| Apply commit | `e7bdec1` (pushed to main) |
+| Closure-approval commit | (this docs commit) |
 | BD entries before → after | 19 → **38** (+19) |
 | Curated total before → after | 2,487 → **2,506** (+19) |
 | BD trilingual coverage | **38/38/38 = 100%** (ar + en + bn) |
-| New cities merged | **19** (10 from user list + 3 strong additions + remaining user-named) |
-| Wait — clarification: **19 = 16 from user's explicit list + 3 strong additions** (cox's-bazar, brahmanbaria, narayanganj) |
+| New cities merged | **19** (16 from user's explicit list + 3 strong additions: coxs-bazar, brahmanbaria, narayanganj) |
 | aliases.en added | 6 (Jashore, Noakhali, Naogaon, Joypurhat, Cox's Bazar, Coxs Bazar) |
 | aliases.bn added | 1 (নোয়াখালী for maijdi) |
-| Anomaly overrides | 0 (no Stage 3 false-positives this wave; rangpur-class issue not encountered) |
+| Anomaly overrides | 0 (no Stage 3 false-positives this wave) |
 | Total tests | **235/235 PASS** |
 | Runtime translation used | **NONE** |
 | Brunei data used | **NONE** |
 | Code files modified | **0** |
 | Excluded slugs verified NOT merged | 15/15 ✓ |
 | PRIOR-19 BD preserved byte-for-byte | ✓ |
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | BD entries grew exactly 19 → 38 (+19) | ✓ |
+| 2 | Curated total grew exactly 2,487 → 2,506 (+19) | ✓ |
+| 3 | 19 cities only added — no extras | ✓ |
+| 4 | BD Arabic = 38/38 (100%) | ✓ |
+| 5 | BD English = 38/38 (100%) | ✓ |
+| 6 | BD Bengali = 38/38 (100%) | ✓ |
+| 7 | Bangladesh achieved full trilingual coverage across all 38 entries | ✓ |
+| 8 | PRIOR-19 BD entries byte-for-byte preserved (names.ar/en/bn + slug + coords + aliases) | ✓ |
+| 9 | No slug changes for existing 19 BD entries | ✓ |
+| 10 | No duplicate slugs across 2,506 entries | ✓ |
+| 11 | No duplicate geonameid/sourceId | ✓ |
+| 12 | Bengali script guard 19/19 PASS (strict U+0980-U+09FF + reject Latin/Arabic/Devanagari/Other-Indic/Assamese-only) | ✓ |
+| 13 | aliases.en additions match plan (Jashore, Noakhali, Naogaon, Joypurhat, Cox's Bazar, Coxs Bazar) | ✓ |
+| 14 | aliases.bn additions match plan (নোয়াখালী for maijdi) | ✓ |
+| 15 | Excluded slugs NOT merged (15/15): barishal, kafrul, bhatara, motijheel, paltan, azimpur, tungi, mohammadpur, hathazari, bandarban, shibganj, natore, savar, narsingdi, nagar-naluakot | ✓ |
+| 16 | No runtime translation (no Google/OpenAI/Anthropic/browser translate/Wikipedia API) | ✓ |
+| 17 | No fillchain (8 langs × 19 cities = 152 checks, 0 leaks) | ✓ |
+| 18 | No Brunei (bn-*/ bn.mjs) data used | ✓ |
+| 19 | No changes to server.js / js/app.js / index.html / _geonames_common.mjs / validate_candidates.mjs / normalize_places.mjs | ✓ |
+| 20 | Tests 235/235 PASS | ✓ |
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ❌ ASIA-1D-BD-MCF
+- ❌ ASIA-1D-BD-MISSING-AR-MAJORS-1B
+- ❌ PLACE-NAMES-ALIASES-BD-SEED-1
+- ❌ STAGE-3-RELIGIOUS-EXEMPTION-1
+- ❌ ASIA-1D-IN
+- ❌ ASIA-1F
+- ❌ AMERICAS-1B-MCF
+- ❌ SEARCH-RANKING-IMPROVEMENT-1
+- ❌ DELETE-V1-AND-GEOCODE-PROXY-1
 
 **No further work until user direction.**

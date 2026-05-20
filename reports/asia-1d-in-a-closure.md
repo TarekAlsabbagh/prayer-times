@@ -1,6 +1,7 @@
 # ASIA-1D-IN-A — Closure report
 
-**Status**: 🟢 EXECUTED — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `f38edf5` (feat(geodata): ASIA-1D-IN-A — 22 Indian cities BATCH-A (IN 18→40, ar+en only))
 **Date**: 2026-05-20
 **Phase**: India BATCH-A — first 22-city geodata wave (ar + en only)
 **Plan ref**: [reports/asia-1d-in-a-plan.md](asia-1d-in-a-plan.md) (Option A: Top-22 FULL)
@@ -408,20 +409,21 @@ Sample SSR seed verifications:
 
 ---
 
-## Status: 🟢 ASIA-1D-IN-A EXECUTED SUCCESSFULLY — AWAITING USER APPROVAL
+## Status: 🟢 ASIA-1D-IN-A CLOSED — user-approved 2026-05-20
 
 ### Summary
 
 | Metric | Value |
 |--------|-------|
 | Closure report | `reports/asia-1d-in-a-closure.md` |
-| Apply commit | (pending — created after this closure) |
+| Apply commit | `f38edf5` (pushed to main) |
+| Closure-approval commit | (this docs commit) |
 | IN entries before → after | 18 → **40** (+22) |
 | Curated total before → after | 2,506 → **2,528** (+22) |
 | Population reached | ~28.4 million |
 | New cities merged | **22** |
 | AR source breakdown | 6 KEEP + 4 FIX + 10 MANUAL + 1 COMMON_AR + 1 REJECT_AND_MANUAL |
-| aliases.en added | ~15 (Kovai, Baroda, Banaras/Benares/Kashi, Allahabad, Sambhajinagar, etc.) |
+| aliases.en added | 15 (Kovai, Thana, Tana, Baroda, Madura, Mathurai, Tinnevelly, Nellai, Chhatrapati Sambhajinagar, Sambhajinagar, Banaras, Benares, Kashi, Allahabad, Vizag) |
 | aliases.ar added | 2 (varanasi + فاراناسي, prayagraj + إله آباد) |
 | Indian local languages added | **0** (deferred to future L10N waves) |
 | 5 DROP_SLUGS excluded | ✓ all verified NOT merged |
@@ -430,5 +432,45 @@ Sample SSR seed verifications:
 | Brunei / Bangladesh data used | **NONE** |
 | Shared scripts / code files modified | **0** |
 | Existing 18 IN entries | byte-for-byte preserved |
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | IN entries grew exactly 18 → 40 (+22) | ✓ |
+| 2 | Curated total grew exactly 2,506 → 2,528 (+22) | ✓ |
+| 3 | 22 cities only added — no extras | ✓ |
+| 4 | IN Arabic = 40/40 (100%) | ✓ |
+| 5 | IN English = 40/40 (100%) | ✓ |
+| 6 | NO Indian local languages (hi/ur/bn/ta/mr/te/kn/ml/gu/pa/or/as/sa) added in this phase | ✓ (286 leak-checks across 13 langs × 22 cities = 0 leaks) |
+| 7 | Existing 18 IN entries unchanged byte-for-byte (slug/names/coords/aliases) | ✓ |
+| 8 | No slug changes for existing entries (chennai/mumbai/bengaluru/kolkata/etc. preserved) | ✓ |
+| 9 | 5 DROP_SLUGS (pimpri, najafgarh, borivli, narela, bhayandar) NOT merged | ✓ |
+| 10 | aliases.en match plan exactly (15 explicit per user list) | ✓ |
+| 11 | aliases.ar match plan exactly (2 only: varanasi+فاراناسي, prayagraj+إله آباد) | ✓ |
+| 12 | No runtime translation (no Google/OpenAI/Anthropic/browser translate/Wikipedia API) | ✓ |
+| 13 | No fillchain (6 langs × 22 cities = 132 leak-checks, 0 leaks) | ✓ |
+| 14 | No shared scripts modified (validate_candidates.mjs / _geonames_common.mjs / normalize_places.mjs / apply_curated_candidates.mjs / in.mjs) | ✓ |
+| 15 | No server.js / js/app.js / index.html changes | ✓ |
+| 16 | Tests 306/306 PASS (24 verification + 25 SSR + 257 carry-forward) | ✓ |
+| 17 | No Brunei (bn-*/bn.mjs) data used | ✓ |
+| 18 | No Bangladesh (bd-*/bd.mjs) data used | ✓ |
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ❌ ASIA-1D-IN-B
+- ❌ ASIA-1D-IN-L10N (umbrella)
+- ❌ PLACE-NAMES-HI-IN-1
+- ❌ PLACE-NAMES-UR-IN-1
+- ❌ PLACE-NAMES-BN-IN-1
+- ❌ PLACE-NAMES-TA-IN-1
+- ❌ PLACE-NAMES-MR-IN-1
+- ❌ ASIA-1F
+- ❌ ASIA-1D-BD-MCF
+- ❌ ASIA-1D-BD-MISSING-AR-MAJORS-1B
+- ❌ PLACE-NAMES-ALIASES-BD-SEED-1
+- ❌ AMERICAS-1B-MCF
+- ❌ SEARCH-RANKING-IMPROVEMENT-1
+- ❌ DELETE-V1-AND-GEOCODE-PROXY-1
 
 **No further work until user direction.**

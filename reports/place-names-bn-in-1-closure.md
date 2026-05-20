@@ -1,6 +1,7 @@
 # PLACE-NAMES-BN-IN-1 — Closure report
 
-**Status**: ✅ APPLY COMPLETE — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `7aaa278`
 **Date**: 2026-05-20
 **Phase**: India Bengali enrichment — 22 BATCH-A entries (SEED-18 untouched)
 **Decision**: Option A — 22 BATCH-A only in single wave
@@ -362,8 +363,50 @@ User direction required.
 
 ---
 
-## Status: ✅ APPLY COMPLETE — AWAITING USER APPROVAL
+## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
 
 ### Summary one-liner
 
-**PLACE-NAMES-BN-IN-1 (Option A) closed**: 22 BATCH-A IN entries gained clean Bengali `names.bn` + 11 net-new `aliases.bn`. India is now **penta-lingual ar+en+hi+ur+bn 40/40/40/40/40**. SEED-18 byte-identical. Zero mutations to non-Bengali fields. 1,052/1,052 tests pass. Curated 2528 unchanged, IN 40 unchanged.
+**PLACE-NAMES-BN-IN-1 (Option A) CLOSED — user-approved 2026-05-20**: 22 BATCH-A IN entries gained clean Bengali `names.bn` + 11 net-new `aliases.bn`. India is now **penta-lingual ar+en+hi+ur+bn 40/40/40/40/40**. SEED-18 byte-identical. Zero mutations to non-Bengali fields. 1,052/1,052 tests pass. Curated 2528 unchanged, IN 40 unchanged. Apply commit: `7aaa278`.
+
+---
+
+## 12. User-approved acceptance criteria (closure marker)
+
+User formally approved closure 2026-05-20 with marker:
+
+> `docs(closure): mark PLACE-NAMES-BN-IN-1 user-approved 2026-05-20`
+
+Documented acceptance checklist (mirrors §10 plus user-cited criteria):
+
+| # | User-cited criterion | Status |
+|---|---|:------:|
+| 1 | IN Bengali 18/40 → 40/40 | ✅ |
+| 2 | IN total stayed 40 | ✅ |
+| 3 | Total curated stayed 2,528 | ✅ |
+| 4 | BATCH-A-22 only gained names.bn (no SEED-18 mutation) | ✅ |
+| 5 | SEED-18 byte-identical (names + aliases + all metadata) | ✅ |
+| 6 | IN Arabic unchanged (40/40) | ✅ |
+| 7 | IN English unchanged (40/40) | ✅ |
+| 8 | IN Hindi unchanged (40/40) | ✅ |
+| 9 | IN Urdu unchanged (40/40) | ✅ |
+| 10 | No new city added | ✅ |
+| 11 | No city deleted | ✅ |
+| 12 | No slug / coordinate / timezone / admin / priority / source / verified / type changes | ✅ |
+| 13 | No `names.ar` / `names.en` / `names.hi` / `names.ur` mutations | ✅ |
+| 14 | No `aliases.ar` / `aliases.en` / `aliases.hi` / `aliases.ur` mutations | ✅ |
+| 15 | No other Indian-language `names` added (ta/mr/te/kn/ml/gu/pa/or/as/sa) | ✅ |
+| 16 | `aliases.bn` only documented entries (11 net-new across 9 slugs) | ✅ |
+| 17 | Bengali script guard 100% pass | ✅ |
+| 18 | Bengali end-to-end search OK via `/api/search-place` | ✅ (20/20) |
+| 19 | Alias lookups OK (Banaras→varanasi, Allahabad→prayagraj, Vizag→visakhapatnam, Chhatrapati Sambhajinagar→aurangabad) | ✅ |
+| 20 | SSR `/bn/` spot-check pass | ✅ (5/5) |
+| 21 | No runtime translation (Google/OpenAI/Anthropic/browser) | ✅ |
+| 22 | No fillchain (fillLangMap unit tests intact 11/11) | ✅ |
+| 23 | `server.js` / `js/app.js` / `index.html` unchanged | ✅ |
+| 24 | `validate_candidates.mjs` / `_geonames_common.mjs` / `normalize_places.mjs` / `apply_curated_candidates.mjs` unchanged | ✅ |
+| 25 | `scripts/_test_place_names_ur_in_1.mjs` Group 6 relaxed (future-proof set-inclusion only — no data/runtime change) | ✅ (user-acknowledged in approval) |
+| 26 | Tests 1,052/1,052 PASS | ✅ |
+| 27 | Closure report at `reports/place-names-bn-in-1-closure.md` | ✅ |
+| 28 | Apply commit recorded: `7aaa278` | ✅ |
+| 29 | No Held-Queue phase started post-closure | ✅ |

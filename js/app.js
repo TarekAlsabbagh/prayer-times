@@ -748,6 +748,24 @@ function getDisplayCity() {
         // (which isn't injected on qibla pages), fell through to the
         // legacy chain, and currentCity got seeded with Arabic from the
         // qibla city payload. Now Tier-0 grabs `names[lang]` directly.
+        // CITY-NAME-FALLBACK-CONSISTENCY-1 (2026-05-20): on canonical
+        // city pages (URL slug matches the SSR seed slug), the SSR seed
+        // name is UNCONDITIONALLY authoritative — no Latin rejection.
+        //
+        // Why this changed: pre-CITY-NAME-SEO-FALLBACK-POLICY-1, the
+        // server's `_pickCuratedName` could return polluted `names.ur`
+        // (Latin in Urdu slot from legacy fillchain), so we deliberately
+        // fell through to the Nominatim path on absence-lang Latin seeds.
+        //
+        // Post-CITY-NAME-SEO-FALLBACK-POLICY-1, the server's central
+        // `_placeL10n.getLocalizedPlaceName` script-validates every
+        // returned value and ALWAYS produces either a real native-script
+        // name OR the canonical `names.en` fallback. A Latin seed on a
+        // /ur/ or /bn/ page now MEANS "curated has no native name; use
+        // English consistently across the whole page" — letting Nominatim's
+        // runtime transliteration (`گوانگ جو` for Gwangju) overwrite that
+        // produces the exact inconsistency CITY-NAME-FALLBACK-CONSISTENCY-1
+        // exists to prevent: title="Gwangju میں…" while body="گوانگ جو میں…".
         const _qc = (typeof window !== 'undefined') && window.__QIBLA_CITY__;
         if (_qc && typeof _qc.slug === 'string' && _qc.slug
             && _qc.names && typeof _qc.names === 'object') {
@@ -757,13 +775,7 @@ function getDisplayCity() {
             );
             if (_slugM && _slugM[1] === _qc.slug) {
                 const _qcName = _qc.names[lang] || _qc.name || '';
-                if (_qcName) {
-                    const _isAbsenceLangQc = (lang === 'ar' || lang === 'ur' || lang === 'bn');
-                    const _seedHasLatinQc = /[A-Za-z]/.test(_qcName);
-                    if (!_isAbsenceLangQc || !_seedHasLatinQc) {
-                        return _qcName;
-                    }
-                }
+                if (_qcName) return _qcName;
             }
         }
         const _pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
@@ -774,14 +786,7 @@ function getDisplayCity() {
                 /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugM && _slugM[1] === _pc.slug) {
-                const _isAbsenceLang = (lang === 'ar' || lang === 'ur' || lang === 'bn');
-                const _seedHasLatin = /[A-Za-z]/.test(_pc.name);
-                if (!_isAbsenceLang || !_seedHasLatin) {
-                    return _pc.name;
-                }
-                // Absence-lang + fillchain Latin seed: fall through so
-                // PT-LANG-GUARD-2/3 below can decide (typically returns
-                // an empty / safer value than the Latin seed).
+                return _pc.name;
             }
         }
     } catch (_) { /* silent */ }
@@ -7148,6 +7153,24 @@ function _syncCityNameInDom() {
     // (e.g. "بروفنس" vs "بروفانس") — we trust the server's curated resolver.
     if (_isAbsenceLang && !_hasLatin(ssrName) && _hasLatin(goodName)) return;
 
+    // CITY-NAME-FALLBACK-CONSISTENCY-1 (2026-05-20): REVERSE guard for
+    // absence-langs — if the SSR name is the canonical Latin en-fallback
+    // (chosen by the server's central helper when curated lacks a real
+    // names[lang]), do NOT let Nominatim's runtime transliteration leak
+    // in via `currentLocalizedName` or any other globals. Concrete bug:
+    // /ur/prayer-times-in-gwangju has names.ur missing → SSR injects
+    // `<meta name="ssr-city-name" content="Gwangju">` → client calls
+    // Nominatim reverse-geocode → Nominatim returns `name:ur="گوانگ جو"`
+    // (Urdu transliteration) → goodName="گوانگ جو" → walker rewrites
+    // body "Gwangju" → "گوانگ جو" everywhere, producing a page with
+    // inconsistent city name (title still "Gwangju", body "گوانگ جو").
+    // Per the central helper policy: when names[lang] is missing, the
+    // ENTIRE page uses names.en (Latin) consistently. The Latin-script
+    // SSR ssrName is authoritative — no override allowed from runtime
+    // sources (Nominatim / transliteration / external geocoder).
+    const _hasArOrBnEarly = /[؀-ۿঀ-৿]/.test(goodName);
+    if (_isAbsenceLang && _hasLatin(ssrName) && _hasArOrBnEarly) return;
+
     // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18):
     // SYMMETRIC guard for Latin-script langs (en/fr/de/tr/id/es/ms) —
     // if the SSR name is Latin-script and goodName contains Arabic or
@@ -12310,6 +12333,15 @@ function getCurrentCityLabel() {
     // (richer per-lang `names` map injected on /qibla-in-{slug} routes)
     // before the prayer-city path so qibla page templates get the right
     // localized name.
+    // CITY-NAME-FALLBACK-CONSISTENCY-1 (2026-05-20): twin fix to the
+    // Tier-0 unconditional-trust applied in getDisplayCity(). See that
+    // function's preamble for full rationale. Summary: on canonical city
+    // pages (URL slug matches SSR seed slug), the server's central
+    // helper has already script-validated and chosen the right name;
+    // Latin on absence-lang means "no native exists, use English
+    // consistently". Letting Nominatim's `currentLocalizedName`
+    // override (e.g., transliteration "گوانگ جو" for Gwangju on /ur/)
+    // breaks the page-wide consistency rule.
     try {
         const _qc = (typeof window !== 'undefined') && window.__QIBLA_CITY__;
         if (_qc && typeof _qc.slug === 'string' && _qc.slug
@@ -12320,13 +12352,7 @@ function getCurrentCityLabel() {
             );
             if (_slugM && _slugM[1] === _qc.slug) {
                 const _qcName = _qc.names[_ln] || _qc.name || '';
-                if (_qcName) {
-                    const _isAbsenceLangQc = (_ln === 'ar' || _ln === 'ur' || _ln === 'bn');
-                    const _seedHasLatinQc = /[A-Za-z]/.test(_qcName);
-                    if (!_isAbsenceLangQc || !_seedHasLatinQc) {
-                        return _strip(_qcName);
-                    }
-                }
+                if (_qcName) return _strip(_qcName);
             }
         }
         const _pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
@@ -12337,11 +12363,7 @@ function getCurrentCityLabel() {
                 /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugM && _slugM[1] === _pc.slug) {
-                const _isAbsenceLang = (_ln === 'ar' || _ln === 'ur' || _ln === 'bn');
-                const _seedHasLatin = /[A-Za-z]/.test(_pc.name);
-                if (!_isAbsenceLang || !_seedHasLatin) {
-                    return _strip(_pc.name);
-                }
+                return _strip(_pc.name);
             }
         }
     } catch (_) { /* silent */ }

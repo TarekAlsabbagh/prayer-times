@@ -307,9 +307,135 @@ Added a new guard after the existing one:
 
 ---
 
-## 10. Awaiting user closure approval
+## 10. v2 EXTENSION (same phase) — Universal rule across ALL 10 supported langs
 
-Implementation complete. No further phases opened. Specifically held back per user constraint:
+After the initial v1 commit (`6bf87ad`) which fixed absence-langs (ar/ur/bn), the user explicitly required the rule to apply to ALL 10 SUPPORTED_LANGS (ar/en/fr/de/tr/ur/id/es/bn/ms) — no two-different-names-for-same-city in any single city page in any language.
+
+### 10.1 Why v1 wasn't enough
+
+v1's `_syncCityNameInDom` reverse guard fired only when `_isAbsenceLang`:
+```js
+if (_isAbsenceLang && _hasLatin(ssrName) && _hasArOrBnEarly) return;
+```
+
+But the same inconsistency risk exists across all langs. Example scenarios v1 didn't fully cover:
+- `/fr/prayer-times-in-makkah`: SSR `"La Mecque"` (from `names.fr`) — Nominatim could return `"Mekka"` / `"Mecque"` / `"La Mecque"`; any mismatch would walk over.
+- `/de/prayer-times-in-munich`: SSR `"München"` — Nominatim could return `"Munich"` (English).
+- `/id/prayer-times-in-makkah`: SSR `"Mekkah"` — Nominatim could return `"Mecca"` or `"Makkah"`.
+- `/es/prayer-times-in-makkah`: SSR `"La Meca"` — Nominatim could return `"Mekka"`.
+- `/ms/prayer-times-in-makkah`: SSR `"Mekah"` — Nominatim could return `"Mecca"`.
+
+### 10.2 v2 fix — `_syncCityNameInDom` universal short-circuit
+
+Added at the very top of `_syncCityNameInDom()` (immediately after reading the SSR meta), before any walking logic:
+
+```js
+// CITY-NAME-FALLBACK-CONSISTENCY-1 v2: UNIVERSAL — when URL slug matches
+// __PRAYER_CITY__.slug AND __PRAYER_CITY__.name === ssrName, return early.
+// Applies to ALL 10 SUPPORTED_LANGS uniformly. The SSR seed came from
+// the central helper — it IS the authoritative answer for the whole page.
+try {
+    const _slugM = window.location.pathname.match(
+        /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+    );
+    const _urlSlug = _slugM ? _slugM[1] : '';
+    if (_urlSlug) {
+        const _pc = window.__PRAYER_CITY__;
+        if (_pc && _pc.slug === _urlSlug
+            && typeof _pc.name === 'string' && _pc.name === ssrName) {
+            return;  // SSR seed is authoritative for this page — don't walk
+        }
+        const _qc = window.__QIBLA_CITY__;
+        if (_qc && _qc.slug === _urlSlug && _qc.names) {
+            const _lang = getCurrentLang();
+            const _qcLangName = _qc.names[_lang] || _qc.name;
+            if (_qcLangName && _qcLangName === ssrName) return;
+        }
+    }
+} catch (_) { /* fall through to walker for non-canonical pages */ }
+```
+
+The walker still runs (legitimately) on NON-canonical pages where SSR meta came from `_slugToTitle` Title-Case fallback (e.g., Nominatim-resolved slugs not in curated) — the client there has a better Nominatim-resolved name and walker correctly applies it.
+
+### 10.3 v2 cache-buster
+
+`js/app.js?v=665` → `js/app.js?v=666` in `index.html`.
+
+### 10.4 v2 browser verification (Preview MCP — 6 stress-tested langs × Makkah)
+
+For each `/L/prayer-times-in-makkah`, I navigated, waited for hydration, then **manually injected an "attack" value into both `currentLocalizedName` and `currentCity`** (simulating Nominatim returning a different but Latin-script variant) and ran `_syncCityNameInDom()`:
+
+| URL | SSR seed | Attack value injected | `<title>` after | `getDisplayCity()` after | Attack leaked? |
+|---|---|---|---|---|---|
+| `/fr/prayer-times-in-makkah` | `La Mecque` | `Mekka` | `Heures de prière à La Mecque aujourd'hui \| Horaires d'Adhan` | `La Mecque` | **0 hits** ✓ |
+| `/de/prayer-times-in-makkah` | `Mekka` | `Mecca` | `Gebetszeiten in Mekka heute \| Täglicher Adhan-Plan` | `Mekka` | **0 hits** ✓ |
+| `/tr/prayer-times-in-makkah` | `Mekke` | `Mekka` | `Mekke Namaz Vakitleri Bugün \| Günlük Ezan Programı` | `Mekke` | (verified) ✓ |
+| `/id/prayer-times-in-makkah` | `Mekkah` | `Mecca` | `Jadwal Sholat di Mekkah Hari Ini \| Jadwal Adzan Harian` | `Mekkah` | (verified) ✓ |
+| `/es/prayer-times-in-makkah` | `La Meca` | `Mekka` | `Horarios de Oración en La Meca Hoy \| Horario Diario de Adhan` | `La Meca` | (verified) ✓ |
+| `/ms/prayer-times-in-makkah` | `Mekah` | `Mecca` | `Waktu Solat di Mekah Hari Ini \| Jadual Azan Harian` | `Mekah` | (verified) ✓ |
+| `/ur/prayer-times-in-gwangju` (v1) | `Gwangju` | `گوانگ جو` | `Gwangju میں آج اوقاتِ نماز \| روزانہ اذان کا شیڈول` | `Gwangju` | 0 hits ✓ |
+| `/bn/prayer-times-in-gwangju` (v1) | `Gwangju` | `গোয়াংজু` | (Latin seed preserved) | `Gwangju` | (verified) ✓ |
+| `/fr/prayer-times-in-gwangju` (v1) | `Gwangju` | `Kwangju` | (Latin seed preserved) | `Gwangju` | (verified) ✓ |
+| `/ur/prayer-times-in-karachi` (v1) | `کراچی` | `Karachi` (stale Latin) | `کراچی میں آج اوقاتِ نماز \| ...` | `کراچی` | 0 Latin leaks ✓ |
+
+All 10 lang × city stress tests **PASS**.
+
+### 10.5 v2 SSR consistency matrix (20 combinations)
+
+Curl-driven test fetching SSR HTML for 10 langs × 2 cities (Gwangju + Makkah). For each, parsed `<title>`, `<meta name="ssr-city-name">`, and `__PRAYER_CITY__.name` from the SSR HTML:
+
+| City | /ar/ | /en/ | /fr/ | /de/ | /tr/ | /ur/ | /id/ | /es/ | /bn/ | /ms/ |
+|---|---|---|---|---|---|---|---|---|---|---|
+| **gwangju** | `غوانغجو` (native) | `Gwangju` (native) | `Gwangju` (en-fb) | `Gwangju` (en-fb) | `Gwangju` (en-fb) | `Gwangju` (en-fb) | `Gwangju` (en-fb) | `Gwangju` (en-fb) | `Gwangju` (en-fb) | `Gwangju` (en-fb) |
+| **makkah** | `مكة المكرمة` | `Mecca` | `La Mecque` | `Mekka` | `Mekke` | `مکہ` | `Mekkah` | `La Meca` | `মক্কা` | `Mekah` |
+
+For ALL 20 combinations: `<title>` text contained the seed, `<meta>` `content` === `__PRAYER_CITY__.name`. **Zero mismatches.**
+
+### 10.6 v2 test results
+
+`scripts/_test_city_name_fallback_consistency_1.mjs` extended:
+- Group 9: 10 langs × 6 representative cities = 60 sanity assertions (each `displayName` must be either native or canonical en-fallback) — all PASS
+- Group 10: idempotency check across all 60 (city, lang) pairs — all PASS
+
+**173 / 173 PASS** (up from 50 in v1).
+
+### 10.7 v2 carry-forward regression (21 suites)
+
+| Suite | Result |
+|---|---|
+| `_test_city_name_fallback_consistency_1.mjs` (this phase v2) | **173 / 173** ✅ |
+| `_test_city_name_seo_fallback_1.mjs` | 107 / 107 ✅ |
+| `_test_lang_guard.mjs` | 5 / 0 ✅ |
+| `_test_lang_guard_helpers.mjs` | 6 / 0 ✅ |
+| `_test_city_name_universal.mjs` | 35 / 35 ✅ |
+| `_test_city_name_ugly.mjs` | 5 / 5 ✅ |
+| `_test_place_names_ur_in_1.mjs` | 122 / 0 ✅ |
+| `_test_place_names_bn_in_1.mjs` | 113 / 0 ✅ |
+| `_test_place_names_ur_pk_6.mjs` | 69 / 0 ✅ |
+| `_test_place_names_ur_ir_1.mjs` | 66 / 0 ✅ |
+| `_test_place_names_ur_af_1.mjs` | 41 / 0 ✅ |
+| `_test_place_names_hi_in_1.mjs` | 116 / 0 ✅ |
+| `_test_fill_lang_map.mjs` | 11 / 0 ✅ |
+| `_test_place_names_template_consistency_all_langs_fix_1.mjs` (updated to new arch) | 19 / 0 ✅ |
+| `_test_place_names_sitewide_template_consistency_fix_1.mjs` | 26 / 0 ✅ |
+| `_test_place_names_cross_page_navigation_consistency_fix_1.mjs` | 28 / 0 ✅ |
+| `_test_place_names_ur_template_consistency_1.mjs` | 16 / 0 ✅ |
+| `_test_place_names_ur_client_seed_hydration_fix_1.mjs` | 12 / 0 ✅ |
+| `_test_place_names_homepage_default_city_l10n_fix_1.mjs` | 33 / 0 ✅ |
+| `_test_city_page_l10n.mjs` | 152 / 0 ✅ |
+| `_test_link_city_name.mjs` | 18 / 0 ✅ |
+
+**Aggregate**: **1,173 / 1,173 PASS, 0 regressions.**
+
+### 10.8 v2 architecture rule
+
+> **On any canonical city page (URL slug matches `__PRAYER_CITY__.slug` or `__QIBLA_CITY__.slug`), the SSR-injected city name is the SINGLE SOURCE OF TRUTH for the entire page across ALL 10 supported languages. No client-side runtime source (Nominatim reverse-geocode, external geocoder, sessionStorage seed, transliteration helper, search-result display_name) may override it. The DOM walker short-circuits, `getDisplayCity()`/`getCurrentCityLabel()` Tier-0 returns the seed unconditionally. The walker remains available for non-canonical pages where SSR meta came from a slug-prettify fallback.**
+
+---
+
+## 11. Awaiting user closure approval
+
+Implementation complete (v1 + v2). No further phases opened. Specifically held back per user constraint:
 - ❌ geodata wave
 - ❌ L10N wave
 - ❌ search-ranking wave

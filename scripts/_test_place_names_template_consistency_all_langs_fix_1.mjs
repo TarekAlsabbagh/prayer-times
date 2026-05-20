@@ -107,13 +107,23 @@ const inGCCL = /_slugM\[1\]\s*===\s*_pc\.slug/.test(getCurrentCityLabelBody)
 ok('getCurrentCityLabel() Tier-0 returns _strip(__PRAYER_CITY__.name) on slug match',
     inGCCL);
 
-// Absence-lang safety: both functions must have `_isAbsenceLang` + `_seedHasLatin` check
-const safeGuardGDC = /_isAbsenceLang\s*=\s*\(lang\s*===\s*'ar'/.test(getDisplayCityBody)
-                  && /_seedHasLatin/.test(getDisplayCityBody);
-const safeGuardGCCL = /_isAbsenceLang\s*=\s*\(_ln\s*===\s*'ar'/.test(getCurrentCityLabelBody)
-                   && /_seedHasLatin/.test(getCurrentCityLabelBody);
-ok('Both functions guard against Latin seed for absence-langs (ar/ur/bn)',
-    safeGuardGDC && safeGuardGCCL);
+// SUPERSEDED by CITY-NAME-FALLBACK-CONSISTENCY-1 (2026-05-20): the
+// `_isAbsenceLang` + `_seedHasLatin` fall-through that this assertion
+// originally required is now DELIBERATELY REMOVED. After CITY-NAME-SEO-
+// FALLBACK-POLICY-1 added script-validation inside the server's central
+// helper, the `__PRAYER_CITY__.name` seed is guaranteed to be either a
+// real native value OR the canonical names.en fallback — both
+// authoritative. Letting the old fallthrough fire would re-introduce
+// the Nominatim-transliteration leak (e.g., "گوانگ جو" for /ur/gwangju)
+// and produce title/body inconsistency. The new architecture is:
+// "trust the SSR seed unconditionally on canonical city pages, for ALL
+// 10 supported langs". Assertion updated below.
+const noFallthroughGDC = !/_isAbsenceLang\s*=\s*\(lang\s*===\s*'ar'/.test(getDisplayCityBody);
+const noFallthroughGCCL = !/_isAbsenceLang\s*=\s*\(_ln\s*===\s*'ar'/.test(getCurrentCityLabelBody);
+ok('CITY-NAME-FALLBACK-CONSISTENCY-1: getDisplayCity has NO absence-lang Latin fallthrough',
+    noFallthroughGDC);
+ok('CITY-NAME-FALLBACK-CONSISTENCY-1: getCurrentCityLabel has NO absence-lang Latin fallthrough',
+    noFallthroughGCCL);
 
 // index.html cache-buster bumped to v=654 (or higher)
 const indexSrc = readFileSync(new URL('../index.html', import.meta.url), 'utf8');

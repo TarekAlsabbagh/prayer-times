@@ -7079,6 +7079,61 @@ function _syncCityNameInDom() {
     const ssrName = (meta.getAttribute('content') || '').trim();
     if (!ssrName) return;
 
+    // CITY-NAME-FALLBACK-CONSISTENCY-1 (2026-05-20): UNIVERSAL short-circuit
+    // for canonical city pages — applies to ALL 10 SUPPORTED_LANGS
+    // (ar/en/fr/de/tr/ur/id/es/bn/ms), not just absence-langs.
+    //
+    // When the URL slug matches `__PRAYER_CITY__.slug` (or `__QIBLA_CITY__.slug`
+    // on qibla routes), the SSR ssrName came from the central
+    // `_placeL10n.getLocalizedPlaceName(entry, pageLang)` — i.e., from
+    // curated_places.json with script validation. It is AUTHORITATIVE.
+    // No client-side source (Nominatim reverse-geocode, stale
+    // sessionStorage, transliteration, external geocoder) may override it.
+    //
+    // Concrete bugs this closes (all langs):
+    //   * /ur/prayer-times-in-gwangju: SSR "Gwangju" → Nominatim's `name:ur`
+    //     transliteration "گوانگ جو" → walker rewrote body → title "Gwangju"
+    //     ≠ body "گوانگ جو" (the reported user bug).
+    //   * /fr/prayer-times-in-makkah: SSR "La Mecque" (from names.fr) →
+    //     Nominatim could return "Mekka" / "Mecque" / "La Mecque" — any
+    //     mismatch would have walked over "La Mecque".
+    //   * /de/prayer-times-in-munich: SSR "München" → Nominatim could
+    //     return "Munich" (English) → walker would rewrite.
+    //   * /id/prayer-times-in-makkah: SSR "Mekkah" → Nominatim variant.
+    //   * Any /en|/tr|/es|/ms canonical city page: same risk.
+    //
+    // The rule is identical for every lang: SSR seed wins, period.
+    //
+    // Walker is still allowed for NON-canonical pages (slug not in curated)
+    // where the SSR meta came from `_slugToTitle` Title-Case fallback and
+    // the client legitimately knows a better Nominatim-resolved name.
+    try {
+        const _path = (window.location && window.location.pathname) || '';
+        const _slugM = _path.match(
+            /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+        );
+        const _urlSlug = _slugM ? _slugM[1] : '';
+        if (_urlSlug) {
+            const _pc = window.__PRAYER_CITY__;
+            if (_pc && _pc.slug === _urlSlug
+                && typeof _pc.name === 'string' && _pc.name === ssrName) {
+                // SSR seed matches URL slug — it is the curated answer.
+                // ALL surfaces already rendered by SSR. Don't walk.
+                return;
+            }
+            const _qc = window.__QIBLA_CITY__;
+            if (_qc && _qc.slug === _urlSlug && _qc.names
+                && typeof _qc.names === 'object') {
+                // Qibla route: SSR seed for current lang lives in names[lang].
+                const _lang = (typeof getCurrentLang === 'function')
+                    ? getCurrentLang()
+                    : (document.documentElement.getAttribute('lang') || 'ar');
+                const _qcLangName = _qc.names[_lang] || _qc.name;
+                if (_qcLangName && _qcLangName === ssrName) return;
+            }
+        }
+    } catch (_) { /* silent — fall through to walker for non-canonical pages */ }
+
     // PT-LANG-GUARD-1 (2026-05-12): figure out the page language so we
     // can REJECT any Latin-bearing candidate on Arabic pages. The bug
     // that motivated this: `geocodeSlug()` resolves small French towns

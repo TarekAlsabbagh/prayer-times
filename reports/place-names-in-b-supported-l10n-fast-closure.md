@@ -1,6 +1,7 @@
 # PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST — Closure report
 
-**Status**: ✅ APPLY COMPLETE — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `6cafe25`
 **Date**: 2026-05-20
 **Phase**: Supported-locale L10N (ur+bn) for 30 BATCH-B IN cities
 **Prerequisite**: ASIA-1D-IN-B-FAST applied (`5a566e7`)
@@ -206,8 +207,45 @@ After approval, recommend proceeding to Hijri-pages track per prior user directi
 
 ---
 
-## Status: ✅ APPLY COMPLETE — AWAITING USER APPROVAL
+## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
 
 ### Summary one-liner
 
-**PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST closed**: 30 BATCH-B IN cities gained `names.ur` + `names.bn` (clean Urdu Arabic-script + Bengali U+0980-U+09FF). India coverage: Urdu 40→70, Bengali 40→70. Hindi cohort unchanged at 40 (data-only). 80% from GeoNames raw + 17% Wikipedia + 3% FIX. 633/633 tests pass. Curated 2558 unchanged. PRIOR-40 IN byte-identical. No server.js/js/app.js/index.html changes.
+**PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST CLOSED — user-approved 2026-05-20**: 30 BATCH-B IN cities gained `names.ur` + `names.bn` (clean Urdu Arabic-script + Bengali U+0980-U+09FF). India coverage: Urdu 40→70, Bengali 40→70. Hindi cohort unchanged at 40 (data-only). 80% from GeoNames raw + 17% Wikipedia + 3% FIX. 633/633 tests pass. Curated 2558 unchanged. PRIOR-40 IN byte-identical. No server.js/js/app.js/index.html changes. Apply commit: `6cafe25`.
+
+---
+
+## 11. User-approved acceptance criteria (closure marker)
+
+User formally approved closure 2026-05-20 with marker:
+
+> `docs(closure): mark PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST user-approved 2026-05-20`
+
+| # | User-cited criterion | Status |
+|---|---|:------:|
+| 1 | IN entries stayed 70 | ✅ |
+| 2 | Total curated stayed 2,558 | ✅ |
+| 3 | names.ur added to 30 BATCH-B only | ✅ |
+| 4 | names.bn added to 30 BATCH-B only | ✅ |
+| 5 | IN Urdu 40 → 70 | ✅ |
+| 6 | IN Bengali 40 → 70 | ✅ |
+| 7 | IN Arabic stayed 70/70 | ✅ |
+| 8 | IN English stayed 70/70 | ✅ |
+| 9 | Hindi stayed 40/70 (data-only cohort, NOT extended) | ✅ |
+| 10 | BATCH-B-30 final lang set = ar/en/ur/bn (4 langs) | ✅ |
+| 11 | No Hindi added to BATCH-B | ✅ |
+| 12 | No Tamil/Marathi/Telugu/Kannada/Malayalam/Gujarati/Gurmukhi/Oriya/Assamese/Sanskrit added | ✅ |
+| 13 | Prior 40 IN entries byte-identical (full JSON hash) | ✅ |
+| 14 | BATCH-B `names.ar` / `names.en` unchanged | ✅ |
+| 15 | aliases / slugs / coords / timezone / admin / priority unchanged | ✅ |
+| 16 | PK / BD / all non-IN entries byte-identical | ✅ |
+| 17 | `server.js` / `js/app.js` / `index.html` unchanged | ✅ |
+| 18 | Shared geodata scripts unchanged | ✅ |
+| 19 | No runtime translation | ✅ |
+| 20 | No fillchain | ✅ |
+| 21 | No search ranking patch | ✅ |
+| 22 | Tests 633/633 PASS | ✅ |
+| 23 | Smoke ur+bn queries 20/20 PASS | ✅ |
+| 24 | Closure report at `reports/place-names-in-b-supported-l10n-fast-closure.md` | ✅ |
+| 25 | Apply commit recorded: `6cafe25` | ✅ |
+| 26 | No Held-Queue phase started post-closure | ✅ |

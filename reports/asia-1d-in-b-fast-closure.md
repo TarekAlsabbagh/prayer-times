@@ -1,10 +1,21 @@
 # ASIA-1D-IN-B-FAST — Closure report
 
-**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
-**Apply commit**: `5a566e7`
+**Status**: 🟢 **FINAL CLOSURE — user-approved 2026-05-20** (re-confirmed after supported-UI L10N completion)
+**Apply commit (BATCH-B cities)**: `5a566e7`
+**Companion wave (ur+bn enrichment)**: `6cafe25` (PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST)
 **Date**: 2026-05-20
-**Phase**: Fast IN BATCH-B — 30 next-tier cities, ar+en only
-**Scope**: launch-readiness data fill; no plan phase, no L10N, no ranking change
+**Phase**: Fast IN BATCH-B — 30 next-tier cities (ar+en initial, then ur+bn added in companion wave)
+**Scope**: launch-readiness data fill; no plan phase, no Hindi/Tamil/Marathi, no ranking change
+
+---
+
+## ⚠️ Closure path note
+
+This wave was **applied** as ar+en-only at commit `5a566e7`. The user initially marked it CLOSED at `795e272`, then course-corrected:
+
+> Supported-UI quality (`/ur/` + `/bn/` routes) required `names.ur` + `names.bn` for the 30 new cities. A companion wave **PLACE-NAMES-IN-B-SUPPORTED-L10N-FAST** (commit `6cafe25`) added those two languages.
+
+This final closure is therefore re-approved 2026-05-20 **after** the L10N companion wave completed successfully. BATCH-B cities now have **ar + en + ur + bn (4 supported UI langs)** rather than just ar+en. No Hindi/Tamil/Marathi/other-Indian-lang added — those locales are not in the site UI.
 
 ---
 
@@ -199,7 +210,7 @@ This BATCH-B-FAST brings IN coverage to **70 entries** across major regions incl
 
 ---
 
-## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
+## Status: 🟢 FINAL CLOSURE — USER-APPROVED 2026-05-20 (re-confirmed after L10N companion wave)
 
 ### Summary one-liner
 
@@ -222,11 +233,12 @@ Documented acceptance checklist:
 | 3 | 30 cities added (within 20–35 range) | ✅ |
 | 4 | All new cities have `names.ar` + `names.en` ONLY | ✅ |
 | 5 | No `names.hi` added on new cities | ✅ |
-| 6 | No `names.ur` added on new cities | ✅ |
-| 7 | No `names.bn` added on new cities | ✅ |
-| 8 | No `names.ta` added on new cities | ✅ |
-| 9 | No `names.mr` added on new cities | ✅ |
-| 10 | No other Indian/regional langs added | ✅ |
+| 6 | No `names.ur` added on new cities IN THIS WAVE | ✅ (added in companion wave `6cafe25`) |
+| 7 | No `names.bn` added on new cities IN THIS WAVE | ✅ (added in companion wave `6cafe25`) |
+| 8 | No `names.ta` added on new cities | ✅ (still none — Tamil paused) |
+| 9 | No `names.mr` added on new cities | ✅ (still none — Marathi paused) |
+| 10 | No other Indian/regional langs added | ✅ (still none) |
+| 10b | **Post-companion-wave**: BATCH-B-30 final lang set = ar/en/ur/bn (4 supported UI langs) | ✅ |
 | 11 | Prior 40 IN entries byte-identical | ✅ (hash assertion) |
 | 12 | PK / BD / all other countries byte-identical | ✅ |
 | 13 | No `server.js` change | ✅ (0 lines diff) |

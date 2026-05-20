@@ -1,6 +1,7 @@
 # STAGE-3-RELIGIOUS-EXEMPTION-1 — Closure report
 
-**Status**: 🟢 EXECUTED — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `7380772` (fix(geodata): STAGE-3-RELIGIOUS-EXEMPTION-1 — upstream fix for rangpur-class false-positive)
 **Date**: 2026-05-20
 **Phase**: Upstream Stage 3 fix for religious-keyword false-positives
 **Plan ref**: [reports/stage-3-religious-exemption-1-plan.md](stage-3-religious-exemption-1-plan.md) (Option C — admin-exempt + alias-only → needs_review)
@@ -291,14 +292,15 @@ This upstream patch operates at Stage 3 logic level. It affects:
 
 ---
 
-## Status: 🟢 STAGE-3-RELIGIOUS-EXEMPTION-1 EXECUTED — AWAITING USER APPROVAL
+## Status: 🟢 STAGE-3-RELIGIOUS-EXEMPTION-1 CLOSED — user-approved 2026-05-20
 
 ### Summary
 
 | Metric | Value |
 |--------|-------|
 | Closure report | `reports/stage-3-religious-exemption-1-closure.md` |
-| Apply commit | (pending — to be created after this closure preparation) |
+| Apply commit | `7380772` (pushed to main) |
+| Closure-approval commit | (this docs commit) |
 | Files modified | 1 (`validate_candidates.mjs` only) |
 | Files created | 2 (1 unit test + 1 closure report) |
 | Lines changed | +72 / -13 in `validate_candidates.mjs` |
@@ -312,5 +314,41 @@ This upstream patch operates at Stage 3 logic level. It affects:
 | Brunei data used | **NONE** |
 | Server / app / index changes | **NONE** |
 | Held Queue phase started | **NONE** |
+
+### User-approval acceptance criteria (all met)
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | `validate_candidates.mjs` applies Option C 3-tier policy | ✓ |
+| 2 | Admin centers (PPLC/PPLA/PPLA2/PPLA3) NOT rejected via religious keyword | ✓ (Part C tests 8/8 PASS) |
+| 3 | Alias-only non-admin → `needs_review` (not `rejected`) | ✓ (Part B5 + Part D ×4 PASS) |
+| 4 | Primary-name religious true positives still rejected | ✓ (Part B4 + Part D ×4 PASS; 360 entries preserved) |
+| 5 | rangpur-class bug resolved upstream (no per-wave override needed) | ✓ (Part B1 — bd/rangpur PPLA + "Mosque Rangpur" alias → `pending tier=high`) |
+| 6 | `curated-places.json` unchanged | ✓ (0 byte diff) |
+| 7 | Any `db/places/candidates/*.json` unchanged | ✓ (NONE re-validated) |
+| 8 | No merge / Stage 4 not invoked | ✓ |
+| 9 | No `server.js` / `js/app.js` / `index.html` changes | ✓ |
+| 10 | No Brunei (`bn-*` / `bn.mjs`) data used | ✓ |
+| 11 | Tests 224/224 PASS | ✓ |
+
+### Before / after (4 documented cases)
+
+| Case | featureCode | Before | After |
+|------|-------------|--------|-------|
+| **bd/rangpur** | PPLA | rejected (BD-A override needed) | **pending tier=high** (admin-exempt) |
+| **ir/masjed-soleyman** | PPLA2 | rejected | **pending** (admin-exempt) |
+| **us/lexington** | PPLA2 | rejected | **pending** (admin-exempt) |
+| **my/kampong-masjid-tanah** | PPL pop=29k | rejected | **rejected** (status quo — primary-hit non-admin) |
+
+### Held queue (per user direction — DO NOT auto-start)
+
+- ❌ ASIA-1D-BD-MCF
+- ❌ ASIA-1D-BD-MISSING-AR-MAJORS-1B
+- ❌ PLACE-NAMES-ALIASES-BD-SEED-1
+- ❌ ASIA-1D-IN
+- ❌ ASIA-1F
+- ❌ AMERICAS-1B-MCF
+- ❌ SEARCH-RANKING-IMPROVEMENT-1
+- ❌ DELETE-V1-AND-GEOCODE-PROXY-1
 
 **No further work until user direction.**

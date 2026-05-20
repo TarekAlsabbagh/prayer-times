@@ -1,6 +1,7 @@
 # SEARCH-RANKING-TARGETED-DATA-FIXES-1 — Closure report
 
-**Status**: ✅ APPLY COMPLETE — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `bbf9c1a`
 **Date**: 2026-05-20
 **Phase**: Targeted data fixes for search ranking
 **Decision**: Option A — all 14 fixes in single wave
@@ -270,8 +271,52 @@ No auto-start.
 
 ---
 
-## Status: ✅ APPLY COMPLETE — AWAITING USER APPROVAL
+## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
 
 ### Summary one-liner
 
-**SEARCH-RANKING-TARGETED-DATA-FIXES-1 (Option A) closed**: 14 surgical data fixes applied (5 IATA + 8 priority + 1 alias) on 0.55% of curated entries. Targeted improvements: mum→mumbai, sri↛samarinda, ind↛indianapolis, far↛fargo, bag↛baguio, pun→pune, hyd→hyderabad-in, ahm→ahmedabad, luc→lucknow, jai→jaipur, Barishal→barisal. 2 NEW-issue discoveries documented honestly (ben→bern, sur→tyre-lb — same pattern, future wave candidate). 944/944 regression tests pass. Curated 2528 unchanged. No code changes. No population backfill. No scoring patch.
+**SEARCH-RANKING-TARGETED-DATA-FIXES-1 (Option A) CLOSED — user-approved 2026-05-20**: 14 surgical data fixes applied (5 IATA + 8 priority + 1 alias) on 0.55% of curated entries. Targeted improvements: mum→mumbai, sri↛samarinda, ind↛indianapolis, far↛fargo, bag↛baguio, pun→pune, hyd→hyderabad-in, ahm→ahmedabad, luc→lucknow, jai→jaipur, Barishal→barisal. 2 NEW-issue discoveries documented honestly (ben→bern, sur→tyre-lb — same pattern, deferred to potential SEARCH-RANKING-TARGETED-DATA-FIXES-2 wave). 944/944 regression tests pass. Curated 2528 unchanged. No code changes. No population backfill. No scoring patch. Apply commit: `bbf9c1a`.
+
+---
+
+## 13. User-approved acceptance criteria (closure marker)
+
+User formally approved closure 2026-05-20 with marker:
+
+> `docs(closure): mark SEARCH-RANKING-TARGETED-DATA-FIXES-1 user-approved 2026-05-20`
+
+Documented acceptance checklist (mirrors §11 plus user-cited points):
+
+| # | User-cited criterion | Status |
+|---|---|:------:|
+| 1 | 14/14 fixes applied | ✅ |
+| 2 | 5 IATA aliases removed (MUM/SRI/IND/FAR/BAG) | ✅ |
+| 3 | Legitimate aliases retained (NYC/LA/KL/HKD/AGR) | ✅ |
+| 4 | 8 IN priority bumps applied (pune/chennai/bengaluru/hyderabad-in/ahmedabad/lucknow/jaipur/surat) | ✅ |
+| 5 | Barishal alias added to bd/barisal | ✅ |
+| 6 | curated count unchanged (2528 → 2528) | ✅ |
+| 7 | No city add/delete | ✅ |
+| 8 | No names changes (byte-identical across all 2528 entries) | ✅ |
+| 9 | No slug/geodata/coords/timezone/admin/geonameId/featureCode changes | ✅ |
+| 10 | No server.js / js/app.js / index.html changes | ✅ |
+| 11 | No scoring patch | ✅ |
+| 12 | No population backfill (0 population fields anywhere) | ✅ |
+| 13 | Shared scripts unchanged (validate_candidates/_geonames_common/normalize_places/apply_curated_candidates) | ✅ |
+| 14 | Regression tests 944/944 PASS across 15 suites | ✅ |
+| 15 | Newly-discovered ben/sur issues documented as DEFERRED (NOT fixed) | ✅ (see §14) |
+| 16 | Closure report at `reports/search-ranking-targeted-data-fixes-1-closure.md` | ✅ |
+| 17 | Apply commit recorded: `bbf9c1a` | ✅ |
+| 18 | No Held-Queue phase started post-closure | ✅ |
+
+---
+
+## 14. Deferred — newly-discovered same-pattern issues
+
+These were discovered DURING this wave but are OUTSIDE the user-approved 14-fix scope. **NOT fixed in this wave. NOT to be planned without explicit user direction.**
+
+| Issue | Cause | Same pattern as | Status |
+|---|---|---|:---:|
+| `ben → bern` (Switzerland) | bern has `aliases.en` containing `"Ben"` (Swiss-German colloquial) — alias-tier-100 match outranks bengaluru's prefix-tier-80 match | muli MUM | ⏸️ DEFERRED |
+| `sur → tyre-lb` (Lebanon) | tyre-lb has `aliases.en=["Sur"]` (Arabic name for Tyre صور) — alias-tier-100 outranks surat's prefix-tier-80 | muli MUM | ⏸️ DEFERRED |
+
+**Future wave candidate**: `SEARCH-RANKING-TARGETED-DATA-FIXES-2-PLAN` would scope these (~3 alias removals total). **NOT auto-started — awaits explicit user direction**.

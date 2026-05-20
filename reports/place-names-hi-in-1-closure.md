@@ -1,6 +1,7 @@
 # PLACE-NAMES-HI-IN-1 — Closure report
 
-**Status**: ✅ APPLY COMPLETE — awaiting user approval
+**Status**: 🟢 **CLOSED — user-approved 2026-05-20**
+**Apply commit**: `a07a4b6`
 **Date**: 2026-05-20
 **Phase**: India Hindi enrichment — single-wave APPLY for all 40 IN entries
 **Decision**: Option A (RECOMMENDED) — all 40 in single wave
@@ -378,8 +379,48 @@ User direction required — NO auto-start.
 
 ---
 
-## Status: ✅ APPLY COMPLETE — AWAITING USER APPROVAL
+## Status: 🟢 CLOSED — USER-APPROVED 2026-05-20
 
 ### Summary one-liner
 
-**PLACE-NAMES-HI-IN-1 (Option A) closed**: 40/40 IN entries gained clean Devanagari `names.hi` + 18 net-new `aliases.hi`. India is now **trilingual ar+en+hi 40/40/40**. Zero mutations to non-Hindi fields. 1,784/1,784 tests pass. Curated 2528 unchanged, IN 40 unchanged.
+**PLACE-NAMES-HI-IN-1 (Option A) CLOSED — user-approved 2026-05-20**: 40/40 IN entries gained clean Devanagari `names.hi` + 18 net-new `aliases.hi`. India is now **trilingual ar+en+hi 40/40/40**. Zero mutations to non-Hindi fields. 1,784/1,784 tests pass. Curated 2528 unchanged, IN 40 unchanged. Apply commit: `a07a4b6`.
+
+---
+
+## 13. User-approved acceptance criteria (closure marker)
+
+User formally approved closure 2026-05-20 with marker:
+
+> `docs(closure): mark PLACE-NAMES-HI-IN-1 user-approved 2026-05-20`
+
+Documented acceptance checklist (mirrors §11 plus user-cited criteria):
+
+| # | User-cited criterion | Status |
+|---|---|:------:|
+| 1 | IN Hindi 0/40 → 40/40 | ✅ |
+| 2 | IN total stayed 40 | ✅ |
+| 3 | Total curated stayed 2,528 | ✅ |
+| 4 | IN Arabic unchanged (40/40) | ✅ |
+| 5 | IN English unchanged (40/40) | ✅ |
+| 6 | SEED-18 retains all prior langs + gained hi (11-lang set) | ✅ |
+| 7 | BATCH-A-22 became ar/en/hi (3-lang set) | ✅ |
+| 8 | No new city added | ✅ |
+| 9 | No city deleted | ✅ |
+| 10 | No slug changes | ✅ |
+| 11 | No coordinates / timezone / admin / geodata changes | ✅ |
+| 12 | No `names.ar` or `names.en` mutations | ✅ |
+| 13 | No `aliases.ar` or `aliases.en` mutations | ✅ |
+| 14 | Pre-existing other-Indian-lang aliases (kn/ta/te/gu/mr on 8 SEEDs) preserved | ✅ |
+| 15 | No other Indian-language `names` added (ur/ta/mr/te/kn/ml/gu/pa/or/as/sa all stayed 0 for new wave) | ✅ |
+| 16 | `aliases.hi` only documented entries from plan §4 | ✅ |
+| 17 | Devanagari script guard 100% pass | ✅ |
+| 18 | Hindi end-to-end search OK via `/api/search-place` | ✅ |
+| 19 | Alias lookups OK (काशी→varanasi, इलाहाबाद→prayagraj, मद्रास→chennai) | ✅ |
+| 20 | No runtime translation (Google/OpenAI/Anthropic/browser) | ✅ |
+| 21 | No fillchain (fillLangMap unit tests intact 11/11) | ✅ |
+| 22 | `server.js` / `js/app.js` / `index.html` unchanged | ✅ |
+| 23 | `validate_candidates.mjs` / `_geonames_common.mjs` / `normalize_places.mjs` / `apply_curated_candidates.mjs` unchanged | ✅ |
+| 24 | Tests 1,784/1,784 PASS | ✅ |
+| 25 | Closure report at `reports/place-names-hi-in-1-closure.md` | ✅ |
+| 26 | Apply commit recorded: `a07a4b6` | ✅ |
+| 27 | No Held-Queue phase started post-closure | ✅ |

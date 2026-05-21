@@ -20452,3 +20452,72 @@ html[data-theme="dark"] #page-hijri-year #hyear-cta > a:not(:first-child) {
         gap: 8px !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-CTA-POLISH-1-FIX-1 (2026-05-21): Light refinements
+   after user approved the CTA-POLISH-1 direction.
+
+   User feedback after 847b227:
+     ✓ Direction approved (centered, no full stretch, primary visible)
+     - Primary shadow felt slightly heavy → soften
+     - Secondaries: still want lighter, more refined; border too prominent
+     - Container can shrink slightly (group feels tighter)
+     - Icon/text alignment: keep gap consistent, don't let icon dominate
+
+   Hard constraint (kept): no DOM, text, href, logic, SEO change.
+
+   Changes (override CTA-POLISH-1 values from source-order below):
+     1. Container max-width 760 → 720 (slightly tighter group)
+     2. Primary shadow 0 2px 6px @ 0.18 → 0 1px 3px @ 0.10 (much lighter
+        ambient lift, more cohesive with the secondaries)
+     3. Primary border var(--primary-dark) solid → rgba(13,74,40,0.4)
+        (softer match to lighter shadow; reads less detached)
+     4. Secondary border 1.5px → 1px, alpha 0.22 → 0.14 (thinner + quieter)
+     5. Secondary shadow removed entirely (flat premium surface)
+     6. Letter-spacing 0 → 0.1px on all buttons (premium typographic feel)
+     7. Hover primary shadow softened too (0 5px 14px @ 0.24 →
+        0 3px 9px @ 0.16)
+     8. Hover secondary border alpha 0.45 → 0.35 (still distinct but quieter)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Container — slightly tighter */
+#page-hijri-year #hyear-cta {
+    max-width: 720px;
+}
+
+/* All buttons — premium typographic micro-letter-spacing */
+#page-hijri-year #hyear-cta > a {
+    letter-spacing: 0.1px !important;
+}
+
+/* Primary — soften shadow + border */
+#page-hijri-year #hyear-cta > a:first-child {
+    border: 1px solid rgba(13, 74, 40, 0.40) !important;
+    box-shadow: 0 1px 3px rgba(13, 74, 40, 0.10);
+}
+
+/* Secondaries — thinner quieter border, no shadow */
+#page-hijri-year #hyear-cta > a:not(:first-child) {
+    border: 1px solid rgba(26, 107, 60, 0.14) !important;
+    box-shadow: none;
+}
+
+/* Hover refinement (≥769px) — softer transitions */
+@media (min-width: 769px) {
+    #page-hijri-year #hyear-cta > a:first-child:hover {
+        box-shadow: 0 3px 9px rgba(13, 74, 40, 0.16);
+    }
+    #page-hijri-year #hyear-cta > a:not(:first-child):hover {
+        border-color: rgba(26, 107, 60, 0.35) !important;
+        box-shadow: 0 2px 6px rgba(26, 107, 60, 0.07);
+    }
+}
+
+/* Dark-mode refinement parity */
+html[data-theme="dark"] #page-hijri-year #hyear-cta > a:first-child {
+    border-color: rgba(77, 203, 140, 0.45) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-cta > a:not(:first-child) {
+    border-color: rgba(77, 203, 140, 0.22) !important;
+}

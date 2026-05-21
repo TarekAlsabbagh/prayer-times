@@ -23946,3 +23946,165 @@ html[data-theme="dark"] #page-hijri-day .hijri-date-seo-card h2 {
         max-width: 100%;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-DAY-FAQ-POLISH-1 (2026-05-21): FAQ section
+   (.hijri-date-faq + .hijri-date-faq-item) on /hijri-date/{date}.
+
+   Scope: #page-hijri-day .hijri-date-faq + h2 + .hijri-date-faq-item
+          + nested h3/p. CSS-only. STRICT no text/structure change —
+   FAQ content is SEO-critical and approved by user; we only refine
+   presentation. Content stays fully visible (no accordion / hide).
+
+   User feedback (2026-05-21):
+     ✓ Content + JSON-LD approved as-is
+     - FAQ wrapper card too heavy (same baseline as SEO cards:
+       padding 26/28, radius 24, big shadow)
+     - Each Q&A item could be lighter
+     - Padding can be tighter without compressing text
+     - Question vs answer hierarchy could read clearer
+     - Line-height too loose at 2 (paragraphs feel airy)
+
+   Treatment (visual only, all scoped to #page-hijri-day):
+
+     1. Wrapper section (.hijri-date-faq) — same treatment as SEO
+        cards (POLISH-1) for consistency:
+        - padding 22/26, radius 16, subtle shadow, margin-top 16
+        - h2: 1.15rem with dotted-divider treatment
+     2. Q&A item (.hijri-date-faq-item) — softer pill:
+        - background #f8fbf8 → #fbfefc (softer mint)
+        - border #e4eee7 → 1px rgba primary 0.08 (very light)
+        - border-radius 18 → 14 (matches wrapper radius pattern)
+        - padding 18 → 14/18 (tighter vertical)
+        - margin-top 12 → 10 (tighter rhythm)
+        - +3px primary inline-start accent (FAQ visual signal)
+        - shadow: none (premium-flat)
+     3. Question h3:
+        - 17px → 1rem (≈ 16px), weight 700 (kept), color
+          primary-dark, letter-spacing -0.1px
+        - margin 0 0 8 → 0 0 6 (tighter Q ↔ A)
+     4. Answer p:
+        - color #334139 → text-light (var(--text-light)) — quieter
+          than question
+        - font-size kept at 15.5px (overrides POLISH-1 hijri-date-
+          seo-card cascade)
+        - line-height 2 → 1.75 (comfortable, less airy)
+        - max-width 760px (line-length cap)
+        - margin: 0 (no trailing gap)
+     5. Responsive ≤768px:
+        - wrapper padding 18, radius 14
+        - item padding 12/14, radius 12
+        - h3 0.96rem
+        - p 14.5px line-height 1.7
+
+   Dark-mode parity:
+     - Item bg → rgba primary-light 0.06, border 0.16, accent
+       primary-light, question primary-light, answer #c0c8c4
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Wrapper — same treatment as SEO cards */
+#page-hijri-day .hijri-date-faq {
+    padding: 22px 26px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(15, 44, 28, 0.04),
+                0 1px 8px rgba(15, 44, 28, 0.02);
+    margin-top: 16px;
+}
+#page-hijri-day .hijri-date-faq > h2 {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin: 4px 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(12, 94, 54, 0.12);
+    letter-spacing: -0.2px;
+}
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq > h2 {
+    border-bottom-color: rgba(74, 222, 128, 0.18);
+}
+
+/* Q&A item — soft pill with primary inline-start accent */
+#page-hijri-day .hijri-date-faq .hijri-date-faq-item {
+    background: #fbfefc;
+    border: 1px solid rgba(26, 107, 60, 0.08);
+    border-inline-start: 3px solid var(--primary, #1a6b3c);
+    border-radius: 14px;
+    padding: 14px 18px;
+    margin-top: 10px;
+    box-shadow: none;
+    transition: border-color .18s ease, background .18s ease;
+}
+@media (min-width: 769px) {
+    #page-hijri-day .hijri-date-faq .hijri-date-faq-item:hover {
+        background: #f6fbf8;
+        border-color: rgba(26, 107, 60, 0.16);
+        border-inline-start-color: var(--primary-dark, #0d4a28);
+    }
+}
+
+/* Question h3 */
+#page-hijri-day .hijri-date-faq .hijri-date-faq-item h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+    line-height: 1.4;
+    margin: 0 0 6px;
+    letter-spacing: -0.1px;
+}
+
+/* Answer p — overrides the cascade from .hijri-date-seo-card p
+   (which I polished earlier in POLISH-1 — that rule targets
+   .hijri-date-seo-card p but the cascade selector at line 18937
+   ALSO matches .hijri-date-faq-item p). Re-tune for FAQ context. */
+#page-hijri-day .hijri-date-faq .hijri-date-faq-item p {
+    color: var(--text-light, #5f6b78);
+    font-size: 15.5px;
+    line-height: 1.75;
+    margin: 0;
+    max-width: 760px;
+    letter-spacing: 0.05px;
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq .hijri-date-faq-item {
+    background: rgba(77, 203, 140, 0.05);
+    border-color: rgba(77, 203, 140, 0.16);
+    border-inline-start-color: var(--primary-light, #4ab87a);
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-day .hijri-date-faq .hijri-date-faq-item:hover {
+        background: rgba(77, 203, 140, 0.08);
+        border-color: rgba(77, 203, 140, 0.28);
+    }
+}
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq .hijri-date-faq-item h3 {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq .hijri-date-faq-item p {
+    color: #c0c8c4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #page-hijri-day .hijri-date-faq {
+        padding: 18px;
+        border-radius: 14px;
+    }
+    #page-hijri-day .hijri-date-faq > h2 {
+        font-size: 1.05rem;
+        margin: 2px 0 12px;
+        padding-bottom: 12px;
+    }
+    #page-hijri-day .hijri-date-faq .hijri-date-faq-item {
+        padding: 12px 14px;
+        border-radius: 12px;
+        margin-top: 8px;
+    }
+    #page-hijri-day .hijri-date-faq .hijri-date-faq-item h3 {
+        font-size: 0.96rem;
+    }
+    #page-hijri-day .hijri-date-faq .hijri-date-faq-item p {
+        font-size: 14.5px;
+        line-height: 1.7;
+        max-width: 100%;
+    }
+}

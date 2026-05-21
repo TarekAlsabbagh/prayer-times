@@ -23835,3 +23835,114 @@ html[data-theme="dark"] #page-hijri-day #hday-nav > a > span:last-child {
         font-size: 1rem !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-DAY-SEO-CARDS-POLISH-1 (2026-05-21): Long-content SEO
+   article cards (.hijri-date-seo-card) on /hijri-date/{date}.
+
+   Scope: .hijri-date-seo-card section + its h2 + p children.
+   CSS-only. ABSOLUTE no text/structure change — content is SEO-critical
+   and approved by user; we only refine presentation.
+
+   User feedback (2026-05-21):
+     - Cards feel slightly heavy with default padding/shadow.
+     - Line-height (2) makes paragraphs feel airy.
+     - Border-radius (24px) is larger than other polished cards on
+       the page (12-14px) — visual drift.
+     - Headings could be slightly less bulky.
+
+   STRICT constraints (per user):
+     - NO heading/paragraph text changes
+     - NO content reordering
+     - NO accordion/collapse/tabs (content stays fully visible for SEO)
+     - NO display:none/hidden
+     - NO JSON-LD / SEO metadata changes
+
+   Treatment (visual only, overrides previous defaults at lines
+   18920-18943):
+
+     1. Card surface:
+        - padding 26/28 → 22/26 (tighter, less bulky)
+        - border-radius 24 → 16 (matches the polished hero/cards
+          across the same page for visual consistency)
+        - box-shadow 0 10px 28px @ 0.045 → 0 1px 3px @ 0.04 +
+          0 1px 8px @ 0.02 (subtle, premium-light)
+        - margin-top 20 → 16 (tighter card-to-card rhythm)
+
+     2. Heading h2:
+        - font-size 23px → 1.15rem (≈ 18.4px — clearer hierarchy
+          against the body 15.5px text)
+        - line-height 1.5 → 1.35 (tighter)
+        - margin 0 0 12 → 4 0 14 (slight top + more bottom for
+          divider breathing)
+        - letter-spacing -0.2px (refined)
+        - Keep color #063f25 (matches existing theme)
+        - Add 1px solid rgba primary 0.12 bottom border + 14px
+          padding-bottom — replaces the implicit .section-card h2
+          divider with one tuned for these cards
+
+     3. Paragraph p:
+        - font-size 15.5 → 15.5px (kept — readable for Arabic)
+        - line-height 2 → 1.85 (still comfortable, less airy)
+        - margin 0 0 12 → 0 0 14 (more space between paragraphs)
+        - color stays #334139
+        - Add max-width 880px (constrains line length on wide
+          screens for readability)
+        - last-child margin-bottom 0 (no trailing gap)
+
+     4. Responsive ≤768px:
+        - padding 20 → 18 (slightly tighter)
+        - h2 20 → 1.05rem
+        - p line-height 1.8
+
+   Dark-mode parity: keeps the existing dark rules at 18991+ intact;
+   just inherits the new h2 divider color via primary-light token.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-day .hijri-date-seo-card {
+    padding: 22px 26px;
+    border-radius: 16px;
+    box-shadow: 0 1px 3px rgba(15, 44, 28, 0.04),
+                0 1px 8px rgba(15, 44, 28, 0.02);
+    margin-top: 16px;
+}
+
+#page-hijri-day .hijri-date-seo-card h2 {
+    font-size: 1.15rem;
+    line-height: 1.35;
+    margin: 4px 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(12, 94, 54, 0.12);
+    letter-spacing: -0.2px;
+}
+
+#page-hijri-day .hijri-date-seo-card p {
+    line-height: 1.85;
+    margin: 0 0 14px;
+    max-width: 880px;
+}
+#page-hijri-day .hijri-date-seo-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* Dark-mode divider colour tweak */
+html[data-theme="dark"] #page-hijri-day .hijri-date-seo-card h2 {
+    border-bottom-color: rgba(74, 222, 128, 0.18);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #page-hijri-day .hijri-date-seo-card {
+        padding: 18px;
+        border-radius: 14px;
+    }
+    #page-hijri-day .hijri-date-seo-card h2 {
+        font-size: 1.05rem;
+        margin: 2px 0 12px;
+        padding-bottom: 12px;
+    }
+    #page-hijri-day .hijri-date-seo-card p {
+        line-height: 1.8;
+        max-width: 100%;
+    }
+}

@@ -460,17 +460,26 @@ window.TRANSLATIONS['ar'] = {
         'moon.hijri.today_label': 'التاريخ الهجريّ اليوم',
         'moon.hijri.notice': '* قد يختلف التاريخ الهجريّ يومًا واحدًا حسب الرؤية الشرعيّة في بلدك.',
         'moon.hijri.lunar_day_template': 'نحن اليوم في {day} {month} {hYear} هـ، ويتبقّى نحو {remaining} على اكتمال الشهر القمريّ.',
-        'moon.events.title': 'العدّ التنازليّ للمناسبات الإسلاميّة',
+        // HIJRI-MONTH-TASHKEEL-POLICY-1 (2026-05-21): unify Arabic UI on
+        // the month page by removing shaddas from these labels. These
+        // i18n keys are shared by the moon-events-section across multiple
+        // pages, so the cleanup applies wherever the section renders
+        // (home / hday / hyear / hmonth / today-hijri-date) — documented
+        // per the user's "shared component" exception clause.
+        'moon.events.title': 'العد التنازلي للمناسبات الإسلامية',
         'moon.events.ramadan': 'رمضان القادم',
         'moon.events.fitr': 'عيد الفطر',
         'moon.events.adha': 'عيد الأضحى',
-        'moon.events.newyear': 'رأس السنة الهجريّة',
+        'moon.events.newyear': 'رأس السنة الهجرية',
         'moon.events.days_template': 'باقي: {n} يومًا',
         'moon.events.today': 'اليوم!',
         'moon.events.tomorrow': 'غداً',
         'moon.events.notice': '* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.',
         // ═══ صفحات العدّ التنازليّ (رمضان — مرحلة 1) ═══
-        'countdown.days': 'أيّام',
+        // HIJRI-MONTH-TASHKEEL-POLICY-1 (2026-05-21): "أيّام" → "أيام"
+        // (the moon-events cards on month page render "{n} أيّام" so
+        // remove the shadda for consistency with the unified Arabic UI).
+        'countdown.days': 'أيام',
         'countdown.hours': 'ساعات',
         'countdown.minutes': 'دقائق',
         'countdown.seconds': 'ثواني',

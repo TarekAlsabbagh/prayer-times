@@ -1516,7 +1516,7 @@ const _HYEAR_UI = {
           table_title: c => `📊 جميع أشهر السنة الهجرية ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 تصفح أشهر السنة الهجرية ${c.year}${c.hSfx}`,
           today_in_year: (d, mn, y, hSfx, href) => `📌 التاريخ الهجري اليوم: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
-          years_title: '📆 تصفّح السنوات الهجرية',
+          years_title: '📆 تصفح السنوات الهجرية',
           years_current: ()=>'سنوات قريبة:',
           years_active_suffix: '',
           years_all_link: '→ عرض التقويم الهجري الكامل',
@@ -1790,7 +1790,12 @@ function hyearUi(lang) { return _HYEAR_UI[lang] || _HYEAR_UI.en; }
 const _HMONTH_UI = {
     ar: { home:'الرئيسية', cal:'التقويم الهجري', site:'مواقيت الصلاة والتقويم الهجري',
           card_labels:['📅 عدد الأيام','🗓️ يبدأ','🗓️ ينتهي'],
-          days_word_n:(n)=>`${n} يوماً`,
+          // HIJRI-MONTH-TASHKEEL-POLICY-1 (2026-05-21): unify "يوماً" → "يومًا"
+          // (tanwin on م, the standard Arabic Academy orthography) and
+          // remove all shaddas/diacritics from the month-page Arabic UI.
+          // FAQ JSON-LD also follows the same orthography — pure tashkeel
+          // normalization, no wording change.
+          days_word_n:(n)=>`${n} يومًا`,
           // HIJRI-MONTH-COPY-FIX-1 (2026-05-21): UI wording polish for the
           // "days of this month" section. The constants below are now functions
           // so they can include the dynamic month name + year. The values fed
@@ -1810,7 +1815,7 @@ const _HMONTH_UI = {
           link_moon:'🌙 حالة القمر اليوم',
           today_in_month:(d,mn,y,hSfx,href)=>`📌 اليوم الهجري الحالي: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
           day_row_title:(hDate,gDate)=>`التاريخ الهجري ${hDate} الموافق ${gDate}`,
-          title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} يوماً)`,
+          title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} يومًا)`,
           subtitle:c=>`يوافق الفترة من ${c.gFirstStr} إلى ${c.gLastStr} حسب تقويم أم القرى`,
           days_summary:c=>`📅 عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx}: ${c.totalDays} يومًا`,
           // HIJRI-MONTH-OTHER-MONTHS-COPY-FIX-1 (2026-05-21):
@@ -1827,7 +1832,7 @@ const _HMONTH_UI = {
           //     wider/taller than the others" wrap issue.
           other_months_title:c=>`تصفح أشهر التقويم الهجري ${c.year}${c.hSfx}`,
           other_months_active_suffix:'الشهر المعروض',
-          years_title:'📆 تصفّح السنوات الهجرية',
+          years_title:'📆 تصفح السنوات الهجرية',
           years_current:()=>'سنوات قريبة:',
           years_active_suffix:'',
           years_all_link:'→ عرض التقويم الهجري الكامل',
@@ -1847,7 +1852,7 @@ const _HMONTH_UI = {
           dataset_desc:c=>`جدول يوضح الأيام الهجرية لشهر ${c.monthName} ${c.year}${c.hSfx} مع ما يقابلها من التاريخ الميلادي.`,
           about:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,
           faq:c=>[
-              [`كم عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx}؟`, `عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx} هو ${c.totalDays} يوماً.`],
+              [`كم عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx}؟`, `عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx} هو ${c.totalDays} يومًا.`],
               [`متى يبدأ شهر ${c.monthName} ${c.year}${c.hSfx}؟`, `يبدأ شهر ${c.monthName} ${c.year}${c.hSfx} يوم ${c.gFirstStr}${c.gSfx} حسب تقويم أم القرى.`],
               [`متى ينتهي شهر ${c.monthName} ${c.year}${c.hSfx}؟`, `ينتهي شهر ${c.monthName} ${c.year}${c.hSfx} يوم ${c.gLastStr}${c.gSfx} حسب تقويم أم القرى.`]
           ] },

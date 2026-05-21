@@ -21429,8 +21429,31 @@ function loadHijriYearPage() {
         }).join('');
     }
     if (yearsAllLinkEl && ui.years_all_link) {
+        // ── SELF-LINK GUARD (YEARS-NAV-SELF-LINK-FIX-1, 2026-05-21) ──
+        // The "Full calendar" link targets `${prefix}/hijri-calendar`
+        // (the hub URL). When we are ALREADY on the hub (URL has no
+        // year captured — match[1] undefined), this would be a self-link
+        // that returns the user to the same page — confusing and useless
+        // as a CTA. Hide the wrapper <p> in that case.
+        //
+        // On year-detail pages (`/hijri-calendar/{year}`, where match[1]
+        // is defined), the link IS meaningful (back to full calendar
+        // hub) and remains visible.
+        //
+        // We use `hidden = true` on the wrapper <p> rather than
+        // removing it from the DOM. This:
+        //   - keeps the <a> element + href intact so any SEO crawler
+        //     that doesn't run JS, and any downstream code reading
+        //     `#hyear-years-all`, still finds the link unchanged
+        //   - keeps the SSR-injected canonical / hreflang / JSON-LD
+        //     completely untouched
+        //   - changes only visual presentation
+        // No year-selection logic changed; no other section affected.
+        const _isHub = !match[1];
+        const _wrapperP = yearsAllLinkEl.closest('p');
         yearsAllLinkEl.textContent = ui.years_all_link;
         yearsAllLinkEl.href = `${prefix}/hijri-calendar`;
+        if (_wrapperP) _wrapperP.hidden = _isHub;
     }
 
     // ── 7. FAQ ────────────────────────────────────────────────────

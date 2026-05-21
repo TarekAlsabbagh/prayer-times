@@ -2,7 +2,8 @@
 
 **Date**: 2026-05-21
 **Phase**: Fast combined geodata + L10N wave — Indonesian cities (ar / en / id only)
-**Status**: ✅ Implementation complete — awaiting user closure approval
+**Status**: ✅ **CLOSED — user-approved 2026-05-21**
+**Implementation commit**: `c6ccbcd` — `feat(geodata): ASIA-1G-ID-FAST-SUPPORTED-L10N — +41 Indonesian cities with ar/en/id only`
 **Scope**: +41 ID cities with exactly `ar/en/id`
 
 ---
@@ -228,8 +229,22 @@ surabaya         /id/ → "Jadwal Sholat di Kota Surabaya Hari Ini | ..."  ✓ p
 
 ---
 
-## 9. Awaiting user closure approval
+## 9. Closure marker
 
-No further phases opened.
+**Approved by user 2026-05-21**:
+> أعتمد إغلاق ASIA-1G-ID-FAST-SUPPORTED-L10N رسميًا، وأعطي الإذن برفع commit التنفيذ والـ closure commit بعد إنشائه.
+> Marker: `docs(closure): mark ASIA-1G-ID-FAST-SUPPORTED-L10N user-approved 2026-05-21`
+
+No further phases opened. Specifically held back per user constraint:
+- ❌ ASIA-1G-ID-B
+- ❌ ASIA-1D-IN-G
+- ❌ ASIA-1F (CN solo)
+- ❌ AMERICAS waves
+- ❌ SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2
+- ❌ Search-ranking wave
+- ❌ Hijri pages
+- ❌ DELETE-V1 / geocode-proxy
+- ❌ Separate L10N wave
+- ❌ Any modification to `docs/place-data-maintenance-policy.md`
 
 *— End of report —*

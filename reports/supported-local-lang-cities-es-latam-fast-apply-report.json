@@ -1,0 +1,256 @@
+{
+  "timestamp": "2026-05-21T07:29:04.018Z",
+  "citiesAdded": 57,
+  "perCountry": {
+    "before": {
+      "es": 45,
+      "mx": 31,
+      "ar": 10,
+      "co": 9,
+      "pe": 13,
+      "cl": 6,
+      "ve": 9
+    },
+    "after": {
+      "es": 57,
+      "mx": 39,
+      "ar": 22,
+      "co": 19,
+      "pe": 18,
+      "cl": 12,
+      "ve": 13
+    }
+  },
+  "totalCuratedBefore": 2860,
+  "totalCuratedAfter": 2917,
+  "addedSlugs": [
+    {
+      "cc": "es",
+      "slug": "palma"
+    },
+    {
+      "cc": "es",
+      "slug": "las-palmas-de-gran-canaria"
+    },
+    {
+      "cc": "es",
+      "slug": "alicante"
+    },
+    {
+      "cc": "es",
+      "slug": "vigo"
+    },
+    {
+      "cc": "es",
+      "slug": "hospitalet-de-llobregat"
+    },
+    {
+      "cc": "es",
+      "slug": "vitoria-gasteiz"
+    },
+    {
+      "cc": "es",
+      "slug": "a-coruna"
+    },
+    {
+      "cc": "es",
+      "slug": "terrassa"
+    },
+    {
+      "cc": "es",
+      "slug": "jerez-de-la-frontera"
+    },
+    {
+      "cc": "es",
+      "slug": "sabadell"
+    },
+    {
+      "cc": "es",
+      "slug": "tarragona"
+    },
+    {
+      "cc": "es",
+      "slug": "lleida"
+    },
+    {
+      "cc": "mx",
+      "slug": "leon-mx"
+    },
+    {
+      "cc": "mx",
+      "slug": "chihuahua"
+    },
+    {
+      "cc": "mx",
+      "slug": "san-luis-potosi"
+    },
+    {
+      "cc": "mx",
+      "slug": "aguascalientes"
+    },
+    {
+      "cc": "mx",
+      "slug": "saltillo"
+    },
+    {
+      "cc": "mx",
+      "slug": "toluca"
+    },
+    {
+      "cc": "mx",
+      "slug": "mexicali"
+    },
+    {
+      "cc": "mx",
+      "slug": "tampico"
+    },
+    {
+      "cc": "ar",
+      "slug": "cordoba-ar"
+    },
+    {
+      "cc": "ar",
+      "slug": "rosario"
+    },
+    {
+      "cc": "ar",
+      "slug": "mar-del-plata"
+    },
+    {
+      "cc": "ar",
+      "slug": "san-miguel-de-tucuman"
+    },
+    {
+      "cc": "ar",
+      "slug": "santa-fe"
+    },
+    {
+      "cc": "ar",
+      "slug": "corrientes"
+    },
+    {
+      "cc": "ar",
+      "slug": "bahia-blanca"
+    },
+    {
+      "cc": "ar",
+      "slug": "resistencia"
+    },
+    {
+      "cc": "ar",
+      "slug": "neuquen"
+    },
+    {
+      "cc": "ar",
+      "slug": "la-plata"
+    },
+    {
+      "cc": "ar",
+      "slug": "mendoza"
+    },
+    {
+      "cc": "ar",
+      "slug": "san-juan"
+    },
+    {
+      "cc": "co",
+      "slug": "cali"
+    },
+    {
+      "cc": "co",
+      "slug": "medellin"
+    },
+    {
+      "cc": "co",
+      "slug": "barranquilla"
+    },
+    {
+      "cc": "co",
+      "slug": "cartagena-co"
+    },
+    {
+      "cc": "co",
+      "slug": "cucuta"
+    },
+    {
+      "cc": "co",
+      "slug": "bucaramanga"
+    },
+    {
+      "cc": "co",
+      "slug": "ibague"
+    },
+    {
+      "cc": "co",
+      "slug": "santa-marta"
+    },
+    {
+      "cc": "co",
+      "slug": "pereira"
+    },
+    {
+      "cc": "co",
+      "slug": "manizales"
+    },
+    {
+      "cc": "pe",
+      "slug": "trujillo"
+    },
+    {
+      "cc": "pe",
+      "slug": "huancayo"
+    },
+    {
+      "cc": "pe",
+      "slug": "pucallpa"
+    },
+    {
+      "cc": "pe",
+      "slug": "tacna"
+    },
+    {
+      "cc": "pe",
+      "slug": "cajamarca"
+    },
+    {
+      "cc": "cl",
+      "slug": "antofagasta"
+    },
+    {
+      "cc": "cl",
+      "slug": "valparaiso"
+    },
+    {
+      "cc": "cl",
+      "slug": "temuco"
+    },
+    {
+      "cc": "cl",
+      "slug": "concepcion"
+    },
+    {
+      "cc": "cl",
+      "slug": "rancagua"
+    },
+    {
+      "cc": "cl",
+      "slug": "la-serena"
+    },
+    {
+      "cc": "ve",
+      "slug": "maracaibo"
+    },
+    {
+      "cc": "ve",
+      "slug": "valencia-ve"
+    },
+    {
+      "cc": "ve",
+      "slug": "ciudad-guayana"
+    },
+    {
+      "cc": "ve",
+      "slug": "maracay"
+    }
+  ]
+}

@@ -3,7 +3,42 @@
 **Date:** 2026-05-21
 **Wave:** Sub-phase C of SUPPORTED-LOCAL-LANG-CITIES-FINAL-FAST
 **Pattern:** Dedupe-first, single-commit, no code changes
-**Status:** Ready for user closure approval
+**Status:** CLOSED — user-approved 2026-05-21
+
+---
+
+## Acceptance Criteria
+
+| #  | Criterion                                                                       | Result |
+|----|---------------------------------------------------------------------------------|--------|
+| 1  | TR entries grew exactly 14 → 44 (+30)                                           | ✅     |
+| 2  | Total curated grew exactly 2,917 → 2,947 (+30)                                  | ✅     |
+| 3  | Exactly 30 new cities added (BATCH-A complete, within 25-40 range)              | ✅     |
+| 4  | Every new entry has EXACTLY `names.{ar, en, tr}`                                | ✅     |
+| 5  | No unsupported langs (ur/bn/hi/ta/mr/te/kn/ml/gu/pa/or/as/sa/id/fr/de/es/ms)    | ✅     |
+| 6  | Prior 14 TR entries unchanged (SHA-256 byte-identity)                           | ✅     |
+| 7  | IN / ID / MY / PK / BD / FR / DE / ES-LATAM entries unchanged                   | ✅     |
+| 8  | No modification to `server.js`                                                  | ✅     |
+| 9  | No modification to `js/app.js`                                                  | ✅     |
+| 10 | No modification to `index.html`                                                 | ✅     |
+| 11 | No modification to `docs/place-data-maintenance-policy.md`                      | ✅     |
+| 12 | No modification to `server/place-l10n/index.js`                                 | ✅     |
+| 13 | No search-ranking patch                                                         | ✅     |
+| 14 | No runtime translation (no MT, no browser translation, no live API)             | ✅     |
+| 15 | No fillchain (only 3 declared lang keys per entry)                              | ✅     |
+| 16 | No duplicate slugs / sourceIds / geonameIds across all 2,947 entries            | ✅     |
+| 17 | No Arabic pollution — all 30 names.ar pass strict isCleanArabic                 | ✅     |
+| 18 | Manual NAME_AR_FIX documented for 15 cities (6 Wiki AR + 9 translit)            | ✅     |
+| 19 | Total tests: 1,700/1,700 PASS (139 new + 38 SSR + 22 search + 1,501 carry)     | ✅     |
+| 20 | No new sub-phase started (ASIA-1F + AMERICAS + all other waves remain DEFERRED) | ✅     |
+
+**Outcome:** All 20 acceptance criteria met. Approved.
+
+---
+
+## Implementation Commit
+
+`463501a — feat(geodata): SUPPORTED-LOCAL-LANG-CITIES-TR-FAST — +30 Turkish cities with ar/en/tr only`
 
 ---
 
@@ -223,17 +258,24 @@ Count-drift refresh (2917 → 2947) in 12 existing test files.
 
 ## Section 9 — STOP
 
-Wave applied successfully. No code, docs, or policy changes. No new sub-phase
-started.
+Wave applied successfully. No code, docs, or policy changes.
 
-**Final state of SUPPORTED-LOCAL-LANG-CITIES-FINAL-FAST**:
-- ✅ Sub-phase A (FR + DE) CLOSED
-- ✅ Sub-phase A Batch B (FR + DE B) CLOSED
-- ✅ Sub-phase B (ES + LATAM) CLOSED
-- ✅ Sub-phase C (TR-FAST) — applied, ready for closure approval
-- 🎯 All 4 supported-local-lang sub-phases now applied.
+**Closure approval received from user on 2026-05-21.**
+Marker: `docs(closure): mark SUPPORTED-LOCAL-LANG-CITIES-TR-FAST user-approved 2026-05-21`
 
-The following remain DEFERRED — DO NOT auto-start:
+Status moved from `awaiting user approval` → `CLOSED — user-approved 2026-05-21`.
+
+### 🎯 SUPPORTED-LOCAL-LANG-CITIES-FINAL-FAST — ALL SUB-PHASES CLOSED
+
+- ✅ Sub-phase A (FR + DE) — CLOSED `93e9ca6` (2026-05-21)
+- ✅ Sub-phase A Batch B (FR + DE B) — CLOSED `97fe5ba` (2026-05-21)
+- ✅ Sub-phase B (ES + LATAM 7 countries) — CLOSED `df86d85` (2026-05-21)
+- ✅ Sub-phase C (TR-FAST) — CLOSED `463501a` (2026-05-21)
+
+Total cities added across all 4 sub-phases: **187** (FR+DE 50 + FR+DE-B 50 + ES-LATAM 57 + TR 30).
+
+### Remaining DEFERRED — DO NOT auto-start
+
 - ASIA-1F (CN solo)
 - AMERICAS (non-Spanish-speaking)
 - SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2
@@ -243,5 +285,3 @@ The following remain DEFERRED — DO NOT auto-start:
 - geocode proxy
 - any separate L10N waves
 - any new city batch
-
-**Awaiting user closure approval before push to remote.**

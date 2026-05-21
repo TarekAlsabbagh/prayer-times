@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-05-21T10:06:45.145Z",
+  "citiesAdded": 30,
+  "trCountBefore": 44,
+  "trCountAfter": 74,
+  "totalCuratedBefore": 2947,
+  "totalCuratedAfter": 2977,
+  "addedSlugs": [
+    {
+      "slug": "duezce",
+      "gid": "747764",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "isparta",
+      "gid": "311073",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "erzincan",
+      "gid": "315373",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "mardin",
+      "gid": "304797",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "tokat",
+      "gid": "738743",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "giresun",
+      "gid": "746881",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "kastamonu",
+      "gid": "743882",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "samandag",
+      "gid": "301975",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "tekirdag",
+      "gid": "738927",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "siirt",
+      "gid": "300822",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "kilis",
+      "gid": "307864",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "igdir",
+      "gid": "311665",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "mugla",
+      "gid": "304184",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "kars",
+      "gid": "743952",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "nigde",
+      "gid": "303827",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "mus",
+      "gid": "304081",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "bartin",
+      "gid": "751057",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "hakkari",
+      "gid": "318137",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "bitlis",
+      "gid": "321025",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "sinop",
+      "gid": "739600",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "manisa",
+      "gid": "304827",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "aydin",
+      "gid": "322830",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "canakkale",
+      "gid": "749780",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "bingoel",
+      "gid": "321082",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "agri",
+      "gid": "309647",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "amasya",
+      "gid": "752015",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "zonguldak",
+      "gid": "737022",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "nusaybin",
+      "gid": "303750",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "yozgat",
+      "gid": "296562",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "nevsehir",
+      "gid": "303831",
+      "arSource": "MANUAL:WikipediaAR"
+    }
+  ]
+}

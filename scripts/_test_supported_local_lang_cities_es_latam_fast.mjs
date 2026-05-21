@@ -18,7 +18,7 @@ const NEW_VE = ['maracaibo','valencia-ve','ciudad-guayana','maracay'];
 const ALL_NEW = [...NEW_ES, ...NEW_MX, ...NEW_AR, ...NEW_CO, ...NEW_PE, ...NEW_CL, ...NEW_VE];
 
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2947 (post TR)', curated.length === 2947, '(actual: ' + curated.length + ')');
+ok('Total curated == 2977 (post TR-B)', curated.length === 2977, '(actual: ' + curated.length + ')');
 ok('Backup == 2860', backup.length === 2860);
 ok('ES == 57 (was 45, +12)', curated.filter(e=>e.countryCode==='es').length === 57);
 ok('MX == 39 (was 31, +8)',  curated.filter(e=>e.countryCode==='mx').length === 39);

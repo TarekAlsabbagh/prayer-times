@@ -24444,3 +24444,58 @@ html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
         var(--card-bg, #1a2820) 100%) !important;
     border-color: rgba(74, 222, 128, 0.20) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HIJRI-DAY-SEO-FAQ-INNER-WIDTH-FIX-1 (2026-05-22)
+   Scope: /hijri-date/{date} → .hijri-date-seo-card +
+          .hijri-date-faq + .section-card hosting #hday-faq.
+
+   Problem (user feedback 2026-05-22):
+   After HIJRI-DAY-SEO-FAQ-SEPARATION-POLISH-1 removed the
+   legacy max-width: 920px and made these blocks full-width,
+   the RTL Arabic text inside hugs the right edge with a huge
+   empty space on the left on desktop. The cards feel
+   unbalanced — heading + dividers + paragraphs all run too
+   close to the right while the left half of each card is blank.
+
+   Solution (CSS-only — no HTML / text / JSON-LD changes):
+   Keep the CARD itself full-width (background, border, shadow,
+   tinted gradient continue to span the full container width,
+   matching every other section-card on the page). But constrain
+   the INNER CONTENT to a centered ~980px column by growing the
+   inline padding symmetrically on wide viewports:
+
+       padding-inline: max(26px, calc((100% - 980px) / 2));
+
+   How it works:
+   - Wide desktop (card > 1032px): the calc() branch wins, so
+     padding grows symmetrically on both inline sides → inner
+     content sits in a centered ~980px column, balanced.
+   - Mid widths (768-1032px): the floor 26px wins → content
+     fills the card naturally, no wasted space.
+   - Mobile (≤768px): a media-query override sets padding-inline
+     to 18px so phones don't lose horizontal real estate.
+
+   `padding-inline` is a logical-property shorthand → it maps
+   to both inline-start and inline-end, so this works correctly
+   in BOTH RTL (Arabic / Urdu) AND LTR (other 8 langs) without
+   special-casing direction.
+
+   The cards' visual frame (gradient bg + border + shadow + the
+   ::before hairline section-divider above the FAQ band) stays
+   full-width — only the INNER content is recentred.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-day .hijri-date-seo-card,
+#page-hijri-day .hijri-date-faq,
+#page-hijri-day .section-card:has(> h2#hday-faq-title) {
+    padding-inline: max(26px, calc((100% - 980px) / 2)) !important;
+}
+
+@media (max-width: 768px) {
+    #page-hijri-day .hijri-date-seo-card,
+    #page-hijri-day .hijri-date-faq,
+    #page-hijri-day .section-card:has(> h2#hday-faq-title) {
+        padding-inline: 18px !important;
+    }
+}

@@ -23338,3 +23338,146 @@ html[data-theme="dark"] #page-hijri-day #hday-subtitle.hpage-hero-subtitle {
         padding: 6px 14px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-DAY-HIERARCHY-POLISH-1 (2026-05-21): "Hierarchy Navigation"
+   section on /hijri-date/{date} — the 2-link row right below the hero
+   (Day → Month → Year links).
+
+   Scope: #page-hijri-day #hday-hierarchy + its two child anchors.
+   CSS-only. No DOM/text/href/SEO/JSON-LD/logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - Both anchors render as solid primary-green CTAs (SSR injects
+       inline `background: var(--primary); color: #fff; ...`).
+     - They are related-navigation, NOT primary actions — visually
+       too loud for the role.
+     - Card has too much surrounding whitespace; no related-nav cue.
+
+   Cascade context:
+     SSR injects heavy inline styles on each anchor:
+       display:inline-flex; align-items:center; justify-content:center;
+       padding:12px 22px; background:var(--primary); color:#fff;
+       border-radius:10px; text-decoration:none; font-size:0.95rem;
+       font-weight:700; margin:6px; border:1px solid var(--primary);
+       min-height:44px;
+     Container uses .u-flex-center (line 8831): display:flex;
+     flex-wrap:wrap; gap:10px; justify-content:center.
+     All overridden via !important on the inline-style fights.
+
+   Treatment (6 sections, scoped to #page-hijri-day #hday-hierarchy):
+
+     1. Section card padding-block trimmed (less whitespace bloat).
+     2. Container: explicit grid 2-col on desktop, max-width 640px
+        centered. Mobile (≤768px): 1-col stack.
+     3. Each anchor: soft mint #fbfefc surface + 1.5px rgba primary
+        0.22 border + primary-dark text (NOT inline #fff).
+     4. First anchor (month — most relevant context for "what month
+        is this day in?"): slightly stronger — 2px border alpha 0.30
+        + subtle soft shadow + bold weight 700.
+     5. Second anchor (year — broader context): standard soft pill,
+        border alpha 0.18, weight 600.
+     6. Hover: lift -1px + soft shadow + border alpha bump.
+
+   No `<h2>` title injected (per user "don't add new content if not
+   needed"). The visual styling alone conveys "related nav".
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Section card whitespace trim */
+#page-hijri-day > .section-card:has(> #hday-hierarchy) {
+    padding-block: 16px;
+}
+
+/* Container — grid 2-col centered */
+#page-hijri-day #hday-hierarchy {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    max-width: 640px;
+    margin: 0 auto !important;
+    width: 100%;
+    flex-wrap: initial !important;
+    justify-content: center !important;
+}
+
+/* Each anchor — defeat solid CTA inline styles */
+#page-hijri-day #hday-hierarchy > a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 11px 16px !important;
+    background: #fbfefc !important;
+    color: var(--primary-dark, #0d4a28) !important;
+    border: 1.5px solid rgba(26, 107, 60, 0.18) !important;
+    border-radius: 10px !important;
+    text-decoration: none !important;
+    font-size: 0.93rem !important;
+    font-weight: 600 !important;
+    margin: 0 !important;
+    min-height: 44px !important;
+    line-height: 1.35 !important;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
+    transition: background .18s ease, border-color .18s ease,
+                color .18s ease, transform .18s ease, box-shadow .18s ease !important;
+    letter-spacing: 0.05px;
+}
+
+/* First link (month — closest context to the day): slightly emphasized */
+#page-hijri-day #hday-hierarchy > a:first-child {
+    border-color: rgba(26, 107, 60, 0.30) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 1px 3px rgba(26, 107, 60, 0.06);
+}
+
+/* Hover (desktop) */
+@media (min-width: 769px) {
+    #page-hijri-day #hday-hierarchy > a:hover {
+        background: #f4faf6 !important;
+        border-color: rgba(26, 107, 60, 0.40) !important;
+        color: var(--primary-dark, #0d4a28) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(26, 107, 60, 0.10);
+    }
+}
+
+/* Focus-visible (a11y) */
+#page-hijri-day #hday-hierarchy > a:focus-visible {
+    outline: 2px solid var(--primary, #1a6b3c);
+    outline-offset: 2px;
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-day #hday-hierarchy > a {
+    background: var(--bg-elevated, #373e47) !important;
+    color: var(--primary-light, #4ab87a) !important;
+    border-color: rgba(77, 203, 140, 0.24) !important;
+    box-shadow: none;
+}
+html[data-theme="dark"] #page-hijri-day #hday-hierarchy > a:first-child {
+    border-color: rgba(77, 203, 140, 0.40) !important;
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-day #hday-hierarchy > a:hover {
+        background: rgba(77, 203, 140, 0.06) !important;
+        border-color: rgba(77, 203, 140, 0.50) !important;
+        color: #b8f0d0 !important;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #page-hijri-day > .section-card:has(> #hday-hierarchy) {
+        padding-block: 14px;
+    }
+    #page-hijri-day #hday-hierarchy {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        max-width: 100%;
+    }
+    #page-hijri-day #hday-hierarchy > a {
+        padding: 11px 14px !important;
+        font-size: 0.92rem !important;
+        min-height: 42px !important;
+    }
+}

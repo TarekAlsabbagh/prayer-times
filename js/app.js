@@ -1172,7 +1172,10 @@ function hdayUi(lang) { return _HDAY_UI[lang] || _HDAY_UI.en; }
 const _HDAY_EXTRA = {
     ar: { faqTitle:'❓ أسئلة عن اليوم الهجري', relatedTitle:'🌙 روابط ذات صلة',
           ctaConv:'🔄 تحويل التاريخ', ctaMoon:'🌙 حالة القمر اليوم', ctaPrayer:'🕌 مواقيت الصلاة اليوم',
-          relMonth:(m,y)=>`🌙 شهر ${m} ${y} هـ`, relYear:(y)=>`📆 تقويم سنة ${y} هـ`,
+          // HIJRI-DAY-HIERARCHY-COPY-FIX-1 (2026-05-21): "تقويم سنة" → "تقويم عام"
+          // (Arabic-only UI polish; same change applied earlier to
+          // _HMONTH_UI.ar.link_year — keeps phrasing consistent across pages).
+          relMonth:(m,y)=>`🌙 شهر ${m} ${y} هـ`, relYear:(y)=>`📆 تقويم عام ${y} هـ`,
           relConv:'🔄 أداة تحويل التاريخ الهجري والميلادي', relMoon:'🌙 مراحل القمر اليوم', relPrayer:'🕌 أوقات الصلاة الخمس',
           footerLink:(m,y)=>`التقويم الهجري لشهر ${m} ${y} هـ` },
     en: { faqTitle:'❓ Frequently Asked Questions', relatedTitle:'🌙 Related Links',

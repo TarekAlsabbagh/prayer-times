@@ -120480,5 +120480,680 @@
     "source": "geonames",
     "sourceId": "geonames:1265910",
     "verified": false
+  },
+  {
+    "slug": "bhilwara",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 25.347,
+    "lng": 74.6411,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بهيلوارا",
+      "en": "Bhilwara",
+      "ur": "بھیلواڑہ",
+      "bn": "ভিলওয়াড়া"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1275960",
+    "verified": false
+  },
+  {
+    "slug": "gandhidham",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.0833,
+    "lng": 70.1333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غانديدام",
+      "en": "Gandhidham",
+      "ur": "گاندھی دھام",
+      "bn": "গান্ধীধাম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1271717",
+    "verified": false
+  },
+  {
+    "slug": "sikar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 27.6094,
+    "lng": 75.1399,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سيكر",
+      "en": "Sikar",
+      "ur": "سیکر",
+      "bn": "সিকার"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1256320",
+    "verified": false
+  },
+  {
+    "slug": "sri-ganganagar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 29.9094,
+    "lng": 73.875,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سري غانغانغار",
+      "en": "Sri Ganganagar",
+      "ur": "سری گنگانگر",
+      "bn": "শ্রী গঙ্গানগর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1271685",
+    "verified": false
+  },
+  {
+    "slug": "anand",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.55,
+    "lng": 72.95,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "آنند",
+      "en": "Anand",
+      "ur": "آنند",
+      "bn": "আনন্দ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1278685",
+    "verified": false
+  },
+  {
+    "slug": "madanapalle",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 13.55,
+    "lng": 78.5,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "مادانابالي",
+      "en": "Madanapalle",
+      "ur": "مدنپلی",
+      "bn": "মদনাপাল্লে"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "أندرا براديش",
+      "regionEn": "Andhra Pradesh",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1264621",
+    "verified": false
+  },
+  {
+    "slug": "surendranagar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.7333,
+    "lng": 71.6333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سوريندرانغار",
+      "en": "Surendranagar",
+      "ur": "سریندر نگر",
+      "bn": "সুরেন্দ্রনগর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1255349",
+    "verified": false
+  },
+  {
+    "slug": "veraval",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.9,
+    "lng": 70.3667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "فيرافال",
+      "en": "Veraval",
+      "ur": "ویراول",
+      "bn": "বেরাবল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1253237",
+    "verified": false
+  },
+  {
+    "slug": "navsari",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.85,
+    "lng": 72.9167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "نافساري",
+      "en": "Navsari",
+      "ur": "نوساری",
+      "bn": "নবসারি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1261653",
+    "verified": false
+  },
+  {
+    "slug": "bharuch",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 21.7,
+    "lng": 72.9667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بهاروش",
+      "en": "Bharuch",
+      "ur": "بھروچ",
+      "bn": "ভারুচ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1276100",
+    "verified": false
+  },
+  {
+    "slug": "tonk",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.1667,
+    "lng": 75.7833,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تونك",
+      "en": "Tonk",
+      "ur": "ٹونک",
+      "bn": "টঙ্ক"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1254241",
+    "verified": false
+  },
+  {
+    "slug": "hanumangarh",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 29.5833,
+    "lng": 74.3167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "هانومانغار",
+      "en": "Hanumangarh",
+      "ur": "ہنومان گڑھ",
+      "bn": "হনুমানগড়"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1270407",
+    "verified": false
+  },
+  {
+    "slug": "porbandar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 21.6422,
+    "lng": 69.6093,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بوربندر",
+      "en": "Porbandar",
+      "ur": "پوربندر",
+      "bn": "পোরবন্দর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1259395",
+    "verified": false
+  },
+  {
+    "slug": "hindupur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 13.8333,
+    "lng": 77.4833,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "هندوبور",
+      "en": "Hindupur",
+      "ur": "ہندو پور",
+      "bn": "হিন্দুপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "أندرا براديش",
+      "regionEn": "Andhra Pradesh",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1270079",
+    "verified": false
+  },
+  {
+    "slug": "beawar",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 26.1,
+    "lng": 74.3167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بيوار",
+      "en": "Beawar",
+      "ur": "بیاور",
+      "bn": "বিয়াওয়ার"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1276634",
+    "verified": false
+  },
+  {
+    "slug": "bhuj",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.25,
+    "lng": 69.8167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بوج",
+      "en": "Bhuj",
+      "ur": "بھوج",
+      "bn": "ভূজ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1275812",
+    "verified": false
+  },
+  {
+    "slug": "godhra",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.7667,
+    "lng": 73.6167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غودرا",
+      "en": "Godhra",
+      "ur": "گودھرا",
+      "bn": "গোধরা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1271107",
+    "verified": false
+  },
+  {
+    "slug": "palanpur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 24.1722,
+    "lng": 72.4344,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بالانبور",
+      "en": "Palanpur",
+      "ur": "پالن پور",
+      "bn": "পালনপুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1260777",
+    "verified": false
+  },
+  {
+    "slug": "valsad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 20.6167,
+    "lng": 72.9333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "فالساد",
+      "en": "Valsad",
+      "ur": "ولساڈ",
+      "bn": "বলসাড়"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1253468",
+    "verified": false
+  },
+  {
+    "slug": "botad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 22.1667,
+    "lng": 71.6667,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بوتاد",
+      "en": "Botad",
+      "ur": "بوٹاد",
+      "bn": "বোটাদ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "غوجارات",
+      "regionEn": "Gujarat",
+      "admin1Code": "09"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1275218",
+    "verified": false
+  },
+  {
+    "slug": "dharmavaram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 14.4147,
+    "lng": 77.7211,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "دارمافارام",
+      "en": "Dharmavaram",
+      "ur": "دھرماورم",
+      "bn": "ধর্মাবরম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "أندرا براديش",
+      "regionEn": "Andhra Pradesh",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1272842",
+    "verified": false
+  },
+  {
+    "slug": "adilabad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 19.6667,
+    "lng": 78.5333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "عادل آباد",
+      "en": "Adilabad",
+      "ur": "عادل آباد",
+      "bn": "আদিলাবাদ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تيلانغانا",
+      "regionEn": "Telangana",
+      "admin1Code": "40"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1279344",
+    "verified": false
+  },
+  {
+    "slug": "gudivada",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 16.4333,
+    "lng": 80.9833,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غوديفادا",
+      "en": "Gudivada",
+      "ur": "گدیواڑہ",
+      "bn": "গুদিবাড়া"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "أندرا براديش",
+      "regionEn": "Andhra Pradesh",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1270801",
+    "verified": false
+  },
+  {
+    "slug": "narasaraopet",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 16.2333,
+    "lng": 80.05,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ناراساراوبت",
+      "en": "Narasaraopet",
+      "ur": "نراساراو پیٹ",
+      "bn": "নারাসারাওপেত"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "أندرا براديش",
+      "regionEn": "Andhra Pradesh",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1261848",
+    "verified": false
+  },
+  {
+    "slug": "chittorgarh",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 24.8889,
+    "lng": 74.6269,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "شيتورغار",
+      "en": "Chittorgarh",
+      "ur": "چتور گڑھ",
+      "bn": "চিতোরগড়"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1274040",
+    "verified": false
+  },
+  {
+    "slug": "banswara",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 23.55,
+    "lng": 74.4333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بانسوارا",
+      "en": "Banswara",
+      "ur": "بانسواڑہ",
+      "bn": "বাঁসওয়াড়া"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "راجستان",
+      "regionEn": "Rajasthan",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1277214",
+    "verified": false
+  },
+  {
+    "slug": "kavali",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 14.9167,
+    "lng": 79.9833,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كافالي",
+      "en": "Kavali",
+      "ur": "کاولی",
+      "bn": "কাবালি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "أندرا براديش",
+      "regionEn": "Andhra Pradesh",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1267394",
+    "verified": false
   }
 ]

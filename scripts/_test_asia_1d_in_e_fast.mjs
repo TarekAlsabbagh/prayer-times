@@ -28,11 +28,11 @@ const NEW_30 = [
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2660 (was 2630, +30)', curated.length === 2660, '(actual: ' + curated.length + ')');
+ok('Total curated == 2687 (post IN-F)', curated.length === 2687, '(actual: ' + curated.length + ')');
 ok('Total curated backup == 2630', backup.length === 2630);
 const inNow = curated.filter(e => e.countryCode === 'in').length;
 const inOrig = backup.filter(e => e.countryCode === 'in').length;
-ok('IN count == 172 (was 142, +30)', inNow === 172, '(actual: ' + inNow + ')');
+ok('IN count == 199 (post IN-F)', inNow === 199, '(actual: ' + inNow + ')');
 ok('IN count backup == 142', inOrig === 142);
 
 // ─── Group 2: All 30 added with exactly {ar, en, ur, bn} ────────────────

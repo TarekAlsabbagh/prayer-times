@@ -1791,17 +1791,25 @@ const _HMONTH_UI = {
     ar: { home:'الرئيسية', cal:'التقويم الهجري', site:'مواقيت الصلاة والتقويم الهجري',
           card_labels:['📅 عدد الأيام','🗓️ يبدأ','🗓️ ينتهي'],
           days_word_n:(n)=>`${n} يوماً`,
-          section_info:'📋 معلومات الشهر', section_days:'📅 أيام هذا الشهر الهجري', section_links:'🔗 روابط مرتبطة',
+          // HIJRI-MONTH-COPY-FIX-1 (2026-05-21): UI wording polish for the
+          // "days of this month" section. The constants below are now functions
+          // so they can include the dynamic month name + year. The values fed
+          // to FAQ JSON-LD (lines 1819 below) are NOT changed — only these
+          // UI surface strings. No data / no calc / no link / no SEO impact.
+          //   section_days: was static "أيام هذا الشهر الهجري" → now includes month/year
+          //   today_in_month: format changed to "اليوم الهجري الحالي: ..." with year inside the link
+          //   days_summary: colon instead of "هو", "يومًا" tanwin orthography
+          section_info:'📋 معلومات الشهر', section_days:c=>`📅 أيام شهر ${c.monthName} ${c.year}${c.hSfx}`, section_links:'🔗 روابط مرتبطة',
           th_hijri:'التاريخ الهجري', th_greg:'التاريخ الميلادي',
           prev_label:'الشهر السابق', next_label:'الشهر التالي',
           link_convert:'🔄 تحويل التاريخ الهجري والميلادي', link_today:'📌 التاريخ الهجري اليوم',
           link_year:(y,hSfx)=>`📅 تقويم سنة ${y}${hSfx}`,
           link_moon:'🌙 حالة القمر اليوم',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 اليوم الحالي في شهر ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx,href)=>`📌 اليوم الهجري الحالي: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
           day_row_title:(hDate,gDate)=>`التاريخ الهجري ${hDate} الموافق ${gDate}`,
           title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} يوماً)`,
           subtitle:c=>`يوافق الفترة من ${c.gFirstStr} إلى ${c.gLastStr} حسب تقويم أم القرى`,
-          days_summary:c=>`📅 عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx} هو ${c.totalDays} يوماً.`,
+          days_summary:c=>`📅 عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx}: ${c.totalDays} يومًا`,
           other_months_title:c=>`🌙 التقويم الهجري لعام ${c.year}${c.hSfx} — جميع الأشهر`,
           other_months_active_suffix:' (الحالي)',
           years_title:'📆 تصفّح السنوات الهجرية',
@@ -21635,7 +21643,9 @@ function loadHijriMonthPage() {
     const thHijriEl    = document.getElementById('hmonth-th-hijri');
     const thGregEl     = document.getElementById('hmonth-th-greg');
     if (infoTitleEl  && ui.section_info)  infoTitleEl.textContent  = ui.section_info;
-    if (daysTitleEl  && ui.section_days)  daysTitleEl.textContent  = ui.section_days;
+    // HIJRI-MONTH-COPY-FIX-1: section_days may be string (other langs) or
+    // function (ar — needs month/year interpolation). Handle both shapes.
+    if (daysTitleEl  && ui.section_days)  daysTitleEl.textContent  = (typeof ui.section_days === 'function') ? ui.section_days(ctx) : ui.section_days;
     if (linksTitleEl && ui.section_links) linksTitleEl.textContent = ui.section_links;
     if (thHijriEl    && ui.th_hijri)      thHijriEl.textContent    = ui.th_hijri;
     if (thGregEl     && ui.th_greg)       thGregEl.textContent     = ui.th_greg;

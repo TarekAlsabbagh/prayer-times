@@ -19846,3 +19846,370 @@ html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip.c
         0 0 0 2px rgba(77, 203, 140, 0.14),
         0 1px 3px rgba(77, 203, 140, 0.34);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-TABLE-POLISH-1 (2026-05-21): Polish the annual
+   months table on /hijri-calendar/{year}.
+
+   Scope: #page-hijri-year .hpage-table + .hyear-today-in-year banner +
+   #hyear-table-title. CSS-ONLY. No DOM/text/data/SEO/JSON-LD/logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - Table looks administrative and flat
+     - Green header is heavy; thead block is too solid
+     - Zebra stripes are visually too strong
+     - Active row is clear but harsh (full primary-light background)
+     - Card padding around the table feels off
+     - Today banner needs to be more elegant and visually integrated
+     - Typography: month names should read first, dates second, days quiet
+     - Mobile: must remain readable, no horizontal overflow
+
+   Approach:
+     - Header: gentle gradient (slightly darker → softer) instead of solid
+       var(--primary); 0.5px letter-spacing; column header font-weight 600
+       (was 700); subtle border-bottom for separation.
+     - Tbody: tighter row padding (8px 14px), softer zebra
+       rgba(26,107,60,0.025), inline-style override via !important.
+     - Active row: replace full primary-light background with very soft
+       rgba(26,107,60,0.07) + 3px primary border-inline-start; keep links
+       readable (no white-on-color contrast issue).
+     - Table-wrap: subtle border + border-radius for a "card within card" feel.
+     - Today banner: enhanced with subtle backdrop + restated padding for
+       cleaner visual rhythm (still text-align: start from HCAL-2b §1).
+     - Table-title (#hyear-table-title): elevated to 1.1rem / weight 800 /
+       primary-dark; bottom-margin tightens to 14px (was implicit ~12).
+     - Typography: month-name link gets +1 weight; date td slightly muted;
+       days-count td even quieter; uses td:nth-child() positional selectors
+       (matches existing thead column order, no DOM read needed).
+     - Mobile (≤768px): smaller td padding (7px 10px), font-size 0.88rem,
+       no overflow — inherits .hpage-table-wrap { overflow-x:auto } already.
+     - Dark-mode parity: adjusted tone for each rule (rgba primary-light
+       equivalents).
+
+   Why !important on tbody rows:
+     The SSR-generated tbody injects INLINE styles on each <tr> and <td>:
+       <tr style="">                              ← clean row
+       <tr style="background:var(--bg);">         ← zebra row
+       <tr style="background:var(--primary-light);">  ← active row
+       <td style="padding:10px 14px;border-bottom:1px solid var(--border);text-align:center;">
+     Plain class-level CSS cannot override inline styles. We use !important
+     in the few rules that need to win the cascade (td padding, row
+     backgrounds). Everything else (typography, hover, gradient) avoids
+     !important.
+
+   Inline-style attribute selectors:
+     `tr[style*="background:var(--bg)"]`             — zebra match
+     `tr[style*="background: var(--bg)"]`            — zebra (with space)
+     `tr[style*="background:var(--primary-light)"]`  — active match
+     `tr[style*="background: var(--primary-light)"]` — active (with space)
+   These selectors already exist for dark-mode (lines 8862-8884) so the
+   pattern is proven safe and stable.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Table-title — slightly elevated typographic prominence ── */
+#page-hijri-year #hyear-table-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 4px 0 10px;
+}
+html[data-theme="dark"] #page-hijri-year #hyear-table-title {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 2. Today-in-year banner — more elegant, alert-like, integrated ──
+   Builds on existing HCAL-2 §7 styling (lines 17370-17384). Adds a small
+   inline accent + tighter vertical rhythm so it visually leads INTO the
+   table rather than floating above it. */
+#page-hijri-year #hyear-today-in-year:not([hidden]) {
+    position: relative;
+    background: linear-gradient(
+        180deg,
+        rgba(26, 107, 60, 0.05) 0%,
+        rgba(26, 107, 60, 0.075) 100%
+    );
+    border: 1px solid rgba(26, 107, 60, 0.16);
+    border-inline-start: 3px solid var(--primary, #1a6b3c);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 0 0 14px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--primary-dark, #0d4a28);
+    box-shadow: 0 1px 2px rgba(26, 107, 60, 0.04);
+}
+#page-hijri-year #hyear-today-in-year:not([hidden]) strong {
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+}
+#page-hijri-year #hyear-today-in-year:not([hidden]) a {
+    color: var(--primary, #1a6b3c);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.45);
+    transition: color .15s, border-color .15s;
+}
+#page-hijri-year #hyear-today-in-year:not([hidden]) a:hover {
+    color: var(--primary-dark, #0d4a28);
+    border-bottom-color: rgba(26, 107, 60, 0.75);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-today-in-year:not([hidden]) {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.07) 0%,
+        rgba(77, 203, 140, 0.11) 100%
+    );
+    border-color: rgba(77, 203, 140, 0.26);
+    border-inline-start-color: var(--primary-light, #4ab87a);
+    color: #c5ecd2;
+    box-shadow: none;
+}
+html[data-theme="dark"] #page-hijri-year #hyear-today-in-year:not([hidden]) strong {
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-today-in-year:not([hidden]) a {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(77, 203, 140, 0.40);
+}
+html[data-theme="dark"] #page-hijri-year #hyear-today-in-year:not([hidden]) a:hover {
+    color: #b8f0d0;
+    border-bottom-color: rgba(77, 203, 140, 0.70);
+}
+
+/* ── 3. Table wrap — subtle card-within-card framing ── */
+#page-hijri-year .hpage-table-wrap {
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-radius: 12px;
+    overflow: hidden; /* clips the inner table's rounded corners */
+    background: var(--surface, #fff);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table-wrap {
+    border-color: rgba(77, 203, 140, 0.18);
+    background: var(--surface-raised, #2d333b);
+    box-shadow: none;
+}
+/* The inner table must NOT add its own rounded thead corners (the wrap
+   handles all rounding now); strip the legacy radii from 8850-8853. */
+#page-hijri-year .hpage-table thead tr th:first-child,
+#page-hijri-year .hpage-table thead tr th:last-child,
+html[dir="rtl"] #page-hijri-year .hpage-table thead tr th:first-child,
+html[dir="rtl"] #page-hijri-year .hpage-table thead tr th:last-child {
+    border-radius: 0;
+}
+
+/* ── 4. Header (thead) — softer gradient, refined typography ── */
+#page-hijri-year .hpage-table thead tr {
+    background: linear-gradient(
+        180deg,
+        rgba(26, 107, 60, 0.92) 0%,
+        rgba(26, 107, 60, 1.00) 100%
+    );
+    color: #fff;
+}
+#page-hijri-year .hpage-table thead th {
+    padding: 12px 14px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    color: rgba(255, 255, 255, 0.96);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    text-transform: none;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table thead tr {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.18) 0%,
+        rgba(77, 203, 140, 0.26) 100%
+    );
+    color: #d8f0e1;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table thead th {
+    color: #e0f4e8;
+    border-bottom-color: rgba(77, 203, 140, 0.22);
+}
+
+/* ── 5. Tbody rows — softer zebra, tighter rhythm ──
+   Override the SSR-injected inline styles. The selectors target the exact
+   inline-style patterns documented in the header comment above. */
+#page-hijri-year .hpage-table tbody td {
+    padding: 8px 14px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.045) !important;
+    text-align: center;
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+#page-hijri-year .hpage-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+
+/* Zebra row override — very subtle green tint instead of solid var(--bg) */
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--bg)"],
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--bg)"] {
+    background: rgba(26, 107, 60, 0.028) !important;
+}
+
+/* Dark-mode zebra override — overrides the existing line 8862-8865 rule too
+   (it sets var(--surface-raised), we want a tinted variant) */
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--bg)"],
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--bg)"] {
+    background: rgba(77, 203, 140, 0.045) !important;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody td {
+    border-bottom-color: rgba(255, 255, 255, 0.045) !important;
+}
+
+/* ── 6. Active/current month row — soft highlight + accent border ──
+   Was: solid var(--primary-light) background (~harsh). Now: very soft
+   tinted bg + 3px primary border-inline-start as the visual cue. */
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"],
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] {
+    background: rgba(26, 107, 60, 0.07) !important;
+    position: relative;
+}
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child,
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td:first-child {
+    box-shadow: inset 3px 0 0 var(--primary, #1a6b3c);
+}
+/* RTL: visual start is the right edge, so the inset shadow flips */
+html[dir="rtl"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child,
+html[dir="rtl"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td:first-child {
+    box-shadow: inset -3px 0 0 var(--primary, #1a6b3c);
+}
+/* Active row td — slightly bolder + primary-dark anchor color (was white).
+   !important required because the SSR template injects inline `color:#fff`
+   on both the <td> and the inner <a> (legacy "active row uses solid green
+   bg + white text" assumption that this polish replaces with soft tint +
+   dark text). The inline color must be overridden via cascade. */
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td,
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td {
+    color: var(--primary-dark, #0d4a28) !important;
+    font-weight: 600;
+}
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td a,
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td a {
+    color: var(--primary-dark, #0d4a28) !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+/* Dark-mode active row — soft tint, no full gradient (overrides 8876-8884) */
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"],
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] {
+    background: rgba(77, 203, 140, 0.13) !important;
+    color: #e8f7ee !important;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child {
+    box-shadow: inset 3px 0 0 var(--primary-light, #4ab87a);
+}
+html[dir="rtl"] html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child {
+    box-shadow: inset -3px 0 0 var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td,
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td {
+    color: #d8f0e1 !important;
+    text-shadow: none !important; /* cancels the line-8883 text-shadow */
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td a,
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td a {
+    color: #b8f0d0 !important;
+    text-shadow: none !important;
+}
+
+/* ── 7. Hover state — soft, not the harsh 8856 #e8f5e9 ── */
+#page-hijri-year .hpage-table tbody tr:hover {
+    background: rgba(26, 107, 60, 0.055) !important;
+}
+#page-hijri-year .hpage-table tbody tr:hover td a {
+    color: var(--primary-dark, #0d4a28) !important;
+}
+/* Active row hover — keep distinct */
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"]:hover,
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"]:hover {
+    background: rgba(26, 107, 60, 0.10) !important;
+}
+
+/* ── 8. Typography hierarchy ──
+   Column order (from the SSR row template):
+     col 1 = month name        (most prominent — link to month page)
+     col 2 = Hijri date range  (date detail, slightly muted)
+     col 3 = AD date range     (gregorian secondary)
+     col 4 = days count        (numeric — quietest)
+   Active class .current-month styles month-name link slightly bolder. */
+#page-hijri-year .hpage-table tbody td:nth-child(1) {
+    font-weight: 600;
+}
+#page-hijri-year .hpage-table tbody td:nth-child(1) a {
+    color: var(--primary, #1a6b3c);
+    font-weight: 700;
+    text-decoration: none;
+    transition: color .15s;
+}
+#page-hijri-year .hpage-table tbody td:nth-child(1) a:hover {
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+}
+#page-hijri-year .hpage-table tbody td:nth-child(2),
+#page-hijri-year .hpage-table tbody td:nth-child(3) {
+    color: var(--text, #2d3a35);
+    font-variant-numeric: tabular-nums;
+}
+#page-hijri-year .hpage-table tbody td:nth-child(4) {
+    color: var(--text-light, #6b7b75);
+    font-size: 0.88rem;
+    font-variant-numeric: tabular-nums;
+}
+
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody td:nth-child(1) a {
+    color: #80d8a8;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody td:nth-child(1) a:hover {
+    color: #a0e8c0;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody td:nth-child(2),
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody td:nth-child(3) {
+    color: #cfd6d2;
+}
+html[data-theme="dark"] #page-hijri-year .hpage-table tbody td:nth-child(4) {
+    color: #9aa39e;
+}
+
+/* ── 9. Responsive — mobile ≤768px ──
+   Tighter padding, smaller font, but still readable. Table stays inside
+   .hpage-table-wrap { overflow-x: auto } so no overflow risk. */
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-table-title {
+        font-size: 1.02rem;
+    }
+    #page-hijri-year .hpage-table {
+        font-size: 0.88rem;
+    }
+    #page-hijri-year .hpage-table thead th {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+        letter-spacing: 0.2px;
+    }
+    #page-hijri-year .hpage-table tbody td {
+        padding: 7px 8px !important;
+    }
+    #page-hijri-year .hpage-table tbody td:nth-child(4) {
+        font-size: 0.82rem;
+    }
+    #page-hijri-year #hyear-today-in-year:not([hidden]) {
+        font-size: 0.9rem;
+        padding: 9px 12px;
+        margin: 0 0 12px;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-year .hpage-table thead th {
+        padding: 9px 6px;
+        font-size: 0.78rem;
+    }
+    #page-hijri-year .hpage-table tbody td {
+        padding: 6px 6px !important;
+        font-size: 0.84rem;
+    }
+}

@@ -22002,3 +22002,355 @@ html[data-theme="dark"] #page-hijri-month #hmonth-nav > a > span:last-child {
         font-size: 1rem !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-DAYS-TABLE-POLISH-1 (2026-05-21): "أيام هذا الشهر
+   الهجري" header + status bars + days table on /hijri-calendar/{y}-{m}.
+
+   Scope:
+     #page-hijri-month #hmonth-days-title
+     #page-hijri-month #hmonth-today-in-month  (.hpage-today-in-month)
+     #page-hijri-month #hmonth-days-summary    (.hpage-days-summary)
+     #page-hijri-month .hpage-table-wrap + .hpage-table#hmonth-table
+
+   CSS-only. No DOM/text/href/data/SEO/canonical/hreflang/JSON-LD/logic
+   change. Same approach as HIJRI-CALENDAR-TABLE-POLISH-1 wave but
+   scoped to month page.
+
+   Problem statement (user feedback 2026-05-21):
+     - Table reads as Excel-like / administrative.
+     - Header green is heavy.
+     - Zebra rows are too strong, break page softness.
+     - Current day row is highlighted but visually harsh.
+     - Today / days-summary info bars feel disconnected from table.
+     - No premium "monthly calendar" feel.
+
+   Constraints kept:
+     - No text changes (days, dates, today-text all preserved verbatim)
+     - No href changes (day URLs preserved)
+     - No SEO / canonical / hreflang / JSON-LD touch
+     - No DOM mutation
+     - No other section affected
+
+   Cascade context:
+     - SSR injects inline styles per tbody <tr>:
+         clean row: <tr style="">
+         zebra row: <tr style="background: var(--bg);">
+         current:   <tr style="background:var(--primary-light);">
+       and per <td>: padding:9px 14px; border-bottom:1px solid var(--border); text-align:center;
+       and per inner <a>: color:var(--primary); text-decoration:none;
+       Current-day <a> also gets color:#fff inline.
+     - We override via !important on inline-style-attribute selectors,
+       same pattern as the year-page TABLE-POLISH-1 wave.
+     - .hpage-today-in-month baseline at line 9024 has its own styling
+       (var(--primary) + amber-like accent); we override here.
+     - .hpage-days-summary baseline at line 9018 has primary text;
+       we override here.
+
+   Design intent:
+     1. Section title (#hmonth-days-title) — premium heading matching
+        sibling section titles (TABLE/YEARS-NAV/FAQ polish).
+     2. Today status bar (#hmonth-today-in-month) — soft gradient mint
+        + 3px primary inline-start accent — reads as integrated status
+        belt above the table.
+     3. Days-summary meta line (#hmonth-days-summary) — quieter prose
+        line, no longer big primary-color shout. Sits just below the
+        today bar, just above the table.
+     4. Table wrap — rounded card-within-card with subtle border.
+     5. Header — deep evergreen gradient (#205c39 → #1a6b3c) matching
+        year-page TABLE-POLISH-1-FIX-1.
+     6. Rows — soft zebra rgba(primary,0.028), tighter padding 8px 14px,
+        last-row removes bottom-border.
+     7. Current day row — solid soft mint band (#e7f5ed → #dfeee6) +
+        4px primary inline-start accent + primary-dark strong text
+        (matches year TABLE-POLISH-1-FIX-1 readability fix).
+     8. Anchor (day link) typography — primary green at rest, dark-green
+        on hover with subtle underline.
+     9. Responsive ≤768px — tighter padding, smaller font, no overflow.
+
+   No-touch: existing `.hpage-table-wrap { overflow-x: auto }` from
+   line 8835 stays in effect (wrap parent). Inline tbody styles
+   preserved (we only paint over them via cascade).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section title ── */
+#page-hijri-month #hmonth-days-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 4px 0 12px;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-days-title {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 2. Today status bar ── */
+#page-hijri-month #hmonth-today-in-month {
+    position: relative;
+    background: linear-gradient(
+        180deg,
+        rgba(26, 107, 60, 0.05) 0%,
+        rgba(26, 107, 60, 0.075) 100%
+    );
+    border: 1px solid rgba(26, 107, 60, 0.16);
+    border-inline-start: 3px solid var(--primary, #1a6b3c);
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin: 0 0 10px;
+    font-size: 0.95rem;
+    line-height: 1.5;
+    color: var(--primary-dark, #0d4a28);
+    text-align: start;
+}
+#page-hijri-month #hmonth-today-in-month strong {
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+}
+#page-hijri-month #hmonth-today-in-month a {
+    color: var(--primary, #1a6b3c);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.45);
+    transition: color .15s, border-color .15s;
+}
+#page-hijri-month #hmonth-today-in-month a:hover {
+    color: var(--primary-dark, #0d4a28);
+    border-bottom-color: rgba(26, 107, 60, 0.75);
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-today-in-month {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.07) 0%,
+        rgba(77, 203, 140, 0.11) 100%
+    );
+    border-color: rgba(77, 203, 140, 0.26);
+    border-inline-start-color: var(--primary-light, #4ab87a);
+    color: #c5ecd2;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-today-in-month strong,
+html[data-theme="dark"] #page-hijri-month #hmonth-today-in-month a {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 3. Days-summary meta line — quieter prose, sits just above table ── */
+#page-hijri-month #hmonth-days-summary {
+    font-size: 0.92rem;
+    color: var(--text-light, #5f6b78);
+    font-weight: 500;
+    margin: 0 0 12px;
+    line-height: 1.5;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-days-summary {
+    color: #b0b8b3;
+}
+
+/* ── 4. Table wrap — subtle card-within-card framing ── */
+#page-hijri-month .hpage-table-wrap {
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-radius: 12px;
+    overflow: hidden;
+    background: var(--surface, #fff);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table-wrap {
+    border-color: rgba(77, 203, 140, 0.18);
+    background: var(--surface-raised, #2d333b);
+    box-shadow: none;
+}
+/* Inner table radii — wrap owns rounding */
+#page-hijri-month .hpage-table thead tr th:first-child,
+#page-hijri-month .hpage-table thead tr th:last-child,
+html[dir="rtl"] #page-hijri-month .hpage-table thead tr th:first-child,
+html[dir="rtl"] #page-hijri-month .hpage-table thead tr th:last-child {
+    border-radius: 0;
+}
+
+/* ── 5. Header — deep evergreen gradient ── */
+#page-hijri-month .hpage-table thead tr {
+    background: linear-gradient(
+        180deg,
+        #205c39 0%,
+        #1a6b3c 60%,
+        #1a6b3c 100%
+    );
+    color: #fff;
+}
+#page-hijri-month .hpage-table thead th {
+    padding: 13px 14px;
+    font-size: 0.87rem;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
+    text-transform: none;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table thead tr {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.16) 0%,
+        rgba(77, 203, 140, 0.22) 60%,
+        rgba(77, 203, 140, 0.22) 100%
+    );
+    color: #d8f0e1;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table thead th {
+    color: #e0f4e8;
+    border-bottom-color: rgba(77, 203, 140, 0.22);
+}
+
+/* ── 6. Tbody rows — softer zebra, tighter padding ── */
+#page-hijri-month .hpage-table tbody td {
+    padding: 8px 14px !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.045) !important;
+    text-align: center;
+    font-size: 0.93rem;
+    line-height: 1.5;
+}
+#page-hijri-month .hpage-table tbody tr:last-child td {
+    border-bottom: none !important;
+}
+/* Zebra row */
+#page-hijri-month .hpage-table tbody tr[style*="background:var(--bg)"],
+#page-hijri-month .hpage-table tbody tr[style*="background: var(--bg)"] {
+    background: rgba(26, 107, 60, 0.028) !important;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--bg)"],
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background: var(--bg)"] {
+    background: rgba(77, 203, 140, 0.045) !important;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody td {
+    border-bottom-color: rgba(255, 255, 255, 0.045) !important;
+}
+
+/* ── 7. Current day row — soft mint band + 4px primary accent ──
+   Solid mint gradient ensures the row is clearly visible without harsh
+   solid primary-light; primary-dark text + !important defeats SSR
+   inline color:#fff on the td/anchor. */
+#page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"],
+#page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] {
+    background: linear-gradient(
+        180deg,
+        #e7f5ed 0%,
+        #dfeee6 100%
+    ) !important;
+    position: relative;
+}
+#page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child,
+#page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] td:first-child {
+    box-shadow: inset 4px 0 0 var(--primary, #1a6b3c);
+}
+html[dir="rtl"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child,
+html[dir="rtl"] #page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] td:first-child {
+    box-shadow: inset -4px 0 0 var(--primary, #1a6b3c);
+}
+#page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td,
+#page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] td {
+    color: #0d4a28 !important;
+    font-weight: 600;
+}
+#page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td a,
+#page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] td a {
+    color: #0d4a28 !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+/* Dark-mode current row */
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"],
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.18) 0%,
+        rgba(77, 203, 140, 0.24) 100%
+    ) !important;
+    color: #e8f7ee !important;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child {
+    box-shadow: inset 4px 0 0 var(--primary-light, #4ab87a);
+}
+html[dir="rtl"] html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child {
+    box-shadow: inset -4px 0 0 var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td,
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] td {
+    color: #d8f0e1 !important;
+    text-shadow: none !important;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"] td a,
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"] td a {
+    color: #b8f0d0 !important;
+    text-shadow: none !important;
+}
+
+/* ── 8. Hover ── */
+#page-hijri-month .hpage-table tbody tr:hover {
+    background: rgba(26, 107, 60, 0.055) !important;
+}
+#page-hijri-month .hpage-table tbody tr:hover td a {
+    color: var(--primary-dark, #0d4a28) !important;
+}
+#page-hijri-month .hpage-table tbody tr[style*="background:var(--primary-light)"]:hover,
+#page-hijri-month .hpage-table tbody tr[style*="background: var(--primary-light)"]:hover {
+    background: linear-gradient(
+        180deg,
+        #dceae3 0%,
+        #cfe2d7 100%
+    ) !important;
+}
+
+/* ── 9. Anchor typography inside td (override SSR inline color) ── */
+#page-hijri-month .hpage-table tbody td a {
+    color: var(--primary, #1a6b3c);
+    text-decoration: none;
+    font-variant-numeric: tabular-nums;
+    transition: color .15s;
+}
+#page-hijri-month .hpage-table tbody td a:hover {
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody td a {
+    color: #80d8a8;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-table tbody td a:hover {
+    color: #a0e8c0;
+}
+
+/* ── 10. Responsive ── */
+@media (max-width: 768px) {
+    #page-hijri-month #hmonth-days-title {
+        font-size: 1.02rem;
+    }
+    #page-hijri-month #hmonth-today-in-month {
+        font-size: 0.9rem;
+        padding: 9px 12px;
+        margin: 0 0 8px;
+    }
+    #page-hijri-month #hmonth-days-summary {
+        font-size: 0.88rem;
+        margin: 0 0 10px;
+    }
+    #page-hijri-month .hpage-table {
+        font-size: 0.88rem;
+    }
+    #page-hijri-month .hpage-table thead th {
+        padding: 10px 8px;
+        font-size: 0.82rem;
+        letter-spacing: 0.2px;
+    }
+    #page-hijri-month .hpage-table tbody td {
+        padding: 7px 8px !important;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-month .hpage-table thead th {
+        padding: 9px 6px;
+        font-size: 0.78rem;
+    }
+    #page-hijri-month .hpage-table tbody td {
+        padding: 6px 6px !important;
+        font-size: 0.84rem;
+    }
+}

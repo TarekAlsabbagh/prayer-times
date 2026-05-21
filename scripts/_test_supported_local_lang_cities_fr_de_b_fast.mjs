@@ -22,7 +22,7 @@ const NEW_DE = [
 ];
 
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2917 (post ES-LATAM)', curated.length === 2917, '(actual: ' + curated.length + ')');
+ok('Total curated == 2947 (post TR)', curated.length === 2947, '(actual: ' + curated.length + ')');
 ok('Backup == 2810', backup.length === 2810);
 ok('FR count == 75 (was 50, +25)', curated.filter(e=>e.countryCode==='fr').length === 75);
 ok('DE count == 106 (was 81, +25)', curated.filter(e=>e.countryCode==='de').length === 106);

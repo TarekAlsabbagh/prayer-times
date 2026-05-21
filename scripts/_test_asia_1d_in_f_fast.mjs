@@ -9,7 +9,7 @@ const backup = JSON.parse(readFileSync(new URL('../db/places/curated-places.json
 const NEW_27 = ['bhilwara','gandhidham','sikar','sri-ganganagar','anand','madanapalle','surendranagar','veraval','navsari','bharuch','tonk','hanumangarh','porbandar','hindupur','beawar','bhuj','godhra','palanpur','valsad','botad','dharmavaram','adilabad','gudivada','narasaraopet','chittorgarh','banswara','kavali'];
 
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2917 (post ES-LATAM)', curated.length === 2917, '(' + curated.length + ')');
+ok('Total curated == 2947 (post TR)', curated.length === 2947, '(' + curated.length + ')');
 ok('Backup curated == 2660', backup.length === 2660);
 ok('IN count == 199 (was 172, +27)', curated.filter(e => e.countryCode === 'in').length === 199);
 ok('IN backup == 172', backup.filter(e => e.countryCode === 'in').length === 172);

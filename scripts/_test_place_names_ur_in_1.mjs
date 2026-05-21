@@ -101,7 +101,7 @@ console.log('── Group 1: Counts ──');
 // Counts updated post ASIA-1D-IN-D-FAST-SUPPORTED-L10N.
 // Urdu coverage now extends to 199 (UR-IN-1 40 + BATCH-B 30 + BATCH-C 39 + BATCH-D 33).
 // Hindi remains 40 (HI-IN-1 cohort only).
-ok('Total curated == 2917 (post ES-LATAM)', curated.length === 2917, '(actual: ' + curated.length + ')');
+ok('Total curated == 2947 (post TR)', curated.length === 2947, '(actual: ' + curated.length + ')');
 ok('IN total == 199',        inEntries.length === 199, '(actual: ' + inEntries.length + ')');
 const withUr = inEntries.filter(e => e.names && e.names.ur).length;
 ok('IN with names.ur == 199', withUr === 199, '(actual: ' + withUr + '/199)');

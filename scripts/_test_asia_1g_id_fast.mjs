@@ -9,7 +9,7 @@ const backup = JSON.parse(readFileSync(new URL('../db/places/curated-places.json
 const NEW_41 = ['depok','tasikmalaya','serang','banjarmasin','cimahi','cilegon','palu','dumai','pekalongan','binjai','pematangsiantar','sorong','probolinggo','singkawang','pasuruan','ternate','madiun','salatiga','gorontalo','lhokseumawe','langsa','palopo','parepare','bima','blitar','mojokerto','payakumbuh','magelang','sibolga','subulussalam','solok','banjarbaru','padang-sidempuan','cilacap','purwokerto','banyuwangi','maumere','ende','sumbawa-besar','nabire','bengkalis'];
 
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2917 (post ES-LATAM)', curated.length === 2917);
+ok('Total curated == 2947 (post TR)', curated.length === 2947);
 ok('Backup == 2687', backup.length === 2687);
 ok('ID count == 82', curated.filter(e=>e.countryCode==='id').length === 82);
 ok('ID backup == 41', backup.filter(e=>e.countryCode==='id').length === 41);

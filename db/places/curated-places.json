@@ -126675,5 +126675,725 @@
     "source": "geonames",
     "sourceId": "geonames:3632998",
     "verified": false
+  },
+  {
+    "slug": "eskisehir",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 39.77667,
+    "lng": 30.52056,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أسكي شهر",
+      "en": "Eskisehir",
+      "tr": "Eskişehir"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "إسكي شهر",
+      "regionEn": "Eskişehir",
+      "admin1Code": "26"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:315202",
+    "verified": false
+  },
+  {
+    "slug": "van",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 38.49457,
+    "lng": 43.38323,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "وان",
+      "en": "Van",
+      "tr": "Van"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "فان",
+      "regionEn": "Van",
+      "admin1Code": "65"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:298117",
+    "verified": false
+  },
+  {
+    "slug": "samsun",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 41.27976,
+    "lng": 36.3361,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "سامسون",
+      "en": "Samsun",
+      "tr": "Samsun"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "سامسون",
+      "regionEn": "Samsun",
+      "admin1Code": "55"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:740264",
+    "verified": false
+  },
+  {
+    "slug": "kahramanmaras",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 37.5847,
+    "lng": 36.92641,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "كهرمان مرعش",
+      "en": "Kahramanmaras",
+      "tr": "Kahramanmaraş"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "كهرمان مرعش",
+      "regionEn": "Kahramanmaraş",
+      "admin1Code": "46"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:310859",
+    "verified": false
+  },
+  {
+    "slug": "usak",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 38.67351,
+    "lng": 29.4058,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أوشاك",
+      "en": "Usak",
+      "tr": "Uşak"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أوشاك",
+      "regionEn": "Uşak",
+      "admin1Code": "64"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:298299",
+    "verified": false
+  },
+  {
+    "slug": "denizli",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 37.77417,
+    "lng": 29.0875,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "دنيزلي",
+      "en": "Denizli",
+      "tr": "Denizli"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "دنيزلي",
+      "regionEn": "Denizli",
+      "admin1Code": "20"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:317109",
+    "verified": false
+  },
+  {
+    "slug": "corum",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 40.54889,
+    "lng": 34.95333,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "جوروم",
+      "en": "Corum",
+      "tr": "Çorum"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "تشوروم",
+      "regionEn": "Çorum",
+      "admin1Code": "19"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:748879",
+    "verified": false
+  },
+  {
+    "slug": "sivas",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 39.74833,
+    "lng": 37.01611,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "سيواس",
+      "en": "Sivas",
+      "tr": "Sivas"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "سيواس",
+      "regionEn": "Sivas",
+      "admin1Code": "58"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:300619",
+    "verified": false
+  },
+  {
+    "slug": "afyonkarahisar",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 38.75667,
+    "lng": 30.54333,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أفيون قره حصار",
+      "en": "Afyonkarahisar",
+      "tr": "Afyonkarahisar"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أفيون قره حصار",
+      "regionEn": "Afyonkarahisar",
+      "admin1Code": "03"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:325303",
+    "verified": false
+  },
+  {
+    "slug": "iskenderun",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 36.58718,
+    "lng": 36.17347,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "إسكندرونة",
+      "en": "Iskenderun",
+      "tr": "İskenderun"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "هاتاي",
+      "regionEn": "Hatay",
+      "admin1Code": "31"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:311111",
+    "verified": false
+  },
+  {
+    "slug": "ordu",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 40.97782,
+    "lng": 37.89047,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أوردو",
+      "en": "Ordu",
+      "tr": "Ordu"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أوردو",
+      "regionEn": "Ordu",
+      "admin1Code": "52"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:741100",
+    "verified": false
+  },
+  {
+    "slug": "osmaniye",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 37.07417,
+    "lng": 36.24778,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "عثمانية",
+      "en": "Osmaniye",
+      "tr": "Osmaniye"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "عثمانية",
+      "regionEn": "Osmaniye",
+      "admin1Code": "91"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:303195",
+    "verified": false
+  },
+  {
+    "slug": "corlu",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 41.16069,
+    "lng": 27.80093,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "تشورلو",
+      "en": "Corlu",
+      "tr": "Çorlu"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "تكيرداغ",
+      "regionEn": "Tekirdağ",
+      "admin1Code": "59"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:748893",
+    "verified": false
+  },
+  {
+    "slug": "izmit",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 40.76499,
+    "lng": 29.92928,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "إزميت",
+      "en": "Izmit",
+      "tr": "İzmit"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "كوجالي",
+      "regionEn": "Kocaeli",
+      "admin1Code": "41"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:745028",
+    "verified": false
+  },
+  {
+    "slug": "bolu",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 40.73583,
+    "lng": 31.60611,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "بولو",
+      "en": "Bolu",
+      "tr": "Bolu"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "بولو",
+      "regionEn": "Bolu",
+      "admin1Code": "14"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:750516",
+    "verified": false
+  },
+  {
+    "slug": "malatya",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 38.35018,
+    "lng": 38.31667,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "ملاطية",
+      "en": "Malatya",
+      "tr": "Malatya"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "ملاطية",
+      "regionEn": "Malatya",
+      "admin1Code": "44"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:304922",
+    "verified": false
+  },
+  {
+    "slug": "batman",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 37.88738,
+    "lng": 41.13221,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "باتمان",
+      "en": "Batman",
+      "tr": "Batman"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "باتمان",
+      "regionEn": "Batman",
+      "admin1Code": "76"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:321836",
+    "verified": false
+  },
+  {
+    "slug": "elazig",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 38.67431,
+    "lng": 39.22321,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "إيلازيغ",
+      "en": "Elazig",
+      "tr": "Elazığ"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "إيلازيغ",
+      "regionEn": "Elazığ",
+      "admin1Code": "23"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:315808",
+    "verified": false
+  },
+  {
+    "slug": "antakya",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 36.20655,
+    "lng": 36.15722,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أنطاكيا",
+      "en": "Antakya",
+      "tr": "Antakya"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "هاتاي",
+      "regionEn": "Hatay",
+      "admin1Code": "31"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:323779",
+    "verified": false
+  },
+  {
+    "slug": "alanya",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 36.54375,
+    "lng": 31.99982,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "ألانيا",
+      "en": "Alanya",
+      "tr": "Alanya"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أنطاليا",
+      "regionEn": "Antalya",
+      "admin1Code": "07"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:324190",
+    "verified": false
+  },
+  {
+    "slug": "tarsus",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 36.91766,
+    "lng": 34.89277,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "طرسوس",
+      "en": "Tarsus",
+      "tr": "Tarsus"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "مرسين",
+      "regionEn": "Mersin",
+      "admin1Code": "32"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:299817",
+    "verified": false
+  },
+  {
+    "slug": "aksaray",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 38.37255,
+    "lng": 34.02537,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أق سراي",
+      "en": "Aksaray",
+      "tr": "Aksaray"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أق سراي",
+      "regionEn": "Aksaray",
+      "admin1Code": "75"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:324496",
+    "verified": false
+  },
+  {
+    "slug": "adiyaman",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 37.76441,
+    "lng": 38.27629,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أديامان",
+      "en": "Adiyaman",
+      "tr": "Adıyaman"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أديامان",
+      "regionEn": "Adıyaman",
+      "admin1Code": "02"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:325330",
+    "verified": false
+  },
+  {
+    "slug": "adapazari",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 40.78056,
+    "lng": 30.40333,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أدابازاري",
+      "en": "Adapazari",
+      "tr": "Adapazarı"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "سكاريا",
+      "regionEn": "Sakarya",
+      "admin1Code": "54"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:752850",
+    "verified": false
+  },
+  {
+    "slug": "gebze",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 40.80276,
+    "lng": 29.43068,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "غبزة",
+      "en": "Gebze",
+      "tr": "Gebze"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "كوجالي",
+      "regionEn": "Kocaeli",
+      "admin1Code": "41"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:747014",
+    "verified": false
+  },
+  {
+    "slug": "balikesir",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 39.64917,
+    "lng": 27.88611,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "باليكسير",
+      "en": "Balikesir",
+      "tr": "Balıkesir"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "باليكسير",
+      "regionEn": "Balıkesir",
+      "admin1Code": "10"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:322165",
+    "verified": false
+  },
+  {
+    "slug": "kirikkale",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 39.84528,
+    "lng": 33.50639,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "كيريكالي",
+      "en": "Kirikkale",
+      "tr": "Kırıkkale"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "كيريكالي",
+      "regionEn": "Kırıkkale",
+      "admin1Code": "79"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:307654",
+    "verified": false
+  },
+  {
+    "slug": "kuetahya",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 39.42417,
+    "lng": 29.98333,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "كوتاهية",
+      "en": "Kutahya",
+      "tr": "Kütahya"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "كوتاهية",
+      "regionEn": "Kütahya",
+      "admin1Code": "43"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:305268",
+    "verified": false
+  },
+  {
+    "slug": "edirne",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 41.67719,
+    "lng": 26.55597,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "أدرنة",
+      "en": "Edirne",
+      "tr": "Edirne"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "أدرنة",
+      "regionEn": "Edirne",
+      "admin1Code": "22"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:747712",
+    "verified": false
+  },
+  {
+    "slug": "karaman",
+    "type": "city",
+    "countryCode": "tr",
+    "lat": 37.18111,
+    "lng": 33.215,
+    "timezone": "Europe/Istanbul",
+    "names": {
+      "ar": "قرمان",
+      "en": "Karaman",
+      "tr": "Karaman"
+    },
+    "admin": {
+      "countryAr": "تركيا",
+      "countryEn": "Turkey",
+      "regionAr": "قرمان",
+      "regionEn": "Karaman",
+      "admin1Code": "78"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:309527",
+    "verified": false
   }
 ]

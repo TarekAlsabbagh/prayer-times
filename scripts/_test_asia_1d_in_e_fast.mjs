@@ -28,7 +28,7 @@ const NEW_30 = [
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2917 (post ES-LATAM)', curated.length === 2917, '(actual: ' + curated.length + ')');
+ok('Total curated == 2947 (post TR)', curated.length === 2947, '(actual: ' + curated.length + ')');
 ok('Total curated backup == 2630', backup.length === 2630);
 const inNow = curated.filter(e => e.countryCode === 'in').length;
 const inOrig = backup.filter(e => e.countryCode === 'in').length;

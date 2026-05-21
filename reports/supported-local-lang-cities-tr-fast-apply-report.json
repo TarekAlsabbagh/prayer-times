@@ -1,0 +1,160 @@
+{
+  "timestamp": "2026-05-21T07:56:23.156Z",
+  "citiesAdded": 30,
+  "trCountBefore": 14,
+  "trCountAfter": 44,
+  "totalCuratedBefore": 2917,
+  "totalCuratedAfter": 2947,
+  "addedSlugs": [
+    {
+      "slug": "eskisehir",
+      "gid": "315202",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "van",
+      "gid": "298117",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "samsun",
+      "gid": "740264",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "kahramanmaras",
+      "gid": "310859",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "usak",
+      "gid": "298299",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "denizli",
+      "gid": "317109",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "corum",
+      "gid": "748879",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "sivas",
+      "gid": "300619",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "afyonkarahisar",
+      "gid": "325303",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "iskenderun",
+      "gid": "311111",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "ordu",
+      "gid": "741100",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "osmaniye",
+      "gid": "303195",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "corlu",
+      "gid": "748893",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "izmit",
+      "gid": "745028",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "bolu",
+      "gid": "750516",
+      "arSource": "GN-clean"
+    },
+    {
+      "slug": "malatya",
+      "gid": "304922",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "batman",
+      "gid": "321836",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "elazig",
+      "gid": "315808",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "antakya",
+      "gid": "323779",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "alanya",
+      "gid": "324190",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "tarsus",
+      "gid": "299817",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "aksaray",
+      "gid": "324496",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "adiyaman",
+      "gid": "325330",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "adapazari",
+      "gid": "752850",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "gebze",
+      "gid": "747014",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "balikesir",
+      "gid": "322165",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "kirikkale",
+      "gid": "307654",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "kuetahya",
+      "gid": "305268",
+      "arSource": "MANUAL:translit"
+    },
+    {
+      "slug": "edirne",
+      "gid": "747712",
+      "arSource": "MANUAL:WikipediaAR"
+    },
+    {
+      "slug": "karaman",
+      "gid": "309527",
+      "arSource": "MANUAL:translit"
+    }
+  ]
+}

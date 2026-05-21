@@ -964,7 +964,14 @@ const _HDAY_UI = {
           link_convert:'🔄 تحويل التاريخ هجري ميلادي', link_today:'📌 التاريخ الهجري اليوم',
           link_cal: c => `📅 التقويم الهجري لشهر ${c.monthName} ${c.year}`,
           title:   c => `التاريخ الهجري اليوم: ${c.dayName} ${c.hDate}`,
-          subtitle:c => `الموافق: ${c.dayName} ${c.gDate} – حسب تقويم أم القرى`,
+          // HIJRI-DAY-HERO-POLISH-1 (2026-05-21): Arabic UI wording polish
+          // for the date-card subtitle on /hijri-date/{date}. Same data,
+          // refined formatting:
+          //   - "الموافق:" → "يوافق:" (verb-form for natural reading)
+          //   - "+ ${dayName}" → "+ ${dayName}،" (Arabic comma after day name)
+          //   - " م" Gregorian suffix dropped (kept already implicit context)
+          //   - "–" en-dash → "—" em-dash (premium typographic separator)
+          subtitle:c => `يوافق: ${c.dayName}، ${(c.gDate || '').replace(/\s*م\s*$/, '').trim()} — حسب تقويم أم القرى`,
           intro:   c => `يعرض هذا اليوم التاريخ الهجري الموافق ${c.hDate} مع التاريخ الميلادي المقابل حسب تقويم أم القرى في ${c.country}، بالإضافة إلى معلومات اليوم والأحداث التاريخية.`,
           otd:     c => `في مثل هذا اليوم، ${c.dayName} ${c.hDate}، وقعت العديد من الأحداث المهمة في التاريخ الإسلامي.`,
           footer:  c => `التقويم الهجري يعتمد على دورة القمر، ويستخدم في تحديد المناسبات الإسلامية مثل رمضان والحج. يوافق التاريخ ${c.hDate} في التقويم الميلادي ${c.gDate}، حسب تقويم أم القرى المعتمد في ${c.countryLabel}. يمكنك استخدام أداة تحويل التاريخ للتحويل بين التاريخ الهجري والميلادي، أو تصفح التقويم الهجري لمعرفة التاريخ الهجري اليوم.`,

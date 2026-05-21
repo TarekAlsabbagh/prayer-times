@@ -23232,3 +23232,109 @@ html[data-theme="dark"] #page-hijri-month #hmonth-other-months .hmonth-current-b
         width: 100%;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-DAY-HERO-POLISH-1 (2026-05-21): /hijri-date/{date} hero
+   date-card polish.
+
+   Scope: #page-hijri-day .hpage-hero.ht-hero + #hday-title +
+          .ht-hero-stack + #hday-subtitle. CSS-ONLY. No DOM/data/href/SEO/
+   JSON-LD/logic change. The day name (الأربعاء) is preserved in H1 —
+   we just refine the visual stack below.
+
+   Problem statement (user feedback 2026-05-21):
+     - Day number "3" is too large (5.5rem) and dominates the card.
+     - Hierarchy month/year/subtitle could read more balanced.
+     - Subtitle needs a cleaner presentation.
+
+   Treatment (scoped to #page-hijri-day only — does NOT touch
+   /today-hijri-date which shares some classes):
+
+     1. Card padding: 18/18 → 22 top / 18 bottom (slight top breathing)
+     2. .ht-hero-stack:
+        - margin 14/12 → 10/8 (tighter — less vertical bloat)
+        - gap 2 → 4px (number ↔ month ↔ year breathing)
+     3. .ht-day-num:
+        - font-size 5.5rem → 4.6rem (less dominant; still bold focal)
+        - margin-bottom 6px → 4px
+     4. .ht-month:
+        - font-size 1.85rem → 1.6rem (clearly less than number but
+          still strong; reads as the noun-pair anchor)
+     5. .ht-year:
+        - font-size 1rem → 1.05rem (slightly larger, more present)
+        - margin-top 4 → 6px
+        - opacity removed (was 0.85 — masked the full color)
+        - color stays text-light but visible
+     6. #hday-subtitle (renders the "يوافق:..." meta line):
+        - Convert to inline-block meta-pill: soft mint bg + 1px
+          rgba primary 0.10 border + 999px radius + 7px 18px padding
+        - Color primary-dark, font 0.95rem, line-height 1.55
+        - Centered with margin auto
+        - Max-width 640px so the pill doesn't stretch full-width
+
+     7. Responsive ≤520px:
+        - .ht-day-num: 4.2 → 3.6rem
+        - .ht-month: 1.5 → 1.3rem
+        - .ht-year: 0.9 → 0.95rem
+        - subtitle padding 6/14, font 0.88rem
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-day .hpage-hero.ht-hero {
+    padding-top: 22px;
+    padding-bottom: 18px;
+}
+#page-hijri-day .ht-hero-stack {
+    margin: 10px 0 8px;
+    gap: 4px;
+}
+#page-hijri-day .ht-hero-stack .ht-day-num {
+    font-size: 4.6rem;
+    margin-bottom: 4px;
+}
+#page-hijri-day .ht-hero-stack .ht-month {
+    font-size: 1.6rem;
+}
+#page-hijri-day .ht-hero-stack .ht-year {
+    font-size: 1.05rem;
+    margin-top: 6px;
+    opacity: 1;
+    color: var(--text-light, #5f6b78);
+}
+
+/* Subtitle → meta-pill */
+#page-hijri-day #hday-subtitle.hpage-hero-subtitle {
+    display: inline-block;
+    background: rgba(26, 107, 60, 0.05);
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-radius: 999px;
+    padding: 7px 18px;
+    margin: 0 auto;
+    max-width: 640px;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: 0.1px;
+}
+html[data-theme="dark"] #page-hijri-day #hday-subtitle.hpage-hero-subtitle {
+    background: rgba(77, 203, 140, 0.08);
+    border-color: rgba(77, 203, 140, 0.18);
+    color: #d8e6dc;
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    #page-hijri-day .ht-hero-stack .ht-day-num {
+        font-size: 3.6rem;
+        letter-spacing: -1.5px;
+    }
+    #page-hijri-day .ht-hero-stack .ht-month {
+        font-size: 1.3rem;
+    }
+    #page-hijri-day .ht-hero-stack .ht-year {
+        font-size: 0.95rem;
+    }
+    #page-hijri-day #hday-subtitle.hpage-hero-subtitle {
+        font-size: 0.88rem;
+        padding: 6px 14px;
+    }
+}

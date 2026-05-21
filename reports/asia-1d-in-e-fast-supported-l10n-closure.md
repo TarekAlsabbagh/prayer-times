@@ -2,7 +2,8 @@
 
 **Date**: 2026-05-21
 **Phase**: Fast combined geodata + L10N wave (next-tier IN cities — Tamil Nadu + Kerala focus)
-**Status**: ✅ Implementation complete — awaiting user closure approval
+**Status**: ✅ **CLOSED — user-approved 2026-05-21**
+**Implementation commit**: `9a13c77` — `feat(geodata): ASIA-1D-IN-E-FAST-SUPPORTED-L10N — +30 IN cities (TN+KL) with ar/en/ur/bn only`
 **Scope**: +30 IN cities with exactly `ar/en/ur/bn` (no other langs)
 
 ---
@@ -268,8 +269,23 @@ All 30 ✓ — each city renders its real native Urdu/Bengali name in `<title>`.
 
 ---
 
-## 9. Awaiting user closure approval
+## 9. Closure marker
 
-Implementation complete. No further phases opened.
+**Approved by user 2026-05-21**:
+> أعتمد إغلاق ASIA-1D-IN-E-FAST-SUPPORTED-L10N رسميًا، وأعطي الإذن برفع commit التنفيذ والـ closure commit بعد إنشائه.
+> Marker: `docs(closure): mark ASIA-1D-IN-E-FAST-SUPPORTED-L10N user-approved 2026-05-21`
+
+The ECONNREFUSED notes on UR-PK-6 / UR-AF-1 / UR-IR-1 / lang_guard / city_name_universal during this commit's local regression run were explicitly acknowledged as **not regressions** — they are local-dev-server stale-process issues on port 8080, with offline byte-identity verification confirming all PK/BD/AF/IR/SA/TR/MY/ID entries unchanged (per-cc spot-checks documented in §6.2).
+
+No further phases opened. Specifically held back per user constraint:
+- ❌ ASIA-1D-IN-F
+- ❌ ASIA-1F (CN solo)
+- ❌ AMERICAS waves
+- ❌ SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2
+- ❌ Search-ranking wave
+- ❌ Hijri pages
+- ❌ DELETE-V1 / geocode-proxy
+- ❌ Separate L10N wave
+- ❌ Any modification to `docs/place-data-maintenance-policy.md`
 
 *— End of report —*

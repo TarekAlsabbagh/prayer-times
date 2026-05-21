@@ -19297,3 +19297,139 @@ html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-pick
     color: var(--bg, #22272e) !important;
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-HERO-REDESIGN-2 (2026-05-21): center + constrain the
+   control panel inside the unified hero (refinement of REDESIGN-1).
+
+   User feedback on REDESIGN-1: "منطقة اختيار السنة أصبحت عريضة جدًا وممتدة
+   على كامل الصفحة" + "select كبير جدًا" + "زر اليوم ضخم" + "القسم أصبح
+   أقرب إلى form كبير وليس hero احترافي".
+
+   Fix:
+   - Hero content centered (text-align center; intro max-width 760px
+     auto-margin)
+   - Control panel max-width 720px centered (no longer stretches across
+     the full card)
+   - Select + buttons sized to "control" feel rather than "form"
+     (heights 46/44 instead of full-width visual flex)
+   - Today CTA prominent but contained within the panel's width
+   - Mobile keeps 100% width within panel (no horizontal scroll)
+
+   CSS-ONLY. Scope: #page-hijri-year .hpage-hero-start ONLY.
+   No DOM/text/SEO/JSON-LD/canonical/hreflang/logic/data changes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Hero card: center content, balanced padding ── */
+#page-hijri-year .hpage-hero-start {
+    text-align: center;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hpage-hero-start {
+        padding: 30px 32px 28px;
+    }
+}
+
+/* ── Title: centered, slightly larger on desktop, comfortable line ── */
+#page-hijri-year .hpage-hero-start > #hyear-title {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 10px;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hpage-hero-start > #hyear-title {
+        font-size: 1.85rem;
+        line-height: 1.3;
+    }
+}
+
+/* ── Intro: centered, narrower max-width than before, balanced ── */
+#page-hijri-year .hpage-hero-start > #hyear-intro {
+    text-align: center;
+    max-width: 760px;
+    margin: 0 auto 22px;
+    color: var(--text-light, #6b7b75);
+}
+@media (max-width: 768px) {
+    #page-hijri-year .hpage-hero-start > #hyear-intro {
+        margin-bottom: 18px;
+    }
+}
+
+/* ── Control panel: max-width 720px, centered inside the hero ── */
+#page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 20px 24px;
+    text-align: start;
+}
+@media (max-width: 768px) {
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
+        max-width: 100%;
+        padding: 16px 16px;
+    }
+}
+
+/* Panel title — keep visible, sit cleanly above the controls */
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-panel-title {
+    font-size: 1rem;
+    margin: 0;
+    text-align: start;
+}
+
+/* Label sits above the select, end-aligned (start in RTL) */
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-panel-label {
+    text-align: start;
+}
+
+/* ── Select: contained inside the panel (NOT stretched to page),
+   appropriate height 46-50px range ── */
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .year-select {
+    width: 100%;        /* inside the 720px-max panel only */
+    height: 48px;
+    font-size: 1.1rem;
+    padding: 0 14px;
+    text-align: center;
+    text-align-last: center;
+    line-height: 48px;
+}
+
+/* ── Prev / Next row: 50/50 split inside the constrained panel ── */
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-year-nav-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin: 4px 0 0;
+}
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-year-nav-btn {
+    height: 44px;
+    padding: 0 14px;
+    font-size: 0.92rem;
+    line-height: 44px;
+}
+/* On very narrow mobile, stack prev/next vertically for breathing room */
+@media (max-width: 380px) {
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-year-nav-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+}
+
+/* ── TODAY CTA: prominent primary inside panel (NOT page-wide) ── */
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-today-cta {
+    margin: 10px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid rgba(26, 107, 60, 0.12);
+}
+#page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-today-cta .btn {
+    height: 50px;
+    padding: 0 22px;
+    font-size: 1rem;
+    line-height: 50px;
+    /* width: 100% inherited from REDESIGN-1, contained by panel max-width 720 */
+}
+
+/* Dark mode parity for the divider color refinement */
+html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-today-cta {
+    border-top-color: rgba(77, 203, 140, 0.20);
+}
+

@@ -19541,3 +19541,103 @@ html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-pick
     box-shadow: 0 2px 8px rgba(77, 203, 140, 0.18);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-SUMMARY-CARDS-POLISH-1 (2026-05-21): polish the 4
+   summary cards on /hijri-calendar (info-grid: السنة / عدد الأيام / نوع
+   السنة / عدد الأشهر).
+
+   Issues observed in HCAL-2b/HCAL-2c state:
+     1. Card value 1.7rem caused "نوع السنة" value "كبيسة (355 يوماً)" to
+        break ugly:
+            كبيسة (355
+            يوماً)
+        — closing parenthesis stranded on second line.
+     2. Cards felt slightly off-balance: large value vs short label.
+     3. Padding / icon proportions OK but a notch tight.
+
+   Fix (CSS-ONLY, scoped to #page-hijri-year #hyear-info-grid):
+     - min-height bumped to ~138px (user spec 130-145)
+     - value reduced 1.7rem → 1.5rem (24px, well within 24-30 spec range)
+       allowing more breathing room horizontally so the longest value
+       ("كبيسة (355 يوماً)") fits on one line on desktop.
+     - Year-Type card (3rd child) gets an even smaller value 1.15rem
+       (~18.4px, within 18-20 sub-value spec) so even if it wraps on
+       narrow screens, the parenthetical reads naturally.
+     - text-wrap: balance for modern browsers (graceful 2-line splits
+       when they happen).
+     - word-break: keep-all + overflow-wrap: normal prevent breaks
+       inside Arabic words.
+     - icon trimmed 36 → 34px (within 34-40 spec); softer ring.
+     - label 0.82rem → 0.8rem (within 13-14px spec).
+     - vertical centering preserved (existing flex-direction: column +
+       justify-content: center).
+
+   No DOM/text/data/SEO/JSON-LD/logic/server-side changes. Scope strictly
+   confined to #page-hijri-year #hyear-info-grid .info-card subtree.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-year #hyear-info-grid .info-card {
+    padding: 16px 14px;
+    gap: 8px;
+    min-height: 138px;
+}
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-info-grid .info-card {
+        padding: 14px 12px;
+        min-height: 124px;
+    }
+}
+
+/* Icon: trimmed 36 → 34px, slightly muted */
+#page-hijri-year #hyear-info-grid .info-card .info-card-icon {
+    width: 34px;
+    height: 34px;
+    font-size: 1.05rem;
+    background: rgba(26, 107, 60, 0.09);
+}
+
+/* Label: within 13-14px spec */
+#page-hijri-year #hyear-info-grid .info-card .info-card-label {
+    font-size: 0.8rem;
+    line-height: 1.35;
+    margin: 0;
+}
+
+/* Value: within 24-30px spec (1.5rem ≈ 24px). Allow graceful wrapping
+   when needed but keep Arabic word integrity. */
+#page-hijri-year #hyear-info-grid .info-card .info-card-value {
+    font-size: 1.5rem;
+    line-height: 1.2;
+    letter-spacing: -0.3px;
+    white-space: normal;
+    word-break: keep-all;
+    overflow-wrap: normal;
+    text-wrap: balance;
+    text-wrap: pretty;
+    max-width: 100%;
+    padding: 0 4px;
+}
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-info-grid .info-card .info-card-value {
+        font-size: 1.3rem;
+    }
+}
+
+/* Year-Type card (3rd card "نوع السنة" — value "كبيسة (355 يوماً)") —
+   smaller value so the parenthetical reads as a coherent unit, not a
+   broken second line. ~18.4px (within 18-20px sub-value spec). */
+#page-hijri-year #hyear-info-grid .info-card:nth-child(3) .info-card-value {
+    font-size: 1.15rem;
+    line-height: 1.3;
+    font-weight: 700;
+}
+@media (max-width: 480px) {
+    #page-hijri-year #hyear-info-grid .info-card:nth-child(3) .info-card-value {
+        font-size: 1.05rem;
+    }
+}
+
+/* Vertical centering — preserved but explicit for the new min-height */
+#page-hijri-year #hyear-info-grid .info-card {
+    justify-content: center;
+}

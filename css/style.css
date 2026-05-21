@@ -22354,3 +22354,187 @@ html[data-theme="dark"] #page-hijri-month .hpage-table tbody td a:hover {
         font-size: 0.84rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-LINKS-POLISH-1 (2026-05-21): "🔗 روابط مرتبطة"
+   related-links section on /hijri-calendar/{year}-{month}.
+
+   Scope: #page-hijri-month #hmonth-links-title + #hmonth-links + its
+   four child anchors. CSS-only. No DOM/text/href/data/SEO/JSON-LD/
+   logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - All 4 links render as solid primary green pills via inline
+       `background:var(--primary)` + `color:#fff` — they read as
+       primary CTAs (which dilutes the actual primary actions
+       elsewhere on the page).
+     - No clear hierarchy.
+     - Fourth link wraps to its own line, creating an unbalanced
+       single-button row.
+     - Feels heavy for a "related links" helper section.
+
+   User preferred fix:
+     - Treat them as related links: lighter than CTAs but clearer
+       than plain text links.
+     - Soft consistent pills (NOT solid primary).
+     - Fix the orphan-button issue with a 2×2 grid on desktop.
+
+   Constraints kept:
+     - All 4 link labels preserved verbatim
+     - All 4 hrefs preserved
+     - No DOM mutation / no order change
+     - No SEO / JSON-LD / logic touch
+
+   Cascade context:
+     SSR injects inline styles per anchor:
+       display:inline-block; padding:9px 18px;
+       background:var(--primary); color:#fff;
+       border-radius:8px; text-decoration:none; font-size:0.9rem;
+     Container has class "u-flex-wrap-top" (line 8830) which sets
+     display:flex; flex-wrap:wrap; gap:10px; margin-top:8px;
+     We override the container with explicit grid + override the
+     anchor inline styles via !important.
+
+   Treatment (6 sections):
+
+     1. Section title (#hmonth-links-title):
+        - 1.1rem, weight 800, primary-dark, letter-spacing -0.2px
+        - margin-bottom 12px (matches sibling titles)
+
+     2. Grid (#hmonth-links):
+        - Override u-flex-wrap-top: display grid !important, 2 columns,
+          gap 10px, max-width 720px, margin auto
+        - Eliminates the orphan-on-second-row problem (4 items in 2×2)
+
+     3. Anchor surface (override inline solid-primary CTA look):
+        - background: #fbfefc (soft mint)
+        - color: var(--primary-dark) (NOT #fff)
+        - border: 1px solid rgba(primary, 0.12)
+        - border-radius: 10px
+        - padding: 11px 16px
+        - font-size: 0.93rem, font-weight: 600
+        - inline-flex + align-items: center + justify-content: center
+        - gap: 8px (between emoji and text — consistent across all 4)
+        - line-height: 1.35
+        - transition for hover
+
+     4. Hover (desktop ≥769px):
+        - background #f4faf6, border alpha 0.25, primary-dark text,
+          translateY -1px, soft 0 2px 6px primary 0.07 shadow
+
+     5. Focus-visible: 2px primary outline + 2px offset
+
+     6. Responsive:
+        - ≤768px: 1-col, gap 8px
+        - ≤480px: tighter padding 10/14, font 0.9rem
+
+   Dark-mode parity:
+     - title → primary-light
+     - anchor bg var(--bg-elevated), text primary-light, border 0.18
+     - hover bg rgba(primary-light, 0.06), border 0.32
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section title ── */
+#page-hijri-month #hmonth-links-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 0 0 12px;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-links-title {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 2. Grid — 2-col, max-width, centered ── */
+#page-hijri-month #hmonth-links {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: 10px !important;
+    margin: 0 auto !important;
+    max-width: 720px;
+    width: 100%;
+    flex-wrap: initial !important; /* override .u-flex-wrap-top */
+}
+
+/* ── 3. Anchor surface (override inline solid-primary CTA) ── */
+#page-hijri-month #hmonth-links > a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    background: #fbfefc !important;
+    color: var(--primary-dark, #0d4a28) !important;
+    border: 1px solid rgba(26, 107, 60, 0.12) !important;
+    border-radius: 10px !important;
+    padding: 11px 16px !important;
+    font-size: 0.93rem !important;
+    font-weight: 600 !important;
+    line-height: 1.35 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    box-sizing: border-box !important;
+    min-height: 44px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
+    transition: background .18s ease, border-color .18s ease,
+                color .18s ease, transform .18s ease, box-shadow .18s ease !important;
+    letter-spacing: 0.05px;
+}
+
+/* ── 4. Hover (desktop) ── */
+@media (min-width: 769px) {
+    #page-hijri-month #hmonth-links > a:hover {
+        background: #f4faf6 !important;
+        border-color: rgba(26, 107, 60, 0.25) !important;
+        color: var(--primary-dark, #0d4a28) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(26, 107, 60, 0.07);
+    }
+}
+
+/* ── 5. Focus-visible ── */
+#page-hijri-month #hmonth-links > a:focus-visible {
+    outline: 2px solid var(--primary, #1a6b3c);
+    outline-offset: 2px;
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-month #hmonth-links > a {
+    background: var(--bg-elevated, #373e47) !important;
+    color: var(--primary-light, #4ab87a) !important;
+    border-color: rgba(77, 203, 140, 0.18) !important;
+    box-shadow: none;
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-month #hmonth-links > a:hover {
+        background: rgba(77, 203, 140, 0.06) !important;
+        border-color: rgba(77, 203, 140, 0.32) !important;
+        color: #b8f0d0 !important;
+        box-shadow: none;
+    }
+}
+
+/* ── 6. Responsive ── */
+@media (max-width: 768px) {
+    #page-hijri-month #hmonth-links-title {
+        font-size: 1.02rem;
+        margin: 0 0 10px;
+    }
+    #page-hijri-month #hmonth-links {
+        grid-template-columns: 1fr !important;
+        gap: 8px !important;
+        max-width: 100%;
+    }
+    #page-hijri-month #hmonth-links > a {
+        font-size: 0.92rem !important;
+        padding: 11px 14px !important;
+        min-height: 42px;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-month #hmonth-links > a {
+        padding: 10px 14px !important;
+        font-size: 0.9rem !important;
+        gap: 6px !important;
+    }
+}

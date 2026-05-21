@@ -19998,29 +19998,38 @@ html[dir="rtl"] #page-hijri-year .hpage-table thead tr th:last-child {
     border-radius: 0;
 }
 
-/* ── 4. Header (thead) — softer gradient, refined typography ── */
+/* ── 4. Header (thead) — premium two-tone gradient (REVISED in TABLE-
+   POLISH-1-FIX-1).
+   Was: linear-gradient(rgba(26,107,60,0.92) → 1.00) = essentially solid
+   primary green. User feedback: "الهيدر الأخضر لا يزال ثقيلًا قليلًا"
+   ("the green header still feels a bit heavy").
+   Now: brand-aligned diagonal-feel gradient from a slightly muted
+   "deep evergreen" top to primary bottom — gives depth without weight.
+   Letter-spacing bumped 0.3 → 0.5px for refined typography. */
 #page-hijri-year .hpage-table thead tr {
     background: linear-gradient(
         180deg,
-        rgba(26, 107, 60, 0.92) 0%,
-        rgba(26, 107, 60, 1.00) 100%
+        #205c39 0%,
+        #1a6b3c 60%,
+        #1a6b3c 100%
     );
     color: #fff;
 }
 #page-hijri-year .hpage-table thead th {
-    padding: 12px 14px;
-    font-size: 0.88rem;
+    padding: 13px 14px;
+    font-size: 0.87rem;
     font-weight: 600;
-    letter-spacing: 0.3px;
-    color: rgba(255, 255, 255, 0.96);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.97);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.10);
     text-transform: none;
 }
 html[data-theme="dark"] #page-hijri-year .hpage-table thead tr {
     background: linear-gradient(
         180deg,
-        rgba(77, 203, 140, 0.18) 0%,
-        rgba(77, 203, 140, 0.26) 100%
+        rgba(77, 203, 140, 0.16) 0%,
+        rgba(77, 203, 140, 0.22) 60%,
+        rgba(77, 203, 140, 0.22) 100%
     );
     color: #d8f0e1;
 }
@@ -20059,51 +20068,77 @@ html[data-theme="dark"] #page-hijri-year .hpage-table tbody td {
     border-bottom-color: rgba(255, 255, 255, 0.045) !important;
 }
 
-/* ── 6. Active/current month row — soft highlight + accent border ──
-   Was: solid var(--primary-light) background (~harsh). Now: very soft
-   tinted bg + 3px primary border-inline-start as the visual cue. */
+/* ── 6. Active/current month row — clearly visible highlight + strong
+   accent border (REVISED in TABLE-POLISH-1-FIX-1).
+   Was: rgba(26,107,60,0.07) + 3px border = too transparent/faded.
+   User feedback: "الصف المحدد / الشهر الحالي في آخر الجدول أصبح باهتًا
+   جدًا. النص داخل الصف المحدد ضعيف القراءة بسبب انخفاض التباين. لا أريد
+   active row شفافًا بهذا الشكل."
+   Now: solid soft mint band (linear gradient #e7f5ed→#dfeee6) gives
+   tangible presence; 4px primary accent (was 3px) reads decisively; text
+   stays primary-dark for strong readability. NO opacity reduction on the
+   row or its text. */
 #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"],
 #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] {
-    background: rgba(26, 107, 60, 0.07) !important;
+    background: linear-gradient(
+        180deg,
+        #e7f5ed 0%,
+        #dfeee6 100%
+    ) !important;
     position: relative;
 }
 #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child,
 #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td:first-child {
-    box-shadow: inset 3px 0 0 var(--primary, #1a6b3c);
+    box-shadow: inset 4px 0 0 var(--primary, #1a6b3c);
 }
 /* RTL: visual start is the right edge, so the inset shadow flips */
 html[dir="rtl"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child,
 html[dir="rtl"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td:first-child {
-    box-shadow: inset -3px 0 0 var(--primary, #1a6b3c);
+    box-shadow: inset -4px 0 0 var(--primary, #1a6b3c);
 }
-/* Active row td — slightly bolder + primary-dark anchor color (was white).
+/* Active row text — strong readability (FIX-1 reinforced).
    !important required because the SSR template injects inline `color:#fff`
-   on both the <td> and the inner <a> (legacy "active row uses solid green
-   bg + white text" assumption that this polish replaces with soft tint +
-   dark text). The inline color must be overridden via cascade. */
+   on both the <td> and the inner <a>. We need primary-dark text on the
+   soft mint band — NEVER faded white. font-weight stays 600/700 to feel
+   intentional, not faint. */
 #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td,
 #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td {
-    color: var(--primary-dark, #0d4a28) !important;
+    color: #0d4a28 !important;
     font-weight: 600;
 }
 #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td a,
 #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td a {
-    color: var(--primary-dark, #0d4a28) !important;
+    color: #0d4a28 !important;
     font-weight: 700 !important;
     text-decoration: none !important;
 }
+/* The days-count cell (col 4) uses var(--text-light) on regular rows —
+   inside an active row that contrast is too low against the mint band.
+   Bump to primary-dark + bold so the count remains readable. */
+#page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:nth-child(4),
+#page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td:nth-child(4) {
+    color: #0d4a28 !important;
+    font-weight: 600 !important;
+}
 
-/* Dark-mode active row — soft tint, no full gradient (overrides 8876-8884) */
+/* Dark-mode active row — visibly tinted band + 4px primary-light accent
+   (REVISED in TABLE-POLISH-1-FIX-1: bumped from 13% to 22% so the band is
+   genuinely visible against the surface-raised tbody bg; 4px accent ring
+   matches the light-mode treatment). */
 html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"],
 html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] {
-    background: rgba(77, 203, 140, 0.13) !important;
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.18) 0%,
+        rgba(77, 203, 140, 0.24) 100%
+    ) !important;
     color: #e8f7ee !important;
 }
 html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child {
-    box-shadow: inset 3px 0 0 var(--primary-light, #4ab87a);
+    box-shadow: inset 4px 0 0 var(--primary-light, #4ab87a);
 }
 html[dir="rtl"] html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td:first-child {
-    box-shadow: inset -3px 0 0 var(--primary-light, #4ab87a);
+    box-shadow: inset -4px 0 0 var(--primary-light, #4ab87a);
 }
 html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"] td,
 html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"] td {
@@ -20123,10 +20158,15 @@ html[data-theme="dark"] #page-hijri-year .hpage-table tbody tr[style*="backgroun
 #page-hijri-year .hpage-table tbody tr:hover td a {
     color: var(--primary-dark, #0d4a28) !important;
 }
-/* Active row hover — keep distinct */
+/* Active row hover — slightly deeper mint than the baseline gradient
+   (FIX-1: baseline is #e7f5ed→#dfeee6, hover bumps to #dceae3→#cfe2d7). */
 #page-hijri-year .hpage-table tbody tr[style*="background:var(--primary-light)"]:hover,
 #page-hijri-year .hpage-table tbody tr[style*="background: var(--primary-light)"]:hover {
-    background: rgba(26, 107, 60, 0.10) !important;
+    background: linear-gradient(
+        180deg,
+        #dceae3 0%,
+        #cfe2d7 100%
+    ) !important;
 }
 
 /* ── 8. Typography hierarchy ──

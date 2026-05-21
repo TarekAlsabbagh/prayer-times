@@ -1810,8 +1810,20 @@ const _HMONTH_UI = {
           title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} يوماً)`,
           subtitle:c=>`يوافق الفترة من ${c.gFirstStr} إلى ${c.gLastStr} حسب تقويم أم القرى`,
           days_summary:c=>`📅 عدد أيام شهر ${c.monthName} ${c.year}${c.hSfx}: ${c.totalDays} يومًا`,
-          other_months_title:c=>`🌙 التقويم الهجري لعام ${c.year}${c.hSfx} — جميع الأشهر`,
-          other_months_active_suffix:' (الحالي)',
+          // HIJRI-MONTH-OTHER-MONTHS-COPY-FIX-1 (2026-05-21):
+          //   - Title clarified: month-page user is BROWSING year months,
+          //     not viewing a year-summary. "تصفح" verb is more precise.
+          //   - Active suffix changed from "(الحالي)" — which could read as
+          //     "current month of today" — to "الشهر المعروض" ("displayed
+          //     month") so users and crawlers know we mean the month the
+          //     page is showing, regardless of today's date.
+          //   - The leading space + no parens lets the consumption site
+          //     wrap the suffix in a styled <span> so it renders as a small
+          //     subtitle line (CSS at #page-hijri-month #hmonth-other-months
+          //     .hmonth-current-badge), avoiding the "active card grows
+          //     wider/taller than the others" wrap issue.
+          other_months_title:c=>`تصفح أشهر التقويم الهجري ${c.year}${c.hSfx}`,
+          other_months_active_suffix:'الشهر المعروض',
           years_title:'📆 تصفّح السنوات الهجرية',
           years_current:()=>'سنوات قريبة:',
           years_active_suffix:'',
@@ -21745,8 +21757,14 @@ function loadHijriMonthPage() {
             const fg       = isActive ? '#fff'           : 'var(--primary)';
             const fw       = isActive ? '700' : '500';
             const aria     = isActive ? ' aria-current="true"' : '';
-            const sfx      = isActive ? activeSfx : '';
-            return `<a href="${hijriMonthUrl(year, mo)}"${aria} style="display:block;padding:12px 10px;background:${bg};color:${fg};border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:${fw};text-align:center;border:1px solid var(--border);">${mName} ${year}${hSfx}${sfx}</a>`;
+            // HIJRI-MONTH-OTHER-MONTHS-COPY-FIX-1 (2026-05-21): suffix
+            // is wrapped in a styled span so CSS can render it as a
+            // subtitle line (.hmonth-current-badge) instead of inline
+            // text. Keeps active card the same width as siblings, just
+            // slightly taller — the previous inline "(الحالي)" caused
+            // visible wrap/overflow on narrow cards.
+            const sfxHtml  = (isActive && activeSfx) ? ` <span class="hmonth-current-badge">${activeSfx}</span>` : '';
+            return `<a href="${hijriMonthUrl(year, mo)}"${aria} style="display:block;padding:12px 10px;background:${bg};color:${fg};border-radius:10px;text-decoration:none;font-size:0.9rem;font-weight:${fw};text-align:center;border:1px solid var(--border);">${mName} ${year}${hSfx}${sfxHtml}</a>`;
         }).join('');
     }
 

@@ -24285,3 +24285,162 @@ html[data-theme="dark"] #page-hijri-day #hday-faq > div > div:last-child a {
         line-height: 1.7 !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   HIJRI-DAY-FOOTER-SEO-POLISH-1 (2026-05-21)
+   Section: /hijri-date/{date} → #hday-footer-seo paragraph
+   Goal: a calm, informative card (NOT a CTA).
+   - Comfortable line-height + slightly larger reading size.
+   - max-width prevents the paragraph from stretching too wide
+     on desktop (keeps measure ~70ch for readability).
+   - Centered text-block via margin auto (paragraph remains
+     RTL-aligned via text-align: start so Arabic flows from
+     the right inside the constrained block).
+   - Subtle padding tightening — no background colour, no
+     borders, no hover effect: this is body text, not a CTA.
+   ═══════════════════════════════════════════════════════════ */
+#page-hijri-day .section-card:has(> #hday-footer-seo) {
+    padding-top: 18px !important;
+    padding-bottom: 18px !important;
+}
+#page-hijri-day #hday-footer-seo {
+    font-size: 0.95rem !important;
+    color: var(--text-light, #6b7c75) !important;
+    line-height: 2.0 !important;
+    max-width: 760px !important;
+    margin: 0 auto !important;
+    text-align: start !important;
+    letter-spacing: 0.005em !important;
+}
+@media (max-width: 768px) {
+    #page-hijri-day .section-card:has(> #hday-footer-seo) {
+        padding-top: 14px !important;
+        padding-bottom: 14px !important;
+    }
+    #page-hijri-day #hday-footer-seo {
+        font-size: 0.92rem !important;
+        line-height: 1.9 !important;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   HIJRI-DAY-SEO-FAQ-SEPARATION-POLISH-1 (2026-05-21)
+   Scope: /hijri-date/{date} → boundary between the educational
+          content area (.hijri-date-seo-card × 6) and the FAQ band
+          (.hijri-date-faq + the .section-card hosting #hday-faq).
+
+   Problem (user feedback 2026-05-21):
+   - Both areas read with the same visual weight → weak hierarchy.
+   - Both render narrower than surrounding section-cards because
+     legacy CSS at line 18920 forces max-width: 920px on
+     .hijri-date-seo-card + .hijri-date-faq while every other
+     section-card on the page fills the natural container width.
+
+   Goals (CSS-only — no HTML / text / JSON-LD changes):
+   1. Full-width parity — override max-width so the two areas
+      sit in the same column as Hero / CTA / hierarchy / footer.
+   2. Strong section-break BEFORE the first FAQ block:
+      - bigger top margin
+      - subtle gradient hairline above (::before pseudo-element)
+   3. FAQ band visual distinction — light tinted background
+      gradient on BOTH the SSR .hijri-date-faq AND the adjacent
+      .section-card hosting client-built #hday-faq, so the two
+      adjacent FAQ blocks read as one continuous "Q&A band".
+   4. Stronger primary-accent on the SSR FAQ wrapper h2 plus an
+      ❓ icon prefix via ::before (CSS-only; the SSR title text
+      stays SEO-correct with the parameterized {date}).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Full-width fix — kill the 920px legacy max-width */
+#page-hijri-day .hijri-date-seo-card,
+#page-hijri-day .hijri-date-faq {
+    max-width: none !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-top: 16px !important;
+}
+
+/* 2. Stronger break + 3. tinted band background — first FAQ block */
+#page-hijri-day .hijri-date-faq {
+    margin-top: 40px !important;
+    position: relative;
+    background: linear-gradient(180deg, #f7fcf9 0%, #fafdfb 100%) !important;
+    border-color: rgba(12, 94, 54, 0.16) !important;
+    box-shadow: 0 12px 32px rgba(15, 44, 28, 0.05) !important;
+}
+#page-hijri-day .hijri-date-faq::before {
+    content: '';
+    position: absolute;
+    top: -22px;
+    left: 12%;
+    right: 12%;
+    height: 1px;
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(12, 94, 54, 0.22) 50%,
+        transparent 100%);
+    pointer-events: none;
+}
+
+/* 4. Stronger primary-accent on FAQ wrapper h2 + ❓ icon prefix */
+#page-hijri-day .hijri-date-faq > h2 {
+    color: var(--primary-dark, #0d4a28) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.2px !important;
+}
+#page-hijri-day .hijri-date-faq > h2::before {
+    content: '❓\00a0';
+    color: var(--primary, #1a6b3c);
+    margin-inline-end: 4px;
+    font-weight: 700;
+}
+
+/* 5. Extend the band visual to the adjacent client-FAQ section-card
+       (the .section-card directly hosting <h2 id="hday-faq-title">) */
+#page-hijri-day .section-card:has(> h2#hday-faq-title) {
+    background: linear-gradient(180deg, #fafdfb 0%, #ffffff 100%) !important;
+    border: 1px solid rgba(12, 94, 54, 0.14) !important;
+    margin-top: 14px !important;
+}
+
+/* 6. Mobile — preserve hierarchy with scaled-down values */
+@media (max-width: 768px) {
+    #page-hijri-day .hijri-date-faq {
+        margin-top: 32px !important;
+    }
+    #page-hijri-day .hijri-date-faq::before {
+        top: -18px;
+        left: 8%;
+        right: 8%;
+    }
+    #page-hijri-day .section-card:has(> h2#hday-faq-title) {
+        margin-top: 12px !important;
+    }
+}
+
+/* 7. Dark-mode parity */
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq {
+    background: linear-gradient(180deg,
+        rgba(77, 203, 140, 0.06) 0%,
+        var(--card-bg, #1a2820) 100%) !important;
+    border-color: rgba(74, 222, 128, 0.22) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.32) !important;
+}
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq::before {
+    background: linear-gradient(90deg,
+        transparent 0%,
+        rgba(74, 222, 128, 0.32) 50%,
+        transparent 100%);
+}
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq > h2 {
+    color: var(--primary-light, #4ab87a) !important;
+}
+html[data-theme="dark"] #page-hijri-day .hijri-date-faq > h2::before {
+    color: var(--accent, #4ade80) !important;
+}
+html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
+    background: linear-gradient(180deg,
+        rgba(77, 203, 140, 0.04) 0%,
+        var(--card-bg, #1a2820) 100%) !important;
+    border-color: rgba(74, 222, 128, 0.20) !important;
+}

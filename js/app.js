@@ -1247,7 +1247,21 @@ const _HDAY_NONTODAY = {
         faqTitle:'❓ أسئلة شائعة عن هذا التاريخ',
         cardYear:'📅 السنة', cardOrder:'📊 ترتيب اليوم', orderOf:(d,t)=>`${d} من ${t}`,
         relPrayerCity:(city)=>`🕌 مواقيت الصلاة في ${city}`,
-        footer:(c)=>`يوافق التاريخ ${c.hDate} التاريخ الميلادي ${c.gDate} حسب تقويم أم القرى. شهر ${c.monthName} هو الشهر رقم ${c.monthNum} في السنة الهجرية، وتحتوي سنة ${c.year}${c.hSfx} على ${c.totalYearDays} يوماً. يمكنك تصفّح التقويم الهجري الكامل أو استخدام أداة تحويل التاريخ.`,
+        // HIJRI-DAY-FOOTER-SEO-POLISH-1 (2026-05-21):
+        //   Calmer, more descriptive paragraph — no link-stuffing.
+        //   Adds the weekday name before the Gregorian date and uses
+        //   an Arabic ordinal ("الشهر الثاني عشر") for the month-of-year
+        //   position instead of the previous numeric "الشهر رقم 12".
+        //   Drops the trailing CTA-style sentence ("يمكنك تصفّح / استخدام
+        //   أداة تحويل") because those actions are already exposed via
+        //   #hday-cta (top) + #hday-hierarchy (top) + inline anchors
+        //   inside FAQ answers 3 & 4 (HIJRI-DAY-INLINE-FAQ-POLISH-1).
+        //   Tashkeel policy: only "يومًا" (tanwin on م) allowed; no shaddas.
+        footer:(c)=>{
+            const _AR_MONTH_ORD = ['','الأول','الثاني','الثالث','الرابع','الخامس','السادس','السابع','الثامن','التاسع','العاشر','الحادي عشر','الثاني عشر'];
+            const _ord = _AR_MONTH_ORD[c.monthNum] || c.monthNum;
+            return `يوافق تاريخ ${c.hDate} يوم ${c.dayName} ${c.gDate} حسب تقويم أم القرى. ويقع هذا اليوم ضمن شهر ${c.monthName}، وهو الشهر ${_ord} من السنة الهجرية، بينما تحتوي سنة ${c.year}${c.hSfx} على ${c.totalYearDays} يومًا.`;
+        },
         faq:(c)=>[
             [`ما هو التاريخ الميلادي الموافق لـ ${c.hDate}؟`, `${c.hDate} يوافق ${c.gDate} حسب تقويم أم القرى.`],
             [`ما هو اليوم الذي يوافق ${c.hDate}؟`, `${c.hDate} يوافق يوم ${c.dayName}.`],
@@ -21141,13 +21155,27 @@ function loadHijriDayPage() {
         const _baseText  = _esc(isGeoToday
             ? geo.footer(ctx, locDisplay)
             : (isToday ? ui.footer(ctx) : nt.footer(ctx)));
-        const _linkText  = _esc(isGeoToday
-            ? geo.footerLink(monthName, year, locDisplay)
-            : ex.footerLink(monthName, year));
-        const _linkHref  = _esc(hijriMonthUrl(year, month));
-        // Append a linked sentence at the end — clean separator, anchor varies per language
-        const _separator = (lang === 'ar' || lang === 'ur') ? ' — ' : ' — ';
-        footerEl.innerHTML = `${_baseText}${_separator}<a href="${_linkHref}" style="color:var(--primary);text-decoration:underline;">${_linkText}</a>.`;
+        // HIJRI-DAY-FOOTER-SEO-POLISH-1 (2026-05-21):
+        //   For Arabic non-today (/hijri-date/{YYYY-MM-DD}) the footer
+        //   paragraph is now self-contained (no trailing inline link).
+        //   Rationale: month/year/converter links already exist via
+        //   #hday-cta (top), #hday-hierarchy (top), and inline anchors
+        //   inside FAQ answers (HIJRI-DAY-INLINE-FAQ-POLISH-1, ee20ef5).
+        //   Appending another anchor here would over-link the paragraph.
+        //   Other langs + isToday + isGeoToday still get the trailing
+        //   anchor to preserve their existing SEO crawl-depth pattern.
+        const _arNonTodayNoLink = (lang === 'ar' && !isToday && !isGeoToday);
+        if (_arNonTodayNoLink) {
+            footerEl.innerHTML = _baseText;
+        } else {
+            const _linkText  = _esc(isGeoToday
+                ? geo.footerLink(monthName, year, locDisplay)
+                : ex.footerLink(monthName, year));
+            const _linkHref  = _esc(hijriMonthUrl(year, month));
+            // Append a linked sentence at the end — clean separator, anchor varies per language
+            const _separator = (lang === 'ar' || lang === 'ur') ? ' — ' : ' — ';
+            footerEl.innerHTML = `${_baseText}${_separator}<a href="${_linkHref}" style="color:var(--primary);text-decoration:underline;">${_linkText}</a>.`;
+        }
     }
 
     // ── 9. Schema JSON-LD — @graph: BreadcrumbList + WebPage + FAQPage (NO Article — Answer Page) ──

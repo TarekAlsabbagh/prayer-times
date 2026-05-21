@@ -121155,5 +121155,989 @@
     "source": "geonames",
     "sourceId": "geonames:1267394",
     "verified": false
+  },
+  {
+    "slug": "depok",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -6.4,
+    "lng": 106.81861,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "ديبوك",
+      "en": "Depok",
+      "id": "Kota Depok"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الغربية",
+      "regionEn": "West Java",
+      "admin1Code": "30"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1645524",
+    "verified": false
+  },
+  {
+    "slug": "tasikmalaya",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.3274,
+    "lng": 108.2207,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "تاسيكمالايا",
+      "en": "Tasikmalaya",
+      "id": "Kota Tasikmalaya"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الغربية",
+      "regionEn": "West Java",
+      "admin1Code": "30"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1624647",
+    "verified": false
+  },
+  {
+    "slug": "serang",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -6.11528,
+    "lng": 106.15417,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سيرانغ",
+      "en": "Serang",
+      "id": "Kota Serang"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بانتن",
+      "regionEn": "Banten",
+      "admin1Code": "33"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1627549",
+    "verified": false
+  },
+  {
+    "slug": "banjarmasin",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -3.31987,
+    "lng": 114.59075,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "بانجارماسين",
+      "en": "Banjarmasin",
+      "id": "Kota Banjarmasin"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "كاليمانتان الجنوبية",
+      "regionEn": "South Kalimantan",
+      "admin1Code": "12"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1650213",
+    "verified": false
+  },
+  {
+    "slug": "cimahi",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -6.87222,
+    "lng": 107.5425,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "جيماهي",
+      "en": "Cimahi",
+      "id": "Kota Cimahi"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الغربية",
+      "regionEn": "West Java",
+      "admin1Code": "30"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1646448",
+    "verified": false
+  },
+  {
+    "slug": "cilegon",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -6.0144,
+    "lng": 106.0542,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "جيليغون",
+      "en": "Cilegon",
+      "id": "Kota Cilegon"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بانتن",
+      "regionEn": "Banten",
+      "admin1Code": "33"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1646511",
+    "verified": false
+  },
+  {
+    "slug": "palu",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.90833,
+    "lng": 119.87083,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "بالو",
+      "en": "Palu",
+      "id": "Kota Palu"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سولاويزي الوسطى",
+      "regionEn": "Central Sulawesi",
+      "admin1Code": "21"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1633034",
+    "verified": false
+  },
+  {
+    "slug": "dumai",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 1.66711,
+    "lng": 101.44316,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "دوماي",
+      "en": "Dumai",
+      "id": "Kota Dumai"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "رياو",
+      "regionEn": "Riau",
+      "admin1Code": "37"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1645133",
+    "verified": false
+  },
+  {
+    "slug": "pekalongan",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -6.8886,
+    "lng": 109.6753,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بيكالونغان",
+      "en": "Pekalongan",
+      "id": "Kota Pekalongan"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java",
+      "admin1Code": "07"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1631766",
+    "verified": false
+  },
+  {
+    "slug": "binjai",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 3.6001,
+    "lng": 98.4854,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بينجاي",
+      "en": "Binjai",
+      "id": "Kota Binjai"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الشمالية",
+      "regionEn": "North Sumatra",
+      "admin1Code": "26"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1215355",
+    "verified": false
+  },
+  {
+    "slug": "pematangsiantar",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 2.9595,
+    "lng": 99.0687,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بيماتانغ سيانتار",
+      "en": "Pematangsiantar",
+      "id": "Kota Pematangsiantar"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الشمالية",
+      "regionEn": "North Sumatra",
+      "admin1Code": "26"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1214204",
+    "verified": false
+  },
+  {
+    "slug": "sorong",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.87956,
+    "lng": 131.26104,
+    "timezone": "Asia/Jayapura",
+    "names": {
+      "ar": "سورونغ",
+      "en": "Sorong",
+      "id": "Kota Sorong"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بابوا الغربية",
+      "regionEn": "West Papua",
+      "admin1Code": "PD"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1626542",
+    "verified": false
+  },
+  {
+    "slug": "probolinggo",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.7543,
+    "lng": 113.2159,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بروبولينغو",
+      "en": "Probolinggo",
+      "id": "Kota Probolinggo"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java",
+      "admin1Code": "08"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1630634",
+    "verified": false
+  },
+  {
+    "slug": "singkawang",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 0.90925,
+    "lng": 108.98463,
+    "timezone": "Asia/Pontianak",
+    "names": {
+      "ar": "سينغكاوانغ",
+      "en": "Singkawang",
+      "id": "Kota Singkawang"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "كاليمانتان الغربية",
+      "regionEn": "West Kalimantan",
+      "admin1Code": "11"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1626916",
+    "verified": false
+  },
+  {
+    "slug": "pasuruan",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.6453,
+    "lng": 112.9075,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "باسوروان",
+      "en": "Pasuruan",
+      "id": "Kota Pasuruan"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java",
+      "admin1Code": "08"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1632033",
+    "verified": false
+  },
+  {
+    "slug": "ternate",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 0.79065,
+    "lng": 127.38424,
+    "timezone": "Asia/Jayapura",
+    "names": {
+      "ar": "تيرنات",
+      "en": "Ternate",
+      "id": "Kota Ternate"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "مالوكو الشمالية",
+      "regionEn": "North Maluku",
+      "admin1Code": "29"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1624041",
+    "verified": false
+  },
+  {
+    "slug": "madiun",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.6298,
+    "lng": 111.5239,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "ماديون",
+      "en": "Madiun",
+      "id": "Kota Madiun"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java",
+      "admin1Code": "08"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1636930",
+    "verified": false
+  },
+  {
+    "slug": "salatiga",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.33194,
+    "lng": 110.49278,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سالاتيغا",
+      "en": "Salatiga",
+      "id": "Kota Salatiga"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java",
+      "admin1Code": "07"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1629131",
+    "verified": false
+  },
+  {
+    "slug": "gorontalo",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 0.5375,
+    "lng": 123.0625,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "غورونتالو",
+      "en": "Gorontalo",
+      "id": "Kota Gorontalo"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "غورونتالو",
+      "regionEn": "Gorontalo",
+      "admin1Code": "34"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1643837",
+    "verified": false
+  },
+  {
+    "slug": "lhokseumawe",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 5.1801,
+    "lng": 97.1507,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "لوكسوماوي",
+      "en": "Lhokseumawe",
+      "id": "Kota Lhokseumawe"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "آتشيه",
+      "regionEn": "Aceh",
+      "admin1Code": "01"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1214658",
+    "verified": false
+  },
+  {
+    "slug": "langsa",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 4.4683,
+    "lng": 97.9683,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "لانغسا",
+      "en": "Langsa",
+      "id": "Kota Langsa"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "آتشيه",
+      "regionEn": "Aceh",
+      "admin1Code": "01"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1214724",
+    "verified": false
+  },
+  {
+    "slug": "palopo",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -2.9925,
+    "lng": 120.19694,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "بالوبو",
+      "en": "Palopo",
+      "id": "Kota Palopo"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سولاويزي الجنوبية",
+      "regionEn": "South Sulawesi",
+      "admin1Code": "38"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1633037",
+    "verified": false
+  },
+  {
+    "slug": "parepare",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -4.0135,
+    "lng": 119.6255,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "باريباري",
+      "en": "Parepare",
+      "id": "Kota Parepare"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سولاويزي الجنوبية",
+      "regionEn": "South Sulawesi",
+      "admin1Code": "38"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1632353",
+    "verified": false
+  },
+  {
+    "slug": "bima",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.46006,
+    "lng": 118.72667,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "بيما",
+      "en": "Bima",
+      "id": "Kota Bima"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "نوسا تنغارا الغربية",
+      "regionEn": "West Nusa Tenggara",
+      "admin1Code": "17"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1648759",
+    "verified": false
+  },
+  {
+    "slug": "blitar",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.0983,
+    "lng": 112.1681,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بليتار",
+      "en": "Blitar",
+      "id": "Kota Blitar"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java",
+      "admin1Code": "08"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1648580",
+    "verified": false
+  },
+  {
+    "slug": "mojokerto",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.4664,
+    "lng": 112.4338,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "موجوكيرتو",
+      "en": "Mojokerto",
+      "id": "Kota Mojokerto"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java",
+      "admin1Code": "08"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1635111",
+    "verified": false
+  },
+  {
+    "slug": "payakumbuh",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.2159,
+    "lng": 100.6334,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "باياكومبوه",
+      "en": "Payakumbuh",
+      "id": "Kota Payakumbuh"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الغربية",
+      "regionEn": "West Sumatra",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1631905",
+    "verified": false
+  },
+  {
+    "slug": "magelang",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.47056,
+    "lng": 110.21778,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "ماغيلانغ",
+      "en": "Magelang",
+      "id": "Kota Magelang"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java",
+      "admin1Code": "07"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1636884",
+    "verified": false
+  },
+  {
+    "slug": "sibolga",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 1.74016,
+    "lng": 98.78117,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سيبولغا",
+      "en": "Sibolga",
+      "id": "Kota Sibolga"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الشمالية",
+      "regionEn": "North Sumatra",
+      "admin1Code": "26"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1213855",
+    "verified": false
+  },
+  {
+    "slug": "subulussalam",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 2.662,
+    "lng": 97.8827,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سبلوسلام",
+      "en": "Subulussalam",
+      "id": "Kota Subulussalam"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "آتشيه",
+      "regionEn": "Aceh",
+      "admin1Code": "01"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:6713355",
+    "verified": false
+  },
+  {
+    "slug": "solok",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -0.8006,
+    "lng": 100.6571,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "سولوك",
+      "en": "Solok",
+      "id": "Kota Solok"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الغربية",
+      "regionEn": "West Sumatra",
+      "admin1Code": "24"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1626649",
+    "verified": false
+  },
+  {
+    "slug": "banjarbaru",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -3.4406,
+    "lng": 114.8365,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "بانجاربارو",
+      "en": "Banjarbaru",
+      "id": "Kota Banjarbaru"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "كاليمانتان الجنوبية",
+      "regionEn": "South Kalimantan",
+      "admin1Code": "12"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1650217",
+    "verified": false
+  },
+  {
+    "slug": "padang-sidempuan",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 1.37155,
+    "lng": 99.27617,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بادانغ سيديمبوان",
+      "en": "Padang Sidempuan",
+      "id": "Kota Padang Sidempuan"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "سومطرة الشمالية",
+      "regionEn": "North Sumatra",
+      "admin1Code": "26"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:11054666",
+    "verified": false
+  },
+  {
+    "slug": "cilacap",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.72639,
+    "lng": 109.00944,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "جيلاجاب",
+      "en": "Cilacap",
+      "id": "Cilacap"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java",
+      "admin1Code": "07"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1646559",
+    "verified": false
+  },
+  {
+    "slug": "purwokerto",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -7.42139,
+    "lng": 109.23444,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بوروكيرتو",
+      "en": "Purwokerto",
+      "id": "Purwokerto"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الوسطى",
+      "regionEn": "Central Java",
+      "admin1Code": "07"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1630328",
+    "verified": false
+  },
+  {
+    "slug": "banyuwangi",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.2325,
+    "lng": 114.35755,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بانيواانغي",
+      "en": "Banyuwangi",
+      "id": "Banyuwangi"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "جاوة الشرقية",
+      "regionEn": "East Java",
+      "admin1Code": "08"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1650077",
+    "verified": false
+  },
+  {
+    "slug": "maumere",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.6199,
+    "lng": 122.2111,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "مومير",
+      "en": "Maumere",
+      "id": "Maumere"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "نوسا تنغارا الشرقية",
+      "regionEn": "East Nusa Tenggara",
+      "admin1Code": "18"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1635815",
+    "verified": false
+  },
+  {
+    "slug": "ende",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.8432,
+    "lng": 121.6623,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "إندي",
+      "en": "Ende",
+      "id": "Ende"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "نوسا تنغارا الشرقية",
+      "regionEn": "East Nusa Tenggara",
+      "admin1Code": "18"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1644932",
+    "verified": false
+  },
+  {
+    "slug": "sumbawa-besar",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -8.49317,
+    "lng": 117.42024,
+    "timezone": "Asia/Makassar",
+    "names": {
+      "ar": "سومباوا بيسار",
+      "en": "Sumbawa Besar",
+      "id": "Sumbawa Besar"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "نوسا تنغارا الغربية",
+      "regionEn": "West Nusa Tenggara",
+      "admin1Code": "17"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1626185",
+    "verified": false
+  },
+  {
+    "slug": "nabire",
+    "type": "city",
+    "countryCode": "id",
+    "lat": -3.35989,
+    "lng": 135.50074,
+    "timezone": "Asia/Jayapura",
+    "names": {
+      "ar": "نابيري",
+      "en": "Nabire",
+      "id": "Nabire"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "بابوا الوسطى",
+      "regionEn": "Central Papua",
+      "admin1Code": "PT"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1634614",
+    "verified": false
+  },
+  {
+    "slug": "bengkalis",
+    "type": "city",
+    "countryCode": "id",
+    "lat": 1.46667,
+    "lng": 102.13333,
+    "timezone": "Asia/Jakarta",
+    "names": {
+      "ar": "بينغكاليس",
+      "en": "Bengkalis",
+      "id": "Bengkalis"
+    },
+    "admin": {
+      "countryAr": "إندونيسيا",
+      "countryEn": "Indonesia",
+      "regionAr": "رياو",
+      "regionEn": "Riau",
+      "admin1Code": "37"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1649169",
+    "verified": false
   }
 ]

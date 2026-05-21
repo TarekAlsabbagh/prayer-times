@@ -101,7 +101,7 @@ console.log('── Group 1: Counts ──');
 // Counts updated post ASIA-1D-IN-D-FAST-SUPPORTED-L10N.
 // Bengali coverage now extends to 199 (BN-IN-1 40 + BATCH-B 30 + BATCH-C 39 + BATCH-D 33).
 // Urdu also extends to 199. Hindi remains 40 (HI-IN-1 only).
-ok('Total curated == 2687', curated.length === 2687, '(actual: ' + curated.length + ')');
+ok('Total curated == 2728', curated.length === 2728, '(actual: ' + curated.length + ')');
 ok('IN total == 199',        inEntries.length === 199, '(actual: ' + inEntries.length + ')');
 const withBn = inEntries.filter(e => e.names && e.names.bn).length;
 ok('IN with names.bn == 199', withBn === 199, '(actual: ' + withBn + '/199)');

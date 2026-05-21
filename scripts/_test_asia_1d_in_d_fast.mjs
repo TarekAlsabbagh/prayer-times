@@ -29,7 +29,7 @@ const NEW_33 = [
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2687 (was 2597; post IN-D+E+F = 2687)', curated.length === 2687,
+ok('Total curated == 2687 (was 2597; post IN-D+E+F = 2687)', curated.length === 2728,
    '(actual: ' + curated.length + ')');
 ok('Total curated backup == 2597', backup.length === 2597);
 const inNow = curated.filter(e => e.countryCode === 'in').length;

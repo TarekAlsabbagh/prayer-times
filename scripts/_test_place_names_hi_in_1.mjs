@@ -93,9 +93,9 @@ const EXPECTED_HI = {
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-// Counts updated post ASIA-1D-IN-D-FAST-SUPPORTED-L10N (curated 2597→2687, IN 109→142).
+// Counts updated post ASIA-1D-IN-D-FAST-SUPPORTED-L10N (curated 2597→2728, IN 109→142).
 // Hindi coverage still only HI-IN-1 cohort of 40 (BATCH-B/C/D are ar+en+ur+bn).
-ok('Total curated == 2687', curated.length === 2687, '(actual: ' + curated.length + ')');
+ok('Total curated == 2728', curated.length === 2728, '(actual: ' + curated.length + ')');
 ok('IN total == 199',        inEntries.length === 199, '(actual: ' + inEntries.length + ')');
 const withHi = inEntries.filter(e => e.names && e.names.hi).length;
 ok('IN with names.hi == 40 (HI-IN-1 cohort only — NOT extended)', withHi === 40, '(actual: ' + withHi + '/199)');

@@ -20732,3 +20732,195 @@ html[data-theme="dark"] #page-hijri-year #hyear-years-all {
         min-width: 58px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-GUIDE-POLISH-1 (2026-05-21): "دليل استخدام التقويم
+   الهجري" usage-guide section on /hijri-calendar/{year} (also on hub).
+
+   Scope: .hcal1-guide section card + its children. CSS-ONLY.
+   No DOM/text/href/data/SEO/JSON-LD/FAQ-schema/logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - Four guide cards look generic / boxy.
+     - Body text feels visually long, asks for more comfortable reading.
+     - 01/02/03/04 numbered badges are good, but alignment + size could
+       be refined.
+     - h3 ↔ body hierarchy could be sharper.
+     - Section needs a quieter, more premium feel.
+
+   Constraints (kept):
+     - No content/text/order change (all 4 articles + intro + h2 preserved).
+     - No DOM mutation.
+     - No SEO / JSON-LD / FAQ-schema touch.
+
+   Existing baseline (lines 16969-17051):
+     .hcal1-guide bg=#fff, .hcal1-guide-intro 0.95rem text-light margin 0 0 16,
+     .hcal1-guide-grid 2-col gap 14px (mobile 1-col gap 12),
+     .hcal1-guide-block bg=#fafdfb border-rgba-primary-0.10 radius 10
+     padding 14 16 14 56 (RTL 14 56 14 16),
+     ::before counter badge 30×30 circle bg-rgba-primary-0.10 top 14
+     inset-inline-start 14 font-size 0.82 weight 800 color primary,
+     h3 1rem weight 700 primary-dark margin 0 0 8 line-height 1.35,
+     p 0.92rem text line-height 1.7 max-width 980.
+
+   Design changes:
+     1. Intro paragraph: tighter top + smaller bottom margin so it sits
+        closer to the cards (user: "لا تجعل الوصف بعيدًا جدًا عن الكروت").
+        font-size 0.95 → 0.96 (slight bump), line-height 1.65 → 1.7
+        (more comfortable).
+     2. Grid: gap 14 → 16 desktop / 12 → 12 mobile (kept tight on mobile).
+     3. Cards: softer surface (#fafdfb → #fbfefc), lighter border
+        (rgba 0.10 → 0.08), bigger radius (10 → 14 — feels more premium),
+        more padding (14/16 → 18/22 inline + 18/22 block-end), inline-
+        start padding 56 → 64 (accommodates a slightly larger badge),
+        very subtle shadow (0 1px 2px rgba black 0.02).
+     4. ::before number badge: 30×30 → 34×34, font-size 0.82 → 0.86,
+        background gradient (rgba 0.07 → 0.13) for soft depth + 1px ring
+        for definition; top/inset-inline-start 14 → 18 (matches new
+        padding). Color stays primary.
+     5. h3: 1rem → 1.06rem (slightly bigger), letter-spacing -0.1px
+        (refined), margin 0 0 8 → 0 0 10, line-height 1.35 → 1.3.
+     6. p: 0.92 → 0.95rem, line-height 1.7 → 1.75 (more comfortable
+        reading), letter-spacing 0.1px (premium micro-tracking),
+        color stays var(--text).
+     7. Responsive ≤768px: card padding 18/22 → 14/16 inline + 16 block
+        (compact); h3 1.06 → 1.02rem; p 0.95 → 0.92rem; badge 34 → 30;
+        keeps 1-col grid as before.
+     8. Dark-mode parity for new bg/border/shadow values and badge.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Intro paragraph — sits close to cards ── */
+.hcal1-guide .hcal1-guide-intro {
+    font-size: 0.96rem;
+    line-height: 1.7;
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 14px;
+    max-width: 980px;
+    letter-spacing: 0.05px;
+}
+
+/* ── 2. Grid — slightly more breathing room ── */
+.hcal1-guide .hcal1-guide-grid {
+    gap: 16px;
+}
+
+/* ── 3. Cards — quieter, premium surface ── */
+.hcal1-guide .hcal1-guide-block {
+    background: #fbfefc;
+    border: 1px solid rgba(26, 107, 60, 0.08);
+    border-radius: 14px;
+    padding: 18px 22px 20px 64px;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: border-color .18s ease, background .18s ease,
+                box-shadow .18s ease;
+}
+[dir="rtl"] .hcal1-guide .hcal1-guide-block {
+    padding: 18px 64px 20px 22px;
+}
+
+/* ── 4. Numbered badge — refined elegant circle ── */
+.hcal1-guide .hcal1-guide-block::before {
+    width: 34px;
+    height: 34px;
+    top: 18px;
+    inset-inline-start: 18px;
+    background: linear-gradient(
+        180deg,
+        rgba(26, 107, 60, 0.10) 0%,
+        rgba(26, 107, 60, 0.14) 100%
+    );
+    border: 1px solid rgba(26, 107, 60, 0.16);
+    color: var(--primary, #1a6b3c);
+    font-weight: 800;
+    font-size: 0.86rem;
+    letter-spacing: 0.4px;
+    box-shadow: 0 1px 2px rgba(26, 107, 60, 0.05);
+}
+
+/* ── 5. h3 — clearer hierarchy ── */
+.hcal1-guide .hcal1-guide-block h3 {
+    font-size: 1.06rem;
+    font-weight: 700;
+    color: var(--primary-dark, #0d4a28);
+    margin: 0 0 10px;
+    line-height: 1.3;
+    letter-spacing: -0.1px;
+}
+
+/* ── 6. p — comfortable reading ── */
+.hcal1-guide .hcal1-guide-block p {
+    font-size: 0.95rem;
+    color: var(--text, #2c3e50);
+    line-height: 1.75;
+    margin: 0;
+    max-width: 980px;
+    letter-spacing: 0.1px;
+}
+
+/* ── 7. Hover (desktop ≥769px) — subtle lift ── */
+@media (min-width: 769px) {
+    .hcal1-guide .hcal1-guide-block:hover {
+        border-color: rgba(26, 107, 60, 0.18);
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.04);
+    }
+}
+
+/* ── 8. Dark-mode parity ── */
+html[data-theme="dark"] .hcal1-guide .hcal1-guide-block {
+    background: var(--bg-elevated, #373e47);
+    border-color: rgba(77, 203, 140, 0.16);
+    box-shadow: none;
+}
+html[data-theme="dark"] .hcal1-guide .hcal1-guide-block::before {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.14) 0%,
+        rgba(77, 203, 140, 0.20) 100%
+    );
+    border-color: rgba(77, 203, 140, 0.30);
+    color: var(--primary-light, #4ab87a);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
+}
+html[data-theme="dark"] .hcal1-guide .hcal1-guide-block h3 {
+    color: var(--primary-light, #4ab87a);
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] .hcal1-guide .hcal1-guide-block:hover {
+        border-color: rgba(77, 203, 140, 0.32);
+        background: rgba(77, 203, 140, 0.05);
+    }
+}
+
+/* ── 9. Responsive ── */
+@media (max-width: 768px) {
+    .hcal1-guide .hcal1-guide-grid {
+        gap: 12px;
+    }
+    .hcal1-guide .hcal1-guide-block {
+        padding: 14px 16px 16px 56px;
+        border-radius: 12px;
+    }
+    [dir="rtl"] .hcal1-guide .hcal1-guide-block {
+        padding: 14px 56px 16px 16px;
+    }
+    .hcal1-guide .hcal1-guide-block::before {
+        width: 30px;
+        height: 30px;
+        top: 14px;
+        inset-inline-start: 14px;
+        font-size: 0.82rem;
+    }
+    .hcal1-guide .hcal1-guide-block h3 {
+        font-size: 1.02rem;
+        margin: 0 0 8px;
+    }
+    .hcal1-guide .hcal1-guide-block p {
+        font-size: 0.92rem;
+        line-height: 1.7;
+    }
+    .hcal1-guide .hcal1-guide-intro {
+        font-size: 0.93rem;
+        line-height: 1.65;
+        margin: 0 0 12px;
+    }
+}

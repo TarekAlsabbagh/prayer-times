@@ -16,7 +16,7 @@ const NEW_32 = [
 ];
 
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2810 (post FR-DE)', curated.length === 2810, '(actual: ' + curated.length + ')');
+ok('Total curated == 2860 (post FR-DE-B)', curated.length === 2860, '(actual: ' + curated.length + ')');
 ok('Backup == 2728', backup.length === 2728);
 ok('MY count == 53', curated.filter(e=>e.countryCode==='my').length === 53,
    '(actual: ' + curated.filter(e=>e.countryCode==='my').length + ')');

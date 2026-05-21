@@ -23176,3 +23176,59 @@ html[data-theme="dark"] #page-hijri-month #hmonth-other-months .hmonth-current-b
         gap: 6px !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-MOBILE-CENTERING-1 (2026-05-21): Center the content on
+   the month info cards (#hmonth-info-grid .info-card) and the prev/next
+   month-nav cards (#hmonth-nav > a) on mobile (≤768px).
+
+   User feedback: the labels were pinned to the start edge and values to
+   the end edge (justify-content: space-between, align-items: flex-start /
+   flex-end). On a narrow phone column this reads as "labels stuck right /
+   values stuck left" which is awkward. The user wants the content
+   centered inside each card on mobile.
+
+   Changes (CSS-only, scoped, mobile-only):
+
+     1. .info-card (#hmonth-info-grid):
+        - flex-direction row → column (label above value, both centered)
+        - text-align: center
+        - justify-content + align-items: center
+        - tighter gap
+
+     2. #hmonth-nav > a (prev/next):
+        - Override inline `align-items: flex-start | flex-end` via
+          `align-items: center !important`
+        - text-align: center !important
+        - label centered, month name centered below it
+
+   No DOM/text/href/SEO/data/logic change.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 768px) {
+    /* Month info cards — centered column */
+    #page-hijri-month #hmonth-info-grid .info-card {
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        text-align: center !important;
+        gap: 4px !important;
+    }
+    #page-hijri-month #hmonth-info-grid .info-card .info-card-label {
+        text-align: center !important;
+    }
+    #page-hijri-month #hmonth-info-grid .info-card .info-card-value {
+        text-align: center !important;
+    }
+
+    /* Prev/Next month nav — centered content (override SSR inline
+       align-items: flex-start / flex-end on each anchor) */
+    #page-hijri-month #hmonth-nav > a {
+        align-items: center !important;
+        text-align: center !important;
+    }
+    #page-hijri-month #hmonth-nav > a > span {
+        text-align: center !important;
+        width: 100%;
+    }
+}

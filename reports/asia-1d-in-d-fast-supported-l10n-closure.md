@@ -2,37 +2,45 @@
 
 **Date**: 2026-05-21
 **Phase**: Fast combined geodata + L10N wave (next-tier IN cities)
-**Status**: ✅ Implementation complete — awaiting user closure approval
+**Status**: ✅ **CLOSED — user-approved 2026-05-21**
+**Implementation commit**: `40d37eb` — `feat(geodata): ASIA-1D-IN-D-FAST-SUPPORTED-L10N — +33 IN cities with ar/en/ur/bn only`
 **Scope**: +33 IN cities with exactly `ar/en/ur/bn` (no other langs)
 
 ---
 
-## 0. Acceptance criteria
+## 0. Acceptance criteria (user-approved 2026-05-21)
 
 | # | Criterion | Status |
 |---|---|---|
-| 1 | 33 new IN cities added | ✅ |
+| 1 | 33 new IN cities added (within target 30–40 range) | ✅ |
 | 2 | IN count 109 → 142 (+33) | ✅ |
-| 3 | Total curated 2597 → 2630 (+33) | ✅ |
+| 3 | Total curated 2,597 → 2,630 (+33) | ✅ |
 | 4 | Each new entry has exactly `names.{ar,en,ur,bn}` (4 keys, no more, no less) | ✅ |
 | 5 | NO `names.hi/ta/mr/te/kn/ml/gu/pa/or/as/sa` in any new entry | ✅ |
-| 6 | `names.ur` passes Urdu-script guard for all 33 | ✅ |
-| 7 | `names.bn` passes Bengali-script guard for all 33 | ✅ |
-| 8 | `names.ar` passes Arabic-script guard for all 33 | ✅ |
-| 9 | `names.en` passes Latin-script guard for all 33 | ✅ |
-| 10 | Prior 109 IN entries byte-identical | ✅ (per-slug SHA-256 hash check) |
-| 11 | PK / BD / non-IN entries byte-identical | ✅ |
-| 12 | No duplicate slug (collision detected `bharatpur` → renamed to `bharatpur-in`) | ✅ |
-| 13 | No duplicate sourceId / geonameId | ✅ |
-| 14 | No slug changes for existing entries | ✅ |
-| 15 | No canonical URL changes for existing entries | ✅ |
-| 16 | No search-ranking changes | ✅ |
-| 17 | `server.js` / `js/app.js` / `index.html` / `server/place-l10n/index.js` unchanged | ✅ All 0-byte diff |
-| 18 | No runtime translation invoked | ✅ Sources are static text |
-| 19 | No fillchain | ✅ Each new entry has 4 distinct values; no `names[L] === names.en` |
-| 20 | All required fields per `docs/place-data-maintenance-policy.md §6` | ✅ |
-| 21 | Tests: 105/105 new + carry-forward green | ✅ |
-| 22 | Backup created before mutation | ✅ `db/places/curated-places.json.preAsia1dInDFast.bak` |
+| 6 | Legacy `names.hi` (HI-IN-1 40 cities) preserved unchanged — NOT extended | ✅ |
+| 7 | `names.ur` passes Urdu-script guard for all 33 | ✅ |
+| 8 | `names.bn` passes Bengali-script guard for all 33 | ✅ |
+| 9 | `names.ar` passes Arabic-script guard for all 33 | ✅ |
+| 10 | `names.en` passes Latin-script guard for all 33 | ✅ |
+| 11 | Prior 109 IN entries byte-identical (per-slug SHA-256) | ✅ |
+| 12 | PK / BD / non-IN entries byte-identical (15 countries spot-checked) | ✅ |
+| 13 | No duplicate slug (collision detected `bharatpur` → renamed to `bharatpur-in`) | ✅ |
+| 14 | No duplicate sourceId / geonameId | ✅ |
+| 15 | No slug changes for existing entries | ✅ |
+| 16 | No canonical URL changes for existing entries | ✅ |
+| 17 | No search-ranking changes | ✅ |
+| 18 | `server.js` unchanged | ✅ 0-byte diff |
+| 19 | `js/app.js` unchanged | ✅ 0-byte diff |
+| 20 | `index.html` unchanged | ✅ 0-byte diff |
+| 21 | `server/place-l10n/index.js` unchanged | ✅ 0-byte diff |
+| 22 | `docs/place-data-maintenance-policy.md` unchanged (policy followed exactly) | ✅ 0-byte diff |
+| 23 | No runtime translation invoked | ✅ Sources are static text (GeoNames raw + manual translit cited) |
+| 24 | No fillchain | ✅ Each new entry has 4 distinct values; apply script rejects `names[L] === names.en` |
+| 25 | All required fields per `docs/place-data-maintenance-policy.md §6` | ✅ |
+| 26 | New test suite: 105/105 PASS | ✅ |
+| 27 | Carry-forward tests all green (UR-IN-1 122/0, BN-IN-1 113/0, HI-IN-1 116/0, supported-local-policy-1 78/78, fallback-consistency-1 173/173, seo-fallback-1 107/107, UR-PK-6/UR-IR-1/UR-AF-1, fill_lang_map, lang_guard, city_name_universal, city_name_ugly) | ✅ |
+| 28 | Browser verification via Preview MCP successful (jalgaon/akola/haridwar/roorkee/bharatpur-in/eluru × /ur/ + /bn/) | ✅ |
+| 29 | Backup created before mutation | ✅ `db/places/curated-places.json.preAsia1dInDFast.bak` |
 
 ---
 
@@ -294,17 +302,20 @@ The IN cohort is now structured with 4 fully-supported UI langs across 142 entri
 
 ---
 
-## 10. Awaiting user closure approval
+## 10. Closure marker
 
-Implementation complete. No further phases opened. Specifically held back per user constraint:
-- ❌ Another IN wave (this is positioned as the "final or near-final" IN data wave)
+**Approved by user 2026-05-21**:
+> أعتمد إغلاق ASIA-1D-IN-D-FAST-SUPPORTED-L10N رسميًا، وأعطي الإذن برفع commit التنفيذ والـ closure commit بعد إنشائه.
+> Marker: `docs(closure): mark ASIA-1D-IN-D-FAST-SUPPORTED-L10N user-approved 2026-05-21`
+
+No further phases opened in this commit. Specifically held back:
+- ❌ ASIA-1D-IN-E (queued by user — will start AFTER this push completes, as a separate phase)
 - ❌ ASIA-1F (CN solo)
 - ❌ AMERICAS waves
-- ❌ DELETE-V1
+- ❌ DELETE-V1 / geocode-proxy
 - ❌ Search-ranking changes
 - ❌ Hijri pages
-- ❌ Geocode-proxy
-- ❌ L10N separate wave (this IS the combined geodata + L10N wave)
+- ❌ Separate L10N wave (this IS the combined geodata + L10N wave)
 - ❌ Any modification to `docs/place-data-maintenance-policy.md`
 
 *— End of report —*

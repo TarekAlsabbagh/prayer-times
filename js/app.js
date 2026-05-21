@@ -960,7 +960,12 @@ const _HDAY_UI = {
     ar: { home:'الرئيسية', cal:'التقويم الهجري', prev:'اليوم السابق', next:'اليوم التالي',
           leap_yes:'نعم ✓', leap_no:'لا ✗', leap_text:(y)=>y?'كبيسة':'بسيطة',
           cards:['📅 اليوم','🗓 التاريخ الهجري','📆 التاريخ الميلادي','🌙 الشهر','📊 عدد أيام الشهر','✔️ السنة'],
-          days_word:'يوم', site:'مواقيت الصلاة والتقويم الهجري',
+          // HIJRI-DAY-INFO-COPY-FIX-1 (2026-05-21): unify "30 يوم" → "30 يومًا"
+          // (Arabic Academy standard tanwin-on-م orthography, matches the
+          // HIJRI-MONTH-TASHKEEL-POLICY-1 unified policy for day counts).
+          // Used in #hday-info-grid "عدد أيام الشهر" card. Other 9 langs
+          // (en/fr/tr/ur/de/id/es/bn/ms) unchanged.
+          days_word:'يومًا', site:'مواقيت الصلاة والتقويم الهجري',
           link_convert:'🔄 تحويل التاريخ هجري ميلادي', link_today:'📌 التاريخ الهجري اليوم',
           link_cal: c => `📅 التقويم الهجري لشهر ${c.monthName} ${c.year}`,
           title:   c => `التاريخ الهجري اليوم: ${c.dayName} ${c.hDate}`,

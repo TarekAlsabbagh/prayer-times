@@ -21055,3 +21055,156 @@ html[data-theme="dark"] .hcal1-guide .hcal1-guide-block::before {
         line-height: 1.6;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-FAQ-POLISH-1 (2026-05-21): "أسئلة شائعة" FAQ
+   section on /hijri-calendar/{year}.
+
+   Scope: #page-hijri-year #hyear-faq-title + #hyear-faq > div items.
+   CSS-only. No DOM/text/Q&A/order/FAQ-schema/JSON-LD/SEO/logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - Each FAQ item renders as a heavy gray bar (inline `background:
+       var(--bg)` = #f0f2f5).
+     - The cards are very flat — they don't read as a premium FAQ block.
+     - Question ↔ answer hierarchy is unclear; they sit too close.
+     - Internal whitespace per item is on the large side.
+     - The section feels heavy despite having only a few items.
+     - No accordion feel.
+
+   Constraints (kept):
+     - No question / answer text or order change.
+     - No FAQ-schema / JSON-LD touch.
+     - These items are NOT accordions in the current DOM (no <details>,
+       no toggle JS), so we do NOT add a chevron affordance that would
+       imply a click action; we only polish the visual hierarchy
+       (per user: "إذا لم يكن accordion: أضف إحساس FAQ بصري فقط:
+       سؤال واضح، جواب تحته، border/spacing جميل، بدون إخفاء المحتوى").
+
+   Cascade context:
+     The SSR template injects inline styles per item (server.js or
+     app.js around line 21443):
+       wrapper <div>: background:var(--bg); border-radius:10px;
+                       padding:14px 18px; margin-bottom:10px;
+       question <div>: font-weight:700; color:var(--primary);
+                       margin-bottom:6px;
+       answer <div>:   color:var(--text); font-size:0.95rem;
+     The existing CSS at lines 17053-17086 targets `.faq-item` and
+     `details` — neither class is present in the actual DOM here, so
+     those rules don't fire. We use !important to win over the inline
+     styles per item.
+
+   No-touch guarantees:
+     - All Q&A text strings remain in DOM verbatim
+     - No new DOM elements injected
+     - FAQ schema in JSON-LD untouched (it's generated independently
+       from the same UI strings)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section title (#hyear-faq-title) — match neighbouring section
+       titles like #hyear-table-title and #hyear-years-title for
+       consistency. ── */
+#page-hijri-year #hyear-faq-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 0 0 12px;
+}
+html[data-theme="dark"] #page-hijri-year #hyear-faq-title {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 2. FAQ list container — vertical list, no grid ── */
+#page-hijri-year #hyear-faq {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+/* ── 3. FAQ item wrapper — clean surface + soft inline-start accent.
+       Defeats the inline gray var(--bg) background that made the items
+       read as input fields. The 3px primary border-inline-start is the
+       FAQ-style visual hint that this is a Q-and-A block. ── */
+#page-hijri-year #hyear-faq > div {
+    background: #fbfefc !important;
+    border: 1px solid rgba(26, 107, 60, 0.08) !important;
+    border-inline-start: 3px solid var(--primary, #1a6b3c) !important;
+    border-radius: 10px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 0 !important;
+    transition: border-color .18s ease, background .18s ease, box-shadow .18s ease;
+}
+
+/* Desktop hover — subtle lift only */
+@media (min-width: 769px) {
+    #page-hijri-year #hyear-faq > div:hover {
+        background: #f8fdfa !important;
+        border-color: rgba(26, 107, 60, 0.16) !important;
+        border-inline-start-color: var(--primary-dark, #0d4a28) !important;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    }
+}
+
+/* ── 4. Question — strong but not loud ── */
+#page-hijri-year #hyear-faq > div > div:first-child {
+    font-weight: 700 !important;
+    color: var(--primary-dark, #0d4a28) !important;
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 6px !important;
+    letter-spacing: -0.1px;
+}
+
+/* ── 5. Answer — quieter color, comfortable reading ── */
+#page-hijri-year #hyear-faq > div > div:last-child {
+    color: var(--text-light, #5f6b78) !important;
+    font-size: 0.93rem !important;
+    line-height: 1.65 !important;
+    letter-spacing: 0.05px;
+}
+
+/* ── 6. Dark-mode parity ── */
+html[data-theme="dark"] #page-hijri-year #hyear-faq > div {
+    background: var(--bg-elevated, #373e47) !important;
+    border-color: rgba(77, 203, 140, 0.16) !important;
+    border-inline-start-color: var(--primary-light, #4ab87a) !important;
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-year #hyear-faq > div:hover {
+        background: rgba(77, 203, 140, 0.05) !important;
+        border-color: rgba(77, 203, 140, 0.28) !important;
+        border-inline-start-color: #5fcc8f !important;
+        box-shadow: none;
+    }
+}
+html[data-theme="dark"] #page-hijri-year #hyear-faq > div > div:first-child {
+    color: var(--primary-light, #4ab87a) !important;
+}
+html[data-theme="dark"] #page-hijri-year #hyear-faq > div > div:last-child {
+    color: #c0c8c4 !important;
+}
+
+/* ── 7. Responsive ── */
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-faq-title {
+        font-size: 1.02rem;
+        margin: 0 0 10px;
+    }
+    #page-hijri-year #hyear-faq {
+        gap: 7px;
+    }
+    #page-hijri-year #hyear-faq > div {
+        padding: 11px 14px !important;
+        border-radius: 9px !important;
+        border-inline-start-width: 3px !important;
+    }
+    #page-hijri-year #hyear-faq > div > div:first-child {
+        font-size: 0.96rem !important;
+        margin-bottom: 5px !important;
+    }
+    #page-hijri-year #hyear-faq > div > div:last-child {
+        font-size: 0.9rem !important;
+        line-height: 1.6 !important;
+    }
+}

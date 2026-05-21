@@ -19641,3 +19641,154 @@ html[data-theme="dark"] #page-hijri-year .hpage-hero-start > .calendar-year-pick
 #page-hijri-year #hyear-info-grid .info-card {
     justify-content: center;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-MONTHS-CHIPS-POLISH-1 (2026-05-21): premium month
+   navigation grid on /hijri-calendar (section "تصفح أشهر سنة 1447 هـ").
+
+   Issues observed in HCAL-2 + HCAL-2b state:
+     1. Chips feel flat / repetitive (uniform background, no depth)
+     2. Active state too subtle (current 12-month indicator weak)
+     3. Section stretches across full card width (chips look "extended")
+     4. Number circle vs name balance not premium
+
+   Fix (CSS-ONLY, scoped to .hcal2-months-chips inside #page-hijri-year):
+     - Constrain grid max-width to keep chips from over-stretching
+     - Refined chip surface (subtle gradient + softer border + light shadow)
+     - Stronger active state (solid green tint + bolder border + inset
+       ring + slightly elevated chip number circle)
+     - Number circle proportion refined
+     - Heights at 48px (within 46-52 spec)
+     - Tighter section title spacing
+
+   No DOM / text / link / order / data / SEO / JSON-LD / logic changes.
+   Scope: .hcal2-months-chips inside #page-hijri-year ONLY.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Section heading + intro: tighter hierarchy ── */
+#page-hijri-year .hcal2-months-chips .hcal2-chips-intro {
+    margin: 0 0 14px;
+    line-height: 1.6;
+    font-size: 0.93rem;
+    color: var(--text-light, #6b7b75);
+    max-width: 760px;
+}
+
+/* ── Grid: constrain max-width on wide screens so chips don't stretch
+   too far. Stays centered inside the card. ── */
+#page-hijri-year .hcal2-months-chips .hcal2-chips-grid {
+    max-width: 960px;
+    margin-inline: auto;
+    gap: 10px;
+}
+@media (max-width: 1024px) {
+    #page-hijri-year .hcal2-months-chips .hcal2-chips-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+    }
+}
+@media (max-width: 640px) {
+    #page-hijri-year .hcal2-months-chips .hcal2-chips-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 8px;
+    }
+}
+
+/* ── Chip: premium surface, refined depth ── */
+#page-hijri-year .hcal2-months-chips .hcal2-month-chip {
+    min-height: 48px;
+    padding: 10px 14px;
+    gap: 12px;
+    background: linear-gradient(180deg, #ffffff 0%, #f7faf8 100%);
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-radius: 10px;
+    box-shadow: 0 1px 2px rgba(26, 107, 60, 0.04);
+    color: var(--primary-dark, #0d4a28);
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.3;
+    transition: border-color .15s, background .15s, transform .15s, box-shadow .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hcal2-months-chips .hcal2-month-chip:hover {
+        background: linear-gradient(180deg, #ffffff 0%, #eef6f0 100%);
+        border-color: rgba(26, 107, 60, 0.28);
+        transform: translateY(-1px);
+        box-shadow: 0 3px 10px rgba(26, 107, 60, 0.10);
+    }
+    #page-hijri-year .hcal2-months-chips .hcal2-month-chip:hover .hcal2-chip-num {
+        background: rgba(26, 107, 60, 0.18);
+        color: var(--primary-dark, #0d4a28);
+    }
+}
+
+/* ── Number circle: refined size + ring ── */
+#page-hijri-year .hcal2-months-chips .hcal2-chip-num {
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    background: rgba(26, 107, 60, 0.10);
+    color: var(--primary, #1a6b3c);
+    font-weight: 800;
+    font-size: 0.82rem;
+    letter-spacing: -0.2px;
+    box-shadow: inset 0 0 0 1px rgba(26, 107, 60, 0.06);
+    transition: background .15s, color .15s, box-shadow .15s;
+}
+
+/* ── Chip name: cleaner alignment ── */
+#page-hijri-year .hcal2-months-chips .hcal2-chip-name {
+    flex: 1;
+    min-width: 0;
+    line-height: 1.3;
+    font-weight: 600;
+}
+
+/* ── ACTIVE state: clearly visible, not noisy.
+   Strong green tint + bolder border + inset ring + filled number badge. ── */
+#page-hijri-year .hcal2-months-chips .hcal2-month-chip.current {
+    background: linear-gradient(180deg, rgba(26, 107, 60, 0.10) 0%, rgba(26, 107, 60, 0.06) 100%);
+    border-color: rgba(26, 107, 60, 0.45);
+    box-shadow:
+        inset 0 0 0 1px rgba(26, 107, 60, 0.16),
+        0 2px 8px rgba(26, 107, 60, 0.10);
+    color: var(--primary-dark, #0d4a28);
+    font-weight: 700;
+}
+#page-hijri-year .hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-num {
+    background: var(--primary, #1a6b3c);
+    color: #ffffff;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.20),
+        0 1px 3px rgba(26, 107, 60, 0.28);
+}
+#page-hijri-year .hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-name {
+    font-weight: 700;
+}
+
+/* Dark mode parity */
+html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip {
+    background: linear-gradient(180deg, var(--card-bg, #2d333b) 0%, var(--bg-elevated, #373e47) 100%);
+    border-color: rgba(77, 203, 140, 0.16);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.20);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-chip-num {
+    background: rgba(77, 203, 140, 0.16);
+    color: var(--primary-light, #4ab87a);
+    box-shadow: inset 0 0 0 1px rgba(77, 203, 140, 0.10);
+}
+html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip.current {
+    background: linear-gradient(180deg, rgba(77, 203, 140, 0.16) 0%, rgba(77, 203, 140, 0.08) 100%);
+    border-color: rgba(77, 203, 140, 0.50);
+    box-shadow:
+        inset 0 0 0 1px rgba(77, 203, 140, 0.24),
+        0 2px 8px rgba(77, 203, 140, 0.12);
+}
+html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-num {
+    background: var(--primary-light, #4ab87a);
+    color: var(--bg, #22272e);
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.20),
+        0 1px 3px rgba(77, 203, 140, 0.30);
+}

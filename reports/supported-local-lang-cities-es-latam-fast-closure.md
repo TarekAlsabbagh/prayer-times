@@ -3,7 +3,46 @@
 **Date:** 2026-05-21
 **Wave:** Sub-phase B of SUPPORTED-LOCAL-LANG-CITIES-FINAL-FAST
 **Pattern:** Dedupe-first, single-commit, no code changes
-**Status:** Ready for user closure approval
+**Status:** CLOSED — user-approved 2026-05-21
+
+---
+
+## Acceptance Criteria
+
+| #  | Criterion                                                                       | Result |
+|----|---------------------------------------------------------------------------------|--------|
+| 1  | ES entries grew exactly 45 → 57 (+12)                                           | ✅     |
+| 2  | MX entries grew exactly 31 → 39 (+8)                                            | ✅     |
+| 3  | AR entries grew exactly 10 → 22 (+12)                                           | ✅     |
+| 4  | CO entries grew exactly 9 → 19 (+10)                                            | ✅     |
+| 5  | PE entries grew exactly 13 → 18 (+5)                                            | ✅     |
+| 6  | CL entries grew exactly 6 → 12 (+6)                                             | ✅     |
+| 7  | VE entries grew exactly 9 → 13 (+4)                                             | ✅     |
+| 8  | Total curated grew exactly 2,860 → 2,917 (+57)                                  | ✅     |
+| 9  | Exactly 57 new cities added (within 50-70 user-approved range)                  | ✅     |
+| 10 | Every new entry has EXACTLY `names.{ar, en, es}`                                | ✅     |
+| 11 | No unsupported langs (ur/bn/hi/ta/mr/te/kn/ml/gu/pa/or/as/sa/id/fr/de/tr/ms)    | ✅     |
+| 12 | IN / ID / MY / PK / BD / FR / DE entries unchanged (SHA-256 byte-identity)      | ✅     |
+| 13 | No modification to `server.js`                                                  | ✅     |
+| 14 | No modification to `js/app.js`                                                  | ✅     |
+| 15 | No modification to `index.html`                                                 | ✅     |
+| 16 | No modification to `docs/place-data-maintenance-policy.md`                      | ✅     |
+| 17 | No modification to `server/place-l10n/index.js`                                 | ✅     |
+| 18 | No search-ranking patch                                                         | ✅     |
+| 19 | No runtime translation (no MT, no browser translation, no live API)             | ✅     |
+| 20 | No fillchain (only 3 declared lang keys per entry)                              | ✅     |
+| 21 | No duplicate slugs / sourceIds / geonameIds across all 2,917 entries            | ✅     |
+| 22 | Slug disambiguation documented: leon-mx, cordoba-ar, cartagena-co, valencia-ve  | ✅     |
+| 23 | Total tests: 1,574/1,574 PASS (132 new + 51 SSR + 22 search + 1,369 carry)     | ✅     |
+| 24 | No new sub-phase started (Sub-phase C + all other waves remain DEFERRED)        | ✅     |
+
+**Outcome:** All 24 acceptance criteria met. Approved.
+
+---
+
+## Implementation Commit
+
+`df86d85 — feat(geodata): SUPPORTED-LOCAL-LANG-CITIES-ES-LATAM-FAST — +57 cities across 7 countries`
 
 ---
 
@@ -279,10 +318,14 @@ Count-drift refresh (2860 → 2917) in 11 existing test files.
 
 ## Section 15 — STOP
 
-Wave applied successfully. No code, docs, or policy changes. No new sub-phase
-started.
+Wave applied successfully. No code, docs, or policy changes.
 
-The following remain DEFERRED — DO NOT auto-start:
+**Closure approval received from user on 2026-05-21.**
+Marker: `docs(closure): mark SUPPORTED-LOCAL-LANG-CITIES-ES-LATAM-FAST user-approved 2026-05-21`
+
+Status moved from `awaiting user approval` → `CLOSED — user-approved 2026-05-21`.
+
+No new sub-phase started. The following remain DEFERRED — DO NOT auto-start:
 - Sub-phase C: SUPPORTED-LOCAL-LANG-CITIES-TR-FAST (needs Stage-1 preflight)
 - Any new FR/DE batch
 - ASIA-1F (CN solo)
@@ -293,5 +336,4 @@ The following remain DEFERRED — DO NOT auto-start:
 - DELETE-V1
 - geocode proxy
 - any separate L10N waves
-
-**Awaiting user closure approval before push to remote.**
+- any new city batch

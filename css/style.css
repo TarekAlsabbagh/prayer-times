@@ -19792,3 +19792,57 @@ html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip.c
         inset 0 0 0 1px rgba(0, 0, 0, 0.20),
         0 1px 3px rgba(77, 203, 140, 0.30);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-MONTHS-CHIPS-POLISH-2 (2026-05-21): widen grid +
+   sharpen active state (refinement of POLISH-1).
+
+   User feedback on POLISH-1: grid felt too narrow (960px in a ~1024px
+   card left visible side-gaps); active state OK but could read sharper.
+
+   Fix (CSS-ONLY, scoped to .hcal2-months-chips inside #page-hijri-year):
+     - max-width 960 → 1100 (effectively fills the card naturally on
+       desktop; mobile breakpoints unaffected). Still constrained for
+       ultra-wide future use.
+     - Active state slight reinforce:
+         border alpha 0.45 → 0.55 (more decisive)
+         outer shadow 0 2px 8px 0.10 → 0 3px 10px 0.14
+         inset ring 0.16 → 0.20
+         number badge gains a thin colored outer halo for sharper read
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Wider grid — fills ~70-78% of card naturally on wide desktop, mobile
+   unaffected. On very wide screens (1700+) chips spread comfortably.
+   On standard desktop (1280-1440) the card is naturally narrower so
+   max-width doesn't kick in. */
+#page-hijri-year .hcal2-months-chips .hcal2-chips-grid {
+    max-width: 1300px;
+}
+
+/* Sharper active state */
+#page-hijri-year .hcal2-months-chips .hcal2-month-chip.current {
+    border-color: rgba(26, 107, 60, 0.55);
+    box-shadow:
+        inset 0 0 0 1px rgba(26, 107, 60, 0.20),
+        0 3px 10px rgba(26, 107, 60, 0.14);
+}
+#page-hijri-year .hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-num {
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.22),
+        0 0 0 2px rgba(26, 107, 60, 0.10),
+        0 1px 3px rgba(26, 107, 60, 0.32);
+}
+
+/* Dark mode parity */
+html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip.current {
+    border-color: rgba(77, 203, 140, 0.60);
+    box-shadow:
+        inset 0 0 0 1px rgba(77, 203, 140, 0.28),
+        0 3px 10px rgba(77, 203, 140, 0.18);
+}
+html[data-theme="dark"] #page-hijri-year .hcal2-months-chips .hcal2-month-chip.current .hcal2-chip-num {
+    box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.22),
+        0 0 0 2px rgba(77, 203, 140, 0.14),
+        0 1px 3px rgba(77, 203, 140, 0.34);
+}

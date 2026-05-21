@@ -23481,3 +23481,192 @@ html[data-theme="dark"] #page-hijri-day #hday-hierarchy > a:first-child {
         min-height: 42px !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-DAY-CTA-POLISH-1 (2026-05-21): Quick-actions CTA group
+   on /hijri-date/{date} (3 buttons).
+
+   Scope: #page-hijri-day #hday-cta + its three child anchors.
+   CSS-only. No DOM/text/href/data/SEO/JSON-LD/logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - Primary "تحويل التاريخ" is OK.
+     - The other 2 (moon-today / prayer-times) read as gray input
+       boxes via inline `background: var(--bg)`.
+     - Container has excessive whitespace.
+     - Icons + text could align more consistently.
+
+   Constraints kept:
+     - All 3 link labels preserved verbatim
+     - All 3 hrefs preserved (the "اليوم" wording in moon/prayer
+       links is correct per user — those go to today's pages, not
+       date-bound pages)
+     - No DOM mutation / no order change
+     - No SEO / JSON-LD / logic touch
+
+   Cascade context (inline styles each anchor has):
+     display:inline-block; padding:10px 20px; border-radius:8px;
+     border:1px solid var(--border); font-size:0.9rem; margin:4px;
+     #1 (primary):    background:var(--primary); color:#fff;     font-weight:700;
+     #2/3 (secondary): background:var(--bg);     color:var(--primary); font-weight:500;
+   Container uses .u-flex-center (line 8831): display:flex;
+   flex-wrap:wrap; gap:10px; justify-content:center.
+
+   Treatment (6 sections, scoped to #page-hijri-day #hday-cta):
+
+     1. Section-card padding-block trimmed (less bloat).
+     2. Container: grid 3-col on desktop, max-width 760px centered,
+        explicit gap 12px (overrides u-flex-center's 10px).
+     3. Base anchor: defeat inline styles — inline-flex with align
+        center, gap 8px (consistent emoji↔text), padding 12/18,
+        border-radius 10px, font 0.95rem, min-height 46px, transition.
+     4. Primary (a:first-child): linear-gradient primary →
+        primary-dark + #fff text + 1px rgba primary-dark 0.4 border
+        + 0 1px 3px @ 0.1 shadow. Stays the headline action without
+        feeling detached (matches HIJRI-CALENDAR-CTA-POLISH-1-FIX-1
+        primary treatment for visual consistency across the site).
+     5. Secondaries (a:not(:first-child)): #fbfefc soft mint surface
+        + 1px rgba primary 0.14 border + primary-dark text +
+        font-weight 600. NOT gray. Hover bumps border + lift.
+     6. Hover (≥769px) lifts -1px + soft shadow. Focus-visible: 2px
+        primary outline + 2px offset.
+
+   Responsive:
+     - ≤768px: 1-col stack, gap 10px.
+     - ≤480px: tighter padding 10/16, font 0.9rem.
+
+   Dark-mode parity for all surfaces.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Section card padding trim */
+#page-hijri-day > .section-card:has(> #hday-cta) {
+    padding-block: 16px;
+}
+
+/* Container — explicit 3-col grid, centered max-width */
+#page-hijri-day #hday-cta {
+    display: grid !important;
+    grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+    gap: 12px !important;
+    max-width: 760px;
+    margin: 0 auto !important;
+    width: 100%;
+    flex-wrap: initial !important;
+    justify-content: center !important;
+}
+
+/* Base anchor — defeat inline-block + inline padding/radius/font */
+#page-hijri-day #hday-cta > a {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    padding: 12px 18px !important;
+    border-radius: 10px !important;
+    font-size: 0.95rem !important;
+    line-height: 1.35 !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    margin: 0 !important;
+    min-height: 46px !important;
+    box-sizing: border-box !important;
+    transition: background .18s ease, border-color .18s ease,
+                color .18s ease, transform .18s ease, box-shadow .18s ease !important;
+    letter-spacing: 0.05px;
+}
+
+/* Primary — gradient + soft shadow (matches site-wide primary CTA polish) */
+#page-hijri-day #hday-cta > a:first-child {
+    background: linear-gradient(
+        180deg,
+        var(--primary, #1a6b3c) 0%,
+        var(--primary-dark, #0d4a28) 100%
+    ) !important;
+    color: #ffffff !important;
+    font-weight: 700 !important;
+    border: 1px solid rgba(13, 74, 40, 0.40) !important;
+    box-shadow: 0 1px 3px rgba(13, 74, 40, 0.10);
+}
+
+/* Secondaries — soft mint, NOT gray */
+#page-hijri-day #hday-cta > a:not(:first-child) {
+    background: #fbfefc !important;
+    color: var(--primary-dark, #0d4a28) !important;
+    border: 1px solid rgba(26, 107, 60, 0.14) !important;
+    font-weight: 600 !important;
+    box-shadow: none;
+}
+
+/* Hover desktop */
+@media (min-width: 769px) {
+    #page-hijri-day #hday-cta > a:first-child:hover {
+        background: linear-gradient(
+            180deg,
+            #1f7a47 0%,
+            #155634 100%
+        ) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 3px 9px rgba(13, 74, 40, 0.16);
+    }
+    #page-hijri-day #hday-cta > a:not(:first-child):hover {
+        background: #f4faf6 !important;
+        border-color: rgba(26, 107, 60, 0.35) !important;
+        color: var(--primary-dark, #0d4a28) !important;
+        transform: translateY(-1px);
+        box-shadow: 0 2px 6px rgba(26, 107, 60, 0.07);
+    }
+}
+
+/* Focus-visible */
+#page-hijri-day #hday-cta > a:focus-visible {
+    outline: 2px solid var(--primary, #1a6b3c);
+    outline-offset: 2px;
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-day #hday-cta > a:first-child {
+    background: linear-gradient(
+        180deg,
+        var(--primary-light, #4ab87a) 0%,
+        var(--primary, #1a6b3c) 100%
+    ) !important;
+    color: #061811 !important;
+    border-color: rgba(77, 203, 140, 0.45) !important;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+html[data-theme="dark"] #page-hijri-day #hday-cta > a:not(:first-child) {
+    background: var(--bg-elevated, #373e47) !important;
+    color: var(--primary-light, #4ab87a) !important;
+    border-color: rgba(77, 203, 140, 0.22) !important;
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-day #hday-cta > a:not(:first-child):hover {
+        background: rgba(77, 203, 140, 0.06) !important;
+        border-color: rgba(77, 203, 140, 0.40) !important;
+        color: #b8f0d0 !important;
+    }
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #page-hijri-day > .section-card:has(> #hday-cta) {
+        padding-block: 14px;
+    }
+    #page-hijri-day #hday-cta {
+        grid-template-columns: 1fr !important;
+        gap: 10px !important;
+        max-width: 100%;
+    }
+    #page-hijri-day #hday-cta > a {
+        padding: 11px 18px !important;
+        font-size: 0.92rem !important;
+        min-height: 44px !important;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-day #hday-cta > a {
+        padding: 10px 16px !important;
+        font-size: 0.9rem !important;
+        gap: 6px !important;
+    }
+}

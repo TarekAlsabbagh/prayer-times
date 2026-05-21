@@ -1235,15 +1235,24 @@ function hdayExtraUi(lang) { return _HDAY_EXTRA[lang] || _HDAY_EXTRA.en; }
 // Rule: NO "today" phrasing anywhere — this is a static reference page for a specific date.
 const _HDAY_NONTODAY = {
     ar: {
-        faqTitle:'❓ أسئلة عن هذا التاريخ',
+        // HIJRI-DAY-FAQ-INLINE-LINKS-1 (2026-05-21):
+        //   - faqTitle wording: "أسئلة عن" → "أسئلة شائعة عن" (clearer FAQ
+        //     framing for user + Google).
+        //   - 2 inline internal links added (Arabic-only, in answers 3 & 4):
+        //     * Q3 answer: link "ذو الحجة" (monthName) → /hijri-calendar/{y}-{mm}
+        //     * Q4 answer: link "سنة {year} هـ" → /hijri-calendar/{year}
+        //   - Other 3 answers stay link-free to avoid link-stuffing.
+        //   - JSON-LD FAQ schema strips inline HTML via the .replace(/<[^>]*>/g,'')
+        //     mapping at app.js:21183 so the schema text remains plain.
+        faqTitle:'❓ أسئلة شائعة عن هذا التاريخ',
         cardYear:'📅 السنة', cardOrder:'📊 ترتيب اليوم', orderOf:(d,t)=>`${d} من ${t}`,
         relPrayerCity:(city)=>`🕌 مواقيت الصلاة في ${city}`,
         footer:(c)=>`يوافق التاريخ ${c.hDate} التاريخ الميلادي ${c.gDate} حسب تقويم أم القرى. شهر ${c.monthName} هو الشهر رقم ${c.monthNum} في السنة الهجرية، وتحتوي سنة ${c.year}${c.hSfx} على ${c.totalYearDays} يوماً. يمكنك تصفّح التقويم الهجري الكامل أو استخدام أداة تحويل التاريخ.`,
         faq:(c)=>[
             [`ما هو التاريخ الميلادي الموافق لـ ${c.hDate}؟`, `${c.hDate} يوافق ${c.gDate} حسب تقويم أم القرى.`],
             [`ما هو اليوم الذي يوافق ${c.hDate}؟`, `${c.hDate} يوافق يوم ${c.dayName}.`],
-            [`ما هو شهر ${c.monthName}؟`, `${c.monthName} هو الشهر الهجري رقم ${c.monthNum} ضمن أشهر السنة الهجرية الاثني عشر.`],
-            [`هل سنة ${c.year}${c.hSfx} سنة كبيسة؟`, c.isLeap?`نعم، سنة ${c.year}${c.hSfx} سنة كبيسة عدد أيامها 355 يوماً.`:`لا، سنة ${c.year}${c.hSfx} سنة بسيطة عدد أيامها 354 يوماً.`],
+            [`ما هو شهر ${c.monthName}؟`, `<a href="/hijri-calendar/${c.year}-${String(c.monthNum).padStart(2,'0')}">${c.monthName}</a> هو الشهر الهجري رقم ${c.monthNum} ضمن أشهر السنة الهجرية الاثني عشر.`],
+            [`هل سنة ${c.year}${c.hSfx} سنة كبيسة؟`, c.isLeap?`نعم، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> سنة كبيسة عدد أيامها 355 يوماً.`:`لا، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> سنة بسيطة عدد أيامها 354 يوماً.`],
             [`كم عدد أيام شهر ${c.monthName} ${c.year}؟`, `شهر ${c.monthName} ${c.year}${c.hSfx} يتكوّن من ${c.totalDays} يوماً.`],
         ],
     },
@@ -21180,7 +21189,15 @@ function loadHijriDayPage() {
     const _faqItems = _faqSrc.map(([q, a]) => ({
         "@type": "Question",
         "name": q,
-        "acceptedAnswer": { "@type": "Answer", "text": a }
+        // HIJRI-DAY-FAQ-INLINE-LINKS-1 (2026-05-21): FAQ answers may now
+        // contain inline <a> tags (Arabic UI gets 2 internal links in
+        // answers 3 & 4 — see _HDAY_NONTODAY.ar.faq). For the FAQPage
+        // JSON-LD schema we strip HTML so the "text" value remains
+        // plain text — Google FAQPage validators expect plain text in
+        // acceptedAnswer.text and would otherwise log a warning about
+        // embedded markup. UI render at app.js:21049 still uses raw
+        // ${a} via innerHTML so anchors render visibly there.
+        "acceptedAnswer": { "@type": "Answer", "text": a.replace(/<[^>]*>/g, '') }
     }));
 
     // BreadcrumbList (geo-aware: insert city hop after Home when today + city known)

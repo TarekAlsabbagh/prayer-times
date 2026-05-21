@@ -24108,3 +24108,180 @@ html[data-theme="dark"] #page-hijri-day .hijri-date-faq .hijri-date-faq-item p {
         max-width: 100%;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-DAY-INLINE-FAQ-POLISH-1 (2026-05-21): Inline-styled FAQ
+   (#hday-faq) on /hijri-date/{date} — the CLIENT-built FAQ section
+   rendered by app.js:21049 (separate from the SSR-built
+   .hijri-date-faq polished earlier in HIJRI-DAY-FAQ-POLISH-1).
+
+   Scope: #page-hijri-day #hday-faq-title + #hday-faq + each child div.
+   CSS-only. Pairs with the COPY change in js/app.js
+   (_HDAY_NONTODAY.ar.faqTitle + 2 inline links in answers 3 & 4).
+
+   Problem statement (user feedback 2026-05-21):
+     - Items render via heavy inline styles producing "gray box" look
+       (inline `background: var(--bg)`).
+     - 4px right border accent reads slightly heavy.
+     - Padding can tighten without compressing text.
+     - Question/answer hierarchy can read clearer.
+     - Internal link clickable affordance needed (UI now gets <a> tags
+       in 2 answers per the COPY change).
+
+   Cascade context — SSR/JS injects inline styles per item:
+     margin-bottom:14px; padding:14px 18px; background:var(--bg);
+     border-radius:10px; border-right:4px solid var(--primary);
+   + question div: font-weight:700; color:var(--primary); margin-bottom:6px;
+   + answer div: color:var(--text); font-size:0.95rem;
+   All overridden via !important.
+
+   Treatment (5 sections, all scoped to #page-hijri-day #hday-faq):
+
+     1. Section title (#hday-faq-title): 1.15rem weight 800 primary-dark
+        with same 1px primary 0.12 bottom-divider used in the SSR FAQ
+        section, for visual cohesion between the two FAQs.
+
+     2. Item wrapper (#hday-faq > div):
+        - background var(--bg) gray → #fbfefc soft mint
+        - border-right 4px → 3px (lighter accent — flips to
+          border-inline-start for RTL via inline-style override)
+        - +1px solid rgba primary 0.08 on the other 3 sides
+        - radius 10 → 14
+        - padding 14/18 → 12/16 (tighter vertical)
+        - margin-bottom 14 → 10 (tighter rhythm)
+        - subtle transition for hover
+
+     3. Question (first child div):
+        - color var(--primary) → var(--primary-dark) (deeper)
+        - font-weight 700 (kept)
+        - font-size 1rem (default), letter-spacing -0.1px
+        - margin-bottom 6 → 6 (kept)
+        - line-height 1.4
+
+     4. Answer (second child div):
+        - color var(--text) → var(--text-light) (quieter than Q)
+        - font-size 0.95rem (kept)
+        - line-height 1.75 (comfortable Arabic reading)
+        - Inline <a> tags inside answer: primary color + dashed
+          underline + hover deepens. Text-decoration: none on the
+          anchor itself; we use border-bottom for the dashed line.
+
+     5. Responsive ≤768px:
+        - title 1.05rem
+        - item padding 11/14, radius 12, margin-bottom 8
+        - question 0.96rem, answer 14.5px line-height 1.7
+
+   Dark-mode parity for all 5 layers.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Section title */
+#page-hijri-day #hday-faq-title {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 4px 0 14px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(12, 94, 54, 0.12);
+}
+html[data-theme="dark"] #page-hijri-day #hday-faq-title {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(74, 222, 128, 0.18);
+}
+
+/* Item wrapper — defeat inline gray bg + lighten accent */
+#page-hijri-day #hday-faq > div {
+    background: #fbfefc !important;
+    border: 1px solid rgba(26, 107, 60, 0.08) !important;
+    border-right: 3px solid var(--primary, #1a6b3c) !important;
+    border-radius: 14px !important;
+    padding: 12px 16px !important;
+    margin-bottom: 10px !important;
+    transition: background .18s ease, border-color .18s ease;
+}
+#page-hijri-day #hday-faq > div:last-child {
+    margin-bottom: 0 !important;
+}
+@media (min-width: 769px) {
+    #page-hijri-day #hday-faq > div:hover {
+        background: #f6fbf8 !important;
+        border-color: rgba(26, 107, 60, 0.16) !important;
+        border-right-color: var(--primary-dark, #0d4a28) !important;
+    }
+}
+
+/* Question (first child) — deeper color, tighter spacing */
+#page-hijri-day #hday-faq > div > div:first-child {
+    color: var(--primary-dark, #0d4a28) !important;
+    font-weight: 700 !important;
+    font-size: 1rem !important;
+    line-height: 1.4 !important;
+    margin-bottom: 6px !important;
+    letter-spacing: -0.1px;
+}
+
+/* Answer (second child) — quieter + comfortable line-height */
+#page-hijri-day #hday-faq > div > div:last-child {
+    color: var(--text-light, #5f6b78) !important;
+    font-size: 0.95rem !important;
+    line-height: 1.75 !important;
+    letter-spacing: 0.05px;
+}
+
+/* Inline anchor inside answer */
+#page-hijri-day #hday-faq > div > div:last-child a {
+    color: var(--primary, #1a6b3c) !important;
+    text-decoration: none !important;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.40);
+    transition: color .15s, border-color .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-day #hday-faq > div > div:last-child a:hover {
+        color: var(--primary-dark, #0d4a28) !important;
+        border-bottom-color: rgba(13, 74, 40, 0.65);
+    }
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-day #hday-faq > div {
+    background: rgba(77, 203, 140, 0.05) !important;
+    border-color: rgba(77, 203, 140, 0.16) !important;
+    border-right-color: var(--primary-light, #4ab87a) !important;
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-day #hday-faq > div:hover {
+        background: rgba(77, 203, 140, 0.08) !important;
+        border-color: rgba(77, 203, 140, 0.28) !important;
+    }
+}
+html[data-theme="dark"] #page-hijri-day #hday-faq > div > div:first-child {
+    color: var(--primary-light, #4ab87a) !important;
+}
+html[data-theme="dark"] #page-hijri-day #hday-faq > div > div:last-child {
+    color: #c0c8c4 !important;
+}
+html[data-theme="dark"] #page-hijri-day #hday-faq > div > div:last-child a {
+    color: var(--primary-light, #4ab87a) !important;
+    border-bottom-color: rgba(77, 203, 140, 0.40);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    #page-hijri-day #hday-faq-title {
+        font-size: 1.05rem;
+        margin: 2px 0 12px;
+        padding-bottom: 12px;
+    }
+    #page-hijri-day #hday-faq > div {
+        padding: 11px 14px !important;
+        border-radius: 12px !important;
+        margin-bottom: 8px !important;
+    }
+    #page-hijri-day #hday-faq > div > div:first-child {
+        font-size: 0.96rem !important;
+    }
+    #page-hijri-day #hday-faq > div > div:last-child {
+        font-size: 0.92rem !important;
+        line-height: 1.7 !important;
+    }
+}

@@ -3,7 +3,40 @@
 **Date:** 2026-05-21
 **Wave:** Second Turkish batch (separate standalone phase)
 **Pattern:** Dedupe-first, single-commit, no code changes
-**Status:** Ready for user closure approval
+**Status:** CLOSED — user-approved 2026-05-21
+
+---
+
+## Acceptance Criteria
+
+| #  | Criterion                                                                       | Result |
+|----|---------------------------------------------------------------------------------|--------|
+| 1  | TR entries grew exactly 44 → 74 (+30)                                           | ✅     |
+| 2  | Total curated grew exactly 2,947 → 2,977 (+30)                                  | ✅     |
+| 3  | Exactly 30 new cities added (within 20-30 user-approved range)                  | ✅     |
+| 4  | Every new entry has EXACTLY `names.{ar, en, tr}`                                | ✅     |
+| 5  | No unsupported langs (ur/bn/hi/ta/mr/te/kn/ml/gu/pa/or/as/sa/id/fr/de/es/ms)    | ✅     |
+| 6  | Prior 44 TR entries unchanged (SHA-256 byte-identity)                           | ✅     |
+| 7  | IN / ID / MY / PK / BD / FR / DE / ES-LATAM entries unchanged                   | ✅     |
+| 8  | No modification to `server.js`                                                  | ✅     |
+| 9  | No modification to `js/app.js`                                                  | ✅     |
+| 10 | No modification to `index.html`                                                 | ✅     |
+| 11 | No search-ranking patch                                                         | ✅     |
+| 12 | No runtime translation (no MT, no browser translation, no live API)             | ✅     |
+| 13 | No fillchain (only 3 declared lang keys per entry)                              | ✅     |
+| 14 | No duplicate slugs / sourceIds / geonameIds across all 2,977 entries            | ✅     |
+| 15 | No Arabic pollution — all 30 names.ar pass strict isCleanArabic                 | ✅     |
+| 16 | Manual NAME_AR_FIX documented for 10 cities (8 Wiki AR + 2 translit)            | ✅     |
+| 17 | Total tests: 1,830/1,830 PASS (132 new + 38 SSR + 20 search + 1,640 carry)     | ✅     |
+| 18 | No new sub-phase started (TR-C + ASIA-1F + AMERICAS + others remain DEFERRED)   | ✅     |
+
+**Outcome:** All 18 acceptance criteria met. Approved.
+
+---
+
+## Implementation Commit
+
+`6c1f2ad — feat(geodata): SUPPORTED-LOCAL-LANG-CITIES-TR-B-FAST — +30 Turkish cities (Batch B)`
 
 ---
 
@@ -211,15 +244,19 @@ test had both Total + TR-count updated).
 
 ## Section 9 — STOP
 
-Wave applied successfully. No code, docs, or policy changes. No new sub-phase
-started.
+Wave applied successfully. No code, docs, or policy changes.
+
+**Closure approval received from user on 2026-05-21.**
+Marker: `docs(closure): mark SUPPORTED-LOCAL-LANG-CITIES-TR-B-FAST user-approved 2026-05-21`
+
+Status moved from `awaiting user approval` → `CLOSED — user-approved 2026-05-21`.
 
 ### Turkey state post-TR-B
 - TR total: **74 cities** | ar/en/tr 74/74 each (100%)
 - Group A pre-existing 14 + TR-FAST 30 (Sub-phase C) + TR-B 30 (this wave) = 74
 
 ### The following remain DEFERRED — DO NOT auto-start
-- Any further Turkey batch (TR-C if requested)
+- TR-C (any further Turkey batch)
 - ASIA-1F (CN solo)
 - AMERICAS (non-Spanish-speaking)
 - SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2
@@ -229,5 +266,3 @@ started.
 - geocode proxy
 - any separate L10N waves
 - any new city batch
-
-**Awaiting user closure approval before push to remote.**

@@ -22759,3 +22759,291 @@ html[data-theme="dark"] #page-hijri-month #hmonth-other-months .hmonth-current-b
         gap: 6px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-YEARS-NAV-POLISH-1 (2026-05-21): "📆 تصفّح السنوات
+   الهجرية" 5-year navigation card on /hijri-calendar/{year}-{month}.
+
+   Scope: #page-hijri-month #hmonth-years-title + #hmonth-years-current
+          + #hmonth-years-grid + .hpage-years-more + #hmonth-years-all
+   CSS-only. No DOM/text/href/data/SEO/JSON-LD/logic change.
+
+   Mirrors the year-page HIJRI-CALENDAR-YEARS-NAV-POLISH-1 wave but
+   scoped to month-page IDs. The "Full calendar" link on month pages
+   IS meaningful (it goes from /hijri-calendar/1447-12 → /hijri-calendar
+   hub) — NOT a self-link — so it stays visible. The self-link guard
+   from YEARS-NAV-SELF-LINK-FIX-1 only applies to the year page hub.
+
+   Problem statement (user feedback 2026-05-21):
+     - Year numbers read as plain text, not nav links.
+     - Active year 1447 should be clearly highlighted but quiet.
+     - "Full calendar" link feels disconnected from the chips above.
+
+   Treatment (mirrors year-page YEARS-NAV-POLISH-1):
+     1. Section title — 1.1rem weight 800 primary-dark
+     2. Description label — centered, quieter
+     3. Grid — centered, max-width 560px, gap 10px
+     4. Year chips — 8px 16px padding, 70px min-width, soft mint surface,
+        rounded pill (999px), font 0.94rem
+     5. Active chip — soft gradient primary→primary-dark + white text +
+        soft shadow
+     6. "Full calendar" link — centered, secondary CTA-style pill with
+        dashed underline
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section title ── */
+#page-hijri-month #hmonth-years-title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 0 0 8px;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-years-title {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 2. Description label ── */
+#page-hijri-month #hmonth-years-current,
+#page-hijri-month .hpage-years-current {
+    text-align: center !important;
+    font-size: 0.9rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 14px !important;
+    font-weight: 500;
+}
+
+/* ── 3. Grid — centered with max-width ── */
+#page-hijri-month #hmonth-years-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin: 0 auto;
+    max-width: 560px;
+}
+
+/* ── 4. Year chips ── */
+#page-hijri-month #hmonth-years-grid a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px 16px;
+    background: #f7faf8;
+    border: 1px solid rgba(26, 107, 60, 0.14);
+    border-radius: 999px;
+    color: var(--primary-dark, #0d4a28);
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.94rem;
+    min-width: 70px;
+    font-variant-numeric: tabular-nums;
+    transition: background .15s, border-color .15s, transform .15s, box-shadow .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-month #hmonth-years-grid a:hover {
+        border-color: rgba(26, 107, 60, 0.40);
+        transform: translateY(-1px);
+    }
+}
+
+/* ── 5. Active year chip ── */
+#page-hijri-month #hmonth-years-grid a.current,
+#page-hijri-month #hmonth-years-grid a[aria-current] {
+    background: linear-gradient(
+        180deg,
+        var(--primary, #1a6b3c) 0%,
+        var(--primary-dark, #0d4a28) 100%
+    );
+    color: #ffffff;
+    border-color: rgba(13, 74, 40, 0.45);
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(13, 74, 40, 0.16);
+}
+@media (min-width: 769px) {
+    #page-hijri-month #hmonth-years-grid a.current:hover,
+    #page-hijri-month #hmonth-years-grid a[aria-current]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(13, 74, 40, 0.22);
+    }
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-month #hmonth-years-grid a {
+    background: var(--bg-elevated, #373e47);
+    border-color: var(--border, #444c56);
+    color: var(--primary-light, #4ab87a);
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-years-grid a.current,
+html[data-theme="dark"] #page-hijri-month #hmonth-years-grid a[aria-current] {
+    background: linear-gradient(
+        180deg,
+        var(--primary-light, #4ab87a) 0%,
+        var(--primary, #1a6b3c) 100%
+    );
+    color: #061811;
+    border-color: rgba(77, 203, 140, 0.45);
+}
+
+/* ── 6. "Full calendar" link — centered, secondary CTA ──
+   This link on a month page goes to the year hub /hijri-calendar —
+   NOT a self-link (we're on /hijri-calendar/{y}-{m}), so it always
+   stays visible. */
+#page-hijri-month .hpage-years-more {
+    text-align: center !important;
+    margin-top: 14px !important;
+    margin-bottom: 0;
+}
+#page-hijri-month .hpage-years-more a,
+#page-hijri-month #hmonth-years-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    color: var(--primary, #1a6b3c);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.45);
+    border-radius: 6px;
+    transition: color .15s, border-color .15s, background .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-month .hpage-years-more a:hover,
+    #page-hijri-month #hmonth-years-all:hover {
+        color: var(--primary-dark, #0d4a28);
+        border-bottom-color: rgba(13, 74, 40, 0.65);
+        background: rgba(26, 107, 60, 0.04);
+    }
+}
+html[data-theme="dark"] #page-hijri-month .hpage-years-more a,
+html[data-theme="dark"] #page-hijri-month #hmonth-years-all {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(77, 203, 140, 0.45);
+}
+
+/* ── 7. Section card — trim airy whitespace ── */
+#page-hijri-month > .section-card:has(> #hmonth-years-title) {
+    padding-block: 22px;
+}
+
+/* ── 8. Responsive ── */
+@media (max-width: 768px) {
+    #page-hijri-month > .section-card:has(> #hmonth-years-title) {
+        padding-block: 18px;
+    }
+    #page-hijri-month #hmonth-years-title {
+        font-size: 1.02rem;
+        margin: 0 0 6px;
+    }
+    #page-hijri-month #hmonth-years-current,
+    #page-hijri-month .hpage-years-current {
+        margin: 0 0 10px !important;
+    }
+    #page-hijri-month #hmonth-years-grid {
+        gap: 8px !important;
+        max-width: 100%;
+    }
+    #page-hijri-month #hmonth-years-grid a {
+        padding: 7px 13px;
+        font-size: 0.9rem;
+        min-width: 64px;
+    }
+    #page-hijri-month .hpage-years-more {
+        margin-top: 12px !important;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-month #hmonth-years-grid {
+        gap: 6px !important;
+    }
+    #page-hijri-month #hmonth-years-grid a {
+        padding: 6px 11px;
+        font-size: 0.88rem;
+        min-width: 58px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-FOOTER-POLISH-1 (2026-05-21): Footer SEO paragraph
+   on /hijri-calendar/{year}-{month} — calm informational note card.
+
+   Scope: #page-hijri-month .section-card:has(> #hmonth-footer-seo)
+          + #hmonth-footer-seo paragraph.
+
+   CSS-only. No DOM/text/href/data/SEO/JSON-LD/logic change. The
+   shorter paragraph text already landed via the COPY-FIX in js/app.js
+   (see footer template at line 1831).
+
+   Problem statement (user feedback 2026-05-21):
+     - Old paragraph was visually long, had 2 inline links, felt like
+       a filler "SEO blob" instead of a useful note.
+     - JS copy was rewritten (shorter, 1 inline link only).
+     - This CSS gives the card a calm informational treatment matching
+       the rest of the polished page.
+
+   Treatment:
+     - Section card surface: soft mint #fbfefc + 1px rgba primary 0.10
+       border + 3px primary inline-start accent (continuation of the
+       same "informational note" pattern used by the hub-page about-
+       section polish).
+     - Padding tightened to feel deliberately compact.
+     - Paragraph: 0.92rem, var(--text-light), line-height 1.7,
+       letter-spacing 0.05px, max-width 720px centered for comfortable
+       line length.
+     - Inline anchor: primary color, dashed underline, hover deepens.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-month > .section-card:has(> #hmonth-footer-seo) {
+    background: #fbfefc;
+    border: 1px solid rgba(26, 107, 60, 0.10);
+    border-inline-start: 3px solid var(--primary, #1a6b3c);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.025);
+    padding: 14px 22px;
+}
+html[data-theme="dark"] #page-hijri-month > .section-card:has(> #hmonth-footer-seo) {
+    background: var(--bg-elevated, #373e47);
+    border-color: rgba(77, 203, 140, 0.16);
+    border-inline-start-color: var(--primary-light, #4ab87a);
+    box-shadow: none;
+}
+
+#page-hijri-month #hmonth-footer-seo {
+    font-size: 0.92rem;
+    color: var(--text-light, #5f6b78);
+    line-height: 1.7;
+    margin: 0;
+    max-width: 720px;
+    letter-spacing: 0.05px;
+}
+#page-hijri-month #hmonth-footer-seo a {
+    color: var(--primary, #1a6b3c);
+    text-decoration: none;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.45);
+    transition: color .15s, border-color .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-month #hmonth-footer-seo a:hover {
+        color: var(--primary-dark, #0d4a28);
+        border-bottom-color: rgba(13, 74, 40, 0.65);
+    }
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-footer-seo {
+    color: #b8c0bb;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-footer-seo a {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(77, 203, 140, 0.45);
+}
+
+@media (max-width: 768px) {
+    #page-hijri-month > .section-card:has(> #hmonth-footer-seo) {
+        padding: 12px 16px;
+    }
+    #page-hijri-month #hmonth-footer-seo {
+        font-size: 0.88rem;
+        line-height: 1.65;
+    }
+}

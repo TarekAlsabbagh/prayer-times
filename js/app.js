@@ -1803,7 +1803,10 @@ const _HMONTH_UI = {
           th_hijri:'التاريخ الهجري', th_greg:'التاريخ الميلادي',
           prev_label:'الشهر السابق', next_label:'الشهر التالي',
           link_convert:'🔄 تحويل التاريخ الهجري والميلادي', link_today:'📌 التاريخ الهجري اليوم',
-          link_year:(y,hSfx)=>`📅 تقويم سنة ${y}${hSfx}`,
+          // HIJRI-MONTH-LINKS-COPY-FIX-1 (2026-05-21): "تقويم سنة" → "تقويم عام"
+          // — Arabic-only wording polish for the related-links pill on the
+          // month page. Other 9 languages unchanged.
+          link_year:(y,hSfx)=>`📅 تقويم عام ${y}${hSfx}`,
           link_moon:'🌙 حالة القمر اليوم',
           today_in_month:(d,mn,y,hSfx,href)=>`📌 اليوم الهجري الحالي: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
           day_row_title:(hDate,gDate)=>`التاريخ الهجري ${hDate} الموافق ${gDate}`,
@@ -1828,7 +1831,15 @@ const _HMONTH_UI = {
           years_current:()=>'سنوات قريبة:',
           years_active_suffix:'',
           years_all_link:'→ عرض التقويم الهجري الكامل',
-          footer:c=>`يعرض هذا التقويم جميع أيام شهر ${c.monthName} ${c.year}${c.hSfx} مع ما يقابلها بالتاريخ الميلادي بدقة حسب تقويم أم القرى، مما يساعدك على متابعة التاريخ الهجري والمناسبات الإسلامية بسهولة. يمكنك أيضًا معرفة <a href="${c.todayUrl}">التاريخ الهجري اليوم</a> أو تصفح <a href="${c.yearUrl}">التقويم الهجري الكامل لعام ${c.year}${c.hSfx}</a> أو الانتقال إلى أي يوم داخل الشهر.`,
+          // HIJRI-MONTH-FOOTER-COPY-FIX-1 (2026-05-21): shorter, cleaner
+          // informational paragraph. Same meaning, less filler, 1 inline
+          // link instead of 2 to reduce visual clutter. Arabic-only;
+          // other 9 languages unchanged. Removed: duplicate "التاريخ
+          // الهجري" mentions, "أداة معرفة التاريخ الهجري اليوم" awkward
+          // phrasing. Kept: anchor to the year calendar (yearUrl) — the
+          // primary continuation path. The "today" link is already
+          // exposed elsewhere (hero CTA + related links + breadcrumb).
+          footer:c=>`يعرض هذا التقويم أيام شهر ${c.monthName} ${c.year}${c.hSfx} مع التواريخ الميلادية المقابلة حسب تقويم أم القرى، ويمكنك من خلاله الانتقال إلى تفاصيل أي يوم داخل الشهر أو الرجوع إلى <a href="${c.yearUrl}">التقويم الهجري لعام ${c.year}${c.hSfx}</a>.`,
           headline:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`التقويم الهجري الكامل لشهر ${c.monthName} ${c.year}${c.hSfx} مع التاريخ الميلادي لكل يوم حسب تقويم أم القرى.`,
           meta_title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,

@@ -3,6 +3,39 @@
 **Date:** 2026-05-21
 **Wave:** Combined geodata + supported-L10N FAST wave (Malaysia)
 **Pattern:** Dedupe-first, single-commit, no code changes
+**Status:** CLOSED — user-approved 2026-05-21
+
+---
+
+## Acceptance Criteria
+
+| # | Criterion                                                                       | Result |
+|---|---------------------------------------------------------------------------------|--------|
+| 1 | MY entries grew exactly 21 → 53 (+32)                                           | ✅     |
+| 2 | Total curated grew exactly 2,728 → 2,760 (+32)                                  | ✅     |
+| 3 | Exactly 32 new Malaysian cities added (within 30–50 range)                      | ✅     |
+| 4 | Every new entry has EXACTLY `names.{ar, en, ms}` — no other lang keys           | ✅     |
+| 5 | No unsupported langs anywhere in new entries (ur/bn/hi/ta/mr/te/kn/ml/gu/...)  | ✅     |
+| 6 | No modification to ID / IN / PK / BD / non-MY entries (SHA-256 byte-identity)  | ✅     |
+| 7 | No modification to `server.js`                                                  | ✅     |
+| 8 | No modification to `js/app.js`                                                  | ✅     |
+| 9 | No modification to `index.html`                                                 | ✅     |
+| 10 | No modification to `server/place-l10n/index.js`                                | ✅     |
+| 11 | No modification to `docs/place-data-maintenance-policy.md`                     | ✅     |
+| 12 | No search-ranking patch                                                         | ✅     |
+| 13 | No runtime translation (no MT, no browser translation, no live API)            | ✅     |
+| 14 | No fillchain (only the 3 declared lang keys per entry)                          | ✅     |
+| 15 | No duplicate slugs across all 2,760 curated entries                             | ✅     |
+| 16 | No duplicate geonameId / sourceId across all 2,760 entries                      | ✅     |
+| 17 | Total tests: 1,149/1,149 PASS (105 new + 21 SSR + 18 search + 1,005 carry)     | ✅     |
+
+**Outcome:** All 17 acceptance criteria met. Approved.
+
+---
+
+## Implementation Commit
+
+`2fd7a8e — feat(geodata): ASIA-1H-MY-FAST-SUPPORTED-L10N — +32 Malaysian cities with ar/en/ms only`
 
 ---
 
@@ -252,5 +285,13 @@ Zero code changes. Zero policy changes. Zero docs changes.
 
 ## STOP
 
-Wave applied successfully. No code, docs, or policy changes. Waiting
-for user closure approval before push to remote.
+Wave applied successfully. No code, docs, or policy changes.
+
+**Closure approval received from user on 2026-05-21.**
+Marker: `docs(closure): mark ASIA-1H-MY-FAST-SUPPORTED-L10N user-approved 2026-05-21`
+
+Status moved from `awaiting user approval` → `CLOSED — user-approved 2026-05-21`.
+No new phase started. ASIA-1H-MY-B / ASIA-1G-ID-B / ASIA-1D-IN-G /
+ASIA-1F / AMERICAS / SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2 /
+search-ranking / Hijri / DELETE-V1 / geocode-proxy / separate L10N
+waves all REMAIN deferred — DO NOT auto-start.

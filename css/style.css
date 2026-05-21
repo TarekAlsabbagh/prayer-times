@@ -23047,3 +23047,88 @@ html[data-theme="dark"] #page-hijri-month #hmonth-footer-seo a {
         line-height: 1.65;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-OTHER-MONTHS-POLISH-1-FIX-1 (2026-05-21): Light
+   refinements after the previous polish (`4c59af0`).
+
+   User feedback:
+     ✓ Direction approved (4×3 grid, soft mint surface, "الشهر المعروض"
+       subtitle wording)
+     ✓ Texts approved — no copy changes needed
+     - Active card's side accent is slightly too strong (4px)
+     - Active card grows slightly taller than siblings — the subtitle
+       row should be tighter
+     - "الشهر المعروض" badge can be smaller/quieter
+
+   Refinements (overrides v1 in source order, scoped to
+   #page-hijri-month #hmonth-other-months):
+
+     1. Active inset accent: 4px → 3px (lighter cue)
+     2. Active background gradient: rgba 0.08→0.14 → rgba 0.06→0.11
+        (less weight while staying clearly distinct)
+     3. Active border alpha: 0.30 → 0.22 (quieter ring)
+     4. Active drop-shadow: 0 1px 3px @ 0.08 → 0 1px 2px @ 0.05
+        (softer ambient depth)
+     5. Badge typography (.hmonth-current-badge):
+        - font-size 0.74 → 0.68rem (smaller)
+        - font-weight 600 → 500 (lighter)
+        - color rgba(primary-dark, 0.78) → 0.62 (quieter)
+        - margin-top 4 → 2px (tighter — keeps card height close
+          to non-active siblings)
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-month #hmonth-other-months > a[aria-current="true"] {
+    background: linear-gradient(
+        180deg,
+        rgba(26, 107, 60, 0.06) 0%,
+        rgba(26, 107, 60, 0.11) 100%
+    ) !important;
+    border-color: rgba(26, 107, 60, 0.22) !important;
+    box-shadow: inset 3px 0 0 var(--primary, #1a6b3c), 0 1px 2px rgba(26, 107, 60, 0.05);
+}
+html[dir="rtl"] #page-hijri-month #hmonth-other-months > a[aria-current="true"] {
+    box-shadow: inset -3px 0 0 var(--primary, #1a6b3c), 0 1px 2px rgba(26, 107, 60, 0.05);
+}
+@media (min-width: 769px) {
+    #page-hijri-month #hmonth-other-months > a[aria-current="true"]:hover {
+        background: linear-gradient(
+            180deg,
+            rgba(26, 107, 60, 0.10) 0%,
+            rgba(26, 107, 60, 0.15) 100%
+        ) !important;
+    }
+}
+
+/* Badge — smaller + quieter */
+#page-hijri-month #hmonth-other-months .hmonth-current-badge {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: rgba(13, 74, 40, 0.62);
+    margin-top: 2px;
+}
+
+/* Dark-mode parity */
+html[data-theme="dark"] #page-hijri-month #hmonth-other-months > a[aria-current="true"] {
+    background: linear-gradient(
+        180deg,
+        rgba(77, 203, 140, 0.10) 0%,
+        rgba(77, 203, 140, 0.16) 100%
+    ) !important;
+    border-color: rgba(77, 203, 140, 0.30) !important;
+    box-shadow: inset 3px 0 0 var(--primary-light, #4ab87a), none;
+}
+html[dir="rtl"] html[data-theme="dark"] #page-hijri-month #hmonth-other-months > a[aria-current="true"] {
+    box-shadow: inset -3px 0 0 var(--primary-light, #4ab87a), none;
+}
+html[data-theme="dark"] #page-hijri-month #hmonth-other-months .hmonth-current-badge {
+    color: rgba(77, 203, 140, 0.70);
+}
+
+/* Responsive — keep badge proportionally smaller on mobile */
+@media (max-width: 768px) {
+    #page-hijri-month #hmonth-other-months .hmonth-current-badge {
+        font-size: 0.64rem;
+        margin-top: 2px;
+    }
+}

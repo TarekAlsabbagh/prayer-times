@@ -20521,3 +20521,214 @@ html[data-theme="dark"] #page-hijri-year #hyear-cta > a:first-child {
 html[data-theme="dark"] #page-hijri-year #hyear-cta > a:not(:first-child) {
     border-color: rgba(77, 203, 140, 0.22) !important;
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-CALENDAR-YEARS-NAV-POLISH-1 (2026-05-21): Nearby-years
+   navigation card on /hijri-calendar/{year}.
+
+   Scope:
+     #page-hijri-year .section-card:has(#hyear-years-title)
+       → #hyear-years-title
+       → #hyear-years-current (.hpage-years-current)
+       → #hyear-years-grid (a … a.current … a)
+       → .hpage-years-more > #hyear-years-all
+
+   CSS-ONLY. No DOM/text/href/data/SEO/JSON-LD/logic change.
+
+   Problem statement (user feedback 2026-05-21):
+     - Content piles up against the inline-start edge (right in RTL),
+       leaving a large empty area on the opposite side.
+     - Year chips look small relative to the card size.
+     - "عرض التقويم الهجري الكامل" reads as disconnected from the chip row.
+     - The card doesn't feel "premium" — looks like a sidebar element
+       sitting in a large empty box.
+
+   User preferred fix: Option A — Centered compact layout.
+     - Title + small description label centered at the top.
+     - Year chips centered as a single row (wraps on small viewports).
+     - "Full calendar" link directly below the chips, centered and
+       visually connected.
+     - Reduce vertical whitespace so the card feels compact, not airy.
+
+   Cascade context:
+     - HCAL-2b §1 sets `text-align: start` on .hpage-years-current,
+       .hpage-years-more, and `#page-hijri-year > .section-card` (lines
+       17407-17417). We override with `text-align: center !important`
+       for these three children only — the section-card default text-align
+       remains "start" for other cards.
+     - HCAL-2 §7 sets `justify-content: flex-start` on #hyear-years-grid
+       (lines 17609-17611). We override to `center !important`.
+     - Existing chip styling at lines 16933-16967 stays; we only refine
+       padding, gap, and the active-state visual (subtle gradient + shadow
+       instead of flat solid primary).
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── 1. Section card — slight inner whitespace trim ──
+   Use :has() to target ONLY this card so other section-cards aren't
+   affected. */
+#page-hijri-year > .section-card:has(> #hyear-years-title) {
+    /* Reduce vertical bloat. Inherits side-padding from .section-card.
+       Falls back gracefully where :has() isn't supported. */
+    padding-block: 22px;
+}
+
+/* ── 2. Title — premium centered heading ── */
+#page-hijri-year #hyear-years-title {
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--primary-dark, #0d4a28);
+    letter-spacing: -0.2px;
+    margin: 0 0 8px;
+}
+html[data-theme="dark"] #page-hijri-year #hyear-years-title {
+    color: var(--primary-light, #4ab87a);
+}
+
+/* ── 3. Description label ("سنوات قريبة:") — centered + tighter ──
+   Overrides HCAL-2b §1 `text-align: start`. */
+#page-hijri-year #hyear-years-current,
+#page-hijri-year .hpage-years-current {
+    text-align: center !important;
+    font-size: 0.9rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0 0 14px !important;
+    font-weight: 500;
+}
+
+/* ── 4. Year chips grid — centered, slightly larger gap ──
+   Overrides HCAL-2 §7 `justify-content: flex-start`. */
+#page-hijri-year #hyear-years-grid {
+    justify-content: center !important;
+    gap: 10px !important;
+    margin: 0 auto;
+    max-width: 560px;
+}
+
+/* ── 5. Year chips — slightly more substantial padding ── */
+#page-hijri-year #hyear-years-grid a {
+    padding: 8px 16px;
+    font-size: 0.94rem;
+    min-width: 70px;
+    justify-content: center;
+    font-variant-numeric: tabular-nums;
+}
+
+/* ── 6. Active year chip — softer premium look ──
+   Was: flat var(--primary) bg + white text + same-color border.
+   Now: subtle gradient + soft shadow + slightly emphasized weight.
+   Stays clearly distinct from inactive chips, just less harsh. */
+#page-hijri-year #hyear-years-grid a.current,
+#page-hijri-year #hyear-years-grid a[aria-current] {
+    background: linear-gradient(
+        180deg,
+        var(--primary, #1a6b3c) 0%,
+        var(--primary-dark, #0d4a28) 100%
+    );
+    color: #ffffff;
+    border-color: rgba(13, 74, 40, 0.45);
+    font-weight: 700;
+    box-shadow: 0 1px 3px rgba(13, 74, 40, 0.16);
+}
+@media (min-width: 769px) {
+    #page-hijri-year #hyear-years-grid a.current:hover,
+    #page-hijri-year #hyear-years-grid a[aria-current]:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 3px 8px rgba(13, 74, 40, 0.22);
+    }
+}
+
+/* Dark-mode active chip parity */
+html[data-theme="dark"] #page-hijri-year #hyear-years-grid a.current,
+html[data-theme="dark"] #page-hijri-year #hyear-years-grid a[aria-current] {
+    background: linear-gradient(
+        180deg,
+        var(--primary-light, #4ab87a) 0%,
+        var(--primary, #1a6b3c) 100%
+    );
+    color: #061811;
+    border-color: rgba(77, 203, 140, 0.45);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.30);
+}
+
+/* ── 7. "Full calendar" link — centered + visually connected ──
+   Overrides HCAL-2b §1 `text-align: start`. Tighter margin so it
+   reads as a continuation of the chip row, not a separate footnote. */
+#page-hijri-year .hpage-years-more {
+    text-align: center !important;
+    margin-top: 14px !important;
+    margin-bottom: 0;
+}
+#page-hijri-year .hpage-years-more a,
+#page-hijri-year #hyear-years-all {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    color: var(--primary, #1a6b3c);
+    font-weight: 600;
+    font-size: 0.92rem;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-bottom: 1px dashed rgba(26, 107, 60, 0.45);
+    border-radius: 6px;
+    transition: color .15s, border-color .15s, background .15s;
+}
+@media (min-width: 769px) {
+    #page-hijri-year .hpage-years-more a:hover,
+    #page-hijri-year #hyear-years-all:hover {
+        color: var(--primary-dark, #0d4a28);
+        border-bottom-color: rgba(13, 74, 40, 0.65);
+        background: rgba(26, 107, 60, 0.04);
+    }
+}
+html[data-theme="dark"] #page-hijri-year .hpage-years-more a,
+html[data-theme="dark"] #page-hijri-year #hyear-years-all {
+    color: var(--primary-light, #4ab87a);
+    border-bottom-color: rgba(77, 203, 140, 0.45);
+}
+@media (min-width: 769px) {
+    html[data-theme="dark"] #page-hijri-year .hpage-years-more a:hover,
+    html[data-theme="dark"] #page-hijri-year #hyear-years-all:hover {
+        color: #b8f0d0;
+        border-bottom-color: rgba(77, 203, 140, 0.70);
+        background: rgba(77, 203, 140, 0.06);
+    }
+}
+
+/* ── 8. Responsive ── */
+@media (max-width: 768px) {
+    #page-hijri-year > .section-card:has(> #hyear-years-title) {
+        padding-block: 18px;
+    }
+    #page-hijri-year #hyear-years-title {
+        font-size: 1.02rem;
+        margin: 0 0 6px;
+    }
+    #page-hijri-year #hyear-years-current,
+    #page-hijri-year .hpage-years-current {
+        margin: 0 0 10px !important;
+    }
+    #page-hijri-year #hyear-years-grid {
+        gap: 8px !important;
+        max-width: 100%;
+    }
+    #page-hijri-year #hyear-years-grid a {
+        padding: 7px 13px;
+        font-size: 0.9rem;
+        min-width: 64px;
+    }
+    #page-hijri-year .hpage-years-more {
+        margin-top: 12px !important;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-year #hyear-years-grid {
+        gap: 6px !important;
+    }
+    #page-hijri-year #hyear-years-grid a {
+        padding: 6px 11px;
+        font-size: 0.88rem;
+        min-width: 58px;
+    }
+}

@@ -21755,3 +21755,84 @@ html[data-theme="dark"] #page-hijri-month #hmonth-info-grid .info-card .info-car
         font-size: 0.98rem;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-MONTH-HERO-POLISH-1-FIX-1 (2026-05-21): Light refinements
+   after user approved HERO-POLISH-1 direction.
+
+   User feedback after `062f5a4`:
+     ✓ Direction approved (centered, meta pill, CTA below)
+     - The 3px primary inline-start accent makes hero feel like an alert/
+       quote block — remove it OR make it much quieter
+     - CTA could use slightly more presence (wider) — not huge
+     - Meta pill: lighter border, slightly more comfortable padding
+     - Card: soft bg, light border, simple shadow, balanced spacing
+     - Don't increase card height
+
+   Changes (overrides HERO-POLISH-1 via source order):
+
+     1. Hero card surface:
+        - Remove the 3px primary inline-start accent (set to none) —
+          eliminates the "alert/quote block" feel.
+        - Border stays as a uniform 1px rgba(primary, 0.10) all around.
+        - Add a very subtle resting shadow 0 1px 3px rgba(black, 0.025)
+          for a "card" feel (was: no shadow). Subtle, not heavy.
+        - Padding kept at 22/24/24 (no height bump).
+
+     2. Meta pill (subtitle):
+        - Border alpha 0.12 → 0.10 (lighter)
+        - Padding 6/16 → 7/18 (more comfortable)
+        - Border-radius stays 999px
+
+     3. CTA button:
+        - Padding 10/22 → 12/28 (wider, more presence)
+        - Min-height 44 → 46
+        - Font-size 0.95 → 0.96rem
+        - Border alpha 0.25 → 0.30 (slightly more defined)
+
+   No text / DOM / SEO / data / logic changes.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* Hero card — remove inline-start accent, add subtle shadow */
+#page-hijri-month > .section-card.hpage-hero {
+    border-inline-start: 1px solid rgba(26, 107, 60, 0.10);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.025);
+}
+html[data-theme="dark"] #page-hijri-month > .section-card.hpage-hero {
+    border-inline-start: 1px solid rgba(77, 203, 140, 0.16);
+    box-shadow: none;
+}
+
+/* Meta pill — lighter border, slightly more padding */
+#page-hijri-month .hpage-hero #hmonth-subtitle,
+#page-hijri-month .hpage-hero > .hpage-hero-mini-sub {
+    border-color: rgba(26, 107, 60, 0.10);
+    padding: 7px 18px;
+}
+html[data-theme="dark"] #page-hijri-month .hpage-hero #hmonth-subtitle,
+html[data-theme="dark"] #page-hijri-month .hpage-hero > .hpage-hero-mini-sub {
+    border-color: rgba(77, 203, 140, 0.18);
+}
+
+/* CTA button — wider + slightly more font weight presence */
+#page-hijri-month .hpage-hero .hmonth-today-cta > a,
+#page-hijri-month .hpage-hero .hmonth-today-cta > .btn-outline {
+    padding: 12px 28px;
+    min-height: 46px;
+    font-size: 0.96rem;
+    border-color: rgba(26, 107, 60, 0.30);
+}
+html[data-theme="dark"] #page-hijri-month .hpage-hero .hmonth-today-cta > a,
+html[data-theme="dark"] #page-hijri-month .hpage-hero .hmonth-today-cta > .btn-outline {
+    border-color: rgba(77, 203, 140, 0.35);
+}
+
+/* Responsive — CTA stays in proportion */
+@media (max-width: 768px) {
+    #page-hijri-month .hpage-hero .hmonth-today-cta > a,
+    #page-hijri-month .hpage-hero .hmonth-today-cta > .btn-outline {
+        padding: 11px 24px;
+        font-size: 0.93rem;
+        min-height: 44px;
+    }
+}

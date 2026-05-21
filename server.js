@@ -14650,15 +14650,26 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     </article>`).join('')}
                 </section>`;
 
-            const _hdLinksHtml = `
-                <nav class="hijri-date-related-links" aria-label="${_escHtml(_hdLinks.year)}">
-                    <a href="${_escHtml(_hdYearPath)}">${_escHtml(_hdLinks.year)} ${_escHtml(_hdYear)} ${_escHtml(_hdSfx)}</a>
-                    <a href="${_escHtml(_hdMonthPath)}">${_escHtml(_hdLinks.month)} — ${_escHtml(_hdMNm)} ${_escHtml(_hdYear)}</a>
-                </nav>`;
+            // HIJRI-DAY-REMOVE-RELATED-LINKS-NAV-1 (2026-05-21): removed the
+            // `<nav class="hijri-date-related-links">` block. Per user
+            // request, it was a duplicate-navigation surface — the same
+            // year + month links are already exposed in #hday-hierarchy
+            // above the SEO cards (with consistent styling per
+            // HIJRI-DAY-HIERARCHY-POLISH-1, commit 7f34d99). Keeping both
+            // creates two near-identical nav rows on the same page, which
+            // dilutes UX clarity. The hierarchy nav stays; this nav is
+            // dropped from server-side SSR output entirely.
+            //
+            // Variable `_hdLinks` (label strings) stays defined upstream
+            // because other code may reference it; we just don't emit
+            // the nav HTML anymore.
+            const _hdLinksHtml = '';
 
-            // ---- 3) Inject sections + FAQ + links BEFORE the existing FAQ section ----
+            // ---- 3) Inject sections + FAQ BEFORE the existing FAQ section ----
             //         Anchor: `<h2 id="hday-faq-title">` in the static template.
             //         We wrap that anchor with the new block prefix.
+            //         (_hdLinksHtml left in template position for diff
+            //         clarity but always empty; safe to remove later.)
             html = html.replace(
                 /(<div class="section-card">\s*<h2 id="hday-faq-title")/,
                 `${_hdSectionsHtml}${_hdFaqHtml}${_hdLinksHtml}\n                $1`

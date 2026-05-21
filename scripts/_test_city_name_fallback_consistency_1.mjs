@@ -167,8 +167,8 @@ console.log('── Group 8: curated-places.json byte-identity ──');
 
 // Quick sanity: the fixture must still have the same Gwangju shape AND
 // the total entry count matches current baseline (post ASIA-1D-IN-D: 2630).
-ok('curated total entry count == 2630 (post ASIA-1D-IN-D)',
-   curated.length === 2630,
+ok('curated total entry count == 2660 (post ASIA-1D-IN-E)',
+   curated.length === 2660,
    '(actual: ' + curated.length + ')');
 
 // ─── Group 9: ALL 10 SUPPORTED_LANGS coverage matrix ──────────────────

@@ -99,18 +99,18 @@ const SEED_18_UR = {
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
 // Counts updated post ASIA-1D-IN-D-FAST-SUPPORTED-L10N.
-// Urdu coverage now extends to 142 (UR-IN-1 40 + BATCH-B 30 + BATCH-C 39 + BATCH-D 33).
+// Urdu coverage now extends to 172 (UR-IN-1 40 + BATCH-B 30 + BATCH-C 39 + BATCH-D 33).
 // Hindi remains 40 (HI-IN-1 cohort only).
-ok('Total curated == 2630', curated.length === 2630, '(actual: ' + curated.length + ')');
-ok('IN total == 142',        inEntries.length === 142, '(actual: ' + inEntries.length + ')');
+ok('Total curated == 2660', curated.length === 2660, '(actual: ' + curated.length + ')');
+ok('IN total == 172',        inEntries.length === 172, '(actual: ' + inEntries.length + ')');
 const withUr = inEntries.filter(e => e.names && e.names.ur).length;
-ok('IN with names.ur == 142', withUr === 142, '(actual: ' + withUr + '/142)');
+ok('IN with names.ur == 172', withUr === 172, '(actual: ' + withUr + '/172)');
 const withAr = inEntries.filter(e => e.names && e.names.ar).length;
-ok('IN with names.ar == 142', withAr === 142, '(actual: ' + withAr + '/142)');
+ok('IN with names.ar == 172', withAr === 172, '(actual: ' + withAr + '/172)');
 const withEn = inEntries.filter(e => e.names && e.names.en).length;
-ok('IN with names.en == 142', withEn === 142, '(actual: ' + withEn + '/142)');
+ok('IN with names.en == 172', withEn === 172, '(actual: ' + withEn + '/172)');
 const withHi = inEntries.filter(e => e.names && e.names.hi).length;
-ok('IN with names.hi == 40 (HI-IN-1 cohort only — NOT extended)', withHi === 40, '(actual: ' + withHi + '/142)');
+ok('IN with names.hi == 40 (HI-IN-1 cohort only — NOT extended)', withHi === 40, '(actual: ' + withHi + '/172)');
 
 // ─── Group 2: Urdu script guard ─────────────────────────────────────────
 console.log('');

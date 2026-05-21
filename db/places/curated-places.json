@@ -119695,5 +119695,790 @@
     "source": "geonames",
     "sourceId": "geonames:1258044",
     "verified": false
+  },
+  {
+    "slug": "thiruvananthapuram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 8.4855,
+    "lng": 76.9492,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ثيروفانانثابورام",
+      "en": "Thiruvananthapuram",
+      "ur": "تھیروواننتھاپورم",
+      "bn": "তিরুবনন্তপুরম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1254163",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Trivandrum"
+      ]
+    }
+  },
+  {
+    "slug": "vellore",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.92,
+    "lng": 79.15,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "فيلور",
+      "en": "Vellore",
+      "ur": "ویلور",
+      "bn": "বেল্লোরে"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1253286",
+    "verified": false
+  },
+  {
+    "slug": "ambattur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 13.0982,
+    "lng": 80.1623,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "أمباتور",
+      "en": "Ambattur",
+      "ur": "امبتور",
+      "bn": "আম্বাত্তুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1278840",
+    "verified": false
+  },
+  {
+    "slug": "thoothukudi",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 8.7833,
+    "lng": 78.1333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "توتوكودي",
+      "en": "Thoothukudi",
+      "ur": "توتوکودی",
+      "bn": "থোথুক্কুড়ি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:8629640",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Tuticorin"
+      ]
+    }
+  },
+  {
+    "slug": "kollam",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 8.8889,
+    "lng": 76.5917,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كولام",
+      "en": "Kollam",
+      "ur": "کولم",
+      "bn": "কোল্লম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1259091",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Quilon"
+      ]
+    }
+  },
+  {
+    "slug": "thrissur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.5167,
+    "lng": 76.2167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تريسور",
+      "en": "Thrissur",
+      "ur": "تھرسور",
+      "bn": "তৃশূর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1254187",
+    "verified": false
+  },
+  {
+    "slug": "dindigul",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.3667,
+    "lng": 77.95,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "دينديغول",
+      "en": "Dindigul",
+      "ur": "دیندیگول",
+      "bn": "দিন্দিগুল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1272543",
+    "verified": false
+  },
+  {
+    "slug": "thanjavur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.7833,
+    "lng": 79.1333,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تنجاور",
+      "en": "Thanjavur",
+      "ur": "تھانجاور",
+      "bn": "তাঞ্জাবুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1254649",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Tanjore"
+      ]
+    }
+  },
+  {
+    "slug": "ranipet",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.9275,
+    "lng": 79.3372,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "رانيبت",
+      "en": "Ranipet",
+      "ur": "رانی پیٹ",
+      "bn": "রাণীপেট"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1258451",
+    "verified": false
+  },
+  {
+    "slug": "tiruvottiyur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 13.1626,
+    "lng": 80.3,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تيروفوتيور",
+      "en": "Tiruvottiyur",
+      "ur": "تیرووٹیور",
+      "bn": "তিরুবোট্টিয়ুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1254320",
+    "verified": false
+  },
+  {
+    "slug": "alappuzha",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 9.5,
+    "lng": 76.3833,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ألابوزا",
+      "en": "Alappuzha",
+      "ur": "الاپوژا",
+      "bn": "আলপ্পুঝা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1278985",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Alleppey"
+      ]
+    }
+  },
+  {
+    "slug": "sivakasi",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 9.45,
+    "lng": 77.8,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "سيفاكاسي",
+      "en": "Sivakasi",
+      "ur": "سیواکاسی",
+      "bn": "শিবকাশী"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1255947",
+    "verified": false
+  },
+  {
+    "slug": "pallavaram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.9683,
+    "lng": 80.15,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بالافارام",
+      "en": "Pallavaram",
+      "ur": "پلاوارم",
+      "bn": "পল্লাবরম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1260692",
+    "verified": false
+  },
+  {
+    "slug": "hosur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.7333,
+    "lng": 77.8167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "هوسور",
+      "en": "Hosur",
+      "ur": "ہوسور",
+      "bn": "হোসুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1269934",
+    "verified": false
+  },
+  {
+    "slug": "nagercoil",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 8.1833,
+    "lng": 77.4167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ناغركويل",
+      "en": "Nagercoil",
+      "ur": "ناگرکوئل",
+      "bn": "নাগরকোয়েল"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1262204",
+    "verified": false
+  },
+  {
+    "slug": "kanchipuram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.8333,
+    "lng": 79.7167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كانشيبورم",
+      "en": "Kanchipuram",
+      "ur": "کانچی پورم",
+      "bn": "কাঞ্চিপুরম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1268159",
+    "verified": false
+  },
+  {
+    "slug": "tambaram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.925,
+    "lng": 80.1,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "تامبارام",
+      "en": "Tambaram",
+      "ur": "تامبارم",
+      "bn": "তাম্বারাম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1255062",
+    "verified": false
+  },
+  {
+    "slug": "cuddalore",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.7563,
+    "lng": 79.7649,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كدالور",
+      "en": "Cuddalore",
+      "ur": "کڈلور",
+      "bn": "কুদ্দালোরে"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1273802",
+    "verified": false
+  },
+  {
+    "slug": "kumbakonam",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.9669,
+    "lng": 79.3838,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كومباكونام",
+      "en": "Kumbakonam",
+      "ur": "کمبھاکونم",
+      "bn": "কুম্ভকোনম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1265683",
+    "verified": false
+  },
+  {
+    "slug": "palakkad",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.7867,
+    "lng": 76.6548,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بلكاد",
+      "en": "Palakkad",
+      "ur": "پالاککاد",
+      "bn": "পালক্কাদ"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1260728",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Palghat"
+      ]
+    }
+  },
+  {
+    "slug": "rajapalayam",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 9.4533,
+    "lng": 77.5533,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "راجابالايام",
+      "en": "Rajapalayam",
+      "ur": "راجاپالایم",
+      "bn": "রাজাপালয়ম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1258916",
+    "verified": false
+  },
+  {
+    "slug": "ambur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.7833,
+    "lng": 78.7167,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "امبور",
+      "en": "Ambur",
+      "ur": "امبور",
+      "bn": "আম্বুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1278815",
+    "verified": false
+  },
+  {
+    "slug": "nagapattinam",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.7647,
+    "lng": 79.8425,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "ناغاباتينام",
+      "en": "Nagapattinam",
+      "ur": "ناگاپٹنم",
+      "bn": "নাগাপত্তিনম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1262260",
+    "verified": false
+  },
+  {
+    "slug": "malappuram",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.0734,
+    "lng": 76.0741,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "مالابورام",
+      "en": "Malappuram",
+      "ur": "ملاپورم",
+      "bn": "মালাপ্পুরম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1264154",
+    "verified": false
+  },
+  {
+    "slug": "gudiyatham",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 12.9489,
+    "lng": 78.8676,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "غوديتام",
+      "en": "Gudiyatham",
+      "ur": "گڈیتم",
+      "bn": "গুদিয়াত্তম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1270800",
+    "verified": false
+  },
+  {
+    "slug": "pollachi",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 10.6589,
+    "lng": 77.0085,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "بولاتشي",
+      "en": "Pollachi",
+      "ur": "پولاچی",
+      "bn": "পোল্লাচি"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "تاميل نادو",
+      "regionEn": "Tamil Nadu",
+      "admin1Code": "25"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1259440",
+    "verified": false
+  },
+  {
+    "slug": "kayamkulam",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 9.1772,
+    "lng": 76.5006,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كايامكولام",
+      "en": "Kayamkulam",
+      "ur": "کایمکولم",
+      "bn": "কায়ামকুলম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1267360",
+    "verified": false
+  },
+  {
+    "slug": "kannur",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 11.8689,
+    "lng": 75.355,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كانور",
+      "en": "Kannur",
+      "ur": "کنور",
+      "bn": "কন্নুর"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1274987",
+    "verified": false,
+    "aliases": {
+      "en": [
+        "Cannanore"
+      ]
+    }
+  },
+  {
+    "slug": "pathanamthitta",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 9.2667,
+    "lng": 76.7833,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "باثانامتيتا",
+      "en": "Pathanamthitta",
+      "ur": "پتھنامتھٹہ",
+      "bn": "পত্তনম্তিট্টা"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1260138",
+    "verified": false
+  },
+  {
+    "slug": "kottayam",
+    "type": "city",
+    "countryCode": "in",
+    "lat": 9.5916,
+    "lng": 76.5222,
+    "timezone": "Asia/Kolkata",
+    "names": {
+      "ar": "كوتايام",
+      "en": "Kottayam",
+      "ur": "کوٹیم",
+      "bn": "কোট্টায়ম"
+    },
+    "admin": {
+      "countryAr": "الهند",
+      "countryEn": "India",
+      "regionAr": "كيرالا",
+      "regionEn": "Kerala",
+      "admin1Code": "13"
+    },
+    "priority": 70,
+    "source": "geonames",
+    "sourceId": "geonames:1265910",
+    "verified": false
   }
 ]

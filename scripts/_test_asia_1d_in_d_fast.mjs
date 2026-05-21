@@ -29,12 +29,12 @@ const NEW_33 = [
 
 // ─── Group 1: Counts ────────────────────────────────────────────────────
 console.log('── Group 1: Counts ──');
-ok('Total curated == 2630 (was 2597, +33)', curated.length === 2630,
+ok('Total curated == 2660 (was 2597; post IN-D 2630 + IN-E +30 = 2660)', curated.length === 2660,
    '(actual: ' + curated.length + ')');
 ok('Total curated backup == 2597', backup.length === 2597);
 const inNow = curated.filter(e => e.countryCode === 'in').length;
 const inOrig = backup.filter(e => e.countryCode === 'in').length;
-ok('IN count == 142 (was 109, +33)', inNow === 142, '(actual: ' + inNow + ')');
+ok('IN count == 172 (post IN-D 142 + IN-E +30 = 172)', inNow === 172, '(actual: ' + inNow + ')');
 ok('IN count backup == 109', inOrig === 109);
 
 // ─── Group 2: All 33 added with exactly {ar, en, ur, bn} ────────────────

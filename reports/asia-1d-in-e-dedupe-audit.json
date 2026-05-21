@@ -1,0 +1,1292 @@
+{
+  "timestamp": "2026-05-21T05:15:05.449Z",
+  "counts": {
+    "existingCurated": 2630,
+    "existingIn": 142,
+    "excludedSlugMatch": 429,
+    "excludedGidMatch": 0,
+    "excludedNameMatch": 40,
+    "excludedLowQuality": 4571,
+    "eligible": 951
+  },
+  "inspirationListStatus": [
+    {
+      "slug": "hosur",
+      "status": "eligible",
+      "en": "Hosūr",
+      "pop": 229528
+    },
+    {
+      "slug": "nagercoil",
+      "status": "eligible",
+      "en": "Nāgercoil",
+      "pop": 224849
+    },
+    {
+      "slug": "thanjavur",
+      "status": "eligible",
+      "en": "Thanjavur",
+      "pop": 291067
+    },
+    {
+      "slug": "vellore",
+      "status": "eligible",
+      "en": "Vellore",
+      "pop": 484690
+    },
+    {
+      "slug": "tiruvottiyur",
+      "status": "eligible",
+      "en": "Tiruvottiyūr",
+      "pop": 249446
+    },
+    {
+      "slug": "ambattur",
+      "status": "eligible",
+      "en": "Ambattur",
+      "pop": 466205
+    },
+    {
+      "slug": "ozhukarai",
+      "status": "not-in-candidates"
+    },
+    {
+      "slug": "karaikudi",
+      "status": "not-in-candidates"
+    },
+    {
+      "slug": "cuddalore",
+      "status": "eligible",
+      "en": "Cuddalore",
+      "pop": 173636
+    },
+    {
+      "slug": "dindigul",
+      "status": "eligible",
+      "en": "Dindigul",
+      "pop": 292512
+    },
+    {
+      "slug": "thoothukudi",
+      "status": "eligible",
+      "en": "Thoothukudi",
+      "pop": 410760
+    },
+    {
+      "slug": "tuticorin",
+      "status": "not-in-candidates"
+    },
+    {
+      "slug": "sivakasi",
+      "status": "eligible",
+      "en": "Sivakasi",
+      "pop": 234704
+    },
+    {
+      "slug": "kanchipuram",
+      "status": "eligible",
+      "en": "Kanchipuram",
+      "pop": 221715
+    },
+    {
+      "slug": "kumbakonam",
+      "status": "eligible",
+      "en": "Kumbakonam",
+      "pop": 167155
+    },
+    {
+      "slug": "pallavaram",
+      "status": "eligible",
+      "en": "Pallāvaram",
+      "pop": 233984
+    },
+    {
+      "slug": "tambaram",
+      "status": "eligible",
+      "en": "Tambaram",
+      "pop": 174787
+    },
+    {
+      "slug": "ambur",
+      "status": "eligible",
+      "en": "Ambur",
+      "pop": 114608
+    },
+    {
+      "slug": "ranipet",
+      "status": "eligible",
+      "en": "Rānipet",
+      "pop": 264330
+    },
+    {
+      "slug": "nagapattinam",
+      "status": "eligible",
+      "en": "Nagapattinam",
+      "pop": 102905
+    },
+    {
+      "slug": "gudiyatham",
+      "status": "eligible",
+      "en": "Gudiyatham",
+      "pop": 93973
+    },
+    {
+      "slug": "pollachi",
+      "status": "eligible",
+      "en": "Pollachi",
+      "pop": 90180
+    },
+    {
+      "slug": "rajapalayam",
+      "status": "eligible",
+      "en": "Rajapalayam",
+      "pop": 130442
+    },
+    {
+      "slug": "palakkad",
+      "status": "eligible",
+      "en": "Palakkad",
+      "pop": 132728
+    },
+    {
+      "slug": "thrissur",
+      "status": "eligible",
+      "en": "Thrissur",
+      "pop": 315957
+    },
+    {
+      "slug": "kollam",
+      "status": "eligible",
+      "en": "Kollam",
+      "pop": 367107
+    },
+    {
+      "slug": "alappuzha",
+      "status": "eligible",
+      "en": "Alappuzha",
+      "pop": 240991
+    },
+    {
+      "slug": "kannur",
+      "status": "eligible",
+      "en": "Kannur",
+      "pop": 62836
+    },
+    {
+      "slug": "kayamkulam",
+      "status": "eligible",
+      "en": "Kayamkulam",
+      "pop": 68634
+    },
+    {
+      "slug": "kottayam",
+      "status": "eligible",
+      "en": "Kottayam",
+      "pop": 55374
+    },
+    {
+      "slug": "malappuram",
+      "status": "eligible",
+      "en": "Malappuram",
+      "pop": 101386
+    },
+    {
+      "slug": "pathanamthitta",
+      "status": "excluded:low-quality",
+      "pop": 38285
+    },
+    {
+      "slug": "thiruvananthapuram",
+      "status": "eligible",
+      "en": "Thiruvananthapuram",
+      "pop": 788271
+    }
+  ],
+  "eligibleTop60": [
+    {
+      "slug": "rasapudipalem",
+      "gid": "1258393",
+      "en": "Rasapūdipalem",
+      "pop": 1728128,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "kallakurichi",
+      "gid": "12165956",
+      "en": "Kallakurichi",
+      "pop": 1682687,
+      "fc": "PPLA2",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "ludhiana",
+      "gid": "1264728",
+      "en": "Ludhiana",
+      "pop": 1618879,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "rajkot",
+      "gid": "1258847",
+      "en": "Rājkot",
+      "pop": 1390640,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "najafgarh",
+      "gid": "1262111",
+      "en": "Najafgarh",
+      "pop": 1365000,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "pimpri",
+      "gid": "1259652",
+      "en": "Pimpri",
+      "pop": 1284606,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "kalyan",
+      "gid": "1268295",
+      "en": "Kalyān",
+      "pop": 1262255,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "nowrangapur",
+      "gid": "1261162",
+      "en": "Nowrangapur",
+      "pop": 1220946,
+      "fc": "PPLA2",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "jabalpur",
+      "gid": "1269633",
+      "en": "Jabalpur",
+      "pop": 1081677,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "gwalior",
+      "gid": "1270583",
+      "en": "Gwalior",
+      "pop": 1054420,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "howrah",
+      "gid": "1270396",
+      "en": "Howrah",
+      "pop": 1027672,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "hubballi",
+      "gid": "1269920",
+      "en": "Hubballi",
+      "pop": 943788,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "bhiwandi",
+      "gid": "1275901",
+      "en": "Bhiwandi",
+      "pop": 874032,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "kanayannur",
+      "gid": "12501153",
+      "en": "Kanayannur",
+      "pop": 851406,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "narela",
+      "gid": "1261809",
+      "en": "Narela",
+      "pop": 800000,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "thiruvananthapuram",
+      "gid": "1254163",
+      "en": "Thiruvananthapuram",
+      "pop": 788271,
+      "fc": "PPLA",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": true
+    },
+    {
+      "slug": "borivli",
+      "gid": "1275248",
+      "en": "Borivli",
+      "pop": 609617,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "bhavnagar",
+      "gid": "1276032",
+      "en": "Bhavnagar",
+      "pop": 605882,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "jamnagar",
+      "gid": "1269317",
+      "en": "Jamnagar",
+      "pop": 600943,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "kalaburagi",
+      "gid": "1270752",
+      "en": "Kalaburagi",
+      "pop": 543147,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "ulhasnagar",
+      "gid": "1253894",
+      "en": "Ulhasnagar",
+      "pop": 516584,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "loni",
+      "gid": "1264773",
+      "en": "Loni",
+      "pop": 516082,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "bilimora",
+      "gid": "1275610",
+      "en": "Bilimora",
+      "pop": 510879,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "saharanpur",
+      "gid": "1257806",
+      "en": "Sahāranpur",
+      "pop": 484873,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "vellore",
+      "gid": "1253286",
+      "en": "Vellore",
+      "pop": 484690,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": true
+    },
+    {
+      "slug": "bhatpara",
+      "gid": "1276058",
+      "en": "Bhātpāra",
+      "pop": 483129,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "gaya",
+      "gid": "1271439",
+      "en": "Gaya",
+      "pop": 474093,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "ambattur",
+      "gid": "1278840",
+      "en": "Ambattur",
+      "pop": 466205,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": true
+    },
+    {
+      "slug": "ramgundam",
+      "gid": "1258662",
+      "en": "Rāmgundam",
+      "pop": 452261,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "udaipur",
+      "gid": "1253986",
+      "en": "Udaipur",
+      "pop": 451100,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "maheshtala",
+      "gid": "1348843",
+      "en": "Maheshtala",
+      "pop": 448317,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "patiala",
+      "gid": "1260107",
+      "en": "Patiāla",
+      "pop": 446246,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "shyamnagar",
+      "gid": "1256409",
+      "en": "Shyamnagar",
+      "pop": 441956,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "davangere",
+      "gid": "1273368",
+      "en": "Davangere",
+      "pop": 435128,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "rajpur-sonarpur",
+      "gid": "1255783",
+      "en": "Rajpur Sonarpur",
+      "pop": 424368,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "korba",
+      "gid": "1266122",
+      "en": "Korba",
+      "pop": 419146,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "thoothukudi",
+      "gid": "8629640",
+      "en": "Thoothukudi",
+      "pop": 410760,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": true
+    },
+    {
+      "slug": "bhagalpur",
+      "gid": "1276300",
+      "en": "Bhāgalpur",
+      "pop": 400146,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "panihati",
+      "gid": "1260482",
+      "en": "Pānihāti",
+      "pop": 378705,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "rajamahendravaram",
+      "gid": "1258932",
+      "en": "Rajamahendravaram",
+      "pop": 376333,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "ahilyanagar",
+      "gid": "1279228",
+      "en": "Ahilyanagar",
+      "pop": 367140,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "kollam",
+      "gid": "1259091",
+      "en": "Kollam",
+      "pop": 367107,
+      "fc": "PPLA2",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": true
+    },
+    {
+      "slug": "bhilwara",
+      "gid": "1275960",
+      "en": "Bhilwara",
+      "pop": 359483,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "brahmapur",
+      "gid": "1275198",
+      "en": "Brahmapur",
+      "pop": 356598,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "muzaffarpur",
+      "gid": "1262330",
+      "en": "Muzaffarpur",
+      "pop": 354462,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "punasa",
+      "gid": "1259239",
+      "en": "Punāsa",
+      "pop": 350000,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "kukatpally",
+      "gid": "1265767",
+      "en": "Kukatpally",
+      "pop": 341709,
+      "fc": "PPLA3",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "kamarhati",
+      "gid": "1268257",
+      "en": "Kāmārhāti",
+      "pop": 332965,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "chanda",
+      "gid": "1274693",
+      "en": "Chānda",
+      "pop": 328351,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "vijayapura",
+      "gid": "1275701",
+      "en": "Vijayapura",
+      "pop": 327427,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "shivamogga",
+      "gid": "1256515",
+      "en": "Shivamogga",
+      "pop": 322650,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "alwar",
+      "gid": "1278946",
+      "en": "Alwar",
+      "pop": 322568,
+      "fc": "PPL",
+      "status": "pending",
+      "tier": "high",
+      "inInspiration": false
+    },
+    {
+      "slug": "shahjanpur",
+      "gid": "1256728",
+      "en": "Shāhjānpur",
+      "pop": 320434,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "junagadh",
+      "gid": "1268773",
+      "en": "Jūnāgadh",
+      "pop": 319462,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "thrissur",
+      "gid": "1254187",
+      "en": "Thrissur",
+      "pop": 315957,
+      "fc": "PPLA2",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": true
+    },
+    {
+      "slug": "kulti",
+      "gid": "1265711",
+      "en": "Kulti",
+      "pop": 305405,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "barddhaman",
+      "gid": "1277029",
+      "en": "Barddhamān",
+      "pop": 301725,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "gundupalaiyam",
+      "gid": "11679708",
+      "en": "Gundupālaiyam",
+      "pop": 300104,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "barasat",
+      "gid": "1277065",
+      "en": "Bārāsat",
+      "pop": 298127,
+      "fc": "PPL",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    },
+    {
+      "slug": "mulugu",
+      "gid": "12165955",
+      "en": "Mulugu",
+      "pop": 297671,
+      "fc": "PPLA2",
+      "status": "needs_review",
+      "tier": null,
+      "inInspiration": false
+    }
+  ],
+  "excludedSlugMatch": [
+    {
+      "slug": "warangal",
+      "gid": "1252948",
+      "en": "Warangal",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "vizianagaram",
+      "gid": "1253084",
+      "en": "Vizianagaram",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "visakhapatnam",
+      "gid": "1253102",
+      "en": "Visakhapatnam",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "vijayawada",
+      "gid": "1253184",
+      "en": "Vijayawada",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "varanasi",
+      "gid": "1253405",
+      "en": "Varanasi",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "vadodara",
+      "gid": "1253573",
+      "en": "Vadodara",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "ujjain",
+      "gid": "1253914",
+      "en": "Ujjain",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "tiruppur",
+      "gid": "1254348",
+      "en": "Tiruppur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "tirunelveli",
+      "gid": "1254361",
+      "en": "Tirunelveli",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "tiruchirappalli",
+      "gid": "1254388",
+      "en": "Tiruchirappalli",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "thane",
+      "gid": "1254661",
+      "en": "Thāne",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "surat",
+      "gid": "1255364",
+      "en": "Surat",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "srinagar",
+      "gid": "1255634",
+      "en": "Srinagar",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "srinagar",
+      "gid": "1255635",
+      "en": "Srīnagar",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "srinagar",
+      "gid": "1255636",
+      "en": "Srīnagar",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "srinagar",
+      "gid": "1255637",
+      "en": "Srīnagar",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "srinagar",
+      "gid": "1255638",
+      "en": "Srīnagar",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "srikakulam",
+      "gid": "1255647",
+      "en": "Srikakulam",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "shillong",
+      "gid": "1256523",
+      "en": "Shillong",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "sambhal",
+      "gid": "1257540",
+      "en": "Sambhal",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "sambalpur",
+      "gid": "1257542",
+      "en": "Sambalpur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "salem",
+      "gid": "1257629",
+      "en": "Salem",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "roorkee",
+      "gid": "1258044",
+      "en": "Roorkee",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "rohtak",
+      "gid": "1258076",
+      "en": "Rohtak",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "rewa",
+      "gid": "1258182",
+      "en": "Rewa",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "rourkela",
+      "gid": "1258315",
+      "en": "Rourkela",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "ranchi",
+      "gid": "1258526",
+      "en": "Ranchi",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "raipur",
+      "gid": "1258980",
+      "en": "Raipur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "pune",
+      "gid": "1259229",
+      "en": "Pune",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "patna",
+      "gid": "1260085",
+      "en": "Patna",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "patna",
+      "gid": "1260086",
+      "en": "Patna",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "patna",
+      "gid": "1260087",
+      "en": "Patna",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "patna",
+      "gid": "1260088",
+      "en": "Patna",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "patna",
+      "gid": "1260089",
+      "en": "Patna",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "patna",
+      "gid": "1260090",
+      "en": "Patna",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "parbhani",
+      "gid": "1260341",
+      "en": "Parbhani",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "panvel",
+      "gid": "1260434",
+      "en": "Panvel",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "ongole",
+      "gid": "1261045",
+      "en": "Ongole",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "new-delhi",
+      "gid": "1261481",
+      "en": "New Delhi",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nellore",
+      "gid": "1261529",
+      "en": "Nellore",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nashik",
+      "gid": "1261731",
+      "en": "Nashik",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nanded",
+      "gid": "1261977",
+      "en": "Nanded",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nagpur",
+      "gid": "1262178",
+      "en": "Nāgpur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nagpur",
+      "gid": "1262179",
+      "en": "Nāgpur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nagpur",
+      "gid": "1262180",
+      "en": "Nagpur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "nagpur",
+      "gid": "1262181",
+      "en": "Nāgpur",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "mysuru",
+      "gid": "1262321",
+      "en": "Mysuru",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "muzaffarnagar",
+      "gid": "1262332",
+      "en": "Muzaffarnagar",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "meerut",
+      "gid": "1263214",
+      "en": "Meerut",
+      "reason": "slug already in curated"
+    },
+    {
+      "slug": "mathura",
+      "gid": "1263364",
+      "en": "Mathura",
+      "reason": "slug already in curated"
+    }
+  ],
+  "excludedGidMatch": [],
+  "excludedNameMatch": [
+    {
+      "slug": "sinnar",
+      "gid": "1256119",
+      "en": "Sinnar",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "leh",
+      "gid": "1264976",
+      "en": "Leh",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "hyderabad",
+      "gid": "1269843",
+      "en": "Hyderabad",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "delhi",
+      "gid": "1273294",
+      "en": "Delhi",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "attur",
+      "gid": "1278173",
+      "en": "Attur",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "moron",
+      "gid": "10713696",
+      "en": "Moron",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "bali",
+      "gid": "1277539",
+      "en": "Bāli",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "tura",
+      "gid": "1254046",
+      "en": "Tura",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "shahabad",
+      "gid": "1256755",
+      "en": "Shāhābād",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "shahabad",
+      "gid": "1256759",
+      "en": "Shāhābād",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "nasirabad",
+      "gid": "1261727",
+      "en": "Nasīrābād",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "rampura",
+      "gid": "1258584",
+      "en": "Rāmpura",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "ahmadpur",
+      "gid": "1279227",
+      "en": "Ahmadpur",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "shahabad",
+      "gid": "1256752",
+      "en": "Shāhābād",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "baola",
+      "gid": "1277196",
+      "en": "Bāola",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "taki",
+      "gid": "1255211",
+      "en": "Tāki",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "shahabad",
+      "gid": "1256753",
+      "en": "Shāhābād",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "jalalpur",
+      "gid": "1269435",
+      "en": "Jalālpur",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "gil",
+      "gid": "10261622",
+      "en": "Gil",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "rania",
+      "gid": "1258477",
+      "en": "Rānia",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "singapur",
+      "gid": "1445156",
+      "en": "Singāpur",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "sindi",
+      "gid": "10453829",
+      "en": "Sindi",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "bali",
+      "gid": "1277590",
+      "en": "Bāli",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "rampura",
+      "gid": "1258592",
+      "en": "Rāmpura",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "baroda",
+      "gid": "1276885",
+      "en": "Baroda",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "depalpur",
+      "gid": "1273181",
+      "en": "Depālpur",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "shahi",
+      "gid": "1256731",
+      "en": "Shāhi",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "tal",
+      "gid": "1255187",
+      "en": "Tāl",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "dariya",
+      "gid": "6989785",
+      "en": "Dariya",
+      "reason": "en name matches existing curated name/alias"
+    },
+    {
+      "slug": "hattin",
+      "gid": "1270181",
+      "en": "Hattīn",
+      "reason": "en name matches existing curated name/alias"
+    }
+  ]
+}

@@ -170,7 +170,7 @@ for (const [slug, L, expected] of REG_PAIRS) {
 console.log('');
 console.log('── Group 8: Apply invariants ──');
 // (a) Total entry count unchanged
-ok('curated entry count == 2630 (post ASIA-1D-IN-D, no add/delete in THIS phase)', curated.length === 2630,
+ok('curated entry count >= 2630 (POLICY-1 added 0 entries; later waves may add more)', curated.length >= 2630,
    '(actual: ' + curated.length + ')');
 // (b) names.ar + names.en for the 36 touched entries — re-check vs backup
 const backup = JSON.parse(readFileSync(new URL('../db/places/curated-places.json.preSupportedLocalNames1.bak', import.meta.url), 'utf8'));

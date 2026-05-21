@@ -3,7 +3,35 @@
 **Date:** 2026-05-21
 **Phase:** UI polish only for `/hijri-calendar` (year hub)
 **Pattern:** CSS-only, no DOM/text/SEO/logic changes
-**Status:** Ready for user closure approval
+**Status:** CLOSED — user-approved 2026-05-21
+
+---
+
+## Acceptance Criteria
+
+| #  | Criterion                                                                       | Result |
+|----|---------------------------------------------------------------------------------|--------|
+| 1  | Visual polish only (CSS + minimal HTML cache-buster bump)                       | ✅     |
+| 2  | CSS rules scoped to `#page-hijri-year` (and `.hd5-events` inside it)            | ✅     |
+| 3  | `index.html` change limited to cache-buster (`?v=357` → `?v=358`)               | ✅     |
+| 4  | No content changes (H1 / H2 / labels / FAQ / about / footer all intact)        | ✅     |
+| 5  | No SEO changes (title / meta / FAQ schema unchanged)                            | ✅     |
+| 6  | No JSON-LD changes                                                              | ✅     |
+| 7  | No canonical / hreflang link changes                                            | ✅     |
+| 8  | No data changes (Hijri calculations + month/day data byte-identical)           | ✅     |
+| 9  | No logic changes (year picker + prev/next + today-in-year + FAQ all intact)    | ✅     |
+| 10 | No geodata / curated-places.json changes                                        | ✅     |
+| 11 | No `server.js` changes                                                          | ✅     |
+| 12 | No `js/app.js` changes                                                          | ✅     |
+| 13 | No city / moon / qibla page changes (scope-isolated)                            | ✅     |
+| 14 | No `/hijri-date/{date}` or `/hijri-calendar/{YYYY-MM}` changes                  | ✅     |
+| 15 | No `docs/place-data-maintenance-policy.md` changes                              | ✅     |
+| 16 | No `server/place-l10n/index.js` changes                                         | ✅     |
+| 17 | All routes return HTTP 200 (9/9 verified)                                       | ✅     |
+| 18 | Content-integrity smoke 38/38 PASS                                              | ✅     |
+| 19 | No new phase started (all deferred items remain DEFERRED)                       | ✅     |
+
+**Outcome:** All 19 acceptance criteria met. Approved.
 
 ---
 
@@ -205,16 +233,23 @@ $ git diff --stat HEAD -- server.js js/app.js docs/place-data-maintenance-policy
 
 UI polish phase complete. No code, no data, no SEO, no content changes.
 
+**Closure approval received from user on 2026-05-21.**
+Marker: `docs(closure): mark HIJRI-CALENDAR-UI-POLISH-1 user-approved 2026-05-21`
+
+Status moved from `awaiting user approval` → `CLOSED — user-approved 2026-05-21`.
+
 The following remain DEFERRED — DO NOT auto-start:
+- Hijri month page polish (`/hijri-calendar/{YYYY-MM}`)
+- Hijri date page polish (`/hijri-date/{date}`)
+- city pages polish
+- moon pages polish
+- qibla pages polish
 - TR-C (any further Turkey batch)
 - ASIA-1F (CN solo)
 - AMERICAS (non-Spanish-speaking)
 - SUPPORTED-LOCAL-PLACE-NAMES-POLICY-2
 - search-ranking
-- Hijri pages OTHER than this polish (e.g., new hijri page redesign)
 - DELETE-V1
 - geocode proxy
 - any separate L10N waves
 - any new city batch
-
-**Awaiting user closure approval before push to remote.**

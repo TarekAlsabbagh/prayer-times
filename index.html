@@ -2850,11 +2850,18 @@
                     <div id="hday-faq"></div>
                 </div>
 
-                <!-- 6. Related Links (3 truly-related: converter, moon, prayer) — hierarchy links moved up under Hero -->
-                <div class="section-card">
-                    <h2 id="hday-related-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="hday.related_title">روابط ذات صلة</span></h2>
-                    <div id="hday-related" class="u-flex-wrap"></div>
-                </div>
+                <!-- 6. Related Links — REMOVED (2026-05-21,
+                     HIJRI-DAY-REMOVE-RELATED-LINKS-BOTTOM-1).
+                     The 3 links (dateconverter / moon / prayer-times) were
+                     duplicating navigation already exposed near the top of
+                     the page (#hday-cta for the same 3 actions, plus
+                     #hday-hierarchy for month + year navigation, plus the
+                     existing inline links inside the FAQ + footer-seo).
+                     Per user direction, removing the bottom block to
+                     reduce repetitive link-cluster at end of page.
+                     The render block in app.js (search "ui.relatedTitle"
+                     / "hday-related") is guarded by `if (relEl)` and
+                     skips silently when the DOM is missing. -->
 
                 <!-- 7. Footer SEO — short 1-2 sentence paragraph -->
                 <div class="section-card">

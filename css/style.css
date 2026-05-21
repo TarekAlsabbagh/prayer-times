@@ -23132,3 +23132,47 @@ html[data-theme="dark"] #page-hijri-month #hmonth-other-months .hmonth-current-b
         margin-top: 2px;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   Phase HIJRI-YEARS-NAV-CONSOLIDATION-1 (2026-05-21): unify the years-
+   navigation card so the year-page and month-page render with the
+   exact same visual treatment.
+
+   The two existing polish blocks (HIJRI-CALENDAR-YEARS-NAV-POLISH-1
+   `9c45dcc` for #page-hijri-year, and HIJRI-MONTH-YEARS-NAV (part of
+   `dc3b764`) for #page-hijri-month) already use identical values. This
+   block adds a single shared declaration so the layout primitives are
+   guaranteed identical even if some legacy rule cascades unexpectedly:
+
+     1. Grid: explicit `display: flex; flex-wrap: wrap` for BOTH pages
+        (the year-page version implicitly relied on the .u-flex-wrap-top
+         base class — making it explicit makes the polish self-contained).
+     2. Section-card has() :has(> #h{y|m}onth-years-title): same
+        padding-block trim applied to both pages.
+
+   No DOM/text/href/data/SEO/JSON-LD/logic change. CSS-only.
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+#page-hijri-year #hyear-years-grid,
+#page-hijri-month #hmonth-years-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin: 0 auto !important;
+    max-width: 560px !important;
+    width: 100%;
+}
+@media (max-width: 768px) {
+    #page-hijri-year #hyear-years-grid,
+    #page-hijri-month #hmonth-years-grid {
+        gap: 8px !important;
+        max-width: 100% !important;
+    }
+}
+@media (max-width: 480px) {
+    #page-hijri-year #hyear-years-grid,
+    #page-hijri-month #hmonth-years-grid {
+        gap: 6px !important;
+    }
+}

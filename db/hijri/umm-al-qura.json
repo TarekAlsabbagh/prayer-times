@@ -1,0 +1,27 @@
+{
+    "$schema": "./umm-al-qura.schema.json",
+    "calendar": "umm-al-qura",
+    "source": null,
+    "sourceMeta": null,
+    "range": {
+        "startYear": 1356,
+        "endYear": 1500
+    },
+    "status": "data-pending",
+    "fetchedAt": null,
+    "notes": [
+        "HIJRI-UMM-AL-QURA-INFRA-STAGE-A0 (2026-05-22).",
+        "This file is a PLACEHOLDER. No Hijri-year data has been imported yet.",
+        "Range 1356-1500 AH chosen because the Saudi Umm al-Qura calendar was",
+        "formally adopted in 1356 AH (1937 CE) — earlier years are not covered",
+        "by the official Saudi reference. Range will be confirmed against the",
+        "actual data source before Stage B (the behaviour-flip migration).",
+        "Until 'status' transitions away from 'data-pending', the calendar",
+        "consumer code MUST continue to use the existing Kuwaiti tabular",
+        "algorithm in js/hijri-date.js + server.js. The helpers in",
+        "js/hijri-umm-al-qura.js are wired only to Node-side tests in",
+        "scripts/_smoke_hijri_umm_al_qura_a0.mjs — no HTML page loads them",
+        "and no SSR route reads from this file."
+    ],
+    "years": {}
+}

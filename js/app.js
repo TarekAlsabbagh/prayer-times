@@ -21053,8 +21053,19 @@ function loadHijriDayPage() {
         else if (month < 12)   { nextD2 = 1; nextM2 = month + 1; nextY2 = year; }
         else                   { nextD2 = 1; nextM2 = 1; nextY2 = year + 1; }
 
-        const prevName = hijriNames[prevM2 - 1];
-        const nextName = hijriNames[nextM2 - 1];
+        // HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
+        //   Boundary gating — if prev/next falls outside the Umm al-Qura
+        //   table range (year 1356 → no prev, year 1500 day-29-of-month-12
+        //   → no next), render the affected button as a disabled <span>
+        //   instead of an <a>. aria-disabled + reduced opacity makes the
+        //   state legible to screen readers and visible to sighted users.
+        const _prevValid = (typeof HijriDate.isValidHijriDate === 'function')
+            ? HijriDate.isValidHijriDate(prevY2, prevM2, prevD2) : true;
+        const _nextValid = (typeof HijriDate.isValidHijriDate === 'function')
+            ? HijriDate.isValidHijriDate(nextY2, nextM2, nextD2) : true;
+
+        const prevName = hijriNames[prevM2 - 1] || '';
+        const nextName = hijriNames[nextM2 - 1] || '';
         const prevUrl  = hijriDayUrl(prevY2, prevM2, prevD2);
         const nextUrl  = hijriDayUrl(nextY2, nextM2, nextD2);
         const prevFullName = `${prevD2} ${prevName} ${prevY2}${hSfx}`;
@@ -21063,15 +21074,18 @@ function loadHijriDayPage() {
         const _rtlD = (lang === 'ar' || lang === 'ur');
         const _arPrevD = _rtlD ? '→' : '←';
         const _arNextD = _rtlD ? '←' : '→';
-        navEl.innerHTML = `
-            <a href="${prevUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${_arPrevD} ${ui.prev}</span>
-                <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevFullName}</span>
-            </a>
-            <a href="${nextUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${ui.next} ${_arNextD}</span>
-                <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextFullName}</span>
-            </a>`;
+
+        const _prevCellStyle = 'flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);';
+        const _nextCellStyle = 'flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);';
+        const _disabledStyle = 'opacity:0.45;cursor:not-allowed;pointer-events:none;';
+
+        const _prevHtml = _prevValid
+            ? `<a href="${prevUrl}" style="${_prevCellStyle}"><span style="font-size:0.75rem;color:var(--text-light);">${_arPrevD} ${ui.prev}</span><span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevFullName}</span></a>`
+            : `<span aria-disabled="true" style="${_prevCellStyle}${_disabledStyle}"><span style="font-size:0.75rem;color:var(--text-light);">${_arPrevD} ${ui.prev}</span><span style="font-weight:700;color:var(--text-light);font-size:0.95rem;">—</span></span>`;
+        const _nextHtml = _nextValid
+            ? `<a href="${nextUrl}" style="${_nextCellStyle}"><span style="font-size:0.75rem;color:var(--text-light);">${ui.next} ${_arNextD}</span><span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextFullName}</span></a>`
+            : `<span aria-disabled="true" style="${_nextCellStyle}${_disabledStyle}"><span style="font-size:0.75rem;color:var(--text-light);">${ui.next} ${_arNextD}</span><span style="font-weight:700;color:var(--text-light);font-size:0.95rem;">—</span></span>`;
+        navEl.innerHTML = `${_prevHtml}${_nextHtml}`;
     }
 
     // ── 6. FAQ (today: "اليوم" Qs; non-today: date-specific Qs without "today" phrasing) ──

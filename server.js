@@ -9418,9 +9418,14 @@ function buildSeoForPath(urlPath) {
         ogType = 'article';
         breadcrumbs.push({ name: _HY_CAL_LABEL[lang] || _HY_CAL_LABEL.en, item: origin + langPrefix + `/hijri-calendar` });
         // prev/next: فقط إذا الـ URL يتضمّن سنة صريحة
+        // HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
+        // Gate prev/next with _isYearInRange so we don't emit
+        // <link rel="prev"/next"> pointing to 1355 (below range) or 1501
+        // (above range) — those would be 404 per B1 dispatcher.
         if (m[1]) {
-            prev = origin + langPrefix + `/hijri-calendar/${parseInt(year) - 1}`;
-            next = origin + langPrefix + `/hijri-calendar/${parseInt(year) + 1}`;
+            const _pY = parseInt(year) - 1, _nY = parseInt(year) + 1;
+            if (_isYearInRange(_pY)) prev = origin + langPrefix + `/hijri-calendar/${_pY}`;
+            if (_isYearInRange(_nY)) next = origin + langPrefix + `/hijri-calendar/${_nY}`;
         }
         article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
     }
@@ -9483,13 +9488,17 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: `${year}${_hSfxM}`, item: origin + langPrefix + `/hijri-calendar/${year}` });
         breadcrumbs.push({ name: `${_mName} ${year}${_hSfxM}`, item: canonical });
         // prev/next month navigation — numeric format
+        // HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
+        // Gate prev/next month with _isYearInRange so cross-year boundaries
+        // (M1 prev → previous year's M12; M12 next → next year's M1) only
+        // emit when the target year exists in the Umm al-Qura table.
         {
             const prevOrder = monthNum === 1 ? 12 : monthNum - 1;
             const prevYear  = monthNum === 1 ? parseInt(year) - 1 : parseInt(year);
             const nextOrder = monthNum === 12 ? 1 : monthNum + 1;
             const nextYear  = monthNum === 12 ? parseInt(year) + 1 : parseInt(year);
-            prev = origin + langPrefix + `/hijri-calendar/${prevYear}-${_pad2(prevOrder)}`;
-            next = origin + langPrefix + `/hijri-calendar/${nextYear}-${_pad2(nextOrder)}`;
+            if (_isYearInRange(prevYear)) prev = origin + langPrefix + `/hijri-calendar/${prevYear}-${_pad2(prevOrder)}`;
+            if (_isYearInRange(nextYear)) next = origin + langPrefix + `/hijri-calendar/${nextYear}-${_pad2(nextOrder)}`;
         }
     }
 
@@ -20635,36 +20644,62 @@ const server = http.createServer(async (req, res) => {
     //   Umm al-Qura table (e.g. 30 Dhul Hijjah 1447 when the table says
     //   the month only has 29 days) returns 404 — NO 301 redirect (the
     //   site is pre-launch, no indexed phantom URLs to preserve).
+    //
+    //   HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
+    //   Replaced plain 404 HTML with a multi-lang branded page reused
+    //   from `_hijri404Page(lang, kind)`. Per-lang detection from the
+    //   URL prefix. NO canonical or hreflang emitted (the page is
+    //   strictly noindex). Recovery links to /hijri-calendar +
+    //   /today-hijri-date are included.
     {
+        const _detectLangFromPath = (p) => {
+            const m = p.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
+            return m ? m[1] : 'ar';
+        };
+        const _hijri404Page = (lang, kind) => {
+            // kind ∈ "date" | "year" | "month"
+            const C = {
+                ar: { title: 'التاريخ الهجري غير موجود', body: { date: 'هذا اليوم غير موجود ضمن تقويم أم القرى المعتمد في الموقع.', year: 'هذه السنة خارج نطاق تقويم أم القرى المعتمد في الموقع (1356–1500 هـ).', month: 'هذا الشهر غير موجود ضمن تقويم أم القرى المعتمد في الموقع.' }, hint: 'يمكنك الرجوع إلى', cal: 'التقويم الهجري', or: 'أو', today: 'التاريخ الهجري اليوم', dir: 'rtl' },
+                en: { title: 'Hijri date not found', body: { date: 'This date does not exist in the Umm al-Qura calendar used on this site.', year: 'This year is outside the supported Umm al-Qura range (1356–1500 AH).', month: 'This month does not exist in the Umm al-Qura calendar used on this site.' }, hint: 'You can go back to', cal: 'the Hijri Calendar', or: 'or', today: "today's Hijri date", dir: 'ltr' },
+                fr: { title: 'Date hégirienne introuvable', body: { date: "Cette date n'existe pas dans le calendrier Umm al-Qura utilisé sur ce site.", year: "Cette année est hors de la plage prise en charge (1356–1500 H).", month: "Ce mois n'existe pas dans le calendrier Umm al-Qura utilisé sur ce site." }, hint: 'Vous pouvez revenir au', cal: 'Calendrier hégirien', or: 'ou', today: "à la date hégirienne d'aujourd'hui", dir: 'ltr' },
+                tr: { title: 'Hicri tarih bulunamadı', body: { date: 'Bu tarih, sitede kullanılan Ümmülkura takviminde bulunmuyor.', year: 'Bu yıl desteklenen Ümmülkura aralığının (1356–1500 H) dışında.', month: 'Bu ay, sitede kullanılan Ümmülkura takviminde bulunmuyor.' }, hint: 'Şuraya dönebilirsiniz:', cal: 'Hicri Takvim', or: 'veya', today: 'bugünün hicri tarihi', dir: 'ltr' },
+                ur: { title: 'ہجری تاریخ موجود نہیں', body: { date: 'یہ دن سائٹ پر استعمال ہونے والے ام القری کیلنڈر میں موجود نہیں۔', year: 'یہ سال ام القری کیلنڈر (1356–1500 ہجری) کی حد سے باہر ہے۔', month: 'یہ مہینہ سائٹ پر استعمال ہونے والے ام القری کیلنڈر میں موجود نہیں۔' }, hint: 'آپ واپس جا سکتے ہیں:', cal: 'ہجری کیلنڈر', or: 'یا', today: 'آج کی ہجری تاریخ', dir: 'rtl' },
+                de: { title: 'Hidschri-Datum nicht gefunden', body: { date: 'Dieses Datum existiert nicht im Umm-al-Qura-Kalender dieser Seite.', year: 'Dieses Jahr liegt außerhalb des unterstützten Bereichs (1356–1500 AH).', month: 'Dieser Monat existiert nicht im Umm-al-Qura-Kalender dieser Seite.' }, hint: 'Sie können zurück zu', cal: 'Hidschri-Kalender', or: 'oder', today: 'heutigen Hidschri-Datum', dir: 'ltr' },
+                id: { title: 'Tanggal Hijriah tidak ditemukan', body: { date: 'Tanggal ini tidak ada dalam kalender Umm al-Qura yang digunakan di situs.', year: 'Tahun ini di luar rentang Umm al-Qura yang didukung (1356–1500 H).', month: 'Bulan ini tidak ada dalam kalender Umm al-Qura yang digunakan di situs.' }, hint: 'Anda dapat kembali ke', cal: 'Kalender Hijriah', or: 'atau', today: 'tanggal Hijriah hari ini', dir: 'ltr' },
+                es: { title: 'Fecha hégira no encontrada', body: { date: 'Esta fecha no existe en el calendario Umm al-Qura usado en el sitio.', year: 'Este año está fuera del rango Umm al-Qura admitido (1356–1500 H).', month: 'Este mes no existe en el calendario Umm al-Qura usado en el sitio.' }, hint: 'Puedes volver a', cal: 'Calendario Hégira', or: 'o', today: 'la fecha hégira de hoy', dir: 'ltr' },
+                bn: { title: 'হিজরি তারিখ পাওয়া যায়নি', body: { date: 'এই তারিখ সাইটে ব্যবহৃত উম্ম আল-কুরা ক্যালেন্ডারে নেই।', year: 'এই বছর সমর্থিত উম্ম আল-কুরা পরিসরের (1356–1500 হিজরি) বাইরে।', month: 'এই মাস সাইটে ব্যবহৃত উম্ম আল-কুরা ক্যালেন্ডারে নেই।' }, hint: 'আপনি ফিরে যেতে পারেন:', cal: 'হিজরি ক্যালেন্ডার', or: 'বা', today: 'আজকের হিজরি তারিখ', dir: 'ltr' },
+                ms: { title: 'Tarikh Hijrah tidak dijumpai', body: { date: 'Tarikh ini tidak wujud dalam kalendar Umm al-Qura yang digunakan di laman ini.', year: 'Tahun ini di luar julat Umm al-Qura yang disokong (1356–1500 H).', month: 'Bulan ini tidak wujud dalam kalendar Umm al-Qura yang digunakan di laman ini.' }, hint: 'Anda boleh kembali ke', cal: 'Kalendar Hijrah', or: 'atau', today: 'tarikh Hijrah hari ini', dir: 'ltr' },
+            };
+            const c = C[lang] || C.en;
+            const pfx = (lang === 'ar') ? '' : ('/' + lang);
+            return `<!DOCTYPE html>
+<html lang="${lang}" dir="${c.dir}">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>404 — ${c.title}</title>
+<style>body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;max-width:560px;margin:60px auto;padding:0 20px;color:#1a2820;line-height:1.7;}h1{color:#075d35;font-size:1.5rem;margin-bottom:8px;}p{color:#3a4a40;}a{color:#075d35;text-decoration:none;border-bottom:1px solid rgba(7,93,53,0.3);}a:hover{border-bottom-color:#075d35;}.code{font-size:0.85rem;color:#888;letter-spacing:0.05em;margin-bottom:20px;}</style>
+</head><body><div class="code">HTTP 404</div><h1>${c.title}</h1><p>${c.body[kind]}</p><p>${c.hint} <a href="${pfx}/hijri-calendar">${c.cal}</a> ${c.or} <a href="${pfx}/today-hijri-date">${c.today}</a>.</p></body></html>`;
+        };
+        const _send404 = (kind) => {
+            const lang = _detectLangFromPath(urlPath);
+            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex,follow' });
+            res.end(_hijri404Page(lang, kind));
+        };
         // /hijri-date/{YYYY}-{MM}-{DD}
         const _hd = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
         if (_hd) {
             const y = +_hd[1], mo = +_hd[2], dd = +_hd[3];
-            if (!_isValidHijriDate(y, mo, dd)) {
-                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' });
-                res.end('<!DOCTYPE html><meta charset="utf-8"><title>404 — Not Found</title><h1>404 — Hijri date not found</h1><p>The Hijri date in this URL does not exist in the Umm al-Qura calendar (supported range: 1356-1500 AH).</p>');
-                return;
-            }
+            if (!_isValidHijriDate(y, mo, dd)) { _send404('date'); return; }
         }
         // /hijri-calendar/{YYYY} (year page)
         const _hy = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})$/);
         if (_hy) {
             const y = +_hy[1];
-            if (!_isYearInRange(y)) {
-                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' });
-                res.end('<!DOCTYPE html><meta charset="utf-8"><title>404 — Not Found</title><h1>404 — Hijri year out of range</h1><p>The supported Umm al-Qura range is 1356-1500 AH.</p>');
-                return;
-            }
+            if (!_isYearInRange(y)) { _send404('year'); return; }
         }
         // /hijri-calendar/{YYYY}-{MM} (month page)
         const _hm = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(0[1-9]|1[0-2])$/);
         if (_hm) {
             const y = +_hm[1], mo = +_hm[2];
-            if (!_isYearInRange(y) || mo < 1 || mo > 12) {
-                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' });
-                res.end('<!DOCTYPE html><meta charset="utf-8"><title>404 — Not Found</title><h1>404 — Hijri month not found</h1><p>The supported Umm al-Qura range is 1356-1500 AH.</p>');
-                return;
-            }
+            if (!_isYearInRange(y) || mo < 1 || mo > 12) { _send404('month'); return; }
         }
     }
 
@@ -21036,20 +21071,39 @@ const server = http.createServer(async (req, res) => {
             }
 
             // 3) التقويم الهجري — 3 سنوات (سنوي + شهري) 🆕 Round 11: numeric zero-padded URLs
+            // HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
+            //   - Switched from the formula `(gYear-622)*33/32` to the
+            //     authoritative table-based `_hijriNow().year`.
+            //   - Every emitted URL now passes `_isYearInRange` /
+            //     `_isValidHijriDate` so the sitemap can NEVER contain a
+            //     phantom Hijri URL (e.g. /hijri-date/1447-12-30 — which
+            //     existed before B1 fixed it to 404; this gate ensures it
+            //     can never sneak back into sitemap.xml either).
+            //   - Day range now derived from `_getDaysInHijriMonth(y, m)`
+            //     instead of the unconditional `1..30` loop.
             const _pad2S = n => String(n).padStart(2, '0');
-            const gYear = new Date().getFullYear();
-            const hYearApprox = Math.round((gYear - 622) * 33 / 32);
-            for (const hy of [hYearApprox - 1, hYearApprox, hYearApprox + 1]) {
+            const _hNow = _hijriNow();
+            const _hCurrentYear = _hNow.year;
+            for (const hy of [_hCurrentYear - 1, _hCurrentYear, _hCurrentYear + 1]) {
+                if (!_isYearInRange(hy)) continue;
                 entries.push(...bilingualUrl('/hijri-calendar/' + hy, '0.7', 'monthly', today));
                 for (let m = 1; m <= 12; m++) {
+                    // Month-page URL is valid iff (hy, m) yields >0 days.
+                    if (!_getDaysInHijriMonth(hy, m)) continue;
                     entries.push(...bilingualUrl(`/hijri-calendar/${hy}-${_pad2S(m)}`, '0.6', 'monthly', today));
                 }
             }
 
-            // 4) صفحات اليوم الهجري — السنة الحالية فقط (12 شهر × 30 يوم × 2 لغة = ~720)
-            for (let m = 1; m <= 12; m++) {
-                for (let d = 1; d <= 30; d++) {
-                    entries.push(...bilingualUrl(`/hijri-date/${hYearApprox}-${_pad2S(m)}-${_pad2S(d)}`, '0.4', 'yearly', today));
+            // 4) صفحات اليوم الهجري — السنة الحالية فقط، عدد الأيام الفعلي من الجدول
+            if (_isYearInRange(_hCurrentYear)) {
+                for (let m = 1; m <= 12; m++) {
+                    const _maxD = _getDaysInHijriMonth(_hCurrentYear, m);
+                    for (let d = 1; d <= _maxD; d++) {
+                        // Defensive — already guaranteed by _maxD, but explicit gate
+                        // protects against any future month-anomaly (e.g. 1364-08=28).
+                        if (!_isValidHijriDate(_hCurrentYear, m, d)) continue;
+                        entries.push(...bilingualUrl(`/hijri-date/${_hCurrentYear}-${_pad2S(m)}-${_pad2S(d)}`, '0.4', 'yearly', today));
+                    }
                 }
             }
 

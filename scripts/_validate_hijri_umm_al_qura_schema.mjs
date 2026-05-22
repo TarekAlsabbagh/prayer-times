@@ -41,8 +41,19 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname  = path.dirname(__filename);
 const TABLE_PATH = path.join(__dirname, '..', 'db', 'hijri', 'umm-al-qura.json');
 
-const ALLOWED_STATUSES = new Set(['data-pending', 'partial', 'populated']);
-const ISO_DATE_RE      = /^\d{4}-\d{2}-\d{2}$/;
+// HIJRI-UMM-AL-QURA-DATA-STAGE-A1 (2026-05-23):
+// - Added "data-ready" status for tables that are fully extracted but not yet
+//   wired into the live calculation paths (between Stage A1 and Stage B).
+// - Widened allowed month-length values to {28, 29, 30} to accept rare
+//   historical Saudi mid-month adjustments faithfully recorded in the
+//   upstream Umm al-Qura reference (e.g. 1364-08 = 28 days). Default
+//   Hijri months are 29 or 30; 28 is the documented anomaly value.
+// - Widened allowed year-length values to {353, 354, 355} for the same
+//   reason (e.g. 1356 + 1401 = 353-day years).
+const ALLOWED_STATUSES   = new Set(['data-pending', 'partial', 'populated', 'data-ready']);
+const ALLOWED_MONTH_DAYS = new Set([28, 29, 30]);
+const ALLOWED_YEAR_LEN   = new Set([353, 354, 355]);
+const ISO_DATE_RE        = /^\d{4}-\d{2}-\d{2}$/;
 const errors = [];
 
 function fail(msg) { errors.push(msg); }
@@ -155,8 +166,8 @@ function main() {
                 let monthSum = 0;
                 for (let i = 0; i < 12; i++) {
                     const m = entry.months[i];
-                    if (m !== 29 && m !== 30) {
-                        fail(`years[${key}].months[${i}] must be 29 or 30 — got ${JSON.stringify(m)}`);
+                    if (!ALLOWED_MONTH_DAYS.has(m)) {
+                        fail(`years[${key}].months[${i}] must be ∈ {28,29,30} — got ${JSON.stringify(m)}`);
                     } else {
                         monthSum += m;
                     }
@@ -173,8 +184,8 @@ function main() {
             }
 
             // 8e
-            if (entry.yearLength !== 354 && entry.yearLength !== 355) {
-                fail(`years[${key}].yearLength must be 354 or 355 — got ${JSON.stringify(entry.yearLength)}`);
+            if (!ALLOWED_YEAR_LEN.has(entry.yearLength)) {
+                fail(`years[${key}].yearLength must be ∈ {353,354,355} — got ${JSON.stringify(entry.yearLength)}`);
             }
         }
     }

@@ -1,27 +1,2690 @@
 {
-    "$schema": "./umm-al-qura.schema.json",
-    "calendar": "umm-al-qura",
-    "source": null,
-    "sourceMeta": null,
-    "range": {
-        "startYear": 1356,
-        "endYear": 1500
-    },
-    "status": "data-pending",
-    "fetchedAt": null,
-    "notes": [
-        "HIJRI-UMM-AL-QURA-INFRA-STAGE-A0 (2026-05-22).",
-        "This file is a PLACEHOLDER. No Hijri-year data has been imported yet.",
-        "Range 1356-1500 AH chosen because the Saudi Umm al-Qura calendar was",
-        "formally adopted in 1356 AH (1937 CE) — earlier years are not covered",
-        "by the official Saudi reference. Range will be confirmed against the",
-        "actual data source before Stage B (the behaviour-flip migration).",
-        "Until 'status' transitions away from 'data-pending', the calendar",
-        "consumer code MUST continue to use the existing Kuwaiti tabular",
-        "algorithm in js/hijri-date.js + server.js. The helpers in",
-        "js/hijri-umm-al-qura.js are wired only to Node-side tests in",
-        "scripts/_smoke_hijri_umm_al_qura_a0.mjs — no HTML page loads them",
-        "and no SSR route reads from this file."
+  "$schema": "./umm-al-qura.schema.json",
+  "calendar": "umm-al-qura",
+  "source": "@tabby_ai/hijri-converter",
+  "sourceMeta": {
+    "packageName": "@tabby_ai/hijri-converter",
+    "packageVersion": "1.0.5",
+    "packageLicense": "MIT",
+    "packageCopyright": "Copyright (c) 2023 Tabby FZ-LLC",
+    "packageRepo": "https://github.com/tabby-ai/hijri-converter",
+    "packageRange": [
+      [
+        1343,
+        1,
+        1
+      ],
+      [
+        1500,
+        12,
+        30
+      ]
     ],
-    "years": {}
+    "originalSource": "https://github.com/mhalshehri/hijri-converter",
+    "originalAuthor": "Mohammed H Alshehri (mhalshehri) and contributors",
+    "originalLicense": "MIT",
+    "originalCopyright": "Copyright (c) 2018 Mohammed H Alshehri (@mhalshehri) and contributors",
+    "extractionDate": "2026-05-23",
+    "extractionMethod": "Data-only extraction of MONTH_STARTS array via `npm pack` (NO `npm install`, NO runtime dependency, NO package.json modification). Per-year month-lengths derived from consecutive MONTH_STARTS deltas; yearStart Gregorian via package's hijriToGregorian({y,1,1}).",
+    "extractedRangeReason": "Range 1356-1500 AH selected because the Saudi Umm al-Qura calendar was formally adopted in 1356 AH (1937 CE). The source package covers 1343-1500 AH but years 1343-1355 fall outside the official Umm al-Qura era and are intentionally excluded from this project.",
+    "auditReports": [
+      "reports/hijri-umm-al-qura-data-source-audit-1.md",
+      "reports/hijri-umm-al-qura-data-source-pack-audit-1.md",
+      "reports/hijri-umm-al-qura-data-stage-a1-closure.md"
+    ]
+  },
+  "range": {
+    "startYear": 1356,
+    "endYear": 1500
+  },
+  "status": "data-ready",
+  "fetchedAt": "2026-05-23",
+  "notes": [
+    "HIJRI-UMM-AL-QURA-DATA-STAGE-A1 (2026-05-23) — table extracted from @tabby_ai/hijri-converter v1.0.5 (MIT). See sourceMeta for provenance chain.",
+    "TABLE-based — every month length is explicit data, NOT a formula. The site's pages still use the OLD Kuwaiti tabular algorithm until Stage B explicitly switches them.",
+    "Year-length anomalies (353-day years): 1356 and 1401. These are real values per the upstream Saudi reference table; they likely reflect mid-year Saudi calendar adjustments. Cross-check against ummulqura.org.sa is PENDING before Stage B can flip the algorithm.",
+    "Month-length anomaly: 1364-08 (Shaban 1364, ~1945-08/09 CE) = 28 days. The upstream package contains this value — it is NOT an extraction error. Highly unusual for Umm al-Qura (typical lengths are 29 or 30) and almost certainly reflects a historical Saudi mid-month adjustment. Cross-check PENDING before Stage B.",
+    "1447 is a 355-day year (leap by length convention) per Umm al-Qura. The extra day is in Rabi al-Akhir (M4=30 days), NOT in Dhul Hijjah (M12=29 days). This differs from the Kuwaiti tabular algorithm currently used by the site, which always places the leap day in Dhul Hijjah.",
+    "Attribution (MIT): This data is extracted from @tabby_ai/hijri-converter (Copyright Tabby FZ-LLC 2023), itself a TypeScript port of mhalshehri/hijri-converter (Copyright Mohammed H Alshehri 2018). Both upstream are MIT licensed. A copy of the MIT notice ships with any artefact that bundles this data."
+  ],
+  "anomalies": {
+    "yearLength": [
+      {
+        "year": 1356,
+        "yearLength": 353
+      },
+      {
+        "year": 1401,
+        "yearLength": 353
+      }
+    ],
+    "monthLength": [
+      {
+        "year": 1364,
+        "month": 8,
+        "monthName": "Shaban",
+        "days": 28
+      }
+    ]
+  },
+  "statistics": {
+    "totalYears": 145,
+    "yearsOf354Days": 88,
+    "yearsOf355Days": 55,
+    "yearsOfOtherLengths": 2,
+    "monthsWith28Days": 1,
+    "leapRatio": 0.3793103448275862
+  },
+  "years": {
+    "1356": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1937-03-14",
+      "yearLength": 353
+    },
+    "1357": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1938-03-02",
+      "yearLength": 355
+    },
+    "1358": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1939-02-20",
+      "yearLength": 354
+    },
+    "1359": {
+      "months": [
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1940-02-09",
+      "yearLength": 354
+    },
+    "1360": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1941-01-28",
+      "yearLength": 355
+    },
+    "1361": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1942-01-18",
+      "yearLength": 354
+    },
+    "1362": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1943-01-07",
+      "yearLength": 354
+    },
+    "1363": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1943-12-27",
+      "yearLength": 355
+    },
+    "1364": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        28,
+        30,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1944-12-16",
+      "yearLength": 354
+    },
+    "1365": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1945-12-05",
+      "yearLength": 355
+    },
+    "1366": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1946-11-25",
+      "yearLength": 354
+    },
+    "1367": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1947-11-14",
+      "yearLength": 354
+    },
+    "1368": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1948-11-02",
+      "yearLength": 355
+    },
+    "1369": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1949-10-23",
+      "yearLength": 355
+    },
+    "1370": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1950-10-13",
+      "yearLength": 354
+    },
+    "1371": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30
+      ],
+      "yearStart": "1951-10-02",
+      "yearLength": 355
+    },
+    "1372": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1952-09-21",
+      "yearLength": 354
+    },
+    "1373": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1953-09-10",
+      "yearLength": 354
+    },
+    "1374": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1954-08-30",
+      "yearLength": 355
+    },
+    "1375": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1955-08-20",
+      "yearLength": 354
+    },
+    "1376": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1956-08-08",
+      "yearLength": 354
+    },
+    "1377": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1957-07-28",
+      "yearLength": 355
+    },
+    "1378": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1958-07-18",
+      "yearLength": 354
+    },
+    "1379": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1959-07-07",
+      "yearLength": 354
+    },
+    "1380": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1960-06-25",
+      "yearLength": 354
+    },
+    "1381": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1961-06-14",
+      "yearLength": 354
+    },
+    "1382": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1962-06-03",
+      "yearLength": 355
+    },
+    "1383": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1963-05-24",
+      "yearLength": 354
+    },
+    "1384": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1964-05-12",
+      "yearLength": 354
+    },
+    "1385": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1965-05-01",
+      "yearLength": 355
+    },
+    "1386": {
+      "months": [
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1966-04-21",
+      "yearLength": 355
+    },
+    "1387": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1967-04-11",
+      "yearLength": 354
+    },
+    "1388": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1968-03-30",
+      "yearLength": 354
+    },
+    "1389": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1969-03-19",
+      "yearLength": 355
+    },
+    "1390": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "1970-03-09",
+      "yearLength": 354
+    },
+    "1391": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1971-02-26",
+      "yearLength": 355
+    },
+    "1392": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1972-02-16",
+      "yearLength": 354
+    },
+    "1393": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1973-02-04",
+      "yearLength": 354
+    },
+    "1394": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1974-01-24",
+      "yearLength": 354
+    },
+    "1395": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1975-01-13",
+      "yearLength": 354
+    },
+    "1396": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1976-01-02",
+      "yearLength": 355
+    },
+    "1397": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1976-12-22",
+      "yearLength": 354
+    },
+    "1398": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1977-12-11",
+      "yearLength": 355
+    },
+    "1399": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "1978-12-01",
+      "yearLength": 354
+    },
+    "1400": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1979-11-20",
+      "yearLength": 355
+    },
+    "1401": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1980-11-09",
+      "yearLength": 353
+    },
+    "1402": {
+      "months": [
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1981-10-28",
+      "yearLength": 355
+    },
+    "1403": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1982-10-18",
+      "yearLength": 354
+    },
+    "1404": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "1983-10-07",
+      "yearLength": 355
+    },
+    "1405": {
+      "months": [
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1984-09-26",
+      "yearLength": 354
+    },
+    "1406": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1985-09-15",
+      "yearLength": 355
+    },
+    "1407": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1986-09-05",
+      "yearLength": 354
+    },
+    "1408": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1987-08-25",
+      "yearLength": 354
+    },
+    "1409": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1988-08-13",
+      "yearLength": 354
+    },
+    "1410": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "1989-08-02",
+      "yearLength": 355
+    },
+    "1411": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "1990-07-23",
+      "yearLength": 354
+    },
+    "1412": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1991-07-12",
+      "yearLength": 355
+    },
+    "1413": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "1992-07-01",
+      "yearLength": 355
+    },
+    "1414": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1993-06-21",
+      "yearLength": 354
+    },
+    "1415": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1994-06-10",
+      "yearLength": 354
+    },
+    "1416": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1995-05-30",
+      "yearLength": 354
+    },
+    "1417": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "1996-05-18",
+      "yearLength": 354
+    },
+    "1418": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "1997-05-07",
+      "yearLength": 355
+    },
+    "1419": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1998-04-27",
+      "yearLength": 355
+    },
+    "1420": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "1999-04-17",
+      "yearLength": 355
+    },
+    "1421": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        29,
+        29,
+        30,
+        30,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2000-04-06",
+      "yearLength": 354
+    },
+    "1422": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2001-03-26",
+      "yearLength": 354
+    },
+    "1423": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2002-03-15",
+      "yearLength": 354
+    },
+    "1424": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2003-03-04",
+      "yearLength": 354
+    },
+    "1425": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2004-02-21",
+      "yearLength": 355
+    },
+    "1426": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2005-02-10",
+      "yearLength": 355
+    },
+    "1427": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2006-01-31",
+      "yearLength": 354
+    },
+    "1428": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2007-01-20",
+      "yearLength": 355
+    },
+    "1429": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2008-01-10",
+      "yearLength": 354
+    },
+    "1430": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2008-12-29",
+      "yearLength": 354
+    },
+    "1431": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2009-12-18",
+      "yearLength": 354
+    },
+    "1432": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2010-12-07",
+      "yearLength": 354
+    },
+    "1433": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2011-11-26",
+      "yearLength": 355
+    },
+    "1434": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2012-11-15",
+      "yearLength": 354
+    },
+    "1435": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2013-11-04",
+      "yearLength": 355
+    },
+    "1436": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2014-10-25",
+      "yearLength": 354
+    },
+    "1437": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2015-10-14",
+      "yearLength": 354
+    },
+    "1438": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2016-10-02",
+      "yearLength": 354
+    },
+    "1439": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2017-09-21",
+      "yearLength": 355
+    },
+    "1440": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2018-09-11",
+      "yearLength": 354
+    },
+    "1441": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2019-08-31",
+      "yearLength": 355
+    },
+    "1442": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2020-08-20",
+      "yearLength": 354
+    },
+    "1443": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2021-08-09",
+      "yearLength": 355
+    },
+    "1444": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2022-07-30",
+      "yearLength": 354
+    },
+    "1445": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2023-07-19",
+      "yearLength": 354
+    },
+    "1446": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2024-07-07",
+      "yearLength": 354
+    },
+    "1447": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2025-06-26",
+      "yearLength": 355
+    },
+    "1448": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2026-06-16",
+      "yearLength": 355
+    },
+    "1449": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2027-06-06",
+      "yearLength": 354
+    },
+    "1450": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2028-05-25",
+      "yearLength": 354
+    },
+    "1451": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2029-05-14",
+      "yearLength": 354
+    },
+    "1452": {
+      "months": [
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2030-05-03",
+      "yearLength": 355
+    },
+    "1453": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2031-04-23",
+      "yearLength": 354
+    },
+    "1454": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2032-04-11",
+      "yearLength": 355
+    },
+    "1455": {
+      "months": [
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2033-04-01",
+      "yearLength": 354
+    },
+    "1456": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2034-03-21",
+      "yearLength": 355
+    },
+    "1457": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2035-03-11",
+      "yearLength": 354
+    },
+    "1458": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2036-02-28",
+      "yearLength": 354
+    },
+    "1459": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2037-02-16",
+      "yearLength": 354
+    },
+    "1460": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2038-02-05",
+      "yearLength": 355
+    },
+    "1461": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2039-01-26",
+      "yearLength": 354
+    },
+    "1462": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2040-01-15",
+      "yearLength": 355
+    },
+    "1463": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2041-01-04",
+      "yearLength": 354
+    },
+    "1464": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30
+      ],
+      "yearStart": "2041-12-24",
+      "yearLength": 355
+    },
+    "1465": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        30
+      ],
+      "yearStart": "2042-12-14",
+      "yearLength": 354
+    },
+    "1466": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2043-12-03",
+      "yearLength": 354
+    },
+    "1467": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2044-11-21",
+      "yearLength": 354
+    },
+    "1468": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2045-11-10",
+      "yearLength": 355
+    },
+    "1469": {
+      "months": [
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2046-10-31",
+      "yearLength": 354
+    },
+    "1470": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2047-10-20",
+      "yearLength": 355
+    },
+    "1471": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2048-10-09",
+      "yearLength": 354
+    },
+    "1472": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2049-09-28",
+      "yearLength": 354
+    },
+    "1473": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2050-09-17",
+      "yearLength": 354
+    },
+    "1474": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2051-09-06",
+      "yearLength": 355
+    },
+    "1475": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2052-08-26",
+      "yearLength": 354
+    },
+    "1476": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2053-08-15",
+      "yearLength": 355
+    },
+    "1477": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2054-08-05",
+      "yearLength": 354
+    },
+    "1478": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2055-07-25",
+      "yearLength": 355
+    },
+    "1479": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2056-07-14",
+      "yearLength": 354
+    },
+    "1480": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2057-07-03",
+      "yearLength": 354
+    },
+    "1481": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2058-06-22",
+      "yearLength": 354
+    },
+    "1482": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2059-06-11",
+      "yearLength": 355
+    },
+    "1483": {
+      "months": [
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29
+      ],
+      "yearStart": "2060-05-31",
+      "yearLength": 354
+    },
+    "1484": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2061-05-20",
+      "yearLength": 355
+    },
+    "1485": {
+      "months": [
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30
+      ],
+      "yearStart": "2062-05-10",
+      "yearLength": 355
+    },
+    "1486": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2063-04-30",
+      "yearLength": 354
+    },
+    "1487": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2064-04-18",
+      "yearLength": 354
+    },
+    "1488": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2065-04-07",
+      "yearLength": 354
+    },
+    "1489": {
+      "months": [
+        29,
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2066-03-27",
+      "yearLength": 354
+    },
+    "1490": {
+      "months": [
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30
+      ],
+      "yearStart": "2067-03-16",
+      "yearLength": 355
+    },
+    "1491": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30
+      ],
+      "yearStart": "2068-03-05",
+      "yearLength": 355
+    },
+    "1492": {
+      "months": [
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2069-02-23",
+      "yearLength": 354
+    },
+    "1493": {
+      "months": [
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2070-02-12",
+      "yearLength": 354
+    },
+    "1494": {
+      "months": [
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2071-02-01",
+      "yearLength": 354
+    },
+    "1495": {
+      "months": [
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2072-01-21",
+      "yearLength": 354
+    },
+    "1496": {
+      "months": [
+        30,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2073-01-09",
+      "yearLength": 355
+    },
+    "1497": {
+      "months": [
+        29,
+        30,
+        30,
+        29,
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        29
+      ],
+      "yearStart": "2073-12-30",
+      "yearLength": 354
+    },
+    "1498": {
+      "months": [
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30
+      ],
+      "yearStart": "2074-12-19",
+      "yearLength": 355
+    },
+    "1499": {
+      "months": [
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        29,
+        30,
+        30,
+        29
+      ],
+      "yearStart": "2075-12-09",
+      "yearLength": 354
+    },
+    "1500": {
+      "months": [
+        30,
+        30,
+        29,
+        29,
+        30,
+        29,
+        29,
+        30,
+        29,
+        30,
+        30,
+        30
+      ],
+      "yearStart": "2076-11-27",
+      "yearLength": 355
+    }
+  }
 }

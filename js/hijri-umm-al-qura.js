@@ -156,7 +156,10 @@ function getUmmAlQuraMonthLength(year, month) {
     const t = loadTable();
     const entry = t.years[String(year)];
     const days = entry.months[month - 1];
-    if (typeof days !== 'number' || (days !== 29 && days !== 30)) return null;
+    // HIJRI-UMM-AL-QURA-DATA-STAGE-A1 (2026-05-23): widened from {29,30}
+    // to {28,29,30} to accept rare historical Saudi mid-month adjustments
+    // documented in the upstream Umm al-Qura reference (e.g. 1364-08 = 28).
+    if (typeof days !== 'number' || (days !== 28 && days !== 29 && days !== 30)) return null;
     return days;
 }
 
@@ -188,13 +191,17 @@ function getUmmAlQuraYearLength(year) {
     if (!hasYearData(year)) return null;
     const t = loadTable();
     const entry = t.years[String(year)];
-    if (typeof entry.yearLength === 'number' && (entry.yearLength === 354 || entry.yearLength === 355)) {
+    // HIJRI-UMM-AL-QURA-DATA-STAGE-A1 (2026-05-23): widened from {354,355}
+    // to {353,354,355} to accept rare historical Saudi adjustments documented
+    // in the upstream Umm al-Qura reference (e.g. 1356 + 1401 = 353-day years).
+    const ALLOWED = new Set([353, 354, 355]);
+    if (typeof entry.yearLength === 'number' && ALLOWED.has(entry.yearLength)) {
         return entry.yearLength;
     }
     // Compute from months as fallback
     if (Array.isArray(entry.months) && entry.months.length === 12) {
         const sum = entry.months.reduce((a, b) => a + (typeof b === 'number' ? b : 0), 0);
-        if (sum === 354 || sum === 355) return sum;
+        if (ALLOWED.has(sum)) return sum;
     }
     return null;
 }

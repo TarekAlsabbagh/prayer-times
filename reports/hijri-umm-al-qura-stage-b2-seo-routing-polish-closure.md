@@ -1,9 +1,38 @@
 # HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH — Closure report
 
-**Status:** Stage B2 complete — sitemap, prev/next navigation, and 404 page all hardened against phantom Hijri URLs. Awaiting user approval for commit + push.
+**Status:** ✅ **CLOSED — user-approved 2026-05-23** (executed in commit `6a39d31`)
 **Date:** 2026-05-23
 **Companions:**
 - `reports/hijri-umm-al-qura-stage-b1-algorithm-flip-closure.md` (Stage B1, commits `0d7c8e8` + `98a015b`)
+
+---
+
+## Acceptance criteria — all met
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | Sitemap contains zero phantom Hijri URLs | ✅ MET — `grep -c "/hijri-date/1447-12-30" sitemap-main.xml` → 0 |
+| 2 | Sitemap contains zero out-of-range Hijri URLs | ✅ MET — `grep -cE "hijri-(date\|calendar)/(1355\|1501)"` → 0 |
+| 3 | `/hijri-date/1447-12-30` returns HTTP 404 | ✅ MET — branded multi-lang 404 page |
+| 4 | Invalid Hijri pages have no canonical | ✅ MET — 404 dispatcher returns before reaching canonical builder |
+| 5 | Invalid Hijri pages have no hreflang | ✅ MET — 404 dispatcher returns before reaching hreflang block |
+| 6 | Invalid Hijri pages have noindex | ✅ MET — `<meta name="robots" content="noindex,follow">` + `X-Robots-Tag: noindex,follow` header |
+| 7 | Branded 404 works in Arabic and English | ✅ MET — `/hijri-date/1447-12-30` → Arabic RTL; `/en/hijri-date/1447-12-30` → English LTR; plus 8 other langs (fr/tr/ur/de/id/es/bn/ms) |
+| 8 | Boundary prev/next does not generate 1355 or 1501 | ✅ MET — year route + month route both gated with `_isYearInRange`; client day-nav renders `aria-disabled` placeholder |
+| 9 | `db/hijri/umm-al-qura.json` unchanged | ✅ MET — `git diff HEAD~1` empty |
+| 10 | `js/hijri-date.js` unchanged | ✅ MET — `git diff HEAD~1` empty |
+| 11 | `js/hijri-umm-al-qura.js` unchanged | ✅ MET — `git diff HEAD~1` empty |
+| 12 | No new dependencies | ✅ MET — `package.json` byte-identical (3 runtime + 1 dev) |
+| 13 | `package.json` unchanged | ✅ MET — `git diff HEAD~1` empty |
+| 14 | B3 NOT started | ✅ MET — no new stage scaffolding, no UI polish outside B2 scope |
+| 15 | Schema validator PASS | ✅ MET |
+| 16 | Stage A1 smoke 49/49 PASS | ✅ MET |
+| 17 | Stage B1 unit tests 68/68 PASS | ✅ MET |
+| 18 | SSR HTTP codes 15/15 PASS | ✅ MET |
+| 19 | Sitemap audit (per-month day counts match table) | ✅ MET — Dhul Hijjah 1447 = 290 URLs (= 29 days × 10 langs) |
+| 20 | Regression routes PASS (`/`, `/prayer-times-in-riyadh`, `/today-hijri-date`, `/moon-today`, `/qibla`, `/hijri-calendar`) | ✅ MET — all 200 |
+| 21 | Sitemap NOT bloated (no 73,000-URL dump) | ✅ MET — total Hijri URLs ≈ 3,950 (3-year window, table-correct) |
+| 22 | No API external, no npm install | ✅ MET |
 
 ---
 

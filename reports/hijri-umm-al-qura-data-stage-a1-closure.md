@@ -1,11 +1,38 @@
 # HIJRI-UMM-AL-QURA-DATA-STAGE-A1 — Closure report
 
-**Status:** Stage A1 complete — Umm al-Qura table populated for 1356-1500 AH from a verified data source. **No behaviour change**, no page connected to the new data, no Stage B started.
+**Status:** ✅ **CLOSED — user-approved 2026-05-23** (executed in commits `f16117a` + `b98b324`)
 **Date:** 2026-05-23
 **Companions:**
 - `reports/hijri-umm-al-qura-infra-stage-a0-closure.md` (Stage A0, commit `b2ecdc0`)
 - `reports/hijri-umm-al-qura-data-source-audit-1.md` (registry audit, commit `9b7e481`)
 - `reports/hijri-umm-al-qura-data-source-pack-audit-1.md` (package audit, commit `f16117a`)
+
+---
+
+## Acceptance criteria — all met
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | Table populated for 1356-1500 AH with status `data-ready` | ✅ MET — `db/hijri/umm-al-qura.json` is 38.8 KB, `status: "data-ready"` |
+| 2 | Source package documented (name + version) | ✅ MET — `sourceMeta.packageName = "@tabby_ai/hijri-converter"`, `packageVersion = "1.0.5"` |
+| 3 | MIT attribution documented (license + copyright for both layers) | ✅ MET — `sourceMeta.packageLicense = "MIT"`, `packageCopyright`, `originalLicense`, `originalCopyright` all populated |
+| 4 | Provenance chain documented (upstream Python ref + Saudi authority) | ✅ MET — `originalSource = "github.com/mhalshehri/hijri-converter"`; ultimate authority noted in closure report §3 |
+| 5 | 145 years populated | ✅ MET — `Object.keys(years).length === 145`; verified by smoke test |
+| 6 | 1,740 month entries populated | ✅ MET — 145 × 12; full-sweep test confirms all entries are 28/29/30 |
+| 7 | Dhul Hijjah 1447 = 29 days | ✅ MET — `getUmmAlQuraMonthLength(1447, 12) === 29` |
+| 8 | 1447 yearLength = 355 | ✅ MET — `getUmmAlQuraYearLength(1447) === 355` (leap, extra day in Rabi al-Akhir M4) |
+| 9 | 1447-12-30 invalid | ✅ MET — `isValidUmmAlQuraDate(1447, 12, 30) === false` |
+| 10 | 1447-12-01 → 2026-05-18 | ✅ MET — verified in pack-audit + A1 smoke |
+| 11 | 1447-12-29 → 2026-06-15 | ✅ MET — verified in pack-audit + A1 smoke |
+| 12 | 1448-01-01 → 2026-06-16 | ✅ MET — `getUmmAlQuraYearStart(1448) === "2026-06-16"` |
+| 13 | Anomalies documented (1356, 1401, 1364-08) | ✅ MET — `anomalies.yearLength` + `anomalies.monthLength` arrays in JSON + 6 explanatory `notes` |
+| 14 | Tests 49/49 PASS | ✅ MET — `node scripts/_smoke_hijri_umm_al_qura_a1.mjs` + schema validator both pass |
+| 15 | No behaviour change in any page | ✅ MET — `js/hijri-date.js`, `server.js`, `index.html` byte-identical (`git diff HEAD~1` empty) |
+| 16 | `package.json` byte-identical | ✅ MET — 387 bytes, 3 deps unchanged (no `@tabby_ai/*`) |
+| 17 | `package-lock.json` untouched | ✅ MET — gitignored, no modification |
+| 18 | No npm dependency added | ✅ MET — `npm pack` only (tarball download), no `npm install` |
+| 19 | No tarball/scratch files in Git | ✅ MET — `/tmp/hijri-extract-<pid>` deleted post-extraction |
+| 20 | Stage B NOT started | ✅ MET — no consumer wired; visible bug (Dhul Hijjah 1447 = 30 in year-table) still present |
 
 ---
 

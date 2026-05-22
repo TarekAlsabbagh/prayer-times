@@ -19006,7 +19006,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
 //   Called from the catch-all at the end of the request handler (urlPath has
 //   no extension and no file matched). For asset 404s (.css/.js/.png missing)
 //   the existing res.writeHead(404, 'text/plain') path stays as-is.
-function send404Page(urlPath, res, acceptEnc) {
+function send404Page(urlPath, res, acceptEnc, options) {
+    // HIJRI-UMM-AL-QURA-STAGE-B2-FIX-1 (2026-05-23):
+    //   `options` parameter (optional) allows callers to customize the
+    //   branded 404 page WITHOUT duplicating the layout/CSS. Fields:
+    //     options.textOverrides : { <lang>: { title, h1, sub } } — per-lang
+    //                             overrides for the headline copy.
+    //     options.omitCanonical : boolean — skip emitting `<link rel="canonical">`
+    //                             (used by Hijri 404s where per-policy NO
+    //                             canonical should appear on invalid pages).
+    //     options.linkSet       : 'default' | 'hijri' — switches the 4-link
+    //                             grid. 'default' = home/prayer/qibla/today-hijri;
+    //                             'hijri' = home/hijri-calendar/today-hijri/prayer
+    //                             (more useful exit links from a Hijri 404).
+    options = options || {};
     const m = (urlPath || '').match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
     const lang = m ? m[1] : 'ar';
     const isRtl = (lang === 'ar' || lang === 'ur');
@@ -19018,77 +19031,110 @@ function send404Page(urlPath, res, acceptEnc) {
             h1:'404 — الصفحة غير موجودة',
             sub:'الرابط الذي طلبته غير صحيح أو لم يعد متوفراً.',
             help:'إليك بعض الروابط المفيدة:',
-            home:'الصفحة الرئيسية', prayer:'مواقيت الصلاة', qibla:'القبلة', hijri:'التاريخ الهجري'
+            home:'الصفحة الرئيسية', prayer:'مواقيت الصلاة', qibla:'القبلة', hijri:'التاريخ الهجري',
+            hijriCal:'التقويم الهجري'
         },
         en: {
             title:'Page Not Found | 404',
             h1:'404 — Page Not Found',
             sub:'The URL you requested is invalid or no longer available.',
             help:'Here are some useful links:',
-            home:'Home', prayer:'Prayer Times', qibla:'Qibla', hijri:'Today\'s Hijri Date'
+            home:'Home', prayer:'Prayer Times', qibla:'Qibla', hijri:'Today\'s Hijri Date',
+            hijriCal:'Hijri Calendar'
         },
         fr: {
             title:'Page introuvable | 404',
             h1:'404 — Page introuvable',
             sub:'L\'URL demandée est invalide ou n\'est plus disponible.',
             help:'Voici quelques liens utiles :',
-            home:'Accueil', prayer:'Heures de prière', qibla:'Qibla', hijri:'Date hijri d\'aujourd\'hui'
+            home:'Accueil', prayer:'Heures de prière', qibla:'Qibla', hijri:'Date hijri d\'aujourd\'hui',
+            hijriCal:'Calendrier hégirien'
         },
         tr: {
             title:'Sayfa Bulunamadı | 404',
             h1:'404 — Sayfa Bulunamadı',
             sub:'İstediğiniz bağlantı geçersiz veya artık mevcut değil.',
             help:'İşte bazı yararlı bağlantılar:',
-            home:'Ana Sayfa', prayer:'Namaz Vakitleri', qibla:'Kıble', hijri:'Bugünün Hicri Tarihi'
+            home:'Ana Sayfa', prayer:'Namaz Vakitleri', qibla:'Kıble', hijri:'Bugünün Hicri Tarihi',
+            hijriCal:'Hicri Takvim'
         },
         ur: {
             title:'صفحہ موجود نہیں | 404',
             h1:'404 — صفحہ موجود نہیں',
             sub:'آپ نے جو URL طلب کیا وہ غلط ہے یا اب دستیاب نہیں۔',
             help:'یہاں چند مفید روابط ہیں:',
-            home:'صفحہ اول', prayer:'نماز کے اوقات', qibla:'قبلہ', hijri:'آج کی ہجری تاریخ'
+            home:'صفحہ اول', prayer:'نماز کے اوقات', qibla:'قبلہ', hijri:'آج کی ہجری تاریخ',
+            hijriCal:'ہجری کیلنڈر'
         },
         de: {
             title:'Seite nicht gefunden | 404',
             h1:'404 — Seite nicht gefunden',
             sub:'Die angeforderte URL ist ungültig oder nicht mehr verfügbar.',
             help:'Hier sind einige nützliche Links:',
-            home:'Startseite', prayer:'Gebetszeiten', qibla:'Qibla', hijri:'Heutiges Hidschri-Datum'
+            home:'Startseite', prayer:'Gebetszeiten', qibla:'Qibla', hijri:'Heutiges Hidschri-Datum',
+            hijriCal:'Hidschri-Kalender'
         },
         id: {
             title:'Halaman Tidak Ditemukan | 404',
             h1:'404 — Halaman Tidak Ditemukan',
             sub:'URL yang Anda minta tidak valid atau tidak tersedia lagi.',
             help:'Berikut beberapa tautan yang berguna:',
-            home:'Beranda', prayer:'Waktu Salat', qibla:'Kiblat', hijri:'Tanggal Hijriah Hari Ini'
+            home:'Beranda', prayer:'Waktu Salat', qibla:'Kiblat', hijri:'Tanggal Hijriah Hari Ini',
+            hijriCal:'Kalender Hijriah'
         },
         es: {
             title:'Página no encontrada | 404',
             h1:'404 — Página no encontrada',
             sub:'La URL solicitada es inválida o ya no está disponible.',
             help:'Aquí tienes algunos enlaces útiles:',
-            home:'Inicio', prayer:'Horarios de oración', qibla:'Qibla', hijri:'Fecha hijri de hoy'
+            home:'Inicio', prayer:'Horarios de oración', qibla:'Qibla', hijri:'Fecha hijri de hoy',
+            hijriCal:'Calendario Hégira'
         },
         bn: {
             title:'পৃষ্ঠাটি পাওয়া যায়নি | 404',
             h1:'404 — পৃষ্ঠাটি পাওয়া যায়নি',
             sub:'আপনি যে URL অনুরোধ করেছেন তা অবৈধ বা আর উপলব্ধ নেই।',
             help:'এখানে কিছু দরকারী লিঙ্ক রয়েছে:',
-            home:'হোম', prayer:'নামাজের সময়', qibla:'কিবলা', hijri:'আজকের হিজরি তারিখ'
+            home:'হোম', prayer:'নামাজের সময়', qibla:'কিবলা', hijri:'আজকের হিজরি তারিখ',
+            hijriCal:'হিজরি ক্যালেন্ডার'
         },
         ms: {
             title:'Halaman Tidak Dijumpai | 404',
             h1:'404 — Halaman Tidak Dijumpai',
             sub:'URL yang anda minta tidak sah atau tidak lagi tersedia.',
             help:'Berikut adalah beberapa pautan berguna:',
-            home:'Laman Utama', prayer:'Waktu Solat', qibla:'Kiblat', hijri:'Tarikh Hijrah Hari Ini'
+            home:'Laman Utama', prayer:'Waktu Solat', qibla:'Kiblat', hijri:'Tarikh Hijrah Hari Ini',
+            hijriCal:'Kalendar Hijrah'
         }
     };
-    const t = T[lang] || T.ar;
-    const home   = (lang === 'ar') ? '/' : (langPrefix + '/');
-    const prayer = (lang === 'ar') ? '/prayer-times-worldwide' : (langPrefix + '/prayer-times-worldwide');
-    const qibla  = langPrefix + '/qibla';
-    const hijri  = langPrefix + '/today-hijri-date';
+    let t = T[lang] || T.ar;
+    // Apply per-lang text overrides if provided (B2-FIX-1).
+    if (options.textOverrides) {
+        const o = options.textOverrides[lang] || options.textOverrides.ar || null;
+        if (o) t = Object.assign({}, t, o);
+    }
+    const home    = (lang === 'ar') ? '/' : (langPrefix + '/');
+    const prayer  = (lang === 'ar') ? '/prayer-times-worldwide' : (langPrefix + '/prayer-times-worldwide');
+    const qibla   = langPrefix + '/qibla';
+    const hijri   = langPrefix + '/today-hijri-date';
+    const hijriCalendar = langPrefix + '/hijri-calendar';
+
+    // 4-link grid (default = generic 404; 'hijri' = Hijri-context 404 with
+    // hijri-calendar in slot 2 instead of qibla).
+    const _linkSet = options.linkSet || 'default';
+    const linkRowsHtml = (_linkSet === 'hijri')
+        ? `<a href="${home}">${_escHtml(t.home)}</a>
+    <a href="${hijriCalendar}">${_escHtml(t.hijriCal)}</a>
+    <a href="${hijri}">${_escHtml(t.hijri)}</a>
+    <a href="${prayer}">${_escHtml(t.prayer)}</a>`
+        : `<a href="${home}">${_escHtml(t.home)}</a>
+    <a href="${prayer}">${_escHtml(t.prayer)}</a>
+    <a href="${qibla}">${_escHtml(t.qibla)}</a>
+    <a href="${hijri}">${_escHtml(t.hijri)}</a>`;
+
+    const canonicalLine = options.omitCanonical
+        ? ''
+        : `\n<link rel="canonical" href="${SITE_URL}${home}">`;
 
     const html = `<!DOCTYPE html>
 <html lang="${lang}" dir="${isRtl ? 'rtl' : 'ltr'}">
@@ -19096,8 +19142,7 @@ function send404Page(urlPath, res, acceptEnc) {
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex,follow">
-<title>${_escHtml(t.title)}</title>
-<link rel="canonical" href="${SITE_URL}${home}">
+<title>${_escHtml(t.title)}</title>${canonicalLine}
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI","Noto Sans Arabic","Noto Sans Bengali","Noto Sans",Tahoma,Arial,sans-serif;background:#f0f2f5;color:#2c3e50;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px;line-height:1.6}
@@ -19119,10 +19164,7 @@ p{font-size:1rem;color:#5f6b78;margin-bottom:18px}
   <p>${_escHtml(t.sub)}</p>
   <div class="help">${_escHtml(t.help)}</div>
   <nav class="links" aria-label="${_escHtml(t.help)}">
-    <a href="${home}">${_escHtml(t.home)}</a>
-    <a href="${prayer}">${_escHtml(t.prayer)}</a>
-    <a href="${qibla}">${_escHtml(t.qibla)}</a>
-    <a href="${hijri}">${_escHtml(t.hijri)}</a>
+    ${linkRowsHtml}
   </nav>
 </main>
 </body>
@@ -20645,61 +20687,91 @@ const server = http.createServer(async (req, res) => {
     //   the month only has 29 days) returns 404 — NO 301 redirect (the
     //   site is pre-launch, no indexed phantom URLs to preserve).
     //
-    //   HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
-    //   Replaced plain 404 HTML with a multi-lang branded page reused
-    //   from `_hijri404Page(lang, kind)`. Per-lang detection from the
-    //   URL prefix. NO canonical or hreflang emitted (the page is
-    //   strictly noindex). Recovery links to /hijri-calendar +
-    //   /today-hijri-date are included.
+    //   HIJRI-UMM-AL-QURA-STAGE-B2-FIX-1 (2026-05-23):
+    //   The custom plain-HTML 404 from B2 is replaced with a call to the
+    //   site-wide branded `send404Page()` helper, passing Hijri-specific
+    //   text overrides + `omitCanonical: true` (per user policy) +
+    //   `linkSet: 'hijri'` (4 useful links: home, hijri-calendar,
+    //   today-hijri-date, prayer). All 10 languages get the branded
+    //   card design, same CSS, same layout as the generic 404.
     {
-        const _detectLangFromPath = (p) => {
-            const m = p.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
-            return m ? m[1] : 'ar';
+        // Per-lang Hijri-specific text. Each entry overrides `title`, `h1`,
+        // `sub` from the generic T dict. `sub` varies by kind (date/year/month).
+        const _HIJRI_404_TEXTS = {
+            ar: { title:'التاريخ الهجري غير موجود | 404', h1:'التاريخ الهجري غير موجود',
+                  sub_date:'هذا اليوم غير موجود ضمن تقويم أم القرى المعتمد في الموقع.',
+                  sub_year:'هذه السنة خارج نطاق تقويم أم القرى المعتمد في الموقع (1356–1500 هـ).',
+                  sub_month:'هذا الشهر غير موجود ضمن تقويم أم القرى المعتمد في الموقع.' },
+            en: { title:'Hijri date not found | 404', h1:'Hijri date not found',
+                  sub_date:'This Hijri date does not exist in the Umm al-Qura calendar supported by this site.',
+                  sub_year:'This Hijri year is outside the Umm al-Qura range supported by this site (1356–1500 AH).',
+                  sub_month:'This Hijri month does not exist in the Umm al-Qura calendar supported by this site.' },
+            fr: { title:'Date hégirienne introuvable | 404', h1:'Date hégirienne introuvable',
+                  sub_date:"Cette date hégirienne n'existe pas dans le calendrier Umm al-Qura utilisé sur ce site.",
+                  sub_year:'Cette année hégirienne est hors de la plage Umm al-Qura prise en charge (1356–1500 H).',
+                  sub_month:"Ce mois hégirien n'existe pas dans le calendrier Umm al-Qura utilisé sur ce site." },
+            tr: { title:'Hicri tarih bulunamadı | 404', h1:'Hicri tarih bulunamadı',
+                  sub_date:'Bu hicri tarih, sitede desteklenen Ümmülkura takviminde bulunmuyor.',
+                  sub_year:'Bu hicri yıl, desteklenen Ümmülkura aralığının (1356–1500 H) dışında.',
+                  sub_month:'Bu hicri ay, sitede desteklenen Ümmülkura takviminde bulunmuyor.' },
+            ur: { title:'ہجری تاریخ موجود نہیں | 404', h1:'ہجری تاریخ موجود نہیں',
+                  sub_date:'یہ ہجری تاریخ سائٹ پر استعمال ہونے والے ام القری کیلنڈر میں موجود نہیں۔',
+                  sub_year:'یہ ہجری سال ام القری کی حد (1356–1500 ہجری) سے باہر ہے۔',
+                  sub_month:'یہ ہجری مہینہ سائٹ پر استعمال ہونے والے ام القری کیلنڈر میں موجود نہیں۔' },
+            de: { title:'Hidschri-Datum nicht gefunden | 404', h1:'Hidschri-Datum nicht gefunden',
+                  sub_date:'Dieses Hidschri-Datum existiert nicht im Umm-al-Qura-Kalender dieser Seite.',
+                  sub_year:'Dieses Hidschri-Jahr liegt außerhalb des unterstützten Bereichs (1356–1500 AH).',
+                  sub_month:'Dieser Hidschri-Monat existiert nicht im Umm-al-Qura-Kalender dieser Seite.' },
+            id: { title:'Tanggal Hijriah tidak ditemukan | 404', h1:'Tanggal Hijriah tidak ditemukan',
+                  sub_date:'Tanggal Hijriah ini tidak ada dalam kalender Umm al-Qura yang didukung situs ini.',
+                  sub_year:'Tahun Hijriah ini di luar rentang Umm al-Qura yang didukung (1356–1500 H).',
+                  sub_month:'Bulan Hijriah ini tidak ada dalam kalender Umm al-Qura yang didukung situs ini.' },
+            es: { title:'Fecha hégira no encontrada | 404', h1:'Fecha hégira no encontrada',
+                  sub_date:'Esta fecha hégira no existe en el calendario Umm al-Qura que admite este sitio.',
+                  sub_year:'Este año hégira está fuera del rango Umm al-Qura admitido (1356–1500 H).',
+                  sub_month:'Este mes hégira no existe en el calendario Umm al-Qura que admite este sitio.' },
+            bn: { title:'হিজরি তারিখ পাওয়া যায়নি | 404', h1:'হিজরি তারিখ পাওয়া যায়নি',
+                  sub_date:'এই হিজরি তারিখ সাইটে সমর্থিত উম্ম আল-কুরা ক্যালেন্ডারে নেই।',
+                  sub_year:'এই হিজরি বছর সমর্থিত উম্ম আল-কুরা পরিসরের (1356–1500 হিজরি) বাইরে।',
+                  sub_month:'এই হিজরি মাস সাইটে সমর্থিত উম্ম আল-কুরা ক্যালেন্ডারে নেই।' },
+            ms: { title:'Tarikh Hijrah tidak dijumpai | 404', h1:'Tarikh Hijrah tidak dijumpai',
+                  sub_date:'Tarikh Hijrah ini tidak wujud dalam kalendar Umm al-Qura yang disokong laman ini.',
+                  sub_year:'Tahun Hijrah ini di luar julat Umm al-Qura yang disokong (1356–1500 H).',
+                  sub_month:'Bulan Hijrah ini tidak wujud dalam kalendar Umm al-Qura yang disokong laman ini.' }
         };
-        const _hijri404Page = (lang, kind) => {
-            // kind ∈ "date" | "year" | "month"
-            const C = {
-                ar: { title: 'التاريخ الهجري غير موجود', body: { date: 'هذا اليوم غير موجود ضمن تقويم أم القرى المعتمد في الموقع.', year: 'هذه السنة خارج نطاق تقويم أم القرى المعتمد في الموقع (1356–1500 هـ).', month: 'هذا الشهر غير موجود ضمن تقويم أم القرى المعتمد في الموقع.' }, hint: 'يمكنك الرجوع إلى', cal: 'التقويم الهجري', or: 'أو', today: 'التاريخ الهجري اليوم', dir: 'rtl' },
-                en: { title: 'Hijri date not found', body: { date: 'This date does not exist in the Umm al-Qura calendar used on this site.', year: 'This year is outside the supported Umm al-Qura range (1356–1500 AH).', month: 'This month does not exist in the Umm al-Qura calendar used on this site.' }, hint: 'You can go back to', cal: 'the Hijri Calendar', or: 'or', today: "today's Hijri date", dir: 'ltr' },
-                fr: { title: 'Date hégirienne introuvable', body: { date: "Cette date n'existe pas dans le calendrier Umm al-Qura utilisé sur ce site.", year: "Cette année est hors de la plage prise en charge (1356–1500 H).", month: "Ce mois n'existe pas dans le calendrier Umm al-Qura utilisé sur ce site." }, hint: 'Vous pouvez revenir au', cal: 'Calendrier hégirien', or: 'ou', today: "à la date hégirienne d'aujourd'hui", dir: 'ltr' },
-                tr: { title: 'Hicri tarih bulunamadı', body: { date: 'Bu tarih, sitede kullanılan Ümmülkura takviminde bulunmuyor.', year: 'Bu yıl desteklenen Ümmülkura aralığının (1356–1500 H) dışında.', month: 'Bu ay, sitede kullanılan Ümmülkura takviminde bulunmuyor.' }, hint: 'Şuraya dönebilirsiniz:', cal: 'Hicri Takvim', or: 'veya', today: 'bugünün hicri tarihi', dir: 'ltr' },
-                ur: { title: 'ہجری تاریخ موجود نہیں', body: { date: 'یہ دن سائٹ پر استعمال ہونے والے ام القری کیلنڈر میں موجود نہیں۔', year: 'یہ سال ام القری کیلنڈر (1356–1500 ہجری) کی حد سے باہر ہے۔', month: 'یہ مہینہ سائٹ پر استعمال ہونے والے ام القری کیلنڈر میں موجود نہیں۔' }, hint: 'آپ واپس جا سکتے ہیں:', cal: 'ہجری کیلنڈر', or: 'یا', today: 'آج کی ہجری تاریخ', dir: 'rtl' },
-                de: { title: 'Hidschri-Datum nicht gefunden', body: { date: 'Dieses Datum existiert nicht im Umm-al-Qura-Kalender dieser Seite.', year: 'Dieses Jahr liegt außerhalb des unterstützten Bereichs (1356–1500 AH).', month: 'Dieser Monat existiert nicht im Umm-al-Qura-Kalender dieser Seite.' }, hint: 'Sie können zurück zu', cal: 'Hidschri-Kalender', or: 'oder', today: 'heutigen Hidschri-Datum', dir: 'ltr' },
-                id: { title: 'Tanggal Hijriah tidak ditemukan', body: { date: 'Tanggal ini tidak ada dalam kalender Umm al-Qura yang digunakan di situs.', year: 'Tahun ini di luar rentang Umm al-Qura yang didukung (1356–1500 H).', month: 'Bulan ini tidak ada dalam kalender Umm al-Qura yang digunakan di situs.' }, hint: 'Anda dapat kembali ke', cal: 'Kalender Hijriah', or: 'atau', today: 'tanggal Hijriah hari ini', dir: 'ltr' },
-                es: { title: 'Fecha hégira no encontrada', body: { date: 'Esta fecha no existe en el calendario Umm al-Qura usado en el sitio.', year: 'Este año está fuera del rango Umm al-Qura admitido (1356–1500 H).', month: 'Este mes no existe en el calendario Umm al-Qura usado en el sitio.' }, hint: 'Puedes volver a', cal: 'Calendario Hégira', or: 'o', today: 'la fecha hégira de hoy', dir: 'ltr' },
-                bn: { title: 'হিজরি তারিখ পাওয়া যায়নি', body: { date: 'এই তারিখ সাইটে ব্যবহৃত উম্ম আল-কুরা ক্যালেন্ডারে নেই।', year: 'এই বছর সমর্থিত উম্ম আল-কুরা পরিসরের (1356–1500 হিজরি) বাইরে।', month: 'এই মাস সাইটে ব্যবহৃত উম্ম আল-কুরা ক্যালেন্ডারে নেই।' }, hint: 'আপনি ফিরে যেতে পারেন:', cal: 'হিজরি ক্যালেন্ডার', or: 'বা', today: 'আজকের হিজরি তারিখ', dir: 'ltr' },
-                ms: { title: 'Tarikh Hijrah tidak dijumpai', body: { date: 'Tarikh ini tidak wujud dalam kalendar Umm al-Qura yang digunakan di laman ini.', year: 'Tahun ini di luar julat Umm al-Qura yang disokong (1356–1500 H).', month: 'Bulan ini tidak wujud dalam kalendar Umm al-Qura yang digunakan di laman ini.' }, hint: 'Anda boleh kembali ke', cal: 'Kalendar Hijrah', or: 'atau', today: 'tarikh Hijrah hari ini', dir: 'ltr' },
-            };
-            const c = C[lang] || C.en;
-            const pfx = (lang === 'ar') ? '' : ('/' + lang);
-            return `<!DOCTYPE html>
-<html lang="${lang}" dir="${c.dir}">
-<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,follow"><title>404 — ${c.title}</title>
-<style>body{font-family:system-ui,-apple-system,"Segoe UI",Tahoma,Arial,sans-serif;max-width:560px;margin:60px auto;padding:0 20px;color:#1a2820;line-height:1.7;}h1{color:#075d35;font-size:1.5rem;margin-bottom:8px;}p{color:#3a4a40;}a{color:#075d35;text-decoration:none;border-bottom:1px solid rgba(7,93,53,0.3);}a:hover{border-bottom-color:#075d35;}.code{font-size:0.85rem;color:#888;letter-spacing:0.05em;margin-bottom:20px;}</style>
-</head><body><div class="code">HTTP 404</div><h1>${c.title}</h1><p>${c.body[kind]}</p><p>${c.hint} <a href="${pfx}/hijri-calendar">${c.cal}</a> ${c.or} <a href="${pfx}/today-hijri-date">${c.today}</a>.</p></body></html>`;
+        // Build per-lang text overrides for a given kind (date/year/month).
+        const _buildHijriOverrides = (kind) => {
+            const subKey = 'sub_' + kind;
+            const out = {};
+            for (const [lang, d] of Object.entries(_HIJRI_404_TEXTS)) {
+                out[lang] = { title: d.title, h1: d.h1, sub: d[subKey] };
+            }
+            return out;
         };
-        const _send404 = (kind) => {
-            const lang = _detectLangFromPath(urlPath);
-            res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex,follow' });
-            res.end(_hijri404Page(lang, kind));
+        const _sendHijri404 = (kind) => {
+            send404Page(urlPath, res, req.headers['accept-encoding'] || '', {
+                textOverrides: _buildHijriOverrides(kind),
+                omitCanonical: true,
+                linkSet: 'hijri'
+            });
         };
         // /hijri-date/{YYYY}-{MM}-{DD}
         const _hd = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
         if (_hd) {
             const y = +_hd[1], mo = +_hd[2], dd = +_hd[3];
-            if (!_isValidHijriDate(y, mo, dd)) { _send404('date'); return; }
+            if (!_isValidHijriDate(y, mo, dd)) { _sendHijri404('date'); return; }
         }
         // /hijri-calendar/{YYYY} (year page)
         const _hy = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})$/);
         if (_hy) {
             const y = +_hy[1];
-            if (!_isYearInRange(y)) { _send404('year'); return; }
+            if (!_isYearInRange(y)) { _sendHijri404('year'); return; }
         }
         // /hijri-calendar/{YYYY}-{MM} (month page)
         const _hm = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(0[1-9]|1[0-2])$/);
         if (_hm) {
             const y = +_hm[1], mo = +_hm[2];
-            if (!_isYearInRange(y) || mo < 1 || mo > 12) { _send404('month'); return; }
+            if (!_isYearInRange(y) || mo < 1 || mo > 12) { _sendHijri404('month'); return; }
         }
     }
 

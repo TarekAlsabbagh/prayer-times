@@ -1,11 +1,38 @@
 # HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP — Closure report
 
-**Status:** Stage B1 complete — live calendar algorithm flipped from the Kuwaiti tabular formula to the Umm al-Qura local table (`db/hijri/umm-al-qura.json`). Awaiting user approval for commit + push.
+**Status:** ✅ **CLOSED — user-approved 2026-05-23** (executed in commit `0d7c8e8`)
 **Date:** 2026-05-23
 **Companions:**
 - `reports/hijri-umm-al-qura-data-stage-a1-closure.md` (Stage A1 data populated, commits `b98b324` + `6c8ff9b`)
 - `reports/hijri-umm-al-qura-anomaly-crosscheck-1.md` (anomaly cross-check, commit `0795303`)
 - `reports/hijri-umm-al-qura-data-disclosure-a1b-closure.md` (Stage A1B disclosure, commit `c72f6cb`)
+
+---
+
+## Acceptance criteria — all met
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | Umm al-Qura table is the live source of truth | ✅ MET — both `server.js` (via `require()`) and `js/hijri-date.js` (via injected `window._HIJRI_UMM_AL_QURA`) derive Hijri ↔ Gregorian conversions exclusively from `db/hijri/umm-al-qura.json` |
+| 2 | Kuwaiti algorithm removed from live routes | ✅ MET — `(11Y+14)%30<11` leap rule, `floor((11Y+3)/30)+...` JD formula, and `خوارزمية كويتية` comment all removed from `js/hijri-date.js` + `server.js` |
+| 3 | Client/SSR parity confirmed | ✅ MET — SSR reads via `require()`, client reads via `window._HIJRI_UMM_AL_QURA` (lean ~14.3 KB), both reference the same JSON file; SSR-emitted dates match client-rendered dates exactly |
+| 4 | 1447-12 = 29 days | ✅ MET — `getDaysInHijriMonth(1447, 12) === 29`; verified by unit test + SSR smoke + visual confirmation in `/hijri-calendar/1447` year-table |
+| 5 | 1447-12-30 returns HTTP 404 | ✅ MET — SSR returns `404 — Hijri date not found` with `X-Robots-Tag: noindex` |
+| 6 | 1448-01-01 = 2026-06-16 | ✅ MET — SSR HTML body shows `16 يونيو 2026`; unit test confirms `toGregorian(1448, 1, 1) === {2026, 6, 16}` |
+| 7 | 1447-12-29 = 2026-06-15 | ✅ MET — SSR HTML body shows `15 يونيو 2026` |
+| 8 | No external API | ✅ MET — no network call introduced; no `fetch`/`http.get` to external host added |
+| 9 | No new dependencies | ✅ MET — `package.json` byte-identical (3 runtime deps + 1 dev dep unchanged) |
+| 10 | `package.json` unchanged | ✅ MET — `git diff HEAD~1 -- package.json` empty |
+| 11 | Sitemap not modified in B1 | ✅ MET — `scripts/build-curated-sitemap.mjs`, `sitemap-index.xml`, and server.js sitemap-emission code all unchanged |
+| 12 | B2 NOT started | ✅ MET — no canonical/hreflang/sitemap/internal-link audit; no nav-boundary UI changes; no branded 404 page polish |
+| 13 | Schema validator PASS | ✅ MET — `node scripts/_validate_hijri_umm_al_qura_schema.mjs` exits 0 |
+| 14 | Stage A1 smoke PASS (49/49) | ✅ MET — `node scripts/_smoke_hijri_umm_al_qura_a1.mjs` |
+| 15 | Stage B1 unit tests PASS (68/68) | ✅ MET — `node scripts/_smoke_hijri_stage_b1_unit.mjs` (incl. 50 round-trip property tests) |
+| 16 | SSR HTTP codes PASS (10/10) | ✅ MET — 200 for valid dates, 404 for phantom `/hijri-date/1447-12-30` + out-of-range `/hijri-calendar/1355` + `/hijri-calendar/1501` + `/hijri-date/1364-08-29` |
+| 17 | SSR content correctness | ✅ MET — Gregorian dates rendered server-side match the table |
+| 18 | Regression routes PASS | ✅ MET — `/`, `/prayer-times-in-riyadh`, `/today-hijri-date`, `/moon-today`, `/qibla`, `/hijri-calendar` all 200 |
+| 19 | FAQ wording updated (no Kuwaiti leap-cycle framing) | ✅ MET — `_HDAY_NONTODAY.ar.faq` now uses "${totalYearDays} يومًا حسب تقويم أم القرى" |
+| 20 | Out-of-range policy: 404, no fallback | ✅ MET — `_isYearInRange` gate + `_isValidHijriDate` gate at top of dispatcher; no Kuwaiti/Tabular fallback exists |
 
 ---
 

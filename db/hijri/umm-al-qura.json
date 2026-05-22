@@ -37,7 +37,7 @@
     "startYear": 1356,
     "endYear": 1500
   },
-  "status": "data-ready",
+  "status": "populated",
   "fetchedAt": "2026-05-23",
   "notes": [
     "HIJRI-UMM-AL-QURA-DATA-STAGE-A1 (2026-05-23) — table extracted from @tabby_ai/hijri-converter v1.0.5 (MIT). See sourceMeta for provenance chain.",

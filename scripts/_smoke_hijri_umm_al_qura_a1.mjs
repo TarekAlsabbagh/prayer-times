@@ -57,7 +57,8 @@ function truthy(label, val) { if (val) pass++; else { fail++; failures.push(`${l
 console.log('• Category 1: table populated');
 const t = Helpers.loadTable();
 eq('calendar', t.calendar, 'umm-al-qura');
-eq('status === "data-ready"', t.status, 'data-ready');
+// Stage B1 flipped status from "data-ready" to "populated" (table now wired to live code).
+eq('status === "populated"', t.status, 'populated');
 eq('range.startYear === 1356', t.range.startYear, 1356);
 eq('range.endYear === 1500', t.range.endYear, 1500);
 eq('years count === 145', Object.keys(t.years).length, 145);

@@ -3323,6 +3323,19 @@ async function _preloadStatic() {
                         // Phase E5-a2: critical CSS (~15 KiB) inlined at top of <head>
                         if (rel === 'css/critical.css') _criticalCssText = result.styles;
                     }
+                } else if (ext === '.html') {
+                    // HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP (2026-05-23):
+                    // Inject the lean Umm al-Qura table as window._HIJRI_UMM_AL_QURA
+                    // just before js/hijri-date.js loads. This makes the table
+                    // available synchronously to the deferred script. ~14 KB inline.
+                    if (rel === 'index.html') {
+                        const src = data.toString('utf8');
+                        const marker = '<script defer src="js/hijri-date.js';
+                        if (src.includes(marker) && !src.includes('window._HIJRI_UMM_AL_QURA')) {
+                            const injected = src.replace(marker, _HIJRI_INLINE_SCRIPT + '\n    ' + marker);
+                            data = Buffer.from(injected, 'utf8');
+                        }
+                    }
                 }
             } catch (me) {
                 console.warn(`[Minify] Skipped ${rel}: ${me.message}`);
@@ -4873,32 +4886,41 @@ const _GREG_MONTHS = {
 };
 
 /**
- * يحوّل التاريخ الميلادي الحالي إلى هجري (خوارزمية كويتية — دقّة ±1 يوم).
- * يُستخدم لحقن الشهر/السنة الهجرية في SSR (keyword consistency: "شوال 1447").
- * Returns: { year, month, day } — month هو index 1..12.
+ * ═══════════════════════════════════════════════════════════════════════════
+ *  HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP (2026-05-23)
+ *
+ *  Hijri ↔ Gregorian conversion — TABLE-DRIVEN via db/hijri/umm-al-qura.json.
+ *  The previous Kuwaiti tabular algorithm has been REMOVED. No formula fallback
+ *  per user policy. Out-of-range queries return null.
+ *
+ *  These functions MUST stay byte-parity with js/hijri-date.js because client-
+ *  side rehydration compares SSR-emitted Hijri dates to client-recomputed
+ *  Hijri dates. Same table, same algorithm = identical output.
+ * ═══════════════════════════════════════════════════════════════════════════
  */
-// Hijri date — نفس خوارزمية js/hijri-date.js (لضمان تطابق SSR مع client-side calculation)
+const _HIJRI_TABLE = require('./db/hijri/umm-al-qura.json');
+
+// Pre-compute the LEAN inline script string injected into every HTML response.
+// We strip metadata (notes, sourceMeta, anomalies, statistics) since the
+// browser only needs {calendar, range, years.{months, yearStart, yearLength}}.
+const _HIJRI_INLINE_SCRIPT = (() => {
+    const lean = { calendar: _HIJRI_TABLE.calendar, range: _HIJRI_TABLE.range, years: {} };
+    for (const [k, v] of Object.entries(_HIJRI_TABLE.years)) {
+        lean.years[k] = { months: v.months, yearStart: v.yearStart, yearLength: v.yearLength };
+    }
+    // </script> must be split to avoid premature termination of the inline block.
+    const json = JSON.stringify(lean).replace(/<\/script/gi, '<\\/script');
+    return `<script>window._HIJRI_UMM_AL_QURA=${json};</script>`;
+})();
+
 function _gregToJD(year, month, day) {
     if (month <= 2) { year--; month += 12; }
     const A = Math.floor(year / 100);
     const B = 2 - A + Math.floor(A / 4);
     return Math.floor(365.25 * (year + 4716)) + Math.floor(30.6001 * (month + 1)) + day + B - 1524;
 }
-function _hijriToJD(year, month, day) {
-    return Math.floor((11 * year + 3) / 30) + 354 * year + 30 * month
-        - Math.floor((month - 1) / 2) + day + 1948440 - 385;
-}
-function _jdToHijri(jd) {
-    jd = Math.floor(jd) + 0.5;
-    const year = Math.floor((30 * (jd - 1948439.5) + 10646) / 10631);
-    const month = Math.min(12, Math.ceil((jd - (29 + _hijriToJD(year, 1, 1))) / 29.5) + 1);
-    const day = jd - _hijriToJD(year, month, 1) + 1;
-    return { year: year, month: Math.max(1, month), day: Math.max(1, Math.floor(day)) };
-}
-// Julian Day → Gregorian date
 function _jdToGregorian(jd) {
-    const jdInt = Math.floor(jd) + 0.5;
-    const l = jdInt + 68569;
+    const l = jd + 68569;
     const n = Math.floor((4 * l) / 146097);
     const l2 = l - Math.floor((146097 * n + 3) / 4);
     const i = Math.floor((4000 * (l2 + 1)) / 1461001);
@@ -4910,10 +4932,81 @@ function _jdToGregorian(jd) {
     const year = 100 * (n - 49) + i + l4;
     return { year: Math.floor(year), month: Math.floor(month), day: Math.floor(day) };
 }
-// Hijri → Gregorian (نفس خوارزمية client-side لضمان التطابق)
+
+// ─── Hijri range + validity gates (table-driven) ───────────────────────
+function _isYearInRange(year) {
+    if (typeof year !== 'number' || !Number.isFinite(year)) return false;
+    return year >= _HIJRI_TABLE.range.startYear && year <= _HIJRI_TABLE.range.endYear;
+}
+function _yearEntry(year) {
+    const e = _HIJRI_TABLE.years[String(year)];
+    return (e && Array.isArray(e.months) && e.months.length === 12) ? e : null;
+}
+function _getDaysInHijriMonth(year, month) {
+    if (!Number.isInteger(month) || month < 1 || month > 12) return 0;
+    if (!_isYearInRange(year)) return 0;
+    const e = _yearEntry(year);
+    return e ? (e.months[month - 1] || 0) : 0;
+}
+function _getHijriYearLength(year) {
+    const e = _yearEntry(year);
+    if (!e) return 0;
+    return (typeof e.yearLength === 'number') ? e.yearLength
+        : e.months.reduce((a, b) => a + b, 0);
+}
+function _isValidHijriDate(year, month, day) {
+    if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) return false;
+    if (day < 1) return false;
+    const maxDay = _getDaysInHijriMonth(year, month);
+    return maxDay > 0 && day <= maxDay;
+}
+function _yearStartJD(year) {
+    const e = _yearEntry(year);
+    if (!e) return null;
+    const [sy, sm, sd] = e.yearStart.split('-').map(Number);
+    return _gregToJD(sy, sm, sd);
+}
+
+// ─── Hijri ↔ Gregorian (table-driven) ──────────────────────────────────
 function _hijriToGregorian(hYear, hMonth, hDay) {
-    const jd = _hijriToJD(hYear, hMonth, hDay);
-    return _jdToGregorian(jd);
+    if (!_isValidHijriDate(hYear, hMonth, hDay)) return null;
+    const e = _yearEntry(hYear);
+    const startJD = _yearStartJD(hYear);
+    if (startJD == null) return null;
+    let offset = 0;
+    for (let i = 0; i < hMonth - 1; i++) offset += e.months[i];
+    offset += (hDay - 1);
+    return _jdToGregorian(startJD + offset);
+}
+function _hijriToJD(hYear, hMonth, hDay) {
+    const g = _hijriToGregorian(hYear, hMonth, hDay);
+    if (!g) return null;
+    return _gregToJD(g.year, g.month, g.day);
+}
+function _jdToHijri(jd) {
+    // Reverse-search the table for the year containing this JD.
+    let lo = _HIJRI_TABLE.range.startYear, hi = _HIJRI_TABLE.range.endYear;
+    while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        const e = _yearEntry(mid);
+        if (!e) return null;
+        const yStart = _yearStartJD(mid);
+        const yEnd   = yStart + _getHijriYearLength(mid);
+        if (jd < yStart)      hi = mid - 1;
+        else if (jd >= yEnd)  lo = mid + 1;
+        else {
+            let cumulative = yStart;
+            for (let m = 0; m < 12; m++) {
+                const monthDays = e.months[m];
+                if (jd < cumulative + monthDays) {
+                    return { year: mid, month: m + 1, day: jd - cumulative + 1 };
+                }
+                cumulative += monthDays;
+            }
+            return null;
+        }
+    }
+    return null; // out of range
 }
 // الحاضر دائماً بتوقيت مكّة المكرّمة (Asia/Riyadh) — ضروريّ لئلّا يتأخّر
 // التاريخ الهجري/الميلادي يومًا كاملاً حين يكون TZ السيرفر UTC وفرق
@@ -20535,6 +20628,45 @@ const server = http.createServer(async (req, res) => {
 
     let urlPath = req.url.split('?')[0];
     const qs    = req.url.includes('?') ? req.url.split('?')[1] : '';
+
+    // ─── HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP (2026-05-23) ──────────
+    //   404 gate for invalid Hijri URLs. Per user policy, any Hijri year
+    //   outside 1356-1500 OR any Hijri date that doesn't exist per the
+    //   Umm al-Qura table (e.g. 30 Dhul Hijjah 1447 when the table says
+    //   the month only has 29 days) returns 404 — NO 301 redirect (the
+    //   site is pre-launch, no indexed phantom URLs to preserve).
+    {
+        // /hijri-date/{YYYY}-{MM}-{DD}
+        const _hd = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
+        if (_hd) {
+            const y = +_hd[1], mo = +_hd[2], dd = +_hd[3];
+            if (!_isValidHijriDate(y, mo, dd)) {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' });
+                res.end('<!DOCTYPE html><meta charset="utf-8"><title>404 — Not Found</title><h1>404 — Hijri date not found</h1><p>The Hijri date in this URL does not exist in the Umm al-Qura calendar (supported range: 1356-1500 AH).</p>');
+                return;
+            }
+        }
+        // /hijri-calendar/{YYYY} (year page)
+        const _hy = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})$/);
+        if (_hy) {
+            const y = +_hy[1];
+            if (!_isYearInRange(y)) {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' });
+                res.end('<!DOCTYPE html><meta charset="utf-8"><title>404 — Not Found</title><h1>404 — Hijri year out of range</h1><p>The supported Umm al-Qura range is 1356-1500 AH.</p>');
+                return;
+            }
+        }
+        // /hijri-calendar/{YYYY}-{MM} (month page)
+        const _hm = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(0[1-9]|1[0-2])$/);
+        if (_hm) {
+            const y = +_hm[1], mo = +_hm[2];
+            if (!_isYearInRange(y) || mo < 1 || mo > 12) {
+                res.writeHead(404, { 'Content-Type': 'text/html; charset=utf-8', 'X-Robots-Tag': 'noindex' });
+                res.end('<!DOCTYPE html><meta charset="utf-8"><title>404 — Not Found</title><h1>404 — Hijri month not found</h1><p>The supported Umm al-Qura range is 1356-1500 AH.</p>');
+                return;
+            }
+        }
+    }
 
     // ───── UAT-Moon-Hub-Month: 301 redirect for legacy ?cal=YYYY-MM ─────
     //   The previous task used `?cal=YYYY-MM` (and `?cal-y=Y&cal-m=M` no-JS form

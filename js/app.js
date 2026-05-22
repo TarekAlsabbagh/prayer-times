@@ -1266,7 +1266,12 @@ const _HDAY_NONTODAY = {
             [`ما هو التاريخ الميلادي الموافق لـ ${c.hDate}؟`, `${c.hDate} يوافق ${c.gDate} حسب تقويم أم القرى.`],
             [`ما هو اليوم الذي يوافق ${c.hDate}؟`, `${c.hDate} يوافق يوم ${c.dayName}.`],
             [`ما هو شهر ${c.monthName}؟`, `<a href="/hijri-calendar/${c.year}-${String(c.monthNum).padStart(2,'0')}">${c.monthName}</a> هو الشهر الهجري رقم ${c.monthNum} ضمن أشهر السنة الهجرية الاثني عشر.`],
-            [`هل سنة ${c.year}${c.hSfx} سنة كبيسة؟`, c.isLeap?`نعم، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> سنة كبيسة عدد أيامها 355 يوماً.`:`لا، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> سنة بسيطة عدد أيامها 354 يوماً.`],
+            // HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP (2026-05-23):
+            //   FAQ wording updated per user spec — references Umm al-Qura
+            //   directly, no longer uses Kuwaiti leap-cycle framing.
+            //   Total-days is read live from the table (354/355 for normal
+            //   years; 353 for historical anomalies 1356/1401).
+            [`هل سنة ${c.year}${c.hSfx} سنة كبيسة؟`, c.isLeap?`نعم، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> عدد أيامها ${c.totalYearDays} يومًا حسب تقويم أم القرى.`:`لا، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> عدد أيامها ${c.totalYearDays} يومًا حسب تقويم أم القرى.`],
             [`كم عدد أيام شهر ${c.monthName} ${c.year}؟`, `شهر ${c.monthName} ${c.year}${c.hSfx} يتكوّن من ${c.totalDays} يوماً.`],
         ],
     },
@@ -3365,8 +3370,21 @@ async function initApp() {
     }
 
     // تفعيل صفحة اليوم الهجري الفردي عند URL /hijri-date/YYYY-MM-DD
+    // HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP (2026-05-23): added
+    // table-based validity gate. The regex stays permissive (01-30) but
+    // any date that doesn't exist per the Umm al-Qura table redirects to
+    // /404 (SSR returns 404 directly; this guards SPA back-button + typed
+    // URLs that bypass the server).
     const _isHijriDayPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(window.location.pathname);
     if (_isHijriDayPage && !window._navigatingAway) {
+        const _hdMatch = window.location.pathname.match(/\/hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
+        if (_hdMatch && typeof HijriDate !== 'undefined' && typeof HijriDate.isValidHijriDate === 'function') {
+            const _hY = +_hdMatch[1], _hM = +_hdMatch[2], _hD = +_hdMatch[3];
+            if (!HijriDate.isValidHijriDate(_hY, _hM, _hD)) {
+                window.location.replace('/404');
+                return;
+            }
+        }
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-hijri-day')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));

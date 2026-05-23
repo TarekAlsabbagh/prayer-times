@@ -336,7 +336,7 @@ const TRANSLATIONS = {
 
         'moon.hub.badge_global': 'يدعم مدنًا حول العالم',
         'moon.bc_current': 'القمر اليوم',
-        'moon.bc_root': 'القمر',
+        'moon.bc_root': 'حالة القمر',
         'moon.bc_moon_in_city': 'القمر اليوم في {city}',
         'moon.bc_moon_in_city_nodate': 'القمر في {city}',
         'moon.location_note': 'الموقع: جاري التحديد…',

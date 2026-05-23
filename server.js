@@ -9328,8 +9328,14 @@ function buildSeoForPath(urlPath) {
             };
             // Breadcrumb: "Moon" (renamed from "Moon Today" per UAT-Moon-Hub-Month —
             //   second level is the moon hub, not specifically "today")
+            // MOON-BC-ROOT-LABEL-AR-FIX-1 (2026-05-23): AR label changed
+            // from 'القمر' → 'حالة القمر' to match the user-requested
+            // breadcrumb wording on /moon-in-{city} pages. JSON-LD
+            // BreadcrumbList must stay in sync with the visible DOM
+            // label (moon.bc_root in js/i18n/ar.js + js/i18n.js).
+            // Other 9 langs unchanged per AR-only scope.
             const _moonLabel = {
-                ar: 'القمر', en: 'Moon', fr: 'Lune', tr: 'Ay',
+                ar: 'حالة القمر', en: 'Moon', fr: 'Lune', tr: 'Ay',
                 ur: 'چاند', de: 'Mond', id: 'Bulan',
                 es: 'Luna', bn: 'চাঁদ', ms: 'Bulan',
             }[lang] || 'Moon';
@@ -15260,7 +15266,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '179'; // MOON-UPCOMING-PHASES-COPY-FIX-1 (2026-05-23): AR-only — moon.upcoming.{title,title_city,subtitle,notice} reworded + new {subtitle_city,notice_city} keys for dynamic city-aware copy ("حسب توقيت {city}" — Mecca on /moon-today, city name on /moon-in-{city}); moon.phase_new + moon.phase_full prefixed with ال (المحاق / البدر) for definite-article consistency with التربيع الأول/الأخير. No math/data/SEO change.
+        const _i18nVersion = '180'; // MOON-BC-ROOT-LABEL-AR-FIX-1 (2026-05-23): AR-only — moon.bc_root 'القمر' → 'حالة القمر' so the breadcrumb on /moon-in-{city} reads "الرئيسية › حالة القمر › جدة" instead of "› القمر › جدة". Companion: BreadcrumbList JSON-LD AR label in server.js _moonLabel mirrored. Other 9 langs unchanged.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

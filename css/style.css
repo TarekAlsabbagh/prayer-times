@@ -12989,6 +12989,20 @@ html.time-left-page .sticky-next-bar {
 #page-moon .qibla-hub-smart-pill .qhsp-arrow { opacity: 0.75; }
 #page-qibla .qibla-hub-smart-pill .qhsp-city,
 #page-moon .qibla-hub-smart-pill .qhsp-city { font-weight: 700; }
+/* SMART-PILL-ARROW-RTL-FLIP-1 (2026-05-23):
+   The "→" inside the smart-pill is hardcoded in JS (app.js:9432 for moon,
+   app.js:15143 for qibla). U+2192 is not a Unicode bidi-mirroring char,
+   so it stays pointing right even in RTL pages — visually wrong because
+   the reading flow goes right-to-left. Mirror it via CSS for RTL pages
+   (ar, ur — anything with html[dir="rtl"]). inline-block needed for the
+   transform to take effect on this inline <span>. */
+html[dir="rtl"] #page-qibla .qibla-hub-smart-pill .qhsp-arrow,
+html[dir="rtl"] #page-moon  .qibla-hub-smart-pill .qhsp-arrow,
+html[dir="rtl"] #page-qibla .qibla-hub-smart-pill .mhsp-arrow,
+html[dir="rtl"] #page-moon  .qibla-hub-smart-pill .mhsp-arrow {
+    display: inline-block;
+    transform: scaleX(-1);
+}
 /* Hero trust-chip row (under subtitle) */
 #page-qibla .qibla-hub-hero-badges,
 #page-moon .qibla-hub-hero-badges {

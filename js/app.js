@@ -16667,6 +16667,33 @@ function updateMoonInfo() {
             }
         } catch (_e) { /* silent */ }
     }
+    // ═══════════════════════════════════════════════════════════════════════
+    //  MOON-TODAY-MAKKAH-CANONICAL-REFERENCE-1 (2026-05-23)
+    //  Generic /moon-today page has NO city/timezone in URL or in any meta
+    //  tag the server injects. Per user policy, anchor it to Mecca
+    //  (Asia/Riyadh) so the displayed moon data is stable + deterministic
+    //  across visitors (vs depending on browser tz / geolocation). The
+    //  Mecca defaults are injected at the same `_meta*` tier that
+    //  city-specific dated/month pages use via <meta name="moon.city.tz">,
+    //  so the existing _lat/_lng/_tz priority chain — and the city-local-
+    //  noon unification (MOON-CITY-ILLUMINATION-UNIFICATION-1) — apply
+    //  automatically without further code changes. Only fires when NO
+    //  other city context is present (no slug, no URL coords, no meta tags).
+    // ═══════════════════════════════════════════════════════════════════════
+    const _isMoonTodayPage = (function() {
+        try {
+            const p = window.location.pathname;
+            return p === '/moon-today' || /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/moon-today\/?$/.test(p);
+        } catch (_) { return false; }
+    })();
+    if (_isMoonTodayPage
+        && _metaLat == null && _metaLng == null && !_metaTz
+        && !_citySlug && !_urlCoords) {
+        _metaLat = 21.4225;   // Mecca latitude (matches server.js FAMOUS_CITY_OVERRIDES.mecca)
+        _metaLng = 39.8262;   // Mecca longitude
+        _metaTz  = 'Asia/Riyadh';
+    }
+
     // أولويّة مصادر الإحداثيّات:
     //   1) FAMOUS_MOON_CITIES (قاموس العميل، مع tz دقيق)
     //   2) coord-suffix في الـ URL (Round 12 — أعلى من meta لأنّها جاءت من المستخدم)
@@ -16689,10 +16716,14 @@ function updateMoonInfo() {
     //  `today` to city-local NOON. This makes summary + chart + forecast-table
     //  all sample MoonCalc at the same canonical instant for the day,
     //  eliminating the previously-observed 50.14% vs 49.13% mismatch.
-    //  Skipped for non-city pages (e.g. generic /moon-today, homepage moon
+    //  MOON-TODAY-MAKKAH-CANONICAL-REFERENCE-1 (2026-05-23): the gate is
+    //  extended with `_isMoonTodayPage` so /moon-today (which has no
+    //  _citySlug from URL parsing, but has _tz set to Asia/Riyadh via the
+    //  Mecca-default injection above) also unifies to city-local noon.
+    //  Skipped for other non-city pages (e.g. homepage moon
     //  widget) where `_tz`/`_citySlug` are absent — keeps existing behavior.
     // ───────────────────────────────────────────────────────────────────────
-    if (_tz && _citySlug) {
+    if (_tz && (_citySlug || _isMoonTodayPage)) {
         const _ctNoon = _moonCityLocalNoon(_tz, today);
         if (_ctNoon instanceof Date && !isNaN(_ctNoon.getTime())) {
             today = _ctNoon;

@@ -275,14 +275,20 @@ const TRANSLATIONS = {
         'moon.illumination_label': 'الإضاءة',
         'moon.phase_new': 'محاق (قمر جديد)',
         'moon.phase_waxing_crescent': 'هلال متزايد',
-        'moon.phase_first_quarter': 'تربيع أول',
+        'moon.phase_first_quarter': 'التربيع الأول',
         'moon.phase_waxing_gibbous': 'أحدب متزايد',
         'moon.phase_full': 'بدر (قمر مكتمل)',
         'moon.phase_waning_gibbous': 'أحدب متناقص',
-        'moon.phase_last_quarter': 'تربيع أخير',
+        'moon.phase_last_quarter': 'التربيع الأخير',
         'moon.phase_waning_crescent': 'هلال متناقص',
-        'moon.distance': 'المسافة للقمر',
+        'moon.distance': 'المسافة إلى القمر',
+        // Legacy default — kept for geolocation widget context where the
+        // reference is the visitor's own device. On /moon-today and
+        // /moon-in-{city} pages js/app.js overrides this with
+        // 'moon.distance_from_city_tpl' so the sub-text names the actual
+        // reference city (Mecca for /moon-today, city for city pages).
         'moon.distance_sub': 'كم من موقعك',
+        'moon.distance_from_city_tpl': 'كم من {city}',
         // ── صفحة القمر الموسّعة (H1، breadcrumb، توقّعات، مدن، أسئلة، محتوى تثقيفيّ) ──
         'moon.h1': 'القمر اليوم',
 
@@ -824,14 +830,15 @@ const TRANSLATIONS = {
         'moon.compass.nw': 'الشمال الغربي',
         'moon.comparison_waxing': 'نسبة إضاءة القمر اليوم أعلى من الأمس بـ {diff}٪ — القمر يتّجه نحو {nextPhaseIcon} {nextPhaseName}.',
         'moon.comparison_waning': 'نسبة إضاءة القمر اليوم أقلّ من الأمس بـ {diff}٪ — القمر يتّجه نحو {nextPhaseIcon} {nextPhaseName}.',
-        'moon.mc_title': 'تطوّر القمر من الأمس إلى اليوم',
+        'moon.mc_title': 'تغيّر إضاءة القمر من الأمس إلى اليوم',
         'moon.mc_yesterday': 'الأمس',
         'moon.mc_today': 'اليوم',
         'moon.mc_waxing': 'الإضاءة في ازدياد',
         'moon.mc_waning': 'الإضاءة في تناقص',
         'moon.mc_status_days': 'يتبقّى نحو {daysLabel} للوصول إلى {nextPhaseIcon} {nextPhaseName}.',
-        'moon.mc_status_tomorrow': 'غدًا يبلغ القمر طور {nextPhaseIcon} {nextPhaseName}.',
-        'moon.mc_status_today': 'اليوم يبلغ القمر طور {nextPhaseIcon} {nextPhaseName}.',
+        // MOON-CARD-AND-COMPARISON-COPY-FIX-1 (2026-05-23): see ar.js for rationale.
+        'moon.mc_status_tomorrow': 'تحدث ذروة {nextPhaseIcon} {nextPhaseName} غدًا.',
+        'moon.mc_status_today': 'تحدث ذروة {nextPhaseIcon} {nextPhaseName} اليوم.',
         'moon.mc_status_one_day': 'يتبقّى يومًا واحدًا للوصول إلى {nextPhaseIcon} {nextPhaseName}.',
         'moon.mc_status_two_days': 'يتبقّى يومين للوصول إلى {nextPhaseIcon} {nextPhaseName}.',
         'moon.forecast_cta': 'تابع تطوّر القمر خلال الأربعة عشر يومًا القادمة ↓',
@@ -848,7 +855,7 @@ const TRANSLATIONS = {
         'moon.desc_date_template': 'طور القمر في {city} يوم {date}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة الموجود فيها — محسوبة بدقّة فلكيّة.',
         'moon.intro_date_template': 'في {city}، يوم {date}، القمر في طور {phaseIcon} {phaseName} بنسبة إضاءة تبلغ {illum}٪، ويبلغ عمره {age} يومًا منذ آخر محاق. ويتواجد حاليًا في كوكبة {zodiacIcon} {zodiacName} وفق موقعه على المسار الظاهري للشمس (دائرة البروج). تُحسب هذه البيانات باستخدام خوارزميات فلكية دقيقة وفق منهجيات Jean Meeus، بينما يتم تحديد الكوكبة بناءً على موقع القمر ضمن الحدود المعتمدة للكوكبات فلكيًا.',
         'moon.out_of_range_notice': 'هذا التاريخ خارج النطاق المدعوم لصفحات الأيّام المنفصلة. اطّلع على حالة القمر اليوم في {city}.',
-        'moon.zodiac_label': 'الكوكبة الفلكيّة',
+        'moon.zodiac_label': 'موقع القمر فلكيًا',
         'moon.zodiac_tooltip': 'تُحسب حسب موضع القمر بين حدود الكوكبات الفلكيّة المعتمدة من الاتّحاد الفلكيّ الدوليّ (IAU)، وليس الأبراج التنجيميّة. تشمل 13 كوكبة على دائرة البروج (منها الحوّاء).',
         'moon.zodiac.aries': 'الحمل',
         'moon.zodiac.taurus': 'الثور',

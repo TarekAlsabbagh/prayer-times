@@ -16816,15 +16816,19 @@ function updateMoonInfo() {
         }
     }
 
+    // MOON-CARD-AND-COMPARISON-COPY-FIX-1 (2026-05-23): include the year so
+    // "31 مايو 2026" (not just "31 مايو") — clearer when the page is saved,
+    // shared, or read later. Year still comes from the same Date object;
+    // no calculation change.
     if (nextFull) {
         const months = HijriDate.gregorianMonths;
         const _nfEl = document.getElementById('next-full-moon');
-        if (_nfEl) _nfEl.textContent = `${nextFull.getDate()} ${months[nextFull.getMonth()]}`;
+        if (_nfEl) _nfEl.textContent = `${nextFull.getDate()} ${months[nextFull.getMonth()]} ${nextFull.getFullYear()}`;
     }
     if (nextNew) {
         const months = HijriDate.gregorianMonths;
         const _nnEl = document.getElementById('next-new-moon');
-        if (_nnEl) _nnEl.textContent = `${nextNew.getDate()} ${months[nextNew.getMonth()]}`;
+        if (_nnEl) _nnEl.textContent = `${nextNew.getDate()} ${months[nextNew.getMonth()]} ${nextNew.getFullYear()}`;
     }
 
     // ── المسافة بين موقع المستخدم/المدينة والقمر (كم، topocentric) ─────────
@@ -16838,6 +16842,32 @@ function updateMoonInfo() {
         } catch (_e) {
             _distEl.textContent = Math.round(distKm).toString();
         }
+        // MOON-CARD-AND-COMPARISON-COPY-FIX-1 (2026-05-23): the distance is
+        // computed against the page's REFERENCE coordinates (_lat/_lng) —
+        // for /moon-today these are Mecca (after MAKKAH-CANONICAL-REFERENCE-1)
+        // and for /moon-in-{city} these are that city. The legacy sub-text
+        // "كم من موقعك" wrongly implies "from your geolocated position".
+        // Override it to "كم من {referenceCity}" so users see the correct
+        // reference. AR-only for now (matches scope of this phase); other
+        // locales keep the legacy default until UI feedback is collected.
+        try {
+            const _distSubEl = document.getElementById('moon-distance-sub');
+            if (_distSubEl && _lng_fmt === 'ar') {
+                let _refName = '';
+                if (_citySlug && typeof _moonCityDisplayName === 'function') {
+                    _refName = _moonCityDisplayName(_citySlug) || '';
+                } else if (typeof _isMoonTodayPage !== 'undefined' && _isMoonTodayPage) {
+                    _refName = 'مكة المكرمة';
+                }
+                if (_refName) {
+                    const _subTpl = (typeof t === 'function') ? t('moon.distance_from_city_tpl', { city: _refName }) : '';
+                    _distSubEl.textContent = (_subTpl && _subTpl !== 'moon.distance_from_city_tpl')
+                        ? _subTpl
+                        : ('كم من ' + _refName);
+                }
+                // else: keep i18n default (e.g. homepage moon widget using geolocation)
+            }
+        } catch (_distSubErr) { /* silent — don't break distance display */ }
     }
 
     // ── H1 وموقع الصفحة (ديناميكيّ حسب المدينة من الـ URL) ─────────────
@@ -19486,7 +19516,14 @@ function updateMoonInfo() {
                 const _dArrow = document.getElementById('mc-delta-arrow');
                 const _dValue = document.getElementById('mc-delta-value');
                 if (_dArrow) _dArrow.textContent = isWaxing ? '↑' : '↓';
-                if (_dValue) _dValue.textContent = (isWaxing ? '+' : '−') + _fmtNum2(diffAbs, 1) + '%';
+                if (_dValue) {
+                    // MOON-CARD-AND-COMPARISON-COPY-FIX-1 (2026-05-23): force
+                    // LTR display so the sign appears on the LEFT of the
+                    // number (+10.9%) instead of being pushed to the visual
+                    // end by RTL bidi (which previously produced "10.9%+").
+                    _dValue.dir = 'ltr';
+                    _dValue.textContent = (isWaxing ? '+' : '−') + _fmtNum2(diffAbs, 1) + '%';
+                }
             } catch (_e6) { if (window.console && console.warn) console.warn('mc step6 (delta) failed:', _e6); }
 
             // 7) Progress bar (نصّ + سهم + حالة)

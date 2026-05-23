@@ -448,9 +448,9 @@ window.TRANSLATIONS['ar'] = {
         'moon.faq.q_full_count': 'كم تبقّى على البدر القادم؟',
         // ═══ Top Summary chip تحت H1 ═══
         'moon.summary.phase': 'القمر اليوم:',
-        'moon.summary.illum': 'الإضاءة:',
-        'moon.summary.age': 'العمر:',
-        'moon.summary.age_suffix': 'يوم من أصل 29.5 يوم',
+        'moon.summary.illum': 'نسبة الإضاءة:',
+        'moon.summary.age': 'عمر القمر:',
+        'moon.summary.age_suffix': 'يوم من الدورة القمرية',
         // ═══ Quick Highlights box (BOND 6 + 8) ═══
         'moon.hl.next_full': 'البدر التالي',
         'moon.hl.next_new': 'المحاق التالي',

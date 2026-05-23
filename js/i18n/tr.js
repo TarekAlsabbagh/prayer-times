@@ -369,9 +369,10 @@ window.TRANSLATIONS['tr'] = {
         'moon.live.today': 'Bugün',
         'moon.intro_fallback': 'Bugün {city} için Ayın güncel evresini, aydınlanma yüzdesini, yaşını ve doğuş/batış zamanlarını astronomik doğrulukla öğrenebilirsiniz. Bu veriler, konumunuzun koordinatlarına dayalı titiz astronomik modellerle (Meeus algoritmaları) hesaplanır.',
         // ═══ BONDs 1-8 — TR ═══
-        'moon.summary.phase': 'Evre:',
-        'moon.summary.illum': 'aydınlanmış',
-        'moon.summary.age': 'döngü günü',
+        'moon.summary.phase': 'Bugünkü Ay:',
+        'moon.summary.illum': 'Aydınlanma oranı:',
+        'moon.summary.age': 'Ay yaşı: Ay döngüsünün',
+        'moon.summary.age_suffix': 'günü',
         'moon.hl.next_full': 'Sonraki Dolunay',
         'moon.hl.next_new': 'Sonraki Yeniay',
         'moon.hl.visibility': 'Bu gece görünürlük',

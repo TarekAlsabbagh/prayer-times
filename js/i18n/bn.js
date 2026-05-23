@@ -396,9 +396,10 @@ window.TRANSLATIONS['bn'] = {
         'moon.live.today': 'আজ',
         'moon.intro_fallback': 'আজ {city}-এ আপনি চাঁদের বর্তমান পর্যায়, আলোকসজ্জার শতাংশ, চাঁদের বয়স এবং উদয়-অস্তের সময় জ্যোতির্বৈজ্ঞানিক নির্ভুলতার সাথে জানতে পারেন। এই তথ্যগুলি আপনার অবস্থানের স্থানাঙ্কের উপর ভিত্তি করে কঠোর জ্যোতির্বৈজ্ঞানিক মডেল (Meeus অ্যালগরিদম) দিয়ে গণনা করা হয়।',
         // ═══ BONDs 1-8 — BN ═══
-        'moon.summary.phase': 'পর্যায়:',
-        'moon.summary.illum': 'আলোকিত',
-        'moon.summary.age': 'চক্রের দিন',
+        'moon.summary.phase': 'আজকের চাঁদ:',
+        'moon.summary.illum': 'আলোকিত অংশ:',
+        'moon.summary.age': 'চাঁদের বয়স: চন্দ্রচক্রের',
+        'moon.summary.age_suffix': 'দিন',
         'moon.hl.next_full': 'পরবর্তী পূর্ণিমা',
         'moon.hl.next_new': 'পরবর্তী অমাবস্যা',
         'moon.hl.visibility': 'আজ রাতে দৃশ্যমানতা',

@@ -438,8 +438,8 @@ window.TRANSLATIONS['en'] = {
         // ═══ Top Summary chip under H1 ═══
         'moon.summary.phase': 'Moon today:',
         'moon.summary.illum': 'Illumination:',
-        'moon.summary.age': 'Age:',
-        'moon.summary.age_suffix': 'days of 29.5',
+        'moon.summary.age': 'Moon age:',
+        'moon.summary.age_suffix': 'days of the lunar cycle',
         // ═══ Quick Highlights box (BOND 6 + 8) ═══
         'moon.hl.next_full': 'Next Full Moon',
         'moon.hl.next_new': 'Next New Moon',

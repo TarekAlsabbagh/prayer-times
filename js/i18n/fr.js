@@ -366,9 +366,10 @@ window.TRANSLATIONS['fr'] = {
         'moon.live.today': 'Aujourd\u2019hui',
         'moon.intro_fallback': 'Aujourd\u2019hui à {city}, vous pouvez connaître la phase actuelle de la Lune, le pourcentage d\u2019illumination, son âge, ainsi que les heures de lever et coucher, avec précision astronomique. Ces données sont calculées à l\u2019aide de modèles astronomiques rigoureux (algorithmes de Meeus) sur la base des coordonnées de votre emplacement.',
         // ═══ BONDs 1-8 — FR ═══
-        'moon.summary.phase': 'Phase :',
-        'moon.summary.illum': 'illuminée',
-        'moon.summary.age': 'jours du cycle',
+        'moon.summary.phase': 'Lune aujourd’hui :',
+        'moon.summary.illum': 'Illumination :',
+        'moon.summary.age': 'Âge de la Lune :',
+        'moon.summary.age_suffix': 'jours du cycle lunaire',
         'moon.hl.next_full': 'Prochaine Pleine Lune',
         'moon.hl.next_new': 'Prochaine Nouvelle Lune',
         'moon.hl.visibility': 'Visibilité ce soir',

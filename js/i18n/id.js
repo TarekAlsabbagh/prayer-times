@@ -396,9 +396,10 @@ window.TRANSLATIONS['id'] = {
         'moon.live.today': 'Hari ini',
         'moon.intro_fallback': 'Hari ini di {city}, Anda dapat mengetahui fase Bulan saat ini, persentase pencahayaan, usia Bulan, serta waktu terbit dan terbenamnya dengan presisi astronomi. Data ini dihitung menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi Anda.',
         // ═══ BONDs 1-8 — ID ═══
-        'moon.summary.phase': 'Fase:',
-        'moon.summary.illum': 'tercahaya',
-        'moon.summary.age': 'hari dalam siklus',
+        'moon.summary.phase': 'Bulan hari ini:',
+        'moon.summary.illum': 'Persentase iluminasi:',
+        'moon.summary.age': 'Usia bulan:',
+        'moon.summary.age_suffix': 'hari dari siklus bulan',
         'moon.hl.next_full': 'Bulan Purnama Berikutnya',
         'moon.hl.next_new': 'Bulan Baru Berikutnya',
         'moon.hl.visibility': 'Visibilitas malam ini',

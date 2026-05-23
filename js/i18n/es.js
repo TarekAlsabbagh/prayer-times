@@ -396,9 +396,10 @@ window.TRANSLATIONS['es'] = {
         'moon.live.today': 'Hoy',
         'moon.intro_fallback': 'Hoy en {city} puedes conocer la fase actual de la Luna, el porcentaje de iluminación, su edad y las horas de salida y puesta con precisión astronómica. Estos datos se calculan mediante modelos astronómicos rigurosos (algoritmos de Meeus) basados en las coordenadas de tu ubicación.',
         // ═══ BONDs 1-8 — ES ═══
-        'moon.summary.phase': 'Fase:',
-        'moon.summary.illum': 'iluminada',
-        'moon.summary.age': 'días del ciclo',
+        'moon.summary.phase': 'Luna de hoy:',
+        'moon.summary.illum': 'Iluminación:',
+        'moon.summary.age': 'Edad lunar:',
+        'moon.summary.age_suffix': 'días del ciclo lunar',
         'moon.hl.next_full': 'Próxima Luna Llena',
         'moon.hl.next_new': 'Próxima Luna Nueva',
         'moon.hl.visibility': 'Visibilidad esta noche',

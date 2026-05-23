@@ -369,9 +369,10 @@ window.TRANSLATIONS['ur'] = {
         'moon.live.today': 'آج',
         'moon.intro_fallback': 'آج {city} میں آپ چاند کے موجودہ مرحلے، روشنی کی فیصد، عمر، اور طلوع و غروب کے اوقات کو فلکیاتی درستگی کے ساتھ معلوم کر سکتے ہیں۔ یہ اعداد و شمار آپ کے مقام کے نقاط کی بنیاد پر سخت فلکیاتی ماڈلز (Meeus الگورتھم) سے حساب کیے جاتے ہیں۔',
         // ═══ BONDs 1-8 — UR ═══
-        'moon.summary.phase': 'مرحلہ:',
-        'moon.summary.illum': 'روشنی',
-        'moon.summary.age': 'دور کے دن',
+        'moon.summary.phase': 'آج کا چاند:',
+        'moon.summary.illum': 'روشنی کا تناسب:',
+        'moon.summary.age': 'چاند کی عمر: قمری دور کے',
+        'moon.summary.age_suffix': 'دن',
         'moon.hl.next_full': 'اگلا مکمل چاند',
         'moon.hl.next_new': 'اگلا نیا چاند',
         'moon.hl.visibility': 'آج رات کی رؤیت',

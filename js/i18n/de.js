@@ -396,9 +396,10 @@ window.TRANSLATIONS['de'] = {
         'moon.live.today': 'Heute',
         'moon.intro_fallback': 'Heute in {city} können Sie die aktuelle Mondphase, den Beleuchtungsanteil, das Mondalter sowie die Auf- und Untergangszeiten mit astronomischer Präzision ermitteln. Diese Werte werden mit strengen astronomischen Modellen (Meeus-Algorithmen) auf Grundlage Ihrer Standortkoordinaten berechnet.',
         // ═══ BONDs 1-8 — DE ═══
-        'moon.summary.phase': 'Phase:',
-        'moon.summary.illum': 'beleuchtet',
-        'moon.summary.age': 'Tage im Zyklus',
+        'moon.summary.phase': 'Mond heute:',
+        'moon.summary.illum': 'Beleuchtung:',
+        'moon.summary.age': 'Mondalter:',
+        'moon.summary.age_suffix': 'Tage des Mondzyklus',
         'moon.hl.next_full': 'Nächster Vollmond',
         'moon.hl.next_new': 'Nächster Neumond',
         'moon.hl.visibility': 'Sichtbarkeit heute Nacht',

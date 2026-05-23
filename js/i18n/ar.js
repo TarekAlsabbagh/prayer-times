@@ -302,11 +302,11 @@ window.TRANSLATIONS['ar'] = {
 
         'moon.hub.title': 'حالة القمر اليوم',
 
-        'moon.hub.subtitle': 'اعرف طور القمر، الإضاءة، عمر القمر، ومواعيد طلوعه وغروبه لأيّ مدينة.',
+        'moon.hub.subtitle': 'اعرف طور القمر ونسبة الإضاءة وعمر القمر ومواعيد طلوعه وغروبه لأي مدينة.',
 
-        'moon.hub.search_placeholder': 'ابحث باسم المدينة لمعرفة طور القمر اليوم…',
+        'moon.hub.search_placeholder': 'ابحث عن مدينة لمعرفة حالة القمر اليوم...',
 
-        'moon.hub.use_location': 'استخدم موقعي لمعرفة طور القمر',
+        'moon.hub.use_location': 'استخدم موقعي لعرض حالة القمر',
 
         'moon.hub.pick_city': 'اختر مدينة يدويًا',
 
@@ -330,13 +330,19 @@ window.TRANSLATIONS['ar'] = {
 
         'moon.hub.smart_pill_prefix': 'آخر مدينة اخترتها:',
 
+        // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): used by the smart-pill
+        // ONLY when the displayed city is Mecca AND we're on the generic /moon-today
+        // page — to frame Mecca as the canonical default reference rather than a
+        // "city you picked". Other cities (real user picks) keep smart_pill_prefix.
+        'moon.hub.smart_pill_prefix_default': 'المرجع الافتراضي:',
+
         'moon.hub.smart_pill_cta': 'اعرض حالة القمر اليوم',
 
-        'moon.hub.geo_microcopy': 'سنستخدم موقعك التقريبيّ فقط لعرض بيانات القمر في مدينتك.',
+        'moon.hub.geo_microcopy': 'سنستخدم موقعك التقريبي فقط عند اختيار استخدام الموقع لعرض بيانات القمر في مدينتك.',
 
-        'moon.hub.badge_accurate': 'دقّة فلكيّة عالية',
+        'moon.hub.badge_accurate': 'حسابات فلكية دقيقة',
 
-        'moon.hub.badge_global': 'يعمل في جميع الدول',
+        'moon.hub.badge_global': 'يدعم مدنًا حول العالم',
         'moon.bc_current': 'القمر اليوم',
         'moon.bc_root': 'القمر',
         'moon.bc_moon_in_city': 'القمر اليوم في {city}',

@@ -15254,7 +15254,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '172'; // HD-EN-SEO-1 (2026-05-09): bumped after changing cookie.learn_more from "Learn more" to "Privacy policy" in 10 langs to fix Lighthouse link-text SEO=92 → 100 on /en/today-hijri-date
+        const _i18nVersion = '174'; // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): bumped after refining Arabic strings for the /moon-today generic hub (subtitle, search placeholder, geo/pick buttons, smart-pill default-reference prefix, privacy microcopy, badges) — keep page identity generic, frame Mecca as canonical default rather than user-picked city
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

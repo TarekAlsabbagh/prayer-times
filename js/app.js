@@ -9422,7 +9422,29 @@ function _wireMoonHubSmartPill() {
             const target = pageUrl(`/moon-today-in-${slug}`);
             const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
             const display = _cleanCityForPill(lang === 'ar' ? (name || en) : (en || name));
-            const prefix = (typeof t === 'function' ? t('moon.hub.smart_pill_prefix') : '') || 'آخر موقع استخدمته:';
+            // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): on the generic
+            // /moon-today hub, when the pill happens to point to Mecca (which
+            // is also the canonical default reference for the page since
+            // MOON-TODAY-MAKKAH-CANONICAL-REFERENCE-1), label it as "default
+            // reference" rather than "city you picked" — because the page is
+            // a generic hub, not a Mecca-specific city page. Any other city
+            // (real user pick) keeps the original "last city" framing.
+            //
+            // Restricted to lang === 'ar' for now: the new key
+            // `smart_pill_prefix_default` only exists in the Arabic bundle
+            // because the user only specified Arabic copy. Other locales
+            // continue to use the existing `smart_pill_prefix` translation
+            // until the relabel decision is extended to them explicitly.
+            const _isMeccaSlug = (slug === 'mecca' || slug === 'makkah');
+            let _isMoonTodayHub = false;
+            try {
+                const _p = window.location.pathname;
+                _isMoonTodayHub = (_p === '/moon-today' || /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/moon-today\/?$/.test(_p));
+            } catch (_) {}
+            const _useDefaultPrefix = (lang === 'ar' && _isMoonTodayHub && _isMeccaSlug);
+            const _prefixKey = _useDefaultPrefix ? 'moon.hub.smart_pill_prefix_default' : 'moon.hub.smart_pill_prefix';
+            const _prefixFallback = _useDefaultPrefix ? 'المرجع الافتراضي:' : 'آخر موقع استخدمته:';
+            const prefix = (typeof t === 'function' ? t(_prefixKey) : '') || _prefixFallback;
             const cta    = (typeof t === 'function' ? t('moon.hub.smart_pill_cta')    : '') || 'اعرف حالة القمر';
             pillEl.setAttribute('href', target);
             pillEl.innerHTML =

@@ -55,7 +55,11 @@ html.moon-today-hub-page #moon-page-h1,
 html.moon-today-hub-page #moon-subtitle,
 html.moon-today-hub-page #moon-intro,
 html.moon-today-hub-page .moon-breadcrumb,
-html.moon-today-hub-page #moon-events-section,
+/* MOON-EVENTS-SHOW-ON-HUB-1 (2026-05-23): the
+   `html.moon-today-hub-page #moon-events-section` selector was
+   removed from this list. The Islamic-events countdown card now
+   shows at the bottom of /moon-today per user request. Companion
+   SSR strip-list change in server.js _MOON_HUB_STRIP_IDS. */
 html.moon-today-hub-page #moon-chart-section,
 html.moon-today-hub-page #moon-forecast,
 html.moon-today-hub-page #moon-faq-general,

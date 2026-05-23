@@ -5958,7 +5958,13 @@ const _MOON_HUB_STRIP_IDS = [
     'moon-page-h1',               // original moon H1 (replaced by hero #moon-hub-h1)
     'moon-subtitle',
     'moon-intro',
-    'moon-events-section',
+    // MOON-EVENTS-SHOW-ON-HUB-1 (2026-05-23): 'moon-events-section'
+    // was previously stripped from SSR on /moon-today. Per user request,
+    // the Islamic-events countdown card is now KEPT on the hub so it
+    // appears at the bottom of the /moon-today page (matching the
+    // DOM-relocation done in MOON-EVENTS-MOVE-BOTTOM-1). Companion
+    // CSS rule at css/style.css that hid it via .moon-today-hub-page
+    // selector was also removed.
     'moon-chart-section',
     'moon-forecast',
     'moon-faq-general',

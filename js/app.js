@@ -19687,6 +19687,38 @@ function updateMoonInfo() {
                     if (_v && _v !== 'moon.upcoming.title_city') _h2.textContent = _v;
                 }
             }
+            // MOON-UPCOMING-PHASES-COPY-FIX-1 (2026-05-23): subtitle + notice
+            // city-aware override (AR-only). Re-use the same reference-city
+            // pattern as moon-distance-sub: city slug for /moon-in-{city},
+            // Mecca for /moon-today, nothing for the homepage widget (keep
+            // the generic "المدينة المعتمدة" fallback already in i18n).
+            try {
+                const _lngUpc = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                if (_lngUpc === 'ar' && typeof t === 'function') {
+                    let _refCityNameUpc = '';
+                    if (_citySlug && typeof _moonCityDisplayName === 'function') {
+                        _refCityNameUpc = _moonCityDisplayName(_citySlug) || '';
+                    } else if (typeof _isMoonTodayPage !== 'undefined' && _isMoonTodayPage) {
+                        _refCityNameUpc = 'مكة المكرمة';
+                    }
+                    if (_refCityNameUpc) {
+                        const _subEl = document.querySelector('.moon-upcoming-subtitle');
+                        if (_subEl) {
+                            const _stpl = t('moon.upcoming.subtitle_city', { city: _refCityNameUpc });
+                            if (_stpl && _stpl !== 'moon.upcoming.subtitle_city') {
+                                _subEl.textContent = _stpl;
+                            }
+                        }
+                        const _ntcEl = document.querySelector('.moon-upcoming-notice');
+                        if (_ntcEl) {
+                            const _ntpl = t('moon.upcoming.notice_city', { city: _refCityNameUpc });
+                            if (_ntpl && _ntpl !== 'moon.upcoming.notice_city') {
+                                _ntcEl.textContent = _ntpl;
+                            }
+                        }
+                    }
+                }
+            } catch (_upcCopyErr) { /* silent — don't break the timeline render */ }
 
             // تنسيقات ساعة (24h) وتاريخ (يوم شهر سنة)
             const _fmtUpTime = (d) => {
@@ -19709,6 +19741,22 @@ function updateMoonInfo() {
                 if (days <= 0) return t('moon.upcoming.today');
                 if (days === 1) return t('moon.upcoming.in_1_day');
                 if (days === 2) return t('moon.upcoming.in_2_days');
+                // MOON-UPCOMING-PHASES-COPY-FIX-1 (2026-05-23): apply Arabic
+                // plural rules for "يوم" — the generic 'بعد {days} يوم'
+                // template was always singular regardless of count, producing
+                // wrong forms like "بعد 8 يوم" / "بعد 23 يوم".
+                //   3-10  → بعد {n} أيام
+                //   11-99 → بعد {n} يومًا
+                //   100+  → بعد {n} يوم
+                // Other locales keep their existing i18n template.
+                const _lngUpcCd = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                if (_lngUpcCd === 'ar') {
+                    let _arU;
+                    if (days >= 3 && days <= 10) _arU = 'أيام';
+                    else if (days >= 11 && days <= 99) _arU = 'يومًا';
+                    else _arU = 'يوم';
+                    return 'بعد ' + days + ' ' + _arU;
+                }
                 return t('moon.upcoming.in_days', { days: days });
             };
 

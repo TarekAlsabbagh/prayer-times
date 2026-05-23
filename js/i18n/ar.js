@@ -287,11 +287,11 @@ window.TRANSLATIONS['ar'] = {
         'moon.next_new': 'المحاق القادم',
         'moon.days_suffix': 'يوم',
         'moon.illumination_label': 'الإضاءة',
-        'moon.phase_new': 'محاق (قمر جديد)',
+        'moon.phase_new': 'المحاق (قمر جديد)',
         'moon.phase_waxing_crescent': 'هلال متزايد',
         'moon.phase_first_quarter': 'التربيع الأول',
         'moon.phase_waxing_gibbous': 'أحدب متزايد',
-        'moon.phase_full': 'بدر (قمر مكتمل)',
+        'moon.phase_full': 'البدر (قمر مكتمل)',
         'moon.phase_waning_gibbous': 'أحدب متناقص',
         'moon.phase_last_quarter': 'التربيع الأخير',
         'moon.phase_waning_crescent': 'هلال متناقص',
@@ -806,11 +806,21 @@ window.TRANSLATIONS['ar'] = {
         'moon.cycle.gibbous': 'أحدب',
         'moon.cycle.full': 'بدر',
         // Priority C: الأطوار القادمة (Upcoming Forecast)
-        'moon.upcoming.title': '🔮 الأطوار القمريّة القادمة',
+        'moon.upcoming.title': '🔮 مواعيد الأطوار القمريّة القادمة',
         'moon.current_month_h2': 'أطوار القمر خلال هذا الشهر',
-        'moon.upcoming.title_city': '🔮 الأطوار القمريّة القادمة في {city}',
-        'moon.upcoming.subtitle': 'التواريخ الدقيقة لأطوار القمر الأربعة التالية — محسوبة بدقّة فلكيّة',
-        'moon.upcoming.notice': '* الأوقات محسوبة بتوقيت موقعك باستخدام خوارزميّات Meeus الفلكيّة.',
+        'moon.upcoming.title_city': '🔮 مواعيد الأطوار القمريّة القادمة في {city}',
+        // MOON-UPCOMING-PHASES-COPY-FIX-1 (2026-05-23): subtitle is the
+        // default fallback when no city/Mecca reference is available.
+        // js/app.js overrides with `moon.upcoming.subtitle_city` (below)
+        // on /moon-today (→ مكة المكرمة) and /moon-in-{city} (→ city name)
+        // so the actual reference timezone is named.
+        'moon.upcoming.subtitle': 'مواعيد الأطوار الأربعة التالية للقمر، محسوبة حسب توقيت المدينة المعتمدة.',
+        'moon.upcoming.subtitle_city': 'مواعيد الأطوار الأربعة التالية للقمر، محسوبة حسب توقيت {city}.',
+        // MOON-UPCOMING-PHASES-COPY-FIX-1: same pattern for the notice line —
+        // legacy "بتوقيت موقعك" wrongly implied geolocation when the actual
+        // reference is Mecca (for /moon-today) or the city (for /moon-in-{city}).
+        'moon.upcoming.notice': '* الأوقات محسوبة حسب توقيت المدينة المعتمدة باستخدام خوارزميّات Meeus الفلكيّة.',
+        'moon.upcoming.notice_city': '* الأوقات محسوبة حسب توقيت {city} باستخدام خوارزميّات Meeus الفلكيّة.',
         'moon.upcoming.today': 'اليوم',
         'moon.upcoming.tomorrow': 'غدًا',
         'moon.upcoming.in_days': 'بعد {days} يوم',

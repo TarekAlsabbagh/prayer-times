@@ -15254,7 +15254,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '175'; // MOON-SUMMARY-LABELS-I18N-POLISH-1 (2026-05-23): bumped after refining moon.summary.{phase,illum,age,age_suffix} labels in all 10 supported languages (ar/en/fr/de/tr/es/id/ms/ur/bn) — clarify "Illumination percentage" and "Moon age" labels, replace "29.5 day fixed month" wording with "of the lunar cycle"
+        const _i18nVersion = '176'; // MOON-HIJRI-LUNAR-COPY-FIX-1 (2026-05-23): bumped after AR-only refinement of moon.hijri.lunar_day_template ("اكتمال الشهر القمريّ" was ambiguous on a moon page → replaced with explicit "نهاية الشهر الهجري") + moon.hijri.notice tashkeel cleanup. Non-AR templates already say "end of (the) month" so no other lang touched. No math/data/SEO change.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

@@ -450,8 +450,15 @@ const TRANSLATIONS = {
         'moon.sticky.top': 'أعلى',
         // ═══ Wave A: التاريخ الهجريّ + عدّ تنازليّ للمناسبات الإسلاميّة ═══
         'moon.hijri.today_label': 'التاريخ الهجريّ اليوم',
-        'moon.hijri.notice': '* قد يختلف التاريخ الهجريّ يومًا واحدًا حسب الرؤية الشرعيّة في بلدك.',
-        'moon.hijri.lunar_day_template': 'نحن اليوم في {day} {month} {hYear} هـ، ويتبقّى نحو {remaining} على اكتمال الشهر القمريّ.',
+        'moon.hijri.notice': '* قد يختلف التاريخ الهجري يومًا واحدًا حسب الرؤية الشرعية في بلدك.',
+        // MOON-HIJRI-LUNAR-COPY-FIX-1 (2026-05-23): "اكتمال الشهر القمريّ"
+        // was ambiguous on a moon page — it could be read as "completion of
+        // the lunar cycle" / full moon, but the intent is the END of the
+        // current Hijri month. Replaced with explicit "نهاية الشهر الهجري".
+        // Shadda also dropped from "ويتبقى" + "الهجري" per HIJRI-MONTH-TASHKEEL
+        // policy convention. Dynamic slots {day}/{month}/{hYear}/{remaining}
+        // unchanged — only the surrounding wording is refined.
+        'moon.hijri.lunar_day_template': 'نحن اليوم في {day} {month} {hYear} هـ، ويتبقى نحو {remaining} على نهاية الشهر الهجري.',
         'moon.events.title': 'العدّ التنازليّ للمناسبات الإسلاميّة',
         'moon.events.ramadan': 'رمضان القادم',
         'moon.events.fitr': 'عيد الفطر',

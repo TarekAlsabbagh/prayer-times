@@ -829,6 +829,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'في {date}{hijriInline}، القمر فوق {city} في طور {phaseIcon} {phaseName} بإضاءة {illum}٪، عمره {age} يومًا، ويمرّ في كوكبة {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'وبحسب وقت التَحديث الحاليّ يَرتفع القمر {alt}° فوق الأفق باتّجاه {dir}.',
         'moon.altitude_below': 'وبحسب وقت التَحديث الحاليّ يَكون القمر تحت الأفق ({alt}° تحته).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'القمر في {city}، {country}، حاليًّا في طور {phaseIcon} {phaseName}، بنسبة إضاءة {illum}٪، وعمر {age} يوم من الدورة القمريّة. ويَمرّ فلكيّاً في كوكبة {zodiacIcon} {zodiacName}، وبحسب وقت التَحديث الحاليّ {altitudeSentence}',
+        'moon.altitude_above_hub': 'يَرتفع القمر فوق الأفق بنحو {alt}° باتّجاه {dir}.',
+        'moon.altitude_below_hub': 'يَكون القمر تحت الأفق بنحو {alt}°.',
         'moon.compass.n':  'الشمال',
         'moon.compass.ne': 'الشمال الشرقي',
         'moon.compass.e':  'الشرق',
@@ -2231,6 +2239,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'On {date}{hijriInline}, the Moon over {city} is in its {phaseIcon} {phaseName} phase at {illum}% illumination, age {age} days, crossing the {zodiacIcon} {zodiacName} constellation.',
         'moon.altitude_above': 'From your location, the Moon is currently {alt}° above the horizon toward the {dir}.',
         'moon.altitude_below': 'From your location, the Moon is currently below the horizon ({alt}° below).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'The Moon in {city}, {country} is currently in a {phaseIcon} {phaseName} phase at {illum}% illumination, on day {age} of its cycle, passing through the {zodiacIcon} {zodiacName} constellation. {altitudeSentence}',
+        'moon.altitude_above_hub': 'The Moon is currently {alt}° above the horizon toward the {dir}.',
+        'moon.altitude_below_hub': 'The Moon is currently below the horizon ({alt}° below).',
         'moon.compass.n':  'north',
         'moon.compass.ne': 'northeast',
         'moon.compass.e':  'east',
@@ -3513,6 +3529,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'Le {date}{hijriInline}, la Lune au-dessus de {city} est en phase {phaseIcon} {phaseName} à {illum}% d\u2019illumination, \u00e2ge {age} jours, traversant la constellation {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Depuis votre emplacement, la Lune se trouve actuellement à {alt}° au-dessus de l\u2019horizon, en direction du {dir}.',
         'moon.altitude_below': 'Depuis votre emplacement, la Lune est actuellement sous l\u2019horizon ({alt}° en dessous).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'La Lune à {city}, {country} est actuellement en phase {phaseIcon} {phaseName} avec {illum}% d\u2019illumination, au jour {age} de son cycle, traversant la constellation {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        'moon.altitude_above_hub': 'La Lune se trouve actuellement à {alt}° au-dessus de l\u2019horizon, en direction du {dir}.',
+        'moon.altitude_below_hub': 'La Lune est actuellement sous l\u2019horizon ({alt}° en dessous).',
         'moon.compass.n':  'nord',
         'moon.compass.ne': 'nord-est',
         'moon.compass.e':  'est',
@@ -4795,6 +4819,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': '{date}{hijriInline} tarihinde {city} üzerindeki Ay, {phaseIcon} {phaseName} evresinde, %{illum} aydınlanmada, {age} günlük, {zodiacIcon} {zodiacName} takımyıldızından geçiyor.',
         'moon.altitude_above': 'Konumunuzdan Ay şu anda ufkun {alt}° üzerinde, {dir} yönünde.',
         'moon.altitude_below': 'Konumunuzdan Ay şu anda ufkun altında ({alt}° aşağıda).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Ay, {city}, {country} için şu anda {phaseIcon} {phaseName} evresinde ve %{illum} aydınlanmada, döngüsünün {age}. gününde, {zodiacIcon} {zodiacName} takımyıldızından geçiyor. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Ay şu anda ufkun {alt}° üzerinde, {dir} yönünde.',
+        'moon.altitude_below_hub': 'Ay şu anda ufkun altında ({alt}° aşağıda).',
         'moon.compass.n':  'kuzey',
         'moon.compass.ne': 'kuzeydoğu',
         'moon.compass.e':  'doğu',
@@ -6077,6 +6109,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': '{date}{hijriInline} کو {city} کے اوپر چاند {phaseIcon} {phaseName} مرحلے میں ہے، {illum}٪ روشنی، عمر {age} دن، اور {zodiacIcon} {zodiacName} برج سے گزر رہا ہے۔',
         'moon.altitude_above': 'آپ کے مقام سے چاند اس وقت افق سے {alt}° اوپر، {dir} کی سمت میں ہے۔',
         'moon.altitude_below': 'آپ کے مقام سے چاند اس وقت افق سے نیچے ہے ({alt}° نیچے)۔',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': '{city}، {country} میں چاند اس وقت {phaseIcon} {phaseName} مرحلے میں ہے، {illum}٪ روشنی کے ساتھ، اپنے چکر کے {age}ویں دن، اور {zodiacIcon} {zodiacName} برج سے گزر رہا ہے۔ {altitudeSentence}',
+        'moon.altitude_above_hub': 'چاند اس وقت افق سے {alt}° اوپر، {dir} کی سمت میں ہے۔',
+        'moon.altitude_below_hub': 'چاند اس وقت افق سے نیچے ہے ({alt}° نیچے)۔',
         'moon.compass.n':  'شمال',
         'moon.compass.ne': 'شمال مشرق',
         'moon.compass.e':  'مشرق',
@@ -7353,6 +7393,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'Am {date}{hijriInline} befindet sich der Mond über {city} in der Phase {phaseIcon} {phaseName} mit {illum}% Beleuchtung, Alter {age} Tage, durch das Sternbild {zodiacIcon} {zodiacName} ziehend.',
         'moon.altitude_above': 'Von Ihrem Standort aus steht der Mond derzeit {alt}° über dem Horizont in Richtung {dir}.',
         'moon.altitude_below': 'Von Ihrem Standort aus steht der Mond derzeit unter dem Horizont ({alt}° darunter).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Der Mond in {city}, {country} befindet sich aktuell in der Phase {phaseIcon} {phaseName} mit {illum}% Beleuchtung, am Tag {age} seines Zyklus, durch das Sternbild {zodiacIcon} {zodiacName} ziehend. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Der Mond steht derzeit {alt}° über dem Horizont in Richtung {dir}.',
+        'moon.altitude_below_hub': 'Der Mond steht derzeit unter dem Horizont ({alt}° darunter).',
         'moon.compass.n':  'Norden',
         'moon.compass.ne': 'Nordosten',
         'moon.compass.e':  'Osten',
@@ -8690,6 +8738,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'Pada {date}{hijriInline} di {city}, Bulan berada dalam fase {phaseIcon} {phaseName} dengan pencahayaan {illum}%, usia {age} hari, melintasi rasi {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Dari lokasi Anda, Bulan saat ini berada {alt}° di atas cakrawala ke arah {dir}.',
         'moon.altitude_below': 'Dari lokasi Anda, Bulan saat ini berada di bawah cakrawala ({alt}° di bawah).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Bulan di {city}, {country} saat ini berada pada fase {phaseIcon} {phaseName} dengan iluminasi {illum}%, pada hari ke-{age} siklusnya, melintasi rasi bintang {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Bulan saat ini berada {alt}° di atas cakrawala ke arah {dir}.',
+        'moon.altitude_below_hub': 'Bulan saat ini berada di bawah cakrawala ({alt}° di bawah).',
         'moon.compass.n':  'utara',
         'moon.compass.ne': 'timur laut',
         'moon.compass.e':  'timur',
@@ -10027,6 +10083,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'El {date}{hijriInline} en {city}, la Luna está en fase {phaseIcon} {phaseName} con {illum}% de iluminación, edad {age} días, atravesando la constelación {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Desde tu ubicación, la Luna está actualmente a {alt}° sobre el horizonte, en dirección {dir}.',
         'moon.altitude_below': 'Desde tu ubicación, la Luna está actualmente bajo el horizonte ({alt}° por debajo).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'La Luna en {city}, {country} se encuentra actualmente en la fase {phaseIcon} {phaseName} con un {illum}% de iluminación, en el día {age} de su ciclo, pasando por la constelación {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        'moon.altitude_above_hub': 'La Luna está actualmente a {alt}° sobre el horizonte, en dirección {dir}.',
+        'moon.altitude_below_hub': 'La Luna está actualmente bajo el horizonte ({alt}° por debajo).',
         'moon.compass.n':  'norte',
         'moon.compass.ne': 'noreste',
         'moon.compass.e':  'este',
@@ -11364,6 +11428,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': '{date}{hijriInline} তারিখে {city}-এর উপরে চাঁদ {phaseIcon} {phaseName} পর্যায়ে আছে, {illum}% আলোকসজ্জা, বয়স {age} দিন, {zodiacIcon} {zodiacName} রাশির মধ্য দিয়ে যাচ্ছে।',
         'moon.altitude_above': 'আপনার অবস্থান থেকে চাঁদ বর্তমানে দিগন্ত থেকে {alt}° উপরে, {dir} দিকে রয়েছে।',
         'moon.altitude_below': 'আপনার অবস্থান থেকে চাঁদ বর্তমানে দিগন্তের নিচে ({alt}° নিচে)।',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': '{city}, {country}-এ চাঁদ বর্তমানে {phaseIcon} {phaseName} পর্যায়ে আছে, {illum}% আলোকসজ্জা নিয়ে, চক্রের {age} দিনে, {zodiacIcon} {zodiacName} রাশির মধ্য দিয়ে। {altitudeSentence}',
+        'moon.altitude_above_hub': 'চাঁদ বর্তমানে দিগন্ত থেকে {alt}° উপরে, {dir} দিকে রয়েছে।',
+        'moon.altitude_below_hub': 'চাঁদ বর্তমানে দিগন্তের নিচে ({alt}° নিচে)।',
         'moon.compass.n':  'উত্তর',
         'moon.compass.ne': 'উত্তর-পূর্ব',
         'moon.compass.e':  'পূর্ব',
@@ -12701,6 +12773,14 @@ const TRANSLATIONS = {
         'moon.date_intro_template': 'Pada {date}{hijriInline} di {city}, Bulan berada pada fasa {phaseIcon} {phaseName} dengan pencahayaan {illum}%, usia {age} hari, melintasi buruj {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Dari lokasi anda, Bulan pada masa ini berada {alt}° di atas ufuk ke arah {dir}.',
         'moon.altitude_below': 'Dari lokasi anda, Bulan pada masa ini berada di bawah ufuk ({alt}° di bawah).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Bulan di {city}, {country} kini berada pada fasa {phaseIcon} {phaseName} dengan pencahayaan {illum}%, pada hari ke-{age} kitarannya, melintasi buruj {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Bulan pada masa ini berada {alt}° di atas ufuk ke arah {dir}.',
+        'moon.altitude_below_hub': 'Bulan pada masa ini berada di bawah ufuk ({alt}° di bawah).',
         'moon.compass.n':  'utara',
         'moon.compass.ne': 'timur laut',
         'moon.compass.e':  'timur',

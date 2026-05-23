@@ -867,6 +867,14 @@ window.TRANSLATIONS['ar'] = {
         'moon.date_intro_template': 'في {date}{hijriInline}، القمر فوق {city} في طور {phaseIcon} {phaseName} بإضاءة {illum}٪، عمره {age} يومًا، ويمرّ في كوكبة {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'وبحسب وقت التَحديث الحاليّ يَرتفع القمر {alt}° فوق الأفق باتّجاه {dir}.',
         'moon.altitude_below': 'وبحسب وقت التَحديث الحاليّ يَكون القمر تحت الأفق ({alt}° تحته).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'القمر في {city}، {country}، حاليًّا في طور {phaseIcon} {phaseName}، بنسبة إضاءة {illum}٪، وعمر {age} يوم من الدورة القمريّة. ويَمرّ فلكيّاً في كوكبة {zodiacIcon} {zodiacName}، وبحسب وقت التَحديث الحاليّ {altitudeSentence}',
+        'moon.altitude_above_hub': 'يَرتفع القمر فوق الأفق بنحو {alt}° باتّجاه {dir}.',
+        'moon.altitude_below_hub': 'يَكون القمر تحت الأفق بنحو {alt}°.',
         'moon.compass.n':  'الشمال',
         'moon.compass.ne': 'الشمال الشرقي',
         'moon.compass.e':  'الشرق',

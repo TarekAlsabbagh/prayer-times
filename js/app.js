@@ -17984,81 +17984,92 @@ function updateMoonInfo() {
             const _cn = (_countryName || '').trim();
             const _ctySfxAr  = _cn ? `، ${_cn}` : '';
             const _ctySfxLat = _cn ? `, ${_cn}` : '';
+            // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+            //   H1 now states "Moon Calendar & Monthly Phases in {city}, {country}"
+            //   to differentiate from /moon-today-in-{city} ("Moon Today in {city}").
+            //   The hub page is evergreen — it represents the city as an entity
+            //   with calendar-month + upcoming phases, NOT a single-day snapshot.
             const _HUB_H1 = {
-                ar: `تقويم القمر في ${_cityName}${_ctySfxAr}`,
-                en: `Moon Calendar in ${_cityName}${_ctySfxLat}`,
-                fr: `Calendrier lunaire à ${_cityName}${_ctySfxLat}`,
-                tr: _cn ? `${_cityName}, ${_cn} Ay Takvimi` : `${_cityName} Ay Takvimi`,
-                ur: `${_cityName}${_ctySfxAr} میں چاند کا تقویم`,
-                de: `Mondkalender in ${_cityName}${_ctySfxLat}`,
-                id: `Kalender Bulan di ${_cityName}${_ctySfxLat}`,
-                es: `Calendario lunar en ${_cityName}${_ctySfxLat}`,
-                bn: _cn ? `${_cityName}, ${_cn}-এ চাঁদের ক্যালেন্ডার` : `${_cityName}-এ চাঁদের ক্যালেন্ডার`,
-                ms: `Kalendar Bulan di ${_cityName}${_ctySfxLat}`
+                ar: `تقويم القمر وأطوار الشهر في ${_cityName}${_ctySfxAr}`,
+                en: `Moon Calendar & Monthly Phases in ${_cityName}${_ctySfxLat}`,
+                fr: `Calendrier lunaire et phases du mois à ${_cityName}${_ctySfxLat}`,
+                tr: _cn ? `${_cityName}, ${_cn} Ay Takvimi ve Aylık Evreler` : `${_cityName} Ay Takvimi ve Aylık Evreler`,
+                ur: `${_cityName}${_ctySfxAr} میں چاند کا تقویم اور ماہانہ مراحل`,
+                de: `Mondkalender und Monatsphasen in ${_cityName}${_ctySfxLat}`,
+                id: `Kalender Bulan & Fase Bulanan di ${_cityName}${_ctySfxLat}`,
+                es: `Calendario lunar y fases del mes en ${_cityName}${_ctySfxLat}`,
+                bn: _cn ? `${_cityName}, ${_cn}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা` : `${_cityName}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা`,
+                ms: `Kalendar Bulan & Fasa Bulanan di ${_cityName}${_ctySfxLat}`
             };
             if (_h1El) _h1El.textContent = _HUB_H1[_lng_] || _HUB_H1.en;
             // H2 الأقسام — عناوين الصفحة الدائمة (Hub) — H2 يَركّز على بيانات اليوم،
             //   subtitle يَشرح وظيفة الصفحة (تقويم + بيانات اليوم + الأطوار القادمة).
+            // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+            //   subtitle is now EVERGREEN (no "today/heute/hoy/اليوم"). It
+            //   describes the page's purpose — phases, illumination, full/new
+            //   moon schedule — without anchoring to the current day. The
+            //   intra-card `title` (H2 of the live-data card) keeps its
+            //   "today" anchor because that card IS about today's snapshot.
             const _HUB_H2 = {
                 ar: {
                     title: `حالة القمر اليوم في ${_cityName}`,
                     faq: `أسئلة شائعة عن القمر في ${_cityName}`,
                     cities: `تقويم القمر في مدن أخرى`,
-                    subtitle: `حالة القمر اليوم، أطوار الشهر، الإضاءة، ومواعيد البدر والمحاق حسب توقيت ${_cityName} المحلّيّ.`
+                    subtitle: `اعرف أطوار القمر في ${_cityName}، ونسبة الإضاءة، ومواعيد البدر والمحاق، مع تقويم شهريّ كامل حسب التوقيت المحلّيّ.`
                 },
                 en: {
                     title: `The Moon today in ${_cityName}`,
                     faq: `FAQ about the Moon in ${_cityName}`,
                     cities: `Moon calendar in other cities`,
-                    subtitle: `Today's moon, this month's phases, illumination, and full/new moon times in ${_cityName} local time.`
+                    subtitle: `Explore the Moon's phases, illumination, and full/new moon schedule in ${_cityName} — with a complete monthly calendar in local time.`
                 },
                 fr: {
                     title: `La Lune aujourd'hui à ${_cityName}`,
                     faq: `FAQ sur la Lune à ${_cityName}`,
                     cities: `Calendrier lunaire dans d'autres villes`,
-                    subtitle: `La Lune aujourd'hui, les phases du mois, l'illumination et les dates de pleine/nouvelle lune en heure locale de ${_cityName}.`
+                    subtitle: `Découvrez les phases de la Lune à ${_cityName}, l'illumination et les dates de pleine et nouvelle lune — avec un calendrier mensuel complet en heure locale.`
                 },
                 tr: {
                     title: `${_cityName}'da Ay bugün`,
                     faq: `${_cityName} için Ay hakkında SSS`,
                     cities: `Diğer şehirlerde Ay takvimi`,
-                    subtitle: `Bugünkü Ay durumu, ayın evreleri, aydınlanma ve dolunay/yeni ay zamanları — ${_cityName} yerel saatiyle.`
+                    subtitle: `${_cityName} için Ay'ın evrelerini, aydınlanmasını ve dolunay/yeni ay zamanlarını keşfedin — yerel saatle eksiksiz aylık takvim.`
                 },
                 ur: {
                     title: `${_cityName} میں آج کا چاند`,
                     faq: `${_cityName} میں چاند کے بارے میں عام سوالات`,
                     cities: `دوسرے شہروں میں چاند کا تقویم`,
-                    subtitle: `آج کا چاند، اس ماہ کے مراحل، روشنی اور بدر/نئے چاند کے اوقات ${_cityName} کے مقامی وقت کے مطابق۔`
+                    subtitle: `${_cityName} میں چاند کے مراحل، روشنی، اور بدر و نئے چاند کے اوقات جانیں — مقامی وقت کے مطابق مکمل ماہانہ تقویم کے ساتھ۔`
                 },
                 de: {
                     title: `Der Mond heute in ${_cityName}`,
                     faq: `FAQ zum Mond in ${_cityName}`,
                     cities: `Mondkalender in anderen Städten`,
-                    subtitle: `Der Mond heute, die Phasen dieses Monats, Beleuchtung und Voll-/Neumondzeiten in der Ortszeit von ${_cityName}.`
+                    subtitle: `Entdecken Sie die Mondphasen in ${_cityName}, die Beleuchtung und die Voll-/Neumondtermine — mit einem vollständigen Monatskalender in Ortszeit.`
                 },
                 id: {
                     title: `Bulan hari ini di ${_cityName}`,
                     faq: `FAQ Bulan di ${_cityName}`,
                     cities: `Kalender Bulan di kota lain`,
-                    subtitle: `Bulan hari ini, fase bulan ini, iluminasi, dan waktu purnama/bulan baru menurut waktu lokal ${_cityName}.`
+                    subtitle: `Pelajari fase Bulan di ${_cityName}, tingkat iluminasi, dan jadwal purnama/bulan baru — lengkap dengan kalender bulanan menurut waktu lokal.`
                 },
                 es: {
                     title: `La Luna hoy en ${_cityName}`,
                     faq: `Preguntas frecuentes sobre la Luna en ${_cityName}`,
                     cities: `Calendario lunar en otras ciudades`,
-                    subtitle: `La Luna hoy, las fases del mes, iluminación y horas de luna llena/nueva en hora local de ${_cityName}.`
+                    subtitle: `Descubre las fases de la Luna en ${_cityName}, la iluminación y las fechas de luna llena y nueva — con un calendario mensual completo en hora local.`
                 },
                 bn: {
                     title: `${_cityName}-এ আজ চাঁদ`,
                     faq: `${_cityName}-এ চাঁদ সম্পর্কে সাধারণ প্রশ্ন`,
                     cities: `অন্যান্য শহরে চাঁদের ক্যালেন্ডার`,
-                    subtitle: `আজকের চাঁদ, এই মাসের দশা, আলোকসজ্জা এবং পূর্ণিমা/অমাবস্যার সময় — ${_cityName} স্থানীয় সময় অনুযায়ী।`
+                    subtitle: `${_cityName}-এ চাঁদের দশা, আলোকসজ্জা এবং পূর্ণিমা ও অমাবস্যার সময় জানুন — স্থানীয় সময় অনুযায়ী পূর্ণ মাসিক ক্যালেন্ডার সহ।`
                 },
                 ms: {
                     title: `Bulan hari ini di ${_cityName}`,
                     faq: `Soalan lazim tentang Bulan di ${_cityName}`,
                     cities: `Kalendar Bulan di bandar lain`,
-                    subtitle: `Bulan hari ini, fasa bulan ini, pencahayaan dan masa bulan purnama/anak bulan mengikut waktu tempatan ${_cityName}.`
+                    subtitle: `Terokai fasa Bulan di ${_cityName}, pencahayaan dan jadual bulan purnama/anak bulan — lengkap dengan kalendar bulanan mengikut waktu tempatan.`
                 }
             };
             const _hubTpl = _HUB_H2[_lng_] || _HUB_H2.en;
@@ -19427,9 +19438,18 @@ function updateMoonInfo() {
         if (_introEl && typeof t === 'function' && zodiac) {
             const zName = t(zodiac.i18nKey);
             const zNameDisplay = (zName && zName !== zodiac.i18nKey) ? zName : zodiac.key;
-            const _cityLabelForIntro = _citySlug
-                ? _moonCityLabel(_citySlug, _lng_, _cityDisplay2)
-                : _cityDisplay2;
+            // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+            //   Hub pages (/moon-in-{city}) now use the evergreen
+            //   intro template "القمر في {city}، {country}، حاليًّا..."
+            //   so we pass {city} as the city-only label and {country}
+            //   separately. Non-hub paths keep the legacy "city، country"
+            //   join (the legacy template just used {city}, so collapsed
+            //   to a single placeholder anyway).
+            const _cityLabelForIntro = _isHubPage
+                ? _cityDisplay2
+                : (_citySlug
+                    ? _moonCityLabel(_citySlug, _lng_, _cityDisplay2)
+                    : _cityDisplay2);
 
             // ─ بناء جملة الارتفاع/السَّمت (معتمدة على lat/lng) ─
             let _altitudeSentence = '';
@@ -19452,14 +19472,22 @@ function updateMoonInfo() {
                                 const _dirEn = ['N','NE','E','SE','S','SW','W','NW'];
                                 _dirName = _dirEn[_dirIdx];
                             }
-                            const _aboveTpl = t('moon.altitude_above', { alt: _altFmt, dir: _dirName });
-                            if (_aboveTpl && _aboveTpl !== 'moon.altitude_above') {
+                            // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+                            //   On /moon-in-{city} (hub) we use the short evergreen
+                            //   altitude fragment that's embedded inside the
+                            //   "وبحسب وقت التَحديث الحاليّ ..." framing already in
+                            //   moon.intro_template_hub. On today/month/date paths
+                            //   the legacy full-sentence variant stays in use.
+                            const _aboveKey = _isHubPage ? 'moon.altitude_above_hub' : 'moon.altitude_above';
+                            const _aboveTpl = t(_aboveKey, { alt: _altFmt, dir: _dirName });
+                            if (_aboveTpl && _aboveTpl !== _aboveKey) {
                                 _altitudeSentence = _aboveTpl;
                             }
                         } else {
                             // القمر تحت الأفق
-                            const _belowTpl = t('moon.altitude_below', { alt: _altFmt });
-                            if (_belowTpl && _belowTpl !== 'moon.altitude_below') {
+                            const _belowKey = _isHubPage ? 'moon.altitude_below_hub' : 'moon.altitude_below';
+                            const _belowTpl = t(_belowKey, { alt: _altFmt });
+                            if (_belowTpl && _belowTpl !== _belowKey) {
                                 _altitudeSentence = _belowTpl;
                             }
                         }
@@ -19467,7 +19495,13 @@ function updateMoonInfo() {
                 }
             } catch (_e) { /* silent — الجملة اختياريّة */ }
 
-            const tpl = t('moon.intro_template', {
+            // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+            //   On hub pages we select the evergreen `moon.intro_template_hub`
+            //   key (city + country with "حاليًّا" / "currently" framing).
+            //   On /moon-today/* paths the legacy `moon.intro_template` key
+            //   stays in use (today-anchored wording, single {city} only).
+            const _introKey = _isHubPage ? 'moon.intro_template_hub' : 'moon.intro_template';
+            const tpl = t(_introKey, {
                 city: _cityLabelForIntro,
                 country: _countryDisplay,
                 phaseIcon: phase.icon,
@@ -19478,7 +19512,21 @@ function updateMoonInfo() {
                 zodiacName: zNameDisplay,
                 altitudeSentence: _altitudeSentence
             });
-            if (tpl && tpl !== 'moon.intro_template') _introEl.textContent = tpl;
+            if (tpl && tpl !== _introKey) {
+                // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+                //   The hub-page evergreen template embeds "{city}، {country}"
+                //   as two separate placeholders. When country is empty (rare
+                //   — e.g. coord-only paths with no curated country), we'd get
+                //   "القمر في الرياض، ، حاليًّا..." → collapse the double
+                //   separator into a single one. Mirrors AR "، ،" and LTR ", ,".
+                const _cleanTpl = tpl
+                    .replace(/،\s*،/g, '،')
+                    .replace(/,\s*,/g, ',')
+                    .replace(/\s+،/g, '،')
+                    .replace(/\s+,/g, ',')
+                    .replace(/\(\s*°\s*\)/g, '');
+                _introEl.textContent = _cleanTpl;
+            }
         }
 
         // مقارنة الأمس vs اليوم — بطاقة تفاعليّة غنيّة

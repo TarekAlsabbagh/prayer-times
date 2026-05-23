@@ -693,6 +693,14 @@ window.TRANSLATIONS['ur'] = {
         'moon.date_intro_template': '{date}{hijriInline} کو {city} کے اوپر چاند {phaseIcon} {phaseName} مرحلے میں ہے، {illum}٪ روشنی، عمر {age} دن، اور {zodiacIcon} {zodiacName} برج سے گزر رہا ہے۔',
         'moon.altitude_above': 'آپ کے مقام سے چاند اس وقت افق سے {alt}° اوپر، {dir} کی سمت میں ہے۔',
         'moon.altitude_below': 'آپ کے مقام سے چاند اس وقت افق سے نیچے ہے ({alt}° نیچے)۔',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': '{city}، {country} میں چاند اس وقت {phaseIcon} {phaseName} مرحلے میں ہے، {illum}٪ روشنی کے ساتھ، اپنے چکر کے {age}ویں دن، اور {zodiacIcon} {zodiacName} برج سے گزر رہا ہے۔ {altitudeSentence}',
+        'moon.altitude_above_hub': 'چاند اس وقت افق سے {alt}° اوپر، {dir} کی سمت میں ہے۔',
+        'moon.altitude_below_hub': 'چاند اس وقت افق سے نیچے ہے ({alt}° نیچے)۔',
         'moon.compass.n':  'شمال',
         'moon.compass.ne': 'شمال مشرق',
         'moon.compass.e':  'مشرق',

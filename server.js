@@ -15266,7 +15266,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '182'; // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23): extended SSR H1 fix to all 10 langs (was AR-only). Removed `data-i18n="moon.h1"` from SSR H1 replacement so _translateI18nAttrs doesn't clobber city H1 with generic "Moon Tonight"/etc. Unified short H1 wording across 10 langs (hub: "Moon Calendar & Monthly Phases in {city}"; today: "Moon Today in {city}"; month + date already AR-correct via shared ternary).
+        const _i18nVersion = '183'; // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23): /moon-in-{city} hub hero rewritten as EVERGREEN (no "today/heute/hoy/اليوم"). H1: "Moon Calendar & Monthly Phases in {city}, {country}" with country suffix; subtitle: "Explore the Moon's phases, illumination, and full/new moon schedule in {city}..."; intro_template: "The Moon in {city}, {country} is currently in a {phase} phase..." with separate {country} placeholder + double-comma collapse fallback when country empty; altitude_above/_below shortened to fragment form ("يرتفع/يكون القمر..."); affects only /moon-in-{city} hub (NOT today/month/date sub-routes). All 10 langs aligned. Bumped from 182.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

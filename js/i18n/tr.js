@@ -693,6 +693,14 @@ window.TRANSLATIONS['tr'] = {
         'moon.date_intro_template': '{date}{hijriInline} tarihinde {city} üzerindeki Ay, {phaseIcon} {phaseName} evresinde, %{illum} aydınlanmada, {age} günlük, {zodiacIcon} {zodiacName} takımyıldızından geçiyor.',
         'moon.altitude_above': 'Konumunuzdan Ay şu anda ufkun {alt}° üzerinde, {dir} yönünde.',
         'moon.altitude_below': 'Konumunuzdan Ay şu anda ufkun altında ({alt}° aşağıda).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Ay, {city}, {country} için şu anda {phaseIcon} {phaseName} evresinde ve %{illum} aydınlanmada, döngüsünün {age}. gününde, {zodiacIcon} {zodiacName} takımyıldızından geçiyor. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Ay şu anda ufkun {alt}° üzerinde, {dir} yönünde.',
+        'moon.altitude_below_hub': 'Ay şu anda ufkun altında ({alt}° aşağıda).',
         'moon.compass.n':  'kuzey',
         'moon.compass.ne': 'kuzeydoğu',
         'moon.compass.e':  'doğu',

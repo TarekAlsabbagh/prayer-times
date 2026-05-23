@@ -720,6 +720,14 @@ window.TRANSLATIONS['bn'] = {
         'moon.date_intro_template': '{date}{hijriInline} তারিখে {city}-এর উপরে চাঁদ {phaseIcon} {phaseName} পর্যায়ে আছে, {illum}% আলোকসজ্জা, বয়স {age} দিন, {zodiacIcon} {zodiacName} রাশির মধ্য দিয়ে যাচ্ছে।',
         'moon.altitude_above': 'আপনার অবস্থান থেকে চাঁদ বর্তমানে দিগন্ত থেকে {alt}° উপরে, {dir} দিকে রয়েছে।',
         'moon.altitude_below': 'আপনার অবস্থান থেকে চাঁদ বর্তমানে দিগন্তের নিচে ({alt}° নিচে)।',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': '{city}, {country}-এ চাঁদ বর্তমানে {phaseIcon} {phaseName} পর্যায়ে আছে, {illum}% আলোকসজ্জা নিয়ে, চক্রের {age} দিনে, {zodiacIcon} {zodiacName} রাশির মধ্য দিয়ে। {altitudeSentence}',
+        'moon.altitude_above_hub': 'চাঁদ বর্তমানে দিগন্ত থেকে {alt}° উপরে, {dir} দিকে রয়েছে।',
+        'moon.altitude_below_hub': 'চাঁদ বর্তমানে দিগন্তের নিচে ({alt}° নিচে)।',
         'moon.compass.n':  'উত্তর',
         'moon.compass.ne': 'উত্তর-পূর্ব',
         'moon.compass.e':  'পূর্ব',

@@ -690,6 +690,14 @@ window.TRANSLATIONS['fr'] = {
         'moon.date_intro_template': 'Le {date}{hijriInline}, la Lune au-dessus de {city} est en phase {phaseIcon} {phaseName} à {illum}% d\u2019illumination, \u00e2ge {age} jours, traversant la constellation {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Depuis votre emplacement, la Lune se trouve actuellement à {alt}° au-dessus de l\u2019horizon, en direction du {dir}.',
         'moon.altitude_below': 'Depuis votre emplacement, la Lune est actuellement sous l\u2019horizon ({alt}° en dessous).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'La Lune à {city}, {country} est actuellement en phase {phaseIcon} {phaseName} avec {illum}% d\u2019illumination, au jour {age} de son cycle, traversant la constellation {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        'moon.altitude_above_hub': 'La Lune se trouve actuellement à {alt}° au-dessus de l\u2019horizon, en direction du {dir}.',
+        'moon.altitude_below_hub': 'La Lune est actuellement sous l\u2019horizon ({alt}° en dessous).',
         'moon.compass.n':  'nord',
         'moon.compass.ne': 'nord-est',
         'moon.compass.e':  'est',

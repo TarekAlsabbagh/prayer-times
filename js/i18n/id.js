@@ -720,6 +720,14 @@ window.TRANSLATIONS['id'] = {
         'moon.date_intro_template': 'Pada {date}{hijriInline} di {city}, Bulan berada dalam fase {phaseIcon} {phaseName} dengan pencahayaan {illum}%, usia {age} hari, melintasi rasi {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'Dari lokasi Anda, Bulan saat ini berada {alt}° di atas cakrawala ke arah {dir}.',
         'moon.altitude_below': 'Dari lokasi Anda, Bulan saat ini berada di bawah cakrawala ({alt}° di bawah).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Bulan di {city}, {country} saat ini berada pada fase {phaseIcon} {phaseName} dengan iluminasi {illum}%, pada hari ke-{age} siklusnya, melintasi rasi bintang {zodiacIcon} {zodiacName}. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Bulan saat ini berada {alt}° di atas cakrawala ke arah {dir}.',
+        'moon.altitude_below_hub': 'Bulan saat ini berada di bawah cakrawala ({alt}° di bawah).',
         'moon.compass.n':  'utara',
         'moon.compass.ne': 'timur laut',
         'moon.compass.e':  'timur',

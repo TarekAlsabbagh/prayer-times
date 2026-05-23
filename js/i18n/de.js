@@ -720,6 +720,14 @@ window.TRANSLATIONS['de'] = {
         'moon.date_intro_template': 'Am {date}{hijriInline} befindet sich der Mond über {city} in der Phase {phaseIcon} {phaseName} mit {illum}% Beleuchtung, Alter {age} Tage, durch das Sternbild {zodiacIcon} {zodiacName} ziehend.',
         'moon.altitude_above': 'Von Ihrem Standort aus steht der Mond derzeit {alt}° über dem Horizont in Richtung {dir}.',
         'moon.altitude_below': 'Von Ihrem Standort aus steht der Mond derzeit unter dem Horizont ({alt}° darunter).',
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):
+        //   Hub-only keys for /moon-in-{city} (evergreen voice).
+        //   The non-_hub variants stay anchored to "today" for the
+        //   /moon-today and /moon-today-in-{city} routes which share
+        //   them. app.js selects the _hub keys when _isHubPage is true.
+        'moon.intro_template_hub': 'Der Mond in {city}, {country} befindet sich aktuell in der Phase {phaseIcon} {phaseName} mit {illum}% Beleuchtung, am Tag {age} seines Zyklus, durch das Sternbild {zodiacIcon} {zodiacName} ziehend. {altitudeSentence}',
+        'moon.altitude_above_hub': 'Der Mond steht derzeit {alt}° über dem Horizont in Richtung {dir}.',
+        'moon.altitude_below_hub': 'Der Mond steht derzeit unter dem Horizont ({alt}° darunter).',
         'moon.compass.n':  'Norden',
         'moon.compass.ne': 'Nordosten',
         'moon.compass.e':  'Osten',

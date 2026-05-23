@@ -1862,45 +1862,11 @@
                     <p class="moon-upcoming-notice" data-i18n="moon.upcoming.notice">* الأوقات محسوبة حسب توقيت المدينة المعتمدة باستخدام خوارزميّات Meeus الفلكيّة.</p>
                 </section>
 
-                <!-- 🆕 Wave A: عدّ تنازليّ للمناسبات الإسلاميّة الكبرى — مرتبط بالهلال والقمر -->
-                <section class="section-card moon-events-section" id="moon-events-section" aria-labelledby="moon-events-h2">
-                    <h2 id="moon-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
-                    <div class="moon-events-countdown" id="moon-events-countdown">
-                        <a class="moon-event-card moon-event-ramadan" id="moon-event-ramadan" href="/ramadan-countdown">
-                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
-                            <div class="moon-event-body">
-                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
-                                <div class="moon-event-days" id="moon-event-ramadan-days">—</div>
-                                <div class="moon-event-date" id="moon-event-ramadan-date">—</div>
-                            </div>
-                        </a>
-                        <a class="moon-event-card moon-event-fitr" id="moon-event-fitr" href="/eid-al-fitr-countdown">
-                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
-                            <div class="moon-event-body">
-                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
-                                <div class="moon-event-days" id="moon-event-fitr-days">—</div>
-                                <div class="moon-event-date" id="moon-event-fitr-date">—</div>
-                            </div>
-                        </a>
-                        <a class="moon-event-card moon-event-adha" id="moon-event-adha" href="/eid-al-adha-countdown">
-                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
-                            <div class="moon-event-body">
-                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
-                                <div class="moon-event-days" id="moon-event-adha-days">—</div>
-                                <div class="moon-event-date" id="moon-event-adha-date">—</div>
-                            </div>
-                        </a>
-                        <a class="moon-event-card moon-event-newyear" id="moon-event-newyear" href="/hijri-new-year-countdown">
-                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                            <div class="moon-event-body">
-                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
-                                <div class="moon-event-days" id="moon-event-newyear-days">—</div>
-                                <div class="moon-event-date" id="moon-event-newyear-date">—</div>
-                            </div>
-                        </a>
-                    </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.</p>
-                </section>
+                <!-- MOON-EVENTS-MOVE-BELOW-FAQ-1 (2026-05-23): the Islamic-events
+                     countdown section (moon-events-section) was relocated to BELOW
+                     the moon-hub-faq section per user request. See the new
+                     placement further down in this file just after </section>
+                     of #moon-hub-faq. -->
 
                 <!-- مخطّط إضاءة القمر (7 أيّام: 3 قبل + اليوم + 3 بعد) -->
                 <section class="section-card moon-chart-section" id="moon-chart-section" aria-labelledby="moon-chart-h2">
@@ -1989,6 +1955,54 @@
                         <summary data-i18n="moon.hub.faq.q4">ما علاقة دورة القمر بالتقويم الهجريّ؟</summary>
                         <p data-i18n="moon.hub.faq.a4">يَعتمد التقويم الهجريّ كلّيّاً على دورة القمر. كلّ شهر هجريّ يَبدأ برؤية الهلال ويَستمرّ 29 أو 30 يومًا، فمجموع السنة الهجريّة 354 أو 355 يومًا — أقصر من السنة الشمسيّة بـ 11 يومًا.</p>
                     </details>
+                </section>
+
+                <!-- MOON-EVENTS-MOVE-BELOW-FAQ-1 (2026-05-23): the Islamic-events
+                     countdown section was previously placed ABOVE the moon-events
+                     content area (immediately after the moon-other-cities section).
+                     Per user request it is now placed HERE — directly below the
+                     #moon-hub-faq section so it appears at the bottom of the moon
+                     content flow on /moon-today. IDs/classes/i18n keys preserved
+                     verbatim so the JS countdown renderer + i18n hydration + CSS
+                     all continue to work unchanged. -->
+                <!-- 🆕 Wave A: عدّ تنازليّ للمناسبات الإسلاميّة الكبرى — مرتبط بالهلال والقمر -->
+                <section class="section-card moon-events-section" id="moon-events-section" aria-labelledby="moon-events-h2">
+                    <h2 id="moon-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
+                    <div class="moon-events-countdown" id="moon-events-countdown">
+                        <a class="moon-event-card moon-event-ramadan" id="moon-event-ramadan" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days" id="moon-event-ramadan-days">—</div>
+                                <div class="moon-event-date" id="moon-event-ramadan-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr" id="moon-event-fitr" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days" id="moon-event-fitr-days">—</div>
+                                <div class="moon-event-date" id="moon-event-fitr-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha" id="moon-event-adha" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days" id="moon-event-adha-days">—</div>
+                                <div class="moon-event-date" id="moon-event-adha-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear" id="moon-event-newyear" href="/hijri-new-year-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
+                                <div class="moon-event-days" id="moon-event-newyear-days">—</div>
+                                <div class="moon-event-date" id="moon-event-newyear-date">—</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.</p>
                 </section>
 
                 <!-- UAT-Moon-City-Hub-Polish: 8-Q HUB FAQ (only on hub page).

@@ -15254,7 +15254,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '177'; // MOON-CARD-AND-COMPARISON-COPY-FIX-1 (2026-05-23): AR-only refinements across moon-today + moon-in-{city} cards — phase_first_quarter / phase_last_quarter use definite article ("التربيع الأول/الأخير"), zodiac_label → "موقع القمر فلكيًا", distance → "المسافة إلى القمر" + new distance_from_city_tpl, mc_title → "تغيّر إضاءة القمر من الأمس إلى اليوم", mc_status_tomorrow/today → "تحدث ذروة X غدًا/اليوم". No math/data/SEO change.
+        const _i18nVersion = '178'; // MOON-INSIGHT-FIRST-QUARTER-COPY-FIX-1 (2026-05-23): AR-only tightening of moon.insight.first_quarter.{visual,visibility,about} strings — "نصف قرص مضيء" (more precise), "مرئيًا حتى قرابة منتصف الليل" (clearer), "من بعد غروب الشمس" (more eloquent), "تصل نسبة إضاءة القمر" (grammatically correct). No math/data/SEO change; other 7 phase insights + 9 non-AR langs untouched.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

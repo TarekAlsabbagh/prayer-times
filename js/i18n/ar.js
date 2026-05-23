@@ -905,9 +905,15 @@ window.TRANSLATIONS['ar'] = {
         'moon.insight.waxing_crescent.visual': 'يظهر القمر كهلال رفيع في الأفق الغربيّ بعد غروب الشمس مباشرة.',
         'moon.insight.waxing_crescent.visibility': 'يُرى لفترة قصيرة (~1–2 ساعة) قبل أن يغيب، ويحتاج أفقًا صافيًا بلا غيوم.',
         'moon.insight.waxing_crescent.about': 'الهلال المتزايد هو المرحلة الأولى بعد المحاق حيث يبدأ جزء صغير من القمر بالظهور تدريجيًّا.',
-        'moon.insight.first_quarter.visual': 'يظهر القمر كنصف دائرة مضيئة في السماء بعد الظهر ويبقى حتّى منتصف الليل.',
-        'moon.insight.first_quarter.visibility': 'يُرى بوضوح في أغلب ساعات المساء، من وقت غروب الشمس حتّى منتصف الليل تقريبًا.',
-        'moon.insight.first_quarter.about': 'التربيع الأوّل هو منتصف الطريق بين المحاق والبدر، يصل إضاءة القمر فيه إلى نحو 50٪.',
+        // MOON-INSIGHT-FIRST-QUARTER-COPY-FIX-1 (2026-05-23): tightened AR
+        // phrasing per user feedback — "نصف قرص مضيء" (more precise than
+        // "نصف دائرة مضيئة"), "مرئيًا حتى قرابة منتصف الليل" (clearer than
+        // "يبقى حتى منتصف الليل"), "من بعد غروب الشمس" (more eloquent than
+        // "من وقت غروب الشمس"), "تصل نسبة إضاءة القمر" (grammatically
+        // correct vs "يصل إضاءة القمر").
+        'moon.insight.first_quarter.visual': 'يظهر القمر كنصف قرص مضيء في السماء بعد الظهر، ويبقى مرئيًا حتى قرابة منتصف الليل.',
+        'moon.insight.first_quarter.visibility': 'يُرى بوضوح في أغلب ساعات المساء، من بعد غروب الشمس حتى منتصف الليل تقريبًا.',
+        'moon.insight.first_quarter.about': 'التربيع الأول هو منتصف الطريق بين المحاق والبدر، وتصل نسبة إضاءة القمر فيه إلى نحو 50%.',
         'moon.insight.waxing_gibbous.visual': 'يظهر القمر الأحدب المتزايد مضيئًا بوضوح في السماء، ويكون مرئيًّا غالبًا من بعد العصر وحتّى ما بعد منتصف الليل.',
         'moon.insight.waxing_gibbous.visibility': 'يمكن رؤيته بسهولة في المساء، وقد يظهر أحيانًا في النهار قبل غروب الشمس.',
         'moon.insight.waxing_gibbous.about': 'الأحدب المتزايد هو الطور بين التربيع الأوّل والبدر، تتراوح إضاءته بين 51٪ و99٪.',

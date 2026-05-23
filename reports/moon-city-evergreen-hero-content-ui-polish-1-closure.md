@@ -1,8 +1,36 @@
 # MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 — Closure
 
 **Date:** 2026-05-23 (+ cross-lang harmonization follow-up 2026-05-24)
-**Status:** CLOSED, awaiting user approval
+**Status:** **CLOSED — user-approved 2026-05-23**
 **Scope:** `/moon-in-{city}` hub pages ONLY (all 10 langs)
+**Implementation commit:** `2e5de11`
+**Follow-up commit (cross-lang SSR harmonization):** `b7a0da9`
+
+---
+
+## Acceptance criteria
+
+| # | Criterion | Status |
+| - | --------- | ------ |
+| 1 | Applied across 10 languages (ar, en, fr, tr, ur, de, id, es, bn, ms) | ✅ PASS |
+| 2 | Scope strictly limited to `/moon-in-{city}` (hub) | ✅ PASS |
+| 3 | `/moon-today` unchanged | ✅ PASS — live SSR confirmed identical H1 + content |
+| 4 | `/moon-today-in-{city}` unchanged | ✅ PASS — live SSR confirmed identical H1 + intro |
+| 5 | Monthly pages `/moon-in-{city}/{YYYY-MM}` unchanged | ✅ PASS — live SSR confirmed identical H1 |
+| 6 | Dated pages `/moon-in-{city}/{YYYY-MM-DD}` unchanged | ✅ PASS — live SSR confirmed identical H1 |
+| 7 | H1 reflects evergreen moon-calendar intent (NOT today snapshot) | ✅ PASS — "Moon Calendar & Monthly Phases in {city}, {country}" pattern across 10 langs |
+| 8 | Subtitle no longer frames the page as a today snapshot | ✅ PASS — evergreen subtitle ("Explore the Moon's phases, illumination, and full/new moon schedule in {city} …") across 10 langs |
+| 9 | Intro copy uses current-state language without duplicating today-page intent | ✅ PASS — "The Moon in {city}, {country} is currently in a {phase} phase …" across 10 langs |
+| 10 | The word "اليوم" / "today" only appears in genuinely-today contexts (intra-card H2 of the live snapshot block) | ✅ PASS — H1, subtitle, intro all dropped "today/اليوم"; only the inner "Moon today in {city}" card title (which IS the today snapshot card) retains it |
+| 11 | Altitude sentences refined to short fragments ("يَرتفع القمر فوق الأفق بنحو {alt}° …" / "يَكون القمر تحت الأفق بنحو {alt}°") | ✅ PASS — new short forms in `moon.altitude_{above,below}_hub` keys across 10 langs |
+| 12 | Separate `_hub` i18n keys (legacy keys untouched, route-specific dispatch via `_isHubPage`) | ✅ PASS — 3 new keys per lang: `moon.intro_template_hub`, `moon.altitude_above_hub`, `moon.altitude_below_hub` |
+| 13 | Calculations unchanged | ✅ PASS — no calc code touched |
+| 14 | MoonCalc unchanged | ✅ PASS — `MoonCalc.*` untouched |
+| 15 | Umm al-Qura unchanged | ✅ PASS — no hijri/UAQ code touched |
+| 16 | sitemap unchanged | ✅ PASS — no `sitemap.xml` changes |
+| 17 | canonical / hreflang unchanged | ✅ PASS — no canonical/hreflang changes |
+| 18 | dependencies unchanged | ✅ PASS — zero new npm/CDN deps |
+| 19 | Tests passed | ✅ PASS — `node --check` on 12 touched JS files + live SSR smoke across 10 langs on 5 routes |
 
 ---
 

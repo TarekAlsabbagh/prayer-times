@@ -37,7 +37,7 @@ html.moon-today-hub-page #page-prayer-times{ display: none !important; }
 html.moon-today-hub-page #page-moon{ display: block !important; }
 html.moon-today-hub-page .hub-only{ display: block !important; }
 html.moon-today-city-page #moon-hub-hero{ display: block !important; }
-html.moon-today-hub-page #moon-page-h1,html.moon-today-hub-page #moon-subtitle,html.moon-today-hub-page #moon-intro,html.moon-today-hub-page .moon-breadcrumb,html.moon-today-hub-page #moon-events-section,html.moon-today-hub-page #moon-chart-section,html.moon-today-hub-page #moon-forecast,html.moon-today-hub-page #moon-faq-general,html.moon-today-hub-page #moon-general-faq,html.moon-today-hub-page .moon-faq-city-card,html.moon-date-page .moon-evergreen-long{ display: none !important; }
+html.moon-today-hub-page #moon-page-h1,html.moon-today-hub-page #moon-subtitle,html.moon-today-hub-page #moon-intro,html.moon-today-hub-page .moon-breadcrumb,html.moon-today-hub-page #moon-chart-section,html.moon-today-hub-page #moon-forecast,html.moon-today-hub-page #moon-faq-general,html.moon-today-hub-page #moon-general-faq,html.moon-today-hub-page .moon-faq-city-card,html.moon-date-page .moon-evergreen-long{ display: none !important; }
 html.moon-today-city-page #moon-general-faq{ display: none !important; }
 html.moon-today-city-page .moon-evergreen-long{ display: none !important; }
 html.moon-today-city-page .moon-evergreen-short{ display: block !important; }

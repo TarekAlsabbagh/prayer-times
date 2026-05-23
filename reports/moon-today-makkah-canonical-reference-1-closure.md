@@ -1,6 +1,10 @@
 # MOON-TODAY-MAKKAH-CANONICAL-REFERENCE-1 — Closure
 
-**Status:** ✅ Implemented. `/moon-today` (and all `/{lang}/moon-today` variants) now anchor every moon section to a single canonical instant computed at **Mecca local noon (Asia/Riyadh)** — independent of visitor browser timezone or geolocation. Summary / chart center / forecast-table today-row all sample MoonCalc at the exact same instant and now show identical values.
+**Status:** ✅ **CLOSED — user-approved 2026-05-23**
+Implementation commit: `1b54433` (origin/main).
+Closure commit: this report-only update.
+
+`/moon-today` (and all `/{lang}/moon-today` variants) now anchor every moon section to a single canonical instant computed at **Mecca local noon (Asia/Riyadh)** — independent of visitor browser timezone or geolocation. Summary / chart center / forecast-table today-row all sample MoonCalc at the exact same instant and now show identical values.
 
 **Date:** 2026-05-23
 **Scope:** `/moon-today` page-class only (10 routes: `/moon-today` + 9 `/{lang}/moon-today`).
@@ -194,10 +198,45 @@ All three identical ✓. UNIFICATION-1 city-pages behavior preserved byte-for-by
 
 ---
 
-## 9. Verdict
+## 9. Acceptance Criteria — final check-off
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | `/moon-today` anchored to Makkah (Mecca canonical reference) | ✅ PASS |
+| 2 | Timezone adopted = `Asia/Riyadh` | ✅ PASS |
+| 3 | Summary / Chart / Table illumination values are identical (49.13 % at probe instant) | ✅ PASS |
+| 4 | No browser timezone dependency | ✅ PASS |
+| 5 | No geolocation dependency | ✅ PASS |
+| 6 | No sessionStorage / last-visited-city dependency | ✅ PASS |
+| 7 | No `new Date()` page-load-instant used as illumination sampling point | ✅ PASS |
+| 8 | `/moon-in-{city}` pages unaffected (verified Riyadh 3×49.13 %) | ✅ PASS |
+| 9 | MoonCalc (`js/moon.js`) unchanged | ✅ PASS |
+| 10 | Umm al-Qura table + Hijri logic unchanged | ✅ PASS |
+| 11 | `server.js` unchanged | ✅ PASS |
+| 12 | SEO / canonical / hreflang / JSON-LD / sitemap unchanged | ✅ PASS |
+| 13 | No new dependencies | ✅ PASS |
+| 14 | No external API added | ✅ PASS |
+| 15 | No UI polish started in this commit | ✅ PASS |
+| 16 | Tests passed (10/10 routes 200, SSR title stable, `node -c` clean) | ✅ PASS |
+
+**16 / 16 criteria met.**
+
+---
+
+## 10. Verdict
 
 ✅ **Implemented as scoped, tested as scoped, no collateral changes.**
 
 `/moon-today` now shows a single, stable, Mecca-anchored set of moon values to every visitor regardless of their device's timezone or geolocation. Summary / chart / forecast table all sample at the exact same instant (`2026-05-23T09:00:00Z` for today's probe). City-pages behavior is preserved exactly. SEO, layout, and copy are untouched.
 
 🛑 No further code changes (UI polish, etc.) will be made without a new explicit user request.
+
+---
+
+## 11. Closure log
+
+- **2026-05-23** — Implementation commit `1b54433` landed on `origin/main`.
+- **2026-05-23** — User reviewed results and approved closure verbatim (Summary 49.13 % / Chart 49.13 % / Table 49.13 % all confirmed; `/moon-in-{city}` confirmed unaffected; MoonCalc / Umm al-Qura / server.js / SEO / dependencies all confirmed untouched; no UI polish started).
+- **2026-05-23** — This report updated with `Status: CLOSED — user-approved 2026-05-23` + acceptance-criteria table. Docs-only closure commit pushed to `origin/main`.
+
+No further phase is to be started after this closure without a new explicit user request.

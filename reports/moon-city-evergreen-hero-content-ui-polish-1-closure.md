@@ -1,8 +1,68 @@
 # MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 — Closure
 
-**Date:** 2026-05-23
+**Date:** 2026-05-23 (+ cross-lang harmonization follow-up 2026-05-24)
 **Status:** CLOSED, awaiting user approval
 **Scope:** `/moon-in-{city}` hub pages ONLY (all 10 langs)
+
+---
+
+## 0) Follow-up commit 2026-05-24 — cross-lang SSR harmonization
+
+The initial commit applied the evergreen wording across all 10 langs at
+the **JS-side** (`_HUB_H1`, `_HUB_H2.subtitle`, `moon.intro_template_hub`,
+`moon.altitude_{above,below}_hub`). However a comparison audit of SSR
+pre-hydration vs JS post-hydration revealed two consistency gaps:
+
+| Gap | Where | Fix |
+| --- | ----- | --- |
+| H1 conjunction mismatch in FR/TR/DE/ES/BN | SSR `_h1Moon` hub branch was using `"&"` while JS `_HUB_H1` was using natural conjunctions (`et`/`ve`/`und`/`y`/`ও`) → minor flicker on hydration | Updated `server.js` to use the same natural conjunctions (and aligned BN wording: `ক্যালেন্ডার ও মাসিক দশা` instead of `পঞ্জিকা ও মাসিক পর্যায়`) |
+| Subtitle was generic in SSR (all 10 langs) then evergreen after JS | SSR rendered `moon.subtitle_generic` ("Track the Moon with astronomical precision…") then JS swapped to `_HUB_H2.subtitle` ("Explore the Moon's phases, illumination…") | Added a `_SUBTITLE_HUB_SSR` 10-lang map in `server.js` that fires only when `_isMoonHubPageSsr` is true, replaces the `<h2 id="moon-subtitle">` content with the evergreen wording AND drops the `data-i18n` attribute so `_translateI18nAttrs` doesn't overwrite |
+
+After this follow-up, **all 10 langs render the evergreen wording at first
+paint with no flicker on hydration**. Per-lang SSR verification:
+
+```
+── H1 (SSR pre-hydration, all 10 langs) ──
+/ar    🌙 تقويم القمر وأطوار الشهر في الرياض
+/en    🌙 Moon Calendar & Monthly Phases in Riyadh
+/fr    🌙 Calendrier lunaire et phases du mois à Riyad
+/tr    🌙 Riyad Ay Takvimi ve Aylık Evreler
+/ur    🌙 ریاض میں چاند کا تقویم اور ماہانہ مراحل
+/de    🌙 Mondkalender und Monatsphasen in Riad
+/id    🌙 Kalender Bulan & Fase Bulanan di Riyadh
+/es    🌙 Calendario lunar y fases del mes en Riad
+/bn    🌙 রিয়াদ-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা
+/ms    🌙 Kalendar Bulan & Fasa Bulanan di Riyadh
+
+── SUBTITLE (SSR pre-hydration, all 10 langs) ──
+/ar    اعرف أطوار القمر في الرياض، ونسبة الإضاءة، ومواعيد البدر والمحاق …
+/en    Explore the Moon's phases, illumination, and full/new moon schedule in Riyadh …
+/fr    Découvrez les phases de la Lune à Riyad, l'illumination …
+/tr    Riyad için Ay'ın evrelerini, aydınlanmasını ve dolunay/yeni ay zamanlarını keşfedin …
+/ur    ریاض میں چاند کے مراحل، روشنی، اور بدر و نئے چاند کے اوقات جانیں …
+/de    Entdecken Sie die Mondphasen in Riad, die Beleuchtung …
+/id    Pelajari fase Bulan di Riyadh, tingkat iluminasi …
+/es    Descubre las fases de la Luna en Riad, la iluminación …
+/bn    রিয়াদ-এ চাঁদের দশা, আলোকসজ্জা এবং পূর্ণিমা ও অমাবস্যার সময় জানুন …
+/ms    Terokai fasa Bulan di Riyadh, pencahayaan dan jadual bulan purnama/anak bulan …
+```
+
+Sibling routes (`/moon-today`, `/moon-today-in-{city}`, `/moon-in-{city}/{YYYY-MM}`,
+`/moon-in-{city}/{YYYY-MM-DD}`) re-verified unchanged across `/ar /en /fr`.
+
+Files touched in follow-up:
+- `server.js` — `_h1Moon` hub branch wording (FR/TR/DE/ES/BN) + new
+  `_SUBTITLE_HUB_SSR` map + SSR subtitle replace block
+- `reports/moon-city-evergreen-hero-content-ui-polish-1-closure.md` —
+  this addendum
+
+No new dependencies. No new i18n keys (the i18n bundles already shipped
+the `_hub` keys in the initial commit). Cache-busters NOT bumped (SSR-only
+change — clients pick up the new HTML on next page load).
+
+---
+
+## 1) Original scope (2026-05-23) — what changed in the initial commit
 **Touched routes:** `/moon-in-{city}` for `ar, en, fr, tr, ur, de, id, es, bn, ms`
 **Untouched routes (explicitly preserved):**
  - `/moon-today` (Mecca-anchored snapshot)
@@ -12,7 +72,7 @@
 
 ---
 
-## 1) What changed
+## 1a) What changed (initial commit detail)
 
 ### a) `_HUB_H1` map in `js/app.js` (line ~17988)
 

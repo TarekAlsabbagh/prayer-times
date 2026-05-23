@@ -17057,22 +17057,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `🌙 ${cityName}-এ চাঁদের পর্যায় — ${_monthNameSsr} ${_monthYearSsr}`,
             ms: `🌙 Fasa Bulan di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`
         }[Lm] || `🌙 Moon Phases in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`) : _isMoonHubPageSsr ? ({
-            // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23): all 10 langs aligned
-            // on "Moon calendar & monthly phases in {city}" semantics — same
-            // intent as the AR "تقويم القمر وأطوار الشهر في {city}" from
-            // MOON-ROUTE-H1-SITEMAP-FIX-1. This differentiates the evergreen
-            // city hub from the sibling /moon-today-in-{city} (today snapshot)
-            // across all locales — reduces cannibalization in every language,
-            // not just AR.
+            // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23) + MOON-CITY-EVERGREEN-
+            // HERO-CONTENT-UI-POLISH-1 cross-lang harmonization (2026-05-24):
+            //   Wording aligned with js/app.js _HUB_H1 map so the SSR H1 and
+            //   the post-hydration JS H1 match byte-for-byte (modulo the
+            //   country suffix the JS adds). Previously FR/TR/DE/ES/BN used
+            //   "&" but JS used the natural conjunction (et/ve/und/y/ও) for
+            //   a more native reading — fix the SSR wording to match so
+            //   there's no flicker on hydration.
             ar: `🌙 تقويم القمر وأطوار الشهر في ${cityName}`,
             en: `🌙 Moon Calendar & Monthly Phases in ${cityName}`,
-            fr: `🌙 Calendrier de la Lune & phases mensuelles à ${cityName}`,
-            tr: `🌙 ${cityName} Ay Takvimi & Aylık Evreler`,
+            fr: `🌙 Calendrier lunaire et phases du mois à ${cityName}`,
+            tr: `🌙 ${cityName} Ay Takvimi ve Aylık Evreler`,
             ur: `🌙 ${cityName} میں چاند کا تقویم اور ماہانہ مراحل`,
-            de: `🌙 Mondkalender & Monatsphasen in ${cityName}`,
+            de: `🌙 Mondkalender und Monatsphasen in ${cityName}`,
             id: `🌙 Kalender Bulan & Fase Bulanan di ${cityName}`,
-            es: `🌙 Calendario Lunar & Fases Mensuales en ${cityName}`,
-            bn: `🌙 ${cityName}-এ চাঁদের পঞ্জিকা ও মাসিক পর্যায়`,
+            es: `🌙 Calendario lunar y fases del mes en ${cityName}`,
+            bn: `🌙 ${cityName}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা`,
             ms: `🌙 Kalendar Bulan & Fasa Bulanan di ${cityName}`
         }[Lm] || `🌙 Moon Calendar & Monthly Phases in ${cityName}`) : ({
             // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR today-city H1
@@ -17151,6 +17152,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[\s\S]*?<\/h1>/,
             `<h1 class="page-h1" id="moon-page-h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
         );
+        // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 follow-up (2026-05-24):
+        //   Inject the hub-specific evergreen SUBTITLE via SSR for all 10
+        //   langs so the first paint already shows the evergreen voice
+        //   (was previously rendering the generic moon.subtitle_generic
+        //   then flickering to the hub subtitle after JS hydration). Also
+        //   drops the `data-i18n="moon.subtitle_generic"` attribute so the
+        //   `_translateI18nAttrs` pass doesn't overwrite our injection.
+        if (_isMoonHubPageSsr) {
+            const _SUBTITLE_HUB_SSR = {
+                ar: `اعرف أطوار القمر في ${cityName}، ونسبة الإضاءة، ومواعيد البدر والمحاق، مع تقويم شهريّ كامل حسب التوقيت المحلّيّ.`,
+                en: `Explore the Moon's phases, illumination, and full/new moon schedule in ${cityName} — with a complete monthly calendar in local time.`,
+                fr: `Découvrez les phases de la Lune à ${cityName}, l'illumination et les dates de pleine et nouvelle lune — avec un calendrier mensuel complet en heure locale.`,
+                tr: `${cityName} için Ay'ın evrelerini, aydınlanmasını ve dolunay/yeni ay zamanlarını keşfedin — yerel saatle eksiksiz aylık takvim.`,
+                ur: `${cityName} میں چاند کے مراحل، روشنی، اور بدر و نئے چاند کے اوقات جانیں — مقامی وقت کے مطابق مکمل ماہانہ تقویم کے ساتھ۔`,
+                de: `Entdecken Sie die Mondphasen in ${cityName}, die Beleuchtung und die Voll-/Neumondtermine — mit einem vollständigen Monatskalender in Ortszeit.`,
+                id: `Pelajari fase Bulan di ${cityName}, tingkat iluminasi, dan jadwal purnama/bulan baru — lengkap dengan kalender bulanan menurut waktu lokal.`,
+                es: `Descubre las fases de la Luna en ${cityName}, la iluminación y las fechas de luna llena y nueva — con un calendario mensual completo en hora local.`,
+                bn: `${cityName}-এ চাঁদের দশা, আলোকসজ্জা এবং পূর্ণিমা ও অমাবস্যার সময় জানুন — স্থানীয় সময় অনুযায়ী পূর্ণ মাসিক ক্যালেন্ডার সহ।`,
+                ms: `Terokai fasa Bulan di ${cityName}, pencahayaan dan jadual bulan purnama/anak bulan — lengkap dengan kalendar bulanan mengikut waktu tempatan.`
+            };
+            const _subHubSsr = _SUBTITLE_HUB_SSR[Lm] || _SUBTITLE_HUB_SSR.en;
+            html = html.replace(
+                /<h2\s+class="moon-subtitle"\s+id="moon-subtitle"[^>]*>[\s\S]*?<\/h2>/,
+                `<h2 class="moon-subtitle" id="moon-subtitle">${_escHtml(_subHubSsr)}</h2>`
+            );
+        }
         // ── Round 14 polish #4: Breadcrumb SSR — يعرض التاريخ الهجريّ أو الميلاديّ حسب نوع URL ──
         //   قبل: bc-date يبقى hidden حتى JS. الآن: نحقنه في SSR بلغة الزائر مع التسمية الصحيحة
         //   ليراه الزائر بلا JS وتراه محرّكات البحث مباشرةً.

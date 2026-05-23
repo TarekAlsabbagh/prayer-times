@@ -194,7 +194,10 @@
             if (p.href) {
                 const a = document.createElementNS('http://www.w3.org/2000/svg', 'a');
                 a.setAttribute('href', p.href);
-                a.setAttribute('aria-label', p.label + ' — ' + p.pct.toFixed(1) + '%');
+                // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23):
+                // unified display precision to .toFixed(2) so the chart's
+                // a11y label matches summary + forecast-table format.
+                a.setAttribute('aria-label', p.label + ' — ' + p.pct.toFixed(2) + '%');
                 svg.appendChild(a);
                 dotGroup = a;
             }
@@ -236,7 +239,8 @@
                     'font-weight': '700',
                     fill: '#d9a82e'
                 });
-                pctLbl.textContent = p.pct.toFixed(1) + '%';
+                // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): .toFixed(2)
+                pctLbl.textContent = p.pct.toFixed(2) + '%';
                 svg.appendChild(pctLbl);
             }
 
@@ -270,7 +274,7 @@
      * حساب نقاط المنحنى حول التاريخ المركزيّ.
      * rangeDays = 7 → 3 قبل + 1 مركزيّ + 3 بعد.
      */
-    function _computePoints(centerDate, rangeDays, citySlug, langPrefix) {
+    function _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz) {
         // MoonCalc معرَّف كـ const global-script (من moon.js) — نصل إليه بالاسم المباشر
         // لا عبر global.MoonCalc لأنّ const لا يُعلَّق على window.
         const MC = (typeof MoonCalc !== 'undefined') ? MoonCalc : (global.MoonCalc || null);
@@ -301,9 +305,24 @@
         const urlBase = langPrefix ? (langPrefix + '/moon-in-' + citySlug) : ('/moon-in-' + citySlug);
 
         for (let offset = -half; offset <= half; offset++) {
-            const d = new Date(centerDate);
-            d.setHours(12, 0, 0, 0); // ظهرًا لتجنّب مشاكل DST عند حساب 3D position
-            d.setDate(d.getDate() + offset);
+            let d;
+            if (tz) {
+                // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): when the
+                // caller passes a city tz, `centerDate` is ALREADY city-local
+                // noon (set by _renderMoonData via _moonCityLocalNoon). For
+                // each offset day we just shift by exactly 24 hours — the
+                // moon's position is determined by absolute time, not local
+                // clock, so a clean N×86400000ms offset preserves the
+                // canonical instant the forecast table also uses.
+                d = new Date(centerDate.getTime() + offset * 86400000);
+            } else {
+                // Legacy / non-city callers: keep the original BROWSER-local
+                // noon sampling (used by /moon-today hub and similar pages
+                // where no city tz is known).
+                d = new Date(centerDate);
+                d.setHours(12, 0, 0, 0); // ظهرًا لتجنّب مشاكل DST عند حساب 3D position
+                d.setDate(d.getDate() + offset);
+            }
             let pct = 0;
             try {
                 pct = MC.getMoonIllumination(d) || 0;
@@ -364,8 +383,10 @@
     }
 
     // 🆕 Wave C: تسمية نسبة الإضاءة مترجَمة
+    // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): .toFixed(2) so the
+    // tooltip label matches summary + forecast-table format byte-for-byte.
     function _illumLabel(pct, lang) {
-        const n = pct.toFixed(1) + '%';
+        const n = pct.toFixed(2) + '%';
         try {
             const _t = (typeof t === 'function') ? t : (global.t || null);
             if (_t) {
@@ -387,8 +408,16 @@
         const lang = opts.lang || 'ar';
         const citySlug = opts.citySlug || '';
         const langPrefix = opts.langPrefix || '';
+        // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23):
+        //   When the caller passes a city `tz` (IANA timezone, e.g.
+        //   "Asia/Riyadh"), the centre date is treated as the canonical
+        //   city-local-noon instant and the surrounding ±N days are
+        //   computed as exact 24h offsets — matching the forecast table.
+        //   When `tz` is empty/missing (e.g. /moon-today hub, homepage
+        //   widget), the legacy browser-local-noon sampling is preserved.
+        const tz = (typeof opts.tz === 'string' && opts.tz) ? opts.tz : '';
 
-        const points = _computePoints(centerDate, rangeDays, citySlug, langPrefix);
+        const points = _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz);
         if (!points.length) {
             container.textContent = '';
             return;

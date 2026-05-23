@@ -16587,11 +16587,48 @@ function _applyMoonDateBadge() {
     }
 }
 
+// ═══════════════════════════════════════════════════════════════════════════
+//  MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23)
+//  Returns a Date instant representing 12:00 (noon) of `baseDate`'s
+//  CITY-LOCAL calendar day in `tz`. Used by `_renderMoonData` to normalize
+//  the "today" instant when on a /moon-in-{city} page so that summary +
+//  chart + forecast-table all sample the moon at the SAME instant (the
+//  forecast table already uses city-local noon internally; summary used
+//  `new Date()` and chart used browser-local noon — both have been
+//  unified to city-local noon via this helper). Returns null on bad
+//  input or if Intl is unavailable.
+// ═══════════════════════════════════════════════════════════════════════════
+function _moonCityLocalNoon(tz, baseDate) {
+    if (!tz || typeof tz !== 'string') return null;
+    let d = baseDate;
+    if (!(d instanceof Date) || isNaN(d.getTime())) d = new Date();
+    try {
+        // Step 1: extract the city-local calendar date (Y/M/D) at `d`
+        const parts = new Intl.DateTimeFormat('en-CA', {
+            timeZone: tz,
+            year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(d).split('-').map(Number);
+        const [y, m, day] = parts;
+        // Step 2: build an instant at 12:00 UTC of that day, then shift by
+        // the difference between that instant's tz-local hour and 12.
+        const noonUtc = Date.UTC(y, m - 1, day, 12, 0, 0, 0);
+        const seenH = parseInt(new Intl.DateTimeFormat('en-GB', {
+            timeZone: tz, hour: '2-digit', hour12: false
+        }).format(new Date(noonUtc)), 10);
+        if (!Number.isFinite(seenH)) return null;
+        return new Date(noonUtc + (12 - seenH) * 3600 * 1000);
+    } catch (_) {
+        return null;
+    }
+}
+
 function updateMoonInfo() {
     // إن كان المسار /moon-today-in-{slug}/YYYY-MM-DD → استخدم التاريخ المطلوب
     // وإلا اليوم الحاليّ.
     const _requestedDate = _moonDateFromPath();
-    const today = _requestedDate || new Date();
+    // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): `today` is now `let`
+    // so it can be normalized to city-local noon once `_tz` is known below.
+    let today = _requestedDate || new Date();
     const _isDatePage = !!_requestedDate;
     // Round 16: hub page = /moon-in-{slug} (بلا تاريخ) — نستعمله في هذا الملفّ لـ:
     //   (أ) اختيار H1 بلا "اليوم"  (ب) إخفاء moon-date-nav (عبر CSS أيضاً)  (ج) تعديل subtitle
@@ -16645,6 +16682,22 @@ function updateMoonInfo() {
     // للمستخدم الحاليّ (بلا slug): نترك tz=undefined → getMoonTimes تستعمل تقدير من lng
     // (Etc/GMT±N) وهو قريب من توقيت المتصفّح في معظم الحالات.
     const _tz = _cityCoords ? _cityCoords.tz : (_metaTz || undefined);
+
+    // ───────────────────────────────────────────────────────────────────────
+    //  MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23)
+    //  When on a /moon-in-{city}[/...] page with a known city tz, normalize
+    //  `today` to city-local NOON. This makes summary + chart + forecast-table
+    //  all sample MoonCalc at the same canonical instant for the day,
+    //  eliminating the previously-observed 50.14% vs 49.13% mismatch.
+    //  Skipped for non-city pages (e.g. generic /moon-today, homepage moon
+    //  widget) where `_tz`/`_citySlug` are absent — keeps existing behavior.
+    // ───────────────────────────────────────────────────────────────────────
+    if (_tz && _citySlug) {
+        const _ctNoon = _moonCityLocalNoon(_tz, today);
+        if (_ctNoon instanceof Date && !isNaN(_ctNoon.getTime())) {
+            today = _ctNoon;
+        }
+    }
 
     const phase = MoonCalc.getPhaseName(today);
     const illumination = MoonCalc.getMoonIllumination(today);
@@ -19600,7 +19653,15 @@ function updateMoonInfo() {
                 rangeDays: 7,
                 lang: _langNow,
                 citySlug: _citySlug || '',
-                langPrefix: (_langNow === 'ar') ? '' : ('/' + _langNow)
+                langPrefix: (_langNow === 'ar') ? '' : ('/' + _langNow),
+                // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): pass the
+                // city tz so the chart can use city-local-noon sampling for
+                // every point (instead of browser-local noon). `today` above
+                // is already city-local noon thanks to the unification block
+                // earlier in this function; the chart will preserve that
+                // instant for the centre point and use exact 24-hour offsets
+                // for the surrounding ±3 days.
+                tz: _tz || ''
             });
         }
     } catch (_cerr) {

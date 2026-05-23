@@ -15266,7 +15266,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '180'; // MOON-BC-ROOT-LABEL-AR-FIX-1 (2026-05-23): AR-only — moon.bc_root 'القمر' → 'حالة القمر' so the breadcrumb on /moon-in-{city} reads "الرئيسية › حالة القمر › جدة" instead of "› القمر › جدة". Companion: BreadcrumbList JSON-LD AR label in server.js _moonLabel mirrored. Other 9 langs unchanged.
+        const _i18nVersion = '181'; // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR-only — added 4 new page-type-aware H1 templates (moon.h1_city_today / _hub / _month / _date) for /moon-today-in-{city} / /moon-in-{city} / /moon-in-{city}/YYYY-MM / /moon-in-{city}/YYYY-MM-DD. JS picks the right key per URL pattern. Fixes the cannibalization risk + dated/monthly H1 bugs surfaced by MOON-ROUTE-INTENT-MAP-1.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -17010,6 +17010,28 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _isMoonDatePage = !!(seo.moonCity.date && _moonDateLabelSsr);
         // Round 16: hub page (بلا تاريخ، تحت /moon-in-) — H1 evergreen بلا "اليوم"
         const _isMoonHubPageSsr = !!seo.moonCity.isHub;
+        // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): add monthly-page H1 branch.
+        // The monthly page (/moon-in-{city}/YYYY-MM) was previously falling
+        // through to the hub or today H1 because there was no isMonthPage
+        // check — resulting in an H1 that didn't mention the month/year (BUG-2).
+        const _isMoonMonthPageSsr = !!seo.moonCity.isMonthPage;
+        const _monthYearSsr = seo.moonCity.monthYear || '';
+        const _monthMonthSsr = seo.moonCity.monthMonth || 0;
+        const _G_MONTH_NAMES_SSR_H1 = {
+            ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+            en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+            fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+            tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+            ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+            de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+            id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+            es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+            bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+            ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+        };
+        const _monthNameSsr = (_monthMonthSsr >= 1 && _monthMonthSsr <= 12)
+            ? ((_G_MONTH_NAMES_SSR_H1[Lm] || _G_MONTH_NAMES_SSR_H1.en)[_monthMonthSsr - 1])
+            : '';
         const _h1Moon = _isMoonDatePage ? ({
             ar: `🌙 حالة القمر في ${cityName} يوم ${_primaryDateLabelSsr}`,
             en: `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`,
@@ -17021,13 +17043,27 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             es: `🌙 La Luna en ${cityName} el ${_primaryDateLabelSsr}`,
             bn: `🌙 ${cityName}-এ ${_primaryDateLabelSsr}-এ চাঁদ`,
             ms: `🌙 Bulan di ${cityName} pada ${_primaryDateLabelSsr}`
-        }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : _isMoonHubPageSsr ? ({
-            // MOON-HUB-SEO-3 (2026-05-11): H1 retargeted again — drop "اليوم/
-            // Today/heute/Hoy/Hari Ini" entirely. The /moon-in-{city} Hub is
-            // a permanent city hub; "today" intent belongs to
-            // /moon-today-in-{city}. Removing the time-anchor from Hub H1
-            // restores clean intent separation between the two pages.
-            ar: `🌙 حالة القمر في ${cityName}`,
+        }[Lm] || `🌙 Moon in ${cityName} on ${_primaryDateLabelSsr}`) : _isMoonMonthPageSsr ? ({
+            // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): new monthly-page H1 branch.
+            // Pattern: "Moon phases in {city} — {Month} {Year}".
+            ar: `🌙 أطوار القمر في ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`,
+            en: `🌙 Moon Phases in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`,
+            fr: `🌙 Phases de la Lune à ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`,
+            tr: `🌙 ${cityName} Ay Evreleri — ${_monthNameSsr} ${_monthYearSsr}`,
+            ur: `🌙 ${cityName} میں چاند کے مراحل — ${_monthNameSsr} ${_monthYearSsr}`,
+            de: `🌙 Mondphasen in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`,
+            id: `🌙 Fase Bulan di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`,
+            es: `🌙 Fases de la Luna en ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`,
+            bn: `🌙 ${cityName}-এ চাঁদের পর্যায় — ${_monthNameSsr} ${_monthYearSsr}`,
+            ms: `🌙 Fasa Bulan di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`
+        }[Lm] || `🌙 Moon Phases in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`) : _isMoonHubPageSsr ? ({
+            // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR hub H1 reworded to
+            // "تقويم القمر وأطوار الشهر في {city}" to differentiate from the
+            // sibling /moon-today-in-{city} (which reads "حالة القمر اليوم
+            // في {city}"). Reduces AR cannibalization per the route
+            // intent-map audit. Other 9 langs left at the previous evergreen
+            // wording from MOON-HUB-SEO-3 (2026-05-11).
+            ar: `🌙 تقويم القمر وأطوار الشهر في ${cityName}`,
             en: `🌙 Moon in ${cityName}`,
             fr: `🌙 La Lune à ${cityName}`,
             tr: `🌙 ${cityName} Ay Durumu`,
@@ -17038,7 +17074,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `🌙 ${cityName}-এ চাঁদ`,
             ms: `🌙 Bulan di ${cityName}`
         }[Lm] || `🌙 Moon in ${cityName}`) : ({
-            ar: `🌙 طور القمر اليوم في ${cityName}، ${countryName} — الإضاءة وعمر القمر`,
+            // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR today-city H1
+            // shortened to "حالة القمر اليوم في {city}" per user spec
+            // (was the verbose "طور القمر اليوم في {city}، {country} —
+            // الإضاءة وعمر القمر"). Other 9 langs left as-is.
+            ar: `🌙 حالة القمر اليوم في ${cityName}`,
             en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
             fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
             tr: `🌙 Bugün ${cityName}, ${countryName} için Ay Evresi — Aydınlanma ve Yaş`,
@@ -17089,8 +17129,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _subtitleHtmlSsr = (_isMoonDatePage && _subtitleTextSsr)
             ? `<p class="moon-subtitle-hijri" id="moon-subtitle-hijri">${_escHtml(_subtitleTextSsr)}</p>`
             : '';
+        // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): the old regex `[^<]*<\/h1>`
+        // assumed an empty / text-only H1, but the source markup at
+        // index.html:1596 contains `<svg>...</svg><span data-i18n="moon.h1">...
+        // </span>` — so the regex never matched and the SSR H1 replacement was
+        // silently skipped on every moon city page. Switching to `[\s\S]*?` lets
+        // the replacement actually fire (matches the same `[\s\S]*?` form used
+        // at line 18837 elsewhere in this file).
         html = html.replace(
-            /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
+            /<h1 class="page-h1" id="moon-page-h1"[^>]*>[\s\S]*?<\/h1>/,
             `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
         );
         // ── Round 14 polish #4: Breadcrumb SSR — يعرض التاريخ الهجريّ أو الميلاديّ حسب نوع URL ──
@@ -18739,8 +18786,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `🌙 আজ চাঁদের পর্যায় — আলোকসজ্জা, বয়স ও পরবর্তী পূর্ণিমা`,
             ms: `🌙 Fasa Bulan Hari Ini — Pencahayaan, Usia & Bulan Purnama Seterusnya`
         }[Lg] || `🌙 Moon Phase Today — Illumination, Age & Next Full Moon`;
+        // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): same regex fix as the
+        // city-page H1 replacement above — the source markup contains SVG +
+        // span inside the H1, so `[^<]*` never matched. Now uses `[\s\S]*?`.
         html = html.replace(
-            /<h1 class="page-h1" id="moon-page-h1"[^>]*>[^<]*<\/h1>/,
+            /<h1 class="page-h1" id="moon-page-h1"[^>]*>[\s\S]*?<\/h1>/,
             `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1MoonGeneric)}</h1>`
         );
         const _introMoonGeneric = {
@@ -21248,6 +21298,19 @@ const server = http.createServer(async (req, res) => {
                         const d = new Date(_todayDate); d.setDate(d.getDate() + offset);
                         const iso = d.toISOString().slice(0, 10);
                         entries.push(...bilingualUrl('/moon-in-' + baseSlug + '/' + iso, '0.4', 'daily', iso));
+                    }
+                    // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): Monthly URLs
+                    // /moon-in-{city}/YYYY-MM — previously missing from sitemap
+                    // (BUG-3 in MOON-ROUTE-INTENT-MAP-1). Add current month +
+                    // next 2 months = 3 URL × hreflang×10 = 30 entries per
+                    // famous city. Modest crawl-budget cost; gives monthly
+                    // pages a discoverable path beyond breadcrumb-only.
+                    for (let mOffset = 0; mOffset <= 2; mOffset++) {
+                        const dm = new Date(_todayDate);
+                        dm.setMonth(dm.getMonth() + mOffset);
+                        const yy = dm.getFullYear();
+                        const mo = String(dm.getMonth() + 1).padStart(2, '0');
+                        entries.push(...bilingualUrl('/moon-in-' + baseSlug + '/' + yy + '-' + mo, '0.5', 'monthly', today));
                     }
                 }
             }

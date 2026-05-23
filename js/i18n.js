@@ -765,6 +765,12 @@ const TRANSLATIONS = {
         'hijri_ny.link_hijri_today': 'التاريخ الهجريّ اليوم',
         // ═══ Round 10: قوالب العناوين الديناميكيّة + فقرة تعريفيّة + مقارنة + CTA + الكوكبة + نظرة الطور ═══
         'moon.h1_city_template': 'طور القمر اليوم في {city}، {country} — الإضاءة وعمر القمر',
+        // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23) — AR page-type-aware H1
+        // templates picked by js/app.js based on URL pattern.
+        'moon.h1_city_today': 'حالة القمر اليوم في {city}',
+        'moon.h1_city_hub':   'تقويم القمر وأطوار الشهر في {city}',
+        'moon.h1_city_month': 'أطوار القمر في {city} — {month} {year}',
+        'moon.h1_city_date':  'حالة القمر في {city} يوم {date}',
         // UAT-Moon-City: visitor-first short city H1 (city + date) — preferred
         // by app.js over the longer h1_city_template; falls back if missing.
         'moon.h1_city': 'حالة القمر اليوم في {city} — {date}',

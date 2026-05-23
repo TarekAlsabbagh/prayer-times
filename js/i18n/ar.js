@@ -790,7 +790,21 @@ window.TRANSLATIONS['ar'] = {
         'moon.h1_city_template': 'طور القمر اليوم في {city}، {country} — الإضاءة وعمر القمر',
         // UAT-Moon-City: visitor-first short city H1 (city + date) — preferred
         // by app.js over the longer h1_city_template; falls back if missing.
+        // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): the original moon.h1_city
+        // is kept for non-AR locales (legacy). For AR, js/app.js now picks one
+        // of the 4 new page-type-aware keys below instead, so each route has
+        // a distinct, accurate H1 (no more "اليوم — date" leaking onto hub /
+        // monthly / dated pages).
         'moon.h1_city': 'حالة القمر اليوم في {city} — {date}',
+        // AR page-type-aware H1 templates (MOON-ROUTE-H1-SITEMAP-FIX-1):
+        //   today  → /moon-today-in-{city}
+        //   hub    → /moon-in-{city}                            (evergreen)
+        //   month  → /moon-in-{city}/YYYY-MM
+        //   date   → /moon-in-{city}/YYYY-MM-DD
+        'moon.h1_city_today': 'حالة القمر اليوم في {city}',
+        'moon.h1_city_hub':   'تقويم القمر وأطوار الشهر في {city}',
+        'moon.h1_city_month': 'أطوار القمر في {city} — {month} {year}',
+        'moon.h1_city_date':  'حالة القمر في {city} يوم {date}',
         'moon.subtitle_city': 'الطور · الإضاءة · مواعيد الشروق والغروب',
         'moon.other_cities_prompt': '🔎 تبحث عن مدينة أخرى؟',
         'moon.cal.show_hijri': 'عرض التواريخ بالهجريّ',

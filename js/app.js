@@ -16908,14 +16908,55 @@ function updateMoonInfo() {
         //   the legacy keyword-stuffed template (city + country + extra phrases).
         //   Both keys exist; the new one is cleaner for the visitor; the old one
         //   stays as a graceful fallback for legacy translations.
+        // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): page-type-aware H1 for AR.
+        //   Previously this block unconditionally used `moon.h1_city` =
+        //   "حالة القمر اليوم في {city} — {date}" — which is wrong for the
+        //   evergreen hub / monthly / dated pages (they shouldn't say "اليوم"
+        //   or include today's date). Now picks the right AR key per URL
+        //   pattern. Non-AR locales keep the legacy behavior unchanged.
         if (_h1El && typeof t === 'function') {
-            const _newH1 = t('moon.h1_city', { city: _cityName, date: _dateStrH1 });
-            if (_newH1 && _newH1 !== 'moon.h1_city') {
-                _h1El.textContent = _newH1;
+            if (_lng_ === 'ar') {
+                const _pathH1 = window.location.pathname;
+                const _isDatePathH1 = /\/moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}-\d{2}$/.test(_pathH1);
+                const _isMonthPathH1 = !_isDatePathH1 && /\/moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(_pathH1);
+                const _isHubPathH1 = !_isDatePathH1 && !_isMonthPathH1 && /\/moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?$/.test(_pathH1);
+                const _isTodayCityPathH1 = /\/moon-today-in-[a-z]/.test(_pathH1);
+                let _h1Key = '';
+                let _h1Params = {};
+                if (_isDatePathH1) {
+                    _h1Key = 'moon.h1_city_date';
+                    _h1Params = { city: _cityName, date: _dateStrH1 };
+                } else if (_isMonthPathH1) {
+                    _h1Key = 'moon.h1_city_month';
+                    const _mm = _pathH1.match(/(\d{4})-(\d{2})$/);
+                    const _yearN = _mm ? _mm[1] : '';
+                    const _monthN = _mm ? parseInt(_mm[2], 10) : 0;
+                    const _mArr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
+                    const _mName = (_monthN >= 1 && _monthN <= 12) ? _mArr[_monthN - 1] : '';
+                    _h1Params = { city: _cityName, month: _mName, year: _yearN };
+                } else if (_isHubPathH1) {
+                    _h1Key = 'moon.h1_city_hub';
+                    _h1Params = { city: _cityName };
+                } else if (_isTodayCityPathH1) {
+                    _h1Key = 'moon.h1_city_today';
+                    _h1Params = { city: _cityName };
+                }
+                if (_h1Key) {
+                    const _newH1 = t(_h1Key, _h1Params);
+                    if (_newH1 && _newH1 !== _h1Key) {
+                        _h1El.textContent = _newH1;
+                    }
+                }
             } else {
-                const _tplH1 = t('moon.h1_city_template', { city: _cityName, country: _countryName });
-                if (_tplH1 && _tplH1 !== 'moon.h1_city_template') {
-                    _h1El.textContent = _tplH1;
+                // Non-AR: legacy behavior (uses single moon.h1_city template).
+                const _newH1 = t('moon.h1_city', { city: _cityName, date: _dateStrH1 });
+                if (_newH1 && _newH1 !== 'moon.h1_city') {
+                    _h1El.textContent = _newH1;
+                } else {
+                    const _tplH1 = t('moon.h1_city_template', { city: _cityName, country: _countryName });
+                    if (_tplH1 && _tplH1 !== 'moon.h1_city_template') {
+                        _h1El.textContent = _tplH1;
+                    }
                 }
             }
         }

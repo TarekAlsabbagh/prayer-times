@@ -15266,7 +15266,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '181'; // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR-only — added 4 new page-type-aware H1 templates (moon.h1_city_today / _hub / _month / _date) for /moon-today-in-{city} / /moon-in-{city} / /moon-in-{city}/YYYY-MM / /moon-in-{city}/YYYY-MM-DD. JS picks the right key per URL pattern. Fixes the cannibalization risk + dated/monthly H1 bugs surfaced by MOON-ROUTE-INTENT-MAP-1.
+        const _i18nVersion = '182'; // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23): extended SSR H1 fix to all 10 langs (was AR-only). Removed `data-i18n="moon.h1"` from SSR H1 replacement so _translateI18nAttrs doesn't clobber city H1 with generic "Moon Tonight"/etc. Unified short H1 wording across 10 langs (hub: "Moon Calendar & Monthly Phases in {city}"; today: "Moon Today in {city}"; month + date already AR-correct via shared ternary).
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -17057,38 +17057,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `🌙 ${cityName}-এ চাঁদের পর্যায় — ${_monthNameSsr} ${_monthYearSsr}`,
             ms: `🌙 Fasa Bulan di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`
         }[Lm] || `🌙 Moon Phases in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`) : _isMoonHubPageSsr ? ({
-            // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR hub H1 reworded to
-            // "تقويم القمر وأطوار الشهر في {city}" to differentiate from the
-            // sibling /moon-today-in-{city} (which reads "حالة القمر اليوم
-            // في {city}"). Reduces AR cannibalization per the route
-            // intent-map audit. Other 9 langs left at the previous evergreen
-            // wording from MOON-HUB-SEO-3 (2026-05-11).
+            // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23): all 10 langs aligned
+            // on "Moon calendar & monthly phases in {city}" semantics — same
+            // intent as the AR "تقويم القمر وأطوار الشهر في {city}" from
+            // MOON-ROUTE-H1-SITEMAP-FIX-1. This differentiates the evergreen
+            // city hub from the sibling /moon-today-in-{city} (today snapshot)
+            // across all locales — reduces cannibalization in every language,
+            // not just AR.
             ar: `🌙 تقويم القمر وأطوار الشهر في ${cityName}`,
-            en: `🌙 Moon in ${cityName}`,
-            fr: `🌙 La Lune à ${cityName}`,
-            tr: `🌙 ${cityName} Ay Durumu`,
-            ur: `🌙 ${cityName} میں چاند کی حالت`,
-            de: `🌙 Der Mond in ${cityName}`,
-            id: `🌙 Bulan di ${cityName}`,
-            es: `🌙 La Luna en ${cityName}`,
-            bn: `🌙 ${cityName}-এ চাঁদ`,
-            ms: `🌙 Bulan di ${cityName}`
-        }[Lm] || `🌙 Moon in ${cityName}`) : ({
+            en: `🌙 Moon Calendar & Monthly Phases in ${cityName}`,
+            fr: `🌙 Calendrier de la Lune & phases mensuelles à ${cityName}`,
+            tr: `🌙 ${cityName} Ay Takvimi & Aylık Evreler`,
+            ur: `🌙 ${cityName} میں چاند کا تقویم اور ماہانہ مراحل`,
+            de: `🌙 Mondkalender & Monatsphasen in ${cityName}`,
+            id: `🌙 Kalender Bulan & Fase Bulanan di ${cityName}`,
+            es: `🌙 Calendario Lunar & Fases Mensuales en ${cityName}`,
+            bn: `🌙 ${cityName}-এ চাঁদের পঞ্জিকা ও মাসিক পর্যায়`,
+            ms: `🌙 Kalendar Bulan & Fasa Bulanan di ${cityName}`
+        }[Lm] || `🌙 Moon Calendar & Monthly Phases in ${cityName}`) : ({
             // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR today-city H1
             // shortened to "حالة القمر اليوم في {city}" per user spec
             // (was the verbose "طور القمر اليوم في {city}، {country} —
             // الإضاءة وعمر القمر"). Other 9 langs left as-is.
             ar: `🌙 حالة القمر اليوم في ${cityName}`,
-            en: `🌙 Moon Phase Today in ${cityName}, ${countryName} — Illumination & Age`,
-            fr: `🌙 Phase de la Lune aujourd\u2019hui à ${cityName}, ${countryName} — Illumination et âge`,
-            tr: `🌙 Bugün ${cityName}, ${countryName} için Ay Evresi — Aydınlanma ve Yaş`,
-            ur: `🌙 آج ${cityName}، ${countryName} میں چاند کا مرحلہ — روشنی اور عمر`,
-            de: `🌙 Mondphase heute in ${cityName}, ${countryName} — Beleuchtung und Alter`,
-            id: `🌙 Fase Bulan Hari Ini di ${cityName}, ${countryName} — Pencahayaan dan Usia`,
-            es: `🌙 Fase de la Luna hoy en ${cityName}, ${countryName} — Iluminación y edad`,
-            bn: `🌙 আজ ${cityName}, ${countryName}-এ চাঁদের পর্যায় — আলোকসজ্জা ও বয়স`,
-            ms: `🌙 Fasa Bulan Hari Ini di ${cityName}, ${countryName} — Pencahayaan & Usia`
-        }[Lm] || `🌙 Moon Phase Today in ${cityName}, ${countryName}`);
+            en: `🌙 Moon Today in ${cityName}`,
+            fr: `🌙 La Lune aujourd’hui à ${cityName}`,
+            tr: `🌙 ${cityName} için Bugünkü Ay`,
+            ur: `🌙 آج ${cityName} میں چاند کی حالت`,
+            de: `🌙 Der Mond heute in ${cityName}`,
+            id: `🌙 Bulan Hari Ini di ${cityName}`,
+            es: `🌙 La Luna hoy en ${cityName}`,
+            bn: `🌙 আজ ${cityName}-এ চাঁদ`,
+            ms: `🌙 Bulan Hari Ini di ${cityName}`
+        }[Lm] || `🌙 Moon Today in ${cityName}`);
         // ── subtitle SSR: "الموافق الجمعة 1 مايو 2026" (أو العكس للرابط الميلاديّ) ──
         const _SUBTITLE_EQUIV = {
             ar: (d) => `الموافق ${d}`,
@@ -17136,9 +17137,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // silently skipped on every moon city page. Switching to `[\s\S]*?` lets
         // the replacement actually fire (matches the same `[\s\S]*?` form used
         // at line 18837 elsewhere in this file).
+        // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23): drop `data-i18n="moon.h1"`
+        // from the replacement so the `_translateI18nAttrs` pass that runs
+        // later doesn't overwrite our city-specific SSR H1 with the generic
+        // `moon.h1` translation ("Moon Tonight" / "حالة القمر اليوم" / etc.).
+        // For AR this attribute was harmless (translator skips source lang),
+        // but for EN/FR/DE/TR/UR/DE/ID/ES/BN/MS it was clobbering the city
+        // H1 with the generic key value. Removing the attribute is the
+        // surgical fix — i18n hydrator client-side has its own city-aware
+        // override (js/app.js updateMoonInfo) so removing data-i18n here
+        // doesn't break client-side rendering either.
         html = html.replace(
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[\s\S]*?<\/h1>/,
-            `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
+            `<h1 class="page-h1" id="moon-page-h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
         );
         // ── Round 14 polish #4: Breadcrumb SSR — يعرض التاريخ الهجريّ أو الميلاديّ حسب نوع URL ──
         //   قبل: bc-date يبقى hidden حتى JS. الآن: نحقنه في SSR بلغة الزائر مع التسمية الصحيحة
@@ -18789,9 +18800,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): same regex fix as the
         // city-page H1 replacement above — the source markup contains SVG +
         // span inside the H1, so `[^<]*` never matched. Now uses `[\s\S]*?`.
+        // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23): same data-i18n drop as the
+        // city-page H1 above — prevents _translateI18nAttrs from clobbering
+        // the generic /moon-today SSR H1 with the bare `moon.h1` value on
+        // non-AR locales.
         html = html.replace(
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[\s\S]*?<\/h1>/,
-            `<h1 class="page-h1" id="moon-page-h1" data-i18n="moon.h1">${_escHtml(_h1MoonGeneric)}</h1>`
+            `<h1 class="page-h1" id="moon-page-h1">${_escHtml(_h1MoonGeneric)}</h1>`
         );
         const _introMoonGeneric = {
             ar: `تعرّف على طور القمر الحاليّ ونسبة إضاءته وعمره بالأيّام ومواعيد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.`,

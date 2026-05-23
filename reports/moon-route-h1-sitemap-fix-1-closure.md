@@ -1,6 +1,10 @@
 # MOON-ROUTE-H1-SITEMAP-FIX-1 — Closure
 
-**Status:** ✅ Implemented. AR-only H1 differentiation for the 4 moon page-types + monthly URLs added to sitemap + the latent SSR H1 regex bug fixed.
+**Status:** ✅ **CLOSED — user-approved 2026-05-23**
+Implementation commit: `5f2b068` (origin/main).
+Closure commit: this report-only update.
+
+AR-only H1 differentiation for the 4 moon page-types + monthly URLs added to sitemap + the latent SSR H1 regex bug fixed.
 
 **Date:** 2026-05-23
 **Scope:** AR H1 strings + sitemap monthly URLs + SSR H1 regex fix. No math, no data, no UI/CSS, no canonical/redirect change.
@@ -170,10 +174,41 @@ This bug is **outside the AR-only scope** of this fix and was not requested. Rec
 
 ---
 
-## 9. Verdict
+## 9. Acceptance Criteria — final check-off
+
+| # | Criterion | Status |
+|---|---|---|
+| 1 | AR H1 for `/moon-in-{city}` updated to differentiate from today | ✅ PASS — "🌙 تقويم القمر وأطوار الشهر في جدة" |
+| 2 | AR H1 for `/moon-today-in-{city}` correct | ✅ PASS — "🌙 حالة القمر اليوم في جدة" |
+| 3 | AR H1 for monthly pages contains city + month + year | ✅ PASS — "🌙 أطوار القمر في جدة — مايو 2026" |
+| 4 | AR H1 for dated pages contains city + date | ✅ PASS — "🌙 حالة القمر في جدة يوم 23 مايو 2026" |
+| 5 | Monthly URLs added to sitemap | ✅ PASS — 30 entries per famous city (3 months × 10 langs) |
+| 6 | Dated URLs preserved (no regression) | ✅ PASS — 310 dated URLs for jeddah, unchanged |
+| 7 | No canonical consolidation between /moon-in-{city} and /moon-today-in-{city} | ✅ PASS — both stay self-canonical |
+| 8 | No redirects added between the two | ✅ PASS — verified zero new `Location:` rules |
+| 9 | No MoonCalc changes | ✅ PASS — `js/moon.js` untouched |
+| 10 | No calculation changes (illumination / age / phase / dates) | ✅ PASS — same code paths, same MoonCalc routine |
+| 11 | No CSS / UI / layout changes | ✅ PASS — `css/style.css` + `css/critical.css` untouched |
+| 12 | Tests passed | ✅ PASS — 4/4 `node -c`, 8/8 routes 200, 4/4 AR H1s verified via live SSR, sitemap counts verified |
+
+**12 / 12 criteria met.**
+
+(1 documented out-of-scope item: EN SSR H1 limitation — to be addressed in the follow-up wave MOON-EN-H1-PARITY-FIX-1.)
+
+---
+
+## 10. Verdict
 
 ✅ **AR H1s now properly differentiate the 4 moon page-types; monthly URLs are in sitemap; numbers are unchanged.**
 
 The user's stated acceptance is met for all AR routes. The 30 new monthly URLs add modest discoverability without bloating crawl budget. The pre-existing latent SSR H1 regex bug (`[^<]*` vs `[\s\S]*?`) is fixed as a side benefit.
 
-🛑 No new phase started.
+---
+
+## 11. Closure log
+
+- **2026-05-23** — Implementation commit `5f2b068` landed on `origin/main`.
+- **2026-05-23** — User reviewed results and approved closure verbatim (all 4 AR H1s confirmed; sitemap monthly URLs confirmed; MoonCalc / values / canonical / hreflang / CSS all confirmed untouched).
+- **2026-05-23** — This report updated with `Status: CLOSED — user-approved 2026-05-23` + acceptance-criteria table. Docs-only closure commit pushed to `origin/main`.
+
+🛑 No further phase started. Follow-up MOON-EN-H1-PARITY-FIX-1 wave (to address the documented EN SSR H1 gap) awaits explicit user request after this closure.

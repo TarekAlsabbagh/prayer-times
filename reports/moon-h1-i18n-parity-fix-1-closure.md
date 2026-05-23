@@ -1,6 +1,10 @@
 # MOON-H1-I18N-PARITY-FIX-1 — Closure
 
-**Status:** ✅ Implemented. AR H1 fix from MOON-ROUTE-H1-SITEMAP-FIX-1 now extended to all 10 supported languages. EN `/en/moon-in-jeddah` no longer shows the generic "Moon Tonight"; every locale renders a city-specific SSR H1.
+**Status:** ✅ **CLOSED — user-approved 2026-05-23**
+Implementation commit: `c225907` (origin/main).
+Closure commit: this report-only update.
+
+AR H1 fix from MOON-ROUTE-H1-SITEMAP-FIX-1 now extended to all 10 supported languages. EN `/en/moon-in-jeddah` no longer shows the generic "Moon Tonight"; every locale renders a city-specific SSR H1.
 
 **Date:** 2026-05-23
 **Scope:** Server-side H1 strings + `data-i18n` attribute removal so the i18n translator doesn't clobber SSR text. No math, no data, no UI/CSS, no canonical/sitemap change.
@@ -142,30 +146,33 @@ For the two pages where the old wording was clearly mismatched, all 10 langs wer
 
 ---
 
-## 5. Acceptance Criteria
+## 5. Acceptance Criteria — final check-off
 
 | # | Criterion | Status |
 |---|---|---|
-| 1 | `/en/moon-in-jeddah` does NOT show "Moon Tonight" | ✅ PASS — now shows "🌙 Moon Calendar & Monthly Phases in Jeddah" |
-| 2 | `/en/moon-in-jeddah` shows an appropriate city-specific H1 | ✅ PASS |
-| 3 | `/en/moon-today-in-jeddah` shows "Moon Today in Jeddah" | ✅ PASS — exact match |
-| 4 | `/en/moon-in-jeddah/2026-05` H1 contains Jeddah + May 2026 | ✅ PASS — "Moon Phases in Jeddah — May 2026" |
-| 5 | `/en/moon-in-jeddah/2026-05-23` H1 contains Jeddah + May 23, 2026 | ✅ PASS — "Moon in Jeddah on 23 May 2026" |
-| 6 | Sample langs verified: /fr, /tr, /ur | ✅ PASS — all three verified above |
-| 7 | AR H1 from the previous wave unchanged | ✅ PASS — AR hub, today, month, date all unchanged |
-| 8 | All routes return 200 | ✅ PASS — 22/22 |
-| 9 | No MoonCalc / calculation changes | ✅ PASS |
-| 10 | No CSS / UI / design changes | ✅ PASS |
-| 11 | No canonical / hreflang / sitemap changes | ✅ PASS |
-| 12 | No new dependencies | ✅ PASS |
+| 1 | H1 fixed across 10 languages (ar, en, fr, de, tr, ur, id, es, bn, ms) | ✅ PASS |
+| 2 | No generic "Moon Tonight" H1 remains on city moon pages | ✅ PASS — verified 10/10 langs |
+| 3 | `/moon-in-{city}` H1 reflects city calendar/monthly phases intent | ✅ PASS — all 10 langs e.g. "Moon Calendar & Monthly Phases in Jeddah" |
+| 4 | `/moon-today-in-{city}` H1 reflects today city intent | ✅ PASS — all 10 langs e.g. "Moon Today in Jeddah" |
+| 5 | Monthly H1 contains city + month + year | ✅ PASS — "Moon Phases in Jeddah — May 2026" (10 langs) |
+| 6 | Dated H1 contains city + date | ✅ PASS — "Moon in Jeddah on 23 May 2026" (10 langs) |
+| 7 | AR H1 preserved (no regression from previous wave) | ✅ PASS — AR hub/today/month/date all match MOON-ROUTE-H1-SITEMAP-FIX-1 |
+| 8 | No MoonCalc changes | ✅ PASS — `js/moon.js` untouched |
+| 9 | No calculation changes (illum / age / phase / dates) | ✅ PASS — same code paths |
+| 10 | No sitemap regression (310 dated + 30 monthly for jeddah) | ✅ PASS — counts identical to previous wave |
+| 11 | No canonical / hreflang / JSON-LD changes | ✅ PASS — verified |
+| 12 | No CSS / design changes | ✅ PASS — `css/style.css` + `css/critical.css` untouched |
+| 13 | Tests passed | ✅ PASS — 22/22 routes 200; 10/10 hub H1s + 10/10 today-city H1s + 4-lang month/date sample all verified live |
 
-**12 / 12 criteria met.**
+**13 / 13 criteria met.**
 
 ---
 
 ## 6. Closure log
 - **2026-05-23** — MOON-ROUTE-H1-SITEMAP-FIX-1 closed (`0e85fa8`). EN gap documented in §6 of that report.
 - **2026-05-23** — Investigation revealed the root cause: `_translateI18nAttrs` clobbers SSR text via the `data-i18n="moon.h1"` attribute on non-AR locales.
-- **2026-05-23** — Implemented + tested + this closure report written.
+- **2026-05-23** — Implementation commit `c225907` landed on `origin/main`.
+- **2026-05-23** — User reviewed results and approved closure verbatim. All 13 acceptance criteria confirmed. H1 now consistent across all 10 supported languages for all 4 moon page-types.
+- **2026-05-23** — This report updated with `Status: CLOSED — user-approved 2026-05-23` + final acceptance-criteria table. Docs-only closure commit pushed to `origin/main`.
 
-🛑 No new phase started.
+🛑 No new phase started. UI polish can now proceed with H1 confidence across all 10 langs (no longer AR-only safe).

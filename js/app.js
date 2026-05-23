@@ -19097,6 +19097,25 @@ function updateMoonInfo() {
                 const tmrwLbl = (typeof t === 'function') ? t('moon.live.tomorrow') : 'Tomorrow';
                 return (tmrwLbl && tmrwLbl !== 'moon.live.tomorrow') ? tmrwLbl : 'Tomorrow';
             }
+            // MOON-HIGHLIGHTS-COPY-FIX-1 (2026-05-23): Arabic plural rules for
+            // "يوم" (day) — the generic {n} يوم template above was always
+            // singular, producing wrong forms like "بعد 8 يوم" / "بعد 23 يوم".
+            // Correct AR forms:
+            //   2          → بعد يومين (dual, no number)
+            //   3-10       → بعد {n} أيام (plural)
+            //   11-99      → بعد {n} يومًا (singular accusative)
+            //   100+       → بعد {n} يوم (singular nominative)
+            // Other locales keep their existing i18n template (no pluralization
+            // issue in en/fr/de/tr/es/id/ms/ur/bn for the same n range).
+            const _lngCd = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            if (_lngCd === 'ar') {
+                if (n === 2) return 'بعد يومين';
+                let _arUnit;
+                if (n >= 3 && n <= 10) _arUnit = 'أيام';
+                else if (n >= 11 && n <= 99) _arUnit = 'يومًا';
+                else _arUnit = 'يوم'; // 100+
+                return 'بعد ' + _fmtNum(n, 0) + ' ' + _arUnit;
+            }
             const tpl = (typeof t === 'function') ? t('moon.live.in_n_days', { n: _fmtNum(n, 0) }) : null;
             if (tpl && tpl !== 'moon.live.in_n_days') return tpl;
             return 'in ' + n + ' days';
@@ -19155,7 +19174,23 @@ function updateMoonInfo() {
             const _visT = (typeof t === 'function') ? t(_visKey) : '';
             if (_visT && _visT !== _visKey) _visLabel = _visT;
         } catch(_) {}
-        _setText('moon-hl-vis-label', _visLabel + ' (' + _fmtNum(_illumPct, 1) + '%)');
+        // MOON-HIGHLIGHTS-COPY-FIX-1 (2026-05-23): AR-only — the legacy
+        // "(49.1%)" appended after the visibility rating was ambiguous
+        // (could read as "visibility = 49.1%" instead of moon illumination).
+        // Re-write as "جيدة — إضاءة 49.13%" so the percentage is explicitly
+        // labelled as moon illumination, and bump precision from 1 to 2
+        // decimals to match the summary bar. Other locales keep the
+        // legacy compact form.
+        try {
+            const _lngVis = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            if (_lngVis === 'ar') {
+                _setText('moon-hl-vis-label', _visLabel + ' — إضاءة ' + _fmtNum(_illumPct, 2) + '%');
+            } else {
+                _setText('moon-hl-vis-label', _visLabel + ' (' + _fmtNum(_illumPct, 1) + '%)');
+            }
+        } catch (_visErr) {
+            _setText('moon-hl-vis-label', _visLabel + ' (' + _fmtNum(_illumPct, 1) + '%)');
+        }
 
         // ═══ Wave A: التاريخ الهجريّ + عدّ تنازليّ للمناسبات الإسلاميّة ═══
         try {

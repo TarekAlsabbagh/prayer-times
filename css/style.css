@@ -5982,6 +5982,35 @@ html.moon-date-page .moon-date-edu { display: block !important; }
 .moon-month-edu { display: none; }
 html.moon-month-page .moon-month-edu { display: block !important; }
 
+/* MOON-MONTHLY-EDU-HIJRI-CONTENT-RESTRUCTURE-1 (2026-05-24):
+   The 4-long-paragraph layout was reorganized to 3 shorter, scannable
+   paragraphs. Each gets a small emoji prefix as a mini-bullet (CSS-only,
+   no HTML change). Empty `.moon-month-edu-p4` collapses to zero size so
+   the legacy 4th template slot doesn't leave a gap. */
+.moon-month-edu-p1::before,
+.moon-month-edu-p2::before,
+.moon-month-edu-p3::before {
+    display: inline-block;
+    margin-inline-end: 6px;
+    font-size: 1.05em;
+    line-height: 1;
+    vertical-align: -0.05em;
+}
+.moon-month-edu-p1::before { content: "📅"; }   /* daily phases */
+.moon-month-edu-p2::before { content: "🌕"; }   /* full / new moon milestones */
+.moon-month-edu-p3::before { content: "☪️"; }   /* Hijri connection */
+.moon-month-edu p {
+    /* Better breathing room than default — easier to scan */
+    line-height: 1.8;
+    margin: 0 0 12px;
+}
+.moon-month-edu p:empty {
+    /* Hide the legacy p4 slot — JS clears its text */
+    display: none;
+    margin: 0;
+    padding: 0;
+}
+
 /* UAT-SEO-Phase-B4 (2026-04-30): today-in-city educational section
    ("ملخّص قمر اليوم في {city} + علاقة الهجريّ + مَواعيد محلّيّة").
    Visible ONLY on /moon-today-in-{city} via the moon-today-city-page

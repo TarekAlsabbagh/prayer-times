@@ -16549,16 +16549,8 @@ function _applyMoonDateBadge() {
     document.documentElement.classList.remove('moon-hijri-context', 'moon-gregorian-context');
     if (!kind) return;
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    // MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24):
-    //   For AR the H1 now shows the Hijri date as PRIMARY (matching the
-    //   SSR template), so the badge + body class must also treat the
-    //   page as "Hijri-context" even though the URL itself is Gregorian
-    //   (canonical, per the strict-Gregorian route policy). The visible
-    //   secondary line below becomes the Gregorian date instead.
-    const _hijriFirst = (lang === 'ar');
-    const _badgeIsHijri = (kind.isHijri || _hijriFirst);
     // أعد ضبط الـ class السياقيّة
-    document.documentElement.classList.add(_badgeIsHijri ? 'moon-hijri-context' : 'moon-gregorian-context');
+    document.documentElement.classList.add(kind.isHijri ? 'moon-hijri-context' : 'moon-gregorian-context');
     // نصّ الـ badge
     const _BADGES = {
         ar: { hijri: '🌙 عرض حسب التاريخ الهجري', greg: '📅 عرض حسب التاريخ الميلادي' },
@@ -16572,10 +16564,10 @@ function _applyMoonDateBadge() {
         bn: { hijri: '🌙 হিজরি তারিখ অনুযায়ী দেখা', greg: '📅 গ্রেগরীয় তারিখ অনুযায়ী দেখা' },
         ms: { hijri: '🌙 Paparan mengikut tarikh Hijrah', greg: '📅 Paparan mengikut tarikh Masihi' }
     };
-    const badgeText = ((_BADGES[lang] || _BADGES.en)[_badgeIsHijri ? 'hijri' : 'greg']);
+    const badgeText = ((_BADGES[lang] || _BADGES.en)[kind.isHijri ? 'hijri' : 'greg']);
     const badge = document.createElement('div');
     badge.id = 'moon-date-badge';
-    badge.className = 'moon-date-badge ' + (_badgeIsHijri ? 'hijri' : 'gregorian');
+    badge.className = 'moon-date-badge ' + (kind.isHijri ? 'hijri' : 'gregorian');
     badge.textContent = badgeText;
     // نصّ الـ subtitle «الموافق الميلاديّ/الهجريّ»
     const _EQUIV = {
@@ -16593,15 +16585,8 @@ function _applyMoonDateBadge() {
     // حساب التاريخ الثانويّ:
     //   إن كان الرابط هجريًّا → الميلاديّ (من getMoonForecast أو formatter محليّ)
     //   إن كان الرابط ميلاديًّا → الهجريّ
-    // MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24):
-    //   For AR the H1 is now Hijri-primary, so the secondary line must
-    //   become the Gregorian equivalence "الموافق <Greg>". We treat AR
-    //   the SAME as if the URL were Hijri-format — compute Gregorian
-    //   from the kind.gYear/gMonth/gDay which `_moonDateKindFromPath`
-    //   already populates for both URL flavours.
-    const _secIsGreg = (kind.isHijri || _hijriFirst);
     let secondaryLabel = '';
-    if (_secIsGreg) {
+    if (kind.isHijri) {
         try {
             const gdt = new Date(kind.gYear, kind.gMonth - 1, kind.gDay);
             // نفضّل مُنسّق اللغة للتأريخ الميلاديّ (Intl)
@@ -16940,23 +16925,7 @@ function updateMoonInfo() {
                 let _h1Params = {};
                 if (_isDatePathH1) {
                     _h1Key = 'moon.h1_city_date';
-                    // MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24):
-                    //   For AR the {date} placeholder is now the HIJRI
-                    //   date (matching the SSR H1). The Gregorian date
-                    //   stays as the secondary "الموافق ..." subtitle
-                    //   (rendered by `_applyMoonDateBadge`). The URL/
-                    //   canonical remain Gregorian — only the visible
-                    //   H1 text is flipped.
-                    let _hLabelForH1 = '';
-                    try {
-                        if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
-                            const _hToday = HijriDate.toHijri(today.getFullYear(), today.getMonth() + 1, today.getDate());
-                            if (_hToday && _hToday.year) {
-                                _hLabelForH1 = _formatHijriLabelLang(_hToday.year, _hToday.month, _hToday.day, _lng_);
-                            }
-                        }
-                    } catch (_e) { /* fall back to Gregorian below */ }
-                    _h1Params = { city: _cityName, date: (_hLabelForH1 || _dateStrH1) };
+                    _h1Params = { city: _cityName, date: _dateStrH1 };
                 } else if (_isMonthPathH1) {
                     _h1Key = 'moon.h1_city_month';
                     const _mm = _pathH1.match(/(\d{4})-(\d{2})$/);
@@ -19023,51 +18992,50 @@ function updateMoonInfo() {
             //   Gregorian canonical URL.
             const _rowIso = _citySlug ? _fcIso(dp, row.date) : null;
 
-            // MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24):
-            //   The 14-day forecast row now uses a SINGLE combined date
-            //   cell (`.fc-date-cell`) that stacks the Hijri date ABOVE
-            //   the Gregorian date — Hijri visually primary, Gregorian
-            //   secondary. A single anchor wraps both lines and the
-            //   `href` stays Gregorian-canonical (per the strict route
-            //   policy — MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 +
-            //   MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1).
-            //   Replaces the previous TWO-column layout (`.fc-day-cell`
-            //   + `.fc-hijri-cell`) — the table `<thead>` was reduced
-            //   from 6 cols → 5 cols accordingly (index.html line 1885).
-            let hijriText = '';
+            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — التاريخ يَظهر بالنصّ
+            // الهجريّ، لكنّ الرابط يَفتح صفحة /moon-in-{city}/{YYYY-MM-DD}
+            // بالصيغة الميلاديّة (canonical موحَّد لكلّ يوم قمر) بَعد سياسة
+            // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1.
+            let hijriCell = '<td class="fc-hijri-cell">—</td>';
             try {
                 if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
                     const hj = HijriDate.toHijri(dp.y, dp.m + 1, dp.d);
                     const hMonthName = _hMonthsLang[hj.month - 1] || String(hj.month);
-                    hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
+                    const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
+                    if (_citySlug) {
+                        // FIX: href now uses _rowIso (Gregorian) — was previously
+                        //   `hj.year + '-' + hj.month + '-' + hj.day` (Hijri 1447-12-07
+                        //   format) which now returns 404 under the strict route policy.
+                        const _hHrefGreg = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso;
+                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
+                    } else {
+                        hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
+                    }
                 }
-            } catch (_e) { /* keep empty */ }
+            } catch (_e) { /* keep placeholder */ }
 
+            // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
+            // (Round 16b: أُزيل عمود «تفاصيل» — خليّة اليوم والخليّة الهجريّة تبقيان قابلتَين للنقر.)
+            let dayCell, rowClasses = [];
             const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
-            const _hijriPart = hijriText
-                ? `<span class="fc-date-hijri"><span class="fc-date-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</span>`
-                : '<span class="fc-date-hijri fc-date-hijri--missing" aria-hidden="true">—</span>';
-            const _gregPart = `<span class="fc-date-greg">${_escHtml(_dayText)}</span>`;
-            const _ariaLabelTxt = (hijriText ? hijriText + ' — ' : '') + _dayText;
-
-            let dateCell, rowClasses = [];
             if (_citySlug) {
                 // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
                 // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1: uses _rowIso
                 //   computed at the top of this loop iteration (hoisted from the
                 //   former local-only `_iso = _fcIso(dp, row.date)`).
                 const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso;
-                dateCell = `<td class="fc-date-cell"><a class="fc-date-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_ariaLabelTxt)}">${_hijriPart}${_gregPart}</a></td>`;
+                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
                 rowClasses.push('fc-row-clickable');
             } else {
-                dateCell = `<td class="fc-date-cell"><div class="fc-date-text">${_hijriPart}${_gregPart}</div></td>`;
+                dayCell = `<td>${_escHtml(_dayText)}</td>`;
             }
             if (_isTodayRow) rowClasses.push('fc-row-today');
             const rowClass = rowClasses.length ? ` class="${rowClasses.join(' ')}"` : '';
             const rowAria  = _isTodayRow ? ' aria-current="date"' : '';
 
             html += `<tr${rowClass}${rowAria}>`
-                + dateCell
+                + dayCell
+                + hijriCell
                 + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
                 + `<td>${row.illumination}%</td>`
                 + `<td>${row.rise}</td>`

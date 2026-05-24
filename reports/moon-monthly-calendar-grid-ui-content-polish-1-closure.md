@@ -3,10 +3,11 @@
 **Date:** 2026-05-24
 **Status:** 🟢 IMPLEMENTED (awaiting user approval for `git push`)
 **Scope:** Calendar grid cell content + legend rewrite on `/moon-in-{city}/{YYYY-MM}` and (as the same grid renders there too) `/moon-in-{city}` hub. All 10 supported langs.
-**Cache-buster:** `css/style.css?v=414 → 416` (POLISH-1 + 2 followup rounds in a single amended commit).
-**Two follow-up rounds** (per user request "ضمن نفس مرحلة"):
-- Round 1 (initial): remove +N/-N markers + add per-cell Hijri date + rewrite legend.
-- Round 2 (followup): uniform cell heights via `grid-auto-rows: 1fr` + Greg date label now includes month name ("24 مايو" / "May 24") for clearer cell identity.
+**Cache-buster:** `css/style.css?v=414 → 417` (POLISH-1 + 3 followup rounds across 2 commits).
+**Three follow-up rounds** (per user request "ضمن نفس مرحلة"):
+- Round 1 (in `bbbc3d2`): remove +N/-N markers + add per-cell Hijri date + rewrite legend.
+- Round 2 (in `bbbc3d2`): uniform cell heights via `grid-auto-rows: 1fr` + Greg date label now includes month name ("24 مايو" / "May 24") for clearer cell identity.
+- Round 3 (in **separate followup commit** because `bbbc3d2` already on origin/main; no force-push): calendar card header restyled from `space-between` (title left / picker far right with a big empty gap) to a stacked column (title on top → filter group right below as a tinted pill cluster → prev/next nav). Pure CSS, no HTML change.
 
 ---
 

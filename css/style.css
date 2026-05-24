@@ -2722,24 +2722,43 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
 }
 .moon-hub-calendar-card:focus { outline: none; }
 .moon-hub-calendar-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 4px; }
+/* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup #2 (2026-05-24):
+   Calendar card header was previously `flex justify-content: space-between`
+   which pushed the title to one side and the year/month/show form to the
+   far other side — created an awkward visual gap (esp. visible in RTL on
+   wide cards). New layout stacks title above filters inside one cohesive
+   header block:
+     [Card title]      ← top row, full width
+     [Y▼] [M▼] [Show]  ← filter row, inline group right under the title
+     [‹ Prev]    [Next ›]  ← nav stays below, tighter top margin
+   Title + filters now read as one related unit. Pure CSS — no HTML change. */
 .moon-hub-cal-header {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin: 0 0 14px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 10px;
+    margin: 0 0 12px;
 }
 .moon-hub-cal-header .moon-hub-cal-title {
     margin: 0;
     font-size: 1.15rem;
     color: var(--text);
     font-weight: 700;
+    line-height: 1.35;
 }
 .moon-hub-cal-picker {
     display: inline-flex;
-    align-items: center;
+    align-items: stretch;
     gap: 6px;
+    /* Subtle background tinted group so the picker reads as a connected
+       control cluster, not three loose form fields floating in space. */
+    padding: 4px 6px;
+    background: rgba(46, 125, 50, 0.045);
+    border: 1px solid rgba(46, 125, 50, 0.10);
+    border-radius: 10px;
+    width: max-content;
+    max-width: 100%;
+    flex-wrap: wrap;
 }
 .moon-hub-cal-picker select {
     padding: 6px 10px;
@@ -2750,13 +2769,15 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     font: inherit;
     font-size: 0.92rem;
     cursor: pointer;
+    /* Match button height so the picker reads as a uniform row */
+    line-height: 1.2;
 }
 .moon-hub-cal-picker select:focus {
     outline: 2px solid var(--primary);
     outline-offset: 1px;
 }
 .moon-hub-cal-picker button {
-    padding: 6px 14px;
+    padding: 6px 16px;
     border-radius: 8px;
     border: none;
     background: var(--primary);
@@ -2765,12 +2786,15 @@ html[dir="rtl"] .moon-forecast-table tr.fc-row-today {
     font-weight: 700;
     cursor: pointer;
     transition: background 0.15s ease;
+    line-height: 1.2;
 }
 .moon-hub-cal-picker button:hover { background: var(--primary-dark); }
 .moon-hub-cal-nav {
     display: flex;
     justify-content: space-between;
-    margin: 0 0 12px;
+    /* Tighter top margin so prev/next sits naturally under the picker
+       row rather than feeling like a disconnected zone. */
+    margin: 0 0 10px;
     gap: 10px;
 }
 .moon-hub-cal-prev,
@@ -3413,12 +3437,15 @@ html[data-theme="dark"] .moon-hub-cal-phase-name {
     .moon-hub-cal-phase-name { font-size: 0.55rem; }
     .moon-hub-cal-phase { font-size: 1.1rem; }
     .moon-hub-cal-wd { font-size: 0.62rem; padding: 2px 0; }
-    .moon-hub-cal-header { gap: 8px; }
+    .moon-hub-cal-header { gap: 8px; margin-bottom: 10px; }
     .moon-hub-cal-header .moon-hub-cal-title { font-size: 1.0rem; }
-    .moon-hub-cal-picker { flex-wrap: wrap; gap: 4px; }
-    .moon-hub-cal-picker select { padding: 5px 6px; font-size: 0.82rem; }
-    .moon-hub-cal-picker button { padding: 5px 10px; font-size: 0.85rem; }
-    .moon-hub-cal-nav { font-size: 0.82rem; gap: 4px; }
+    /* Mobile: picker spans the full row + selects flex to share space,
+       button stays compact at the trailing end. Background tint kept so
+       the cluster still reads as a unit. */
+    .moon-hub-cal-picker { gap: 4px; padding: 3px 5px; width: 100%; max-width: 100%; }
+    .moon-hub-cal-picker select { padding: 5px 6px; font-size: 0.82rem; flex: 1; min-width: 0; }
+    .moon-hub-cal-picker button { padding: 5px 12px; font-size: 0.85rem; flex: 0 0 auto; }
+    .moon-hub-cal-nav { font-size: 0.82rem; gap: 4px; margin-bottom: 8px; }
     .moon-hub-cal-prev, .moon-hub-cal-next { padding: 5px 8px; }
 }
 /* Very narrow phones (≤380px) — even tighter to keep 7 cols visible. */
@@ -3458,6 +3485,12 @@ html[data-theme="dark"] .moon-hub-cal-prev:hover,
 html[data-theme="dark"] .moon-hub-cal-next:hover {
     background: rgba(77,203,140,0.10);
     border-color: rgba(77,203,140,0.28);
+}
+/* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup #2 (2026-05-24):
+   Dark-theme picker group background (matches the light-mode tint). */
+html[data-theme="dark"] .moon-hub-cal-picker {
+    background: rgba(77, 203, 140, 0.06);
+    border-color: rgba(77, 203, 140, 0.18);
 }
 html[data-theme="dark"] .moon-hub-cal-picker select {
     background: var(--surface-raised, rgba(255,255,255,0.04));

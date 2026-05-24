@@ -17382,17 +17382,23 @@ function updateMoonInfo() {
                     //   stays in the dedicated #moon-other-cities section only.
                     try {
                         const _langPrefixEdu = (_lng_ === 'ar') ? '' : ('/' + _lng_);
+                        // MOON-MONTHLY-HUB-EDU-LINKS-FIX-1 (2026-05-24):
+                        //   Link 3 was "Today's Hijri date" → /today-hijri-date — mixes
+                        //   month-page intent with today intent. Replaced with month-aware
+                        //   "Corresponding Hijri calendar" → /hijri-calendar/{hYear}-{hMonth}
+                        //   derived from the middle of the visible Gregorian month so
+                        //   span-2-Hijri-months pages still land in a representative month.
                         const _EDU_LINKS_BY_LANG = {
-                            ar: [`حالة القمر اليوم في ${_cityName}`, `تقويم القمر في ${_cityName}`, 'التاريخ الهجريّ اليوم'],
-                            en: [`Moon status today in ${_cityName}`, `Moon calendar in ${_cityName}`, "Today's Hijri date"],
-                            fr: [`État de la Lune aujourd'hui à ${_cityName}`, `Calendrier lunaire à ${_cityName}`, 'Date hégirienne du jour'],
-                            tr: [`${_cityName}'de bugünkü ay durumu`, `${_cityName} ay takvimi`, 'Bugünün hicri tarihi'],
-                            ur: [`${_cityName} میں آج چاند کی حالت`, `${_cityName} کا چاند کیلنڈر`, 'آج کی ہجری تاریخ'],
-                            de: [`Mondzustand heute in ${_cityName}`, `Mondkalender in ${_cityName}`, 'Heutiges Hidschri-Datum'],
-                            id: [`Status Bulan hari ini di ${_cityName}`, `Kalender bulan di ${_cityName}`, 'Tanggal Hijriah hari ini'],
-                            es: [`Estado de la Luna hoy en ${_cityName}`, `Calendario lunar en ${_cityName}`, 'Fecha hijri de hoy'],
-                            bn: [`${_cityName}-এ আজ চাঁদের অবস্থা`, `${_cityName}-এ চাঁদের ক্যালেন্ডার`, 'আজকের হিজরি তারিখ'],
-                            ms: [`Status Bulan hari ini di ${_cityName}`, `Kalendar bulan di ${_cityName}`, 'Tarikh Hijrah hari ini']
+                            ar: [`حالة القمر اليوم في ${_cityName}`, `تقويم القمر في ${_cityName}`, 'التقويم الهجريّ المقابل'],
+                            en: [`Moon status today in ${_cityName}`, `Moon calendar in ${_cityName}`, 'Corresponding Hijri calendar'],
+                            fr: [`État de la Lune aujourd'hui à ${_cityName}`, `Calendrier lunaire à ${_cityName}`, 'Calendrier hégirien correspondant'],
+                            tr: [`${_cityName}'de bugünkü ay durumu`, `${_cityName} ay takvimi`, 'İlgili hicri takvim'],
+                            ur: [`${_cityName} میں آج چاند کی حالت`, `${_cityName} کا چاند کیلنڈر`, 'متعلقہ ہجری تقویم'],
+                            de: [`Mondzustand heute in ${_cityName}`, `Mondkalender in ${_cityName}`, 'Entsprechender Hidschri-Kalender'],
+                            id: [`Status Bulan hari ini di ${_cityName}`, `Kalender bulan di ${_cityName}`, 'Kalender Hijriah terkait'],
+                            es: [`Estado de la Luna hoy en ${_cityName}`, `Calendario lunar en ${_cityName}`, 'Calendario hijri correspondiente'],
+                            bn: [`${_cityName}-এ আজ চাঁদের অবস্থা`, `${_cityName}-এ চাঁদের ক্যালেন্ডার`, 'সংশ্লিষ্ট হিজরি ক্যালেন্ডার'],
+                            ms: [`Status Bulan hari ini di ${_cityName}`, `Kalendar bulan di ${_cityName}`, 'Kalendar Hijrah berkaitan']
                         };
                         const _eduLinkLabels = _EDU_LINKS_BY_LANG[_lng_] || _EDU_LINKS_BY_LANG.en;
                         const _link1 = document.querySelector('.moon-city-hub-edu-link-today');
@@ -17408,8 +17414,23 @@ function updateMoonInfo() {
                         }
                         if (_link3) {
                             _link3.textContent = _eduLinkLabels[2];
-                            // Don't override href — SSR already wrote the canonical
-                            // dated form (/hijri-date/YYYY-MM-DD).
+                            // Compute the Hijri month corresponding to the middle of the
+                            // visible Gregorian month. Day-15 is a stable representative —
+                            // even when the Greg month spans 2 Hijri months, day-15 falls
+                            // inside the dominant Hijri month for that range.
+                            try {
+                                const _hjMid = HijriDate.toHijri(_mY, _mM, 15);
+                                if (_hjMid && _hjMid.year && _hjMid.month) {
+                                    const _hMmPad = String(_hjMid.month).padStart(2, '0');
+                                    _link3.setAttribute('href',
+                                        _langPrefixEdu + '/hijri-calendar/' + _hjMid.year + '-' + _hMmPad);
+                                } else {
+                                    // Hijri conversion failed — fall back to year-only Hijri calendar.
+                                    _link3.setAttribute('href', _langPrefixEdu + '/hijri-calendar');
+                                }
+                            } catch (_e) {
+                                _link3.setAttribute('href', _langPrefixEdu + '/hijri-calendar');
+                            }
                         }
                     } catch (_) {}
 

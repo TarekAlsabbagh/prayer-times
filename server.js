@@ -18434,6 +18434,182 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<p class="moon-intro" id="moon-intro">${_escHtml(_hubIntroText)}</p>`
             );
         }
+        // ═════════════════════════════════════════════════════════════════════
+        // MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24)
+        //   On /moon-in-{city}/{YYYY-MM} (month pages) the hero must read as a
+        //   MONTHLY page, NOT a today-snapshot. Rewrite three elements:
+        //     1. <p id="moon-intro">       → month-context description
+        //     2. <div id="moon-summary-line"> → month-overview chip line
+        //        (safe template w/ daysInMonth + Hijri-range + city tz —
+        //         no per-day phase calc to keep SSR cheap; the JS guards
+        //         below skip the today-snapshot overwrite for these IDs)
+        //     3. <div id="moon-hijri-today"> → Hijri-RANGE card (start →
+        //        end Hijri date covering the displayed Gregorian month),
+        //        title changes from "التاريخ الهجري اليوم" → "التقويم
+        //        الهجري المقابل".
+        //
+        //   Computation: _jdToHijri(_gregToJD(...)) for the 1st and last day
+        //   of the displayed Gregorian month. The same algorithm is already
+        //   used at line ~8696 for the moon-date page — keeps Hijri math
+        //   identical (Umm al-Qura table-driven, byte-parity with client).
+        //
+        //   Applied to ALL 10 supported langs.
+        // ═════════════════════════════════════════════════════════════════════
+        if (_isMoonMonthPageSsr && _monthYearSsr && _monthMonthSsr) {
+            const _mY = _monthYearSsr;
+            const _mM = _monthMonthSsr;
+            const _mLastDay = new Date(_mY, _mM, 0).getDate();
+            const _mName = _monthNameSsr;
+            // Hijri month names — same table as line 8679/_HMONTH_NAMES_L
+            const _MHM_NAMES = {
+                ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
+            };
+            const _MH_SFX = {
+                ar: ' هـ', en: ' AH', fr: ' H', tr: ' H', ur: ' ہجری',
+                de: ' AH', id: ' H', es: ' H', bn: ' হিজরি', ms: ' H'
+            };
+            const _mhNames = _MHM_NAMES[Lm] || _MHM_NAMES.en;
+            const _mhSfx = _MH_SFX[Lm] || _MH_SFX.en;
+            // Compute Hijri range for the displayed Gregorian month
+            let _hStart = null, _hEnd = null;
+            try { _hStart = _jdToHijri(_gregToJD(_mY, _mM, 1)); } catch (_e) {}
+            try { _hEnd   = _jdToHijri(_gregToJD(_mY, _mM, _mLastDay)); } catch (_e) {}
+            const _fmtHijri = (h) => {
+                if (!h) return '';
+                const mName = _mhNames[h.month - 1] || String(h.month);
+                return `${h.day} ${mName} ${h.year}${_mhSfx}`;
+            };
+            const _hStartTxt = _fmtHijri(_hStart);
+            const _hEndTxt   = _fmtHijri(_hEnd);
+            const _sameHMonth = !!(_hStart && _hEnd && _hStart.year === _hEnd.year && _hStart.month === _hEnd.month);
+            // ────────────────────────────────────────────────────────────────
+            // 1) Intro paragraph — month context (NO "today" framing)
+            // ────────────────────────────────────────────────────────────────
+            const _MONTH_INTRO_TPL = {
+                ar: `يعرض هذا التقويم أطوار القمر في ${cityName} خلال ${_mName} ${_mY}، مع التواريخ اليوميّة ونسبة الإضاءة ومواعيد طلوع القمر وغروبه حسب توقيت ${cityName} المحلّيّ.`,
+                en: `This calendar shows the moon's phases in ${cityName} during ${_mName} ${_mY}, with daily dates, illumination percentages, and moonrise/moonset times in ${cityName}'s local timezone.`,
+                fr: `Ce calendrier présente les phases de la Lune à ${cityName} durant ${_mName} ${_mY}, avec les dates quotidiennes, les pourcentages d'illumination et les heures de lever et de coucher de la Lune selon le fuseau horaire local de ${cityName}.`,
+                tr: `Bu takvim, ${cityName}'in yerel saatine göre ${_mName} ${_mY} boyunca ${cityName}'de ay evrelerini, günlük tarihleri, aydınlanma yüzdelerini ve ay doğuş/batış zamanlarını gösterir.`,
+                ur: `یہ تقویم ${cityName} میں ${_mName} ${_mY} کے دوران چاند کے مراحل دکھاتی ہے، روزانہ تاریخوں، روشنی کی فیصد، اور ${cityName} کے مقامی وقت کے مطابق چاند کے طلوع و غروب کے اوقات کے ساتھ۔`,
+                de: `Dieser Kalender zeigt die Mondphasen in ${cityName} während ${_mName} ${_mY}, mit täglichen Daten, Beleuchtungsprozentsätzen und Mondaufgangs- und -untergangszeiten in der Ortszeit von ${cityName}.`,
+                id: `Kalender ini menampilkan fase Bulan di ${cityName} selama ${_mName} ${_mY}, dengan tanggal harian, persentase iluminasi, dan waktu terbit/terbenam Bulan menurut zona waktu lokal ${cityName}.`,
+                es: `Este calendario muestra las fases de la Luna en ${cityName} durante ${_mName} ${_mY}, con fechas diarias, porcentajes de iluminación y horarios de salida y puesta de la Luna según la zona horaria local de ${cityName}.`,
+                bn: `এই ক্যালেন্ডারটি ${cityName}-এ ${_mName} ${_mY}-এর সময় চাঁদের দশা দেখায়, দৈনিক তারিখ, আলোকনের শতাংশ এবং ${cityName}-এর স্থানীয় সময় অনুযায়ী চাঁদের উদয়/অস্তের সময়সহ।`,
+                ms: `Kalendar ini menunjukkan fasa Bulan di ${cityName} sepanjang ${_mName} ${_mY}, dengan tarikh harian, peratus pencahayaan, dan waktu terbit/terbenam Bulan mengikut zon waktu tempatan ${cityName}.`
+            };
+            const _monthIntroText = _MONTH_INTRO_TPL[Lm] || _MONTH_INTRO_TPL.en;
+            html = html.replace(
+                /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
+                `<p class="moon-intro" id="moon-intro" data-month-page="1">${_escHtml(_monthIntroText)}</p>`
+            );
+            // ────────────────────────────────────────────────────────────────
+            // 2) Summary line — month-overview chip row (replaces today-snapshot)
+            //    Safe template: daysInMonth · Hijri-range · city timezone hint.
+            //    No per-day phase computation (would be SSR-expensive) — the
+            //    overview is qualitative, not numeric peak-illumination.
+            // ────────────────────────────────────────────────────────────────
+            const _MONTH_SUMMARY_TPL = {
+                ar: { days: 'عدد الأيّام', daysVal: `${_mLastDay} يومًا`, hijri: 'النطاق الهجريّ', daily: 'أطوار يوميّة', tz: 'بتوقيت المدينة المحلّيّ' },
+                en: { days: 'Days', daysVal: `${_mLastDay} days`, hijri: 'Hijri range', daily: 'Daily phases', tz: 'City local time' },
+                fr: { days: 'Jours', daysVal: `${_mLastDay} jours`, hijri: 'Plage hégirienne', daily: 'Phases quotidiennes', tz: 'Heure locale de la ville' },
+                tr: { days: 'Gün', daysVal: `${_mLastDay} gün`, hijri: 'Hicri aralık', daily: 'Günlük evreler', tz: 'Şehir yerel saati' },
+                ur: { days: 'دن', daysVal: `${_mLastDay} دن`, hijri: 'ہجری حد', daily: 'روزانہ مراحل', tz: 'شہر کا مقامی وقت' },
+                de: { days: 'Tage', daysVal: `${_mLastDay} Tage`, hijri: 'Hidschri-Spanne', daily: 'Tägliche Phasen', tz: 'Ortszeit der Stadt' },
+                id: { days: 'Hari', daysVal: `${_mLastDay} hari`, hijri: 'Rentang Hijriah', daily: 'Fase harian', tz: 'Waktu lokal kota' },
+                es: { days: 'Días', daysVal: `${_mLastDay} días`, hijri: 'Rango hijrí', daily: 'Fases diarias', tz: 'Hora local de la ciudad' },
+                bn: { days: 'দিন', daysVal: `${_mLastDay} দিন`, hijri: 'হিজরি পরিসর', daily: 'দৈনিক দশা', tz: 'শহরের স্থানীয় সময়' },
+                ms: { days: 'Hari', daysVal: `${_mLastDay} hari`, hijri: 'Julat Hijrah', daily: 'Fasa harian', tz: 'Waktu tempatan bandar' }
+            };
+            const _MONTH_OVERVIEW_LBL = {
+                ar: 'ملخّص الشهر', en: 'Monthly overview', fr: 'Aperçu du mois', tr: 'Aylık özet',
+                ur: 'ماہانہ خلاصہ', de: 'Monatsübersicht', id: 'Ringkasan bulan',
+                es: 'Resumen del mes', bn: 'মাসিক সারাংশ', ms: 'Ringkasan bulan'
+            };
+            const _msCfg = _MONTH_SUMMARY_TPL[Lm] || _MONTH_SUMMARY_TPL.en;
+            const _msLbl = _MONTH_OVERVIEW_LBL[Lm] || _MONTH_OVERVIEW_LBL.en;
+            // Compact Hijri range for the chip (no day numbers — just month-month or month)
+            let _hRangeChip = '';
+            if (_sameHMonth) {
+                _hRangeChip = `${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}`;
+            } else if (_hStart && _hEnd) {
+                _hRangeChip = `${_mhNames[_hStart.month - 1]}–${_mhNames[_hEnd.month - 1]} ${_hEnd.year}${_mhSfx}`;
+            }
+            const _summaryReplacement = `<div class="moon-summary-line moon-summary-line--month" id="moon-summary-line" role="status" aria-live="polite" data-month-page="1">`
+                + `<span class="moon-summary-icon" aria-hidden="true">📅</span>`
+                + `<span class="moon-summary-chip moon-summary-chip--lead">`
+                +   `<span class="moon-summary-label">${_escHtml(_msLbl)}:</span>`
+                +   `<strong>${_escHtml(_msCfg.daysVal)}</strong>`
+                + `</span>`
+                + `<span class="moon-summary-sep" aria-hidden="true">·</span>`
+                + `<span class="moon-summary-chip">`
+                +   `<span class="moon-summary-label">${_escHtml(_msCfg.hijri)}:</span>`
+                +   `<strong>${_escHtml(_hRangeChip || '—')}</strong>`
+                + `</span>`
+                + `<span class="moon-summary-sep" aria-hidden="true">·</span>`
+                + `<span class="moon-summary-chip">`
+                +   `<span class="moon-summary-label">${_escHtml(_msCfg.daily)}</span>`
+                + `</span>`
+                + `</div>`;
+            html = html.replace(
+                /<div class="moon-summary-line"[^>]*id="moon-summary-line"[\s\S]*?<\/div>\s*<!--/,
+                _summaryReplacement + '\n                <!--'
+            );
+            // ────────────────────────────────────────────────────────────────
+            // 3) Hijri-today card → Hijri-RANGE card
+            // ────────────────────────────────────────────────────────────────
+            const _MONTH_HIJRI_LBL = {
+                ar: 'التقويم الهجريّ المقابل', en: 'Corresponding Hijri dates', fr: 'Dates hégiriennes correspondantes',
+                tr: 'Karşılık gelen hicri tarihler', ur: 'متعلقہ ہجری تاریخیں',
+                de: 'Entsprechende Hidschri-Daten', id: 'Tanggal Hijriah yang sesuai',
+                es: 'Fechas hijríes correspondientes', bn: 'সংশ্লিষ্ট হিজরি তারিখ', ms: 'Tarikh Hijrah yang berkaitan'
+            };
+            const _MONTH_HIJRI_SPAN = {
+                ar: (s, e) => _sameHMonth ? `يمتد هذا الشهر الميلاديّ ضمن ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}، بحسب تقويم أمّ القرى.` : `يمتد هذا الشهر الميلاديّ من ${s} إلى ${e}، بحسب تقويم أمّ القرى.`,
+                en: (s, e) => _sameHMonth ? `This Gregorian month falls within ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, per the Umm al-Qura calendar.` : `This Gregorian month spans from ${s} to ${e}, per the Umm al-Qura calendar.`,
+                fr: (s, e) => _sameHMonth ? `Ce mois grégorien s'inscrit dans ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, selon le calendrier d'Umm al-Qura.` : `Ce mois grégorien s'étend de ${s} à ${e}, selon le calendrier d'Umm al-Qura.`,
+                tr: (s, e) => _sameHMonth ? `Bu miladi ay ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} içine düşer, Ümmü'l-Kura takvimine göre.` : `Bu miladi ay ${s} ile ${e} arasında uzanır, Ümmü'l-Kura takvimine göre.`,
+                ur: (s, e) => _sameHMonth ? `یہ عیسوی مہینہ ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} کے اندر آتا ہے، تقویم اُمّ القُریٰ کے مطابق۔` : `یہ عیسوی مہینہ ${s} سے ${e} تک پھیلتا ہے، تقویم اُمّ القُریٰ کے مطابق۔`,
+                de: (s, e) => _sameHMonth ? `Dieser gregorianische Monat fällt in ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, gemäß dem Umm-al-Qura-Kalender.` : `Dieser gregorianische Monat erstreckt sich von ${s} bis ${e}, gemäß dem Umm-al-Qura-Kalender.`,
+                id: (s, e) => _sameHMonth ? `Bulan Masehi ini berada dalam ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, menurut kalender Umm al-Qura.` : `Bulan Masehi ini terbentang dari ${s} hingga ${e}, menurut kalender Umm al-Qura.`,
+                es: (s, e) => _sameHMonth ? `Este mes gregoriano se encuentra dentro de ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, según el calendario de Umm al-Qura.` : `Este mes gregoriano se extiende desde ${s} hasta ${e}, según el calendario de Umm al-Qura.`,
+                bn: (s, e) => _sameHMonth ? `এই গ্রেগরীয় মাসটি ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}-এর মধ্যে পড়ে, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী।` : `এই গ্রেগরীয় মাসটি ${s} থেকে ${e} পর্যন্ত বিস্তৃত, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী।`,
+                ms: (s, e) => _sameHMonth ? `Bulan Masihi ini berada dalam ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, mengikut kalendar Umm al-Qura.` : `Bulan Masihi ini terbentang dari ${s} hingga ${e}, mengikut kalendar Umm al-Qura.`
+            };
+            const _hijriLabelM = _MONTH_HIJRI_LBL[Lm] || _MONTH_HIJRI_LBL.en;
+            const _hijriSpanFn = _MONTH_HIJRI_SPAN[Lm] || _MONTH_HIJRI_SPAN.en;
+            const _hijriSpanText = _hijriSpanFn(_hStartTxt, _hEndTxt);
+            const _MONTH_HIJRI_RANGE_DASH = (Lm === 'ar' || Lm === 'ur') ? '←' : '→';
+            const _hijriCardReplacement = `<div class="moon-hijri-today moon-hijri-range" id="moon-hijri-today" data-month-page="1">`
+                + `<div class="moon-hijri-row">`
+                +   `<svg class="icon moon-hijri-icon" aria-hidden="true"><use href="#i-calendar"/></svg>`
+                +   `<div class="moon-hijri-body">`
+                +     `<div class="moon-hijri-label moon-hijri-label--month">${_escHtml(_hijriLabelM)}</div>`
+                +     `<div class="moon-hijri-date moon-hijri-range-line" id="moon-hijri-date">`
+                +       `<span class="moon-hijri-range-start">${_escHtml(_hStartTxt || '—')}</span>`
+                +       ` <span class="moon-hijri-range-dash" aria-hidden="true">${_MONTH_HIJRI_RANGE_DASH}</span> `
+                +       `<span class="moon-hijri-range-end">${_escHtml(_hEndTxt || '—')}</span>`
+                +     `</div>`
+                +     `<div class="moon-hijri-greg" id="moon-hijri-greg">${_escHtml(_mName)} ${_mY}</div>`
+                +   `</div>`
+                + `</div>`
+                + `<div class="moon-hijri-lunar moon-hijri-lunar--month" id="moon-hijri-lunar">${_escHtml(_hijriSpanText)}</div>`
+                + `<div class="moon-hijri-notice">* قد يختلف التاريخ الهجري يومًا واحدًا حسب الرؤية الشرعية في بلدك.</div>`
+                + `</div>`;
+            // Replace the entire #moon-hijri-today block (multi-line in source)
+            html = html.replace(
+                /<div class="moon-hijri-today"[^>]*id="moon-hijri-today"[^>]*>[\s\S]*?<div class="moon-hijri-notice"[^>]*>[^<]*<\/div>\s*<\/div>/,
+                _hijriCardReplacement
+            );
+        }
         // ── Phase M1 (2026-05-03): inject 3 SSR-visible H2 sections on /moon-in-{city}
         //    (Hub only — NOT month pages, NOT date pages, NOT today pages).
         //    Adds natural educational prose covering the dynamic monthly terms

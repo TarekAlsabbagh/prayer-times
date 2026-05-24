@@ -3696,6 +3696,61 @@ html[data-theme="dark"] .moon-hub-cta.moon-hub-cta-pulse:focus {
     .moon-hijri-icon { font-size: 1.8rem; }
 }
 
+/* MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24):
+   On /moon-in-{city}/{YYYY-MM} month pages the Hijri-today card is
+   repurposed as a Hijri-RANGE card. Same .moon-hijri-today shell, but
+   shows two Hijri dates (start → end) side-by-side instead of the
+   single today number. `.moon-hijri-range` modifier on the wrapper
+   triggers the lighter range layout. The summary-line also gets
+   `.moon-summary-line--month` modifier so the chip styling can shift
+   from today-status (icon + 3 phase chips) to month-overview (3
+   neutral chips). */
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 10px;
+    justify-content: flex-start;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary, #1a6b3c);
+    line-height: 1.4;
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-dash {
+    color: rgba(46, 125, 50, 0.55);
+    font-weight: 600;
+    padding: 0 2px;
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-greg {
+    margin-top: 4px;
+    font-size: 0.88rem;
+    font-weight: 500;
+    color: var(--text-secondary, #6b7d72);
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-lunar--month {
+    margin-top: 10px;
+    font-size: 0.92rem;
+    line-height: 1.55;
+}
+.moon-summary-line--month .moon-summary-chip--lead strong {
+    color: var(--primary, #1a6b3c);
+    font-weight: 700;
+}
+@media (max-width: 480px) {
+    .moon-hijri-today.moon-hijri-range .moon-hijri-range-line {
+        font-size: 0.98rem;
+        gap: 4px 8px;
+    }
+}
+/* Dark theme — keep range-line readable */
+
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-range-line {
+        color: #4ade80;
+    }
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-range-dash {
+        color: rgba(74, 222, 128, 0.55);
+    }
+
 /* ═══ Wave A: العدّ التنازليّ للمناسبات الإسلاميّة — 4 كروت ═══ */
 .moon-events-section {
     padding: 18px 16px;

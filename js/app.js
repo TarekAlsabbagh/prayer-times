@@ -19202,13 +19202,27 @@ function updateMoonInfo() {
             return 'in ' + n + ' days';
         };
 
-        // 1) Top Summary line — chip سريع تحت H1 (يحلّ محلّ HERO المحذوف، يستخدم نفس البيانات)
-        _setText('moon-summary-icon', phase.icon || '🌙');
-        _setText('moon-summary-phase', _phaseLabel || phase.name || '');
-        _setText('moon-summary-illum', _fmtNum(illumination, 2) + '%');
-        // UAT-Moon-Today-Polish: drop the "/ 29.5" — the suffix span next to it
-        //   reads "يوم من أصل 29.5 يوم" so the cycle length is now in the label.
-        _setText('moon-summary-age', _fmtNum(age, 2));
+        // MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24):
+        //   On month pages (/moon-in-{city}/{YYYY-MM}) the SSR already
+        //   replaced #moon-summary-line with a month-overview chip line
+        //   (no per-element ID fills — see server.js _isMoonMonthPageSsr
+        //   block). The SSR-rendered line carries `data-month-page="1"`
+        //   on the wrapper. Skipping the JS overwrites preserves the SSR
+        //   month-overview AND avoids the previously-displayed today-
+        //   snapshot leaking onto monthly URLs (incl. past + future months
+        //   that don't contain today).
+        const _summaryWrap = document.getElementById('moon-summary-line');
+        const _isMonthPageDOM = !!(_summaryWrap && _summaryWrap.getAttribute('data-month-page') === '1')
+            || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
+        if (!_isMonthPageDOM) {
+            // 1) Top Summary line — chip سريع تحت H1 (يحلّ محلّ HERO المحذوف، يستخدم نفس البيانات)
+            _setText('moon-summary-icon', phase.icon || '🌙');
+            _setText('moon-summary-phase', _phaseLabel || phase.name || '');
+            _setText('moon-summary-illum', _fmtNum(illumination, 2) + '%');
+            // UAT-Moon-Today-Polish: drop the "/ 29.5" — the suffix span next to it
+            //   reads "يوم من أصل 29.5 يوم" so the cycle length is now in the label.
+            _setText('moon-summary-age', _fmtNum(age, 2));
+        }
 
         // BOND 7: Sticky Mini Bar — نفس البيانات لشريط ثابت يظهر عند التمرير
         _setText('moon-sticky-icon', phase.icon || '🌙');
@@ -19274,6 +19288,16 @@ function updateMoonInfo() {
         }
 
         // ═══ Wave A: التاريخ الهجريّ + عدّ تنازليّ للمناسبات الإسلاميّة ═══
+        // MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24): the today-
+        //   Hijri text writes (#moon-hijri-date / -greg / -lunar) are
+        //   skipped on month pages — the SSR already rewrote that card
+        //   to a Hijri-RANGE card spanning the displayed Gregorian month
+        //   (data-month-page="1" marker on #moon-hijri-today). The
+        //   Islamic-events countdown grid that follows is general info
+        //   and continues to fire on all pages (not gated).
+        const _hijriTodayWrap = document.getElementById('moon-hijri-today');
+        const _isMonthPageHijri = !!(_hijriTodayWrap && _hijriTodayWrap.getAttribute('data-month-page') === '1')
+            || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
         try {
             if (typeof HijriDate !== 'undefined' && HijriDate) {
                 const _today = new Date();
@@ -19295,33 +19319,38 @@ function updateMoonInfo() {
                 const _ahSuffix = (_lngA === 'ar') ? ' هـ' : (_lngA === 'ur') ? ' ہجری' : ' AH';
                 const _hijriText = (_dayName ? _dayName + _comma : '') +
                     _hToday.day + ' ' + _hMonthName + ' ' + _hToday.year + _ahSuffix;
-                _setText('moon-hijri-date', _hijriText);
+                // MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24):
+                //   Skip the 3 today-Hijri text writes on month pages —
+                //   SSR rendered the Hijri-RANGE card content already.
+                if (!_isMonthPageHijri) {
+                    _setText('moon-hijri-date', _hijriText);
 
-                // (2) التاريخ الميلاديّ — اليوم + اسم الشهر + السنة
-                const _gMonthName = _tt('gmonth.' + (_today.getMonth() + 1)) || String(_today.getMonth() + 1);
-                _setText('moon-hijri-greg', _today.getDate() + ' ' + _gMonthName + ' ' + _today.getFullYear());
+                    // (2) التاريخ الميلاديّ — اليوم + اسم الشهر + السنة
+                    const _gMonthName = _tt('gmonth.' + (_today.getMonth() + 1)) || String(_today.getMonth() + 1);
+                    _setText('moon-hijri-greg', _today.getDate() + ' ' + _gMonthName + ' ' + _today.getFullYear());
 
-                // (3) رابط اليوم في الشهر القمريّ
-                try {
-                    const _daysInMonth = (typeof HijriDate.getDaysInHijriMonth === 'function')
-                        ? HijriDate.getDaysInHijriMonth(_hToday.year, _hToday.month)
-                        : 29;
-                    const _remaining = Math.max(0, _daysInMonth - _hToday.day);
-                    // UAT-Moon-Today-Polish: pass {hYear} to template + use
-                    //   arPluralDays for the {remaining} substitution so AR
-                    //   gets correct dual/plural ("يومًا واحدًا" / "يومين" / etc.).
-                    const _hLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                    const _remLabel = (typeof arPluralDays === 'function')
-                        ? arPluralDays(_remaining, _hLang)
-                        : (_remaining + ' days');
-                    const _lunarTxt = _tt('moon.hijri.lunar_day_template', {
-                        day: _hToday.day,
-                        month: _hMonthName,
-                        hYear: _hToday.year,
-                        remaining: _remLabel
-                    });
-                    if (_lunarTxt) _setText('moon-hijri-lunar', _lunarTxt);
-                } catch(_) {}
+                    // (3) رابط اليوم في الشهر القمريّ
+                    try {
+                        const _daysInMonth = (typeof HijriDate.getDaysInHijriMonth === 'function')
+                            ? HijriDate.getDaysInHijriMonth(_hToday.year, _hToday.month)
+                            : 29;
+                        const _remaining = Math.max(0, _daysInMonth - _hToday.day);
+                        // UAT-Moon-Today-Polish: pass {hYear} to template + use
+                        //   arPluralDays for the {remaining} substitution so AR
+                        //   gets correct dual/plural ("يومًا واحدًا" / "يومين" / etc.).
+                        const _hLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                        const _remLabel = (typeof arPluralDays === 'function')
+                            ? arPluralDays(_remaining, _hLang)
+                            : (_remaining + ' days');
+                        const _lunarTxt = _tt('moon.hijri.lunar_day_template', {
+                            day: _hToday.day,
+                            month: _hMonthName,
+                            hYear: _hToday.year,
+                            remaining: _remLabel
+                        });
+                        if (_lunarTxt) _setText('moon-hijri-lunar', _lunarTxt);
+                    } catch(_) {}
+                }
 
                 // (4) حساب المناسبات الإسلاميّة الأربع
                 // helper: هل hijri-date (y,m,d) في المستقبل أو اليوم؟
@@ -19463,8 +19492,14 @@ function updateMoonInfo() {
         // فقرة تعريفيّة ديناميكيّة — نستخدم «المدينة، البلد» مطابقةً للـ SSR
         // Round 11: أضفنا جملة الارتفاع/السَّمت لجعل الفقرة فعلاً معتمدة على الموقع
         //   (قبل ذلك كانت جميع القيم عالميّة، والعبارة "بناءً على إحداثيّات موقعك" مُضلِّلة).
+        // MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24):
+        //   Skip the today-flavored intro rewrite on month pages — SSR
+        //   already replaced the intro with a month-context description
+        //   (data-month-page="1" marker on #moon-intro).
         const _introEl = document.getElementById('moon-intro');
-        if (_introEl && typeof t === 'function' && zodiac) {
+        const _isMonthPageIntro = !!(_introEl && _introEl.getAttribute('data-month-page') === '1')
+            || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
+        if (_introEl && typeof t === 'function' && zodiac && !_isMonthPageIntro) {
             const zName = t(zodiac.i18nKey);
             const zNameDisplay = (zName && zName !== zodiac.i18nKey) ? zName : zodiac.key;
             // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):

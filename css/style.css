@@ -1958,6 +1958,120 @@ html[dir="rtl"] .prayer-progress-fill {
     gap: 8px;
 }
 
+/* ========= MOON-MONTHLY-PAGE-SEO-EDU-CARDS-POLISH-1 (2026-05-24) =========
+   3 SEO/edu cards on /moon-in-{city}/{YYYY-MM} get a lighter, more scannable
+   layout. Mobile = 1 col stacked. Desktop ≥768px = 2 col with card 1
+   (monthly intro, longest H2) spanning both cols. Pure visual polish — no
+   content edits, no SEO regression, no JS/calculation/route changes. */
+.moon-seo-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+    margin-bottom: 24px;
+}
+.moon-seo-grid .moon-seo-info,
+.moon-seo-grid .moon-seo-card {
+    /* Override default .section-card heavy styling for a lighter look */
+    margin-bottom: 0;
+    padding: 20px 22px;
+    background: var(--card-bg);
+    border: 1px solid rgba(46, 125, 50, 0.10);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.035);
+    border-radius: var(--radius);
+}
+.moon-seo-grid .moon-seo-info h2,
+.moon-seo-grid .moon-seo-card h2 {
+    /* Tighter, lighter H2 — less heavy than default 1.2rem + 2px border */
+    font-size: 1.05rem;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid rgba(46, 125, 50, 0.14);
+    line-height: 1.45;
+    gap: 10px;
+}
+.moon-seo-h2-icon {
+    width: 22px;
+    height: 22px;
+    flex: 0 0 22px;
+    color: var(--primary);
+    stroke-width: 1.8;
+    opacity: 0.92;
+}
+.moon-seo-h2-text {
+    flex: 1 1 auto;
+    min-width: 0;
+}
+.moon-seo-grid .moon-seo-info p,
+.moon-seo-grid .moon-seo-card p {
+    /* More breathing room than default — easier to scan, less wall-of-text */
+    margin: 0 0 10px;
+    line-height: 1.85;
+    font-size: 0.95rem;
+    color: var(--text);
+}
+.moon-seo-grid .moon-seo-info p:last-child,
+.moon-seo-grid .moon-seo-card p:last-child {
+    margin-bottom: 0;
+}
+
+/* Per-card icon color accent — subtle hue variation so the eye can scan */
+.moon-seo-card--cal .moon-seo-h2-icon    { color: var(--primary); }
+.moon-seo-card--phases .moon-seo-h2-icon { color: #6b46c1; }   /* violet — moon vibe */
+.moon-seo-card--days .moon-seo-h2-icon   { color: #b8742e; }   /* warm amber — time vibe */
+
+/* Desktop: 2-col grid with card 1 (intro) spanning both cols */
+@media (min-width: 768px) {
+    .moon-seo-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+    .moon-seo-card--full {
+        grid-column: 1 / -1;
+    }
+}
+
+/* Mobile: comfortable but compact */
+@media (max-width: 600px) {
+    .moon-seo-grid {
+        gap: 12px;
+        margin-bottom: 20px;
+    }
+    .moon-seo-grid .moon-seo-info,
+    .moon-seo-grid .moon-seo-card {
+        padding: 16px 18px;
+    }
+    .moon-seo-grid .moon-seo-info h2,
+    .moon-seo-grid .moon-seo-card h2 {
+        font-size: 1rem;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 9px;
+    }
+    .moon-seo-h2-icon {
+        width: 20px;
+        height: 20px;
+        flex: 0 0 20px;
+    }
+    .moon-seo-grid .moon-seo-info p,
+    .moon-seo-grid .moon-seo-card p {
+        font-size: 0.92rem;
+        line-height: 1.78;
+    }
+}
+
+/* Dark theme variants — softer borders + adjusted accent colors */
+html[data-theme="dark"] .moon-seo-grid .moon-seo-info,
+html[data-theme="dark"] .moon-seo-grid .moon-seo-card {
+    border-color: rgba(77, 203, 140, 0.18);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.22);
+}
+html[data-theme="dark"] .moon-seo-grid .moon-seo-info h2,
+html[data-theme="dark"] .moon-seo-grid .moon-seo-card h2 {
+    border-bottom-color: rgba(77, 203, 140, 0.20);
+}
+html[data-theme="dark"] .moon-seo-card--phases .moon-seo-h2-icon { color: #a78bfa; }
+html[data-theme="dark"] .moon-seo-card--days .moon-seo-h2-icon   { color: #fbbf24; }
+
 /* ========= إعدادات الحساب ========= */
 
 /* ===== صف إعداد الأذان ===== */

@@ -18839,13 +18839,54 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: ': অর্ধচন্দ্র, গিবাস, পূর্ণিমা ও হ্রাসমান',
                     ms: ': Sabit, Gibbous, Purnama, dan Mengecil'
                 };
-                const _m1Sec1Html = '<section class="section-card moon-seo-info moon-seo-month-title">'
-                    + '<h2>' + _escHtml(_m1Pick(_m1Sec1H2)) + ' ' + _m1City + ' '
+                // MOON-MONTHLY-PAGE-SEO-EDU-CARDS-POLISH-1 (2026-05-24):
+                //   Helper that splits a long SEO paragraph into 2 visually-balanced
+                //   <p> elements at the sentence boundary closest to the midpoint.
+                //   NO content change — same words, same order — just better
+                //   scanability. If the text is short, has no sentence breaks, or
+                //   would produce a too-tiny paragraph (< 18% of total), returns a
+                //   single <p>. Sentence-end chars cover AR/EN/UR/BN/etc.
+                const _seoSplitParas = (txt) => {
+                    if (!txt || txt.length < 200) return [txt || ''];
+                    const mid = Math.floor(txt.length / 2);
+                    // Sentence-end punctuation across 10 langs:
+                    //   . ! ? — Latin (en/fr/tr/de/id/es/ms)
+                    //   ؟ — Arabic question mark (ar)
+                    //   ۔ — Urdu full stop U+06D4 (ur)
+                    //   । — Bengali/Devanagari daari U+0964 (bn)
+                    const sentenceEndRe = /[.!?؟۔।]\s/g;
+                    // Collect ALL sentence-end positions, then pick the one closest to midpoint.
+                    const ends = [];
+                    let m;
+                    while ((m = sentenceEndRe.exec(txt)) !== null) ends.push(m.index);
+                    if (ends.length === 0) return [txt];
+                    let bestIdx = ends[0];
+                    for (const idx of ends) {
+                        if (Math.abs(idx - mid) < Math.abs(bestIdx - mid)) bestIdx = idx;
+                    }
+                    // Skip the split if it produces a too-tiny paragraph (visually noisy).
+                    const p1Len = bestIdx + 1;
+                    const p2Len = txt.length - p1Len;
+                    const minShare = Math.floor(txt.length * 0.18);
+                    if (p1Len < minShare || p2Len < minShare) return [txt];
+                    return [
+                        txt.slice(0, p1Len).trim(),
+                        txt.slice(p1Len).trim()
+                    ];
+                };
+                const _seoRenderParas = (txt) => _seoSplitParas(txt).map(p => '<p>' + _escHtml(p) + '</p>').join('');
+
+                const _m1Sec1Html = '<section class="section-card moon-seo-info moon-seo-month-title moon-seo-card moon-seo-card--cal moon-seo-card--full">'
+                    + '<h2>'
+                    + '<svg class="icon moon-seo-h2-icon" aria-hidden="true" focusable="false"><use href="#i-calendar-grid"/></svg>'
+                    + '<span class="moon-seo-h2-text">'
+                    + _escHtml(_m1Pick(_m1Sec1H2)) + ' ' + _m1City + ' '
                     + (_m1Lang === 'ar' ? 'خلال ' : (_m1Lang === 'tr' ? '— ' : '— '))
                     + _m1MonthName + ' ' + _m1Year
                     + _escHtml(_m1Sec1H2Suffix[_m1Lang] || _m1Sec1H2Suffix.en)
+                    + '</span>'
                     + '</h2>'
-                    + '<p>' + _escHtml(_m1Pick(_m1Sec1P)) + '</p>'
+                    + _seoRenderParas(_m1Pick(_m1Sec1P))
                     + '</section>';
 
                 // Section 2 — Phases waxing/waning H2. Covers متزايد + متناقص +
@@ -18884,9 +18925,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _m1Sec2H2Tpl = _m1Pick(_m1Sec2H2);
                 const _m1Sec2H2Parts = _m1Sec2H2Tpl.split('{city}');
                 const _m1Sec2H2Built = _escHtml(_m1Sec2H2Parts[0] || '') + _m1City + _escHtml(_m1Sec2H2Parts[1] || '');
-                const _m1Sec2Html = '<section class="section-card moon-seo-info moon-seo-phases">'
-                    + '<h2>' + _m1Sec2H2Built + '</h2>'
-                    + '<p>' + _escHtml(_m1Pick(_m1Sec2P)) + '</p>'
+                const _m1Sec2Html = '<section class="section-card moon-seo-info moon-seo-phases moon-seo-card moon-seo-card--phases">'
+                    + '<h2>'
+                    + '<svg class="icon moon-seo-h2-icon" aria-hidden="true" focusable="false"><use href="#i-moon"/></svg>'
+                    + '<span class="moon-seo-h2-text">' + _m1Sec2H2Built + '</span>'
+                    + '</h2>'
+                    + _seoRenderParas(_m1Pick(_m1Sec2P))
                     + '</section>';
 
                 // Section 3 — Days-remaining explainer (covers بعد + يومًا)
@@ -18914,13 +18958,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     bn: 'ক্যালেন্ডার প্রতিটি আসন্ন দশার পাশে "কয়েক দিনের মধ্যে" বা "X দিনের মধ্যে" এর মতো বাক্যাংশ দেখায়। এই সংখ্যাগুলি আজকের এবং পরবর্তী দশার সঠিক জ্যোতির্বিদ্যা তারিখের মধ্যে দিন গণনা করে। উদাহরণস্বরূপ, যদি পরবর্তী পূর্ণিমা 7 দিনে হয়, চাঁদ আজ থেকে প্রায় সাত দিন পরে তার সর্বোচ্চ আলোকনে পৌঁছাবে। এই সংখ্যাগুলি প্রতিদিন আপডেট হয়, এবং ব্যবহারকারীরা পূর্ণিমা, অমাবস্যা, প্রথম পাদ এবং শেষ পাদের জন্য অবশিষ্ট দিনগুলি ট্র্যাক করতে পারেন।',
                     ms: 'Kalendar menunjukkan frasa seperti "dalam beberapa hari" atau "dalam X hari" di sebelah setiap fasa akan datang. Angka-angka ini mengira hari antara hari ini dan tarikh astronomi tepat fasa seterusnya. Sebagai contoh, jika purnama seterusnya dalam 7 hari, Bulan akan mencapai pencahayaan puncaknya kira-kira tujuh hari dari sekarang. Angka-angka ini dikemas kini setiap hari, dan pengguna boleh menjejaki baki hari untuk purnama, anak bulan, suku pertama, dan suku terakhir.',
                 };
-                const _m1Sec3Html = '<section class="section-card moon-seo-info moon-seo-days-remaining">'
-                    + '<h2>' + _escHtml(_m1Pick(_m1Sec3H2)) + '</h2>'
-                    + '<p>' + _escHtml(_m1Pick(_m1Sec3P)) + '</p>'
+                const _m1Sec3Html = '<section class="section-card moon-seo-info moon-seo-days-remaining moon-seo-card moon-seo-card--days">'
+                    + '<h2>'
+                    + '<svg class="icon moon-seo-h2-icon" aria-hidden="true" focusable="false"><use href="#i-hourglass"/></svg>'
+                    + '<span class="moon-seo-h2-text">' + _escHtml(_m1Pick(_m1Sec3H2)) + '</span>'
+                    + '</h2>'
+                    + _seoRenderParas(_m1Pick(_m1Sec3P))
                     + '</section>';
 
-                // Inject all 3 sections immediately before the moon-other-cities block
-                const _m1AllSections = _m1Sec1Html + _m1Sec2Html + _m1Sec3Html;
+                // MOON-MONTHLY-PAGE-SEO-EDU-CARDS-POLISH-1: wrap all 3 in a grid container
+                // so desktop ≥768px can render them as 2-column (card 1 spans full width,
+                // cards 2+3 share row 2). Mobile keeps single column with comfortable gaps.
+                const _m1AllSections = '<div class="moon-seo-grid">' + _m1Sec1Html + _m1Sec2Html + _m1Sec3Html + '</div>';
                 html = html.replace(
                     /<div class="section-card" id="moon-other-cities"/,
                     _m1AllSections + '<div class="section-card" id="moon-other-cities"'

@@ -3515,17 +3515,20 @@ async function initApp() {
                 const _cta = document.querySelector('.moon-hub-cta');
                 if (!_cta) return;
                 // قوالب 10 لغات — مطابقة لـ server.js
+                // MOON-TODAY-CITY-CTA-COPY-1 (2026-05-24): client-side mirror
+                // of server.js update — "اختر/Choose" instead of
+                // "استعرض/Explore" for a clearer action intent.
                 const _tpl = {
-                    ar: '📅 تقويم القمر في {city} — استعرض أيّ تاريخ',
-                    en: '📅 Moon Calendar for {city} — Explore any date',
-                    fr: '📅 Calendrier de la Lune pour {city} — Explorer toute date',
-                    tr: '📅 {city} Ay Takvimi — İstediğiniz tarihi keşfedin',
-                    ur: '📅 {city} کا چاند کا تقویم — کوئی بھی تاریخ دیکھیں',
-                    de: '📅 Mondkalender für {city} — Jedes Datum erkunden',
-                    id: '📅 Kalender Bulan untuk {city} — Jelajahi tanggal apa pun',
-                    es: '📅 Calendario Lunar para {city} — Explora cualquier fecha',
-                    bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ দেখুন',
-                    ms: '📅 Kalendar Bulan untuk {city} — Terokai mana-mana tarikh'
+                    ar: '📅 تقويم القمر في {city} — اختر أيّ تاريخ',
+                    en: '📅 Moon Calendar for {city} — Choose any date',
+                    fr: '📅 Calendrier de la Lune pour {city} — Choisir une date',
+                    tr: '📅 {city} Ay Takvimi — Bir tarih seçin',
+                    ur: '📅 {city} کا چاند کا تقویم — کوئی بھی تاریخ منتخب کریں',
+                    de: '📅 Mondkalender für {city} — Datum auswählen',
+                    id: '📅 Kalender Bulan untuk {city} — Pilih tanggal apa pun',
+                    es: '📅 Calendario Lunar para {city} — Elige cualquier fecha',
+                    bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ বেছে নিন',
+                    ms: '📅 Kalendar Bulan untuk {city} — Pilih mana-mana tarikh'
                 };
                 const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
                 const _newText = (_tpl[_lang] || _tpl.en).replace('{city}', _liveCityName);

@@ -810,7 +810,7 @@ window.TRANSLATIONS['ar'] = {
         'moon.cal.show_hijri': 'عرض التواريخ بالهجريّ',
         'moon.cal.show_gregorian': 'عرض التواريخ بالميلاديّ',
         'moon.h1_generic': 'طور القمر اليوم — الإضاءة والعمر والبدر القادم',
-        'moon.title_city_template': 'تفاصيل حالة القمر اليوم في {city}',
+        'moon.title_city_template': 'تفاصيل حالة وطور القمر اليوم في {city}',
         // Priority A subtitle + phase cycle labels
         'moon.subtitle_generic': 'تابع حالة القمر بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب',
         'moon.subtitle_city_template': 'تابع حالة القمر في {city} بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب',

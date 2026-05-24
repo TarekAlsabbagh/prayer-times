@@ -19137,17 +19137,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //   يظهر حصراً على /moon-today-in-{slug} — ليس على الـ hub ولا على الـ dated.
         //   سدّ فجوة UX: كان الوصول للـ hub ممكناً فقط عبر sitemap/SEO. الآن مرئيّ بشريّاً.
         if (!_isMoonDatePage && !_isMoonHubPageSsr) {
+            // MOON-TODAY-CITY-CTA-COPY-1 (2026-05-24): switched the action verb
+            // from "استعرض/Explore" (passive browsing) to "اختر/Choose" (active
+            // selection) — clearer CTA intent: the user goes there TO PICK a
+            // date, not just to look around. All 10 langs aligned.
             const _hubCtaTpl = {
-                ar: '📅 تقويم القمر في {city} — استعرض أيّ تاريخ',
-                en: '📅 Moon Calendar for {city} — Explore any date',
-                fr: '📅 Calendrier de la Lune pour {city} — Explorer toute date',
-                tr: '📅 {city} Ay Takvimi — İstediğiniz tarihi keşfedin',
-                ur: '📅 {city} کا چاند کا تقویم — کوئی بھی تاریخ دیکھیں',
-                de: '📅 Mondkalender für {city} — Jedes Datum erkunden',
-                id: '📅 Kalender Bulan untuk {city} — Jelajahi tanggal apa pun',
-                es: '📅 Calendario Lunar para {city} — Explora cualquier fecha',
-                bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ দেখুন',
-                ms: '📅 Kalendar Bulan untuk {city} — Terokai mana-mana tarikh'
+                ar: '📅 تقويم القمر في {city} — اختر أيّ تاريخ',
+                en: '📅 Moon Calendar for {city} — Choose any date',
+                fr: '📅 Calendrier de la Lune pour {city} — Choisir une date',
+                tr: '📅 {city} Ay Takvimi — Bir tarih seçin',
+                ur: '📅 {city} کا چاند کا تقویم — کوئی بھی تاریخ منتخب کریں',
+                de: '📅 Mondkalender für {city} — Datum auswählen',
+                id: '📅 Kalender Bulan untuk {city} — Pilih tanggal apa pun',
+                es: '📅 Calendario Lunar para {city} — Elige cualquier fecha',
+                bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ বেছে নিন',
+                ms: '📅 Kalendar Bulan untuk {city} — Pilih mana-mana tarikh'
             };
             const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', cityName);
             const _hubCtaHref = (Lm === 'ar' ? '' : '/' + Lm) + '/moon-in-' + seo.moonCity.slug;

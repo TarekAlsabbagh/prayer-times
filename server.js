@@ -17853,17 +17853,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 // Phase M6 (2026-05-03): per-lang legend for the +/- delta semantics
                 // shown in calendar cells (replaces the old per-cell natural-language
                 // relative-time label that polluted Keyword Distribution).
+                // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 (2026-05-24):
+                //   The +/- relative-day markers are NO LONGER rendered in the cell
+                //   HTML below. The legend is therefore rewritten to a simple
+                //   click-prompt (no more +/- explanation).
                 const _calLegendByLang = {
-                    ar: '+ تعني الأيام القادمة، − تعني الأيام السابقة. اضغط أيّ يوم لفتح صفحته.',
-                    en: '+ means upcoming days, − means past days. Click any day to open its page.',
-                    fr: "+ indique les jours à venir, − les jours passés. Cliquez sur un jour pour l'ouvrir.",
-                    tr: '+ gelecek günleri, − geçmiş günleri belirtir. Sayfasını açmak için bir güne tıklayın.',
-                    ur: '+ آنے والے دنوں اور − گزشتہ دنوں کی نشاندہی کرتا ہے۔ صفحہ کھولنے کے لیے کسی دن پر کلک کریں۔',
-                    de: '+ steht für kommende Tage, − für vergangene. Klicken Sie auf einen Tag, um ihn zu öffnen.',
-                    id: '+ menunjukkan hari mendatang, − hari lampau. Klik hari mana saja untuk membuka halamannya.',
-                    es: '+ indica días próximos, − días pasados. Pulse cualquier día para abrir su página.',
-                    bn: '+ আসন্ন দিনগুলি, − অতীত দিনগুলি বোঝায়। কোনো দিনে ক্লিক করে তার পৃষ্ঠা খুলুন।',
-                    ms: '+ menunjukkan hari akan datang, − hari lalu. Klik mana-mana hari untuk membuka halamannya.'
+                    ar: 'اضغط على أيّ يوم لعرض تفاصيل القمر في ذلك التاريخ.',
+                    en: 'Tap any day to see the moon details for that date.',
+                    fr: 'Cliquez sur un jour pour voir les détails de la Lune à cette date.',
+                    tr: 'O tarihteki ay ayrıntılarını görmek için herhangi bir güne tıklayın.',
+                    ur: 'اُس تاریخ کے چاند کی تفصیلات دیکھنے کے لیے کسی بھی دن پر کلک کریں۔',
+                    de: 'Klicken Sie auf einen Tag, um die Monddetails für dieses Datum zu sehen.',
+                    id: 'Ketuk hari mana saja untuk melihat detail Bulan pada tanggal tersebut.',
+                    es: 'Pulse cualquier día para ver los detalles de la Luna en esa fecha.',
+                    bn: 'সেই তারিখে চাঁদের বিবরণ দেখতে যেকোনো দিনে ক্লিক করুন।',
+                    ms: 'Ketik mana-mana hari untuk melihat butiran Bulan pada tarikh tersebut.'
                 };
                 const _calLegendText = _calLegendByLang[Lm] || _calLegendByLang.en;
 
@@ -17973,6 +17977,24 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     const e = _i18nEnHc[key];
                     return typeof e === 'string' ? e : '';
                 };
+                // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 (2026-05-24):
+                //   Hijri month-names map for the new per-cell Hijri date
+                //   line (e.g. "7 ذو الحجة" / "7 Dhu al-Hijjah"). Duplicates
+                //   _MHM_NAMES below (used in the Hijri-range card) but
+                //   defined inline here so the cell loop has it in scope.
+                const _CELL_HM_NAMES = {
+                    ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                    en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                    fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                    tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                    ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                    de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                    id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                    es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                    bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                    ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
+                };
+                const _cellHmNames = _CELL_HM_NAMES[Lm] || _CELL_HM_NAMES.en;
                 for (let day = 1; day <= _calLastDay; day++) {
                     const _cellD = new Date(_calY, _calMo - 1, day, 12, 0, 0);
                     const _cellIso = _isoOf(_cellD);
@@ -17982,20 +18004,46 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         && _calTodayD.getMonth() === _calMo - 1
                         && _calTodayD.getDate() === day
                     );
-                    // Relative offset in days from today (positive = future, negative = past)
+                    // Relative offset (used ONLY for ±1 today/yesterday/tomorrow
+                    // badge — the older signed-delta markers were removed in
+                    // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 because
+                    // they were ambiguous to end users).
                     const _offset = Math.round((_cellD.getTime() - _calTodayMs) / _msPerDay);
-                    // Phase M6 (2026-05-03): special labels for ±1 / 0; signed-delta
-                    // numerics for everything else. Eliminates per-cell natural-language
-                    // text repetition that polluted Keyword Distribution. Phase name
-                    // (icon + label below) is unchanged — useful UX, not flagged.
-                    let _cellLabel;
+                    // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 (2026-05-24):
+                    //   Only render the relative badge for today / yesterday /
+                    //   tomorrow. All other cells: empty rel span (no +N / -N
+                    //   markers). Keeps the badge as a friendly UX anchor for
+                    //   the ±1 window without polluting the rest of the grid.
+                    let _cellLabel = '';
                     if (_offset === 0)        _cellLabel = _calToday;
                     else if (_offset === -1)  _cellLabel = _calYesterday;
                     else if (_offset === 1)   _cellLabel = _calTomorrow;
-                    else if (_offset > 0)     _cellLabel = '+' + _offset;
-                    else                      _cellLabel = '−' + Math.abs(_offset);
-                    // Phase M6: drop month name from each cell (already in calendar H2).
-                    const _cellDateTxt = String(day);
+                    // else: stays empty — NO +N / -N text
+                    // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup
+                    //   (2026-05-24): cell Greg label now includes the month
+                    //   name for clarity (e.g. "24 مايو" / "May 24") — was
+                    //   bare day number alone which felt ambiguous on a
+                    //   clickable cell. EN uses month-day order; all other
+                    //   langs use day-month order (natural for AR/UR/FR/DE/
+                    //   TR/ID/ES/BN/MS). Uses the localized _gMonthsShort map
+                    //   already in scope (it holds full month names per lang).
+                    const _cellMonName = _gMonthsShort[_calMo - 1] || '';
+                    const _cellDateTxt = (Lm === 'en')
+                        ? (_cellMonName ? `${_cellMonName} ${day}` : String(day))
+                        : (_cellMonName ? `${day} ${_cellMonName}` : String(day));
+                    // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 (2026-05-24):
+                    //   Compute Hijri date for the cell using the existing
+                    //   table-driven _jdToHijri/_gregToJD helpers. Display
+                    //   "day + month name" (no year — already implicit in the
+                    //   Hijri-range card above the grid).
+                    let _cellHijriTxt = '';
+                    try {
+                        const _hj = _jdToHijri(_gregToJD(_calY, _calMo, day));
+                        if (_hj) {
+                            const _hMonName = _cellHmNames[_hj.month - 1] || String(_hj.month);
+                            _cellHijriTxt = `${_hj.day} ${_hMonName}`;
+                        }
+                    } catch (_e) {}
                     const _cellHref = _isToday
                         ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
                         : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
@@ -18012,9 +18060,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     // purpose there and the phase label is high-value UX.
                     const _cellPhaseNameTxt = _phaseName(_cellPhase.key) || _cellPhase.name || _cellPhase.english || '';
                     const _cellIsMonthPage = !!(seo.moonCity && seo.moonCity.isMonthPage);
+                    // MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 (2026-05-24):
+                    //   Cell structure now reads: [badge?] Greg-day · Hijri-date ·
+                    //   phase icon · phase name (month page only). The badge
+                    //   only appears on today/yesterday/tomorrow.
                     _calCellsHtml += `<li class="moon-hub-cal-cell${_cellActive}"><a href="${_escHtml(_cellHref)}">`
-                        + `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
+                        + (_cellLabel
+                            ? `<span class="moon-hub-cal-rel">${_escHtml(_cellLabel)}</span>`
+                            : '')
                         + `<span class="moon-hub-cal-date">${_escHtml(_cellDateTxt)}</span>`
+                        + (_cellHijriTxt
+                            ? `<span class="moon-hub-cal-hijri">${_escHtml(_cellHijriTxt)}</span>`
+                            : '')
                         + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
                         + (_cellIsMonthPage
                             ? `<span class="moon-hub-cal-phase-name">${_escHtml(_cellPhaseNameTxt)}</span>`

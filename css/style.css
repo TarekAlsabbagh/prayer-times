@@ -3250,21 +3250,42 @@ html[lang="ms"] .qibla-related-pills::before { content: "🔗 Perkhidmatan berka
     margin: 0;
     display: grid;
     grid-template-columns: repeat(7, 1fr);
+    /* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup (2026-05-24):
+       grid-auto-rows: 1fr makes every row in the grid stretch to the
+       height of the tallest cell in that row — guaranteeing all cells
+       within a row are visually equal even when one has a longer phase
+       name (e.g. "البدر (قمر مكتمل)") or the today/yesterday/tomorrow
+       badge. Combined with .moon-hub-cal-cell { display: flex } and
+       align-items: stretch on the <a>, the visual rhythm is uniform. */
+    grid-auto-rows: 1fr;
     gap: 4px;
 }
-.moon-hub-cal-cell { margin: 0; min-width: 0; }
+.moon-hub-cal-cell {
+    margin: 0;
+    min-width: 0;
+    /* Stretch the cell to the row height (set by grid-auto-rows: 1fr) */
+    display: flex;
+}
 .moon-hub-cal-cell a { min-width: 0; }
 /* Cells restore the OLD 3-line content layout (relative label + date + emoji)
    inside a 7-column calendar matrix. Cells are taller than a typical month
    grid so all 3 pieces breathe; the grid still reads as a calendar because
-   it's strictly 7 columns with weekday headers above. */
+   it's strictly 7 columns with weekday headers above.
+   MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup (2026-05-24):
+   Cell anchor stretches to fill the cell (width:100%, flex:1) so the
+   row-height equalization actually shows. min-height bumped slightly
+   (92 → 100) to comfortably fit the new "{day} {month}" Greg label,
+   the Hijri date line, the phase emoji, and the phase name — without
+   today/yesterday/tomorrow cells visually growing taller. */
 .moon-hub-cal-cell a {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     gap: 4px;
-    min-height: 92px;
+    width: 100%;
+    flex: 1;
+    min-height: 100px;
     padding: 10px 6px;
     background: rgba(46,125,50,0.05);
     border: 1px solid rgba(46,125,50,0.15);
@@ -3282,22 +3303,56 @@ html[lang="ms"] .qibla-related-pills::before { content: "🔗 Perkhidmatan berka
     transform: translateY(-1px);
     text-decoration: none;
 }
+/* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 (2026-05-24):
+   The .moon-hub-cal-rel badge now only appears on today/yesterday/
+   tomorrow cells (other cells render an EMPTY rel slot). Styling
+   keeps a small badge feel — a subtle pill so the date underneath
+   reads as the primary content. The +N / -N labels no longer reach
+   this rule (they were dropped at the SSR level). */
 .moon-hub-cal-rel {
     font-weight: 600;
     color: var(--primary);
-    font-size: 0.72rem;
+    font-size: 0.7rem;
     line-height: 1.2;
-    /* Truncate gracefully if the relative label is long ("بعد 25 يوم") */
+    padding: 1px 6px;
+    background: rgba(46, 125, 50, 0.10);
+    border-radius: 999px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
 }
+/* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup (2026-05-24):
+   Greg date label now reads "24 مايو" / "May 24" (day + month).
+   Slightly smaller font + nowrap + truncation so long month names
+   like "September" don't break the cell layout. */
 .moon-hub-cal-date {
-    font-size: 0.82rem;
-    font-weight: 600;
-    opacity: 0.85;
-    line-height: 1;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--text, #1a3a24);
+    opacity: 1;
+    line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+/* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1: per-cell Hijri date
+   line (e.g. "7 ذو الحجة" / "7 Dhu al-Hijjah"). Secondary visual
+   weight — Greg day above takes the primary role. */
+.moon-hub-cal-hijri {
+    font-size: 0.68rem;
+    font-weight: 500;
+    color: var(--text-secondary, #6b7d72);
+    line-height: 1.2;
+    text-align: center;
+    /* Allow 2-line wrap for long Hijri month names like "ربيع الأول" */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    word-break: break-word;
+    margin-top: -2px;
 }
 .moon-hub-cal-phase {
     font-size: 1.5rem;
@@ -3331,7 +3386,10 @@ html[data-theme="dark"] .moon-hub-cal-phase-name {
 .moon-hub-cal-cell--empty {
     background: transparent !important;
     pointer-events: none;
-    min-height: 92px;
+    /* MOON-MONTHLY-CALENDAR-GRID-UI-CONTENT-POLISH-1 followup (2026-05-24):
+       match the new .moon-hub-cal-cell a min-height (92 → 100) so empty
+       leading cells (e.g. before the 1st of the month) align cleanly. */
+    min-height: 100px;
 }
 /* Mobile: tighter cells; phase emoji smaller; picker stacks under title.
    3-line content stays — mobile relies on smaller font + tighter padding. */
@@ -3340,15 +3398,18 @@ html[data-theme="dark"] .moon-hub-cal-phase-name {
     .moon-hub-cal-grid { gap: 3px; }
     .moon-hub-cal-wd-row { gap: 3px; }
     .moon-hub-cal-cell a {
-        min-height: 70px;
-        padding: 6px 2px;
+        min-height: 86px;
+        padding: 6px 3px;
         font-size: 0.7rem;
         border-radius: 6px;
         gap: 2px;
     }
-    .moon-hub-cal-cell--empty { min-height: 70px; }
-    .moon-hub-cal-rel { font-size: 0.6rem; }
-    .moon-hub-cal-date { font-size: 0.7rem; }
+    .moon-hub-cal-cell--empty { min-height: 86px; }
+    .moon-hub-cal-rel { font-size: 0.55rem; padding: 1px 5px; }
+    /* Mobile: scale the Greg-date label down a notch since it now includes
+       the month name ("24 مايو" / "May 24"); nowrap + truncate still apply. */
+    .moon-hub-cal-date { font-size: 0.72rem; }
+    .moon-hub-cal-hijri { font-size: 0.55rem; -webkit-line-clamp: 1; }
     .moon-hub-cal-phase-name { font-size: 0.55rem; }
     .moon-hub-cal-phase { font-size: 1.1rem; }
     .moon-hub-cal-wd { font-size: 0.62rem; padding: 2px 0; }

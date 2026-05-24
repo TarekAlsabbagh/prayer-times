@@ -4863,8 +4863,20 @@ html[data-theme="dark"] .info-tooltip-trigger:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
+    /* MOON-UPCOMING-CARDS-PADDING-POLISH-1 (2026-05-24): the parent
+       `.moon-upcoming-timeline` is a CSS grid that stretches cards to
+       equal row height (default `align-items: stretch`). Without
+       vertical centering, the icon + body sat at the TOP and the
+       extra grid space piled up as empty padding-bottom — visible in
+       all moon pages that render this section. Fix: `justify-content:
+       center` distributes any extra space ABOVE and BELOW the content
+       equally, so cards still align in a clean row but no longer have
+       a chunky bottom gap. Also trimmed padding 14→12 vertical to
+       reduce the overall card height ~4px without crowding the
+       content. Top + side padding stay balanced (10px sides). */
+    justify-content: center;
     gap: 8px;
-    padding: 14px 10px;
+    padding: 12px 10px;
     background: rgba(255, 255, 255, 0.7);
     border: 1px solid rgba(100, 181, 246, 0.25);
     border-radius: 12px;
@@ -4962,7 +4974,7 @@ html[data-theme="dark"] .info-tooltip-trigger:focus {
         grid-template-columns: repeat(2, 1fr);
         gap: 8px;
     }
-    .moon-upcoming-card { padding: 12px 8px; }
+    .moon-upcoming-card { padding: 10px 8px; }
     .moon-upcoming-card .mu-icon { font-size: 1.85rem; }
     .moon-upcoming-card .mu-phase-name { font-size: 0.88rem; }
     .moon-upcoming-card .mu-date { font-size: 0.78rem; }

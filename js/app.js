@@ -18447,126 +18447,134 @@ function updateMoonInfo() {
                 const _nextMonthName = (_lng_ === 'ar') ? _gMonthsAr[_nextDate.getMonth()] : _gMonthsEn[_nextDate.getMonth()];
                 const _curYear = _cityTodayParts.y;
                 const _nextYear = _nextDate.getFullYear();
-                // Phase D3.1.3b: 10-lang lookup (was: ar/en ternary)
+                // MOON-CITY-HUB-RELATED-LINKS-MERGE-1 (2026-05-24):
+                //   Title + intro rewritten to reflect the section's new role
+                //   as the CONSOLIDATED links area on /moon-in-{city} — after
+                //   the duplicate `#moon-city-hub-edu` block was hidden via
+                //   CSS to remove the visible repetition (today/hijri/month
+                //   links appeared in BOTH sections previously).
+                //   Label order also changed: hijri-today moved from #6 to
+                //   #4; prayer-times → #5; qibla → #6. Matches the user's
+                //   spec order in 10 langs.
                 const _HUB_RELATED_BY_LANG = {
                     ar: {
-                        title: `روابط مهمّة عن القمر في ${_cityName}`,
-                        intro: `تَجمع هذه الصفحة كلّ ما يَخصّ القمر في ${_cityName} — حالة اليوم، تقويم الشهر الحاليّ والقادم، إضافةً إلى أدوات مرتبطة كمواقيت الصلاة واتّجاه القبلة.`,
+                        title: `روابط وأدوات مرتبطة بالقمر في ${_cityName}`,
+                        intro: `تساعدك هذه الروابط على الانتقال بين حالة القمر في ${_cityName}، والتقويم الشهري، والأيام القريبة، مع أدوات مرتبطة مثل مواقيت الصلاة واتجاه القبلة والتاريخ الهجري.`,
                         labels: [
                             `حالة القمر اليوم في ${_cityName}`,
                             `تقويم القمر لشهر ${_curMonthName} ${_curYear}`,
                             `تقويم القمر لشهر ${_nextMonthName} ${_nextYear}`,
+                            `التاريخ الهجريّ اليوم`,
                             `مواقيت الصلاة في ${_cityName}`,
-                            `اتّجاه القبلة من ${_cityName}`,
-                            `التاريخ الهجريّ اليوم`
+                            `اتّجاه القبلة من ${_cityName}`
                         ]
                     },
                     en: {
-                        title: `Important moon-related links in ${_cityName}`,
-                        intro: `This page brings together everything about the Moon in ${_cityName} — today's status, the current and next months' calendars, plus related tools like prayer times and qibla direction.`,
+                        title: `Moon-related links & tools for ${_cityName}`,
+                        intro: `These links help you move between the Moon's status in ${_cityName}, the monthly calendar, and nearby days — alongside related tools like prayer times, Qibla direction, and today's Hijri date.`,
                         labels: [
                             `Moon status today in ${_cityName}`,
                             `Moon calendar for ${_curMonthName} ${_curYear}`,
                             `Moon calendar for ${_nextMonthName} ${_nextYear}`,
+                            `Today's Hijri date`,
                             `Prayer times in ${_cityName}`,
-                            `Qibla direction from ${_cityName}`,
-                            `Today's Hijri date`
+                            `Qibla direction from ${_cityName}`
                         ]
                     },
                     fr: {
-                        title: `Liens importants sur la Lune à ${_cityName}`,
-                        intro: `Cette page rassemble tout sur la Lune à ${_cityName} — l'état du jour, les calendriers du mois en cours et du mois prochain, plus des outils liés comme les horaires de prière et la direction de la Qibla.`,
+                        title: `Liens et outils liés à la Lune à ${_cityName}`,
+                        intro: `Ces liens vous aident à naviguer entre l'état de la Lune à ${_cityName}, le calendrier mensuel et les jours proches — avec des outils associés comme les horaires de prière, la direction de la Qibla et la date hégirienne du jour.`,
                         labels: [
                             `État de la Lune aujourd'hui à ${_cityName}`,
                             `Calendrier lunaire pour ${_curMonthName} ${_curYear}`,
                             `Calendrier lunaire pour ${_nextMonthName} ${_nextYear}`,
+                            `Date hégirienne du jour`,
                             `Heures de prière à ${_cityName}`,
-                            `Direction de la Qibla depuis ${_cityName}`,
-                            `Date hégirienne du jour`
+                            `Direction de la Qibla depuis ${_cityName}`
                         ]
                     },
                     tr: {
-                        title: `${_cityName} için önemli ay bağlantıları`,
-                        intro: `Bu sayfa, ${_cityName}'deki Ay'la ilgili her şeyi bir araya getirir — bugünkü durumu, mevcut ve gelecek ayların takvimleri ile namaz vakitleri ve kıble yönü gibi ilgili araçlar.`,
+                        title: `${_cityName} için Ay'la ilgili bağlantılar ve araçlar`,
+                        intro: `Bu bağlantılar ${_cityName}'deki Ay durumu, aylık takvim ve yakın günler arasında geçiş yapmanıza yardımcı olur — namaz vakitleri, kıble yönü ve bugünün hicri tarihi gibi ilgili araçlarla birlikte.`,
                         labels: [
                             `${_cityName}'de bugünkü ay durumu`,
                             `${_curMonthName} ${_curYear} ay takvimi`,
                             `${_nextMonthName} ${_nextYear} ay takvimi`,
+                            `Bugünün hicri tarihi`,
                             `${_cityName} namaz vakitleri`,
-                            `${_cityName}'den kıble yönü`,
-                            `Bugünün hicri tarihi`
+                            `${_cityName}'den kıble yönü`
                         ]
                     },
                     ur: {
-                        title: `${_cityName} میں چاند کے بارے میں اہم لنکس`,
-                        intro: `یہ صفحہ ${_cityName} میں چاند کے بارے میں ہر چیز کو اکٹھا کرتا ہے — آج کی حالت، موجودہ اور آنے والے مہینے کا تقویم، اور متعلقہ ٹولز جیسے اوقاتِ نماز اور سمتِ قبلہ۔`,
+                        title: `${_cityName} میں چاند سے متعلق روابط اور ٹولز`,
+                        intro: `یہ روابط ${_cityName} میں چاند کی حالت، ماہانہ تقویم اور قریبی دنوں کے درمیان جانے میں مدد دیتے ہیں — اوقاتِ نماز، سمتِ قبلہ اور آج کی ہجری تاریخ جیسے متعلقہ ٹولز کے ساتھ۔`,
                         labels: [
                             `${_cityName} میں آج چاند کی حالت`,
                             `${_curMonthName} ${_curYear} کا چاند کیلنڈر`,
                             `${_nextMonthName} ${_nextYear} کا چاند کیلنڈر`,
+                            `آج کی ہجری تاریخ`,
                             `${_cityName} میں اوقاتِ نماز`,
-                            `${_cityName} سے سمتِ قبلہ`,
-                            `آج کی ہجری تاریخ`
+                            `${_cityName} سے سمتِ قبلہ`
                         ]
                     },
                     de: {
-                        title: `Wichtige mondbezogene Links in ${_cityName}`,
-                        intro: `Diese Seite vereint alles zum Mond in ${_cityName} — den heutigen Zustand, die Kalender des aktuellen und nächsten Monats sowie verwandte Tools wie Gebetszeiten und Qibla-Richtung.`,
+                        title: `Mondbezogene Links und Tools für ${_cityName}`,
+                        intro: `Diese Links helfen Ihnen, zwischen dem Mondstand in ${_cityName}, dem Monatskalender und nahen Tagen zu navigieren — neben verwandten Tools wie Gebetszeiten, Qibla-Richtung und heutigem Hidschri-Datum.`,
                         labels: [
                             `Mondzustand heute in ${_cityName}`,
                             `Mondkalender für ${_curMonthName} ${_curYear}`,
                             `Mondkalender für ${_nextMonthName} ${_nextYear}`,
+                            `Heutiges Hidschri-Datum`,
                             `Gebetszeiten in ${_cityName}`,
-                            `Qibla-Richtung von ${_cityName}`,
-                            `Heutiges Hidschri-Datum`
+                            `Qibla-Richtung von ${_cityName}`
                         ]
                     },
                     id: {
-                        title: `Tautan penting terkait Bulan di ${_cityName}`,
-                        intro: `Halaman ini menghimpun semua tentang Bulan di ${_cityName} — status hari ini, kalender bulan ini dan bulan depan, ditambah alat terkait seperti jadwal sholat dan arah kiblat.`,
+                        title: `Tautan & alat terkait Bulan di ${_cityName}`,
+                        intro: `Tautan ini membantu Anda berpindah antara status Bulan di ${_cityName}, kalender bulanan, dan hari-hari terdekat — beserta alat terkait seperti jadwal sholat, arah kiblat, dan tanggal Hijriah hari ini.`,
                         labels: [
                             `Status Bulan hari ini di ${_cityName}`,
                             `Kalender bulan ${_curMonthName} ${_curYear}`,
                             `Kalender bulan ${_nextMonthName} ${_nextYear}`,
+                            `Tanggal Hijriah hari ini`,
                             `Jadwal sholat di ${_cityName}`,
-                            `Arah kiblat dari ${_cityName}`,
-                            `Tanggal Hijriah hari ini`
+                            `Arah kiblat dari ${_cityName}`
                         ]
                     },
                     es: {
-                        title: `Enlaces importantes sobre la Luna en ${_cityName}`,
-                        intro: `Esta página reúne todo sobre la Luna en ${_cityName} — el estado de hoy, los calendarios del mes actual y próximo, además de herramientas relacionadas como horarios de oración y dirección de la Qibla.`,
+                        title: `Enlaces y herramientas relacionadas con la Luna en ${_cityName}`,
+                        intro: `Estos enlaces te ayudan a moverte entre el estado de la Luna en ${_cityName}, el calendario mensual y los días cercanos — junto con herramientas relacionadas como horarios de oración, dirección de la Qibla y la fecha hijri de hoy.`,
                         labels: [
                             `Estado de la Luna hoy en ${_cityName}`,
                             `Calendario lunar para ${_curMonthName} ${_curYear}`,
                             `Calendario lunar para ${_nextMonthName} ${_nextYear}`,
+                            `Fecha hijri de hoy`,
                             `Horarios de oración en ${_cityName}`,
-                            `Dirección de la Qibla desde ${_cityName}`,
-                            `Fecha hijri de hoy`
+                            `Dirección de la Qibla desde ${_cityName}`
                         ]
                     },
                     bn: {
-                        title: `${_cityName}-এ চাঁদ সম্পর্কিত গুরুত্বপূর্ণ লিঙ্ক`,
-                        intro: `এই পৃষ্ঠা ${_cityName}-এ চাঁদ সম্পর্কে সব কিছু একত্রিত করে — আজকের অবস্থা, বর্তমান ও পরবর্তী মাসের ক্যালেন্ডার এবং সম্পর্কিত সরঞ্জাম যেমন নামাজের সময় ও কিবলার দিক।`,
+                        title: `${_cityName}-এ চাঁদ-সম্পর্কিত লিঙ্ক ও সরঞ্জাম`,
+                        intro: `এই লিঙ্কগুলো আপনাকে ${_cityName}-এ চাঁদের অবস্থা, মাসিক ক্যালেন্ডার এবং নিকটবর্তী দিনগুলোর মধ্যে চলাচল করতে সাহায্য করে — নামাজের সময়, কিবলার দিক ও আজকের হিজরি তারিখের মতো সম্পর্কিত সরঞ্জামের সাথে।`,
                         labels: [
                             `${_cityName}-এ আজ চাঁদের অবস্থা`,
                             `${_curMonthName} ${_curYear}-এর চাঁদের ক্যালেন্ডার`,
                             `${_nextMonthName} ${_nextYear}-এর চাঁদের ক্যালেন্ডার`,
+                            `আজকের হিজরি তারিখ`,
                             `${_cityName}-এ নামাজের সময়`,
-                            `${_cityName} থেকে কিবলার দিক`,
-                            `আজকের হিজরি তারিখ`
+                            `${_cityName} থেকে কিবলার দিক`
                         ]
                     },
                     ms: {
-                        title: `Pautan penting berkaitan Bulan di ${_cityName}`,
-                        intro: `Halaman ini menghimpunkan semua tentang Bulan di ${_cityName} — status hari ini, kalendar bulan semasa dan akan datang, serta alat berkaitan seperti waktu solat dan arah kiblat.`,
+                        title: `Pautan & alat berkaitan Bulan di ${_cityName}`,
+                        intro: `Pautan ini membantu anda bergerak antara status Bulan di ${_cityName}, kalendar bulanan, dan hari-hari berdekatan — bersama alat berkaitan seperti waktu solat, arah kiblat, dan tarikh Hijrah hari ini.`,
                         labels: [
                             `Status Bulan hari ini di ${_cityName}`,
                             `Kalendar Bulan untuk ${_curMonthName} ${_curYear}`,
                             `Kalendar Bulan untuk ${_nextMonthName} ${_nextYear}`,
+                            `Tarikh Hijrah hari ini`,
                             `Waktu solat di ${_cityName}`,
-                            `Arah kiblat dari ${_cityName}`,
-                            `Tarikh Hijrah hari ini`
+                            `Arah kiblat dari ${_cityName}`
                         ]
                     }
                 };
@@ -18583,13 +18591,18 @@ function updateMoonInfo() {
                         _hijriTodayPath = '/hijri-date/' + _hT.year + '-' + _padN(_hT.month) + '-' + _padN(_hT.day);
                     }
                 } catch (_) { /* keep legacy path; auto-rewriter will fix it */ }
+                // MOON-CITY-HUB-RELATED-LINKS-MERGE-1 (2026-05-24):
+                //   Reordered hrefs so the 4th position is Today's Hijri Date
+                //   (was previously at #6) — per the user's "consolidated
+                //   links" spec where prayer-times + qibla move to 5/6 and
+                //   hijri-today gets the more prominent #4 slot.
                 const _hrefs = [
                     _langPrefixEdu + '/moon-today-in-' + _citySlug,
                     _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _curMonthIso,
                     _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _nextMonthIso,
+                    _langPrefixEdu + _hijriTodayPath,
                     _langPrefixEdu + '/prayer-times-in-' + _citySlug,
-                    _langPrefixEdu + '/qibla-in-' + _citySlug,
-                    _langPrefixEdu + _hijriTodayPath
+                    _langPrefixEdu + '/qibla-in-' + _citySlug
                 ];
                 const _hubRelTitle = document.querySelector('.moon-hub-related-title');
                 const _hubRelIntro = document.querySelector('.moon-hub-related-intro');

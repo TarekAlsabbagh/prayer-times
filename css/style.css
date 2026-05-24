@@ -5750,27 +5750,46 @@ html[data-theme="dark"] .moon-tdc-edu-links .moon-tdc-edu-icon {
    pages, making the hub a true gateway to the city's lunar tools. */
 .moon-hub-related { display: none; }
 html.moon-hub-page:not(.moon-month-page):not(.moon-date-page) .moon-hub-related { display: block !important; }
+
+/* MOON-CITY-HUB-RELATED-LINKS-MERGE-1 (2026-05-24):
+   Hide the duplicate #moon-city-hub-edu block on /moon-in-{city}
+   (hub) so the visitor doesn't see two sections offering the same
+   3 cross-links (today / month / hijri-today). The consolidated
+   `#moon-hub-related-links` section below now carries the FULL
+   6-link grid (today + curMonth + nextMonth + hijri-today +
+   prayer-times + qibla) and uses a refreshed title + intro that
+   describes its role as the city's links/tools hub. */
+html.moon-hub-page:not(.moon-month-page):not(.moon-date-page) #moon-city-hub-edu {
+    display: none !important;
+}
+
 .moon-hub-related-grid {
     list-style: none;
     padding: 0;
-    margin: 16px 0 0;
+    /* MOON-CITY-HUB-RELATED-LINKS-MERGE-1: trim the top margin so the
+       grid sits closer to the intro paragraph (was 16px → 12px) and
+       slightly bigger gap so cards breathe with the lighter style. */
+    margin: 12px 0 0;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 12px;
+    gap: 10px;
 }
 .moon-hub-related-grid li { margin: 0; }
 .moon-hub-related-card {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-    background: linear-gradient(135deg, rgba(46,125,50,0.07), rgba(46,125,50,0.02));
-    border: 1.5px solid rgba(46,125,50,0.20);
+    /* MOON-CITY-HUB-RELATED-LINKS-MERGE-1: lighter visual weight —
+       slimmer padding, softer border + background, smaller icon
+       circle. Same colors / same hover behavior — just less heavy. */
+    gap: 10px;
+    padding: 11px 14px;
+    background: linear-gradient(135deg, rgba(46,125,50,0.05), rgba(46,125,50,0.015));
+    border: 1px solid rgba(46,125,50,0.14);
     border-radius: 12px;
     color: var(--primary, #2e7d32);
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.95rem;
+    font-size: 0.93rem;
     line-height: 1.4;
     transition: transform 0.22s ease, box-shadow 0.22s ease,
                 border-color 0.22s ease, background 0.22s ease;
@@ -5786,12 +5805,13 @@ html.moon-hub-page:not(.moon-month-page):not(.moon-date-page) .moon-hub-related 
 }
 .moon-hub-related-card .moon-hub-related-icon {
     flex: 0 0 auto;
-    width: 38px; height: 38px;
+    /* MOON-CITY-HUB-RELATED-LINKS-MERGE-1: smaller icon circle (was 38 → 32) */
+    width: 32px; height: 32px;
     border-radius: 50%;
-    background: rgba(46,125,50,0.12);
+    background: rgba(46,125,50,0.10);
     display: inline-flex;
     align-items: center; justify-content: center;
-    font-size: 1.2rem;
+    font-size: 1.05rem;
 }
 .moon-hub-related-card:hover .moon-hub-related-icon {
     background: rgba(46,125,50,0.22);

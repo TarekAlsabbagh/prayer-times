@@ -8534,26 +8534,47 @@ function buildSeoForPath(urlPath) {
     // ── Moon city pages (Round 15 + Round 16): فصل الـ URLs — clean split ──
     //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم (today only)
     //   /moon-in-{slug}[-{lat}-{lng}]                       → صفحة المدينة (hub — Round 16)
-    //   /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}         → صفحة مؤرَّخة (ميلاديّ)
-    //   /moon-in-{slug}[-{lat}-{lng}]/{HYYYY-HMM-HDD}      → صفحة مؤرَّخة (هجريّ، canonical→ميلاديّ)
+    //   /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}         → صفحة مؤرَّخة (ميلاديّ — Gregorian فقط)
+    //
+    // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
+    //   Removed the legacy Hijri-input path. Pre-launch, we adopt a clean
+    //   single-canonical-per-day model: only Gregorian YYYY-MM-DD with year
+    //   ≥ 1800 matches the dated moon route. Hijri-format URLs (year < 1800)
+    //   fall through to 404 — no soft canonical, no 301, no parallel route.
+    //   See reports/moon-date-canonical-policy-audit-1.md for the rationale
+    //   (no published links to protect → 404 is cleaner than 301).
     //
     // Round 12: coord-suffix عالميّ (مثل /moon-today-in-del-rio-29.36--100.90) — يبقى مدعوماً.
     // جميع الأنماط تدعم coord-suffix. Regex: slug غير جشع ثمّ lat/lng اختياريّان.
     // UAT-Q5f: include `.` in slug character class for loc-XX.X-YY.Y format.
     const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
+    // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1: dated route now requires
+    //   year ≥ 1800 (Gregorian). Mirrors the same guard already used on the
+    //   month route (line 8551). Hijri-format URLs (year < 1800) → _MD is
+    //   nulled at this point, no other route claims them, and the handler
+    //   falls through to the catch-all 404.
+    const _isMoonDatedMatch = !!(_MD && parseInt(_MD[4], 10) >= 1800);
     // UAT-Moon-Hub-Month: month page /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM
     //   Year ≥ 1800 to avoid colliding with Hijri-day URLs (which have YYYY < 1800
     //   in HYYY-HMM-HDD format and would match _MD instead anyway, but defensive).
-    const _MM = (!_MD) ? corePath.match(
+    const _MM = (!_isMoonDatedMatch) ? corePath.match(
         /^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})$/
     ) : null;
     const _isMoonMonthMatch = !!(_MM && parseInt(_MM[4], 10) >= 1800);
     // Round 16: hub match — /moon-in-{slug}[-{lat}-{lng}] بلا تاريخ. يُفحَص أخيراً لأنّ _MD/_MM أوّلاً.
-    const _MH = (!_MD && !_isMoonMonthMatch) ? corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
-    m = _MT || _MD || (_isMoonMonthMatch ? _MM : null) || _MH;
+    const _MH = (!_isMoonDatedMatch && !_isMoonMonthMatch) ? corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/) : null;
+    m = _MT || (_isMoonDatedMatch ? _MD : null) || (_isMoonMonthMatch ? _MM : null) || _MH;
+    // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
+    //   When _MD matched the URL but the year guard rejected it (Hijri year),
+    //   we mark the path as needing an explicit 404 so the route handler
+    //   (which calls this fn) can emit `404 Not Found` instead of falling
+    //   through to the SPA index.html fallback. Same for _MM (month route).
+    //   The flag is read by serveHtmlWithSeo's caller at the Express level
+    //   (this fn is pure — no `res` available here).
+    const _isMoonHijriReject = !!((_MD && !_isMoonDatedMatch) || (_MM && !_isMoonMonthMatch));
     // flag: هل الـ URL الحاليّ hub page (بلا تاريخ، تحت /moon-in-)؟
-    const _isMoonHubPage = !!_MH && !_MD && !_MT && !_isMoonMonthMatch;
+    const _isMoonHubPage = !!_MH && !_isMoonDatedMatch && !_MT && !_isMoonMonthMatch;
     // flag: هل الـ URL الحاليّ month page؟
     const _isMoonMonthPage = _isMoonMonthMatch;
     const _moonMonthYear  = _isMoonMonthMatch ? parseInt(_MM[4], 10) : null;
@@ -8587,29 +8608,26 @@ function buildSeoForPath(urlPath) {
         // إشارة للراوتر: الصفحة noindex إذا كانت غير-DB (سواء coord-only أو slug-only fallback).
         const _isCoordOnlyMoon = !_moonResolvedFromDb;
         // ── تحليل التاريخ إن وُجد ──
-        // ندعم شكلين: ميلاديّ (YYYY-MM-DD حيث YYYY≥1800) وهجريّ (HYYYY-HMM-HDD حيث HYYYY<1800).
-        // بالنسبة للتطبيق لا تداخل بين النطاقين (Hijri ≈ 1300-1600، Gregorian ≥ 1900).
-        // عند التاريخ الهجريّ → نحوّله إلى الميلاديّ ونُعيد URL الـ canonical إلى الصيغة الميلاديّة.
+        // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
+        //   نَدعَم Gregorian فَقَط (YYYY ≥ 1800). الـ guard `_isMoonDatedMatch`
+        //   أعلاه يَرفُض أيّ URL بسنة < 1800 (Hijri-format)، فيَقَع في 404
+        //   بدلاً من قَبوله بـ soft canonical. لا 301، لا alias، لا duplicate
+        //   path. لو احتاج المُستخدم لاحقاً للبحث بالتاريخ الهجريّ، فالأداة
+        //   تُحوِّل الهجريّ إلى الميلاديّ داخليّاً ثُمّ تَفتح الرابط الميلاديّ
+        //   مُباشرة (سياسة A+C في تَقرير MOON-DATE-CANONICAL-POLICY-AUDIT-1).
         let _moonDateIso = null;        // 'YYYY-MM-DD' — null يعني صفحة اليوم
         let _moonDateObj = null;        // Date object للتاريخ المحدَّد
         let _moonDateInRange = true;    // true عندما التاريخ ضمن [today-30, today+90]
-        let _moonDateWasHijri = false;  // لإرسال 301 redirect إلى الصيغة الميلاديّة canonical
+        let _moonDateWasHijri = false;  // legacy flag — kept for backwards-compat with downstream readers; always false after STRICT policy
         if (_dyStr) {
             let _dy = parseInt(_dyStr, 10);
             let _dm = parseInt(_dmStr, 10);
             let _dd = parseInt(_ddStr, 10);
-            // إن كانت السنة < 1800 → تاريخ هجريّ، نحوّله إلى ميلاديّ
-            if (_dy > 0 && _dy < 1800 && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
-                try {
-                    const _g = _hijriToGregorian(_dy, _dm, _dd);
-                    if (_g && _g.year && _g.month && _g.day) {
-                        _moonDateWasHijri = true;
-                        _dy = _g.year; _dm = _g.month; _dd = _g.day;
-                    } else {
-                        _moonDateInRange = false;
-                    }
-                } catch (_e) { _moonDateInRange = false; }
-            }
+            // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1: the legacy Hijri→
+            //   Gregorian conversion branch was REMOVED here. The route-level
+            //   `_isMoonDatedMatch` guard at line ~8554 ensures `_dy` is always
+            //   ≥ 1800 by the time this code runs, so no Hijri input ever
+            //   reaches this point. Hijri-format moon URLs return 404 cleanly.
             // صحّة التقويم: Date.UTC يعيد NaN أو يصحّح الأرقام؛ نتحقّق بإعادة المقارنة
             if (_moonDateInRange && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= 31) {
                 const _testUtc = Date.UTC(_dy, _dm - 1, _dd);
@@ -9786,7 +9804,14 @@ function buildSeoForPath(urlPath) {
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
-        nextPrayerPage
+        nextPrayerPage,
+        // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
+        //   When the URL matched the moon-dated or moon-month regex but the
+        //   year-guard rejected it (Hijri-format input), this flag tells the
+        //   route caller (serveHtmlWithSeo) to emit HTTP 404 with noindex
+        //   instead of rendering the SPA fallback at 200. Defined at line
+        //   ~8568 where the regex matches happen.
+        moonHijriReject: (typeof _isMoonHijriReject !== 'undefined') ? _isMoonHijriReject : false
     };
 }
 
@@ -11036,6 +11061,35 @@ function renderSeoHeadHtml(seo) {
 function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     let html = htmlBuf.toString('utf8');
     const seo = buildSeoForPath(urlPath);
+
+    // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
+    //   Hijri-format moon URL detected (year < 1800). Emit a clean 404
+    //   with X-Robots-Tag: noindex BEFORE running the rest of the SEO
+    //   pipeline — otherwise the URL would fall through to the SPA
+    //   index.html fallback (HTTP 200 with generic home content), which
+    //   would be misleading and indexable. Branded HTML body explains the
+    //   one-canonical-Gregorian-URL-per-moon-day policy.
+    //   See reports/moon-date-canonical-policy-audit-1.md §13 for rationale.
+    if (seo && seo.moonHijriReject) {
+        res.writeHead(404, {
+            'Content-Type': 'text/html; charset=utf-8',
+            'Cache-Control': 'no-cache, no-store, must-revalidate',
+            'X-Robots-Tag': 'noindex,nofollow'
+        });
+        res.end(
+            '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+            + '<title>404 Not Found</title>'
+            + '<meta name="robots" content="noindex,nofollow">'
+            + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+            + '<style>body{font-family:system-ui,sans-serif;max-width:640px;margin:80px auto;padding:0 24px;color:#2c3e50;line-height:1.65}h1{color:#1a6b3c;margin-bottom:8px}code{background:#f0f2f5;padding:2px 6px;border-radius:4px;font-size:0.9em}</style>'
+            + '</head><body>'
+            + '<h1>404 Not Found</h1>'
+            + '<p>Moon date pages use the Gregorian calendar format <code>YYYY-MM-DD</code> (e.g. <code>/moon-in-riyadh/2026-05-23</code>). Hijri-format URLs are not served — the site uses one canonical Gregorian URL per moon day.</p>'
+            + '<p><a href="/moon-today">→ Today\'s moon</a></p>'
+            + '</body></html>'
+        );
+        return;
+    }
 
     // 0) استبدال {LANG_PREFIX} بالبادئة الحاليّة (يخدم روابط الفوتر القانونيّة وغيرها)
     const _lpFor = (seo.lang === 'ar') ? '' : '/' + seo.lang;

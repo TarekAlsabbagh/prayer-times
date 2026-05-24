@@ -14254,6 +14254,157 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = _demoteHeadingsInInactivePageWrappers(html, _activeWrapperId);
     }
 
+    // ─── HIJRI-MONTH-PAGE-SSR-RENDER-1 (2026-05-24) ─────────────────────
+    //   SSR-fill the /hijri-calendar/{YYYY-MM} skeleton so the user sees
+    //   the month grid + info + page-active class IMMEDIATELY in the first
+    //   HTML response, instead of waiting for ~4 s while js/app.js
+    //   downloads and loadHijriMonthPage() (line 22215+) builds everything
+    //   client-side. Audit: reports/hijri-month-page-load-performance-audit-1.md.
+    //
+    //   Client-side loadHijriMonthPage() still runs after JS init — it
+    //   re-fills the same elements with the same data, so the operation
+    //   is visually a no-op (no flicker, no content change). A future
+    //   polish can add an idempotency guard in app.js to skip the rebuild
+    //   when SSR pre-filled the same content.
+    if (_isHijriMonthHub) {
+        try {
+            const _hmm = urlPath.match(/\/hijri-calendar\/(\d{4})-(\d{2})$/);
+            if (_hmm) {
+                const _hmY = parseInt(_hmm[1], 10);
+                const _hmM = parseInt(_hmm[2], 10);
+                const _hmTotalDays = _getDaysInHijriMonth(_hmY, _hmM);
+                if (_hmTotalDays > 0) {
+                    const _hmLang = seo.lang || 'ar';
+                    // 10-lang Hijri month names (mirrors _HM_BY_LANG_CITY at line 7298)
+                    const _HM_NAMES = {
+                        ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                        en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                        fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                        tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                        ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                        de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                        id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                        es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                        bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                        ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
+                    };
+                    // Hijri year suffix per lang
+                    const _HM_SFX = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ھ', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
+                    // H1 title template per lang
+                    const _HM_TITLE_TPL = {
+                        ar: (m, y, sfx) => `تقويم شهر ${m} ${y}${sfx}`,
+                        en: (m, y, sfx) => `${m} ${y}${sfx} Hijri Calendar`,
+                        fr: (m, y, sfx) => `Calendrier hégirien de ${m} ${y}${sfx}`,
+                        tr: (m, y, sfx) => `${m} ${y}${sfx} Hicri Takvimi`,
+                        ur: (m, y, sfx) => `${m} ${y}${sfx} کا ہجری کیلنڈر`,
+                        de: (m, y, sfx) => `Hidschri-Kalender ${m} ${y}${sfx}`,
+                        id: (m, y, sfx) => `Kalender Hijriah ${m} ${y}${sfx}`,
+                        es: (m, y, sfx) => `Calendario hijrí de ${m} ${y}${sfx}`,
+                        bn: (m, y, sfx) => `${m} ${y}${sfx}-এর হিজরি ক্যালেন্ডার`,
+                        ms: (m, y, sfx) => `Kalendar Hijrah ${m} ${y}${sfx}`,
+                    };
+                    // Subtitle template (compact: total days + Greg range)
+                    const _HM_SUB_TPL = {
+                        ar: (n, gFirst, gLast) => `${n} يومًا • ${gFirst} – ${gLast}`,
+                        en: (n, gFirst, gLast) => `${n} days • ${gFirst} – ${gLast}`,
+                        fr: (n, gFirst, gLast) => `${n} jours • ${gFirst} – ${gLast}`,
+                        tr: (n, gFirst, gLast) => `${n} gün • ${gFirst} – ${gLast}`,
+                        ur: (n, gFirst, gLast) => `${n} دن • ${gFirst} – ${gLast}`,
+                        de: (n, gFirst, gLast) => `${n} Tage • ${gFirst} – ${gLast}`,
+                        id: (n, gFirst, gLast) => `${n} hari • ${gFirst} – ${gLast}`,
+                        es: (n, gFirst, gLast) => `${n} días • ${gFirst} – ${gLast}`,
+                        bn: (n, gFirst, gLast) => `${n} দিন • ${gFirst} – ${gLast}`,
+                        ms: (n, gFirst, gLast) => `${n} hari • ${gFirst} – ${gLast}`,
+                    };
+                    // Info-card labels per lang
+                    const _HM_INFO_LBL = {
+                        ar: { totalDays: 'عدد الأيام', gregRange: 'النطاق الميلادي', hijriYear: 'السنة الهجرية' },
+                        en: { totalDays: 'Total days', gregRange: 'Gregorian range', hijriYear: 'Hijri year' },
+                        fr: { totalDays: 'Total des jours', gregRange: 'Plage grégorienne', hijriYear: 'Année hégirienne' },
+                        tr: { totalDays: 'Toplam gün', gregRange: 'Miladi aralık', hijriYear: 'Hicri yıl' },
+                        ur: { totalDays: 'کل دن', gregRange: 'عیسوی حد', hijriYear: 'ہجری سال' },
+                        de: { totalDays: 'Tage gesamt', gregRange: 'Gregorianischer Bereich', hijriYear: 'Hidschri-Jahr' },
+                        id: { totalDays: 'Total hari', gregRange: 'Rentang Masehi', hijriYear: 'Tahun Hijriah' },
+                        es: { totalDays: 'Total de días', gregRange: 'Rango gregoriano', hijriYear: 'Año hijrí' },
+                        bn: { totalDays: 'মোট দিন', gregRange: 'গ্রেগরিয়ান পরিসর', hijriYear: 'হিজরি বছর' },
+                        ms: { totalDays: 'Jumlah hari', gregRange: 'Julat Masihi', hijriYear: 'Tahun Hijrah' },
+                    };
+                    const _hmMonthName = (_HM_NAMES[_hmLang] || _HM_NAMES.en)[_hmM - 1] || '';
+                    const _hmYearSfx = _HM_SFX[_hmLang] || ' AH';
+                    const _hmGregMonths = _GREG_MONTHS[_hmLang] || _GREG_MONTHS.en;
+                    const _hmFmtGreg = (g) => {
+                        const _gMon = _hmGregMonths[g.month - 1] || '';
+                        return (_hmLang === 'en') ? `${_gMon} ${g.day}, ${g.year}` : `${g.day} ${_gMon} ${g.year}`;
+                    };
+                    const _hmGregFirst = _hijriToGregorian(_hmY, _hmM, 1);
+                    const _hmGregLast = _hijriToGregorian(_hmY, _hmM, _hmTotalDays);
+                    // Build title + subtitle
+                    const _hmTitle = (_HM_TITLE_TPL[_hmLang] || _HM_TITLE_TPL.en)(_hmMonthName, _hmY, _hmYearSfx);
+                    const _hmSub = (_hmGregFirst && _hmGregLast)
+                        ? (_HM_SUB_TPL[_hmLang] || _HM_SUB_TPL.en)(_hmTotalDays, _hmFmtGreg(_hmGregFirst), _hmFmtGreg(_hmGregLast))
+                        : '';
+                    // Build 30-row tbody
+                    let _hmTbody = '';
+                    for (let _d = 1; _d <= _hmTotalDays; _d++) {
+                        const _g = _hijriToGregorian(_hmY, _hmM, _d);
+                        if (!_g) continue;
+                        const _hLabel = `${_d} ${_hmMonthName} ${_hmY}${_hmYearSfx}`;
+                        _hmTbody += `<tr><td>${_escHtml(_hLabel)}</td><td>${_escHtml(_hmFmtGreg(_g))}</td></tr>`;
+                    }
+                    // Build info-grid (3 cards: total days / Greg range / Hijri year)
+                    const _il = _HM_INFO_LBL[_hmLang] || _HM_INFO_LBL.en;
+                    const _hmGregRangeStr = (_hmGregFirst && _hmGregLast)
+                        ? `${_hmFmtGreg(_hmGregFirst)} – ${_hmFmtGreg(_hmGregLast)}` : '—';
+                    const _hmInfoGrid =
+                        `<div class="info-card"><div class="info-label">${_escHtml(_il.totalDays)}</div><div class="info-value">${_hmTotalDays}</div></div>` +
+                        `<div class="info-card"><div class="info-label">${_escHtml(_il.gregRange)}</div><div class="info-value">${_escHtml(_hmGregRangeStr)}</div></div>` +
+                        `<div class="info-card"><div class="info-label">${_escHtml(_il.hijriYear)}</div><div class="info-value">${_hmY}${_escHtml(_hmYearSfx)}</div></div>`;
+                    // Build days-summary line
+                    const _hmDaysSummary = (_HM_SUB_TPL[_hmLang] || _HM_SUB_TPL.en)(_hmTotalDays, _hmFmtGreg(_hmGregFirst), _hmFmtGreg(_hmGregLast));
+                    // ─── Apply 5 string replacements (idempotent) ───────────
+                    // 1. Activate the page wrapper (remove display:none gate)
+                    html = html.replace(
+                        '<div class="page" id="page-hijri-month">',
+                        '<div class="page active" id="page-hijri-month">'
+                    );
+                    // 2. Real H1 with month+year (was: generic placeholder).
+                    //    STRIP the data-i18n attribute so the SSR i18n translator
+                    //    at server.js:1715 doesn't later re-overwrite our custom
+                    //    title with the static i18n placeholder value (e.g. EN
+                    //    "Hijri Month Calendar"). Pattern matches the H1 with
+                    //    or without data-i18n, removes the attr, sets content.
+                    html = html.replace(
+                        /<h1 id="hmonth-title"([^>]*)>[^<]*<\/h1>/,
+                        (m, attrs) => {
+                            const cleanedAttrs = attrs.replace(/\s+data-i18n="[^"]*"/, '');
+                            return `<h1 id="hmonth-title"${cleanedAttrs}>${_escHtml(_hmTitle)}</h1>`;
+                        }
+                    );
+                    // 3. Subtitle (compact: "30 days • Jul 27, 2025 – Aug 25, 2025")
+                    html = html.replace(
+                        /(<p id="hmonth-subtitle"[^>]*>)[^<]*(<\/p>)/,
+                        '$1' + _escHtml(_hmSub) + '$2'
+                    );
+                    // 4. Days summary line (same string as subtitle for now)
+                    html = html.replace(
+                        /(<p id="hmonth-days-summary"[^>]*>)[^<]*(<\/p>)/,
+                        '$1' + _escHtml(_hmDaysSummary) + '$2'
+                    );
+                    // 5. Info-grid (3 cards)
+                    html = html.replace(
+                        '<div class="info-grid" id="hmonth-info-grid"></div>',
+                        '<div class="info-grid" id="hmonth-info-grid">' + _hmInfoGrid + '</div>'
+                    );
+                    // 6. Tbody (30 rows)
+                    html = html.replace(
+                        '<tbody id="hmonth-table-body"></tbody>',
+                        '<tbody id="hmonth-table-body">' + _hmTbody + '</tbody>'
+                    );
+                }
+            }
+        } catch (_e) { /* silent — SSR enrichment is optional, client JS still runs */ }
+    }
+
     // HCAL-1 (2026-05-09): SSR Usage Guide content injection on year-hub.
     // Adds ~350-400 words of educational content (4 blocks × H3+P) so the
     // page passes SEOptimer's "Amount of Content" threshold without any

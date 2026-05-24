@@ -3696,60 +3696,85 @@ html[data-theme="dark"] .moon-hub-cta.moon-hub-cta-pulse:focus {
     .moon-hijri-icon { font-size: 1.8rem; }
 }
 
-/* MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24):
+/* MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24) +
+   MOON-MONTHLY-PAGE-HIJRI-RANGE-CARD-REDESIGN-1 (2026-05-24):
    On /moon-in-{city}/{YYYY-MM} month pages the Hijri-today card is
-   repurposed as a Hijri-RANGE card. Same .moon-hijri-today shell, but
-   shows two Hijri dates (start → end) side-by-side instead of the
-   single today number. `.moon-hijri-range` modifier on the wrapper
-   triggers the lighter range layout. The summary-line also gets
-   `.moon-summary-line--month` modifier so the chip styling can shift
-   from today-status (icon + 3 phase chips) to month-overview (3
-   neutral chips). */
-.moon-hijri-today.moon-hijri-range .moon-hijri-range-line {
+   repurposed as a Hijri-RANGE card with a pedagogical 3-level layout:
+     1. Title:  "النطاق الهجريّ لشهر {month} {year}" (dynamic per month)
+     2. Greg:   "مايو 2026" (subtitle)
+     3. Range:  two labeled rows — "بداية الشهر: {hijri-start}" and
+                "نهاية الشهر: {hijri-end}" (or single "يقع ضمن: …" row
+                when the Gregorian month fits inside one Hijri month).
+     4. Desc:   short Umm al-Qura explanation sentence.
+   The previous arrow-separated "X ← Y" line was REMOVED because users
+   read the arrow ambiguously (direction unclear in RTL). Labels make
+   the start/end semantics explicit. */
+.moon-hijri-today.moon-hijri-range .moon-hijri-label--month {
+    /* The card title is now the full sentence "Hijri range for {month}
+       {year}" — slightly larger + heavier than the legacy "التاريخ
+       الهجريّ اليوم" label, but still subordinate to the page H2. */
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: var(--primary, #1a6b3c);
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-greg--month {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--text-secondary, #6b7d72);
+    margin-bottom: 10px;
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-pair,
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-single {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-top: 4px;
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-row {
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 6px 10px;
-    justify-content: flex-start;
-    font-size: 1.05rem;
-    font-weight: 700;
-    color: var(--primary, #1a6b3c);
-    line-height: 1.4;
+    gap: 6px 8px;
+    line-height: 1.45;
 }
-.moon-hijri-today.moon-hijri-range .moon-hijri-range-dash {
-    color: rgba(46, 125, 50, 0.55);
-    font-weight: 600;
-    padding: 0 2px;
-}
-.moon-hijri-today.moon-hijri-range .moon-hijri-greg {
-    margin-top: 4px;
-    font-size: 0.88rem;
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-key {
+    flex: 0 0 auto;
+    font-size: 0.85rem;
     font-weight: 500;
     color: var(--text-secondary, #6b7d72);
+    min-width: 90px;
+}
+.moon-hijri-today.moon-hijri-range .moon-hijri-range-val {
+    flex: 1 1 auto;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary, #1a6b3c);
 }
 .moon-hijri-today.moon-hijri-range .moon-hijri-lunar--month {
-    margin-top: 10px;
+    margin-top: 12px;
     font-size: 0.92rem;
-    line-height: 1.55;
+    line-height: 1.6;
+    color: var(--text, #334139);
 }
 .moon-summary-line--month .moon-summary-chip--lead strong {
     color: var(--primary, #1a6b3c);
     font-weight: 700;
 }
 @media (max-width: 480px) {
-    .moon-hijri-today.moon-hijri-range .moon-hijri-range-line {
-        font-size: 0.98rem;
-        gap: 4px 8px;
-    }
+    .moon-hijri-today.moon-hijri-range .moon-hijri-label--month { font-size: 0.92rem; }
+    .moon-hijri-today.moon-hijri-range .moon-hijri-range-key { min-width: 76px; font-size: 0.82rem; }
+    .moon-hijri-today.moon-hijri-range .moon-hijri-range-val { font-size: 0.95rem; }
+    .moon-hijri-today.moon-hijri-range .moon-hijri-lunar--month { font-size: 0.88rem; }
 }
-/* Dark theme — keep range-line readable */
+/* Dark theme — lift contrast for range rows */
 
-    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-range-line {
-        color: #4ade80;
-    }
-    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-range-dash {
-        color: rgba(74, 222, 128, 0.55);
-    }
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-label--month { color: #4ade80; }
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-range-val { color: #4ade80; }
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-greg--month,
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-range-key { color: #94a89c; }
+    html[data-theme="dark"] .moon-hijri-today.moon-hijri-range .moon-hijri-lunar--month { color: #b3c4ba; }
 
 /* ═══ Wave A: العدّ التنازليّ للمناسبات الإسلاميّة — 4 كروت ═══ */
 .moon-events-section {

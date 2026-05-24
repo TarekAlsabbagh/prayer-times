@@ -18536,12 +18536,22 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             };
             const _msCfg = _MONTH_SUMMARY_TPL[Lm] || _MONTH_SUMMARY_TPL.en;
             const _msLbl = _MONTH_OVERVIEW_LBL[Lm] || _MONTH_OVERVIEW_LBL.en;
-            // Compact Hijri range for the chip (no day numbers — just month-month or month)
+            // Compact Hijri range for the chip (no day numbers — just month-month or month).
+            // MOON-MONTHLY-PAGE-HIJRI-RANGE-CARD-REDESIGN-1 (2026-05-24):
+            //   Replaced the en-dash separator with the localized word for
+            //   "to" (إلى / to / à / -> / etc.) so the chip reads
+            //   pedagogically as a range, not as a typographic dash that
+            //   visually merges with the month names.
+            const _MONTH_TO_WORD = {
+                ar: 'إلى', en: 'to', fr: 'à', tr: 'ile', ur: 'سے',
+                de: 'bis', id: 'hingga', es: 'a', bn: 'থেকে', ms: 'hingga'
+            };
+            const _toWord = _MONTH_TO_WORD[Lm] || _MONTH_TO_WORD.en;
             let _hRangeChip = '';
             if (_sameHMonth) {
                 _hRangeChip = `${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}`;
             } else if (_hStart && _hEnd) {
-                _hRangeChip = `${_mhNames[_hStart.month - 1]}–${_mhNames[_hEnd.month - 1]} ${_hEnd.year}${_mhSfx}`;
+                _hRangeChip = `${_mhNames[_hStart.month - 1]} ${_toWord} ${_mhNames[_hEnd.month - 1]} ${_hEnd.year}${_mhSfx}`;
             }
             const _summaryReplacement = `<div class="moon-summary-line moon-summary-line--month" id="moon-summary-line" role="status" aria-live="polite" data-month-page="1">`
                 + `<span class="moon-summary-icon" aria-hidden="true">📅</span>`
@@ -18565,44 +18575,123 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             );
             // ────────────────────────────────────────────────────────────────
             // 3) Hijri-today card → Hijri-RANGE card
+            // MOON-MONTHLY-PAGE-HIJRI-RANGE-CARD-REDESIGN-1 (2026-05-24):
+            //   Replaced the previous arrow-separated "X ← Y" body with a
+            //   3-level pedagogical layout:
+            //     1) Title with dynamic month + year: "النطاق الهجريّ لشهر
+            //        {monthName} {year}"
+            //     2) Two labeled lines: "بداية الشهر: <hijri-start>" and
+            //        "نهاية الشهر: <hijri-end>" (or single-line when the
+            //        Gregorian month fits inside one Hijri month).
+            //     3) Short explanatory sentence about Umm al-Qura.
+            //   Removes the ambiguous arrow icon as a primary visual cue.
+            //   Applied to all 10 supported langs.
             // ────────────────────────────────────────────────────────────────
-            const _MONTH_HIJRI_LBL = {
-                ar: 'التقويم الهجريّ المقابل', en: 'Corresponding Hijri dates', fr: 'Dates hégiriennes correspondantes',
-                tr: 'Karşılık gelen hicri tarihler', ur: 'متعلقہ ہجری تاریخیں',
-                de: 'Entsprechende Hidschri-Daten', id: 'Tanggal Hijriah yang sesuai',
-                es: 'Fechas hijríes correspondientes', bn: 'সংশ্লিষ্ট হিজরি তারিখ', ms: 'Tarikh Hijrah yang berkaitan'
+            const _MONTH_HIJRI_TITLE_TPL = {
+                ar: (m, y) => `النطاق الهجريّ لشهر ${m} ${y}`,
+                en: (m, y) => `Hijri range for ${m} ${y}`,
+                fr: (m, y) => `Plage hégirienne pour ${m} ${y}`,
+                tr: (m, y) => `${m} ${y} için hicri aralık`,
+                ur: (m, y) => `${m} ${y} کے لیے ہجری حد`,
+                de: (m, y) => `Hidschri-Spanne für ${m} ${y}`,
+                id: (m, y) => `Rentang Hijriah untuk ${m} ${y}`,
+                es: (m, y) => `Rango hijrí para ${m} ${y}`,
+                bn: (m, y) => `${m} ${y}-এর হিজরি পরিসর`,
+                ms: (m, y) => `Julat Hijrah untuk ${m} ${y}`
             };
-            const _MONTH_HIJRI_SPAN = {
-                ar: (s, e) => _sameHMonth ? `يمتد هذا الشهر الميلاديّ ضمن ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}، بحسب تقويم أمّ القرى.` : `يمتد هذا الشهر الميلاديّ من ${s} إلى ${e}، بحسب تقويم أمّ القرى.`,
-                en: (s, e) => _sameHMonth ? `This Gregorian month falls within ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, per the Umm al-Qura calendar.` : `This Gregorian month spans from ${s} to ${e}, per the Umm al-Qura calendar.`,
-                fr: (s, e) => _sameHMonth ? `Ce mois grégorien s'inscrit dans ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, selon le calendrier d'Umm al-Qura.` : `Ce mois grégorien s'étend de ${s} à ${e}, selon le calendrier d'Umm al-Qura.`,
-                tr: (s, e) => _sameHMonth ? `Bu miladi ay ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} içine düşer, Ümmü'l-Kura takvimine göre.` : `Bu miladi ay ${s} ile ${e} arasında uzanır, Ümmü'l-Kura takvimine göre.`,
-                ur: (s, e) => _sameHMonth ? `یہ عیسوی مہینہ ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} کے اندر آتا ہے، تقویم اُمّ القُریٰ کے مطابق۔` : `یہ عیسوی مہینہ ${s} سے ${e} تک پھیلتا ہے، تقویم اُمّ القُریٰ کے مطابق۔`,
-                de: (s, e) => _sameHMonth ? `Dieser gregorianische Monat fällt in ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, gemäß dem Umm-al-Qura-Kalender.` : `Dieser gregorianische Monat erstreckt sich von ${s} bis ${e}, gemäß dem Umm-al-Qura-Kalender.`,
-                id: (s, e) => _sameHMonth ? `Bulan Masehi ini berada dalam ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, menurut kalender Umm al-Qura.` : `Bulan Masehi ini terbentang dari ${s} hingga ${e}, menurut kalender Umm al-Qura.`,
-                es: (s, e) => _sameHMonth ? `Este mes gregoriano se encuentra dentro de ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, según el calendario de Umm al-Qura.` : `Este mes gregoriano se extiende desde ${s} hasta ${e}, según el calendario de Umm al-Qura.`,
-                bn: (s, e) => _sameHMonth ? `এই গ্রেগরীয় মাসটি ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}-এর মধ্যে পড়ে, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী।` : `এই গ্রেগরীয় মাসটি ${s} থেকে ${e} পর্যন্ত বিস্তৃত, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী।`,
-                ms: (s, e) => _sameHMonth ? `Bulan Masihi ini berada dalam ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, mengikut kalendar Umm al-Qura.` : `Bulan Masihi ini terbentang dari ${s} hingga ${e}, mengikut kalendar Umm al-Qura.`
+            const _MONTH_HIJRI_LABELS = {
+                ar: { start: 'بداية الشهر', end: 'نهاية الشهر', within: 'يقع ضمن' },
+                en: { start: 'Month start', end: 'Month end', within: 'Falls within' },
+                fr: { start: 'Début du mois', end: 'Fin du mois', within: 'S’inscrit dans' },
+                tr: { start: 'Ay başlangıcı', end: 'Ay sonu', within: 'İçine düşer' },
+                ur: { start: 'مہینے کی ابتدا', end: 'مہینے کی انتہا', within: 'اندر آتا ہے' },
+                de: { start: 'Monatsanfang', end: 'Monatsende', within: 'Fällt innerhalb' },
+                id: { start: 'Awal bulan', end: 'Akhir bulan', within: 'Berada dalam' },
+                es: { start: 'Inicio del mes', end: 'Fin del mes', within: 'Se encuentra en' },
+                bn: { start: 'মাসের শুরু', end: 'মাসের শেষ', within: 'মধ্যে পড়ে' },
+                ms: { start: 'Permulaan bulan', end: 'Akhir bulan', within: 'Berada dalam' }
             };
-            const _hijriLabelM = _MONTH_HIJRI_LBL[Lm] || _MONTH_HIJRI_LBL.en;
-            const _hijriSpanFn = _MONTH_HIJRI_SPAN[Lm] || _MONTH_HIJRI_SPAN.en;
-            const _hijriSpanText = _hijriSpanFn(_hStartTxt, _hEndTxt);
-            const _MONTH_HIJRI_RANGE_DASH = (Lm === 'ar' || Lm === 'ur') ? '←' : '→';
+            const _MONTH_HIJRI_DESC = {
+                ar: () => _sameHMonth
+                    ? `يقع هذا الشهر الميلاديّ ضمن ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} بحسب تقويم أمّ القرى.`
+                    : `يمتد هذا الشهر الميلاديّ عبر جزء من شهرين هجريّين بحسب تقويم أمّ القرى.`,
+                en: () => _sameHMonth
+                    ? `This Gregorian month falls within ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, per the Umm al-Qura calendar.`
+                    : `This Gregorian month spans parts of two Hijri months, per the Umm al-Qura calendar.`,
+                fr: () => _sameHMonth
+                    ? `Ce mois grégorien s’inscrit dans ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, selon le calendrier d’Umm al-Qura.`
+                    : `Ce mois grégorien s’étend sur une partie de deux mois hégiriens, selon le calendrier d’Umm al-Qura.`,
+                tr: () => _sameHMonth
+                    ? `Bu miladi ay ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} içine düşer, Ümmü’l-Kura takvimine göre.`
+                    : `Bu miladi ay, Ümmü’l-Kura takvimine göre iki hicri ayın bir bölümünü kapsar.`,
+                ur: () => _sameHMonth
+                    ? `یہ عیسوی مہینہ ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx} کے اندر آتا ہے، تقویم اُمّ القُریٰ کے مطابق۔`
+                    : `یہ عیسوی مہینہ دو ہجری مہینوں کے کچھ حصے پر پھیلتا ہے، تقویم اُمّ القُریٰ کے مطابق۔`,
+                de: () => _sameHMonth
+                    ? `Dieser gregorianische Monat fällt in ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, gemäß dem Umm-al-Qura-Kalender.`
+                    : `Dieser gregorianische Monat erstreckt sich über Teile zweier Hidschri-Monate, gemäß dem Umm-al-Qura-Kalender.`,
+                id: () => _sameHMonth
+                    ? `Bulan Masehi ini berada dalam ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, menurut kalender Umm al-Qura.`
+                    : `Bulan Masehi ini terbentang pada bagian dari dua bulan Hijriah, menurut kalender Umm al-Qura.`,
+                es: () => _sameHMonth
+                    ? `Este mes gregoriano se encuentra dentro de ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, según el calendario de Umm al-Qura.`
+                    : `Este mes gregoriano se extiende por parte de dos meses hijríes, según el calendario de Umm al-Qura.`,
+                bn: () => _sameHMonth
+                    ? `এই গ্রেগরীয় মাসটি ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}-এর মধ্যে পড়ে, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী।`
+                    : `এই গ্রেগরীয় মাসটি দুটি হিজরি মাসের অংশজুড়ে বিস্তৃত, উম্মুল কুরা ক্যালেন্ডার অনুযায়ী।`,
+                ms: () => _sameHMonth
+                    ? `Bulan Masihi ini berada dalam ${_mhNames[_hStart.month - 1]} ${_hStart.year}${_mhSfx}, mengikut kalendar Umm al-Qura.`
+                    : `Bulan Masihi ini terbentang pada sebahagian daripada dua bulan Hijrah, mengikut kalendar Umm al-Qura.`
+            };
+            const _hijriTitleFn = _MONTH_HIJRI_TITLE_TPL[Lm] || _MONTH_HIJRI_TITLE_TPL.en;
+            const _hijriLbls = _MONTH_HIJRI_LABELS[Lm] || _MONTH_HIJRI_LABELS.en;
+            const _hijriDescFn = _MONTH_HIJRI_DESC[Lm] || _MONTH_HIJRI_DESC.en;
+            const _hijriCardTitle = _hijriTitleFn(_mName, _mY);
+            const _hijriCardDesc = _hijriDescFn();
+            // Notice text per lang (was hardcoded AR before)
+            const _MONTH_HIJRI_NOTICE = {
+                ar: '* قد يختلف التاريخ الهجري يومًا واحدًا حسب الرؤية الشرعية في بلدك.',
+                en: '* The Hijri date may differ by one day depending on local moon-sighting jurisprudence.',
+                fr: '* La date hégirienne peut différer d’un jour selon la jurisprudence locale d’observation lunaire.',
+                tr: '* Hicri tarih, yerel ay rüyeti fıkıhına göre bir gün farklılık gösterebilir.',
+                ur: '* ہجری تاریخ مقامی رؤیتِ ہلال کے فقہ کے مطابق ایک دن تک مختلف ہو سکتی ہے۔',
+                de: '* Das Hidschri-Datum kann je nach lokaler Mondsichtungs-Rechtsprechung um einen Tag abweichen.',
+                id: '* Tanggal Hijriah dapat berbeda satu hari menurut fikih rukyat hilal lokal.',
+                es: '* La fecha hijrí puede variar un día según la jurisprudencia local de observación lunar.',
+                bn: '* স্থানীয় চাঁদ দেখার ফিকহ অনুযায়ী হিজরি তারিখ এক দিন আলাদা হতে পারে।',
+                ms: '* Tarikh Hijrah boleh berbeza satu hari mengikut fiqh rukyah bulan tempatan.'
+            };
+            const _hijriNoticeText = _MONTH_HIJRI_NOTICE[Lm] || _MONTH_HIJRI_NOTICE.en;
+            // 3-level layout: Gregorian month → labeled start/end → desc.
+            // Single-Hijri-month case collapses the start/end pair to one row.
+            const _rangeBody = _sameHMonth
+                ? `<div class="moon-hijri-range-single">`
+                +   `<div class="moon-hijri-range-row">`
+                +     `<span class="moon-hijri-range-key">${_escHtml(_hijriLbls.within)}:</span>`
+                +     `<span class="moon-hijri-range-val">${_escHtml(_hStartTxt || '—')}</span>`
+                +   `</div>`
+                + `</div>`
+                : `<div class="moon-hijri-range-pair">`
+                +   `<div class="moon-hijri-range-row">`
+                +     `<span class="moon-hijri-range-key">${_escHtml(_hijriLbls.start)}:</span>`
+                +     `<span class="moon-hijri-range-val">${_escHtml(_hStartTxt || '—')}</span>`
+                +   `</div>`
+                +   `<div class="moon-hijri-range-row">`
+                +     `<span class="moon-hijri-range-key">${_escHtml(_hijriLbls.end)}:</span>`
+                +     `<span class="moon-hijri-range-val">${_escHtml(_hEndTxt || '—')}</span>`
+                +   `</div>`
+                + `</div>`;
             const _hijriCardReplacement = `<div class="moon-hijri-today moon-hijri-range" id="moon-hijri-today" data-month-page="1">`
                 + `<div class="moon-hijri-row">`
                 +   `<svg class="icon moon-hijri-icon" aria-hidden="true"><use href="#i-calendar"/></svg>`
                 +   `<div class="moon-hijri-body">`
-                +     `<div class="moon-hijri-label moon-hijri-label--month">${_escHtml(_hijriLabelM)}</div>`
-                +     `<div class="moon-hijri-date moon-hijri-range-line" id="moon-hijri-date">`
-                +       `<span class="moon-hijri-range-start">${_escHtml(_hStartTxt || '—')}</span>`
-                +       ` <span class="moon-hijri-range-dash" aria-hidden="true">${_MONTH_HIJRI_RANGE_DASH}</span> `
-                +       `<span class="moon-hijri-range-end">${_escHtml(_hEndTxt || '—')}</span>`
-                +     `</div>`
-                +     `<div class="moon-hijri-greg" id="moon-hijri-greg">${_escHtml(_mName)} ${_mY}</div>`
+                +     `<div class="moon-hijri-label moon-hijri-label--month" id="moon-hijri-date">${_escHtml(_hijriCardTitle)}</div>`
+                +     `<div class="moon-hijri-greg moon-hijri-greg--month" id="moon-hijri-greg">${_escHtml(_mName)} ${_mY}</div>`
+                +     _rangeBody
                 +   `</div>`
                 + `</div>`
-                + `<div class="moon-hijri-lunar moon-hijri-lunar--month" id="moon-hijri-lunar">${_escHtml(_hijriSpanText)}</div>`
-                + `<div class="moon-hijri-notice">* قد يختلف التاريخ الهجري يومًا واحدًا حسب الرؤية الشرعية في بلدك.</div>`
+                + `<div class="moon-hijri-lunar moon-hijri-lunar--month" id="moon-hijri-lunar">${_escHtml(_hijriCardDesc)}</div>`
+                + `<div class="moon-hijri-notice">${_escHtml(_hijriNoticeText)}</div>`
                 + `</div>`;
             // Replace the entire #moon-hijri-today block (multi-line in source)
             html = html.replace(

@@ -1,9 +1,39 @@
 # MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 — Closure
 
 **Date:** 2026-05-24
-**Status:** CLOSED, awaiting user approval
+**Status:** **CLOSED — user-approved 2026-05-23**
 **Scope:** Moon dated/month route handlers in `server.js` ONLY
-**Implementation commit:** (TBD on stage)
+**Implementation commit:** `eb037c2`
+
+---
+
+## Acceptance criteria
+
+| # | Criterion | Status |
+| - | --------- | ------ |
+| 1 | Valid Gregorian moon dated URLs return 200 | ✅ PASS — `/moon-in-{riyadh,jeddah}/2026-05-23` + `/en/moon-in-riyadh/2026-05-23` all return HTTP 200 |
+| 2 | Hijri-looking moon URLs return 404 | ✅ PASS — `/moon-in-{riyadh,jeddah}/1447-12-06` + `/en/moon-in-riyadh/1447-12-06` all return HTTP 404 |
+| 3 | Invalid Hijri-looking moon URLs return 404 | ✅ PASS — `/moon-in-riyadh/1447-12-30` + `/moon-in-riyadh/1356-01-01` return HTTP 404 |
+| 4 | Hijri-looking moon MONTH URLs return 404 | ✅ PASS — `/moon-in-riyadh/1447-12` + `/moon-in-riyadh/1500-01` return HTTP 404 |
+| 5 | No redirects (no 301/302) | ✅ PASS — direct 404 response, no `Location:` header on any Hijri moon URL |
+| 6 | 404 response has `X-Robots-Tag: noindex,nofollow` | ✅ PASS — confirmed on all 3 Hijri-format moon URL samples |
+| 7 | 404 body has `<meta name="robots" content="noindex,nofollow">` | ✅ PASS — present in branded HTML body |
+| 8 | sitemap has 0 Hijri-format moon URLs | ✅ PASS — verified post-change (was already 0 — sitemap NOT modified by this wave) |
+| 9 | Sitemap counts for Gregorian URLs UNCHANGED | ✅ PASS — 23,560 dated + 2,280 month + 760 hub + 760 today-in-city = identical to baseline |
+| 10 | Gregorian canonical UNCHANGED | ✅ PASS — `/moon-in-riyadh/2026-05-23` emits self-Gregorian canonical (unchanged) |
+| 11 | Gregorian hreflang UNCHANGED | ✅ PASS — 11 entries (10 langs + x-default), all Gregorian URLs (unchanged) |
+| 12 | 404 body has 0 canonical + 0 hreflang | ✅ PASS — branded body emits neither |
+| 13 | `/hijri-date/{HIJRI-YYYY-MM-DD}` family UNAFFECTED | ✅ PASS — HTTP 200, self-canonical, separate page family |
+| 14 | `/hijri-calendar/{YYYY}` and `/hijri-calendar/{YYYY-MM}` UNAFFECTED | ✅ PASS — HTTP 200 on both |
+| 15 | `/today-hijri-date` UNAFFECTED | ✅ PASS — HTTP 200 |
+| 16 | Sibling moon routes UNAFFECTED | ✅ PASS — `/moon-today`, `/moon-in-{city}`, `/moon-today-in-{city}`, `/moon-in-{city}/{YYYY-MM}` all HTTP 200 |
+| 17 | No UI changes | ✅ PASS — no HTML / CSS / index.html structure touched |
+| 18 | No content changes | ✅ PASS — no string in any rendered moon page changed |
+| 19 | No MoonCalc changes | ✅ PASS — `MoonCalc.*` untouched |
+| 20 | No Umm al-Qura changes | ✅ PASS — no hijri data / table touched |
+| 21 | No i18n / CSS / HTML changes | ✅ PASS — only `server.js` modified |
+| 22 | No new dependencies | ✅ PASS — zero new deps |
+| 23 | Tests passed | ✅ PASS — all 6 acceptance test groups (A-F) live-verified on port 3227 |
 
 ---
 

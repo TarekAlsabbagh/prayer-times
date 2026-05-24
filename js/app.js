@@ -18982,8 +18982,20 @@ function updateMoonInfo() {
             const _isTodayRow = (_nowParts && dp.y === _nowParts.y && dp.m === _nowParts.m && dp.d === _nowParts.d);
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
 
-            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — الرابط يفتح صفحة
-            // moon-in-{city}/{HYYYY-HMM-HDD} (Round 15: صفحات التاريخ تحت /moon-in-).
+            // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1 (2026-05-24):
+            //   Hoisted the Gregorian ISO date once at the top of the row so
+            //   BOTH the day cell AND the hijri cell can use it for their
+            //   href. Before this fix the hijri cell built its href from the
+            //   Hijri components (`HYYYY-HMM-HDD`), which is now rejected by
+            //   the strict-Gregorian route policy (returns 404). The Hijri
+            //   date stays VISIBLE as text — only the href changes to the
+            //   Gregorian canonical URL.
+            const _rowIso = _citySlug ? _fcIso(dp, row.date) : null;
+
+            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — التاريخ يَظهر بالنصّ
+            // الهجريّ، لكنّ الرابط يَفتح صفحة /moon-in-{city}/{YYYY-MM-DD}
+            // بالصيغة الميلاديّة (canonical موحَّد لكلّ يوم قمر) بَعد سياسة
+            // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1.
             let hijriCell = '<td class="fc-hijri-cell">—</td>';
             try {
                 if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
@@ -18991,9 +19003,11 @@ function updateMoonInfo() {
                     const hMonthName = _hMonthsLang[hj.month - 1] || String(hj.month);
                     const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
                     if (_citySlug) {
-                        const _hIso = hj.year + '-' + _pad2(hj.month) + '-' + _pad2(hj.day);
-                        const _hHref = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _hIso;
-                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHref)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
+                        // FIX: href now uses _rowIso (Gregorian) — was previously
+                        //   `hj.year + '-' + hj.month + '-' + hj.day` (Hijri 1447-12-07
+                        //   format) which now returns 404 under the strict route policy.
+                        const _hHrefGreg = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso;
+                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
                     } else {
                         hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
                     }
@@ -19005,9 +19019,11 @@ function updateMoonInfo() {
             let dayCell, rowClasses = [];
             const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
             if (_citySlug) {
-                const _iso = _fcIso(dp, row.date);
                 // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
-                const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _iso;
+                // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1: uses _rowIso
+                //   computed at the top of this loop iteration (hoisted from the
+                //   former local-only `_iso = _fcIso(dp, row.date)`).
+                const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso;
                 dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
                 rowClasses.push('fc-row-clickable');
             } else {

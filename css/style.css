@@ -18883,38 +18883,69 @@ html[data-theme="dark"] .city-seo-guide p {
    #moon-hub-faq. Mirrors .city-seo-guide visual treatment. Lifts Word
    Count from ~887 → ~1300 with intent-aligned prose (no "اليوم", no
    month/date specifics).
+
+   MOON-CITY-EVERGREEN-EDU-CONTENT-UI-POLISH-1 (2026-05-24):
+     Cards now sit inside a `.moon-hub-seo-grid` wrapper that renders as
+     2×2 on desktop (≥769px) and a single column on mobile (≤768px).
+     Polished individual card visuals: lighter shadow (was 28px / 0.045
+     → 18px / 0.035), trimmed padding for compact rhythm in the grid
+     (28px → 24px), tighter line-height (was 2.0 → 1.75), aligned card
+     heights via `display:flex; flex-direction:column` so the grid rows
+     stay visually balanced even when text length differs across cards.
    ──────────────────────────────────────────────────────────────────────── */
-.moon-hub-seo-card {
-    max-width: 920px;
+.moon-hub-seo-grid {
+    /* Desktop default — 2×2 grid. Mobile breakpoint below collapses to 1 col. */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    max-width: 1100px;
     margin: 20px auto 0;
-    padding: 26px 28px;
+}
+.moon-hub-seo-card {
+    /* Removed max-width: 920px (was needed when cards stacked alone in
+       a single column). Inside the grid, the column track sets width.
+       Also removed margin: 20px auto 0 — grid gap handles spacing. */
+    margin: 0;
+    padding: 22px 24px;
     background: #ffffff;
     border: 1px solid rgba(12, 94, 54, 0.10);
-    border-radius: 24px;
-    box-shadow: 0 10px 28px rgba(15, 44, 28, 0.045);
+    border-radius: 20px;
+    /* Lighter shadow — was 0 10px 28px rgba(15,44,28,0.045) */
+    box-shadow: 0 6px 18px rgba(15, 44, 28, 0.035);
+    /* Equal-height cards across the row — flex children pin paragraphs to top */
+    display: flex;
+    flex-direction: column;
 }
 .moon-hub-seo-card h2 {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     color: #063f25;
-    font-size: 23px;
-    line-height: 1.5;
+    font-size: 20px;
+    line-height: 1.45;
 }
 .moon-hub-seo-card p {
-    margin: 0 0 12px;
+    margin: 0 0 10px;
     color: #334139;
-    font-size: 15.5px;
-    line-height: 2;
+    font-size: 15px;
+    /* Tightened from 2.0 — 1.75 keeps comfortable reading without the
+       loose feel of double line spacing in a 2-col grid. */
+    line-height: 1.75;
 }
 .moon-hub-seo-card p:last-child {
     margin-bottom: 0;
 }
 @media (max-width: 768px) {
-    .moon-hub-seo-card {
-        padding: 20px;
-        border-radius: 20px;
+    .moon-hub-seo-grid {
+        /* Mobile — single column, slightly tighter gap. */
+        grid-template-columns: 1fr;
+        gap: 16px;
+        max-width: 100%;
     }
-    .moon-hub-seo-card h2 { font-size: 20px; }
-    .moon-hub-seo-card p  { font-size: 15px; line-height: 1.9; }
+    .moon-hub-seo-card {
+        padding: 18px 20px;
+        border-radius: 18px;
+    }
+    .moon-hub-seo-card h2 { font-size: 18px; }
+    .moon-hub-seo-card p  { font-size: 14.5px; line-height: 1.8; }
 }
 /* Dark-mode parity (matches .city-seo-guide / .next-prayer-section-card / etc.) */
 html[data-theme="dark"] .moon-hub-seo-card {

@@ -453,9 +453,9 @@ window.TRANSLATIONS['ar'] = {
         'moon.faq.q_new_when': 'متى سيكون المحاق القادم؟',
         'moon.faq.q_full_count': 'كم تبقّى على البدر القادم؟',
         // ═══ Top Summary chip تحت H1 ═══
-        'moon.summary.phase': 'القمر اليوم:',
-        'moon.summary.illum': 'نسبة الإضاءة:',
-        'moon.summary.age': 'عمر القمر:',
+        'moon.summary.phase': 'الطور:',
+        'moon.summary.illum': 'الإضاءة:',
+        'moon.summary.age': 'العمر:',
         'moon.summary.age_suffix': 'يوم من الدورة القمرية',
         // ═══ Quick Highlights box (BOND 6 + 8) ═══
         'moon.hl.next_full': 'البدر التالي',
@@ -478,7 +478,7 @@ window.TRANSLATIONS['ar'] = {
         // Shadda also dropped from "ويتبقى" + "الهجري" per HIJRI-MONTH-TASHKEEL
         // policy convention. Dynamic slots {day}/{month}/{hYear}/{remaining}
         // unchanged — only the surrounding wording is refined.
-        'moon.hijri.lunar_day_template': 'نحن اليوم في {day} {month} {hYear} هـ، ويتبقى نحو {remaining} على نهاية الشهر الهجري.',
+        'moon.hijri.lunar_day_template': 'اليوم هو {day} {month} {hYear} هـ، ويتبقى نحو {remaining} على نهاية الشهر الهجري.',
         // HIJRI-MONTH-TASHKEEL-POLICY-1 (2026-05-21): unify Arabic UI on
         // the month page by removing shaddas from these labels. These
         // i18n keys are shared by the moon-events-section across multiple
@@ -862,7 +862,7 @@ window.TRANSLATIONS['ar'] = {
         'moon.live.tomorrow': 'غدًا',
         'moon.live.today': 'اليوم',
         'moon.intro_fallback': 'اليوم في {city}، يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.',
-        'moon.intro_template': 'القمر اليوم في {city} في طور {phaseIcon} {phaseName}، بإضاءة {illum}٪ وعمر {age} يوم من الدورة القمريّة. ويَمرّ فلكيّاً في كوكبة {zodiacIcon} {zodiacName}، {altitudeSentence}',
+        'moon.intro_template': 'القمر اليوم في {city} في طور {phaseIcon} {phaseName}، بإضاءة {illum}٪ وعمر {age} يوم من الدورة القمرية. وتُعرض مَواعيد الشروق والغروب حسب توقيت {city} المحلي، مع اختلاف القيم بين المدن بحسب الموقع الجغرافي.',
         // Round 17 — Smart content لصفحات /moon-in-{city}/{date}: فقرة فريدة بتاريخها (Gregorian + Hijri).
         'moon.date_intro_template': 'في {date}{hijriInline}، القمر فوق {city} في طور {phaseIcon} {phaseName} بإضاءة {illum}٪، عمره {age} يومًا، ويمرّ في كوكبة {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'وبحسب وقت التَحديث الحاليّ يَرتفع القمر {alt}° فوق الأفق باتّجاه {dir}.',

@@ -439,9 +439,9 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'متى سيكون المحاق القادم؟',
         'moon.faq.q_full_count': 'كم تبقّى على البدر القادم؟',
         // ═══ Top Summary chip تحت H1 ═══
-        'moon.summary.phase': 'القمر اليوم:',
-        'moon.summary.illum': 'نسبة الإضاءة:',
-        'moon.summary.age': 'عمر القمر:',
+        'moon.summary.phase': 'الطور:',
+        'moon.summary.illum': 'الإضاءة:',
+        'moon.summary.age': 'العمر:',
         'moon.summary.age_suffix': 'يوم من الدورة القمرية',
         // ═══ Quick Highlights box (BOND 6 + 8) ═══
         'moon.hl.next_full': 'البدر التالي',
@@ -464,7 +464,7 @@ const TRANSLATIONS = {
         // Shadda also dropped from "ويتبقى" + "الهجري" per HIJRI-MONTH-TASHKEEL
         // policy convention. Dynamic slots {day}/{month}/{hYear}/{remaining}
         // unchanged — only the surrounding wording is refined.
-        'moon.hijri.lunar_day_template': 'نحن اليوم في {day} {month} {hYear} هـ، ويتبقى نحو {remaining} على نهاية الشهر الهجري.',
+        'moon.hijri.lunar_day_template': 'اليوم هو {day} {month} {hYear} هـ، ويتبقى نحو {remaining} على نهاية الشهر الهجري.',
         'moon.events.title': 'العدّ التنازليّ للمناسبات الإسلاميّة',
         'moon.events.ramadan': 'رمضان القادم',
         'moon.events.fitr': 'عيد الفطر',
@@ -824,7 +824,7 @@ const TRANSLATIONS = {
         'moon.live.tomorrow': 'غدًا',
         'moon.live.today': 'اليوم',
         'moon.intro_fallback': 'اليوم في {city}، يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.',
-        'moon.intro_template': 'القمر اليوم في {city} في طور {phaseIcon} {phaseName}، بإضاءة {illum}٪ وعمر {age} يوم من الدورة القمريّة. ويَمرّ فلكيّاً في كوكبة {zodiacIcon} {zodiacName}، {altitudeSentence}',
+        'moon.intro_template': 'القمر اليوم في {city} في طور {phaseIcon} {phaseName}، بإضاءة {illum}٪ وعمر {age} يوم من الدورة القمرية. وتُعرض مَواعيد الشروق والغروب حسب توقيت {city} المحلي، مع اختلاف القيم بين المدن بحسب الموقع الجغرافي.',
         // Round 17 — Smart content لصفحات /moon-in-{city}/{date}: فقرة فريدة بتاريخها (Gregorian + Hijri).
         'moon.date_intro_template': 'في {date}{hijriInline}، القمر فوق {city} في طور {phaseIcon} {phaseName} بإضاءة {illum}٪، عمره {age} يومًا، ويمرّ في كوكبة {zodiacIcon} {zodiacName}.',
         'moon.altitude_above': 'وبحسب وقت التَحديث الحاليّ يَرتفع القمر {alt}° فوق الأفق باتّجاه {dir}.',
@@ -1868,9 +1868,9 @@ const TRANSLATIONS = {
         'moon.faq.q_new_when': 'When is the next new moon?',
         'moon.faq.q_full_count': 'How many days until the next full moon?',
         // ═══ Top Summary chip under H1 ═══
-        'moon.summary.phase': 'Moon today:',
+        'moon.summary.phase': 'Phase:',
         'moon.summary.illum': 'Illumination:',
-        'moon.summary.age': 'Moon age:',
+        'moon.summary.age': 'Age:',
         'moon.summary.age_suffix': 'days of the lunar cycle',
         // ═══ Quick Highlights box (BOND 6 + 8) ═══
         'moon.hl.next_full': 'Next Full Moon',
@@ -3207,9 +3207,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'Aujourd\u2019hui',
         'moon.intro_fallback': 'Aujourd\u2019hui à {city}, vous pouvez connaître la phase actuelle de la Lune, le pourcentage d\u2019illumination, son âge, ainsi que les heures de lever et coucher, avec précision astronomique. Ces données sont calculées à l\u2019aide de modèles astronomiques rigoureux (algorithmes de Meeus) sur la base des coordonnées de votre emplacement.',
         // ═══ BONDs 1-8 — FR ═══
-        'moon.summary.phase': 'Lune aujourd’hui :',
+        'moon.summary.phase': 'Phase :',
         'moon.summary.illum': 'Illumination :',
-        'moon.summary.age': 'Âge de la Lune :',
+        'moon.summary.age': 'Âge :',
         'moon.summary.age_suffix': 'jours du cycle lunaire',
         'moon.hl.next_full': 'Prochaine Pleine Lune',
         'moon.hl.next_new': 'Prochaine Nouvelle Lune',
@@ -4498,9 +4498,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'Bugün',
         'moon.intro_fallback': 'Bugün {city} için Ayın güncel evresini, aydınlanma yüzdesini, yaşını ve doğuş/batış zamanlarını astronomik doğrulukla öğrenebilirsiniz. Bu veriler, konumunuzun koordinatlarına dayalı titiz astronomik modellerle (Meeus algoritmaları) hesaplanır.',
         // ═══ BONDs 1-8 — TR ═══
-        'moon.summary.phase': 'Bugünkü Ay:',
-        'moon.summary.illum': 'Aydınlanma oranı:',
-        'moon.summary.age': 'Ay yaşı: Ay döngüsünün',
+        'moon.summary.phase': 'Evre:',
+        'moon.summary.illum': 'Aydınlanma:',
+        'moon.summary.age': 'Yaş:',
         'moon.summary.age_suffix': 'günü',
         'moon.hl.next_full': 'Sonraki Dolunay',
         'moon.hl.next_new': 'Sonraki Yeniay',
@@ -5789,9 +5789,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'آج',
         'moon.intro_fallback': 'آج {city} میں آپ چاند کے موجودہ مرحلے، روشنی کی فیصد، عمر، اور طلوع و غروب کے اوقات کو فلکیاتی درستگی کے ساتھ معلوم کر سکتے ہیں۔ یہ اعداد و شمار آپ کے مقام کے نقاط کی بنیاد پر سخت فلکیاتی ماڈلز (Meeus الگورتھم) سے حساب کیے جاتے ہیں۔',
         // ═══ BONDs 1-8 — UR ═══
-        'moon.summary.phase': 'آج کا چاند:',
-        'moon.summary.illum': 'روشنی کا تناسب:',
-        'moon.summary.age': 'چاند کی عمر: قمری دور کے',
+        'moon.summary.phase': 'طور:',
+        'moon.summary.illum': 'روشنی:',
+        'moon.summary.age': 'عمر:',
         'moon.summary.age_suffix': 'دن',
         'moon.hl.next_full': 'اگلا مکمل چاند',
         'moon.hl.next_new': 'اگلا نیا چاند',
@@ -7074,9 +7074,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'Heute',
         'moon.intro_fallback': 'Heute in {city} können Sie die aktuelle Mondphase, den Beleuchtungsanteil, das Mondalter sowie die Auf- und Untergangszeiten mit astronomischer Präzision ermitteln. Diese Werte werden mit strengen astronomischen Modellen (Meeus-Algorithmen) auf Grundlage Ihrer Standortkoordinaten berechnet.',
         // ═══ BONDs 1-8 — DE ═══
-        'moon.summary.phase': 'Mond heute:',
+        'moon.summary.phase': 'Phase:',
         'moon.summary.illum': 'Beleuchtung:',
-        'moon.summary.age': 'Mondalter:',
+        'moon.summary.age': 'Alter:',
         'moon.summary.age_suffix': 'Tage des Mondzyklus',
         'moon.hl.next_full': 'Nächster Vollmond',
         'moon.hl.next_new': 'Nächster Neumond',
@@ -8420,9 +8420,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'Hari ini',
         'moon.intro_fallback': 'Hari ini di {city}, Anda dapat mengetahui fase Bulan saat ini, persentase pencahayaan, usia Bulan, serta waktu terbit dan terbenamnya dengan presisi astronomi. Data ini dihitung menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi Anda.',
         // ═══ BONDs 1-8 — ID ═══
-        'moon.summary.phase': 'Bulan hari ini:',
-        'moon.summary.illum': 'Persentase iluminasi:',
-        'moon.summary.age': 'Usia bulan:',
+        'moon.summary.phase': 'Fase:',
+        'moon.summary.illum': 'Iluminasi:',
+        'moon.summary.age': 'Usia:',
         'moon.summary.age_suffix': 'hari dari siklus bulan',
         'moon.hl.next_full': 'Bulan Purnama Berikutnya',
         'moon.hl.next_new': 'Bulan Baru Berikutnya',
@@ -9766,9 +9766,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'Hoy',
         'moon.intro_fallback': 'Hoy en {city} puedes conocer la fase actual de la Luna, el porcentaje de iluminación, su edad y las horas de salida y puesta con precisión astronómica. Estos datos se calculan mediante modelos astronómicos rigurosos (algoritmos de Meeus) basados en las coordenadas de tu ubicación.',
         // ═══ BONDs 1-8 — ES ═══
-        'moon.summary.phase': 'Luna de hoy:',
+        'moon.summary.phase': 'Fase:',
         'moon.summary.illum': 'Iluminación:',
-        'moon.summary.age': 'Edad lunar:',
+        'moon.summary.age': 'Edad:',
         'moon.summary.age_suffix': 'días del ciclo lunar',
         'moon.hl.next_full': 'Próxima Luna Llena',
         'moon.hl.next_new': 'Próxima Luna Nueva',
@@ -11112,9 +11112,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'আজ',
         'moon.intro_fallback': 'আজ {city}-এ আপনি চাঁদের বর্তমান পর্যায়, আলোকসজ্জার শতাংশ, চাঁদের বয়স এবং উদয়-অস্তের সময় জ্যোতির্বৈজ্ঞানিক নির্ভুলতার সাথে জানতে পারেন। এই তথ্যগুলি আপনার অবস্থানের স্থানাঙ্কের উপর ভিত্তি করে কঠোর জ্যোতির্বৈজ্ঞানিক মডেল (Meeus অ্যালগরিদম) দিয়ে গণনা করা হয়।',
         // ═══ BONDs 1-8 — BN ═══
-        'moon.summary.phase': 'আজকের চাঁদ:',
-        'moon.summary.illum': 'আলোকিত অংশ:',
-        'moon.summary.age': 'চাঁদের বয়স: চন্দ্রচক্রের',
+        'moon.summary.phase': 'দশা:',
+        'moon.summary.illum': 'আলোকন:',
+        'moon.summary.age': 'বয়স:',
         'moon.summary.age_suffix': 'দিন',
         'moon.hl.next_full': 'পরবর্তী পূর্ণিমা',
         'moon.hl.next_new': 'পরবর্তী অমাবস্যা',
@@ -12458,9 +12458,9 @@ const TRANSLATIONS = {
         'moon.live.today': 'Hari ini',
         'moon.intro_fallback': 'Hari ini di {city}, anda boleh mengetahui fasa Bulan semasa, peratusan pencahayaan, usia Bulan, serta waktu terbit dan terbenamnya dengan ketepatan astronomi. Data ini dikira menggunakan model astronomi yang teliti (algoritma Meeus) berdasarkan koordinat lokasi anda.',
         // ═══ BONDs 1-8 — MS ═══
-        'moon.summary.phase': 'Bulan hari ini:',
-        'moon.summary.illum': 'Peratus pencahayaan:',
-        'moon.summary.age': 'Umur bulan:',
+        'moon.summary.phase': 'Fasa:',
+        'moon.summary.illum': 'Pencahayaan:',
+        'moon.summary.age': 'Usia:',
         'moon.summary.age_suffix': 'hari dalam kitaran bulan',
         'moon.hl.next_full': 'Bulan Purnama Seterusnya',
         'moon.hl.next_new': 'Bulan Baru Seterusnya',

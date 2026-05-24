@@ -2611,6 +2611,90 @@ html[data-theme="dark"] .ns-item.is-selected {
 }
 
 /* ══════════════════════════════════════════════════════════════════════════
+   MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24)
+   Combined date cell for the 14-day forecast — the previous two columns
+   (`.fc-day-cell` + `.fc-hijri-cell`) are merged into ONE column whose
+   cells stack the Hijri date ABOVE the Gregorian date. Hijri is the
+   visually primary line (accent colour, bolder); Gregorian is the
+   secondary line (muted, lighter weight). A single anchor wraps both
+   lines so the whole cell is one click target, and the `href` is the
+   Gregorian canonical URL (strict-route policy).
+   ══════════════════════════════════════════════════════════════════════════ */
+.fc-date-cell { padding: 0; }
+.fc-date-cell .fc-date-link,
+.fc-date-cell .fc-date-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+    padding: 10px 12px;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background 0.15s ease;
+    line-height: 1.25;
+}
+.fc-date-cell .fc-date-link:hover,
+.fc-date-cell .fc-date-link:focus {
+    background: rgba(46,125,50,0.08);
+    outline: none;
+}
+.fc-date-cell .fc-date-link:focus-visible {
+    box-shadow: 0 0 0 2px var(--primary);
+}
+/* RTL: align cells to the right edge so the date column reads naturally
+   in AR / UR pages (icon → text flows from start). */
+[dir="rtl"] .fc-date-cell .fc-date-link,
+[dir="rtl"] .fc-date-cell .fc-date-text {
+    align-items: flex-end;
+    text-align: right;
+}
+/* PRIMARY: Hijri (visually emphasised).
+   Light-mode colour mirrors the Phase E4-c accessibility fix for the
+   legacy `a.fc-hijri-link` (WCAG AA contrast on the green-tinted forecast
+   cell): dark green #1a4a1a rather than raw gold accent. Dark theme uses
+   the gold accent which already passes contrast (see dark override below). */
+.fc-date-cell .fc-date-hijri {
+    color: #1a4a1a;
+    font-weight: 600;
+    font-size: 0.96rem;
+}
+.fc-date-cell .fc-date-hijri-icon {
+    margin-inline-end: 4px;
+}
+.fc-date-cell .fc-date-hijri--missing {
+    color: var(--text-secondary, #6b7280);
+    font-weight: 400;
+}
+/* SECONDARY: Gregorian (muted) */
+.fc-date-cell .fc-date-greg {
+    color: var(--text-secondary, #6b7280);
+    font-weight: 500;
+    font-size: 0.85rem;
+    letter-spacing: 0.1px;
+}
+/* Today row: keep Hijri pop, deepen Gregorian for contrast */
+.fc-row-today .fc-date-cell .fc-date-greg {
+    color: var(--primary, #2563eb);
+    font-weight: 600;
+}
+/* Dark theme — lift accent + secondary brightness for contrast */
+
+    html[data-theme="dark"] .fc-date-cell .fc-date-hijri { color: var(--accent, #e8c860); }
+    html[data-theme="dark"] .fc-date-cell .fc-date-greg { color: var(--text-secondary-dark, #94a3b8); }
+    html[data-theme="dark"] .fc-date-cell .fc-date-link:hover,
+    html[data-theme="dark"] .fc-date-cell .fc-date-link:focus { background: rgba(122,199,158,0.10); }
+
+/* Mobile — tighten padding + scale type */
+@media (max-width: 640px) {
+    .fc-date-cell .fc-date-link,
+    .fc-date-cell .fc-date-text { padding: 9px 8px; gap: 1px; }
+    .fc-date-cell .fc-date-hijri { font-size: 0.9rem; }
+    .fc-date-cell .fc-date-greg { font-size: 0.78rem; }
+}
+/* Column header (combined) — slight emphasis to match cell density */
+.moon-forecast-table th.fc-th-date { white-space: nowrap; }
+
+/* ══════════════════════════════════════════════════════════════════════════
    Round 13 + Round 15 — سياق التاريخ الهجريّ/الميلاديّ على صفحات moon-in-{city}/{date}
    يظهر فقط عندما يكون التاريخ مُحدَّدًا (_isMoonDatePage).
    ══════════════════════════════════════════════════════════════════════════ */
@@ -5433,14 +5517,16 @@ html[data-theme="dark"] .moon-cal-toggle:hover {
 /* ── Calendar consistency: hide the OPPOSITE-calendar elements on date pages.
    On Gregorian-date pages (URL has YYYY≥1800), hide all Hijri-formatted
    dates; on Hijri-date pages (URL has YYYY<1800), hide all Gregorian
-   ones. The aim: the visitor sees ONE consistent calendar across the page. */
-html.moon-gregorian-context .fc-hijri-cell,
-html.moon-gregorian-context .fc-th-hijri,
+   ones. The aim: the visitor sees ONE consistent calendar across the page.
+   ──
+   MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24): the forecast-table
+   cell selectors (`.fc-day-cell`, `.fc-hijri-cell`, `.fc-th-greg`,
+   `.fc-th-hijri`) were removed because the forecast table now uses a
+   single combined `.fc-date-cell` that ALWAYS shows BOTH Hijri (primary)
+   AND Gregorian (secondary) stacked together — hiding either side would
+   defeat the stacked-cell design. Other elements (`.moon-hijri-today`
+   summary box) continue to follow the calendar-context preference. */
 html.moon-gregorian-context .moon-hijri-today {
-    display: none !important;
-}
-html.moon-hijri-context .fc-day-cell,
-html.moon-hijri-context .fc-th-greg {
     display: none !important;
 }
 /* RTL: visually flip the arrow chars so "previous day" points to the

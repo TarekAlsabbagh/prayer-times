@@ -17057,10 +17057,31 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _moonDateLabelSsr = seo.moonCity.dateLabel || '';
         const _moonDateIsHijriSsr = !!seo.moonCity.dateIsHijri;
         const _moonHijriLabelSfxSsr = seo.moonCity.hijriLabelWithSfx || '';
-        const _primaryDateLabelSsr = (_moonDateIsHijriSsr && _moonHijriLabelSfxSsr)
+        // MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24):
+        //   For AR on a dated moon page (/moon-in-{city}/{YYYY-MM-DD}),
+        //   the Hijri date is the PRIMARY visible date in the H1 and the
+        //   Gregorian date drops to the existing "الموافق ..." subtitle
+        //   (rendered via _SUBTITLE_EQUIV.ar below). The URL/canonical/
+        //   hreflang/JSON-LD remain Gregorian (`STRICT GREGORIAN ROUTE
+        //   POLICY`) — this flip is VISIBLE-CONTENT-ONLY.
+        //
+        //   Other 9 langs (en/fr/tr/ur/de/id/es/bn/ms) keep Gregorian as
+        //   the primary date for now — they continue to show the Hijri
+        //   date via the existing equivalence subtitle (`(equivalent to
+        //   {hijri})` / `(äquivalent zu {hijri})` / ...).
+        //
+        //   When the URL itself was Hijri-format (legacy `_moonDateIsHijri`),
+        //   the original behaviour is preserved (Hijri primary in all langs)
+        //   — but the strict-Gregorian route policy now makes such URLs 404,
+        //   so this branch is effectively dead and kept only for defence in
+        //   depth.
+        const _moonHijriFirstSsr = (Lm === 'ar' && !!_moonHijriLabelSfxSsr);
+        const _primaryDateLabelSsr = _moonHijriFirstSsr
             ? _moonHijriLabelSfxSsr
-            : _moonDateLabelSsr;
-        const _secondaryDateLabelSsr = _moonDateIsHijriSsr ? _moonDateLabelSsr : _moonHijriLabelSfxSsr;
+            : ((_moonDateIsHijriSsr && _moonHijriLabelSfxSsr) ? _moonHijriLabelSfxSsr : _moonDateLabelSsr);
+        const _secondaryDateLabelSsr = _moonHijriFirstSsr
+            ? _moonDateLabelSsr
+            : (_moonDateIsHijriSsr ? _moonDateLabelSsr : _moonHijriLabelSfxSsr);
         const _isMoonDatePage = !!(seo.moonCity.date && _moonDateLabelSsr);
         // Round 16: hub page (بلا تاريخ، تحت /moon-in-) — H1 evergreen بلا "اليوم"
         const _isMoonHubPageSsr = !!seo.moonCity.isHub;
@@ -17174,10 +17195,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: { hijri: '📿 হিজরি তারিখ অনুযায়ী দেখা', greg: '📅 গ্রেগরীয় তারিখ অনুযায়ী দেখা' },
             ms: { hijri: '📿 Paparan mengikut tarikh Hijrah', greg: '📅 Paparan mengikut tarikh Masihi' }
         };
+        // MOON-HIJRI-FIRST-VISIBLE-DATE-POLICY-1 (2026-05-24):
+        //   For AR (where the H1 now shows Hijri as primary) the badge
+        //   reads "📿 عرض حسب التاريخ الهجري" too, so the badge label
+        //   matches the visible H1 emphasis. The URL/canonical remains
+        //   Gregorian (strict-route policy) — the badge describes the
+        //   *visible content* emphasis, not the URL.
+        const _badgeIsHijriSsr = (_moonDateIsHijriSsr || _moonHijriFirstSsr);
         const _badgeTextSsr = _isMoonDatePage
-            ? ((_BADGE_TEXT[Lm] || _BADGE_TEXT.en)[_moonDateIsHijriSsr ? 'hijri' : 'greg'])
+            ? ((_BADGE_TEXT[Lm] || _BADGE_TEXT.en)[_badgeIsHijriSsr ? 'hijri' : 'greg'])
             : '';
-        const _badgeClassSsr = _moonDateIsHijriSsr ? 'moon-date-badge hijri' : 'moon-date-badge gregorian';
+        const _badgeClassSsr = _badgeIsHijriSsr ? 'moon-date-badge hijri' : 'moon-date-badge gregorian';
         // استبدال H1 موقع القمر + حقن شريط الـ subtitle والـ badge بعده (فقط على صفحة تاريخ محدَّد)
         const _badgeHtmlSsr = (_isMoonDatePage && _badgeTextSsr)
             ? `<div class="${_badgeClassSsr}" id="moon-date-badge">${_escHtml(_badgeTextSsr)}</div>`

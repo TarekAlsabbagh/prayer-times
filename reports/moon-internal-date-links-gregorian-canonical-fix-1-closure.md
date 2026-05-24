@@ -1,9 +1,39 @@
 # MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1 — Closure
 
 **Date:** 2026-05-24
-**Status:** CLOSED, awaiting user approval
+**Status:** **CLOSED — user-approved 2026-05-23**
 **Scope:** `js/app.js` 14-day forecast table renderer (the Hijri-date cell `<a href>`)
-**Implementation commit:** (TBD on stage)
+**Implementation commit:** `a64cc32`
+
+---
+
+## Acceptance criteria
+
+| # | Criterion | Status |
+| - | --------- | ------ |
+| 1 | Hijri date remains visible as text in the cell | ✅ PASS — `hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year` rendered inside `<a>` element body, unchanged from before |
+| 2 | Moon table `href` uses Gregorian canonical URL | ✅ PASS — `_hHrefGreg = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso` where `_rowIso = _fcIso(dp, row.date)` (Gregorian ISO) |
+| 3 | No `/moon-in-{city}/14XX-…` links remain in served bundle | ✅ PASS — `grep -cE "moon-in-[a-z]+/14[0-9]{2}-"` on served `app.js?v=688` returns **0** |
+| 4 | No `/moon-in-{city}/13XX-…` links remain in served bundle | ✅ PASS — same grep on `13[0-9]{2}-` returns **0** |
+| 5 | No `hj.year` in any href construction in served bundle | ✅ PASS — `grep -cE "hj\.year.*'-'.*hj\.month"` returns **0** |
+| 6 | Hijri-looking moon URLs return 404 (policy unchanged) | ✅ PASS — `/moon-in-riyadh/1447-12-{07,14,20}` all return HTTP 404 |
+| 7 | Gregorian dated moon URLs return 200 | ✅ PASS — `/moon-in-riyadh/2026-05-{24,31}` + `/moon-in-riyadh/2026-06-06` all return HTTP 200 |
+| 8 | Multi-city: `/moon-in-jeddah/{date}` follows same rule | ✅ PASS — Gregorian → 200, Hijri → 404 (shared JS renderer applies to all cities) |
+| 9 | Month-page `/moon-in-{city}/{YYYY-MM}` calendar cells use Gregorian hrefs | ✅ PASS — SSR `_cellHref = .../moon-in-riyadh/2026-05-01` etc. (uses `_isoOf(_cellD)`); 0 Hijri-format hrefs in month cell `<a>` elements |
+| 10 | `/moon-today-in-{city}` (same forecast component) works | ✅ PASS — HTTP 200, same JS renderer benefits from the fix |
+| 11 | Sitemap has 0 Hijri-format moon URLs | ✅ PASS — confirmed 0 across all sitemap files |
+| 12 | Sitemap Gregorian URL count UNCHANGED | ✅ PASS — 23,560 dated URLs preserved (baseline) |
+| 13 | No 301 redirects added | ✅ PASS — no `res.redirect` for moon URLs |
+| 14 | No new Hijri moon routes added | ✅ PASS — only the existing route handler modified |
+| 15 | Strict-Gregorian route policy UNCHANGED | ✅ PASS — `_isMoonDatedMatch` year-guard intact; 404 on Hijri input intact |
+| 16 | canonical / hreflang on Gregorian pages UNCHANGED | ✅ PASS — `/moon-in-riyadh/2026-05-24` emits self-Gregorian canonical + 10-lang hreflang |
+| 17 | Calculations / MoonCalc UNCHANGED | ✅ PASS — no calc code touched |
+| 18 | Umm al-Qura UNCHANGED | ✅ PASS — same `HijriDate.toHijri(dp.y, dp.m + 1, dp.d)` call is reused for display TEXT |
+| 19 | `/hijri-date/`, `/hijri-calendar/`, `/today-hijri-date` UNAFFECTED | ✅ PASS — separate page family, HTTP 200 on all |
+| 20 | No CSS / i18n / HTML structure / content changes | ✅ PASS — only `js/app.js` logic + cache-buster bump in `index.html` |
+| 21 | No new dependencies | ✅ PASS — zero new deps |
+| 22 | `node --check js/app.js` passes | ✅ PASS — syntax verified |
+| 23 | Tests passed | ✅ PASS — all 8 verification groups live-tested on port 3228 + re-verified on port 3230 |
 
 ---
 

@@ -17573,7 +17573,7 @@ function updateMoonInfo() {
             }
             const _H2TPL = {
                 ar: {
-                    title: 'تفاصيل حالة القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
+                    title: 'تفاصيل حالة وطور القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
                     cities: 'حالة القمر في مدن أخرى لنفس التاريخ',
                     faq: 'أسئلة شائعة عن حالة القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
                     subtitle: 'تابع حالة القمر في ' + _cityName + (_dateLabel ? ' في هذا التاريخ' : '') + ' بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب'

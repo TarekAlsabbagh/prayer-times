@@ -724,6 +724,7 @@ window.TRANSLATIONS['ur'] = {
         'moon.prev_day': 'پچھلا دن',
         'moon.next_day': 'اگلا دن',
         'moon.return_today': 'آج',
+        'moon.current_date': 'موجودہ تاریخ',
         'moon.chart_title': 'چاند کی روشنی کا چارٹ — 7 دن',
         'moon.chart_subtitle': 'دکھائی گئی تاریخ سے 3 دن پہلے سے 3 دن بعد تک چاند کی روشنی کا فیصد۔',
         'moon.chart_caption': 'اس تاریخ کے لیے چاند کی تفصیلات دیکھنے کے لیے کسی بھی نقطے کا انتخاب کریں۔',

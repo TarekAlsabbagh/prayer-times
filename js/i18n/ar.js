@@ -906,6 +906,7 @@ window.TRANSLATIONS['ar'] = {
         'moon.prev_day': 'اليوم السابق',
         'moon.next_day': 'اليوم التالي',
         'moon.return_today': 'اليوم',
+        'moon.current_date': 'اليوم المعروض',
         'moon.chart_title': 'مخطّط إضاءة القمر — 7 أيّام',
         'moon.chart_subtitle': 'نسبة إضاءة القمر من 3 أيام قبل التاريخ المعروض إلى 3 أيام بعده.',
         'moon.chart_caption': 'اختر أي نقطة لعرض تفاصيل القمر في ذلك التاريخ.',

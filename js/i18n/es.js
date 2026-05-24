@@ -751,6 +751,7 @@ window.TRANSLATIONS['es'] = {
         'moon.prev_day': 'Día anterior',
         'moon.next_day': 'Día siguiente',
         'moon.return_today': 'Hoy',
+        'moon.current_date': 'Fecha mostrada',
         'moon.chart_title': 'Gráfico de iluminación de la Luna — 7 días',
         'moon.chart_subtitle': 'Porcentaje de iluminación de la Luna desde 3 días antes de la fecha mostrada hasta 3 días después.',
         'moon.chart_caption': 'Elige cualquier punto para ver los detalles de la Luna en esa fecha.',

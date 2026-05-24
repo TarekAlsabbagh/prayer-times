@@ -20097,47 +20097,60 @@ function updateMoonInfo() {
                     _todayLinkEl2.removeAttribute('aria-current');
                 }
             }
-            // ── Round 14 polish: على صفحة التاريخ، الزرّ الأوسط يعرض التاريخ المعروض
-            // حاليًّا (بدلاً من «اليوم» الذي يُربك المستخدم). الرابط يبقى إلى /moon-today-in-X
-            // (صفحة اليوم الحقيقيّة) لكن النصّ المرئيّ يُطابق التاريخ المعروض الآن.
-            //   - رابط هجريّ → نعرض التسمية الهجريّة (مثلاً «3 ذو القعدة 1447»).
-            //   - رابط ميلاديّ → نعرض التسمية الميلاديّة المختصرة (مثلاً «20 أبريل 2026»).
-            //   على صفحة اليوم الحقيقيّة: يبقى النصّ الافتراضيّ «اليوم» / «Today».
+            // MOON-DATED-PAGE-DATE-NAV-CLEANUP-1 (2026-05-24):
+            //   The center button now uses a 2-line status-card format:
+            //     line 1: localized label "اليوم المعروض" / "Currently showing"
+            //             (kept as data-i18n="moon.current_date" — translated by i18n)
+            //     line 2: the actual displayed date (sub-text) — set here
+            //   This replaces the previous Round-14 pattern that overwrote the
+            //   single label element. The label is now translated automatically
+            //   via the data-i18n mechanism; we only fill the sub-line.
+            //   The href stays linked to /moon-today-in-{city} (jump to today's
+            //   moon status from any date) — center is still clickable but
+            //   styled as status-card (CSS) to distinguish from prev/next.
             if (_todayLinkEl2 && _isDatePage) {
                 try {
-                    const _labelEl = _todayLinkEl2.querySelector('.moon-date-label');
-                    if (_labelEl) {
-                        const _lngNav = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                        const _kindNav = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
-                        let _midText = '';
-                        if (_kindNav && _kindNav.isHijri && _kindNav.hYear) {
-                            // تسمية هجريّة كاملة
-                            try { _midText = _formatHijriLabelLang(_kindNav.hYear, _kindNav.hMonth, _kindNav.hDay, _lngNav); } catch(_){}
-                        }
-                        if (!_midText) {
-                            // تسمية ميلاديّة: "20 أبريل 2026" / "Apr 20, 2026"
-                            let _gm = '';
-                            try { if (typeof t === 'function') _gm = t('gmonth.' + (today.getMonth() + 1)); } catch(_){}
-                            if (!_gm || _gm === 'gmonth.' + (today.getMonth() + 1)) {
-                                _gm = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()];
-                            }
-                            // ترتيب: لغات RTL وعربيّة → يوم شهر سنة؛ EN → مختصر "Apr 20, 2026"
-                            if (_lngNav === 'en') {
-                                _midText = _gm + ' ' + today.getDate() + ', ' + today.getFullYear();
-                            } else {
-                                _midText = today.getDate() + ' ' + _gm + ' ' + today.getFullYear();
-                            }
-                        }
-                        _labelEl.textContent = _midText;
-                        // نزيل data-i18n حتّى لا يُعاد استبداله بـ «اليوم» عند تغيير اللغة
-                        _labelEl.removeAttribute('data-i18n');
-                        // aria-label وصفيّ للـ screen readers
-                        _todayLinkEl2.setAttribute('aria-label', _midText);
-                        _todayLinkEl2.setAttribute('title', _midText);
+                    // Compute the formatted date string ONCE — used for the
+                    // sub-line, aria-label, title, and the legacy fallback below.
+                    const _lngNav = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                    const _kindNav = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
+                    let _midText = '';
+                    if (_kindNav && _kindNav.isHijri && _kindNav.hYear) {
+                        // Hijri-formatted label (unreachable in practice under strict
+                        // Gregorian route policy, kept for forward compatibility)
+                        try { _midText = _formatHijriLabelLang(_kindNav.hYear, _kindNav.hMonth, _kindNav.hDay, _lngNav); } catch(_){}
                     }
-                    // الأيقونة: على صفحة التاريخ نُغيّر 🏠 إلى 📅 (تاريخ) لأنّها ليست «العودة للرئيسيّة»
-                    const _arrowEl = _todayLinkEl2.querySelector('.moon-date-arrow');
-                    if (_arrowEl) _arrowEl.textContent = '📅';
+                    if (!_midText) {
+                        let _gm = '';
+                        try { if (typeof t === 'function') _gm = t('gmonth.' + (today.getMonth() + 1)); } catch(_){}
+                        if (!_gm || _gm === 'gmonth.' + (today.getMonth() + 1)) {
+                            _gm = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()];
+                        }
+                        // Order: RTL/AR/UR/BN → "day month year"; EN → "Mon DD, YYYY"
+                        if (_lngNav === 'en') {
+                            _midText = _gm + ' ' + today.getDate() + ', ' + today.getFullYear();
+                        } else {
+                            _midText = today.getDate() + ' ' + _gm + ' ' + today.getFullYear();
+                        }
+                    }
+                    // Primary: fill the new 2-line status-card sub element
+                    const _subEl = document.getElementById('moon-date-today-sub');
+                    if (_subEl) {
+                        _subEl.textContent = _midText;
+                    } else {
+                        // Legacy fallback: pre-MOON-DATED-PAGE-DATE-NAV-CLEANUP-1
+                        // cached HTML lacks #moon-date-today-sub. Write the date
+                        // into the single .moon-date-label element instead so the
+                        // user doesn't see the raw i18n key.
+                        const _labelEl = _todayLinkEl2.querySelector('.moon-date-label');
+                        if (_labelEl) {
+                            _labelEl.textContent = _midText;
+                            _labelEl.removeAttribute('data-i18n');
+                        }
+                    }
+                    // Aria/title use the formatted date for screen-reader clarity
+                    _todayLinkEl2.setAttribute('aria-label', _midText);
+                    _todayLinkEl2.setAttribute('title', _midText);
                 } catch (_mlerr) { /* silent */ }
             }
         }

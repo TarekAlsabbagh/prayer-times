@@ -721,6 +721,7 @@ window.TRANSLATIONS['fr'] = {
         'moon.prev_day': 'Jour précédent',
         'moon.next_day': 'Jour suivant',
         'moon.return_today': 'Aujourd\u2019hui',
+        'moon.current_date': 'Date affich\u00e9e',
         'moon.chart_title': 'Graphique d\u2019illumination de la Lune — 7 jours',
         'moon.chart_subtitle': 'Pourcentage d’illumination de la Lune de 3 jours avant la date affichée à 3 jours après.',
         'moon.chart_caption': 'Choisissez un point pour voir les détails de la Lune à cette date.',

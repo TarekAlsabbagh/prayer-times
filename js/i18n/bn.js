@@ -751,6 +751,7 @@ window.TRANSLATIONS['bn'] = {
         'moon.prev_day': 'আগের দিন',
         'moon.next_day': 'পরবর্তী দিন',
         'moon.return_today': 'আজ',
+        'moon.current_date': 'প্রদর্শিত তারিখ',
         'moon.chart_title': 'চাঁদের আলোকসজ্জা চার্ট — ৭ দিন',
         'moon.chart_subtitle': 'প্রদর্শিত তারিখের 3 দিন আগে থেকে 3 দিন পর পর্যন্ত চাঁদের আলোকন শতাংশ।',
         'moon.chart_caption': 'সেই তারিখের জন্য চাঁদের বিবরণ দেখতে যেকোনো বিন্দু নির্বাচন করুন।',

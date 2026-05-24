@@ -751,6 +751,7 @@ window.TRANSLATIONS['ms'] = {
         'moon.prev_day': 'Hari sebelumnya',
         'moon.next_day': 'Hari seterusnya',
         'moon.return_today': 'Hari ini',
+        'moon.current_date': 'Tarikh dipaparkan',
         'moon.chart_title': 'Carta Pencahayaan Bulan — 7 Hari',
         'moon.chart_subtitle': 'Peratusan pencahayaan Bulan dari 3 hari sebelum tarikh yang dipaparkan hingga 3 hari selepasnya.',
         'moon.chart_caption': 'Pilih mana-mana titik untuk melihat butiran Bulan pada tarikh tersebut.',

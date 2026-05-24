@@ -751,6 +751,7 @@ window.TRANSLATIONS['id'] = {
         'moon.prev_day': 'Hari sebelumnya',
         'moon.next_day': 'Hari berikutnya',
         'moon.return_today': 'Hari ini',
+        'moon.current_date': 'Tanggal yang ditampilkan',
         'moon.chart_title': 'Grafik Iluminasi Bulan — 7 Hari',
         'moon.chart_subtitle': 'Persentase iluminasi Bulan dari 3 hari sebelum tanggal yang ditampilkan hingga 3 hari setelahnya.',
         'moon.chart_caption': 'Pilih titik mana pun untuk melihat detail Bulan pada tanggal tersebut.',

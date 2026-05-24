@@ -841,6 +841,7 @@ window.TRANSLATIONS['en'] = {
         'moon.prev_day': 'Previous day',
         'moon.next_day': 'Next day',
         'moon.return_today': 'Today',
+        'moon.current_date': 'Currently showing',
         'moon.chart_title': 'Moon Illumination Chart — 7 Days',
         'moon.chart_subtitle': 'Moon illumination percentage from 3 days before the shown date to 3 days after.',
         'moon.chart_caption': 'Tap any point to view the moon details for that date.',

@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=693" as="script">
+    <link rel="preload" href="js/app.js?v=694" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=420" as="style">
-    <link rel="stylesheet" href="css/style.css?v=420">
+    <link rel="preload" href="css/style.css?v=421" as="style">
+    <link rel="stylesheet" href="css/style.css?v=421">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -1645,21 +1645,26 @@
                      for /moon-in-{city}/{YYYY-MM-DD}. Hijri date stays as
                      informational text only ("الموافق …") rendered elsewhere. -->
 
-                <!-- Date navigation (يظهر فقط على moon-date-page عبر CSS) -->
+                <!-- Date navigation (يظهر فقط على moon-date-page عبر CSS)
+                     MOON-DATED-PAGE-DATE-NAV-CLEANUP-1 (2026-05-24):
+                     Removed all ←/→/📅 arrow glyphs. The labels "اليوم
+                     السابق" / "اليوم التالي" + the sub-text date are
+                     clearer than direction arrows in a bidi UI. Center
+                     button now reads "اليوم المعروض" + date sub-line
+                     (status card style), instead of "اليوم" + home icon
+                     that looked like another nav button. -->
                 <nav class="moon-date-nav" id="moon-date-nav" aria-label="Moon date navigation" hidden>
                     <a class="moon-date-link moon-date-prev" id="moon-date-prev" href="#" rel="prev">
-                        <span class="moon-date-arrow" aria-hidden="true">←</span>
                         <span class="moon-date-label" data-i18n="moon.prev_day">اليوم السابق</span>
                         <span class="moon-date-sub" id="moon-date-prev-sub"></span>
                     </a>
                     <a class="moon-date-link moon-date-today-link" id="moon-date-today" href="#">
-                        <svg class="icon moon-date-arrow" aria-hidden="true"><use href="#i-home"/></svg>
-                        <span class="moon-date-label" data-i18n="moon.return_today">اليوم</span>
+                        <span class="moon-date-label" data-i18n="moon.current_date">اليوم المعروض</span>
+                        <span class="moon-date-sub" id="moon-date-today-sub"></span>
                     </a>
                     <a class="moon-date-link moon-date-next" id="moon-date-next" href="#" rel="next">
                         <span class="moon-date-label" data-i18n="moon.next_day">اليوم التالي</span>
                         <span class="moon-date-sub" id="moon-date-next-sub"></span>
-                        <span class="moon-date-arrow" aria-hidden="true">→</span>
                     </a>
                 </nav>
 
@@ -3921,7 +3926,7 @@
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=9"></script>
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=693"></script>
+    <script defer src="js/app.js?v=694"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

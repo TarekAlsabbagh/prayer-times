@@ -751,6 +751,7 @@ window.TRANSLATIONS['de'] = {
         'moon.prev_day': 'Vortag',
         'moon.next_day': 'Folgetag',
         'moon.return_today': 'Heute',
+        'moon.current_date': 'Angezeigtes Datum',
         'moon.chart_title': 'Mond-Beleuchtungsdiagramm — 7 Tage',
         'moon.chart_subtitle': 'Mondbeleuchtungsprozent von 3 Tagen vor dem angezeigten Datum bis 3 Tage danach.',
         'moon.chart_caption': 'Wählen Sie einen Punkt aus, um die Monddetails für dieses Datum anzuzeigen.',

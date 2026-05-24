@@ -724,6 +724,7 @@ window.TRANSLATIONS['tr'] = {
         'moon.prev_day': 'Önceki gün',
         'moon.next_day': 'Sonraki gün',
         'moon.return_today': 'Bugün',
+        'moon.current_date': 'Görüntülenen tarih',
         'moon.chart_title': 'Ay Aydınlatma Grafiği — 7 gün',
         'moon.chart_subtitle': 'Gösterilen tarihten 3 gün önce ile 3 gün sonra arasındaki Ay aydınlanma yüzdesi.',
         'moon.chart_caption': 'O tarihin Ay ayrıntılarını görmek için herhangi bir noktaya dokunun.',

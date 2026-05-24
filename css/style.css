@@ -5747,6 +5747,65 @@ html.moon-hijri-context .fc-th-greg {
     background: var(--primary-dark, #1b5e20);
     color: #fff;
 }
+
+/* ── MOON-DATED-PAGE-DATE-NAV-CLEANUP-1 (2026-05-24) ─────────────────
+   Arrow glyphs (←/→/📅) were removed from the template — clear text
+   labels ("اليوم السابق" / "اليوم المعروض" / "اليوم التالي") + the
+   date sub-line are clearer than direction arrows in a bidi UI.
+   Center button is now a status-card style: same green tint but no
+   lift on hover (it's the current page, not a navigation target like
+   prev/next — though it still links to /moon-today-in-{city} for the
+   "jump to today" affordance).
+   Defensive: hide any stale .moon-date-arrow nodes if cached HTML
+   still references the element. */
+.moon-date-arrow { display: none !important; }
+.moon-date-today-link {
+    /* Slightly different visual weight so center reads as status,
+       not as a 3rd navigation button. Active center is taller-feeling
+       via heavier label + visible sub-date. */
+    font-weight: 700;
+    box-shadow: 0 1px 0 rgba(0, 0, 0, 0.05) inset;
+}
+.moon-date-today-link:hover {
+    /* Softer hover: no lift transform — center isn't a "go somewhere"
+       affordance the way prev/next are. */
+    transform: none;
+    box-shadow: 0 2px 8px rgba(46, 125, 50, 0.22) inset, 0 0 0 1px rgba(255, 255, 255, 0.1);
+}
+.moon-date-today-link .moon-date-label {
+    font-size: 0.85rem;
+    opacity: 0.92;
+    letter-spacing: 0.01em;
+}
+.moon-date-today-link .moon-date-sub {
+    /* Center sub-date is more prominent than prev/next sub */
+    font-size: 0.92rem;
+    font-weight: 700;
+    opacity: 1;
+    margin-top: 1px;
+}
+
+/* Mobile: balanced 3-column wrap; sub-date stays legible */
+@media (max-width: 600px) {
+    .moon-date-nav {
+        gap: 6px;
+        margin: 12px 0 16px;
+    }
+    .moon-date-link {
+        padding: 8px 8px;
+        font-size: 0.82rem;
+    }
+    .moon-date-link .moon-date-sub {
+        font-size: 0.72rem;
+    }
+    .moon-date-today-link .moon-date-label {
+        font-size: 0.78rem;
+    }
+    .moon-date-today-link .moon-date-sub {
+        font-size: 0.85rem;
+    }
+}
+
 /* إظهار الشريط حصريّاً على moon-date-page حتّى لو كان مخفيّاً بـ [hidden] */
 html.moon-date-page .moon-date-nav { display: flex; }
 /* Round 16: Hub page — إخفاء شريط التنقّل بين الأيّام (prev/next date غير منطقيّ هنا) */

@@ -18010,21 +18010,26 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 //   page (/moon-today-in-{city}) — that page is the dedicated
                 //   today-focused experience, while /moon-in-{city} is the
                 //   permanent calendar hub. Clear separation of roles.
-                // MOON-HUB-SEO-3 (2026-05-11): drop "اليوم/today/heute/hoy/
-                // aujourd'hui/Hari Ini/bugün/آج/আজ" — Hub is permanent, the
-                // CTA points to the today-snapshot page but the BUTTON LABEL
-                // stays generic so Hub Keyword Consistency doesn't drift.
+                // MOON-HUB-DETAIL-CTA-TODAY-LABEL-FIX-1 (2026-05-24):
+                //   The previous MOON-HUB-SEO-3 (2026-05-11) decision dropped
+                //   "اليوم/today/…" from this CTA label for Hub Keyword
+                //   Consistency. However the LINK points to /moon-today-in-{city}
+                //   (the today-snapshot page) — without "اليوم" the button
+                //   label MISLEADS the visitor about where the link actually
+                //   goes. UX clarity > SEO keyword consistency for an actively
+                //   destination-mismatched button. Restored the temporal anchor
+                //   in each lang so the label matches the destination.
                 const _hubDetailCtaTpl = {
-                    ar: `📅 عرض حالة القمر في ${cityName}`,
-                    en: `📅 View moon status in ${cityName}`,
-                    fr: `📅 Voir l'état de la Lune à ${cityName}`,
-                    tr: `📅 ${cityName} için ay durumunu görüntüle`,
-                    ur: `📅 ${cityName} میں چاند کی حالت دیکھیں`,
-                    de: `📅 Mondstatus in ${cityName} ansehen`,
-                    id: `📅 Lihat status Bulan di ${cityName}`,
-                    es: `📅 Ver el estado de la Luna en ${cityName}`,
-                    bn: `📅 ${cityName}-এ চাঁদের অবস্থা দেখুন`,
-                    ms: `📅 Lihat status Bulan di ${cityName}`
+                    ar: `📅 عرض حالة القمر اليوم في ${cityName}`,
+                    en: `📅 View today's moon status in ${cityName}`,
+                    fr: `📅 Voir l'état de la Lune aujourd'hui à ${cityName}`,
+                    tr: `📅 ${cityName} için bugünkü ay durumunu görüntüle`,
+                    ur: `📅 ${cityName} میں آج چاند کی حالت دیکھیں`,
+                    de: `📅 Heutigen Mondstatus in ${cityName} ansehen`,
+                    id: `📅 Lihat status Bulan hari ini di ${cityName}`,
+                    es: `📅 Ver el estado de la Luna hoy en ${cityName}`,
+                    bn: `📅 ${cityName}-এ আজকের চাঁদের অবস্থা দেখুন`,
+                    ms: `📅 Lihat status Bulan hari ini di ${cityName}`
                 };
                 const _hubDetailCtaText = _hubDetailCtaTpl[Lm] || _hubDetailCtaTpl.en;
                 const _hubDetailCtaHref = _langPrefixHc + '/moon-today-in-' + seo.moonCity.slug;

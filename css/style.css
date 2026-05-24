@@ -19043,12 +19043,29 @@ html[data-theme="dark"] .hijri-date-related-links a:hover {
    ═══════════════════════════════════════════════════════════════════ */
 .moon-hub-cal-compact {
     text-align: center;
+    /* MOON-HUB-CAL-COPY-FIX-1 (2026-05-24): trim the bottom padding so
+       the card reads as a compact CTA, not a heavy section. Top stays at
+       the inherited 18px to preserve breathing room under the title. */
+    padding: 18px 22px 16px;
+}
+.moon-hub-cal-compact .moon-hub-cal-title {
+    /* The default .section-card h2 has a heavy 2px border-bottom + 12px
+       padding-bottom — visually too loud for a 3-element compact CTA
+       card. Drop the divider and center the title (the card is centered);
+       rely on whitespace alone to separate title from intro paragraph. */
+    border-bottom: none;
+    padding-bottom: 0;
+    margin-bottom: 10px;
+    justify-content: center;
 }
 .moon-hub-cal-compact-intro {
-    margin: 8px 0 18px;
+    /* Tighten the rhythm — was margin 8/18 + line-height 1.8 (read as
+       loose). Balanced 0/14 + line-height 1.65 pulls the CTA closer to
+       the intro and shaves ~22px of vertical space without crowding. */
+    margin: 0 0 14px;
     color: #334139;
     font-size: 15.5px;
-    line-height: 1.8;
+    line-height: 1.65;
 }
 .moon-hub-cal-cta {
     display: inline-block;

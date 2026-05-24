@@ -18054,7 +18054,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     // includes the city name but NO month name, so the
                     // text stays generic permanent-hub copy.
                     const _MOON_HUB_CAL_CTA = {
-                        ar: { title: `تقويم أطوار القمر في ${cityName}`, intro: `استعرض ترتيب أطوار القمر خلال الشهر مع التواريخ الميلادية المقابلة في صفحة التقويم الشهري الكاملة.`, cta: `عرض تقويم أطوار القمر الشهري` },
+                        // MOON-HUB-CAL-COPY-FIX-1 (2026-05-24): AR intro
+                        //   reworded from "استعرض ترتيب أطوار القمر..." (awkward
+                        //   noun chain) to "استعرض أطوار القمر..." (natural
+                        //   verb-direct-object). Other 9 langs were already
+                        //   natural and untouched.
+                        ar: { title: `تقويم أطوار القمر في ${cityName}`, intro: `استعرض أطوار القمر خلال الشهر، مع التواريخ الميلادية المقابلة في صفحة التقويم الشهري الكاملة.`, cta: `عرض تقويم أطوار القمر الشهري` },
                         en: { title: `Moon phases calendar for ${cityName}`, intro: `See the full sequence of moon phases for the month with their Gregorian dates on the dedicated monthly calendar page.`, cta: `View the monthly moon phases calendar` },
                         fr: { title: `Calendrier des phases lunaires à ${cityName}`, intro: `Découvrez la séquence complète des phases lunaires du mois avec leurs dates grégoriennes sur la page du calendrier mensuel.`, cta: `Voir le calendrier lunaire mensuel` },
                         tr: { title: `${cityName} Ay Evresi Takvimi`, intro: `Aylık takvim sayfasında ayın tam evre sırasını ve eşleşen miladi tarihleri görüntüleyin.`, cta: `Aylık ay takvimini görüntüle` },

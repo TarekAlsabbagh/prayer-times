@@ -6151,20 +6151,32 @@ html[dir="rtl"] .moon-cities-grid a:hover::after { transform: scaleX(-1) transla
 html[dir="rtl"] .moon-faq-group-heading { text-align: right; }
 html[dir="ltr"] .moon-faq-group-heading { text-align: left; }
 .moon-faq-item {
-    background: var(--bg);
-    border-radius: 8px;
-    border: 1px solid var(--border);
+    /* MOON-CITY-EVERGREEN-FAQ-COPY-UI-POLISH-1 (2026-05-24):
+       Lighter card background (was var(--bg) which renders as a grey
+       in light theme — made the FAQ list look heavy). Bumped padding
+       breathing room slightly via the summary + p rules below.
+       Border softened by adopting a tinted version of --border with
+       lower alpha. */
+    background: var(--card-bg, #ffffff);
+    border-radius: 10px;
+    border: 1px solid rgba(12, 94, 54, 0.08);
     overflow: hidden;
+}
+.moon-faq-item + .moon-faq-item {
+    margin-top: 8px;
 }
 .moon-faq-item summary {
     cursor: pointer;
-    padding: 12px 16px;
+    /* MOON-CITY-EVERGREEN-FAQ-COPY-UI-POLISH-1: slightly more vertical
+       breathing room on the question row (was 12px → 14px). */
+    padding: 14px 18px;
     font-weight: 700;
     color: var(--primary-dark);
     font-size: 0.98rem;
+    line-height: 1.5;
     list-style: none;
     position: relative;
-    padding-inline-end: 36px;
+    padding-inline-end: 38px;
 }
 .moon-faq-item summary::-webkit-details-marker { display: none; }
 .moon-faq-item summary::after {
@@ -6183,16 +6195,15 @@ html[dir="ltr"] .moon-faq-group-heading { text-align: left; }
     transform: translateY(-50%) rotate(180deg);
 }
 .moon-faq-item p {
-    /* UAT-FAQ-UX (2026-04-30): keep answers compact. min-height:auto is
-       defensive against any inherited min-height from container styling.
-       padding-top:4px gives a small breath after summary without forcing
-       extra vertical space when the answer is short. line-height:1.65
-       (was 1.7) reads naturally for Arabic and trims ~3px per line. */
-    padding: 4px 16px 12px;
+    /* MOON-CITY-EVERGREEN-FAQ-COPY-UI-POLISH-1 (2026-05-24):
+       Slightly more breathing room after the summary (was 4px → 6px
+       top, 12px → 14px bottom) and softer body color so the answer
+       sits visually distinct from the bold green question. */
+    padding: 6px 18px 14px;
     margin: 0;
     min-height: auto;
-    color: var(--text);
-    line-height: 1.65;
+    color: var(--text-light, #4a5660);
+    line-height: 1.7;
     font-size: 0.95rem;
 }
 .moon-faq-item[open] p {

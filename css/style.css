@@ -14425,9 +14425,19 @@ html.moon-date-page #moon-main-card {
 
 html.moon-hub-page #moon-main-card,
 html.moon-month-page #moon-main-card {
-    min-height: 1555px;  /* Phase E4-city-e: mobile real content 1538 + 17 buffer
-                            (was 1810 — saves ~255px white space below the card
-                            on Hub + Month pages, 6-children layout) */
+    /* MOON-MOBILE-CARD-SECTION-WHITESPACE-FIX-1 (2026-05-24):
+       Removed the 1555px mobile floor (was Phase E4-city-e calibration for
+       "6-children layout" measured at 1538px real content). Since then
+       Round 19 Hub Trimming + recent waves trimmed the card content
+       further, so the 1555px reservation showed as ~300-400px of empty
+       white space below the last visible card on hub/month pages.
+       `min-height: auto` lets the card collapse to its actual content
+       height. CLS risk is negligible because the SSR HTML renders the
+       same DOM structure (with `--` / `—` placeholders) — only the inner
+       text values change on hydration; the card's box height is stable
+       from first paint. Duplicate of the same rule in css/critical.css
+       — keep both in sync. */
+    min-height: auto;
 }
 
 @media (min-width: 768px) {
@@ -14447,9 +14457,12 @@ html.moon-month-page #moon-main-card {
 
     html.moon-hub-page #moon-main-card,
     html.moon-month-page #moon-main-card {
-        min-height: 770px;  /* Phase E4-city-e: desktop real content 753 + 17
-                               buffer (was 1370 — saves ~600px white space
-                               below the card on Hub + Month pages) */
+        /* MOON-MOBILE-CARD-SECTION-WHITESPACE-FIX-1 (2026-05-24): desktop
+           parallel to the mobile fix above. Real content on hub/month
+           desktop is now <770px after recent trimming, so the 770px
+           reservation was leaking ~100-200px below the card. Let the
+           browser auto-size based on actual content. */
+        min-height: auto;
     }
 }
 

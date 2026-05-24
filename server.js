@@ -18067,14 +18067,33 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     };
                     const _ctaCfg = _MOON_HUB_CAL_CTA[Lm] || _MOON_HUB_CAL_CTA.en;
                     const _hubCalCompactHref = `${_langPrefixHc}/moon-in-${seo.moonCity.slug}/${_calY}-${String(_calMo).padStart(2, '0')}`;
+                    // MOON-HUB-CAL-PLACEMENT-1 (2026-05-24): user moved the
+                    //   compact calendar card to sit DIRECTLY under
+                    //   #moon-main-card so visitors see the calendar widget
+                    //   immediately after the today snapshot rather than
+                    //   buried below 4 SEO cards. The "📅 View moon status"
+                    //   detail-CTA stays at its previous spot (right before
+                    //   moon-upcoming-section) because it points to a
+                    //   different destination (/moon-today-in-{city}) than
+                    //   the calendar widget — they're independent CTAs.
                     const _hubCalCompactHtml = `<div class="section-card moon-hub-calendar-card moon-hub-cal-compact" id="moon-hub-cal" tabindex="-1">`
                         + `<h2 class="moon-hub-cal-title">${_escHtml(_ctaCfg.title)}</h2>`
                         + `<p class="moon-hub-cal-compact-intro">${_escHtml(_ctaCfg.intro)}</p>`
                         + `<a class="moon-hub-cal-cta" href="${_escHtml(_hubCalCompactHref)}">${_escHtml(_ctaCfg.cta)}</a>`
-                        + `</div>\n                ${_hubDetailCtaHtml}`;
+                        + `</div>`;
+                    // Inject the calendar widget right under #moon-main-card
+                    // (anchor = the <h2 id="moon-current-month-h2"> that
+                    // follows moon-main-card in index.html). Stable anchor
+                    // because moon-current-month-h2 is a unique ID.
+                    html = html.replace(
+                        /(<h2 id="moon-current-month-h2")/,
+                        _hubCalCompactHtml + '\n                $1'
+                    );
+                    // Keep the detail-CTA at its legacy position (right
+                    // before moon-upcoming-section). Separate injection.
                     html = html.replace(
                         /(<section class="section-card moon-upcoming-section")/,
-                        _hubCalCompactHtml + '\n                $1'
+                        _hubDetailCtaHtml + '\n                $1'
                     );
                 }
             } catch (_eCal) { /* silent — fall back to no calendar */ }

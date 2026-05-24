@@ -18125,25 +18125,171 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     // picker, no per-cell date+phase repetition. The H2
                     // includes the city name but NO month name, so the
                     // text stays generic permanent-hub copy.
+                    // MOON-MONTHLY-CALENDAR-CTA-CARD-POLISH-1 (2026-05-24)
+                    //   → REDESIGN-2 (2026-05-24, rejected: too flat)
+                    //   → MOON-MONTHLY-CALENDAR-CTA-CARD-REDESIGN-3
+                    //     (2026-05-24, this revision).
+                    //   REDESIGN-3 ADDS a real visual element — a mini
+                    //   "calendar strip" at the top of the card showing 5
+                    //   representative days of the month (1, 8, 15, 22,
+                    //   29 — every 7 days) with their REAL moon-phase
+                    //   emojis computed via MoonCalc.getPhaseName(). This
+                    //   gives the visitor an instant visual hint of
+                    //   "monthly moon calendar" without the heavy
+                    //   side-preview-box (REDESIGN-1's mistake) and
+                    //   without the flat text-only layout (REDESIGN-2's
+                    //   mistake). The 4th "lunar phases" chip is also
+                    //   restored per user spec (4 chips, not 3).
+                    //
+                    //   Strip cells are aria-hidden (decorative). They
+                    //   compute REAL phases — not just stylised — so
+                    //   visitors see actual data preview for the month
+                    //   they're about to open.
+                    //
+                    //   Applied to ALL 10 supported langs (the chip text
+                    //   was the only lang-specific copy change; the
+                    //   strip itself is pure visuals).
                     const _MOON_HUB_CAL_CTA = {
-                        // MOON-HUB-CAL-COPY-FIX-1 (2026-05-24): AR intro
-                        //   reworded from "استعرض ترتيب أطوار القمر..." (awkward
-                        //   noun chain) to "استعرض أطوار القمر..." (natural
-                        //   verb-direct-object). Other 9 langs were already
-                        //   natural and untouched.
-                        ar: { title: `تقويم أطوار القمر في ${cityName}`, intro: `استعرض أطوار القمر خلال الشهر، مع التواريخ الميلادية المقابلة في صفحة التقويم الشهري الكاملة.`, cta: `عرض تقويم أطوار القمر الشهري` },
-                        en: { title: `Moon phases calendar for ${cityName}`, intro: `See the full sequence of moon phases for the month with their Gregorian dates on the dedicated monthly calendar page.`, cta: `View the monthly moon phases calendar` },
-                        fr: { title: `Calendrier des phases lunaires à ${cityName}`, intro: `Découvrez la séquence complète des phases lunaires du mois avec leurs dates grégoriennes sur la page du calendrier mensuel.`, cta: `Voir le calendrier lunaire mensuel` },
-                        tr: { title: `${cityName} Ay Evresi Takvimi`, intro: `Aylık takvim sayfasında ayın tam evre sırasını ve eşleşen miladi tarihleri görüntüleyin.`, cta: `Aylık ay takvimini görüntüle` },
-                        ur: { title: `${cityName} میں چاند کے مراحل کا تقویم`, intro: `ماہانہ تقویم صفحے پر چاند کے تمام مراحل اور ان کی متعلقہ عیسوی تاریخیں دیکھیں۔`, cta: `ماہانہ چاند کی تقویم دیکھیں` },
-                        de: { title: `Mondphasenkalender für ${cityName}`, intro: `Sehen Sie die vollständige Abfolge der Mondphasen des Monats mit den gregorianischen Daten auf der Monatskalenderseite.`, cta: `Monatlichen Mondphasenkalender ansehen` },
-                        id: { title: `Kalender fase Bulan di ${cityName}`, intro: `Lihat urutan lengkap fase Bulan untuk bulan ini dengan tanggal Masehi pada halaman kalender bulanan.`, cta: `Lihat kalender fase Bulan bulanan` },
-                        es: { title: `Calendario de fases lunares en ${cityName}`, intro: `Consulta la secuencia completa de las fases de la Luna del mes con sus fechas gregorianas en la página del calendario mensual.`, cta: `Ver calendario lunar mensual` },
-                        bn: { title: `${cityName}-এ চাঁদের দশার ক্যালেন্ডার`, intro: `মাসিক ক্যালেন্ডার পৃষ্ঠায় মাসের চাঁদের সম্পূর্ণ দশাক্রম ও সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখুন।`, cta: `মাসিক চাঁদের ক্যালেন্ডার দেখুন` },
-                        ms: { title: `Kalendar fasa Bulan di ${cityName}`, intro: `Lihat urutan penuh fasa Bulan untuk bulan ini beserta tarikh Gregorian yang berkaitan di halaman kalendar bulanan.`, cta: `Lihat kalendar fasa Bulan bulanan` },
+                        ar: {
+                            badge: 'التقويم الشهري',
+                            title: `استعرض تقويم القمر الشهري في ${cityName}`,
+                            desc: `تابع أطوار القمر يومًا بيوم خلال الشهر، مع التواريخ الهجرية والميلادية ومواعيد المراحل القمرية القادمة.`,
+                            note: `ينقلك هذا الزر إلى صفحة التقويم الشهري الكاملة.`,
+                            chipDaily: 'أطوار يومية',
+                            chipDual: 'هجري + ميلادي',
+                            chipPhases: 'مراحل قمرية',
+                            aria: (m, y) => `الانتقال إلى تقويم القمر لشهر ${m} ${y} في ${cityName}`,
+                            btn: (m, y) => `عرض تقويم القمر لشهر ${m} ${y}`
+                        },
+                        en: {
+                            badge: 'Monthly Calendar',
+                            title: `Browse the monthly moon calendar for ${cityName}`,
+                            desc: `Follow the moon's phases day by day, with both Hijri and Gregorian dates and the timing of upcoming lunar phases.`,
+                            note: `This button takes you to the full monthly calendar page.`,
+                            chipDaily: 'Daily phases',
+                            chipDual: 'Hijri + Gregorian',
+                            chipPhases: 'Lunar phases',
+                            aria: (m, y) => `Go to the moon calendar for ${m} ${y} in ${cityName}`,
+                            btn: (m, y) => `View the moon calendar for ${m} ${y}`
+                        },
+                        fr: {
+                            badge: 'Calendrier mensuel',
+                            title: `Découvrez le calendrier lunaire mensuel pour ${cityName}`,
+                            desc: `Suivez les phases de la Lune jour après jour, avec les dates hégiriennes et grégoriennes et le calendrier des prochaines phases lunaires.`,
+                            note: `Ce bouton vous mène à la page du calendrier mensuel complet.`,
+                            chipDaily: 'Phases quotidiennes',
+                            chipDual: 'Hégirien + grégorien',
+                            chipPhases: 'Phases lunaires',
+                            aria: (m, y) => `Accéder au calendrier lunaire de ${m} ${y} à ${cityName}`,
+                            btn: (m, y) => `Voir le calendrier lunaire de ${m} ${y}`
+                        },
+                        tr: {
+                            badge: 'Aylık Takvim',
+                            title: `${cityName} için aylık ay takvimine göz atın`,
+                            desc: `Ayın evrelerini gün gün takip edin; hicri ve miladi tarihler ile yaklaşan ay evrelerinin zamanları gösterilir.`,
+                            note: `Bu düğme sizi tam aylık takvim sayfasına götürür.`,
+                            chipDaily: 'Günlük evreler',
+                            chipDual: 'Hicri + Miladi',
+                            chipPhases: 'Ay evreleri',
+                            aria: (m, y) => `${cityName} için ${m} ${y} ay takvimine git`,
+                            btn: (m, y) => `${m} ${y} ay takvimini görüntüle`
+                        },
+                        ur: {
+                            badge: 'ماہانہ تقویم',
+                            title: `${cityName} میں ماہانہ چاند کا تقویم دیکھیں`,
+                            desc: `چاند کے روزانہ مراحل، ہجری اور عیسوی تاریخیں اور آنے والے قمری مراحل کا وقت دیکھیں۔`,
+                            note: `یہ بٹن آپ کو مکمل ماہانہ تقویم صفحے پر لے جائے گا۔`,
+                            chipDaily: 'روزانہ مراحل',
+                            chipDual: 'ہجری + عیسوی',
+                            chipPhases: 'قمری مراحل',
+                            aria: (m, y) => `${cityName} میں ${m} ${y} کے چاند کے تقویم پر جائیں`,
+                            btn: (m, y) => `${m} ${y} کا چاند کا تقویم دیکھیں`
+                        },
+                        de: {
+                            badge: 'Monatskalender',
+                            title: `Sehen Sie den monatlichen Mondkalender für ${cityName}`,
+                            desc: `Verfolgen Sie die Mondphasen Tag für Tag mit Hidschri- und gregorianischen Daten sowie den Zeiten kommender Mondphasen.`,
+                            note: `Diese Schaltfläche führt Sie zur vollständigen Monatskalenderseite.`,
+                            chipDaily: 'Tägliche Phasen',
+                            chipDual: 'Hidschri + Gregorianisch',
+                            chipPhases: 'Mondphasen',
+                            aria: (m, y) => `Zum Mondkalender für ${m} ${y} in ${cityName} gehen`,
+                            btn: (m, y) => `Mondkalender für ${m} ${y} ansehen`
+                        },
+                        id: {
+                            badge: 'Kalender Bulanan',
+                            title: `Jelajahi kalender Bulan bulanan di ${cityName}`,
+                            desc: `Ikuti fase Bulan hari demi hari, lengkap dengan tanggal Hijriah dan Masehi serta waktu fase bulan mendatang.`,
+                            note: `Tombol ini membawa Anda ke halaman kalender bulanan lengkap.`,
+                            chipDaily: 'Fase harian',
+                            chipDual: 'Hijriah + Masehi',
+                            chipPhases: 'Fase Bulan',
+                            aria: (m, y) => `Buka kalender Bulan ${m} ${y} di ${cityName}`,
+                            btn: (m, y) => `Lihat kalender Bulan ${m} ${y}`
+                        },
+                        es: {
+                            badge: 'Calendario mensual',
+                            title: `Explora el calendario lunar mensual para ${cityName}`,
+                            desc: `Sigue las fases de la Luna día a día, con fechas hijríes y gregorianas y los horarios de las próximas fases lunares.`,
+                            note: `Este botón te lleva a la página del calendario mensual completo.`,
+                            chipDaily: 'Fases diarias',
+                            chipDual: 'Hijrí + gregoriano',
+                            chipPhases: 'Fases lunares',
+                            aria: (m, y) => `Ir al calendario lunar de ${m} ${y} en ${cityName}`,
+                            btn: (m, y) => `Ver el calendario lunar de ${m} ${y}`
+                        },
+                        bn: {
+                            badge: 'মাসিক ক্যালেন্ডার',
+                            title: `${cityName}-এর জন্য মাসিক চাঁদের ক্যালেন্ডার দেখুন`,
+                            desc: `চাঁদের দৈনন্দিন দশা, হিজরি ও গ্রেগরিয়ান তারিখ এবং আসন্ন চান্দ্র দশার সময় দেখুন।`,
+                            note: `এই বোতামটি আপনাকে সম্পূর্ণ মাসিক ক্যালেন্ডার পৃষ্ঠায় নিয়ে যাবে।`,
+                            chipDaily: 'দৈনিক দশা',
+                            chipDual: 'হিজরি + গ্রেগরিয়ান',
+                            chipPhases: 'চান্দ্র দশা',
+                            aria: (m, y) => `${cityName}-এ ${m} ${y}-এর চাঁদের ক্যালেন্ডারে যান`,
+                            btn: (m, y) => `${m} ${y}-এর চাঁদের ক্যালেন্ডার দেখুন`
+                        },
+                        ms: {
+                            badge: 'Kalendar Bulanan',
+                            title: `Layari kalendar Bulan bulanan untuk ${cityName}`,
+                            desc: `Ikuti fasa Bulan hari demi hari dengan tarikh Hijrah dan Masihi serta masa fasa Bulan akan datang.`,
+                            note: `Butang ini membawa anda ke halaman kalendar bulanan penuh.`,
+                            chipDaily: 'Fasa harian',
+                            chipDual: 'Hijrah + Masihi',
+                            chipPhases: 'Fasa Bulan',
+                            aria: (m, y) => `Pergi ke kalendar Bulan ${m} ${y} di ${cityName}`,
+                            btn: (m, y) => `Lihat kalendar Bulan ${m} ${y}`
+                        }
                     };
                     const _ctaCfg = _MOON_HUB_CAL_CTA[Lm] || _MOON_HUB_CAL_CTA.en;
                     const _hubCalCompactHref = `${_langPrefixHc}/moon-in-${seo.moonCity.slug}/${_calY}-${String(_calMo).padStart(2, '0')}`;
+                    const _hubCalMonthName = _gMonthsFull[_calMo - 1] || '';
+                    const _hubCalBtnLabel = _ctaCfg.btn(_hubCalMonthName, _calY);
+                    const _hubCalAriaLabel = _ctaCfg.aria(_hubCalMonthName, _calY);
+                    // MOON-MONTHLY-CALENDAR-CTA-CARD-REDESIGN-3 (2026-05-24):
+                    //   Compute the mini calendar strip — 5 representative
+                    //   days (1, 8, 15, 22, 29 — every 7 days) with their
+                    //   REAL moon-phase emojis from MoonCalc. Days that
+                    //   exceed the month length (e.g. day 29 in Feb)
+                    //   silently drop. Each cell is a tiny mock-calendar
+                    //   tile (day number + phase emoji). Aria-hidden:
+                    //   purely decorative (screen-readers skip).
+                    const _stripDays = [1, 8, 15, 22, 29];
+                    const _stripCellsHtml = _stripDays
+                        .filter(d => d <= _calLastDay)
+                        .map(d => {
+                            const _stripD = new Date(_calY, _calMo - 1, d, 12, 0, 0);
+                            let _stripPhaseIcon = '🌕';
+                            try {
+                                const _p = MoonCalc.getPhaseName(_stripD);
+                                if (_p && _p.icon) _stripPhaseIcon = _p.icon;
+                            } catch (_) {}
+                            return `<span class="mhcal-strip-cell">`
+                                + `<span class="mhcal-strip-num">${d}</span>`
+                                + `<span class="mhcal-strip-emoji" aria-hidden="true">${_stripPhaseIcon}</span>`
+                                + `</span>`;
+                        }).join('');
+                    const _stripHtml = `<div class="mhcal-strip" aria-hidden="true">${_stripCellsHtml}</div>`;
                     // MOON-HUB-CAL-PLACEMENT-1 (2026-05-24): user moved the
                     //   compact calendar card to sit DIRECTLY under
                     //   #moon-main-card so visitors see the calendar widget
@@ -18153,11 +18299,26 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     //   moon-upcoming-section) because it points to a
                     //   different destination (/moon-today-in-{city}) than
                     //   the calendar widget — they're independent CTAs.
-                    const _hubCalCompactHtml = `<div class="section-card moon-hub-calendar-card moon-hub-cal-compact" id="moon-hub-cal" tabindex="-1">`
-                        + `<h2 class="moon-hub-cal-title">${_escHtml(_ctaCfg.title)}</h2>`
-                        + `<p class="moon-hub-cal-compact-intro">${_escHtml(_ctaCfg.intro)}</p>`
-                        + `<a class="moon-hub-cal-cta" href="${_escHtml(_hubCalCompactHref)}">${_escHtml(_ctaCfg.cta)}</a>`
-                        + `</div>`;
+                    // MOON-MONTHLY-CALENDAR-CTA-CARD-REDESIGN-3 (2026-05-24):
+                    //   Structure: mini calendar strip → badge → title →
+                    //   desc → 4 inline chips → big dominant button →
+                    //   small helper note. Single big <a> wrapping all
+                    //   inner content. Inner "button" is a styled <span>
+                    //   so no nested anchor.
+                    const _hubCalCompactHtml = `<a class="section-card moon-hub-calendar-card moon-hub-cal-compact" id="moon-hub-cal" href="${_escHtml(_hubCalCompactHref)}" aria-label="${_escHtml(_hubCalAriaLabel)}" tabindex="-1">`
+                        + _stripHtml
+                        + `<span class="mhcal-badge">📅 ${_escHtml(_ctaCfg.badge)}</span>`
+                        + `<h2 class="mhcal-title moon-hub-cal-title">${_escHtml(_ctaCfg.title)}</h2>`
+                        + `<p class="mhcal-desc moon-hub-cal-compact-intro">${_escHtml(_ctaCfg.desc)}</p>`
+                        + `<div class="mhcal-chips-inline" aria-hidden="true">`
+                        +   `<span class="mhcal-chip-i mhcal-chip-i--lead">🗓️ ${_escHtml(_hubCalMonthName)} ${_calY}</span>`
+                        +   `<span class="mhcal-chip-i">🌗 ${_escHtml(_ctaCfg.chipDaily)}</span>`
+                        +   `<span class="mhcal-chip-i">📿 ${_escHtml(_ctaCfg.chipDual)}</span>`
+                        +   `<span class="mhcal-chip-i">🌑🌓🌕 ${_escHtml(_ctaCfg.chipPhases)}</span>`
+                        + `</div>`
+                        + `<span class="mhcal-btn moon-hub-cal-cta" role="presentation">${_escHtml(_hubCalBtnLabel)}<span class="mhcal-btn-arrow" aria-hidden="true">›</span></span>`
+                        + `<p class="mhcal-note">${_escHtml(_ctaCfg.note)}</p>`
+                        + `</a>`;
                     // Inject the calendar widget right under #moon-main-card
                     // (anchor = the <h2 id="moon-current-month-h2"> that
                     // follows moon-main-card in index.html). Stable anchor

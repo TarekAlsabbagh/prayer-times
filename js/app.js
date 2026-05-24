@@ -20145,49 +20145,14 @@ function updateMoonInfo() {
         if (window.console && console.warn) console.warn('Moon date nav fill failed:', _nerr);
     }
 
-    // ── Calendar toggle button: switch between Gregorian and Hijri date URLs ──
-    //   Visible only on /moon-in-{slug}/{date} pages with a known city slug.
-    //   - On Gregorian-date URL → button: "عرض التواريخ بالهجريّ" → /moon-in-{slug}/{HYYY-HMM-HDD}
-    //   - On Hijri-date URL    → button: "عرض التواريخ بالميلاديّ" → /moon-in-{slug}/{YYYY-MM-DD}
-    try {
-        const _calToggleEl    = document.getElementById('moon-cal-toggle');
-        const _calToggleLabel = document.getElementById('moon-cal-toggle-label');
-        if (_calToggleEl && _isDatePage && _citySlug) {
-            const _kindCal = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
-            if (_kindCal) {
-                const _pad2Cal = (n) => (n < 10 ? '0' + n : String(n));
-                const _lngCal  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                const _langPrefixCal = (_lngCal === 'ar') ? '' : ('/' + _lngCal);
-                let _otherIso, _labelKey;
-                if (_kindCal.isHijri) {
-                    // Currently Hijri → button switches to Gregorian
-                    if (_kindCal.gYear && _kindCal.gMonth && _kindCal.gDay) {
-                        _otherIso = _kindCal.gYear + '-' + _pad2Cal(_kindCal.gMonth) + '-' + _pad2Cal(_kindCal.gDay);
-                        _labelKey = 'moon.cal.show_gregorian';
-                    }
-                } else {
-                    // Currently Gregorian → button switches to Hijri
-                    if (_kindCal.hYear && _kindCal.hMonth && _kindCal.hDay) {
-                        _otherIso = _kindCal.hYear + '-' + _pad2Cal(_kindCal.hMonth) + '-' + _pad2Cal(_kindCal.hDay);
-                        _labelKey = 'moon.cal.show_hijri';
-                    }
-                }
-                if (_otherIso && _labelKey) {
-                    _calToggleEl.href = _langPrefixCal + '/moon-in-' + _citySlug + '/' + _otherIso;
-                    if (_calToggleLabel) {
-                        _calToggleLabel.setAttribute('data-i18n', _labelKey);
-                        if (typeof t === 'function') {
-                            const _lblTxt = t(_labelKey);
-                            if (_lblTxt && _lblTxt !== _labelKey) _calToggleLabel.textContent = _lblTxt;
-                        }
-                    }
-                    _calToggleEl.hidden = false;
-                }
-            }
-        } else if (_calToggleEl) {
-            _calToggleEl.hidden = true;
-        }
-    } catch (_calerr) { /* silent — toggle stays hidden */ }
+    // MOON-DATE-PAGE-HIJRI-TOGGLE-REMOVAL-1 (2026-05-24):
+    //   The Gregorian↔Hijri calendar toggle (#moon-cal-toggle) has been
+    //   removed from the HTML template. Its computed Hijri target URLs
+    //   (/moon-in-{slug}/HYYY-HMM-HDD) always 404 under the strict
+    //   Gregorian-canonical route policy → dead/broken UI. No JS handling
+    //   needed any more. Hijri date is shown as informational text only
+    //   (no clickable toggle, no /hijri-date link from the moon hero,
+    //   no ?calendar=hijri query param).
 
     // ── إعادة كتابة H1 + intro لتتضمّن التاريخ على moon-date-page ──
     try {

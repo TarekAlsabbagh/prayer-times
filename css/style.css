@@ -5699,49 +5699,13 @@ html[dir="rtl"] .moon-comparison .mc-progress-fill {
     display: inline-block;
 }
 
-/* ── Calendar toggle button (date pages only) ─────────────────────────
-   Switches the URL date between Gregorian (/2026-04-30) and Hijri
-   (/1447-10-13) equivalents. Hidden by default; JS un-hides it on
-   /moon-in-{slug}/{date} pages and computes the target href + label. */
-.moon-cal-toggle {
-    display: none;
-    align-items: center;
-    gap: 8px;
-    margin: 12px 0;
-    padding: 9px 18px;
-    border-radius: 999px;
-    background: var(--bg, #f5f8f5);
-    border: 1.5px solid var(--primary, #2e7d32);
-    color: var(--primary-dark, #1b5e20);
-    font-size: 0.92rem;
-    font-weight: 700;
-    text-decoration: none;
-    transition: background 0.18s ease, color 0.18s ease,
-                border-color 0.18s ease, transform 0.15s ease,
-                box-shadow 0.18s ease;
-    cursor: pointer;
-}
-.moon-cal-toggle:not([hidden]) { display: inline-flex; }
-.moon-cal-toggle:hover {
-    background: var(--primary, #2e7d32);
-    color: #fff;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(46,125,50,0.22);
-}
-.moon-cal-toggle .icon {
-    width: 16px;
-    height: 16px;
-}
-/* Dark theme */
-html[data-theme="dark"] .moon-cal-toggle {
-    background: rgba(77,203,140,0.08);
-    border-color: var(--primary-dark, #4dcb8c);
-    color: var(--primary-dark, #4dcb8c);
-}
-html[data-theme="dark"] .moon-cal-toggle:hover {
-    background: var(--primary, #2d9059);
-    color: #fff;
-}
+/* MOON-DATE-PAGE-HIJRI-TOGGLE-REMOVAL-1 (2026-05-24):
+   The .moon-cal-toggle rules previously here have been removed.
+   The corresponding HTML element + JS handler were deleted because the
+   toggle's target Hijri URLs always 404 under the strict Gregorian-canonical
+   route policy. As a defensive fallback for any old cached HTML that may
+   still contain the element, force it hidden so it can never appear. */
+.moon-cal-toggle { display: none !important; }
 
 /* ── Calendar consistency: hide the OPPOSITE-calendar elements on date pages.
    On Gregorian-date pages (URL has YYYY≥1800), hide all Hijri-formatted

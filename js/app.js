@@ -17845,35 +17845,163 @@ function updateMoonInfo() {
                 const _riseT = (moonTimes && moonTimes.rise) ? moonTimes.rise : '—';
                 const _setT = (moonTimes && moonTimes.set) ? moonTimes.set : '—';
                 const _DT = _dateLabel || '—';
+                // MOON-DATED-PAGE-FAQ-DATE-WORDING-1 (2026-05-24): rewording
+                //   per user spec — no more "اليوم" anywhere. Q6/Q7 questions
+                //   reframed with explicit يوم {date}. Q8 reframed for distance
+                //   (matches HTML template ordering: phase/illum/age/rise/set/distance).
                 const _DATE_FAQ_AR = [
                     ['#moon-dq1-q', `ما طور القمر في ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq1-a', `طور القمر في ${_cityName} يوم ${_DT} هو ${_phaseValid} بإضاءة ${_illumPct}٪، محسوبًا فلكيًّا بدقّة عالية وفق منهجيّات Jean Meeus.`],
-                    ['#moon-dq_illum-q', `كم كانت نسبة إضاءة القمر في ${_cityName} في هذا التاريخ؟`],
-                    ['#moon-dq_illum-a', `بلغت نسبة إضاءة القمر في ${_cityName} يوم ${_DT} نحو ${_illumPct}٪.`],
-                    ['#moon-dq_age-q', `كم كان عمر القمر يوم ${_DT}؟`],
-                    ['#moon-dq_age-a', `عمر القمر في هذا التاريخ ${_ageDays} يوم من أصل دورة 29.5 يوم.`],
-                    ['#moon-dq6-q', `متى أَشرق القمر في ${_cityName} في هذا اليوم؟`],
-                    ['#moon-dq6-a', `وقت شروق القمر في ${_cityName} يوم ${_DT} كان ${_riseT} بالتوقيت المحلّيّ للمدينة.`],
-                    ['#moon-dq7-q', `متى غرَب القمر في ${_cityName} في هذا اليوم؟`],
-                    ['#moon-dq7-a', `وقت غروب القمر في ${_cityName} يوم ${_DT} كان ${_setT} بالتوقيت المحلّيّ للمدينة.`],
-                    ['#moon-dq8-q', `متى كان البدر أو المحاق الأقرب لهذا التاريخ؟`],
-                    ['#moon-dq8-a', `أقرب بدر/محاق للتاريخ ${_DT} مَعروض في قسم «الأطوار القمريّة القادمة» أعلاه، مع التاريخ الميلاديّ والهجريّ بدقّة فلكيّة.`]
+                    ['#moon-dq1-a', `طور القمر في ${_cityName} يوم ${_DT} هو ${_phaseValid}، بنسبة إضاءة تبلغ ${_illumPct}٪، محسوبًا فلكيًّا بدقّة عالية وفق منهجيّات Jean Meeus.`],
+                    ['#moon-dq_illum-q', `كم نسبة إضاءة القمر في ${_cityName} يوم ${_DT}؟`],
+                    ['#moon-dq_illum-a', `نسبة إضاءة القمر في ${_cityName} في هذا التاريخ تبلغ ${_illumPct}٪، وهي محسوبة فلكيًّا من زاوية الشمس والقمر والأرض.`],
+                    ['#moon-dq_age-q', `كم عمر القمر في ${_cityName} يوم ${_DT}؟`],
+                    ['#moon-dq_age-a', `عمر القمر في ${_cityName} يوم ${_DT} هو ${_ageDays} يومًا من أصل دورة قمريّة طولها نحو 29.5 يومًا.`],
+                    ['#moon-dq6-q', `متى يشرق القمر في ${_cityName} يوم ${_DT}؟`],
+                    ['#moon-dq6-a', `يشرق القمر في ${_cityName} يوم ${_DT} عند الساعة ${_riseT} حسب التوقيت المحلّيّ للمدينة.`],
+                    ['#moon-dq7-q', `متى يغرب القمر في ${_cityName} يوم ${_DT}؟`],
+                    ['#moon-dq7-a', `يغرب القمر في ${_cityName} يوم ${_DT} عند الساعة ${_setT} حسب التوقيت المحلّيّ للمدينة.`],
+                    ['#moon-dq8-q', `ما المسافة بين القمر والأرض من ${_cityName} يوم ${_DT}؟`],
+                    ['#moon-dq8-a', `بيانات المسافة بين القمر والأرض من ${_cityName} في هذا التاريخ معروضة في القسم الرئيسيّ من الصفحة، وهي محسوبة بدقّة فلكيّة وفق منهجيّات Jean Meeus.`]
                 ];
                 const _DATE_FAQ_EN = [
                     ['#moon-dq1-q', `What was the moon phase in ${_cityName} on ${_DT}?`],
-                    ['#moon-dq1-a', `On ${_DT}, the moon phase in ${_cityName} was ${_phaseValid} with ${_illumPct}% illumination — computed astronomically using Jean Meeus' methods.`],
-                    ['#moon-dq_illum-q', `What was the moon illumination in ${_cityName} on this date?`],
-                    ['#moon-dq_illum-a', `Moon illumination in ${_cityName} on ${_DT} was about ${_illumPct}%.`],
-                    ['#moon-dq_age-q', `How old was the moon on ${_DT}?`],
-                    ['#moon-dq_age-a', `The moon was ${_ageDays} days old on this date, out of a 29.5-day lunar cycle.`],
-                    ['#moon-dq6-q', `When did the moon rise in ${_cityName} on this day?`],
-                    ['#moon-dq6-a', `Moonrise in ${_cityName} on ${_DT} was at ${_riseT} local city time.`],
-                    ['#moon-dq7-q', `When did the moon set in ${_cityName} on this day?`],
-                    ['#moon-dq7-a', `Moonset in ${_cityName} on ${_DT} was at ${_setT} local city time.`],
-                    ['#moon-dq8-q', `When was the closest full moon or new moon to this date?`],
-                    ['#moon-dq8-a', `The closest full/new moon to ${_DT} is shown in the "Upcoming moon phases" section above, with precise Gregorian and Hijri dates.`]
+                    ['#moon-dq1-a', `The moon phase in ${_cityName} on ${_DT} was ${_phaseValid}, with ${_illumPct}% illumination — computed astronomically using Jean Meeus' methods.`],
+                    ['#moon-dq_illum-q', `What was the moon illumination in ${_cityName} on ${_DT}?`],
+                    ['#moon-dq_illum-a', `Moon illumination in ${_cityName} on this date was about ${_illumPct}%, computed astronomically from the Sun–Moon–Earth angle.`],
+                    ['#moon-dq_age-q', `How old was the moon in ${_cityName} on ${_DT}?`],
+                    ['#moon-dq_age-a', `The moon in ${_cityName} on ${_DT} was ${_ageDays} days old, out of a roughly 29.5-day lunar cycle.`],
+                    ['#moon-dq6-q', `When did the moon rise in ${_cityName} on ${_DT}?`],
+                    ['#moon-dq6-a', `The moon rose in ${_cityName} on ${_DT} at ${_riseT} in the city's local time.`],
+                    ['#moon-dq7-q', `When did the moon set in ${_cityName} on ${_DT}?`],
+                    ['#moon-dq7-a', `The moon set in ${_cityName} on ${_DT} at ${_setT} in the city's local time.`],
+                    ['#moon-dq8-q', `What was the distance between the Moon and Earth from ${_cityName} on ${_DT}?`],
+                    ['#moon-dq8-a', `The Moon–Earth distance from ${_cityName} on this date is shown in the main section above, computed astronomically using Jean Meeus' methods.`]
                 ];
-                const _DATE_FAQ = (_lng_ === 'ar') ? _DATE_FAQ_AR : _DATE_FAQ_EN;
+                // MOON-DATED-PAGE-FAQ-DATE-WORDING-1 EXTEND-8-LANGS (2026-05-24):
+                //   Added per-lang date-aware FAQ arrays for fr/tr/ur/de/id/es/bn/ms
+                //   so visitors on /{lang}/moon-in-{city}/{YYYY-MM-DD} see proper
+                //   localized "on {date}" wording instead of falling back to the
+                //   Arabic template defaults. Each lang mirrors AR/EN structure:
+                //   phase / illumination / age / moonrise / moonset / distance.
+                const _DATE_FAQ_FR = [
+                    ['#moon-dq1-q', `Quelle était la phase de la Lune à ${_cityName} le ${_DT} ?`],
+                    ['#moon-dq1-a', `La phase de la Lune à ${_cityName} le ${_DT} était ${_phaseValid}, avec ${_illumPct}% d'illumination — calculée astronomiquement avec les méthodes de Jean Meeus.`],
+                    ['#moon-dq_illum-q', `Quel était le pourcentage d'illumination de la Lune à ${_cityName} le ${_DT} ?`],
+                    ['#moon-dq_illum-a', `L'illumination de la Lune à ${_cityName} à cette date était d'environ ${_illumPct}%, calculée astronomiquement à partir de l'angle Soleil–Lune–Terre.`],
+                    ['#moon-dq_age-q', `Quel âge avait la Lune à ${_cityName} le ${_DT} ?`],
+                    ['#moon-dq_age-a', `La Lune à ${_cityName} le ${_DT} avait ${_ageDays} jours, sur un cycle lunaire d'environ 29,5 jours.`],
+                    ['#moon-dq6-q', `À quelle heure la Lune s'est-elle levée à ${_cityName} le ${_DT} ?`],
+                    ['#moon-dq6-a', `La Lune s'est levée à ${_cityName} le ${_DT} à ${_riseT} en heure locale de la ville.`],
+                    ['#moon-dq7-q', `À quelle heure la Lune s'est-elle couchée à ${_cityName} le ${_DT} ?`],
+                    ['#moon-dq7-a', `La Lune s'est couchée à ${_cityName} le ${_DT} à ${_setT} en heure locale de la ville.`],
+                    ['#moon-dq8-q', `Quelle était la distance entre la Lune et la Terre depuis ${_cityName} le ${_DT} ?`],
+                    ['#moon-dq8-a', `La distance Lune–Terre depuis ${_cityName} à cette date est indiquée dans la section principale ci-dessus, calculée astronomiquement avec les méthodes de Jean Meeus.`]
+                ];
+                const _DATE_FAQ_TR = [
+                    ['#moon-dq1-q', `${_cityName}'de ${_DT} tarihinde Ay evresi neydi?`],
+                    ['#moon-dq1-a', `${_cityName}'de ${_DT} tarihinde Ay evresi ${_phaseValid}, %${_illumPct} aydınlanma ile — Jean Meeus yöntemleriyle astronomik olarak hesaplandı.`],
+                    ['#moon-dq_illum-q', `${_cityName}'de ${_DT} tarihinde Ay aydınlanması neydi?`],
+                    ['#moon-dq_illum-a', `${_cityName}'de bu tarihte Ay aydınlanması yaklaşık %${_illumPct}, Güneş–Ay–Dünya açısından astronomik olarak hesaplandı.`],
+                    ['#moon-dq_age-q', `${_cityName}'de ${_DT} tarihinde Ay'ın yaşı neydi?`],
+                    ['#moon-dq_age-a', `${_cityName}'de ${_DT} tarihinde Ay'ın yaşı ${_ageDays} gündü, yaklaşık 29,5 günlük bir kameri döngüden.`],
+                    ['#moon-dq6-q', `${_cityName}'de ${_DT} tarihinde Ay ne zaman doğdu?`],
+                    ['#moon-dq6-a', `${_cityName}'de ${_DT} tarihinde Ay ${_riseT}'de yerel şehir saatinde doğdu.`],
+                    ['#moon-dq7-q', `${_cityName}'de ${_DT} tarihinde Ay ne zaman battı?`],
+                    ['#moon-dq7-a', `${_cityName}'de ${_DT} tarihinde Ay ${_setT}'de yerel şehir saatinde battı.`],
+                    ['#moon-dq8-q', `${_cityName}'den ${_DT} tarihinde Ay ile Dünya arasındaki mesafe neydi?`],
+                    ['#moon-dq8-a', `${_cityName}'den bu tarihte Ay–Dünya mesafesi yukarıdaki ana bölümde gösterilmiştir, Jean Meeus yöntemleriyle astronomik olarak hesaplanmıştır.`]
+                ];
+                const _DATE_FAQ_UR = [
+                    ['#moon-dq1-q', `${_cityName} میں ${_DT} کو چاند کا طور کیا تھا؟`],
+                    ['#moon-dq1-a', `${_cityName} میں ${_DT} کو چاند کا طور ${_phaseValid} تھا، ${_illumPct}٪ روشنی کے ساتھ — Jean Meeus کے طریقوں سے فلکیاتی طور پر شمار کیا گیا۔`],
+                    ['#moon-dq_illum-q', `${_cityName} میں ${_DT} کو چاند کی روشنی کا فیصد کیا تھا؟`],
+                    ['#moon-dq_illum-a', `${_cityName} میں اس تاریخ کو چاند کی روشنی تقریباً ${_illumPct}٪ تھی، سورج–چاند–زمین کے زاویے سے فلکیاتی طور پر شمار کی گئی۔`],
+                    ['#moon-dq_age-q', `${_cityName} میں ${_DT} کو چاند کی عمر کیا تھی؟`],
+                    ['#moon-dq_age-a', `${_cityName} میں ${_DT} کو چاند کی عمر ${_ageDays} دن تھی، تقریباً 29.5 دن کی قمری دورہ سے۔`],
+                    ['#moon-dq6-q', `${_cityName} میں ${_DT} کو چاند کب طلوع ہوا؟`],
+                    ['#moon-dq6-a', `${_cityName} میں ${_DT} کو چاند ${_riseT} پر شہر کے مقامی وقت کے مطابق طلوع ہوا۔`],
+                    ['#moon-dq7-q', `${_cityName} میں ${_DT} کو چاند کب غروب ہوا؟`],
+                    ['#moon-dq7-a', `${_cityName} میں ${_DT} کو چاند ${_setT} پر شہر کے مقامی وقت کے مطابق غروب ہوا۔`],
+                    ['#moon-dq8-q', `${_cityName} سے ${_DT} کو چاند اور زمین کے درمیان فاصلہ کیا تھا؟`],
+                    ['#moon-dq8-a', `${_cityName} سے اس تاریخ کو چاند–زمین کا فاصلہ اوپر کے مرکزی حصے میں دکھایا گیا ہے، Jean Meeus کے طریقوں سے فلکیاتی طور پر شمار کیا گیا۔`]
+                ];
+                const _DATE_FAQ_DE = [
+                    ['#moon-dq1-q', `Welche Mondphase war in ${_cityName} am ${_DT}?`],
+                    ['#moon-dq1-a', `Die Mondphase in ${_cityName} am ${_DT} war ${_phaseValid}, mit ${_illumPct}% Beleuchtung — astronomisch berechnet mit den Methoden von Jean Meeus.`],
+                    ['#moon-dq_illum-q', `Wie hoch war die Mondbeleuchtung in ${_cityName} am ${_DT}?`],
+                    ['#moon-dq_illum-a', `Die Mondbeleuchtung in ${_cityName} an diesem Datum betrug etwa ${_illumPct}%, astronomisch aus dem Sonne–Mond–Erde-Winkel berechnet.`],
+                    ['#moon-dq_age-q', `Wie alt war der Mond in ${_cityName} am ${_DT}?`],
+                    ['#moon-dq_age-a', `Der Mond in ${_cityName} am ${_DT} war ${_ageDays} Tage alt, aus einem ungefähr 29,5-tägigen Mondzyklus.`],
+                    ['#moon-dq6-q', `Wann ging der Mond in ${_cityName} am ${_DT} auf?`],
+                    ['#moon-dq6-a', `Der Mond ging in ${_cityName} am ${_DT} um ${_riseT} in der Ortszeit der Stadt auf.`],
+                    ['#moon-dq7-q', `Wann ging der Mond in ${_cityName} am ${_DT} unter?`],
+                    ['#moon-dq7-a', `Der Mond ging in ${_cityName} am ${_DT} um ${_setT} in der Ortszeit der Stadt unter.`],
+                    ['#moon-dq8-q', `Wie groß war die Entfernung zwischen Mond und Erde von ${_cityName} am ${_DT}?`],
+                    ['#moon-dq8-a', `Die Mond–Erde-Entfernung von ${_cityName} an diesem Datum ist im Hauptbereich oben angezeigt, astronomisch berechnet mit den Methoden von Jean Meeus.`]
+                ];
+                const _DATE_FAQ_ID = [
+                    ['#moon-dq1-q', `Apa fase Bulan di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq1-a', `Fase Bulan di ${_cityName} pada ${_DT} adalah ${_phaseValid}, dengan iluminasi ${_illumPct}% — dihitung secara astronomis menggunakan metode Jean Meeus.`],
+                    ['#moon-dq_illum-q', `Berapa iluminasi Bulan di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq_illum-a', `Iluminasi Bulan di ${_cityName} pada tanggal ini sekitar ${_illumPct}%, dihitung secara astronomis dari sudut Matahari–Bulan–Bumi.`],
+                    ['#moon-dq_age-q', `Berapa umur Bulan di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq_age-a', `Bulan di ${_cityName} pada ${_DT} berumur ${_ageDays} hari, dari siklus lunar sekitar 29,5 hari.`],
+                    ['#moon-dq6-q', `Kapan Bulan terbit di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq6-a', `Bulan terbit di ${_cityName} pada ${_DT} pukul ${_riseT} dalam waktu lokal kota.`],
+                    ['#moon-dq7-q', `Kapan Bulan terbenam di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq7-a', `Bulan terbenam di ${_cityName} pada ${_DT} pukul ${_setT} dalam waktu lokal kota.`],
+                    ['#moon-dq8-q', `Berapa jarak antara Bulan dan Bumi dari ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq8-a', `Jarak Bulan–Bumi dari ${_cityName} pada tanggal ini ditampilkan di bagian utama di atas, dihitung secara astronomis menggunakan metode Jean Meeus.`]
+                ];
+                const _DATE_FAQ_ES = [
+                    ['#moon-dq1-q', `¿Cuál era la fase lunar en ${_cityName} el ${_DT}?`],
+                    ['#moon-dq1-a', `La fase lunar en ${_cityName} el ${_DT} era ${_phaseValid}, con ${_illumPct}% de iluminación — calculada astronómicamente con los métodos de Jean Meeus.`],
+                    ['#moon-dq_illum-q', `¿Cuál era la iluminación de la Luna en ${_cityName} el ${_DT}?`],
+                    ['#moon-dq_illum-a', `La iluminación de la Luna en ${_cityName} en esta fecha era aproximadamente ${_illumPct}%, calculada astronómicamente a partir del ángulo Sol–Luna–Tierra.`],
+                    ['#moon-dq_age-q', `¿Qué edad tenía la Luna en ${_cityName} el ${_DT}?`],
+                    ['#moon-dq_age-a', `La Luna en ${_cityName} el ${_DT} tenía ${_ageDays} días de edad, de un ciclo lunar de aproximadamente 29,5 días.`],
+                    ['#moon-dq6-q', `¿A qué hora salió la Luna en ${_cityName} el ${_DT}?`],
+                    ['#moon-dq6-a', `La Luna salió en ${_cityName} el ${_DT} a las ${_riseT} en hora local de la ciudad.`],
+                    ['#moon-dq7-q', `¿A qué hora se puso la Luna en ${_cityName} el ${_DT}?`],
+                    ['#moon-dq7-a', `La Luna se puso en ${_cityName} el ${_DT} a las ${_setT} en hora local de la ciudad.`],
+                    ['#moon-dq8-q', `¿Cuál era la distancia entre la Luna y la Tierra desde ${_cityName} el ${_DT}?`],
+                    ['#moon-dq8-a', `La distancia Luna–Tierra desde ${_cityName} en esta fecha se muestra en la sección principal arriba, calculada astronómicamente con los métodos de Jean Meeus.`]
+                ];
+                const _DATE_FAQ_BN = [
+                    ['#moon-dq1-q', `${_cityName}-এ ${_DT} তারিখে চাঁদের দশা কী ছিল?`],
+                    ['#moon-dq1-a', `${_cityName}-এ ${_DT} তারিখে চাঁদের দশা ছিল ${_phaseValid}, ${_illumPct}% আলোকন সহ — Jean Meeus পদ্ধতি ব্যবহার করে জ্যোতির্বৈজ্ঞানিক ভাবে গণনা করা।`],
+                    ['#moon-dq_illum-q', `${_cityName}-এ ${_DT} তারিখে চাঁদের আলোকন কত ছিল?`],
+                    ['#moon-dq_illum-a', `${_cityName}-এ এই তারিখে চাঁদের আলোকন প্রায় ${_illumPct}% ছিল, সূর্য–চাঁদ–পৃথিবী কোণ থেকে জ্যোতির্বৈজ্ঞানিক ভাবে গণনা করা।`],
+                    ['#moon-dq_age-q', `${_cityName}-এ ${_DT} তারিখে চাঁদের বয়স কত ছিল?`],
+                    ['#moon-dq_age-a', `${_cityName}-এ ${_DT} তারিখে চাঁদের বয়স ছিল ${_ageDays} দিন, প্রায় ২৯.৫ দিনের চান্দ্র চক্র থেকে।`],
+                    ['#moon-dq6-q', `${_cityName}-এ ${_DT} তারিখে চাঁদ কখন উদিত হয়েছিল?`],
+                    ['#moon-dq6-a', `${_cityName}-এ ${_DT} তারিখে চাঁদ ${_riseT}-এ শহরের স্থানীয় সময়ে উদিত হয়েছিল।`],
+                    ['#moon-dq7-q', `${_cityName}-এ ${_DT} তারিখে চাঁদ কখন অস্ত গিয়েছিল?`],
+                    ['#moon-dq7-a', `${_cityName}-এ ${_DT} তারিখে চাঁদ ${_setT}-এ শহরের স্থানীয় সময়ে অস্ত গিয়েছিল।`],
+                    ['#moon-dq8-q', `${_cityName} থেকে ${_DT} তারিখে চাঁদ এবং পৃথিবীর মধ্যে দূরত্ব কত ছিল?`],
+                    ['#moon-dq8-a', `${_cityName} থেকে এই তারিখে চাঁদ–পৃথিবী দূরত্ব উপরের প্রধান বিভাগে দেখানো হয়েছে, Jean Meeus পদ্ধতি ব্যবহার করে জ্যোতির্বৈজ্ঞানিক ভাবে গণনা করা।`]
+                ];
+                const _DATE_FAQ_MS = [
+                    ['#moon-dq1-q', `Apakah fasa Bulan di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq1-a', `Fasa Bulan di ${_cityName} pada ${_DT} ialah ${_phaseValid}, dengan pencahayaan ${_illumPct}% — dikira secara astronomi menggunakan kaedah Jean Meeus.`],
+                    ['#moon-dq_illum-q', `Berapakah pencahayaan Bulan di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq_illum-a', `Pencahayaan Bulan di ${_cityName} pada tarikh ini adalah kira-kira ${_illumPct}%, dikira secara astronomi daripada sudut Matahari–Bulan–Bumi.`],
+                    ['#moon-dq_age-q', `Berapakah usia Bulan di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq_age-a', `Bulan di ${_cityName} pada ${_DT} berusia ${_ageDays} hari, daripada kitaran lunar kira-kira 29.5 hari.`],
+                    ['#moon-dq6-q', `Bilakah Bulan terbit di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq6-a', `Bulan terbit di ${_cityName} pada ${_DT} pada ${_riseT} dalam waktu tempatan bandar.`],
+                    ['#moon-dq7-q', `Bilakah Bulan terbenam di ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq7-a', `Bulan terbenam di ${_cityName} pada ${_DT} pada ${_setT} dalam waktu tempatan bandar.`],
+                    ['#moon-dq8-q', `Berapakah jarak antara Bulan dan Bumi dari ${_cityName} pada ${_DT}?`],
+                    ['#moon-dq8-a', `Jarak Bulan–Bumi dari ${_cityName} pada tarikh ini dipaparkan di bahagian utama di atas, dikira secara astronomi menggunakan kaedah Jean Meeus.`]
+                ];
+                const _DATE_FAQ_MAP = {
+                    ar: _DATE_FAQ_AR, en: _DATE_FAQ_EN,
+                    fr: _DATE_FAQ_FR, tr: _DATE_FAQ_TR, ur: _DATE_FAQ_UR,
+                    de: _DATE_FAQ_DE, id: _DATE_FAQ_ID, es: _DATE_FAQ_ES,
+                    bn: _DATE_FAQ_BN, ms: _DATE_FAQ_MS
+                };
+                const _DATE_FAQ = _DATE_FAQ_MAP[_lng_] || _DATE_FAQ_EN;
                 _DATE_FAQ.forEach(([sel, txt]) => {
                     const el = document.querySelector(sel);
                     if (el) {
@@ -17887,8 +18015,11 @@ function updateMoonInfo() {
             //   reinforces the page's date-specific identity for crawlers and
             //   gives users a one-line context summary. Idempotent insert.
             try {
+                // MOON-DATED-PAGE-SEO-LINE-CITY-AWARE-1 (2026-05-24): AR rewritten
+                //   to include the city name explicitly (was generic "المدينة المحلّيّ").
+                //   Other 9 langs deferred — they already convey local-time context.
                 const _SEO_LINE = {
-                    ar: 'توضّح هذه الصفحة حالة القمر في هذا التاريخ المحدّد حسب توقيت المدينة المحلّيّ، وقد تَختلف أوقات الشروق والغروب بين المدن.',
+                    ar: `توضّح هذه الصفحة حالة القمر في ${_cityName} لهذا التاريخ المحدّد، مع حساب مَواعيد الشروق والغروب حسب توقيت ${_cityName} المحلّيّ، وقد تَختلف هذه المَواعيد من مدينة إلى أخرى.`,
                     en: "This page shows the Moon's state on this specific date in the city's local time. Moonrise and moonset times vary between cities.",
                     fr: "Cette page indique l'état de la Lune à cette date précise selon l'heure locale de la ville. Le lever et le coucher de la Lune varient entre les villes.",
                     tr: "Bu sayfa, Ay'ın bu belirli tarihteki durumunu şehrin yerel saatine göre gösterir. Ay'ın doğuş ve batış saatleri şehirler arasında değişir.",
@@ -17923,10 +18054,16 @@ function updateMoonInfo() {
                 const _Cd = _cityName;
                 const _DATE_EDU_BY_LANG = {
                     ar: {
-                        title: `التاريخ الهجريّ ورؤية الهلال في ${_D}`,
-                        p1: `يَرتبط القمر بالتقويم الهجريّ ارتباطًا مباشرًا، إذ يَبدأ كلّ شهر هجريّ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. حالة القمر في ${_Cd} يوم ${_D} مَحسوبة بدقّة فلكيّة وفق منهجيّات Jean Meeus، وتُساعد على تَقدير موعد بداية الشهر الهجريّ القادم.`,
-                        p2: `قد تَختلف بدايات الأشهر الهجريّة بين البلدان بحسب الرؤية الشرعيّة المحلّيّة لكلّ دولة. هذه الصفحة تَعرض البيانات الفلكيّة الموضوعيّة للقمر في ${_Cd} يوم ${_D} — أمّا ثبوت الشهر فيَخضع للاجتهاد الفقهيّ في كلّ بلد.`,
-                        p3: `كلّ مَواعيد شروق وغروب القمر، ومواعيد البدر والمحاق المعروضة هنا، محسوبة بالتوقيت المحلّيّ لـ${_Cd}، مع اعتماد إحداثيّات المدينة الدقيقة. يَختلف وقت رؤية الهلال من مدينة إلى أخرى بحسب خطّ الطول وارتفاع الأفق.`
+                        // MOON-DATED-PAGE-HIJRI-EDU-RESTRUCTURE-1 (2026-05-24):
+                        //   Title now includes city + date (was date-only); p1/p2/p3
+                        //   rewritten per user spec to read lighter, with clearer
+                        //   separation between calendar-tie / calculation method /
+                        //   local-time disclaimer + explicit "Hijri start may vary by
+                        //   local moon-sighting jurisprudence" disclaimer.
+                        title: `التاريخ الهجريّ ورؤية الهلال في ${_Cd} يوم ${_D}`,
+                        p1: `يَرتبط القمر بالتقويم الهجريّ ارتباطًا مباشرًا، إذ يَبدأ كلّ شهر هجريّ برؤية الهلال بعد المحاق ويَستمرّ عادةً 29 أو 30 يومًا. وفي هذا التاريخ، توافق حالة القمر في ${_Cd} يوم ${_D} يومًا محدّدًا من الشهر الهجريّ بحسب تقويم أمّ القرى.`,
+                        p2: `تُحسب بيانات القمر المعروضة هنا باستخدام خوارزميّات فلكيّة دقيقة وفق منهجيّات Jean Meeus، وتشمل الطور، ونسبة الإضاءة، وعمر القمر، ومَواعيد الشروق والغروب. أمّا بداية الشهر الهجريّ رسميًّا فقد تَختلف من بلد إلى آخر حسب الرؤية الشرعيّة المحلّيّة.`,
+                        p3: `تُعرض مَواعيد القمر حسب توقيت ${_Cd} المحلّيّ وبناءً على إحداثيّات المدينة، لذلك قد تَختلف أوقات الشروق والغروب ورؤية الهلال من مدينة إلى أخرى بحسب خطّ الطول والعرض وارتفاع الأفق.`
                     },
                     en: {
                         title: `Hijri date and crescent visibility on ${_D}`,
@@ -19125,6 +19262,12 @@ function updateMoonInfo() {
             if (tpl && tpl !== key) el.textContent = tpl;
         };
 
+        // MOON-DATED-PAGE-FAQ-DATE-WORDING-1 (2026-05-24): On /moon-in-{city}/{date}
+        //   pages the earlier _DATE_FAQ_AR/_DATE_FAQ_EN block (~line 17848) has
+        //   already filled date-aware Q+A wording. Skip the today-oriented i18n
+        //   fillers below so they don't overwrite with "اليوم …" text. On
+        //   /moon-today + /moon-today-in-{city} the filler still fires normally.
+        if (!_isDatePage) {
         // عنوان قسم FAQ خاصّ بالمدينة — استبدال {city}
         const _cityFaqH2 = document.getElementById('moon-faq-city-h2');
         if (_cityFaqH2 && typeof t === 'function') {
@@ -19186,6 +19329,7 @@ function updateMoonInfo() {
                 distance: _fmtNum(Math.round(_distKm), 0)
             });
         }
+        } // end of `if (!_isDatePage)` MOON-DATED-PAGE-FAQ-DATE-WORDING-1 gate
 
         // ── LIVE DASHBOARD (HERO + Events + Quick Stats) — populates compact, scannable values
         const _setText = (id, value) => {

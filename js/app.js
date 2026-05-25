@@ -10838,6 +10838,13 @@ window.addEventListener('pageshow', function(e) {
         } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(_path)) {
             // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page
             _expectedId = 'page-azkar-morning';
+        } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(_path)) {
+            // AZKAR-EVENING-PHASE-1: independent evening page. WITHOUT this
+            // branch, the pageshow restorer falls through to the default
+            // (page-prayer-times), causing /azkar/evening-azkar to flash for
+            // 1s then redirect to home — user-reported bug. Same fix needed
+            // for any future azkar category page (sleep, after-prayer, …).
+            _expectedId = 'page-azkar-evening';
         } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_path)) {
             // AZKAR-RESTRUCTURE-MORNING-PHASE-1: hub of category cards
             _expectedId = 'page-azkar-hub';

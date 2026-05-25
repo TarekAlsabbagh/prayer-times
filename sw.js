@@ -53,7 +53,15 @@
 //   Cache-busters: js/app.js?v=714 → ?v=715,
 //                  js/azkar-data.js?v=2 → ?v=3,
 //                  css/style.css?v=441 → ?v=442.
-const CACHE_VERSION = 'v340';
+// AZKAR-EVENING-PAGESHOW-FIX-1 (2026-05-26):
+//   v340 → v341. Critical fix: js/app.js pageshow handler (BFCache
+//   restorer at line 10828) had no regex for /azkar/evening-azkar,
+//   so the fallback branch fired and forced #page-prayer-times active.
+//   User-visible symptom: visiting /azkar/evening-azkar flashed the
+//   evening page for ~1s then redirected to the homepage.
+//   Fix: added the evening pattern alongside morning. NO other change.
+//   Cache-buster: js/app.js?v=715 → ?v=716.
+const CACHE_VERSION = 'v341';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

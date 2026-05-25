@@ -5015,10 +5015,15 @@ function initNavigation() {
             }
 
             // UAT-Q5h: عند الضغط على الأذكار → انتقل لصفحة /azkar (D3.3-0)
-            if (pageId === 'duas' && window.location.protocol !== 'file:') {
-                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?duas$/.test(window.location.pathname)) {
-                    _saveCityCtxFor('duas');
-                    _showNavLoadingOverlay('duas');
+            // AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25): sidebar nav was
+            // renamed from data-page="duas" → data-page="azkar". Accept BOTH
+            // values so the click handler continues to navigate. Also check the
+            // current pathname against /azkar (the canonical) AND /duas (legacy
+            // 301 alias) to avoid re-navigating when already on either.
+            if ((pageId === 'azkar' || pageId === 'duas') && window.location.protocol !== 'file:') {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:azkar|duas)$/.test(window.location.pathname)) {
+                    _saveCityCtxFor('azkar');
+                    _showNavLoadingOverlay('azkar');
                     window.location.href = pageUrl('/azkar');
                     return;
                 }
@@ -10673,6 +10678,17 @@ const _NAV_LOADING_MSGS = {
         bn: 'যাকাত ক্যালকুলেটর লোড হচ্ছে...',    ms: 'Memuat kalkulator zakat...',
     },
     duas: {
+        ar: 'جاري تحميل الأذكار...',           en: 'Loading azkar...',
+        fr: 'Chargement des azkar...',         tr: 'Azkar yükleniyor...',
+        ur: 'اذکار لوڈ ہو رہے ہیں...',          de: 'Azkar werden geladen...',
+        id: 'Memuat zikir...',                 es: 'Cargando azkar...',
+        bn: 'আযকার লোড হচ্ছে...',                ms: 'Memuat zikir...',
+    },
+    // AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25): sidebar nav was
+    // renamed data-page="duas" → "azkar". Mirror the messages so
+    // _showNavLoadingOverlay('azkar') resolves to the same Arabic text
+    // instead of falling through to the 'generic' "loading...".
+    azkar: {
         ar: 'جاري تحميل الأذكار...',           en: 'Loading azkar...',
         fr: 'Chargement des azkar...',         tr: 'Azkar yükleniyor...',
         ur: 'اذکار لوڈ ہو رہے ہیں...',          de: 'Azkar werden geladen...',

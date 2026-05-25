@@ -23,18 +23,7 @@
 //        prompt shortened ("اضغط للعدّ" → "عدّ" visible, full form on
 //        aria-label); 2 FAQ questions reworded around التكرار/المصادر
 //   Cache-busters: app.js?v=712 → ?v=713, css/style.css?v=440 → ?v=441.
-// AZKAR-MORNING-CLS-EDU-SECTION-FIX-1 (2026-05-26):
-//   v338 → v339. Single-rule fix for the Lighthouse CLS culprit
-//   identified on /azkar/morning-azkar (score 0.343).
-//   Root cause: #azkar-morning-list is empty in SSR (the 25 dhikr
-//   cards are mounted by _loadAzkarMorning() in app.js after
-//   DOMContentLoaded). Without reserved height, .azkar-edu-section
-//   below it shifts down ~9700px on every load.
-//   Fix: reserve min-height on #azkar-morning-list so the edu / faq
-//   / events sections below stay at a stable Y position across the
-//   SSR → JS hydration boundary. No layout change, no JS touch.
-//   Cache-buster: css/style.css?v=441 → ?v=442.
-const CACHE_VERSION = 'v339';
+const CACHE_VERSION = 'v338';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

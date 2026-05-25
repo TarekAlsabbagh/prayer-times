@@ -7616,32 +7616,6 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     flex-direction: column;
     gap: 16px;
 }
-/* AZKAR-MORNING-CLS-EDU-SECTION-FIX-1 (2026-05-26):
-   _loadAzkarMorning() in app.js injects 25 dhikr cards into
-   #azkar-morning-list AFTER DOMContentLoaded. Without a reserved
-   height, the list grows from 0 → ~9700px after JS mounts, pushing
-   .azkar-edu-section (which follows the list in DOM order) ~9700px
-   down on every load. Lighthouse identified .azkar-edu-section as
-   the CLS culprit (score 0.343). Reserving min-height stops the
-   downstream shift across SSR → JS hydration.
-
-   Values are slightly above the measured final heights (Claude
-   Preview 961px viewport: 9790px; 390px viewport: 9629px) so the
-   reserved space is ALWAYS ≥ final content height — meaning JS
-   mount never pushes neighbours. Trade-off: ~150-200px of empty
-   space below the last card if the actual content lands shorter
-   than reserved (≤ 2% of the list height — imperceptible).
-
-   Update these values if azkar-data.js grows past 25 items OR if
-   the average dhikr-card height changes materially. */
-#azkar-morning-list {
-    min-height: 9900px;
-}
-@media (max-width: 480px) {
-    #azkar-morning-list {
-        min-height: 9800px;
-    }
-}
 .azkar-empty {
     text-align: center;
     color: var(--azkar-muted);

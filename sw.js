@@ -88,6 +88,23 @@
 //               السعودية" (full official form, matching the site-wide
 //               convention shipped in DIAG-1-E for country.sa).
 //   No app.js / style.css / i18n.js cache-buster bumps (none touched).
+// AZKAR-MORNING-SEO-TITLE-DESC-1 (2026-05-25):
+//   v349 → v350. SEO title + meta description for /azkar/morning-azkar:
+//     • AR title: 63 → 52 chars (was outside SEOptimer's 50-60 sweet spot,
+//       now inside). New text:
+//         "أذكار الصباح مكتوبة كاملة | صحيحة مع التكرار والمصدر"
+//     • AR desc: 114 → 122 chars (was below SEOptimer's 120-160 sweet
+//       spot, now inside). New text:
+//         "اقرأ أذكار الصباح مكتوبة كاملة مع التكرار والمصدر الصحيح،
+//          وعداد تفاعلي يحفظ تقدمك خلال اليوم لتتم قراءتها بسهولة وطمأنينة."
+//     • EN + 8 other-lang values UNCHANGED — Phase-1 AR-only refresh.
+//     • Added AZKAR-SEO-TEMPLATE-1 doc block above the entry: the
+//       canonical pattern for future azkar routes (evening, sleep, …)
+//       to reuse without re-deriving.
+//   Cache: server.js touched only; HTML served fresh from request-time
+//     SSR (no static-file cache for HTML responses). SW bumped so any
+//     stale RUNTIME_CACHE entries from earlier navigations are purged.
+const CACHE_VERSION = 'v350';
 // AZKAR-RESET-SCROLL-TO-TOP-1 + AZKAR-MOBILE-STICKY-OFFSET-1 (2026-05-25):
 //   v348 → v349. Two coordinated UX fixes on /azkar/morning-azkar:
 //     • RESET-SCROLL-TO-TOP-1: after confirmed "نعم، إعادة الضبط"
@@ -104,7 +121,7 @@
 //       scroll-margin-top added to .azkar-card-item + .azkar-hero as
 //       a fallback for browser-native scroll restoration.
 //   Cache-busters: app.js?v=718 → ?v=719, css/style.css?v=440 → ?v=441.
-const CACHE_VERSION = 'v349';
+// (v349 declaration removed — replaced by v350 above)
 // AZKAR-MORNING-DARK-MODE-POLISH-1 (2026-05-25):
 //   v347 → v348. Dark-mode contrast polish for /azkar/morning-azkar:
 //     • css/style.css gained a new dark-mode block (~70 lines) right

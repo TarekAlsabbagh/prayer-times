@@ -30,7 +30,22 @@
 //   policy (don't edit i18n in this phase); a future cleanup pass on
 //   js/i18n.js can correct this if desired. HTML aligned to current
 //   i18n value to stop the visible flicker.
-const CACHE_VERSION = 'v340';
+// CONTENT-HYDRATION-FLICKER-DIAG-1-D (2026-05-25):
+//   v340 → v341. Comprehensive Path-A scan of every `data-i18n="..."`
+//   text binding in index.html (873 bindings) vs the AR block in
+//   js/i18n.js (1319 keys). Of 112 detected mismatches the user
+//   approved scope D + T (52 alignments) and explicitly deferred:
+//     • TPL  (19) — AR contains `{placeholder}` literals (would expose
+//                    `{city}` in SSR output, breaks dynamic interpolation)
+//     • EMO  (22) — emoji prefix difference between HTML and AR (kept
+//                    HTML as-is to avoid changing SSR decoration)
+//     • SEM  (19) — semantic divergence: digit mismatch, length ratio
+//                    <0.7 (suggests outdated i18n or hardcoded HTML)
+//   Implementation: scripts/_diag1d_safe_apply.mjs --apply rewrote the
+//   text-content of each safe binding byte-for-byte. SSR active-page
+//   integrity preserved on /, /azkar, /azkar/morning-azkar, /qibla,
+//   /moon-today, /today-hijri-date. Daily-reset E2E 16/16 passed.
+const CACHE_VERSION = 'v341';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

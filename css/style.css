@@ -7987,6 +7987,15 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     box-shadow: 0 4px 14px rgba(18, 48, 38, 0.045);
     direction: rtl;
 }
+/* AZKAR-EVENTS-SPACING-FIX-1 (2026-05-25):
+   The moon-events-section sits right after the .azkar-faq inside
+   #page-azkar-morning. Match the FAQ's top margin so the gap
+   FAQ→events equals the gap last-card→FAQ (visual rhythm). Scoped
+   to #page-azkar-morning so the original moon page is unaffected. */
+#page-azkar-morning .moon-events-section {
+    max-width: 820px;
+    margin: 32px auto 0;
+}
 .azkar-faq-title {
     margin: 0 0 16px;
     color: var(--azkar-deep-text, #123026);
@@ -8060,6 +8069,10 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     .azkar-faq-title { font-size: 1.12rem; }
     .azkar-faq-question { padding: 13px 14px; font-size: 0.92rem; }
     .azkar-faq-answer { padding: 0 14px 14px; font-size: 0.9rem; line-height: 1.8; }
+    /* AZKAR-EVENTS-SPACING-FIX-1 mobile: match the FAQ mobile margin */
+    #page-azkar-morning .moon-events-section {
+        margin: 24px 12px 0;
+    }
 }
 html[data-theme="dark"] .azkar-faq {
     background: var(--card-bg);

@@ -17237,7 +17237,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const cityName = seo.moonCity.name;
         // خريطة slug → country code (نفس خريطة app.js، موسَّعة)
         const _COUNTRY_BY_CITY = {
-            'mecca': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
+            // CONTENT-HYDRATION-FLICKER-DIAG-1-G (2026-05-25): added 'makkah' alias.
+            //   The canonical slug used by the rest of the site (curated city
+            //   data, __PRAYER_CITY__ seed, /moon-today-in-makkah route) is
+            //   "makkah" — not "mecca". Without this entry the lookup returned
+            //   empty `cc`, so `countryName` came out empty for /moon-today-in-makkah
+            //   while /moon-today-in-riyadh/jeddah resolved correctly to "sa".
+            //   Visible symptom: #moon-intro for makkah missed "، {country}"
+            //   while riyadh/jeddah included it. Both entries kept for backward
+            //   compat with any legacy 'mecca' references.
+            'mecca': 'sa', 'makkah': 'sa', 'medina': 'sa', 'riyadh': 'sa', 'jeddah': 'sa', 'dammam': 'sa',
             'khobar': 'sa', 'taif': 'sa', 'tabuk': 'sa', 'buraidah': 'sa', 'buraydah': 'sa',
             'abha': 'sa', 'yanbu': 'sa', 'hail': 'sa', 'najran': 'sa', 'jizan': 'sa',
             'qatif': 'sa', 'jubail': 'sa', 'hofuf': 'sa',
@@ -17285,7 +17294,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             'bandar': 'bn'
         };
         const _COUNTRY_NAMES_SSR = {
-            ar: { sa:'السعوديّة', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا', jp:'اليابان', cn:'الصين', kr:'كوريا الجنوبيّة', th:'تايلاند', vn:'فيتنام', ph:'الفلبّين', in:'الهند', ru:'روسيا', sg:'سنغافورة', ir:'إيران', uz:'أوزبكستان', az:'أذربيجان', af:'أفغانستان', so:'الصومال', mr:'موريتانيا', tj:'طاجيكستان', kg:'قيرغيزستان', kz:'كازاخستان', et:'إثيوبيا', ng:'نيجيريا', ke:'كينيا', tz:'تنزانيا', bn:'بروناي' },
+            // CONTENT-HYDRATION-FLICKER-DIAG-1-G (2026-05-25): sa AR changed
+            //   from "السعوديّة" (short) → "المملكة العربية السعودية" (full official
+            //   name) to match the convention shipped elsewhere on the site
+            //   (js/i18n.js:1480 `country.sa`, server.js:4815 COUNTRY_NAMES_AR,
+            //   __PRAYER_CITY__ seed country, etc.). Eliminates one more
+            //   AR-text inconsistency in #moon-intro on /moon-today-in-{sa-city}.
+            ar: { sa:'المملكة العربية السعودية', eg:'مصر', tr:'تركيا', ae:'الإمارات', qa:'قطر', kw:'الكويت', bh:'البحرين', om:'عُمان', jo:'الأردن', iq:'العراق', lb:'لبنان', sy:'سوريا', ye:'اليمن', tn:'تونس', dz:'الجزائر', ma:'المغرب', sd:'السودان', ly:'ليبيا', ps:'فلسطين', pk:'باكستان', bd:'بنغلاديش', id:'إندونيسيا', my:'ماليزيا', gb:'المملكة المتّحدة', fr:'فرنسا', de:'ألمانيا', es:'إسبانيا', it:'إيطاليا', us:'الولايات المتّحدة', ca:'كندا', au:'أستراليا', jp:'اليابان', cn:'الصين', kr:'كوريا الجنوبيّة', th:'تايلاند', vn:'فيتنام', ph:'الفلبّين', in:'الهند', ru:'روسيا', sg:'سنغافورة', ir:'إيران', uz:'أوزبكستان', az:'أذربيجان', af:'أفغانستان', so:'الصومال', mr:'موريتانيا', tj:'طاجيكستان', kg:'قيرغيزستان', kz:'كازاخستان', et:'إثيوبيا', ng:'نيجيريا', ke:'كينيا', tz:'تنزانيا', bn:'بروناي' },
             en: { sa:'Saudi Arabia', eg:'Egypt', tr:'Turkey', ae:'UAE', qa:'Qatar', kw:'Kuwait', bh:'Bahrain', om:'Oman', jo:'Jordan', iq:'Iraq', lb:'Lebanon', sy:'Syria', ye:'Yemen', tn:'Tunisia', dz:'Algeria', ma:'Morocco', sd:'Sudan', ly:'Libya', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonesia', my:'Malaysia', gb:'United Kingdom', fr:'France', de:'Germany', es:'Spain', it:'Italy', us:'United States', ca:'Canada', au:'Australia', jp:'Japan', cn:'China', kr:'South Korea', th:'Thailand', vn:'Vietnam', ph:'Philippines', in:'India', ru:'Russia', sg:'Singapore', ir:'Iran', uz:'Uzbekistan', az:'Azerbaijan', af:'Afghanistan', so:'Somalia', mr:'Mauritania', tj:'Tajikistan', kg:'Kyrgyzstan', kz:'Kazakhstan', et:'Ethiopia', ng:'Nigeria', ke:'Kenya', tz:'Tanzania', bn:'Brunei' },
             fr: { sa:'Arabie saoudite', eg:'Égypte', tr:'Turquie', ae:'Émirats arabes unis', qa:'Qatar', kw:'Koweït', bh:'Bahreïn', om:'Oman', jo:'Jordanie', iq:'Irak', lb:'Liban', sy:'Syrie', ye:'Yémen', tn:'Tunisie', dz:'Algérie', ma:'Maroc', sd:'Soudan', ly:'Libye', ps:'Palestine', pk:'Pakistan', bd:'Bangladesh', id:'Indonésie', my:'Malaisie', gb:'Royaume-Uni', fr:'France', de:'Allemagne', es:'Espagne', it:'Italie', us:'États-Unis', ca:'Canada', au:'Australie', jp:'Japon', cn:'Chine', kr:'Corée du Sud', th:'Thaïlande', vn:'Vietnam', ph:'Philippines', in:'Inde', ru:'Russie', sg:'Singapour', ir:'Iran', uz:'Ouzbékistan', az:'Azerbaïdjan', af:'Afghanistan', so:'Somalie', mr:'Mauritanie', tj:'Tadjikistan', kg:'Kirghizistan', kz:'Kazakhstan', et:'Éthiopie', ng:'Nigéria', ke:'Kenya', tz:'Tanzanie', bn:'Brunei' },
             tr: { sa:'Suudi Arabistan', eg:'Mısır', tr:'Türkiye', ae:'BAE', qa:'Katar', kw:'Kuveyt', bh:'Bahreyn', om:'Umman', jo:'Ürdün', iq:'Irak', lb:'Lübnan', sy:'Suriye', ye:'Yemen', tn:'Tunus', dz:'Cezayir', ma:'Fas', sd:'Sudan', ly:'Libya', ps:'Filistin', pk:'Pakistan', bd:'Bangladeş', id:'Endonezya', my:'Malezya', gb:'Birleşik Krallık', fr:'Fransa', de:'Almanya', es:'İspanya', it:'İtalya', us:'ABD', ca:'Kanada', au:'Avustralya', jp:'Japonya', cn:'Çin', kr:'Güney Kore', th:'Tayland', vn:'Vietnam', ph:'Filipinler', in:'Hindistan', ru:'Rusya', sg:'Singapur', ir:'İran', uz:'Özbekistan', az:'Azerbaycan', af:'Afganistan', so:'Somali', mr:'Moritanya', tj:'Tacikistan', kg:'Kırgızistan', kz:'Kazakistan', et:'Etiyopya', ng:'Nijerya', ke:'Kenya', tz:'Tanzanya', bn:'Brunei' },
@@ -17540,10 +17555,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _introDateObj = (_isMoonDatePage && seo.moonCity.dateObj) ? seo.moonCity.dateObj : null;
         const _introDateLabel = _isMoonDatePage ? (seo.moonCity.dateLabel || '') : '';
         const _introHijriLabel = _isMoonDatePage ? (seo.moonCity.hijriLabelWithSfx || seo.moonCity.hijriLabel || '') : '';
-        const _introMoonDynamic = _buildSsrMoonIntro(
-            Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng,
-            _introDateObj, _introDateLabel, _introHijriLabel
-        ) || _introMoon;
+        // CONTENT-HYDRATION-FLICKER-DIAG-1-G (2026-05-25): always use the
+        //   static `_introMoon` template for SSR. The previous code called
+        //   `_buildSsrMoonIntro()` which computed live phase/illumination/age
+        //   AT REQUEST TIME and embedded them as literal numbers ("72.39٪",
+        //   "9.11 يوم", "🌔 أحدب متزايد") into the SSR HTML. JS at hydrate
+        //   recomputes via MoonCalc(Date.now()) and overwrites the paragraph
+        //   — guaranteed visible swap, especially when the SW serves a
+        //   cached response from earlier today (stale numbers).
+        //   The static `_introMoon` template lists what KIND of data appears
+        //   (phase, illumination, age, rise/set) WITHOUT specific numbers,
+        //   so SSR and post-hydrate paint differ only in the dynamic data
+        //   block (#moon-summary-* / #moon-rise / #moon-set etc.) which is
+        //   already an intentional `—` placeholder pattern.
+        //   The dynamic builder + _introMoonDynamic name retained because
+        //   the surrounding code references them; only the source changed.
+        const _introMoonDynamic = _introMoon;
+        void _buildSsrMoonIntro; void _introDateObj; void _introDateLabel; void _introHijriLabel; // suppress unused-var warnings
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.
         // الفقرة ستُحدَّث لاحقًا عبر app.js (#moon-intro by id) بالبيانات الحيّة من المستخدم.

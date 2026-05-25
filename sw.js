@@ -67,7 +67,28 @@
 //     • js/i18n.js  home.tagline AR     (already with shadda — unchanged)
 //     • index.html  L380 literal        (already with shadda — unchanged)
 //   Cache-buster: app.js?v=714 → ?v=715 (js/app.js touched).
-const CACHE_VERSION = 'v343';
+// CONTENT-HYDRATION-FLICKER-DIAG-1-G (2026-05-25):
+//   v343 → v344. Three-part fix for /moon-today-in-{city}:
+//     (6.A) 10 HTML→i18n alignments inside #page-moon (SEM bucket — user
+//           explicitly approved despite length-ratio<0.7):
+//             moon.summary.phase/illum/age, moon.mc_waxing,
+//             moon.fc_rise/fc_set, moon.chart_subtitle,
+//             moon.faq.a10/a11/a14.
+//     (6.B) #moon-intro SSR no longer embeds frozen astronomical numbers.
+//           server.js skipped _buildSsrMoonIntro() (which embedded live
+//           phase/illum/age at REQUEST time) in favour of the static
+//           _introMoon template that mentions categories without numbers.
+//           JS continues to fill live values post-hydrate via the
+//           existing #moon-intro updater.
+//     (6.C) Country-name unification on /moon-today-in-{city}:
+//             • _COUNTRY_BY_CITY added 'makkah' alias (was only 'mecca');
+//               root-cause for makkah missing ", السعوديّة" while
+//               riyadh/jeddah had it.
+//             • _COUNTRY_NAMES_SSR.ar.sa: "السعوديّة" → "المملكة العربية
+//               السعودية" (full official form, matching the site-wide
+//               convention shipped in DIAG-1-E for country.sa).
+//   No app.js / style.css / i18n.js cache-buster bumps (none touched).
+const CACHE_VERSION = 'v344';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

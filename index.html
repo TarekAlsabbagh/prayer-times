@@ -1604,17 +1604,17 @@
                 <div class="moon-summary-line" id="moon-summary-line" role="status" aria-live="polite">
                     <span class="moon-summary-icon" id="moon-summary-icon" aria-hidden="true">🌙</span>
                     <span class="moon-summary-chip">
-                        <span class="moon-summary-label" data-i18n="moon.summary.phase">القمر اليوم:</span>
+                        <span class="moon-summary-label" data-i18n="moon.summary.phase">الطور:</span>
                         <strong id="moon-summary-phase">—</strong>
                     </span>
                     <span class="moon-summary-sep" aria-hidden="true">·</span>
                     <span class="moon-summary-chip">
-                        <span class="moon-summary-label" data-i18n="moon.summary.illum">نسبة الإضاءة:</span>
+                        <span class="moon-summary-label" data-i18n="moon.summary.illum">الإضاءة:</span>
                         <strong id="moon-summary-illum">—</strong>
                     </span>
                     <span class="moon-summary-sep" aria-hidden="true">·</span>
                     <span class="moon-summary-chip">
-                        <span class="moon-summary-label" data-i18n="moon.summary.age">عمر القمر:</span>
+                        <span class="moon-summary-label" data-i18n="moon.summary.age">العمر:</span>
                         <strong id="moon-summary-age">—</strong>
                         <span class="moon-summary-age-suffix" data-i18n="moon.summary.age_suffix">يوم من الدورة القمرية</span>
                     </span>
@@ -1747,7 +1747,7 @@
                         <div class="mc-header">
                             <svg class="icon mc-header-icon" aria-hidden="true"><use href="#i-bar-chart"/></svg>
                             <span class="mc-header-title" data-i18n="moon.mc_title">تغيّر إضاءة القمر من الأمس إلى اليوم</span>
-                            <span class="mc-header-badge" id="mc-direction-badge" data-i18n="moon.mc_waxing">متزايد</span>
+                            <span class="mc-header-badge" id="mc-direction-badge" data-i18n="moon.mc_waxing">الإضاءة في ازدياد</span>
                         </div>
                         <div class="mc-compare-row">
                             <div class="mc-day mc-day-yesterday">
@@ -1876,7 +1876,7 @@
                 <!-- مخطّط إضاءة القمر (7 أيّام: 3 قبل + اليوم + 3 بعد) -->
                 <section class="section-card moon-chart-section" id="moon-chart-section" aria-labelledby="moon-chart-h2">
                     <h2 id="moon-chart-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-trending-up"/></svg> <span data-i18n="moon.chart_title">مخطّط إضاءة القمر — 7 أيّام</span></h2>
-                    <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة الإضاءة المرئيّة من ثلاثة أيّام قبل إلى ثلاثة أيّام بعد</div>
+                    <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة إضاءة القمر من 3 أيام قبل التاريخ المعروض إلى 3 أيام بعده.</div>
                     <div class="moon-chart-container" id="moon-chart-container" role="img" aria-label="Moon illumination 7-day trend"></div>
                     <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اختر أي نقطة لعرض تفاصيل القمر في ذلك التاريخ.</p>
                 </section>
@@ -1892,8 +1892,8 @@
                                     <th class="fc-th-hijri"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.fc_hijri">التاريخ الهجري</span></th>
                                     <th data-i18n="moon.fc_phase">الطور</th>
                                     <th data-i18n="moon.fc_illum">الإضاءة</th>
-                                    <th data-i18n="moon.fc_rise">المطلع</th>
-                                    <th data-i18n="moon.fc_set">المغيب</th>
+                                    <th data-i18n="moon.fc_rise">شروق القمر</th>
+                                    <th data-i18n="moon.fc_set">غروب القمر</th>
                                 </tr>
                             </thead>
                             <tbody id="moon-forecast-body">
@@ -2099,11 +2099,11 @@
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q10">كيف أرى الهلال بالعين المجرّدة؟</summary>
-                            <p data-i18n="moon.faq.a10">يُرى الهلال بعد غروب الشمس في الأفق الغربيّ، عند عمر قمر لا يقلّ عن 15 ساعة تقريباً. يحتاج أفقاً غربيّاً صافياً بلا غيوم ولا إضاءة صناعيّة مزعجة. يستمرّ ظهوره 30-60 دقيقة قبل أن يغيب.</p>
+                            <p data-i18n="moon.faq.a10">يُرى الهلال بعد غروب الشمس في الأفق الغربيّ، عند عمر قمر لا يقلّ عن 15 ساعة تقريباً. يحتاج أفقاً غربيّاً صافياً بلا غيوم.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q11">ما هي أطوار القمر الثمانية؟</summary>
-                            <p data-i18n="moon.faq.a11">أطوار القمر الثمانية بالترتيب: (1) المحاق 0٪، (2) الهلال المتزايد 1-49٪، (3) التربيع الأوّل 50٪، (4) الأحدب المتزايد 51-99٪، (5) البدر 100٪، (6) الأحدب المتناقص 99-51٪، (7) التربيع الأخير 50٪، (8) الهلال المتناقص 49-1٪. تتكرّر الدورة كاملة كلّ 29.5 يوم.</p>
+                            <p data-i18n="moon.faq.a11">أطوار القمر الثمانية: (1) المحاق، (2) الهلال المتزايد، (3) التربيع الأوّل، (4) الأحدب المتزايد، (5) البدر، (6) الأحدب المتناقص، (7) التربيع الأخير، (8) الهلال المتناقص. تتكرّر كلّ 29.5 يوم.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q12">لماذا تختلف مواعيد مطلع القمر من مدينة لأخرى؟</summary>
@@ -2115,7 +2115,7 @@
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q14">هل يمكن رؤية القمر في النهار؟</summary>
-                            <p data-i18n="moon.faq.a14">نعم، يمكن رؤية القمر أحياناً في النهار، خاصّة خلال أطوار التربيع الأوّل والتربيع الأخير والأحدب. في طور البدر يُرى ليلاً فقط لأنّه يكون مقابل الشمس تماماً. في المحاق لا يُرى نهاراً ولا ليلاً.</p>
+                            <p data-i18n="moon.faq.a14">نعم، يمكن رؤية القمر أحياناً في النهار، خاصّة خلال أطوار التربيع الأوّل والتربيع الأخير والأحدب. في طور البدر يُرى ليلاً فقط.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q15">ما خسوف القمر ولماذا يحدث؟</summary>

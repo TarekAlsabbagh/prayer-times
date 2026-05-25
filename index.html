@@ -3358,7 +3358,12 @@
                         </nav>
 
                         <header class="azkar-page-header">
-                            <h1>أذكار الصباح</h1>
+                            <!-- AZKAR-SSR-SINGLE-H1-FIX-1 (2026-05-26):
+                                 id added so server.js _getActiveH1Marker
+                                 can identify this as the active H1 on
+                                 /azkar/morning-azkar. All OTHER h1s on
+                                 the page become h2 via _downgradeInactiveH1s. -->
+                            <h1 id="azkar-morning-h1">أذكار الصباح</h1>
                             <p class="azkar-page-subtitle">اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال اليوم.</p>
                         </header>
 

@@ -6210,6 +6210,13 @@ function _getActiveH1Marker(urlPath) {
     // SEOptimer reports H1=1 on month pages too. The h2→h1 promotion for
     // #hmonth-title is done in index.html alongside #hyear-title.
     if (/^\/hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(path)) return { kind: 'id', value: 'hmonth-title' };
+    // AZKAR-SSR-SINGLE-H1-FIX-1 (2026-05-26): register azkar routes so
+    // _downgradeInactiveH1s leaves the right H1 untouched and converts
+    // the other ~16 SPA H1s to <h2>. /azkar uses the data-i18n marker
+    // (no id on the hub H1); /azkar/morning-azkar uses the id added in
+    // index.html alongside this change. NO change to existing routes.
+    if (/^\/azkar$/.test(path))                       return { kind: 'i18n', value: 'azkar.hub.title' };
+    if (/^\/azkar\/morning-azkar$/.test(path))        return { kind: 'id',   value: 'azkar-morning-h1' };
     if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
     return null;   // route غير معروف — لا تعديل
 }

@@ -10,7 +10,15 @@
 //   PRECACHE_URLS deliberately left untouched per user directive: don't
 //   re-touch them unless there's an actual new diff (covered separately
 //   if/when SW-PRECACHE-ALIGN is re-shipped).
-const CACHE_VERSION = 'v338';
+// CONTENT-HYDRATION-FLICKER-DIAG-1-B (2026-05-25):
+//   v338 → v339. Extends Path A to the homepage `.mit-item` mini-tools
+//   row (#mini-islamic-tools). 3 more HTML literals aligned with their
+//   i18n AR values so the labels don't flicker after setLanguage('ar'):
+//     mit.qibla     "اتّجاه القبلة"  → "القبلة"
+//     mit.hijri     "التاريخ الهجري" → "التاريخ الهجريّ"  (add shadda)
+//     mit.moon      "أوقات القمر"   → "القمر اليوم"
+//   mit.date_converter already matched, untouched.
+const CACHE_VERSION = 'v339';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

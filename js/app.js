@@ -3161,6 +3161,7 @@ async function initApp() {
         try {
             if (document.getElementById('page-azkar-hub'))     _loadAzkarHub();
             if (document.getElementById('page-azkar-morning')) _loadAzkarMorning();
+            if (document.getElementById('page-azkar-evening')) _loadAzkarEvening();
         } catch (_) { /* silent */ }
     });
     _deferOnMoon(initTasbih);
@@ -3437,17 +3438,20 @@ async function initApp() {
         try { _enhanceConverterSteppers(); } catch (_) {}
     }
 
-    // AZKAR-RESTRUCTURE-MORNING-PHASE-1: tri-state activation for the
-    // restructured azkar pages.
+    // AZKAR-RESTRUCTURE-MORNING-PHASE-1 + AZKAR-EVENING-PHASE-1: tri-state
+    // activation for the restructured azkar pages.
     //   /azkar                 → #page-azkar-hub
     //   /azkar/morning-azkar   → #page-azkar-morning
-    // Both share sidebar nav-key "azkar".
+    //   /azkar/evening-azkar   → #page-azkar-evening
+    // All three share sidebar nav-key "azkar".
     const _azkarPath = window.location.pathname;
     const _isAzkarMorningPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(_azkarPath);
+    const _isAzkarEveningPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(_azkarPath);
     const _isAzkarHubPage     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_azkarPath);
-    if ((_isAzkarMorningPage || _isAzkarHubPage) && !window._navigatingAway) {
+    if ((_isAzkarMorningPage || _isAzkarEveningPage || _isAzkarHubPage) && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        const _azkarTargetId = _isAzkarMorningPage ? 'page-azkar-morning' : 'page-azkar-hub';
+        const _azkarTargetId = _isAzkarMorningPage ? 'page-azkar-morning'
+            : (_isAzkarEveningPage ? 'page-azkar-evening' : 'page-azkar-hub');
         document.getElementById(_azkarTargetId)?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="azkar"]')?.classList.add('active');
@@ -24246,6 +24250,269 @@ function _hydrateAzkarMorningCards(items, listEl) {
     });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-EVENING-PHASE-1 (2026-05-26): evening category loader + hydrator.
+// Clone of _loadAzkarMorning / _hydrateAzkarMorningCards adapted for:
+//   - category id 'evening' (localStorage isolation)
+//   - DOM ids: #azkar-evening-list, #azkar-evening-reset-all, #azkar-evening-completed
+//   - Sticky wiring + events render reuse the morning helpers (no clone needed).
+// Same SSR-hydration vs full-rebuild dispatch as morning.
+// ─────────────────────────────────────────────────────────────────────────────
+function _loadAzkarEvening() {
+    const listEl = document.getElementById('azkar-evening-list');
+    if (!listEl) return;
+    if (listEl.dataset.wired) return;
+    listEl.dataset.wired = '1';
+
+    const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarEvening))
+        ? window.AzkarEvening : [];
+
+    // Reset-all button (page-level)
+    const resetBtn = document.getElementById('azkar-evening-reset-all');
+    if (resetBtn && !resetBtn.dataset.wired) {
+        resetBtn.dataset.wired = '1';
+        resetBtn.removeAttribute('data-i18n');
+        resetBtn.addEventListener('click', () => {
+            _azkarShowResetConfirm({
+                title: 'هل تريد إعادة ضبط جميع العدادات؟',
+                sub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
+                cancelText: 'إلغاء',
+                confirmText: 'نعم، إعادة الضبط',
+                returnFocusTo: resetBtn,
+                onConfirm: () => {
+                    _azkarResetCategory('evening');
+                    listEl.dataset.wired = '';
+                    listEl.removeAttribute('data-ssr-rendered');
+                    listEl.innerHTML = '';
+                    _loadAzkarEvening();
+                    _azkarShowToast('تمت إعادة ضبط العدادات');
+                    _azkarScrollToTopOfPage();
+                }
+            });
+        });
+    }
+
+    // SSR HYDRATION PATH (preferred — matches AZKAR-MORNING-SSR-RENDER-LIST-1)
+    if (listEl.dataset.ssrRendered === '1' && listEl.children.length > 0 && items.length) {
+        _hydrateAzkarEveningCards(items, listEl);
+        _updateEveningProgress();
+        _azkarWireEveningStickyProgress();
+        _azkarRenderMoonEvents();
+        return;
+    }
+
+    // FALLBACK: SSR didn't inject cards (data load failure on server).
+    // Show a small notice rather than re-implementing the full builder —
+    // SSR injection is the supported path. If you see this in production,
+    // check _AZKAR_EVENING_DATA loading in server.js startup logs.
+    listEl.innerHTML = '';
+    if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'azkar-empty';
+        empty.textContent = _AZKAR_AR_CHROME.emptyList;
+        listEl.appendChild(empty);
+        _updateEveningProgress(0, 0);
+        return;
+    }
+    // Non-SSR fallback rare path — log + show empty notice (user can
+    // refresh; SSR will populate). Avoids duplicating the morning builder.
+    try { console.warn('[azkar-evening] SSR cards missing — full client-render fallback not implemented (SSR is the supported path).'); } catch (_) {}
+    const notice = document.createElement('p');
+    notice.className = 'azkar-empty';
+    notice.textContent = 'تعذّر تحميل أذكار المساء. يرجى إعادة تحميل الصفحة.';
+    listEl.appendChild(notice);
+    _updateEveningProgress(0, items.length);
+}
+
+// Hydrator — same DOM walk as morning, but binds counter handlers to
+// 'evening' category so localStorage stays isolated.
+function _hydrateAzkarEveningCards(items, listEl) {
+    items.forEach((dhikr) => {
+        const card = document.getElementById('azkar-item-' + dhikr.id);
+        if (!card) return;
+        const target = Number(dhikr.repeat) || 1;
+        const isSingleRead = (target === 1);
+        const restored = _azkarRestore(dhikr.category, dhikr.id);
+        const isCompleted = restored >= target;
+        if (isCompleted) card.classList.add('completed');
+        else card.classList.remove('completed');
+
+        if (isSingleRead) {
+            const tapBtn = card.querySelector('.azkar-mark-read');
+            if (tapBtn) {
+                tapBtn.textContent = isCompleted
+                    ? _AZKAR_AR_CHROME.markedRead
+                    : _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', isCompleted ? 'true' : 'false');
+                tapBtn.addEventListener('click', () => {
+                    _azkarTickCounterEvening(dhikr, tapBtn, null, card);
+                });
+            }
+        } else {
+            const tapBtn = card.querySelector('.azkar-counter-tap');
+            const tapCount = card.querySelector('.azkar-counter-tap-count');
+            const tapPrompt = card.querySelector('.azkar-counter-tap-prompt');
+            if (tapCount) tapCount.textContent = restored + ' / ' + target;
+            if (tapPrompt) {
+                tapPrompt.textContent = isCompleted
+                    ? _AZKAR_AR_CHROME.counterDone
+                    : _AZKAR_AR_CHROME.counterTap;
+            }
+            if (tapBtn) {
+                tapBtn.addEventListener('click', () => {
+                    _azkarTickCounterEvening(dhikr, tapBtn, tapCount, card);
+                });
+            }
+            const undoBtn = card.querySelector('.azkar-counter-undo');
+            if (undoBtn) {
+                undoBtn.addEventListener('click', () => {
+                    const cur = _azkarRestore(dhikr.category, dhikr.id);
+                    if (cur <= 0) return;
+                    const next = cur - 1;
+                    _azkarPersist(dhikr.category, dhikr.id, next, target);
+                    if (tapCount) tapCount.textContent = next + ' / ' + target;
+                    card.classList.remove('completed');
+                    if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+                    _updateEveningProgress();
+                });
+            }
+            const resetItemBtn = card.querySelector('.azkar-counter-reset');
+            if (resetItemBtn) {
+                resetItemBtn.addEventListener('click', () => {
+                    _azkarPersist(dhikr.category, dhikr.id, 0, target);
+                    if (tapCount) tapCount.textContent = '0 / ' + target;
+                    card.classList.remove('completed');
+                    if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+                    _updateEveningProgress();
+                });
+            }
+        }
+    });
+}
+
+// Evening-scoped tick (calls _azkarAdvanceToNext like morning).
+function _azkarTickCounterEvening(dhikr, tapBtn, tapCount, card) {
+    const target = Number(dhikr.repeat) || 1;
+    const isSingleRead = (target === 1);
+    const cur = _azkarRestore(dhikr.category, dhikr.id);
+
+    if (isSingleRead) {
+        const next = (cur >= 1) ? 0 : 1;
+        _azkarPersist(dhikr.category, dhikr.id, next, target);
+        if (next === 1) {
+            card.classList.add('completed');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markedRead;
+                tapBtn.setAttribute('aria-pressed', 'true');
+            }
+            _updateEveningProgress();
+            _azkarAdvanceToNext(card);
+        } else {
+            card.classList.remove('completed');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', 'false');
+            }
+            _updateEveningProgress();
+        }
+        return;
+    }
+
+    if (cur >= target) return;
+    const next = cur + 1;
+    _azkarPersist(dhikr.category, dhikr.id, next, target);
+    if (tapCount) tapCount.textContent = next + ' / ' + target;
+    if (next >= target) {
+        card.classList.add('completed');
+        const promptEl = tapBtn && tapBtn.querySelector
+            ? tapBtn.querySelector('.azkar-counter-tap-prompt')
+            : null;
+        if (promptEl) promptEl.textContent = _AZKAR_AR_CHROME.counterDone;
+        _updateEveningProgress();
+        _azkarAdvanceToNext(card);
+    }
+}
+
+// Progress update for evening (mirror of _updateMorningProgress).
+function _updateEveningProgress(_doneOverride, _totalOverride) {
+    const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarEvening))
+        ? window.AzkarEvening : [];
+    const total = (typeof _totalOverride === 'number') ? _totalOverride : items.length;
+    let done = (typeof _doneOverride === 'number') ? _doneOverride : 0;
+    if (typeof _doneOverride !== 'number') {
+        items.forEach((d) => {
+            const c = _azkarRestore(d.category, d.id);
+            const t = Number(d.repeat) || 1;
+            if (c >= t) done++;
+        });
+    }
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    const labelText = 'تم إكمال ' + done + ' من ' + total;
+    const labelEl = document.getElementById('azkar-evening-progress-label');
+    if (labelEl) labelEl.textContent = labelText;
+    const stickyLabel = document.getElementById('azkar-evening-sticky-label');
+    if (stickyLabel) stickyLabel.textContent = labelText;
+    const fillEl = document.getElementById('azkar-evening-progress-fill');
+    if (fillEl) fillEl.style.width = pct + '%';
+    const stickyFill = document.getElementById('azkar-evening-sticky-fill');
+    if (stickyFill) stickyFill.style.width = pct + '%';
+    const progressBars = document.querySelectorAll(
+        '#azkar-evening-progress-wrap [role="progressbar"], #azkar-evening-sticky [role="progressbar"]'
+    );
+    progressBars.forEach(pb => pb.setAttribute('aria-valuenow', String(pct)));
+    const banner = document.getElementById('azkar-evening-completed');
+    if (banner) {
+        if (total > 0 && done >= total) banner.classList.remove('u-hidden');
+        else banner.classList.add('u-hidden');
+    }
+}
+
+// Sticky-progress wiring for evening (mirror of _azkarWireStickyProgress).
+function _azkarWireEveningStickyProgress() {
+    try {
+        const sticky = document.getElementById('azkar-evening-sticky');
+        const progressWrap = document.getElementById('azkar-evening-progress-wrap');
+        if (!sticky || !progressWrap) return;
+
+        if (!sticky.dataset.io && typeof IntersectionObserver === 'function') {
+            sticky.dataset.io = '1';
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) sticky.classList.remove('azkar-sticky-progress--visible');
+                    else sticky.classList.add('azkar-sticky-progress--visible');
+                });
+            }, { rootMargin: '0px 0px 0px 0px', threshold: 0 });
+            io.observe(progressWrap);
+        }
+
+        const stickyReset = document.getElementById('azkar-evening-sticky-reset');
+        if (stickyReset && !stickyReset.dataset.wired) {
+            stickyReset.dataset.wired = '1';
+            const listEl = document.getElementById('azkar-evening-list');
+            stickyReset.addEventListener('click', function () {
+                _azkarShowResetConfirm({
+                    title: 'هل تريد إعادة ضبط جميع العدادات؟',
+                    sub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
+                    cancelText: 'إلغاء',
+                    confirmText: 'نعم، إعادة الضبط',
+                    returnFocusTo: stickyReset,
+                    onConfirm: function () {
+                        _azkarResetCategory('evening');
+                        if (listEl) {
+                            listEl.dataset.wired = '';
+                            listEl.removeAttribute('data-ssr-rendered');
+                            listEl.innerHTML = '';
+                        }
+                        _loadAzkarEvening();
+                        _azkarShowToast('تمت إعادة ضبط العدادات');
+                        _azkarScrollToTopOfPage();
+                    }
+                });
+            });
+        }
+    } catch (_) { /* never throw — sticky bar is best-effort UX */ }
+}
+
 function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
     const target = Number(dhikr.repeat) || 1;
     const isSingleRead = (target === 1);
@@ -24344,18 +24611,21 @@ function _azkarScrollToCard(card) {
     }
 }
 function _azkarScrollToTopOfPage() {
-    // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): after the reset-all flow
-    // (confirm modal → category reset → list rebuild → toast), jump back
-    // to the top of /azkar/morning-azkar so the user starts from the
-    // first dhikr again. Targets, in order:
-    //   1. #azkar-page-top (anchor above .azkar-hero)
-    //   2. .azkar-hero (the hero card)
-    //   3. #page-azkar-morning (the page root)
+    // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25) + AZKAR-EVENING-PHASE-1 (2026-05-26):
+    // Scope the lookup to the ACTIVE page wrapper so morning/evening don't
+    // step on each other. Targets, in order:
+    //   1. .azkar-page-top (class — evening uses unique id #azkar-page-top-evening)
+    //   2. #azkar-page-top (legacy id — morning only)
+    //   3. .azkar-hero (the hero card)
+    //   4. the active page root (#page-azkar-morning / #page-azkar-evening)
     // Falls back to window.scrollTo({top:0}) if all targets fail.
     try {
-        const target = document.getElementById('azkar-page-top')
-            || document.querySelector('.azkar-hero')
-            || document.getElementById('page-azkar-morning');
+        const activePage = document.querySelector('.page.active');
+        const within = activePage || document;
+        const target = within.querySelector('.azkar-page-top')
+            || within.querySelector('#azkar-page-top')
+            || within.querySelector('.azkar-hero')
+            || activePage;
         if (!target) {
             window.scrollTo({ top: 0, behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth' });
             return;

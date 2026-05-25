@@ -7342,7 +7342,8 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 }
 
 /* Page-scoped background — does NOT touch any other page on the site */
-#page-azkar-morning {
+#page-azkar-morning,
+#page-azkar-evening {
     background:
         linear-gradient(180deg,
             #FCFBF3 0%,
@@ -7352,7 +7353,8 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     min-height: 100vh;
     padding: 24px 0 80px;
 }
-#page-azkar-morning::before {
+#page-azkar-morning::before,
+#page-azkar-evening::before {
     /* very subtle Islamic-style pattern overlay at the very top, opacity 3% */
     content: '';
     position: absolute;
@@ -7369,6 +7371,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
    it from the layer-above-::before child rule (otherwise it gets pinned to
    position:relative and never floats at the top of the viewport). */
 #page-azkar-morning > *:not(.azkar-sticky-progress) { position: relative; z-index: 1; }
+#page-azkar-evening > *:not(.azkar-sticky-progress) { position: relative; z-index: 1; }
 
 /* ── Hero box ────────────────────────────────────────────────── */
 .azkar-hero {
@@ -8187,7 +8190,8 @@ html[data-theme="dark"] .azkar-edu-link-card {
     .azkar-faq-question { padding: 13px 14px; font-size: 0.92rem; }
     .azkar-faq-answer { padding: 0 14px 14px; font-size: 0.9rem; line-height: 1.8; }
     /* AZKAR-EVENTS-SPACING-FIX-1 mobile: match the FAQ mobile margin */
-    #page-azkar-morning .moon-events-section {
+    #page-azkar-morning .moon-events-section,
+    #page-azkar-evening .moon-events-section {
         margin: 24px 12px 0;
     }
 }
@@ -8393,7 +8397,8 @@ html[data-theme="dark"] .azkar-section-intro-text {
     .azkar-card-item,
     .azkar-completed-banner,
     .azkar-hero,
-    #azkar-page-top {
+    #azkar-page-top,
+    .azkar-page-top {
         scroll-margin-top: 190px;
     }
 }
@@ -8429,9 +8434,12 @@ html[data-theme="dark"] .azkar-section-intro-text {
     /* AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25): hero + top anchor also
        need the bumped offset for the reset-to-top flow on mobile. */
     .azkar-hero,
-    #azkar-page-top {
+    #azkar-page-top,
+    .azkar-page-top {
         scroll-margin-top: 200px;
     }
+    /* Evening page mobile padding (mirrors morning at line ~8410) */
+    #page-azkar-evening { padding: 16px 0 60px; }
     .azkar-card-item-header { gap: 10px; margin-bottom: 12px; }
     .azkar-card-item-order { width: 28px; height: 28px; font-size: 0.72rem; }
     .azkar-card-item-title { font-size: 1rem; }
@@ -8486,7 +8494,8 @@ html[data-theme="dark"] .azkar-section-intro-text {
 }
 
 /* ── Dark mode overrides ──────────────────────────────────────── */
-html[data-theme="dark"] #page-azkar-morning {
+html[data-theme="dark"] #page-azkar-morning,
+html[data-theme="dark"] #page-azkar-evening {
     background:
         linear-gradient(180deg,
             #0d1410 0%,

@@ -39,7 +39,21 @@
 //   Bonus: Googlebot now sees all 25 dhikr + sources + virtues without
 //   running JS — major SEO win for Keyword Consistency too.
 //   Cache-buster: js/app.js?v=713 → ?v=714.
-const CACHE_VERSION = 'v339';
+// AZKAR-EVENING-PHASE-1 (2026-05-26):
+//   v339 → v340. New /azkar/evening-azkar page following the
+//   AZKAR-READING-PAGE-TEMPLATE-V1 contract verbatim:
+//     • 23 evening dhikr added to js/azkar-data.js (SSR-loaded)
+//     • SSR-rendered list (data-ssr-rendered="1", no client-render shift)
+//     • Independent localStorage key: azkar.progress.evening
+//     • SEO title 52 chars + desc 122 chars (canonical template)
+//     • H1 = "أذكار المساء" + single-active-page strip
+//     • Counter / undo / reset / hydration cloned from morning
+//     • Dark mode + mobile-sticky-offset CSS shared with morning
+//     • New _loadAzkarEvening + _hydrateAzkarEveningCards in app.js
+//   Cache-busters: js/app.js?v=714 → ?v=715,
+//                  js/azkar-data.js?v=2 → ?v=3,
+//                  css/style.css?v=441 → ?v=442.
+const CACHE_VERSION = 'v340';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

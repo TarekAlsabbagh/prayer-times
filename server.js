@@ -5050,16 +5050,22 @@ function _escHtml(s) {
 // This avoids any change to azkar-data.js itself (it stays browser-shaped).
 // ════════════════════════════════════════════════════════════════════════════
 let _AZKAR_MORNING_DATA = [];
+let _AZKAR_EVENING_DATA = [];
 try {
     const _azkarSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-data.js'), 'utf8');
     const _azkarSandbox = { window: {}, console: { log: () => {} } };
     new Function('window', 'console', _azkarSrc)(_azkarSandbox.window, _azkarSandbox.console);
     _AZKAR_MORNING_DATA = Array.isArray(_azkarSandbox.window.AzkarMorning)
         ? _azkarSandbox.window.AzkarMorning : [];
-    console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning dhikr items for SSR');
+    // AZKAR-EVENING-PHASE-1 (2026-05-26): same sandbox, second category.
+    _AZKAR_EVENING_DATA = Array.isArray(_azkarSandbox.window.AzkarEvening)
+        ? _azkarSandbox.window.AzkarEvening : [];
+    console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning + ' +
+        _AZKAR_EVENING_DATA.length + ' evening dhikr items for SSR');
 } catch (e) {
     console.warn('[azkar-ssr] Failed to load azkar-data.js for SSR — falling back to client-render: ' + e.message);
     _AZKAR_MORNING_DATA = [];
+    _AZKAR_EVENING_DATA = [];
 }
 
 // Mirror of js/app.js:_AZKAR_AR_CHROME (AR-only, Phase 1 spec).
@@ -5197,6 +5203,13 @@ function _buildAzkarCardHtml(dhikr, idx) {
 function _buildAzkarMorningListHtml() {
     if (!_AZKAR_MORNING_DATA.length) return '';
     return _AZKAR_MORNING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
+}
+
+// AZKAR-EVENING-PHASE-1 (2026-05-26): same _buildAzkarCardHtml helper,
+// different data source. Clone strategy keeps morning untouched.
+function _buildAzkarEveningListHtml() {
+    if (!_AZKAR_EVENING_DATA.length) return '';
+    return _AZKAR_EVENING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -6384,6 +6397,8 @@ function _getActiveH1Marker(urlPath) {
     // index.html alongside this change. NO change to existing routes.
     if (/^\/azkar$/.test(path))                       return { kind: 'i18n', value: 'azkar.hub.title' };
     if (/^\/azkar\/morning-azkar$/.test(path))        return { kind: 'id',   value: 'azkar-morning-h1' };
+    // AZKAR-EVENING-PHASE-1 (2026-05-26): evening page H1 uses azkar-evening-h1 id.
+    if (/^\/azkar\/evening-azkar$/.test(path))        return { kind: 'id',   value: 'azkar-evening-h1' };
     if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
     return null;   // route غير معروف — لا تعديل
 }
@@ -7913,6 +7928,41 @@ function buildSeoForPath(urlPath) {
                 es: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
                 bn: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
                 ms: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+            },
+            ogType: 'article',
+        },
+        // AZKAR-EVENING-PHASE-1 (2026-05-26): independent evening page.
+        // Follows AZKAR-SEO-TEMPLATE-1 (see /azkar/morning-azkar above):
+        //   AR title: '{اسم القسم} مكتوبة كاملة | صحيحة مع التكرار والمصدر' (~52 chars)
+        //   AR desc:  'اقرأ {اسم القسم} مكتوبة كاملة مع التكرار والمصدر '
+        //             + 'الصحيح، وعداد تفاعلي يحفظ تقدمك خلال الليلة لتتم '
+        //             + 'قراءتها بسهولة وطمأنينة.'  (~122 chars)
+        // EN + 8 other-lang values mirror EN (Phase-1 AR-only chrome,
+        // same fallback policy as morning).
+        '/azkar/evening-azkar': {
+            title: {
+                ar: 'أذكار المساء مكتوبة كاملة | صحيحة مع التكرار والمصدر',
+                en: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                fr: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                tr: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                ur: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                de: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                id: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                es: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                bn: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+                ms: 'Evening Azkar | Authentic Daily Adhkar with Interactive Counter',
+            },
+            desc: {
+                ar: 'اقرأ أذكار المساء مكتوبة كاملة مع التكرار والمصدر الصحيح، وعداد تفاعلي يحفظ تقدمك خلال الليلة لتتم قراءتها بسهولة وطمأنينة.',
+                en: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                fr: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                tr: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                ur: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                de: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                id: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                es: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                bn: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                ms: 'Read the evening azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
             },
             ogType: 'article',
         },
@@ -14493,8 +14543,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   routes ONLY — does NOT touch other routes' active behaviour.
     {
         const _isAzkarMorningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath);
+        const _isAzkarEveningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(urlPath);
         const _isAzkarHubRoute     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath);
-        if (_isAzkarMorningRoute || _isAzkarHubRoute) {
+        if (_isAzkarMorningRoute || _isAzkarEveningRoute || _isAzkarHubRoute) {
             // Strip default `active` from #page-prayer-times so SSR
             // ends with exactly ONE `.page.active` div on /azkar*.
             html = html.replace(
@@ -14524,6 +14575,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     '<div class="azkar-list" id="azkar-morning-list" aria-live="polite"></div>',
                     '<div class="azkar-list" id="azkar-morning-list" data-ssr-rendered="1" aria-live="polite">' +
                         _azkarListHtml +
+                    '</div>'
+                );
+            }
+        } else if (_isAzkarEveningRoute) {
+            // AZKAR-EVENING-PHASE-1 (2026-05-26): same SSR pattern as morning.
+            html = html.replace(
+                '<div class="page" id="page-azkar-evening">',
+                '<div class="page active" id="page-azkar-evening">'
+            );
+            const _azkarEveningListHtml = _buildAzkarEveningListHtml();
+            if (_azkarEveningListHtml) {
+                html = html.replace(
+                    '<div class="azkar-list" id="azkar-evening-list" aria-live="polite"></div>',
+                    '<div class="azkar-list" id="azkar-evening-list" data-ssr-rendered="1" aria-live="polite">' +
+                        _azkarEveningListHtml +
                     '</div>'
                 );
             }
@@ -22289,6 +22355,7 @@ const server = http.createServer(async (req, res) => {
                 ['/azkar', '0.8', 'monthly'],
                 // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page
                 ['/azkar/morning-azkar', '0.75', 'monthly'],
+                ['/azkar/evening-azkar', '0.75', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
                 // HD-1 (2026-05-07): /today-hijri-date is now a first-class indexable
@@ -22503,6 +22570,8 @@ const server = http.createServer(async (req, res) => {
         // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page first
         // (more specific than /azkar$ — needs to match before the bare hub).
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath) ||
+        // AZKAR-EVENING-PHASE-1: independent evening page (same pattern).
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath) ||

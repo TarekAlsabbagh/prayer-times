@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=714" as="script">
+    <link rel="preload" href="js/app.js?v=715" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=441" as="style">
-    <link rel="stylesheet" href="css/style.css?v=441">
+    <link rel="preload" href="css/style.css?v=442" as="style">
+    <link rel="stylesheet" href="css/style.css?v=442">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3607,6 +3607,250 @@
                 </section>
             </div>
 
+            <!-- ===== /azkar/evening-azkar — Independent evening page (AZKAR-EVENING-PHASE-1) ===== -->
+            <div class="page" id="page-azkar-evening">
+                <!-- AZKAR-RESET-SCROLL-TO-TOP-2 anchor (evening variant).
+                     Uses a unique id since morning's #azkar-page-top would
+                     otherwise duplicate. JS helper _azkarScrollToTopOfPage
+                     scopes its lookup to the active .page wrapper. -->
+                <span id="azkar-page-top-evening" class="azkar-page-top" aria-hidden="true" tabindex="-1"></span>
+                <!-- ===== Hero: breadcrumb + title + subtitle + info-strip + progress ===== -->
+                <section class="azkar-hero">
+                    <div class="azkar-hero-inner">
+                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
+                            <a href="/azkar">الأذكار</a>
+                            <span class="sep" aria-hidden="true">›</span>
+                            <span aria-current="page">أذكار المساء</span>
+                        </nav>
+
+                        <header class="azkar-page-header">
+                            <h1 id="azkar-evening-h1">أذكار المساء</h1>
+                            <p class="azkar-page-subtitle">اقرأ أذكار المساء مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال الليلة.</p>
+                        </header>
+
+                        <ul class="azkar-info-strip" aria-label="معلومات عامة">
+                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 23 ذكرًا</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكررة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
+                        </ul>
+
+                        <div class="azkar-progress-wrap" id="azkar-evening-progress-wrap">
+                            <div class="azkar-progress-row">
+                                <span class="azkar-progress-label" id="azkar-evening-progress-label">تم إكمال 0 من 0</span>
+                                <button type="button" class="azkar-reset-btn" id="azkar-evening-reset-all" aria-label="إعادة ضبط العدّادات">
+                                    <span class="azkar-reset-icon" aria-hidden="true">↺</span>
+                                    <span>إعادة ضبط العدّادات</span>
+                                </button>
+                            </div>
+                            <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="azkar-progress-fill" id="azkar-evening-progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== Sticky compact progress bar (visible while scrolling) ===== -->
+                <div class="azkar-sticky-progress" id="azkar-evening-sticky" role="region" aria-label="ملخص التقدم">
+                    <div class="azkar-sticky-progress-row">
+                        <span class="azkar-sticky-progress-text" id="azkar-evening-sticky-label">تم إكمال 0 من 0</span>
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-evening-sticky-reset" aria-label="إعادة ضبط العدّادات">
+                            <span class="azkar-reset-icon" aria-hidden="true">↺</span>
+                            <span>إعادة الضبط</span>
+                        </button>
+                    </div>
+                    <div class="azkar-sticky-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="azkar-sticky-progress-fill" id="azkar-evening-sticky-fill"></div>
+                    </div>
+                </div>
+
+                <!-- ===== H2 SEO keyword bridge (AZKAR-MORNING-KEYWORD-CONSISTENCY-1 pattern) ===== -->
+                <header class="azkar-section-intro" id="azkar-evening-section-intro">
+                    <h2 class="azkar-section-intro-title">أذكار المساء مع التكرار والمصدر الصحيح</h2>
+                    <p class="azkar-section-intro-text">تضم هذه الصفحة أذكار المساء مكتوبة كاملة، مع توضيح عدد التكرار والمصدر لكل ذكر، إضافة إلى عداد تفاعلي يساعدك على إكمال القراءة دون نسيان.</p>
+                </header>
+
+                <!-- ===== Dhikr list — SSR-rendered by server.js _buildAzkarEveningListHtml() ===== -->
+                <div class="azkar-list" id="azkar-evening-list" aria-live="polite"></div>
+
+                <div class="azkar-completed-banner u-hidden" id="azkar-evening-completed">
+                    <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
+                    <p class="azkar-completed-banner-title">تم إكمال أذكار المساء</p>
+                    <p class="azkar-completed-banner-sub">نسأل الله أن يجعل ليلتك عامرة بالذكر والطمأنينة.</p>
+                </div>
+
+                <!-- ===== Educational mini-cards (evening-specific) ===== -->
+                <section class="azkar-edu-section" aria-label="معلومات تعليمية عن أذكار المساء">
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">🌙</span>
+                            <span>فضل أذكار المساء في ختام اليوم</span>
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>أذكار المساء من الأعمال اليومية التي تعين المسلم على ختم يومه بذكر الله والتوكل عليه، وفيها تذكير بالتوحيد والاستغفار وطلب الحفظ من الشرور. وقراءتها في المساء تساعد على حضور القلب والطمأنينة، وربط نهاية اليوم بالطاعة والسكينة.</p>
+                            <p>يمكن للمستخدم قراءة الأذكار كاملة بالترتيب، أو العودة إلى الأذكار التي تحتاج إلى تكرار باستخدام العداد، مع حفظ التقدم تلقائيًا خلال الليلة في نفس المتصفح.</p>
+                        </div>
+                    </article>
+
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">📖</span>
+                            <span>كيف تستخدم صفحة أذكار المساء؟</span>
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>صُممت هذه الصفحة لتكون سهلة القراءة على الهاتف والكمبيوتر. يظهر كل ذكر داخل بطاقة مستقلة مع عدد التكرار والمصدر، وتظهر الأذكار التي تحتاج إلى تكرار بعداد يساعدك على إكمال العدد دون نسيان.</p>
+                            <p>عند إكمال ذكر معين، ينتقل لك الموقع تلقائيًا إلى الذكر التالي لتكون القراءة أكثر سلاسة. كما يتم حفظ تقدمك خلال الليلة، وتعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.</p>
+                        </div>
+                    </article>
+
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">🌅</span>
+                            <span>الفرق بين أذكار الصباح والمساء</span>
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>تشترك أذكار الصباح والمساء في عدد من الأذكار والآيات، مثل آية الكرسي والمعوذات وبعض أدعية الحفظ والعافية، لكن تختلف بعض الصيغ بحسب الوقت، مثل قول: أصبحنا في الصباح، وأمسينا في المساء.</p>
+                            <p>لذلك من الأفضل قراءة كل قسم من صفحته الخاصة حتى تظهر الصيغ المناسبة للوقت، ويكون التكرار محفوظًا لكل قسم بشكل مستقل.</p>
+                        </div>
+                        <nav class="azkar-edu-links" aria-label="روابط ذات صلة">
+                            <a href="/azkar" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">↩</span>
+                                <span>العودة إلى الأذكار</span>
+                            </a>
+                            <a href="/azkar/morning-azkar" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🌅</span>
+                                <span>أذكار الصباح</span>
+                            </a>
+                            <a href="/" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🕌</span>
+                                <span>مواقيت الصلاة اليوم</span>
+                            </a>
+                            <a href="/qibla" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🧭</span>
+                                <span>اتجاه القبلة</span>
+                            </a>
+                            <a href="/today-hijri-date" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">📅</span>
+                                <span>التاريخ الهجري اليوم</span>
+                            </a>
+                            <a href="/moon-today" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🌙</span>
+                                <span>حالة القمر اليوم</span>
+                            </a>
+                        </nav>
+                    </article>
+                </section>
+
+                <!-- ===== FAQ (evening-specific) ===== -->
+                <section class="azkar-faq" aria-labelledby="azkar-evening-faq-title">
+                    <h2 id="azkar-evening-faq-title" class="azkar-faq-title">أسئلة شائعة حول أذكار المساء</h2>
+
+                    <div class="azkar-faq-list">
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما هي أذكار المساء؟</summary>
+                            <div class="azkar-faq-answer">
+                                أذكار المساء هي أدعية وآيات وأذكار يقرأها المسلم في وقت المساء، وفيها توحيد واستغفار وطلب للحفظ والعافية، وتُقال اقتداءً بما ورد في السنة وما اشتهر من الأذكار الصحيحة.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">متى وقت قراءة أذكار المساء؟</summary>
+                            <div class="azkar-faq-answer">
+                                يبدأ وقت أذكار المساء من بعد العصر عند كثير من أهل العلم، ويمتد إلى الليل. والأفضل قراءتها في أول وقت المساء ما أمكن حتى يبدأ المسلم ليلته بذكر الله وطلب الحفظ.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل يجب قراءة أذكار المساء بالترتيب؟</summary>
+                            <div class="azkar-faq-answer">
+                                لا يلزم ترتيب محدد لقراءة أذكار المساء، لكن قراءتها مرتبة في الصفحة تساعد على التنظيم وعدم نسيان أي ذكر، خاصة الأذكار التي تحتاج إلى تكرار.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما فائدة التكرار في أذكار المساء؟</summary>
+                            <div class="azkar-faq-answer">
+                                بعض أذكار المساء وردت بعدد معين من التكرار، مثل ثلاث مرات أو سبع مرات أو مئة مرة. لذلك يساعدك العداد في الصفحة على إكمال العدد المطلوب دون خطأ أو نسيان.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل تظهر مصادر أذكار المساء في الصفحة؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، يظهر المصدر مع كل ذكر لمساعدة القارئ على معرفة موضع وروده، مع عرض الفضل أو الملاحظة المتعلقة بالذكر عند توفرها.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل يمكن قراءة أذكار المساء من الهاتف؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، الصفحة مصممة لتسهيل قراءة أذكار المساء من الهاتف والكمبيوتر، مع بطاقات واضحة وعداد تفاعلي وحفظ تلقائي للتقدم.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ماذا أفعل إذا نسيت أذكار المساء؟</summary>
+                            <div class="azkar-faq-answer">
+                                إذا نسيت أذكار المساء في وقتها، فاقرأ ما تيسر منها عند تذكرك، وحافظ على قراءتها في وقتها في الأيام التالية قدر استطاعتك.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل أذكار المساء تحفظ تقدمي تلقائيًا في هذه الصفحة؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، تحفظ الصفحة تقدمك تلقائيًا خلال الليلة في نفس المتصفح، ثم تعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما فائدة عداد أذكار المساء؟</summary>
+                            <div class="azkar-faq-answer">
+                                يساعدك عداد أذكار المساء على إكمال الأذكار المتكررة بسهولة، خاصة الأذكار التي تُقال ثلاث مرات أو سبع مرات أو مئة مرة، دون الحاجة إلى العدّ يدويًا.
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- ===== Islamic events countdown (same pattern as morning AZKAR-EVENTS-ECHO-1) ===== -->
+                <section class="section-card moon-events-section" aria-labelledby="azkar-evening-events-h2">
+                    <h2 id="azkar-evening-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
+                    <div class="moon-events-countdown">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">—</div>
+                                <div class="moon-event-date moon-event-ramadan-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">—</div>
+                                <div class="moon-event-date moon-event-fitr-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">—</div>
+                                <div class="moon-event-date moon-event-adha-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
+                                <div class="moon-event-days moon-event-newyear-days">—</div>
+                                <div class="moon-event-date moon-event-newyear-date">—</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.</p>
+                </section>
+            </div>
+
             <!-- ===== صفحة المسبحة الإلكترونية ===== -->
             <div class="page" id="page-tasbih">
                 <div class="section-card tasbih-card">
@@ -4280,8 +4524,8 @@
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=714"></script>
+    <script defer src="js/azkar-data.js?v=3"></script>
+    <script defer src="js/app.js?v=715"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

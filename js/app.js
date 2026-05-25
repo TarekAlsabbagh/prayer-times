@@ -19725,7 +19725,19 @@ function updateMoonInfo() {
         const _introEl = document.getElementById('moon-intro');
         const _isMonthPageIntro = !!(_introEl && _introEl.getAttribute('data-month-page') === '1')
             || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
-        if (_introEl && typeof t === 'function' && zodiac && !_isMonthPageIntro) {
+        // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25): on /moon-in-{city}
+        //   hub pages, SSR ships a static city-aware evergreen intro and
+        //   marks the element with `data-hub-page="1"`. JS must NOT
+        //   overwrite it with the astronomy-laden `intro_template_hub`
+        //   key — that produced a guaranteed visible swap (SSR generic
+        //   text → JS sentence with phase/illum/age/zodiac/altitude).
+        //   Strategy A: SSR static = JS static = no swap. URL fallback
+        //   matches `/moon-in-{slug}` (and lang-prefixed variants) so
+        //   even if the SSR marker is stripped by middleware, the guard
+        //   still fires from the path.
+        const _isHubPageIntro = !!(_introEl && _introEl.getAttribute('data-hub-page') === '1')
+            || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(window.location.pathname);
+        if (_introEl && typeof t === 'function' && zodiac && !_isMonthPageIntro && !_isHubPageIntro) {
             const zName = t(zodiac.i18nKey);
             const zNameDisplay = (zName && zName !== zodiac.i18nKey) ? zName : zodiac.key;
             // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):

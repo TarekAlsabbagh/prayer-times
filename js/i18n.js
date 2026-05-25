@@ -875,6 +875,14 @@ const TRANSLATIONS = {
         'moon.out_of_range_notice': 'هذا التاريخ خارج النطاق المدعوم لصفحات الأيّام المنفصلة. اطّلع على حالة القمر اليوم في {city}.',
         'moon.zodiac_label': 'موقع القمر فلكيًا',
         'moon.zodiac_tooltip': 'تُحسب حسب موضع القمر بين حدود الكوكبات الفلكيّة المعتمدة من الاتّحاد الفلكيّ الدوليّ (IAU)، وليس الأبراج التنجيميّة. تشمل 13 كوكبة على دائرة البروج (منها الحوّاء).',
+        // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25): added — was used in
+        //   index.html L1961 as `data-i18n="moon.hub.faq.a4"` but the key
+        //   was missing from every lang block. Non-AR pages preserved the
+        //   AR HTML literal (Arabic leak); on AR pages the binder no-op'd.
+        //   Adding the canonical AR value here makes the binder idempotent
+        //   on AR and gives the EN fallback path real content for other
+        //   langs (EN added below). Text mirrors the HTML literal verbatim.
+        'moon.hub.faq.a4': 'يَعتمد التقويم الهجريّ كلّيّاً على دورة القمر. كلّ شهر هجريّ يَبدأ برؤية الهلال ويَستمرّ 29 أو 30 يومًا، فمجموع السنة الهجريّة 354 أو 355 يومًا — أقصر من السنة الشمسيّة بـ 11 يومًا.',
         'moon.zodiac.aries': 'الحمل',
         'moon.zodiac.taurus': 'الثور',
         'moon.zodiac.gemini': 'الجوزاء',
@@ -2324,6 +2332,12 @@ const TRANSLATIONS = {
         'moon.out_of_range_notice': 'This date is outside the supported range for per-day pages. See today\u2019s Moon status in {city}.',
         'moon.zodiac_label': 'Astronomical Constellation',
         'moon.zodiac_tooltip': 'Calculated from the Moon\'s position within IAU constellation boundaries (88 official constellations, 13 along the ecliptic including Ophiuchus). This is NOT the same as astrological zodiac signs.',
+        // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25): EN canonical for
+        //   moon.hub.faq.a4 (see AR comment at line ~878). Acts as the
+        //   fallback for the 8 non-AR/EN locales until they ship their
+        //   own translations (per the project's existing en→fallback chain
+        //   in _translateI18nAttrs).
+        'moon.hub.faq.a4': 'The Hijri calendar is based entirely on the Moon\'s cycle. Each Hijri month begins with the sighting of the crescent and lasts 29 or 30 days, totalling 354 or 355 days per year — 11 days shorter than the solar year.',
         'moon.zodiac.aries': 'Aries',
         'moon.zodiac.taurus': 'Taurus',
         'moon.zodiac.gemini': 'Gemini',

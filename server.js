@@ -17610,6 +17610,22 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // ── (17-A) Hub pages: تحويل cities-grid من today→today إلى hub→hub ──
         //   حصريّاً على /moon-in-{slug} (بدون تاريخ). يربط الـ hubs ببعضها لبناء City Network.
         if (_isMoonHubPageSsr) {
+            // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25): inject the
+            //   `moon-hub-page` class on <html> in SSR so the critical-CSS
+            //   selector `html.moon-hub-page #page-moon { display:block }`
+            //   activates the right wrapper for crawlers + eliminates the
+            //   small flicker window between first paint and the inline
+            //   script at index.html:11 that adds the same class post-parse.
+            //   Mirrors the moon-today-city-page injection pattern at
+            //   server.js:17768-17774.
+            html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+                const a = attrs || '';
+                if (/\bclass="/.test(a)) {
+                    return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} moon-hub-page"`) + '>';
+                }
+                return '<html' + a + ' class="moon-hub-page">';
+            });
+
             // استبدل كلّ href="/moon-today-in-X" أو href="/en/moon-today-in-X" داخل .moon-cities-grid
             // إلى /moon-in-X (حصريّاً داخل <ul class="moon-cities-grid">…</ul> — لا نمسّ أيّ رابط آخر).
             html = html.replace(
@@ -18760,9 +18776,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 ms: `Terokai fasa Bulan semasa di ${cityName}, layari tarikh lampau dan akan datang, serta ikuti kalendar lunar dan Hijrah.`
             };
             const _hubIntroText = _hubIntroTpl[Lm] || _hubIntroTpl.en;
+            // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25): added
+            //   `data-hub-page="1"` marker so js/app.js intro rewriter at
+            //   :19725-19819 skips the astronomy-laden `intro_template_hub`
+            //   override on this route. Mirrors the `data-month-page="1"`
+            //   pattern at server.js:18843 + js/app.js:19726-19727.
+            //   Without this marker, SSR shipped a static city-aware
+            //   evergreen sentence and JS overwrote it with phase/illum/age/
+            //   zodiac/altitude → guaranteed visible swap on hub.
             html = html.replace(
                 /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
-                `<p class="moon-intro" id="moon-intro">${_escHtml(_hubIntroText)}</p>`
+                `<p class="moon-intro" id="moon-intro" data-hub-page="1">${_escHtml(_hubIntroText)}</p>`
             );
         }
         // ═════════════════════════════════════════════════════════════════════

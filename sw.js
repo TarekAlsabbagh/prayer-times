@@ -88,7 +88,31 @@
 //               السعودية" (full official form, matching the site-wide
 //               convention shipped in DIAG-1-E for country.sa).
 //   No app.js / style.css / i18n.js cache-buster bumps (none touched).
-const CACHE_VERSION = 'v344';
+// MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25):
+//   v344 → v345. /moon-in-{city} hub Path B (4.A + 4.B):
+//     (4.A.i) server.js injects `<html class="moon-hub-page">` on the
+//             hub route — removes the small flicker window where SSR
+//             ships an unclassed <html> and the inline script at
+//             index.html:11 only adds the class post-parse.
+//     (4.A.ii) #moon-intro SSR/JS unified via strategy A — server.js
+//             adds `data-hub-page="1"` marker to the SSR replacement,
+//             and js/app.js intro rewriter at :19725 now skips when
+//             the marker (or URL pattern) matches. SSR ships a static
+//             city-aware sentence and JS no longer overwrites with
+//             the astronomy-laden intro_template_hub. (The same path-
+//             pattern guard also fires if the marker is ever stripped
+//             by middleware.)
+//     (4.B) 3 HTML→i18n alignments inside #page-moon hub:
+//             moon.upcoming.title (added 🔮 prefix to match i18n)
+//             moon.events.title   (dropped ⏳, added shaddas — only the
+//                                  #page-moon occurrence; the /azkar/
+//                                  morning-azkar copy at index.html
+//                                  L3543 is OUT OF SCOPE)
+//             moon.zodiac_tooltip (added trailing constellation sentence)
+//           Plus added missing `moon.hub.faq.a4` to i18n.js AR + EN
+//           (was leaking the HTML AR literal into non-AR pages).
+//   Cache-busters: app.js?v=715→?v=716, i18n.js?v=186→?v=187.
+const CACHE_VERSION = 'v345';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

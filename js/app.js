@@ -23724,14 +23724,19 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
                 tapBtn.textContent = _AZKAR_AR_CHROME.markedRead;
                 tapBtn.setAttribute('aria-pressed', 'true');
             }
+            _updateMorningProgress();
+            // AZKAR-AUTO-ADVANCE-1: only when transitioning 0 → 1 (mark-read,
+            // not un-mark) — interactive completion, not a restore.
+            _azkarAdvanceToNext(card);
         } else {
             card.classList.remove('completed');
             if (tapBtn) {
                 tapBtn.textContent = _AZKAR_AR_CHROME.markRead;
                 tapBtn.setAttribute('aria-pressed', 'false');
             }
+            _updateMorningProgress();
+            // NO scroll on un-mark
         }
-        _updateMorningProgress();
         return;
     }
 
@@ -23747,8 +23752,73 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
             ? tapBtn.querySelector('.azkar-counter-tap-prompt')
             : null;
         if (promptEl) promptEl.textContent = _AZKAR_AR_CHROME.counterDone;
+        _updateMorningProgress();
+        // AZKAR-AUTO-ADVANCE-1: only when the counter *just* crossed
+        // target on this user click — not on intermediate ticks, not on
+        // restore-from-localStorage.
+        _azkarAdvanceToNext(card);
+    } else {
+        _updateMorningProgress();
+        // NO scroll on intermediate counts (1/3, 2/3, …)
     }
-    _updateMorningProgress();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-AUTO-ADVANCE-1 (2026-05-25)
+// Smoothly scroll to the next dhikr card when the current one is completed
+// by an interactive tap. Respects prefers-reduced-motion. Never triggered
+// during page-load restore, undo, or reset. If the current card is the
+// LAST card in the list, scroll to the completion banner instead.
+// ─────────────────────────────────────────────────────────────────────────────
+function _azkarAdvanceToNext(currentCardEl) {
+    if (!currentCardEl) return;
+    try {
+        const prefersReducedMotion = (typeof window.matchMedia === 'function')
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const behavior = prefersReducedMotion ? 'auto' : 'smooth';
+
+        // Find the next sibling that is an azkar card
+        let nextCard = currentCardEl.nextElementSibling;
+        while (nextCard && !nextCard.classList.contains('azkar-card-item')) {
+            nextCard = nextCard.nextElementSibling;
+        }
+
+        // Small perceptual delay so the user sees the completion state
+        // flip on the current card before the page starts to move.
+        const startDelay = prefersReducedMotion ? 0 : 240;
+
+        if (nextCard) {
+            setTimeout(() => {
+                try { nextCard.scrollIntoView({ behavior: behavior, block: 'start' }); } catch (_) {
+                    // older browsers — fall back to no-options scrollIntoView
+                    nextCard.scrollIntoView();
+                }
+                // Subtle highlight on arrival (CSS animation handles fade-out
+                // and is auto-disabled under prefers-reduced-motion)
+                nextCard.classList.remove('azkar-just-arrived');
+                // force reflow so re-adding the class restarts the animation
+                void nextCard.offsetWidth;
+                nextCard.classList.add('azkar-just-arrived');
+                setTimeout(() => {
+                    if (nextCard) nextCard.classList.remove('azkar-just-arrived');
+                }, 1600);
+            }, startDelay);
+            return;
+        }
+
+        // No next card → this was the LAST dhikr. Show completion banner +
+        // scroll into view (banner visibility is also driven by
+        // _updateMorningProgress, but we reveal it here as a defensive net).
+        const banner = document.getElementById('azkar-morning-completed');
+        if (banner) {
+            setTimeout(() => {
+                banner.classList.remove('u-hidden');
+                try { banner.scrollIntoView({ behavior: behavior, block: 'start' }); } catch (_) {
+                    banner.scrollIntoView();
+                }
+            }, startDelay);
+        }
+    } catch (_) { /* silent — auto-advance is a UX nicety, never throw */ }
 }
 
 function _updateMorningProgress(_doneOverride, _totalOverride) {

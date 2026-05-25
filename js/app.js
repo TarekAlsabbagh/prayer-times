@@ -23397,21 +23397,54 @@ function _loadAzkarHub() {
     } catch (_) { /* silent */ }
 }
 
-function _azkarStorageKey(category, dhikrId) {
-    return 'azkar.count.' + category + '.' + dhikrId;
-}
-function _azkarPersist(category, dhikrId, count) {
-    try { localStorage.setItem(_azkarStorageKey(category, dhikrId), String(count)); }
-    catch (_) { /* localStorage disabled / Safari private */ }
-}
-function _azkarRestore(category, dhikrId) {
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-DAILY-RESET-1 (2026-05-25)
+// Bundled per-category storage, with a same-day check at every read. The
+// previous schema (`azkar.count.<cat>.<id>` ↦ int) kept progress forever,
+// which is wrong for morning/evening adhkar (the user expects a fresh slate
+// on a new day, even if they revisit mid-session for the previous day).
+//
+// New shape (one key per category):
+//   azkar.progress.morning = {
+//     date: 'YYYY-MM-DD',           // user's local date when first written today
+//     items: {
+//       'morning-001': { count: 1, completed: true  },
+//       'morning-002': { count: 3, completed: true  },
+//       'morning-003': { count: 1, completed: false } // partial, repeat=3
+//     }
+//   }
+//
+// Reset rules:
+//   • Pure-read tick:   if storage.date !== today  → return 0 (UI restore loop
+//                                                             gets all zeros)
+//   • First persist on a new day rewrites storage to a fresh same-day bundle.
+//   • Manual reset button: rewrites storage to { date: today, items: {} }
+//                          (NOT { date: stale }) so reload doesn't re-trigger
+//                          the daily-reset branch.
+//   • Reload / navigation within same day: no change (storage.date === today).
+//
+// Legacy migration: on first call to _azkarLoadProgress(cat) per session, we
+// scan for old `azkar.count.<cat>.*` keys and drop them. Site is unpublished
+// — no user data is sacrificed.
+// ─────────────────────────────────────────────────────────────────────────────
+function _azkarLocalDateKey() {
     try {
-        const v = localStorage.getItem(_azkarStorageKey(category, dhikrId));
-        const n = Number(v);
-        return isFinite(n) && n >= 0 ? n : 0;
-    } catch (_) { return 0; }
+        const d = new Date();
+        const y = d.getFullYear();
+        const m = String(d.getMonth() + 1).padStart(2, '0');
+        const day = String(d.getDate()).padStart(2, '0');
+        return y + '-' + m + '-' + day;
+    } catch (_) { return '1970-01-01'; }
 }
-function _azkarResetCategory(category) {
+function _azkarProgressKey(category) {
+    return 'azkar.progress.' + category;
+}
+
+// One-time per-page cleanup of the deprecated per-item keys
+const _AZKAR_LEGACY_CLEAN = {};
+function _azkarCleanLegacy(category) {
+    if (_AZKAR_LEGACY_CLEAN[category]) return;
+    _AZKAR_LEGACY_CLEAN[category] = true;
     try {
         const prefix = 'azkar.count.' + category + '.';
         const toRemove = [];
@@ -23421,6 +23454,60 @@ function _azkarResetCategory(category) {
         }
         toRemove.forEach(k => localStorage.removeItem(k));
     } catch (_) { /* silent */ }
+}
+
+// Always returns a same-day bundle. If storage is stale or missing, the
+// returned object is fresh (and persisted back, so subsequent reads stay
+// stable until midnight).
+function _azkarLoadProgress(category) {
+    _azkarCleanLegacy(category);
+    const today = _azkarLocalDateKey();
+    let bundle = null;
+    try {
+        const raw = localStorage.getItem(_azkarProgressKey(category));
+        if (raw) bundle = JSON.parse(raw);
+    } catch (_) { bundle = null; }
+
+    if (!bundle || typeof bundle !== 'object' || bundle.date !== today ||
+        !bundle.items || typeof bundle.items !== 'object') {
+        // Daily reset trigger: either missing, malformed, or stale date.
+        bundle = { date: today, items: {} };
+        _azkarSaveProgress(category, bundle);
+    }
+    return bundle;
+}
+
+function _azkarSaveProgress(category, bundle) {
+    try {
+        localStorage.setItem(_azkarProgressKey(category), JSON.stringify(bundle));
+    } catch (_) { /* quota / private mode */ }
+}
+
+function _azkarRestore(category, dhikrId) {
+    const bundle = _azkarLoadProgress(category);
+    const entry = bundle.items[dhikrId];
+    if (!entry) return 0;
+    const n = Number(entry.count);
+    return isFinite(n) && n >= 0 ? n : 0;
+}
+
+function _azkarPersist(category, dhikrId, count, target) {
+    const bundle = _azkarLoadProgress(category);
+    const tgt = Number(target) || 1;
+    const c = Math.max(0, Number(count) || 0);
+    if (c <= 0) {
+        // Drop the entry entirely on zero so the items map stays small
+        delete bundle.items[dhikrId];
+    } else {
+        bundle.items[dhikrId] = { count: c, completed: c >= tgt };
+    }
+    _azkarSaveProgress(category, bundle);
+}
+
+function _azkarResetCategory(category) {
+    // Keep date = today so a same-day reload doesn't accidentally trigger the
+    // "daily reset" branch a second time.
+    _azkarSaveProgress(category, { date: _azkarLocalDateKey(), items: {} });
 }
 
 function _azkarPickLang() {
@@ -23618,7 +23705,7 @@ function _loadAzkarMorning() {
                 const cur = _azkarRestore(dhikr.category, dhikr.id);
                 if (cur <= 0) return;
                 const next = cur - 1;
-                _azkarPersist(dhikr.category, dhikr.id, next);
+                _azkarPersist(dhikr.category, dhikr.id, next, target);
                 tapCount.textContent = next + ' / ' + target;
                 card.classList.remove('completed');
                 tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
@@ -23630,7 +23717,7 @@ function _loadAzkarMorning() {
             resetItemBtn.className = 'azkar-counter-reset';
             resetItemBtn.textContent = _AZKAR_AR_CHROME.resetItem;
             resetItemBtn.addEventListener('click', () => {
-                _azkarPersist(dhikr.category, dhikr.id, 0);
+                _azkarPersist(dhikr.category, dhikr.id, 0, target);
                 tapCount.textContent = '0 / ' + target;
                 card.classList.remove('completed');
                 tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
@@ -23717,7 +23804,7 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
     if (isSingleRead) {
         // Toggle: 0 → 1 (mark read), 1 → 0 (unmark)
         const next = (cur >= 1) ? 0 : 1;
-        _azkarPersist(dhikr.category, dhikr.id, next);
+        _azkarPersist(dhikr.category, dhikr.id, next, target);
         if (next === 1) {
             card.classList.add('completed');
             if (tapBtn) {
@@ -23743,7 +23830,7 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
     // Multi-count tap: cap at target
     if (cur >= target) return;
     const next = cur + 1;
-    _azkarPersist(dhikr.category, dhikr.id, next);
+    _azkarPersist(dhikr.category, dhikr.id, next, target);
     if (tapCount) tapCount.textContent = next + ' / ' + target;
     if (next >= target) {
         card.classList.add('completed');

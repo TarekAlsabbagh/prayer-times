@@ -23930,20 +23930,28 @@ function _loadAzkarMorning() {
         const isCompleted = restored >= target;
         if (isCompleted) card.classList.add('completed');
 
-        // ── Header row: small number circle + green title ──
+        // ── Header row: small number circle (+ green title ONLY for Quran items) ──
+        // AZKAR-DHIKR-TITLE-REMOVAL-1 (2026-05-25): per user spec, dhikr
+        // cards (type='dhikr') NEVER show a title — the text of the dhikr
+        // is the primary content, and synthetic titles like "دعاء العافية"
+        // were rejected as artificial. Quran items (type='quran') keep
+        // their title because it identifies a real surah/ayah.
         const headerRow = document.createElement('div');
         headerRow.className = 'azkar-card-item-header';
+        if (dhikr.type !== 'quran') {
+            headerRow.classList.add('azkar-card-item-header--badge-only');
+        }
         const orderBadge = document.createElement('span');
         orderBadge.className = 'azkar-card-item-order';
         // Zero-padded 2-digit number for visual stability (01, 02, … 25)
         orderBadge.textContent = (idx + 1 < 10 ? '0' : '') + String(idx + 1);
         headerRow.appendChild(orderBadge);
-        const titleEl = document.createElement('h3');
-        titleEl.className = 'azkar-card-item-title';
-        titleEl.textContent = dhikr.title
-            ? _azkarLocalized(dhikr.title, '')
-            : (dhikr.type === 'quran' ? 'آية كريمة' : 'ذكر');
-        headerRow.appendChild(titleEl);
+        if (dhikr.type === 'quran' && dhikr.title) {
+            const titleEl = document.createElement('h3');
+            titleEl.className = 'azkar-card-item-title';
+            titleEl.textContent = _azkarLocalized(dhikr.title, '');
+            headerRow.appendChild(titleEl);
+        }
         card.appendChild(headerRow);
 
         // ── Dhikr text ──

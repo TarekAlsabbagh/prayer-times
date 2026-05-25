@@ -7663,7 +7663,11 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     box-shadow: 0 2px 10px rgba(11, 107, 58, 0.06);
 }
 
-/* Header row — number circle + title */
+/* Header row — number circle + (optional) title.
+   AZKAR-DHIKR-TITLE-REMOVAL-1 (2026-05-25): when no title is rendered
+   (type='dhikr' cards), the header collapses to just the badge.
+   Reduce bottom margin in that case so the dhikr text doesn't sit
+   awkwardly far below a lone badge. */
 .azkar-card-item-header {
     display: flex;
     align-items: center;
@@ -7671,6 +7675,9 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     flex-wrap: nowrap;
     margin-bottom: 14px;
     direction: rtl;
+}
+.azkar-card-item-header--badge-only {
+    margin-bottom: 8px;
 }
 .azkar-card-item-order {
     display: inline-flex;

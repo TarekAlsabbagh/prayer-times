@@ -1,6 +1,16 @@
 // Service Worker: cache-first for versioned static assets, network-first for HTML, stale-while-revalidate for /api/*
 // Bump CACHE_VERSION whenever precache list changes
-const CACHE_VERSION = 'v336';
+// CONTENT-HYDRATION-FLICKER-DIAG-1 fix (2026-05-25):
+//   v336 → v338 (skipping v337 which was the reverted SW-PRECACHE-ALIGN-1
+//   commit eef38f6 → reverted by eab24e9). Bumping here forces SW activate()
+//   to purge the previous STATIC_CACHE so clients pick up the new
+//   index.html (sidebar Azkar/Hijri text aligned with i18n AR values) and
+//   the new server.js SSR output (single .page.active on /azkar* and
+//   /qibla) on next page load.
+//   PRECACHE_URLS deliberately left untouched per user directive: don't
+//   re-touch them unless there's an actual new diff (covered separately
+//   if/when SW-PRECACHE-ALIGN is re-shipped).
+const CACHE_VERSION = 'v338';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

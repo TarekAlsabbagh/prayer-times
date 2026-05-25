@@ -12843,6 +12843,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // SSR-replace H1 + inject educational H2 with 4 H3 cards before FAQ.
     if (_isQiblaHub) {
         html = _stripHtmlForQiblaHub(html);
+        // CONTENT-HYDRATION-FLICKER-DIAG-1 fix (2026-05-25):
+        //   SSR-activate #page-qibla. Previously: 0 `.page.active` divs on
+        //   /qibla (the strip above removes page-prayer-times.active; the
+        //   default `<div class="page" id="page-qibla">` had `display:none`
+        //   from `.page{display:none}`). The critical-css workaround
+        //   `html.qibla-page-loading #page-qibla{display:block!important}`
+        //   never fires because we inject `qibla-hub-page` on <html>, not
+        //   `qibla-page-loading`. Result was a blank frame until JS ran
+        //   `_activatePageOnce('page-qibla')`. Adding `.active` here makes
+        //   the page paint immediately from the first SSR response.
+        html = html.replace(
+            '<div class="page" id="page-qibla" data-qibla-mode="hub">',
+            '<div class="page active" id="page-qibla" data-qibla-mode="hub">'
+        );
         html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
             const a = attrs || '';
             if (/\bclass="/.test(a)) {
@@ -14290,9 +14304,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   content + perceived load is instant). Client-side activator at
     //   js/app.js:3432+ handles the same flip idempotently — this is a
     //   pure SSR fast-path that adds .active to the right wrapper.
+    //
+    // CONTENT-HYDRATION-FLICKER-DIAG-1 fix (2026-05-25):
+    //   Previously emitted TWO `.page.active` divs in SSR HTML
+    //   (page-prayer-times.active AND page-azkar-*.active). Browser painted
+    //   both for a frame; JS later stripped prayer-times → visible content
+    //   flip on first load. Fix: strip the default `active` from
+    //   page-prayer-times FIRST, then activate the right azkar page so
+    //   the SSR response has exactly ONE `.page.active`.
     {
         const _isAzkarMorningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath);
         const _isAzkarHubRoute     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath);
+        if (_isAzkarMorningRoute || _isAzkarHubRoute) {
+            html = html.replace(
+                '<div class="page active" id="page-prayer-times">',
+                '<div class="page" id="page-prayer-times">'
+            );
+        }
         if (_isAzkarMorningRoute) {
             html = html.replace(
                 '<div class="page" id="page-azkar-morning">',

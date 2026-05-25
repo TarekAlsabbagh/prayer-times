@@ -14308,9 +14308,26 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   content + perceived load is instant). Client-side activator at
     //   js/app.js:3432+ handles the same flip idempotently — this is a
     //   pure SSR fast-path that adds .active to the right wrapper.
+    //
+    // AZKAR-SSR-SINGLE-ACTIVE-FIX-1 (2026-05-26): scoped strip of the
+    //   default `class="page active"` from #page-prayer-times BEFORE
+    //   activating the azkar page. Without this, SSR was emitting TWO
+    //   `.page.active` divs (prayer-times default + azkar target) which
+    //   caused SEO tools (SEOptimer) to read both H1 elements + both
+    //   content blocks. JS later flips it client-side but search-engine
+    //   crawlers + scrapers see the raw SSR. Strip is scoped to azkar
+    //   routes ONLY — does NOT touch other routes' active behaviour.
     {
         const _isAzkarMorningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath);
         const _isAzkarHubRoute     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath);
+        if (_isAzkarMorningRoute || _isAzkarHubRoute) {
+            // Strip default `active` from #page-prayer-times so SSR
+            // ends with exactly ONE `.page.active` div on /azkar*.
+            html = html.replace(
+                '<div class="page active" id="page-prayer-times">',
+                '<div class="page" id="page-prayer-times">'
+            );
+        }
         if (_isAzkarMorningRoute) {
             html = html.replace(
                 '<div class="page" id="page-azkar-morning">',

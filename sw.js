@@ -45,7 +45,18 @@
 //   text-content of each safe binding byte-for-byte. SSR active-page
 //   integrity preserved on /, /azkar, /azkar/morning-azkar, /qibla,
 //   /moon-today, /today-hijri-date. Daily-reset E2E 16/16 passed.
-const CACHE_VERSION = 'v341';
+// CONTENT-HYDRATION-FLICKER-DIAG-1-E (2026-05-25):
+//   v341 → v342. Two targeted fixes user uncovered on /moon-today-in-{city}:
+//     • js/app.js — moved the today-sub fill OUT of the `_isDatePage`
+//       guard so #moon-date-today-sub gets the formatted date on
+//       /moon-today-in-{city} too (was permanently empty). The pre-
+//       existing dated-page block still overrides with long-form date
+//       on /moon-in-{city}/{YYYY-MM-DD}.
+//     • index.html country.sa: "السعودية" → "المملكة العربية السعودية"
+//       (SEM bucket item — user explicitly approved this one specific
+//       alignment after the DIAG-1-D deferred-SEM batch).
+//   Cache-buster: app.js?v=713 → ?v=714 (js/app.js touched).
+const CACHE_VERSION = 'v342';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

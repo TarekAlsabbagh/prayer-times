@@ -17037,7 +17037,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             ms: '🕌 Waktu Solat di Negara-Negara Arab',
         };
         const arabCountryI18n = {
-            ar: { sa:'السعودية', eg:'مصر', ae:'الإمارات', iq:'العراق', sy:'سوريا',
+            // CONTENT-HYDRATION-FLICKER-DIAG-1-E (2026-05-25): sa changed
+            //   from "السعودية" to "المملكة العربية السعودية" to match
+            //   js/i18n.js:1480 (`'country.sa': "المملكة العربية السعودية"`).
+            //   The SSR regex below at L17163 overrides the HTML literal
+            //   for every `<span data-i18n="country.xx">`, so any HTML
+            //   alignment is wasted unless this map matches i18n.js too.
+            //   Prior: SSR served "السعودية" → client i18n binder
+            //   rewrote to "المملكة العربية السعودية" = visible swap.
+            ar: { sa:'المملكة العربية السعودية', eg:'مصر', ae:'الإمارات', iq:'العراق', sy:'سوريا',
                   jo:'الأردن', ps:'فلسطين', lb:'لبنان', ye:'اليمن', om:'عُمان',
                   kw:'الكويت', qa:'قطر', bh:'البحرين', ma:'المغرب', dz:'الجزائر',
                   tn:'تونس', ly:'ليبيا', sd:'السودان', mr:'موريتانيا', so:'الصومال',

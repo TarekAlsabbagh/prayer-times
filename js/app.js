@@ -20280,6 +20280,18 @@ function updateMoonInfo() {
             if (_prevSubEl) _prevSubEl.textContent = _fmtShort(_prevDate);
             if (_nextSubEl) _nextSubEl.textContent = _fmtShort(_nextDate);
 
+            // CONTENT-HYDRATION-FLICKER-DIAG-1-E (2026-05-25): fill the
+            //   centre "اليوم المعروض" sub-line on EVERY moon-date-nav
+            //   render (not just _isDatePage). Previously the today-sub
+            //   stayed empty on /moon-today-in-{city} because the only
+            //   writer was inside the `if (_todayLinkEl2 && _isDatePage)`
+            //   block below, which never fires for the today route. The
+            //   dated-page block farther down overwrites this with the
+            //   long-format date (incl. year) — that branch wins on
+            //   dated pages, this short-form wins on /moon-today.
+            const _todaySubEl = document.getElementById('moon-date-today-sub');
+            if (_todaySubEl) _todaySubEl.textContent = _fmtShort(today);
+
             // إظهار الشريط على كلّ صفحات المدينة القمريّة (today + date-pages)
             //   على صفحة اليوم: زرّ "اليوم" يصبح active بصريّاً عبر CSS class.
             _navEl.hidden = false;

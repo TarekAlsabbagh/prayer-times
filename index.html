@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=713" as="script">
+    <link rel="preload" href="js/app.js?v=714" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -923,7 +923,7 @@
                     <!-- Phase HC-9.2 (2026-05-06): short intro under H2 -->
                     <p class="home-section-intro" data-i18n="home.arab_countries_intro">استعرض روابط سريعة لمواقيت الصلاة في عدد من الدول العربية، مع إمكانية الانتقال إلى صفحة كل دولة للوصول إلى المدن والخيارات المرتبطة بها.</p>
                     <nav class="arab-countries-grid" aria-label="الدول العربية" data-i18n-aria-label="arab.countries_label">
-                        <a href="/prayer-times-in-saudi-arabia" class="country-tile" data-cc="sa"><img src="https://flagcdn.com/w40/sa.png" alt="علم السعودية" data-i18n-alt="flag.sa" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sa">السعودية</span></a>
+                        <a href="/prayer-times-in-saudi-arabia" class="country-tile" data-cc="sa"><img src="https://flagcdn.com/w40/sa.png" alt="علم السعودية" data-i18n-alt="flag.sa" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.sa">المملكة العربية السعودية</span></a>
                         <a href="/prayer-times-in-egypt" class="country-tile" data-cc="eg"><img src="https://flagcdn.com/w40/eg.png" alt="علم مصر" data-i18n-alt="flag.eg" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.eg">مصر</span></a>
                         <a href="/prayer-times-in-united-arab-emirates" class="country-tile" data-cc="ae"><img src="https://flagcdn.com/w40/ae.png" alt="علم الإمارات" data-i18n-alt="flag.ae" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.ae">الإمارات</span></a>
                         <a href="/prayer-times-in-iraq" class="country-tile" data-cc="iq"><img src="https://flagcdn.com/w40/iq.png" alt="علم العراق" data-i18n-alt="flag.iq" width="40" height="30" loading="lazy" decoding="async"><span class="arab-tile-prefix" data-i18n="arab.prefix">مواقيت الصلاة في </span><span data-i18n="country.iq">العراق</span></a>
@@ -4253,7 +4253,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=713"></script>
+    <script defer src="js/app.js?v=714"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

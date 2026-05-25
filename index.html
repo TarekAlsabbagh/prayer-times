@@ -3265,7 +3265,7 @@
             <div class="page" id="page-azkar-hub">
                 <header class="azkar-page-header">
                     <h1 data-i18n="azkar.hub.title">الأذكار</h1>
-                    <p class="azkar-hub-subtitle" data-i18n="azkar.hub.subtitle">اختر القسم الذي تريد قراءته. أذكار الصباح متاحة الآن — وبقية الأقسام قريبًا إن شاء الله.</p>
+                    <p class="azkar-hub-subtitle" data-i18n="azkar.hub.subtitle">اختر القسم الذي تريد قراءته. أذكار الصباح والمساء متاحة الآن — وبقية الأقسام قريبًا إن شاء الله.</p>
                 </header>
 
                 <nav class="azkar-hub-grid" aria-label="أقسام الأذكار">
@@ -3283,12 +3283,20 @@
                         <span class="azkar-card-cta" data-i18n="azkar.hub.card_start_btn">ابدأ القراءة</span>
                     </a>
 
-                    <!-- SOON: 9 سيبلنغز -->
-                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                    <!-- LIVE: أذكار المساء (AZKAR-EVENING-PHASE-1, 2026-05-26) -->
+                    <a class="azkar-card" href="/azkar/evening-azkar">
                         <span class="azkar-card-icon" aria-hidden="true">🌙</span>
                         <h2 class="azkar-card-title" data-i18n="azkar.hub.card_evening_title">أذكار المساء</h2>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_evening_desc">أذكار تُقال بعد صلاة العصر إلى المغرب.</p>
-                    </div>
+                        <div class="azkar-card-meta">
+                            <span><span data-i18n="azkar.hub.card_evening_count">23 ذكرًا</span></span>
+                            <span>·</span>
+                            <span><span data-i18n="azkar.hub.card_evening_time">10–15 دقيقة</span></span>
+                        </div>
+                        <span class="azkar-card-cta" data-i18n="azkar.hub.card_start_btn">ابدأ القراءة</span>
+                    </a>
+
+                    <!-- SOON: 8 سيبلنغز -->
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">😴</span>
@@ -3463,10 +3471,11 @@
                                 <span class="azkar-edu-link-icon" aria-hidden="true">↩</span>
                                 <span>العودة إلى الأذكار</span>
                             </a>
-                            <span class="azkar-edu-link-card is-disabled" aria-disabled="true" role="link">
+                            <!-- AZKAR-EVENING-PHASE-1 (2026-05-26): now live -->
+                            <a href="/azkar/evening-azkar" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🌙</span>
-                                <span>أذكار المساء — قريبًا</span>
-                            </span>
+                                <span>أذكار المساء</span>
+                            </a>
                             <a href="/" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🕌</span>
                                 <span>مواقيت الصلاة اليوم</span>

@@ -23449,13 +23449,16 @@ function _azkarLocalized(field, fallback) {
 // ─────────────────────────────────────────────────────────────────────────────
 const _AZKAR_AR_CHROME = {
     counterTap: 'اضغط للعدّ',
+    counterDone: '✓ مكتمل',
     undo: 'تراجع',
     resetItem: 'إعادة',
+    repeatLabel: 'التكرار',
     sourceLabel: 'المصدر',
-    showVirtue: 'اعرض الفضل',
+    showVirtue: 'عرض الفضل',
     authenticityLabel: 'ملاحظة حول درجة الحديث',
     markRead: 'تمت القراءة',
     markedRead: '✓ تمت القراءة',
+    completedCaption: 'تم إكمال الذكر',
     resetAllConfirm: 'هل تريد إعادة جميع عدّادات أذكار الصباح إلى الصفر؟',
     emptyList: 'لا توجد أذكار متاحة حالياً.',
     progressTpl: function (done, total) { return 'تم إكمال ' + done + ' من ' + total; }
@@ -23525,19 +23528,20 @@ function _loadAzkarMorning() {
         const isCompleted = restored >= target;
         if (isCompleted) card.classList.add('completed');
 
-        // ── Header row: order badge + (optional) title ──
+        // ── Header row: small number circle + green title ──
         const headerRow = document.createElement('div');
         headerRow.className = 'azkar-card-item-header';
         const orderBadge = document.createElement('span');
         orderBadge.className = 'azkar-card-item-order';
-        orderBadge.textContent = String(idx + 1);
+        // Zero-padded 2-digit number for visual stability (01, 02, … 25)
+        orderBadge.textContent = (idx + 1 < 10 ? '0' : '') + String(idx + 1);
         headerRow.appendChild(orderBadge);
-        if (dhikr.title) {
-            const titleEl = document.createElement('h3');
-            titleEl.className = 'azkar-card-item-title';
-            titleEl.textContent = _azkarLocalized(dhikr.title, '');
-            headerRow.appendChild(titleEl);
-        }
+        const titleEl = document.createElement('h3');
+        titleEl.className = 'azkar-card-item-title';
+        titleEl.textContent = dhikr.title
+            ? _azkarLocalized(dhikr.title, '')
+            : (dhikr.type === 'quran' ? 'آية كريمة' : 'ذكر');
+        headerRow.appendChild(titleEl);
         card.appendChild(headerRow);
 
         // ── Dhikr text ──
@@ -23547,20 +23551,25 @@ function _loadAzkarMorning() {
         textEl.textContent = dhikr.text || '';
         card.appendChild(textEl);
 
-        // ── Repeat label (only when meaningful — repeat>1 or explicit label) ──
-        if (target > 1 || dhikr.repeatLabel) {
-            const rl = document.createElement('span');
-            rl.className = 'azkar-repeat-label';
-            rl.textContent = _azkarLocalized(dhikr.repeatLabel, _azkarRepeatLabelAR(target));
-            card.appendChild(rl);
-        }
+        // ── Action row: repeat label (right) + counter/button (left) ──
+        const actionRow = document.createElement('div');
+        actionRow.className = 'azkar-action-row';
+
+        // Repeat label always present for context (even repeat=1 → "مرة واحدة")
+        const rl = document.createElement('span');
+        rl.className = 'azkar-repeat-label';
+        const repeatText = _azkarLocalized(dhikr.repeatLabel, _azkarRepeatLabelAR(target));
+        rl.innerHTML = '<span class="azkar-repeat-label-key">' +
+            _AZKAR_AR_CHROME.repeatLabel + ':</span> ' +
+            '<span class="azkar-repeat-label-val">' + repeatText + '</span>';
+        actionRow.appendChild(rl);
 
         // ── Counter UI: two variants ──
         let tapBtn = null;       // mark-read button (single) OR counter button (multi)
         let tapCount = null;     // only present for multi
 
         if (isSingleRead) {
-            // Variant A: repeat===1 → simple "تمت القراءة" toggle
+            // Variant A: repeat===1 → simple "تمت القراءة" toggle (in action row)
             tapBtn = document.createElement('button');
             tapBtn.type = 'button';
             tapBtn.className = 'azkar-mark-read';
@@ -23568,9 +23577,12 @@ function _loadAzkarMorning() {
                 ? _AZKAR_AR_CHROME.markedRead
                 : _AZKAR_AR_CHROME.markRead;
             tapBtn.setAttribute('aria-pressed', isCompleted ? 'true' : 'false');
-            card.appendChild(tapBtn);
+            actionRow.appendChild(tapBtn);
+            card.appendChild(actionRow);
         } else {
             // Variant B: repeat>1 → smaller tap counter + undo/reset
+            card.appendChild(actionRow);
+
             const counterWrap = document.createElement('div');
             counterWrap.className = 'azkar-counter';
 
@@ -23580,7 +23592,9 @@ function _loadAzkarMorning() {
 
             const tapPrompt = document.createElement('span');
             tapPrompt.className = 'azkar-counter-tap-prompt';
-            tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+            tapPrompt.textContent = isCompleted
+                ? _AZKAR_AR_CHROME.counterDone
+                : _AZKAR_AR_CHROME.counterTap;
 
             tapCount = document.createElement('span');
             tapCount.className = 'azkar-counter-tap-count';
@@ -23607,6 +23621,7 @@ function _loadAzkarMorning() {
                 _azkarPersist(dhikr.category, dhikr.id, next);
                 tapCount.textContent = next + ' / ' + target;
                 card.classList.remove('completed');
+                tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
                 _updateMorningProgress();
             });
 
@@ -23618,6 +23633,7 @@ function _loadAzkarMorning() {
                 _azkarPersist(dhikr.category, dhikr.id, 0);
                 tapCount.textContent = '0 / ' + target;
                 card.classList.remove('completed');
+                tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
                 _updateMorningProgress();
             });
 
@@ -23627,42 +23643,58 @@ function _loadAzkarMorning() {
             card.appendChild(counterWrap);
         }
 
-        // ── Source line ──
+        // ── Completion caption (small, only when this dhikr is done) ──
+        const caption = document.createElement('p');
+        caption.className = 'azkar-completed-caption';
+        caption.textContent = '✓ ' + _AZKAR_AR_CHROME.completedCaption;
+        card.appendChild(caption);
+
+        // ── Footer block: separator + source + virtue + authenticity ──
+        const footer = document.createElement('div');
+        footer.className = 'azkar-card-item-footer';
+
         if (dhikr.source && dhikr.source.ref) {
             const srcEl = document.createElement('p');
             srcEl.className = 'azkar-source';
             srcEl.setAttribute('dir', 'rtl');
-            srcEl.textContent = _AZKAR_AR_CHROME.sourceLabel + ': ' + dhikr.source.ref;
-            card.appendChild(srcEl);
+            srcEl.innerHTML = '<span class="azkar-source-icon" aria-hidden="true">📖</span>' +
+                '<span class="azkar-source-key">' + _AZKAR_AR_CHROME.sourceLabel + ':</span> ' +
+                '<span class="azkar-source-val">' + dhikr.source.ref + '</span>';
+            footer.appendChild(srcEl);
         }
 
-        // ── Virtue (collapsible) ──
+        // Virtue (collapsible, CLOSED by default)
         if (dhikr.virtue) {
             const det = document.createElement('details');
             det.className = 'azkar-virtue';
+            // Explicitly DO NOT set .open — must start closed per UX spec
             const sum = document.createElement('summary');
-            sum.textContent = _AZKAR_AR_CHROME.showVirtue;
+            sum.innerHTML = '<span class="azkar-disclosure-chev" aria-hidden="true">▾</span>' +
+                '<span>' + _AZKAR_AR_CHROME.showVirtue + '</span>';
             const p = document.createElement('p');
             p.setAttribute('dir', 'rtl');
             p.textContent = _azkarLocalized(dhikr.virtue, '');
             det.appendChild(sum);
             det.appendChild(p);
-            card.appendChild(det);
+            footer.appendChild(det);
         }
 
-        // ── Authenticity note (collapsible) ──
+        // Authenticity note (collapsible, CLOSED by default)
         if (dhikr.authenticityNote) {
             const det = document.createElement('details');
             det.className = 'azkar-authenticity';
             const sum = document.createElement('summary');
-            sum.textContent = _AZKAR_AR_CHROME.authenticityLabel;
+            sum.innerHTML = '<span class="azkar-disclosure-chev" aria-hidden="true">▾</span>' +
+                '<span>' + _AZKAR_AR_CHROME.authenticityLabel + '</span>';
             const p = document.createElement('p');
             p.setAttribute('dir', 'rtl');
             p.textContent = _azkarLocalized(dhikr.authenticityNote, '');
             det.appendChild(sum);
             det.appendChild(p);
-            card.appendChild(det);
+            footer.appendChild(det);
         }
+
+        if (footer.childNodes.length) card.appendChild(footer);
 
         // ── Tap handler (single + multi variants share this) ──
         if (tapBtn) {
@@ -23708,7 +23740,14 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
     const next = cur + 1;
     _azkarPersist(dhikr.category, dhikr.id, next);
     if (tapCount) tapCount.textContent = next + ' / ' + target;
-    if (next >= target) card.classList.add('completed');
+    if (next >= target) {
+        card.classList.add('completed');
+        // Flip the prompt text on the counter pill itself
+        const promptEl = tapBtn && tapBtn.querySelector
+            ? tapBtn.querySelector('.azkar-counter-tap-prompt')
+            : null;
+        if (promptEl) promptEl.textContent = _AZKAR_AR_CHROME.counterDone;
+    }
     _updateMorningProgress();
 }
 

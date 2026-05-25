@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=703" as="script">
+    <link rel="preload" href="js/app.js?v=704" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=428" as="style">
-    <link rel="stylesheet" href="css/style.css?v=428">
+    <link rel="preload" href="css/style.css?v=429" as="style">
+    <link rel="stylesheet" href="css/style.css?v=429">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3343,33 +3343,47 @@
 
             <!-- ===== /azkar/morning-azkar — Independent morning page ===== -->
             <div class="page" id="page-azkar-morning">
-                <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
-                    <a href="/azkar" data-i18n="azkar.hub.title">الأذكار</a>
-                    <span class="sep" aria-hidden="true">›</span>
-                    <span aria-current="page" data-i18n="azkar.morning.title">أذكار الصباح</span>
-                </nav>
+                <!-- ===== Hero: breadcrumb + title + subtitle + info-strip + progress ===== -->
+                <section class="azkar-hero">
+                    <div class="azkar-hero-inner">
+                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
+                            <a href="/azkar">الأذكار</a>
+                            <span class="sep" aria-hidden="true">›</span>
+                            <span aria-current="page">أذكار الصباح</span>
+                        </nav>
 
-                <header class="azkar-page-header">
-                    <h1 data-i18n="azkar.morning.title">أذكار الصباح</h1>
-                    <p class="azkar-page-subtitle" data-i18n="azkar.morning.subtitle">اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر. يُحفظ تقدّمك تلقائيًا.</p>
-                </header>
+                        <header class="azkar-page-header">
+                            <h1>أذكار الصباح</h1>
+                            <p class="azkar-page-subtitle">اقرأ أذكار الصباح برويّة وسكينة. يُحفظ تقدّمك تلقائيًا في هذا المتصفح.</p>
+                        </header>
 
-                <div class="azkar-progress-wrap" id="azkar-morning-progress-wrap">
-                    <div class="azkar-progress-row">
-                        <span class="azkar-progress-label" id="azkar-morning-progress-label">تم إكمال 0 من 0</span>
-                        <button type="button" class="azkar-reset-all" id="azkar-morning-reset-all">إعادة ضبط العدّادات</button>
+                        <ul class="azkar-info-strip" aria-label="معلومات عامة">
+                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> ٢٥ ذكرًا</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدّمك تلقائيًا</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكرّرة</li>
+                        </ul>
+
+                        <div class="azkar-progress-wrap" id="azkar-morning-progress-wrap">
+                            <div class="azkar-progress-row">
+                                <span class="azkar-progress-label" id="azkar-morning-progress-label">تم إكمال 0 من 0</span>
+                                <button type="button" class="azkar-reset-all" id="azkar-morning-reset-all" aria-label="إعادة ضبط العدّادات">
+                                    <span class="azkar-reset-icon" aria-hidden="true">↻</span>
+                                    <span>إعادة الضبط</span>
+                                </button>
+                            </div>
+                            <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="azkar-progress-fill" id="azkar-morning-progress-fill"></div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
-                        <div class="azkar-progress-fill" id="azkar-morning-progress-fill"></div>
-                    </div>
-                </div>
+                </section>
 
                 <div class="azkar-list" id="azkar-morning-list" aria-live="polite"></div>
 
                 <div class="azkar-completed-banner u-hidden" id="azkar-morning-completed">
                     <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
-                    <p class="azkar-completed-banner-title" data-i18n="azkar.morning.completed_title">تمّ بحمد الله</p>
-                    <p class="azkar-completed-banner-sub" data-i18n="azkar.morning.completed_subtitle">نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.</p>
+                    <p class="azkar-completed-banner-title">تمّ بحمد الله</p>
+                    <p class="azkar-completed-banner-sub">نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.</p>
                 </div>
             </div>
 
@@ -4047,7 +4061,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=703"></script>
+    <script defer src="js/app.js?v=704"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

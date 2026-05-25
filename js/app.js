@@ -23811,6 +23811,9 @@ function _azkarWireStickyProgress() {
                         }
                         _loadAzkarMorning();
                         _azkarShowToast('تمت إعادة ضبط العدادات');
+                        // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): jump
+                        // back to the top of the azkar page after reset.
+                        _azkarScrollToTopOfPage();
                     }
                 });
             });
@@ -23842,8 +23845,15 @@ function _azkarLocalized(field, fallback) {
 // "0 / 1" into "1 / 0". Items with repeat===1 get a single "تمت القراءة"
 // toggle button instead of the large repeat counter.
 // ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-MORNING-KEYWORD-CONSISTENCY-1 (2026-05-25): visible counter
+// prompt shortened from "اضغط للعدّ" → "عدّ" (single repeated word in
+// page text was inflating SEOptimer's keyword-prominence count). Long
+// form moves into `counterTapAria` and lands on aria-label only — so
+// screen readers still hear the full instruction, but page text no
+// longer repeats the long phrase 25×.
 const _AZKAR_AR_CHROME = {
-    counterTap: 'اضغط للعدّ',
+    counterTap: 'عدّ',
+    counterTapAria: 'اضغط للعدّ',
     counterDone: '✓ مكتمل',
     undo: 'تراجع',
     resetItem: 'إعادة',
@@ -23901,6 +23911,9 @@ function _loadAzkarMorning() {
                     listEl.innerHTML = '';
                     _loadAzkarMorning();
                     _azkarShowToast('تمت إعادة ضبط العدادات');
+                    // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): jump
+                    // back to the top of the azkar page after reset.
+                    _azkarScrollToTopOfPage();
                 }
             });
         });
@@ -23999,6 +24012,9 @@ function _loadAzkarMorning() {
             tapBtn = document.createElement('button');
             tapBtn.type = 'button';
             tapBtn.className = 'azkar-counter-tap';
+            // AZKAR-MORNING-KEYWORD-CONSISTENCY-1: full instruction lives
+            // on aria-label only (visible text is the shorter "عدّ").
+            tapBtn.setAttribute('aria-label', _AZKAR_AR_CHROME.counterTapAria);
 
             const tapPrompt = document.createElement('span');
             tapPrompt.className = 'azkar-counter-tap-prompt';
@@ -24186,12 +24202,76 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
 // by an interactive tap. Respects prefers-reduced-motion. Never triggered
 // during page-load restore, undo, or reset. If the current card is the
 // LAST card in the list, scroll to the completion banner instead.
+//
+// AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25): replaces raw scrollIntoView
+// with `_azkarScrollToCard()` that compensates for the sticky-progress
+// bar height per-breakpoint (200/190/130 px). Native scrollIntoView
+// ignores sticky overlays so the next card's title (and sometimes the
+// first line of Quran text) was hidden behind the sticky bar on mobile.
 // ─────────────────────────────────────────────────────────────────────────────
+
+// ── AZKAR scroll helpers (shared by auto-advance + reset-to-top) ─────────────
+function _azkarPrefersReducedMotion() {
+    try {
+        return (typeof window.matchMedia === 'function')
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch (_) { return false; }
+}
+function _azkarOffsetPx() {
+    // Per-breakpoint pixel budget that clears the sticky-progress bar.
+    // 480-: 200px (mobile), 768-: 190px (tablet), else 130px (desktop).
+    const w = (typeof window !== 'undefined' && window.innerWidth) || 1024;
+    if (w <= 480) return 200;
+    if (w <= 768) return 190;
+    return 130;
+}
+function _azkarScrollToCard(card) {
+    if (!card) return;
+    try {
+        const offset = _azkarOffsetPx();
+        const top = card.getBoundingClientRect().top + window.scrollY;
+        const target = Math.max(top - offset, 0);
+        window.scrollTo({
+            top: target,
+            behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth'
+        });
+    } catch (_) {
+        try { card.scrollIntoView({ behavior: 'auto', block: 'start' }); } catch (_e) {}
+    }
+}
+function _azkarScrollToTopOfPage() {
+    // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): after the reset-all flow
+    // (confirm modal → category reset → list rebuild → toast), jump back
+    // to the top of /azkar/morning-azkar so the user starts from the
+    // first dhikr again. Targets, in order:
+    //   1. #azkar-page-top (anchor above .azkar-hero)
+    //   2. .azkar-hero (the hero card)
+    //   3. #page-azkar-morning (the page root)
+    // Falls back to window.scrollTo({top:0}) if all targets fail.
+    try {
+        const target = document.getElementById('azkar-page-top')
+            || document.querySelector('.azkar-hero')
+            || document.getElementById('page-azkar-morning');
+        if (!target) {
+            window.scrollTo({ top: 0, behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth' });
+            return;
+        }
+        const offset = _azkarOffsetPx();
+        const top = target.getBoundingClientRect().top + window.scrollY;
+        const targetY = Math.max(top - offset, 0);
+        window.scrollTo({
+            top: targetY,
+            behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth'
+        });
+    } catch (_) {
+        try { window.scrollTo(0, 0); } catch (_e) {}
+    }
+}
+
 function _azkarAdvanceToNext(currentCardEl) {
     if (!currentCardEl) return;
     try {
-        const prefersReducedMotion = (typeof window.matchMedia === 'function')
-            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedMotion = _azkarPrefersReducedMotion();
         const behavior = prefersReducedMotion ? 'auto' : 'smooth';
 
         // Find the next sibling that is an azkar card
@@ -24206,10 +24286,9 @@ function _azkarAdvanceToNext(currentCardEl) {
 
         if (nextCard) {
             setTimeout(() => {
-                try { nextCard.scrollIntoView({ behavior: behavior, block: 'start' }); } catch (_) {
-                    // older browsers — fall back to no-options scrollIntoView
-                    nextCard.scrollIntoView();
-                }
+                // AZKAR-MOBILE-STICKY-OFFSET-2: offset-aware scroll (was
+                // scrollIntoView which ignored the sticky bar on mobile).
+                _azkarScrollToCard(nextCard);
                 // Subtle highlight on arrival (CSS animation handles fade-out
                 // and is auto-disabled under prefers-reduced-motion)
                 nextCard.classList.remove('azkar-just-arrived');

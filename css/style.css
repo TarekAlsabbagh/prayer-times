@@ -7633,8 +7633,19 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     transition: border-color .2s, box-shadow .2s, background .2s;
     /* AZKAR-AUTO-ADVANCE-1 + STICKY-PROGRESS-1: clear the fixed
        .azkar-sticky-progress at the top when a card is scrolled into
-       view by auto-advance. Bumped 90 → 120 for STICKY-PROGRESS-1. */
+       view by auto-advance. Bumped 90 → 120 for STICKY-PROGRESS-1.
+       AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25): mobile breakpoints
+       bump to 190/200 in @media further down so the sticky-progress
+       bar no longer covers the card's title or first Quran line. */
     scroll-margin-top: 120px;
+}
+/* AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25): also apply the offset
+   to the hero + the top-of-page anchor so the reset-to-top flow
+   parks the user above the hero with breathing room (the same
+   _azkarOffsetPx() ladder in app.js mirrors these values). */
+.azkar-hero,
+#azkar-page-top {
+    scroll-margin-top: 130px;
 }
 /* AZKAR-AUTO-ADVANCE-1: subtle "you just arrived here" highlight after
    smooth-scroll. Box-shadow ring + soft green tint, fades over ~1.4s.
@@ -8331,6 +8342,62 @@ html[data-theme="dark"] .azkar-faq-answer { color: #d6ead9; }
     .azkar-toast { transition: opacity .15s ease; }
 }
 
+/* ── AZKAR-MORNING-KEYWORD-CONSISTENCY-1 (2026-05-25):
+   SEO bridging H2 block sitting between the hero and the dhikr list.
+   Uses the same card chrome tokens as .azkar-hero-inner so it blends
+   with the existing reading rhythm — no layout shift, no new palette. */
+.azkar-section-intro {
+    max-width: 720px;
+    margin: 0 auto 24px;
+    padding: 18px 24px 16px;
+    background: var(--card-bg, #fff);
+    border: 1px solid var(--border, rgba(11, 107, 58, 0.10));
+    border-radius: 14px;
+    box-shadow: 0 1px 6px rgba(11, 107, 58, 0.03);
+}
+.azkar-section-intro-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--primary, #0b6b3a);
+    margin: 0 0 8px;
+    line-height: 1.5;
+}
+.azkar-section-intro-text {
+    font-size: 0.94rem;
+    line-height: 1.85;
+    color: var(--text-muted, #4a5953);
+    margin: 0;
+}
+@media (max-width: 480px) {
+    .azkar-section-intro {
+        margin: 0 12px 18px;
+        padding: 16px 18px 14px;
+    }
+    .azkar-section-intro-title { font-size: 1.04rem; }
+    .azkar-section-intro-text { font-size: 0.88rem; line-height: 1.8; }
+}
+html[data-theme="dark"] .azkar-section-intro {
+    background: var(--card-bg);
+    border-color: rgba(255, 255, 255, 0.10);
+}
+html[data-theme="dark"] .azkar-section-intro-title {
+    color: #4ade80;
+}
+html[data-theme="dark"] .azkar-section-intro-text {
+    color: #d6ead9;
+}
+
+/* ── Tablet (≤ 768px) — AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25):
+   mid-range offset value mirroring _azkarOffsetPx() 190px branch. */
+@media (max-width: 768px) {
+    .azkar-card-item,
+    .azkar-completed-banner,
+    .azkar-hero,
+    #azkar-page-top {
+        scroll-margin-top: 190px;
+    }
+}
+
 /* ── Mobile (≤ 480px) ──────────────────────────────────────────── */
 @media (max-width: 480px) {
     .azkar-hub-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -8352,9 +8419,19 @@ html[data-theme="dark"] .azkar-faq-answer { color: #d6ead9; }
     .azkar-card-item {
         padding: 20px 18px 16px;
         border-radius: 14px;
-        scroll-margin-top: 110px; /* STICKY-PROGRESS-1: clear the mobile sticky bar */
+        /* AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25): bumped 110 → 200 so
+           the card title + first Quran line clear the sticky-progress
+           bar (≈76px on mobile + hero peek + breathing). Mirrors the
+           _azkarOffsetPx() 200px @≤480 value in app.js. */
+        scroll-margin-top: 200px;
     }
-    .azkar-completed-banner { scroll-margin-top: 110px; }
+    .azkar-completed-banner { scroll-margin-top: 200px; }
+    /* AZKAR-MOBILE-STICKY-OFFSET-2 (2026-05-25): hero + top anchor also
+       need the bumped offset for the reset-to-top flow on mobile. */
+    .azkar-hero,
+    #azkar-page-top {
+        scroll-margin-top: 200px;
+    }
     .azkar-card-item-header { gap: 10px; margin-bottom: 12px; }
     .azkar-card-item-order { width: 28px; height: 28px; font-size: 0.72rem; }
     .azkar-card-item-title { font-size: 1rem; }

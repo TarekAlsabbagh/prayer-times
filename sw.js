@@ -8,7 +8,22 @@
 //   background or general site palette. NO change to light mode. NO
 //   change to layout/JS/counter/daily-reset.
 //   Cache-buster: css/style.css?v=439 → ?v=440.
-const CACHE_VERSION = 'v337';
+// AZKAR-MORNING-PHASE-3-COMPOSITE (2026-05-25):
+//   v337 → v338. Re-introduces 4 polish waves wiped by FLICKER-FIXES-
+//   ROLLBACK-TO-3eae0b5, in one ordered composite:
+//     1. AZKAR-RESET-SCROLL-TO-TOP-2 — reset-all flow jumps to
+//        #azkar-page-top using offset-aware scroll
+//     2. AZKAR-MOBILE-STICKY-OFFSET-2 — _azkarScrollToCard() replaces
+//        raw scrollIntoView in auto-advance; scroll-margin-top bumped
+//        to 200/190/130 per breakpoint to clear sticky-progress bar
+//     3. AZKAR-MORNING-SEO-TITLE-DESC-2 — AR title 63→52 chars + AR
+//        desc 114→122 chars per SEOptimer (50-60 / 120-160 windows)
+//     4. AZKAR-MORNING-KEYWORD-CONSISTENCY-1 — H2 + intro paragraph
+//        before dhikr list to bridge أذكار الصباح/التكرار/المصدر; counter
+//        prompt shortened ("اضغط للعدّ" → "عدّ" visible, full form on
+//        aria-label); 2 FAQ questions reworded around التكرار/المصادر
+//   Cache-busters: app.js?v=712 → ?v=713, css/style.css?v=440 → ?v=441.
+const CACHE_VERSION = 'v338';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

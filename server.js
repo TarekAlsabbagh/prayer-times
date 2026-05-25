@@ -7697,9 +7697,27 @@ function buildSeoForPath(urlPath) {
         // AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25): independent morning page.
         // AR + EN fully translated; other 8 langs use EN values as Phase-1 fallback
         // per user spec ("AR كامل + EN chrome فقط الآن").
+        //
+        // ── AZKAR-SEO-TEMPLATE-1 (2026-05-25) ──────────────────────────────
+        // CANONICAL SEO TEMPLATE for every azkar category page (morning,
+        // evening, after-prayer, sleep, …). Apply this pattern verbatim
+        // when adding a new azkar route — only the category name varies.
+        //
+        //   AR title:  '{اسم القسم} مكتوبة كاملة | صحيحة مع التكرار والمصدر'
+        //   AR desc:   'اقرأ {اسم القسم} مكتوبة كاملة مع التكرار والمصدر '
+        //              + 'الصحيح، وعداد تفاعلي يحفظ تقدمك خلال اليوم لتتم '
+        //              + 'قراءتها بسهولة وطمأنينة.'
+        //
+        // Lengths (chosen for Google SERP rendering):
+        //   title  ≈ 50-60 code-point chars  (52 for "أذكار الصباح" variant)
+        //   desc   ≈ 120-160 code-point chars (122 for the variant above)
+        //
+        // EN + 8 other-lang values are NOT touched in this commit — Phase-1
+        // AR-only SEO refresh. EN canonical template is deferred until the
+        // next batch (alongside per-lang translations for evening/sleep/etc.).
         '/azkar/morning-azkar': {
             title: {
-                ar: 'أذكار الصباح مكتوبة | تَكرار صحيح، مصدر مُوَثَّق، وعَدّ تفاعليّ',
+                ar: 'أذكار الصباح مكتوبة كاملة | صحيحة مع التكرار والمصدر',
                 en: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
                 fr: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
                 tr: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
@@ -7711,7 +7729,7 @@ function buildSeoForPath(urlPath) {
                 ms: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
             },
             desc: {
-                ar: 'اقرأ أذكار الصباح مكتوبة كاملة مع عدد التكرار والمصدر الصحيح. عداد تفاعلي يحفظ تقدّمك تلقائيًا — أعد ضبطه متى شئت.',
+                ar: 'اقرأ أذكار الصباح مكتوبة كاملة مع التكرار والمصدر الصحيح، وعداد تفاعلي يحفظ تقدمك خلال اليوم لتتم قراءتها بسهولة وطمأنينة.',
                 en: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
                 fr: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
                 tr: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',

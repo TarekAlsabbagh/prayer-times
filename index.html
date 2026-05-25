@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=712" as="script">
+    <link rel="preload" href="js/app.js?v=713" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=440" as="style">
-    <link rel="stylesheet" href="css/style.css?v=440">
+    <link rel="preload" href="css/style.css?v=441" as="style">
+    <link rel="stylesheet" href="css/style.css?v=441">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3343,6 +3343,11 @@
 
             <!-- ===== /azkar/morning-azkar — Independent morning page ===== -->
             <div class="page" id="page-azkar-morning">
+                <!-- AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): scroll anchor target
+                     used by the reset-all flow to jump back to the top of the
+                     azkar page (above hero). scroll-margin-top in style.css
+                     compensates for sticky-progress on mobile breakpoints. -->
+                <span id="azkar-page-top" aria-hidden="true" tabindex="-1"></span>
                 <!-- ===== Hero: breadcrumb + title + subtitle + info-strip + progress ===== -->
                 <section class="azkar-hero">
                     <div class="azkar-hero-inner">
@@ -3391,6 +3396,17 @@
                         <div class="azkar-sticky-progress-fill" id="azkar-morning-sticky-fill"></div>
                     </div>
                 </div>
+
+                <!-- AZKAR-MORNING-KEYWORD-CONSISTENCY-1 (2026-05-25):
+                     SEO bridging H2 + short intro tying core keywords
+                     (أذكار الصباح / التكرار / المصدر) into <h2>+<p> so
+                     SEOptimer's heading-coverage check sees them outside
+                     individual dhikr cards. Sits between the hero/sticky
+                     bar and the card list — no change to dhikr content. -->
+                <header class="azkar-section-intro" id="azkar-morning-section-intro">
+                    <h2 class="azkar-section-intro-title">أذكار الصباح مع التكرار والمصدر الصحيح</h2>
+                    <p class="azkar-section-intro-text">تضم هذه الصفحة أذكار الصباح مكتوبة كاملة، مع توضيح عدد التكرار والمصدر لكل ذكر، إضافة إلى عداد تفاعلي يساعدك على إكمال القراءة دون نسيان.</p>
+                </header>
 
                 <div class="azkar-list" id="azkar-morning-list" aria-live="polite"></div>
 
@@ -3497,9 +3513,16 @@
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">هل يجب تكرار كل ذكر بعدده المحدد؟</summary>
+                            <summary class="azkar-faq-question">ما فائدة التكرار في أذكار الصباح؟</summary>
                             <div class="azkar-faq-answer">
-                                الأفضل الالتزام بعدد التكرار الوارد لكل ذكر، مثل ثلاث مرات أو سبع مرات أو مائة مرة، لأن العدد جزء من صفة الذكر كما ورد في النصوص.
+                                التكرار في أذكار الصباح ورد في النصوص لتثبيت الذكر وحضور القلب، مثل ثلاث مرات أو سبع مرات أو مائة مرة، فيكون العدد جزءًا من صفة الذكر وأجره.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل تظهر مصادر أذكار الصباح في الصفحة؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، يظهر المصدر مع كل ذكر لمساعدة القارئ على معرفة موضع وروده، سواء كان من القرآن الكريم أو من أحاديث صحيحة في كتب السنة المعتمدة.
                             </div>
                         </details>
 
@@ -4253,7 +4276,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=712"></script>
+    <script defer src="js/app.js?v=713"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

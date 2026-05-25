@@ -1,6 +1,14 @@
 // Service Worker: cache-first for versioned static assets, network-first for HTML, stale-while-revalidate for /api/*
 // Bump CACHE_VERSION whenever precache list changes
-const CACHE_VERSION = 'v336';
+// AZKAR-MORNING-DARK-MODE-POLISH-2 (2026-05-25):
+//   v336 → v337. Re-introduces dark-mode contrast polish for
+//   /azkar/morning-azkar (wiped by FLICKER-FIXES-ROLLBACK-TO-3eae0b5).
+//   Only css/style.css touched: new dark-mode block (~80 lines) at
+//   line 8460+ scoped under html[data-theme="dark"]. NO change to body
+//   background or general site palette. NO change to light mode. NO
+//   change to layout/JS/counter/daily-reset.
+//   Cache-buster: css/style.css?v=439 → ?v=440.
+const CACHE_VERSION = 'v337';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -8458,6 +8458,181 @@ html[data-theme="dark"] .azkar-completed-banner {
     border-color: rgba(212, 160, 23, 0.45);
 }
 
+/* ──────────────────────────────────────────────────────────────────
+   AZKAR-MORNING-DARK-MODE-POLISH-2 (2026-05-25)
+   Re-introduced after FLICKER-FIXES-ROLLBACK-TO-3eae0b5 wiped 888f10b.
+   Goal: raise contrast on secondary text + chrome elements inside
+   /azkar/morning-azkar dark mode WITHOUT touching:
+     • body background or general site palette
+     • light-mode styles
+     • layout / spacing / JS / counter logic / daily-reset
+   Scope: only adds new `html[data-theme="dark"] .azkar-*` rules
+   that target previously-unstyled (or insufficiently-contrasted)
+   secondary text, borders, inner backgrounds.
+   Token reference:
+     primary text  ≈ #F5F7F4
+     secondary     ≈ #B8C4BD
+     accent green  ≈ #4ade80 / #6fd394
+     border        ≈ rgba(255,255,255,0.10-0.12)
+     chip bg       ≈ rgba(255,255,255,0.04-0.06)
+     amber (reset) ≈ #ffd07a on rgba(255,193,77,0.10)
+   ────────────────────────────────────────────────────────────────── */
+
+/* ── Hero subtitle + info-strip ─────────────────────────────────── */
+html[data-theme="dark"] .azkar-page-subtitle {
+    color: #B8C4BD;
+}
+html[data-theme="dark"] .azkar-info-strip {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.10);
+}
+html[data-theme="dark"] .azkar-info-strip li {
+    color: #d6ead9;
+}
+html[data-theme="dark"] .azkar-info-strip .azkar-info-icon {
+    color: #4ade80;
+}
+
+/* ── Progress (inline + sticky) ─────────────────────────────────── */
+html[data-theme="dark"] .azkar-progress-label,
+html[data-theme="dark"] .azkar-sticky-progress-text {
+    color: #F5F7F4;
+}
+html[data-theme="dark"] .azkar-progress-bar,
+html[data-theme="dark"] .azkar-sticky-progress-bar {
+    background: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="dark"] .azkar-progress-fill,
+html[data-theme="dark"] .azkar-sticky-progress-fill {
+    background: linear-gradient(90deg, #4ade80 0%, #1b9657 100%);
+}
+html[data-theme="dark"] .azkar-sticky-progress {
+    background: rgba(14, 22, 18, 0.86);
+    border-color: rgba(255, 255, 255, 0.10);
+    backdrop-filter: saturate(140%) blur(8px);
+    -webkit-backdrop-filter: saturate(140%) blur(8px);
+}
+
+/* ── Reset buttons (amber pill — must stay readable on dark) ────── */
+html[data-theme="dark"] .azkar-reset-btn,
+html[data-theme="dark"] .azkar-reset-all {
+    background: rgba(255, 193, 77, 0.10);
+    border-color: rgba(255, 193, 77, 0.40);
+    color: #ffd07a;
+}
+html[data-theme="dark"] .azkar-reset-btn:hover,
+html[data-theme="dark"] .azkar-reset-all:hover {
+    background: rgba(255, 193, 77, 0.18);
+    border-color: rgba(255, 193, 77, 0.55);
+    color: #ffdc94;
+}
+html[data-theme="dark"] .azkar-reset-btn:focus-visible,
+html[data-theme="dark"] .azkar-reset-all:focus-visible {
+    outline-color: rgba(255, 193, 77, 0.55);
+}
+
+/* ── Card-item internals: repeat label + counter prompts ────────── */
+html[data-theme="dark"] .azkar-repeat-label-key {
+    color: #B8C4BD;
+}
+html[data-theme="dark"] .azkar-repeat-label-val {
+    color: #F5F7F4;
+    font-weight: 600;
+}
+html[data-theme="dark"] .azkar-counter-tap-prompt {
+    color: #d8efde;
+}
+html[data-theme="dark"] .azkar-counter-tap-count {
+    color: #F5F7F4;
+}
+html[data-theme="dark"] .azkar-mark-read:hover,
+html[data-theme="dark"] .azkar-counter-tap:hover {
+    background: rgba(11, 107, 58, 0.28);
+    border-color: rgba(11, 107, 58, 0.70);
+    color: #ecf6ef;
+}
+html[data-theme="dark"] .azkar-completed-caption {
+    color: #6fd394;
+}
+
+/* ── Source row (was barely readable in dark) ───────────────────── */
+html[data-theme="dark"] .azkar-source {
+    color: #B8C4BD;
+}
+html[data-theme="dark"] .azkar-source-icon {
+    color: #B8C4BD;
+    opacity: 0.85;
+}
+html[data-theme="dark"] .azkar-source-key {
+    color: #B8C4BD;
+}
+html[data-theme="dark"] .azkar-source-val {
+    color: #d6ead9;
+}
+
+/* ── Virtue / authenticity disclosure summary ───────────────────── */
+html[data-theme="dark"] .azkar-virtue summary,
+html[data-theme="dark"] .azkar-authenticity summary {
+    color: #6fd394;
+}
+html[data-theme="dark"] .azkar-virtue summary:hover,
+html[data-theme="dark"] .azkar-authenticity summary:hover {
+    color: #8ce5a8;
+}
+html[data-theme="dark"] .azkar-virtue[open] summary,
+html[data-theme="dark"] .azkar-authenticity[open] summary {
+    color: #4ade80;
+}
+html[data-theme="dark"] .azkar-disclosure-chev {
+    color: #B8C4BD;
+}
+html[data-theme="dark"] .azkar-virtue[open] .azkar-disclosure-chev,
+html[data-theme="dark"] .azkar-authenticity[open] .azkar-disclosure-chev {
+    color: #4ade80;
+}
+
+/* ── Completed banner inner text ────────────────────────────────── */
+html[data-theme="dark"] .azkar-completed-banner-check {
+    color: #ffd07a;
+}
+html[data-theme="dark"] .azkar-completed-banner-title {
+    color: #F5F7F4;
+}
+html[data-theme="dark"] .azkar-completed-banner-sub {
+    color: #d6ead9;
+}
+
+/* ── FAQ chrome inside dark mode ────────────────────────────────── */
+html[data-theme="dark"] .azkar-faq-title {
+    color: #4ade80;
+}
+html[data-theme="dark"] .azkar-faq-question {
+    color: #F5F7F4;
+}
+html[data-theme="dark"] .azkar-faq-item:hover,
+html[data-theme="dark"] .azkar-faq-question:hover {
+    border-color: rgba(74, 222, 128, 0.30);
+}
+html[data-theme="dark"] .azkar-faq-question::after {
+    color: #B8C4BD;
+}
+html[data-theme="dark"] .azkar-faq-item[open] .azkar-faq-question::after {
+    color: #4ade80;
+}
+
+/* ── Edu cards: title + icon + link-hover ───────────────────────── */
+html[data-theme="dark"] .azkar-edu-title {
+    color: #4ade80;
+}
+html[data-theme="dark"] .azkar-edu-icon {
+    color: #4ade80;
+}
+html[data-theme="dark"] .azkar-edu-link-card:hover {
+    border-color: rgba(74, 222, 128, 0.40);
+    background: rgba(74, 222, 128, 0.06);
+}
+/* END AZKAR-MORNING-DARK-MODE-POLISH-2 ─────────────────────────── */
+
 /* ========= شريط البحث عن المدن ========= */
 .city-search-wrapper {
     position: relative;

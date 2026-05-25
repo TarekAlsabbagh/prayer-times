@@ -18,7 +18,19 @@
 //     mit.hijri     "التاريخ الهجري" → "التاريخ الهجريّ"  (add shadda)
 //     mit.moon      "أوقات القمر"   → "القمر اليوم"
 //   mit.date_converter already matched, untouched.
-const CACHE_VERSION = 'v339';
+// CONTENT-HYDRATION-FLICKER-DIAG-1-C (2026-05-25):
+//   v339 → v340. Four more AR HTML→i18n alignments uncovered by user:
+//     mit.title           "أدوات إسلاميّة سريعة" → "أدوات إسلامية سريعة" (drop shadda on م)
+//     nav.qibla (sidebar) "اتجاه القبلة"        → "إتجاه القبلة"        (add hamza below alif)
+//     nav.tasbih          "المسبحة الإلكترونيّة" → "المسبحة الإلكترونية" (drop shadda on ي)
+//     nav.hijri_calendar  "التقويم الهجريّ"      → "التقويم الهجري"      (drop shadda on ي)
+//   Note: nav.qibla i18n value has the orthographically non-standard
+//   form "إتجاه" (hamza below alif). Standard Arabic is "اتجاه" (verbal
+//   noun of اتّجه, no initial hamza). Kept the i18n value untouched per
+//   policy (don't edit i18n in this phase); a future cleanup pass on
+//   js/i18n.js can correct this if desired. HTML aligned to current
+//   i18n value to stop the visible flicker.
+const CACHE_VERSION = 'v340';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

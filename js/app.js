@@ -17069,44 +17069,67 @@ function updateMoonInfo() {
                     };
                     const _ml = _gMonthFullByLangH1[_lng_] || _gMonthFullByLangH1.en;
                     const _mName = _ml[_mM - 1];
-                    // UAT-Moon-Month-Page-Polish: H1 reframed to "تقويم أطوار
-                    //   القمر في {city} — {month} {year}" — anchors that this is
-                    //   a MONTH-CALENDAR page, not a generic "حالة القمر" page.
+                    // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25): aligned
+                    //   _H1_MONTH byte-for-byte with the SSR `_h1Moon` month
+                    //   branch in server.js:17361-17373. Previous values
+                    //   ("تقويم أطوار القمر في {city} — …" w/o 🌙) differed
+                    //   from SSR ("🌙 أطوار القمر في {city} — …") → guaranteed
+                    //   visible swap on hydration (🌙 dropped + "تقويم" added).
+                    //   Now both sides ship the identical string; the
+                    //   idempotency guard below makes the textContent
+                    //   assignment a no-op when SSR already matches.
                     const _H1_MONTH = {
-                        ar: `تقويم أطوار القمر في ${_cityName} — ${_mName} ${_mY}`,
-                        en: `Moon phase calendar in ${_cityName} — ${_mName} ${_mY}`,
-                        fr: `Calendrier des phases lunaires à ${_cityName} — ${_mName} ${_mY}`,
-                        tr: `${_cityName} Ay Evresi Takvimi — ${_mName} ${_mY}`,
-                        ur: `${_cityName} میں چاند کے مراحل کا تقویم — ${_mName} ${_mY}`,
-                        de: `Mondphasenkalender in ${_cityName} — ${_mName} ${_mY}`,
-                        id: `Kalender fase Bulan di ${_cityName} — ${_mName} ${_mY}`,
-                        es: `Calendario de fases lunares en ${_cityName} — ${_mName} ${_mY}`,
-                        bn: `${_cityName}-এ চাঁদের দশার ক্যালেন্ডার — ${_mName} ${_mY}`,
-                        ms: `Kalendar fasa Bulan di ${_cityName} — ${_mName} ${_mY}`
+                        ar: `🌙 أطوار القمر في ${_cityName} — ${_mName} ${_mY}`,
+                        en: `🌙 Moon Phases in ${_cityName} — ${_mName} ${_mY}`,
+                        fr: `🌙 Phases de la Lune à ${_cityName} — ${_mName} ${_mY}`,
+                        tr: `🌙 ${_cityName} Ay Evreleri — ${_mName} ${_mY}`,
+                        ur: `🌙 ${_cityName} میں چاند کے مراحل — ${_mName} ${_mY}`,
+                        de: `🌙 Mondphasen in ${_cityName} — ${_mName} ${_mY}`,
+                        id: `🌙 Fase Bulan di ${_cityName} — ${_mName} ${_mY}`,
+                        es: `🌙 Fases de la Luna en ${_cityName} — ${_mName} ${_mY}`,
+                        bn: `🌙 ${_cityName}-এ চাঁদের পর্যায় — ${_mName} ${_mY}`,
+                        ms: `🌙 Fasa Bulan di ${_cityName} — ${_mName} ${_mY}`
                     };
                     if (_h1El) {
-                        _h1El.textContent = _H1_MONTH[_lng_] || _H1_MONTH.en;
+                        const _h1New = _H1_MONTH[_lng_] || _H1_MONTH.en;
+                        // Idempotency guard — skip the textContent assignment
+                        // when the current text already matches the new value.
+                        if ((_h1El.textContent || '').trim() !== _h1New.trim()) {
+                            _h1El.textContent = _h1New;
+                        }
                         // Remove data-i18n so i18n.js doesn't retranslate over us.
                         _h1El.removeAttribute('data-i18n');
                     }
-                    // UAT-Moon-Month-Page-Polish: subtitle now mentions city +
-                    //   month for clarity (was just month). Reads "تابع أطوار
-                    //   القمر اليوميّة في {city} خلال {month} {year}، …".
+                    // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25): aligned
+                    //   _SUB_MONTH byte-for-byte with the SSR subtitle which
+                    //   comes from `_SUBTITLE_HUB_SSR` at server.js:17463-
+                    //   17474 (fires on month routes too because
+                    //   `seo.moonCity.isHub` is true for both hub AND month —
+                    //   see server.js:9371). Previous month-aware copy
+                    //   ("تابع أطوار القمر اليوميّة في {city} خلال {month}…")
+                    //   differed completely from SSR → visible subtitle swap
+                    //   on hydration. Per user spec "اترك SSR يتحكم بالنص" we
+                    //   mirror SSR exactly. (Re-introducing month context in
+                    //   the subtitle requires a server.js-side fix in a
+                    //   future phase; out of scope here.)
                     const _SUB_MONTH = {
-                        ar: `تابع أطوار القمر اليوميّة في ${_cityName} خلال ${_mName} ${_mY}، مع نسبة الإضاءة ومواعيد البدر والمحاق.`,
-                        en: `Track daily moon phases in ${_cityName} during ${_mName} ${_mY} — illumination, full moon and new moon times.`,
-                        fr: `Suivez les phases quotidiennes de la Lune à ${_cityName} pendant ${_mName} ${_mY} — illumination, pleines et nouvelles lunes.`,
-                        tr: `${_cityName}'da ${_mName} ${_mY} boyunca günlük ay evrelerini takip edin — aydınlanma, dolunay ve yeni ay zamanları.`,
-                        ur: `${_cityName} میں ${_mName} ${_mY} کے دوران چاند کے روزانہ مراحل کو دیکھیں — روشنی، بدر اور نئے چاند کے اوقات۔`,
-                        de: `Verfolgen Sie die täglichen Mondphasen in ${_cityName} im ${_mName} ${_mY} — Beleuchtung, Voll- und Neumondzeiten.`,
-                        id: `Pantau fase harian Bulan di ${_cityName} selama ${_mName} ${_mY} — iluminasi, waktu purnama dan bulan baru.`,
-                        es: `Sigue las fases diarias de la Luna en ${_cityName} durante ${_mName} ${_mY} — iluminación, horas de luna llena y nueva.`,
-                        bn: `${_cityName}-এ ${_mName} ${_mY}-এর সময়ে চাঁদের দৈনিক দশা দেখুন — আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার সময়।`,
-                        ms: `Pantau fasa harian Bulan di ${_cityName} sepanjang ${_mName} ${_mY} — pencahayaan, masa bulan purnama dan anak bulan.`
+                        ar: `اعرف أطوار القمر في ${_cityName}، ونسبة الإضاءة، ومواعيد البدر والمحاق، مع تقويم شهريّ كامل حسب التوقيت المحلّيّ.`,
+                        en: `Explore the Moon's phases, illumination, and full/new moon schedule in ${_cityName} — with a complete monthly calendar in local time.`,
+                        fr: `Découvrez les phases de la Lune à ${_cityName}, l'illumination et les dates de pleine et nouvelle lune — avec un calendrier mensuel complet en heure locale.`,
+                        tr: `${_cityName} için Ay'ın evrelerini, aydınlanmasını ve dolunay/yeni ay zamanlarını keşfedin — yerel saatle eksiksiz aylık takvim.`,
+                        ur: `${_cityName} میں چاند کے مراحل، روشنی، اور بدر و نئے چاند کے اوقات جانیں — مقامی وقت کے مطابق مکمل ماہانہ تقویم کے ساتھ۔`,
+                        de: `Entdecken Sie die Mondphasen in ${_cityName}, die Beleuchtung und die Voll-/Neumondtermine — mit einem vollständigen Monatskalender in Ortszeit.`,
+                        id: `Pelajari fase Bulan di ${_cityName}, tingkat iluminasi, dan jadwal purnama/bulan baru — lengkap dengan kalender bulanan menurut waktu lokal.`,
+                        es: `Descubre las fases de la Luna en ${_cityName}, la iluminación y las fechas de luna llena y nueva — con un calendario mensual completo en hora local.`,
+                        bn: `${_cityName}-এ চাঁদের দশা, আলোকসজ্জা এবং পূর্ণিমা ও অমাবস্যার সময় জানুন — স্থানীয় সময় অনুযায়ী পূর্ণ মাসিক ক্যালেন্ডার সহ।`,
+                        ms: `Terokai fasa Bulan di ${_cityName}, pencahayaan dan jadual bulan purnama/anak bulan — lengkap dengan kalendar bulanan mengikut waktu tempatan.`
                     };
                     const _subElM = document.getElementById('moon-subtitle');
                     if (_subElM) {
-                        _subElM.textContent = _SUB_MONTH[_lng_] || _SUB_MONTH.en;
+                        const _subNew = _SUB_MONTH[_lng_] || _SUB_MONTH.en;
+                        if ((_subElM.textContent || '').trim() !== _subNew.trim()) {
+                            _subElM.textContent = _subNew;
+                        }
                         _subElM.removeAttribute('data-i18n');
                     }
 
@@ -17116,21 +17139,42 @@ function updateMoonInfo() {
                     //   AFTER any i18n.js retranslate pass — guaranteeing month copy
                     //   wins.
                     const _runMonthOverrides = () => {
-                    // Re-apply H1 + subtitle (in case hub block clobbered them)
+                    // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25): added
+                    //   idempotency guards. _runMonthOverrides is invoked 3
+                    //   times (immediate + setTimeout 0 + setTimeout 100) so
+                    //   without the guard each #moon-page-h1 / #moon-subtitle
+                    //   write fires 3× per page load — visible reflow even
+                    //   when content is identical. With the guard plus the
+                    //   H1/_SUB alignment above (now byte-equal to SSR), the
+                    //   write becomes a true no-op on month pages.
                     try {
                         const _h1Re = document.getElementById('moon-page-h1');
                         if (_h1Re) {
-                            _h1Re.textContent = _H1_MONTH[_lng_] || _H1_MONTH.en;
+                            const _h1ReNew = _H1_MONTH[_lng_] || _H1_MONTH.en;
+                            if ((_h1Re.textContent || '').trim() !== _h1ReNew.trim()) {
+                                _h1Re.textContent = _h1ReNew;
+                            }
                             _h1Re.removeAttribute('data-i18n');
                         }
                         const _subRe = document.getElementById('moon-subtitle');
                         if (_subRe) {
-                            _subRe.textContent = _SUB_MONTH[_lng_] || _SUB_MONTH.en;
+                            const _subReNew = _SUB_MONTH[_lng_] || _SUB_MONTH.en;
+                            if ((_subRe.textContent || '').trim() !== _subReNew.trim()) {
+                                _subRe.textContent = _subReNew;
+                            }
                             _subRe.removeAttribute('data-i18n');
                         }
                     } catch (_) {}
 
-                    // Details H2 → "حالة القمر اليوم في {city}" (mirror hub style)
+                    // Details H2 — month-context wording.
+                    // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25): dropped
+                    //   the "اليوم" / "today" framing on month pages — the
+                    //   previous text "حالة القمر اليوم في {city}" was
+                    //   semantically wrong on /moon-in-{city}/YYYY-MM (which
+                    //   could be a past or future month, not "today"). New
+                    //   wording is the month-neutral form. Also added
+                    //   idempotency guard for consistency with H1/subtitle
+                    //   guards above.
                     try {
                         const _titleH2 = document.getElementById('moon-title-h2');
                         if (_titleH2) {
@@ -17138,19 +17182,21 @@ function updateMoonInfo() {
                             const _emo = _raw.match(/^\s*([\p{Emoji_Presentation}\p{Extended_Pictographic}]+\s*)/u);
                             const _prefix = _emo ? _emo[1] : '';
                             const _TITLE_H2_BY_LANG = {
-                                ar: `حالة القمر اليوم في ${_cityName}`,
-                                en: `The Moon today in ${_cityName}`,
-                                fr: `La Lune aujourd'hui à ${_cityName}`,
-                                tr: `${_cityName}'de bugünkü Ay`,
-                                ur: `${_cityName} میں آج کا چاند`,
-                                de: `Der Mond heute in ${_cityName}`,
-                                id: `Bulan hari ini di ${_cityName}`,
-                                es: `La Luna hoy en ${_cityName}`,
-                                bn: `${_cityName}-এ আজকের চাঁদ`,
-                                ms: `Bulan hari ini di ${_cityName}`
+                                ar: `حالة القمر في ${_cityName}`,
+                                en: `The Moon in ${_cityName}`,
+                                fr: `La Lune à ${_cityName}`,
+                                tr: `${_cityName}'de Ay Durumu`,
+                                ur: `${_cityName} میں چاند کی حالت`,
+                                de: `Der Mond in ${_cityName}`,
+                                id: `Bulan di ${_cityName}`,
+                                es: `La Luna en ${_cityName}`,
+                                bn: `${_cityName}-এ চাঁদ`,
+                                ms: `Bulan di ${_cityName}`
                             };
-                            const _newTxt = _TITLE_H2_BY_LANG[_lng_] || _TITLE_H2_BY_LANG.en;
-                            _titleH2.textContent = _prefix + _newTxt;
+                            const _newTxt = _prefix + (_TITLE_H2_BY_LANG[_lng_] || _TITLE_H2_BY_LANG.en);
+                            if (_raw.trim() !== _newTxt.trim()) {
+                                _titleH2.textContent = _newTxt;
+                            }
                         }
                     } catch (_) {}
 

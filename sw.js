@@ -88,6 +88,29 @@
 //               السعودية" (full official form, matching the site-wide
 //               convention shipped in DIAG-1-E for country.sa).
 //   No app.js / style.css / i18n.js cache-buster bumps (none touched).
+// MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25):
+//   v345 → v346. /moon-in-{city}/YYYY-MM Path B (4.A + 4.B):
+//     (4.A) server.js injects `<html class="moon-month-page">` on month
+//           routes inside the `if (_isMoonMonthPageSsr && …)` block —
+//           same pattern as moon-hub-page and moon-today-city-page.
+//           Removes the flicker window before inline post-parse script.
+//     (4.B.i) Aligned js/app.js `_H1_MONTH` byte-for-byte with SSR
+//           `_h1Moon` month branch ("🌙 أطوار القمر في {city} — {month}
+//           {year}"). Previously JS wrote "تقويم أطوار القمر في …"
+//           without 🌙, causing a guaranteed SSR→JS swap.
+//     (4.B.ii) Aligned `_SUB_MONTH` byte-for-byte with SSR `_SUBTITLE_HUB_SSR`
+//           (which fires on month routes via seo.moonCity.isHub=true).
+//           Previously JS wrote a month-aware copy that differed from
+//           SSR → visible subtitle swap.
+//     (4.B.iii) Added idempotency guards on H1 / subtitle / #moon-title-h2
+//           textContent writes (skip when current text already matches).
+//           _runMonthOverrides is called 3× per load (immediate + 2
+//           setTimeouts) — guards turn those 3 writes into 1 (or 0 when
+//           SSR matches).
+//     (4.B.iv) Dropped "اليوم" / "today" from `#moon-title-h2` on month
+//           routes (was semantically wrong on past/future month pages).
+//   Cache-buster: app.js?v=716 → ?v=717 (js/app.js touched).
+const CACHE_VERSION = 'v346';
 // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25):
 //   v344 → v345. /moon-in-{city} hub Path B (4.A + 4.B):
 //     (4.A.i) server.js injects `<html class="moon-hub-page">` on the
@@ -112,7 +135,6 @@
 //           Plus added missing `moon.hub.faq.a4` to i18n.js AR + EN
 //           (was leaking the HTML AR literal into non-AR pages).
 //   Cache-busters: app.js?v=715→?v=716, i18n.js?v=186→?v=187.
-const CACHE_VERSION = 'v345';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

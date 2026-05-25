@@ -18811,6 +18811,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //   Applied to ALL 10 supported langs.
         // ═════════════════════════════════════════════════════════════════════
         if (_isMoonMonthPageSsr && _monthYearSsr && _monthMonthSsr) {
+            // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25): inject the
+            //   `moon-month-page` class on <html> in SSR so the critical-CSS
+            //   selector `html.moon-month-page #page-moon { display:block }`
+            //   activates the right wrapper at first paint, eliminating the
+            //   small flicker window where the inline script at index.html:11
+            //   would otherwise add the class only post-parse. Mirrors the
+            //   moon-hub-page injection pattern at server.js (MOON-CITY-HUB-
+            //   HYDRATION-AUDIT-1 fix) and moon-today-city-page at L17768.
+            html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+                const a = attrs || '';
+                if (/\bclass="/.test(a)) {
+                    return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} moon-month-page"`) + '>';
+                }
+                return '<html' + a + ' class="moon-month-page">';
+            });
             const _mY = _monthYearSsr;
             const _mM = _monthMonthSsr;
             const _mLastDay = new Date(_mY, _mM, 0).getDate();

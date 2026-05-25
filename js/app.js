@@ -198,6 +198,33 @@ function arPluralDays(n, lang) {
 }
 try { window.arPluralDays = arPluralDays; } catch (_) {}
 
+// ============================================================
+// NAV-FLICKER-FIX-1 — _activatePageOnce(targetId)
+// Replaces the legacy pattern:
+//     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+//     document.getElementById(targetId).classList.add('active');
+// which creates a 1-frame window with ZERO active pages → visible flash.
+//
+// New behaviour:
+//   1. If SSR (or a prior activator) already set the correct page active
+//      AND it is the only active page, do nothing → no flash, no churn.
+//   2. Otherwise, strip then add in the same synchronous tick, but only
+//      after we know the target exists.
+// Returns true when the target page is the one (and only) active page.
+// ============================================================
+function _activatePageOnce(targetId) {
+    const expected = document.getElementById(targetId);
+    if (!expected) return false;
+    const currentActive = document.querySelectorAll('.page.active');
+    if (currentActive.length === 1 && currentActive[0] === expected) {
+        return true;
+    }
+    currentActive.forEach(p => p.classList.remove('active'));
+    expected.classList.add('active');
+    return true;
+}
+try { window._activatePageOnce = _activatePageOnce; } catch (_) {}
+
 // ===== أسماء الدول بالإنجليزية (مفهرسة بكود ISO) =====
 const COUNTRY_EN_NAMES = {
     sa:'Saudi Arabia', eg:'Egypt', sy:'Syria', iq:'Iraq',
@@ -3349,8 +3376,7 @@ async function initApp() {
     // تفعيل صفحة المسبحة عند URL /msbaha
     const _isMsbahaPage = /\/(?:en\/)?msbaha$/.test(window.location.pathname);
     if (_isMsbahaPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-tasbih')?.classList.add('active');
+        _activatePageOnce('page-tasbih');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="tasbih"]')?.classList.add('active');
         document.documentElement.classList.remove('msbaha-page');
@@ -3369,8 +3395,7 @@ async function initApp() {
     // تفعيل صفحة التاريخ الهجري عند URL /today-hijri-date
     const _isHijriPage = /\/(?:en\/)?today-hijri-date$/.test(window.location.pathname);
     if (_isHijriPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-hijri-today')?.classList.add('active');
+        _activatePageOnce('page-hijri-today');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         document.documentElement.classList.remove('hijri-today-page');
@@ -3393,8 +3418,7 @@ async function initApp() {
                 return;
             }
         }
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-hijri-day')?.classList.add('active');
+        _activatePageOnce('page-hijri-day');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-today"]')?.classList.add('active');
         loadHijriDayPage();
@@ -3405,8 +3429,7 @@ async function initApp() {
     // تفعيل صفحة التقويم الهجري السنوي عند URL /hijri-calendar أو /hijri-calendar/1447
     const _isHijriYearPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(window.location.pathname);
     if (_isHijriYearPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-hijri-year')?.classList.add('active');
+        _activatePageOnce('page-hijri-year');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-calendar"]')?.classList.add('active');
         loadHijriYearPage();
@@ -3417,8 +3440,7 @@ async function initApp() {
     // تفعيل صفحة التقويم الهجري الشهري عند URL /hijri-calendar/YYYY-MM
     const _isHijriMonthPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(window.location.pathname);
     if (_isHijriMonthPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-hijri-month')?.classList.add('active');
+        _activatePageOnce('page-hijri-month');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="hijri-calendar"]')?.classList.add('active');
         loadHijriMonthPage();
@@ -3429,8 +3451,7 @@ async function initApp() {
     // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
     const _isDateConverterPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname);
     if (_isDateConverterPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-date-converter')?.classList.add('active');
+        _activatePageOnce('page-date-converter');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="date-converter"]')?.classList.add('active');
         // FIX: تحويل inputs الـ number إلى stepper مع أزرار +/− مرئيّة
@@ -3446,9 +3467,8 @@ async function initApp() {
     const _isAzkarMorningPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(_azkarPath);
     const _isAzkarHubPage     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_azkarPath);
     if ((_isAzkarMorningPage || _isAzkarHubPage) && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const _azkarTargetId = _isAzkarMorningPage ? 'page-azkar-morning' : 'page-azkar-hub';
-        document.getElementById(_azkarTargetId)?.classList.add('active');
+        _activatePageOnce(_azkarTargetId);
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="azkar"]')?.classList.add('active');
     }
@@ -3460,8 +3480,7 @@ async function initApp() {
     const _isQiblaHubPage  = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(_qiblaPath);
     const _isQiblaCityPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(_qiblaPath);
     if ((_isQiblaHubPage || _isQiblaCityPage) && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-qibla')?.classList.add('active');
+        _activatePageOnce('page-qibla');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="qibla"]')?.classList.add('active');
 
@@ -3488,8 +3507,7 @@ async function initApp() {
     // تفعيل صفحة حاسبة الزكاة عند URL /zakat-calculator
     const _isZakatPage = /\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(window.location.pathname);
     if (_isZakatPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-zakat')?.classList.add('active');
+        _activatePageOnce('page-zakat');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="zakat"]')?.classList.add('active');
     }
@@ -3505,8 +3523,7 @@ async function initApp() {
     const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(_mpPath)
         || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(_mpPath);
     if (_isMoonPage && !window._navigatingAway) {
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-moon')?.classList.add('active');
+        _activatePageOnce('page-moon');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
         // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
@@ -3628,8 +3645,7 @@ async function initApp() {
     const _cdPageKey = _cdPathMatch && _CD_PAGES[_cdPathMatch[1]] ? _cdPathMatch[1] : null;
     if (_cdPageKey && !window._navigatingAway) {
         const _cdCfg = _CD_PAGES[_cdPageKey];
-        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(_cdCfg.pageId)?.classList.add('active');
+        _activatePageOnce(_cdCfg.pageId);
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         try { _initCountdownPage(_cdCfg); } catch (_cdErr) { console.warn('[countdown]', _cdErr); }
     }
@@ -4815,10 +4831,9 @@ function initNavigation() {
             navLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
 
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             const targetPage = document.getElementById('page-' + pageId);
             if (targetPage) {
-                targetPage.classList.add('active');
+                _activatePageOnce('page-' + pageId);
                 targetPage.classList.add('fade-in');
                 setTimeout(() => targetPage.classList.remove('fade-in'), 400);
             }
@@ -10866,9 +10881,7 @@ window.addEventListener('pageshow', function(e) {
                 // shape (without firing loadXxxPage() — the page-
                 // specific JS will re-run on pageshow via its own
                 // logic if needed; we only fix the .active toggle).
-                document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-                const _el = document.getElementById(_expectedId);
-                if (_el) _el.classList.add('active');
+                _activatePageOnce(_expectedId);
                 // Sync sidebar-nav .active so the UI doesn't show a
                 // wrong tab highlight after the BFCache restore.
                 const _navKey = (_expectedId === 'page-prayer-times') ? 'prayer-times'

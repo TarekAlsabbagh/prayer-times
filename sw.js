@@ -56,7 +56,18 @@
 //       (SEM bucket item — user explicitly approved this one specific
 //       alignment after the DIAG-1-D deferred-SEM batch).
 //   Cache-buster: app.js?v=713 → ?v=714 (js/app.js touched).
-const CACHE_VERSION = 'v342';
+// CONTENT-HYDRATION-FLICKER-DIAG-1-F (2026-05-25):
+//   v342 → v343. #loc-hero-title (home H1) shadda flicker — the JS-side
+//   rewrite at js/app.js:12737 wrote a no-shadda string AFTER the i18n
+//   binder filled the WITH-shadda value from i18n.js, causing the visible
+//   "هجريّ → هجري" swap on every homepage load. Three layers aligned to
+//   the WITH-shadda canonical form:
+//     • js/app.js   _genericByLang.ar   (homepage H1 JS overwrite)
+//     • server.js   _h1Text.ar          (#page-h1 SSR injection)
+//     • js/i18n.js  home.tagline AR     (already with shadda — unchanged)
+//     • index.html  L380 literal        (already with shadda — unchanged)
+//   Cache-buster: app.js?v=714 → ?v=715 (js/app.js touched).
+const CACHE_VERSION = 'v343';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

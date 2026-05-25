@@ -12733,8 +12733,13 @@ function updatePrayerCardsSEO() {
             // Generic H1 — must match server.js _h1Text for the homepage branch
             //   (see serveHtmlWithSeo "Homepage H1" else-block) so SSR + client
             //   stay in lockstep with no flash.
+            // CONTENT-HYDRATION-FLICKER-DIAG-1-F (2026-05-25): added shadda to
+            //   ar value (هجري → هجريّ) to match index.html L380 + js/i18n.js
+            //   line 1351 AR. Previously this overwrote the #loc-hero-title
+            //   from "...الهجريّ" → "...الهجري" — visible shadda flicker.
+            //   Companion fix in server.js:15666 (#page-h1) for symmetry.
             const _genericByLang = {
-                ar: 'مواقيت الصلاة اليوم والتاريخ الهجري',
+                ar: 'مواقيت الصلاة اليوم والتاريخ الهجريّ',
                 en: "Today's Prayer Times and Hijri Calendar",
                 fr: "Heures de prière aujourd'hui et calendrier Hégirien",
                 tr: 'Bugünkü Namaz Vakitleri ve Hicri Takvim',

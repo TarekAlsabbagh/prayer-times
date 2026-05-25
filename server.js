@@ -15662,8 +15662,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             }
         } else {
             // Homepage H1 — يحوي keyword "اليوم" (Keyword Consistency Round 7e)
+            // CONTENT-HYDRATION-FLICKER-DIAG-1-F (2026-05-25): added shadda
+            //   (هجري → هجريّ) to match js/i18n.js:1351 home.tagline AR and
+            //   the index.html L380 literal. The companion JS-side rewrite
+            //   for #loc-hero-title at js/app.js:12737 was also updated.
+            //   #page-h1 is downgraded to H2 on home by _downgradeInactiveH1s,
+            //   but keeping the texts in lockstep avoids any leftover flash
+            //   on routes where #page-h1 might still render.
             _h1Text = {
-                ar: 'مواقيت الصلاة اليوم والتاريخ الهجري',
+                ar: 'مواقيت الصلاة اليوم والتاريخ الهجريّ',
                 en: "Today's Prayer Times and Hijri Calendar",
                 fr: "Heures de prière aujourd'hui et calendrier Hégirien",
                 tr: 'Bugünkü Namaz Vakitleri ve Hicri Takvim',

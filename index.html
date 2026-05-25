@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=707" as="script">
+    <link rel="preload" href="js/app.js?v=708" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -3278,7 +3278,7 @@
                         <div class="azkar-card-meta">
                             <span><span data-i18n="azkar.hub.card_morning_count">25 ذكرًا</span></span>
                             <span>·</span>
-                            <span><span data-i18n="azkar.hub.card_morning_time">~10–15 دقيقة</span></span>
+                            <span><span data-i18n="azkar.hub.card_morning_time">10–15 دقيقة</span></span>
                         </div>
                         <span class="azkar-card-cta" data-i18n="azkar.hub.card_start_btn">ابدأ القراءة</span>
                     </a>
@@ -3354,13 +3354,13 @@
 
                         <header class="azkar-page-header">
                             <h1>أذكار الصباح</h1>
-                            <p class="azkar-page-subtitle">اقرأ أذكار الصباح برويّة وسكينة. يُحفظ تقدّمك تلقائيًا في هذا المتصفح.</p>
+                            <p class="azkar-page-subtitle">اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال اليوم.</p>
                         </header>
 
                         <ul class="azkar-info-strip" aria-label="معلومات عامة">
-                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> ٢٥ ذكرًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدّمك تلقائيًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكرّرة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 25 ذكرًا</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكررة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
                         </ul>
 
                         <div class="azkar-progress-wrap" id="azkar-morning-progress-wrap">
@@ -3382,7 +3382,7 @@
 
                 <div class="azkar-completed-banner u-hidden" id="azkar-morning-completed">
                     <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
-                    <p class="azkar-completed-banner-title">تمّ بحمد الله</p>
+                    <p class="azkar-completed-banner-title">تم إكمال أذكار الصباح</p>
                     <p class="azkar-completed-banner-sub">نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.</p>
                 </div>
             </div>
@@ -4061,7 +4061,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=707"></script>
+    <script defer src="js/app.js?v=708"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

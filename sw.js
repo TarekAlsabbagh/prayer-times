@@ -1,10 +1,22 @@
 // Service Worker: cache-first for versioned static assets, network-first for HTML, stale-while-revalidate for /api/*
 // Bump CACHE_VERSION whenever precache list changes
-const CACHE_VERSION = 'v335';
+const CACHE_VERSION = 'v336';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
 // الأصول التي تُحمَّل بشكل متكرر ومفيد كاشها محلياً
+// AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25):
+//   • Added /js/azkar-data.js — new bundle that drives /azkar hub and
+//     /azkar/morning-azkar. Without precache, a returning user with the
+//     SW already installed would not pick up the new file until the next
+//     network request.
+//   • Bumped CACHE_VERSION v335 → v336 so the SW activate step purges
+//     the previous caches.
+//   • NOT precaching /fonts/AmiriQuran-Regular.woff2 — the woff2 binary
+//     is a pending manual asset (see fonts/README.md). Adding a missing
+//     path would make addAll() reject and skip the entire precache. Add
+//     a line here in Phase 2 once the file ships.
+//   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
     '/css/style.css?v=178',
     '/js/i18n.js?v=134',
@@ -14,6 +26,7 @@ const PRECACHE_URLS = [
     '/js/moon.js?v=52',
     '/js/moon-chart.js?v=7',
     '/js/duas.js?v=43',
+    '/js/azkar-data.js?v=2',
     '/js/app.js?v=475',
 ];
 

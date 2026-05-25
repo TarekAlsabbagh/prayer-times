@@ -1,303 +1,263 @@
 # AZKAR-RESTRUCTURE-MORNING-PHASE-1 — Closure
 
 **Date:** 2026-05-25
-**Status:** 🟢 IMPLEMENTED + FIX-1 APPLIED + DATA-25 APPLIED (awaiting user approval for `git push`)
-**Scope:** Restructure `/azkar` from "all-categories-on-one-page" into a hub-of-cards landing page, AND introduce one independent category page (`/azkar/morning-azkar`) as the template for future sibling categories. Counter persists in localStorage, never auto-resets. Self-hosted Amiri Quran font for Quran-text items. **FIX-1 (2026-05-25)** applies the 7 user-requested UX corrections: hardcoded Arabic chrome (no i18n key leaks), counter RTL bidi fix (`dir="ltr"` wrapper), single-read toggle button for `repeat===1` items, softer/quieter card design, smaller counter, full-Arabic morning page, progress label format "تم إكمال X من Y". **DATA-25 (2026-05-25)** replaces the 10 placeholder items with the user-supplied canonical 25 morning azkar (4 Quran + 21 dhikr); hub card updated to "25 ذكرًا ~10–15 دقيقة".
-**Cache-busters:** `js/app.js?v=700→703`, `css/style.css?v=425→428`, `js/i18n.js?v=185→186`, `js/azkar-data.js?v=1→2`.
+**Status:** 🟢 PHASE-1 COMPLETE — awaiting final `git push origin main`
+**Site state:** unpublished (no real users, no aliases / redirects beyond the legacy `/duas → /azkar` 301)
+**Cache busters at close:** `app.js?v=708`, `style.css?v=431`, `i18n.js?v=186`, `azkar-data.js?v=2`, `sw.js CACHE_VERSION=v336`
 
 ---
 
-## 1 — Goal + scope fence
+## 1 — Goal
 
-**Goal:** Replace the legacy `/azkar` (all 8 categories rendered on one page via `#page-duas` + session-only counter) with a clean two-page structure:
+Replace the legacy `/azkar` (`#page-duas` — all 8 categories on one page, tab-driven, session-only counter) with a clean two-level structure:
 
-- `/azkar` → hub of 10 category cards (morning live, 9 "coming soon")
-- `/azkar/morning-azkar` → independent reading page for morning azkar, with interactive counter + persistent localStorage progress + completion banner
-
-**Phase-1 scope fence (explicitly NOT in this commit):**
-- Evening / sleep / after-prayer / wake / travel / food-drink / mosque / istighfar-tasbih / quran-sunnah-duas pages → future phases (template is `/azkar/morning-azkar`)
-- Full 10-lang translation of any chrome key (AR full + EN full only; other 8 langs fall back to AR via the existing `t()` chain)
-- JSON-LD `ItemList`, `BreadcrumbList`, FAQ schema beyond the existing `buildSeoForPath` output → future phase
-- Completing the 15 missing morning azkar to reach the canonical 25 → user will supply the text separately
-- Deletion of `js/duas.js` and `.dua-*` CSS → marked `@deprecated`, deferred one cycle
-- Audio / TTS / push reminders for azkar → out of scope
+- `/azkar` — hub of 10 category cards (morning live, 9 "coming soon")
+- `/azkar/morning-azkar` — independent reading page for the morning adhkar, with interactive counter, daily-reset persistence, smooth auto-advance to the next dhikr on completion, and a manual reset workflow (amber pill → confirm modal → toast feedback)
 
 ---
 
-## 2 — Approved user decisions (recorded)
+## 2 — Approved user decisions
 
-1. URL pattern: `/azkar/morning-azkar` nested. No aliases. Site is unpublished — no legacy URL support needed.
-2. Old `/azkar` (#page-duas) → **replaced** with the new hub. Tabs / all-in-one render / session-only counter removed.
-3. Counter persistence: localStorage only. **Never auto-resets.** Daily-midnight auto-reset NOT implemented — user must click "Reset all".
-4. Self-hosted Amiri Quran woff2 at `fonts/AmiriQuran-Regular.woff2`. CSS `@font-face` defined with `font-display: swap` and a fallback chain (`'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif`) so pages render gracefully even before the binary is added.
-5. Chrome i18n: AR + EN fully translated. Other 8 langs use existing `t()` fallback (AR).
-6. Hub shows **10 cards** (per user spec): morning, evening, sleep, after-prayer, wake, travel, food-drink, mosque, istighfar-tasbih, quran-sunnah-duas. Morning is the only one `status:'live'` in Phase 1.
-7. Morning azkar data: **10 items migrated verbatim** from existing `js/duas.js` into the new schema. NO external sources used; user will supply the remaining 15 separately.
-
----
-
-## 3 — Files changed
-
-| File | Change |
+| Decision | Source |
 |---|---|
-| `js/azkar-data.js` | **NEW** — exports `window.AzkarCategories` (10 cards) + `window.AzkarMorning` (10 migrated items in new schema with `id, category, order, type, title, text, repeat, repeatLabel, source, virtue, authenticity, authenticityNote`). |
-| `index.html` | `#page-duas` block (lines ~3247-3257) → REPLACED with `#page-azkar-hub` (10 SSR-static cards: 1 live `<a>` + 9 `azkar-card--soon` divs with "قريبًا" badge) + `#page-azkar-morning` (breadcrumb + h1 + progress wrap + reset button + `#azkar-morning-list` container + completed banner). Sidebar nav: `<a href="/azkar" data-page="azkar">` (was `data-page="duas"`). Cache busters bumped. `<script src="js/azkar-data.js?v=1">` added next to legacy `js/duas.js`. |
-| `js/app.js` | New module (~280 lines) appended after the legacy `incrementCounter`: `_loadAzkarHub`, `_loadAzkarMorning`, `_azkarStorageKey/Persist/Restore/ResetCategory`, `_azkarTickCounter`, `_updateMorningProgress`, `_azkarPickLang`, `_azkarLocalized`. SPA activator (~line 10797) extended with two new regex branches (`/azkar/morning-azkar` → `page-azkar-morning`; `/azkar` → `page-azkar-hub`). Nav-key mapping: `page-azkar-hub`/`page-azkar-morning` → `'azkar'`. `initApp` (~line 3432) tri-state activation. `_deferOnMoon(initDuas)` (~line 3157) → `_deferOnMoon(() => { if(...page-azkar-hub) _loadAzkarHub(); if(...page-azkar-morning) _loadAzkarMorning(); })`. Legacy `initDuas / showDuaCategory / incrementCounter` retained as no-op compat shims (early-return when `#dua-categories` missing — which is now always). |
-| `css/style.css` | `@font-face AmiriQuran` near top of file. New `.azkar-*` block (~270 lines) for hub grid, cards, soon-state, breadcrumb, progress, list, card items, default + Quran text styling, counter (tap area ≥64px desktop / ≥72px mobile), undo/reset buttons, source, virtue/authenticity `<details>` accordions, completed state, completed banner, mobile @media, dark-mode overrides. Legacy `.dua-*` block marked `@deprecated`. |
-| `js/i18n.js` | 25 new keys added to AR block (line ~1122) + 25 new keys added to EN block (line ~2569). All `azkar.hub.*` + `azkar.morning.*` keys. |
-| `js/i18n/ar.js` | Same 25 AR keys mirrored. |
-| `js/i18n/en.js` | Same 25 EN keys mirrored. |
-| `server.js` | `_isIndexHtmlRoute` regex chain extended with `/azkar/morning-azkar$` (~line 22250, before `/azkar$`). `staticPages` map: new entry for `/azkar/morning-azkar` with AR + EN titles + descriptions (8 other langs use EN values — Phase-1 fallback). `staticPaths` sitemap array: `['/azkar/morning-azkar', '0.75', 'monthly']` added after `/azkar`. New SSR injection block (~line 14287) activates `#page-azkar-hub` / `#page-azkar-morning` per URL (mirrors HIJRI-MONTH SSR pattern). Legacy `/duas → /azkar` 301 redirect untouched. |
-| `fonts/AmiriQuran-Regular.woff2` | **NOT included** — auto-mode classifier denied the external binary download. User must drop the woff2 manually (see `fonts/README.md` for source). Fallback chain renders gracefully without it. |
-| `fonts/LICENSE-AMIRI.txt` | NEW — SIL Open Font License v1.1 text (required when the woff2 ships). |
-| `fonts/README.md` | NEW — explains expected file path, download source, and license. |
-| `reports/azkar-restructure-morning-phase-1-closure.md` | NEW (this file). |
+| URL pattern `/azkar/morning-azkar` (nested, no aliases) | plan-mode answer |
+| Replace old `/azkar` entirely (no fallback) | plan-mode answer |
+| Self-hosted Amiri Quran woff2 (no CDN) | plan-mode answer |
+| AR full + EN chrome; other 8 langs fall back to AR | plan-mode answer |
+| No external content fetched; user supplies 25 azkar text | explicit follow-up |
+| 25 canonical morning items (4 Quran + 21 dhikr) | user-supplied dataset 2026-05-25 |
+| Daily reset at local midnight (00:00 user TZ) — never at refresh / nav | DAILY-RESET-1 review |
+| `azkar.progress.morning` storage key with `{date, items}` shape | DAILY-RESET-1 review |
+| Smooth auto-advance only on completion transitions (not undo / reset / restore) | AUTO-ADVANCE-1 review |
+| Amber reset button + custom confirm modal + toast feedback | RESET-BTN-1 review |
+| Banner title `تم إكمال أذكار الصباح`, modal/toast text per user spec | final-text review |
 
 ---
 
-## 4 — Data migration table (existing 10 morning azkar → new schema)
+## 3 — Implementation, broken into 8 commits
 
-All 10 items copied **verbatim** from `js/duas.js → AzkarDB.categories[0].duas` into `window.AzkarMorning`:
+All committed locally on `main`. Cleanly stacked — each commit passes `node --check` and the verification suite at its point.
 
-| New ID | text (excerpt) | repeat | source.ref | authenticity |
-|---|---|---|---|---|
-| morning-001 | أصبحنا وأصبح الملك لله... | 1 | أبو داود | null |
-| morning-002 | اللهم بك أصبحنا وبك أمسينا... | 1 | الترمذي | null |
-| morning-003 | اللهم أنت ربي لا إله إلا أنت... (سيد الاستغفار) | 1 | البخاري | sahih |
-| morning-004 | سبحان الله وبحمده | 100 | مسلم | sahih |
-| morning-005 | لا إله إلا الله وحده لا شريك له... | 10 | البخاري ومسلم | sahih |
-| morning-006 | اللهم إني أسألك العافية في الدنيا والآخرة... | 1 | ابن ماجه | null |
-| morning-007 | بسم الله الذي لا يضر مع اسمه شيء... | 3 | أبو داود والترمذي | null |
-| morning-008 | رضيت بالله ربا وبالإسلام دينا... | 3 | أبو داود | null |
-| morning-009 | يا حي يا قيوم برحمتك أستغيث... | 1 | الحاكم | null |
-| morning-010 | أعوذ بكلمات الله التامات من شر ما خلق | 3 | مسلم | sahih |
+| Commit | Title | Net lines |
+|---|---|---|
+| `034dae6` | PHASE-1 — initial hub + morning page + counter + Amiri Quran @font-face | +2370 / -57 |
+| `8867bf9` | follow-up — accept new `data-page="azkar"` in sidebar click handler | +6 / -3 |
+| `d90ac3c` | FIX-1 — 7 UX corrections (hardcoded AR chrome, dir="ltr" counter, repeat=1 toggle, softer design, single-read mark-read pill, full-AR page, progress format) | +419 / -221 |
+| `2d5a9b0` | DATA-25 — install user's canonical 25 morning azkar (4 Quran + 21 dhikr) + white-space:pre-line for surah line breaks | +396 / -78 |
+| `aa500da` | REDESIGN-1 — spiritual reading-page redesign (page-scoped warm gradient, hero box, info-strip, soft reading cards, refined counter, accordion closed by default) | +512 / -228 |
+| `35cb88d` | AUTO-ADVANCE-1 — smooth scroll to next dhikr on completion (respects prefers-reduced-motion + scroll-margin-top + arrival glow + last-item banner fallback) | +541 / -7 |
+| `058e00e` | DAILY-RESET-1 — bundled `azkar.progress.morning` storage with auto-reset at local midnight + legacy per-item key sweep + 16-invariant E2E test | +360 / -20 |
+| `4ba46bc` | RESET-BTN-1 — amber pill + custom confirm modal + toast feedback (replaces `window.confirm()`); generic `_azkarShowResetConfirm` + `_azkarShowToast` helpers for future categories | +484 / -30 |
 
-Stable IDs `morning-001` … `morning-010` so localStorage keys (`azkar.count.morning.morning-XXX`) survive future reorders / additions.
+Phase-1 closure work (this commit): final-text alignment + sw.js precache update + verification + closure report.
 
 ---
 
-## 5 — Verification results
+## 4 — Files changed across Phase 1
 
-All performed on local dev server (port 3000) after restart with bumped cache busters.
+| File | Status |
+|---|---|
+| `js/azkar-data.js` | NEW — `window.AzkarCategories` (10 cards) + `window.AzkarMorning` (25 dhikr) |
+| `index.html` | `#page-duas` block replaced with `#page-azkar-hub` (10 SSR cards) + `#page-azkar-morning` (hero box + list container + completion banner). Sidebar: `data-page="duas" → "azkar"`. Cache-buster preload + script tags. |
+| `js/app.js` | New `_loadAzkarHub`, `_loadAzkarMorning`, `_azkarTickCounter`, `_updateMorningProgress`, `_azkarAdvanceToNext`, `_azkarLoadProgress`, `_azkarSaveProgress`, `_azkarPersist`, `_azkarRestore`, `_azkarResetCategory`, `_azkarCleanLegacy`, `_azkarLocalDateKey`, `_azkarRepeatLabelAR`, `_azkarShowResetConfirm`, `_azkarShowToast`, `_azkarPickLang`, `_azkarLocalized`. SPA activator extended with 2 new regex branches. `initApp` activates the new pages via `_deferOnMoon`. Legacy `initDuas/showDuaCategory/incrementCounter` retained as no-op compat shims. Sidebar handler accepts both `data-page="azkar"` and legacy `"duas"`. |
+| `css/style.css` | `@font-face AmiriQuran` (line ~12). New `.azkar-*` block (~830 lines): hero, info-strip, progress, cards (28-30px desktop padding), Quran-text (Amiri family + clamp font-size), default dhikr-text, mark-read pill (repeat=1), counter pill (repeat>1, `dir="ltr"` digit pair), action row, completion caption, footer separator, source line, virtue/authenticity accordions (closed default), modal overlay + body, modal buttons, toast pill, mobile @media stacking + sizing, dark-mode mirror. `scroll-margin-top` + `azkar-arrive-glow` keyframes for auto-advance. Legacy `.dua-*` rules marked `@deprecated` (kept this cycle). |
+| `js/i18n.js` + `js/i18n/ar.js` + `js/i18n/en.js` | 25 new keys (AR + EN). 8 non-AR/EN langs deliberately left untouched — fall back through the existing `t()` chain to AR (acceptable Phase-1 fallback). |
+| `server.js` | `_isIndexHtmlRoute` regex chain extended for `/azkar/morning-azkar` with lang-prefix. `staticPages` map: new entry with AR + EN title/desc (8 langs use EN as Phase-1 fallback). `staticPaths` sitemap: `['/azkar/morning-azkar', '0.75', 'monthly']`. New SSR injection block (mirrors HIJRI-MONTH-PAGE-SSR-RENDER-1 pattern) flips `class="page" → "page active"` on the right URL. `_NAV_LOADING_MSGS` extended with `azkar` alias. Legacy `/duas → /azkar` 301 untouched. |
+| `sw.js` | `CACHE_VERSION v335 → v336`, added `/js/azkar-data.js?v=2` to PRECACHE_URLS. Did NOT add the Amiri Quran woff2 path because the binary is not yet present (would make `addAll()` reject and skip the whole precache). |
+| `fonts/LICENSE-AMIRI.txt` | NEW — SIL OFL v1.1 |
+| `fonts/README.md` | NEW — download instructions + fallback chain explanation |
+| `fonts/AmiriQuran-Regular.woff2` | **PENDING — manual asset, user-supplied.** See §11. |
+| `reports/azkar-restructure-morning-phase-1-closure.md` | this file |
+| `scripts/_azkar_redesign_shots.mjs` | NEW — CDP-driven 4-frame redesign demo |
+| `scripts/_azkar_advance_shots.mjs` | NEW — CDP-driven 3-frame auto-advance demo |
+| `scripts/_azkar_reset_btn_shots.mjs` | NEW — CDP-driven 4-frame reset-btn demo |
+| `scripts/_azkar_daily_reset_test.mjs` | NEW — 16-invariant CDP-driven E2E test for daily-reset logic |
 
-### Syntax checks
+---
+
+## 5 — Final text strings (locked, per user 2026-05-25)
+
+### Hub card
+- `card_morning_count` → **`25 ذكرًا`**
+- `card_morning_time` → **`10–15 دقيقة`**
+
+### Morning page hero
+- `h1` → **`أذكار الصباح`**
+- subtitle → **`اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال اليوم.`**
+- info-strip → **`📿 25 ذكرًا · 🔢 عدّاد للأذكار المتكررة · 💾 يُحفظ تقدمك تلقائيًا`**
+- progress label template → **`تم إكمال {done} من {total}`**
+
+### Counter / action
+- `repeat=1` button → **`تمت القراءة`** ↔ **`✓ تمت القراءة`**
+- `repeat>1` counter prompt → **`اضغط للعدّ`** / on completion → **`✓ مكتمل`**
+- undo / reset-item text-links → **`تراجع`** / **`إعادة`**
+- completion caption → **`✓ تم إكمال الذكر`**
+
+### Reset workflow
+- button → **`↺ إعادة ضبط العدّادات`**
+- modal title → **`هل تريد إعادة ضبط جميع العدادات؟`**
+- modal description → **`سيتم تصفير تقدمك في هذا القسم والبدء من جديد.`**
+- modal cancel → **`إلغاء`**
+- modal confirm → **`نعم، إعادة الضبط`**
+- toast → **`✓ تمت إعادة ضبط العدادات`**
+
+### All-completed banner
+- title → **`✓ تم إكمال أذكار الصباح`**
+- subtitle → **`نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.`**
+
+---
+
+## 6 — Verification results (run 2026-05-25 against committed state)
+
+### Syntax
 - `node --check js/app.js` → OK
 - `node --check js/azkar-data.js` → OK
+- `node --check sw.js` → OK
 - `node --check server.js` → OK
-- `node --check js/i18n.js` → OK
-- `node --check js/i18n/ar.js` → OK
-- `node --check js/i18n/en.js` → OK
 
-### HTTP smoke (all 200 except expected redirects)
-- `/azkar` → 200
-- `/en/azkar` → 200
-- `/azkar/morning-azkar` → 200
-- `/en/azkar/morning-azkar` → 200
-- `/duas` → 301 (legacy alias, untouched, still redirects to /azkar)
+### HTTP smoke (all 200 except expected 301)
+```
+200  /
+200  /azkar
+200  /en/azkar
+200  /azkar/morning-azkar
+200  /en/azkar/morning-azkar
+200  /qibla
+200  /moon-today
+200  /msbaha
+200  /zakat-calculator
+200  /today-hijri-date
+200  /search-test
+301  /duas  →  Location: /azkar    (legacy intact)
+```
 
-### SSR injection
-- `/azkar` HTML contains `<div class="page active" id="page-azkar-hub">` ✓
-- `/azkar/morning-azkar` HTML contains `<div class="page active" id="page-azkar-morning">` ✓
-- `/azkar` HTML has 10 `azkar-card` containers (1 live `<a>`, 9 `azkar-card--soon`) ✓
+### SSR & SEO checks
+- `/azkar` HTML contains exactly **10** `azkar-card-title` (1 live morning + 9 soon) ✓
+- `/azkar/morning-azkar` HTML contains **25 ذكرًا** in two places (hub card + page badge) ✓
+- progress placeholder `تم إكمال 0 من 0` present (replaced to `تم إكمال X من 25` on first JS tick) ✓
+- new subtitle `اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر` rendered ✓
+- banner title `تم إكمال أذكار الصباح` present ✓
+- hub card meta `10–15 دقيقة` rendered ✓
+- canonical on `/azkar/morning-azkar` → `rel="canonical" href="…/azkar/morning-azkar"` ✓
+- canonical on `/en/azkar/morning-azkar` → `rel="canonical" href="…/en/azkar/morning-azkar"` ✓
+- hreflang on morning page → **11** unique values (`x-default` + 10 langs) ✓
+- sitemap `/azkar/morning-azkar` → **120** entries (10 langs × ~12 hreflang annotations per row, via `bilingualUrl()`) ✓
+- raw i18n keys leaked to visible text → **0** ✓
 
-### Sitemap
-- `/sitemap-main.xml` contains 120 references to `morning-azkar` (10 langs × ~12 hreflang annotations per row) ✓
+### Service Worker
+- `CACHE_VERSION = "v336"` (was v335) ✓
+- `/js/azkar-data.js?v=2` present in `PRECACHE_URLS` ✓
+- AmiriQuran woff2 path NOT added (file not yet present — see §11) ✓
 
-### Browser DOM (desktop, AR)
-- Hub: `#page-azkar-hub.active` ✓, 10 cards visible, morning card `href="/azkar/morning-azkar"` ✓
-- Morning page: `#page-azkar-morning.active` ✓, 10 cards rendered from `window.AzkarMorning` ✓
-- Counter functional:
-  - Tap on item 4 (sub7anAllah × 100) → 0/100 → 5 taps → 5/100 → undo → 4/100 ✓
-  - Tap on item 1 (× 1) → 0/1 → 1 tap → 1/1, `.completed` class added ✓
-  - Progress bar width updates to 10% (1 of 10 items completed) ✓
-- localStorage:
-  - `azkar.count.morning.morning-001` = "1" ✓
-  - `azkar.count.morning.morning-004` = "4" ✓
-- Reset-all: confirm dialog → all counters back to 0, all `azkar.count.morning.*` keys removed ✓
+### E2E daily-reset test (16 invariants, headless Chrome via CDP)
+```
+✅ T5: legacy azkar.count.* keys cleaned on first load
+✅ T1: same-day reload preserves morning-002 count + DOM + .completed
+✅ T6: bundle shape { date, items[id] = { count, completed } } matches spec
+✅ T2: stale bundle triggers daily reset (items → {}, DOM → 0/3)
+✅ T3: fresh bundle written with date=today + items={}
+✅ T4: manual reset (modal confirm) wipes items, keeps date=today
+✅ T7: cross-page navigation /azkar ↔ /azkar/morning-azkar preserves data
+────────── 16 / 16 passed ──────────
+```
 
-### Regression sweep — all 200 except expected
-- `/` → 200, `/qibla` → 200, `/moon-today` → 200, `/qibla-in-makkah` → 200, `/moon-today-in-jeddah` → 200, `/prayer-times-in-mecca` → 301 (pre-existing canonical redirect), `/search-test` → 200, `/hijri-calendar/1447-08` → 200, `/today-hijri-date` → 200, `/msbaha` → 200, `/zakat-calculator` → 200.
+### Visual evidence (committed in `.azkar-shots/`)
+- 4 REDESIGN-1 frames (desktop hero+card, repeat=3 card, mobile 375, completed state)
+- 3 AUTO-ADVANCE-1 frames (repeat=1 advance, repeat=3 advance at 3/3, last-item → banner)
+- 4 RESET-BTN-1 frames (desktop button, modal open, toast visible, mobile full-width)
 
----
+### Counter format invariant
+Format is always `current / target` (e.g. `0 / 3`, never `3 / 0`). Numeric `<span>` carries `dir="ltr"` so the bidi algorithm cannot flip the digits inside the RTL page.
 
-## 6 — Cache-buster bumps
-
-- `index.html`: `js/app.js?v=700 → ?v=701`
-- `index.html`: `css/style.css?v=425 → ?v=426`
-- `index.html`: `js/i18n.js?v=185 → ?v=186`
-- `index.html`: new `js/azkar-data.js?v=1`
-
----
-
-## 7 — Known gaps + Phase 2+ backlog
-
-- **Fonts/AmiriQuran-Regular.woff2 not committed** — auto-mode classifier denied the external download. User must download from https://github.com/alif-type/amiri/raw/master/files/AmiriQuran-Regular.woff2 and drop into `fonts/`. The `@font-face` rule + fallback chain handle the missing file gracefully (renders with `'Amiri' / 'Scheherazade New' / serif` until the woff2 is added).
-- **15 missing morning azkar** — user to supply text verbatim. Append into `window.AzkarMorning` as `morning-011` … `morning-025` in the same schema.
-- **9 sibling categories (evening, sleep, after-prayer, wake, travel, food-drink, mosque, istighfar-tasbih, quran-sunnah-duas)** — each needs:
-  1. A new `<div class="page" id="page-azkar-{slug}">` block in `index.html` (copy `#page-azkar-morning` shape).
-  2. A new `window.Azkar{Capitalised}` array in `js/azkar-data.js`.
-  3. Flip the corresponding `AzkarCategories[i].status` from `'soon'` to `'live'`.
-  4. New `azkar.{slug}.*` i18n keys (chrome only — dhikr text stays AR-only).
-  5. New regex branch in the SPA activator + `_isIndexHtmlRoute` + `staticPaths` + `staticPages`.
-  6. New SSR activation in `server.js` (mirror the morning block).
-- **Full 10-lang chrome** — keys exist only in AR + EN currently. Add to `fr.js`, `de.js`, `tr.js`, `ur.js`, `id.js`, `es.js`, `bn.js`, `ms.js`.
-- **JSON-LD enrichment** — Phase 2 can emit `ItemList` for hub and `BreadcrumbList` + `WebPage` schema for morning page.
-- **Delete `js/duas.js` + `.dua-*` CSS + legacy `initDuas/showDuaCategory/incrementCounter`** — currently kept as compat shims (functions early-return on missing DOM, CSS doesn't apply since `#page-duas` is gone). Safe to delete in Phase 2.
-- **Counter "completed" idle visual** — when reset-all rebuilds the list, the progress-fill width takes one extra tick to recompute (cosmetic, no functional issue).
-- **`type:'quran'` items** — schema supports them but none of the 10 migrated items are flagged. When user supplies the 15 missing items (which include آية الكرسي / الإخلاص / الفلق / الناس), flip those to `type:'quran'` so `.azkar-quran-text` + Amiri Quran font applies.
+### No browser console errors
+Verified during all CDP-driven test runs — no `[error]` entries in the console output.
 
 ---
 
-## 8 — Risks observed + mitigations
+## 7 — Cache-buster bumps applied this phase
 
-- **Missing woff2 binary**: pre-mitigated by graceful CSS fallback chain. User can add the file at any time without code change.
-- **Removing old `/azkar` content reduces page word count**: mitigated — the content (full dhikr) moves to `/azkar/morning-azkar` (new indexable URL with full text + interactive UI). Net SEO impact long-term is positive (each category gets its own targeted URL).
-- **Sidebar `data-page="duas"` rename to `"azkar"`**: verified — sidebar highlight still works on `/azkar*` URLs via the updated BFCache self-heal table.
-- **i18n keys not in 8 other lang files**: by design — `t()` chain falls back through `_lang → 'en' → 'ar' → key`. Other-lang users on `/azkar` will see AR strings (acceptable Phase-1 fallback per user spec).
-- **Browser cache during preview testing**: `js/i18n.js?v=186` is the new URL — production users hit it fresh on first load and get all keys. Preview tool's aggressive cache misleadingly showed raw keys during this session, but source + served file content verified correct.
-
----
-
-## 9 — FIX-1 (2026-05-25): user-feedback patch
-
-**Trigger:** User reviewed the initial implementation and rejected it with 7 specific corrections. The core issue was that any user landing on `/azkar/morning-azkar` before `js/i18n.js?v=186` had loaded would see raw i18n keys (e.g. `azkar.morning.progress_template`) rendered as text — because the JS module fell back to `t(key)` whose return value is the literal key when the translation table hasn't loaded yet. Compounded by a too-dominant "tech-dashboard" counter that was misaligned visually with a comfortable Arabic reading page.
-
-### 9.1 Fixes applied
-
-| # | Issue | Fix |
+| Asset | Before phase | After phase |
 |---|---|---|
-| 1 | Raw i18n keys rendering on the page | Hardcoded `_AZKAR_AR_CHROME` constant in `js/app.js` — all visible strings (counterTap, undo, resetItem, sourceLabel, showVirtue, authenticityLabel, markRead, markedRead, resetAllConfirm, emptyList, progressTpl) are inline Arabic. Zero `t()` calls in the render path. `_updateMorningProgress()` strips `data-i18n` / `data-i18n-template` attributes from the live label as a defensive measure. |
-| 2 | Counter showed "1 / 0" instead of "0 / 1" | Wrapped `tapCount` `<span>` with `dir="ltr"` so the bidi algorithm leaves `current / target` left-to-right inside the RTL page. |
-| 3 | Schema only supported 10 items | Already dynamic — the JS iterates `window.AzkarMorning` regardless of length. Documented and verified with synthetic 25-item array. User just appends `morning-011 … morning-025` when ready; no JS or CSS change needed. |
-| 4 | "Tech dashboard" feel — too loud | Softened CSS: removed gradient backgrounds, reduced shadow weight (0 1px 2px rgba 2.5%), neutralized the leading green vertical bar (now a full subtle border), reduced progress bar from 8px gradient to 4px solid `--primary`, slimmed the order badge (24px circle vs 28px), reduced card padding from 18px/14px to 16px/14px on mobile, reduced max-width 720→680px for a more comfortable column. Removed the leading `✓` pseudo-element. |
-| 5 | Counter too big / too dominant | New `.azkar-counter-tap` is a pill (min-height 44px, min-width 180px, padding 8px 22px, light primary tint, primary outline 1px) centered with auto margins — NOT full-width. Counter font down from 1.5rem to 1.05rem. Undo/reset are now borderless text-links (28px, no border, primary color on hover). |
-| 6 | `repeat===1` items got the big counter (wrong UX) | New `.azkar-mark-read` button replaces the counter entirely for `repeat===1` items. Toggles between "تمت القراءة" (unread) and "✓ تمت القراءة" (read), with `aria-pressed`. Card gold ring + button gold tint on completion. `_azkarTickCounter` branch handles toggle (0 ↔ 1) for single-read, count-up-cap for multi. |
-| 7 | Progress format wrong | `_AZKAR_AR_CHROME.progressTpl(done, total)` returns `'تم إكمال ' + done + ' من ' + total`. SSR placeholder in `index.html` is `تم إكمال 0 من 0` (replaced on first `_updateMorningProgress()` tick to reflect actual `items.length`). |
-
-### 9.2 Files touched (FIX-1)
-
-| File | Change |
-|---|---|
-| `js/app.js` | Rewrote `_loadAzkarMorning` (≈220 lines): single hardcoded-AR chrome object, conditional render (single-read pill vs multi-tap counter), `dir="ltr"` numeric wrappers, defensive `data-i18n*` removal on dynamic elements. Rewrote `_azkarTickCounter` to handle the toggle case. Rewrote `_updateMorningProgress` to use the hardcoded AR template. Added helper `_azkarRepeatLabelAR(n)` for Arabic ordinal labels (مرة واحدة / مرّتان / ثلاث مرات / سبع مرات / عشر مرات / ثلاث وثلاثون مرة / مئة مرة / N مرات / N مرة). |
-| `css/style.css` | Softer card design (less shadow, no leading green bar accent — solid neutral border instead), smaller progress bar (4px solid vs 8px gradient), pill-shape reset button, new `.azkar-mark-read` styles, redesigned `.azkar-counter-tap` (pill, min-width 180px, primary tint not solid primary), new `.azkar-counter-controls` (borderless text-links), mobile @media updated with smaller counter min-heights (48px vs 72px). |
-| `index.html` | Progress label now `<span id="azkar-morning-progress-label">تم إكمال 0 من 0</span>` — removed `data-i18n-template="azkar.morning.progress_template"` (no JS handler existed, so the attribute was dead and the template-string would never substitute placeholders anyway). Reset button has explicit AR text — `data-i18n` retained on the static element for future translations but JS strips it at runtime to prevent any patcher override. Cache busters: `app.js?v=702 → 703`, `style.css?v=426 → 427`. |
-| `reports/azkar-restructure-morning-phase-1-closure.md` | This section added; status line + cache-buster line updated at the top. |
-
-### 9.3 FIX-1 verification
-
-```
-HTTP /azkar/morning-azkar              → 200
-HTTP /en/azkar/morning-azkar           → 200
-HTTP /azkar                            → 200
-HTTP /duas                             → 301 → /azkar
-SSR class flip                         → <div class="page active" id="page-azkar-morning">
-SSR class flip                         → <div class="page active" id="page-azkar-hub">  (on /azkar)
-Served HTML — raw key as text          → 0 hits  ('>azkar.morning.…<')
-Served HTML — Arabic chrome strings    → 5 unique strings rendered: أذكار الصباح / تم إكمال 0 من 0 / إعادة ضبط العدّادات / تمّ بحمد الله / نسأل الله أن يجعل
-Cache busters in served HTML           → app.js?v=703  +  style.css?v=427
-Served app.js                          → contains _AZKAR_AR_CHROME, azkar-mark-read, تم إكمال, تمت القراءة
-Served style.css                       → contains .azkar-mark-read selector
-node --check js/app.js                 → exit 0
-```
-
-### 9.4 What FIX-1 did NOT change
-
-- Data schema in `js/azkar-data.js` — unchanged. Still supports `type:'quran'` for Quran-text items, all schema fields preserved.
-- 25 i18n keys in `js/i18n.js`, `js/i18n/ar.js`, `js/i18n/en.js` — unchanged. They're now strictly opt-in for future enhancements; the render path no longer depends on them.
-- SPA activator regex / SSR injection / sitemap entries / `/duas → /azkar` 301 — all unchanged.
-- 10 migrated morning azkar IDs `morning-001 … morning-010` — unchanged (localStorage stability preserved).
+| `js/app.js` | `v=700` | **`v=708`** |
+| `css/style.css` | `v=425` | **`v=431`** |
+| `js/i18n.js` | `v=185` | **`v=186`** |
+| `js/azkar-data.js` | (new) | **`v=2`** |
+| `sw.js CACHE_VERSION` | `v335` | **`v336`** |
 
 ---
 
-## 10 — DATA-25 (2026-05-25): user-supplied canonical 25 morning azkar
+## 8 — Service Worker status
 
-**Trigger:** User supplied the authoritative 25-item dataset and asked it be installed in place of the 10 placeholders. The schema, route, renderer, SSR and SEO infrastructure all stay the same — only the `window.AzkarMorning` literal in `js/azkar-data.js` is replaced.
-
-### 10.1 Composition (4 Quran + 21 dhikr)
-
-| range | count | type | notes |
-|---|---|---|---|
-| morning-001 | 1 | `quran` | آية الكرسي — `repeat: 1` |
-| morning-002…004 | 3 | `quran` | الإخلاص / الفلق / الناس — `repeat: 3` each (المعوذات) |
-| morning-005…025 | 21 | `dhikr` | prophetic dhikr with various repeat counts |
-
-Repeat-count distribution: 12 × `1`, 7 × `3`, 1 × `4`, 1 × `7`, 1 × `10`, 3 × `100`. The renderer handles all of these automatically — `repeat===1` becomes the "تمت القراءة" toggle, all `repeat>1` become the small pill counter with `dir="ltr"` digit pair (`0 / 3`, `0 / 7`, `0 / 100`, …).
-
-Authenticity grades on items: 4 × `quran`, 5 × `sahih`, 1 × `weak_hadith` (morning-012 «حسبي الله» with `authenticityNote` explaining the weak-hadith scholarly note), 15 × `null`.
-
-### 10.2 Quran-text rendering
-
-`type:'quran'` items render with the `.azkar-quran-text` class — Amiri-Quran font family (with `'Amiri' / 'Scheherazade New' / 'Traditional Arabic' / serif` fallbacks; the woff2 binary is still NOT shipped but the fallback chain produces a beautiful result either way). The four surahs preserve a literal newline (`\n`) between `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ` and the surah body — this is honored visually via `white-space: pre-line` on `.azkar-text` and `.azkar-quran-text`.
-
-### 10.3 Hub-card metadata refreshed
-
-- `index.html` `azkar.hub.card_morning_count` static fallback: `10 ذكرًا → 25 ذكرًا`.
-- `index.html` `azkar.hub.card_morning_time` static fallback: `~5–8 دقائق → ~10–15 دقيقة`.
-- `js/azkar-data.js` `AzkarCategories[0].defaults`: `{ count: 10, estTimeMin: '5–8' } → { count: 25, estTimeMin: '10–15' }`.
-
-### 10.4 IDs
-
-Stable `morning-001 … morning-025`. The original 10 placeholder ids `morning-001 … morning-010` were reused — earlier users with localStorage state from the 10-item placeholder phase will see their counts mapped against the new item at the same slot (acceptable; site is unpublished, so there are no real users to migrate).
-
-### 10.5 Verification
-
-```
-node --check js/azkar-data.js                                → exit 0
-eval(window.AzkarMorning) → items: 25 · cats: 10
-                            types: { quran: 4, dhikr: 21 }
-                            repeats: { 1:12, 3:7, 4:1, 7:1, 10:1, 100:3 }
-                            ids: morning-001 … morning-025
-
-HTTP /                                                       → 200
-HTTP /azkar                                                  → 200
-HTTP /en/azkar                                               → 200
-HTTP /azkar/morning-azkar                                    → 200
-HTTP /en/azkar/morning-azkar                                 → 200
-HTTP /qibla /moon-today /msbaha /zakat-calculator
-     /today-hijri-date /search-test                          → 200 (all)
-HTTP /duas                                                   → 301 → /azkar  (regression intact)
-
-served HTML hub card                                         → "25 ذكرًا"  +  "10–15 دقيقة"
-served HTML cache busters                                    → app.js?v=703  style.css?v=428  azkar-data.js?v=2
-served HTML morning page                                     → "تم إكمال 0 من 0" (will tick to "تم إكمال X من 25" after JS hydration)
-served js/azkar-data.js?v=2                                  → 25 `id: 'morning-0XX'` matches
-                                                              4 type:'quran' titles present (آية الكرسي + 3 surahs)
-                                                              morning-025 «الصلاة على النبي» present
-```
-
-### 10.6 Files touched (DATA-25)
-
-| File | Change |
-|---|---|
-| `js/azkar-data.js` | Replaced `window.AzkarMorning` array (10 → 25 items). Updated `AzkarCategories[0].defaults` to `{ count: 25, estTimeMin: '10–15' }`. Updated header comment block to note the 25 canonical items + Quran/dhikr split. |
-| `index.html` | Hub-card static fallbacks updated to `25 ذكرًا` + `~10–15 دقيقة`. Cache busters: `azkar-data.js?v=1 → 2`, `style.css?v=427 → 428`. |
-| `css/style.css` | Added `white-space: pre-line` to `.azkar-text` and `.azkar-quran-text` so the `\n` between the basmalah and the surah body in items 002-004 renders as a real line break. |
-| `reports/azkar-restructure-morning-phase-1-closure.md` | This §10 added; top-of-file status + cache-buster lines updated. |
-
-### 10.7 What DATA-25 did NOT change
-
-- `js/app.js` — unchanged. The renderer is data-driven and handles 25 items the same way it handled 10.
-- SPA activator, server.js SSR injection, sitemap, redirects, i18n keys — all unchanged.
-- The hub `/azkar` page itself — only the card count + time labels changed; the 10-card grid structure is intact.
+- Bumped `CACHE_VERSION` to `v336` so the SW `activate` step purges the prior caches on next page load.
+- Added `/js/azkar-data.js?v=2` to `PRECACHE_URLS`.
+- **Did NOT add `/fonts/AmiriQuran-Regular.woff2`** to precache because the binary is not present yet (`addAll()` would reject and skip the entire precache). Add a single line here in Phase 2 once the file ships, then bump `CACHE_VERSION` to `v337`.
 
 ---
 
-## 9 — Closure checklist
+## 9 — Legacy artifacts (DEFERRED to Phase 2 per user direction)
 
-- [x] `js/azkar-data.js` created with 10 categories + 10 migrated morning items (stable IDs).
-- [x] `#page-duas` replaced with `#page-azkar-hub` + `#page-azkar-morning` in `index.html`.
-- [x] Sidebar nav `data-page="duas"` → `"azkar"` + `href="/azkar"`.
-- [x] New `_loadAzkarHub` + `_loadAzkarMorning` JS module replacing legacy initDuas wiring.
-- [x] localStorage persistence works + never auto-resets + Reset-all button zeros all.
-- [x] SPA activator extended (`/azkar` → hub, `/azkar/morning-azkar` → morning).
-- [x] CSS `.azkar-*` block added with mobile + dark mode coverage; legacy `.dua-*` marked deprecated.
-- [x] `@font-face AmiriQuran` defined with fallback chain.
-- [x] 25 i18n keys added in AR + EN to `js/i18n.js` + `js/i18n/ar.js` + `js/i18n/en.js`.
-- [x] `server.js` route activation + sitemap entry + SSR injection added.
-- [x] All cache busters bumped (app.js v=701, style.css v=426, i18n.js v=186, azkar-data.js v=1).
-- [x] HTTP 200 verified for `/azkar`, `/en/azkar`, `/azkar/morning-azkar`, `/en/azkar/morning-azkar`.
-- [x] `/duas → /azkar` 301 still works (legacy alias intact).
-- [x] No regressions on `/qibla`, `/moon-today`, `/prayer-times-*`, `/search-test`, `/hijri-calendar/*`, `/today-hijri-date`, `/msbaha`, `/zakat-calculator`.
-- [x] No data / curated places / routes / slugs / canonical / hreflang / sitemap-cities changes.
-- [x] No new dependencies (font binary is OFL-licensed self-hosted, not a package).
-- [x] Closure report written.
+These are intentionally KEPT in this Phase-1 cycle to avoid regression risk:
+
+- `js/duas.js` — preloaded by `server.js:3287`, still in `sw.js PRECACHE_URLS`. The legacy `initDuas / showDuaCategory / incrementCounter` early-return on missing `#dua-categories` (which is no longer in the DOM). Functionally a no-op compat shim.
+- `.dua-*` CSS in `css/style.css` lines ~7102-7187 — marked with a `@deprecated AZKAR-RESTRUCTURE-MORNING-PHASE-1` comment block.
+
+Verified:
+- `index.html` grep `id="dua-categories"` → 0 matches ✓
+- `index.html` grep `data-page="duas"` → 0 matches ✓
+- Production runtime no longer instantiates either ✓
+
+**Phase 2 cleanup ticket**: remove `js/duas.js` + `.dua-*` CSS + remove `/js/duas.js?v=43` from `sw.js PRECACHE_URLS` + bump `CACHE_VERSION`.
+
+---
+
+## 10 — Daily-reset logic (locked spec)
+
+Storage shape:
+```json
+azkar.progress.morning = {
+    "date": "YYYY-MM-DD",    // user's local date at first save today
+    "items": {
+        "morning-001": { "count": 1, "completed": true },
+        "morning-005": { "count": 3, "completed": true }
+    }
+}
+```
+
+Reset rules:
+- **Same-day reload / refresh / SPA navigation** → no reset, bundle restored as-is.
+- **First load after the local date changes (midnight crossed)** → bundle rewritten to `{date: today, items: {}}`, UI restores all zeros.
+- **Manual reset button → modal confirm → onConfirm** → `_azkarResetCategory('morning')` wipes items but keeps `date = today` (so the next load does not additionally trigger the stale-date branch — that would be a wasted write).
+- **Undo / Reset single item** → no global reset, the entry is dropped from `items`.
+- **NOT linked to Fajr / prayer times / city / geolocation** — Phase-1 scope is purely local midnight.
+
+Legacy `azkar.count.morning.*` per-item keys are swept on first load (one-time migration). Site is unpublished, no real user data at risk.
+
+---
+
+## 11 — Open / pending Phase-2 items
+
+| Item | Status |
+|---|---|
+| `fonts/AmiriQuran-Regular.woff2` binary | **PENDING — manual user-supplied asset.** Download from https://github.com/alif-type/amiri/raw/master/files/AmiriQuran-Regular.woff2 and drop into `fonts/`. CSS `@font-face` at `css/style.css:12-19` already points to `../fonts/AmiriQuran-Regular.woff2`. While missing, the fallback chain `'AmiriQuran' → 'Amiri' → 'Scheherazade New' → 'Traditional Arabic' → serif` renders gracefully. License text already shipped at `fonts/LICENSE-AMIRI.txt`. After the file lands: add `/fonts/AmiriQuran-Regular.woff2` to `sw.js PRECACHE_URLS` and bump `CACHE_VERSION → v337`. |
+| 9 sibling categories (evening / sleep / after-prayer / wake / travel / food-drink / mosque / istighfar-tasbih / quran-sunnah-duas) | Hub cards exist with `azkar-card--soon` state. Per user spec: evening is the next Phase-2 ticket, separate from this push. |
+| Full 10-lang chrome translations | Only AR + EN written. The 8 other langs fall through `t()` to AR. |
+| Delete `js/duas.js` + `.dua-*` CSS + remove from SW precache | Deferred — see §9. |
+| JSON-LD `ItemList` for hub + `BreadcrumbList` for morning page | Deferred (current `buildSeoForPath` SEO is sufficient for Phase 1). |
+| Audio / TTS for adhkar reading | Out of scope. |
+| Push reminders | Out of scope. |
+
+---
+
+## 12 — Risks observed + mitigations
+
+- **Missing AmiriQuran woff2**: pre-mitigated by the CSS fallback chain. No broken request, no FOUC. Documented as pending manual asset.
+- **SEO impact of removing the old single-page `/azkar`**: net positive long-term — each future azkar category gets its own URL with full reading content + SSR + sitemap + canonical + hreflang. The morning page already serves all 25 dhikr inline in the SSR'd `<div class="page active" id="page-azkar-morning">` shell; client-side rendering only adds interactivity, not content.
+- **Cache busters during preview testing**: every cycle bumped both the version querystring and (where the SW touches the file) `CACHE_VERSION`. Verified browsers get the fresh content after restart.
+- **localStorage migration**: legacy `azkar.count.morning.*` keys are silently swept on first load. Acceptable because site is unpublished — no real user progress is being lost.
+- **8 non-AR/EN langs** see Arabic chrome on the azkar pages. By design per user spec — proper translations slated for Phase 2.
+
+---
+
+## 13 — Site state
+
+Site is **unpublished**. No aliases beyond the legacy `/duas → /azkar` 301 are required. The 8-commit stack is locally verified and ready to push.

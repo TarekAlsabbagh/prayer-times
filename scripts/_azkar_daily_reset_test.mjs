@@ -191,16 +191,22 @@ pass('T3: fresh bundle items === {}',
     afterStale.bundle?.items && Object.keys(afterStale.bundle.items).length === 0);
 
 // ── T4: tap something then hit reset-all → items empty but date stays today ──
-console.log('\n[T4] tap, click reset-all (auto-confirm), verify date stays today');
+// AZKAR-RESET-BTN-1 (2026-05-25): native window.confirm() replaced by an
+// in-page modal. The test now opens the modal then clicks the confirm button.
+console.log('\n[T4] tap, click reset-all modal confirm, verify date stays today');
 await evalJs(`
     // Tap morning-002 twice (2/3, not completed)
     const tap = document.querySelector('#azkar-item-morning-002 .azkar-counter-tap');
     tap.click(); await new Promise(r=>setTimeout(r,80));
     tap.click(); await new Promise(r=>setTimeout(r,80));
-    // Auto-confirm the browser confirm() dialog by stubbing it
-    window.confirm = () => true;
+    // Open the in-page confirm modal
     document.getElementById('azkar-morning-reset-all').click();
     await new Promise(r=>setTimeout(r,300));
+    // Click the "نعم، إعادة الضبط" button inside the modal
+    const confirmBtn = document.querySelector('.azkar-modal-btn-confirm');
+    if (!confirmBtn) throw new Error('modal confirm button not found');
+    confirmBtn.click();
+    await new Promise(r=>setTimeout(r,400));
     return 'reset-clicked';
 `);
 const afterManualReset = await evalJs(`

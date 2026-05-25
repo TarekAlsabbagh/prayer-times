@@ -23536,7 +23536,7 @@ function _azkarShowResetConfirm(opts) {
     const titleEl = document.createElement('h3');
     titleEl.className = 'azkar-modal-title';
     titleEl.id = 'azkar-modal-title';
-    titleEl.textContent = opts.title || 'هل تريد إعادة ضبط جميع العدّادات لهذا القسم؟';
+    titleEl.textContent = opts.title || 'هل تريد إعادة ضبط جميع العدادات؟';
     modal.appendChild(titleEl);
 
     if (opts.sub) {
@@ -23670,7 +23670,7 @@ const _AZKAR_AR_CHROME = {
     markRead: 'تمت القراءة',
     markedRead: '✓ تمت القراءة',
     completedCaption: 'تم إكمال الذكر',
-    resetAllConfirm: 'هل تريد إعادة جميع عدّادات أذكار الصباح إلى الصفر؟',
+    resetAllConfirm: 'هل تريد إعادة ضبط جميع العدادات؟',
     emptyList: 'لا توجد أذكار متاحة حالياً.',
     progressTpl: function (done, total) { return 'تم إكمال ' + done + ' من ' + total; }
 };
@@ -23706,8 +23706,8 @@ function _loadAzkarMorning() {
         resetBtn.removeAttribute('data-i18n');
         resetBtn.addEventListener('click', () => {
             _azkarShowResetConfirm({
-                title: 'هل تريد إعادة ضبط جميع العدّادات لهذا القسم؟',
-                sub: 'سيتم تصفير عدّاد كل ذكر إلى الصفر. لا يمكن التراجع عن هذا الإجراء.',
+                title: 'هل تريد إعادة ضبط جميع العدادات؟',
+                sub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
                 cancelText: 'إلغاء',
                 confirmText: 'نعم، إعادة الضبط',
                 returnFocusTo: resetBtn,
@@ -23716,7 +23716,7 @@ function _loadAzkarMorning() {
                     listEl.dataset.wired = '';
                     listEl.innerHTML = '';
                     _loadAzkarMorning();
-                    _azkarShowToast('تمت إعادة ضبط العدّادات');
+                    _azkarShowToast('تمت إعادة ضبط العدادات');
                 }
             });
         });

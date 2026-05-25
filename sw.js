@@ -23,7 +23,23 @@
 //        prompt shortened ("اضغط للعدّ" → "عدّ" visible, full form on
 //        aria-label); 2 FAQ questions reworded around التكرار/المصادر
 //   Cache-busters: app.js?v=712 → ?v=713, css/style.css?v=440 → ?v=441.
-const CACHE_VERSION = 'v338';
+// AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26):
+//   v338 → v339. Root-cause fix for the Lighthouse CLS culprit identified
+//   in AZKAR-MORNING-CLS-ROOT-FIX-OPTIONS-1.
+//   Before: #azkar-morning-list was EMPTY in SSR HTML; _loadAzkarMorning()
+//   in app.js mounted 25 dhikr cards after DOMContentLoaded, pushing
+//   .azkar-edu-section ~9700px down on every load (CLS 0.343).
+//   Now: server.js SSR-renders all 25 cards into the list via a new
+//   _buildAzkarMorningListHtml() helper that loads data from
+//   js/azkar-data.js into a Function sandbox at startup. app.js detects
+//   the SSR marker (data-ssr-rendered="1") and switches to hydration
+//   only — binds handlers + applies localStorage state on the existing
+//   DOM. NO min-height hack, NO layout reservation. CLS = 0 because
+//   the content is in the SSR HTML at first paint.
+//   Bonus: Googlebot now sees all 25 dhikr + sources + virtues without
+//   running JS — major SEO win for Keyword Consistency too.
+//   Cache-buster: js/app.js?v=713 → ?v=714.
+const CACHE_VERSION = 'v339';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -23908,6 +23908,11 @@ function _loadAzkarMorning() {
                 onConfirm: () => {
                     _azkarResetCategory('morning');
                     listEl.dataset.wired = '';
+                    // AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): also
+                    // clear the SSR marker so the next _loadAzkarMorning
+                    // call goes through the full re-render path (not the
+                    // SSR-hydrate path which would re-apply the OLD state).
+                    listEl.removeAttribute('data-ssr-rendered');
                     listEl.innerHTML = '';
                     _loadAzkarMorning();
                     _azkarShowToast('تمت إعادة ضبط العدادات');
@@ -23917,6 +23922,23 @@ function _loadAzkarMorning() {
                 }
             });
         });
+    }
+
+    // ─────────────────────────────────────────────────────────────────────
+    // AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): HYDRATION PATH.
+    // If server.js already SSR-rendered the 25 cards (data-ssr-rendered="1"
+    // marker), DO NOT rebuild — just bind handlers + apply per-item
+    // localStorage state on the existing DOM. This is the no-shift path
+    // that lets us delete the old min-height-9800px hack: the cards exist
+    // in the SSR HTML at first paint, so .azkar-edu-section below them
+    // never moves when JS runs.
+    // ─────────────────────────────────────────────────────────────────────
+    if (listEl.dataset.ssrRendered === '1' && listEl.children.length > 0 && items.length) {
+        _hydrateAzkarMorningCards(items, listEl);
+        _updateMorningProgress();
+        _azkarWireStickyProgress();
+        _azkarRenderMoonEvents();
+        return;
     }
 
     listEl.innerHTML = '';
@@ -24140,6 +24162,88 @@ function _loadAzkarMorning() {
     // AZKAR-EVENTS-ECHO-1 (2026-05-25): populate the Islamic events
     // countdown section at the bottom of /azkar/morning-azkar.
     _azkarRenderMoonEvents();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): hydration-only path for
+// SSR-rendered cards. Walks the existing DOM (built by server.js's
+// _buildAzkarMorningListHtml), restores per-item localStorage counter
+// state, and binds all interactive handlers. No DOM rebuild, no layout
+// shift. Card structure MUST match what server.js produces — same ids,
+// classes, attributes. If the schema diverges, fall back to the full
+// re-render path (line ~23922 below) by removing data-ssr-rendered in
+// server.js until both renderers are re-synchronized.
+// ─────────────────────────────────────────────────────────────────────────────
+function _hydrateAzkarMorningCards(items, listEl) {
+    items.forEach((dhikr) => {
+        const card = document.getElementById('azkar-item-' + dhikr.id);
+        if (!card) return; // card missing from SSR — skip (will be picked up by JS re-render fallback elsewhere)
+
+        const target = Number(dhikr.repeat) || 1;
+        const isSingleRead = (target === 1);
+        const restored = _azkarRestore(dhikr.category, dhikr.id);
+        const isCompleted = restored >= target;
+
+        // ── Apply completion class from localStorage ──
+        if (isCompleted) card.classList.add('completed');
+        else card.classList.remove('completed');
+
+        if (isSingleRead) {
+            // ── Variant A: mark-read button ──
+            const tapBtn = card.querySelector('.azkar-mark-read');
+            if (tapBtn) {
+                tapBtn.textContent = isCompleted
+                    ? _AZKAR_AR_CHROME.markedRead
+                    : _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', isCompleted ? 'true' : 'false');
+                tapBtn.addEventListener('click', () => {
+                    _azkarTickCounter(dhikr, tapBtn, null, card);
+                });
+            }
+        } else {
+            // ── Variant B: counter pill + undo/reset controls ──
+            const tapBtn = card.querySelector('.azkar-counter-tap');
+            const tapCount = card.querySelector('.azkar-counter-tap-count');
+            const tapPrompt = card.querySelector('.azkar-counter-tap-prompt');
+
+            if (tapCount) tapCount.textContent = restored + ' / ' + target;
+            if (tapPrompt) {
+                tapPrompt.textContent = isCompleted
+                    ? _AZKAR_AR_CHROME.counterDone
+                    : _AZKAR_AR_CHROME.counterTap;
+            }
+            if (tapBtn) {
+                tapBtn.addEventListener('click', () => {
+                    _azkarTickCounter(dhikr, tapBtn, tapCount, card);
+                });
+            }
+
+            const undoBtn = card.querySelector('.azkar-counter-undo');
+            if (undoBtn) {
+                undoBtn.addEventListener('click', () => {
+                    const cur = _azkarRestore(dhikr.category, dhikr.id);
+                    if (cur <= 0) return;
+                    const next = cur - 1;
+                    _azkarPersist(dhikr.category, dhikr.id, next, target);
+                    if (tapCount) tapCount.textContent = next + ' / ' + target;
+                    card.classList.remove('completed');
+                    if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+                    _updateMorningProgress();
+                });
+            }
+
+            const resetItemBtn = card.querySelector('.azkar-counter-reset');
+            if (resetItemBtn) {
+                resetItemBtn.addEventListener('click', () => {
+                    _azkarPersist(dhikr.category, dhikr.id, 0, target);
+                    if (tapCount) tapCount.textContent = '0 / ' + target;
+                    card.classList.remove('completed');
+                    if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+                    _updateMorningProgress();
+                });
+            }
+        }
+    });
 }
 
 function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {

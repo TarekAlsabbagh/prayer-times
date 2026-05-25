@@ -5033,6 +5033,173 @@ function _escHtml(s) {
 }
 
 // ════════════════════════════════════════════════════════════════════════════
+// AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): server-side render of the
+// 25-dhikr list inside #azkar-morning-list. Before this, the list was
+// EMPTY in SSR HTML and only filled by _loadAzkarMorning() in app.js
+// after DOMContentLoaded — pushing every section below it ~9700px down
+// on every load (Lighthouse CLS 0.343 on .azkar-edu-section).
+//
+// SSR-rendered cards have identical structure to the JS-rendered ones
+// (same classes, ids, attributes), so the existing CSS works untouched
+// AND js/app.js hydrates the existing DOM (binds event handlers + restores
+// per-item localStorage counter state) instead of rebuilding from scratch.
+//
+// Data source: ./js/azkar-data.js, loaded once at server startup into a
+// sandboxed Function (no `window` in Node — we provide a tiny stub). The
+// module's IIFE assigns to `window.AzkarMorning`, which we then pluck out.
+// This avoids any change to azkar-data.js itself (it stays browser-shaped).
+// ════════════════════════════════════════════════════════════════════════════
+let _AZKAR_MORNING_DATA = [];
+try {
+    const _azkarSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-data.js'), 'utf8');
+    const _azkarSandbox = { window: {}, console: { log: () => {} } };
+    new Function('window', 'console', _azkarSrc)(_azkarSandbox.window, _azkarSandbox.console);
+    _AZKAR_MORNING_DATA = Array.isArray(_azkarSandbox.window.AzkarMorning)
+        ? _azkarSandbox.window.AzkarMorning : [];
+    console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning dhikr items for SSR');
+} catch (e) {
+    console.warn('[azkar-ssr] Failed to load azkar-data.js for SSR — falling back to client-render: ' + e.message);
+    _AZKAR_MORNING_DATA = [];
+}
+
+// Mirror of js/app.js:_AZKAR_AR_CHROME (AR-only, Phase 1 spec).
+const _AZKAR_AR_CHROME_SSR = {
+    counterTap:        'عدّ',
+    counterTapAria:    'اضغط للعدّ',
+    counterDone:       '✓ مكتمل',
+    undo:              'تراجع',
+    resetItem:         'إعادة',
+    repeatLabel:       'التكرار',
+    sourceLabel:       'المصدر',
+    showVirtue:        'عرض الفضل',
+    authenticityLabel: 'ملاحظة حول درجة الحديث',
+    markRead:          'تمت القراءة',
+    completedCaption:  'تم إكمال الذكر'
+};
+
+// AR-localized repeat label (matches js/app.js:_azkarRepeatLabelAR).
+function _azkarRepeatLabelAR_SSR(n) {
+    n = Number(n) || 1;
+    if (n === 1)   return 'مرة واحدة';
+    if (n === 2)   return 'مرّتان';
+    if (n === 3)   return 'ثلاث مرات';
+    if (n === 7)   return 'سبع مرات';
+    if (n === 10)  return 'عشر مرات';
+    if (n === 33)  return 'ثلاث وثلاثون مرة';
+    if (n === 100) return 'مئة مرة';
+    if (n >= 3 && n <= 10) return n + ' مرات';
+    return n + ' مرة';
+}
+
+// Pick AR field from { ar, en } locale-map.
+function _azkarLocalizedAR(field, fallback) {
+    if (!field) return fallback || '';
+    if (typeof field === 'string') return field;
+    return field.ar || field.en || fallback || '';
+}
+
+// Build the SSR HTML for ONE dhikr card. Output is byte-equivalent to what
+// js/app.js produces for an "uncompleted, restored=0" state. JS hydration
+// then applies localStorage progress + binds event handlers on top.
+function _buildAzkarCardHtml(dhikr, idx) {
+    const target = Number(dhikr.repeat) || 1;
+    const isSingleRead = (target === 1);
+    const orderText = (idx + 1 < 10 ? '0' : '') + String(idx + 1);
+    const isQuran = (dhikr.type === 'quran');
+    const textClass = isQuran ? 'azkar-quran-text' : 'azkar-text';
+
+    // ── Header: order badge + optional title (Quran items only) ──
+    let headerHtml = '<header class="azkar-card-item-header' +
+        (isQuran ? '' : ' azkar-card-item-header--badge-only') + '">' +
+        '<span class="azkar-card-item-order">' + _escHtml(orderText) + '</span>';
+    if (isQuran && dhikr.title) {
+        headerHtml += '<h3 class="azkar-card-item-title">' +
+            _escHtml(_azkarLocalizedAR(dhikr.title, '')) + '</h3>';
+    }
+    headerHtml += '</header>';
+
+    // ── Dhikr text ──
+    const textHtml = '<p class="' + textClass + '" dir="rtl">' +
+        _escHtml(dhikr.text || '') + '</p>';
+
+    // ── Action row: repeat label + counter/button ──
+    const repeatText = _azkarLocalizedAR(dhikr.repeatLabel, _azkarRepeatLabelAR_SSR(target));
+    let actionRowHtml = '<div class="azkar-action-row">' +
+        '<span class="azkar-repeat-label">' +
+            '<span class="azkar-repeat-label-key">' + _AZKAR_AR_CHROME_SSR.repeatLabel + ':</span> ' +
+            '<span class="azkar-repeat-label-val">' + _escHtml(repeatText) + '</span>' +
+        '</span>';
+    let counterBlockHtml = '';
+    if (isSingleRead) {
+        // Variant A: simple "تمت القراءة" toggle inside action row
+        actionRowHtml += '<button type="button" class="azkar-mark-read" aria-pressed="false">' +
+            _AZKAR_AR_CHROME_SSR.markRead + '</button>';
+        actionRowHtml += '</div>';
+    } else {
+        // Variant B: counter pill in separate block AFTER action row
+        actionRowHtml += '</div>';
+        counterBlockHtml = '<div class="azkar-counter">' +
+            '<button type="button" class="azkar-counter-tap" aria-label="' +
+                _escHtml(_AZKAR_AR_CHROME_SSR.counterTapAria) + '">' +
+                '<span class="azkar-counter-tap-prompt">' + _AZKAR_AR_CHROME_SSR.counterTap + '</span>' +
+                '<span class="azkar-counter-tap-count" dir="ltr">0 / ' + target + '</span>' +
+            '</button>' +
+            '<div class="azkar-counter-controls">' +
+                '<button type="button" class="azkar-counter-undo">' + _AZKAR_AR_CHROME_SSR.undo + '</button>' +
+                '<button type="button" class="azkar-counter-reset">' + _AZKAR_AR_CHROME_SSR.resetItem + '</button>' +
+            '</div>' +
+        '</div>';
+    }
+
+    // ── Completion caption ──
+    const captionHtml = '<p class="azkar-completed-caption">✓ ' +
+        _AZKAR_AR_CHROME_SSR.completedCaption + '</p>';
+
+    // ── Footer: source + virtue + authenticity ──
+    let footerInner = '';
+    if (dhikr.source && dhikr.source.ref) {
+        footerInner += '<p class="azkar-source" dir="rtl">' +
+            '<span class="azkar-source-icon" aria-hidden="true">📖</span>' +
+            '<span class="azkar-source-key">' + _AZKAR_AR_CHROME_SSR.sourceLabel + ':</span> ' +
+            '<span class="azkar-source-val">' + _escHtml(dhikr.source.ref) + '</span>' +
+        '</p>';
+    }
+    if (dhikr.virtue) {
+        footerInner += '<details class="azkar-virtue">' +
+            '<summary>' +
+                '<span class="azkar-disclosure-chev" aria-hidden="true">▾</span>' +
+                '<span>' + _AZKAR_AR_CHROME_SSR.showVirtue + '</span>' +
+            '</summary>' +
+            '<p dir="rtl">' + _escHtml(_azkarLocalizedAR(dhikr.virtue, '')) + '</p>' +
+        '</details>';
+    }
+    if (dhikr.authenticityNote) {
+        footerInner += '<details class="azkar-authenticity">' +
+            '<summary>' +
+                '<span class="azkar-disclosure-chev" aria-hidden="true">▾</span>' +
+                '<span>' + _AZKAR_AR_CHROME_SSR.authenticityLabel + '</span>' +
+            '</summary>' +
+            '<p dir="rtl">' + _escHtml(_azkarLocalizedAR(dhikr.authenticityNote, '')) + '</p>' +
+        '</details>';
+    }
+    const footerHtml = footerInner ? '<div class="azkar-card-item-footer">' + footerInner + '</div>' : '';
+
+    // ── Article wrapper ──
+    return '<article class="azkar-card-item' + (isSingleRead ? ' azkar-card-item--single' : '') +
+        '" id="azkar-item-' + _escHtml(dhikr.id) +
+        '" data-dhikr-id="' + _escHtml(dhikr.id) +
+        '" data-repeat="' + target + '">' +
+        headerHtml + textHtml + actionRowHtml + counterBlockHtml + captionHtml + footerHtml +
+    '</article>';
+}
+
+// Build the complete SSR HTML for #azkar-morning-list (25 cards).
+function _buildAzkarMorningListHtml() {
+    if (!_AZKAR_MORNING_DATA.length) return '';
+    return _AZKAR_MORNING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
+}
+
+// ════════════════════════════════════════════════════════════════════════════
 // HD-1 (2026-05-07): /today-hijri-date Hub content dictionary — 10 langs.
 //
 // Strict per-lang content. NO fallback chain. Used by:
@@ -14340,6 +14507,26 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 '<div class="page" id="page-azkar-morning">',
                 '<div class="page active" id="page-azkar-morning">'
             );
+            // AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): SSR-inject the
+            // 25 dhikr cards into #azkar-morning-list. Without this, the
+            // list is empty in SSR and JS injects ~9700px of content after
+            // DOMContentLoaded, pushing .azkar-edu-section below it down
+            // by the same amount (Lighthouse CLS culprit, score 0.343).
+            //
+            // The injected HTML is byte-identical (modulo state) to what
+            // _loadAzkarMorning() in app.js produces. js/app.js detects
+            // the SSR marker (data-ssr-rendered="1") and switches to
+            // hydration-only mode — binds handlers + applies localStorage
+            // state without rebuilding the DOM (no shift, no re-render).
+            const _azkarListHtml = _buildAzkarMorningListHtml();
+            if (_azkarListHtml) {
+                html = html.replace(
+                    '<div class="azkar-list" id="azkar-morning-list" aria-live="polite"></div>',
+                    '<div class="azkar-list" id="azkar-morning-list" data-ssr-rendered="1" aria-live="polite">' +
+                        _azkarListHtml +
+                    '</div>'
+                );
+            }
         } else if (_isAzkarHubRoute) {
             html = html.replace(
                 '<div class="page" id="page-azkar-hub">',

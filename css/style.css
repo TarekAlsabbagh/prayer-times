@@ -8458,6 +8458,158 @@ html[data-theme="dark"] .azkar-completed-banner {
     border-color: rgba(212, 160, 23, 0.45);
 }
 
+/* ──────────────────────────────────────────────────────────────────
+   AZKAR-MORNING-DARK-MODE-POLISH-1 (2026-05-25)
+   Refines dark-mode contrast for the morning-azkar page WITHOUT
+   touching the site-wide body background, layout, or content. Only
+   overrides text/border/inner-bg of the interior azkar elements so
+   secondary text (source, repeat, FAQ questions, info-strip chips)
+   reads cleanly on the existing dark theme.
+
+   Scope:
+     • All rules scoped to html[data-theme="dark"] so light mode stays
+       unchanged byte-for-byte.
+     • No `background` rule on html / body / page wrapper.
+     • Only the user-listed selectors are touched.
+
+   Token discipline:
+     #F5F7F4   primary text on dark surface
+     #B8C4BD   secondary/muted text
+     #4ade80   bright brand green (already in use for h1 / accents)
+     #6fd394   slightly muted bright green (links, virtue accents)
+     #ffd07a   amber light (reset button text)
+     rgba(255,255,255,0.06)    interior element bg (chips/progress track)
+     rgba(255,255,255,0.10-12) borders
+   ────────────────────────────────────────────────────────────────── */
+
+/* — Page header — */
+html[data-theme="dark"] .azkar-page-subtitle { color: #B8C4BD; }
+
+/* — Info strip (top hero chips: counts/duration/category) — */
+html[data-theme="dark"] .azkar-info-strip {
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.10);
+}
+html[data-theme="dark"] .azkar-info-strip li { color: #d6ead9; }
+html[data-theme="dark"] .azkar-info-strip .azkar-info-icon { color: #4ade80; }
+
+/* — Progress (inline + sticky) — */
+html[data-theme="dark"] .azkar-progress-label,
+html[data-theme="dark"] .azkar-sticky-progress-text {
+    color: #F5F7F4;
+}
+html[data-theme="dark"] .azkar-progress-bar,
+html[data-theme="dark"] .azkar-sticky-progress-bar {
+    background: rgba(255, 255, 255, 0.08);
+}
+html[data-theme="dark"] .azkar-progress-fill,
+html[data-theme="dark"] .azkar-sticky-progress-fill {
+    background: linear-gradient(90deg, #4ade80 0%, #1b9657 100%);
+}
+html[data-theme="dark"] .azkar-sticky-progress {
+    background: rgba(14, 22, 18, 0.86);
+    border-color: rgba(255, 255, 255, 0.10);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+}
+
+/* — Reset button (amber on dark) — */
+html[data-theme="dark"] .azkar-reset-btn,
+html[data-theme="dark"] .azkar-reset-all {
+    background: rgba(255, 193, 77, 0.10);
+    border-color: rgba(255, 193, 77, 0.40);
+    color: #ffd07a;
+}
+html[data-theme="dark"] .azkar-reset-btn:hover,
+html[data-theme="dark"] .azkar-reset-all:hover {
+    background: rgba(255, 193, 77, 0.16);
+    border-color: rgba(255, 193, 77, 0.60);
+    color: #ffdf9a;
+}
+html[data-theme="dark"] .azkar-reset-btn:focus-visible,
+html[data-theme="dark"] .azkar-reset-all:focus-visible {
+    outline-color: rgba(255, 193, 77, 0.40);
+}
+
+/* — Card item header (order badge + title) — */
+/* .azkar-card-item-title already covered at L8429 (#4ade80). */
+/* .azkar-card-item-order already covered at L8440. */
+
+/* — Body text — */
+/* .azkar-text + .azkar-quran-text already covered at L8432-8434. */
+
+/* — Repeat-label (key + val) inside the action row — */
+html[data-theme="dark"] .azkar-repeat-label-key { color: #B8C4BD; }
+html[data-theme="dark"] .azkar-repeat-label-val { color: #F5F7F4; }
+
+/* — Counter tap (primary action button) — */
+/* Base button bg+border+color already covered at L8444-8448.
+   Strengthen the tap prompt/count contrast — was inheriting muted. */
+html[data-theme="dark"] .azkar-counter-tap-prompt { color: #d8efde; }
+html[data-theme="dark"] .azkar-counter-tap-count  { color: #F5F7F4; }
+html[data-theme="dark"] .azkar-counter-tap:hover {
+    background: rgba(11, 107, 58, 0.26);
+    border-color: rgba(74, 222, 128, 0.55);
+}
+
+/* — Counter controls (undo + per-item reset) — */
+html[data-theme="dark"] .azkar-counter-reset {
+    color: #B8C4BD;
+    border-color: rgba(255, 255, 255, 0.14);
+    background: transparent;
+}
+html[data-theme="dark"] .azkar-counter-reset:hover {
+    color: #F5F7F4;
+    border-color: rgba(255, 255, 255, 0.28);
+    background: rgba(255, 255, 255, 0.04);
+}
+
+/* — Completed caption ("تمت القراءة") — */
+html[data-theme="dark"] .azkar-completed-caption { color: #6fd394; }
+
+/* — Source row (📚 المصدر: ...) — */
+html[data-theme="dark"] .azkar-source { color: #B8C4BD; }
+html[data-theme="dark"] .azkar-source-icon { color: #B8C4BD; }
+html[data-theme="dark"] .azkar-source-key { color: #B8C4BD; }
+html[data-theme="dark"] .azkar-source-val { color: #d6ead9; }
+
+/* — Virtue / authenticity disclosures — */
+html[data-theme="dark"] .azkar-virtue > summary,
+html[data-theme="dark"] .azkar-authenticity > summary {
+    color: #6fd394;
+}
+html[data-theme="dark"] .azkar-virtue[open] > summary,
+html[data-theme="dark"] .azkar-authenticity[open] > summary {
+    color: #4ade80;
+}
+html[data-theme="dark"] .azkar-disclosure-chev { color: #B8C4BD; }
+html[data-theme="dark"] .azkar-virtue[open] .azkar-disclosure-chev,
+html[data-theme="dark"] .azkar-authenticity[open] .azkar-disclosure-chev { color: #4ade80; }
+
+/* — FAQ — title + question text + chev — */
+html[data-theme="dark"] .azkar-faq-title { color: #4ade80; }
+html[data-theme="dark"] .azkar-faq-question { color: #6fd394; }
+html[data-theme="dark"] .azkar-faq-question::after { color: #B8C4BD; }
+html[data-theme="dark"] .azkar-faq-item[open] .azkar-faq-question::after { color: #4ade80; }
+html[data-theme="dark"] .azkar-faq-item:hover { border-color: rgba(74, 222, 128, 0.35); }
+html[data-theme="dark"] .azkar-faq-item[open] {
+    border-color: rgba(74, 222, 128, 0.45);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* — Educational links section — */
+html[data-theme="dark"] .azkar-edu-title { color: #4ade80; }
+html[data-theme="dark"] .azkar-edu-icon  { color: #4ade80; }
+html[data-theme="dark"] .azkar-edu-link-card:hover {
+    background: rgba(11, 107, 58, 0.18);
+    border-color: rgba(74, 222, 128, 0.55);
+    color: #d8efde;
+}
+
+/* — Completed banner — text inside — */
+html[data-theme="dark"] .azkar-completed-banner-title { color: #ffe6a3; }
+html[data-theme="dark"] .azkar-completed-banner-sub   { color: #d6ead9; }
+html[data-theme="dark"] .azkar-completed-banner-check { color: #4ade80; }
+
 /* ========= شريط البحث عن المدن ========= */
 .city-search-wrapper {
     position: relative;

@@ -88,6 +88,22 @@
 //               السعودية" (full official form, matching the site-wide
 //               convention shipped in DIAG-1-E for country.sa).
 //   No app.js / style.css / i18n.js cache-buster bumps (none touched).
+// AZKAR-MORNING-DARK-MODE-POLISH-1 (2026-05-25):
+//   v347 → v348. Dark-mode contrast polish for /azkar/morning-azkar:
+//     • css/style.css gained a new dark-mode block (~70 lines) right
+//       after the existing azkar dark-mode rules. Touches text/border/
+//       inner-bg of: page subtitle, info-strip chips, progress label/
+//       bar (inline + sticky), sticky-progress container, reset button
+//       (amber on dark), repeat-label key+val, counter-tap prompt+count,
+//       counter-controls (undo/reset), completed caption, source row
+//       (icon/key/val), virtue/authenticity summary text + chev, FAQ
+//       title/question/chev/hover, edu title/icon/link-hover, completed
+//       banner title/sub/check.
+//     • NO change to body background or general site palette.
+//     • NO change to light mode (all rules scoped to html[data-theme="dark"]).
+//     • NO change to layout, content, JS logic, or daily-reset.
+//   Cache-buster: css/style.css?v=439 → ?v=440 (style.css touched).
+const CACHE_VERSION = 'v348';
 // MOON-CITY-HUB-H1-ALIGN-1 (2026-05-25):
 //   v346 → v347. Fix H1 swap on /moon-in-{city} hub route.
 //   Aligned SSR hub H1 (server.js _h1Moon hub branch at L17374-17393)
@@ -100,7 +116,7 @@
 //   first paint → hydration on /moon-in-makkah, /moon-in-riyadh,
 //   /moon-in-jeddah, and all other canonical city hubs.
 //   Cache-buster: app.js?v=717 → ?v=718.
-const CACHE_VERSION = 'v347';
+// (v347 declaration removed — replaced by v348 above)
 // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25):
 //   v345 → v346. /moon-in-{city}/YYYY-MM Path B (4.A + 4.B):
 //     (4.A) server.js injects `<html class="moon-month-page">` on month

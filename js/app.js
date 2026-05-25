@@ -23510,6 +23510,130 @@ function _azkarResetCategory(category) {
     _azkarSaveProgress(category, { date: _azkarLocalDateKey(), items: {} });
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-RESET-BTN-1 (2026-05-25)
+// Reusable confirmation modal + toast — kept generic so future azkar
+// categories (evening / sleep / after-prayer / …) can call them with
+// their own messages and onConfirm hook.
+// ─────────────────────────────────────────────────────────────────────────────
+function _azkarShowResetConfirm(opts) {
+    opts = opts || {};
+    const overlay = document.createElement('div');
+    overlay.className = 'azkar-modal-overlay';
+    overlay.setAttribute('role', 'dialog');
+    overlay.setAttribute('aria-modal', 'true');
+    overlay.setAttribute('aria-labelledby', 'azkar-modal-title');
+
+    const modal = document.createElement('div');
+    modal.className = 'azkar-modal';
+
+    const icon = document.createElement('div');
+    icon.className = 'azkar-modal-icon';
+    icon.setAttribute('aria-hidden', 'true');
+    icon.textContent = '↺';
+    modal.appendChild(icon);
+
+    const titleEl = document.createElement('h3');
+    titleEl.className = 'azkar-modal-title';
+    titleEl.id = 'azkar-modal-title';
+    titleEl.textContent = opts.title || 'هل تريد إعادة ضبط جميع العدّادات لهذا القسم؟';
+    modal.appendChild(titleEl);
+
+    if (opts.sub) {
+        const sub = document.createElement('p');
+        sub.className = 'azkar-modal-sub';
+        sub.textContent = opts.sub;
+        modal.appendChild(sub);
+    }
+
+    const actions = document.createElement('div');
+    actions.className = 'azkar-modal-actions';
+
+    const cancelBtn = document.createElement('button');
+    cancelBtn.type = 'button';
+    cancelBtn.className = 'azkar-modal-btn azkar-modal-btn-cancel';
+    cancelBtn.textContent = opts.cancelText || 'إلغاء';
+
+    const confirmBtn = document.createElement('button');
+    confirmBtn.type = 'button';
+    confirmBtn.className = 'azkar-modal-btn azkar-modal-btn-confirm';
+    confirmBtn.textContent = opts.confirmText || 'نعم، إعادة الضبط';
+
+    actions.appendChild(cancelBtn);
+    actions.appendChild(confirmBtn);
+    modal.appendChild(actions);
+    overlay.appendChild(modal);
+    document.body.appendChild(overlay);
+
+    // Lock background scroll while the modal is open
+    const prevBodyOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    function cleanup() {
+        document.removeEventListener('keydown', onKey);
+        document.body.style.overflow = prevBodyOverflow;
+        if (overlay.parentNode) overlay.parentNode.removeChild(overlay);
+        if (opts.returnFocusTo && typeof opts.returnFocusTo.focus === 'function') {
+            try { opts.returnFocusTo.focus({ preventScroll: true }); } catch (_) { opts.returnFocusTo.focus(); }
+        }
+    }
+    function onKey(ev) {
+        if (ev.key === 'Escape') { ev.preventDefault(); cleanup(); }
+        else if (ev.key === 'Enter' && document.activeElement === confirmBtn) {
+            ev.preventDefault();
+            cleanup();
+            if (typeof opts.onConfirm === 'function') opts.onConfirm();
+        }
+    }
+    cancelBtn.addEventListener('click', cleanup);
+    confirmBtn.addEventListener('click', () => {
+        cleanup();
+        if (typeof opts.onConfirm === 'function') opts.onConfirm();
+    });
+    overlay.addEventListener('click', ev => {
+        if (ev.target === overlay) cleanup();
+    });
+    document.addEventListener('keydown', onKey);
+
+    // Focus the confirm button so Enter works, Tab cycles to Cancel
+    setTimeout(() => { try { confirmBtn.focus(); } catch (_) {} }, 0);
+}
+
+let _azkarToastTimer = null;
+function _azkarShowToast(message) {
+    try {
+        // Replace any existing toast (debounce rapid resets)
+        const existing = document.querySelector('.azkar-toast');
+        if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
+        if (_azkarToastTimer) { clearTimeout(_azkarToastTimer); _azkarToastTimer = null; }
+
+        const toast = document.createElement('div');
+        toast.className = 'azkar-toast';
+        toast.setAttribute('role', 'status');
+        toast.setAttribute('aria-live', 'polite');
+        const ic = document.createElement('span');
+        ic.className = 'azkar-toast-icon';
+        ic.setAttribute('aria-hidden', 'true');
+        ic.textContent = '✓';
+        const tx = document.createElement('span');
+        tx.textContent = message || '';
+        toast.appendChild(ic);
+        toast.appendChild(tx);
+        document.body.appendChild(toast);
+
+        // Trigger CSS transition on next frame
+        requestAnimationFrame(() => toast.classList.add('azkar-toast--visible'));
+
+        _azkarToastTimer = setTimeout(() => {
+            toast.classList.remove('azkar-toast--visible');
+            setTimeout(() => {
+                if (toast.parentNode) toast.parentNode.removeChild(toast);
+            }, 300);
+            _azkarToastTimer = null;
+        }, 2500);
+    } catch (_) { /* never throw — toast is best-effort UX */ }
+}
+
 function _azkarPickLang() {
     try {
         const l = String(document.documentElement.lang || 'ar').toLowerCase();
@@ -23573,21 +23697,28 @@ function _loadAzkarMorning() {
     const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarMorning))
         ? window.AzkarMorning : [];
 
-    // Reset-all button (page-level)
+    // Reset-all button (page-level) — opens a custom confirm modal,
+    // not the native browser confirm(). On confirm, resets the category
+    // and shows a brief toast feedback. AZKAR-RESET-BTN-1 (2026-05-25).
     const resetBtn = document.getElementById('azkar-morning-reset-all');
     if (resetBtn && !resetBtn.dataset.wired) {
         resetBtn.dataset.wired = '1';
-        // Force Arabic chrome on the reset button itself (defensive — in case
-        // i18n cache hasn't loaded yet).
-        resetBtn.textContent = 'إعادة ضبط العدّادات';
         resetBtn.removeAttribute('data-i18n');
         resetBtn.addEventListener('click', () => {
-            if (!window.confirm || window.confirm(_AZKAR_AR_CHROME.resetAllConfirm)) {
-                _azkarResetCategory('morning');
-                listEl.dataset.wired = '';
-                listEl.innerHTML = '';
-                _loadAzkarMorning();
-            }
+            _azkarShowResetConfirm({
+                title: 'هل تريد إعادة ضبط جميع العدّادات لهذا القسم؟',
+                sub: 'سيتم تصفير عدّاد كل ذكر إلى الصفر. لا يمكن التراجع عن هذا الإجراء.',
+                cancelText: 'إلغاء',
+                confirmText: 'نعم، إعادة الضبط',
+                returnFocusTo: resetBtn,
+                onConfirm: () => {
+                    _azkarResetCategory('morning');
+                    listEl.dataset.wired = '';
+                    listEl.innerHTML = '';
+                    _loadAzkarMorning();
+                    _azkarShowToast('تمت إعادة ضبط العدّادات');
+                }
+            });
         });
     }
 

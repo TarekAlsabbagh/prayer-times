@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=706" as="script">
+    <link rel="preload" href="js/app.js?v=707" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=430" as="style">
-    <link rel="stylesheet" href="css/style.css?v=430">
+    <link rel="preload" href="css/style.css?v=431" as="style">
+    <link rel="stylesheet" href="css/style.css?v=431">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3366,9 +3366,9 @@
                         <div class="azkar-progress-wrap" id="azkar-morning-progress-wrap">
                             <div class="azkar-progress-row">
                                 <span class="azkar-progress-label" id="azkar-morning-progress-label">تم إكمال 0 من 0</span>
-                                <button type="button" class="azkar-reset-all" id="azkar-morning-reset-all" aria-label="إعادة ضبط العدّادات">
-                                    <span class="azkar-reset-icon" aria-hidden="true">↻</span>
-                                    <span>إعادة الضبط</span>
+                                <button type="button" class="azkar-reset-btn" id="azkar-morning-reset-all" aria-label="إعادة ضبط العدّادات">
+                                    <span class="azkar-reset-icon" aria-hidden="true">↺</span>
+                                    <span>إعادة ضبط العدّادات</span>
                                 </button>
                             </div>
                             <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4061,7 +4061,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=706"></script>
+    <script defer src="js/app.js?v=707"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

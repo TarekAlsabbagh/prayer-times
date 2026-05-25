@@ -7458,28 +7458,51 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     color: var(--azkar-deep-text);
     letter-spacing: 0.01em;
 }
+/* ── AZKAR-RESET-BTN-1 (2026-05-25) — amber secondary pill ──
+   Replaces the previous muted .azkar-reset-all. Reusable across
+   future azkar categories (.azkar-reset-all retained as a deprecated
+   alias for one cycle, then removed). */
+.azkar-reset-btn,
 .azkar-reset-all {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    border: 1px solid var(--azkar-border);
-    background: #fafdfa;
-    color: var(--azkar-muted);
-    padding: 5px 12px;
+    justify-content: center;
+    gap: 8px;
+    min-height: 42px;
+    padding: 0 16px;
     border-radius: 999px;
+    border: 1.5px solid #C78A2C;
+    background: #FFF8EC;
+    color: #8B5E1A;
     font-family: inherit;
-    font-size: 0.78rem;
+    font-size: 0.92rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: background .15s, border-color .15s, color .15s;
+    transition: background .2s ease, border-color .2s ease, color .2s ease, transform .15s ease, box-shadow .2s ease;
+    -webkit-tap-highlight-color: transparent;
+    user-select: none;
 }
-.azkar-reset-all .azkar-reset-icon {
-    font-size: 0.95rem;
-    line-height: 1;
-}
+.azkar-reset-btn:hover,
 .azkar-reset-all:hover {
-    background: var(--azkar-soft-green);
-    border-color: var(--azkar-primary);
-    color: var(--azkar-primary);
+    background: #FDEFD2;
+    border-color: #B7791F;
+    color: #744210;
+}
+.azkar-reset-btn:focus-visible,
+.azkar-reset-all:focus-visible {
+    outline: 3px solid rgba(199, 138, 44, 0.30);
+    outline-offset: 2px;
+}
+.azkar-reset-btn:active,
+.azkar-reset-all:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(184, 137, 18, 0.18);
+}
+.azkar-reset-btn .azkar-reset-icon,
+.azkar-reset-all .azkar-reset-icon {
+    font-size: 1.05rem;
+    line-height: 1;
+    display: inline-block;
 }
 .azkar-progress-bar {
     width: 100%;
@@ -7857,6 +7880,145 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 }
 .u-hidden { display: none !important; }
 
+/* ── AZKAR-RESET-BTN-1: confirmation modal ────────────────────── */
+.azkar-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(18, 48, 38, 0.42);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    padding: 16px;
+    animation: azkar-modal-fade-in .18s ease-out;
+}
+@keyframes azkar-modal-fade-in {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+.azkar-modal {
+    background: #fff;
+    border-radius: 14px;
+    max-width: 420px;
+    width: 100%;
+    padding: 22px 22px 18px;
+    box-shadow: 0 18px 50px rgba(11, 107, 58, 0.20), 0 4px 12px rgba(0, 0, 0, 0.08);
+    text-align: center;
+    direction: rtl;
+    animation: azkar-modal-pop .22s ease-out;
+}
+@keyframes azkar-modal-pop {
+    from { opacity: 0; transform: translateY(-8px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+}
+.azkar-modal-icon {
+    width: 48px;
+    height: 48px;
+    margin: 4px auto 12px;
+    border-radius: 50%;
+    background: #FFF8EC;
+    color: #8B5E1A;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    line-height: 1;
+    border: 1.5px solid #C78A2C;
+}
+.azkar-modal-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--azkar-deep-text, #123026);
+    margin: 0 0 6px;
+    line-height: 1.45;
+}
+.azkar-modal-sub {
+    font-size: 0.88rem;
+    color: var(--azkar-muted, #6B7A75);
+    margin: 0 0 18px;
+    line-height: 1.6;
+}
+.azkar-modal-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.azkar-modal-btn {
+    flex: 1 1 auto;
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background .15s, border-color .15s, color .15s, transform .1s;
+    border: 1.5px solid transparent;
+}
+.azkar-modal-btn-cancel {
+    background: transparent;
+    border-color: #D9DEDA;
+    color: var(--azkar-muted, #6B7A75);
+}
+.azkar-modal-btn-cancel:hover {
+    background: #F4F6F4;
+    border-color: #B4BFB7;
+    color: var(--azkar-deep-text, #123026);
+}
+.azkar-modal-btn-confirm {
+    background: #C78A2C;
+    border-color: #C78A2C;
+    color: #fff;
+}
+.azkar-modal-btn-confirm:hover {
+    background: #B7791F;
+    border-color: #B7791F;
+}
+.azkar-modal-btn:focus-visible {
+    outline: 3px solid rgba(199, 138, 44, 0.30);
+    outline-offset: 2px;
+}
+.azkar-modal-btn:active { transform: translateY(1px); }
+
+/* ── AZKAR-RESET-BTN-1: toast feedback ────────────────────────── */
+.azkar-toast {
+    position: fixed;
+    bottom: 28px;
+    left: 50%;
+    transform: translateX(-50%) translateY(20px);
+    background: rgba(18, 48, 38, 0.94);
+    color: #fff;
+    padding: 12px 22px;
+    border-radius: 999px;
+    font-size: 0.92rem;
+    font-weight: 500;
+    z-index: 10000;
+    opacity: 0;
+    transition: opacity .25s ease, transform .25s ease;
+    box-shadow: 0 8px 24px rgba(11, 107, 58, 0.22);
+    direction: rtl;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    pointer-events: none;
+    max-width: calc(100% - 32px);
+}
+.azkar-toast.azkar-toast--visible {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+.azkar-toast-icon {
+    color: #6fd394;
+    font-size: 1.05rem;
+    line-height: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+    .azkar-modal-overlay,
+    .azkar-modal { animation: none; }
+    .azkar-toast { transition: opacity .15s ease; }
+}
+
 /* ── Mobile (≤ 480px) ──────────────────────────────────────────── */
 @media (max-width: 480px) {
     .azkar-hub-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -7886,6 +8048,18 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     .azkar-card-item-title { font-size: 1rem; }
     .azkar-text { font-size: 1.05rem; line-height: 2.05; margin-bottom: 14px; }
     .azkar-quran-text { font-size: clamp(1.3rem, 5vw, 1.55rem); line-height: 2.2; margin-bottom: 14px; }
+
+    /* AZKAR-RESET-BTN-1: stack the reset button below the progress bar on
+       mobile and let it span the full row. */
+    .azkar-progress-row { flex-direction: column; align-items: stretch; gap: 10px; }
+    .azkar-progress-label { text-align: center; }
+    .azkar-reset-btn,
+    .azkar-reset-all {
+        min-height: 44px;
+        padding: 0 18px;
+        width: 100%;
+        font-size: 0.95rem;
+    }
 
     .azkar-action-row { gap: 10px; }
     .azkar-repeat-label { font-size: 0.82rem; }

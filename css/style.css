@@ -10610,16 +10610,126 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     left: 0;
     right: 0;
     margin-top: 4px;
+    /* HOME-SEARCH-APPLY-SEARCH-TEST-COMPONENT-1 (2026-05-25):
+       Dropdown spans the full width of the .loc-hero-search-wrap
+       (which matches the hero input). User explicitly requested
+       full-width dropdown matching the search bar — no max-width
+       cap. */
     background: var(--card-bg);
     border: 1px solid var(--border, #e0e0e0);
+    /* Match /search-test container values byte-for-byte:
+         shadow:    0 8px 24px rgba(0,0,0,.12) — heavier elevation
+         max-h:     360px (was 320) — same as /search-test */
     border-radius: 12px;
-    box-shadow: 0 6px 20px rgba(0,0,0,.08);
-    max-height: 320px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    max-height: 360px;
     overflow-y: auto;
     z-index: 50;
     text-align: initial;
 }
 .loc-hero-suggestions:empty { display: none; }
+/* Visibility via [hidden] attribute too (the search-test pipeline
+   uses box.hidden = true/false directly; keep CSS rule for safety
+   in case any UA ignores the attribute). */
+.loc-hero-suggestions[hidden] { display: none; }
+
+/* ── HOME-SEARCH-APPLY-SEARCH-TEST-COMPONENT-1 (extended 2026-05-25) ──
+   Port /search-test (db/places/search-test.html) result-row styling
+   to ALL search containers that the JS pipeline writes
+   <button class="search-test-result"> into:
+     - .loc-hero-suggestions → homepage `/` + /prayer-times-in-{city}
+     - .cps-suggestions      → /moon-today + /qibla
+   Scoped so it does NOT collide with the legacy global .suggestion-item
+   rule (which is still used by anything not yet migrated to the new
+   markup). The /search-test page's own .search-test-* CSS (inline inside
+   its HTML file) remains intact — this is a parallel rule set used only
+   when these class names appear inside .loc-hero-suggestions or
+   .cps-suggestions containers in the main app. */
+.loc-hero-suggestions .search-test-result,
+.cps-suggestions .search-test-result {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    text-align: start;
+    background: transparent;
+    border: 0;
+    padding: 12px 16px;
+    cursor: pointer;
+    color: var(--text, #1f2a1c);
+    font: inherit;
+    border-bottom: 1px solid var(--border, #e5e7eb);
+    transition: background .12s;
+}
+.loc-hero-suggestions .search-test-result:last-child,
+.cps-suggestions .search-test-result:last-child {
+    border-bottom: 0;
+}
+.loc-hero-suggestions .search-test-result:hover,
+.loc-hero-suggestions .search-test-result:focus,
+.cps-suggestions .search-test-result:hover,
+.cps-suggestions .search-test-result:focus {
+    background: rgba(30, 86, 49, 0.08);
+    outline: none;
+}
+.loc-hero-suggestions .search-test-result-flag,
+.cps-suggestions .search-test-result-flag {
+    flex: 0 0 auto;
+    width: 28px;
+    height: 21px;
+    display: inline-block;
+    border-radius: 3px;
+    overflow: hidden;
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.08);
+}
+.loc-hero-suggestions .search-test-result-flag img,
+.cps-suggestions .search-test-result-flag img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+}
+.loc-hero-suggestions .search-test-result-text,
+.cps-suggestions .search-test-result-text {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+.loc-hero-suggestions .search-test-result-text strong,
+.cps-suggestions .search-test-result-text strong {
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 2px;
+    color: var(--text, #1f2a1c);
+}
+.loc-hero-suggestions .search-test-result-text span,
+.cps-suggestions .search-test-result-text span {
+    display: block;
+    font-size: 0.83rem;
+    color: var(--text-light, #6b7b75);
+}
+.loc-hero-suggestions .search-test-empty,
+.loc-hero-suggestions .search-test-loading,
+.cps-suggestions .search-test-empty,
+.cps-suggestions .search-test-loading {
+    padding: 14px 16px;
+    text-align: center;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.92rem;
+}
+/* [hidden] support for moon/qibla cps-suggestions too (the new pipeline
+   uses box.hidden = true/false directly). */
+.cps-suggestions[hidden] { display: none; }
+@media (max-width: 480px) {
+    .loc-hero-suggestions .search-test-result,
+    .cps-suggestions .search-test-result { padding: 10px 14px; gap: 10px; }
+    .loc-hero-suggestions .search-test-result-text strong,
+    .cps-suggestions .search-test-result-text strong { font-size: 0.95rem; }
+    .loc-hero-suggestions .search-test-result-text span,
+    .cps-suggestions .search-test-result-text span { font-size: 0.8rem; }
+}
 
 /* Dual CTA grid: primary wider than secondary so the long Arabic label fits on one line */
 .loc-hero-dual-cta {
@@ -11643,7 +11753,11 @@ html.city-page .city-page-search {
     top: calc(100% + 6px);
     left: 0;
     right: 0;
-    max-height: 320px;
+    /* HOME-SEARCH-APPLY-SEARCH-TEST-COMPONENT-1 extended (2026-05-25):
+       Bump max-height from 320 → 360 to match /search-test container
+       (same as the homepage .loc-hero-suggestions tweak). Keeps
+       moon/qibla dropdown feel aligned with /search-test. */
+    max-height: 360px;
     overflow-y: auto;
     background: var(--card-bg);
     border: 1px solid var(--border, #d9e3d9);

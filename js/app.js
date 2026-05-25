@@ -23330,3 +23330,310 @@ function incrementCounter(id, max, element) {
         element.style.color = '';
     }
 }
+
+// =============================================================================
+// HOME-SEARCH-APPLY-SEARCH-TEST-COMPONENT-1 (extended 2026-05-25)
+// =============================================================================
+// Applies the /search-test (db/places/search-test.html) approved
+// implementation to FOUR search components:
+//   1. #loc-hero-search → homepage `/` AND /prayer-times-in-{city}
+//      (both use the same hero input). Navigate to /prayer-times-in-{slug}.
+//   2. #moon-hub-search → /moon-today (hub) + /moon-today-in-{slug}.
+//      Navigate to /moon-today-in-{slug}.
+//   3. #qibla-hub-search → /qibla (hub). Navigate to /qibla-in-{slug}.
+//
+// All four use the SAME backend (/api/search-place direct, no LOCAL_CITIES,
+// no v1 Nominatim cascade), SAME 150ms debounce, SAME result filter
+// (isPrayerTimesReady), SAME markup (<button class="search-test-result">
+// with TYPE · COUNTRY subtitle order + 2× retina flag srcset), SAME
+// keyboard handling (Enter picks first, Escape closes). Only the
+// target route differs per page.
+//
+// Lang-prefix preserved: if the user is on /ur/qibla they navigate to
+// /ur/qibla-in-{slug}, not /qibla-in-{slug}.
+//
+// The override happens via two routes:
+//   A. window.onHeroSearchInput / window.onHeroSearchKeyDown — reassigned
+//      so the inline HTML handlers (oninput="onHeroSearchInput(this.value)")
+//      route through us.
+//   B. window.onCitySearchInput / window.onSearchKeyDown — reassigned so
+//      the moon/qibla legacy listeners (which do
+//      `addEventListener('input', () => onCitySearchInput(value, MOON_CTX))`)
+//      end up calling us too. The override checks ctx.targetRoute and
+//      routes to the matching pipeline. Non-moon/qibla calls fall back
+//      to the original onCitySearchInput so any other consumers keep
+//      working.
+//
+// /search-test page itself (db/places/search-test.html) is byte-identical
+// — its own self-contained JS continues to run untouched.
+// =============================================================================
+(function _wireSearchTestPipelineEverywhere() {
+    'use strict';
+    if (typeof window === 'undefined') return;
+
+    const _SUPPORTED_LANGS = ['ar','en','fr','de','tr','ur','id','es','bn','ms'];
+
+    const _STESC = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => (
+        { '&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;', "'":'&#39;' }[c]
+    ));
+
+    function _stPickLang() {
+        try {
+            const params = new URLSearchParams(window.location.search);
+            const fromQs = String(params.get('lang') || '').toLowerCase();
+            if (fromQs && _SUPPORTED_LANGS.includes(fromQs)) return fromQs;
+            const fromHtml = String(document.documentElement.lang || 'ar').toLowerCase();
+            return _SUPPORTED_LANGS.includes(fromHtml) ? fromHtml : 'ar';
+        } catch (_) { return 'ar'; }
+    }
+
+    function _stCurrentLangPrefix() {
+        try {
+            const p = (window.location && window.location.pathname) || '';
+            const m = p.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/);
+            return m ? '/' + m[1] : '';
+        } catch (_) { return ''; }
+    }
+
+    function _stRouteFor(targetRoute, slug) {
+        const lp = _stCurrentLangPrefix();
+        const s = encodeURIComponent(slug);
+        switch (targetRoute) {
+            case 'moon-hub':  return lp + '/moon-today-in-' + s;
+            case 'qibla-hub': return lp + '/qibla-in-' + s;
+            case 'prayer-times':
+            default:          return lp + '/prayer-times-in-' + s;
+        }
+    }
+
+    function _stIsPrayerTimesReady(r) {
+        if (!r || typeof r !== 'object') return false;
+        if (!r.slug || !r.countryCode || !r.timezone) return false;
+        const lat = Number(r.lat), lng = Number(r.lng);
+        if (!isFinite(lat) || lat < -90 || lat > 90) return false;
+        if (!isFinite(lng) || lng < -180 || lng > 180) return false;
+        return true;
+    }
+
+    // Per-suggestions-container state (lastResults + debounce + targetRoute).
+    // Keyed by suggestionsId so each box has independent state.
+    const _STATES = {};
+    function _stStateFor(suggestionsId, targetRoute) {
+        let s = _STATES[suggestionsId];
+        if (!s) {
+            s = _STATES[suggestionsId] = {
+                suggestionsId: suggestionsId,
+                targetRoute: targetRoute,
+                lastResults: [],
+                debounce: null
+            };
+        }
+        // targetRoute can change if the same container is reused (unlikely
+        // but safe). Always pin the latest value the caller wants.
+        if (targetRoute) s.targetRoute = targetRoute;
+        return s;
+    }
+
+    function _stHide(state) {
+        const box = document.getElementById(state.suggestionsId);
+        if (!box) return;
+        box.hidden = true;
+        box.classList.remove('open');
+        box.innerHTML = '';
+    }
+    function _stShowLoading(state, IS_AR) {
+        const box = document.getElementById(state.suggestionsId);
+        if (!box) return;
+        box.innerHTML = '<div class="search-test-loading">' +
+            _STESC(IS_AR ? 'جاري البحث...' : 'Searching...') + '</div>';
+        box.hidden = false;
+        box.classList.add('open');
+    }
+    function _stShowEmptyWithStatus(state, status, IS_AR) {
+        const box = document.getElementById(state.suggestionsId);
+        if (!box) return;
+        const externalDown = (status === 'rate_limited' || status === 'error' || status === 'timeout');
+        const msg = externalDown
+            ? (IS_AR
+                ? 'تعذّر البحث الخارجي مؤقتاً. جرّب مرة أخرى بعد قليل، أو ابحث باسم مدينة أكبر قريبة.'
+                : 'External place search is temporarily unavailable. Please try again shortly.')
+            : (IS_AR ? 'لا توجد نتائج' : 'No results');
+        box.innerHTML = '<div class="search-test-empty"' +
+            (externalDown ? ' data-status="' + _STESC(status) + '"' : '') + '>' +
+            _STESC(msg) + '</div>';
+        box.hidden = false;
+        box.classList.add('open');
+    }
+    function _stOnPick(state, r, LANG) {
+        if (!_stIsPrayerTimesReady(r)) return;
+        try {
+            if (r.source && r.source !== 'curated') {
+                const payload = {
+                    slug: r.slug, type: r.type || 'city', countryCode: r.countryCode,
+                    lat: r.lat, lng: r.lng, timezone: r.timezone,
+                    names: Object.assign({},
+                        (r.names && typeof r.names === 'object') ? r.names : {},
+                        r.displayName ? { [LANG]: r.displayName } : {},
+                        r.secondaryName ? { en: r.secondaryName } : {}
+                    ),
+                    aliases: {},
+                    admin: { country: r.countryName ? { [LANG]: r.countryName } : {} },
+                    source: r.source,
+                    nameQuality: r.nameQuality ? { [LANG]: r.nameQuality } : {},
+                    originalName: typeof r.originalName === 'string' ? r.originalName : ''
+                };
+                fetch('/api/place-selected', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                }).catch(() => {});
+            }
+        } catch (_) { /* persistence is best-effort */ }
+        window.location.href = _stRouteFor(state.targetRoute, r.slug);
+    }
+    function _stRenderResults(state, results, status, LANG, IS_AR) {
+        const box = document.getElementById(state.suggestionsId);
+        if (!box) return;
+        state.lastResults = Array.isArray(results) ? results.filter(_stIsPrayerTimesReady) : [];
+        if (!state.lastResults.length) { _stShowEmptyWithStatus(state, status || 'empty', IS_AR); return; }
+        box.innerHTML = state.lastResults.map((r, i) => {
+            const cc = (r.countryCode || '').toLowerCase();
+            const flagHtml = /^[a-z]{2}$/.test(cc)
+                ? '<span class="search-test-result-flag" aria-hidden="true">' +
+                    '<img src="https://flagcdn.com/w40/' + cc + '.png"' +
+                    ' srcset="https://flagcdn.com/w80/' + cc + '.png 2x"' +
+                    ' alt="" width="28" height="21" loading="lazy" decoding="async">' +
+                  '</span>'
+                : '';
+            const display = _STESC(r.displayName || r.slug);
+            const typeL = _STESC(r.typeLabel || r.type || '');
+            const cName = _STESC(r.countryName || '');
+            const subtitle = typeL && cName
+                ? typeL + ' · ' + cName
+                : (typeL || cName);
+            return (
+                '<button class="search-test-result" type="button" role="option" data-idx="' + i + '">' +
+                  flagHtml +
+                  '<span class="search-test-result-text">' +
+                    '<strong>' + display + '</strong>' +
+                    '<span>' + subtitle + '</span>' +
+                  '</span>' +
+                '</button>'
+            );
+        }).join('');
+        box.hidden = false;
+        box.classList.add('open');
+        Array.from(box.querySelectorAll('.search-test-result')).forEach(btn => {
+            btn.addEventListener('click', () => {
+                const idx = parseInt(btn.getAttribute('data-idx'), 10);
+                _stOnPick(state, state.lastResults[idx], LANG);
+            });
+        });
+    }
+    async function _stFetch(state, q, LANG, IS_AR) {
+        q = String(q || '').trim();
+        if (!q) { _stHide(state); return; }
+        _stShowLoading(state, IS_AR);
+        try {
+            const res = await fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + LANG, {
+                headers: { 'Accept': 'application/json' }
+            });
+            if (!res.ok) { _stShowEmptyWithStatus(state, 'error', IS_AR); return; }
+            const data = await res.json();
+            const results = (data && Array.isArray(data.results)) ? data.results : [];
+            const status = (data && typeof data.status === 'string') ? data.status : 'ok';
+            _stRenderResults(state, results, status, LANG, IS_AR);
+        } catch (_e) {
+            _stShowEmptyWithStatus(state, 'error', IS_AR);
+        }
+    }
+    function _stDoSearch(suggestionsId, targetRoute, q) {
+        const state = _stStateFor(suggestionsId, targetRoute);
+        const LANG = _stPickLang();
+        const IS_AR = (LANG === 'ar');
+        clearTimeout(state.debounce);
+        state.debounce = setTimeout(() => _stFetch(state, q, LANG, IS_AR), 150);
+    }
+    function _stOnEnter(suggestionsId, targetRoute) {
+        const state = _stStateFor(suggestionsId, targetRoute);
+        if (state.lastResults && state.lastResults[0]) {
+            _stOnPick(state, state.lastResults[0], _stPickLang());
+        }
+    }
+
+    function _stWireAll() {
+        // 1) #loc-hero-search → homepage `/` AND /prayer-times-in-{city}.
+        //    Inline HTML handlers `oninput="onHeroSearchInput(this.value)"`
+        //    + `onkeydown="onHeroSearchKeyDown(event)"` resolve to the
+        //    `window.onHeroSearchInput` property at call time. Reassigning
+        //    redirects to our pipeline for ANY page that has #loc-hero-search.
+        const heroInput = document.getElementById('loc-hero-search');
+        if (heroInput) {
+            window.onHeroSearchInput = function (q) {
+                _stDoSearch('loc-hero-suggestions', 'prayer-times', q);
+            };
+            window.onHeroSearchKeyDown = function (e) {
+                if (!e) return;
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    _stOnEnter('loc-hero-suggestions', 'prayer-times');
+                } else if (e.key === 'Escape') {
+                    _stHide(_stStateFor('loc-hero-suggestions', 'prayer-times'));
+                    try { heroInput.blur(); } catch (_) {}
+                }
+            };
+        }
+
+        // 2) #moon-hub-search → /moon-today, /moon-today-in-{city}.
+        // 3) #qibla-hub-search → /qibla.
+        //    Both are wired by their respective legacy `_wireMoonHubHero` /
+        //    qibla hero functions via:
+        //       searchEl.addEventListener('input',   () => onCitySearchInput(value, CTX));
+        //       searchEl.addEventListener('keydown', e  => onSearchKeyDown(e, CTX));
+        //    where CTX.targetRoute = 'moon-hub' or 'qibla-hub'. We override
+        //    `window.onCitySearchInput` + `window.onSearchKeyDown` to route
+        //    those ctx values to our pipeline. Other ctx values (default
+        //    `_DEFAULT_SEARCH_CTX` from elsewhere) fall back to the original.
+        const _origOnCitySearchInput = window.onCitySearchInput;
+        const _origOnSearchKeyDown   = window.onSearchKeyDown;
+        window.onCitySearchInput = function (q, ctx) {
+            if (ctx && (ctx.targetRoute === 'moon-hub' || ctx.targetRoute === 'qibla-hub')) {
+                const suggestionsId = ctx.suggestionsId ||
+                    (ctx.targetRoute === 'moon-hub' ? 'moon-hub-suggestions' : 'qibla-hub-suggestions');
+                _stDoSearch(suggestionsId, ctx.targetRoute, q);
+                return;
+            }
+            if (typeof _origOnCitySearchInput === 'function') {
+                return _origOnCitySearchInput.apply(this, arguments);
+            }
+        };
+        window.onSearchKeyDown = function (e, ctx) {
+            if (ctx && (ctx.targetRoute === 'moon-hub' || ctx.targetRoute === 'qibla-hub')) {
+                const suggestionsId = ctx.suggestionsId ||
+                    (ctx.targetRoute === 'moon-hub' ? 'moon-hub-suggestions' : 'qibla-hub-suggestions');
+                if (!e) return;
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+                    _stOnEnter(suggestionsId, ctx.targetRoute);
+                } else if (e.key === 'Escape') {
+                    _stHide(_stStateFor(suggestionsId, ctx.targetRoute));
+                    const inputEl = document.getElementById(ctx.inputId || (suggestionsId.replace('-suggestions', '-search')));
+                    if (inputEl) try { inputEl.blur(); } catch (_) {}
+                }
+                return;
+            }
+            if (typeof _origOnSearchKeyDown === 'function') {
+                return _origOnSearchKeyDown.apply(this, arguments);
+            }
+        };
+
+        try { console.log('[search-test-pipeline] active · lang=' + _stPickLang()); } catch (_) {}
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', _stWireAll, { once: true });
+    } else {
+        _stWireAll();
+    }
+})();

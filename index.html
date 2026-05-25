@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=434" as="style">
-    <link rel="stylesheet" href="css/style.css?v=434">
+    <link rel="preload" href="css/style.css?v=435" as="style">
+    <link rel="stylesheet" href="css/style.css?v=435">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3399,6 +3399,73 @@
                     <p class="azkar-completed-banner-title">تم إكمال أذكار الصباح</p>
                     <p class="azkar-completed-banner-sub">نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.</p>
                 </div>
+
+                <!-- ===== FAQ ===== AZKAR-MORNING-FAQ-1 (2026-05-25) =====
+                     Page-specific FAQ — only on /azkar/morning-azkar.
+                     8 questions, all closed by default (no `open` on any
+                     <details>). SSR-visible. No JSON-LD this cycle.
+                     SEO + reading utility. Does not touch counter logic. -->
+                <section class="azkar-faq" aria-labelledby="azkar-morning-faq-title">
+                    <h2 id="azkar-morning-faq-title" class="azkar-faq-title">أسئلة شائعة حول أذكار الصباح</h2>
+
+                    <div class="azkar-faq-list">
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما هي أذكار الصباح؟</summary>
+                            <div class="azkar-faq-answer">
+                                أذكار الصباح هي مجموعة من الآيات والأدعية والأذكار التي يقرؤها المسلم في بداية يومه، وفيها توحيد لله وطلب للحفظ والعافية والبركة.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">متى وقت قراءة أذكار الصباح؟</summary>
+                            <div class="azkar-faq-answer">
+                                يبدأ وقت أذكار الصباح من طلوع الفجر، ويستمر إلى بداية النهار. والأفضل قراءتها بعد صلاة الفجر أو في أول الصباح بحسب استطاعة المسلم.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل يجب قراءة أذكار الصباح بالترتيب؟</summary>
+                            <div class="azkar-faq-answer">
+                                لا يجب قراءة أذكار الصباح بترتيب معيّن، لكن ترتيبها في الصفحة يساعد على المتابعة وعدم نسيان أي ذكر، خاصة مع وجود عداد للتكرار.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل يجب تكرار كل ذكر بعدده المحدد؟</summary>
+                            <div class="azkar-faq-answer">
+                                الأفضل الالتزام بعدد التكرار الوارد لكل ذكر، مثل ثلاث مرات أو سبع مرات أو مائة مرة، لأن العدد جزء من صفة الذكر كما ورد في النصوص.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل يمكن قراءة أذكار الصباح من الهاتف؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، يمكن قراءة أذكار الصباح من الهاتف أو من أي وسيلة تساعد على التذكر والمتابعة، والمهم حضور القلب والمحافظة على الذكر.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ماذا أفعل إذا نسيت أذكار الصباح؟</summary>
+                            <div class="azkar-faq-answer">
+                                إذا نسي المسلم أذكار الصباح أو فاتته في وقتها، فيمكنه قراءتها عندما يتذكر، مع الحرص على المواظبة عليها في وقتها قدر المستطاع.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل أذكار الصباح تحفظ تلقائيًا في هذه الصفحة؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، تحفظ الصفحة تقدمك خلال اليوم في هذا المتصفح، ثم تبدأ العدادات من جديد عند تغيّر اليوم حسب توقيت جهازك المحلي.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما فائدة عداد أذكار الصباح؟</summary>
+                            <div class="azkar-faq-answer">
+                                يساعد العداد على متابعة الأذكار التي تحتاج إلى تكرار، مثل ثلاث مرات أو مائة مرة، حتى يقرأ المستخدم الذكر كاملًا دون نسيان العدد.
+                            </div>
+                        </details>
+                    </div>
+                </section>
             </div>
 
             <!-- ===== صفحة المسبحة الإلكترونية ===== -->

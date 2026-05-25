@@ -7445,6 +7445,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     text-align: right;
     margin: 8px 0 14px;
     font-weight: 400;
+    white-space: pre-line; /* preserves \n in dhikr.text */
 }
 .azkar-quran-text {
     font-family: 'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
@@ -7455,6 +7456,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     text-align: center;
     letter-spacing: 0;
     margin: 8px 0 14px;
+    white-space: pre-line; /* preserves \n — basmalah on its own line above surah body */
 }
 
 /* ── Mark-read button (repeat===1 single-read) ─────────────────── */

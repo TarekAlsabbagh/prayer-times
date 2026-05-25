@@ -1,9 +1,9 @@
 # AZKAR-RESTRUCTURE-MORNING-PHASE-1 — Closure
 
 **Date:** 2026-05-25
-**Status:** 🟢 IMPLEMENTED + FIX-1 APPLIED (awaiting user approval for `git push`)
-**Scope:** Restructure `/azkar` from "all-categories-on-one-page" into a hub-of-cards landing page, AND introduce one independent category page (`/azkar/morning-azkar`) as the template for future sibling categories. Counter persists in localStorage, never auto-resets. Self-hosted Amiri Quran font for Quran-text items. **FIX-1 (2026-05-25)** applies the 7 user-requested UX corrections: hardcoded Arabic chrome (no i18n key leaks), counter RTL bidi fix (`dir="ltr"` wrapper), single-read toggle button for `repeat===1` items, softer/quieter card design, smaller counter, full-Arabic morning page, progress label format "تم إكمال X من Y".
-**Cache-busters:** `js/app.js?v=700→703`, `css/style.css?v=425→427`, `js/i18n.js?v=185→186`, new `js/azkar-data.js?v=1`.
+**Status:** 🟢 IMPLEMENTED + FIX-1 APPLIED + DATA-25 APPLIED (awaiting user approval for `git push`)
+**Scope:** Restructure `/azkar` from "all-categories-on-one-page" into a hub-of-cards landing page, AND introduce one independent category page (`/azkar/morning-azkar`) as the template for future sibling categories. Counter persists in localStorage, never auto-resets. Self-hosted Amiri Quran font for Quran-text items. **FIX-1 (2026-05-25)** applies the 7 user-requested UX corrections: hardcoded Arabic chrome (no i18n key leaks), counter RTL bidi fix (`dir="ltr"` wrapper), single-read toggle button for `repeat===1` items, softer/quieter card design, smaller counter, full-Arabic morning page, progress label format "تم إكمال X من Y". **DATA-25 (2026-05-25)** replaces the 10 placeholder items with the user-supplied canonical 25 morning azkar (4 Quran + 21 dhikr); hub card updated to "25 ذكرًا ~10–15 دقيقة".
+**Cache-busters:** `js/app.js?v=700→703`, `css/style.css?v=425→428`, `js/i18n.js?v=185→186`, `js/azkar-data.js?v=1→2`.
 
 ---
 
@@ -206,6 +206,79 @@ node --check js/app.js                 → exit 0
 - 25 i18n keys in `js/i18n.js`, `js/i18n/ar.js`, `js/i18n/en.js` — unchanged. They're now strictly opt-in for future enhancements; the render path no longer depends on them.
 - SPA activator regex / SSR injection / sitemap entries / `/duas → /azkar` 301 — all unchanged.
 - 10 migrated morning azkar IDs `morning-001 … morning-010` — unchanged (localStorage stability preserved).
+
+---
+
+## 10 — DATA-25 (2026-05-25): user-supplied canonical 25 morning azkar
+
+**Trigger:** User supplied the authoritative 25-item dataset and asked it be installed in place of the 10 placeholders. The schema, route, renderer, SSR and SEO infrastructure all stay the same — only the `window.AzkarMorning` literal in `js/azkar-data.js` is replaced.
+
+### 10.1 Composition (4 Quran + 21 dhikr)
+
+| range | count | type | notes |
+|---|---|---|---|
+| morning-001 | 1 | `quran` | آية الكرسي — `repeat: 1` |
+| morning-002…004 | 3 | `quran` | الإخلاص / الفلق / الناس — `repeat: 3` each (المعوذات) |
+| morning-005…025 | 21 | `dhikr` | prophetic dhikr with various repeat counts |
+
+Repeat-count distribution: 12 × `1`, 7 × `3`, 1 × `4`, 1 × `7`, 1 × `10`, 3 × `100`. The renderer handles all of these automatically — `repeat===1` becomes the "تمت القراءة" toggle, all `repeat>1` become the small pill counter with `dir="ltr"` digit pair (`0 / 3`, `0 / 7`, `0 / 100`, …).
+
+Authenticity grades on items: 4 × `quran`, 5 × `sahih`, 1 × `weak_hadith` (morning-012 «حسبي الله» with `authenticityNote` explaining the weak-hadith scholarly note), 15 × `null`.
+
+### 10.2 Quran-text rendering
+
+`type:'quran'` items render with the `.azkar-quran-text` class — Amiri-Quran font family (with `'Amiri' / 'Scheherazade New' / 'Traditional Arabic' / serif` fallbacks; the woff2 binary is still NOT shipped but the fallback chain produces a beautiful result either way). The four surahs preserve a literal newline (`\n`) between `بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ` and the surah body — this is honored visually via `white-space: pre-line` on `.azkar-text` and `.azkar-quran-text`.
+
+### 10.3 Hub-card metadata refreshed
+
+- `index.html` `azkar.hub.card_morning_count` static fallback: `10 ذكرًا → 25 ذكرًا`.
+- `index.html` `azkar.hub.card_morning_time` static fallback: `~5–8 دقائق → ~10–15 دقيقة`.
+- `js/azkar-data.js` `AzkarCategories[0].defaults`: `{ count: 10, estTimeMin: '5–8' } → { count: 25, estTimeMin: '10–15' }`.
+
+### 10.4 IDs
+
+Stable `morning-001 … morning-025`. The original 10 placeholder ids `morning-001 … morning-010` were reused — earlier users with localStorage state from the 10-item placeholder phase will see their counts mapped against the new item at the same slot (acceptable; site is unpublished, so there are no real users to migrate).
+
+### 10.5 Verification
+
+```
+node --check js/azkar-data.js                                → exit 0
+eval(window.AzkarMorning) → items: 25 · cats: 10
+                            types: { quran: 4, dhikr: 21 }
+                            repeats: { 1:12, 3:7, 4:1, 7:1, 10:1, 100:3 }
+                            ids: morning-001 … morning-025
+
+HTTP /                                                       → 200
+HTTP /azkar                                                  → 200
+HTTP /en/azkar                                               → 200
+HTTP /azkar/morning-azkar                                    → 200
+HTTP /en/azkar/morning-azkar                                 → 200
+HTTP /qibla /moon-today /msbaha /zakat-calculator
+     /today-hijri-date /search-test                          → 200 (all)
+HTTP /duas                                                   → 301 → /azkar  (regression intact)
+
+served HTML hub card                                         → "25 ذكرًا"  +  "10–15 دقيقة"
+served HTML cache busters                                    → app.js?v=703  style.css?v=428  azkar-data.js?v=2
+served HTML morning page                                     → "تم إكمال 0 من 0" (will tick to "تم إكمال X من 25" after JS hydration)
+served js/azkar-data.js?v=2                                  → 25 `id: 'morning-0XX'` matches
+                                                              4 type:'quran' titles present (آية الكرسي + 3 surahs)
+                                                              morning-025 «الصلاة على النبي» present
+```
+
+### 10.6 Files touched (DATA-25)
+
+| File | Change |
+|---|---|
+| `js/azkar-data.js` | Replaced `window.AzkarMorning` array (10 → 25 items). Updated `AzkarCategories[0].defaults` to `{ count: 25, estTimeMin: '10–15' }`. Updated header comment block to note the 25 canonical items + Quran/dhikr split. |
+| `index.html` | Hub-card static fallbacks updated to `25 ذكرًا` + `~10–15 دقيقة`. Cache busters: `azkar-data.js?v=1 → 2`, `style.css?v=427 → 428`. |
+| `css/style.css` | Added `white-space: pre-line` to `.azkar-text` and `.azkar-quran-text` so the `\n` between the basmalah and the surah body in items 002-004 renders as a real line break. |
+| `reports/azkar-restructure-morning-phase-1-closure.md` | This §10 added; top-of-file status + cache-buster lines updated. |
+
+### 10.7 What DATA-25 did NOT change
+
+- `js/app.js` — unchanged. The renderer is data-driven and handles 25 items the same way it handled 10.
+- SPA activator, server.js SSR injection, sitemap, redirects, i18n keys — all unchanged.
+- The hub `/azkar` page itself — only the card count + time labels changed; the 10-card grid structure is intact.
 
 ---
 

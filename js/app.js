@@ -23438,6 +23438,42 @@ function _azkarLocalized(field, fallback) {
     return field[lang] || field.en || field.ar || fallback || '';
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-RESTRUCTURE-MORNING-PHASE-1-FIX-1 (2026-05-25): user-feedback patch.
+// All UI chrome is hardcoded Arabic — Phase 1 page is AR-only. We do NOT
+// route any visible string through t(); a stale i18n cache must never leak
+// raw keys (e.g. "azkar.morning.progress_template") to the screen.
+// Numeric counters use <span dir="ltr"> so the bidi algorithm does not flip
+// "0 / 1" into "1 / 0". Items with repeat===1 get a single "تمت القراءة"
+// toggle button instead of the large repeat counter.
+// ─────────────────────────────────────────────────────────────────────────────
+const _AZKAR_AR_CHROME = {
+    counterTap: 'اضغط للعدّ',
+    undo: 'تراجع',
+    resetItem: 'إعادة',
+    sourceLabel: 'المصدر',
+    showVirtue: 'اعرض الفضل',
+    authenticityLabel: 'ملاحظة حول درجة الحديث',
+    markRead: 'تمت القراءة',
+    markedRead: '✓ تمت القراءة',
+    resetAllConfirm: 'هل تريد إعادة جميع عدّادات أذكار الصباح إلى الصفر؟',
+    emptyList: 'لا توجد أذكار متاحة حالياً.',
+    progressTpl: function (done, total) { return 'تم إكمال ' + done + ' من ' + total; }
+};
+
+function _azkarRepeatLabelAR(n) {
+    n = Number(n) || 1;
+    if (n === 1) return 'مرة واحدة';
+    if (n === 2) return 'مرّتان';
+    if (n === 3) return 'ثلاث مرات';
+    if (n === 7) return 'سبع مرات';
+    if (n === 10) return 'عشر مرات';
+    if (n === 33) return 'ثلاث وثلاثون مرة';
+    if (n === 100) return 'مئة مرة';
+    if (n >= 3 && n <= 10) return n + ' مرات';
+    return n + ' مرة';
+}
+
 function _loadAzkarMorning() {
     const listEl = document.getElementById('azkar-morning-list');
     if (!listEl) return;
@@ -23447,15 +23483,16 @@ function _loadAzkarMorning() {
     const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarMorning))
         ? window.AzkarMorning : [];
 
-    // Reset-all button
+    // Reset-all button (page-level)
     const resetBtn = document.getElementById('azkar-morning-reset-all');
     if (resetBtn && !resetBtn.dataset.wired) {
         resetBtn.dataset.wired = '1';
+        // Force Arabic chrome on the reset button itself (defensive — in case
+        // i18n cache hasn't loaded yet).
+        resetBtn.textContent = 'إعادة ضبط العدّادات';
+        resetBtn.removeAttribute('data-i18n');
         resetBtn.addEventListener('click', () => {
-            const msg = (_azkarPickLang() === 'ar')
-                ? 'هل تريد إعادة جميع عدّادات أذكار الصباح إلى الصفر؟'
-                : 'Reset all morning azkar counters to zero?';
-            if (!window.confirm || window.confirm(msg)) {
+            if (!window.confirm || window.confirm(_AZKAR_AR_CHROME.resetAllConfirm)) {
                 _azkarResetCategory('morning');
                 listEl.dataset.wired = '';
                 listEl.innerHTML = '';
@@ -23467,151 +23504,172 @@ function _loadAzkarMorning() {
     listEl.innerHTML = '';
     if (!items.length) {
         const empty = document.createElement('p');
-        empty.style.textAlign = 'center';
-        empty.style.color = 'var(--text-light, #6b7b75)';
-        empty.style.padding = '24px';
-        empty.textContent = (_azkarPickLang() === 'ar')
-            ? 'لا توجد أذكار متاحة في الوقت الحالي.'
-            : 'No azkar available at the moment.';
+        empty.className = 'azkar-empty';
+        empty.textContent = _AZKAR_AR_CHROME.emptyList;
         listEl.appendChild(empty);
         _updateMorningProgress(0, 0);
         return;
     }
 
     items.forEach((dhikr, idx) => {
+        const target = Number(dhikr.repeat) || 1;
+        const isSingleRead = (target === 1);
+
         const card = document.createElement('article');
-        card.className = 'azkar-card-item';
+        card.className = 'azkar-card-item' + (isSingleRead ? ' azkar-card-item--single' : '');
         card.id = 'azkar-item-' + dhikr.id;
         card.setAttribute('data-dhikr-id', dhikr.id);
-        card.setAttribute('data-repeat', String(dhikr.repeat || 1));
+        card.setAttribute('data-repeat', String(target));
 
         const restored = _azkarRestore(dhikr.category, dhikr.id);
-        const isCompleted = restored >= (dhikr.repeat || 1);
+        const isCompleted = restored >= target;
         if (isCompleted) card.classList.add('completed');
 
-        // Header row: order badge + (optional) title
+        // ── Header row: order badge + (optional) title ──
         const headerRow = document.createElement('div');
-        headerRow.style.display = 'flex';
-        headerRow.style.alignItems = 'center';
-        headerRow.style.gap = '8px';
-        headerRow.style.flexWrap = 'wrap';
-        headerRow.innerHTML = '<span class="azkar-card-item-order">' + (idx + 1) + '</span>';
+        headerRow.className = 'azkar-card-item-header';
+        const orderBadge = document.createElement('span');
+        orderBadge.className = 'azkar-card-item-order';
+        orderBadge.textContent = String(idx + 1);
+        headerRow.appendChild(orderBadge);
         if (dhikr.title) {
             const titleEl = document.createElement('h3');
             titleEl.className = 'azkar-card-item-title';
-            titleEl.style.margin = '0';
             titleEl.textContent = _azkarLocalized(dhikr.title, '');
             headerRow.appendChild(titleEl);
         }
         card.appendChild(headerRow);
 
-        // Text
+        // ── Dhikr text ──
         const textEl = document.createElement('p');
         textEl.className = (dhikr.type === 'quran') ? 'azkar-quran-text' : 'azkar-text';
+        textEl.setAttribute('dir', 'rtl');
         textEl.textContent = dhikr.text || '';
         card.appendChild(textEl);
 
-        // Repeat label
-        if (dhikr.repeat > 1 || dhikr.repeatLabel) {
+        // ── Repeat label (only when meaningful — repeat>1 or explicit label) ──
+        if (target > 1 || dhikr.repeatLabel) {
             const rl = document.createElement('span');
             rl.className = 'azkar-repeat-label';
-            rl.textContent = _azkarLocalized(dhikr.repeatLabel,
-                (dhikr.repeat || 1) > 1 ? (dhikr.repeat + ' مرات') : 'مرة واحدة');
+            rl.textContent = _azkarLocalized(dhikr.repeatLabel, _azkarRepeatLabelAR(target));
             card.appendChild(rl);
         }
 
-        // Counter
-        const counterWrap = document.createElement('div');
-        counterWrap.className = 'azkar-counter';
-        const tapBtn = document.createElement('button');
-        tapBtn.type = 'button';
-        tapBtn.className = 'azkar-counter-tap';
-        const tapPrompt = document.createElement('span');
-        tapPrompt.className = 'azkar-counter-tap-prompt';
-        tapPrompt.textContent = (typeof t === 'function')
-            ? t('azkar.morning.counter_tap_prompt')
-            : 'اضغط للعدّ';
-        const tapCount = document.createElement('span');
-        tapCount.className = 'azkar-counter-tap-count';
-        tapCount.textContent = restored + ' / ' + (dhikr.repeat || 1);
-        tapBtn.appendChild(tapPrompt);
-        tapBtn.appendChild(tapCount);
-        counterWrap.appendChild(tapBtn);
+        // ── Counter UI: two variants ──
+        let tapBtn = null;       // mark-read button (single) OR counter button (multi)
+        let tapCount = null;     // only present for multi
 
-        // Controls (undo + reset this item)
-        const controls = document.createElement('div');
-        controls.className = 'azkar-counter-controls';
-        const undoBtn = document.createElement('button');
-        undoBtn.type = 'button';
-        undoBtn.className = 'azkar-counter-undo';
-        undoBtn.textContent = (typeof t === 'function')
-            ? t('azkar.morning.counter_undo') : 'تراجع';
-        const resetItemBtn = document.createElement('button');
-        resetItemBtn.type = 'button';
-        resetItemBtn.className = 'azkar-counter-reset';
-        resetItemBtn.textContent = (typeof t === 'function')
-            ? t('azkar.morning.counter_reset') : 'إعادة';
-        controls.appendChild(undoBtn);
-        controls.appendChild(resetItemBtn);
-        counterWrap.appendChild(controls);
-        card.appendChild(counterWrap);
+        if (isSingleRead) {
+            // Variant A: repeat===1 → simple "تمت القراءة" toggle
+            tapBtn = document.createElement('button');
+            tapBtn.type = 'button';
+            tapBtn.className = 'azkar-mark-read';
+            tapBtn.textContent = isCompleted
+                ? _AZKAR_AR_CHROME.markedRead
+                : _AZKAR_AR_CHROME.markRead;
+            tapBtn.setAttribute('aria-pressed', isCompleted ? 'true' : 'false');
+            card.appendChild(tapBtn);
+        } else {
+            // Variant B: repeat>1 → smaller tap counter + undo/reset
+            const counterWrap = document.createElement('div');
+            counterWrap.className = 'azkar-counter';
 
-        // Source line
+            tapBtn = document.createElement('button');
+            tapBtn.type = 'button';
+            tapBtn.className = 'azkar-counter-tap';
+
+            const tapPrompt = document.createElement('span');
+            tapPrompt.className = 'azkar-counter-tap-prompt';
+            tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+
+            tapCount = document.createElement('span');
+            tapCount.className = 'azkar-counter-tap-count';
+            // dir="ltr" prevents the bidi algorithm from flipping "0 / 5"
+            // to "5 / 0" inside an RTL-direction page/parent.
+            tapCount.setAttribute('dir', 'ltr');
+            tapCount.textContent = restored + ' / ' + target;
+
+            tapBtn.appendChild(tapPrompt);
+            tapBtn.appendChild(tapCount);
+            counterWrap.appendChild(tapBtn);
+
+            const controls = document.createElement('div');
+            controls.className = 'azkar-counter-controls';
+
+            const undoBtn = document.createElement('button');
+            undoBtn.type = 'button';
+            undoBtn.className = 'azkar-counter-undo';
+            undoBtn.textContent = _AZKAR_AR_CHROME.undo;
+            undoBtn.addEventListener('click', () => {
+                const cur = _azkarRestore(dhikr.category, dhikr.id);
+                if (cur <= 0) return;
+                const next = cur - 1;
+                _azkarPersist(dhikr.category, dhikr.id, next);
+                tapCount.textContent = next + ' / ' + target;
+                card.classList.remove('completed');
+                _updateMorningProgress();
+            });
+
+            const resetItemBtn = document.createElement('button');
+            resetItemBtn.type = 'button';
+            resetItemBtn.className = 'azkar-counter-reset';
+            resetItemBtn.textContent = _AZKAR_AR_CHROME.resetItem;
+            resetItemBtn.addEventListener('click', () => {
+                _azkarPersist(dhikr.category, dhikr.id, 0);
+                tapCount.textContent = '0 / ' + target;
+                card.classList.remove('completed');
+                _updateMorningProgress();
+            });
+
+            controls.appendChild(undoBtn);
+            controls.appendChild(resetItemBtn);
+            counterWrap.appendChild(controls);
+            card.appendChild(counterWrap);
+        }
+
+        // ── Source line ──
         if (dhikr.source && dhikr.source.ref) {
             const srcEl = document.createElement('p');
             srcEl.className = 'azkar-source';
-            srcEl.textContent = ((typeof t === 'function')
-                ? (t('azkar.morning.source_label') + ': ') : 'المصدر: ') + dhikr.source.ref;
+            srcEl.setAttribute('dir', 'rtl');
+            srcEl.textContent = _AZKAR_AR_CHROME.sourceLabel + ': ' + dhikr.source.ref;
             card.appendChild(srcEl);
         }
 
-        // Virtue (optional collapsible)
+        // ── Virtue (collapsible) ──
         if (dhikr.virtue) {
             const det = document.createElement('details');
             det.className = 'azkar-virtue';
             const sum = document.createElement('summary');
-            sum.textContent = (typeof t === 'function')
-                ? t('azkar.morning.show_virtue') : 'اعرض الفضل';
+            sum.textContent = _AZKAR_AR_CHROME.showVirtue;
             const p = document.createElement('p');
+            p.setAttribute('dir', 'rtl');
             p.textContent = _azkarLocalized(dhikr.virtue, '');
             det.appendChild(sum);
             det.appendChild(p);
             card.appendChild(det);
         }
 
-        // Authenticity note (optional collapsible)
+        // ── Authenticity note (collapsible) ──
         if (dhikr.authenticityNote) {
             const det = document.createElement('details');
             det.className = 'azkar-authenticity';
             const sum = document.createElement('summary');
-            sum.textContent = (typeof t === 'function')
-                ? t('azkar.morning.authenticity_note_label') : 'ملاحظة حول درجة الحديث';
+            sum.textContent = _AZKAR_AR_CHROME.authenticityLabel;
             const p = document.createElement('p');
+            p.setAttribute('dir', 'rtl');
             p.textContent = _azkarLocalized(dhikr.authenticityNote, '');
             det.appendChild(sum);
             det.appendChild(p);
             card.appendChild(det);
         }
 
-        // Event handlers
-        tapBtn.addEventListener('click', () => {
-            _azkarTickCounter(dhikr, tapBtn, tapCount, card);
-        });
-        undoBtn.addEventListener('click', () => {
-            const cur = _azkarRestore(dhikr.category, dhikr.id);
-            if (cur <= 0) return;
-            const next = cur - 1;
-            _azkarPersist(dhikr.category, dhikr.id, next);
-            tapCount.textContent = next + ' / ' + (dhikr.repeat || 1);
-            card.classList.remove('completed');
-            _updateMorningProgress();
-        });
-        resetItemBtn.addEventListener('click', () => {
-            _azkarPersist(dhikr.category, dhikr.id, 0);
-            tapCount.textContent = '0 / ' + (dhikr.repeat || 1);
-            card.classList.remove('completed');
-            _updateMorningProgress();
-        });
+        // ── Tap handler (single + multi variants share this) ──
+        if (tapBtn) {
+            tapBtn.addEventListener('click', () => {
+                _azkarTickCounter(dhikr, tapBtn, tapCount, card);
+            });
+        }
 
         listEl.appendChild(card);
     });
@@ -23620,12 +23678,36 @@ function _loadAzkarMorning() {
 }
 
 function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
-    const target = dhikr.repeat || 1;
+    const target = Number(dhikr.repeat) || 1;
+    const isSingleRead = (target === 1);
     const cur = _azkarRestore(dhikr.category, dhikr.id);
-    if (cur >= target) return;  // already at target — no-op
+
+    if (isSingleRead) {
+        // Toggle: 0 → 1 (mark read), 1 → 0 (unmark)
+        const next = (cur >= 1) ? 0 : 1;
+        _azkarPersist(dhikr.category, dhikr.id, next);
+        if (next === 1) {
+            card.classList.add('completed');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markedRead;
+                tapBtn.setAttribute('aria-pressed', 'true');
+            }
+        } else {
+            card.classList.remove('completed');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', 'false');
+            }
+        }
+        _updateMorningProgress();
+        return;
+    }
+
+    // Multi-count tap: cap at target
+    if (cur >= target) return;
     const next = cur + 1;
     _azkarPersist(dhikr.category, dhikr.id, next);
-    tapCount.textContent = next + ' / ' + target;
+    if (tapCount) tapCount.textContent = next + ' / ' + target;
     if (next >= target) card.classList.add('completed');
     _updateMorningProgress();
 }
@@ -23633,25 +23715,26 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
 function _updateMorningProgress(_doneOverride, _totalOverride) {
     const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarMorning))
         ? window.AzkarMorning : [];
-    let done = 0;
     const total = (typeof _totalOverride === 'number') ? _totalOverride : items.length;
+    let done = 0;
     if (typeof _doneOverride === 'number') {
         done = _doneOverride;
     } else {
         for (const d of items) {
             const c = _azkarRestore(d.category, d.id);
-            if (c >= (d.repeat || 1)) done++;
+            if (c >= (Number(d.repeat) || 1)) done++;
         }
     }
     const lblEl = document.getElementById('azkar-morning-progress-label');
     const fillEl = document.getElementById('azkar-morning-progress-fill');
     const completedBanner = document.getElementById('azkar-morning-completed');
     const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+
     if (lblEl) {
-        const tpl = (typeof t === 'function')
-            ? t('azkar.morning.progress_template', { done: done, total: total })
-            : (done + ' / ' + total + ' مكتمل');
-        lblEl.textContent = tpl;
+        // Hardcoded Arabic — never call t() here (prevents raw-key leak).
+        lblEl.removeAttribute('data-i18n');
+        lblEl.removeAttribute('data-i18n-template');
+        lblEl.textContent = _AZKAR_AR_CHROME.progressTpl(done, total);
     }
     if (fillEl) {
         fillEl.style.width = pct + '%';

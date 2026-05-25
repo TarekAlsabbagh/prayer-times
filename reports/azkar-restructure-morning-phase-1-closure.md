@@ -1,9 +1,9 @@
 # AZKAR-RESTRUCTURE-MORNING-PHASE-1 — Closure
 
 **Date:** 2026-05-25
-**Status:** 🟢 IMPLEMENTED (awaiting user approval for `git push`)
-**Scope:** Restructure `/azkar` from "all-categories-on-one-page" into a hub-of-cards landing page, AND introduce one independent category page (`/azkar/morning-azkar`) as the template for future sibling categories. Counter persists in localStorage, never auto-resets. Self-hosted Amiri Quran font for Quran-text items.
-**Cache-busters:** `js/app.js?v=700→701`, `css/style.css?v=425→426`, `js/i18n.js?v=185→186`, new `js/azkar-data.js?v=1`.
+**Status:** 🟢 IMPLEMENTED + FIX-1 APPLIED (awaiting user approval for `git push`)
+**Scope:** Restructure `/azkar` from "all-categories-on-one-page" into a hub-of-cards landing page, AND introduce one independent category page (`/azkar/morning-azkar`) as the template for future sibling categories. Counter persists in localStorage, never auto-resets. Self-hosted Amiri Quran font for Quran-text items. **FIX-1 (2026-05-25)** applies the 7 user-requested UX corrections: hardcoded Arabic chrome (no i18n key leaks), counter RTL bidi fix (`dir="ltr"` wrapper), single-read toggle button for `repeat===1` items, softer/quieter card design, smaller counter, full-Arabic morning page, progress label format "تم إكمال X من Y".
+**Cache-busters:** `js/app.js?v=700→703`, `css/style.css?v=425→427`, `js/i18n.js?v=185→186`, new `js/azkar-data.js?v=1`.
 
 ---
 
@@ -155,6 +155,57 @@ All performed on local dev server (port 3000) after restart with bumped cache bu
 - **Sidebar `data-page="duas"` rename to `"azkar"`**: verified — sidebar highlight still works on `/azkar*` URLs via the updated BFCache self-heal table.
 - **i18n keys not in 8 other lang files**: by design — `t()` chain falls back through `_lang → 'en' → 'ar' → key`. Other-lang users on `/azkar` will see AR strings (acceptable Phase-1 fallback per user spec).
 - **Browser cache during preview testing**: `js/i18n.js?v=186` is the new URL — production users hit it fresh on first load and get all keys. Preview tool's aggressive cache misleadingly showed raw keys during this session, but source + served file content verified correct.
+
+---
+
+## 9 — FIX-1 (2026-05-25): user-feedback patch
+
+**Trigger:** User reviewed the initial implementation and rejected it with 7 specific corrections. The core issue was that any user landing on `/azkar/morning-azkar` before `js/i18n.js?v=186` had loaded would see raw i18n keys (e.g. `azkar.morning.progress_template`) rendered as text — because the JS module fell back to `t(key)` whose return value is the literal key when the translation table hasn't loaded yet. Compounded by a too-dominant "tech-dashboard" counter that was misaligned visually with a comfortable Arabic reading page.
+
+### 9.1 Fixes applied
+
+| # | Issue | Fix |
+|---|---|---|
+| 1 | Raw i18n keys rendering on the page | Hardcoded `_AZKAR_AR_CHROME` constant in `js/app.js` — all visible strings (counterTap, undo, resetItem, sourceLabel, showVirtue, authenticityLabel, markRead, markedRead, resetAllConfirm, emptyList, progressTpl) are inline Arabic. Zero `t()` calls in the render path. `_updateMorningProgress()` strips `data-i18n` / `data-i18n-template` attributes from the live label as a defensive measure. |
+| 2 | Counter showed "1 / 0" instead of "0 / 1" | Wrapped `tapCount` `<span>` with `dir="ltr"` so the bidi algorithm leaves `current / target` left-to-right inside the RTL page. |
+| 3 | Schema only supported 10 items | Already dynamic — the JS iterates `window.AzkarMorning` regardless of length. Documented and verified with synthetic 25-item array. User just appends `morning-011 … morning-025` when ready; no JS or CSS change needed. |
+| 4 | "Tech dashboard" feel — too loud | Softened CSS: removed gradient backgrounds, reduced shadow weight (0 1px 2px rgba 2.5%), neutralized the leading green vertical bar (now a full subtle border), reduced progress bar from 8px gradient to 4px solid `--primary`, slimmed the order badge (24px circle vs 28px), reduced card padding from 18px/14px to 16px/14px on mobile, reduced max-width 720→680px for a more comfortable column. Removed the leading `✓` pseudo-element. |
+| 5 | Counter too big / too dominant | New `.azkar-counter-tap` is a pill (min-height 44px, min-width 180px, padding 8px 22px, light primary tint, primary outline 1px) centered with auto margins — NOT full-width. Counter font down from 1.5rem to 1.05rem. Undo/reset are now borderless text-links (28px, no border, primary color on hover). |
+| 6 | `repeat===1` items got the big counter (wrong UX) | New `.azkar-mark-read` button replaces the counter entirely for `repeat===1` items. Toggles between "تمت القراءة" (unread) and "✓ تمت القراءة" (read), with `aria-pressed`. Card gold ring + button gold tint on completion. `_azkarTickCounter` branch handles toggle (0 ↔ 1) for single-read, count-up-cap for multi. |
+| 7 | Progress format wrong | `_AZKAR_AR_CHROME.progressTpl(done, total)` returns `'تم إكمال ' + done + ' من ' + total`. SSR placeholder in `index.html` is `تم إكمال 0 من 0` (replaced on first `_updateMorningProgress()` tick to reflect actual `items.length`). |
+
+### 9.2 Files touched (FIX-1)
+
+| File | Change |
+|---|---|
+| `js/app.js` | Rewrote `_loadAzkarMorning` (≈220 lines): single hardcoded-AR chrome object, conditional render (single-read pill vs multi-tap counter), `dir="ltr"` numeric wrappers, defensive `data-i18n*` removal on dynamic elements. Rewrote `_azkarTickCounter` to handle the toggle case. Rewrote `_updateMorningProgress` to use the hardcoded AR template. Added helper `_azkarRepeatLabelAR(n)` for Arabic ordinal labels (مرة واحدة / مرّتان / ثلاث مرات / سبع مرات / عشر مرات / ثلاث وثلاثون مرة / مئة مرة / N مرات / N مرة). |
+| `css/style.css` | Softer card design (less shadow, no leading green bar accent — solid neutral border instead), smaller progress bar (4px solid vs 8px gradient), pill-shape reset button, new `.azkar-mark-read` styles, redesigned `.azkar-counter-tap` (pill, min-width 180px, primary tint not solid primary), new `.azkar-counter-controls` (borderless text-links), mobile @media updated with smaller counter min-heights (48px vs 72px). |
+| `index.html` | Progress label now `<span id="azkar-morning-progress-label">تم إكمال 0 من 0</span>` — removed `data-i18n-template="azkar.morning.progress_template"` (no JS handler existed, so the attribute was dead and the template-string would never substitute placeholders anyway). Reset button has explicit AR text — `data-i18n` retained on the static element for future translations but JS strips it at runtime to prevent any patcher override. Cache busters: `app.js?v=702 → 703`, `style.css?v=426 → 427`. |
+| `reports/azkar-restructure-morning-phase-1-closure.md` | This section added; status line + cache-buster line updated at the top. |
+
+### 9.3 FIX-1 verification
+
+```
+HTTP /azkar/morning-azkar              → 200
+HTTP /en/azkar/morning-azkar           → 200
+HTTP /azkar                            → 200
+HTTP /duas                             → 301 → /azkar
+SSR class flip                         → <div class="page active" id="page-azkar-morning">
+SSR class flip                         → <div class="page active" id="page-azkar-hub">  (on /azkar)
+Served HTML — raw key as text          → 0 hits  ('>azkar.morning.…<')
+Served HTML — Arabic chrome strings    → 5 unique strings rendered: أذكار الصباح / تم إكمال 0 من 0 / إعادة ضبط العدّادات / تمّ بحمد الله / نسأل الله أن يجعل
+Cache busters in served HTML           → app.js?v=703  +  style.css?v=427
+Served app.js                          → contains _AZKAR_AR_CHROME, azkar-mark-read, تم إكمال, تمت القراءة
+Served style.css                       → contains .azkar-mark-read selector
+node --check js/app.js                 → exit 0
+```
+
+### 9.4 What FIX-1 did NOT change
+
+- Data schema in `js/azkar-data.js` — unchanged. Still supports `type:'quran'` for Quran-text items, all schema fields preserved.
+- 25 i18n keys in `js/i18n.js`, `js/i18n/ar.js`, `js/i18n/en.js` — unchanged. They're now strictly opt-in for future enhancements; the render path no longer depends on them.
+- SPA activator regex / SSR injection / sitemap entries / `/duas → /azkar` 301 — all unchanged.
+- 10 migrated morning azkar IDs `morning-001 … morning-010` — unchanged (localStorage stability preserved).
 
 ---
 

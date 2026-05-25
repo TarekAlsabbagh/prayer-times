@@ -23643,6 +23643,107 @@ function _azkarShowToast(message) {
 // the inline reset button. Idempotent — _loadAzkarMorning may call this on
 // every reload of the list. No localStorage / counter / SEO change.
 // ─────────────────────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-EVENTS-ECHO-1 (2026-05-25)
+// Populate the "Islamic events countdown" section at the bottom of
+// /azkar/morning-azkar with the same data the /moon-today page shows
+// (Ramadan / Eid Al-Fitr / Eid Al-Adha / Hijri New Year — sorted by
+// closest first). Standalone version of the events block embedded in
+// updateMoonInfo() — replicated here so we don't have to load the
+// whole moon-page init machinery on the azkar page.
+//
+// Uses class-based selectors (.moon-event-X-days / .moon-event-X-card)
+// — these were originally introduced to support multiple instances of
+// the section on the same page and are picked up by the original
+// updateMoonInfo() too, so this stays in sync with the moon page if
+// the data model ever changes.
+// ─────────────────────────────────────────────────────────────────────────────
+function _azkarRenderMoonEvents() {
+    try {
+        if (!document.querySelector('#page-azkar-morning .moon-events-section')) return;
+        if (typeof HijriDate === 'undefined' || typeof HijriDate.getCurrent !== 'function') return;
+        const _today = new Date();
+        const _todayStart = new Date(_today.getFullYear(), _today.getMonth(), _today.getDate());
+        const _hToday = HijriDate.getCurrent();
+        if (!_hToday) return;
+
+        const _toGreg = (hy, hm, hd) => {
+            try {
+                const g = HijriDate.toGregorian(hy, hm, hd);
+                return new Date(g.year, g.month - 1, g.day);
+            } catch (_) { return null; }
+        };
+        const _nextEventDate = (targetMonth, targetDay) => {
+            let d = _toGreg(_hToday.year, targetMonth, targetDay);
+            if (d && d >= _todayStart) return d;
+            return _toGreg(_hToday.year + 1, targetMonth, targetDay);
+        };
+        const _daysBetween = (futureDate) => {
+            if (!futureDate) return null;
+            const f = new Date(futureDate.getFullYear(), futureDate.getMonth(), futureDate.getDate());
+            return Math.round((f - _todayStart) / 86400000);
+        };
+        const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const _tt = (key, params) => {
+            if (typeof t === 'function') {
+                const v = t(key, params);
+                if (v && v !== key) return v;
+            }
+            return null;
+        };
+        const _fmtEventDate = (d) => {
+            if (!d) return '—';
+            const m = _tt('gmonth.' + (d.getMonth() + 1)) || String(d.getMonth() + 1);
+            return d.getDate() + ' ' + m + ' ' + d.getFullYear();
+        };
+        const _daysLabel = (n) => {
+            if (n === 0) return _tt('moon.events.today') || 'اليوم';
+            if (n === 1) return _tt('moon.events.tomorrow') || 'غدًا';
+            if (typeof arPluralDays === 'function') return arPluralDays(n, _lang);
+            return _tt('moon.events.days_template', { n: n }) || (n + ' days');
+        };
+
+        const _events = [
+            { id: 'ramadan', hm: 9,  hd: 1  },
+            { id: 'fitr',    hm: 10, hd: 1  },
+            { id: 'adha',    hm: 12, hd: 10 },
+            { id: 'newyear', hm: 1,  hd: 1  }
+        ];
+
+        // Scope every query to #page-azkar-morning so we never touch the
+        // original moon-page DOM — its updateMoonInfo() handles those.
+        const _scope = document.getElementById('page-azkar-morning');
+        const _setAll = (sel, value) => {
+            _scope.querySelectorAll(sel).forEach(el => { el.textContent = value; });
+        };
+
+        const _eventsWithDays = _events.map(ev => {
+            const d = _nextEventDate(ev.hm, ev.hd);
+            return { id: ev.id, date: d, days: _daysBetween(d) };
+        });
+        _eventsWithDays.sort((a, b) => {
+            if (a.days == null && b.days == null) return 0;
+            if (a.days == null) return 1;
+            if (b.days == null) return -1;
+            return a.days - b.days;
+        });
+        _eventsWithDays.forEach((ev, idx) => {
+            const _daysVal = (ev.days != null) ? _daysLabel(ev.days) : '—';
+            const _dateVal = _fmtEventDate(ev.date);
+            _setAll('.moon-event-' + ev.id + '-days', _daysVal);
+            _setAll('.moon-event-' + ev.id + '-date', _dateVal);
+            _scope.querySelectorAll('.moon-event-' + ev.id + '-card').forEach(_card => {
+                _card.style.order = String(idx);
+                if (ev.days != null && ev.days >= 0 && ev.days <= 5) {
+                    _card.classList.add('moon-event-soon');
+                } else {
+                    _card.classList.remove('moon-event-soon');
+                }
+            });
+        });
+    } catch (_) { /* silent — events echo is a UX nicety, never throw */ }
+}
+
 function _azkarWireStickyProgress() {
     try {
         const sticky = document.getElementById('azkar-morning-sticky');
@@ -24012,6 +24113,9 @@ function _loadAzkarMorning() {
     // its IntersectionObserver after the list renders. Idempotent —
     // safe to call on every reload of _loadAzkarMorning.
     _azkarWireStickyProgress();
+    // AZKAR-EVENTS-ECHO-1 (2026-05-25): populate the Islamic events
+    // countdown section at the bottom of /azkar/morning-azkar.
+    _azkarRenderMoonEvents();
 }
 
 function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {

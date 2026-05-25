@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=710" as="script">
+    <link rel="preload" href="js/app.js?v=711" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -3466,6 +3466,51 @@
                         </details>
                     </div>
                 </section>
+
+                <!-- ===== Islamic events countdown ===== AZKAR-EVENTS-ECHO-1 (2026-05-25) =====
+                     Echo of /moon-today's #moon-events-section but with class-based
+                     identifiers (no ID conflicts). _azkarRenderMoonEvents() in
+                     js/app.js populates the day-counts + dates using the same
+                     hijri-to-greg conversion the moon page uses. Reuses the
+                     existing .moon-events-* / .moon-event-* CSS unchanged. -->
+                <section class="section-card moon-events-section" aria-labelledby="azkar-morning-events-h2">
+                    <h2 id="azkar-morning-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
+                    <div class="moon-events-countdown">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">—</div>
+                                <div class="moon-event-date moon-event-ramadan-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">—</div>
+                                <div class="moon-event-date moon-event-fitr-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">—</div>
+                                <div class="moon-event-date moon-event-adha-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
+                                <div class="moon-event-days moon-event-newyear-days">—</div>
+                                <div class="moon-event-date moon-event-newyear-date">—</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.</p>
+                </section>
             </div>
 
             <!-- ===== صفحة المسبحة الإلكترونية ===== -->
@@ -4142,7 +4187,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=2"></script>
-    <script defer src="js/app.js?v=710"></script>
+    <script defer src="js/app.js?v=711"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

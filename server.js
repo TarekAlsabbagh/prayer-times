@@ -7694,6 +7694,36 @@ function buildSeoForPath(urlPath) {
             },
             ogType: 'article',
         },
+        // AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25): independent morning page.
+        // AR + EN fully translated; other 8 langs use EN values as Phase-1 fallback
+        // per user spec ("AR كامل + EN chrome فقط الآن").
+        '/azkar/morning-azkar': {
+            title: {
+                ar: 'أذكار الصباح مكتوبة | تَكرار صحيح، مصدر مُوَثَّق، وعَدّ تفاعليّ',
+                en: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                fr: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                tr: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                ur: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                de: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                id: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                es: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                bn: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+                ms: 'Morning Azkar | Authentic Daily Adhkar with Interactive Counter',
+            },
+            desc: {
+                ar: 'اقرأ أذكار الصباح مكتوبة كاملة مع عدد التكرار والمصدر الصحيح. عداد تفاعلي يحفظ تقدّمك تلقائيًا — أعد ضبطه متى شئت.',
+                en: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                fr: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                tr: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                ur: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                de: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                id: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                es: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                bn: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+                ms: 'Read the morning azkar in full with repeat counts and authentic sources. Interactive counter saves your progress automatically — reset whenever you want.',
+            },
+            ogType: 'article',
+        },
         '/msbaha': {
             // Phase D1: replace em-dash with "|", extend titles, trim ar/bn descs
             title: {
@@ -14252,6 +14282,28 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // only the 6 H2 inside #page-hijri-year (or month).
         const _activeWrapperId = _isHijriMonthHub ? 'page-hijri-month' : 'page-hijri-year';
         html = _demoteHeadingsInInactivePageWrappers(html, _activeWrapperId);
+    }
+
+    // ─── AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25) ─────────────────
+    //   SSR-activate the new azkar pages so the hub cards + morning
+    //   skeleton render in the FIRST HTML response (search engines see
+    //   content + perceived load is instant). Client-side activator at
+    //   js/app.js:3432+ handles the same flip idempotently — this is a
+    //   pure SSR fast-path that adds .active to the right wrapper.
+    {
+        const _isAzkarMorningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath);
+        const _isAzkarHubRoute     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath);
+        if (_isAzkarMorningRoute) {
+            html = html.replace(
+                '<div class="page" id="page-azkar-morning">',
+                '<div class="page active" id="page-azkar-morning">'
+            );
+        } else if (_isAzkarHubRoute) {
+            html = html.replace(
+                '<div class="page" id="page-azkar-hub">',
+                '<div class="page active" id="page-azkar-hub">'
+            );
+        }
     }
 
     // ─── HIJRI-MONTH-PAGE-SSR-RENDER-1 (2026-05-24) ─────────────────────
@@ -22006,6 +22058,8 @@ const server = http.createServer(async (req, res) => {
                 ['/moon-today', '0.8', 'daily'],
                 ['/zakat-calculator', '0.8', 'monthly'],
                 ['/azkar', '0.8', 'monthly'],
+                // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page
+                ['/azkar/morning-azkar', '0.75', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
                 // HD-1 (2026-05-07): /today-hijri-date is now a first-class indexable
@@ -22217,6 +22271,9 @@ const server = http.createServer(async (req, res) => {
         //   /moon-in-{slug}/YYYY-MM-DD  → day page (existing)
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+?(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath) ||
+        // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page first
+        // (more specific than /azkar$ — needs to match before the bare hub).
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath) ||

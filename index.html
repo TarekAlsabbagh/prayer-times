@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=700" as="script">
+    <link rel="preload" href="js/app.js?v=701" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=425" as="style">
-    <link rel="stylesheet" href="css/style.css?v=425">
+    <link rel="preload" href="css/style.css?v=426" as="style">
+    <link rel="stylesheet" href="css/style.css?v=426">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -251,7 +251,7 @@
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-coins"/></svg>
                     <span data-i18n="nav.zakat">حاسبة الزكاة</span>
                 </a>
-                <a href="#" data-page="duas">
+                <a href="/azkar" data-page="azkar">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-hands-praying"/></svg>
                     <span data-i18n="nav.duas">الأدعية والأذكار</span>
                 </a>
@@ -3244,15 +3244,132 @@
                 </div>
             </div>
 
-            <!-- ===== صفحة الأدعية والأذكار ===== -->
-            <div class="page" id="page-duas">
-                <div class="section-card">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-hands-praying"/></svg> <span data-i18n="duas.title">الأدعية والأذكار</span></h2>
-                    <div class="dua-categories" id="dua-categories"></div>
+            <!-- ═══════════════════════════════════════════════════════════════
+                 AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25):
+                 Old #page-duas (all-in-one render with 8 categories + tabs +
+                 session-only counter) was REPLACED by two independent pages:
+
+                   1. #page-azkar-hub      → URL /azkar   (10 category cards)
+                   2. #page-azkar-morning  → URL /azkar/morning-azkar
+                                             (independent reading page +
+                                              persistent counter via
+                                              localStorage)
+
+                 Legacy js/duas.js + .dua-* CSS remain as deprecated compat
+                 shims for one cycle. Sibling category pages (evening, sleep,
+                 etc.) will be added in Phase 2 using #page-azkar-morning as
+                 the template.
+                 ═══════════════════════════════════════════════════════════════ -->
+
+            <!-- ===== /azkar — Hub of category cards ===== -->
+            <div class="page" id="page-azkar-hub">
+                <header class="azkar-page-header">
+                    <h1 data-i18n="azkar.hub.title">الأذكار</h1>
+                    <p class="azkar-hub-subtitle" data-i18n="azkar.hub.subtitle">اختر القسم الذي تريد قراءته. أذكار الصباح متاحة الآن — وبقية الأقسام قريبًا إن شاء الله.</p>
+                </header>
+
+                <nav class="azkar-hub-grid" aria-label="أقسام الأذكار">
+
+                    <!-- LIVE: أذكار الصباح -->
+                    <a class="azkar-card" href="/azkar/morning-azkar">
+                        <span class="azkar-card-icon" aria-hidden="true">🌅</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_morning_title">أذكار الصباح</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_morning_desc">ابدأ يومك بذكر الله — أذكار تُقال بعد صلاة الفجر.</p>
+                        <div class="azkar-card-meta">
+                            <span><span data-i18n="azkar.hub.card_morning_count">10 ذكرًا</span></span>
+                            <span>·</span>
+                            <span><span data-i18n="azkar.hub.card_morning_time">~5–8 دقائق</span></span>
+                        </div>
+                        <span class="azkar-card-cta" data-i18n="azkar.hub.card_start_btn">ابدأ القراءة</span>
+                    </a>
+
+                    <!-- SOON: 9 سيبلنغز -->
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">🌙</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_evening_title">أذكار المساء</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_evening_desc">أذكار تُقال بعد صلاة العصر إلى المغرب.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">😴</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_sleep_title">أذكار النوم</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_sleep_desc">أذكار تُقال قبل النوم لحفظ الله ورعايته.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">🕌</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_after_prayer_title">أذكار بعد الصلاة</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_after_prayer_desc">التسبيح والتحميد والتكبير بعد كل صلاة مكتوبة.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">⛅</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_wake_title">أذكار الاستيقاظ</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_wake_desc">حمد الله بعد إحيائنا والاستعداد للصلاة.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">✈️</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_travel_title">أذكار السفر</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_travel_desc">دعاء الركوب والسفر والنزول في منزل.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">🍽</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_food_drink_title">أذكار الطعام والشراب</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_food_drink_desc">قبل وبعد الأكل والشرب — بسم الله وأحمد الله.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">🕋</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_mosque_title">أذكار دخول المسجد والخروج منه</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_mosque_desc">السنّة عند الدخول إلى المسجد والخروج منه.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">📿</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_istighfar_title">أذكار الاستغفار والتسبيح</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_istighfar_desc">مختارات من صيغ الاستغفار والتسبيح والذكر.</p>
+                    </div>
+
+                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
+                        <span class="azkar-card-icon" aria-hidden="true">📖</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_quran_sunnah_title">أدعية من القرآن والسنة</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_quran_sunnah_desc">أدعية مأثورة من القرآن الكريم والسنة النبوية.</p>
+                    </div>
+
+                </nav>
+            </div>
+
+            <!-- ===== /azkar/morning-azkar — Independent morning page ===== -->
+            <div class="page" id="page-azkar-morning">
+                <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
+                    <a href="/azkar" data-i18n="azkar.hub.title">الأذكار</a>
+                    <span class="sep" aria-hidden="true">›</span>
+                    <span aria-current="page" data-i18n="azkar.morning.title">أذكار الصباح</span>
+                </nav>
+
+                <header class="azkar-page-header">
+                    <h1 data-i18n="azkar.morning.title">أذكار الصباح</h1>
+                    <p class="azkar-page-subtitle" data-i18n="azkar.morning.subtitle">اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر. يُحفظ تقدّمك تلقائيًا.</p>
+                </header>
+
+                <div class="azkar-progress-wrap" id="azkar-morning-progress-wrap">
+                    <div class="azkar-progress-row">
+                        <span class="azkar-progress-label" id="azkar-morning-progress-label" data-i18n-template="azkar.morning.progress_template">0 / 0 مكتمل</span>
+                        <button type="button" class="azkar-reset-all" id="azkar-morning-reset-all" data-i18n="azkar.morning.reset_btn">إعادة ضبط العدّادات</button>
+                    </div>
+                    <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="azkar-progress-fill" id="azkar-morning-progress-fill"></div>
+                    </div>
                 </div>
-                <div class="section-card u-hidden" id="dua-list-section">
-                    <h2 id="dua-list-title" data-i18n="dua.list_title">قائمة الأدعية والأذكار</h2>
-                    <div class="dua-list" id="dua-list"></div>
+
+                <div class="azkar-list" id="azkar-morning-list" aria-live="polite"></div>
+
+                <div class="azkar-completed-banner u-hidden" id="azkar-morning-completed">
+                    <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
+                    <p class="azkar-completed-banner-title" data-i18n="azkar.morning.completed_title">تمّ بحمد الله</p>
+                    <p class="azkar-completed-banner-sub" data-i18n="azkar.morning.completed_subtitle">نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.</p>
                 </div>
             </div>
 
@@ -3919,14 +4036,18 @@
            <script defer src="js/i18n/en.js?v=N"></script>  ← only if lang ≠ ar/en
          Detection happens server-side from URL prefix (`/en/`, `/fr/`, etc.).
          The marker line below is the regex anchor for the replacement. -->
-    <script defer src="js/i18n.js?v=185"></script>
+    <script defer src="js/i18n.js?v=186"></script>
     <script defer src="js/prayer-times.js?v=48"></script>
     <script defer src="js/hijri-date.js?v=43"></script>
     <script defer src="js/qibla.js?v=44"></script>
     <script defer src="js/moon.js?v=52"></script>
     <script defer src="js/moon-chart.js?v=9"></script>
+    <!-- Legacy duas.js retained as deprecated compat shim — superseded by
+         js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
+         Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/app.js?v=700"></script>
+    <script defer src="js/azkar-data.js?v=1"></script>
+    <script defer src="js/app.js?v=701"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

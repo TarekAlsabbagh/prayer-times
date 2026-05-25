@@ -1,3 +1,23 @@
+/* ───────────────────────────────────────────────────────────────────
+   AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25):
+   Amiri Quran — self-hosted, Quran-grade Arabic typography. Used ONLY
+   by `.azkar-quran-text` for items where AzkarMorning[i].type === 'quran'
+   (e.g. آية الكرسي، الإخلاص، الفلق، الناس). All other azkar use the
+   default site font via `.azkar-text`.
+
+   The woff2 binary lives at /fonts/AmiriQuran-Regular.woff2 (SIL OFL,
+   redistributed per license; see /fonts/LICENSE-AMIRI.txt). If the
+   file is absent, the fallback chain below renders gracefully via
+   `Amiri`, `Scheherazade New`, system serif — page never breaks. */
+@font-face {
+    font-family: 'AmiriQuran';
+    src: url('../fonts/AmiriQuran-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+    unicode-range: U+0600-06FF, U+0750-077F, U+08A0-08FF, U+FB50-FDFF, U+FE70-FEFF;
+}
+
 /* عرض صفحة القبلة فوراً عند تحميل URL القبلة — يحسن LCP و Speed Index */
 html.qibla-page-loading #page-qibla { display: block !important; }
 html.qibla-page-loading #page-prayer-times { display: none !important; }
@@ -7165,6 +7185,445 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     transition: background var(--transition);
 }
 .dua-item .dua-count:hover { background: var(--primary-dark); }
+/* @deprecated AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25):
+   The .dua-categories / .dua-category / .dua-list / .dua-item / .dua-count
+   rule block above is superseded by .azkar-* below. Kept this cycle as a
+   compat shim because js/duas.js is still preloaded as a back-compat stub.
+   REMOVE in a future Phase 2 cleanup once nothing references it. */
+
+/* ════════════════════════════════════════════════════════════════════
+   AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25)
+   Hub page + per-category dhikr page styling. Targets two pages:
+     #page-azkar-hub         — landing grid of 10 category cards.
+     #page-azkar-morning     — first independent category page (template
+                               for sibling categories in Phase 2+).
+   Mobile-first. Counter tap-areas ≥ 64px on desktop, ≥ 72px on mobile.
+   Native <details>/<summary> for virtue + authenticity-note (matches
+   existing .faq-item pattern). Theme tokens reused throughout —
+   var(--card-bg), var(--primary), var(--gold), var(--text-light), etc.
+   ════════════════════════════════════════════════════════════════════ */
+
+/* ── Hub: header + intro ────────────────────────────────────────── */
+.azkar-page-header {
+    text-align: center;
+    max-width: 720px;
+    margin: 0 auto 24px;
+    padding: 8px 16px 0;
+}
+.azkar-page-header h1 {
+    font-size: clamp(1.6rem, 4vw, 2.2rem);
+    color: var(--primary-dark, #1b5e20);
+    margin: 0 0 8px;
+}
+.azkar-page-header .azkar-hub-subtitle,
+.azkar-page-header .azkar-page-subtitle {
+    font-size: 1rem;
+    color: var(--text-light, #6b7b75);
+    line-height: 1.7;
+    margin: 0;
+}
+
+/* ── Hub: 10-card grid ──────────────────────────────────────────── */
+.azkar-hub-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+.azkar-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 20px;
+    min-height: 170px;
+    background: var(--card-bg);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: var(--radius, 12px);
+    box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.05));
+    color: var(--text, #1f2a1c);
+    text-decoration: none;
+    transition: transform .15s, border-color .15s, box-shadow .15s;
+    position: relative;
+    overflow: hidden;
+}
+.azkar-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary, #2e7d32);
+    box-shadow: 0 8px 20px rgba(46, 125, 50, 0.12);
+}
+.azkar-card--soon {
+    opacity: 0.6;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.azkar-card--soon::after {
+    content: 'قريبًا';
+    position: absolute;
+    top: 12px;
+    inset-inline-start: 12px;
+    background: var(--gold, #d4a017);
+    color: #fff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    padding: 3px 10px;
+    border-radius: 999px;
+    letter-spacing: 0.2px;
+}
+.azkar-card-icon {
+    font-size: 2rem;
+    line-height: 1;
+}
+.azkar-card-title {
+    font-size: 1.15rem;
+    font-weight: 700;
+    margin: 0;
+    color: var(--primary-dark, #1b5e20);
+}
+.azkar-card-desc {
+    font-size: 0.9rem;
+    color: var(--text-light, #6b7b75);
+    line-height: 1.6;
+    margin: 0;
+    flex: 1 1 auto;
+}
+.azkar-card-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    font-size: 0.85rem;
+    color: var(--text-light, #6b7b75);
+    align-items: center;
+}
+.azkar-card-meta > span { display: inline-flex; align-items: center; gap: 4px; }
+.azkar-card-cta {
+    display: inline-block;
+    padding: 8px 14px;
+    background: var(--primary, #2e7d32);
+    color: #fff;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.92rem;
+    align-self: flex-start;
+    margin-top: 4px;
+}
+
+/* ── Morning page: breadcrumb ──────────────────────────────────── */
+.azkar-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 0.88rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0 auto 12px;
+    max-width: 720px;
+    padding: 0 16px;
+}
+.azkar-breadcrumb a { color: var(--primary, #2e7d32); text-decoration: none; }
+.azkar-breadcrumb a:hover { text-decoration: underline; }
+.azkar-breadcrumb .sep { opacity: 0.5; }
+
+/* ── Morning page: progress bar + reset ────────────────────────── */
+.azkar-progress-wrap {
+    max-width: 720px;
+    margin: 0 auto 16px;
+    padding: 14px 16px;
+    background: var(--bg, #f7f9f7);
+    border: 1px solid var(--border, #e0e0e0);
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.azkar-progress-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+.azkar-progress-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--text, #1f2a1c);
+}
+.azkar-reset-all {
+    border: 1px solid var(--border, #d9e3d9);
+    background: transparent;
+    color: var(--text, #1f2a1c);
+    padding: 6px 14px;
+    border-radius: 8px;
+    font-size: 0.88rem;
+    cursor: pointer;
+    transition: background .12s, border-color .12s;
+}
+.azkar-reset-all:hover { background: var(--bg, #f0f4f0); border-color: var(--primary, #2e7d32); }
+.azkar-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: var(--border, #e0e0e0);
+    border-radius: 4px;
+    overflow: hidden;
+}
+.azkar-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, var(--primary, #2e7d32), var(--gold, #d4a017));
+    transition: width .25s ease-out;
+}
+
+/* ── Morning page: list of dhikr cards ─────────────────────────── */
+.azkar-list {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 0 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+.azkar-card-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border, #e0e0e0);
+    border-inline-start: 4px solid var(--primary, #2e7d32);
+    border-radius: 10px;
+    padding: 18px 18px 14px;
+    box-shadow: var(--shadow, 0 2px 8px rgba(0, 0, 0, 0.05));
+    transition: border-color .2s, box-shadow .2s;
+}
+.azkar-card-item.completed {
+    border-inline-start-color: var(--gold, #d4a017);
+    background: rgba(212, 160, 23, 0.04);
+}
+.azkar-card-item.completed::before {
+    content: '✓';
+    color: var(--gold, #d4a017);
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-inline-end: 6px;
+}
+.azkar-card-item-order {
+    display: inline-block;
+    min-width: 28px;
+    height: 28px;
+    line-height: 28px;
+    text-align: center;
+    background: var(--bg, #f7f9f7);
+    color: var(--text-light, #6b7b75);
+    border-radius: 50%;
+    font-size: 0.82rem;
+    font-weight: 700;
+    margin-inline-end: 8px;
+}
+.azkar-card-item-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary-dark, #1b5e20);
+    margin: 0 0 8px;
+}
+
+/* ── Dhikr text: default vs Quran-grade ────────────────────────── */
+.azkar-text {
+    font-size: clamp(1.05rem, 2.6vw, 1.2rem);
+    line-height: 2;
+    color: var(--text, #1f2a1c);
+    direction: rtl;
+    text-align: right;
+    margin: 0 0 14px;
+}
+.azkar-quran-text {
+    font-family: 'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+    font-size: clamp(1.45rem, 4vw, 2rem);
+    line-height: 2.25;
+    color: var(--text, #1f2a1c);
+    direction: rtl;
+    text-align: center;
+    letter-spacing: 0;
+    margin: 0 0 14px;
+}
+
+/* ── Counter (large tap area) ──────────────────────────────────── */
+.azkar-counter {
+    margin: 10px 0 6px;
+}
+.azkar-counter-tap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    width: 100%;
+    min-height: 64px;
+    padding: 12px 18px;
+    background: linear-gradient(135deg, var(--primary, #2e7d32), var(--primary-dark, #1b5e20));
+    color: #fff;
+    border: 0;
+    border-radius: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform .08s, filter .12s, background .2s;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+.azkar-counter-tap:hover { filter: brightness(1.05); }
+.azkar-counter-tap:active { transform: scale(0.98); }
+.azkar-counter-tap-prompt {
+    font-size: 0.9rem;
+    opacity: 0.85;
+    font-weight: 500;
+}
+.azkar-counter-tap-count {
+    font-size: 1.5rem;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.5px;
+}
+.azkar-card-item.completed .azkar-counter-tap {
+    background: linear-gradient(135deg, var(--gold, #d4a017), #b88912);
+    cursor: default;
+}
+.azkar-counter-controls {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+}
+.azkar-counter-undo,
+.azkar-counter-reset {
+    min-height: 32px;
+    padding: 4px 14px;
+    background: transparent;
+    border: 1px solid var(--border, #d9e3d9);
+    color: var(--text-light, #6b7b75);
+    border-radius: 6px;
+    font-size: 0.82rem;
+    cursor: pointer;
+    transition: background .12s, color .12s, border-color .12s;
+}
+.azkar-counter-undo:hover,
+.azkar-counter-reset:hover {
+    background: var(--bg, #f0f4f0);
+    color: var(--text, #1f2a1c);
+    border-color: var(--primary, #2e7d32);
+}
+
+/* ── Source line + virtue + authenticity accordions ────────────── */
+.azkar-repeat-label {
+    display: inline-block;
+    font-size: 0.82rem;
+    color: var(--text-light, #6b7b75);
+    background: var(--bg, #f7f9f7);
+    padding: 2px 10px;
+    border-radius: 999px;
+    margin: 0 0 8px;
+}
+.azkar-source {
+    font-size: 0.82rem;
+    color: var(--text-light, #6b7b75);
+    margin: 10px 0 0;
+    padding-top: 8px;
+    border-top: 1px dashed var(--border, #e0e0e0);
+}
+.azkar-source::before { content: '📚 '; opacity: 0.7; }
+.azkar-virtue,
+.azkar-authenticity {
+    margin-top: 8px;
+    border-top: 1px dashed var(--border, #e0e0e0);
+    padding-top: 8px;
+}
+.azkar-virtue summary,
+.azkar-authenticity summary {
+    cursor: pointer;
+    font-size: 0.85rem;
+    color: var(--primary, #2e7d32);
+    list-style: none;
+    user-select: none;
+    padding: 4px 0;
+}
+.azkar-virtue summary::-webkit-details-marker,
+.azkar-authenticity summary::-webkit-details-marker { display: none; }
+.azkar-virtue summary::after,
+.azkar-authenticity summary::after {
+    content: '▾';
+    margin-inline-start: 6px;
+    transition: transform .15s;
+    display: inline-block;
+}
+.azkar-virtue[open] summary::after,
+.azkar-authenticity[open] summary::after { transform: rotate(180deg); }
+.azkar-virtue p,
+.azkar-authenticity p {
+    font-size: 0.9rem;
+    color: var(--text, #1f2a1c);
+    line-height: 1.7;
+    margin: 8px 0 0;
+    padding-inline-start: 4px;
+}
+
+/* ── Completed banner (shows when all morning items at target) ── */
+.azkar-completed-banner {
+    max-width: 720px;
+    margin: 24px auto 0;
+    padding: 22px 18px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(212, 160, 23, 0.10), rgba(46, 125, 50, 0.08));
+    border: 1px solid var(--gold, #d4a017);
+    border-radius: 14px;
+}
+.azkar-completed-banner-check {
+    font-size: 2.4rem;
+    color: var(--gold, #d4a017);
+    margin-bottom: 8px;
+    display: block;
+}
+.azkar-completed-banner-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--primary-dark, #1b5e20);
+    margin: 0 0 4px;
+}
+.azkar-completed-banner-sub {
+    font-size: 0.95rem;
+    color: var(--text-light, #6b7b75);
+    margin: 0;
+}
+.u-hidden { display: none !important; }
+
+/* ── Mobile (≤ 480px) ──────────────────────────────────────────── */
+@media (max-width: 480px) {
+    .azkar-hub-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+    .azkar-card { padding: 14px; min-height: 150px; }
+    .azkar-card-icon { font-size: 1.7rem; }
+    .azkar-card-title { font-size: 1rem; }
+    .azkar-card-desc { font-size: 0.85rem; }
+    .azkar-card--soon::after { font-size: 0.66rem; padding: 2px 8px; }
+    .azkar-card-item { padding: 14px 14px 12px; }
+    .azkar-counter-tap { min-height: 72px; }
+    .azkar-counter-tap-prompt { font-size: 0.85rem; }
+    .azkar-counter-tap-count { font-size: 1.65rem; }
+    .azkar-counter-undo,
+    .azkar-counter-reset { min-height: 44px; padding: 8px 16px; font-size: 0.9rem; }
+    .azkar-progress-wrap { padding: 12px 14px; }
+    .azkar-list { padding: 0 12px; }
+    .azkar-breadcrumb { padding: 0 12px; }
+    .azkar-page-header { padding: 8px 12px 0; }
+}
+
+/* ── Dark mode overrides (mirror existing .dua-* pattern) ──────── */
+html[data-theme="dark"] .azkar-card {
+    background: var(--card-bg);
+    border-color: var(--border);
+    color: var(--text);
+}
+html[data-theme="dark"] .azkar-card-item {
+    background: var(--card-bg);
+    border-color: var(--border);
+}
+html[data-theme="dark"] .azkar-card-title,
+html[data-theme="dark"] .azkar-card-item-title { color: var(--primary, #4ade80); }
+html[data-theme="dark"] .azkar-progress-wrap { background: var(--bg); border-color: var(--border); }
+html[data-theme="dark"] .azkar-reset-all:hover { background: var(--bg); }
+html[data-theme="dark"] .azkar-completed-banner {
+    background: linear-gradient(135deg, rgba(212, 160, 23, 0.15), rgba(46, 125, 50, 0.12));
+}
 
 /* ========= شريط البحث عن المدن ========= */
 .city-search-wrapper {

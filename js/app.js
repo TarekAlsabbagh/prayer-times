@@ -3153,8 +3153,16 @@ async function initApp() {
     // تهيئة الأذان الصوتي — deferred on moon pages (only needed on prayer pages)
     _deferOnMoon(initAdhanSettings);
 
-    // تهيئة الأذكار و التَسبيح — deferred on moon pages (only needed on /azkar, /msbaha)
-    _deferOnMoon(initDuas);
+    // تهيئة الأذكار و التَسبيح — deferred on moon pages (only needed on /azkar*, /msbaha)
+    // AZKAR-RESTRUCTURE-MORNING-PHASE-1: route to new hub/morning loaders based on
+    // which page exists in the DOM. Legacy initDuas() retained but never called
+    // (page-duas no longer in the DOM; #page-azkar-hub / #page-azkar-morning live now).
+    _deferOnMoon(() => {
+        try {
+            if (document.getElementById('page-azkar-hub'))     _loadAzkarHub();
+            if (document.getElementById('page-azkar-morning')) _loadAzkarMorning();
+        } catch (_) { /* silent */ }
+    });
     _deferOnMoon(initTasbih);
 
     // UAT-Z1: تهيئة حاسبة الزكاة — deferred on moon pages (only needed on /zakat-calculator)
@@ -3429,13 +3437,20 @@ async function initApp() {
         try { _enhanceConverterSteppers(); } catch (_) {}
     }
 
-    // Phase D3.3-0: تفعيل صفحة الأذكار عند URL /azkar (sec ID و data-page يَبقَيان "duas" داخليّاً)
-    const _isAzkarPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(window.location.pathname);
-    if (_isAzkarPage && !window._navigatingAway) {
+    // AZKAR-RESTRUCTURE-MORNING-PHASE-1: tri-state activation for the
+    // restructured azkar pages.
+    //   /azkar                 → #page-azkar-hub
+    //   /azkar/morning-azkar   → #page-azkar-morning
+    // Both share sidebar nav-key "azkar".
+    const _azkarPath = window.location.pathname;
+    const _isAzkarMorningPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(_azkarPath);
+    const _isAzkarHubPage     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_azkarPath);
+    if ((_isAzkarMorningPage || _isAzkarHubPage) && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-duas')?.classList.add('active');
+        const _azkarTargetId = _isAzkarMorningPage ? 'page-azkar-morning' : 'page-azkar-hub';
+        document.getElementById(_azkarTargetId)?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
-        document.querySelector('.sidebar-nav a[data-page="duas"]')?.classList.add('active');
+        document.querySelector('.sidebar-nav a[data-page="azkar"]')?.classList.add('active');
     }
 
     // تفعيل صفحة القبلة عند URL:
@@ -10800,8 +10815,12 @@ window.addEventListener('pageshow', function(e) {
             _expectedId = 'page-moon';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(_path)) {
             _expectedId = 'page-tasbih';
-        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_path)) {
-            _expectedId = 'page-duas';
+        } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(_path)) {
+            // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page
+            _expectedId = 'page-azkar-morning';
+        } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_path)) {
+            // AZKAR-RESTRUCTURE-MORNING-PHASE-1: hub of category cards
+            _expectedId = 'page-azkar-hub';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(_path)) {
             _expectedId = 'page-hijri-today';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(_path)) {
@@ -10840,7 +10859,8 @@ window.addEventListener('pageshow', function(e) {
                               : (_expectedId === 'page-qibla')        ? 'qibla'
                               : (_expectedId === 'page-moon')         ? 'moon'
                               : (_expectedId === 'page-tasbih')       ? 'tasbih'
-                              : (_expectedId === 'page-duas')         ? 'duas'
+                              : (_expectedId === 'page-azkar-hub')    ? 'azkar'
+                              : (_expectedId === 'page-azkar-morning')? 'azkar'
                               : (_expectedId === 'page-hijri-today')  ? 'hijri-today'
                               : (_expectedId === 'page-hijri-day')    ? 'hijri-today'
                               : (_expectedId === 'page-hijri-year')   ? 'hijri-calendar'
@@ -23328,6 +23348,306 @@ function incrementCounter(id, max, element) {
     } else {
         element.style.background = '';
         element.style.color = '';
+    }
+}
+
+// =============================================================================
+// AZKAR-RESTRUCTURE-MORNING-PHASE-1 (2026-05-25) — new azkar module
+// =============================================================================
+// Replaces the legacy initDuas/showDuaCategory/incrementCounter trio above
+// (which is kept as a deprecated compat shim — never called now because
+// #dua-categories is no longer in the DOM, and the early-return guard in
+// initDuas() handles that safely).
+//
+// This module powers:
+//   /azkar                 → #page-azkar-hub      (static SSR-friendly cards)
+//   /azkar/morning-azkar   → #page-azkar-morning  (client-rendered list +
+//                                                  interactive counter +
+//                                                  localStorage persistence)
+//
+// Storage convention: per-dhikr counter at
+//   localStorage['azkar.count.' + category + '.' + dhikrId]
+// NEVER auto-resets — user must click "Reset all" to zero them out.
+// =============================================================================
+function _loadAzkarHub() {
+    // Hub cards are SSR-static <a> / <div> in index.html.
+    // Nothing to wire client-side right now beyond the i18n patcher (which
+    // runs globally via the existing data-i18n attribute walker).
+    // Reserved hook for future click telemetry / lazy enhancements.
+    try {
+        const hub = document.getElementById('page-azkar-hub');
+        if (!hub || hub.dataset.wired) return;
+        hub.dataset.wired = '1';
+    } catch (_) { /* silent */ }
+}
+
+function _azkarStorageKey(category, dhikrId) {
+    return 'azkar.count.' + category + '.' + dhikrId;
+}
+function _azkarPersist(category, dhikrId, count) {
+    try { localStorage.setItem(_azkarStorageKey(category, dhikrId), String(count)); }
+    catch (_) { /* localStorage disabled / Safari private */ }
+}
+function _azkarRestore(category, dhikrId) {
+    try {
+        const v = localStorage.getItem(_azkarStorageKey(category, dhikrId));
+        const n = Number(v);
+        return isFinite(n) && n >= 0 ? n : 0;
+    } catch (_) { return 0; }
+}
+function _azkarResetCategory(category) {
+    try {
+        const prefix = 'azkar.count.' + category + '.';
+        const toRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const k = localStorage.key(i);
+            if (k && k.indexOf(prefix) === 0) toRemove.push(k);
+        }
+        toRemove.forEach(k => localStorage.removeItem(k));
+    } catch (_) { /* silent */ }
+}
+
+function _azkarPickLang() {
+    try {
+        const l = String(document.documentElement.lang || 'ar').toLowerCase();
+        return ['ar','en','fr','de','tr','ur','id','es','bn','ms'].includes(l) ? l : 'ar';
+    } catch (_) { return 'ar'; }
+}
+function _azkarLocalized(field, fallback) {
+    // field is null | { ar, en } | other lang map. Resolve via current lang
+    // with AR/EN fallbacks. Used for repeatLabel/title/virtue/etc.
+    if (!field) return fallback || '';
+    if (typeof field === 'string') return field;
+    const lang = _azkarPickLang();
+    return field[lang] || field.en || field.ar || fallback || '';
+}
+
+function _loadAzkarMorning() {
+    const listEl = document.getElementById('azkar-morning-list');
+    if (!listEl) return;
+    if (listEl.dataset.wired) return;
+    listEl.dataset.wired = '1';
+
+    const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarMorning))
+        ? window.AzkarMorning : [];
+
+    // Reset-all button
+    const resetBtn = document.getElementById('azkar-morning-reset-all');
+    if (resetBtn && !resetBtn.dataset.wired) {
+        resetBtn.dataset.wired = '1';
+        resetBtn.addEventListener('click', () => {
+            const msg = (_azkarPickLang() === 'ar')
+                ? 'هل تريد إعادة جميع عدّادات أذكار الصباح إلى الصفر؟'
+                : 'Reset all morning azkar counters to zero?';
+            if (!window.confirm || window.confirm(msg)) {
+                _azkarResetCategory('morning');
+                listEl.dataset.wired = '';
+                listEl.innerHTML = '';
+                _loadAzkarMorning();
+            }
+        });
+    }
+
+    listEl.innerHTML = '';
+    if (!items.length) {
+        const empty = document.createElement('p');
+        empty.style.textAlign = 'center';
+        empty.style.color = 'var(--text-light, #6b7b75)';
+        empty.style.padding = '24px';
+        empty.textContent = (_azkarPickLang() === 'ar')
+            ? 'لا توجد أذكار متاحة في الوقت الحالي.'
+            : 'No azkar available at the moment.';
+        listEl.appendChild(empty);
+        _updateMorningProgress(0, 0);
+        return;
+    }
+
+    items.forEach((dhikr, idx) => {
+        const card = document.createElement('article');
+        card.className = 'azkar-card-item';
+        card.id = 'azkar-item-' + dhikr.id;
+        card.setAttribute('data-dhikr-id', dhikr.id);
+        card.setAttribute('data-repeat', String(dhikr.repeat || 1));
+
+        const restored = _azkarRestore(dhikr.category, dhikr.id);
+        const isCompleted = restored >= (dhikr.repeat || 1);
+        if (isCompleted) card.classList.add('completed');
+
+        // Header row: order badge + (optional) title
+        const headerRow = document.createElement('div');
+        headerRow.style.display = 'flex';
+        headerRow.style.alignItems = 'center';
+        headerRow.style.gap = '8px';
+        headerRow.style.flexWrap = 'wrap';
+        headerRow.innerHTML = '<span class="azkar-card-item-order">' + (idx + 1) + '</span>';
+        if (dhikr.title) {
+            const titleEl = document.createElement('h3');
+            titleEl.className = 'azkar-card-item-title';
+            titleEl.style.margin = '0';
+            titleEl.textContent = _azkarLocalized(dhikr.title, '');
+            headerRow.appendChild(titleEl);
+        }
+        card.appendChild(headerRow);
+
+        // Text
+        const textEl = document.createElement('p');
+        textEl.className = (dhikr.type === 'quran') ? 'azkar-quran-text' : 'azkar-text';
+        textEl.textContent = dhikr.text || '';
+        card.appendChild(textEl);
+
+        // Repeat label
+        if (dhikr.repeat > 1 || dhikr.repeatLabel) {
+            const rl = document.createElement('span');
+            rl.className = 'azkar-repeat-label';
+            rl.textContent = _azkarLocalized(dhikr.repeatLabel,
+                (dhikr.repeat || 1) > 1 ? (dhikr.repeat + ' مرات') : 'مرة واحدة');
+            card.appendChild(rl);
+        }
+
+        // Counter
+        const counterWrap = document.createElement('div');
+        counterWrap.className = 'azkar-counter';
+        const tapBtn = document.createElement('button');
+        tapBtn.type = 'button';
+        tapBtn.className = 'azkar-counter-tap';
+        const tapPrompt = document.createElement('span');
+        tapPrompt.className = 'azkar-counter-tap-prompt';
+        tapPrompt.textContent = (typeof t === 'function')
+            ? t('azkar.morning.counter_tap_prompt')
+            : 'اضغط للعدّ';
+        const tapCount = document.createElement('span');
+        tapCount.className = 'azkar-counter-tap-count';
+        tapCount.textContent = restored + ' / ' + (dhikr.repeat || 1);
+        tapBtn.appendChild(tapPrompt);
+        tapBtn.appendChild(tapCount);
+        counterWrap.appendChild(tapBtn);
+
+        // Controls (undo + reset this item)
+        const controls = document.createElement('div');
+        controls.className = 'azkar-counter-controls';
+        const undoBtn = document.createElement('button');
+        undoBtn.type = 'button';
+        undoBtn.className = 'azkar-counter-undo';
+        undoBtn.textContent = (typeof t === 'function')
+            ? t('azkar.morning.counter_undo') : 'تراجع';
+        const resetItemBtn = document.createElement('button');
+        resetItemBtn.type = 'button';
+        resetItemBtn.className = 'azkar-counter-reset';
+        resetItemBtn.textContent = (typeof t === 'function')
+            ? t('azkar.morning.counter_reset') : 'إعادة';
+        controls.appendChild(undoBtn);
+        controls.appendChild(resetItemBtn);
+        counterWrap.appendChild(controls);
+        card.appendChild(counterWrap);
+
+        // Source line
+        if (dhikr.source && dhikr.source.ref) {
+            const srcEl = document.createElement('p');
+            srcEl.className = 'azkar-source';
+            srcEl.textContent = ((typeof t === 'function')
+                ? (t('azkar.morning.source_label') + ': ') : 'المصدر: ') + dhikr.source.ref;
+            card.appendChild(srcEl);
+        }
+
+        // Virtue (optional collapsible)
+        if (dhikr.virtue) {
+            const det = document.createElement('details');
+            det.className = 'azkar-virtue';
+            const sum = document.createElement('summary');
+            sum.textContent = (typeof t === 'function')
+                ? t('azkar.morning.show_virtue') : 'اعرض الفضل';
+            const p = document.createElement('p');
+            p.textContent = _azkarLocalized(dhikr.virtue, '');
+            det.appendChild(sum);
+            det.appendChild(p);
+            card.appendChild(det);
+        }
+
+        // Authenticity note (optional collapsible)
+        if (dhikr.authenticityNote) {
+            const det = document.createElement('details');
+            det.className = 'azkar-authenticity';
+            const sum = document.createElement('summary');
+            sum.textContent = (typeof t === 'function')
+                ? t('azkar.morning.authenticity_note_label') : 'ملاحظة حول درجة الحديث';
+            const p = document.createElement('p');
+            p.textContent = _azkarLocalized(dhikr.authenticityNote, '');
+            det.appendChild(sum);
+            det.appendChild(p);
+            card.appendChild(det);
+        }
+
+        // Event handlers
+        tapBtn.addEventListener('click', () => {
+            _azkarTickCounter(dhikr, tapBtn, tapCount, card);
+        });
+        undoBtn.addEventListener('click', () => {
+            const cur = _azkarRestore(dhikr.category, dhikr.id);
+            if (cur <= 0) return;
+            const next = cur - 1;
+            _azkarPersist(dhikr.category, dhikr.id, next);
+            tapCount.textContent = next + ' / ' + (dhikr.repeat || 1);
+            card.classList.remove('completed');
+            _updateMorningProgress();
+        });
+        resetItemBtn.addEventListener('click', () => {
+            _azkarPersist(dhikr.category, dhikr.id, 0);
+            tapCount.textContent = '0 / ' + (dhikr.repeat || 1);
+            card.classList.remove('completed');
+            _updateMorningProgress();
+        });
+
+        listEl.appendChild(card);
+    });
+
+    _updateMorningProgress();
+}
+
+function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
+    const target = dhikr.repeat || 1;
+    const cur = _azkarRestore(dhikr.category, dhikr.id);
+    if (cur >= target) return;  // already at target — no-op
+    const next = cur + 1;
+    _azkarPersist(dhikr.category, dhikr.id, next);
+    tapCount.textContent = next + ' / ' + target;
+    if (next >= target) card.classList.add('completed');
+    _updateMorningProgress();
+}
+
+function _updateMorningProgress(_doneOverride, _totalOverride) {
+    const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarMorning))
+        ? window.AzkarMorning : [];
+    let done = 0;
+    const total = (typeof _totalOverride === 'number') ? _totalOverride : items.length;
+    if (typeof _doneOverride === 'number') {
+        done = _doneOverride;
+    } else {
+        for (const d of items) {
+            const c = _azkarRestore(d.category, d.id);
+            if (c >= (d.repeat || 1)) done++;
+        }
+    }
+    const lblEl = document.getElementById('azkar-morning-progress-label');
+    const fillEl = document.getElementById('azkar-morning-progress-fill');
+    const completedBanner = document.getElementById('azkar-morning-completed');
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    if (lblEl) {
+        const tpl = (typeof t === 'function')
+            ? t('azkar.morning.progress_template', { done: done, total: total })
+            : (done + ' / ' + total + ' مكتمل');
+        lblEl.textContent = tpl;
+    }
+    if (fillEl) {
+        fillEl.style.width = pct + '%';
+        const bar = fillEl.parentElement;
+        if (bar && bar.setAttribute) bar.setAttribute('aria-valuenow', String(pct));
+    }
+    if (completedBanner) {
+        if (total > 0 && done >= total) {
+            completedBanner.classList.remove('u-hidden');
+        } else {
+            completedBanner.classList.add('u-hidden');
+        }
     }
 }
 

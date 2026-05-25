@@ -7528,35 +7528,43 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
    Uses position: fixed so it never affects layout flow — invisible
    default state takes no vertical space at the top of the page. */
 .azkar-sticky-progress {
-    position: fixed;
-    /* Sit just under the site .top-header (which is sticky, ~70px tall,
-       z-index: 1000). Use a CSS var so a future header redesign can
-       override --azkar-site-header-h centrally. */
-    top: var(--azkar-site-header-h, 72px);
-    left: 0;
-    right: 0;
-    z-index: 999; /* one below the site header so the page badge / lang
-                     toggle row always stays on top, but above all page
-                     content (which has z-index <= 100). */
+    /* STICKY-PROGRESS-CENTER-FIX-1 (2026-05-25):
+       Use position: sticky INSIDE the content wrapper so the bar
+       inherits the content area's natural width and CENTERS within
+       it — no longer drifts under the right-side sidebar when it
+       was being centered against the viewport.
+
+       Hidden state uses max-height + padding collapse (not transform)
+       so the bar takes ZERO vertical space when invisible — the
+       layout between hero and list stays flush. */
+    position: sticky;
+    top: var(--azkar-site-header-h, 0px);
+    z-index: 50;
+    width: 100%;
     max-width: 820px;
     margin: 0 auto;
-    padding: 12px 18px 10px;
     border: 1px solid var(--azkar-border, #DDE7E0);
-    border-radius: 0 0 18px 18px;
+    border-radius: 18px;
     background: rgba(255, 255, 255, 0.92);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     box-shadow: 0 6px 20px rgba(18, 48, 38, 0.08);
-    /* Hidden until JS adds .azkar-sticky-progress--visible */
+    box-sizing: border-box;
+    /* Hidden by default — toggled by JS IntersectionObserver via the
+       --visible class. Padding + max-height collapse to 0 so the
+       hidden bar contributes NO layout height. */
+    max-height: 0;
+    padding: 0 18px;
     opacity: 0;
     pointer-events: none;
-    transform: translateY(-110%);
-    transition: opacity .22s ease, transform .25s ease;
+    overflow: hidden;
+    transition: max-height .25s ease, opacity .22s ease, padding .25s ease;
 }
 .azkar-sticky-progress--visible {
+    max-height: 140px;
+    padding: 12px 18px 10px;
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
 }
 .azkar-sticky-progress-row {
     display: flex;
@@ -7596,9 +7604,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 @media (prefers-reduced-motion: reduce) {
     .azkar-sticky-progress {
         transition: opacity .15s ease;
-        transform: none;
     }
-    .azkar-sticky-progress--visible { transform: none; }
 }
 
 /* ── List of reading cards ─────────────────────────────────── */
@@ -8240,11 +8246,16 @@ html[data-theme="dark"] .azkar-faq-answer { color: #d6ead9; }
         width: 100%;
         font-size: 0.95rem;
     }
-    /* STICKY-PROGRESS-1 mobile: keep the sticky reset compact (NOT full
-       width — there's only enough room for label + button on one line). */
+    /* STICKY-PROGRESS-CENTER-FIX-1 mobile: bar uses content width with
+       a small horizontal margin via the parent #azkar-morning padding;
+       NOT full bleed (would touch edges). Hidden state still 0-height. */
     .azkar-sticky-progress {
+        max-width: 100%;
+        border-radius: 14px;
+    }
+    .azkar-sticky-progress--visible {
         padding: 10px 14px 8px;
-        border-radius: 0 0 14px 14px;
+        max-height: 120px;
     }
     .azkar-sticky-progress-row { gap: 8px; margin-bottom: 6px; }
     .azkar-sticky-progress-text { font-size: 0.86rem; }

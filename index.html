@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=438" as="style">
-    <link rel="stylesheet" href="css/style.css?v=438">
+    <link rel="preload" href="css/style.css?v=439" as="style">
+    <link rel="stylesheet" href="css/style.css?v=439">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3399,6 +3399,64 @@
                     <p class="azkar-completed-banner-title">تم إكمال أذكار الصباح</p>
                     <p class="azkar-completed-banner-sub">نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.</p>
                 </div>
+
+                <!-- ===== Educational content ===== AZKAR-MORNING-EDU-1 (2026-05-25) =====
+                     3 short reading cards explaining what morning adhkar are,
+                     how to use the page, and how the morning/evening sets
+                     differ. Plus 4 internal-link cards at the bottom.
+                     SSR-visible AR content; no JSON-LD this cycle. -->
+                <section class="azkar-edu-section" aria-label="معلومات تعليمية عن أذكار الصباح">
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">📿</span>
+                            فضل أذكار الصباح في بداية اليوم
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>أذكار الصباح من الأعمال اليومية التي تعين المسلم على افتتاح يومه بذكر الله والتوكل عليه، فهي تجمع بين التوحيد، والاستغفار، وطلب العافية، وسؤال الحفظ من الشرور. وقراءتها في بداية اليوم تساعد على حضور القلب وربط بداية اليوم بالطاعة والطمأنينة.</p>
+                            <p>يمكن للمستخدم قراءة الأذكار كاملة بالترتيب، أو العودة إلى الأذكار التي تحتاج إلى تكرار باستخدام العداد، مع حفظ التقدم تلقائيًا خلال اليوم في نفس المتصفح.</p>
+                        </div>
+                    </article>
+
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">📖</span>
+                            كيف تستخدم صفحة أذكار الصباح؟
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>صُممت هذه الصفحة لتكون سهلة القراءة على الهاتف والكمبيوتر. يظهر كل ذكر داخل بطاقة مستقلة مع عدد التكرار والمصدر، وتظهر الأذكار التي تحتاج إلى تكرار بعداد يساعدك على إكمال العدد دون نسيان.</p>
+                            <p>عند إكمال ذكر معيّن، ينتقل بك الموقع تلقائيًا إلى الذكر التالي لتكون القراءة أكثر سلاسة. كما يتم حفظ تقدمك خلال اليوم، وتعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.</p>
+                        </div>
+                    </article>
+
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">🌅</span>
+                            الفرق بين أذكار الصباح والمساء
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>تشترك أذكار الصباح والمساء في عدد من الأذكار والآيات، مثل آية الكرسي والمعوذات وبعض أدعية الحفظ والعافية، لكن بعض الصيغ تختلف بحسب الوقت، مثل قول: أصبحنا في الصباح، وأمسينا في المساء.</p>
+                            <p>لذلك من الأفضل قراءة كل قسم من صفحته الخاصة حتى تظهر الصيغ المناسبة للوقت، ويكون التكرار محفوظًا لكل قسم بشكل مستقل.</p>
+                        </div>
+                        <nav class="azkar-edu-links" aria-label="روابط ذات صلة">
+                            <a href="/azkar" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">↩</span>
+                                <span>العودة إلى الأذكار</span>
+                            </a>
+                            <span class="azkar-edu-link-card is-disabled" aria-disabled="true" role="link">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🌙</span>
+                                <span>أذكار المساء — قريبًا</span>
+                            </span>
+                            <a href="/" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🕌</span>
+                                <span>مواقيت الصلاة اليوم</span>
+                            </a>
+                            <a href="/qibla" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🧭</span>
+                                <span>اتجاه القبلة</span>
+                            </a>
+                        </nav>
+                    </article>
+                </section>
 
                 <!-- ===== FAQ ===== AZKAR-MORNING-FAQ-1 (2026-05-25) =====
                      Page-specific FAQ — only on /azkar/morning-azkar.

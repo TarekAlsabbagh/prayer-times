@@ -23634,6 +23634,89 @@ function _azkarShowToast(message) {
     } catch (_) { /* never throw — toast is best-effort UX */ }
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-STICKY-PROGRESS-1 (2026-05-25)
+// Toggles a fixed compact progress bar at the top of the viewport when the
+// inline hero progress wrap exits the viewport on scroll. Uses
+// IntersectionObserver; falls back to a passive scroll listener on older
+// browsers. Re-wires the sticky reset button to the same modal+toast flow as
+// the inline reset button. Idempotent — _loadAzkarMorning may call this on
+// every reload of the list. No localStorage / counter / SEO change.
+// ─────────────────────────────────────────────────────────────────────────────
+function _azkarWireStickyProgress() {
+    try {
+        const sticky = document.getElementById('azkar-morning-sticky');
+        if (!sticky) return;
+
+        // ── A0) Measure the site .top-header so the sticky bar sits flush
+        // below it on any viewport. Set the CSS var the .azkar-sticky-progress
+        // rule reads (--azkar-site-header-h). Re-measure on resize.
+        const setOffset = function () {
+            const h = document.querySelector('.top-header');
+            const px = (h && h.offsetHeight) ? h.offsetHeight : 72;
+            document.documentElement.style.setProperty('--azkar-site-header-h', px + 'px');
+        };
+        setOffset();
+        if (!sticky.dataset.resizeWired) {
+            sticky.dataset.resizeWired = '1';
+            window.addEventListener('resize', setOffset, { passive: true });
+        }
+
+        // ── A) IntersectionObserver on the inline progress wrap ────────────
+        const progressWrap = document.getElementById('azkar-morning-progress-wrap');
+        if (progressWrap && !sticky.dataset.ioWired) {
+            sticky.dataset.ioWired = '1';
+            if (typeof IntersectionObserver === 'function') {
+                const io = new IntersectionObserver(function (entries) {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting) {
+                            sticky.classList.remove('azkar-sticky-progress--visible');
+                        } else {
+                            sticky.classList.add('azkar-sticky-progress--visible');
+                        }
+                    }
+                }, { rootMargin: '0px', threshold: 0 });
+                io.observe(progressWrap);
+            } else {
+                // Fallback: passive scroll listener
+                const update = function () {
+                    const rect = progressWrap.getBoundingClientRect();
+                    const stillVisible = rect.bottom > 0 && rect.top < (window.innerHeight || 0);
+                    if (stillVisible) sticky.classList.remove('azkar-sticky-progress--visible');
+                    else sticky.classList.add('azkar-sticky-progress--visible');
+                };
+                window.addEventListener('scroll', update, { passive: true });
+                update();
+            }
+        }
+
+        // ── B) Wire the sticky reset button to the same modal+toast flow ───
+        const stickyReset = document.getElementById('azkar-morning-sticky-reset');
+        if (stickyReset && !stickyReset.dataset.wired) {
+            stickyReset.dataset.wired = '1';
+            const listEl = document.getElementById('azkar-morning-list');
+            stickyReset.addEventListener('click', function () {
+                _azkarShowResetConfirm({
+                    title: 'هل تريد إعادة ضبط جميع العدادات؟',
+                    sub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
+                    cancelText: 'إلغاء',
+                    confirmText: 'نعم، إعادة الضبط',
+                    returnFocusTo: stickyReset,
+                    onConfirm: function () {
+                        _azkarResetCategory('morning');
+                        if (listEl) {
+                            listEl.dataset.wired = '';
+                            listEl.innerHTML = '';
+                        }
+                        _loadAzkarMorning();
+                        _azkarShowToast('تمت إعادة ضبط العدادات');
+                    }
+                });
+            });
+        }
+    } catch (_) { /* never throw — sticky bar is best-effort UX */ }
+}
+
 function _azkarPickLang() {
     try {
         const l = String(document.documentElement.lang || 'ar').toLowerCase();
@@ -23925,6 +24008,10 @@ function _loadAzkarMorning() {
     });
 
     _updateMorningProgress();
+    // STICKY-PROGRESS-1 (2026-05-25): wire the compact sticky bar +
+    // its IntersectionObserver after the list renders. Idempotent —
+    // safe to call on every reload of _loadAzkarMorning.
+    _azkarWireStickyProgress();
 }
 
 function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
@@ -24067,6 +24154,16 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
         fillEl.style.width = pct + '%';
         const bar = fillEl.parentElement;
         if (bar && bar.setAttribute) bar.setAttribute('aria-valuenow', String(pct));
+    }
+    // STICKY-PROGRESS-1: keep the sticky compact bar in sync with the
+    // inline one. Sticky elements may not exist on first render — guarded.
+    const stickyLbl = document.getElementById('azkar-morning-sticky-label');
+    const stickyFill = document.getElementById('azkar-morning-sticky-fill');
+    if (stickyLbl) stickyLbl.textContent = _AZKAR_AR_CHROME.progressTpl(done, total);
+    if (stickyFill) {
+        stickyFill.style.width = pct + '%';
+        const sBar = stickyFill.parentElement;
+        if (sBar && sBar.setAttribute) sBar.setAttribute('aria-valuenow', String(pct));
     }
     if (completedBanner) {
         if (total > 0 && done >= total) {

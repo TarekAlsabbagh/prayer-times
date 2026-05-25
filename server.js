@@ -17372,25 +17372,29 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `🌙 ${cityName}-এ চাঁদের পর্যায় — ${_monthNameSsr} ${_monthYearSsr}`,
             ms: `🌙 Fasa Bulan di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`
         }[Lm] || `🌙 Moon Phases in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`) : _isMoonHubPageSsr ? ({
-            // MOON-H1-I18N-PARITY-FIX-1 (2026-05-23) + MOON-CITY-EVERGREEN-
-            // HERO-CONTENT-UI-POLISH-1 cross-lang harmonization (2026-05-24):
-            //   Wording aligned with js/app.js _HUB_H1 map so the SSR H1 and
-            //   the post-hydration JS H1 match byte-for-byte (modulo the
-            //   country suffix the JS adds). Previously FR/TR/DE/ES/BN used
-            //   "&" but JS used the natural conjunction (et/ve/und/y/ও) for
-            //   a more native reading — fix the SSR wording to match so
-            //   there's no flicker on hydration.
-            ar: `🌙 تقويم القمر وأطوار الشهر في ${cityName}`,
-            en: `🌙 Moon Calendar & Monthly Phases in ${cityName}`,
-            fr: `🌙 Calendrier lunaire et phases du mois à ${cityName}`,
-            tr: `🌙 ${cityName} Ay Takvimi ve Aylık Evreler`,
-            ur: `🌙 ${cityName} میں چاند کا تقویم اور ماہانہ مراحل`,
-            de: `🌙 Mondkalender und Monatsphasen in ${cityName}`,
-            id: `🌙 Kalender Bulan & Fase Bulanan di ${cityName}`,
-            es: `🌙 Calendario lunar y fases del mes en ${cityName}`,
-            bn: `🌙 ${cityName}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা`,
-            ms: `🌙 Kalendar Bulan & Fasa Bulanan di ${cityName}`
-        }[Lm] || `🌙 Moon Calendar & Monthly Phases in ${cityName}`) : ({
+            // MOON-CITY-HUB-H1-ALIGN-1 (2026-05-25): aligned SSR hub H1
+            // byte-for-byte with the JS `_HUB_H1` writer at js/app.js:18257-
+            // 18268. Two changes per lang:
+            //   1. DROPPED the leading "🌙 " prefix (JS writer doesn't add it).
+            //   2. ADDED the country suffix "، {country}" (AR/UR) or ", {country}"
+            //      (Latin) when countryName is available — matches the JS
+            //      `_ctySfxAr` / `_ctySfxLat` pattern with `_cn = (_countryName||'').trim()`.
+            // Net result: SSR ships the same text the JS would produce →
+            // the idempotency guard added in js/app.js skips the textContent
+            // assignment → zero visible H1 swap on hydration.
+            // (Previously: SSR had "🌙 …في {city}" → JS rewrote to "…في {city}،
+            //  {country}" — emoji dropped + country added = visible swap.)
+            ar: `تقويم القمر وأطوار الشهر في ${cityName}${countryName ? '، ' + countryName : ''}`,
+            en: `Moon Calendar & Monthly Phases in ${cityName}${countryName ? ', ' + countryName : ''}`,
+            fr: `Calendrier lunaire et phases du mois à ${cityName}${countryName ? ', ' + countryName : ''}`,
+            tr: countryName ? `${cityName}, ${countryName} Ay Takvimi ve Aylık Evreler` : `${cityName} Ay Takvimi ve Aylık Evreler`,
+            ur: `${cityName}${countryName ? '، ' + countryName : ''} میں چاند کا تقویم اور ماہانہ مراحل`,
+            de: `Mondkalender und Monatsphasen in ${cityName}${countryName ? ', ' + countryName : ''}`,
+            id: `Kalender Bulan & Fase Bulanan di ${cityName}${countryName ? ', ' + countryName : ''}`,
+            es: `Calendario lunar y fases del mes en ${cityName}${countryName ? ', ' + countryName : ''}`,
+            bn: countryName ? `${cityName}, ${countryName}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা` : `${cityName}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা`,
+            ms: `Kalendar Bulan & Fasa Bulanan di ${cityName}${countryName ? ', ' + countryName : ''}`
+        }[Lm] || `Moon Calendar & Monthly Phases in ${cityName}${countryName ? ', ' + countryName : ''}`) : ({
             // MOON-ROUTE-H1-SITEMAP-FIX-1 (2026-05-23): AR today-city H1
             // shortened to "حالة القمر اليوم في {city}" per user spec
             // (was the verbose "طور القمر اليوم في {city}، {country} —

@@ -88,6 +88,19 @@
 //               السعودية" (full official form, matching the site-wide
 //               convention shipped in DIAG-1-E for country.sa).
 //   No app.js / style.css / i18n.js cache-buster bumps (none touched).
+// MOON-CITY-HUB-H1-ALIGN-1 (2026-05-25):
+//   v346 → v347. Fix H1 swap on /moon-in-{city} hub route.
+//   Aligned SSR hub H1 (server.js _h1Moon hub branch at L17374-17393)
+//   byte-for-byte with the JS writer (_HUB_H1 at js/app.js:18257-
+//   18268): dropped the leading "🌙 " from SSR + added the country
+//   suffix "، {country}" (AR/UR) / ", {country}" (Latin/EN/FR/DE/...)
+//   so SSR ships the exact text JS would produce. Plus added an
+//   idempotency guard in js/app.js so the textContent assignment
+//   becomes a no-op when SSR already matches. Net: H1 stable across
+//   first paint → hydration on /moon-in-makkah, /moon-in-riyadh,
+//   /moon-in-jeddah, and all other canonical city hubs.
+//   Cache-buster: app.js?v=717 → ?v=718.
+const CACHE_VERSION = 'v347';
 // MOON-CITY-MONTH-HYDRATION-AUDIT-1 (2026-05-25):
 //   v345 → v346. /moon-in-{city}/YYYY-MM Path B (4.A + 4.B):
 //     (4.A) server.js injects `<html class="moon-month-page">` on month
@@ -110,7 +123,7 @@
 //     (4.B.iv) Dropped "اليوم" / "today" from `#moon-title-h2` on month
 //           routes (was semantically wrong on past/future month pages).
 //   Cache-buster: app.js?v=716 → ?v=717 (js/app.js touched).
-const CACHE_VERSION = 'v346';
+// (v346 declaration removed — replaced by v347 above)
 // MOON-CITY-HUB-HYDRATION-AUDIT-1 (2026-05-25):
 //   v344 → v345. /moon-in-{city} hub Path B (4.A + 4.B):
 //     (4.A.i) server.js injects `<html class="moon-hub-page">` on the

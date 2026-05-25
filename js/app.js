@@ -18266,7 +18266,17 @@ function updateMoonInfo() {
                 bn: _cn ? `${_cityName}, ${_cn}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা` : `${_cityName}-এ চাঁদের ক্যালেন্ডার ও মাসিক দশা`,
                 ms: `Kalendar Bulan & Fasa Bulanan di ${_cityName}${_ctySfxLat}`
             };
-            if (_h1El) _h1El.textContent = _HUB_H1[_lng_] || _HUB_H1.en;
+            // MOON-CITY-HUB-H1-ALIGN-1 (2026-05-25): added idempotency guard.
+            //   SSR now ships the same H1 text the JS writer produces (no 🌙,
+            //   with country suffix — see server.js hub H1 alignment). When
+            //   SSR already matches, this textContent assignment becomes a
+            //   no-op → zero visible H1 swap on hydration.
+            if (_h1El) {
+                const _h1HubNew = _HUB_H1[_lng_] || _HUB_H1.en;
+                if ((_h1El.textContent || '').trim() !== _h1HubNew.trim()) {
+                    _h1El.textContent = _h1HubNew;
+                }
+            }
             // H2 الأقسام — عناوين الصفحة الدائمة (Hub) — H2 يَركّز على بيانات اليوم،
             //   subtitle يَشرح وظيفة الصفحة (تقويم + بيانات اليوم + الأطوار القادمة).
             // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23):

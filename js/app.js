@@ -23909,6 +23909,14 @@ function _azkarWireStickyProgress() {
                         }
                         _loadAzkarMorning();
                         _azkarShowToast('تمت إعادة ضبط العدادات');
+                        // AZKAR-RESET-SCROLL-TO-TOP-1 (2026-05-25):
+                        //   After a confirmed full reset, send the user back
+                        //   to the top of /azkar/morning-azkar so they start
+                        //   from the first dhikr (not from wherever the modal
+                        //   was opened). Cancel + per-item reset are NOT
+                        //   affected — only the page-level/sticky "نعم،
+                        //   إعادة الضبط" confirmation triggers this jump.
+                        _azkarScrollToTopOfPage();
                     }
                 });
             });
@@ -23999,6 +24007,9 @@ function _loadAzkarMorning() {
                     listEl.innerHTML = '';
                     _loadAzkarMorning();
                     _azkarShowToast('تمت إعادة ضبط العدادات');
+                    // AZKAR-RESET-SCROLL-TO-TOP-1 (2026-05-25): see the
+                    //   companion call in the sticky reset handler above.
+                    _azkarScrollToTopOfPage();
                 }
             });
         });
@@ -24279,17 +24290,97 @@ function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-MOBILE-STICKY-OFFSET-1 (2026-05-25)
+// Two scroll helpers that compensate for the sticky-progress bar (and the
+// site sticky header) which together sit above the azkar content. Native
+// `scrollIntoView({block:'start'})` ignores those overlays, so the next
+// card's title (and even the first line of Quran text) ends up hidden on
+// mobile. These helpers anchor the scroll position so the card header is
+// always fully visible below the sticky overlays.
+// Used by: _azkarAdvanceToNext (auto-advance), and the reset-all flow
+// (scroll to hero after "نعم، إعادة الضبط").
+// ─────────────────────────────────────────────────────────────────────────────
+function _azkarPrefersReducedMotion() {
+    try {
+        return (typeof window.matchMedia === 'function')
+            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    } catch (_) { return false; }
+}
+
+function _azkarOffsetPx() {
+    // Per-breakpoint offset chosen to clear: site header (top) + sticky
+    // progress bar that sits below it on /azkar/morning-azkar. Mobile
+    // sticky bar is taller than desktop because the buttons stack into
+    // two lines and the bar uses a denser layout.
+    try {
+        const w = (typeof window !== 'undefined' && window.innerWidth) || 0;
+        if (w <= 480) return 200;
+        if (w <= 768) return 190;
+        return 130;
+    } catch (_) { return 130; }
+}
+
+function _azkarScrollToCard(card) {
+    // Scroll to a specific .azkar-card-item so its top sits just below
+    // the sticky-progress bar (NOT hidden behind it). Uses window.scrollTo
+    // with a numeric target so the offset is exact, instead of relying on
+    // scrollIntoView (which has no built-in offset on most browsers).
+    if (!card) return;
+    try {
+        const offset = _azkarOffsetPx();
+        const cardTop = card.getBoundingClientRect().top + window.scrollY;
+        const targetY = Math.max(cardTop - offset, 0);
+        window.scrollTo({
+            top: targetY,
+            behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth'
+        });
+    } catch (_) {
+        try { card.scrollIntoView({ block: 'start' }); } catch (__) {}
+    }
+}
+
+function _azkarScrollToTopOfPage() {
+    // Used by the page-level + sticky reset flows. After a confirmed
+    // "نعم، إعادة الضبط" wipes the counters and rebuilds the list, scroll
+    // back to the morning-azkar hero so the user starts from the top of
+    // the page (not from wherever the modal was opened). Same offset
+    // logic so the hero is not hidden behind the sticky-progress bar.
+    try {
+        const target = document.getElementById('azkar-page-top')
+                    || document.querySelector('#page-azkar-morning .azkar-hero')
+                    || document.querySelector('.azkar-hero')
+                    || document.getElementById('page-azkar-morning');
+        if (!target) {
+            // last-ditch fallback — top of document
+            window.scrollTo({ top: 0, behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth' });
+            return;
+        }
+        const offset = _azkarOffsetPx();
+        const top = target.getBoundingClientRect().top + window.scrollY;
+        const targetY = Math.max(top - offset, 0);
+        window.scrollTo({
+            top: targetY,
+            behavior: _azkarPrefersReducedMotion() ? 'auto' : 'smooth'
+        });
+    } catch (_) {
+        try { window.scrollTo(0, 0); } catch (__) {}
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // AZKAR-AUTO-ADVANCE-1 (2026-05-25)
 // Smoothly scroll to the next dhikr card when the current one is completed
 // by an interactive tap. Respects prefers-reduced-motion. Never triggered
 // during page-load restore, undo, or reset. If the current card is the
 // LAST card in the list, scroll to the completion banner instead.
+// AZKAR-MOBILE-STICKY-OFFSET-1 (2026-05-25): replaced raw scrollIntoView
+// with `_azkarScrollToCard()` so the sticky-progress bar no longer covers
+// the next card's title / first line on mobile.
 // ─────────────────────────────────────────────────────────────────────────────
 function _azkarAdvanceToNext(currentCardEl) {
     if (!currentCardEl) return;
     try {
-        const prefersReducedMotion = (typeof window.matchMedia === 'function')
-            && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const prefersReducedMotion = _azkarPrefersReducedMotion();
         const behavior = prefersReducedMotion ? 'auto' : 'smooth';
 
         // Find the next sibling that is an azkar card
@@ -24304,10 +24395,7 @@ function _azkarAdvanceToNext(currentCardEl) {
 
         if (nextCard) {
             setTimeout(() => {
-                try { nextCard.scrollIntoView({ behavior: behavior, block: 'start' }); } catch (_) {
-                    // older browsers — fall back to no-options scrollIntoView
-                    nextCard.scrollIntoView();
-                }
+                _azkarScrollToCard(nextCard);
                 // Subtle highlight on arrival (CSS animation handles fade-out
                 // and is auto-disabled under prefers-reduced-motion)
                 nextCard.classList.remove('azkar-just-arrived');

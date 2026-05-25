@@ -7654,6 +7654,30 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     }
 }
 .azkar-completed-banner { scroll-margin-top: 90px; }
+
+/* AZKAR-MOBILE-STICKY-OFFSET-1 (2026-05-25)
+   Native scroll-margin-top so that any scroll-to-anchor (auto-advance
+   via the JS helper, browser scroll restoration, or anchor-link nav)
+   parks each card BELOW the sticky-progress bar + site header — not
+   underneath them. The JS helper `_azkarScrollToCard()` uses a numeric
+   offset for precise control; this CSS rule is the safety net for any
+   path that still uses native scrollIntoView. The hero gets the same
+   margin so the reset-all "back to top" scroll never hides the page
+   title behind sticky chrome.
+   Values per breakpoint (chosen to clear the actual rendered heights):
+     ≤480px  → 200px  (mobile portrait; site header + tall sticky bar)
+     ≤768px  → 190px  (tablet portrait)
+     >768px  → 130px  (desktop; sticky bar is shorter) */
+.azkar-card-item,
+.azkar-hero { scroll-margin-top: 130px; }
+@media (max-width: 768px) {
+    .azkar-card-item,
+    .azkar-hero { scroll-margin-top: 190px; }
+}
+@media (max-width: 480px) {
+    .azkar-card-item,
+    .azkar-hero { scroll-margin-top: 200px; }
+}
 @media (prefers-reduced-motion: reduce) {
     .azkar-card-item.azkar-just-arrived { animation: none; }
 }

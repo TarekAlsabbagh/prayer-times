@@ -88,6 +88,23 @@
 //               السعودية" (full official form, matching the site-wide
 //               convention shipped in DIAG-1-E for country.sa).
 //   No app.js / style.css / i18n.js cache-buster bumps (none touched).
+// AZKAR-RESET-SCROLL-TO-TOP-1 + AZKAR-MOBILE-STICKY-OFFSET-1 (2026-05-25):
+//   v348 → v349. Two coordinated UX fixes on /azkar/morning-azkar:
+//     • RESET-SCROLL-TO-TOP-1: after confirmed "نعم، إعادة الضبط"
+//       (page-level OR sticky reset button), now scrolls back to the
+//       hero so the user starts from the first dhikr instead of
+//       staying where the modal was opened. Cancel + per-item reset
+//       are NOT affected.
+//     • MOBILE-STICKY-OFFSET-1: auto-advance now uses a new helper
+//       `_azkarScrollToCard()` that compensates for the sticky-
+//       progress bar height (200/190/130 px per breakpoint). Native
+//       scrollIntoView({block:'start'}) ignores the sticky overlay so
+//       the next card's title (and sometimes the first line of Quran
+//       text) was hidden behind the sticky bar on mobile. CSS
+//       scroll-margin-top added to .azkar-card-item + .azkar-hero as
+//       a fallback for browser-native scroll restoration.
+//   Cache-busters: app.js?v=718 → ?v=719, css/style.css?v=440 → ?v=441.
+const CACHE_VERSION = 'v349';
 // AZKAR-MORNING-DARK-MODE-POLISH-1 (2026-05-25):
 //   v347 → v348. Dark-mode contrast polish for /azkar/morning-azkar:
 //     • css/style.css gained a new dark-mode block (~70 lines) right
@@ -103,7 +120,7 @@
 //     • NO change to light mode (all rules scoped to html[data-theme="dark"]).
 //     • NO change to layout, content, JS logic, or daily-reset.
 //   Cache-buster: css/style.css?v=439 → ?v=440 (style.css touched).
-const CACHE_VERSION = 'v348';
+// (v348 declaration removed — replaced by v349 above)
 // MOON-CITY-HUB-H1-ALIGN-1 (2026-05-25):
 //   v346 → v347. Fix H1 swap on /moon-in-{city} hub route.
 //   Aligned SSR hub H1 (server.js _h1Moon hub branch at L17374-17393)

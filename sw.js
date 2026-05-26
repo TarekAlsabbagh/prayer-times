@@ -74,6 +74,32 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// TL-HERO-VISIBILITY-FIX-1 (2026-05-26):
+//   v352 → v353. URGENT regression fix: the time-left hero (#tl-hero)
+//   on /time-left-until-prayer-in-{city} AND the next-prayer hero
+//   (#npt-hero) on /next-prayer-in-{city} were invisible because the
+//   static markup carries `u-hidden` and a recent commit (034dae60,
+//   AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25) added `!important`
+//   to `.u-hidden { display: none !important }`. That `!important`
+//   overrode the cascade rule `html.time-left-page .tl-hero {
+//   display: block }` (and the equivalent for npt-hero), making the
+//   pages render with no hero / no countdown — the user-visible
+//   regression.
+//
+//   Fix: server.js now strips `u-hidden` from both `#tl-hero` and
+//   `#npt-hero` on their respective routes — same pattern already used
+//   for #city-summary-paragraph at server.js:16350. Once `u-hidden` is
+//   gone, the existing display rules show the hero as designed. No
+//   CSS or JS change needed.
+//
+//   Scope:
+//     • Only the SSR HTML emitted for /time-left-until-prayer-in-{slug}
+//       and /next-prayer-in-{slug} is modified.
+//     • Other routes (where these elements should stay hidden) are
+//       untouched — `u-hidden` is preserved by virtue of NOT entering
+//       those if-blocks.
+//   No client JS change. No CSS change. No cache-buster bump on the
+//   app/styles bundles needed (SSR-only fix). Just SW bump for clarity.
 // REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
 //   v351 → v352. Phase A + Phase B Sub-option B1 from the
 //   REGIONAL-DEFAULT-CALC-METHODS-AUDIT-1 report:
@@ -255,7 +281,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v352';
+const CACHE_VERSION = 'v353';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

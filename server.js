@@ -11466,6 +11466,22 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //           نحذف العناصر بالمعرّف أو الصنف مع مطابقة متوازنة لوسم الفتح/الإغلاق.
         html = _stripHtmlForTimeLeft(html);
 
+        // TL-HERO-VISIBILITY-FIX-1 (2026-05-26):
+        //   Static markup `<section class="section-card tl-hero u-hidden" id="tl-hero">`
+        //   in index.html keeps the time-left hero hidden on regular city pages.
+        //   On time-left routes we need to remove `u-hidden` so the hero
+        //   actually shows. The CSS rule `html.time-left-page .tl-hero
+        //   { display: block }` USED to do this via cascade, but commit
+        //   034dae60 (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25) added
+        //   `!important` to `.u-hidden { display: none !important; }`, which
+        //   silently broke the override. Strip `u-hidden` from the class
+        //   attribute server-side — same pattern as city-summary-paragraph
+        //   below (line ~16350).
+        html = html.replace(
+            'class="section-card tl-hero u-hidden" id="tl-hero"',
+            'class="section-card tl-hero" id="tl-hero"'
+        );
+
         // ── TL-SEO-1 (2026-05-10) — SSR-visible content for /time-left-* ──
         // The page's killer feature is the live countdown in #tl-hero. We KEEP
         // that hero unchanged. Below it we inject 6 content cards + a 4-item
@@ -12075,6 +12091,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //           نفس فلسفة TL: حذف فعليّ لكلّ ما ليس #npt-hero (city inherited sections + TL-specific bits)
         //           يوفّر ~60-80KB من حمولة الـ NPT ويجعل الصفحة مركّزة على سؤالها الوحيد.
         html = _stripHtmlForNpt(html);
+
+        // TL-HERO-VISIBILITY-FIX-1 (2026-05-26): mirror of the tl-hero fix
+        // above. Strip `u-hidden` from #npt-hero so the next-prayer hero
+        // actually shows on /next-prayer-in-{city} pages (the
+        // `html.next-prayer-time-page .npt-hero { display: block }` cascade
+        // override was silently broken by `.u-hidden { display: none
+        // !important }` added in commit 034dae60).
+        html = html.replace(
+            'class="next-hero-card npt-hero u-hidden" id="npt-hero"',
+            'class="next-hero-card npt-hero" id="npt-hero"'
+        );
 
         // NPT-SEO-1 (2026-05-09): SSR-rendered long-form SEO content (~500
         // words) injected AFTER #npt-hero. Lifts SEOptimer Word Count from

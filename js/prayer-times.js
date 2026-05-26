@@ -101,7 +101,22 @@ const PrayerTimes = (function () {
         //     publishes Fajr 18°, Isha 17° (numerically equal to MWL
         //     but kept as a distinct entry so the UI + analytics can
         //     attribute the choice to the Moroccan authority).
-        'JAKIM':            { name: 'ماليزيا - جاكيم (JAKIM)',                           fajr: 20, isha: 18 },
+        // MALAYSIA-JAKIM-IHTIYAT-APPLY-1 (2026-05-26):
+        //   JAKIM's published e-solat.gov.my tables add an "ihtiyat" (احتياط
+        //   = precaution-minutes) to the raw 20°/18° angles. The convention
+        //   used by Google, e-solat, and mosque schedules across Malaysia is:
+        //     Fajr +10 · Dhuhr +1 · Asr +1 · Maghrib +1 · Isha +1
+        //     Sunrise +0 (astronomical, no precaution applied)
+        //   Stored as `adj` and applied inside computeAllTimes BEFORE the
+        //   user's per-card config.adjustment, so the user can still tweak
+        //   on top. Picking JAKIM manually for any other country also gets
+        //   the ihtiyat — per user spec the JAKIM dropdown entry now means
+        //   "the table values" not "the raw angle".
+        'JAKIM': {
+            name: 'ماليزيا - جاكيم (JAKIM)',
+            fajr: 20, isha: 18,
+            adj: { fajr: 10, sunrise: 0, dhuhr: 1, asr: 1, maghrib: 1, isha: 1 }
+        },
         'KemenagJakarta':   { name: 'إندونيسيا - وزارة الشؤون الدينية (Kemenag) جاكرتا', fajr: 20, isha: 18 },
         'MoroccoAwqaf':     { name: 'المغرب - وزارة الأوقاف والشؤون الإسلامية',            fajr: 18, isha: 17 },
     };
@@ -183,6 +198,17 @@ const PrayerTimes = (function () {
         raw.fajr = adjustHighLat(raw.fajr, raw.sunrise, m.fajr, night, 'ccw');
         if (typeof m.isha !== 'string')
             raw.isha = adjustHighLat(raw.isha, raw.sunset, m.isha, night, 'cw');
+
+        // MALAYSIA-JAKIM-IHTIYAT-APPLY-1 (2026-05-26):
+        //   Method-level "ihtiyat" adjustments (e.g. JAKIM's published-table
+        //   precaution-minutes). Applied BEFORE the user's per-card overrides
+        //   so the user can still nudge on top if they want. Methods without
+        //   `adj` skip this block (typeof m.adj === 'undefined' → no-op).
+        if (m.adj) {
+            for (var ap in m.adj) {
+                if (raw[ap] !== undefined) raw[ap] += (m.adj[ap] || 0) / 60;
+            }
+        }
 
         // التعديلات اليدوية بالدقائق
         for (var p in config.adjustment) {

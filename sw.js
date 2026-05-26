@@ -74,6 +74,19 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// MOON-HERO-MOBILE-CTA-FIX-2 (2026-05-26):
+//   v344 → v345. Long-language safety: remove the strict
+//   `max-height: 72px !important` on `#page-moon .qibla-hub-geo-btn
+//   / .qibla-hub-pick-btn` introduced in MOON-HERO-MOBILE-CTA-FIX-1.
+//   Replaced with `max-height: none !important`. Reason: DE / BN / FR /
+//   TR labels can wrap to 2 lines on narrow viewports (≤360px), and a
+//   72px ceiling would crop the second line. The square-card bug stays
+//   fixed because `height: auto !important` + `aspect-ratio: auto
+//   !important` + the grid→flex-column conversion still defeat the
+//   legacy `height: 100%` stretch. Vertical compactness is preserved
+//   by padding + line-height instead of capping the height.
+//   Scope unchanged (#page-moon only). Desktop unchanged.
+//   Cache-buster: css/style.css?v=444 → ?v=445.
 // ARIA-SUNRISE-FIX-1 (2026-05-26):
 //   v343 → v344. Semantic fix: sunrise (الشروق) is NOT a prayer.
 //   Previously updatePrayerCardsSEO() in js/app.js emitted
@@ -106,7 +119,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v344';
+const CACHE_VERSION = 'v345';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -26981,9 +26981,18 @@ html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
     }
 
     /* (3) Both buttons — identical compact pill geometry. The triple
-       `height: auto / max-height: 72px / aspect-ratio: auto` defeats any
+       `height: auto / max-height: none / aspect-ratio: auto` defeats any
        legacy `height: 100%` (line ~15143) and any future aspect-ratio
-       declaration that might creep in. */
+       declaration that might creep in.
+       MOON-HERO-MOBILE-CTA-FIX-2 (2026-05-26): `max-height: 72px` removed.
+       Long-language labels (DE "Meinen aktuellen Standort verwenden",
+       BN "আমার বর্তমান অবস্থান ব্যবহার করুন") can wrap to 2 lines on
+       narrow viewports (≤360px). With a 72px ceiling, the second line
+       would be cropped. `max-height: none` lets the pill grow naturally
+       while `height: auto` + `align-items: stretch` removal + the
+       grid→flex switch still prevent the original square-card bug.
+       Vertical compactness preserved via padding + line-height, not by
+       capping the height. */
     #page-moon .qibla-dual-cta > .qibla-hub-geo-btn,
     #page-moon .qibla-dual-cta > .qibla-hub-pick-btn,
     #page-moon .qibla-hub-geo-btn,
@@ -26992,7 +27001,7 @@ html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
         max-width: 100% !important;
         min-height: 56px !important;
         height: auto !important;
-        max-height: 72px !important;
+        max-height: none !important;
         aspect-ratio: auto !important;
         padding: 14px 18px !important;
         margin: 0 !important;

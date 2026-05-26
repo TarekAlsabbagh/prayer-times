@@ -15948,7 +15948,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '184'; // I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 so returning visitors fetch fresh `js/i18n/{lang}.js` containing the new `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys added in COUNTRY-SPECIFIC-CALC-METHODS-1 + the JAKIM ihtiyat applied in MALAYSIA-JAKIM-IHTIYAT-APPLY-1. Without this bump, browsers cached the v=183 per-lang files at the old content (no new method names in dropdown). | PREVIOUS: 183 = MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 (2026-05-23): /moon-in-{city} hub hero rewritten as EVERGREEN.
+        const _i18nVersion = '185'; // ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 so returning visitors fetch fresh `js/i18n/{lang}.js` containing the new `moon.events.ended` key + the rewritten `moon.events.notice` text ("counter follows your device's local time …") across all 10 langs. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

@@ -330,7 +330,30 @@
 //     Mecca/Riyadh were accidentally OK because their longitude was
 //     close to a multiple of 15° → fallback happened to be correct.
 //   Cache-buster: js/app.js?v=724 → ?v=725.
-const CACHE_VERSION = 'v356';
+// ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26):
+//   v356 → v357. Unifies the Islamic-occasion countdown logic for both the
+//   #moon-events-section cards (4 places) AND the 4 standalone countdown
+//   pages (/ramadan-countdown, /eid-al-fitr-countdown, /eid-al-adha-countdown,
+//   /hijri-new-year-countdown). Replaces the previous Hijri-driven Gregorian
+//   derivation (`HijriDate.toGregorian(year, month, day)`) with a single
+//   shared registry `window.ISLAMIC_EVENT_DATES` built from explicit Local
+//   Date constructors `new Date(y, monthIndex, d, 0, 0, 0)` — NO UTC, NO
+//   Date.UTC(), NO `T00:00:00Z`, NO server time, NO city dependency.
+//   Refreshed dates: Eid al-Adha 27 May 2026, Hijri NY 16 Jul 2026,
+//   Ramadan 8 Feb 2027, Eid al-Fitr 9 Mar 2027.
+//   Display formats unified across cards + pages:
+//     • >1 day → "21 يومًا" / "21 days"
+//     • 1 day  → "غدًا"   / "Tomorrow"
+//     • 0 day  → "اليوم"   / "Today"
+//     • past   → "انتهى"   / "Ended" (new key `moon.events.ended`, never neg)
+//   Notice paragraph rewritten in all 10 langs to clarify the counter
+//   follows the user's device timezone (no city, no UTC).
+//   General countdown pages were ALWAYS device-time-local; this commit just
+//   formalizes the source-of-truth so cards stay in sync with pages.
+//   Untouched: prayer-times routes (city-bound), moon-info, qibla, sitemap,
+//   curated places, country mapping, SSR for city pages.
+//   Cache-buster: js/app.js?v=725 → ?v=726; i18n version 184 → 185.
+const CACHE_VERSION = 'v357';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

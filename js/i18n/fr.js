@@ -391,9 +391,10 @@ window.TRANSLATIONS['fr'] = {
         'moon.events.adha': 'Aïd al-Adha',
         'moon.events.newyear': 'Nouvel An hégirien',
         'moon.events.days_template': '{n} jours restants',
-        'moon.events.today': 'Aujourd\u2019hui !',
+        'moon.events.today': 'Aujourd\u2019hui',
         'moon.events.tomorrow': 'Demain',
-        'moon.events.notice': '* Les dates sont approximatives et peuvent changer selon l\u2019observation du croissant dans votre pays.',
+        'moon.events.ended': 'Termin\u00e9',
+        'moon.events.notice': '* Le compteur suit l\u2019heure locale de votre appareil ; les dates sont approximatives et peuvent varier selon l\u2019observation du croissant dans votre pays.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Jours',
         'countdown.hours': 'Heures',

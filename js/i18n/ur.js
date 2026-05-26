@@ -394,9 +394,10 @@ window.TRANSLATIONS['ur'] = {
         'moon.events.adha': 'عید الاضحیٰ',
         'moon.events.newyear': 'ہجری نیا سال',
         'moon.events.days_template': '{n} دن باقی',
-        'moon.events.today': 'آج!',
+        'moon.events.today': 'آج',
         'moon.events.tomorrow': 'کل',
-        'moon.events.notice': '* تواریخ تخمینی ہیں اور آپ کے ملک میں ہلال کی رؤیت کے مطابق بدل سکتی ہیں۔',
+        'moon.events.ended': 'ختم',
+        'moon.events.notice': '* کاؤنٹر آپ کے ڈیوائس کے مقامی وقت کے مطابق چلتا ہے؛ تواریخ تخمینی ہیں اور آپ کے ملک میں ہلال کی رؤیت کے مطابق بدل سکتی ہیں۔',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'دن',
         'countdown.hours': 'گھنٹے',

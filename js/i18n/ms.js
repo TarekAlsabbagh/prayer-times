@@ -421,9 +421,10 @@ window.TRANSLATIONS['ms'] = {
         'moon.events.adha': 'Aidiladha',
         'moon.events.newyear': 'Tahun Baru Hijrah',
         'moon.events.days_template': 'Tinggal {n} hari',
-        'moon.events.today': 'Hari ini!',
+        'moon.events.today': 'Hari ini',
         'moon.events.tomorrow': 'Esok',
-        'moon.events.notice': '* Tarikh adalah anggaran dan boleh berubah berdasarkan rukyah hilal di negara anda.',
+        'moon.events.ended': 'Tamat',
+        'moon.events.notice': '* Pengira mengikut waktu tempatan peranti anda; tarikh adalah anggaran dan boleh berubah berdasarkan rukyah hilal di negara anda.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Hari',
         'countdown.hours': 'Jam',

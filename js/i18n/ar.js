@@ -494,9 +494,10 @@ window.TRANSLATIONS['ar'] = {
         'moon.events.adha': 'عيد الأضحى',
         'moon.events.newyear': 'رأس السنة الهجرية',
         'moon.events.days_template': 'باقي: {n} يومًا',
-        'moon.events.today': 'اليوم!',
-        'moon.events.tomorrow': 'غداً',
-        'moon.events.notice': '* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.',
+        'moon.events.today': 'اليوم',
+        'moon.events.tomorrow': 'غدًا',
+        'moon.events.ended': 'انتهى',
+        'moon.events.notice': '* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.',
         // ═══ صفحات العدّ التنازليّ (رمضان — مرحلة 1) ═══
         // HIJRI-MONTH-TASHKEEL-POLICY-1 (2026-05-21): "أيّام" → "أيام"
         // (the moon-events cards on month page render "{n} أيّام" so

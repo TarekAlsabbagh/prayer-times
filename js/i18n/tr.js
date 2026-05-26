@@ -394,9 +394,10 @@ window.TRANSLATIONS['tr'] = {
         'moon.events.adha': 'Kurban Bayramı',
         'moon.events.newyear': 'Hicri Yılbaşı',
         'moon.events.days_template': '{n} gün kaldı',
-        'moon.events.today': 'Bugün!',
+        'moon.events.today': 'Bugün',
         'moon.events.tomorrow': 'Yarın',
-        'moon.events.notice': '* Tarihler yaklaşıktır ve ülkenizdeki hilal gözlemine göre değişebilir.',
+        'moon.events.ended': 'Sona erdi',
+        'moon.events.notice': '* Sayaç, cihazınızın yerel saatine göre çalışır; tarihler yaklaşıktır ve ülkenizdeki hilal gözlemine göre değişebilir.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Gün',
         'countdown.hours': 'Saat',

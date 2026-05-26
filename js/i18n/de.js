@@ -421,9 +421,10 @@ window.TRANSLATIONS['de'] = {
         'moon.events.adha': 'Eid al-Adha',
         'moon.events.newyear': 'Islamisches Neujahr',
         'moon.events.days_template': 'Noch {n} Tage',
-        'moon.events.today': 'Heute!',
+        'moon.events.today': 'Heute',
         'moon.events.tomorrow': 'Morgen',
-        'moon.events.notice': '* Die Daten sind ungefähr und können je nach Mondsichtung in Ihrem Land variieren.',
+        'moon.events.ended': 'Beendet',
+        'moon.events.notice': '* Der Zähler folgt der lokalen Zeit Ihres Geräts; die Daten sind ungefähr und können je nach Mondsichtung in Ihrem Land variieren.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Tage',
         'countdown.hours': 'Stunden',

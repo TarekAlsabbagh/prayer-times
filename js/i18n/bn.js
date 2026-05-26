@@ -421,9 +421,10 @@ window.TRANSLATIONS['bn'] = {
         'moon.events.adha': 'ঈদুল আজহা',
         'moon.events.newyear': 'হিজরি নববর্ষ',
         'moon.events.days_template': '{n} দিন বাকি',
-        'moon.events.today': 'আজ!',
+        'moon.events.today': 'আজ',
         'moon.events.tomorrow': 'আগামীকাল',
-        'moon.events.notice': '* তারিখগুলি আনুমানিক এবং আপনার দেশে চাঁদ দেখার উপর নির্ভর করে পরিবর্তিত হতে পারে।',
+        'moon.events.ended': 'শেষ',
+        'moon.events.notice': '* কাউন্টারটি আপনার ডিভাইসের স্থানীয় সময় অনুযায়ী চলে; তারিখগুলি আনুমানিক এবং আপনার দেশে চাঁদ দেখার উপর নির্ভর করে পরিবর্তিত হতে পারে।',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'দিন',
         'countdown.hours': 'ঘণ্টা',

@@ -464,9 +464,10 @@ window.TRANSLATIONS['en'] = {
         'moon.events.adha': 'Eid al-Adha',
         'moon.events.newyear': 'Hijri New Year',
         'moon.events.days_template': '{n} days left',
-        'moon.events.today': 'Today!',
+        'moon.events.today': 'Today',
         'moon.events.tomorrow': 'Tomorrow',
-        'moon.events.notice': '* Dates are approximate and may change based on the crescent sighting in your country.',
+        'moon.events.ended': 'Ended',
+        'moon.events.notice': '* The counter follows your device’s local time; dates are approximate and may differ based on crescent sighting in your country.',
         // ═══ Countdown pages (Ramadan — Phase 1) ═══
         'countdown.days': 'Days',
         'countdown.hours': 'Hours',

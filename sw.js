@@ -74,6 +74,46 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
+//   v351 → v352. Phase A + Phase B Sub-option B1 from the
+//   REGIONAL-DEFAULT-CALC-METHODS-AUDIT-1 report:
+//
+//   Country-default changes in `_AUTO_METHOD_BY_CC` (js/app.js) AND
+//   `_SSR_METHOD_BY_CC` (server.js) — both maps fully synced:
+//     • LB → MWL          (was Makkah)
+//     • LY → Egypt        (was Makkah; LY follows the Egyptian convention)
+//     • YE → MWL          (was Makkah)
+//     • IQ → MWL          (was Makkah)
+//     • PS → MWL          (was Makkah)
+//     • JO → MWL          (was Makkah; Phase B B1, no JordanAwqaf yet)
+//     • DZ → MWL          (was Makkah; Phase B B1, no AlgeriaAwqaf yet)
+//     • TN → MWL          (was Makkah; Phase B B1, no TunisiaReligiousAffairs yet)
+//     • SD → MWL          (was Makkah)
+//     • SS → MWL          (was Makkah)
+//     • MR → MWL          (was Makkah)
+//     • SO → MWL          (was Makkah)
+//     • DJ → MWL          (was Makkah)
+//     • KM → MWL          (was Makkah)
+//     • Fallback Makkah → MWL  in BOTH maps' || branch (was the silent
+//                              default for ~150 unmapped countries).
+//
+//   GCC + Syria preserved on Makkah (the only 7 legitimate Umm Al-Qura
+//   users): SA, AE, KW, QA, BH, OM, SY.
+//   Countries with their own dedicated methods untouched: EG, FR, TR,
+//   IR, MA (MoroccoAwqaf), MY (JAKIM), ID (KemenagJakarta), PK/IN/BD/AF
+//   (Karachi), SG/BN (Singapore), Europe (MWL), N. America (ISNA),
+//   S. America (MWL).
+//
+//   Also: brings `_SSR_METHOD_BY_CC` byte-equivalent in semantics to
+//   `_AUTO_METHOD_BY_CC` so the SSR first paint and client hydration
+//   pick the SAME method — no more "wrong-then-right" flash in computed
+//   prayer times. Critical for MY/ID/MA (server was using stale
+//   Singapore/Makkah) and for the entire Europe/SA block.
+//
+//   No change to: method angles (MWL stays 18/17, ISNA stays 15/15,
+//   etc.), Shafi/Hanafi logic, dropdown list, translations, or any
+//   user-explicit pick stored in localStorage['calc_method_user'].
+//   Cache-buster: js/app.js?v=723 → ?v=724.
 // SSR-CONTENT-NO-SWAP-1 (2026-05-26):
 //   v350 → v351. Fixes a visible text "swap" / FOUC where 4 sidebar nav
 //   labels and the #loc-hero-title hero H1/H2 rendered with one Arabic
@@ -215,7 +255,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v351';
+const CACHE_VERSION = 'v352';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -6698,30 +6698,38 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 // revised policy. MUST stay in sync with `_SSR_METHOD_BY_CC` in
 // server.js.
 //
-// Policy:
+// Policy  (REGIONAL-DEFAULT-CALC-METHODS-APPLY-1, 2026-05-26):
 //   - Egypt → Egypt (Egyptian General Authority)
-//   - Gulf + Arab world (except Egypt + Morocco) → Makkah (Umm Al-Qura).
-//     Even though Kuwait / Qatar / UAE have dedicated dropdown
-//     options, the user wants Arab-world default to be Umm Al-Qura.
+//   - Libya → Egypt  (LY follows the Egyptian convention per user rule §5)
+//   - GCC + Syria → Makkah (Umm Al-Qura). ONLY these 7 codes stay on
+//     Umm Al-Qura: SA, AE, KW, QA, BH, OM, SY. Other Arab/Islamic
+//     countries (LB, YE, IQ, PS, JO, DZ, TN, SD, SS, MR, SO, DJ, KM)
+//     were historically lumped onto Makkah by mistake; now MWL.
+//   - Jordan / Algeria / Tunisia → MWL temporarily (Phase B Sub-option
+//     B1). Official Fajr/Isha angles for JordanAwqaf / AlgeriaAwqaf /
+//     TunisiaReligiousAffairs are NOT publicly documented; not adding
+//     label-only rebrands until proper research lands.
+//   - Lebanon → MWL (LB per user rule §4)
+//   - Yemen / Iraq / Palestine / Sudan / S. Sudan / Mauritania /
+//     Somalia / Djibouti / Comoros → MWL (non-GCC, non-Syria, no
+//     dedicated authority).
 //   - Morocco → MoroccoAwqaf  (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
 //   - France → France (UOIF)                                — preserved
 //   - North America (US/CA/MX/GL/BM) → ISNA                 — preserved + extended
 //   - Central America + Caribbean → ISNA                    — preserved
-//   - South America (14 codes incl. FK)
-//     → MWL  (AMERICAS-DEFAULT-CALC-METHODS-1, 2026-05-26)
-//     This MOVES the South-American subset out of the legacy
-//     "Latin America → ISNA" group into MWL per user spec.
+//   - South America (14 codes incl. FK) → MWL
 //   - Turkey → Turkey (Diyanet)
 //   - Iran → Tehran
-//   - Europe (all 44 codes, except FR/TR which keep their own auth)
-//     → MWL  (EUROPE-DEFAULT-CALC-METHOD-1, 2026-05-26)
-//     This includes RU which formerly mapped to 'Russia'; per user spec
-//     the unified European default is MWL with FR/TR exceptions.
+//   - Europe (all 44 codes, except FR/TR which keep their own auth) → MWL
 //   - South Asia (PK/IN/BD/AF) → Karachi
-//   - Malaysia → JAKIM  (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
+//   - Malaysia → JAKIM            (COUNTRY-SPECIFIC-CALC-METHODS-1)
 //   - Indonesia → KemenagJakarta  (COUNTRY-SPECIFIC-CALC-METHODS-1)
-//   - SG / BN → Singapore  (kept on the generic SEA method)
-//   - Everywhere else → Makkah (universal fallback)
+//   - SG / BN → Singapore         (kept on the generic SEA method)
+//   - Everywhere else → MWL  (CHANGED from Makkah —
+//     REGIONAL-DEFAULT-CALC-METHODS-APPLY-1, 2026-05-26: the audit found
+//     ~150 unmapped countries were defaulting to Makkah unintentionally.
+//     MWL is the broader international Sunni default and matches what
+//     most non-Arab Muslim communities use.)
 //
 // Available <select> keys (from index.html + js/prayer-times.js):
 //   Makkah  MWL  ISNA  Egypt  Karachi  Tehran  Jafari  Gulf
@@ -6771,14 +6779,33 @@ const _AUTO_METHOD_BY_CC = {
     'ar': 'MWL', 'bo': 'MWL', 'br': 'MWL', 'cl': 'MWL', 'co': 'MWL',
     'ec': 'MWL', 'fk': 'MWL', 'gf': 'MWL', 'gy': 'MWL', 'py': 'MWL',
     'pe': 'MWL', 'sr': 'MWL', 'uy': 'MWL', 've': 'MWL',
-    // Gulf + Arab world (except Egypt + Morocco) → Makkah (explicit for clarity)
+    // REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
+    //   The Arab-world block was historically all-on-Makkah which was
+    //   wrong for non-GCC countries that don't actually use Umm Al-Qura.
+    //   New split:
+    //     • GCC + Syria → Makkah  (7 codes — the only legitimate Makkah users)
+    //     • LY → Egypt            (Libya follows the Egyptian convention)
+    //     • LB / YE / IQ / JO / PS / SD / SS / DZ / TN / MR / SO / DJ / KM
+    //       → MWL                 (13 codes corrected from Makkah)
+    //     • MA → MoroccoAwqaf     (unchanged, country-specific authority)
+    //   JO / DZ / TN: temporarily MWL under Phase B Sub-option B1 until
+    //   official angles for JordanAwqaf / AlgeriaAwqaf /
+    //   TunisiaReligiousAffairs are documented.
+
+    // GCC + Syria → Makkah  (the ONLY 7 codes that legitimately use Umm Al-Qura)
     'sa': 'Makkah', 'kw': 'Makkah', 'qa': 'Makkah',
-    'ae': 'Makkah', 'bh': 'Makkah', 'om': 'Makkah', 'ye': 'Makkah',
-    'iq': 'Makkah', 'jo': 'Makkah', 'lb': 'Makkah', 'ps': 'Makkah',
+    'ae': 'Makkah', 'bh': 'Makkah', 'om': 'Makkah',
     'sy': 'Makkah',
-    'ly': 'Makkah', 'sd': 'Makkah', 'ss': 'Makkah',
-    'dz': 'Makkah', 'tn': 'Makkah', 'mr': 'Makkah',
-    'so': 'Makkah', 'dj': 'Makkah', 'km': 'Makkah',
+    // Libya → Egypt  (LY follows the Egyptian General Authority convention)
+    'ly': 'Egypt',
+    // Non-GCC Arab + Sahelian Islamic countries → MWL
+    //   13 codes: previously Makkah, corrected per the audit.
+    //   JO/DZ/TN are Phase B Sub-option B1 (no JordanAwqaf/AlgeriaAwqaf/
+    //   TunisiaReligiousAffairs method added; angles not officially
+    //   documented).
+    'lb': 'MWL', 'ye': 'MWL', 'iq': 'MWL', 'jo': 'MWL', 'ps': 'MWL',
+    'sd': 'MWL', 'ss': 'MWL', 'dz': 'MWL', 'tn': 'MWL', 'mr': 'MWL',
+    'so': 'MWL', 'dj': 'MWL', 'km': 'MWL',
     // Morocco — dedicated authority
     // (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
     'ma': 'MoroccoAwqaf',
@@ -6866,8 +6893,15 @@ function autoSelectMethod(countryCode, countryName) {
         method = nameMap[countryName];
     }
 
-    // Priority 3: universal fallback — Makkah (Umm Al-Qura).
-    if (!method) method = 'Makkah';
+    // Priority 3: universal fallback — MWL (Muslim World League).
+    //   REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26): changed from
+    //   'Makkah' to 'MWL'. Per audit ~150 unmapped countries (East Asia
+    //   non-Singapore, Oceania, sub-Saharan Africa, Central Asia, etc.)
+    //   were defaulting to Umm Al-Qura by accident. MWL is the broader
+    //   international Sunni default and matches what most non-Arab
+    //   Muslim communities use. Countries that LEGITIMATELY want Makkah
+    //   are listed explicitly above (GCC + Syria only).
+    if (!method) method = 'MWL';
 
     const sel = document.getElementById('calc-method');
     if (sel && sel.value !== method) sel.value = method;

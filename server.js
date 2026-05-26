@@ -2388,38 +2388,67 @@ function _resolveCcForSlug(slug) {
 // User-explicit choice in `localStorage['calc_method_user']` STILL
 // overrides the country default on the client (READ-only path —
 // Lyon→Riyadh-safe). MIRRORED in js/app.js → `_AUTO_METHOD_BY_CC`.
+// REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
+//   Full sync with `_AUTO_METHOD_BY_CC` in js/app.js. Before the audit
+//   the SSR map was stale (MY/ID still on Singapore, MA on Makkah, all
+//   South America on ISNA, all Europe falling through to Makkah). The
+//   client side then overrode the SSR values on hydration, producing a
+//   visible "wrong-then-right" flash in computed prayer times.
+//   This map must be byte-equivalent in semantics to _AUTO_METHOD_BY_CC.
 const _SSR_METHOD_BY_CC = {
-    // Egypt — the only Arab country with a dedicated method
+    // Egypt
     eg: 'Egypt',
+    // Libya → Egypt (LY follows the Egyptian convention, APPLY-1 rule §5)
+    ly: 'Egypt',
     // Countries with their OWN dedicated methods (preserved)
-    fr: 'France',                                  // explicitly preserved
+    fr: 'France',
     tr: 'Turkey',
     ir: 'Tehran',
-    ru: 'Russia',
     // South Asia → Karachi
     pk: 'Karachi', in: 'Karachi', bd: 'Karachi', af: 'Karachi',
-    // SE Asia → Singapore
-    my: 'Singapore', id: 'Singapore', sg: 'Singapore', bn: 'Singapore',
-    // North America → ISNA (explicitly preserved per user)
+    // SE Asia — MY/ID have country-specific authorities since
+    // COUNTRY-SPECIFIC-CALC-METHODS-1 (2026-05-26). SG/BN stay on the
+    // generic SEA method.
+    my: 'JAKIM',
+    id: 'KemenagJakarta',
+    sg: 'Singapore', bn: 'Singapore',
+    // AMERICAS-DEFAULT-CALC-METHODS-1 (2026-05-26): NA → ISNA;
+    // SA → MWL; Central America + Caribbean → ISNA (preserved).
     us: 'ISNA', ca: 'ISNA', mx: 'ISNA',
-    // Latin America → ISNA (most Muslim communities follow ISNA)
-    br: 'ISNA', ar: 'ISNA', co: 'ISNA', ve: 'ISNA', cl: 'ISNA',
-    pe: 'ISNA', ec: 'ISNA', bo: 'ISNA', py: 'ISNA', uy: 'ISNA',
+    gl: 'ISNA', bm: 'ISNA',
     gt: 'ISNA', cu: 'ISNA', hn: 'ISNA', ni: 'ISNA', sv: 'ISNA',
     cr: 'ISNA', pa: 'ISNA', do: 'ISNA', ht: 'ISNA',
     jm: 'ISNA', tt: 'ISNA', bb: 'ISNA', bz: 'ISNA',
-    gy: 'ISNA', sr: 'ISNA', gf: 'ISNA',
-    // Gulf + Arab world (except Egypt) → Makkah
-    //   (explicit entries — fallback also is Makkah but listing for clarity)
+    ar: 'MWL', bo: 'MWL', br: 'MWL', cl: 'MWL', co: 'MWL',
+    ec: 'MWL', fk: 'MWL', gf: 'MWL', gy: 'MWL', py: 'MWL',
+    pe: 'MWL', sr: 'MWL', uy: 'MWL', ve: 'MWL',
+    // GCC + Syria → Makkah (the ONLY 7 codes that legitimately use Umm Al-Qura)
     sa: 'Makkah', kw: 'Makkah', qa: 'Makkah',
-    ae: 'Makkah', bh: 'Makkah', om: 'Makkah', ye: 'Makkah',
-    iq: 'Makkah', jo: 'Makkah', lb: 'Makkah', ps: 'Makkah', sy: 'Makkah',
-    ly: 'Makkah', sd: 'Makkah', ss: 'Makkah',
-    dz: 'Makkah', ma: 'Makkah', tn: 'Makkah', mr: 'Makkah',
-    so: 'Makkah', dj: 'Makkah', km: 'Makkah',
-    // Everything else (Europe non-FR/RU, sub-Saharan Africa, East Asia,
-    // Oceania, Central Asia, etc.) falls through to 'Makkah' via the
-    // fallback in `_ssrPrayerTimesFor`.
+    ae: 'Makkah', bh: 'Makkah', om: 'Makkah',
+    sy: 'Makkah',
+    // Non-GCC Arab + Sahelian Islamic countries → MWL  (APPLY-1)
+    //   Includes LB, YE, IQ, JO, PS, SD, SS, DZ, TN, MR, SO, DJ, KM
+    //   JO/DZ/TN are Phase B Sub-option B1 (no JordanAwqaf/AlgeriaAwqaf/
+    //   TunisiaReligiousAffairs method until official angles documented).
+    lb: 'MWL', ye: 'MWL', iq: 'MWL', jo: 'MWL', ps: 'MWL',
+    sd: 'MWL', ss: 'MWL', dz: 'MWL', tn: 'MWL', mr: 'MWL',
+    so: 'MWL', dj: 'MWL', km: 'MWL',
+    // Morocco — dedicated authority
+    ma: 'MoroccoAwqaf',
+    // EUROPE-DEFAULT-CALC-METHOD-1 (2026-05-26):
+    //   All European codes except FR + TR → MWL.
+    //   RU moved from 'Russia' → 'MWL' per the unified European policy.
+    al: 'MWL', ad: 'MWL', at: 'MWL', by: 'MWL', be: 'MWL',
+    ba: 'MWL', bg: 'MWL', hr: 'MWL', cy: 'MWL', cz: 'MWL',
+    dk: 'MWL', ee: 'MWL', fi: 'MWL', de: 'MWL', gr: 'MWL',
+    hu: 'MWL', is: 'MWL', ie: 'MWL', it: 'MWL', xk: 'MWL',
+    lv: 'MWL', li: 'MWL', lt: 'MWL', lu: 'MWL', mt: 'MWL',
+    md: 'MWL', mc: 'MWL', me: 'MWL', nl: 'MWL', mk: 'MWL',
+    no: 'MWL', pl: 'MWL', pt: 'MWL', ro: 'MWL', ru: 'MWL',
+    sm: 'MWL', rs: 'MWL', sk: 'MWL', si: 'MWL', es: 'MWL',
+    se: 'MWL', ch: 'MWL', ua: 'MWL', gb: 'MWL', va: 'MWL',
+    // Everything else falls through to 'MWL' via the fallback at
+    // `_ssrPrayerTimesFor` (changed from 'Makkah' in APPLY-1).
 };
 
 // Compute the IANA-timezone offset (in hours, fractional) for a given Date.
@@ -2458,11 +2487,11 @@ function _ssrPrayerTimesFor(slug) {
         const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3; // sa default
-        // PT-METHOD-3: country-mapped method, fall back to Makkah
-        // (Umm Al-Qura) for any country not explicitly listed. Countries
-        // with their own dedicated methods (France/USA/Turkey/Iran/Russia/
-        // Karachi-zone/Singapore-zone/Egypt) are preserved.
-        const method = _SSR_METHOD_BY_CC[cc] || 'Makkah';
+        // PT-METHOD-3 + REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
+        // Country-mapped method; fall back to 'MWL' for any code not in
+        // `_SSR_METHOD_BY_CC`. Previously fell back to 'Makkah' which
+        // was incorrect for the ~150 unmapped countries.
+        const method = _SSR_METHOD_BY_CC[cc] || 'MWL';
         PrayerTimesSrv.setMethod(method);
         PrayerTimesSrv.setTimeFormat('24h'); // SSR always emits 24h; client formats per-lang
         const t = PrayerTimesSrv.getTimes(now, lat, lng, tzOffset);

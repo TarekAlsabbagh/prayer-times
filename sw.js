@@ -74,6 +74,15 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// SIS-LAST-THIRD-ARROW-DIR-1 (2026-05-26):
+//   v347 → v348. Tiny UX fix: the "last third of night" time-range in the
+//   summary info strip on /prayer-times-in-{city} (#sis-last-third) used a
+//   hard-coded right-arrow '→', which renders as a left-to-right arrow even
+//   on RTL pages. Now direction-aware: RTL langs (ar/ur) get '←' so the
+//   arrow points from the start time toward the end time in their visual
+//   reading direction. LTR langs keep '→'. One-liner in app.js
+//   updateSummaryInfoStrip(); no other behavior changed.
+//   Cache-buster: js/app.js?v=720 → ?v=721.
 // AMERICAS-DEFAULT-CALC-METHODS-1 (2026-05-26):
 //   v346 → v347. Country-default calculation method update for the Americas:
 //     • North America extended: US/CA/MX preserved on ISNA; GL (Greenland)
@@ -156,7 +165,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v347';
+const CACHE_VERSION = 'v348';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

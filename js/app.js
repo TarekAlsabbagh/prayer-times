@@ -8432,7 +8432,14 @@ function updateSummaryInfoStrip(times, fH, fM) {
             let nightLen = fajr - magh; if (nightLen <= 0) nightLen += 24; // عبر منتصف الليل
             const lastThirdStart = (magh + (nightLen * 2/3)) % 24;
             const lastThirdEnd   = fajr;
-            _thirdEl.textContent = _formatDecimalHours(lastThirdStart, _tf) + ' → ' + _formatDecimalHours(lastThirdEnd, _tf);
+            // SIS-LAST-THIRD-ARROW-DIR-1 (2026-05-26): arrow direction follows
+            // the active language's reading direction. RTL langs (ar/ur) get
+            // '←' so the arrow points from the start time (visually on the
+            // right in RTL) toward the end time (visually on the left).
+            // LTR langs keep '→'.
+            const _isRtl = (_lng === 'ar' || _lng === 'ur');
+            const _arrow = _isRtl ? ' ← ' : ' → ';
+            _thirdEl.textContent = _formatDecimalHours(lastThirdStart, _tf) + _arrow + _formatDecimalHours(lastThirdEnd, _tf);
         } catch (_) { _thirdEl.textContent = '—'; }
     }
 

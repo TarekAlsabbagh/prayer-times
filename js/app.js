@@ -3162,6 +3162,7 @@ async function initApp() {
             if (document.getElementById('page-azkar-hub'))     _loadAzkarHub();
             if (document.getElementById('page-azkar-morning')) _loadAzkarMorning();
             if (document.getElementById('page-azkar-evening')) _loadAzkarEvening();
+            if (document.getElementById('page-azkar-prayer'))  _loadAzkarPrayer();
         } catch (_) { /* silent */ }
     });
     _deferOnMoon(initTasbih);
@@ -3447,11 +3448,13 @@ async function initApp() {
     const _azkarPath = window.location.pathname;
     const _isAzkarMorningPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(_azkarPath);
     const _isAzkarEveningPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(_azkarPath);
+    const _isAzkarPrayerPage  = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/prayer-azkar$/.test(_azkarPath);
     const _isAzkarHubPage     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_azkarPath);
-    if ((_isAzkarMorningPage || _isAzkarEveningPage || _isAzkarHubPage) && !window._navigatingAway) {
+    if ((_isAzkarMorningPage || _isAzkarEveningPage || _isAzkarPrayerPage || _isAzkarHubPage) && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         const _azkarTargetId = _isAzkarMorningPage ? 'page-azkar-morning'
-            : (_isAzkarEveningPage ? 'page-azkar-evening' : 'page-azkar-hub');
+            : (_isAzkarEveningPage ? 'page-azkar-evening'
+            : (_isAzkarPrayerPage  ? 'page-azkar-prayer'  : 'page-azkar-hub'));
         document.getElementById(_azkarTargetId)?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="azkar"]')?.classList.add('active');
@@ -10845,6 +10848,9 @@ window.addEventListener('pageshow', function(e) {
             // 1s then redirect to home — user-reported bug. Same fix needed
             // for any future azkar category page (sleep, after-prayer, …).
             _expectedId = 'page-azkar-evening';
+        } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/prayer-azkar$/.test(_path)) {
+            // AZKAR-PRAYER-PHASE-1: independent prayer page (same fix as evening).
+            _expectedId = 'page-azkar-prayer';
         } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_path)) {
             // AZKAR-RESTRUCTURE-MORNING-PHASE-1: hub of category cards
             _expectedId = 'page-azkar-hub';
@@ -24518,6 +24524,249 @@ function _azkarWireEveningStickyProgress() {
             });
         }
     } catch (_) { /* never throw — sticky bar is best-effort UX */ }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-PRAYER-PHASE-1 (2026-05-26): prayer category — clone of evening
+// adapted for 17 prayer-position dhikr. category='prayer', storage key
+// 'azkar.progress.prayer'. DOM ids prefixed with 'azkar-prayer-'.
+// ─────────────────────────────────────────────────────────────────────────────
+function _loadAzkarPrayer() {
+    const listEl = document.getElementById('azkar-prayer-list');
+    if (!listEl) return;
+    if (listEl.dataset.wired) return;
+    listEl.dataset.wired = '1';
+
+    const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarPrayer))
+        ? window.AzkarPrayer : [];
+
+    const resetBtn = document.getElementById('azkar-prayer-reset-all');
+    if (resetBtn && !resetBtn.dataset.wired) {
+        resetBtn.dataset.wired = '1';
+        resetBtn.removeAttribute('data-i18n');
+        resetBtn.addEventListener('click', () => {
+            _azkarShowResetConfirm({
+                title: 'هل تريد إعادة ضبط جميع العدادات؟',
+                sub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
+                cancelText: 'إلغاء',
+                confirmText: 'نعم، إعادة الضبط',
+                returnFocusTo: resetBtn,
+                onConfirm: () => {
+                    _azkarResetCategory('prayer');
+                    listEl.dataset.wired = '';
+                    listEl.removeAttribute('data-ssr-rendered');
+                    listEl.innerHTML = '';
+                    _loadAzkarPrayer();
+                    _azkarShowToast('تمت إعادة ضبط العدادات');
+                    _azkarScrollToTopOfPage();
+                }
+            });
+        });
+    }
+
+    if (listEl.dataset.ssrRendered === '1' && listEl.children.length > 0 && items.length) {
+        _hydrateAzkarPrayerCards(items, listEl);
+        _updatePrayerProgress();
+        _azkarWirePrayerStickyProgress();
+        _azkarRenderMoonEvents();
+        return;
+    }
+
+    listEl.innerHTML = '';
+    if (!items.length) {
+        const empty = document.createElement('p');
+        empty.className = 'azkar-empty';
+        empty.textContent = _AZKAR_AR_CHROME.emptyList;
+        listEl.appendChild(empty);
+        _updatePrayerProgress(0, 0);
+        return;
+    }
+    try { console.warn('[azkar-prayer] SSR cards missing — full client-render fallback not implemented (SSR is the supported path).'); } catch (_) {}
+    const notice = document.createElement('p');
+    notice.className = 'azkar-empty';
+    notice.textContent = 'تعذّر تحميل أذكار الصلاة. يرجى إعادة تحميل الصفحة.';
+    listEl.appendChild(notice);
+    _updatePrayerProgress(0, items.length);
+}
+
+function _hydrateAzkarPrayerCards(items, listEl) {
+    items.forEach((dhikr) => {
+        const card = document.getElementById('azkar-item-' + dhikr.id);
+        if (!card) return;
+        const target = Number(dhikr.repeat) || 1;
+        const isSingleRead = (target === 1);
+        const restored = _azkarRestore(dhikr.category, dhikr.id);
+        const isCompleted = restored >= target;
+        if (isCompleted) card.classList.add('completed');
+        else card.classList.remove('completed');
+
+        if (isSingleRead) {
+            const tapBtn = card.querySelector('.azkar-mark-read');
+            if (tapBtn) {
+                tapBtn.textContent = isCompleted
+                    ? _AZKAR_AR_CHROME.markedRead
+                    : _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', isCompleted ? 'true' : 'false');
+                tapBtn.addEventListener('click', () => {
+                    _azkarTickCounterPrayer(dhikr, tapBtn, null, card);
+                });
+            }
+        } else {
+            const tapBtn = card.querySelector('.azkar-counter-tap');
+            const tapCount = card.querySelector('.azkar-counter-tap-count');
+            const tapPrompt = card.querySelector('.azkar-counter-tap-prompt');
+            if (tapCount) tapCount.textContent = restored + ' / ' + target;
+            if (tapPrompt) {
+                tapPrompt.textContent = isCompleted
+                    ? _AZKAR_AR_CHROME.counterDone
+                    : _AZKAR_AR_CHROME.counterTap;
+            }
+            if (tapBtn) {
+                tapBtn.addEventListener('click', () => {
+                    _azkarTickCounterPrayer(dhikr, tapBtn, tapCount, card);
+                });
+            }
+            const undoBtn = card.querySelector('.azkar-counter-undo');
+            if (undoBtn) {
+                undoBtn.addEventListener('click', () => {
+                    const cur = _azkarRestore(dhikr.category, dhikr.id);
+                    if (cur <= 0) return;
+                    const next = cur - 1;
+                    _azkarPersist(dhikr.category, dhikr.id, next, target);
+                    if (tapCount) tapCount.textContent = next + ' / ' + target;
+                    card.classList.remove('completed');
+                    if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+                    _updatePrayerProgress();
+                });
+            }
+            const resetItemBtn = card.querySelector('.azkar-counter-reset');
+            if (resetItemBtn) {
+                resetItemBtn.addEventListener('click', () => {
+                    _azkarPersist(dhikr.category, dhikr.id, 0, target);
+                    if (tapCount) tapCount.textContent = '0 / ' + target;
+                    card.classList.remove('completed');
+                    if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+                    _updatePrayerProgress();
+                });
+            }
+        }
+    });
+}
+
+function _azkarTickCounterPrayer(dhikr, tapBtn, tapCount, card) {
+    const target = Number(dhikr.repeat) || 1;
+    const isSingleRead = (target === 1);
+    const cur = _azkarRestore(dhikr.category, dhikr.id);
+    if (isSingleRead) {
+        const next = (cur >= 1) ? 0 : 1;
+        _azkarPersist(dhikr.category, dhikr.id, next, target);
+        if (next === 1) {
+            card.classList.add('completed');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markedRead;
+                tapBtn.setAttribute('aria-pressed', 'true');
+            }
+            _updatePrayerProgress();
+            _azkarAdvanceToNext(card);
+        } else {
+            card.classList.remove('completed');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', 'false');
+            }
+            _updatePrayerProgress();
+        }
+        return;
+    }
+    if (cur >= target) return;
+    const next = cur + 1;
+    _azkarPersist(dhikr.category, dhikr.id, next, target);
+    if (tapCount) tapCount.textContent = next + ' / ' + target;
+    if (next >= target) {
+        card.classList.add('completed');
+        const promptEl = tapBtn && tapBtn.querySelector
+            ? tapBtn.querySelector('.azkar-counter-tap-prompt')
+            : null;
+        if (promptEl) promptEl.textContent = _AZKAR_AR_CHROME.counterDone;
+        _updatePrayerProgress();
+        _azkarAdvanceToNext(card);
+    }
+}
+
+function _updatePrayerProgress(_doneOverride, _totalOverride) {
+    const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarPrayer))
+        ? window.AzkarPrayer : [];
+    const total = (typeof _totalOverride === 'number') ? _totalOverride : items.length;
+    let done = (typeof _doneOverride === 'number') ? _doneOverride : 0;
+    if (typeof _doneOverride !== 'number') {
+        items.forEach((d) => {
+            const c = _azkarRestore(d.category, d.id);
+            const t = Number(d.repeat) || 1;
+            if (c >= t) done++;
+        });
+    }
+    const pct = total > 0 ? Math.round((done / total) * 100) : 0;
+    const labelText = 'تم إكمال ' + done + ' من ' + total;
+    const labelEl = document.getElementById('azkar-prayer-progress-label');
+    if (labelEl) labelEl.textContent = labelText;
+    const stickyLabel = document.getElementById('azkar-prayer-sticky-label');
+    if (stickyLabel) stickyLabel.textContent = labelText;
+    const fillEl = document.getElementById('azkar-prayer-progress-fill');
+    if (fillEl) fillEl.style.width = pct + '%';
+    const stickyFill = document.getElementById('azkar-prayer-sticky-fill');
+    if (stickyFill) stickyFill.style.width = pct + '%';
+    const progressBars = document.querySelectorAll(
+        '#azkar-prayer-progress-wrap [role="progressbar"], #azkar-prayer-sticky [role="progressbar"]'
+    );
+    progressBars.forEach(pb => pb.setAttribute('aria-valuenow', String(pct)));
+    const banner = document.getElementById('azkar-prayer-completed');
+    if (banner) {
+        if (total > 0 && done >= total) banner.classList.remove('u-hidden');
+        else banner.classList.add('u-hidden');
+    }
+}
+
+function _azkarWirePrayerStickyProgress() {
+    try {
+        const sticky = document.getElementById('azkar-prayer-sticky');
+        const progressWrap = document.getElementById('azkar-prayer-progress-wrap');
+        if (!sticky || !progressWrap) return;
+        if (!sticky.dataset.io && typeof IntersectionObserver === 'function') {
+            sticky.dataset.io = '1';
+            const io = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) sticky.classList.remove('azkar-sticky-progress--visible');
+                    else sticky.classList.add('azkar-sticky-progress--visible');
+                });
+            }, { rootMargin: '0px 0px 0px 0px', threshold: 0 });
+            io.observe(progressWrap);
+        }
+        const stickyReset = document.getElementById('azkar-prayer-sticky-reset');
+        if (stickyReset && !stickyReset.dataset.wired) {
+            stickyReset.dataset.wired = '1';
+            const listEl = document.getElementById('azkar-prayer-list');
+            stickyReset.addEventListener('click', function () {
+                _azkarShowResetConfirm({
+                    title: 'هل تريد إعادة ضبط جميع العدادات؟',
+                    sub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
+                    cancelText: 'إلغاء',
+                    confirmText: 'نعم، إعادة الضبط',
+                    returnFocusTo: stickyReset,
+                    onConfirm: function () {
+                        _azkarResetCategory('prayer');
+                        if (listEl) {
+                            listEl.dataset.wired = '';
+                            listEl.removeAttribute('data-ssr-rendered');
+                            listEl.innerHTML = '';
+                        }
+                        _loadAzkarPrayer();
+                        _azkarShowToast('تمت إعادة ضبط العدادات');
+                        _azkarScrollToTopOfPage();
+                    }
+                });
+            });
+        }
+    } catch (_) { /* never throw */ }
 }
 
 function _azkarTickCounter(dhikr, tapBtn, tapCount, card) {

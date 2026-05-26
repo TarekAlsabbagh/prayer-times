@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=716" as="script">
+    <link rel="preload" href="js/app.js?v=717" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=442" as="style">
-    <link rel="stylesheet" href="css/style.css?v=442">
+    <link rel="preload" href="css/style.css?v=443" as="style">
+    <link rel="stylesheet" href="css/style.css?v=443">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3296,18 +3296,25 @@
                         <span class="azkar-card-cta" data-i18n="azkar.hub.card_start_btn">ابدأ القراءة</span>
                     </a>
 
-                    <!-- SOON: 8 سيبلنغز -->
+                    <!-- LIVE: أذكار الصلاة (AZKAR-PRAYER-PHASE-1, 2026-05-26) — replaces former after-prayer soon card -->
+                    <a class="azkar-card" href="/azkar/prayer-azkar">
+                        <span class="azkar-card-icon" aria-hidden="true">🕌</span>
+                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_prayer_title">أذكار الصلاة</h2>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_prayer_desc">أذكار الوضوء والمسجد والركوع والسجود وما بعد السلام بالترتيب.</p>
+                        <div class="azkar-card-meta">
+                            <span><span data-i18n="azkar.hub.card_prayer_count">17 ذكرًا</span></span>
+                            <span>·</span>
+                            <span><span data-i18n="azkar.hub.card_prayer_time">10–15 دقيقة</span></span>
+                        </div>
+                        <span class="azkar-card-cta" data-i18n="azkar.hub.card_start_btn">ابدأ القراءة</span>
+                    </a>
+
+                    <!-- SOON: 7 سيبلنغز -->
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">😴</span>
                         <h2 class="azkar-card-title" data-i18n="azkar.hub.card_sleep_title">أذكار النوم</h2>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_sleep_desc">أذكار تُقال قبل النوم لحفظ الله ورعايته.</p>
-                    </div>
-
-                    <div class="azkar-card azkar-card--soon" aria-disabled="true">
-                        <span class="azkar-card-icon" aria-hidden="true">🕌</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_after_prayer_title">أذكار بعد الصلاة</h2>
-                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_after_prayer_desc">التسبيح والتحميد والتكبير بعد كل صلاة مكتوبة.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
@@ -3476,8 +3483,13 @@
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🌙</span>
                                 <span>أذكار المساء</span>
                             </a>
-                            <a href="/" class="azkar-edu-link-card">
+                            <!-- AZKAR-PRAYER-PHASE-1 (2026-05-26): now live -->
+                            <a href="/azkar/prayer-azkar" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🕌</span>
+                                <span>أذكار الصلاة</span>
+                            </a>
+                            <a href="/" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🕒</span>
                                 <span>مواقيت الصلاة اليوم</span>
                             </a>
                             <a href="/qibla" class="azkar-edu-link-card">
@@ -3729,8 +3741,13 @@
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🌅</span>
                                 <span>أذكار الصباح</span>
                             </a>
-                            <a href="/" class="azkar-edu-link-card">
+                            <!-- AZKAR-PRAYER-PHASE-1 (2026-05-26): now live -->
+                            <a href="/azkar/prayer-azkar" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🕌</span>
+                                <span>أذكار الصلاة</span>
+                            </a>
+                            <a href="/" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🕒</span>
                                 <span>مواقيت الصلاة اليوم</span>
                             </a>
                             <a href="/qibla" class="azkar-edu-link-card">
@@ -3822,6 +3839,250 @@
                 <!-- ===== Islamic events countdown (same pattern as morning AZKAR-EVENTS-ECHO-1) ===== -->
                 <section class="section-card moon-events-section" aria-labelledby="azkar-evening-events-h2">
                     <h2 id="azkar-evening-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
+                    <div class="moon-events-countdown">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">—</div>
+                                <div class="moon-event-date moon-event-ramadan-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">—</div>
+                                <div class="moon-event-date moon-event-fitr-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">—</div>
+                                <div class="moon-event-date moon-event-adha-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
+                                <div class="moon-event-days moon-event-newyear-days">—</div>
+                                <div class="moon-event-date moon-event-newyear-date">—</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* التواريخ تقديريّة وقد تتغيّر حسب رؤية الهلال في بلدك.</p>
+                </section>
+            </div>
+
+            <!-- ===== /azkar/prayer-azkar — Independent prayer page (AZKAR-PRAYER-PHASE-1, 2026-05-26) ===== -->
+            <div class="page" id="page-azkar-prayer">
+                <!-- AZKAR-RESET-SCROLL-TO-TOP-2 anchor (prayer variant).
+                     Uses a unique id since morning's #azkar-page-top would
+                     otherwise duplicate. JS helper _azkarScrollToTopOfPage
+                     scopes its lookup to the active .page wrapper. -->
+                <span id="azkar-page-top-prayer" class="azkar-page-top" aria-hidden="true" tabindex="-1"></span>
+                <!-- ===== Hero: breadcrumb + title + subtitle + info-strip + progress ===== -->
+                <section class="azkar-hero">
+                    <div class="azkar-hero-inner">
+                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
+                            <a href="/azkar">الأذكار</a>
+                            <span class="sep" aria-hidden="true">›</span>
+                            <span aria-current="page">أذكار الصلاة</span>
+                        </nav>
+
+                        <header class="azkar-page-header">
+                            <h1 id="azkar-prayer-h1">أذكار الصلاة</h1>
+                            <p class="azkar-page-subtitle">اقرأ أذكار الصلاة مكتوبة بالترتيب — من الوضوء وحتى ما بعد السلام — مع المصدر وحفظ التقدم تلقائيًا.</p>
+                        </header>
+
+                        <ul class="azkar-info-strip" aria-label="معلومات عامة">
+                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 17 ذكرًا</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكررة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
+                        </ul>
+
+                        <div class="azkar-progress-wrap" id="azkar-prayer-progress-wrap">
+                            <div class="azkar-progress-row">
+                                <span class="azkar-progress-label" id="azkar-prayer-progress-label">تم إكمال 0 من 0</span>
+                                <button type="button" class="azkar-reset-btn" id="azkar-prayer-reset-all" aria-label="إعادة ضبط العدّادات">
+                                    <span class="azkar-reset-icon" aria-hidden="true">↺</span>
+                                    <span>إعادة ضبط العدّادات</span>
+                                </button>
+                            </div>
+                            <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                                <div class="azkar-progress-fill" id="azkar-prayer-progress-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== Sticky compact progress bar (visible while scrolling) ===== -->
+                <div class="azkar-sticky-progress" id="azkar-prayer-sticky" role="region" aria-label="ملخص التقدم">
+                    <div class="azkar-sticky-progress-row">
+                        <span class="azkar-sticky-progress-text" id="azkar-prayer-sticky-label">تم إكمال 0 من 0</span>
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-prayer-sticky-reset" aria-label="إعادة ضبط العدّادات">
+                            <span class="azkar-reset-icon" aria-hidden="true">↺</span>
+                            <span>إعادة الضبط</span>
+                        </button>
+                    </div>
+                    <div class="azkar-sticky-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+                        <div class="azkar-sticky-progress-fill" id="azkar-prayer-sticky-fill"></div>
+                    </div>
+                </div>
+
+                <!-- ===== H2 SEO keyword bridge ===== -->
+                <header class="azkar-section-intro" id="azkar-prayer-section-intro">
+                    <h2 class="azkar-section-intro-title">أذكار الصلاة مرتبة مع المصدر الصحيح</h2>
+                    <p class="azkar-section-intro-text">تجد في هذه الصفحة أذكار الصلاة كاملة بالترتيب: من أذكار الوضوء والمسجد، ثم استفتاح الصلاة والركوع والسجود والتشهد، وحتى الأذكار بعد السلام ودعاء الوتر، مع توضيح المصدر وعداد للأذكار المتكررة.</p>
+                </header>
+
+                <!-- ===== Dhikr list — SSR-rendered by server.js _buildAzkarPrayerListHtml() ===== -->
+                <div class="azkar-list" id="azkar-prayer-list" aria-live="polite"></div>
+
+                <div class="azkar-completed-banner u-hidden" id="azkar-prayer-completed">
+                    <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
+                    <p class="azkar-completed-banner-title">تم إكمال أذكار الصلاة</p>
+                    <p class="azkar-completed-banner-sub">نسأل الله أن يتقبّل منك صلاتك ودعاءك.</p>
+                </div>
+
+                <!-- ===== Educational mini-cards (prayer-specific) ===== -->
+                <section class="azkar-edu-section" aria-label="معلومات تعليمية عن أذكار الصلاة">
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">🕌</span>
+                            <span>فضل أذكار الصلاة وأهميتها</span>
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>أذكار الصلاة جزء أساسي من إقامة الصلاة بصورتها الكاملة، وتشمل ما يُقال عند الوضوء والذهاب إلى المسجد، وأذكار استفتاح الصلاة والركوع والسجود والتشهد، إضافة إلى الأذكار بعد السلام. وهذه الأذكار مأثورة عن النبي ﷺ، وتُعين المسلم على حضور القلب وزيادة الخشوع في الصلاة.</p>
+                            <p>الالتزام بأذكار الصلاة يربط المسلم بالسنة، ويجعل صلاته أكمل أجرًا وأقرب إلى السكينة، خاصة عند الاهتمام بمعاني الأذكار لا بمجرد ترديدها.</p>
+                        </div>
+                    </article>
+
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">📖</span>
+                            <span>كيف تستخدم صفحة أذكار الصلاة؟</span>
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>تظهر الأذكار مرتبة في بطاقات مستقلة من أذكار الوضوء وحتى ما بعد السلام، ويوضّح في كل بطاقة عدد التكرار والمصدر. تستطيع قراءة جميع الأذكار بالترتيب، أو الرجوع إلى ذكر معين كالقنوت أو دعاء الوتر مباشرة.</p>
+                            <p>الأذكار التي يُسنّ تكرارها — مثل ما يُقال بعد الوتر ثلاث مرات — يساعدك العداد على إكمال العدد دون نسيان، ويُحفظ التقدم تلقائيًا خلال نفس اليوم في متصفحك.</p>
+                        </div>
+                    </article>
+
+                    <article class="azkar-edu-card">
+                        <h2 class="azkar-edu-title">
+                            <span class="azkar-edu-icon" aria-hidden="true">🌅</span>
+                            <span>أذكار الصلاة بين السنة والحرص على المعنى</span>
+                        </h2>
+                        <div class="azkar-edu-body">
+                            <p>كثير من أذكار الصلاة وردت بصيغ متعددة في كتب السنة المعروفة، مثل أدعية استفتاح الصلاة والقنوت ودعاء الجلسة بين السجدتين، ويصحّ للمسلم أن يختار بين الصيغ الثابتة. والأهم هو فهم معنى الذكر وحضوره في القلب، لا الاكتفاء بقراءته باللسان.</p>
+                            <p>ولتكامل العبادة في يومك، يُستحبّ قراءة أذكار الصباح والمساء كذلك، وكلاهما متوفر في صفحات مستقلة على هذا الموقع.</p>
+                        </div>
+                        <nav class="azkar-edu-links" aria-label="روابط ذات صلة">
+                            <a href="/azkar" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">↩</span>
+                                <span>العودة إلى الأذكار</span>
+                            </a>
+                            <a href="/azkar/morning-azkar" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🌅</span>
+                                <span>أذكار الصباح</span>
+                            </a>
+                            <a href="/azkar/evening-azkar" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🌙</span>
+                                <span>أذكار المساء</span>
+                            </a>
+                            <a href="/" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🕒</span>
+                                <span>مواقيت الصلاة اليوم</span>
+                            </a>
+                            <a href="/qibla" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">🧭</span>
+                                <span>اتجاه القبلة</span>
+                            </a>
+                            <a href="/today-hijri-date" class="azkar-edu-link-card">
+                                <span class="azkar-edu-link-icon" aria-hidden="true">📅</span>
+                                <span>التاريخ الهجري اليوم</span>
+                            </a>
+                        </nav>
+                    </article>
+                </section>
+
+                <!-- ===== FAQ (prayer-specific) ===== -->
+                <section class="azkar-faq" aria-labelledby="azkar-prayer-faq-title">
+                    <h2 id="azkar-prayer-faq-title" class="azkar-faq-title">أسئلة شائعة حول أذكار الصلاة</h2>
+
+                    <div class="azkar-faq-list">
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما هي أذكار الصلاة؟</summary>
+                            <div class="azkar-faq-answer">
+                                أذكار الصلاة هي الأدعية والأذكار المأثورة التي تُقال قبل الصلاة وأثناءها وبعدها، وتبدأ من أذكار الوضوء، ثم الذهاب إلى المسجد ودخوله، وأذكار استفتاح الصلاة والركوع والسجود والتشهد، وتنتهي بالأذكار بعد السلام ودعاء الوتر.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل أذكار الصلاة كلها ثابتة عن النبي ﷺ؟</summary>
+                            <div class="azkar-faq-answer">
+                                أغلب أذكار الصلاة وأدعيتها وردت في كتب السنة المعروفة، وتعدّدت صيغ بعضها كأدعية الاستفتاح والقنوت. هذه الصفحة تجمع الصيغ المشهورة المنقولة من كتب الأذكار، ويُنصح بمراجعة المصادر للتأكد من الصيغة والتشكيل.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما الفرق بين أذكار الصلاة وأذكار بعد الصلاة؟</summary>
+                            <div class="azkar-faq-answer">
+                                أذكار بعد الصلاة هي جزء من أذكار الصلاة بشكل عام، وتشمل التسبيح والتحميد والتكبير وقراءة آية الكرسي والمعوذات بعد التسليم. وقد جُمعت في هذه الصفحة ضمن قسم «الأذكار بعد السلام من الصلاة».
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما حكم قراءة دعاء الاستفتاح؟</summary>
+                            <div class="azkar-faq-answer">
+                                دعاء الاستفتاح سُنّة عند جمهور أهل العلم، يُقال بعد تكبيرة الإحرام وقبل قراءة الفاتحة. وقد وردت صيغ متعددة، تجد بعضًا منها في بطاقة «أدعية استفتاح الصلاة» في هذه الصفحة.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">متى يُقال دعاء القنوت؟</summary>
+                            <div class="azkar-faq-answer">
+                                يُقال دعاء القنوت في صلاة الوتر، ويزاد عليه القنوت في الفجر عند بعض أهل العلم، وكذلك قنوت النوازل عند الحاجة. وتجد في الصفحة بطاقتين: «دعاء القنوت» و«دعاء استفتاح الصلاة في قيام الليل».
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل تظهر مصادر أذكار الصلاة في الصفحة؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، يظهر المصدر مع كل ذكر لمساعدة القارئ على معرفة موضع وروده، مع عرض الفضل أو الملاحظة المتعلقة بالذكر عند توفرها.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">ما الذي يُقال بعد الانتهاء من الوتر؟</summary>
+                            <div class="azkar-faq-answer">
+                                ثبت عن النبي ﷺ أنه كان يقول بعد الوتر: «سبحان الملك القدوس» ثلاث مرات، ويرفع صوته في الثالثة. وتجد هذا الذكر في بطاقة «ما يقال بعد الانتهاء من الوتر» مع عدّاد لتسهيل التكرار.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل تحفظ الصفحة تقدمي تلقائيًا؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، تحفظ الصفحة تقدمك تلقائيًا خلال اليوم في نفس المتصفح، ثم تعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.
+                            </div>
+                        </details>
+
+                        <details class="azkar-faq-item">
+                            <summary class="azkar-faq-question">هل يمكن قراءة أذكار الصلاة من الهاتف؟</summary>
+                            <div class="azkar-faq-answer">
+                                نعم، الصفحة مصممة للهاتف والكمبيوتر، وبطاقات الأذكار سهلة القراءة، مع شريط تقدم ثابت يبقى مرئيًا أثناء التمرير لمتابعة ما تم إكماله.
+                            </div>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- ===== Islamic events countdown (same pattern as morning/evening AZKAR-EVENTS-ECHO-1) ===== -->
+                <section class="section-card moon-events-section" aria-labelledby="azkar-prayer-events-h2">
+                    <h2 id="azkar-prayer-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
                     <div class="moon-events-countdown">
                         <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
                             <span class="moon-event-icon" aria-hidden="true">🕋</span>
@@ -4533,8 +4794,8 @@
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/azkar-data.js?v=3"></script>
-    <script defer src="js/app.js?v=716"></script>
+    <script defer src="js/azkar-data.js?v=4"></script>
+    <script defer src="js/app.js?v=717"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

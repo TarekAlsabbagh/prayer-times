@@ -61,7 +61,20 @@
 //   evening page for ~1s then redirected to the homepage.
 //   Fix: added the evening pattern alongside morning. NO other change.
 //   Cache-buster: js/app.js?v=715 → ?v=716.
-const CACHE_VERSION = 'v341';
+// AZKAR-PRAYER-PHASE-1 (2026-05-26):
+//   v341 → v342. New /azkar/prayer-azkar page (17 dhikr covering wudu,
+//   mosque entry/exit, ruku, sujud, tashahhud, qunut, post-salam, witr),
+//   following the AZKAR-READING-PAGE-TEMPLATE-V1 contract verbatim
+//   (clone of evening with category='prayer', storage key 'azkar.progress.prayer',
+//   SSR-rendered list, BFCache restorer + SPA activator branches added in app.js).
+//   Hub `/azkar` now activates the prayer card (replaces former after-prayer
+//   "soon" placeholder). Morning + evening edu-link grids updated to add the
+//   prayer cross-link. Custom SEO title/desc per user spec (different from
+//   the canonical morning/evening template).
+//   Cache-busters: js/app.js?v=716 → ?v=717,
+//                  js/azkar-data.js?v=3 → ?v=4,
+//                  css/style.css?v=442 → ?v=443.
+const CACHE_VERSION = 'v342';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

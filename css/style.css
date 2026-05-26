@@ -7343,7 +7343,8 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 
 /* Page-scoped background — does NOT touch any other page on the site */
 #page-azkar-morning,
-#page-azkar-evening {
+#page-azkar-evening,
+#page-azkar-prayer {
     background:
         linear-gradient(180deg,
             #FCFBF3 0%,
@@ -7354,7 +7355,8 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     padding: 24px 0 80px;
 }
 #page-azkar-morning::before,
-#page-azkar-evening::before {
+#page-azkar-evening::before,
+#page-azkar-prayer::before {
     /* very subtle Islamic-style pattern overlay at the very top, opacity 3% */
     content: '';
     position: absolute;
@@ -7372,6 +7374,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
    position:relative and never floats at the top of the viewport). */
 #page-azkar-morning > *:not(.azkar-sticky-progress) { position: relative; z-index: 1; }
 #page-azkar-evening > *:not(.azkar-sticky-progress) { position: relative; z-index: 1; }
+#page-azkar-prayer  > *:not(.azkar-sticky-progress) { position: relative; z-index: 1; }
 
 /* ── Hero box ────────────────────────────────────────────────── */
 .azkar-hero {
@@ -8111,8 +8114,11 @@ html[data-theme="dark"] .azkar-edu-link-card {
    The moon-events-section sits right after the .azkar-faq inside
    #page-azkar-morning. Match the FAQ's top margin so the gap
    FAQ→events equals the gap last-card→FAQ (visual rhythm). Scoped
-   to #page-azkar-morning so the original moon page is unaffected. */
-#page-azkar-morning .moon-events-section {
+   to the azkar pages so the original moon page is unaffected.
+   AZKAR-PRAYER-PHASE-1 (2026-05-26): extended to evening + prayer. */
+#page-azkar-morning .moon-events-section,
+#page-azkar-evening .moon-events-section,
+#page-azkar-prayer  .moon-events-section {
     max-width: 820px;
     margin: 32px auto 0;
 }
@@ -8191,7 +8197,8 @@ html[data-theme="dark"] .azkar-edu-link-card {
     .azkar-faq-answer { padding: 0 14px 14px; font-size: 0.9rem; line-height: 1.8; }
     /* AZKAR-EVENTS-SPACING-FIX-1 mobile: match the FAQ mobile margin */
     #page-azkar-morning .moon-events-section,
-    #page-azkar-evening .moon-events-section {
+    #page-azkar-evening .moon-events-section,
+    #page-azkar-prayer  .moon-events-section {
         margin: 24px 12px 0;
     }
 }
@@ -8440,6 +8447,8 @@ html[data-theme="dark"] .azkar-section-intro-text {
     }
     /* Evening page mobile padding (mirrors morning at line ~8410) */
     #page-azkar-evening { padding: 16px 0 60px; }
+    /* Prayer page mobile padding (AZKAR-PRAYER-PHASE-1, 2026-05-26) */
+    #page-azkar-prayer  { padding: 16px 0 60px; }
     .azkar-card-item-header { gap: 10px; margin-bottom: 12px; }
     .azkar-card-item-order { width: 28px; height: 28px; font-size: 0.72rem; }
     .azkar-card-item-title { font-size: 1rem; }
@@ -8495,7 +8504,8 @@ html[data-theme="dark"] .azkar-section-intro-text {
 
 /* ── Dark mode overrides ──────────────────────────────────────── */
 html[data-theme="dark"] #page-azkar-morning,
-html[data-theme="dark"] #page-azkar-evening {
+html[data-theme="dark"] #page-azkar-evening,
+html[data-theme="dark"] #page-azkar-prayer {
     background:
         linear-gradient(180deg,
             #0d1410 0%,

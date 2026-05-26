@@ -5051,6 +5051,7 @@ function _escHtml(s) {
 // ════════════════════════════════════════════════════════════════════════════
 let _AZKAR_MORNING_DATA = [];
 let _AZKAR_EVENING_DATA = [];
+let _AZKAR_PRAYER_DATA = [];
 try {
     const _azkarSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-data.js'), 'utf8');
     const _azkarSandbox = { window: {}, console: { log: () => {} } };
@@ -5060,12 +5061,17 @@ try {
     // AZKAR-EVENING-PHASE-1 (2026-05-26): same sandbox, second category.
     _AZKAR_EVENING_DATA = Array.isArray(_azkarSandbox.window.AzkarEvening)
         ? _azkarSandbox.window.AzkarEvening : [];
+    // AZKAR-PRAYER-PHASE-1 (2026-05-26): third category, same sandbox.
+    _AZKAR_PRAYER_DATA = Array.isArray(_azkarSandbox.window.AzkarPrayer)
+        ? _azkarSandbox.window.AzkarPrayer : [];
     console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning + ' +
-        _AZKAR_EVENING_DATA.length + ' evening dhikr items for SSR');
+        _AZKAR_EVENING_DATA.length + ' evening + ' +
+        _AZKAR_PRAYER_DATA.length + ' prayer dhikr items for SSR');
 } catch (e) {
     console.warn('[azkar-ssr] Failed to load azkar-data.js for SSR — falling back to client-render: ' + e.message);
     _AZKAR_MORNING_DATA = [];
     _AZKAR_EVENING_DATA = [];
+    _AZKAR_PRAYER_DATA = [];
 }
 
 // Mirror of js/app.js:_AZKAR_AR_CHROME (AR-only, Phase 1 spec).
@@ -5210,6 +5216,12 @@ function _buildAzkarMorningListHtml() {
 function _buildAzkarEveningListHtml() {
     if (!_AZKAR_EVENING_DATA.length) return '';
     return _AZKAR_EVENING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
+}
+
+// AZKAR-PRAYER-PHASE-1 (2026-05-26): same pattern, prayer category.
+function _buildAzkarPrayerListHtml() {
+    if (!_AZKAR_PRAYER_DATA.length) return '';
+    return _AZKAR_PRAYER_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -6399,6 +6411,8 @@ function _getActiveH1Marker(urlPath) {
     if (/^\/azkar\/morning-azkar$/.test(path))        return { kind: 'id',   value: 'azkar-morning-h1' };
     // AZKAR-EVENING-PHASE-1 (2026-05-26): evening page H1 uses azkar-evening-h1 id.
     if (/^\/azkar\/evening-azkar$/.test(path))        return { kind: 'id',   value: 'azkar-evening-h1' };
+    // AZKAR-PRAYER-PHASE-1 (2026-05-26): prayer page H1 uses azkar-prayer-h1 id.
+    if (/^\/azkar\/prayer-azkar$/.test(path))         return { kind: 'id',   value: 'azkar-prayer-h1' };
     if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
     return null;   // route غير معروف — لا تعديل
 }
@@ -7939,6 +7953,37 @@ function buildSeoForPath(urlPath) {
         //             + 'قراءتها بسهولة وطمأنينة.'  (~122 chars)
         // EN + 8 other-lang values mirror EN (Phase-1 AR-only chrome,
         // same fallback policy as morning).
+        // AZKAR-PRAYER-PHASE-1 (2026-05-26): prayer-related adhkar page.
+        // Title diverges slightly from the canonical SEO template (user
+        // provided a custom title for prayer category — focus on "أدعية
+        // الصلاة مع المصدر" angle).
+        '/azkar/prayer-azkar': {
+            title: {
+                ar: 'أذكار الصلاة مكتوبة كاملة | أدعية الصلاة مع المصدر',
+                en: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                fr: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                tr: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                ur: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                de: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                id: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                es: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                bn: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                ms: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+            },
+            desc: {
+                ar: 'اقرأ أذكار الصلاة مكتوبة كاملة، تشمل أذكار الوضوء والمسجد والركوع والسجود والتشهد وما بعد الصلاة، مع المصادر وترتيب واضح.',
+                en: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                fr: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                tr: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                ur: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                de: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                id: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                es: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                bn: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                ms: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+            },
+            ogType: 'article',
+        },
         '/azkar/evening-azkar': {
             title: {
                 ar: 'أذكار المساء مكتوبة كاملة | صحيحة مع التكرار والمصدر',
@@ -14544,8 +14589,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     {
         const _isAzkarMorningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath);
         const _isAzkarEveningRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(urlPath);
+        const _isAzkarPrayerRoute  = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/prayer-azkar$/.test(urlPath);
         const _isAzkarHubRoute     = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath);
-        if (_isAzkarMorningRoute || _isAzkarEveningRoute || _isAzkarHubRoute) {
+        if (_isAzkarMorningRoute || _isAzkarEveningRoute || _isAzkarPrayerRoute || _isAzkarHubRoute) {
             // Strip default `active` from #page-prayer-times so SSR
             // ends with exactly ONE `.page.active` div on /azkar*.
             html = html.replace(
@@ -14590,6 +14636,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     '<div class="azkar-list" id="azkar-evening-list" aria-live="polite"></div>',
                     '<div class="azkar-list" id="azkar-evening-list" data-ssr-rendered="1" aria-live="polite">' +
                         _azkarEveningListHtml +
+                    '</div>'
+                );
+            }
+        } else if (_isAzkarPrayerRoute) {
+            // AZKAR-PRAYER-PHASE-1 (2026-05-26): same SSR pattern.
+            html = html.replace(
+                '<div class="page" id="page-azkar-prayer">',
+                '<div class="page active" id="page-azkar-prayer">'
+            );
+            const _azkarPrayerListHtml = _buildAzkarPrayerListHtml();
+            if (_azkarPrayerListHtml) {
+                html = html.replace(
+                    '<div class="azkar-list" id="azkar-prayer-list" aria-live="polite"></div>',
+                    '<div class="azkar-list" id="azkar-prayer-list" data-ssr-rendered="1" aria-live="polite">' +
+                        _azkarPrayerListHtml +
                     '</div>'
                 );
             }
@@ -22356,6 +22417,7 @@ const server = http.createServer(async (req, res) => {
                 // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page
                 ['/azkar/morning-azkar', '0.75', 'monthly'],
                 ['/azkar/evening-azkar', '0.75', 'monthly'],
+                ['/azkar/prayer-azkar',  '0.75', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
                 ['/dateconverter', '0.8', 'monthly'],
                 // HD-1 (2026-05-07): /today-hijri-date is now a first-class indexable
@@ -22572,6 +22634,8 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/morning-azkar$/.test(urlPath) ||
         // AZKAR-EVENING-PHASE-1: independent evening page (same pattern).
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/evening-azkar$/.test(urlPath) ||
+        // AZKAR-PRAYER-PHASE-1: independent prayer page (same pattern).
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar\/prayer-azkar$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(urlPath) ||
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath) ||

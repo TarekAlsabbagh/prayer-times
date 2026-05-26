@@ -14734,6 +14734,17 @@ const _QIBLA_UI = {
         footer: ctx => `اتجاه القبلة في ${ctx.cityName} هو ${ctx.angle}° (${ctx.cardinal})، وتبلغ المسافة إلى الكعبة المشرفة ${ctx.distanceKm.toLocaleString('ar')} كم. يمكنك استخدام البوصلة أعلاه لتحديد الاتجاه بدقّة، أو الاستفادة من الخدمات التالية المرتبطة بمدينة ${ctx.cityName}:`,
         trust_note: `${_Q_ICON.pin} يُحسب الاتجاه باستخدام إحداثيات الموقع الجغرافيّة بدقّة فلكيّة عالية.`,
         related_labels: city => [`${_Q_ICON.mosque} اعرف مواقيت الصلاة في ${city}`, `${_Q_ICON.moon} تحقّق من حالة القمر اليوم في ${city}`, `${_Q_ICON.calendar} اعرف التاريخ الهجري اليوم`],
+        // QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 (2026-05-26): structured
+        // card data (icon + title + desc) — JS renderer turns each entry
+        // into a fully-clickable card with a clear title + 1-line
+        // explanation + arrow. Replaces the pill-style layout that gave
+        // no context about WHY a user should click. icon string maps to a
+        // _Q_ICON key (mosque/moon/calendar).
+        related_cards: city => [
+            { icon: 'mosque',   title: `مواقيت الصلاة في ${city}`,           desc: 'اعرف أوقات الفجر والظهر والعصر والمغرب والعشاء اليوم.' },
+            { icon: 'moon',     title: `حالة القمر اليوم في ${city}`,         desc: 'تحقق من طور القمر ونسبة الإضاءة وموعد طلوعه وغروبه.' },
+            { icon: 'calendar', title: 'التاريخ الهجري اليوم',                desc: 'اعرف التاريخ الهجري والميلادي لهذا اليوم.' }
+        ],
     },
     en: {
         bc_home: 'Home', bc_qibla: 'Qibla Direction',
@@ -14758,6 +14769,11 @@ const _QIBLA_UI = {
         footer: ctx => `The Qibla direction from ${ctx.cityName} is ${ctx.angle}° (${ctx.cardinal}), and the distance to the Holy Kaaba is ${ctx.distanceKm.toLocaleString('en')} km. Use the compass above to align precisely, or jump to services linked to ${ctx.cityName}:`,
         trust_note: `${_Q_ICON.pin} The bearing is computed from geographic coordinates with high astronomical precision.`,
         related_labels: city => [`${_Q_ICON.mosque} See Prayer Times in ${city}`, `${_Q_ICON.moon} Check the Moon tonight in ${city}`, `${_Q_ICON.calendar} View today's Hijri date`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `Prayer Times in ${city}`,        desc: "See today's Fajr, Dhuhr, Asr, Maghrib and Isha times." },
+            { icon: 'moon',     title: `Moon Phase Today in ${city}`,    desc: 'Check the moon phase, illumination, rise and set times.' },
+            { icon: 'calendar', title: "Today's Hijri Date",             desc: "View today's Hijri and Gregorian date." }
+        ],
     },
     fr: {
         bc_home: 'Accueil', bc_qibla: 'Direction de la Qibla',
@@ -14782,6 +14798,11 @@ const _QIBLA_UI = {
         footer: ctx => `La direction de la Qibla depuis ${ctx.cityName} est de ${ctx.angle}° (${ctx.cardinal}), et la distance jusqu'à la Sainte Kaaba est d'environ ${ctx.distanceKm.toLocaleString('fr')} km. Utilisez la boussole ci-dessus pour vous orienter précisément, ou accédez aux services liés à ${ctx.cityName} :`,
         trust_note: `${_Q_ICON.pin} Le cap est calculé à partir des coordonnées géographiques avec une haute précision astronomique.`,
         related_labels: city => [`${_Q_ICON.mosque} Voir les horaires de prière à ${city}`, `${_Q_ICON.moon} Vérifier la Lune ce soir à ${city}`, `${_Q_ICON.calendar} Voir la date hégirienne du jour`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `Horaires de prière à ${city}`,             desc: "Voyez les horaires du Fajr, Dhuhr, Asr, Maghrib et Isha aujourd'hui." },
+            { icon: 'moon',     title: `Phase de la Lune aujourd'hui à ${city}`,   desc: "Consultez la phase, l'illumination, les heures de lever et coucher." },
+            { icon: 'calendar', title: 'Date hégirienne du jour',                  desc: "Voir la date hégirienne et grégorienne d'aujourd'hui." }
+        ],
     },
     tr: {
         bc_home: 'Ana Sayfa', bc_qibla: 'Kıble Yönü',
@@ -14806,6 +14827,11 @@ const _QIBLA_UI = {
         footer: ctx => `${ctx.cityName} için kıble yönü ${ctx.angle}° (${ctx.cardinal}), Kutsal Kâbe'ye uzaklık ise ${ctx.distanceKm.toLocaleString('tr')} km'dir. Hassas yönelim için yukarıdaki pusulayı kullanın veya ${ctx.cityName} ile ilgili aşağıdaki hizmetlere geçin:`,
         trust_note: `${_Q_ICON.pin} Yön, coğrafi koordinatlardan yüksek astronomik doğrulukla hesaplanır.`,
         related_labels: city => [`${_Q_ICON.mosque} ${city} için namaz vakitlerini görün`, `${_Q_ICON.moon} Bu gece ${city} için Ay durumunu kontrol edin`, `${_Q_ICON.calendar} Bugünün hicri tarihini görün`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `${city} Namaz Vakitleri`,           desc: 'İmsak, öğle, ikindi, akşam ve yatsı vakitlerini görün.' },
+            { icon: 'moon',     title: `${city} için Bugün Ay`,             desc: "Ay'ın evresini, aydınlanma oranını, doğuş ve batışını kontrol edin." },
+            { icon: 'calendar', title: 'Bugün Hicri Tarih',                 desc: 'Bugünün hicri ve miladi tarihini görün.' }
+        ],
     },
     ur: {
         bc_home: 'ہوم', bc_qibla: 'سمتِ قبلہ',
@@ -14830,6 +14856,11 @@ const _QIBLA_UI = {
         footer: ctx => `${ctx.cityName} سے سمتِ قبلہ ${ctx.angle}° (${ctx.cardinal}) ہے، اور کعبہ مکرمہ تک فاصلہ ${ctx.distanceKm.toLocaleString('ur')} کلومیٹر ہے۔ درست سمت کے لیے اوپر دی گئی بوصلہ استعمال کریں، یا ${ctx.cityName} سے متعلقہ درج ذیل خدمات پر جائیں:`,
         trust_note: `${_Q_ICON.pin} سمت جغرافیائی نقاط سے فلکی دقت کے ساتھ احتساب کی جاتی ہے۔`,
         related_labels: city => [`${_Q_ICON.mosque} ${city} کے نماز اوقات دیکھیں`, `${_Q_ICON.moon} آج رات ${city} میں چاند کی حالت چیک کریں`, `${_Q_ICON.calendar} آج کی ہجری تاریخ دیکھیں`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `${city} کے نماز اوقات`,             desc: 'آج فجر، ظہر، عصر، مغرب اور عشاء کے اوقات جانیں۔' },
+            { icon: 'moon',     title: `آج ${city} میں چاند کی حالت`,        desc: 'چاند کے مرحلے، روشنی، طلوع و غروب کے اوقات چیک کریں۔' },
+            { icon: 'calendar', title: 'آج کی ہجری تاریخ',                   desc: 'آج کی ہجری اور میلادی تاریخ جانیں۔' }
+        ],
     },
     de: {
         bc_home: 'Startseite', bc_qibla: 'Qibla-Richtung',
@@ -14854,6 +14885,11 @@ const _QIBLA_UI = {
         footer: ctx => `Die Qibla-Richtung von ${ctx.cityName} beträgt ${ctx.angle}° (${ctx.cardinal}), die Entfernung zur heiligen Kaaba liegt bei ${ctx.distanceKm.toLocaleString('de')} km. Richten Sie sich mit dem Kompass oben präzise aus oder nutzen Sie die folgenden auf ${ctx.cityName} bezogenen Dienste:`,
         trust_note: `${_Q_ICON.pin} Die Peilung wird aus geografischen Koordinaten mit hoher astronomischer Genauigkeit berechnet.`,
         related_labels: city => [`${_Q_ICON.mosque} Gebetszeiten in ${city} ansehen`, `${_Q_ICON.moon} Mond heute Abend in ${city} prüfen`, `${_Q_ICON.calendar} Heutiges Hidschri-Datum anzeigen`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `Gebetszeiten in ${city}`,           desc: 'Sehen Sie Fajr, Dhuhr, Asr, Maghrib und Isha-Zeiten für heute.' },
+            { icon: 'moon',     title: `Mondphase heute in ${city}`,        desc: 'Prüfen Sie die Mondphase, Beleuchtung, Auf- und Untergangszeiten.' },
+            { icon: 'calendar', title: 'Heutiges Hidschri-Datum',           desc: 'Heutiges Hidschri- und gregorianisches Datum anzeigen.' }
+        ],
     },
     id: {
         bc_home: 'Beranda', bc_qibla: 'Arah Kiblat',
@@ -14878,6 +14914,11 @@ const _QIBLA_UI = {
         footer: ctx => `Arah kiblat dari ${ctx.cityName} adalah ${ctx.angle}° (${ctx.cardinal}), dan jarak ke Kakbah yang mulia sekitar ${ctx.distanceKm.toLocaleString('id')} km. Gunakan kompas di atas untuk mengarah dengan tepat, atau buka layanan berikut yang terkait dengan ${ctx.cityName}:`,
         trust_note: `${_Q_ICON.pin} Sudut dihitung dari koordinat geografis dengan presisi astronomis tinggi.`,
         related_labels: city => [`${_Q_ICON.mosque} Lihat jadwal salat di ${city}`, `${_Q_ICON.moon} Cek bulan malam ini di ${city}`, `${_Q_ICON.calendar} Lihat tanggal Hijriah hari ini`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `Jadwal Salat di ${city}`,           desc: 'Lihat waktu Subuh, Dzuhur, Ashar, Maghrib dan Isya hari ini.' },
+            { icon: 'moon',     title: `Fase Bulan Hari Ini di ${city}`,    desc: 'Cek fase bulan, persentase iluminasi, waktu terbit dan terbenam.' },
+            { icon: 'calendar', title: 'Tanggal Hijriah Hari Ini',          desc: 'Lihat tanggal Hijriah dan Masehi hari ini.' }
+        ],
     },
     es: {
         bc_home: 'Inicio', bc_qibla: 'Dirección de la Qibla',
@@ -14902,6 +14943,11 @@ const _QIBLA_UI = {
         footer: ctx => `La dirección de la Qibla desde ${ctx.cityName} es de ${ctx.angle}° (${ctx.cardinal}), y la distancia a la Sagrada Kaaba es de unos ${ctx.distanceKm.toLocaleString('es')} km. Use la brújula de arriba para orientarse con precisión, o acceda a los siguientes servicios vinculados a ${ctx.cityName}:`,
         trust_note: `${_Q_ICON.pin} El rumbo se calcula a partir de las coordenadas geográficas con alta precisión astronómica.`,
         related_labels: city => [`${_Q_ICON.mosque} Ver los horarios de oración en ${city}`, `${_Q_ICON.moon} Consultar la Luna esta noche en ${city}`, `${_Q_ICON.calendar} Ver la fecha Hijri de hoy`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `Horarios de oración en ${city}`,        desc: 'Consulta los horarios de Fajr, Dhuhr, Asr, Maghrib e Isha de hoy.' },
+            { icon: 'moon',     title: `Fase de la Luna hoy en ${city}`,        desc: 'Verifica la fase lunar, iluminación, salida y puesta de la Luna.' },
+            { icon: 'calendar', title: 'Fecha Hijri de hoy',                    desc: 'Ver la fecha Hijri y gregoriana de hoy.' }
+        ],
     },
     bn: {
         bc_home: 'হোম', bc_qibla: 'কিবলার দিক',
@@ -14926,6 +14972,11 @@ const _QIBLA_UI = {
         footer: ctx => `${ctx.cityName} থেকে কিবলার দিক ${ctx.angle}° (${ctx.cardinal}), এবং পবিত্র কাবা পর্যন্ত দূরত্ব প্রায় ${ctx.distanceKm.toLocaleString('bn')} কিমি। সঠিকভাবে মুখ করার জন্য উপরের কম্পাস ব্যবহার করুন, অথবা ${ctx.cityName}-এর সাথে সম্পর্কিত নিম্নলিখিত পরিষেবাগুলিতে যান:`,
         trust_note: `${_Q_ICON.pin} দিকটি ভৌগোলিক স্থানাঙ্ক থেকে উচ্চ জ্যোতির্বিজ্ঞানীয় নির্ভুলতায় গণনা করা হয়।`,
         related_labels: city => [`${_Q_ICON.mosque} ${city}-এ নামাজের সময় দেখুন`, `${_Q_ICON.moon} আজ রাতে ${city}-এ চাঁদের অবস্থা দেখুন`, `${_Q_ICON.calendar} আজকের হিজরি তারিখ দেখুন`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `${city}-এ নামাজের সময়`,             desc: 'আজকের ফজর, যোহর, আসর, মাগরিব ও এশার সময় জানুন।' },
+            { icon: 'moon',     title: `আজ ${city}-এ চাঁদের অবস্থা`,         desc: 'চাঁদের অবস্থা, আলোকপাত শতাংশ, উদয় ও অস্ত সময় দেখুন।' },
+            { icon: 'calendar', title: 'আজকের হিজরি তারিখ',                 desc: 'আজকের হিজরি ও গ্রেগরিয়ান তারিখ দেখুন।' }
+        ],
     },
     ms: {
         bc_home: 'Utama', bc_qibla: 'Arah Kiblat',
@@ -14950,6 +15001,11 @@ const _QIBLA_UI = {
         footer: ctx => `Arah kiblat dari ${ctx.cityName} ialah ${ctx.angle}° (${ctx.cardinal}), dan jarak ke Kaabah yang mulia adalah kira-kira ${ctx.distanceKm.toLocaleString('ms')} km. Gunakan kompas di atas untuk mengarah dengan tepat, atau lawati perkhidmatan berikut yang berkaitan dengan ${ctx.cityName}:`,
         trust_note: `${_Q_ICON.pin} Arah dikira daripada koordinat geografi dengan ketepatan astronomi yang tinggi.`,
         related_labels: city => [`${_Q_ICON.mosque} Lihat waktu solat di ${city}`, `${_Q_ICON.moon} Semak bulan malam ini di ${city}`, `${_Q_ICON.calendar} Lihat tarikh Hijrah hari ini`],
+        related_cards: city => [
+            { icon: 'mosque',   title: `Waktu Solat di ${city}`,            desc: 'Lihat waktu Subuh, Zohor, Asar, Maghrib dan Isyak hari ini.' },
+            { icon: 'moon',     title: `Fasa Bulan Hari Ini di ${city}`,    desc: 'Semak fasa bulan, peratusan cahaya, masa terbit dan terbenam.' },
+            { icon: 'calendar', title: 'Tarikh Hijrah Hari Ini',            desc: 'Lihat tarikh Hijrah dan Masihi hari ini.' }
+        ],
     },
 };
 
@@ -16246,16 +16302,44 @@ function loadQiblaPage(ctx) {
             const relMoonHref = citySlugForUrl
                 ? pageUrl(`/moon-today-in-${citySlugForUrl}`)
                 : pageUrl('/moon-today');
-            // Round 29: related_labels is now a function taking cityName — use-case verbs with city interpolation
-            const _labels = (typeof ui.related_labels === 'function')
-                ? ui.related_labels(cityName)
-                : (ui.related_labels || []);
-            const rels = [
-                { href: prayerHref,                    label: _labels[0] || '' },
-                { href: relMoonHref,                   label: _labels[1] || '' },
-                { href: pageUrl('/today-hijri-date'),  label: _labels[2] || '' }
-            ];
-            relatedEl.innerHTML = rels.map(r => `<li><a href="${r.href}">${r.label}</a></li>`).join('');
+            const hijriHref = pageUrl('/today-hijri-date');
+            // QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 (2026-05-26): switch from
+            // pill-style links to descriptive cards (icon + title + desc + arrow).
+            // The new `related_cards(city)` returns structured {icon, title, desc}
+            // per entry; href is computed here. Whole card is one <a> so it's
+            // fully clickable. Legacy `related_labels` is kept untouched for
+            // any other consumer. ARIA: aria-label = title (concise + unique).
+            const _cardsFn = (typeof ui.related_cards === 'function') ? ui.related_cards : null;
+            if (_cardsFn) {
+                const _hrefs = [prayerHref, relMoonHref, hijriHref];
+                const _cards = _cardsFn(cityName) || [];
+                relatedEl.classList.add('qibla-related-cards');
+                relatedEl.classList.remove('qibla-related-pills');
+                relatedEl.innerHTML = _cards.map((c, i) => {
+                    const iconHtml = _Q_ICON[c.icon] || '';
+                    const href = _hrefs[i] || '#';
+                    const ariaLabel = (c.title || '').replace(/"/g, '&quot;');
+                    return `<li><a class="qrc-card" href="${href}" aria-label="${ariaLabel}">` +
+                        `<span class="qrc-icon" aria-hidden="true">${iconHtml}</span>` +
+                        `<span class="qrc-body">` +
+                            `<span class="qrc-title">${c.title || ''}</span>` +
+                            `<span class="qrc-desc">${c.desc || ''}</span>` +
+                        `</span>` +
+                        `<span class="qrc-arrow" aria-hidden="true">←</span>` +
+                    `</a></li>`;
+                }).join('');
+            } else {
+                // Legacy fallback (shouldn't happen — kept for safety).
+                const _labels = (typeof ui.related_labels === 'function')
+                    ? ui.related_labels(cityName)
+                    : (ui.related_labels || []);
+                const rels = [
+                    { href: prayerHref, label: _labels[0] || '' },
+                    { href: relMoonHref, label: _labels[1] || '' },
+                    { href: hijriHref, label: _labels[2] || '' }
+                ];
+                relatedEl.innerHTML = rels.map(r => `<li><a href="${r.href}">${r.label}</a></li>`).join('');
+            }
         }
 
         // ── 12. JSON-LD @graph (BreadcrumbList + WebPage about Kaaba + FAQPage + Place) ──

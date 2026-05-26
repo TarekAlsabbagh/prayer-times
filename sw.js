@@ -430,7 +430,34 @@
 //   JSON-LD generator. No HTML / CSS / SSR / i18n.js / per-lang file
 //   touched. Hub `/qibla` unchanged (last item stays = "اتجاه القبلة").
 //   Cache-buster: js/app.js?v=728 → ?v=729.
-const CACHE_VERSION = 'v362';
+// QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 + QIBLA-CITY-DARK-MODE-CARDS-FIX-1 (2026-05-26):
+//   v362 → v363. Two related UI/UX fixes for /qibla-in-{city} pages,
+//   bundled in one commit because both touch the qibla page surface.
+//
+//   PART A — RELATED-SERVICES cards:
+//   The 3 related-services links (Prayer Times / Moon Today / Hijri Date)
+//   were rendered as compact pill buttons that gave no context about WHY
+//   to click. Re-rendered as descriptive cards: icon + title + 1-line
+//   description + arrow. Whole card is clickable (fully accessible <a>
+//   with aria-label = title). Responsive grid (1-3 cols), RTL-aware
+//   arrow direction, 10-lang content via new `related_cards(city)` fn
+//   per lang inside `_QIBLA_UI`. Old `related_labels` kept for safety.
+//
+//   PART B — DARK MODE cards/note/FAQ:
+//   The .qibla-seo-card / .qibla-seo-note / .qibla-seo-stat blocks (the
+//   evergreen SEO content section) had hardcoded white/light-amber bgs
+//   that stayed white in dark mode while the text inherited the global
+//   dark-mode color override, producing washed-out unreadable cards.
+//   New `html[data-theme="dark"] #page-qibla .qibla-seo-*` overrides
+//   use the existing dark palette (--card-bg, --primary-light, --gold-
+//   light) for proper contrast. Same treatment for the new related-
+//   services cards + the FAQ <details> blocks. Light mode untouched
+//   (no changes to existing light-theme rules).
+//
+//   Scope: scoped under `#page-qibla` — no impact on /prayer-times-in-*,
+//   /moon-today, /azkar. Light mode visually identical to before.
+//   Cache-busters: css/style.css?v=449 → ?v=450; js/app.js?v=729 → ?v=730.
+const CACHE_VERSION = 'v363';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

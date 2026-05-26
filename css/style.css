@@ -3370,6 +3370,251 @@ html[lang="ms"] .qibla-related-pills::before { content: "🔗 Perkhidmatan berka
     color: var(--primary, #075c38);
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 (2026-05-26)
+   ═══════════════════════════════════════════════════════════════════════════
+   Replaces the pill-style related links with descriptive cards. Each card
+   is a fully-clickable <a> with icon + title + 1-line description + arrow.
+   The <ul#qibla-related> gets the `.qibla-related-cards` class added by
+   the JS renderer (and `.qibla-related-pills` removed), so the old pill
+   rules above never apply alongside these — no specificity war.
+
+   Layout:
+   * Desktop (>= 768px): 3-col responsive grid (1fr 1fr 1fr).
+   * Mobile (< 768px): single-column stack.
+   * RTL/LTR: arrow flips visually via CSS (← in RTL, → in LTR).
+   ═══════════════════════════════════════════════════════════════════════════ */
+.qibla-related-cards {
+    list-style: none;
+    margin: 16px 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    /* QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 polish: force all implicit rows
+       to equal height so the 3rd card ("التاريخ الهجري اليوم" — shorter
+       desc, no city interpolation) doesn't render shorter than the other
+       two when stacked. Works for 1-col (mobile) AND 2-col (rare tablet)
+       AND 3-col (desktop) layouts: each row's height = tallest content. */
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+    gap: 14px;
+}
+/* Make every <li> stretch fully so the inner <a> can fill 100% height. */
+.qibla-related-cards li {
+    display: flex;
+}
+.qibla-related-cards::before {
+    content: "🔗 خدمات مرتبطة";
+    display: block;
+    grid-column: 1 / -1;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary, #075c38);
+    margin-bottom: 4px;
+}
+html[lang="en"] .qibla-related-cards::before { content: "🔗 Related services"; }
+html[lang="fr"] .qibla-related-cards::before { content: "🔗 Services associés"; }
+html[lang="tr"] .qibla-related-cards::before { content: "🔗 İlgili hizmetler"; }
+html[lang="ur"] .qibla-related-cards::before { content: "🔗 متعلقہ خدمات"; }
+html[lang="de"] .qibla-related-cards::before { content: "🔗 Verwandte Dienste"; }
+html[lang="id"] .qibla-related-cards::before { content: "🔗 Layanan terkait"; }
+html[lang="es"] .qibla-related-cards::before { content: "🔗 Servicios relacionados"; }
+html[lang="bn"] .qibla-related-cards::before { content: "🔗 সম্পর্কিত পরিষেবা"; }
+html[lang="ms"] .qibla-related-cards::before { content: "🔗 Perkhidmatan berkaitan"; }
+.qibla-related-cards li {
+    margin: 0;
+}
+.qibla-related-cards .qrc-card {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: linear-gradient(180deg, #ffffff 0%, #f7fbf8 100%);
+    border: 1px solid rgba(11, 122, 75, 0.18);
+    border-radius: 14px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    min-height: 92px;          /* bumped from 76px to absorb the longest desc text */
+    width: 100%;               /* fill the parent <li>'s full width */
+    box-sizing: border-box;
+}
+.qibla-related-cards .qrc-card:hover,
+.qibla-related-cards .qrc-card:focus-visible {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 22px rgba(11, 122, 75, 0.15);
+    border-color: rgba(11, 122, 75, 0.45);
+    background: linear-gradient(180deg, #f7fbf8 0%, #ecf7f1 100%);
+}
+.qibla-related-cards .qrc-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: rgba(11, 122, 75, 0.10);
+    color: var(--primary, #075c38);
+    flex-shrink: 0;
+}
+.qibla-related-cards .qrc-icon .icon {
+    width: 22px;
+    height: 22px;
+}
+.qibla-related-cards .qrc-body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.qibla-related-cards .qrc-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary, #075c38);
+    line-height: 1.4;
+    word-break: break-word;
+}
+.qibla-related-cards .qrc-desc {
+    font-size: 0.86rem;
+    font-weight: 400;
+    color: var(--text, #34443c);
+    line-height: 1.55;
+    opacity: 0.88;
+    word-break: break-word;
+}
+.qibla-related-cards .qrc-arrow {
+    font-size: 1.4rem;
+    font-weight: 800;
+    color: var(--primary, #075c38);
+    opacity: 0.55;
+    flex-shrink: 0;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.qibla-related-cards .qrc-card:hover .qrc-arrow,
+.qibla-related-cards .qrc-card:focus-visible .qrc-arrow {
+    opacity: 1;
+    transform: translateX(-3px);
+}
+/* LTR: arrow points right, slides right on hover */
+html[dir="ltr"] .qibla-related-cards .qrc-arrow { transform: scaleX(-1); }
+html[dir="ltr"] .qibla-related-cards .qrc-card:hover .qrc-arrow,
+html[dir="ltr"] .qibla-related-cards .qrc-card:focus-visible .qrc-arrow {
+    transform: scaleX(-1) translateX(-3px);
+}
+@media (max-width: 767px) {
+    .qibla-related-cards { grid-template-columns: 1fr; gap: 10px; }
+    /* Mobile: also bumped min-height (was 68px) so all 3 stacked cards
+       render at the same height even when card #3 has a shorter desc. */
+    .qibla-related-cards .qrc-card { padding: 14px 14px; min-height: 86px; }
+    .qibla-related-cards .qrc-icon { width: 40px; height: 40px; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   QIBLA-CITY-DARK-MODE-CARDS-FIX-1 (2026-05-26) — bundled with related-services
+   ═══════════════════════════════════════════════════════════════════════════
+   The .qibla-seo-card / .qibla-seo-note / .qibla-seo-stat blocks (the
+   evergreen SEO content section below the compass) had hardcoded white
+   and light-amber backgrounds with dark-green/dark-amber text. In dark
+   mode they inherited the global text color override (#cdd9e5 off-white)
+   while keeping the white bg, producing low-contrast washed-out cards
+   the user flagged in screenshots. These overrides give the cards a
+   proper dark surface + bright-green/gold text using the dark palette
+   already defined (--card-bg, --surface-sunken, --primary-light, --gold).
+   Same treatment applied to the new related-services cards + the FAQ
+   <details> blocks so the whole qibla page reads consistently in dark
+   mode. Light mode untouched. ═══════════════════════════════════════ */
+html[data-theme="dark"] #page-qibla .qibla-seo-card {
+    background: linear-gradient(180deg, var(--card-bg) 0%, var(--surface-sunken) 100%);
+    border-color: rgba(77, 203, 140, 0.22);
+    color: var(--text);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-card::before {
+    background: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-card h3 {
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-card p {
+    color: var(--text);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-stat {
+    background: rgba(77, 203, 140, 0.14);
+    border-color: rgba(77, 203, 140, 0.32);
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-stat strong {
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-note {
+    background: linear-gradient(180deg, #2a241c 0%, #221d17 100%);
+    border-color: rgba(232, 200, 96, 0.32);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-note::before {
+    background: var(--gold-light, #e0c570);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-note h3 {
+    color: var(--gold-light, #e0c570);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-note p {
+    color: var(--text);
+    opacity: 0.92;
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-header h2 {
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-kicker {
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-seo-intro {
+    color: var(--text);
+}
+
+/* Dark mode: related-services cards */
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-card {
+    background: linear-gradient(180deg, var(--card-bg) 0%, var(--surface-sunken) 100%);
+    border-color: rgba(77, 203, 140, 0.22);
+    color: var(--text);
+}
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-card:hover,
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-card:focus-visible {
+    border-color: rgba(77, 203, 140, 0.50);
+    background: linear-gradient(180deg, var(--surface-raised) 0%, var(--card-bg) 100%);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.30);
+}
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-icon {
+    background: rgba(77, 203, 140, 0.15);
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-title {
+    color: var(--primary-light);
+}
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-desc {
+    color: var(--text);
+    opacity: 0.85;
+}
+html[data-theme="dark"] #page-qibla .qibla-related-cards .qrc-arrow {
+    color: var(--primary-light);
+}
+
+/* Dark mode: FAQ details (the section-card holding qibla-faq) */
+html[data-theme="dark"] #page-qibla #qibla-faq details {
+    background: var(--surface-sunken);
+    border-color: var(--border);
+    color: var(--text);
+}
+html[data-theme="dark"] #page-qibla #qibla-faq summary {
+    color: var(--text);
+}
+html[data-theme="dark"] #page-qibla #qibla-faq details[open] {
+    background: var(--card-bg);
+}
+html[data-theme="dark"] #page-qibla #qibla-faq details > div,
+html[data-theme="dark"] #page-qibla #qibla-faq details > p {
+    color: var(--text);
+}
+
 /* Phase M6 (2026-05-03): legend explaining +/- semantics shown in calendar
    cells. Single occurrence per page (replaces the per-cell natural-language
    relative-time text that polluted Keyword Distribution). Small caption tone. */

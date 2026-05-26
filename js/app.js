@@ -12657,34 +12657,100 @@ function getCurrentCityLabel() {
 
 /**
  * SEO Layering لبطاقات الصلوات (Round 21).
- * يضيف title + aria-label ديناميكيّاً بصيغة: "موعد صلاة {الصلاة} اليوم في {المدينة}".
+ * يضيف title + aria-label ديناميكيّاً بصيغة:
+ *   - الصلوات الخمس (fajr/dhuhr/asr/maghrib/isha):
+ *       "موعد صلاة {الصلاة} اليوم في {المدينة}"
+ *   - الشروق (sunrise — NOT a prayer): "وقت الشروق اليوم في {المدينة}"
  * المستخدم يرى فقط الاسم المختصر ("الفجر")، لكنّ Google يرى الجملة الكاملة.
+ *
+ * ARIA-SUNRISE-FIX-1 (2026-05-26):
+ *   - Sunrise (شروق) is the sun-rise event, NOT one of the five prayers.
+ *     Previously all 6 cards (including sunrise) got "موعد صلاة X اليوم"
+ *     wording, which is semantically wrong (سُنّةً، and confusing to
+ *     screen-reader users + search engines). Sunrise now uses the
+ *     "وقت الشروق" / "Sunrise time" template across all 10 langs.
+ *   - The time value (e.g. "05:05 ص") is already shown inside the card
+ *     in the `.prayer-time` element — it is intentionally NOT included
+ *     in title/aria-label to avoid duplicating numeric data and to keep
+ *     the label stable across the day.
+ *   - The hard `if (!cityLabel) return` early-exit was scoped down: the
+ *     prayer-card labels now run with a cityless fallback variant even
+ *     before the city resolves (so screen readers never read the stale
+ *     SSR default). The cityLabel guard still gates the weekly-button +
+ *     moon-CTA + tagline blocks below, which legitimately require a city.
  */
 function updatePrayerCardsSEO() {
     const cityLabel = getCurrentCityLabel();
-    if (!cityLabel) return;
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+
+    // ── Prayer cards: 5 prayers + sunrise (sunrise gets distinct wording). ──
     document.querySelectorAll('.prayer-card').forEach(card => {
         const key = card.dataset.prayer;
         if (!key) return;
+        const isSunrise = (key === 'sunrise');
         const prayerName = (typeof t === 'function') ? t('prayer.' + key) : key;
-        // 🆕 Round 8c (Loc cleanup): 10-lang templates (was: AR + EN-fallback for 8)
-        const _prayerTitleByLang = {
-            ar: `موعد صلاة ${prayerName} اليوم في ${cityLabel}`,
-            en: `${prayerName} prayer time today in ${cityLabel}`,
-            fr: `Horaire de la prière ${prayerName} aujourd'hui à ${cityLabel}`,
-            tr: `${cityLabel} için bugünün ${prayerName} namaz vakti`,
-            ur: `${cityLabel} میں آج ${prayerName} کی نماز کا وقت`,
-            de: `${prayerName} Gebetszeit heute in ${cityLabel}`,
-            id: `Waktu sholat ${prayerName} hari ini di ${cityLabel}`,
-            es: `Hora de oración ${prayerName} hoy en ${cityLabel}`,
-            bn: `${cityLabel} এ আজকের ${prayerName} নামাজের সময়`,
-            ms: `Waktu solat ${prayerName} hari ini di ${cityLabel}`
-        };
-        const title = _prayerTitleByLang[_ln] || _prayerTitleByLang.en;
-        card.setAttribute('title', title);
-        card.setAttribute('aria-label', title);
+        let label;
+        if (isSunrise) {
+            // Sunrise — "Sunrise time", NEVER "Sunrise prayer" / "صلاة الشروق".
+            const _sunriseByLang = cityLabel ? {
+                ar: `وقت الشروق اليوم في ${cityLabel}`,
+                en: `Sunrise time today in ${cityLabel}`,
+                fr: `Heure du lever du soleil aujourd'hui à ${cityLabel}`,
+                tr: `${cityLabel} için bugün gün doğumu vakti`,
+                ur: `${cityLabel} میں آج طلوعِ آفتاب کا وقت`,
+                de: `Sonnenaufgangszeit heute in ${cityLabel}`,
+                id: `Waktu matahari terbit hari ini di ${cityLabel}`,
+                es: `Hora de la salida del sol hoy en ${cityLabel}`,
+                bn: `${cityLabel} এ আজকের সূর্যোদয়ের সময়`,
+                ms: `Waktu matahari terbit hari ini di ${cityLabel}`
+            } : {
+                ar: 'وقت الشروق اليوم',
+                en: 'Sunrise time today',
+                fr: "Heure du lever du soleil aujourd'hui",
+                tr: 'Bugün gün doğumu vakti',
+                ur: 'آج طلوعِ آفتاب کا وقت',
+                de: 'Sonnenaufgangszeit heute',
+                id: 'Waktu matahari terbit hari ini',
+                es: 'Hora de la salida del sol hoy',
+                bn: 'আজকের সূর্যোদয়ের সময়',
+                ms: 'Waktu matahari terbit hari ini'
+            };
+            label = _sunriseByLang[_ln] || _sunriseByLang.en;
+        } else {
+            // The five obligatory prayers — keep the existing canonical wording.
+            // 🆕 Round 8c (Loc cleanup): 10-lang templates (was: AR + EN-fallback for 8)
+            const _prayerByLang = cityLabel ? {
+                ar: `موعد صلاة ${prayerName} اليوم في ${cityLabel}`,
+                en: `${prayerName} prayer time today in ${cityLabel}`,
+                fr: `Horaire de la prière ${prayerName} aujourd'hui à ${cityLabel}`,
+                tr: `${cityLabel} için bugünün ${prayerName} namaz vakti`,
+                ur: `${cityLabel} میں آج ${prayerName} کی نماز کا وقت`,
+                de: `${prayerName} Gebetszeit heute in ${cityLabel}`,
+                id: `Waktu sholat ${prayerName} hari ini di ${cityLabel}`,
+                es: `Hora de oración ${prayerName} hoy en ${cityLabel}`,
+                bn: `${cityLabel} এ আজকের ${prayerName} নামাজের সময়`,
+                ms: `Waktu solat ${prayerName} hari ini di ${cityLabel}`
+            } : {
+                ar: `موعد صلاة ${prayerName} اليوم`,
+                en: `${prayerName} prayer time today`,
+                fr: `Horaire de la prière ${prayerName} aujourd'hui`,
+                tr: `Bugünün ${prayerName} namaz vakti`,
+                ur: `آج ${prayerName} کی نماز کا وقت`,
+                de: `${prayerName} Gebetszeit heute`,
+                id: `Waktu sholat ${prayerName} hari ini`,
+                es: `Hora de oración ${prayerName} hoy`,
+                bn: `আজকের ${prayerName} নামাজের সময়`,
+                ms: `Waktu solat ${prayerName} hari ini`
+            };
+            label = _prayerByLang[_ln] || _prayerByLang.en;
+        }
+        card.setAttribute('title', label);
+        card.setAttribute('aria-label', label);
     });
+
+    // ── City-dependent surfaces below (weekly btn + moon CTA + tagline)
+    //    legitimately need a resolved city; bail if we don't have one yet. ──
+    if (!cityLabel) return;
 
     // Weekly button → title ديناميكيّ (🆕 Round 8c: 10-lang)
     const wb = document.querySelector('.weekly-expand-btn');

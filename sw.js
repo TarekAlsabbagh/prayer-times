@@ -74,6 +74,21 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// ARIA-SUNRISE-FIX-1 (2026-05-26):
+//   v343 → v344. Semantic fix: sunrise (الشروق) is NOT a prayer.
+//   Previously updatePrayerCardsSEO() in js/app.js emitted
+//   `aria-label="موعد صلاة الشروق اليوم في {city}"` for the sunrise card,
+//   which is semantically wrong (the sun-rise event is not one of the
+//   five obligatory prayers). Screen readers + search engines now see:
+//     • Sunrise card: "وقت الشروق اليوم في {city}" / "Sunrise time today
+//       in {city}" — across all 10 supported langs.
+//     • The five prayer cards: unchanged ("موعد صلاة {الصلاة} اليوم في {city}").
+//   Side-effect cleanup: the early-return `if (!cityLabel) return;` was
+//   scoped down so prayer cards get a cityless fallback label even before
+//   the city resolves (screen readers never read a stale SSR default).
+//   Time value is never included in aria-label/title (already rendered
+//   inside .prayer-time, no need to duplicate numeric data).
+//   Cache-buster: js/app.js?v=717 → ?v=718.
 // MOON-HERO-MOBILE-CTA-FIX-1 (2026-05-26):
 //   v342 → v343. CSS-only mobile responsive fix for /moon-today hero.
 //   The primary "use my location" CTA was rendering as a giant ~square
@@ -91,7 +106,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v343';
+const CACHE_VERSION = 'v344';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

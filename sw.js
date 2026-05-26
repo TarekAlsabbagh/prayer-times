@@ -353,7 +353,21 @@
 //   Untouched: prayer-times routes (city-bound), moon-info, qibla, sitemap,
 //   curated places, country mapping, SSR for city pages.
 //   Cache-buster: js/app.js?v=725 → ?v=726; i18n version 184 → 185.
-const CACHE_VERSION = 'v357';
+// CITY-PRAYER-INFO-PILLS-RESPONSIVE-FIX-1 (2026-05-26):
+//   v357 → v358. CSS-only mobile responsive fix for #summary-info-strip
+//   pills (الإمساك / مدة الصيام / آخر ثلث الليل / طريقة الحساب) on
+//   /prayer-times-in-{city} pages. Removed the legacy `white-space:
+//   nowrap` on `.sis-item` that clipped long calc-method labels like
+//   "طريقة الحساب: المغرب - وزارة الأوقاف والشؤون الإسلامية" — text now
+//   wraps within the pill via `inline-flex` + `flex-wrap: wrap` +
+//   `overflow-wrap: anywhere`. Mobile (≤ 640 px) switches the strip to a
+//   1-column grid with full-width pills so every label has room to wrap
+//   onto 2-3 lines without horizontal overflow. RTL preserved (flexbox).
+//   Scope: #summary-info-strip only lives inside #page-prayer-times.
+//   Untouched: prayer-time computation, calc-method values, fasting/imsak/
+//   last-third logic, /moon-today / /qibla / /azkar pages.
+//   Cache-buster: css/style.css?v=446 → ?v=447.
+const CACHE_VERSION = 'v358';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

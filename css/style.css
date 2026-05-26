@@ -12485,14 +12485,32 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     margin: 0 0 16px;
     min-height: 52px;
 }
+/* CITY-PRAYER-INFO-PILLS-RESPONSIVE-FIX-1 (2026-05-26): the previous
+   `white-space: nowrap` clipped long calc-method labels like "أم القرى -
+   مكة المكرمة" or "المغرب - وزارة الأوقاف والشؤون الإسلامية" on narrow
+   screens — the text spilled past the pill border or got cropped. Allow
+   the long pills to wrap internally (label stays attached to its value
+   via inline-flex + flex-wrap), and on mobile each pill becomes
+   full-width (see the @media block below). RTL works automatically:
+   flexbox honors `dir="rtl"` without any logical-property changes. */
 .sis-item {
-    white-space: nowrap;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
     color: var(--text, #333);
     background: var(--bg-subtle, #f5f5f5);
     border: 1px solid var(--border, #e6e6e6);
     border-radius: 999px;
     padding: 7px 14px;
     transition: background .15s, border-color .15s;
+    min-width: 0;
+    max-width: 100%;
+    line-height: 1.5;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+    box-sizing: border-box;
 }
 .sis-item:hover { background: #eef5ef; border-color: var(--primary, #2e7d32); }
 .sis-item b { color: var(--primary-dark, #1e5631); font-weight: 700; }
@@ -12524,8 +12542,30 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
     box-shadow: 0 5px 14px rgba(26,107,60,0.35);
 }
 .sis-settings:active { transform: translateY(0); box-shadow: 0 2px 6px rgba(26,107,60,0.25); }
+/* CITY-PRAYER-INFO-PILLS-RESPONSIVE-FIX-1 (2026-05-26): mobile layout is
+   a 1-column grid so each pill takes the full container width — long
+   labels like "طريقة الحساب: المغرب - وزارة الأوقاف…" now have room to
+   wrap onto 2-3 lines without clipping. Replaces the previous
+   `flex-direction: column` which inherited the pill's `nowrap` and
+   produced cropped pills on devices ≤ 480 px (user-reported regression
+   visible on /prayer-times-in-rabat + similar Morocco/Malaysia/Indonesia
+   methods). Tablet (≤ 767 px) keeps the existing horizontal flex-wrap. */
 @media (max-width: 640px) {
-    .summary-info-strip { flex-direction: column; gap: 8px; text-align: center; }
+    .summary-info-strip {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 10px;
+        text-align: start;
+        padding: 14px 14px;
+        justify-content: stretch;
+        align-items: stretch;
+    }
+    .sis-item {
+        width: 100%;
+        max-width: 100%;
+        justify-content: flex-start;
+        padding: 10px 14px;
+    }
     .sis-sep { display: none; }
     /* R37g — on mobile: full-width prominent CTA */
     .sis-settings {

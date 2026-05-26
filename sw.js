@@ -416,7 +416,21 @@
 //   Invariants honored: window.AzkarMorning/Evening/Prayer untouched,
 //   route/page-state untouched, no error notices shown.
 //   Cache-buster: js/app.js?v=727 → ?v=728.
-const CACHE_VERSION = 'v361';
+// QIBLA-CITY-BREADCRUMB-LABEL-FIX-1 (2026-05-26):
+//   v361 → v362. Descriptive last breadcrumb item on /qibla-in-{city}
+//   pages across all 10 langs. Was: "الرياض" / "Riyadh" / etc. Now:
+//   "اتجاه القبلة في الرياض" / "Qibla Direction in Riyadh" / "Direction
+//   de la Qibla à Riyad" / "Riyad için kıble yönü" / etc. Matches the
+//   page H1 wording and aligns the visible breadcrumb byte-for-byte with
+//   the BreadcrumbList JSON-LD (no Google Search Console rich-result
+//   mismatch). City name still resolved via the same client name picker,
+//   so localized names appear correctly per lang (ریاض, Riyad, etc.).
+//   JS-only change: 10 new `bc_qibla_in_city(city)` functions inside
+//   `_QIBLA_UI` + tiny tweaks to `_buildQiblaBreadcrumbOl` and the
+//   JSON-LD generator. No HTML / CSS / SSR / i18n.js / per-lang file
+//   touched. Hub `/qibla` unchanged (last item stays = "اتجاه القبلة").
+//   Cache-buster: js/app.js?v=728 → ?v=729.
+const CACHE_VERSION = 'v362';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

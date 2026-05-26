@@ -14651,8 +14651,21 @@ function _buildQiblaBreadcrumbOl(cityName, isHub, lang) {
     if (isHub) {
         items.push({ text: ui.bc_qibla, current: true });
     } else {
+        // QIBLA-CITY-BREADCRUMB-LABEL-FIX-1 (2026-05-26): the last item used
+        // to be just the city name (e.g. "الرياض") — too generic for the
+        // breadcrumb's role of describing the current page. Replaced with
+        // a descriptive label like "اتجاه القبلة في الرياض" / "Qibla
+        // Direction in Riyadh" via `ui.bc_qibla_in_city(cityName)` (added
+        // per-lang). This matches the H1 wording so users (and Google's
+        // BreadcrumbList) see consistent topic + city naming. The same
+        // function is used in the JSON-LD BreadcrumbList below to keep the
+        // visible DOM and the rich-result schema byte-identical (avoids a
+        // rich-result mismatch warning in Google Search Console).
         items.push({ text: ui.bc_qibla, href: qiblaHref });
-        items.push({ text: cityName, current: true });
+        const bcLeaf = (typeof ui.bc_qibla_in_city === 'function')
+            ? ui.bc_qibla_in_city(cityName)
+            : cityName;
+        items.push({ text: bcLeaf, current: true });
     }
     return _buildHijriBreadcrumbOl(items);
 }
@@ -14700,6 +14713,7 @@ const _Q_ICON = {
 const _QIBLA_UI = {
     ar: {
         bc_home: 'الرئيسية', bc_qibla: 'اتجاه القبلة',
+        bc_qibla_in_city: city => `اتجاه القبلة في ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} اتجاه القبلة` : `${_Q_ICON.compass} اتجاه القبلة في ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} كم إلى الكعبة`,
         info_city: 'المدينة', info_angle: 'زاوية القبلة', info_lat: 'خط العرض', info_lng: 'خط الطول',
@@ -14723,6 +14737,7 @@ const _QIBLA_UI = {
     },
     en: {
         bc_home: 'Home', bc_qibla: 'Qibla Direction',
+        bc_qibla_in_city: city => `Qibla Direction in ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Qibla Direction` : `${_Q_ICON.compass} Qibla Direction in ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km to the Kaaba`,
         info_city: 'City', info_angle: 'Qibla Angle', info_lat: 'Latitude', info_lng: 'Longitude',
@@ -14746,6 +14761,7 @@ const _QIBLA_UI = {
     },
     fr: {
         bc_home: 'Accueil', bc_qibla: 'Direction de la Qibla',
+        bc_qibla_in_city: city => `Direction de la Qibla à ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Direction de la Qibla` : `${_Q_ICON.compass} Direction de la Qibla à ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km jusqu\u2019à la Kaaba`,
         info_city: 'Ville', info_angle: 'Angle de la Qibla', info_lat: 'Latitude', info_lng: 'Longitude',
@@ -14769,6 +14785,7 @@ const _QIBLA_UI = {
     },
     tr: {
         bc_home: 'Ana Sayfa', bc_qibla: 'Kıble Yönü',
+        bc_qibla_in_city: city => `${city} için kıble yönü`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Kıble Yönü` : `${_Q_ICON.compass} ${city} Kıble Yönü`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • Kâbe\u2019ye ${distKm.toLocaleString(L)} km`,
         info_city: 'Şehir', info_angle: 'Kıble Açısı', info_lat: 'Enlem', info_lng: 'Boylam',
@@ -14792,6 +14809,7 @@ const _QIBLA_UI = {
     },
     ur: {
         bc_home: 'ہوم', bc_qibla: 'سمتِ قبلہ',
+        bc_qibla_in_city: city => `${city} میں سمتِ قبلہ`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} سمتِ قبلہ` : `${_Q_ICON.compass} ${city} سے سمتِ قبلہ`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • کعبہ تک ${distKm.toLocaleString(L)} کلومیٹر`,
         info_city: 'شہر', info_angle: 'قبلہ کا زاویہ', info_lat: 'عرض البلد', info_lng: 'طول البلد',
@@ -14815,6 +14833,7 @@ const _QIBLA_UI = {
     },
     de: {
         bc_home: 'Startseite', bc_qibla: 'Qibla-Richtung',
+        bc_qibla_in_city: city => `Qibla-Richtung in ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Qibla-Richtung` : `${_Q_ICON.compass} Qibla-Richtung in ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km zur Kaaba`,
         info_city: 'Stadt', info_angle: 'Qibla-Winkel', info_lat: 'Breitengrad', info_lng: 'Längengrad',
@@ -14838,6 +14857,7 @@ const _QIBLA_UI = {
     },
     id: {
         bc_home: 'Beranda', bc_qibla: 'Arah Kiblat',
+        bc_qibla_in_city: city => `Arah Kiblat di ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Arah Kiblat` : `${_Q_ICON.compass} Arah Kiblat di ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km ke Kakbah`,
         info_city: 'Kota', info_angle: 'Sudut Kiblat', info_lat: 'Lintang', info_lng: 'Bujur',
@@ -14861,6 +14881,7 @@ const _QIBLA_UI = {
     },
     es: {
         bc_home: 'Inicio', bc_qibla: 'Dirección de la Qibla',
+        bc_qibla_in_city: city => `Dirección de la Qibla en ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Dirección de la Qibla` : `${_Q_ICON.compass} Dirección de la Qibla en ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km hasta la Kaaba`,
         info_city: 'Ciudad', info_angle: 'Ángulo de la Qibla', info_lat: 'Latitud', info_lng: 'Longitud',
@@ -14884,6 +14905,7 @@ const _QIBLA_UI = {
     },
     bn: {
         bc_home: 'হোম', bc_qibla: 'কিবলার দিক',
+        bc_qibla_in_city: city => `${city}-এ কিবলার দিক`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} কিবলার দিক` : `${_Q_ICON.compass} ${city}-এ কিবলার দিক`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • কাবা পর্যন্ত ${distKm.toLocaleString(L)} কিমি`,
         info_city: 'শহর', info_angle: 'কিবলার কোণ', info_lat: 'অক্ষাংশ', info_lng: 'দ্রাঘিমাংশ',
@@ -14907,6 +14929,7 @@ const _QIBLA_UI = {
     },
     ms: {
         bc_home: 'Utama', bc_qibla: 'Arah Kiblat',
+        bc_qibla_in_city: city => `Arah Kiblat di ${city}`,
         h1: (city, isHub) => isHub ? `${_Q_ICON.compass} Arah Kiblat` : `${_Q_ICON.compass} Arah Kiblat di ${city}`,
         summary: (angle, cardinal, distKm, L) => `${angle}° • ${cardinal} • ${distKm.toLocaleString(L)} km ke Kaabah`,
         info_city: 'Bandar', info_angle: 'Sudut Kiblat', info_lat: 'Latitud', info_lng: 'Longitud',
@@ -16252,7 +16275,14 @@ function loadQiblaPage(ctx) {
                 bcItems.push({ "@type": "ListItem", "position": 2, "name": ui.bc_qibla, "item": canonicalUrl });
             } else {
                 bcItems.push({ "@type": "ListItem", "position": 2, "name": ui.bc_qibla, "item": qiblaHubUrl });
-                bcItems.push({ "@type": "ListItem", "position": 3, "name": cityName,    "item": canonicalUrl });
+                // QIBLA-CITY-BREADCRUMB-LABEL-FIX-1 (2026-05-26): match the visible
+                // DOM's descriptive last item ("Qibla Direction in {city}") so the
+                // schema and the user-facing breadcrumb are byte-identical (Google
+                // Search Console flags rich-result mismatches when they diverge).
+                const bcLeaf = (typeof ui.bc_qibla_in_city === 'function')
+                    ? ui.bc_qibla_in_city(cityName)
+                    : cityName;
+                bcItems.push({ "@type": "ListItem", "position": 3, "name": bcLeaf, "item": canonicalUrl });
             }
 
             const faqEntities = faqItems.map(([q, a]) => ({

@@ -17632,12 +17632,22 @@ html.date-converter-page #page-date-converter {
    :not(...) guard, min-height: 685 forced 463+px of empty space below
    the city-page hero. */
 
+/* LOC-HERO-MIN-HEIGHT-TRIM-1 (2026-05-26):
+   The original reservation 685px / 540px (from Phase Home-CLS-Fix v3,
+   2026-05-06) was sized for a denser hero layout that since then lost
+   some elements (e.g. .loc-hero-city is `display: none !important` on
+   home-page via line 61). Current natural content on mobile is ~560-
+   580px → 685px reservation left ~100-125px of visible empty space at
+   the card bottom, which the user flagged.
+   Reduced to 580px mobile / 470px desktop. Still covers the 10-18px
+   Cairo font-swap delta (the original CLS concern) while eliminating
+   the visible empty gap. Safe room to grow if content changes again. */
 #location-hero:not(.loc-hero-collapsed) {
-    min-height: 685px;
+    min-height: 580px;
 }
 @media (min-width: 769px) {
     #location-hero:not(.loc-hero-collapsed) {
-        min-height: 540px;  /* Desktop: hero is 2-col grid → shorter */
+        min-height: 470px;  /* Desktop: hero is 2-col grid → shorter */
     }
 }
 

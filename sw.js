@@ -74,6 +74,21 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// LOC-HERO-MIN-HEIGHT-TRIM-1 (2026-05-26):
+//   v354 → v355. Trims #location-hero min-height reservation from
+//   685px → 580px (mobile) and 540px → 470px (desktop). The original
+//   reservation from Phase Home-CLS-Fix v3 (2026-05-06) was sized for
+//   a denser hero. Since then `.loc-hero-city` (current-city pill) was
+//   hidden on home via `html.home-page .loc-hero-city { display: none
+//   !important }` at css/style.css:61, and natural content shrank to
+//   ~560–580 px mobile / ~440–460 px desktop. Result: ~100–125 px of
+//   visible empty space at the card bottom — user-reported regression.
+//   The new values still cover the 10–18 px Cairo font-swap delta (the
+//   original CLS concern) while eliminating the visible empty gap.
+//   CSS-only change scoped to a single rule pair. No HTML / JS / SSR
+//   changes. Other pages unaffected (`:not(.loc-hero-collapsed)` guard
+//   keeps city pages with collapsed hero untouched).
+//   Cache-buster: css/style.css?v=445 → ?v=446.
 // MOROCCO-AWQAF-FAJR-ADJUST-APPLY-1 (2026-05-26):
 //   v353 → v354. Per the user-approved Option B from MOROCCO-AWQAF-VERIFY-1:
 //   add `adj: { fajr: -6 }` to the MoroccoAwqaf method only. Other 5 prayers
@@ -292,7 +307,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v354';
+const CACHE_VERSION = 'v355';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

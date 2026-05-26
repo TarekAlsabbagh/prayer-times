@@ -74,6 +74,17 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// MOROCCO-AWQAF-FAJR-ADJUST-APPLY-1 (2026-05-26):
+//   v353 → v354. Per the user-approved Option B from MOROCCO-AWQAF-VERIFY-1:
+//   add `adj: { fajr: -6 }` to the MoroccoAwqaf method only. Other 5 prayers
+//   were already 0–1 min from Google; only Fajr drifted by +6 min. Mirrors
+//   the JAKIM ihtiyat pattern (academic angles preserved, table-style
+//   minute adjustment in `adj`).
+//   Rabat 2026-05-26 result: Fajr 04:33 (Google 04:33, EXACT). Other 5
+//   prayers untouched (still 0–1 min from Google).
+//   No other method touched, no country mapping touched, no madhab logic
+//   touched, no i18n / cache-buster bumps on app.js / styles needed.
+//   Cache-buster: js/prayer-times.js?v=50 → ?v=51.
 // TL-HERO-VISIBILITY-FIX-1 (2026-05-26):
 //   v352 → v353. URGENT regression fix: the time-left hero (#tl-hero)
 //   on /time-left-until-prayer-in-{city} AND the next-prayer hero
@@ -281,7 +292,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v353';
+const CACHE_VERSION = 'v354';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

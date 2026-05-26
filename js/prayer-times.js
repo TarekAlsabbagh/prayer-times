@@ -118,7 +118,22 @@ const PrayerTimes = (function () {
             adj: { fajr: 10, sunrise: 0, dhuhr: 1, asr: 1, maghrib: 1, isha: 1 }
         },
         'KemenagJakarta':   { name: 'إندونيسيا - وزارة الشؤون الدينية (Kemenag) جاكرتا', fajr: 20, isha: 18 },
-        'MoroccoAwqaf':     { name: 'المغرب - وزارة الأوقاف والشؤون الإسلامية',            fajr: 18, isha: 17 },
+        // MOROCCO-AWQAF-FAJR-ADJUST-APPLY-1 (2026-05-26):
+        //   Per MOROCCO-AWQAF-VERIFY-1 (counter-test #2): adding a -6 min
+        //   Fajr adjustment to the raw 18°/17° angles makes the project's
+        //   Rabat Fajr match Google's "Ministry of Islamic Affairs, Morocco"
+        //   value EXACTLY (Fajr 04:33 instead of 04:39). Other 5 prayers
+        //   were already 0–1 min from Google (Sunrise/Dhuhr/Maghrib/Isha
+        //   exact, Asr -1 min rounding noise) — the angle is correct, only
+        //   the Fajr publishing convention adds an ihtiyat-style offset
+        //   in the Habous Ministry's tables. Mirrors the JAKIM ihtiyat
+        //   pattern: raw academic angles preserved, table-style minute
+        //   adjustment applied via `adj`. Adjustment is Fajr-only.
+        'MoroccoAwqaf': {
+            name: 'المغرب - وزارة الأوقاف والشؤون الإسلامية',
+            fajr: 18, isha: 17,
+            adj: { fajr: -6 }
+        },
     };
 
     let config = {

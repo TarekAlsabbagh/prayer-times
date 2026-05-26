@@ -382,7 +382,23 @@
 //   pre-emptively so the drawer doesn't peek behind the dimmed overlay.
 //   No logic changes — Shafi/Hanafi/method values/storage untouched.
 //   Cache-buster: css/style.css?v=447 → ?v=448; js/app.js?v=726 → ?v=727.
-const CACHE_VERSION = 'v359';
+// STICKY-NEXT-BAR-SIDEBAR-OVERLAP-FIX-1 (2026-05-26):
+//   v359 → v360. Same root cause as ADVANCED-SETTINGS-MODAL-MOBILE-FIX-1
+//   but for `.sticky-next-bar` (the "القادمة: الفجر · 06:34:55 | المدينة"
+//   strip that floats below the header on /prayer-times-in-{city}).
+//   Previously: `left: 0; right: 0` made the bar span the full viewport
+//   including the area the desktop sidebar (z-index 1100) occupies, so
+//   the sidebar visually clipped its inline-end half. On mobile, the same
+//   bug appeared whenever the user opened the nav drawer.
+//   Fix: mirror the `.moon-sticky-bar` UAT-fix exactly — switch to
+//   logical-property positioning (`inset-inline-start: var(--sidebar-width, 0); inset-inline-end: 0`)
+//   on desktop, then `inset-inline-start: 0` inside `@media (max-width: 768px)`
+//   when the sidebar collapses into a drawer.
+//   CSS-only, ~12 line change. RTL/LTR both honored (logical properties).
+//   Untouched: .moon-sticky-bar, .top-header, .sidebar, header z-index,
+//   /moon-today, /qibla, /azkar.
+//   Cache-buster: css/style.css?v=448 → ?v=449.
+const CACHE_VERSION = 'v360';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

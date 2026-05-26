@@ -12784,8 +12784,19 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 .sticky-next-bar {
     position: fixed;
     top: var(--top-header-h, 64px); /* تحت top-header مباشرة (لا يغطّيه) */
-    left: 0;
-    right: 0;
+    /* STICKY-NEXT-BAR-SIDEBAR-OVERLAP-FIX-1 (2026-05-26): mirror the
+       `.moon-sticky-bar` UAT-fix above (css/style.css:4980). Previously
+       `left: 0; right: 0` made the bar span the FULL viewport — including
+       the area the permanent desktop sidebar (z-index 1100) occupies.
+       On desktop the sidebar visually clipped the inline-end half of the
+       sticky bar (user-reported on /prayer-times-in-{city}). On mobile,
+       the same overlap appeared whenever the user opened the nav drawer.
+       Use the SAME logical-property pattern as `.moon-sticky-bar`:
+       skip sidebar-width on the start side. The mobile reset at the
+       ≤ 768 px @media below restores full width when the sidebar
+       collapses into a drawer (so the bar fills the viewport again). */
+    inset-inline-start: var(--sidebar-width, 0);
+    inset-inline-end: 0;
     z-index: 90; /* أقل من top-header (1000) — لا يخترقه */
     background: linear-gradient(135deg, var(--primary, #2e7d32) 0%, var(--primary-dark, #1e5631) 100%);
     color: #fff;
@@ -12845,6 +12856,17 @@ html[dir="rtl"] .countries-search-icon { left: auto; right: 13px; }
 }
 @media (prefers-reduced-motion: reduce) {
     .snb-inner.snb-now { animation: none; }
+}
+
+/* STICKY-NEXT-BAR-SIDEBAR-OVERLAP-FIX-1 (2026-05-26): mirror the
+   `.moon-sticky-bar` mobile reset at css/style.css:5031. When the
+   sidebar collapses into a drawer (≤ 768 px), the sticky bar should
+   fill the viewport again — restore `inset-inline-start` to 0. The
+   drawer-open scenario stays correct because the sidebar drawer
+   (z-index 1100) floats above the sticky bar (z-index 90) by design,
+   and its dim-backdrop covers the underlying content. */
+@media (max-width: 768px) {
+    .sticky-next-bar { inset-inline-start: 0; }
 }
 
 @media (max-width: 520px) {

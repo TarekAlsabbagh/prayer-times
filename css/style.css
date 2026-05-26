@@ -9811,16 +9811,27 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
    Modal إعدادات المواقيت
    ═══════════════════════════════════════════════════════════ */
 
+/* ADVANCED-SETTINGS-MODAL-MOBILE-FIX-1 (2026-05-26): the previous
+   `z-index: 1000` placed the overlay BELOW `.sidebar` (z-index 1100),
+   so when the sidebar was open in mobile/tablet drawer mode it cropped
+   the modal on the inline-end side (user-reported on /prayer-times-in-{city}).
+   Bumped to 9999 — sits above sidebar, top-header, sticky-next-bar and
+   any other overlay (most other modals already at 9999/10000, so this
+   aligns the settings modal with site-wide convention). The overlay
+   itself is `position: fixed; inset: 0` and lives OUTSIDE `.app-layout`
+   in the DOM, so no ancestor `transform/overflow:hidden` can clip it. */
 .settings-modal-overlay {
     display: none;
     position: fixed;
     inset: 0;
     background: rgba(0,0,0,0.55);
-    z-index: 1000;
+    z-index: 9999;
     align-items: center;
     justify-content: center;
     padding: 16px;
     backdrop-filter: blur(2px);
+    box-sizing: border-box;
+    overflow-x: hidden;
 }
 .settings-modal-overlay.open { display: flex; }
 
@@ -9829,11 +9840,14 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
     border-radius: var(--radius);
     padding: 28px;
     width: 100%;
-    max-width: 580px;
-    max-height: 90vh;
+    max-width: min(580px, calc(100vw - 32px));
+    max-height: calc(100vh - 32px);
     overflow-y: auto;
+    overflow-x: hidden;
     box-shadow: 0 24px 64px rgba(0,0,0,0.28);
     animation: modalSlideIn 0.25s ease;
+    box-sizing: border-box;
+    margin: auto;
 }
 @keyframes modalSlideIn {
     from { opacity: 0; transform: translateY(-20px) scale(0.97); }
@@ -10012,7 +10026,19 @@ html.city-page #city-related-services { display: none !important; }
 
 @media (max-width: 768px) {
     .related-services-grid { grid-template-columns: repeat(2, 1fr); }
-    .settings-modal-box { padding: 20px 16px; }
+    /* ADVANCED-SETTINGS-MODAL-MOBILE-FIX-1 (2026-05-26): on mobile, the
+       modal should fill the viewport (minus 24 px breathing room) so
+       <select> rows are comfortable and long Arabic method names like
+       "اتحاد المنظمات الإسلامية الفرنسية" don't overflow. The overlay
+       itself uses padding 16 px around the box (declared earlier) — keep
+       the box edge-to-edge with the overlay padding via `max-width: 100%`. */
+    .settings-modal-overlay { padding: 12px; }
+    .settings-modal-box {
+        padding: 18px 14px;
+        max-width: 100%;
+        max-height: calc(100vh - 24px);
+        border-radius: 16px;
+    }
     .settings-modal-footer .btn { flex: 1; min-width: 0; }
 }
 

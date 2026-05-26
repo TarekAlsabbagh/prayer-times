@@ -11201,6 +11201,16 @@ function _restoreSettingsSnapshot() {
 function openSettingsModal() {
     const overlay = document.getElementById('settings-modal-overlay');
     if (overlay) {
+        // ADVANCED-SETTINGS-MODAL-MOBILE-FIX-1 (2026-05-26): close the
+        // mobile drawer sidebar before showing the modal so the two
+        // can't visually overlap. The z-index fix in CSS already lifts
+        // the modal above the sidebar (z-index 9999 > sidebar 1100),
+        // but on small screens with the drawer half-open the user can
+        // still see a sliver of sidebar behind the dimmed overlay —
+        // closing it gives a cleaner stack. No-op on desktop (the
+        // sidebar is permanent there and `closeSidebar()` only mutates
+        // the mobile open-state classes).
+        try { if (typeof closeSidebar === 'function') closeSidebar(); } catch (_) {}
         _takeSettingsSnapshot();
         overlay.classList.add('open');
         document.body.style.overflow = 'hidden';

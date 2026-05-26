@@ -367,7 +367,22 @@
 //   Untouched: prayer-time computation, calc-method values, fasting/imsak/
 //   last-third logic, /moon-today / /qibla / /azkar pages.
 //   Cache-buster: css/style.css?v=446 → ?v=447.
-const CACHE_VERSION = 'v358';
+// ADVANCED-SETTINGS-MODAL-MOBILE-FIX-1 (2026-05-26):
+//   v358 → v359. Fix the settings modal (إعدادات حساب المواقيت) being
+//   cropped under the mobile sidebar drawer on /prayer-times-in-{city}.
+//   Root cause: `.settings-modal-overlay` was at z-index 1000, BELOW
+//   `.sidebar` at z-index 1100 — when the drawer opened it sat on top
+//   of the modal on the inline-end side. Fix bumps the overlay to
+//   z-index 9999 (matches other site overlays + dialogs) so it always
+//   floats above the sidebar/top-header/sticky bars. Also tightened
+//   mobile box sizing (max-width 100%, calc(100vh - 24px) max-height,
+//   overflow-x: hidden) so long Arabic method names like "اتحاد المنظمات
+//   الإسلامية الفرنسية" can wrap without horizontal overflow. The
+//   `openSettingsModal()` JS helper now also calls `closeSidebar()`
+//   pre-emptively so the drawer doesn't peek behind the dimmed overlay.
+//   No logic changes — Shafi/Hanafi/method values/storage untouched.
+//   Cache-buster: css/style.css?v=447 → ?v=448; js/app.js?v=726 → ?v=727.
+const CACHE_VERSION = 'v359';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -23839,6 +23839,69 @@ function _azkarResetCategory(category) {
 }
 
 // ─────────────────────────────────────────────────────────────────────────────
+// AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26)
+// ─────────────────────────────────────────────────────────────────────────────
+// Reset all counter UI in place — NO DOM rebuild, NO `innerHTML = ''`, NO
+// `data-ssr-rendered` removal, NO `_loadAzkarX()` re-call. Previously the
+// 3 reset handlers (morning/evening/prayer) followed an unsafe pattern:
+//
+//     _azkarResetCategory(category);
+//     listEl.dataset.wired = '';
+//     listEl.removeAttribute('data-ssr-rendered');
+//     listEl.innerHTML = '';
+//     _loadAzkarX();
+//
+// On evening + prayer that re-entered `_loadAzkarX()` with the SSR marker
+// gone + empty children, hitting the SSR-fallback notice branch that says
+// "تعذّر تحميل أذكار المساء. يرجى إعادة تحميل الصفحة." — a confusing
+// error the user reported. Morning happened to ship a full client-rebuild
+// path so it survived, but the same wipe-and-rebuild is wasteful and
+// risks the same blow-up if the rebuild logic ever drifts.
+//
+// New flow (non-destructive):
+//   1. `_azkarResetCategory(category)` — wipes localStorage progress only.
+//   2. Walk the existing DOM cards (already mounted by SSR or a previous
+//      hydrate) and mutate them in place:
+//      • Remove the `.completed` class.
+//      • For single-read (`target === 1`): reset `.azkar-mark-read`
+//        button text + `aria-pressed=false`.
+//      • For multi-count: reset `.azkar-counter-tap-count` to `"0 / N"`
+//        and `.azkar-counter-tap-prompt` to `counterTap`.
+//   3. Refresh the page-specific progress bar via the passed-in fn.
+//
+// CRITICAL invariants:
+//   • DO NOT touch `window.AzkarMorning` / `window.AzkarEvening` /
+//     `window.AzkarPrayer` — these are the read-only data source.
+//   • DO NOT touch `listEl.innerHTML`, `data-ssr-rendered`, `data-wired`.
+//   • DO NOT change `route` / `page state` / `currentCity` / sidebar nav.
+//   • DO NOT show any "تعذّر تحميل" notice — the cards stay mounted.
+function _azkarResetCardsInPlace(category, items, progressFn) {
+    if (!Array.isArray(items)) return;
+    items.forEach(function (dhikr) {
+        const card = document.getElementById('azkar-item-' + dhikr.id);
+        if (!card) return;
+        const target = Number(dhikr.repeat) || 1;
+        const isSingleRead = (target === 1);
+        card.classList.remove('completed');
+        if (isSingleRead) {
+            const tapBtn = card.querySelector('.azkar-mark-read');
+            if (tapBtn) {
+                tapBtn.textContent = _AZKAR_AR_CHROME.markRead;
+                tapBtn.setAttribute('aria-pressed', 'false');
+            }
+        } else {
+            const tapCount = card.querySelector('.azkar-counter-tap-count');
+            const tapPrompt = card.querySelector('.azkar-counter-tap-prompt');
+            if (tapCount) tapCount.textContent = '0 / ' + target;
+            if (tapPrompt) tapPrompt.textContent = _AZKAR_AR_CHROME.counterTap;
+        }
+    });
+    if (typeof progressFn === 'function') {
+        try { progressFn(0, items.length); } catch (_) {}
+    }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
 // AZKAR-RESET-BTN-1 (2026-05-25)
 // Reusable confirmation modal + toast — kept generic so future azkar
 // categories (evening / sleep / after-prayer / …) can call them with
@@ -24122,15 +24185,14 @@ function _azkarWireStickyProgress() {
                     confirmText: 'نعم، إعادة الضبط',
                     returnFocusTo: stickyReset,
                     onConfirm: function () {
+                        // AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26):
+                        // sticky-bar reset uses the same non-destructive
+                        // flow as the page-level reset button.
                         _azkarResetCategory('morning');
-                        if (listEl) {
-                            listEl.dataset.wired = '';
-                            listEl.innerHTML = '';
-                        }
-                        _loadAzkarMorning();
+                        const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarMorning))
+                            ? window.AzkarMorning : [];
+                        _azkarResetCardsInPlace('morning', items, _updateMorningProgress);
                         _azkarShowToast('تمت إعادة ضبط العدادات');
-                        // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): jump
-                        // back to the top of the azkar page after reset.
                         _azkarScrollToTopOfPage();
                     }
                 });
@@ -24224,18 +24286,13 @@ function _loadAzkarMorning() {
                 confirmText: 'نعم، إعادة الضبط',
                 returnFocusTo: resetBtn,
                 onConfirm: () => {
+                    // AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26):
+                    // reset in place — no DOM wipe, no re-call of
+                    // _loadAzkarMorning. See _azkarResetCardsInPlace
+                    // doc-comment for the full rationale.
                     _azkarResetCategory('morning');
-                    listEl.dataset.wired = '';
-                    // AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): also
-                    // clear the SSR marker so the next _loadAzkarMorning
-                    // call goes through the full re-render path (not the
-                    // SSR-hydrate path which would re-apply the OLD state).
-                    listEl.removeAttribute('data-ssr-rendered');
-                    listEl.innerHTML = '';
-                    _loadAzkarMorning();
+                    _azkarResetCardsInPlace('morning', items, _updateMorningProgress);
                     _azkarShowToast('تمت إعادة ضبط العدادات');
-                    // AZKAR-RESET-SCROLL-TO-TOP-2 (2026-05-25): jump
-                    // back to the top of the azkar page after reset.
                     _azkarScrollToTopOfPage();
                 }
             });
@@ -24594,11 +24651,13 @@ function _loadAzkarEvening() {
                 confirmText: 'نعم، إعادة الضبط',
                 returnFocusTo: resetBtn,
                 onConfirm: () => {
+                    // AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26):
+                    // reset in place — no DOM wipe, no re-call of
+                    // _loadAzkarEvening (which would hit the SSR-fallback
+                    // notice "تعذّر تحميل أذكار المساء" because
+                    // data-ssr-rendered was just removed).
                     _azkarResetCategory('evening');
-                    listEl.dataset.wired = '';
-                    listEl.removeAttribute('data-ssr-rendered');
-                    listEl.innerHTML = '';
-                    _loadAzkarEvening();
+                    _azkarResetCardsInPlace('evening', items, _updateEveningProgress);
                     _azkarShowToast('تمت إعادة ضبط العدادات');
                     _azkarScrollToTopOfPage();
                 }
@@ -24811,13 +24870,11 @@ function _azkarWireEveningStickyProgress() {
                     confirmText: 'نعم، إعادة الضبط',
                     returnFocusTo: stickyReset,
                     onConfirm: function () {
+                        // AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26).
                         _azkarResetCategory('evening');
-                        if (listEl) {
-                            listEl.dataset.wired = '';
-                            listEl.removeAttribute('data-ssr-rendered');
-                            listEl.innerHTML = '';
-                        }
-                        _loadAzkarEvening();
+                        const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarEvening))
+                            ? window.AzkarEvening : [];
+                        _azkarResetCardsInPlace('evening', items, _updateEveningProgress);
                         _azkarShowToast('تمت إعادة ضبط العدادات');
                         _azkarScrollToTopOfPage();
                     }
@@ -24853,11 +24910,13 @@ function _loadAzkarPrayer() {
                 confirmText: 'نعم، إعادة الضبط',
                 returnFocusTo: resetBtn,
                 onConfirm: () => {
+                    // AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26):
+                    // reset in place — no DOM wipe, no re-call of
+                    // _loadAzkarPrayer (which would hit the SSR-fallback
+                    // notice "تعذّر تحميل أذكار الصلاة" because
+                    // data-ssr-rendered was just removed).
                     _azkarResetCategory('prayer');
-                    listEl.dataset.wired = '';
-                    listEl.removeAttribute('data-ssr-rendered');
-                    listEl.innerHTML = '';
-                    _loadAzkarPrayer();
+                    _azkarResetCardsInPlace('prayer', items, _updatePrayerProgress);
                     _azkarShowToast('تمت إعادة ضبط العدادات');
                     _azkarScrollToTopOfPage();
                 }
@@ -25054,13 +25113,11 @@ function _azkarWirePrayerStickyProgress() {
                     confirmText: 'نعم، إعادة الضبط',
                     returnFocusTo: stickyReset,
                     onConfirm: function () {
+                        // AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26).
                         _azkarResetCategory('prayer');
-                        if (listEl) {
-                            listEl.dataset.wired = '';
-                            listEl.removeAttribute('data-ssr-rendered');
-                            listEl.innerHTML = '';
-                        }
-                        _loadAzkarPrayer();
+                        const items = (typeof window !== 'undefined' && Array.isArray(window.AzkarPrayer))
+                            ? window.AzkarPrayer : [];
+                        _azkarResetCardsInPlace('prayer', items, _updatePrayerProgress);
                         _azkarShowToast('تمت إعادة ضبط العدادات');
                         _azkarScrollToTopOfPage();
                     }

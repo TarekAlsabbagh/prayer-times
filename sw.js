@@ -398,7 +398,25 @@
 //   Untouched: .moon-sticky-bar, .top-header, .sidebar, header z-index,
 //   /moon-today, /qibla, /azkar.
 //   Cache-buster: css/style.css?v=448 → ?v=449.
-const CACHE_VERSION = 'v360';
+// AZKAR-RESET-COUNTERS-NO-RELOAD-FIX-1 (2026-05-26):
+//   v360 → v361. Critical bug fix for the reset-all button on /azkar/
+//   morning-azkar, /azkar/evening-azkar, /azkar/prayer-azkar. After
+//   tapping reset + confirm, evening/prayer pages flashed the SSR-fallback
+//   notice "تعذّر تحميل أذكار المساء/الصلاة. يرجى إعادة تحميل الصفحة." —
+//   because the reset handler cleared `listEl.innerHTML` + the
+//   `data-ssr-rendered` marker before re-calling `_loadAzkarX()`, which
+//   on evening/prayer entered the missing-SSR fallback branch (their
+//   load functions have no client-rebuild path, unlike morning).
+//   Fix: new shared helper `_azkarResetCardsInPlace(category, items, progressFn)`
+//   that resets counters in place — walks the existing DOM cards (still
+//   mounted from SSR), removes `.completed` class, resets counter text
+//   to `0 / N`, resets prompts/aria-pressed, refreshes progress UI. NO
+//   innerHTML wipe, NO data-ssr-rendered removal, NO _loadAzkarX
+//   re-call. Applied to all 6 reset callers (3 page-level + 3 sticky-bar).
+//   Invariants honored: window.AzkarMorning/Evening/Prayer untouched,
+//   route/page-state untouched, no error notices shown.
+//   Cache-buster: js/app.js?v=727 → ?v=728.
+const CACHE_VERSION = 'v361';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

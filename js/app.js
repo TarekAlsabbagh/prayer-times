@@ -20435,7 +20435,19 @@ function updateMoonInfo() {
             //   The href stays linked to /moon-today-in-{city} (jump to today's
             //   moon status from any date) — center is still clickable but
             //   styled as status-card (CSS) to distinguish from prev/next.
-            if (_todayLinkEl2 && _isDatePage) {
+            // MOON-DATE-TODAY-SUB-FILL-1 (2026-05-26):
+            //   Drop the `_isDatePage` gate. On the city-today page
+            //   (/moon-today-in-{city}) `_isDatePage = false`, so the
+            //   #moon-date-today-sub stayed empty — the center card showed
+            //   just "اليوم المعروض" with no date underneath. We're already
+            //   inside the `_navEl && _citySlug && !_isHubPage` block above,
+            //   so the only branches reaching here are date-pages AND the
+            //   city-today page — both want the sub filled. Hub page
+            //   (`/moon-today` bare) is excluded one level up.
+            //   `today` is already correct: `let today = _requestedDate || new Date()`
+            //   at line ~16836 → it's the requested date on date-pages and
+            //   `new Date()` on city-today pages.
+            if (_todayLinkEl2) {
                 try {
                     // Compute the formatted date string ONCE — used for the
                     // sub-line, aria-label, title, and the legacy fallback below.

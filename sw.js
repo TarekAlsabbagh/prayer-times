@@ -74,6 +74,18 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// MOON-DATE-TODAY-SUB-FILL-1 (2026-05-26):
+//   v348 → v349. The #moon-date-today-sub element under the "اليوم
+//   المعروض" center card of the moon-date-nav was empty on the city-today
+//   page (e.g. /moon-today-in-jeddah) because the JS code at app.js:20438
+//   gated the date fill behind `_isDatePage` — which is false on the
+//   today-page (only true on /moon-in-{city}/YYYY-MM-DD). Now drops the
+//   gate (the outer `_navEl && _citySlug && !_isHubPage` block already
+//   excludes the hub page), so today's date appears in the sub-line on
+//   both date-pages AND city-today pages. The `today` variable at
+//   app.js:16836 is already correct: `_requestedDate || new Date()` →
+//   the requested date on date-pages and now() on city-today pages.
+//   Cache-buster: js/app.js?v=721 → ?v=722.
 // SIS-LAST-THIRD-ARROW-DIR-1 (2026-05-26):
 //   v347 → v348. Tiny UX fix: the "last third of night" time-range in the
 //   summary info strip on /prayer-times-in-{city} (#sis-last-third) used a
@@ -165,7 +177,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v348';
+const CACHE_VERSION = 'v349';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -6705,7 +6705,12 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 //     options, the user wants Arab-world default to be Umm Al-Qura.
 //   - Morocco → MoroccoAwqaf  (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
 //   - France → France (UOIF)                                — preserved
-//   - USA / Canada / Latin America → ISNA                   — preserved
+//   - North America (US/CA/MX/GL/BM) → ISNA                 — preserved + extended
+//   - Central America + Caribbean → ISNA                    — preserved
+//   - South America (14 codes incl. FK)
+//     → MWL  (AMERICAS-DEFAULT-CALC-METHODS-1, 2026-05-26)
+//     This MOVES the South-American subset out of the legacy
+//     "Latin America → ISNA" group into MWL per user spec.
 //   - Turkey → Turkey (Diyanet)
 //   - Iran → Tehran
 //   - Europe (all 44 codes, except FR/TR which keep their own auth)
@@ -6742,15 +6747,30 @@ const _AUTO_METHOD_BY_CC = {
     'my': 'JAKIM',
     'id': 'KemenagJakarta',
     'sg': 'Singapore', 'bn': 'Singapore',
-    // North America → ISNA (explicitly preserved per user)
+    // AMERICAS-DEFAULT-CALC-METHODS-1 (2026-05-26):
+    //   Per user spec the Americas split into 3 zones:
+    //     • North America (US/CA/MX + GL/BM) → ISNA
+    //     • Central America + Caribbean → ISNA (kept from previous policy,
+    //       NOT in user's AMERICAS spec so explicitly preserved untouched)
+    //     • South America (14 codes incl. FK) → MWL  (CHANGED from ISNA)
+    // North America → ISNA  (US/CA/MX preserved; GL/BM added per user spec)
     'us': 'ISNA', 'ca': 'ISNA', 'mx': 'ISNA',
-    // Latin America → ISNA
-    'br': 'ISNA', 'ar': 'ISNA', 'co': 'ISNA', 've': 'ISNA',
-    'cl': 'ISNA', 'pe': 'ISNA', 'ec': 'ISNA', 'bo': 'ISNA', 'py': 'ISNA',
-    'uy': 'ISNA', 'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
+    'gl': 'ISNA', 'bm': 'ISNA',
+    // Central America + Caribbean → ISNA (pre-existing; NOT in user's
+    // North/South America spec so explicitly left untouched).
+    'gt': 'ISNA', 'cu': 'ISNA', 'hn': 'ISNA', 'ni': 'ISNA',
     'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
-    'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
-    'sr': 'ISNA', 'gf': 'ISNA',
+    'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA',
+    // South America → MWL  (AMERICAS-DEFAULT-CALC-METHODS-1, 2026-05-26)
+    // 14 codes per user spec: AR, BO, BR, CL, CO, EC, FK, GF, GY, PY, PE,
+    // SR, UY, VE. Brazil/Argentina/Chile/Colombia/Peru/Venezuela/Uruguay/
+    // Bolivia/Paraguay/Ecuador/Guyana/Suriname/French Guiana previously
+    // mapped to ISNA under the legacy "Latin America → ISNA" rule; now
+    // moved to MWL per the unified South-American policy. FK (Falkland
+    // Islands) added since it was not in the map.
+    'ar': 'MWL', 'bo': 'MWL', 'br': 'MWL', 'cl': 'MWL', 'co': 'MWL',
+    'ec': 'MWL', 'fk': 'MWL', 'gf': 'MWL', 'gy': 'MWL', 'py': 'MWL',
+    'pe': 'MWL', 'sr': 'MWL', 'uy': 'MWL', 've': 'MWL',
     // Gulf + Arab world (except Egypt + Morocco) → Makkah (explicit for clarity)
     'sa': 'Makkah', 'kw': 'Makkah', 'qa': 'Makkah',
     'ae': 'Makkah', 'bh': 'Makkah', 'om': 'Makkah', 'ye': 'Makkah',

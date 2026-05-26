@@ -74,6 +74,21 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// AMERICAS-DEFAULT-CALC-METHODS-1 (2026-05-26):
+//   v346 → v347. Country-default calculation method update for the Americas:
+//     • North America extended: US/CA/MX preserved on ISNA; GL (Greenland)
+//       and BM (Bermuda) added → ISNA.
+//     • South America (14 codes: AR, BO, BR, CL, CO, EC, FK, GF, GY, PY,
+//       PE, SR, UY, VE) → MWL. Previously all of Latin America was lumped
+//       under one "ISNA" rule; per user spec the South-American subset
+//       moves to MWL (the broader pan-American RIS standard). FK
+//       (Falkland Islands) added since it was not in the map.
+//     • Central America (GT/HN/NI/SV/CR/PA/BZ) and Caribbean
+//       (CU/DO/HT/JM/TT/BB) stay on ISNA — NOT in user's spec so
+//       explicitly preserved untouched.
+//   User-explicit pick in localStorage['calc_method_user'] is always
+//   honored — no change to `_userExplicitMethod()`.
+//   Cache-buster: js/app.js?v=719 → ?v=720.
 // EUROPE-DEFAULT-CALC-METHOD-1 + COUNTRY-SPECIFIC-CALC-METHODS-1 (2026-05-26):
 //   v345 → v346. Two coordinated changes to the country→default calculation
 //   method mapping (`_AUTO_METHOD_BY_CC` in js/app.js):
@@ -141,7 +156,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v346';
+const CACHE_VERSION = 'v347';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

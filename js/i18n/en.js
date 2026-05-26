@@ -82,6 +82,9 @@ window.TRANSLATIONS['en'] = {
         'method.Turkey': 'Turkey (Diyanet)',
         'method.France': 'Union of Islamic Orgs. France (UIOF)',
         'method.Russia': 'Russia',
+        'method.JAKIM': "Malaysia – JAKIM",
+        'method.KemenagJakarta': "Indonesia – Kemenag Jakarta",
+        'method.MoroccoAwqaf': "Morocco – Ministry of Islamic Affairs",
         // Asr methods
         'asr.Shafi': "Shafi'i / Hanbali / Maliki",
         'asr.Hanafi': 'Hanafi',

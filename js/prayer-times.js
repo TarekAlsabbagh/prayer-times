@@ -87,6 +87,23 @@ const PrayerTimes = (function () {
         'Turkey':    { name: 'تركيا - ديانت',                              fajr: 18,   isha: 17       },
         'France':    { name: 'اتحاد المنظمات الإسلامية في فرنسا (UIOF)',  fajr: 12,   isha: 12       },
         'Russia':    { name: 'روسيا',                                      fajr: 16,   isha: 15       },
+        // COUNTRY-SPECIFIC-CALC-METHODS-1 (2026-05-26):
+        //   3 new country-specific authorities (defaults wired in app.js
+        //   _AUTO_METHOD_BY_CC). Angles below come from the published
+        //   conventions of the respective authorities — NOT guessed:
+        //   • JAKIM (Malaysia) — Jabatan Kemajuan Islam Malaysia.
+        //     Official: Fajr 20°, Isha 18° (matches the broader SEA
+        //     convention shared with Singapore/Indonesia).
+        //   • KemenagJakarta (Indonesia) — Kementerian Agama RI,
+        //     Jakarta Pusat reference. Official: Fajr 20°, Isha 18°.
+        //   • MoroccoAwqaf (Morocco) — Ministry of Awqaf & Islamic
+        //     Affairs (وزارة الأوقاف والشؤون الإسلامية). The Habous
+        //     publishes Fajr 18°, Isha 17° (numerically equal to MWL
+        //     but kept as a distinct entry so the UI + analytics can
+        //     attribute the choice to the Moroccan authority).
+        'JAKIM':            { name: 'ماليزيا - جاكيم (JAKIM)',                           fajr: 20, isha: 18 },
+        'KemenagJakarta':   { name: 'إندونيسيا - وزارة الشؤون الدينية (Kemenag) جاكرتا', fajr: 20, isha: 18 },
+        'MoroccoAwqaf':     { name: 'المغرب - وزارة الأوقاف والشؤون الإسلامية',            fajr: 18, isha: 17 },
     };
 
     let config = {

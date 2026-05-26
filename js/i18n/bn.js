@@ -82,6 +82,9 @@ window.TRANSLATIONS['bn'] = {
         'method.Turkey': 'তুরস্ক (দিয়ানেত)',
         'method.France': 'ফ্রান্সের ইসলামিক সংগঠনসমূহের ইউনিয়ন (UIOF)',
         'method.Russia': 'রাশিয়া',
+        'method.JAKIM': "মালয়েশিয়া – জাকিম (JAKIM)",
+        'method.KemenagJakarta': "ইন্দোনেশিয়া – কেমেনাগ জাকার্তা",
+        'method.MoroccoAwqaf': "মরক্কো – ইসলামিক বিষয়ক মন্ত্রণালয়",
         // Asr methods
         'asr.Shafi': 'শাফিয়ী / হাম্বলী / মালিকী',
         'asr.Hanafi': 'হানাফী',

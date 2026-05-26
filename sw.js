@@ -74,6 +74,28 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// EUROPE-DEFAULT-CALC-METHOD-1 + COUNTRY-SPECIFIC-CALC-METHODS-1 (2026-05-26):
+//   v345 → v346. Two coordinated changes to the country→default calculation
+//   method mapping (`_AUTO_METHOD_BY_CC` in js/app.js):
+//     1. EUROPE-DEFAULT-CALC-METHOD-1: All 44 European country codes
+//        (except FR + TR, which keep their dedicated authorities) default
+//        to 'MWL' (Muslim World League). Includes RU which previously
+//        mapped to the 'Russia' method.
+//     2. COUNTRY-SPECIFIC-CALC-METHODS-1: 3 new country-specific authorities
+//        added to js/prayer-times.js with their published angles and surfaced
+//        in the settings dropdown:
+//          • JAKIM            (Malaysia)   — Fajr 20°, Isha 18°
+//          • KemenagJakarta   (Indonesia)  — Fajr 20°, Isha 18°
+//          • MoroccoAwqaf     (Morocco)    — Fajr 18°, Isha 17°
+//        Defaults:  MY → JAKIM   ID → KemenagJakarta   MA → MoroccoAwqaf
+//   User-explicit pick in localStorage['calc_method_user'] is ALWAYS
+//   honored — the existing `_userExplicitMethod()` short-circuit in
+//   `autoSelectMethod()` is untouched.
+//   No changes to non-Europe / non-MY/ID/MA defaults. No changes to
+//   Shafi/Hanafi (asrMethod) logic.
+//   Cache-busters: js/app.js?v=718 → ?v=719,
+//                  js/i18n.js?v=186 → ?v=187,
+//                  js/prayer-times.js?v=48 → ?v=49.
 // MOON-HERO-MOBILE-CTA-FIX-2 (2026-05-26):
 //   v344 → v345. Long-language safety: remove the strict
 //   `max-height: 72px !important` on `#page-moon .qibla-hub-geo-btn
@@ -119,7 +141,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v345';
+const CACHE_VERSION = 'v346';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

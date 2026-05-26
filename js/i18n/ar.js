@@ -82,6 +82,9 @@ window.TRANSLATIONS['ar'] = {
         'method.Turkey': 'تركيا - ديانت',
         'method.France': 'اتحاد المنظمات الإسلامية في فرنسا (UIOF)',
         'method.Russia': 'روسيا',
+        'method.JAKIM': "ماليزيا - جاكيم (JAKIM)",
+        'method.KemenagJakarta': "إندونيسيا - وزارة الشؤون الدينية (Kemenag) جاكرتا",
+        'method.MoroccoAwqaf': "المغرب - وزارة الأوقاف والشؤون الإسلامية",
         // طرق العصر
         'asr.Shafi': 'شافعي / حنبلي / مالكي',
         'asr.Hanafi': 'حنفي',

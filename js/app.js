@@ -6700,37 +6700,48 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
 //
 // Policy:
 //   - Egypt → Egypt (Egyptian General Authority)
-//   - Gulf + Arab world (except Egypt) → Makkah (Umm Al-Qura).
+//   - Gulf + Arab world (except Egypt + Morocco) → Makkah (Umm Al-Qura).
 //     Even though Kuwait / Qatar / UAE have dedicated dropdown
 //     options, the user wants Arab-world default to be Umm Al-Qura.
+//   - Morocco → MoroccoAwqaf  (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
 //   - France → France (UOIF)                                — preserved
 //   - USA / Canada / Latin America → ISNA                   — preserved
 //   - Turkey → Turkey (Diyanet)
 //   - Iran → Tehran
-//   - Russia → Russia
+//   - Europe (all 44 codes, except FR/TR which keep their own auth)
+//     → MWL  (EUROPE-DEFAULT-CALC-METHOD-1, 2026-05-26)
+//     This includes RU which formerly mapped to 'Russia'; per user spec
+//     the unified European default is MWL with FR/TR exceptions.
 //   - South Asia (PK/IN/BD/AF) → Karachi
-//   - SE Asia (MY/ID/SG/BN) → Singapore
+//   - Malaysia → JAKIM  (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
+//   - Indonesia → KemenagJakarta  (COUNTRY-SPECIFIC-CALC-METHODS-1)
+//   - SG / BN → Singapore  (kept on the generic SEA method)
 //   - Everywhere else → Makkah (universal fallback)
 //
 // Available <select> keys (from index.html + js/prayer-times.js):
 //   Makkah  MWL  ISNA  Egypt  Karachi  Tehran  Jafari  Gulf
 //   Kuwait  Qatar  Singapore  Turkey  France  Russia
+//   JAKIM  KemenagJakarta  MoroccoAwqaf  (new: COUNTRY-SPECIFIC)
 //
 // User-explicit choice in localStorage['calc_method_user'] OVERRIDES
 // the country default — set only when the dropdown change event fires
-// (programmatic `.value = …` doesn't trigger change).
+// (programmatic `.value = …` doesn't trigger change). This means none
+// of the changes below ever overwrite a user's manual pick.
 const _AUTO_METHOD_BY_CC = {
-    // Egypt — the only Arab country with a dedicated method
+    // Egypt — the only Arab country with a dedicated method (besides Morocco)
     'eg': 'Egypt',
     // Countries with their OWN dedicated methods (preserved)
     'fr': 'France',                                // explicitly preserved
-    'tr': 'Turkey',
+    'tr': 'Turkey',                                // explicitly preserved
     'ir': 'Tehran',
-    'ru': 'Russia',
     // South Asia → Karachi
     'pk': 'Karachi', 'in': 'Karachi', 'bd': 'Karachi', 'af': 'Karachi',
-    // SE Asia → Singapore
-    'my': 'Singapore', 'id': 'Singapore', 'sg': 'Singapore', 'bn': 'Singapore',
+    // SE Asia — Malaysia + Indonesia now have country-specific auths;
+    // Singapore + Brunei stay on the generic SEA method
+    // (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
+    'my': 'JAKIM',
+    'id': 'KemenagJakarta',
+    'sg': 'Singapore', 'bn': 'Singapore',
     // North America → ISNA (explicitly preserved per user)
     'us': 'ISNA', 'ca': 'ISNA', 'mx': 'ISNA',
     // Latin America → ISNA
@@ -6740,25 +6751,48 @@ const _AUTO_METHOD_BY_CC = {
     'sv': 'ISNA', 'cr': 'ISNA', 'pa': 'ISNA', 'do': 'ISNA', 'ht': 'ISNA',
     'jm': 'ISNA', 'tt': 'ISNA', 'bb': 'ISNA', 'bz': 'ISNA', 'gy': 'ISNA',
     'sr': 'ISNA', 'gf': 'ISNA',
-    // Gulf + Arab world (except Egypt) → Makkah (explicit for clarity)
+    // Gulf + Arab world (except Egypt + Morocco) → Makkah (explicit for clarity)
     'sa': 'Makkah', 'kw': 'Makkah', 'qa': 'Makkah',
     'ae': 'Makkah', 'bh': 'Makkah', 'om': 'Makkah', 'ye': 'Makkah',
     'iq': 'Makkah', 'jo': 'Makkah', 'lb': 'Makkah', 'ps': 'Makkah',
     'sy': 'Makkah',
     'ly': 'Makkah', 'sd': 'Makkah', 'ss': 'Makkah',
-    'dz': 'Makkah', 'ma': 'Makkah', 'tn': 'Makkah', 'mr': 'Makkah',
+    'dz': 'Makkah', 'tn': 'Makkah', 'mr': 'Makkah',
     'so': 'Makkah', 'dj': 'Makkah', 'km': 'Makkah',
-    // Everywhere else (Europe non-FR/RU, sub-Saharan Africa, East Asia,
-    // Oceania, Central Asia, etc.) falls through to the 'Makkah' default
-    // in autoSelectMethod below.
+    // Morocco — dedicated authority
+    // (COUNTRY-SPECIFIC-CALC-METHODS-1, 2026-05-26)
+    'ma': 'MoroccoAwqaf',
+    // EUROPE-DEFAULT-CALC-METHOD-1 (2026-05-26):
+    //   All European countries except FR + TR (which keep their dedicated
+    //   authorities above) default to MWL. List per user spec — includes
+    //   the EU-27, EEA, UK, Balkans, Eastern Europe, microstates.
+    //   RU previously mapped to 'Russia' — now MWL per the unified
+    //   European policy. ('Russia' method remains in the <select> for
+    //   any user who picked it manually; `_userExplicitMethod` honors it.)
+    'al': 'MWL', 'ad': 'MWL', 'at': 'MWL', 'by': 'MWL', 'be': 'MWL',
+    'ba': 'MWL', 'bg': 'MWL', 'hr': 'MWL', 'cy': 'MWL', 'cz': 'MWL',
+    'dk': 'MWL', 'ee': 'MWL', 'fi': 'MWL', 'de': 'MWL', 'gr': 'MWL',
+    'hu': 'MWL', 'is': 'MWL', 'ie': 'MWL', 'it': 'MWL', 'xk': 'MWL',
+    'lv': 'MWL', 'li': 'MWL', 'lt': 'MWL', 'lu': 'MWL', 'mt': 'MWL',
+    'md': 'MWL', 'mc': 'MWL', 'me': 'MWL', 'nl': 'MWL', 'mk': 'MWL',
+    'no': 'MWL', 'pl': 'MWL', 'pt': 'MWL', 'ro': 'MWL', 'ru': 'MWL',
+    'sm': 'MWL', 'rs': 'MWL', 'sk': 'MWL', 'si': 'MWL', 'es': 'MWL',
+    'se': 'MWL', 'ch': 'MWL', 'ua': 'MWL', 'gb': 'MWL', 'va': 'MWL',
+    // Everywhere else (sub-Saharan Africa, East Asia, Oceania, Central
+    // Asia, etc.) falls through to the 'Makkah' default in
+    // autoSelectMethod below.
 };
 
 // All valid method keys (from the <select> in index.html). Used to
 // validate localStorage values before applying — protects against stale
 // or invalid records like 'umm_al_qura' / 'turkey_diyanet'.
+// COUNTRY-SPECIFIC-CALC-METHODS-1 (2026-05-26): added JAKIM,
+// KemenagJakarta, MoroccoAwqaf so localStorage choices for these new
+// authorities survive validation.
 const _VALID_METHOD_KEYS = new Set([
     'Makkah', 'MWL', 'ISNA', 'Egypt', 'Karachi', 'Tehran', 'Jafari',
     'Gulf', 'Kuwait', 'Qatar', 'Singapore', 'Turkey', 'France', 'Russia',
+    'JAKIM', 'KemenagJakarta', 'MoroccoAwqaf',
 ]);
 
 // Read the user-explicit method choice from localStorage.

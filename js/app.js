@@ -2950,12 +2950,29 @@ async function initFromURL() {
             // Validate the shape minimally — we MUST have lat/lng + a
             // localized name + country before trusting it.
             if (isFinite(p.lat) && isFinite(p.lng) && p.name && p.country) {
+                // PROD-RABAT-CLIENT-OVERWRITE-FIX-1 (2026-05-26): trust the
+                // SSR-computed `timezoneOffset` (numeric UTC-offset in hours)
+                // when present. Previously this passed `null` unconditionally,
+                // which forced `loadCityData` → `fetchTimezone(lat,lng)` →
+                // Open-Meteo API → fragile `Math.round((lng/15)*2)/2` fallback
+                // on network failure (e.g. -0.5h for Rabat lng=-6.84). The
+                // SSR build (server.js `_buildSlugLookupResult`) now derives
+                // this from the curated IANA timezone via `_ianaOffsetHours`,
+                // so the client trusts the same value the SSR prayer-time
+                // pre-fill used → SSR and client compute identical times,
+                // and the "correct → wrong" flip is gone. Open-Meteo remains
+                // a fallback only for the non-curated paths (`geocodeSlug`,
+                // bare `LOCAL_CITIES` matches, URL ?lat&lng).
+                const _seedTzOffset =
+                    (typeof p.timezoneOffset === 'number' && isFinite(p.timezoneOffset))
+                        ? p.timezoneOffset
+                        : null;
                 await loadCityData(
                     p.lat, p.lng,
                     p.name, p.country,
                     (p.countryCode || '').toLowerCase(),
                     p.englishName || '',
-                    null  // timezone arg expects a NUMBER offset; let fetchTimezone resolve it from coords
+                    _seedTzOffset
                 );
                 return true;
             }

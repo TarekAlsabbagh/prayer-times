@@ -307,7 +307,30 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v355';
+// PROD-RABAT-CLIENT-OVERWRITE-FIX-1 (2026-05-26):
+//   v355 → v356. Fixes city-page prayer times flipping to wrong values
+//   ~1.5h earlier after JS load (most visible on Rabat: SSR showed 04:33
+//   Fajr → client overwrote with 03:03). Root cause: client read
+//   `window.__PRAYER_CITY__.timezone` ("Africa/Casablanca" IANA string)
+//   but `loadCityData()` was called with hard-coded `null` for the
+//   timezone arg, forcing a `fetchTimezone()` call to Open-Meteo whose
+//   `Math.round((lng/15)*2)/2` fallback returns `-0.5` for Rabat
+//   (correct: `+1`) → prayer times 1.5h early.
+//   Fix:
+//     • server.js `_buildSlugLookupResult` now emits a NUMERIC
+//       `timezoneOffset` field alongside the IANA `timezone` string,
+//       computed once via existing `_ianaOffsetHours(iana, now)`.
+//     • js/app.js `__PRAYER_CITY__` consumer now reads
+//       `p.timezoneOffset` and passes it as the 7th arg to
+//       `loadCityData`. Open-Meteo remains a fallback for
+//       non-curated paths (URL ?lat&lng, LOCAL_CITIES, geocodeSlug).
+//   Affected: all `/prayer-times-in-{city}`, `/moon-in-{city}`,
+//     `/moon-today-in-{city}`, `/qibla-in-{city}` routes for curated
+//     cities (Rabat, Istanbul, New York, Kuala Lumpur, etc.).
+//     Mecca/Riyadh were accidentally OK because their longitude was
+//     close to a multiple of 15° → fallback happened to be correct.
+//   Cache-buster: js/app.js?v=724 → ?v=725.
+const CACHE_VERSION = 'v356';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -3256,19 +3256,32 @@ function _buildSlugLookupResult(entry, lang, source) {
         _country = entry.admin.countryEn;
     }
     if (!_country) _country = _getCountryName(entry.countryCode, _code) || '';
+    // PROD-RABAT-CLIENT-OVERWRITE-FIX-1 (2026-05-26): compute a NUMERIC
+    // UTC-offset (hours) from the curated IANA timezone string so the
+    // client's `loadCityData` no longer has to fall back to Open-Meteo.
+    // Symptom this fixes: client previously ignored `__PRAYER_CITY__.timezone`
+    // (IANA string), passed `null`, and `fetchTimezone` returned a Math.round
+    // fallback (e.g. `-0.5` for Rabat lng=-6.84) when Open-Meteo failed —
+    // producing 1.5h-earlier prayer times on city pages. SSR has the exact
+    // offset already; piggyback it on `__PRAYER_CITY__` so client trusts it.
+    // `timezone` IANA string is preserved alongside for any caller that needs it.
+    const _tzOffsetNum = (typeof entry.timezone === 'string' && entry.timezone)
+        ? _ianaOffsetHours(entry.timezone, new Date())
+        : null;
     return {
-        slug:         entry.slug,
-        lat:          entry.lat,
-        lng:          entry.lng,
-        name:         _name,
-        englishName:  _englishName,
-        country:      _country,
-        countryCode:  entry.countryCode,
-        timezone:     entry.timezone,
-        type:         entry.type || 'city',
-        originalName: (entry.admin && typeof entry.admin.originalName === 'string')
-                          ? entry.admin.originalName : '',
-        source:       source || 'curated'
+        slug:           entry.slug,
+        lat:            entry.lat,
+        lng:            entry.lng,
+        name:           _name,
+        englishName:    _englishName,
+        country:        _country,
+        countryCode:    entry.countryCode,
+        timezone:       entry.timezone,
+        timezoneOffset: _tzOffsetNum,
+        type:           entry.type || 'city',
+        originalName:   (entry.admin && typeof entry.admin.originalName === 'string')
+                            ? entry.admin.originalName : '',
+        source:         source || 'curated'
     };
 }
 

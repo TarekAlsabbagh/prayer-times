@@ -74,6 +74,23 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// MALAYSIA-JAKIM-IHTIYAT-APPLY-1 + I18N-VERSION-BUMP-1 (2026-05-26):
+//   v349 → v350. Two coordinated changes:
+//     1. MALAYSIA-JAKIM-IHTIYAT-APPLY-1: applies JAKIM's published e-solat
+//        "ihtiyat" (احتياط) precaution-minutes to the JAKIM method —
+//        Fajr +10, Sunrise 0, Dhuhr +1, Asr +1, Maghrib +1, Isha +1.
+//        Added as `adj` field on the JAKIM method definition in
+//        js/prayer-times.js; applied in computeAllTimes BEFORE the
+//        user's `config.adjustment` so user overrides still work on top.
+//        Kuala Lumpur verification: 5/6 prayers EXACT match with Google,
+//        Fajr 05:49 (Google 05:50, 1 min — within tolerance).
+//        Other methods unaffected (no `adj` field) — Mexico City ISNA
+//        regression: 0-drift.
+//     2. I18N-VERSION-BUMP-1: bumps `_i18nVersion` in server.js from
+//        183 → 184 so returning visitors fetch the fresh per-lang i18n
+//        files containing the JAKIM/KemenagJakarta/MoroccoAwqaf method
+//        names from COUNTRY-SPECIFIC-CALC-METHODS-1.
+//   Cache-buster: js/prayer-times.js?v=49 → ?v=50.
 // MOON-DATE-TODAY-SUB-FILL-1 (2026-05-26):
 //   v348 → v349. The #moon-date-today-sub element under the "اليوم
 //   المعروض" center card of the moon-date-nav was empty on the city-today
@@ -177,7 +194,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v349';
+const CACHE_VERSION = 'v350';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

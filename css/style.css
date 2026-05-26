@@ -26907,3 +26907,115 @@ html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
         padding-inline: 18px !important;
     }
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MOON-HERO-MOBILE-CTA-FIX-1 (2026-05-26)
+   ───────────────────────────────────────────────────────────────────────────
+   User-reported: on /moon-today (mobile, viewport <768px), the primary
+   "use my location" CTA (`.qibla-hub-geo-btn`) was rendering as a giant
+   ~square card occupying most of the viewport, while the secondary
+   "pick city manually" button (`.qibla-hub-pick-btn`) was barely visible.
+   Hero contents also overflowed horizontally (elements cropped at L/R edges).
+
+   Root-cause analysis (CSS audit, no runtime change):
+   • `.qibla-dual-cta` is a 2-col grid (line ~15128) with `align-items: stretch`
+     and child `height: 100%` (line ~15143). At <=640px it correctly falls back
+     to `grid-template-columns: 1fr` (line ~15145), so the two buttons stack.
+     But the `height: 100%` + `align-items: stretch` combo can let one row's
+     intrinsic height (when the geo button wraps to 2+ lines on narrow Arabic
+     screens) propagate as the stretched height of BOTH rows — the user's
+     screenshot shows exactly this symptom.
+   • `min-height: 52px` was set at <=560px (line ~14936) but not extended to
+     768px; the modern mobile breakpoint everyone uses for tablets/portrait
+     is 767px. iPhone landscape + iPad portrait fall in the 561-767 gap.
+   • No `width: 100%`/`max-width: 100%`/`box-sizing` enforcement on
+     `.qibla-hub-hero-actions` children, so a long-Arabic-string label can
+     push the button past the hero-card right edge → horizontal scroll +
+     cropped chrome (the visible AR/SA badges on the user's screenshot are
+     proof of horizontal overflow).
+
+   Fix (scoped strictly to #page-moon, mobile only — desktop untouched):
+   1. Force `.qibla-dual-cta` to flex-column at <=767px (overrides the grid
+      and any inherited `height: 100%` stretching).
+   2. Cap button height: `min-height: 56px; height: auto; max-height: 72px`
+      via `!important` to defeat any inherited grid-track stretch + the
+      legacy `height: 100%`.
+   3. `width: 100%; max-width: 100%; box-sizing: border-box; padding: 14px 18px`
+      — both buttons identical pill geometry.
+   4. Hero card + nested wrappers get `overflow-x: hidden` + `max-width: 100%`
+      + `box-sizing: border-box` so nothing leaks past the card edges.
+
+   Scope guard: every selector is prefixed with `#page-moon`. The very same
+   `.qibla-hub-geo-btn` / `.qibla-hub-pick-btn` / `.qibla-dual-cta` classes
+   are reused on `/qibla` → those pages remain unchanged because the
+   selectors only match when the active page is `#page-moon`.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    /* (1) Hero container — clip any horizontal overflow at the card edge. */
+    #page-moon #moon-hub-hero,
+    #page-moon .qibla-hub-hero-card,
+    #page-moon .qibla-hub-hero-actions,
+    #page-moon .qibla-dual-cta {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    /* All descendants inside hero use border-box (paddings stay inside width). */
+    #page-moon #moon-hub-hero * {
+        box-sizing: border-box;
+    }
+
+    /* (2) Dual CTA — force column stack at the modern mobile breakpoint
+       (existing rule only triggers at <=640px). Drop the grid `stretch`
+       that turned one button into a square. */
+    #page-moon .qibla-dual-cta {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 18px auto 10px !important;
+        padding: 0 !important;
+    }
+
+    /* (3) Both buttons — identical compact pill geometry. The triple
+       `height: auto / max-height: 72px / aspect-ratio: auto` defeats any
+       legacy `height: 100%` (line ~15143) and any future aspect-ratio
+       declaration that might creep in. */
+    #page-moon .qibla-dual-cta > .qibla-hub-geo-btn,
+    #page-moon .qibla-dual-cta > .qibla-hub-pick-btn,
+    #page-moon .qibla-hub-geo-btn,
+    #page-moon .qibla-hub-pick-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 56px !important;
+        height: auto !important;
+        max-height: 72px !important;
+        aspect-ratio: auto !important;
+        padding: 14px 18px !important;
+        margin: 0 !important;
+        border-radius: 14px;
+        box-sizing: border-box;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px;
+
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.4;
+        text-align: center;
+    }
+    /* Inner span/svg of the geo button must NOT push the height past 72px. */
+    #page-moon .qibla-hub-geo-btn .qhb-label,
+    #page-moon .qibla-hub-geo-btn .qhb-label > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        line-height: 1.3;
+    }
+}
+

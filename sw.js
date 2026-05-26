@@ -74,7 +74,24 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
-const CACHE_VERSION = 'v342';
+// MOON-HERO-MOBILE-CTA-FIX-1 (2026-05-26):
+//   v342 → v343. CSS-only mobile responsive fix for /moon-today hero.
+//   The primary "use my location" CTA was rendering as a giant ~square
+//   card on mobile (≤767px); the secondary "pick city manually" button
+//   was barely visible. Hero contents also overflowed horizontally.
+//   Added a #page-moon-scoped @media (max-width: 767px) block that:
+//     • Forces .qibla-dual-cta to flex-column (overrides legacy grid).
+//     • Caps button geometry (min-height 56px, max-height 72px,
+//       height: auto, aspect-ratio: auto) — defeats the legacy
+//       `height: 100%` stretch that produced the square card.
+//     • Pins width/box-sizing on hero wrappers + adds overflow-x: hidden
+//       so chrome no longer crops at L/R viewport edges.
+//   Scope guard: every selector is prefixed with #page-moon. The same
+//   .qibla-hub-geo-btn / .qibla-hub-pick-btn / .qibla-dual-cta classes
+//   are reused on /qibla — those pages remain untouched. Desktop also
+//   untouched (rule body sits entirely inside the mobile @media query).
+//   Cache-buster: css/style.css?v=443 → ?v=444.
+const CACHE_VERSION = 'v343';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

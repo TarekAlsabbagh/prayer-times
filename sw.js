@@ -74,6 +74,27 @@
 //   Cache-busters: js/app.js?v=716 → ?v=717,
 //                  js/azkar-data.js?v=3 → ?v=4,
 //                  css/style.css?v=442 → ?v=443.
+// SSR-CONTENT-NO-SWAP-1 (2026-05-26):
+//   v350 → v351. Fixes a visible text "swap" / FOUC where 4 sidebar nav
+//   labels and the #loc-hero-title hero H1/H2 rendered with one Arabic
+//   string at first paint, then JS-hydrated to a different Arabic string.
+//   Caused by static HTML fallback text drifting from the i18n.js AR
+//   value (and from JS dynamic rewrites for city pages):
+//     • <span data-i18n="nav.qibla">          : "اتجاه القبلة" → "إتجاه القبلة"
+//     • <span data-i18n="nav.duas">           : "الأدعية والأذكار" → "الأذكار"
+//     • <span data-i18n="nav.hijri_today">    : "التاريخ الهجريّ اليوم" → "التاريخ الهجري"
+//     • <span data-i18n="nav.hijri_calendar"> : "التقويم الهجريّ" → "التقويم الهجري"
+//   Static text aligned to the i18n AR target in index.html so no
+//   client-side swap occurs.
+//
+//   Plus: new SSR injection in server.js for #loc-hero-title on
+//   /prayer-times-in-{city} pages. The JS function at app.js:12882
+//   rewrites the H2 to a city-specific tagline ("مواقيت الصلاة اليوم في
+//   {city} والتاريخ الهجريّ والميلاديّ"). The SSR layer now emits the
+//   same string for the first paint so the H2 is stable on city pages
+//   in all 10 langs. Homepage tagline already matched the static fallback,
+//   so the new block only fires when cityMatchSsr is truthy.
+//   Cache-buster: js/app.js?v=722 → ?v=723.
 // MALAYSIA-JAKIM-IHTIYAT-APPLY-1 + I18N-VERSION-BUMP-1 (2026-05-26):
 //   v349 → v350. Two coordinated changes:
 //     1. MALAYSIA-JAKIM-IHTIYAT-APPLY-1: applies JAKIM's published e-solat
@@ -194,7 +215,7 @@
 //   are reused on /qibla — those pages remain untouched. Desktop also
 //   untouched (rule body sits entirely inside the mobile @media query).
 //   Cache-buster: css/style.css?v=443 → ?v=444.
-const CACHE_VERSION = 'v350';
+const CACHE_VERSION = 'v351';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=722" as="script">
+    <link rel="preload" href="js/app.js?v=723" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -241,7 +241,7 @@
                 </a>
                 <a href="#" data-page="qibla">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-compass"/></svg>
-                    <span data-i18n="nav.qibla">اتجاه القبلة</span>
+                    <span data-i18n="nav.qibla">إتجاه القبلة</span>
                 </a>
                 <a href="#" data-page="moon">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-moon"/></svg>
@@ -253,7 +253,7 @@
                 </a>
                 <a href="/azkar" data-page="azkar">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-hands-praying"/></svg>
-                    <span data-i18n="nav.duas">الأدعية والأذكار</span>
+                    <span data-i18n="nav.duas">الأذكار</span>
                 </a>
                 <a href="#" data-page="tasbih">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-rosary"/></svg>
@@ -266,11 +266,11 @@
                 </div>
                 <a href="#" data-page="hijri-today">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-calendar-days"/></svg>
-                    <span data-i18n="nav.hijri_today">التاريخ الهجريّ اليوم</span>
+                    <span data-i18n="nav.hijri_today">التاريخ الهجري</span>
                 </a>
                 <a href="#" data-page="hijri-calendar">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-calendar-grid"/></svg>
-                    <span data-i18n="nav.hijri_calendar">التقويم الهجريّ</span>
+                    <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
                 </a>
                 <a href="#" data-page="date-converter">
                     <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-refresh-cw"/></svg>
@@ -4799,7 +4799,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=4"></script>
-    <script defer src="js/app.js?v=722"></script>
+    <script defer src="js/app.js?v=723"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

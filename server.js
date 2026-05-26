@@ -16009,6 +16009,44 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         );
     }
 
+    // LOC-HERO-TITLE-NO-SWAP-1 (2026-05-26):
+    //   #loc-hero-title is a separate visible H1/H2 (location-hero card)
+    //   whose text JS rewrites client-side via app.js:12882 _taglineByLang
+    //   to be city-specific on /prayer-times-in-{city} pages. Without an
+    //   SSR equivalent, the static HTML reads "مواقيت الصلاة اليوم والتاريخ
+    //   الهجريّ" until JS hydrates, then swaps to "مواقيت الصلاة اليوم في
+    //   {city} والتاريخ الهجريّ والميلاديّ" — visible FOUC the user
+    //   complained about. Mirror the JS strings here so SSR + client agree
+    //   on the first paint. Homepage tagline already matches the i18n base
+    //   string (no swap), so we only inject when there's a city slug.
+    if (cityMatchSsr) {
+        const _slugT = cityMatchSsr[1];
+        const _cityDisplayT = (typeof _resolveCityName === 'function')
+            ? (_resolveCityName(_slugT, seo.lang) || _slugToTitle(_slugT))
+            : _slugToTitle(_slugT);
+        const Lt = seo.lang;
+        const _taglineByLang = {
+            ar: `مواقيت الصلاة اليوم في ${_cityDisplayT} والتاريخ الهجريّ والميلاديّ`,
+            en: `Prayer Times Today in ${_cityDisplayT} — Hijri & Gregorian Date`,
+            fr: `Horaires de prière aujourd'hui à ${_cityDisplayT} — Date hégirienne et grégorienne`,
+            tr: `${_cityDisplayT} İçin Bugünün Namaz Vakitleri — Hicri ve Miladi Tarih`,
+            ur: `آج ${_cityDisplayT} میں اوقاتِ نماز — ہجری و عیسوی تاریخ`,
+            de: `Gebetszeiten heute in ${_cityDisplayT} — Hidschri- und gregorianisches Datum`,
+            id: `Jadwal Sholat Hari Ini di ${_cityDisplayT} — Tanggal Hijriah & Masehi`,
+            es: `Horarios de oración hoy en ${_cityDisplayT} — Fecha hijri y gregoriana`,
+            bn: `আজকের নামাজের সময়সূচি ${_cityDisplayT} — হিজরি ও গ্রেগরিয়ান তারিখ`,
+            ms: `Waktu Solat Hari Ini di ${_cityDisplayT} — Tarikh Hijrah & Masihi`
+        };
+        const _taglineText = _taglineByLang[Lt] || _taglineByLang.en;
+        // Replace the inner text of <... id="loc-hero-title" ...>…</…> regardless
+        // of whether it's H1 (initial static) or H2 (when JS has already
+        // downgraded). The regex matches any tag name to be future-proof.
+        html = html.replace(
+            /(<(?:h1|h2|h3)\b[^>]*\bid="loc-hero-title"[^>]*>)[^<]*(<\/(?:h1|h2|h3)>)/,
+            `$1${_escHtml(_taglineText)}$2`
+        );
+    }
+
     if (seo.countryListing) {
         // ── صفحة قائمة مدن دولة ── (6 لغات) — تمنع city-style SSR على URLs مثل /prayer-times-in-germany
         const cn = seo.countryListing.name;

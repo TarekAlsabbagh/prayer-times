@@ -457,7 +457,20 @@
 //   Scope: scoped under `#page-qibla` — no impact on /prayer-times-in-*,
 //   /moon-today, /azkar. Light mode visually identical to before.
 //   Cache-busters: css/style.css?v=449 → ?v=450; js/app.js?v=729 → ?v=730.
-const CACHE_VERSION = 'v363';
+// QIBLA-CITY-FAQ-SEO-EXPANSION-1 (2026-05-26):
+//   v363 → v364. Expanded FAQ on /qibla-in-{city} pages from 4 to 10 Q&A
+//   pairs across all 10 langs, targeting common search intents
+//   (compass / mobile / app-difference / north-or-south / city-to-city
+//   variance / approximate-angle). Existing 4 questions preserved.
+//   FAQPage JSON-LD reads from the same `faqItems` array as the
+//   visible <details> rendering, so DOM and schema stay byte-identical
+//   (no Google Search Console rich-result mismatch). City name still
+//   resolved via the same client name picker per lang. JS-only change:
+//   ~60 new Q&A pairs added inside `_QIBLA_UI[lang].faq(ctx)` functions.
+//   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
+//   /qibla hub, prayer-times/moon/azkar pages.
+//   Cache-buster: js/app.js?v=730 → ?v=731.
+const CACHE_VERSION = 'v364';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

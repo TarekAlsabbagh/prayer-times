@@ -14725,10 +14725,20 @@ const _QIBLA_UI = {
         link_home: `${_Q_ICON.home} الصفحة الرئيسية`,
         other_cities_title: 'مدن أخرى لاتجاه القبلة',
         faq_title: 'أسئلة شائعة',
+        // QIBLA-CITY-FAQ-SEO-EXPANSION-1 (2026-05-26): expanded from 4 to 10
+        // Q&A pairs targeting common search intents. Order preserved per
+        // user spec. JSON-LD FAQPage builder reads from the same array
+        // so visible DOM and rich-result schema stay byte-identical.
         faq: (ctx) => [
             [`ما هي زاوية القبلة من ${ctx.cityName}؟`, `زاوية القبلة من ${ctx.cityName} تساوي تقريباً ${ctx.angle}° باتجاه ${ctx.cardinal}، مُقاسة من الشمال الجغرافي باتجاه عقارب الساعة.`],
             [`كم تبعد ${ctx.cityName} عن الكعبة؟`, `المسافة بين ${ctx.cityName} والكعبة المشرفة في مكة المكرمة تبلغ ${ctx.distanceKm.toLocaleString('ar')} كم تقريباً.`],
+            [`كيف أعرف اتجاه القبلة من ${ctx.cityName}؟`, `يمكنك معرفة اتجاه القبلة من ${ctx.cityName} من خلال خريطة القبلة أو البوصلة الرقمية في الصفحة. تعتمد النتيجة على إحداثيات ${ctx.cityName} وموقع الكعبة المشرفة، ثم يُحسب أقصر اتجاه على سطح الأرض نحو القبلة.`],
+            [`ما اتجاه القبلة بالبوصلة في ${ctx.cityName}؟`, `اتجاه القبلة بالبوصلة في ${ctx.cityName} يُعرض على الصفحة كزاوية رقمية بالدرجات (${ctx.angle}°). وجّه البوصلة حتى تقترب من هذه الزاوية، مع الانتباه إلى أن دقة البوصلة قد تتأثر بالمعادن أو المغناطيس القريبة.`],
+            [`هل اتجاه القبلة في ${ctx.cityName} نحو الشمال أم الجنوب؟`, `يعتمد ذلك على موقع ${ctx.cityName} الجغرافي بالنسبة إلى مكة المكرمة. قد يكون اتجاه القبلة من بعض المدن مائلاً نحو الجنوب الشرقي أو الجنوب الغربي أو الشمال الشرقي. تعرض الصفحة زاوية القبلة الدقيقة (${ctx.angle}° — ${ctx.cardinal}) بدل الوصف العام.`],
+            [`هل يمكن تحديد القبلة من الجوال في ${ctx.cityName}؟`, `نعم، يمكن استخدام الجوال لمعرفة اتجاه القبلة في ${ctx.cityName} عبر البوصلة الرقمية أو خريطة القبلة. فعّل خدمات الموقع وحرّك الهاتف بعيداً عن الأجهزة المعدنية أو المغناطيسية، ثم قارن قراءة البوصلة بالزاوية المعروضة.`],
             [`كيف أحدّد اتجاه القبلة يدوياً؟`, `استخدم البوصلة أعلاه وأَدِر نفسك حتى يشير السهم إلى ${ctx.angle}°، مع الابتعاد عن المعادن لزيادة الدقة.`],
+            [`لماذا تختلف زاوية القبلة بين مدينة وأخرى؟`, `تختلف زاوية القبلة لأن كل مدينة تقع في إحداثيات جغرافية مختلفة. يُحسب الاتجاه من موقع المدينة إلى الكعبة المشرفة، لذلك تختلف زاوية ${ctx.cityName} عن مدينة أخرى داخل الدولة أو خارجها.`],
+            [`ما سبب اختلاف اتجاه القبلة بين التطبيقات؟`, `قد يختلف الاتجاه بين التطبيقات بسبب اختلاف طريقة الحساب أو دقة الإحداثيات أو تأثر بوصلة الهاتف بالمجال المغناطيسي. يُفضّل الاعتماد على إحداثيات دقيقة ومقارنة الزاوية المعروضة مع البوصلة بعد معايرتها.`],
             [`هل الصلاة صحيحة مع انحراف بسيط؟`, `نعم، الانحراف اليسير مغتفر شرعاً ما دام الاتجاه العام إلى الكعبة.`]
         ],
         footer: ctx => `اتجاه القبلة في ${ctx.cityName} هو ${ctx.angle}° (${ctx.cardinal})، وتبلغ المسافة إلى الكعبة المشرفة ${ctx.distanceKm.toLocaleString('ar')} كم. يمكنك استخدام البوصلة أعلاه لتحديد الاتجاه بدقّة، أو الاستفادة من الخدمات التالية المرتبطة بمدينة ${ctx.cityName}:`,
@@ -14763,7 +14773,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`What is the Qibla angle from ${ctx.cityName}?`, `The Qibla bearing from ${ctx.cityName} is about ${ctx.angle}° toward ${ctx.cardinal}, measured clockwise from true north.`],
             [`How far is ${ctx.cityName} from the Kaaba?`, `The great-circle distance between ${ctx.cityName} and the Kaaba is about ${ctx.distanceKm.toLocaleString('en')} km.`],
+            [`How do I find the Qibla direction from ${ctx.cityName}?`, `You can find the Qibla from ${ctx.cityName} using the digital compass or the Qibla map on this page. The result uses ${ctx.cityName}'s coordinates and the Kaaba's location to compute the shortest bearing on Earth's surface.`],
+            [`What is the Qibla compass bearing in ${ctx.cityName}?`, `The Qibla compass bearing in ${ctx.cityName} is shown on the page as a precise angle in degrees (${ctx.angle}°). Align your compass with that angle; accuracy can be affected by nearby metals or magnets.`],
+            [`Is the Qibla from ${ctx.cityName} toward the north or south?`, `It depends on ${ctx.cityName}'s position relative to Makkah. The Qibla can tilt toward the south-east, south-west, or north-east depending on the city. The page shows the exact bearing (${ctx.angle}° — ${ctx.cardinal}) instead of a generic direction.`],
+            [`Can I find the Qibla from my phone in ${ctx.cityName}?`, `Yes — use your phone's compass or the on-page Qibla map. Enable location services, keep the phone away from metal/magnets, and compare the compass reading against the angle shown on this page.`],
             [`How do I face the Qibla manually?`, `Use the compass above and turn until the needle points to ${ctx.angle}°; stay away from metal and magnets for better accuracy.`],
+            [`Why does the Qibla angle differ from one city to another?`, `Because each city sits at different geographic coordinates. The bearing is computed from each city's location to the Kaaba, so ${ctx.cityName}'s angle differs from another city's, even within the same country.`],
+            [`Why does the Qibla direction differ between apps?`, `Different apps may use different formulas, coordinate precision, or compass calibration. Prefer accurate coordinates and compare the shown angle against your compass after calibration.`],
             [`Is my prayer valid with a small deviation?`, `Yes — minor deviation is religiously excused as long as you face the general direction of the Kaaba.`]
         ],
         footer: ctx => `The Qibla direction from ${ctx.cityName} is ${ctx.angle}° (${ctx.cardinal}), and the distance to the Holy Kaaba is ${ctx.distanceKm.toLocaleString('en')} km. Use the compass above to align precisely, or jump to services linked to ${ctx.cityName}:`,
@@ -14792,7 +14808,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Quel est l'angle de la Qibla depuis ${ctx.cityName} ?`, `L'azimut de la Qibla depuis ${ctx.cityName} est d'environ ${ctx.angle}° vers ${ctx.cardinal}, mesuré dans le sens horaire à partir du nord géographique.`],
             [`Quelle est la distance entre ${ctx.cityName} et la Kaaba ?`, `La distance orthodromique entre ${ctx.cityName} et la Kaaba est d'environ ${ctx.distanceKm.toLocaleString('fr')} km.`],
+            [`Comment trouver la direction de la Qibla depuis ${ctx.cityName} ?`, `Vous pouvez trouver la Qibla depuis ${ctx.cityName} via la carte de la Qibla ou la boussole numérique sur cette page. Le résultat utilise les coordonnées de ${ctx.cityName} et la position de la Kaaba pour calculer le cap le plus court sur la surface terrestre.`],
+            [`Quel est le cap boussole de la Qibla à ${ctx.cityName} ?`, `Le cap boussole de la Qibla à ${ctx.cityName} est affiché sur la page sous forme d'angle précis en degrés (${ctx.angle}°). Alignez votre boussole sur cet angle ; la précision peut être affectée par des métaux ou aimants à proximité.`],
+            [`La Qibla depuis ${ctx.cityName} pointe-t-elle vers le nord ou le sud ?`, `Cela dépend de la position de ${ctx.cityName} par rapport à La Mecque. La Qibla peut pencher vers le sud-est, le sud-ouest ou le nord-est selon la ville. La page affiche le cap exact (${ctx.angle}° — ${ctx.cardinal}) au lieu d'une direction générique.`],
+            [`Puis-je trouver la Qibla depuis mon téléphone à ${ctx.cityName} ?`, `Oui — utilisez la boussole de votre téléphone ou la carte sur la page. Activez la localisation, éloignez le téléphone des métaux/aimants, puis comparez la boussole à l'angle affiché.`],
             [`Comment s'orienter vers la Qibla manuellement ?`, `Utilisez la boussole ci-dessus et tournez jusqu'à pointer ${ctx.angle}°; éloignez-vous du métal et des aimants pour plus de précision.`],
+            [`Pourquoi l'angle de la Qibla diffère-t-il d'une ville à l'autre ?`, `Parce que chaque ville se trouve à des coordonnées géographiques différentes. Le cap est calculé du lieu de la ville vers la Kaaba, donc l'angle de ${ctx.cityName} diffère de celui d'une autre ville, même dans le même pays.`],
+            [`Pourquoi la direction de la Qibla diffère-t-elle entre les applications ?`, `Les applications peuvent utiliser des formules différentes, une précision de coordonnées différente, ou une calibration de boussole différente. Préférez des coordonnées précises et comparez l'angle affiché à votre boussole après calibration.`],
             [`La prière est-elle valide avec un léger écart ?`, `Oui, un écart mineur est toléré tant que l'orientation générale est vers la Kaaba.`]
         ],
         footer: ctx => `La direction de la Qibla depuis ${ctx.cityName} est de ${ctx.angle}° (${ctx.cardinal}), et la distance jusqu'à la Sainte Kaaba est d'environ ${ctx.distanceKm.toLocaleString('fr')} km. Utilisez la boussole ci-dessus pour vous orienter précisément, ou accédez aux services liés à ${ctx.cityName} :`,
@@ -14821,7 +14843,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`${ctx.cityName} için kıble açısı nedir?`, `${ctx.cityName} için kıble açısı yaklaşık ${ctx.angle}°, ${ctx.cardinal} yönünde; coğrafi kuzeyden saat yönünde ölçülür.`],
             [`${ctx.cityName} Kâbe'ye ne kadar uzak?`, `${ctx.cityName} ile Kâbe arasındaki büyük daire mesafesi yaklaşık ${ctx.distanceKm.toLocaleString('tr')} km'dir.`],
+            [`${ctx.cityName} için kıble yönünü nasıl öğrenebilirim?`, `${ctx.cityName} için kıbleyi sayfadaki dijital pusula veya kıble haritası ile öğrenebilirsiniz. Sonuç, ${ctx.cityName} koordinatları ve Kâbe konumu kullanılarak Dünya yüzeyindeki en kısa rotaya göre hesaplanır.`],
+            [`${ctx.cityName}'da pusula ile kıble yönü nedir?`, `${ctx.cityName} için pusula kıble yönü sayfada hassas bir açı (${ctx.angle}°) olarak gösterilir. Pusulanızı bu açıya hizalayın; doğruluk yakındaki metaller veya mıknatıslardan etkilenebilir.`],
+            [`${ctx.cityName}'dan kıble kuzeye mi güneye mi bakar?`, `Bu ${ctx.cityName}'nın Mekke'ye göre konumuna bağlıdır. Kıble, şehre göre güneydoğu, güneybatı veya kuzeydoğuya eğilebilir. Sayfa, genel bir yön yerine tam açıyı (${ctx.angle}° — ${ctx.cardinal}) gösterir.`],
+            [`${ctx.cityName}'da telefondan kıbleyi bulabilir miyim?`, `Evet — telefonunuzun pusulasını veya sayfadaki kıble haritasını kullanın. Konum servislerini açın, telefonu metal/mıknatıslardan uzak tutun, sonra pusulayı sayfada gösterilen açıyla karşılaştırın.`],
             [`Kıbleye manuel olarak nasıl yönelirim?`, `Yukarıdaki pusulayı kullanın ve iğne ${ctx.angle}° gösterene kadar dönün; metal ve mıknatıslardan uzak durun.`],
+            [`Kıble açısı şehirden şehre neden değişir?`, `Her şehir farklı coğrafi koordinatlarda bulunduğu için. Yön, şehrin konumundan Kâbe'ye doğru hesaplandığından, ${ctx.cityName} açısı aynı ülkedeki veya başka ülkelerdeki bir şehirden farklıdır.`],
+            [`Kıble yönü uygulamalar arasında neden farklı?`, `Uygulamalar farklı formül, koordinat hassasiyeti veya pusula kalibrasyonu kullanabilir. Doğru koordinatlara güvenin ve gösterilen açıyı kalibre edilmiş pusulanızla karşılaştırın.`],
             [`Küçük bir sapma ile namaz geçerli mi?`, `Evet — genel olarak Kâbe'ye yöneldiğiniz sürece küçük sapmalar mazurdur.`]
         ],
         footer: ctx => `${ctx.cityName} için kıble yönü ${ctx.angle}° (${ctx.cardinal}), Kutsal Kâbe'ye uzaklık ise ${ctx.distanceKm.toLocaleString('tr')} km'dir. Hassas yönelim için yukarıdaki pusulayı kullanın veya ${ctx.cityName} ile ilgili aşağıdaki hizmetlere geçin:`,
@@ -14850,7 +14878,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`${ctx.cityName} سے قبلہ کا زاویہ کیا ہے؟`, `${ctx.cityName} سے قبلہ کا زاویہ تقریباً ${ctx.angle}° ہے بسمت ${ctx.cardinal}، جغرافیائی شمال سے گھڑی کی سوئی کی سمت ناپا جاتا ہے۔`],
             [`${ctx.cityName} کعبہ سے کتنا دور ہے؟`, `${ctx.cityName} اور کعبہ کے درمیان فاصلہ تقریباً ${ctx.distanceKm.toLocaleString('ur')} کلومیٹر ہے۔`],
+            [`${ctx.cityName} سے قبلہ کی سمت کیسے جانیں؟`, `صفحے پر موجود ڈیجیٹل کمپاس یا قبلہ نقشہ کے ذریعے ${ctx.cityName} سے قبلہ کی سمت جان سکتے ہیں۔ نتیجہ ${ctx.cityName} کے نقاط اور کعبہ کے مقام پر مبنی ہے، پھر زمین کی سطح پر مختصر ترین راستہ شمار کیا جاتا ہے۔`],
+            [`${ctx.cityName} میں کمپاس سے قبلہ کی سمت کیا ہے؟`, `${ctx.cityName} میں کمپاس سے قبلہ کی سمت صفحے پر درست زاویے (${ctx.angle}°) کے طور پر دکھائی جاتی ہے۔ کمپاس کو اسی زاویے پر منطبق کریں؛ قریبی دھات یا مقناطیس درستگی کو متاثر کر سکتے ہیں۔`],
+            [`کیا ${ctx.cityName} سے قبلہ شمال میں ہے یا جنوب میں؟`, `یہ ${ctx.cityName} کے مکہ مکرمہ سے جغرافیائی موقع پر منحصر ہے۔ قبلہ بعض شہروں سے جنوب مشرق، جنوب مغرب یا شمال مشرق کی طرف مائل ہو سکتا ہے۔ صفحہ عمومی سمت کے بجائے درست زاویہ (${ctx.angle}° — ${ctx.cardinal}) دکھاتا ہے۔`],
+            [`کیا ${ctx.cityName} میں موبائل سے قبلہ معلوم کر سکتے ہیں؟`, `جی ہاں — موبائل کا کمپاس یا صفحے کے قبلہ نقشے کا استعمال کریں۔ لوکیشن سروسز فعال کریں، موبائل کو دھات/مقناطیس سے دور رکھیں، پھر کمپاس کی قراءت کو صفحے پر دکھائے گئے زاویے سے ملائیں۔`],
             [`قبلہ کی سمت کیسے متعین کریں؟`, `اوپر دی گئی بوصلہ استعمال کریں اور اس وقت تک مڑیں جب تک سوئی ${ctx.angle}° کی طرف اشارہ نہ کرے، دھات و مقناطیس سے دور رہیں۔`],
+            [`قبلہ کا زاویہ ایک شہر سے دوسرے شہر میں کیوں مختلف ہوتا ہے؟`, `کیونکہ ہر شہر مختلف جغرافیائی نقاط پر واقع ہے۔ سمت کا حساب شہر کے مقام سے کعبہ تک کیا جاتا ہے، اس لیے ${ctx.cityName} کا زاویہ ایک ہی ملک یا دوسرے ملک میں موجود کسی اور شہر سے مختلف ہوتا ہے۔`],
+            [`قبلہ کی سمت ایپس کے درمیان مختلف کیوں ہوتی ہے؟`, `ایپس مختلف فارمولے، نقاط کی درستگی یا کمپاس کیلیبریشن استعمال کر سکتی ہیں۔ درست نقاط پر اعتماد کریں اور کمپاس کیلیبریشن کے بعد دکھایا گیا زاویہ موازنہ کریں۔`],
             [`کیا معمولی فرق کے ساتھ نماز درست ہے؟`, `جی ہاں، معمولی انحراف شرعاً معاف ہے جب تک آپ عمومی طور پر کعبہ کی طرف ہوں۔`]
         ],
         footer: ctx => `${ctx.cityName} سے سمتِ قبلہ ${ctx.angle}° (${ctx.cardinal}) ہے، اور کعبہ مکرمہ تک فاصلہ ${ctx.distanceKm.toLocaleString('ur')} کلومیٹر ہے۔ درست سمت کے لیے اوپر دی گئی بوصلہ استعمال کریں، یا ${ctx.cityName} سے متعلقہ درج ذیل خدمات پر جائیں:`,
@@ -14879,7 +14913,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Wie groß ist der Qibla-Winkel von ${ctx.cityName}?`, `Die Qibla-Peilung von ${ctx.cityName} beträgt etwa ${ctx.angle}° nach ${ctx.cardinal}, im Uhrzeigersinn vom geografischen Norden gemessen.`],
             [`Wie weit ist ${ctx.cityName} von der Kaaba entfernt?`, `Die Großkreis-Entfernung zwischen ${ctx.cityName} und der Kaaba beträgt etwa ${ctx.distanceKm.toLocaleString('de')} km.`],
+            [`Wie finde ich die Qibla-Richtung von ${ctx.cityName}?`, `Sie können die Qibla von ${ctx.cityName} über den digitalen Kompass oder die Qibla-Karte auf dieser Seite finden. Das Ergebnis nutzt die Koordinaten von ${ctx.cityName} und die Lage der Kaaba, um die kürzeste Peilung auf der Erdoberfläche zu berechnen.`],
+            [`Wie groß ist der Qibla-Kompasswinkel in ${ctx.cityName}?`, `Der Qibla-Kompasswinkel in ${ctx.cityName} wird auf der Seite als präziser Winkel (${ctx.angle}°) angezeigt. Richten Sie Ihren Kompass auf diesen Winkel aus; nahe gelegene Metalle oder Magnete können die Genauigkeit beeinflussen.`],
+            [`Zeigt die Qibla von ${ctx.cityName} nach Norden oder Süden?`, `Das hängt von der Lage von ${ctx.cityName} zu Mekka ab. Die Qibla kann je nach Stadt nach Südosten, Südwesten oder Nordosten zeigen. Die Seite zeigt die exakte Peilung (${ctx.angle}° — ${ctx.cardinal}) statt einer allgemeinen Richtung.`],
+            [`Kann ich die Qibla in ${ctx.cityName} mit meinem Handy finden?`, `Ja — nutzen Sie den Handy-Kompass oder die Qibla-Karte auf der Seite. Aktivieren Sie Ortungsdienste, halten Sie das Handy von Metallen/Magneten fern und vergleichen Sie die Kompassanzeige mit dem angezeigten Winkel.`],
             [`Wie richte ich mich manuell zur Qibla aus?`, `Benutzen Sie den Kompass oben und drehen Sie sich, bis die Nadel auf ${ctx.angle}° zeigt; halten Sie sich von Metall und Magneten fern.`],
+            [`Warum unterscheidet sich der Qibla-Winkel zwischen Städten?`, `Weil jede Stadt an unterschiedlichen geografischen Koordinaten liegt. Die Peilung wird vom Stadtstandort zur Kaaba berechnet, daher unterscheidet sich der Winkel von ${ctx.cityName} von dem einer anderen Stadt im gleichen Land oder im Ausland.`],
+            [`Warum unterscheidet sich die Qibla-Richtung zwischen Apps?`, `Apps können unterschiedliche Formeln, Koordinaten-Präzisionen oder Kompass-Kalibrierungen verwenden. Vertrauen Sie genauen Koordinaten und vergleichen Sie den angezeigten Winkel nach Kalibrierung mit Ihrem Kompass.`],
             [`Ist mein Gebet bei kleiner Abweichung gültig?`, `Ja — eine geringfügige Abweichung ist religiös entschuldigt, solange Sie in die allgemeine Richtung der Kaaba schauen.`]
         ],
         footer: ctx => `Die Qibla-Richtung von ${ctx.cityName} beträgt ${ctx.angle}° (${ctx.cardinal}), die Entfernung zur heiligen Kaaba liegt bei ${ctx.distanceKm.toLocaleString('de')} km. Richten Sie sich mit dem Kompass oben präzise aus oder nutzen Sie die folgenden auf ${ctx.cityName} bezogenen Dienste:`,
@@ -14908,7 +14948,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Berapa sudut kiblat dari ${ctx.cityName}?`, `Sudut kiblat dari ${ctx.cityName} sekitar ${ctx.angle}° ke arah ${ctx.cardinal}, diukur searah jarum jam dari utara sejati.`],
             [`Berapa jarak ${ctx.cityName} ke Kakbah?`, `Jarak lingkaran besar antara ${ctx.cityName} dan Kakbah sekitar ${ctx.distanceKm.toLocaleString('id')} km.`],
+            [`Bagaimana cara mengetahui arah kiblat dari ${ctx.cityName}?`, `Anda dapat mengetahui arah kiblat dari ${ctx.cityName} melalui kompas digital atau peta kiblat di halaman ini. Hasilnya menggunakan koordinat ${ctx.cityName} dan lokasi Kakbah, lalu menghitung jalur terpendek di permukaan bumi.`],
+            [`Berapa arah kiblat kompas di ${ctx.cityName}?`, `Arah kiblat kompas di ${ctx.cityName} ditampilkan di halaman sebagai sudut presisi (${ctx.angle}°). Selaraskan kompas Anda dengan sudut tersebut; akurasi dapat dipengaruhi oleh logam atau magnet di sekitar.`],
+            [`Apakah kiblat dari ${ctx.cityName} ke utara atau selatan?`, `Tergantung pada lokasi geografis ${ctx.cityName} terhadap Makkah. Kiblat bisa miring ke tenggara, barat daya, atau timur laut tergantung kota. Halaman menampilkan sudut tepat (${ctx.angle}° — ${ctx.cardinal}) alih-alih arah umum.`],
+            [`Apakah saya bisa menentukan kiblat dari ponsel di ${ctx.cityName}?`, `Ya — gunakan kompas ponsel atau peta kiblat di halaman. Aktifkan layanan lokasi, jauhkan ponsel dari logam/magnet, lalu bandingkan bacaan kompas dengan sudut yang ditampilkan.`],
             [`Bagaimana menentukan kiblat secara manual?`, `Gunakan kompas di atas dan putar tubuh hingga jarum menunjuk ke ${ctx.angle}°; jauhkan dari logam dan magnet.`],
+            [`Mengapa sudut kiblat berbeda antara kota?`, `Karena setiap kota memiliki koordinat geografis berbeda. Sudut dihitung dari lokasi kota ke Kakbah, sehingga sudut ${ctx.cityName} berbeda dari kota lain di dalam negeri maupun luar negeri.`],
+            [`Mengapa arah kiblat berbeda antar aplikasi?`, `Aplikasi dapat menggunakan rumus, presisi koordinat, atau kalibrasi kompas yang berbeda. Percayai koordinat akurat dan bandingkan sudut yang ditampilkan dengan kompas setelah kalibrasi.`],
             [`Apakah salat sah dengan sedikit pergeseran?`, `Ya — pergeseran kecil dimaafkan selama Anda menghadap arah umum Kakbah.`]
         ],
         footer: ctx => `Arah kiblat dari ${ctx.cityName} adalah ${ctx.angle}° (${ctx.cardinal}), dan jarak ke Kakbah yang mulia sekitar ${ctx.distanceKm.toLocaleString('id')} km. Gunakan kompas di atas untuk mengarah dengan tepat, atau buka layanan berikut yang terkait dengan ${ctx.cityName}:`,
@@ -14937,7 +14983,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`¿Cuál es el ángulo de la Qibla desde ${ctx.cityName}?`, `El rumbo de la Qibla desde ${ctx.cityName} es de unos ${ctx.angle}° hacia ${ctx.cardinal}, medido en sentido horario desde el norte verdadero.`],
             [`¿A qué distancia está ${ctx.cityName} de la Kaaba?`, `La distancia ortodrómica entre ${ctx.cityName} y la Kaaba es de unos ${ctx.distanceKm.toLocaleString('es')} km.`],
+            [`¿Cómo encuentro la dirección de la Qibla desde ${ctx.cityName}?`, `Puede encontrar la Qibla desde ${ctx.cityName} usando la brújula digital o el mapa de la Qibla en esta página. El resultado usa las coordenadas de ${ctx.cityName} y la ubicación de la Kaaba para calcular el rumbo más corto en la superficie terrestre.`],
+            [`¿Cuál es el rumbo de brújula de la Qibla en ${ctx.cityName}?`, `El rumbo de brújula de la Qibla en ${ctx.cityName} se muestra en la página como un ángulo preciso (${ctx.angle}°). Alinee su brújula con ese ángulo; la precisión puede verse afectada por metales o imanes cercanos.`],
+            [`¿La Qibla desde ${ctx.cityName} apunta al norte o al sur?`, `Depende de la posición de ${ctx.cityName} respecto a La Meca. La Qibla puede inclinarse hacia el sureste, suroeste o noreste según la ciudad. La página muestra el rumbo exacto (${ctx.angle}° — ${ctx.cardinal}) en lugar de una dirección genérica.`],
+            [`¿Puedo determinar la Qibla desde mi móvil en ${ctx.cityName}?`, `Sí — use la brújula del móvil o el mapa de la Qibla en la página. Active los servicios de ubicación, mantenga el móvil lejos de metales/imanes y compare la lectura de la brújula con el ángulo mostrado.`],
             [`¿Cómo oriento manualmente hacia la Qibla?`, `Use la brújula de arriba y gire hasta que la aguja apunte a ${ctx.angle}°; manténgase lejos de metales e imanes.`],
+            [`¿Por qué difiere el ángulo de la Qibla entre ciudades?`, `Porque cada ciudad se encuentra en coordenadas geográficas diferentes. El rumbo se calcula desde la ubicación de la ciudad hacia la Kaaba, por lo que el ángulo de ${ctx.cityName} difiere del de otra ciudad, en el mismo país o en otro.`],
+            [`¿Por qué difiere la dirección de la Qibla entre aplicaciones?`, `Las aplicaciones pueden usar fórmulas, precisión de coordenadas o calibración de brújula diferentes. Confíe en coordenadas precisas y compare el ángulo mostrado con su brújula tras calibrarla.`],
             [`¿Es válida la oración con una pequeña desviación?`, `Sí — una desviación leve está excusada siempre que mire en la dirección general de la Kaaba.`]
         ],
         footer: ctx => `La dirección de la Qibla desde ${ctx.cityName} es de ${ctx.angle}° (${ctx.cardinal}), y la distancia a la Sagrada Kaaba es de unos ${ctx.distanceKm.toLocaleString('es')} km. Use la brújula de arriba para orientarse con precisión, o acceda a los siguientes servicios vinculados a ${ctx.cityName}:`,
@@ -14966,7 +15018,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`${ctx.cityName} থেকে কিবলার কোণ কত?`, `${ctx.cityName} থেকে কিবলার কোণ আনুমানিক ${ctx.angle}° ${ctx.cardinal} অভিমুখে, প্রকৃত উত্তর থেকে ঘড়ির কাঁটার দিকে মাপা হয়।`],
             [`${ctx.cityName} কাবা থেকে কত দূরে?`, `${ctx.cityName} এবং কাবার মধ্যে মহাবৃত্তীয় দূরত্ব প্রায় ${ctx.distanceKm.toLocaleString('bn')} কিমি।`],
+            [`${ctx.cityName} থেকে কিবলার দিক কীভাবে জানব?`, `পৃষ্ঠার ডিজিটাল কম্পাস বা কিবলা মানচিত্রের মাধ্যমে ${ctx.cityName} থেকে কিবলার দিক জানতে পারেন। ফলাফল ${ctx.cityName}-এর স্থানাঙ্ক ও কাবার অবস্থানের উপর ভিত্তি করে পৃথিবীর পৃষ্ঠে সবচেয়ে ছোট দিক গণনা করা হয়।`],
+            [`${ctx.cityName}-এ কম্পাসে কিবলার দিক কী?`, `${ctx.cityName}-এ কম্পাসে কিবলার দিক পৃষ্ঠায় সঠিক কোণ (${ctx.angle}°) হিসেবে প্রদর্শিত হয়। আপনার কম্পাসকে এই কোণের সাথে সারিবদ্ধ করুন; কাছাকাছি ধাতু বা চুম্বক নির্ভুলতাকে প্রভাবিত করতে পারে।`],
+            [`${ctx.cityName} থেকে কিবলা কি উত্তরে নাকি দক্ষিণে?`, `এটি মক্কার তুলনায় ${ctx.cityName}-এর ভৌগোলিক অবস্থানের উপর নির্ভর করে। শহর অনুযায়ী কিবলা দক্ষিণ-পূর্ব, দক্ষিণ-পশ্চিম বা উত্তর-পূর্ব দিকে হেলতে পারে। পৃষ্ঠা সাধারণ দিকের পরিবর্তে সঠিক কোণ (${ctx.angle}° — ${ctx.cardinal}) দেখায়।`],
+            [`${ctx.cityName}-এ মোবাইল থেকে কি কিবলা নির্ধারণ করা যায়?`, `হ্যাঁ — আপনার মোবাইলের কম্পাস বা পৃষ্ঠার কিবলা মানচিত্র ব্যবহার করুন। অবস্থান পরিষেবা সক্রিয় করুন, মোবাইল ধাতু/চুম্বক থেকে দূরে রাখুন, তারপর কম্পাসের পাঠ পৃষ্ঠায় দেখানো কোণের সাথে তুলনা করুন।`],
             [`ম্যানুয়ালি কিবলার দিক কীভাবে নির্ধারণ করব?`, `উপরের কম্পাস ব্যবহার করুন এবং সূঁচ ${ctx.angle}° না পৌঁছানো পর্যন্ত ঘুরুন; ধাতু ও চুম্বক থেকে দূরে থাকুন।`],
+            [`কেন কিবলার কোণ শহর থেকে শহরে আলাদা?`, `কারণ প্রতিটি শহর ভিন্ন ভৌগোলিক স্থানাঙ্কে অবস্থিত। দিকটি শহরের অবস্থান থেকে কাবা পর্যন্ত গণনা করা হয়, তাই ${ctx.cityName}-এর কোণ একই দেশে বা অন্য দেশে অন্য শহরের কোণ থেকে আলাদা।`],
+            [`অ্যাপগুলির মধ্যে কিবলার দিক কেন আলাদা?`, `অ্যাপগুলি ভিন্ন সূত্র, স্থানাঙ্কের নির্ভুলতা বা কম্পাস ক্যালিব্রেশন ব্যবহার করতে পারে। সঠিক স্থানাঙ্কের উপর নির্ভর করুন এবং ক্যালিব্রেশনের পরে কম্পাসের সাথে দেখানো কোণ তুলনা করুন।`],
             [`সামান্য ভিন্নতায় কি নামাজ শুদ্ধ?`, `হ্যাঁ — যতক্ষণ আপনি সাধারণভাবে কাবার দিকে মুখ করে আছেন, সামান্য বিচ্যুতি শরীয়তের দৃষ্টিতে মাফ।`]
         ],
         footer: ctx => `${ctx.cityName} থেকে কিবলার দিক ${ctx.angle}° (${ctx.cardinal}), এবং পবিত্র কাবা পর্যন্ত দূরত্ব প্রায় ${ctx.distanceKm.toLocaleString('bn')} কিমি। সঠিকভাবে মুখ করার জন্য উপরের কম্পাস ব্যবহার করুন, অথবা ${ctx.cityName}-এর সাথে সম্পর্কিত নিম্নলিখিত পরিষেবাগুলিতে যান:`,
@@ -14995,7 +15053,13 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Apakah sudut kiblat dari ${ctx.cityName}?`, `Sudut kiblat dari ${ctx.cityName} adalah kira-kira ${ctx.angle}° menuju ${ctx.cardinal}, diukur mengikut arah jam dari utara sebenar.`],
             [`Berapa jauh ${ctx.cityName} dari Kaabah?`, `Jarak bulatan agung antara ${ctx.cityName} dan Kaabah adalah kira-kira ${ctx.distanceKm.toLocaleString('ms')} km.`],
+            [`Bagaimana mencari arah kiblat dari ${ctx.cityName}?`, `Anda boleh mencari kiblat dari ${ctx.cityName} menggunakan kompas digital atau peta kiblat di halaman ini. Hasilnya menggunakan koordinat ${ctx.cityName} dan lokasi Kaabah, kemudian mengira laluan terpendek di permukaan bumi.`],
+            [`Apakah bacaan kompas kiblat di ${ctx.cityName}?`, `Bacaan kompas kiblat di ${ctx.cityName} dipaparkan di halaman sebagai sudut tepat (${ctx.angle}°). Selariskan kompas anda dengan sudut tersebut; ketepatan boleh dipengaruhi oleh logam atau magnet berhampiran.`],
+            [`Adakah kiblat dari ${ctx.cityName} ke utara atau selatan?`, `Ini bergantung pada kedudukan ${ctx.cityName} berbanding Mekah. Kiblat boleh condong ke tenggara, barat daya atau timur laut bergantung pada bandar. Halaman memaparkan sudut tepat (${ctx.angle}° — ${ctx.cardinal}) berbanding arah umum.`],
+            [`Bolehkah saya menentukan kiblat dari telefon di ${ctx.cityName}?`, `Ya — gunakan kompas telefon atau peta kiblat di halaman. Aktifkan perkhidmatan lokasi, jauhkan telefon daripada logam/magnet, kemudian bandingkan bacaan kompas dengan sudut yang dipaparkan.`],
             [`Bagaimana menentukan kiblat secara manual?`, `Gunakan kompas di atas dan pusing sehingga jarum menunjuk ke ${ctx.angle}°; jauhkan dari logam dan magnet.`],
+            [`Mengapa sudut kiblat berbeza antara bandar?`, `Kerana setiap bandar terletak pada koordinat geografi yang berbeza. Sudut dikira dari lokasi bandar ke Kaabah, jadi sudut ${ctx.cityName} berbeza dengan bandar lain di dalam negara atau di luar negara.`],
+            [`Mengapa arah kiblat berbeza antara aplikasi?`, `Aplikasi mungkin menggunakan formula, ketepatan koordinat atau penentukuran kompas yang berbeza. Percayai koordinat tepat dan bandingkan sudut yang dipaparkan dengan kompas anda selepas penentukuran.`],
             [`Adakah solat sah dengan sedikit penyimpangan?`, `Ya — penyimpangan kecil dimaafkan selagi anda menghadap arah umum Kaabah.`]
         ],
         footer: ctx => `Arah kiblat dari ${ctx.cityName} ialah ${ctx.angle}° (${ctx.cardinal}), dan jarak ke Kaabah yang mulia adalah kira-kira ${ctx.distanceKm.toLocaleString('ms')} km. Gunakan kompas di atas untuk mengarah dengan tepat, atau lawati perkhidmatan berikut yang berkaitan dengan ${ctx.cityName}:`,

@@ -470,7 +470,32 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
-const CACHE_VERSION = 'v364';
+// QIBLA-HUB-MOBILE-CTA-FIX-1 (2026-05-27):
+//   v364 → v365. Mobile-responsive polish for /qibla hub hero card.
+//   User report: on viewports <768px, the primary "use my location" CTA
+//   rendered as a giant near-square block, the secondary "pick a city"
+//   button cropped, and trust chips overflowed the card edges.
+//   User CRITICAL constraint: KEEP ALL 8 hero elements visible on mobile —
+//   do NOT hide smart-pill, subtitle, microcopy note, or trust chips.
+//   Desktop layout must remain UNCHANGED.
+//   Fix: new `@media (max-width: 767px)` block in css/style.css scoped
+//   strictly under `#page-qibla`, mirroring the earlier
+//   MOON-HERO-MOBILE-CTA-FIX-1 pattern at line ~27296. The shared
+//   classes (.qibla-dual-cta / .qibla-hub-geo-btn / .qibla-hub-pick-btn /
+//   .qibla-hub-hero-card / .qibla-hub-hero-badges) are used on BOTH
+//   /qibla AND /moon-today; each page now has its own scoped mobile
+//   block so neither leaks into the other.
+//   Rules added: (1) hero overflow-x:hidden + box-sizing border-box +
+//   padding 20px/14px (2) H1 clamp() (3) subtitle 0.95rem (4) smart-pill
+//   compact (5) hero search width 100% min-height 52px (6) dual CTA
+//   flex-column !important (7) both buttons full-width 56px pill geometry
+//   with `height: auto / max-height: none / aspect-ratio: auto` to defeat
+//   any legacy stretch (8a) microcopy centered (8b) trust chips justified
+//   center with flex-wrap.
+//   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
+//   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
+//   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
+const CACHE_VERSION = 'v365';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

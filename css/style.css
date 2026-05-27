@@ -27371,3 +27371,182 @@ html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   QIBLA-HUB-MOBILE-CTA-FIX-1 (2026-05-27)
+   ───────────────────────────────────────────────────────────────────────────
+   User-reported: on /qibla (mobile, viewport <768px), the hub hero card
+   showed the primary "use my location" CTA (`.qibla-hub-geo-btn`) as a
+   giant near-square block while the secondary "pick a city manually"
+   button (`.qibla-hub-pick-btn`) was barely visible. Trust chips
+   (`.qibla-hub-hero-badges`) overflowed the card edges.
+
+   User CRITICAL constraint: KEEP ALL 8 hero elements visible on mobile —
+   do NOT hide anything, do NOT remove the smart-pill / subtitle / note /
+   trust chips. The task is purely a responsive reorganization. Desktop
+   layout must remain UNCHANGED.
+
+   The 8 elements (HTML order in #qibla-hub-hero):
+     1. `.qibla-hub-smart-pill`         — "آخر موقع استخدمته: جدة → القبلة"
+     2. `.qibla-hero-title` (H1)        — "اعرف اتجاه القبلة بدقة..."
+     3. `.qibla-hub-subtitle`           — explanatory line under H1
+     4. `.cps-input` (hero search)      — search-by-city input
+     5. `.qibla-hub-geo-btn`            — green primary CTA
+     6. `.qibla-hub-pick-btn`           — outlined secondary CTA
+     7. `#qibla-hub-geo-microcopy`      — "سيتم تحديد موقعك..." note
+     8. `.qibla-hub-hero-badges`        — "✓ يعمل في جميع الدول" trust chips
+
+   Mirror of MOON-HERO-MOBILE-CTA-FIX-1 (line ~27296) but scoped strictly
+   to #page-qibla so the two pages remain independent. Shared selectors
+   (.qibla-dual-cta / .qibla-hub-geo-btn / .qibla-hub-pick-btn / etc.)
+   are used on BOTH /qibla AND /moon-today — each page gets its own
+   scoped block so neither leaks into the other.
+
+   Fix (scoped strictly to #page-qibla, mobile <=767px only — desktop untouched):
+   1. Hero card + nested wrappers: overflow-x:hidden + max-width:100% +
+      box-sizing:border-box. Padding tightened to 20px 14px.
+   2. H1: clamp() so the long Arabic title fits without overflow.
+   3. Subtitle: comfortable mobile reading size.
+   4. Smart-pill: compact font + center-friendly.
+   5. Search input (hero variant): width 100%, comfortable tap target.
+   6. Dual CTA: flex-direction:column + grid-template-columns:none to
+      stack the two buttons. Identical compact pill geometry.
+   7. Microcopy note: centered, smaller font.
+   8. Hero badges (trust chips): center + flex-wrap so all chips visible.
+
+   Scope guard: every selector is prefixed with `#page-qibla`. Existing
+   /moon-today fix at line ~27296 is unchanged.
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    /* (1) Hero container — clip any horizontal overflow at the card edge. */
+    #page-qibla #qibla-hub-hero,
+    #page-qibla .qibla-hub-hero-card,
+    #page-qibla .qibla-hub-hero-actions,
+    #page-qibla .qibla-dual-cta {
+        max-width: 100%;
+        box-sizing: border-box;
+        overflow-x: hidden;
+    }
+    #page-qibla #qibla-hub-hero {
+        padding: 20px 14px;
+    }
+    /* All descendants inside hero use border-box (paddings stay inside width). */
+    #page-qibla #qibla-hub-hero * {
+        box-sizing: border-box;
+        max-width: 100%;
+    }
+
+    /* (2) H1 title — scale down so the long Arabic title doesn't wrap awkwardly. */
+    #page-qibla #qibla-hub-hero .qibla-hero-title {
+        font-size: clamp(1.55rem, 5.6vw, 2.1rem);
+        line-height: 1.25;
+        margin: 6px 0 8px;
+    }
+
+    /* (3) Subtitle — comfortable mobile reading. */
+    #page-qibla #qibla-hub-hero .qibla-hub-subtitle {
+        font-size: 0.95rem;
+        line-height: 1.65;
+        margin: 4px 0 10px;
+        max-width: 100%;
+    }
+
+    /* (4) Smart-pill above H1 — compact + visible. */
+    #page-qibla .qibla-hub-smart-pill {
+        font-size: 0.86rem;
+        padding: 7px 12px;
+        max-width: 100%;
+    }
+
+    /* (5) Search input (hero variant) — full width, comfortable tap target. */
+    #page-qibla #qibla-hub-hero .city-page-search,
+    #page-qibla #qibla-hub-hero .cps-inner,
+    #page-qibla #qibla-hub-hero .cps-input {
+        width: 100%;
+        max-width: 100%;
+    }
+    #page-qibla #qibla-hub-hero .cps-input {
+        font-size: 1rem;
+        min-height: 52px;
+    }
+
+    /* (6) Dual CTA — force column stack at the modern mobile breakpoint
+       (existing rule only triggers at <=640px). Drop the grid `stretch`
+       that turned one button into a square on tablet-portrait sizes. */
+    #page-qibla .qibla-dual-cta {
+        display: flex !important;
+        flex-direction: column !important;
+        grid-template-columns: none !important;
+        align-items: stretch !important;
+        gap: 12px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 14px auto 10px !important;
+        padding: 0 !important;
+    }
+
+    /* (7) Both buttons — identical compact pill geometry. The triple
+       `height: auto / max-height: none / aspect-ratio: auto` defeats any
+       legacy `height: 100%` (line ~15477) and any future aspect-ratio
+       declaration that might creep in. `max-height: none` lets the pill
+       grow naturally for long-language labels (DE/BN/UR) without cropping.
+       Vertical compactness preserved via padding + line-height, not by
+       capping the height. */
+    #page-qibla .qibla-dual-cta > .qibla-hub-geo-btn,
+    #page-qibla .qibla-dual-cta > .qibla-hub-pick-btn,
+    #page-qibla .qibla-hub-geo-btn,
+    #page-qibla .qibla-hub-pick-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-height: 56px !important;
+        height: auto !important;
+        max-height: none !important;
+        aspect-ratio: auto !important;
+        padding: 14px 18px !important;
+        margin: 0 !important;
+        border-radius: 14px;
+        box-sizing: border-box;
+
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        gap: 10px;
+
+        font-size: 1rem;
+        font-weight: 700;
+        line-height: 1.4;
+        text-align: center;
+    }
+    /* Inner span/svg of the geo button — clean inline alignment. */
+    #page-qibla .qibla-hub-geo-btn .qhb-label,
+    #page-qibla .qibla-hub-geo-btn .qhb-label > span {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        line-height: 1.3;
+    }
+
+    /* (8a) Microcopy note + status — centered, slightly smaller for mobile. */
+    #page-qibla #qibla-hub-geo-microcopy,
+    #page-qibla #qibla-hub-geo-status {
+        text-align: center;
+        font-size: 0.88rem;
+        line-height: 1.5;
+        margin: 8px 0 0;
+        max-width: 100%;
+    }
+
+    /* (8b) Trust chips (hero badges) — centered + wrap-friendly so every
+       chip remains visible without horizontal scroll on narrow viewports. */
+    #page-qibla .qibla-hub-hero-badges {
+        justify-content: center;
+        gap: 6px;
+        margin: 12px 0 0;
+        padding: 0;
+        flex-wrap: wrap;
+    }
+    #page-qibla .qibla-hub-hero-badges li {
+        font-size: 0.82rem;
+        padding: 5px 10px;
+    }
+}
+

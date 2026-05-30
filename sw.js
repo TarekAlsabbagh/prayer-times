@@ -470,6 +470,29 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// MOON-CURRENT-CYCLE-RISE-SET-FIX-1 (2026-05-27):
+//   v365 → v366. Behavior + UI fix for /moon-today-in-{city} and
+//   /moon-in-{city}/{date} pages: the displayed moonset is now ALWAYS
+//   the end of the SAME cycle as the displayed moonrise — even when
+//   it crosses to the next calendar day.
+//   Before: getMoonTimes returned the FIRST set in the [00:00, 24:00]
+//   local-city window. When today's rise was in the evening, the
+//   returned set belonged to YESTERDAY's evening rise cycle (confusing
+//   for users monitoring "today's moon").
+//   Fix: js/app.js updateMoonInfo() now detects setTime < riseTime (or
+//   missing set) and re-fetches getMoonTimes(today+1day) to use ITS
+//   set instead. When that next-day set is displayed, a small note
+//   "صباح اليوم التالي" (or localized equivalent) appears below the
+//   time. New DOM element `<div id="moon-set-note" class="value-sub
+//   moon-set-note" hidden>` reuses the existing .value-sub styling
+//   (no CSS change). 10-lang i18n key `moon.set_next_day_note` added.
+//   MoonCalc.getMoonTimes return signature was extended additively
+//   with `riseTime`/`setTime` raw Date objects (the formatted `rise`/`set`
+//   strings stay byte-identical for back-compat with forecast table,
+//   moon chart, mini-card on home, etc).
+//   Untouched: phase, illumination, age, distance, zodiac, city tz,
+//   forecast table, prayer-times/qibla/azkar pages, SSR, JSON-LD.
+//   Cache-busters: js/moon.js?v=52 → ?v=53; js/app.js?v=731 → ?v=732.
 // QIBLA-HUB-MOBILE-CTA-FIX-1 (2026-05-27):
 //   v364 → v365. Mobile-responsive polish for /qibla hub hero card.
 //   User report: on viewports <768px, the primary "use my location" CTA
@@ -495,7 +518,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v365';
+const CACHE_VERSION = 'v366';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

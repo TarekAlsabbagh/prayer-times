@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=731" as="script">
+    <link rel="preload" href="js/app.js?v=732" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1715,6 +1715,15 @@
                         <div class="moon-detail-card">
                             <div class="label" data-i18n="moon.set">مغيب القمر</div>
                             <div class="value" id="moon-set">--</div>
+                            <!-- MOON-CURRENT-CYCLE-RISE-SET-FIX-1 (2026-05-27):
+                                 visible only when the displayed moonset crosses
+                                 to the next calendar day (set time < rise time
+                                 in the local-day window — i.e. it belongs to
+                                 the cycle of TODAY's evening rise). Populated
+                                 by updateMoonInfo() in js/app.js. Hidden by
+                                 default to avoid FOUC on dated pages where
+                                 same-day set is correct. -->
+                            <div class="value-sub moon-set-note" id="moon-set-note" hidden></div>
                         </div>
                         <div class="moon-detail-card moon-distance-card">
                             <div class="label" data-i18n="moon.distance">المسافة إلى القمر</div>
@@ -4792,14 +4801,14 @@
     <script defer src="js/prayer-times.js?v=51"></script>
     <script defer src="js/hijri-date.js?v=43"></script>
     <script defer src="js/qibla.js?v=44"></script>
-    <script defer src="js/moon.js?v=52"></script>
+    <script defer src="js/moon.js?v=53"></script>
     <script defer src="js/moon-chart.js?v=9"></script>
     <!-- Legacy duas.js retained as deprecated compat shim — superseded by
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=4"></script>
-    <script defer src="js/app.js?v=731"></script>
+    <script defer src="js/app.js?v=732"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

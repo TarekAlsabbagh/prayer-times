@@ -382,9 +382,20 @@ const MoonCalc = (function() {
             }
         }
 
+        // MOON-CURRENT-CYCLE-RISE-SET-FIX-1 (2026-05-27):
+        // Also expose RAW Date objects (riseTime/setTime) alongside the
+        // formatted strings so callers can compare/order events across
+        // day boundaries (e.g. "is today's set before today's rise → that
+        // set belongs to yesterday's cycle, use tomorrow's set instead").
+        // Pre-existing string keys `rise`/`set` are PRESERVED byte-for-byte
+        // for back-compat with every existing call site (forecast tables,
+        // chart, mini-card, etc).
         return {
             rise: riseT ? _formatTime(riseT, resolvedTz) : '--:--',
-            set:  setT  ? _formatTime(setT,  resolvedTz) : '--:--'
+            set:  setT  ? _formatTime(setT,  resolvedTz) : '--:--',
+            riseTime: riseT || null,
+            setTime:  setT  || null,
+            tz: resolvedTz
         };
     }
 

@@ -17342,10 +17342,72 @@ function updateMoonInfo() {
     if (_ageEl) _ageEl.textContent = age + ' ' + _daysSfx;
     const _illumPctEl = document.getElementById('moon-illumination-pct');
     if (_illumPctEl) _illumPctEl.textContent = illumination + '%';
+    // ═══════════════════════════════════════════════════════════════════════
+    //  MOON-CURRENT-CYCLE-RISE-SET-FIX-1 (2026-05-27)
+    //  The displayed moonset must be the END of the SAME cycle as the
+    //  displayed moonrise — even if it crosses into the next calendar day.
+    //
+    //  Before this fix: `getMoonTimes` returns the FIRST set in the local
+    //  [00:00, 24:00] window — which, when today's rise is in the evening,
+    //  is the set from YESTERDAY's rise cycle (i.e. an unrelated event
+    //  that confuses users monitoring the moon for "today").
+    //
+    //  Fix: if `setTime < riseTime` (or set is missing while rise exists),
+    //  fetch tomorrow's `getMoonTimes` and use ITS first set. Mark the
+    //  case with `_moonSetIsNextDay = true` so the UI can show a small
+    //  "صباح اليوم التالي" note below the time.
+    //
+    //  Scope guard: only `_setEl` text + `_setNoteEl` visibility change.
+    //  rise / phase / illumination / age / distance / forecast table all
+    //  remain untouched (forecast table consumes its own per-day data).
+    // ═══════════════════════════════════════════════════════════════════════
+    let _displaySet      = moonTimes.set;
+    let _displaySetTime  = moonTimes.setTime;
+    let _moonSetIsNextDay = false;
+    try {
+        if (moonTimes.riseTime instanceof Date) {
+            const _setBeforeRise = (moonTimes.setTime instanceof Date)
+                && (moonTimes.setTime.getTime() < moonTimes.riseTime.getTime());
+            const _setMissing = !(moonTimes.setTime instanceof Date);
+            if (_setBeforeRise || _setMissing) {
+                // Advance `today` by exactly 24h. `today` was normalized to
+                // city-local NOON earlier (12:00), so noon + 24h = next-day
+                // noon, still city-local — `_localMidnightInTz` inside
+                // `getMoonTimes` will pick the correct next-day 00:00 window.
+                const _tomorrow = new Date(today.getTime() + 24 * 3600 * 1000);
+                const _tomorrowTimes = MoonCalc.getMoonTimes(_tomorrow, _lat, _lng, _tz);
+                if (_tomorrowTimes && (_tomorrowTimes.setTime instanceof Date)) {
+                    _displaySet      = _tomorrowTimes.set;
+                    _displaySetTime  = _tomorrowTimes.setTime;
+                    _moonSetIsNextDay = true;
+                }
+            }
+        }
+    } catch (_e) { /* silent — fall back to original set */ }
+
     const _riseEl = document.getElementById('moon-rise');
     if (_riseEl) _riseEl.textContent = moonTimes.rise;
     const _setEl = document.getElementById('moon-set');
-    if (_setEl) _setEl.textContent = moonTimes.set;
+    if (_setEl) _setEl.textContent = _displaySet;
+
+    // Sub-note under the moonset value: shows "صباح اليوم التالي" (or
+    // localized equivalent) when the displayed set crosses to the next day.
+    const _setNoteEl = document.getElementById('moon-set-note');
+    if (_setNoteEl) {
+        if (_moonSetIsNextDay && typeof t === 'function') {
+            const _noteTxt = t('moon.set_next_day_note');
+            if (_noteTxt && _noteTxt !== 'moon.set_next_day_note') {
+                _setNoteEl.textContent = _noteTxt;
+                _setNoteEl.hidden = false;
+            } else {
+                _setNoteEl.textContent = '';
+                _setNoteEl.hidden = true;
+            }
+        } else {
+            _setNoteEl.textContent = '';
+            _setNoteEl.hidden = true;
+        }
+    }
 
     // ── ملاحظة المنطقة الزمنيّة — تظهر فقط في صفحات المدن المحدّدة ────────
     // الهدف: إبلاغ المستخدم أنّ أوقات المطلع/المغيب/الجدول بتوقيت المدينة

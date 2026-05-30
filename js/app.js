@@ -20800,8 +20800,37 @@ function updateMoonInfo() {
             //   لتطابق سياق الـ URL — وفقًا لقاعدة "كلّ التواريخ بنفس التقويم".
             const _kindForNavSubs = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
             const _useHijriSubs   = !!(_kindForNavSubs && _kindForNavSubs.isHijri);
+            // MOON-DAY-NAV-WEEKDAY-LABEL-FIX-1 (2026-05-27):
+            //   Prepend the localized weekday name (e.g. "السبت", "Saturday",
+            //   "samedi") to each nav button's sub-text so the visitor sees
+            //   "الجمعة 29 مايو" instead of just "29 مايو". Uses native
+            //   Intl.DateTimeFormat per app lang — no new i18n keys needed.
+            //   EN uses comma separator ("Friday, May 29"); other langs use
+            //   space separator ("الجمعة 29 مايو"). Works for both Gregorian
+            //   and Hijri-context sub-text (the weekday name is calendar-
+            //   independent — it's derived from the underlying JS Date).
+            //   Scope: only this nav block on /moon-today-in-{slug} and
+            //   /moon-in-{slug}/{date} pages. No effect on prev/next href,
+            //   page date, moon data, or any other page.
+            const _moonNavWeekday = (d, lng) => {
+                try {
+                    const _localeMap = { ar:'ar', en:'en', fr:'fr', tr:'tr', ur:'ur', de:'de', id:'id', es:'es', bn:'bn', ms:'ms' };
+                    const _locale = _localeMap[lng] || 'ar';
+                    return new Intl.DateTimeFormat(_locale, { weekday: 'long' }).format(d);
+                } catch (_) {
+                    const _arFallback = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
+                    return _arFallback[d.getDay()] || '';
+                }
+            };
+            const _joinWeekdayAndDate = (wd, dateStr, lng) => {
+                if (!wd) return dateStr;
+                // EN convention: "Friday, May 29". Others: "الجمعة 29 مايو".
+                return (lng === 'en') ? (wd + ', ' + dateStr) : (wd + ' ' + dateStr);
+            };
+
             const _fmtShort = (d) => {
                 const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                let _dateStr;
                 if (_useHijriSubs) {
                     try {
                         if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
@@ -20809,16 +20838,20 @@ function updateMoonInfo() {
                             const _hMon = (typeof hijriMonthsFor === 'function')
                                 ? hijriMonthsFor(_lng)[_hj.month - 1]
                                 : (HijriDate.hijriMonths ? HijriDate.hijriMonths[_hj.month - 1] : String(_hj.month));
-                            return _hj.day + ' ' + _hMon;
+                            _dateStr = _hj.day + ' ' + _hMon;
                         }
                     } catch (_) { /* fall through to Gregorian */ }
                 }
-                let mon = '';
-                try { if (typeof t === 'function') mon = t('gmonth.' + (d.getMonth() + 1)); } catch(_){}
-                if (!mon || mon === 'gmonth.' + (d.getMonth() + 1)) {
-                    mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+                if (!_dateStr) {
+                    let mon = '';
+                    try { if (typeof t === 'function') mon = t('gmonth.' + (d.getMonth() + 1)); } catch(_){}
+                    if (!mon || mon === 'gmonth.' + (d.getMonth() + 1)) {
+                        mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
+                    }
+                    // EN convention: "May 29". Others: "29 مايو".
+                    _dateStr = (_lng === 'en') ? (mon + ' ' + d.getDate()) : (d.getDate() + ' ' + mon);
                 }
-                return d.getDate() + ' ' + mon;
+                return _joinWeekdayAndDate(_moonNavWeekday(d, _lng), _dateStr, _lng);
             };
             if (_prevSubEl) _prevSubEl.textContent = _fmtShort(_prevDate);
             if (_nextSubEl) _nextSubEl.textContent = _fmtShort(_nextDate);
@@ -20877,12 +20910,18 @@ function updateMoonInfo() {
                         if (!_gm || _gm === 'gmonth.' + (today.getMonth() + 1)) {
                             _gm = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()];
                         }
-                        // Order: RTL/AR/UR/BN → "day month year"; EN → "Mon DD, YYYY"
+                        // MOON-DAY-NAV-WEEKDAY-LABEL-FIX-1 (2026-05-27):
+                        //   Prepend localized weekday (same helper used in
+                        //   _fmtShort above). Final pattern:
+                        //     EN → "Saturday, May 30, 2026"
+                        //     AR/others → "السبت 30 مايو 2026"
+                        let _dateOnly;
                         if (_lngNav === 'en') {
-                            _midText = _gm + ' ' + today.getDate() + ', ' + today.getFullYear();
+                            _dateOnly = _gm + ' ' + today.getDate() + ', ' + today.getFullYear();
                         } else {
-                            _midText = today.getDate() + ' ' + _gm + ' ' + today.getFullYear();
+                            _dateOnly = today.getDate() + ' ' + _gm + ' ' + today.getFullYear();
                         }
+                        _midText = _joinWeekdayAndDate(_moonNavWeekday(today, _lngNav), _dateOnly, _lngNav);
                     }
                     // Primary: fill the new 2-line status-card sub element
                     const _subEl = document.getElementById('moon-date-today-sub');

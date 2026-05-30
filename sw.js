@@ -470,6 +470,24 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// MOON-DAY-NAV-WEEKDAY-LABEL-FIX-1 (2026-05-27):
+//   v366 → v367. JS-only UX polish for the moon date-nav buttons on
+//   /moon-today-in-{city} and /moon-in-{city}/{date} pages. Now each
+//   button's sub-text starts with the localized weekday name:
+//     prev → "الجمعة 29 مايو"        (was: "29 مايو")
+//     today → "السبت 30 مايو 2026"   (was: "30 مايو 2026")
+//     next → "الأحد 31 مايو"          (was: "31 مايو")
+//   English uses comma convention: "Saturday, May 30, 2026".
+//   10 langs supported via native Intl.DateTimeFormat({weekday:'long'}) —
+//   no new i18n keys, no CSS, no HTML changes. Helpers _moonNavWeekday +
+//   _joinWeekdayAndDate live inline inside the existing nav block in
+//   updateMoonInfo() (js/app.js ~line 20803). Hijri-context sub-text
+//   still uses Hijri month name but now also prepended with weekday
+//   (the weekday is calendar-independent — derived from JS Date).
+//   Untouched: prev/next href targets, today.href, page date selection,
+//   moon data (phase/illumination/age/rise/set/distance), forecast
+//   table, prayer-times/qibla/azkar pages, SSR, JSON-LD.
+//   Cache-buster: js/app.js?v=732 → ?v=733.
 // MOON-CURRENT-CYCLE-RISE-SET-FIX-1 (2026-05-27):
 //   v365 → v366. Behavior + UI fix for /moon-today-in-{city} and
 //   /moon-in-{city}/{date} pages: the displayed moonset is now ALWAYS
@@ -518,7 +536,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v366';
+const CACHE_VERSION = 'v367';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

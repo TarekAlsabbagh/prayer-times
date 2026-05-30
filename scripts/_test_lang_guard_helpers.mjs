@@ -76,7 +76,7 @@ const SCENARIOS = [
     ],
     [
         'D) AR + currentCity="بور دو بوك" (different city slug)',
-        '/time-left-until-prayer-in-port-de-bouc',
+        '/time-left-until-next-prayer-in-port-de-bouc',
         { lang: 'ar', currentCity: 'Port De Bouc', currentEnglishName: 'Port De Bouc' },
         'بور دو بوك', 'بور دو بوك',
     ],

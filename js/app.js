@@ -54,7 +54,7 @@ let currentLocalizedCountry = '';
 (function _initialSyncHydrate() {
     try {
         const _p = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
-        const _m = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
+        const _m = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
         if (!_m) return;
         const _slug = _m[1];
         const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
@@ -783,7 +783,7 @@ function getDisplayCity() {
             && typeof _pc.name === 'string' && _pc.name) {
             const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
             const _slugM = _path.match(
-                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugM && _slugM[1] === _pc.slug) {
                 return _pc.name;
@@ -797,7 +797,7 @@ function getDisplayCity() {
         // (which reads the SSR `<meta name="ssr-city-name">` first).
         // This stops Latin names like "Le Pontet" (when Nominatim's
         // name:ar was missing) from leaking into the visible UI on
-        // /next-prayer-in-… and /time-left-until-prayer-in-… pages
+        // /next-prayer-in-… and /time-left-until-next-prayer-in-… pages
         // that consume getDisplayCity() for hero / CTA / SEO text.
         if (typeof currentCity === 'string' && currentCity
             && !/[A-Za-z]/.test(currentCity)) {
@@ -2658,8 +2658,8 @@ function makeSlug(englishName, lat, lng) {
 // قراءة بيانات المدينة من URL عند تحميل الصفحة
 // استخراج slug المدينة من الرابط الحالي
 function getSlugFromURL() {
-    // 🆕 Polish Round (F): دعم /time-left-until-prayer-in-{slug} — نعامله كصفحة مدينة لجلب الـ data
-    const tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+    // 🆕 Polish Round (F): دعم /time-left-until-next-prayer-in-{slug} — نعامله كصفحة مدينة لجلب الـ data
+    const tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-next-prayer-in-([a-z][a-z0-9-]+)$/);
     if (tlMatch) return tlMatch[1];
     // 🆕 Round 4 (Minimal): دعم /next-prayer-in-{slug}
     const nptMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-in-([a-z][a-z0-9-]+)$/);
@@ -4945,7 +4945,7 @@ function _enhanceConverterSteppers() {
 function _hydrateCurrentCityFromUrlOrStorage() {
     const _p = window.location.pathname;
     // UAT-Q5h: include `.` in slug class for loc-XX.X-YY.Y (Persian/Asian).
-    const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
+    const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
     // UAT-FOUC: NO URL slug → bail (homepage, hub pages — keep current globals
     //   for geo detection or the Mecca defaults until the user picks a city).
     if (!_m) return;
@@ -5217,7 +5217,7 @@ function initNavigation() {
                     // UAT-Q5h: URL slug is authoritative — also accept moon-today-in-/moon-in-
                     //   plus other city pages, plus loc-XX.X-YY.Y dot-containing slugs.
                     let _moonSlug = window.location.pathname.match(
-                        /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-in)-(.+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
+                        /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-(.+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
                     )?.[1] || null;
                     if (_moonSlug) {
                         // Strip trailing -lat-lng coord-suffix (legacy URLs); keep loc-XX.X-YY.Y intact (it's the slug itself).
@@ -5297,7 +5297,7 @@ function initNavigation() {
                 //   uses stale Mecca instead of X.
                 let _slug = null;
                 const _m = window.location.pathname.match(
-                    /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
+                    /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/
                 );
                 if (_m) {
                     _slug = _m[1].replace(/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/, '');
@@ -7612,7 +7612,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
         }
     } catch (_e) { /* silent */ }
 
-    // TL-CITY-SYNC-1 (2026-05-12): on /time-left-until-prayer-in-{slug}
+    // TL-CITY-SYNC-1 (2026-05-12): on /time-left-until-next-prayer-in-{slug}
     // pages, the SSR-rendered FAQ / educational cards may show a wrong
     // English-transliterated name (e.g. "A Ks A Wn Brwfans") when the
     // URL slug was generated by makeSlug()'s Arabic-to-Latin
@@ -7626,7 +7626,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
 // CITY-NAME-SYNC-1 (2026-05-12, generalizes TL-CITY-SYNC-1): replace
 // the SSR-rendered city name across the WHOLE page with the hydrated
 // `currentCity` (the same source the header uses). Covers ALL SEO
-// city routes — /prayer-times-in-, /time-left-until-prayer-in-,
+// city routes — /prayer-times-in-, /time-left-until-next-prayer-in-,
 // /next-prayer-in-, /qibla-in-, /moon-in-, /moon-today-in-. The
 // server now injects `<meta name="ssr-city-name">` on these routes
 // so the swap target is centralized.
@@ -7768,7 +7768,7 @@ function _syncCityNameInDom() {
     try {
         const _path = (window.location && window.location.pathname) || '';
         const _slugM = _path.match(
-            /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+            /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
         );
         const _urlSlug = _slugM ? _slugM[1] : '';
         if (_urlSlug) {
@@ -7846,7 +7846,7 @@ function _syncCityNameInDom() {
     if (!goodName) {
         try {
             const _slugMatch = window.location.pathname.match(
-                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugMatch && typeof _moonCityDisplayName === 'function') {
                 const _resolved = _moonCityDisplayName(_slugMatch[1]);
@@ -8791,7 +8791,7 @@ function updateHomeGateway() {
 
     // ── 3b. 🆕 Round 7 (Homepage Audit): upgrade time-left / next-prayer tiles hrefs to user's city
     //    على الرئيسيّة فقط (لا نلمس على صفحات المدن). إذا المستخدم في الرياض مثلاً، نحدّث:
-    //    /time-left-until-prayer-in-mecca → /time-left-until-prayer-in-riyadh
+    //    /time-left-until-next-prayer-in-mecca → /time-left-until-next-prayer-in-riyadh
     try {
         const _onHomepage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?$/.test(window.location.pathname);
         if (_onHomepage && typeof currentEnglishName === 'string' && currentEnglishName) {
@@ -8802,7 +8802,7 @@ function updateHomeGateway() {
                 const _pfx = (_lng === 'ar') ? '' : ('/' + _lng);
                 const _tlTile = document.getElementById('qa-time-left');
                 const _npTile = document.getElementById('qa-next-prayer');
-                if (_tlTile) _tlTile.href = _pfx + '/time-left-until-prayer-in-' + _slug;
+                if (_tlTile) _tlTile.href = _pfx + '/time-left-until-next-prayer-in-' + _slug;
                 if (_npTile) _npTile.href = _pfx + '/next-prayer-in-' + _slug;
             }
         }
@@ -9161,7 +9161,7 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
 
     const items = [
         // 🟢 Live tier (Refinement #5 — i18n badge): time-left, next-prayer, qibla
-        ['rl-time-left',    prefix + '/time-left-until-prayer-in-' + citySlug, 'rls.time_left',    cityName, true],
+        ['rl-time-left',    prefix + '/time-left-until-next-prayer-in-' + citySlug, 'rls.time_left',    cityName, true],
         ['rl-next-prayer',  prefix + '/next-prayer-in-' + citySlug,       'rls.next_prayer',  cityName, true],
         ['rl-qibla',        prefix + '/qibla-in-' + _qiblaSlug,                'rls.qibla',        cityName, true],
         // 🔵 Info tier
@@ -11317,7 +11317,7 @@ function _detectNavKindFromUrl(pathname) {
     if (/^\/moon-today/.test(p) || /^\/moon-in-/.test(p))     return 'moon';
     if (/^\/qibla/.test(p))                                   return 'qibla';
     if (/^\/prayer-times-in-/.test(p))                        return 'prayer-times';
-    if (/^\/time-left-until-prayer-in-/.test(p))              return 'prayer-times';
+    if (/^\/time-left-until-next-prayer-in-/.test(p))              return 'prayer-times';
     if (/^\/next-prayer-in-/.test(p))                    return 'prayer-times';
     if (/^\/zakat-calculator/.test(p))                        return 'zakat';
     if (/^\/azkar/.test(p) || /^\/duas/.test(p))              return 'duas';
@@ -11411,7 +11411,7 @@ window.addEventListener('pageshow', function(e) {
             _expectedId = 'page-date-converter';
         } else {
             // Default: homepage `/`, `/prayer-times-in-{slug}`,
-            // `/time-left-until-prayer-in-{slug}`, `/next-prayer-in-{slug}`,
+            // `/time-left-until-next-prayer-in-{slug}`, `/next-prayer-in-{slug}`,
             // `/prayer-times-in-{country}`, etc. all use #page-prayer-times.
             _expectedId = 'page-prayer-times';
         }
@@ -12461,7 +12461,7 @@ function updateFaqSection() {
         try {
             const _slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
             const _lng = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
-            const tlHref = _slug ? (_lng + '/time-left-until-prayer-in-' + _slug) : '#';
+            const tlHref = _slug ? (_lng + '/time-left-until-next-prayer-in-' + _slug) : '#';
             const nptHref = _slug ? (_lng + '/next-prayer-in-' + _slug) : '#';
             _fill('faq-q8', 'faq.city.q8', { loc });
             _fill('faq-a8', 'faq.city.a8', { loc, tlHref });
@@ -12663,7 +12663,7 @@ function updateStickyBar(countdownStr) {
         try { cityEl.textContent = getCurrentCityLabel() || ''; } catch (_e) {}
     }
 
-    // 🆕 Round 4 (Minimal) — Sticky bar clickable → /time-left-until-prayer-in-{slug}
+    // 🆕 Round 4 (Minimal) — Sticky bar clickable → /time-left-until-next-prayer-in-{slug}
     try { updateStickyBarHref(); } catch (_e) {}
 }
 
@@ -12688,7 +12688,7 @@ function updateStickyBarHref() {
         if (!slug || /^hijri-|^loc-/.test(slug)) slug = 'mecca';
     }
     const lang = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
-    bar.href = `${lang}/time-left-until-prayer-in-${slug}`;
+    bar.href = `${lang}/time-left-until-next-prayer-in-${slug}`;
 }
 
 /**
@@ -12771,11 +12771,11 @@ function updateNextPrayerPage() {
             }
         }
 
-        // Secondary link → /time-left-until-prayer-in-{slug}
+        // Secondary link → /time-left-until-next-prayer-in-{slug}
         const _sec = document.getElementById('npt-secondary');
         if (_sec) {
             if (!_sec.dataset.wired) {
-                _sec.href = _langPfx + '/time-left-until-prayer-in-' + _nptSlug;
+                _sec.href = _langPfx + '/time-left-until-next-prayer-in-' + _nptSlug;
                 _sec.dataset.wired = '1';
             }
             // استبدل {prayer} و {city} في نصّ الرابط (يتجدّد عند تغيّر الصلاة)
@@ -12820,7 +12820,7 @@ function initStickyNextBar() {
                     // fallback نهائيّ: مكّة
                     const _lng = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar')
                         ? '/' + getCurrentLang() : '';
-                    window.location.href = _lng + '/time-left-until-prayer-in-mecca';
+                    window.location.href = _lng + '/time-left-until-next-prayer-in-mecca';
                 }
             } catch (_) {}
         });
@@ -13138,7 +13138,7 @@ function getCurrentCityLabel() {
             && typeof _pc.name === 'string' && _pc.name) {
             const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
             const _slugM = _path.match(
-                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
+                /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugM && _slugM[1] === _pc.slug) {
                 return _strip(_pc.name);
@@ -13951,7 +13951,7 @@ function startCountdown() {
                 // (the big hero number) where it belongs as UX, not metadata.
 
                 // City name + CTA href (once)
-                const _tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+                const _tlMatch = window.location.pathname.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-next-prayer-in-([a-z][a-z0-9-]+)$/);
                 if (_tlMatch) {
                     const _tlSlug = _tlMatch[1];
                     const _tlLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';

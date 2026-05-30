@@ -7,7 +7,7 @@ const fetchUrl = (u) => new Promise((res, rej) =>
     http.get(u, r => { let b = ''; r.on('data', d => b += d); r.on('end', () => res(b)); }).on('error', rej));
 
 for (const slug of ['port-de-bouc', 'marseille', 'lyon', 'paris', 'london']) {
-    const url = `http://localhost:8080/time-left-until-prayer-in-${slug}`;
+    const url = `http://localhost:8080/time-left-until-next-prayer-in-${slug}`;
     const html = await fetchUrl(url);
     const dom = new JSDOM(html, { url });
     const doc = dom.window.document;

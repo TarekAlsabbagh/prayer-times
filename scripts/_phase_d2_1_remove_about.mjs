@@ -164,8 +164,8 @@ let t = tst;
 
 // Drop |about from the alternation.
 {
-  const oldRe = '|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-time-in';
-  const newRe = '|moon-today-in|moon-in|time-left-until-prayer-in|next-prayer-time-in';
+  const oldRe = '|moon-today-in|moon-in|about|time-left-until-next-prayer-in|next-prayer-time-in';
+  const newRe = '|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-time-in';
   t = replaceExact(t, 'test-sitemap (regex) drop |about',
     oldRe, newRe);
 }

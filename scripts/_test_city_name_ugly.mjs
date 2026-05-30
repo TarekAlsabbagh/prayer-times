@@ -61,7 +61,7 @@ function visibleText(html) {
         .replace(/<[^>]+>/g, ' ');
 }
 
-const routes = ['prayer-times-in', 'time-left-until-prayer-in', 'next-prayer-in', 'moon-in', 'moon-today-in'];
+const routes = ['prayer-times-in', 'time-left-until-next-prayer-in', 'next-prayer-in', 'moon-in', 'moon-today-in'];
 
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 console.log(`  Ugly slug: ${UGLY_SLUG}  →  warm-visit goodName: "${GOOD}"`);

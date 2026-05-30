@@ -63,7 +63,7 @@ function syncCityNameInDom(doc, goodName) {
 
 const routes = [
     'prayer-times-in',
-    'time-left-until-prayer-in',
+    'time-left-until-next-prayer-in',
     'next-prayer-in',
     'qibla-in',
     'moon-today-in',

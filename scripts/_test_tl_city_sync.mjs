@@ -15,7 +15,7 @@ function fetchUrl(u) {
     });
 }
 
-const URL = 'http://localhost:8080/time-left-until-prayer-in-a-ks-a-wn-brwfans';
+const URL = 'http://localhost:8080/time-left-until-next-prayer-in-a-ks-a-wn-brwfans';
 const html = await fetchUrl(URL);
 
 const dom = new JSDOM(html, { url: URL });
@@ -28,7 +28,7 @@ const GOOD = 'إكس أون بروفنس';
 // This is a TEST harness — we don't need to import the giant app.js.
 function _syncTlCityNameInDom() {
     try {
-        if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-/
+        if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-next-prayer-in-/
             .test(win.location.pathname)) return;
     } catch (_) { return; }
     const wrapper = doc.querySelector('.tl-seo-wrapper');

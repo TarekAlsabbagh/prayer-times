@@ -261,7 +261,7 @@ const replaceOnce = (text, anchor, replacement, label) => {
         '    if (/^\\/moon-today/.test(p) || /^\\/moon-in-/.test(p))     return \'moon\';',
         '    if (/^\\/qibla/.test(p))                                   return \'qibla\';',
         '    if (/^\\/prayer-times-in-/.test(p))                        return \'prayer-times\';',
-        '    if (/^\\/time-left-until-prayer-in-/.test(p))              return \'prayer-times\';',
+        '    if (/^\\/time-left-until-next-prayer-in-/.test(p))              return \'prayer-times\';',
         '    if (/^\\/next-prayer-time-in-/.test(p))                    return \'prayer-times\';',
         '    if (/^\\/zakat-calculator/.test(p))                        return \'zakat\';',
         '    if (/^\\/azkar/.test(p) || /^\\/duas/.test(p))              return \'duas\';',

@@ -115,7 +115,7 @@ const samplePages = [
     '/prayer-times-in-makkah',
     '/qibla-in-makkah',
     '/moon-today-in-riyadh',
-    '/time-left-until-prayer-in-cairo',
+    '/time-left-until-next-prayer-in-cairo',
     '/next-prayer-in-london',
 ];
 for (const p of samplePages) {

@@ -63,35 +63,35 @@ const SCENARIOS = [
     // [name, url, simState, expected titleAfterSwap]
     [
         '1. AR page + currentCity=Le Pontet (Latin)  ← BUG TRIGGER',
-        '/time-left-until-prayer-in-le-pontet',
+        '/time-left-until-next-prayer-in-le-pontet',
         { currentCity: 'Le Pontet', currentLocalizedName: '' },
         /لو بونت/,    // title must STILL contain Arabic name (no swap)
         /Le Pontet/,  // title must NOT contain Latin (negated)
     ],
     [
         '2. AR page + currentCity=لو بونت (Arabic, same as SSR)',
-        '/time-left-until-prayer-in-le-pontet',
+        '/time-left-until-next-prayer-in-le-pontet',
         { currentCity: 'لو بونت', currentLocalizedName: '' },
         /لو بونت/,
         /Le Pontet/,
     ],
     [
         '3. AR page + currentCity empty',
-        '/time-left-until-prayer-in-le-pontet',
+        '/time-left-until-next-prayer-in-le-pontet',
         { currentCity: '', currentLocalizedName: '' },
         /لو بونت/,
         /Le Pontet/,
     ],
     [
         '4. AR page + currentCity=إكس أون بروفنس (Arabic, BETTER than SSR slug-fallback)',
-        '/time-left-until-prayer-in-a-ks-a-wn-brwfans',
+        '/time-left-until-next-prayer-in-a-ks-a-wn-brwfans',
         { currentCity: 'إكس أون بروفنس', currentLocalizedName: '' },
         /إكس أون بروفنس/,   // Arabic-only swap should succeed
         /A Ks A Wn Brwfans/, // ugly SSR name should be gone
     ],
     [
         '5. EN page + currentCity=Le Pontet (no AR guard — swap allowed)',
-        '/en/time-left-until-prayer-in-le-pontet',
+        '/en/time-left-until-next-prayer-in-le-pontet',
         { currentCity: 'Le Pontet', currentLocalizedName: '' },
         /Le Pontet/,
         /لو بونت/,

@@ -9313,7 +9313,7 @@ html[data-theme="dark"] .azkar-edu-link-card:hover {
    - On /prayer-times-in-{city}, the countdown should NOT be the page's
      visual hero (the schedule is). Smaller size keeps it useful but
      prevents Lighthouse from picking it as LCP.
-   - On /time-left-until-prayer-in-{city}, the countdown IS the hero —
+   - On /time-left-until-next-prayer-in-{city}, the countdown IS the hero —
      #tl-countdown handles that, this banner stays standard size. */
 html.city-page .banner-big-countdown {
     font-size: clamp(34px, 7vw, 56px);
@@ -14265,7 +14265,7 @@ html[data-theme="dark"] .rls-tier-nav .rls-list a:hover {
 }
 
 /* ─────────────────────────────────────────────────────────────────────
-   🆕 Polish Round (F): Time-Left Page — /time-left-until-prayer-in-{slug}
+   🆕 Polish Round (F): Time-Left Page — /time-left-until-next-prayer-in-{slug}
    يظهر tl-hero فقط على html.time-left-page، مع إخفاء city-hero-answer
    ───────────────────────────────────────────────────────────────────── */
 /* افتراضيّاً: tl-hero مخفيّ — يُظهَر فقط على time-left-page */
@@ -20368,7 +20368,7 @@ html[data-theme="dark"] .npt-secondary:hover {
     color: var(--primary-light, #4ab87a);
 }
 
-/* ── Same fixes for the parallel /time-left-until-prayer-in-{city}
+/* ── Same fixes for the parallel /time-left-until-next-prayer-in-{city}
    hero (.tl-hero / .tl-hero-inner + children). Same hardcoded-hex
    problem; same comprehensive dark-mode override. */
 html[data-theme="dark"] .tl-hero-inner {
@@ -21018,7 +21018,7 @@ html[data-theme="dark"] .next-practical-item p {
 
 /* ────────────────────────────────────────────────────────────────────────
    TL-SEO-1 (2026-05-10)
-   /time-left-until-prayer-in-{city} long-form SEO content sections.
+   /time-left-until-next-prayer-in-{city} long-form SEO content sections.
    Sit BELOW the existing #tl-hero countdown card (which we keep intact).
    Class namespace .time-left-* is separate from .next-* so the two pages
    don't share styling and stay independently tunable.

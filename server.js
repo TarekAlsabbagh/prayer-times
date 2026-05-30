@@ -6424,7 +6424,7 @@ function _getActiveH1Marker(urlPath) {
     if (/^\/qibla-in-/.test(path))                   return { kind: 'id',   value: 'qibla-hero-title' };
     // Phase Q-Hub-A (2026-05-04): /qibla Hub also uses #qibla-hero-title as the active H1.
     if (/^\/qibla$/.test(path))                       return { kind: 'id',   value: 'qibla-hero-title' };
-    if (/^\/time-left-until-prayer-in-/.test(path))  return { kind: 'id',   value: 'tl-h1' };
+    if (/^\/time-left-until-next-prayer-in-/.test(path))  return { kind: 'id',   value: 'tl-h1' };
     if (/^\/next-prayer-in-/.test(path))        return { kind: 'id',   value: 'npt-h1' };
     if (/^\/today-hijri-date$/.test(path))           return { kind: 'id',   value: 'hijri-today-full' };
     if (/^\/hijri-date\//.test(path))                return { kind: 'id',   value: 'hday-title' };
@@ -8394,11 +8394,11 @@ function buildSeoForPath(urlPath) {
         breadcrumbs.push({ name: cityDisplay, item: canonical });
     }
 
-    // ── 🆕 Time-Left pages (Polish Round F): /time-left-until-prayer-in-{slug} ──
+    // ── 🆕 Time-Left pages (Polish Round F): /time-left-until-next-prayer-in-{slug} ──
     // صفحة SSR مستقلّة تُركّز على countdown + CTA، تُشارك نفس منطق SSR لصفحة المدينة
     // (يُعامَل الـ slug كمدينة في cityMatchSsr لاحقاً، لكن H1/title/description يختلفون).
     let timeLeftPage = null;
-    const _tlMatch = corePath.match(/^\/time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+    const _tlMatch = corePath.match(/^\/time-left-until-next-prayer-in-([a-z][a-z0-9-]+)$/);
     if (_tlMatch) {
         const _tlSlug = _tlMatch[1];
         const _tlCityDisplay = (typeof _resolveCityName === 'function')
@@ -12464,7 +12464,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // Compute lang prefix locally (NPT block runs before HCAL one).
         const _langPfx = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
         const _ctaHref = `${_langPfx}/prayer-times-in-${_slug}`;
-        const _secHref = `${_langPfx}/time-left-until-prayer-in-${_slug}`;
+        const _secHref = `${_langPfx}/time-left-until-next-prayer-in-${_slug}`;
         const _qiblaHref = `${_langPfx}/qibla-in-${_slug}`;
         const _moonHref = `${_langPfx}/moon-in-${_slug}`;
         const _hijriHref = `${_langPfx}/today-hijri-date`;
@@ -15847,7 +15847,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             html = html
                 .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_qHref}"`)
                 .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_mHref}"`)
-                .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-prayer-in-${_slug}"`)
+                .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-next-prayer-in-${_slug}"`)
                 .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-in-${_slug}"`)
                 // UAT-2.6: compact tools strip after #prayer-cards (mit-* — qibla/moon/hijri-today)
                 .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_qHref}"`)
@@ -15948,7 +15948,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '185'; // ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 so returning visitors fetch fresh `js/i18n/{lang}.js` containing the new `moon.events.ended` key + the rewritten `moon.events.notice` text ("counter follows your device's local time …") across all 10 langs. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
+        const _i18nVersion = '186'; // NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 so returning visitors fetch fresh `js/i18n/{lang}.js` containing the rewritten `tl.h1_prefix` ("Time left until the NEXT prayer in {city}") + `tl.h1_in` (now empty — was a per-lang grammar suffix for the now-removed dynamic prayer slot). All 10 langs updated symmetrically. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 so returning visitors fetch fresh `js/i18n/{lang}.js` containing the new `moon.events.ended` key + the rewritten `moon.events.notice` text ("counter follows your device's local time …") across all 10 langs. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -15972,7 +15972,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     const _urlPathNoLang = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/').replace(/\.html$/, '');
     // 🆕 Polish Round (F): صفحة time-left تُشارك SSR city-page logic (city-summary، breadcrumb، FAQ…).
     //    نطابقها كـ "city-like" عبر cityMatchSsr، ثمّ نفرض overrides على H1/hero وclass='time-left-page'.
-    const _timeLeftMatchSsr = _urlPathNoLang.match(/^\/time-left-until-prayer-in-([a-z][a-z0-9-]+)$/);
+    const _timeLeftMatchSsr = _urlPathNoLang.match(/^\/time-left-until-next-prayer-in-([a-z][a-z0-9-]+)$/);
     const _isTimeLeftSsr = !!(_timeLeftMatchSsr && seo && seo.timeLeftPage);
     // 🆕 Round 4 (Minimal): صفحة NPT تُشارك نفس SSR city-page logic — H1 مخصّص + hide غيره عبر CSS
     const _nptMatchSsr = _urlPathNoLang.match(/^\/next-prayer-in-([a-z][a-z0-9-]+)$/);
@@ -20230,12 +20230,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // an Arabic name) with the real localized name from the sessionStorage
     // seed (`currentCity`, the same source the header uses). This is a
     // generalized form of TL-CITY-SYNC-1 — covers prayer-times-in /
-    // time-left-until-prayer-in / next-prayer-in / qibla-in / moon-in /
+    // time-left-until-next-prayer-in / next-prayer-in / qibla-in / moon-in /
     // moon-today-in via a single meta + a single JS function.
     try {
         const _cityRouteMatch = urlPath
             .replace(/\.html$/, '')
-            .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/);
+            .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/);
         if (_cityRouteMatch && _cityRouteMatch[1]) {
             const _ssrCitySlug = _cityRouteMatch[1];
             const _ssrCityName = (typeof _resolveCityName === 'function')
@@ -22211,7 +22211,7 @@ const server = http.createServer(async (req, res) => {
     // ===== Phase G — Curated 301 redirects (mecca → makkah, etc.) =====
     // يطابق /prayer-times-in-{old}, /qibla-in-{old}, /moon-today-in-{old} مع/بدون لغة prefix
     if (Object.keys(CURATED_REDIRECTS).length > 0) {
-        const _redirMatch = urlPath.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-prayer-in|next-prayer-in)-([a-z][a-z0-9-]+)$/);
+        const _redirMatch = urlPath.match(/^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9-]+)$/);
         if (_redirMatch) {
             const _langPart = _redirMatch[1] || '';   // '/en' أو ''
             const _kind = _redirMatch[2];
@@ -22618,10 +22618,10 @@ const server = http.createServer(async (req, res) => {
             for (const slug of chunk) {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.7', 'daily', today));
                 entries.push(...bilingualUrl('/qibla-in-' + slug, '0.6', 'monthly', today));
-                // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة countdown live
+                // 🆕 Polish Round (F): /time-left-until-next-prayer-in-{slug} — صفحة countdown live
                 //     slug نظيف فقط (بدون lat/lng) لأنّ الـ URL الجديد لا يحوي إحداثيّات
                 if (!/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
-                    entries.push(...bilingualUrl('/time-left-until-prayer-in-' + slug, '0.5', 'hourly', today));
+                    entries.push(...bilingualUrl('/time-left-until-next-prayer-in-' + slug, '0.5', 'hourly', today));
                     // 🆕 Round 4 (Minimal): /next-prayer-in-{slug} — Schedule Awareness page
                     entries.push(...bilingualUrl('/next-prayer-in-' + slug, '0.75', 'hourly', today));
                 }
@@ -22752,13 +22752,13 @@ const server = http.createServer(async (req, res) => {
         // عند السطر ~4224 — حيث يُفحَص الـ slug للتمييز بين دولة (prayer-times-cities.html)
         // ومدينة (index.html). لا نُدرجه هنا لئلا نفرض index.html على جميع الحالات.
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath) ||
-        // 🆕 Polish Round (F): /time-left-until-prayer-in-{slug} — صفحة time-left (index.html + SSR overrides)
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
+        // 🆕 Polish Round (F): /time-left-until-next-prayer-in-{slug} — صفحة time-left (index.html + SSR overrides)
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-next-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
         // NPT-FIX (2026-05-09): /next-prayer-in-{slug} — Schedule
         // Awareness page (Round 4 Minimal). Was missing from _isIndexHtmlRoute
         // → fell to the post-HD-EN-SEO-1 hard-404 catch-all → user got 404
         // on every /next-prayer-in-{city} URL. Now treated like
-        // /time-left-until-prayer-in-{slug}: index.html + SSR overrides.
+        // /time-left-until-next-prayer-in-{slug}: index.html + SSR overrides.
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath);
 
     if (_isIndexHtmlRoute) {

@@ -35,7 +35,7 @@ const CITY_GOOD_NAME = {
 
 const ROUTES = [
     'prayer-times-in',
-    'time-left-until-prayer-in',
+    'time-left-until-next-prayer-in',
     'next-prayer-in',
     'moon-in',
     'moon-today-in',

@@ -102,7 +102,7 @@
 //   Cache-buster: js/prayer-times.js?v=50 → ?v=51.
 // TL-HERO-VISIBILITY-FIX-1 (2026-05-26):
 //   v352 → v353. URGENT regression fix: the time-left hero (#tl-hero)
-//   on /time-left-until-prayer-in-{city} AND the next-prayer hero
+//   on /time-left-until-next-prayer-in-{city} AND the next-prayer hero
 //   (#npt-hero) on /next-prayer-in-{city} were invisible because the
 //   static markup carries `u-hidden` and a recent commit (034dae60,
 //   AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25) added `!important`
@@ -119,7 +119,7 @@
 //   CSS or JS change needed.
 //
 //   Scope:
-//     • Only the SSR HTML emitted for /time-left-until-prayer-in-{slug}
+//     • Only the SSR HTML emitted for /time-left-until-next-prayer-in-{slug}
 //       and /next-prayer-in-{slug} is modified.
 //     • Other routes (where these elements should stay hidden) are
 //       untouched — `u-hidden` is preserved by virtue of NOT entering
@@ -470,6 +470,40 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27):
+//   v370 → v371. Pre-launch slug rename + H1 dedup for the prayer-countdown
+//   page. Old route `/time-left-until-prayer-in-{city}` renamed to the more
+//   intent-accurate `/time-left-until-next-prayer-in-{city}` across every
+//   surface: server.js (route handlers, sitemap, canonical, redirect map),
+//   js/app.js (SPA activator regexes, internal-link builders, related-
+//   links cards), index.html (search-card href + comments), css/style.css
+//   + sw.js (comments only). 5 production files × 48 total replace_all
+//   occurrences. No legacy 301 redirect added — site is pre-launch, the
+//   old slug never went public, no SEO-history to preserve.
+//
+//   Plus H1 cleanup: the old H1 was "كم باقي على صلاة {DYNAMIC_PRAYER} في
+//   {city}؟" — i.e. the title MUTATED per hour (Fajr / Dhuhr / Asr …).
+//   Per-user spec H1 must stay FIXED so Google indexes a stable string.
+//   Removed `<b class="tl-h1-prayer" id="tl-h1-prayer">` from index.html.
+//   The dynamic prayer name still appears in `.tl-meta` body text. JS
+//   fill at js/app.js:13915 is null-safe (`if (_tlH1Prayer)`) → no JS
+//   change. Updated `tl.h1_prefix` in all 10 langs to carry the full
+//   lead-in ("كم باقي على الصلاة القادمة في" / "Time left until the
+//   next prayer in" / etc); set `tl.h1_in` to '' (was a grammar
+//   connector for the now-removed slot). Applied to BOTH the main
+//   bundle `js/i18n.js` (10 langs) AND the per-lang bundles
+//   `js/i18n/{lang}.js` (10 files). i18n version bumped 185→186.
+//
+//   Result: visiting /time-left-until-next-prayer-in-riyadh renders:
+//     AR: "كم باقي على الصلاة القادمة في الرياض؟"
+//     EN: "Time left until the next prayer in Riyadh?"
+//     FR: "Temps restant avant la prochaine prière à Riyadh ?"
+//     (… same shape across all 10 langs)
+//
+//   No per-prayer pages created (e.g. NO /time-left-until-fajr-in-X).
+//   Untouched: /prayer-times-in-*, /next-prayer-in-*, /qibla-*,
+//   /moon-*, /azkar/*, /hijri-*. Cache-busters: js/app.js?v=737 → ?v=738;
+//   css/style.css?v=453 → ?v=454; i18n version 185 → 186.
 // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27 — Phase B):
 //   v369 (composite commit now bumped to v370 to fold in Phase B feedback
 //   from the user before push). Two additional surface changes layered on
@@ -677,7 +711,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v370';
+const CACHE_VERSION = 'v371';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -72,7 +72,7 @@ console.log('--------------------------|-----------------------------------|----
 let passes = 0, fails = 0;
 
 for (const [slug, expectedAr] of SCENARIOS) {
-    for (const route of ['prayer-times-in', 'time-left-until-prayer-in', 'next-prayer-in']) {
+    for (const route of ['prayer-times-in', 'time-left-until-next-prayer-in', 'next-prayer-in']) {
         const url = `http://localhost:8080/${route}-${slug}`;
         const html = await fetchUrl(url);
         const dom = new JSDOM(html, { url });

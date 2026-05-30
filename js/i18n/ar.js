@@ -194,8 +194,8 @@ window.TRANSLATIONS['ar'] = {
         'summary.next_prefix': 'الصلاة القادمة:',
         'summary.in_words': 'خلال',
         // ═══ Polish Round (F) — time-left page ═══
-        'tl.h1_prefix': 'كم باقي على صلاة',
-        'tl.h1_in': 'في',
+        'tl.h1_prefix': 'كم باقي على الصلاة القادمة في',
+        'tl.h1_in': '',
         'tl.next': 'الصلاة القادمة:',
         'tl.now': 'الوقت الحاليّ:',
         'tl.at': 'عند:',

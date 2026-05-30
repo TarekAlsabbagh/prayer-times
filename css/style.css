@@ -5090,11 +5090,62 @@ html[data-theme="dark"] .lunar-facts li {
 html[data-theme="dark"] .lunar-facts li strong { color: #80d8a8; }
 
 /* ── جدول السنوات: تمييز + sticky head + hover + fade-in ── */
-.countdown-table-wrap { max-height: 360px; overflow-y: auto; }
+/* ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27) — Phase B:
+   Drop the internal scroll (`max-height + overflow-y:auto`). The table
+   only ever shows 5 rows — capping it at 360px forced an awkward inner
+   scrollbar with a sticky-thead workaround. Letting the wrapper grow to
+   intrinsic height removes the scrollbar entirely. We keep `overflow-x:auto`
+   from the base rule so narrow viewports can still pan horizontally if
+   the 4-column row ever exceeds the card width. The sticky-thead rules
+   stay in place as a no-op (no vertical scroll → never engaged) but the
+   opaque-background fix remains so any future re-enable is robust. */
+.countdown-table-wrap { max-height: none; overflow-y: visible; }
+/* ISLAMIC-EVENTS-FUTURE-TABLE-ACTIVE-CYCLE-FIX-1 (2026-05-27):
+   Sticky thead must have OPAQUE background — the original rule only
+   overrode `position/top/z-index`, leaving the base `background:
+   rgba(76,175,80,0.10)` from .countdown-table th. That semi-transparent
+   tint let rows show through during scroll → visual overlap. Fix layers
+   an opaque `var(--card-bg)` underneath the original green tint via
+   `background-image: linear-gradient(tint, tint)` so the visual color
+   stays identical (~#f3faf3 over white) but the rows can no longer
+   bleed through. Also bumps z-index 2→3 + adds a subtle bottom shadow
+   to crisply separate the header from scrolled rows. */
 .countdown-table thead th {
     position: sticky;
     top: 0;
-    z-index: 2;
+    z-index: 3;
+    background-color: var(--card-bg, #fff);
+    background-image: linear-gradient(rgba(76,175,80,0.10), rgba(76,175,80,0.10));
+    box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+}
+html[data-theme="dark"] .countdown-table thead th {
+    background-color: var(--card-bg);
+    background-image: linear-gradient(rgba(76,175,80,0.15), rgba(76,175,80,0.15));
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+}
+
+/* ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27) — Phase B:
+   Celebratory chip applied to the FIRST active sentence (right under H1)
+   to visually differentiate it from the FUNCTIONAL second sentence (in the
+   bottom SEO line). Previously both elements carried the same text →
+   duplication. Now the first is a festive chip; the second is concise. */
+.cd-h1-seo.countdown-active-intro {
+    display: inline-block;
+    margin: 10px auto 14px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgba(24, 128, 83, 0.10);
+    border: 1px solid rgba(24, 128, 83, 0.22);
+    color: var(--primary-dark, #185233);
+    font-weight: 700;
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: center;
+}
+html[data-theme="dark"] .cd-h1-seo.countdown-active-intro {
+    background: rgba(77, 203, 140, 0.14);
+    border-color: rgba(77, 203, 140, 0.32);
+    color: var(--primary-light, #80d8a8);
 }
 .countdown-table tbody tr {
     transition: background 0.15s, transform 0.15s;

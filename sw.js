@@ -470,6 +470,116 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27 — Phase B):
+//   v369 (composite commit now bumped to v370 to fold in Phase B feedback
+//   from the user before push). Two additional surface changes layered on
+//   top of the Phase A work documented immediately below:
+//
+//     [B1] CSS: remove the years-table internal scroll. The wrapper had
+//          `max-height: 360px; overflow-y: auto;` which forced an awkward
+//          inner scrollbar with sticky-thead overhead for what is always
+//          only 5 rows. Switched to `max-height: none; overflow-y: visible;`
+//          so the table grows to its intrinsic height (no scrollbar, no
+//          row-vs-header overlap risk because there's nothing to scroll).
+//          Kept the sticky-thead OPAQUE-background fix as a no-op safety
+//          net in case the cap ever returns.
+//
+//     [B2] CSS + JS: split the previously-single active sentence into
+//          TWO distinct strings to stop the duplication the user spotted
+//          ("بدأ عيد الأضحى 1447 هـ يوم 27 مايو 2026، وهو جارٍ الآن"
+//          appearing both under H1 AND below the counter).
+//          Now:
+//            • #*-h1-seo  → CELEBRATORY chip with festive per-event copy
+//              (Eid → "وكل عام وأنتم بخير", Ramadan → "تقبّل الله صيامكم
+//              وقيامكم", NY → "نسأل الله أن يجعله عام خير وبركة").
+//              Styled via the new `.cd-h1-seo.countdown-active-intro`
+//              rule (rounded pill, soft green tint, dark-mode variant).
+//            • #*-seo-line → FUNCTIONAL concise variant
+//              ("بدأت أيام عيد الأضحى يوم 27 مايو 2026." etc).
+//          AR + EN explicit per event; 8 other langs fall back to AR.
+//
+//   Cache-busters: js/app.js?v=736 → ?v=737; css/style.css?v=452 → ?v=453.
+//
+// ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27 — Phase A):
+//   v368 → v369 (single composite commit). Apply ACTIVE-CYCLE awareness
+//   to every surface of the 4 Islamic-event countdown pages
+//   (/ramadan-countdown + /eid-al-fitr-countdown + /eid-al-adha-countdown
+//   + /hijri-new-year-countdown). Six coordinated surface changes when
+//   the resolver returns `status:'active'`:
+//
+//     (1) H1 textContent — swaps "🐑 كم باقي على عيد الأضحى 1447 هـ؟"
+//         for the event-specific active title (e.g. "🐑 عيد الأضحى
+//         المبارك جارٍ الآن 1447 هـ"). Removes data-i18n on the H1 so
+//         later i18n re-binds don't overwrite. Per-event AR + EN; other
+//         8 langs fall back to AR.
+//     (2) #*-h1-seo sub-line — swaps "N days remain until X" for
+//         "بدأ X يوم Y، وهو جارٍ الآن" (per event, localized).
+//     (3) #*-seo-line bottom SEO — same active sentence as (2).
+//     (4) .cd-personal-bar line 2 (.cdp-l2) — swaps "N days remain
+//         until X begins" for the per-event "happening now" line.
+//     (5) Ticker target — switches from `_eventGreg` (active cycle's
+//         PAST start; would always display "انتهى" + 00:00:00) to
+//         `_activeEndDate` (cycle.start + durationDays). Counter now
+//         meaningfully counts DOWN to end of festival. New CSS hook
+//         class `is-active` on `.countdown-timer` for future styling.
+//         Edge case: if `diff <= 0` while active (rare — page left open
+//         across festival end), days cell shows "يجري الآن" instead of
+//         "انتهى"; reload resolves the next upcoming cycle.
+//     (6) Years table — base Hijri year shifts +1 when active so the
+//         current in-progress cycle is excluded from the "upcoming
+//         years" table. Row 0 becomes the next strictly-future cycle;
+//         "after N days" recomputed against it. Row count stays at 5
+//         via Hijri-math extrapolation for the tail.
+//
+//   Plus a CSS-only sticky-thead fix on `.countdown-table thead th`:
+//   the previous rule overrode only position/top/z-index, leaving the
+//   semi-transparent `rgba(76,175,80,0.10)` from the base. Rows visually
+//   bled through during scroll. Layered an opaque `var(--card-bg)`
+//   underneath + kept the green tint as overlay gradient; added
+//   bottom box-shadow + bumped z-index 2→3. Dark-mode equivalent.
+//
+//   AR + EN explicit in JS templates; 8 other langs fall back to AR.
+//   No new i18n keys (reuses `moon.events.active_now` from previous
+//   ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1). No HTML structure change.
+//   SSR untouched. Untouched pages: /prayer-times-in-*, /qibla-in-*,
+//   /azkar/*, /moon-today*, /moon-in-*, /hijri-calendar, /zakat-
+//   calculator, /msbaha. Card semantics (small cards on /moon-today
+//   etc.) unchanged — still uses ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1
+//   logic and shows "يجري الآن" for active events.
+//   Cache-busters: js/app.js?v=734 → ?v=736 (two intermediate WIP
+//   versions never deployed); css/style.css?v=451 → ?v=452.
+// ISLAMIC-EVENTS-FUTURE-TABLE-ACTIVE-CYCLE-FIX-1 (rolled into above):
+//   v368 → v369. Two-part fix for the "upcoming years" table on the 4
+//   Islamic-event countdown pages (/ramadan-countdown + /eid-al-fitr-
+//   countdown + /eid-al-adha-countdown + /hijri-new-year-countdown):
+//
+//   [CSS] css/style.css `.countdown-table thead th` — the sticky-thead
+//   rule only overrode position/top/z-index, leaving the base background
+//   `rgba(76,175,80,0.10)` from `.countdown-table th`. Semi-transparent
+//   tint let rows visually bleed through the header during scroll. Fix
+//   layers an OPAQUE `var(--card-bg)` underneath via background-color +
+//   keeps the green tint as background-image gradient (visual color
+//   unchanged, opacity now solid). Adds bottom box-shadow + bumps
+//   z-index 2→3 to crisply separate from scrolled rows. Dark-mode
+//   equivalent included.
+//
+//   [JS] js/app.js _initCountdownPage() years table builder — when
+//   `_isEventActive` (set by ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1), the
+//   loop now shifts Hijri-year base by +1 so the CURRENT in-progress
+//   cycle (which has already started — start ≤ today) is EXCLUDED
+//   from a table titled "upcoming years". Row 0 of the displayed
+//   table is the first strictly-future cycle. The "after N days"
+//   label is recomputed against THAT future date (not against the
+//   active cycle's past start). Row count stays at 5 — list shifts
+//   forward by 1 year via Hijri math. Card semantics untouched: the
+//   live counter still shows "يجري الآن" during the active window
+//   (separation of table vs. card semantics per user spec).
+//
+//   No HTML structure change. No new i18n keys. SSR untouched.
+//   Untouched pages: /prayer-times-in-*, /qibla-in-*, /azkar/*,
+//   /moon-today*, /moon-in-*, /hijri-calendar, /zakat-calculator,
+//   /msbaha.
+//   Cache-busters: js/app.js?v=734 → ?v=735; css/style.css?v=451 → ?v=452.
 // ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 (2026-05-27):
 //   v367 → v368. Replace "انتهى" semantics with rolling-cycle logic for
 //   the 4 Islamic-event countdown cards (Ramadan / Eid al-Fitr / Eid
@@ -567,7 +677,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v368';
+const CACHE_VERSION = 'v370';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

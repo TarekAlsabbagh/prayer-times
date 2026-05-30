@@ -3908,6 +3908,95 @@ async function initApp() {
         const _eventGreg = _eventInfo.start;
         const _eventHYear = _eventInfo.hijriYear || '';
         const _isEventActive = (_eventInfo.status === 'active');
+        const _activeEndDate = (_eventInfo.endExclusive instanceof Date) ? _eventInfo.endExclusive : null;
+
+        // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27):
+        //   When the resolver returns `status:'active'`, the countdown page
+        //   must NOT keep the "How long until X?" framing — the event has
+        //   already begun. We replace 5 surface areas in coordinated fashion:
+        //     (1) H1: "🐑 عيد الأضحى المبارك جارٍ الآن 1447 هـ"
+        //     (2) #*-h1-seo: "بدأ ... وهو جارٍ الآن"
+        //     (3) #*-seo-line: same active sentence
+        //     (4) personal-bar line 2: "يجري الآن" (no "0 days remaining")
+        //     (5) ticker target: switch from _eventGreg (PAST start) to
+        //         _activeEndDate so the ticker counts down to END of festival
+        //         instead of showing 00:00:00 + "انتهى".
+        //   AR + EN explicit per event, other 8 langs fall back to AR.
+        const _activeTitleByEvent = {
+            ramadan: {
+                ar: `🕋 شهر رمضان المبارك جارٍ الآن ${_eventHYear} هـ`,
+                en: `🕋 Ramadan ${_eventHYear} AH is happening now`
+            },
+            fitr: {
+                ar: `🌙 عيد الفطر المبارك جارٍ الآن ${_eventHYear} هـ`,
+                en: `🌙 Eid al-Fitr ${_eventHYear} AH is happening now`
+            },
+            adha: {
+                ar: `🐑 عيد الأضحى المبارك جارٍ الآن ${_eventHYear} هـ`,
+                en: `🐑 Eid al-Adha ${_eventHYear} AH is happening now`
+            },
+            newyear: {
+                ar: `📅 رأس السنة الهجرية جارٍ الآن ${_eventHYear} هـ`,
+                en: `📅 Hijri New Year ${_eventHYear} AH is happening now`
+            }
+        };
+        // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 — Phase B: split the
+        // single active sentence into TWO distinct strings so the page no
+        // longer prints the same line twice (once under H1, once below the
+        // counter — the duplication the user reported).
+        //   • _activeCelebratoryByEvent → CELEBRATORY, decorated chip,
+        //       placed in #*-h1-seo. Per-event flavour ("كل عام وأنتم بخير"
+        //       for the two Eids; "تقبّل الله صيامكم وقيامكم" for Ramadan;
+        //       "نسأل الله أن يجعله عام خير وبركة" for Hijri New Year).
+        //   • _activeShortLineByEvent → FUNCTIONAL, concise, placed in
+        //       #*-seo-line. "بدأت أيام {event} يوم {date}." etc.
+        const _activeCelebratoryByEvent = {
+            ramadan: {
+                ar: `نحن الآن في شهر رمضان المبارك ${_eventHYear} هـ، تقبّل الله صيامكم وقيامكم.`,
+                en: `We are now in the blessed month of Ramadan ${_eventHYear} AH — may Allah accept your fasting and prayers.`
+            },
+            fitr: {
+                ar: `نحن الآن في أيام عيد الفطر المبارك ${_eventHYear} هـ، وكل عام وأنتم بخير.`,
+                en: `We are now in the blessed days of Eid al-Fitr ${_eventHYear} AH — Eid Mubarak.`
+            },
+            adha: {
+                ar: `نحن الآن في أيام عيد الأضحى المبارك ${_eventHYear} هـ، وكل عام وأنتم بخير.`,
+                en: `We are now in the blessed days of Eid al-Adha ${_eventHYear} AH — Eid Mubarak.`
+            },
+            newyear: {
+                ar: `بدأ العام الهجري الجديد ${_eventHYear} هـ، نسأل الله أن يجعله عام خير وبركة.`,
+                en: `The new Hijri year ${_eventHYear} AH has begun — may Allah make it a year of good and blessing.`
+            }
+        };
+        const _activeShortLineByEvent = (gregDateStr) => ({
+            ramadan: {
+                ar: `بدأ شهر رمضان يوم ${gregDateStr}، وهو جارٍ الآن.`,
+                en: `Ramadan began on ${gregDateStr} and is happening now.`
+            },
+            fitr: {
+                ar: `بدأت أيام عيد الفطر يوم ${gregDateStr}.`,
+                en: `Eid al-Fitr began on ${gregDateStr}.`
+            },
+            adha: {
+                ar: `بدأت أيام عيد الأضحى يوم ${gregDateStr}.`,
+                en: `Eid al-Adha began on ${gregDateStr}.`
+            },
+            newyear: {
+                ar: `بدأت رأس السنة الهجرية يوم ${gregDateStr}.`,
+                en: `Hijri New Year began on ${gregDateStr}.`
+            }
+        });
+        const _activePersonalL2 = {
+            ramadan: { ar: 'شهر رمضان جارٍ الآن', en: 'Ramadan is happening now' },
+            fitr:    { ar: 'عيد الفطر جارٍ الآن',  en: 'Eid al-Fitr is happening now' },
+            adha:    { ar: 'عيد الأضحى جارٍ الآن', en: 'Eid al-Adha is happening now' },
+            newyear: { ar: 'رأس السنة الهجرية اليوم', en: 'Hijri New Year is today' }
+        };
+        // Helper: pick localized active text with AR fallback for the 8 non-AR/EN langs.
+        const _pickActive = (mapByEvent) => {
+            const evMap = mapByEvent[_registryKey] || mapByEvent.ramadan;
+            return evMap[_lang] || evMap.ar;
+        };
 
         // بادئة مفاتيح i18n الخاصّة بهذه الصفحة (ramadan / eid_fitr / eid_adha / hijri_ny)
         const _kp = cfg.keyPrefix || cfg.id;
@@ -3966,7 +4055,14 @@ async function initApp() {
                 bn: `${_eventName} ${_eventHYear} হিজরি ${_gregFmt}-এ শুরু হবে, ${_daysLeft} দিন বাকি`,
                 ms: `${_eventName} ${_eventHYear} H bermula pada hari ${_gregFmt}, ${_daysLeft} hari lagi`
             };
-            _setText(_P + '-seo-line', _seoTpl[_lang] || _seoTpl.en);
+            // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 — Phase B:
+            // bottom SEO line gets the FUNCTIONAL short variant; the
+            // celebratory chip lives under H1 (set below). This prevents
+            // the same long sentence appearing twice on active pages.
+            const _seoLineFinal = _isEventActive
+                ? _pickActive(_activeShortLineByEvent(_gregFmt))
+                : (_seoTpl[_lang] || _seoTpl.en);
+            _setText(_P + '-seo-line', _seoLineFinal);
         } catch (_) {}
 
         // ── helper: للحدث "رمضان" نستخدم "شهر رمضان" — للأعياد/السنة بدون "شهر"
@@ -3996,7 +4092,17 @@ async function initApp() {
                     bn: `${_evN} ${_eventHYear} হিজরি ${_gFmt}-এ শুরু হবে, ${_daysLeft} দিন বাকি।`,
                     ms: `${_daysLeft} hari lagi sebelum ${_evN} ${_eventHYear} H bermula pada ${_gFmt}.`
                 };
-                _h1SeoEl.textContent = _aTpl[_lang] || _aTpl.en;
+                // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 — Phase B:
+                // H1 sub-line carries the CELEBRATORY chip during active.
+                // Toggle the .countdown-active-intro class so CSS applies
+                // the festive chip styling (rounded pill, soft tint).
+                if (_isEventActive) {
+                    _h1SeoEl.textContent = _pickActive(_activeCelebratoryByEvent);
+                    _h1SeoEl.classList.add('countdown-active-intro');
+                } else {
+                    _h1SeoEl.textContent = _aTpl[_lang] || _aTpl.en;
+                    _h1SeoEl.classList.remove('countdown-active-intro');
+                }
             }
         } catch (_) {}
 
@@ -4024,7 +4130,16 @@ async function initApp() {
                     bn: `${_emoji} ${_evN} ${_eventHYear} হিজরি পর্যন্ত কতদিন?`,
                     ms: `${_emoji} Berapa hari lagi ${_evN} ${_eventHYear} H?`
                 };
-                _h1El.textContent = _h1Tpl[_lang] || _h1Tpl.en;
+                // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1: when
+                // active, swap the "How long until X?" question for the
+                // event-specific "X is happening now" headline. Also drop
+                // data-i18n so subsequent i18n re-binds don't overwrite.
+                if (_isEventActive) {
+                    _h1El.textContent = _pickActive(_activeTitleByEvent);
+                    _h1El.removeAttribute('data-i18n');
+                } else {
+                    _h1El.textContent = _h1Tpl[_lang] || _h1Tpl.en;
+                }
             }
         } catch (_) {}
 
@@ -4117,7 +4232,11 @@ async function initApp() {
                     ms: `${_daysLeft} hari lagi sebelum ${_evName} bermula`
                 };
                 const _l1 = _line1Tpl[_lang] || _line1Tpl.en;
-                const _l2 = _line2Tpl[_lang] || _line2Tpl.en;
+                // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1: line 2
+                // becomes the per-event "happening now" message when active.
+                const _l2 = _isEventActive
+                    ? _pickActive(_activePersonalL2)
+                    : (_line2Tpl[_lang] || _line2Tpl.en);
                 _personalText.innerHTML = '<strong class="cdp-l1">' + _escHtml(_l1) + '</strong>'
                                         + '<span class="cdp-l2">' + _escHtml(_l2) + '</span>';
                 _personalBar.hidden = false;
@@ -4253,13 +4372,17 @@ async function initApp() {
         }
 
         // ── (هـ) جدول السنوات القادمة (5 سنوات) — تمييز "القادم" + "بعد X يوم" + داخل note ──
-        //   This table is informational ("upcoming year occurrences via Hijri
-        //   calendar"); it uses HijriDate.toGregorian for years 2..5 since the
-        //   registry only knows year 1. ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1
-        //   preserves this exactly — the countdown (above) is registry-driven
-        //   in local time, while this forecast remains Hijri-driven. Year 1
-        //   (the row marked "Next") uses the registry's exact `_eventGreg`
-        //   date so the table's first row matches the live counter precisely.
+        //   ISLAMIC-EVENTS-FUTURE-TABLE-ACTIVE-CYCLE-FIX-1 (2026-05-27):
+        //   The "upcoming years" table must NEVER show a cycle whose start
+        //   is today or in the past. When `_isEventActive` is true, the
+        //   resolver's `_eventHYear` / `_eventGreg` refer to the CURRENT
+        //   ACTIVE cycle — that cycle has already begun, so it MUST be
+        //   excluded from a table titled "upcoming years". We shift the
+        //   loop by +1 year so row 0 is the first FUTURE cycle, and
+        //   recompute the "after N days" label against THAT future date.
+        //   This separates table semantics (strictly future) from card
+        //   semantics (current cycle still shows "Happening now" via
+        //   ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 — that logic is untouched).
         const _yearsTbody = document.getElementById(_P + '-years-tbody');
         if (_yearsTbody) {
             const _toGregForecast = (hy, hm, hd) => {
@@ -4275,8 +4398,22 @@ async function initApp() {
                 } catch (_) {}
                 return null;
             };
-            const _daysLeftForRow = (typeof window._islamicEventDaysLeft === 'function')
-                ? window._islamicEventDaysLeft(_eventGreg) : 0;
+            // When active: shift table window forward by 1 Hijri year so
+            // the current (in-progress) cycle is excluded from the table.
+            const _baseHYearForTable = (typeof _eventHYear === 'number' ? _eventHYear : 1448)
+                                     + (_isEventActive ? 1 : 0);
+            // Compute the Gregorian date for the table's row-0 (== first
+            // future cycle). When NOT active, this is just `_eventGreg`
+            // (registry-precise). When active, fetch via Hijri math.
+            const _firstFutureGd = _isEventActive
+                ? _toGregForecast(_baseHYearForTable, cfg.hMonth, cfg.hDay)
+                : _eventGreg;
+            // "after N days" must point at the row-0 date (= first future
+            // cycle), NOT at `_eventGreg` which would be today/past when
+            // active. Recompute against `_firstFutureGd`.
+            const _daysLeftForRow = (_firstFutureGd instanceof Date)
+                ? Math.max(0, Math.round((_startOfDay(_firstFutureGd) - _todayStart) / 86400000))
+                : 0;
             const rows = [];
             const _nextLabel = _tt(_kp + '.year_next_badge') || (_lang === 'ar' ? 'القادم' : 'Next');
             const _afterTpl = (n) => {
@@ -4295,11 +4432,11 @@ async function initApp() {
                 return t[_lang] || t.en;
             };
             for (let i = 0; i < 5; i++) {
-                const hy = (typeof _eventHYear === 'number' ? _eventHYear : 1448) + i;
-                // Year 0 = the registry date (matches the counter exactly).
-                // Years 1-4 = HijriDate.toGregorian forecast (informational).
+                const hy = _baseHYearForTable + i;
+                // Row 0 uses the precomputed _firstFutureGd; rows 1..4 use
+                // HijriDate.toGregorian extrapolation for years beyond it.
                 const gd = (i === 0)
-                    ? _eventGreg
+                    ? _firstFutureGd
                     : _toGregForecast(hy, cfg.hMonth, cfg.hDay);
                 if (!gd) continue;
                 const _isNext = (i === 0);
@@ -4371,24 +4508,50 @@ async function initApp() {
                                                  cfg.id === 'eid-al-fitr' ? 'fitr-timer' :
                                                  cfg.id === 'eid-al-adha' ? 'adha-timer' :
                                                  'ny-timer');
-        // ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): when the target
-        // is in the past, show "انتهى" / "Ended" instead of all-zeros. The
-        // user's spec disallows negative numbers; this also disambiguates a
-        // truly-just-now (00:00:00) tick from a long-past event.
+        // ISLAMIC-EVENTS-COUNTDOWN-PAGE-ACTIVE-CYCLE-FIX-1 (2026-05-27):
+        // When the resolver returns `status:'active'`, the ticker counts
+        // down to the END of the active period (`_activeEndDate`) instead
+        // of the start date — which would always sit in the past and
+        // display "انتهى" + 00:00:00 (the bug screenshotted by the user).
+        // For inactive/upcoming events, behavior is unchanged: counts down
+        // to the cycle's start. The "ended" label is now ONLY shown for
+        // the impossible-in-practice case where even the active end has
+        // passed (page left open across the transition); on next reload
+        // the resolver picks the next upcoming cycle automatically.
         const _endedLabel = (_lang === 'ar') ? 'انتهى'
                           : (_tt('moon.events.ended') || 'Ended');
+        // _activeNowLabel surfaces on the days cell when active and the
+        // remaining computation drops below 0 (graceful tail).
+        const _activeNowLabel = (() => {
+            try { if (typeof t === 'function') { const v = t('moon.events.active_now');
+                if (v && v !== 'moon.events.active_now') return v; } } catch (_) {}
+            return (_lang === 'ar') ? 'يجري الآن' : 'Happening now';
+        })();
         const _tick = () => {
             const now = new Date();
-            const diff = _eventGreg.getTime() - now.getTime();
+            // Active → count down to end of festival; otherwise → to start.
+            const target = (_isEventActive && _activeEndDate instanceof Date)
+                ? _activeEndDate
+                : _eventGreg;
+            const diff = target.getTime() - now.getTime();
             if (diff <= 0) {
-                _setText(_P + '-days',  _endedLabel);
+                // For active events, show "يجري الآن" instead of "انتهى"
+                // (the festival window has barely elapsed — reload will
+                // resolve to next upcoming cycle).
+                const _tailLabel = _isEventActive ? _activeNowLabel : _endedLabel;
+                _setText(_P + '-days',  _tailLabel);
                 _setText(_P + '-hours', '00');
                 _setText(_P + '-mins',  '00');
                 _setText(_P + '-secs',  '00');
-                _setText(_P + '-card-days', _endedLabel);
+                _setText(_P + '-card-days', _tailLabel);
                 if (_timerEl) {
-                    _timerEl.classList.add('is-ended');
-                    _timerEl.classList.remove('is-close', 'is-today');
+                    if (_isEventActive) {
+                        _timerEl.classList.add('is-active');
+                        _timerEl.classList.remove('is-ended', 'is-close', 'is-today');
+                    } else {
+                        _timerEl.classList.add('is-ended');
+                        _timerEl.classList.remove('is-close', 'is-today', 'is-active');
+                    }
                 }
                 return;
             }
@@ -4403,8 +4566,9 @@ async function initApp() {
             _setText(_P + '-card-days', days + ' ' + (_tt('countdown.days_suffix') || 'يوم'));
             if (_timerEl) {
                 _timerEl.classList.remove('is-ended');
-                _timerEl.classList.toggle('is-close', days > 0 && days <= 5);
-                _timerEl.classList.toggle('is-today', days === 0);
+                _timerEl.classList.toggle('is-active', _isEventActive);
+                _timerEl.classList.toggle('is-close', !_isEventActive && days > 0 && days <= 5);
+                _timerEl.classList.toggle('is-today', !_isEventActive && days === 0);
             }
         };
         _tick();

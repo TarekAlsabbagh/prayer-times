@@ -478,6 +478,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'اليوم',
         'moon.events.tomorrow': 'غدًا',
         'moon.events.ended': 'انتهى',
+        'moon.events.active_now': 'يجري الآن',
         'moon.events.notice': '* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.',
         // ═══ صفحات العدّ التنازليّ (رمضان — مرحلة 1) ═══
         'countdown.days': 'أيّام',
@@ -1944,6 +1945,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Today',
         'moon.events.tomorrow': 'Tomorrow',
         'moon.events.ended': 'Ended',
+        'moon.events.active_now': 'Happening now',
         'moon.events.notice': '* The counter follows your device’s local time; dates are approximate and may differ based on crescent sighting in your country.',
         // ═══ Countdown pages (Ramadan — Phase 1) ═══
         'countdown.days': 'Days',
@@ -3324,6 +3326,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Aujourd\u2019hui',
         'moon.events.tomorrow': 'Demain',
         'moon.events.ended': 'Termin\u00e9',
+        'moon.events.active_now': 'En cours',
         'moon.events.notice': '* Le compteur suit l\u2019heure locale de votre appareil ; les dates sont approximatives et peuvent varier selon l\u2019observation du croissant dans votre pays.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Jours',
@@ -4620,6 +4623,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Bugün',
         'moon.events.tomorrow': 'Yarın',
         'moon.events.ended': 'Sona erdi',
+        'moon.events.active_now': 'Devam ediyor',
         'moon.events.notice': '* Sayaç, cihazınızın yerel saatine göre çalışır; tarihler yaklaşıktır ve ülkenizdeki hilal gözlemine göre değişebilir.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Gün',
@@ -5916,6 +5920,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'آج',
         'moon.events.tomorrow': 'کل',
         'moon.events.ended': 'ختم',
+        'moon.events.active_now': 'جاری ہے',
         'moon.events.notice': '* کاؤنٹر آپ کے ڈیوائس کے مقامی وقت کے مطابق چلتا ہے؛ تواریخ تخمینی ہیں اور آپ کے ملک میں ہلال کی رؤیت کے مطابق بدل سکتی ہیں۔',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'دن',
@@ -7206,6 +7211,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Heute',
         'moon.events.tomorrow': 'Morgen',
         'moon.events.ended': 'Beendet',
+        'moon.events.active_now': 'Läuft gerade',
         'moon.events.notice': '* Der Zähler folgt der lokalen Zeit Ihres Geräts; die Daten sind ungefähr und können je nach Mondsichtung in Ihrem Land variieren.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Tage',
@@ -8557,6 +8563,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Hari ini',
         'moon.events.tomorrow': 'Besok',
         'moon.events.ended': 'Selesai',
+        'moon.events.active_now': 'Sedang berlangsung',
         'moon.events.notice': '* Penghitung mengikuti waktu lokal perangkat Anda; tanggal bersifat perkiraan dan dapat berubah berdasarkan rukyat hilal di negara Anda.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Hari',
@@ -9908,6 +9915,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Hoy',
         'moon.events.tomorrow': 'Mañana',
         'moon.events.ended': 'Terminado',
+        'moon.events.active_now': 'En curso',
         'moon.events.notice': '* El contador sigue la hora local de tu dispositivo; las fechas son aproximadas y pueden cambiar según el avistamiento del creciente en tu país.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Días',
@@ -11259,6 +11267,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'আজ',
         'moon.events.tomorrow': 'আগামীকাল',
         'moon.events.ended': 'শেষ',
+        'moon.events.active_now': 'চলছে',
         'moon.events.notice': '* কাউন্টারটি আপনার ডিভাইসের স্থানীয় সময় অনুযায়ী চলে; তারিখগুলি আনুমানিক এবং আপনার দেশে চাঁদ দেখার উপর নির্ভর করে পরিবর্তিত হতে পারে।',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'দিন',
@@ -12610,6 +12619,7 @@ const TRANSLATIONS = {
         'moon.events.today': 'Hari ini',
         'moon.events.tomorrow': 'Esok',
         'moon.events.ended': 'Tamat',
+        'moon.events.active_now': 'Sedang berlangsung',
         'moon.events.notice': '* Pengira mengikut waktu tempatan peranti anda; tarikh adalah anggaran dan boleh berubah berdasarkan rukyah hilal di negara anda.',
         // === Countdown pages (Ramadan — Phase 1) ===
         'countdown.days': 'Hari',

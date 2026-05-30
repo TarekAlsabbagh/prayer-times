@@ -3118,11 +3118,144 @@ function updateSidebar() {
 //   • new Date('2026-05-27T00:00:00Z')
 //   • Any string with trailing 'Z' or explicit `+00:00`
 //   • Reading the timezone offset of any specific city
+// ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 (2026-05-27):
+//   Schema upgraded from single-`target` to `cycles[]` to support rolling
+//   cycles. Each cycle has a `start` (Local Date) + a `hijriYear` + a
+//   `durationDays` (how long the cards display "يجري الآن"). When the
+//   current cycle's active window passes, the resolver automatically picks
+//   the next cycle — no more "انتهى" UI state.
+//
+//   Active durations (from user spec):
+//     • ramadan: full month (29 or 30 days per cycle)
+//     • fitr:    3 days
+//     • adha:    4 days
+//     • newyear: 1 day
+//
+//   Cycle dates verified via project's HijriDate (Umm al-Qura table)
+//   for 1448-1450 AH. NOTE: previous registry had Hijri NY 1448 wrong
+//   (was Jul 16 2026 — that was a JS month-index typo; correct is
+//   Jun 16 2026 since 1 Muharram 1448 = 2026-06-16 per Umm al-Qura).
+//   Back-compat: `target` field intentionally REMOVED; all callers
+//   migrate to `_islamicEventResolveCycle()` below.
 window.ISLAMIC_EVENT_DATES = {
-    ramadan: { target: new Date(2027, 1, 8,  0, 0, 0), hijriYear: 1448 },  // 8 Feb 2027
-    fitr:    { target: new Date(2027, 2, 9,  0, 0, 0), hijriYear: 1448 },  // 9 Mar 2027
-    adha:    { target: new Date(2026, 4, 27, 0, 0, 0), hijriYear: 1447 },  // 27 May 2026
-    newyear: { target: new Date(2026, 6, 16, 0, 0, 0), hijriYear: 1448 }   // 16 Jul 2026
+    ramadan: {
+        durationDays: 30,  // upper-bound — actual months are 29 or 30
+        cycles: [
+            { hijriYear: 1448, start: new Date(2027, 1, 8,  0, 0, 0), durationDays: 29 },  //  8 Feb 2027
+            { hijriYear: 1449, start: new Date(2028, 0, 28, 0, 0, 0), durationDays: 29 },  // 28 Jan 2028
+            { hijriYear: 1450, start: new Date(2029, 0, 16, 0, 0, 0), durationDays: 30 }   // 16 Jan 2029
+        ]
+    },
+    fitr: {
+        durationDays: 3,
+        cycles: [
+            { hijriYear: 1447, start: new Date(2026, 2, 20, 0, 0, 0) },  // 20 Mar 2026 (passed in 2026)
+            { hijriYear: 1448, start: new Date(2027, 2, 9,  0, 0, 0) },  //  9 Mar 2027
+            { hijriYear: 1449, start: new Date(2028, 1, 26, 0, 0, 0) },  // 26 Feb 2028
+            { hijriYear: 1450, start: new Date(2029, 1, 14, 0, 0, 0) }   // 14 Feb 2029
+        ]
+    },
+    adha: {
+        durationDays: 4,
+        cycles: [
+            { hijriYear: 1447, start: new Date(2026, 4, 27, 0, 0, 0) },  // 27 May 2026
+            { hijriYear: 1448, start: new Date(2027, 4, 16, 0, 0, 0) },  // 16 May 2027
+            { hijriYear: 1449, start: new Date(2028, 4, 5,  0, 0, 0) },  //  5 May 2028
+            { hijriYear: 1450, start: new Date(2029, 3, 24, 0, 0, 0) }   // 24 Apr 2029
+        ]
+    },
+    newyear: {
+        durationDays: 1,
+        cycles: [
+            { hijriYear: 1447, start: new Date(2025, 5, 26, 0, 0, 0) },  // 26 Jun 2025 (passed)
+            { hijriYear: 1448, start: new Date(2026, 5, 16, 0, 0, 0) },  // 16 Jun 2026  ← FIX (registry had Jul 16)
+            { hijriYear: 1449, start: new Date(2027, 5, 6,  0, 0, 0) },  //  6 Jun 2027
+            { hijriYear: 1450, start: new Date(2028, 4, 25, 0, 0, 0) }   // 25 May 2028
+        ]
+    }
+};
+
+// ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1: Resolve the cycle to display for an
+//   event. Returns `{status, start, endExclusive, hijriYear, daysLeft}`:
+//     • `active`   → today is inside [cycle.start, cycle.start + duration)
+//                    daysLeft = 0; UI shows "يجري الآن"
+//     • `upcoming` → today is before the next cycle's start
+//                    daysLeft = positive integer; UI shows the count
+//     • `past`     → all cycles in the past (data needs refresh) — show last
+//   `now` is optional; falls back to `new Date()`. All comparisons are done
+//   against device-local midnight, matching the existing _islamicEventDaysLeft
+//   convention (no UTC, no city tz).
+window._islamicEventResolveCycle = function (eventKey, now) {
+    const event = (window.ISLAMIC_EVENT_DATES || {})[eventKey];
+    if (!event || !Array.isArray(event.cycles) || !event.cycles.length) return null;
+    const _now = (now instanceof Date) ? now : new Date();
+    const _todayStart = new Date(_now.getFullYear(), _now.getMonth(), _now.getDate(), 0, 0, 0);
+    const _dur = (cycle) => (typeof cycle.durationDays === 'number')
+        ? cycle.durationDays
+        : (typeof event.durationDays === 'number' ? event.durationDays : 1);
+
+    // (1) active: today is within [start, start + duration)
+    for (const cycle of event.cycles) {
+        if (!(cycle.start instanceof Date)) continue;
+        const start = new Date(cycle.start.getFullYear(), cycle.start.getMonth(), cycle.start.getDate(), 0, 0, 0);
+        const endExclusive = new Date(start.getFullYear(), start.getMonth(), start.getDate() + _dur(cycle), 0, 0, 0);
+        if (_todayStart.getTime() >= start.getTime() && _todayStart.getTime() < endExclusive.getTime()) {
+            return {
+                status: 'active',
+                start: start,
+                endExclusive: endExclusive,
+                hijriYear: cycle.hijriYear,
+                daysLeft: 0
+            };
+        }
+    }
+
+    // (2) upcoming: first cycle whose start is strictly in the future
+    for (const cycle of event.cycles) {
+        if (!(cycle.start instanceof Date)) continue;
+        const start = new Date(cycle.start.getFullYear(), cycle.start.getMonth(), cycle.start.getDate(), 0, 0, 0);
+        if (start.getTime() > _todayStart.getTime()) {
+            const daysLeft = Math.round((start.getTime() - _todayStart.getTime()) / 86400000);
+            return {
+                status: 'upcoming',
+                start: start,
+                hijriYear: cycle.hijriYear,
+                daysLeft: daysLeft
+            };
+        }
+    }
+
+    // (3) past: all cycles in the past — return the last one (data stale)
+    const last = event.cycles[event.cycles.length - 1];
+    if (last && last.start instanceof Date) {
+        const start = new Date(last.start.getFullYear(), last.start.getMonth(), last.start.getDate(), 0, 0, 0);
+        return {
+            status: 'past',
+            start: start,
+            hijriYear: last.hijriYear,
+            daysLeft: Math.round((start.getTime() - _todayStart.getTime()) / 86400000)
+        };
+    }
+    return null;
+};
+
+// ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1: Status-aware label.
+//   • active   → "يجري الآن" / "Happening now" (localized)
+//   • upcoming → uses the legacy days label ("N يومًا" / "Today" / "Tomorrow")
+//   • past     → also uses legacy label (data refresh signal)
+window._islamicEventStatusLabel = function (resolved, lang) {
+    if (!resolved) return '—';
+    const _lng = lang || (typeof getCurrentLang === 'function' ? getCurrentLang() : 'ar');
+    if (resolved.status === 'active') {
+        try {
+            if (typeof t === 'function') {
+                const v = t('moon.events.active_now');
+                if (v && v !== 'moon.events.active_now') return v;
+            }
+        } catch (_) {}
+        return (_lng === 'ar') ? 'يجري الآن' : 'Happening now';
+    }
+    return window._islamicEventDaysLabel(resolved.daysLeft, _lng);
 };
 
 // Map from `_CD_PAGES` routing keys → registry keys.
@@ -3758,18 +3891,23 @@ async function initApp() {
         const _startOfDay = (d) => { const x = new Date(d); x.setHours(0,0,0,0); return x; };
         const _todayStart = _startOfDay(new Date());
 
-        // ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): pull the event
-        //   date from `window.ISLAMIC_EVENT_DATES` — same source the cards
-        //   use, no Hijri math, no UTC, no city dependency. The Hijri year
-        //   shown in the H1 / SEO sentences also comes from this registry.
+        // ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 (2026-05-27):
+        //   Resolver replaces the legacy single `.target` field. When the
+        //   event is currently `active`, we display this cycle's start/hYear
+        //   (counter naturally shows 0 days). When `upcoming`, we display
+        //   the next future cycle's start/hYear. The legacy "انتهى" path is
+        //   gone — the resolver always picks an active or future cycle.
         const _registryKey = (cfg.id === 'eid-al-fitr') ? 'fitr'
                            : (cfg.id === 'eid-al-adha') ? 'adha'
                            : (cfg.id === 'hijri-new-year') ? 'newyear'
                            : 'ramadan';
-        const _registry = (window.ISLAMIC_EVENT_DATES || {})[_registryKey];
-        if (!_registry || !_registry.target) return;
-        const _eventGreg = _registry.target;
-        const _eventHYear = _registry.hijriYear || '';
+        const _eventInfo = (typeof window._islamicEventResolveCycle === 'function')
+            ? window._islamicEventResolveCycle(_registryKey)
+            : null;
+        if (!_eventInfo || !(_eventInfo.start instanceof Date)) return;
+        const _eventGreg = _eventInfo.start;
+        const _eventHYear = _eventInfo.hijriYear || '';
+        const _isEventActive = (_eventInfo.status === 'active');
 
         // بادئة مفاتيح i18n الخاصّة بهذه الصفحة (ramadan / eid_fitr / eid_adha / hijri_ny)
         const _kp = cfg.keyPrefix || cfg.id;
@@ -20134,83 +20272,72 @@ function updateMoonInfo() {
                     } catch(_) {}
                 }
 
-                // (4) حساب المناسبات الإسلاميّة الأربع
-                // ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26):
-                //   Switched from Hijri-driven dates (HijriDate.toGregorian) to
-                //   the shared `window.ISLAMIC_EVENT_DATES` registry — fixed
-                //   Gregorian dates constructed via `new Date(y, m, d, 0,0,0)`
-                //   (LOCAL Date, no UTC, no city dependency). Cards now match
-                //   the countdown pages exactly because both consume the same
-                //   source. Past events show "انتهى" (no negative numbers).
+                // (4) حساب المناسبات الإسلاميّة الأربع — ROLLING-CYCLE
+                // ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 (2026-05-27):
+                //   Each event resolves to a cycle (active/upcoming/past) via
+                //   `_islamicEventResolveCycle`. Active cycles display "يجري الآن"
+                //   (status label) and sort to the FRONT of the grid. Past cycles
+                //   never appear — the resolver auto-bumps to the next future
+                //   cycle. The legacy "انتهى" UI state is gone by design.
 
-                // وسم الأيام المتبقّية — uses the shared label helper which
-                //   adds "انتهى" for negative diffs.
-                const _daysLabel = (n) => {
-                    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                    return (typeof window._islamicEventDaysLabel === 'function')
-                        ? window._islamicEventDaysLabel(n, _lng)
-                        : (n == null ? '—' : String(n));
+                const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _statusLabel = (resolved) => {
+                    return (typeof window._islamicEventStatusLabel === 'function')
+                        ? window._islamicEventStatusLabel(resolved, _lng)
+                        : '—';
                 };
 
-                // فرمتة تاريخ ميلاديّ مختصرة (DD MMM YYYY) باستخدام `getDate()` / `getMonth()`
-                //   التي تعمل بتوقيت جهاز المستخدم المحلّيّ (NOT UTC).
+                // فرمتة تاريخ ميلاديّ مختصرة (DD MMM YYYY) — توقيت محلّيّ للجهاز.
                 const _fmtEventDate = (d) => {
                     if (!d) return '—';
                     const m = _tt('gmonth.' + (d.getMonth() + 1)) || String(d.getMonth() + 1);
                     return d.getDate() + ' ' + m + ' ' + d.getFullYear();
                 };
 
-                // قائمة الأحداث الأربعة — من المسجل المشترك.
-                //   نفس الـ`id`s (ramadan/fitr/adha/newyear) المستخدمة في الـDOM:
-                //   `#moon-event-{id}` + `.moon-event-{id}-card` + `.moon-event-{id}-days/date`.
-                const _registry = window.ISLAMIC_EVENT_DATES || {};
-                const _events = ['ramadan', 'fitr', 'adha', 'newyear'].map(k => ({
-                    id: k,
-                    target: _registry[k] ? _registry[k].target : null
-                }));
+                // Resolve each of the 4 events through the rolling-cycle helper.
+                const _events = ['ramadan', 'fitr', 'adha', 'newyear'].map(k => {
+                    const resolved = (typeof window._islamicEventResolveCycle === 'function')
+                        ? window._islamicEventResolveCycle(k)
+                        : null;
+                    return { id: k, resolved: resolved };
+                });
 
-                // FIX: نحدّث كل العناصر (سواء بالـ ID الأصليّ أو بالكلاس) — يدعم
-                //   نسخاً متعدّدة من moon-events-section في صفحات مختلفة (الرئيسيّة + الأذكار).
                 const _setAll = (selector, value) => {
                     document.querySelectorAll(selector).forEach(el => { el.textContent = value; });
                 };
 
-                // UAT-events-sort: نُرتّب أقرب-أوّلاً، والمنتهي يذهب إلى نهاية الشبكة.
-                const _eventsWithDays = _events.map(ev => {
-                    const days = (typeof window._islamicEventDaysLeft === 'function')
-                        ? window._islamicEventDaysLeft(ev.target)
-                        : null;
-                    return { id: ev.id, date: ev.target, days };
+                // Sort: active first (sortValue -1), then by days ascending.
+                _events.sort((a, b) => {
+                    const _sv = (r) => {
+                        if (!r) return Number.MAX_SAFE_INTEGER;
+                        if (r.status === 'active') return -1;
+                        if (r.status === 'upcoming') return r.daysLeft;
+                        return Number.MAX_SAFE_INTEGER;
+                    };
+                    return _sv(a.resolved) - _sv(b.resolved);
                 });
-                _eventsWithDays.sort((a, b) => {
-                    if (a.days == null && b.days == null) return 0;
-                    if (a.days == null) return 1;
-                    if (b.days == null) return -1;
-                    // المنتهية (days < 0) تنزل إلى أسفل الشبكة بصريّاً.
-                    const aPast = a.days < 0;
-                    const bPast = b.days < 0;
-                    if (aPast && !bPast) return 1;
-                    if (!aPast && bPast) return -1;
-                    return a.days - b.days;
-                });
-                _eventsWithDays.forEach((ev, idx) => {
-                    const _daysVal = (ev.days != null) ? _daysLabel(ev.days) : '—';
-                    const _dateVal = _fmtEventDate(ev.date);
+
+                _events.forEach((ev, idx) => {
+                    const _resolved = ev.resolved;
+                    const _daysVal = _statusLabel(_resolved);
+                    const _dateVal = _resolved ? _fmtEventDate(_resolved.start) : '—';
                     _setAll('#moon-event-' + ev.id + '-days, .moon-event-' + ev.id + '-days', _daysVal);
                     _setAll('#moon-event-' + ev.id + '-date, .moon-event-' + ev.id + '-date', _dateVal);
                     try {
                         document.querySelectorAll('#moon-event-' + ev.id + ', .moon-event-' + ev.id + '-card').forEach(_card => {
                             _card.style.order = String(idx);
-                            if (ev.days != null && ev.days >= 0 && ev.days <= 5) {
-                                _card.classList.add('moon-event-soon');
-                            } else {
-                                _card.classList.remove('moon-event-soon');
-                            }
-                            if (ev.days != null && ev.days < 0) {
-                                _card.classList.add('moon-event-ended');
-                            } else {
-                                _card.classList.remove('moon-event-ended');
-                            }
+                            // active or upcoming within 5 days → highlight
+                            const _isSoon = _resolved && (
+                                _resolved.status === 'active'
+                                || (_resolved.status === 'upcoming' && _resolved.daysLeft >= 0 && _resolved.daysLeft <= 5)
+                            );
+                            if (_isSoon) _card.classList.add('moon-event-soon');
+                            else         _card.classList.remove('moon-event-soon');
+                            // Explicit active class for future CSS hooks (does not change current visual)
+                            if (_resolved && _resolved.status === 'active') _card.classList.add('moon-event-active');
+                            else                                            _card.classList.remove('moon-event-active');
+                            // Legacy `.moon-event-ended` is REMOVED by design — rolling cycles never end.
+                            _card.classList.remove('moon-event-ended');
                         });
                     } catch(_) {}
                 });
@@ -24330,10 +24457,20 @@ function _azkarShowToast(message) {
 // ─────────────────────────────────────────────────────────────────────────────
 function _azkarRenderMoonEvents() {
     try {
-        if (!document.querySelector('#page-azkar-morning .moon-events-section')) return;
-        // ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): same source of
-        // truth as the main /moon-today cards — `window.ISLAMIC_EVENT_DATES`.
-        // No Hijri math, no city dependency, no UTC. Pure device-local Dates.
+        // ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 (2026-05-27):
+        //   • Scope expanded from #page-azkar-morning ONLY to ALL three azkar
+        //     pages (#page-azkar-morning + #page-azkar-evening +
+        //     #page-azkar-prayer). The evening + prayer pages had identical
+        //     .moon-events-section markup but no JS was filling them — they
+        //     showed placeholder "—" forever.
+        //   • Switched from days-only logic to rolling-cycle resolver. Active
+        //     cycles show "يجري الآن" and sort to the front; never "انتهى".
+        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer'];
+        const _activeScopes = _azkarPageIds
+            .map(id => document.getElementById(id))
+            .filter(el => el && el.querySelector('.moon-events-section'));
+        if (!_activeScopes.length) return;
+
         const _lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
         const _tt = (key) => {
             if (typeof t === 'function') {
@@ -24347,60 +24484,56 @@ function _azkarRenderMoonEvents() {
             const m = _tt('gmonth.' + (d.getMonth() + 1)) || String(d.getMonth() + 1);
             return d.getDate() + ' ' + m + ' ' + d.getFullYear();
         };
-        const _daysLabel = (n) => {
-            return (typeof window._islamicEventDaysLabel === 'function')
-                ? window._islamicEventDaysLabel(n, _lang)
-                : (n == null ? '—' : String(n));
+        const _statusLabel = (resolved) => {
+            return (typeof window._islamicEventStatusLabel === 'function')
+                ? window._islamicEventStatusLabel(resolved, _lang)
+                : '—';
         };
 
-        const _registry = window.ISLAMIC_EVENT_DATES || {};
-        const _events = ['ramadan', 'fitr', 'adha', 'newyear'].map(k => ({
-            id: k,
-            target: _registry[k] ? _registry[k].target : null
-        }));
-
-        // Scope every query to #page-azkar-morning so we never touch the
-        // original moon-page DOM — its updateMoonInfo() handles those.
-        const _scope = document.getElementById('page-azkar-morning');
-        const _setAll = (sel, value) => {
-            _scope.querySelectorAll(sel).forEach(el => { el.textContent = value; });
-        };
-
-        const _eventsWithDays = _events.map(ev => {
-            const days = (typeof window._islamicEventDaysLeft === 'function')
-                ? window._islamicEventDaysLeft(ev.target)
+        // Resolve all 4 events through the rolling-cycle helper.
+        const _events = ['ramadan', 'fitr', 'adha', 'newyear'].map(k => {
+            const resolved = (typeof window._islamicEventResolveCycle === 'function')
+                ? window._islamicEventResolveCycle(k)
                 : null;
-            return { id: ev.id, date: ev.target, days };
+            return { id: k, resolved: resolved };
         });
-        _eventsWithDays.sort((a, b) => {
-            if (a.days == null && b.days == null) return 0;
-            if (a.days == null) return 1;
-            if (b.days == null) return -1;
-            const aPast = a.days < 0;
-            const bPast = b.days < 0;
-            if (aPast && !bPast) return 1;
-            if (!aPast && bPast) return -1;
-            return a.days - b.days;
+
+        // Sort: active first, then upcoming by daysLeft ascending.
+        _events.sort((a, b) => {
+            const _sv = (r) => {
+                if (!r) return Number.MAX_SAFE_INTEGER;
+                if (r.status === 'active') return -1;
+                if (r.status === 'upcoming') return r.daysLeft;
+                return Number.MAX_SAFE_INTEGER;
+            };
+            return _sv(a.resolved) - _sv(b.resolved);
         });
-        _eventsWithDays.forEach((ev, idx) => {
-            const _daysVal = (ev.days != null) ? _daysLabel(ev.days) : '—';
-            const _dateVal = _fmtEventDate(ev.date);
-            _setAll('.moon-event-' + ev.id + '-days', _daysVal);
-            _setAll('.moon-event-' + ev.id + '-date', _dateVal);
-            _scope.querySelectorAll('.moon-event-' + ev.id + '-card').forEach(_card => {
-                _card.style.order = String(idx);
-                if (ev.days != null && ev.days >= 0 && ev.days <= 5) {
-                    _card.classList.add('moon-event-soon');
-                } else {
-                    _card.classList.remove('moon-event-soon');
-                }
-                if (ev.days != null && ev.days < 0) {
-                    _card.classList.add('moon-event-ended');
-                } else {
+
+        // Apply to every active azkar page scope.
+        for (const _scope of _activeScopes) {
+            const _setAll = (sel, value) => {
+                _scope.querySelectorAll(sel).forEach(el => { el.textContent = value; });
+            };
+            _events.forEach((ev, idx) => {
+                const _resolved = ev.resolved;
+                const _daysVal = _statusLabel(_resolved);
+                const _dateVal = _resolved ? _fmtEventDate(_resolved.start) : '—';
+                _setAll('.moon-event-' + ev.id + '-days', _daysVal);
+                _setAll('.moon-event-' + ev.id + '-date', _dateVal);
+                _scope.querySelectorAll('.moon-event-' + ev.id + '-card').forEach(_card => {
+                    _card.style.order = String(idx);
+                    const _isSoon = _resolved && (
+                        _resolved.status === 'active'
+                        || (_resolved.status === 'upcoming' && _resolved.daysLeft >= 0 && _resolved.daysLeft <= 5)
+                    );
+                    if (_isSoon) _card.classList.add('moon-event-soon');
+                    else         _card.classList.remove('moon-event-soon');
+                    if (_resolved && _resolved.status === 'active') _card.classList.add('moon-event-active');
+                    else                                            _card.classList.remove('moon-event-active');
                     _card.classList.remove('moon-event-ended');
-                }
+                });
             });
-        });
+        }
     } catch (_) { /* silent — events echo is a UX nicety, never throw */ }
 }
 

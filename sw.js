@@ -470,6 +470,37 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1 (2026-05-27):
+//   v367 → v368. Replace "انتهى" semantics with rolling-cycle logic for
+//   the 4 Islamic-event countdown cards (Ramadan / Eid al-Fitr / Eid
+//   al-Adha / Hijri New Year) on every page that renders them:
+//     • /moon-today + /moon-today-in-{city} + /moon-in-{city}/{date}
+//     • /azkar/morning-azkar + /azkar/evening-azkar + /azkar/prayer-azkar
+//     • /ramadan-countdown + /eid-al-fitr-countdown +
+//       /eid-al-adha-countdown + /hijri-new-year-countdown
+//   New schema: window.ISLAMIC_EVENT_DATES[k] now carries `cycles[]`
+//   instead of single `target`. Each cycle has `start` (Local Date) +
+//   `hijriYear` + optional `durationDays` (active-window length).
+//   New helpers: window._islamicEventResolveCycle(k, now?) → {status,
+//   start, endExclusive?, hijriYear, daysLeft} and
+//   window._islamicEventStatusLabel(resolved, lang) → localized text.
+//   Active durations: ramadan 29-30d, fitr 3d, adha 4d, newyear 1d.
+//   When today is inside an active cycle, the card shows "يجري الآن"
+//   (or localized: Happening now / En cours / Sedang berlangsung /
+//   جاری ہے / Läuft gerade / etc. across all 10 langs) and sorts to
+//   FRONT of the grid. The legacy `.moon-event-ended` class + "انتهى"
+//   text are gone — past cycles are auto-skipped.
+//   Date corrections from project's Umm al-Qura table: Hijri NY 1448
+//   was Jul 16 2026 (WRONG month-index typo) → corrected to Jun 16 2026.
+//   3 new future cycles added per event (covers 1448-1450).
+//   _azkarRenderMoonEvents() scope expanded from #page-azkar-morning
+//   ONLY to all 3 azkar pages (morning + evening + prayer) — evening
+//   and prayer used to show "—" placeholders forever; now they fill.
+//   Untouched: server.js SSR (qhe-section already auto-skips past via
+//   its own Hijri year-bump), CSS, HTML structure, individual-page
+//   counter widgets (target still works for active=now=0d behavior),
+//   prayer-times/qibla/azkar-content pages.
+//   Cache-buster: js/app.js?v=733 → ?v=734.
 // MOON-DAY-NAV-WEEKDAY-LABEL-FIX-1 (2026-05-27):
 //   v366 → v367. JS-only UX polish for the moon date-nav buttons on
 //   /moon-today-in-{city} and /moon-in-{city}/{date} pages. Now each
@@ -536,7 +567,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v367';
+const CACHE_VERSION = 'v368';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

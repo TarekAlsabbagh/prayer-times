@@ -864,7 +864,19 @@
 //   {city} (the latter was fixed identically in 211f1bf).
 //   No CSS / JS / data / SEO change. Index.html dual-class addition only.
 //   Cache-buster: js/app.js?v=743 → ?v=744, sw v381 → v382.
-const CACHE_VERSION = 'v382';
+//
+// PRAYER-CALC-SETTINGS-MOBILE-SELECT-LAYOUT-FIX-1 (2026-05-31):
+//   Mobile (≤767px) CSS-only fix for the calc-settings <details> block
+//   on /prayer-times-in-{city}. Issue: native <select> dropdown arrow
+//   rendered at wrong edge in RTL (left instead of right) + default
+//   padding didn't reserve space for arrow → text-arrow collision.
+//   Touch target was 40px (below 48px guideline). Fix: appearance:none
+//   + custom SVG chevron via background-image, positioned via dir-aware
+//   selectors (LTR=end, RTL=start), padding-inline 14px/38px, 48px
+//   min-height, 12px border-radius, 1rem font-size, dark-mode color
+//   variant. No JS/data/calc/advanced-settings logic changed.
+//   Cache-buster: css/style.css?v=458 → ?v=459, sw v382 → v383.
+const CACHE_VERSION = 'v383';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

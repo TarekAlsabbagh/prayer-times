@@ -27972,3 +27972,144 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   PRAYER-CALC-SETTINGS-MOBILE-SELECT-LAYOUT-FIX-1 (2026-05-31)
+   Scope: #city-calc-settings .ccs-row select on city prayer-times pages,
+   MOBILE ONLY (@media max-width: 767px).
+
+   Root cause: native <select> styling on mobile (esp. iOS Safari +
+   Chrome Android) renders the dropdown arrow at the START edge in RTL
+   instead of the END, AND the default padding (8px 10px from line
+   13488) doesn't reserve space for that arrow — causing arrow-text
+   collision on the selected option. Touch target also stays at 40px
+   (below Apple/Material 44-48px guideline). Fix: appearance:none +
+   custom SVG arrow positioned at inline-end via logical properties,
+   48px min-height, 38px end padding for arrow space.
+
+   Does NOT change:
+     - Calculation methods, option values, save logic
+     - Actual prayer-time calculations
+     - Advanced settings modal logic
+     - Desktop layout (rule scoped to mobile)
+     - Dark mode core tokens (uses theme vars)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+
+    /* Card: keep existing section-card padding rule from line 13534 (16px),
+       but add safe overflow guard so selects can never overflow horizontally. */
+    #city-calc-settings.city-calc-settings {
+        overflow: hidden;
+    }
+
+    /* Grid: a touch more breathing room between rows on mobile */
+    #city-calc-settings .ccs-grid {
+        gap: 14px;
+        padding: 4px 14px 18px;
+        box-sizing: border-box;
+        width: 100%;
+        max-width: 100%;
+    }
+
+    /* Row: full-width vertical stack (label above select) */
+    #city-calc-settings .ccs-row {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Label: bumped readability + weight on mobile */
+    #city-calc-settings .ccs-row label {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        text-align: start;
+        font-size: 0.95rem;
+        line-height: 1.5;
+        font-weight: 600;
+        color: var(--text, #2e3a2e);
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    /* Select: appearance:none + custom SVG arrow + 48px touch target.
+       Padding uses logical properties (padding-inline) so the 38px end-side
+       (where the custom arrow sits) and the 14px start-side (text-edge)
+       automatically swap in RTL vs LTR. The SVG arrow positions via
+       `background-position: var(--ccs-arrow-x) center` where --ccs-arrow-x
+       is set per-direction below. */
+    #city-calc-settings .ccs-row select {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        min-height: 48px;
+        box-sizing: border-box;
+        padding-block: 0;
+        padding-inline-start: 14px;
+        padding-inline-end: 38px;
+        border: 1px solid var(--border, #d7e3d6);
+        border-radius: 12px;
+        background-color: var(--card-bg, #ffffff);
+        color: var(--text, #2e3a2e);
+        font-size: 1rem;
+        line-height: 1.4;
+        font-family: inherit;
+        text-align: start;
+
+        /* Remove native arrow + add custom chevron SVG (primary-dark color) */
+        appearance: none;
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%231a6b3c' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5 L6 6.5 L11 1.5'/></svg>");
+        background-repeat: no-repeat;
+        background-size: 12px 8px;
+        background-position-y: center;
+    }
+    /* Arrow horizontal position — RTL puts arrow on the left edge,
+       LTR puts it on the right edge. Default browser direction = ltr. */
+    html[dir="ltr"] #city-calc-settings .ccs-row select {
+        background-position-x: calc(100% - 14px);
+    }
+    html[dir="rtl"] #city-calc-settings .ccs-row select,
+    html:not([dir="ltr"]) #city-calc-settings .ccs-row select {
+        background-position-x: 14px;
+    }
+
+    /* Hide IE/Edge legacy dropdown chevron (Edge 12-18) */
+    #city-calc-settings .ccs-row select::-ms-expand { display: none; }
+
+    /* Focus ring — clearer + matches existing primary outline pattern */
+    #city-calc-settings .ccs-row select:focus-visible {
+        outline: 2px solid var(--primary, #1a6b3c);
+        outline-offset: 2px;
+        border-color: var(--primary, #1a6b3c);
+    }
+
+    /* Advanced settings link — 48px touch target + matching pill radius */
+    #city-calc-settings .ccs-advanced-link {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        max-width: 100%;
+        min-height: 48px;
+        padding-block: 10px;
+        padding-inline: 14px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        box-sizing: border-box;
+    }
+
+    /* Dark-mode select coloring — chevron color flips to primary-light */
+    html[data-theme="dark"] #city-calc-settings .ccs-row select {
+        background-color: var(--card-bg, #2d333b);
+        color: var(--text, #e0e0e0);
+        border-color: var(--border, #444c56);
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%234ab87a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5 L6 6.5 L11 1.5'/></svg>");
+    }
+}
+

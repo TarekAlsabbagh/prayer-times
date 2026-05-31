@@ -876,7 +876,17 @@
 //   min-height, 12px border-radius, 1rem font-size, dark-mode color
 //   variant. No JS/data/calc/advanced-settings logic changed.
 //   Cache-buster: css/style.css?v=458 → ?v=459, sw v382 → v383.
-const CACHE_VERSION = 'v383';
+//
+// PRAYER-TIMES-JUMP-CTA-BUTTON-REMOVAL-1 (2026-05-31):
+//   Removed the "Jump to next prayer" CTA button (.cha-cta--banner)
+//   from .next-prayer-banner on /prayer-times-in-{city} pages per
+//   user request. HTML markup deleted at index.html:609-612 (replaced
+//   with a doc comment). Supporting code KEPT as harmless dead code
+//   (no DOM refs): jumpToActivePrayer() in js/app.js, .cha-cta--banner
+//   CSS rules in css/style.css, cha.cta_jump i18n keys across 10 lang
+//   files. A separate cleanup ticket can prune them later if desired.
+//   Cache-buster bump for SW precache invalidation only: sw v383 → v384.
+const CACHE_VERSION = 'v384';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

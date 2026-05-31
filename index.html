@@ -601,15 +601,16 @@
                             <div class="banner-date-greg" id="banner-greg-date">--</div>
                         </div>
                     </div>
-                    <!-- PT-A-JS-followup (2026-05-06): user-triggered "Jump to current prayer".
-                         Replaces the previous 500ms auto-scroll that was disabled because it
-                         caused programmatic CLS on Lighthouse runs. Now the user clicks this
-                         CTA → jumpToActivePrayer() runs scrollIntoView, and Lighthouse
-                         excludes shifts within 500ms of user input from CLS. -->
-                    <button type="button" class="cha-cta cha-cta--banner" onclick="jumpToActivePrayer()" aria-label="انتقل إلى الصلاة القادمة" data-i18n-aria-label="cha.cta_jump">
-                        <svg class="icon" aria-hidden="true"><use href="#i-clock"/></svg>
-                        <span data-i18n="cha.cta_jump">انتقل إلى الصلاة القادمة</span>
-                    </button>
+                    <!-- PRAYER-TIMES-JUMP-CTA-BUTTON-REMOVAL-1 (2026-05-31):
+                         The "Jump to next prayer" CTA button (.cha-cta--banner with
+                         onclick=jumpToActivePrayer()) was REMOVED per user request.
+                         The button was originally added in PT-A-JS-followup (2026-05-06)
+                         to replace a 500ms auto-scroll that triggered programmatic CLS
+                         on Lighthouse runs. The supporting jumpToActivePrayer() function
+                         in js/app.js, the .cha-cta--banner CSS rules in css/style.css,
+                         and the cha.cta_jump i18n keys across 10 lang files are KEPT
+                         as dead code — they're harmless once no DOM element references
+                         them. A separate cleanup ticket can prune them later. -->
                 </div>
 
                 <!-- بطاقات الصلوات -->

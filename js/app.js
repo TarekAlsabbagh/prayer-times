@@ -9206,6 +9206,150 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
     });
 
     sec.classList.remove('u-hidden');
+
+    // ─────────────────────────────────────────────────────────────────────
+    // CITY-PRAYER-RELATED-ISLAMIC-TOOLS-SECTION-1 (2026-05-31):
+    //   Fill the parallel `#pt-related-tools` section (4 broad Islamic-tool
+    //   cards: Azkar / Qibla / Moon / Hijri). DELIBERATELY excludes the
+    //   prayer-times self-link AND the time-left countdown (per user spec).
+    //   Sister section to #related-links-section but with a different
+    //   intent: tools-discovery rather than same-page schedule navigation.
+    //   All 10-lang strings inline (no new i18n keys needed) — matches the
+    //   fallbackTpl pattern used above for rls.* keys.
+    // ─────────────────────────────────────────────────────────────────────
+    try {
+        const _ptSec = document.getElementById('pt-related-tools');
+        if (_ptSec && citySlug) {
+            const _ptTpl = {
+                title: {
+                    ar: 'أدوات إسلامية مرتبطة بيومك في {loc}',
+                    en: 'Islamic Tools for Your Day in {loc}',
+                    fr: 'Outils islamiques pour votre journée à {loc}',
+                    tr: '{loc} için İslami günlük araçlar',
+                    ur: '{loc} میں آپ کے دن کے لیے اسلامی اوزار',
+                    de: 'Islamische Tools für deinen Tag in {loc}',
+                    id: 'Alat Islami untuk Harimu di {loc}',
+                    es: 'Herramientas islámicas para tu día en {loc}',
+                    bn: '{loc}-এ আপনার দিনের জন্য ইসলামিক টুলস',
+                    ms: 'Alat Islam untuk Hari Anda di {loc}'
+                },
+                intro: {
+                    ar: 'تساعدك هذه الأدوات على متابعة مواقيت الصلاة، الأذكار، التاريخ الهجري، حالة القمر، واتجاه القبلة في {loc} من مكان واحد.',
+                    en: 'These tools help you follow prayer times, daily azkar, the Hijri date, moon phase, and Qibla direction in {loc} from one place.',
+                    fr: 'Ces outils vous aident à suivre les horaires de prière, les azkar quotidiens, la date hijri, la phase de la lune et la direction de la Qibla à {loc} depuis un seul endroit.',
+                    tr: 'Bu araçlar namaz vakitlerini, günlük zikirleri, hicri tarihi, ay evresini ve {loc} için kıble yönünü tek bir yerden takip etmenize yardımcı olur.',
+                    ur: 'یہ اوزار آپ کو نماز کے اوقات، روزانہ اذکار، ہجری تاریخ، چاند کی حالت، اور {loc} میں سمتِ قبلہ کو ایک جگہ سے دیکھنے میں مدد دیتے ہیں۔',
+                    de: 'Diese Tools helfen dir, Gebetszeiten, tägliche Azkar, das Hidschri-Datum, die Mondphase und die Qibla-Richtung in {loc} an einem Ort zu verfolgen.',
+                    id: 'Alat ini membantu Anda mengikuti jadwal sholat, azkar harian, tanggal hijriah, fase bulan, dan arah kiblat di {loc} dari satu tempat.',
+                    es: 'Estas herramientas te ayudan a seguir los horarios de oración, los azkar diarios, la fecha hijri, la fase lunar y la dirección de la Qibla en {loc} desde un solo lugar.',
+                    bn: 'এই টুলগুলি আপনাকে নামাজের সময়, দৈনিক আজকার, হিজরি তারিখ, চাঁদের পর্যায়, এবং {loc}-এ কিবলার দিক এক জায়গা থেকে অনুসরণ করতে সহায়তা করে।',
+                    ms: 'Alat ini membantu anda mengikuti waktu solat, azkar harian, tarikh hijrah, fasa bulan, dan arah kiblat di {loc} dari satu tempat.'
+                },
+                azkar_name: {
+                    ar: 'الأذكار اليومية', en: 'Daily Azkar', fr: 'Azkar quotidiens', tr: 'Günlük Zikirler',
+                    ur: 'روزانہ اذکار', de: 'Tägliche Azkar', id: 'Azkar Harian', es: 'Azkar Diarios',
+                    bn: 'দৈনিক আজকার', ms: 'Azkar Harian'
+                },
+                azkar_desc: {
+                    ar: 'اقرأ أذكار الصباح والمساء وأذكار الصلاة بتكرار واضح ومصدر موثوق.',
+                    en: 'Read morning, evening, and post-prayer azkar with clear repetition counts and trusted sources.',
+                    fr: 'Lisez les azkar du matin, du soir et après la prière avec un comptage clair et des sources fiables.',
+                    tr: 'Sabah, akşam ve namaz sonrası zikirleri net tekrar sayıları ve güvenilir kaynaklarla okuyun.',
+                    ur: 'صبح، شام اور نمازِ بعد کے اذکار واضح تکرار اور قابلِ اعتماد ذرائع کے ساتھ پڑھیں۔',
+                    de: 'Lies Morgen-, Abend- und Nachgebets-Azkar mit klaren Wiederholungszählern und vertrauenswürdigen Quellen.',
+                    id: 'Baca azkar pagi, petang, dan setelah sholat dengan hitungan pengulangan yang jelas dan sumber terpercaya.',
+                    es: 'Lee los azkar de la mañana, la tarde y después de la oración con conteos claros y fuentes confiables.',
+                    bn: 'সকাল, সন্ধ্যা ও নামাজের পরের আজকার স্পষ্ট পুনরাবৃত্তি সংখ্যা ও নির্ভরযোগ্য উৎস সহ পড়ুন।',
+                    ms: 'Baca azkar pagi, petang, dan selepas solat dengan kiraan pengulangan yang jelas dan sumber yang dipercayai.'
+                },
+                qibla_name: {
+                    ar: 'اتجاه القبلة في {loc}', en: 'Qibla Direction in {loc}', fr: 'Direction de la Qibla à {loc}',
+                    tr: '{loc} Kıble Yönü', ur: '{loc} میں سمتِ قبلہ', de: 'Qibla-Richtung in {loc}',
+                    id: 'Arah Kiblat di {loc}', es: 'Dirección de la Qibla en {loc}', bn: '{loc}-এ কিবলার দিক',
+                    ms: 'Arah Kiblat di {loc}'
+                },
+                qibla_desc: {
+                    ar: 'اعرف اتجاه القبلة وزاويتها من موقعك أو مدينتك.',
+                    en: 'Find the Qibla direction and exact angle from your location or city.',
+                    fr: 'Trouvez la direction de la Qibla et son angle exact depuis votre position ou votre ville.',
+                    tr: 'Konumunuzdan veya şehrinizden kıble yönünü ve tam açısını bulun.',
+                    ur: 'اپنے مقام یا شہر سے سمتِ قبلہ اور درست زاویہ معلوم کریں۔',
+                    de: 'Finde die Qibla-Richtung und den genauen Winkel von deinem Standort oder deiner Stadt.',
+                    id: 'Temukan arah kiblat dan sudut yang tepat dari lokasi atau kota Anda.',
+                    es: 'Encuentra la dirección de la Qibla y el ángulo exacto desde tu ubicación o ciudad.',
+                    bn: 'আপনার অবস্থান বা শহর থেকে কিবলার দিক এবং সঠিক কোণ খুঁজুন।',
+                    ms: 'Cari arah kiblat dan sudut yang tepat dari lokasi atau bandar anda.'
+                },
+                moon_name: {
+                    ar: 'حالة القمر اليوم', en: 'Moon Phase Today', fr: 'Phase de la lune aujourd’hui',
+                    tr: 'Bugün Ay Evresi', ur: 'آج چاند کی حالت', de: 'Mondphase heute',
+                    id: 'Fase Bulan Hari Ini', es: 'Fase Lunar Hoy', bn: 'আজকের চাঁদের পর্যায়',
+                    ms: 'Fasa Bulan Hari Ini'
+                },
+                moon_desc: {
+                    ar: 'اعرف طور القمر ونسبة الإضاءة وموعد الشروق والغروب.',
+                    en: 'Check the moon phase, illumination percentage, and rise/set times.',
+                    fr: 'Vérifiez la phase de la lune, le pourcentage d’illumination et les heures de lever et de coucher.',
+                    tr: 'Ay evresini, aydınlanma yüzdesini ve doğuş/batış saatlerini kontrol edin.',
+                    ur: 'چاند کی حالت، روشنی کی شرح، اور طلوع و غروب کے اوقات معلوم کریں۔',
+                    de: 'Überprüfe die Mondphase, den Beleuchtungsgrad und die Auf-/Untergangszeiten.',
+                    id: 'Cek fase bulan, persentase iluminasi, dan waktu terbit/terbenam.',
+                    es: 'Consulta la fase lunar, el porcentaje de iluminación y las horas de salida y puesta.',
+                    bn: 'চাঁদের পর্যায়, আলোকিতের শতকরা হার, এবং উদয়/অস্তের সময় দেখুন।',
+                    ms: 'Semak fasa bulan, peratusan pencahayaan, dan masa terbit/terbenam.'
+                },
+                hijri_name: {
+                    ar: 'التاريخ الهجري اليوم', en: 'Today’s Hijri Date', fr: 'Date hijri d’aujourd’hui',
+                    tr: 'Bugünkü Hicri Tarih', ur: 'آج کی ہجری تاریخ', de: 'Heutiges Hidschri-Datum',
+                    id: 'Tanggal Hijriah Hari Ini', es: 'Fecha Hijri de Hoy', bn: 'আজকের হিজরি তারিখ',
+                    ms: 'Tarikh Hijrah Hari Ini'
+                },
+                hijri_desc: {
+                    ar: 'اعرف التاريخ الهجري والميلادي لهذا اليوم.',
+                    en: 'Find today’s Hijri and Gregorian dates.',
+                    fr: 'Trouvez les dates hijri et grégorienne d’aujourd’hui.',
+                    tr: 'Bugünün hicri ve miladi tarihlerini bulun.',
+                    ur: 'آج کی ہجری اور عیسوی تاریخ معلوم کریں۔',
+                    de: 'Finde das heutige Hidschri- und gregorianische Datum.',
+                    id: 'Temukan tanggal hijriah dan masehi hari ini.',
+                    es: 'Encuentra la fecha hijri y gregoriana de hoy.',
+                    bn: 'আজকের হিজরি ও গ্রেগরিয়ান তারিখ দেখুন।',
+                    ms: 'Cari tarikh hijrah dan masihi hari ini.'
+                }
+            };
+            const _ptPick = (key) => {
+                const m = _ptTpl[key];
+                return (m && (m[lang] || m.en || m.ar)) || '';
+            };
+            const _ptSetText = (id, key, withLoc) => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                let s = _ptPick(key);
+                if (withLoc) s = s.replace(/\{loc\}/g, cityName || '');
+                el.textContent = s;
+            };
+            // Section title + intro (carry {loc})
+            _ptSetText('pt-related-tools-title', 'title', true);
+            _ptSetText('pt-related-tools-intro', 'intro', true);
+            // 4 card names + descs
+            _ptSetText('pt-tool-azkar-name', 'azkar_name', false);
+            _ptSetText('pt-tool-azkar-desc', 'azkar_desc', false);
+            _ptSetText('pt-tool-qibla-name', 'qibla_name', true);
+            _ptSetText('pt-tool-qibla-desc', 'qibla_desc', false);
+            _ptSetText('pt-tool-moon-name',  'moon_name',  false);
+            _ptSetText('pt-tool-moon-desc',  'moon_desc',  false);
+            _ptSetText('pt-tool-hijri-name', 'hijri_name', false);
+            _ptSetText('pt-tool-hijri-desc', 'hijri_desc', false);
+            // Dynamic hrefs (azkar + hijri are static, qibla + moon need slug)
+            const _setHref = (id, href) => { const el = document.getElementById(id); if (el) el.setAttribute('href', href); };
+            _setHref('pt-tool-azkar', prefix + '/azkar');
+            _setHref('pt-tool-qibla', prefix + '/qibla-in-' + citySlug);
+            _setHref('pt-tool-moon',  prefix + '/moon-today-in-' + citySlug);
+            _setHref('pt-tool-hijri', prefix + '/today-hijri-date');
+            // Reveal
+            _ptSec.classList.remove('u-hidden');
+        }
+    } catch (_) { /* silent — tools section is a UX nicety, never throw */ }
 }
 
 /**

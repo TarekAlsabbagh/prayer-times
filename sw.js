@@ -470,6 +470,32 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// CITY-PRAYER-RELATED-ISLAMIC-TOOLS-SECTION-1 (2026-05-31):
+//   v371 → v372. New "Islamic tools for your day in {city}" section added
+//   to every /prayer-times-in-{city} page (10 langs). Reuses the
+//   .hd1-tools-section visual pattern from /today-hijri-date — same
+//   .hd1-tools-grid + .hd1-tool-card markup so CSS is shared (no new
+//   rules). 4 cards inside the new section:
+//     1. الأذكار اليومية        → /azkar          (static)
+//     2. اتجاه القبلة في {city}  → /qibla-in-{slug} (dynamic href + name)
+//     3. حالة القمر اليوم        → /moon-today-in-{slug} (dynamic href)
+//     4. التاريخ الهجري اليوم    → /today-hijri-date (static)
+//   Deliberately EXCLUDES:
+//     • مواقيت الصلاة اليوم — would be a self-link to /prayer-times-in-{slug}
+//     • كم باقي على الصلاة القادمة — replaced by Azkar card per user spec
+//   Placement: index.html ~line 738, immediately AFTER #city-calc-settings
+//   (the settings <details>) and BEFORE #city-summary-paragraph. Hidden
+//   via `u-hidden` until JS attaches a real city slug — avoids inline
+//   AR text flashing on non-AR pages.
+//   Filled by `updateRelatedLinks()` in js/app.js (~line 9210+), reusing
+//   the existing function's `(citySlug, cityName, countrySlug, countryName,
+//   lang)` signature. All 10-lang strings inline in JS — NO new i18n
+//   keys needed (i18n.js + 10 standalone files untouched).
+//   No CSS changes (reuses .hd1-tools-section + .hd1-tool-card existing
+//   styles + dark-mode variants). Untouched: prayer time calculation,
+//   #related-links-section (the existing 7-link block), /qibla*,
+//   /moon-*, /azkar/*, /hijri-* pages.
+//   Cache-buster: js/app.js?v=738 → ?v=739.
 // NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27):
 //   v370 → v371. Pre-launch slug rename + H1 dedup for the prayer-countdown
 //   page. Old route `/time-left-until-prayer-in-{city}` renamed to the more
@@ -711,7 +737,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v371';
+const CACHE_VERSION = 'v372';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

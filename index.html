@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=738" as="script">
+    <link rel="preload" href="js/app.js?v=739" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -735,6 +735,54 @@
                         </button>
                     </div>
                 </details>
+
+                <!-- CITY-PRAYER-RELATED-ISLAMIC-TOOLS-SECTION-1 (2026-05-31):
+                     4-card "related Islamic tools" grid for /prayer-times-in-{city}.
+                     Reuses the .hd1-tools-section visual pattern from /today-hijri-date.
+                     Filled by `updateRelatedLinks()` in js/app.js (dynamic city name
+                     + slug-aware hrefs for qibla + moon-today; static hrefs for the
+                     azkar hub and the hijri-today page). 10-lang strings inline in JS
+                     so no new i18n keys are needed.
+                     Cards: Azkar / Qibla in {city} / Moon Phase Today / Hijri Date.
+                     Deliberately EXCLUDES any /prayer-times-in-{slug} self-link AND
+                     the /time-left-until-next-prayer-in-{slug} card. Hidden via
+                     `u-hidden` until JS attaches a real city slug. -->
+                <section class="section-card hd1-tools-section pt-related-tools u-hidden"
+                         id="pt-related-tools"
+                         aria-labelledby="pt-related-tools-title">
+                    <h2 id="pt-related-tools-title" class="hd1-section-title">أدوات إسلامية مرتبطة بيومك في <span id="pt-tools-city">—</span></h2>
+                    <p class="hd1-section-intro" id="pt-related-tools-intro">تساعدك هذه الأدوات على متابعة مواقيت الصلاة، الأذكار، التاريخ الهجري، حالة القمر، واتجاه القبلة في <span id="pt-tools-intro-city">—</span> من مكان واحد.</p>
+                    <div class="hd1-tools-grid">
+                        <a class="hd1-tool-card" id="pt-tool-azkar" href="/azkar">
+                            <span class="hd1-tool-icon" aria-hidden="true">📿</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name" id="pt-tool-azkar-name">الأذكار اليومية</span>
+                                <span class="hd1-tool-desc" id="pt-tool-azkar-desc">اقرأ أذكار الصباح والمساء وأذكار الصلاة بتكرار واضح ومصدر موثوق.</span>
+                            </span>
+                        </a>
+                        <a class="hd1-tool-card" id="pt-tool-qibla" href="/qibla">
+                            <span class="hd1-tool-icon" aria-hidden="true">🧭</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name" id="pt-tool-qibla-name">اتجاه القبلة</span>
+                                <span class="hd1-tool-desc" id="pt-tool-qibla-desc">اعرف اتجاه القبلة وزاويتها من موقعك أو مدينتك.</span>
+                            </span>
+                        </a>
+                        <a class="hd1-tool-card" id="pt-tool-moon" href="/moon-today">
+                            <span class="hd1-tool-icon" aria-hidden="true">🌙</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name" id="pt-tool-moon-name">حالة القمر اليوم</span>
+                                <span class="hd1-tool-desc" id="pt-tool-moon-desc">اعرف طور القمر ونسبة الإضاءة وموعد الشروق والغروب.</span>
+                            </span>
+                        </a>
+                        <a class="hd1-tool-card" id="pt-tool-hijri" href="/today-hijri-date">
+                            <span class="hd1-tool-icon" aria-hidden="true">📅</span>
+                            <span class="hd1-tool-body">
+                                <span class="hd1-tool-name" id="pt-tool-hijri-name">التاريخ الهجري اليوم</span>
+                                <span class="hd1-tool-desc" id="pt-tool-hijri-desc">اعرف التاريخ الهجري والميلادي لهذا اليوم.</span>
+                            </span>
+                        </a>
+                    </div>
+                </section>
 
                 <!-- 🆕 City Summary Paragraph (Phase 2) — فقرة SEO غنيّة، تُحقَن SSR لصفحات المدن -->
                 <section class="section-card city-summary-paragraph u-hidden" id="city-summary-paragraph">
@@ -4818,7 +4866,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=4"></script>
-    <script defer src="js/app.js?v=738"></script>
+    <script defer src="js/app.js?v=739"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

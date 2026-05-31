@@ -811,7 +811,17 @@
 //   hover lift on desktop, single-column stack on mobile, dark-mode parity.
 //   No DOM/text/href/JS/i18n/SEO/JSON-LD/calculation changes.
 //   Cache-buster: css/style.css?v=455 → ?v=456, sw v376 → v377.
-const CACHE_VERSION = 'v377';
+//
+// HIJRI-CALENDAR-MOBILE-YEAR-NAV-FLOW-FIX-2 (2026-05-31):
+//   Follow-up to FIX-1: changes .hyear-year-nav-row from grid 2-col to
+//   flex-column on mobile (≤767px), so prev/next buttons stack vertically
+//   inside the year-picker instead of side-by-side. Eliminates wrapping/
+//   overflow risk at narrow widths or with font-zoom. Adds defensive
+//   position:static + transform:none + width:100% locks on all year-nav
+//   buttons + the CTA so cascading rules cannot lift them out of flow.
+//   No DOM/JS/data/SEO/desktop changes.
+//   Cache-buster: css/style.css?v=456 → ?v=457, sw v377 → v378.
+const CACHE_VERSION = 'v378';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

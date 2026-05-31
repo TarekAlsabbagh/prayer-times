@@ -27850,3 +27850,120 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   HIJRI-CALENDAR-MOBILE-YEAR-NAV-FLOW-FIX-2 (2026-05-31)
+   Scope: /hijri-calendar (#page-hijri-year) mobile (≤767px).
+   Builds on HIJRI-CALENDAR-MOBILE-YEAR-NAV-OVERLAP-FIX-1 (line 27607+):
+   FIX-1 added z-index stacking; FIX-2 changes the actual FLOW so the
+   prev/next year buttons + CTA stack vertically inside the year-picker
+   instead of side-by-side in a 2-col grid that can wrap/overflow on
+   narrow viewports (360-390px) or with user font-zoom.
+
+   User-reported persistent bug (2026-05-31, after FIX-1):
+     - Prev-year button shows inside year-picker card ✓
+     - Today's-Hijri-Date CTA shows inside same card ✓
+     - But Next-year button appears LATER over the stats cards below ❌
+
+   Root-cause diagnosis (DOM verified):
+     - DOM is CORRECT: both #hyear-prev-link and #hyear-next-link are
+       siblings inside .hyear-year-nav-row inside .calendar-year-picker
+       inside .hpage-hero-start. No order/position-absolute/transform
+       tricks. Verified via headless inspection.
+     - The visual bug is caused by .hyear-year-nav-row being a 2-col grid
+       (grid-template-columns: 1fr 1fr). On viewports where text is too
+       long to fit in 144px columns (esp. Arabic "السنة السابقة" /
+       "السنة التالية" with font-zoom), the buttons can WRAP their text
+       to multiple lines, making one column visually taller than the
+       other and causing perceived "overflow" out of the hero card.
+     - Some users also experience a paint-cycle hiccup where the next-
+       year link transiently renders BEFORE its position resolves inside
+       the grid cell, briefly appearing over later content.
+
+   Fix (CSS-only, mobile-scoped):
+     1. Change .hyear-year-nav-row from 2-col grid → flex-column on
+        mobile so prev + next stack vertically (each full-width).
+     2. Force `position: static` + `transform: none` on every year-nav
+        button + the CTA so NO cascading rule can ever lift them out of
+        normal flow on mobile.
+     3. Add `width: 100%` to ensure each button fills its row cleanly.
+     4. The CTA inside .hyear-today-cta keeps its own row below the nav
+        buttons (no change to its position).
+     5. Add explicit `margin-bottom` reinforcement so the info-grid
+        section starts cleanly below all year controls.
+
+   Does NOT change:
+     - DOM structure (index.html unchanged)
+     - JS (no app.js changes)
+     - Desktop layout (rule inside @media (max-width: 767px))
+     - Hijri calculations, month data, FAQ (12 questions preserved),
+       JSON-LD, canonical, H1, sitemap, routing, SSR template
+     - Dark mode (uses theme tokens via existing rules)
+     - FIX-1 z-index/overflow stacking (still in effect, preserved)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    /* (1) Force the prev/next button row to STACK vertically (no more
+           grid 1fr|1fr).  flex-column = the simplest possible flow that
+           cannot wrap or escape the parent. */
+    #page-hijri-year .hyear-year-nav-row {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 10px !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        /* Reinforce FIX-1's stacking — defense-in-depth */
+        position: relative !important;
+        transform: none !important;
+    }
+
+    /* (2) Both prev/next anchors — forced into normal flow, full-width.
+           Even if a later cascade rule tries to abs-position them, these
+           !important locks keep them in flow. */
+    #page-hijri-year .hyear-year-nav-row > .hyear-year-nav-btn,
+    #page-hijri-year #hyear-prev-link,
+    #page-hijri-year #hyear-next-link {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 0 !important;
+        order: initial !important;
+        grid-column: auto !important;
+        grid-row: auto !important;
+    }
+
+    /* (3) The "Today's Hijri Date" CTA below the nav row — also locked
+           to normal flow so nothing can float it elsewhere. */
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker .hyear-today-cta,
+    #page-hijri-year .hyear-today-cta {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        margin: 8px 0 0 !important;
+    }
+    #page-hijri-year .hyear-today-cta > .btn {
+        position: static !important;
+        transform: none !important;
+        width: 100% !important;
+    }
+
+    /* (4) The year-picker block itself — explicit flex-column so any
+           internal layout cannot escape. (FIX-1 already set z-index;
+           we add display:flex+column to lock vertical flow.) */
+    #page-hijri-year .hpage-hero-start > .calendar-year-picker.hpage-year-picker {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: stretch !important;
+    }
+
+    /* (5) Extra breathing room before the stats-cards section card so
+           any sub-pixel visual proximity perceived as "overlap" is gone.
+           Was 12px from #page-hijri-year > .section-card margin-bottom
+           (line 19188); we now ALSO add margin-top to the info-grid card
+           specifically for an even clearer separator. */
+    #page-hijri-year > .section-card:has(> #hyear-info-grid) {
+        margin-top: 8px !important;
+    }
+}
+

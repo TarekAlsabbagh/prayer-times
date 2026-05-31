@@ -2633,16 +2633,47 @@ html[data-theme="dark"] .ns-item.is-selected {
        request. Kept the natural dark drop-shadow below for visual depth.
        The moon disc itself + size + colors + illumination are unchanged. */
     filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
-    transition: filter 0.4s ease;
+    /* MOON-DISC-ANIMATION-DISABLE-1 (2026-05-31):
+       Removed `transition: filter 0.4s ease;` so the drop-shadow snaps
+       instantly on update with NO motion. See the defensive rule block
+       below for full coverage of any future moon-disc descendants. */
 }
 .moon-svg-lit {
-    transition: d 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    /* MOON-DISC-ANIMATION-DISABLE-1 (2026-05-31):
+       Removed `transition: d 0.6s cubic-bezier(0.22, 1, 0.36, 1);` so
+       the lit-area path (set via `setAttribute('d', ...)` in js/app.js
+       line ~17880) updates INSTANTLY without morphing between phases.
+       The disc itself + size + colors + phase shape itself are
+       unchanged — only the inter-state transition has been killed. */
 }
 @media (max-width: 480px) {
     .moon-visual { width: 130px; height: 130px; }
 }
-@media (prefers-reduced-motion: reduce) {
-    .moon-svg-lit { transition: none; }
+
+/* MOON-DISC-ANIMATION-DISABLE-1 (2026-05-31):
+   Defensive block — kill ALL animation + transition on the moon disc
+   subtree (.moon-visual + .moon-svg + every descendant including the
+   gradient defs / lit path / dark circle / outline circle / .moon-icon
+   emoji fallback / hypothetical .moon-disc class). Uses `!important`
+   to defeat any future CSS that might re-introduce motion on these
+   elements. The .moon-chart-container halo pulse (Wave C
+   `moonChartHaloPulse`) is on a SEPARATE container (data
+   visualization) and is NOT affected by this rule. The
+   .moon-hero-icon emoji in the hero-info row is also untouched (it
+   has no animations in the source today). The prior
+   @media (prefers-reduced-motion: reduce) rule was removed because
+   motion is now disabled for ALL users — the reduced-motion gate
+   became redundant. */
+.moon-visual,
+.moon-visual *,
+.moon-svg,
+.moon-svg *,
+.moon-svg-lit,
+.moon-icon,
+.moon-disc,
+.moon-disc * {
+    animation: none !important;
+    transition: none !important;
 }
 
 .moon-details {

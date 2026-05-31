@@ -980,7 +980,24 @@
 //   insertions (8 langs × 6 new keys) = 64 atomic per-lang-file mutations.
 //   server.js _i18nVersion bumped 188→189. Cache-buster: sw v388→v389.
 //   No HTML / CSS / JS / route / data changes.
-const CACHE_VERSION = 'v389';
+//
+// MOON-DISC-ANIMATION-DISABLE-1 (2026-05-31):
+//   Disabled ALL motion on the moon disc visual across moon pages
+//   (/moon-today, /moon-today-in-{city}, /moon-in-{city},
+//    /moon-in-{city}/{date}). Two CSS transitions removed at
+//   css/style.css:2636 + 2639 (the .moon-svg filter transition + the
+//   .moon-svg-lit `d` path-morph). Added a defensive `animation: none
+//   !important; transition: none !important;` block scoped under
+//   .moon-visual / .moon-svg / .moon-svg-lit / .moon-icon / .moon-disc
+//   subtrees to win against any future motion-introducing code. The
+//   prior @media (prefers-reduced-motion: reduce) rule was removed
+//   because motion is now disabled for all users (became redundant).
+//   Untouched: .moon-chart-container halo pulse (data-viz, separate
+//   container), .moon-hero-icon (already static), moonHubCtaPulse,
+//   moonEventPulse, pulse-btn, pulse-soft (all on unrelated UI).
+//   CSS-only fix. Zero JS / HTML / data / route changes. Cache-
+//   busters: css/style.css v463→v464, sw v389→v390.
+const CACHE_VERSION = 'v390';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

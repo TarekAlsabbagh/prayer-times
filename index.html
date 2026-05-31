@@ -70,7 +70,7 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=739" as="script">
+    <link rel="preload" href="js/app.js?v=740" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1091,20 +1091,62 @@
                         </ul>
                     </div>
 
-                    <!-- ⚪ Tier 3: Navigational Intent — outline + سهم → -->
-                    <div class="rls-tier rls-tier-nav">
-                        <h4 class="rls-tier-label" data-i18n="rls.tier_nav">تصفّح</h4>
-                        <ul class="rls-list rls-list-nav">
-                            <li><a id="rl-weekly" href="#prayer-schedule-section" data-rel="weekly">
-                                <span class="rls-text" data-i18n="rls.weekly">الجدول الأسبوعيّ في {loc}</span>
-                                <span class="rls-arrow" aria-hidden="true">→</span>
-                            </a></li>
-                            <li><a id="rl-country" href="#" data-rel="country">
-                                <span class="rls-text" data-i18n="rls.country">مواقيت الصلاة اليوم في {loc}</span>
-                                <span class="rls-arrow" aria-hidden="true">→</span>
-                            </a></li>
-                        </ul>
+                    <!-- CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
+                         The legacy "Nav" tier (rls-tier-nav, with `rl-weekly`
+                         self-anchor + `rl-country` aggregation link) was
+                         REMOVED per user spec — replaced by a more useful
+                         Islamic-events countdown section emitted as a
+                         sibling `<section>` below this `#related-links-section`
+                         (see immediately after this closing tag). Live + Info
+                         tiers stay intact above. -->
+                </section>
+
+                <!-- CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
+                     Mirror of `#moon-events-section` (visible on /moon-today
+                     + the 3 azkar pages) — same 4 cards (Ramadan / Eid Fitr /
+                     Eid Adha / Hijri New Year), same class-based selectors so
+                     the existing `_azkarRenderMoonEvents()` fill function
+                     (which already handles morning/evening/prayer azkar pages)
+                     can also fill this. Renamed conceptually to
+                     "page-scoped" — js/app.js was extended to include
+                     #page-prayer-times in its scope list. -->
+                <section class="section-card moon-events-section" aria-labelledby="prayer-times-events-h2">
+                    <h2 id="prayer-times-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
+                    <div class="moon-events-countdown">
+                        <a class="moon-event-card moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">—</div>
+                                <div class="moon-event-date moon-event-ramadan-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">—</div>
+                                <div class="moon-event-date moon-event-fitr-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">—</div>
+                                <div class="moon-event-date moon-event-adha-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
+                                <div class="moon-event-days moon-event-newyear-days">—</div>
+                                <div class="moon-event-date moon-event-newyear-date">—</div>
+                            </div>
+                        </a>
                     </div>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
 
                 <!-- 🆕 Other Trending Cities (Phase 2) — مدن يبحث عنها الناس الآن (popularity، مستبعد المدينة الحاليّة) -->
@@ -4866,7 +4908,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=4"></script>
-    <script defer src="js/app.js?v=739"></script>
+    <script defer src="js/app.js?v=740"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

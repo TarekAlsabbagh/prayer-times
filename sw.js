@@ -470,6 +470,40 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
+//   v372 → v373. UX upgrade for the bottom of /prayer-times-in-{city}:
+//   the legacy 3rd tier of `#related-links-section` (`.rls-tier-nav`
+//   with `rl-weekly` self-anchor + `rl-country` aggregation link) was
+//   REPLACED with a more useful Islamic-events countdown section —
+//   same `<section class="section-card moon-events-section">` block
+//   that appears on /moon-today + the 3 azkar pages (4 cards: Ramadan
+//   / Eid al-Fitr / Eid al-Adha / Hijri New Year, each with a
+//   localized days-remaining label or "يجري الآن" when active).
+//
+//   Implementation:
+//   • index.html — removed the `.rls-tier-nav` <div> (13 lines), added
+//     a sibling `<section class="moon-events-section">` immediately
+//     after `#related-links-section` close.
+//   • js/app.js — `_azkarRenderMoonEvents()` had its scope extended
+//     from 3 azkar pages to 4 pages (now also includes
+//     `#page-prayer-times`). The function is called from
+//     `updateRelatedLinks()` (which already runs on every prayer-times
+//     city page activation) — so the new section fills automatically.
+//     Also removed the now-orphaned `rl-weekly` + `rl-country` rows
+//     from the items[] array (the DOM ids no longer exist).
+//
+//   Result on /prayer-times-in-riyadh:
+//     • #related-links-section now has 2 tiers (Live + Info) instead of 3
+//     • New sibling moon-events-section shows 4 countdown cards with
+//       same rolling-cycle logic (Eid Adha "يجري الآن", etc.)
+//     • Links go to /ramadan-countdown / /eid-al-fitr-countdown /
+//       /eid-al-adha-countdown / /hijri-new-year-countdown
+//
+//   Untouched: prayer time calculation, the previously-pushed
+//   #pt-related-tools section (4 generic tool cards), the rest of
+//   #related-links-section (Live + Info tiers stay intact), all moon /
+//   qibla / azkar / hijri pages, the i18n catalog.
+//   Cache-buster: js/app.js?v=739 → ?v=740.
 // CITY-PRAYER-RELATED-ISLAMIC-TOOLS-SECTION-1 (2026-05-31):
 //   v371 → v372. New "Islamic tools for your day in {city}" section added
 //   to every /prayer-times-in-{city} page (10 langs). Reuses the
@@ -737,7 +771,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v372';
+const CACHE_VERSION = 'v373';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

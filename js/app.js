@@ -9167,9 +9167,12 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
         // 🔵 Info tier
         ['rl-hijri',     prefix + '/hijri-calendar',                        'rls.hijri',     cityName, true],
         ['rl-moon',      prefix + '/moon-today-in-' + _moonSlug,            'rls.moon',      cityName, true],
-        // ⚪ Nav tier (Refinement #4 — country link uses "اليوم")
-        ['rl-weekly',    prefix + '/prayer-times-in-' + citySlug + '#prayer-schedule-section', 'rls.weekly', cityName, true],
-        ['rl-country',   prefix + '/prayer-times-in-' + (countrySlug || ''), 'rls.country',   countryName || cityName, !!countrySlug],
+        // ⚪ Nav tier — REMOVED in CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1
+        // (2026-05-31). The DOM elements `rl-weekly` + `rl-country` are
+        // gone from index.html; the tier-3 nav block was replaced by a
+        // standalone Islamic-events countdown section. Items array kept
+        // 5-row (was 7) — `getElementById` guard at line ~9187 would
+        // make the old entries silent no-ops, but cleaner to delete.
     ];
 
     const fallbackTpl = {
@@ -9350,6 +9353,16 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
             _ptSec.classList.remove('u-hidden');
         }
     } catch (_) { /* silent — tools section is a UX nicety, never throw */ }
+
+    // CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
+    // Fill the new sibling `.moon-events-section` on /prayer-times-in-{city}
+    // (where the old `.rls-tier-nav` used to live). Reuses the page-scoped
+    // fill from _azkarRenderMoonEvents which now also targets #page-prayer-
+    // times. Idempotent + silent on failure (the function itself uses a
+    // try/catch).
+    try {
+        if (typeof _azkarRenderMoonEvents === 'function') _azkarRenderMoonEvents();
+    } catch (_) { /* silent */ }
 }
 
 /**
@@ -24773,7 +24786,14 @@ function _azkarRenderMoonEvents() {
         //     showed placeholder "—" forever.
         //   • Switched from days-only logic to rolling-cycle resolver. Active
         //     cycles show "يجري الآن" and sort to the front; never "انتهى".
-        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer'];
+        // CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
+        // Scope expanded to also include #page-prayer-times so the new
+        // moon-events-section block on /prayer-times-in-{city} gets the
+        // same rolling-cycle fill (counts down to next Islamic event,
+        // "يجري الآن" during active periods). Function name stays
+        // `_azkarRenderMoonEvents` for git blame continuity but is now
+        // page-scoped — handles azkar pages AND city prayer-times pages.
+        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer', 'page-prayer-times'];
         const _activeScopes = _azkarPageIds
             .map(id => document.getElementById(id))
             .filter(el => el && el.querySelector('.moon-events-section'));

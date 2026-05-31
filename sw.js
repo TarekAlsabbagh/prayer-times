@@ -802,7 +802,16 @@
 //   absolute/transform positioning + against user font-zoom edge cases.
 //   No JS, no data, no DOM, no SEO, no calculations changed.
 //   Cache-buster: css/style.css?v=454 → ?v=455, sw v375 → v376.
-const CACHE_VERSION = 'v376';
+//
+// QIBLA-CITY-QUICKLINKS-CTA-PILL-STYLE-1 (2026-05-31):
+//   CSS-only restyle of #page-qibla .qibla-quicklinks (the 3-link block on
+//   /qibla-in-{city} pages) to match the visual system of #hyear-cta on
+//   /hijri-calendar — balanced 3-col grid, primary-fill first action +
+//   white outline secondaries, 50px min-height, 12px radius, soft shadows,
+//   hover lift on desktop, single-column stack on mobile, dark-mode parity.
+//   No DOM/text/href/JS/i18n/SEO/JSON-LD/calculation changes.
+//   Cache-buster: css/style.css?v=455 → ?v=456, sw v376 → v377.
+const CACHE_VERSION = 'v377';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

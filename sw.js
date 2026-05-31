@@ -840,7 +840,20 @@
 //   Applies to all moon pages (/moon-today, /moon-today-in-{city},
 //   /moon-in-{city}, /moon-in-{city}/{date}). No JS/data/calc/SEO change.
 //   Cache-buster: css/style.css?v=457 → ?v=458, sw v379 → v380.
-const CACHE_VERSION = 'v380';
+//
+// HOME-MOON-SECTIONS-LEAK-FIX-1 (2026-05-31):
+//   Removed literal angle-bracketed HTML tag tokens from two HTML comments
+//   in index.html (lines 1099 + 1459) that were fooling the regex-based
+//   tag-balance counter in server.js _stripElement. Bug effect: on / SSR,
+//   the related-links-section strip was over-consuming ~1000 lines,
+//   devouring page-prayer-times closing div + page-qibla + page-moon
+//   wrappers — making moon sections (chart, forecast, FAQ, evergreen)
+//   visually fall inside page-prayer-times on the homepage. Comment-only
+//   fix; no code, CSS, JS, or strip-algorithm changed. Follow-up systemic
+//   ticket: SERVER-STRIPELEMENT-COMMENT-AWARE-1 will harden _stripElement
+//   to skip comment regions natively.
+//   Cache-buster bump for SW precache invalidation only: sw v380 → v381.
+const CACHE_VERSION = 'v381';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

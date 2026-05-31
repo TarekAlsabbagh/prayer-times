@@ -1092,13 +1092,33 @@
                     </div>
 
                     <!-- CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
-                         The legacy "Nav" tier (rls-tier-nav, with `rl-weekly`
-                         self-anchor + `rl-country` aggregation link) was
+                         The legacy "Nav" tier (rls-tier-nav, with rl-weekly
+                         self-anchor + rl-country aggregation link) was
                          REMOVED per user spec — replaced by a more useful
                          Islamic-events countdown section emitted as a
-                         sibling `<section>` below this `#related-links-section`
+                         sibling SECTION element below this related-links-section
                          (see immediately after this closing tag). Live + Info
-                         tiers stay intact above. -->
+                         tiers stay intact above.
+                         HOME-MOON-SECTIONS-LEAK-FIX-1 (2026-05-31): the
+                         previous wording of this comment used the literal
+                         text "{section}" wrapped in backticks (where
+                         {section} was the actual angle-bracketed tag name).
+                         server.js _stripElement uses a regex-based balanced-
+                         tag counter that scans the raw HTML byte-stream and
+                         does NOT skip comment regions — so it treated that
+                         literal text as a real opening tag and the depth
+                         counter went off by 1. This caused the
+                         related-links-section strip on / to over-consume
+                         ~1000 lines (devouring the closing div of
+                         page-prayer-times, the entire page-qibla wrapper,
+                         and most of page-moon), making moon sections
+                         visually fall inside page-prayer-times on /.
+                         Fix: removed all literal angle-bracketed tag
+                         tokens from this comment body. Follow-up systemic
+                         ticket: SERVER-STRIPELEMENT-COMMENT-AWARE-1 will
+                         teach _stripElement to skip comment regions
+                         natively so this kind of latent bug cannot
+                         re-occur in any future commented code snippet. -->
                 </section>
 
                 <!-- CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
@@ -1451,12 +1471,19 @@
                     <!-- Hub-only: Search FIRST, then dual CTA, then badges -->
                     <div class="qibla-hub-only qibla-hub-hero-actions">
                         <!-- QIBLA-GENERAL-HOME-SEARCH-BOX-1 (2026-05-18):
-                             Same compact `.city-page-search` component the homepage
+                             Same compact .city-page-search component the homepage
                              and /moon-today use. Input keeps id="qibla-hub-search"
-                             for back-compat with downstream code (`_qibla_hub_pick`
+                             for back-compat with downstream code (_qibla_hub_pick
                              focus, etc.). Dropdown renamed id="qibla-hub-suggestions"
-                             (was `qibla-hub-search-results <ul>`) so it matches the
-                             new `.cps-suggestions <div>` shape from homepage. -->
+                             (was qibla-hub-search-results UL element) so it matches
+                             the new .cps-suggestions DIV element shape from homepage.
+                             HOME-MOON-SECTIONS-LEAK-FIX-1 (2026-05-31): removed
+                             literal angle-bracketed tag tokens from this comment
+                             body (same latent pattern as the bug fixed at index.html
+                             line ~1099). No currently-active strip operation visits
+                             this region, but future-proofs against the same regex
+                             over-consumption issue when SERVER-STRIPELEMENT-COMMENT-
+                             AWARE-1 hardening is pending. -->
                         <section class="city-page-search city-page-search--qibla" id="qibla-page-search" role="search" aria-label="ابحث عن مدينة لمعرفة اتجاه القبلة" data-i18n-aria-label="qibla.hub.search_placeholder">
                             <div class="cps-inner">
                                 <svg class="icon cps-icon" aria-hidden="true"><use href="#i-search"/></svg>

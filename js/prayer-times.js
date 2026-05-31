@@ -248,9 +248,18 @@ const PrayerTimes = (function () {
         // استخدام الثواني لدقة أعلى وتجنب تخطي الصلاة في نفس الدقيقة
         var currentSeconds = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
 
-        var prayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        // NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1 (2026-06-01):
+        // Sunrise (الشروق) is a falaki marker, NOT a fard prayer. The
+        // "next prayer" semantic across the app (sticky bar, banner, csl,
+        // hero, time-left page, home pill, etc.) must skip sunrise — it
+        // should never appear as "القادمة: الشروق". Matches the existing
+        // policy in getCurrentPrayer() below (line ~289) which already
+        // uses the same 5-prayer list. Sunrise time data itself remains
+        // available via times.raw.sunrise + currentPrayerTimes.sunrise
+        // for the day's prayer-times table display.
+        var prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
         var names   = {
-            fajr: 'الفجر', sunrise: 'الشروق', dhuhr: 'الظهر',
+            fajr: 'الفجر', dhuhr: 'الظهر',
             asr:  'العصر', maghrib: 'المغرب', isha:  'العشاء'
         };
 

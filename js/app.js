@@ -14073,8 +14073,15 @@ function startCountdown() {
         if (_npnEl) _npnEl.textContent = (typeof t === 'function') ? t('prayer.' + next.key) : next.name;
 
         // حساب العد التنازلي بالثواني (بتوقيت المدينة المختارة)
+        // NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1 (2026-06-01):
+        // Sunrise removed from the countdown target list to MATCH the
+        // updated PrayerTimes.getNextPrayer (js/prayer-times.js:251).
+        // Without this matching change, `next.key` would be e.g. 'dhuhr'
+        // while `targetSeconds` would still point at sunrise's time → the
+        // sticky-bar would display "Next: Dhuhr" but count down to sunrise.
+        // Both lists must stay in lock-step.
         const currentSeconds = cityTime.getHours() * 3600 + cityTime.getMinutes() * 60 + cityTime.getSeconds();
-        const prayers = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+        const prayers = ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'];
         let targetSeconds = -1;
 
         for (let prayer of prayers) {
@@ -14159,6 +14166,14 @@ function startCountdown() {
         // 🆕 Round 5 (Tool Page): sync Time-Left Page hero — BIG countdown + timeline + dynamic title + SEO
         try {
             if (document.documentElement.classList.contains('time-left-page')) {
+                // NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1 (revised 2026-06-01):
+                // The local time-left-only recomputation block was REMOVED.
+                // Sunrise is now excluded at the GLOBAL source (both
+                // PrayerTimes.getNextPrayer in js/prayer-times.js + the outer
+                // countdown loop above at line ~14077). The outer `next` and
+                // `_countdownStr` now correctly exclude sunrise for ALL UI
+                // surfaces (sticky bar, banner, csl, hero, time-left page),
+                // so this block uses them directly without any local override.
                 const _tlH1Prayer = document.getElementById('tl-h1-prayer');
                 const _tlPrayer   = document.getElementById('tl-prayer-name');
                 const _tlPTime    = document.getElementById('tl-prayer-time');
@@ -14273,6 +14288,11 @@ function startCountdown() {
                 }
 
                 // 🆕 Timeline render (✓ done / ← now / · upcoming)
+                // NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1: _ORDER intentionally keeps
+                // sunrise as an informational entry in the day's full prayer-times
+                // timeline. The outer `next` (sunrise-excluded post-global-fix) drives
+                // the "now" marker so sunrise can never be highlighted as the active
+                // target. Matches user spec: "يمكن عرض الشروق داخل جدول مواقيت اليوم".
                 if (_tlTimeline && currentPrayerTimes && currentPrayerTimes.raw) {
                     const _ORDER = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
                     const _nowSec = (function () {

@@ -997,7 +997,40 @@
 //   moonEventPulse, pulse-btn, pulse-soft (all on unrelated UI).
 //   CSS-only fix. Zero JS / HTML / data / route changes. Cache-
 //   busters: css/style.css v463→v464, sw v389→v390.
-const CACHE_VERSION = 'v390';
+//
+// NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1 (revised 2026-06-01):
+//   Sunrise is a falaki marker, NOT a fard prayer. The "next prayer"
+//   semantic must skip it across ALL UI surfaces: time-left countdown
+//   hero, sticky-next-bar on every page, banner, CSL, hero, etc.
+//   GLOBAL fix (single source of truth):
+//     1) js/prayer-times.js:251 — PrayerTimes.getNextPrayer prayer list
+//        changed from ['fajr','sunrise','dhuhr','asr','maghrib','isha']
+//        to ['fajr','dhuhr','asr','maghrib','isha']. Mirrors the existing
+//        policy already in getCurrentPrayer (line ~289) which also
+//        excludes sunrise with comment "الشروق ليس صلاة مفروضة".
+//     2) js/app.js:14077 — outer countdown loop's `prayers` array changed
+//        from sunrise-inclusive to sunrise-exclusive, so `targetSeconds`
+//        stays in lock-step with `next.key`.
+//   The earlier (uncommitted) draft used a SCOPED local block inside the
+//   time-left page guard; that block has been REMOVED in this revision
+//   (now redundant — the outer fix handles all surfaces). The timeline
+//   list (#tl-timeline) intentionally keeps sunrise as an informational
+//   row, but the "now" marker uses outer `next` (sunrise-excluded) so
+//   sunrise never gets highlighted.
+//   PRESERVED:
+//     - js/prayer-times.js sunrise time calculations (times.raw.sunrise)
+//     - currentPrayerTimes.sunrise display in the prayer-times-in-{city}
+//       table (uses raw data directly, not getNextPrayer)
+//     - Adhan-trigger logic (separate prayerKeys list at app.js:14306+)
+//   AFFECTED UI (all now correctly skip sunrise):
+//     - Sticky next-prayer bar (#sticky-next-bar) on every page
+//     - Time-left page hero (#tl-h1-prayer + #tl-countdown + #tl-seo)
+//     - Time-left timeline "←" / "now" marker
+//     - Banner / CSL / hero countdowns
+//   Cache busters: js/app.js v746→v747, js/prayer-times.js v51→v52
+//   (prayer-times.js was MODIFIED in this revision — global getNextPrayer
+//   fix), sw v390→v391.
+const CACHE_VERSION = 'v391';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

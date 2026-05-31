@@ -2627,7 +2627,12 @@ html[data-theme="dark"] .ns-item.is-selected {
     width: 100%;
     height: 100%;
     overflow: visible;
-    filter: drop-shadow(0 0 18px rgba(255, 230, 150, 0.28)) drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
+    /* MOON-DISC-GLOW-REMOVE-KEEP-DROPSHADOW-1 (2026-05-31):
+       Removed the first drop-shadow (the warm-yellow outer glow / halo:
+       was `drop-shadow(0 0 18px rgba(255, 230, 150, 0.28))`) per user
+       request. Kept the natural dark drop-shadow below for visual depth.
+       The moon disc itself + size + colors + illumination are unchanged. */
+    filter: drop-shadow(0 4px 10px rgba(0, 0, 0, 0.25));
     transition: filter 0.4s ease;
 }
 .moon-svg-lit {

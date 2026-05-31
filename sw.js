@@ -831,7 +831,16 @@
 //   in js/app.js to include #page-qibla. JS handlers at app.js:16906-16956
 //   that previously populated the removed IDs now silently no-op.
 //   Cache-buster: js/app.js?v=742 → ?v=743, sw v378 → v379.
-const CACHE_VERSION = 'v379';
+//
+// MOON-DISC-GLOW-REMOVE-KEEP-DROPSHADOW-1 (2026-05-31):
+//   Removed the warm-yellow outer glow on the moon SVG disc by stripping
+//   the first `drop-shadow(0 0 18px rgba(255,230,150,0.28))` from the
+//   chained `filter:` on `.moon-svg` (css/style.css:2630). Kept the
+//   natural dark `drop-shadow(0 4px 10px rgba(0,0,0,0.25))` for depth.
+//   Applies to all moon pages (/moon-today, /moon-today-in-{city},
+//   /moon-in-{city}, /moon-in-{city}/{date}). No JS/data/calc/SEO change.
+//   Cache-buster: css/style.css?v=457 → ?v=458, sw v379 → v380.
+const CACHE_VERSION = 'v380';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

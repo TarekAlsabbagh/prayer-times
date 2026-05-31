@@ -968,7 +968,19 @@
 //   5) server.js: _i18nVersion 187→188.
 //   Cache-busters: css/style.css v462→v463, js/app.js v745→v746
 //   (added _zakatDownloadPDF + binding), sw v387→v388.
-const CACHE_VERSION = 'v388';
+//
+// ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31):
+//   Translated all 8 new/updated zakat keys to the other 8 langs
+//   (bn/de/fr/tr/ur/id/es/ms) — previously these langs showed EN
+//   fallback for: zakat.hero.title, zakat.hero.subtitle, zakat.actions
+//   .download_pdf, zakat.empty.subtitle, zakat.compact_disclaimer.text,
+//   zakat.edu.title, zakat.edu.intro, zakat.breadcrumb.label. Applied
+//   via a one-shot idempotent Node script (scripts/_zakat_i18n_expand_8_langs.mjs)
+//   that does 16 replacements (8 langs × 2 updated hero keys) + 48
+//   insertions (8 langs × 6 new keys) = 64 atomic per-lang-file mutations.
+//   server.js _i18nVersion bumped 188→189. Cache-buster: sw v388→v389.
+//   No HTML / CSS / JS / route / data changes.
+const CACHE_VERSION = 'v389';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

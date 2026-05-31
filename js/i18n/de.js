@@ -844,13 +844,14 @@ window.TRANSLATIONS['de'] = {
         'zakat.cond5': 'Zakat-Satz: 2,5% des Gesamtvermögens',
 
         // ─── D3.3a — UAT-Z1 Zakat redesign keys (added in Phase D3.3a) ───
-        'zakat.hero.title': 'Zakat-Rechner',
-        'zakat.hero.subtitle': 'Berechnen Sie Ihre Zakat auf Geld, Ersparnisse, Gold und Aktien einfach — mit klarem Nisab und 2,5 % Zakatsatz.',
+        'zakat.hero.title': 'Zakat-Rechner — Berechnen Sie Ihre Zakat Einfach',
+        'zakat.hero.subtitle': 'Schätzen Sie die Zakat auf Ihr Geld, Ihre Ersparnisse, Gold, Silber und Investitionen — mit klaren Nisab-Schwellen und dem Satz von 2,5%.',
         'zakat.hero.badge_percent': 'Satz: 2,5 %',
         'zakat.hero.badge_nisab': 'Nisab: 85 g Gold oder 595 g Silber',
         'zakat.hero.badge_hawl': 'Hawl: ein Mondjahr',
         'zakat.actions.reset': 'Zurücksetzen',
         'zakat.actions.copy': 'Ergebnis kopieren',
+        'zakat.actions.download_pdf': 'Zakat-PDF herunterladen',
         'zakat.actions.copied': 'Kopiert ✓',
         'zakat.result.title': 'Zakat-Ergebnis',
         'zakat.result.net': 'Nettes zakatpflichtiges Vermögen',
@@ -943,6 +944,12 @@ window.TRANSLATIONS['de'] = {
         'zakat.seo.h4_body': '<li>Persönlicher Wohnsitz</li><li>Persönliches Fahrzeug</li><li>Möbel und persönliche Gegenstände</li><li>Nicht zum Verkauf bestimmte Immobilien</li><li>Werkzeuge für die Arbeit, nicht für den Verkauf</li>',
         'zakat.disclaimer.title': 'Wichtiger Hinweis',
         'zakat.disclaimer.body': 'Dieser Rechner liefert eine allgemeine Zakat-Schätzung auf Basis Ihrer Eingaben. Einige Details können je nach Vermögensart, Schulden, Gold, Aktien oder befolgter Fatwa in Ihrem Land variieren. Konsultieren Sie in besonderen Fällen einen vertrauenswürdigen Gelehrten.',
+        // ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1: 5 new keys (mirror of ar.js/en.js additions)
+        'zakat.empty.subtitle': 'Ihr Ergebnis erscheint hier, sobald Sie unten Ihre Werte eingegeben haben.',
+        'zakat.compact_disclaimer.text': 'Hinweis: Dieser Rechner dient nur zur Schätzung und ist keine religiöse Verfügung (Fatwa). In besonderen Fällen wenden Sie sich an einen vertrauenswürdigen Gelehrten.',
+        'zakat.edu.title': 'Erfahren Sie mehr über die Zakat auf Geld',
+        'zakat.edu.intro': 'Die Zakat auf Geld wird in der Regel mit 2,5% des zakatpflichtigen Nettovermögens berechnet, sobald es den Nisab erreicht und ein volles Mondjahr (Hawl) vergangen ist.',
+        'zakat.breadcrumb.label': 'Zakat-Rechner',
         // Hijri Today
         'hijri_today.title': 'Hidschri-Datum heute',
         'hijri_today.day_label': 'Heute',

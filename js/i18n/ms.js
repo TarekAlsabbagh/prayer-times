@@ -844,13 +844,14 @@ window.TRANSLATIONS['ms'] = {
         'zakat.cond5': 'Kadar zakat: 2.5% daripada jumlah harta',
 
         // ─── D3.3a — UAT-Z1 Zakat redesign keys (added in Phase D3.3a) ───
-        'zakat.hero.title': 'Kalkulator Zakat',
-        'zakat.hero.subtitle': 'Kira zakat ke atas wang, simpanan, emas dan saham anda dengan mudah — dengan nisab yang jelas dan kadar 2.5%.',
+        'zakat.hero.title': 'Kalkulator Zakat — Kira Zakat Anda dengan Mudah',
+        'zakat.hero.subtitle': 'Anggarkan zakat ke atas wang, simpanan, emas, perak dan pelaburan anda — dengan ambang nisab yang jelas dan kadar 2.5%.',
         'zakat.hero.badge_percent': 'Kadar: 2.5%',
         'zakat.hero.badge_nisab': 'Nisab: 85g emas atau 595g perak',
         'zakat.hero.badge_hawl': 'Haul: satu tahun hijrah',
         'zakat.actions.reset': 'Set semula',
         'zakat.actions.copy': 'Salin keputusan',
+        'zakat.actions.download_pdf': 'Muat Turun Zakat PDF',
         'zakat.actions.copied': 'Disalin ✓',
         'zakat.result.title': 'Keputusan Zakat',
         'zakat.result.net': 'Harta bersih kena zakat',
@@ -943,6 +944,12 @@ window.TRANSLATIONS['ms'] = {
         'zakat.seo.h4_body': '<li>Kediaman peribadi</li><li>Kenderaan peribadi</li><li>Perabot dan barang peribadi</li><li>Hartanah yang tidak dijual</li><li>Alat untuk kerja, bukan untuk dijual</li>',
         'zakat.disclaimer.title': 'Notis penting',
         'zakat.disclaimer.body': 'Kalkulator ini memberikan anggaran umum zakat berdasarkan input anda. Beberapa butiran boleh berbeza mengikut jenis harta, hutang, emas, saham atau fatwa yang diikuti di negara anda. Bagi kes khas, rujuklah ulama yang dipercayai.',
+        // ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1: 5 new keys (mirror of ar.js/en.js additions)
+        'zakat.empty.subtitle': 'Keputusan anda akan dipaparkan di sini sebaik sahaja anda memasukkan nilai harta anda di bawah.',
+        'zakat.compact_disclaimer.text': 'Nota: kalkulator ini hanya untuk anggaran dan bukan fatwa keagamaan. Bagi kes khas, rujuklah ulama yang dipercayai.',
+        'zakat.edu.title': 'Ketahui tentang zakat harta',
+        'zakat.edu.intro': 'Zakat harta biasanya dikira pada kadar 2.5% daripada harta zakat bersih sebaik sahaja mencapai nisab dan setelah berlalu setahun (haul) hijri.',
+        'zakat.breadcrumb.label': 'Kalkulator Zakat',
         // Hijri Today
         'hijri_today.title': 'Tarikh Hijrah Hari Ini',
         'hijri_today.day_label': 'Hari ini',

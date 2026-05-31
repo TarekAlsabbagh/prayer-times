@@ -844,13 +844,14 @@ window.TRANSLATIONS['es'] = {
         'zakat.cond5': 'Tasa de zakat: 2,5% del total de los bienes',
 
         // ─── D3.3a — UAT-Z1 Zakat redesign keys (added in Phase D3.3a) ───
-        'zakat.hero.title': 'Calculadora de Zakat',
-        'zakat.hero.subtitle': 'Calcula la zakat sobre tu dinero, ahorros, oro e inversiones fácilmente — con un nisab claro y la tasa del 2,5 %.',
+        'zakat.hero.title': 'Calculadora de Zakat — Calcule Su Zakat Fácilmente',
+        'zakat.hero.subtitle': 'Estime la zakat sobre su dinero, ahorros, oro, plata e inversiones — con umbrales claros del nisab y la tasa del 2,5%.',
         'zakat.hero.badge_percent': 'Tasa: 2,5 %',
         'zakat.hero.badge_nisab': 'Nisab: 85 g de oro o 595 g de plata',
         'zakat.hero.badge_hawl': 'Hawl: un año lunar',
         'zakat.actions.reset': 'Restablecer',
         'zakat.actions.copy': 'Copiar resultado',
+        'zakat.actions.download_pdf': 'Descargar Zakat PDF',
         'zakat.actions.copied': 'Copiado ✓',
         'zakat.result.title': 'Resultado de la Zakat',
         'zakat.result.net': 'Patrimonio neto zakatable',
@@ -943,6 +944,12 @@ window.TRANSLATIONS['es'] = {
         'zakat.seo.h4_body': '<li>Residencia personal</li><li>Vehículo personal</li><li>Mobiliario y efectos personales</li><li>Propiedades no destinadas a la venta</li><li>Herramientas para el trabajo, no para la venta</li>',
         'zakat.disclaimer.title': 'Aviso importante',
         'zakat.disclaimer.body': 'Esta calculadora ofrece una estimación general de la zakat basada en sus datos. Algunos detalles pueden variar según el tipo de patrimonio, deudas, oro, acciones o la fatwa seguida en su país. Para casos especiales, consulte a un erudito de confianza.',
+        // ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1: 5 new keys (mirror of ar.js/en.js additions)
+        'zakat.empty.subtitle': 'Su resultado aparecerá aquí en cuanto introduzca sus valores a continuación.',
+        'zakat.compact_disclaimer.text': 'Nota: esta calculadora es solo para estimación y no constituye un dictamen religioso (fatwa). Para casos especiales, consulte a un erudito de confianza.',
+        'zakat.edu.title': 'Aprende sobre la zakat del dinero',
+        'zakat.edu.intro': 'La zakat del dinero generalmente se calcula al 2,5% de la riqueza zakatable neta una vez que alcanza el nisab y ha pasado un año lunar completo (Hawl).',
+        'zakat.breadcrumb.label': 'Calculadora de Zakat',
         // Hijri Today
         'hijri_today.title': 'Fecha Hijri de Hoy',
         'hijri_today.day_label': 'Hoy es',

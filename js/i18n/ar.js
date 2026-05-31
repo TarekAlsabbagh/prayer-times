@@ -1020,8 +1020,8 @@ window.TRANSLATIONS['ar'] = {
         'zakat.cond4': 'أن يكون المال نامياً أو قابلاً للنماء',
         'zakat.cond5': 'نسبة الزكاة: 2.5% من إجمالي الأموال',
         // ─── UAT-Z1: Zakat redesign keys ───
-        'zakat.hero.title': 'حاسبة الزكاة',
-        'zakat.hero.subtitle': 'احسب زكاة المال والمدّخرات والذهب والأسهم بسهولة، مع توضيح النصاب ونسبة الزكاة المستحقّة.',
+        'zakat.hero.title': 'حاسبة الزكاة — احسب زكاة المال بسهولة',
+        'zakat.hero.subtitle': 'احسب زكاة المال والمدّخرات والذهب والفضّة والاستثمارات تقديريًّا، مع توضيح النصاب ونسبة الزكاة المستحقّة.',
         'zakat.hero.badge_percent': 'النسبة 2.5%',
         'zakat.hero.badge_nisab': 'النصاب 85غ ذهب أو 595غ فضّة',
         'zakat.hero.badge_hawl': 'الحول سنة هجريّة',
@@ -1088,6 +1088,7 @@ window.TRANSLATIONS['ar'] = {
         'zakat.actions.reset': 'مسح البيانات',
         'zakat.actions.copy': 'نسخ النتيجة',
         'zakat.actions.copied': 'تمّ النسخ ✓',
+        'zakat.actions.download_pdf': 'تنزيل الزكاة PDF',
         'zakat.seo.h1': 'كيف يتمّ حساب زكاة المال؟',
         'zakat.seo.h1_body': 'يتمّ حساب زكاة المال عادة بنسبة 2.5% من صافي المال الزكويّ إذا بلغ النصاب ومرّ عليه حول هجريّ كامل. المعادلة: الزكاة = صافي المال الزكويّ × 2.5%.',
         'zakat.seo.h2': 'ما هو نصاب الزكاة؟',
@@ -1117,6 +1118,12 @@ window.TRANSLATIONS['ar'] = {
         'zakat.howto.step4': 'اضرب صافي المال × 2.5% إذا بلغ النصاب ومرّ الحول.',
         'zakat.disclaimer.title': 'تنبيه مهمّ',
         'zakat.disclaimer.body': 'هذه الحاسبة تُقدّم تقديرًا عامًّا لزكاة المال بناءً على المدخلات. قد تَختلف بعض التفاصيل حسب نوع المال، الديون، الذهب، الأسهم، أو الفتوى المعتمدة في بلدك. في الحالات الخاصّة، يُنصَح بسؤال جهة شرعيّة موثوقة.',
+        // UI-CONTENT-UX-IMPROVEMENT-1: new keys (mirror of js/i18n.js additions) for empty-state info chips + compact inline disclaimer + edu intro + short breadcrumb label
+        'zakat.empty.subtitle': 'النتيجة ستظهر هنا فور إدخال بياناتك أدناه.',
+        'zakat.compact_disclaimer.text': 'تنبيه: الحاسبة تقديريّة لمساعدتك على معرفة الزكاة، وليست فتوى شرعيّة. في الحالات الخاصّة راجع جهة شرعيّة موثوقة.',
+        'zakat.edu.title': 'تعلَّم عن زكاة المال',
+        'zakat.edu.intro': 'تُحسب زكاة المال عادةً بنسبة 2.5% من صافي المال الزكويّ إذا بلغ النصاب وحال عليه الحول الهجريّ.',
+        'zakat.breadcrumb.label': 'حاسبة الزكاة',
         // التاريخ الهجري
         'hijri_today.title': 'التاريخ الهجري اليوم',
         'hijri_today.day_label': 'التاريخ الهجري اليوم',

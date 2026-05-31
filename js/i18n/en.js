@@ -948,8 +948,8 @@ window.TRANSLATIONS['en'] = {
         'zakat.cond4': 'The wealth must be growing or capable of growth',
         'zakat.cond5': 'Zakat rate: 2.5% of total assets',
         // ─── UAT-Z1: Zakat redesign keys ───
-        'zakat.hero.title': 'Zakat Calculator',
-        'zakat.hero.subtitle': 'Calculate zakat on your money, savings, gold, and stocks easily, with clear nisab and the 2.5% zakat rate.',
+        'zakat.hero.title': 'Zakat Calculator — Compute Your Zakat Easily',
+        'zakat.hero.subtitle': 'Estimate zakat on your money, savings, gold, silver, and investments — with clear nisab thresholds and the 2.5% rate.',
         'zakat.hero.badge_percent': 'Rate: 2.5%',
         'zakat.hero.badge_nisab': 'Nisab: 85g gold or 595g silver',
         'zakat.hero.badge_hawl': 'Hawl: one lunar year',
@@ -1016,6 +1016,7 @@ window.TRANSLATIONS['en'] = {
         'zakat.actions.reset': 'Reset',
         'zakat.actions.copy': 'Copy result',
         'zakat.actions.copied': 'Copied ✓',
+        'zakat.actions.download_pdf': 'Download Zakat PDF',
         'zakat.seo.h1': 'How is zakat on money calculated?',
         'zakat.seo.h1_body': 'Zakat is typically calculated as 2.5% of net zakatable wealth once it meets the nisab and a full lunar year (Hawl) has passed. Formula: Zakat = Net wealth × 2.5%.',
         'zakat.seo.h2': 'What is the nisab for zakat?',
@@ -1045,6 +1046,12 @@ window.TRANSLATIONS['en'] = {
         'zakat.howto.step4': 'Multiply net wealth × 2.5% if it meets the nisab and the Hawl has passed.',
         'zakat.disclaimer.title': 'Important notice',
         'zakat.disclaimer.body': 'This calculator provides a general estimate of zakat based on your inputs. Some details may vary depending on the type of wealth, debts, gold, stocks, or the fatwa followed in your country. For special cases, consult a trusted scholar.',
+        // UI-CONTENT-UX-IMPROVEMENT-1: new keys (mirror of js/i18n.js additions) for empty-state info chips + compact inline disclaimer + edu intro + short breadcrumb label
+        'zakat.empty.subtitle': 'Your result will appear here as soon as you enter your wealth values below.',
+        'zakat.compact_disclaimer.text': 'Note: this calculator is for estimation only and is not a religious ruling (fatwa). For special cases, consult a trusted scholar.',
+        'zakat.edu.title': 'Learn about zakat on money',
+        'zakat.edu.intro': 'Zakat on money is generally calculated at 2.5% of the net zakatable wealth once it meets the nisab and a full lunar year (Hawl) has passed.',
+        'zakat.breadcrumb.label': 'Zakat Calculator',
         // Hijri Today
         'hijri_today.title': 'Hijri Date Today',
         'hijri_today.day_label': 'Today',

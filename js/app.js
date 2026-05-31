@@ -24190,37 +24190,45 @@ function _zakatFmtMoney(amount, currency, lang) {
 }
 
 function _zakatRender(s) {
-    const root = document.getElementById('zakat-sticky-result');
-    if (!root) return;
-    root.dataset.state = s.state;
-
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const fmt = (amt) => _zakatFmtMoney(amt, s.currency, lang);
 
-    // Toggle 5 state blocks
-    const blocks = root.querySelectorAll('[data-state-block]');
-    blocks.forEach(b => {
-        b.hidden = (b.dataset.stateBlock !== s.state);
-    });
+    // ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 2): the entire
+    // .zakat-result-col + #zakat-sticky-result wrapper was removed from
+    // index.html — the breakdown table is now the single result display.
+    // The state-block updates below run ONLY when #zakat-sticky-result still
+    // exists (which it may, if a future variant re-introduces the side card),
+    // while the breakdown / hawl / backward-compat-mirror updates ALWAYS run.
+    // No calc logic changed — only the renderer's DOM-presence guarding.
+    const root = document.getElementById('zakat-sticky-result');
+    if (root) {
+        root.dataset.state = s.state;
 
-    // Update per-state values
-    if (s.state === 'below') {
-        _zakatSetText('zakat-net-below', fmt(s.net));
-        _zakatSetText('zakat-nisab-below', fmt(s.nisab));
-    } else if (s.state === 'due') {
-        _zakatSetText('zakat-net-due', fmt(s.net));
-        _zakatSetText('zakat-nisab-due', fmt(s.nisab));
-        _zakatSetText('zakat-amount-due', fmt(s.zakatAmount));
-    } else if (s.state === 'pending') {
-        _zakatSetText('zakat-net-pending', fmt(s.net));
-        _zakatSetText('zakat-nisab-pending', fmt(s.nisab));
-    } else if (s.state === 'estimate') {
-        _zakatSetText('zakat-net-est', fmt(s.net));
-        _zakatSetText('zakat-nisab-est', fmt(s.nisab));
-        _zakatSetText('zakat-amount-est', fmt(s.zakatAmount));
+        // Toggle 5 state blocks
+        const blocks = root.querySelectorAll('[data-state-block]');
+        blocks.forEach(b => {
+            b.hidden = (b.dataset.stateBlock !== s.state);
+        });
+
+        // Update per-state values
+        if (s.state === 'below') {
+            _zakatSetText('zakat-net-below', fmt(s.net));
+            _zakatSetText('zakat-nisab-below', fmt(s.nisab));
+        } else if (s.state === 'due') {
+            _zakatSetText('zakat-net-due', fmt(s.net));
+            _zakatSetText('zakat-nisab-due', fmt(s.nisab));
+            _zakatSetText('zakat-amount-due', fmt(s.zakatAmount));
+        } else if (s.state === 'pending') {
+            _zakatSetText('zakat-net-pending', fmt(s.net));
+            _zakatSetText('zakat-nisab-pending', fmt(s.nisab));
+        } else if (s.state === 'estimate') {
+            _zakatSetText('zakat-net-est', fmt(s.net));
+            _zakatSetText('zakat-nisab-est', fmt(s.nisab));
+            _zakatSetText('zakat-amount-est', fmt(s.zakatAmount));
+        }
     }
 
-    // Breakdown table
+    // Breakdown table — ALWAYS updated (works whether or not #zakat-sticky-result exists)
     _zakatSetText('zbt-cash', fmt(s.cash));
     _zakatSetText('zbt-gs', fmt(s.gold + s.silver));
     _zakatSetText('zbt-invest', fmt(s.invest));
@@ -24229,12 +24237,13 @@ function _zakatRender(s) {
     _zakatSetText('zbt-nisab', fmt(s.nisab));
     _zakatSetText('zbt-amount', fmt(s.zakatAmount));
 
-    // Hawl note visibility
+    // Hawl note visibility (lives inside the hawl-card in the inputs column, not in sticky)
     document.querySelector('.zakat-hawl-note-yes')?.toggleAttribute('hidden', s.hawl !== 'yes');
     document.querySelector('.zakat-hawl-note-no')?.toggleAttribute('hidden', s.hawl !== 'no');
     document.querySelector('.zakat-hawl-note-unsure')?.toggleAttribute('hidden', s.hawl !== 'unsure');
 
-    // Backward-compat mirrors
+    // Backward-compat mirrors (the mirrors lived inside sticky and are gone now; the
+    // guards below already no-op cleanly if the IDs are absent, so no error.)
     const oldTotal = document.getElementById('zakat-total');
     const oldAmount = document.getElementById('zakat-amount');
     if (oldTotal) oldTotal.textContent = fmt(s.net);
@@ -24310,6 +24319,99 @@ function copyZakatResult() {
             try { document.execCommand('copy'); showToast(); } catch (_) {}
             document.body.removeChild(ta);
         });
+    } catch (_) {}
+}
+
+// ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3): generate a clean
+// receipt view in a NEW window and trigger window.print() — user selects
+// "Save as PDF" in the browser print dialog to download. Zero external
+// dependencies, native Arabic font rendering, works on all modern browsers.
+// Pulls all values from the live breakdown table (#zbt-cash/...) — so no
+// recomputation is done here, the displayed numbers are guaranteed to match.
+function _zakatDownloadPDF() {
+    const breakdown = document.getElementById('zakat-breakdown');
+    if (!breakdown) return;
+    const _t = (k, fb) => (typeof t === 'function') ? (t(k) || fb) : fb;
+    const dir = document.documentElement.dir || 'ltr';
+    const lang = document.documentElement.lang || 'ar';
+    // Pull live values from breakdown — single source of truth
+    const val = (id) => (document.getElementById(id)?.textContent || '0').trim();
+    const rows = [
+        [_t('zakat.breakdown.cash_total',   'مجموع الأموال'),                val('zbt-cash')],
+        [_t('zakat.breakdown.gs_total',     'مجموع الذهب والفضّة'),         val('zbt-gs')],
+        [_t('zakat.breakdown.invest_total', 'مجموع الاستثمارات والتجارة'),  val('zbt-invest')],
+        [_t('zakat.breakdown.debts_total',  'الديون المخصومة'),             val('zbt-debts')],
+        [_t('zakat.breakdown.net',          'صافي المال الزكويّ'),         val('zbt-net')],
+        [_t('zakat.breakdown.nisab',        'النصاب'),                       val('zbt-nisab')]
+    ];
+    const totalRow = [_t('zakat.breakdown.amount', 'الزكاة المستحقّة'), val('zbt-amount')];
+    const docTitle = _t('zakat.hero.title', 'حاسبة الزكاة');
+    const printedAt = new Date().toLocaleString(lang === 'ar' ? 'ar-EG' : lang);
+    const disclaimer = _t('zakat.compact_disclaimer.text', 'تنبيه: الحاسبة تقديريّة وليست فتوى شرعيّة.');
+    const sourceURL = location.origin + location.pathname;
+    // Build receipt HTML — self-contained (own <style>, no external CSS)
+    const html = '<!DOCTYPE html><html dir="' + dir + '" lang="' + lang + '"><head>' +
+        '<meta charset="UTF-8"><title>' + docTitle + '</title>' +
+        '<style>' +
+        '  @page { size: A4; margin: 24mm 18mm; }' +
+        '  * { box-sizing: border-box; }' +
+        '  body { font-family: "Segoe UI", "Tahoma", "Noto Naskh Arabic", sans-serif; color: #1a1a1a; line-height: 1.6; margin: 0; padding: 0; }' +
+        '  .header { border-bottom: 3px solid #2e7d32; padding-bottom: 12px; margin-bottom: 22px; }' +
+        '  .header h1 { font-size: 22px; color: #1e5631; margin: 0 0 4px; font-weight: 800; }' +
+        '  .header .meta { font-size: 12px; color: #666; margin: 0; }' +
+        '  table { width: 100%; border-collapse: collapse; margin: 20px 0; font-size: 14px; }' +
+        '  th, td { padding: 11px 12px; border-bottom: 1px solid #e0e0e0; text-align: ' + (dir === 'rtl' ? 'right' : 'left') + '; }' +
+        '  td.amount { text-align: ' + (dir === 'rtl' ? 'left' : 'right') + '; direction: ltr; font-weight: 700; color: #1a1a1a; font-variant-numeric: tabular-nums; }' +
+        '  tr.total td { background: linear-gradient(90deg, rgba(13,124,85,0.10), rgba(255,215,94,0.08)); font-weight: 900; color: #1e5631; font-size: 16px; padding-top: 14px; padding-bottom: 14px; border-bottom: 0; }' +
+        '  tr.total td.amount { color: #1e5631; }' +
+        '  .disclaimer { margin-top: 28px; padding: 12px 14px; background: rgba(255,215,94,0.10); border-' + (dir === 'rtl' ? 'right' : 'left') + ': 4px solid #ffd75e; border-radius: 6px; font-size: 11px; color: #5d4500; line-height: 1.6; }' +
+        '  .footer { margin-top: 24px; padding-top: 12px; border-top: 1px solid #e0e0e0; font-size: 10px; color: #888; }' +
+        '  .footer a { color: #1e5631; text-decoration: none; }' +
+        '</style></head><body>' +
+        '<div class="header">' +
+            '<h1>' + docTitle + '</h1>' +
+            '<p class="meta">' + printedAt + '</p>' +
+        '</div>' +
+        '<table>' +
+            '<tbody>' +
+                rows.map(r => '<tr><td>' + r[0] + '</td><td class="amount">' + r[1] + '</td></tr>').join('') +
+                '<tr class="total"><td>' + totalRow[0] + '</td><td class="amount">' + totalRow[1] + '</td></tr>' +
+            '</tbody>' +
+        '</table>' +
+        '<div class="disclaimer">' + disclaimer + '</div>' +
+        '<div class="footer">' + sourceURL + '</div>' +
+        '</body></html>';
+    // Open in new tab + trigger print after content loads
+    try {
+        const w = window.open('', '_blank');
+        if (!w) {
+            // Popup blocked — gracefully fall back to in-page print of the breakdown via temporary print stylesheet
+            return _zakatDownloadPDFFallback(html);
+        }
+        w.document.open();
+        w.document.write(html);
+        w.document.close();
+        w.focus();
+        // Small delay to let fonts settle (esp. Arabic shaping) before print dialog opens
+        setTimeout(() => { try { w.print(); } catch (_) {} }, 250);
+    } catch (_) {
+        _zakatDownloadPDFFallback(html);
+    }
+}
+
+// Fallback when popup is blocked — write the receipt into an iframe + print it
+function _zakatDownloadPDFFallback(html) {
+    try {
+        const f = document.createElement('iframe');
+        f.style.cssText = 'position:fixed;left:-9999px;top:0;width:1px;height:1px;border:0;';
+        document.body.appendChild(f);
+        f.contentDocument.open();
+        f.contentDocument.write(html);
+        f.contentDocument.close();
+        setTimeout(() => {
+            try { f.contentWindow.focus(); f.contentWindow.print(); } catch (_) {}
+            setTimeout(() => f.remove(), 1000);
+        }, 250);
     } catch (_) {}
 }
 
@@ -24446,6 +24548,7 @@ function initZakatCalculator() {
     // Action buttons
     document.getElementById('zakat-reset')?.addEventListener('click', resetZakat);
     document.getElementById('zakat-copy')?.addEventListener('click', copyZakatResult);
+    document.getElementById('zakat-download-pdf')?.addEventListener('click', _zakatDownloadPDF);
 
     // Initial render
     calculateZakat();

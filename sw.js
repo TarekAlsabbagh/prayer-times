@@ -886,7 +886,89 @@
 //   CSS rules in css/style.css, cha.cta_jump i18n keys across 10 lang
 //   files. A separate cleanup ticket can prune them later if desired.
 //   Cache-buster bump for SW precache invalidation only: sw v383 → v384.
-const CACHE_VERSION = 'v384';
+//
+// ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31):
+//   UI/UX + content + SEO polish for /zakat-calculator. NO calc-logic
+//   changes (zero touch to js/app.js zakat module). Surgical additions:
+//   1) HTML: empty-state subtitle + 2 educational chips (نسبة/نصاب)
+//      using existing badge i18n keys; settings nisab form-group gains
+//      `form-group--full-row` class so the 2 radio pills never wrap on
+//      the 2-col grid (≥1280px); compact inline disclaimer chip between
+//      the result grid and the breakdown table; .zakat-seo restructured
+//      from 4 plain h2-blocks into a 2x2 .zakat-edu-grid of cards.
+//   2) CSS: 8 new rule blocks scoped under .zakat-*; dark-mode overrides
+//      for all new elements; @media (max-width: 480px) keeps mobile
+//      single-column reading flow.
+//   3) i18n (AR + EN): 4 new keys (zakat.empty.subtitle,
+//      zakat.compact_disclaimer.text, zakat.edu.title, zakat.edu.intro);
+//      hero title + subtitle updated to add "تقديريًّا" wording per spec.
+//      Other 8 langs fall back via existing t() chain (AR/EN per i18n
+//      fallback policy used elsewhere in this project).
+//   4) server.js: no SSR / route / sitemap / canonical changes —
+//      zakatFaq:true (FAQPage + HowTo JSON-LD) already in place at
+//      server.js:7912 / 11318-11354, fully verified live.
+//   Cache-busters: css/style.css v459→v460, sw v384→v385. js/app.js
+//   v744 unchanged (JS untouched).
+//
+// ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up, 2026-05-31):
+//   User requested moving the action buttons (.zakat-actions with
+//   #zakat-reset + #zakat-copy) from inside #zakat-sticky-result to
+//   directly below the "الزكاة المستحقّة" row inside #zakat-breakdown.
+//   HTML-only relocation (same buttons, same IDs → js/app.js handlers
+//   continue to work). CSS: new .zakat-actions--in-breakdown modifier
+//   adds top-border + spacing; the previous opacity-dim rule for
+//   .zakat-sticky-result[data-state="empty"] .zakat-actions was REMOVED
+//   (orphan — the div no longer lives inside .zakat-sticky-result).
+//   Cache-busters: css/style.css v460→v461, sw v385→v386.
+//
+// ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 2, 2026-05-31):
+//   User requested DELETING the entire <aside class="zakat-result-col">
+//   (the sticky result column with 5 state blocks + chips + subtitle).
+//   The breakdown table (#zakat-breakdown below the inputs) is now the
+//   single result display — it already showed all values including the
+//   "الزكاة المستحقّة" row highlighted via tr.is-total. Changes:
+//   1) HTML: removed entire <aside class="zakat-result-col">...</aside>
+//      wrapper from index.html (replaced with explanatory comment).
+//   2) JS: _zakatRender() in js/app.js gracefully handles a missing
+//      #zakat-sticky-result — the sticky-block updates wrap in
+//      `if (root) { ... }` instead of early-return. Breakdown table +
+//      hawl notes + backward-compat mirrors ALWAYS update regardless.
+//      Zero calc-logic change.
+//   3) CSS: .zakat-grid is now permanently 1-col (no @media 2-col
+//      desktop split). The .zakat-result-col / .zakat-sticky-result /
+//      .zakat-state-* / .zakat-empty-chip* / .zakat-state-subtitle /
+//      .zakat-amount-block* / .zakat-amount-big / .zakat-formula /
+//      .zakat-result-rows* / .zakat-state-badge* / .zakat-state-icon
+//      rules remain as dead CSS (harmless, zero selectors match;
+//      can be pruned in a future cleanup ticket).
+//   Cache-busters: css/style.css v461→v462, js/app.js v744→v745
+//   (JS was touched: _zakatRender resilience), sw v386→v387.
+//
+// ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31):
+//   User requested a new full-width "Download Zakat PDF" button below
+//   the existing مسح/نسخ row in the breakdown section. Implementation:
+//   1) HTML: new <button id="zakat-download-pdf" class="zakat-action-btn
+//      zakat-action-btn--pdf"> + new svg <symbol id="i-download"> in the
+//      icon sprite.
+//   2) CSS: .zakat-action-btn--pdf { flex:1 1 100% (own row); background:
+//      #e60023 Adobe-PDF red; color:#fff; font-weight:700 } + hover/focus
+//      darker + dark-mode override.
+//   3) JS: new _zakatDownloadPDF() function — opens a new tab with a
+//      self-contained receipt HTML (A4 page, title, timestamp, breakdown
+//      table cloned from live #zbt-* values, highlighted total row,
+//      disclaimer, source URL footer); triggers window.print() so the
+//      user picks "Save as PDF" in their browser print dialog. Includes
+//      iframe fallback for popup-blocked scenarios. ZERO external
+//      dependencies (no jsPDF / html2canvas) — native Arabic shaping
+//      handled by the browser's built-in fonts.
+//   4) i18n: new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" /
+//      "Download Zakat PDF") in AR + EN per-lang bundles + the
+//      server-loaded js/i18n.js. Other 8 langs fall back via existing
+//      _needsEnFallback chain.
+//   5) server.js: _i18nVersion 187→188.
+//   Cache-busters: css/style.css v462→v463, js/app.js v745→v746
+//   (added _zakatDownloadPDF + binding), sw v387→v388.
+const CACHE_VERSION = 'v388';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

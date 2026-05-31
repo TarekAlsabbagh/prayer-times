@@ -821,7 +821,17 @@
 //   buttons + the CTA so cascading rules cannot lift them out of flow.
 //   No DOM/JS/data/SEO/desktop changes.
 //   Cache-buster: css/style.css?v=456 → ?v=457, sw v377 → v378.
-const CACHE_VERSION = 'v378';
+//
+// QIBLA-CITY-ISLAMIC-EVENTS-COUNTDOWN-CLONE-1 (2026-05-31):
+//   Replaces the legacy footer block on /qibla-in-{city} (qibla-footer-seo
+//   + qibla-related + qibla-trust-note inside a <div class="section-card">)
+//   with a clone of the Islamic Events Countdown section (4 cards: Ramadan
+//   / Eid Fitr / Eid Adha / Hijri New Year). Mirrors the prayer-times
+//   implementation from 9d393fb. Extends `_azkarRenderMoonEvents()` scope
+//   in js/app.js to include #page-qibla. JS handlers at app.js:16906-16956
+//   that previously populated the removed IDs now silently no-op.
+//   Cache-buster: js/app.js?v=742 → ?v=743, sw v378 → v379.
+const CACHE_VERSION = 'v379';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -24916,7 +24916,13 @@ function _azkarRenderMoonEvents() {
         // "يجري الآن" during active periods). Function name stays
         // `_azkarRenderMoonEvents` for git blame continuity but is now
         // page-scoped — handles azkar pages AND city prayer-times pages.
-        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer', 'page-prayer-times'];
+        //
+        // QIBLA-CITY-ISLAMIC-EVENTS-COUNTDOWN-CLONE-1 (2026-05-31):
+        // Scope further expanded to include #page-qibla so the new
+        // moon-events-section that REPLACED the legacy qibla footer
+        // block (qibla-footer-seo + qibla-related + qibla-trust-note)
+        // on /qibla-in-{city} gets the same rolling-cycle fill.
+        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer', 'page-prayer-times', 'page-qibla'];
         const _activeScopes = _azkarPageIds
             .map(id => document.getElementById(id))
             .filter(el => el && el.querySelector('.moon-events-section'));

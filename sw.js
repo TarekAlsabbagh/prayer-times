@@ -853,7 +853,18 @@
 //   ticket: SERVER-STRIPELEMENT-COMMENT-AWARE-1 will harden _stripElement
 //   to skip comment regions natively.
 //   Cache-buster bump for SW precache invalidation only: sw v380 → v381.
-const CACHE_VERSION = 'v381';
+//
+// PRAYER-TIMES-COUNTDOWN-CARD-STYLE-FIX-1 (2026-05-31):
+//   On /prayer-times-in-{city}, the 4 Islamic-events countdown anchors
+//   (from commit 9d393fb) used only `.moon-event-{name}-card` classes,
+//   but the per-event coloring CSS at css/style.css:4339+ targets the
+//   bare `.moon-event-{name}` (no suffix). Added the bare class alongside
+//   the existing `-card` suffix so cards now get the per-event purple/
+//   gold/red/blue borders + labels matching /moon-today + /qibla-in-
+//   {city} (the latter was fixed identically in 211f1bf).
+//   No CSS / JS / data / SEO change. Index.html dual-class addition only.
+//   Cache-buster: js/app.js?v=743 → ?v=744, sw v381 → v382.
+const CACHE_VERSION = 'v382';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

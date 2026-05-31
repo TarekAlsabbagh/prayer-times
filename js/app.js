@@ -23830,11 +23830,26 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
     return `<div class="conv-summary"><div class="conv-summary-day">${resultDateFull}</div>${rowsHTML}</div>`;
 }
 
+// DATE-CONVERTER-TAB-HIDDEN-CLASS-FIX-1 (2026-05-31):
+// Bug: clicking "التحويل من التاريخ الهجري" or "التحويل من التاريخ الشمسي"
+// showed an empty tab body. Root cause: the two hidden converter <div>s
+// carry `class="u-hidden"`, and `.u-hidden { display: none !important; }`
+// (css/style.css:8511) cannot be defeated by inline `style.display='block'`
+// — `!important` always wins over inline. Switched to `classList.toggle
+// ('u-hidden', shouldHide)` and clear any legacy inline display left
+// over by the previous version of this function.
 function switchConverter(type) {
     document.querySelectorAll('.converter-tab').forEach(t => t.classList.remove('active'));
-    document.getElementById('converter-to-hijri').style.display  = (type === 'to-hijri')  ? 'block' : 'none';
-    document.getElementById('converter-to-greg').style.display   = (type === 'to-greg')   ? 'block' : 'none';
-    document.getElementById('converter-to-solar').style.display  = (type === 'to-solar')  ? 'block' : 'none';
+    const _setVis = (id, visible) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.classList.toggle('u-hidden', !visible);
+        // Strip any inline `display` that may have been set by the old code path.
+        if (el.style.display) el.style.removeProperty('display');
+    };
+    _setVis('converter-to-hijri', type === 'to-hijri');
+    _setVis('converter-to-greg',  type === 'to-greg');
+    _setVis('converter-to-solar', type === 'to-solar');
     const idx = type === 'to-hijri' ? 0 : type === 'to-greg' ? 1 : 2;
     document.querySelectorAll('.converter-tab')[idx]?.classList.add('active');
 }

@@ -470,6 +470,19 @@
 //   Untouched: Qibla calc, angle/distance, canonical, H1, related-services,
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
+// DATE-CONVERTER-TAB-HIDDEN-CLASS-FIX-1 (2026-05-31):
+//   v373 → v374. Bug fix on /dateconverter: clicking the "Hijri →
+//   Gregorian" or "Solar → Gregorian" tabs showed an empty body.
+//   Root cause: the two hidden converter <div>s carry `class="u-hidden"`,
+//   and `.u-hidden { display: none !important; }` (css/style.css:8511)
+//   cannot be overridden by the inline `style.display='block'` that
+//   `switchConverter()` was setting — `!important` always wins. Switched
+//   to `classList.toggle('u-hidden', !visible)` + cleared any legacy
+//   inline `display` left over from the previous code path. Single
+//   function `switchConverter()` in js/app.js (~line 23833). No CSS
+//   change, no HTML change. Untouched: prayer-times pages, /qibla,
+//   /moon-*, /azkar/*, /today-hijri-date, all i18n.
+//   Cache-buster: js/app.js?v=740 → ?v=741.
 // CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1 (2026-05-31):
 //   v372 → v373. UX upgrade for the bottom of /prayer-times-in-{city}:
 //   the legacy 3rd tier of `#related-links-section` (`.rls-tier-nav`
@@ -771,7 +784,7 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v373';
+const CACHE_VERSION = 'v374';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

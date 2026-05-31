@@ -27601,3 +27601,81 @@ html[data-theme="dark"] #page-hijri-day .section-card:has(> h2#hday-faq-title) {
     }
 }
 
+/* ═══════════════════════════════════════════════════════════════════════════
+   HIJRI-CALENDAR-MOBILE-YEAR-NAV-OVERLAP-FIX-1 (2026-05-31)
+   Scope: /hijri-calendar hub page (#page-hijri-year), MOBILE ONLY.
+
+   Bug report: on mobile, the prev/next year navigation buttons inside
+   .calendar-year-picker (inside the hero card) can appear visually under
+   the stats cards (#hyear-info-grid) below — partially obscured / not
+   clearly clickable.
+
+   Headless-browser audit at 360/375/390/430 widths × 10 languages found
+   the layout always laying out correctly (12-45px gap between hero and
+   stats), so this is a DEFENSIVE belt-and-suspenders patch that bullet-
+   proofs the layout against:
+     • user-side font-zoom or accessibility text-scaling pushing content
+       past the hero's CLS-reserved min-height (500px) in ways the
+       headless test doesn't simulate
+     • future cascade additions that might gain absolute/transform
+       positioning on either .section-card
+
+   Approach (all explicit, all mobile-scoped, all additive):
+     1. Hero card and year-picker each establish their own stacking
+        context with `position: relative; z-index: 2;` so they always
+        paint IN FRONT of the next sibling .section-card.
+     2. The .section-card holding #hyear-info-grid gets
+        `position: relative; z-index: 1; clear: both;` so it always sits
+        BEHIND the year-picker in stacking order, regardless of any
+        future positioning changes.
+     3. `overflow: visible` is restated explicitly on both the hero and
+        the year-picker so a future cascade `overflow: hidden` rule can
+        never accidentally clip the prev/next buttons.
+     4. The prev/next nav row and individual buttons inherit
+        `position: relative; z-index: 2;` so they remain on top of any
+        stacking context they happen to traverse.
+
+   Does NOT change:
+     • Hero/year-picker CLS min-height reservations (still 500px / 50px)
+     • Section-card margin-bottom (still 12px on mobile from line 19188)
+     • Desktop layout (rule is inside @media (max-width: 767px))
+     • Calculations, data, FAQ, JSON-LD, canonical, H1, routing, sitemap
+     • Dark mode (uses theme tokens already — no override needed)
+   ═══════════════════════════════════════════════════════════════════════════ */
+@media (max-width: 767px) {
+    /* (1) + (3) Hero card — own stacking context + explicit non-clipping */
+    #page-hijri-year .hpage-hero-start {
+        position: relative;
+        z-index: 2;
+        overflow: visible;
+    }
+
+    /* (1) + (3) Year-picker block (inside hero) — own stacking context +
+       explicit non-clipping. Pairs with the new CSS-A2-style nav buttons. */
+    #page-hijri-year .calendar-year-picker.hpage-year-picker {
+        position: relative;
+        z-index: 2;
+        overflow: visible;
+    }
+
+    /* (4) Prev/Next year-nav row + each button — guaranteed top of stack */
+    #page-hijri-year .hyear-year-nav-row {
+        position: relative;
+        z-index: 2;
+    }
+    #page-hijri-year .hyear-year-nav-btn {
+        position: relative;
+        z-index: 2;
+    }
+
+    /* (2) Stats-cards section — establish a LOWER stacking context so it
+       can never paint over the prev/next year buttons in the hero above.
+       `clear: both;` is a no-op in current layout (no floats present) but
+       defends against any future float-based wrappers. */
+    #page-hijri-year > .section-card:has(> #hyear-info-grid) {
+        position: relative;
+        z-index: 1;
+        clear: both;
+    }
+}
+

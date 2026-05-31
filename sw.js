@@ -792,7 +792,17 @@
 //   conversion, cross-country differences, lunar-vs-solar comparison.
 //   FAQPage JSON-LD auto-syncs (single source: `ui.faq(ctx)`).
 //   Cache-buster: js/app.js?v=741 → ?v=742, sw v374 → v375.
-const CACHE_VERSION = 'v375';
+//
+// HIJRI-CALENDAR-MOBILE-YEAR-NAV-OVERLAP-FIX-1 (2026-05-31):
+//   Defensive CSS-only mobile-scoped patch on /hijri-calendar — adds
+//   explicit `position: relative` + z-index stacking + `overflow: visible`
+//   to .hpage-hero-start, .calendar-year-picker, .hyear-year-nav-*, and a
+//   LOWER z-index + clear:both on the #hyear-info-grid section-card. This
+//   bulletproofs the prev/next year buttons against any future cascade
+//   absolute/transform positioning + against user font-zoom edge cases.
+//   No JS, no data, no DOM, no SEO, no calculations changed.
+//   Cache-buster: css/style.css?v=454 → ?v=455, sw v375 → v376.
+const CACHE_VERSION = 'v376';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

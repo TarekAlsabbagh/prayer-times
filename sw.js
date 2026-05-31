@@ -784,7 +784,15 @@
 //   Untouched: desktop layout, /moon-today hero, /prayer-times-in-*,
 //   /azkar, JSON-LD schema, JS, server.js, sidebar nav.
 //   Cache-buster: css/style.css?v=450 → ?v=451 (no JS change).
-const CACHE_VERSION = 'v374';
+//
+// HIJRI-YEAR-CALENDAR-FAQ-SEO-EXPANSION-1 (2026-05-31):
+//   Expanded `/hijri-calendar/{year}` FAQ from 3 → 12 questions per language
+//   (all 10 langs). Added year-start/end, month order, Ramadan/Eid-Fitr/
+//   Eid-Adha dates (Umm al-Qura ± moon-sighting caveat), Hijri↔Gregorian
+//   conversion, cross-country differences, lunar-vs-solar comparison.
+//   FAQPage JSON-LD auto-syncs (single source: `ui.faq(ctx)`).
+//   Cache-buster: js/app.js?v=741 → ?v=742, sw v374 → v375.
+const CACHE_VERSION = 'v375';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

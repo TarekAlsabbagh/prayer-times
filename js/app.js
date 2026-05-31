@@ -1568,7 +1568,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`كم عدد أيام السنة الهجرية ${c.year}${c.hSfx}؟`, `${c.totalYearDays} يوماً.`],
               [`هل سنة ${c.year}${c.hSfx} كبيسة؟`, c.isLeap?`نعم، سنة ${c.year}${c.hSfx} كبيسة وعدد أيامها 355 يوماً.`:`لا، سنة ${c.year}${c.hSfx} بسيطة وعدد أيامها 354 يوماً.`],
-              [`كم عدد الأشهر الهجرية؟`, `12 شهراً، تبدأ بمحرم وتنتهي بذي الحجة.`]
+              [`كم عدد الأشهر الهجرية؟`, `12 شهراً، تبدأ بمحرم وتنتهي بذي الحجة.`],
+              [`متى تبدأ السنة الهجرية ${c.year}${c.hSfx}؟`, `تبدأ السنة الهجرية ${c.year}${c.hSfx} تقريبًا في ${c.startGreg} ميلاديًا حسب تقويم أم القرى، وقد يختلف اليوم الفعلي حسب رؤية الهلال في كل بلد.`],
+              [`متى تنتهي السنة الهجرية ${c.year}${c.hSfx}؟`, `تنتهي السنة الهجرية ${c.year}${c.hSfx} تقريبًا في ${c.endGreg} ميلاديًا، وتبدأ السنة الهجرية ${c.nextYear}${c.hSfx} في اليوم التالي. وقد تختلف الأيام الفعلية حسب رؤية الهلال.`],
+              [`ما ترتيب الأشهر الهجرية؟`, `الترتيب هو: محرم، صفر، ربيع الأول، ربيع الآخر، جمادى الأولى، جمادى الآخرة، رجب، شعبان، رمضان، شوال، ذو القعدة، ذو الحجة.`],
+              [`متى يبدأ شهر رمضان في السنة ${c.year}${c.hSfx}؟`, `يبدأ شهر رمضان لعام ${c.year}${c.hSfx} تقريبًا في ${c.ramadanGreg} ميلاديًا حسب تقويم أم القرى، وقد يختلف يوم البداية الفعلي حسب رؤية هلال رمضان في كل بلد.`],
+              [`متى يكون عيد الفطر في السنة ${c.year}${c.hSfx}؟`, `يوافق عيد الفطر تقريبًا ${c.eidFitrGreg} ميلاديًا (1 شوال ${c.year}${c.hSfx})، وقد يختلف اليوم الفعلي حسب رؤية هلال شوال في كل بلد.`],
+              [`متى يكون عيد الأضحى في السنة ${c.year}${c.hSfx}؟`, `يوافق عيد الأضحى تقريبًا ${c.eidAdhaGreg} ميلاديًا (10 ذو الحجة ${c.year}${c.hSfx})، وقد يختلف اليوم الفعلي حسب رؤية هلال ذي الحجة في كل بلد.`],
+              [`كيف يتم تحويل التاريخ الهجري إلى ميلادي؟`, `يمكنك تحويل أي تاريخ هجري إلى ميلادي باستخدام أداة تحويل التاريخ في الموقع، وهي تعتمد على تقويم أم القرى الحسابي. التواريخ تقريبية وقد تختلف بفارق يوم واحد حسب الرؤية الفعلية للهلال.`],
+              [`لماذا تختلف بداية الأشهر الهجرية بين الدول؟`, `لأن بداية كل شهر هجري ترتبط برؤية الهلال، التي قد تختلف بين دولة وأخرى بسبب الموقع الجغرافي والظروف الجوية. لذلك قد يبدأ شهر مثل رمضان أو شوال في يوم مختلف بين دولة وأخرى.`],
+              [`ما الفرق بين السنة الهجرية والسنة الميلادية؟`, `السنة الهجرية قمرية وتتكون من ${c.totalYearDays} يوماً (354 في السنة البسيطة و355 في الكبيسة)، بينما السنة الميلادية شمسية وتتكون من 365 أو 366 يوماً. لذلك تتقدم السنة الهجرية بحوالي 10 إلى 11 يوماً كل سنة مقابل السنة الميلادية.`]
           ],
           headline: c => `التقويم الهجري لعام ${c.year}${c.hSfx}`,
           meta_desc: c => `التقويم الهجري الكامل لعام ${c.year}${c.hSfx} مع جميع الأشهر الهجرية والتواريخ الميلادية المقابلة حسب تقويم أم القرى في ${c.country}.`,
@@ -1596,7 +1605,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`How many days are in the Hijri year ${c.year}${c.hSfx}?`, `${c.totalYearDays} days.`],
               [`Is ${c.year}${c.hSfx} a leap year?`, c.isLeap?`Yes, ${c.year}${c.hSfx} is a leap year with 355 days.`:`No, ${c.year}${c.hSfx} is a regular year with 354 days.`],
-              [`How many months are in the Hijri calendar?`, `12 months, from Muharram to Dhu al-Hijjah.`]
+              [`How many months are in the Hijri calendar?`, `12 months, from Muharram to Dhu al-Hijjah.`],
+              [`When does the Hijri year ${c.year}${c.hSfx} begin?`, `The Hijri year ${c.year}${c.hSfx} begins approximately on ${c.startGreg} in the Gregorian calendar, according to the Umm al-Qura calendar. The actual start day may vary depending on the moon sighting in each country.`],
+              [`When does the Hijri year ${c.year}${c.hSfx} end?`, `It ends approximately on ${c.endGreg}, and the Hijri year ${c.nextYear}${c.hSfx} begins the following day. Actual days may vary depending on the moon sighting.`],
+              [`What is the order of the Hijri months?`, `The order is: Muharram, Safar, Rabi al-Awwal, Rabi al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha'ban, Ramadan, Shawwal, Dhu al-Qi'dah, Dhu al-Hijjah.`],
+              [`When does Ramadan start in ${c.year}${c.hSfx}?`, `Ramadan ${c.year}${c.hSfx} begins approximately on ${c.ramadanGreg} according to the Umm al-Qura calendar. The actual start day may differ by country depending on the moon sighting of Ramadan.`],
+              [`When is Eid al-Fitr in ${c.year}${c.hSfx}?`, `Eid al-Fitr falls approximately on ${c.eidFitrGreg} (1 Shawwal ${c.year}${c.hSfx}). The actual day may vary depending on the moon sighting of Shawwal in each country.`],
+              [`When is Eid al-Adha in ${c.year}${c.hSfx}?`, `Eid al-Adha falls approximately on ${c.eidAdhaGreg} (10 Dhu al-Hijjah ${c.year}${c.hSfx}). The actual day may vary depending on the moon sighting of Dhu al-Hijjah in each country.`],
+              [`How do I convert a Hijri date to a Gregorian date?`, `You can convert any Hijri date to Gregorian using the date converter tool on this site, which is based on the calculated Umm al-Qura calendar. Dates are approximate and may differ by one day depending on the actual moon sighting.`],
+              [`Why do Hijri month start dates differ between countries?`, `Because the start of each Hijri month is tied to the moon sighting, which can vary between countries due to geography and weather. So months like Ramadan or Shawwal may begin on different days in different countries.`],
+              [`What is the difference between the Hijri and Gregorian years?`, `The Hijri year is lunar and lasts ${c.totalYearDays} days (354 in a regular year, 355 in a leap year), while the Gregorian year is solar (365 or 366 days). The Hijri year therefore moves about 10 to 11 days earlier each year compared to the Gregorian year.`]
           ],
           headline: c => `Hijri Calendar for the Year ${c.year}${c.hSfx}`,
           meta_desc: c => `Full Hijri calendar for ${c.year}${c.hSfx} with all 12 months and corresponding Gregorian dates, according to the Umm al-Qura calendar in ${c.country}.`,
@@ -1624,7 +1642,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`Combien de jours compte l'année hégirienne ${c.year}${c.hSfx} ?`, `${c.totalYearDays} jours.`],
               [`${c.year}${c.hSfx} est-elle une année bissextile ?`, c.isLeap?`Oui, ${c.year}${c.hSfx} est une année bissextile de 355 jours.`:`Non, ${c.year}${c.hSfx} est une année ordinaire de 354 jours.`],
-              [`Combien de mois compte le calendrier hégirien ?`, `12 mois, de Mouharram à Dhou al-Hijja.`]
+              [`Combien de mois compte le calendrier hégirien ?`, `12 mois, de Mouharram à Dhou al-Hijja.`],
+              [`Quand commence l'année hégirienne ${c.year}${c.hSfx} ?`, `L'année hégirienne ${c.year}${c.hSfx} commence approximativement le ${c.startGreg} dans le calendrier grégorien, selon le calendrier Umm al-Qura. Le jour exact peut varier selon l'observation du croissant dans chaque pays.`],
+              [`Quand se termine l'année hégirienne ${c.year}${c.hSfx} ?`, `Elle se termine approximativement le ${c.endGreg}, et l'année hégirienne ${c.nextYear}${c.hSfx} commence le lendemain. Les jours exacts peuvent varier selon l'observation du croissant.`],
+              [`Quel est l'ordre des mois hégiriens ?`, `L'ordre est : Mouharram, Safar, Rabi al-Awwal, Rabi al-Thani, Joumada al-Awwal, Joumada al-Thani, Rajab, Cha'bane, Ramadan, Chawwal, Dhou al-Qi'da, Dhou al-Hijja.`],
+              [`Quand commence le Ramadan en ${c.year}${c.hSfx} ?`, `Le Ramadan ${c.year}${c.hSfx} commence approximativement le ${c.ramadanGreg} selon le calendrier Umm al-Qura. Le jour exact peut différer selon les pays et l'observation du croissant de Ramadan.`],
+              [`Quand a lieu l'Aïd el-Fitr en ${c.year}${c.hSfx} ?`, `L'Aïd el-Fitr tombe approximativement le ${c.eidFitrGreg} (1er Chawwal ${c.year}${c.hSfx}). Le jour exact peut varier selon l'observation du croissant de Chawwal dans chaque pays.`],
+              [`Quand a lieu l'Aïd el-Adha en ${c.year}${c.hSfx} ?`, `L'Aïd el-Adha tombe approximativement le ${c.eidAdhaGreg} (10 Dhou al-Hijja ${c.year}${c.hSfx}). Le jour exact peut varier selon l'observation du croissant de Dhou al-Hijja dans chaque pays.`],
+              [`Comment convertir une date hégirienne en date grégorienne ?`, `Vous pouvez convertir toute date hégirienne en grégorienne grâce à l'outil de conversion du site, basé sur le calendrier Umm al-Qura calculé. Les dates sont approximatives et peuvent différer d'un jour selon l'observation réelle du croissant.`],
+              [`Pourquoi les mois hégiriens commencent-ils à des dates différentes selon les pays ?`, `Parce que le début de chaque mois hégirien dépend de l'observation du croissant, qui peut varier d'un pays à l'autre en raison de la géographie et de la météo. Ainsi, des mois comme le Ramadan ou Chawwal peuvent commencer à des jours différents selon les pays.`],
+              [`Quelle est la différence entre l'année hégirienne et l'année grégorienne ?`, `L'année hégirienne est lunaire et dure ${c.totalYearDays} jours (354 en année ordinaire, 355 en année bissextile), tandis que l'année grégorienne est solaire (365 ou 366 jours). L'année hégirienne avance donc d'environ 10 à 11 jours chaque année par rapport à l'année grégorienne.`]
           ],
           headline: c => `Calendrier hégirien de l'année ${c.year}${c.hSfx}`,
           meta_desc: c => `Calendrier hégirien complet de ${c.year}${c.hSfx} avec les 12 mois et les dates grégoriennes correspondantes, selon le calendrier Umm al-Qura à ${c.country}.`,
@@ -1652,7 +1679,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`${c.year}${c.hSfx} hicri yılı kaç gündür?`, `${c.totalYearDays} gün.`],
               [`${c.year}${c.hSfx} artık yıl mı?`, c.isLeap?`Evet, ${c.year}${c.hSfx} artık yıldır ve 355 gündür.`:`Hayır, ${c.year}${c.hSfx} normal yıldır ve 354 gündür.`],
-              [`Hicri takvim kaç aydan oluşur?`, `12 ay, Muharrem'den Zilhicce'ye kadar.`]
+              [`Hicri takvim kaç aydan oluşur?`, `12 ay, Muharrem'den Zilhicce'ye kadar.`],
+              [`${c.year}${c.hSfx} hicri yılı ne zaman başlar?`, `${c.year}${c.hSfx} hicri yılı, Ümmülkura takvimine göre yaklaşık miladi ${c.startGreg} tarihinde başlar. Gerçek başlangıç günü hilalin görülmesine göre ülkeden ülkeye değişebilir.`],
+              [`${c.year}${c.hSfx} hicri yılı ne zaman sona erer?`, `Yaklaşık olarak miladi ${c.endGreg} tarihinde sona erer ve ${c.nextYear}${c.hSfx} hicri yılı ertesi gün başlar. Gerçek günler hilalin görülmesine göre değişebilir.`],
+              [`Hicri ayların sırası nedir?`, `Sıra şu şekildedir: Muharrem, Safer, Rebiülevvel, Rebiülahir, Cemaziyelevvel, Cemaziyelahir, Recep, Şaban, Ramazan, Şevval, Zilkade, Zilhicce.`],
+              [`${c.year}${c.hSfx} yılında Ramazan ne zaman başlar?`, `${c.year}${c.hSfx} Ramazan'ı, Ümmülkura takvimine göre yaklaşık miladi ${c.ramadanGreg} tarihinde başlar. Gerçek başlangıç günü ülkeye ve Ramazan hilalinin görülmesine göre değişebilir.`],
+              [`${c.year}${c.hSfx} yılında Ramazan Bayramı ne zaman?`, `Ramazan Bayramı yaklaşık olarak miladi ${c.eidFitrGreg} (1 Şevval ${c.year}${c.hSfx}) tarihine denk gelir. Gerçek gün, ülkedeki Şevval hilalinin görülmesine göre değişebilir.`],
+              [`${c.year}${c.hSfx} yılında Kurban Bayramı ne zaman?`, `Kurban Bayramı yaklaşık olarak miladi ${c.eidAdhaGreg} (10 Zilhicce ${c.year}${c.hSfx}) tarihine denk gelir. Gerçek gün, ülkedeki Zilhicce hilalinin görülmesine göre değişebilir.`],
+              [`Hicri tarihten miladi tarihe nasıl çevrilir?`, `Sitedeki tarih dönüştürücüyü kullanarak herhangi bir hicri tarihi miladiye çevirebilirsiniz; araç hesaplanmış Ümmülkura takvimine dayanır. Tarihler yaklaşıktır ve gerçek hilal görüşüne göre bir gün fark edebilir.`],
+              [`Hicri ayların başlangıcı neden ülkeler arasında farklılık gösterir?`, `Çünkü her hicri ay hilalin görülmesine bağlıdır ve bu, coğrafi konum ile hava koşulları nedeniyle ülkeler arasında değişebilir. Bu yüzden Ramazan veya Şevval gibi aylar, farklı ülkelerde farklı günlerde başlayabilir.`],
+              [`Hicri yıl ile miladi yıl arasındaki fark nedir?`, `Hicri yıl kameridir ve ${c.totalYearDays} gündür (normal yılda 354, artık yılda 355), miladi yıl ise güneşseldir (365 veya 366 gün). Bu nedenle hicri yıl, miladi yıla göre her yıl yaklaşık 10 ila 11 gün öne kayar.`]
           ],
           headline: c => `${c.year}${c.hSfx} Hicri Takvimi`,
           meta_desc: c => `${c.year}${c.hSfx} yılının tam hicri takvimi — 12 ay ve ${c.country} ülkesinde Ümmülkura takvimine göre miladi karşılıkları.`,
@@ -1680,7 +1716,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`${c.year}${c.hSfx} ہجری سال میں کتنے دن ہیں؟`, `${c.totalYearDays} دن۔`],
               [`کیا ${c.year}${c.hSfx} لیپ سال ہے؟`, c.isLeap?`ہاں، ${c.year}${c.hSfx} لیپ سال ہے جس میں 355 دن ہیں۔`:`نہیں، ${c.year}${c.hSfx} عام سال ہے جس میں 354 دن ہیں۔`],
-              [`ہجری کیلنڈر میں کتنے مہینے ہوتے ہیں؟`, `12 مہینے، محرم سے ذی الحجہ تک۔`]
+              [`ہجری کیلنڈر میں کتنے مہینے ہوتے ہیں؟`, `12 مہینے، محرم سے ذی الحجہ تک۔`],
+              [`${c.year}${c.hSfx} ہجری سال کب شروع ہوتا ہے؟`, `${c.year}${c.hSfx} ہجری سال تقویمِ ام القری کے مطابق تقریباً ${c.startGreg} عیسوی کو شروع ہوتا ہے۔ حقیقی دن ہر ملک میں ہلال کی رؤیت کے مطابق مختلف ہو سکتا ہے۔`],
+              [`${c.year}${c.hSfx} ہجری سال کب ختم ہوتا ہے؟`, `یہ تقریباً ${c.endGreg} عیسوی کو ختم ہوتا ہے، اور ${c.nextYear}${c.hSfx} ہجری سال اگلے دن شروع ہوتا ہے۔ حقیقی دن ہلال کی رؤیت کے مطابق مختلف ہو سکتے ہیں۔`],
+              [`ہجری مہینوں کی ترتیب کیا ہے؟`, `ترتیب یہ ہے: محرم، صفر، ربیع الاول، ربیع الثانی، جمادی الاول، جمادی الثانی، رجب، شعبان، رمضان، شوال، ذی القعدہ، ذی الحجہ۔`],
+              [`${c.year}${c.hSfx} میں رمضان کب شروع ہوتا ہے؟`, `${c.year}${c.hSfx} ہجری کا رمضان تقویمِ ام القری کے مطابق تقریباً ${c.ramadanGreg} عیسوی کو شروع ہوتا ہے۔ حقیقی ابتدائی دن ہر ملک میں رمضان کے ہلال کی رؤیت کے مطابق مختلف ہو سکتا ہے۔`],
+              [`${c.year}${c.hSfx} میں عید الفطر کب ہے؟`, `عید الفطر تقریباً ${c.eidFitrGreg} عیسوی (1 شوال ${c.year}${c.hSfx}) کو ہوتی ہے۔ حقیقی دن ہر ملک میں شوال کے ہلال کی رؤیت کے مطابق مختلف ہو سکتا ہے۔`],
+              [`${c.year}${c.hSfx} میں عید الاضحی کب ہے؟`, `عید الاضحی تقریباً ${c.eidAdhaGreg} عیسوی (10 ذی الحجہ ${c.year}${c.hSfx}) کو ہوتی ہے۔ حقیقی دن ہر ملک میں ذی الحجہ کے ہلال کی رؤیت کے مطابق مختلف ہو سکتا ہے۔`],
+              [`ہجری تاریخ کو عیسوی میں کیسے تبدیل کریں؟`, `آپ ویب سائٹ پر موجود تاریخ کنورٹر استعمال کرکے کسی بھی ہجری تاریخ کو عیسوی میں تبدیل کر سکتے ہیں، جو حسابی تقویمِ ام القری پر مبنی ہے۔ تاریخیں تقریبی ہیں اور حقیقی ہلال کی رؤیت کے مطابق ایک دن کا فرق ممکن ہے۔`],
+              [`ہجری مہینوں کا آغاز مختلف ممالک میں مختلف کیوں ہوتا ہے؟`, `کیونکہ ہر ہجری مہینے کا آغاز ہلال کی رؤیت سے جڑا ہوتا ہے، جو جغرافیائی محلِ وقوع اور موسمی حالات کی وجہ سے ممالک کے درمیان مختلف ہو سکتی ہے۔ اس لیے رمضان یا شوال جیسے مہینے مختلف ممالک میں مختلف دنوں پر شروع ہو سکتے ہیں۔`],
+              [`ہجری سال اور عیسوی سال کے درمیان کیا فرق ہے؟`, `ہجری سال قمری ہے اور ${c.totalYearDays} دن کا ہوتا ہے (عام سال میں 354 اور لیپ سال میں 355)، جبکہ عیسوی سال شمسی ہے (365 یا 366 دن)۔ اسی لیے ہجری سال ہر سال عیسوی سال کے مقابلے میں تقریباً 10 سے 11 دن آگے بڑھ جاتا ہے۔`]
           ],
           headline: c => `${c.year}${c.hSfx} کا ہجری کیلنڈر`,
           meta_desc: c => `${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر — تمام 12 مہینے اور ${c.country} میں ام القری کیلنڈر کے مطابق عیسوی تاریخیں۔`,
@@ -1708,7 +1753,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`Wie viele Tage hat das Hidschri-Jahr ${c.year}${c.hSfx}?`, `${c.totalYearDays} Tage.`],
               [`Ist ${c.year}${c.hSfx} ein Schaltjahr?`, c.isLeap?`Ja, ${c.year}${c.hSfx} ist ein Schaltjahr mit 355 Tagen.`:`Nein, ${c.year}${c.hSfx} ist ein normales Jahr mit 354 Tagen.`],
-              [`Wie viele Monate hat der Hidschri-Kalender?`, `12 Monate, von Muharram bis Dhū l-hidscha.`]
+              [`Wie viele Monate hat der Hidschri-Kalender?`, `12 Monate, von Muharram bis Dhū l-hidscha.`],
+              [`Wann beginnt das Hidschri-Jahr ${c.year}${c.hSfx}?`, `Das Hidschri-Jahr ${c.year}${c.hSfx} beginnt nach dem Umm-al-Qura-Kalender etwa am ${c.startGreg} im gregorianischen Kalender. Der genaue Tag kann je nach Mondsichtung im jeweiligen Land variieren.`],
+              [`Wann endet das Hidschri-Jahr ${c.year}${c.hSfx}?`, `Es endet etwa am ${c.endGreg}, und das Hidschri-Jahr ${c.nextYear}${c.hSfx} beginnt am folgenden Tag. Die tatsächlichen Tage können je nach Mondsichtung variieren.`],
+              [`Wie ist die Reihenfolge der Hidschri-Monate?`, `Die Reihenfolge lautet: Muharram, Safar, Rabīʿ al-awwal, Rabīʿ ath-thānī, Dschumādā l-ūlā, Dschumādā th-thāniya, Radschab, Schaʿbān, Ramadān, Schawwāl, Dhū l-qaʿda, Dhū l-hidscha.`],
+              [`Wann beginnt der Ramadan im Jahr ${c.year}${c.hSfx}?`, `Der Ramadan ${c.year}${c.hSfx} beginnt nach dem Umm-al-Qura-Kalender etwa am ${c.ramadanGreg}. Der genaue Beginn kann je nach Land und Sichtung des Ramadan-Mondes abweichen.`],
+              [`Wann ist Eid al-Fitr im Jahr ${c.year}${c.hSfx}?`, `Eid al-Fitr fällt etwa auf den ${c.eidFitrGreg} (1. Schawwāl ${c.year}${c.hSfx}). Der tatsächliche Tag kann je nach Sichtung des Schawwāl-Mondes im jeweiligen Land variieren.`],
+              [`Wann ist Eid al-Adha im Jahr ${c.year}${c.hSfx}?`, `Eid al-Adha fällt etwa auf den ${c.eidAdhaGreg} (10. Dhū l-hidscha ${c.year}${c.hSfx}). Der tatsächliche Tag kann je nach Sichtung des Dhū-l-hidscha-Mondes im jeweiligen Land variieren.`],
+              [`Wie wandelt man ein Hidschri-Datum in ein gregorianisches Datum um?`, `Sie können jedes Hidschri-Datum mit dem Datumsumrechner der Website in ein gregorianisches umwandeln; dieser basiert auf dem berechneten Umm-al-Qura-Kalender. Die Daten sind annähernd und können je nach tatsächlicher Mondsichtung um einen Tag abweichen.`],
+              [`Warum unterscheiden sich die Hidschri-Monatsanfänge zwischen Ländern?`, `Weil der Beginn jedes Hidschri-Monats von der Mondsichtung abhängt, die je nach geografischer Lage und Wetter zwischen Ländern variieren kann. So beginnen Monate wie Ramadan oder Schawwāl möglicherweise an unterschiedlichen Tagen in verschiedenen Ländern.`],
+              [`Was ist der Unterschied zwischen dem Hidschri- und dem gregorianischen Jahr?`, `Das Hidschri-Jahr ist lunar und dauert ${c.totalYearDays} Tage (354 in einem normalen Jahr, 355 in einem Schaltjahr), das gregorianische Jahr ist solar (365 oder 366 Tage). Daher verschiebt sich das Hidschri-Jahr jährlich um etwa 10 bis 11 Tage gegenüber dem gregorianischen Jahr.`]
           ],
           headline: c => `Hidschri-Kalender für das Jahr ${c.year}${c.hSfx}`,
           meta_desc: c => `Vollständiger Hidschri-Kalender für ${c.year}${c.hSfx} mit allen 12 Monaten und entsprechenden gregorianischen Daten gemäß dem Umm-al-Qura-Kalender in ${c.country}.`,
@@ -1736,7 +1790,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`Berapa jumlah hari dalam tahun Hijriah ${c.year}${c.hSfx}?`, `${c.totalYearDays} hari.`],
               [`Apakah ${c.year}${c.hSfx} tahun kabisat?`, c.isLeap?`Ya, ${c.year}${c.hSfx} adalah tahun kabisat dengan 355 hari.`:`Tidak, ${c.year}${c.hSfx} adalah tahun biasa dengan 354 hari.`],
-              [`Berapa jumlah bulan dalam kalender Hijriah?`, `12 bulan, dari Muharram hingga Zulhijah.`]
+              [`Berapa jumlah bulan dalam kalender Hijriah?`, `12 bulan, dari Muharram hingga Zulhijah.`],
+              [`Kapan tahun Hijriah ${c.year}${c.hSfx} dimulai?`, `Tahun Hijriah ${c.year}${c.hSfx} dimulai kira-kira pada ${c.startGreg} Masehi menurut kalender Umm al-Qura. Hari yang sebenarnya dapat berbeda di setiap negara tergantung pada rukyat hilal.`],
+              [`Kapan tahun Hijriah ${c.year}${c.hSfx} berakhir?`, `Tahun ini kira-kira berakhir pada ${c.endGreg} Masehi, dan tahun Hijriah ${c.nextYear}${c.hSfx} dimulai keesokan harinya. Hari sebenarnya dapat berbeda tergantung pada rukyat hilal.`],
+              [`Bagaimana urutan bulan-bulan Hijriah?`, `Urutannya adalah: Muharram, Safar, Rabiul Awal, Rabiul Akhir, Jumadil Awal, Jumadil Akhir, Rajab, Sya'ban, Ramadan, Syawal, Zulkaidah, Zulhijah.`],
+              [`Kapan Ramadan dimulai pada tahun ${c.year}${c.hSfx}?`, `Ramadan ${c.year}${c.hSfx} dimulai kira-kira pada ${c.ramadanGreg} Masehi menurut kalender Umm al-Qura. Hari awal sebenarnya dapat berbeda di setiap negara tergantung pada rukyat hilal Ramadan.`],
+              [`Kapan Idul Fitri pada tahun ${c.year}${c.hSfx}?`, `Idul Fitri kira-kira jatuh pada ${c.eidFitrGreg} Masehi (1 Syawal ${c.year}${c.hSfx}). Hari sebenarnya dapat berbeda tergantung pada rukyat hilal Syawal di setiap negara.`],
+              [`Kapan Idul Adha pada tahun ${c.year}${c.hSfx}?`, `Idul Adha kira-kira jatuh pada ${c.eidAdhaGreg} Masehi (10 Zulhijah ${c.year}${c.hSfx}). Hari sebenarnya dapat berbeda tergantung pada rukyat hilal Zulhijah di setiap negara.`],
+              [`Bagaimana cara mengonversi tanggal Hijriah ke Masehi?`, `Anda dapat mengonversi tanggal Hijriah apa pun ke Masehi menggunakan alat konversi tanggal di situs ini, yang berdasarkan kalender Umm al-Qura terhitung. Tanggal bersifat perkiraan dan dapat berbeda satu hari tergantung pada rukyat hilal yang sebenarnya.`],
+              [`Mengapa awal bulan Hijriah berbeda antar negara?`, `Karena awal setiap bulan Hijriah bergantung pada rukyat hilal, yang dapat berbeda antar negara karena letak geografis dan kondisi cuaca. Itulah sebabnya bulan seperti Ramadan atau Syawal dapat dimulai pada hari yang berbeda di negara yang berbeda.`],
+              [`Apa perbedaan antara tahun Hijriah dan tahun Masehi?`, `Tahun Hijriah bersifat lunar dan terdiri dari ${c.totalYearDays} hari (354 pada tahun biasa, 355 pada tahun kabisat), sedangkan tahun Masehi bersifat solar (365 atau 366 hari). Karena itu tahun Hijriah maju sekitar 10 hingga 11 hari setiap tahun dibanding tahun Masehi.`]
           ],
           headline: c => `Kalender Hijriah Tahun ${c.year}${c.hSfx}`,
           meta_desc: c => `Kalender Hijriah lengkap untuk ${c.year}${c.hSfx} dengan semua 12 bulan dan tanggal Masehi yang bertepatan, menurut kalender Umm al-Qura di ${c.country}.`,
@@ -1764,7 +1827,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`¿Cuántos días tiene el año Hégira ${c.year}${c.hSfx}?`, `${c.totalYearDays} días.`],
               [`¿Es ${c.year}${c.hSfx} un año bisiesto?`, c.isLeap?`Sí, ${c.year}${c.hSfx} es un año bisiesto con 355 días.`:`No, ${c.year}${c.hSfx} es un año regular con 354 días.`],
-              [`¿Cuántos meses tiene el calendario Hégira?`, `12 meses, de Muharram a Du al-Hiyya.`]
+              [`¿Cuántos meses tiene el calendario Hégira?`, `12 meses, de Muharram a Du al-Hiyya.`],
+              [`¿Cuándo empieza el año Hégira ${c.year}${c.hSfx}?`, `El año Hégira ${c.year}${c.hSfx} empieza aproximadamente el ${c.startGreg} en el calendario gregoriano, según el calendario Umm al-Qura. El día real puede variar en cada país según el avistamiento de la luna.`],
+              [`¿Cuándo termina el año Hégira ${c.year}${c.hSfx}?`, `Termina aproximadamente el ${c.endGreg}, y el año Hégira ${c.nextYear}${c.hSfx} comienza al día siguiente. Los días reales pueden variar según el avistamiento de la luna.`],
+              [`¿Cuál es el orden de los meses Hégira?`, `El orden es: Muharram, Safar, Rabi al-Awwal, Rabi al-Thani, Yumada al-Awwal, Yumada al-Thani, Rayab, Sha'ban, Ramadán, Shawwal, Du al-Qa'da, Du al-Hiyya.`],
+              [`¿Cuándo empieza el Ramadán en ${c.year}${c.hSfx}?`, `El Ramadán ${c.year}${c.hSfx} empieza aproximadamente el ${c.ramadanGreg} según el calendario Umm al-Qura. El día de inicio real puede variar según el país y el avistamiento de la luna de Ramadán.`],
+              [`¿Cuándo es el Eid al-Fitr en ${c.year}${c.hSfx}?`, `El Eid al-Fitr cae aproximadamente el ${c.eidFitrGreg} (1 Shawwal ${c.year}${c.hSfx}). El día real puede variar según el avistamiento de la luna de Shawwal en cada país.`],
+              [`¿Cuándo es el Eid al-Adha en ${c.year}${c.hSfx}?`, `El Eid al-Adha cae aproximadamente el ${c.eidAdhaGreg} (10 Du al-Hiyya ${c.year}${c.hSfx}). El día real puede variar según el avistamiento de la luna de Du al-Hiyya en cada país.`],
+              [`¿Cómo convertir una fecha Hégira a gregoriana?`, `Puedes convertir cualquier fecha Hégira a gregoriana usando el convertidor de fechas del sitio, que se basa en el calendario Umm al-Qura calculado. Las fechas son aproximadas y pueden variar un día según el avistamiento real de la luna.`],
+              [`¿Por qué el inicio de los meses Hégira varía entre países?`, `Porque el inicio de cada mes Hégira depende del avistamiento de la luna, que puede variar entre países por la geografía y el clima. Por eso meses como Ramadán o Shawwal pueden comenzar en días distintos en distintos países.`],
+              [`¿Cuál es la diferencia entre el año Hégira y el año gregoriano?`, `El año Hégira es lunar y dura ${c.totalYearDays} días (354 en un año regular, 355 en un año bisiesto), mientras que el año gregoriano es solar (365 o 366 días). Por eso el año Hégira avanza unos 10 a 11 días cada año respecto al gregoriano.`]
           ],
           headline: c => `Calendario Hégira del año ${c.year}${c.hSfx}`,
           meta_desc: c => `Calendario Hégira completo de ${c.year}${c.hSfx} con los 12 meses y las fechas gregorianas correspondientes, según el calendario Umm al-Qura en ${c.country}.`,
@@ -1792,7 +1864,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`${c.year}${c.hSfx} হিজরি সনে কত দিন আছে?`, `${c.totalYearDays} দিন।`],
               [`${c.year}${c.hSfx} কি অধিবর্ষ?`, c.isLeap?`হ্যাঁ, ${c.year}${c.hSfx} একটি অধিবর্ষ যাতে ৩৫৫ দিন আছে।`:`না, ${c.year}${c.hSfx} একটি সাধারণ বছর যাতে ৩৫৪ দিন আছে।`],
-              [`হিজরি ক্যালেন্ডারে কতটি মাস আছে?`, `১২ মাস, মুহররম থেকে জিলহজ পর্যন্ত।`]
+              [`হিজরি ক্যালেন্ডারে কতটি মাস আছে?`, `১২ মাস, মুহররম থেকে জিলহজ পর্যন্ত।`],
+              [`${c.year}${c.hSfx} হিজরি বছর কখন শুরু হয়?`, `${c.year}${c.hSfx} হিজরি বছর উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী আনুমানিক ${c.startGreg} খ্রিস্টীয় তারিখে শুরু হয়। প্রকৃত দিন প্রতিটি দেশে চাঁদ দেখার উপর নির্ভর করে ভিন্ন হতে পারে।`],
+              [`${c.year}${c.hSfx} হিজরি বছর কখন শেষ হয়?`, `এটি আনুমানিকভাবে ${c.endGreg} খ্রিস্টীয় তারিখে শেষ হয়, এবং ${c.nextYear}${c.hSfx} হিজরি বছর পরের দিন শুরু হয়। প্রকৃত দিনগুলো চাঁদ দেখার উপর নির্ভর করে ভিন্ন হতে পারে।`],
+              [`হিজরি মাসসমূহের ক্রম কী?`, `ক্রম হলো: মুহররম, সফর, রবিউল আউয়াল, রবিউস সানি, জুমাদাল আউয়াল, জুমাদাস সানি, রজব, শাবান, রমজান, শাওয়াল, জুলকাদা, জুলহিজ্জাহ।`],
+              [`${c.year}${c.hSfx} সনে রমজান কখন শুরু হয়?`, `${c.year}${c.hSfx} সনের রমজান উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী আনুমানিক ${c.ramadanGreg} খ্রিস্টীয় তারিখে শুরু হয়। প্রকৃত শুরুর দিন প্রতিটি দেশে রমজানের চাঁদ দেখার ভিত্তিতে ভিন্ন হতে পারে।`],
+              [`${c.year}${c.hSfx} সনে ঈদুল ফিতর কখন?`, `ঈদুল ফিতর আনুমানিক ${c.eidFitrGreg} খ্রিস্টীয় তারিখে (1 শাওয়াল ${c.year}${c.hSfx}) পড়ে। প্রকৃত দিন প্রতিটি দেশে শাওয়াল মাসের চাঁদ দেখার ভিত্তিতে ভিন্ন হতে পারে।`],
+              [`${c.year}${c.hSfx} সনে ঈদুল আযহা কখন?`, `ঈদুল আযহা আনুমানিক ${c.eidAdhaGreg} খ্রিস্টীয় তারিখে (10 জুলহিজ্জাহ ${c.year}${c.hSfx}) পড়ে। প্রকৃত দিন প্রতিটি দেশে জুলহিজ্জাহ মাসের চাঁদ দেখার ভিত্তিতে ভিন্ন হতে পারে।`],
+              [`কীভাবে হিজরি তারিখকে খ্রিস্টীয় তারিখে রূপান্তর করব?`, `আপনি এই সাইটের তারিখ রূপান্তরকারী ব্যবহার করে যেকোনো হিজরি তারিখকে খ্রিস্টীয় তারিখে রূপান্তর করতে পারেন; এটি গণনাকৃত উম্ম আল-কুরা ক্যালেন্ডারের উপর ভিত্তি করে। তারিখগুলো আনুমানিক এবং প্রকৃত চাঁদ দেখার উপর নির্ভর করে এক দিন ভিন্ন হতে পারে।`],
+              [`হিজরি মাসের শুরু বিভিন্ন দেশে আলাদা কেন হয়?`, `কারণ প্রতিটি হিজরি মাসের শুরু চাঁদ দেখার উপর নির্ভরশীল, যা ভৌগোলিক অবস্থান ও আবহাওয়ার কারণে দেশভেদে ভিন্ন হতে পারে। তাই রমজান বা শাওয়ালের মতো মাস বিভিন্ন দেশে বিভিন্ন দিনে শুরু হতে পারে।`],
+              [`হিজরি বছর এবং খ্রিস্টীয় বছরের পার্থক্য কী?`, `হিজরি বছর চান্দ্র এবং ${c.totalYearDays} দিন স্থায়ী (সাধারণ বছরে ৩৫৪, অধিবর্ষে ৩৫৫), অপরদিকে খ্রিস্টীয় বছর সৌর (৩৬৫ বা ৩৬৬ দিন)। তাই হিজরি বছর প্রতি বছর খ্রিস্টীয় বছরের তুলনায় প্রায় ১০ থেকে ১১ দিন এগিয়ে যায়।`]
           ],
           headline: c => `${c.year}${c.hSfx} সনের হিজরি ক্যালেন্ডার`,
           meta_desc: c => `${c.year}${c.hSfx} এর সম্পূর্ণ হিজরি ক্যালেন্ডার — সব ১২টি মাস এবং ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী সংশ্লিষ্ট খ্রিস্টীয় তারিখ।`,
@@ -1820,7 +1901,16 @@ const _HYEAR_UI = {
           faq: c => [
               [`Berapakah jumlah hari dalam tahun Hijrah ${c.year}${c.hSfx}?`, `${c.totalYearDays} hari.`],
               [`Adakah ${c.year}${c.hSfx} tahun lompat?`, c.isLeap?`Ya, ${c.year}${c.hSfx} ialah tahun lompat dengan 355 hari.`:`Tidak, ${c.year}${c.hSfx} ialah tahun biasa dengan 354 hari.`],
-              [`Berapakah jumlah bulan dalam kalendar Hijrah?`, `12 bulan, dari Muharam hingga Zulhijah.`]
+              [`Berapakah jumlah bulan dalam kalendar Hijrah?`, `12 bulan, dari Muharam hingga Zulhijah.`],
+              [`Bilakah tahun Hijrah ${c.year}${c.hSfx} bermula?`, `Tahun Hijrah ${c.year}${c.hSfx} bermula kira-kira pada ${c.startGreg} dalam kalendar Masihi, mengikut kalendar Umm al-Qura. Hari sebenar mungkin berbeza di setiap negara bergantung pada rukyah hilal.`],
+              [`Bilakah tahun Hijrah ${c.year}${c.hSfx} berakhir?`, `Ia berakhir kira-kira pada ${c.endGreg}, dan tahun Hijrah ${c.nextYear}${c.hSfx} bermula keesokan harinya. Hari sebenar mungkin berbeza bergantung pada rukyah hilal.`],
+              [`Apakah susunan bulan-bulan Hijrah?`, `Susunannya adalah: Muharam, Safar, Rabiulawal, Rabiulakhir, Jamadilawal, Jamadilakhir, Rejab, Syaaban, Ramadan, Syawal, Zulkaedah, Zulhijah.`],
+              [`Bilakah Ramadan bermula pada tahun ${c.year}${c.hSfx}?`, `Ramadan ${c.year}${c.hSfx} bermula kira-kira pada ${c.ramadanGreg} mengikut kalendar Umm al-Qura. Hari permulaan sebenar mungkin berbeza mengikut negara dan rukyah hilal Ramadan.`],
+              [`Bilakah Aidilfitri pada tahun ${c.year}${c.hSfx}?`, `Aidilfitri jatuh kira-kira pada ${c.eidFitrGreg} (1 Syawal ${c.year}${c.hSfx}). Hari sebenar mungkin berbeza mengikut rukyah hilal Syawal di setiap negara.`],
+              [`Bilakah Aidiladha pada tahun ${c.year}${c.hSfx}?`, `Aidiladha jatuh kira-kira pada ${c.eidAdhaGreg} (10 Zulhijah ${c.year}${c.hSfx}). Hari sebenar mungkin berbeza mengikut rukyah hilal Zulhijah di setiap negara.`],
+              [`Bagaimana menukar tarikh Hijrah kepada Masihi?`, `Anda boleh menukar mana-mana tarikh Hijrah kepada Masihi menggunakan alat penukar tarikh di laman ini, yang berdasarkan kalendar Umm al-Qura yang dikira. Tarikhnya anggaran dan boleh berbeza sehari bergantung pada rukyah hilal sebenar.`],
+              [`Mengapa permulaan bulan Hijrah berbeza antara negara?`, `Kerana permulaan setiap bulan Hijrah bergantung pada rukyah hilal, yang boleh berbeza antara negara disebabkan kedudukan geografi dan keadaan cuaca. Maka bulan seperti Ramadan atau Syawal boleh bermula pada hari berbeza di negara berbeza.`],
+              [`Apakah perbezaan antara tahun Hijrah dan tahun Masihi?`, `Tahun Hijrah berasaskan bulan dan berdurasi ${c.totalYearDays} hari (354 pada tahun biasa, 355 pada tahun lompat), manakala tahun Masihi berasaskan matahari (365 atau 366 hari). Oleh itu tahun Hijrah maju kira-kira 10 hingga 11 hari setiap tahun berbanding tahun Masihi.`]
           ],
           headline: c => `Kalendar Hijrah Tahun ${c.year}${c.hSfx}`,
           meta_desc: c => `Kalendar Hijrah lengkap bagi ${c.year}${c.hSfx} dengan kesemua 12 bulan dan tarikh Masihi yang bersamaan, mengikut kalendar Umm al-Qura di ${c.country}.`,
@@ -23008,7 +23098,25 @@ function loadHijriYearPage() {
     const country  = getDisplayCountry();
     const isLeap   = HijriDate.isHijriLeapYear(year);
     const totalYearDays = isLeap ? 355 : 354;
-    const ctx = { year, hSfx, country, isLeap, totalYearDays };
+    // HIJRI-YEAR-CALENDAR-FAQ-SEO-EXPANSION-1 (2026-05-31):
+    // Compute formatted Gregorian dates for the expanded SEO-FAQ template.
+    // Helpers (HijriDate.toGregorian, gregMonthFor, HijriDate.getDaysInHijriMonth)
+    // are the same ones used by the months-table renderer below, so no extra
+    // imports needed. All dates are CALCULATED (Umm al-Qura) — actual day may
+    // shift ±1 by moon sighting; the FAQ answers carry that caveat explicitly.
+    const _fmtGreg = (m, d) => {
+        const g = HijriDate.toGregorian(year, m, d);
+        return `${g.day} ${gregMonthFor(lang, g.month - 1)} ${g.year}`;
+    };
+    const _lastDhulHijja = HijriDate.getDaysInHijriMonth(year, 12);
+    const startGreg     = _fmtGreg(1, 1);
+    const endGreg       = _fmtGreg(12, _lastDhulHijja);
+    const ramadanGreg   = _fmtGreg(9, 1);
+    const eidFitrGreg   = _fmtGreg(10, 1);
+    const eidAdhaGreg   = _fmtGreg(12, 10);
+    const nextYear      = year + 1;
+    const ctx = { year, hSfx, country, isLeap, totalYearDays,
+                  startGreg, endGreg, ramadanGreg, eidFitrGreg, eidAdhaGreg, nextYear };
 
     // ── 1. Breadcrumb ─────────────────────────────────────────────
     const bcEl = document.getElementById('hyear-breadcrumbs');

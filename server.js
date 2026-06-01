@@ -8836,19 +8836,69 @@ function buildSeoForPath(urlPath) {
             bn: `${cityDisplay}-এ কিবলার দিক | কাবা কম্পাস`,
             ms: `Arah Kiblat di ${cityDisplay} | Kompas Kaabah`,
         };
+        // EN-QIBLA-CITY-SEO-DYNAMIC-LENGTH-FIX-1 (2026-06-01): New "MediumPlus"
+        // tier inserted between Full and Medium — EN-only adds "Today" after
+        // the city name to lift short-city titles (e.g., "Qibla Direction in
+        // Cairo | Accurate Kaaba Compass" = 49 chars, just below the 50-char
+        // SEO floor) into the [50, 60] band. Other 9 langs reuse Medium as
+        // MediumPlus → no behavior change for them (the selector ladder will
+        // skip to Medium on first match).
+        //   For Cairo (5-char city) the new tier yields:
+        //     "Qibla Direction in Cairo Today | Accurate Kaaba Compass" = 55 chars ✅
+        //   For Kuala Lumpur (12-char) Full overflows 60, MediumPlus also (62),
+        //   so the ladder falls through to Medium (=56 chars ✅).
+        const _qTitlesMediumPlus = {
+            ar: _qTitlesMedium.ar,
+            en: `Qibla Direction in ${cityDisplay} Today | Accurate Kaaba Compass`,
+            fr: _qTitlesMedium.fr,
+            tr: _qTitlesMedium.tr,
+            ur: _qTitlesMedium.ur,
+            de: _qTitlesMedium.de,
+            id: _qTitlesMedium.id,
+            es: _qTitlesMedium.es,
+            bn: _qTitlesMedium.bn,
+            ms: _qTitlesMedium.ms,
+        };
         const _qFullTitle = _qTitles[lang] || _qTitles.en;
+        const _qMpTitle = _qTitlesMediumPlus[lang] || _qTitlesMediumPlus.en;
         const _qMediumTitle = _qTitlesMedium[lang] || _qTitlesMedium.en;
         const _qShortTitle = _qTitlesShort[lang] || _qTitlesShort.en;
         // Use [...str].length to count actual visible chars (handles emoji/surrogate pairs).
         const _qFLen = [..._qFullTitle].length;
+        const _qMpLen = [..._qMpTitle].length;
         const _qMLen = [..._qMediumTitle].length;
         const _qSLen = [..._qShortTitle].length;
         if (_qFLen >= 50 && _qFLen <= 60) title = _qFullTitle;
+        else if (_qMpLen >= 50 && _qMpLen <= 60) title = _qMpTitle;
         else if (_qMLen >= 50 && _qMLen <= 60) title = _qMediumTitle;
         else if (_qFLen > 60 && _qMLen > 60) title = _qShortTitle;
         else if (_qSLen < 50) title = _qMediumTitle;
         else title = _qFLen <= 60 ? _qFullTitle : _qShortTitle;
-        description = _qDescs[lang] || _qDescs.en;
+
+        // EN-QIBLA-CITY-SEO-DYNAMIC-LENGTH-FIX-1 (2026-06-01): EN-only
+        // length-aware ladder for the meta description. The existing
+        // `_qDescs.en` "Find the Qibla direction in {City} accurately using
+        // a Kaaba compass and interactive map based on your location, with
+        // the Qibla bearing and distance to Mecca." is 151+city chars,
+        // which fits 120-160 for cities ≤ 9 chars but OVERFLOWS for ≥ 10
+        // ("Kuala Lumpur" = 163, "Washington" = 161, "Los Angeles" = 162).
+        // Adds a MEDIUM variant (with country) of ~123+city+country chars
+        // that fits 120-160 for typical long-city combos. Selector tries
+        // long first; falls to medium if long exceeds 160. Other 9 langs
+        // keep their existing single-template behavior.
+        if (lang === 'en') {
+            const _qDescEnLong = _qDescs.en;
+            const _qCountry = (typeof _resolveCountryNameForCity === 'function')
+                ? _resolveCountryNameForCity(citySlug) : '';
+            const _qDescEnMedium = `Find the Qibla direction in ${cityDisplay}${_qCountry ? ', ' + _qCountry : ''} with an accurate Kaaba compass, bearing angle, distance to Makkah, and prayer-related tools.`;
+            const _qDLLen = [..._qDescEnLong].length;
+            const _qDMLen = [..._qDescEnMedium].length;
+            if (_qDLLen >= 120 && _qDLLen <= 160) description = _qDescEnLong;
+            else if (_qDMLen >= 120 && _qDMLen <= 160) description = _qDescEnMedium;
+            else description = (_qDMLen <= 160 && _qDMLen >= 100) ? _qDescEnMedium : _qDescEnLong;
+        } else {
+            description = _qDescs[lang] || _qDescs.en;
+        }
         ogType = 'website';
         geo = { lat, lng };
         cityModified = new Date().toISOString();

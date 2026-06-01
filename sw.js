@@ -1243,7 +1243,31 @@
 //   response is Cache-Control: no-cache so users see new desc immediately
 //   after deploy — no cache-buster needed on css/js (they didn't change).
 //   sw v398→v399 for deploy traceability only.
-const CACHE_VERSION = 'v399';
+//
+// EN-QIBLA-CITY-SEO-DYNAMIC-LENGTH-FIX-1 (2026-06-01): SEO-only fix for
+//   EN qibla city pages /en/qibla-in-{city}. SEOptimer reported Title=49
+//   chars on /en/qibla-in-cairo (current Medium template "Qibla Direction
+//   in Cairo | Accurate Kaaba Compass" = 49, falling 1 char below the
+//   50-60 SEO band). Root cause: Cairo's short city name (5 chars) makes
+//   Full=66 (>60) and Medium=49 (<50) — the existing 3-tier ladder (Full→
+//   Medium→Short) has a gap. This commit adds a 4th tier "MediumPlus" for
+//   EN-only that inserts "Today" after the city name, yielding 55 chars
+//   for Cairo (Full=66, MediumPlus=55 ✅, Medium=49, Short=40). The
+//   selector ladder is updated to try MediumPlus between Full and Medium.
+//   Other 9 langs (ar/fr/tr/ur/de/id/es/bn/ms) reuse Medium as MediumPlus
+//   — no behavior change for them. Also adds EN-only length-aware meta
+//   description ladder: existing long form (151+city) overflows 160 for
+//   cities ≥ 10 chars (Kuala Lumpur=163, Washington=161, Los Angeles=162)
+//   — adds a Medium form (123+city+country) that fits 120-160 for typical
+//   long-city combos. Selector tries long first; falls to medium if long
+//   exceeds 160. Files modified: server.js (+~70 lines: 1 new template
+//   map + selector tier + EN desc ladder + doc) + sw.js (this comment +
+//   version bump). ZERO change to: H1, qibla calculation, Kaaba angle,
+//   distance to Mecca, city coordinates, canonical, hreflang, sitemap,
+//   routing, AR/8-lang behavior. Cache-busters: sw v399→v400 (HTML
+//   response is no-cache → users see new title/desc immediately after
+//   deploy without cache-buster bump on css/js).
+const CACHE_VERSION = 'v400';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

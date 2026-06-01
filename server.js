@@ -8865,8 +8865,21 @@ function buildSeoForPath(urlPath) {
         //     "Qibla Direction in Cairo Today | Accurate Kaaba Compass" = 55 chars ✅
         //   For Kuala Lumpur (12-char) Full overflows 60, MediumPlus also (62),
         //   so the ladder falls through to Medium (=56 chars ✅).
+        //
+        // AR-QIBLA-CITY-SEO-DYNAMIC-TITLE-LENGTH-FIX-1 (2026-06-01): activated
+        // the AR slot of _qTitlesMediumPlus with an Arabic-natural variant
+        // mirroring the EN "Today" pattern. The previous AR=_qTitlesMedium.ar
+        // fallback meant long AR city names like "مكة المكرمة" (11 chars)
+        // produced Full=61 (overflow), Medium=47 (below 50), Short=42 (below
+        // 50) — landing on Medium=47 ❌ outside the [50, 60] band. The new
+        // AR MediumPlus template "اتجاه القبلة في {City} اليوم | بوصلة الكعبة
+        // بدقة" has a 42-char constant + city length = 53 chars for Makkah
+        // ✅. Single "اتجاه القبلة" occurrence (no keyword stuffing), natural
+        // "اليوم" addition, "بدقة" emphasis. For shorter AR city names
+        // (Cairo القاهرة=7, Riyadh الرياض=6, etc.) the Full tier (50+city)
+        // still wins in [50, 60] — MediumPlus is only picked when Full > 60.
         const _qTitlesMediumPlus = {
-            ar: _qTitlesMedium.ar,
+            ar: `اتجاه القبلة في ${cityDisplay} اليوم | بوصلة الكعبة بدقة`,
             en: `Qibla Direction in ${cityDisplay} Today | Accurate Kaaba Compass`,
             fr: _qTitlesMedium.fr,
             tr: _qTitlesMedium.tr,

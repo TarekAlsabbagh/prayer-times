@@ -1292,7 +1292,26 @@
 //   the origin in <loc> entries changes — localhost → real domain).
 //   Cache-busters: sw v400→v401 (HTML + sitemap are no-cache → users
 //   and Google see correct URLs immediately after deploy).
-const CACHE_VERSION = 'v401';
+//
+// AR-QIBLA-CITY-SEO-DYNAMIC-TITLE-LENGTH-FIX-1 (2026-06-01): AR-only SEO
+//   fix mirroring EN-QIBLA-CITY-SEO-DYNAMIC-LENGTH-FIX-1's MediumPlus
+//   pattern. Audit of /qibla-in-* AR pages found 9/10 cities in the
+//   [50, 60] title band except `/qibla-in-makkah` ("مكة المكرمة" =
+//   11-char AR city name → Full template overflows 60 → fallback to
+//   Medium = 47 chars, below the 50 floor). The fix activates the AR
+//   slot of `_qTitlesMediumPlus` (which was previously aliased to
+//   Medium) with: "اتجاه القبلة في {City} اليوم | بوصلة الكعبة بدقة"
+//   (42+city chars). For Makkah this yields 53 chars ✅. For shorter
+//   AR cities (Cairo=7, Riyadh=6, etc.) the existing Full tier still
+//   wins (50+city in [50, 60]) — MediumPlus is only selected when
+//   Full > 60. Other 9 langs UNCHANGED. AR Meta Description, H1, JSON-LD,
+//   canonical, hreflang, sitemap, routing, Qibla calculation, city
+//   data UNCHANGED. EN/FR/TR/UR/DE/ID/ES/BN/MS qibla city pages
+//   UNCHANGED. /qibla hub UNAFFECTED (gated by seo.qiblaRef.slug).
+//   Files: server.js (1-line value change + ~15 lines doc) + sw.js
+//   (this comment + version bump v401→v402). HTML is no-cache so users
+//   see new Makkah AR title immediately after deploy.
+const CACHE_VERSION = 'v402';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

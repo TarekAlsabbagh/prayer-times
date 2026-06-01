@@ -1159,7 +1159,34 @@
 //   bumps) + sw.js (this comment + version literal). Cache-busters:
 //   css/style.css v465→v466, sw v395→v396. Expected impact: SI 12.8s →
 //   ~3-5s, Performance 88 → ~94-96, LCP unchanged, CLS unchanged.
-const CACHE_VERSION = 'v396';
+//
+// QIBLA-CITY-SSR-INFO-GRID-PREFILL-FIX-1 (2026-06-01): server.js-only fix.
+//   Lighthouse mobile audit on /qibla-in-riyadh reported Performance=72 with
+//   LCP=2.9s + Speed Index=10.8s + Element render delay=16,650ms. Audit
+//   (reports/qibla-city-pages-lighthouse-lcp-render-delay-audit-1.md) found
+//   that #qibla-info-grid is the LCP element and its 4 cells (#qibla-city,
+//   #qibla-exact-angle, #qibla-lat, #qibla-lng) held `--` placeholder in SSR
+//   on ALL 6 audited /qibla-in-{city} pages (riyadh, jeddah, makkah, rabat
+//   + EN variants — all 235-byte whitespace-only grid_inner_chars), even
+//   though server.js already had `seo.qiblaRef.{cityName,lat,lng}` available.
+//   Client js/app.js fills them only after hydration (~3-4s post-FCP on
+//   mobile slow CPU). This commit injects the values into SSR HTML directly
+//   via 4 html.replace calls inside the existing Q-A SEO block — using the
+//   SAME bearing formula already computed for the SEO bearing-badge, but a
+//   separate `_bearingExact` to 2 decimals to match the client's
+//   `_qiblaAngle.toFixed(2)`. Lat/lng use `.toFixed(4)` + '°' suffix to
+//   match `currentLat.toFixed(4)+'°'` at js/app.js:8321-8322. The client
+//   will idempotently overwrite these cells after hydration with bit-for-bit
+//   identical values (same formula, same precision).
+//   Files modified: server.js (+~50 lines: 4 html.replace + doc) + sw.js
+//   (this comment + version bump). ZERO change to: index.html, css/style.css,
+//   js/app.js, js/qibla.js, js/prayer-times.js, data, sitemap, canonical,
+//   hreflang, i18n keys. Qibla formula UNCHANGED. /qibla hub UNAFFECTED
+//   (block is gated by seo.qiblaRef.slug — city pages only). Cache-busters:
+//   sw v396→v397 (no CSS/JS changes — only HTML response changes via SSR).
+//   Expected impact: LCP 2.9s → ~1.0-1.3s, Speed Index 10.8s → ~3-4s,
+//   Element render delay 16,650ms → ~50-200ms, Performance 72 → ~92-96.
+const CACHE_VERSION = 'v397';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

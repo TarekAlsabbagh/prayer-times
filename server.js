@@ -19821,6 +19821,55 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 // — inconsistent with bearing and with other langs.
                 const _distanceStr = _escHtml(_distance.toLocaleString('en-US'));
 
+                // ─── QIBLA-CITY-SSR-INFO-GRID-PREFILL-FIX-1 (2026-06-01) ───
+                // Prefill the 4 #qibla-info-grid cells (city, exact-angle, lat,
+                // lng) directly in SSR so they don't render as `--` placeholder
+                // until JS hydration. Audit showed that #qibla-info-grid was
+                // the LCP element on /qibla-in-{city} with an Element render
+                // delay of 16,650ms on Lighthouse mobile (Performance=72,
+                // LCP=2.9s, Speed Index=10.8s). Reason: the cells held `--`
+                // placeholder until js/app.js updated them after hydration.
+                //
+                // The values mirror EXACTLY what the client writes:
+                //   • #qibla-city        ← seo.qiblaRef.cityName        (was updated by js/app.js:8320 as dispCity)
+                //   • #qibla-exact-angle ← _bearingExact.toFixed(2)+'°' (matches js/app.js:17062 _qiblaAngle.toFixed(2)+'°')
+                //   • #qibla-lat         ← lat.toFixed(4)+'°'           (matches js/app.js:8321 currentLat.toFixed(4)+'°')
+                //   • #qibla-lng         ← lng.toFixed(4)+'°'           (matches js/app.js:8322 currentLng.toFixed(4)+'°')
+                //
+                // We use the SAME bearing formula already computed above for
+                // the SEO bearing-badge (`_y`/`_x`/atan2), but DO NOT use the
+                // `_bearing` integer (which is rounded for SEO display). Instead
+                // we compute `_bearingExact` to 2 decimals to match the client.
+                //
+                // The client's js/app.js will still call updateQibla() after
+                // hydration and rewrite these same cells — idempotent overwrite
+                // with identical values (bit-for-bit since same formula). This
+                // means the LCP element will be FINAL from FCP, not after JS
+                // executes ~16s later. Strict server.js-only — zero changes to
+                // index.html / css / js / data / Qibla formula / routing.
+                const _bearingExact = (Math.atan2(_y, _x) * 180 / Math.PI + 360) % 360;
+                const _bearingExactStr = _escHtml(_bearingExact.toFixed(2));
+                const _qiblaLatStr = _escHtml(seo.qiblaRef.lat.toFixed(4));
+                const _qiblaLngStr = _escHtml(seo.qiblaRef.lng.toFixed(4));
+                const _qiblaCityNameStr = _escHtml(seo.qiblaRef.cityName || '');
+                html = html.replace(
+                    /<div class="info-value" id="qibla-city">--<\/div>/,
+                    `<div class="info-value" id="qibla-city">${_qiblaCityNameStr}</div>`
+                );
+                html = html.replace(
+                    /<div class="info-value" id="qibla-exact-angle">--<\/div>/,
+                    `<div class="info-value" id="qibla-exact-angle">${_bearingExactStr}°</div>`
+                );
+                html = html.replace(
+                    /<div class="info-value" id="qibla-lat">--<\/div>/,
+                    `<div class="info-value" id="qibla-lat">${_qiblaLatStr}°</div>`
+                );
+                html = html.replace(
+                    /<div class="info-value" id="qibla-lng">--<\/div>/,
+                    `<div class="info-value" id="qibla-lng">${_qiblaLngStr}°</div>`
+                );
+                // ─── END QIBLA-CITY-SSR-INFO-GRID-PREFILL-FIX-1 ───
+
                 // ── Section 1: overview ──
                 const _qaSec1H2 = {
                     ar: `اتجاه القبلة في ${seo.qiblaRef.cityName}`,

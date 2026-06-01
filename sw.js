@@ -1075,7 +1075,27 @@
 //   tasbihUpdateAutoUI which also uses getTasbihSequence(). No data /
 //   markup / CSS / route / server change. Cache-busters: js/app.js
 //   v748→v749, sw v392→v393.
-const CACHE_VERSION = 'v393';
+//
+// TASBIH-AUTO-MODE-NEXT-STEP-FIX-1-CDN-CACHE-BREAKER (2026-06-01): pure
+//   cache-buster bump — NO logic change anywhere. Rationale: after the
+//   push of 4953bf4 (the actual tasbih fix), the post-push verification
+//   discovered that the production HTML on Render was still referencing
+//   js/app.js?v=748 and the production sw.js still reported
+//   CACHE_VERSION='v392'. As a side effect of that diagnostic, the
+//   verification fetched /js/app.js?v=749 BEFORE the Render deploy had
+//   actually rolled out, which means Cloudflare's edge CDN may have
+//   cached the OLD pre-fix app.js content under the ?v=749 key for up
+//   to a year (Cache-Control: public, max-age=31536000, immutable).
+//   To bypass any such poisoning, this commit moves the cache-buster
+//   to a fresh key that has never been requested: app.js v749→v750,
+//   sw v393→v394. Files modified: index.html (2× cache-buster bumps)
+//   + sw.js (this comment + the version literal). ZERO change to:
+//   js/app.js, css/style.css, js/i18n.js, js/i18n/*.js,
+//   js/prayer-times.js, server.js, routing, sitemap, data, i18n keys,
+//   or tasbih logic. This is the exact same pattern as the earlier
+//   d6ea488 NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1-CDN-CACHE-
+//   BREAKER, which had to be applied for the same root cause.
+const CACHE_VERSION = 'v394';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

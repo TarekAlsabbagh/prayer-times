@@ -1056,7 +1056,26 @@
 //   WORKFLOW LEARNING: Post-push verification must wait ≥5 minutes
 //   after push before fetching ?v=N URLs, otherwise CDN may cache
 //   the OLD pre-deploy response under the NEW cache-key.
-const CACHE_VERSION = 'v392';
+//
+// TASBIH-AUTO-MODE-NEXT-STEP-FIX-1 (2026-06-01):
+//   User-reported regression: on /msbaha (electronic Tasbih), the auto
+//   mode counter stopped at 33 and never advanced (was supposed to
+//   cycle سبحان الله → الحمد لله → الله أكبر at 33 each). Root cause:
+//   js/app.js line 2438 referenced `TASBIH_SEQUENCE` which no longer
+//   exists — the code was refactored to use `getTasbihSequence()`
+//   function (line ~2385) in commit e4b2779 (2026-05-12) but this
+//   one reference was missed. Accessing .length on undefined threw a
+//   silent TypeError inside the setTimeout callback at line 2431,
+//   aborting tasbihNextStep() — leaving the button disabled (line
+//   2428) forever at count=33.
+//   Fix: 1-line change at line 2438:
+//     OLD:  if (tasbihStep < TASBIH_SEQUENCE.length - 1) {
+//     NEW:  if (tasbihStep < getTasbihSequence().length - 1) {
+//   Matches the existing pattern at line 2474 inside
+//   tasbihUpdateAutoUI which also uses getTasbihSequence(). No data /
+//   markup / CSS / route / server change. Cache-busters: js/app.js
+//   v748→v749, sw v392→v393.
+const CACHE_VERSION = 'v393';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

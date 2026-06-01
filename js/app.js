@@ -2435,7 +2435,15 @@ function tasbihClick() {
 function tasbihNextStep() {
     const btn = document.getElementById('tasbih-btn');
 
-    if (tasbihStep < TASBIH_SEQUENCE.length - 1) {
+    // TASBIH-AUTO-MODE-NEXT-STEP-FIX-1 (2026-06-01):
+    // Was `TASBIH_SEQUENCE.length` — but TASBIH_SEQUENCE is undefined
+    // (the code was refactored to use getTasbihSequence() function at
+    // line ~2385 in commit e4b2779 on 2026-05-12, but this one reference
+    // was missed). Result: accessing .length on undefined throws
+    // TypeError, which silently aborts tasbihNextStep — leaving the
+    // button disabled forever at count=33. Switched to getTasbihSequence()
+    // to match the rest of the codebase's pattern (used at line ~2474).
+    if (tasbihStep < getTasbihSequence().length - 1) {
         btn.style.background = 'linear-gradient(135deg,#f59e0b,#d97706)';
         if (navigator.vibrate) navigator.vibrate([60, 80, 60]);
         setTimeout(() => {

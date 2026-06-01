@@ -7697,7 +7697,19 @@ function buildSeoForPath(urlPath) {
         }),
         en: (c, ctry) => ({
             long:        `See today's prayer times in ${c}, including Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, along with the Qibla direction and the Hijri date based on local time.`,
-            withCountry: `Prayer times in ${c}${ctry ? ', ' + ctry : ''}: Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha, with Qibla direction and the Hijri date.`,
+            // EN-CITY-PRAYER-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-01): expanded
+            // the EN withCountry form from 116 chars (which failed SEOptimer's
+            // 120-160 char meta-description band for /en/prayer-times-in-cairo
+            // and most 5+ char cities since `long` overflows 160 for them and
+            // the selector falls through to this form). The new wording adds
+            // natural connectors ("check today's", "plus") to land between
+            // 127 and 160 chars for typical city+country combos (constant base
+            // = 122 chars; with c+ctry between 5 and ~38 you stay in the 127-
+            // 160 band). For very long city+country combos (rare; c+ctry > 38),
+            // the desc may still exceed 160 slightly — acceptable as it stays
+            // well under the typical 170 hard cap; a 3-tier ladder can be
+            // added later if real data shows recurring overflow.
+            withCountry: `Prayer times in ${c}${ctry ? ', ' + ctry : ''}: check today's Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha times, plus Qibla direction and Hijri date.`,
         }),
         fr: (c, ctry) => ({
             long:        `Consultez les heures de prière à ${c} aujourd'hui, incluant Fajr, Lever, Dhuhr, Asr, Maghreb et Isha, avec la direction de la Qibla et la date hégirienne selon l'heure locale.`,

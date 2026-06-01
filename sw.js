@@ -1224,7 +1224,26 @@
 //   i18n keys. Cache-busters: css/style.css v466→v467, sw v397→v398.
 //   Expected impact: CLS 0.121 → ~0 (<0.02), Speed Index ≤2.5s preserved,
 //   LCP ≤0.9s preserved, TBT ≤0ms preserved, Performance 89 → ~94+.
-const CACHE_VERSION = 'v398';
+//
+// EN-CITY-PRAYER-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-01): SEO-only fix.
+//   SEOptimer reported the EN meta description on /en/prayer-times-in-cairo
+//   was 116 chars — under the standard 120-160 band. Root cause traced to
+//   server.js _CITY_DESC_FORMS.en: the `long` form (current "See today's...")
+//   exceeds 160 chars for any city name ≥ 5 chars, so the _pickCityDesc
+//   selector falls through to `withCountry` (which was only 116 chars). This
+//   commit rewrites the EN `withCountry` form with natural connectors
+//   ("check today's", "plus") to land between 127 and 160 chars for typical
+//   city+country combos (constant base = 122 chars). Other 9 langs (ar/fr/
+//   tr/ur/de/id/es/bn/ms) UNTOUCHED — only EN was reported. Tests on
+//   cairo/riyadh/jeddah/makkah/new-york/kuala-lumpur/jakarta all land in
+//   the 130-150 range. Title, H1, prayer calculations, city data, canonical,
+//   sitemap, hreflang, routing ALL UNCHANGED. Only the EN city-prayer meta
+//   description text changes. Files modified: server.js (+~15 lines: new
+//   wording + doc comment) + sw.js (this comment + version bump). HTML
+//   response is Cache-Control: no-cache so users see new desc immediately
+//   after deploy — no cache-buster needed on css/js (they didn't change).
+//   sw v398→v399 for deploy traceability only.
+const CACHE_VERSION = 'v399';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -1095,7 +1095,46 @@
 //   or tasbih logic. This is the exact same pattern as the earlier
 //   d6ea488 NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1-CDN-CACHE-
 //   BREAKER, which had to be applied for the same root cause.
-const CACHE_VERSION = 'v394';
+//   COMMITTED + DEPLOYED + VERIFIED as 5250d01 on 2026-06-01 — all 14
+//   post-push checks passed (HTML only refs v=750; sw='v394'; bytes
+//   contain getTasbihSequence().length × 1 and TASBIH_SEQUENCE.length × 0;
+//   visual auto-mode 33-click test PASSED: سبحان الله → الحمد لله, count
+//   reset to 0, button re-enabled). v749/v750/v394 are NOW LIVE keys on
+//   production CDN — any subsequent commit MUST bump to fresh keys above.
+//
+// MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): SEO + UX expansion for
+//   /msbaha. Added 6 educational sections (edu/howto/after/when/related/
+//   disclaimer) + FAQ block (6 Q&A) below the existing tasbih tool —
+//   tasbih JS LOGIC UNCHANGED (auto/free modes, 33-counter, reset buttons,
+//   session totals all intact). New i18n keys (~50, AR+EN) in js/i18n.js
+//   + js/i18n/{ar,en}.js — other 8 langs fall back to EN. New CSS in
+//   css/style.css (.tasbih-edu/howto/after/when/related/faq* selectors
+//   + dark-mode overrides). New tasbihFaq flag wired into /msbaha
+//   staticPages entry → FAQPage + HowTo JSON-LD emit in server.js
+//   (mirrors the zakatFaq pattern, single source of truth via i18n).
+//   Cache-busters: css/style.css v464→v465, _i18nVersion 189→190.
+//   (Originally drafted with sw v393→v394; rebased on top of
+//   CDN-CACHE-BREAKER 5250d01 which already consumed v394.)
+//
+// MSBAHA-EVENTS-ECHO-1 (2026-06-01): follow-up addition to MSBAHA-SEO-CONTENT-
+//   UX-EXPANSION-1. Added a clone of the /moon-today #moon-events-section
+//   (Islamic events countdown — Ramadan / Eid al-Fitr / Eid al-Adha / Hijri
+//   New Year) at the bottom of /msbaha, BELOW the FAQ section. Pattern
+//   mirrors AZKAR-EVENTS-ECHO-1 at #page-azkar-morning: class-based selectors
+//   only (no ID conflict with the original on /moon-today). Each card carries
+//   BOTH the bare `.moon-event-{key}` class (provides the colored gradient
+//   chrome via the rules at css/style.css:4374-4399) AND the
+//   `.moon-event-{key}-card` (JS hook for _azkarRenderMoonEvents() in
+//   js/app.js to populate days+date and reorder by proximity). js/app.js
+//   change is a SINGLE LINE — appending 'page-tasbih' to the _azkarPageIds
+//   array in _azkarRenderMoonEvents() so the rolling-cycle resolver
+//   populates the day-counts + dates on this page too. Tasbih JS LOGIC
+//   (tasbihClick/tasbihNextStep/tasbihSwitchMode/etc.) STILL UNCHANGED.
+//   Cache-busters (post stash-pop reconciliation — v750/v394 are now
+//   CDN-CACHE-BREAKER's live production keys and cannot be re-used):
+//   js/app.js v750→v751, sw v394→v395. CSS unchanged (reuses existing
+//   .moon-events-* / .moon-event-* rules).
+const CACHE_VERSION = 'v395';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

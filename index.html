@@ -70,14 +70,14 @@
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <link rel="preload" href="js/app.js?v=750" as="script">
+    <link rel="preload" href="js/app.js?v=751" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=464" as="style">
-    <link rel="stylesheet" href="css/style.css?v=464">
+    <link rel="preload" href="css/style.css?v=465" as="style">
+    <link rel="stylesheet" href="css/style.css?v=465">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -4357,6 +4357,236 @@
                     </div>
 
                 </div>
+
+                <!-- ═══════════ MSBAHA-SEO-CONTENT-UX-EXPANSION-1 ═══════════
+                     Educational + SEO content below the tasbih tool.
+                     Tool logic above this point is UNCHANGED (auto/free modes, 33-counter,
+                     reset buttons, session totals all intact). All sections below are
+                     additive: 6 informational sections + 1 FAQ section with JSON-LD
+                     emission in server.js (tasbihFaq flag). All text uses data-i18n
+                     keys with AR + EN dictionaries (other 8 langs fall back to EN
+                     per established pattern, same as /zakat-calculator's edu/faq).  -->
+
+                <!-- 1. ما هي المسبحة الإلكترونية؟ -->
+                <section class="section-card tasbih-edu" id="tasbih-edu">
+                    <h2 class="tasbih-edu-title" data-i18n="tasbih.edu.title">ما هي المسبحة الإلكترونية؟</h2>
+                    <p class="tasbih-edu-intro" data-i18n="tasbih.edu.intro">المسبحة الإلكترونية أداة رقميّة بسيطة تساعدك على عدّ التسبيح والتحميد والتكبير دون الحاجة إلى مسبحة يدويّة. تعمل من المتصفّح مباشرةً، وتحفظ عدّك أثناء الجلسة، وتدعم وضعَين: التسبيح التلقائيّ بعد الصلاة (33 + 33 + 33)، والعدّاد المفتوح لأيّ ذكر آخر.</p>
+                </section>
+
+                <!-- 2. كيف تستخدم المسبحة الإلكترونية؟ -->
+                <section class="section-card tasbih-howto" id="tasbih-howto">
+                    <h2 class="tasbih-howto-title" data-i18n="tasbih.howto.title">كيف تستخدم المسبحة الإلكترونية؟</h2>
+                    <p class="tasbih-howto-intro" data-i18n="tasbih.howto.intro">اتّبع هذه الخطوات البسيطة:</p>
+                    <ol class="tasbih-howto-steps">
+                        <li>
+                            <span class="tasbih-howto-step-num">1</span>
+                            <div class="tasbih-howto-step-body">
+                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step1_title">اختر الوضع المناسب</h3>
+                                <p data-i18n="tasbih.howto.step1_desc">«التسبيح التلقائي» للتسبيح بعد الصلاة بترتيب: سبحان الله، الحمد لله، الله أكبر — كلّ منها 33 مرّة. أو «عدّاد مفتوح» لعدّ أيّ ذكر آخر مثل الاستغفار أو الصلاة على النبي ﷺ.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tasbih-howto-step-num">2</span>
+                            <div class="tasbih-howto-step-body">
+                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step2_title">اضغط الدائرة الكبيرة</h3>
+                                <p data-i18n="tasbih.howto.step2_desc">كلّ ضغطة تزيد العدّ واحدًا. في الوضع التلقائيّ ينتقل العدّاد ذاتيًّا إلى الذكر التالي عند الوصول إلى 33، فلا تحتاج إلى أيّ إجراء إضافيّ.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tasbih-howto-step-num">3</span>
+                            <div class="tasbih-howto-step-body">
+                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step3_title">تابع شريط التقدّم</h3>
+                                <p data-i18n="tasbih.howto.step3_desc">يظهر تحت الدائرة شريط يوضّح موقعك من 33، ومجموع تسبيحات الجلسة في الأسفل، حتى تطمئنّ إلى أنّك أكملت العدد المطلوب.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="tasbih-howto-step-num">4</span>
+                            <div class="tasbih-howto-step-body">
+                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step4_title">صفِّر متى احتجت</h3>
+                                <p data-i18n="tasbih.howto.step4_desc">استخدم «تصفير العدّاد» لإعادة الذكر الحاليّ إلى 0 دون فقد إجماليّ الجلسة، أو «تصفير الجلسة» لبدء جلسة جديدة من الصفر تمامًا.</p>
+                            </div>
+                        </li>
+                    </ol>
+                </section>
+
+                <!-- 3. أذكار التسبيح بعد الصلاة -->
+                <section class="section-card tasbih-after-prayer" id="tasbih-after-prayer">
+                    <h2 class="tasbih-after-title" data-i18n="tasbih.after.title">أذكار التسبيح بعد الصلاة</h2>
+                    <p class="tasbih-after-intro" data-i18n="tasbih.after.intro">ورد في السنّة أنّ من قال هذه الأذكار بعد كلّ صلاة مكتوبة غُفرت ذنوبه: «مَنْ سَبَّحَ اللهَ في دُبُرِ كُلِّ صَلاةٍ ثَلاثًا وَثَلاثين، وَحَمِدَ اللهَ ثَلاثًا وَثَلاثين، وَكَبَّرَ اللهَ ثَلاثًا وَثَلاثين فَتلكَ تِسْعٌ وَتِسْعون، وَقَالَ تَمَامَ المِائَة: لا إلهَ إلاَّ اللهُ وَحْدَهُ لا شَريكَ لَهُ، لَهُ المُلكُ وَلَهُ الحَمدُ وَهُوَ على كُلِّ شَيءٍ قَدير، غُفِرَتْ خَطَايَاهُ وَإنْ كَانَتْ مِثْلَ زَبَدِ البَحْر» — رواه مسلم.</p>
+                    <div class="tasbih-after-grid">
+                        <article class="tasbih-after-card">
+                            <div class="tasbih-after-card-dhikr">سُبْحَانَ اللَّهِ</div>
+                            <div class="tasbih-after-card-count">33×</div>
+                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card1_desc">تنزيه لله تعالى عن كلّ نقص. تُقال ثلاثًا وثلاثين مرّة عقب الصلاة المفروضة.</p>
+                        </article>
+                        <article class="tasbih-after-card">
+                            <div class="tasbih-after-card-dhikr">الْحَمْدُ لِلَّهِ</div>
+                            <div class="tasbih-after-card-count">33×</div>
+                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card2_desc">حمد لله على نعمه الظاهرة والباطنة. تُقال ثلاثًا وثلاثين مرّة بعد التسبيح.</p>
+                        </article>
+                        <article class="tasbih-after-card">
+                            <div class="tasbih-after-card-dhikr">اللَّهُ أَكْبَرُ</div>
+                            <div class="tasbih-after-card-count">33×</div>
+                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card3_desc">تعظيم لله سبحانه. تُقال ثلاثًا وثلاثين مرّة، ثمّ يُختم العدد بكلمة التوحيد ليكتمل المئة.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 4. متى تستخدم المسبحة الإلكترونية؟ -->
+                <section class="section-card tasbih-when" id="tasbih-when">
+                    <h2 class="tasbih-when-title" data-i18n="tasbih.when.title">متى تستخدم المسبحة الإلكترونية؟</h2>
+                    <p class="tasbih-when-intro" data-i18n="tasbih.when.intro">يمكنك الاستفادة منها في عدّة مواطن:</p>
+                    <div class="tasbih-when-grid">
+                        <article class="tasbih-when-card">
+                            <span class="tasbih-when-icon" aria-hidden="true">🕌</span>
+                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c1_title">بعد الصلوات الخمس</h3>
+                            <p data-i18n="tasbih.when.c1_desc">الاستخدام الأشهر: عدّ سبحان الله 33 والحمد لله 33 والله أكبر 33، ثمّ كلمة التوحيد.</p>
+                        </article>
+                        <article class="tasbih-when-card">
+                            <span class="tasbih-when-icon" aria-hidden="true">🌅</span>
+                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c2_title">أذكار الصباح والمساء</h3>
+                            <p data-i18n="tasbih.when.c2_desc">عدّ التهليل والاستغفار والصلاة على النبي ﷺ ضمن أوراد الصباح والمساء.</p>
+                        </article>
+                        <article class="tasbih-when-card">
+                            <span class="tasbih-when-icon" aria-hidden="true">🤲</span>
+                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c3_title">الاستغفار اليومي</h3>
+                            <p data-i18n="tasbih.when.c3_desc">حدّد هدفًا يوميًّا مثل 100 استغفارة وعدّها بسهولة في وضع العدّاد المفتوح.</p>
+                        </article>
+                        <article class="tasbih-when-card">
+                            <span class="tasbih-when-icon" aria-hidden="true">⏳</span>
+                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c4_title">وقت الفراغ والانتظار</h3>
+                            <p data-i18n="tasbih.when.c4_desc">استثمر دقائق الانتظار في الذكر، كانتظار موعد أو ركوب مواصلات.</p>
+                        </article>
+                        <article class="tasbih-when-card">
+                            <span class="tasbih-when-icon" aria-hidden="true">✈️</span>
+                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c5_title">السفر والتنقّل</h3>
+                            <p data-i18n="tasbih.when.c5_desc">بديل عمليّ للمسبحة اليدويّة أثناء السفر، يعمل على هاتفك مباشرةً.</p>
+                        </article>
+                    </div>
+                </section>
+
+                <!-- 5. أدوات وعبادات مرتبطة -->
+                <section class="section-card tasbih-related" id="tasbih-related">
+                    <h2 class="tasbih-related-title" data-i18n="tasbih.related.title">أدوات وعبادات مرتبطة</h2>
+                    <p class="tasbih-related-intro" data-i18n="tasbih.related.intro">روابط مفيدة تكمّل عبادتك اليوميّة:</p>
+                    <div class="tasbih-related-grid">
+                        <a class="tasbih-related-card" href="/prayer-times-in-riyadh">
+                            <span class="tasbih-related-icon" aria-hidden="true">🕋</span>
+                            <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.prayer_title">مواقيت الصلاة</h3>
+                            <p data-i18n="tasbih.related.prayer_desc">اعرف مواقيت الصلوات الخمس في مدينتك حتى لا تفوّت تسبيحًا بعد كلّ صلاة.</p>
+                        </a>
+                        <a class="tasbih-related-card" href="/azkar">
+                            <span class="tasbih-related-icon" aria-hidden="true">📿</span>
+                            <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.azkar_title">الأذكار</h3>
+                            <p data-i18n="tasbih.related.azkar_desc">صفحة الأذكار الشاملة: أذكار الصباح والمساء والنوم وغيرها.</p>
+                        </a>
+                        <a class="tasbih-related-card" href="/qibla">
+                            <span class="tasbih-related-icon" aria-hidden="true">🧭</span>
+                            <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.qibla_title">اتّجاه القبلة</h3>
+                            <p data-i18n="tasbih.related.qibla_desc">حدّد اتّجاه القبلة من موقعك قبل الصلاة بدقّة.</p>
+                        </a>
+                        <a class="tasbih-related-card" href="/today-hijri-date">
+                            <span class="tasbih-related-icon" aria-hidden="true">📅</span>
+                            <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.hijri_title">التاريخ الهجري</h3>
+                            <p data-i18n="tasbih.related.hijri_desc">تابع التاريخ الهجريّ اليوم وتذكّر الأيام الفضيلة كأيام البِيض.</p>
+                        </a>
+                    </div>
+                </section>
+
+                <!-- 6. تنبيه لطيف -->
+                <div class="tasbih-disclaimer" role="note">
+                    <strong data-i18n="tasbih.disclaimer.title">ملاحظة</strong>
+                    <p data-i18n="tasbih.disclaimer.body">المسبحة الإلكترونية وسيلة مساعِدة لا أكثر — الأجر مرتبط بنيّة الذاكر وحضور قلبه، لا بكون العدّ على مسبحة يدويّة أو إلكترونيّة أو على عقود الأصابع.</p>
+                </div>
+
+                <!-- 7. الأسئلة الشائعة — تستخدم نفس مفاتيح i18n التي تُنبَع منها FAQPage JSON-LD في server.js (مصدر واحد) -->
+                <section class="section-card tasbih-faq-section" id="tasbih-faq-section">
+                    <h2 class="tasbih-faq-title">
+                        <svg class="icon icon-md icon-primary" aria-hidden="true"><use href="#i-help-circle"/></svg>
+                        <span data-i18n="tasbih.faq.title">أسئلة شائعة عن المسبحة الإلكترونية</span>
+                    </h2>
+                    <div class="tasbih-faq-list">
+                        <details class="tasbih-faq-item">
+                            <summary data-i18n="tasbih.faq.q1">هل المسبحة الإلكترونية بدعة؟</summary>
+                            <p data-i18n="tasbih.faq.a1">لا. هي مجرّد وسيلة لعدّ الذكر، تمامًا كالمسبحة اليدويّة أو العدّ على عقود الأصابع. الأصل أنّ الذكر سنّة، وأيّ أداة تُعين عليه مباحة ما لم تشغل عن المقصود.</p>
+                        </details>
+                        <details class="tasbih-faq-item">
+                            <summary data-i18n="tasbih.faq.q2">هل تحفظ المسبحة العدّ بعد إغلاق الصفحة؟</summary>
+                            <p data-i18n="tasbih.faq.a2">حاليًّا يُحفظ العدّ خلال الجلسة فقط. عند إعادة تحميل الصفحة يبدأ العدّ من جديد، وهذا متعمَّد ليُلائم أداء التسبيح بعد كلّ صلاة كحدث مستقلّ.</p>
+                        </details>
+                        <details class="tasbih-faq-item">
+                            <summary data-i18n="tasbih.faq.q3">لماذا العدد 33 بعد الصلاة؟</summary>
+                            <p data-i18n="tasbih.faq.a3">العدد 33 ورد في الحديث النبويّ الشريف: التسبيح 33 + التحميد 33 + التكبير 33 = 99، ثمّ تُختم بكلمة التوحيد لتُكمل المئة. والمسبحة الإلكترونية في وضعها التلقائيّ تتبع هذا الترتيب تمامًا.</p>
+                        </details>
+                        <details class="tasbih-faq-item">
+                            <summary data-i18n="tasbih.faq.q4">هل أستطيع استخدامها بدلاً من المسبحة العادية؟</summary>
+                            <p data-i18n="tasbih.faq.a4">نعم. لا فرق شرعيًّا بين العدّ على مسبحة يدويّة أو إلكترونيّة أو على عقود الأصابع — والأخيرة وردت في حديث: «اعقدنَ بالأنامل فإنّهنّ مسؤولات ومُستنطَقات». اختر ما يُعينك أكثر على الحضور.</p>
+                        </details>
+                        <details class="tasbih-faq-item">
+                            <summary data-i18n="tasbih.faq.q5">هل تعمل المسبحة بدون إنترنت؟</summary>
+                            <p data-i18n="tasbih.faq.a5">نعم بعد فتح الصفحة لأوّل مرّة. يدعم الموقع التشغيل دون اتّصال (PWA)، فبمجرّد تحميل الصفحة تعمل المسبحة محلّيًّا على جهازك.</p>
+                        </details>
+                        <details class="tasbih-faq-item">
+                            <summary data-i18n="tasbih.faq.q6">هل المسبحة مجانيّة وآمنة؟</summary>
+                            <p data-i18n="tasbih.faq.a6">نعم، مجانيّة بالكامل بلا تسجيل ولا إعلانات داخل الأداة، والعدّ يبقى على جهازك ولا يُرسَل إلى أيّ خادم.</p>
+                        </details>
+                    </div>
+                </section>
+
+                <!-- ===== Islamic events countdown — MSBAHA-EVENTS-ECHO-1 (2026-06-01) =====
+                     Echo of /moon-today's #moon-events-section. Uses CLASS-based selectors
+                     only (no ID conflicts with the original at /moon-today which uses
+                     id="moon-event-ramadan" etc.). EACH CARD CARRIES TWO TYPED CLASSES:
+                       1) the BARE `.moon-event-{key}`  → provides the gradient colored
+                          background defined at css/style.css:4374-4399 (purple/gold/red/
+                          blue chrome that distinguishes each event visually — exactly
+                          what makes the original /moon-today block look polished).
+                       2) the `.moon-event-{key}-card` → JS hook for _azkarRenderMoonEvents()
+                          in js/app.js to populate days + date and reorder by proximity.
+                     Note: the original AZKAR-EVENTS-ECHO-1 markup used ONLY the `-card`
+                     suffix and so visually fell back to neutral chrome — we restore the
+                     gradients here by adding both classes. _azkarRenderMoonEvents() is
+                     extended to also scope on #page-tasbih so the day-counts + dates
+                     update on this page. -->
+                <section class="section-card moon-events-section" aria-labelledby="tasbih-events-h2">
+                    <h2 id="tasbih-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
+                    <div class="moon-events-countdown">
+                        <a class="moon-event-card moon-event-ramadan moon-event-ramadan-card" href="/ramadan-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🕋</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.ramadan">رمضان القادم</div>
+                                <div class="moon-event-days moon-event-ramadan-days">—</div>
+                                <div class="moon-event-date moon-event-ramadan-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-fitr moon-event-fitr-card" href="/eid-al-fitr-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-moon"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.fitr">عيد الفطر</div>
+                                <div class="moon-event-days moon-event-fitr-days">—</div>
+                                <div class="moon-event-date moon-event-fitr-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-adha moon-event-adha-card" href="/eid-al-adha-countdown">
+                            <span class="moon-event-icon" aria-hidden="true">🐑</span>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.adha">عيد الأضحى</div>
+                                <div class="moon-event-days moon-event-adha-days">—</div>
+                                <div class="moon-event-date moon-event-adha-date">—</div>
+                            </div>
+                        </a>
+                        <a class="moon-event-card moon-event-newyear moon-event-newyear-card" href="/hijri-new-year-countdown">
+                            <svg class="icon moon-event-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
+                            <div class="moon-event-body">
+                                <div class="moon-event-label" data-i18n="moon.events.newyear">رأس السنة الهجرية</div>
+                                <div class="moon-event-days moon-event-newyear-days">—</div>
+                                <div class="moon-event-date moon-event-newyear-date">—</div>
+                            </div>
+                        </a>
+                    </div>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                </section>
+
             </div>
 
             <!-- ========= صفحة العدّ التنازليّ لرمضان ========= -->
@@ -4945,7 +5175,7 @@
            <script defer src="js/i18n/en.js?v=N"></script>  ← only if lang ≠ ar/en
          Detection happens server-side from URL prefix (`/en/`, `/fr/`, etc.).
          The marker line below is the regex anchor for the replacement. -->
-    <script defer src="js/i18n.js?v=189"></script>
+    <script defer src="js/i18n.js?v=190"></script>
     <script defer src="js/prayer-times.js?v=53"></script>
     <script defer src="js/hijri-date.js?v=43"></script>
     <script defer src="js/qibla.js?v=44"></script>
@@ -4956,7 +5186,7 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=4"></script>
-    <script defer src="js/app.js?v=750"></script>
+    <script defer src="js/app.js?v=751"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

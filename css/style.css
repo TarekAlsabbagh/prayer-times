@@ -10780,6 +10780,247 @@ html[data-theme="dark"] .tasbih-tab:not(.active):hover {
     padding-top: 12px; border-top: 1px solid var(--border);
 }
 
+/* ═════════════ MSBAHA-SEO-CONTENT-UX-EXPANSION-1 — educational + FAQ blocks ═════════════
+   Mirrors the .zakat-edu-* + .zakat-faq-* pattern. All section-card wrappers re-use
+   site-wide card chrome (padding/shadow/radius) — these rules only style the inner
+   content (titles, grids, cards, FAQ <details>). Dark-mode overrides below.            */
+
+.tasbih-edu, .tasbih-howto, .tasbih-after-prayer, .tasbih-when, .tasbih-related, .tasbih-faq-section {
+    margin-top: 18px;
+}
+.tasbih-edu-title, .tasbih-howto-title, .tasbih-after-title, .tasbih-when-title, .tasbih-related-title {
+    font-size: 1.2rem; font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 10px;
+}
+.tasbih-edu-intro, .tasbih-howto-intro, .tasbih-after-intro, .tasbih-when-intro, .tasbih-related-intro {
+    margin: 0 0 16px;
+    color: var(--text-light, #6b7b75);
+    font-size: 0.95rem; line-height: 1.8;
+}
+.tasbih-edu-intro { line-height: 1.9; }
+
+/* Howto — numbered steps list */
+.tasbih-howto-steps {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 14px;
+}
+.tasbih-howto-steps > li {
+    display: flex; gap: 14px; align-items: flex-start;
+    background: rgba(13,124,85,0.03);
+    border: 1px solid var(--border-light, #f0f0f0);
+    border-radius: 12px;
+    padding: 12px 14px;
+}
+.tasbih-howto-step-num {
+    flex-shrink: 0;
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary, #0d7c55), var(--primary-dark, #1e5631));
+    color: #fff; font-weight: 800; font-size: 1.05rem;
+    display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 2px 6px rgba(13,124,85,0.25);
+}
+.tasbih-howto-step-body { flex: 1; min-width: 0; }
+.tasbih-howto-step-title {
+    font-size: 1rem; font-weight: 700;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 6px;
+}
+.tasbih-howto-step-body p {
+    margin: 0; color: var(--text, #214936);
+    font-size: 0.92rem; line-height: 1.75;
+}
+
+/* After-prayer 3-card grid */
+.tasbih-after-grid {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+@media (min-width: 720px) {
+    .tasbih-after-grid { grid-template-columns: repeat(3, 1fr); }
+}
+.tasbih-after-card {
+    background: rgba(13,124,85,0.04);
+    border: 1px solid var(--border-light, #f0f0f0);
+    border-radius: 12px; padding: 14px;
+    text-align: center;
+}
+.tasbih-after-card-dhikr {
+    font-family: 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+    font-size: 1.35rem; font-weight: 700;
+    color: var(--primary-dark, #1e5631);
+    margin-bottom: 4px; line-height: 1.5;
+}
+.tasbih-after-card-count {
+    display: inline-block;
+    padding: 2px 12px; border-radius: 999px;
+    background: linear-gradient(90deg, var(--primary, #0d7c55), #34d399);
+    color: #fff; font-size: 0.85rem; font-weight: 800;
+    margin: 4px 0 10px;
+}
+.tasbih-after-card-desc {
+    margin: 0; font-size: 0.88rem; line-height: 1.7;
+    color: var(--text, #214936);
+}
+
+/* When-to-use 5-card grid */
+.tasbih-when-grid {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+@media (min-width: 600px) { .tasbih-when-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 980px) { .tasbih-when-grid { grid-template-columns: repeat(3, 1fr); } }
+.tasbih-when-card {
+    background: rgba(13,124,85,0.025);
+    border: 1px solid var(--border-light, #f0f0f0);
+    border-radius: 12px; padding: 14px 16px;
+}
+.tasbih-when-icon { font-size: 1.4rem; line-height: 1; display: inline-block; margin-bottom: 6px; }
+.tasbih-when-card-title {
+    font-size: 0.98rem; font-weight: 700;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 6px;
+}
+.tasbih-when-card p {
+    margin: 0; font-size: 0.88rem; line-height: 1.7;
+    color: var(--text, #214936);
+}
+
+/* Related-tools cards (anchors) */
+.tasbih-related-grid {
+    display: grid; grid-template-columns: 1fr; gap: 12px;
+}
+@media (min-width: 600px) { .tasbih-related-grid { grid-template-columns: 1fr 1fr; } }
+@media (min-width: 980px) { .tasbih-related-grid { grid-template-columns: repeat(4, 1fr); } }
+.tasbih-related-card {
+    display: block;
+    background: rgba(13,124,85,0.025);
+    border: 1px solid var(--border-light, #f0f0f0);
+    border-radius: 12px; padding: 14px 16px;
+    text-decoration: none; color: inherit;
+    transition: transform 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+.tasbih-related-card:hover {
+    transform: translateY(-2px);
+    border-color: var(--primary, #0d7c55);
+    box-shadow: 0 4px 14px rgba(13,124,85,0.12);
+}
+.tasbih-related-icon { font-size: 1.4rem; line-height: 1; display: inline-block; margin-bottom: 6px; }
+.tasbih-related-card-title {
+    font-size: 0.98rem; font-weight: 700;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 6px;
+}
+.tasbih-related-card p {
+    margin: 0; font-size: 0.88rem; line-height: 1.7;
+    color: var(--text, #214936);
+}
+
+/* Soft disclaimer chip */
+.tasbih-disclaimer {
+    margin-top: 18px;
+    padding: 12px 14px;
+    background: rgba(255,215,94,0.10);
+    border: 1px solid rgba(255,180,0,0.30);
+    border-radius: 10px;
+    color: var(--text, #214936);
+    font-size: 0.9rem; line-height: 1.7;
+}
+.tasbih-disclaimer strong {
+    display: block; margin-bottom: 4px;
+    color: #8a5a00; font-size: 0.92rem;
+}
+.tasbih-disclaimer p { margin: 0; }
+
+/* FAQ — mirrors .zakat-faq-* */
+.tasbih-faq-title {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 1.2rem; font-weight: 800;
+    color: var(--primary-dark, #1e5631);
+    margin: 0 0 12px;
+}
+.tasbih-faq-title .icon { width: 22px; height: 22px; }
+.tasbih-faq-list { display: flex; flex-direction: column; gap: 8px; }
+.tasbih-faq-item {
+    background: rgba(13,124,85,0.025);
+    border: 1px solid var(--border-light, #f0f0f0);
+    border-radius: 10px;
+    padding: 10px 14px;
+    transition: background 0.15s ease;
+}
+.tasbih-faq-item[open] { background: rgba(13,124,85,0.05); }
+.tasbih-faq-item > summary {
+    cursor: pointer; list-style: none;
+    font-weight: 700; font-size: 0.96rem;
+    color: var(--primary-dark, #1e5631);
+    position: relative; padding-inline-end: 28px;
+    line-height: 1.5;
+}
+.tasbih-faq-item > summary::-webkit-details-marker { display: none; }
+.tasbih-faq-item > summary::after {
+    content: "+"; position: absolute;
+    inset-inline-end: 0; top: 50%; transform: translateY(-50%);
+    width: 22px; height: 22px; border-radius: 50%;
+    background: var(--primary, #0d7c55); color: #fff;
+    font-weight: 800; font-size: 1rem;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s ease;
+}
+.tasbih-faq-item[open] > summary::after { content: "−"; }
+.tasbih-faq-item > p {
+    margin: 8px 0 0; font-size: 0.92rem; line-height: 1.8;
+    color: var(--text, #214936);
+}
+
+/* Dark-mode overrides */
+html[data-theme="dark"] .tasbih-edu-title,
+html[data-theme="dark"] .tasbih-howto-title,
+html[data-theme="dark"] .tasbih-after-title,
+html[data-theme="dark"] .tasbih-when-title,
+html[data-theme="dark"] .tasbih-related-title,
+html[data-theme="dark"] .tasbih-faq-title,
+html[data-theme="dark"] .tasbih-howto-step-title,
+html[data-theme="dark"] .tasbih-after-card-dhikr,
+html[data-theme="dark"] .tasbih-when-card-title,
+html[data-theme="dark"] .tasbih-related-card-title,
+html[data-theme="dark"] .tasbih-faq-item > summary {
+    color: var(--primary-light, #7ac79e);
+}
+html[data-theme="dark"] .tasbih-howto-steps > li,
+html[data-theme="dark"] .tasbih-after-card,
+html[data-theme="dark"] .tasbih-when-card,
+html[data-theme="dark"] .tasbih-related-card,
+html[data-theme="dark"] .tasbih-faq-item {
+    background: rgba(122,199,158,0.05);
+    border-color: var(--border, #2a3a33);
+}
+html[data-theme="dark"] .tasbih-faq-item[open] {
+    background: rgba(122,199,158,0.10);
+}
+html[data-theme="dark"] .tasbih-related-card:hover {
+    border-color: var(--primary-light, #7ac79e);
+    box-shadow: 0 4px 14px rgba(122,199,158,0.18);
+}
+html[data-theme="dark"] .tasbih-edu-intro,
+html[data-theme="dark"] .tasbih-howto-intro,
+html[data-theme="dark"] .tasbih-after-intro,
+html[data-theme="dark"] .tasbih-when-intro,
+html[data-theme="dark"] .tasbih-related-intro {
+    color: var(--text-light);
+}
+html[data-theme="dark"] .tasbih-howto-step-body p,
+html[data-theme="dark"] .tasbih-after-card-desc,
+html[data-theme="dark"] .tasbih-when-card p,
+html[data-theme="dark"] .tasbih-related-card p,
+html[data-theme="dark"] .tasbih-faq-item > p {
+    color: var(--text);
+}
+html[data-theme="dark"] .tasbih-disclaimer {
+    background: rgba(255,215,94,0.05);
+    border-color: rgba(255,180,0,0.25);
+    color: var(--text);
+}
+html[data-theme="dark"] .tasbih-disclaimer strong { color: #d4a64a; }
+/* ═════════════ END MSBAHA-SEO-CONTENT-UX-EXPANSION-1 ═════════════ */
+
 /* شبكة الدولة / المدينة */
 .country-city-grid {
     display: grid;

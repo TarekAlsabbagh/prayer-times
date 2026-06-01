@@ -25053,7 +25053,10 @@ function _azkarRenderMoonEvents() {
         // moon-events-section that REPLACED the legacy qibla footer
         // block (qibla-footer-seo + qibla-related + qibla-trust-note)
         // on /qibla-in-{city} gets the same rolling-cycle fill.
-        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer', 'page-prayer-times', 'page-qibla'];
+        // MSBAHA-EVENTS-ECHO-1 (2026-06-01): added 'page-tasbih' so the Islamic
+        // events countdown clone added at the bottom of /msbaha also gets the
+        // rolling-cycle fill (same pattern as the azkar pages and #page-qibla).
+        const _azkarPageIds = ['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer', 'page-prayer-times', 'page-qibla', 'page-tasbih'];
         const _activeScopes = _azkarPageIds
             .map(id => document.getElementById(id))
             .filter(el => el && el.querySelector('.moon-events-section'));

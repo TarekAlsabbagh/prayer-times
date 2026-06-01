@@ -7792,6 +7792,7 @@ function buildSeoForPath(urlPath) {
     let cityModified = null;     // dateModified for city pages
     let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
     let zakatFaq = false;        // UAT-Z1: يُفعّل FAQPage + HowTo schemas لصفحة الزكاة
+    let tasbihFaq = false;       // MSBAHA-SEO-CONTENT-UX-EXPANSION-1: يُفعّل FAQPage schema لصفحة /msbaha
     let isTodayHijriDateHub = false;  // HD-1: يُفعّل FAQPage + SSR content لصفحة /today-hijri-date
     let moonCity = null;         // Round 9: بيانات مدينة لصفحة /moon-today-in-{slug}
     // (UAT-SEO-Cannibalization) The 8 per-lang description overrides above
@@ -8080,6 +8081,7 @@ function buildSeoForPath(urlPath) {
                 ms: 'Pengira tasbih digital percuma yang menyimpan kiraan zikir anda antara sesi. Jejaki Subhanallah, Alhamdulillah, Allahu Akbar dan sasaran zikir tersuai.',
             },
             app: { category: 'UtilitiesApplication' },
+            tasbihFaq: true,  // MSBAHA-SEO-CONTENT-UX-EXPANSION-1: emit FAQPage JSON-LD for /msbaha
         },
         '/dateconverter': {
             // Phase D1: extend short titles (TR/UR/BN/MS) with "| Online tool" suffix; trim de/bn descs
@@ -8294,6 +8296,7 @@ function buildSeoForPath(urlPath) {
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
         if (sp.moonFaq) moonFaq = true;
         if (sp.zakatFaq) zakatFaq = true;
+        if (sp.tasbihFaq) tasbihFaq = true;
         if (sp.isTodayHijriHub) isTodayHijriDateHub = true;
         // HD-8 (2026-05-08): /today-hijri-date Title and Meta extended with
         //   the live Hijri date so SEOptimer's "Title length 43 / Meta length
@@ -10159,7 +10162,7 @@ function buildSeoForPath(urlPath) {
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, cityModified, origin,
-        moonFaq, moonCity, zakatFaq, robotsOverride,
+        moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride,
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
@@ -11349,6 +11352,47 @@ function renderSeoHeadHtml(seo) {
                 { "@type": "HowToStep", "position": 2, "name": _zT('zakat.howto.step2', 'Sum your zakatable wealth.') },
                 { "@type": "HowToStep", "position": 3, "name": _zT('zakat.howto.step3', 'Subtract debts.') },
                 { "@type": "HowToStep", "position": 4, "name": _zT('zakat.howto.step4', 'Multiply net wealth × 2.5%.') }
+            ]
+        });
+    }
+
+    // ─── MSBAHA-SEO-CONTENT-UX-EXPANSION-1: Tasbih FAQPage + HowTo schemas ───
+    // Reads from the same i18n dictionary that powers the visible HTML
+    // via data-i18n attributes — single source of truth, no divergence.
+    // Falls back to EN then AR dict when a key is missing in seo.lang.
+    if (seo.tasbihFaq) {
+        const _tDict = I18N[seo.lang] || I18N.en || {};
+        const _tEn   = I18N.en || {};
+        const _tAr   = I18N.ar || {};
+        const _tT = (k, fb) => _tDict[k] || _tEn[k] || _tAr[k] || fb || '';
+        const tasbihFaqKeys = [
+            ['tasbih.faq.q1', 'tasbih.faq.a1'],
+            ['tasbih.faq.q2', 'tasbih.faq.a2'],
+            ['tasbih.faq.q3', 'tasbih.faq.a3'],
+            ['tasbih.faq.q4', 'tasbih.faq.a4'],
+            ['tasbih.faq.q5', 'tasbih.faq.a5'],
+            ['tasbih.faq.q6', 'tasbih.faq.a6']
+        ];
+        ssrGraph.push({
+            "@type": "FAQPage",
+            "@id": `${seo.canonical}#tasbih-faq`,
+            "inLanguage": seo.lang,
+            "mainEntity": tasbihFaqKeys.map(([qK, aK]) => ({
+                "@type": "Question",
+                "name": _tT(qK),
+                "acceptedAnswer": { "@type": "Answer", "text": _tT(aK) }
+            }))
+        });
+        ssrGraph.push({
+            "@type": "HowTo",
+            "@id": `${seo.canonical}#tasbih-howto`,
+            "name": _tT('tasbih.howto.title', 'How to use the electronic tasbih'),
+            "inLanguage": seo.lang,
+            "step": [
+                { "@type": "HowToStep", "position": 1, "name": _tT('tasbih.howto.step1_title', 'Choose your mode.'), "text": _tT('tasbih.howto.step1_desc') },
+                { "@type": "HowToStep", "position": 2, "name": _tT('tasbih.howto.step2_title', 'Tap the big circle.'), "text": _tT('tasbih.howto.step2_desc') },
+                { "@type": "HowToStep", "position": 3, "name": _tT('tasbih.howto.step3_title', 'Follow the progress bar.'), "text": _tT('tasbih.howto.step3_desc') },
+                { "@type": "HowToStep", "position": 4, "name": _tT('tasbih.howto.step4_title', 'Reset whenever you need.'), "text": _tT('tasbih.howto.step4_desc') }
             ]
         });
     }
@@ -15948,7 +15992,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '189'; // ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
+        const _i18nVersion = '190'; // MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): bumped 189→190 for the ~50 new tasbih.* i18n keys covering the new educational + FAQ blocks added to /msbaha (edu/howto/after/when/related/disclaimer/faq subtrees). AR + EN bundles updated in js/i18n/{ar,en}.js + consolidated js/i18n.js — other 8 langs fall back to EN via the existing _needsEnFallback chain. FAQPage + HowTo JSON-LD emit in server.js reads from the same dictionary (tasbihFaq flag gated on /msbaha staticPages entry). | PREVIOUS 189 = ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

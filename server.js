@@ -1541,7 +1541,25 @@ function _mergeAliases(a, b) {
 // ===== المصدر الموحد للدومين =====
 // في الإنتاج: SITE_URL=https://example.com node server.js
 // محلياً: يُستخدم http://localhost:PORT تلقائياً
-const SITE_URL = (process.env.SITE_URL || `http://localhost:${PORT}`).replace(/\/+$/, '');
+//
+// CANONICAL-PROD-ORIGIN-FIX-1 (2026-06-01): added a 3-tier defensive
+// fallback chain so a missing SITE_URL env var on Render no longer
+// pollutes every canonical/og/hreflang/sitemap URL with
+// `http://localhost:10000`. Root cause: SEOptimer audit revealed all
+// 12 production pages + sitemap-main.xml (54,720 localhost
+// occurrences in 5.9 MB) carried the broken localhost origin because
+// `process.env.SITE_URL` was never set on Render. Tier 1: explicit
+// SITE_URL (custom domain, full control). Tier 2: RENDER_EXTERNAL_URL
+// (auto-provided by Render — e.g., https://prayer-times-d4w8.onrender.com).
+// Tier 3: localhost (dev). Recommended config: also set SITE_URL on
+// Render dashboard to the custom domain when one is attached; the
+// RENDER_EXTERNAL_URL fallback is a safety net for "forgot to set
+// env var" mistakes.
+const SITE_URL = (
+    process.env.SITE_URL
+    || process.env.RENDER_EXTERNAL_URL
+    || `http://localhost:${PORT}`
+).replace(/\/+$/, '');
 function getBaseUrl() { return SITE_URL; }
 
 // ===== خريطة أسماء الدول بالإنجليزية (لتوليد slugs للـ sitemap) =====

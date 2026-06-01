@@ -1267,7 +1267,32 @@
 //   routing, AR/8-lang behavior. Cache-busters: sw v399→v400 (HTML
 //   response is no-cache → users see new title/desc immediately after
 //   deploy without cache-buster bump on css/js).
-const CACHE_VERSION = 'v400';
+//
+// CANONICAL-PROD-ORIGIN-FIX-1 (2026-06-01): critical SEO infrastructure
+//   fix. SEOptimer audit revealed that EVERY production page (12/12
+//   audited: /, /en/, /prayer-times-in-riyadh, /en/qibla-in-makkah,
+//   /moon-today, /hijri-calendar, /msbaha, /zakat-calculator, etc.)
+//   was emitting canonical + og:url + hreflang as
+//   `http://localhost:10000/<path>` instead of the production domain.
+//   sitemap-main.xml (5.9 MB) contained 54,720 occurrences of
+//   `localhost` across thousands of city URLs — every URL Google would
+//   discover via sitemap was unreachable. Root cause: server.js line
+//   1544 reads `process.env.SITE_URL` with a fallback to
+//   `http://localhost:${PORT}` — but on Render SITE_URL was never
+//   configured, and PORT=10000, so SITE_URL evaluated to
+//   `http://localhost:10000` for ALL canonical/og/hreflang/sitemap
+//   emission. Fix (Option C): defensive 3-tier fallback so any future
+//   "forgot to set env var" doesn't regress: Tier 1 explicit SITE_URL,
+//   Tier 2 RENDER_EXTERNAL_URL (auto-provided by Render), Tier 3
+//   localhost (dev). Also recommend setting SITE_URL on Render
+//   dashboard for full belt-and-suspenders coverage. Files modified:
+//   server.js (~20 lines: 1 fallback chain + doc) + sw.js (this
+//   comment + version bump). ZERO change to: page content, prayer/
+//   qibla calculations, city data, routing, sitemap structure (only
+//   the origin in <loc> entries changes — localhost → real domain).
+//   Cache-busters: sw v400→v401 (HTML + sitemap are no-cache → users
+//   and Google see correct URLs immediately after deploy).
+const CACHE_VERSION = 'v401';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

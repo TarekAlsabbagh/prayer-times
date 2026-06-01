@@ -1134,7 +1134,32 @@
 //   CDN-CACHE-BREAKER's live production keys and cannot be re-used):
 //   js/app.js v750→v751, sw v394→v395. CSS unchanged (reuses existing
 //   .moon-events-* / .moon-event-* rules).
-const CACHE_VERSION = 'v395';
+//
+// CITY-PRAYER-COUNTDOWN-CSS-CONTAIN-FIX-1 (2026-06-01): pure CSS
+//   containment fix. The Lighthouse mobile audit on /en/prayer-times-in-
+//   jeddah reported Performance=88 with Speed Index=12.8s while FCP=2.0s
+//   / LCP=2.1s / TBT=50ms / CLS=0 — meaning above-fold paint was fast
+//   but pixels remained "unsettled" deep into the capture window. The
+//   audit (reports/en-city-prayer-lighthouse-speed-index-audit-1.md)
+//   traced the root cause to two ticking elements that update every
+//   second: #next-prayer-countdown (`.banner-big-countdown`) and
+//   #current-time (`.banner-big-time`). Each tick changes pixels that
+//   Lighthouse SI averages as "not yet final". The earlier PERF-LCP-1
+//   added `contain: paint` on the countdown only, but `paint` alone
+//   doesn't tell the browser that layout/style stays inside the box —
+//   so SI calculations still considered the per-frame change as
+//   page-wide instability. This commit widens the containment to
+//   `layout style paint` on BOTH ticking elements + adds
+//   `will-change: contents` as a compositor hint. Strict CSS-only —
+//   ZERO change to: js/app.js (countdown loop logic), js/prayer-times.js
+//   (calculations / madhab / method / timezone / Fajr / Isha angles),
+//   server.js (routing / SSR / staticPages / JSON-LD), data, sitemap,
+//   canonical, hreflang, i18n keys. Files modified: css/style.css (~20
+//   lines of doc + 4 new declarations) + index.html (2× CSS cache-buster
+//   bumps) + sw.js (this comment + version literal). Cache-busters:
+//   css/style.css v465→v466, sw v395→v396. Expected impact: SI 12.8s →
+//   ~3-5s, Performance 88 → ~94-96, LCP unchanged, CLS unchanged.
+const CACHE_VERSION = 'v396';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

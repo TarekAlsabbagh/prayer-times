@@ -9333,13 +9333,37 @@ html[data-theme="dark"] .azkar-edu-link-card:hover {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
     font-variant-numeric: tabular-nums;
     min-height: 1.1em;
-    contain: paint;
+    /* CITY-PRAYER-COUNTDOWN-CSS-CONTAIN-FIX-1 (2026-06-01): widen the
+       containment scope from `paint` only to `layout style paint`. The
+       countdown text changes every second (HH:MM:SS tick) and the prior
+       PERF-LCP-1 `contain: paint` isolated overflow but Lighthouse Speed
+       Index was still treating per-tick pixels as "unsettled" inside the
+       page until capture end (SI = 12.8s observed on mobile). Adding
+       `layout` + `style` to the containment contract tells the browser
+       that NO layout reflow and NO style propagation can escape this
+       box, so SI averaging treats the rest of the viewport as already
+       stable — only this element's bbox is in flux. `size` is NOT added
+       (we still need the element to grow/shrink with the viewport via
+       the responsive font-size below). `will-change: contents` is a
+       compositor hint that the text node will update frequently — moves
+       the layer to GPU composition. Strict CSS-only — zero JS / SSR /
+       calculation / data change. Sister rule applied to .banner-big-time
+       below (the live clock — also ticks every second). */
+    contain: layout style paint;
+    will-change: contents;
 }
 /* PERF-LCP-1: same digit-stability hooks for the live clock above. */
 .banner-big-time {
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Helvetica Neue", Arial, sans-serif;
     font-variant-numeric: tabular-nums;
     min-height: 1.1em;
+    /* CITY-PRAYER-COUNTDOWN-CSS-CONTAIN-FIX-1 (2026-06-01): same
+       containment contract as .banner-big-countdown above. The live
+       clock #current-time also updates every second and was the second
+       major contributor to Speed Index instability (the prior phase
+       missed it). Identical CSS-only treatment. */
+    contain: layout style paint;
+    will-change: contents;
 }
 /* PERF-LCP-1: isolate the banner so its layout/paint doesn't ripple. */
 .next-prayer-banner {

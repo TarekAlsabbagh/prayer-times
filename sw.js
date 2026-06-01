@@ -1030,7 +1030,33 @@
 //   Cache busters: js/app.js v746→v747, js/prayer-times.js v51→v52
 //   (prayer-times.js was MODIFIED in this revision — global getNextPrayer
 //   fix), sw v390→v391.
-const CACHE_VERSION = 'v391';
+//
+// NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1-CDN-CACHE-BREAKER (2026-06-01):
+//   POST-DEPLOY DISCOVERY: After pushing c309eea, production was still
+//   serving OLD code for /js/app.js?v=747. Root cause: Render's CDN
+//   caches static files with `Cache-Control: public, max-age=31536000,
+//   immutable`. A request for ?v=747 made DURING the deploy (while the
+//   underlying file on disk was still the PRE-fix content) caused the
+//   CDN to cache the OLD response under that cache key — for a full
+//   YEAR. Subsequent requests for ?v=747 keep getting the cached OLD
+//   content even after the deploy completes and disk has NEW content.
+//   Diagnosis evidence: fetching /js/app.js?fresh=NOW123abc (a NEVER-
+//   USED query) returned the correct NEW content (4 OLD inclusive + 2
+//   NEW excluded arrays = matches disk source), while /js/app.js?v=747
+//   returned OLD content (5 OLD + 1 NEW = matches pre-fix source).
+//   FIX: bump every cache-buster key that was used in commit c309eea
+//   to a NEW value that has NEVER been requested:
+//     - js/app.js v747 → v748
+//     - js/prayer-times.js v52 → v53
+//     - sw v391 → v392
+//   No JS / data / route / SSR changes — only the cache-buster query
+//   strings + this SW CACHE_VERSION bump (to force SW precache refresh).
+//   Underlying NEXT-PRAYER-COUNTDOWN-EXCLUDE-SUNRISE-FIX-1 code from
+//   commit c309eea is correct as-is on disk + git origin/main.
+//   WORKFLOW LEARNING: Post-push verification must wait ≥5 minutes
+//   after push before fetching ?v=N URLs, otherwise CDN may cache
+//   the OLD pre-deploy response under the NEW cache-key.
+const CACHE_VERSION = 'v392';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

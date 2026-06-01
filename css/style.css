@@ -9314,6 +9314,14 @@ html[data-theme="dark"] .azkar-edu-link-card:hover {
        that read backwards (digits LEFT, period RIGHT) on RTL pages. */
     letter-spacing: 2px;
     line-height: 1;
+    /* CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): reserve horizontal
+       space to fit the full hydrated value "HH:MM:SS ص" (Arabic) or
+       "HH:MM:SS AM" (English) — 11 visible chars including the AM/PM
+       suffix and the inter-space. SSR placeholder "--:--:--" is only 8
+       chars and hyphens are NOT covered by tabular-nums, so without
+       min-width the element widens by ~3ch after hydration causing the
+       parent banner-block to reflow. min-width: 11ch locks the slot. */
+    min-width: 11ch;
 }
 
 .banner-big-countdown {
@@ -9351,6 +9359,12 @@ html[data-theme="dark"] .azkar-edu-link-card:hover {
        below (the live clock — also ticks every second). */
     contain: layout style paint;
     will-change: contents;
+    /* CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): lock countdown width
+       so SSR "--:--:--" (8 chars, non-tabular hyphens) doesn't expand into
+       hydrated "01:23:45" (8 tabular digits, slightly wider) causing the
+       parent flex column to reflow. 8ch is the minimum slot for an 8-char
+       tabular time string. */
+    min-width: 8ch;
 }
 /* PERF-LCP-1: same digit-stability hooks for the live clock above. */
 .banner-big-time {
@@ -9364,6 +9378,12 @@ html[data-theme="dark"] .azkar-edu-link-card:hover {
        missed it). Identical CSS-only treatment. */
     contain: layout style paint;
     will-change: contents;
+    /* CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): same min-width lock
+       as the desktop rule above — 11ch fits "HH:MM:SS ص"/"HH:MM:SS AM"
+       (8 digits + space + 1-2 char period). Without this, mobile audit
+       showed CLS=0.121 on /prayer-times-in-riyadh because the SSR clock
+       placeholder was visually narrower than the post-hydration string. */
+    min-width: 11ch;
 }
 /* PERF-LCP-1: isolate the banner so its layout/paint doesn't ripple. */
 .next-prayer-banner {
@@ -10032,10 +10052,26 @@ html[dir="ltr"] .schedule-table { direction: ltr; }
         box-sizing: border-box;
         min-width: 0;
         /* CLS FIX: ارتفاع محجوز حتى لا يتغيّر حجم البانر عند استبدال "--" بالنصوص الفعلية */
-        min-height: 96px;
+        /* CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): raised from 96px
+           to 110px. The label "الوقت الحالي في {city}" + clock
+           "HH:MM:SS ص" total computed height runs ~100-105px after
+           hydration on mobile narrow viewports, slightly exceeding the
+           96px reservation and contributing ~12-15px of vertical shift. */
+        min-height: 110px;
     }
-    .banner-block.banner-block-prayer { min-height: 132px; }
-    .banner-block.banner-block-dates  { min-height: 96px; }
+    /* CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): raised prayer block
+       from 132px to 156px. Computed height = padding 28 + label ~21 +
+       gap 6 + next-prayer-name ~34 + gap 6 + big-countdown ~50 + (optional
+       then-prayer ~24) = ~169px worst case. The new 156px covers the
+       common path without the optional sub-line, plus a safety margin.
+       The .banner-then-prayer[hidden] reservation handles the rest via
+       its existing PT-CLS-1 fix (visibility: hidden, not display: none). */
+    .banner-block.banner-block-prayer { min-height: 156px; }
+    /* CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): raised dates block
+       from 96px to 124px. Worst case = padding 28 + label ~21 + gap 6 +
+       hijri-date (1.4rem, can wrap to 2 lines if long Arabic month name)
+       ~45 + greg-date ~15 = ~115px. 124px = comfortable cover. */
+    .banner-block.banner-block-dates  { min-height: 124px; }
     .banner-divider { width: 90%; height: 1px; margin: 0 auto; }
     .banner-big-time { font-size: 2.5rem; letter-spacing: 1px; }
     .banner-big-countdown { font-size: 2.8rem; letter-spacing: 1px; }

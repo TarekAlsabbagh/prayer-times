@@ -1186,7 +1186,45 @@
 //   sw v396→v397 (no CSS/JS changes — only HTML response changes via SSR).
 //   Expected impact: LCP 2.9s → ~1.0-1.3s, Speed Index 10.8s → ~3-4s,
 //   Element render delay 16,650ms → ~50-200ms, Performance 72 → ~92-96.
-const CACHE_VERSION = 'v397';
+//
+// CITY-PRAYER-NEXT-BANNER-CLS-FIX-1 (2026-06-01): pure CSS containment +
+//   layout reservation fix. After CITY-PRAYER-COUNTDOWN-CSS-CONTAIN-FIX-1
+//   (0240887) cut Speed Index from 12.8s → ~2.5s on /prayer-times-in-
+//   riyadh mobile, Lighthouse reported a NEW CLS=0.121 with the layout-
+//   shift culprit being div.next-prayer-banner + #next-prayer-countdown.
+//   Root cause: SSR placeholders (`--`, `--:--:--`) are visually narrower
+//   than their post-hydration values ("الرياض", "10:18:33 ص",
+//   "01:23:45", "27 ذو القعدة 1447هـ"), and the mobile .banner-block
+//   min-height reservations (96/132/96px from PT-CLS-1) under-cover the
+//   actual hydrated height by ~15-20px. This caused vertical reflow in
+//   the prayer + dates blocks when JS swapped in real values.
+//
+//   Strict CSS-only fix:
+//     • +min-width: 8ch on .banner-big-countdown — locks horizontal slot
+//       so "--:--:--" (non-tabular hyphens) and "01:23:45" (tabular digits)
+//       render at identical width.
+//     • +min-width: 11ch on .banner-big-time — covers "HH:MM:SS ص" (Ar)
+//       and "HH:MM:SS AM" (En) full-width.
+//     • Mobile .banner-block min-height 96→110px (time block safety).
+//     • Mobile .banner-block-prayer min-height 132→156px (covers
+//       label + name + countdown + optional then-prayer).
+//     • Mobile .banner-block-dates min-height 96→124px (covers hijri
+//       date wrap to 2 lines + greg date).
+//
+//   PRESERVED (NOT removed): contain: layout style paint + will-change:
+//     contents on both .banner-big-countdown and .banner-big-time (from
+//     CITY-PRAYER-COUNTDOWN-CSS-CONTAIN-FIX-1). The Speed Index improvement
+//     is kept; CLS is reduced via reservation.
+//
+//   Files modified: css/style.css (+5 declarations + ~30 lines docs) +
+//   index.html (2× CSS cache-buster) + sw.js (this comment + version).
+//   ZERO change to: js/app.js (countdown loop, prayer logic, sunrise
+//   exclusion), js/prayer-times.js (calculations, madhab, method, Fajr/
+//   Isha angles, timezone), server.js, data, sitemap, canonical, hreflang,
+//   i18n keys. Cache-busters: css/style.css v466→v467, sw v397→v398.
+//   Expected impact: CLS 0.121 → ~0 (<0.02), Speed Index ≤2.5s preserved,
+//   LCP ≤0.9s preserved, TBT ≤0ms preserved, Performance 89 → ~94+.
+const CACHE_VERSION = 'v398';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

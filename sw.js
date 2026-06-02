@@ -1498,7 +1498,27 @@
 //   canonical, hreflang, sitemap, routing, JSON-LD. Month page + today/day
 //   pages UNAFFECTED. Files: server.js (~50: per-lang info-card data +
 //   SSR-fill + doc) + sw.js (this comment + version bump v409→v410).
-const CACHE_VERSION = 'v410';
+// HIJRI-CALENDAR-YEAR-HERO-SSR-FILL-CLS-FIX-3 (2026-06-02): completes the
+//   /hijri-calendar (year) CLS fix. The info-grid fill (v410) only dropped
+//   CLS 0.196→0.192 because two MORE hero containers above the month chips
+//   were still empty in SSR: #hyear-breadcrumbs (0 <li>) and #hyear-intro
+//   (empty <p>), both JS-filled by app.js (23150 + 23169) only after
+//   hydration. Their growth pushed .hcal2-months-chips down — Lighthouse's
+//   reported culprit. Audit (HIJRI-CALENDAR-MONTH-CHIPS-CLS-POST-SSR-FILL-
+//   AUDIT-2) confirmed the chips themselves never change height; their
+//   offsetTop moves. The month page is CLS-safe precisely because it SSR-
+//   fills breadcrumb + subtitle + info-grid + tbody. Fix: SSR-fill
+//   #hyear-breadcrumbs (3-item ol mirroring the proven today-page builder)
+//   and #hyear-intro (per-lang text mirroring app.js _HYEAR_UI.intro) so
+//   the hero has its final height from Frame #1. app.js re-fills both with
+//   the same markup/text → visual no-op, no further growth → chips stop
+//   moving. ZERO change to: #hyear-info-grid (already filled v410),
+//   .hcal2-months-chips, app.js, CSS, index.html, i18n, Hijri/Gregorian
+//   calculations, calendar data, month order, month links, Title, Meta, H1,
+//   canonical, hreflang, sitemap, routing, JSON-LD. Month + today + day
+//   pages UNAFFECTED. Files: server.js (~55: breadcrumb + intro SSR-fill +
+//   doc) + sw.js (this comment + version bump v410→v411).
+const CACHE_VERSION = 'v411';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

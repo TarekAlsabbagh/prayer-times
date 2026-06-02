@@ -15309,6 +15309,75 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 '<div class="info-grid" id="hyear-info-grid" data-ssr-rendered="1">' + _hyCardsHtml + '</div>'
             );
         } catch (_e) { /* silent — SSR info-grid fill is best-effort; app.js still fills it */ }
+
+        // ──────────────────────────────────────────────────────────────────
+        // HIJRI-CALENDAR-YEAR-HERO-SSR-FILL-CLS-FIX-3 (2026-06-02)
+        //
+        // SSR-fill the two REMAINING empty hero containers above the month
+        // chips: #hyear-breadcrumbs and #hyear-intro. Audit
+        // (HIJRI-CALENDAR-MONTH-CHIPS-CLS-POST-SSR-FILL-AUDIT-2) found CLS
+        // only dropped 0.196→0.192 after the info-grid fill because these two
+        // were STILL empty in SSR and JS-filled by app.js (23150 breadcrumb,
+        // 23169 intro) only after hydration — their growth pushed the chips
+        // section DOWN. The month page is CLS-safe precisely because it SSR-
+        // fills breadcrumb + subtitle + info-grid + tbody. This completes the
+        // year page to parity. The breadcrumb HTML mirrors the proven today-
+        // page SSR breadcrumb builder (server.js:14761) and the intro text
+        // mirrors app.js _HYEAR_UI[lang].intro — app.js re-fills both after
+        // init with the same markup/text → visual no-op, no further growth.
+        // ZERO change to: #hyear-info-grid (already filled), .hcal2-months-
+        // chips, app.js, CSS, calendar data, Hijri calc.
+        // ──────────────────────────────────────────────────────────────────
+        try {
+            const _hyBC = {
+                ar: { home: 'الرئيسية', cal: 'التقويم الهجري' },
+                en: { home: 'Home', cal: 'Hijri Calendar' },
+                fr: { home: 'Accueil', cal: 'Calendrier hégirien' },
+                tr: { home: 'Anasayfa', cal: 'Hicri Takvim' },
+                ur: { home: 'ہوم', cal: 'ہجری کیلنڈر' },
+                de: { home: 'Startseite', cal: 'Hidschri-Kalender' },
+                id: { home: 'Beranda', cal: 'Kalender Hijriah' },
+                es: { home: 'Inicio', cal: 'Calendario Hégira' },
+                bn: { home: 'হোম', cal: 'হিজরি ক্যালেন্ডার' },
+                ms: { home: 'Laman Utama', cal: 'Kalendar Hijrah' },
+            };
+            const _hyIntroTpl = {
+                ar: (y) => `يعرض هذا التقويم الهجري لعام ${y} جميع الأشهر الهجرية مع التواريخ الميلادية المقابلة، ويتيح الانتقال السريع إلى تقويم أي شهر هجري أو إلى أداة تحويل التاريخ.`,
+                en: (y) => `This calendar displays all Hijri months of ${y} with their corresponding Gregorian dates, and lets you jump quickly to any monthly Hijri calendar or to the date converter tool.`,
+                fr: (y) => `Ce calendrier affiche tous les mois hégiriens de ${y} avec leurs dates grégoriennes correspondantes, et permet d'accéder rapidement au calendrier d'un mois hégirien ou au convertisseur de dates.`,
+                tr: (y) => `Bu takvim, ${y} yılının tüm hicri aylarını miladi karşılıklarıyla birlikte gösterir ve aylık hicri takvime veya tarih dönüştürücüye hızlı erişim sağlar.`,
+                ur: (y) => `یہ کیلنڈر ${y} کے تمام ہجری مہینے عیسوی تاریخوں کے ساتھ دکھاتا ہے اور آپ کو ماہانہ ہجری کیلنڈر یا تاریخ کنورٹر تک تیز رسائی فراہم کرتا ہے۔`,
+                de: (y) => `Dieser Kalender zeigt alle Hidschri-Monate des Jahres ${y} mit ihren entsprechenden gregorianischen Daten und ermöglicht den schnellen Zugriff auf den monatlichen Hidschri-Kalender oder den Datumsumrechner.`,
+                id: (y) => `Kalender ini menampilkan semua bulan Hijriah tahun ${y} beserta tanggal Masehi yang bertepatan, dan memberikan akses cepat ke kalender Hijriah bulanan atau alat konversi tanggal.`,
+                es: (y) => `Este calendario muestra todos los meses del calendario Hégira del año ${y} con sus fechas gregorianas correspondientes, y permite acceder rápidamente al calendario Hégira mensual o al convertidor de fechas.`,
+                bn: (y) => `এই ক্যালেন্ডার ${y} সনের সব হিজরি মাস ও সেগুলোর সংশ্লিষ্ট খ্রিস্টীয় তারিখ প্রদর্শন করে এবং মাসিক হিজরি ক্যালেন্ডার বা তারিখ রূপান্তরকারীতে দ্রুত প্রবেশ দেয়।`,
+                ms: (y) => `Kalendar ini memaparkan semua bulan Hijrah bagi tahun ${y} dengan tarikh Masihi yang bersamaan, dan memberikan akses pantas ke kalendar Hijrah bulanan atau alat penukaran tarikh.`,
+            };
+            const _hyBCu = _hyBC[seo.lang] || _hyBC.en;
+            const _hyLangPref = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
+            const _hyHomeUrl = (seo.lang === 'ar') ? '/' : (_hyLangPref + '/');
+            const _hyCalUrl = `${_hyLangPref}/hijri-calendar/${_hcalYear}`;
+            const _hyBcItems = [
+                { href: _hyHomeUrl, text: _hyBCu.home },
+                { href: _hyCalUrl,  text: _hyBCu.cal },
+                { current: true,    text: _yLbl },
+            ];
+            const _hyBcHtml = `<ol class="breadcrumb-list">${_hyBcItems.map((it, i) => {
+                const sep = i > 0 ? '<li class="bc-sep" aria-hidden="true">›</li>' : '';
+                if (it.current) return sep + `<li class="bc-item bc-current" aria-current="page">${_escHtml(it.text)}</li>`;
+                return sep + `<li class="bc-item"><a class="bc-link" href="${_escHtml(it.href)}">${_escHtml(it.text)}</a></li>`;
+            }).join('')}</ol>`;
+            html = html.replace(
+                /(<nav class="city-breadcrumb hijri-breadcrumb" id="hyear-breadcrumbs"[^>]*>)<\/nav>/,
+                `$1${_hyBcHtml}</nav>`
+            );
+            const _hyIntroFn = _hyIntroTpl[seo.lang] || _hyIntroTpl.en;
+            const _hyIntroText = _escHtml(_hyIntroFn(_yLbl));
+            html = html.replace(
+                /(<p id="hyear-intro"[^>]*>)<\/p>/,
+                `$1${_hyIntroText}</p>`
+            );
+        } catch (_e2) { /* silent — SSR breadcrumb/intro fill is best-effort; app.js still fills them */ }
         const _HCAL_GUIDE = {
             ar: {
                 title: `دليل استخدام التقويم الهجري لعام ${_yLbl}`,

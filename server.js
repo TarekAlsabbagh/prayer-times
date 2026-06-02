@@ -9595,9 +9595,53 @@ function buildSeoForPath(urlPath) {
                     bn: _pickMoonDayTitle('bn', cityDisplay, _primaryDateLabel),
                     ms: _pickMoonDayTitle('ms', cityDisplay, _primaryDateLabel),
                 };
+                // ──────────────────────────────────────────────────────────
+                // EN-MOON-CITY-DATE-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-01)
+                //
+                // EN-only fix: the previous template embedded `_mainWithEquiv`
+                // (= "3 June 2026 (equivalent to 17 Dhu al-Hijjah 1447 AH)")
+                // in the meta description, pushing it to 179-186 chars across
+                // all sampled EN cities (Jeddah/Riyadh/Mecca/Cairo/New York/
+                // Kuala Lumpur/Los Angeles/Washington) — well above the
+                // SEOptimer 120-160 sweet spot.
+                //
+                // Fix: 4-rung dynamic ladder using `_primaryDateLabel` (the
+                // Gregorian-only "3 June 2026" form) instead of `_mainWithEquiv`.
+                // Hijri equivalent stays in body/title/H1/JSON-LD — only the
+                // meta description drops it. The ladder picks the longest
+                // template in [120, 160] for the given city + date combo:
+                //
+                //   long    (~134-140 typical): full key terms + "for this date"
+                //   medium  (~120-126 typical): full key terms, no "for this date"
+                //   short   (~102-108 typical): drop "Hijri date" → only core moon
+                //   minimal (drops date entirely): for extreme-length cities
+                //
+                // Other 9 langs UNCHANGED — they're already in [120, 160] range
+                // (AR 139-143, FR/TR/UR/DE/ID/ES/BN/MS unverified but not
+                // flagged in any SEOptimer audit and out of this task's scope).
+                // ──────────────────────────────────────────────────────────
+                const _enMoonDateDescForms = (city, date) => ({
+                    long:   `Moon phase in ${city} on ${date}: view illumination, moon age, moonrise, moonset, Hijri date, and daily lunar details for this date.`,
+                    medium: `Moon phase in ${city} on ${date}: view illumination, moon age, moonrise, moonset, Hijri date, and daily lunar details.`,
+                    short:  `Moon phase in ${city} on ${date}: check illumination, moon age, moonrise, moonset, and Hijri date.`,
+                    minimal: `Moon phase in ${city}: check illumination, moon age, moonrise, moonset, and Hijri date for this date.`,
+                });
+                const _pickEnMoonDateDesc = (city, date) => {
+                    const f = _enMoonDateDescForms(city, date);
+                    const order = [f.long, f.medium, f.short, f.minimal];
+                    // 1) first candidate in [120, 160]
+                    for (const t of order) {
+                        if (t.length >= 120 && t.length <= 160) return t;
+                    }
+                    // 2) longest candidate ≤ 160
+                    const ok = order.filter(t => t.length <= 160).sort((a, b) => b.length - a.length);
+                    if (ok.length) return ok[0];
+                    // 3) escape hatch for pathologically long city names
+                    return f.minimal;
+                };
                 _moonDesc = {
                     ar: `طور القمر في ${cityDisplay} يوم ${_mainWithEquiv}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,
-                    en: `Moon phase in ${cityDisplay} on ${_mainWithEquiv}: illumination, moon age, moonrise, moonset, and zodiac — calculated with precise astronomical formulas.`,
+                    en: _pickEnMoonDateDesc(cityDisplay, _primaryDateLabel),
                     fr: `Phase de la Lune à ${cityDisplay} le ${_mainWithEquiv} : illumination, âge, heures de lever et coucher, et signe zodiacal — calculés avec des algorithmes astronomiques précis.`,
                     tr: `${cityDisplay} için ${_mainWithEquiv} tarihinde Ay evresi: aydınlanma, yaş, doğuş ve batış saatleri ve burç — kesin astronomik algoritmalarla hesaplanır.`,
                     ur: `${cityDisplay} میں ${_mainWithEquiv} کو چاند کا مرحلہ: روشنی، عمر، طلوع و غروب کے اوقات اور برج — درست فلکی فارمولوں سے حساب لگایا گیا۔`,

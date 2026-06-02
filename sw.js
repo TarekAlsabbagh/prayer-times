@@ -1363,6 +1363,32 @@
 //   version bump v403→v404). HTML is no-cache so SEOptimer sees the
 //   clean output immediately after deploy.
 //
+// EN-MOON-CITY-DATE-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-01): EN-only
+//   meta-description length fix for `/en/moon-in-{city}/YYYY-MM-DD`
+//   (dated moon city pages). Production audit showed 8/8 sampled EN
+//   cities (Jeddah/Riyadh/Mecca/Cairo/New York/Kuala Lumpur/Los Angeles/
+//   Washington) emitting Meta Description at 179-186 chars on 3 June
+//   2026 — well above SEOptimer's 120-160 sweet spot. Root cause: the
+//   template at server.js:9600 embedded `_mainWithEquiv` (= "3 June
+//   2026 (equivalent to 17 Dhu al-Hijjah 1447 AH)" ≈ 51 chars) + a
+//   long suffix "zodiac — calculated with precise astronomical
+//   formulas." (43 chars). Fix: 4-rung dynamic ladder picking the
+//   longest template in [120, 160] for the given city + date combo,
+//   using `_primaryDateLabel` (Gregorian-only "3 June 2026") so the
+//   Hijri equivalent no longer bloats the meta. Ladder:
+//     long    ~134-140 chars (typical sweet spot)
+//     medium  ~120-126 chars
+//     short   ~102-108 chars (fallback for very long city + date)
+//     minimal drops date entirely (extreme escape hatch)
+//   Other 9 langs (AR/FR/TR/UR/DE/ID/ES/BN/MS) UNCHANGED — AR
+//   already at 139-143 chars and not flagged. ZERO change to: moon
+//   calculations, moon phase, illumination, moonrise, moonset, moon
+//   age, Hijri date, Gregorian date, city coords, canonical, hreflang,
+//   sitemap, routing, Title, H1, JSON-LD, visible content, CSS, JS,
+//   i18n, curated data. Files: server.js (~50 — ladder helper + replace
+//   en value) + sw.js (this comment + version bump v405→v406). HTML
+//   is no-cache so SEOptimer sees the shorter meta immediately.
+//
 // EN-MOON-TODAY-CITY-KEYWORD-CONSISTENCY-FIX-1 (2026-06-01): same
 //   SPA-shell-leak cleanup, but for `/moon-today-in-{slug}` and
 //   `/moon-in-{slug}` city pages across all 10 langs (the Hub fix
@@ -1391,7 +1417,7 @@
 //   server.js (+~55 — new helper + IDs + replaced call site + doc)
 //   + sw.js (this comment + version bump v404→v405). One fix
 //   benefits ~2,000 city pages (10 langs × ~200 cities).
-const CACHE_VERSION = 'v405';
+const CACHE_VERSION = 'v406';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

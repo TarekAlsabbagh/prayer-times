@@ -1334,7 +1334,35 @@
 //   → ~50ms, Speed Index 4.6s → ~2s, Performance 86 → 94+. Files:
 //   server.js (single regex-test + one html.replace + ~20 lines doc)
 //   + sw.js (this comment + version bump v402→v403).
-const CACHE_VERSION = 'v403';
+//
+// MOON-TODAY-KEYWORD-CONSISTENCY-FIX-1 (2026-06-01): SEO Keyword
+//   Consistency fix for /moon-today (Arabic hub). SEOptimer audit
+//   flagged the hub's keyword distribution as polluted — the page
+//   was indexing 114 H2 tags, 63 occurrences of "الصلاة", 17 of
+//   "مواقيت الصلاة", 45 of "بعد", 12 of "يومًا", 92 of "الهجري" —
+//   even though the actual moon section uses only ~9 of those H2s
+//   and the noise words are not relevant to "حالة القمر اليوم"
+//   intent. Root cause: the SPA shell ships every tool's page wrapper
+//   <div class="page" id="page-..."> in the same HTML — 12 inactive
+//   wrappers (page-qibla, page-zakat, page-azkar-{hub,morning,evening,
+//   prayer}, page-tasbih, page-hijri-{today,day,year,month}, page-
+//   date-converter) were leaking their full educational content into
+//   the moon hub's textContent. Crawlers like SEOptimer read text
+//   regardless of `.page { display:none }`, so all the leaked
+//   headings + keywords counted. Fix: extend `_MOON_HUB_STRIP_IDS`
+//   with the 12 wrappers — same proven pattern as `_HCAL_HUB_STRIP_IDS`
+//   which solved the identical leak on /hijri-calendar (HCAL-1). The
+//   active #page-moon content is untouched. Expected: H2 114→~15,
+//   H3 30→~5, "الصلاة" 63→~5, "مواقيت الصلاة" 17→~2, "بعد" 45→~15,
+//   "يومًا" 12→~3 — core moon terms (القمر, حالة القمر, طور القمر,
+//   شروق, غروب, إضاءة, عمر) PRESERVED. ZERO change to: Title,
+//   Meta Description, H1, moon calculations, hijri data, prayer
+//   times, qibla math, canonical, hreflang, sitemap, routing,
+//   JSON-LD, CSS, app.js, i18n, curated cities. Files: server.js
+//   (+12 IDs in _MOON_HUB_STRIP_IDS + doc) + sw.js (this comment +
+//   version bump v403→v404). HTML is no-cache so SEOptimer sees the
+//   clean output immediately after deploy.
+const CACHE_VERSION = 'v404';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

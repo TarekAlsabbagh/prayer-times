@@ -6225,6 +6225,34 @@ const _MOON_HUB_STRIP_IDS = [
     'home-refs-block',
     'home-follow-block',
     'home-share-block',
+    // ──────────────────────────────────────────────────────────────────────
+    // MOON-TODAY-KEYWORD-CONSISTENCY-FIX-1 (2026-06-01): strip 12 inactive
+    // SPA page wrappers from /moon-today SSR. The SPA shell ships every
+    // tool's <div class="page" id="page-..."> in the same HTML, then JS
+    // activates only one via .active + CSS display:none. Crawlers like
+    // SEOptimer read textContent regardless of display:none, so the moon
+    // hub's Keyword Consistency was polluted by:
+    //   - 105 of its 114 H2 tags coming from inactive wrappers
+    //   - "الصلاة" 63x (azkar-prayer + tasbih + hijri-today/day leak)
+    //   - "مواقيت الصلاة" 17x (sidebar nav + hijri leak)
+    //   - "بعد" 45x + "يومًا" 12x (countdown sections inside hijri pages)
+    //   - "الهجري" 92x (hijri-today/day/year/month leak)
+    // Mirrors the proven `_HCAL_HUB_STRIP_IDS` pattern at server.js:6293
+    // which solved the identical leak on /hijri-calendar back in HCAL-1.
+    // ZERO change to active #page-moon content — those IDs are untouched.
+    // ──────────────────────────────────────────────────────────────────────
+    'page-qibla',
+    'page-zakat',
+    'page-azkar-hub',
+    'page-azkar-morning',
+    'page-azkar-evening',
+    'page-azkar-prayer',
+    'page-tasbih',
+    'page-hijri-today',
+    'page-hijri-day',
+    'page-hijri-year',
+    'page-hijri-month',
+    'page-date-converter',
 ];
 const _MOON_HUB_STRIP_CLASSES = [
     'moon-evergreen',

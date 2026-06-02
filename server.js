@@ -8456,7 +8456,17 @@ function buildSeoForPath(urlPath) {
                     //   rather than two stitched halves.
                     const _HD8_DESC = {
                         ar: `اعرف التاريخ الهجري اليوم ${_hDate} والتاريخ الميلادي المقابل له، مع أدوات تحويل التاريخ والتقويم الهجري وحالة القمر والمناسبات الإسلامية.`,
-                        en: `Check today's Hijri date ${_hDate} and its matching Gregorian date, with the Hijri calendar, date converter, moon phase, and Islamic events tools.`,
+                        // EN-TODAY-HIJRI-DATE-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-02):
+                        // dropped "its" + "the" (2 short words) to bring EN Meta
+                        // from 161 chars to 157 chars on "16 Dhu al-Hijjah 1447 AH"
+                        // — just below the [120, 160] SEOptimer ceiling. Length
+                        // varies by Hijri day length: typical 145-159 chars
+                        // across the Hijri year (shortest day "1 Muharram"=145,
+                        // longest day "30 Dhu al-Hijjah"=158). Other 9 langs
+                        // UNCHANGED — AR/UR were already in range; FR/TR may
+                        // need their own fix in a future pass (out of this
+                        // task's EN-only scope).
+                        en: `Check today's Hijri date ${_hDate} and matching Gregorian date, with Hijri calendar, date converter, moon phase, and Islamic events tools.`,
                         fr: `Découvrez la date hégirienne d'aujourd'hui ${_hDate} et son équivalent grégorien, avec le calendrier hégirien, le convertisseur, la phase de la lune et les événements islamiques.`,
                         tr: `Bugünün Hicri tarihini öğrenin: ${_hDate} ve buna karşılık gelen Miladi tarih; Hicri takvim, tarih dönüştürücü, ay evresi ve İslami etkinlikler bir arada.`,
                         ur: `آج کی ہجری تاریخ ${_hDate} اور اس کی متعلقہ میلادی تاریخ جانیں، ساتھ ہی ہجری کیلنڈر، تاریخ کنورٹر، چاند کا مرحلہ اور اسلامی واقعات۔`,

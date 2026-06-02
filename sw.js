@@ -1440,7 +1440,22 @@
 //   server.js (~30 lines: Meta template + post-pipeline {city} replace
 //   + doc) + js/i18n.js (3 EN strings) + sw.js (this comment + version
 //   bump v406→v407).
-const CACHE_VERSION = 'v407';
+// EN-TODAY-HIJRI-DATE-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-02): EN-only
+//   Meta Description length fix for /en/today-hijri-date. SEOptimer audit
+//   showed D=161 chars (1 over the 160 ceiling) on "16 Dhu al-Hijjah 1447
+//   AH". Fix: drop "its" + "the" (2 short words, 8 chars total) from the
+//   EN template at server.js:8459 — meaning preserved, "its matching" ->
+//   "matching" and "the Hijri calendar" -> "Hijri calendar". New length
+//   ~153 chars on today's date, ~147-158 across the Hijri year (depends
+//   on Hijri day length, e.g. "1 Muharram" shortest, "30 Dhu al-Hijjah"
+//   longest). AR/UR were already in [120, 160] range. FR/TR/DE/ID/ES/BN/MS
+//   may have similar issues but OUT OF SCOPE for this EN-only task — can
+//   be addressed in a future multi-lang pass if requested. ZERO change
+//   to: Title, H1, Hijri/Gregorian dates, calculations, date converter
+//   logic, canonical, hreflang, sitemap, routing, JSON-LD, CSS, app.js,
+//   i18n. Files: server.js (1-line value change + ~9 lines doc) + sw.js
+//   (this comment + version bump v407->v408).
+const CACHE_VERSION = 'v408';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

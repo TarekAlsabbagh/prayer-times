@@ -15843,6 +15843,56 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<h1 id="hday-title" class="hpage-hero-title--lg">${_escHtml(_hdH1Txt)}</h1>`
             );
 
+            // ---- 1.5) HIJRI-DATE-DAY-SECTION-CARD-SSR-FILL-CLS-FIX-1 (2026-06-02) ----
+            // SSR-fill the hero visual stack (#hday-day-num/#hday-month/#hday-year) and
+            // the hero subtitle (#hday-subtitle). They shipped as "--" placeholders and
+            // loadHijriDayPage() filled them AFTER hydration → the hero grew ~24px (the
+            // subtitle wraps to 2 lines) → the cards below shifted (CLS ~0.099 / Lighthouse
+            // 0.185; audit EN-HIJRI-DATE-DAY-SECTION-CARD-CLS-AUDIT-1). Mirrors app.js
+            // (22745) byte-for-byte: day-num=day, month=monthName, year="{year} {sfx}",
+            // subtitle="Corresponding to: {weekday}, {gregDate} – per the Umm al-Qura
+            // calendar". Each marked data-ssr-rendered="1" + paired no-swap guard in
+            // app.js (consumed on first hydration → SPA-nav still rebuilds). Same Umm
+            // al-Qura engine (_hijriToGregorian) + _GREG_MONTHS so SSR == final text.
+            const _hdGreg = _hijriToGregorian(parseInt(_hdYear, 10), _hdMonth, parseInt(_hdDay, 10));
+            if (_hdGreg) {
+                const _HD_WEEKDAYS = {
+                    ar:['الأحد','الاثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'],
+                    en:['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'],
+                    fr:['dimanche','lundi','mardi','mercredi','jeudi','vendredi','samedi'],
+                    tr:['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'],
+                    ur:['اتوار','پیر','منگل','بدھ','جمعرات','جمعہ','ہفتہ'],
+                    de:['Sonntag','Montag','Dienstag','Mittwoch','Donnerstag','Freitag','Samstag'],
+                    id:['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'],
+                    es:['domingo','lunes','martes','miércoles','jueves','viernes','sábado'],
+                    bn:['রবিবার','সোমবার','মঙ্গলবার','বুধবার','বৃহস্পতিবার','শুক্রবার','শনিবার'],
+                    ms:['Ahad','Isnin','Selasa','Rabu','Khamis','Jumaat','Sabtu'],
+                };
+                const _HD_GSFX = { ar:' م', en:' CE', fr:' EC', tr:'', ur:' عیسوی', de:' n.Chr.', id:' M', es:' d.C.', bn:' খ্রিস্টাব্দ', ms:' M' };
+                const _hdDow = new Date(_hdGreg.year, _hdGreg.month - 1, _hdGreg.day).getDay();
+                const _hdWeekday = (_HD_WEEKDAYS[_hdLng] || _HD_WEEKDAYS.en)[_hdDow] || '';
+                const _hdGMon = (_GREG_MONTHS[_hdLng] || _GREG_MONTHS.en)[_hdGreg.month - 1] || '';
+                const _hdGSfx = (_HD_GSFX[_hdLng] !== undefined) ? _HD_GSFX[_hdLng] : ' CE';
+                const _hdGDate = `${_hdGreg.day} ${_hdGMon} ${_hdGreg.year}${_hdGSfx}`;
+                const _HD_SUBTPL = {
+                    ar: (dn, gd) => `يوافق: ${dn}، ${gd.replace(/\s*م\s*$/, '').trim()} — حسب تقويم أم القرى`,
+                    en: (dn, gd) => `Corresponding to: ${dn}, ${gd} – according to the Umm al-Qura calendar`,
+                    fr: (dn, gd) => `Correspond à : ${dn}, ${gd} – selon le calendrier Umm al-Qura`,
+                    tr: (dn, gd) => `Karşılığı: ${dn}, ${gd} – Ümmülkura takvimine göre`,
+                    ur: (dn, gd) => `موافق: ${dn}، ${gd} – ام القری کیلنڈر کے مطابق`,
+                    de: (dn, gd) => `Entspricht: ${dn}, ${gd} – gemäß dem Umm-al-Qura-Kalender`,
+                    id: (dn, gd) => `Bertepatan dengan: ${dn}, ${gd} – menurut kalender Umm al-Qura`,
+                    es: (dn, gd) => `Corresponde a: ${dn}, ${gd} – según el calendario Umm al-Qura`,
+                    bn: (dn, gd) => `সমতুল্য: ${dn}, ${gd} – উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী`,
+                    ms: (dn, gd) => `Bersamaan dengan: ${dn}, ${gd} – mengikut kalendar Umm al-Qura`,
+                };
+                const _hdSubtitle = (_HD_SUBTPL[_hdLng] || _HD_SUBTPL.en)(_hdWeekday, _hdGDate);
+                html = html.replace(/(<div class="ht-day-num"\s+id="hday-day-num")>--<\/div>/, `$1 data-ssr-rendered="1">${_escHtml(_hdDay)}</div>`);
+                html = html.replace(/(<div class="ht-month"\s+id="hday-month")>--<\/div>/, `$1 data-ssr-rendered="1">${_escHtml(_hdMNm)}</div>`);
+                html = html.replace(/(<div class="ht-year"\s+id="hday-year")>--<\/div>/, `$1 data-ssr-rendered="1">${_escHtml(_hdYear + ' ' + _hdSfx)}</div>`);
+                html = html.replace(/(<p id="hday-subtitle" class="hpage-hero-subtitle")>--<\/p>/, `$1 data-ssr-rendered="1">${_escHtml(_hdSubtitle)}</p>`);
+            }
+
             // ---- 2) Build 4 SSR educational sections (per-lang dict) ----
             const _HD_SECTIONS = {
                 ar: d => [

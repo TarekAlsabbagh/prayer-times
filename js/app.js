@@ -22742,15 +22742,20 @@ function loadHijriDayPage() {
             : (isToday ? ui.title(ctx) : (_H1_PLAIN[lang] || _H1_PLAIN.en));
     }
 
-    const dayNumEl = document.getElementById('hday-day-num');
-    if (dayNumEl) dayNumEl.textContent = day;
-    const monthElH = document.getElementById('hday-month');
-    if (monthElH)  monthElH.textContent = monthName;
-    const yearElH  = document.getElementById('hday-year');
-    if (yearElH)   yearElH.textContent  = `${year}${hSfx}`;
-
-    const subtitleEl = document.getElementById('hday-subtitle');
-    if (subtitleEl) subtitleEl.textContent = ui.subtitle(ctx);
+    // HIJRI-DATE-DAY-SECTION-CARD-SSR-FILL-CLS-FIX-1 (2026-06-02): no-swap guards.
+    // server.js now SSR-fills the hero stack (#hday-day-num/#hday-month/#hday-year)
+    // and #hday-subtitle with the SAME final values + data-ssr-rendered="1". Consume
+    // the flag on first hydration (skip the rewrite → no +24px hero growth, no CLS);
+    // rebuild on later SPA navigations.
+    const _hdSetGuarded = (el, val) => {
+        if (!el) return;
+        if (el.getAttribute('data-ssr-rendered') === '1') { el.removeAttribute('data-ssr-rendered'); }
+        else { el.textContent = val; }
+    };
+    _hdSetGuarded(document.getElementById('hday-day-num'), day);
+    _hdSetGuarded(document.getElementById('hday-month'), monthName);
+    _hdSetGuarded(document.getElementById('hday-year'), `${year}${hSfx}`);
+    _hdSetGuarded(document.getElementById('hday-subtitle'), ui.subtitle(ctx));
 
     // ── 3. Info Cards (today vs non-today: drop redundant hDate card, add year + order-of-day) ──
     const gridEl = document.getElementById('hday-info-grid');

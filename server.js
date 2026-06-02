@@ -10021,7 +10021,7 @@ function buildSeoForPath(urlPath) {
         };
         const _HY_DESC = {
             ar: `استعرض التقويم الهجري لعام ${year} هـ مع جميع الأشهر الهجرية، وعدد أيام كل شهر، والتواريخ الميلادية المقابلة، وروابط تحويل التاريخ والتقويم الشهري.`,
-            en: `Browse the Hijri calendar for ${year} AH with all Islamic months, days per month, matching Gregorian dates, and links to date conversion and monthly calendar tools.`,
+            en: `Browse the Hijri calendar for ${year} AH with Islamic months, days per month, matching Gregorian dates, and date conversion and monthly calendar tools.`,
             fr: `Parcourez le calendrier hégirien de l'année ${year} H avec tous les mois islamiques, le nombre de jours, les dates grégoriennes correspondantes et les outils de conversion.`,
             tr: `${year} H yılı için Hicri takvimi inceleyin — tüm İslami aylar, ay başına gün sayısı, karşılık gelen miladi tarihler ve aylık takvim araçları.`,
             ur: `${year} ہجری کا ہجری کیلنڈر دیکھیں — تمام اسلامی مہینے، ہر مہینے کے دن، عیسوی تاریخیں اور تاریخ تبدیلی کے اوزار۔`,

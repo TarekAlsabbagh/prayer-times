@@ -15238,6 +15238,77 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         '<tbody id="hmonth-table-body"></tbody>',
                         '<tbody id="hmonth-table-body">' + _hmTbody + '</tbody>'
                     );
+                    // 7. HIJRI-CALENDAR-MONTH-SSR-FILL-LOAD-DELAY-FIX-1 (2026-06-02):
+                    //    SSR-fill #hmonth-breadcrumbs. It shipped empty
+                    //    (<nav id="hmonth-breadcrumbs"></nav>) and app.js
+                    //    loadHijriMonthPage() filled it AFTER hydration, pushing the
+                    //    hero + table down → CLS ~0.05 (audit HIJRI-CALENDAR-MONTH-
+                    //    LOAD-DELAY-AUDIT-1; the year page is CLS-safe at 0.0001
+                    //    because YEAR-HERO-SSR-FILL-CLS-FIX-3 already SSR-fills its
+                    //    breadcrumb). Mirrors app.js (23565) byte-for-byte: 4 crumbs
+                    //    Home › Hijri Calendar › {year}{sfx} › {month} {year}{sfx},
+                    //    using the CLIENT suffix (HSFX_BY_LANG, ur=' ہجری') and the
+                    //    same _buildHijriBreadcrumbOl markup (raw, un-escaped — labels
+                    //    /paths carry no HTML-special chars) so the client re-fill is
+                    //    a visual no-op (paired with a no-rebuild guard in app.js).
+                    const _hmBcLbl = {
+                        ar:{home:'الرئيسية',cal:'التقويم الهجري'}, en:{home:'Home',cal:'Hijri Calendar'},
+                        fr:{home:'Accueil',cal:'Calendrier hégirien'}, tr:{home:'Ana Sayfa',cal:'Hicri Takvim'},
+                        ur:{home:'ہوم',cal:'ہجری کیلنڈر'}, de:{home:'Startseite',cal:'Hidschri-Kalender'},
+                        id:{home:'Beranda',cal:'Kalender Hijriah'}, es:{home:'Inicio',cal:'Calendario Hégira'},
+                        bn:{home:'হোম',cal:'হিজরি ক্যালেন্ডার'}, ms:{home:'Laman Utama',cal:'Kalendar Hijrah'},
+                    };
+                    const _hmBcSfx = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
+                    const _hmBcu = _hmBcLbl[_hmLang] || _hmBcLbl.en;
+                    const _hmSfx2 = (_hmBcSfx[_hmLang] !== undefined) ? _hmBcSfx[_hmLang] : ' AH';
+                    const _hmPfx = (_hmLang === 'ar') ? '' : ('/' + _hmLang);
+                    const _hmHomeUrl = (_hmLang === 'ar') ? '/' : (_hmPfx + '/');
+                    const _hmBcItems = [
+                        { href: _hmHomeUrl, text: _hmBcu.home },
+                        { href: `${_hmPfx}/hijri-calendar`, text: _hmBcu.cal },
+                        { href: `${_hmPfx}/hijri-calendar/${_hmY}`, text: `${_hmY}${_hmSfx2}` },
+                        { current: true, text: `${_hmMonthName} ${_hmY}${_hmSfx2}` },
+                    ];
+                    const _hmBcHtml = '<ol class="breadcrumb-list">' + _hmBcItems.map((it, i) => {
+                        const sep = i > 0 ? '<li class="bc-sep" aria-hidden="true">›</li>' : '';
+                        if (it.current) return sep + `<li class="bc-item bc-current" aria-current="page">${it.text}</li>`;
+                        return sep + `<li class="bc-item"><a class="bc-link" href="${it.href}">${it.text}</a></li>`;
+                    }).join('') + '</ol>';
+                    html = html.replace(
+                        /<nav class="city-breadcrumb hijri-breadcrumb" id="hmonth-breadcrumbs"([^>]*)><\/nav>/,
+                        `<nav class="city-breadcrumb hijri-breadcrumb" id="hmonth-breadcrumbs"$1 data-ssr-rendered="1">${_hmBcHtml}</nav>`
+                    );
+                    // 8. HIJRI-CALENDAR-MONTH-SSR-FILL-LOAD-DELAY-FIX-1 (subtitle, 2026-06-02):
+                    //    SSR-fill #hmonth-subtitle with the SAME descriptive text the client
+                    //    sets (app.js ui.subtitle "Covers {gFirst} to {gLast} per the Umm
+                    //    al-Qura calendar"). Replacement #3 above filled it with the COMPACT
+                    //    "{n} days • range" form, but loadHijriMonthPage() then overwrote it
+                    //    with the longer descriptive form → +25px wrap → the dominant CLS
+                    //    contributor (audit follow-up: breadcrumb alone only 0.0545→0.0485).
+                    //    Dates use the client "{day} {month} {year}" format (gregMonthFor ==
+                    //    _GREG_MONTHS) so SSR == final text. Paired with a data-ssr-rendered
+                    //    no-swap guard in app.js (removed on first hydration → SPA-nav still
+                    //    rebuilds correctly).
+                    const _hmGM = _hmGregMonths; // _GREG_MONTHS[lang]
+                    const _hmGFirstStr = `${_hmGregFirst.day} ${_hmGM[_hmGregFirst.month - 1]} ${_hmGregFirst.year}`;
+                    const _hmGLastStr  = `${_hmGregLast.day} ${_hmGM[_hmGregLast.month - 1]} ${_hmGregLast.year}`;
+                    const _HM_SUBDESC = {
+                        ar: (gF, gL) => `يوافق الفترة من ${gF} إلى ${gL} حسب تقويم أم القرى`,
+                        en: (gF, gL) => `Covers ${gF} to ${gL} per the Umm al-Qura calendar`,
+                        fr: (gF, gL) => `Couvre du ${gF} au ${gL} selon le calendrier Umm al-Qura`,
+                        tr: (gF, gL) => `${gF} ile ${gL} tarihleri arasını kapsar (Ümmülkura takvimine göre)`,
+                        ur: (gF, gL) => `${gF} سے ${gL} تک (ام القری کیلنڈر کے مطابق)`,
+                        de: (gF, gL) => `Umfasst den Zeitraum vom ${gF} bis zum ${gL} gemäß dem Umm-al-Qura-Kalender`,
+                        id: (gF, gL) => `Mencakup ${gF} hingga ${gL} menurut kalender Umm al-Qura`,
+                        es: (gF, gL) => `Abarca desde el ${gF} hasta el ${gL} según el calendario Umm al-Qura`,
+                        bn: (gF, gL) => `${gF} থেকে ${gL} পর্যন্ত (উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী)`,
+                        ms: (gF, gL) => `Meliputi ${gF} hingga ${gL} mengikut kalendar Umm al-Qura`,
+                    };
+                    const _hmSubDesc = (_HM_SUBDESC[_hmLang] || _HM_SUBDESC.en)(_hmGFirstStr, _hmGLastStr);
+                    html = html.replace(
+                        /<p id="hmonth-subtitle"([^>]*)>[^<]*<\/p>/,
+                        `<p id="hmonth-subtitle"$1 data-ssr-rendered="1">${_escHtml(_hmSubDesc)}</p>`
+                    );
                 }
             }
         } catch (_e) { /* silent — SSR enrichment is optional, client JS still runs */ }

@@ -23563,23 +23563,44 @@ function loadHijriMonthPage() {
 
     // 1. Breadcrumbs
     const bcEl = document.getElementById('hmonth-breadcrumbs');
+    // HIJRI-CALENDAR-MONTH-SSR-FILL-LOAD-DELAY-FIX-1 (2026-06-02): no-swap guard.
+    // server.js now SSR-fills #hmonth-breadcrumbs with byte-identical markup and marks
+    // it data-ssr-rendered="1". On the initial hydration consume the flag (remove it)
+    // and SKIP the rewrite → no DOM re-creation, no shift, no CLS. On later SPA
+    // navigations the flag is gone → rebuild normally so the breadcrumb stays correct.
     if (bcEl) {
-        const calPath  = `${prefix}/hijri-calendar`;
-        const yearPath = `${prefix}/hijri-calendar/${year}`;
-        const homeUrl  = (lang === 'ar') ? '/' : (prefix + '/');
-        bcEl.innerHTML = _buildHijriBreadcrumbOl([
-            { href: homeUrl, text: ui.home },
-            { href: calPath, text: ui.cal },
-            { href: yearPath, text: `${year}${hSfx}` },
-            { text: `${monthName} ${year}${hSfx}`, current: true }
-        ]);
+        if (bcEl.getAttribute('data-ssr-rendered') === '1') {
+            bcEl.removeAttribute('data-ssr-rendered');
+        } else {
+            const calPath  = `${prefix}/hijri-calendar`;
+            const yearPath = `${prefix}/hijri-calendar/${year}`;
+            const homeUrl  = (lang === 'ar') ? '/' : (prefix + '/');
+            bcEl.innerHTML = _buildHijriBreadcrumbOl([
+                { href: homeUrl, text: ui.home },
+                { href: calPath, text: ui.cal },
+                { href: yearPath, text: `${year}${hSfx}` },
+                { text: `${monthName} ${year}${hSfx}`, current: true }
+            ]);
+        }
     }
 
     // 2. Title & Subtitle (Answer-page style: clean H1, descriptive subtitle)
     const titleEl    = document.getElementById('hmonth-title');
     const subtitleEl = document.getElementById('hmonth-subtitle');
     if (titleEl)    titleEl.textContent    = ui.title(ctx);
-    if (subtitleEl) subtitleEl.textContent = ui.subtitle(ctx);
+    // HIJRI-CALENDAR-MONTH-SSR-FILL-LOAD-DELAY-FIX-1 (2026-06-02): subtitle no-swap
+    // guard. server.js now SSR-fills #hmonth-subtitle with the SAME descriptive text
+    // (ui.subtitle) and marks it data-ssr-rendered="1". Previously the SSR carried the
+    // compact "{n} days • range" form and this line overwrote it with the longer
+    // descriptive form → +25px wrap → the dominant month-page CLS. Consume the flag on
+    // first hydration (skip overwrite, no shift); rebuild on later SPA navigations.
+    if (subtitleEl) {
+        if (subtitleEl.getAttribute('data-ssr-rendered') === '1') {
+            subtitleEl.removeAttribute('data-ssr-rendered');
+        } else {
+            subtitleEl.textContent = ui.subtitle(ctx);
+        }
+    }
 
     // Intro element is removed from the new skeleton. Keep defensive cleanup in case legacy DOM exists.
     const introEl = document.getElementById('hmonth-intro');

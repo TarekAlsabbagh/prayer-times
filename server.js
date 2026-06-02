@@ -9799,9 +9799,16 @@ function buildSeoForPath(urlPath) {
                         long:  `حالة القمر اليوم في ${c}: الطور الحالي ونسبة الإضاءة، عمر القمر، شروق وغروب القمر، والبدر القادم، مع تقويم القمر الشهريّ.`,
                         short: `اعرف حالة القمر اليوم في ${c}: الطور والإضاءة وعمر القمر، مع شروق وغروب القمر والبدر القادم.`,
                     }),
+                    // EN-MOON-TODAY-CITY-KEYWORD-BALANCE-FIX-2 (2026-06-01):
+                    // Rephrased to lead with the exact primary phrase
+                    // "Moon today in {City}" (matches Title + H1) instead of
+                    // the possessive "Today's moon in {City}". Adds the
+                    // "Hijri date" keyword that was previously absent in
+                    // meta. Length 121 + city = 126-141 chars for typical
+                    // city names — comfortably in [120, 160].
                     en: c => ({
-                        long:  `Today's moon in ${c}: current phase, illumination, moon age, moonrise and moonset, next full moon, plus a link to the monthly moon calendar.`,
-                        short: `Moon today in ${c}: phase, illumination, moon age, moonrise and moonset, and the next full moon.`,
+                        long:  `Moon today in ${c}: see current phase, illumination, moon age, moonrise, moonset, and Hijri date — plus the monthly calendar.`,
+                        short: `Moon today in ${c}: phase, illumination, moon age, moonrise, moonset, and Hijri date.`,
                     }),
                     fr: c => ({
                         long:  `Lune aujourd'hui à ${c} : phase, illumination, âge, lever et coucher, prochaine pleine lune, avec lien vers le calendrier lunaire mensuel.`,
@@ -20701,6 +20708,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // hijri-today rewrite) are already in place. Client-side i18n.js still loads
     // and remains the fallback / dynamic updater.
     html = _translateI18nAttrs(html, seo.lang);
+
+    // ────────────────────────────────────────────────────────────────────────
+    // EN-MOON-TODAY-CITY-KEYWORD-BALANCE-FIX-2 (2026-06-01)
+    //
+    // Replace the literal `{city}` placeholder that survives
+    // `_translateI18nAttrs` translation for moon-today city pages. The audit
+    // EN-MOON-TODAY-CITY-KEYWORD-CONSISTENCY-FIX-2-AUDIT found 13 occurrences
+    // of `{city}` in visible text on /en/moon-today-in-{city}:
+    //   - 1× #moon-faq-city-h2 ("Frequently Asked Questions about the Moon
+    //     today in {city}") — direct visible bug
+    //   - 12× moon-dq{1,illum,age,6,7,8} FAQ Q + A templates — JS-hydrated at
+    //     runtime but crawlers (SEOptimer) see literal `{city}` in HTML.
+    //
+    // FIX-2 also enriches three moon city H2s with `{city}` placeholder in
+    // js/i18n.js EN dict (moon.upcoming.title, moon.current_month_h2,
+    // moon.chart_title) — those land here too for replacement.
+    //
+    // Scope: ONLY on moon-today city pages (active page-moon, city resolved).
+    // AR + 9 other langs left untouched (their i18n strings still ship
+    // without `{city}` placeholder in the FIX-2 scope, so this replace is
+    // a no-op for them on the enriched H2s; the FAQ {city} placeholders
+    // ARE present in all langs since i18n templates are shared — they all
+    // benefit from the same SSR replacement).
+    //
+    // The other dynamic placeholders ({phaseName}, {illum}, {age}, {time},
+    // {distance}) remain JS-hydrated — they are dynamic values that depend
+    // on the current moon state and cannot be SSR-computed without
+    // duplicating moon-math at every page render.
+    // ────────────────────────────────────────────────────────────────────────
+    if (_isMoonCityPageSsr && seo.moonCity && seo.moonCity.name) {
+        const _cityForI18n = String(seo.moonCity.name);
+        html = html.replace(/\{city\}/g, _cityForI18n);
+    }
 
     const buf = Buffer.from(html, 'utf8');
     const headers = {

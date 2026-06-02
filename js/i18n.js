@@ -2316,8 +2316,15 @@ const TRANSLATIONS = {
         'moon.cycle.gibbous': 'Gibbous',
         'moon.cycle.full': 'Full',
         // Priority C: Upcoming Phases Forecast
-        'moon.upcoming.title': '🔮 Upcoming Moon Phases',
-        'moon.current_month_h2': 'Moon Phases This Month',
+        // EN-MOON-TODAY-CITY-KEYWORD-BALANCE-FIX-2 (2026-06-01): added {city}
+        // placeholder to two EN-only H2 templates so /en/moon-today-in-{city}
+        // gets stronger "in {City}" distribution across headings. The {city}
+        // token is replaced server-side post-_translateI18nAttrs for moon
+        // city pages (see server.js post-pipeline). AR + other 8 langs
+        // UNCHANGED (still ship without {city}). The title_city variant
+        // below is kept as-is (already had {city}).
+        'moon.upcoming.title': '🔮 Upcoming Moon Phases in {city}',
+        'moon.current_month_h2': 'Moon Phases in {city} This Month',
         'moon.upcoming.title_city': '🔮 Upcoming Moon Phases in {city}',
         'moon.upcoming.subtitle': 'Precise dates of the next four moon phases — calculated with astronomical accuracy',
         'moon.upcoming.notice': '* Times are computed in your local timezone using Meeus astronomical algorithms.',
@@ -2387,7 +2394,11 @@ const TRANSLATIONS = {
         'moon.next_day': 'Next day',
         'moon.return_today': 'Today',
         'moon.current_date': 'Currently showing',
-        'moon.chart_title': 'Moon Illumination Chart — 7 Days',
+        // EN-MOON-TODAY-CITY-KEYWORD-BALANCE-FIX-2 (2026-06-01): added {city}
+        // placeholder to strengthen city moon headings on /en/moon-today-in-{city}.
+        // {city} token is replaced server-side post-_translateI18nAttrs. AR +
+        // other 8 langs UNCHANGED (still ship without {city}).
+        'moon.chart_title': 'Moon Illumination in {city} — 7-Day Chart',
         'moon.chart_subtitle': 'Moon illumination percentage from 3 days before the shown date to 3 days after.',
         'moon.chart_caption': 'Tap any point to view the moon details for that date.',
         'moon.chart_a11y': 'Moon illumination chart — 7 days',

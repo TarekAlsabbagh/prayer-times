@@ -1417,7 +1417,30 @@
 //   server.js (+~55 — new helper + IDs + replaced call site + doc)
 //   + sw.js (this comment + version bump v404→v405). One fix
 //   benefits ~2,000 city pages (10 langs × ~200 cities).
-const CACHE_VERSION = 'v406';
+// EN-MOON-TODAY-CITY-KEYWORD-BALANCE-FIX-2 (2026-06-01): combined light
+//   balance fix for /en/moon-today-in-{city} pages. Three small fixes:
+//   (1) {city} placeholder bug — `_translateI18nAttrs` left 13 literal
+//   `{city}` tokens in visible HTML (1 in #moon-faq-city-h2 + 12 in FAQ
+//   templates) because it translates the data-i18n key but doesn't
+//   interpolate placeholders. Now replaced server-side post-i18n on moon
+//   city pages. (2) Meta Description rephrased from "Today's moon in
+//   {City}" to "Moon today in {City}: see ... Hijri date — plus the
+//   monthly calendar." so the EXACT primary phrase appears in Title +
+//   Meta + H1 (was only in Title + H1). Length 126-141 — comfortably in
+//   [120, 160]. (3) Three EN-only H2 headings enriched with {city}
+//   placeholder in js/i18n.js: moon.upcoming.title, moon.current_month_h2,
+//   moon.chart_title — they now show "in {City}" on the rendered page
+//   after SSR placeholder replacement. AR + 8 other langs UNCHANGED in
+//   their headings. ZERO change to: moon calculations, moon phase data,
+//   illumination, moonrise, moonset, moon age, Hijri date, Gregorian
+//   date, city coordinates, canonical, hreflang, sitemap, routing,
+//   JSON-LD (schema fields independent of these strings), CSS, app.js,
+//   curated data. The `{phaseName}/{illum}/{age}/{time}/{distance}`
+//   placeholders remain JS-hydrated as before (dynamic values). Files:
+//   server.js (~30 lines: Meta template + post-pipeline {city} replace
+//   + doc) + js/i18n.js (3 EN strings) + sw.js (this comment + version
+//   bump v406→v407).
+const CACHE_VERSION = 'v407';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -14932,6 +14932,65 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     const _isHijriYearHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath);
     const _isHijriMonthHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(urlPath);
     if (_isHijriYearHub || _isHijriMonthHub) {
+        // ──────────────────────────────────────────────────────────────────
+        // HIJRI-CALENDAR-SSR-ACTIVE-PAGE-FIX-1 (2026-06-02)
+        //
+        // Inject the html-class that lets critical CSS show the right hijri
+        // wrapper (#page-hijri-year / #page-hijri-month) and HIDE the default
+        // #page-prayer-times shell from the FIRST PAINT — eliminating the
+        // initial flash of prayer-times/homepage content before JS hydration.
+        //
+        // The CSS rules already exist and are waiting (css/style.css:34-39):
+        //   html.hijri-year-page  #page-hijri-year  { display:block !important }
+        //   html.hijri-year-page  #page-prayer-times{ display:none  !important }
+        //   html.hijri-month-page #page-hijri-month { display:block !important }
+        //   html.hijri-month-page #page-prayer-times{ display:none  !important }
+        // but server.js never emitted the matching <html class>. Year/month
+        // pages shipped `<html lang="ar" dir="rtl">` (no class) while
+        // #page-prayer-times kept its default `class="page active"`, so the
+        // `.page.active { display:block }` rule rendered the prayer shell
+        // until app.js flipped the active page post-hydration → FLICKER.
+        //
+        // Mirrors the proven _isTodayHijriDateHubPath injection at line 14472
+        // (hijri-today-page) and the day-page injection (hijri-day-page) —
+        // both already flicker-free. This is a PURE html-class injection:
+        // NO wrapper is stripped (the HCAL-1-fix CLS regression came from
+        // STRIPPING wrappers; this only toggles CSS visibility of wrappers
+        // already in the DOM, so zero layout/CLS impact — same mechanism as
+        // the already-safe today/day pages).
+        // ──────────────────────────────────────────────────────────────────
+        const _hcalCls = _isHijriMonthHub ? 'hijri-month-page' : 'hijri-year-page';
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} ${_hcalCls}"`) + '>';
+            }
+            return '<html' + a + ' class="' + _hcalCls + '">';
+        });
+        // Strip the default `active` from #page-prayer-times so the SSR HTML
+        // ends with exactly ONE `.page.active` div (the hijri wrapper). The
+        // html-class CSS above already hides prayer-times via display:none,
+        // but removing the stray `active` keeps SEOptimer/crawlers from
+        // seeing two active pages (matches AZKAR-SSR-SINGLE-ACTIVE-FIX-1).
+        // On month pages, #page-hijri-month is also marked active by the
+        // HIJRI-MONTH-PAGE-SSR-RENDER-1 block above, so without this strip
+        // there would be two `.page.active` divs in the raw HTML.
+        html = html.replace(
+            '<div class="page active" id="page-prayer-times">',
+            '<div class="page" id="page-prayer-times">'
+        );
+        // On YEAR pages, also promote #page-hijri-year to active so the DOM
+        // has exactly one active wrapper (month pages already get
+        // #page-hijri-month activated earlier). This is belt-and-suspenders:
+        // the html-class CSS shows page-hijri-year regardless, but a single
+        // consistent `.page.active` keeps the SPA self-heal + crawlers clean.
+        if (_isHijriYearHub) {
+            html = html.replace(
+                '<div class="page" id="page-hijri-year">',
+                '<div class="page active" id="page-hijri-year">'
+            );
+        }
+
         // Heading-only neutralisation: convert <h2 to <div data-was="h2"
         // INSIDE inactive page wrappers. Those wrappers have display:none
         // applied via critical CSS (.page { display:none } + override on

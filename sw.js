@@ -1455,7 +1455,32 @@
 //   logic, canonical, hreflang, sitemap, routing, JSON-LD, CSS, app.js,
 //   i18n. Files: server.js (1-line value change + ~9 lines doc) + sw.js
 //   (this comment + version bump v407->v408).
-const CACHE_VERSION = 'v408';
+// HIJRI-CALENDAR-SSR-ACTIVE-PAGE-FIX-1 (2026-06-02): fixes the initial
+//   page flicker on /hijri-calendar (year) and /hijri-calendar/{YYYY-MM}
+//   (month) across all 10 langs. Audit (HIJRI-CALENDAR-INITIAL-PAGE-
+//   FLICKER-AUDIT-1) found these routes shipped `<html lang="ar"
+//   dir="rtl">` with NO html-class, while #page-prayer-times kept its
+//   default `class="page active"`. The critical CSS rule
+//   `.page.active { display:block }` therefore rendered the prayer/home
+//   shell at first paint, then app.js flipped to the hijri wrapper post-
+//   hydration → visible flash. The CSS overrides
+//   `html.hijri-year-page  #page-prayer-times { display:none }` +
+//   `html.hijri-month-page #page-prayer-times { display:none }` already
+//   existed (style.css:34-39) but the matching <html class> was never
+//   emitted. Fix: server.js now injects `hijri-year-page` /
+//   `hijri-month-page` on these routes (mirrors the already-flicker-free
+//   _isTodayHijriDateHubPath → hijri-today-page and day-page →
+//   hijri-day-page injections), strips the stray `active` from
+//   #page-prayer-times, and promotes #page-hijri-year to active on year
+//   pages so the raw HTML has exactly ONE `.page.active`. NO wrapper is
+//   stripped (the old HCAL-1 CLS regression came from STRIPPING wrappers;
+//   this only toggles CSS visibility of in-DOM wrappers → zero CLS
+//   impact, same safe mechanism as today/day pages). ZERO change to: CSS,
+//   app.js, index.html, i18n, Hijri/Gregorian calculations, calendar
+//   data, month table, Title, Meta, canonical, hreflang, sitemap,
+//   routing, JSON-LD. Files: server.js (+~55: html-class injection +
+//   active-strip + doc) + sw.js (this comment + version bump v408→v409).
+const CACHE_VERSION = 'v409';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

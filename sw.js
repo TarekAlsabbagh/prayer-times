@@ -1311,7 +1311,30 @@
 //   Files: server.js (1-line value change + ~15 lines doc) + sw.js
 //   (this comment + version bump v401→v402). HTML is no-cache so users
 //   see new Makkah AR title immediately after deploy.
-const CACHE_VERSION = 'v402';
+//
+// EN-QIBLA-CITY-DESKTOP-LCP-RENDER-DELAY-FIX-1 (2026-06-01): performance
+//   fix for `/qibla-in-{city}` pages (all 10 langs). Audit found that
+//   #qibla-info-grid (the SSR-prefilled 4-card grid from
+//   9cc340a/QIBLA-CITY-SSR-INFO-GRID-PREFILL-FIX-1) was the LCP element
+//   on Lighthouse Desktop with `Element render delay = 6,900ms` and
+//   `Speed Index = 4.6s` — even though the grid VALUES were in HTML
+//   from byte 0. Root cause: server.js was emitting
+//   `<div id="page-qibla" data-qibla-mode="hub">` for City pages, then
+//   the CSS rule `#page-qibla[data-qibla-mode="hub"] .qibla-city-only
+//   { display: none !important; }` (style.css:15764) suppressed the
+//   grid (and all .qibla-city-only descendants) until app.js:16558
+//   ran initQiblaForCity() and flipped the attribute to "city" ~6.9s
+//   later. Fix: on `/{lang}?/qibla-in-{slug}[-lat-lng]` routes, SSR
+//   now emits `data-qibla-mode="city"` upfront — grid visible from
+//   Frame #1, JS attribute set becomes a same-value no-op. /qibla
+//   hub pages UNAFFECTED (regex precludes them). ZERO change to:
+//   CSS, JS, i18n, qibla math, city data, canonical, hreflang,
+//   sitemap, routing, title, meta, H1, JSON-LD, SSR prefill values,
+//   Hub mode behaviour. Expected impact: Element render delay 6,900ms
+//   → ~50ms, Speed Index 4.6s → ~2s, Performance 86 → 94+. Files:
+//   server.js (single regex-test + one html.replace + ~20 lines doc)
+//   + sw.js (this comment + version bump v402→v403).
+const CACHE_VERSION = 'v403';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

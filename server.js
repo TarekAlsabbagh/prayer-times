@@ -14297,6 +14297,33 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     }
 
     // ════════════════════════════════════════════════════════════════════════
+    // EN-QIBLA-CITY-DESKTOP-LCP-RENDER-DELAY-FIX-1 (2026-06-01)
+    //
+    // On qibla city pages (/qibla-in-{slug} with optional lang prefix and
+    // optional -lat-lng suffix), rewrite the SSR-static `data-qibla-mode="hub"`
+    // on #page-qibla to `data-qibla-mode="city"`. Without this, the CSS rule
+    // `#page-qibla[data-qibla-mode="hub"] .qibla-city-only { display: none
+    // !important; }` (style.css:15764) suppresses #qibla-info-grid and every
+    // .qibla-city-only descendant at first paint. JS later sets the same
+    // attribute to "city" via app.js:16558 inside initQiblaForCity(), but
+    // that runs AFTER hydration → Lighthouse Desktop measured an Element
+    // render delay of ~6,900ms because the LCP candidate (#qibla-info-grid)
+    // remained display:none until JS ran. With SSR emitting "city" upfront,
+    // the grid is visible from Frame #1 with its SSR-prefilled values
+    // (intact from QIBLA-CITY-SSR-INFO-GRID-PREFILL-FIX-1 / 9cc340a).
+    // The JS attribute set at app.js:16558 becomes a no-op (same value
+    // already on element). Hub pages (/qibla, /{lang}/qibla) untouched —
+    // _isQiblaHub matches a different URL shape and runs before this block.
+    // ════════════════════════════════════════════════════════════════════════
+    const _isQiblaCityPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/.test(urlPath);
+    if (_isQiblaCityPage) {
+        html = html.replace(
+            '<div class="page" id="page-qibla" data-qibla-mode="hub">',
+            '<div class="page" id="page-qibla" data-qibla-mode="city">'
+        );
+    }
+
+    // ════════════════════════════════════════════════════════════════════════
     // HD-1 (2026-05-07): /today-hijri-date Hub gateway. Inject the html class
     //   so existing CSS rules (style.css ~line 2 — `html.hijri-today-page
     //   #page-prayer-times { display:none }`) apply at first paint, then

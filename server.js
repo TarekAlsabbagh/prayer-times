@@ -6285,6 +6285,55 @@ function _stripPagePrayerTimesOnly(html) {
     return _stripElement(html, { type: 'id', value: 'page-prayer-times' });
 }
 
+// ──────────────────────────────────────────────────────────────────────────
+// EN-MOON-TODAY-CITY-KEYWORD-CONSISTENCY-FIX-1 (2026-06-01)
+//
+// City-page strip for `/moon-today-in-{slug}` and `/moon-in-{slug}` routes
+// across all 10 langs. Mirrors the proven strip pattern from
+// `_MOON_HUB_STRIP_IDS` (extended in MOON-TODAY-KEYWORD-CONSISTENCY-FIX-1
+// commit 0a5e373) but tailored for City pages — it keeps every #page-moon
+// child section (moon-chart, moon-forecast, moon-faq-city, moon-evergreen,
+// etc.) because those ARE the moon-city educational content. The only
+// thing it removes beyond `page-prayer-times` is the same 12 inactive
+// SPA wrappers (page-qibla, page-zakat, page-azkar-{hub,morning,evening,
+// prayer}, page-tasbih, page-hijri-{today,day,year,month}, page-date-
+// converter) that were polluting the city pages' Keyword Consistency
+// with leaked headings and keywords from unrelated tools (Hijri 82x,
+// zakat 37x, tasbih 27x, days 37x, etc.).
+//
+// Audit EN-MOON-TODAY-CITY-KEYWORD-CONSISTENCY-AUDIT-1 confirmed the
+// pattern is identical across all 6 EN cities sampled (Jeddah, Riyadh,
+// Mecca, Cairo, New York, Kuala Lumpur) + AR city /moon-today-in-jeddah
+// — same 117 H2 / 36 H3 / 12 leaked wrappers. The fix benefits ~2,000
+// pages (10 langs × ~200 cities) in one strip-helper swap.
+//
+// Title (T=50-56), Meta (D=141-148), H1 ("Moon Today in {City}"), and
+// every moon SEO section inside #page-moon are UNTOUCHED. The helper
+// only deletes wrapper <div id="page-..."> blocks at the SPA-shell level.
+// ──────────────────────────────────────────────────────────────────────────
+const _MOON_CITY_STRIP_IDS = [
+    'page-prayer-times',
+    // Same 12 inactive SPA wrappers as MOON-TODAY-KEYWORD-CONSISTENCY-FIX-1
+    'page-qibla',
+    'page-zakat',
+    'page-azkar-hub',
+    'page-azkar-morning',
+    'page-azkar-evening',
+    'page-azkar-prayer',
+    'page-tasbih',
+    'page-hijri-today',
+    'page-hijri-day',
+    'page-hijri-year',
+    'page-hijri-month',
+    'page-date-converter',
+];
+function _stripHtmlForMoonCity(html) {
+    for (const id of _MOON_CITY_STRIP_IDS) {
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    return html;
+}
+
 // ── Phase Q-Hub-A (2026-05-04): Qibla Hub gateway strip ──
 // SEOptimer was indexing #page-prayer-times content (مواقيت الصلاة, التاريخ
 // الهجري) as if it were /qibla content, polluting Keyword Consistency.
@@ -15968,8 +16017,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //    before JS routes to #page-moon. Was Lighthouse's 0.939 CLS culprit.
     //    Lightweight strip — does NOT remove moon sections (those are needed
     //    on city pages, populated by the existing seo.moonCity SSR block).
+    //
+    // EN-MOON-TODAY-CITY-KEYWORD-CONSISTENCY-FIX-1 (2026-06-01): upgraded
+    //    from `_stripPagePrayerTimesOnly` (page-prayer-times only) to
+    //    `_stripHtmlForMoonCity` (page-prayer-times + 12 inactive SPA
+    //    wrappers) so SEOptimer no longer indexes leaked headings from
+    //    page-qibla/zakat/azkar-*/tasbih/hijri-*/date-converter. Keeps
+    //    every moon section inside #page-moon untouched (chart, forecast,
+    //    FAQ, evergreen, events countdown). See definition above for full
+    //    rationale.
     if (_isMoonCityPageSsr) {
-        html = _stripPagePrayerTimesOnly(html);
+        html = _stripHtmlForMoonCity(html);
     }
     // ── Phase E4-city-b (2026-05-02): SSR active-class for #page-moon
     //    on ALL moon pages (Hub + city + month + date). Eliminates the

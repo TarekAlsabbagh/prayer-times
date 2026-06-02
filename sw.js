@@ -1362,7 +1362,36 @@
 //   (+12 IDs in _MOON_HUB_STRIP_IDS + doc) + sw.js (this comment +
 //   version bump v403→v404). HTML is no-cache so SEOptimer sees the
 //   clean output immediately after deploy.
-const CACHE_VERSION = 'v404';
+//
+// EN-MOON-TODAY-CITY-KEYWORD-CONSISTENCY-FIX-1 (2026-06-01): same
+//   SPA-shell-leak cleanup, but for `/moon-today-in-{slug}` and
+//   `/moon-in-{slug}` city pages across all 10 langs (the Hub fix
+//   above only covered `/moon-today`). Audit EN-MOON-TODAY-CITY-
+//   KEYWORD-CONSISTENCY-AUDIT-1 measured 117 H2 / 36 H3 on
+//   /en/moon-today-in-jeddah (and identical counts on Riyadh, Mecca,
+//   Cairo, New York, Kuala Lumpur + AR /moon-today-in-jeddah) with
+//   Hijri=82, zakat=37, tasbih=27, prayer=29, days=37, azkar=12 —
+//   all leaked from the same 12 inactive wrappers because city
+//   pages used the narrower `_stripPagePrayerTimesOnly` helper
+//   (only removed page-prayer-times). Fix: new helper
+//   `_stripHtmlForMoonCity` with `_MOON_CITY_STRIP_IDS` (the 1
+//   prayer-times entry + the same 12 wrappers as the Hub fix), and
+//   the city-pages branch at server.js:15971 now calls it instead.
+//   moon-chart-section / moon-forecast / moon-faq-city / moon-
+//   evergreen / moon-events-section: ALL PRESERVED — those are the
+//   actual moon educational content the city pages need. Title
+//   (T=50-56), Meta (D=141-148), H1 ("Moon Today in {City}" / "حالة
+//   القمر اليوم في {city}"), JSON-LD: UNCHANGED. Moon math, Hijri
+//   data, prayer-times, qibla math, canonical, hreflang, sitemap,
+//   routing, CSS, app.js, i18n, curated cities: ZERO change.
+//   Expected impact: H2 117→~12-15, H3 36→~5-8, Hijri 82→~5,
+//   prayer 29→~1, tasbih 27→~0, zakat 37→~0, days 37→~10 —
+//   core moon terms (moon, Moon, moon today, moon phase, moonrise,
+//   moonset, moon illumination, moon age) PRESERVED. Files:
+//   server.js (+~55 — new helper + IDs + replaced call site + doc)
+//   + sw.js (this comment + version bump v404→v405). One fix
+//   benefits ~2,000 city pages (10 langs × ~200 cities).
+const CACHE_VERSION = 'v405';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

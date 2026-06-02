@@ -15255,6 +15255,60 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             de: 'AH', id: 'H', es: 'H', bn: 'হিজরি', ms: 'H',
         };
         const _yLbl = `${_hcalYear} ${_hSfxByLang[seo.lang] || _hSfxByLang.en}`;
+
+        // ──────────────────────────────────────────────────────────────────
+        // HIJRI-CALENDAR-MONTH-CHIPS-HYDRATION-CLS-FIX-1 (2026-06-02)
+        //
+        // SSR-fill #hyear-info-grid (the 4 year info-cards) so it is NOT
+        // empty at first paint. Audit (HIJRI-CALENDAR-MONTH-CHIPS-CLS-AUDIT-1)
+        // found this grid empty in SSR and filled by app.js:23194 only after
+        // hydration; its growth pushed the SSR-rendered .hcal2-months-chips
+        // section DOWN, which Lighthouse blamed as the CLS culprit (0.196).
+        //
+        // Mirrors the month page's already-CLS-safe #hmonth-info-grid SSR-fill
+        // (server.js:15233, HIJRI-MONTH-PAGE-SSR-RENDER-1). The card markup +
+        // 4 data points (year / total days / leap type / months) are computed
+        // server-side from the SAME Umm al-Qura source as the calendar
+        // (_getDaysInHijriMonth summed over 12 months → total = isLeap?355:354)
+        // and the same per-lang strings app.js uses (_HYEAR_UI). js/app.js
+        // still re-fills the same 4 cards after init with the same data and
+        // identical markup → visually a no-op (no flicker, no height change,
+        // no shift) — the same pattern documented for the month page. No
+        // app.js / CSS change needed; the grid keeps its final height from
+        // Frame #1 so the chips below never move.
+        // ──────────────────────────────────────────────────────────────────
+        try {
+            const _hyIG = {
+                ar: { lbl: ['السنة','عدد الأيام','نوع السنة','عدد الأشهر'], days:'يوم', months:'12 شهراً', ly: d => `كبيسة (${d} يوماً)`, ln: d => `بسيطة (${d} يوماً)`, sfx:' هـ' },
+                en: { lbl: ['Year','Total Days','Year Type','Months'], days:'days', months:'12 months', ly: d => `Leap Year (${d} days)`, ln: d => `Regular Year (${d} days)`, sfx:' AH' },
+                fr: { lbl: ['Année','Total des jours','Type d’année','Mois'], days:'jours', months:'12 mois', ly: d => `Année bissextile (${d} jours)`, ln: d => `Année ordinaire (${d} jours)`, sfx:' H' },
+                tr: { lbl: ['Yıl','Toplam Gün','Yıl Tipi','Ay Sayısı'], days:'gün', months:'12 ay', ly: d => `Artık Yıl (${d} gün)`, ln: d => `Normal Yıl (${d} gün)`, sfx:' H' },
+                ur: { lbl: ['سال','کل دن','سال کی قسم','مہینوں کی تعداد'], days:'دن', months:'12 مہینے', ly: d => `لیپ سال (${d} دن)`, ln: d => `عام سال (${d} دن)`, sfx:' ہجری' },
+                de: { lbl: ['Jahr','Tage gesamt','Jahrestyp','Monate'], days:'Tage', months:'12 Monate', ly: d => `Schaltjahr (${d} Tage)`, ln: d => `Normales Jahr (${d} Tage)`, sfx:' AH' },
+                id: { lbl: ['Tahun','Total Hari','Jenis Tahun','Jumlah Bulan'], days:'hari', months:'12 bulan', ly: d => `Tahun Kabisat (${d} hari)`, ln: d => `Tahun Biasa (${d} hari)`, sfx:' H' },
+                es: { lbl: ['Año','Total de días','Tipo de año','Meses'], days:'días', months:'12 meses', ly: d => `Año bisiesto (${d} días)`, ln: d => `Año regular (${d} días)`, sfx:' H' },
+                bn: { lbl: ['বছর','মোট দিন','বছরের ধরন','মাস সংখ্যা'], days:'দিন', months:'১২ মাস', ly: d => `অধিবর্ষ (${d} দিন)`, ln: d => `সাধারণ বছর (${d} দিন)`, sfx:' হিজরি' },
+                ms: { lbl: ['Tahun','Jumlah Hari','Jenis Tahun','Bilangan Bulan'], days:'hari', months:'12 bulan', ly: d => `Tahun Lompat (${d} hari)`, ln: d => `Tahun Biasa (${d} hari)`, sfx:' H' },
+            };
+            const _hyU = _hyIG[seo.lang] || _hyIG.en;
+            const _hyY = parseInt(_hcalYear, 10);
+            let _hyTotal = 0;
+            for (let _m = 1; _m <= 12; _m++) { _hyTotal += _getDaysInHijriMonth(_hyY, _m); }
+            const _hyIsLeap = (_hyTotal === 355);
+            const _hyCards = [
+                ['📆', _hyU.lbl[0], `${_hcalYear}${_hyU.sfx}`],
+                ['📊', _hyU.lbl[1], `${_hyTotal} ${_hyU.days}`],
+                ['✔️', _hyU.lbl[2], _hyIsLeap ? _hyU.ly(_hyTotal) : _hyU.ln(_hyTotal)],
+                ['🌙', _hyU.lbl[3], _hyU.months],
+            ];
+            const _hyCardsHtml = _hyCards.map(([icon, label, value]) =>
+                `<div class="info-card"><span class="info-card-icon" aria-hidden="true">${icon}</span><div class="info-card-body"><div class="info-card-label">${_escHtml(label)}</div><div class="info-card-value">${_escHtml(value)}</div></div></div>`
+            ).join('');
+            html = html.replace(
+                '<div class="info-grid" id="hyear-info-grid"></div>',
+                '<div class="info-grid" id="hyear-info-grid" data-ssr-rendered="1">' + _hyCardsHtml + '</div>'
+            );
+        } catch (_e) { /* silent — SSR info-grid fill is best-effort; app.js still fills it */ }
         const _HCAL_GUIDE = {
             ar: {
                 title: `دليل استخدام التقويم الهجري لعام ${_yLbl}`,

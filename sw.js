@@ -1480,7 +1480,25 @@
 //   data, month table, Title, Meta, canonical, hreflang, sitemap,
 //   routing, JSON-LD. Files: server.js (+~55: html-class injection +
 //   active-strip + doc) + sw.js (this comment + version bump v408→v409).
-const CACHE_VERSION = 'v409';
+// HIJRI-CALENDAR-MONTH-CHIPS-HYDRATION-CLS-FIX-1 (2026-06-02): fixes the
+//   CLS=0.196 on /hijri-calendar (year, all 10 langs). Audit
+//   (HIJRI-CALENDAR-MONTH-CHIPS-CLS-AUDIT-1) found Lighthouse blamed
+//   `section.hcal2-months-chips` but the chips are fully SSR-rendered and
+//   stable — the real cause is `#hyear-info-grid` ABOVE them being EMPTY in
+//   SSR and filled by app.js:23194 only after hydration. Its growth pushed
+//   the chips section DOWN. Fix: SSR-fill #hyear-info-grid with its 4 info-
+//   cards (year / total days / leap type / months) computed server-side from
+//   the same Umm al-Qura data (sum of _getDaysInHijriMonth over 12 months)
+//   and the same per-lang strings app.js uses — mirrors the already-CLS-safe
+//   #hmonth-info-grid SSR-fill (HIJRI-MONTH-PAGE-SSR-RENDER-1). The grid now
+//   has its final height from Frame #1; app.js re-fills the same 4 cards with
+//   identical markup → visual no-op, no shift. ZERO change to: CSS, app.js,
+//   index.html, i18n, Hijri/Gregorian calculations, calendar month data,
+//   month order, month links, .hcal2-months-chips markup, Title, Meta, H1,
+//   canonical, hreflang, sitemap, routing, JSON-LD. Month page + today/day
+//   pages UNAFFECTED. Files: server.js (~50: per-lang info-card data +
+//   SSR-fill + doc) + sw.js (this comment + version bump v409→v410).
+const CACHE_VERSION = 'v410';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

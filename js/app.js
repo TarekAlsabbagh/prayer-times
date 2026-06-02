@@ -10713,8 +10713,39 @@ function _seoGetBilingualUrls() {
  * ضبط meta/canonical/hreflang/OG/Twitter دفعة واحدة.
  * تُستدعى من updatePageSEO وأيضاً من loaders ديناميكية (hijri/city).
  */
+// GLOBAL-CLIENT-SEO-NO-OVERWRITE-SSR-FIX-1 (2026-06-02): module-level state
+// for the "trust SSR on the initial landing page" guard inside setSEOMeta.
+let _ssrSeoPath = null, _ssrSeoTitle = '', _ssrSeoDesc = '', _ssrSeoGuardUsed = false;
+
 function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGraph }) {
     if (window.location.protocol === 'file:') return; // لا SEO على ملف محلي
+    // ── GLOBAL-CLIENT-SEO-NO-OVERWRITE-SSR-FIX-1 ──────────────────────────
+    // Capture the SSR-rendered Title/Meta ONCE (first setSEOMeta call, before
+    // any overwrite). On the INITIAL SSR landing page, trust those SSR values
+    // and do NOT overwrite them with client templates — which the audit
+    // (SEO-CLIENT-HYDRATION-OVERWRITE-REGRESSION-AUDIT-1) proved are stale /
+    // shorter for several families after hydration (e.g. /msbaha 19/98,
+    // /en/today-hijri-date meta 161, qibla title 49, prayer meta 116,
+    // /hijri-calendar meta 113) — making SEOptimer / JS-rendering crawlers see
+    // the OLD value even though the raw SSR HTML was correct. Crawlers load
+    // each URL as a full SSR page, so trusting SSR on the landing path keeps
+    // the crawler-visible Title/Meta correct across ALL families in ONE place.
+    // SPA client-side navigations (path changes from the landing path) are
+    // UNAFFECTED — the client still updates the title there. canonical / og:url
+    // / hreflang / og / twitter / schema ALWAYS update below (path-derived).
+    if (_ssrSeoPath === null) {
+        _ssrSeoPath  = window.location.pathname;
+        _ssrSeoTitle = document.title || '';
+        const _ssrMetaEl = document.querySelector('meta[name="description"]');
+        _ssrSeoDesc  = _ssrMetaEl ? (_ssrMetaEl.getAttribute('content') || '') : '';
+    }
+    let _useTitle = title, _useDesc = description;
+    if (!_ssrSeoGuardUsed && _ssrSeoPath === window.location.pathname) {
+        _ssrSeoGuardUsed = true;
+        if (_ssrSeoTitle && _ssrSeoTitle.trim()) _useTitle = _ssrSeoTitle;
+        if (_ssrSeoDesc  && _ssrSeoDesc.trim())  _useDesc  = _ssrSeoDesc;
+    }
+    // ──────────────────────────────────────────────────────────────────────
     const urls = _seoGetBilingualUrls();
     const lang = urls.lang;
     const origin = window.SITE_URL || window.location.origin;
@@ -10729,10 +10760,10 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
     };
     const siteName = SITE_NAMES[lang] || SITE_NAMES.ar;
 
-    if (title) document.title = title;
+    if (_useTitle) document.title = _useTitle;
 
-    if (description) {
-        _seoUpsertMeta('description', 'name', description);
+    if (_useDesc) {
+        _seoUpsertMeta('description', 'name', _useDesc);
     }
 
     // Robots: افتراضياً index, follow (يمكن رفضه لاحقاً لصفحات معيّنة)
@@ -10753,8 +10784,8 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
     _seoUpsertLink('alternate', urls.ar, 'x-default');
 
     // OpenGraph
-    if (title) _seoUpsertMeta('og:title', 'property', title);
-    if (description) _seoUpsertMeta('og:description', 'property', description);
+    if (_useTitle) _seoUpsertMeta('og:title', 'property', _useTitle);
+    if (_useDesc) _seoUpsertMeta('og:description', 'property', _useDesc);
     _seoUpsertMeta('og:url', 'property', urls.canonical);
     _seoUpsertMeta('og:type', 'property', ogType);
     _seoUpsertMeta('og:site_name', 'property', siteName);
@@ -10773,8 +10804,8 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
 
     // Twitter
     _seoUpsertMeta('twitter:card', 'name', 'summary');
-    if (title) _seoUpsertMeta('twitter:title', 'name', title);
-    if (description) _seoUpsertMeta('twitter:description', 'name', description);
+    if (_useTitle) _seoUpsertMeta('twitter:title', 'name', _useTitle);
+    if (_useDesc) _seoUpsertMeta('twitter:description', 'name', _useDesc);
 
     // Optional Schema
     if (schemaId && schemaGraph) {

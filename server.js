@@ -15378,6 +15378,110 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `$1${_hyIntroText}</p>`
             );
         } catch (_e2) { /* silent — SSR breadcrumb/intro fill is best-effort; app.js still fills them */ }
+
+        // ──────────────────────────────────────────────────────────────────
+        // HIJRI-CALENDAR-GEO-SSR-CONTENT-FIX-1 (2026-06-02)
+        //
+        // SSR-fill the year months table (#hyear-table-body) — the page's
+        // primary readable content: 12 rows mapping each Hijri month to its
+        // Gregorian start, Gregorian end and day count. Audit
+        // HIJRI-CALENDAR-GEO-RENDERED-CONTENT-AUDIT-1 found this <tbody>
+        // emitted 0 rows in SSR (JS-only via app.js:23227) — the ONLY major
+        // content block still missing from the raw HTML on the year page —
+        // weakening GEO / LLM readability ("Rendered Content"). The month page
+        // (#hmonth-table-body) is GEO-strong precisely because
+        // HIJRI-MONTH-PAGE-SSR-RENDER-1 SSR-renders its table. This brings the
+        // year page to parity using the SAME Umm al-Qura engine
+        // (_hijriToGregorian + _getDaysInHijriMonth) and the SAME global
+        // _GREG_MONTHS dict the month page uses, so every value is identical to
+        // the client computation. Row markup mirrors app.js loadHijriYearPage()
+        // (23259) byte-for-byte — links, current-month highlight, row striping,
+        // inline <td> styles and hover tooltips — so the paired no-swap guard
+        // added in app.js (data-ssr-rendered="1") SKIPS the client rebuild:
+        // no DOM re-creation, no hydration diff, no CLS, identical visual.
+        // The table sits BELOW the month chips, so filling it never shifts the
+        // chips above; it only removes its own 0→12-row growth (CLS-positive).
+        // ZERO change to: Hijri calc, calendar data, month order, month
+        // names/links, canonical, hreflang, sitemap, JSON-LD, CSS, i18n.
+        // ──────────────────────────────────────────────────────────────────
+        try {
+            const _hyTblY = parseInt(_hcalYear, 10);
+            // Hijri month names per lang (copy of app.js HIJRI_MONTHS_BY_LANG /
+            // server _HM_NAMES — kept local for scope independence).
+            const _HY_HNAMES = {
+                ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+                en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Awwal','Jumada al-Thani','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+                fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+                tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+                ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+                de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+                id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+                es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+                bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+                ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
+            };
+            // Gregorian-date suffix per lang for hover tooltips (copy of app.js
+            // GSFX_BY_LANG). Visible cell text carries no suffix (matches client).
+            const _HY_GSFX = { ar:' م', en:' CE', fr:' EC', tr:'', ur:' عیسوی', de:' n.Chr.', id:' M', es:' d.C.', bn:' খ্রিস্টাব্দ', ms:' M' };
+            // Row hover-tooltip template per lang (copy of app.js _HYEAR_UI.day_row_title).
+            const _HY_ROWTITLE = {
+                ar: (h, g) => `التاريخ الهجري ${h} الموافق ${g}`,
+                en: (h, g) => `Hijri date ${h} equivalent to ${g}`,
+                fr: (h, g) => `Date hégirienne ${h} correspondant au ${g}`,
+                tr: (h, g) => `Hicri tarih ${h}, ${g} tarihine karşılık gelir`,
+                ur: (h, g) => `ہجری تاریخ ${h} مطابق ${g}`,
+                de: (h, g) => `Hidschri-Datum ${h} entspricht ${g}`,
+                id: (h, g) => `Tanggal Hijriah ${h} bertepatan dengan ${g}`,
+                es: (h, g) => `Fecha Hégira ${h}, equivalente a ${g}`,
+                bn: (h, g) => `হিজরি তারিখ ${h}, ${g}-এর সংশ্লিষ্ট`,
+                ms: (h, g) => `Tarikh Hijrah ${h} bersamaan dengan ${g}`,
+            };
+            const _hyLng = seo.lang;
+            const _hyHN = _HY_HNAMES[_hyLng] || _HY_HNAMES.en;
+            const _hyGN = _GREG_MONTHS[_hyLng] || _GREG_MONTHS.en;
+            const _hyGS = (_HY_GSFX[_hyLng] !== undefined) ? _HY_GSFX[_hyLng] : ' CE';
+            const _hyRowTitle = _HY_ROWTITLE[_hyLng] || _HY_ROWTITLE.en;
+            const _hyPfx = (_hyLng === 'ar') ? '' : ('/' + _hyLng);
+            const _hyPad2 = (n) => String(n).padStart(2, '0');
+            const _hyNow = _hijriNow();
+            const _hyTd = 'padding:10px 14px;border-bottom:1px solid var(--border);text-align:center;';
+            let _hyRows = '';
+            for (let _m = 1; _m <= 12; _m++) {
+                const _mDays = _getDaysInHijriMonth(_hyTblY, _m);
+                const _gF = _hijriToGregorian(_hyTblY, _m, 1);
+                const _gL = _hijriToGregorian(_hyTblY, _m, _mDays);
+                if (!_gF || !_gL) continue;
+                const _mName = _hyHN[_m - 1] || '';
+                const _gm1 = _hyGN[_gF.month - 1] || '';
+                const _gm2 = _hyGN[_gL.month - 1] || '';
+                const _startStr = `${_gF.day} ${_gm1} ${_gF.year}`;
+                const _endStr   = `${_gL.day} ${_gm2} ${_gL.year}`;
+                const _mUrl     = `${_hyPfx}/hijri-calendar/${_hyTblY}-${_hyPad2(_m)}`;
+                const _startHref = `${_hyPfx}/hijri-date/${_hyTblY}-${_hyPad2(_m)}-01`;
+                const _endHref   = `${_hyPfx}/hijri-date/${_hyTblY}-${_hyPad2(_m)}-${_hyPad2(_mDays)}`;
+                const _isCur  = (_hyNow.year === _hyTblY && _hyNow.month === _m);
+                const _rowBg  = _isCur ? 'background:var(--primary-light);' : (_m % 2 === 0 ? 'background:var(--bg);' : '');
+                const _lnkClr = _isCur ? 'color:#fff;font-weight:700;text-decoration:none;' : 'color:var(--primary);text-decoration:none;';
+                const _txtClr = _isCur ? 'color:#fff;' : '';
+                const _stT = _hyRowTitle(`1 ${_mName} ${_yLbl}`, `${_gF.day} ${_gm1} ${_gF.year}${_hyGS}`);
+                const _enT = _hyRowTitle(`${_mDays} ${_mName} ${_yLbl}`, `${_gL.day} ${_gm2} ${_gL.year}${_hyGS}`);
+                const _stTA = ` title="${_escHtml(_stT).replace(/"/g, '&quot;')}"`;
+                const _enTA = ` title="${_escHtml(_enT).replace(/"/g, '&quot;')}"`;
+                _hyRows +=
+                    `<tr style="${_rowBg}">` +
+                    `<td style="${_hyTd}${_txtClr}"><a href="${_mUrl}" style="${_lnkClr}">${_escHtml(_mName)} ${_escHtml(_yLbl)}</a></td>` +
+                    `<td style="${_hyTd}${_txtClr}"><a href="${_startHref}"${_stTA} style="${_lnkClr}">${_escHtml(_startStr)}</a></td>` +
+                    `<td style="${_hyTd}${_txtClr}"><a href="${_endHref}"${_enTA} style="${_lnkClr}">${_escHtml(_endStr)}</a></td>` +
+                    `<td style="${_hyTd}${_txtClr}"><a href="${_mUrl}" style="${_lnkClr}">${_mDays}</a></td>` +
+                    `</tr>`;
+            }
+            if (_hyRows) {
+                html = html.replace(
+                    '<tbody id="hyear-table-body"></tbody>',
+                    '<tbody id="hyear-table-body" data-ssr-rendered="1">' + _hyRows + '</tbody>'
+                );
+            }
+        } catch (_e3) { /* silent — SSR table fill is best-effort; app.js no-swap guard handles either state */ }
         const _HCAL_GUIDE = {
             ar: {
                 title: `دليل استخدام التقويم الهجري لعام ${_yLbl}`,

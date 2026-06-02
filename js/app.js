@@ -23225,7 +23225,13 @@ function loadHijriYearPage() {
     if (tableTitleEl) tableTitleEl.textContent = ui.table_title(ctx);
 
     const tbody = document.getElementById('hyear-table-body');
-    if (tbody) {
+    // HIJRI-CALENDAR-GEO-SSR-CONTENT-FIX-1 (2026-06-02): no-swap guard.
+    // server.js now SSR-renders the 12 months table (data-ssr-rendered="1")
+    // with byte-identical markup. Skip the client rebuild when the table is
+    // already SSR-filled → no DOM re-creation, no hydration diff, no CLS.
+    // (When the year in the URL differs from "today" the SSR fill still
+    //  matches because the same Umm al-Qura engine + _GREG_MONTHS feed both.)
+    if (tbody && tbody.getAttribute('data-ssr-rendered') !== '1') {
         tbody.innerHTML = '';
         const _pad2 = (n) => String(n).padStart(2, '0');
         const gSfx = (typeof gSfxFor === 'function') ? gSfxFor(lang) : '';

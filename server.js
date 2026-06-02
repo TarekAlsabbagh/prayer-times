@@ -15891,6 +15891,141 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 html = html.replace(/(<div class="ht-month"\s+id="hday-month")>--<\/div>/, `$1 data-ssr-rendered="1">${_escHtml(_hdMNm)}</div>`);
                 html = html.replace(/(<div class="ht-year"\s+id="hday-year")>--<\/div>/, `$1 data-ssr-rendered="1">${_escHtml(_hdYear + ' ' + _hdSfx)}</div>`);
                 html = html.replace(/(<p id="hday-subtitle" class="hpage-hero-subtitle")>--<\/p>/, `$1 data-ssr-rendered="1">${_escHtml(_hdSubtitle)}</p>`);
+
+                // ---- 1.6) HIJRI-DATE-DAY-BREADCRUMB-SSR-FILL-CLS-FIX-1 (2026-06-02) ----
+                // SSR-fill the breadcrumb (#hday-breadcrumbs — above the hero, the dominant
+                // first-paint reflow culprit per HIJRI-DATE-DAY-LOAD-DELAY-AUDIT-2) plus the
+                // near-fold supporting blocks (#hday-hierarchy / #hday-info-grid / #hday-cta /
+                // #hday-nav) that also shipped empty and were filled by loadHijriDayPage()
+                // AFTER hydration → first-paint reflow (cold CLS ~0.039). Mirrors app.js
+                // (22701/22761/22786/22828/22953) for the non-today branch (date pages force
+                // isToday=isGeoToday=false → no city hop, generic CTAs). Same Umm al-Qura
+                // engine (_getDaysInHijriMonth/_isValidHijriDate) so prev/next boundary gating
+                // matches the client. Each block marked data-ssr-rendered="1" + paired no-swap
+                // guard in app.js (consumed on first hydration → SPA-nav still rebuilds). The
+                // #hday-cta "prayer" button points at Home in SSR (no server-side geo) — the
+                // client re-personalizes it on later SPA navigations; height is identical.
+                const _HDB = {
+                    ar:{home:'الرئيسية',cal:'التقويم الهجري',prev:'اليوم السابق',next:'اليوم التالي',cDay:'📅 اليوم',cGreg:'📆 التاريخ الميلادي',cMonth:'🌙 الشهر',cDays:'📊 عدد أيام الشهر',daysW:'يومًا',cYear:'📅 السنة',cOrder:'📊 ترتيب اليوم',ord:(d,t)=>`${d} من ${t}`,ctaConv:'🔄 تحويل التاريخ',ctaMoon:'🌙 حالة القمر اليوم',ctaPrayer:'🕌 مواقيت الصلاة اليوم',relMonth:(m,y)=>`🌙 شهر ${m} ${y} هـ`,relYear:y=>`📆 تقويم عام ${y} هـ`},
+                    en:{home:'Home',cal:'Hijri Calendar',prev:'Previous Day',next:'Next Day',cDay:'📅 Day',cGreg:'📆 Gregorian Date',cMonth:'🌙 Month',cDays:'📊 Days in Month',daysW:'days',cYear:'📅 Year',cOrder:'📊 Day of month',ord:(d,t)=>`${d} of ${t}`,ctaConv:'🔄 Date Converter',ctaMoon:'🌙 Moon Today',ctaPrayer:'🕌 Prayer Times Today',relMonth:(m,y)=>`🌙 ${m} ${y} Calendar`,relYear:y=>`📆 ${y} AH Full Year`},
+                    fr:{home:'Accueil',cal:'Calendrier hégirien',prev:'Jour précédent',next:'Jour suivant',cDay:'📅 Jour',cGreg:'📆 Date grégorienne',cMonth:'🌙 Mois',cDays:'📊 Jours dans le mois',daysW:'jours',cYear:'📅 Année',cOrder:'📊 Jour du mois',ord:(d,t)=>`${d} sur ${t}`,ctaConv:'🔄 Convertisseur de dates',ctaMoon:'🌙 Lune aujourd’hui',ctaPrayer:'🕌 Heures de prière',relMonth:(m,y)=>`🌙 Mois de ${m} ${y} H`,relYear:y=>`📆 Année complète ${y} H`},
+                    tr:{home:'Anasayfa',cal:'Hicri Takvim',prev:'Önceki Gün',next:'Sonraki Gün',cDay:'📅 Gün',cGreg:'📆 Miladi Tarih',cMonth:'🌙 Ay',cDays:'📊 Ay Günleri',daysW:'gün',cYear:'📅 Yıl',cOrder:'📊 Ayın günü',ord:(d,t)=>`${d} / ${t}`,ctaConv:'🔄 Tarih Dönüştürücü',ctaMoon:'🌙 Bugünkü Ay',ctaPrayer:'🕌 Bugünün Namaz Vakitleri',relMonth:(m,y)=>`🌙 ${m} ${y} H Ayı`,relYear:y=>`📆 ${y} H Tam Yıl`},
+                    ur:{home:'ہوم',cal:'ہجری کیلنڈر',prev:'پچھلا دن',next:'اگلا دن',cDay:'📅 دن',cGreg:'📆 عیسوی تاریخ',cMonth:'🌙 مہینہ',cDays:'📊 مہینے کے ایام',daysW:'دن',cYear:'📅 سال',cOrder:'📊 مہینے کا دن',ord:(d,t)=>`${d} از ${t}`,ctaConv:'🔄 تاریخ کنورٹر',ctaMoon:'🌙 آج کی چاند کی حالت',ctaPrayer:'🕌 آج کی نماز کے اوقات',relMonth:(m,y)=>`🌙 ${m} ${y} کا مہینہ`,relYear:y=>`📆 ${y} ہجری کا مکمل سال`},
+                    de:{home:'Startseite',cal:'Hidschri-Kalender',prev:'Vorheriger Tag',next:'Nächster Tag',cDay:'📅 Tag',cGreg:'📆 Gregorianisches Datum',cMonth:'🌙 Monat',cDays:'📊 Tage im Monat',daysW:'Tage',cYear:'📅 Jahr',cOrder:'📊 Tag des Monats',ord:(d,t)=>`${d} von ${t}`,ctaConv:'🔄 Datumsumrechner',ctaMoon:'🌙 Mond heute',ctaPrayer:'🕌 Gebetszeiten heute',relMonth:(m,y)=>`🌙 Monat ${m} ${y} AH`,relYear:y=>`📆 Gesamtes Jahr ${y} AH`},
+                    id:{home:'Beranda',cal:'Kalender Hijriah',prev:'Hari Sebelumnya',next:'Hari Berikutnya',cDay:'📅 Hari',cGreg:'📆 Tanggal Masehi',cMonth:'🌙 Bulan',cDays:'📊 Jumlah Hari',daysW:'hari',cYear:'📅 Tahun',cOrder:'📊 Hari ke',ord:(d,t)=>`${d} dari ${t}`,ctaConv:'🔄 Konverter Tanggal',ctaMoon:'🌙 Bulan Hari Ini',ctaPrayer:'🕌 Jadwal Sholat Hari Ini',relMonth:(m,y)=>`🌙 Bulan ${m} ${y} H`,relYear:y=>`📆 Setahun Penuh ${y} H`},
+                    es:{home:'Inicio',cal:'Calendario Hégira',prev:'Día anterior',next:'Día siguiente',cDay:'📅 Día',cGreg:'📆 Fecha Gregoriana',cMonth:'🌙 Mes',cDays:'📊 Días del mes',daysW:'días',cYear:'📅 Año',cOrder:'📊 Día del mes',ord:(d,t)=>`${d} de ${t}`,ctaConv:'🔄 Convertidor de fechas',ctaMoon:'🌙 Luna hoy',ctaPrayer:'🕌 Horarios de oración hoy',relMonth:(m,y)=>`🌙 Mes de ${m} ${y} H`,relYear:y=>`📆 Año completo ${y} H`},
+                    bn:{home:'হোম',cal:'হিজরি ক্যালেন্ডার',prev:'পূর্ববর্তী দিন',next:'পরবর্তী দিন',cDay:'📅 দিন',cGreg:'📆 খ্রিস্টীয় তারিখ',cMonth:'🌙 মাস',cDays:'📊 মাসের দিন সংখ্যা',daysW:'দিন',cYear:'📅 বছর',cOrder:'📊 মাসের দিন',ord:(d,t)=>`${d} / ${t}`,ctaConv:'🔄 তারিখ রূপান্তরকারী',ctaMoon:'🌙 আজকের চাঁদ',ctaPrayer:'🕌 আজকের নামাজের সময়',relMonth:(m,y)=>`🌙 ${m} ${y} হিজরির মাস`,relYear:y=>`📆 ${y} হিজরি পূর্ণ বছর`},
+                    ms:{home:'Laman Utama',cal:'Kalendar Hijrah',prev:'Hari Sebelumnya',next:'Hari Berikutnya',cDay:'📅 Hari',cGreg:'📆 Tarikh Masihi',cMonth:'🌙 Bulan',cDays:'📊 Hari dalam Bulan',daysW:'hari',cYear:'📅 Tahun',cOrder:'📊 Hari dalam bulan',ord:(d,t)=>`${d} daripada ${t}`,ctaConv:'🔄 Penukar Tarikh',ctaMoon:'🌙 Bulan Hari Ini',ctaPrayer:'🕌 Waktu Solat Hari Ini',relMonth:(m,y)=>`🌙 Bulan ${m} ${y} H`,relYear:y=>`📆 Setahun Penuh ${y} H`},
+                };
+                const _hb = _HDB[_hdLng] || _HDB.en;
+                const _hdPrefix = (_hdLng === 'ar') ? '' : ('/' + _hdLng);
+                const _hdHomeUrl = (_hdLng === 'ar') ? '/' : (_hdPrefix + '/');
+                const _hdYearN = parseInt(_hdYear, 10);
+                const _hdDayN = parseInt(_hdDay, 10);
+                const _hdPad2 = n => (n < 10 ? '0' + n : '' + n);
+                const _hdYrSfx = `${_hdYear} ${_hdSfx}`;                                 // "1447 هـ" (== client `${year}${hSfx}`)
+                const _hdMonthUrl = `${_hdPrefix}/hijri-calendar/${_hdYear}-${_hdPad2(_hdMonth)}`;
+                const _hdYearUrl  = `${_hdPrefix}/hijri-calendar/${_hdYear}`;
+                const _hdTotalDays = _getDaysInHijriMonth(_hdYearN, _hdMonth);
+
+                // (a) Breadcrumb — 5 levels (no city hop on date pages). Same markup as
+                //     _buildHijriBreadcrumbOl (app.js 2301): un-escaped, labels carry no
+                //     HTML-special chars.
+                const _hdBcItems = [
+                    { href: _hdHomeUrl, text: _hb.home },
+                    { href: `${_hdPrefix}/hijri-calendar`, text: _hb.cal },
+                    { href: _hdYearUrl, text: _hdYrSfx },
+                    { href: _hdMonthUrl, text: `${_hdMNm} ${_hdYrSfx}` },
+                    { current: true, text: _hdDated },
+                ];
+                const _hdBcHtml = '<ol class="breadcrumb-list">' + _hdBcItems.map((it, i) => {
+                    const sep = i > 0 ? '<li class="bc-sep" aria-hidden="true">›</li>' : '';
+                    if (it.current) return sep + `<li class="bc-item bc-current" aria-current="page">${it.text}</li>`;
+                    return sep + `<li class="bc-item"><a class="bc-link" href="${it.href}">${it.text}</a></li>`;
+                }).join('') + '</ol>';
+                html = html.replace(
+                    /<nav class="city-breadcrumb hijri-breadcrumb" id="hday-breadcrumbs"([^>]*)><\/nav>/,
+                    `<nav class="city-breadcrumb hijri-breadcrumb" id="hday-breadcrumbs"$1 data-ssr-rendered="1">${_hdBcHtml}</nav>`
+                );
+
+                // (b) Hierarchy — Month + Year links (app.js 22953). Exact inline styles.
+                const _hdHierItems = [
+                    [_hdMonthUrl, _hb.relMonth(_hdMNm, _hdYear)],
+                    [_hdYearUrl,  _hb.relYear(_hdYear)],
+                ];
+                const _hdHierHtml = _hdHierItems.map(([href, text]) =>
+                    `<a href="${href}" style="display:inline-flex;align-items:center;justify-content:center;padding:12px 22px;background:var(--primary);color:#fff;border-radius:10px;text-decoration:none;font-size:0.95rem;font-weight:700;margin:6px;border:1px solid var(--primary);min-height:44px;">${text}</a>`
+                ).join('');
+                html = html.replace(
+                    /<div id="hday-hierarchy" class="u-flex-center"><\/div>/,
+                    `<div id="hday-hierarchy" class="u-flex-center" data-ssr-rendered="1">${_hdHierHtml}</div>`
+                );
+
+                // (c) Info grid — 6 cards, non-today branch (app.js 22771). gDate keeps its
+                //     Gregorian suffix here (only the hero subtitle strips ' م').
+                const _hdGridCards = [
+                    [_hb.cDay,   _hdWeekday],
+                    [_hb.cGreg,  _hdGDate],
+                    [_hb.cMonth, _hdMNm],
+                    [_hb.cYear,  _hdYrSfx],
+                    [_hb.cDays,  `${_hdTotalDays} ${_hb.daysW}`],
+                    [_hb.cOrder, _hb.ord(_hdDay, _hdTotalDays)],
+                ];
+                const _hdGridHtml = _hdGridCards.map(([label, val]) =>
+                    `<div class="info-card"><div class="info-label">${label}</div><div class="info-value">${val}</div></div>`
+                ).join('');
+                html = html.replace(
+                    /<div class="info-grid" id="hday-info-grid"><\/div>/,
+                    `<div class="info-grid" id="hday-info-grid" data-ssr-rendered="1">${_hdGridHtml}</div>`
+                );
+
+                // (d) CTA — 3 buttons (app.js 22786). Prayer → Home in SSR (no server geo).
+                const _hdCtas = [
+                    [`${_hdPrefix}/dateconverter`, _hb.ctaConv,   true],
+                    [`${_hdPrefix}/moon-today`,    _hb.ctaMoon,   false],
+                    [_hdHomeUrl,                   _hb.ctaPrayer, false],
+                ];
+                const _hdCtaHtml = _hdCtas.map(([href, text, primary]) =>
+                    `<a href="${href}" style="display:inline-block;padding:10px 20px;background:${primary ? 'var(--primary)' : 'var(--bg)'};color:${primary ? '#fff' : 'var(--primary)'};border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:${primary ? '700' : '500'};border:1px solid var(--border);margin:4px;">${text}</a>`
+                ).join('');
+                html = html.replace(
+                    /<div id="hday-cta" class="u-flex-center"><\/div>/,
+                    `<div id="hday-cta" class="u-flex-center" data-ssr-rendered="1">${_hdCtaHtml}</div>`
+                );
+
+                // (e) Prev / Next nav (app.js 22828) — boundary-gated via _isValidHijriDate.
+                let _pD, _pM, _pY, _nD, _nM, _nY;
+                if (_hdDayN > 1)      { _pD = _hdDayN - 1; _pM = _hdMonth; _pY = _hdYearN; }
+                else if (_hdMonth > 1){ _pM = _hdMonth - 1; _pY = _hdYearN; _pD = _getDaysInHijriMonth(_pY, _pM); }
+                else                  { _pY = _hdYearN - 1; _pM = 12; _pD = _getDaysInHijriMonth(_pY, _pM); }
+                if (_hdDayN < _hdTotalDays) { _nD = _hdDayN + 1; _nM = _hdMonth; _nY = _hdYearN; }
+                else if (_hdMonth < 12)     { _nD = 1; _nM = _hdMonth + 1; _nY = _hdYearN; }
+                else                        { _nD = 1; _nM = 1; _nY = _hdYearN + 1; }
+                const _pValid = _isValidHijriDate(_pY, _pM, _pD);
+                const _nValid = _isValidHijriDate(_nY, _nM, _nD);
+                const _hdMonNames = _HD_MONTHS[_hdLng] || _HD_MONTHS.en;
+                const _pName = _hdMonNames[_pM - 1] || '';
+                const _nName = _hdMonNames[_nM - 1] || '';
+                const _pUrl = `${_hdPrefix}/hijri-date/${_pY}-${_hdPad2(_pM)}-${_hdPad2(_pD)}`;
+                const _nUrl = `${_hdPrefix}/hijri-date/${_nY}-${_hdPad2(_nM)}-${_hdPad2(_nD)}`;
+                const _pFull = `${_pD} ${_pName} ${_pY} ${_hdSfx}`;
+                const _nFull = `${_nD} ${_nName} ${_nY} ${_hdSfx}`;
+                const _rtlD = (_hdLng === 'ar' || _hdLng === 'ur');
+                const _arPrev = _rtlD ? '→' : '←';
+                const _arNext = _rtlD ? '←' : '→';
+                const _pCell = 'flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);';
+                const _nCell = 'flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);';
+                const _disS = 'opacity:0.45;cursor:not-allowed;pointer-events:none;';
+                const _pHtml = _pValid
+                    ? `<a href="${_pUrl}" style="${_pCell}"><span style="font-size:0.75rem;color:var(--text-light);">${_arPrev} ${_hb.prev}</span><span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${_pFull}</span></a>`
+                    : `<span aria-disabled="true" style="${_pCell}${_disS}"><span style="font-size:0.75rem;color:var(--text-light);">${_arPrev} ${_hb.prev}</span><span style="font-weight:700;color:var(--text-light);font-size:0.95rem;">—</span></span>`;
+                const _nHtml = _nValid
+                    ? `<a href="${_nUrl}" style="${_nCell}"><span style="font-size:0.75rem;color:var(--text-light);">${_hb.next} ${_arNext}</span><span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${_nFull}</span></a>`
+                    : `<span aria-disabled="true" style="${_nCell}${_disS}"><span style="font-size:0.75rem;color:var(--text-light);">${_hb.next} ${_arNext}</span><span style="font-weight:700;color:var(--text-light);font-size:0.95rem;">—</span></span>`;
+                html = html.replace(
+                    /<div id="hday-nav" class="u-flex-btns"><\/div>/,
+                    `<div id="hday-nav" class="u-flex-btns" data-ssr-rendered="1">${_pHtml}${_nHtml}</div>`
+                );
             }
 
             // ---- 2) Build 4 SSR educational sections (per-lang dict) ----

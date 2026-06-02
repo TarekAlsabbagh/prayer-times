@@ -1518,7 +1518,7 @@
 //   canonical, hreflang, sitemap, routing, JSON-LD. Month + today + day
 //   pages UNAFFECTED. Files: server.js (~55: breadcrumb + intro SSR-fill +
 //   doc) + sw.js (this comment + version bump v410→v411).
-const CACHE_VERSION = 'v416';
+const CACHE_VERSION = 'v417';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1545,7 +1545,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=7',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=756',
+    '/js/app.js?v=757',
 ];
 
 self.addEventListener('install', (event) => {

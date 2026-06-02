@@ -22698,8 +22698,14 @@ function loadHijriDayPage() {
     ctx.isToday = false;
 
     // ── 1. Breadcrumbs ─────────────────────────────────────────────
+    // HIJRI-DATE-DAY-BREADCRUMB-SSR-FILL-CLS-FIX-1 (2026-06-02): no-swap guard.
+    // server.js SSR-fills #hday-breadcrumbs (+ hierarchy/info-grid/cta/nav) with
+    // data-ssr-rendered="1". Consume the flag on first hydration (skip rebuild →
+    // no first-paint reflow); rebuild on later SPA navigations (flag absent).
     const bcEl = document.getElementById('hday-breadcrumbs');
-    if (bcEl) {
+    if (bcEl && bcEl.getAttribute('data-ssr-rendered') === '1') {
+        bcEl.removeAttribute('data-ssr-rendered');
+    } else if (bcEl) {
         const calHubUrl = `${prefix}/hijri-calendar`;
         const yearPath  = `${prefix}/hijri-calendar/${year}`;
         const monthPath = hijriMonthUrl(year, month);
@@ -22759,7 +22765,9 @@ function loadHijriDayPage() {
 
     // ── 3. Info Cards (today vs non-today: drop redundant hDate card, add year + order-of-day) ──
     const gridEl = document.getElementById('hday-info-grid');
-    if (gridEl) {
+    if (gridEl && gridEl.getAttribute('data-ssr-rendered') === '1') {
+        gridEl.removeAttribute('data-ssr-rendered');
+    } else if (gridEl) {
         const leapText = isLeap ? ui.leap_yes : ui.leap_no;
         const cards = isToday ? [
             [ui.cards[0], dayName],
@@ -22784,7 +22792,9 @@ function loadHijriDayPage() {
     // ── 4. CTA — 3 focused buttons (converter + moon + smart prayer) ──
     // Smart prayer routing: city known → /prayer-times-in-{slug}; else → homepage
     const ctaEl = document.getElementById('hday-cta');
-    if (ctaEl) {
+    if (ctaEl && ctaEl.getAttribute('data-ssr-rendered') === '1') {
+        ctaEl.removeAttribute('data-ssr-rendered');
+    } else if (ctaEl) {
         let _citySlug = '';
         try {
             if (typeof currentEnglishName === 'string' && currentEnglishName) {
@@ -22826,7 +22836,9 @@ function loadHijriDayPage() {
 
     // ── 5. Prev / Next Navigation ──────────────────────────────────
     const navEl = document.getElementById('hday-nav');
-    if (navEl) {
+    if (navEl && navEl.getAttribute('data-ssr-rendered') === '1') {
+        navEl.removeAttribute('data-ssr-rendered');
+    } else if (navEl) {
         let prevD2, prevM2, prevY2, nextD2, nextM2, nextY2;
         if (day > 1)       { prevD2 = day - 1; prevM2 = month; prevY2 = year; }
         else if (month > 1){ prevM2 = month - 1; prevY2 = year; prevD2 = HijriDate.getDaysInHijriMonth(prevY2, prevM2); }
@@ -22951,7 +22963,9 @@ function loadHijriDayPage() {
 
     // ── 1b. Hierarchy Navigation (Day → Month → Year) — placed above the fold for crawl priority ──
     const hierEl = document.getElementById('hday-hierarchy');
-    if (hierEl) {
+    if (hierEl && hierEl.getAttribute('data-ssr-rendered') === '1') {
+        hierEl.removeAttribute('data-ssr-rendered');
+    } else if (hierEl) {
         const hier = [
             [hijriMonthUrl(year, month),          ex.relMonth(monthName, year)],
             [`${prefix}/hijri-calendar/${year}`,  ex.relYear(year)],

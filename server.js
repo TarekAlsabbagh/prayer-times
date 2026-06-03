@@ -10074,37 +10074,65 @@ function buildSeoForPath(urlPath) {
         };
         const _hSfxM = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' }[lang] || ' AH';
         const _mName = (_HM_BY_LANG_M[lang] || _HM_BY_LANG_M.en)[monthNum - 1];
-        const _HMO_TITLE = {
-            ar: `التقويم الهجري لشهر ${_mName} ${year}${_hSfxM}`,
-            en: `Hijri Calendar: ${_mName} ${year}${_hSfxM}`,
-            fr: `Calendrier hégirien : ${_mName} ${year}${_hSfxM}`,
-            tr: `Hicri Takvim: ${_mName} ${year}${_hSfxM}`,
-            ur: `ہجری کیلنڈر: ${_mName} ${year}${_hSfxM}`,
-            de: `Hidschri-Kalender: ${_mName} ${year}${_hSfxM}`,
-            id: `Kalender Hijriah: ${_mName} ${year}${_hSfxM}`,
-            es: `Calendario Hégira: ${_mName} ${year}${_hSfxM}`,
-            bn: `হিজরি ক্যালেন্ডার: ${_mName} ${year}${_hSfxM}`,
-            ms: `Kalendar Hijrah: ${_mName} ${year}${_hSfxM}`,
+        // MULTILANG-HIJRI-CALENDAR-MONTH-SEO-GEO-CONTENT-FIX-1 (2026-06-03):
+        //   The old fixed Title (36-43 cp) was UNDER SEOptimer's 50-cp floor for
+        //   all 10 langs, and the old Meta (91-130 cp) was UNDER the 120-cp floor
+        //   for 8 of 10. Replaced with length-aware ladders (same picker pattern
+        //   as the day page, server.js:10237). Title picker: first candidate ∈
+        //   [50,60] → else longest ≤60 → fallback. Meta picker: first ∈ [120,160]
+        //   → else longest ≤160 → fallback. Validated across all 12 months × 10
+        //   langs × {29,30}-day counts (scripts/_hmonth_ladder_design.mjs): 100%
+        //   in range. Keywords kept natural (تقويم الشهر / الشهر الهجري / التاريخ
+        //   الميلادي / عدد الأيام / تقويم أم القرى). No padding/stuffing. The
+        //   global setSEOMeta SSR-trust guard (GLOBAL-CLIENT-SEO-NO-OVERWRITE-SSR-
+        //   FIX-1) carries these to the DOM unchanged on the landing page.
+        const _mDated = `${_mName} ${year}${_hSfxM}`;
+        const _mTotalDays = _getDaysInHijriMonth(parseInt(year, 10), monthNum);
+        const _td = String(_mTotalDays);
+        const _cpLen = s => Array.from(s).length;
+        const _HMO_TITLE_FORMS = {
+            ar: [`تقويم شهر ${_mDated} | الأيام الهجرية والميلادية المقابلة`,`تقويم شهر ${_mDated} | الأيام الهجرية والميلادية`,`التقويم الهجري لشهر ${_mDated} | الأيام والميلادي`,`تقويم ${_mDated} | الأيام والتواريخ الميلادية`,`التقويم الهجري لشهر ${_mDated}`],
+            en: [`Hijri Calendar ${_mDated} | Hijri and Gregorian Calendar Days`,`Hijri Calendar ${_mDated} | Hijri and Gregorian Days`,`Hijri Calendar: ${_mDated} | Days and Gregorian Dates`,`${_mDated} Hijri Calendar | Gregorian Dates`,`Hijri Calendar: ${_mDated}`],
+            fr: [`Calendrier hégirien ${_mDated} | jours hégiriens et grégoriens`,`Calendrier hégirien ${_mDated} | jours et dates grégoriennes`,`Calendrier hégirien : ${_mDated} | dates grégoriennes`,`${_mDated} | Calendrier hégirien et grégorien`,`Calendrier hégirien : ${_mDated}`],
+            tr: [`Hicri Takvim ${_mDated} | Hicri ve Miladi Takvim Günleri`,`Hicri Takvim ${_mDated} | Hicri ve Miladi Günler`,`Hicri Takvim: ${_mDated} | Günler ve Miladi Tarihler`,`${_mDated} Hicri Takvim | Miladi Tarihler`,`Hicri Takvim: ${_mDated}`],
+            ur: [`ہجری کیلنڈر ${_mDated} | ہجری اور عیسوی تقویم کے ایام`,`ہجری کیلنڈر ${_mDated} | ہجری اور عیسوی ایام`,`ہجری کیلنڈر: ${_mDated} | ایام اور عیسوی تاریخیں`,`${_mDated} ہجری کیلنڈر | عیسوی تاریخیں`,`ہجری کیلنڈر: ${_mDated}`],
+            de: [`Hidschri-Kalender ${_mDated} | Hidschri- und gregorianische Tage`,`Hidschri-Kalender: ${_mDated} | Tage und gregorianische Daten`,`Hidschri-Kalender: ${_mDated} | gregorianische Tage`,`Hidschri-Kalender: ${_mDated} | Tage und Daten`,`Hidschri-Kalender: ${_mDated} | Tage`,`Hidschri-Kalender: ${_mDated}`],
+            id: [`Kalender Hijriah ${_mDated} | Hari Hijriah dan Tanggal Masehi`,`Kalender Hijriah ${_mDated} | Hari Hijriah dan Masehi`,`Kalender Hijriah: ${_mDated} | Hari dan Tanggal Masehi`,`Kalender Hijriah ${_mDated} | Hari dan Tanggal`,`Kalender Hijriah ${_mDated} dan Tanggal Masehi`,`Kalender Hijriah: ${_mDated}`],
+            es: [`Calendario Hégira ${_mDated} | días Hégira y gregorianos`,`Calendario Hégira ${_mDated} | días y fechas gregorianas`,`Calendario Hégira: ${_mDated} | días y fechas`,`${_mDated} | Calendario Hégira y gregoriano`,`Calendario Hégira: ${_mDated}`],
+            bn: [`হিজরি ক্যালেন্ডার ${_mDated} | হিজরি ও গ্রেগরিয়ান দিনপঞ্জি`,`হিজরি ক্যালেন্ডার ${_mDated} | হিজরি ও গ্রেগরিয়ান দিন`,`হিজরি ক্যালেন্ডার: ${_mDated} | দিন ও তারিখ`,`${_mDated} হিজরি ক্যালেন্ডার ও তারিখ`,`হিজরি ক্যালেন্ডার: ${_mDated}`],
+            ms: [`Kalendar Hijrah ${_mDated} | Hari Hijrah dan Tarikh Masihi`,`Kalendar Hijrah ${_mDated} | Hari Hijrah dan Masihi`,`Kalendar Hijrah: ${_mDated} | Hari dan Tarikh Masihi`,`Kalendar Hijrah ${_mDated} | Hari dan Tarikh`,`Kalendar Hijrah ${_mDated} dan Tarikh Masihi`,`Kalendar Hijrah: ${_mDated}`],
         };
-        const _HMO_DESC = {
-            ar: `التقويم الهجري الكامل لشهر ${_mName} ${year}${_hSfxM} مع التاريخ الميلادي لكل يوم حسب تقويم أم القرى.`,
-            en: `Full Hijri calendar for ${_mName} ${year}${_hSfxM} with the Gregorian date for each day, per the Umm al-Qura calendar.`,
-            fr: `Calendrier hégirien complet de ${_mName} ${year}${_hSfxM} avec la date grégorienne de chaque jour, selon le calendrier Umm al-Qura.`,
-            tr: `${_mName} ${year}${_hSfxM} için tam hicri takvim, her günün miladi tarihiyle, Ümmülkura takvimine göre.`,
-            ur: `${_mName} ${year}${_hSfxM} کا مکمل ہجری کیلنڈر، ہر دن کی عیسوی تاریخ کے ساتھ، ام القری کیلنڈر کے مطابق۔`,
-            de: `Vollständiger Hidschri-Kalender für ${_mName} ${year}${_hSfxM} mit gregorianischem Datum für jeden Tag, gemäß dem Umm-al-Qura-Kalender.`,
-            id: `Kalender Hijriah lengkap untuk ${_mName} ${year}${_hSfxM} dengan tanggal Masehi setiap hari, menurut kalender Umm al-Qura.`,
-            es: `Calendario Hégira completo de ${_mName} ${year}${_hSfxM} con la fecha gregoriana de cada día, según el calendario Umm al-Qura.`,
-            bn: `${_mName} ${year}${_hSfxM}-এর সম্পূর্ণ হিজরি ক্যালেন্ডার প্রতিটি দিনের খ্রিস্টীয় তারিখসহ, উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী।`,
-            ms: `Kalendar Hijrah lengkap bagi ${_mName} ${year}${_hSfxM} dengan tarikh Masihi bagi setiap hari, mengikut kalendar Umm al-Qura.`,
+        const _HMO_DESC_FORMS = {
+            ar: [`استعرض التقويم الهجري لشهر ${_mDated} كاملًا مع الأيام الهجرية والتواريخ الميلادية المقابلة لكل يوم، وعدد أيام الشهر (${_td} يومًا) حسب تقويم أم القرى.`,`التقويم الهجري الكامل لشهر ${_mDated} مع التاريخ الميلادي المقابل لكل يوم، وعدد أيام الشهر حسب تقويم أم القرى المعتمد.`],
+            en: [`Browse the full Hijri calendar for ${_mDated} with every Hijri day, the matching Gregorian date for each day, and the number of days in the month (${_td}) per the Umm al-Qura calendar.`,`Full Hijri calendar for ${_mDated} with the Gregorian date for each day and the number of days in the month, per the Umm al-Qura calendar.`],
+            fr: [`Parcourez le calendrier hégirien complet de ${_mDated} avec chaque jour hégirien, la date grégorienne correspondante et le nombre de jours du mois (${_td}) selon le calendrier Umm al-Qura.`,`Calendrier hégirien complet de ${_mDated} avec la date grégorienne de chaque jour et le nombre de jours du mois, selon le calendrier Umm al-Qura.`],
+            tr: [`${_mDated} için tam hicri takvimi inceleyin: her hicri gün, her güne karşılık gelen miladi tarih ve ayın gün sayısı (${_td}), Ümmülkura takvimine göre.`,`${_mDated} için tam hicri takvim, her günün miladi tarihi ve ayın gün sayısı ile birlikte, Ümmülkura takvimine göre hazırlanmıştır.`],
+            ur: [`${_mDated} کا مکمل ہجری کیلنڈر دیکھیں: ہر ہجری دن، ہر دن کی مطابق عیسوی تاریخ اور مہینے کے ایام کی تعداد (${_td})، ام القری کیلنڈر کے مطابق۔`,`${_mDated} کا مکمل ہجری کیلنڈر، ہر دن کی عیسوی تاریخ اور مہینے کے ایام کی تعداد کے ساتھ، ام القری کیلنڈر کے مطابق۔`],
+            de: [`Durchsuchen Sie den vollständigen Hidschri-Kalender für ${_mDated} mit jedem Hidschri-Tag, dem gregorianischen Datum jedes Tages und der Zahl der Monatstage (${_td}) gemäß dem Umm-al-Qura-Kalender.`,`Hidschri-Kalender für ${_mDated} mit gregorianischem Datum für jeden Tag und der Anzahl der Monatstage, gemäß dem Umm-al-Qura-Kalender.`,`Hidschri-Kalender für ${_mDated} mit gregorianischem Datum für jeden Tag, gemäß dem Umm-al-Qura-Kalender.`],
+            id: [`Jelajahi kalender Hijriah lengkap untuk ${_mDated} dengan setiap hari Hijriah, tanggal Masehi yang sesuai, dan jumlah hari dalam bulan (${_td}) menurut kalender Umm al-Qura.`,`Kalender Hijriah lengkap untuk ${_mDated} dengan tanggal Masehi setiap hari dan jumlah hari dalam bulan, menurut kalender Umm al-Qura.`],
+            es: [`Explora el calendario Hégira completo de ${_mDated} con cada día Hégira, la fecha gregoriana correspondiente y el número de días del mes (${_td}) según el calendario Umm al-Qura.`,`Calendario Hégira completo de ${_mDated} con la fecha gregoriana de cada día y el número de días del mes, según el calendario Umm al-Qura.`],
+            bn: [`${_mDated}-এর সম্পূর্ণ হিজরি ক্যালেন্ডার দেখুন: প্রতিটি হিজরি দিন, প্রতিটি দিনের সংশ্লিষ্ট খ্রিস্টীয় তারিখ এবং মাসের দিন সংখ্যা (${_td}), উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী।`,`${_mDated}-এর সম্পূর্ণ হিজরি ক্যালেন্ডার প্রতিটি দিনের খ্রিস্টীয় তারিখ ও মাসের দিন সংখ্যাসহ, উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী।`],
+            ms: [`Lihat kalendar Hijrah lengkap bagi ${_mDated} dengan setiap hari Hijrah, tarikh Masihi yang sepadan, dan bilangan hari dalam bulan (${_td}) mengikut kalendar Umm al-Qura.`,`Kalendar Hijrah lengkap bagi ${_mDated} dengan tarikh Masihi bagi setiap hari dan bilangan hari dalam bulan, mengikut kalendar Umm al-Qura.`],
+        };
+        const _pickHmoTitle = (lng) => {
+            const c = _HMO_TITLE_FORMS[lng] || _HMO_TITLE_FORMS.en;
+            for (const t of c) if (_cpLen(t) >= 50 && _cpLen(t) <= 60) return t;
+            const ok = c.filter(t => _cpLen(t) <= 60).sort((a, b) => _cpLen(b) - _cpLen(a));
+            return ok.length ? ok[0] : c[c.length - 1];
+        };
+        const _pickHmoDesc = (lng) => {
+            const c = _HMO_DESC_FORMS[lng] || _HMO_DESC_FORMS.en;
+            for (const t of c) if (_cpLen(t) >= 120 && _cpLen(t) <= 160) return t;
+            const ok = c.filter(t => _cpLen(t) <= 160).sort((a, b) => _cpLen(b) - _cpLen(a));
+            return ok.length ? ok[0] : c[c.length - 1];
         };
         const _HMO_CAL_LBL = {
             ar: 'التقويم الهجري', en: 'Hijri Calendar', fr: 'Calendrier hégirien', tr: 'Hicri Takvim',
             ur: 'ہجری کیلنڈر', de: 'Hidschri-Kalender', id: 'Kalender Hijriah', es: 'Calendario Hégira',
             bn: 'হিজরি ক্যালেন্ডার', ms: 'Kalendar Hijrah'
         };
-        title = _HMO_TITLE[lang] || _HMO_TITLE.en;
-        description = _HMO_DESC[lang] || _HMO_DESC.en;
+        title = _pickHmoTitle(lang);
+        description = _pickHmoDesc(lang);
         // Answer-Page pattern: month page is a WebPage, not an Article
         ogType = 'website';
         breadcrumbs.push({ name: _HMO_CAL_LBL[lang] || _HMO_CAL_LBL.en, item: origin + langPrefix + `/hijri-calendar` });
@@ -15308,6 +15336,37 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     html = html.replace(
                         /<p id="hmonth-subtitle"([^>]*)>[^<]*<\/p>/,
                         `<p id="hmonth-subtitle"$1 data-ssr-rendered="1">${_escHtml(_hmSubDesc)}</p>`
+                    );
+                    // MULTILANG-HIJRI-CALENDAR-MONTH-SEO-GEO-CONTENT-FIX-1 (2026-06-03):
+                    //   SSR-fill #hmonth-footer-seo (an educational SEO paragraph) — it
+                    //   shipped EMPTY (<p ...></p>) and loadHijriMonthPage() filled it only
+                    //   AFTER hydration, so SEOptimer's JS-rendering crawler saw little
+                    //   page-specific prose (Rendering ~21% / low Amount-of-Content). The
+                    //   paragraph is SSR-readable, keyword-natural (تقويم الشهر / الشهر
+                    //   الهجري / التاريخ الميلادي / عدد الأيام / تقويم أم القرى) and carries
+                    //   one internal link to the year calendar (crawl depth). Marked
+                    //   data-ssr-rendered="1" + paired no-swap guard in app.js (consumed on
+                    //   first hydration → SPA-nav still rebuilds the client footer). No new
+                    //   markup, no CSS — uses the existing #hmonth-footer-seo <p>.
+                    const _mD2 = `${_hmMonthName} ${_hmY}${_hmYearSfx}`;
+                    const _yLink = `${_hmPfx}/hijri-calendar/${_hmY}`;
+                    const _yTxt = `${_hmY}${_hmYearSfx}`;
+                    const _HM_FOOTER_SEO = {
+                        ar: `يعرض تقويم شهر ${_mD2} أيام الشهر الهجري كاملةً، وما يوافق كل يوم في التاريخ الميلادي حسب تقويم أم القرى، مع عدد أيام الشهر البالغ ${_hmTotalDays} يومًا. يساعدك هذا التقويم على متابعة المناسبات الإسلامية ومعرفة بداية الشهر ونهايته. استعرض أيضًا <a href="${_yLink}">التقويم الهجري لعام ${_yTxt}</a> كاملًا.`,
+                        en: `The Hijri calendar for ${_mD2} shows every day of the Hijri month and the matching Gregorian date for each day per the Umm al-Qura calendar, with the month spanning ${_hmTotalDays} days. It helps you follow Islamic occasions and find the start and end of the month. You can also browse the full <a href="${_yLink}">Hijri calendar for ${_yTxt}</a>.`,
+                        fr: `Le calendrier hégirien de ${_mD2} affiche chaque jour du mois hégirien et la date grégorienne correspondante selon le calendrier Umm al-Qura, le mois comptant ${_hmTotalDays} jours. Il vous aide à suivre les occasions islamiques et à repérer le début et la fin du mois. Parcourez aussi le <a href="${_yLink}">calendrier hégirien de ${_yTxt}</a>.`,
+                        tr: `${_mD2} hicri takvimi, Hicri ayın her gününü ve her güne karşılık gelen miladi tarihi Ümmülkura takvimine göre gösterir; ay ${_hmTotalDays} gün sürer. Bu takvim İslami günleri takip etmenize ve ayın başını ile sonunu bulmanıza yardımcı olur. Ayrıca <a href="${_yLink}">${_yTxt} hicri takvimini</a> inceleyin.`,
+                        ur: `${_mD2} کا ہجری کیلنڈر مہینے کے ہر دن اور اس کی مطابق عیسوی تاریخ کو ام القری کیلنڈر کے مطابق دکھاتا ہے، اور یہ مہینہ ${_hmTotalDays} دن کا ہے۔ یہ کیلنڈر اسلامی مناسبات کی پیروی اور مہینے کے آغاز و اختتام کو جاننے میں مدد دیتا ہے۔ <a href="${_yLink}">${_yTxt} کا مکمل ہجری کیلنڈر</a> بھی دیکھیں۔`,
+                        de: `Der Hidschri-Kalender für ${_mD2} zeigt jeden Tag des Hidschri-Monats und das passende gregorianische Datum gemäß dem Umm-al-Qura-Kalender; der Monat umfasst ${_hmTotalDays} Tage. Er hilft Ihnen, islamische Anlässe zu verfolgen sowie Anfang und Ende des Monats zu finden. Sehen Sie auch den vollständigen <a href="${_yLink}">Hidschri-Kalender für ${_yTxt}</a>.`,
+                        id: `Kalender Hijriah untuk ${_mD2} menampilkan setiap hari bulan Hijriah dan tanggal Masehi yang sesuai menurut kalender Umm al-Qura, dengan bulan berisi ${_hmTotalDays} hari. Kalender ini membantu Anda mengikuti peristiwa Islam serta mengetahui awal dan akhir bulan. Jelajahi juga <a href="${_yLink}">kalender Hijriah ${_yTxt}</a> lengkap.`,
+                        es: `El calendario Hégira de ${_mD2} muestra cada día del mes Hégira y la fecha gregoriana correspondiente según el calendario Umm al-Qura, con un mes de ${_hmTotalDays} días. Te ayuda a seguir las ocasiones islámicas y conocer el inicio y el fin del mes. Consulta también el <a href="${_yLink}">calendario Hégira de ${_yTxt}</a> completo.`,
+                        bn: `${_mD2}-এর হিজরি ক্যালেন্ডার হিজরি মাসের প্রতিটি দিন এবং প্রতিটি দিনের সংশ্লিষ্ট খ্রিস্টীয় তারিখ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী দেখায়, এবং মাসটি ${_hmTotalDays} দিনের। এটি ইসলামিক অনুষ্ঠান অনুসরণ করতে এবং মাসের শুরু ও শেষ জানতে সাহায্য করে। সম্পূর্ণ <a href="${_yLink}">${_yTxt} হিজরি ক্যালেন্ডার</a>ও দেখুন।`,
+                        ms: `Kalendar Hijrah bagi ${_mD2} memaparkan setiap hari bulan Hijrah dan tarikh Masihi yang sepadan mengikut kalendar Umm al-Qura, dengan bulan ini mengandungi ${_hmTotalDays} hari. Kalendar ini membantu anda mengikuti peristiwa Islam serta mengetahui awal dan akhir bulan. Lihat juga <a href="${_yLink}">kalendar Hijrah ${_yTxt}</a> yang lengkap.`,
+                    };
+                    const _hmFooterSeo = _HM_FOOTER_SEO[_hmLang] || _HM_FOOTER_SEO.en;
+                    html = html.replace(
+                        /<p id="hmonth-footer-seo"([^>]*)>\s*<\/p>/,
+                        `<p id="hmonth-footer-seo"$1 data-ssr-rendered="1">${_hmFooterSeo}</p>`
                     );
                 }
             }

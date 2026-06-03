@@ -23797,8 +23797,16 @@ function loadHijriMonthPage() {
     }
 
     // 9. Footer SEO — dynamic paragraph with inline internal links (today + year calendar)
+    // MULTILANG-HIJRI-CALENDAR-MONTH-SEO-GEO-CONTENT-FIX-1 (2026-06-03): no-swap guard.
+    // server.js now SSR-fills #hmonth-footer-seo (educational paragraph + year link) with
+    // data-ssr-rendered="1". Consume the flag on first hydration (keep the SSR-readable
+    // prose so crawlers see it); rebuild on later SPA navigations.
     const footerEl = document.getElementById('hmonth-footer-seo');
-    if (footerEl) footerEl.innerHTML = ui.footer(ctx);
+    if (footerEl && footerEl.getAttribute('data-ssr-rendered') === '1') {
+        footerEl.removeAttribute('data-ssr-rendered');
+    } else if (footerEl) {
+        footerEl.innerHTML = ui.footer(ctx);
+    }
 
     // 10. Schema JSON-LD — @graph: BreadcrumbList + Article + WebPage + FAQPage
     document.getElementById('hmonth-schema-graph')?.remove();

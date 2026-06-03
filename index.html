@@ -3357,12 +3357,10 @@
                             <div class="result-date" id="conv-solar-result">--</div>
                         </div>
                     </div>
-                    <!-- HD-2 (2026-05-07): helper CTA → /today-hijri-date Hub. Sits at the
-                         bottom of the converter card so users who want today's date (not
-                         a specific past/future date) can jump straight to the Hub. -->
-                    <p class="conv-today-cta">
-                        <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
-                    </p>
+                    <!-- DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1-CLEANUP-1 (2026-06-03):
+                         removed the old .conv-today-cta button — it is now redundant
+                         because the new quick-links card grid below (#dconv-quicklinks)
+                         already includes "Today's Hijri date" as its first card. -->
                 </div>
 
                 <!-- DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1: quick links + educational sections + FAQ — SSR-filled per-lang -->

@@ -7503,6 +7503,155 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     #page-date-converter .settings-grid { grid-template-columns: 1fr; }
 }
 
+/* ── DATE-CONVERTER-AMOUNT-OF-CONTENT-ROOT-FIX-1 (2026-06-03) ──────────────
+   Structured educational guide below the tool: guide card, numbered steps,
+   calendar-comparison cards, worked examples, "when" grid, accuracy callout.
+   Reuses theme tokens (auto dark-mode). Mobile: every grid collapses to one
+   column. No images, no JS, no new fonts — light HTML/CSS only. */
+.dconv-sec-intro {
+    color: var(--text-light);
+    line-height: 1.85;
+    margin: 0 0 18px;
+    max-width: 760px;
+}
+/* §1 Guide intro card — wide soft banner */
+.dconv-guide {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: linear-gradient(135deg, rgba(15, 122, 90, 0.07), var(--card-bg));
+    border: 1px solid var(--border);
+}
+.dconv-guide-icon {
+    font-size: 1.8rem;
+    line-height: 1;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.dconv-guide-body h2 {
+    font-size: 1.25rem;
+    margin: 0 0 8px;
+    color: var(--text);
+}
+.dconv-guide-body p {
+    margin: 0;
+    line-height: 1.9;
+    color: var(--text-light);
+}
+/* Shared section heading sizing for the new sections */
+.dconv-steps > h2, .dconv-compare > h2, .dconv-examples > h2,
+.dconv-when > h2, .dconv-accuracy h2 {
+    font-size: 1.25rem;
+    margin: 0 0 16px;
+    color: var(--text);
+}
+/* §2 Steps — numbered cards */
+.dconv-steps-grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 14px;
+}
+.dconv-step {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 16px;
+}
+.dconv-step-num {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--primary);
+    color: #fff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.dconv-step-body { display: flex; flex-direction: column; gap: 4px; }
+.dconv-step-t { font-weight: 700; color: var(--text); }
+.dconv-step-d { font-size: 0.92rem; color: var(--text-light); line-height: 1.7; }
+/* §3 Comparison cards + §4 examples grid (3-up) */
+.dconv-compare-grid, .dconv-examples-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 14px;
+}
+.dconv-compare-card, .dconv-example {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 18px;
+    border-top: 3px solid var(--primary);
+}
+.dconv-compare-card h3, .dconv-example h3 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 8px;
+}
+.dconv-compare-card p { margin: 0 0 8px; line-height: 1.75; color: var(--text-light); font-size: 0.93rem; }
+.dconv-compare-card p:last-child { margin-bottom: 0; }
+.dconv-compare-lbl { font-weight: 700; color: var(--text); }
+.dconv-compare-note { color: var(--text); }
+/* §4 example I/O rows */
+.dconv-ex-io {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 7px 10px;
+    background: var(--card-bg);
+    border-radius: 8px;
+    margin-bottom: 6px;
+    border: 1px solid var(--border);
+}
+.dconv-ex-k { font-size: 0.85rem; color: var(--text-light); }
+.dconv-ex-v { font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; }
+.dconv-ex-note { margin: 8px 0 0; font-size: 0.9rem; color: var(--text-light); line-height: 1.7; }
+/* §5 When grid */
+.dconv-when-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 12px;
+}
+.dconv-when-item { display: flex; gap: 10px; align-items: flex-start; }
+.dconv-when-dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--primary);
+    margin-top: 7px;
+}
+.dconv-when-body { display: flex; flex-direction: column; gap: 2px; }
+.dconv-when-t { font-weight: 700; color: var(--text); font-size: 0.98rem; }
+.dconv-when-d { font-size: 0.9rem; color: var(--text-light); line-height: 1.65; }
+/* §6 Accuracy callout */
+.dconv-accuracy {
+    background: linear-gradient(135deg, rgba(15, 122, 90, 0.06), var(--card-bg));
+    border: 1px solid var(--border);
+}
+.dconv-acc-inner { display: flex; gap: 14px; align-items: flex-start; }
+.dconv-acc-icon { font-size: 1.4rem; flex-shrink: 0; line-height: 1.3; }
+.dconv-acc-list { margin: 8px 0 0; padding-inline-start: 18px; }
+.dconv-acc-list li { line-height: 1.8; color: var(--text-light); margin-bottom: 6px; }
+.dconv-acc-list li:last-child { margin-bottom: 0; }
+@media (max-width: 600px) {
+    .dconv-compare-grid, .dconv-examples-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+    .dconv-steps-grid, .dconv-when-grid { grid-template-columns: 1fr; }
+    .dconv-guide { flex-direction: column; gap: 10px; }
+}
+
 /* جدول ملخص التحويل */
 .conv-summary {
     text-align: right;

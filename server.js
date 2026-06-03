@@ -8211,30 +8211,32 @@ function buildSeoForPath(urlPath) {
             tasbihFaq: true,  // MSBAHA-SEO-CONTENT-UX-EXPANSION-1: emit FAQPage JSON-LD for /msbaha
         },
         '/dateconverter': {
-            // Phase D1: extend short titles (TR/UR/BN/MS) with "| Online tool" suffix; trim de/bn descs
+            // DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1 (2026-06-03): Title→50-60 cp,
+            // Meta→120-160 cp for all 10 langs (validated). Adds the Solar calendar to
+            // the keyword set (the page also converts solar dates).
             title: {
-                ar: 'محوّل التاريخ الهجري والميلادي | تقويم أم القرى',
-                en: 'Hijri ↔ Gregorian Date Converter | Online Tool',
-                fr: 'Convertisseur Hégire ↔ Grégorien | Outil en ligne',
-                tr: 'Hicri ↔ Miladi Tarih Dönüştürücü | Online Hesaplayıcı',
-                ur: 'ہجری اور میلادی تاریخ کنورٹر | آن لائن کیلکولیٹر',
-                de: 'Hidschri ↔ Gregorianisch Umrechner | Online-Tool',
-                id: 'Konverter Tanggal Hijriyah ↔ Masehi | Alat Online',
-                es: 'Conversor de Fecha Hijri ↔ Gregoriana | Herramienta',
-                bn: 'হিজরি ↔ গ্রেগরিয়ান তারিখ রূপান্তর | অনলাইন ক্যালকুলেটর',
-                ms: 'Penukar Tarikh Hijrah ↔ Gregorian | Alat Dalam Talian',
+                ar: 'محوّل التاريخ الهجري والميلادي والشمسي | تقويم أم القرى',
+                en: 'Hijri, Gregorian & Solar Date Converter | Online Tool',
+                fr: 'Convertisseur de date Hégire, Grégorien et Solaire en ligne',
+                tr: 'Hicri, Miladi ve Güneş Tarihi Dönüştürücü | Online Araç',
+                ur: 'ہجری، میلادی اور شمسی تاریخ کنورٹر | آن لائن کیلکولیٹر',
+                de: 'Hidschri-, Gregorianisch- & Sonnen-Datumsumrechner online',
+                id: 'Konverter Tanggal Hijriah, Masehi & Syamsiah | Alat Online',
+                es: 'Conversor de Fecha Hijri, Gregoriana y Solar | Herramienta',
+                bn: 'হিজরি, গ্রেগরিয়ান ও সৌর তারিখ রূপান্তরকারী | অনলাইন টুল',
+                ms: 'Penukar Tarikh Hijrah, Gregorian & Suria | Alat Dalam Talian',
             },
             desc: {
-                ar: 'حوِّل بين الهجري والميلادي لأي سنة من 1 هـ حتى 1500 هـ، وفق تقويم أم القرى، مع اليوم من الأسبوع والأحداث التاريخية.',
-                en: 'Convert Hijri to Gregorian and vice versa for any year from 1 AH to 1500 AH. Based on Umm al-Qura calendar with weekday and historical event lookup.',
-                fr: 'Convertissez entre dates hégiriennes et grégoriennes de 1 AH à 1500 AH. Basé sur le calendrier Umm al-Qura avec jour de semaine et événements historiques.',
-                tr: '1 H\'den 1500 H\'ye kadar herhangi bir yıl için Hicri ile Miladi arasında tarih dönüştürün. Ümmü\'l-Kura takvimi esaslı; haftanın günü ve tarihi olaylar dahil.',
-                ur: '1 ہجری سے 1500 ہجری تک کسی بھی سال کے لیے ہجری اور میلادی تاریخ میں تبدیلی۔ ام القرى کیلنڈر پر مبنی، ہفتے کا دن اور تاریخی واقعات۔',
-                de: 'Konvertieren Sie Hidschri und Gregorianisch (1–1500 AH) per Umm al-Qura-Kalender — mit Wochentag und historischen Ereignissen.',
-                id: 'Konversi tanggal Hijriyah ke Masehi dan sebaliknya untuk tahun 1 H hingga 1500 H. Berbasis kalender Umm al-Qura dengan hari dalam seminggu dan peristiwa sejarah.',
-                es: 'Convierte fechas Hijri a gregorianas y viceversa para cualquier año de 1 AH a 1500 AH. Basado en el calendario Umm al-Qura con día de la semana y eventos históricos.',
-                bn: '১ থেকে ১৫০০ হিজরি পর্যন্ত হিজরি ও গ্রেগরিয়ান তারিখ রূপান্তর — উম্মুল কুরা ক্যালেন্ডার, সপ্তাহের দিন ও ঐতিহাসিক ঘটনা সহ।',
-                ms: 'Tukar tarikh Hijrah dan Gregorian dari 1 hingga 1500H dengan kalendar Umm al-Qura, hari minggu dan peristiwa sejarah.',
+                ar: 'حوِّل التاريخ بين الهجري والميلادي والشمسي بسهولة، واعرف التاريخ المقابل مع اليوم والشهر والسنة وحالة السنة الكبيسة وفق تقويم أم القرى المعتمد.',
+                en: 'Convert dates between the Hijri, Gregorian and Solar calendars, and see the matching date with the weekday, month, year and leap-year status instantly.',
+                fr: 'Convertissez les dates entre les calendriers hégirien, grégorien et solaire, et voyez la date correspondante avec le jour, le mois et l\'année exacte.',
+                tr: 'Tarihleri Hicri, Miladi ve Güneş takvimleri arasında dönüştürün; karşılık gelen tarihi gün, ay, yıl ve artık yıl durumuyla birlikte görün.',
+                ur: 'تاریخ کو ہجری، میلادی اور شمسی تقویم کے درمیان آسانی سے تبدیل کریں، اور دن، مہینہ، سال اور لیپ سال کی حالت کے ساتھ مطابق تاریخ جانیں۔',
+                de: 'Konvertieren Sie Daten zwischen dem Hidschri-, dem gregorianischen und dem Sonnenkalender und sehen Sie das passende Datum mit Wochentag, Monat und Jahr.',
+                id: 'Konversi tanggal antara kalender Hijriah, Masehi, dan Syamsiah, lalu lihat tanggal yang sesuai beserta hari, bulan, tahun, dan status tahun kabisat.',
+                es: 'Convierte fechas entre los calendarios Hijri, gregoriano y solar, y consulta la fecha correspondiente con el día, el mes, el año y el año bisiesto.',
+                bn: 'হিজরি, গ্রেগরিয়ান ও সৌর ক্যালেন্ডারের মধ্যে তারিখ রূপান্তর করুন এবং দিন, মাস, বছর ও অধিবর্ষের অবস্থাসহ সংশ্লিষ্ট তারিখ জানুন।',
+                ms: 'Tukar tarikh antara kalendar Hijrah, Gregorian dan Suria, dan lihat tarikh sepadan dengan hari, bulan, tahun serta status tahun lompat mengikut Umm al-Qura.',
             },
             app: { category: 'UtilitiesApplication' },
         },
@@ -16394,6 +16396,125 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `${_hdSectionsHtml}${_hdFaqHtml}${_hdLinksHtml}\n                $1`
             );
         }
+    }
+
+    // 1e2) DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1 (2026-06-03): turn the
+    //      tool-only /dateconverter page into a complete landing page. SSR-fills a
+    //      hero (single H1 + intro), quick internal links, 5 educational H2+P
+    //      sections, and a FAQ (H2 + 4× H3/answer) + FAQPage JSON-LD — all per-lang
+    //      and SSR-visible (crawlers full-load every URL). AR/EN are rich; the other
+    //      8 langs get a concise, safe version (controlled multilingual rollout).
+    //      NO change to the converter tool / conversion logic. Content is static
+    //      per-lang so no client overwrite is possible (JS never touches these IDs).
+    const _isDateConverter = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(urlPath);
+    if (_isDateConverter) {
+        try {
+            const _dcL = seo.lang || 'ar';
+            const _dcPfx = (_dcL === 'ar') ? '' : ('/' + _dcL);
+            const _hn = _hijriNow();
+            const _dcMonthHref = `${_dcPfx}/hijri-calendar/${_hn.year}-${String(_hn.month).padStart(2, '0')}`;
+            const _DCONV = {
+                ar: {
+                    h1: 'تحويل التاريخ الهجري والميلادي والشمسي',
+                    intro: 'حوّل التاريخ بين التقويم الهجري والميلادي والشمسي بسهولة، واعرف التاريخ المقابل مع اليوم، الشهر، السنة، وحالة السنة الكبيسة.',
+                    qlTitle: 'أدوات وتقويمات مرتبطة بتحويل التاريخ', qlIntro: 'روابط سريعة إلى التاريخ الهجري اليوم، والتقويم الهجري، وتقويم الشهر الحالي، ومواقيت الصلاة، وحالة القمر.', faqTitle: 'أسئلة شائعة حول تحويل التاريخ',
+                    secs: [
+                        { h: 'ما هي أداة تحويل التاريخ؟', p: 'تساعدك أداة تحويل التاريخ على معرفة التاريخ المقابل بين التقويم الهجري والميلادي والشمسي. يمكنك إدخال اليوم والشهر والسنة، ثم اختيار نوع التحويل لعرض التاريخ الناتج مع تفاصيل اليوم، ورقم الشهر، وحالة السنة الكبيسة عند توفرها.' },
+                        { h: 'التحويل من الميلادي إلى الهجري', p: 'عند التحويل من التاريخ الميلادي إلى التاريخ الهجري، تعرض الأداة التاريخ الهجري المقابل وفق الحسابات المعتمدة في الموقع، مع إظهار اليوم والشهر والسنة الهجرية. يفيد هذا التحويل في متابعة المناسبات الإسلامية ومعرفة التاريخ الهجري لأي يوم ميلادي.' },
+                        { h: 'التحويل من الهجري إلى الميلادي', p: 'يمكنك إدخال تاريخ هجري محدد لمعرفة التاريخ الميلادي المقابل له. يساعد ذلك عند مراجعة التواريخ القديمة أو ترتيب المواعيد المرتبطة بالتقويم الهجري، مثل بداية الشهور الهجرية أو المناسبات الدينية.' },
+                        { h: 'التحويل بين التاريخ الهجري والشمسي', p: 'تدعم الصفحة أيضًا عرض التاريخ الشمسي المقابل عند توفره، مما يساعد المستخدم على مقارنة أكثر من نظام تقويمي في صفحة واحدة. يظهر التاريخ الشمسي بجانب التاريخين الهجري والميلادي لتسهيل القراءة والمقارنة.' },
+                        { h: 'متى تحتاج إلى تحويل التاريخ؟', p: 'يفيد تحويل التاريخ في معرفة مواعيد المناسبات الإسلامية، ومقارنة التواريخ بين التقويمات، وتنظيم المواعيد الشخصية أو العملية. كما يساعد الطلاب والباحثين على فهم العلاقة بين التقويم الهجري والميلادي والشمسي.' },
+                    ],
+                    faq: [
+                        { q: 'كيف أحول التاريخ من الميلادي إلى الهجري؟', a: 'اختر تبويب التحويل من التاريخ الميلادي، ثم أدخل اليوم والشهر والسنة، واضغط على زر تحويل لعرض التاريخ الهجري المقابل.' },
+                        { q: 'كيف أحول التاريخ من الهجري إلى الميلادي؟', a: 'اختر تبويب التحويل من التاريخ الهجري، ثم أدخل التاريخ الهجري المطلوب، وستعرض الأداة التاريخ الميلادي المقابل مع تفاصيل إضافية.' },
+                        { q: 'هل يدعم الموقع التاريخ الشمسي؟', a: 'نعم، تعرض الصفحة التاريخ الشمسي المقابل ضمن نتيجة التحويل عند توفر البيانات اللازمة.' },
+                        { q: 'هل نتيجة تحويل التاريخ دقيقة؟', a: 'تعتمد النتيجة على الحسابات المستخدمة في الموقع، وقد تختلف بعض التواريخ الهجرية يومًا واحدًا حسب الرؤية المحلية للهلال أو الجهة المعتمدة في كل بلد.' },
+                    ],
+                    links: [
+                        { label: 'التاريخ الهجري اليوم', desc: 'اعرف التاريخ الهجري المقابل لليوم الحالي مع التاريخ الميلادي.', href: `${_dcPfx}/today-hijri-date` },
+                        { label: 'التقويم الهجري', desc: 'تصفّح أشهر السنة الهجرية والتواريخ الميلادية المقابلة لها.', href: `${_dcPfx}/hijri-calendar` },
+                        { label: 'تقويم الشهر الهجري الحالي', desc: 'أيام هذا الشهر الهجري وما يقابلها في التقويم الميلادي.', href: _dcMonthHref },
+                        { label: 'مواقيت الصلاة اليوم', desc: 'مواقيت الصلوات الخمس في مدينتك لهذا اليوم.', href: (_dcL === 'ar') ? '/' : (_dcPfx + '/') },
+                        { label: 'حالة القمر اليوم', desc: 'طور القمر ونسبة الإضاءة وعمره في يومك الحالي.', href: `${_dcPfx}/moon-today` },
+                    ],
+                },
+                en: {
+                    h1: 'Hijri, Gregorian and Solar Date Converter',
+                    intro: 'Convert dates between the Hijri, Gregorian and Solar calendars easily, and see the matching date with the weekday, month, year and leap-year status.',
+                    qlTitle: 'Tools and calendars related to date conversion', qlIntro: 'Quick links to today\'s Hijri date, the Hijri calendar, the current month\'s calendar, prayer times, and the moon phase.', faqTitle: 'Frequently asked questions about date conversion',
+                    secs: [
+                        { h: 'What is the date converter tool?', p: 'The date converter helps you find the matching date between the Hijri, Gregorian and Solar calendars. Enter the day, month and year, then choose the conversion type to see the resulting date with the weekday, the month number, and the leap-year status when available.' },
+                        { h: 'Converting from Gregorian to Hijri', p: 'When converting a Gregorian date to a Hijri date, the tool shows the matching Hijri date using the calculations adopted on this site, including the Hijri day, month and year. This is useful for tracking Islamic occasions and finding the Hijri date for any Gregorian day.' },
+                        { h: 'Converting from Hijri to Gregorian', p: 'You can enter a specific Hijri date to find its matching Gregorian date. This helps when reviewing older dates or organising appointments tied to the Hijri calendar, such as the start of Hijri months or religious occasions.' },
+                        { h: 'Converting between Hijri and Solar dates', p: 'The page also shows the matching Solar (Persian) date when available, letting you compare more than one calendar system on a single page. The Solar date appears beside the Hijri and Gregorian dates for easy reading and comparison.' },
+                        { h: 'When do you need date conversion?', p: 'Date conversion helps you know the dates of Islamic occasions, compare dates across calendars, and organise personal or work appointments. It also helps students and researchers understand the relationship between the Hijri, Gregorian and Solar calendars.' },
+                    ],
+                    faq: [
+                        { q: 'How do I convert a date from Gregorian to Hijri?', a: 'Choose the "from Gregorian" tab, enter the day, month and year, then press the convert button to see the matching Hijri date.' },
+                        { q: 'How do I convert a date from Hijri to Gregorian?', a: 'Choose the "from Hijri" tab, enter the Hijri date you need, and the tool will show the matching Gregorian date with extra details.' },
+                        { q: 'Does the site support the Solar calendar?', a: 'Yes, the page shows the matching Solar date within the conversion result when the required data is available.' },
+                        { q: 'Is the date conversion result accurate?', a: 'The result is based on the calculations used on this site. Some Hijri dates may differ by one day depending on the local moon sighting or the authority adopted in each country.' },
+                    ],
+                    links: [
+                        { label: "Today's Hijri date", desc: 'See the Hijri date matching today, with its Gregorian equivalent.', href: `${_dcPfx}/today-hijri-date` },
+                        { label: 'Hijri calendar', desc: 'Browse the Hijri months and their matching Gregorian dates.', href: `${_dcPfx}/hijri-calendar` },
+                        { label: 'Current Hijri month calendar', desc: "This Hijri month's days with the matching Gregorian dates.", href: _dcMonthHref },
+                        { label: "Today's prayer times", desc: 'The five daily prayer times for your city today.', href: (_dcL === 'ar') ? '/' : (_dcPfx + '/') },
+                        { label: "Today's moon phase", desc: 'The moon phase, illumination and age for today.', href: `${_dcPfx}/moon-today` },
+                    ],
+                },
+            };
+            // Concise, safe versions for the remaining 8 langs (same structure).
+            const _DC_CONCISE = {
+                fr: { h1: 'Convertisseur de date hégirien, grégorien et solaire', intro: 'Convertissez facilement les dates entre les calendriers hégirien, grégorien et solaire, avec le jour, le mois, l\'année et l\'année bissextile.', qlTitle: 'Outils et calendriers liés à la conversion de date', qlIntro: 'Liens rapides vers la date hégirienne du jour, le calendrier hégirien, le calendrier du mois, les heures de prière et la phase de la lune.', qd: ['Date hégirienne correspondant à aujourd\'hui.', 'Mois hégiriens et dates grégoriennes.', 'Jours du mois hégirien en cours.', 'Heures des cinq prières aujourd\'hui.', 'Phase, éclairage et âge de la lune.'], faqTitle: 'Questions fréquentes sur la conversion de date', s: ['L\'outil de conversion de date affiche la date correspondante entre les calendriers hégirien, grégorien et solaire. Saisissez le jour, le mois et l\'année, puis choisissez le type de conversion.', 'La conversion du grégorien vers l\'hégirien affiche la date hégirienne correspondante avec le jour, le mois et l\'année, utile pour suivre les occasions islamiques.', 'La conversion de l\'hégirien vers le grégorien aide à retrouver une date grégorienne pour une date hégirienne précise, comme le début des mois hégiriens.', 'La page affiche aussi la date solaire correspondante lorsqu\'elle est disponible, pour comparer plusieurs calendriers sur une seule page.', 'La conversion de date sert à connaître les occasions islamiques, comparer les calendriers et organiser des rendez-vous.'], faq: [['Comment convertir du grégorien vers l\'hégirien ?', 'Choisissez l\'onglet grégorien, saisissez le jour, le mois et l\'année, puis appuyez sur convertir.'], ['Comment convertir de l\'hégirien vers le grégorien ?', 'Choisissez l\'onglet hégirien, saisissez la date hégirienne, et l\'outil affiche la date grégorienne correspondante.'], ['Le site prend-il en charge le calendrier solaire ?', 'Oui, la date solaire correspondante apparaît dans le résultat lorsque les données sont disponibles.'], ['Le résultat est-il exact ?', 'Le résultat suit les calculs du site ; certaines dates hégiriennes peuvent varier d\'un jour selon la visibilité locale du croissant.']], ql: ['Date hégirienne du jour', 'Calendrier hégirien', 'Calendrier du mois hégirien', 'Heures de prière du jour', 'Phase de la lune'] },
+                tr: { h1: 'Hicri, Miladi ve Güneş Tarihi Dönüştürücü', intro: 'Tarihleri Hicri, Miladi ve Güneş takvimleri arasında kolayca dönüştürün; gün, ay, yıl ve artık yıl durumunu görün.', qlTitle: 'Tarih dönüştürmeyle ilgili araçlar ve takvimler', qlIntro: 'Bugünün Hicri tarihi, Hicri takvim, ay takvimi, namaz vakitleri ve ay evresine hızlı bağlantılar.', qd: ['Bugüne karşılık gelen Hicri tarih.', 'Hicri aylar ve Miladi tarihler.', 'Bu Hicri ayın günleri.', 'Bugün beş vakit namaz saatleri.', 'Ayın evresi, aydınlanması ve yaşı.'], faqTitle: 'Tarih dönüştürme hakkında sık sorulan sorular', s: ['Tarih dönüştürücü, Hicri, Miladi ve Güneş takvimleri arasındaki karşılık gelen tarihi gösterir. Gün, ay ve yılı girin, ardından dönüştürme türünü seçin.', 'Miladi\'den Hicri\'ye dönüştürme, karşılık gelen Hicri tarihi gün, ay ve yıl ile gösterir; İslami günleri takip etmek için yararlıdır.', 'Hicri\'den Miladi\'ye dönüştürme, belirli bir Hicri tarih için Miladi karşılığını bulmaya yardımcı olur.', 'Sayfa, mevcut olduğunda karşılık gelen Güneş tarihini de gösterir, böylece birden fazla takvimi karşılaştırabilirsiniz.', 'Tarih dönüştürme; İslami günleri öğrenmek, takvimleri karşılaştırmak ve randevuları düzenlemek için kullanılır.'], faq: [['Miladi\'den Hicri\'ye nasıl dönüştürürüm?', 'Miladi sekmesini seçin, gün, ay ve yılı girin, ardından dönüştür düğmesine basın.'], ['Hicri\'den Miladi\'ye nasıl dönüştürürüm?', 'Hicri sekmesini seçin, Hicri tarihi girin; araç karşılık gelen Miladi tarihi gösterir.'], ['Site Güneş takvimini destekliyor mu?', 'Evet, veriler mevcut olduğunda karşılık gelen Güneş tarihi sonuçta görünür.'], ['Sonuç doğru mu?', 'Sonuç sitenin hesaplamalarına dayanır; bazı Hicri tarihler hilalin yerel görünümüne göre bir gün değişebilir.']], ql: ['Bugünün Hicri tarihi', 'Hicri takvim', 'Bu Hicri ayın takvimi', 'Bugünün namaz vakitleri', 'Bugünün ay evresi'] },
+                ur: { h1: 'ہجری، میلادی اور شمسی تاریخ کنورٹر', intro: 'تاریخ کو ہجری، میلادی اور شمسی تقویم کے درمیان آسانی سے تبدیل کریں، دن، مہینہ، سال اور لیپ سال کی حالت کے ساتھ۔', qlTitle: 'تاریخ کی تبدیلی سے متعلق اوزار اور تقویمیں', qlIntro: 'آج کی ہجری تاریخ، ہجری کیلنڈر، ماہانہ کیلنڈر، نماز کے اوقات اور چاند کی حالت کے فوری روابط۔', qd: ['آج کے مطابق ہجری تاریخ۔', 'ہجری مہینے اور عیسوی تاریخیں۔', 'موجودہ ہجری مہینے کے ایام۔', 'آج پانچ وقت کی نماز کے اوقات۔', 'آج چاند کا طور، روشنی اور عمر۔'], faqTitle: 'تاریخ کی تبدیلی کے بارے میں عمومی سوالات', s: ['تاریخ کنورٹر ہجری، میلادی اور شمسی تقویم کے درمیان مطابق تاریخ دکھاتا ہے۔ دن، مہینہ اور سال درج کریں، پھر تبدیلی کی قسم منتخب کریں۔', 'میلادی سے ہجری تبدیلی متعلقہ ہجری تاریخ کو دن، مہینے اور سال کے ساتھ دکھاتی ہے، جو اسلامی مواقع کی پیروی میں مفید ہے۔', 'ہجری سے میلادی تبدیلی کسی مخصوص ہجری تاریخ کا میلادی مماثل معلوم کرنے میں مدد دیتی ہے۔', 'صفحہ دستیاب ہونے پر متعلقہ شمسی تاریخ بھی دکھاتا ہے تاکہ ایک سے زیادہ تقویم کا موازنہ ممکن ہو۔', 'تاریخ کی تبدیلی اسلامی مواقع جاننے، تقویموں کا موازنہ کرنے اور مواعید ترتیب دینے میں مدد دیتی ہے۔'], faq: [['میلادی سے ہجری میں کیسے تبدیل کروں؟', 'میلادی ٹیب منتخب کریں، دن، مہینہ اور سال درج کریں، پھر تبدیل کا بٹن دبائیں۔'], ['ہجری سے میلادی میں کیسے تبدیل کروں؟', 'ہجری ٹیب منتخب کریں، ہجری تاریخ درج کریں؛ آلہ متعلقہ میلادی تاریخ دکھائے گا۔'], ['کیا سائٹ شمسی تقویم کی حمایت کرتی ہے؟', 'جی ہاں، ڈیٹا دستیاب ہونے پر نتیجے میں متعلقہ شمسی تاریخ ظاہر ہوتی ہے۔'], ['کیا نتیجہ درست ہے؟', 'نتیجہ سائٹ کے حسابات پر مبنی ہے؛ کچھ ہجری تاریخیں مقامی رؤیتِ ہلال کے مطابق ایک دن مختلف ہو سکتی ہیں۔']], ql: ['آج کی ہجری تاریخ', 'ہجری کیلنڈر', 'موجودہ ہجری مہینے کا کیلنڈر', 'آج کی نماز کے اوقات', 'آج چاند کی حالت'] },
+                de: { h1: 'Hidschri-, gregorianischer und solarer Datumsumrechner', intro: 'Konvertieren Sie Daten einfach zwischen dem Hidschri-, dem gregorianischen und dem Sonnenkalender, mit Tag, Monat, Jahr und Schaltjahr.', qlTitle: 'Werkzeuge und Kalender rund um die Datumsumrechnung', qlIntro: 'Schnelllinks zum heutigen Hidschri-Datum, Hidschri-Kalender, Monatskalender, Gebetszeiten und zur Mondphase.', qd: ['Heutiges Hidschri-Datum.', 'Hidschri-Monate und gregorianische Daten.', 'Tage des aktuellen Hidschri-Monats.', 'Heutige fünf Gebetszeiten.', 'Mondphase, Beleuchtung und Alter.'], faqTitle: 'Häufige Fragen zur Datumsumrechnung', s: ['Der Datumsumrechner zeigt das passende Datum zwischen dem Hidschri-, dem gregorianischen und dem Sonnenkalender. Geben Sie Tag, Monat und Jahr ein und wählen Sie die Umrechnungsart.', 'Die Umrechnung von gregorianisch zu Hidschri zeigt das passende Hidschri-Datum mit Tag, Monat und Jahr — nützlich für islamische Anlässe.', 'Die Umrechnung von Hidschri zu gregorianisch hilft, das gregorianische Datum für ein bestimmtes Hidschri-Datum zu finden.', 'Die Seite zeigt bei Verfügbarkeit auch das passende Sonnendatum, um mehrere Kalender zu vergleichen.', 'Die Datumsumrechnung hilft, islamische Anlässe zu kennen, Kalender zu vergleichen und Termine zu organisieren.'], faq: [['Wie rechne ich von gregorianisch zu Hidschri um?', 'Wählen Sie den gregorianischen Reiter, geben Sie Tag, Monat und Jahr ein und drücken Sie Umrechnen.'], ['Wie rechne ich von Hidschri zu gregorianisch um?', 'Wählen Sie den Hidschri-Reiter, geben Sie das Hidschri-Datum ein; das Tool zeigt das passende gregorianische Datum.'], ['Unterstützt die Seite den Sonnenkalender?', 'Ja, das passende Sonnendatum erscheint im Ergebnis, wenn die Daten verfügbar sind.'], ['Ist das Ergebnis genau?', 'Das Ergebnis beruht auf den Berechnungen dieser Seite; einige Hidschri-Daten können je nach lokaler Mondsichtung um einen Tag abweichen.']], ql: ['Heutiges Hidschri-Datum', 'Hidschri-Kalender', 'Aktueller Hidschri-Monatskalender', 'Heutige Gebetszeiten', 'Heutige Mondphase'] },
+                id: { h1: 'Konverter Tanggal Hijriah, Masehi dan Syamsiah', intro: 'Konversi tanggal antara kalender Hijriah, Masehi, dan Syamsiah dengan mudah, beserta hari, bulan, tahun, dan status tahun kabisat.', qlTitle: 'Alat dan kalender terkait konversi tanggal', qlIntro: 'Tautan cepat ke tanggal Hijriah hari ini, kalender Hijriah, kalender bulan, jadwal sholat, dan fase bulan.', qd: ['Tanggal Hijriah hari ini.', 'Bulan Hijriah dan tanggal Masehi.', 'Hari-hari bulan Hijriah ini.', 'Lima waktu sholat hari ini.', 'Fase, pencahayaan, dan usia bulan.'], faqTitle: 'Pertanyaan umum tentang konversi tanggal', s: ['Konverter tanggal menampilkan tanggal yang sesuai antara kalender Hijriah, Masehi, dan Syamsiah. Masukkan hari, bulan, dan tahun, lalu pilih jenis konversi.', 'Konversi Masehi ke Hijriah menampilkan tanggal Hijriah yang sesuai dengan hari, bulan, dan tahun — berguna untuk mengikuti peristiwa Islam.', 'Konversi Hijriah ke Masehi membantu menemukan tanggal Masehi untuk tanggal Hijriah tertentu.', 'Halaman ini juga menampilkan tanggal Syamsiah yang sesuai bila tersedia, untuk membandingkan beberapa kalender.', 'Konversi tanggal membantu mengetahui peristiwa Islam, membandingkan kalender, dan mengatur jadwal.'], faq: [['Bagaimana mengonversi Masehi ke Hijriah?', 'Pilih tab Masehi, masukkan hari, bulan, dan tahun, lalu tekan tombol konversi.'], ['Bagaimana mengonversi Hijriah ke Masehi?', 'Pilih tab Hijriah, masukkan tanggal Hijriah; alat menampilkan tanggal Masehi yang sesuai.'], ['Apakah situs mendukung kalender Syamsiah?', 'Ya, tanggal Syamsiah yang sesuai muncul dalam hasil bila datanya tersedia.'], ['Apakah hasilnya akurat?', 'Hasil mengikuti perhitungan situs; sebagian tanggal Hijriah dapat berbeda satu hari tergantung rukyat lokal.']], ql: ['Tanggal Hijriah hari ini', 'Kalender Hijriah', 'Kalender bulan Hijriah ini', 'Jadwal sholat hari ini', 'Fase bulan hari ini'] },
+                es: { h1: 'Conversor de fecha hijri, gregoriana y solar', intro: 'Convierte fechas entre los calendarios hijri, gregoriano y solar fácilmente, con el día, el mes, el año y el año bisiesto.', qlTitle: 'Herramientas y calendarios sobre la conversión de fechas', qlIntro: 'Enlaces rápidos a la fecha hijri de hoy, el calendario hijri, el calendario del mes, los horarios de oración y la fase lunar.', qd: ['Fecha hijri correspondiente a hoy.', 'Meses hijri y fechas gregorianas.', 'Días del mes hijri actual.', 'Los cinco rezos de hoy.', 'Fase, iluminación y edad de la luna.'], faqTitle: 'Preguntas frecuentes sobre la conversión de fechas', s: ['El conversor de fechas muestra la fecha correspondiente entre los calendarios hijri, gregoriano y solar. Introduce el día, el mes y el año, y elige el tipo de conversión.', 'La conversión de gregoriano a hijri muestra la fecha hijri correspondiente con el día, el mes y el año, útil para seguir las ocasiones islámicas.', 'La conversión de hijri a gregoriano ayuda a encontrar la fecha gregoriana de una fecha hijri concreta.', 'La página también muestra la fecha solar correspondiente cuando está disponible, para comparar varios calendarios.', 'La conversión de fechas ayuda a conocer las ocasiones islámicas, comparar calendarios y organizar citas.'], faq: [['¿Cómo convierto de gregoriano a hijri?', 'Elige la pestaña gregoriana, introduce el día, el mes y el año, y pulsa convertir.'], ['¿Cómo convierto de hijri a gregoriano?', 'Elige la pestaña hijri, introduce la fecha hijri; la herramienta muestra la fecha gregoriana correspondiente.'], ['¿El sitio admite el calendario solar?', 'Sí, la fecha solar correspondiente aparece en el resultado cuando los datos están disponibles.'], ['¿El resultado es exacto?', 'El resultado se basa en los cálculos del sitio; algunas fechas hijri pueden variar un día según la visibilidad local de la luna.']], ql: ['Fecha hijri de hoy', 'Calendario hijri', 'Calendario del mes hijri actual', 'Horarios de oración de hoy', 'Fase lunar de hoy'] },
+                bn: { h1: 'হিজরি, গ্রেগরিয়ান ও সৌর তারিখ রূপান্তরকারী', intro: 'হিজরি, গ্রেগরিয়ান ও সৌর ক্যালেন্ডারের মধ্যে সহজে তারিখ রূপান্তর করুন, দিন, মাস, বছর ও অধিবর্ষের অবস্থাসহ।', qlTitle: 'তারিখ রূপান্তর সম্পর্কিত টুল ও ক্যালেন্ডার', qlIntro: 'আজকের হিজরি তারিখ, হিজরি ক্যালেন্ডার, মাসের ক্যালেন্ডার, নামাজের সময় ও চাঁদের অবস্থার দ্রুত লিঙ্ক।', qd: ['আজকের সংশ্লিষ্ট হিজরি তারিখ।', 'হিজরি মাস ও গ্রেগরিয়ান তারিখ।', 'চলতি হিজরি মাসের দিনগুলো।', 'আজকের পাঁচ ওয়াক্ত নামাজের সময়।', 'চাঁদের পর্ব, আলো ও বয়স।'], faqTitle: 'তারিখ রূপান্তর সম্পর্কে সাধারণ প্রশ্ন', s: ['তারিখ রূপান্তরকারী হিজরি, গ্রেগরিয়ান ও সৌর ক্যালেন্ডারের মধ্যে সংশ্লিষ্ট তারিখ দেখায়। দিন, মাস ও বছর লিখুন, তারপর রূপান্তরের ধরন নির্বাচন করুন।', 'গ্রেগরিয়ান থেকে হিজরি রূপান্তর সংশ্লিষ্ট হিজরি তারিখ দিন, মাস ও বছরসহ দেখায়, যা ইসলামিক অনুষ্ঠান অনুসরণে সহায়ক।', 'হিজরি থেকে গ্রেগরিয়ান রূপান্তর নির্দিষ্ট হিজরি তারিখের গ্রেগরিয়ান সমতুল্য খুঁজে পেতে সাহায্য করে।', 'উপলব্ধ থাকলে পৃষ্ঠাটি সংশ্লিষ্ট সৌর তারিখও দেখায়, যাতে একাধিক ক্যালেন্ডার তুলনা করা যায়।', 'তারিখ রূপান্তর ইসলামিক অনুষ্ঠান জানা, ক্যালেন্ডার তুলনা ও সময়সূচি সাজাতে সাহায্য করে।'], faq: [['গ্রেগরিয়ান থেকে হিজরিতে কীভাবে রূপান্তর করব?', 'গ্রেগরিয়ান ট্যাব নির্বাচন করুন, দিন, মাস ও বছর লিখুন, তারপর রূপান্তর বোতামে চাপ দিন।'], ['হিজরি থেকে গ্রেগরিয়ানে কীভাবে রূপান্তর করব?', 'হিজরি ট্যাব নির্বাচন করুন, হিজরি তারিখ লিখুন; টুলটি সংশ্লিষ্ট গ্রেগরিয়ান তারিখ দেখাবে।'], ['সাইটটি কি সৌর ক্যালেন্ডার সমর্থন করে?', 'হ্যাঁ, তথ্য উপলব্ধ থাকলে ফলাফলে সংশ্লিষ্ট সৌর তারিখ দেখা যায়।'], ['ফলাফল কি সঠিক?', 'ফলাফল সাইটের গণনার উপর ভিত্তি করে; স্থানীয় চাঁদ দেখার ভিত্তিতে কিছু হিজরি তারিখ এক দিন ভিন্ন হতে পারে।']], ql: ['আজকের হিজরি তারিখ', 'হিজরি ক্যালেন্ডার', 'বর্তমান হিজরি মাসের ক্যালেন্ডার', 'আজকের নামাজের সময়', 'আজকের চাঁদের অবস্থা'] },
+                ms: { h1: 'Penukar Tarikh Hijrah, Gregorian dan Suria', intro: 'Tukar tarikh antara kalendar Hijrah, Gregorian dan Suria dengan mudah, beserta hari, bulan, tahun dan status tahun lompat.', qlTitle: 'Alat dan kalendar berkaitan penukaran tarikh', qlIntro: 'Pautan pantas ke tarikh Hijrah hari ini, kalendar Hijrah, kalendar bulan, waktu solat dan fasa bulan.', qd: ['Tarikh Hijrah sepadan hari ini.', 'Bulan Hijrah dan tarikh Gregorian.', 'Hari-hari bulan Hijrah semasa.', 'Lima waktu solat hari ini.', 'Fasa, cahaya dan usia bulan.'], faqTitle: 'Soalan lazim tentang penukaran tarikh', s: ['Penukar tarikh memaparkan tarikh sepadan antara kalendar Hijrah, Gregorian dan Suria. Masukkan hari, bulan dan tahun, kemudian pilih jenis penukaran.', 'Penukaran Gregorian ke Hijrah memaparkan tarikh Hijrah sepadan dengan hari, bulan dan tahun — berguna untuk mengikuti peristiwa Islam.', 'Penukaran Hijrah ke Gregorian membantu mencari tarikh Gregorian bagi tarikh Hijrah tertentu.', 'Halaman ini turut memaparkan tarikh Suria sepadan apabila tersedia, untuk membandingkan beberapa kalendar.', 'Penukaran tarikh membantu mengetahui peristiwa Islam, membandingkan kalendar dan menyusun temu janji.'], faq: [['Bagaimana menukar Gregorian ke Hijrah?', 'Pilih tab Gregorian, masukkan hari, bulan dan tahun, kemudian tekan butang tukar.'], ['Bagaimana menukar Hijrah ke Gregorian?', 'Pilih tab Hijrah, masukkan tarikh Hijrah; alat memaparkan tarikh Gregorian sepadan.'], ['Adakah laman menyokong kalendar Suria?', 'Ya, tarikh Suria sepadan dipaparkan dalam keputusan apabila data tersedia.'], ['Adakah keputusan tepat?', 'Keputusan berdasarkan pengiraan laman ini; sesetengah tarikh Hijrah mungkin berbeza sehari mengikut kenampakan anak bulan setempat.']], ql: ['Tarikh Hijrah hari ini', 'Kalendar Hijrah', 'Kalendar bulan Hijrah semasa', 'Waktu solat hari ini', 'Fasa bulan hari ini'] },
+            };
+            const _dcHrefs = [`${_dcPfx}/today-hijri-date`, `${_dcPfx}/hijri-calendar`, _dcMonthHref, (_dcL === 'ar') ? '/' : (_dcPfx + '/'), `${_dcPfx}/moon-today`];
+            let _dc;
+            if (_DCONV[_dcL]) {
+                _dc = _DCONV[_dcL];
+            } else if (_DC_CONCISE[_dcL]) {
+                const c = _DC_CONCISE[_dcL];
+                const _heads = (_DCONV.en.secs).map(s => s.h); // structural fallback (not shown — concise uses own)
+                _dc = {
+                    h1: c.h1, intro: c.intro, qlTitle: c.qlTitle, qlIntro: c.qlIntro || '', faqTitle: c.faqTitle,
+                    secs: c.s.map((p, i) => ({ h: [['Quelle est cette page ?','Du grégorien vers l\'hégirien','De l\'hégirien vers le grégorien','Entre l\'hégirien et le solaire','Quand convertir une date ?'],['Bu sayfa nedir?','Miladi\'den Hicri\'ye','Hicri\'den Miladi\'ye','Hicri ile Güneş arasında','Ne zaman tarih dönüştürülür?'],['یہ صفحہ کیا ہے؟','میلادی سے ہجری','ہجری سے میلادی','ہجری اور شمسی کے درمیان','تاریخ کب تبدیل کریں؟'],['Was ist diese Seite?','Von gregorianisch zu Hidschri','Von Hidschri zu gregorianisch','Zwischen Hidschri und solar','Wann Datum umrechnen?'],['Apa halaman ini?','Dari Masehi ke Hijriah','Dari Hijriah ke Masehi','Antara Hijriah dan Syamsiah','Kapan konversi tanggal?'],['¿Qué es esta página?','De gregoriano a hijri','De hijri a gregoriano','Entre hijri y solar','¿Cuándo convertir fechas?'],['এই পৃষ্ঠা কী?','গ্রেগরিয়ান থেকে হিজরি','হিজরি থেকে গ্রেগরিয়ান','হিজরি ও সৌরের মধ্যে','কখন তারিখ রূপান্তর?'],['Apakah halaman ini?','Gregorian ke Hijrah','Hijrah ke Gregorian','Antara Hijrah dan Suria','Bila menukar tarikh?']][['fr','tr','ur','de','id','es','bn','ms'].indexOf(_dcL)][i], p })),
+                    faq: c.faq.map(([q, a]) => ({ q, a })),
+                    links: c.ql.map((label, i) => ({ label, desc: (c.qd && c.qd[i]) || '', href: _dcHrefs[i] })),
+                };
+            } else {
+                _dc = _DCONV.en;
+            }
+            const _esc = _escHtml;
+            // Hero (single H1)
+            const _heroHtml = `<div class="section-card dconv-hero"><h1 class="dconv-h1">${_esc(_dc.h1)}</h1><p class="dconv-intro">${_esc(_dc.intro)}</p></div>`;
+            html = html.replace('<div id="dconv-hero"></div>', `<div id="dconv-hero">${_heroHtml}</div>`);
+            // Quick links — reuse the proven .hd1-tools-section card grid (icon +
+            // name + description), matching the prayer-page "related tools" design.
+            const _dcQlIcons = ['📅', '🗓', '📆', '🕌', '🌙'];
+            const _qlHtml = `<section class="section-card hd1-tools-section" aria-labelledby="dconv-ql-title">` +
+                `<h2 id="dconv-ql-title" class="hd1-section-title">${_esc(_dc.qlTitle)}</h2>` +
+                (_dc.qlIntro ? `<p class="hd1-section-intro">${_esc(_dc.qlIntro)}</p>` : '') +
+                `<div class="hd1-tools-grid">` +
+                _dc.links.map((L, i) => `<a class="hd1-tool-card" href="${L.href}"><span class="hd1-tool-icon" aria-hidden="true">${_dcQlIcons[i] || '🔗'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_esc(L.label)}</span>${L.desc ? `<span class="hd1-tool-desc">${_esc(L.desc)}</span>` : ''}</span></a>`).join('') +
+                `</div></section>`;
+            html = html.replace('<div id="dconv-quicklinks"></div>', `<div id="dconv-quicklinks">${_qlHtml}</div>`);
+            // Educational sections + FAQ
+            const _secsHtml = _dc.secs.map(s => `<div class="section-card dconv-sec"><h2>${_esc(s.h)}</h2><p>${_esc(s.p)}</p></div>`).join('');
+            const _faqHtml = `<div class="section-card dconv-faq"><h2>${_esc(_dc.faqTitle)}</h2>` +
+                _dc.faq.map(f => `<div class="dconv-faq-item"><h3>${_esc(f.q)}</h3><p>${_esc(f.a)}</p></div>`).join('') + `</div>`;
+            html = html.replace('<div id="dconv-seo"></div>', `<div id="dconv-seo">${_secsHtml}${_faqHtml}</div>`);
+            // FAQPage JSON-LD
+            const _faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: _dc.faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
+            html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(_faqLd)}</script>\n</head>`);
+        } catch (_e) { /* silent — SSR enrichment optional; tool still works */ }
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections

@@ -7414,6 +7414,95 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     color: var(--primary);
 }
 
+/* ── DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1 (2026-06-03) ─────────────────
+   Landing-page styling for /dateconverter: hero, quick links, educational
+   sections + FAQ, plus light UX polish for the tool. No change to tool logic. */
+#page-date-converter .dconv-hero {
+    text-align: center;
+    background: linear-gradient(135deg, var(--card-bg), var(--bg));
+}
+.dconv-h1 {
+    font-size: clamp(1.4rem, 4vw, 1.9rem);
+    font-weight: 800;
+    margin: 0 0 10px;
+    color: var(--text);
+}
+.dconv-intro {
+    font-size: 1rem;
+    line-height: 1.9;
+    color: var(--text-light);
+    max-width: 680px;
+    margin: 0 auto;
+}
+/* Tool polish: clearer active tab + bigger convert button + comfy spacing */
+#page-date-converter .converter-tab {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+#page-date-converter .converter-tab.active {
+    box-shadow: 0 4px 12px rgba(15, 122, 90, 0.25);
+}
+#page-date-converter .settings-grid {
+    gap: 14px;
+    margin-bottom: 16px;
+}
+#page-date-converter .btn-convert-full {
+    width: 100%;
+    min-height: 52px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-top: 4px;
+}
+#page-date-converter .converter-result {
+    border: 1px solid var(--border);
+    margin-top: 20px;
+}
+.dconv-tool-h2 { margin-bottom: 16px; }
+/* Quick links reuse the shared .hd1-tools-section card grid (no extra CSS). */
+/* Educational sections */
+.dconv-sec h2 {
+    font-size: 1.2rem;
+    margin: 0 0 10px;
+    color: var(--text);
+}
+.dconv-sec p {
+    line-height: 2;
+    color: var(--text-light);
+    margin: 0;
+}
+/* FAQ */
+.dconv-faq h2 {
+    font-size: 1.25rem;
+    margin: 0 0 16px;
+    color: var(--text);
+}
+.dconv-faq-item {
+    padding: 14px 18px;
+    background: var(--bg);
+    border-radius: 10px;
+    border-inline-start: 4px solid var(--primary);
+    margin-bottom: 12px;
+}
+.dconv-faq-item:last-child { margin-bottom: 0; }
+.dconv-faq-item h3 {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--primary);
+    margin: 0 0 6px;
+}
+.dconv-faq-item p {
+    font-size: 0.95rem;
+    line-height: 1.85;
+    color: var(--text);
+    margin: 0;
+}
+@media (max-width: 480px) {
+    #page-date-converter .converter-tabs { flex-direction: column; }
+    #page-date-converter .settings-grid { grid-template-columns: 1fr; }
+}
+
 /* جدول ملخص التحويل */
 .conv-summary {
     text-align: right;

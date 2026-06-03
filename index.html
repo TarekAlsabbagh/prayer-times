@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=467" as="style">
-    <link rel="stylesheet" href="css/style.css?v=467">
+    <link rel="preload" href="css/style.css?v=469" as="style">
+    <link rel="stylesheet" href="css/style.css?v=469">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3279,8 +3279,10 @@
 
             <!-- ===== صفحة تحويل التاريخ ===== -->
             <div class="page" id="page-date-converter">
+                <!-- DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1: hero (H1 + intro) — SSR-filled per-lang -->
+                <div id="dconv-hero"></div>
                 <div class="section-card">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-refresh-cw"/></svg> <span data-i18n="converter.title">تحويل التاريخ</span></h2>
+                    <h2 class="dconv-tool-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-refresh-cw"/></svg> <span data-i18n="converter.title">تحويل التاريخ</span></h2>
                     <div class="converter-tabs">
                         <div class="converter-tab active" onclick="switchConverter('to-hijri')" data-i18n="converter.to_hijri">التحويل من التاريخ الميلادي</div>
                         <div class="converter-tab" onclick="switchConverter('to-greg')" data-i18n="converter.to_gregorian">التحويل من التاريخ الهجري</div>
@@ -3362,6 +3364,10 @@
                         <a href="{LANG_PREFIX}/today-hijri-date" class="btn btn-outline" data-i18n="hijri_today.title">التاريخ الهجري اليوم</a>
                     </p>
                 </div>
+
+                <!-- DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1: quick links + educational sections + FAQ — SSR-filled per-lang -->
+                <div id="dconv-quicklinks"></div>
+                <div id="dconv-seo"></div>
 
             </div>
 

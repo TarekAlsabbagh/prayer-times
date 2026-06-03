@@ -6253,6 +6253,26 @@ const _MOON_HUB_STRIP_IDS = [
     'page-hijri-year',
     'page-hijri-month',
     'page-date-converter',
+    // ──────────────────────────────────────────────────────────────────────
+    // MOON-TODAY-KEYWORD-CONSISTENCY-ROOT-FIX-1 (2026-06-03): strip 6 cross-route
+    // placeholder sections that MOON-TODAY-KEYWORD-CONSISTENCY-FIX-1 missed. These
+    // belong to the OTHER moon routes (city-hub / month / date / city-today) and
+    // are display:none on the plain /moon-today hub (shown only on
+    // html.moon-hub-page / .moon-date-page / .moon-month-page). On the hub they
+    // ship empty "—" placeholders → 6 empty <h2>—</h2> + ~20 <p>—</p> in the raw
+    // HTML that SEOptimer reads regardless of display:none (the audit's only
+    // genuine defect — the body itself is already moon-dominant: القمر ×76 vs
+    // مكة ×2 / مواقيت الصلاة ×2). Gated to _isMoonTodayHub only, so the city /
+    // month / date moon pages (which full-reload to their own SSR) keep every
+    // section intact. Same proven strip pattern; zero change to active hub moon
+    // content (#moon-main-card / moon-seo-info / moon-upcoming / moon-other-cities
+    // / moon-hub-faq / moon-events are untouched).
+    'moon-city-hub-faq',          // .moon-city-hub-only (city-hub route)
+    'moon-city-hub-edu',          // .moon-city-hub-only (city-hub route)
+    'moon-month-edu-hijri',       // .moon-month-edu (month route)
+    'moon-hub-related-links',     // .moon-hub-related (city-hub route)
+    'moon-today-city-edu',        // .moon-today-city-edu (city-today route)
+    'moon-date-edu-hijri',        // .moon-date-edu (date route)
 ];
 const _MOON_HUB_STRIP_CLASSES = [
     'moon-evergreen',

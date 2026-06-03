@@ -7509,12 +7509,19 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     margin-top: 4px;
 }
 .conv-summary-day {
-    font-size: 1.3rem;
-    font-weight: 800;
+    /* DATE-CONVERTER-RESULT-DUAL-CALENDAR-DISPLAY-1: compact 3-calendar line —
+       smaller than the old single-date headline so the longer line fits, bold,
+       centred, theme-green (var(--primary) keeps dark-mode override at :1329).
+       Wraps naturally to a 2nd line on mobile. */
+    font-size: 1.05rem;
+    font-weight: 700;
     color: var(--primary);
     margin-bottom: 12px;
     text-align: center;
+    line-height: 1.95;
 }
+.conv-day-seg { white-space: nowrap; }
+.conv-day-sep { color: var(--text-light); font-weight: 400; padding: 0 2px; }
 .conv-summary-row {
     display: flex;
     justify-content: space-between;

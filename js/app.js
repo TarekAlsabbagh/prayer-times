@@ -24066,17 +24066,26 @@ function buildConvSummaryHTML(gy, gm, gd, hy, hm, hd, resultType = 'hijri') {
         [_t('converter.label_solar_nums',   'التاريخ الشمسي بالأرقام'),    solarNums],
     ];
 
-    const resultDateFull = resultType === 'hijri'
-        ? `${dayName} ${hd} ${hMonths[hm - 1]} ${hy}${hSfx}`
-        : resultType === 'solar'
-        ? `${dayName} ${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year}${sSfx}`
-        : `${dayName} ${gd} ${gMonths[gm-1]} ${gy}${gSfx}`;
+    // DATE-CONVERTER-RESULT-DUAL-CALENDAR-DISPLAY-1 (2026-06-03): the prominent
+    // result line now shows ALL THREE calendars compactly — Hijri · Gregorian ·
+    // Solar — separated by " · ", regardless of the active tab, so every
+    // conversion surfaces the corresponding date in the other calendars at a
+    // glance. The weekday is shown once (shared by all three). Each date is
+    // wrapped in a nowrap span so it never breaks mid-date; the line wraps to a
+    // second line on mobile. resultType is no longer used for the headline.
+    // ZERO change to the calculations or to the detail rows below.
+    const _hijriShort = `${hd} ${hMonths[hm - 1]} ${hy}${hSfx}`;
+    const _gregShort  = `${gd} ${gMonths[gm - 1]} ${gy}${gSfx}`;
+    const _solarShort = `${jalali.day} ${jMonths[jalali.month - 1]} ${jalali.year}${sSfx}`;
+    const _seg = (txt) => `<span class="conv-day-seg">${txt}</span>`;
+    const _sep = '<span class="conv-day-sep"> · </span>';
+    const resultLine = `${_seg(dayName + ' ' + _hijriShort)}${_sep}${_seg(_gregShort)}${_sep}${_seg(_solarShort)}`;
 
     const rowsHTML = rows.map(([l, v]) =>
         `<div class="conv-summary-row"><span class="conv-summary-label">${l}</span><span class="conv-summary-value">${v}</span></div>`
     ).join('');
 
-    return `<div class="conv-summary"><div class="conv-summary-day">${resultDateFull}</div>${rowsHTML}</div>`;
+    return `<div class="conv-summary"><div class="conv-summary-day">${resultLine}</div>${rowsHTML}</div>`;
 }
 
 // DATE-CONVERTER-TAB-HIDDEN-CLASS-FIX-1 (2026-05-31):

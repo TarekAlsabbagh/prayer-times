@@ -3472,7 +3472,7 @@ async function initApp() {
     // تهيئة التنقل
     initNavigation();
 
-    // تهيئة محول التاريخ — deferred on moon pages (only needed on /dateconverter)
+    // تهيئة محول التاريخ — deferred on moon pages (only needed on /date-converter)
     _deferOnMoon(initDateConverter);
 
     // تهيئة التقويم
@@ -3508,7 +3508,7 @@ async function initApp() {
     try { loadedFromURL = await initFromURL(); }
     catch (_e) { try { console.warn('[initApp] initFromURL:', _e); } catch(_){} }
     if (!loadedFromURL) {
-        // ── Round 31: على الصفحات غير-المدنية (dateconverter, zakat-calculator,
+        // ── Round 31: على الصفحات غير-المدنية (date-converter, zakat-calculator,
         //   msbaha, duas, hijri-calendar بدون سنة، …) حمِّل آخر سياق مدينة
         //   معروف حتّى يحمل الشريط الجانبي هذا السياق لأيّ نقرة لاحقة.
         //   قاعدة المستخدم: "من الرئيسيّة → مكّة / من أيّ مكان آخر → الموقع الحاليّ".
@@ -3547,7 +3547,7 @@ async function initApp() {
             //   last_city_context (مثلاً: المستخدم وصل مباشرةً عبر URL أو فُتح
             //   تبويب جديد)، استَعمل lsb_detected الذي يَستمرّ في localStorage
             //   حتّى 7 أيّام. هذا يضمن أنّ /zakat-calculator و/azkar و/msbaha
-            //   و/today-hijri-date و/hijri-calendar و/dateconverter تَعرض موقع
+            //   و/today-hijri-date و/hijri-calendar و/date-converter تَعرض موقع
             //   المستخدم الحاليّ بدلاً من Mecca defaults.
             if (!_hydratedFromContext) {
                 try {
@@ -3626,7 +3626,7 @@ async function initApp() {
         try { updatePrayerTimes(); } catch(_e) { try { console.warn('[initApp] updatePrayerTimes:', _e); } catch(_){} }
         try { updateQibla();       } catch(_e) { try { console.warn('[initApp] updateQibla:',       _e); } catch(_){} }
         // Round 31: لا تستدعِ detectLocation على صفحة غير-مدنيّة حين يوجد سياق
-        //   (مثل /dateconverter بعد /prayer-times-in-tokyo): detectLocation يكتب
+        //   (مثل /date-converter بعد /prayer-times-in-tokyo): detectLocation يكتب
         //   فوق currentLat/Lng/EnglishName بموقع GPS الحقيقيّ للمستخدم عبر
         //   reverseGeocode، فيضيع سياق طوكيو قبل أن يقرأه الشريط الجانبي.
         //   اطلب الإذن للموقع الحقيقي — يستعمله detectLocation() لملء شريط الاقتراح فقط على الرئيسية
@@ -3758,8 +3758,8 @@ async function initApp() {
         _resetStickyBarForHijri();
     }
 
-    // تفعيل صفحة تحويل التاريخ عند URL /dateconverter
-    const _isDateConverterPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname);
+    // تفعيل صفحة تحويل التاريخ عند URL /date-converter
+    const _isDateConverterPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(window.location.pathname);
     if (_isDateConverterPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-date-converter')?.classList.add('active');
@@ -5271,13 +5271,13 @@ function initNavigation() {
                 return;
             }
 
-            // تحويل التاريخ → /dateconverter
+            // تحويل التاريخ → /date-converter
             if (pageId === 'date-converter' && window.location.protocol !== 'file:') {
-                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(window.location.pathname)) {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(window.location.pathname)) {
                     // FIX: حفظ سياق المدينة الحاليّة أو مكّة كافتراضي
                     _saveCityCtxFor('date-converter');
                     _showNavLoadingOverlay('date-converter');
-                    window.location.href = pageUrl('/dateconverter');
+                    window.location.href = pageUrl('/date-converter');
                 }
                 return;
             }
@@ -7681,7 +7681,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     fetchLocalizedCityName(lat, lng);
 
     // ── Round 31: احفظ آخر سياق مدينة معروف في sessionStorage حتّى
-    //   تحتفظ الصفحات غير-المدنية (dateconverter, zakat, msbaha, duas…)
+    //   تحتفظ الصفحات غير-المدنية (date-converter, zakat, msbaha, duas…)
     //   بالموقع الحاليّ عند المرور عليها، ثمّ يُسلِّمه الشريط الجانبي لأيّ
     //   صفحة لاحقة. القاعدة: من الرئيسيّة → مكّة (لا يُحفظ سياق)؛ من صفحة
     //   سياق → نحفظ ونحمِّل لاحقًا. loadCityData هو choke point مشترك.
@@ -10589,7 +10589,7 @@ function injectHomepageSchema() {
             { "@type": "SiteNavigationElement", "name": _navName('nav.tasbih',         "المسبحة الإلكترونية"), "url": `${origin}${_langPath}/msbaha`                                      },
             { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_today',    "التاريخ الهجري"),      "url": `${origin}${_langPath}${hijriDated}`                              },
             { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_calendar', "التقويم الهجري"),      "url": `${origin}${_langPath}/hijri-calendar/${hijriYear}`               },
-            { "@type": "SiteNavigationElement", "name": _navName('nav.date_converter', "تحويل التاريخ"),       "url": `${origin}${_langPath}/dateconverter`                              }
+            { "@type": "SiteNavigationElement", "name": _navName('nav.date_converter', "تحويل التاريخ"),       "url": `${origin}${_langPath}/date-converter`                              }
         ]
     };
 
@@ -10861,7 +10861,7 @@ function updatePageSEO() {
         //
         // SCOPE — only the homepage rewrite is suppressed; the rest of
         // updatePageSEO (city pages, hijri pages, qibla hub, moon hub,
-        // zakat, dateconverter, etc.) remains unchanged.
+        // zakat, date-converter, etc.) remains unchanged.
         return;
     }
 
@@ -11007,7 +11007,7 @@ function updatePageSEO() {
     }
 
     // ── محول التاريخ ──
-    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(path)) {
+    if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(path)) {
         setSEOMeta({
             title: isEn ? 'Hijri ↔ Gregorian Date Converter' : 'محول التاريخ الهجري ↔ الميلادي',
             description: isEn
@@ -11610,7 +11610,7 @@ function _detectNavKindFromUrl(pathname) {
     if (/^\/msbaha/.test(p) || /^\/tasbih/.test(p))           return 'tasbih';
     if (/^\/hijri-calendar/.test(p) || /^\/hijri-/.test(p))   return 'hijri';
     if (/^\/today-hijri-date/.test(p))                        return 'hijri';
-    if (/^\/dateconverter/.test(p))                           return 'date-converter';
+    if (/^\/date-converter/.test(p))                           return 'date-converter';
     return 'generic';
 }
 // Delegated capture-phase click handler — covers ALL native <a href>
@@ -11693,7 +11693,7 @@ window.addEventListener('pageshow', function(e) {
             _expectedId = 'page-hijri-year';
         } else if (/\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(_path)) {
             _expectedId = 'page-zakat';
-        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(_path)) {
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(_path)) {
             _expectedId = 'page-date-converter';
         } else {
             // Default: homepage `/`, `/prayer-times-in-{slug}`,
@@ -11913,7 +11913,7 @@ function updateCityRelatedServices() {
         {
             icon: '🔄',
             label: t.date_conv,
-            url: pageUrl('/dateconverter')
+            url: pageUrl('/date-converter')
         },
         {
             icon: '🗓️',
@@ -22456,7 +22456,7 @@ function updateHijriToday() {
             ? `${prefix}/prayer-times-in-${_citySlug}`
             : ((lang === 'ar') ? '/' : (prefix + '/'));
         const ctas = [
-            [`${prefix}/dateconverter`,           T.ctaConv,   true],   // primary
+            [`${prefix}/date-converter`,           T.ctaConv,   true],   // primary
             [`${prefix}/moon-today`,              T.ctaMoon,   false],
             [_prayerHref,                         T.ctaPrayer, false],
         ];
@@ -22544,7 +22544,7 @@ function updateHijriToday() {
             : ((lang === 'ar') ? '/' : (prefix + '/'));
         // Only truly-related secondary links. Month + Year (hierarchy) render above under the Hero.
         const extras = [
-            [`${prefix}/dateconverter`,  T.extraConv],
+            [`${prefix}/date-converter`,  T.extraConv],
             [`${prefix}/moon-today`,     T.extraMoon],
             [_prayerHref2,               T.extraTimeLeft],
         ];
@@ -22825,7 +22825,7 @@ function loadHijriDayPage() {
             } catch (_) {}
         }
         const ctas = [
-            [`${prefix}/dateconverter`, ex.ctaConv,     true],   // primary
+            [`${prefix}/date-converter`, ex.ctaConv,     true],   // primary
             [_moonHref,                 _ctaMoonText,   false],
             [prayerHref,                _ctaPrayerText, false],
         ];
@@ -22952,7 +22952,7 @@ function loadHijriDayPage() {
         }
         // Only truly-related secondary links here. Month + Year (hierarchy) live above under the Hero.
         const rels = [
-            [`${prefix}/dateconverter`,            ex.relConv],
+            [`${prefix}/date-converter`,            ex.relConv],
             [_moonRelHref,                         _moonLabel],
             [prayerHref2,                          _prayerLabel],
         ];
@@ -23376,7 +23376,7 @@ function loadHijriYearPage() {
         const ctas = [
             [`${prefix}/today-hijri-date`, ui.cta_today, true],
             [curMonthUrl,                  ui.cta_month(curMonthName, `${year}${hSfx}`), false],
-            [`${prefix}/dateconverter`,    ui.cta_converter, false],
+            [`${prefix}/date-converter`,    ui.cta_converter, false],
         ];
         ctaEl.innerHTML = ctas.map(([href, text, primary]) =>
             `<a href="${href}" style="display:inline-block;padding:10px 20px;background:${primary ? 'var(--primary)' : 'var(--bg)'};color:${primary ? '#fff' : 'var(--primary)'};border-radius:8px;text-decoration:none;font-size:0.9rem;font-weight:${primary ? '700' : '500'};border:1px solid var(--border);">${text}</a>`
@@ -23704,7 +23704,7 @@ function loadHijriMonthPage() {
         const links = [
             [`${prefix}/today-hijri-date`, ui.link_today],
             [`${prefix}/hijri-calendar/${year}`, ui.link_year(year, hSfx)],
-            [`${prefix}/dateconverter`, ui.link_convert],
+            [`${prefix}/date-converter`, ui.link_convert],
             [`${prefix}/moon-today`, ui.link_moon],
         ];
         linksEl.innerHTML = links.map(([href, text]) =>

@@ -7415,7 +7415,7 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
 }
 
 /* ── DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1 (2026-06-03) ─────────────────
-   Landing-page styling for /dateconverter: hero, quick links, educational
+   Landing-page styling for /date-converter: hero, quick links, educational
    sections + FAQ, plus light UX polish for the tool. No change to tool logic. */
 #page-date-converter .dconv-hero {
     text-align: center;
@@ -18504,7 +18504,7 @@ html.city-page .location-info { min-height: 51px; }
     }
 }
 
-/* ═══ Phase DateConv-A (2026-05-06): /dateconverter CLS fix.
+/* ═══ Phase DateConv-A (2026-05-06): /date-converter CLS fix.
    Lighthouse mobile baseline (3 runs):
      Run 1: CLS=0.104  Run 2: CLS=0.104  Run 3: CLS=0.103
      Tightly clustered around 0.104 — just over the 0.1 threshold.
@@ -19205,7 +19205,7 @@ html[data-theme="dark"] .home-service-card {
    Phase HD-6 (2026-05-08): pre-apply .page.active styles on city pages.
 
    Same proven pattern as Phase E4-b (moon pages, line 13959+) and
-   Phase DateConv-A (/dateconverter, line 15162+).
+   Phase DateConv-A (/date-converter, line 15162+).
 
    Diagnosis (Lighthouse desktop, /prayer-times-in-riyadh, BEFORE this fix):
      CLS = 0.241

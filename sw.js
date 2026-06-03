@@ -471,7 +471,7 @@
 //   /qibla hub, prayer-times/moon/azkar pages.
 //   Cache-buster: js/app.js?v=730 → ?v=731.
 // DATE-CONVERTER-TAB-HIDDEN-CLASS-FIX-1 (2026-05-31):
-//   v373 → v374. Bug fix on /dateconverter: clicking the "Hijri →
+//   v373 → v374. Bug fix on /date-converter: clicking the "Hijri →
 //   Gregorian" or "Solar → Gregorian" tabs showed an empty body.
 //   Root cause: the two hidden converter <div>s carry `class="u-hidden"`,
 //   and `.u-hidden { display: none !important; }` (css/style.css:8511)
@@ -1518,7 +1518,7 @@
 //   canonical, hreflang, sitemap, routing, JSON-LD. Month + today + day
 //   pages UNAFFECTED. Files: server.js (~55: breadcrumb + intro SSR-fill +
 //   doc) + sw.js (this comment + version bump v410→v411).
-const CACHE_VERSION = 'v421';
+const CACHE_VERSION = 'v422';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

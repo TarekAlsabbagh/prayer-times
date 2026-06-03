@@ -7511,8 +7511,8 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
                 `<a href="${_langPrefix}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(_f.l_hijri_today)}</a>`)
             .replace(/<a href="[^"]*\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(_f.l_hijri_year)}</a>`)
-            .replace(/<a href="[^"]*\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
-                `<a href="${_langPrefix}/dateconverter" data-i18n="footer.link_date_converter">${_escHtml(_f.l_date_conv)}</a>`)
+            .replace(/<a href="[^"]*\/date-converter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
+                `<a href="${_langPrefix}/date-converter" data-i18n="footer.link_date_converter">${_escHtml(_f.l_date_conv)}</a>`)
             .replace(/<a href="[^"]*\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/msbaha" data-i18n="footer.link_tasbih">${_escHtml(_f.l_tasbih)}</a>`);
 
@@ -8210,7 +8210,7 @@ function buildSeoForPath(urlPath) {
             app: { category: 'UtilitiesApplication' },
             tasbihFaq: true,  // MSBAHA-SEO-CONTENT-UX-EXPANSION-1: emit FAQPage JSON-LD for /msbaha
         },
-        '/dateconverter': {
+        '/date-converter': {
             // DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1 (2026-06-03): Title→50-60 cp,
             // Meta→120-160 cp for all 10 langs (validated). Adds the Solar calendar to
             // the keyword set (the page also converts solar dates).
@@ -14200,7 +14200,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'الأذكار', desc: 'أذكار الصباح والمساء وبعد الصلاة', href: '/azkar' },
                     { icon: '💰', label: 'حاسبة الزكاة', desc: 'احسب زكاة المال والذهب', href: '/zakat-calculator' },
                     { icon: '📿', label: 'المسبحة الإلكترونية', desc: 'سبحة رقمية للتسبيح والذكر', href: '/msbaha' },
-                    { icon: '🔄', label: 'محوّل التاريخ', desc: 'تحويل بين الميلادي والهجري', href: '/dateconverter' },
+                    { icon: '🔄', label: 'محوّل التاريخ', desc: 'تحويل بين الميلادي والهجري', href: '/date-converter' },
                 ],
             },
             en: {
@@ -14220,7 +14220,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Azkar', desc: 'Morning, evening and post-prayer azkar', href: '/en/azkar' },
                     { icon: '💰', label: 'Zakat Calculator', desc: 'Calculate zakat on money and gold', href: '/en/zakat-calculator' },
                     { icon: '📿', label: 'Tasbih (Msbaha)', desc: 'Digital tasbih for dhikr', href: '/en/msbaha' },
-                    { icon: '🔄', label: 'Date Converter', desc: 'Gregorian ↔ Hijri conversion', href: '/en/dateconverter' },
+                    { icon: '🔄', label: 'Date Converter', desc: 'Gregorian ↔ Hijri conversion', href: '/en/date-converter' },
                 ],
             },
             fr: {
@@ -14240,7 +14240,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Azkar', desc: 'Azkar du matin, du soir et après prière', href: '/fr/azkar' },
                     { icon: '💰', label: 'Calculatrice zakat', desc: 'Calcul de la zakat sur l\u2019argent', href: '/fr/zakat-calculator' },
                     { icon: '📿', label: 'Tasbih (Msbaha)', desc: 'Compteur numérique pour le dhikr', href: '/fr/msbaha' },
-                    { icon: '🔄', label: 'Convertisseur de date', desc: 'Conversion grégorien ↔ hégirien', href: '/fr/dateconverter' },
+                    { icon: '🔄', label: 'Convertisseur de date', desc: 'Conversion grégorien ↔ hégirien', href: '/fr/date-converter' },
                 ],
             },
             tr: {
@@ -14260,7 +14260,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Zikirler', desc: 'Sabah, akşam ve namaz sonrası zikirler', href: '/tr/azkar' },
                     { icon: '💰', label: 'Zekat Hesaplayıcı', desc: 'Mal ve altın zekatı hesaplama', href: '/tr/zakat-calculator' },
                     { icon: '📿', label: 'Tesbih (Msbaha)', desc: 'Zikir için dijital tesbih', href: '/tr/msbaha' },
-                    { icon: '🔄', label: 'Tarih Dönüştürücü', desc: 'Miladi ↔ Hicri dönüşüm', href: '/tr/dateconverter' },
+                    { icon: '🔄', label: 'Tarih Dönüştürücü', desc: 'Miladi ↔ Hicri dönüşüm', href: '/tr/date-converter' },
                 ],
             },
             ur: {
@@ -14280,7 +14280,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'اذکار', desc: 'صبح، شام اور بعد از نماز اذکار', href: '/ur/azkar' },
                     { icon: '💰', label: 'زکوٰۃ کیلکولیٹر', desc: 'مال اور سونے کی زکوٰۃ', href: '/ur/zakat-calculator' },
                     { icon: '📿', label: 'ڈیجیٹل تسبیح', desc: 'ذکر کے لیے ڈیجیٹل تسبیح', href: '/ur/msbaha' },
-                    { icon: '🔄', label: 'تاریخ کنورٹر', desc: 'گریگوری اور ہجری کے درمیان', href: '/ur/dateconverter' },
+                    { icon: '🔄', label: 'تاریخ کنورٹر', desc: 'گریگوری اور ہجری کے درمیان', href: '/ur/date-converter' },
                 ],
             },
             de: {
@@ -14300,7 +14300,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Adhkar', desc: 'Morgen-, Abend- und Nach-Gebet-Adhkar', href: '/de/azkar' },
                     { icon: '💰', label: 'Zakat-Rechner', desc: 'Zakat auf Geld und Gold berechnen', href: '/de/zakat-calculator' },
                     { icon: '📿', label: 'Digitale Tasbih', desc: 'Digitale Tasbih für Dhikr', href: '/de/msbaha' },
-                    { icon: '🔄', label: 'Datums-Konverter', desc: 'Gregorianisch ↔ Hidschri', href: '/de/dateconverter' },
+                    { icon: '🔄', label: 'Datums-Konverter', desc: 'Gregorianisch ↔ Hidschri', href: '/de/date-converter' },
                 ],
             },
             id: {
@@ -14320,7 +14320,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Azkar', desc: 'Azkar pagi, sore dan setelah salat', href: '/id/azkar' },
                     { icon: '💰', label: 'Kalkulator Zakat', desc: 'Hitung zakat uang dan emas', href: '/id/zakat-calculator' },
                     { icon: '📿', label: 'Tasbih Digital', desc: 'Tasbih digital untuk zikir', href: '/id/msbaha' },
-                    { icon: '🔄', label: 'Konverter Tanggal', desc: 'Masehi ↔ Hijriah', href: '/id/dateconverter' },
+                    { icon: '🔄', label: 'Konverter Tanggal', desc: 'Masehi ↔ Hijriah', href: '/id/date-converter' },
                 ],
             },
             es: {
@@ -14340,7 +14340,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Azkar', desc: 'Azkar de mañana, noche y después de la oración', href: '/es/azkar' },
                     { icon: '💰', label: 'Calculadora de zakat', desc: 'Calcule el zakat de dinero y oro', href: '/es/zakat-calculator' },
                     { icon: '📿', label: 'Tasbih digital', desc: 'Tasbih digital para el dhikr', href: '/es/msbaha' },
-                    { icon: '🔄', label: 'Conversor de fechas', desc: 'Gregoriano ↔ Hégira', href: '/es/dateconverter' },
+                    { icon: '🔄', label: 'Conversor de fechas', desc: 'Gregoriano ↔ Hégira', href: '/es/date-converter' },
                 ],
             },
             bn: {
@@ -14360,7 +14360,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'আযকার', desc: 'সকাল, সন্ধ্যা ও নামাজ পরবর্তী আযকার', href: '/bn/azkar' },
                     { icon: '💰', label: 'যাকাত ক্যালকুলেটর', desc: 'টাকা ও সোনার যাকাত হিসাব', href: '/bn/zakat-calculator' },
                     { icon: '📿', label: 'ডিজিটাল তসবিহ', desc: 'যিকরের জন্য ডিজিটাল তসবিহ', href: '/bn/msbaha' },
-                    { icon: '🔄', label: 'তারিখ কনভার্টার', desc: 'গ্রেগরিয়ান ↔ হিজরি', href: '/bn/dateconverter' },
+                    { icon: '🔄', label: 'তারিখ কনভার্টার', desc: 'গ্রেগরিয়ান ↔ হিজরি', href: '/bn/date-converter' },
                 ],
             },
             ms: {
@@ -14380,7 +14380,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     { icon: '📿', label: 'Azkar', desc: 'Azkar pagi, petang dan selepas solat', href: '/ms/azkar' },
                     { icon: '💰', label: 'Kalkulator Zakat', desc: 'Kira zakat wang dan emas', href: '/ms/zakat-calculator' },
                     { icon: '📿', label: 'Tasbih Digital', desc: 'Tasbih digital untuk zikir', href: '/ms/msbaha' },
-                    { icon: '🔄', label: 'Penukar Tarikh', desc: 'Masehi ↔ Hijrah', href: '/ms/dateconverter' },
+                    { icon: '🔄', label: 'Penukar Tarikh', desc: 'Masehi ↔ Hijrah', href: '/ms/date-converter' },
                 ],
             },
         };
@@ -14849,7 +14849,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     <h2 id="hd1-tools-title" class="hd1-section-title">${_escHtml(_hd.toolsTitle)}</h2>
                     <p class="hd1-section-intro">${_escHtml(_hd.toolsIntro || '')}</p>
                     <div class="hd1-tools-grid">
-                        <a class="hd1-tool-card" href="${_langPrefHd1}/dateconverter">
+                        <a class="hd1-tool-card" href="${_langPrefHd1}/date-converter">
                             <span class="hd1-tool-icon" aria-hidden="true">🔄</span>
                             <span class="hd1-tool-body">
                                 <span class="hd1-tool-name">${_escHtml(_hd.tool_dateconv)}</span>
@@ -16062,7 +16062,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
 
                 // (d) CTA — 3 buttons (app.js 22786). Prayer → Home in SSR (no server geo).
                 const _hdCtas = [
-                    [`${_hdPrefix}/dateconverter`, _hb.ctaConv,   true],
+                    [`${_hdPrefix}/date-converter`, _hb.ctaConv,   true],
                     [`${_hdPrefix}/moon-today`,    _hb.ctaMoon,   false],
                     [_hdHomeUrl,                   _hb.ctaPrayer, false],
                 ];
@@ -16399,14 +16399,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     }
 
     // 1e2) DATE-CONVERTER-PAGE-UX-SEO-CONTENT-FIX-1 (2026-06-03): turn the
-    //      tool-only /dateconverter page into a complete landing page. SSR-fills a
+    //      tool-only /date-converter page into a complete landing page. SSR-fills a
     //      hero (single H1 + intro), quick internal links, 5 educational H2+P
     //      sections, and a FAQ (H2 + 4× H3/answer) + FAQPage JSON-LD — all per-lang
     //      and SSR-visible (crawlers full-load every URL). AR/EN are rich; the other
     //      8 langs get a concise, safe version (controlled multilingual rollout).
     //      NO change to the converter tool / conversion logic. Content is static
     //      per-lang so no client overwrite is possible (JS never touches these IDs).
-    const _isDateConverter = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(urlPath);
+    const _isDateConverter = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(urlPath);
     if (_isDateConverter) {
         try {
             const _dcL = seo.lang || 'ar';
@@ -18367,8 +18367,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<a href="${Lf==='ar'?'':'/'+Lf}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
             .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(f.l_hijri_year)}</a>`)
-            .replace(/<a href="\/dateconverter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
-                `<a href="${Lf==='ar'?'':'/'+Lf}/dateconverter" data-i18n="footer.link_date_converter">${_escHtml(f.l_date_conv)}</a>`)
+            .replace(/<a href="\/date-converter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
+                `<a href="${Lf==='ar'?'':'/'+Lf}/date-converter" data-i18n="footer.link_date_converter">${_escHtml(f.l_date_conv)}</a>`)
             .replace(/<a href="\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/msbaha" data-i18n="footer.link_tasbih">${_escHtml(f.l_tasbih)}</a>`)
             .replace(/<p class="home-footer-refs"[\s\S]*?<\/p>/,
@@ -23481,7 +23481,7 @@ const server = http.createServer(async (req, res) => {
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|msbaha$|today-hijri-date$|dateconverter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
+        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|msbaha$|today-hijri-date$|date-converter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
@@ -23661,7 +23661,7 @@ const server = http.createServer(async (req, res) => {
                 ['/azkar/evening-azkar', '0.75', 'monthly'],
                 ['/azkar/prayer-azkar',  '0.75', 'monthly'],
                 ['/msbaha', '0.7', 'monthly'],
-                ['/dateconverter', '0.8', 'monthly'],
+                ['/date-converter', '0.8', 'monthly'],
                 // HD-1 (2026-05-07): /today-hijri-date is now a first-class indexable
                 // Hub page (was an alias bouncing to /hijri-date/{today}). 'daily'
                 // changefreq because the visible Hijri date refreshes daily.
@@ -23856,7 +23856,7 @@ const server = http.createServer(async (req, res) => {
     // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
     const _LANG_PREFIX_RE = '(?:en|fr|tr|ur|de|id|es|bn|ms)';
     const _isIndexHtmlRoute =
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?dateconverter$/.test(urlPath) ||
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
@@ -24170,7 +24170,7 @@ const server = http.createServer(async (req, res) => {
     {
         const _oldCountryMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?([a-z][a-z0-9-]+)$/);
         const _oldReserved = new Set(['qibla','moon','zakat-calculator','azkar','duas','msbaha',
-            'dateconverter','today-hijri-date','privacy','terms','contact','about-us',
+            'date-converter','today-hijri-date','privacy','terms','contact','about-us',
             'prayer-times-worldwide','index']);
         if (_oldCountryMatch && !_oldReserved.has(_oldCountryMatch[2])) {
             const _oldCountry = _countryFromSlug(_oldCountryMatch[2]);

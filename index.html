@@ -3340,15 +3340,15 @@
                         <div class="settings-grid">
                             <div>
                                 <label for="conv-s-day" data-i18n="converter.day">اليوم</label>
-                                <input type="number" id="conv-s-day" min="1" max="31" value="1">
+                                <input type="number" id="conv-s-day" min="1" max="31" value="1" onchange="convertFromSolar()">
                             </div>
                             <div>
                                 <label for="conv-s-month" data-i18n="converter.month">الشهر</label>
-                                <select id="conv-s-month"></select>
+                                <select id="conv-s-month" onchange="convertFromSolar()"></select>
                             </div>
                             <div>
                                 <label for="conv-s-year" data-i18n="converter.year">السنة</label>
-                                <input type="number" id="conv-s-year" min="1300" max="1600" value="1404">
+                                <input type="number" id="conv-s-year" min="1300" max="1600" value="1404" onchange="convertFromSolar()">
                             </div>
                         </div>
                         <button class="btn btn-primary btn-convert-full" onclick="convertFromSolar()" data-i18n="converter.convert">تحويل</button>

@@ -1437,6 +1437,100 @@ window.TRANSLATIONS['bn']['zakat.zex5_b'] = 'যদি বিক্রয়ে�
 window.TRANSLATIONS['bn']['zakat.znote5'] = 'সোনা ও রুপার মূল্য কেনার দিনের নয়, যাকাত আদায়ের দিনের দাম অনুযায়ী নির্ধারণ করুন।';
 window.TRANSLATIONS['bn']['zakat.znote6'] = 'যাকাত যাতে দেরি না হয় সে জন্য চান্দ্র বছরে একটি নির্দিষ্ট দিন বেছে নিয়ে সেদিন যাকাত হিসাব ও আদায় করতে পারেন।';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['bn']['azkar.hub.sections_title'] = 'যিকিরের বিভাগসমূহ';
+window.TRANSLATIONS['bn']['azkar.hub.intro_title'] = 'দৈনিক যিকির কী?';
+window.TRANSLATIONS['bn']['azkar.hub.intro_p1'] = 'দৈনিক যিকির হলো কুরআন ও সুন্নাহে বর্ণিত দোয়া, তাসবিহ ও মাসনুন যিকির, যা একজন মুসলিম দিনের নির্দিষ্ট সময়ে পড়েন; যেমন ফজরের পর সকালের যিকির, আসরের পর সন্ধ্যার যিকির, প্রতিটি ফরজ নামাজের পরের যিকির এবং ঘুমানোর আগের যিকির। এগুলো দিনরাত হৃদয়কে আল্লাহর স্মরণে যুক্ত রাখে।';
+window.TRANSLATIONS['bn']['azkar.hub.intro_p2'] = 'এই পৃষ্ঠাটি যিকিরের বিভাগগুলো একটি সুসংগঠিত ও সহজপাঠ্য জায়গায় একত্র করে, যাতে আপনি এক ক্লিকে সকাল, সন্ধ্যা, নামাজ বা ঘুমের যিকিরে পৌঁছাতে পারেন। প্রতিটি বিভাগ যিকিরগুলো পুনরাবৃত্তির সংখ্যা ও উৎসসহ লিখিত আকারে দেখায়, যাতে খোঁজাখুঁজি ও মনোযোগ বিচ্ছিন্ন না করে স্বস্তিতে পড়া যায়।';
+window.TRANSLATIONS['bn']['azkar.hub.intro_p3'] = 'দৈনিক যিকির ও দোয়ায় অবিচল থাকা হৃদয়ের উপস্থিতি ও আল্লাহর স্মরণের অন্যতম সহায়ক — সময়ের দিক থেকে সহজ, প্রভাবে মহান একটি সুন্নাহ। আমরা যিকিরের পৃষ্ঠাটি ফোন ও কম্পিউটারে পড়ার জন্য আরামদায়ক করেছি, এবং একটি কাউন্টার পুনরাবৃত্ত যিকিরে আপনার অগ্রগতি সংরক্ষণ করে।';
+window.TRANSLATIONS['bn']['azkar.hub.steps_title'] = 'যিকিরের পৃষ্ঠা কীভাবে ব্যবহার করবেন';
+window.TRANSLATIONS['bn']['azkar.hub.step1_t'] = 'যিকিরের একটি বিভাগ বাছুন';
+window.TRANSLATIONS['bn']['azkar.hub.step1_d'] = 'কার্ড থেকে কাঙ্ক্ষিত বিভাগ বাছুন: সকাল, সন্ধ্যা, নামাজ বা ঘুমের যিকির।';
+window.TRANSLATIONS['bn']['azkar.hub.step2_t'] = 'পড়ার পৃষ্ঠা খুলুন';
+window.TRANSLATIONS['bn']['azkar.hub.step2_d'] = 'কার্ডে ক্লিক করুন; বিভাগ খুলবে এবং যিকিরগুলো উৎসসহ ক্রমে আসবে।';
+window.TRANSLATIONS['bn']['azkar.hub.step3_t'] = 'প্রতিটি যিকির তার সংখ্যা অনুযায়ী পড়ুন';
+window.TRANSLATIONS['bn']['azkar.hub.step3_d'] = 'প্রতিটি যিকির উল্লিখিত সংখ্যায় পড়ুন এবং সম্পন্ন যিকির অনুসরণে কাউন্টার ব্যবহার করুন।';
+window.TRANSLATIONS['bn']['azkar.hub.step4_t'] = 'দৈনিক অভ্যাসে পরিণত করুন';
+window.TRANSLATIONS['bn']['azkar.hub.step4_d'] = 'প্রতিদিন সকাল ও সন্ধ্যার যিকির বজায় রাখুন; অল্প কিন্তু ধারাবাহিক যিকির বিচ্ছিন্ন আধিক্যের চেয়ে উত্তম।';
+window.TRANSLATIONS['bn']['azkar.hub.types_title'] = 'উপলব্ধ যিকিরের ধরন';
+window.TRANSLATIONS['bn']['azkar.hub.type1_t'] = 'সকালের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.type1_d'] = 'দিনের শুরুতে আল্লাহর স্মরণে দিন শুরু করতে ফজরের পর পড়া যিকির।';
+window.TRANSLATIONS['bn']['azkar.hub.type2_t'] = 'সন্ধ্যার যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.type2_d'] = 'দিনের সমাপ্তি আল্লাহর স্মরণে করতে আসরের পর রাত পর্যন্ত পড়া যিকির।';
+window.TRANSLATIONS['bn']['azkar.hub.type3_t'] = 'নামাজের পরের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.type3_d'] = 'প্রতিটি ফরজ নামাজের পর তাসবিহ, তাহমিদ, তাকবির ও মাসনুন যিকির।';
+window.TRANSLATIONS['bn']['azkar.hub.type4_t'] = 'ঘুমের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.type4_d'] = 'আল্লাহর হিফাজতে ঘুমাতে ঘুমানোর আগে পড়া যিকির ও দোয়া।';
+window.TRANSLATIONS['bn']['azkar.hub.type5_t'] = 'সফরের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.type5_d'] = 'বাহনে চড়া, সফর ও কোথাও অবতরণের দোয়া যা মুসাফিরের পথে প্রয়োজন।';
+window.TRANSLATIONS['bn']['azkar.hub.type6_t'] = 'কুরআন ও সুন্নাহর দোয়া';
+window.TRANSLATIONS['bn']['azkar.hub.type6_d'] = 'কুরআন ও সুন্নাহে বর্ণিত মাসনুন ও ব্যাপক দোয়াসমূহ।';
+window.TRANSLATIONS['bn']['azkar.hub.benefits_title'] = 'যিকির বজায় রাখার উপকারিতা';
+window.TRANSLATIONS['bn']['azkar.hub.benefit1'] = 'আল্লাহর স্মরণে হৃদয়ের প্রশান্তি ও মনের স্বস্তি।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit2'] = 'দিনের শুরু ও শেষে আল্লাহর সঙ্গে সম্পর্ক নবায়ন।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit3'] = 'সকালের যিকিরে দিন সাজানো ও সন্ধ্যার যিকিরে তা শেষ করা।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit4'] = 'নিজেকে কল্যাণের কথা মনে করানো ও আনুগত্যের দিকে ঝোঁকানো।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit5'] = 'দিনরাত আল্লাহর সাহায্য চাওয়া ও তাঁর ওপর ভরসা করা।';
+window.TRANSLATIONS['bn']['azkar.hub.timing_title'] = 'কখন যিকির পড়বেন?';
+window.TRANSLATIONS['bn']['azkar.hub.time1_when'] = 'ফজরের পর বা দিনের শুরুতে';
+window.TRANSLATIONS['bn']['azkar.hub.time1_what'] = 'সকালের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.time2_when'] = 'আসরের পর বা রাতের আগে';
+window.TRANSLATIONS['bn']['azkar.hub.time2_what'] = 'সন্ধ্যার যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.time3_when'] = 'ফরজ নামাজের পর';
+window.TRANSLATIONS['bn']['azkar.hub.time3_what'] = 'নামাজের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.time4_when'] = 'ঘুমানোর আগে';
+window.TRANSLATIONS['bn']['azkar.hub.time4_what'] = 'ঘুমের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.time5_when'] = 'সফরের সময়';
+window.TRANSLATIONS['bn']['azkar.hub.time5_what'] = 'সফরের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.links_title'] = 'যিকিরের পাশে দরকারি পৃষ্ঠা';
+window.TRANSLATIONS['bn']['azkar.hub.link1_label'] = 'নামাজের সময়';
+window.TRANSLATIONS['bn']['azkar.hub.link1_desc'] = 'যিকির সময়মতো পড়তে আপনার শহরের পাঁচ ওয়াক্ত নামাজ।';
+window.TRANSLATIONS['bn']['azkar.hub.link2_label'] = 'আজকের হিজরি তারিখ';
+window.TRANSLATIONS['bn']['azkar.hub.link2_desc'] = 'আজকের হিজরি তারিখ সহজে দেখুন।';
+window.TRANSLATIONS['bn']['azkar.hub.link3_label'] = 'হিজরি ক্যালেন্ডার';
+window.TRANSLATIONS['bn']['azkar.hub.link3_desc'] = 'হিজরি বছরের মাস ও দিন দেখুন।';
+window.TRANSLATIONS['bn']['azkar.hub.link4_label'] = 'তারিখ রূপান্তরকারী';
+window.TRANSLATIONS['bn']['azkar.hub.link4_desc'] = 'হিজরি ও গ্রেগরিয়ানের মধ্যে এক ধাপে তারিখ রূপান্তর করুন।';
+window.TRANSLATIONS['bn']['azkar.hub.link5_label'] = 'ডিজিটাল তাসবিহ';
+window.TRANSLATIONS['bn']['azkar.hub.link5_desc'] = 'আপনার সংখ্যা সংরক্ষণকারী ডিজিটাল কাউন্টারে তাসবিহ ও যিকির করুন।';
+window.TRANSLATIONS['bn']['azkar.hub.link6_label'] = 'যাকাত ক্যালকুলেটর';
+window.TRANSLATIONS['bn']['azkar.hub.link6_desc'] = '২.৫% হারে অর্থ, সোনা ও রুপার যাকাত হিসাব করুন।';
+window.TRANSLATIONS['bn']['azkar.hub.faq_title'] = 'যিকির সম্পর্কে সাধারণ প্রশ্ন';
+window.TRANSLATIONS['bn']['azkar.hub.faq1_q'] = 'সকালের যিকির কী?';
+window.TRANSLATIONS['bn']['azkar.hub.faq1_a'] = 'সকালের যিকির হলো মাসনুন যিকির ও দোয়ার একটি সমষ্টি যা দিনের শুরুতে পড়া হয়, সাধারণত ফজরের নামাজের পর সূর্যোদয়ের কাছাকাছি পর্যন্ত, যাতে একজন মুসলিম তার দিন আল্লাহর স্মরণ ও হিফাজত দিয়ে শুরু করেন।';
+window.TRANSLATIONS['bn']['azkar.hub.faq2_q'] = 'সন্ধ্যার যিকির কী?';
+window.TRANSLATIONS['bn']['azkar.hub.faq2_a'] = 'সন্ধ্যার যিকির হলো যিকির ও দোয়া যা দিনের শেষে পড়া হয়, সাধারণত আসরের নামাজের পর রাত পর্যন্ত। এটি সকালের যিকিরের অনুরূপ, যা দিয়ে একজন মুসলিম তার দিন আল্লাহর স্মরণে শেষ করেন।';
+window.TRANSLATIONS['bn']['azkar.hub.faq3_q'] = 'যিকির কি ফোন থেকে পড়া যায়?';
+window.TRANSLATIONS['bn']['azkar.hub.faq3_a'] = 'হ্যাঁ। আপনি এই পৃষ্ঠা থেকে সরাসরি ফোন বা কম্পিউটারে যিকির পড়তে পারেন; যিকিরগুলো পুনরাবৃত্তির সংখ্যা ও উৎসসহ পূর্ণ লিখিত, এবং পৃষ্ঠাটি প্রতিটি ডিভাইসে পড়ার জন্য আরামদায়ক।';
+window.TRANSLATIONS['bn']['azkar.hub.faq4_q'] = 'সকাল ও সন্ধ্যার যিকিরের সময় কখন?';
+window.TRANSLATIONS['bn']['azkar.hub.faq4_a'] = 'সকালের যিকিরের সময় ফজরের পর থেকে সূর্যোদয়ের কাছাকাছি পর্যন্ত, আর সন্ধ্যার যিকির আসরের পর থেকে রাত পর্যন্ত। যার উত্তম সময় চলে যায় সে পরেও পড়তে পারে, ইনশাআল্লাহ সওয়াব পাবে।';
+window.TRANSLATIONS['bn']['azkar.hub.faq5_q'] = 'সব যিকির কি একবারে পড়তে হবে?';
+window.TRANSLATIONS['bn']['azkar.hub.faq5_a'] = 'সব একসাথে পড়া আবশ্যক নয়; আপনি যতটা পারেন পড়তে পারেন, এবং সাধ্যমতো পূর্ণ বজায় রাখা উত্তম। পৃষ্ঠার কাউন্টার আপনার সম্পন্ন যিকির অনুসরণে সাহায্য করে।';
+window.TRANSLATIONS['bn']['azkar.hub.faq6_q'] = 'যিকির ও দোয়ার মধ্যে পার্থক্য কী?';
+window.TRANSLATIONS['bn']['azkar.hub.faq6_a'] = 'যিকিরে তাসবিহ, তাহমিদ, তাহলিল, তাকবির ও ইস্তিগফারসহ আল্লাহর স্মরণের সবকিছু অন্তর্ভুক্ত; আর দোয়া হলো আল্লাহর কাছে চাওয়া। অনেক মাসনুন যিকির যিকির ও দোয়া উভয়কে একত্র করে।';
+window.TRANSLATIONS['bn']['azkar.hub.faq7_q'] = 'নামাজের পর কি যিকির আছে?';
+window.TRANSLATIONS['bn']['azkar.hub.faq7_a'] = 'হ্যাঁ। প্রতিটি ফরজ নামাজের পর মাসনুন যিকির আছে, যার মধ্যে ইস্তিগফার, তাসবিহ, তাহমিদ ও তাকবির রয়েছে। নামাজের যিকিরের বিভাগ এই পৃষ্ঠার কার্ডগুলোর মধ্যে পাবেন।';
+window.TRANSLATIONS['bn']['azkar.hub.faq8_q'] = 'প্রতিদিন যিকির পড়া কীভাবে বজায় রাখব?';
+window.TRANSLATIONS['bn']['azkar.hub.faq8_a'] = 'যিকিরকে ফজর ও আসরের নামাজের পরের মতো নির্দিষ্ট সময়ের সঙ্গে যুক্ত করুন এবং অল্প হলেও ধারাবাহিকভাবে দৈনিক অভ্যাসে পরিণত করুন। আপনার অগ্রগতি সংরক্ষণকারী কাউন্টার চালিয়ে যেতে সাহায্য করে।';
+window.TRANSLATIONS['bn']['azkar.hub.faq9_q'] = 'ডিজিটাল তাসবিহ কি যিকিরের সঙ্গে ব্যবহার করা যায়?';
+window.TRANSLATIONS['bn']['azkar.hub.faq9_a'] = 'হ্যাঁ। আপনি সাইটের ডিজিটাল তাসবিহ আপনার তাসবিহ ও যিকির গণনায় ব্যবহার করতে পারেন। এটি তাসবিহ, তাহমিদ ও ইস্তিগফারের মতো পুনরাবৃত্ত যিকিরে উপযোগী এবং পড়ার সময় আপনার সংখ্যা সংরক্ষণ করে।';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['bn']['azkar.hub.intro_p4'] = 'এই পৃষ্ঠার যিকিরগুলো কুরআন ও সুন্নাহে প্রমাণিত মাসনুন যিকির থেকে বাছাই করা, এবং যেভাবে বর্ণিত হয়েছে সেভাবে উৎস ও পুনরাবৃত্তির সংখ্যাসহ উপস্থাপন করা হয়েছে। কেবল জিভ নাড়ানোর পরিবর্তে চিন্তা ও হৃদয়ের উপস্থিতিসহ পড়া উত্তম, কারণ এতে যিকিরের উপকার ও প্রভাব বৃদ্ধি পায়। পৃষ্ঠাটি প্রতিটি বিভাগে সহজ প্রবেশকে একটি স্পষ্ট বিন্যাসের সঙ্গে যুক্ত করে যা দিনের পর দিন বজায় রাখতে সাহায্য করে।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit1'] = 'আল্লাহর নিরন্তর স্মরণে হৃদয়ের প্রশান্তি, মনের স্বস্তি এবং দুশ্চিন্তা ও উদ্বেগ দূর হওয়া।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit2'] = 'দিনের শুরু ও শেষে আল্লাহর সঙ্গে সম্পর্ক নবায়ন এবং তাঁর হিফাজতে থাকা।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit3'] = 'সকালের যিকিরে দিন সাজানো এবং একটি স্থির নিয়মে সন্ধ্যার যিকিরে তা শেষ করা।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit4'] = 'নিজেকে কল্যাণের কথা মনে করানো, আনুগত্যের দিকে ঝোঁকানো এবং উদাসীনতা থেকে দূরে রাখা।';
+window.TRANSLATIONS['bn']['azkar.hub.benefit5'] = 'আল্লাহর সাহায্য চাওয়া, তাঁর ওপর সুন্দরভাবে ভরসা করা এবং দিনরাত তাঁর সহায়তা প্রার্থনা করা।';
+window.TRANSLATIONS['bn']['azkar.hub.type1_d'] = 'ফজরের পর দিনের শুরুতে পড়া যিকির, যা দিয়ে একজন মুসলিম তার দিন আল্লাহর স্মরণ, হিফাজত ও সাহায্যে শুরু করেন।';
+window.TRANSLATIONS['bn']['azkar.hub.type2_d'] = 'আসরের পর রাত পর্যন্ত পড়া যিকির, যা দিয়ে একজন মুসলিম তার দিন আল্লাহর স্মরণ ও তাঁর নিয়ামতের প্রশংসায় শেষ করেন।';
+window.TRANSLATIONS['bn']['azkar.hub.type3_d'] = 'প্রতিটি ফরজ নামাজের পর পড়া তাসবিহ, তাহমিদ, তাকবির, ইস্তিগফার ও মাসনুন যিকির।';
+window.TRANSLATIONS['bn']['azkar.hub.type4_d'] = 'ঘুমানোর আগে পড়া যিকির ও দোয়া, যাতে একজন মুসলিম আল্লাহর হিফাজত ও নিরাপত্তায় বিছানায় যান।';
+window.TRANSLATIONS['bn']['azkar.hub.type5_d'] = 'বাহনে চড়া, সফর ও কোথাও অবতরণের দোয়া এবং মুসাফিরের পথে প্রয়োজনীয় যিকির।';
+window.TRANSLATIONS['bn']['azkar.hub.type6_d'] = 'কুরআন ও সুন্নাহে বিভিন্ন অবস্থার জন্য বর্ণিত মাসনুন ও ব্যাপক দোয়াসমূহ।';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('bn');
 }

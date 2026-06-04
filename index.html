@@ -76,8 +76,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=473" as="style">
-    <link rel="stylesheet" href="css/style.css?v=473">
+    <link rel="preload" href="css/style.css?v=474" as="style">
+    <link rel="stylesheet" href="css/style.css?v=474">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -3442,12 +3442,13 @@
                     <p class="azkar-hub-subtitle" data-i18n="azkar.hub.subtitle">اختر القسم الذي تريد قراءته. أذكار الصباح والمساء متاحة الآن — وبقية الأقسام قريبًا إن شاء الله.</p>
                 </header>
 
+                <h2 class="azkar-sections-title" data-i18n="azkar.hub.sections_title">أقسام الأذكار</h2>
                 <nav class="azkar-hub-grid" aria-label="أقسام الأذكار">
 
                     <!-- LIVE: أذكار الصباح -->
                     <a class="azkar-card" href="/azkar/morning-azkar">
                         <span class="azkar-card-icon" aria-hidden="true">🌅</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_morning_title">أذكار الصباح</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_morning_title">أذكار الصباح</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_morning_desc">ابدأ يومك بذكر الله — أذكار تُقال بعد صلاة الفجر.</p>
                         <div class="azkar-card-meta">
                             <span><span data-i18n="azkar.hub.card_morning_count">25 ذكرًا</span></span>
@@ -3460,7 +3461,7 @@
                     <!-- LIVE: أذكار المساء (AZKAR-EVENING-PHASE-1, 2026-05-26) -->
                     <a class="azkar-card" href="/azkar/evening-azkar">
                         <span class="azkar-card-icon" aria-hidden="true">🌙</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_evening_title">أذكار المساء</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_evening_title">أذكار المساء</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_evening_desc">أذكار تُقال من بعد العصر وتمتد إلى الليل.</p>
                         <div class="azkar-card-meta">
                             <span><span data-i18n="azkar.hub.card_evening_count">23 ذكرًا</span></span>
@@ -3473,7 +3474,7 @@
                     <!-- LIVE: أذكار الصلاة (AZKAR-PRAYER-PHASE-1, 2026-05-26) — replaces former after-prayer soon card -->
                     <a class="azkar-card" href="/azkar/prayer-azkar">
                         <span class="azkar-card-icon" aria-hidden="true">🕌</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_prayer_title">أذكار الصلاة</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_prayer_title">أذكار الصلاة</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_prayer_desc">أذكار الوضوء والمسجد والركوع والسجود وما بعد السلام بالترتيب.</p>
                         <div class="azkar-card-meta">
                             <span><span data-i18n="azkar.hub.card_prayer_count">17 ذكرًا</span></span>
@@ -3487,47 +3488,53 @@
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">😴</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_sleep_title">أذكار النوم</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_sleep_title">أذكار النوم</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_sleep_desc">أذكار تُقال قبل النوم لحفظ الله ورعايته.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">⛅</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_wake_title">أذكار الاستيقاظ</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_wake_title">أذكار الاستيقاظ</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_wake_desc">حمد الله بعد إحيائنا والاستعداد للصلاة.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">✈️</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_travel_title">أذكار السفر</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_travel_title">أذكار السفر</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_travel_desc">دعاء الركوب والسفر والنزول في منزل.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">🍽</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_food_drink_title">أذكار الطعام والشراب</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_food_drink_title">أذكار الطعام والشراب</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_food_drink_desc">قبل وبعد الأكل والشرب — بسم الله وأحمد الله.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">🕋</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_mosque_title">أذكار دخول المسجد والخروج منه</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_mosque_title">أذكار دخول المسجد والخروج منه</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_mosque_desc">السنّة عند الدخول إلى المسجد والخروج منه.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">📿</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_istighfar_title">أذكار الاستغفار والتسبيح</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_istighfar_title">أذكار الاستغفار والتسبيح</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_istighfar_desc">مختارات من صيغ الاستغفار والتسبيح والذكر.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">📖</span>
-                        <h2 class="azkar-card-title" data-i18n="azkar.hub.card_quran_sunnah_title">أدعية من القرآن والسنة</h2>
+                        <h3 class="azkar-card-title" data-i18n="azkar.hub.card_quran_sunnah_title">أدعية من القرآن والسنة</h3>
                         <p class="azkar-card-desc" data-i18n="azkar.hub.card_quran_sunnah_desc">أدعية مأثورة من القرآن الكريم والسنة النبوية.</p>
                     </div>
 
                 </nav>
+
+                <!-- AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1 (2026-06-04): SSR-injected
+                     educational sections (intro / steps / types / benefits /
+                     timing / useful links / FAQ) built from azkar.hub.* i18n
+                     keys in server.js. Empty until SSR fills it. -->
+                <div id="azkar-hub-seo"></div>
             </div>
 
             <!-- ===== /azkar/morning-azkar — Independent morning page ===== -->

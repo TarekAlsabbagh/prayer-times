@@ -1437,6 +1437,100 @@ window.TRANSLATIONS['ms']['zakat.zex5_b'] = 'Jika barang dagangan untuk dijual m
 window.TRANSLATIONS['ms']['zakat.znote5'] = 'Nilai emas dan perak pada harga hari anda menunaikan zakat, bukan hari membelinya.';
 window.TRANSLATIONS['ms']['zakat.znote6'] = 'Anda boleh memilih hari tetap dalam tahun hijrah untuk mengira dan menunaikan zakat supaya ia tidak lewat.';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['ms']['azkar.hub.sections_title'] = 'Bahagian zikir';
+window.TRANSLATIONS['ms']['azkar.hub.intro_title'] = 'Apakah zikir harian?';
+window.TRANSLATIONS['ms']['azkar.hub.intro_p1'] = 'Zikir harian ialah doa, tasbih dan zikir ma’thur yang terdapat dalam Al-Quran dan Sunnah, yang dibaca seorang Muslim pada waktu-waktu tertentu: zikir pagi selepas Subuh, zikir petang selepas Asar, zikir selepas setiap solat fardu, dan zikir tidur sebelum tidur. Semuanya mengekalkan hati terhubung dengan Allah siang dan malam.';
+window.TRANSLATIONS['ms']['azkar.hub.intro_p2'] = 'Halaman ini mengumpulkan bahagian zikir di satu tempat yang teratur dan mudah dibaca, supaya anda berpindah dengan satu sentuhan ke zikir pagi, petang, solat, tidur dan lain-lain. Setiap bahagian memaparkan zikir bertulis lengkap dengan bilangan ulangan dan sumbernya, agar dibaca dengan tenang tanpa mencari atau terganggu.';
+window.TRANSLATIONS['ms']['azkar.hub.intro_p3'] = 'Berterusan dengan zikir dan doa harian termasuk pembantu terbaik bagi kehadiran hati dan mengingati Allah — sunnah yang mudah pada waktunya, besar kesannya. Kami menjadikan halaman zikir selesa dibaca pada telefon dan komputer, dengan kaunter yang menyimpan kemajuan anda pada zikir yang berulang.';
+window.TRANSLATIONS['ms']['azkar.hub.steps_title'] = 'Cara menggunakan halaman zikir';
+window.TRANSLATIONS['ms']['azkar.hub.step1_t'] = 'Pilih bahagian zikir';
+window.TRANSLATIONS['ms']['azkar.hub.step1_d'] = 'Pilih bahagian yang dikehendaki daripada kad: zikir pagi, petang, solat atau tidur.';
+window.TRANSLATIONS['ms']['azkar.hub.step2_t'] = 'Buka halaman bacaan';
+window.TRANSLATIONS['ms']['azkar.hub.step2_d'] = 'Sentuh kad; bahagian terbuka dan zikir muncul mengikut urutan beserta sumbernya.';
+window.TRANSLATIONS['ms']['azkar.hub.step3_t'] = 'Baca setiap zikir mengikut bilangannya';
+window.TRANSLATIONS['ms']['azkar.hub.step3_d'] = 'Baca setiap zikir sebanyak yang dinyatakan dan gunakan kaunter untuk menjejak yang anda selesaikan.';
+window.TRANSLATIONS['ms']['azkar.hub.step4_t'] = 'Jadikan tabiat harian';
+window.TRANSLATIONS['ms']['azkar.hub.step4_d'] = 'Kekalkan zikir pagi dan petang setiap hari; zikir harian yang istiqamah lebih baik daripada yang terputus-putus.';
+window.TRANSLATIONS['ms']['azkar.hub.types_title'] = 'Jenis zikir yang tersedia';
+window.TRANSLATIONS['ms']['azkar.hub.type1_t'] = 'Zikir pagi';
+window.TRANSLATIONS['ms']['azkar.hub.type1_d'] = 'Zikir di awal hari selepas Subuh untuk memulakan hari dengan mengingati Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.type2_t'] = 'Zikir petang';
+window.TRANSLATIONS['ms']['azkar.hub.type2_d'] = 'Zikir dari selepas Asar hingga malam untuk menutup hari dengan mengingati Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.type3_t'] = 'Zikir selepas solat';
+window.TRANSLATIONS['ms']['azkar.hub.type3_d'] = 'Tasbih, tahmid, takbir dan zikir ma’thur selepas setiap solat fardu.';
+window.TRANSLATIONS['ms']['azkar.hub.type4_t'] = 'Zikir tidur';
+window.TRANSLATIONS['ms']['azkar.hub.type4_d'] = 'Zikir dan doa sebelum tidur agar berehat dalam pemeliharaan Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.type5_t'] = 'Zikir perjalanan';
+window.TRANSLATIONS['ms']['azkar.hub.type5_d'] = 'Doa menaiki kenderaan, bermusafir dan singgah yang diperlukan musafir di jalan.';
+window.TRANSLATIONS['ms']['azkar.hub.type6_t'] = 'Doa dari Quran & Sunnah';
+window.TRANSLATIONS['ms']['azkar.hub.type6_d'] = 'Doa ma’thur dan menyeluruh yang terdapat dalam Al-Quran dan Sunnah.';
+window.TRANSLATIONS['ms']['azkar.hub.benefits_title'] = 'Manfaat mengekalkan zikir';
+window.TRANSLATIONS['ms']['azkar.hub.benefit1'] = 'Ketenangan hati dan kelegaan jiwa dengan mengingati Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit2'] = 'Memperbaharui hubungan dengan Allah di awal dan akhir hari.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit3'] = 'Menyusun hari dengan zikir pagi dan menutupnya dengan zikir petang.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit4'] = 'Mengingatkan diri kepada kebaikan dan menghala kepada ketaatan.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit5'] = 'Memohon pertolongan Allah dan bertawakal kepada-Nya siang dan malam.';
+window.TRANSLATIONS['ms']['azkar.hub.timing_title'] = 'Bila membaca zikir?';
+window.TRANSLATIONS['ms']['azkar.hub.time1_when'] = 'Selepas Subuh atau awal hari';
+window.TRANSLATIONS['ms']['azkar.hub.time1_what'] = 'Zikir pagi';
+window.TRANSLATIONS['ms']['azkar.hub.time2_when'] = 'Selepas Asar atau sebelum malam';
+window.TRANSLATIONS['ms']['azkar.hub.time2_what'] = 'Zikir petang';
+window.TRANSLATIONS['ms']['azkar.hub.time3_when'] = 'Selepas solat fardu';
+window.TRANSLATIONS['ms']['azkar.hub.time3_what'] = 'Zikir solat';
+window.TRANSLATIONS['ms']['azkar.hub.time4_when'] = 'Sebelum tidur';
+window.TRANSLATIONS['ms']['azkar.hub.time4_what'] = 'Zikir tidur';
+window.TRANSLATIONS['ms']['azkar.hub.time5_when'] = 'Ketika bermusafir';
+window.TRANSLATIONS['ms']['azkar.hub.time5_what'] = 'Zikir perjalanan';
+window.TRANSLATIONS['ms']['azkar.hub.links_title'] = 'Halaman berguna di samping zikir';
+window.TRANSLATIONS['ms']['azkar.hub.link1_label'] = 'Waktu solat';
+window.TRANSLATIONS['ms']['azkar.hub.link1_desc'] = 'Lima waktu solat bandar anda untuk membaca zikir tepat pada waktunya.';
+window.TRANSLATIONS['ms']['azkar.hub.link2_label'] = 'Tarikh Hijrah hari ini';
+window.TRANSLATIONS['ms']['azkar.hub.link2_desc'] = 'Lihat tarikh Hijrah hari ini dengan mudah.';
+window.TRANSLATIONS['ms']['azkar.hub.link3_label'] = 'Kalendar Hijrah';
+window.TRANSLATIONS['ms']['azkar.hub.link3_desc'] = 'Semak bulan dan hari tahun Hijrah.';
+window.TRANSLATIONS['ms']['azkar.hub.link4_label'] = 'Penukar tarikh';
+window.TRANSLATIONS['ms']['azkar.hub.link4_desc'] = 'Tukar tarikh antara Hijrah dan Masihi dalam satu langkah.';
+window.TRANSLATIONS['ms']['azkar.hub.link5_label'] = 'Tasbih digital';
+window.TRANSLATIONS['ms']['azkar.hub.link5_desc'] = 'Bertasbih dan berzikir dengan kaunter yang menyimpan bilangan anda.';
+window.TRANSLATIONS['ms']['azkar.hub.link6_label'] = 'Kalkulator zakat';
+window.TRANSLATIONS['ms']['azkar.hub.link6_desc'] = 'Kira zakat wang, emas dan perak pada kadar 2.5%.';
+window.TRANSLATIONS['ms']['azkar.hub.faq_title'] = 'Soalan lazim tentang zikir';
+window.TRANSLATIONS['ms']['azkar.hub.faq1_q'] = 'Apakah zikir pagi?';
+window.TRANSLATIONS['ms']['azkar.hub.faq1_a'] = 'Zikir pagi ialah himpunan zikir dan doa ma’thur yang dibaca di awal hari, biasanya selepas solat Subuh hingga sekitar terbit matahari, agar seorang Muslim memulakan harinya dengan mengingati dan pemeliharaan Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.faq2_q'] = 'Apakah zikir petang?';
+window.TRANSLATIONS['ms']['azkar.hub.faq2_a'] = 'Zikir petang ialah zikir dan doa yang dibaca di akhir hari, biasanya dari selepas solat Asar hingga malam. Ia pasangan zikir pagi yang dengannya seorang Muslim menutup harinya dengan mengingati Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.faq3_q'] = 'Bolehkah membaca zikir dari telefon?';
+window.TRANSLATIONS['ms']['azkar.hub.faq3_a'] = 'Ya. Anda boleh membaca zikir terus dari telefon atau komputer pada halaman ini; zikir ditulis lengkap dengan bilangan ulangan dan sumbernya, dan halaman selesa dibaca pada setiap peranti.';
+window.TRANSLATIONS['ms']['azkar.hub.faq4_q'] = 'Bilakah waktu zikir pagi dan petang?';
+window.TRANSLATIONS['ms']['azkar.hub.faq4_a'] = 'Waktu zikir pagi dari selepas Subuh hingga sekitar terbit matahari, dan zikir petang dari selepas Asar hingga malam. Sesiapa yang terlepas waktu utamanya boleh membacanya selepas itu untuk memperoleh pahalanya, insya-Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.faq5_q'] = 'Adakah perlu membaca semua zikir sekali gus?';
+window.TRANSLATIONS['ms']['azkar.hub.faq5_a'] = 'Tidak perlu membaca semuanya dalam satu masa; anda boleh membaca apa yang termampu, dan lebih baik mengekalkannya secara lengkap semampunya. Kaunter pada halaman membantu anda menjejak yang telah diselesaikan.';
+window.TRANSLATIONS['ms']['azkar.hub.faq6_q'] = 'Apakah beza zikir dan doa?';
+window.TRANSLATIONS['ms']['azkar.hub.faq6_a'] = 'Zikir merangkumi tasbih, tahmid, tahlil, takbir dan istighfar — segala yang merupakan mengingati Allah; manakala doa ialah permohonan kepada Allah. Banyak zikir ma’thur menggabungkan zikir dan doa sekali gus.';
+window.TRANSLATIONS['ms']['azkar.hub.faq7_q'] = 'Adakah zikir selepas solat?';
+window.TRANSLATIONS['ms']['azkar.hub.faq7_a'] = 'Ya. Terdapat zikir ma’thur yang dibaca selepas setiap solat fardu, antaranya istighfar, tasbih, tahmid dan takbir. Anda akan menemui bahagian zikir solat antara kad pada halaman ini.';
+window.TRANSLATIONS['ms']['azkar.hub.faq8_q'] = 'Bagaimana mengekalkan bacaan zikir setiap hari?';
+window.TRANSLATIONS['ms']['azkar.hub.faq8_a'] = 'Kaitkan zikir dengan waktu tetap seperti selepas solat Subuh dan Asar, dan jadikannya tabiat harian walaupun sedikit tetapi berterusan. Kaunter yang menyimpan kemajuan anda membantu anda istiqamah.';
+window.TRANSLATIONS['ms']['azkar.hub.faq9_q'] = 'Bolehkah menggunakan tasbih digital dengan zikir?';
+window.TRANSLATIONS['ms']['azkar.hub.faq9_a'] = 'Ya. Anda boleh menggunakan tasbih digital di laman ini untuk mengira tasbih dan zikir anda. Ia berguna dengan zikir berulang seperti tasbih, tahmid dan istighfar, serta menyimpan bilangan anda.';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['ms']['azkar.hub.intro_p4'] = 'Zikir di halaman ini dipilih daripada zikir ma’thur yang sabit dalam Al-Quran dan Sunnah, dan dipaparkan dengan sumber serta bilangan ulangan sebagaimana diriwayatkan. Lebih baik membacanya dengan renungan dan kehadiran hati, bukan sekadar menggerakkan lidah, kerana dengan itu manfaat dan kesan zikir bertambah. Halaman ini menggabungkan akses mudah ke setiap bahagian dengan susunan jelas yang membantu anda istiqamah hari demi hari.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit1'] = 'Ketenangan hati, kelegaan jiwa, serta hilangnya kerunsingan dan keresahan dengan zikir kepada Allah secara berterusan.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit2'] = 'Memperbaharui hubungan dengan Allah di awal dan akhir hari serta terpelihara dalam pemeliharaan-Nya.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit3'] = 'Menyusun hari dengan zikir pagi dan menutupnya dengan zikir petang dalam rutin yang tetap.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit4'] = 'Mengingatkan diri kepada kebaikan, menghalakannya kepada ketaatan dan menjauhkannya daripada kelalaian.';
+window.TRANSLATIONS['ms']['azkar.hub.benefit5'] = 'Memohon pertolongan Allah, bertawakal dengan baik kepada-Nya dan meminta bantuan-Nya siang dan malam.';
+window.TRANSLATIONS['ms']['azkar.hub.type1_d'] = 'Zikir di awal hari selepas solat Subuh, yang dengannya seorang Muslim memulakan harinya dalam zikir, pemeliharaan dan pertolongan Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.type2_d'] = 'Zikir dari selepas Asar hingga malam, yang dengannya seorang Muslim menutup harinya dalam zikir kepada Allah dan memuji nikmat-Nya.';
+window.TRANSLATIONS['ms']['azkar.hub.type3_d'] = 'Tasbih, tahmid, takbir, istighfar dan zikir ma’thur yang dibaca selepas setiap solat fardu.';
+window.TRANSLATIONS['ms']['azkar.hub.type4_d'] = 'Zikir dan doa sebelum tidur, agar seorang Muslim berbaring di tempat tidurnya dalam pemeliharaan dan keselamatan Allah.';
+window.TRANSLATIONS['ms']['azkar.hub.type5_d'] = 'Doa menaiki kenderaan, bermusafir dan singgah, serta zikir yang diperlukan musafir di perjalanan.';
+window.TRANSLATIONS['ms']['azkar.hub.type6_d'] = 'Doa ma’thur dan menyeluruh yang terdapat dalam Al-Quran dan Sunnah untuk pelbagai keadaan.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ms');
 }

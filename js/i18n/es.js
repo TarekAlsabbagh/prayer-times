@@ -1437,6 +1437,100 @@ window.TRANSLATIONS['es']['zakat.zex5_b'] = 'Si las mercancías para la venta al
 window.TRANSLATIONS['es']['zakat.znote5'] = 'Valora el oro y la plata al precio del día en que pagas el zakat, no del día de la compra.';
 window.TRANSLATIONS['es']['zakat.znote6'] = 'Puedes elegir un día fijo del año lunar para calcular y pagar el zakat y que nunca se retrase.';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['es']['azkar.hub.sections_title'] = 'Secciones de azkar';
+window.TRANSLATIONS['es']['azkar.hub.intro_title'] = '¿Qué son los azkar diarios?';
+window.TRANSLATIONS['es']['azkar.hub.intro_p1'] = 'Los azkar diarios son súplicas, glorificaciones y recordatorios transmitidos en el Corán y la Sunna que el musulmán recita en momentos fijos del día: los azkar de la mañana tras el Fayr, los azkar de la tarde tras el Asr, el recuerdo tras cada oración obligatoria y los azkar del sueño antes de dormir. Mantienen el corazón unido a Allah de día y de noche.';
+window.TRANSLATIONS['es']['azkar.hub.intro_p2'] = 'Esta página reúne las secciones de azkar en un solo lugar ordenado y fácil de leer, de modo que con un toque pasas a los azkar de la mañana, de la tarde, de la oración, del sueño y más. Cada sección muestra los azkar escritos con el número de repeticiones y la fuente, para leerlos con calma sin buscar ni distraerte.';
+window.TRANSLATIONS['es']['azkar.hub.intro_p3'] = 'Mantener los azkar y duas diarios está entre las mejores ayudas para la presencia del corazón y el recuerdo de Allah — una Sunna fácil en su tiempo, inmensa en su efecto. Hicimos la página de azkar cómoda de leer en teléfono y ordenador, con un contador que guarda tu progreso en los azkar repetidos.';
+window.TRANSLATIONS['es']['azkar.hub.steps_title'] = 'Cómo usar la página de azkar';
+window.TRANSLATIONS['es']['azkar.hub.step1_t'] = 'Elige una sección de azkar';
+window.TRANSLATIONS['es']['azkar.hub.step1_d'] = 'Elige la sección que quieras de las tarjetas: azkar de la mañana, la tarde, la oración o el sueño.';
+window.TRANSLATIONS['es']['azkar.hub.step2_t'] = 'Abre la página de lectura';
+window.TRANSLATIONS['es']['azkar.hub.step2_d'] = 'Toca la tarjeta; la sección se abre y los azkar aparecen en orden con su fuente.';
+window.TRANSLATIONS['es']['azkar.hub.step3_t'] = 'Lee cada dhikr por su número';
+window.TRANSLATIONS['es']['azkar.hub.step3_d'] = 'Recita cada dhikr el número de veces indicado y usa el contador para seguir lo que completas.';
+window.TRANSLATIONS['es']['azkar.hub.step4_t'] = 'Hazlo un hábito diario';
+window.TRANSLATIONS['es']['azkar.hub.step4_d'] = 'Mantén los azkar de la mañana y la tarde cada día; el recuerdo diario constante es mejor que los impulsos dispersos.';
+window.TRANSLATIONS['es']['azkar.hub.types_title'] = 'Tipos de azkar disponibles';
+window.TRANSLATIONS['es']['azkar.hub.type1_t'] = 'Azkar de la mañana';
+window.TRANSLATIONS['es']['azkar.hub.type1_d'] = 'Azkar dichos al inicio del día tras el Fayr para comenzar la jornada con el recuerdo de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.type2_t'] = 'Azkar de la tarde';
+window.TRANSLATIONS['es']['azkar.hub.type2_d'] = 'Azkar dichos desde después del Asr hasta la noche para cerrar el día con el recuerdo de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.type3_t'] = 'Azkar tras la oración';
+window.TRANSLATIONS['es']['azkar.hub.type3_d'] = 'El tasbih, el tahmid, el takbir y los recordatorios transmitidos tras cada oración obligatoria.';
+window.TRANSLATIONS['es']['azkar.hub.type4_t'] = 'Azkar del sueño';
+window.TRANSLATIONS['es']['azkar.hub.type4_d'] = 'Azkar y duas dichos antes de dormir para descansar bajo la protección de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.type5_t'] = 'Azkar del viaje';
+window.TRANSLATIONS['es']['azkar.hub.type5_d'] = 'Las duas de montar, viajar y detenerse que el viajero necesita en el camino.';
+window.TRANSLATIONS['es']['azkar.hub.type6_t'] = 'Duas del Corán y la Sunna';
+window.TRANSLATIONS['es']['azkar.hub.type6_d'] = 'Súplicas transmitidas y completas presentes en el Corán y la Sunna.';
+window.TRANSLATIONS['es']['azkar.hub.benefits_title'] = 'Beneficios de mantener los azkar';
+window.TRANSLATIONS['es']['azkar.hub.benefit1'] = 'Sosiego del corazón y calma del alma con el recuerdo de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.benefit2'] = 'Renovar el vínculo con Allah al inicio y al final del día.';
+window.TRANSLATIONS['es']['azkar.hub.benefit3'] = 'Ordenar el día con los azkar de la mañana y sellarlo con los de la tarde.';
+window.TRANSLATIONS['es']['azkar.hub.benefit4'] = 'Recordar al alma el bien e inclinarla a la obediencia.';
+window.TRANSLATIONS['es']['azkar.hub.benefit5'] = 'Buscar la ayuda de Allah y confiar en Él de día y de noche.';
+window.TRANSLATIONS['es']['azkar.hub.timing_title'] = '¿Cuándo leer los azkar?';
+window.TRANSLATIONS['es']['azkar.hub.time1_when'] = 'Tras el Fayr o al inicio del día';
+window.TRANSLATIONS['es']['azkar.hub.time1_what'] = 'Azkar de la mañana';
+window.TRANSLATIONS['es']['azkar.hub.time2_when'] = 'Tras el Asr o antes de la noche';
+window.TRANSLATIONS['es']['azkar.hub.time2_what'] = 'Azkar de la tarde';
+window.TRANSLATIONS['es']['azkar.hub.time3_when'] = 'Tras las oraciones obligatorias';
+window.TRANSLATIONS['es']['azkar.hub.time3_what'] = 'Azkar de la oración';
+window.TRANSLATIONS['es']['azkar.hub.time4_when'] = 'Antes de dormir';
+window.TRANSLATIONS['es']['azkar.hub.time4_what'] = 'Azkar del sueño';
+window.TRANSLATIONS['es']['azkar.hub.time5_when'] = 'Al viajar';
+window.TRANSLATIONS['es']['azkar.hub.time5_what'] = 'Azkar del viaje';
+window.TRANSLATIONS['es']['azkar.hub.links_title'] = 'Páginas útiles junto a los azkar';
+window.TRANSLATIONS['es']['azkar.hub.link1_label'] = 'Horarios de oración';
+window.TRANSLATIONS['es']['azkar.hub.link1_desc'] = 'Las cinco oraciones de tu ciudad para leer tus azkar a tiempo.';
+window.TRANSLATIONS['es']['azkar.hub.link2_label'] = 'Fecha hégira de hoy';
+window.TRANSLATIONS['es']['azkar.hub.link2_desc'] = 'Consulta fácilmente la fecha hégira de hoy.';
+window.TRANSLATIONS['es']['azkar.hub.link3_label'] = 'Calendario hégira';
+window.TRANSLATIONS['es']['azkar.hub.link3_desc'] = 'Explora los meses y días del año hégira.';
+window.TRANSLATIONS['es']['azkar.hub.link4_label'] = 'Conversor de fechas';
+window.TRANSLATIONS['es']['azkar.hub.link4_desc'] = 'Convierte fechas entre hégira y gregoriano en un paso.';
+window.TRANSLATIONS['es']['azkar.hub.link5_label'] = 'Tasbih digital';
+window.TRANSLATIONS['es']['azkar.hub.link5_desc'] = 'Glorifica y recuerda a Allah con un contador que guarda tu cuenta.';
+window.TRANSLATIONS['es']['azkar.hub.link6_label'] = 'Calculadora de zakat';
+window.TRANSLATIONS['es']['azkar.hub.link6_desc'] = 'Calcula la zakat sobre dinero, oro y plata al 2,5 %.';
+window.TRANSLATIONS['es']['azkar.hub.faq_title'] = 'Preguntas frecuentes sobre los azkar';
+window.TRANSLATIONS['es']['azkar.hub.faq1_q'] = '¿Qué son los azkar de la mañana?';
+window.TRANSLATIONS['es']['azkar.hub.faq1_a'] = 'Los azkar de la mañana son un conjunto de recordatorios y súplicas transmitidos que se dicen al inicio del día, normalmente tras la oración del Fayr hasta cerca del amanecer, para que el musulmán comience su día con el recuerdo y la protección de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.faq2_q'] = '¿Qué son los azkar de la tarde?';
+window.TRANSLATIONS['es']['azkar.hub.faq2_a'] = 'Los azkar de la tarde son recordatorios y súplicas que se dicen al final del día, normalmente desde después de la oración del Asr hasta la noche. Son la contraparte de los azkar de la mañana con los que el musulmán sella su día con el recuerdo de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.faq3_q'] = '¿Puedo leer los azkar desde el teléfono?';
+window.TRANSLATIONS['es']['azkar.hub.faq3_a'] = 'Sí. Puedes leer los azkar directamente desde el teléfono o el ordenador en esta página; los azkar están escritos completos con el número de repeticiones y la fuente, y la página es cómoda de leer en todo dispositivo.';
+window.TRANSLATIONS['es']['azkar.hub.faq4_q'] = '¿Cuál es el tiempo de los azkar de la mañana y la tarde?';
+window.TRANSLATIONS['es']['azkar.hub.faq4_a'] = 'El tiempo de los azkar de la mañana va desde después del Fayr hasta cerca del amanecer, y los de la tarde desde después del Asr hasta la noche. Quien pierda el tiempo preferido puede decirlos después para obtener su recompensa, si Allah quiere.';
+window.TRANSLATIONS['es']['azkar.hub.faq5_q'] = '¿Debo leer todos los azkar de una vez?';
+window.TRANSLATIONS['es']['azkar.hub.faq5_a'] = 'No tienes que leerlos todos de una sola vez; puedes leer lo que puedas, y lo mejor es mantenerlos completos en lo posible. El contador de la página te ayuda a seguir lo que has completado.';
+window.TRANSLATIONS['es']['azkar.hub.faq6_q'] = '¿Cuál es la diferencia entre azkar y duas?';
+window.TRANSLATIONS['es']['azkar.hub.faq6_a'] = 'El dhikr incluye la glorificación, la alabanza, declarar la unicidad y la grandeza de Allah y pedir perdón — todo lo que es recuerdo de Allah; la dua es una petición a Allah. Muchos azkar transmitidos reúnen recuerdo y súplica.';
+window.TRANSLATIONS['es']['azkar.hub.faq7_q'] = '¿Hay azkar después de la oración?';
+window.TRANSLATIONS['es']['azkar.hub.faq7_a'] = 'Sí. Hay azkar transmitidos que se dicen tras cada oración obligatoria, entre ellos pedir perdón, glorificar, alabar y magnificar. Encontrarás la sección de azkar de la oración entre las tarjetas de esta página.';
+window.TRANSLATIONS['es']['azkar.hub.faq8_q'] = '¿Cómo mantengo la lectura de los azkar a diario?';
+window.TRANSLATIONS['es']['azkar.hub.faq8_a'] = 'Vincula los azkar a tiempos fijos como después de las oraciones del Fayr y el Asr, y hazlos un hábito diario aunque sea poco pero constante. El contador que guarda tu progreso te ayuda a seguir.';
+window.TRANSLATIONS['es']['azkar.hub.faq9_q'] = '¿Puedo usar el tasbih digital con los azkar?';
+window.TRANSLATIONS['es']['azkar.hub.faq9_a'] = 'Sí. Puedes usar el tasbih digital del sitio para contar tu glorificación y recuerdo. Es útil con los azkar repetidos como el tasbih, el tahmid y pedir perdón, y guarda tu cuenta mientras avanzas.';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['es']['azkar.hub.intro_p4'] = 'Los azkar de esta página están escogidos de los recordatorios transmitidos y establecidos del Corán y la Sunna, y se presentan con su fuente y el número de repeticiones tal como se transmitieron. Es mejor leerlos con reflexión y presencia del corazón y no solo moviendo la lengua, pues así crece el beneficio del recuerdo. La página une el acceso fácil a cada sección con un orden claro que te ayuda a perseverar día tras día.';
+window.TRANSLATIONS['es']['azkar.hub.benefit1'] = 'Sosiego del corazón, calma del alma y la desaparición de la preocupación y la angustia con el recuerdo constante de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.benefit2'] = 'Renovar el vínculo con Allah al inicio y al final del día y permanecer bajo Su protección.';
+window.TRANSLATIONS['es']['azkar.hub.benefit3'] = 'Ordenar el día con los azkar de la mañana y sellarlo con los de la tarde en una rutina constante.';
+window.TRANSLATIONS['es']['azkar.hub.benefit4'] = 'Recordar al alma el bien, inclinarla a la obediencia y alejarla de la negligencia.';
+window.TRANSLATIONS['es']['azkar.hub.benefit5'] = 'Buscar la ayuda de Allah, confiar bien en Él y pedir Su auxilio de día y de noche.';
+window.TRANSLATIONS['es']['azkar.hub.type1_d'] = 'Azkar dichos al inicio del día tras la oración del Fayr, con los que el musulmán comienza su día en el recuerdo, la protección y la ayuda de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.type2_d'] = 'Azkar dichos desde después del Asr hasta la noche, con los que el musulmán sella su día en el recuerdo de Allah y la alabanza de Sus favores.';
+window.TRANSLATIONS['es']['azkar.hub.type3_d'] = 'El tasbih, el tahmid, el takbir, pedir perdón y los recordatorios transmitidos que se dicen tras cada oración obligatoria.';
+window.TRANSLATIONS['es']['azkar.hub.type4_d'] = 'Azkar y duas dichos antes de dormir, para que el musulmán se acueste bajo la protección, el cuidado y la seguridad de Allah.';
+window.TRANSLATIONS['es']['azkar.hub.type5_d'] = 'Las duas de montar, viajar y detenerse, y el recuerdo que el viajero necesita en el camino.';
+window.TRANSLATIONS['es']['azkar.hub.type6_d'] = 'Súplicas transmitidas y completas presentes en el Corán y la Sunna para distintas situaciones.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('es');
 }

@@ -1669,6 +1669,100 @@ window.TRANSLATIONS['ar']['zakat.znote6'] = 'يمكنك اختيار يوم ثا
 window.TRANSLATIONS['ar']['zakat.zintro_text'] = 'الزكاة ركن من أركان الإسلام، وهي حقّ معلوم في المال يُخرجه المسلم إذا بلغ ماله النصاب ومرّ عليه حول هجريّ كامل. وتشمل زكاة المال النقد والمدّخرات وزكاة الذهب وزكاة الفضّة وزكاة النقد والأسهم وعروض التجارة. ونسبة الزكاة في هذه الأموال 2.5% من صافي المال الزكويّ بعد بلوغ النصاب. وتُيسّر حاسبة الزكاة معرفة مقدار الزكاة المستحقّ بدقّة تقديريّة، إذ تطبّق نسبة 2.5% على قيمة المال الذي تُدخله، فتظهر لك قيمة الزكاة الواجبة بسرعة ووضوح. واحتساب الزكاة بانتظام يساعدك على أداء هذه الفريضة في وقتها وتطهير المال وتنميته. ويُحدَّد نصاب الزكاة بقيمة 85 جرامًا من الذهب أو ما يعادلها، فإذا بلغ مالك هذا النصاب وحال عليه الحول وجب فيه حساب الزكاة وإخراجها. ومن فوائد استخدام حاسبة الزكاة أنّها توحّد طريقة حساب زكاة المال وزكاة الذهب وزكاة الفضّة في أداة واحدة، فتغنيك عن الحسابات اليدويّة وتقلّل احتمال الخطأ في تقدير مقدار الزكاة.';
 window.TRANSLATIONS['ar']['zakat.guide.text'] = 'تساعدك حاسبة الزكاة على حساب الزكاة الواجبة على المال والذهب والفضّة والمدّخرات والأسهم والاستثمارات وعروض التجارة وفق نسبة الزكاة المعروفة 2.5%. أدخل قيمة أموالك الزكويّة لتعرف مقدار الزكاة المستحقّ تقديريًّا، مع مراعاة بلوغ النصاب ومرور الحول. وتجمع الحاسبة بين سهولة الاستخدام ووضوح طريقة حساب الزكاة، فتعرض لك مقدار الزكاة في خطوات قليلة دون الحاجة إلى عمليّات يدويّة معقّدة. وهي مناسبة لحساب زكاة المال السنويّة سواء كانت أموالك نقدًا أو ذهبًا أو فضّة أو مدّخرات أو استثمارات.';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['ar']['azkar.hub.sections_title'] = 'أقسام الأذكار';
+window.TRANSLATIONS['ar']['azkar.hub.intro_title'] = 'ما هي الأذكار اليومية؟';
+window.TRANSLATIONS['ar']['azkar.hub.intro_p1'] = 'الأذكار اليومية هي أدعية وتسبيحات وأذكار مأثورة وردت في القرآن الكريم والسنّة النبويّة، يحرص المسلم على قراءتها في أوقات معيّنة من يومه؛ مثل أذكار الصباح بعد صلاة الفجر، وأذكار المساء بعد العصر، والأذكار بعد الصلاة المفروضة، وأذكار النوم قبل أن ينام. وهي ذكرٌ لله وصلةٌ دائمة به على مدار اليوم والليلة.';
+window.TRANSLATIONS['ar']['azkar.hub.intro_p2'] = 'تجمع هذه الصفحة أقسام الأذكار في مكان واحد منظّم وسهل القراءة، فتنتقل بنقرة واحدة إلى أذكار الصباح أو أذكار المساء أو أذكار الصلاة أو أذكار النوم وغيرها. وكلّ قسم يعرض الأذكار مكتوبةً مع عدد التكرار والمصدر، ليقرأها المسلم بطمأنينة دون بحثٍ أو تشتّت.';
+window.TRANSLATIONS['ar']['azkar.hub.intro_p3'] = 'والمداومة على الأذكار والأدعية اليوميّة من أعظم ما يعين على حضور القلب وذكر الله، وهي سنّةٌ يسيرة في وقتها عظيمة في أثرها. وقد جعلنا صفحة الأذكار مريحة للقراءة على الهاتف والحاسوب، مع عدّاد يحفظ تقدّمك في الأذكار المتكرّرة حتّى تُكملها على راحتك.';
+window.TRANSLATIONS['ar']['azkar.hub.steps_title'] = 'كيف تستخدم صفحة الأذكار؟';
+window.TRANSLATIONS['ar']['azkar.hub.step1_t'] = 'اختر قسم الأذكار';
+window.TRANSLATIONS['ar']['azkar.hub.step1_d'] = 'اختر من البطاقات القسم الذي تريد قراءته: أذكار الصباح أو المساء أو الصلاة أو النوم.';
+window.TRANSLATIONS['ar']['azkar.hub.step2_t'] = 'افتح صفحة القراءة';
+window.TRANSLATIONS['ar']['azkar.hub.step2_d'] = 'انقر على البطاقة لتفتح صفحة القسم وتظهر الأذكار مكتوبةً بالترتيب مع المصدر.';
+window.TRANSLATIONS['ar']['azkar.hub.step3_t'] = 'اقرأ الذكر بعدده';
+window.TRANSLATIONS['ar']['azkar.hub.step3_d'] = 'اقرأ كلّ ذكر بعدد التكرار المذكور، واستعن بالعدّاد لتتابع ما أكملته من الأذكار.';
+window.TRANSLATIONS['ar']['azkar.hub.step4_t'] = 'اجعلها عادة يوميّة';
+window.TRANSLATIONS['ar']['azkar.hub.step4_d'] = 'حافظ على أذكار الصباح والمساء كلّ يوم؛ فالمداومة على الذكر اليوميّ أنفع من الكثرة المنقطعة.';
+window.TRANSLATIONS['ar']['azkar.hub.types_title'] = 'أنواع الأذكار المتاحة';
+window.TRANSLATIONS['ar']['azkar.hub.type1_t'] = 'أذكار الصباح';
+window.TRANSLATIONS['ar']['azkar.hub.type1_d'] = 'أذكار تُقال في أوّل اليوم بعد صلاة الفجر لتبدأ يومك بذكر الله وحفظه.';
+window.TRANSLATIONS['ar']['azkar.hub.type2_t'] = 'أذكار المساء';
+window.TRANSLATIONS['ar']['azkar.hub.type2_d'] = 'أذكار تُقال من بعد العصر وتمتدّ إلى الليل لتختم نهارك بذكر الله.';
+window.TRANSLATIONS['ar']['azkar.hub.type3_t'] = 'أذكار بعد الصلاة';
+window.TRANSLATIONS['ar']['azkar.hub.type3_d'] = 'التسبيح والتحميد والتكبير والأذكار المأثورة بعد كلّ صلاة مفروضة.';
+window.TRANSLATIONS['ar']['azkar.hub.type4_t'] = 'أذكار النوم';
+window.TRANSLATIONS['ar']['azkar.hub.type4_d'] = 'أذكار وأدعية تُقال قبل النوم لتنام في حفظ الله ورعايته.';
+window.TRANSLATIONS['ar']['azkar.hub.type5_t'] = 'أذكار السفر';
+window.TRANSLATIONS['ar']['azkar.hub.type5_d'] = 'دعاء الركوب والسفر والنزول في منزل، ممّا يحتاجه المسافر في طريقه.';
+window.TRANSLATIONS['ar']['azkar.hub.type6_t'] = 'أدعية من القرآن والسنة';
+window.TRANSLATIONS['ar']['azkar.hub.type6_d'] = 'أدعية مأثورة وجوامع من الدعاء وردت في القرآن الكريم والسنّة النبويّة.';
+window.TRANSLATIONS['ar']['azkar.hub.benefits_title'] = 'فوائد المحافظة على الأذكار';
+window.TRANSLATIONS['ar']['azkar.hub.benefit1'] = 'طمأنينة القلب وراحة النفس بذكر الله.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit2'] = 'تجديد الصلة بالله في بداية اليوم ونهايته.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit3'] = 'تنظيم اليوم بأذكار الصباح وختمه بأذكار المساء.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit4'] = 'تذكير النفس بالخير والإقبال على الطاعة.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit5'] = 'الاستعانة بالله وحُسن التوكّل عليه في اليوم والليلة.';
+window.TRANSLATIONS['ar']['azkar.hub.timing_title'] = 'متى تقرأ الأذكار؟';
+window.TRANSLATIONS['ar']['azkar.hub.time1_when'] = 'بعد الفجر أو بداية اليوم';
+window.TRANSLATIONS['ar']['azkar.hub.time1_what'] = 'أذكار الصباح';
+window.TRANSLATIONS['ar']['azkar.hub.time2_when'] = 'بعد العصر أو قبل الليل';
+window.TRANSLATIONS['ar']['azkar.hub.time2_what'] = 'أذكار المساء';
+window.TRANSLATIONS['ar']['azkar.hub.time3_when'] = 'بعد الصلوات المفروضة';
+window.TRANSLATIONS['ar']['azkar.hub.time3_what'] = 'أذكار الصلاة';
+window.TRANSLATIONS['ar']['azkar.hub.time4_when'] = 'قبل النوم';
+window.TRANSLATIONS['ar']['azkar.hub.time4_what'] = 'أذكار النوم';
+window.TRANSLATIONS['ar']['azkar.hub.time5_when'] = 'عند السفر';
+window.TRANSLATIONS['ar']['azkar.hub.time5_what'] = 'أذكار السفر';
+window.TRANSLATIONS['ar']['azkar.hub.links_title'] = 'صفحات مفيدة بجانب الأذكار';
+window.TRANSLATIONS['ar']['azkar.hub.link1_label'] = 'مواقيت الصلاة';
+window.TRANSLATIONS['ar']['azkar.hub.link1_desc'] = 'مواقيت الصلوات الخمس في مدينتك لتقرأ أذكارك في وقتها.';
+window.TRANSLATIONS['ar']['azkar.hub.link2_label'] = 'التاريخ الهجري اليوم';
+window.TRANSLATIONS['ar']['azkar.hub.link2_desc'] = 'اعرف التاريخ الهجريّ المقابل لليوم بسهولة.';
+window.TRANSLATIONS['ar']['azkar.hub.link3_label'] = 'التقويم الهجري';
+window.TRANSLATIONS['ar']['azkar.hub.link3_desc'] = 'تصفّح أشهر السنة الهجريّة وأيّامها.';
+window.TRANSLATIONS['ar']['azkar.hub.link4_label'] = 'تحويل التاريخ';
+window.TRANSLATIONS['ar']['azkar.hub.link4_desc'] = 'حوّل التاريخ بين الهجريّ والميلاديّ في خطوة.';
+window.TRANSLATIONS['ar']['azkar.hub.link5_label'] = 'المسبحة الإلكترونية';
+window.TRANSLATIONS['ar']['azkar.hub.link5_desc'] = 'سبّح واذكر الله مع عدّاد رقميّ يحفظ عددك.';
+window.TRANSLATIONS['ar']['azkar.hub.link6_label'] = 'حاسبة الزكاة';
+window.TRANSLATIONS['ar']['azkar.hub.link6_desc'] = 'احسب زكاة المال والذهب والفضّة بنسبة 2.5%.';
+window.TRANSLATIONS['ar']['azkar.hub.faq_title'] = 'أسئلة شائعة حول الأذكار';
+window.TRANSLATIONS['ar']['azkar.hub.faq1_q'] = 'ما هي أذكار الصباح؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq1_a'] = 'أذكار الصباح هي مجموعة من الأذكار والأدعية المأثورة التي تُقال في أوّل النهار، غالبًا بعد صلاة الفجر وحتّى طلوع الشمس أو قريبًا من ذلك، ليبدأ المسلم يومه بذكر الله وحفظه.';
+window.TRANSLATIONS['ar']['azkar.hub.faq2_q'] = 'ما هي أذكار المساء؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq2_a'] = 'أذكار المساء هي أذكار وأدعية تُقال في آخر النهار، غالبًا من بعد صلاة العصر وتمتدّ إلى الليل، وهي نظير أذكار الصباح يختم بها المسلم يومه بذكر الله.';
+window.TRANSLATIONS['ar']['azkar.hub.faq3_q'] = 'هل يمكن قراءة الأذكار من الهاتف؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq3_a'] = 'نعم، يمكنك قراءة الأذكار من الهاتف أو الحاسوب مباشرةً من هذه الصفحة؛ فالأذكار مكتوبة كاملةً مع عدد التكرار والمصدر، والصفحة مريحة للقراءة على كلّ الأجهزة.';
+window.TRANSLATIONS['ar']['azkar.hub.faq4_q'] = 'متى وقت أذكار الصباح والمساء؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq4_a'] = 'وقت أذكار الصباح من بعد الفجر إلى طلوع الشمس أو قريبًا منه، ووقت أذكار المساء من بعد العصر إلى الليل. ومن فاته الوقت المختار فلا حرج أن يقولها بعده لينال أجرها بإذن الله.';
+window.TRANSLATIONS['ar']['azkar.hub.faq5_q'] = 'هل يجب قراءة الأذكار كلّها مرّة واحدة؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq5_a'] = 'لا يلزم قراءتها كلّها دفعةً واحدة؛ يمكنك قراءة ما تيسّر منها، والأفضل المداومة عليها كاملةً قدر الاستطاعة. ويساعدك العدّاد في الصفحة على متابعة ما أكملته من الأذكار.';
+window.TRANSLATIONS['ar']['azkar.hub.faq6_q'] = 'ما الفرق بين الأذكار والأدعية؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq6_a'] = 'الذكر يشمل التسبيح والتحميد والتهليل والتكبير والاستغفار وكلّ ما فيه ذكرٌ لله، أمّا الدعاء فهو طلبٌ ورجاءٌ من الله. وكثيرٌ من الأذكار المأثورة تجمع بين الذكر والدعاء معًا.';
+window.TRANSLATIONS['ar']['azkar.hub.faq7_q'] = 'هل توجد أذكار بعد الصلاة؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq7_a'] = 'نعم، توجد أذكار مأثورة تُقال بعد كلّ صلاة مفروضة، منها الاستغفار والتسبيح والتحميد والتكبير وغيرها. وتجد قسم أذكار الصلاة في بطاقات هذه الصفحة.';
+window.TRANSLATIONS['ar']['azkar.hub.faq8_q'] = 'كيف ألتزم بقراءة الأذكار يوميًا؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq8_a'] = 'اربط الأذكار بأوقات ثابتة مثل ما بعد صلاة الفجر وصلاة العصر، واجعلها عادةً يوميّة ولو بالقليل المستمرّ. ويعينك العدّاد الذي يحفظ تقدّمك على المتابعة والاستمرار.';
+window.TRANSLATIONS['ar']['azkar.hub.faq9_q'] = 'هل يمكن استخدام المسبحة الإلكترونية مع الأذكار؟';
+window.TRANSLATIONS['ar']['azkar.hub.faq9_a'] = 'نعم، يمكنك استخدام المسبحة الإلكترونية في الموقع لعدّ التسبيح والذكر، وهي مفيدة مع الأذكار المتكرّرة مثل التسبيح والتحميد والاستغفار، وتحفظ لك العدد أثناء الذكر.';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['ar']['azkar.hub.intro_p4'] = 'وأذكار هذه الصفحة منتقاة من الأذكار المأثورة الثابتة في القرآن الكريم والسنّة النبويّة، وتُعرض مع ذكر مصدرها وعدد تكرارها كما وردت. والأفضل أن يقرأها المسلم بتدبّر وحضور قلب لا بمجرّد تحريك اللسان، فبذلك تعظم فائدة الذكر وأثره في النفس. وتجمع الصفحة بين سهولة الوصول إلى كلّ قسم وبين ترتيبٍ واضح يعينك على المداومة يومًا بعد يوم.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit1'] = 'طمأنينة القلب وراحة النفس وزوال الهمّ والقلق بدوام ذكر الله.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit2'] = 'تجديد الصلة بالله في بداية اليوم ونهايته وحفظ العبد بإذنه.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit3'] = 'تنظيم اليوم بأذكار الصباح وختمه بأذكار المساء على نظامٍ ثابت.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit4'] = 'تذكير النفس بالخير وحملها على الطاعة والبعد عن الغفلة.';
+window.TRANSLATIONS['ar']['azkar.hub.benefit5'] = 'الاستعانة بالله وحُسن التوكّل عليه وطلب عونه في اليوم والليلة.';
+window.TRANSLATIONS['ar']['azkar.hub.type1_d'] = 'أذكار تُقال في أوّل اليوم بعد صلاة الفجر، يبدأ بها المسلم نهاره بذكر الله وحفظه واستعانته على يومه.';
+window.TRANSLATIONS['ar']['azkar.hub.type2_d'] = 'أذكار تُقال من بعد العصر وتمتدّ إلى الليل، يختم بها المسلم نهاره بذكر الله وحمده على نعمه.';
+window.TRANSLATIONS['ar']['azkar.hub.type3_d'] = 'التسبيح والتحميد والتكبير والاستغفار والأذكار المأثورة التي تُقال بعد كلّ صلاة مفروضة.';
+window.TRANSLATIONS['ar']['azkar.hub.type4_d'] = 'أذكار وأدعية تُقال قبل النوم ليأوي المسلم إلى فراشه في حفظ الله ورعايته وأمنه.';
+window.TRANSLATIONS['ar']['azkar.hub.type5_d'] = 'دعاء الركوب والسفر والنزول في منزل، وما يحتاجه المسافر من ذكرٍ ودعاء في طريقه.';
+window.TRANSLATIONS['ar']['azkar.hub.type6_d'] = 'أدعية مأثورة وجوامع من الدعاء وردت في القرآن الكريم والسنّة النبويّة لمختلف الأحوال.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ar');
 }

@@ -1348,6 +1348,100 @@ window.TRANSLATIONS['ur']['zakat.zex5_b'] = 'اگر فروخت کے لیے رک�
 window.TRANSLATIONS['ur']['zakat.znote5'] = 'سونے اور چاندی کی قیمت خریداری کے دن نہیں بلکہ زکوٰۃ ادا کرنے کے دن کے بھاؤ سے لگائیں۔';
 window.TRANSLATIONS['ur']['zakat.znote6'] = 'زکوٰۃ میں تاخیر سے بچنے کے لیے ہجری سال میں ایک مقرر دن منتخب کر کے اسی دن زکوٰۃ حساب اور ادا کریں۔';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['ur']['azkar.hub.sections_title'] = 'اذکار کے اقسام';
+window.TRANSLATIONS['ur']['azkar.hub.intro_title'] = 'روزمرّہ کے اذکار کیا ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.intro_p1'] = 'روزمرّہ کے اذکار وہ دعائیں، تسبیحات اور مأثور اذکار ہیں جو قرآن کریم اور سنّتِ نبویہ میں آئے ہیں، اور مسلمان انہیں دن کے مقرّر اوقات میں پڑھتا ہے؛ جیسے فجر کے بعد صبح کے اذکار، عصر کے بعد شام کے اذکار، ہر فرض نماز کے بعد کے اذکار، اور سونے سے پہلے کے اذکار۔ یہ دن رات اللہ کی یاد سے دل کو جوڑے رکھتے ہیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.intro_p2'] = 'یہ صفحہ اذکار کے اقسام کو ایک منظّم اور آسانی سے پڑھنے والی جگہ پر جمع کرتا ہے، تاکہ آپ ایک کلک میں صبح، شام، نماز یا نیند کے اذکار تک پہنچ جائیں۔ ہر قسم اذکار کو تکرار کی تعداد اور مصدر کے ساتھ لکھا ہوا دکھاتی ہے، تاکہ بغیر تلاش اور انتشار کے سکون سے پڑھ سکیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.intro_p3'] = 'روزمرّہ اذکار و دعاؤں کی پابندی حضورِ قلب اور یادِ الٰہی میں سب سے بڑی معاون ہے — یہ وقت میں آسان اور اثر میں عظیم سنّت ہے۔ ہم نے اذکار کا صفحہ فون اور کمپیوٹر پر پڑھنے کے لیے آرام دہ بنایا ہے، اور ایک کاؤنٹر آپ کے تکرار والے اذکار کی پیش رفت محفوظ رکھتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.steps_title'] = 'اذکار کا صفحہ کیسے استعمال کریں';
+window.TRANSLATIONS['ur']['azkar.hub.step1_t'] = 'اذکار کا قسم چنیں';
+window.TRANSLATIONS['ur']['azkar.hub.step1_d'] = 'کارڈز میں سے مطلوبہ قسم چنیں: صبح، شام، نماز یا نیند کے اذکار۔';
+window.TRANSLATIONS['ur']['azkar.hub.step2_t'] = 'پڑھنے کا صفحہ کھولیں';
+window.TRANSLATIONS['ur']['azkar.hub.step2_d'] = 'کارڈ پر کلک کریں؛ قسم کھل جائے گی اور اذکار ترتیب سے مصدر کے ساتھ نظر آئیں گے۔';
+window.TRANSLATIONS['ur']['azkar.hub.step3_t'] = 'ہر ذکر اس کی تعداد سے پڑھیں';
+window.TRANSLATIONS['ur']['azkar.hub.step3_d'] = 'ہر ذکر بیان کردہ تعداد میں پڑھیں اور مکمل کیے گئے اذکار کی پیروی کے لیے کاؤنٹر سے مدد لیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.step4_t'] = 'اسے روزمرّہ عادت بنائیں';
+window.TRANSLATIONS['ur']['azkar.hub.step4_d'] = 'صبح و شام کے اذکار ہر روز جاری رکھیں؛ تھوڑا مگر مسلسل ذکر بکھرے ہوئے زیادہ سے بہتر ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.types_title'] = 'دستیاب اذکار کے اقسام';
+window.TRANSLATIONS['ur']['azkar.hub.type1_t'] = 'صبح کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.type1_d'] = 'دن کا آغاز اللہ کی یاد سے کرنے کے لیے فجر کے بعد پڑھے جانے والے اذکار۔';
+window.TRANSLATIONS['ur']['azkar.hub.type2_t'] = 'شام کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.type2_d'] = 'دن کا اختتام اللہ کی یاد سے کرنے کے لیے عصر کے بعد رات تک کے اذکار۔';
+window.TRANSLATIONS['ur']['azkar.hub.type3_t'] = 'نماز کے بعد کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.type3_d'] = 'ہر فرض نماز کے بعد تسبیح، تحمید، تکبیر اور مأثور اذکار۔';
+window.TRANSLATIONS['ur']['azkar.hub.type4_t'] = 'نیند کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.type4_d'] = 'اللہ کی حفاظت میں سونے کے لیے سونے سے پہلے کے اذکار و دعائیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.type5_t'] = 'سفر کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.type5_d'] = 'سواری، سفر اور منزل میں اترنے کی دعائیں جن کی مسافر کو راستے میں ضرورت ہوتی ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.type6_t'] = 'قرآن و سنت سے دعائیں';
+window.TRANSLATIONS['ur']['azkar.hub.type6_d'] = 'قرآن کریم اور سنّتِ نبویہ میں وارد مأثور اور جامع دعائیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefits_title'] = 'اذکار کی پابندی کے فوائد';
+window.TRANSLATIONS['ur']['azkar.hub.benefit1'] = 'اللہ کی یاد سے دل کا سکون اور نفس کی راحت۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit2'] = 'دن کے آغاز و اختتام پر اللہ سے تعلق کی تجدید۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit3'] = 'دن کو صبح کے اذکار سے ترتیب دینا اور شام کے اذکار سے ختم کرنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit4'] = 'نفس کو بھلائی کی یاد دلانا اور اطاعت کی طرف مائل کرنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit5'] = 'دن رات اللہ سے مدد مانگنا اور اسی پر توکّل کرنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.timing_title'] = 'اذکار کب پڑھیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.time1_when'] = 'فجر کے بعد یا دن کے آغاز میں';
+window.TRANSLATIONS['ur']['azkar.hub.time1_what'] = 'صبح کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.time2_when'] = 'عصر کے بعد یا رات سے پہلے';
+window.TRANSLATIONS['ur']['azkar.hub.time2_what'] = 'شام کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.time3_when'] = 'فرض نمازوں کے بعد';
+window.TRANSLATIONS['ur']['azkar.hub.time3_what'] = 'نماز کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.time4_when'] = 'سونے سے پہلے';
+window.TRANSLATIONS['ur']['azkar.hub.time4_what'] = 'نیند کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.time5_when'] = 'سفر کے وقت';
+window.TRANSLATIONS['ur']['azkar.hub.time5_what'] = 'سفر کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.links_title'] = 'اذکار کے ساتھ مفید صفحات';
+window.TRANSLATIONS['ur']['azkar.hub.link1_label'] = 'نماز کے اوقات';
+window.TRANSLATIONS['ur']['azkar.hub.link1_desc'] = 'اپنے شہر کی پانچ وقت کی نماز تاکہ اذکار وقت پر پڑھیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.link2_label'] = 'آج کی ہجری تاریخ';
+window.TRANSLATIONS['ur']['azkar.hub.link2_desc'] = 'آج کے مطابق ہجری تاریخ آسانی سے دیکھیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.link3_label'] = 'ہجری کیلنڈر';
+window.TRANSLATIONS['ur']['azkar.hub.link3_desc'] = 'ہجری سال کے مہینے اور دن دیکھیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.link4_label'] = 'تاریخ کنورٹر';
+window.TRANSLATIONS['ur']['azkar.hub.link4_desc'] = 'تاریخ کو ہجری اور میلادی کے درمیان ایک قدم میں بدلیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.link5_label'] = 'الیکٹرانک تسبیح';
+window.TRANSLATIONS['ur']['azkar.hub.link5_desc'] = 'ایک ڈیجیٹل کاؤنٹر کے ساتھ تسبیح و ذکر کریں جو آپ کا شمار محفوظ رکھے۔';
+window.TRANSLATIONS['ur']['azkar.hub.link6_label'] = 'زکوٰۃ کیلکولیٹر';
+window.TRANSLATIONS['ur']['azkar.hub.link6_desc'] = 'مال، سونے اور چاندی کی زکوٰۃ 2.5% کے حساب سے نکالیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq_title'] = 'اذکار کے بارے میں عام سوالات';
+window.TRANSLATIONS['ur']['azkar.hub.faq1_q'] = 'صبح کے اذکار کیا ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq1_a'] = 'صبح کے اذکار مأثور اذکار و دعاؤں کا مجموعہ ہیں جو دن کے آغاز میں پڑھے جاتے ہیں، عموماً فجر کی نماز کے بعد طلوعِ آفتاب کے قریب تک، تاکہ مسلمان اپنے دن کا آغاز اللہ کی یاد اور حفاظت سے کرے۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq2_q'] = 'شام کے اذکار کیا ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq2_a'] = 'شام کے اذکار وہ اذکار و دعائیں ہیں جو دن کے اختتام پر پڑھی جاتی ہیں، عموماً عصر کی نماز کے بعد رات تک۔ یہ صبح کے اذکار کے مقابل ہیں جن سے مسلمان اپنا دن اللہ کی یاد سے ختم کرتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq3_q'] = 'کیا اذکار فون سے پڑھے جا سکتے ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq3_a'] = 'جی ہاں۔ آپ اس صفحے سے براہِ راست فون یا کمپیوٹر پر اذکار پڑھ سکتے ہیں؛ اذکار تکرار کی تعداد اور مصدر کے ساتھ مکمل لکھے ہوئے ہیں، اور صفحہ ہر آلے پر پڑھنے کے لیے آرام دہ ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq4_q'] = 'صبح و شام کے اذکار کا وقت کب ہے؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq4_a'] = 'صبح کے اذکار کا وقت فجر کے بعد سے طلوعِ آفتاب کے قریب تک، اور شام کے اذکار کا وقت عصر کے بعد سے رات تک ہے۔ جس سے بہتر وقت نکل جائے وہ بعد میں بھی پڑھ سکتا ہے تاکہ ان شاء اللہ اجر پائے۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq5_q'] = 'کیا سارے اذکار ایک ساتھ پڑھنا ضروری ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq5_a'] = 'سب کو ایک ہی نشست میں پڑھنا ضروری نہیں؛ جتنا ممکن ہو پڑھ لیں، اور حتی الامکان مکمل پابندی بہتر ہے۔ صفحے کا کاؤنٹر آپ کے مکمل کیے گئے اذکار کی پیروی میں مدد دیتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq6_q'] = 'اذکار اور دعاؤں میں کیا فرق ہے؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq6_a'] = 'ذکر میں تسبیح، تحمید، تہلیل، تکبیر اور استغفار سمیت ہر وہ چیز شامل ہے جو اللہ کی یاد ہو؛ جبکہ دعا اللہ سے مانگنا اور التجا ہے۔ بہت سے مأثور اذکار ذکر اور دعا دونوں کو جمع کرتے ہیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq7_q'] = 'کیا نماز کے بعد بھی اذکار ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq7_a'] = 'جی ہاں۔ ہر فرض نماز کے بعد مأثور اذکار ہیں، جن میں استغفار، تسبیح، تحمید اور تکبیر شامل ہیں۔ نماز کے اذکار کا قسم آپ کو اس صفحے کے کارڈز میں ملے گا۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq8_q'] = 'روزانہ اذکار پڑھنے پر کیسے قائم رہوں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq8_a'] = 'اذکار کو ثابت اوقات سے جوڑیں جیسے فجر اور عصر کی نماز کے بعد، اور انہیں روزمرّہ عادت بنائیں چاہے تھوڑا مگر مسلسل۔ آپ کی پیش رفت محفوظ رکھنے والا کاؤنٹر استمرار میں مدد دیتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.faq9_q'] = 'کیا الیکٹرانک تسبیح اذکار کے ساتھ استعمال کر سکتے ہیں؟';
+window.TRANSLATIONS['ur']['azkar.hub.faq9_a'] = 'جی ہاں۔ آپ سائٹ کی الیکٹرانک تسبیح تسبیح و ذکر گننے کے لیے استعمال کر سکتے ہیں۔ یہ تسبیح، تحمید اور استغفار جیسے تکرار والے اذکار کے ساتھ مفید ہے اور پڑھتے ہوئے آپ کا شمار محفوظ رکھتی ہے۔';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['ur']['azkar.hub.intro_p4'] = 'اس صفحے کے اذکار قرآن کریم اور سنّتِ نبویہ میں ثابت مأثور اذکار سے منتخب ہیں، اور جیسے وارد ہوئے ویسے ہی مصدر اور تکرار کی تعداد کے ساتھ پیش کیے جاتے ہیں۔ بہتر ہے کہ مسلمان انہیں محض زبان ہلانے کے بجائے غور اور حضورِ قلب سے پڑھے، اسی سے ذکر کا فائدہ اور اثر بڑھتا ہے۔ یہ صفحہ ہر قسم تک آسان رسائی کو ایک واضح ترتیب کے ساتھ جوڑتا ہے جو روز بروز پابندی میں مدد دیتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit1'] = 'اللہ کے مسلسل ذکر سے دل کا سکون، نفس کی راحت اور غم و پریشانی کا دور ہونا۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit2'] = 'دن کے آغاز و اختتام پر اللہ سے تعلق کی تجدید اور اس کی حفاظت میں رہنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit3'] = 'دن کو صبح کے اذکار سے ترتیب دینا اور شام کے اذکار سے ایک مستقل نظام پر ختم کرنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit4'] = 'نفس کو بھلائی کی یاد دلانا، اسے اطاعت کی طرف مائل کرنا اور غفلت سے دور رکھنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.benefit5'] = 'اللہ سے مدد مانگنا، اس پر اچھا توکّل کرنا اور دن رات اس کی نصرت طلب کرنا۔';
+window.TRANSLATIONS['ur']['azkar.hub.type1_d'] = 'فجر کے بعد دن کے آغاز میں پڑھے جانے والے اذکار، جن سے مسلمان اپنا دن اللہ کے ذکر، حفاظت اور مدد سے شروع کرتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.type2_d'] = 'عصر کے بعد رات تک پڑھے جانے والے اذکار، جن سے مسلمان اپنا دن اللہ کے ذکر اور اس کی نعمتوں کی حمد سے ختم کرتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.type3_d'] = 'ہر فرض نماز کے بعد پڑھے جانے والے تسبیح، تحمید، تکبیر، استغفار اور مأثور اذکار۔';
+window.TRANSLATIONS['ur']['azkar.hub.type4_d'] = 'سونے سے پہلے پڑھے جانے والے اذکار و دعائیں، تاکہ مسلمان اللہ کی حفاظت اور امان میں اپنے بستر پر جائے۔';
+window.TRANSLATIONS['ur']['azkar.hub.type5_d'] = 'سواری، سفر اور منزل میں اترنے کی دعائیں اور وہ ذکر جو مسافر کو راستے میں درکار ہوتا ہے۔';
+window.TRANSLATIONS['ur']['azkar.hub.type6_d'] = 'قرآن کریم اور سنّتِ نبویہ میں مختلف احوال کے لیے وارد مأثور اور جامع دعائیں۔';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ur');
 }

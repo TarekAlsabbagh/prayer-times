@@ -8056,14 +8056,14 @@ function buildSeoForPath(urlPath) {
                 fr: 'Azkar | Invocations authentiques du quotidien (Adhkar)',
                 tr: 'Azkar | Kur\u2019an ve Sünnet\u2019ten Sahih Günlük Zikirler',
                 ur: 'اذکار | صبح و شام کے اذکار اور قرآن و سنت سے صحیح دعائیں',
-                de: 'Azkar | Authentische tägliche Bittgebete (Adhkar) aus Quran & Sunna',
+                de: 'Azkar | Tägliche Bittgebete aus Quran und Sunna (Adhkar)',
                 id: 'Azkar | Zikir Harian Sahih dari Al-Quran dan Sunnah',
                 es: 'Azkar | Súplicas Diarias Auténticas (Adhkar) del Islam',
-                bn: 'আযকার | কুরআন ও সুন্নাহ থেকে সহিহ দৈনিক জিকির',
+                bn: 'আযকার | সকাল-সন্ধ্যার যিকির ও কুরআন-সুন্নাহর দোয়া',
                 ms: 'Azkar | Zikir Harian Sahih dari Al-Quran dan Sunnah',
             },
             desc: {
-                ar: 'الأذكار الصحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة — مع التخريج.',
+                ar: 'الأذكار الصحيحة من القرآن والسنة: أذكار الصباح والمساء، بعد الصلاة، النوم، السفر، الكرب، ويوم الجمعة مع التخريج وصفحة منظّمة للقراءة.',
                 en: 'Azkar — authentic daily adhkar from Quran & Sunnah: morning & evening, after-prayer remembrance, sleep, travel, distress and Friday supplications with sources.',
                 fr: 'Azkar — adhkar authentiques du Coran et de la Sunna : matin et soir, après la prière, sommeil, voyage, détresse et invocations du vendredi avec sources.',
                 tr: 'Azkar — Kur\u2019an ve Sünnet\u2019ten sahih günlük zikirler: sabah-akşam, namaz sonrası, uyku, yolculuk, sıkıntı ve Cuma duaları kaynaklarıyla.',
@@ -8071,7 +8071,7 @@ function buildSeoForPath(urlPath) {
                 de: 'Azkar — authentische tägliche Adhkar aus Quran und Sunna: morgens und abends, nach dem Gebet, Schlaf, Reise, Not und Freitags-Bittgebete mit Quellen.',
                 id: 'Azkar — zikir harian sahih dari Al-Quran dan Sunnah: pagi dan petang, setelah sholat, tidur, perjalanan, kesusahan dan doa Jumat dengan sumber.',
                 es: 'Azkar — adhkar diarios auténticos del Corán y la Sunna: mañana y tarde, tras la oración, sueño, viaje, angustia e invocaciones del viernes con fuentes.',
-                bn: 'আযকার — কুরআন ও সুন্নাহ থেকে সহিহ দৈনিক জিকির: সকাল-সন্ধ্যা, নামাজের পর, ঘুম, ভ্রমণ, কষ্ট ও জুমার দোয়া সূত্র সহকারে।',
+                bn: 'আযকার — কুরআন ও সুন্নাহ থেকে সহিহ দৈনিক জিকির: সকাল-সন্ধ্যা, নামাজের পর, ঘুম, ভ্রমণ, কষ্ট ও জুমার দোয়া সূত্র সহকারে সাজানো পৃষ্ঠায়।',
                 ms: 'Azkar — zikir harian sahih dari Al-Quran dan Sunnah: pagi dan petang, selepas solat, tidur, perjalanan, kesusahan dan doa Jumaat berserta sumber.',
             },
             ogType: 'article',
@@ -15150,6 +15150,67 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 '<div class="page" id="page-azkar-hub">',
                 '<div class="page active" id="page-azkar-hub">'
             );
+            // ── AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1 (2026-06-04) ──
+            // Build COMPLEMENTARY educational sections (intro / steps / types /
+            // benefits / timing / useful links / FAQ) from azkar.hub.* i18n keys
+            // and inject into #azkar-hub-seo. Text lives in js/i18n.js (SSR) +
+            // js/i18n/{lang}.js (client) — NOT duplicated here. Reuses the
+            // generic .dconv-* / .hd1-* card CSS (no new CSS). No change to the
+            // azkar content, counters, reading logic or category links.
+            try {
+                const _ad = I18N[seo.lang] || I18N.en || {};
+                const _aen = I18N.en || {}; const _aar = I18N.ar || {};
+                const _at = (k) => _ad[k] || _aen[k] || _aar[k] || '';
+                if (_at('azkar.hub.intro_title')) {
+                    const _e = _escHtml;
+                    const _pfx = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
+                    const _j = (s) => JSON.stringify(s).replace(/</g, '\\u003c');
+                    let _h = '';
+                    // intro card (H2 + up to 3 paragraphs)
+                    _h += `<section class="section-card dconv-guide azkar-hub-intro" aria-labelledby="azh-intro-t"><div class="dconv-guide-icon" aria-hidden="true">📿</div><div class="dconv-guide-body"><h2 id="azh-intro-t">${_e(_at('azkar.hub.intro_title'))}</h2>`;
+                    for (const pk of ['azkar.hub.intro_p1','azkar.hub.intro_p2','azkar.hub.intro_p3','azkar.hub.intro_p4']) { const p = _at(pk); if (p) _h += `<p>${_e(p)}</p>`; }
+                    _h += `</div></section>`;
+                    // steps (4 numbered)
+                    let _steps = '';
+                    for (let i=1;i<=4;i++){ const t=_at('azkar.hub.step'+i+'_t'); if(!t)continue; _steps += `<li class="dconv-step"><span class="dconv-step-num" aria-hidden="true">${i}</span><span class="dconv-step-body"><span class="dconv-step-t">${_e(t)}</span><span class="dconv-step-d">${_e(_at('azkar.hub.step'+i+'_d'))}</span></span></li>`; }
+                    if(_steps) _h += `<section class="section-card dconv-steps" aria-labelledby="azh-steps-t"><h2 id="azh-steps-t">${_e(_at('azkar.hub.steps_title'))}</h2><ol class="dconv-steps-grid">${_steps}</ol></section>`;
+                    // types (6 — H3 cards)
+                    let _types='';
+                    for(let i=1;i<=6;i++){ const t=_at('azkar.hub.type'+i+'_t'); if(!t)continue; _types += `<div class="dconv-example"><h3>${_e(t)}</h3><p class="dconv-ex-note">${_e(_at('azkar.hub.type'+i+'_d'))}</p></div>`; }
+                    if(_types) _h += `<section class="section-card dconv-examples" aria-labelledby="azh-types-t"><h2 id="azh-types-t">${_e(_at('azkar.hub.types_title'))}</h2><div class="dconv-examples-grid">${_types}</div></section>`;
+                    // benefits (callout list, 5)
+                    let _ben='';
+                    for(let i=1;i<=5;i++){ const n=_at('azkar.hub.benefit'+i); if(n) _ben += `<li>${_e(n)}</li>`; }
+                    if(_ben) _h += `<section class="section-card dconv-accuracy" aria-labelledby="azh-ben-t"><div class="dconv-acc-inner"><span class="dconv-acc-icon" aria-hidden="true">💚</span><div class="dconv-acc-body"><h2 id="azh-ben-t">${_e(_at('azkar.hub.benefits_title'))}</h2><ul class="dconv-acc-list">${_ben}</ul></div></div></section>`;
+                    // timing (5 when/what cards)
+                    let _tm=''; const _tmIcons=['🌅','🌙','🕌','😴','✈️'];
+                    for(let i=1;i<=5;i++){ const w=_at('azkar.hub.time'+i+'_when'); if(!w)continue; _tm += `<div class="hd1-tool-card azkar-time-card"><span class="hd1-tool-icon" aria-hidden="true">${_tmIcons[i-1]||'🕘'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_e(w)}</span><span class="hd1-tool-desc">${_e(_at('azkar.hub.time'+i+'_what'))}</span></span></div>`; }
+                    if(_tm) _h += `<section class="section-card hd1-tools-section azkar-hub-timing" aria-labelledby="azh-time-t"><h2 id="azh-time-t" class="hd1-section-title">${_e(_at('azkar.hub.timing_title'))}</h2><div class="hd1-tools-grid">${_tm}</div></section>`;
+                    // useful links (6 anchors)
+                    const _aHrefs=[(seo.lang==='ar')?'/':(_pfx+'/'), `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/msbaha`, `${_pfx}/zakat-calculator`];
+                    const _aIcons=['🕌','📅','🗓','🔄','📿','🪙'];
+                    let _links='';
+                    for(let i=1;i<=6;i++){ const l=_at('azkar.hub.link'+i+'_label'); if(!l)continue; _links += `<a class="hd1-tool-card" href="${_aHrefs[i-1]}"><span class="hd1-tool-icon" aria-hidden="true">${_aIcons[i-1]||'🔗'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_e(l)}</span><span class="hd1-tool-desc">${_e(_at('azkar.hub.link'+i+'_desc'))}</span></span></a>`; }
+                    if(_links) _h += `<section class="section-card hd1-tools-section azkar-hub-links" aria-labelledby="azh-links-t"><h2 id="azh-links-t" class="hd1-section-title">${_e(_at('azkar.hub.links_title'))}</h2><div class="hd1-tools-grid">${_links}</div></section>`;
+                    // FAQ (9 — H3 question cards) + FAQPage JSON-LD
+                    let _faq=''; const _faqJson=[];
+                    for(let i=1;i<=9;i++){ const q=_at('azkar.hub.faq'+i+'_q'); const a=_at('azkar.hub.faq'+i+'_a'); if(!q||!a)continue; _faq += `<div class="dconv-example azkar-faq-card"><h3>${_e(q)}</h3><p class="dconv-ex-note">${_e(a)}</p></div>`; _faqJson.push('{"@type":"Question","name":'+_j(q)+',"acceptedAnswer":{"@type":"Answer","text":'+_j(a)+'}}'); }
+                    if(_faq) _h += `<section class="section-card dconv-examples azkar-hub-faq" aria-labelledby="azh-faq-t"><h2 id="azh-faq-t">${_e(_at('azkar.hub.faq_title'))}</h2><div class="dconv-examples-grid">${_faq}</div></section>`;
+                    html = html.replace('<div id="azkar-hub-seo"></div>', `<div id="azkar-hub-seo">${_h}</div>`);
+                    // FAQPage JSON-LD (matches the visible FAQ exactly)
+                    if (_faqJson.length) {
+                        const _ld = '{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[' + _faqJson.join(',') + ']}';
+                        html = html.replace('</body>', '<script type="application/ld+json">' + _ld + '</script>\n</body>');
+                    }
+                    // ItemList JSON-LD for the azkar section types (names only)
+                    const _items=[];
+                    for(let i=1;i<=6;i++){ const t=_at('azkar.hub.type'+i+'_t'); if(t) _items.push('{"@type":"ListItem","position":'+(_items.length+1)+',"name":'+_j(t)+'}'); }
+                    if (_items.length) {
+                        const _ldL = '{"@context":"https://schema.org","@type":"ItemList","name":'+_j(_at('azkar.hub.types_title'))+',"itemListElement":[' + _items.join(',') + ']}';
+                        html = html.replace('</body>', '<script type="application/ld+json">' + _ldL + '</script>\n</body>');
+                    }
+                }
+            } catch (_e) { /* silent — hub still renders the cards */ }
         }
     }
 
@@ -17093,7 +17154,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '192'; // ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04): bumped 191→192 for ~40 new zakat.* content keys per lang (guide/zsteps/zstep1-4/zex/zex1-3/znotes/znote1-4/zlinks/zlink1-5/faq.q8-q9) backing the new SSR educational sections + expanded FAQ on /zakat-calculator. ALL 10 per-lang bundles carry NATIVE translations (ar/en/fr/tr/ur/de/id/es/bn/ms); the server.js SSR builder reads the same dictionary (I18N) to render guide/steps/examples/notes/links into #zk-seo + FAQ JSON-LD q8/q9. | PREVIOUS 191/190 = MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): bumped 189→190 for the ~50 new tasbih.* i18n keys covering the new educational + FAQ blocks added to /msbaha (edu/howto/after/when/related/disclaimer/faq subtrees). AR + EN bundles updated in js/i18n/{ar,en}.js + consolidated js/i18n.js — other 8 langs fall back to EN via the existing _needsEnFallback chain. FAQPage + HowTo JSON-LD emit in server.js reads from the same dictionary (tasbihFaq flag gated on /msbaha staticPages entry). | PREVIOUS 189 = ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
+        const _i18nVersion = '193'; // AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1 (2026-06-04): bumped 192->193 for ~76 new azkar.hub.* content keys per lang (intro/steps/types/benefits/timing/links/FAQ) backing the new SSR educational sections on /azkar. ALL 10 per-lang bundles carry NATIVE translations; server.js SSR builder reads I18N to render them into #azkar-hub-seo + FAQPage/ItemList JSON-LD. | PREV 192 = // ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04): bumped 191→192 for ~40 new zakat.* content keys per lang (guide/zsteps/zstep1-4/zex/zex1-3/znotes/znote1-4/zlinks/zlink1-5/faq.q8-q9) backing the new SSR educational sections + expanded FAQ on /zakat-calculator. ALL 10 per-lang bundles carry NATIVE translations (ar/en/fr/tr/ur/de/id/es/bn/ms); the server.js SSR builder reads the same dictionary (I18N) to render guide/steps/examples/notes/links into #zk-seo + FAQ JSON-LD q8/q9. | PREVIOUS 191/190 = MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): bumped 189→190 for the ~50 new tasbih.* i18n keys covering the new educational + FAQ blocks added to /msbaha (edu/howto/after/when/related/disclaimer/faq subtrees). AR + EN bundles updated in js/i18n/{ar,en}.js + consolidated js/i18n.js — other 8 langs fall back to EN via the existing _needsEnFallback chain. FAQPage + HowTo JSON-LD emit in server.js reads from the same dictionary (tasbihFaq flag gated on /msbaha staticPages entry). | PREVIOUS 189 = ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

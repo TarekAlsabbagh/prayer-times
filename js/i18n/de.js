@@ -1437,6 +1437,100 @@ window.TRANSLATIONS['de']['zakat.zex5_b'] = 'Erreichen zum Verkauf gehaltene Han
 window.TRANSLATIONS['de']['zakat.znote5'] = 'Bewerten Sie Gold und Silber zum Preis am Tag der Zakat-Zahlung, nicht am Kauftag.';
 window.TRANSLATIONS['de']['zakat.znote6'] = 'Sie können einen festen Tag im Mondjahr wählen, um die Zakat zu berechnen und zu zahlen, damit sie nie verspätet ist.';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['de']['azkar.hub.sections_title'] = 'Azkar-Abschnitte';
+window.TRANSLATIONS['de']['azkar.hub.intro_title'] = 'Was sind die täglichen Azkar?';
+window.TRANSLATIONS['de']['azkar.hub.intro_p1'] = 'Die täglichen Azkar sind im Koran und in der Sunna überlieferte Bittgebete, Lobpreisungen und Gedenkformeln, die der Muslim zu festen Zeiten des Tages spricht: die Morgen-Azkar nach dem Fadschr, die Abend-Azkar nach dem Asr, das Gedenken nach jedem Pflichtgebet und die Schlaf-Azkar vor dem Einschlafen. Sie halten das Herz Tag und Nacht mit Allah verbunden.';
+window.TRANSLATIONS['de']['azkar.hub.intro_p2'] = 'Diese Seite versammelt die Azkar-Abschnitte an einem geordneten, leicht lesbaren Ort, sodass Sie mit einem Tippen zu den Morgen-Azkar, Abend-Azkar, Gebets-Azkar, Schlaf-Azkar und weiteren gelangen. Jeder Abschnitt zeigt die Azkar ausgeschrieben mit Wiederholungszahl und Quelle, damit Sie sie ruhig und ohne Suchen oder Ablenkung lesen.';
+window.TRANSLATIONS['de']['azkar.hub.intro_p3'] = 'Das Festhalten an den täglichen Azkar und Duas gehört zu den besten Hilfen für die Gegenwart des Herzens und das Gedenken Allahs — eine leichte Sunna zu ihrer Zeit, gewaltig in ihrer Wirkung. Die Azkar-Seite ist bequem auf Telefon und Computer zu lesen, mit einem Zähler, der Ihren Fortschritt bei wiederholten Azkar speichert.';
+window.TRANSLATIONS['de']['azkar.hub.steps_title'] = 'So nutzen Sie die Azkar-Seite';
+window.TRANSLATIONS['de']['azkar.hub.step1_t'] = 'Einen Azkar-Abschnitt wählen';
+window.TRANSLATIONS['de']['azkar.hub.step1_d'] = 'Wählen Sie aus den Karten den gewünschten Abschnitt: Morgen-, Abend-, Gebets- oder Schlaf-Azkar.';
+window.TRANSLATIONS['de']['azkar.hub.step2_t'] = 'Die Leseseite öffnen';
+window.TRANSLATIONS['de']['azkar.hub.step2_d'] = 'Tippen Sie auf die Karte; der Abschnitt öffnet sich und die Azkar erscheinen geordnet mit Quelle.';
+window.TRANSLATIONS['de']['azkar.hub.step3_t'] = 'Jedes Dhikr nach seiner Zahl lesen';
+window.TRANSLATIONS['de']['azkar.hub.step3_d'] = 'Sprechen Sie jedes Dhikr in der angegebenen Anzahl und nutzen Sie den Zähler, um Erledigtes zu verfolgen.';
+window.TRANSLATIONS['de']['azkar.hub.step4_t'] = 'Eine tägliche Gewohnheit machen';
+window.TRANSLATIONS['de']['azkar.hub.step4_d'] = 'Halten Sie die Morgen- und Abend-Azkar täglich; stetiges Gedenken ist besser als verstreute Schübe.';
+window.TRANSLATIONS['de']['azkar.hub.types_title'] = 'Verfügbare Azkar-Arten';
+window.TRANSLATIONS['de']['azkar.hub.type1_t'] = 'Morgen-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.type1_d'] = 'Azkar am Tagesbeginn nach dem Fadschr, um den Tag mit dem Gedenken Allahs zu beginnen.';
+window.TRANSLATIONS['de']['azkar.hub.type2_t'] = 'Abend-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.type2_d'] = 'Azkar von nach dem Asr bis in die Nacht, um den Tag mit dem Gedenken Allahs zu beschließen.';
+window.TRANSLATIONS['de']['azkar.hub.type3_t'] = 'Azkar nach dem Gebet';
+window.TRANSLATIONS['de']['azkar.hub.type3_d'] = 'Tasbih, Tahmid, Takbir und überlieferte Gedenkformeln nach jedem Pflichtgebet.';
+window.TRANSLATIONS['de']['azkar.hub.type4_t'] = 'Schlaf-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.type4_d'] = 'Azkar und Duas vor dem Schlafen, um in Allahs Schutz zu ruhen.';
+window.TRANSLATIONS['de']['azkar.hub.type5_t'] = 'Reise-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.type5_d'] = 'Die Duas des Aufsteigens, Reisens und Einkehrens, die der Reisende unterwegs braucht.';
+window.TRANSLATIONS['de']['azkar.hub.type6_t'] = 'Duas aus Koran & Sunna';
+window.TRANSLATIONS['de']['azkar.hub.type6_d'] = 'Überlieferte und umfassende Bittgebete aus dem Koran und der Sunna.';
+window.TRANSLATIONS['de']['azkar.hub.benefits_title'] = 'Nutzen der Beständigkeit bei den Azkar';
+window.TRANSLATIONS['de']['azkar.hub.benefit1'] = 'Ruhe des Herzens und Gelassenheit der Seele durch das Gedenken Allahs.';
+window.TRANSLATIONS['de']['azkar.hub.benefit2'] = 'Erneuerung der Verbindung zu Allah am Anfang und Ende des Tages.';
+window.TRANSLATIONS['de']['azkar.hub.benefit3'] = 'Den Tag mit den Morgen-Azkar ordnen und mit den Abend-Azkar besiegeln.';
+window.TRANSLATIONS['de']['azkar.hub.benefit4'] = 'Die Seele an das Gute erinnern und zum Gehorsam hinwenden.';
+window.TRANSLATIONS['de']['azkar.hub.benefit5'] = 'Allah um Hilfe bitten und Tag und Nacht auf Ihn vertrauen.';
+window.TRANSLATIONS['de']['azkar.hub.timing_title'] = 'Wann die Azkar lesen?';
+window.TRANSLATIONS['de']['azkar.hub.time1_when'] = 'Nach dem Fadschr oder am Tagesbeginn';
+window.TRANSLATIONS['de']['azkar.hub.time1_what'] = 'Morgen-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.time2_when'] = 'Nach dem Asr oder vor der Nacht';
+window.TRANSLATIONS['de']['azkar.hub.time2_what'] = 'Abend-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.time3_when'] = 'Nach den Pflichtgebeten';
+window.TRANSLATIONS['de']['azkar.hub.time3_what'] = 'Gebets-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.time4_when'] = 'Vor dem Schlafen';
+window.TRANSLATIONS['de']['azkar.hub.time4_what'] = 'Schlaf-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.time5_when'] = 'Auf Reisen';
+window.TRANSLATIONS['de']['azkar.hub.time5_what'] = 'Reise-Azkar';
+window.TRANSLATIONS['de']['azkar.hub.links_title'] = 'Nützliche Seiten neben den Azkar';
+window.TRANSLATIONS['de']['azkar.hub.link1_label'] = 'Gebetszeiten';
+window.TRANSLATIONS['de']['azkar.hub.link1_desc'] = 'Die fünf Gebetszeiten Ihrer Stadt, um Ihre Azkar rechtzeitig zu lesen.';
+window.TRANSLATIONS['de']['azkar.hub.link2_label'] = 'Heutiges Hidschri-Datum';
+window.TRANSLATIONS['de']['azkar.hub.link2_desc'] = 'Sehen Sie das heutige Hidschri-Datum bequem.';
+window.TRANSLATIONS['de']['azkar.hub.link3_label'] = 'Hidschri-Kalender';
+window.TRANSLATIONS['de']['azkar.hub.link3_desc'] = 'Durchblättern Sie die Monate und Tage des Hidschri-Jahres.';
+window.TRANSLATIONS['de']['azkar.hub.link4_label'] = 'Datumsumrechner';
+window.TRANSLATIONS['de']['azkar.hub.link4_desc'] = 'Rechnen Sie Daten in einem Schritt zwischen Hidschri und gregorianisch um.';
+window.TRANSLATIONS['de']['azkar.hub.link5_label'] = 'Digitale Tasbih';
+window.TRANSLATIONS['de']['azkar.hub.link5_desc'] = 'Lobpreisen und gedenken Sie Allahs mit einem Zähler, der Ihre Zahl speichert.';
+window.TRANSLATIONS['de']['azkar.hub.link6_label'] = 'Zakat-Rechner';
+window.TRANSLATIONS['de']['azkar.hub.link6_desc'] = 'Berechnen Sie die Zakat auf Geld, Gold und Silber mit 2,5 %.';
+window.TRANSLATIONS['de']['azkar.hub.faq_title'] = 'Häufige Fragen zu den Azkar';
+window.TRANSLATIONS['de']['azkar.hub.faq1_q'] = 'Was sind die Morgen-Azkar?';
+window.TRANSLATIONS['de']['azkar.hub.faq1_a'] = 'Die Morgen-Azkar sind eine Reihe überlieferter Gedenkformeln und Bittgebete, die am Tagesbeginn gesprochen werden, meist nach dem Fadschr-Gebet bis etwa zum Sonnenaufgang, damit der Muslim seinen Tag mit dem Gedenken und dem Schutz Allahs beginnt.';
+window.TRANSLATIONS['de']['azkar.hub.faq2_q'] = 'Was sind die Abend-Azkar?';
+window.TRANSLATIONS['de']['azkar.hub.faq2_a'] = 'Die Abend-Azkar sind Gedenkformeln und Bittgebete, die am Tagesende gesprochen werden, meist von nach dem Asr-Gebet bis in die Nacht. Sie sind das Gegenstück der Morgen-Azkar, mit denen der Muslim den Tag mit dem Gedenken Allahs besiegelt.';
+window.TRANSLATIONS['de']['azkar.hub.faq3_q'] = 'Kann ich die Azkar vom Telefon lesen?';
+window.TRANSLATIONS['de']['azkar.hub.faq3_a'] = 'Ja. Sie können die Azkar direkt vom Telefon oder Computer auf dieser Seite lesen; die Azkar sind vollständig mit Wiederholungszahl und Quelle ausgeschrieben, und die Seite ist auf jedem Gerät bequem zu lesen.';
+window.TRANSLATIONS['de']['azkar.hub.faq4_q'] = 'Wann ist die Zeit für Morgen- und Abend-Azkar?';
+window.TRANSLATIONS['de']['azkar.hub.faq4_a'] = 'Die Zeit der Morgen-Azkar reicht von nach dem Fadschr bis etwa zum Sonnenaufgang, die der Abend-Azkar von nach dem Asr bis in die Nacht. Wer die bevorzugte Zeit verpasst, darf sie ohne Bedenken danach sprechen, um ihren Lohn zu erlangen, so Allah will.';
+window.TRANSLATIONS['de']['azkar.hub.faq5_q'] = 'Muss ich alle Azkar auf einmal lesen?';
+window.TRANSLATIONS['de']['azkar.hub.faq5_a'] = 'Sie müssen nicht alle in einer Sitzung lesen; Sie können lesen, was Ihnen möglich ist, und es ist am besten, sie nach Möglichkeit vollständig beizubehalten. Der Zähler auf der Seite hilft Ihnen, das Erledigte zu verfolgen.';
+window.TRANSLATIONS['de']['azkar.hub.faq6_q'] = 'Was ist der Unterschied zwischen Azkar und Duas?';
+window.TRANSLATIONS['de']['azkar.hub.faq6_a'] = 'Dhikr umfasst Lobpreis, Lob, das Bezeugen der Einheit und Größe Allahs und das Bitten um Vergebung — alles, was Gedenken Allahs ist; eine Dua ist eine Bitte an Allah. Viele überlieferte Azkar vereinen Gedenken und Bittgebet.';
+window.TRANSLATIONS['de']['azkar.hub.faq7_q'] = 'Gibt es Azkar nach dem Gebet?';
+window.TRANSLATIONS['de']['azkar.hub.faq7_a'] = 'Ja. Es gibt überlieferte Azkar nach jedem Pflichtgebet, darunter das Bitten um Vergebung, Lobpreis, Lob und Magnifikation. Den Abschnitt der Gebets-Azkar finden Sie unter den Karten dieser Seite.';
+window.TRANSLATIONS['de']['azkar.hub.faq8_q'] = 'Wie bleibe ich täglich beim Lesen der Azkar?';
+window.TRANSLATIONS['de']['azkar.hub.faq8_a'] = 'Binden Sie die Azkar an feste Zeiten wie nach dem Fadschr- und Asr-Gebet und machen Sie sie zur täglichen Gewohnheit, wenn auch wenig, aber stetig. Der Zähler, der Ihren Fortschritt speichert, hilft Ihnen weiterzumachen.';
+window.TRANSLATIONS['de']['azkar.hub.faq9_q'] = 'Kann ich die digitale Tasbih mit den Azkar nutzen?';
+window.TRANSLATIONS['de']['azkar.hub.faq9_a'] = 'Ja. Sie können die digitale Tasbih der Seite nutzen, um Ihr Lobpreisen und Gedenken zu zählen. Sie ist nützlich bei wiederholten Azkar wie Tasbih, Tahmid und dem Bitten um Vergebung und behält Ihre Zahl bei.';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['de']['azkar.hub.intro_p4'] = 'Die Azkar dieser Seite sind aus den gesicherten überlieferten Gedenkformeln des Korans und der Sunna ausgewählt und werden mit Quelle und Wiederholungszahl so dargestellt, wie sie überliefert sind. Es ist besser, sie mit Nachdenken und Gegenwart des Herzens zu lesen statt nur die Zunge zu bewegen, denn so wächst der Nutzen des Gedenkens. Die Seite verbindet leichten Zugang zu jedem Abschnitt mit einer klaren Ordnung, die Ihnen hilft, Tag für Tag daran festzuhalten.';
+window.TRANSLATIONS['de']['azkar.hub.benefit1'] = 'Ruhe des Herzens, Gelassenheit der Seele und das Schwinden von Sorge und Angst durch beständiges Gedenken Allahs.';
+window.TRANSLATIONS['de']['azkar.hub.benefit2'] = 'Erneuerung der Verbindung zu Allah am Anfang und Ende des Tages und Bewahrung in Seinem Schutz.';
+window.TRANSLATIONS['de']['azkar.hub.benefit3'] = 'Den Tag mit den Morgen-Azkar ordnen und mit den Abend-Azkar in einer festen Routine besiegeln.';
+window.TRANSLATIONS['de']['azkar.hub.benefit4'] = 'Die Seele an das Gute erinnern, sie zum Gehorsam hinwenden und von Achtlosigkeit fernhalten.';
+window.TRANSLATIONS['de']['azkar.hub.benefit5'] = 'Allah um Hilfe bitten, gut auf Ihn vertrauen und Tag und Nacht Seinen Beistand erbitten.';
+window.TRANSLATIONS['de']['azkar.hub.type1_d'] = 'Azkar am Tagesbeginn nach dem Fadschr-Gebet, mit denen der Muslim seinen Tag im Gedenken, Schutz und Beistand Allahs beginnt.';
+window.TRANSLATIONS['de']['azkar.hub.type2_d'] = 'Azkar von nach dem Asr bis in die Nacht, mit denen der Muslim seinen Tag im Gedenken Allahs und im Lob Seiner Gaben besiegelt.';
+window.TRANSLATIONS['de']['azkar.hub.type3_d'] = 'Tasbih, Tahmid, Takbir, das Bitten um Vergebung und überlieferte Gedenkformeln nach jedem Pflichtgebet.';
+window.TRANSLATIONS['de']['azkar.hub.type4_d'] = 'Azkar und Duas vor dem Schlafen, damit der Muslim sich im Schutz, in der Obhut und Sicherheit Allahs niederlegt.';
+window.TRANSLATIONS['de']['azkar.hub.type5_d'] = 'Die Duas des Aufsteigens, Reisens und Einkehrens und das Gedenken, das der Reisende unterwegs braucht.';
+window.TRANSLATIONS['de']['azkar.hub.type6_d'] = 'Überlieferte und umfassende Bittgebete aus dem Koran und der Sunna für verschiedene Lagen.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('de');
 }

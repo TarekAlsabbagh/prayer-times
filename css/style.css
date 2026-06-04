@@ -7811,6 +7811,17 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     gap: 16px;
     margin-top: 20px;
 }
+/* AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: heading for the cards section + spacing
+   so the SSR educational block (#azkar-hub-seo) is clearly separated from the
+   cards grid above it. Inter-section rhythm inside comes from .section-card. */
+.azkar-sections-title {
+    margin: 30px 0 4px;
+    font-size: 1.3rem;
+    font-weight: 700;
+}
+#azkar-hub-seo {
+    margin-top: 32px;
+}
 .azkar-card {
     display: flex;
     flex-direction: column;

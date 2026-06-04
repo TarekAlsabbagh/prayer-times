@@ -1381,6 +1381,100 @@ window.TRANSLATIONS['tr']['zakat.zex5_b'] = 'Satış için tutulan ticaret malla
 window.TRANSLATIONS['tr']['zakat.znote5'] = 'Altın ve gümüşü satın aldığınız gün değil, zekat verdiğiniz günkü fiyatıyla değerleyin.';
 window.TRANSLATIONS['tr']['zakat.znote6'] = 'Zekatı geciktirmemek için kameri yılda sabit bir gün seçip zekatı o gün hesaplayıp verebilirsiniz.';
 
+
+// AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1: azkar hub content keys
+window.TRANSLATIONS['tr']['azkar.hub.sections_title'] = 'Zikir bölümleri';
+window.TRANSLATIONS['tr']['azkar.hub.intro_title'] = 'Günlük zikirler nedir?';
+window.TRANSLATIONS['tr']['azkar.hub.intro_p1'] = 'Günlük zikirler, Kur’an ve Sünnet’te yer alan dualar, tesbihler ve me’sur zikirlerdir; Müslüman bunları günün belirli vakitlerinde okur: Fecir’den sonra sabah zikirleri, ikindiden sonra akşam zikirleri, her farz namazdan sonraki zikirler ve uyumadan önce uyku zikirleri. Bunlar kalbi gece gündüz Allah’a bağlı tutar.';
+window.TRANSLATIONS['tr']['azkar.hub.intro_p2'] = 'Bu sayfa zikir bölümlerini düzenli ve okunması kolay tek bir yerde toplar; tek dokunuşla sabah, akşam, namaz ve uyku zikirlerine geçersiniz. Her bölüm zikirleri tekrar sayısı ve kaynağıyla yazılı gösterir; böylece arama ve dağılma olmadan huzurla okursunuz.';
+window.TRANSLATIONS['tr']['azkar.hub.intro_p3'] = 'Günlük zikir ve dualara devam etmek, kalp huzuru ve Allah’ı anmanın en güzel yardımcılarındandır — vaktinde kolay, etkisi büyük bir sünnettir. Zikir sayfası telefon ve bilgisayarda rahat okunur; tekrarlı zikirlerde ilerlemenizi kaydeden bir sayaç vardır.';
+window.TRANSLATIONS['tr']['azkar.hub.steps_title'] = 'Zikir sayfası nasıl kullanılır';
+window.TRANSLATIONS['tr']['azkar.hub.step1_t'] = 'Bir zikir bölümü seçin';
+window.TRANSLATIONS['tr']['azkar.hub.step1_d'] = 'Kartlardan istediğiniz bölümü seçin: sabah, akşam, namaz veya uyku zikirleri.';
+window.TRANSLATIONS['tr']['azkar.hub.step2_t'] = 'Okuma sayfasını açın';
+window.TRANSLATIONS['tr']['azkar.hub.step2_d'] = 'Karta dokunun; bölüm açılır ve zikirler sırayla kaynağıyla görünür.';
+window.TRANSLATIONS['tr']['azkar.hub.step3_t'] = 'Her zikri sayısınca okuyun';
+window.TRANSLATIONS['tr']['azkar.hub.step3_d'] = 'Her zikri belirtilen sayıda okuyun ve tamamladığınızı takip için sayacı kullanın.';
+window.TRANSLATIONS['tr']['azkar.hub.step4_t'] = 'Günlük alışkanlık edinin';
+window.TRANSLATIONS['tr']['azkar.hub.step4_d'] = 'Sabah ve akşam zikirlerini her gün sürdürün; az ama sürekli zikir, dağınık çabadan hayırlıdır.';
+window.TRANSLATIONS['tr']['azkar.hub.types_title'] = 'Mevcut zikir türleri';
+window.TRANSLATIONS['tr']['azkar.hub.type1_t'] = 'Sabah zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.type1_d'] = 'Güne Allah’ı anarak başlamak için Fecir’den sonra okunan zikirler.';
+window.TRANSLATIONS['tr']['azkar.hub.type2_t'] = 'Akşam zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.type2_d'] = 'Günü Allah’ı anarak bitirmek için ikindiden sonra geceye kadar okunan zikirler.';
+window.TRANSLATIONS['tr']['azkar.hub.type3_t'] = 'Namaz sonrası zikirler';
+window.TRANSLATIONS['tr']['azkar.hub.type3_d'] = 'Her farz namazdan sonra tesbih, tahmid, tekbir ve me’sur zikirler.';
+window.TRANSLATIONS['tr']['azkar.hub.type4_t'] = 'Uyku zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.type4_d'] = 'Allah’ın korumasında uyumak için uyumadan önce okunan zikir ve dualar.';
+window.TRANSLATIONS['tr']['azkar.hub.type5_t'] = 'Yolculuk zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.type5_d'] = 'Yolcunun yolda ihtiyaç duyduğu binek, yolculuk ve konaklama duaları.';
+window.TRANSLATIONS['tr']['azkar.hub.type6_t'] = 'Kur’an ve Sünnet’ten dualar';
+window.TRANSLATIONS['tr']['azkar.hub.type6_d'] = 'Kur’an ve Sünnet’te geçen me’sur ve kapsamlı dualar.';
+window.TRANSLATIONS['tr']['azkar.hub.benefits_title'] = 'Zikre devam etmenin faydaları';
+window.TRANSLATIONS['tr']['azkar.hub.benefit1'] = 'Allah’ı anmakla kalbin huzuru ve nefsin rahatlaması.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit2'] = 'Günün başında ve sonunda Allah ile bağı tazelemek.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit3'] = 'Günü sabah zikirleriyle düzenleyip akşam zikirleriyle bitirmek.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit4'] = 'Nefse hayrı hatırlatmak ve itaate yöneltmek.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit5'] = 'Gece gündüz Allah’tan yardım dileyip O’na tevekkül etmek.';
+window.TRANSLATIONS['tr']['azkar.hub.timing_title'] = 'Zikirler ne zaman okunur?';
+window.TRANSLATIONS['tr']['azkar.hub.time1_when'] = 'Fecir’den sonra veya günün başında';
+window.TRANSLATIONS['tr']['azkar.hub.time1_what'] = 'Sabah zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.time2_when'] = 'İkindiden sonra veya geceden önce';
+window.TRANSLATIONS['tr']['azkar.hub.time2_what'] = 'Akşam zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.time3_when'] = 'Farz namazlardan sonra';
+window.TRANSLATIONS['tr']['azkar.hub.time3_what'] = 'Namaz zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.time4_when'] = 'Uyumadan önce';
+window.TRANSLATIONS['tr']['azkar.hub.time4_what'] = 'Uyku zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.time5_when'] = 'Yolculukta';
+window.TRANSLATIONS['tr']['azkar.hub.time5_what'] = 'Yolculuk zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.links_title'] = 'Zikrin yanında faydalı sayfalar';
+window.TRANSLATIONS['tr']['azkar.hub.link1_label'] = 'Namaz vakitleri';
+window.TRANSLATIONS['tr']['azkar.hub.link1_desc'] = 'Zikirlerinizi vaktinde okumak için şehrinizin beş vakit namazı.';
+window.TRANSLATIONS['tr']['azkar.hub.link2_label'] = 'Bugünün Hicri tarihi';
+window.TRANSLATIONS['tr']['azkar.hub.link2_desc'] = 'Bugüne denk gelen Hicri tarihi kolayca görün.';
+window.TRANSLATIONS['tr']['azkar.hub.link3_label'] = 'Hicri takvim';
+window.TRANSLATIONS['tr']['azkar.hub.link3_desc'] = 'Hicri yılın aylarını ve günlerini inceleyin.';
+window.TRANSLATIONS['tr']['azkar.hub.link4_label'] = 'Tarih dönüştürücü';
+window.TRANSLATIONS['tr']['azkar.hub.link4_desc'] = 'Tarihleri Hicri ve Miladi arasında tek adımda dönüştürün.';
+window.TRANSLATIONS['tr']['azkar.hub.link5_label'] = 'Dijital tesbih';
+window.TRANSLATIONS['tr']['azkar.hub.link5_desc'] = 'Sayınızı kaydeden dijital sayaçla tesbih ve zikir çekin.';
+window.TRANSLATIONS['tr']['azkar.hub.link6_label'] = 'Zekât hesaplayıcı';
+window.TRANSLATIONS['tr']['azkar.hub.link6_desc'] = 'Para, altın ve gümüş zekâtını %2,5 ile hesaplayın.';
+window.TRANSLATIONS['tr']['azkar.hub.faq_title'] = 'Zikirler hakkında sık sorulan sorular';
+window.TRANSLATIONS['tr']['azkar.hub.faq1_q'] = 'Sabah zikirleri nedir?';
+window.TRANSLATIONS['tr']['azkar.hub.faq1_a'] = 'Sabah zikirleri, günün başında, genelde Fecir namazından sonra güneşin doğuşuna yakın vakte kadar okunan me’sur zikir ve duaların tümüdür; böylece Müslüman gününe Allah’ı anarak ve O’nun korumasıyla başlar.';
+window.TRANSLATIONS['tr']['azkar.hub.faq2_q'] = 'Akşam zikirleri nedir?';
+window.TRANSLATIONS['tr']['azkar.hub.faq2_a'] = 'Akşam zikirleri, günün sonunda, genelde ikindi namazından sonra geceye kadar okunan zikir ve dualardır. Sabah zikirlerinin karşılığıdır; Müslüman günü Allah’ı anarak bunlarla bitirir.';
+window.TRANSLATIONS['tr']['azkar.hub.faq3_q'] = 'Zikirleri telefondan okuyabilir miyim?';
+window.TRANSLATIONS['tr']['azkar.hub.faq3_a'] = 'Evet. Zikirleri bu sayfada doğrudan telefon veya bilgisayardan okuyabilirsiniz; zikirler tekrar sayısı ve kaynağıyla tam yazılıdır ve sayfa her cihazda rahat okunur.';
+window.TRANSLATIONS['tr']['azkar.hub.faq4_q'] = 'Sabah ve akşam zikirlerinin vakti nedir?';
+window.TRANSLATIONS['tr']['azkar.hub.faq4_a'] = 'Sabah zikirlerinin vakti Fecir’den sonra güneşin doğuşuna yakın vakte, akşam zikirlerinin vakti ikindiden sonra geceye kadardır. Tercih edilen vakti kaçıran kişi sevabını almak için sonrasında da okuyabilir, Allah dilerse.';
+window.TRANSLATIONS['tr']['azkar.hub.faq5_q'] = 'Tüm zikirleri bir kerede okumak şart mı?';
+window.TRANSLATIONS['tr']['azkar.hub.faq5_a'] = 'Hepsini tek oturuşta okumak şart değildir; gücünüzün yettiğini okuyabilirsiniz, mümkün oldukça tamamını sürdürmek daha iyidir. Sayfadaki sayaç tamamladığınızı takip etmenize yardımcı olur.';
+window.TRANSLATIONS['tr']['azkar.hub.faq6_q'] = 'Zikir ile dua arasındaki fark nedir?';
+window.TRANSLATIONS['tr']['azkar.hub.faq6_a'] = 'Zikir; tesbih, hamd, tevhid, tekbir ve istiğfar gibi Allah’ı anmanın her türünü kapsar; dua ise Allah’tan istemektir. Birçok me’sur zikir, hem zikri hem duayı bir arada barındırır.';
+window.TRANSLATIONS['tr']['azkar.hub.faq7_q'] = 'Namazdan sonra zikir var mı?';
+window.TRANSLATIONS['tr']['azkar.hub.faq7_a'] = 'Evet. Her farz namazdan sonra okunan me’sur zikirler vardır; istiğfar, tesbih, tahmid ve tekbir bunlardandır. Namaz zikirleri bölümünü bu sayfadaki kartlar arasında bulabilirsiniz.';
+window.TRANSLATIONS['tr']['azkar.hub.faq8_q'] = 'Zikirleri her gün okumaya nasıl devam ederim?';
+window.TRANSLATIONS['tr']['azkar.hub.faq8_a'] = 'Zikirleri Fecir ve ikindi namazları sonrası gibi sabit vakitlere bağlayın ve az da olsa sürekli, günlük alışkanlık edinin. İlerlemenizi kaydeden sayaç devam etmenize yardımcı olur.';
+window.TRANSLATIONS['tr']['azkar.hub.faq9_q'] = 'Dijital tesbihi zikirlerle kullanabilir miyim?';
+window.TRANSLATIONS['tr']['azkar.hub.faq9_a'] = 'Evet. Sitedeki dijital tesbihi tesbih ve zikrinizi saymak için kullanabilirsiniz. Tesbih, tahmid ve istiğfar gibi tekrarlı zikirlerde faydalıdır ve okudukça sayınızı saklar.';
+
+
+// AZKAR-HUB content depth expansion
+window.TRANSLATIONS['tr']['azkar.hub.intro_p4'] = 'Bu sayfadaki zikirler, Kur’an ve Sünnet’te sabit olan me’sur zikirlerden seçilmiştir ve nakledildiği şekliyle kaynağı ve tekrar sayısıyla sunulur. Onları yalnızca dili kıpırdatarak değil, düşünerek ve kalp huzuruyla okumak daha iyidir; zikrin faydası ve tesiri böyle artar. Sayfa, her bölüme kolay erişimi, gün geçtikçe devam etmenize yardımcı olan açık bir düzenle birleştirir.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit1'] = 'Allah’ı sürekli anmakla kalbin huzuru, nefsin rahatlaması ve gam ile kaygının gitmesi.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit2'] = 'Günün başında ve sonunda Allah ile bağı tazelemek ve O’nun korumasında olmak.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit3'] = 'Günü sabah zikirleriyle düzenleyip akşam zikirleriyle sabit bir düzende bitirmek.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit4'] = 'Nefse hayrı hatırlatmak, onu itaate yöneltmek ve gafletten uzaklaştırmak.';
+window.TRANSLATIONS['tr']['azkar.hub.benefit5'] = 'Allah’tan yardım dilemek, O’na güzelce tevekkül etmek ve gece gündüz yardımını istemek.';
+window.TRANSLATIONS['tr']['azkar.hub.type1_d'] = 'Fecir namazından sonra günün başında okunan zikirler; Müslüman gününe Allah’ın zikri, koruması ve yardımıyla başlar.';
+window.TRANSLATIONS['tr']['azkar.hub.type2_d'] = 'İkindiden sonra geceye kadar okunan zikirler; Müslüman gününü Allah’ın zikri ve nimetlerine hamd ile bitirir.';
+window.TRANSLATIONS['tr']['azkar.hub.type3_d'] = 'Her farz namazdan sonra okunan tesbih, tahmid, tekbir, istiğfar ve me’sur zikirler.';
+window.TRANSLATIONS['tr']['azkar.hub.type4_d'] = 'Uyumadan önce okunan zikir ve dualar; Müslüman yatağına Allah’ın koruması ve güvenliğiyle çekilir.';
+window.TRANSLATIONS['tr']['azkar.hub.type5_d'] = 'Binek, yolculuk ve konaklama duaları ile yolcunun yolda ihtiyaç duyduğu zikir.';
+window.TRANSLATIONS['tr']['azkar.hub.type6_d'] = 'Kur’an ve Sünnet’te geçen, farklı haller için me’sur ve kapsamlı dualar.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('tr');
 }

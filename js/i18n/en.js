@@ -1687,6 +1687,15 @@ window.TRANSLATIONS['en']['azkar.hub.type4_d'] = 'Azkar and duas said before sle
 window.TRANSLATIONS['en']['azkar.hub.type5_d'] = 'The duas of mounting, travelling and stopping at a place, and the remembrance a traveller needs along the way.';
 window.TRANSLATIONS['en']['azkar.hub.type6_d'] = 'Reported and comprehensive supplications found in the Quran and the Sunnah for different situations.';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['en']['azkar.hub.card_prayer_title'] = 'Prayer Azkar';
+window.TRANSLATIONS['en']['azkar.hub.card_prayer_desc'] = 'Wudu, mosque, ruku, sujud and after-salam azkar in order.';
+window.TRANSLATIONS['en']['azkar.hub.card_prayer_count'] = '17 azkar';
+window.TRANSLATIONS['en']['azkar.hub.card_prayer_time'] = '10–15 min';
+window.TRANSLATIONS['en']['azkar.hub.card_evening_count'] = '23 azkar';
+window.TRANSLATIONS['en']['azkar.hub.card_evening_time'] = '10–15 min';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('en');
 }

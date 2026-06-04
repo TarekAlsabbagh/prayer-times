@@ -1475,6 +1475,44 @@ window.TRANSLATIONS['tr']['azkar.hub.type4_d'] = 'Uyumadan önce okunan zikir ve
 window.TRANSLATIONS['tr']['azkar.hub.type5_d'] = 'Binek, yolculuk ve konaklama duaları ile yolcunun yolda ihtiyaç duyduğu zikir.';
 window.TRANSLATIONS['tr']['azkar.hub.type6_d'] = 'Kur’an ve Sünnet’te geçen, farklı haller için me’sur ve kapsamlı dualar.';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['tr']['azkar.hub.card_morning_title'] = 'Sabah zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_morning_desc'] = 'Güne Allah’ı anarak başlayın — Fecir’den sonra okunur.';
+window.TRANSLATIONS['tr']['azkar.hub.card_morning_count'] = '10 zikir';
+window.TRANSLATIONS['tr']['azkar.hub.card_morning_time'] = '~5–8 dk';
+window.TRANSLATIONS['tr']['azkar.hub.card_evening_title'] = 'Akşam zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_evening_desc'] = 'İkindiden sonra akşama kadar okunur.';
+window.TRANSLATIONS['tr']['azkar.hub.card_evening_count'] = '23 zikir';
+window.TRANSLATIONS['tr']['azkar.hub.card_evening_time'] = '10–15 dk';
+window.TRANSLATIONS['tr']['azkar.hub.card_prayer_title'] = 'Namaz zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_prayer_desc'] = 'Abdest, cami, rükû, secde ve selam sonrası zikirler sırayla.';
+window.TRANSLATIONS['tr']['azkar.hub.card_prayer_count'] = '17 zikir';
+window.TRANSLATIONS['tr']['azkar.hub.card_prayer_time'] = '10–15 dk';
+window.TRANSLATIONS['tr']['azkar.hub.card_sleep_title'] = 'Uyku zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_sleep_desc'] = 'Allah’ın koruması için uyumadan önce okunur.';
+window.TRANSLATIONS['tr']['azkar.hub.card_wake_title'] = 'Uyanma zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_wake_desc'] = 'Bizi namaza dirilttiği için Allah’a hamd.';
+window.TRANSLATIONS['tr']['azkar.hub.card_travel_title'] = 'Yolculuk zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_travel_desc'] = 'Binek, yolculuk ve konaklama duaları.';
+window.TRANSLATIONS['tr']['azkar.hub.card_food_drink_title'] = 'Yeme ve içme zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_food_drink_desc'] = 'Yemekten ve içmekten önce ve sonra.';
+window.TRANSLATIONS['tr']['azkar.hub.card_mosque_title'] = 'Camiye giriş ve çıkış zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_mosque_desc'] = 'Camiye girerken ve çıkarken sünnet.';
+window.TRANSLATIONS['tr']['azkar.hub.card_istighfar_title'] = 'İstiğfar ve tesbih zikirleri';
+window.TRANSLATIONS['tr']['azkar.hub.card_istighfar_desc'] = 'Seçilmiş istiğfar ve zikir formülleri.';
+window.TRANSLATIONS['tr']['azkar.hub.card_quran_sunnah_title'] = 'Kur’an ve Sünnet’ten dualar';
+window.TRANSLATIONS['tr']['azkar.hub.card_quran_sunnah_desc'] = 'Kur’an ve Nebevî Sünnet’ten me’sur dualar.';
+window.TRANSLATIONS['tr']['azkar.hub.card_start_btn'] = 'Okumaya başla';
+window.TRANSLATIONS['tr']['azkar.hub.card_soon_badge'] = 'Yakında';
+
+
+// AZKAR-HUB-CARD-L10N-FIX-1 (hero title/subtitle + legacy after_prayer)
+window.TRANSLATIONS['tr']['azkar.hub.title'] = 'Azkar';
+window.TRANSLATIONS['tr']['azkar.hub.subtitle'] = 'Okumak istediğiniz bölümü seçin. Sabah, akşam ve namaz zikirleri hazır; geri kalanı yakında, inşallah.';
+window.TRANSLATIONS['tr']['azkar.hub.card_after_prayer_title'] = 'Namaz sonrası zikirler';
+window.TRANSLATIONS['tr']['azkar.hub.card_after_prayer_desc'] = 'Her farz namazdan sonra tesbih, tahmid ve tekbir.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('tr');
 }

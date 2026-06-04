@@ -1531,6 +1531,44 @@ window.TRANSLATIONS['id']['azkar.hub.type4_d'] = 'Zikir dan doa sebelum tidur, a
 window.TRANSLATIONS['id']['azkar.hub.type5_d'] = 'Doa naik kendaraan, bepergian, dan singgah, serta zikir yang dibutuhkan musafir di perjalanan.';
 window.TRANSLATIONS['id']['azkar.hub.type6_d'] = 'Doa ma’tsur dan menyeluruh yang terdapat dalam Al-Quran dan Sunnah untuk berbagai keadaan.';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['id']['azkar.hub.card_morning_title'] = 'Zikir pagi';
+window.TRANSLATIONS['id']['azkar.hub.card_morning_desc'] = 'Mulai hari dengan mengingat Allah — dibaca setelah Subuh.';
+window.TRANSLATIONS['id']['azkar.hub.card_morning_count'] = '10 zikir';
+window.TRANSLATIONS['id']['azkar.hub.card_morning_time'] = '~5–8 menit';
+window.TRANSLATIONS['id']['azkar.hub.card_evening_title'] = 'Zikir petang';
+window.TRANSLATIONS['id']['azkar.hub.card_evening_desc'] = 'Dibaca setelah Asar hingga Magrib.';
+window.TRANSLATIONS['id']['azkar.hub.card_evening_count'] = '23 zikir';
+window.TRANSLATIONS['id']['azkar.hub.card_evening_time'] = '10–15 menit';
+window.TRANSLATIONS['id']['azkar.hub.card_prayer_title'] = 'Zikir salat';
+window.TRANSLATIONS['id']['azkar.hub.card_prayer_desc'] = 'Zikir wudu, masjid, rukuk, sujud, dan setelah salam secara berurutan.';
+window.TRANSLATIONS['id']['azkar.hub.card_prayer_count'] = '17 zikir';
+window.TRANSLATIONS['id']['azkar.hub.card_prayer_time'] = '10–15 menit';
+window.TRANSLATIONS['id']['azkar.hub.card_sleep_title'] = 'Zikir tidur';
+window.TRANSLATIONS['id']['azkar.hub.card_sleep_desc'] = 'Dibaca sebelum tidur untuk penjagaan Allah.';
+window.TRANSLATIONS['id']['azkar.hub.card_wake_title'] = 'Zikir bangun tidur';
+window.TRANSLATIONS['id']['azkar.hub.card_wake_desc'] = 'Memuji Allah setelah dibangunkan untuk salat.';
+window.TRANSLATIONS['id']['azkar.hub.card_travel_title'] = 'Zikir perjalanan';
+window.TRANSLATIONS['id']['azkar.hub.card_travel_desc'] = 'Doa naik kendaraan, bepergian, dan singgah.';
+window.TRANSLATIONS['id']['azkar.hub.card_food_drink_title'] = 'Zikir makan dan minum';
+window.TRANSLATIONS['id']['azkar.hub.card_food_drink_desc'] = 'Sebelum dan sesudah makan atau minum.';
+window.TRANSLATIONS['id']['azkar.hub.card_mosque_title'] = 'Zikir masuk dan keluar masjid';
+window.TRANSLATIONS['id']['azkar.hub.card_mosque_desc'] = 'Sunnah saat masuk dan keluar masjid.';
+window.TRANSLATIONS['id']['azkar.hub.card_istighfar_title'] = 'Zikir istigfar dan tasbih';
+window.TRANSLATIONS['id']['azkar.hub.card_istighfar_desc'] = 'Pilihan bentuk istigfar dan zikir.';
+window.TRANSLATIONS['id']['azkar.hub.card_quran_sunnah_title'] = 'Doa dari Quran dan Sunnah';
+window.TRANSLATIONS['id']['azkar.hub.card_quran_sunnah_desc'] = 'Doa ma’tsur dari Al-Quran dan Sunnah Nabi.';
+window.TRANSLATIONS['id']['azkar.hub.card_start_btn'] = 'Mulai membaca';
+window.TRANSLATIONS['id']['azkar.hub.card_soon_badge'] = 'Segera';
+
+
+// AZKAR-HUB-CARD-L10N-FIX-1 (hero title/subtitle + legacy after_prayer)
+window.TRANSLATIONS['id']['azkar.hub.title'] = 'Azkar';
+window.TRANSLATIONS['id']['azkar.hub.subtitle'] = 'Pilih bagian yang ingin Anda baca. Zikir pagi, petang, dan salat sudah tersedia; sisanya segera menyusul, insya Allah.';
+window.TRANSLATIONS['id']['azkar.hub.card_after_prayer_title'] = 'Zikir setelah salat';
+window.TRANSLATIONS['id']['azkar.hub.card_after_prayer_desc'] = 'Tasbih, tahmid, dan takbir setelah setiap salat wajib.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('id');
 }

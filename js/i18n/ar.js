@@ -1763,6 +1763,15 @@ window.TRANSLATIONS['ar']['azkar.hub.type4_d'] = 'أذكار وأدعية تُق
 window.TRANSLATIONS['ar']['azkar.hub.type5_d'] = 'دعاء الركوب والسفر والنزول في منزل، وما يحتاجه المسافر من ذكرٍ ودعاء في طريقه.';
 window.TRANSLATIONS['ar']['azkar.hub.type6_d'] = 'أدعية مأثورة وجوامع من الدعاء وردت في القرآن الكريم والسنّة النبويّة لمختلف الأحوال.';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['ar']['azkar.hub.card_prayer_title'] = 'أذكار الصلاة';
+window.TRANSLATIONS['ar']['azkar.hub.card_prayer_desc'] = 'أذكار الوضوء والمسجد والركوع والسجود وما بعد السلام بالترتيب.';
+window.TRANSLATIONS['ar']['azkar.hub.card_prayer_count'] = '17 ذكرًا';
+window.TRANSLATIONS['ar']['azkar.hub.card_prayer_time'] = '10–15 دقيقة';
+window.TRANSLATIONS['ar']['azkar.hub.card_evening_count'] = '23 ذكرًا';
+window.TRANSLATIONS['ar']['azkar.hub.card_evening_time'] = '10–15 دقيقة';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ar');
 }

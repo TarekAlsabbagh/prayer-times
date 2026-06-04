@@ -1531,6 +1531,44 @@ window.TRANSLATIONS['bn']['azkar.hub.type4_d'] = 'ঘুমানোর আগ�
 window.TRANSLATIONS['bn']['azkar.hub.type5_d'] = 'বাহনে চড়া, সফর ও কোথাও অবতরণের দোয়া এবং মুসাফিরের পথে প্রয়োজনীয় যিকির।';
 window.TRANSLATIONS['bn']['azkar.hub.type6_d'] = 'কুরআন ও সুন্নাহে বিভিন্ন অবস্থার জন্য বর্ণিত মাসনুন ও ব্যাপক দোয়াসমূহ।';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['bn']['azkar.hub.card_morning_title'] = 'সকালের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_morning_desc'] = 'আল্লাহর স্মরণে দিন শুরু করুন — ফজরের পর পড়া হয়।';
+window.TRANSLATIONS['bn']['azkar.hub.card_morning_count'] = '১০ যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_morning_time'] = '~৫–৮ মিনিট';
+window.TRANSLATIONS['bn']['azkar.hub.card_evening_title'] = 'সন্ধ্যার যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_evening_desc'] = 'আসরের পর মাগরিব পর্যন্ত পড়া হয়।';
+window.TRANSLATIONS['bn']['azkar.hub.card_evening_count'] = '২৩ যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_evening_time'] = '১০–১৫ মিনিট';
+window.TRANSLATIONS['bn']['azkar.hub.card_prayer_title'] = 'নামাজের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_prayer_desc'] = 'অজু, মসজিদ, রুকু, সিজদা ও সালামের পরের যিকির ক্রমানুসারে।';
+window.TRANSLATIONS['bn']['azkar.hub.card_prayer_count'] = '১৭ যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_prayer_time'] = '১০–১৫ মিনিট';
+window.TRANSLATIONS['bn']['azkar.hub.card_sleep_title'] = 'ঘুমের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_sleep_desc'] = 'আল্লাহর হিফাজতের জন্য ঘুমানোর আগে পড়া হয়।';
+window.TRANSLATIONS['bn']['azkar.hub.card_wake_title'] = 'ঘুম থেকে ওঠার যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_wake_desc'] = 'নামাজের জন্য জাগিয়ে তোলার পর আল্লাহর প্রশংসা।';
+window.TRANSLATIONS['bn']['azkar.hub.card_travel_title'] = 'সফরের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_travel_desc'] = 'বাহনে চড়া, সফর ও অবতরণের দোয়া।';
+window.TRANSLATIONS['bn']['azkar.hub.card_food_drink_title'] = 'খাওয়া ও পানের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_food_drink_desc'] = 'খাওয়া বা পানের আগে ও পরে।';
+window.TRANSLATIONS['bn']['azkar.hub.card_mosque_title'] = 'মসজিদে প্রবেশ ও বের হওয়ার যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_mosque_desc'] = 'মসজিদে প্রবেশ ও বের হওয়ার সুন্নাহ।';
+window.TRANSLATIONS['bn']['azkar.hub.card_istighfar_title'] = 'ইস্তিগফার ও তাসবিহের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_istighfar_desc'] = 'ক্ষমা প্রার্থনা ও যিকিরের নির্বাচিত রূপ।';
+window.TRANSLATIONS['bn']['azkar.hub.card_quran_sunnah_title'] = 'কুরআন ও সুন্নাহর দোয়া';
+window.TRANSLATIONS['bn']['azkar.hub.card_quran_sunnah_desc'] = 'কুরআন ও নববী সুন্নাহ থেকে বর্ণিত দোয়া।';
+window.TRANSLATIONS['bn']['azkar.hub.card_start_btn'] = 'পড়া শুরু করুন';
+window.TRANSLATIONS['bn']['azkar.hub.card_soon_badge'] = 'শীঘ্রই';
+
+
+// AZKAR-HUB-CARD-L10N-FIX-1 (hero title/subtitle + legacy after_prayer)
+window.TRANSLATIONS['bn']['azkar.hub.title'] = 'আযকার';
+window.TRANSLATIONS['bn']['azkar.hub.subtitle'] = 'যে বিভাগটি পড়তে চান বেছে নিন। সকাল, সন্ধ্যা ও নামাজের যিকির এখন উপলব্ধ — বাকিগুলো শীঘ্রই আসছে, ইনশাআল্লাহ।';
+window.TRANSLATIONS['bn']['azkar.hub.card_after_prayer_title'] = 'নামাজের পরের যিকির';
+window.TRANSLATIONS['bn']['azkar.hub.card_after_prayer_desc'] = 'প্রতিটি ফরজ নামাজের পর তাসবিহ, তাহমিদ ও তাকবির।';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('bn');
 }

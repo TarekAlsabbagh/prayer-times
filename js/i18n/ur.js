@@ -1442,6 +1442,44 @@ window.TRANSLATIONS['ur']['azkar.hub.type4_d'] = 'سونے سے پہلے پڑھ�
 window.TRANSLATIONS['ur']['azkar.hub.type5_d'] = 'سواری، سفر اور منزل میں اترنے کی دعائیں اور وہ ذکر جو مسافر کو راستے میں درکار ہوتا ہے۔';
 window.TRANSLATIONS['ur']['azkar.hub.type6_d'] = 'قرآن کریم اور سنّتِ نبویہ میں مختلف احوال کے لیے وارد مأثور اور جامع دعائیں۔';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['ur']['azkar.hub.card_morning_title'] = 'صبح کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_morning_desc'] = 'دن کا آغاز اللہ کی یاد سے کریں — فجر کے بعد پڑھے جاتے ہیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_morning_count'] = '10 اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_morning_time'] = '~5–8 منٹ';
+window.TRANSLATIONS['ur']['azkar.hub.card_evening_title'] = 'شام کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_evening_desc'] = 'عصر کے بعد مغرب تک پڑھے جاتے ہیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_evening_count'] = '23 اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_evening_time'] = '10–15 منٹ';
+window.TRANSLATIONS['ur']['azkar.hub.card_prayer_title'] = 'نماز کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_prayer_desc'] = 'وضو، مسجد، رکوع، سجود اور سلام کے بعد کے اذکار ترتیب سے۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_prayer_count'] = '17 اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_prayer_time'] = '10–15 منٹ';
+window.TRANSLATIONS['ur']['azkar.hub.card_sleep_title'] = 'نیند کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_sleep_desc'] = 'اللہ کی حفاظت کے لیے سونے سے پہلے پڑھے جاتے ہیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_wake_title'] = 'بیداری کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_wake_desc'] = 'نماز کے لیے زندہ کرنے پر اللہ کی حمد۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_travel_title'] = 'سفر کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_travel_desc'] = 'سواری، سفر اور منزل میں اترنے کی دعائیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_food_drink_title'] = 'کھانے پینے کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_food_drink_desc'] = 'کھانے پینے سے پہلے اور بعد میں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_mosque_title'] = 'مسجد میں داخلے و خروج کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_mosque_desc'] = 'مسجد میں داخل ہوتے اور نکلتے وقت کی سنّت۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_istighfar_title'] = 'استغفار و تسبیح کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_istighfar_desc'] = 'استغفار اور ذکر کی منتخب صورتیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_quran_sunnah_title'] = 'قرآن و سنت سے دعائیں';
+window.TRANSLATIONS['ur']['azkar.hub.card_quran_sunnah_desc'] = 'قرآن کریم اور سنّتِ نبویہ سے مأثور دعائیں۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_start_btn'] = 'پڑھنا شروع کریں';
+window.TRANSLATIONS['ur']['azkar.hub.card_soon_badge'] = 'جلد';
+
+
+// AZKAR-HUB-CARD-L10N-FIX-1 (hero title/subtitle + legacy after_prayer)
+window.TRANSLATIONS['ur']['azkar.hub.title'] = 'اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.subtitle'] = 'وہ قسم چنیں جو آپ پڑھنا چاہتے ہیں۔ صبح، شام اور نماز کے اذکار دستیاب ہیں — باقی اقسام جلد، ان شاء اللہ۔';
+window.TRANSLATIONS['ur']['azkar.hub.card_after_prayer_title'] = 'نماز کے بعد کے اذکار';
+window.TRANSLATIONS['ur']['azkar.hub.card_after_prayer_desc'] = 'ہر فرض نماز کے بعد تسبیح، تحمید اور تکبیر۔';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ur');
 }

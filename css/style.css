@@ -7861,6 +7861,18 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     border-radius: 999px;
     letter-spacing: 0.2px;
 }
+/* AZKAR-HUB-CARD-L10N-FIX-1 (2026-06-04): localize the "soon" badge per UI
+   language (the ::after content cannot read i18n, so override by :lang()).
+   Arabic keeps the default 'قريبًا' above. Responds to SPA lang switch too. */
+html:lang(en) .azkar-card--soon::after { content: 'Soon'; }
+html:lang(fr) .azkar-card--soon::after { content: 'Bientôt'; }
+html:lang(tr) .azkar-card--soon::after { content: 'Yakında'; }
+html:lang(ur) .azkar-card--soon::after { content: 'جلد'; }
+html:lang(de) .azkar-card--soon::after { content: 'Bald'; }
+html:lang(id) .azkar-card--soon::after { content: 'Segera'; }
+html:lang(es) .azkar-card--soon::after { content: 'Pronto'; }
+html:lang(bn) .azkar-card--soon::after { content: 'শীঘ্রই'; }
+html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
 .azkar-card-icon {
     font-size: 2rem;
     line-height: 1;

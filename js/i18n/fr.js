@@ -1472,6 +1472,44 @@ window.TRANSLATIONS['fr']['azkar.hub.type4_d'] = 'Azkar et invocations dits avan
 window.TRANSLATIONS['fr']['azkar.hub.type5_d'] = 'Les invocations de la monture, du voyage et de l’étape, et le rappel dont le voyageur a besoin en chemin.';
 window.TRANSLATIONS['fr']['azkar.hub.type6_d'] = 'Invocations rapportées et complètes présentes dans le Coran et la Sunna pour différentes situations.';
 
+
+// AZKAR-HUB-CARD-L10N-FIX-1: localize hub card chrome
+window.TRANSLATIONS['fr']['azkar.hub.card_morning_title'] = 'Azkar du matin';
+window.TRANSLATIONS['fr']['azkar.hub.card_morning_desc'] = 'Commencez la journée par le rappel d’Allah — dits après le Fajr.';
+window.TRANSLATIONS['fr']['azkar.hub.card_morning_count'] = '10 azkars';
+window.TRANSLATIONS['fr']['azkar.hub.card_morning_time'] = '~5–8 min';
+window.TRANSLATIONS['fr']['azkar.hub.card_evening_title'] = 'Azkar du soir';
+window.TRANSLATIONS['fr']['azkar.hub.card_evening_desc'] = 'Dits après le Asr jusqu’au Maghrib.';
+window.TRANSLATIONS['fr']['azkar.hub.card_evening_count'] = '23 azkars';
+window.TRANSLATIONS['fr']['azkar.hub.card_evening_time'] = '10–15 min';
+window.TRANSLATIONS['fr']['azkar.hub.card_prayer_title'] = 'Azkar de la prière';
+window.TRANSLATIONS['fr']['azkar.hub.card_prayer_desc'] = 'Azkar des ablutions, de la mosquée, du roukou, du soujoud et après le salam, dans l’ordre.';
+window.TRANSLATIONS['fr']['azkar.hub.card_prayer_count'] = '17 azkars';
+window.TRANSLATIONS['fr']['azkar.hub.card_prayer_time'] = '10–15 min';
+window.TRANSLATIONS['fr']['azkar.hub.card_sleep_title'] = 'Azkar du sommeil';
+window.TRANSLATIONS['fr']['azkar.hub.card_sleep_desc'] = 'Dits avant de dormir pour la protection d’Allah.';
+window.TRANSLATIONS['fr']['azkar.hub.card_wake_title'] = 'Azkar du réveil';
+window.TRANSLATIONS['fr']['azkar.hub.card_wake_desc'] = 'Louange à Allah après nous avoir ranimés pour la prière.';
+window.TRANSLATIONS['fr']['azkar.hub.card_travel_title'] = 'Azkar du voyage';
+window.TRANSLATIONS['fr']['azkar.hub.card_travel_desc'] = 'Invocations de la monture, du voyage et de l’étape.';
+window.TRANSLATIONS['fr']['azkar.hub.card_food_drink_title'] = 'Azkar du repas et de la boisson';
+window.TRANSLATIONS['fr']['azkar.hub.card_food_drink_desc'] = 'Avant et après manger ou boire.';
+window.TRANSLATIONS['fr']['azkar.hub.card_mosque_title'] = 'Azkar d’entrée et de sortie de la mosquée';
+window.TRANSLATIONS['fr']['azkar.hub.card_mosque_desc'] = 'La sunna en entrant et en sortant de la mosquée.';
+window.TRANSLATIONS['fr']['azkar.hub.card_istighfar_title'] = 'Azkar d’istighfar et de tasbih';
+window.TRANSLATIONS['fr']['azkar.hub.card_istighfar_desc'] = 'Une sélection de formules de demande de pardon et de rappel.';
+window.TRANSLATIONS['fr']['azkar.hub.card_quran_sunnah_title'] = 'Invocations du Coran et de la Sunna';
+window.TRANSLATIONS['fr']['azkar.hub.card_quran_sunnah_desc'] = 'Invocations rapportées du Coran et de la Sunna prophétique.';
+window.TRANSLATIONS['fr']['azkar.hub.card_start_btn'] = 'Commencer la lecture';
+window.TRANSLATIONS['fr']['azkar.hub.card_soon_badge'] = 'Bientôt';
+
+
+// AZKAR-HUB-CARD-L10N-FIX-1 (hero title/subtitle + legacy after_prayer)
+window.TRANSLATIONS['fr']['azkar.hub.title'] = 'Azkar';
+window.TRANSLATIONS['fr']['azkar.hub.subtitle'] = 'Choisissez la section à lire. Les azkar du matin, du soir et de la prière sont disponibles ; le reste arrive bientôt, in cha Allah.';
+window.TRANSLATIONS['fr']['azkar.hub.card_after_prayer_title'] = 'Azkar après la prière';
+window.TRANSLATIONS['fr']['azkar.hub.card_after_prayer_desc'] = 'Tasbih, tahmid et takbir après chaque prière obligatoire.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('fr');
 }

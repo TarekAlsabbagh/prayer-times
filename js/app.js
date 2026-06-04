@@ -845,8 +845,44 @@ function getDisplayCity() {
             && !/[A-Za-z]/.test(currentCity)) {
             const _hasArBlock = /[؀-ۿ]/.test(currentCity);
             const _hasBnBlock = /[ঀ-৿]/.test(currentCity);
-            if ((lang === 'ur' && _hasArBlock)
-                || (lang === 'bn' && _hasBnBlock)) {
+            if (lang === 'ur' && _hasArBlock) {
+                // PRAYER-COUNTDOWN-CITY-NAME-L10N-SURFACE-FIX-1 (2026-06-05):
+                // The Arabic Unicode block (U+0600–06FF) is SHARED by Arabic
+                // and Urdu, so `_hasArBlock` cannot distinguish a genuine Urdu
+                // name ("مدینہ منورہ") from an ARABIC one ("المدينة المنورة")
+                // that leaked into `currentCity` via a warm visit from an /ar/
+                // page (stale sessionStorage seed). On a /ur/ countdown page
+                // that produced "المدينة المنورة" in the H1 / CTA / SEO
+                // paragraph / sticky bar while <title> + related-links
+                // correctly stayed "Madinah" — a visible Arabic-into-Urdu leak.
+                //
+                // The SSR `<meta name="ssr-city-name">` is the server's
+                // authoritative page-lang resolver output (curated names.ur,
+                // or names.en fallback when no Urdu exists — both already
+                // script-validated). It is ALWAYS at least as correct as a
+                // stale `currentCity`, whether it is a real Urdu name ("مکہ"
+                // for /ur/makkah) or a Latin en-fallback ("Madinah" for
+                // /ur/madinah). Prefer it unconditionally; only fall back to
+                // `currentCity` when no meta exists (non-city pages). This
+                // rejects the cross-language Arabic seed for BOTH the
+                // Latin-SSR case (madinah) AND the Urdu-SSR case (makkah,
+                // riyadh, cairo — curated Urdu names a warm /ar/ visit would
+                // otherwise overwrite), so every client-rendered surface
+                // matches the SSR <title> + related-links.
+                try {
+                    const _m = (typeof document !== 'undefined')
+                        && document.querySelector('meta[name="ssr-city-name"]');
+                    const _ssr = _m && (_m.getAttribute('content') || '').trim();
+                    if (_ssr) return _ssr;
+                } catch (_) {}
+                return currentCity;
+            }
+            if (lang === 'bn' && _hasBnBlock) {
+                // Bengali block (U+0980–09FF) is DISTINCT from Arabic, so an
+                // Arabic `currentCity` never reaches here (it fails
+                // _hasBnBlock and falls through to the localized-map chain
+                // below, which yields the proper Bengali name). No shared-
+                // block ambiguity to guard against.
                 return currentCity;
             }
         }
@@ -7957,12 +7993,23 @@ function _syncCityNameInDom() {
     }
     if (!goodName || goodName === ssrName) return;
 
-    // Final safety: even if a goodName passed all guards but the SSR name
-    // is ALREADY a clean Arabic/Urdu/Bengali name (no Latin), don't
-    // replace it on absence-lang pages. This protects against edge cases
+    // Final safety: if the SSR name is ALREADY a clean Arabic/Urdu/Bengali
+    // name (no Latin), don't replace it on absence-lang pages — the server's
+    // curated resolver is authoritative. This protects against edge cases
     // where `currentCity` got a slightly-different spelling than the SSR
-    // (e.g. "بروفنس" vs "بروفانس") — we trust the server's curated resolver.
-    if (_isAbsenceLang && !_hasLatin(ssrName) && _hasLatin(goodName)) return;
+    // (e.g. "بروفنس" vs "بروفانس").
+    //
+    // PRAYER-COUNTDOWN-CITY-NAME-L10N-SURFACE-FIX-1 (2026-06-05): the prior
+    // form also required `_hasLatin(goodName)`, so it ONLY blocked Latin
+    // goodNames and MISSED the cross-script case where goodName is Arabic.
+    // On a warm /ur/makkah visit, `currentCity` = "مكة المكرمة" (Arabic) and
+    // the SSR name = "مکہ" (Urdu) — both in the shared Arabic Unicode block,
+    // both non-Latin — so the walker overwrote the correct Urdu "مکہ" with
+    // the leaked Arabic "مكة المكرمة" across H1 / hero / CTA / SEO / meta on
+    // every curated Urdu city (makkah, riyadh, cairo …). Dropping the
+    // `_hasLatin(goodName)` clause makes the code match its stated intent:
+    // a non-Latin SSR name on an absence-lang page is NEVER overwritten.
+    if (_isAbsenceLang && !_hasLatin(ssrName)) return;
 
     // CITY-NAME-FALLBACK-CONSISTENCY-1 (2026-05-20): REVERSE guard for
     // absence-langs — if the SSR name is the canonical Latin en-fallback
@@ -13457,8 +13504,29 @@ function getCurrentCityLabel() {
             && !/[A-Za-z]/.test(currentCity)) {
             const _hasArabicBlock  = /[؀-ۿ]/.test(currentCity);
             const _hasBengaliBlock = /[ঀ-৿]/.test(currentCity);
-            if ((_ln === 'ur' && _hasArabicBlock)
-                || (_ln === 'bn' && _hasBengaliBlock)) {
+            if (_ln === 'ur' && _hasArabicBlock) {
+                // PRAYER-COUNTDOWN-CITY-NAME-L10N-SURFACE-FIX-1 (2026-06-05):
+                // twin of the getDisplayCity() guard. The Arabic Unicode
+                // block is shared by Arabic and Urdu, so a warm-visit Arabic
+                // `currentCity` ("المدينة المنورة") passes _hasArabicBlock and
+                // leaked into #snb-city / #loc-hero-title / aria-labels on
+                // /ur/ pages on warm /ar/ visits. The SSR `ssr-city-name` meta
+                // is authoritative whether it is a real Urdu name ("مکہ" for
+                // /ur/makkah) or a Latin en-fallback ("Madinah" for
+                // /ur/madinah). Prefer it unconditionally; fall back to
+                // `currentCity` only when no meta exists. Covers both the
+                // Latin-SSR (madinah) and Urdu-SSR (makkah/riyadh/cairo) cases.
+                try {
+                    const _m = (typeof document !== 'undefined')
+                        && document.querySelector('meta[name="ssr-city-name"]');
+                    const _ssr = _m && (_m.getAttribute('content') || '').trim();
+                    if (_ssr) return _strip(_ssr);
+                } catch (_) {}
+                return _strip(currentCity);
+            }
+            if (_ln === 'bn' && _hasBengaliBlock) {
+                // Bengali block is distinct from Arabic — no shared-block
+                // ambiguity; an Arabic currentCity never reaches here.
                 return _strip(currentCity);
             }
         }

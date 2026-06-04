@@ -1538,6 +1538,61 @@ window.TRANSLATIONS['en']['tile.title_pattern'] = 'Prayer times today in {city}'
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['en']['zakat.guide.title'] = 'Guide to the zakat calculator and calculating zakat on money';
+window.TRANSLATIONS['en']['zakat.guide.text'] = 'The zakat calculator helps you calculate the zakat due on money, gold, silver, savings and investments using the well-known zakat rate of 2.5%. Enter the value of your zakatable wealth to find the estimated zakat amount, taking into account reaching the nisab and the passing of a full lunar year.';
+window.TRANSLATIONS['en']['zakat.zsteps_title'] = 'How to use the zakat calculator step by step';
+window.TRANSLATIONS['en']['zakat.zstep1_t'] = 'Enter your wealth';
+window.TRANSLATIONS['en']['zakat.zstep1_d'] = 'Type the value of cash, savings, gold, silver and investments subject to zakat.';
+window.TRANSLATIONS['en']['zakat.zstep2_t'] = 'Choose the asset type';
+window.TRANSLATIONS['en']['zakat.zstep2_d'] = 'Select each asset type (cash, gold or silver) so its zakat is calculated correctly.';
+window.TRANSLATIONS['en']['zakat.zstep3_t'] = 'Check the nisab';
+window.TRANSLATIONS['en']['zakat.zstep3_d'] = 'Make sure your wealth reaches the zakat nisab and a full lunar year has passed.';
+window.TRANSLATIONS['en']['zakat.zstep4_t'] = 'Read the zakat amount';
+window.TRANSLATIONS['en']['zakat.zstep4_d'] = 'The calculator shows the zakat amount due at 2.5% of your net zakatable wealth.';
+window.TRANSLATIONS['en']['zakat.zex_title'] = 'Examples of calculating zakat';
+window.TRANSLATIONS['en']['zakat.zex_intro'] = 'Illustrative examples of calculating zakat at 2.5%; the values are estimates for easy understanding.';
+window.TRANSLATIONS['en']['zakat.zex1_t'] = 'Zakat on money example';
+window.TRANSLATIONS['en']['zakat.zex1_b'] = 'If the zakatable money is 100,000, the zakat amount on money at 2.5% is 2,500.';
+window.TRANSLATIONS['en']['zakat.zex2_t'] = 'Gold zakat example';
+window.TRANSLATIONS['en']['zakat.zex2_b'] = 'If the zakatable gold value is 40,000 and it reaches the nisab, the gold zakat due is 1,000.';
+window.TRANSLATIONS['en']['zakat.zex3_t'] = 'Savings zakat example';
+window.TRANSLATIONS['en']['zakat.zex3_b'] = 'If savings reach 200,000 and a lunar year has passed, the zakat amount is 5,000.';
+window.TRANSLATIONS['en']['zakat.znotes_title'] = 'Important notes before paying zakat';
+window.TRANSLATIONS['en']['zakat.znote1'] = 'Check that your wealth reaches the zakat nisab before calculating and paying zakat.';
+window.TRANSLATIONS['en']['zakat.znote2'] = 'Make sure a full lunar year has passed on the wealth when required.';
+window.TRANSLATIONS['en']['zakat.znote3'] = 'Consult a trusted scholarly source for special or complex financial cases.';
+window.TRANSLATIONS['en']['zakat.znote4'] = 'The zakat calculator helps you estimate and does not replace a scholarly answer.';
+window.TRANSLATIONS['en']['zakat.zlinks_title'] = 'Useful tools and pages after calculating zakat';
+window.TRANSLATIONS['en']['zakat.zlinks_intro'] = 'Links that complete your day after calculating zakat and knowing the zakat amount due.';
+window.TRANSLATIONS['en']['zakat.zlink1_label'] = 'Prayer times';
+window.TRANSLATIONS['en']['zakat.zlink1_desc'] = 'The five daily prayer times for your city today.';
+window.TRANSLATIONS['en']['zakat.zlink2_label'] = 'Today\'s Hijri date';
+window.TRANSLATIONS['en']['zakat.zlink2_desc'] = 'See the Hijri date matching today to set your zakat date.';
+window.TRANSLATIONS['en']['zakat.zlink3_label'] = 'Hijri calendar';
+window.TRANSLATIONS['en']['zakat.zlink3_desc'] = 'Follow the Hijri months to track your zakat year.';
+window.TRANSLATIONS['en']['zakat.zlink4_label'] = 'Date converter';
+window.TRANSLATIONS['en']['zakat.zlink4_desc'] = 'Convert dates between Hijri and Gregorian to set the zakat due date.';
+window.TRANSLATIONS['en']['zakat.zlink5_label'] = 'Azkar';
+window.TRANSLATIONS['en']['zakat.zlink5_desc'] = 'Morning, evening and after-prayer remembrances.';
+window.TRANSLATIONS['en']['zakat.faq.q8'] = 'When is zakat paid?';
+window.TRANSLATIONS['en']['zakat.faq.a8'] = 'Zakat on money is paid when it reaches the nisab and a full lunar year has passed; many people pick a fixed date in the year to calculate and pay their zakat regularly.';
+window.TRANSLATIONS['en']['zakat.faq.q9'] = 'Is gold zakat different from cash zakat?';
+window.TRANSLATIONS['en']['zakat.faq.a9'] = 'The rate is the same 2.5% for gold zakat and cash zakat, but the gold nisab is measured by its weight in grams, while the cash nisab is measured by its value compared with the gold or silver nisab.';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['en']['zakat.guide.text'] = 'The zakat calculator helps you calculate the zakat due on money, gold, silver, savings, shares, investments and trade goods using the well-known zakat rate of 2.5%. Enter the value of your zakatable wealth to find the estimated zakat amount, taking into account reaching the nisab and the passing of a full lunar year. The calculator combines ease of use with a clear zakat calculation method, showing you the zakat amount in a few steps without any complicated manual maths.';
+window.TRANSLATIONS['en']['zakat.zintro_title'] = 'What is zakat and how is it calculated?';
+window.TRANSLATIONS['en']['zakat.zintro_text'] = 'Zakat is one of the pillars of Islam — a known due in wealth that a Muslim pays when their wealth reaches the nisab and a full lunar year passes over it. Zakat on money covers cash and savings, gold zakat, silver zakat, cash zakat, shares and trade goods. The zakat rate on this wealth is 2.5% of the net zakatable amount once the nisab is reached. The zakat calculator makes it easy to know the zakat amount due with a reliable estimate: it applies the 2.5% rate to the value you enter and shows the zakat due quickly and clearly. Calculating zakat regularly helps you fulfil this duty on time and purify and grow your wealth.';
+window.TRANSLATIONS['en']['zakat.zex4_t'] = 'Silver zakat example';
+window.TRANSLATIONS['en']['zakat.zex4_b'] = 'If the zakatable silver value is 20,000, reaches the nisab and a lunar year passes, the silver zakat due at 2.5% is 500.';
+window.TRANSLATIONS['en']['zakat.zex5_t'] = 'Trade goods zakat example';
+window.TRANSLATIONS['en']['zakat.zex5_b'] = 'If trade goods and merchandise held for sale reach 300,000 at the end of the lunar year, the zakat amount at 2.5% is 7,500.';
+window.TRANSLATIONS['en']['zakat.znote5'] = 'Value gold and silver at their price on the day you pay zakat, not the day you bought them.';
+window.TRANSLATIONS['en']['zakat.znote6'] = 'You can choose a fixed day in the lunar year to calculate and pay zakat so it is never delayed.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('en');
 }

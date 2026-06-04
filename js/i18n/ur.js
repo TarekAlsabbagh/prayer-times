@@ -1293,6 +1293,61 @@ window.TRANSLATIONS['ur']['tile.title_pattern'] = '{city} میں آج کی او�
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['ur']['zakat.guide.title'] = 'زکوٰۃ کیلکولیٹر اور مال کی زکوٰۃ کے حساب کا رہنما';
+window.TRANSLATIONS['ur']['zakat.guide.text'] = 'زکوٰۃ کیلکولیٹر آپ کو مال، سونے، چاندی، بچت اور سرمایہ کاری پر واجب زکوٰۃ معروف شرح 2.5% کے مطابق حساب کرنے میں مدد دیتا ہے۔ اپنے زکوٰۃ والے مال کی قیمت درج کریں تاکہ نصاب اور حول کو مدنظر رکھتے ہوئے مقدارِ زکوٰۃ کا تخمینہ معلوم ہو۔';
+window.TRANSLATIONS['ur']['zakat.zsteps_title'] = 'زکوٰۃ کیلکولیٹر مرحلہ وار کیسے استعمال کریں';
+window.TRANSLATIONS['ur']['zakat.zstep1_t'] = 'مال کی قیمت درج کریں';
+window.TRANSLATIONS['ur']['zakat.zstep1_d'] = 'زکوٰۃ والے نقد، بچت، سونے، چاندی اور سرمایہ کاری کی قیمت لکھیں۔';
+window.TRANSLATIONS['ur']['zakat.zstep2_t'] = 'مال کی قسم چنیں';
+window.TRANSLATIONS['ur']['zakat.zstep2_d'] = 'ہر اثاثے کی قسم (نقد، سونا یا چاندی) منتخب کریں تاکہ زکوٰۃ درست حساب ہو۔';
+window.TRANSLATIONS['ur']['zakat.zstep3_t'] = 'نصاب کی تصدیق کریں';
+window.TRANSLATIONS['ur']['zakat.zstep3_d'] = 'یقینی بنائیں کہ مال زکوٰۃ کے نصاب کو پہنچا اور اس پر مکمل حول گزرا۔';
+window.TRANSLATIONS['ur']['zakat.zstep4_t'] = 'مقدارِ زکوٰۃ پڑھیں';
+window.TRANSLATIONS['ur']['zakat.zstep4_d'] = 'کیلکولیٹر صافی زکوٰۃ والے مال کا 2.5% مقدارِ زکوٰۃ دکھاتا ہے۔';
+window.TRANSLATIONS['ur']['zakat.zex_title'] = 'زکوٰۃ کے حساب کی مثالیں';
+window.TRANSLATIONS['ur']['zakat.zex_intro'] = '2.5% پر زکوٰۃ حساب کرنے کی وضاحتی مثالیں؛ اعداد تخمینی ہیں۔';
+window.TRANSLATIONS['ur']['zakat.zex1_t'] = 'مال کی زکوٰۃ کی مثال';
+window.TRANSLATIONS['ur']['zakat.zex1_b'] = 'اگر زکوٰۃ والا مال 100,000 ہو تو 2.5% کے حساب سے مال کی زکوٰۃ 2,500 ہے۔';
+window.TRANSLATIONS['ur']['zakat.zex2_t'] = 'سونے کی زکوٰۃ کی مثال';
+window.TRANSLATIONS['ur']['zakat.zex2_b'] = 'اگر زکوٰۃ والے سونے کی قیمت 40,000 ہو اور نصاب کو پہنچے تو سونے کی زکوٰۃ 1,000 ہے۔';
+window.TRANSLATIONS['ur']['zakat.zex3_t'] = 'بچت کی زکوٰۃ کی مثال';
+window.TRANSLATIONS['ur']['zakat.zex3_b'] = 'اگر بچت 200,000 ہو اور حول گزر جائے تو مقدارِ زکوٰۃ 5,000 ہے۔';
+window.TRANSLATIONS['ur']['zakat.znotes_title'] = 'زکوٰۃ ادا کرنے سے پہلے اہم نکات';
+window.TRANSLATIONS['ur']['zakat.znote1'] = 'زکوٰۃ حساب اور ادا کرنے سے پہلے مال کے نصاب کو پہنچنے کی تصدیق کریں۔';
+window.TRANSLATIONS['ur']['zakat.znote2'] = 'ضرورت کے وقت مال پر مکمل حول گزرنے کی تصدیق کریں۔';
+window.TRANSLATIONS['ur']['zakat.znote3'] = 'خاص یا پیچیدہ مالی حالات میں معتبر شرعی جہت سے رجوع کریں۔';
+window.TRANSLATIONS['ur']['zakat.znote4'] = 'زکوٰۃ کیلکولیٹر تخمینے میں مدد دیتا ہے اور شرعی سوال کا بدل نہیں۔';
+window.TRANSLATIONS['ur']['zakat.zlinks_title'] = 'زکوٰۃ حساب کرنے کے بعد مفید اوزار اور صفحات';
+window.TRANSLATIONS['ur']['zakat.zlinks_intro'] = 'زکوٰۃ حساب کرنے کے بعد آپ کے دن کو مکمل کرنے والے روابط۔';
+window.TRANSLATIONS['ur']['zakat.zlink1_label'] = 'نماز کے اوقات';
+window.TRANSLATIONS['ur']['zakat.zlink1_desc'] = 'آج آپ کے شہر میں پانچ وقت کی نماز کے اوقات۔';
+window.TRANSLATIONS['ur']['zakat.zlink2_label'] = 'آج کی ہجری تاریخ';
+window.TRANSLATIONS['ur']['zakat.zlink2_desc'] = 'زکوٰۃ کی تاریخ طے کرنے کے لیے آج کی ہجری تاریخ دیکھیں۔';
+window.TRANSLATIONS['ur']['zakat.zlink3_label'] = 'ہجری کیلنڈر';
+window.TRANSLATIONS['ur']['zakat.zlink3_desc'] = 'اپنا حول جانچنے کے لیے ہجری مہینے دیکھیں۔';
+window.TRANSLATIONS['ur']['zakat.zlink4_label'] = 'تاریخ کنورٹر';
+window.TRANSLATIONS['ur']['zakat.zlink4_desc'] = 'تاریخ کو ہجری اور میلادی کے درمیان تبدیل کریں۔';
+window.TRANSLATIONS['ur']['zakat.zlink5_label'] = 'اذکار';
+window.TRANSLATIONS['ur']['zakat.zlink5_desc'] = 'صبح و شام اور نماز کے بعد کے اذکار۔';
+window.TRANSLATIONS['ur']['zakat.faq.q8'] = 'زکوٰۃ کب ادا کی جاتی ہے؟';
+window.TRANSLATIONS['ur']['zakat.faq.a8'] = 'مال کی زکوٰۃ اس وقت ادا کی جاتی ہے جب وہ نصاب کو پہنچے اور اس پر مکمل حول گزر جائے؛ بہت سے لوگ سال میں ایک مقرر تاریخ منتخب کرتے ہیں۔';
+window.TRANSLATIONS['ur']['zakat.faq.q9'] = 'کیا سونے کی زکوٰۃ نقد کی زکوٰۃ سے مختلف ہے؟';
+window.TRANSLATIONS['ur']['zakat.faq.a9'] = 'شرح ایک ہی ہے 2.5%؛ لیکن سونے کا نصاب اس کے وزن (گرام) سے ناپا جاتا ہے، جبکہ نقد کا نصاب سونے یا چاندی کے نصاب کے مقابلے میں اس کی قیمت سے۔';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['ur']['zakat.guide.text'] = 'زکوٰۃ کیلکولیٹر آپ کو مال، سونے، چاندی، بچت، حصص، سرمایہ کاری اور مالِ تجارت پر واجب زکوٰۃ معروف شرح 2.5% کے مطابق حساب کرنے میں مدد دیتا ہے۔ اپنے زکوٰۃ والے مال کی قیمت درج کریں تاکہ نصاب اور حول کو مدنظر رکھتے ہوئے مقدارِ زکوٰۃ کا تخمینہ معلوم ہو۔ یہ کیلکولیٹر آسانی اور زکوٰۃ کے حساب کے واضح طریقے کو یکجا کرتا ہے، اور پیچیدہ ہاتھ کے حساب کے بغیر چند مرحلوں میں مقدارِ زکوٰۃ دکھا دیتا ہے۔';
+window.TRANSLATIONS['ur']['zakat.zintro_title'] = 'زکوٰۃ کیا ہے اور کیسے حساب ہوتی ہے؟';
+window.TRANSLATIONS['ur']['zakat.zintro_text'] = 'زکوٰۃ اسلام کے ارکان میں سے ایک ہے؛ یہ مال میں ایک معلوم حق ہے جو مسلمان اس وقت ادا کرتا ہے جب اس کا مال نصاب کو پہنچے اور اس پر مکمل حول گزر جائے۔ مال کی زکوٰۃ میں نقد اور بچت، سونے کی زکوٰۃ، چاندی کی زکوٰۃ، نقد کی زکوٰۃ، حصص اور مالِ تجارت شامل ہیں۔ ان اموال میں زکوٰۃ کی شرح نصاب کو پہنچنے کے بعد صافی زکوٰۃ والے مال کا 2.5% ہے۔ زکوٰۃ کیلکولیٹر مقدارِ زکوٰۃ کو قابلِ اعتماد تخمینے کے ساتھ جاننا آسان بنا دیتا ہے: یہ آپ کی درج کردہ قیمت پر 2.5% لاگو کرتا ہے اور واجب زکوٰۃ تیزی اور وضاحت سے دکھاتا ہے۔ باقاعدگی سے زکوٰۃ کا حساب اس فریضے کو وقت پر ادا کرنے اور مال کی پاکیزگی و برکت میں مدد دیتا ہے۔';
+window.TRANSLATIONS['ur']['zakat.zex4_t'] = 'چاندی کی زکوٰۃ کی مثال';
+window.TRANSLATIONS['ur']['zakat.zex4_b'] = 'اگر زکوٰۃ والی چاندی کی قیمت 20,000 ہو، نصاب کو پہنچے اور حول گزر جائے تو 2.5% کے حساب سے چاندی کی زکوٰۃ 500 ہے۔';
+window.TRANSLATIONS['ur']['zakat.zex5_t'] = 'مالِ تجارت کی زکوٰۃ کی مثال';
+window.TRANSLATIONS['ur']['zakat.zex5_b'] = 'اگر فروخت کے لیے رکھا گیا مالِ تجارت حول کے اختتام پر 300,000 ہو تو 2.5% کے حساب سے مقدارِ زکوٰۃ 7,500 ہے۔';
+window.TRANSLATIONS['ur']['zakat.znote5'] = 'سونے اور چاندی کی قیمت خریداری کے دن نہیں بلکہ زکوٰۃ ادا کرنے کے دن کے بھاؤ سے لگائیں۔';
+window.TRANSLATIONS['ur']['zakat.znote6'] = 'زکوٰۃ میں تاخیر سے بچنے کے لیے ہجری سال میں ایک مقرر دن منتخب کر کے اسی دن زکوٰۃ حساب اور ادا کریں۔';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ur');
 }

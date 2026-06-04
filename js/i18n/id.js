@@ -1382,6 +1382,61 @@ window.TRANSLATIONS['id']['tile.title_pattern'] = 'Jadwal sholat hari ini di {ci
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['id']['zakat.guide.title'] = 'Panduan kalkulator zakat dan menghitung zakat mal';
+window.TRANSLATIONS['id']['zakat.guide.text'] = 'Kalkulator zakat membantu Anda menghitung zakat yang wajib atas uang, emas, perak, tabungan, dan investasi sesuai kadar zakat yang dikenal 2,5%. Masukkan nilai harta yang wajib dizakati untuk mengetahui besar zakat secara perkiraan, dengan memperhatikan tercapainya nisab dan berlalunya satu tahun hijriah.';
+window.TRANSLATIONS['id']['zakat.zsteps_title'] = 'Cara menggunakan kalkulator zakat langkah demi langkah';
+window.TRANSLATIONS['id']['zakat.zstep1_t'] = 'Masukkan nilai harta';
+window.TRANSLATIONS['id']['zakat.zstep1_d'] = 'Tulis nilai uang tunai, tabungan, emas, perak, dan investasi yang wajib dizakati.';
+window.TRANSLATIONS['id']['zakat.zstep2_t'] = 'Pilih jenis harta';
+window.TRANSLATIONS['id']['zakat.zstep2_d'] = 'Pilih setiap jenis aset (uang, emas, atau perak) agar zakatnya dihitung dengan tepat.';
+window.TRANSLATIONS['id']['zakat.zstep3_t'] = 'Pastikan mencapai nisab';
+window.TRANSLATIONS['id']['zakat.zstep3_d'] = 'Pastikan harta mencapai nisab zakat dan telah berlalu satu tahun hijriah penuh.';
+window.TRANSLATIONS['id']['zakat.zstep4_t'] = 'Baca besar zakat';
+window.TRANSLATIONS['id']['zakat.zstep4_d'] = 'Kalkulator menampilkan besar zakat yang wajib sebesar 2,5% dari harta bersih yang dizakati.';
+window.TRANSLATIONS['id']['zakat.zex_title'] = 'Contoh menghitung zakat';
+window.TRANSLATIONS['id']['zakat.zex_intro'] = 'Contoh ilustrasi menghitung zakat 2,5%; nilainya perkiraan.';
+window.TRANSLATIONS['id']['zakat.zex1_t'] = 'Contoh zakat mal';
+window.TRANSLATIONS['id']['zakat.zex1_b'] = 'Jika harta yang dizakati 100.000, maka besar zakat mal dengan 2,5% adalah 2.500.';
+window.TRANSLATIONS['id']['zakat.zex2_t'] = 'Contoh zakat emas';
+window.TRANSLATIONS['id']['zakat.zex2_b'] = 'Jika nilai emas yang dizakati 40.000 dan mencapai nisab, zakat emasnya adalah 1.000.';
+window.TRANSLATIONS['id']['zakat.zex3_t'] = 'Contoh zakat tabungan';
+window.TRANSLATIONS['id']['zakat.zex3_b'] = 'Jika tabungan mencapai 200.000 dan telah berlalu setahun, besar zakatnya adalah 5.000.';
+window.TRANSLATIONS['id']['zakat.znotes_title'] = 'Catatan penting sebelum menunaikan zakat';
+window.TRANSLATIONS['id']['zakat.znote1'] = 'Pastikan harta mencapai nisab zakat sebelum menghitung dan menunaikan zakat.';
+window.TRANSLATIONS['id']['zakat.znote2'] = 'Pastikan telah berlalu satu tahun hijriah penuh atas harta bila diperlukan.';
+window.TRANSLATIONS['id']['zakat.znote3'] = 'Rujuk lembaga syar’i tepercaya untuk kasus keuangan khusus atau rumit.';
+window.TRANSLATIONS['id']['zakat.znote4'] = 'Kalkulator zakat membantu memperkirakan dan tidak menggantikan pertanyaan syar’i.';
+window.TRANSLATIONS['id']['zakat.zlinks_title'] = 'Alat dan halaman berguna setelah menghitung zakat';
+window.TRANSLATIONS['id']['zakat.zlinks_intro'] = 'Tautan yang melengkapi hari Anda setelah menghitung zakat.';
+window.TRANSLATIONS['id']['zakat.zlink1_label'] = 'Jadwal sholat';
+window.TRANSLATIONS['id']['zakat.zlink1_desc'] = 'Lima waktu sholat kota Anda hari ini.';
+window.TRANSLATIONS['id']['zakat.zlink2_label'] = 'Tanggal Hijriah hari ini';
+window.TRANSLATIONS['id']['zakat.zlink2_desc'] = 'Lihat tanggal Hijriah hari ini untuk menetapkan tanggal zakat Anda.';
+window.TRANSLATIONS['id']['zakat.zlink3_label'] = 'Kalender Hijriah';
+window.TRANSLATIONS['id']['zakat.zlink3_desc'] = 'Ikuti bulan-bulan Hijriah untuk melacak tahun zakat Anda.';
+window.TRANSLATIONS['id']['zakat.zlink4_label'] = 'Konverter tanggal';
+window.TRANSLATIONS['id']['zakat.zlink4_desc'] = 'Konversikan tanggal antara Hijriah dan Masehi.';
+window.TRANSLATIONS['id']['zakat.zlink5_label'] = 'Zikir';
+window.TRANSLATIONS['id']['zakat.zlink5_desc'] = 'Zikir pagi, petang, dan setelah sholat.';
+window.TRANSLATIONS['id']['zakat.faq.q8'] = 'Kapan zakat ditunaikan?';
+window.TRANSLATIONS['id']['zakat.faq.a8'] = 'Zakat mal ditunaikan saat harta mencapai nisab dan telah berlalu satu tahun hijriah penuh; banyak orang memilih tanggal tetap dalam setahun untuk menghitung dan menunaikan zakat secara rutin.';
+window.TRANSLATIONS['id']['zakat.faq.q9'] = 'Apakah zakat emas berbeda dengan zakat uang?';
+window.TRANSLATIONS['id']['zakat.faq.a9'] = 'Kadarnya sama 2,5%; tetapi nisab emas diukur dari beratnya dalam gram, sedangkan nisab uang diukur dari nilainya dibandingkan nisab emas atau perak.';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['id']['zakat.guide.text'] = 'Kalkulator zakat membantu Anda menghitung zakat yang wajib atas uang, emas, perak, tabungan, saham, investasi, dan barang dagangan sesuai kadar zakat yang dikenal 2,5%. Masukkan nilai harta yang wajib dizakati untuk mengetahui besar zakat secara perkiraan, dengan memperhatikan tercapainya nisab dan berlalunya satu tahun hijriah. Kalkulator ini memadukan kemudahan dengan metode penghitungan zakat yang jelas, dan menampilkan besar zakat dalam beberapa langkah tanpa hitungan manual yang rumit.';
+window.TRANSLATIONS['id']['zakat.zintro_title'] = 'Apa itu zakat dan bagaimana menghitungnya?';
+window.TRANSLATIONS['id']['zakat.zintro_text'] = 'Zakat adalah salah satu rukun Islam — hak yang diketahui pada harta yang ditunaikan seorang Muslim ketika hartanya mencapai nisab dan telah berlalu satu tahun hijriah penuh. Zakat mal mencakup uang tunai dan tabungan, zakat emas, zakat perak, zakat uang, saham, dan barang dagangan. Kadar zakat pada harta ini adalah 2,5% dari harta bersih yang dizakati setelah mencapai nisab. Kalkulator zakat memudahkan mengetahui besar zakat yang wajib dengan perkiraan tepercaya: ia menerapkan kadar 2,5% pada nilai yang Anda masukkan dan menampilkan zakat yang wajib secara cepat dan jelas. Menghitung zakat secara rutin membantu Anda menunaikan kewajiban ini tepat waktu serta membersihkan dan menumbuhkan harta.';
+window.TRANSLATIONS['id']['zakat.zex4_t'] = 'Contoh zakat perak';
+window.TRANSLATIONS['id']['zakat.zex4_b'] = 'Jika nilai perak yang dizakati 20.000, mencapai nisab dan berlalu setahun, zakat perak dengan 2,5% adalah 500.';
+window.TRANSLATIONS['id']['zakat.zex5_t'] = 'Contoh zakat barang dagangan';
+window.TRANSLATIONS['id']['zakat.zex5_b'] = 'Jika barang dagangan untuk dijual mencapai 300.000 di akhir tahun, besar zakat dengan 2,5% adalah 7.500.';
+window.TRANSLATIONS['id']['zakat.znote5'] = 'Nilai emas dan perak memakai harga pada hari menunaikan zakat, bukan hari membeli.';
+window.TRANSLATIONS['id']['zakat.znote6'] = 'Anda bisa memilih hari tetap dalam tahun hijriah untuk menghitung dan menunaikan zakat agar tidak terlambat.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('id');
 }

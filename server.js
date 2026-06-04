@@ -6576,6 +6576,9 @@ function _getActiveH1Marker(urlPath) {
     // The dconv hero is injected with id="dconv-h1" in the _isDateConverter
     // block below. Was previously unregistered → SEOptimer saw 20 H1s.
     if (/^\/date-converter$/.test(path))              return { kind: 'id',   value: 'dconv-h1' };
+    // ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04): keep ONLY
+    // the zakat hero H1 (#zakat-h1); demote the other ~18 SPA-shell H1s to <h2>.
+    if (/^\/zakat-calculator$/.test(path))            return { kind: 'id',   value: 'zakat-h1' };
     if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
     return null;   // route غير معروف — لا تعديل
 }
@@ -8020,26 +8023,26 @@ function buildSeoForPath(urlPath) {
             // UAT-Z1 + Phase D1: array→object structure; localized for all 10 langs
             title: {
                 ar: 'حاسبة الزكاة | احسب زكاة المال والذهب والأسهم بسهولة',
-                en: 'Zakat Calculator | Money, Gold and Investments',
+                en: 'Zakat Calculator | Calculate Zakat on Money and Gold',
                 fr: 'Calculateur de Zakat | Argent, Or et Investissements',
                 tr: 'Zekât Hesaplayıcı | Para, Altın ve Yatırımlarda Zekât',
                 ur: 'زکوٰۃ کیلکولیٹر | نقد، سونے اور سرمایہ کاری پر زکوٰۃ',
-                de: 'Zakat-Rechner | Geld, Gold und Investitionen',
-                id: 'Kalkulator Zakat | Uang, Emas dan Investasi',
-                es: 'Calculadora de Zakat | Dinero, Oro e Inversiones',
-                bn: 'যাকাত ক্যালকুলেটর | অর্থ, সোনা ও বিনিয়োগের যাকাত',
+                de: 'Zakat-Rechner | Zakat auf Geld, Gold und Ersparnisse',
+                id: 'Kalkulator Zakat | Hitung Zakat Mal, Emas dan Uang',
+                es: 'Calculadora de Zakat | Calcula el Zakat del Dinero',
+                bn: 'যাকাত ক্যালকুলেটর | অর্থ, সোনা ও সঞ্চয়ের যাকাত হিসাব',
                 ms: 'Kalkulator Zakat | Wang, Emas, Pelaburan dan Saham',
             },
             desc: {
                 ar: 'احسب زكاة المال والمدخرات والذهب والفضة والأسهم والاستثمارات والعقارات المعدّة للبيع وفق النصاب ونسبة 2.5%، مع توضيح طريقة الحساب.',
                 en: 'Use the Zakat Calculator to estimate zakat on cash, savings, gold, silver, investments, and trade assets with nisab and 2.5% zakat calculation.',
-                fr: 'Calculez la Zakat sur l\u2019argent, l\u2019épargne, l\u2019or, l\u2019argent et les investissements avec le nisab et le taux de 2,5%.',
+                fr: 'Calculez la Zakat sur l\u2019argent, l\u2019épargne, l\u2019or, l\u2019argent et les investissements avec le nisab et le taux de 2,5%, exemples inclus.',
                 tr: 'Zekât hesaplayıcı ile para, birikim, altın, gümüş, yatırım ve ticaret malları üzerinden zekâtınızı %2,5 ve nisaba göre hesaplayın.',
-                ur: 'زکوٰۃ کیلکولیٹر سے نقد، بچت، سونا، چاندی، سرمایہ کاری اور تجارتی اثاثوں پر زکوٰۃ نصاب اور 2.5% شرح کے مطابق شمار کریں۔',
+                ur: 'زکوٰۃ کیلکولیٹر سے نقد، بچت، سونا، چاندی، سرمایہ کاری اور تجارتی اثاثوں پر زکوٰۃ نصاب اور 2.5% شرح کے مطابق آسانی سے شمار کریں۔',
                 de: 'Berechnen Sie mit dem Zakat-Rechner die Zakat auf Bargeld, Ersparnisse, Gold, Silber, Investitionen und Handelsgüter mit Nisab und 2,5%.',
                 id: 'Hitung zakat uang tunai, tabungan, emas, perak, investasi dan barang dagangan dengan nisab dan tarif 2,5% pakai kalkulator zakat ini.',
                 es: 'Calcula la Zakat sobre dinero, ahorros, oro, plata, inversiones y mercancías con el nisab y la tasa del 2,5% — guía completa.',
-                bn: 'যাকাত ক্যালকুলেটর দিয়ে নগদ, সঞ্চয়, সোনা, রুপা, বিনিয়োগ ও বাণিজ্য পণ্যের যাকাত নিসাব ও ২.৫% হারে হিসাব করুন।',
+                bn: 'যাকাত ক্যালকুলেটর দিয়ে নগদ, সঞ্চয়, সোনা, রুপা, বিনিয়োগ ও বাণিজ্য পণ্যের যাকাত নিসাব ও ২.৫% হারে সহজ উদাহরণসহ হিসাব করুন।',
                 ms: 'Kira zakat wang tunai, simpanan, emas, perak, pelaburan dan barang dagangan dengan nisab dan kadar 2.5% guna kalkulator ini.',
             },
             app: { category: 'FinanceApplication' },
@@ -11617,7 +11620,9 @@ function renderSeoHeadHtml(seo) {
             ['zakat.faq.q4', 'zakat.faq.a4'],
             ['zakat.faq.q5', 'zakat.faq.a5'],
             ['zakat.faq.q6', 'zakat.faq.a6'],
-            ['zakat.faq.q7', 'zakat.faq.a7']
+            ['zakat.faq.q7', 'zakat.faq.a7'],
+            ['zakat.faq.q8', 'zakat.faq.a8'],
+            ['zakat.faq.q9', 'zakat.faq.a9']
         ];
         ssrGraph.push({
             "@type": "FAQPage",
@@ -16562,6 +16567,46 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         });
         html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
         html = html.replace('<div class="page" id="page-zakat">', '<div class="page active" id="page-zakat">');
+        // ── ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04) ──
+        // Build COMPLEMENTARY educational sections (guide, steps, examples,
+        // notes, useful links) from i18n keys and inject into #zk-seo. Text
+        // lives in js/i18n.js (SSR source) + js/i18n/{lang}.js (client) — NOT
+        // duplicated in server.js. These complement (do NOT duplicate) the
+        // existing edu section (nisab / money-types / how-to) + FAQ already on
+        // the page. Reuses the .dconv-* card CSS (generic). NO change to the
+        // zakat calculation/form/result.
+        try {
+            const _zd = I18N[seo.lang] || I18N.en || {};
+            const _zen = I18N.en || {}; const _zar = I18N.ar || {};
+            const _zt = (k) => _zd[k] || _zen[k] || _zar[k] || '';
+            if (_zt('zakat.guide.title')) {
+                const _e = _escHtml;
+                const _pfx = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
+                const _zHrefs = [(seo.lang==='ar')?'/':(_pfx+'/'), `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/azkar`];
+                const _zIcons = ['🕌','📅','🗓','🔄','📿'];
+                // guide card
+                let _h = `<div class="section-card dconv-guide"><div class="dconv-guide-icon" aria-hidden="true">🪙</div><div class="dconv-guide-body"><h2>${_e(_zt('zakat.guide.title'))}</h2><p>${_e(_zt('zakat.guide.text'))}</p></div></div>`;
+                // intro educational card (what is zakat / how it is calculated)
+                if(_zt('zakat.zintro_title')) _h += `<section class="section-card dconv-guide" aria-labelledby="zk-intro-t"><div class="dconv-guide-body"><h2 id="zk-intro-t">${_e(_zt('zakat.zintro_title'))}</h2><p>${_e(_zt('zakat.zintro_text'))}</p></div></section>`;
+                // steps (4 numbered)
+                let _steps = '';
+                for (let i=1;i<=4;i++){ const t=_zt('zakat.zstep'+i+'_t'); if(!t)continue; _steps += `<li class="dconv-step"><span class="dconv-step-num" aria-hidden="true">${i}</span><span class="dconv-step-body"><span class="dconv-step-t">${_e(t)}</span><span class="dconv-step-d">${_e(_zt('zakat.zstep'+i+'_d'))}</span></span></li>`; }
+                if(_steps) _h += `<section class="section-card dconv-steps" aria-labelledby="zk-steps-t"><h2 id="zk-steps-t">${_e(_zt('zakat.zsteps_title'))}</h2><ol class="dconv-steps-grid">${_steps}</ol></section>`;
+                // examples (3)
+                let _ex='';
+                for(let i=1;i<=5;i++){ const t=_zt('zakat.zex'+i+'_t'); if(!t)continue; _ex += `<div class="dconv-example"><h3>${_e(t)}</h3><p class="dconv-ex-note">${_e(_zt('zakat.zex'+i+'_b'))}</p></div>`; }
+                if(_ex) _h += `<section class="section-card dconv-examples" aria-labelledby="zk-ex-t"><h2 id="zk-ex-t">${_e(_zt('zakat.zex_title'))}</h2>${_zt('zakat.zex_intro')?`<p class="dconv-sec-intro">${_e(_zt('zakat.zex_intro'))}</p>`:''}<div class="dconv-examples-grid">${_ex}</div></section>`;
+                // notes (callout, up to 4)
+                let _notes='';
+                for(let i=1;i<=6;i++){ const n=_zt('zakat.znote'+i); if(n) _notes += `<li>${_e(n)}</li>`; }
+                if(_notes) _h += `<section class="section-card dconv-accuracy" aria-labelledby="zk-notes-t"><div class="dconv-acc-inner"><span class="dconv-acc-icon" aria-hidden="true">ℹ️</span><div class="dconv-acc-body"><h2 id="zk-notes-t">${_e(_zt('zakat.znotes_title'))}</h2><ul class="dconv-acc-list">${_notes}</ul></div></div></section>`;
+                // useful links (5)
+                let _links='';
+                for(let i=1;i<=5;i++){ const l=_zt('zakat.zlink'+i+'_label'); if(!l)continue; _links += `<a class="hd1-tool-card" href="${_zHrefs[i-1]}"><span class="hd1-tool-icon" aria-hidden="true">${_zIcons[i-1]||'🔗'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_e(l)}</span><span class="hd1-tool-desc">${_e(_zt('zakat.zlink'+i+'_desc'))}</span></span></a>`; }
+                if(_links) _h += `<section class="section-card hd1-tools-section dconv-links" aria-labelledby="zk-links-t"><h2 id="zk-links-t" class="hd1-section-title">${_e(_zt('zakat.zlinks_title'))}</h2>${_zt('zakat.zlinks_intro')?`<p class="hd1-section-intro">${_e(_zt('zakat.zlinks_intro'))}</p>`:''}<div class="hd1-tools-grid">${_links}</div></section>`;
+                html = html.replace('<div id="zk-seo"></div>', `<div id="zk-seo">${_h}</div>`);
+            }
+        } catch (_e) { /* silent — SSR enrichment optional; calculator still works */ }
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections
@@ -17048,7 +17093,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '191'; // MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): bumped 189→190 for the ~50 new tasbih.* i18n keys covering the new educational + FAQ blocks added to /msbaha (edu/howto/after/when/related/disclaimer/faq subtrees). AR + EN bundles updated in js/i18n/{ar,en}.js + consolidated js/i18n.js — other 8 langs fall back to EN via the existing _needsEnFallback chain. FAQPage + HowTo JSON-LD emit in server.js reads from the same dictionary (tasbihFaq flag gated on /msbaha staticPages entry). | PREVIOUS 189 = ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
+        const _i18nVersion = '192'; // ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04): bumped 191→192 for ~40 new zakat.* content keys per lang (guide/zsteps/zstep1-4/zex/zex1-3/znotes/znote1-4/zlinks/zlink1-5/faq.q8-q9) backing the new SSR educational sections + expanded FAQ on /zakat-calculator. ALL 10 per-lang bundles carry NATIVE translations (ar/en/fr/tr/ur/de/id/es/bn/ms); the server.js SSR builder reads the same dictionary (I18N) to render guide/steps/examples/notes/links into #zk-seo + FAQ JSON-LD q8/q9. | PREVIOUS 191/190 = MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): bumped 189→190 for the ~50 new tasbih.* i18n keys covering the new educational + FAQ blocks added to /msbaha (edu/howto/after/when/related/disclaimer/faq subtrees). AR + EN bundles updated in js/i18n/{ar,en}.js + consolidated js/i18n.js — other 8 langs fall back to EN via the existing _needsEnFallback chain. FAQPage + HowTo JSON-LD emit in server.js reads from the same dictionary (tasbihFaq flag gated on /msbaha staticPages entry). | PREVIOUS 189 = ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {

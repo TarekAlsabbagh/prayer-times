@@ -1323,6 +1323,61 @@ window.TRANSLATIONS['fr']['tile.title_pattern'] = 'Heures de prière aujourd’h
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['fr']['zakat.guide.title'] = 'Guide de la calculatrice de zakat et du calcul de la zakat sur l’argent';
+window.TRANSLATIONS['fr']['zakat.guide.text'] = 'La calculatrice de zakat vous aide à calculer la zakat due sur l’argent, l’or, l’argent métal, l’épargne et les investissements selon le taux de zakat connu de 2,5 %. Saisissez la valeur de vos biens soumis à la zakat pour connaître le montant de la zakat estimé, en tenant compte de l’atteinte du nisab et du passage d’une année lunaire complète.';
+window.TRANSLATIONS['fr']['zakat.zsteps_title'] = 'Comment utiliser la calculatrice de zakat étape par étape';
+window.TRANSLATIONS['fr']['zakat.zstep1_t'] = 'Saisissez votre argent';
+window.TRANSLATIONS['fr']['zakat.zstep1_d'] = 'Indiquez la valeur des liquidités, de l’épargne, de l’or, de l’argent et des investissements soumis à la zakat.';
+window.TRANSLATIONS['fr']['zakat.zstep2_t'] = 'Choisissez le type d’actif';
+window.TRANSLATIONS['fr']['zakat.zstep2_d'] = 'Sélectionnez chaque type (argent, or ou argent métal) pour un calcul correct de la zakat.';
+window.TRANSLATIONS['fr']['zakat.zstep3_t'] = 'Vérifiez le nisab';
+window.TRANSLATIONS['fr']['zakat.zstep3_d'] = 'Assurez-vous que vos biens atteignent le nisab de la zakat et qu’une année lunaire complète s’est écoulée.';
+window.TRANSLATIONS['fr']['zakat.zstep4_t'] = 'Lisez le montant de la zakat';
+window.TRANSLATIONS['fr']['zakat.zstep4_d'] = 'La calculatrice affiche le montant de la zakat dû à 2,5 % de vos biens nets soumis à la zakat.';
+window.TRANSLATIONS['fr']['zakat.zex_title'] = 'Exemples de calcul de la zakat';
+window.TRANSLATIONS['fr']['zakat.zex_intro'] = 'Exemples illustratifs de calcul de la zakat à 2,5 % ; les valeurs sont des estimations.';
+window.TRANSLATIONS['fr']['zakat.zex1_t'] = 'Exemple de zakat sur l’argent';
+window.TRANSLATIONS['fr']['zakat.zex1_b'] = 'Si l’argent soumis à la zakat est de 100 000, le montant de la zakat sur l’argent à 2,5 % est de 2 500.';
+window.TRANSLATIONS['fr']['zakat.zex2_t'] = 'Exemple de zakat sur l’or';
+window.TRANSLATIONS['fr']['zakat.zex2_b'] = 'Si la valeur de l’or soumis à la zakat est de 40 000 et atteint le nisab, la zakat sur l’or due est de 1 000.';
+window.TRANSLATIONS['fr']['zakat.zex3_t'] = 'Exemple de zakat sur l’épargne';
+window.TRANSLATIONS['fr']['zakat.zex3_b'] = 'Si l’épargne atteint 200 000 et qu’une année lunaire est passée, le montant de la zakat est de 5 000.';
+window.TRANSLATIONS['fr']['zakat.znotes_title'] = 'Remarques importantes avant de payer la zakat';
+window.TRANSLATIONS['fr']['zakat.znote1'] = 'Vérifiez que vos biens atteignent le nisab de la zakat avant de calculer et de payer la zakat.';
+window.TRANSLATIONS['fr']['zakat.znote2'] = 'Assurez-vous qu’une année lunaire complète s’est écoulée sur les biens si nécessaire.';
+window.TRANSLATIONS['fr']['zakat.znote3'] = 'Consultez une source religieuse fiable pour les cas financiers particuliers ou complexes.';
+window.TRANSLATIONS['fr']['zakat.znote4'] = 'La calculatrice de zakat aide à estimer et ne remplace pas l’avis d’un savant.';
+window.TRANSLATIONS['fr']['zakat.zlinks_title'] = 'Outils et pages utiles après le calcul de la zakat';
+window.TRANSLATIONS['fr']['zakat.zlinks_intro'] = 'Des liens qui complètent votre journée après le calcul de la zakat.';
+window.TRANSLATIONS['fr']['zakat.zlink1_label'] = 'Heures de prière';
+window.TRANSLATIONS['fr']['zakat.zlink1_desc'] = 'Les cinq prières quotidiennes de votre ville aujourd’hui.';
+window.TRANSLATIONS['fr']['zakat.zlink2_label'] = 'Date hégirienne du jour';
+window.TRANSLATIONS['fr']['zakat.zlink2_desc'] = 'Voyez la date hégirienne du jour pour fixer votre date de zakat.';
+window.TRANSLATIONS['fr']['zakat.zlink3_label'] = 'Calendrier hégirien';
+window.TRANSLATIONS['fr']['zakat.zlink3_desc'] = 'Suivez les mois hégiriens pour suivre votre année de zakat.';
+window.TRANSLATIONS['fr']['zakat.zlink4_label'] = 'Convertisseur de date';
+window.TRANSLATIONS['fr']['zakat.zlink4_desc'] = 'Convertissez les dates entre hégirien et grégorien.';
+window.TRANSLATIONS['fr']['zakat.zlink5_label'] = 'Adhkar';
+window.TRANSLATIONS['fr']['zakat.zlink5_desc'] = 'Invocations du matin, du soir et après la prière.';
+window.TRANSLATIONS['fr']['zakat.faq.q8'] = 'Quand paie-t-on la zakat ?';
+window.TRANSLATIONS['fr']['zakat.faq.a8'] = 'La zakat sur l’argent se paie lorsqu’il atteint le nisab et qu’une année lunaire complète s’est écoulée ; beaucoup choisissent une date fixe dans l’année pour calculer et payer leur zakat régulièrement.';
+window.TRANSLATIONS['fr']['zakat.faq.q9'] = 'La zakat sur l’or diffère-t-elle de la zakat sur l’argent ?';
+window.TRANSLATIONS['fr']['zakat.faq.a9'] = 'Le taux est le même, 2,5 %, mais le nisab de l’or se mesure à son poids en grammes, tandis que le nisab des liquidités se mesure à sa valeur comparée au nisab de l’or ou de l’argent.';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['fr']['zakat.guide.text'] = 'La calculatrice de zakat vous aide à calculer la zakat due sur l’argent, l’or, l’argent métal, l’épargne, les actions, les investissements et les marchandises selon le taux de zakat connu de 2,5 %. Saisissez la valeur de vos biens soumis à la zakat pour connaître le montant de la zakat estimé, en tenant compte du nisab et du passage d’une année lunaire complète. La calculatrice allie simplicité et clarté de la méthode de calcul de la zakat, et affiche le montant en quelques étapes sans calculs manuels compliqués.';
+window.TRANSLATIONS['fr']['zakat.zintro_title'] = 'Qu’est-ce que la zakat et comment la calculer ?';
+window.TRANSLATIONS['fr']['zakat.zintro_text'] = 'La zakat est l’un des piliers de l’islam : un droit connu sur les biens que le musulman acquitte lorsque ses biens atteignent le nisab et qu’une année lunaire complète s’est écoulée. La zakat sur l’argent couvre les liquidités et l’épargne, la zakat sur l’or, la zakat sur l’argent métal, la zakat sur les liquidités, les actions et les marchandises. Le taux de zakat sur ces biens est de 2,5 % du montant net soumis à la zakat une fois le nisab atteint. La calculatrice de zakat facilite la connaissance du montant de la zakat dû avec une estimation fiable : elle applique le taux de 2,5 % à la valeur saisie et affiche la zakat due rapidement et clairement. Calculer la zakat régulièrement aide à accomplir ce devoir à temps et à purifier et faire fructifier ses biens.';
+window.TRANSLATIONS['fr']['zakat.zex4_t'] = 'Exemple de zakat sur l’argent métal';
+window.TRANSLATIONS['fr']['zakat.zex4_b'] = 'Si la valeur de l’argent métal soumis à la zakat est de 20 000, atteint le nisab et qu’une année lunaire passe, la zakat due à 2,5 % est de 500.';
+window.TRANSLATIONS['fr']['zakat.zex5_t'] = 'Exemple de zakat sur les marchandises';
+window.TRANSLATIONS['fr']['zakat.zex5_b'] = 'Si les marchandises destinées à la vente atteignent 300 000 à la fin de l’année lunaire, le montant de la zakat à 2,5 % est de 7 500.';
+window.TRANSLATIONS['fr']['zakat.znote5'] = 'Évaluez l’or et l’argent au prix du jour où vous payez la zakat, et non du jour de l’achat.';
+window.TRANSLATIONS['fr']['zakat.znote6'] = 'Vous pouvez choisir un jour fixe de l’année lunaire pour calculer et payer la zakat afin de ne jamais la retarder.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('fr');
 }

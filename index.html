@@ -2537,7 +2537,7 @@
 
                 <!-- 1. HERO — Title + subtitle + 3 badges. UI-CONTENT-UX-IMPROVEMENT-1: H1 + subtitle default text updated to match the new i18n values (so SSR/SEO sees the new wording on first paint, before client JS hydrates). -->
                 <section class="section-card zakat-hero">
-                    <h1 class="zakat-hero-title">
+                    <h1 id="zakat-h1" class="zakat-hero-title">
                         <svg class="icon icon-lg icon-gold" aria-hidden="true"><use href="#i-coins"/></svg>
                         <span data-i18n="zakat.hero.title">حاسبة الزكاة — احسب زكاة المال بسهولة</span>
                     </h1>
@@ -2818,6 +2818,11 @@
                     </div>
                 </section>
 
+                <!-- ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: SSR-filled per-lang
+                     complementary sections (guide, steps, examples, notes, useful links)
+                     built from i18n keys in server.js. Empty placeholder hydrated at SSR. -->
+                <div id="zk-seo"></div>
+
                 <!-- 5. FAQ — uses same i18n keys as JSON-LD (Single Source of Truth) -->
                 <section class="section-card zakat-faq-section" id="zakat-faq-section">
                     <h2 class="zakat-faq-title">
@@ -2852,6 +2857,14 @@
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q7">هل هذه الحاسبة تُغني عن سؤال المفتي؟</summary>
                             <p data-i18n="zakat.faq.a7">لا، الحاسبة تُساعدك في التقدير، لكنّها لا تُغني عن سؤال أهل العلم في الحالات الخاصّة أو المعقّدة.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q8">متى تُخرَج الزكاة؟</summary>
+                            <p data-i18n="zakat.faq.a8">تُخرَج زكاة المال عند بلوغه النصاب ومرور حول هجريّ كامل عليه، ويختار كثيرون موعدًا ثابتًا في السنة لحساب الزكاة وإخراجها بانتظام.</p>
+                        </details>
+                        <details class="zakat-faq-item">
+                            <summary data-i18n="zakat.faq.q9">هل تختلف زكاة الذهب عن زكاة النقد؟</summary>
+                            <p data-i18n="zakat.faq.a9">النسبة واحدة 2.5% في زكاة الذهب وزكاة النقد، لكنّ نصاب الذهب يُقاس بوزنه بالجرام، بينما يُقاس نصاب النقد بقيمته مقارنةً بنصاب الذهب أو الفضّة.</p>
                         </details>
                     </div>
                 </section>

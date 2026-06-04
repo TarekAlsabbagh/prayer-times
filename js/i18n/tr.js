@@ -1326,6 +1326,61 @@ window.TRANSLATIONS['tr']['tile.title_pattern'] = 'Bugün {city} namaz vakitleri
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['tr']['zakat.guide.title'] = 'Zekat hesaplayıcı ve mal zekatı hesaplama rehberi';
+window.TRANSLATIONS['tr']['zakat.guide.text'] = 'Zekat hesaplayıcı, para, altın, gümüş, birikim ve yatırımlar üzerindeki zekatı bilinen %2,5 zekat oranıyla hesaplamanıza yardımcı olur. Zekata tabi mallarınızın değerini girin; nisaba ulaşma ve bir kameri yılın geçmesini dikkate alarak tahmini zekat tutarını öğrenin.';
+window.TRANSLATIONS['tr']['zakat.zsteps_title'] = 'Zekat hesaplayıcı adım adım nasıl kullanılır';
+window.TRANSLATIONS['tr']['zakat.zstep1_t'] = 'Malınızı girin';
+window.TRANSLATIONS['tr']['zakat.zstep1_d'] = 'Zekata tabi nakit, birikim, altın, gümüş ve yatırımların değerini yazın.';
+window.TRANSLATIONS['tr']['zakat.zstep2_t'] = 'Varlık türünü seçin';
+window.TRANSLATIONS['tr']['zakat.zstep2_d'] = 'Her varlık türünü (nakit, altın veya gümüş) seçin ki zekatı doğru hesaplansın.';
+window.TRANSLATIONS['tr']['zakat.zstep3_t'] = 'Nisabı kontrol edin';
+window.TRANSLATIONS['tr']['zakat.zstep3_d'] = 'Malınızın zekat nisabına ulaştığından ve bir kameri yıl geçtiğinden emin olun.';
+window.TRANSLATIONS['tr']['zakat.zstep4_t'] = 'Zekat tutarını okuyun';
+window.TRANSLATIONS['tr']['zakat.zstep4_d'] = 'Hesaplayıcı, net zekata tabi malınızın %2,5’i kadar zekat tutarını gösterir.';
+window.TRANSLATIONS['tr']['zakat.zex_title'] = 'Zekat hesaplama örnekleri';
+window.TRANSLATIONS['tr']['zakat.zex_intro'] = '%2,5 ile zekat hesaplama örnekleri; değerler tahminidir.';
+window.TRANSLATIONS['tr']['zakat.zex1_t'] = 'Mal zekatı örneği';
+window.TRANSLATIONS['tr']['zakat.zex1_b'] = 'Zekata tabi para 100.000 ise, %2,5 ile mal zekatı tutarı 2.500’dür.';
+window.TRANSLATIONS['tr']['zakat.zex2_t'] = 'Altın zekatı örneği';
+window.TRANSLATIONS['tr']['zakat.zex2_b'] = 'Zekata tabi altın değeri 40.000 ise ve nisaba ulaşıyorsa, altın zekatı 1.000’dir.';
+window.TRANSLATIONS['tr']['zakat.zex3_t'] = 'Birikim zekatı örneği';
+window.TRANSLATIONS['tr']['zakat.zex3_b'] = 'Birikim 200.000’e ulaşır ve bir kameri yıl geçerse, zekat tutarı 5.000’dir.';
+window.TRANSLATIONS['tr']['zakat.znotes_title'] = 'Zekat vermeden önce önemli notlar';
+window.TRANSLATIONS['tr']['zakat.znote1'] = 'Zekatı hesaplayıp vermeden önce malın nisaba ulaştığını kontrol edin.';
+window.TRANSLATIONS['tr']['zakat.znote2'] = 'Gerektiğinde mal üzerinden bir kameri yıl geçtiğinden emin olun.';
+window.TRANSLATIONS['tr']['zakat.znote3'] = 'Özel veya karmaşık mali durumlarda güvenilir bir ilim merciine başvurun.';
+window.TRANSLATIONS['tr']['zakat.znote4'] = 'Zekat hesaplayıcı tahmine yardımcı olur, şer’i soruyu gerektiren durumların yerini tutmaz.';
+window.TRANSLATIONS['tr']['zakat.zlinks_title'] = 'Zekat hesapladıktan sonra yararlı araç ve sayfalar';
+window.TRANSLATIONS['tr']['zakat.zlinks_intro'] = 'Zekat hesapladıktan sonra gününü tamamlayan bağlantılar.';
+window.TRANSLATIONS['tr']['zakat.zlink1_label'] = 'Namaz vakitleri';
+window.TRANSLATIONS['tr']['zakat.zlink1_desc'] = 'Bugün şehrinizin beş vakit namaz saatleri.';
+window.TRANSLATIONS['tr']['zakat.zlink2_label'] = 'Bugünün Hicri tarihi';
+window.TRANSLATIONS['tr']['zakat.zlink2_desc'] = 'Zekat tarihinizi belirlemek için bugünün Hicri tarihini görün.';
+window.TRANSLATIONS['tr']['zakat.zlink3_label'] = 'Hicri takvim';
+window.TRANSLATIONS['tr']['zakat.zlink3_desc'] = 'Zekat yılınızı takip etmek için Hicri ayları izleyin.';
+window.TRANSLATIONS['tr']['zakat.zlink4_label'] = 'Tarih dönüştürücü';
+window.TRANSLATIONS['tr']['zakat.zlink4_desc'] = 'Tarihleri Hicri ve Miladi arasında dönüştürün.';
+window.TRANSLATIONS['tr']['zakat.zlink5_label'] = 'Zikirler';
+window.TRANSLATIONS['tr']['zakat.zlink5_desc'] = 'Sabah, akşam ve namaz sonrası zikirler.';
+window.TRANSLATIONS['tr']['zakat.faq.q8'] = 'Zekat ne zaman verilir?';
+window.TRANSLATIONS['tr']['zakat.faq.a8'] = 'Mal zekatı, mal nisaba ulaşıp üzerinden bir kameri yıl geçtiğinde verilir; birçok kişi zekatı düzenli hesaplayıp vermek için yılda sabit bir tarih seçer.';
+window.TRANSLATIONS['tr']['zakat.faq.q9'] = 'Altın zekatı nakit zekatından farklı mı?';
+window.TRANSLATIONS['tr']['zakat.faq.a9'] = 'Oran aynıdır, %2,5; ancak altın nisabı gram ağırlığıyla, nakit nisabı ise altın veya gümüş nisabına göre değeriyle ölçülür.';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['tr']['zakat.guide.text'] = 'Zekat hesaplayıcı; para, altın, gümüş, birikim, hisse, yatırım ve ticaret malları üzerindeki zekatı bilinen %2,5 zekat oranıyla hesaplamanıza yardımcı olur. Zekata tabi mallarınızın değerini girin; nisaba ulaşma ve bir kameri yılın geçmesini dikkate alarak tahmini zekat tutarını öğrenin. Hesaplayıcı, kullanım kolaylığını açık bir zekat hesaplama yöntemiyle birleştirir ve karmaşık elle işlem yapmadan zekat tutarını birkaç adımda gösterir.';
+window.TRANSLATIONS['tr']['zakat.zintro_title'] = 'Zekat nedir ve nasıl hesaplanır?';
+window.TRANSLATIONS['tr']['zakat.zintro_text'] = 'Zekat, İslam’ın şartlarından biridir; malı nisaba ulaşıp üzerinden bir kameri yıl geçen Müslümanın ödediği, malda bilinen bir haktır. Mal zekatı; nakit ve birikimi, altın zekatını, gümüş zekatını, nakit zekatını, hisseleri ve ticaret mallarını kapsar. Bu mallarda zekat oranı, nisaba ulaşıldıktan sonra net zekata tabi tutarın %2,5’idir. Zekat hesaplayıcı, ödenecek zekat tutarını güvenilir bir tahminle bilmeyi kolaylaştırır: girdiğiniz değere %2,5 oranını uygular ve ödenecek zekatı hızlı ve net gösterir. Zekatı düzenli hesaplamak, bu görevi zamanında yerine getirmenize ve malı temizleyip bereketlendirmenize yardımcı olur.';
+window.TRANSLATIONS['tr']['zakat.zex4_t'] = 'Gümüş zekatı örneği';
+window.TRANSLATIONS['tr']['zakat.zex4_b'] = 'Zekata tabi gümüş değeri 20.000 ise, nisaba ulaşır ve bir kameri yıl geçerse, %2,5 ile gümüş zekatı 500’dür.';
+window.TRANSLATIONS['tr']['zakat.zex5_t'] = 'Ticaret malı zekatı örneği';
+window.TRANSLATIONS['tr']['zakat.zex5_b'] = 'Satış için tutulan ticaret malları kameri yıl sonunda 300.000’e ulaşırsa, %2,5 ile zekat tutarı 7.500’dür.';
+window.TRANSLATIONS['tr']['zakat.znote5'] = 'Altın ve gümüşü satın aldığınız gün değil, zekat verdiğiniz günkü fiyatıyla değerleyin.';
+window.TRANSLATIONS['tr']['zakat.znote6'] = 'Zekatı geciktirmemek için kameri yılda sabit bir gün seçip zekatı o gün hesaplayıp verebilirsiniz.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('tr');
 }

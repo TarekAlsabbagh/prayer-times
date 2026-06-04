@@ -1382,6 +1382,61 @@ window.TRANSLATIONS['de']['tile.title_pattern'] = 'Gebetszeiten heute in {city}'
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['de']['zakat.guide.title'] = 'Leitfaden zum Zakat-Rechner und zur Berechnung der Zakat auf Geld';
+window.TRANSLATIONS['de']['zakat.guide.text'] = 'Der Zakat-Rechner hilft Ihnen, die fällige Zakat auf Geld, Gold, Silber, Ersparnisse und Investitionen mit dem bekannten Zakat-Satz von 2,5 % zu berechnen. Geben Sie den Wert Ihres zakatpflichtigen Vermögens ein, um den geschätzten Zakat-Betrag zu erfahren, unter Berücksichtigung des Nisab und des Ablaufs eines vollen Mondjahres.';
+window.TRANSLATIONS['de']['zakat.zsteps_title'] = 'So nutzen Sie den Zakat-Rechner Schritt für Schritt';
+window.TRANSLATIONS['de']['zakat.zstep1_t'] = 'Vermögen eingeben';
+window.TRANSLATIONS['de']['zakat.zstep1_d'] = 'Tragen Sie den Wert von Bargeld, Ersparnissen, Gold, Silber und Investitionen ein, die der Zakat unterliegen.';
+window.TRANSLATIONS['de']['zakat.zstep2_t'] = 'Vermögensart wählen';
+window.TRANSLATIONS['de']['zakat.zstep2_d'] = 'Wählen Sie jede Art (Bargeld, Gold oder Silber), damit die Zakat korrekt berechnet wird.';
+window.TRANSLATIONS['de']['zakat.zstep3_t'] = 'Nisab prüfen';
+window.TRANSLATIONS['de']['zakat.zstep3_d'] = 'Stellen Sie sicher, dass Ihr Vermögen den Zakat-Nisab erreicht und ein volles Mondjahr vergangen ist.';
+window.TRANSLATIONS['de']['zakat.zstep4_t'] = 'Zakat-Betrag lesen';
+window.TRANSLATIONS['de']['zakat.zstep4_d'] = 'Der Rechner zeigt den fälligen Zakat-Betrag von 2,5 % Ihres zakatpflichtigen Nettovermögens.';
+window.TRANSLATIONS['de']['zakat.zex_title'] = 'Beispiele zur Berechnung der Zakat';
+window.TRANSLATIONS['de']['zakat.zex_intro'] = 'Anschauliche Beispiele zur Berechnung der Zakat mit 2,5 %; die Werte sind Schätzungen.';
+window.TRANSLATIONS['de']['zakat.zex1_t'] = 'Beispiel: Zakat auf Geld';
+window.TRANSLATIONS['de']['zakat.zex1_b'] = 'Beträgt das zakatpflichtige Geld 100.000, so ist die Zakat auf Geld mit 2,5 % 2.500.';
+window.TRANSLATIONS['de']['zakat.zex2_t'] = 'Beispiel: Gold-Zakat';
+window.TRANSLATIONS['de']['zakat.zex2_b'] = 'Beträgt der zakatpflichtige Goldwert 40.000 und erreicht den Nisab, ist die Gold-Zakat 1.000.';
+window.TRANSLATIONS['de']['zakat.zex3_t'] = 'Beispiel: Zakat auf Ersparnisse';
+window.TRANSLATIONS['de']['zakat.zex3_b'] = 'Erreichen die Ersparnisse 200.000 und ist ein Mondjahr vergangen, beträgt die Zakat 5.000.';
+window.TRANSLATIONS['de']['zakat.znotes_title'] = 'Wichtige Hinweise vor der Zakat-Zahlung';
+window.TRANSLATIONS['de']['zakat.znote1'] = 'Prüfen Sie vor der Berechnung und Zahlung, ob Ihr Vermögen den Zakat-Nisab erreicht.';
+window.TRANSLATIONS['de']['zakat.znote2'] = 'Stellen Sie sicher, dass bei Bedarf ein volles Mondjahr auf dem Vermögen vergangen ist.';
+window.TRANSLATIONS['de']['zakat.znote3'] = 'Ziehen Sie in besonderen oder komplexen Finanzfällen eine vertrauenswürdige religiöse Quelle hinzu.';
+window.TRANSLATIONS['de']['zakat.znote4'] = 'Der Zakat-Rechner hilft bei der Schätzung und ersetzt keine religiöse Auskunft.';
+window.TRANSLATIONS['de']['zakat.zlinks_title'] = 'Nützliche Werkzeuge und Seiten nach der Zakat-Berechnung';
+window.TRANSLATIONS['de']['zakat.zlinks_intro'] = 'Links, die Ihren Tag nach der Berechnung der Zakat ergänzen.';
+window.TRANSLATIONS['de']['zakat.zlink1_label'] = 'Gebetszeiten';
+window.TRANSLATIONS['de']['zakat.zlink1_desc'] = 'Die fünf täglichen Gebetszeiten Ihrer Stadt heute.';
+window.TRANSLATIONS['de']['zakat.zlink2_label'] = 'Heutiges Hidschri-Datum';
+window.TRANSLATIONS['de']['zakat.zlink2_desc'] = 'Sehen Sie das heutige Hidschri-Datum, um Ihren Zakat-Termin festzulegen.';
+window.TRANSLATIONS['de']['zakat.zlink3_label'] = 'Hidschri-Kalender';
+window.TRANSLATIONS['de']['zakat.zlink3_desc'] = 'Verfolgen Sie die Hidschri-Monate für Ihr Zakat-Jahr.';
+window.TRANSLATIONS['de']['zakat.zlink4_label'] = 'Datumsumrechner';
+window.TRANSLATIONS['de']['zakat.zlink4_desc'] = 'Rechnen Sie Daten zwischen Hidschri und gregorianisch um.';
+window.TRANSLATIONS['de']['zakat.zlink5_label'] = 'Adhkar';
+window.TRANSLATIONS['de']['zakat.zlink5_desc'] = 'Morgen-, Abend- und Nachgebets-Gedenken.';
+window.TRANSLATIONS['de']['zakat.faq.q8'] = 'Wann wird die Zakat gezahlt?';
+window.TRANSLATIONS['de']['zakat.faq.a8'] = 'Die Zakat auf Geld wird gezahlt, wenn es den Nisab erreicht und ein volles Mondjahr vergangen ist; viele wählen ein festes Datum im Jahr, um ihre Zakat regelmäßig zu berechnen und zu zahlen.';
+window.TRANSLATIONS['de']['zakat.faq.q9'] = 'Unterscheidet sich Gold-Zakat von Bargeld-Zakat?';
+window.TRANSLATIONS['de']['zakat.faq.a9'] = 'Der Satz ist gleich, 2,5 %; doch der Gold-Nisab wird nach Gewicht in Gramm gemessen, während der Bargeld-Nisab nach seinem Wert im Vergleich zum Gold- oder Silber-Nisab gemessen wird.';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['de']['zakat.guide.text'] = 'Der Zakat-Rechner hilft Ihnen, die fällige Zakat auf Geld, Gold, Silber, Ersparnisse, Aktien, Investitionen und Handelswaren mit dem bekannten Zakat-Satz von 2,5 % zu berechnen. Geben Sie den Wert Ihres zakatpflichtigen Vermögens ein, um den geschätzten Zakat-Betrag zu erfahren, unter Berücksichtigung des Nisab und des Ablaufs eines vollen Mondjahres. Der Rechner verbindet einfache Bedienung mit einer klaren Methode der Zakat-Berechnung und zeigt den Zakat-Betrag in wenigen Schritten ohne komplizierte Rechnungen.';
+window.TRANSLATIONS['de']['zakat.zintro_title'] = 'Was ist Zakat und wie wird sie berechnet?';
+window.TRANSLATIONS['de']['zakat.zintro_text'] = 'Zakat ist eine der Säulen des Islam — eine bekannte Pflichtabgabe im Vermögen, die ein Muslim entrichtet, wenn sein Vermögen den Nisab erreicht und ein volles Mondjahr darüber vergangen ist. Die Zakat auf Geld umfasst Bargeld und Ersparnisse, Gold-Zakat, Silber-Zakat, Bargeld-Zakat, Aktien und Handelswaren. Der Zakat-Satz auf dieses Vermögen beträgt 2,5 % des zakatpflichtigen Nettobetrags, sobald der Nisab erreicht ist. Der Zakat-Rechner erleichtert es, den fälligen Zakat-Betrag mit einer verlässlichen Schätzung zu kennen: Er wendet den Satz von 2,5 % auf den eingegebenen Wert an und zeigt die fällige Zakat schnell und klar an. Die Zakat regelmäßig zu berechnen hilft, diese Pflicht rechtzeitig zu erfüllen und das Vermögen zu reinigen und zu mehren.';
+window.TRANSLATIONS['de']['zakat.zex4_t'] = 'Beispiel: Silber-Zakat';
+window.TRANSLATIONS['de']['zakat.zex4_b'] = 'Beträgt der zakatpflichtige Silberwert 20.000, erreicht den Nisab und ein Mondjahr vergeht, ist die Silber-Zakat mit 2,5 % 500.';
+window.TRANSLATIONS['de']['zakat.zex5_t'] = 'Beispiel: Zakat auf Handelswaren';
+window.TRANSLATIONS['de']['zakat.zex5_b'] = 'Erreichen zum Verkauf gehaltene Handelswaren am Ende des Mondjahres 300.000, beträgt die Zakat mit 2,5 % 7.500.';
+window.TRANSLATIONS['de']['zakat.znote5'] = 'Bewerten Sie Gold und Silber zum Preis am Tag der Zakat-Zahlung, nicht am Kauftag.';
+window.TRANSLATIONS['de']['zakat.znote6'] = 'Sie können einen festen Tag im Mondjahr wählen, um die Zakat zu berechnen und zu zahlen, damit sie nie verspätet ist.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('de');
 }

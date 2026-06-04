@@ -1382,6 +1382,61 @@ window.TRANSLATIONS['bn']['tile.title_pattern'] = '{city}-এ আজকের �
 
 // Trigger auto-generation of patterned keys (flag.{cc}, tile.{city})
 // for THIS language only. Safe to call multiple times — function is idempotent.
+
+// ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1: zakat content keys
+window.TRANSLATIONS['bn']['zakat.guide.title'] = 'যাকাত ক্যালকুলেটর ও সম্পদের যাকাত হিসাবের নির্দেশিকা';
+window.TRANSLATIONS['bn']['zakat.guide.text'] = 'যাকাত ক্যালকুলেটর আপনাকে টাকা, সোনা, রুপা, সঞ্চয় ও বিনিয়োগের উপর ওয়াজিব যাকাত পরিচিত হার ২.৫% অনুযায়ী হিসাব করতে সাহায্য করে। যাকাতযোগ্য সম্পদের মূল্য লিখুন, নিসাব ও এক পূর্ণ চান্দ্র বছর অতিক্রান্ত হওয়া বিবেচনায় আনুমানিক যাকাতের পরিমাণ জানুন।';
+window.TRANSLATIONS['bn']['zakat.zsteps_title'] = 'যাকাত ক্যালকুলেটর ধাপে ধাপে কীভাবে ব্যবহার করবেন';
+window.TRANSLATIONS['bn']['zakat.zstep1_t'] = 'সম্পদের মূল্য লিখুন';
+window.TRANSLATIONS['bn']['zakat.zstep1_d'] = 'যাকাতযোগ্য নগদ, সঞ্চয়, সোনা, রুপা ও বিনিয়োগের মূল্য লিখুন।';
+window.TRANSLATIONS['bn']['zakat.zstep2_t'] = 'সম্পদের ধরন বাছুন';
+window.TRANSLATIONS['bn']['zakat.zstep2_d'] = 'প্রতিটি সম্পদের ধরন (নগদ, সোনা বা রুপা) বাছুন যাতে যাকাত সঠিকভাবে হিসাব হয়।';
+window.TRANSLATIONS['bn']['zakat.zstep3_t'] = 'নিসাব নিশ্চিত করুন';
+window.TRANSLATIONS['bn']['zakat.zstep3_d'] = 'নিশ্চিত করুন সম্পদ যাকাতের নিসাবে পৌঁছেছে এবং এক পূর্ণ চান্দ্র বছর অতিক্রান্ত হয়েছে।';
+window.TRANSLATIONS['bn']['zakat.zstep4_t'] = 'যাকাতের পরিমাণ পড়ুন';
+window.TRANSLATIONS['bn']['zakat.zstep4_d'] = 'ক্যালকুলেটর নিট যাকাতযোগ্য সম্পদের ২.৫% যাকাতের পরিমাণ দেখায়।';
+window.TRANSLATIONS['bn']['zakat.zex_title'] = 'যাকাত হিসাবের উদাহরণ';
+window.TRANSLATIONS['bn']['zakat.zex_intro'] = '২.৫% হারে যাকাত হিসাবের উদাহরণ; মানগুলো আনুমানিক।';
+window.TRANSLATIONS['bn']['zakat.zex1_t'] = 'টাকার যাকাতের উদাহরণ';
+window.TRANSLATIONS['bn']['zakat.zex1_b'] = 'যদি যাকাতযোগ্য টাকা ১,০০,০০০ হয়, তাহলে ২.৫% হারে টাকার যাকাত ২,৫০০।';
+window.TRANSLATIONS['bn']['zakat.zex2_t'] = 'সোনার যাকাতের উদাহরণ';
+window.TRANSLATIONS['bn']['zakat.zex2_b'] = 'যদি যাকাতযোগ্য সোনার মূল্য ৬০,০০০ হয় এবং নিসাবে পৌঁছায়, সোনার যাকাত ১,০০০।';
+window.TRANSLATIONS['bn']['zakat.zex3_t'] = 'সঞ্চয়ের যাকাতের উদাহরণ';
+window.TRANSLATIONS['bn']['zakat.zex3_b'] = 'যদি সঞ্চয় ২,০০,০০০ হয় এবং এক বছর অতিক্রান্ত হয়, যাকাতের পরিমাণ ৫,০০০।';
+window.TRANSLATIONS['bn']['zakat.znotes_title'] = 'যাকাত আদায়ের আগে গুরুত্বপূর্ণ নোট';
+window.TRANSLATIONS['bn']['zakat.znote1'] = 'যাকাত হিসাব ও আদায়ের আগে সম্পদ যাকাতের নিসাবে পৌঁছেছে কিনা যাচাই করুন।';
+window.TRANSLATIONS['bn']['zakat.znote2'] = 'প্রয়োজনে সম্পদের উপর এক পূর্ণ চান্দ্র বছর অতিক্রান্ত হয়েছে কিনা নিশ্চিত করুন।';
+window.TRANSLATIONS['bn']['zakat.znote3'] = 'বিশেষ বা জটিল আর্থিক অবস্থায় নির্ভরযোগ্য দ্বীনি কর্তৃপক্ষের শরণাপন্ন হন।';
+window.TRANSLATIONS['bn']['zakat.znote4'] = 'যাকাত ক্যালকুলেটর অনুমানে সাহায্য করে, শরই প্রশ্নের বিকল্প নয়।';
+window.TRANSLATIONS['bn']['zakat.zlinks_title'] = 'যাকাত হিসাবের পর দরকারি টুল ও পৃষ্ঠা';
+window.TRANSLATIONS['bn']['zakat.zlinks_intro'] = 'যাকাত হিসাবের পর আপনার দিন পূর্ণ করার লিংক।';
+window.TRANSLATIONS['bn']['zakat.zlink1_label'] = 'নামাজের সময়';
+window.TRANSLATIONS['bn']['zakat.zlink1_desc'] = 'আজ আপনার শহরের পাঁচ ওয়াক্ত নামাজের সময়।';
+window.TRANSLATIONS['bn']['zakat.zlink2_label'] = 'আজকের হিজরি তারিখ';
+window.TRANSLATIONS['bn']['zakat.zlink2_desc'] = 'যাকাতের তারিখ ঠিক করতে আজকের হিজরি তারিখ দেখুন।';
+window.TRANSLATIONS['bn']['zakat.zlink3_label'] = 'হিজরি ক্যালেন্ডার';
+window.TRANSLATIONS['bn']['zakat.zlink3_desc'] = 'যাকাতের বছর নজরে রাখতে হিজরি মাস অনুসরণ করুন।';
+window.TRANSLATIONS['bn']['zakat.zlink4_label'] = 'তারিখ রূপান্তরকারী';
+window.TRANSLATIONS['bn']['zakat.zlink4_desc'] = 'হিজরি ও গ্রেগরিয়ানের মধ্যে তারিখ রূপান্তর করুন।';
+window.TRANSLATIONS['bn']['zakat.zlink5_label'] = 'যিকির';
+window.TRANSLATIONS['bn']['zakat.zlink5_desc'] = 'সকাল-সন্ধ্যা ও নামাজের পরের যিকির।';
+window.TRANSLATIONS['bn']['zakat.faq.q8'] = 'যাকাত কখন আদায় করতে হয়?';
+window.TRANSLATIONS['bn']['zakat.faq.a8'] = 'টাকার যাকাত তখন আদায় করা হয় যখন তা নিসাবে পৌঁছায় এবং এক পূর্ণ চান্দ্র বছর অতিক্রান্ত হয়; অনেকে নিয়মিত যাকাত হিসাব ও আদায়ের জন্য বছরে একটি নির্দিষ্ট তারিখ বেছে নেন।';
+window.TRANSLATIONS['bn']['zakat.faq.q9'] = 'সোনার যাকাত কি টাকার যাকাত থেকে আলাদা?';
+window.TRANSLATIONS['bn']['zakat.faq.a9'] = 'হার একই ২.৫%; তবে সোনার নিসাব ওজন (গ্রাম) দিয়ে মাপা হয়, আর টাকার নিসাব সোনা বা রুপার নিসাবের তুলনায় মূল্য দিয়ে মাপা হয়।';
+
+
+// ZAKAT expansion overlay
+window.TRANSLATIONS['bn']['zakat.guide.text'] = 'যাকাত ক্যালকুলেটর আপনাকে টাকা, সোনা, রুপা, সঞ্চয়, শেয়ার, বিনিয়োগ ও বাণিজ্য পণ্যের উপর ওয়াজিব যাকাত পরিচিত হার ২.৫% অনুযায়ী হিসাব করতে সাহায্য করে। যাকাতযোগ্য সম্পদের মূল্য লিখুন, নিসাব ও এক পূর্ণ চান্দ্র বছর অতিক্রান্ত হওয়া বিবেচনায় আনুমানিক যাকাতের পরিমাণ জানুন। এই ক্যালকুলেটর সহজ ব্যবহার ও যাকাত হিসাবের স্পষ্ট পদ্ধতিকে একত্র করে এবং জটিল হাতে-হিসাব ছাড়াই কয়েক ধাপে যাকাতের পরিমাণ দেখায়।';
+window.TRANSLATIONS['bn']['zakat.zintro_title'] = 'যাকাত কী এবং কীভাবে হিসাব করা হয়?';
+window.TRANSLATIONS['bn']['zakat.zintro_text'] = 'যাকাত ইসলামের অন্যতম রুকন — সম্পদে একটি নির্ধারিত হক যা একজন মুসলিম তখন আদায় করেন যখন তার সম্পদ নিসাবে পৌঁছায় এবং তার উপর এক পূর্ণ চান্দ্র বছর অতিক্রান্ত হয়। মালের যাকাতে নগদ ও সঞ্চয়, সোনার যাকাত, রুপার যাকাত, নগদের যাকাত, শেয়ার ও বাণিজ্য পণ্য অন্তর্ভুক্ত। এই সম্পদে যাকাতের হার নিসাবে পৌঁছানোর পর নিট যাকাতযোগ্য সম্পদের ২.৫%। যাকাত ক্যালকুলেটর নির্ভরযোগ্য অনুমানসহ ওয়াজিব যাকাতের পরিমাণ জানা সহজ করে: এটি আপনার দেওয়া মূল্যে ২.৫% প্রয়োগ করে এবং ওয়াজিব যাকাত দ্রুত ও স্পষ্টভাবে দেখায়। নিয়মিত যাকাত হিসাব করা এই ফরজ সময়মতো আদায় এবং সম্পদ পবিত্র ও বৃদ্ধি করতে সাহায্য করে।';
+window.TRANSLATIONS['bn']['zakat.zex4_t'] = 'রুপার যাকাতের উদাহরণ';
+window.TRANSLATIONS['bn']['zakat.zex4_b'] = 'যদি যাকাতযোগ্য রুপার মূল্য ২০,০০০ হয়, নিসাবে পৌঁছায় ও এক বছর অতিক্রান্ত হয়, তাহলে ২.৫% হারে রুপার যাকাত ৫০০।';
+window.TRANSLATIONS['bn']['zakat.zex5_t'] = 'বাণিজ্য পণ্যের যাকাতের উদাহরণ';
+window.TRANSLATIONS['bn']['zakat.zex5_b'] = 'যদি বিক্রয়ের জন্য রাখা বাণিজ্য পণ্য বছর শেষে ৩,০০,০০০ হয়, তাহলে ২.৫% হারে যাকাতের পরিমাণ ৭,৫০০।';
+window.TRANSLATIONS['bn']['zakat.znote5'] = 'সোনা ও রুপার মূল্য কেনার দিনের নয়, যাকাত আদায়ের দিনের দাম অনুযায়ী নির্ধারণ করুন।';
+window.TRANSLATIONS['bn']['zakat.znote6'] = 'যাকাত যাতে দেরি না হয় সে জন্য চান্দ্র বছরে একটি নির্দিষ্ট দিন বেছে নিয়ে সেদিন যাকাত হিসাব ও আদায় করতে পারেন।';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('bn');
 }

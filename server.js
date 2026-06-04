@@ -21677,6 +21677,41 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace(/\{city\}/g, _cityForI18n);
     }
 
+    // PRAYER-COUNTDOWN-RELATED-LINKS-LANG-ROUTING-FIX-1 (2026-06-05):
+    //   UNIFIED language-prefix pass for the time-left + next-prayer pages,
+    //   mirroring the homepage pass (HOME-ALL-LINKS-LANG-ROUTING-FIX-1 at the
+    //   _isHomepageSsr block above). The countdown / next-prayer SPA shell
+    //   ships ~111 internal <a href="/…"> WITHOUT a lang prefix (mini-tools,
+    //   service cards, eid/festival countdowns, moon/qibla/hijri/date-converter
+    //   links, city cards, related pills, FAQ links), so on /en /fr /bn … a
+    //   click dropped the user onto the Arabic (no-prefix) page. This single
+    //   pass prefixes ALL eligible internal links on the NON-AR time-left /
+    //   next-prayer route. Placed at the very end of serveHtmlWithSeo so it
+    //   covers every link the upstream SSR injectors emitted.
+    //   SAFE by construction (byte-identical logic to the homepage pass):
+    //     • Only matches double-quote href="/…" → external (https/mailto/tel)
+    //       and SVG <use href="#…"> never match.
+    //     • Skips links already carrying ANY lang prefix (no double-prefix).
+    //     • Skips static assets (.js/.css/.png/… incl. ?v=…) and /api/.
+    //     • canonical/hreflang/og:url are ABSOLUTE (https://…) → untouched.
+    //     • JSON-LD uses "url"/"item" keys (not href=) → untouched.
+    //     • "/" (home/logo) → "/{lang}" (no trailing slash, avoids 301 hop).
+    //     • Slugs stay English; only the lang prefix is added.
+    //   Scope guard: ONLY time-left + next-prayer routes (homepage handled by
+    //   its own block; other city routes are out of this ticket's scope).
+    if (seo && (seo.timeLeftPage || seo.nextPrayerPage) && seo.lang && seo.lang !== 'ar') {
+        const _L = seo.lang;
+        const _alreadyPrefixed = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/;
+        const _staticExt = /\.(?:js|mjs|css|json|xml|png|jpe?g|gif|svg|webp|ico|webmanifest|txt|woff2?|ttf|otf|map|pdf|mp[34]|webm)$/i;
+        html = html.replace(/href="(\/[^"?#]*)((?:[?#][^"]*)?)"/g, (full, path, qh) => {
+            if (path === '/') return 'href="/' + _L + '"';      // home/logo
+            if (_alreadyPrefixed.test(path)) return full;        // already /xx/…
+            if (path.startsWith('/api/')) return full;           // API endpoints
+            if (_staticExt.test(path)) return full;              // static assets
+            return 'href="/' + _L + path + qh + '"';
+        });
+    }
+
     const buf = Buffer.from(html, 'utf8');
     const headers = {
         'Content-Type': 'text/html; charset=utf-8',

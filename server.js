@@ -16538,6 +16538,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace('<div class="page" id="page-date-converter">', '<div class="page active" id="page-date-converter">');
     }
 
+    // ──────────────────────────────────────────────────────────────────
+    // ZAKAT-CALCULATOR-SSR-ACTIVE-PAGE-FIX-1 (2026-06-04):
+    // Render the zakat calculator as the active page from SSR for all 10
+    // langs, eliminating the first-paint flicker where #page-prayer-times
+    // rendered until app.js hydrated and swapped to #page-zakat. Zakat was
+    // the only tool page with NO first-paint activation mechanism (no CSS
+    // rule, no html-class injection, no inline-script branch). Mirrors the
+    // date-converter / hijri pattern: inject html.zakat-calculator-page (the
+    // critical CSS at css/style.css shows #page-zakat / hides
+    // #page-prayer-times from first paint) + move `active` onto #page-zakat
+    // so the SSR HTML has exactly ONE .page.active. PURE CSS-visibility
+    // toggle of wrappers already in the DOM → zero layout/CLS impact. NO
+    // change to the zakat calculation, form, content, or SEO.
+    const _isZakatCalc = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(urlPath);
+    if (_isZakatCalc) {
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} zakat-calculator-page"`) + '>';
+            }
+            return '<html' + a + ' class="zakat-calculator-page">';
+        });
+        html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
+        html = html.replace('<div class="page" id="page-zakat">', '<div class="page active" id="page-zakat">');
+    }
+
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections
     //     + entire #page-prayer-times shell. Inject html.moon-today-hub-page so
     //     CSS reveals the new #moon-hub-hero / #moon-hub-faq immediately.

@@ -3823,7 +3823,7 @@ async function initApp() {
     }
 
     // تفعيل صفحة حاسبة الزكاة عند URL /zakat-calculator
-    const _isZakatPage = /\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(window.location.pathname);
+    const _isZakatPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(window.location.pathname);
     if (_isZakatPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-zakat')?.classList.add('active');
@@ -5284,7 +5284,7 @@ function initNavigation() {
 
             // حاسبة الزكاة → /zakat-calculator
             if (pageId === 'zakat' && window.location.protocol !== 'file:') {
-                if (!/\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(window.location.pathname)) {
+                if (!/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(window.location.pathname)) {
                     // UAT-Q5h: save city context before navigating to generic tool
                     _saveCityCtxFor('zakat');
                     _showNavLoadingOverlay('zakat');
@@ -11691,7 +11691,7 @@ window.addEventListener('pageshow', function(e) {
             _expectedId = 'page-hijri-month';
         } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(_path)) {
             _expectedId = 'page-hijri-year';
-        } else if (/\/(?:(?:en|fr|tr|ur)\/)?zakat-calculator$/.test(_path)) {
+        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?zakat-calculator$/.test(_path)) {
             _expectedId = 'page-zakat';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(_path)) {
             _expectedId = 'page-date-converter';

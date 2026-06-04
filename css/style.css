@@ -30,6 +30,10 @@ html.msbaha-page #page-prayer-times { display: none !important; }
 html.date-converter-page #page-date-converter { display: block !important; }
 html.date-converter-page #page-prayer-times { display: none !important; }
 
+/* ZAKAT-CALCULATOR-SSR-ACTIVE-PAGE-FIX-1: عرض حاسبة الزكاة فوراً من أول رسم */
+html.zakat-calculator-page #page-zakat { display: block !important; }
+html.zakat-calculator-page #page-prayer-times { display: none !important; }
+
 /* عرض صفحة التقويم الهجري السنوي فوراً عند URL /hijri-calendar/1447 */
 html.hijri-year-page #page-hijri-year { display: block !important; }
 html.hijri-year-page #page-prayer-times { display: none !important; }

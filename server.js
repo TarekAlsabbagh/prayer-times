@@ -21677,29 +21677,33 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace(/\{city\}/g, _cityForI18n);
     }
 
-    // PRAYER-COUNTDOWN-RELATED-LINKS-LANG-ROUTING-FIX-1 (2026-06-05):
-    //   UNIFIED language-prefix pass for the time-left + next-prayer pages,
-    //   mirroring the homepage pass (HOME-ALL-LINKS-LANG-ROUTING-FIX-1 at the
-    //   _isHomepageSsr block above). The countdown / next-prayer SPA shell
-    //   ships ~111 internal <a href="/…"> WITHOUT a lang prefix (mini-tools,
-    //   service cards, eid/festival countdowns, moon/qibla/hijri/date-converter
-    //   links, city cards, related pills, FAQ links), so on /en /fr /bn … a
-    //   click dropped the user onto the Arabic (no-prefix) page. This single
-    //   pass prefixes ALL eligible internal links on the NON-AR time-left /
-    //   next-prayer route. Placed at the very end of serveHtmlWithSeo so it
-    //   covers every link the upstream SSR injectors emitted.
+    // ISLAMIC-EVENT-CARDS-LANG-ROUTING-FIX-1 (2026-06-05): GENERALIZED the
+    //   unified language-prefix pass to EVERY non-AR SSR page. Originally
+    //   added for the homepage (HOME-ALL-LINKS-LANG-ROUTING-FIX-1) then the
+    //   time-left/next-prayer routes (PRAYER-COUNTDOWN-RELATED-LINKS-LANG-
+    //   ROUTING-FIX-1). But the SPA shell ships the Islamic-event countdown
+    //   cards (`.moon-event-card` → /ramadan-countdown, /eid-al-fitr-countdown,
+    //   /eid-al-adha-countdown, /hijri-new-year-countdown) plus the
+    //   `#event-countdown-badge` HARDCODED with no lang prefix, and they
+    //   render on EVERY page (date-converter, hijri-calendar, today-hijri-date,
+    //   hijri-month, moon, city, zakat, azkar, tasbih …). On /bn /en /fr … a
+    //   click on any event card dropped the user onto the Arabic (no-prefix)
+    //   page. Running the SAME pass for all non-AR pages prefixes those cards
+    //   (and every other eligible internal link) consistently site-wide.
+    //   Placed at the very end of serveHtmlWithSeo so it covers every link the
+    //   upstream SSR injectors emitted.
     //   SAFE by construction (byte-identical logic to the homepage pass):
     //     • Only matches double-quote href="/…" → external (https/mailto/tel)
     //       and SVG <use href="#…"> never match.
-    //     • Skips links already carrying ANY lang prefix (no double-prefix).
+    //     • Skips links already carrying ANY lang prefix (no double-prefix) —
+    //       so the homepage (already prefixed by its own block above) and the
+    //       TL/NPT routes re-run here as a harmless no-op.
     //     • Skips static assets (.js/.css/.png/… incl. ?v=…) and /api/.
     //     • canonical/hreflang/og:url are ABSOLUTE (https://…) → untouched.
     //     • JSON-LD uses "url"/"item" keys (not href=) → untouched.
     //     • "/" (home/logo) → "/{lang}" (no trailing slash, avoids 301 hop).
-    //     • Slugs stay English; only the lang prefix is added.
-    //   Scope guard: ONLY time-left + next-prayer routes (homepage handled by
-    //   its own block; other city routes are out of this ticket's scope).
-    if (seo && (seo.timeLeftPage || seo.nextPrayerPage) && seo.lang && seo.lang !== 'ar') {
+    //     • Slugs/event-IDs stay English; only the lang prefix is added.
+    if (seo && seo.lang && seo.lang !== 'ar') {
         const _L = seo.lang;
         const _alreadyPrefixed = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/;
         const _staticExt = /\.(?:js|mjs|css|json|xml|png|jpe?g|gif|svg|webp|ico|webmanifest|txt|woff2?|ttf|otf|map|pdf|mp[34]|webm)$/i;

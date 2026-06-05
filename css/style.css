@@ -2680,6 +2680,36 @@ html[data-theme="dark"] .ns-item.is-selected {
     transition: none !important;
 }
 
+/* MOON-TODAY-DISABLE-MOON-ANIMATION-FIX-1 (2026-06-06):
+   Guarantee NOTHING on the /moon-today moon shape or its illumination widgets
+   moves — mobile or desktop. MOON-DISC-ANIMATION-DISABLE-1 (above) already
+   freezes the disc subtree globally; this block re-asserts it scoped to the two
+   moon-today pages AND adds the only two remaining continuous motions in the
+   moon visualization:
+     • the illumination-chart "today" halo pulse (Wave C `moonChartHaloPulse`)
+     • the yesterday→today illumination-change delta arrow (`mc-bounce*`, the "↓/↑")
+   `animation:none`/`transition:none` revert each element to its STATIC rest
+   state (halo → base r=14 / opacity=0.22 soft glow; arrow → rest position)
+   WITHOUT changing moon size/color/shadow, illumination %, phase, under-moon
+   text, or any calculation. The moon-hub CTA pulse, breadcrumb nav dot,
+   upcoming-phase forecast-card highlight, and one-shot entrance fade-ins are
+   page chrome (not the moon shape) and are intentionally left untouched. */
+html.moon-today-hub-page .moon-visual,
+html.moon-today-hub-page .moon-visual *,
+html.moon-today-hub-page .moon-svg,
+html.moon-today-hub-page .moon-svg *,
+html.moon-today-city-page .moon-visual,
+html.moon-today-city-page .moon-visual *,
+html.moon-today-city-page .moon-svg,
+html.moon-today-city-page .moon-svg *,
+html.moon-today-hub-page .moon-chart-container svg circle.moon-chart-halo,
+html.moon-today-city-page .moon-chart-container svg circle.moon-chart-halo,
+html.moon-today-hub-page .mc-delta-arrow,
+html.moon-today-city-page .mc-delta-arrow {
+    animation: none !important;
+    transition: none !important;
+}
+
 .moon-details {
     /* UAT-Moon-Today-City-Polish: 4-col on desktop (4+4 layout for 8 cards),
        2-col on tablet, 1-col on mobile. Replaces the prior auto-fit grid

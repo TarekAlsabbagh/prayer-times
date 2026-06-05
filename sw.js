@@ -1518,7 +1518,7 @@
 //   canonical, hreflang, sitemap, routing, JSON-LD. Month + today + day
 //   pages UNAFFECTED. Files: server.js (~55: breadcrumb + intro SSR-fill +
 //   doc) + sw.js (this comment + version bump v410→v411).
-const CACHE_VERSION = 'v434';
+const CACHE_VERSION = 'v435';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -714,6 +714,49 @@ function _isDisplayScriptAcceptable(s, lang) {
     // EN/FR/TR/DE/ID/ES/MS: لاتينيّ بحت — ارفض العربيّ والبنغاليّة
     return !hasArabic && !hasBengali;
 }
+// GLOBAL-CURRENT-CITY-LANG-SWITCH-LEAK-FIX-1 (2026-06-05): a cached
+// `currentCity` can carry a DISPLAY name saved by a *previous* language's
+// visit. The `city_<slug>` / `last_city_context` sessionStorage seeds store
+// the LOCALIZED label (e.g. a /bn/ page writes "রিয়াদ"), and
+// `_initialSyncHydrate` copies it into `currentCity` verbatim on the next
+// page regardless of THAT page's language. On an Arabic page the old
+// `!/[A-Za-z]/` guard accepted that Bengali/Urdu string (it has no Latin
+// letters) and rendered it in the top header — the user-reported leak
+// ("রিয়াদ" inside an Arabic page).
+//   _isCleanArabicCityName(s): true only when s is a clean Arabic-script
+//     city name — rejects Latin, Bengali/CJK/other scripts, AND Urdu/Persian-
+//     specific letters that share the Arabic Unicode block (ی ہ ے ٹ ڈ ڑ ں ھ
+//     گ چ پ ک ژ …) so an Urdu "ریاض" leftover is also rejected.
+//   _cityNameByLangFromEnglish(lang): re-resolve the canonical name for a
+//     language from the STABLE English handle (currentEnglishName) via the
+//     per-language city maps (CITY_NAMES_AR for ar; _LOCALIZED_CITY_MAPS for
+//     the other 8). This is the slug/id-stable source the leak policy wants.
+const _URDU_PERSIAN_ONLY_RE = /[ٹچپڈڑژکگںھۀہۂۃیےۓ]/;
+function _isCleanArabicCityName(s) {
+    if (typeof s !== 'string' || !s) return false;
+    if (!/[؀-ۿ]/.test(s)) return false;       // must contain Arabic-block letters
+    if (/[A-Za-z]/.test(s)) return false;               // reject Latin
+    if (_URDU_PERSIAN_ONLY_RE.test(s)) return false;    // reject Urdu/Persian-only letters
+    try {
+        if (typeof _isDisplayScriptAcceptable === 'function'
+            && !_isDisplayScriptAcceptable(s, 'ar')) return false; // reject Bengali/CJK/etc.
+    } catch (_) {}
+    return true;
+}
+function _cityNameByLangFromEnglish(lang) {
+    const en = (typeof currentEnglishName === 'string' && currentEnglishName) ? currentEnglishName : '';
+    if (!en) return '';
+    try {
+        if (lang === 'ar') {
+            return (typeof CITY_NAMES_AR !== 'undefined' && CITY_NAMES_AR[en]) ? CITY_NAMES_AR[en] : '';
+        }
+        if (lang === 'en') return en;
+        if (typeof _LOCALIZED_CITY_MAPS !== 'undefined' && _LOCALIZED_CITY_MAPS[lang]
+            && _LOCALIZED_CITY_MAPS[lang][en]) return _LOCALIZED_CITY_MAPS[lang][en];
+    } catch (_) {}
+    return '';
+}
+
 function getDisplayCity() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
 
@@ -799,20 +842,30 @@ function getDisplayCity() {
         // name:ar was missing) from leaking into the visible UI on
         // /next-prayer-in-… and /time-left-until-next-prayer-in-… pages
         // that consume getDisplayCity() for hero / CTA / SEO text.
-        if (typeof currentCity === 'string' && currentCity
-            && !/[A-Za-z]/.test(currentCity)) {
+        // GLOBAL-CURRENT-CITY-LANG-SWITCH-LEAK-FIX-1 (2026-06-05): accept the
+        // cached `currentCity` ONLY when it is a clean Arabic-script name.
+        // A foreign-script leftover from a previous language's visit
+        // (Bengali "রিয়াদ" / Urdu "ریاض") is rejected and the canonical Arabic
+        // name is re-resolved from the stable English handle. The old guard
+        // accepted any non-Latin string, leaking Bengali/Urdu into the AR
+        // header on cross-language navigation.
+        if (_isCleanArabicCityName(currentCity)) {
             return currentCity;
         }
+        const _arRe = _cityNameByLangFromEnglish('ar');
+        if (_arRe) return _arRe;
         try {
             if (typeof _getLocalizedCityDisplayName === 'function') {
                 const r = _getLocalizedCityDisplayName('', 'ar');
-                if (r && !/[A-Za-z]/.test(r)) return r;
+                if (_isCleanArabicCityName(r)) return r;
             }
         } catch (_) {}
-        // Absolute last resort — should be unreachable when SSR meta is
-        // present; if we land here, return the (possibly Latin) value
-        // so the page at least shows SOMETHING.
-        return currentCity || '';
+        // Canonical English as last resort (policy: names.ar → names.en) —
+        // NEVER a foreign-script display name from another language.
+        if (typeof currentEnglishName === 'string' && currentEnglishName) {
+            return currentEnglishName;
+        }
+        return _isCleanArabicCityName(currentCity) ? currentCity : '';
     }
     if (lang === 'en') return currentEnglishDisplayName || currentEnglishName || currentCity;
 
@@ -13538,17 +13591,26 @@ function getCurrentCityLabel() {
         // to the safe localized resolver. NPT H1 (`npt-h1-city`),
         // prayer-card aria-labels and other AR surfaces consume this
         // helper and must NEVER show "Le Pontet" instead of "لو بونت".
-        if (typeof currentCity === 'string' && currentCity
-            && !/[A-Za-z]/.test(currentCity)) {
+        // GLOBAL-CURRENT-CITY-LANG-SWITCH-LEAK-FIX-1 (2026-06-05): twin of the
+        // getDisplayCity() AR guard. Accept currentCity only if it's a clean
+        // Arabic-script name; otherwise re-resolve the canonical Arabic name
+        // from the stable English handle so a Bengali/Urdu leftover from a
+        // previous language's visit never reaches #snb-city / #loc-hero-title.
+        if (_isCleanArabicCityName(currentCity)) {
             return _strip(currentCity);
         }
+        const _arRe = _cityNameByLangFromEnglish('ar');
+        if (_arRe) return _strip(_arRe);
         try {
             if (typeof _getLocalizedCityDisplayName === 'function') {
                 const r = _getLocalizedCityDisplayName('', 'ar');
-                if (r && !/[A-Za-z]/.test(r)) return _strip(r);
+                if (_isCleanArabicCityName(r)) return _strip(r);
             }
         } catch (_) {}
-        return (typeof currentCity !== 'undefined' && currentCity) ? _strip(currentCity) : '';
+        if (typeof currentEnglishName === 'string' && currentEnglishName) {
+            return _strip(currentEnglishName);
+        }
+        return _isCleanArabicCityName(currentCity) ? _strip(currentCity) : '';
     }
     // للّغات الأخرى: جرّب localized name أوّلاً ثم map ثم English
     if (typeof currentLocalizedName !== 'undefined' && currentLocalizedName) return _strip(currentLocalizedName);

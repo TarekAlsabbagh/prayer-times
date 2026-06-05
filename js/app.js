@@ -26767,6 +26767,46 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
                 }).catch(() => {});
             }
         } catch (_) { /* persistence is best-effort */ }
+        // MOON-CITY-SELECTION-PERSISTED-PLACE-FIX-1 (2026-06-05): persist the
+        // FULL selected-city context to sessionStorage BEFORE routing, so the
+        // destination page (and every page navigated to afterwards) reads the
+        // picked city instead of a stale `last_city_context`. Previously this
+        // handler only POSTed to /api/place-selected then did a bare
+        // window.location.href, writing NO client seed — so on /moon-today-in-
+        // {slug} (whose init resolves via the shared 'moon' session key +
+        // last_city_context, NOT __PRAYER_CITY__) the country/globals leaked
+        // from the previous city (e.g. "ماكاو" with country "السعودية"), and
+        // navigating away fell back to Mecca. The prayer-times destination
+        // self-persists, so writing here is idempotent for it; the moon/qibla
+        // destinations do NOT, so this is what fixes them. Schema mirrors
+        // navigateToMoonToday (city_<slug>/city_moon + last_city_context).
+        try {
+            const _cc   = (r.countryCode || '').toLowerCase();
+            const _name = r.displayName || r.slug;
+            const _en   = r.secondaryName
+                       || (r.names && typeof r.names === 'object' ? r.names.en : '')
+                       || r.displayName || r.slug;
+            const _country = r.countryName || '';
+            const _tz   = (r.timezone != null) ? r.timezone : null;
+            const _seed = JSON.stringify({
+                lat: r.lat, lng: r.lng, name: _name, country: _country,
+                englishName: _en, countryCode: _cc, timezone: _tz, _v: 2
+            });
+            const _ctx  = JSON.stringify({
+                lat: r.lat, lng: r.lng, name: _name, country: _country,
+                englishName: _en, countryCode: _cc, timezone: _tz, ts: Date.now()
+            });
+            try { sessionStorage.setItem('city_' + r.slug, _seed); } catch (_e) {}
+            // Shared hub session keys: /moon-today-in-* resolves via 'moon',
+            // /qibla-in-* via 'qibla' (getSlugFromURL returns the literal hub
+            // key for these routes), so seed them too for the matching target.
+            if (state.targetRoute === 'moon-hub') {
+                try { sessionStorage.setItem('city_moon', _seed); } catch (_e) {}
+            } else if (state.targetRoute === 'qibla-hub') {
+                try { sessionStorage.setItem('city_qibla', _seed); } catch (_e) {}
+            }
+            try { sessionStorage.setItem('last_city_context', _ctx); } catch (_e) {}
+        } catch (_) { /* best-effort — never block navigation */ }
         window.location.href = _stRouteFor(state.targetRoute, r.slug);
     }
     function _stRenderResults(state, results, status, LANG, IS_AR) {

@@ -957,30 +957,74 @@ function getDisplayCity() {
     // fallback إنجليزي نهائي
     return currentEnglishDisplayName || currentEnglishName || currentCity;
 }
-// أولوية الدولة: قاموس محلي (ثابت وموثوق) → Nominatim → fallback إنجليزي.
-// القاموس أولاً لأنّ أسماء الدول مستقرّة ونادراً ما تتغيّر — أسرع وأوثق من Nominatim.
+// MOON-CITY-COUNTRY-LABEL-LANG-SWITCH-FIX-1 (2026-06-06): resolve a country's
+// display name from its stable ISO-3166 alpha-2 code in the CURRENT UI language
+// via Intl.DisplayNames — an international standard for COUNTRY/region names,
+// NOT city translation. This lets getDisplayCountry() localize countries that
+// are absent from the curated per-lang maps (e.g. Macau / "mo") instead of
+// leaking a stored wrong-language string (e.g. Arabic "ماكاو" on a /bn or /en
+// page) that was saved when the city was first picked under another language.
+// Returns '' when it cannot resolve (old browser without Intl.DisplayNames, or
+// an invalid code) so callers keep their existing fallbacks. DisplayNames
+// instances are cached per language because getDisplayCountry() is hot.
+const _intlRegionCache = {};
+function _countryNameFromCode(cc, lang) {
+    cc = (cc || '').toUpperCase();
+    if (!cc || cc.length !== 2) return '';
+    try {
+        if (typeof Intl === 'undefined' || !Intl.DisplayNames) return '';
+        let dn = _intlRegionCache[lang];
+        if (!dn) { dn = new Intl.DisplayNames([lang], { type: 'region' }); _intlRegionCache[lang] = dn; }
+        const n = dn.of(cc);
+        if (n && n !== cc) return n;
+    } catch (_e) { /* unsupported locale / code → fall through to '' */ }
+    return '';
+}
+// أولوية الدولة: قاموس محلي (ثابت وموثوق) → Intl (من رمز الدولة) → fallback إنجليزي.
+// القاموس أولاً لأنّ أسماء الدول مستقرّة؛ ثمّ Intl يحلّ من countryCode حسب لغة
+// الصفحة الحالية، فلا يبقى اسم الدولة بلغة قديمة بعد تبديل اللغة.
 function getDisplayCountry() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _cc = (currentCountryCode || '').toLowerCase();
     if (lang === 'ar') {
         // Prefer the canonical/full Arabic country name from the country-code
         //   lookup. Without this, lsb_detected (saved from Nominatim's Arabic
         //   API) stores SHORT forms like 'السعودية' instead of the official
         //   'المملكة العربية السعودية' — which would then leak into all pages
         //   that read currentCountry (Zakat / Tasbih / Duas / Date-Conv …).
-        const _cc = (currentCountryCode || '').toLowerCase();
+        // On an AR page the stored currentCountry is Arabic (no script-leak
+        // risk), so it remains the primary fallback; Intl is only a last resort.
         if (_cc && typeof _MOON_COUNTRY_NAMES !== 'undefined'
             && _MOON_COUNTRY_NAMES.ar && _MOON_COUNTRY_NAMES.ar[_cc]) {
             return _MOON_COUNTRY_NAMES.ar[_cc];
         }
-        return currentCountry;
+        return currentCountry || _countryNameFromCode(_cc, 'ar') || '';
     }
-    if (lang === 'en') return currentEnglishCountry || COUNTRY_EN_NAMES[currentCountryCode] || currentCountry;
+    // MOON-CITY-COUNTRY-LABEL-LANG-SWITCH-FIX-1: for EVERY non-AR language,
+    // resolve from the stable countryCode in the CURRENT language and never let
+    // the stored currentCountry string (saved in whatever language was active
+    // when the city was picked, e.g. Arabic "ماكاو") leak onto the page. Tier
+    // order: curated per-lang map → Intl.DisplayNames(lang) → English (curated
+    // → Intl) → stored string ONLY if the code cannot resolve at all.
+    if (lang === 'en') {
+        return currentEnglishCountry
+            || (typeof COUNTRY_EN_NAMES !== 'undefined' && COUNTRY_EN_NAMES[_cc])
+            || _countryNameFromCode(_cc, 'en')
+            || currentCountry;
+    }
     const ctryMap = _LOCALIZED_COUNTRY_MAPS[lang];
-    if (ctryMap && ctryMap[currentCountryCode]) return ctryMap[currentCountryCode];
-    if (currentLocalizedCountry && currentLocalizedCountry !== currentEnglishCountry) {
+    if (ctryMap && ctryMap[_cc]) return ctryMap[_cc];
+    if (currentLocalizedCountry && currentLocalizedCountry !== currentEnglishCountry
+        && (typeof _isDisplayScriptAcceptable !== 'function'
+            || _isDisplayScriptAcceptable(currentLocalizedCountry, lang))) {
         return currentLocalizedCountry;
     }
-    return currentEnglishCountry || COUNTRY_EN_NAMES[currentCountryCode] || currentCountry;
+    const _intl = _countryNameFromCode(_cc, lang);
+    if (_intl) return _intl;
+    return currentEnglishCountry
+        || (typeof COUNTRY_EN_NAMES !== 'undefined' && COUNTRY_EN_NAMES[_cc])
+        || _countryNameFromCode(_cc, 'en')
+        || currentCountry;
 }
 let currentTimezone = 3; // UTC+3 للسعودية افتراضياً
 let currentPrayerTimes = null;

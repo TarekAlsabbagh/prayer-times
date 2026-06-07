@@ -1623,6 +1623,11 @@ const COUNTRY_NAMES_EN = {
     uz:'Uzbekistan', kz:'Kazakhstan', kg:'Kyrgyzstan', tj:'Tajikistan',
     tm:'Turkmenistan', az:'Azerbaijan', ge:'Georgia', am:'Armenia',
     xk:'Kosovo',
+    // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: territories/countries that exist in
+    // curated but were missing here — so their /prayer-times-in-{slug} country pages resolve
+    // (no-collision slugs only; Macau/Hong Kong stay city-only via COUNTRY_SLUG_OVERRIDES).
+    tw:'Taiwan', lv:'Latvia', lt:'Lithuania', cy:'Cyprus',
+    is:'Iceland', ee:'Estonia', me:'Montenegro',
     // Round 7k — توسّع: 40 دولة إضافية (105 → 145)
     ba:'Bosnia and Herzegovina', al:'Albania', mk:'North Macedonia',
     bf:'Burkina Faso', ci:"Côte d'Ivoire", gn:'Guinea', gm:'Gambia',
@@ -1641,7 +1646,14 @@ const COUNTRY_NAMES_EN = {
     li:'Liechtenstein', lu:'Luxembourg', mt:'Malta',
 };
 
+// COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: SAR/territory codes represented in curated
+// as a single city whose slug == the would-be country slug (collision). They stay CITY-only:
+// the "country" link points at the existing city slug instead of registering a country page.
+// (Data decision — Macau/HK independent vs part of China — is deliberately deferred here.)
+const COUNTRY_SLUG_OVERRIDES = { mo: 'macau', hk: 'hong-kong' };
+
 function makeCountrySlugSrv(cc) {
+    if (COUNTRY_SLUG_OVERRIDES[cc]) return COUNTRY_SLUG_OVERRIDES[cc]; // collision territory → city slug
     const name = COUNTRY_NAMES_EN[cc];
     if (name) return name
         .normalize('NFD')                           // Côte → Co + combining circumflex
@@ -1649,7 +1661,10 @@ function makeCountrySlugSrv(cc) {
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
-    return cc;
+    // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1 HARDENING: never emit a raw country
+    // code as a public slug (was `return cc`, which produced broken /prayer-times-in-mo).
+    // '' signals callers to hide/skip the breadcrumb country anchor.
+    return '';
 }
 
 // ===== Cache الـ sitemap (30 دقيقة TTL) =====
@@ -4931,6 +4946,9 @@ const COUNTRY_NAMES_AR = {
     uz:'أوزبكستان', kz:'كازاخستان', kg:'قيرغيزستان', tj:'طاجيكستان',
     tm:'تركمانستان', az:'أذربيجان', ge:'جورجيا', am:'أرمينيا',
     xk:'كوسوفو',
+    // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: AR names for the newly-recognized territories
+    tw:'تايوان', lv:'لاتفيا', lt:'ليتوانيا', cy:'قبرص',
+    is:'آيسلندا', ee:'إستونيا', me:'الجبل الأسود',
     // Round 7k — توسّع: 40 دولة إضافية
     ba:'البوسنة والهرسك', al:'ألبانيا', mk:'مقدونيا الشمالية',
     bf:'بوركينا فاسو', ci:'ساحل العاج', gn:'غينيا', gm:'غامبيا',
@@ -23973,7 +23991,12 @@ const server = http.createServer(async (req, res) => {
             // 2) صفحات الدول (نمط موحَّد مع المدن: /prayer-times-in-{slug})
             const { countryCodes } = getSitemapData();
             for (const cc of countryCodes) {
+                // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: skip city-only SAR territories
+                // (mo/hk) — their slug already appears in the cities list, and skipping avoids a
+                // duplicate <url> + removes the previously-broken raw /prayer-times-in-hk entry.
+                if (COUNTRY_SLUG_OVERRIDES[cc]) continue;
                 const slug = makeCountrySlugSrv(cc);
+                if (!slug) continue; // hardened: no raw-cc URLs in sitemap
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.8', 'weekly', today));
             }
 
@@ -24447,6 +24470,20 @@ const server = http.createServer(async (req, res) => {
         const _ptMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+)$/);
         if (_ptMatch) {
             const slug = _ptMatch[2];
+            // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: a bare territory/country CODE
+            // (e.g. /prayer-times-in-mo) is never a valid public slug — 301 it to the canonical
+            // country/city slug instead of falling through to an empty SPA city page.
+            const _CC_REDIRECT = { mo:'macau', hk:'hong-kong', tw:'taiwan', lv:'latvia',
+                lt:'lithuania', cy:'cyprus', is:'iceland', ee:'estonia', me:'montenegro' };
+            if (_CC_REDIRECT[slug]) {
+                const _lgR = _ptMatch[1] || '';
+                res.writeHead(301, {
+                    'Location': (_lgR ? '/' + _lgR : '') + '/prayer-times-in-' + _CC_REDIRECT[slug],
+                    'Cache-Control': 'public, max-age=31536000'
+                });
+                res.end();
+                return;
+            }
             const countryCheck = _countryFromSlug(slug);
             const isCountry = countryCheck && countryCheck.cc && countryCheck.cc !== '__';
             const htmlFile = isCountry ? 'prayer-times-cities.html' : 'index.html';

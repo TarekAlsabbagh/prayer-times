@@ -210,6 +210,7 @@ const COUNTRY_EN_NAMES = {
     sg:'Singapore', bn:'Brunei', ph:'Philippines', th:'Thailand',
     vn:'Vietnam', kh:'Cambodia', la:'Laos', tl:'Timor-Leste',
     cn:'China', jp:'Japan', kr:'South Korea', kp:'North Korea', mn:'Mongolia',
+    tw:'Taiwan', // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1 (was missing → breadcrumb fell back to raw cc)
     kz:'Kazakhstan', uz:'Uzbekistan', az:'Azerbaijan', lk:'Sri Lanka',
     np:'Nepal', mm:'Myanmar', kg:'Kyrgyzstan', tj:'Tajikistan',
     tm:'Turkmenistan', ge:'Georgia', am:'Armenia',
@@ -8680,7 +8681,12 @@ function updateBreadcrumb() {
 
     if (bcCountryName) bcCountryName.textContent = countryFinal;
     else if (bcCountry) bcCountry.textContent = countryFinal;
-    if (bcCountry) bcCountry.href = countryHref;
+    // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: only link the country crumb when we have a
+    // real slug. makeCountrySlug now returns '' for unmapped codes — never build /prayer-times-in-.
+    if (bcCountry) {
+        if (countrySlug) bcCountry.href = countryHref;
+        else bcCountry.removeAttribute('href');
+    }
 
     if (bcCity) bcCity.textContent = finalLabel;  // <span> لا <a> — بدون href
 
@@ -12448,7 +12454,14 @@ function renderPrayerSchedule(days, btn) {
     }
 }
 
+// COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: SAR/territory codes whose curated entry is a
+// single city sharing the would-be country slug — they stay city-only, so the "country" link
+// points at the existing city slug. Mirrors server COUNTRY_SLUG_OVERRIDES.
+const COUNTRY_SLUG_OVERRIDES = { mo: 'macau', hk: 'hong-kong' };
+
 function makeCountrySlug(cc, englishName) {
+    // 0) COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: explicit override (collision territories)
+    if (COUNTRY_SLUG_OVERRIDES[cc]) return COUNTRY_SLUG_OVERRIDES[cc];
     // 1) اسم من geocoding (الأشمل — يعمل مع أي دولة)
     // 2) COUNTRY_EN_NAMES المعرَّف أعلى الملف
     const name = englishName || COUNTRY_EN_NAMES[cc];
@@ -12458,7 +12471,9 @@ function makeCountrySlug(cc, englishName) {
         .toLowerCase()
         .replace(/[^a-z0-9]+/g, '-')
         .replace(/^-|-$/g, '');
-    return cc;
+    // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1 HARDENING: never return the raw country
+    // code as a slug (was `return cc` → broken /prayer-times-in-mo). '' = no country link.
+    return '';
 }
 
 // ========= قاعدة بيانات المدن =========

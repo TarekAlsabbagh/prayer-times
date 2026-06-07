@@ -249,10 +249,13 @@
         <nav class="sidebar-nav">
             <!-- قسم: الخدمات الإسلامية -->
             <div class="nav-group-label" data-i18n="nav.group_islamic">🕌 الخدمات الإسلامية</div>
-            <a href="#" class="active" onclick="goToPrayerTimes(); return false;">
+            <!-- COUNTRY-PRAYER-PAGE-NAVBAR-UNIFICATION-FIX-1: clean canonical tool URLs
+                 (was legacy /?page=… which the SSR lang-prefix pass collapsed to /en or
+                 /bn on non-AR). Same hrefs as the rest of the site; lang prefix added SSR. -->
+            <a href="/" class="active" onclick="goToPrayerTimes(); return false;">
                 <span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
             </a>
-            <a href="/?page=qibla">
+            <a href="/qibla">
                 <span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span>
             </a>
             <a href="/moon-today">
@@ -261,21 +264,21 @@
             <a href="/zakat-calculator">
                 <span class="nav-icon">💰</span> <span data-i18n="nav.zakat">حاسبة الزكاة</span>
             </a>
-            <a href="/?page=duas">
-                <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأدعية والأذكار</span>
+            <a href="/azkar">
+                <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأذكار</span>
             </a>
-            <a href="/?page=tasbih">
+            <a href="/msbaha">
                 <span class="nav-icon">📿</span> <span data-i18n="nav.tasbih">المسبحة الإلكترونية</span>
             </a>
             <!-- قسم: التاريخ الهجري -->
             <div class="nav-group-label" data-i18n="nav.group_hijri">📅 التاريخ الهجري</div>
-            <a href="/?page=hijri-today">
+            <a href="/today-hijri-date">
                 <span class="nav-icon">📅</span> <span data-i18n="nav.hijri_today">التاريخ الهجري اليوم</span>
             </a>
-            <a href="/?page=hijri-calendar">
+            <a href="/hijri-calendar">
                 <span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
             </a>
-            <a href="/?page=date-converter">
+            <a href="/date-converter">
                 <span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span>
             </a>
         </nav>
@@ -393,7 +396,8 @@
     </main>
 </div>
 
-<script src="js/i18n.js?v=132"></script>
+<!-- COUNTRY-PRAYER-PAGE-NAVBAR-UNIFICATION-FIX-1: cache-buster bumped 132→198 so returning visitors fetch the current i18n bundle (nav labels). -->
+<script src="js/i18n.js?v=198"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */

@@ -373,6 +373,18 @@
             <div class="results-count" id="results-count" style="margin-top:14px;"></div>
         </section>
 
+        <!-- COUNTRY-PRAYER-PAGE-CITY-SEARCH-RESTORE-FIX-1: in-results city filter above the grid.
+             Filters the displayed country cities only (names[lang]→names.en + nameAr + slug);
+             NO runtime translation, NO Nominatim; clearing restores the base order. -->
+        <div class="cities-search-card">
+            <input type="search" id="country-city-filter" autocomplete="off"
+                   placeholder="🔍 ابحث عن مدينة داخل هذه الدولة..."
+                   data-i18n-placeholder="countryCities.searchPlaceholder"
+                   aria-label="ابحث عن مدينة داخل هذه الدولة"
+                   data-i18n-aria-label="countryCities.searchPlaceholder"
+                   oninput="onCountryCityFilter()">
+        </div>
+
         <!-- شبكة المدن -->
         <div class="cities-main-card">
             <div id="cities-container">
@@ -396,8 +408,8 @@
     </main>
 </div>
 
-<!-- COUNTRY-PRAYER-PAGE-NAVBAR-UNIFICATION-FIX-1: cache-buster bumped 132→198 so returning visitors fetch the current i18n bundle (nav labels). -->
-<script src="js/i18n.js?v=198"></script>
+<!-- i18n cache-buster: 132→198 (NAVBAR-UNIFICATION) → 199 (CITY-SEARCH-RESTORE: +countryCities.searchPlaceholder). -->
+<script src="js/i18n.js?v=199"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
@@ -1569,6 +1581,30 @@ function makeSlug(en, lat, lng) {
     const la = Math.abs(lat).toFixed(1) + (lat >= 0 ? 'n' : 's');
     const lo = Math.abs(lng).toFixed(1) + (lng >= 0 ? 'e' : 'w');
     return `${la}-${lo}`;
+}
+
+// COUNTRY-PRAYER-PAGE-CITY-SEARCH-RESTORE-FIX-1: in-results filter over the
+// displayed country cities. Matches names[lang] → names.en + nameAr + slug
+// (NO runtime translation, NO Nominatim). Empty query restores the base order;
+// renderGrid shows the translated "no results" label when nothing matches.
+function onCountryCityFilter() {
+    const inp = document.getElementById('country-city-filter');
+    const q = (inp ? inp.value : '').trim();
+    lastQuery = '';   // generic "no results", not the hero internet-suggestion text
+    if (!q) { filtered = [...allCities]; currentPage = 1; renderGrid(); return; }
+    const qNorm = normalizeAr(q);
+    const qLow  = q.toLowerCase();
+    const _lng  = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    filtered = allCities.filter(c => {
+        const nm  = c.names || {};
+        const loc = nm[_lng] || '';
+        return normalizeAr(c.nameAr).includes(qNorm) ||
+               (c.nameEn || '').toLowerCase().includes(qLow) ||
+               (loc && (loc.includes(q) || loc.toLowerCase().includes(qLow) || normalizeAr(loc).includes(qNorm))) ||
+               (c.slug || '').toLowerCase().includes(qLow);
+    });
+    currentPage = 1;
+    renderGrid();
 }
 
 function renderGrid() {

@@ -15873,6 +15873,18 @@ TRANSLATIONS['es']['npt.eyebrow'] = 'Horarios de oración de hoy';
 TRANSLATIONS['bn']['npt.eyebrow'] = 'আজকের নামাজের সময়';
 TRANSLATIONS['ms']['npt.eyebrow'] = 'Waktu Solat Hari Ini';
 
+/* COUNTRY-PRAYER-PAGE-CITY-SEARCH-RESTORE-FIX-1 — country-page in-results city filter placeholder */
+TRANSLATIONS['ar']['countryCities.searchPlaceholder'] = '🔍 ابحث عن مدينة داخل هذه الدولة...';
+TRANSLATIONS['en']['countryCities.searchPlaceholder'] = '🔍 Search for a city in this country...';
+TRANSLATIONS['fr']['countryCities.searchPlaceholder'] = '🔍 Rechercher une ville dans ce pays...';
+TRANSLATIONS['tr']['countryCities.searchPlaceholder'] = '🔍 Bu ülkedeki bir şehir arayın...';
+TRANSLATIONS['ur']['countryCities.searchPlaceholder'] = '🔍 اس ملک میں کسی شہر کی تلاش کریں...';
+TRANSLATIONS['de']['countryCities.searchPlaceholder'] = '🔍 Stadt in diesem Land suchen...';
+TRANSLATIONS['id']['countryCities.searchPlaceholder'] = '🔍 Cari kota di negara ini...';
+TRANSLATIONS['es']['countryCities.searchPlaceholder'] = '🔍 Buscar una ciudad en este país...';
+TRANSLATIONS['bn']['countryCities.searchPlaceholder'] = '🔍 এই দেশের একটি শহর খুঁজুন...';
+TRANSLATIONS['ms']['countryCities.searchPlaceholder'] = '🔍 Cari bandar di negara ini...';
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { TRANSLATIONS };
 }

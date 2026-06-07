@@ -1306,7 +1306,9 @@ function showEmpty() {
 
 async function fetchCities() {
     // sessionStorage للجلسة الحالية فقط (يُمسح عند إغلاق التبويب)
-    const SESSION_KEY = `session_cities_${countryCode}`;
+    // COUNTRY-PRAYER-PAGE-CITIES-DATA-SOURCE-FIX-1: bumped key (…_curated_…) so an
+    // open session that cached the OLD legacy city list re-fetches the curated one.
+    const SESSION_KEY = `session_cities_curated_${countryCode}`;
     try {
         const raw = sessionStorage.getItem(SESSION_KEY);
         if (raw) {
@@ -1324,9 +1326,13 @@ async function fetchCities() {
         const res   = await fetch(`/api/cities?cc=${countryCode}`, { signal: ctrl.signal });
         clearTimeout(timer);
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const _isCurated = (res.headers.get('X-Source') === 'curated');
         const cities = await res.json();
         if (!Array.isArray(cities) || cities.length === 0) { showEmpty(); return; }
-        allCities = deduplicateCities(cities);
+        // COUNTRY-PRAYER-PAGE-CITIES-DATA-SOURCE-FIX-1: curated is already deduped by
+        // canonical slug — skip the legacy nameAr-dedup (it drops distinct curated
+        // cities sharing an Arabic name, e.g. ae/ly). Legacy fallback still dedups.
+        allCities = _isCurated ? cities : deduplicateCities(cities);
         // حفظ في sessionStorage للجلسة الحالية
         try { sessionStorage.setItem(SESSION_KEY, JSON.stringify(allCities)); } catch(e) {}
         filtered = [...allCities]; currentPage = 1;
@@ -1340,15 +1346,19 @@ async function fetchCities() {
 // ============================================================
 function injectCitiesItemList() {
     if (!Array.isArray(allCities) || !allCities.length) return;
-    const isEnIL = typeof getCurrentLang === 'function' && getCurrentLang() === 'en';
+    // COUNTRY-PRAYER-PAGE-STRUCTURE-DATA-UX-ROOT-FIX-1: per-lang URL prefix +
+    // names[lang] → names.en (was en/ar only, with Arabic names leaking on non-EN).
+    const _ilLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const isEnIL = _ilLang === 'en';
     const origin = window.SITE_URL || window.location.origin;
-    const prefix = isEnIL ? '/en' : '';
+    const prefix = (_ilLang === 'ar') ? '' : ('/' + _ilLang);
     const countryName = isEnIL ? getCountryEn() : getCountryAr();
     const top = allCities.slice(0, 100);
     const items = top.map((city, i) => {
-        const slug = makeSlug(city.nameEn, city.lat, city.lng);
+        const slug = city.slug || makeSlug(city.nameEn, city.lat, city.lng);
         const url  = origin + prefix + `/prayer-times-in-${slug}`;
-        const name = isEnIL ? (city.nameEn || city.nameAr) : city.nameAr;
+        const _nm  = city.names || {};
+        const name = _nm[_ilLang] || _nm.en || city.nameEn || city.nameAr;
         return {
             "@type": "ListItem",
             "position": i + 1,
@@ -1622,10 +1632,20 @@ function renderGrid() {
     grid.className = 'cities-grid';
 
     const _lngCard = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const _cardLabelFn = (cityAr, cityEn) => {
-        // ترجمة اسم المدينة حسب اللغة إن توفّر في CITY_NAMES_LOCAL، وإلّا نستخدم الاسم الإنجليزي.
-        const _cEn  = cityEn || cityAr;
-        const _cLoc = _localizedCityName(_cEn, _lngCard);
+    // COUNTRY-PRAYER-PAGE-STRUCTURE-DATA-UX-ROOT-FIX-1: display name follows
+    // names[lang] → names.en (curated). NO runtime translation. Legacy cities
+    // (no .names object) fall back to the old CITY_NAMES_LOCAL map.
+    const _cityLocName = (city) => {
+        const nm = city && city.names;
+        const _cEn = (nm && nm.en) || city.nameEn || city.nameAr || '';
+        if (nm) return nm[_lngCard] || nm.en || _cEn;   // names[lang] → names.en
+        return _localizedCityName(_cEn, _lngCard);        // legacy fallback
+    };
+    const _cardLabelFn = (city) => {
+        const nm   = city && city.names;
+        const _cEn = (nm && nm.en) || city.nameEn || city.nameAr || '';
+        const _cAr = (nm && nm.ar) || city.nameAr || _cEn;
+        const _cLoc = _cityLocName(city);
         switch (_lngCard) {
             case 'en': return `Prayer Times in ${_cEn}`;
             case 'fr': return `Heures de prière à ${_cLoc}`;
@@ -1636,7 +1656,7 @@ function renderGrid() {
             case 'es': return `Horarios de Oración en ${_cLoc}`;
             case 'bn': return `${_cLoc}-এ নামাজের সময়`;
             case 'ms': return `Waktu Solat di ${_cLoc}`;
-            default:   return `مواقيت الصلاة في ${cityAr}`;
+            default:   return `مواقيت الصلاة في ${_cAr}`;
         }
     };
     // slug الدولة الحاليّة من الـ URL (للكشف عن تصادم اسم المدينة مع اسم الدولة).
@@ -1645,18 +1665,19 @@ function renderGrid() {
     const _countryUrlSlugM = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+)$/);
     const _countryUrlSlug  = _countryUrlSlugM ? _countryUrlSlugM[1] : '';
     page.forEach(city => {
-        let slug = makeSlug(city.nameEn, city.lat, city.lng);
-        // تصادم: اسم المدينة = اسم الدولة (سنغافورة/دولة-مدينة) → لاحقة "-city" للتمييز.
-        // يُنتج URL نظيفاً (/prayer-times-in-singapore-city) ومتوافقاً مع Nominatim text search.
-        if (_countryUrlSlug && slug === _countryUrlSlug) {
-            slug = `${slug}-city`;
+        // COUNTRY-PRAYER-PAGE-STRUCTURE-DATA-UX-ROOT-FIX-1: prefer the canonical
+        // curated slug (always resolves on the city page). Legacy/Nominatim cities
+        // (no .slug) keep makeSlug + the country-name collision suffix.
+        let slug = city.slug;
+        if (!slug) {
+            slug = makeSlug(city.nameEn, city.lat, city.lng);
+            if (_countryUrlSlug && slug === _countryUrlSlug) slug = `${slug}-city`;
         }
         const href = pageUrl(`/prayer-times-in-${slug}`);
         const a = document.createElement('a');
-        const cardLabel = _cardLabelFn(city.nameAr, city.nameEn);
+        const cardLabel = _cardLabelFn(city);
         // الـ subtitle يظهر فقط بالعربي (الاسم اللاتيني كمُعرِّف إضافي).
-        // باقي اللغات: الاسم الإنجليزي موجود ضمن cardLabel → لا حاجة للـ subtitle.
-        const cardSub = (_lngCard === 'ar') ? (city.nameEn || '') : '';
+        const cardSub = (_lngCard === 'ar') ? (((city.names && city.names.en) || city.nameEn) || '') : '';
         a.className = 'city-link' + (city._new ? ' city-link-new' : '');
         a.href = href;
         a.innerHTML = `${cardLabel}<span class="city-type">${cardSub}${city._new ? ' ✦' : ''}</span>`;

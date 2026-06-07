@@ -92,6 +92,40 @@ function _isPrayerTimesReady(p) {
     return true;
 }
 
+// COUNTRY-PRAYER-PAGE-STRUCTURE-DATA-UX-ROOT-FIX-1 (2026-06-07): country city
+// list sourced from the curated GLOBAL-PLACE-SEARCH dataset (names[lang] +
+// canonical slug + lat/lng), replacing the legacy db/cities-*.json +
+// STATIC_CITIES + Wikidata pipeline for /prayer-times-in-{country}. Returns the
+// exact shape the prayer-times-cities.html renderer consumes. City NAMES follow
+// the site rule names[lang] → names.en (NO runtime translation, NO fillchain);
+// the card href uses the canonical curated slug so the city page always resolves.
+function _curatedCitiesForCc(cc) {
+    if (!cc || !/^[a-z]{2}$/.test(cc)) return [];
+    const out = [];
+    for (const p of _CURATED_PLACES) {
+        if (p.countryCode !== cc) continue;
+        const nm = p.names || {};
+        out.push({
+            slug: p.slug,
+            lat: p.lat,
+            lng: p.lng,
+            names: nm,                          // full lang object → names[lang] → names.en
+            nameAr: nm.ar || nm.en || p.slug,
+            nameEn: nm.en || nm.ar || p.slug,
+            priority: (typeof p.priority === 'number') ? p.priority : 0,
+            _t: (p.type === 'city') ? 0 : 1   // city before town (temp sort key)
+        });
+    }
+    // major-first: priority desc → city before town → alphabetical by English name (stable).
+    out.sort((a, b) =>
+        (b.priority - a.priority) ||
+        (a._t - b._t) ||
+        String(a.nameEn).localeCompare(String(b.nameEn))
+    );
+    for (const o of out) delete o._t;   // strip the temp sort key from the payload
+    return out;
+}
+
 // Small Arabic+Latin normalization (mirrors the client `_normArabic` /
 // `normalizeText` semantics enough to match the same way the client
 // would). NFD-fold Latin diacritics, lowercase, Arabic alif/ta-marbuta
@@ -23324,6 +23358,19 @@ async function handleCitiesApi(cc, res) {
     if (!/^[a-z]{2,3}$/.test(cc)) {
         res.writeHead(400, {'Content-Type':'application/json'});
         res.end(JSON.stringify({error:'invalid cc'})); return;
+    }
+
+    // 0) COUNTRY-PRAYER-PAGE-STRUCTURE-DATA-UX-ROOT-FIX-1: curated GLOBAL-PLACE-SEARCH
+    //    dataset is the source of truth. Use it whenever the country is covered by
+    //    curated (names[lang] + canonical slug). Legacy db/cities-*.json + STATIC +
+    //    Wikidata stay below ONLY as a fallback for countries not yet in curated.
+    const _curatedList = _curatedCitiesForCc(cc);
+    if (_curatedList && _curatedList.length > 0) {
+        // Cache-Control: no-store so returning visitors always get the fresh curated
+        // list after deploy (the old pipeline left it cacheable → stale legacy lists).
+        res.writeHead(200, {'Content-Type':'application/json; charset=utf-8', 'X-Source':'curated', 'Cache-Control':'no-store'});
+        res.end(JSON.stringify(_curatedList));
+        return;
     }
 
     // 1) قاعدة البيانات الدائمة — المصدر الأول دائماً

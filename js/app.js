@@ -24990,7 +24990,48 @@ function incrementCounter(id, max, element) {
 //   localStorage['azkar.count.' + category + '.' + dhikrId]
 // NEVER auto-resets — user must click "Reset all" to zero them out.
 // =============================================================================
+// AZKAR-USEFUL-LINKS-PRAYER-TIMES-HREF-FIX-1 (2026-06-07): the azkar "useful
+//   pages" Prayer-Times card is SSR-rendered with href = the home page
+//   (/[lang]/) as a fallback, because the server can't read sessionStorage.
+//   The home link intentionally clears last_city_context (→ Mecca), so clicking
+//   that card on a non-Mecca city reset the context. When a VALID city context
+//   exists, re-point the card at that city's prayer-times page instead, so the
+//   city is preserved. The slug is the stable English slug (makeSlug) — the
+//   localized city NAME is never used in the URL. No valid context → keep the
+//   SSR home fallback. Only this one card is touched; the home page behaviour
+//   and all other useful-link cards are unchanged.
+function _hydrateAzkarPrayerCard() {
+    try {
+        const card = document.querySelector('a[data-azk-prayer-card="1"]');
+        if (!card) return;
+        // Resolve the city ONLY from last_city_context — the explicit "user has
+        //   picked/visited a city" signal. We deliberately do NOT fall back to
+        //   the currentCity/currentEnglishName globals: on a cold azkar load with
+        //   no saved context those default to Mecca, which would wrongly point
+        //   this card at /prayer-times-in-mecca instead of keeping the SSR home
+        //   fallback. No last_city_context → leave the SSR fallback untouched.
+        let en = '', lat = null, lng = null;
+        try {
+            const lcc = JSON.parse(sessionStorage.getItem('last_city_context') || 'null');
+            if (lcc && lcc.englishName && lcc.lat != null && lcc.lng != null) {
+                en = lcc.englishName; lat = lcc.lat; lng = lcc.lng;
+            }
+        } catch (_) { /* ignore parse errors */ }
+        if (!en || lat == null || lng == null) return; // no saved context → keep SSR home fallback
+        if (typeof makeSlug !== 'function') return;
+        const slug = makeSlug(en, lat, lng);
+        if (!slug) return;
+        const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        const pfx = (lang === 'ar') ? '' : ('/' + lang);
+        card.setAttribute('href', pfx + '/prayer-times-in-' + slug);
+    } catch (_) { /* best-effort — keep SSR fallback on any error */ }
+}
+
 function _loadAzkarHub() {
+    // AZKAR-USEFUL-LINKS-PRAYER-TIMES-HREF-FIX-1: re-point the Prayer-Times
+    //   useful-link card to the current city (before the wired guard so it
+    //   always runs when the hub loads).
+    try { _hydrateAzkarPrayerCard(); } catch (_) { /* silent */ }
     // Hub cards are SSR-static <a> / <div> in index.html.
     // Nothing to wire client-side right now beyond the i18n patcher (which
     // runs globally via the existing data-i18n attribute walker).

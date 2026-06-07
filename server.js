@@ -15190,7 +15190,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     const _aHrefs=[(seo.lang==='ar')?'/':(_pfx+'/'), `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/msbaha`, `${_pfx}/zakat-calculator`];
                     const _aIcons=['🕌','📅','🗓','🔄','📿','🪙'];
                     let _links='';
-                    for(let i=1;i<=6;i++){ const l=_at('azkar.hub.link'+i+'_label'); if(!l)continue; _links += `<a class="hd1-tool-card" href="${_aHrefs[i-1]}"><span class="hd1-tool-icon" aria-hidden="true">${_aIcons[i-1]||'🔗'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_e(l)}</span><span class="hd1-tool-desc">${_e(_at('azkar.hub.link'+i+'_desc'))}</span></span></a>`; }
+                    // AZKAR-USEFUL-LINKS-PRAYER-TIMES-HREF-FIX-1 (2026-06-07): mark the
+                    //   first useful-link card (Prayer Times) so js/app.js can re-point its
+                    //   href from the home fallback (_aHrefs[0]) to the current city's
+                    //   prayer-times page when a valid last_city_context exists (the server
+                    //   cannot read sessionStorage). No context → keeps the home fallback.
+                    for(let i=1;i<=6;i++){ const l=_at('azkar.hub.link'+i+'_label'); if(!l)continue; _links += `<a class="hd1-tool-card" href="${_aHrefs[i-1]}"${i===1?' data-azk-prayer-card="1"':''}><span class="hd1-tool-icon" aria-hidden="true">${_aIcons[i-1]||'🔗'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_e(l)}</span><span class="hd1-tool-desc">${_e(_at('azkar.hub.link'+i+'_desc'))}</span></span></a>`; }
                     if(_links) _h += `<section class="section-card hd1-tools-section azkar-hub-links" aria-labelledby="azh-links-t"><h2 id="azh-links-t" class="hd1-section-title">${_e(_at('azkar.hub.links_title'))}</h2><div class="hd1-tools-grid">${_links}</div></section>`;
                     // FAQ (9 — H3 question cards) + FAQPage JSON-LD
                     let _faq=''; const _faqJson=[];

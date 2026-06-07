@@ -1569,6 +1569,62 @@ window.TRANSLATIONS['bn']['azkar.hub.subtitle'] = 'যে বিভাগটি 
 window.TRANSLATIONS['bn']['azkar.hub.card_after_prayer_title'] = 'নামাজের পরের যিকির';
 window.TRANSLATIONS['bn']['azkar.hub.card_after_prayer_desc'] = 'প্রতিটি ফরজ নামাজের পর তাসবিহ, তাহমিদ ও তাকবির।';
 
+/* MSBAHA-MULTILANG-I18N-CONTENT-FIX-1 — tasbih edu/howto/after/when/related/disclaimer/faq — NATIVE */
+window.TRANSLATIONS['bn']['tasbih.edu.title'] = 'ইলেকট্রনিক তাসবিহ কী?';
+window.TRANSLATIONS['bn']['tasbih.edu.intro'] = 'ইলেকট্রনিক তাসবিহ একটি সহজ ডিজিটাল সরঞ্জাম যা হাতের তাসবিহ ছাড়াই আপনাকে সুবহানাল্লাহ, আলহামদুলিল্লাহ ও আল্লাহু আকবার গণনা করতে সাহায্য করে। এটি সরাসরি আপনার ব্রাউজারে চলে, সেশন চলাকালীন আপনার গণনা সংরক্ষণ করে এবং দুটি মোড সমর্থন করে: নামাজের পরের যিকিরের জন্য স্বয়ংক্রিয় মোড (৩৩ + ৩৩ + ৩৩) এবং অন্য যেকোনো যিকিরের জন্য মুক্ত গণনাকারী মোড।';
+window.TRANSLATIONS['bn']['tasbih.howto.title'] = 'ইলেকট্রনিক তাসবিহ যেভাবে ব্যবহার করবেন';
+window.TRANSLATIONS['bn']['tasbih.howto.intro'] = 'এই সহজ ধাপগুলো অনুসরণ করুন:';
+window.TRANSLATIONS['bn']['tasbih.howto.step1_title'] = 'আপনার মোড বেছে নিন';
+window.TRANSLATIONS['bn']['tasbih.howto.step1_desc'] = 'নামাজের পরের ক্রমের জন্য «স্বয়ংক্রিয় তাসবিহ» বেছে নিন: সুবহানাল্লাহ, আলহামদুলিল্লাহ, আল্লাহু আকবার — প্রতিটি ৩৩ বার। অথবা ইস্তিগফার বা নবী ﷺ-এর উপর দরুদের মতো অন্য যেকোনো যিকিরের জন্য «মুক্ত গণনাকারী» বেছে নিন।';
+window.TRANSLATIONS['bn']['tasbih.howto.step2_title'] = 'বড় বৃত্তে চাপ দিন';
+window.TRANSLATIONS['bn']['tasbih.howto.step2_desc'] = 'প্রতিটি চাপ গণনা এক করে বাড়ায়। স্বয়ংক্রিয় মোডে ৩৩-এ পৌঁছালে গণনাকারী নিজে থেকেই পরবর্তী যিকিরে চলে যায়, তাই আপনাকে বাড়তি কিছু করতে হয় না।';
+window.TRANSLATIONS['bn']['tasbih.howto.step3_title'] = 'অগ্রগতি বার অনুসরণ করুন';
+window.TRANSLATIONS['bn']['tasbih.howto.step3_desc'] = 'বৃত্তের নিচের একটি বার ৩৩-এর মধ্যে আপনার অবস্থান দেখায়, এবং সেশনের মোট নিচে প্রদর্শিত হয়, যাতে আপনি নিশ্চিত হতে পারেন যে প্রয়োজনীয় সংখ্যা সম্পন্ন করেছেন।';
+window.TRANSLATIONS['bn']['tasbih.howto.step4_title'] = 'যখন প্রয়োজন রিসেট করুন';
+window.TRANSLATIONS['bn']['tasbih.howto.step4_desc'] = 'সেশনের মোট না হারিয়ে বর্তমান যিকিরকে ০-তে ফেরাতে «গণনাকারী রিসেট» ব্যবহার করুন, অথবা শূন্য থেকে একদম নতুন সেশন শুরু করতে «সেশন রিসেট» ব্যবহার করুন।';
+window.TRANSLATIONS['bn']['tasbih.after.title'] = 'নামাজের পরের তাসবিহ';
+window.TRANSLATIONS['bn']['tasbih.after.intro'] = 'নবী ﷺ বলেছেন: «যে ব্যক্তি প্রতিটি নামাজের পর তেত্রিশ বার আল্লাহর তাসবিহ পড়ে, তেত্রিশ বার আল্লাহর হামদ পড়ে এবং তেত্রিশ বার আল্লাহর তাকবির বলে — তা নিরানব্বই — এবং শতপূর্ণ করতে বলে: লা ইলাহা ইল্লাল্লাহু ওয়াহদাহু লা শারিকা লাহ, লাহুল মুলকু ওয়া লাহুল হামদু ওয়া হুওয়া আলা কুল্লি শাইয়িন কাদির — তার গুনাহ মাফ করে দেওয়া হয়, যদিও তা সমুদ্রের ফেনা পরিমাণ হয়।» — মুসলিম বর্ণনা করেছেন।';
+window.TRANSLATIONS['bn']['tasbih.after.card1_desc'] = 'আল্লাহকে সব ত্রুটি থেকে পবিত্র ঘোষণা করা। ফরজ নামাজের পর তেত্রিশ বার বলা হয়।';
+window.TRANSLATIONS['bn']['tasbih.after.card2_desc'] = 'আল্লাহর প্রকাশ্য ও গোপন নিয়ামতের জন্য তাঁর প্রশংসা। তাসবিহের পর তেত্রিশ বার বলা হয়।';
+window.TRANSLATIONS['bn']['tasbih.after.card3_desc'] = 'আল্লাহর মহত্ত্ব ঘোষণা, তিনি পবিত্র। তেত্রিশ বার বলা হয়, এরপর শতপূর্ণ করতে তাওহিদের কালিমা দিয়ে গণনা শেষ করা হয়।';
+window.TRANSLATIONS['bn']['tasbih.when.title'] = 'ইলেকট্রনিক তাসবিহ কখন ব্যবহার করবেন';
+window.TRANSLATIONS['bn']['tasbih.when.intro'] = 'আপনি কয়েকটি ক্ষেত্রে এর উপকার নিতে পারেন:';
+window.TRANSLATIONS['bn']['tasbih.when.c1_title'] = 'পাঁচ ওয়াক্ত নামাজের পর';
+window.TRANSLATIONS['bn']['tasbih.when.c1_desc'] = 'সবচেয়ে প্রচলিত ব্যবহার: সুবহানাল্লাহ ৩৩, আলহামদুলিল্লাহ ৩৩ ও আল্লাহু আকবার ৩৩ গণনা, এরপর তাওহিদের কালিমা।';
+window.TRANSLATIONS['bn']['tasbih.when.c2_title'] = 'সকাল-সন্ধ্যার যিকির';
+window.TRANSLATIONS['bn']['tasbih.when.c2_desc'] = 'আপনার সকাল-সন্ধ্যার ওযিফার অংশ হিসেবে তাহলিল, ইস্তিগফার ও নবী ﷺ-এর উপর দরুদ গণনা করুন।';
+window.TRANSLATIONS['bn']['tasbih.when.c3_title'] = 'দৈনিক ইস্তিগফার';
+window.TRANSLATIONS['bn']['tasbih.when.c3_desc'] = 'একটি দৈনিক লক্ষ্য নির্ধারণ করুন — যেমন ১০০ ইস্তিগফার — এবং মুক্ত গণনাকারী মোডে সহজে গণনা করুন।';
+window.TRANSLATIONS['bn']['tasbih.when.c4_title'] = 'অবসর ও অপেক্ষার মুহূর্ত';
+window.TRANSLATIONS['bn']['tasbih.when.c4_desc'] = 'অপেক্ষার মিনিটগুলো যিকিরে কাজে লাগান — কোনো সাক্ষাতের অপেক্ষায়, গণপরিবহনে ইত্যাদি।';
+window.TRANSLATIONS['bn']['tasbih.when.c5_title'] = 'ভ্রমণ ও চলার পথে';
+window.TRANSLATIONS['bn']['tasbih.when.c5_desc'] = 'ভ্রমণের সময় হাতের তাসবিহের একটি বাস্তব বিকল্প — সরাসরি আপনার ফোনে চলে।';
+window.TRANSLATIONS['bn']['tasbih.related.title'] = 'সম্পর্কিত সরঞ্জাম ও ইবাদত';
+window.TRANSLATIONS['bn']['tasbih.related.intro'] = 'আপনার দৈনন্দিন ইবাদতের পরিপূরক কিছু উপকারী লিংক:';
+window.TRANSLATIONS['bn']['tasbih.related.prayer_title'] = 'নামাজের সময়সূচি';
+window.TRANSLATIONS['bn']['tasbih.related.prayer_desc'] = 'আপনার শহরে পাঁচ ওয়াক্ত নামাজের সময় জানুন যাতে প্রতিটি নামাজের পর কোনো তাসবিহ মিস না হয়।';
+window.TRANSLATIONS['bn']['tasbih.related.azkar_title'] = 'যিকির-আযকার';
+window.TRANSLATIONS['bn']['tasbih.related.azkar_desc'] = 'পূর্ণাঙ্গ আযকার পৃষ্ঠা: সকাল, সন্ধ্যা, ঘুম ও আরও অনেক কিছু।';
+window.TRANSLATIONS['bn']['tasbih.related.qibla_title'] = 'কিবলার দিক';
+window.TRANSLATIONS['bn']['tasbih.related.qibla_desc'] = 'নামাজের আগে আপনার অবস্থান থেকে কিবলার দিক সঠিকভাবে নির্ণয় করুন।';
+window.TRANSLATIONS['bn']['tasbih.related.hijri_title'] = 'হিজরি তারিখ';
+window.TRANSLATIONS['bn']['tasbih.related.hijri_desc'] = 'আজকের হিজরি তারিখ অনুসরণ করুন এবং আইয়ামে বিযের মতো ফজিলতপূর্ণ দিনগুলো স্মরণ রাখুন।';
+window.TRANSLATIONS['bn']['tasbih.disclaimer.title'] = 'দ্রষ্টব্য';
+window.TRANSLATIONS['bn']['tasbih.disclaimer.body'] = 'ইলেকট্রনিক তাসবিহ কেবল একটি সহায়ক উপকরণ — সওয়াব যিকিরকারীর নিয়ত ও অন্তরের উপস্থিতির সঙ্গে সম্পর্কিত, হাতের তাসবিহে, ইলেকট্রনিকে নাকি আঙুলে গণনা হলো তার সঙ্গে নয়।';
+window.TRANSLATIONS['bn']['tasbih.faq.title'] = 'ইলেকট্রনিক তাসবিহ সম্পর্কে সাধারণ প্রশ্ন';
+window.TRANSLATIONS['bn']['tasbih.faq.q1'] = 'ইলেকট্রনিক তাসবিহ কি বিদআত?';
+window.TRANSLATIONS['bn']['tasbih.faq.a1'] = 'না। এটি কেবল যিকির গণনার একটি উপকরণ, ঠিক হাতের তাসবিহ বা আঙুলে গণনার মতো। মূল কথা হলো যিকির সুন্নত, আর যে কোনো উপকরণ যা এতে সাহায্য করে তা বৈধ যতক্ষণ না তা উদ্দেশ্য থেকে গাফেল করে।';
+window.TRANSLATIONS['bn']['tasbih.faq.q2'] = 'পৃষ্ঠা বন্ধ করার পর তাসবিহ কি গণনা সংরক্ষণ করে?';
+window.TRANSLATIONS['bn']['tasbih.faq.a2'] = 'বর্তমানে গণনা কেবল সেশন চলাকালীন সংরক্ষিত থাকে। পৃষ্ঠা পুনরায় লোড করলে গণনা আবার শুরু হয় — এটি ইচ্ছাকৃত যাতে প্রতিটি নামাজের পরের তাসবিহ একটি স্বতন্ত্র ঘটনা হিসেবে মেলে।';
+window.TRANSLATIONS['bn']['tasbih.faq.q3'] = 'নামাজের পর ৩৩ সংখ্যা কেন?';
+window.TRANSLATIONS['bn']['tasbih.faq.a3'] = '৩৩ সংখ্যাটি নববী হাদিস থেকে এসেছে: তাসবিহ ৩৩ + তাহমিদ ৩৩ + তাকবির ৩৩ = ৯৯, এরপর শতপূর্ণ করতে তাওহিদের কালিমা দিয়ে সমাপ্ত। ইলেকট্রনিক তাসবিহ স্বয়ংক্রিয় মোডে ঠিক এই ক্রম অনুসরণ করে।';
+window.TRANSLATIONS['bn']['tasbih.faq.q4'] = 'আমি কি এটি সাধারণ তাসবিহের পরিবর্তে ব্যবহার করতে পারি?';
+window.TRANSLATIONS['bn']['tasbih.faq.a4'] = 'হ্যাঁ। হাতের তাসবিহ, ইলেকট্রনিক তাসবিহ বা আঙুলে গণনার মধ্যে শরয়ি কোনো পার্থক্য নেই — শেষেরটি হাদিসে উল্লেখ আছে: «আঙুলের ডগা দিয়ে গণনা করো, কারণ সেগুলোকে জিজ্ঞাসা করা হবে ও কথা বলানো হবে।» যা আপনাকে বেশি একাগ্রতায় সাহায্য করে তা-ই বেছে নিন।';
+window.TRANSLATIONS['bn']['tasbih.faq.q5'] = 'তাসবিহ কি ইন্টারনেট ছাড়া চলে?';
+window.TRANSLATIONS['bn']['tasbih.faq.a5'] = 'হ্যাঁ, একবার পৃষ্ঠা খোলার পর। সাইটটি অফলাইন পরিচালনা (PWA) সমর্থন করে, তাই পৃষ্ঠা লোড হয়ে গেলে তাসবিহ আপনার ডিভাইসে স্থানীয়ভাবে চলে।';
+window.TRANSLATIONS['bn']['tasbih.faq.q6'] = 'তাসবিহ কি বিনামূল্যে ও নিরাপদ?';
+window.TRANSLATIONS['bn']['tasbih.faq.a6'] = 'হ্যাঁ, এটি সম্পূর্ণ বিনামূল্যে, কোনো নিবন্ধন ছাড়া এবং সরঞ্জামের ভেতরে কোনো বিজ্ঞাপন ছাড়া, আর গণনা আপনার ডিভাইসেই থাকে — কোনো কিছুই কোনো সার্ভারে পাঠানো হয় না।';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('bn');
 }

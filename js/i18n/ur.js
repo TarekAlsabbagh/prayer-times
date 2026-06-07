@@ -1480,6 +1480,62 @@ window.TRANSLATIONS['ur']['azkar.hub.subtitle'] = 'وہ قسم چنیں جو آ�
 window.TRANSLATIONS['ur']['azkar.hub.card_after_prayer_title'] = 'نماز کے بعد کے اذکار';
 window.TRANSLATIONS['ur']['azkar.hub.card_after_prayer_desc'] = 'ہر فرض نماز کے بعد تسبیح، تحمید اور تکبیر۔';
 
+/* MSBAHA-MULTILANG-I18N-CONTENT-FIX-1 — tasbih edu/howto/after/when/related/disclaimer/faq — NATIVE */
+window.TRANSLATIONS['ur']['tasbih.edu.title'] = 'الیکٹرانک تسبیح کیا ہے؟';
+window.TRANSLATIONS['ur']['tasbih.edu.intro'] = 'الیکٹرانک تسبیح ایک سادہ ڈیجیٹل آلہ ہے جو آپ کو ہاتھ کی تسبیح کے بغیر سبحان اللہ، الحمد للہ اور اللہ اکبر گننے میں مدد دیتا ہے۔ یہ براہِ راست آپ کے براؤزر میں چلتا ہے، سیشن کے دوران آپ کی گنتی محفوظ رکھتا ہے، اور دو طریقے فراہم کرتا ہے: نماز کے بعد ذکر کے لیے خودکار طریقہ (33 + 33 + 33) اور کسی بھی دوسرے ذکر کے لیے آزاد کاؤنٹر۔';
+window.TRANSLATIONS['ur']['tasbih.howto.title'] = 'الیکٹرانک تسبیح کیسے استعمال کریں';
+window.TRANSLATIONS['ur']['tasbih.howto.intro'] = 'یہ آسان مراحل اختیار کریں:';
+window.TRANSLATIONS['ur']['tasbih.howto.step1_title'] = 'اپنا طریقہ منتخب کریں';
+window.TRANSLATIONS['ur']['tasbih.howto.step1_desc'] = 'نماز کے بعد کی ترتیب کے لیے «خودکار تسبیح» منتخب کریں: سبحان اللہ، الحمد للہ، اللہ اکبر — ہر ایک 33 بار۔ یا استغفار یا نبی ﷺ پر درود جیسے کسی بھی دوسرے ذکر کے لیے «آزاد کاؤنٹر» منتخب کریں۔';
+window.TRANSLATIONS['ur']['tasbih.howto.step2_title'] = 'بڑے دائرے کو دبائیں';
+window.TRANSLATIONS['ur']['tasbih.howto.step2_desc'] = 'ہر دبانے سے گنتی ایک بڑھتی ہے۔ خودکار طریقے میں جب آپ 33 تک پہنچتے ہیں تو کاؤنٹر خود بخود اگلے ذکر پر چلا جاتا ہے، اس لیے آپ کو اضافی کچھ کرنے کی ضرورت نہیں۔';
+window.TRANSLATIONS['ur']['tasbih.howto.step3_title'] = 'پیش رفت کی پٹی پر نظر رکھیں';
+window.TRANSLATIONS['ur']['tasbih.howto.step3_desc'] = 'دائرے کے نیچے ایک پٹی 33 میں سے آپ کی پوزیشن دکھاتی ہے، اور سیشن کا کل نیچے ظاہر ہوتا ہے، تاکہ آپ کو یقین ہو جائے کہ آپ نے مطلوبہ تعداد مکمل کر لی ہے۔';
+window.TRANSLATIONS['ur']['tasbih.howto.step4_title'] = 'جب ضرورت ہو صفر کریں';
+window.TRANSLATIONS['ur']['tasbih.howto.step4_desc'] = '«کاؤنٹر صفر کریں» سے موجودہ ذکر کو سیشن کا کل کھوئے بغیر 0 پر لائیں، یا «سیشن صفر کریں» سے بالکل نیا سیشن صفر سے شروع کریں۔';
+window.TRANSLATIONS['ur']['tasbih.after.title'] = 'نماز کے بعد کی تسبیح';
+window.TRANSLATIONS['ur']['tasbih.after.intro'] = 'نبی ﷺ نے فرمایا: «جو شخص ہر نماز کے بعد تینتیس بار اللہ کی تسبیح کرے، تینتیس بار اللہ کی حمد کرے، اور تینتیس بار اللہ کی تکبیر کہے — یہ ننانوے ہوئے — اور سو پورا کرنے کے لیے کہے: لا الٰہ الا اللہ وحدہ لا شریک لہ، لہ الملک ولہ الحمد وہو علیٰ کل شیء قدیر — تو اس کے گناہ بخش دیے جاتے ہیں خواہ وہ سمندر کی جھاگ کے برابر ہوں۔» — مسلم نے روایت کیا۔';
+window.TRANSLATIONS['ur']['tasbih.after.card1_desc'] = 'اللہ تعالیٰ کو ہر نقص سے پاک قرار دینا۔ فرض نماز کے بعد تینتیس بار کہی جاتی ہے۔';
+window.TRANSLATIONS['ur']['tasbih.after.card2_desc'] = 'اللہ کی ظاہری و باطنی نعمتوں پر اس کی حمد۔ تسبیح کے بعد تینتیس بار کہی جاتی ہے۔';
+window.TRANSLATIONS['ur']['tasbih.after.card3_desc'] = 'اللہ سبحانہ کی بڑائی بیان کرنا۔ تینتیس بار کہی جاتی ہے، پھر سو مکمل کرنے کے لیے کلمۂ توحید پر گنتی ختم کی جاتی ہے۔';
+window.TRANSLATIONS['ur']['tasbih.when.title'] = 'الیکٹرانک تسبیح کب استعمال کریں';
+window.TRANSLATIONS['ur']['tasbih.when.intro'] = 'آپ کئی مواقع پر اس سے فائدہ اٹھا سکتے ہیں:';
+window.TRANSLATIONS['ur']['tasbih.when.c1_title'] = 'پانچوں نمازوں کے بعد';
+window.TRANSLATIONS['ur']['tasbih.when.c1_desc'] = 'سب سے عام استعمال: سبحان اللہ 33، الحمد للہ 33 اور اللہ اکبر 33 گننا، پھر کلمۂ توحید۔';
+window.TRANSLATIONS['ur']['tasbih.when.c2_title'] = 'صبح و شام کے اذکار';
+window.TRANSLATIONS['ur']['tasbih.when.c2_desc'] = 'اپنے صبح و شام کے اوراد کے حصے کے طور پر تہلیل، استغفار اور نبی ﷺ پر درود گنیں۔';
+window.TRANSLATIONS['ur']['tasbih.when.c3_title'] = 'روزانہ استغفار';
+window.TRANSLATIONS['ur']['tasbih.when.c3_desc'] = 'روزانہ کا ہدف مقرر کریں — مثلاً 100 استغفار — اور آزاد کاؤنٹر میں آسانی سے گنیں۔';
+window.TRANSLATIONS['ur']['tasbih.when.c4_title'] = 'فراغت اور انتظار کے لمحات';
+window.TRANSLATIONS['ur']['tasbih.when.c4_desc'] = 'انتظار کے لمحات کو ذکر میں لگائیں — کسی ملاقات کے انتظار میں، سفری گاڑی میں وغیرہ۔';
+window.TRANSLATIONS['ur']['tasbih.when.c5_title'] = 'سفر اور آمد و رفت';
+window.TRANSLATIONS['ur']['tasbih.when.c5_desc'] = 'سفر کے دوران ہاتھ کی تسبیح کا عملی متبادل — براہِ راست آپ کے فون پر چلتا ہے۔';
+window.TRANSLATIONS['ur']['tasbih.related.title'] = 'متعلقہ آلات اور عبادات';
+window.TRANSLATIONS['ur']['tasbih.related.intro'] = 'مفید روابط جو آپ کی روزمرہ عبادت کی تکمیل کرتے ہیں:';
+window.TRANSLATIONS['ur']['tasbih.related.prayer_title'] = 'اوقاتِ نماز';
+window.TRANSLATIONS['ur']['tasbih.related.prayer_desc'] = 'اپنے شہر میں پانچوں نمازوں کے اوقات جانیں تاکہ ہر نماز کے بعد کوئی تسبیح نہ چھوٹے۔';
+window.TRANSLATIONS['ur']['tasbih.related.azkar_title'] = 'اذکار';
+window.TRANSLATIONS['ur']['tasbih.related.azkar_desc'] = 'جامع اذکار صفحہ: صبح، شام، نیند اور مزید۔';
+window.TRANSLATIONS['ur']['tasbih.related.qibla_title'] = 'قبلہ کی سمت';
+window.TRANSLATIONS['ur']['tasbih.related.qibla_desc'] = 'نماز سے پہلے اپنے مقام سے قبلہ کی سمت درست طریقے سے معلوم کریں۔';
+window.TRANSLATIONS['ur']['tasbih.related.hijri_title'] = 'ہجری تاریخ';
+window.TRANSLATIONS['ur']['tasbih.related.hijri_desc'] = 'آج کی ہجری تاریخ دیکھیں اور ایامِ بیض جیسے بابرکت دنوں کو یاد رکھیں۔';
+window.TRANSLATIONS['ur']['tasbih.disclaimer.title'] = 'نوٹ';
+window.TRANSLATIONS['ur']['tasbih.disclaimer.body'] = 'الیکٹرانک تسبیح محض ایک معاون ذریعہ ہے — اجر ذاکر کی نیت اور حضورِ قلب سے وابستہ ہے، اس سے نہیں کہ گنتی ہاتھ کی تسبیح پر کی جائے، الیکٹرانک پر یا انگلیوں کے پوروں پر۔';
+window.TRANSLATIONS['ur']['tasbih.faq.title'] = 'الیکٹرانک تسبیح کے بارے میں عام سوالات';
+window.TRANSLATIONS['ur']['tasbih.faq.q1'] = 'کیا الیکٹرانک تسبیح بدعت ہے؟';
+window.TRANSLATIONS['ur']['tasbih.faq.a1'] = 'نہیں۔ یہ محض ذکر گننے کا ایک ذریعہ ہے، بالکل ہاتھ کی تسبیح یا انگلیوں پر گننے کی طرح۔ اصل یہ ہے کہ ذکر سنت ہے، اور جو بھی ذریعہ اس میں مدد دے وہ جائز ہے جب تک مقصد سے غافل نہ کرے۔';
+window.TRANSLATIONS['ur']['tasbih.faq.q2'] = 'کیا صفحہ بند کرنے کے بعد تسبیح گنتی محفوظ رکھتی ہے؟';
+window.TRANSLATIONS['ur']['tasbih.faq.a2'] = 'فی الحال گنتی صرف سیشن کے دوران محفوظ رہتی ہے۔ جب آپ صفحہ دوبارہ لوڈ کرتے ہیں تو گنتی نئے سرے سے شروع ہوتی ہے — یہ جان بوجھ کر ہے تاکہ ہر نماز کے بعد کی تسبیح ایک مستقل عمل کے طور پر موافق رہے۔';
+window.TRANSLATIONS['ur']['tasbih.faq.q3'] = 'نماز کے بعد 33 کا عدد کیوں؟';
+window.TRANSLATIONS['ur']['tasbih.faq.a3'] = 'عدد 33 نبوی حدیث سے آیا ہے: تسبیح 33 + تحمید 33 + تکبیر 33 = 99، پھر سو مکمل کرنے کے لیے کلمۂ توحید پر ختم۔ الیکٹرانک تسبیح خودکار طریقے میں بعینہٖ اسی ترتیب پر چلتی ہے۔';
+window.TRANSLATIONS['ur']['tasbih.faq.q4'] = 'کیا میں اسے عام تسبیح کے بدلے استعمال کر سکتا ہوں؟';
+window.TRANSLATIONS['ur']['tasbih.faq.a4'] = 'جی ہاں۔ ہاتھ کی تسبیح، الیکٹرانک تسبیح یا انگلیوں پر گننے میں کوئی شرعی فرق نہیں — آخری بات حدیث میں آئی ہے: «انگلیوں کے پوروں سے گنو، کیونکہ ان سے سوال کیا جائے گا اور انہیں گویا کیا جائے گا۔» جو چیز آپ کو زیادہ حضورِ قلب میں مدد دے وہ منتخب کریں۔';
+window.TRANSLATIONS['ur']['tasbih.faq.q5'] = 'کیا تسبیح انٹرنیٹ کے بغیر چلتی ہے؟';
+window.TRANSLATIONS['ur']['tasbih.faq.a5'] = 'جی ہاں، ایک بار صفحہ کھولنے کے بعد۔ سائٹ آف لائن کام (PWA) کی حمایت کرتی ہے، چنانچہ صفحہ لوڈ ہونے کے بعد تسبیح آپ کے آلے پر مقامی طور پر چلتی ہے۔';
+window.TRANSLATIONS['ur']['tasbih.faq.q6'] = 'کیا تسبیح مفت اور محفوظ ہے؟';
+window.TRANSLATIONS['ur']['tasbih.faq.a6'] = 'جی ہاں، یہ مکمل طور پر مفت ہے، بغیر کسی رجسٹریشن اور آلے کے اندر کسی اشتہار کے، اور گنتی آپ کے آلے پر رہتی ہے — کچھ بھی کسی سرور کو نہیں بھیجا جاتا۔';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ur');
 }

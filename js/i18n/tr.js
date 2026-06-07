@@ -1513,6 +1513,62 @@ window.TRANSLATIONS['tr']['azkar.hub.subtitle'] = 'Okumak istediğiniz bölümü
 window.TRANSLATIONS['tr']['azkar.hub.card_after_prayer_title'] = 'Namaz sonrası zikirler';
 window.TRANSLATIONS['tr']['azkar.hub.card_after_prayer_desc'] = 'Her farz namazdan sonra tesbih, tahmid ve tekbir.';
 
+/* MSBAHA-MULTILANG-I18N-CONTENT-FIX-1 — tasbih edu/howto/after/when/related/disclaimer/faq — NATIVE */
+window.TRANSLATIONS['tr']['tasbih.edu.title'] = 'Elektronik Tesbih nedir?';
+window.TRANSLATIONS['tr']['tasbih.edu.intro'] = 'Elektronik tesbih, fiziksel bir tesbihe ihtiyaç duymadan Sübhanallah, Elhamdülillah ve Allahu Ekber’i saymana yardımcı olan basit bir dijital araçtır. Doğrudan tarayıcında çalışır, sayımını oturum boyunca saklar ve iki mod sunar: namaz sonrası zikir için otomatik mod (33 + 33 + 33) ve başka her zikir için serbest sayaç modu.';
+window.TRANSLATIONS['tr']['tasbih.howto.title'] = 'Elektronik Tesbih nasıl kullanılır';
+window.TRANSLATIONS['tr']['tasbih.howto.intro'] = 'Şu basit adımları izle:';
+window.TRANSLATIONS['tr']['tasbih.howto.step1_title'] = 'Modunu seç';
+window.TRANSLATIONS['tr']['tasbih.howto.step1_desc'] = 'Namaz sonrası dizi için «Otomatik Tesbih»i seç: Sübhanallah, Elhamdülillah, Allahu Ekber — her biri 33 kez. Ya da istiğfar veya Peygamber’e ﷺ salavat gibi başka her zikir için «Serbest Sayaç»ı seç.';
+window.TRANSLATIONS['tr']['tasbih.howto.step2_title'] = 'Büyük daireye dokun';
+window.TRANSLATIONS['tr']['tasbih.howto.step2_desc'] = 'Her dokunuş sayımı bir artırır. Otomatik modda sayaç 33’e ulaştığında kendiliğinden bir sonraki zikre geçer, böylece fazladan bir şey yapmana gerek kalmaz.';
+window.TRANSLATIONS['tr']['tasbih.howto.step3_title'] = 'İlerleme çubuğunu takip et';
+window.TRANSLATIONS['tr']['tasbih.howto.step3_desc'] = 'Dairenin altındaki bir çubuk 33 üzerinden konumunu gösterir ve oturum toplamı altta görüntülenir; böylece istenen sayıyı tamamladığından emin olabilirsin.';
+window.TRANSLATIONS['tr']['tasbih.howto.step4_title'] = 'İstediğin zaman sıfırla';
+window.TRANSLATIONS['tr']['tasbih.howto.step4_desc'] = 'Mevcut zikri oturum toplamını kaybetmeden 0’a döndürmek için «Sayacı sıfırla»yı, sıfırdan yepyeni bir oturum başlatmak için «Oturumu sıfırla»yı kullan.';
+window.TRANSLATIONS['tr']['tasbih.after.title'] = 'Namaz sonrası Tesbih';
+window.TRANSLATIONS['tr']['tasbih.after.intro'] = 'Peygamber ﷺ şöyle buyurdu: «Kim her namazın ardından Allah’ı otuz üç kez tesbih eder, otuz üç kez hamdeder ve otuz üç kez tekbir getirirse — bu doksan dokuz eder — ve yüzü şu sözle tamamlarsa: Lâ ilâhe illallâhü vahdehû lâ şerîke leh, lehü’l-mülkü ve lehü’l-hamdü ve hüve alâ külli şey’in kadîr — denizin köpüğü kadar da olsa günahları bağışlanır.» — Müslim rivayet etmiştir.';
+window.TRANSLATIONS['tr']['tasbih.after.card1_desc'] = 'Allah’ı her türlü eksiklikten tenzih etmek. Farz namazdan sonra otuz üç kez söylenir.';
+window.TRANSLATIONS['tr']['tasbih.after.card2_desc'] = 'Açık ve gizli nimetleri için Allah’a hamdetmek. Tesbihten sonra otuz üç kez söylenir.';
+window.TRANSLATIONS['tr']['tasbih.after.card3_desc'] = 'Allah’ın büyüklüğünü ilan etmek, O yücedir. Otuz üç kez söylenir, ardından sayım yüzü tamamlamak için tevhid kelimesiyle mühürlenir.';
+window.TRANSLATIONS['tr']['tasbih.when.title'] = 'Elektronik Tesbih ne zaman kullanılır';
+window.TRANSLATIONS['tr']['tasbih.when.intro'] = 'Birçok durumda ondan yararlanabilirsin:';
+window.TRANSLATIONS['tr']['tasbih.when.c1_title'] = 'Beş vakit namazdan sonra';
+window.TRANSLATIONS['tr']['tasbih.when.c1_desc'] = 'En yaygın kullanım: Sübhanallah 33, Elhamdülillah 33 ve Allahu Ekber 33 say, ardından tevhid kelimesi.';
+window.TRANSLATIONS['tr']['tasbih.when.c2_title'] = 'Sabah ve akşam zikirleri';
+window.TRANSLATIONS['tr']['tasbih.when.c2_desc'] = 'Sabah ve akşam virdlerinin bir parçası olarak tehlil, istiğfar ve Peygamber’e ﷺ salavatı say.';
+window.TRANSLATIONS['tr']['tasbih.when.c3_title'] = 'Günlük istiğfar';
+window.TRANSLATIONS['tr']['tasbih.when.c3_desc'] = 'Günlük bir hedef belirle — örneğin 100 istiğfar — ve serbest sayaç modunda kolayca say.';
+window.TRANSLATIONS['tr']['tasbih.when.c4_title'] = 'Boş ve bekleme anları';
+window.TRANSLATIONS['tr']['tasbih.when.c4_desc'] = 'Bekleme dakikalarını zikre ayır — bir randevu beklerken, toplu taşımada vb.';
+window.TRANSLATIONS['tr']['tasbih.when.c5_title'] = 'Seyahat ve yolculuk';
+window.TRANSLATIONS['tr']['tasbih.when.c5_desc'] = 'Seyahatte fiziksel tesbihe pratik bir alternatif — doğrudan telefonunda çalışır.';
+window.TRANSLATIONS['tr']['tasbih.related.title'] = 'İlgili araçlar ve ibadetler';
+window.TRANSLATIONS['tr']['tasbih.related.intro'] = 'Günlük ibadetini tamamlayan faydalı bağlantılar:';
+window.TRANSLATIONS['tr']['tasbih.related.prayer_title'] = 'Namaz vakitleri';
+window.TRANSLATIONS['tr']['tasbih.related.prayer_desc'] = 'Her namazdan sonra bir tesbihi asla kaçırmamak için şehrindeki beş vakit namaz saatini öğren.';
+window.TRANSLATIONS['tr']['tasbih.related.azkar_title'] = 'Zikirler';
+window.TRANSLATIONS['tr']['tasbih.related.azkar_desc'] = 'Kapsamlı zikir sayfası: sabah, akşam, uyku ve daha fazlası.';
+window.TRANSLATIONS['tr']['tasbih.related.qibla_title'] = 'Kıble yönü';
+window.TRANSLATIONS['tr']['tasbih.related.qibla_desc'] = 'Namazdan önce konumundan kıble yönünü doğru biçimde bul.';
+window.TRANSLATIONS['tr']['tasbih.related.hijri_title'] = 'Hicri tarih';
+window.TRANSLATIONS['tr']['tasbih.related.hijri_desc'] = 'Bugünün hicri tarihini takip et ve Eyyam-ı Biyz (Beyaz Günler) gibi faziletli günleri hatırla.';
+window.TRANSLATIONS['tr']['tasbih.disclaimer.title'] = 'Not';
+window.TRANSLATIONS['tr']['tasbih.disclaimer.body'] = 'Elektronik tesbih yalnızca bir yardımcı araçtır — sevap, zikredenin niyetine ve kalp huzuruna bağlıdır; sayımın fiziksel tesbihle, elektronik tesbihle ya da parmaklarla yapılmasına değil.';
+window.TRANSLATIONS['tr']['tasbih.faq.title'] = 'Elektronik Tesbih hakkında sıkça sorulan sorular';
+window.TRANSLATIONS['tr']['tasbih.faq.q1'] = 'Elektronik tesbih bidat mıdır?';
+window.TRANSLATIONS['tr']['tasbih.faq.a1'] = 'Hayır. O, tıpkı fiziksel bir tesbih ya da parmakla saymak gibi, yalnızca zikri saymaya yarayan bir araçtır. Esas olan zikrin sünnet olmasıdır ve buna yardımcı olan her araç, amaçtan alıkoymadığı sürece mubahtır.';
+window.TRANSLATIONS['tr']['tasbih.faq.q2'] = 'Tesbih, sayfa kapatıldıktan sonra sayımı saklar mı?';
+window.TRANSLATIONS['tr']['tasbih.faq.a2'] = 'Şu anda sayım yalnızca oturum boyunca saklanır. Sayfayı yeniden yüklediğinde sayım baştan başlar — bu, her namaz sonrası tesbihe bağımsız bir olay olarak uyması için kasıtlıdır.';
+window.TRANSLATIONS['tr']['tasbih.faq.q3'] = 'Namazdan sonra neden 33 sayısı?';
+window.TRANSLATIONS['tr']['tasbih.faq.a3'] = '33 sayısı Peygamber hadisinden gelir: tesbih 33 + tahmid 33 + tekbir 33 = 99, ardından yüzü tamamlamak için tevhid kelimesiyle mühürlenir. Elektronik tesbih otomatik modda tam olarak bu sırayı izler.';
+window.TRANSLATIONS['tr']['tasbih.faq.q4'] = 'Onu sıradan bir tesbih yerine kullanabilir miyim?';
+window.TRANSLATIONS['tr']['tasbih.faq.a4'] = 'Evet. Fiziksel tesbihle, elektronik tesbihle ya da parmaklarla saymak arasında şer’î bir fark yoktur — sonuncusu hadiste geçer: «Parmak uçlarıyla sayın, çünkü onlar sorgulanacak ve konuşturulacaktır.» En çok hangisi huşû içinde olmana yardımcı oluyorsa onu seç.';
+window.TRANSLATIONS['tr']['tasbih.faq.q5'] = 'Tesbih çevrimdışı çalışır mı?';
+window.TRANSLATIONS['tr']['tasbih.faq.a5'] = 'Evet, sayfayı bir kez açtıktan sonra. Site çevrimdışı çalışmayı (PWA) destekler; böylece sayfa yüklendiğinde tesbih cihazında yerel olarak çalışır.';
+window.TRANSLATIONS['tr']['tasbih.faq.q6'] = 'Tesbih ücretsiz ve güvenli mi?';
+window.TRANSLATIONS['tr']['tasbih.faq.a6'] = 'Evet, tamamen ücretsizdir; kayıt gerektirmez ve araç içinde reklam yoktur, sayım cihazında kalır — hiçbir sunucuya hiçbir şey gönderilmez.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('tr');
 }

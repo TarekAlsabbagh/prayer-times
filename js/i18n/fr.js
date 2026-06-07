@@ -1510,6 +1510,62 @@ window.TRANSLATIONS['fr']['azkar.hub.subtitle'] = 'Choisissez la section à lire
 window.TRANSLATIONS['fr']['azkar.hub.card_after_prayer_title'] = 'Azkar après la prière';
 window.TRANSLATIONS['fr']['azkar.hub.card_after_prayer_desc'] = 'Tasbih, tahmid et takbir après chaque prière obligatoire.';
 
+/* MSBAHA-MULTILANG-I18N-CONTENT-FIX-1 — tasbih edu/howto/after/when/related/disclaimer/faq — NATIVE */
+window.TRANSLATIONS['fr']['tasbih.edu.title'] = 'Qu’est-ce que le Tasbih numérique ?';
+window.TRANSLATIONS['fr']['tasbih.edu.intro'] = 'Le tasbih numérique est un outil simple qui vous aide à compter Subhan Allah, Alhamdulillah et Allahu Akbar sans avoir besoin d’un chapelet physique. Il fonctionne directement dans votre navigateur, conserve votre comptage pendant la session et propose deux modes : le mode automatique pour le dhikr après la prière (33 + 33 + 33) et le mode compteur libre pour tout autre dhikr.';
+window.TRANSLATIONS['fr']['tasbih.howto.title'] = 'Comment utiliser le Tasbih numérique';
+window.TRANSLATIONS['fr']['tasbih.howto.intro'] = 'Suivez ces étapes simples :';
+window.TRANSLATIONS['fr']['tasbih.howto.step1_title'] = 'Choisissez votre mode';
+window.TRANSLATIONS['fr']['tasbih.howto.step1_desc'] = 'Choisissez « Tasbih automatique » pour la séquence après la prière : Subhan Allah, Alhamdulillah, Allahu Akbar — chacun 33 fois. Ou choisissez « Compteur libre » pour tout autre dhikr comme l’istighfar ou la salat sur le Prophète ﷺ.';
+window.TRANSLATIONS['fr']['tasbih.howto.step2_title'] = 'Tapez sur le grand cercle';
+window.TRANSLATIONS['fr']['tasbih.howto.step2_desc'] = 'Chaque tap augmente le compteur de un. En mode automatique, le compteur passe de lui-même au dhikr suivant lorsque vous atteignez 33, vous n’avez donc rien d’autre à faire.';
+window.TRANSLATIONS['fr']['tasbih.howto.step3_title'] = 'Suivez la barre de progression';
+window.TRANSLATIONS['fr']['tasbih.howto.step3_desc'] = 'Une barre sous le cercle indique votre position sur 33, et le total de la session s’affiche en dessous, pour être sûr d’avoir accompli le nombre requis.';
+window.TRANSLATIONS['fr']['tasbih.howto.step4_title'] = 'Réinitialisez quand vous voulez';
+window.TRANSLATIONS['fr']['tasbih.howto.step4_desc'] = 'Utilisez « Réinitialiser le compteur » pour remettre le dhikr actuel à 0 sans perdre le total de la session, ou « Réinitialiser la session » pour démarrer une toute nouvelle session à partir de zéro.';
+window.TRANSLATIONS['fr']['tasbih.after.title'] = 'Le Tasbih après la prière';
+window.TRANSLATIONS['fr']['tasbih.after.intro'] = 'Le Prophète ﷺ a dit : « Quiconque glorifie Allah après chaque prière trente-trois fois, loue Allah trente-trois fois et proclame la grandeur d’Allah trente-trois fois — cela fait quatre-vingt-dix-neuf — puis complète la centaine en disant : La ilaha illa Allah, Wahdahu la sharika lah, lahu-l-mulk wa lahu-l-hamd wa Huwa ala kulli shay’in qadir — ses péchés lui seront pardonnés, fussent-ils comme l’écume de la mer. » — Rapporté par Muslim.';
+window.TRANSLATIONS['fr']['tasbih.after.card1_desc'] = 'Déclarer Allah exempt de toute imperfection. À dire trente-trois fois après la prière obligatoire.';
+window.TRANSLATIONS['fr']['tasbih.after.card2_desc'] = 'Louer Allah pour Ses bienfaits apparents et cachés. À dire trente-trois fois après le tasbih.';
+window.TRANSLATIONS['fr']['tasbih.after.card3_desc'] = 'Proclamer la grandeur d’Allah, gloire à Lui. À dire trente-trois fois, puis le compte est scellé par l’attestation de l’unicité pour compléter la centaine.';
+window.TRANSLATIONS['fr']['tasbih.when.title'] = 'Quand utiliser le Tasbih numérique';
+window.TRANSLATIONS['fr']['tasbih.when.intro'] = 'Vous pouvez en profiter dans plusieurs situations :';
+window.TRANSLATIONS['fr']['tasbih.when.c1_title'] = 'Après les cinq prières quotidiennes';
+window.TRANSLATIONS['fr']['tasbih.when.c1_desc'] = 'L’usage le plus courant : compter Subhan Allah 33, Alhamdulillah 33 et Allahu Akbar 33, puis l’attestation de l’unicité.';
+window.TRANSLATIONS['fr']['tasbih.when.c2_title'] = 'Azkar du matin et du soir';
+window.TRANSLATIONS['fr']['tasbih.when.c2_desc'] = 'Compter le tahlil, l’istighfar et la salat sur le Prophète ﷺ dans le cadre de vos rappels du matin et du soir.';
+window.TRANSLATIONS['fr']['tasbih.when.c3_title'] = 'Istighfar quotidien';
+window.TRANSLATIONS['fr']['tasbih.when.c3_desc'] = 'Fixez-vous un objectif quotidien — par exemple 100 istighfars — et comptez-les facilement en mode compteur libre.';
+window.TRANSLATIONS['fr']['tasbih.when.c4_title'] = 'Moments d’attente et de pause';
+window.TRANSLATIONS['fr']['tasbih.when.c4_desc'] = 'Mettez à profit les minutes d’attente pour le dhikr — en attendant un rendez-vous, dans les transports, etc.';
+window.TRANSLATIONS['fr']['tasbih.when.c5_title'] = 'En voyage et en déplacement';
+window.TRANSLATIONS['fr']['tasbih.when.c5_desc'] = 'Une alternative pratique au chapelet physique en voyage — fonctionne directement sur votre téléphone.';
+window.TRANSLATIONS['fr']['tasbih.related.title'] = 'Outils et adorations liés';
+window.TRANSLATIONS['fr']['tasbih.related.intro'] = 'Des liens utiles qui complètent votre adoration quotidienne :';
+window.TRANSLATIONS['fr']['tasbih.related.prayer_title'] = 'Heures de prière';
+window.TRANSLATIONS['fr']['tasbih.related.prayer_desc'] = 'Connaissez les cinq heures de prière de votre ville pour ne jamais manquer un tasbih après chaque prière.';
+window.TRANSLATIONS['fr']['tasbih.related.azkar_title'] = 'Azkar';
+window.TRANSLATIONS['fr']['tasbih.related.azkar_desc'] = 'La page complète des azkar : matin, soir, sommeil et plus encore.';
+window.TRANSLATIONS['fr']['tasbih.related.qibla_title'] = 'Direction de la Qibla';
+window.TRANSLATIONS['fr']['tasbih.related.qibla_desc'] = 'Trouvez la direction de la Qibla depuis votre position avec précision avant la prière.';
+window.TRANSLATIONS['fr']['tasbih.related.hijri_title'] = 'Date hégirienne';
+window.TRANSLATIONS['fr']['tasbih.related.hijri_desc'] = 'Suivez la date hégirienne du jour et rappelez-vous des jours méritoires comme les jours blancs (Ayyam al-Bid).';
+window.TRANSLATIONS['fr']['tasbih.disclaimer.title'] = 'Remarque';
+window.TRANSLATIONS['fr']['tasbih.disclaimer.body'] = 'Le tasbih numérique n’est qu’un outil d’aide — la récompense est liée à l’intention de celui qui invoque et à la présence de son cœur, et non au fait de compter sur un chapelet physique, électronique ou sur les doigts.';
+window.TRANSLATIONS['fr']['tasbih.faq.title'] = 'Questions fréquentes sur le Tasbih numérique';
+window.TRANSLATIONS['fr']['tasbih.faq.q1'] = 'Le tasbih numérique est-il une innovation (bid’ah) ?';
+window.TRANSLATIONS['fr']['tasbih.faq.a1'] = 'Non. C’est simplement un outil pour compter le dhikr, exactement comme un chapelet physique ou le comptage sur les doigts. Le principe est que le dhikr est une Sunna, et tout outil qui aide à l’accomplir est permis tant qu’il ne détourne pas du but.';
+window.TRANSLATIONS['fr']['tasbih.faq.q2'] = 'Le tasbih conserve-t-il le comptage après la fermeture de la page ?';
+window.TRANSLATIONS['fr']['tasbih.faq.a2'] = 'Pour l’instant, le comptage n’est conservé que pendant la session. Lorsque vous rechargez la page, le comptage recommence — c’est volontaire afin de correspondre au tasbih après chaque prière comme un événement distinct.';
+window.TRANSLATIONS['fr']['tasbih.faq.q3'] = 'Pourquoi le nombre 33 après la prière ?';
+window.TRANSLATIONS['fr']['tasbih.faq.a3'] = 'Le nombre 33 provient du hadith prophétique : tasbih 33 + tahmid 33 + takbir 33 = 99, puis on scelle par l’attestation de l’unicité pour compléter la centaine. Le tasbih numérique en mode automatique suit exactement cet ordre.';
+window.TRANSLATIONS['fr']['tasbih.faq.q4'] = 'Puis-je l’utiliser à la place d’un chapelet ordinaire ?';
+window.TRANSLATIONS['fr']['tasbih.faq.a4'] = 'Oui. Il n’y a aucune différence légale entre compter sur un chapelet physique, électronique ou sur les doigts — ce dernier est mentionné dans le hadith : « Comptez avec les doigts, car ils seront interrogés et invités à parler. » Choisissez ce qui vous aide le plus à vous concentrer.';
+window.TRANSLATIONS['fr']['tasbih.faq.q5'] = 'Le tasbih fonctionne-t-il hors ligne ?';
+window.TRANSLATIONS['fr']['tasbih.faq.a5'] = 'Oui, après avoir ouvert la page une première fois. Le site prend en charge le fonctionnement hors ligne (PWA), donc une fois la page chargée, le tasbih fonctionne localement sur votre appareil.';
+window.TRANSLATIONS['fr']['tasbih.faq.q6'] = 'Le tasbih est-il gratuit et sûr ?';
+window.TRANSLATIONS['fr']['tasbih.faq.a6'] = 'Oui, il est entièrement gratuit, sans inscription ni publicité dans l’outil, et le comptage reste sur votre appareil — rien n’est envoyé à un quelconque serveur.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('fr');
 }

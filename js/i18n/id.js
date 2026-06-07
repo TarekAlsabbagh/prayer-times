@@ -1569,6 +1569,62 @@ window.TRANSLATIONS['id']['azkar.hub.subtitle'] = 'Pilih bagian yang ingin Anda 
 window.TRANSLATIONS['id']['azkar.hub.card_after_prayer_title'] = 'Zikir setelah salat';
 window.TRANSLATIONS['id']['azkar.hub.card_after_prayer_desc'] = 'Tasbih, tahmid, dan takbir setelah setiap salat wajib.';
 
+/* MSBAHA-MULTILANG-I18N-CONTENT-FIX-1 — tasbih edu/howto/after/when/related/disclaimer/faq — NATIVE */
+window.TRANSLATIONS['id']['tasbih.edu.title'] = 'Apa itu Tasbih Elektronik?';
+window.TRANSLATIONS['id']['tasbih.edu.intro'] = 'Tasbih elektronik adalah alat digital sederhana yang membantu Anda menghitung Subhanallah, Alhamdulillah, dan Allahu Akbar tanpa memerlukan tasbih fisik. Alat ini berjalan langsung di peramban Anda, menyimpan hitungan selama sesi, dan mendukung dua mode: mode otomatis untuk zikir setelah salat (33 + 33 + 33) dan mode penghitung bebas untuk zikir lainnya.';
+window.TRANSLATIONS['id']['tasbih.howto.title'] = 'Cara menggunakan Tasbih Elektronik';
+window.TRANSLATIONS['id']['tasbih.howto.intro'] = 'Ikuti langkah-langkah sederhana ini:';
+window.TRANSLATIONS['id']['tasbih.howto.step1_title'] = 'Pilih mode Anda';
+window.TRANSLATIONS['id']['tasbih.howto.step1_desc'] = 'Pilih «Tasbih Otomatis» untuk urutan setelah salat: Subhanallah, Alhamdulillah, Allahu Akbar — masing-masing 33 kali. Atau pilih «Penghitung Bebas» untuk zikir lain seperti istigfar atau salawat kepada Nabi ﷺ.';
+window.TRANSLATIONS['id']['tasbih.howto.step2_title'] = 'Ketuk lingkaran besar';
+window.TRANSLATIONS['id']['tasbih.howto.step2_desc'] = 'Setiap ketukan menambah hitungan satu. Pada mode otomatis, penghitung berpindah sendiri ke zikir berikutnya saat mencapai 33, sehingga Anda tidak perlu melakukan apa pun lagi.';
+window.TRANSLATIONS['id']['tasbih.howto.step3_title'] = 'Ikuti bilah kemajuan';
+window.TRANSLATIONS['id']['tasbih.howto.step3_desc'] = 'Bilah di bawah lingkaran menunjukkan posisi Anda dari 33, dan total sesi ditampilkan di bawahnya, sehingga Anda yakin telah menyelesaikan jumlah yang diperlukan.';
+window.TRANSLATIONS['id']['tasbih.howto.step4_title'] = 'Atur ulang kapan saja Anda perlu';
+window.TRANSLATIONS['id']['tasbih.howto.step4_desc'] = 'Gunakan «Atur ulang penghitung» untuk mengembalikan zikir saat ini ke 0 tanpa kehilangan total sesi, atau «Atur ulang sesi» untuk memulai sesi yang benar-benar baru dari nol.';
+window.TRANSLATIONS['id']['tasbih.after.title'] = 'Tasbih setelah salat';
+window.TRANSLATIONS['id']['tasbih.after.intro'] = 'Nabi ﷺ bersabda: «Barang siapa bertasbih kepada Allah setelah setiap salat tiga puluh tiga kali, bertahmid tiga puluh tiga kali, dan bertakbir tiga puluh tiga kali — itu sembilan puluh sembilan — lalu menggenapkan seratus dengan: La ilaha illa Allah, Wahdahu la sharika lah, lahu-l-mulk wa lahu-l-hamd wa Huwa ala kulli syai’in qadir — niscaya diampuni dosa-dosanya meskipun sebanyak buih di lautan.» — Diriwayatkan oleh Muslim.';
+window.TRANSLATIONS['id']['tasbih.after.card1_desc'] = 'Menyucikan Allah dari segala kekurangan. Diucapkan tiga puluh tiga kali setelah salat fardu.';
+window.TRANSLATIONS['id']['tasbih.after.card2_desc'] = 'Memuji Allah atas nikmat-Nya yang tampak maupun tersembunyi. Diucapkan tiga puluh tiga kali setelah tasbih.';
+window.TRANSLATIONS['id']['tasbih.after.card3_desc'] = 'Mengagungkan Allah, Mahasuci Dia. Diucapkan tiga puluh tiga kali, lalu hitungan ditutup dengan kalimat tauhid untuk menggenapkan seratus.';
+window.TRANSLATIONS['id']['tasbih.when.title'] = 'Kapan menggunakan Tasbih Elektronik';
+window.TRANSLATIONS['id']['tasbih.when.intro'] = 'Anda dapat memanfaatkannya dalam beberapa keadaan:';
+window.TRANSLATIONS['id']['tasbih.when.c1_title'] = 'Setelah salat lima waktu';
+window.TRANSLATIONS['id']['tasbih.when.c1_desc'] = 'Penggunaan paling umum: menghitung Subhanallah 33, Alhamdulillah 33, dan Allahu Akbar 33, lalu kalimat tauhid.';
+window.TRANSLATIONS['id']['tasbih.when.c2_title'] = 'Zikir pagi dan petang';
+window.TRANSLATIONS['id']['tasbih.when.c2_desc'] = 'Hitung tahlil, istigfar, dan salawat kepada Nabi ﷺ sebagai bagian dari wirid pagi dan petang Anda.';
+window.TRANSLATIONS['id']['tasbih.when.c3_title'] = 'Istigfar harian';
+window.TRANSLATIONS['id']['tasbih.when.c3_desc'] = 'Tetapkan target harian — misalnya 100 istigfar — dan hitung dengan mudah dalam mode penghitung bebas.';
+window.TRANSLATIONS['id']['tasbih.when.c4_title'] = 'Saat luang dan menunggu';
+window.TRANSLATIONS['id']['tasbih.when.c4_desc'] = 'Manfaatkan menit-menit menunggu untuk berzikir — saat menunggu janji temu, di transportasi umum, dan sebagainya.';
+window.TRANSLATIONS['id']['tasbih.when.c5_title'] = 'Perjalanan dan saat bepergian';
+window.TRANSLATIONS['id']['tasbih.when.c5_desc'] = 'Alternatif praktis untuk tasbih fisik saat bepergian — berjalan langsung di ponsel Anda.';
+window.TRANSLATIONS['id']['tasbih.related.title'] = 'Alat dan ibadah terkait';
+window.TRANSLATIONS['id']['tasbih.related.intro'] = 'Tautan bermanfaat yang melengkapi ibadah harian Anda:';
+window.TRANSLATIONS['id']['tasbih.related.prayer_title'] = 'Jadwal salat';
+window.TRANSLATIONS['id']['tasbih.related.prayer_desc'] = 'Ketahui lima jadwal salat di kota Anda agar tidak pernah melewatkan tasbih setelah setiap salat.';
+window.TRANSLATIONS['id']['tasbih.related.azkar_title'] = 'Zikir';
+window.TRANSLATIONS['id']['tasbih.related.azkar_desc'] = 'Halaman zikir lengkap: pagi, petang, tidur, dan lainnya.';
+window.TRANSLATIONS['id']['tasbih.related.qibla_title'] = 'Arah kiblat';
+window.TRANSLATIONS['id']['tasbih.related.qibla_desc'] = 'Temukan arah kiblat dari lokasi Anda dengan akurat sebelum salat.';
+window.TRANSLATIONS['id']['tasbih.related.hijri_title'] = 'Tanggal Hijriah';
+window.TRANSLATIONS['id']['tasbih.related.hijri_desc'] = 'Ikuti tanggal Hijriah hari ini dan ingat hari-hari utama seperti Hari-Hari Putih (Ayyamul Bidh).';
+window.TRANSLATIONS['id']['tasbih.disclaimer.title'] = 'Catatan';
+window.TRANSLATIONS['id']['tasbih.disclaimer.body'] = 'Tasbih elektronik hanyalah alat bantu — pahala bergantung pada niat orang yang berzikir dan kehadiran hatinya, bukan pada apakah hitungan dilakukan dengan tasbih fisik, tasbih elektronik, atau dengan jari.';
+window.TRANSLATIONS['id']['tasbih.faq.title'] = 'Pertanyaan umum tentang Tasbih Elektronik';
+window.TRANSLATIONS['id']['tasbih.faq.q1'] = 'Apakah tasbih elektronik itu bidah?';
+window.TRANSLATIONS['id']['tasbih.faq.a1'] = 'Tidak. Ia hanyalah alat untuk menghitung zikir, persis seperti tasbih fisik atau menghitung dengan jari. Pada dasarnya zikir adalah sunnah, dan alat apa pun yang membantunya boleh selama tidak melalaikan dari tujuan.';
+window.TRANSLATIONS['id']['tasbih.faq.q2'] = 'Apakah tasbih menyimpan hitungan setelah halaman ditutup?';
+window.TRANSLATIONS['id']['tasbih.faq.a2'] = 'Saat ini hitungan hanya disimpan selama sesi. Ketika Anda memuat ulang halaman, hitungan dimulai dari awal — ini disengaja agar sesuai dengan tasbih setelah setiap salat sebagai peristiwa tersendiri.';
+window.TRANSLATIONS['id']['tasbih.faq.q3'] = 'Mengapa angka 33 setelah salat?';
+window.TRANSLATIONS['id']['tasbih.faq.a3'] = 'Angka 33 berasal dari hadis Nabi: tasbih 33 + tahmid 33 + takbir 33 = 99, lalu ditutup dengan kalimat tauhid untuk menggenapkan seratus. Tasbih elektronik dalam mode otomatis mengikuti urutan ini persis.';
+window.TRANSLATIONS['id']['tasbih.faq.q4'] = 'Bolehkah saya menggunakannya sebagai pengganti tasbih biasa?';
+window.TRANSLATIONS['id']['tasbih.faq.a4'] = 'Boleh. Tidak ada perbedaan secara syariat antara menghitung dengan tasbih fisik, tasbih elektronik, atau dengan jari — yang terakhir disebutkan dalam hadis: «Hitunglah dengan ujung-ujung jari, karena ia akan ditanya dan diminta bicara.» Pilihlah yang paling membantu Anda khusyuk.';
+window.TRANSLATIONS['id']['tasbih.faq.q5'] = 'Apakah tasbih berfungsi tanpa internet?';
+window.TRANSLATIONS['id']['tasbih.faq.a5'] = 'Ya, setelah Anda membuka halaman sekali. Situs ini mendukung operasi luring (PWA), sehingga setelah halaman dimuat, tasbih berjalan secara lokal di perangkat Anda.';
+window.TRANSLATIONS['id']['tasbih.faq.q6'] = 'Apakah tasbih gratis dan aman?';
+window.TRANSLATIONS['id']['tasbih.faq.a6'] = 'Ya, sepenuhnya gratis tanpa pendaftaran dan tanpa iklan di dalam alat, dan hitungan tetap di perangkat Anda — tidak ada yang dikirim ke server mana pun.';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('id');
 }

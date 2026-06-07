@@ -1625,6 +1625,9 @@ window.TRANSLATIONS['bn']['tasbih.faq.a5'] = 'হ্যাঁ, একবার �
 window.TRANSLATIONS['bn']['tasbih.faq.q6'] = 'তাসবিহ কি বিনামূল্যে ও নিরাপদ?';
 window.TRANSLATIONS['bn']['tasbih.faq.a6'] = 'হ্যাঁ, এটি সম্পূর্ণ বিনামূল্যে, কোনো নিবন্ধন ছাড়া এবং সরঞ্জামের ভেতরে কোনো বিজ্ঞাপন ছাড়া, আর গণনা আপনার ডিভাইসেই থাকে — কোনো কিছুই কোনো সার্ভারে পাঠানো হয় না।';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['bn']['npt.eyebrow'] = 'আজকের নামাজের সময়';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('bn');
 }

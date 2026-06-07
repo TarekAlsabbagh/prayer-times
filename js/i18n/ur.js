@@ -1536,6 +1536,9 @@ window.TRANSLATIONS['ur']['tasbih.faq.a5'] = 'جی ہاں، ایک بار صفح
 window.TRANSLATIONS['ur']['tasbih.faq.q6'] = 'کیا تسبیح مفت اور محفوظ ہے؟';
 window.TRANSLATIONS['ur']['tasbih.faq.a6'] = 'جی ہاں، یہ مکمل طور پر مفت ہے، بغیر کسی رجسٹریشن اور آلے کے اندر کسی اشتہار کے، اور گنتی آپ کے آلے پر رہتی ہے — کچھ بھی کسی سرور کو نہیں بھیجا جاتا۔';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['ur']['npt.eyebrow'] = 'آج کے نماز کے اوقات';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ur');
 }

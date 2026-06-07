@@ -1625,6 +1625,9 @@ window.TRANSLATIONS['de']['tasbih.faq.a5'] = 'Ja, nachdem du die Seite einmal ge
 window.TRANSLATIONS['de']['tasbih.faq.q6'] = 'Ist die Tasbih kostenlos und sicher?';
 window.TRANSLATIONS['de']['tasbih.faq.a6'] = 'Ja, sie ist völlig kostenlos, ohne Registrierung und ohne Werbung im Werkzeug, und die Zählung bleibt auf deinem Gerät — nichts wird an einen Server gesendet.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['de']['npt.eyebrow'] = 'Gebetszeiten heute';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('de');
 }

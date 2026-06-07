@@ -15861,6 +15861,18 @@ TRANSLATIONS['ms']['tasbih.faq.a5'] = 'Ya, selepas anda membuka halaman buat kal
 TRANSLATIONS['ms']['tasbih.faq.q6'] = 'Adakah tasbih percuma dan selamat?';
 TRANSLATIONS['ms']['tasbih.faq.a6'] = 'Ya, ia percuma sepenuhnya tanpa pendaftaran dan tanpa iklan di dalam alat, dan kiraan kekal pada peranti anda — tiada apa-apa dihantar ke mana-mana pelayan.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge for all 10 langs (SSR bundle) */
+TRANSLATIONS['ar']['npt.eyebrow'] = 'مواقيت الصلاة اليوم';
+TRANSLATIONS['en']['npt.eyebrow'] = 'Today’s Prayer Times';
+TRANSLATIONS['fr']['npt.eyebrow'] = 'Horaires de prière du jour';
+TRANSLATIONS['tr']['npt.eyebrow'] = 'Bugünkü Namaz Vakitleri';
+TRANSLATIONS['ur']['npt.eyebrow'] = 'آج کے نماز کے اوقات';
+TRANSLATIONS['de']['npt.eyebrow'] = 'Gebetszeiten heute';
+TRANSLATIONS['id']['npt.eyebrow'] = 'Jadwal Sholat Hari Ini';
+TRANSLATIONS['es']['npt.eyebrow'] = 'Horarios de oración de hoy';
+TRANSLATIONS['bn']['npt.eyebrow'] = 'আজকের নামাজের সময়';
+TRANSLATIONS['ms']['npt.eyebrow'] = 'Waktu Solat Hari Ini';
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { TRANSLATIONS };
 }

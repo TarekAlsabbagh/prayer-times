@@ -1569,6 +1569,9 @@ window.TRANSLATIONS['tr']['tasbih.faq.a5'] = 'Evet, sayfayı bir kez açtıktan 
 window.TRANSLATIONS['tr']['tasbih.faq.q6'] = 'Tesbih ücretsiz ve güvenli mi?';
 window.TRANSLATIONS['tr']['tasbih.faq.a6'] = 'Evet, tamamen ücretsizdir; kayıt gerektirmez ve araç içinde reklam yoktur, sayım cihazında kalır — hiçbir sunucuya hiçbir şey gönderilmez.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['tr']['npt.eyebrow'] = 'Bugünkü Namaz Vakitleri';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('tr');
 }

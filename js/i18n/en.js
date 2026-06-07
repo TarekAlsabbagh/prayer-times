@@ -1696,6 +1696,9 @@ window.TRANSLATIONS['en']['azkar.hub.card_prayer_time'] = '10–15 min';
 window.TRANSLATIONS['en']['azkar.hub.card_evening_count'] = '23 azkar';
 window.TRANSLATIONS['en']['azkar.hub.card_evening_time'] = '10–15 min';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['en']['npt.eyebrow'] = 'Today’s Prayer Times';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('en');
 }

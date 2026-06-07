@@ -1625,6 +1625,9 @@ window.TRANSLATIONS['es']['tasbih.faq.a5'] = 'Sí, después de abrir la página 
 window.TRANSLATIONS['es']['tasbih.faq.q6'] = '¿Es el tasbih gratuito y seguro?';
 window.TRANSLATIONS['es']['tasbih.faq.a6'] = 'Sí, es completamente gratuito, sin registro ni anuncios dentro de la herramienta, y el conteo permanece en tu dispositivo: no se envía nada a ningún servidor.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['es']['npt.eyebrow'] = 'Horarios de oración de hoy';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('es');
 }

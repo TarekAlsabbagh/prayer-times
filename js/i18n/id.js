@@ -1625,6 +1625,9 @@ window.TRANSLATIONS['id']['tasbih.faq.a5'] = 'Ya, setelah Anda membuka halaman s
 window.TRANSLATIONS['id']['tasbih.faq.q6'] = 'Apakah tasbih gratis dan aman?';
 window.TRANSLATIONS['id']['tasbih.faq.a6'] = 'Ya, sepenuhnya gratis tanpa pendaftaran dan tanpa iklan di dalam alat, dan hitungan tetap di perangkat Anda — tidak ada yang dikirim ke server mana pun.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['id']['npt.eyebrow'] = 'Jadwal Sholat Hari Ini';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('id');
 }

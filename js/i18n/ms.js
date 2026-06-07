@@ -1625,6 +1625,9 @@ window.TRANSLATIONS['ms']['tasbih.faq.a5'] = 'Ya, selepas anda membuka halaman b
 window.TRANSLATIONS['ms']['tasbih.faq.q6'] = 'Adakah tasbih percuma dan selamat?';
 window.TRANSLATIONS['ms']['tasbih.faq.a6'] = 'Ya, ia percuma sepenuhnya tanpa pendaftaran dan tanpa iklan di dalam alat, dan kiraan kekal pada peranti anda — tiada apa-apa dihantar ke mana-mana pelayan.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['ms']['npt.eyebrow'] = 'Waktu Solat Hari Ini';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ms');
 }

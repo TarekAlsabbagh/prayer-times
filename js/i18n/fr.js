@@ -1566,6 +1566,9 @@ window.TRANSLATIONS['fr']['tasbih.faq.a5'] = 'Oui, après avoir ouvert la page u
 window.TRANSLATIONS['fr']['tasbih.faq.q6'] = 'Le tasbih est-il gratuit et sûr ?';
 window.TRANSLATIONS['fr']['tasbih.faq.a6'] = 'Oui, il est entièrement gratuit, sans inscription ni publicité dans l’outil, et le comptage reste sur votre appareil — rien n’est envoyé à un quelconque serveur.';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['fr']['npt.eyebrow'] = 'Horaires de prière du jour';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('fr');
 }

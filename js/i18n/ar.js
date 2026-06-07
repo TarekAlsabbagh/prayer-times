@@ -1772,6 +1772,9 @@ window.TRANSLATIONS['ar']['azkar.hub.card_prayer_time'] = '10–15 دقيقة';
 window.TRANSLATIONS['ar']['azkar.hub.card_evening_count'] = '23 ذكرًا';
 window.TRANSLATIONS['ar']['azkar.hub.card_evening_time'] = '10–15 دقيقة';
 
+/* NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 — npt.eyebrow badge */
+window.TRANSLATIONS['ar']['npt.eyebrow'] = 'مواقيت الصلاة اليوم';
+
 if (typeof _initI18nAutoGen === 'function') {
     _initI18nAutoGen('ar');
 }

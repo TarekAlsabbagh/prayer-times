@@ -128115,5 +128115,48 @@
     "source": "geonames",
     "sourceId": "geonames:303831",
     "verified": false
+  },
+  {
+    "slug": "huraymila",
+    "type": "city",
+    "countryCode": "sa",
+    "lat": 25.126667,
+    "lng": 46.1225,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "حريملاء",
+      "en": "Huraymila"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia",
+      "region": "Riyadh Province"
+    },
+    "priority": 45,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "essaouira",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 31.5118281,
+    "lng": -9.7620903,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "الصويرة",
+      "en": "Essaouira",
+      "fr": "Essaouira"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco",
+      "region": "Marrakesh-Safi"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
   }
 ]

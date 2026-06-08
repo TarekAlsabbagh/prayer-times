@@ -1063,6 +1063,7 @@ window.TRANSLATIONS['ur'] = {
         'qibla.distance_to_kaaba': 'کعبہ سے فاصلہ: {distance} {unit}',
         'cities.section_title': '{country} کے شہروں میں اوقاتِ نماز',
         'cities.more_btn_country': '{country} کے مزید شہر ←',
+        'cities.single_city_note': '{country} کے پاس ہمارے موجودہ ڈیٹا میں صرف ایک بڑا شہر ہے، اس لیے یہاں دکھانے کے لیے کوئی اور شہر نہیں۔',
         'schedule.title_with_range': '{city} میں اوقاتِ نماز کا شیڈول — {start} سے {end} تک',
         'qibla.direction_label': 'سمت: {dir}',
         'currency.SAR': 'سعودی ریال (SAR)',

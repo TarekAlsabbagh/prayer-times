@@ -1093,6 +1093,7 @@ window.TRANSLATIONS['bn'] = {
         'qibla.distance_to_kaaba': 'কাবা পর্যন্ত দূরত্ব: {distance} {unit}',
         'cities.section_title': '{country}-এর শহরগুলোতে নামাজের সময়',
         'cities.more_btn_country': '{country}-এর আরও শহর →',
+        'cities.single_city_note': '{country}-এ আমাদের বর্তমান ডেটায় একটি প্রধান শহর রয়েছে, তাই এখানে দেখানোর জন্য অন্য কোনো শহর নেই।',
         'schedule.title_with_range': '{city}-এ নামাজের সময় — {start} থেকে {end} পর্যন্ত',
         'qibla.direction_label': 'দিক: {dir}',
         'currency.SAR': 'সৌদি রিয়াল (SAR)',

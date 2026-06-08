@@ -1093,6 +1093,7 @@ window.TRANSLATIONS['es'] = {
         'qibla.distance_to_kaaba': 'Distancia a la Kaaba: {distance} {unit}',
         'cities.section_title': 'Horarios de Oración en Ciudades de {country}',
         'cities.more_btn_country': 'Más ciudades de {country} →',
+        'cities.single_city_note': '{country} actualmente tiene una sola ciudad principal en nuestros datos, por lo que no hay otras ciudades para mostrar aquí.',
         'schedule.title_with_range': 'Horarios de Oración en {city} — de {start} a {end}',
         'qibla.direction_label': 'Dirección: {dir}',
         'currency.SAR': 'Riyal Saudí (SAR)',

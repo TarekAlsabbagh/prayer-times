@@ -1340,6 +1340,7 @@ window.TRANSLATIONS['ar'] = {
         'qibla.distance_to_kaaba': 'المسافة إلى الكعبة: {distance} {unit}',
         'cities.section_title': 'مواقيت الصلاة في مدن {country}',
         'cities.more_btn_country': 'المزيد من مدن {country} ←',
+        'cities.single_city_note': '{country} تضمّ مدينة رئيسية واحدة في بياناتنا الحالية، لذلك لا توجد مدن أخرى لعرضها هنا.',
         'schedule.title_with_range': 'جدول مواقيت الصلاة في {city} — من {start} إلى {end}',
         'qibla.direction_label': 'اتجاه {dir}',
         'qibla.direction_north': 'شمال',

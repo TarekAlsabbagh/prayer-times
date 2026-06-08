@@ -1093,6 +1093,7 @@ window.TRANSLATIONS['id'] = {
         'qibla.distance_to_kaaba': 'Jarak ke Kakbah: {distance} {unit}',
         'cities.section_title': 'Jadwal Sholat di Kota-Kota {country}',
         'cities.more_btn_country': 'Lebih banyak kota {country} →',
+        'cities.single_city_note': '{country} saat ini hanya memiliki satu kota utama dalam data kami, jadi tidak ada kota lain untuk ditampilkan di sini.',
         'schedule.title_with_range': 'Jadwal Sholat di {city} — dari {start} hingga {end}',
         'qibla.direction_label': 'Arah: {dir}',
         'currency.SAR': 'Riyal Saudi (SAR)',

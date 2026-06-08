@@ -1050,6 +1050,7 @@ window.TRANSLATIONS['tr'] = {
         'qibla.distance_to_kaaba': 'Kabe\u2019ye uzaklık: {distance} {unit}',
         'cities.section_title': '{country} Şehirleri Namaz Vakitleri',
         'cities.more_btn_country': '{country} şehirleri için daha fazla \u2192',
+        'cities.single_city_note': '{country} verilerimizde şu anda yalnızca bir ana şehre sahip, bu yüzden burada gösterilecek başka şehir yok.',
         'schedule.title_with_range': '{city} Namaz Vakitleri — {start} \u2013 {end}',
         'qibla.direction_label': 'Yön: {dir}',
         'currency.SAR': 'Suudi Riyali (SAR)',

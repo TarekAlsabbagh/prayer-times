@@ -8683,9 +8683,23 @@ function updateBreadcrumb() {
     else if (bcCountry) bcCountry.textContent = countryFinal;
     // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: only link the country crumb when we have a
     // real slug. makeCountrySlug now returns '' for unmapped codes — never build /prayer-times-in-.
+    // COUNTRY-PRAYER-PAGE-SINGLE-CITY-TERRITORY-UX-FIX-1: neutralize the circular link — for a
+    // single-city territory (Macau) the country slug == the current city slug, so the crumb would
+    // point at the current page. Drop the href so it renders as plain text, not a dead click.
     if (bcCountry) {
-        if (countrySlug) bcCountry.href = countryHref;
-        else bcCountry.removeAttribute('href');
+        let _circular = false;
+        try {
+            _circular = !!countrySlug &&
+                new URL(countryHref, window.location.href).pathname.replace(/\/+$/, '')
+                    === window.location.pathname.replace(/\/+$/, '');
+        } catch (_) {}
+        if (countrySlug && !_circular) {
+            bcCountry.href = countryHref;
+            bcCountry.classList.remove('bc-nolink');
+        } else {
+            bcCountry.removeAttribute('href');
+            bcCountry.classList.add('bc-nolink');
+        }
     }
 
     if (bcCity) bcCity.textContent = finalLabel;  // <span> لا <a> — بدون href
@@ -12605,11 +12619,42 @@ function renderCountryCities(cities, code) {
         !(Math.abs(c.lat - currentLat) < 0.5 && Math.abs(c.lng - currentLng) < 0.5)
     );
 
-    if (others.length === 0) { section.style.display = 'none'; return; }
-
-    section.style.display = 'block';
     const langRC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const dispCountryRC = getDisplayCountry();
+    let emptyNote = document.getElementById('country-cities-empty-note');
+
+    // COUNTRY-PRAYER-PAGE-SINGLE-CITY-TERRITORY-UX-FIX-1:
+    // عندما تكون المدينة الوحيدة للدولة/الإقليم هي نفسها المدينة الحاليّة (إقليم single-city
+    // مثل ماكاو)، تصبح القائمة فارغة بعد استبعاد الحاليّة. بدل إخفاء القسم بصمت، نُظهر رسالة
+    // مترجَمة واضحة (بلا شبكة فارغة، بلا spinner). إن لم تكن هناك بيانات أصلاً (cities=0) نُخفي.
+    if (others.length === 0) {
+        if (cities && cities.length > 0) {
+            section.style.display = 'block';
+            section.classList.remove('u-hidden');
+            title.textContent = t('cities.section_title', { country: dispCountryRC });
+            grid.innerHTML = '';
+            grid.style.display = 'none';
+            if (!emptyNote) {
+                emptyNote = document.createElement('p');
+                emptyNote.id = 'country-cities-empty-note';
+                emptyNote.className = 'cities-empty-note';
+                grid.parentNode.insertBefore(emptyNote, grid.nextSibling);
+            }
+            emptyNote.textContent = t('cities.single_city_note', { country: dispCountryRC });
+            emptyNote.style.display = '';
+            if (moreBtn && moreBtn.parentElement) moreBtn.parentElement.style.display = 'none';
+        } else {
+            section.style.display = 'none';
+        }
+        return;
+    }
+
+    // مسار عادي (≥1 مدينة أخرى) — نُعيد إظهار الشبكة ونُخفي رسالة single-city إن وُجدت
+    if (emptyNote) emptyNote.style.display = 'none';
+    grid.style.display = '';
+    if (moreBtn && moreBtn.parentElement) moreBtn.parentElement.style.display = '';
+
+    section.style.display = 'block';
     title.textContent = t('cities.section_title', { country: dispCountryRC });
     if (moreBtn) moreBtn.textContent = t('cities.more_btn_country', { country: dispCountryRC });
 

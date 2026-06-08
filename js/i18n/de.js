@@ -1093,6 +1093,7 @@ window.TRANSLATIONS['de'] = {
         'qibla.distance_to_kaaba': 'Entfernung zur Kaaba: {distance} {unit}',
         'cities.section_title': 'Gebetszeiten in Städten von {country}',
         'cities.more_btn_country': 'Weitere Städte von {country} →',
+        'cities.single_city_note': '{country} hat in unseren aktuellen Daten nur eine größere Stadt, daher gibt es hier keine weiteren Städte.',
         'schedule.title_with_range': 'Gebetszeitenplan in {city} — von {start} bis {end}',
         'qibla.direction_label': 'Richtung: {dir}',
         'currency.SAR': 'Saudi-Riyal (SAR)',

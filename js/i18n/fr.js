@@ -1047,6 +1047,7 @@ window.TRANSLATIONS['fr'] = {
         'qibla.distance_to_kaaba': 'Distance jusqu\u2019à la Kaaba : {distance} {unit}',
         'cities.section_title': 'Heures de prière dans les villes de {country}',
         'cities.more_btn_country': 'Plus de villes de {country} \u2192',
+        'cities.single_city_note': '{country} ne compte qu\'une seule ville principale dans nos données actuelles ; aucune autre ville à afficher ici.',
         'schedule.title_with_range': 'Horaires de prière à {city} — du {start} au {end}',
         'qibla.direction_label': 'Direction : {dir}',
         'currency.SAR': 'Riyal saoudien (SAR)',

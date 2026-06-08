@@ -1268,6 +1268,7 @@ window.TRANSLATIONS['en'] = {
         'qibla.distance_to_kaaba': 'Distance to Kaaba: {distance} {unit}',
         'cities.section_title': 'Prayer Times in Cities of {country}',
         'cities.more_btn_country': 'More Cities of {country} \u2192',
+        'cities.single_city_note': '{country} currently has one main city in our data, so there are no other cities to show here.',
         'schedule.title_with_range': 'Prayer Times Schedule in {city} — from {start} to {end}',
         'qibla.direction_label': 'Direction: {dir}',
         'currency.SAR': 'Saudi Riyal (SAR)',

@@ -1093,6 +1093,7 @@ window.TRANSLATIONS['ms'] = {
         'qibla.distance_to_kaaba': 'Jarak ke Kaabah: {distance} {unit}',
         'cities.section_title': 'Waktu Solat di Bandar-Bandar {country}',
         'cities.more_btn_country': 'Lebih banyak bandar {country} →',
+        'cities.single_city_note': '{country} kini hanya mempunyai satu bandar utama dalam data kami, jadi tiada bandar lain untuk dipaparkan di sini.',
         'schedule.title_with_range': 'Waktu Solat di {city} — dari {start} hingga {end}',
         'qibla.direction_label': 'Arah: {dir}',
         'currency.SAR': 'Riyal Saudi (SAR)',

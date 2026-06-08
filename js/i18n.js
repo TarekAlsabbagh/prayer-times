@@ -15885,6 +15885,18 @@ TRANSLATIONS['es']['countryCities.searchPlaceholder'] = '🔍 Buscar una ciudad 
 TRANSLATIONS['bn']['countryCities.searchPlaceholder'] = '🔍 এই দেশের একটি শহর খুঁজুন...';
 TRANSLATIONS['ms']['countryCities.searchPlaceholder'] = '🔍 Cari bandar di negara ini...';
 
+/* COUNTRY-PRAYER-PAGE-SINGLE-CITY-TERRITORY-UX-FIX-1 — single-city territory empty-state note */
+TRANSLATIONS['ar']['cities.single_city_note'] = '{country} تضمّ مدينة رئيسية واحدة في بياناتنا الحالية، لذلك لا توجد مدن أخرى لعرضها هنا.';
+TRANSLATIONS['en']['cities.single_city_note'] = '{country} currently has one main city in our data, so there are no other cities to show here.';
+TRANSLATIONS['fr']['cities.single_city_note'] = '{country} ne compte qu\'une seule ville principale dans nos données actuelles ; aucune autre ville à afficher ici.';
+TRANSLATIONS['tr']['cities.single_city_note'] = '{country} verilerimizde şu anda yalnızca bir ana şehre sahip, bu yüzden burada gösterilecek başka şehir yok.';
+TRANSLATIONS['ur']['cities.single_city_note'] = '{country} کے پاس ہمارے موجودہ ڈیٹا میں صرف ایک بڑا شہر ہے، اس لیے یہاں دکھانے کے لیے کوئی اور شہر نہیں۔';
+TRANSLATIONS['de']['cities.single_city_note'] = '{country} hat in unseren aktuellen Daten nur eine größere Stadt, daher gibt es hier keine weiteren Städte.';
+TRANSLATIONS['id']['cities.single_city_note'] = '{country} saat ini hanya memiliki satu kota utama dalam data kami, jadi tidak ada kota lain untuk ditampilkan di sini.';
+TRANSLATIONS['es']['cities.single_city_note'] = '{country} actualmente tiene una sola ciudad principal en nuestros datos, por lo que no hay otras ciudades para mostrar aquí.';
+TRANSLATIONS['bn']['cities.single_city_note'] = '{country}-এ আমাদের বর্তমান ডেটায় একটি প্রধান শহর রয়েছে, তাই এখানে দেখানোর জন্য অন্য কোনো শহর নেই।';
+TRANSLATIONS['ms']['cities.single_city_note'] = '{country} kini hanya mempunyai satu bandar utama dalam data kami, jadi tiada bandar lain untuk dipaparkan di sini.';
+
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = { TRANSLATIONS };
 }

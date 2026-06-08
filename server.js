@@ -6600,7 +6600,18 @@ function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
 // Map: route → identifier للـ H1 النشط (id أو data-i18n)
 function _getActiveH1Marker(urlPath) {
     const path = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
-    if (/^\/prayer-times-in-/.test(path))            return { kind: 'id',   value: 'page-h1' };
+    if (/^\/prayer-times-in-/.test(path)) {
+        // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: country listing pages (prayer-times-cities.html)
+        // have NO #page-h1 — their single H1 is the hero #loc-hero-title (filled with the localized
+        // country name in the seo.countryListing block). Without this branch, _downgradeInactiveH1s
+        // demoted the hero to <h2> looking for a non-existent #page-h1 → the page rendered H1=0.
+        const _ptm = path.match(/^\/prayer-times-in-([a-z][a-z0-9-]+)$/);
+        if (_ptm) {
+            const _ptc = _countryFromSlug(_ptm[1]);
+            if (_ptc && _ptc.cc && _ptc.cc !== '__') return { kind: 'id', value: 'loc-hero-title' };
+        }
+        return { kind: 'id', value: 'page-h1' };   // city page (index.html)
+    }
     if (/^\/qibla-in-/.test(path))                   return { kind: 'id',   value: 'qibla-hero-title' };
     // Phase Q-Hub-A (2026-05-04): /qibla Hub also uses #qibla-hero-title as the active H1.
     if (/^\/qibla$/.test(path))                       return { kind: 'id',   value: 'qibla-hero-title' };
@@ -6755,6 +6766,209 @@ function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijri
 
 function _slugToTitle(slug) {
     return (slug || '').split('-').filter(Boolean).map(p => p.charAt(0).toUpperCase() + p.slice(1)).join(' ');
+}
+
+// ============================================================
+// COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1 (2026-06-08): SSR-visible educational content
+// for /prayer-times-in-{country} (prayer-times-cities.html). 6 sections (H2) + FAQ (H3) in
+// 10 languages, with the LOCALIZED country name interpolated via {C} (NO runtime translation —
+// {C} = seo.countryListing.name which is already localized). Balanced keyword distribution; no
+// stuffing. Returns { html, faqJsonLd } for injection into #country-seo-content.
+// ============================================================
+const _COUNTRY_SEO_L10N = {
+    ar: {
+        sec: [
+            ['مواقيت الصلاة في مدن {C}', 'تعرض هذه الصفحة مواقيت الصلاة في مدن {C} المعتمدة. اختر مدينتك لعرض أوقات الفجر والظهر والعصر والمغرب والعشاء مع وقت الأذان والتاريخ الهجري حسب التوقيت المحلي لكل مدينة.'],
+            ['كيف تُحسب أوقات الصلاة في {C}؟', 'تُحسب أوقات الصلاة من موقع الشمس عند خط طول وعرض كل مدينة، فتختلف بضع دقائق بين موقع وآخر. نعتمد إحداثيات موثوقة لكل مدينة في {C} والمنطقة الزمنية المحلية لضمان دقة مواقيت الصلاة ووقت الأذان.'],
+            ['اختيار المدينة الصحيحة داخل {C}', 'للحصول على أدقّ أوقات الصلاة اختر أقرب مدينة إليك داخل {C}. إن لم تجد مدينتك في قائمة المدن فاستخدم مربع البحث للعثور على موقع قريب يعرض الفجر والظهر والعصر والمغرب والعشاء.'],
+            ['اختلاف الأوقات بين مدن {C}', 'تختلف أوقات الصلاة بين شرق {C} وغربها بفارق دقائق بسبب اختلاف وقت شروق الشمس وغروبها مع الموقع الجغرافي. لذلك يعرض الجدول وقت الأذان لكل مدينة على حدة بدل توقيت موحّد.'],
+            ['نصائح لاستخدام جدول مواقيت الصلاة', 'ثبّت مدينتك المفضّلة للوصول السريع، وراجع مواقيت الصلاة يوميًا لأنها تتغيّر قليلًا عبر العام، واعتمد التوقيت المحلي للمدينة لا توقيت جهازك إن كنت مسافرًا داخل {C}.']
+        ],
+        faqTitle: 'الأسئلة الشائعة',
+        faq: [
+            ['كيف أجد مواقيت الصلاة لمدينة داخل {C}؟', 'اختر المدينة من شبكة المدن أعلاه أو ابحث عنها في مربع البحث، فتفتح صفحة المدينة بأوقات الفجر والظهر والعصر والمغرب والعشاء ووقت الأذان.'],
+            ['هل تختلف أوقات الصلاة بين مدن {C}؟', 'نعم، تختلف بفارق دقائق بين المدن باختلاف خط الطول والعرض ووقت شروق الشمس وغروبها، لذلك لكل مدينة جدول مستقل.'],
+            ['ما مصدر حساب مواقيت الصلاة؟', 'تُحسب من موقع الشمس بناءً على الإحداثيات المعتمدة لكل مدينة في {C} والمنطقة الزمنية المحلية، بلا أي ترجمة أو تقدير عشوائي.'],
+            ['هل يمكن البحث عن مدينة غير موجودة في القائمة؟', 'نعم، استخدم مربع البحث؛ إن وُجدت المدينة داخل {C} ظهرت كنتيجة قابلة للفتح لعرض مواقيت الصلاة فيها.'],
+            ['كيف يتم التعامل مع المدن المكتشفة حديثًا؟', 'تظهر مؤقتًا عند البحث ويمكن فتح مواقيتها، ثم تُضاف إلى قائمة المدن المعتمدة بعد المراجعة.']
+        ]
+    },
+    en: {
+        sec: [
+            ['Prayer Times in Cities of {C}', 'This page lists prayer times across the curated cities of {C}. Pick your city to view Fajr, Dhuhr, Asr, Maghrib and Isha together with the adhan time and the Hijri date in each city’s local time.'],
+            ['How Are Prayer Times Calculated in {C}?', 'Prayer times are derived from the position of the sun at each city’s latitude and longitude, so they differ by a few minutes from one place to another. We use reliable coordinates for every city in {C} and the local time zone to keep prayer and adhan times accurate.'],
+            ['Choosing the Right City in {C}', 'For the most accurate prayer times, choose the city closest to you in {C}. If your city is not in the list, use the search box to find a nearby location that shows Fajr, Dhuhr, Asr, Maghrib and Isha.'],
+            ['Time Differences Between Cities of {C}', 'Prayer times shift by a few minutes between the east and west of {C} because sunrise and sunset depend on geographic location. That is why the schedule shows the adhan time for each city separately rather than a single nationwide time.'],
+            ['Tips for Using the Prayer Times Schedule', 'Pin your favourite city for quick access, check prayer times daily since they drift slightly through the year, and rely on the city’s local time rather than your device clock when travelling within {C}.']
+        ],
+        faqTitle: 'Frequently Asked Questions',
+        faq: [
+            ['How do I find prayer times for a city in {C}?', 'Choose the city from the grid above or search for it in the search box; the city page then opens with Fajr, Dhuhr, Asr, Maghrib, Isha and the adhan time.'],
+            ['Do prayer times differ between cities of {C}?', 'Yes — they differ by a few minutes between cities depending on latitude, longitude and the time of sunrise and sunset, so each city has its own schedule.'],
+            ['What is the source of the prayer time calculation?', 'They are computed from the position of the sun using each city’s curated coordinates in {C} and the local time zone — no translation or random estimate.'],
+            ['Can I search for a city that is not in the list?', 'Yes, use the search box; if the city exists within {C} it appears as an openable result showing its prayer times.'],
+            ['How are newly discovered cities handled?', 'They appear temporarily in search and their times can be opened, then they are added to the curated city list after review.']
+        ]
+    },
+    fr: {
+        sec: [
+            ['Heures de prière dans les villes de {C}', 'Cette page présente les heures de prière dans les villes répertoriées de {C}. Choisissez votre ville pour voir le Fajr, le Dhuhr, l’Asr, le Maghrib et l’Isha avec l’heure de l’adhan et la date hégirienne à l’heure locale.'],
+            ['Comment les heures de prière sont-elles calculées en {C} ?', 'Les heures de prière dépendent de la position du soleil à la latitude et la longitude de chaque ville et varient donc de quelques minutes d’un lieu à l’autre. Nous utilisons des coordonnées fiables pour chaque ville de {C} et le fuseau horaire local.'],
+            ['Choisir la bonne ville en {C}', 'Pour des heures de prière précises, choisissez la ville la plus proche de vous en {C}. Si votre ville n’est pas dans la liste, utilisez la recherche pour trouver un lieu voisin affichant le Fajr, le Dhuhr, l’Asr, le Maghrib et l’Isha.'],
+            ['Différences d’horaires entre les villes de {C}', 'Les heures de prière varient de quelques minutes entre l’est et l’ouest de {C} car le lever et le coucher du soleil dépendent de la position géographique. Le tableau indique donc l’heure de l’adhan pour chaque ville.'],
+            ['Conseils pour utiliser le tableau des heures de prière', 'Épinglez votre ville préférée pour un accès rapide, consultez les heures de prière chaque jour car elles évoluent légèrement dans l’année, et fiez-vous à l’heure locale de la ville en voyage dans {C}.']
+        ],
+        faqTitle: 'Questions fréquentes',
+        faq: [
+            ['Comment trouver les heures de prière d’une ville en {C} ?', 'Choisissez la ville dans la grille ci-dessus ou recherchez-la ; la page de la ville s’ouvre avec le Fajr, le Dhuhr, l’Asr, le Maghrib, l’Isha et l’adhan.'],
+            ['Les heures de prière diffèrent-elles entre les villes de {C} ?', 'Oui, de quelques minutes selon la latitude, la longitude et l’heure du lever et du coucher du soleil ; chaque ville a son propre horaire.'],
+            ['Quelle est la source du calcul des heures de prière ?', 'Elles sont calculées à partir de la position du soleil avec les coordonnées répertoriées de chaque ville de {C} et le fuseau horaire local.'],
+            ['Puis-je rechercher une ville absente de la liste ?', 'Oui, utilisez la recherche ; si la ville existe en {C}, elle apparaît comme résultat ouvrable affichant ses heures de prière.'],
+            ['Comment sont gérées les villes nouvellement découvertes ?', 'Elles apparaissent temporairement dans la recherche et leurs horaires sont consultables, puis elles sont ajoutées à la liste répertoriée après vérification.']
+        ]
+    },
+    tr: {
+        sec: [
+            ['{C} Şehirlerinde Namaz Vakitleri', 'Bu sayfa {C} ülkesinin listelenen şehirlerindeki namaz vakitlerini gösterir. Şehrinizi seçerek İmsak, Öğle, İkindi, Akşam ve Yatsı vakitlerini, ezan saatini ve Hicri tarihi yerel saatle görüntüleyin.'],
+            ['{C} İçin Namaz Vakitleri Nasıl Hesaplanır?', 'Namaz vakitleri her şehrin enlem ve boylamındaki güneş konumundan hesaplanır, bu yüzden yerden yere birkaç dakika değişir. {C} içindeki her şehir için güvenilir koordinatları ve yerel saat dilimini kullanırız.'],
+            ['{C} İçinde Doğru Şehri Seçmek', 'En doğru namaz vakitleri için {C} içinde size en yakın şehri seçin. Şehriniz listede yoksa İmsak, Öğle, İkindi, Akşam ve Yatsı gösteren yakın bir konumu arama kutusundan bulun.'],
+            ['{C} Şehirleri Arasındaki Vakit Farkları', '{C} ülkesinin doğusu ile batısı arasında namaz vakitleri birkaç dakika değişir çünkü güneşin doğuşu ve batışı coğrafi konuma bağlıdır. Bu nedenle tablo her şehir için ezan saatini ayrı gösterir.'],
+            ['Namaz Vakitleri Tablosunu Kullanma İpuçları', 'Hızlı erişim için sık kullandığınız şehri sabitleyin, namaz vakitlerini her gün kontrol edin çünkü yıl boyunca biraz değişir ve {C} içinde seyahat ederken cihaz saatinize değil şehrin yerel saatine güvenin.']
+        ],
+        faqTitle: 'Sıkça Sorulan Sorular',
+        faq: [
+            ['{C} içindeki bir şehrin namaz vakitlerini nasıl bulurum?', 'Yukarıdaki ızgaradan şehri seçin veya arama kutusunda arayın; şehir sayfası İmsak, Öğle, İkindi, Akşam, Yatsı ve ezan saatiyle açılır.'],
+            ['{C} şehirleri arasında namaz vakitleri değişir mi?', 'Evet, enleme, boylama ve güneşin doğuş-batış saatine göre birkaç dakika değişir; her şehrin kendi cetveli vardır.'],
+            ['Namaz vakti hesabının kaynağı nedir?', 'Vakitler, {C} içindeki her şehrin listelenen koordinatları ve yerel saat dilimi kullanılarak güneş konumundan hesaplanır.'],
+            ['Listede olmayan bir şehri arayabilir miyim?', 'Evet, arama kutusunu kullanın; şehir {C} içinde mevcutsa namaz vakitlerini gösteren açılabilir bir sonuç olarak görünür.'],
+            ['Yeni keşfedilen şehirler nasıl ele alınır?', 'Aramada geçici olarak görünür ve vakitleri açılabilir, ardından inceleme sonrası listelenen şehirlere eklenir.']
+        ]
+    },
+    ur: {
+        sec: [
+            ['{C} کے شہروں میں اوقاتِ نماز', 'یہ صفحہ {C} کے منتخب شہروں میں اوقاتِ نماز دکھاتا ہے۔ اپنا شہر منتخب کریں تاکہ فجر، ظہر، عصر، مغرب اور عشاء کے اوقات اذان کے وقت اور ہجری تاریخ کے ساتھ مقامی وقت میں دیکھ سکیں۔'],
+            ['{C} میں اوقاتِ نماز کیسے شمار ہوتے ہیں؟', 'اوقاتِ نماز ہر شہر کے طول و عرض پر سورج کی پوزیشن سے شمار ہوتے ہیں، اس لیے جگہ بہ جگہ چند منٹ کا فرق ہوتا ہے۔ ہم {C} کے ہر شہر کے معتبر نقاط اور مقامی ٹائم زون استعمال کرتے ہیں۔'],
+            ['{C} میں درست شہر کا انتخاب', 'سب سے درست اوقاتِ نماز کے لیے {C} میں اپنے قریب ترین شہر کا انتخاب کریں۔ اگر آپ کا شہر فہرست میں نہ ہو تو تلاش کے خانے سے قریبی مقام تلاش کریں جو فجر، ظہر، عصر، مغرب اور عشاء دکھائے۔'],
+            ['{C} کے شہروں کے درمیان وقت کا فرق', '{C} کے مشرق و مغرب کے درمیان اوقاتِ نماز میں چند منٹ کا فرق ہوتا ہے کیونکہ طلوع و غروبِ آفتاب جغرافیائی محلِ وقوع پر منحصر ہے۔ اسی لیے جدول ہر شہر کا وقتِ اذان الگ دکھاتا ہے۔'],
+            ['اوقاتِ نماز کا جدول استعمال کرنے کے مشورے', 'فوری رسائی کے لیے اپنا پسندیدہ شہر پن کریں، اوقاتِ نماز روزانہ دیکھیں کیونکہ سال بھر تھوڑے بدلتے ہیں، اور {C} میں سفر کے دوران اپنے آلے کے بجائے شہر کے مقامی وقت پر اعتماد کریں۔']
+        ],
+        faqTitle: 'اکثر پوچھے گئے سوالات',
+        faq: [
+            ['{C} میں کسی شہر کے اوقاتِ نماز کیسے تلاش کروں؟', 'اوپر دی گئی فہرست سے شہر منتخب کریں یا تلاش کے خانے میں تلاش کریں؛ شہر کا صفحہ فجر، ظہر، عصر، مغرب، عشاء اور وقتِ اذان کے ساتھ کھلے گا۔'],
+            ['کیا {C} کے شہروں کے درمیان اوقاتِ نماز مختلف ہوتے ہیں؟', 'جی ہاں، طول و عرض اور طلوع و غروبِ آفتاب کے مطابق چند منٹ کا فرق ہوتا ہے، اس لیے ہر شہر کا اپنا جدول ہے۔'],
+            ['اوقاتِ نماز کے حساب کا ماخذ کیا ہے؟', 'یہ {C} کے ہر شہر کے معتبر نقاط اور مقامی ٹائم زون کے ساتھ سورج کی پوزیشن سے شمار ہوتے ہیں۔'],
+            ['کیا میں فہرست میں موجود نہ ہونے والا شہر تلاش کر سکتا ہوں؟', 'جی ہاں، تلاش کا خانہ استعمال کریں؛ اگر شہر {C} میں موجود ہو تو وہ قابلِ کلک نتیجے کے طور پر اوقاتِ نماز دکھاتا ہے۔'],
+            ['نئے دریافت شدہ شہروں کا کیا ہوتا ہے؟', 'وہ تلاش میں عارضی طور پر ظاہر ہوتے ہیں اور ان کے اوقات کھولے جا سکتے ہیں، پھر جائزے کے بعد منتخب شہروں کی فہرست میں شامل کر دیے جاتے ہیں۔']
+        ]
+    },
+    de: {
+        sec: [
+            ['Gebetszeiten in den Städten von {C}', 'Diese Seite zeigt die Gebetszeiten in den erfassten Städten von {C}. Wählen Sie Ihre Stadt, um Fadschr, Dhuhr, Asr, Maghrib und Ischa mit der Adhan-Zeit und dem Hidschri-Datum in der lokalen Zeit anzuzeigen.'],
+            ['Wie werden die Gebetszeiten in {C} berechnet?', 'Die Gebetszeiten ergeben sich aus dem Sonnenstand am Breiten- und Längengrad jeder Stadt und unterscheiden sich daher um einige Minuten. Wir verwenden zuverlässige Koordinaten für jede Stadt in {C} und die lokale Zeitzone.'],
+            ['Die richtige Stadt in {C} wählen', 'Für möglichst genaue Gebetszeiten wählen Sie die Ihnen nächste Stadt in {C}. Steht Ihre Stadt nicht in der Liste, finden Sie über die Suche einen nahen Ort mit Fadschr, Dhuhr, Asr, Maghrib und Ischa.'],
+            ['Zeitunterschiede zwischen den Städten von {C}', 'Die Gebetszeiten verschieben sich zwischen Ost und West von {C} um einige Minuten, da Sonnenauf- und -untergang vom geografischen Ort abhängen. Daher zeigt der Plan die Adhan-Zeit für jede Stadt einzeln.'],
+            ['Tipps zur Nutzung des Gebetszeiten-Plans', 'Heften Sie Ihre bevorzugte Stadt für schnellen Zugriff an, prüfen Sie die Gebetszeiten täglich, da sie sich übers Jahr leicht ändern, und verlassen Sie sich auf Reisen in {C} auf die lokale Zeit der Stadt.']
+        ],
+        faqTitle: 'Häufig gestellte Fragen',
+        faq: [
+            ['Wie finde ich die Gebetszeiten für eine Stadt in {C}?', 'Wählen Sie die Stadt aus dem Raster oben oder suchen Sie danach; die Stadtseite öffnet sich mit Fadschr, Dhuhr, Asr, Maghrib, Ischa und der Adhan-Zeit.'],
+            ['Unterscheiden sich die Gebetszeiten zwischen den Städten von {C}?', 'Ja, um einige Minuten je nach Breiten- und Längengrad sowie Sonnenauf- und -untergang; jede Stadt hat ihren eigenen Plan.'],
+            ['Was ist die Quelle der Gebetszeitberechnung?', 'Sie werden aus dem Sonnenstand mit den erfassten Koordinaten jeder Stadt in {C} und der lokalen Zeitzone berechnet.'],
+            ['Kann ich nach einer Stadt suchen, die nicht in der Liste steht?', 'Ja, nutzen Sie die Suche; existiert die Stadt in {C}, erscheint sie als anklickbares Ergebnis mit ihren Gebetszeiten.'],
+            ['Wie werden neu entdeckte Städte behandelt?', 'Sie erscheinen vorübergehend in der Suche und ihre Zeiten sind abrufbar, danach werden sie nach Prüfung der erfassten Städteliste hinzugefügt.']
+        ]
+    },
+    id: {
+        sec: [
+            ['Jadwal Sholat di Kota-Kota {C}', 'Halaman ini menampilkan jadwal sholat di kota-kota {C} yang terdaftar. Pilih kota Anda untuk melihat Subuh, Zuhur, Asar, Magrib, dan Isya beserta waktu azan dan tanggal Hijriah dalam waktu setempat.'],
+            ['Bagaimana Jadwal Sholat di {C} Dihitung?', 'Jadwal sholat dihitung dari posisi matahari pada lintang dan bujur tiap kota, sehingga berbeda beberapa menit antar lokasi. Kami memakai koordinat tepercaya untuk setiap kota di {C} dan zona waktu setempat.'],
+            ['Memilih Kota yang Tepat di {C}', 'Untuk jadwal sholat paling akurat, pilih kota terdekat dengan Anda di {C}. Jika kota Anda tidak ada dalam daftar, gunakan kotak pencarian untuk menemukan lokasi terdekat yang menampilkan Subuh, Zuhur, Asar, Magrib, dan Isya.'],
+            ['Perbedaan Waktu Antar Kota di {C}', 'Jadwal sholat bergeser beberapa menit antara timur dan barat {C} karena matahari terbit dan terbenam bergantung pada lokasi geografis. Karena itu tabel menampilkan waktu azan tiap kota secara terpisah.'],
+            ['Tips Memakai Tabel Jadwal Sholat', 'Sematkan kota favorit Anda untuk akses cepat, periksa jadwal sholat setiap hari karena sedikit berubah sepanjang tahun, dan andalkan waktu setempat kota, bukan jam perangkat, saat bepergian di {C}.']
+        ],
+        faqTitle: 'Pertanyaan yang Sering Diajukan',
+        faq: [
+            ['Bagaimana cara menemukan jadwal sholat untuk kota di {C}?', 'Pilih kota dari kisi di atas atau cari di kotak pencarian; halaman kota lalu terbuka dengan Subuh, Zuhur, Asar, Magrib, Isya, dan waktu azan.'],
+            ['Apakah jadwal sholat berbeda antar kota di {C}?', 'Ya, berbeda beberapa menit antar kota tergantung lintang, bujur, serta waktu matahari terbit dan terbenam, sehingga tiap kota punya jadwal sendiri.'],
+            ['Apa sumber perhitungan jadwal sholat?', 'Dihitung dari posisi matahari memakai koordinat terdaftar tiap kota di {C} dan zona waktu setempat.'],
+            ['Bisakah saya mencari kota yang tidak ada dalam daftar?', 'Ya, gunakan kotak pencarian; jika kota ada di {C}, ia muncul sebagai hasil yang dapat dibuka menampilkan jadwal sholatnya.'],
+            ['Bagaimana kota yang baru ditemukan ditangani?', 'Kota itu muncul sementara di pencarian dan jadwalnya dapat dibuka, lalu ditambahkan ke daftar kota terdaftar setelah ditinjau.']
+        ]
+    },
+    es: {
+        sec: [
+            ['Horarios de oración en las ciudades de {C}', 'Esta página muestra los horarios de oración en las ciudades registradas de {C}. Elija su ciudad para ver el Fayr, Dhuhr, Asr, Magrib e Isha junto con la hora del adhan y la fecha hijri en la hora local.'],
+            ['¿Cómo se calculan los horarios de oración en {C}?', 'Los horarios de oración se obtienen de la posición del sol en la latitud y longitud de cada ciudad, por lo que varían unos minutos. Usamos coordenadas fiables para cada ciudad de {C} y la zona horaria local.'],
+            ['Elegir la ciudad correcta en {C}', 'Para los horarios de oración más precisos, elija la ciudad más cercana a usted en {C}. Si su ciudad no está en la lista, use el buscador para hallar un lugar cercano que muestre el Fayr, Dhuhr, Asr, Magrib e Isha.'],
+            ['Diferencias de horario entre las ciudades de {C}', 'Los horarios de oración cambian unos minutos entre el este y el oeste de {C} porque el amanecer y el atardecer dependen de la ubicación geográfica. Por eso la tabla muestra la hora del adhan de cada ciudad por separado.'],
+            ['Consejos para usar la tabla de horarios de oración', 'Fije su ciudad favorita para un acceso rápido, revise los horarios de oración a diario porque varían ligeramente durante el año y confíe en la hora local de la ciudad, no en su dispositivo, al viajar por {C}.']
+        ],
+        faqTitle: 'Preguntas frecuentes',
+        faq: [
+            ['¿Cómo encuentro los horarios de oración de una ciudad en {C}?', 'Elija la ciudad de la cuadrícula superior o búsquela; la página de la ciudad se abre con el Fayr, Dhuhr, Asr, Magrib, Isha y la hora del adhan.'],
+            ['¿Difieren los horarios de oración entre las ciudades de {C}?', 'Sí, unos minutos según la latitud, la longitud y la hora del amanecer y el atardecer; cada ciudad tiene su propio horario.'],
+            ['¿Cuál es la fuente del cálculo de los horarios de oración?', 'Se calculan a partir de la posición del sol con las coordenadas registradas de cada ciudad de {C} y la zona horaria local.'],
+            ['¿Puedo buscar una ciudad que no está en la lista?', 'Sí, use el buscador; si la ciudad existe en {C}, aparece como un resultado que se puede abrir con sus horarios de oración.'],
+            ['¿Cómo se gestionan las ciudades recién descubiertas?', 'Aparecen temporalmente en la búsqueda y sus horarios pueden abrirse, y luego se añaden a la lista de ciudades registradas tras la revisión.']
+        ]
+    },
+    bn: {
+        sec: [
+            ['{C}-এর শহরগুলোতে নামাজের সময়', 'এই পৃষ্ঠাটি {C}-এর তালিকাভুক্ত শহরগুলোতে নামাজের সময় দেখায়। আপনার শহর নির্বাচন করুন এবং স্থানীয় সময় অনুযায়ী ফজর, জোহর, আসর, মাগরিব ও এশার সময়, আজানের সময় এবং হিজরি তারিখ দেখুন।'],
+            ['{C}-এ নামাজের সময় কীভাবে গণনা করা হয়?', 'নামাজের সময় প্রতিটি শহরের অক্ষাংশ ও দ্রাঘিমায় সূর্যের অবস্থান থেকে গণনা করা হয়, তাই স্থানভেদে কয়েক মিনিট পার্থক্য হয়। আমরা {C}-এর প্রতিটি শহরের নির্ভরযোগ্য স্থানাঙ্ক ও স্থানীয় টাইম জোন ব্যবহার করি।'],
+            ['{C}-এ সঠিক শহর নির্বাচন', 'সবচেয়ে নির্ভুল নামাজের সময়ের জন্য {C}-এ আপনার নিকটতম শহর নির্বাচন করুন। আপনার শহর তালিকায় না থাকলে সার্চ বক্স ব্যবহার করে কাছের একটি অবস্থান খুঁজুন যা ফজর, জোহর, আসর, মাগরিব ও এশা দেখায়।'],
+            ['{C}-এর শহরগুলোর মধ্যে সময়ের পার্থক্য', '{C}-এর পূর্ব ও পশ্চিমের মধ্যে নামাজের সময় কয়েক মিনিট আলাদা হয় কারণ সূর্যোদয় ও সূর্যাস্ত ভৌগোলিক অবস্থানের ওপর নির্ভর করে। তাই সূচিটি প্রতিটি শহরের আজানের সময় আলাদাভাবে দেখায়।'],
+            ['নামাজের সময়সূচি ব্যবহারের টিপস', 'দ্রুত প্রবেশের জন্য আপনার প্রিয় শহর পিন করুন, প্রতিদিন নামাজের সময় দেখুন কারণ বছরজুড়ে সামান্য বদলায়, এবং {C}-এ ভ্রমণের সময় ডিভাইসের ঘড়ির বদলে শহরের স্থানীয় সময়ের ওপর নির্ভর করুন।']
+        ],
+        faqTitle: 'সাধারণ জিজ্ঞাসা',
+        faq: [
+            ['{C}-এর কোনো শহরের নামাজের সময় কীভাবে পাব?', 'উপরের গ্রিড থেকে শহরটি নির্বাচন করুন অথবা সার্চ বক্সে খুঁজুন; শহরের পৃষ্ঠাটি ফজর, জোহর, আসর, মাগরিব, এশা ও আজানের সময়সহ খুলবে।'],
+            ['{C}-এর শহরগুলোর মধ্যে নামাজের সময় কি ভিন্ন?', 'হ্যাঁ, অক্ষাংশ, দ্রাঘিমা এবং সূর্যোদয়-সূর্যাস্তের সময় অনুযায়ী কয়েক মিনিট ভিন্ন হয়, তাই প্রতিটি শহরের নিজস্ব সূচি রয়েছে।'],
+            ['নামাজের সময় গণনার উৎস কী?', 'এগুলো {C}-এর প্রতিটি শহরের তালিকাভুক্ত স্থানাঙ্ক ও স্থানীয় টাইম জোন ব্যবহার করে সূর্যের অবস্থান থেকে গণনা করা হয়।'],
+            ['তালিকায় না থাকা শহর কি খুঁজতে পারি?', 'হ্যাঁ, সার্চ বক্স ব্যবহার করুন; শহরটি {C}-এ থাকলে তা নামাজের সময়সহ একটি খোলার যোগ্য ফলাফল হিসেবে দেখাবে।'],
+            ['নতুন আবিষ্কৃত শহরগুলো কীভাবে পরিচালিত হয়?', 'এগুলো সার্চে সাময়িকভাবে দেখা যায় ও সময় খোলা যায়, পর্যালোচনার পর তালিকাভুক্ত শহরের তালিকায় যুক্ত করা হয়।']
+        ]
+    },
+    ms: {
+        sec: [
+            ['Waktu Solat di Bandar-Bandar {C}', 'Halaman ini memaparkan waktu solat di bandar-bandar tersenarai {C}. Pilih bandar anda untuk melihat Subuh, Zohor, Asar, Maghrib dan Isyak bersama waktu azan dan tarikh Hijrah mengikut waktu tempatan.'],
+            ['Bagaimana Waktu Solat di {C} Dikira?', 'Waktu solat dikira daripada kedudukan matahari pada latitud dan longitud setiap bandar, jadi berbeza beberapa minit antara lokasi. Kami menggunakan koordinat yang boleh dipercayai bagi setiap bandar di {C} dan zon waktu tempatan.'],
+            ['Memilih Bandar yang Betul di {C}', 'Untuk waktu solat paling tepat, pilih bandar terdekat dengan anda di {C}. Jika bandar anda tiada dalam senarai, gunakan kotak carian untuk mencari lokasi berdekatan yang memaparkan Subuh, Zohor, Asar, Maghrib dan Isyak.'],
+            ['Perbezaan Waktu Antara Bandar {C}', 'Waktu solat beralih beberapa minit antara timur dan barat {C} kerana matahari terbit dan terbenam bergantung pada lokasi geografi. Justeru jadual memaparkan waktu azan setiap bandar secara berasingan.'],
+            ['Tip Menggunakan Jadual Waktu Solat', 'Semat bandar kegemaran anda untuk akses pantas, semak waktu solat setiap hari kerana ia berubah sedikit sepanjang tahun, dan bergantung pada waktu tempatan bandar, bukan jam peranti, semasa mengembara di {C}.']
+        ],
+        faqTitle: 'Soalan Lazim',
+        faq: [
+            ['Bagaimana saya mencari waktu solat untuk bandar di {C}?', 'Pilih bandar daripada grid di atas atau cari dalam kotak carian; halaman bandar kemudian dibuka dengan Subuh, Zohor, Asar, Maghrib, Isyak dan waktu azan.'],
+            ['Adakah waktu solat berbeza antara bandar {C}?', 'Ya, berbeza beberapa minit antara bandar bergantung pada latitud, longitud serta waktu matahari terbit dan terbenam, jadi setiap bandar mempunyai jadual sendiri.'],
+            ['Apakah sumber pengiraan waktu solat?', 'Ia dikira daripada kedudukan matahari menggunakan koordinat tersenarai setiap bandar di {C} dan zon waktu tempatan.'],
+            ['Bolehkah saya mencari bandar yang tiada dalam senarai?', 'Ya, gunakan kotak carian; jika bandar wujud di {C}, ia muncul sebagai hasil boleh buka yang memaparkan waktu solatnya.'],
+            ['Bagaimana bandar yang baru ditemui dikendalikan?', 'Ia muncul sementara dalam carian dan waktunya boleh dibuka, kemudian ditambah ke senarai bandar tersenarai selepas semakan.']
+        ]
+    }
+};
+function _buildCountrySeoContent(cn, lang) {
+    const L = _COUNTRY_SEO_L10N[lang] ? lang : 'en';
+    const data = _COUNTRY_SEO_L10N[L];
+    const sub = s => String(s).split('{C}').join(cn);
+    let html = '<div class="country-seo-wrap">';
+    for (const [h, p] of data.sec) {
+        html += `<section class="country-seo-block"><h2>${_escHtml(sub(h))}</h2><p>${_escHtml(sub(p))}</p></section>`;
+    }
+    html += `<section class="country-seo-block country-seo-faq"><h2>${_escHtml(sub(data.faqTitle))}</h2><div class="country-faq-list">`;
+    for (const [q, a] of data.faq) {
+        html += `<details class="country-faq-item"><summary><h3>${_escHtml(sub(q))}</h3></summary><p>${_escHtml(sub(a))}</p></details>`;
+    }
+    html += '</div></section></div>';
+    const faqJsonLd = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map(([q, a]) => ({
+            '@type': 'Question', name: sub(q),
+            acceptedAnswer: { '@type': 'Answer', text: sub(a) }
+        }))
+    });
+    return { html, faqJsonLd };
 }
 
 // يأخذ slug دولة (مثل 'saudi-arabia') ويعيد {cc, nameAr, nameEn}
@@ -10447,31 +10661,44 @@ function buildSeoForPath(urlPath) {
             // اسم الدولة بـلغة الواجهة (يدعم 6 لغات): ar/en/fr/tr/ur/de
             const cname = _countryNameForLang(c.cc, lang);
             // Phase D2: cities-focused phrasing + add es/bn/ms (was missing → en fallback)
-            const _COUNTRY_TITLE_TEMPLATES = {
-                ar: `مواقيت الصلاة في مدن ${cname} | تصفّح المواقع`,
-                en: `Prayer Times Cities in ${cname} | Browse All Locations`,
-                fr: `Heures de prière en ${cname} | Toutes les villes`,
-                tr: `${cname} Namaz Vakitleri | Tüm Şehirler`,
-                ur: `${cname} میں اوقاتِ نماز | تمام شہر`,
-                de: `Gebetszeiten in ${cname} | Alle Städte`,
-                id: `Jadwal Sholat di ${cname} | Semua Kota`,
-                es: `Horarios de Oración en ${cname} | Todas las ciudades`,
-                bn: `${cname}-এ নামাজের সময় | সকল শহর`,
-                ms: `Waktu Solat di ${cname} | Semua Bandar`,
+            // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: length-aware Title (base + adhan suffix when it
+            // fits ≤62 cp, else base alone) + enriched Meta (Fajr…Isha + adhan + Qibla + Hijri) so even
+            // short country names reach the 120–160 window. cname = LOCALIZED country name (no leak).
+            const _CT_BASE = {
+                ar: `مواقيت الصلاة في مدن ${cname}`,
+                en: `Prayer Times in Cities of ${cname}`,
+                fr: `Heures de prière dans les villes de ${cname}`,
+                tr: `${cname} Şehirlerinde Namaz Vakitleri`,
+                ur: `${cname} کے شہروں میں اوقاتِ نماز`,
+                de: `Gebetszeiten in den Städten von ${cname}`,
+                id: `Jadwal Sholat di Kota-Kota ${cname}`,
+                es: `Horarios de Oración en Ciudades de ${cname}`,
+                bn: `${cname}-এর শহরগুলোতে নামাজের সময়`,
+                ms: `Waktu Solat di Bandar-Bandar ${cname}`,
             };
+            const _CT_SUFFIX = {
+                ar: ' | أوقات الأذان اليومية', en: ' — Daily Adhan Times', fr: ' — Heures d’adhan',
+                tr: ' — Günlük Ezan Saatleri', ur: ' — یومیہ اذان اوقات', de: ' — Tägliche Adhan-Zeiten',
+                id: ' — Waktu Azan Harian', es: ' — Horarios de Adhan', bn: ' — দৈনিক আজানের সময়',
+                ms: ' — Waktu Azan Harian',
+            };
+            {
+                const _tb = _CT_BASE[lang] || _CT_BASE.en;
+                const _ts = _CT_SUFFIX[lang] || _CT_SUFFIX.en;
+                title = ((_tb + _ts).length <= 62) ? (_tb + _ts) : _tb;
+            }
             const _COUNTRY_DESC_TEMPLATES = {
-                ar: `تصفّح كل مدن ${cname}: مواقيت الصلاة (الفجر، الظهر، العصر، المغرب، العشاء)، اتجاه القبلة والتاريخ الهجري.`,
-                en: `Browse all cities in ${cname} for accurate prayer times, Qibla direction and the Hijri date with a weekly schedule.`,
-                fr: `Parcourez toutes les villes de ${cname} pour des heures de prière précises, la direction de la Qibla et la date hégirienne avec un programme hebdomadaire.`,
-                tr: `${cname} şehirlerinde doğru namaz vakitleri, kıble yönü ve hicri tarih için tüm şehirlere göz atın — haftalık program ile.`,
-                ur: `${cname} کے ہر شہر کے لیے درست اوقاتِ نماز، سمتِ قبلہ اور ہجری تاریخ ہفتہ وار جدول کے ساتھ دیکھیں۔`,
-                de: `Durchsuchen Sie alle Städte in ${cname} für genaue Gebetszeiten, Qibla-Richtung und Hidschri-Datum mit Wochenplan.`,
-                id: `Jelajahi setiap kota di ${cname}: jadwal sholat akurat, arah kiblat dan tanggal Hijriah dengan jadwal mingguan.`,
-                es: `Explora todas las ciudades de ${cname}: horarios exactos de oración, dirección de la Qibla y fecha Hijri con programa semanal.`,
-                bn: `${cname}-এর সকল শহরে নির্ভুল নামাজের সময়, কিবলার দিক ও হিজরি তারিখ — সাপ্তাহিক সূচী সহ।`,
-                ms: `Layari semua bandar di ${cname} untuk waktu solat tepat, arah kiblat dan tarikh Hijrah dengan jadual mingguan.`,
+                ar: `تعرّف على مواقيت الصلاة في مدن ${cname}: أوقات الفجر والظهر والعصر والمغرب والعشاء ووقت الأذان، مع اتجاه القبلة والتاريخ الهجري حسب التوقيت المحلي لكل مدينة.`,
+                en: `Find prayer times across the cities of ${cname}: Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Qibla direction and the Hijri date in each city’s local time.`,
+                fr: `Découvrez les heures de prière dans les villes de ${cname} : Fajr, Dhuhr, Asr, Maghrib et Isha avec l’heure de l’adhan, la direction de la Qibla et la date hégirienne en heure locale.`,
+                tr: `${cname} şehirlerinde namaz vakitlerini öğrenin: İmsak, Öğle, İkindi, Akşam ve Yatsı, ezan saati, kıble yönü ve hicri tarih — her şehrin yerel saatiyle.`,
+                ur: `${cname} کے شہروں میں اوقاتِ نماز جانیں: فجر، ظہر، عصر، مغرب اور عشاء، وقتِ اذان، سمتِ قبلہ اور ہجری تاریخ — ہر شہر کے مقامی وقت کے مطابق۔`,
+                de: `Finden Sie die Gebetszeiten in den Städten von ${cname}: Fadschr, Dhuhr, Asr, Maghrib und Ischa mit Adhan-Zeit, Qibla-Richtung und Hidschri-Datum in der Ortszeit.`,
+                id: `Temukan jadwal sholat di kota-kota ${cname}: Subuh, Zuhur, Asar, Magrib, dan Isya dengan waktu azan, arah kiblat, dan tanggal Hijriah dalam waktu setempat.`,
+                es: `Encuentra los horarios de oración en las ciudades de ${cname}: Fayr, Dhuhr, Asr, Magrib e Isha con la hora del adhan, la dirección de la Qibla y la fecha hijri en la hora local.`,
+                bn: `${cname}-এর শহরগুলোতে নামাজের সময় জানুন: ফজর, জোহর, আসর, মাগরিব ও এশা, আজানের সময়, কিবলার দিক এবং হিজরি তারিখ — প্রতিটি শহরের স্থানীয় সময়ে।`,
+                ms: `Cari waktu solat di bandar-bandar ${cname}: Subuh, Zohor, Asar, Maghrib dan Isyak dengan waktu azan, arah kiblat dan tarikh Hijrah mengikut waktu tempatan.`,
             };
-            title = _COUNTRY_TITLE_TEMPLATES[lang] || _COUNTRY_TITLE_TEMPLATES.en;
             description = _COUNTRY_DESC_TEMPLATES[lang] || _COUNTRY_DESC_TEMPLATES.en;
             breadcrumbs.push({ name: cname, item: canonical });
             countryListing = { code: c.cc, name: cname };
@@ -17395,7 +17622,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   complained about. Mirror the JS strings here so SSR + client agree
     //   on the first paint. Homepage tagline already matches the i18n base
     //   string (no swap), so we only inject when there's a city slug.
-    if (cityMatchSsr) {
+    if (cityMatchSsr && !seo.countryListing) {
+        // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: skip the city-tagline rewrite on country listing
+        // pages. Their slug (e.g. "morocco") is NOT a city, so _resolveCityName returns null and
+        // _slugToTitle leaked the raw English slug ("Morocco") into the Arabic hero. The country
+        // block below fills #loc-hero-title with the localized country name instead.
         const _slugT = cityMatchSsr[1];
         const _cityDisplayT = (typeof _resolveCityName === 'function')
             ? (_resolveCityName(_slugT, seo.lang) || _slugToTitle(_slugT))
@@ -17447,10 +17678,35 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             bn: `${cn}-এর শহরগুলোতে নামাজের সময়`,
             ms: `Waktu Solat di Bandar-Bandar ${cn}`,
         }[L] || `Prayer Times in Cities of ${cn}`;
+        // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: the page's single H1 is the hero #loc-hero-title
+        // (kept by _downgradeInactiveH1s via the country marker). Fill it with the LOCALIZED country
+        // title — matches the client re-fill (no FOUC, no raw-English-name leak). Also fill the
+        // navbar #page-title <span> for SSR parity (legacy <h1 id="page-title"> replace kept as no-op).
+        html = html.replace(
+            /(<h1\b[^>]*\bid="loc-hero-title"[^>]*>)[\s\S]*?(<\/h1>)/,
+            `$1${_escHtml(_countryH1)}$2`
+        );
         html = html.replace(
             /<h1([^>]*)id="page-title"([^>]*)>[^<]*<\/h1>/,
             `<h1$1id="page-title"$2>${_escHtml(_countryH1)}</h1>`
         );
+        html = html.replace(
+            /(<span\b[^>]*\bid="page-title"[^>]*>)[\s\S]*?(<\/span>)/,
+            `$1${_escHtml(_countryH1)}$2`
+        );
+        // Inject localized SEO content (6 H2 sections + FAQ H3) into #country-seo-content + FAQPage JSON-LD.
+        try {
+            const _cseo = _buildCountrySeoContent(cn, L);
+            if (_cseo && html.indexOf('id="country-seo-content"') !== -1) {
+                html = html.replace(
+                    /(<div id="country-seo-content">)[\s\S]*?(<\/div>)/,
+                    `$1${_cseo.html}$2`
+                );
+                if (html.indexOf('"@type":"FAQPage"') === -1) {   // signature, not the template comment that mentions "FAQPage"
+                    html = html.replace('</head>', `<script type="application/ld+json">${_cseo.faqJsonLd}</script>\n</head>`);
+                }
+            }
+        } catch (_e) { try { console.warn('[country-seo] inject failed:', _e && _e.message); } catch(_){} }
         // SSR لـ breadcrumb الأخير (id="cbc-country") — اسم الدولة المترجَم بدل "--"
         html = html.replace(
             '<li class="bc-item bc-current" id="cbc-country" aria-current="page">--</li>',

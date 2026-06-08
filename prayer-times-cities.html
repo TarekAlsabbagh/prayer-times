@@ -229,6 +229,21 @@
             .cities-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
             .cities-page-header h1 { font-size: 1rem; }
         }
+
+        /* COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: SSR-injected localized SEO content */
+        #country-seo-content:empty { display: none; }
+        .country-seo-wrap { max-width: 900px; margin: 8px auto 0; }
+        .country-seo-block { background: var(--card-bg, #fff); border: 1px solid var(--border, #e5e7eb); border-radius: var(--radius, 14px); padding: 18px 20px; margin: 14px 0; box-shadow: var(--shadow, 0 1px 3px rgba(0,0,0,.06)); }
+        .country-seo-block h2 { font-size: 1.15rem; font-weight: 700; margin: 0 0 8px; color: var(--primary, #1e5631); }
+        .country-seo-block p { margin: 0; line-height: 1.85; color: var(--text, #1f2937); }
+        .country-faq-list { display: flex; flex-direction: column; gap: 8px; }
+        .country-faq-item { border: 1px solid var(--border, #e5e7eb); border-radius: 10px; padding: 2px 14px; }
+        .country-faq-item > summary { cursor: pointer; list-style: none; padding: 9px 0; }
+        .country-faq-item > summary::-webkit-details-marker { display: none; }
+        .country-faq-item summary h3 { display: inline; font-size: 1rem; font-weight: 600; margin: 0; color: var(--text, #1f2937); }
+        .country-faq-item[open] > summary h3 { color: var(--primary, #1e5631); }
+        .country-faq-item > p { margin: 0 0 10px; line-height: 1.8; color: var(--text-light, #4b5563); }
+        @media (max-width: 480px) { .country-seo-block { padding: 14px 16px; } .country-seo-block h2 { font-size: 1.05rem; } }
     </style>
 </head>
 <body>
@@ -395,6 +410,11 @@
             </div>
             <div class="pagination" id="pagination" style="display:none;"></div>
         </div>
+
+        <!-- COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: server-injected localized SEO content
+             (H2 sections + FAQ + FAQPage JSON-LD). Empty in the static template; filled
+             per-country/per-lang by server.js (seo.countryListing block). SSR-visible. -->
+        <div id="country-seo-content"></div>
 
         <footer class="site-footer">
             <div class="footer-links">

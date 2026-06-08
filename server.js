@@ -126,6 +126,19 @@ function _curatedCitiesForCc(cc) {
     return out;
 }
 
+// COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: build a server-injected
+// <script type="application/json" id="country-cities-data"> tag carrying the curated
+// cities for `cc` (same shape + helper as /api/cities) so the client renders the country
+// cities grid / city-page country section INSTANTLY with no /api/cities fetch and no spinner.
+// `<` is <-escaped so a city name can never break out of the <script> element.
+function _countryCitiesScriptTag(cc) {
+    try {
+        const list = _curatedCitiesForCc(cc);
+        if (!list || !list.length) return '';
+        return `<script type="application/json" id="country-cities-data">${JSON.stringify(list).replace(/</g, '\\u003c')}</script>`;
+    } catch (_) { return ''; }
+}
+
 // Small Arabic+Latin normalization (mirrors the client `_normArabic` /
 // `normalizeText` semantics enough to match the same way the client
 // would). NFD-fold Latin diacritics, lowercase, Arabic alif/ta-marbuta
@@ -17403,6 +17416,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // ── صفحة قائمة مدن دولة ── (6 لغات) — تمنع city-style SSR على URLs مثل /prayer-times-in-germany
         const cn = seo.countryListing.name;
         const L = seo.lang;
+        // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: prehydrate the full curated city
+        // list for this country so prayer-times-cities.html renders the grid instantly (no
+        // /api/cities fetch, no spinner). The client (fetchCities) reads #country-cities-data first.
+        const _ccTag = _countryCitiesScriptTag(seo.countryListing.code);
+        if (_ccTag && html.indexOf('id="country-cities-data"') === -1) {
+            html = html.replace('</head>', _ccTag + '\n</head>');
+        }
         // SSR للعنوان الرئيسي لـ prayer-times-cities.html (id="page-title" — مكتوب بالعربية في القالب)
         const _countryH1 = {
             ar: `مواقيت الصلاة في مدن ${cn}`,
@@ -21707,6 +21727,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                             const _scriptTag = `<script id="ssr-prayer-city">window.__PRAYER_CITY__=${JSON.stringify(_placeData).replace(/</g, '\\u003c')};</script>`;
                             if (html.indexOf('id="ssr-prayer-city"') === -1) {
                                 html = html.replace('</head>', _scriptTag + '\n</head>');
+                            }
+                            // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: prehydrate this
+                            // city's country curated cities so the "cities in country" section
+                            // renders instantly (no /api/cities fetch, no idle delay).
+                            const _ccTag2 = _countryCitiesScriptTag(_curatedEntry.countryCode);
+                            if (_ccTag2 && html.indexOf('id="country-cities-data"') === -1) {
+                                html = html.replace('</head>', _ccTag2 + '\n</head>');
                             }
                         }
                     }

@@ -12664,6 +12664,17 @@ function updateCountryCitiesSection() {
 
     const code   = currentCountryCode;
 
+    // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: render the server-injected curated
+    // cities (#country-cities-data) immediately — no /api/cities fetch, no idle delay. The
+    // idle+fetch path below stays as fallback when the injection is absent.
+    try {
+        const _pre = document.getElementById('country-cities-data');
+        if (_pre && _pre.textContent.trim()) {
+            const _inj = JSON.parse(_pre.textContent);
+            if (Array.isArray(_inj) && _inj.length > 0) { renderCountryCities(_inj, code); return; }
+        }
+    } catch (e) { /* fall through to fetch */ }
+
     // PERF: تأجيل render قليلاً إلى idle time بدون منع الظهور
     // (القسم يبدأ display:none في HTML — IntersectionObserver لا يعمل على عناصر display:none
     //  لأن مقاسها 0×0. لذا نستخدم requestIdleCallback فقط.)

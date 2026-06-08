@@ -1328,6 +1328,23 @@ function showEmpty() {
 }
 
 async function fetchCities() {
+    // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: render the server-injected curated
+    // cities (#country-cities-data) FIRST — instant, no /api/cities fetch, no spinner. The
+    // /api/cities path below stays as fallback (e.g. if the injection is absent).
+    try {
+        const _pre = document.getElementById('country-cities-data');
+        if (_pre && _pre.textContent.trim()) {
+            const _inj = JSON.parse(_pre.textContent);
+            if (Array.isArray(_inj) && _inj.length > 0) {
+                allCities = _inj;
+                filtered = [...allCities]; currentPage = 1;
+                renderGrid();
+                injectCitiesItemList();
+                return;
+            }
+        }
+    } catch (e) { /* fall through to API */ }
+
     // sessionStorage للجلسة الحالية فقط (يُمسح عند إغلاق التبويب)
     // COUNTRY-PRAYER-PAGE-CITIES-DATA-SOURCE-FIX-1: bumped key (…_curated_…) so an
     // open session that cached the OLD legacy city list re-fetches the curated one.

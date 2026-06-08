@@ -410,6 +410,9 @@
 
 <!-- i18n cache-buster: 132→198 (NAVBAR-UNIFICATION) → 199 (CITY-SEARCH-RESTORE: +countryCities.searchPlaceholder). -->
 <script src="js/i18n.js?v=199"></script>
+<!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search pipeline (same window.SiteSearch
+     module as the homepage). Non-defer → available to the inline scripts below at parse time. -->
+<script src="js/site-search.js?v=1"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
@@ -1447,17 +1450,16 @@ let sugg_focused = -1;
 function onSearch() {
     const q = document.getElementById('search-input').value.trim();
     lastQuery = q;
-    clearTimeout(searchTimer);
-    closeSuggestions();
 
     if (!q) {
+        closeSuggestions();
         filtered = [...allCities];
         currentPage = 1;
         renderGrid();
         return;
     }
 
-    // فلترة محلية فورية
+    // فلترة محلية فورية على مدن الدولة المعتمدة
     const qNorm = normalizeAr(q);
     const qLow  = q.toLowerCase();
     filtered = allCities.filter(c =>
@@ -1467,13 +1469,13 @@ function onSearch() {
     currentPage = 1;
     renderGrid();
 
-    // COUNTRY-PRAYER-PAGE-CITY-SECTION-SEARCH-DISCOVERY-FIX-1 (Part A): لا نتائج محلية →
-    // استخدم آلية البحث العامّة للموقع (/api/search-place) بدل Nominatim المباشر + saveToDb.
+    // COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: 0 نتيجة محلية → نفس وحدة بحث الموقع
+    // (window.SiteSearch) لكن مقيَّدة بالدولة الحالية (countryScope=cc). نتائج الدول الأخرى تُسقَط؛
+    // النتيجة تظهر في الـdropdown #cities-suggestions (same-country only) — مطابقة لصندوق الشبكة.
     if (filtered.length === 0 && q.length >= 2) {
-        const sugg = document.getElementById('cities-suggestions');
-        sugg.innerHTML = `<div class="sugg-loading">${_dscSearchingLabel()}</div>`;
-        sugg.classList.add('open');
-        searchTimer = setTimeout(() => fetchCountrySearchSuggestions(q), 300);
+        _heroSearch().search(q);
+    } else {
+        closeSuggestions();
     }
 }
 
@@ -1580,95 +1582,77 @@ function _dscDiscoveredBadge() {
         default:   return 'مدينة مكتشَفة';
     }
 }
-function _dscOtherCountryBadge() {
-    switch (_dscLng()) {
-        case 'en': return 'different country'; case 'fr': return 'autre pays'; case 'tr': return 'farklı ülke';
-        case 'ur': return 'دوسرا ملک'; case 'de': return 'anderes Land'; case 'id': return 'negara lain';
-        case 'es': return 'otro país'; case 'bn': return 'অন্য দেশ'; case 'ms': return 'negara lain';
-        default:   return 'دولة أخرى';
+// ===== COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1 =====
+// Both country-page search boxes (#search-input hero + #country-city-filter grid) now run through
+// the SHARED window.SiteSearch pipeline — the SAME /api/search-place fetch + isReady filter + onPick
+// (POST /api/place-selected + seed sessionStorage + navigate) used by the homepage. The ONLY
+// difference is countryScope = the current country's cc: cross-country results are DROPPED (never
+// shown, not even as "different country"). NO write to curated / db/cities-*. NO runtime translation
+// (names come straight from the endpoint). slug comes from the endpoint.
+function _existingCountrySlugs() {
+    return new Set((Array.isArray(allCities) ? allCities : []).map(c => (c.slug || '').toLowerCase()));
+}
+// Grid box (#country-city-filter) → discovered cards into the grid area (#cities-container).
+function _gridSearchRender(box, results, pick) {
+    box.innerHTML = '';
+    const grid = document.createElement('div');
+    grid.className = 'cities-grid';
+    results.forEach(r => {
+        const a = document.createElement('a');
+        a.className = 'city-link';
+        a.href = pageUrl('/prayer-times-in-' + r.slug);
+        const name = r.displayName || r.secondaryName || r.slug;
+        a.innerHTML = `${_dscEsc(name)}<span class="city-type">${_dscEsc((r.countryName || '') + ' · ' + _dscDiscoveredBadge())}</span>`;
+        a.addEventListener('click', e => { e.preventDefault(); pick(r); });
+        grid.appendChild(a);
+    });
+    box.appendChild(grid);
+}
+// Hero box (#search-input) → discovered rows into the dropdown (#cities-suggestions).
+function _heroSearchRender(box, results, pick) {
+    box.innerHTML = '';
+    results.forEach(r => {
+        const div = document.createElement('div');
+        div.className = 'sugg-item';
+        const cc = (r.countryCode || '').toLowerCase();
+        const flag = cc
+            ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
+            : `<span style="font-size:1.2rem">🌍</span>`;
+        const name = r.displayName || r.secondaryName || r.slug;
+        div.innerHTML = `${flag}<div><div class="sugg-name">${_dscEsc(name)}</div><div class="sugg-country">${_dscEsc((r.countryName || '') + ' · ' + _dscDiscoveredBadge())}</div></div>`;
+        div.addEventListener('click', () => pick(r));
+        box.appendChild(div);
+    });
+    box.classList.add('open');
+}
+// Lazily-created (memoized) SiteSearch boxes — both scoped to the current country.
+let _gridSearchInst = null, _heroSearchInst = null;
+const _noopSearchBox = { search: function () {}, hide: function () {}, onEnter: function () {}, getResults: function () { return []; } };
+function _gridSearch() {
+    if (!_gridSearchInst && window.SiteSearch) {
+        _gridSearchInst = window.SiteSearch.createBox({
+            inputId: 'country-city-filter', boxId: 'cities-container', targetRoute: 'prayer-times',
+            countryScope: () => countryCode, existingSlugs: _existingCountrySlugs, debounceMs: 300, max: 8,
+            render: _gridSearchRender,
+            onLoading: box => { const p = document.getElementById('pagination'); if (p) p.style.display = 'none'; box.innerHTML = `<div class="status-msg">${_dscSearchingLabel()}</div>`; },
+            onEmpty: box => { box.innerHTML = `<div class="status-msg">${_dscNoResultInCountryLabel()}</div>`; },
+            onHide: () => {}   // clearing the grid box is handled by onCountryCityFilter → renderGrid
+        });
     }
+    return _gridSearchInst || _noopSearchBox;
 }
-
-function fetchCountrySearchSuggestions(q) {
-    const sugg = document.getElementById('cities-suggestions');
-    if (!sugg) return;
-    const _lng = _dscLng();
-    fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + encodeURIComponent(_lng), { headers: { 'Accept': 'application/json' } })
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-            const results = (data && Array.isArray(data.results)) ? data.results : [];
-            const existing = new Set(allCities.map(c => (c.slug || '').toLowerCase()));   // dedup vs curated
-            const ready = results.filter(r =>
-                r && typeof r.slug === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(r.slug) &&
-                /^[a-z]{2}$/.test((r.countryCode || '').toLowerCase()) &&
-                isFinite(r.lat) && isFinite(r.lng) && typeof r.timezone === 'string' && r.timezone &&
-                !existing.has(r.slug.toLowerCase())
-            );
-            const same  = ready.filter(r => (r.countryCode || '').toLowerCase() === countryCode);  // countryCode validation
-            const other = ready.filter(r => (r.countryCode || '').toLowerCase() !== countryCode);
-            sugg.innerHTML = '';
-            if (same.length === 0 && other.length === 0) {
-                sugg.innerHTML = `<div class="sugg-loading">${_dscNoResultLabel()}</div>`;
-                return;
-            }
-            // same-country → discovered results (this country)
-            same.slice(0, 6).forEach(r => sugg.appendChild(_dscBuildItem(r, _dscDiscoveredBadge(), false)));
-            // other-country → shown clearly as NOT in this country; click opens its OWN city page (never merged here)
-            other.slice(0, 3).forEach(r => sugg.appendChild(_dscBuildItem(r, _dscOtherCountryBadge(), true)));
-        })
-        .catch(() => { sugg.innerHTML = `<div class="sugg-loading">${_dscErrLabel()}</div>`; });
-}
-
-function _dscBuildItem(r, badge, isOther) {
-    const div = document.createElement('div');
-    div.className = 'sugg-item' + (isOther ? ' sugg-item--other' : '');
-    const cc = (r.countryCode || '').toLowerCase();
-    const flagImg = cc
-        ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
-        : `<span style="font-size:1.2rem">🌍</span>`;
-    const name    = r.displayName || r.secondaryName || r.slug;   // site-built name — no runtime translation
-    const country = r.countryName || '';
-    div.innerHTML = `${flagImg}<div>
-        <div class="sugg-name">${_dscEsc(name)}</div>
-        <div class="sugg-country">${_dscEsc(country)} · ${_dscEsc(badge)}</div>
-    </div>`;
-    div.addEventListener('click', () => _dscPickPlace(r));
-    return div;
-}
-
-function _dscPickPlace(r) {
-    closeSuggestions();
-    const _lng = _dscLng();
-    // Persist to Supabase discovered_places via the approved endpoint (best-effort). Mirrors
-    // js/app.js _stOnPick. NEVER writes curated-places.json and never the legacy db/cities-*.json.
-    try {
-        if (r.source && r.source !== 'curated') {
-            const payload = {
-                slug: r.slug, type: r.type || 'city', countryCode: r.countryCode,
-                lat: r.lat, lng: r.lng, timezone: r.timezone,
-                names: Object.assign({},
-                    (r.names && typeof r.names === 'object') ? r.names : {},
-                    r.displayName ? { [_lng]: r.displayName } : {},
-                    r.secondaryName ? { en: r.secondaryName } : {}),
-                aliases: {},
-                admin: { country: r.countryName ? { [_lng]: r.countryName } : {} },
-                source: r.source,
-                nameQuality: r.nameQuality ? { [_lng]: r.nameQuality } : {},
-                originalName: typeof r.originalName === 'string' ? r.originalName : ''
-            };
-            fetch('/api/place-selected', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
-        }
-    } catch (_) { /* best-effort */ }
-    // Seed the destination so the city page resolves coords without a curated entry (mirrors _stOnPick).
-    try {
-        const _en = r.secondaryName || (r.names && typeof r.names === 'object' ? r.names.en : '') || r.displayName || r.slug;
-        sessionStorage.setItem('city_' + r.slug, JSON.stringify({
-            lat: r.lat, lng: r.lng, name: (r.displayName || r.slug), country: (r.countryName || ''),
-            englishName: _en, countryCode: (r.countryCode || '').toLowerCase(),
-            timezone: (r.timezone != null ? r.timezone : null), _v: 2
-        }));
-    } catch (_) {}
-    window.location.href = pageUrl('/prayer-times-in-' + r.slug);
+function _heroSearch() {
+    if (!_heroSearchInst && window.SiteSearch) {
+        _heroSearchInst = window.SiteSearch.createBox({
+            inputId: 'search-input', boxId: 'cities-suggestions', targetRoute: 'prayer-times',
+            countryScope: () => countryCode, existingSlugs: _existingCountrySlugs, debounceMs: 300, max: 8,
+            render: _heroSearchRender,
+            onLoading: box => { box.innerHTML = `<div class="sugg-loading">${_dscSearchingLabel()}</div>`; box.classList.add('open'); },
+            onEmpty: box => { box.innerHTML = `<div class="sugg-loading">${_dscNoResultInCountryLabel()}</div>`; box.classList.add('open'); },
+            onHide: () => closeSuggestions()
+        });
+    }
+    return _heroSearchInst || _noopSearchBox;
 }
 
 // إغلاق الـ dropdown عند الضغط خارجه
@@ -1685,16 +1669,15 @@ function makeSlug(en, lat, lng) {
     return `${la}-${lo}`;
 }
 
-// COUNTRY-PRAYER-PAGE-CITY-SEARCH-RESTORE-FIX-1: in-results filter over the
-// displayed country cities. Matches names[lang] → names.en + nameAr + slug
-// (NO runtime translation, NO Nominatim). Empty query restores the base order;
-// renderGrid shows the translated "no results" label when nothing matches.
-let _gridDiscoverTimer = null;
+// COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: local curated filter over the displayed
+// country cities first (names[lang] → names.en + nameAr + slug; NO runtime translation). On 0 local
+// matches, the SHARED window.SiteSearch pipeline (countryScope=cc) renders same-country discovered
+// results into the grid area — identical results/scope/no-results to the hero box. Empty query
+// restores the base order.
 function onCountryCityFilter() {
     const inp = document.getElementById('country-city-filter');
     const q = (inp ? inp.value : '').trim();
     lastQuery = '';   // generic "no results", not the hero internet-suggestion text
-    clearTimeout(_gridDiscoverTimer);
     if (!q) { filtered = [...allCities]; currentPage = 1; renderGrid(); return; }
     const qNorm = normalizeAr(q);
     const qLow  = q.toLowerCase();
@@ -1709,62 +1692,9 @@ function onCountryCityFilter() {
     });
     currentPage = 1;
     renderGrid();
-    // COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1: 0 local results → run the SAME global
-    // discovery policy as the hero #search-input/onSearch (/api/search-place → countryCode
-    // validation → discovered card), rendered into the grid area instead of just "no results".
     if (filtered.length === 0 && q.length >= 2) {
-        _gridDiscoverTimer = setTimeout(() => _countryFilterDiscovery(q), 300);
+        _gridSearch().search(q);   // shared site-search, country-scoped, into #cities-container
     }
-}
-
-// Render the in-country discovery fallback INTO the cities grid area (#cities-container) for the
-// in-grid filter box. COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1 (scope: SAME-COUNTRY ONLY):
-// this box is a context-scoped search WITHIN the current country, so cross-country results
-// (countryCode !== current country) are DROPPED entirely — never shown, not even as "different
-// country". Only discovered results whose countryCode === the current country are shown (curated
-// local matches are handled before this by onCountryCityFilter). If nothing matches INSIDE this
-// country → a localized in-country "no results" message. Reuses /api/search-place + dedup + _dsc*
-// helpers + _dscPickPlace (discovered persist via /api/place-selected). NEVER writes curated or
-// db/cities-*.json; names follow site policy (no runtime translation); slug from endpoint. The hero
-// #search-input / fetchCountrySearchSuggestions search is unaffected (still cross-country there).
-function _countryFilterDiscovery(q) {
-    const container = document.getElementById('cities-container');
-    const pag = document.getElementById('pagination');
-    if (!container) return;
-    if (pag) pag.style.display = 'none';
-    container.innerHTML = `<div class="status-msg">${_dscSearchingLabel()}</div>`;
-    const _lng = _dscLng();
-    fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + encodeURIComponent(_lng), { headers: { 'Accept': 'application/json' } })
-        .then(r => r.ok ? r.json() : null)
-        .then(data => {
-            const curEl = document.getElementById('country-city-filter');
-            if (!curEl || curEl.value.trim() !== q) return;   // stale (user kept typing / cleared)
-            const results = (data && Array.isArray(data.results)) ? data.results : [];
-            const existing = new Set(allCities.map(c => (c.slug || '').toLowerCase()));   // dedup vs curated
-            // SAME-COUNTRY ONLY — keep results whose countryCode === the current country; cross-country dropped.
-            const same = results.filter(r =>
-                r && typeof r.slug === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(r.slug) &&
-                /^[a-z]{2}$/.test((r.countryCode || '').toLowerCase()) &&
-                (r.countryCode || '').toLowerCase() === countryCode &&   // countryCode === current country
-                isFinite(r.lat) && isFinite(r.lng) && typeof r.timezone === 'string' && r.timezone &&
-                !existing.has(r.slug.toLowerCase()));
-            if (!same.length) { container.innerHTML = `<div class="status-msg">${_dscNoResultInCountryLabel()}</div>`; return; }   // no cross-country fallback
-            container.innerHTML = '';
-            const grid = document.createElement('div');
-            grid.className = 'cities-grid';
-            same.slice(0, 8).forEach(r => {
-                const a = document.createElement('a');
-                a.className = 'city-link';
-                a.href = pageUrl('/prayer-times-in-' + r.slug);
-                const name = r.displayName || r.secondaryName || r.slug;   // site name — no runtime translation
-                const sub  = (r.countryName || '') + ' · ' + _dscDiscoveredBadge();   // this country, discovered
-                a.innerHTML = `${_dscEsc(name)}<span class="city-type">${_dscEsc(sub)}</span>`;
-                a.addEventListener('click', e => { e.preventDefault(); _dscPickPlace(r); });
-                grid.appendChild(a);
-            });
-            container.appendChild(grid);
-        })
-        .catch(() => { container.innerHTML = `<div class="status-msg">${_dscNoResultInCountryLabel()}</div>`; });
 }
 
 function renderGrid() {

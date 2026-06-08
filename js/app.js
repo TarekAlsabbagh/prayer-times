@@ -26807,25 +26807,12 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
         } catch (_) { return ''; }
     }
 
-    function _stRouteFor(targetRoute, slug) {
-        const lp = _stCurrentLangPrefix();
-        const s = encodeURIComponent(slug);
-        switch (targetRoute) {
-            case 'moon-hub':  return lp + '/moon-today-in-' + s;
-            case 'qibla-hub': return lp + '/qibla-in-' + s;
-            case 'prayer-times':
-            default:          return lp + '/prayer-times-in-' + s;
-        }
-    }
+    // COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: core now lives in
+    // js/site-search.js (window.SiteSearch) — single source of truth shared with
+    // the country page. These thin wrappers keep the existing wiring intact.
+    function _stRouteFor(targetRoute, slug) { return window.SiteSearch.routeFor(targetRoute, slug); }
 
-    function _stIsPrayerTimesReady(r) {
-        if (!r || typeof r !== 'object') return false;
-        if (!r.slug || !r.countryCode || !r.timezone) return false;
-        const lat = Number(r.lat), lng = Number(r.lng);
-        if (!isFinite(lat) || lat < -90 || lat > 90) return false;
-        if (!isFinite(lng) || lng < -180 || lng > 180) return false;
-        return true;
-    }
+    function _stIsPrayerTimesReady(r) { return window.SiteSearch.isReady(r); }
 
     // Per-suggestions-container state (lastResults + debounce + targetRoute).
     // Keyed by suggestionsId so each box has independent state.
@@ -26876,7 +26863,14 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
         box.hidden = false;
         box.classList.add('open');
     }
+    // COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: pick (persist + seed +
+    // navigate) is now the shared window.SiteSearch.onPick — identical logic,
+    // single source of truth. The legacy body below is retained, unused, behind
+    // an early return purely as in-repo provenance for the persisted-place fix.
     function _stOnPick(state, r, LANG) {
+        return window.SiteSearch.onPick(r, { targetRoute: state.targetRoute, lang: LANG });
+    }
+    function _stOnPick_legacyUnused(state, r, LANG) {
         if (!_stIsPrayerTimesReady(r)) return;
         try {
             if (r.source && r.source !== 'curated') {
@@ -26949,56 +26943,15 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
         if (!box) return;
         state.lastResults = Array.isArray(results) ? results.filter(_stIsPrayerTimesReady) : [];
         if (!state.lastResults.length) { _stShowEmptyWithStatus(state, status || 'empty', IS_AR); return; }
-        box.innerHTML = state.lastResults.map((r, i) => {
-            const cc = (r.countryCode || '').toLowerCase();
-            const flagHtml = /^[a-z]{2}$/.test(cc)
-                ? '<span class="search-test-result-flag" aria-hidden="true">' +
-                    '<img src="https://flagcdn.com/w40/' + cc + '.png"' +
-                    ' srcset="https://flagcdn.com/w80/' + cc + '.png 2x"' +
-                    ' alt="" width="28" height="21" loading="lazy" decoding="async">' +
-                  '</span>'
-                : '';
-            const display = _STESC(r.displayName || r.slug);
-            const typeL = _STESC(r.typeLabel || r.type || '');
-            const cName = _STESC(r.countryName || '');
-            const subtitle = typeL && cName
-                ? typeL + ' · ' + cName
-                : (typeL || cName);
-            return (
-                '<button class="search-test-result" type="button" role="option" data-idx="' + i + '">' +
-                  flagHtml +
-                  '<span class="search-test-result-text">' +
-                    '<strong>' + display + '</strong>' +
-                    '<span>' + subtitle + '</span>' +
-                  '</span>' +
-                '</button>'
-            );
-        }).join('');
-        box.hidden = false;
-        box.classList.add('open');
-        Array.from(box.querySelectorAll('.search-test-result')).forEach(btn => {
-            btn.addEventListener('click', () => {
-                const idx = parseInt(btn.getAttribute('data-idx'), 10);
-                _stOnPick(state, state.lastResults[idx], LANG);
-            });
-        });
+        // Shared renderer (search-test dropdown markup) — single source of truth.
+        window.SiteSearch.renderSearchTestDropdown(box, state.lastResults, function (r) { _stOnPick(state, r, LANG); });
     }
     async function _stFetch(state, q, LANG, IS_AR) {
         q = String(q || '').trim();
         if (!q) { _stHide(state); return; }
         _stShowLoading(state, IS_AR);
-        try {
-            const res = await fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + LANG, {
-                headers: { 'Accept': 'application/json' }
-            });
-            if (!res.ok) { _stShowEmptyWithStatus(state, 'error', IS_AR); return; }
-            const data = await res.json();
-            const results = (data && Array.isArray(data.results)) ? data.results : [];
-            const status = (data && typeof data.status === 'string') ? data.status : 'ok';
-            _stRenderResults(state, results, status, LANG, IS_AR);
-        } catch (_e) {
-            _stShowEmptyWithStatus(state, 'error', IS_AR);
-        }
+        const data = await window.SiteSearch.fetchResults(q, LANG); // shared fetch (never throws)
+        _stRenderResults(state, data.results, data.status, LANG, IS_AR);
     }
     function _stDoSearch(suggestionsId, targetRoute, q) {
         const state = _stStateFor(suggestionsId, targetRoute);
@@ -27015,6 +26968,10 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
     }
 
     function _stWireAll() {
+        // COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: the core lives in
+        // js/site-search.js (loaded before app.js in index.html). If it is
+        // somehow absent, no-op gracefully rather than throwing on every keystroke.
+        if (!window.SiteSearch) { try { console.warn('[search] SiteSearch module not loaded — search disabled'); } catch (_) {} return; }
         // 1) #loc-hero-search → homepage `/` AND /prayer-times-in-{city}.
         //    Inline HTML handlers `oninput="onHeroSearchInput(this.value)"`
         //    + `onkeydown="onHeroSearchKeyDown(event)"` resolve to the

@@ -1671,10 +1671,12 @@ function makeSlug(en, lat, lng) {
 // displayed country cities. Matches names[lang] → names.en + nameAr + slug
 // (NO runtime translation, NO Nominatim). Empty query restores the base order;
 // renderGrid shows the translated "no results" label when nothing matches.
+let _gridDiscoverTimer = null;
 function onCountryCityFilter() {
     const inp = document.getElementById('country-city-filter');
     const q = (inp ? inp.value : '').trim();
     lastQuery = '';   // generic "no results", not the hero internet-suggestion text
+    clearTimeout(_gridDiscoverTimer);
     if (!q) { filtered = [...allCities]; currentPage = 1; renderGrid(); return; }
     const qNorm = normalizeAr(q);
     const qLow  = q.toLowerCase();
@@ -1689,6 +1691,58 @@ function onCountryCityFilter() {
     });
     currentPage = 1;
     renderGrid();
+    // COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1: 0 local results → run the SAME global
+    // discovery policy as the hero #search-input/onSearch (/api/search-place → countryCode
+    // validation → discovered card), rendered into the grid area instead of just "no results".
+    if (filtered.length === 0 && q.length >= 2) {
+        _gridDiscoverTimer = setTimeout(() => _countryFilterDiscovery(q), 300);
+    }
+}
+
+// Render the global-search fallback INTO the cities grid area (#cities-container) for the
+// in-grid filter box. Reuses /api/search-place + countryCode validation + dedup + the shared
+// _dsc* helpers + _dscPickPlace (discovered persist via /api/place-selected). NEVER writes
+// curated or db/cities-*.json; names follow site policy (no runtime translation); slug from endpoint.
+function _countryFilterDiscovery(q) {
+    const container = document.getElementById('cities-container');
+    const pag = document.getElementById('pagination');
+    if (!container) return;
+    if (pag) pag.style.display = 'none';
+    container.innerHTML = `<div class="status-msg">${_dscSearchingLabel()}</div>`;
+    const _lng = _dscLng();
+    fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + encodeURIComponent(_lng), { headers: { 'Accept': 'application/json' } })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+            const curEl = document.getElementById('country-city-filter');
+            if (!curEl || curEl.value.trim() !== q) return;   // stale (user kept typing / cleared)
+            const results = (data && Array.isArray(data.results)) ? data.results : [];
+            const existing = new Set(allCities.map(c => (c.slug || '').toLowerCase()));   // dedup vs curated
+            const ready = results.filter(r =>
+                r && typeof r.slug === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(r.slug) &&
+                /^[a-z]{2}$/.test((r.countryCode || '').toLowerCase()) &&
+                isFinite(r.lat) && isFinite(r.lng) && typeof r.timezone === 'string' && r.timezone &&
+                !existing.has(r.slug.toLowerCase()));
+            const same  = ready.filter(r => (r.countryCode || '').toLowerCase() === countryCode);   // countryCode validation
+            const other = ready.filter(r => (r.countryCode || '').toLowerCase() !== countryCode);
+            if (!same.length && !other.length) { container.innerHTML = `<div class="status-msg">${_dscNoResultLabel()}</div>`; return; }
+            container.innerHTML = '';
+            const grid = document.createElement('div');
+            grid.className = 'cities-grid';
+            const mk = (r, badge, isOther) => {
+                const a = document.createElement('a');
+                a.className = 'city-link' + (isOther ? ' city-link-other' : '');
+                a.href = pageUrl('/prayer-times-in-' + r.slug);
+                const name = r.displayName || r.secondaryName || r.slug;   // site name — no runtime translation
+                const sub  = (r.countryName || '') + ' · ' + badge;
+                a.innerHTML = `${_dscEsc(name)}<span class="city-type">${_dscEsc(sub)}</span>`;
+                a.addEventListener('click', e => { e.preventDefault(); _dscPickPlace(r); });
+                return a;
+            };
+            same.slice(0, 6).forEach(r => grid.appendChild(mk(r, _dscDiscoveredBadge(), false)));      // this country
+            other.slice(0, 3).forEach(r => grid.appendChild(mk(r, _dscOtherCountryBadge(), true)));    // different country (never merged)
+            container.appendChild(grid);
+        })
+        .catch(() => { container.innerHTML = `<div class="status-msg">${_dscNoResultLabel()}</div>`; });
 }
 
 function renderGrid() {

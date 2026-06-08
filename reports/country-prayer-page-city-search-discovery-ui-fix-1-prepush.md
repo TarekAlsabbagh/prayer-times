@@ -1,86 +1,100 @@
-# تقرير ما قبل الدفع: COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1
+# تقرير ما قبل الدفع (مُحدَّث — نطاق مُعدَّل): COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1
 
-**النوع:** إصلاح UI — وصل مربّع البحث فوق شبكة المدن (`#country-city-filter`) بسياسة البحث الموسّع العامّة.
-**الحالة:** لم يُدفع — بانتظار اعتمادك.
-**النطاق:** ملفّ واحد — `prayer-times-cities.html` (+54/−0). **بلا** server.js/app.js/curated/css/db/i18n.
+**النوع:** إصلاح UI — وصل مربّع البحث فوق شبكة المدن (`#country-city-filter`) بالبحث الموسّع **مقيَّدًا بنفس الدولة فقط**.
+**الحالة:** التصحيح غير مدفوع — بانتظار اعتمادك. (انظر §12 — حالة الدفع: نسخة cross-country السابقة `3272034` دُفعت قبل وصول مقاطعتك.)
+**النطاق:** ملفّ واحد — `prayer-times-cities.html`. **بلا** server.js/app.js/curated/css/db/i18n.
+
+> ⚠️ **شفافيّة:** أمر `git push` للنسخة الأولى (التي كانت تعرض «دولة أخرى») **اكتمل** قبل أن تصل مقاطعتك (التي أوقفت خطوة *التحقّق من الإنتاج*، لا الدفع). `origin/main = 3272034`. هذا التقرير يصف **التصحيح** (same-country only)، وسيُدفع كـ commit تصحيحيّ بعد اعتمادك.
 
 ---
 
-## 1) سبب التنفيذ
-أثبت تدقيق `MOROCCO-SEARCH-DISCOVERY-AUDIT-1` (التصنيف A) أنّ المربّع فوق شبكة المدن (`#country-city-filter` → `onCountryCityFilter`) كان **محليًّا بحتًا**: يفلتر `allCities` ثمّ يعرض «لا توجد نتائج» — **بلا** أيّ نداء `/api/search-place`. بينما البحث الموسّع كان موصولًا فقط بصندوق الهيرو (`#search-input` → `onSearch`). فبحث المستخدم عن «الصويرة/Essaouira» في صندوق الشبكة لم يصل للاكتشاف. هذا الإصلاح يصل صندوق الشبكة بنفس السياسة.
+## القرار الجديد المُعتمَد (النطاق)
+داخل صفحة الدولة `/prayer-times-in-{country}`، مربّع البحث فوق الشبكة يعرض **فقط مدن نفس الدولة الحالية** — سواء محليّة (curated) أو مكتشَفة من `/api/search-place` بشرط `countryCode === الدولة الحالية`. **أيّ نتيجة من دولة أخرى تُتجاهَل تمامًا** (لا تظهر، ولا كـ«دولة أخرى»)، وتظهر بدلها رسالة: «لم نجد مدينة مطابقة داخل هذه الدولة.»
 
-## 2) المربّع المُصلَح والمعالج
-| المربّع | المعرّف | المعالج | قبل | بعد |
-|---|---|---|---|---|
-| **فوق الشبكة** | `#country-city-filter` | `onCountryCityFilter()` | محليّ بحت | **محليّ أوّلًا ثمّ بحث موسّع عند 0 نتيجة** |
-| الهيرو/الرأس | `#search-input` | `onSearch()` | فيه fallback | **لم يُمَسّ** |
+## النقاط السبع المطلوبة (صريحة)
+1. **بحث شبكة الدولة لا يعرض نتائج من دول أخرى** ✅ — `_countryFilterDiscovery` يُبقي فقط `countryCode === countryCode` الحاليّ.
+2. **cross-country تُتجاهَل في هذا السياق** ✅ — لا مصفوفة `other`، ولا شارة «دولة أخرى»، ولا رابط لمدينة خارج الدولة.
+3. **no-results تظهر عند غياب نتيجة داخل نفس الدولة** ✅ — `_dscNoResultInCountryLabel()` («لم نجد مدينة مطابقة داخل هذه الدولة.» + 9 لغات).
+4. **بحث الهيرو العامّ لم يتغيّر** ✅ — `fetchCountrySearchSuggestions`/`#search-input`/`#cities-suggestions` يبقى cross-country (يعرض «دولة أخرى»). مُثبَت حيًّا (دبي في الهيرو ⇒ عنصران + «دولة أخرى»).
+5. **`/api/search-place` لم يتغيّر** ✅ — مُستهلَك فقط (GET)، بلا تعديل خادم.
+6. **لا كتابة في curated أو db** ✅ — `curated-places.json` و`db/cities-{cc}.json` بلا مساس؛ المكتشَف يُحفظ فقط عبر `/api/place-selected` عند النقر (Supabase `discovered_places`).
+7. **نتائج اختبار Dubai والصويرة** ✅ — أدناه §9.
 
-## 3) منطق التدفّق الجديد (نفس سياسة `onSearch`)
-داخل `onCountryCityFilter`: يبقى **الفلتر المحليّ أوّلًا** (بلا تغيير). أُضيف بعد `renderGrid()`:
+## 1) سبب التنفيذ + سبب تعديل النطاق
+الأصل: المربّع كان محليًّا بحتًا (تصنيف A في تدقيق المغرب). النسخة الأولى وصلته بالبحث الموسّع لكنّها عرضت نتائج الدول الأخرى كبطاقة «دولة أخرى». قرارك الجديد: داخل صفحة دولة محددة البحث **سياقيّ** — يجب ألّا يُظهِر مدن دول أخرى إطلاقًا.
+
+## 2) المربّع والمعالج
+| المربّع | المعرّف | المعالج | السلوك بعد التصحيح |
+|---|---|---|---|
+| **فوق الشبكة** | `#country-city-filter` | `onCountryCityFilter` → `_countryFilterDiscovery` | محليّ أوّلًا ⇒ عند 0 بحث موسّع **مقيَّد بنفس الدولة** |
+| الهيرو | `#search-input` | `onSearch` → `fetchCountrySearchSuggestions` | **لم يُمَسّ** (cross-country كما هو) |
+
+## 3) منطق التدفّق
+`onCountryCityFilter` (بلا تغيير عن النسخة الأولى): فلتر محليّ أوّلًا ⇒ عند `filtered.length===0 && q.length>=2` ⇒ `setTimeout(_countryFilterDiscovery, 300)` (debounce + `clearTimeout`).
+`_countryFilterDiscovery(q)`: «جارٍ البحث» ⇒ `fetch('/api/search-place')` ⇒ حارس قِدَم ⇒ **فلترة same-country فقط** ⇒ بطاقات أو رسالة in-country.
+
+## 4) القاعدة المُطبَّقة في الكود
 ```js
-if (filtered.length === 0 && q.length >= 2) {
-    _gridDiscoverTimer = setTimeout(() => _countryFilterDiscovery(q), 300);
-}
+const same = results.filter(r =>
+    r && typeof r.slug==='string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(r.slug) &&
+    /^[a-z]{2}$/.test((r.countryCode||'').toLowerCase()) &&
+    (r.countryCode||'').toLowerCase() === countryCode &&   // ← نفس الدولة فقط (cross-country يسقط)
+    isFinite(r.lat) && isFinite(r.lng) && typeof r.timezone==='string' && r.timezone &&
+    !existing.has(r.slug.toLowerCase()));
+if (!same.length) { container.innerHTML = `<div class="status-msg">${_dscNoResultInCountryLabel()}</div>`; return; }
 ```
-- **يُشغَّل فقط** عند **0 نتيجة محليّة** و`q.length ≥ 2` (مطابقة محليّة موجودة ⇒ لا اكتشاف).
-- **debounce 300ms** + `clearTimeout(_gridDiscoverTimer)` في بداية كلّ نداء (لا تكدّس نداءات أثناء الكتابة).
+لا توجد مصفوفة `other` ولا `_dscOtherCountryBadge` في هذه الدالّة بعد التصحيح.
 
-دالّة جديدة `_countryFilterDiscovery(q)`:
-1. تعرض «جارٍ البحث…» في منطقة الشبكة.
-2. `fetch('/api/search-place?q=…&lang=…')` (نفس endpoint السياسة).
-3. **حارس قِدَم**: إن تغيّرت قيمة الصندوق عن `q` ⇒ تجاهل (لا سباق).
-4. تحقّق جاهزيّة + dedup + countryCode validation (راجع 4، 6).
-5. ترسم بطاقات الاكتشاف في **منطقة الشبكة** أو «لا نتيجة» إن لا شيء.
+## 5) عرض البطاقة + الرسالة
+- **same-country موجودة:** بطاقات `.cities-grid`/`.city-link` في منطقة الشبكة، الشارة «مدينة مكتشَفة»، رابط `/[lang]/prayer-times-in-{slug}` (حتى 8). **بلا CSS جديد.**
+- **لا نتيجة داخل الدولة:** رسالة مترجمة «لم نجد مدينة مطابقة داخل هذه الدولة.» (10 لغات) — منفصلة عن `_dscNoResultLabel` (الذي يخصّ الهيرو ويذكر البحث العامّ، تُرك كما هو).
 
-## 4) countryCode validation + فصل same/other
-- `same = ready.filter(r => (r.countryCode||'').toLowerCase() === countryCode)` ← **نفس الدولة** ⇒ شارة «مدينة مكتشَفة».
-- `other = ready.filter(r => (r.countryCode||'').toLowerCase() !== countryCode)` ← **دولة مختلفة** ⇒ شارة «دولة أخرى» (لا تُدمَج في الشبكة أبدًا).
-- `countryCode` في هذا السياق = الرمز الثنائيّ للدولة (مثل `ma`)، نفس المقارنة المثبتة في `fetchCountrySearchSuggestions`.
+## 6) dedup + validation
+نفس قواعد السياسة: slug صالح + cc لغتان + lat/lng منتهية + timezone نصّ + **`!existing.has(slug)`** (لا تكرار لمدينة موجودة في الشبكة) + **`=== countryCode`**.
 
-## 5) مكان عرض البطاقة
-تُرسَم في **منطقة الشبكة `#cities-container`** (حيث كان «لا توجد نتائج»)، بإعادة استخدام نفس صنفَيْ الشبكة `.cities-grid` + `.city-link` + `.city-type` ⇒ **بلا CSS جديد**. سقف العرض: 6 نفس‑الدولة + 3 دولة‑أخرى. عند مسح الصندوق ⇒ `renderGrid()` يعيد بناء الشبكة الكاملة.
+## 7) النقر → `_dscPickPlace(r)`
+النقر يستدعي `_dscPickPlace` (المشتركة): POST `/api/place-selected` (إن `source!=='curated'`) + بذر sessionStorage + `pageUrl('/prayer-times-in-'+slug)`. **بلا** كتابة curated/db.
 
-## 6) dedup + تحقّق الجاهزيّة (نفس قواعد السياسة)
-`ready` = نتائج تمرّ كلّ هذه:
-`typeof slug==='string'` + `/^[a-z0-9][a-z0-9-]{0,79}$/` + `/^[a-z]{2}$/.test(cc)` + `isFinite(lat)` + `isFinite(lng)` + `typeof timezone==='string' && timezone` + `!existing.has(slug)` (حيث `existing` = slugs الـ`allCities` المعتمدة ⇒ **لا تكرار** لمدينة موجودة في الشبكة).
+## 8) لا ترجمة runtime
+الاسم = `r.displayName || r.secondaryName || r.slug`، الدولة = `r.countryName`، slug من الـendpoint. لا Nominatim/Wikidata client، لا fillchain، لا slug مولَّد.
 
-## 7) النقر → `_dscPickPlace(r)` (persist + navigate)
-كلّ بطاقة: `a.addEventListener('click', e => { e.preventDefault(); _dscPickPlace(r); })`. `_dscPickPlace` (موجودة مسبقًا، مشتركة مع الهيرو) تُنفّذ POST `/api/place-selected` (upsert إلى Supabase `discovered_places`، verified:false) + بذر sessionStorage + التنقّل إلى `/[lang]/prayer-times-in-{slug}`. **مؤكَّد محليًّا:** النقر على بطاقة دبي استدعى `_dscPickPlace({slug:'dubai', countryCode:'ae'})`. **لا كتابة** في `curated-places.json` ولا `db/cities-*.json`.
-
-## 8) لا ترجمة runtime — الأسماء من البيانات
-اسم البطاقة = `r.displayName || r.secondaryName || r.slug` (اسم الموقع من الـendpoint)، الدولة = `r.countryName`، والـslug من الـendpoint. **لا** Nominatim/Wikidata client، **لا** خرائط أسماء، **لا** fillchain، **لا** slug مولَّد.
-
-## 9) نتائج الاختبار المحليّ (preview على البايتات الجديدة)
-| الاستعلام | المتوقَّع | النتيجة |
-|---|---|---|
-| **Rabat** | مطابقة محليّة (في curated MA) ⇒ لا اكتشاف | ✅ بطاقة محليّة واحدة `/prayer-times-in-rabat`، **لا** نداء اكتشاف |
-| **Dubai** | 0 محليّ ⇒ اكتشاف ⇒ «دولة أخرى» | ✅ بطاقتان (دبي + بر دبي) «الإمارات · دولة أخرى» `isOther=true`، **لا دمج** في شبكة المغرب |
-| **الصويرة** (عربيّ) | homonym عراقيّ ⇒ «دولة أخرى» لا مدينة محليّة | ✅ بطاقة «الصويرة · العراق · دولة أخرى» `/prayer-times-in-as-suwayrah`، `anyMergedAsLocal=false` |
-| **Essaouira** (لاتينيّ) | external ⇒ `ma` (إنتاج فقط — Nominatim محجوب محليًّا) | ⏳ محليًّا `status=error` ⇒ «لا نتيجة» **بلا تعطّل**؛ مسار `ma` يُتحقَّق بعد الدفع على الإنتاج |
-
-**Regression:**
-- ✅ مسح الصندوق ⇒ `filtered=22` والشبكة تعيد 22 بطاقة.
-- ✅ النقر ⇒ `_dscPickPlace(r)` بالـslug/cc الصحيحين.
-- ✅ الهيرو سليم: `#search-input` + `onSearch` + `#cities-suggestions` + `fetchCountrySearchSuggestions` كلّها قائمة بلا مساس.
-- ✅ **0 أخطاء console** · فحص بناء inline JS: نُقطتان، 0 أخطاء.
+## 9) نتائج الاختبار المحليّ (preview على البايتات المُصحَّحة)
+| # | الصفحة + الاستعلام | المتوقَّع | النتيجة |
+|---|---|---|---|
+| 1 | morocco + **Rabat** | محليّ، بلا اكتشاف | ✅ بطاقة `/prayer-times-in-rabat`، discoveryFired=false |
+| 2 | morocco + **Dubai** (cc=ae) | لا بطاقة، لا «دولة أخرى»، رسالة in-country | ✅ 0 بطاقة، «لم نجد مدينة مطابقة داخل هذه الدولة.»، anyOtherBadge=false |
+| 3 | morocco + **الصويرة** (cc=iq) | لا بطاقة عراقيّة، رسالة in-country | ✅ 0 بطاقة، الرسالة، لا «دولة أخرى»، لا العراق |
+| 4 | morocco + **Essaouira** (محليًّا: external محجوب) | رسالة in-country | ✅ 0 بطاقة، الرسالة، بلا تعطّل |
+| 4b | morocco + **Essaouira** — محاكاة `fetch` ترجع cc=ma **و** cc=iq | بطاقة ma فقط، إسقاط iq | ✅ **بطاقة واحدة** «الصويرة · المغرب · مدينة مكتشَفة» `/prayer-times-in-essaouira`؛ العراقيّة **أُسقطت** (anyIraqShown=false) |
+| 5 | saudi-arabia + **Dubai** (cc=ae) | لا تظهر دبي، رسالة in-country | ✅ 0 بطاقة، الرسالة، anyDubaiShown=false |
+| 6 | saudi-arabia + **Jeddah** | محليّ | ✅ بطاقة `/prayer-times-in-jeddah` |
+| 7 | مسح الصندوق | تعود الشبكة الكاملة | ✅ MA→22، SA→183 |
+| 8 | **الهيرو** + Dubai (سعوديّة) | يبقى cross-country «دولة أخرى» | ✅ عنصران + «دولة أخرى» (الهيرو سليم) |
+- ✅ **0 أخطاء console** · فحص inline JS: نقطتان، 0 أخطاء.
 
 ## 10) ما لم يُمَسّ
-✅ بحث الهيرو (`onSearch`/`fetchCountrySearchSuggestions`/`#cities-suggestions`) · `curated-places.json` · `db/cities-{cc}.json` · slugs · canonical/hreflang/sitemap · SEO/Title/H1 · مصدر المدن (`#country-cities-data` المحقون) · تصنيف ماكاو · أذكار · حساب الصلاة · `/api/search-place` (مُستهلَك فقط، غير معدَّل). **بلا CSS جديد** (إعادة استخدام أصناف قائمة).
+✅ بحث الهيرو (`onSearch`/`fetchCountrySearchSuggestions`/`_dscNoResultLabel`/`_dscOtherCountryBadge`) · `/api/search-place` · `/api/place-selected` · `curated-places.json` · `db/cities-{cc}.json` · slugs · canonical/hreflang/sitemap · SEO/Title/H1 · مصدر المدن · تصنيف ماكاو · أذكار · حساب الصلاة. **بلا CSS جديد.**
 
-## 11) الملفّات المعدَّلة
-| الملفّ | التغيير | الأسطر |
+## 11) الملفّات المعدَّلة (التصحيح)
+| الملفّ | التغيير | الأسطر (مقابل 3272034) |
 |---|---|---|
-| `prayer-times-cities.html` | `onCountryCityFilter`: + `_gridDiscoverTimer` + استدعاء اكتشاف عند 0 محليّ؛ دالّة جديدة `_countryFilterDiscovery` (fetch + validate + dedup + same/other + بطاقات في الشبكة + نقر→`_dscPickPlace`). | +54/−0 |
-> `git diff --stat`: **ملفّ واحد، +54/−0** (لا حذف ⇒ لا churn في نهايات الأسطر). فحص inline JS ✓. `_check_inline_js.mjs` أداة فحص (غير مُلتزَمة).
+| `prayer-times-cities.html` | `_countryFilterDiscovery`: same-country فقط (حذف `other` + `_dscOtherCountryBadge`)؛ + `_dscNoResultInCountryLabel()` (10 لغات). | **+38 / −16** |
+> فحص inline JS ✓.
 
-## 12) رسالة commit المقترحة
-```
-fix(country): COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1 — connect country city filter to discovery search
-```
+## 12) حالة الدفع + رسالة commit
+- **`origin/main = 3272034`** (نسخة cross-country دُفعت قبل المقاطعة؛ Render قد ينشرها مؤقّتًا).
+- **خياران للتصحيح** (لن أُنفّذ أيًّا منهما قبل اعتمادك):
+  - **(أ) Forward-fix (موصى به، آمن):** commit تصحيحيّ جديد فوق 3272034 يُقيّد النطاق ⇒ `git push` عاديّ. لا إعادة كتابة تاريخ.
+  - **(ب) Amend + force-push:** دمج التصحيح في 3272034 و`git push --force` ⇒ تاريخ بنسخة واحدة، لكنّه **مدمِّر** (إعادة كتابة `main` المنشور).
+- رسالة الـcommit (إن forward-fix، أقترح توضيح النطاق مع إبقاء اسم التذكرة):
+  ```
+  fix(country): COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1 — restrict country city filter to same-country results
+  ```
+  (أو الإبقاء على الرسالة الأصليّة حرفيًّا إن رغبت.)
 
 ---
-**ملخّص:** صندوق البحث فوق شبكة المدن صار يطبّق **نفس سياسة البحث المعتمدة**: محليّ أوّلًا ⇒ عند 0 نتيجة + `q≥2` بحث `/api/search-place` ⇒ تحقّق `countryCode` ⇒ بطاقة «مدينة مكتشَفة» (نفس الدولة) أو «دولة أخرى» (مختلفة، غير مدموجة) ⇒ نقر يحفظ عبر `/api/place-selected` وينتقل. «الصويرة» العربيّة تظهر «العراق · دولة أخرى» لا كمدينة مغربيّة (القضيّة C في تذكرة منفصلة). «Essaouira→ma» مسار external يُتحقَّق على الإنتاج بعد الدفع.
+**الخلاصة:** صندوق شبكة الدولة الآن **سياقيّ بحت داخل الدولة**: محليّ أوّلًا ⇒ عند 0 بحث `/api/search-place` يُبقي فقط `countryCode === الدولة` ⇒ بطاقة «مدينة مكتشَفة» أو رسالة «لم نجد مدينة مطابقة داخل هذه الدولة». دبي/الصويرة (cc≠الدولة) **لا تظهران إطلاقًا**. الهيرو وكلّ شيء آخر بلا مساس.
 
-**النتيجة المقترحة:** ✅ جاهز للدفع — للاعتماد أرسِل: `أعتمد دفع تقرير: COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1`
+**للاعتماد أرسِل:** `أعتمد دفع تقرير: COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1` — مع تحديد **(أ) forward-fix** أم **(ب) amend+force-push**. (إن لم تحدّد، أعتمد forward-fix الآمن.)
 
 *(ملاحظة ثابتة: لا تُبدأ أيّ صفحة أذكار جديدة حتى اعتماد `/azkar/prayer-azkar` بصريًّا.)*

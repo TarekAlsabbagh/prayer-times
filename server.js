@@ -10494,6 +10494,17 @@ function buildSeoForPath(urlPath) {
             if (_curated) {
                 geo = { lat: _curated.lat, lng: _curated.lng };
             }
+            // DISCOVERED-CITY-PAGE-NOINDEX-GUARD-FIX-1 (2026-06-08): a /prayer-times-in-{slug}
+            // page whose slug is NOT in curated (discovered/external/unknown) must NOT become an
+            // indexable SEO page. Its Title/Meta/H1 fall back to _slugToTitle(slug) (e.g. the
+            // discovered "chefchaouen-ma" → "Chefchaouen Ma"), violating the names[lang]→names.en
+            // policy. Mark it noindex,follow — the page is still served 200 and still works for the
+            // user (client resolves the name from its seed); it is just not crawled/indexed. When
+            // the city is later promoted to curated, _findPlaceBySlug returns it → index,follow
+            // again automatically. Curated cities + country listing pages are unaffected.
+            if (!_curated) {
+                robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+            }
             // PT-CITY-SEO-1 (2026-05-10): use the length-aware Title/Meta
             // helpers (defined above) — picks the candidate that lands in
             // [50, 60] cp for Title and [120, 160] cp for Meta. Replaces the

@@ -1450,13 +1450,13 @@ function onSearch() {
     currentPage = 1;
     renderGrid();
 
-    // إذا لم توجد نتائج محلية → ابحث في Nominatim بعد 450ms
+    // COUNTRY-PRAYER-PAGE-CITY-SECTION-SEARCH-DISCOVERY-FIX-1 (Part A): لا نتائج محلية →
+    // استخدم آلية البحث العامّة للموقع (/api/search-place) بدل Nominatim المباشر + saveToDb.
     if (filtered.length === 0 && q.length >= 2) {
         const sugg = document.getElementById('cities-suggestions');
-        const _searchingLabel = (typeof t === 'function') ? t('loading.searching') : '🔍 جاري البحث...';
-        sugg.innerHTML = `<div class="sugg-loading">${_searchingLabel}</div>`;
+        sugg.innerHTML = `<div class="sugg-loading">${_dscSearchingLabel()}</div>`;
         sugg.classList.add('open');
-        searchTimer = setTimeout(() => fetchNominatimSuggestions(q), 450);
+        searchTimer = setTimeout(() => fetchCountrySearchSuggestions(q), 300);
     }
 }
 
@@ -1485,95 +1485,155 @@ function onSearchKeyDown(e) {
     }
 }
 
-// ===== Nominatim: بحث مزدوج (حر + مدينة) كالصفحة الرئيسية =====
-function fetchNominatimSuggestions(q) {
+// ===== COUNTRY-PRAYER-PAGE-CITY-SECTION-SEARCH-DISCOVERY-FIX-1 (Part A) =====
+// Global fallback now uses the SITE search pipeline (/api/search-place: curated → discovered →
+// external) instead of raw Nominatim + legacy saveToDb. Names follow site policy
+// (displayName/names server-built names[lang]→names.en — NO runtime translation, NO fillchain,
+// NO client-generated slug — r.slug comes from the endpoint). countryCode-validated against the
+// current country. Discovered places persist via the approved /api/place-selected (Supabase
+// discovered_places, verified:false) — NEVER written to curated-places.json. Duplicates against
+// the current country's curated list (allCities by slug) are dropped.
+function _dscEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+function _dscLng() { return (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'; }
+function _dscSearchingLabel() {
+    switch (_dscLng()) {
+        case 'en': return '🔍 Searching the global database…';
+        case 'fr': return '🔍 Recherche dans la base globale…';
+        case 'tr': return '🔍 Genel veritabanında aranıyor…';
+        case 'ur': return '🔍 عالمی ڈیٹابیس میں تلاش…';
+        case 'de': return '🔍 Globale Datenbank wird durchsucht…';
+        case 'id': return '🔍 Mencari di basis data global…';
+        case 'es': return '🔍 Buscando en la base global…';
+        case 'bn': return '🔍 গ্লোবাল ডেটাবেসে খোঁজা হচ্ছে…';
+        case 'ms': return '🔍 Mencari dalam pangkalan data global…';
+        default:   return '🔍 جاري البحث في قاعدة البحث العامّة…';
+    }
+}
+function _dscNoResultLabel() {
+    switch (_dscLng()) {
+        case 'en': return 'No matching city found in this country or via global search.';
+        case 'fr': return 'Aucune ville correspondante dans ce pays ou via la recherche globale.';
+        case 'tr': return 'Bu ülkede veya genel aramada eşleşen şehir bulunamadı.';
+        case 'ur': return 'اس ملک میں یا عالمی تلاش کے ذریعے کوئی مماثل شہر نہیں ملا۔';
+        case 'de': return 'Keine passende Stadt in diesem Land oder über die globale Suche gefunden.';
+        case 'id': return 'Tidak ada kota yang cocok di negara ini atau via pencarian global.';
+        case 'es': return 'No se encontró ninguna ciudad en este país ni mediante la búsqueda global.';
+        case 'bn': return 'এই দেশে বা গ্লোবাল সার্চে কোনো মিল পাওয়া যায়নি।';
+        case 'ms': return 'Tiada bandar sepadan dalam negara ini atau melalui carian global.';
+        default:   return 'لم نجد مدينة مطابقة داخل هذه الدولة أو عبر البحث العامّ.';
+    }
+}
+function _dscErrLabel() {
+    switch (_dscLng()) {
+        case 'en': return 'Error, check your connection';
+        case 'fr': return 'Erreur, vérifiez votre connexion';
+        case 'tr': return 'Hata, bağlantınızı kontrol edin';
+        case 'ur': return 'خرابی، اپنا کنکشن چیک کریں';
+        case 'de': return 'Fehler, prüfen Sie Ihre Verbindung';
+        case 'id': return 'Kesalahan, periksa koneksi Anda';
+        case 'es': return 'Error, comprueba tu conexión';
+        case 'bn': return 'ত্রুটি, আপনার সংযোগ পরীক্ষা করুন';
+        case 'ms': return 'Ralat, semak sambungan anda';
+        default:   return 'حدث خطأ، تحقق من الاتصال';
+    }
+}
+function _dscDiscoveredBadge() {
+    switch (_dscLng()) {
+        case 'en': return 'discovered'; case 'fr': return 'découverte'; case 'tr': return 'keşfedildi';
+        case 'ur': return 'دریافت شدہ'; case 'de': return 'entdeckt'; case 'id': return 'ditemukan';
+        case 'es': return 'descubierta'; case 'bn': return 'আবিষ্কৃত'; case 'ms': return 'ditemui';
+        default:   return 'مدينة مكتشَفة';
+    }
+}
+function _dscOtherCountryBadge() {
+    switch (_dscLng()) {
+        case 'en': return 'different country'; case 'fr': return 'autre pays'; case 'tr': return 'farklı ülke';
+        case 'ur': return 'دوسرا ملک'; case 'de': return 'anderes Land'; case 'id': return 'negara lain';
+        case 'es': return 'otro país'; case 'bn': return 'অন্য দেশ'; case 'ms': return 'negara lain';
+        default:   return 'دولة أخرى';
+    }
+}
+
+function fetchCountrySearchSuggestions(q) {
     const sugg = document.getElementById('cities-suggestions');
-    const isEn = (typeof getCurrentLang === 'function') && getCurrentLang() === 'en';
-    const lang = isEn ? 'en' : 'ar';
-    const base = `format=json&limit=8&accept-language=${lang}&addressdetails=1&namedetails=1&countrycodes=${countryCode}`;
-    const urlQ    = `https://nominatim.openstreetmap.org/search?${base}&q=${encodeURIComponent(q)}`;
-    const urlCity = `https://nominatim.openstreetmap.org/search?${base}&city=${encodeURIComponent(q)}`;
+    if (!sugg) return;
+    const _lng = _dscLng();
+    fetch('/api/search-place?q=' + encodeURIComponent(q) + '&lang=' + encodeURIComponent(_lng), { headers: { 'Accept': 'application/json' } })
+        .then(r => r.ok ? r.json() : null)
+        .then(data => {
+            const results = (data && Array.isArray(data.results)) ? data.results : [];
+            const existing = new Set(allCities.map(c => (c.slug || '').toLowerCase()));   // dedup vs curated
+            const ready = results.filter(r =>
+                r && typeof r.slug === 'string' && /^[a-z0-9][a-z0-9-]{0,79}$/.test(r.slug) &&
+                /^[a-z]{2}$/.test((r.countryCode || '').toLowerCase()) &&
+                isFinite(r.lat) && isFinite(r.lng) && typeof r.timezone === 'string' && r.timezone &&
+                !existing.has(r.slug.toLowerCase())
+            );
+            const same  = ready.filter(r => (r.countryCode || '').toLowerCase() === countryCode);  // countryCode validation
+            const other = ready.filter(r => (r.countryCode || '').toLowerCase() !== countryCode);
+            sugg.innerHTML = '';
+            if (same.length === 0 && other.length === 0) {
+                sugg.innerHTML = `<div class="sugg-loading">${_dscNoResultLabel()}</div>`;
+                return;
+            }
+            // same-country → discovered results (this country)
+            same.slice(0, 6).forEach(r => sugg.appendChild(_dscBuildItem(r, _dscDiscoveredBadge(), false)));
+            // other-country → shown clearly as NOT in this country; click opens its OWN city page (never merged here)
+            other.slice(0, 3).forEach(r => sugg.appendChild(_dscBuildItem(r, _dscOtherCountryBadge(), true)));
+        })
+        .catch(() => { sugg.innerHTML = `<div class="sugg-loading">${_dscErrLabel()}</div>`; });
+}
 
-    Promise.all([
-        fetch(urlQ).then(r => r.json()).catch(() => []),
-        fetch(urlCity).then(r => r.json()).catch(() => [])
-    ]).then(([resQ, resCity]) => {
-        sugg.innerHTML = '';
+function _dscBuildItem(r, badge, isOther) {
+    const div = document.createElement('div');
+    div.className = 'sugg-item' + (isOther ? ' sugg-item--other' : '');
+    const cc = (r.countryCode || '').toLowerCase();
+    const flagImg = cc
+        ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
+        : `<span style="font-size:1.2rem">🌍</span>`;
+    const name    = r.displayName || r.secondaryName || r.slug;   // site-built name — no runtime translation
+    const country = r.countryName || '';
+    div.innerHTML = `${flagImg}<div>
+        <div class="sugg-name">${_dscEsc(name)}</div>
+        <div class="sugg-country">${_dscEsc(country)} · ${_dscEsc(badge)}</div>
+    </div>`;
+    div.addEventListener('click', () => _dscPickPlace(r));
+    return div;
+}
 
-        // دمج مع إزالة التكرار بـ place_id
-        const seen = new Set();
-        let all = [...resQ, ...resCity].filter(p => {
-            if (seen.has(p.place_id)) return false;
-            seen.add(p.place_id); return true;
-        });
-
-        // الأنواع المقبولة
-        const accepted = new Set(['city','town','village','hamlet','municipality','suburb','quarter','neighbourhood']);
-        let results = all.filter(p => accepted.has(p.addresstype));
-
-        // ترتيب: city/town أولاً
-        results.sort((a, b) => {
-            const rank = t => t==='city'?0:['town','municipality'].includes(t)?1:['village','hamlet'].includes(t)?2:3;
-            const tr = rank(a.addresstype) - rank(b.addresstype);
-            return tr !== 0 ? tr : (b.importance||0) - (a.importance||0);
-        });
-
-        // إذا لم توجد نتائج نظيفة، استخدم الكل
-        if (results.length === 0) results = all;
-        results = results.slice(0, 6);
-
-        if (results.length === 0) {
-            const _noRes = (typeof t === 'function')
-                ? t('cities_page.no_results')
-                : (isEn ? 'No results found' : 'لم يُعثر على نتائج');
-            sugg.innerHTML = `<div class="sugg-loading">${_noRes}</div>`;
-            return;
+function _dscPickPlace(r) {
+    closeSuggestions();
+    const _lng = _dscLng();
+    // Persist to Supabase discovered_places via the approved endpoint (best-effort). Mirrors
+    // js/app.js _stOnPick. NEVER writes curated-places.json and never the legacy db/cities-*.json.
+    try {
+        if (r.source && r.source !== 'curated') {
+            const payload = {
+                slug: r.slug, type: r.type || 'city', countryCode: r.countryCode,
+                lat: r.lat, lng: r.lng, timezone: r.timezone,
+                names: Object.assign({},
+                    (r.names && typeof r.names === 'object') ? r.names : {},
+                    r.displayName ? { [_lng]: r.displayName } : {},
+                    r.secondaryName ? { en: r.secondaryName } : {}),
+                aliases: {},
+                admin: { country: r.countryName ? { [_lng]: r.countryName } : {} },
+                source: r.source,
+                nameQuality: r.nameQuality ? { [_lng]: r.nameQuality } : {},
+                originalName: typeof r.originalName === 'string' ? r.originalName : ''
+            };
+            fetch('/api/place-selected', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload), keepalive: true }).catch(() => {});
         }
-
-        const existingNames = new Set(allCities.map(c => c.nameAr));
-
-        results.forEach(place => {
-            const addr = place.address || {};
-            const nd   = place.namedetails || {};
-            const nameAr    = nd['name:ar'] || place.name || addr.city || addr.town || addr.village || place.display_name.split(',')[0];
-            const nameEn    = nd['name:en'] || nd['name:en-US'] || (/^[a-zA-Z\s\-'.]+$/.test(place.name) ? place.name : '') || place.display_name.split(',')[0];
-            const country   = addr.country || getCountryAr();
-            const cc        = (addr.country_code || countryCode).toLowerCase();
-            const isNew     = !existingNames.has(nameAr);
-            const displayName = isEn ? (nameEn || place.name) : nameAr;
-
-            const div = document.createElement('div');
-            div.className = 'sugg-item';
-            const flagImg = cc ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">` : `<span style="font-size:1.2rem">🌍</span>`;
-            div.innerHTML = `${flagImg}<div>
-                <div class="sugg-name">${displayName}</div>
-                <div class="sugg-country">${country}</div>
-            </div>`;
-
-            div.addEventListener('click', async () => {
-                closeSuggestions();
-                document.getElementById('search-input').value = displayName;
-                const slug = makeSlug(nameEn, parseFloat(place.lat), parseFloat(place.lon));
-                const href = pageUrl(`/prayer-times-in-${slug}`);
-                sessionStorage.setItem(`city_${slug}`, JSON.stringify({
-                    lat: parseFloat(place.lat), lng: parseFloat(place.lon),
-                    name: nameAr, country, englishName: nameEn, countryCode: cc
-                }));
-                // إذا مدينة جديدة → احفظها في DB وأزل كاش الجلسة لتظهر فور العودة
-                if (isNew) {
-                    await saveToDb([{ nameAr, nameEn, lat: parseFloat(place.lat), lng: parseFloat(place.lon), type: 'city', pop: null }]);
-                    sessionStorage.removeItem(`session_cities_${countryCode}`);
-                }
-                window.location.href = href;
-            });
-            sugg.appendChild(div);
-        });
-    }).catch(() => {
-        const _errMsg = (typeof t === 'function')
-            ? `${t('cities_page.error')} ${t('cities_page.check_connection')}`
-            : (isEn ? 'Error, check your connection' : 'حدث خطأ، تحقق من الاتصال');
-        sugg.innerHTML = `<div class="sugg-loading">${_errMsg}</div>`;
-    });
+    } catch (_) { /* best-effort */ }
+    // Seed the destination so the city page resolves coords without a curated entry (mirrors _stOnPick).
+    try {
+        const _en = r.secondaryName || (r.names && typeof r.names === 'object' ? r.names.en : '') || r.displayName || r.slug;
+        sessionStorage.setItem('city_' + r.slug, JSON.stringify({
+            lat: r.lat, lng: r.lng, name: (r.displayName || r.slug), country: (r.countryName || ''),
+            englishName: _en, countryCode: (r.countryCode || '').toLowerCase(),
+            timezone: (r.timezone != null ? r.timezone : null), _v: 2
+        }));
+    } catch (_) {}
+    window.location.href = pageUrl('/prayer-times-in-' + r.slug);
 }
 
 // إغلاق الـ dropdown عند الضغط خارجه

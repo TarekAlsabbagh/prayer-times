@@ -12614,52 +12614,31 @@ function renderCountryCities(cities, code) {
     const moreBtn = document.getElementById('more-cities-btn');
     if (!section || !grid) return;
 
-    // استبعاد المدينة الحالية
-    const others = cities.filter(c =>
-        !(Math.abs(c.lat - currentLat) < 0.5 && Math.abs(c.lng - currentLng) < 0.5)
-    );
+    // COUNTRY-PRAYER-PAGE-CITY-SECTION-SEARCH-DISCOVERY-FIX-1 (Part B): اعرض كلّ مدن الدولة من
+    // curated كما هي **بما فيها المدينة الحاليّة** (لا تستبعدها). إقليم بمدينة واحدة (ماكاو)
+    // يعرض بطاقته نفسها بدل empty-state. القسم يُخفى فقط حين لا توجد بيانات إطلاقاً (length===0).
+    // (يَنسخ سلوك SINGLE-CITY-TERRITORY-UX السابق: رسالة single_city_note لم تَعُد تُعرَض.)
+    const displayCities = Array.isArray(cities) ? cities : [];
 
     const langRC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const dispCountryRC = getDisplayCountry();
-    let emptyNote = document.getElementById('country-cities-empty-note');
+    const emptyNote = document.getElementById('country-cities-empty-note');
+    if (emptyNote) emptyNote.style.display = 'none';   // superseded — البطاقة تُعرَض بدلها
 
-    // COUNTRY-PRAYER-PAGE-SINGLE-CITY-TERRITORY-UX-FIX-1:
-    // عندما تكون المدينة الوحيدة للدولة/الإقليم هي نفسها المدينة الحاليّة (إقليم single-city
-    // مثل ماكاو)، تصبح القائمة فارغة بعد استبعاد الحاليّة. بدل إخفاء القسم بصمت، نُظهر رسالة
-    // مترجَمة واضحة (بلا شبكة فارغة، بلا spinner). إن لم تكن هناك بيانات أصلاً (cities=0) نُخفي.
-    if (others.length === 0) {
-        if (cities && cities.length > 0) {
-            section.style.display = 'block';
-            section.classList.remove('u-hidden');
-            title.textContent = t('cities.section_title', { country: dispCountryRC });
-            grid.innerHTML = '';
-            grid.style.display = 'none';
-            if (!emptyNote) {
-                emptyNote = document.createElement('p');
-                emptyNote.id = 'country-cities-empty-note';
-                emptyNote.className = 'cities-empty-note';
-                grid.parentNode.insertBefore(emptyNote, grid.nextSibling);
-            }
-            emptyNote.textContent = t('cities.single_city_note', { country: dispCountryRC });
-            emptyNote.style.display = '';
-            if (moreBtn && moreBtn.parentElement) moreBtn.parentElement.style.display = 'none';
-        } else {
-            section.style.display = 'none';
-        }
-        return;
-    }
-
-    // مسار عادي (≥1 مدينة أخرى) — نُعيد إظهار الشبكة ونُخفي رسالة single-city إن وُجدت
-    if (emptyNote) emptyNote.style.display = 'none';
-    grid.style.display = '';
-    if (moreBtn && moreBtn.parentElement) moreBtn.parentElement.style.display = '';
+    if (displayCities.length === 0) { section.style.display = 'none'; return; }
 
     section.style.display = 'block';
+    section.classList.remove('u-hidden');
+    grid.style.display = '';
     title.textContent = t('cities.section_title', { country: dispCountryRC });
-    if (moreBtn) moreBtn.textContent = t('cities.more_btn_country', { country: dispCountryRC });
+    if (moreBtn) {
+        moreBtn.textContent = t('cities.more_btn_country', { country: dispCountryRC });
+        // أخفِ زرّ «المزيد» حين تَظهر كلّ المدن أصلاً (≤16)
+        if (moreBtn.parentElement) moreBtn.parentElement.style.display = (displayCities.length > 16) ? '' : 'none';
+    }
 
     grid.innerHTML = '';
-    others.slice(0, 16).forEach(city => {
+    displayCities.slice(0, 16).forEach(city => {
         const a = document.createElement('a');
         a.className = 'city-card';
         a.href = buildCityUrl(city.lat, city.lng, city.nameAr, currentCountry, city.nameEn);

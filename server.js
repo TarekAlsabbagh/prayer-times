@@ -1703,6 +1703,23 @@ try {
     console.warn(`[Curated] Failed to load curated-slugs.json: ${e.message}`);
 }
 
+// CHEFCHAOUEN-301-REDIRECT-1 (2026-06-09): source-committed manual redirects for discovered
+// cities promoted to curated under a CLEAN slug (the discovery slug carried a "-{cc}" suffix).
+// Kept HERE — NOT in the GENERATED db/curated-slugs.json — so a future build-curated-sitemap.mjs
+// regeneration can't drop it (chefchaouen-ma is not auto-derivable from the English name). Merged
+// into CURATED_REDIRECTS at boot so the EXISTING Phase-G 301 handler covers ALL route families
+// (prayer-times-in / qibla-in / moon-today-in / moon-in / next-prayer-in / time-left-…) + every
+// lang prefix — with NO change to search / noindex-guard / curated / db-cities. Targeted only:
+// each entry is one explicit old→new pair, so it never opens redirects for other cities.
+const _MANUAL_PROMOTED_REDIRECTS = {
+    'chefchaouen-ma': 'chefchaouen',   // COUNTRY-CITIES-MA-CURATED-EXPANSION-CHEFCHAOUEN-1
+};
+for (const _oldSlug in _MANUAL_PROMOTED_REDIRECTS) {
+    const _to = _MANUAL_PROMOTED_REDIRECTS[_oldSlug];
+    // skip self-redirect (loop guard); never override an existing curated redirect
+    if (_oldSlug !== _to && !CURATED_REDIRECTS[_oldSlug]) CURATED_REDIRECTS[_oldSlug] = _to;
+}
+
 // ===== UAT-3b — Server-side i18n: load TRANSLATIONS from js/i18n.js =====
 // Runs js/i18n.js inside a vm sandbox at boot. Stub document/window/etc so
 // the DOM-touching helpers (setLanguage, etc.) don't throw — we only need

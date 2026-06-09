@@ -128158,5 +128158,26 @@
     "priority": 70,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "chefchaouen",
+    "type": "city",
+    "countryCode": "ma",
+    "lat": 35.1687748,
+    "lng": -5.2683454,
+    "timezone": "Africa/Casablanca",
+    "names": {
+      "ar": "شفشاون",
+      "en": "Chefchaouen",
+      "fr": "Chefchaouen"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المغرب",
+      "countryEn": "Morocco"
+    },
+    "priority": 60,
+    "source": "curated",
+    "verified": true
   }
 ]

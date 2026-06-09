@@ -6655,6 +6655,16 @@ function _getActiveH1Marker(urlPath) {
     // ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04): keep ONLY
     // the zakat hero H1 (#zakat-h1); demote the other ~18 SPA-shell H1s to <h2>.
     if (/^\/zakat-calculator$/.test(path))            return { kind: 'id',   value: 'zakat-h1' };
+    // MSBAHA-H1-SEO-FIX-1 (2026-06-09): /msbaha (المسبحة الإلكترونية) was the ONLY
+    // index.html tool route missing from this map → _getActiveH1Marker returned null
+    // → _downgradeInactiveH1s left ALL ~19 SPA-shell H1s intact (SEOptimer: H1=19),
+    // and the tasbih page's own title was an H2 (0 H1 of its own). Fix: the title is
+    // promoted to a page-level H1 (id=tasbih-h1) in index.html and registered here so
+    // ONLY it is kept and the other ~19 are demoted to H2. The 6 internal section
+    // headings (edu/howto/after/when/related/faq) stay H2, sub-items stay H3 — the
+    // hierarchy was already correct; only the missing page-level H1 is added. No
+    // Title/Meta/FAQ change.
+    if (/^\/msbaha$/.test(path))                      return { kind: 'id',   value: 'tasbih-h1' };
     if (/^\/?$/.test(path))                          return { kind: 'id',   value: 'loc-hero-title' };
     return null;   // route غير معروف — لا تعديل
 }

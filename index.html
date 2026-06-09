@@ -78,8 +78,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=477" as="style">
-    <link rel="stylesheet" href="css/style.css?v=477">
+    <link rel="preload" href="css/style.css?v=478" as="style">
+    <link rel="stylesheet" href="css/style.css?v=478">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -4307,7 +4307,9 @@
             <!-- ===== صفحة المسبحة الإلكترونية ===== -->
             <div class="page" id="page-tasbih">
                 <div class="section-card tasbih-card">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-rosary"/></svg> <span data-i18n="tasbih.title">المسبحة الإلكترونية</span></h2>
+                    <!-- MSBAHA-H1-SEO-FIX-1 (2026-06-09): page-level H1 (was a section heading). Registered in
+                         server.js _getActiveH1Marker so only this stays an H1 per route; styled by .tasbih-card h1. -->
+                    <h1 id="tasbih-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-rosary"/></svg> <span data-i18n="tasbih.title">المسبحة الإلكترونية</span></h1>
 
                     <!-- تابات الوضع -->
                     <div class="tasbih-tabs">

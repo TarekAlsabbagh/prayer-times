@@ -1971,7 +1971,12 @@ html[dir="rtl"] .prayer-progress-fill {
     contain-intrinsic-size: 0 500px;
 }
 
-.section-card h2 {
+/* MSBAHA-H1-SEO-FIX-1 (2026-06-09): .tasbih-card h1 added so the /msbaha page title,
+   promoted from H2 to a single page-level H1 for SEO, looks IDENTICAL to the former
+   section-card heading. On inactive pages the SSR demotes it back to an H2, which still
+   matches .section-card h2 here — so both states render the same. */
+.section-card h2,
+.tasbih-card h1 {
     font-size: 1.2rem;
     color: var(--primary-dark);
     margin-bottom: 16px;
@@ -14394,7 +14399,8 @@ details[open] > .ccs-summary .ccs-chevron { transform: rotate(180deg); }
         margin-bottom: 14px;
         box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
     }
-    .section-card h2 {
+    .section-card h2,
+    .tasbih-card h1 {
         margin-bottom: 12px;
         padding-bottom: 8px;
     }

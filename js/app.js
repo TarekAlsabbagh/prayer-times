@@ -26809,9 +26809,9 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
 
     // COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: core now lives in
     // js/site-search.js (window.SiteSearch) — single source of truth shared with
-    // the country page. These thin wrappers keep the existing wiring intact.
-    function _stRouteFor(targetRoute, slug) { return window.SiteSearch.routeFor(targetRoute, slug); }
-
+    // the country page. This thin wrapper keeps the existing wiring intact.
+    // (SITE-SEARCH-LEGACY-UNUSED-CLEANUP-1: removed the now-orphaned route-builder wrapper —
+    // its only caller was the deleted legacy pick handler; live routing goes through SiteSearch.)
     function _stIsPrayerTimesReady(r) { return window.SiteSearch.isReady(r); }
 
     // Per-suggestions-container state (lastResults + debounce + targetRoute).
@@ -26864,79 +26864,11 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
         box.classList.add('open');
     }
     // COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: pick (persist + seed +
-    // navigate) is now the shared window.SiteSearch.onPick — identical logic,
-    // single source of truth. The legacy body below is retained, unused, behind
-    // an early return purely as in-repo provenance for the persisted-place fix.
+    // navigate) is the shared window.SiteSearch.onPick — identical logic, single
+    // source of truth. (SITE-SEARCH-LEGACY-UNUSED-CLEANUP-1: removed the retained,
+    // never-called legacy provenance copy of this handler — confirmed dead code.)
     function _stOnPick(state, r, LANG) {
         return window.SiteSearch.onPick(r, { targetRoute: state.targetRoute, lang: LANG });
-    }
-    function _stOnPick_legacyUnused(state, r, LANG) {
-        if (!_stIsPrayerTimesReady(r)) return;
-        try {
-            if (r.source && r.source !== 'curated') {
-                const payload = {
-                    slug: r.slug, type: r.type || 'city', countryCode: r.countryCode,
-                    lat: r.lat, lng: r.lng, timezone: r.timezone,
-                    names: Object.assign({},
-                        (r.names && typeof r.names === 'object') ? r.names : {},
-                        r.displayName ? { [LANG]: r.displayName } : {},
-                        r.secondaryName ? { en: r.secondaryName } : {}
-                    ),
-                    aliases: {},
-                    admin: { country: r.countryName ? { [LANG]: r.countryName } : {} },
-                    source: r.source,
-                    nameQuality: r.nameQuality ? { [LANG]: r.nameQuality } : {},
-                    originalName: typeof r.originalName === 'string' ? r.originalName : ''
-                };
-                fetch('/api/place-selected', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload),
-                    keepalive: true
-                }).catch(() => {});
-            }
-        } catch (_) { /* persistence is best-effort */ }
-        // MOON-CITY-SELECTION-PERSISTED-PLACE-FIX-1 (2026-06-05): persist the
-        // FULL selected-city context to sessionStorage BEFORE routing, so the
-        // destination page (and every page navigated to afterwards) reads the
-        // picked city instead of a stale `last_city_context`. Previously this
-        // handler only POSTed to /api/place-selected then did a bare
-        // window.location.href, writing NO client seed — so on /moon-today-in-
-        // {slug} (whose init resolves via the shared 'moon' session key +
-        // last_city_context, NOT __PRAYER_CITY__) the country/globals leaked
-        // from the previous city (e.g. "ماكاو" with country "السعودية"), and
-        // navigating away fell back to Mecca. The prayer-times destination
-        // self-persists, so writing here is idempotent for it; the moon/qibla
-        // destinations do NOT, so this is what fixes them. Schema mirrors
-        // navigateToMoonToday (city_<slug>/city_moon + last_city_context).
-        try {
-            const _cc   = (r.countryCode || '').toLowerCase();
-            const _name = r.displayName || r.slug;
-            const _en   = r.secondaryName
-                       || (r.names && typeof r.names === 'object' ? r.names.en : '')
-                       || r.displayName || r.slug;
-            const _country = r.countryName || '';
-            const _tz   = (r.timezone != null) ? r.timezone : null;
-            const _seed = JSON.stringify({
-                lat: r.lat, lng: r.lng, name: _name, country: _country,
-                englishName: _en, countryCode: _cc, timezone: _tz, _v: 2
-            });
-            const _ctx  = JSON.stringify({
-                lat: r.lat, lng: r.lng, name: _name, country: _country,
-                englishName: _en, countryCode: _cc, timezone: _tz, ts: Date.now()
-            });
-            try { sessionStorage.setItem('city_' + r.slug, _seed); } catch (_e) {}
-            // Shared hub session keys: /moon-today-in-* resolves via 'moon',
-            // /qibla-in-* via 'qibla' (getSlugFromURL returns the literal hub
-            // key for these routes), so seed them too for the matching target.
-            if (state.targetRoute === 'moon-hub') {
-                try { sessionStorage.setItem('city_moon', _seed); } catch (_e) {}
-            } else if (state.targetRoute === 'qibla-hub') {
-                try { sessionStorage.setItem('city_qibla', _seed); } catch (_e) {}
-            }
-            try { sessionStorage.setItem('last_city_context', _ctx); } catch (_e) {}
-        } catch (_) { /* best-effort — never block navigation */ }
-        window.location.href = _stRouteFor(state.targetRoute, r.slug);
     }
     function _stRenderResults(state, results, status, LANG, IS_AR) {
         const box = document.getElementById(state.suggestionsId);

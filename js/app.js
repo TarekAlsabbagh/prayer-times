@@ -22044,7 +22044,11 @@ function updateMoonInfo() {
         if (_citySlug) {
             const _cityNameBC = _moonCityDisplayName(_citySlug) || _citySlug;
             // عند صفحة تاريخ مختلف عن اليوم → نحذف كلمة "اليوم"
-            const _skipTodayBC = (_isDatePage && !_isUrlDateToday()) || _isMonthUrl;
+            // MOON-CITY-BREADCRUMB-LABEL-FIX-1: the CITY rung on dated/month pages is a PARENT
+            //   link to the hub, so it always uses the no-today form "القمر في {city}" (matching
+            //   the SSR), even when the URL date == today. Only the standalone today page
+            //   (/moon-today-in-{city}, _isDatePage=false) keeps "القمر اليوم في {city}".
+            const _skipTodayBC = _isDatePage || _isMonthUrl;
             const _moonCityText = _buildMoonCityText(_cityNameBC, _skipTodayBC);
 
             // أظهِر مستوى الـ Moon: "الرئيسيّة › القمر › القمر في {City}"
@@ -22104,12 +22108,14 @@ function updateMoonInfo() {
                     _bcDate.hidden = false;
                 }
             } else {
-                // المستوى 2 النهائيّ: hub page → just "{city}" per user request,
-                //   today page → "القمر اليوم في {city}" (default _moonCityText).
-                //   UAT-Moon-City-Hub-Polish: shorter breadcrumb on hub.
+                // المستوى 2 النهائيّ:
+                //   hub page  → "القمر في {city}"  (moon.bc_moon_in_city_nodate)
+                //   today page → "القمر اليوم في {city}" (default _moonCityText)
+                // MOON-CITY-BREADCRUMB-LABEL-FIX-1: hub now uses the contextual no-today label
+                //   (was the bare "{city}" from UAT-Moon-City-Hub-Polish) so SSR + client match.
                 const _isHubBC = (typeof _moonIsHubPath === 'function') ? _moonIsHubPath() : false;
                 if (_bcMoon) {
-                    _bcMoon.textContent = _isHubBC ? _cityNameBC : _moonCityText;
+                    _bcMoon.textContent = _isHubBC ? _buildMoonCityText(_cityNameBC, /* skipToday */ true) : _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
                     _markAsCurrentPage(_bcMoon);
                 }

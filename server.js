@@ -10309,10 +10309,20 @@ function buildSeoForPath(urlPath) {
             // - dated page: parent (/moon-in-{slug}) — hub أعلى هرم المدينة
             // - month page (NEW): parent (/moon-in-{slug})
             // - today page: self (/moon-today-in-{slug})
-            const _cityBcHref = (_isMoonHubPage || _isMoonMonthPage || (_moonDateIso && _moonDateInRange))
+            const _cityIsHubFamily = (_isMoonHubPage || _isMoonMonthPage || (_moonDateIso && _moonDateInRange));
+            const _cityBcHref = _cityIsHubFamily
                 ? ('/moon-in-' + citySlug)
                 : ('/moon-today-in-' + citySlug);
-            breadcrumbs.push({ name: cityDisplay, item: origin + (lang === 'ar' ? '' : '/' + lang) + _cityBcHref });
+            // MOON-CITY-BREADCRUMB-LABEL-FIX-1: the city breadcrumb item now carries the
+            // contextual "Moon in {city}" label (was the bare city name on the hub), keeping
+            // SSR + JSON-LD in sync with the client (app.js `_buildMoonCityText`). Mirrors the
+            // EXISTING i18n keys moon.bc_moon_in_city_nodate (hub/month/day) + moon.bc_moon_in_city
+            // (today page) — no new wording. {city} is the localized cityDisplay.
+            const _moonBcNodate = { ar:'القمر في {city}', en:'Moon in {city}', fr:'La Lune à {city}', tr:'{city}’de Ay', ur:'{city} میں چاند', de:'Mond in {city}', id:'Bulan di {city}', es:'La Luna en {city}', bn:'চাঁদ {city}-এ', ms:'Bulan di {city}' };
+            const _moonBcToday  = { ar:'القمر اليوم في {city}', en:'Moon Today in {city}', fr:'La Lune aujourd’hui à {city}', tr:'Bugün {city}’de Ay', ur:'آج {city} میں چاند', de:'Mond heute in {city}', id:'Bulan Hari Ini di {city}', es:'La Luna hoy en {city}', bn:'আজকের চাঁদ {city}-এ', ms:'Bulan Hari Ini di {city}' };
+            const _moonBcDict = _cityIsHubFamily ? _moonBcNodate : _moonBcToday;
+            const _moonCityBcName = (_moonBcDict[lang] || _moonBcDict.en).replace('{city}', cityDisplay);
+            breadcrumbs.push({ name: _moonCityBcName, item: origin + (lang === 'ar' ? '' : '/' + lang) + _cityBcHref });
             // ── UAT-Moon-Hub-Month: insert {MonthName Year} rung between city and day ──
             //   on month pages: rung is the current page (no further levels).
             //   on day pages: rung links to its parent month page /moon-in-{slug}/YYYY-MM.

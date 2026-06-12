@@ -669,6 +669,19 @@ const _LOCALIZED_COUNTRY_MAPS = {
     de: COUNTRY_NAMES_DE, id: COUNTRY_NAMES_ID,
     bn: COUNTRY_NAMES_BN, es: COUNTRY_NAMES_ES, ms: COUNTRY_NAMES_MS,
 };
+// PALESTINE-DISPLAY-NORMALIZATION-FIX-1: client mirror of server/place-display-normalize.js.
+// A directly-visited city page whose country resolves to Israel (`il`) — i.e. one not coming
+// through the already-normalized /api/search-place — must STILL be shown as Palestine. Display
+// only: cc il→ps + country name → فلسطين/Palestine. Coordinates / timezone / calc untouched.
+const _PALESTINE_DISPLAY = {
+    ar: 'فلسطين', en: 'Palestine', fr: 'Palestine', tr: 'Filistin', ur: 'فلسطین',
+    de: 'Palästina', id: 'Palestina', es: 'Palestina', bn: 'ফিলিস্তিন', ms: 'Palestin'
+};
+function _isIlCc(cc) { return String(cc || '').trim().toLowerCase() === 'il'; }
+function _palestineName(lang) {
+    const l = String(lang || 'ar').toLowerCase();
+    return _PALESTINE_DISPLAY[l] || _PALESTINE_DISPLAY.en;
+}
 const _LOCALIZED_CITY_MAPS = {
     ur: CITY_NAMES_UR, tr: CITY_NAMES_TR, fr: CITY_NAMES_FR,
     de: CITY_NAMES_DE, id: CITY_NAMES_ID,
@@ -987,6 +1000,9 @@ function _countryNameFromCode(cc, lang) {
 function getDisplayCountry() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _cc = (currentCountryCode || '').toLowerCase();
+    // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: an il-sourced city is shown as Palestine in every
+    // language (covers prayer/moon/qibla/zakat/tasbih — anything reading the country label).
+    if (_isIlCc(_cc)) return _palestineName(lang);
     if (lang === 'ar') {
         // Prefer the canonical/full Arabic country name from the country-code
         //   lookup. Without this, lsb_detected (saved from Nominatim's Arabic
@@ -14772,7 +14788,16 @@ async function updateCityCountryInfo() {
     const section = document.getElementById('city-country-info-section');
     if (!section) return;
 
-    const cc = (currentCountryCode || '').toLowerCase();
+    let cc = (currentCountryCode || '').toLowerCase();
+    // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: a directly-visited il city hero must show Palestine —
+    // cc→ps (so the flag renders 🇵🇸) + country-name display vars → فلسطين/Palestine. The city's
+    // coordinates, timezone and prayer-time calculation are NOT touched.
+    if (_isIlCc(cc)) {
+        cc = 'ps';
+        const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        currentCountry = _palestineName(_ln);
+        currentEnglishCountry = 'Palestine';
+    }
     const info = COUNTRY_INFO_DB[cc];
 
     // ===== أسماء الدول بالعربية (مفهرسة بكود ISO) =====

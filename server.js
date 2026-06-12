@@ -179,6 +179,11 @@ const _pickLocalizedDisplayQ        = _placeL10n.pickLocalizedDisplayQ;
 const _extractNamedetailsByLang     = _placeL10n.extractNamedetailsByLang;
 const _transliterateLatinToArabic   = _placeL10n.transliterateLatinToArabic;
 
+// PALESTINE-DISPLAY-NORMALIZATION-FIX-1: central display normalizer — any place
+// resolving to Israel (`il`) is SHOWN as Palestine (cc→ps, name, 🇵🇸) across every
+// search source + before persistence. Display/label only — never touches geo/calc.
+const _placeDisplay = require('./server/place-display-normalize');
+
 // Cached `Intl.DisplayNames` instances per lang — avoid recreating on
 // every request (Intl.DisplayNames construction is non-trivial).
 const _COUNTRY_DN_CACHE = {};
@@ -371,7 +376,11 @@ function _searchCuratedPlaces(query, lang) {
         });
     }
     scored.sort((a, b) => b._sort - a._sort);
-    return scored.slice(0, 10).map(({ _sort, ...rest }) => rest);
+    // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: ensure Palestine shows as Palestine (clean
+    // name for all 10 langs); curated has 0 `il` entries so this only polishes `ps`.
+    // NOTE: the loop-local `code` is out of scope here — recompute the lang.
+    const _lang = String(lang || 'ar').toLowerCase();
+    return scored.slice(0, 10).map(({ _sort, ...rest }) => _placeDisplay.normalizeResultDisplay(rest, _lang));
 }
 
 // ═══ GLOBAL-PLACE-SEARCH-TEST-PAGE-B (2026-05-12): external fallback ═══
@@ -574,7 +583,7 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
     ).trim();
 
     const resolvedType = _resolveExternalType(p);
-    return {
+    const _extResult = {
         slug,
         type: resolvedType,
         // SEARCH-UI-1: per-lang type label + emoji flag for /search-test
@@ -599,6 +608,8 @@ function _normalizeExternalPlace(p, lang, takenSlugs) {
         // can promote 'transliterated' → 'official' over time.
         nameQuality
     };
+    // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: an il city (Tel Aviv/Nazareth/…) is shown as Palestine.
+    return _placeDisplay.normalizeResultDisplay(_extResult, code);
 }
 
 // ═══ GLOBAL-PLACE-SEARCH-NOMINATIM-CACHE-1 (2026-05-13) ═════════════════════
@@ -1329,7 +1340,7 @@ function _mapDiscoveredRow(row, lang) {
     if (!countryName) countryName = _getCountryName(row.country_code, code);
     if (!countryName) return null;
     const rowType = row.type || 'city';
-    return {
+    const _discResult = {
         slug: row.slug,
         type: rowType,
         // SEARCH-UI-1: per-lang type label + emoji flag for /search-test
@@ -1353,6 +1364,8 @@ function _mapDiscoveredRow(row, lang) {
         // L10N-PIPELINE: live-computed quality from the stored names map.
         nameQuality
     };
+    // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: a discovered il row is shown as Palestine.
+    return _placeDisplay.normalizeResultDisplay(_discResult, code);
 }
 
 async function _searchDiscoveredPlaces(query, lang) {
@@ -25307,7 +25320,10 @@ const server = http.createServer(async (req, res) => {
             if (killed) return;
             (async () => {
                 try {
-                    const place = JSON.parse(body || '{}');
+                    let place = JSON.parse(body || '{}');
+                    // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: never persist an Israel identity —
+                    // il→ps (+ admin.country→Palestine) before validate/upsert. Geo/tz untouched.
+                    place = _placeDisplay.normalizeStorePayload(place);
                     if (!_isValidDiscoveredInput(place)) {
                         res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
                         res.end('{"ok":false,"error":"invalid"}');

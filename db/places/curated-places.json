@@ -128179,5 +128179,45 @@
     "priority": 60,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "uray-irah",
+    "type": "village",
+    "countryCode": "sa",
+    "lat": 25.977396,
+    "lng": 48.8687799,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "عريعرة",
+      "en": "Uray‘irah"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia"
+    },
+    "priority": 30,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "al-ajfar",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 27.4725,
+    "lng": 42.998889,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "الأجفر",
+      "en": "Al Ajfar"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia"
+    },
+    "priority": 30,
+    "source": "curated",
+    "verified": true
   }
 ]

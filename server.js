@@ -171,6 +171,8 @@ function _normSearchText(s) {
 // `_mapDiscoveredRow` admin-country fallback). Moving it would force a
 // wider refactor than this phase's scope.
 const _placeL10n = require('./server/place-l10n');
+// DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1: pure merge/dedup helpers for /api/search-place.
+const _searchMerge = require('./server/search-merge');
 const _SUPPORTED_LANGS              = _placeL10n.SUPPORTED_LANGS;
 const _pickLocalizedDisplay         = _placeL10n.pickLocalizedDisplay;
 const _pickLocalizedDisplayQ        = _placeL10n.pickLocalizedDisplayQ;
@@ -24987,17 +24989,26 @@ const server = http.createServer(async (req, res) => {
                 // PHASE A — curated first (always synchronous, instant).
                 let results = _searchCuratedPlaces(q, lang);
                 if (results.length > 0) { source = 'curated'; status = 'ok'; }
-                // PHASE C — when curated returns 0, try the discovered_places
-                // store in Supabase. Already-clicked external cities live
-                // here and resolve faster than re-querying Nominatim. Gated
-                // on SUPABASE_URL + SUPABASE_SERVICE_ROLE_KEY env vars.
-                if (results.length === 0 && q.length >= 1 && _SUPABASE_ENABLED) {
+                // PHASE C — discovered_places (Supabase). DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1
+                // (2026-06-12): was queried ONLY when curated returned 0, which hid a discovered
+                // city behind ANY curated same-name result — even a homonym in a DIFFERENT country
+                // (kenitra/MA hid al-quneitra/SY for «القنيطرة»). Now query it whenever there is
+                // still room (curated < cap) and MERGE + dedup: a discovered place already curated
+                // in the SAME country is dropped (chefchaouen-ma when chefchaouen is curated), but a
+                // same-name place in a DIFFERENT country is kept. Curated stays first, in order.
+                if (results.length < 10 && q.length >= 1 && _SUPABASE_ENABLED) {
                     try {
                         const discovered = await _searchDiscoveredPlaces(q, lang);
                         if (Array.isArray(discovered) && discovered.length > 0) {
-                            results = discovered;
-                            source = 'discovered';
-                            status = 'ok';
+                            const merged = _searchMerge.mergeCuratedDiscovered(results, discovered, {
+                                cap: 10, findCuratedBySlug: _findPlaceBySlug
+                            });
+                            if (merged.length > results.length) {
+                                if (results.length === 0) source = 'discovered';   // only discovered contributed
+                                // else keep source='curated' (curated + merged discovered) — client-compat
+                                status = 'ok';
+                                results = merged;
+                            }
                         }
                     } catch (_) { /* fall through */ }
                 }

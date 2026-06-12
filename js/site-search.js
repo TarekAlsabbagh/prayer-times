@@ -162,7 +162,10 @@
             }
             try { sessionStorage.setItem('last_city_context', _ctx); } catch (_e) {}
         } catch (_) { /* best-effort — never block navigation */ }
-        window.location.href = routeFor(targetRoute, r.slug);
+        // navigate defaults to true; opts.navigate === false runs persist+seed WITHOUT routing
+        // (used by the country grid-injection so the picked discovered city is added to the
+        // page's grid in place instead of leaving the country page).
+        if (opts.navigate !== false) window.location.href = routeFor(targetRoute, r.slug);
     }
 
     // Default dropdown renderer — the /search-test <button class="search-test-result">
@@ -234,6 +237,24 @@
         function resolveExisting() {
             return (typeof opts.existingSlugs === 'function') ? opts.existingSlugs() : (opts.existingSlugs || null);
         }
+        // Resolve a pick. A caller-supplied opts.onPick(r, ctx) may intercept — e.g. the
+        // country grid injects the picked discovered city into the page instead of navigating.
+        // ctx.defaultPick(extra) runs the standard persist+seed+navigate; pass {navigate:false}
+        // to persist+seed WITHOUT navigating. No opts.onPick → standard behavior (unchanged).
+        function doPick(r, LANG) {
+            LANG = LANG || pickLang();
+            if (typeof opts.onPick === 'function') {
+                opts.onPick(r, {
+                    targetRoute: opts.targetRoute,
+                    lang: LANG,
+                    defaultPick: function (extra) {
+                        onPick(r, Object.assign({ targetRoute: opts.targetRoute, lang: LANG }, extra || {}));
+                    }
+                });
+                return;
+            }
+            onPick(r, { targetRoute: opts.targetRoute, lang: LANG });
+        }
         function hide() {
             lastResults = [];
             if (opts.onHide) { opts.onHide(box()); return; }
@@ -256,7 +277,7 @@
                     if (opts.onEmpty && bb) opts.onEmpty(bb, data.status, !!scope);
                     return;
                 }
-                render(bb, filtered, function (r) { onPick(r, { targetRoute: opts.targetRoute, lang: LANG }); });
+                render(bb, filtered, function (r) { doPick(r, LANG); });
             });
         }
         function search(q) {
@@ -267,7 +288,7 @@
         }
         function onEnter() {
             if (lastResults && lastResults[0]) {
-                onPick(lastResults[0], { targetRoute: opts.targetRoute, lang: pickLang() });
+                doPick(lastResults[0], pickLang());
             }
         }
         return { search: search, onEnter: onEnter, hide: hide, getResults: function () { return lastResults; } };

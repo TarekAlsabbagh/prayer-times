@@ -87,6 +87,10 @@
         /* مدن جديدة من Nominatim — لم تُحفظ بعد */
         .city-link-new { border-color: var(--gold, #c8a84e); }
         .city-link-new:hover { border-color: var(--gold, #c8a84e); }
+        /* DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1 — مدينة مكتشَفة أُضيفت للشبكة مؤقّتًا (UI فقط، غير
+           مُعتمَدة بعد). تمييز خفيف بحدّ متقطّع بلا شارة مزعجة، ولا تبدو رسميّة؛ بنفس شكل بقيّة البطاقات. */
+        .city-link[data-source="discovered"] { border-style: dashed; border-color: var(--border, #d6d6d6); }
+        .city-link[data-source="discovered"]:hover { border-style: solid; border-color: var(--primary); }
 
         /* ===== تحميل / فارغ ===== */
         .status-msg {
@@ -432,7 +436,7 @@
 <script src="js/i18n.js?v=199"></script>
 <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search pipeline (same window.SiteSearch
      module as the homepage). Non-defer → available to the inline scripts below at parse time. -->
-<script src="js/site-search.js?v=1"></script>
+<script src="js/site-search.js?v=2"></script>
 <script defer src="js/footer-cookie.js?v=4"></script>
 <script>
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
@@ -1654,6 +1658,11 @@ function _gridSearch() {
             inputId: 'country-city-filter', boxId: 'cities-container', targetRoute: 'prayer-times',
             countryScope: () => countryCode, existingSlugs: _existingCountrySlugs, debounceMs: 300, max: 8,
             render: _gridSearchRender,
+            // DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1 (grid-injection): picking a same-country
+            // discovered result logs /api/place-selected + seeds sessionStorage (defaultPick with
+            // navigate:false) then ADDS the city to THIS page's grid in place — UI-only, no curated
+            // write, no leaving the country page. The injected card links to the city page.
+            onPick: (r, ctx) => { if (ctx && typeof ctx.defaultPick === 'function') ctx.defaultPick({ navigate: false }); _addDiscoveredCityToGrid(r); },
             onLoading: box => { const p = document.getElementById('pagination'); if (p) p.style.display = 'none'; box.innerHTML = `<div class="status-msg">${_dscSearchingLabel()}</div>`; },
             onEmpty: box => { box.innerHTML = `<div class="status-msg">${_dscNoResultInCountryLabel()}</div>`; },
             onHide: () => {}   // clearing the grid box is handled by onCountryCityFilter → renderGrid
@@ -1673,6 +1682,55 @@ function _heroSearch() {
         });
     }
     return _heroSearchInst || _noopSearchBox;
+}
+
+// DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1 (grid-injection): add a picked same-country
+// discovered city to THIS page's grid as a temporary, UI-only card (data-source="discovered").
+// NO write to curated / db/cities — the entry lives in the in-memory `allCities` for this session
+// only (a reload rebuilds `allCities` from the curated list and the temporary card disappears).
+// Promotion to curated remains a separate review/promote ticket. The injected card is the SAME
+// shape as the other grid cards (renderGrid renders it) and links to /prayer-times-in-{slug}.
+function _addDiscoveredCityToGrid(r) {
+    if (!r || !r.slug) return;
+    const slug = String(r.slug).toLowerCase();
+    const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    let city = (Array.isArray(allCities) ? allCities : []).find(c => (c.slug || '').toLowerCase() === slug);
+    if (!city) {
+        const nm   = (r.names && typeof r.names === 'object') ? Object.assign({}, r.names) : {};
+        const disp = r.displayName || nm[_lng] || nm.ar || r.slug;
+        const en   = r.secondaryName || nm.en || r.displayName || r.slug;
+        if (!nm[_lng]) nm[_lng] = disp;
+        if (!nm.ar)    nm.ar = (_lng === 'ar') ? disp : (nm.ar || disp);
+        if (!nm.en)    nm.en = en;
+        city = {
+            slug: r.slug, names: nm,
+            nameAr: nm.ar || disp, nameEn: en,
+            lat: r.lat, lng: r.lng,
+            timezone: (r.timezone != null) ? r.timezone : undefined,
+            _discovered: true
+        };
+        allCities.push(city);
+    }
+    // Show the augmented grid with the picked city visible: re-filter the (now-augmented) list
+    // by the current query so the just-added city renders as a normal grid card; fall back to
+    // showing it alone if it somehow does not match locally. Empty query → full grid.
+    const inp = document.getElementById('country-city-filter');
+    const q = (inp ? inp.value : '').trim();
+    if (q) {
+        const qNorm = normalizeAr(q), qLow = q.toLowerCase();
+        filtered = allCities.filter(c => {
+            const cnm = c.names || {}, loc = cnm[_lng] || '';
+            return normalizeAr(c.nameAr).includes(qNorm) ||
+                   (c.nameEn || '').toLowerCase().includes(qLow) ||
+                   (loc && (loc.includes(q) || loc.toLowerCase().includes(qLow) || normalizeAr(loc).includes(qNorm))) ||
+                   (c.slug || '').toLowerCase().includes(qLow);
+        });
+        if (!filtered.some(c => (c.slug || '').toLowerCase() === slug)) filtered = [city];
+    } else {
+        filtered = [...allCities];
+    }
+    currentPage = 1;
+    renderGrid();
 }
 
 // إغلاق الـ dropdown عند الضغط خارجه
@@ -1830,6 +1888,9 @@ function renderGrid() {
         const cardSub = (_lngCard === 'ar') ? (((city.names && city.names.en) || city.nameEn) || '') : '';
         a.className = 'city-link' + (city._new ? ' city-link-new' : '');
         a.href = href;
+        // DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1: mark UI-injected discovered cities (no loud
+        // badge — a subtle dashed accent in CSS); same card shape/label as curated grid cards.
+        if (city._discovered) a.setAttribute('data-source', 'discovered');
         a.innerHTML = `${cardLabel}<span class="city-type">${cardSub}${city._new ? ' ✦' : ''}</span>`;
         a.addEventListener('click', e => {
             e.preventDefault();

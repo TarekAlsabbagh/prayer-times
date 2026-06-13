@@ -18266,43 +18266,6 @@ function updateMoonInfo() {
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════
-    //  MOONRISE-AFTER-MIDNIGHT-CLARITY-1 (2026-06-13)
-    //  Sub-note under the moonrise value: clarifies that an after-midnight
-    //  moonrise (city-local hour 0–5) belongs to THIS day, not the next — so a
-    //  visitor at Fajr does not read "03:26 ص" as tomorrow's rise. Mirrors the
-    //  #moon-set-note pattern. Scope: ONLY #moon-rise-note text + visibility;
-    //  the moonrise VALUE (#moon-rise) and MoonCalc computation are untouched.
-    //  Gated on `_tz` (city/today/dated moon pages only; hidden on the homepage
-    //  widget and in SSR — the element ships `hidden`).
-    // ═══════════════════════════════════════════════════════════════════════
-    const _riseNoteEl = document.getElementById('moon-rise-note');
-    if (_riseNoteEl) {
-        let _showRiseNote = false;
-        try {
-            if ((moonTimes.riseTime instanceof Date) && _tz) {
-                const _riseHour = parseInt(new Intl.DateTimeFormat('en-GB', {
-                    timeZone: _tz, hour: '2-digit', hour12: false
-                }).format(moonTimes.riseTime), 10);
-                // Option A — after-midnight pre-dawn window [00:00, 05:59].
-                _showRiseNote = Number.isFinite(_riseHour) && _riseHour >= 0 && _riseHour <= 5;
-            }
-        } catch (_e) { _showRiseNote = false; }
-        if (_showRiseNote && typeof t === 'function') {
-            const _riseNoteTxt = t('moon.moonrise_after_midnight_note');
-            if (_riseNoteTxt && _riseNoteTxt !== 'moon.moonrise_after_midnight_note') {
-                _riseNoteEl.textContent = _riseNoteTxt;
-                _riseNoteEl.hidden = false;
-            } else {
-                _riseNoteEl.textContent = '';
-                _riseNoteEl.hidden = true;
-            }
-        } else {
-            _riseNoteEl.textContent = '';
-            _riseNoteEl.hidden = true;
-        }
-    }
-
     // ── ملاحظة المنطقة الزمنيّة — تظهر فقط في صفحات المدن المحدّدة ────────
     // الهدف: إبلاغ المستخدم أنّ أوقات المطلع/المغيب/الجدول بتوقيت المدينة
     // المختارة، حتّى لو كان هو في منطقة زمنيّة مختلفة.

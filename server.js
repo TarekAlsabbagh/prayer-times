@@ -3280,6 +3280,22 @@ function _resolveCityName(slug, lang) {
     };
     let resolved = _try(slug);
     if (resolved) return resolved;
+    // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13): after curated +
+    // legacy-DB miss, consult the discovered layer (prefetched into
+    // _DISCOVERED_SSR_CACHE by the async request handler). Use the discovered
+    // name ONLY when the requested lang has a script-acceptable NATIVE value
+    // (getLocalizedPlaceName().hasNativeName) — so an Arabic/Urdu/Bengali page
+    // never inherits a Latin names.en fallback (NEEDS_AR_NAME: those keep the
+    // existing AR-safety-net / _slugToTitle path below, which stays noindex).
+    // The name comes VERBATIM from discovered_places.names[lang] — no runtime
+    // translation, no transliteration.
+    try {
+        const _disc = _getDiscoveredSsrEntry(slug);
+        if (_disc) {
+            const _r = _placeL10n.getLocalizedPlaceName(_disc, lang);
+            if (_r && _r.hasNativeName && _r.displayName) return _r.displayName;
+        }
+    } catch (_) { /* fall through to legacy/AR-safety resolvers */ }
     // Fallback: جرّب نزع بادئة "ال" العربيّة (at-/al-/ad-/an-/...) — يُغطّي أسماء OSM/Wikipedia
     if (_ARAB_ARTICLE_PREFIX_RE.test(slug)) {
         const stripped = slug.replace(_ARAB_ARTICLE_PREFIX_RE, '');
@@ -3330,6 +3346,91 @@ function _findPlaceBySlug(slug) {
     if (!slug || typeof slug !== 'string') return null;
     const _e = _CURATED_SLUG_INDEX[slug];
     return _e || null;
+}
+
+// ═══ DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13) ═══════════════════
+// SSR-side, slug-keyed cache of discovered_places rows so the SYNCHRONOUS SEO
+// builder (buildSeoForPath → _resolveCityName → SSR title/meta/H1/breadcrumb/
+// JSON-LD) can render a discovered city's native names[lang] WITHOUT an async
+// call in the hot path. The async request handler calls `_prefetchDiscoveredForSsr`
+// (awaited) BEFORE serveHtmlWithSeo; the sync resolver then reads the cache.
+//
+// Why a cache (not a direct lookup): buildSeoForPath is synchronous and called
+// from many positions; Supabase reads are async. Prefetch-once-per-request + a
+// short TTL keeps Supabase load low (curated pages never touch it; repeated
+// discovered renders hit the cache). Negative results are cached too
+// (entry:null) so an unknown slug doesn't re-hit Supabase on every render.
+//
+// The NEEDS_AR_NAME / no-runtime-translation policy lives on the READ side
+// (_resolveCityName): the discovered name is used ONLY when the requested lang
+// has a script-acceptable NATIVE value, so a Latin names.en never leaks into an
+// Arabic/Urdu/Bengali page. Curated resolution + the noindex guard are unchanged
+// (discovered pages stay noindex,follow — this fix only corrects the NAME).
+const _DISCOVERED_SSR_CACHE = new Map();          // slug → { entry|null, expires }
+const _DISCOVERED_SSR_TTL_MS = 5 * 60 * 1000;     // 5 min
+const _DISCOVERED_SSR_CACHE_MAX = 500;            // bound memory (drop-oldest)
+// TEST SEAM — inert in production. Only consulted when Supabase is DISABLED and
+// the DISCOVERED_SSR_TEST_FIXTURE env var points to a JSON map { slug: row }.
+// Lets the local smoke test exercise the discovered SSR path without a live
+// Supabase. In production _SUPABASE_ENABLED is true, so this is never read.
+const _DISCOVERED_SSR_TEST_ROWS = (() => {
+    const _p = process.env.DISCOVERED_SSR_TEST_FIXTURE;
+    if (!_p) return null;
+    try { return JSON.parse(require('fs').readFileSync(_p, 'utf8')); } catch (_) { return null; }
+})();
+
+// Synchronous read — used by _resolveCityName (and the __PRAYER_CITY__ seed block).
+function _getDiscoveredSsrEntry(slug) {
+    if (!slug) return null;
+    const hit = _DISCOVERED_SSR_CACHE.get(slug);
+    if (!hit) return null;
+    if (hit.expires < Date.now()) { _DISCOVERED_SSR_CACHE.delete(slug); return null; }
+    return hit.entry || null;
+}
+
+// Async prefetch — awaited by the request handler before serveHtmlWithSeo.
+// No-op unless `urlPath` is a bare city route (4 families, optional lang prefix,
+// no coord/date suffix) whose slug is NOT curated. Never throws.
+async function _prefetchDiscoveredForSsr(urlPath) {
+    if (!urlPath) return;
+    const core = String(urlPath).replace(/\.html$/, '');
+    const m = core.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-([a-z][a-z0-9-]+)$/);
+    if (!m) return;
+    const slug = m[1];
+    if (_findPlaceBySlug(slug)) return;                        // curated → existing path handles it
+    const cached = _DISCOVERED_SSR_CACHE.get(slug);
+    if (cached && cached.expires >= Date.now()) return;        // fresh (incl. negative)
+    let entry = null;
+    try {
+        let row = null;
+        if (_SUPABASE_ENABLED) {
+            const resp = await _supabaseFetch(
+                '/rest/v1/discovered_places?slug=eq.' + encodeURIComponent(slug) + '&limit=1',
+                { method: 'GET' }
+            );
+            if (resp && resp.ok && Array.isArray(resp.data) && resp.data.length === 1) row = resp.data[0];
+        } else if (_DISCOVERED_SSR_TEST_ROWS) {
+            row = _DISCOVERED_SSR_TEST_ROWS[slug] || null;     // test seam (see above)
+        }
+        if (row) {
+            entry = {
+                slug:        row.slug,
+                lat:         Number(row.lat),
+                lng:         Number(row.lng),
+                timezone:    row.timezone,
+                countryCode: row.country_code,
+                type:        row.type || 'city',
+                names:       (row.names   && typeof row.names   === 'object') ? row.names   : {},
+                aliases:     (row.aliases && typeof row.aliases === 'object') ? row.aliases : {},
+                admin:       (row.admin   && typeof row.admin   === 'object') ? row.admin   : {}
+            };
+        }
+    } catch (_) { entry = null; }
+    if (_DISCOVERED_SSR_CACHE.size >= _DISCOVERED_SSR_CACHE_MAX) {
+        const k = _DISCOVERED_SSR_CACHE.keys().next().value;
+        if (k !== undefined) _DISCOVERED_SSR_CACHE.delete(k);
+    }
+    _DISCOVERED_SSR_CACHE.set(slug, { entry, expires: Date.now() + _DISCOVERED_SSR_TTL_MS });
 }
 
 // Pick a curated entry's localized name for `lang`. Walks the same
@@ -22021,9 +22122,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 // (/moon-in-{slug}/{date}) inherit from sessionStorage.
                 const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+$/.test(urlPath.replace(/\.html$/, ''));
                 if (_bareCityRoute && typeof _findPlaceBySlug === 'function') {
-                    const _curatedEntry = _findPlaceBySlug(_ssrCitySlug);
-                    if (_curatedEntry) {
-                        const _placeData = _buildSlugLookupResult(_curatedEntry, seo.lang, 'curated');
+                    // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13):
+                    // seed curated FIRST (unchanged), else a prefetched discovered
+                    // entry — but ONLY when the page lang has a script-acceptable
+                    // native name (same NEEDS_AR_NAME guard as _resolveCityName) so
+                    // we never paint a Latin names.en fallback into an Arabic/Urdu/
+                    // Bengali hero (#city-name/#bc-city). The noindex guard is
+                    // independent — discovered pages stay noindex,follow.
+                    let _seedEntry = _findPlaceBySlug(_ssrCitySlug);
+                    let _seedSource = 'curated';
+                    if (!_seedEntry && typeof _getDiscoveredSsrEntry === 'function') {
+                        const _discSeed = _getDiscoveredSsrEntry(_ssrCitySlug);
+                        if (_discSeed && _placeL10n.getLocalizedPlaceName(_discSeed, seo.lang).hasNativeName) {
+                            _seedEntry = _discSeed; _seedSource = 'discovered';
+                        }
+                    }
+                    if (_seedEntry) {
+                        const _placeData = _buildSlugLookupResult(_seedEntry, seo.lang, _seedSource);
                         if (_placeData && _placeData.name && _placeData.country) {
                             const _cityEsc    = _escHtml(_placeData.name);
                             const _countryEsc = _escHtml(_placeData.country);
@@ -22061,7 +22176,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                             // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: prehydrate this
                             // city's country curated cities so the "cities in country" section
                             // renders instantly (no /api/cities fetch, no idle delay).
-                            const _ccTag2 = _countryCitiesScriptTag(_curatedEntry.countryCode);
+                            const _ccTag2 = _countryCitiesScriptTag(_seedEntry.countryCode);
                             if (_ccTag2 && html.indexOf('id="country-cities-data"') === -1) {
                                 html = html.replace('</head>', _ccTag2 + '\n</head>');
                             }
@@ -24061,6 +24176,14 @@ const server = http.createServer(async (req, res) => {
         res.end(); return;
     }
     if (urlPath === '/') urlPath = '/index.html';
+
+    // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13): for a non-curated
+    // city route, prefetch the discovered_places row into the SSR cache so the
+    // synchronous SEO builder (buildSeoForPath → _resolveCityName) renders the
+    // city's native names[lang] instead of the Latin slug. No-op for curated
+    // routes, non-city routes, and when Supabase is disabled; wrapped so a slow
+    // or failed Supabase read never blocks or breaks the response.
+    try { await _prefetchDiscoveredForSsr(urlPath); } catch (_) { /* never block the response */ }
 
     // ===== Phase E1-b (2026-05-01): legacy-alias redirects FIRST =====
     //   Order matters: these match `/{path}/?$` (with optional trailing slash)

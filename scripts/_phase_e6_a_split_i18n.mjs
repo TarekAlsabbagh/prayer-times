@@ -80,6 +80,17 @@ if (translationsStart === -1 || translationsEnd === -1) {
 if (autoGenStart === -1 || autoGenEnd === -1) {
     throw new Error('Could not locate _autoGenPatternedAttrs IIFE');
 }
+// HOME-I18N-CONTENT-FLICKER-FIX-1 (2026-06-13): the module.exports boundary is
+// now load-bearing. js/i18n.js accumulated per-lang TRANSLATIONS['xx']['key']=…
+// overrides AFTER the autoGen IIFE (zakat/azkar/tasbih content keys added since
+// the 2026-05-03 split). Those MUST be routed into the per-lang bundles (they
+// reference TRANSLATIONS['xx'] which only exists after the lang file runs), NOT
+// dumped into i18n-core.js verbatim — doing so threw "TRANSLATIONS is not
+// defined" at core load and broke all i18n. We now collect overrides up to
+// moduleExportStart and start the core's post-section AT moduleExportStart.
+if (moduleExportStart === -1) {
+    throw new Error('Could not locate module.exports boundary (load-bearing for override routing)');
+}
 
 console.log(`📍 Boundaries detected:`);
 console.log(`   TRANSLATIONS:    line ${translationsStart + 1} → ${translationsEnd + 1}`);
@@ -134,8 +145,13 @@ if (foundLangs.length !== 10) {
 // and autoGen IIFE: lines like  TRANSLATIONS['en']['flag.alt_pattern'] = '...';
 // ─────────────────────────────────────────────────────────────────────────────
 
+// HOME-I18N-CONTENT-FLICKER-FIX-1: scan BOTH pre-IIFE overrides (flag/tile
+// patterns, between TRANSLATIONS close and the autoGen IIFE) AND post-IIFE
+// overrides (zakat/azkar/… content keys, between the IIFE and module.exports).
+// The `^TRANSLATIONS['xx'][` regex naturally skips the indented IIFE body, so a
+// single sweep up to moduleExportStart captures every per-lang override line.
 const langOverrides = Object.fromEntries(LANGS.map(l => [l, []]));
-for (let i = translationsEnd + 1; i < autoGenStart; i++) {
+for (let i = translationsEnd + 1; i < moduleExportStart; i++) {
     const m = lines[i].match(/^TRANSLATIONS\[['"]([a-z]{2})['"]\]/);
     if (m && LANGS.includes(m[1])) {
         langOverrides[m[1]].push(lines[i]);
@@ -236,9 +252,13 @@ for (const lang of LANGS) {
 //      toggleLangMenu(), and any DOMContentLoaded / event listeners.
 // ─────────────────────────────────────────────────────────────────────────────
 
-// Extract everything AFTER the autoGen IIFE end (line autoGenEnd+1 onwards).
-// This includes module.exports + all functions + initial _lang detection.
-const postAutoGen = lines.slice(autoGenEnd + 1).join('\n');
+// HOME-I18N-CONTENT-FLICKER-FIX-1: start at moduleExportStart (NOT autoGenEnd+1)
+// so the per-lang TRANSLATIONS['xx'] override block between the IIFE and
+// module.exports is EXCLUDED from core (it was routed into the lang bundles
+// above). Core keeps only module.exports + all functions + initial _lang
+// detection. The override region is verified to contain no executable code
+// other than overrides/comments/blanks, so nothing core needs is dropped.
+const postAutoGen = lines.slice(moduleExportStart).join('\n');
 
 // Build the refactored autoGen function — same logic but parameterized by lang.
 const initI18nAutoGenFn = `

@@ -128219,5 +128219,25 @@
     "priority": 30,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "khams-djouamaa",
+    "type": "city",
+    "countryCode": "dz",
+    "lat": 36.1474693,
+    "lng": 3.1331309,
+    "timezone": "Africa/Algiers",
+    "names": {
+      "ar": "خمس جوامع",
+      "en": "Khams Djouamaa"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الجزائر",
+      "countryEn": "Algeria"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

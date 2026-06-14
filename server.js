@@ -3478,18 +3478,21 @@ function _loadReviewModule() {
 
 // Fetch discovered_places (server-side), classify via the shared logic, enrich,
 // whitelist (NO search_blob, NO secrets), count + sort. Returns safe payload.
-async function _buildDiscoveredAdminRows() {
-    let rawRows = [], dataSource = 'supabase';
+// Fetch raw discovered_places rows (server-side). Reused by the dashboard GET
+// and the promote-preview. Supabase off + no fixture → empty (dev/test).
+async function _fetchDiscoveredRawRows() {
     if (_SUPABASE_ENABLED) {
         const sel = 'id,slug,type,country_code,lat,lng,timezone,names,aliases,name_quality,admin,source,source_id,verified,search_count,selected_count,created_at,updated_at,last_used_at';
         const resp = await _supabaseFetch('/rest/v1/discovered_places?select=' + sel + '&order=selected_count.desc&limit=5000', { method: 'GET' });
         if (!resp || !resp.ok || !Array.isArray(resp.data)) throw new Error('supabase_fetch_failed');
-        rawRows = resp.data;
-    } else if (_DISCOVERED_ADMIN_TEST_ROWS) {
-        rawRows = _DISCOVERED_ADMIN_TEST_ROWS; dataSource = 'fixture';
-    } else {
-        dataSource = 'empty';   // Supabase off locally + no fixture → empty-state table
+        return { rows: resp.data, dataSource: 'supabase' };
     }
+    if (_DISCOVERED_ADMIN_TEST_ROWS) return { rows: _DISCOVERED_ADMIN_TEST_ROWS, dataSource: 'fixture' };
+    return { rows: [], dataSource: 'empty' };
+}
+
+async function _buildDiscoveredAdminRows() {
+    const { rows: rawRows, dataSource } = await _fetchDiscoveredRawRows();
     const review = await _loadReviewModule();
     const idx = review.buildCuratedIndex(_CURATED_PLACES);
     const out = [];
@@ -3615,6 +3618,119 @@ async function _fetchDiscoveredReviews() {
     return out;
 }
 
+// ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 2: promote PREVIEW ──
+// PREVIEW ONLY — builds the candidate curated entry + runs validations + computes
+// the diff/counts/robots/source. It NEVER writes curated-places.json, NEVER
+// commits, NEVER pushes, NEVER calls GitHub. (Those are Phase 3.)
+// Arab-League country codes — where a trustworthy names.ar is required.
+const _ARABIC_COUNTRY_CC = new Set(['dz', 'bh', 'km', 'dj', 'eg', 'iq', 'jo', 'kw', 'lb', 'ly', 'mr', 'ma', 'om', 'ps', 'qa', 'sa', 'so', 'sd', 'sy', 'tn', 'ae', 'ye']);
+
+// Build the curated entry that WOULD be added (native names only, mirrors
+// add-discovered-city-to-curated.mjs shape). No translation/fillchain.
+function _buildPromoteCandidate(raw, cls, review) {
+    if (!raw || !cls) return null;
+    const cc = String(cls.countryCode || raw.country_code || '').toLowerCase();
+    const slug = cls.cleanSlug || raw.slug || '';
+    const rawNames = cls.names || raw.names || {};
+    const nameStatus = cls.nameStatus || {};
+    const names = {};
+    for (const L of Object.keys(rawNames)) {
+        if (nameStatus[L] === 'native') names[L] = String(rawNames[L]).trim();   // native-script only
+    }
+    if (Object.keys(names).length === 0 && cls.suggestion && cls.suggestion.names) Object.assign(names, cls.suggestion.names);
+    const aliases = {};
+    const rawAliases = raw.aliases || {};
+    for (const L of Object.keys(rawAliases)) {
+        const arr = Array.isArray(rawAliases[L]) ? rawAliases[L] : [];
+        const clean = arr.filter(a => typeof a === 'string' && a.trim() && review && typeof review.isCleanScript === 'function' && review.isCleanScript(a.trim(), L)).map(a => a.trim());
+        if (clean.length) aliases[L] = clean;
+    }
+    return {
+        slug, type: raw.type || cls.type || 'city', countryCode: cc,
+        lat: Number(raw.lat), lng: Number(raw.lng), timezone: raw.timezone || cls.timezone || '',
+        names, aliases,
+        admin: { countryAr: (typeof _getCountryName === 'function' ? _getCountryName(cc, 'ar') : '') || '', countryEn: (typeof _getCountryName === 'function' ? _getCountryName(cc, 'en') : '') || '' },
+        priority: 40, source: 'curated', verified: true
+    };
+}
+
+// Run the 12 promotion validations server-side. Returns {valid, checks, errors, warnings}.
+function _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review) {
+    const checks = [], errors = [], warnings = [];
+    const add = (name, ok, detail) => { checks.push({ name, ok: !!ok, detail: detail || '' }); if (!ok) errors.push(name + (detail ? (': ' + detail) : '')); };
+    if (!cand) { add('candidate_built', false, 'could not build entry'); return { valid: false, checks, errors, warnings }; }
+    const cc = cand.countryCode;
+    add('slug_present', /^[a-z0-9][a-z0-9-]{0,79}$/.test(cand.slug || ''), cand.slug);
+    add('countryCode_present', /^[a-z]{2}$/.test(cc), cc);
+    add('names_en_present', !!(cand.names && cand.names.en), cand.names && cand.names.en);
+    const arabicCountry = _ARABIC_COUNTRY_CC.has(cc);
+    add('names_ar_if_arabic_country', !arabicCountry || !!(cand.names && cand.names.ar), arabicCountry ? ((cand.names && cand.names.ar) || 'MISSING') : 'n/a (non-Arabic)');
+    const lat = Number(cand.lat), lng = Number(cand.lng);
+    add('lat_lng_valid', isFinite(lat) && lat >= -90 && lat <= 90 && isFinite(lng) && lng >= -180 && lng <= 180, lat + ',' + lng);
+    add('timezone_present', !!cand.timezone, cand.timezone);
+    add('source_present', !!(raw && raw.source), raw && raw.source);
+    add('no_slug_conflict', !(idx && idx.bySlug && idx.bySlug[cand.slug]), (idx && idx.bySlug && idx.bySlug[cand.slug]) ? ('slug already curated') : '');
+    add('no_already_curated', !!cls && cls.class !== 'ALREADY_CURATED', (cls && cls.dedup && cls.dedup.nameHit) ? ('name matches ' + cls.dedup.nameHit.slug) : '');
+    add('no_near_duplicate', !!cls && cls.class !== 'NEAR_DUPLICATE', (cls && cls.dedup && cls.dedup.nearHit) ? ('near ' + cls.dedup.nearHit.slug) : '');
+    add('review_approved', reviewDecision === 'approved', 'decision=' + reviewDecision);
+    // script-trustworthiness (mirrors promote-discovered-sa-batch namesTrustworthy)
+    if (cand.names && cand.names.ar) add('ar_script_clean', review && review.isCleanScript(cand.names.ar, 'ar'), cand.names.ar);
+    if (cand.names && cand.names.en) add('en_script_clean', review && review.isCleanScript(cand.names.en, 'en'), cand.names.en);
+    const valid = checks.every(c => c.ok);
+    return { valid, checks, errors, warnings };
+}
+
+// Orchestrate the preview for a list of {slug, countryCode}. NO write/commit/push.
+async function _buildPromotePreview(items) {
+    const review = await _loadReviewModule();
+    const { rows: rawRows } = await _fetchDiscoveredRawRows();
+    const rawByKey = Object.create(null);
+    for (const r of rawRows) rawByKey[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
+    const reviews = await _fetchDiscoveredReviews();
+    const idx = review.buildCuratedIndex(_CURATED_PLACES);
+    const outItems = [], errors = [], warnings = [], candidates = [];
+    for (const it of (Array.isArray(items) ? items : [])) {
+        const slug = String((it && it.slug) || '').toLowerCase();
+        const cc = String((it && it.countryCode) || '').toLowerCase();
+        const key = slug + '|' + cc;
+        const raw = rawByKey[key];
+        const reviewDecision = (reviews[key] && reviews[key].decision) || 'pending';
+        if (!raw) { outItems.push({ slug, countryCode: cc, reviewDecision, valid: false, checks: [{ name: 'discovered_row_exists', ok: false }], errors: ['discovered row not found'], warnings: [] }); errors.push(slug + ': discovered row not found'); continue; }
+        let cls = null; try { cls = review.classifyRow(raw, idx, {}); } catch (_) { cls = null; }
+        const cand = _buildPromoteCandidate(raw, cls, review);
+        const v = _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review);
+        if (cand && v.valid) candidates.push(cand);
+        outItems.push({
+            slug, countryCode: cc, reviewDecision, status: cls && cls.class, valid: v.valid, checks: v.checks, errors: v.errors, warnings: v.warnings,
+            candidate: cand,
+            robotsBefore: 'discovered · noindex,follow', robotsAfter: v.valid ? 'curated · index,follow (after promote+merge)' : 'unchanged (invalid)',
+            sourceBefore: raw.source || '', sourceAfter: 'curated'
+        });
+        v.errors.forEach(e => errors.push(slug + ': ' + e));
+    }
+    const ccBefore = {};
+    for (const e of _CURATED_PLACES) { const c = (e.countryCode || '').toLowerCase(); ccBefore[c] = (ccBefore[c] || 0) + 1; }
+    const countryCountsBeforeAfter = {};
+    for (const cand of candidates) { const c = cand.countryCode; if (!countryCountsBeforeAfter[c]) countryCountsBeforeAfter[c] = { before: ccBefore[c] || 0, after: ccBefore[c] || 0 }; countryCountsBeforeAfter[c].after++; }
+    let resultingJsonValid = false;
+    try { JSON.parse(JSON.stringify(_CURATED_PLACES.concat(candidates))); resultingJsonValid = true; } catch (_) { resultingJsonValid = false; }
+    const slugs = candidates.map(c => c.slug);
+    const allValid = outItems.length > 0 && outItems.every(i => i.valid) && resultingJsonValid;
+    return {
+        status: (allValid && candidates.length) ? 'ready' : 'blocked',
+        previewOnly: true,
+        items: outItems,
+        validations: { allValid, resultingJsonValid, validCount: candidates.length, total: outItems.length },
+        diffPreview: candidates.map(c => ({ op: 'add', slug: c.slug, entry: c })),
+        filesToChange: candidates.length ? ['db/places/curated-places.json', 'reports/admin-promote-batch-<timestamp>.md'] : [],
+        countryCountsBeforeAfter,
+        robotsBeforeAfter: outItems.map(i => ({ slug: i.slug, before: i.robotsBefore, after: i.robotsAfter })),
+        sourceBeforeAfter: outItems.map(i => ({ slug: i.slug, before: i.sourceBefore, after: i.sourceAfter })),
+        commitMessageSuggested: candidates.length ? ('feat(cities): promote ' + candidates.length + ' reviewed discovered cities from admin dashboard (' + slugs.join(', ') + ')') : '',
+        errors, warnings
+    };
+}
+
 // Render the SSR HTML page. Data is server-rendered into the table; filters are
 // client-side over data-* attributes (NO token in HTML/JS, NO secrets). The
 // review POST reads the token from the page URL at runtime (Bearer header).
@@ -3654,7 +3770,7 @@ function _renderDiscoveredAdminPage(data) {
         }));
         const rvDec = r.reviewDecision || 'pending';
         return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-review="' + esc(rvDec) + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-text="' + esc(txt) + '">'
-            + '<td><span class="rvb rv-' + esc(rvDec) + '" data-rvcell>' + esc(rvDec) + '</span><br><button class="rvbtn" data-d="' + dd + '">Review ▸</button></td>'
+            + '<td><input type="checkbox" class="selbox" data-slug="' + esc(r.slug) + '" data-cc="' + esc(r.countryCode) + '"> <span class="rvb rv-' + esc(rvDec) + '" data-rvcell>' + esc(rvDec) + '</span><br><button class="rvbtn" data-d="' + dd + '">Review ▸</button></td>'
             + '<td><span class="badge s-' + esc(r.status) + '">' + esc(r.status) + '</span></td>'
             + '<td class="mono">' + esc(r.slug) + '</td>'
             + '<td>' + esc(r.displayName) + '</td>'
@@ -3710,7 +3826,13 @@ function _renderDiscoveredAdminPage(data) {
         + '.dbtn.on{background:#1f6feb;border-color:#1f6feb;color:#fff}'
         + '.dr-actions textarea,.dr-actions input{width:100%;box-sizing:border-box;background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:6px;font-size:13px;margin-top:4px}'
         + '#dr-save{margin-top:10px;background:#238636;border:1px solid #2ea043;color:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:13px}'
-        + '#dr-status{display:block;margin-top:8px;font-size:12px;color:#9aa4b2}#dr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15}#dr-overlay[hidden]{display:none}';
+        + '#dr-status{display:block;margin-top:8px;font-size:12px;color:#9aa4b2}#dr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15}#dr-overlay[hidden]{display:none}'
+        + '#prep-btn{background:#8957e5;border:1px solid #8957e5;color:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px}.selbox{vertical-align:middle}'
+        + '.prevpanel{margin:14px 18px;padding:14px;background:#11161c;border:1px solid #2a313a;border-radius:8px}.prevpanel[hidden]{display:none}'
+        + '.prevpanel h3{margin:0 0 8px;font-size:15px}.prevpanel>div{font-size:12.5px;margin:4px 0}'
+        + '.pv-err{color:#f85149;border:1px solid #7a2620;border-radius:6px;padding:8px;margin:6px 0}'
+        + '.pv-tbl{width:100%;margin-top:8px;font-size:12px;border-collapse:collapse}.pv-tbl th,.pv-tbl td{border-bottom:1px solid #232a33;padding:5px 7px;text-align:start}.pv-tbl th{text-transform:none;font-size:11px;position:static}.pv-fail{color:#f85149}'
+        + 'code{background:#0d1117;padding:2px 5px;border-radius:4px;font-size:11.5px}';
     const COLS = ['review', 'status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'links', 'json'];
     const drawer = '<div id="dr-overlay" hidden></div><div id="drawer" class="drawer" hidden>'
         + '<div class="drawer-head"><strong id="dr-title"></strong><button id="dr-close" title="close">✕</button></div>'
@@ -3762,6 +3884,25 @@ function _renderDiscoveredAdminPage(data) {
         'if(res.ok&&res.j&&res.j.ok){byId("dr-status").textContent="saved ✓";',
         'if(curTr){curTr.setAttribute("data-review",selDec);var cell=curTr.querySelector("[data-rvcell]");if(cell){cell.textContent=selDec;cell.className="rvb rv-"+selDec;}}apply();',
         'setTimeout(closeDrawer,500);}else{byId("dr-status").textContent="error: "+((res.j&&res.j.error)||r.status||"failed");}}).catch(function(){byId("dr-status").textContent="network error";});});',
+        // ── Promote Preview (Phase 2: preview only — nothing written) ──
+        'function renderPreview(d){var h="<h3>Promote Preview ("+esc(d.status)+") — PREVIEW ONLY, nothing written/committed/pushed</h3>";',
+        'if(d.errors&&d.errors.length)h+="<div class=\\"pv-err\\"><b>Errors:</b><ul>"+d.errors.map(function(e){return "<li>"+esc(e)+"</li>";}).join("")+"</ul></div>";',
+        'h+="<div><b>validations:</b> "+d.validations.validCount+" / "+d.validations.total+" valid · resultingJsonValid="+d.validations.resultingJsonValid+"</div>";',
+        'h+="<div><b>commit message:</b> <code>"+esc(d.commitMessageSuggested||"—")+"</code></div>";',
+        'h+="<div><b>files to change:</b> "+esc((d.filesToChange||[]).join(", ")||"—")+"</div>";',
+        'h+="<div><b>country counts (before→after):</b> "+Object.keys(d.countryCountsBeforeAfter||{}).map(function(c){var x=d.countryCountsBeforeAfter[c];return esc(c)+": "+x.before+"→"+x.after;}).join(" · ")+"</div>";',
+        'h+="<table class=\\"pv-tbl\\"><thead><tr><th>slug</th><th>review</th><th>valid</th><th>robots before→after</th><th>source before→after</th><th>failed checks</th></tr></thead><tbody>";',
+        'd.items.forEach(function(it){var failed=(it.checks||[]).filter(function(c){return !c.ok;}).map(function(c){return c.name+(c.detail?("("+c.detail+")"):"");}).join(", ");',
+        'h+="<tr><td>"+esc(it.slug)+"</td><td>"+esc(it.reviewDecision)+"</td><td>"+(it.valid?"✓":"✗")+"</td><td>"+esc(it.robotsBefore)+" → "+esc(it.robotsAfter)+"</td><td>"+esc(it.sourceBefore)+" → "+esc(it.sourceAfter)+"</td><td class=\\"pv-fail\\">"+esc(failed||"—")+"</td></tr>";});',
+        'h+="</tbody></table>";',
+        'h+="<details><summary>diff preview (entries that would be added)</summary><pre>"+esc(JSON.stringify(d.diffPreview,null,2))+"</pre></details>";return h;}',
+        'byId("prep-btn").addEventListener("click",function(){',
+        'var sel=[].slice.call(document.querySelectorAll(".selbox:checked")).map(function(b){return {slug:b.getAttribute("data-slug"),countryCode:b.getAttribute("data-cc")};});',
+        'var panel=byId("preview-panel");panel.hidden=false;',
+        'if(!sel.length){panel.innerHTML="<div class=\\"pv-err\\">Select at least one city via the checkboxes (only <b>approved</b> cities pass validation).</div>";return;}',
+        'panel.innerHTML="<div>preparing preview…</div>";',
+        'fetch("/api/admin/discovered-cities/promote-preview",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({items:sel})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(res){',
+        'if(res.ok&&res.j&&!res.j.error){panel.innerHTML=renderPreview(res.j);}else{panel.innerHTML="<div class=\\"pv-err\\">error: "+esc((res.j&&res.j.error)||"failed")+"</div>";}}).catch(function(){panel.innerHTML="<div class=\\"pv-err\\">network error</div>";});});',
         '})();'
     ].join('\n');
     return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
@@ -3778,9 +3919,11 @@ function _renderDiscoveredAdminPage(data) {
         + '<label><input type="checkbox" id="f-en"> has en</label>'
         + '<label>min pick <input type="number" id="f-pick" min="0" style="width:64px"></label>'
         + '<input type="search" id="f-q" placeholder="search slug / name…" style="min-width:200px">'
+        + '<button id="prep-btn" title="Preview only — nothing is written/committed/pushed">Prepare Promote Preview</button>'
         + '<span id="vis"></span></div>'
         + '<div class="wrap"><table><thead><tr>' + COLS.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead>'
         + '<tbody>' + (rowsHtml || '<tr><td colspan="20" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
+        + '<div id="preview-panel" class="prevpanel" hidden></div>'
         + drawer
         + '<script>' + SCRIPT + '</scr' + 'ipt></body></html>';
 }
@@ -24608,6 +24751,40 @@ const server = http.createServer(async (req, res) => {
                 res.end(JSON.stringify({ ok: true, persisted, review: { slug: rec.slug, countryCode: rec.country_code, decision: rec.decision, note: rec.note || '', duplicate_of: rec.duplicate_of, reviewed_at: rec.reviewed_at } }));
             } catch (_e) {
                 res.writeHead(500, _rh); res.end(JSON.stringify({ error: 'save_failed' }));
+            }
+        });
+        return;
+    }
+
+    // ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 2: promote PREVIEW ──
+    // POST /api/admin/discovered-cities/promote-preview — token-gated, JSON-only.
+    // Returns validations + diff + counts + robots/source before/after + commit msg.
+    // PREVIEW ONLY: no curated write, no commit, no push, no GitHub.
+    if (urlPath === '/api/admin/discovered-cities/promote-preview') {
+        const _ph = { 'Content-Type': 'application/json; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        if (req.method !== 'POST') { res.writeHead(405, _ph); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
+        const _pstate = _adminAuthState(req, qs);
+        if (_pstate === 'disabled') { res.writeHead(403, _ph); res.end(JSON.stringify({ error: 'admin_disabled' })); return; }
+        if (_pstate !== 'ok')       { res.writeHead(401, _ph); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
+        if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) { res.writeHead(415, _ph); res.end(JSON.stringify({ error: 'json_required' })); return; }
+        let _pbody = '', _pTooBig = false;
+        req.on('data', c => { _pbody += c; if (_pbody.length > 65536) _pTooBig = true; });
+        req.on('error', () => { try { res.writeHead(400, _ph); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
+        req.on('end', async () => {
+            if (_pTooBig) { res.writeHead(413, _ph); res.end(JSON.stringify({ error: 'too_large' })); return; }
+            let p = null; try { p = JSON.parse(_pbody || '{}'); } catch (_) { res.writeHead(400, _ph); res.end(JSON.stringify({ error: 'bad_json' })); return; }
+            const items = (p && Array.isArray(p.items)) ? p.items : null;
+            if (!items || items.length === 0 || items.length > 100) { res.writeHead(400, _ph); res.end(JSON.stringify({ error: 'invalid_items' })); return; }
+            for (const it of items) {
+                if (!it || typeof it.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(it.slug) || typeof it.countryCode !== 'string' || !/^[a-z]{2}$/.test(it.countryCode)) {
+                    res.writeHead(400, _ph); res.end(JSON.stringify({ error: 'invalid_item_shape' })); return;
+                }
+            }
+            try {
+                const preview = await _buildPromotePreview(items);
+                res.writeHead(200, _ph); res.end(JSON.stringify(preview));
+            } catch (_e) {
+                res.writeHead(500, _ph); res.end(JSON.stringify({ error: 'preview_failed' }));
             }
         });
         return;

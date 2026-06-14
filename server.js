@@ -3731,6 +3731,120 @@ async function _buildPromotePreview(items) {
     };
 }
 
+// ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 3: commit to BRANCH ──
+// Commits the promoted curated entries to a NEW GitHub branch via the GitHub
+// Git Data API (native fetch). NEVER main, NEVER merge, NEVER local git. The
+// new entry only becomes live after YOU manually merge the branch + Render
+// redeploys. GITHUB_TOKEN/REPO are server-only env (never sent to the browser).
+const _GITHUB_TOKEN = process.env.GITHUB_TOKEN || '';
+const _GITHUB_REPO  = process.env.GITHUB_REPO  || '';            // "owner/repo"
+const _GITHUB_BASE  = process.env.GITHUB_BRANCH_BASE || 'main';
+const _PROMOTE_GITHUB_TEST_MODE = process.env.PROMOTE_GITHUB_TEST_MODE === '1';  // local-test seam (no real GitHub call)
+let _adminPromoteLock = false;                                   // serialise promote-commit (concurrency guard)
+
+async function _githubFetch(method, apiPath, body) {
+    const headers = {
+        'Authorization': 'Bearer ' + _GITHUB_TOKEN,
+        'Accept': 'application/vnd.github+json',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'prayer-times-admin-dashboard'
+    };
+    if (body) headers['Content-Type'] = 'application/json';
+    const resp = await fetch('https://api.github.com' + apiPath, { method, headers, body: body ? JSON.stringify(body) : undefined });
+    let data = null; try { data = await resp.json(); } catch (_) { data = null; }
+    return { ok: resp.ok, status: resp.status, data };
+}
+
+function _makeBranchName(candidates) {
+    const d = new Date();
+    const pad = n => String(n).padStart(2, '0');
+    const ts = '' + d.getUTCFullYear() + pad(d.getUTCMonth() + 1) + pad(d.getUTCDate()) + '-' + pad(d.getUTCHours()) + pad(d.getUTCMinutes());
+    const suffix = candidates.length === 1 ? ('-' + candidates[0].slug) : '';
+    return ('admin/promote-discovered-' + ts + suffix).slice(0, 200);
+}
+// Strict whitelist for a client-supplied branch name (prevents arbitrary refs / main).
+function _sanitizeBranchName(name) {
+    if (typeof name !== 'string') return null;
+    return /^admin\/promote-discovered-[a-z0-9-]{1,180}$/.test(name) ? name : null;
+}
+
+function _buildBatchReport(candidates, beforeCount, afterCount, commitMessage, ts) {
+    const rows = candidates.map(c => '| `' + c.slug + '` | ' + c.countryCode + ' | ' + (c.names.ar || '') + ' | ' + (c.names.en || '') + ' |').join('\n');
+    return '# Admin Promote Batch — ' + ts + '\n\n'
+        + 'Promoted **' + candidates.length + '** reviewed discovered cities into `curated-places.json` **on a branch (NOT main)** via the admin dashboard.\n'
+        + 'They become indexable only after the branch is manually merged to main + Render redeploys.\n\n'
+        + '- commit message: `' + commitMessage + '`\n- curated entries: ' + beforeCount + ' → ' + afterCount + '\n\n'
+        + '## Cities\n\n| slug | cc | names.ar | names.en |\n|---|---|---|---|\n' + rows + '\n\n'
+        + '## Entries added\n\n```json\n' + JSON.stringify(candidates, null, 2) + '\n```\n';
+}
+
+// Build the new curated content (on the LATEST base, not the in-memory copy) +
+// commit it + the batch report to a NEW branch. Test mode skips real GitHub calls.
+async function _promoteCommitViaGitHub(opts) {
+    const { candidates, branchName, commitMessage, reportPath, reportContent } = opts;
+    const curatedRepoPath = 'db/places/curated-places.json';
+    // 1. base curated content (LATEST main — avoids overwriting newer commits)
+    let baseText;
+    if (_PROMOTE_GITHUB_TEST_MODE) {
+        baseText = fs.readFileSync(path.join(DB_DIR, 'places', 'curated-places.json'), 'utf8');
+    } else {
+        const c = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/contents/' + curatedRepoPath + '?ref=' + encodeURIComponent(_GITHUB_BASE));
+        if (!c.ok || !c.data || !c.data.content) throw new Error('github_get_curated_failed');
+        baseText = Buffer.from(c.data.content, 'base64').toString('utf8');
+    }
+    let baseArr; try { baseArr = JSON.parse(baseText); } catch (_) { throw new Error('base_curated_parse_failed'); }
+    if (!Array.isArray(baseArr)) throw new Error('base_curated_not_array');
+    const baseSlugs = new Set(baseArr.map(e => e && e.slug));
+    const conflicts = candidates.filter(c => baseSlugs.has(c.slug)).map(c => c.slug);
+    if (conflicts.length) { const e = new Error('slug_already_in_main'); e.slugs = conflicts; throw e; }
+    const newArr = baseArr.concat(candidates);
+    const newCuratedText = JSON.stringify(newArr, null, 2) + '\n';
+    JSON.parse(newCuratedText);   // final JSON-validity guard (validation #12)
+    const filesChanged = [curatedRepoPath, reportPath];
+    const citiesPromoted = candidates.map(c => c.slug);
+    if (_PROMOTE_GITHUB_TEST_MODE) {
+        return { commitSha: 'test-' + String(Date.now()).slice(-10), branchName, filesChanged, citiesPromoted,
+                 githubCommitUrl: '(test-mode — no real commit)', githubBranchUrl: '(test-mode)', beforeCount: baseArr.length, afterCount: newArr.length, testMode: true };
+    }
+    // Real GitHub Git Data API (atomic multi-file commit → new branch).
+    const ref = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/git/ref/heads/' + encodeURIComponent(_GITHUB_BASE));
+    if (!ref.ok || !ref.data || !ref.data.object) throw new Error('github_base_ref_failed');
+    const baseSha = ref.data.object.sha;
+    const baseCommit = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/git/commits/' + baseSha);
+    if (!baseCommit.ok || !baseCommit.data || !baseCommit.data.tree) throw new Error('github_base_commit_failed');
+    const blobA = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/blobs', { content: newCuratedText, encoding: 'utf-8' });
+    const blobB = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/blobs', { content: reportContent, encoding: 'utf-8' });
+    if (!blobA.ok || !blobA.data || !blobB.ok || !blobB.data) throw new Error('github_blob_failed');
+    const tree = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/trees', { base_tree: baseCommit.data.tree.sha, tree: [
+        { path: curatedRepoPath, mode: '100644', type: 'blob', sha: blobA.data.sha },
+        { path: reportPath, mode: '100644', type: 'blob', sha: blobB.data.sha }
+    ] });
+    if (!tree.ok || !tree.data) throw new Error('github_tree_failed');
+    const commit = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/commits', { message: commitMessage, tree: tree.data.sha, parents: [baseSha] });
+    if (!commit.ok || !commit.data || !commit.data.sha) throw new Error('github_commit_failed');
+    const refCreate = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/refs', { ref: 'refs/heads/' + branchName, sha: commit.data.sha });
+    if (!refCreate.ok) throw new Error('github_branch_create_failed');
+    return { commitSha: commit.data.sha, branchName, filesChanged, citiesPromoted,
+             githubCommitUrl: 'https://github.com/' + _GITHUB_REPO + '/commit/' + commit.data.sha,
+             githubBranchUrl: 'https://github.com/' + _GITHUB_REPO + '/tree/' + branchName,
+             beforeCount: baseArr.length, afterCount: newArr.length };
+}
+
+// Orchestrate: RE-validate (Phase 2) → if ready, commit to a new branch.
+async function _buildPromoteCommit(items, commitMessage, branchName) {
+    const preview = await _buildPromotePreview(items);   // re-runs ALL validations server-side
+    if (preview.status !== 'ready' || !preview.diffPreview.length) {
+        return { ok: false, code: 'validation_blocked', preview };
+    }
+    const candidates = preview.diffPreview.map(d => d.entry);
+    const bn = _sanitizeBranchName(branchName) || _makeBranchName(candidates);
+    const ts = new Date().toISOString();
+    const reportPath = 'reports/admin-promote-batch-' + ts.replace(/[-:T]/g, '').slice(0, 12) + '.md';
+    const reportContent = _buildBatchReport(candidates, _CURATED_PLACES.length, _CURATED_PLACES.length + candidates.length, commitMessage, ts);
+    const result = await _promoteCommitViaGitHub({ candidates, branchName: bn, commitMessage, reportPath, reportContent });
+    return { ok: true, result };
+}
+
 // Render the SSR HTML page. Data is server-rendered into the table; filters are
 // client-side over data-* attributes (NO token in HTML/JS, NO secrets). The
 // review POST reads the token from the page URL at runtime (Bearer header).
@@ -3832,7 +3946,10 @@ function _renderDiscoveredAdminPage(data) {
         + '.prevpanel h3{margin:0 0 8px;font-size:15px}.prevpanel>div{font-size:12.5px;margin:4px 0}'
         + '.pv-err{color:#f85149;border:1px solid #7a2620;border-radius:6px;padding:8px;margin:6px 0}'
         + '.pv-tbl{width:100%;margin-top:8px;font-size:12px;border-collapse:collapse}.pv-tbl th,.pv-tbl td{border-bottom:1px solid #232a33;padding:5px 7px;text-align:start}.pv-tbl th{text-transform:none;font-size:11px;position:static}.pv-fail{color:#f85149}'
-        + 'code{background:#0d1117;padding:2px 5px;border-radius:4px;font-size:11.5px}';
+        + 'code{background:#0d1117;padding:2px 5px;border-radius:4px;font-size:11.5px}'
+        + '.pv-commit{margin-top:12px;padding:10px;border:1px solid #46307a;border-radius:6px;background:#1a1430}.pv-commit input{width:100%;box-sizing:border-box;margin:6px 0;background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:6px;font-size:12px}'
+        + '#commit-btn{background:#238636;border:1px solid #2ea043;color:#fff;border-radius:6px;padding:7px 13px;cursor:pointer;font-size:13px}#commit-btn:disabled{opacity:.5;cursor:default}'
+        + '.pv-ok{margin-top:8px;color:#3fb950;border:1px solid #235c2c;border-radius:6px;padding:8px;font-size:12.5px}.pv-ok a{color:#58a6ff}';
     const COLS = ['review', 'status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'links', 'json'];
     const drawer = '<div id="dr-overlay" hidden></div><div id="drawer" class="drawer" hidden>'
         + '<div class="drawer-head"><strong id="dr-title"></strong><button id="dr-close" title="close">✕</button></div>'
@@ -3844,7 +3961,7 @@ function _renderDiscoveredAdminPage(data) {
         + '<button id="dr-save">Save decision</button><span id="dr-status"></span></div></div>';
     const SCRIPT = [
         '(function(){',
-        'var token=(new URLSearchParams(location.search)).get("token")||"";',  // read from URL, never embedded in HTML
+        'var token=(new URLSearchParams(location.search)).get("token")||"";var lastItems=null;',  // read from URL, never embedded in HTML
         'var rows=[].slice.call(document.querySelectorAll("tbody tr"));',
         'function byId(i){return document.getElementById(i);}',
         'var f={cc:byId("f-cc"),st:byId("f-st"),rv:byId("f-rv"),ar:byId("f-ar"),en:byId("f-en"),pick:byId("f-pick"),q:byId("f-q")};',
@@ -3895,14 +4012,22 @@ function _renderDiscoveredAdminPage(data) {
         'd.items.forEach(function(it){var failed=(it.checks||[]).filter(function(c){return !c.ok;}).map(function(c){return c.name+(c.detail?("("+c.detail+")"):"");}).join(", ");',
         'h+="<tr><td>"+esc(it.slug)+"</td><td>"+esc(it.reviewDecision)+"</td><td>"+(it.valid?"✓":"✗")+"</td><td>"+esc(it.robotsBefore)+" → "+esc(it.robotsAfter)+"</td><td>"+esc(it.sourceBefore)+" → "+esc(it.sourceAfter)+"</td><td class=\\"pv-fail\\">"+esc(failed||"—")+"</td></tr>";});',
         'h+="</tbody></table>";',
-        'h+="<details><summary>diff preview (entries that would be added)</summary><pre>"+esc(JSON.stringify(d.diffPreview,null,2))+"</pre></details>";return h;}',
+        'h+="<details><summary>diff preview (entries that would be added)</summary><pre>"+esc(JSON.stringify(d.diffPreview,null,2))+"</pre></details>";',
+        'if(d.status==="ready"){h+="<div class=\\"pv-commit\\"><b>Commit &amp; Push to Branch</b> <span style=\\"color:#9aa4b2\\">(branch only — never main; you merge manually)</span><br><input id=\\"commit-msg\\" value=\\""+esc(d.commitMessageSuggested)+"\\"><button id=\\"commit-btn\\">Commit &amp; Push to Branch</button><div id=\\"commit-result\\"></div></div>";}return h;}',
         'byId("prep-btn").addEventListener("click",function(){',
         'var sel=[].slice.call(document.querySelectorAll(".selbox:checked")).map(function(b){return {slug:b.getAttribute("data-slug"),countryCode:b.getAttribute("data-cc")};});',
         'var panel=byId("preview-panel");panel.hidden=false;',
         'if(!sel.length){panel.innerHTML="<div class=\\"pv-err\\">Select at least one city via the checkboxes (only <b>approved</b> cities pass validation).</div>";return;}',
-        'panel.innerHTML="<div>preparing preview…</div>";',
+        'lastItems=sel;panel.innerHTML="<div>preparing preview…</div>";',
         'fetch("/api/admin/discovered-cities/promote-preview",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({items:sel})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(res){',
-        'if(res.ok&&res.j&&!res.j.error){panel.innerHTML=renderPreview(res.j);}else{panel.innerHTML="<div class=\\"pv-err\\">error: "+esc((res.j&&res.j.error)||"failed")+"</div>";}}).catch(function(){panel.innerHTML="<div class=\\"pv-err\\">network error</div>";});});',
+        'if(res.ok&&res.j&&!res.j.error){panel.innerHTML=renderPreview(res.j);bindCommit();}else{panel.innerHTML="<div class=\\"pv-err\\">error: "+esc((res.j&&res.j.error)||"failed")+"</div>";}}).catch(function(){panel.innerHTML="<div class=\\"pv-err\\">network error</div>";});});',
+        // ── Commit & Push to Branch (Phase 3: GitHub API → branch only, never main) ──
+        'function bindCommit(){var cb=byId("commit-btn");if(!cb)return;cb.addEventListener("click",function(){',
+        'var rd=byId("commit-result");rd.textContent="committing to a new branch…";cb.disabled=true;',
+        'fetch("/api/admin/discovered-cities/promote-commit",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({items:lastItems||[],target:"branch",commitMessage:(byId("commit-msg").value||"")})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(res){cb.disabled=false;var j=res.j||{};',
+        'if(res.ok&&j.status==="committed"){var lk=(j.githubCommitUrl&&j.githubCommitUrl.indexOf("http")===0)?("<a href=\\""+esc(j.githubCommitUrl)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">commit</a> · <a href=\\""+esc(j.githubBranchUrl)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">branch</a>"):esc(j.githubCommitUrl||"");',
+        'rd.innerHTML="<div class=\\"pv-ok\\">✓ committed to branch <code>"+esc(j.branchName)+"</code><br>commit: <code>"+esc(j.commitSha)+"</code><br>files: "+esc((j.filesChanged||[]).join(", "))+"<br>cities: "+esc((j.citiesPromoted||[]).join(", "))+"<br>"+lk+"<br><b>main NOT changed — merge the branch manually to go live.</b></div>";}',
+        'else{rd.innerHTML="<div class=\\"pv-err\\">error: "+esc(j.error||j.status||("HTTP "+ (res.j?"":"" )+"failed"))+(j.slugs?(" ("+esc((j.slugs||[]).join(","))+")"):"")+"</div>";}}).catch(function(){cb.disabled=false;rd.innerHTML="<div class=\\"pv-err\\">network error</div>";});});}',
         '})();'
     ].join('\n');
     return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
@@ -24785,6 +24910,58 @@ const server = http.createServer(async (req, res) => {
                 res.writeHead(200, _ph); res.end(JSON.stringify(preview));
             } catch (_e) {
                 res.writeHead(500, _ph); res.end(JSON.stringify({ error: 'preview_failed' }));
+            }
+        });
+        return;
+    }
+
+    // ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 3: commit to BRANCH ──
+    // POST /api/admin/discovered-cities/promote-commit — token-gated, JSON-only.
+    // Re-validates, then commits to a NEW GitHub branch (NEVER main, NEVER merge).
+    if (urlPath === '/api/admin/discovered-cities/promote-commit') {
+        const _ch = { 'Content-Type': 'application/json; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        if (req.method !== 'POST') { res.writeHead(405, _ch); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
+        const _cstate = _adminAuthState(req, qs);
+        if (_cstate === 'disabled') { res.writeHead(403, _ch); res.end(JSON.stringify({ error: 'admin_disabled' })); return; }
+        if (_cstate !== 'ok')       { res.writeHead(401, _ch); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
+        if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) { res.writeHead(415, _ch); res.end(JSON.stringify({ error: 'json_required' })); return; }
+        let _cbody = '', _cTooBig = false;
+        req.on('data', c => { _cbody += c; if (_cbody.length > 65536) _cTooBig = true; });
+        req.on('error', () => { try { res.writeHead(400, _ch); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
+        req.on('end', async () => {
+            if (_cTooBig) { res.writeHead(413, _ch); res.end(JSON.stringify({ error: 'too_large' })); return; }
+            let p = null; try { p = JSON.parse(_cbody || '{}'); } catch (_) { res.writeHead(400, _ch); res.end(JSON.stringify({ error: 'bad_json' })); return; }
+            // BRANCH ONLY — main / merge are forbidden in this phase.
+            if (p && p.target && p.target !== 'branch') { res.writeHead(400, _ch); res.end(JSON.stringify({ error: 'only_branch_target', hint: 'target must be "branch" — main/merge are not allowed' })); return; }
+            const items = (p && Array.isArray(p.items)) ? p.items : null;
+            if (!items || items.length === 0 || items.length > 100) { res.writeHead(400, _ch); res.end(JSON.stringify({ error: 'invalid_items' })); return; }
+            for (const it of items) {
+                if (!it || typeof it.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(it.slug) || typeof it.countryCode !== 'string' || !/^[a-z]{2}$/.test(it.countryCode)) {
+                    res.writeHead(400, _ch); res.end(JSON.stringify({ error: 'invalid_item_shape' })); return;
+                }
+            }
+            const commitMessage = (p && typeof p.commitMessage === 'string' && p.commitMessage.trim()) ? p.commitMessage.trim().slice(0, 500) : 'feat(cities): promote reviewed discovered cities from admin dashboard';
+            // GitHub config required (unless local test mode).
+            if (!_PROMOTE_GITHUB_TEST_MODE && (!_GITHUB_TOKEN || !_GITHUB_REPO)) { res.writeHead(503, _ch); res.end(JSON.stringify({ error: 'github_not_configured', hint: 'set GITHUB_TOKEN + GITHUB_REPO env' })); return; }
+            // Concurrency lock (single in-flight promote-commit).
+            if (_adminPromoteLock) { res.writeHead(409, _ch); res.end(JSON.stringify({ error: 'promote_in_progress' })); return; }
+            _adminPromoteLock = true;
+            try {
+                const r = await _buildPromoteCommit(items, commitMessage, p && p.branchName);
+                if (!r.ok) {
+                    res.writeHead(422, _ch);
+                    res.end(JSON.stringify({ status: 'blocked', error: r.code, validations: r.preview.validations, items: r.preview.items, errors: r.preview.errors }));
+                    return;
+                }
+                res.writeHead(200, _ch);
+                res.end(JSON.stringify(Object.assign({ status: 'committed', warnings: [], errors: [] }, r.result)));
+            } catch (e) {
+                const safe = (e && e.message) ? String(e.message) : 'commit_failed';   // own codes only — NEVER echoes the token / GitHub body
+                const out = { status: 'error', errors: [safe] };
+                if (e && e.slugs) out.slugs = e.slugs;
+                res.writeHead(502, _ch); res.end(JSON.stringify(out));
+            } finally {
+                _adminPromoteLock = false;
             }
         });
         return;

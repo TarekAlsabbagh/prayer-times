@@ -128239,5 +128239,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "raanana-il",
+    "type": "city",
+    "countryCode": "ps",
+    "lat": 32.1874797,
+    "lng": 34.8676924,
+    "timezone": "Asia/Jerusalem",
+    "names": {
+      "ar": "رعنانا",
+      "en": "Raanana"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الأراضي الفلسطينية",
+      "countryEn": "Palestinian Territories"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

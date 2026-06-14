@@ -3535,6 +3535,18 @@ async function _buildDiscoveredAdminRows() {
             }
         });
     }
+    // DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 1: attach the saved
+    // review decision per row (display + persists after refresh). Read-only here.
+    const _reviews = await _fetchDiscoveredReviews();
+    const reviewCounts = {};
+    for (const r of out) {
+        const rv = _reviews[r.slug + '|' + r.countryCode];
+        r.reviewDecision    = rv ? rv.decision : 'pending';
+        r.reviewNote        = rv ? (rv.note || '') : '';
+        r.reviewDuplicateOf = rv ? (rv.duplicate_of || '') : '';
+        r.reviewedAt        = rv ? (rv.reviewed_at || '') : '';
+        reviewCounts[r.reviewDecision] = (reviewCounts[r.reviewDecision] || 0) + 1;
+    }
     const counts = {};
     for (const r of out) counts[r.status] = (counts[r.status] || 0) + 1;
     const ORDER = { READY_FOR_REVIEW: 0, NEEDS_AR_NAME: 1, NEAR_DUPLICATE: 2, SLUG_CONFLICT: 3, ALREADY_CURATED: 4, SKIP_LOW_CONFIDENCE: 5 };
@@ -3544,25 +3556,86 @@ async function _buildDiscoveredAdminRows() {
         if (b.pickCount !== a.pickCount) return b.pickCount - a.pickCount;
         return String(b.lastSeen || '').localeCompare(String(a.lastSeen || ''));
     });
-    return { total: out.length, counts, dataSource, rows: out };
+    return { total: out.length, counts, reviewCounts, dataSource, rows: out };
+}
+
+// ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 1: review decisions ──
+// Manual review decision per discovered place, saved to Supabase
+// `discovered_place_reviews` (server-side). NOTHING here promotes a city or
+// changes any page's robots — it only records a judgement. Local/dev (Supabase
+// off) falls back to an in-memory store so the flow is testable without a live
+// Supabase; in prod (_SUPABASE_ENABLED) the real upsert/fetch runs.
+const _ADMIN_REVIEW_DECISIONS = new Set(['approved', 'skipped', 'needs_ar_name', 'duplicate', 'needs_review']);
+const _DISCOVERED_REVIEWS_MEM = new Map();   // 'slug|cc' → review record (dev/test only)
+
+function _isValidReviewInput(p) {
+    if (!p || typeof p !== 'object') return false;
+    if (typeof p.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(p.slug)) return false;
+    if (typeof p.countryCode !== 'string' || !/^[a-z]{2}$/.test(p.countryCode)) return false;
+    if (typeof p.decision !== 'string' || !_ADMIN_REVIEW_DECISIONS.has(p.decision)) return false;
+    if (p.note != null && (typeof p.note !== 'string' || p.note.length > 1000)) return false;
+    if (p.duplicate_of != null && (typeof p.duplicate_of !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(p.duplicate_of))) return false;
+    return true;
+}
+
+// Upsert a review record. Returns 'supabase' | 'memory'. Throws on failure.
+async function _saveDiscoveredReview(rec) {
+    if (_SUPABASE_ENABLED) {
+        const resp = await _supabaseFetch(
+            '/rest/v1/discovered_place_reviews?on_conflict=slug,country_code',
+            {
+                method: 'POST',
+                headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+                body: JSON.stringify(rec)
+            }
+        );
+        if (!resp || !resp.ok) throw new Error('supabase_upsert_failed');
+        return 'supabase';
+    }
+    _DISCOVERED_REVIEWS_MEM.set(rec.slug + '|' + rec.country_code, rec);   // dev/test fallback
+    return 'memory';
+}
+
+// Fetch all review decisions → map keyed by 'slug|cc'. Never throws (returns {}).
+async function _fetchDiscoveredReviews() {
+    const out = Object.create(null);
+    try {
+        if (_SUPABASE_ENABLED) {
+            const resp = await _supabaseFetch(
+                '/rest/v1/discovered_place_reviews?select=slug,country_code,decision,note,duplicate_of,reviewed_at,reviewed_by&limit=5000',
+                { method: 'GET' }
+            );
+            if (resp && resp.ok && Array.isArray(resp.data)) {
+                for (const r of resp.data) out[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
+            }
+        } else {
+            for (const [k, v] of _DISCOVERED_REVIEWS_MEM) out[k] = v;
+        }
+    } catch (_) { /* empty map on failure */ }
+    return out;
 }
 
 // Render the SSR HTML page. Data is server-rendered into the table; filters are
-// client-side over data-* attributes (NO token in client, NO secrets, no fetch).
+// client-side over data-* attributes (NO token in HTML/JS, NO secrets). The
+// review POST reads the token from the page URL at runtime (Bearer header).
 function _renderDiscoveredAdminPage(data) {
     const esc = (s) => (typeof _escHtml === 'function' ? _escHtml(String(s == null ? '' : s)) : String(s == null ? '' : s));
     const ts = (v) => v ? esc(String(v).replace('T', ' ').slice(0, 16)) : '—';
     const STATUSES = ['READY_FOR_REVIEW', 'NEEDS_AR_NAME', 'NEAR_DUPLICATE', 'SLUG_CONFLICT', 'ALREADY_CURATED', 'SKIP_LOW_CONFIDENCE'];
+    const DECISIONS = ['approved', 'skipped', 'needs_ar_name', 'duplicate', 'needs_review'];
     const counts = data.counts || {};
-    const counterChips = ['<span class="chip total">Total: ' + data.total + '</span>']
+    const rc = data.reviewCounts || {};
+    const statusChips = ['<span class="chip total">Total: ' + data.total + '</span>']
         .concat(STATUSES.map(s => '<span class="chip s-' + s + '">' + s + ': ' + (counts[s] || 0) + '</span>')).join(' ');
-    // unique countries for the filter dropdown
+    const reviewChips = ['<span class="chip rv-pending">pending: ' + (rc.pending || 0) + '</span>']
+        .concat(DECISIONS.map(d => '<span class="chip rv-' + d + '">' + d + ': ' + (rc[d] || 0) + '</span>')).join(' ');
     const ccMap = {};
     for (const r of data.rows) if (r.countryCode) ccMap[r.countryCode] = r.countryName;
     const ccOptions = ['<option value="">— country —</option>']
         .concat(Object.keys(ccMap).sort().map(cc => '<option value="' + esc(cc) + '">' + esc(cc.toUpperCase() + ' · ' + ccMap[cc]) + '</option>')).join('');
-    const statusOptions = ['<option value="">— status —</option>']
-        .concat(STATUSES.map(s => '<option value="' + s + '">' + s + '</option>')).join('');
+    const statusOptions = ['<option value="">— status —</option>'].concat(STATUSES.map(s => '<option value="' + s + '">' + s + '</option>')).join('');
+    const reviewOptions = ['<option value="">— review —</option>', '<option value="pending">pending</option>']
+        .concat(DECISIONS.map(d => '<option value="' + d + '">' + d + '</option>')).join('');
     const rowsHtml = data.rows.map(r => {
         const txt = (r.slug + ' ' + r.nameAr + ' ' + r.nameEn).toLowerCase();
         const jsonPre = esc(JSON.stringify(r.detail, null, 2));
@@ -3570,7 +3643,18 @@ function _renderDiscoveredAdminPage(data) {
             '<a href="' + esc(r.route) + '" target="_blank" rel="noopener nofollow">prayer</a>',
             r.countryRoute ? '<a href="' + esc(r.countryRoute) + '" target="_blank" rel="noopener nofollow">country</a>' : ''
         ].filter(Boolean).join(' · ');
-        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-text="' + esc(txt) + '">'
+        // Compact payload the Drawer reads (client-side). NO secrets.
+        const dd = esc(JSON.stringify({
+            slug: r.slug, cc: r.countryCode, country: r.countryName, nameAr: r.nameAr, nameEn: r.nameEn,
+            source: r.source, lat: r.lat, lng: r.lng, tz: r.timezone, pick: r.pickCount, search: r.searchCount,
+            firstSeen: r.firstSeen, lastSeen: r.lastSeen, nameQuality: r.nameQuality, status: r.status,
+            pageStatus: r.pageStatus, route: r.route, countryRoute: r.countryRoute,
+            dedup: (r.detail && r.detail.dedup) || {}, detail: r.detail,
+            decision: r.reviewDecision, note: r.reviewNote, duplicate_of: r.reviewDuplicateOf
+        }));
+        const rvDec = r.reviewDecision || 'pending';
+        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-review="' + esc(rvDec) + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-text="' + esc(txt) + '">'
+            + '<td><span class="rvb rv-' + esc(rvDec) + '" data-rvcell>' + esc(rvDec) + '</span><br><button class="rvbtn" data-d="' + dd + '">Review ▸</button></td>'
             + '<td><span class="badge s-' + esc(r.status) + '">' + esc(r.status) + '</span></td>'
             + '<td class="mono">' + esc(r.slug) + '</td>'
             + '<td>' + esc(r.displayName) + '</td>'
@@ -3608,42 +3692,96 @@ function _renderDiscoveredAdminPage(data) {
         + 'th{position:sticky;top:0;background:#161b22;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#9aa4b2}'
         + 'td.mono,.mono{font-family:ui-monospace,Consolas,monospace}td.num{text-align:end}.sm{font-size:11px;color:#aeb6c2}'
         + 'pre{margin:0;max-width:420px;white-space:pre-wrap;font-size:11px;color:#c9d1d9}'
-        + '.badge{font-size:10.5px;padding:2px 6px;border-radius:8px;border:1px solid}'
+        + '.badge,.rvb{font-size:10.5px;padding:2px 6px;border-radius:8px;border:1px solid;display:inline-block}'
         + '.s-READY_FOR_REVIEW{color:#3fb950;border-color:#235c2c}.s-NEEDS_AR_NAME{color:#d29922;border-color:#6b4d10}'
         + '.s-NEAR_DUPLICATE{color:#a371f7;border-color:#46307a}.s-SLUG_CONFLICT{color:#f85149;border-color:#7a2620}'
         + '.s-ALREADY_CURATED{color:#58a6ff;border-color:#1c4a7a}.s-SKIP_LOW_CONFIDENCE{color:#8b949e;border-color:#39414b}'
-        + 'a{color:#58a6ff}details summary{cursor:pointer;color:#58a6ff}#vis{color:#9aa4b2;font-size:12px;margin-inline-start:auto}';
-    const COLS = ['status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'links', 'json'];
-    const SCRIPT = '(function(){var rows=[].slice.call(document.querySelectorAll("tbody tr"));'
-        + 'var f={cc:byId("f-cc"),st:byId("f-st"),ar:byId("f-ar"),en:byId("f-en"),pick:byId("f-pick"),q:byId("f-q")};'
-        + 'function byId(i){return document.getElementById(i);}'
-        + 'function apply(){var n=0;var cc=f.cc.value,st=f.st.value,ar=f.ar.checked,en=f.en.checked,pick=parseInt(f.pick.value||"0",10)||0,q=(f.q.value||"").trim().toLowerCase();'
-        + 'rows.forEach(function(tr){var ok=true;'
-        + 'if(cc&&tr.getAttribute("data-cc")!==cc)ok=false;'
-        + 'if(st&&tr.getAttribute("data-status")!==st)ok=false;'
-        + 'if(ar&&tr.getAttribute("data-ar")!=="1")ok=false;'
-        + 'if(en&&tr.getAttribute("data-en")!=="1")ok=false;'
-        + 'if(pick&&(parseInt(tr.getAttribute("data-pick"),10)||0)<pick)ok=false;'
-        + 'if(q&&tr.getAttribute("data-text").indexOf(q)<0)ok=false;'
-        + 'tr.style.display=ok?"":"none";if(ok)n++;});'
-        + 'byId("vis").textContent=n+" / "+rows.length+" shown";}'
-        + 'Object.keys(f).forEach(function(k){f[k].addEventListener("input",apply);f[k].addEventListener("change",apply);});apply();})();';
+        + '.rv-pending{color:#8b949e;border-color:#39414b}.rv-approved{color:#3fb950;border-color:#235c2c}.rv-skipped{color:#8b949e;border-color:#39414b}'
+        + '.rv-needs_ar_name{color:#d29922;border-color:#6b4d10}.rv-duplicate{color:#a371f7;border-color:#46307a}.rv-needs_review{color:#58a6ff;border-color:#1c4a7a}'
+        + '.rvbtn{margin-top:4px;font-size:11px;background:#1f2630;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:3px 7px;cursor:pointer}'
+        + 'a{color:#58a6ff}details summary{cursor:pointer;color:#58a6ff}#vis{color:#9aa4b2;font-size:12px;margin-inline-start:auto}'
+        + '.drawer{position:fixed;top:0;inset-inline-end:0;width:min(440px,92vw);height:100vh;background:#11161c;border-inline-start:1px solid #2a313a;box-shadow:-8px 0 24px rgba(0,0,0,.4);overflow:auto;z-index:20;padding:16px}'
+        + '.drawer[hidden]{display:none}.drawer-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}'
+        + '#dr-close{background:none;border:0;color:#9aa4b2;font-size:18px;cursor:pointer}'
+        + '.dr-row{display:flex;gap:8px;font-size:12px;padding:3px 0;border-bottom:1px solid #1c222b}.dr-row b{color:#9aa4b2;min-width:96px;display:inline-block}'
+        + '.dr-actions{margin-top:14px;border-top:1px solid #2a313a;padding-top:12px}'
+        + '.dr-btns{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px}'
+        + '.dbtn{font-size:12px;padding:5px 9px;border-radius:8px;border:1px solid #303a45;background:#0d1117;color:#e6e9ee;cursor:pointer}'
+        + '.dbtn.on{background:#1f6feb;border-color:#1f6feb;color:#fff}'
+        + '.dr-actions textarea,.dr-actions input{width:100%;box-sizing:border-box;background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:6px;font-size:13px;margin-top:4px}'
+        + '#dr-save{margin-top:10px;background:#238636;border:1px solid #2ea043;color:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:13px}'
+        + '#dr-status{display:block;margin-top:8px;font-size:12px;color:#9aa4b2}#dr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15}#dr-overlay[hidden]{display:none}';
+    const COLS = ['review', 'status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'links', 'json'];
+    const drawer = '<div id="dr-overlay" hidden></div><div id="drawer" class="drawer" hidden>'
+        + '<div class="drawer-head"><strong id="dr-title"></strong><button id="dr-close" title="close">✕</button></div>'
+        + '<div id="dr-body"></div>'
+        + '<div class="dr-actions"><div style="font-size:11px;color:#9aa4b2;margin-bottom:6px">Decision (saved to Supabase only — does NOT promote / change indexing):</div>'
+        + '<div class="dr-btns">' + DECISIONS.map(d => '<button type="button" class="dbtn" data-dec="' + d + '">' + d + '</button>').join('') + '</div>'
+        + '<label style="font-size:12px;color:#9aa4b2">note<textarea id="dr-note" rows="2" placeholder="review_note…"></textarea></label>'
+        + '<label id="dr-dup-wrap" hidden style="font-size:12px;color:#9aa4b2">duplicate_of (slug)<input id="dr-dup" placeholder="original-slug"></label>'
+        + '<button id="dr-save">Save decision</button><span id="dr-status"></span></div></div>';
+    const SCRIPT = [
+        '(function(){',
+        'var token=(new URLSearchParams(location.search)).get("token")||"";',  // read from URL, never embedded in HTML
+        'var rows=[].slice.call(document.querySelectorAll("tbody tr"));',
+        'function byId(i){return document.getElementById(i);}',
+        'var f={cc:byId("f-cc"),st:byId("f-st"),rv:byId("f-rv"),ar:byId("f-ar"),en:byId("f-en"),pick:byId("f-pick"),q:byId("f-q")};',
+        'function apply(){var n=0;var cc=f.cc.value,st=f.st.value,rv=f.rv.value,ar=f.ar.checked,en=f.en.checked,pick=parseInt(f.pick.value||"0",10)||0,q=(f.q.value||"").trim().toLowerCase();',
+        'rows.forEach(function(tr){var ok=true;',
+        'if(cc&&tr.getAttribute("data-cc")!==cc)ok=false;',
+        'if(st&&tr.getAttribute("data-status")!==st)ok=false;',
+        'if(rv&&tr.getAttribute("data-review")!==rv)ok=false;',
+        'if(ar&&tr.getAttribute("data-ar")!=="1")ok=false;',
+        'if(en&&tr.getAttribute("data-en")!=="1")ok=false;',
+        'if(pick&&(parseInt(tr.getAttribute("data-pick"),10)||0)<pick)ok=false;',
+        'if(q&&tr.getAttribute("data-text").indexOf(q)<0)ok=false;',
+        'tr.style.display=ok?"":"none";if(ok)n++;});',
+        'byId("vis").textContent=n+" / "+rows.length+" shown";}',
+        'Object.keys(f).forEach(function(k){f[k].addEventListener("input",apply);f[k].addEventListener("change",apply);});apply();',
+        // ── Drawer ──
+        'var drawer=byId("drawer"),overlay=byId("dr-overlay"),cur=null,curTr=null,selDec=null;',
+        'function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"}[c];});}',
+        'function row(b,v){return "<div class=\\"dr-row\\"><b>"+b+"</b><span>"+esc(v)+"</span></div>";}',
+        'function dedupTxt(dd){var o=[];if(dd&&dd.slugHit&&dd.slugHit.slug)o.push("slug:"+dd.slugHit.slug);if(dd&&dd.nameHit&&dd.nameHit.slug)o.push("name:"+dd.nameHit.slug);if(dd&&dd.nearHit&&dd.nearHit.slug)o.push("near:"+dd.nearHit.slug);return o.join(" · ")||"—";}',
+        'function openDrawer(d,tr){cur=d;curTr=tr;selDec=d.decision&&d.decision!=="pending"?d.decision:null;',
+        'byId("dr-title").textContent=(d.nameAr||d.slug)+" ("+d.cc+")";',
+        'var dd=d.dedup||{};',
+        'byId("dr-body").innerHTML=row("slug",d.slug)+row("names.ar",d.nameAr)+row("names.en",d.nameEn)+row("country",d.cc+" · "+d.country)+row("source",d.source)+row("lat,lng",d.lat+","+d.lng)+row("timezone",d.tz)+row("pick / search",d.pick+" / "+d.search)+row("first seen",d.firstSeen||"—")+row("last seen",d.lastSeen||"—")+row("name_quality",JSON.stringify(d.nameQuality||{}))+row("status",d.status)+row("page status",d.pageStatus)+row("dedup",dedupTxt(dd))+row("current",d.decision||"pending")+"<div class=\\"dr-row\\"><b>links</b><span><a href=\\""+esc(d.route)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">prayer</a>"+(d.countryRoute?" · <a href=\\""+esc(d.countryRoute)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">country</a>":"")+"</span></div>"+"<details style=\\"margin-top:6px\\"><summary>raw JSON</summary><pre>"+esc(JSON.stringify(d.detail,null,2))+"</pre></details>";',
+        'byId("dr-note").value=d.note||"";byId("dr-dup").value=d.duplicate_of||"";',
+        'document.querySelectorAll(".dbtn").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-dec")===selDec);});',
+        'byId("dr-dup-wrap").hidden=selDec!=="duplicate";byId("dr-status").textContent="";',
+        'drawer.hidden=false;overlay.hidden=false;}',
+        'function closeDrawer(){drawer.hidden=true;overlay.hidden=true;cur=null;curTr=null;selDec=null;}',
+        'document.querySelector("tbody").addEventListener("click",function(e){var b=e.target.closest(".rvbtn");if(!b)return;try{openDrawer(JSON.parse(b.getAttribute("data-d")),b.closest("tr"));}catch(_){}});',
+        'byId("dr-close").addEventListener("click",closeDrawer);overlay.addEventListener("click",closeDrawer);',
+        'document.querySelectorAll(".dbtn").forEach(function(b){b.addEventListener("click",function(){selDec=b.getAttribute("data-dec");document.querySelectorAll(".dbtn").forEach(function(x){x.classList.toggle("on",x===b);});byId("dr-dup-wrap").hidden=selDec!=="duplicate";});});',
+        'byId("dr-save").addEventListener("click",function(){if(!cur||!selDec){byId("dr-status").textContent="pick a decision first";return;}',
+        'var body={slug:cur.slug,countryCode:cur.cc,decision:selDec,note:byId("dr-note").value||"",duplicate_of:selDec==="duplicate"?(byId("dr-dup").value||null):null};',
+        'byId("dr-status").textContent="saving…";',
+        'fetch("/api/admin/discovered-cities/review",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify(body)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(res){',
+        'if(res.ok&&res.j&&res.j.ok){byId("dr-status").textContent="saved ✓";',
+        'if(curTr){curTr.setAttribute("data-review",selDec);var cell=curTr.querySelector("[data-rvcell]");if(cell){cell.textContent=selDec;cell.className="rvb rv-"+selDec;}}apply();',
+        'setTimeout(closeDrawer,500);}else{byId("dr-status").textContent="error: "+((res.j&&res.j.error)||r.status||"failed");}}).catch(function(){byId("dr-status").textContent="network error";});});',
+        '})();'
+    ].join('\n');
     return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
         + '<meta name="viewport" content="width=device-width,initial-scale=1">'
         + '<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">'
         + '<title>Discovered Cities Admin</title><style>' + STYLE + '</style></head><body>'
-        + '<header><h1>🗂️ Discovered Cities Admin <span class="src">— read-only · ' + esc(srcNote) + '</span></h1>'
-        + '<div class="chips">' + counterChips + '</div></header>'
+        + '<header><h1>🗂️ Discovered Cities Admin <span class="src">— review &amp; decide · ' + esc(srcNote) + '</span></h1>'
+        + '<div class="chips">' + statusChips + '</div><div class="chips">' + reviewChips + '</div></header>'
         + '<div class="filters">'
         + '<select id="f-cc">' + ccOptions + '</select>'
         + '<select id="f-st">' + statusOptions + '</select>'
+        + '<select id="f-rv">' + reviewOptions + '</select>'
         + '<label><input type="checkbox" id="f-ar"> has ar</label>'
         + '<label><input type="checkbox" id="f-en"> has en</label>'
         + '<label>min pick <input type="number" id="f-pick" min="0" style="width:64px"></label>'
         + '<input type="search" id="f-q" placeholder="search slug / name…" style="min-width:200px">'
         + '<span id="vis"></span></div>'
         + '<div class="wrap"><table><thead><tr>' + COLS.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead>'
-        + '<tbody>' + (rowsHtml || '<tr><td colspan="19" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
+        + '<tbody>' + (rowsHtml || '<tr><td colspan="20" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
+        + drawer
         + '<script>' + SCRIPT + '</scr' + 'ipt></body></html>';
 }
 
@@ -24430,6 +24568,48 @@ const server = http.createServer(async (req, res) => {
         }
         res.writeHead(200, _h);
         res.end(_isApi ? JSON.stringify(_adminData) : _renderDiscoveredAdminPage(_adminData));
+        return;
+    }
+
+    // ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 1: save a review decision ──
+    // POST /api/admin/discovered-cities/review — token-gated, JSON-only. Upserts the
+    // decision into discovered_place_reviews. Does NOT promote, does NOT touch curated,
+    // does NOT change robots. The city stays discovered + noindex.
+    if (urlPath === '/api/admin/discovered-cities/review') {
+        const _rh = { 'Content-Type': 'application/json; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        if (req.method !== 'POST') { res.writeHead(405, _rh); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
+        const _rstate = _adminAuthState(req, qs);
+        if (_rstate === 'disabled') { res.writeHead(403, _rh); res.end(JSON.stringify({ error: 'admin_disabled' })); return; }
+        if (_rstate !== 'ok')       { res.writeHead(401, _rh); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
+        // anti-CSRF: require JSON content-type (a cross-site form can't set this without CORS).
+        if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) {
+            res.writeHead(415, _rh); res.end(JSON.stringify({ error: 'json_required' })); return;
+        }
+        let _rbody = '', _rTooBig = false;
+        req.on('data', c => { _rbody += c; if (_rbody.length > 16384) _rTooBig = true; });
+        req.on('error', () => { try { res.writeHead(400, _rh); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
+        req.on('end', async () => {
+            if (_rTooBig) { res.writeHead(413, _rh); res.end(JSON.stringify({ error: 'too_large' })); return; }
+            let p = null; try { p = JSON.parse(_rbody || '{}'); } catch (_) { res.writeHead(400, _rh); res.end(JSON.stringify({ error: 'bad_json' })); return; }
+            if (!_isValidReviewInput(p)) { res.writeHead(400, _rh); res.end(JSON.stringify({ error: 'invalid_input' })); return; }
+            const rec = {
+                slug: p.slug,
+                country_code: p.countryCode.toLowerCase(),
+                decision: p.decision,
+                note: (typeof p.note === 'string' && p.note.trim()) ? p.note.trim() : null,
+                duplicate_of: (p.decision === 'duplicate' && typeof p.duplicate_of === 'string' && p.duplicate_of) ? p.duplicate_of : null,
+                reviewed_by: 'admin',
+                reviewed_at: new Date().toISOString(),
+                source_snapshot: (p.source_snapshot && typeof p.source_snapshot === 'object' && !Array.isArray(p.source_snapshot)) ? p.source_snapshot : {}
+            };
+            try {
+                const persisted = await _saveDiscoveredReview(rec);
+                res.writeHead(200, _rh);
+                res.end(JSON.stringify({ ok: true, persisted, review: { slug: rec.slug, countryCode: rec.country_code, decision: rec.decision, note: rec.note || '', duplicate_of: rec.duplicate_of, reviewed_at: rec.reviewed_at } }));
+            } catch (_e) {
+                res.writeHead(500, _rh); res.end(JSON.stringify({ error: 'save_failed' }));
+            }
+        });
         return;
     }
 

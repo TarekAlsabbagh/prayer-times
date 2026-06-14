@@ -3742,6 +3742,11 @@ const _GITHUB_BASE  = process.env.GITHUB_BRANCH_BASE || 'main';
 const _PROMOTE_GITHUB_TEST_MODE = process.env.PROMOTE_GITHUB_TEST_MODE === '1';  // local-test seam (no real GitHub call)
 let _adminPromoteLock = false;                                   // serialise promote-commit (concurrency guard)
 
+// DISCOVERED-CITIES-ADMIN-PROMOTE-COMMIT-ERROR-DIAGNOSTICS-1: simulate a GitHub
+// failure at a given stage for local diagnostics testing ("stage:status:message").
+// Inert in prod (only honoured alongside PROMOTE_GITHUB_TEST_MODE).
+const _PROMOTE_GITHUB_TEST_FAIL = process.env.PROMOTE_GITHUB_TEST_FAIL || '';
+
 async function _githubFetch(method, apiPath, body) {
     const headers = {
         'Authorization': 'Bearer ' + _GITHUB_TOKEN,
@@ -3753,6 +3758,54 @@ async function _githubFetch(method, apiPath, body) {
     const resp = await fetch('https://api.github.com' + apiPath, { method, headers, body: body ? JSON.stringify(body) : undefined });
     let data = null; try { data = await resp.json(); } catch (_) { data = null; }
     return { ok: resp.ok, status: resp.status, data };
+}
+
+// Raw (text) GitHub fetch — for files > 1 MB whose base64 `content` the Contents
+// API omits. The Blobs API + raw media type returns the file verbatim (≤ 100 MB).
+async function _githubFetchText(method, apiPath, accept) {
+    const headers = {
+        'Authorization': 'Bearer ' + _GITHUB_TOKEN,
+        'Accept': accept || 'application/vnd.github.raw',
+        'X-GitHub-Api-Version': '2022-11-28',
+        'User-Agent': 'prayer-times-admin-dashboard'
+    };
+    const resp = await fetch('https://api.github.com' + apiPath, { method, headers });
+    let text = ''; try { text = await resp.text(); } catch (_) { text = ''; }
+    let data = null; if (!resp.ok) { try { data = JSON.parse(text); } catch (_) { data = null; } }   // error body is JSON {message}
+    return { ok: resp.ok, status: resp.status, text, data };
+}
+
+// Map a failing GitHub call → a SAFE diagnostic code (NO secrets). The GitHub
+// `message` field (e.g. "Not Found", "Bad credentials", "Reference already
+// exists") is safe to surface; the token is never included.
+function _ghMapError(stage, status, message) {
+    const safeMsg = (typeof message === 'string') ? message.slice(0, 180) : '';
+    if (status === 401) return { code: 'github_auth_failed', httpStatus: 502, safeMsg };
+    if (status === 403) return { code: 'github_permission_denied', httpStatus: 502, safeMsg };
+    if (status === 404) {
+        if (stage === 'get_base_ref' || stage === 'get_base_curated_meta') return { code: 'github_base_branch_not_found', httpStatus: 502, safeMsg };
+        return { code: 'github_repo_or_ref_not_found', httpStatus: 502, safeMsg };
+    }
+    if (status === 422 && stage === 'create_ref') {
+        return { code: /already exists|reference already/i.test(safeMsg) ? 'github_branch_already_exists' : 'github_create_ref_failed', httpStatus: 409, safeMsg };
+    }
+    const STAGE_CODE = {
+        get_base_curated_meta: 'github_get_curated_failed', get_base_curated_blob: 'github_get_curated_failed',
+        get_base_ref: 'github_base_branch_not_found', get_base_commit: 'github_base_commit_failed',
+        create_blob_curated: 'github_create_blob_failed', create_blob_report: 'github_create_blob_failed',
+        create_tree: 'github_create_tree_failed', create_commit: 'github_create_commit_failed', create_ref: 'github_create_ref_failed'
+    };
+    return { code: STAGE_CODE[stage] || 'github_api_error', httpStatus: 502, safeMsg };
+}
+// Build + log (safe) + throw a structured GitHub error. NEVER logs the token/headers.
+function _ghThrow(stage, resp, branchName) {
+    const status = (resp && typeof resp.status === 'number') ? resp.status : 0;
+    const message = (resp && resp.data && typeof resp.data.message === 'string') ? resp.data.message : '';
+    const m = _ghMapError(stage, status, message);
+    try { console.error('[promote-commit] github failure', { stage, githubStatus: status, githubMessage: m.safeMsg, code: m.code, branchName: branchName || '', repo: _GITHUB_REPO, baseBranch: _GITHUB_BASE }); } catch (_) {}
+    const e = new Error(m.code);
+    e.code = m.code; e.stage = stage; e.githubStatus = status; e.githubMessage = m.safeMsg; e.httpStatus = m.httpStatus;
+    throw e;
 }
 
 function _makeBranchName(candidates) {
@@ -3788,42 +3841,57 @@ async function _promoteCommitViaGitHub(opts) {
     if (_PROMOTE_GITHUB_TEST_MODE) {
         baseText = fs.readFileSync(path.join(DB_DIR, 'places', 'curated-places.json'), 'utf8');
     } else {
-        const c = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/contents/' + curatedRepoPath + '?ref=' + encodeURIComponent(_GITHUB_BASE));
-        if (!c.ok || !c.data || !c.data.content) throw new Error('github_get_curated_failed');
-        baseText = Buffer.from(c.data.content, 'base64').toString('utf8');
+        // curated-places.json is > 1 MB, so the Contents API omits the base64
+        // `content` field (returns metadata only). Fetch the file's blob SHA from
+        // the (size-agnostic) metadata, then pull the raw blob — the Blobs API +
+        // raw media type has no 1 MB limit (≤ 100 MB). [ROOT-CAUSE FIX]
+        const meta = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/contents/' + curatedRepoPath + '?ref=' + encodeURIComponent(_GITHUB_BASE));
+        if (!meta.ok || !meta.data || !meta.data.sha) _ghThrow('get_base_curated_meta', meta, branchName);
+        const blobRaw = await _githubFetchText('GET', '/repos/' + _GITHUB_REPO + '/git/blobs/' + meta.data.sha, 'application/vnd.github.raw');
+        if (!blobRaw.ok || typeof blobRaw.text !== 'string' || !blobRaw.text) _ghThrow('get_base_curated_blob', blobRaw, branchName);
+        baseText = blobRaw.text;
     }
     let baseArr; try { baseArr = JSON.parse(baseText); } catch (_) { throw new Error('base_curated_parse_failed'); }
     if (!Array.isArray(baseArr)) throw new Error('base_curated_not_array');
     const baseSlugs = new Set(baseArr.map(e => e && e.slug));
     const conflicts = candidates.filter(c => baseSlugs.has(c.slug)).map(c => c.slug);
-    if (conflicts.length) { const e = new Error('slug_already_in_main'); e.slugs = conflicts; throw e; }
+    if (conflicts.length) { const e = new Error('slug_already_in_main'); e.code = 'slug_already_in_main'; e.httpStatus = 409; e.slugs = conflicts; throw e; }
     const newArr = baseArr.concat(candidates);
     const newCuratedText = JSON.stringify(newArr, null, 2) + '\n';
     JSON.parse(newCuratedText);   // final JSON-validity guard (validation #12)
     const filesChanged = [curatedRepoPath, reportPath];
     const citiesPromoted = candidates.map(c => c.slug);
     if (_PROMOTE_GITHUB_TEST_MODE) {
+        // Diagnostics test seam: simulate a GitHub failure at "stage:status:message".
+        if (_PROMOTE_GITHUB_TEST_FAIL) {
+            const parts = _PROMOTE_GITHUB_TEST_FAIL.split(':');
+            const stg = parts[0] || 'create_ref';
+            const st = parseInt(parts[1], 10) || 422;
+            const msg = parts.slice(2).join(':') || 'simulated failure';
+            _ghThrow(stg, { ok: false, status: st, data: { message: msg } }, branchName);
+        }
         return { commitSha: 'test-' + String(Date.now()).slice(-10), branchName, filesChanged, citiesPromoted,
                  githubCommitUrl: '(test-mode — no real commit)', githubBranchUrl: '(test-mode)', beforeCount: baseArr.length, afterCount: newArr.length, testMode: true };
     }
     // Real GitHub Git Data API (atomic multi-file commit → new branch).
     const ref = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/git/ref/heads/' + encodeURIComponent(_GITHUB_BASE));
-    if (!ref.ok || !ref.data || !ref.data.object) throw new Error('github_base_ref_failed');
+    if (!ref.ok || !ref.data || !ref.data.object) _ghThrow('get_base_ref', ref, branchName);
     const baseSha = ref.data.object.sha;
     const baseCommit = await _githubFetch('GET', '/repos/' + _GITHUB_REPO + '/git/commits/' + baseSha);
-    if (!baseCommit.ok || !baseCommit.data || !baseCommit.data.tree) throw new Error('github_base_commit_failed');
+    if (!baseCommit.ok || !baseCommit.data || !baseCommit.data.tree) _ghThrow('get_base_commit', baseCommit, branchName);
     const blobA = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/blobs', { content: newCuratedText, encoding: 'utf-8' });
+    if (!blobA.ok || !blobA.data || !blobA.data.sha) _ghThrow('create_blob_curated', blobA, branchName);
     const blobB = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/blobs', { content: reportContent, encoding: 'utf-8' });
-    if (!blobA.ok || !blobA.data || !blobB.ok || !blobB.data) throw new Error('github_blob_failed');
+    if (!blobB.ok || !blobB.data || !blobB.data.sha) _ghThrow('create_blob_report', blobB, branchName);
     const tree = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/trees', { base_tree: baseCommit.data.tree.sha, tree: [
         { path: curatedRepoPath, mode: '100644', type: 'blob', sha: blobA.data.sha },
         { path: reportPath, mode: '100644', type: 'blob', sha: blobB.data.sha }
     ] });
-    if (!tree.ok || !tree.data) throw new Error('github_tree_failed');
+    if (!tree.ok || !tree.data || !tree.data.sha) _ghThrow('create_tree', tree, branchName);
     const commit = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/commits', { message: commitMessage, tree: tree.data.sha, parents: [baseSha] });
-    if (!commit.ok || !commit.data || !commit.data.sha) throw new Error('github_commit_failed');
+    if (!commit.ok || !commit.data || !commit.data.sha) _ghThrow('create_commit', commit, branchName);
     const refCreate = await _githubFetch('POST', '/repos/' + _GITHUB_REPO + '/git/refs', { ref: 'refs/heads/' + branchName, sha: commit.data.sha });
-    if (!refCreate.ok) throw new Error('github_branch_create_failed');
+    if (!refCreate.ok) _ghThrow('create_ref', refCreate, branchName);
     return { commitSha: commit.data.sha, branchName, filesChanged, citiesPromoted,
              githubCommitUrl: 'https://github.com/' + _GITHUB_REPO + '/commit/' + commit.data.sha,
              githubBranchUrl: 'https://github.com/' + _GITHUB_REPO + '/tree/' + branchName,
@@ -4027,7 +4095,7 @@ function _renderDiscoveredAdminPage(data) {
         'fetch("/api/admin/discovered-cities/promote-commit",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({items:lastItems||[],target:"branch",commitMessage:(byId("commit-msg").value||"")})}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(res){cb.disabled=false;var j=res.j||{};',
         'if(res.ok&&j.status==="committed"){var lk=(j.githubCommitUrl&&j.githubCommitUrl.indexOf("http")===0)?("<a href=\\""+esc(j.githubCommitUrl)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">commit</a> · <a href=\\""+esc(j.githubBranchUrl)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">branch</a>"):esc(j.githubCommitUrl||"");',
         'rd.innerHTML="<div class=\\"pv-ok\\">✓ committed to branch <code>"+esc(j.branchName)+"</code><br>commit: <code>"+esc(j.commitSha)+"</code><br>files: "+esc((j.filesChanged||[]).join(", "))+"<br>cities: "+esc((j.citiesPromoted||[]).join(", "))+"<br>"+lk+"<br><b>main NOT changed — merge the branch manually to go live.</b></div>";}',
-        'else{rd.innerHTML="<div class=\\"pv-err\\">error: "+esc(j.error||j.status||("HTTP "+ (res.j?"":"" )+"failed"))+(j.slugs?(" ("+esc((j.slugs||[]).join(","))+")"):"")+"</div>";}}).catch(function(){cb.disabled=false;rd.innerHTML="<div class=\\"pv-err\\">network error</div>";});});}',
+        'else{var em=esc(j.error||"failed");if(j.stage)em+=" @"+esc(j.stage);if(typeof j.status==="number")em+=" [gh "+j.status+"]";if(j.githubMessage)em+=": "+esc(j.githubMessage);if(j.hint)em+=" — "+esc(j.hint);if(j.slugs&&j.slugs.length)em+=" ("+esc((j.slugs||[]).join(","))+")";if(j.errors&&j.errors.length)em+="<br>"+esc(j.errors.join("; "));rd.innerHTML="<div class=\\"pv-err\\">error: "+em+"</div>";}}).catch(function(){cb.disabled=false;rd.innerHTML="<div class=\\"pv-err\\">network error</div>";});});}',
         '})();'
     ].join('\n');
     return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
@@ -24941,8 +25009,10 @@ const server = http.createServer(async (req, res) => {
                 }
             }
             const commitMessage = (p && typeof p.commitMessage === 'string' && p.commitMessage.trim()) ? p.commitMessage.trim().slice(0, 500) : 'feat(cities): promote reviewed discovered cities from admin dashboard';
-            // GitHub config required (unless local test mode).
-            if (!_PROMOTE_GITHUB_TEST_MODE && (!_GITHUB_TOKEN || !_GITHUB_REPO)) { res.writeHead(503, _ch); res.end(JSON.stringify({ error: 'github_not_configured', hint: 'set GITHUB_TOKEN + GITHUB_REPO env' })); return; }
+            // GitHub config required (unless local test mode) — pre-call validation.
+            if (!_PROMOTE_GITHUB_TEST_MODE && !_GITHUB_TOKEN) { res.writeHead(503, _ch); res.end(JSON.stringify({ ok: false, error: 'github_not_configured', stage: 'preflight', hint: 'set GITHUB_TOKEN env on the server' })); return; }
+            if (!_PROMOTE_GITHUB_TEST_MODE && !_GITHUB_REPO)  { res.writeHead(503, _ch); res.end(JSON.stringify({ ok: false, error: 'github_not_configured', stage: 'preflight', hint: 'set GITHUB_REPO env on the server' })); return; }
+            if (!_PROMOTE_GITHUB_TEST_MODE && !/^[\w.-]+\/[\w.-]+$/.test(_GITHUB_REPO)) { res.writeHead(500, _ch); res.end(JSON.stringify({ ok: false, error: 'github_repo_invalid_format', stage: 'preflight', hint: 'GITHUB_REPO must be "owner/repo"' })); return; }
             // Concurrency lock (single in-flight promote-commit).
             if (_adminPromoteLock) { res.writeHead(409, _ch); res.end(JSON.stringify({ error: 'promote_in_progress' })); return; }
             _adminPromoteLock = true;
@@ -24950,16 +25020,23 @@ const server = http.createServer(async (req, res) => {
                 const r = await _buildPromoteCommit(items, commitMessage, p && p.branchName);
                 if (!r.ok) {
                     res.writeHead(422, _ch);
-                    res.end(JSON.stringify({ status: 'blocked', error: r.code, validations: r.preview.validations, items: r.preview.items, errors: r.preview.errors }));
+                    res.end(JSON.stringify({ ok: false, status: 'blocked', error: r.code, stage: 'revalidate', validations: r.preview.validations, items: r.preview.items, errors: r.preview.errors }));
                     return;
                 }
                 res.writeHead(200, _ch);
                 res.end(JSON.stringify(Object.assign({ status: 'committed', warnings: [], errors: [] }, r.result)));
             } catch (e) {
-                const safe = (e && e.message) ? String(e.message) : 'commit_failed';   // own codes only — NEVER echoes the token / GitHub body
-                const out = { status: 'error', errors: [safe] };
+                // Structured, SAFE diagnostics — own codes + GitHub status/message only.
+                // NEVER echoes the token, raw GitHub body, headers, env, or URL.
+                const code = (e && e.code) ? String(e.code) : ((e && e.message) ? String(e.message) : 'commit_failed');
+                const httpStatus = (e && typeof e.httpStatus === 'number') ? e.httpStatus : 502;
+                const out = { ok: false, error: code };
+                if (e && e.stage) out.stage = String(e.stage);
+                if (e && typeof e.githubStatus === 'number' && e.githubStatus > 0) out.status = e.githubStatus;   // GitHub HTTP status (401/403/404/422…)
+                if (e && e.githubMessage) out.githubMessage = String(e.githubMessage).slice(0, 180);              // GitHub's own safe message
                 if (e && e.slugs) out.slugs = e.slugs;
-                res.writeHead(502, _ch); res.end(JSON.stringify(out));
+                try { console.error('[promote-commit] error', { code, stage: (e && e.stage) || '', githubStatus: (e && e.githubStatus) || 0, repo: _GITHUB_REPO, baseBranch: _GITHUB_BASE }); } catch (_) {}
+                res.writeHead(httpStatus, _ch); res.end(JSON.stringify(out));
             } finally {
                 _adminPromoteLock = false;
             }

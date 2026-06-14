@@ -3541,7 +3541,10 @@ async function _buildDiscoveredAdminRows() {
     // DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 1: attach the saved
     // review decision per row (display + persists after refresh). Read-only here.
     const _reviews = await _fetchDiscoveredReviews();
+    // SORTING-AND-BRANCH-STATUS-1: attach the promote (branch-commit) status too.
+    const _promotions = await _fetchDiscoveredPromotions();
     const reviewCounts = {};
+    const promoteCounts = {};
     for (const r of out) {
         const rv = _reviews[r.slug + '|' + r.countryCode];
         r.reviewDecision    = rv ? rv.decision : 'pending';
@@ -3549,17 +3552,29 @@ async function _buildDiscoveredAdminRows() {
         r.reviewDuplicateOf = rv ? (rv.duplicate_of || '') : '';
         r.reviewedAt        = rv ? (rv.reviewed_at || '') : '';
         reviewCounts[r.reviewDecision] = (reviewCounts[r.reviewDecision] || 0) + 1;
+        const pr = _promotions[r.slug + '|' + r.countryCode];
+        r.promoteStatus      = pr ? (pr.promote_status || '') : '';
+        r.promoteBranch      = pr ? (pr.promote_branch || '') : '';
+        r.promoteCommitSha   = pr ? (pr.promote_commit_sha || '') : '';
+        r.promoteReportPath  = pr ? (pr.promote_report_path || '') : '';
+        r.promoteCommittedAt = pr ? (pr.promote_committed_at || '') : '';
+        if (r.promoteStatus) promoteCounts[r.promoteStatus] = (promoteCounts[r.promoteStatus] || 0) + 1;
+        // Last Activity = the most-relevant single timestamp, by priority:
+        // promote-committed → reviewed → last-seen → first-seen.
+        r.lastActivity = r.promoteCommittedAt || r.reviewedAt || r.lastSeen || r.firstSeen || '';
     }
     const counts = {};
     for (const r of out) counts[r.status] = (counts[r.status] || 0) + 1;
-    const ORDER = { READY_FOR_REVIEW: 0, NEEDS_AR_NAME: 1, NEAR_DUPLICATE: 2, SLUG_CONFLICT: 3, ALREADY_CURATED: 4, SKIP_LOW_CONFIDENCE: 5 };
+    // Default order: Last Activity, newest first (recently-handled cities on top).
+    // Tiebreak: pick count desc, then slug asc (stable). The dashboard's Sort by /
+    // Sort direction controls re-sort client-side over the same rows.
     out.sort((a, b) => {
-        const so = ((ORDER[a.status] != null ? ORDER[a.status] : 9)) - ((ORDER[b.status] != null ? ORDER[b.status] : 9));
-        if (so) return so;
+        const la = String(b.lastActivity || '').localeCompare(String(a.lastActivity || ''));
+        if (la) return la;
         if (b.pickCount !== a.pickCount) return b.pickCount - a.pickCount;
-        return String(b.lastSeen || '').localeCompare(String(a.lastSeen || ''));
+        return String(a.slug || '').localeCompare(String(b.slug || ''));
     });
-    return { total: out.length, counts, reviewCounts, dataSource, rows: out };
+    return { total: out.length, counts, reviewCounts, promoteCounts, dataSource, rows: out };
 }
 
 // ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 1: review decisions ──
@@ -3615,6 +3630,52 @@ async function _fetchDiscoveredReviews() {
             for (const [k, v] of _DISCOVERED_REVIEWS_MEM) out[k] = v;
         }
     } catch (_) { /* empty map on failure */ }
+    return out;
+}
+
+// ── DISCOVERED-CITIES-ADMIN-DASHBOARD-SORTING-AND-BRANCH-STATUS-1 ──
+// Promotion-workflow status, recorded AFTER a successful branch commit. Stored
+// in a SEPARATE table (migration 005) so it never mixes with the review decision
+// or the classification status, and never trips the reviews table's reviewed_at
+// trigger. Inert if migration 005 isn't applied (writes throw → caller swallows;
+// reads return {}). NOTHING here changes a page's robots/indexability.
+const _DISCOVERED_PROMOTIONS_MEM = new Map();   // 'slug|cc' → promote record (dev/test only)
+
+// Upsert a promote record. Returns 'supabase' | 'memory'. Throws on Supabase failure.
+async function _saveDiscoveredPromotion(rec) {
+    if (_SUPABASE_ENABLED) {
+        const resp = await _supabaseFetch(
+            '/rest/v1/discovered_place_promotions?on_conflict=slug,country_code',
+            {
+                method: 'POST',
+                headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+                body: JSON.stringify(rec)
+            }
+        );
+        if (!resp || !resp.ok) throw new Error('supabase_promotion_upsert_failed');
+        return 'supabase';
+    }
+    _DISCOVERED_PROMOTIONS_MEM.set(rec.slug + '|' + rec.country_code, rec);   // dev/test fallback
+    return 'memory';
+}
+
+// Fetch all promote records → map keyed by 'slug|cc'. Never throws (returns {}).
+// If migration 005 isn't applied the table is absent → Supabase 404 → empty map.
+async function _fetchDiscoveredPromotions() {
+    const out = Object.create(null);
+    try {
+        if (_SUPABASE_ENABLED) {
+            const resp = await _supabaseFetch(
+                '/rest/v1/discovered_place_promotions?select=slug,country_code,promote_status,promote_branch,promote_commit_sha,promote_report_path,promote_committed_at&limit=5000',
+                { method: 'GET' }
+            );
+            if (resp && resp.ok && Array.isArray(resp.data)) {
+                for (const r of resp.data) out[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
+            }
+        } else {
+            for (const [k, v] of _DISCOVERED_PROMOTIONS_MEM) out[k] = v;
+        }
+    } catch (_) { /* empty map on failure (table missing / Supabase down) */ }
     return out;
 }
 
@@ -3920,13 +3981,16 @@ function _renderDiscoveredAdminPage(data) {
     const esc = (s) => (typeof _escHtml === 'function' ? _escHtml(String(s == null ? '' : s)) : String(s == null ? '' : s));
     const ts = (v) => v ? esc(String(v).replace('T', ' ').slice(0, 16)) : '—';
     const STATUSES = ['READY_FOR_REVIEW', 'NEEDS_AR_NAME', 'NEAR_DUPLICATE', 'SLUG_CONFLICT', 'ALREADY_CURATED', 'SKIP_LOW_CONFIDENCE'];
+    const STATUS_RANK = { READY_FOR_REVIEW: 0, NEEDS_AR_NAME: 1, NEAR_DUPLICATE: 2, SLUG_CONFLICT: 3, ALREADY_CURATED: 4, SKIP_LOW_CONFIDENCE: 5 };
     const DECISIONS = ['approved', 'skipped', 'needs_ar_name', 'duplicate', 'needs_review'];
     const counts = data.counts || {};
     const rc = data.reviewCounts || {};
+    const pc = data.promoteCounts || {};
     const statusChips = ['<span class="chip total">Total: ' + data.total + '</span>']
         .concat(STATUSES.map(s => '<span class="chip s-' + s + '">' + s + ': ' + (counts[s] || 0) + '</span>')).join(' ');
     const reviewChips = ['<span class="chip rv-pending">pending: ' + (rc.pending || 0) + '</span>']
         .concat(DECISIONS.map(d => '<span class="chip rv-' + d + '">' + d + ': ' + (rc[d] || 0) + '</span>')).join(' ');
+    const promoteChips = '<span class="chip pr-branch_committed">branch_committed: ' + (pc.branch_committed || 0) + '</span>';
     const ccMap = {};
     for (const r of data.rows) if (r.countryCode) ccMap[r.countryCode] = r.countryName;
     const ccOptions = ['<option value="">— country —</option>']
@@ -3948,10 +4012,12 @@ function _renderDiscoveredAdminPage(data) {
             firstSeen: r.firstSeen, lastSeen: r.lastSeen, nameQuality: r.nameQuality, status: r.status,
             pageStatus: r.pageStatus, route: r.route, countryRoute: r.countryRoute,
             dedup: (r.detail && r.detail.dedup) || {}, detail: r.detail,
-            decision: r.reviewDecision, note: r.reviewNote, duplicate_of: r.reviewDuplicateOf
+            decision: r.reviewDecision, note: r.reviewNote, duplicate_of: r.reviewDuplicateOf,
+            promoteStatus: r.promoteStatus, promoteBranch: r.promoteBranch, promoteCommitSha: r.promoteCommitSha, promoteCommittedAt: r.promoteCommittedAt
         }));
         const rvDec = r.reviewDecision || 'pending';
-        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-review="' + esc(rvDec) + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-text="' + esc(txt) + '">'
+        const _srank = STATUS_RANK[r.status] != null ? STATUS_RANK[r.status] : 9;
+        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-statusrank="' + _srank + '" data-review="' + esc(rvDec) + '" data-promote="' + esc(r.promoteStatus || '') + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-search="' + r.searchCount + '" data-slug="' + esc(r.slug) + '" data-firstseen="' + esc(r.firstSeen || '') + '" data-lastseen="' + esc(r.lastSeen || '') + '" data-lastactivity="' + esc(r.lastActivity || '') + '" data-text="' + esc(txt) + '">'
             + '<td><input type="checkbox" class="selbox" data-slug="' + esc(r.slug) + '" data-cc="' + esc(r.countryCode) + '"> <span class="rvb rv-' + esc(rvDec) + '" data-rvcell>' + esc(rvDec) + '</span><br><button class="rvbtn" data-d="' + dd + '">Review ▸</button></td>'
             + '<td><span class="badge s-' + esc(r.status) + '">' + esc(r.status) + '</span></td>'
             + '<td class="mono">' + esc(r.slug) + '</td>'
@@ -3970,6 +4036,11 @@ function _renderDiscoveredAdminPage(data) {
             + '<td class="sm">' + esc(JSON.stringify(r.nameQuality)) + '</td>'
             + '<td>' + (r.verified ? '✓' : '—') + '</td>'
             + '<td class="sm">' + esc(r.pageStatus) + '</td>'
+            + '<td class="sm">' + (r.promoteStatus
+                ? ('<span class="badge pr-' + esc(r.promoteStatus) + '">' + esc(r.promoteStatus) + '</span>'
+                    + (r.promoteBranch ? '<br><span class="mono sm" title="branch">' + esc(r.promoteBranch) + '</span>' : '')
+                    + (r.promoteCommitSha ? '<br><span class="mono sm" title="commit">' + esc(String(r.promoteCommitSha).slice(0, 10)) + '</span>' : ''))
+                : '—') + '</td>'
             + '<td class="sm">' + links + '</td>'
             + '<td><details><summary>JSON</summary><pre>' + jsonPre + '</pre></details></td>'
             + '</tr>';
@@ -3996,6 +4067,7 @@ function _renderDiscoveredAdminPage(data) {
         + '.s-ALREADY_CURATED{color:#58a6ff;border-color:#1c4a7a}.s-SKIP_LOW_CONFIDENCE{color:#8b949e;border-color:#39414b}'
         + '.rv-pending{color:#8b949e;border-color:#39414b}.rv-approved{color:#3fb950;border-color:#235c2c}.rv-skipped{color:#8b949e;border-color:#39414b}'
         + '.rv-needs_ar_name{color:#d29922;border-color:#6b4d10}.rv-duplicate{color:#a371f7;border-color:#46307a}.rv-needs_review{color:#58a6ff;border-color:#1c4a7a}'
+        + '.pr-branch_committed{color:#d2a8ff;border-color:#6e40c9}.chip.pr-branch_committed{color:#d2a8ff;border-color:#6e40c9;background:#1a1430}'
         + '.rvbtn{margin-top:4px;font-size:11px;background:#1f2630;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:3px 7px;cursor:pointer}'
         + 'a{color:#58a6ff}details summary{cursor:pointer;color:#58a6ff}#vis{color:#9aa4b2;font-size:12px;margin-inline-start:auto}'
         + '.drawer{position:fixed;top:0;inset-inline-end:0;width:min(440px,92vw);height:100vh;background:#11161c;border-inline-start:1px solid #2a313a;box-shadow:-8px 0 24px rgba(0,0,0,.4);overflow:auto;z-index:20;padding:16px}'
@@ -4018,7 +4090,7 @@ function _renderDiscoveredAdminPage(data) {
         + '.pv-commit{margin-top:12px;padding:10px;border:1px solid #46307a;border-radius:6px;background:#1a1430}.pv-commit input{width:100%;box-sizing:border-box;margin:6px 0;background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:6px;font-size:12px}'
         + '#commit-btn{background:#238636;border:1px solid #2ea043;color:#fff;border-radius:6px;padding:7px 13px;cursor:pointer;font-size:13px}#commit-btn:disabled{opacity:.5;cursor:default}'
         + '.pv-ok{margin-top:8px;color:#3fb950;border:1px solid #235c2c;border-radius:6px;padding:8px;font-size:12.5px}.pv-ok a{color:#58a6ff}';
-    const COLS = ['review', 'status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'links', 'json'];
+    const COLS = ['review', 'status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'promote', 'links', 'json'];
     const drawer = '<div id="dr-overlay" hidden></div><div id="drawer" class="drawer" hidden>'
         + '<div class="drawer-head"><strong id="dr-title"></strong><button id="dr-close" title="close">✕</button></div>'
         + '<div id="dr-body"></div>'
@@ -4045,6 +4117,25 @@ function _renderDiscoveredAdminPage(data) {
         'tr.style.display=ok?"":"none";if(ok)n++;});',
         'byId("vis").textContent=n+" / "+rows.length+" shown";}',
         'Object.keys(f).forEach(function(k){f[k].addEventListener("input",apply);f[k].addEventListener("change",apply);});apply();',
+        // ── Sort by / Sort direction (client-side; composes with filters) ──
+        'var fsort=byId("f-sort"),fdir=byId("f-dir");',
+        'function sval(tr,key){switch(key){'
+            + 'case "lastseen":return tr.getAttribute("data-lastseen")||"";'
+            + 'case "firstseen":return tr.getAttribute("data-firstseen")||"";'
+            + 'case "pick":return parseInt(tr.getAttribute("data-pick"),10)||0;'
+            + 'case "search":return parseInt(tr.getAttribute("data-search"),10)||0;'
+            + 'case "status":return parseInt(tr.getAttribute("data-statusrank"),10);'
+            + 'case "review":return tr.getAttribute("data-review")||"";'
+            + 'case "country":return tr.getAttribute("data-cc")||"";'
+            + 'case "slug":return tr.getAttribute("data-slug")||"";'
+            + 'default:return tr.getAttribute("data-lastactivity")||"";}}',
+        'function sortRows(){var key=(fsort&&fsort.value)||"activity";var dir=(fdir&&fdir.value==="asc")?1:-1;',
+        'var arr=rows.slice();arr.sort(function(a,b){var ka=sval(a,key),kb=sval(b,key),c;',
+        'if(typeof ka==="number"){c=(isNaN(ka)?9:ka)-(isNaN(kb)?9:kb);}else{c=String(ka).localeCompare(String(kb));}',
+        'if(c===0){c=String(a.getAttribute("data-slug")||"").localeCompare(String(b.getAttribute("data-slug")||""));}',
+        'return c*dir;});',
+        'var tb=document.querySelector("tbody");arr.forEach(function(tr){tb.appendChild(tr);});apply();}',
+        'if(fsort)fsort.addEventListener("change",sortRows);if(fdir)fdir.addEventListener("change",sortRows);',
         // ── Drawer ──
         'var drawer=byId("drawer"),overlay=byId("dr-overlay"),cur=null,curTr=null,selDec=null;',
         'function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"}[c];});}',
@@ -4053,7 +4144,7 @@ function _renderDiscoveredAdminPage(data) {
         'function openDrawer(d,tr){cur=d;curTr=tr;selDec=d.decision&&d.decision!=="pending"?d.decision:null;',
         'byId("dr-title").textContent=(d.nameAr||d.slug)+" ("+d.cc+")";',
         'var dd=d.dedup||{};',
-        'byId("dr-body").innerHTML=row("slug",d.slug)+row("names.ar",d.nameAr)+row("names.en",d.nameEn)+row("country",d.cc+" · "+d.country)+row("source",d.source)+row("lat,lng",d.lat+","+d.lng)+row("timezone",d.tz)+row("pick / search",d.pick+" / "+d.search)+row("first seen",d.firstSeen||"—")+row("last seen",d.lastSeen||"—")+row("name_quality",JSON.stringify(d.nameQuality||{}))+row("status",d.status)+row("page status",d.pageStatus)+row("dedup",dedupTxt(dd))+row("current",d.decision||"pending")+"<div class=\\"dr-row\\"><b>links</b><span><a href=\\""+esc(d.route)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">prayer</a>"+(d.countryRoute?" · <a href=\\""+esc(d.countryRoute)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">country</a>":"")+"</span></div>"+"<details style=\\"margin-top:6px\\"><summary>raw JSON</summary><pre>"+esc(JSON.stringify(d.detail,null,2))+"</pre></details>";',
+        'byId("dr-body").innerHTML=row("slug",d.slug)+row("names.ar",d.nameAr)+row("names.en",d.nameEn)+row("country",d.cc+" · "+d.country)+row("source",d.source)+row("lat,lng",d.lat+","+d.lng)+row("timezone",d.tz)+row("pick / search",d.pick+" / "+d.search)+row("first seen",d.firstSeen||"—")+row("last seen",d.lastSeen||"—")+row("name_quality",JSON.stringify(d.nameQuality||{}))+row("status",d.status)+row("page status",d.pageStatus)+row("promote",d.promoteStatus?(d.promoteStatus+(d.promoteBranch?(" · "+d.promoteBranch):"")+(d.promoteCommitSha?(" · "+String(d.promoteCommitSha).slice(0,10)):"")):"—")+row("dedup",dedupTxt(dd))+row("current",d.decision||"pending")+"<div class=\\"dr-row\\"><b>links</b><span><a href=\\""+esc(d.route)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">prayer</a>"+(d.countryRoute?" · <a href=\\""+esc(d.countryRoute)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">country</a>":"")+"</span></div>"+"<details style=\\"margin-top:6px\\"><summary>raw JSON</summary><pre>"+esc(JSON.stringify(d.detail,null,2))+"</pre></details>";',
         'byId("dr-note").value=d.note||"";byId("dr-dup").value=d.duplicate_of||"";',
         'document.querySelectorAll(".dbtn").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-dec")===selDec);});',
         'byId("dr-dup-wrap").hidden=selDec!=="duplicate";byId("dr-status").textContent="";',
@@ -4103,7 +4194,7 @@ function _renderDiscoveredAdminPage(data) {
         + '<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">'
         + '<title>Discovered Cities Admin</title><style>' + STYLE + '</style></head><body>'
         + '<header><h1>🗂️ Discovered Cities Admin <span class="src">— review &amp; decide · ' + esc(srcNote) + '</span></h1>'
-        + '<div class="chips">' + statusChips + '</div><div class="chips">' + reviewChips + '</div></header>'
+        + '<div class="chips">' + statusChips + '</div><div class="chips">' + reviewChips + ' ' + promoteChips + '</div></header>'
         + '<div class="filters">'
         + '<select id="f-cc">' + ccOptions + '</select>'
         + '<select id="f-st">' + statusOptions + '</select>'
@@ -4112,10 +4203,22 @@ function _renderDiscoveredAdminPage(data) {
         + '<label><input type="checkbox" id="f-en"> has en</label>'
         + '<label>min pick <input type="number" id="f-pick" min="0" style="width:64px"></label>'
         + '<input type="search" id="f-q" placeholder="search slug / name…" style="min-width:200px">'
+        + '<label>sort <select id="f-sort">'
+            + '<option value="activity">Last Activity</option>'
+            + '<option value="lastseen">Last Seen</option>'
+            + '<option value="firstseen">First Seen</option>'
+            + '<option value="pick">Pick Count</option>'
+            + '<option value="search">Search Count</option>'
+            + '<option value="status">Status</option>'
+            + '<option value="review">Review Decision</option>'
+            + '<option value="country">Country</option>'
+            + '<option value="slug">Slug</option>'
+        + '</select></label>'
+        + '<label>dir <select id="f-dir"><option value="desc">Descending</option><option value="asc">Ascending</option></select></label>'
         + '<button id="prep-btn" title="Preview only — nothing is written/committed/pushed">Prepare Promote Preview</button>'
         + '<span id="vis"></span></div>'
         + '<div class="wrap"><table><thead><tr>' + COLS.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead>'
-        + '<tbody>' + (rowsHtml || '<tr><td colspan="20" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
+        + '<tbody>' + (rowsHtml || '<tr><td colspan="21" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
         + '<div id="preview-panel" class="prevpanel" hidden></div>'
         + drawer
         + '<script>' + SCRIPT + '</scr' + 'ipt></body></html>';
@@ -25023,6 +25126,24 @@ const server = http.createServer(async (req, res) => {
                     res.end(JSON.stringify({ ok: false, status: 'blocked', error: r.code, stage: 'revalidate', validations: r.preview.validations, items: r.preview.items, errors: r.preview.errors }));
                     return;
                 }
+                // SORTING-AND-BRANCH-STATUS-1: record the branch-commit (promote)
+                // status — best-effort, NEVER fails the already-successful commit.
+                // Inert if migration 005 (discovered_place_promotions) isn't applied.
+                try {
+                    const _pts = new Date().toISOString();
+                    const _rp = (r.result.filesChanged || []).find(f => /^reports\//.test(f)) || '';
+                    const _ccBySlug = {}; for (const it of items) _ccBySlug[it.slug] = String(it.countryCode || '').toLowerCase();
+                    for (const _slug of (r.result.citiesPromoted || [])) {
+                        await _saveDiscoveredPromotion({
+                            slug: _slug, country_code: _ccBySlug[_slug] || '',
+                            promote_status: 'branch_committed',
+                            promote_branch: r.result.branchName || '',
+                            promote_commit_sha: r.result.commitSha || '',
+                            promote_report_path: _rp,
+                            promote_committed_at: _pts
+                        });
+                    }
+                } catch (e) { try { console.error('[promote-commit] promote-status save skipped (non-fatal)', { code: (e && e.message) || 'err' }); } catch (_) {} }
                 res.writeHead(200, _ch);
                 res.end(JSON.stringify(Object.assign({ status: 'committed', warnings: [], errors: [] }, r.result)));
             } catch (e) {

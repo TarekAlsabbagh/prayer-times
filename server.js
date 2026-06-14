@@ -3433,6 +3433,220 @@ async function _prefetchDiscoveredForSsr(urlPath) {
     _DISCOVERED_SSR_CACHE.set(slug, { entry, expires: Date.now() + _DISCOVERED_SSR_TTL_MS });
 }
 
+// ═══ DISCOVERED-CITIES-ADMIN-DASHBOARD-MVP-1 (2026-06-14) ═════════════════════
+// Private, noindex,nofollow, READ-ONLY admin view over discovered_places.
+// Reuses the EXACT classifier from scripts/review-discovered-cities.mjs (it
+// exports its functions + has a CLI main-guard, so importing it is side-effect-
+// free) → dashboard statuses match the offline review report 1:1. Server-side
+// only: SUPABASE_SERVICE_ROLE_KEY + ADMIN_TOKEN NEVER reach the browser.
+const _ADMIN_TOKEN = process.env.ADMIN_TOKEN || '';
+// Test seam (inert in prod): when Supabase is OFF and DISCOVERED_ADMIN_TEST_FIXTURE
+// points to a JSON ARRAY of raw discovered_places rows, the dashboard renders them
+// so auth/layout/escaping verify locally without a live Supabase. In prod
+// _SUPABASE_ENABLED is true → the real fetch runs and this is never read.
+const _DISCOVERED_ADMIN_TEST_ROWS = (() => {
+    const _p = process.env.DISCOVERED_ADMIN_TEST_FIXTURE;
+    if (!_p) return null;
+    try { const j = JSON.parse(require('fs').readFileSync(_p, 'utf8')); return Array.isArray(j) ? j : null; } catch (_) { return null; }
+})();
+
+// Extract the bearer/query token. Returns '' if none.
+function _adminTokenFromReq(req, qs) {
+    try { const t = new URLSearchParams(qs || '').get('token'); if (t) return t; } catch (_) { /* ignore */ }
+    const m = /^Bearer\s+(.+)$/i.exec((req.headers && req.headers['authorization']) || '');
+    return m ? m[1].trim() : '';
+}
+// 'disabled' (ADMIN_TOKEN env unset → 403) | 'unauthorized' (missing/wrong → 401) | 'ok' (→ 200).
+function _adminAuthState(req, qs) {
+    if (!_ADMIN_TOKEN) return 'disabled';
+    const provided = _adminTokenFromReq(req, qs);
+    if (!provided) return 'unauthorized';
+    let ok = false;
+    try {
+        const a = Buffer.from(provided, 'utf8'), b = Buffer.from(_ADMIN_TOKEN, 'utf8');
+        ok = a.length === b.length && require('crypto').timingSafeEqual(a, b);   // constant-time
+    } catch (_) { ok = false; }
+    return ok ? 'ok' : 'unauthorized';
+}
+
+// Lazy + cached dynamic import of the ESM classifier (CommonJS server → ESM).
+let _reviewModPromise = null;
+function _loadReviewModule() {
+    if (!_reviewModPromise) _reviewModPromise = import('./scripts/review-discovered-cities.mjs');
+    return _reviewModPromise;
+}
+
+// Fetch discovered_places (server-side), classify via the shared logic, enrich,
+// whitelist (NO search_blob, NO secrets), count + sort. Returns safe payload.
+async function _buildDiscoveredAdminRows() {
+    let rawRows = [], dataSource = 'supabase';
+    if (_SUPABASE_ENABLED) {
+        const sel = 'id,slug,type,country_code,lat,lng,timezone,names,aliases,name_quality,admin,source,source_id,verified,search_count,selected_count,created_at,updated_at,last_used_at';
+        const resp = await _supabaseFetch('/rest/v1/discovered_places?select=' + sel + '&order=selected_count.desc&limit=5000', { method: 'GET' });
+        if (!resp || !resp.ok || !Array.isArray(resp.data)) throw new Error('supabase_fetch_failed');
+        rawRows = resp.data;
+    } else if (_DISCOVERED_ADMIN_TEST_ROWS) {
+        rawRows = _DISCOVERED_ADMIN_TEST_ROWS; dataSource = 'fixture';
+    } else {
+        dataSource = 'empty';   // Supabase off locally + no fixture → empty-state table
+    }
+    const review = await _loadReviewModule();
+    const idx = review.buildCuratedIndex(_CURATED_PLACES);
+    const out = [];
+    for (const raw of rawRows) {
+        let cls = null;
+        try { cls = review.classifyRow(raw, idx, {}); } catch (_) { continue; }
+        if (!cls) continue;
+        const slug  = cls.cleanSlug || cls.originalSlug || raw.slug || '';
+        const cc    = String(cls.countryCode || raw.country_code || '').toLowerCase();
+        const names = cls.names || raw.names || {};
+        const ccSlug = (typeof makeCountrySlugSrv === 'function') ? makeCountrySlugSrv(cc) : '';
+        const curated = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+        out.push({
+            slug,
+            displayName: names.ar || names.en || slug,
+            nameAr: names.ar || '', nameEn: names.en || '',
+            countryCode: cc,
+            countryName: (typeof _getCountryName === 'function' ? _getCountryName(cc, 'ar') : '') || cc,
+            source: raw.source || cls.source || '',
+            lat: raw.lat, lng: raw.lng,
+            timezone: raw.timezone || cls.timezone || '',
+            pickCount:   Number(raw.selected_count || cls.selectedCount || 0),
+            searchCount: Number(raw.search_count   || cls.searchCount   || 0),
+            firstSeen: raw.created_at || null,
+            lastSeen:  raw.last_used_at || raw.updated_at || null,
+            status: cls.class || 'UNKNOWN',
+            reason: cls.reason || '',
+            arStatus: cls.arStatus || '',
+            nameQuality: raw.name_quality || cls.nameQuality || {},
+            verified: !!raw.verified,
+            route: '/prayer-times-in-' + slug,
+            countryRoute: ccSlug ? ('/prayer-times-in-' + ccSlug) : '',
+            pageStatus: curated ? 'curated · indexable' : 'discovered · noindex',
+            detail: {
+                names,
+                aliases: raw.aliases || {},
+                coordinates: { lat: raw.lat, lng: raw.lng },
+                timezone: raw.timezone || '',
+                source: raw.source || '', source_id: raw.source_id || null,
+                verified: !!raw.verified,
+                name_quality: raw.name_quality || {},
+                dedup: cls.dedup || {}
+            }
+        });
+    }
+    const counts = {};
+    for (const r of out) counts[r.status] = (counts[r.status] || 0) + 1;
+    const ORDER = { READY_FOR_REVIEW: 0, NEEDS_AR_NAME: 1, NEAR_DUPLICATE: 2, SLUG_CONFLICT: 3, ALREADY_CURATED: 4, SKIP_LOW_CONFIDENCE: 5 };
+    out.sort((a, b) => {
+        const so = ((ORDER[a.status] != null ? ORDER[a.status] : 9)) - ((ORDER[b.status] != null ? ORDER[b.status] : 9));
+        if (so) return so;
+        if (b.pickCount !== a.pickCount) return b.pickCount - a.pickCount;
+        return String(b.lastSeen || '').localeCompare(String(a.lastSeen || ''));
+    });
+    return { total: out.length, counts, dataSource, rows: out };
+}
+
+// Render the SSR HTML page. Data is server-rendered into the table; filters are
+// client-side over data-* attributes (NO token in client, NO secrets, no fetch).
+function _renderDiscoveredAdminPage(data) {
+    const esc = (s) => (typeof _escHtml === 'function' ? _escHtml(String(s == null ? '' : s)) : String(s == null ? '' : s));
+    const ts = (v) => v ? esc(String(v).replace('T', ' ').slice(0, 16)) : '—';
+    const STATUSES = ['READY_FOR_REVIEW', 'NEEDS_AR_NAME', 'NEAR_DUPLICATE', 'SLUG_CONFLICT', 'ALREADY_CURATED', 'SKIP_LOW_CONFIDENCE'];
+    const counts = data.counts || {};
+    const counterChips = ['<span class="chip total">Total: ' + data.total + '</span>']
+        .concat(STATUSES.map(s => '<span class="chip s-' + s + '">' + s + ': ' + (counts[s] || 0) + '</span>')).join(' ');
+    // unique countries for the filter dropdown
+    const ccMap = {};
+    for (const r of data.rows) if (r.countryCode) ccMap[r.countryCode] = r.countryName;
+    const ccOptions = ['<option value="">— country —</option>']
+        .concat(Object.keys(ccMap).sort().map(cc => '<option value="' + esc(cc) + '">' + esc(cc.toUpperCase() + ' · ' + ccMap[cc]) + '</option>')).join('');
+    const statusOptions = ['<option value="">— status —</option>']
+        .concat(STATUSES.map(s => '<option value="' + s + '">' + s + '</option>')).join('');
+    const rowsHtml = data.rows.map(r => {
+        const txt = (r.slug + ' ' + r.nameAr + ' ' + r.nameEn).toLowerCase();
+        const jsonPre = esc(JSON.stringify(r.detail, null, 2));
+        const links = [
+            '<a href="' + esc(r.route) + '" target="_blank" rel="noopener nofollow">prayer</a>',
+            r.countryRoute ? '<a href="' + esc(r.countryRoute) + '" target="_blank" rel="noopener nofollow">country</a>' : ''
+        ].filter(Boolean).join(' · ');
+        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-text="' + esc(txt) + '">'
+            + '<td><span class="badge s-' + esc(r.status) + '">' + esc(r.status) + '</span></td>'
+            + '<td class="mono">' + esc(r.slug) + '</td>'
+            + '<td>' + esc(r.displayName) + '</td>'
+            + '<td dir="rtl">' + esc(r.nameAr) + '</td>'
+            + '<td>' + esc(r.nameEn) + '</td>'
+            + '<td class="mono">' + esc(r.countryCode) + '</td>'
+            + '<td>' + esc(r.countryName) + '</td>'
+            + '<td>' + esc(r.source) + '</td>'
+            + '<td class="mono">' + esc(r.lat) + ',' + esc(r.lng) + '</td>'
+            + '<td>' + esc(r.timezone) + '</td>'
+            + '<td class="num">' + r.pickCount + '</td>'
+            + '<td class="num">' + r.searchCount + '</td>'
+            + '<td class="mono sm">' + ts(r.firstSeen) + '</td>'
+            + '<td class="mono sm">' + ts(r.lastSeen) + '</td>'
+            + '<td class="sm">' + esc(JSON.stringify(r.nameQuality)) + '</td>'
+            + '<td>' + (r.verified ? '✓' : '—') + '</td>'
+            + '<td class="sm">' + esc(r.pageStatus) + '</td>'
+            + '<td class="sm">' + links + '</td>'
+            + '<td><details><summary>JSON</summary><pre>' + jsonPre + '</pre></details></td>'
+            + '</tr>';
+    }).join('');
+    const srcNote = data.dataSource === 'supabase' ? 'live Supabase'
+        : data.dataSource === 'fixture' ? 'LOCAL TEST FIXTURE (Supabase off)'
+        : 'EMPTY (Supabase off locally; set ADMIN/Supabase env on prod)';
+    const STYLE = 'body{font-family:system-ui,Segoe UI,Arial,sans-serif;margin:0;background:#0f1216;color:#e6e9ee}'
+        + 'header{padding:14px 18px;background:#161b22;border-bottom:1px solid #2a313a;position:sticky;top:0;z-index:5}'
+        + 'h1{font-size:18px;margin:0 0 6px}.src{font-size:12px;color:#9aa4b2}'
+        + '.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.chip{font-size:12px;padding:3px 8px;border-radius:10px;background:#222b36;border:1px solid #2f3946}'
+        + '.chip.total{background:#1f6feb;border-color:#1f6feb;color:#fff}'
+        + '.filters{display:flex;flex-wrap:wrap;gap:8px;padding:10px 18px;background:#11161c;border-bottom:1px solid #2a313a;align-items:center}'
+        + '.filters input,.filters select{background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:5px 8px;font-size:13px}'
+        + '.filters label{font-size:12px;color:#9aa4b2;display:flex;align-items:center;gap:4px}'
+        + '.wrap{overflow:auto;max-width:100vw}table{border-collapse:collapse;font-size:12.5px;min-width:1100px}'
+        + 'th,td{border-bottom:1px solid #232a33;padding:6px 8px;text-align:start;vertical-align:top;white-space:nowrap}'
+        + 'th{position:sticky;top:0;background:#161b22;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:#9aa4b2}'
+        + 'td.mono,.mono{font-family:ui-monospace,Consolas,monospace}td.num{text-align:end}.sm{font-size:11px;color:#aeb6c2}'
+        + 'pre{margin:0;max-width:420px;white-space:pre-wrap;font-size:11px;color:#c9d1d9}'
+        + '.badge{font-size:10.5px;padding:2px 6px;border-radius:8px;border:1px solid}'
+        + '.s-READY_FOR_REVIEW{color:#3fb950;border-color:#235c2c}.s-NEEDS_AR_NAME{color:#d29922;border-color:#6b4d10}'
+        + '.s-NEAR_DUPLICATE{color:#a371f7;border-color:#46307a}.s-SLUG_CONFLICT{color:#f85149;border-color:#7a2620}'
+        + '.s-ALREADY_CURATED{color:#58a6ff;border-color:#1c4a7a}.s-SKIP_LOW_CONFIDENCE{color:#8b949e;border-color:#39414b}'
+        + 'a{color:#58a6ff}details summary{cursor:pointer;color:#58a6ff}#vis{color:#9aa4b2;font-size:12px;margin-inline-start:auto}';
+    const COLS = ['status', 'slug', 'display', 'ar', 'en', 'cc', 'country', 'source', 'lat,lng', 'tz', 'pick', 'search', 'first seen', 'last seen', 'name_quality', 'verified', 'page', 'links', 'json'];
+    const SCRIPT = '(function(){var rows=[].slice.call(document.querySelectorAll("tbody tr"));'
+        + 'var f={cc:byId("f-cc"),st:byId("f-st"),ar:byId("f-ar"),en:byId("f-en"),pick:byId("f-pick"),q:byId("f-q")};'
+        + 'function byId(i){return document.getElementById(i);}'
+        + 'function apply(){var n=0;var cc=f.cc.value,st=f.st.value,ar=f.ar.checked,en=f.en.checked,pick=parseInt(f.pick.value||"0",10)||0,q=(f.q.value||"").trim().toLowerCase();'
+        + 'rows.forEach(function(tr){var ok=true;'
+        + 'if(cc&&tr.getAttribute("data-cc")!==cc)ok=false;'
+        + 'if(st&&tr.getAttribute("data-status")!==st)ok=false;'
+        + 'if(ar&&tr.getAttribute("data-ar")!=="1")ok=false;'
+        + 'if(en&&tr.getAttribute("data-en")!=="1")ok=false;'
+        + 'if(pick&&(parseInt(tr.getAttribute("data-pick"),10)||0)<pick)ok=false;'
+        + 'if(q&&tr.getAttribute("data-text").indexOf(q)<0)ok=false;'
+        + 'tr.style.display=ok?"":"none";if(ok)n++;});'
+        + 'byId("vis").textContent=n+" / "+rows.length+" shown";}'
+        + 'Object.keys(f).forEach(function(k){f[k].addEventListener("input",apply);f[k].addEventListener("change",apply);});apply();})();';
+    return '<!doctype html><html lang="en"><head><meta charset="utf-8">'
+        + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+        + '<meta name="robots" content="noindex,nofollow"><meta name="referrer" content="no-referrer">'
+        + '<title>Discovered Cities Admin</title><style>' + STYLE + '</style></head><body>'
+        + '<header><h1>🗂️ Discovered Cities Admin <span class="src">— read-only · ' + esc(srcNote) + '</span></h1>'
+        + '<div class="chips">' + counterChips + '</div></header>'
+        + '<div class="filters">'
+        + '<select id="f-cc">' + ccOptions + '</select>'
+        + '<select id="f-st">' + statusOptions + '</select>'
+        + '<label><input type="checkbox" id="f-ar"> has ar</label>'
+        + '<label><input type="checkbox" id="f-en"> has en</label>'
+        + '<label>min pick <input type="number" id="f-pick" min="0" style="width:64px"></label>'
+        + '<input type="search" id="f-q" placeholder="search slug / name…" style="min-width:200px">'
+        + '<span id="vis"></span></div>'
+        + '<div class="wrap"><table><thead><tr>' + COLS.map(c => '<th>' + esc(c) + '</th>').join('') + '</tr></thead>'
+        + '<tbody>' + (rowsHtml || '<tr><td colspan="19" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
+        + '<script>' + SCRIPT + '</scr' + 'ipt></body></html>';
+}
+
 // Pick a curated entry's localized name for `lang`. Walks the same
 // fallback chain the search endpoint uses (LANG-1 contract) so SSR text
 // matches what search results show: lang → en → first non-empty → null.
@@ -24184,6 +24398,40 @@ const server = http.createServer(async (req, res) => {
     // routes, non-city routes, and when Supabase is disabled; wrapped so a slow
     // or failed Supabase read never blocks or breaks the response.
     try { await _prefetchDiscoveredForSsr(urlPath); } catch (_) { /* never block the response */ }
+
+    // ── DISCOVERED-CITIES-ADMIN-DASHBOARD-MVP-1: private, noindex,nofollow, read-only ──
+    // /admin/discovered-cities (HTML) + /api/admin/discovered-cities (JSON). Gated by
+    // ADMIN_TOKEN (?token= or Authorization: Bearer). Fail-closed (env unset → 403).
+    // Never added to sitemap, never linked publicly. Service-role/token stay server-side.
+    if (urlPath === '/admin/discovered-cities' || urlPath === '/api/admin/discovered-cities') {
+        const _isApi = urlPath.indexOf('/api/') === 0;
+        const _ct    = _isApi ? 'application/json; charset=utf-8' : 'text/html; charset=utf-8';
+        const _h     = { 'Content-Type': _ct, 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        const _state = _adminAuthState(req, qs);
+        if (_state === 'disabled') {
+            res.writeHead(403, _h);
+            res.end(_isApi ? JSON.stringify({ error: 'admin_disabled' })
+                : '<!doctype html><meta name="robots" content="noindex,nofollow"><title>403</title><h1>403 — admin disabled</h1><p>ADMIN_TOKEN is not configured on this server.</p>');
+            return;
+        }
+        if (_state !== 'ok') {
+            res.writeHead(401, _h);
+            res.end(_isApi ? JSON.stringify({ error: 'unauthorized' })
+                : '<!doctype html><meta name="robots" content="noindex,nofollow"><title>401</title><h1>401 — unauthorized</h1>');
+            return;
+        }
+        let _adminData;
+        try { _adminData = await _buildDiscoveredAdminRows(); }
+        catch (_e) {
+            res.writeHead(500, _h);
+            res.end(_isApi ? JSON.stringify({ error: 'internal' })
+                : '<!doctype html><meta name="robots" content="noindex,nofollow"><title>500</title><h1>500 — failed to load</h1>');
+            return;
+        }
+        res.writeHead(200, _h);
+        res.end(_isApi ? JSON.stringify(_adminData) : _renderDiscoveredAdminPage(_adminData));
+        return;
+    }
 
     // ===== Phase E1-b (2026-05-01): legacy-alias redirects FIRST =====
     //   Order matters: these match `/{path}/?$` (with optional trailing slash)

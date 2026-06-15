@@ -4070,7 +4070,10 @@ function _renderDiscoveredAdminPage(data) {
     const reviewOptions = ['<option value="">— review —</option>', '<option value="pending">pending</option>']
         .concat(DECISIONS.map(d => '<option value="' + d + '">' + d + '</option>')).join('');
     const rowsHtml = data.rows.map(r => {
-        const txt = (r.slug + ' ' + r.nameAr + ' ' + r.nameEn).toLowerCase();
+        // SEARCH-AND-NEAR-DUPLICATE-REVIEW-1: searchable text covers ar/en (raw +
+        // effective), slug, country code/name, status, review decision, and aliases.
+        const _aliasTxt = (() => { try { return Object.values((r.detail && r.detail.aliases) || {}).reduce((acc, x) => acc.concat(Array.isArray(x) ? x : []), []).filter(v => typeof v === 'string').join(' '); } catch (_) { return ''; } })();
+        const txt = (r.slug + ' ' + r.nameAr + ' ' + r.nameEn + ' ' + (r.displayNameAr || '') + ' ' + (r.displayNameEn || '') + ' ' + r.countryCode + ' ' + (r.countryName || '') + ' ' + r.status + ' ' + (r.reviewDecision || '') + ' ' + _aliasTxt).toLowerCase();
         const jsonPre = esc(JSON.stringify(r.detail, null, 2));
         const links = [
             '<a href="' + esc(r.route) + '" target="_blank" rel="noopener nofollow">prayer</a>',
@@ -4196,6 +4199,7 @@ function _renderDiscoveredAdminPage(data) {
         'tr.style.display=ok?"":"none";if(ok)n++;});',
         'byId("vis").textContent=n+" / "+rows.length+" shown";}',
         'Object.keys(f).forEach(function(k){f[k].addEventListener("input",apply);f[k].addEventListener("change",apply);});apply();',
+        'var fqc=byId("f-q-clear");if(fqc)fqc.addEventListener("click",function(){f.q.value="";apply();try{f.q.focus();}catch(_){}});',
         // ── Sort by / Sort direction (client-side; composes with filters) ──
         'var fsort=byId("f-sort"),fdir=byId("f-dir");',
         'function sval(tr,key){switch(key){'
@@ -4219,7 +4223,7 @@ function _renderDiscoveredAdminPage(data) {
         'var drawer=byId("drawer"),overlay=byId("dr-overlay"),cur=null,curTr=null,selDec=null;',
         'function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;","\\"":"&quot;"}[c];});}',
         'function row(b,v){return "<div class=\\"dr-row\\"><b>"+b+"</b><span>"+esc(v)+"</span></div>";}',
-        'function dedupTxt(dd){var o=[];if(dd&&dd.slugHit&&dd.slugHit.slug)o.push("slug:"+dd.slugHit.slug);if(dd&&dd.nameHit&&dd.nameHit.slug)o.push("name:"+dd.nameHit.slug);if(dd&&dd.nearHit&&dd.nearHit.slug)o.push("near:"+dd.nearHit.slug);return o.join(" · ")||"—";}',
+        'function dedupTxt(dd){if(!dd)return "—";var o=[];if(dd.signal)o.push("signal:"+dd.signal);if(dd.matched_curated_slug)o.push("matched:"+dd.matched_curated_slug);if(dd.matched_curated_name_ar)o.push("ar:"+dd.matched_curated_name_ar);if(dd.matched_curated_name_en)o.push("en:"+dd.matched_curated_name_en);if(dd.distance_km!=null)o.push("dist:"+dd.distance_km+"km");if(dd.name_similarity!=null)o.push("sim:"+dd.name_similarity);if(dd.slugHit)o.push("slugHit:"+dd.slugHit);if(dd.nameHit)o.push("nameHit:"+dd.nameHit);if(dd.nearHit)o.push("nearHit:"+dd.nearHit);return o.join(" · ")||"—";}',
         'function openDrawer(d,tr){cur=d;curTr=tr;selDec=d.decision&&d.decision!=="pending"?d.decision:null;',
         'byId("dr-title").textContent=(d.nameAr||d.slug)+" ("+d.cc+")";',
         'var dd=d.dedup||{};',
@@ -4293,7 +4297,8 @@ function _renderDiscoveredAdminPage(data) {
         + '<label><input type="checkbox" id="f-ar"> has ar</label>'
         + '<label><input type="checkbox" id="f-en"> has en</label>'
         + '<label>min pick <input type="number" id="f-pick" min="0" style="width:64px"></label>'
-        + '<input type="search" id="f-q" placeholder="search slug / name…" style="min-width:200px">'
+        + '<input type="search" id="f-q" placeholder="search ar / en / slug / cc / status / alias…" style="min-width:260px">'
+        + '<button id="f-q-clear" type="button" title="clear search">✕</button>'
         + '<label>sort <select id="f-sort">'
             + '<option value="activity">Last Activity</option>'
             + '<option value="lastseen">Last Seen</option>'

@@ -130,6 +130,62 @@ function within(entry, lat, lng, deg) {
     return Math.abs(Number(entry.lat) - lat) < deg && Math.abs(Number(entry.lng) - lng) < deg;
 }
 
+// ── DISCOVERED-CITIES-ADMIN-SEARCH-AND-NEAR-DUPLICATE-REVIEW-1 ──
+// Dependency-free name-similarity + distance helpers so NEAR_DUPLICATE requires a
+// NAME signal — geographic proximity ALONE no longer flags a distinct place.
+function _haversineKm(lat1, lng1, lat2, lng2) {
+    const R = 6371, toRad = d => d * Math.PI / 180;
+    const dLat = toRad(lat2 - lat1), dLng = toRad(lng2 - lng1);
+    const a = Math.sin(dLat / 2) ** 2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLng / 2) ** 2;
+    return 2 * R * Math.asin(Math.min(1, Math.sqrt(a)));
+}
+// Normalize a place name for fuzzy compare: lowercase; strip Latin accents + Arabic
+// diacritics/tatweel; unify alef/ya/ta-marbuta/hamza; drop a leading article
+// (ال / the / al / el); remove spaces & punctuation.
+function _normName(s) {
+    s = String(s == null ? '' : s).toLowerCase().trim();
+    try { s = s.normalize('NFKD').replace(/[̀-ͯ]/g, ''); } catch (_) {}
+    s = s.replace(/[ً-ٰٟـ]/g, '');
+    s = s.replace(/[آأإٱ]/g, 'ا').replace(/ى/g, 'ي').replace(/ة/g, 'ه').replace(/ؤ/g, 'و').replace(/ئ/g, 'ي');
+    s = s.replace(/^ال/, '').replace(/^(?:the|al|el)[\s-]+/, '');
+    s = s.replace(/[^\p{L}\p{N}]+/gu, '');
+    return s;
+}
+function _levenshtein(a, b) {
+    if (a === b) return 0;
+    const m = a.length, n = b.length;
+    if (!m) return n; if (!n) return m;
+    let prev = new Array(n + 1); for (let j = 0; j <= n; j++) prev[j] = j;
+    for (let i = 1; i <= m; i++) {
+        const cur = [i];
+        for (let j = 1; j <= n; j++) {
+            const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+            cur[j] = Math.min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + cost);
+        }
+        prev = cur;
+    }
+    return prev[n];
+}
+// Similarity 0..1 between two raw name strings (after normalization).
+function _nameSim(a, b) {
+    a = _normName(a); b = _normName(b);
+    if (!a || !b) return 0;
+    if (a === b) return 1;
+    return 1 - _levenshtein(a, b) / Math.max(a.length, b.length);
+}
+// Best similarity between any discovered name (lowercased list) and the curated
+// entry's names + aliases.
+function _bestNameSim(discNamesLower, entry) {
+    const cur = namesAndAliases(entry);
+    let best = 0;
+    for (const dn of discNamesLower) for (const cn of cur) {
+        const s = _nameSim(dn, cn);
+        if (s > best) best = s;
+        if (best === 1) return 1;
+    }
+    return best;
+}
+
 // ── The core classifier. Pure: (row, curatedIndex, opts) → review record. ──
 export function classifyRow(rawRow, idx, opts = {}) {
     const minSelected = opts.minSelected != null ? opts.minSelected : 1;
@@ -164,6 +220,19 @@ export function classifyRow(rawRow, idx, opts = {}) {
     // missing required local langs (soft warning, not a blocker)
     const missingLocal = requiredLocal.filter(L => nameStatus[L] !== 'native');
 
+    // SEARCH-AND-NEAR-DUPLICATE-REVIEW-1: NEAR_DUPLICATE now needs a NAME signal, not
+    // proximity alone. Compute the best name similarity + distance to the nearby curated
+    // city so a distinct place that merely sits near a curated one (e.g. an-Nabiyah near
+    // al-Qatif — clearly different name) is NOT auto-flagged as a duplicate.
+    const SIM_STRONG = opts.simStrong != null ? opts.simStrong : 0.72;
+    const nearSim = nearHit ? _bestNameSim(discNames, nearHit) : 0;
+    const distKm = nearHit ? Math.round(_haversineKm(row.lat, row.lng, Number(nearHit.lat), Number(nearHit.lng)) * 10) / 10 : null;
+    let nameHitVia = null;
+    if (nameHit) {
+        const curNames = (nameHit.names ? Object.values(nameHit.names) : []).map(v => String(v == null ? '' : v).trim().toLowerCase());
+        nameHitVia = discNames.some(n => curNames.includes(n)) ? 'name' : 'alias';
+    }
+
     let cls, reason;
     if (nameHit || (slugHit && (slugHit.countryCode || '').toLowerCase() === cc)) {
         cls = 'ALREADY_CURATED';
@@ -171,9 +240,9 @@ export function classifyRow(rawRow, idx, opts = {}) {
     } else if (slugHit) {
         cls = 'SLUG_CONFLICT';
         reason = `clean slug "${cleanSlug}" is taken by curated "${slugHit.slug}" (${(slugHit.countryCode || '').toLowerCase()}) — different place`;
-    } else if (nearHit) {
+    } else if (nearHit && nearSim >= SIM_STRONG) {
         cls = 'NEAR_DUPLICATE';
-        reason = `within ${nearDeg}° of curated "${nearHit.slug}" (${nearHit.lat},${nearHit.lng}) — likely same place, different slug`;
+        reason = `near curated "${nearHit.slug}" (~${distKm}km) WITH a strong name match (similarity ${nearSim.toFixed(2)} ≥ ${SIM_STRONG}) — likely the same place, different spelling`;
     } else if (row.selectedCount < minSelected) {
         cls = 'SKIP_LOW_CONFIDENCE';
         reason = `selected_count ${row.selectedCount} < min ${minSelected}`;
@@ -182,10 +251,24 @@ export function classifyRow(rawRow, idx, opts = {}) {
         reason = `names.ar is ${arStatus} (quality tag: ${arQuality}) — supply a trustworthy Arabic name manually`;
     } else {
         cls = 'READY_FOR_REVIEW';
-        reason = missingLocal.length
-            ? `native ar+en present; missing required local lang(s): ${missingLocal.join(',')} — add before promote`
-            : 'native ar+en (+ required local langs) present';
+        // A place that merely sits NEAR a curated city but has a clearly different name
+        // is a DISTINCT place to review — NOT a duplicate (proximity alone is not enough).
+        reason = (nearHit
+            ? `distinct place ~${distKm}km from curated "${nearHit.slug}" but the name differs (similarity ${nearSim.toFixed(2)} < ${SIM_STRONG}) — proximity-only, NOT a duplicate; review. `
+            : '')
+            + (missingLocal.length
+                ? `native ar+en present; missing required local lang(s): ${missingLocal.join(',')} — add before promote`
+                : 'native ar+en (+ required local langs) present');
     }
+
+    // SEARCH-AND-NEAR-DUPLICATE-REVIEW-1: dedup diagnostics — the reason signal + the
+    // matched curated entry (for the admin diagnostic panel; NO curated/data change).
+    let signal = null;
+    if (nameHit) signal = (nameHitVia === 'alias') ? 'alias_match' : 'strong_name_match';
+    else if (slugHit) signal = 'same_slug';
+    else if (nearHit && nearSim >= SIM_STRONG) signal = 'mixed_signal';
+    else if (nearHit) signal = 'coordinate_near_only';
+    const matched = nameHit || slugHit || nearHit || null;
 
     // proposed curated entry (only the trustworthy/native names are carried — NO translation)
     const suggestedNames = {};
@@ -207,7 +290,13 @@ export function classifyRow(rawRow, idx, opts = {}) {
         dedup: {
             slugHit: slugHit ? slugHit.slug : null,
             nameHit: nameHit ? nameHit.slug : null,
-            nearHit: nearHit ? nearHit.slug : null
+            nearHit: nearHit ? nearHit.slug : null,
+            matched_curated_slug: matched ? matched.slug : null,
+            matched_curated_name_ar: (matched && matched.names) ? (matched.names.ar || null) : null,
+            matched_curated_name_en: (matched && matched.names) ? (matched.names.en || null) : null,
+            distance_km: distKm,
+            name_similarity: nearHit ? Math.round(nearSim * 100) / 100 : null,
+            signal
         },
         suggestion
     };

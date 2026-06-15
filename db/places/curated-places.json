@@ -128328,5 +128328,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "an-nabiah",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 26.4759512,
+    "lng": 50.0066756,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "النابية",
+      "en": "An Nabiah"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

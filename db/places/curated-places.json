@@ -128304,5 +128304,29 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "al-quneitra",
+    "type": "city",
+    "countryCode": "sy",
+    "lat": 33.1244369,
+    "lng": 35.8230108,
+    "timezone": "Asia/Jerusalem",
+    "names": {
+      "ar": "القنيطرة",
+      "de": "al-Kuneitra",
+      "en": "Al-Quneitra",
+      "fr": "Qouneitra",
+      "tr": "Kuneytire",
+      "ur": "قنیطرہ"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

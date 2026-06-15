@@ -3543,6 +3543,8 @@ async function _buildDiscoveredAdminRows() {
     const _reviews = await _fetchDiscoveredReviews();
     // SORTING-AND-BRANCH-STATUS-1: attach the promote (branch-commit) status too.
     const _promotions = await _fetchDiscoveredPromotions();
+    // NAME-EDIT-AR-EN-1: attach admin name overrides → effective display name.
+    const _nameOverrides = await _fetchDiscoveredNameOverrides();
     const reviewCounts = {};
     const promoteCounts = {};
     for (const r of out) {
@@ -3562,6 +3564,13 @@ async function _buildDiscoveredAdminRows() {
         // Last Activity = the most-relevant single timestamp, by priority:
         // promote-committed → reviewed → last-seen → first-seen.
         r.lastActivity = r.promoteCommittedAt || r.reviewedAt || r.lastSeen || r.firstSeen || '';
+        // NAME-EDIT-AR-EN-1: effective display name = admin override, else raw.
+        const nov = _nameOverrides[r.slug + '|' + r.countryCode];
+        r.nameArOverride = nov ? (nov.name_ar || '') : '';
+        r.nameEnOverride = nov ? (nov.name_en || '') : '';
+        r.displayNameAr = r.nameArOverride || r.nameAr;
+        r.displayNameEn = r.nameEnOverride || r.nameEn;
+        r.hasNameOverride = !!(r.nameArOverride || r.nameEnOverride);
     }
     const counts = {};
     for (const r of out) counts[r.status] = (counts[r.status] || 0) + 1;
@@ -3679,6 +3688,53 @@ async function _fetchDiscoveredPromotions() {
     return out;
 }
 
+// ── DISCOVERED-CITIES-ADMIN-NAME-EDIT-AR-EN-1 ──
+// Admin-edited ar/en name overrides for a discovered place. Stored in a THIRD
+// SEPARATE table (migration 006) — never mixed with reviews (decision) or
+// promotions (branch status). Used at promote-commit to replace the raw
+// discovered name. Inert/graceful if migration 006 isn't applied: writes throw
+// (caller returns a safe error + logs a warning), reads return {} (dashboard
+// shows the raw discovered names). NOTHING here changes slug/coords/cc/curated.
+const _DISCOVERED_NAME_OVERRIDES_MEM = new Map();   // 'slug|cc' → {name_ar,name_en} (dev/test only)
+
+// Upsert a name-override record. Returns 'supabase' | 'memory'. Throws on Supabase failure.
+async function _saveDiscoveredNameOverride(rec) {
+    if (_SUPABASE_ENABLED) {
+        const resp = await _supabaseFetch(
+            '/rest/v1/discovered_place_name_overrides?on_conflict=slug,country_code',
+            {
+                method: 'POST',
+                headers: { 'Prefer': 'resolution=merge-duplicates,return=minimal' },
+                body: JSON.stringify(rec)
+            }
+        );
+        if (!resp || !resp.ok) throw new Error('supabase_name_override_upsert_failed');
+        return 'supabase';
+    }
+    _DISCOVERED_NAME_OVERRIDES_MEM.set(rec.slug + '|' + rec.country_code, rec);   // dev/test fallback
+    return 'memory';
+}
+
+// Fetch all name overrides → map keyed by 'slug|cc'. Never throws (returns {}).
+// If migration 006 isn't applied the table is absent → Supabase 404 → empty map.
+async function _fetchDiscoveredNameOverrides() {
+    const out = Object.create(null);
+    try {
+        if (_SUPABASE_ENABLED) {
+            const resp = await _supabaseFetch(
+                '/rest/v1/discovered_place_name_overrides?select=slug,country_code,name_ar,name_en,updated_at&limit=5000',
+                { method: 'GET' }
+            );
+            if (resp && resp.ok && Array.isArray(resp.data)) {
+                for (const r of resp.data) out[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
+            }
+        } else {
+            for (const [k, v] of _DISCOVERED_NAME_OVERRIDES_MEM) out[k] = v;
+        }
+    } catch (_) { /* empty map on failure → dashboard shows raw discovered names */ }
+    return out;
+}
+
 // ── DISCOVERED-CITIES-ADMIN-REVIEW-PROMOTE-WORKFLOW-1 Phase 2: promote PREVIEW ──
 // PREVIEW ONLY — builds the candidate curated entry + runs validations + computes
 // the diff/counts/robots/source. It NEVER writes curated-places.json, NEVER
@@ -3688,7 +3744,7 @@ const _ARABIC_COUNTRY_CC = new Set(['dz', 'bh', 'km', 'dj', 'eg', 'iq', 'jo', 'k
 
 // Build the curated entry that WOULD be added (native names only, mirrors
 // add-discovered-city-to-curated.mjs shape). No translation/fillchain.
-function _buildPromoteCandidate(raw, cls, review) {
+function _buildPromoteCandidate(raw, cls, review, override) {
     if (!raw || !cls) return null;
     const cc = String(cls.countryCode || raw.country_code || '').toLowerCase();
     const slug = cls.cleanSlug || raw.slug || '';
@@ -3699,6 +3755,13 @@ function _buildPromoteCandidate(raw, cls, review) {
         if (nameStatus[L] === 'native') names[L] = String(rawNames[L]).trim();   // native-script only
     }
     if (Object.keys(names).length === 0 && cls.suggestion && cls.suggestion.names) Object.assign(names, cls.suggestion.names);
+    // NAME-EDIT-AR-EN-1: admin name override (ar/en) REPLACES the raw discovered
+    // name. Still subject to the ar/en script-clean validation below (a quality
+    // gate, not a name source). NEVER touches slug/coords/cc/aliases.
+    if (override) {
+        if (override.name_ar && String(override.name_ar).trim()) names.ar = String(override.name_ar).trim();
+        if (override.name_en && String(override.name_en).trim()) names.en = String(override.name_en).trim();
+    }
     const aliases = {};
     const rawAliases = raw.aliases || {};
     for (const L of Object.keys(rawAliases)) {
@@ -3748,6 +3811,7 @@ async function _buildPromotePreview(items) {
     const rawByKey = Object.create(null);
     for (const r of rawRows) rawByKey[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
     const reviews = await _fetchDiscoveredReviews();
+    const nameOverrides = await _fetchDiscoveredNameOverrides();   // NAME-EDIT-AR-EN-1
     const idx = review.buildCuratedIndex(_CURATED_PLACES);
     const outItems = [], errors = [], warnings = [], candidates = [];
     for (const it of (Array.isArray(items) ? items : [])) {
@@ -3758,7 +3822,7 @@ async function _buildPromotePreview(items) {
         const reviewDecision = (reviews[key] && reviews[key].decision) || 'pending';
         if (!raw) { outItems.push({ slug, countryCode: cc, reviewDecision, valid: false, checks: [{ name: 'discovered_row_exists', ok: false }], errors: ['discovered row not found'], warnings: [] }); errors.push(slug + ': discovered row not found'); continue; }
         let cls = null; try { cls = review.classifyRow(raw, idx, {}); } catch (_) { cls = null; }
-        const cand = _buildPromoteCandidate(raw, cls, review);
+        const cand = _buildPromoteCandidate(raw, cls, review, nameOverrides[key]);
         const v = _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review);
         if (cand && v.valid) candidates.push(cand);
         outItems.push({
@@ -4013,17 +4077,18 @@ function _renderDiscoveredAdminPage(data) {
             pageStatus: r.pageStatus, route: r.route, countryRoute: r.countryRoute,
             dedup: (r.detail && r.detail.dedup) || {}, detail: r.detail,
             decision: r.reviewDecision, note: r.reviewNote, duplicate_of: r.reviewDuplicateOf,
-            promoteStatus: r.promoteStatus, promoteBranch: r.promoteBranch, promoteCommitSha: r.promoteCommitSha, promoteCommittedAt: r.promoteCommittedAt
+            promoteStatus: r.promoteStatus, promoteBranch: r.promoteBranch, promoteCommitSha: r.promoteCommitSha, promoteCommittedAt: r.promoteCommittedAt,
+            nameArOverride: r.nameArOverride, nameEnOverride: r.nameEnOverride, displayNameAr: r.displayNameAr, displayNameEn: r.displayNameEn
         }));
         const rvDec = r.reviewDecision || 'pending';
         const _srank = STATUS_RANK[r.status] != null ? STATUS_RANK[r.status] : 9;
-        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-statusrank="' + _srank + '" data-review="' + esc(rvDec) + '" data-promote="' + esc(r.promoteStatus || '') + '" data-ar="' + (r.nameAr ? 1 : 0) + '" data-en="' + (r.nameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-search="' + r.searchCount + '" data-slug="' + esc(r.slug) + '" data-firstseen="' + esc(r.firstSeen || '') + '" data-lastseen="' + esc(r.lastSeen || '') + '" data-lastactivity="' + esc(r.lastActivity || '') + '" data-text="' + esc(txt) + '">'
+        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-statusrank="' + _srank + '" data-review="' + esc(rvDec) + '" data-promote="' + esc(r.promoteStatus || '') + '" data-ar="' + (r.displayNameAr ? 1 : 0) + '" data-en="' + (r.displayNameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-search="' + r.searchCount + '" data-slug="' + esc(r.slug) + '" data-firstseen="' + esc(r.firstSeen || '') + '" data-lastseen="' + esc(r.lastSeen || '') + '" data-lastactivity="' + esc(r.lastActivity || '') + '" data-text="' + esc(txt) + '">'
             + '<td><input type="checkbox" class="selbox" data-slug="' + esc(r.slug) + '" data-cc="' + esc(r.countryCode) + '"> <span class="rvb rv-' + esc(rvDec) + '" data-rvcell>' + esc(rvDec) + '</span><br><button class="rvbtn" data-d="' + dd + '">Review ▸</button></td>'
             + '<td><span class="badge s-' + esc(r.status) + '">' + esc(r.status) + '</span></td>'
             + '<td class="mono">' + esc(r.slug) + '</td>'
             + '<td>' + esc(r.displayName) + '</td>'
-            + '<td dir="rtl">' + esc(r.nameAr) + '</td>'
-            + '<td>' + esc(r.nameEn) + '</td>'
+            + '<td dir="rtl" data-arcell>' + esc(r.displayNameAr) + (r.nameArOverride ? ' <span class="ovmark" title="admin-edited">✎</span>' : '') + '</td>'
+            + '<td data-encell>' + esc(r.displayNameEn) + (r.nameEnOverride ? ' <span class="ovmark" title="admin-edited">✎</span>' : '') + '</td>'
             + '<td class="mono">' + esc(r.countryCode) + '</td>'
             + '<td>' + esc(r.countryName) + '</td>'
             + '<td>' + esc(r.source) + '</td>'
@@ -4080,6 +4145,8 @@ function _renderDiscoveredAdminPage(data) {
         + '.dbtn.on{background:#1f6feb;border-color:#1f6feb;color:#fff}'
         + '.dr-actions textarea,.dr-actions input{width:100%;box-sizing:border-box;background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:6px;font-size:13px;margin-top:4px}'
         + '#dr-save{margin-top:10px;background:#238636;border:1px solid #2ea043;color:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:13px}'
+        + '.dr-names{margin-top:14px;border-top:1px solid #2a313a;padding-top:12px}.dr-names label{display:block;margin-top:6px}.dr-names input{width:100%;box-sizing:border-box;background:#0d1117;color:#e6e9ee;border:1px solid #303a45;border-radius:6px;padding:6px;font-size:13px;margin-top:4px}'
+        + '#dr-name-save{margin-top:10px;background:#1f6feb;border:1px solid #1f6feb;color:#fff;border-radius:6px;padding:8px 14px;cursor:pointer;font-size:13px}#dr-name-status{display:block;margin-top:8px;font-size:12px;color:#9aa4b2}.ovmark{color:#d2a8ff;font-size:11px}'
         + '#dr-status{display:block;margin-top:8px;font-size:12px;color:#9aa4b2}#dr-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:15}#dr-overlay[hidden]{display:none}'
         + '#prep-btn{background:#8957e5;border:1px solid #8957e5;color:#fff;border-radius:6px;padding:6px 12px;cursor:pointer;font-size:13px}.selbox{vertical-align:middle}'
         + '.prevpanel{margin:14px 18px;padding:14px;background:#11161c;border:1px solid #2a313a;border-radius:8px}.prevpanel[hidden]{display:none}'
@@ -4094,6 +4161,10 @@ function _renderDiscoveredAdminPage(data) {
     const drawer = '<div id="dr-overlay" hidden></div><div id="drawer" class="drawer" hidden>'
         + '<div class="drawer-head"><strong id="dr-title"></strong><button id="dr-close" title="close">✕</button></div>'
         + '<div id="dr-body"></div>'
+        + '<div class="dr-names"><div style="font-size:11px;color:#9aa4b2;margin-bottom:6px">Edit names — saved to <code>discovered_place_name_overrides</code> only; used at promote-commit instead of the raw name. Does NOT touch reviews / promotions / classification.</div>'
+        + '<label style="font-size:12px;color:#9aa4b2">Arabic name<input id="dr-name-ar" dir="rtl" placeholder="الاسم العربي للمدينة"></label>'
+        + '<label style="font-size:12px;color:#9aa4b2">English name<input id="dr-name-en" placeholder="English city name"></label>'
+        + '<button id="dr-name-save">Save names</button><span id="dr-name-status"></span></div>'
         + '<div class="dr-actions"><div style="font-size:11px;color:#9aa4b2;margin-bottom:6px">Decision (saved to Supabase only — does NOT promote / change indexing):</div>'
         + '<div class="dr-btns">' + DECISIONS.map(d => '<button type="button" class="dbtn" data-dec="' + d + '">' + d + '</button>').join('') + '</div>'
         + '<label style="font-size:12px;color:#9aa4b2">note<textarea id="dr-note" rows="2" placeholder="review_note…"></textarea></label>'
@@ -4146,6 +4217,7 @@ function _renderDiscoveredAdminPage(data) {
         'var dd=d.dedup||{};',
         'byId("dr-body").innerHTML=row("slug",d.slug)+row("names.ar",d.nameAr)+row("names.en",d.nameEn)+row("country",d.cc+" · "+d.country)+row("source",d.source)+row("lat,lng",d.lat+","+d.lng)+row("timezone",d.tz)+row("pick / search",d.pick+" / "+d.search)+row("first seen",d.firstSeen||"—")+row("last seen",d.lastSeen||"—")+row("name_quality",JSON.stringify(d.nameQuality||{}))+row("status",d.status)+row("page status",d.pageStatus)+row("promote",d.promoteStatus?(d.promoteStatus+(d.promoteBranch?(" · "+d.promoteBranch):"")+(d.promoteCommitSha?(" · "+String(d.promoteCommitSha).slice(0,10)):"")):"—")+row("dedup",dedupTxt(dd))+row("current",d.decision||"pending")+"<div class=\\"dr-row\\"><b>links</b><span><a href=\\""+esc(d.route)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">prayer</a>"+(d.countryRoute?" · <a href=\\""+esc(d.countryRoute)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">country</a>":"")+"</span></div>"+"<details style=\\"margin-top:6px\\"><summary>raw JSON</summary><pre>"+esc(JSON.stringify(d.detail,null,2))+"</pre></details>";',
         'byId("dr-note").value=d.note||"";byId("dr-dup").value=d.duplicate_of||"";',
+        'byId("dr-name-ar").value=d.displayNameAr||d.nameAr||"";byId("dr-name-en").value=d.displayNameEn||d.nameEn||"";byId("dr-name-status").textContent="";',
         'document.querySelectorAll(".dbtn").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-dec")===selDec);});',
         'byId("dr-dup-wrap").hidden=selDec!=="duplicate";byId("dr-status").textContent="";',
         'drawer.hidden=false;overlay.hidden=false;}',
@@ -4160,6 +4232,17 @@ function _renderDiscoveredAdminPage(data) {
         'if(res.ok&&res.j&&res.j.ok){byId("dr-status").textContent="saved ✓";',
         'if(curTr){curTr.setAttribute("data-review",selDec);var cell=curTr.querySelector("[data-rvcell]");if(cell){cell.textContent=selDec;cell.className="rvb rv-"+selDec;}}apply();',
         'setTimeout(closeDrawer,500);}else{byId("dr-status").textContent="error: "+((res.j&&res.j.error)||r.status||"failed");}}).catch(function(){byId("dr-status").textContent="network error";});});',
+        // ── NAME-EDIT-AR-EN-1: Save names (separate table; never touches reviews/promotions/classification) ──
+        'byId("dr-name-save").addEventListener("click",function(){if(!cur)return;',
+        'var na=(byId("dr-name-ar").value||"").trim(),ne=(byId("dr-name-en").value||"").trim();',
+        'if(!na&&!ne){byId("dr-name-status").textContent="enter at least one name";return;}',
+        'var nb={slug:cur.slug,countryCode:cur.cc};if(na)nb.name_ar=na;if(ne)nb.name_en=ne;',
+        'byId("dr-name-status").textContent="saving…";',
+        'fetch("/api/admin/discovered-name-overrides",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify(nb)}).then(function(r){return r.json().then(function(j){return{ok:r.ok,j:j};});}).then(function(res){',
+        'if(res.ok&&res.j&&res.j.ok){byId("dr-name-status").textContent="saved ✓";',
+        'cur.nameArOverride=na;cur.nameEnOverride=ne;cur.displayNameAr=na||cur.nameAr;cur.displayNameEn=ne||cur.nameEn;',
+        'if(curTr){var ac=curTr.querySelector("[data-arcell]");if(ac)ac.innerHTML=esc(cur.displayNameAr)+(na?" <span class=\\"ovmark\\" title=\\"admin-edited\\">✎</span>":"");var ec=curTr.querySelector("[data-encell]");if(ec)ec.innerHTML=esc(cur.displayNameEn)+(ne?" <span class=\\"ovmark\\" title=\\"admin-edited\\">✎</span>":"");curTr.setAttribute("data-ar",cur.displayNameAr?"1":"0");curTr.setAttribute("data-en",cur.displayNameEn?"1":"0");}',
+        '}else{byId("dr-name-status").textContent="error: "+((res.j&&res.j.error)||"failed");}}).catch(function(){byId("dr-name-status").textContent="network error";});});',
         // ── Promote Preview (Phase 2: preview only — nothing written) ──
         'function renderPreview(d){var h="<h3>Promote Preview ("+esc(d.status)+") — PREVIEW ONLY, nothing written/committed/pushed</h3>";',
         'if(d.errors&&d.errors.length)h+="<div class=\\"pv-err\\"><b>Errors:</b><ul>"+d.errors.map(function(e){return "<li>"+esc(e)+"</li>";}).join("")+"</ul></div>";',
@@ -25047,6 +25130,54 @@ const server = http.createServer(async (req, res) => {
                 res.end(JSON.stringify({ ok: true, persisted, review: { slug: rec.slug, countryCode: rec.country_code, decision: rec.decision, note: rec.note || '', duplicate_of: rec.duplicate_of, reviewed_at: rec.reviewed_at } }));
             } catch (_e) {
                 res.writeHead(500, _rh); res.end(JSON.stringify({ error: 'save_failed' }));
+            }
+        });
+        return;
+    }
+
+    // ── DISCOVERED-CITIES-ADMIN-NAME-EDIT-AR-EN-1: name overrides (ar/en) ──
+    // GET → all overrides ; POST → save name_ar/name_en for a place into the
+    // SEPARATE discovered_place_name_overrides table. Token-gated. NEVER touches
+    // reviews / promotions / classification / curated / public pages.
+    if (urlPath === '/api/admin/discovered-name-overrides') {
+        const _nh = { 'Content-Type': 'application/json; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        const _nstate = _adminAuthState(req, qs);
+        if (_nstate === 'disabled') { res.writeHead(403, _nh); res.end(JSON.stringify({ error: 'admin_disabled' })); return; }
+        if (_nstate !== 'ok')       { res.writeHead(401, _nh); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
+        if (req.method === 'GET') {
+            let overrides = {}; try { overrides = await _fetchDiscoveredNameOverrides(); } catch (_) { overrides = {}; }
+            res.writeHead(200, _nh); res.end(JSON.stringify({ ok: true, overrides }));
+            return;
+        }
+        if (req.method !== 'POST') { res.writeHead(405, _nh); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
+        if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) { res.writeHead(415, _nh); res.end(JSON.stringify({ error: 'json_required' })); return; }
+        let _nbody = '', _nTooBig = false;
+        req.on('data', c => { _nbody += c; if (_nbody.length > 16384) _nTooBig = true; });
+        req.on('error', () => { try { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
+        req.on('end', async () => {
+            if (_nTooBig) { res.writeHead(413, _nh); res.end(JSON.stringify({ error: 'too_large' })); return; }
+            let p = null; try { p = JSON.parse(_nbody || '{}'); } catch (_) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'bad_json' })); return; }
+            // validation: slug + cc valid ; a sent name must be non-empty (trimmed) ;
+            // at least one name ; NEVER change the slug.
+            if (!p || typeof p.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(p.slug)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'invalid_slug' })); return; }
+            if (typeof p.countryCode !== 'string' || !/^[a-z]{2}$/.test(p.countryCode)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'invalid_country' })); return; }
+            const hasAr = p.name_ar !== undefined && p.name_ar !== null;
+            const hasEn = p.name_en !== undefined && p.name_en !== null;
+            const arTrim = hasAr ? String(p.name_ar).trim() : '';
+            const enTrim = hasEn ? String(p.name_en).trim() : '';
+            if (hasAr && (!arTrim || arTrim.length > 200)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'invalid_name_ar' })); return; }
+            if (hasEn && (!enTrim || enTrim.length > 200)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'invalid_name_en' })); return; }
+            if (!arTrim && !enTrim) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'no_name_provided' })); return; }
+            const rec = { slug: p.slug, country_code: p.countryCode.toLowerCase(), updated_at: new Date().toISOString() };
+            if (arTrim) rec.name_ar = arTrim;
+            if (enTrim) rec.name_en = enTrim;
+            try {
+                const persisted = await _saveDiscoveredNameOverride(rec);
+                res.writeHead(200, _nh);
+                res.end(JSON.stringify({ ok: true, persisted, override: { slug: rec.slug, countryCode: rec.country_code, name_ar: rec.name_ar || '', name_en: rec.name_en || '' } }));
+            } catch (_e) {
+                try { console.error('[name-overrides] save failed (dashboard unaffected)', { slug: rec.slug, cc: rec.country_code }); } catch (_) {}
+                res.writeHead(502, _nh); res.end(JSON.stringify({ error: 'name_override_save_failed', hint: 'is migration 006 applied in Supabase?' }));
             }
         });
         return;

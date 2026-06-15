@@ -128259,5 +128259,28 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "acre",
+    "type": "town",
+    "countryCode": "ps",
+    "lat": 32.9281731,
+    "lng": 35.0756378,
+    "timezone": "Asia/Jerusalem",
+    "names": {
+      "ar": "عكا",
+      "de": "Akko",
+      "en": "Acre",
+      "tr": "Akka",
+      "ur": "عکا"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الأراضي الفلسطينية",
+      "countryEn": "Palestinian Territories"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

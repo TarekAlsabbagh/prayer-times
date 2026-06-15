@@ -3561,6 +3561,17 @@ async function _buildDiscoveredAdminRows() {
         r.promoteReportPath  = pr ? (pr.promote_report_path || '') : '';
         r.promoteCommittedAt = pr ? (pr.promote_committed_at || '') : '';
         if (r.promoteStatus) promoteCounts[r.promoteStatus] = (promoteCounts[r.promoteStatus] || 0) + 1;
+        // CURATED-STATUS-AFTER-PROMOTION-1: a city now present in deployed curated
+        // (classifier → ALREADY_CURATED) that ALSO carries a branch_committed promotion
+        // record went through the discovered→approve→promote-commit→merge flow → surface
+        // it as CURATED, distinct from a city that was already curated before any review.
+        // Display-only reclass: the classifier's raw class is unchanged, so promote-commit
+        // validation (no_already_curated) and every public page stay untouched. Requires
+        // the promotion record as EVIDENCE — never upgrades on curated-presence alone. If
+        // migration 005 is absent the record is missing → row stays ALREADY_CURATED (safe).
+        if (r.status === 'ALREADY_CURATED' && r.promoteStatus === 'branch_committed') {
+            r.status = 'CURATED';
+        }
         // NAME-EDIT-AR-EN-1: effective display name = admin override, else raw.
         const nov = _nameOverrides[r.slug + '|' + r.countryCode];
         r.nameArOverride = nov ? (nov.name_ar || '') : '';
@@ -3657,6 +3668,19 @@ async function _fetchDiscoveredReviews() {
 // reads return {}). NOTHING here changes a page's robots/indexability.
 const _DISCOVERED_PROMOTIONS_MEM = new Map();   // 'slug|cc' → promote record (dev/test only)
 
+// CURATED-STATUS-AFTER-PROMOTION-1 test seam (inert in prod): when Supabase is OFF
+// and DISCOVERED_ADMIN_PROMOTIONS_FIXTURE points to a JSON ARRAY of promote records
+// ({slug,country_code,promote_status,promote_branch,promote_commit_sha,
+// promote_report_path,promote_committed_at}), they are merged into the promotions map.
+// This lets the CURATED path be tested without a live promote-commit — which cannot
+// run against an already-curated slug (it fails the no_already_curated validation).
+// In prod _SUPABASE_ENABLED is true → the real table read runs and this is never used.
+const _DISCOVERED_ADMIN_PROMOTIONS_FIXTURE = (() => {
+    const _p = process.env.DISCOVERED_ADMIN_PROMOTIONS_FIXTURE;
+    if (!_p) return null;
+    try { const j = JSON.parse(require('fs').readFileSync(_p, 'utf8')); return Array.isArray(j) ? j : null; } catch (_) { return null; }
+})();
+
 // Upsert a promote record. Returns 'supabase' | 'memory'. Throws on Supabase failure.
 async function _saveDiscoveredPromotion(rec) {
     if (_SUPABASE_ENABLED) {
@@ -3690,6 +3714,12 @@ async function _fetchDiscoveredPromotions() {
             }
         } else {
             for (const [k, v] of _DISCOVERED_PROMOTIONS_MEM) out[k] = v;
+            // CURATED-STATUS-AFTER-PROMOTION-1: merge the test fixture (dev/test only).
+            if (_DISCOVERED_ADMIN_PROMOTIONS_FIXTURE) {
+                for (const r of _DISCOVERED_ADMIN_PROMOTIONS_FIXTURE) {
+                    if (r && r.slug) out[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
+                }
+            }
         }
     } catch (_) { /* empty map on failure (table missing / Supabase down) */ }
     return out;
@@ -4051,8 +4081,8 @@ async function _buildPromoteCommit(items, commitMessage, branchName) {
 function _renderDiscoveredAdminPage(data) {
     const esc = (s) => (typeof _escHtml === 'function' ? _escHtml(String(s == null ? '' : s)) : String(s == null ? '' : s));
     const ts = (v) => v ? esc(String(v).replace('T', ' ').slice(0, 16)) : '—';
-    const STATUSES = ['READY_FOR_REVIEW', 'NEEDS_AR_NAME', 'NEAR_DUPLICATE', 'SLUG_CONFLICT', 'ALREADY_CURATED', 'SKIP_LOW_CONFIDENCE'];
-    const STATUS_RANK = { READY_FOR_REVIEW: 0, NEEDS_AR_NAME: 1, NEAR_DUPLICATE: 2, SLUG_CONFLICT: 3, ALREADY_CURATED: 4, SKIP_LOW_CONFIDENCE: 5 };
+    const STATUSES = ['READY_FOR_REVIEW', 'NEEDS_AR_NAME', 'NEAR_DUPLICATE', 'SLUG_CONFLICT', 'CURATED', 'ALREADY_CURATED', 'SKIP_LOW_CONFIDENCE'];
+    const STATUS_RANK = { READY_FOR_REVIEW: 0, NEEDS_AR_NAME: 1, NEAR_DUPLICATE: 2, SLUG_CONFLICT: 3, CURATED: 4, ALREADY_CURATED: 5, SKIP_LOW_CONFIDENCE: 6 };
     const DECISIONS = ['approved', 'skipped', 'needs_ar_name', 'duplicate', 'needs_review'];
     const counts = data.counts || {};
     const rc = data.reviewCounts || {};
@@ -4087,7 +4117,7 @@ function _renderDiscoveredAdminPage(data) {
             pageStatus: r.pageStatus, route: r.route, countryRoute: r.countryRoute,
             dedup: (r.detail && r.detail.dedup) || {}, detail: r.detail,
             decision: r.reviewDecision, note: r.reviewNote, duplicate_of: r.reviewDuplicateOf,
-            promoteStatus: r.promoteStatus, promoteBranch: r.promoteBranch, promoteCommitSha: r.promoteCommitSha, promoteCommittedAt: r.promoteCommittedAt,
+            promoteStatus: r.promoteStatus, promoteBranch: r.promoteBranch, promoteCommitSha: r.promoteCommitSha, promoteCommittedAt: r.promoteCommittedAt, promoteReportPath: r.promoteReportPath,
             nameArOverride: r.nameArOverride, nameEnOverride: r.nameEnOverride, displayNameAr: r.displayNameAr, displayNameEn: r.displayNameEn,
             last_activity_at: r.last_activity_at
         }));
@@ -4115,7 +4145,9 @@ function _renderDiscoveredAdminPage(data) {
             + '<td class="sm">' + (r.promoteStatus
                 ? ('<span class="badge pr-' + esc(r.promoteStatus) + '">' + esc(r.promoteStatus) + '</span>'
                     + (r.promoteBranch ? '<br><span class="mono sm" title="branch">' + esc(r.promoteBranch) + '</span>' : '')
-                    + (r.promoteCommitSha ? '<br><span class="mono sm" title="commit">' + esc(String(r.promoteCommitSha).slice(0, 10)) + '</span>' : ''))
+                    + (r.promoteCommitSha ? '<br><span class="mono sm" title="commit">' + esc(String(r.promoteCommitSha).slice(0, 10)) + '</span>' : '')
+                    + (r.promoteCommittedAt ? '<br><span class="mono sm" title="committed_at">' + ts(r.promoteCommittedAt) + '</span>' : '')
+                    + (r.promoteReportPath ? '<br><span class="mono sm" title="report">' + esc(r.promoteReportPath) + '</span>' : ''))
                 : '—') + '</td>'
             + '<td class="sm">' + links + '</td>'
             + '<td><details><summary>JSON</summary><pre>' + jsonPre + '</pre></details></td>'
@@ -4140,6 +4172,7 @@ function _renderDiscoveredAdminPage(data) {
         + '.badge,.rvb{font-size:10.5px;padding:2px 6px;border-radius:8px;border:1px solid;display:inline-block}'
         + '.s-READY_FOR_REVIEW{color:#3fb950;border-color:#235c2c}.s-NEEDS_AR_NAME{color:#d29922;border-color:#6b4d10}'
         + '.s-NEAR_DUPLICATE{color:#a371f7;border-color:#46307a}.s-SLUG_CONFLICT{color:#f85149;border-color:#7a2620}'
+        + '.s-CURATED{color:#39c5cf;border-color:#1b6f78}.chip.s-CURATED{color:#39c5cf;border-color:#1b6f78;background:#10262a}'
         + '.s-ALREADY_CURATED{color:#58a6ff;border-color:#1c4a7a}.s-SKIP_LOW_CONFIDENCE{color:#8b949e;border-color:#39414b}'
         + '.rv-pending{color:#8b949e;border-color:#39414b}.rv-approved{color:#3fb950;border-color:#235c2c}.rv-skipped{color:#8b949e;border-color:#39414b}'
         + '.rv-needs_ar_name{color:#d29922;border-color:#6b4d10}.rv-duplicate{color:#a371f7;border-color:#46307a}.rv-needs_review{color:#58a6ff;border-color:#1c4a7a}'
@@ -4227,7 +4260,7 @@ function _renderDiscoveredAdminPage(data) {
         'function openDrawer(d,tr){cur=d;curTr=tr;selDec=d.decision&&d.decision!=="pending"?d.decision:null;',
         'byId("dr-title").textContent=(d.nameAr||d.slug)+" ("+d.cc+")";',
         'var dd=d.dedup||{};',
-        'byId("dr-body").innerHTML=row("slug",d.slug)+row("names.ar",d.nameAr)+row("names.en",d.nameEn)+row("country",d.cc+" · "+d.country)+row("source",d.source)+row("lat,lng",d.lat+","+d.lng)+row("timezone",d.tz)+row("pick / search",d.pick+" / "+d.search)+row("first seen",d.firstSeen||"—")+row("last seen",d.lastSeen||"—")+row("name_quality",JSON.stringify(d.nameQuality||{}))+row("status",d.status)+row("page status",d.pageStatus)+row("promote",d.promoteStatus?(d.promoteStatus+(d.promoteBranch?(" · "+d.promoteBranch):"")+(d.promoteCommitSha?(" · "+String(d.promoteCommitSha).slice(0,10)):"")):"—")+row("dedup",dedupTxt(dd))+row("current",d.decision||"pending")+"<div class=\\"dr-row\\"><b>links</b><span><a href=\\""+esc(d.route)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">prayer</a>"+(d.countryRoute?" · <a href=\\""+esc(d.countryRoute)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">country</a>":"")+"</span></div>"+"<details style=\\"margin-top:6px\\"><summary>raw JSON</summary><pre>"+esc(JSON.stringify(d.detail,null,2))+"</pre></details>";',
+        'byId("dr-body").innerHTML=row("slug",d.slug)+row("names.ar",d.nameAr)+row("names.en",d.nameEn)+row("country",d.cc+" · "+d.country)+row("source",d.source)+row("lat,lng",d.lat+","+d.lng)+row("timezone",d.tz)+row("pick / search",d.pick+" / "+d.search)+row("first seen",d.firstSeen||"—")+row("last seen",d.lastSeen||"—")+row("name_quality",JSON.stringify(d.nameQuality||{}))+row("status",d.status)+row("page status",d.pageStatus)+row("promote",d.promoteStatus?(d.promoteStatus+(d.promoteBranch?(" · "+d.promoteBranch):"")+(d.promoteCommitSha?(" · "+String(d.promoteCommitSha).slice(0,10)):"")+(d.promoteCommittedAt?(" · "+String(d.promoteCommittedAt).replace("T"," ").slice(0,16)):"")+(d.promoteReportPath?(" · "+d.promoteReportPath):"")):"—")+row("dedup",dedupTxt(dd))+row("current",d.decision||"pending")+"<div class=\\"dr-row\\"><b>links</b><span><a href=\\""+esc(d.route)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">prayer</a>"+(d.countryRoute?" · <a href=\\""+esc(d.countryRoute)+"\\" target=\\"_blank\\" rel=\\"noopener nofollow\\">country</a>":"")+"</span></div>"+"<details style=\\"margin-top:6px\\"><summary>raw JSON</summary><pre>"+esc(JSON.stringify(d.detail,null,2))+"</pre></details>";',
         'byId("dr-note").value=d.note||"";byId("dr-dup").value=d.duplicate_of||"";',
         'byId("dr-name-ar").value=d.displayNameAr||d.nameAr||"";byId("dr-name-en").value=d.displayNameEn||d.nameEn||"";byId("dr-name-status").textContent="";',
         'document.querySelectorAll(".dbtn").forEach(function(b){b.classList.toggle("on",b.getAttribute("data-dec")===selDec);});',

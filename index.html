@@ -4621,7 +4621,7 @@
             <div class="page countdown-page cd-ramadan" id="page-ramadan-countdown">
                 <!-- [1] HERO — العدّاد كامل + جملة SEO + شريط التخصيص + سطر القمر -->
                 <section class="section-card countdown-hero">
-                    <h1 class="countdown-h1" data-i18n="ramadan.h1">🕋 كم باقي على رمضان؟</h1>
+                    <h1 id="cd-h1-ramadan" class="countdown-h1" data-i18n="ramadan.h1">🕋 كم باقي على رمضان؟</h1>
                     <p class="cd-h1-seo" id="ram-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="ramadan.intro">اكتشف الأيام المتبقّية حتّى شهر رمضان المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد تختلف بداية الشهر يوماً حسب رؤية الهلال في بلدك.</p>
                     <div class="countdown-timer" id="ramadan-timer" role="timer" aria-live="polite">
@@ -4681,6 +4681,9 @@
                     </div>
                     <p class="countdown-small-note" data-i18n="ramadan.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
+
+                <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
+                <div id="cd-edu-ramadan"></div>
 
                 <!-- [4] روابط ذات صلة (CTA ذكيّ — Cards بعد جدول السنوات مباشرة) -->
                 <section class="section-card countdown-links">
@@ -4742,7 +4745,7 @@
             <div class="page countdown-page cd-eid-al-fitr" id="page-eid-al-fitr-countdown">
                 <!-- [1] HERO — العدّاد كامل + جملة SEO + شريط التخصيص + سطر القمر -->
                 <section class="section-card countdown-hero">
-                    <h1 class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="eid_fitr.h1">كم باقي على عيد الفطر؟</span></h1>
+                    <h1 id="cd-h1-eid-fitr" class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="eid_fitr.h1">كم باقي على عيد الفطر؟</span></h1>
                     <p class="cd-h1-seo" id="fitr-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="eid_fitr.intro">اكتشف الأيّام المتبقّية حتّى عيد الفطر المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد يختلف يوم العيد يوماً حسب رؤية هلال شوّال في بلدك.</p>
                     <div class="countdown-timer" id="fitr-timer" role="timer" aria-live="polite">
@@ -4798,6 +4801,9 @@
                     </div>
                     <p class="countdown-small-note" data-i18n="eid_fitr.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
+
+                <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
+                <div id="cd-edu-eid-fitr"></div>
 
                 <!-- [5] FAQ مختصر -->
                 <!-- [4] روابط ذات صلة (CTA — Cards) — قبل الـ FAQ -->
@@ -4860,7 +4866,7 @@
             <div class="page countdown-page cd-eid-al-adha" id="page-eid-al-adha-countdown">
                 <!-- [1] HERO -->
                 <section class="section-card countdown-hero">
-                    <h1 class="countdown-h1" data-i18n="eid_adha.h1">🐑 كم باقي على عيد الأضحى؟</h1>
+                    <h1 id="cd-h1-eid-adha" class="countdown-h1" data-i18n="eid_adha.h1">🐑 كم باقي على عيد الأضحى؟</h1>
                     <p class="cd-h1-seo" id="adha-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="eid_adha.intro">اكتشف الأيّام المتبقّية حتّى عيد الأضحى المبارك مع التاريخ الميلاديّ والهجريّ. يُصادف عيد الأضحى يوم النحر (10 ذي الحجّة) وقد يختلف يومًا بين الدول حسب ثبوت هلال ذي الحجّة.</p>
                     <div class="countdown-timer" id="adha-timer" role="timer" aria-live="polite">
@@ -4916,6 +4922,9 @@
                     </div>
                     <p class="countdown-small-note" data-i18n="eid_adha.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
+
+                <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
+                <div id="cd-edu-eid-adha"></div>
 
                 <!-- [4] روابط ذات صلة (CTA — Cards) -->
                 <section class="section-card countdown-links">
@@ -4977,7 +4986,7 @@
             <div class="page countdown-page cd-hijri-new-year" id="page-hijri-new-year-countdown">
                 <!-- [1] HERO -->
                 <section class="section-card countdown-hero">
-                    <h1 class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="hijri_ny.h1">كم باقي على رأس السنة الهجرية؟</span></h1>
+                    <h1 id="cd-h1-hijri-ny" class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="hijri_ny.h1">كم باقي على رأس السنة الهجرية؟</span></h1>
                     <p class="cd-h1-seo" id="ny-h1-seo"></p>
                     <p class="countdown-intro" data-i18n="hijri_ny.intro">اكتشف الأيّام المتبقّية حتّى رأس السنة الهجرية الجديدة مع التاريخ الميلاديّ والهجريّ. يوافق أوّل يوم من شهر محرّم بداية السنة الهجريّة، وقد يختلف الإعلان يومًا بين الدول حسب ثبوت هلال محرّم.</p>
                     <div class="countdown-timer" id="ny-timer" role="timer" aria-live="polite">
@@ -5033,6 +5042,9 @@
                     </div>
                     <p class="countdown-small-note" data-i18n="hijri_ny.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
+
+                <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
+                <div id="cd-edu-hijri-ny"></div>
 
                 <!-- [4] روابط ذات صلة (CTA — Cards) -->
                 <section class="section-card countdown-links">

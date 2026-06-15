@@ -6215,6 +6215,105 @@ function _hijriNow() {
     return _jdToHijri(jd);
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// HIJRI-NEW-YEAR-COUNTDOWN-SEO-CONTENT-H1-FIX-1 (2026-06-15)
+// Shared map + next-occurrence resolver for the 4 Islamic-event countdown pages.
+// Drives BOTH the dynamic SSR Title/Meta ladder (buildSeoForPath) AND the SSR
+// content/FAQ injector (serveHtmlWithSeo). `ev` = the recurring Hijri (month,day)
+// the event starts on. The element ids below are the existing containers already
+// present in each #page-*-countdown block in index.html (faqId / tbodyId), so the
+// injector fills them server-side rather than introducing new markup.
+// ════════════════════════════════════════════════════════════════════════════
+const _COUNTDOWN_EVENTS = {
+    'ramadan-countdown':        { occ: 'ramadan',  ev: { m: 9,  d: 1  }, pageId: 'page-ramadan-countdown',        h1Id: 'cd-h1-ramadan',  faqId: 'ram-faq-list',  tbodyId: 'ram-years-tbody',  kp: 'ramadan'  },
+    'eid-al-fitr-countdown':    { occ: 'eid-fitr', ev: { m: 10, d: 1  }, pageId: 'page-eid-al-fitr-countdown',    h1Id: 'cd-h1-eid-fitr', faqId: 'fitr-faq-list', tbodyId: 'fitr-years-tbody', kp: 'eid_fitr' },
+    'eid-al-adha-countdown':    { occ: 'eid-adha', ev: { m: 12, d: 10 }, pageId: 'page-eid-al-adha-countdown',    h1Id: 'cd-h1-eid-adha', faqId: 'adha-faq-list', tbodyId: 'adha-years-tbody', kp: 'eid_adha' },
+    'hijri-new-year-countdown': { occ: 'hijri-ny', ev: { m: 1,  d: 1  }, pageId: 'page-hijri-new-year-countdown', h1Id: 'cd-h1-hijri-ny', faqId: 'ny-faq-list',   tbodyId: 'ny-years-tbody',   kp: 'hijri_ny' },
+};
+// Resolve the NEXT upcoming occurrence of a recurring Hijri event (month m, day d),
+// computed at Mecca civil time. Returns the event's Hijri year, its Gregorian
+// date, the JD, and whole days remaining. If the event has already passed this
+// Hijri year, it rolls to the next Hijri year — matching the page's "upcoming"
+// framing. Returns null only if the Hijri table lookup fails (out-of-range year).
+function _nextCountdownTarget(ev) {
+    const now = _hijriNow();
+    if (!now || !now.year) return null;
+    const today = _nowMeccaDate();
+    const todayJD = _gregToJD(today.getUTCFullYear(), today.getUTCMonth() + 1, today.getUTCDate());
+    let hYear = now.year;
+    let g = _hijriToGregorian(hYear, ev.m, ev.d);
+    if (!g) return null;
+    let gJD = _gregToJD(g.year, g.month, g.day);
+    if (gJD < todayJD) {                       // already passed this Hijri year → next
+        hYear = now.year + 1;
+        const g2 = _hijriToGregorian(hYear, ev.m, ev.d);
+        if (!g2) return null;
+        g = g2;
+        gJD = _gregToJD(g.year, g.month, g.day);
+    }
+    return { hYear, greg: g, gregJD: gJD, gYear: g.year, daysLeft: Math.max(0, gJD - todayJD) };
+}
+// Gregorian month names per supported lang — used to render the {date} param in
+// countdown Meta/FAQ. Mirrors the local _G_MONTHS table inside buildSeoForPath.
+const _CD_GMONTHS = {
+    ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+    en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+    tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+    de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+    es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+    bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+    ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+};
+// Localized Gregorian date string "D Month YYYY" for a {year,month,day} object.
+function _cdGregDateStr(g, lang) {
+    if (!g) return '';
+    const months = _CD_GMONTHS[lang] || _CD_GMONTHS.en;
+    return `${g.day} ${months[g.month - 1]} ${g.year}`;
+}
+// Server-only countdown SEO content (titles / meta / educational sections).
+// Loaded once; failure is non-fatal (FAQ + page still render, title falls back).
+let _CD_SEO_DATA = {};
+try { _CD_SEO_DATA = require('./data/countdown-seo.js'); }
+catch (e) { console.error('[countdown-seo] data load failed:', e && e.message); }
+// Substitute {token} placeholders ({hy}/{gy}/{date}/{n}/{hyear}) — leaves unknown
+// tokens intact so a missing value never prints an empty hole.
+function _cdSubst(s, params) {
+    return String(s == null ? '' : s).replace(/\{(\w+)\}/g, (m, k) => (params && params[k] != null && params[k] !== '') ? params[k] : m);
+}
+// Smart title ladder: pick the LONGEST variant that fits [50,60] chars after
+// substitution; if none fit, the longest variant ≤60; if all exceed 60, the
+// shortest. Never truncates. Mirrors the _pickTier guard used for tool pages but
+// prefers the longest-in-range so the SEO title is as descriptive as it can be.
+function _pickCountdownTitle(tiers) {
+    if (!tiers) return '';
+    const order = [tiers.long, tiers.medium, tiers.short].filter(Boolean);
+    if (!order.length) return '';
+    for (const t of order) { const n = [...t].length; if (n >= 50 && n <= 60) return t; }
+    let best = '', bestLen = -1;
+    for (const t of order) { const n = [...t].length; if (n <= 60 && n > bestLen) { best = t; bestLen = n; } }
+    if (best) return best;
+    return order.reduce((a, b) => ([...b].length < [...a].length ? b : a), order[0]);
+}
+// Inject the per-occasion educational sections into the #cd-edu-{occasion}
+// placeholder. Reuses the existing .section-card / .countdown-info styling — no
+// new CSS. Each section is one H2 + paragraph(s); {hy}/{gy}/{date} substituted.
+function _injectCountdownEdu(html, occ, lang, params) {
+    const byOcc = _CD_SEO_DATA[occ];
+    if (!byOcc) return html;
+    const d = byOcc[lang] || byOcc.en || byOcc.ar;
+    if (!d || !Array.isArray(d.sections) || !d.sections.length) return html;
+    const secHtml = d.sections.map(s => {
+        const h2 = _cdSubst(s.h2, params);
+        const paras = Array.isArray(s.body) ? s.body : [s.body];
+        const pHtml = paras.map(p => `<p>${_escHtml(_cdSubst(p, params))}</p>`).join('');
+        return `<section class="section-card countdown-info countdown-edu"><h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span>${_escHtml(h2)}</span></h2>${pHtml}</section>`;
+    }).join('');
+    return html.replace(`<div id="cd-edu-${occ}"></div>`, `<div id="cd-edu-${occ}">${secHtml}</div>`);
+}
+
 function _escHtml(s) {
     return String(s == null ? '' : s)
         .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
@@ -7687,10 +7786,16 @@ function _getActiveH1Marker(urlPath) {
     // UAT-Moon-Home: hub /moon-today uses the new hero H1 (#moon-hub-h1)
     if (/^\/moon-today$/.test(path))                 return { kind: 'id',   value: 'moon-hub-h1' };
     if (/^\/moon-in$/.test(path))                    return { kind: 'id',   value: 'moon-page-h1' };
-    if (/^\/ramadan-countdown$/.test(path))          return { kind: 'i18n', value: 'ramadan.h1' };
-    if (/^\/eid-al-fitr-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_fitr.h1' };
-    if (/^\/eid-al-adha-countdown$/.test(path))      return { kind: 'i18n', value: 'eid_adha.h1' };
-    if (/^\/hijri-new-year-countdown$/.test(path))   return { kind: 'i18n', value: 'hijri_ny.h1' };
+    // HIJRI-NEW-YEAR-COUNTDOWN-SEO-CONTENT-H1-FIX-1 (2026-06-15): the 4 countdown
+    // pages were keyed by data-i18n, but eid-al-fitr + hijri-new-year carry the
+    // data-i18n attribute on an inner <span>, not the <h1> tag itself — so
+    // _downgradeInactiveH1s (which reads the <h1> tag's OWN attrs) never matched
+    // their active H1 and demoted it to <h2>, leaving those pages with H1=0.
+    // Fix: stable id on all 4 <h1> tags in index.html (cd-h1-{occasion}) + key by id.
+    if (/^\/ramadan-countdown$/.test(path))          return { kind: 'id',   value: 'cd-h1-ramadan' };
+    if (/^\/eid-al-fitr-countdown$/.test(path))      return { kind: 'id',   value: 'cd-h1-eid-fitr' };
+    if (/^\/eid-al-adha-countdown$/.test(path))      return { kind: 'id',   value: 'cd-h1-eid-adha' };
+    if (/^\/hijri-new-year-countdown$/.test(path))   return { kind: 'id',   value: 'cd-h1-hijri-ny' };
     // HCAL-1 (2026-05-09): /hijri-calendar (year) and /hijri-calendar/{YYYY}
     // pages — active H1 is #hyear-title (promoted from h2 in index.html).
     if (/^\/hijri-calendar(?:\/\d{4})?$/.test(path)) return { kind: 'id',   value: 'hyear-title' };
@@ -9892,6 +9997,41 @@ function buildSeoForPath(urlPath) {
 
     // للصفحات الديناميكية: استخدم النص الإنجليزي لـ EN/FR/TR/UR (احتياط) والعربي لـ AR فقط
     const useEnTxt = (lang !== 'ar');
+
+    // ── HIJRI-NEW-YEAR-COUNTDOWN-SEO-CONTENT-H1-FIX-1 (2026-06-15): countdown
+    //    pages (ramadan / eid-al-fitr / eid-al-adha / hijri-new-year) had NO
+    //    staticPages entry, so the homepage default Title/Meta leaked onto all
+    //    four. Build a per-occasion, per-lang Title from a {long,medium,short}
+    //    ladder — picking the longest variant that fits ~[50,60] chars after the
+    //    {hy}=target Hijri year / {gy}=target Gregorian year substitution — plus
+    //    a matching Meta description. Extensible: a future city/region variant
+    //    would add a longer tier to data/countdown-seo.js, no engine change.
+    {
+        const _cdEvtKey = corePath.replace(/^\//, '');
+        const _cdEvt = _COUNTDOWN_EVENTS[_cdEvtKey];
+        if (_cdEvt) {
+            const _cdDoc = _CD_SEO_DATA[_cdEvt.occ] && (_CD_SEO_DATA[_cdEvt.occ][lang] || _CD_SEO_DATA[_cdEvt.occ].en || _CD_SEO_DATA[_cdEvt.occ].ar);
+            const _cdT = _nextCountdownTarget(_cdEvt.ev) || {};
+            const _cdPP = {
+                hy: (_cdT.hYear != null) ? _cdT.hYear : '',
+                gy: (_cdT.gYear != null) ? _cdT.gYear : '',
+                date: _cdGregDateStr(_cdT.greg, lang),
+                n: (_cdT.daysLeft != null) ? _cdT.daysLeft : '',
+                hyear: (_cdT.hYear != null) ? _cdT.hYear : '',
+            };
+            if (_cdDoc && _cdDoc.titles) {
+                const _cdTitle = _pickCountdownTitle({
+                    long: _cdSubst(_cdDoc.titles.long, _cdPP),
+                    medium: _cdSubst(_cdDoc.titles.medium, _cdPP),
+                    short: _cdSubst(_cdDoc.titles.short, _cdPP),
+                });
+                if (_cdTitle) title = _cdTitle;
+                if (_cdDoc.desc) description = _cdSubst(_cdDoc.desc, _cdPP);
+            }
+            ogType = 'website';
+            breadcrumbs.push({ name: title, item: canonical });
+        }
+    }
 
     // ── City pages: /prayer-times-in-{slug}-{lat}-{lng} ──
     let m = corePath.match(/^\/prayer-times-in-(.+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
@@ -18113,6 +18253,69 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 html = html.replace('<div id="zk-seo"></div>', `<div id="zk-seo">${_h}</div>`);
             }
         } catch (_e) { /* silent — SSR enrichment optional; calculator still works */ }
+    }
+
+    // ── HIJRI-NEW-YEAR-COUNTDOWN-SEO-CONTENT-H1-FIX-1 (2026-06-15) ──
+    // SSR for the 4 Islamic-event countdown pages (ramadan / eid-al-fitr /
+    // eid-al-adha / hijri-new-year). Mirrors the zakat SSR pattern:
+    //   1) activate the countdown page wrapper + deactivate the homepage shell
+    //      so the page's own (translated) content is the visible active page;
+    //   2) server-render the 10-item FAQ from the EXISTING i18n keys
+    //      ({prefix}.faq_q/a 1..10) so it is in the SSR HTML (crawlers + no-JS),
+    //      with {n}/{date}/{hyear} params substituted from _nextCountdownTarget;
+    //   3) emit a matching FAQPage JSON-LD (identical text);
+    //   4) inject the per-occasion educational sections (data/countdown-seo.js)
+    //      into the #cd-edu-{occasion} placeholder for content depth.
+    // The client (_initCountdown in app.js) re-fills #*-faq-list via innerHTML=
+    // on hydration with the SAME i18n source, so SSR↔client stay consistent.
+    {
+        const _cdCore = (urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/').replace(/\/+$/, '') || '/').replace(/^\//, '');
+        const _cdCfg = _COUNTDOWN_EVENTS[_cdCore];
+        if (_cdCfg) {
+            // (1) activate countdown page, deactivate homepage shell
+            html = html.replace(
+                new RegExp('<div class="page countdown-page ([a-z0-9-]+)" id="' + _cdCfg.pageId + '">'),
+                '<div class="page active countdown-page $1" id="' + _cdCfg.pageId + '">'
+            );
+            html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
+            try {
+                const _cl = I18N[seo.lang] || I18N.en || {};
+                const _ce = I18N.en || {}; const _ca = I18N.ar || {};
+                const _ct = (k) => _cl[k] || _ce[k] || _ca[k] || '';
+                const _tgt = _nextCountdownTarget(_cdCfg.ev) || {};
+                const _params = {
+                    n: (_tgt.daysLeft != null) ? _tgt.daysLeft : '',
+                    date: _cdGregDateStr(_tgt.greg, seo.lang),
+                    hyear: (_tgt.hYear != null) ? _tgt.hYear : '',
+                    hy: (_tgt.hYear != null) ? _tgt.hYear : '',
+                    gy: (_tgt.gYear != null) ? _tgt.gYear : '',
+                };
+                const _sub = (s) => String(s == null ? '' : s).replace(/\{(\w+)\}/g, (m, k) => (_params[k] != null && _params[k] !== '') ? _params[k] : m);
+                // (2) SSR FAQ from existing i18n keys
+                const _faqs = [];
+                for (let i = 1; i <= 10; i++) {
+                    const q = _ct(_cdCfg.kp + '.faq_q' + i);
+                    const a = _ct(_cdCfg.kp + '.faq_a' + i);
+                    if (q && a) _faqs.push({ q: _sub(q), a: _sub(a) });
+                }
+                if (_faqs.length) {
+                    const _faqHtml = _faqs.map(f => `<details><summary>${_escHtml(f.q)}</summary><p>${_escHtml(f.a)}</p></details>`).join('');
+                    html = html.replace(
+                        '<div id="' + _cdCfg.faqId + '" class="countdown-faq-list"></div>',
+                        '<div id="' + _cdCfg.faqId + '" class="countdown-faq-list">' + _faqHtml + '</div>'
+                    );
+                    // (3) FAQPage JSON-LD — identical text to the visible FAQ
+                    const _ld = {
+                        '@context': 'https://schema.org',
+                        '@type': 'FAQPage',
+                        mainEntity: _faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
+                    };
+                    html = html.replace('</body>', '<script type="application/ld+json">' + JSON.stringify(_ld) + '</script></body>');
+                }
+                // (4) educational sections from data/countdown-seo.js → #cd-edu-{occ}
+                html = _injectCountdownEdu(html, _cdCfg.occ, seo.lang, _params);
+            } catch (_cdErr) { /* silent — countdown still works; FAQ JS-fills on hydration */ }
+        }
     }
 
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections

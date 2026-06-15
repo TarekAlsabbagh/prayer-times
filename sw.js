@@ -1518,7 +1518,19 @@
 //   canonical, hreflang, sitemap, routing, JSON-LD. Month + today + day
 //   pages UNAFFECTED. Files: server.js (~55: breadcrumb + intro SSR-fill +
 //   doc) + sw.js (this comment + version bump v410→v411).
-const CACHE_VERSION = 'v440';
+// NAVBAR-LINKS-OPEN-IN-NEW-TAB-REAL-HREF-FIX-1 (2026-06-15):
+//   v440 → v441. The 7 sidebar-nav items that had href="#" (prayer-times,
+//   qibla, moon, tasbih, hijri-today, hijri-calendar, date-converter) now carry
+//   their real route (/, /qibla, /moon-today, /msbaha, /today-hijri-date,
+//   /hijri-calendar, /date-converter) so right-click "open in new tab/window"
+//   and Copy-link use the correct page instead of the homepage. js/app.js
+//   initNavigation() now skips MODIFIED clicks (Ctrl/Cmd/Shift/Alt + left) so
+//   the browser opens the real href natively; only plain left-clicks are still
+//   intercepted for SPA navigation. SSR lang-prefix pass turns these into
+//   /{lang}/… on non-AR pages automatically (same as the existing zakat/azkar
+//   items). NO design / order / label / SEO / routing change beyond href.
+//   Cache-busters: js/app.js?v=780 → ?v=781.
+const CACHE_VERSION = 'v441';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1545,7 +1557,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=7',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=759',
+    '/js/app.js?v=781',
 ];
 
 self.addEventListener('install', (event) => {

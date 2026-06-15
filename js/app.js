@@ -5352,6 +5352,14 @@ function initNavigation() {
     const navLinks = document.querySelectorAll('.sidebar-nav a');
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
+            // NAVBAR-LINKS-OPEN-IN-NEW-TAB-REAL-HREF-FIX-1: the nav items are now real
+            // anchors with their true route in href (e.g. /qibla, /moon-today). Let the
+            // browser handle MODIFIED clicks natively — Ctrl/Cmd/Shift/Alt + left-click
+            // (open in new tab/window/background) — so the real href is honoured instead
+            // of being swallowed by preventDefault. (Right-click "open in new tab" and
+            // middle-click never fire a 'click' event, so they already use the real href.)
+            // Only a plain left-click is intercepted for the in-app SPA navigation below.
+            if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
             e.preventDefault();
             const pageId = this.dataset.page;
             // FIX: ترطيب الموقع الحاليّ قبل أي تنقّل (يحلّ مشكلة "يأخذني إلى مكّة دائماً")

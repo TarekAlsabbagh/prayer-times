@@ -8918,6 +8918,19 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
     });
 }
 
+// ── DISCOVERED-CITIES-NOINDEX-CONSISTENCY-ACROSS-CITY-PAGES-1 (2026-06-15) ──
+// Single source of truth for whether a CITY SEO route may be indexed. A city page
+// (prayer-times / qibla / moon-today / moon-in [+dated/+month] / time-left / next-prayer)
+// is indexable ONLY when its slug exists in the FINAL curated set (_findPlaceBySlug).
+// Discovered / approved / branch_committed-but-not-yet-merged / legacy-cities-*.json-only
+// slugs are NOT curated → every page built on them must be noindex (the same gate the
+// prayer-times branch already used). Returns true when the route MUST be noindex'd.
+// NEVER consulted for country listing pages (handled separately) or non-city routes.
+function _shouldNoindexCityRoute(slug) {
+    if (!slug) return true;
+    return !(typeof _findPlaceBySlug === 'function' && _findPlaceBySlug(slug));
+}
+
 /**
  * يحلّل urlPath ويرجع كائن SEO كامل:
  *  { title, description, canonical, arUrl, enUrl, isEn, lang, siteName,
@@ -11813,7 +11826,10 @@ function buildSeoForPath(urlPath) {
             // user (client resolves the name from its seed); it is just not crawled/indexed. When
             // the city is later promoted to curated, _findPlaceBySlug returns it → index,follow
             // again automatically. Curated cities + country listing pages are unaffected.
-            if (!_curated) {
+            // NOINDEX-CONSISTENCY-ACROSS-CITY-PAGES-1: route through the shared helper so
+            // prayer-times, qibla, moon, time-left and next-prayer all gate on the same
+            // curated source of truth (_shouldNoindexCityRoute === !_findPlaceBySlug).
+            if (_shouldNoindexCityRoute(slug)) {
                 robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
             }
             // PT-CITY-SEO-1 (2026-05-10): use the length-aware Title/Meta
@@ -11825,6 +11841,23 @@ function buildSeoForPath(urlPath) {
             ogType = 'article';
             cityModified = new Date().toISOString();
             breadcrumbs.push({ name: cityDisplay, item: canonical });
+        }
+    }
+
+    // ── DISCOVERED-CITIES-NOINDEX-CONSISTENCY-ACROSS-CITY-PAGES-1 (2026-06-15) ──
+    // Unified gate: any CITY SEO route (qibla / moon today|hub|dated|month / time-left /
+    // next-prayer) whose slug is NOT in the final curated set must be noindex — the SAME
+    // source of truth as the prayer-times city guard above (_shouldNoindexCityRoute ===
+    // !_findPlaceBySlug). One application point covers all four families AND the fallthrough
+    // case where a discovered / legacy / unknown slug never matched its branch (so the page
+    // would otherwise inherit the default index,follow SEO — the exact bug where qibla/moon
+    // out-indexed prayer-times). prayer-times is handled in its own branch so country
+    // listing pages stay indexable. Only fires when no stronger robots rule already set
+    // (moon out-of-range / coord-only noindex). Curated cities are unaffected.
+    if (!robotsOverride) {
+        const _cityRouteSlug = (corePath.match(/^\/(?:qibla-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2}){0,2})?$/) || [])[1];
+        if (_cityRouteSlug && _shouldNoindexCityRoute(_cityRouteSlug)) {
+            robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         }
     }
 

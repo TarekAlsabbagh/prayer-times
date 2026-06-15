@@ -23179,6 +23179,30 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace(/\{city\}/g, _cityForI18n);
     }
 
+    // NAVBAR-CITY-CONTEXT-LINKS-FOR-CITY-PAGES-1 (2026-06-15): on a CURATED city page,
+    // rewrite the 3 city-bound sidebar-nav items (prayer-times / qibla / moon) so their
+    // href points at the SAME city's pages — so right-click "open in new tab/window",
+    // Ctrl/Cmd+click and "copy link address" land on the city page, NOT the generic hub.
+    // (The client SPA already navigates city-aware on plain left-click via data-page; this
+    // aligns the SSR href with that behavior so there is no SSR↔hydration mismatch.) Runs
+    // BEFORE the lang-prefix pass below, so /qibla-in-{slug} → /{lang}/qibla-in-{slug} on
+    // non-AR pages. Source of truth = curated (_findPlaceBySlug): a non-curated/discovered
+    // slug → NO rewrite (the 3 items stay generic hubs), matching the noindex policy. Hub
+    // pages (/qibla, /moon-today, /) and tool pages don't match the city-route regex → no
+    // rewrite. ONLY the href attribute changes — no design/order/label/icon change;
+    // active-state stays JS-driven (URL-based) and the existing class="active" is preserved.
+    {
+        const _navCore = String(urlPath).replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/, '');
+        const _navM = _navCore.match(/^\/(?:prayer-times-in|qibla-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2}){0,2})?$/);
+        if (_navM && typeof _findPlaceBySlug === 'function' && _findPlaceBySlug(_navM[1])) {
+            const _ns = _navM[1];
+            html = html
+                .replace('<a href="/" data-page="prayer-times"',       '<a href="/prayer-times-in-' + _ns + '" data-page="prayer-times"')
+                .replace('<a href="/qibla" data-page="qibla"',         '<a href="/qibla-in-' + _ns + '" data-page="qibla"')
+                .replace('<a href="/moon-today" data-page="moon"',     '<a href="/moon-today-in-' + _ns + '" data-page="moon"');
+        }
+    }
+
     // ISLAMIC-EVENT-CARDS-LANG-ROUTING-FIX-1 (2026-06-05): GENERALIZED the
     //   unified language-prefix pass to EVERY non-AR SSR page. Originally
     //   added for the homepage (HOME-ALL-LINKS-LANG-ROUTING-FIX-1) then the

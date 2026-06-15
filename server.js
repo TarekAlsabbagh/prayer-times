@@ -3561,9 +3561,6 @@ async function _buildDiscoveredAdminRows() {
         r.promoteReportPath  = pr ? (pr.promote_report_path || '') : '';
         r.promoteCommittedAt = pr ? (pr.promote_committed_at || '') : '';
         if (r.promoteStatus) promoteCounts[r.promoteStatus] = (promoteCounts[r.promoteStatus] || 0) + 1;
-        // Last Activity = the most-relevant single timestamp, by priority:
-        // promote-committed → reviewed → last-seen → first-seen.
-        r.lastActivity = r.promoteCommittedAt || r.reviewedAt || r.lastSeen || r.firstSeen || '';
         // NAME-EDIT-AR-EN-1: effective display name = admin override, else raw.
         const nov = _nameOverrides[r.slug + '|' + r.countryCode];
         r.nameArOverride = nov ? (nov.name_ar || '') : '';
@@ -3571,6 +3568,16 @@ async function _buildDiscoveredAdminRows() {
         r.displayNameAr = r.nameArOverride || r.nameAr;
         r.displayNameEn = r.nameEnOverride || r.nameEn;
         r.hasNameOverride = !!(r.nameArOverride || r.nameEnOverride);
+        // FILTER-LAST-ACTIVITY-SORT-1: last_activity_at = GREATEST (most-recent) of the
+        // available admin/discovery dates — name-override updated_at · promote committed_at ·
+        // review reviewed_at · discovery created_at (fallback). MAX (not coalesce) so the
+        // NEWEST action wins regardless of type; null/empty dates are ignored; created_at is
+        // the floor (never null → no nulls float above active rows). All dates are ISO-8601
+        // from the same store (Supabase/MEM) so lexicographic max == chronological max.
+        // NOT last_used_at (organic search), per the ticket's 4-source spec.
+        const _acts = [(nov && nov.updated_at) || '', r.promoteCommittedAt, r.reviewedAt, r.firstSeen].filter(Boolean);
+        r.last_activity_at = _acts.length ? _acts.reduce((a, b) => (a >= b ? a : b)) : (r.firstSeen || '');
+        r.lastActivity = r.last_activity_at;   // backward-compat alias (same value)
     }
     const counts = {};
     for (const r of out) counts[r.status] = (counts[r.status] || 0) + 1;
@@ -3578,7 +3585,7 @@ async function _buildDiscoveredAdminRows() {
     // Tiebreak: pick count desc, then slug asc (stable). The dashboard's Sort by /
     // Sort direction controls re-sort client-side over the same rows.
     out.sort((a, b) => {
-        const la = String(b.lastActivity || '').localeCompare(String(a.lastActivity || ''));
+        const la = String(b.last_activity_at || '').localeCompare(String(a.last_activity_at || ''));
         if (la) return la;
         if (b.pickCount !== a.pickCount) return b.pickCount - a.pickCount;
         return String(a.slug || '').localeCompare(String(b.slug || ''));
@@ -4078,11 +4085,12 @@ function _renderDiscoveredAdminPage(data) {
             dedup: (r.detail && r.detail.dedup) || {}, detail: r.detail,
             decision: r.reviewDecision, note: r.reviewNote, duplicate_of: r.reviewDuplicateOf,
             promoteStatus: r.promoteStatus, promoteBranch: r.promoteBranch, promoteCommitSha: r.promoteCommitSha, promoteCommittedAt: r.promoteCommittedAt,
-            nameArOverride: r.nameArOverride, nameEnOverride: r.nameEnOverride, displayNameAr: r.displayNameAr, displayNameEn: r.displayNameEn
+            nameArOverride: r.nameArOverride, nameEnOverride: r.nameEnOverride, displayNameAr: r.displayNameAr, displayNameEn: r.displayNameEn,
+            last_activity_at: r.last_activity_at
         }));
         const rvDec = r.reviewDecision || 'pending';
         const _srank = STATUS_RANK[r.status] != null ? STATUS_RANK[r.status] : 9;
-        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-statusrank="' + _srank + '" data-review="' + esc(rvDec) + '" data-promote="' + esc(r.promoteStatus || '') + '" data-ar="' + (r.displayNameAr ? 1 : 0) + '" data-en="' + (r.displayNameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-search="' + r.searchCount + '" data-slug="' + esc(r.slug) + '" data-firstseen="' + esc(r.firstSeen || '') + '" data-lastseen="' + esc(r.lastSeen || '') + '" data-lastactivity="' + esc(r.lastActivity || '') + '" data-text="' + esc(txt) + '">'
+        return '<tr data-cc="' + esc(r.countryCode) + '" data-status="' + esc(r.status) + '" data-statusrank="' + _srank + '" data-review="' + esc(rvDec) + '" data-promote="' + esc(r.promoteStatus || '') + '" data-ar="' + (r.displayNameAr ? 1 : 0) + '" data-en="' + (r.displayNameEn ? 1 : 0) + '" data-pick="' + r.pickCount + '" data-search="' + r.searchCount + '" data-slug="' + esc(r.slug) + '" data-firstseen="' + esc(r.firstSeen || '') + '" data-lastseen="' + esc(r.lastSeen || '') + '" data-lastactivity="' + esc(r.last_activity_at || '') + '" data-text="' + esc(txt) + '">'
             + '<td><input type="checkbox" class="selbox" data-slug="' + esc(r.slug) + '" data-cc="' + esc(r.countryCode) + '"> <span class="rvb rv-' + esc(rvDec) + '" data-rvcell>' + esc(rvDec) + '</span><br><button class="rvbtn" data-d="' + dd + '">Review ▸</button></td>'
             + '<td><span class="badge s-' + esc(r.status) + '">' + esc(r.status) + '</span></td>'
             + '<td class="mono">' + esc(r.slug) + '</td>'

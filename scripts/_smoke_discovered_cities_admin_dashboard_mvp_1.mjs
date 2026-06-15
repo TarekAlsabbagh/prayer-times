@@ -4,7 +4,7 @@
 //   • fail-closed: ADMIN_TOKEN env unset → 403 (page + API)
 //   • missing/wrong token → 401 ; correct token (?token= or Bearer) → 200
 //   • API returns SAFE JSON (rows/counts/total) with NO secrets
-//   • page renders the table (fixture rows; Khams Djouamaa = خمس جوامع) and
+//   • page renders the table (fixture rows; Testville = تستفيل) and
 //     carries noindex,nofollow (meta + X-Robots-Tag)
 //   • NO secret (SUPABASE key / ADMIN_TOKEN value / service_role) leaks into
 //     HTML or JSON
@@ -27,8 +27,8 @@ const FAKE_SERVICE_KEY = 'SUPABASE_SERVICE_ROLE_KEY_SHOULD_NEVER_APPEAR';
 
 // Raw discovered_places rows (snake_case, as Supabase returns).
 const FIXTURE = [
-    { id: '1', slug: 'khams-djouamaa', type: 'city', country_code: 'dz', lat: 36.1474693, lng: 3.1331309,
-      timezone: 'Africa/Algiers', names: { ar: 'خمس جوامع', en: 'Khams Djouamaa', fr: 'Khams Djouamaa' },
+    { id: '1', slug: 'testville', type: 'city', country_code: 'dz', lat: 27.5, lng: 1.5,
+      timezone: 'Africa/Algiers', names: { ar: 'تستفيل', en: 'Testville', fr: 'Testville' },
       aliases: {}, name_quality: { ar: 'official' }, admin: {}, source: 'nominatim', source_id: 'osm123',
       verified: false, search_count: 0, selected_count: 3, created_at: '2026-06-10T08:00:00Z', updated_at: '2026-06-13T09:00:00Z', last_used_at: '2026-06-13T09:00:00Z' },
     { id: '2', slug: 'testnoar-city', type: 'city', country_code: 'dz', lat: 35.0, lng: 3.0,
@@ -116,15 +116,15 @@ try {
     // JSON shape
     let j = {}; try { j = JSON.parse(aOkH.body); } catch (_) {}
     check('api JSON has total/counts/rows', typeof j.total === 'number' && j.counts && Array.isArray(j.rows), 'total=' + j.total);
-    const khams = (j.rows || []).find(r => r.slug === 'khams-djouamaa');
-    check('api row khams nameAr = خمس جوامع', !!khams && khams.nameAr === 'خمس جوامع', khams && khams.nameAr);
-    check('api row khams status READY_FOR_REVIEW', !!khams && khams.status === 'READY_FOR_REVIEW', khams && khams.status);
+    const testville = (j.rows || []).find(r => r.slug === 'testville');
+    check('api row testville nameAr = تستفيل', !!testville && testville.nameAr === 'تستفيل', testville && testville.nameAr);
+    check('api row testville status READY_FOR_REVIEW', !!testville && testville.status === 'READY_FOR_REVIEW', testville && testville.status);
     const noar = (j.rows || []).find(r => r.slug === 'testnoar-city');
     check('api row testnoar status NEEDS_AR_NAME', !!noar && noar.status === 'NEEDS_AR_NAME', noar && noar.status);
     check('api counts include READY_FOR_REVIEW', (j.counts && j.counts.READY_FOR_REVIEW) >= 1, JSON.stringify(j.counts));
 
-    // page renders the table + khams
-    check('page renders table + khams', /<table/.test(pOk.body) && pOk.body.indexOf('خمس جوامع') !== -1);
+    // page renders the table + testville
+    check('page renders table + testville', /<table/.test(pOk.body) && pOk.body.indexOf('تستفيل') !== -1);
 
     // SECURITY: no secret leaks anywhere
     const leaked = (s) => s.indexOf(TOKEN) !== -1 || s.indexOf(FAKE_SERVICE_KEY) !== -1 || /service_role/i.test(s) || /SUPABASE_SERVICE_ROLE_KEY/.test(s);

@@ -24,8 +24,8 @@ const FAKE_SERVICE_KEY = 'SUPABASE_SERVICE_ROLE_KEY_MUST_NOT_LEAK';
 const CURATED = path.join(ROOT, 'db', 'places', 'curated-places.json');
 
 const FIXTURE = [
-    { id: '1', slug: 'khams-djouamaa', type: 'city', country_code: 'dz', lat: 36.1474693, lng: 3.1331309,
-      timezone: 'Africa/Algiers', names: { ar: 'خمس جوامع', en: 'Khams Djouamaa' }, aliases: {}, name_quality: { ar: 'official' },
+    { id: '1', slug: 'testville', type: 'city', country_code: 'dz', lat: 27.5, lng: 1.5,
+      timezone: 'Africa/Algiers', names: { ar: 'تستفيل', en: 'Testville' }, aliases: {}, name_quality: { ar: 'official' },
       admin: {}, source: 'nominatim', source_id: 'osm1', verified: false, search_count: 0, selected_count: 3,
       created_at: '2026-06-10T08:00:00Z', updated_at: '2026-06-13T09:00:00Z', last_used_at: '2026-06-13T09:00:00Z' },
     { id: '2', slug: 'preview-skip-city', type: 'city', country_code: 'dz', lat: 27.0, lng: 2.0,
@@ -67,7 +67,7 @@ const PORT_A = 8121;
 const srvA = spawnServer(PORT_A, {});
 try {
     if (!await waitReady(PORT_A, 20000)) { console.error('✗ server A not ready'); srvA.kill('SIGKILL'); process.exit(1); }
-    const r = await postJson(PORT_A, PREVIEW, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }] });
+    const r = await postJson(PORT_A, PREVIEW, { items: [{ slug: 'testville', countryCode: 'dz' }] });
     check('no ADMIN_TOKEN → preview 403', r.status === 403, 'got ' + r.status);
 } finally { srvA.kill('SIGKILL'); }
 await sleep(800);
@@ -80,32 +80,32 @@ try {
     const auth = { Authorization: 'Bearer ' + TOKEN };
 
     // seed review decisions
-    await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved', note: 'verified خمس جوامع' }, auth);
+    await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'testville', countryCode: 'dz', decision: 'approved', note: 'verified تستفيل' }, auth);
     await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'preview-skip-city', countryCode: 'dz', decision: 'skipped' }, auth);
 
     // auth + input guards
-    check('preview no token → 401', (await postJson(PORT_B, PREVIEW, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }] })).status === 401);
-    check('preview wrong token → 401', (await postJson(PORT_B, PREVIEW, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }] }, { Authorization: 'Bearer nope' })).status === 401);
+    check('preview no token → 401', (await postJson(PORT_B, PREVIEW, { items: [{ slug: 'testville', countryCode: 'dz' }] })).status === 401);
+    check('preview wrong token → 401', (await postJson(PORT_B, PREVIEW, { items: [{ slug: 'testville', countryCode: 'dz' }] }, { Authorization: 'Bearer nope' })).status === 401);
     check('preview GET → 405', (await get(PORT_B, PREVIEW, auth)).status === 405);
     check('preview non-JSON → 415', (await reqRaw(PORT_B, 'POST', PREVIEW, Object.assign({ 'Content-Type': 'text/plain' }, auth), 'x')).status === 415);
     check('preview empty items → 400', (await postJson(PORT_B, PREVIEW, { items: [] }, auth)).status === 400);
     check('preview bad item shape → 400', (await postJson(PORT_B, PREVIEW, { items: [{ slug: 'X', countryCode: 'zz9' }] }, auth)).status === 400);
 
     // approved city → ready + valid candidate
-    const rOk = await postJson(PORT_B, PREVIEW, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }] }, auth);
+    const rOk = await postJson(PORT_B, PREVIEW, { items: [{ slug: 'testville', countryCode: 'dz' }] }, auth);
     let j = {}; try { j = JSON.parse(rOk.body); } catch (_) {}
     check('approved preview → 200', rOk.status === 200, 'got ' + rOk.status);
     check('status=ready', j.status === 'ready', j.status);
     check('previewOnly flag true', j.previewOnly === true);
     const it = (j.items || [])[0];
-    check('khams item valid', !!it && it.valid === true);
-    check('candidate names.ar = خمس جوامع', !!it && it.candidate && it.candidate.names && it.candidate.names.ar === 'خمس جوامع', it && it.candidate && it.candidate.names && it.candidate.names.ar);
+    check('testville item valid', !!it && it.valid === true);
+    check('candidate names.ar = تستفيل', !!it && it.candidate && it.candidate.names && it.candidate.names.ar === 'تستفيل', it && it.candidate && it.candidate.names && it.candidate.names.ar);
     check('candidate source = curated', !!it && it.candidate && it.candidate.source === 'curated');
     check('robots before→after discovered→curated index', !!it && /noindex/.test(it.robotsBefore) && /index,follow/.test(it.robotsAfter));
     check('source before→after nominatim→curated', !!it && it.sourceBefore === 'nominatim' && it.sourceAfter === 'curated');
     check('diffPreview has add op', Array.isArray(j.diffPreview) && j.diffPreview.length === 1 && j.diffPreview[0].op === 'add');
     check('filesToChange lists curated-places.json', (j.filesToChange || []).indexOf('db/places/curated-places.json') !== -1);
-    check('commitMessageSuggested present', typeof j.commitMessageSuggested === 'string' && j.commitMessageSuggested.indexOf('khams-djouamaa') !== -1);
+    check('commitMessageSuggested present', typeof j.commitMessageSuggested === 'string' && j.commitMessageSuggested.indexOf('testville') !== -1);
     check('countryCounts dz before→after (+1)', j.countryCountsBeforeAfter && j.countryCountsBeforeAfter.dz && (j.countryCountsBeforeAfter.dz.after === j.countryCountsBeforeAfter.dz.before + 1));
     check('resultingJsonValid', j.validations && j.validations.resultingJsonValid === true);
 
@@ -118,7 +118,7 @@ try {
     check('skipped fails review_approved check', !!its && (its.checks || []).some(c => c.name === 'review_approved' && !c.ok));
 
     // mixed batch → blocked
-    const rMix = await postJson(PORT_B, PREVIEW, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }, { slug: 'preview-skip-city', countryCode: 'dz' }] }, auth);
+    const rMix = await postJson(PORT_B, PREVIEW, { items: [{ slug: 'testville', countryCode: 'dz' }, { slug: 'preview-skip-city', countryCode: 'dz' }] }, auth);
     let jm = {}; try { jm = JSON.parse(rMix.body); } catch (_) {}
     check('mixed batch status=blocked', jm.status === 'blocked');
 

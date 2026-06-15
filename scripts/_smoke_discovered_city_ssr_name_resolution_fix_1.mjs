@@ -29,10 +29,10 @@ const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 
 // Fixture: one discovered city WITH a native Arabic name, one WITHOUT (only en).
 const FIXTURE = {
-    'khams-djouamaa': {
-        slug: 'khams-djouamaa', lat: 36.1474693, lng: 3.1331309,
+    'testville': {
+        slug: 'testville', lat: 27.5, lng: 1.5,
         timezone: 'Africa/Algiers', country_code: 'dz', type: 'city',
-        names: { ar: 'خمس جوامع', en: 'Khams Djouamaa', fr: 'Khams Djouamaa' }
+        names: { ar: 'تستفيل', en: 'Testville', fr: 'Testville' }
     },
     'noar-testcity': {
         slug: 'noar-testcity', lat: 36.0, lng: 3.0,
@@ -95,27 +95,27 @@ try {
     console.log('═══ DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 ═══');
 
     // ── 1) Discovered WITH names.ar → Arabic everywhere on the AR page ──
-    const kAr = await page('/prayer-times-in-khams-djouamaa');
-    check('khams AR  title has خمس جوامع',        kAr.title.includes('خمس جوامع'), kAr.title);
-    check('khams AR  title has NO Latin name',     !kAr.title.includes('Khams Djouamaa'));
-    check('khams AR  H1 has خمس جوامع',           kAr.h1.includes('خمس جوامع'), kAr.h1);
-    check('khams AR  breadcrumb = خمس جوامع',      kAr.bcCity === 'خمس جوامع', kAr.bcCity);
-    check('khams AR  JSON-LD has خمس جوامع crumb',  kAr.body.includes('"name":"خمس جوامع"'));
-    check('khams AR  JSON-LD has NO Latin crumb',   !kAr.body.includes('"name":"Khams Djouamaa"'));
-    check('khams AR  __PRAYER_CITY__ seeded',      kAr.hasSeed);
-    check('khams AR  STAYS noindex',               /noindex/.test(kAr.robots), kAr.robots);
+    const kAr = await page('/prayer-times-in-testville');
+    check('testville AR  title has تستفيل',        kAr.title.includes('تستفيل'), kAr.title);
+    check('testville AR  title has NO Latin name',     !kAr.title.includes('Testville'));
+    check('testville AR  H1 has تستفيل',           kAr.h1.includes('تستفيل'), kAr.h1);
+    check('testville AR  breadcrumb = تستفيل',      kAr.bcCity === 'تستفيل', kAr.bcCity);
+    check('testville AR  JSON-LD has تستفيل crumb',  kAr.body.includes('"name":"تستفيل"'));
+    check('testville AR  JSON-LD has NO Latin crumb',   !kAr.body.includes('"name":"Testville"'));
+    check('testville AR  __PRAYER_CITY__ seeded',      kAr.hasSeed);
+    check('testville AR  STAYS noindex',               /noindex/.test(kAr.robots), kAr.robots);
 
     // ── 2) en / fr → correct native Latin name ──
-    const kEn = await page('/en/prayer-times-in-khams-djouamaa');
-    check('khams EN  title has Khams Djouamaa',    kEn.title.includes('Khams Djouamaa'), kEn.title);
-    const kFr = await page('/fr/prayer-times-in-khams-djouamaa');
-    check('khams FR  title has Khams Djouamaa',    kFr.title.includes('Khams Djouamaa'), kFr.title);
+    const kEn = await page('/en/prayer-times-in-testville');
+    check('testville EN  title has Testville',    kEn.title.includes('Testville'), kEn.title);
+    const kFr = await page('/fr/prayer-times-in-testville');
+    check('testville FR  title has Testville',    kFr.title.includes('Testville'), kFr.title);
 
     // ── 3) ur / bn → not broken, no raw i18n key ──
-    const kUr = await page('/ur/prayer-times-in-khams-djouamaa');
-    check('khams UR  renders (no raw key)',        kUr.http === 200 && !/\b(npt|moon|header)\.\w+/.test(kUr.title), kUr.title);
-    const kBn = await page('/bn/prayer-times-in-khams-djouamaa');
-    check('khams BN  renders (no raw key)',        kBn.http === 200 && !/\b(npt|moon|header)\.\w+/.test(kBn.title), kBn.title);
+    const kUr = await page('/ur/prayer-times-in-testville');
+    check('testville UR  renders (no raw key)',        kUr.http === 200 && !/\b(npt|moon|header)\.\w+/.test(kUr.title), kUr.title);
+    const kBn = await page('/bn/prayer-times-in-testville');
+    check('testville BN  renders (no raw key)',        kBn.http === 200 && !/\b(npt|moon|header)\.\w+/.test(kBn.title), kBn.title);
 
     // ── 4) NEEDS_AR_NAME: discovered with only names.en → AR must NOT use names.en ──
     const nAr = await page('/prayer-times-in-noar-testcity');

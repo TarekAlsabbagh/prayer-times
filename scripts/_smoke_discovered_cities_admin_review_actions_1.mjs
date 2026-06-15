@@ -25,8 +25,8 @@ const FAKE_SERVICE_KEY = 'SUPABASE_SERVICE_ROLE_KEY_MUST_NOT_LEAK';
 const CURATED = path.join(ROOT, 'db', 'places', 'curated-places.json');
 
 const FIXTURE = [
-    { id: '1', slug: 'khams-djouamaa', type: 'city', country_code: 'dz', lat: 36.1474693, lng: 3.1331309,
-      timezone: 'Africa/Algiers', names: { ar: 'خمس جوامع', en: 'Khams Djouamaa' }, aliases: {}, name_quality: { ar: 'official' },
+    { id: '1', slug: 'testville', type: 'city', country_code: 'dz', lat: 27.5, lng: 1.5,
+      timezone: 'Africa/Algiers', names: { ar: 'تستفيل', en: 'Testville' }, aliases: {}, name_quality: { ar: 'official' },
       admin: {}, source: 'nominatim', source_id: 'osm1', verified: false, search_count: 0, selected_count: 3,
       created_at: '2026-06-10T08:00:00Z', updated_at: '2026-06-13T09:00:00Z', last_used_at: '2026-06-13T09:00:00Z' }
 ];
@@ -66,7 +66,7 @@ const PORT_A = 8111;
 const srvA = spawnServer(PORT_A, {});
 try {
     if (!await waitReady(PORT_A, 20000)) { console.error('✗ server A not ready'); srvA.kill('SIGKILL'); process.exit(1); }
-    const r = await postJson(PORT_A, '/api/admin/discovered-cities/review', { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved' });
+    const r = await postJson(PORT_A, '/api/admin/discovered-cities/review', { slug: 'testville', countryCode: 'dz', decision: 'approved' });
     check('no ADMIN_TOKEN → /review 403', r.status === 403, 'got ' + r.status);
 } finally { srvA.kill('SIGKILL'); }
 await sleep(800);
@@ -79,19 +79,19 @@ try {
     const auth = { Authorization: 'Bearer ' + TOKEN };
 
     // auth gating
-    const rNo = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved' });
+    const rNo = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'testville', countryCode: 'dz', decision: 'approved' });
     check('review no token → 401', rNo.status === 401, 'got ' + rNo.status);
-    const rWrong = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved' }, { Authorization: 'Bearer nope' });
+    const rWrong = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'testville', countryCode: 'dz', decision: 'approved' }, { Authorization: 'Bearer nope' });
     check('review wrong token → 401', rWrong.status === 401, 'got ' + rWrong.status);
     const rGet = await get(PORT_B, '/api/admin/discovered-cities/review', auth);
     check('review GET method → 405', rGet.status === 405, 'got ' + rGet.status);
     const rForm = await reqRaw(PORT_B, 'POST', '/api/admin/discovered-cities/review', Object.assign({ 'Content-Type': 'text/plain' }, auth), 'slug=x');
     check('review non-JSON → 415', rForm.status === 415, 'got ' + rForm.status);
-    const rBad = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'bogus' }, auth);
+    const rBad = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'testville', countryCode: 'dz', decision: 'bogus' }, auth);
     check('review invalid decision → 400', rBad.status === 400, 'got ' + rBad.status);
 
     // valid save
-    const rOk = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved', note: 'Arabic name verified: خمس جوامع' }, auth);
+    const rOk = await postJson(PORT_B, '/api/admin/discovered-cities/review', { slug: 'testville', countryCode: 'dz', decision: 'approved', note: 'Arabic name verified: تستفيل' }, auth);
     let okJson = {}; try { okJson = JSON.parse(rOk.body); } catch (_) {}
     check('review correct token → 200 ok', rOk.status === 200 && okJson.ok === true, 'got ' + rOk.status);
     check('review echoes decision approved', okJson.review && okJson.review.decision === 'approved');
@@ -99,13 +99,13 @@ try {
     // persists in the dashboard GET (and across a refresh)
     const g1 = await get(PORT_B, '/api/admin/discovered-cities', auth);
     let j1 = {}; try { j1 = JSON.parse(g1.body); } catch (_) {}
-    const k1 = (j1.rows || []).find(x => x.slug === 'khams-djouamaa');
+    const k1 = (j1.rows || []).find(x => x.slug === 'testville');
     check('GET shows reviewDecision=approved', !!k1 && k1.reviewDecision === 'approved', k1 && k1.reviewDecision);
-    check('GET shows the saved note', !!k1 && k1.reviewNote === 'Arabic name verified: خمس جوامع');
+    check('GET shows the saved note', !!k1 && k1.reviewNote === 'Arabic name verified: تستفيل');
     check('reviewCounts.approved >= 1', (j1.reviewCounts && j1.reviewCounts.approved) >= 1, JSON.stringify(j1.reviewCounts));
     const g2 = await get(PORT_B, '/api/admin/discovered-cities', auth);
     let j2 = {}; try { j2 = JSON.parse(g2.body); } catch (_) {}
-    const k2 = (j2.rows || []).find(x => x.slug === 'khams-djouamaa');
+    const k2 = (j2.rows || []).find(x => x.slug === 'testville');
     check('decision PERSISTS across refresh', !!k2 && k2.reviewDecision === 'approved');
 
     // page HTML renders the review controls (drawer + buttons) for the authed page

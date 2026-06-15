@@ -27,8 +27,8 @@ const FAKE_GH_TOKEN = 'ghp_FAKE_TOKEN_MUST_NOT_LEAK_1234567890';
 const CURATED = path.join(ROOT, 'db', 'places', 'curated-places.json');
 
 const FIXTURE = [
-    { id: '1', slug: 'khams-djouamaa', type: 'city', country_code: 'dz', lat: 36.1474693, lng: 3.1331309,
-      timezone: 'Africa/Algiers', names: { ar: 'خمس جوامع', en: 'Khams Djouamaa' }, aliases: {}, name_quality: { ar: 'official' },
+    { id: '1', slug: 'testville', type: 'city', country_code: 'dz', lat: 27.5, lng: 1.5,
+      timezone: 'Africa/Algiers', names: { ar: 'تستفيل', en: 'Testville' }, aliases: {}, name_quality: { ar: 'official' },
       admin: {}, source: 'nominatim', source_id: 'osm1', verified: false, search_count: 0, selected_count: 3,
       created_at: '2026-06-10T08:00:00Z', updated_at: '2026-06-13T09:00:00Z', last_used_at: '2026-06-13T09:00:00Z' },
     { id: '2', slug: 'commit-skip-city', type: 'city', country_code: 'dz', lat: 27.0, lng: 2.0,
@@ -70,7 +70,7 @@ let exitCode = 1;
 const PA = 8131; const sA = spawnServer(PA, { PROMOTE_GITHUB_TEST_MODE: '1', GITHUB_TOKEN: FAKE_GH_TOKEN, GITHUB_REPO: 'owner/repo' });
 try {
     if (!await waitReady(PA, 20000)) { console.error('✗ A not ready'); sA.kill('SIGKILL'); process.exit(1); }
-    check('no ADMIN_TOKEN → commit 403', (await postJson(PA, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'branch' })).status === 403);
+    check('no ADMIN_TOKEN → commit 403', (await postJson(PA, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'branch' })).status === 403);
 } finally { sA.kill('SIGKILL'); }
 await sleep(700);
 
@@ -79,8 +79,8 @@ const PC = 8133; const sC = spawnServer(PC, { ADMIN_TOKEN: TOKEN, DISCOVERED_ADM
 try {
     if (!await waitReady(PC, 20000)) { console.error('✗ C not ready'); sC.kill('SIGKILL'); process.exit(1); }
     const auth = { Authorization: 'Bearer ' + TOKEN };
-    await postJson(PC, REVIEW, { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved' }, auth);
-    check('no GitHub config → commit 503', (await postJson(PC, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'branch' }, auth)).status === 503);
+    await postJson(PC, REVIEW, { slug: 'testville', countryCode: 'dz', decision: 'approved' }, auth);
+    check('no GitHub config → commit 503', (await postJson(PC, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'branch' }, auth)).status === 503);
 } finally { sC.kill('SIGKILL'); }
 await sleep(700);
 
@@ -89,26 +89,26 @@ const PB = 8132; const sB = spawnServer(PB, { ADMIN_TOKEN: TOKEN, DISCOVERED_ADM
 try {
     if (!await waitReady(PB, 20000)) { console.error('✗ B not ready'); sB.kill('SIGKILL'); process.exit(1); }
     const auth = { Authorization: 'Bearer ' + TOKEN };
-    await postJson(PB, REVIEW, { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved', note: 'verified' }, auth);
+    await postJson(PB, REVIEW, { slug: 'testville', countryCode: 'dz', decision: 'approved', note: 'verified' }, auth);
     await postJson(PB, REVIEW, { slug: 'commit-skip-city', countryCode: 'dz', decision: 'skipped' }, auth);
 
     // auth + input guards
-    check('commit no token → 401', (await postJson(PB, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'branch' })).status === 401);
-    check('commit wrong token → 401', (await postJson(PB, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'branch' }, { Authorization: 'Bearer no' })).status === 401);
+    check('commit no token → 401', (await postJson(PB, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'branch' })).status === 401);
+    check('commit wrong token → 401', (await postJson(PB, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'branch' }, { Authorization: 'Bearer no' })).status === 401);
     check('commit GET → 405', (await get(PB, COMMIT, auth)).status === 405);
     check('commit non-JSON → 415', (await reqRaw(PB, 'POST', COMMIT, Object.assign({ 'Content-Type': 'text/plain' }, auth), 'x')).status === 415);
     check('commit bad items → 400', (await postJson(PB, COMMIT, { items: [] }, auth)).status === 400);
-    check('commit target=main → 400', (await postJson(PB, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'main' }, auth)).status === 400);
+    check('commit target=main → 400', (await postJson(PB, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'main' }, auth)).status === 400);
 
     // approved → committed to branch
-    const rOk = await postJson(PB, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'branch', commitMessage: 'feat(cities): promote khams' }, auth);
+    const rOk = await postJson(PB, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'branch', commitMessage: 'feat(cities): promote testville' }, auth);
     let j = {}; try { j = JSON.parse(rOk.body); } catch (_) {}
     check('approved commit → 200', rOk.status === 200, 'got ' + rOk.status);
     check('status=committed', j.status === 'committed', j.status);
-    check('branchName admin/promote-discovered-…khams', typeof j.branchName === 'string' && /^admin\/promote-discovered-\d{8}-\d{4}-khams-djouamaa$/.test(j.branchName), j.branchName);
+    check('branchName admin/promote-discovered-…testville', typeof j.branchName === 'string' && /^admin\/promote-discovered-\d{8}-\d{4}-testville$/.test(j.branchName), j.branchName);
     check('commitSha present', typeof j.commitSha === 'string' && j.commitSha.length > 0, j.commitSha);
     check('filesChanged = curated + report', Array.isArray(j.filesChanged) && j.filesChanged.indexOf('db/places/curated-places.json') !== -1 && j.filesChanged.some(f => /^reports\/admin-promote-batch-/.test(f)), JSON.stringify(j.filesChanged));
-    check('citiesPromoted = [khams]', Array.isArray(j.citiesPromoted) && j.citiesPromoted.length === 1 && j.citiesPromoted[0] === 'khams-djouamaa');
+    check('citiesPromoted = [testville]', Array.isArray(j.citiesPromoted) && j.citiesPromoted.length === 1 && j.citiesPromoted[0] === 'testville');
     check('afterCount = beforeCount + 1', j.afterCount === j.beforeCount + 1, j.beforeCount + '→' + j.afterCount);
 
     // skipped → 422 blocked
@@ -116,11 +116,11 @@ try {
     check('skipped commit → 422 blocked', rSkip.status === 422 && (JSON.parse(rSkip.body || '{}').status === 'blocked'), 'got ' + rSkip.status);
 
     // mixed → 422 blocked
-    const rMix = await postJson(PB, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }, { slug: 'commit-skip-city', countryCode: 'dz' }], target: 'branch' }, auth);
+    const rMix = await postJson(PB, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }, { slug: 'commit-skip-city', countryCode: 'dz' }], target: 'branch' }, auth);
     check('mixed commit → 422 blocked', rMix.status === 422);
 
     // concurrency lock — fire 4 in parallel
-    const conc = await Promise.all([0, 1, 2, 3].map(() => postJson(PB, COMMIT, { items: [{ slug: 'khams-djouamaa', countryCode: 'dz' }], target: 'branch' }, auth)));
+    const conc = await Promise.all([0, 1, 2, 3].map(() => postJson(PB, COMMIT, { items: [{ slug: 'testville', countryCode: 'dz' }], target: 'branch' }, auth)));
     const codes = conc.map(r => r.status);
     check('concurrency: all 200|409 (no 500/crash)', codes.every(c => c === 200 || c === 409), JSON.stringify(codes));
     // Lock note: in test mode the commit path is all-microtask (no real network), so the

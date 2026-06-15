@@ -31,8 +31,8 @@ const FAKE_GH_TOKEN = 'ghp_FAKE_TOKEN_MUST_NOT_LEAK_1234567890';
 const CURATED = path.join(ROOT, 'db', 'places', 'curated-places.json');
 
 const FIXTURE = [
-    { id: '1', slug: 'khams-djouamaa', type: 'city', country_code: 'dz', lat: 36.1474693, lng: 3.1331309,
-      timezone: 'Africa/Algiers', names: { ar: 'خمس جوامع', en: 'Khams Djouamaa' }, aliases: {}, name_quality: { ar: 'official' },
+    { id: '1', slug: 'testville', type: 'city', country_code: 'dz', lat: 27.5, lng: 1.5,
+      timezone: 'Africa/Algiers', names: { ar: 'تستفيل', en: 'Testville' }, aliases: {}, name_quality: { ar: 'official' },
       admin: {}, source: 'nominatim', source_id: 'osm1', verified: false, search_count: 0, selected_count: 3,
       created_at: '2026-06-10T08:00:00Z', updated_at: '2026-06-13T09:00:00Z', last_used_at: '2026-06-13T09:00:00Z' }
 ];
@@ -63,19 +63,19 @@ function check(label, ok, extra) { if (ok) pass++; else fail++; console.log(`${o
 
 const COMMIT = '/api/admin/discovered-cities/promote-commit';
 const REVIEW = '/api/admin/discovered-cities/review';
-const ITEM = { slug: 'khams-djouamaa', countryCode: 'dz' };
+const ITEM = { slug: 'testville', countryCode: 'dz' };
 // Secret-LEAK detector: the 3 secret VALUES + service_role. (Env var NAMES like
 // GITHUB_REPO/GITHUB_TOKEN are not secrets and may appear in safe `hint` text.)
 const leak = (s) => s.indexOf(TOKEN) !== -1 || s.indexOf(FAKE_SERVICE_KEY) !== -1 || s.indexOf(FAKE_GH_TOKEN) !== -1 || /service_role/i.test(s);
 
-// Spawn a test-mode server with an injected GitHub failure, approve khams, POST
+// Spawn a test-mode server with an injected GitHub failure, approve testville, POST
 // commit, and return { status, body, j }.
 async function runInjected(port, failDesc) {
     const s = spawnServer(port, { ADMIN_TOKEN: TOKEN, DISCOVERED_ADMIN_TEST_FIXTURE: fixturePath, PROMOTE_GITHUB_TEST_MODE: '1', PROMOTE_GITHUB_TEST_FAIL: failDesc, GITHUB_TOKEN: FAKE_GH_TOKEN, GITHUB_REPO: 'owner/repo' });
     try {
         if (!await waitReady(port, 20000)) { console.error('✗ not ready ' + port); s.kill('SIGKILL'); process.exit(1); }
         const auth = { Authorization: 'Bearer ' + TOKEN };
-        await postJson(port, REVIEW, { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved' }, auth);
+        await postJson(port, REVIEW, { slug: 'testville', countryCode: 'dz', decision: 'approved' }, auth);
         const r = await postJson(port, COMMIT, { items: [ITEM], target: 'branch' }, auth);
         let j = {}; try { j = JSON.parse(r.body); } catch (_) {}
         return { status: r.status, body: r.body, j };
@@ -154,7 +154,7 @@ try {
         try {
             if (!await waitReady(port, 20000)) { console.error('✗ not ready ' + port); s.kill('SIGKILL'); process.exit(1); }
             const auth = { Authorization: 'Bearer ' + TOKEN };
-            await postJson(port, REVIEW, { slug: 'khams-djouamaa', countryCode: 'dz', decision: 'approved' }, auth);
+            await postJson(port, REVIEW, { slug: 'testville', countryCode: 'dz', decision: 'approved' }, auth);
             const r = await postJson(port, COMMIT, { items: [ITEM], target: 'branch' }, auth);
             let j = {}; try { j = JSON.parse(r.body); } catch (_) {}
             check('happy path → 200 committed (no regression)', r.status === 200 && j.status === 'committed', 'got ' + r.status + ' ' + j.status);

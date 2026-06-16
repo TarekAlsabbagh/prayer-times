@@ -558,7 +558,11 @@ const MoonCalc = (function() {
             // هل يحتوي هذا اليوم المحلّيّ على حدث من الأحداث الأربعة؟
             const evInDay = events.find(e => e.date >= dayStart && e.date < dayEnd);
 
-            const phase        = evInDay ? evInDay.phase : getPhaseName(dSample);
+            // MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16): non-event days
+            // are labeled by elongation QUADRANT (crescent/gibbous), NOT by the
+            // illumination threshold in getPhaseName — so a day adjacent to the
+            // new/full event never duplicates "New Moon"/"Full Moon".
+            const phase        = evInDay ? evInDay.phase : _quadrantPhase(dSample);
             const illumination = getMoonIllumination(dSample);
             const times        = getMoonTimes(dayStart, lat, lng, resolvedTz);
 
@@ -580,6 +584,99 @@ const MoonCalc = (function() {
     // alias للحفاظ على التوافق الخلفيّ مع الشيفرة القديمة
     function get7DayForecast(startDate, lat, lng, tz) {
         return getForecast(startDate, lat, lng, 7, tz);
+    }
+
+    // ══════════ MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16) ══════════
+    // التسمية الحدثيّة المحلّيّة للأطوار (calendar/day-level), بدل عتبة الإضاءة.
+    //   • الأطوار الكبرى (محاق/تربيع أوّل/بدر/تربيع أخير) تظهر فقط في **اليوم
+    //     المحلّيّ** الذي يقع فيه الحدث الفلكيّ (مربوطًا بتوقيت المدينة/الصفحة).
+    //   • بقيّة الأيّام تُسمّى حسب رُبع الاستطالة D (هلال/أحدب)، فلا يتكرّر «محاق»
+    //     أو «بدر» على يومين. الإضاءة لا تُستخدم أبدًا لتسمية بدر/محاق.
+    // يحلّ تكرار المحاق/البدر الموثّق في MOON-PHASE-CALENDAR-CALCULATION-AUDIT-1.
+
+    // طور غير-حدثيّ من رُبع الاستطالة D (0=محاق, 90=تربيع أوّل, 180=بدر, 270=تربيع أخير).
+    // لا يُرجِع «محاق» أو «بدر» إطلاقًا — تلك للأيّام الحدثيّة فقط.
+    function _quadrantPhase(date) {
+        const D = _moonState(date).D;
+        if (D < 90)  return { name: 'هلال متزايد', icon: '🌒', english: 'Waxing Crescent', key: 'moon.phase_waxing_crescent' };
+        if (D < 180) return { name: 'أحدب متزايد', icon: '🌔', english: 'Waxing Gibbous',  key: 'moon.phase_waxing_gibbous' };
+        if (D < 270) return { name: 'أحدب متناقص', icon: '🌖', english: 'Waning Gibbous',  key: 'moon.phase_waning_gibbous' };
+        return { name: 'هلال متناقص', icon: '🌘', english: 'Waning Crescent', key: 'moon.phase_waning_crescent' };
+    }
+
+    // اللحظة (UTC) التي تقابل 12:00 ظهرًا في `tz` على التاريخ y-m-d.
+    function _localNoonInTz(year, month, day, tz) {
+        const naive = Date.UTC(year, month - 1, day, 12, 0, 0);
+        const off = _getTzOffsetMs(naive, tz || 'UTC');
+        return new Date(naive - off);
+    }
+    // التاريخ المحلّيّ (y-m-d) في `tz` للحظة UTC مُعطاة.
+    function _localYMD(instant, tz) {
+        try {
+            const parts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: tz || 'UTC', year: 'numeric', month: '2-digit', day: '2-digit'
+            }).format(instant).split('-');
+            return { y: Number(parts[0]), m: Number(parts[1]), d: Number(parts[2]) };
+        } catch (_e) {
+            return { y: instant.getUTCFullYear(), m: instant.getUTCMonth() + 1, d: instant.getUTCDate() };
+        }
+    }
+    // صفة ثانويّة (قريب من البدر/المحاق) — للأيّام غير-الحدثيّة فقط، وليست الطور الرئيسيّ.
+    function _secondaryNote(illumPct, isEventDay) {
+        if (isEventDay) return null;
+        if (illumPct >= 97) return { name: 'قريب من البدر', english: 'Near Full', key: 'moon.near_full' };
+        if (illumPct <= 3)  return { name: 'قريب من المحاق', english: 'Near New', key: 'moon.near_new' };
+        return null;
+    }
+
+    // شبكة شهر كاملة بتسمية حدثيّة محلّيّة. tz = IANA المدينة/الصفحة (أو 'UTC').
+    // تُرجِع مصفوفة بطول أيّام الشهر: { day, phase, illumination, event, eventAt, secondary, isNewMoon, isFullMoon, tz }.
+    function getMonthGrid(year, month, tz) {
+        tz = (typeof tz === 'string' && tz) ? tz : 'UTC';
+        const last = new Date(Date.UTC(year, month, 0)).getUTCDate();
+        // نطاق البحث عن الأحداث: الشهر ± 3 أيّام (لالتقاط أحداث قرب الحوافّ).
+        const rangeStart = new Date(_localNoonInTz(year, month, 1, tz).getTime() - 3 * 86400000);
+        const rangeEnd   = new Date(_localNoonInTz(year, month, last, tz).getTime() + 3 * 86400000);
+        const events = findPhaseEventsInRange(rangeStart, rangeEnd) || [];
+        // اربط كلّ حدث بيومه المحلّيّ داخل الشهر (في tz).
+        const eventByDay = {};
+        for (const ev of events) {
+            const ld = _localYMD(ev.date, tz);
+            if (ld.y === year && ld.m === month && !eventByDay[ld.d]) eventByDay[ld.d] = ev;
+        }
+        const out = [];
+        for (let day = 1; day <= last; day++) {
+            const noon = _localNoonInTz(year, month, day, tz);
+            const st = _moonState(noon);
+            const illum = Math.round(st.illuminationPct * 100) / 100;
+            const ev = eventByDay[day] || null;
+            const phase = ev ? Object.assign({}, ev.phase) : _quadrantPhase(noon);
+            out.push({
+                day,
+                phase,
+                illumination: illum,
+                event: ev ? ev.type : null,
+                eventAt: ev ? ev.date : null,
+                secondary: _secondaryNote(illum, !!ev),
+                isNewMoon: !!(ev && ev.type === 'new_moon'),
+                isFullMoon: !!(ev && ev.type === 'full_moon'),
+                tz
+            });
+        }
+        return out;
+    }
+
+    // طور يوم محلّيّ واحد (للـ moon-today و /moon-in-{city}/{date}). نفس منطق الشبكة.
+    function getDayPhase(date, tz) {
+        tz = (typeof tz === 'string' && tz) ? tz : 'UTC';
+        const inst = new Date(date);
+        const ld = _localYMD(inst, tz);
+        const grid = getMonthGrid(ld.y, ld.m, tz);
+        for (let i = 0; i < grid.length; i++) if (grid[i].day === ld.d) return grid[i];
+        // fallback نادر — يوم خارج الشبكة (لا يحدث عمليًّا)
+        const st = _moonState(inst);
+        const illum = Math.round(st.illuminationPct * 100) / 100;
+        return { day: ld.d, phase: _quadrantPhase(inst), illumination: illum, event: null, eventAt: null, secondary: null, isNewMoon: false, isFullMoon: false, tz };
     }
 
     // ══════════ كوكبة القمر على المسار الفلكيّ (IAU Constellation) ══════════
@@ -668,7 +765,10 @@ const MoonCalc = (function() {
         getNextLastQuarter,
         findPhaseEventsInRange,
         get7DayForecast,
-        getForecast
+        getForecast,
+        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: event-based local day labels
+        getMonthGrid,
+        getDayPhase
     };
 })();
 

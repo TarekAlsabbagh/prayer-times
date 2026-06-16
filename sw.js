@@ -1541,7 +1541,15 @@
 //   calculations untouched. Also realigns the precache entry for hijri-date.js
 //   which had drifted to ?v=42 while index.html shipped ?v=43.
 //   Cache-busters: js/app.js?v=781 → ?v=782, js/hijri-date.js?v=43 → ?v=44.
-const CACHE_VERSION = 'v442';
+// MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16):
+//   v442 → v443. Monthly moon calendars now label cells from EVENT-based local
+//   phases (major phases on their local event day only; other days by elongation
+//   quadrant) bound to the CITY's IANA timezone — fixes duplicate محاق/بدر across
+//   2 days. Touches js/moon.js (getMonthGrid/getDayPhase/_quadrantPhase), server.js
+//   (grid + intro), js/app.js (hero), js/i18n.js (note keys), css/style.css (watch).
+//   Cache-busters: js/app.js?v=782 → ?v=783, js/moon.js → ?v=54, js/i18n.js → ?v=193,
+//   css/style.css → ?v=479 (precache re-synced — had drifted).
+const CACHE_VERSION = 'v443';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1559,16 +1567,16 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
-    '/css/style.css?v=178',
-    '/js/i18n.js?v=134',
+    '/css/style.css?v=479',
+    '/js/i18n.js?v=193',
     '/js/prayer-times.js?v=47',
     '/js/hijri-date.js?v=44',
     '/js/qibla.js?v=44',
-    '/js/moon.js?v=52',
+    '/js/moon.js?v=54',
     '/js/moon-chart.js?v=7',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=782',
+    '/js/app.js?v=783',
 ];
 
 self.addEventListener('install', (event) => {

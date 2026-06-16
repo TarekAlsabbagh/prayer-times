@@ -72,14 +72,14 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=2" as="script">
-    <link rel="preload" href="js/app.js?v=782" as="script">
+    <link rel="preload" href="js/app.js?v=783" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=478" as="style">
-    <link rel="stylesheet" href="css/style.css?v=478">
+    <link rel="preload" href="css/style.css?v=479" as="style">
+    <link rel="stylesheet" href="css/style.css?v=479">
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══
@@ -5160,11 +5160,11 @@
            <script defer src="js/i18n/en.js?v=N"></script>  ← only if lang ≠ ar/en
          Detection happens server-side from URL prefix (`/en/`, `/fr/`, etc.).
          The marker line below is the regex anchor for the replacement. -->
-    <script defer src="js/i18n.js?v=192"></script>
+    <script defer src="js/i18n.js?v=193"></script>
     <script defer src="js/prayer-times.js?v=53"></script>
     <script defer src="js/hijri-date.js?v=44"></script>
     <script defer src="js/qibla.js?v=44"></script>
-    <script defer src="js/moon.js?v=53"></script>
+    <script defer src="js/moon.js?v=54"></script>
     <script defer src="js/moon-chart.js?v=9"></script>
     <!-- Legacy duas.js retained as deprecated compat shim — superseded by
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
@@ -5173,7 +5173,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=2"></script>
-    <script defer src="js/app.js?v=782"></script>
+    <script defer src="js/app.js?v=783"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

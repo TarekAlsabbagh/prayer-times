@@ -11,7 +11,7 @@
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
     <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional"></noscript>
     <link rel="preconnect" href="https://flagcdn.com" crossorigin>
-    <link rel="stylesheet" href="css/style.css?v=127">
+    <link rel="stylesheet" href="css/style.css?v=478">
     <style>
         /* ===== شريط البحث ===== */
         .cities-search-card {
@@ -259,49 +259,7 @@
 <div class="app-layout">
 
     <!-- ========= الشريط الجانبي ========= -->
-    <aside class="sidebar" id="sidebar">
-        <div class="sidebar-header">
-            <div class="sidebar-logo" role="banner" onclick="goToPrayerTimes()" title="الرئيسية" data-i18n="app.title">🕌 مواقيت الصلاة</div>
-            <div class="hijri-date" id="sidebar-hijri-date"></div>
-            <div class="greg-date" id="sidebar-greg-date"></div>
-        </div>
-        <nav class="sidebar-nav">
-            <!-- قسم: الخدمات الإسلامية -->
-            <div class="nav-group-label" data-i18n="nav.group_islamic">🕌 الخدمات الإسلامية</div>
-            <!-- COUNTRY-PRAYER-PAGE-NAVBAR-UNIFICATION-FIX-1: clean canonical tool URLs
-                 (was legacy /?page=… which the SSR lang-prefix pass collapsed to /en or
-                 /bn on non-AR). Same hrefs as the rest of the site; lang prefix added SSR. -->
-            <a href="/" class="active" onclick="goToPrayerTimes(); return false;">
-                <span class="nav-icon">🕐</span> <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
-            </a>
-            <a href="/qibla">
-                <span class="nav-icon">🧭</span> <span data-i18n="nav.qibla">إتجاه القبلة</span>
-            </a>
-            <a href="/moon-today">
-                <span class="nav-icon">🌙</span> <span data-i18n="nav.moon">القمر اليوم</span>
-            </a>
-            <a href="/zakat-calculator">
-                <span class="nav-icon">💰</span> <span data-i18n="nav.zakat">حاسبة الزكاة</span>
-            </a>
-            <a href="/azkar">
-                <span class="nav-icon">🤲</span> <span data-i18n="nav.duas">الأذكار</span>
-            </a>
-            <a href="/msbaha">
-                <span class="nav-icon">📿</span> <span data-i18n="nav.tasbih">المسبحة الإلكترونية</span>
-            </a>
-            <!-- قسم: التاريخ الهجري -->
-            <div class="nav-group-label" data-i18n="nav.group_hijri">📅 التاريخ الهجري</div>
-            <a href="/today-hijri-date">
-                <span class="nav-icon">📅</span> <span data-i18n="nav.hijri_today">التاريخ الهجري اليوم</span>
-            </a>
-            <a href="/hijri-calendar">
-                <span class="nav-icon">🗓️</span> <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
-            </a>
-            <a href="/date-converter">
-                <span class="nav-icon">🔄</span> <span data-i18n="nav.date_converter">تحويل التاريخ</span>
-            </a>
-        </nav>
-    </aside>
+    <!--SHARED-SIDEBAR-->
 
     <!-- ========= المحتوى الرئيسي ========= -->
     <main class="main-content">

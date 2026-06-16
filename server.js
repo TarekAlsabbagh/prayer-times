@@ -4482,6 +4482,74 @@ const _preloadPaths = [
     'sw.js',
 ];
 
+// ════════════════════════════════════════════════════════════════════════════
+// IN-PAGE-SIDENAV-CONSISTENCY-ON-STATIC-AND-COUNTRY-PAGES-1 (2026-06-16)
+// SINGLE SOURCE for the in-page side navigation (#sidebar). The homepage
+// (index.html) had migrated to SVG icons (UAT-ICON-2) but legal.html /
+// prayer-times-cities.html / countries.html were left on the OLD emoji sidebar,
+// so the same nav looked different across pages. Instead of copying markup into
+// each file, the canonical sidebar lives HERE and is injected ONCE at cache-load
+// into the `<!--SHARED-SIDEBAR-->` placeholder of all four templates.
+//   • spa:true  (index.html)   → data-page attrs + active on the current item;
+//     the homepage already ships the full SVG sprite, so NO mini-sprite is added.
+//   • spa:false (static pages) → plain <a href> (no SPA interception, no forced
+//     active) + a mini-sprite carrying only the 11 icons the sidebar uses.
+// Header navbar / routing / SEO / page content are untouched. Existing SSR passes
+// (lang-prefix, city-context href rewrite) still operate on the injected markup.
+// ════════════════════════════════════════════════════════════════════════════
+const _SIDENAV_TEMPLATES = new Set(['index.html', 'legal.html', 'prayer-times-cities.html', 'countries.html']);
+const _SIDENAV_GROUPS = [
+    { gi18n: 'nav.group_islamic', gtext: 'الخدمات الإسلاميّة', gicon: 'i-mosque', items: [
+        { href: '/',                 page: 'prayer-times',   icon: 'i-clock',         i18n: 'nav.prayer_times',   text: 'مواقيت الصلاة' },
+        { href: '/qibla',            page: 'qibla',          icon: 'i-compass',       i18n: 'nav.qibla',          text: 'إتجاه القبلة' },
+        { href: '/moon-today',       page: 'moon',           icon: 'i-moon',          i18n: 'nav.moon',           text: 'القمر اليوم' },
+        { href: '/zakat-calculator', page: 'zakat',          icon: 'i-coins',         i18n: 'nav.zakat',          text: 'حاسبة الزكاة' },
+        { href: '/azkar',            page: 'azkar',          icon: 'i-hands-praying', i18n: 'nav.duas',           text: 'الأذكار' },
+        { href: '/msbaha',           page: 'tasbih',         icon: 'i-rosary',        i18n: 'nav.tasbih',         text: 'المسبحة الإلكترونيّة' },
+    ]},
+    { gi18n: 'nav.group_hijri', gtext: 'التاريخ الهجريّ', gicon: 'i-calendar', items: [
+        { href: '/today-hijri-date', page: 'hijri-today',    icon: 'i-calendar-days', i18n: 'nav.hijri_today',    text: 'التاريخ الهجري' },
+        { href: '/hijri-calendar',   page: 'hijri-calendar', icon: 'i-calendar-grid', i18n: 'nav.hijri_calendar', text: 'التقويم الهجري' },
+        { href: '/date-converter',   page: 'date-converter', icon: 'i-refresh-cw',    i18n: 'nav.date_converter', text: 'تحويل التاريخ' },
+    ]},
+];
+function _renderSidebar({ spa = false, active = null } = {}) {
+    const _ic = (id, extra) => `<svg class="icon icon-md${extra ? ' ' + extra : ''}" aria-hidden="true"><use href="#${id}"/></svg>`;
+    let nav = '';
+    for (const g of _SIDENAV_GROUPS) {
+        nav += `<div class="nav-group-label">${_ic(g.gicon)} <span data-i18n="${g.gi18n}">${g.gtext}</span></div>`;
+        for (const it of g.items) {
+            const dp = spa ? ` data-page="${it.page}"` : '';
+            const ac = (spa && active === it.page) ? ' class="active"' : '';
+            nav += `<a href="${it.href}"${dp}${ac}>${_ic(it.icon, 'nav-icon')} <span data-i18n="${it.i18n}">${it.text}</span></a>`;
+        }
+    }
+    return '<aside class="sidebar" id="sidebar">'
+        + '<div class="sidebar-header">'
+        +   '<div class="sidebar-logo" role="banner" onclick="goHome()" title="الرئيسية" data-i18n-title="header.logo_title">' + _ic('i-mosque') + ' <span data-i18n="app.title">مواقيت الصلاة</span></div>'
+        +   '<div class="hijri-date" id="sidebar-hijri-date"></div>'
+        +   '<div class="greg-date" id="sidebar-greg-date"></div>'
+        + '</div>'
+        + '<nav class="sidebar-nav">' + nav + '</nav>'
+        + '</aside>';
+}
+// Hidden sprite carrying ONLY the 11 icons the sidebar uses — for the static
+// templates (the homepage already ships the full sprite). .svg-sprite-host
+// {display:none} (css/style.css) keeps it out of the layout.
+const _SIDENAV_SPRITE = '<svg class="svg-sprite-host" id="sidenav-svg-sprite" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">'
+    + '<symbol id="i-mosque" viewBox="0 0 24 24"><path d="M3 21V11"/><path d="M21 21V11"/><path d="M3 11c0-2 2-3 4-3 1 0 2 .3 2 1"/><path d="M21 11c0-2-2-3-4-3-1 0-2 .3-2 1"/><path d="M9 9c0-2 1-4 3-5 2 1 3 3 3 5"/><path d="M12 4V2"/><path d="M9 9h6v3H9z"/><path d="M3 21h18"/><path d="M9 21v-6h6v6"/></symbol>'
+    + '<symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></symbol>'
+    + '<symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/></symbol>'
+    + '<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>'
+    + '<symbol id="i-coins" viewBox="0 0 24 24"><circle cx="8" cy="8" r="6"/><path d="M18.09 10.37A6 6 0 1 1 10.34 18"/><path d="M7 6h1v4"/><path d="m16.71 13.88.7.71-2.82 2.82"/></symbol>'
+    + '<symbol id="i-hands-praying" viewBox="0 0 24 24"><path d="M11 14h2"/><path d="M12 2v4"/><path d="M5 7v6c0 2 1 4 3 5l4 2 4-2c2-1 3-3 3-5V7"/><path d="M5 7c-2 0-3 1-3 3v3l3 1"/><path d="M19 7c2 0 3 1 3 3v3l-3 1"/></symbol>'
+    + '<symbol id="i-rosary" viewBox="0 0 24 24"><circle cx="12" cy="6" r="2"/><circle cx="6" cy="10" r="1.5"/><circle cx="18" cy="10" r="1.5"/><circle cx="4" cy="14" r="1.5"/><circle cx="20" cy="14" r="1.5"/><circle cx="7" cy="18" r="1.5"/><circle cx="17" cy="18" r="1.5"/><circle cx="12" cy="20" r="1.5"/><path d="M12 8v2"/><path d="M5.5 11l-1 2"/><path d="M18.5 11l1 2"/></symbol>'
+    + '<symbol id="i-calendar" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/></symbol>'
+    + '<symbol id="i-calendar-days" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/><path d="M8 18h.01"/><path d="M12 18h.01"/><path d="M16 18h.01"/></symbol>'
+    + '<symbol id="i-calendar-grid" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="4" rx="2"/><path d="M3 10h18"/><path d="M9 4v18"/><path d="M15 4v18"/><path d="M3 16h18"/></symbol>'
+    + '<symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8"/><path d="M21 3v5h-5"/><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16"/><path d="M8 16H3v5"/></symbol>'
+    + '</svg>';
+
 // Preload + minify + compress async (terser is Promise-based)
 // server.listen() awaits this via _preloadReady
 const _cleanCss = new CleanCSS({ returnPromise: false, level: 2 });
@@ -4520,6 +4588,20 @@ async function _preloadStatic() {
                         if (src.includes(marker) && !src.includes('window._HIJRI_UMM_AL_QURA')) {
                             const injected = src.replace(marker, _HIJRI_INLINE_SCRIPT + '\n    ' + marker);
                             data = Buffer.from(injected, 'utf8');
+                        }
+                    }
+                    // IN-PAGE-SIDENAV-CONSISTENCY-ON-STATIC-AND-COUNTRY-PAGES-1 (2026-06-16):
+                    // inject the single-source #sidebar into the <!--SHARED-SIDEBAR-->
+                    // placeholder. index.html = SPA variant (no extra sprite; it already
+                    // ships the full one); the 3 static templates = plain-href variant +
+                    // a mini-sprite for the 11 sidebar icons.
+                    if (_SIDENAV_TEMPLATES.has(rel)) {
+                        const _src2 = data.toString('utf8');
+                        if (_src2.includes('<!--SHARED-SIDEBAR-->')) {
+                            const _isSpa = (rel === 'index.html');
+                            const _bar = (_isSpa ? '' : _SIDENAV_SPRITE)
+                                + _renderSidebar({ spa: _isSpa, active: _isSpa ? 'prayer-times' : null });
+                            data = Buffer.from(_src2.replace('<!--SHARED-SIDEBAR-->', _bar), 'utf8');
                         }
                     }
                 }

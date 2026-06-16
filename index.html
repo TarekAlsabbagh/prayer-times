@@ -225,62 +225,7 @@
 
     <div class="app-layout">
         <!-- ========= الشريط الجانبي ========= -->
-        <aside class="sidebar" id="sidebar">
-            <div class="sidebar-header">
-                <div class="sidebar-logo" role="banner" onclick="goHome()" title="الرئيسية" data-i18n-title="header.logo_title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="app.title">مواقيت الصلاة</span></div>
-                <div class="hijri-date" id="sidebar-hijri-date"></div>
-                <div class="greg-date" id="sidebar-greg-date"></div>
-            </div>
-            <nav class="sidebar-nav">
-                <!-- UAT-ICON-2: SVG icons replace emojis -->
-                <!-- قسم: الخدمات الإسلامية -->
-                <div class="nav-group-label">
-                    <svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg>
-                    <span data-i18n="nav.group_islamic">الخدمات الإسلاميّة</span>
-                </div>
-                <a href="/" data-page="prayer-times" class="active">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-clock"/></svg>
-                    <span data-i18n="nav.prayer_times">مواقيت الصلاة</span>
-                </a>
-                <a href="/qibla" data-page="qibla">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-compass"/></svg>
-                    <span data-i18n="nav.qibla">إتجاه القبلة</span>
-                </a>
-                <a href="/moon-today" data-page="moon">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-moon"/></svg>
-                    <span data-i18n="nav.moon">القمر اليوم</span>
-                </a>
-                <a href="/zakat-calculator" data-page="zakat">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-coins"/></svg>
-                    <span data-i18n="nav.zakat">حاسبة الزكاة</span>
-                </a>
-                <a href="/azkar" data-page="azkar">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-hands-praying"/></svg>
-                    <span data-i18n="nav.duas">الأذكار</span>
-                </a>
-                <a href="/msbaha" data-page="tasbih">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-rosary"/></svg>
-                    <span data-i18n="nav.tasbih">المسبحة الإلكترونيّة</span>
-                </a>
-                <!-- قسم: التاريخ الهجري -->
-                <div class="nav-group-label">
-                    <svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg>
-                    <span data-i18n="nav.group_hijri">التاريخ الهجريّ</span>
-                </div>
-                <a href="/today-hijri-date" data-page="hijri-today">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-calendar-days"/></svg>
-                    <span data-i18n="nav.hijri_today">التاريخ الهجري</span>
-                </a>
-                <a href="/hijri-calendar" data-page="hijri-calendar">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-calendar-grid"/></svg>
-                    <span data-i18n="nav.hijri_calendar">التقويم الهجري</span>
-                </a>
-                <a href="/date-converter" data-page="date-converter">
-                    <svg class="icon icon-md nav-icon" aria-hidden="true"><use href="#i-refresh-cw"/></svg>
-                    <span data-i18n="nav.date_converter">تحويل التاريخ</span>
-                </a>
-            </nav>
-        </aside>
+        <!--SHARED-SIDEBAR-->
 
         <!-- ========= المحتوى الرئيسي ========= -->
         <main class="main-content">

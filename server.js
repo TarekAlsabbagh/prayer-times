@@ -2783,9 +2783,19 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
         const nextName    = _dict[nextKey];
         const currentName = currentKey ? _dict[currentKey] : null;
         const thenName    = _dict[thenKey];
-        // Hijri + Gregorian date strings (Mecca tz, sufficient resolution
-        // for AR/EN/etc.; ±1-day edge cases are still under 1px shift).
-        const hijri = (typeof _hijriNow === 'function') ? _hijriNow() : null;
+        // HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16): the banner Hijri date is
+        // computed in THE CITY's own timezone (curated IANA), not Mecca — so a
+        // city behind Mecca (e.g. Seattle) keeps its local Hijri day. The client
+        // refines from the same __PRAYER_CITY__.timezone ⇒ SSR == client. Mecca
+        // (_hijriNow) is a SAFE FALLBACK only when no curated IANA. (The banner's
+        // current-time/countdown still use the existing country-level localD —
+        // prayer display is out of scope; the client refines it to city time.)
+        const _cityIanaPL = (slug && typeof _findPlaceBySlug === 'function')
+            ? ((_findPlaceBySlug(slug) || {}).timezone || '')
+            : '';
+        const hijri = _cityIanaPL
+            ? _hijriForIana(_cityIanaPL)
+            : ((typeof _hijriNow === 'function') ? _hijriNow() : null);
         const hMonthAr = hijri ? ((_HIJRI_MONTHS[hijri.month] || {}).ar || '') : '';
         const hMonthEn = hijri ? ((_HIJRI_MONTHS[hijri.month] || {}).en || '') : '';
         const isRTL = (lang === 'ar' || lang === 'ur');
@@ -6295,6 +6305,21 @@ function _hijriNow() {
     const now = _nowMeccaDate();
     const jd = _gregToJD(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate());
     return _jdToHijri(jd);
+}
+// HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16): the current Hijri date AT A CITY's
+// local civil time. City pages must show the Hijri date by the city's own
+// timezone (e.g. Seattle stays 29 Dhul-Hijjah while Mecca has rolled to 1
+// Muharram). Mirrors _nowMeccaDate()+_hijriNow() but parameterised by the city's
+// IANA zone (DST-correct via Intl). Safe fallback to Mecca (_hijriNow) ONLY when
+// the IANA is missing/invalid — never the normal path for curated city pages.
+function _hijriForIana(iana) {
+    if (!iana || typeof iana !== 'string') return _hijriNow();
+    try {
+        const [y, m, d] = new Intl.DateTimeFormat('en-CA', {
+            timeZone: iana, year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(new Date()).split('-').map(Number);
+        return _jdToHijri(_gregToJD(y, m, d)) || _hijriNow();
+    } catch (_e) { return _hijriNow(); }
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -19543,12 +19568,22 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
 
         // ═══ Phase PT-A-SSR-followup (2026-05-06): SSR-fill #banner-hijri-date.
         //     Eliminates the "--" → "5 ذو القعدة 1447 هـ" placeholder→fill shift
-        //     that contributed to the residual banner CLS. Uses _hijriNow()
-        //     which is Mecca-timezone (Asia/Riyadh) — for users in other
-        //     timezones JS will refine ±1 day later, but the text length and
-        //     layout stay stable so no shift.
+        //     that contributed to the residual banner CLS.
+        // ═══ HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16): compute the Hijri date
+        //     in THE CITY's own timezone (curated IANA), NOT Mecca (_hijriNow).
+        //     A city behind Mecca (e.g. Seattle, America/Los_Angeles) must stay on
+        //     its local Hijri day instead of jumping to Mecca's next day. The
+        //     client refines #banner-hijri-date from the SAME city IANA
+        //     (__PRAYER_CITY__.timezone) so SSR == client (no flash). Mecca is a
+        //     SAFE FALLBACK ONLY when the city has no curated IANA — never the
+        //     normal path for curated city pages.
         try {
-            const _hSsr = (typeof _hijriNow === 'function') ? _hijriNow() : null;
+            const _cityIanaSsr = (cityMatchSsr && cityMatchSsr[1] && typeof _findPlaceBySlug === 'function')
+                ? ((_findPlaceBySlug(cityMatchSsr[1]) || {}).timezone || '')
+                : '';
+            const _hSsr = _cityIanaSsr
+                ? _hijriForIana(_cityIanaSsr)
+                : ((typeof _hijriNow === 'function') ? _hijriNow() : null);
             if (_hSsr && _hSsr.year && _hSsr.month && _hSsr.day) {
                 const _hMArSsr = (_HIJRI_MONTHS[_hSsr.month] || {}).ar || '';
                 const _hMEnSsr = (_HIJRI_MONTHS[_hSsr.month] || {}).en || '';

@@ -1530,7 +1530,18 @@
 //   /{lang}/… on non-AR pages automatically (same as the existing zakat/azkar
 //   items). NO design / order / label / SEO / routing change beyond href.
 //   Cache-busters: js/app.js?v=780 → ?v=781.
-const CACHE_VERSION = 'v441';
+// HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16):
+//   v441 → v442. City pages now compute the displayed Hijri date from the
+//   CITY's own IANA timezone (e.g. Seattle = America/Los_Angeles) instead of
+//   Mecca (SSR) / device (client). New helpers: server _hijriForIana(iana) and
+//   client HijriDate.getTodayInTimezone(iana); js/app.js banner / prayer-info /
+//   #city-hijri-date / sidebar / moon read __PRAYER_CITY__.timezone on city
+//   pages. Global pages (/, /today-hijri-date, /hijri-calendar, /date-converter)
+//   and the 4 countdown pages keep Mecca/device — unchanged. Prayer-time
+//   calculations untouched. Also realigns the precache entry for hijri-date.js
+//   which had drifted to ?v=42 while index.html shipped ?v=43.
+//   Cache-busters: js/app.js?v=781 → ?v=782, js/hijri-date.js?v=43 → ?v=44.
+const CACHE_VERSION = 'v442';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1551,13 +1562,13 @@ const PRECACHE_URLS = [
     '/css/style.css?v=178',
     '/js/i18n.js?v=134',
     '/js/prayer-times.js?v=47',
-    '/js/hijri-date.js?v=42',
+    '/js/hijri-date.js?v=44',
     '/js/qibla.js?v=44',
     '/js/moon.js?v=52',
     '/js/moon-chart.js?v=7',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=781',
+    '/js/app.js?v=782',
 ];
 
 self.addEventListener('install', (event) => {

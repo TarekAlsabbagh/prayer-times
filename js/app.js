@@ -1044,6 +1044,35 @@ function getDisplayCountry() {
         || currentCountry;
 }
 let currentTimezone = 3; // UTC+3 للسعودية افتراضياً
+// HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16): the IANA timezone of the current
+// CITY (e.g. 'America/Los_Angeles'), used ONLY to compute the Hijri date by the
+// city's own local day on city pages. Seeded from window.__PRAYER_CITY__.timezone
+// (fresh on every city-page load — selecting a city navigates) and refreshed in
+// loadCityData when an IANA string is supplied. Empty on global pages.
+let currentCityIana = '';
+// Returns the current city's IANA zone, or '' on non-city/global pages (where the
+// Hijri date is NOT city-bound — out of this fix's scope).
+function _currentCityIana() {
+    if (typeof currentCityIana === 'string' && currentCityIana.indexOf('/') >= 0) return currentCityIana;
+    try {
+        var pc = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
+        if (pc && typeof pc.timezone === 'string' && pc.timezone.indexOf('/') >= 0) return pc.timezone;
+    } catch (e) {}
+    return '';
+}
+// A JS Date whose LOCAL fields equal the wall-clock NOW in the given IANA zone
+// (DST-correct via Intl). Lets weekday + Gregorian + Hijri all derive from ONE
+// city-local instant so they never disagree. Falls back to device time if absent.
+function _cityNowDate(iana) {
+    if (!iana) return new Date();
+    try {
+        var o = {};
+        new Intl.DateTimeFormat('en-CA', { timeZone: iana, year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: false })
+            .formatToParts(new Date()).forEach(function (p) { if (p.type !== 'literal') o[p.type] = p.value; });
+        var hh = (o.hour === '24') ? 0 : Number(o.hour);
+        return new Date(Number(o.year), Number(o.month) - 1, Number(o.day), hh, Number(o.minute), Number(o.second));
+    } catch (e) { return new Date(); }
+}
 let currentPrayerTimes = null;
 let calendarYear, calendarMonth;
 let countdownInterval;
@@ -3323,14 +3352,27 @@ window.addEventListener('hashchange', async function() {
 
 function updateSidebar() {
     // التاريخ الهجري في الشريط الجانبي
-    let hijriFormatted = HijriDate.getTodayFormatted();
+    // HIJRI-DATE-CITY-TIMEZONE-FIX-1: on a CITY page the sidebar date follows the
+    // city's own timezone (weekday + Hijri + Gregorian all from one city-local
+    // instant); on global pages it stays device-based (unchanged, out of scope).
+    const _sbCi = _currentCityIana();
+    const _sbNow = _sbCi ? _cityNowDate(_sbCi) : new Date();
+    let hijriFormatted;
+    if (_sbCi) {
+        const _sbH = HijriDate.getTodayInTimezone(_sbCi);
+        const _sbDay = HijriDate.dayNames[_sbNow.getDay()];
+        const _sbMon = (_sbH.month >= 1 && _sbH.month <= 12) ? HijriDate.hijriMonths[_sbH.month - 1] : '';
+        hijriFormatted = `${_sbDay} ${_sbH.day} ${_sbMon} ${_sbH.year} هـ`;
+    } else {
+        hijriFormatted = HijriDate.getTodayFormatted();
+    }
     const hSuffix = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
     hijriFormatted = hijriFormatted.replace(/ هـ$/, hSuffix);
     const sHijriEl = document.getElementById('sidebar-hijri-date');
     if (sHijriEl) sHijriEl.textContent = hijriFormatted;
 
     // التاريخ الميلادي في الشريط الجانبي
-    const _now = new Date();
+    const _now = _sbNow;
     const _gMonths = HijriDate.gregorianMonths;
     const _gSuffix = (typeof t === 'function') ? t('date.greg_suffix') : ' م';
     const _gregEl = document.getElementById('sidebar-greg-date');
@@ -7797,6 +7839,11 @@ async function fetchLocalizedCityName(lat, lng) {
 async function loadCityData(lat, lng, city, country, countryCode = '', englishName = '', timezone = null) {
     currentLat = lat;
     currentLng = lng;
+    // HIJRI-DATE-CITY-TIMEZONE-FIX-1: keep the city IANA (if supplied as a zone
+    // string like 'America/Los_Angeles') for the city-local Hijri date. Numeric
+    // offsets / null are ignored here — _currentCityIana() then falls back to
+    // window.__PRAYER_CITY__.timezone (fresh on every SSR-rendered city page).
+    if (typeof timezone === 'string' && timezone.indexOf('/') >= 0) currentCityIana = timezone;
     currentCity = city;
     currentEnglishName = englishName || '';
     currentEnglishDisplayName = englishName || ''; // عند الاختيار اليدوي لا يوجد حي
@@ -8831,7 +8878,10 @@ function updatePrayerTimes() {
     const _tiEl = document.getElementById('time-isha');    if (_tiEl) _tiEl.textContent = currentPrayerTimes.isha;
 
     // تحديث المعلومات الإضافية
-    const hijri = HijriDate.getToday();
+    // HIJRI-DATE-CITY-TIMEZONE-FIX-1: Hijri date by the CITY's timezone (cityDate
+    // already drives the weekday). Global pages → device getToday() (unchanged).
+    const _piCi = _currentCityIana();
+    const hijri = _piCi ? HijriDate.getTodayInTimezone(_piCi) : HijriDate.getToday();
     const dayName = HijriDate.dayNames[cityDate.getDay()];
     const hSuffix = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
     const gSuffix = (typeof t === 'function') ? t('date.greg_suffix') : ' م';
@@ -14335,7 +14385,12 @@ function startCountdown() {
         if (_bcnEl) _bcnEl.textContent = getDisplayCity();
 
         // التاريخ الهجري والميلادي في البانر
-        const hijri = HijriDate.getToday();
+        // HIJRI-DATE-CITY-TIMEZONE-FIX-1: Hijri date by the CITY's timezone (not
+        // the device). cityTime (already the city-local date) drives the weekday +
+        // Gregorian; the Hijri now derives from the same city day. Global pages →
+        // _currentCityIana()='' → device getToday() (unchanged, out of scope).
+        const _bCi = _currentCityIana();
+        const hijri = _bCi ? HijriDate.getTodayInTimezone(_bCi) : HijriDate.getToday();
         const dayName = HijriDate.dayNames[cityTime.getDay()];
         const hijriMonthName = HijriDate.hijriMonths[hijri.month - 1];
         const hSfx = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
@@ -14911,7 +14966,10 @@ async function updateCityCountryInfo() {
     }
 
     // التاريخ الهجري والميلادي
-    const hijri = HijriDate.getToday();
+    // HIJRI-DATE-CITY-TIMEZONE-FIX-1: Hijri date by the CITY's timezone (cityTime
+    // already drives #city-greg-date). Global pages → device getToday() (unchanged).
+    const _cgCi = _currentCityIana();
+    const hijri = _cgCi ? HijriDate.getTodayInTimezone(_cgCi) : HijriDate.getToday();
     const hijriEl = document.getElementById('city-hijri-date');
     const gregEl  = document.getElementById('city-greg-date');
     if (hijriEl) hijriEl.textContent = `${hijri.day} ${HijriDate.hijriMonths[hijri.month-1]} ${hijri.year} هـ`;
@@ -20947,8 +21005,12 @@ function updateMoonInfo() {
             || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
         try {
             if (typeof HijriDate !== 'undefined' && HijriDate) {
-                const _today = new Date();
-                const _hToday = HijriDate.getToday(); // { day, month, year }
+                // HIJRI-DATE-CITY-TIMEZONE-FIX-1: moon city page follows the CITY's
+                // own timezone for "today" (Gregorian + weekday + Hijri). Global
+                // (/moon-today hub) → device (unchanged, out of scope).
+                const _mCi = _currentCityIana();
+                const _today = _mCi ? _cityNowDate(_mCi) : new Date();
+                const _hToday = _mCi ? HijriDate.getTodayInTimezone(_mCi) : HijriDate.getToday(); // { day, month, year }
                 const _lngA = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
                 const _tt = (k, p) => {
                     try {

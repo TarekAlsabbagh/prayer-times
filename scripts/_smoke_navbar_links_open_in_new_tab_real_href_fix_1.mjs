@@ -106,7 +106,8 @@ try {
     check('guard precedes preventDefault in initNavigation', idxGuard !== -1 && idxPD !== -1 && idxGuard < idxPD, `${idxGuard} < ${idxPD}`);
 
     // ── 5) cache-buster bumped ──
-    check('index.html references app.js?v=781', (await get('/')).body.indexOf('app.js?v=781') !== -1);
+    // NOTE: cache-buster bumped 781 → 782 by HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16).
+    check('index.html references app.js?v=782', (await get('/')).body.indexOf('app.js?v=782') !== -1);
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

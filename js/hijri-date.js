@@ -174,6 +174,22 @@ const HijriDate = (function() {
         const monthName = h.month >= 1 && h.month <= 12 ? hijriMonths[h.month - 1] : '';
         return `${dayName} ${h.day} ${monthName} ${h.year} هـ`;
     }
+    // HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16): today's Hijri date AT A CITY's
+    // local civil time, by its IANA zone (e.g. 'America/Los_Angeles'). City pages
+    // must show the Hijri date by the city's own timezone — NOT the user's device
+    // (getToday) nor Mecca. DST-correct via Intl; matches the server's
+    // _hijriForIana so SSR == client. Falls back to getToday() only if the IANA is
+    // missing/invalid (never the normal path on a curated city page).
+    function getTodayInTimezone(iana) {
+        if (!iana || typeof iana !== 'string') return getToday();
+        try {
+            var parts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: iana, year: 'numeric', month: '2-digit', day: '2-digit'
+            }).format(new Date()).split('-');
+            var h = gregorianToHijri(Number(parts[0]), Number(parts[1]), Number(parts[2]));
+            return h || getToday();
+        } catch (e) { return getToday(); }
+    }
 
     // ─── Calendar (month-grid for /hijri-calendar/{year}-{month}) ───────
     function getHijriCalendar(year, month) {
@@ -218,6 +234,7 @@ const HijriDate = (function() {
         toGregorian: hijriToGregorian,
         getToday,
         getTodayFormatted,
+        getTodayInTimezone,
         getHijriCalendar,
         getDaysInHijriMonth,
         getHijriYearLength,

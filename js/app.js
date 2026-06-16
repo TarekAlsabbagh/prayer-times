@@ -18226,7 +18226,13 @@ function updateMoonInfo() {
         }
     }
 
-    const phase = MoonCalc.getPhaseName(today);
+    // MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16): phase from the EVENT-based
+    // local-day labeler (major phases only on their local event day, by the city tz)
+    // — so a day adjacent to the full/new event never shows "بدر/محاق". `today` is
+    // already the city-local instant; `_tz` is the city IANA. Mirrors the SSR intro
+    // (_buildSsrMoonIntro → getDayPhase) so SSR == client.
+    const _dayInfo = (typeof MoonCalc.getDayPhase === 'function') ? MoonCalc.getDayPhase(today, _tz) : null;
+    const phase = (_dayInfo && _dayInfo.phase) || MoonCalc.getPhaseName(today);
     const illumination = MoonCalc.getMoonIllumination(today);
     const age = MoonCalc.getMoonAge(today);
     const moonTimes = MoonCalc.getMoonTimes(today, _lat, _lng, _tz);

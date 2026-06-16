@@ -438,98 +438,123 @@ const MoonCalc = (function() {
     // حتّى لو كانت نسبة الإضاءة عند لحظة الحساب 98% أو 99.8% فقط.
 
     const _PHASE_EVENTS = [
-        { deg: 0,   type: 'new_moon',      phase: { name: 'محاق (قمر جديد)', icon: '🌑', english: 'New Moon',       key: 'moon.phase_new' } },
-        { deg: 90,  type: 'first_quarter', phase: { name: 'تربيع أول',       icon: '🌓', english: 'First Quarter',  key: 'moon.phase_first_quarter' } },
-        { deg: 180, type: 'full_moon',     phase: { name: 'بدر (قمر مكتمل)', icon: '🌕', english: 'Full Moon',      key: 'moon.phase_full' } },
-        { deg: 270, type: 'last_quarter',  phase: { name: 'تربيع أخير',       icon: '🗖', english: 'Last Quarter',    key: 'moon.phase_last_quarter' } }
+        { frac: 0,    type: 'new_moon',      phase: { name: 'محاق (قمر جديد)', icon: '🌑', english: 'New Moon',       key: 'moon.phase_new' } },
+        { frac: 0.25, type: 'first_quarter', phase: { name: 'تربيع أول',       icon: '🌓', english: 'First Quarter',  key: 'moon.phase_first_quarter' } },
+        { frac: 0.5,  type: 'full_moon',     phase: { name: 'بدر (قمر مكتمل)', icon: '🌕', english: 'Full Moon',      key: 'moon.phase_full' } },
+        { frac: 0.75, type: 'last_quarter',  phase: { name: 'تربيع أخير',       icon: '🗖', english: 'Last Quarter',    key: 'moon.phase_last_quarter' } }
     ];
     // تصحيح أيقونة التربيع الأخير (لوحة المفاتيح العربيّة): 🌗
     _PHASE_EVENTS[3].phase.icon = '🌗';
 
-    // يحسب فرقًا موقَّعًا (D − target) ضمن [-180, 180) — لإمكانيّة bisection حول الصفر
-    function _signedElongDiff(date, targetDeg) {
-        const D = _moonState(date).D;
-        let diff = D - targetDeg;
-        while (diff >   180) diff -= 360;
-        while (diff <= -180) diff += 360;
-        return diff;
-    }
+    // ── محرّك Meeus 49: وقت الطور الحقيقيّ مباشرةً (لا عبور D وسطى) ──
+    const _DELTA_T_SEC = 69; // TD − UT (ثوانٍ) لعام ~2026 (IERS/Meeus) — أثره < دقيقتين
 
-    // بحث عن أقرب لحظة (بعد startDate) يعبر فيها القمر زاوية مطلوبة — دقّة ~1 دقيقة
-    function _findPhaseEvent(targetDeg, startDate, maxDays) {
-        maxDays = maxDays || 35;
-        const stepMs   = 6 * 3600 * 1000; // عيّنة كلّ 6 ساعات
-        const nSteps   = Math.floor(maxDays * 24 / 6);
-        const t0ms     = new Date(startDate).getTime();
-
-        let prevT = new Date(t0ms);
-        let prevV = _signedElongDiff(prevT, targetDeg);
-
-        for (let i = 1; i <= nSteps; i++) {
-            const curT = new Date(t0ms + i * stepMs);
-            const curV = _signedElongDiff(curT, targetDeg);
-            // نريد التقاطع من سالب إلى موجب (D يتزايد ويعبر target)
-            if (prevV < 0 && curV >= 0) {
-                // تحسين bisection ~20 تكرارًا → دقّة أقلّ من دقيقة
-                let lo = prevT.getTime(), hi = curT.getTime();
-                let vLo = prevV;
-                for (let k = 0; k < 20; k++) {
-                    const midMs = (lo + hi) / 2;
-                    const vMid  = _signedElongDiff(new Date(midMs), targetDeg);
-                    if (vLo < 0 && vMid >= 0) { hi = midMs; }
-                    else                       { lo = midMs; vLo = vMid; }
-                }
-                return new Date((lo + hi) / 2);
-            }
-            prevT = curT; prevV = curV;
+    // JDE (TD) للطور: k صحيح + كسر الطور (0=محاق، .25=تربيع أوّل، .5=بدر، .75=تربيع أخير)
+    function _meeusPhaseJDE(k) {
+        const T = k / 1236.85;
+        const JDE = 2451550.09766 + 29.530588861 * k + 0.00015437 * T*T - 0.000000150 * T*T*T + 0.00000000073 * T*T*T*T;
+        const E  = 1 - 0.002516 * T - 0.0000074 * T*T;
+        const M  = (2.5534 + 29.10535670 * k - 0.0000014 * T*T - 0.00000011 * T*T*T) * DEG;
+        const Mp = (201.5643 + 385.81693528 * k + 0.0107582 * T*T + 0.00001238 * T*T*T - 0.000000058 * T*T*T*T) * DEG;
+        const F  = (160.7108 + 390.67050284 * k - 0.0016118 * T*T - 0.00000227 * T*T*T + 0.000000011 * T*T*T*T) * DEG;
+        const Om = (124.7746 - 1.56375588 * k + 0.0020672 * T*T + 0.00000215 * T*T*T) * DEG;
+        const s = Math.sin, c = Math.cos;
+        const fr = ((k % 1) + 1) % 1;
+        let corr;
+        if (fr === 0 || fr === 0.5) { // محاق أو بدر
+            corr = -0.40720*s(Mp) + 0.17241*E*s(M) + 0.01608*s(2*Mp) + 0.01039*s(2*F)
+                + 0.00739*E*s(Mp-M) - 0.00514*E*s(Mp+M) + 0.00208*E*E*s(2*M)
+                - 0.00111*s(Mp-2*F) - 0.00057*s(Mp+2*F) + 0.00056*E*s(2*Mp+M)
+                - 0.00042*s(3*Mp) + 0.00042*E*s(M+2*F) + 0.00038*E*s(M-2*F)
+                - 0.00024*E*s(2*Mp-M) - 0.00017*s(Om) - 0.00007*s(Mp+2*M)
+                + 0.00004*s(2*Mp-2*F) + 0.00004*s(3*M) + 0.00003*s(Mp+M-2*F)
+                + 0.00003*s(2*Mp+2*F) - 0.00003*s(Mp+M+2*F) + 0.00003*s(Mp-M+2*F)
+                - 0.00002*s(Mp-M-2*F) - 0.00002*s(3*Mp+M) + 0.00002*s(4*Mp);
+        } else { // تربيع أوّل أو أخير
+            corr = -0.62801*s(Mp) + 0.17172*E*s(M) - 0.01183*E*s(Mp+M) + 0.00862*s(2*Mp)
+                + 0.00804*s(2*F) + 0.00454*E*s(Mp-M) + 0.00204*E*E*s(2*M)
+                - 0.00180*s(Mp-2*F) - 0.00070*s(Mp+2*F) - 0.00040*s(3*Mp)
+                - 0.00034*E*s(2*Mp-M) + 0.00032*E*s(M+2*F) + 0.00032*E*s(M-2*F)
+                - 0.00028*E*E*s(Mp+2*M) + 0.00027*E*s(2*Mp+M) - 0.00017*s(Om)
+                - 0.00005*s(Mp-M-2*F) + 0.00004*s(2*Mp+2*F) - 0.00004*s(Mp+M+2*F)
+                + 0.00004*s(Mp-2*M) + 0.00003*s(Mp+M-2*F) + 0.00003*s(3*M)
+                + 0.00002*s(2*Mp-2*F) + 0.00002*s(Mp-M+2*F) - 0.00002*s(3*Mp+M);
+            const W = 0.00306 - 0.00038*E*c(M) + 0.00026*c(Mp) - 0.00002*c(Mp-M) + 0.00002*c(Mp+M) + 0.00002*c(2*F);
+            corr += (fr === 0.25) ? W : -W;
         }
-        return null;
+        // تصحيحات كوكبيّة A1..A14 (أيّام)
+        const A = [
+            [(299.77 + 0.107408*k - 0.009173*T*T), 0.000325],
+            [(251.88 + 0.016321*k), 0.000165], [(251.83 + 26.651886*k), 0.000164],
+            [(349.42 + 36.412478*k), 0.000126], [(84.66 + 18.206239*k), 0.000110],
+            [(141.74 + 53.303771*k), 0.000062], [(207.14 + 2.453732*k), 0.000060],
+            [(154.84 + 7.306860*k), 0.000056], [(34.52 + 27.261239*k), 0.000047],
+            [(207.19 + 0.121824*k), 0.000042], [(291.34 + 1.844379*k), 0.000040],
+            [(161.72 + 24.198154*k), 0.000037], [(239.56 + 25.513099*k), 0.000035],
+            [(331.55 + 3.592518*k), 0.000023]
+        ];
+        let add = 0;
+        for (let i = 0; i < A.length; i++) add += A[i][1] * Math.sin(A[i][0] * DEG);
+        return JDE + corr + add;
     }
 
-    // يرجع كلّ أحداث الأطوار الأربعة التي تقع في النطاق [startDate, endDate]
+    // JDE (TD) → Date بتوقيت UTC (طرح ΔT)
+    function _jdToDateUTC(jde) {
+        let jd = jde - _DELTA_T_SEC / 86400 + 0.5;
+        const Z = Math.floor(jd), Fr = jd - Z;
+        let A;
+        if (Z < 2299161) { A = Z; }
+        else { const al = Math.floor((Z - 1867216.25) / 36524.25); A = Z + 1 + al - Math.floor(al / 4); }
+        const B = A + 1524, C = Math.floor((B - 122.1) / 365.25), Dn = Math.floor(365.25 * C), Em = Math.floor((B - Dn) / 30.6001);
+        const day = B - Dn - Math.floor(30.6001 * Em) + Fr;
+        const mo = (Em < 14) ? Em - 1 : Em - 13;
+        const yr = (mo > 2) ? C - 4716 : C - 4715;
+        const di = Math.floor(day), hh = (day - di) * 24, h = Math.floor(hh), mm = (hh - h) * 60, mi = Math.floor(mm), se = Math.round((mm - mi) * 60);
+        return new Date(Date.UTC(yr, mo - 1, di, h, mi, se));
+    }
+
+    // تقدير k (مؤشّر اللُّيونة، صفر عند المحاق) عند تاريخ معيّن
+    function _kAt(date) {
+        const d = new Date(date);
+        const yFrac = d.getUTCFullYear() + d.getUTCMonth() / 12 + d.getUTCDate() / 365.25;
+        return (yFrac - 2000) * 12.3685;
+    }
+
+    // كلّ أحداث الأطوار الأربعة الواقعة في [startDate, endDate] — بأوقات Meeus 49 الدقيقة (UTC)
     function findPhaseEventsInRange(startDate, endDate) {
-        const out = [];
         const startMs = new Date(startDate).getTime();
         const endMs   = new Date(endDate).getTime();
-        const totalDays = Math.max(1, Math.ceil((endMs - startMs) / 86400000) + 2);
-
-        for (const tgt of _PHASE_EVENTS) {
-            // ابدأ قبل بداية النطاق بيومين لالتقاط أحداث قريبة من الحافّة
-            let cursor = new Date(startMs - 2 * 86400000);
-            let guard = 0;
-            while (cursor.getTime() < endMs && guard++ < 6) {
-                const ev = _findPhaseEvent(tgt.deg, cursor, totalDays + 5);
-                if (!ev) break;
-                if (ev.getTime() >= startMs && ev.getTime() <= endMs) {
-                    out.push({ type: tgt.type, date: ev, phase: Object.assign({}, tgt.phase) });
+        const kStart = Math.floor(_kAt(startMs)) - 2;
+        const kEnd   = Math.ceil(_kAt(endMs)) + 2;
+        const out = [];
+        for (let kk = kStart; kk <= kEnd; kk++) {
+            for (let pi = 0; pi < 4; pi++) {
+                const ev = _PHASE_EVENTS[pi];
+                const d = _jdToDateUTC(_meeusPhaseJDE(kk + ev.frac));
+                const t = d.getTime();
+                if (t >= startMs && t <= endMs) {
+                    out.push({ type: ev.type, date: d, phase: Object.assign({}, ev.phase) });
                 }
-                // تابع بعد الحدث بـ 12 ساعة (الأحداث نفسها تتباعد >7 أيّام)
-                cursor = new Date(ev.getTime() + 12 * 3600 * 1000);
             }
         }
         out.sort((a, b) => a.date - b.date);
         return out;
     }
 
-    // البدر التالي — بحث دقيق بلحظة عبور D=180°
-    function getNextFullMoon(date) {
-        return _findPhaseEvent(180, date, 35);
+    // الحدث الكبير التالي (>= date) من نوع معيّن — بأوقات Meeus 49
+    function _nextPhaseMeeus(frac, date) {
+        const fromMs = new Date(date).getTime();
+        let k = Math.floor(_kAt(fromMs)) - 2;
+        for (let i = 0; i < 24; i++, k++) {
+            const d = _jdToDateUTC(_meeusPhaseJDE(k + frac));
+            if (d.getTime() >= fromMs) return d;
+        }
+        return null;
     }
-
-    // المحاق التالي — بحث دقيق بلحظة عبور D=0°
-    function getNextNewMoon(date) {
-        return _findPhaseEvent(0, date, 35);
-    }
-
-    // التربيع الأوّل التالي — لحظة عبور D=90°
-    function getNextFirstQuarter(date) {
-        return _findPhaseEvent(90, date, 35);
-    }
-
-    // التربيع الأخير التالي — لحظة عبور D=270°
-    function getNextLastQuarter(date) {
-        return _findPhaseEvent(270, date, 35);
-    }
+    function getNextNewMoon(date)      { return _nextPhaseMeeus(0,    date); }
+    function getNextFirstQuarter(date) { return _nextPhaseMeeus(0.25, date); }
+    function getNextFullMoon(date)     { return _nextPhaseMeeus(0.5,  date); }
+    function getNextLastQuarter(date)  { return _nextPhaseMeeus(0.75, date); }
 
     // توقّعات قمريّة لعدد أيّام اختياريّ (14 افتراضيًّا) — يستخدم الحسابات الدقيقة الجديدة
     // ✨ تحسين: إذا وقع حدث طَور (محاق/تربيع أوّل/بدر/تربيع أخير) خلال اليوم المحلّيّ
@@ -558,7 +583,11 @@ const MoonCalc = (function() {
             // هل يحتوي هذا اليوم المحلّيّ على حدث من الأحداث الأربعة؟
             const evInDay = events.find(e => e.date >= dayStart && e.date < dayEnd);
 
-            const phase        = evInDay ? evInDay.phase : getPhaseName(dSample);
+            // MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16): non-event days
+            // are labeled by elongation QUADRANT (crescent/gibbous), NOT by the
+            // illumination threshold in getPhaseName — so a day adjacent to the
+            // new/full event never duplicates "New Moon"/"Full Moon".
+            const phase        = evInDay ? evInDay.phase : _quadrantPhase(dSample);
             const illumination = getMoonIllumination(dSample);
             const times        = getMoonTimes(dayStart, lat, lng, resolvedTz);
 
@@ -580,6 +609,118 @@ const MoonCalc = (function() {
     // alias للحفاظ على التوافق الخلفيّ مع الشيفرة القديمة
     function get7DayForecast(startDate, lat, lng, tz) {
         return getForecast(startDate, lat, lng, 7, tz);
+    }
+
+    // ══════════ MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16) ══════════
+    // التسمية الحدثيّة المحلّيّة للأطوار (calendar/day-level), بدل عتبة الإضاءة.
+    //   • الأطوار الكبرى (محاق/تربيع أوّل/بدر/تربيع أخير) تظهر فقط في **اليوم
+    //     المحلّيّ** الذي يقع فيه الحدث الفلكيّ (مربوطًا بتوقيت المدينة/الصفحة).
+    //   • بقيّة الأيّام تُسمّى حسب رُبع الاستطالة D (هلال/أحدب)، فلا يتكرّر «محاق»
+    //     أو «بدر» على يومين. الإضاءة لا تُستخدم أبدًا لتسمية بدر/محاق.
+    // يحلّ تكرار المحاق/البدر الموثّق في MOON-PHASE-CALENDAR-CALCULATION-AUDIT-1.
+
+    // طور غير-حدثيّ من رُبع الاستطالة D (0=محاق, 90=تربيع أوّل, 180=بدر, 270=تربيع أخير).
+    // لا يُرجِع «محاق» أو «بدر» إطلاقًا — تلك للأيّام الحدثيّة فقط.
+    function _quadrantPhase(date) {
+        const D = _moonState(date).D;
+        if (D < 90)  return { name: 'هلال متزايد', icon: '🌒', english: 'Waxing Crescent', key: 'moon.phase_waxing_crescent' };
+        if (D < 180) return { name: 'أحدب متزايد', icon: '🌔', english: 'Waxing Gibbous',  key: 'moon.phase_waxing_gibbous' };
+        if (D < 270) return { name: 'أحدب متناقص', icon: '🌖', english: 'Waning Gibbous',  key: 'moon.phase_waning_gibbous' };
+        return { name: 'هلال متناقص', icon: '🌘', english: 'Waning Crescent', key: 'moon.phase_waning_crescent' };
+    }
+
+    // اللحظة (UTC) التي تقابل 12:00 ظهرًا في `tz` على التاريخ y-m-d.
+    function _localNoonInTz(year, month, day, tz) {
+        const naive = Date.UTC(year, month - 1, day, 12, 0, 0);
+        const off = _getTzOffsetMs(naive, tz || 'UTC');
+        return new Date(naive - off);
+    }
+    // التاريخ المحلّيّ (y-m-d) في `tz` للحظة UTC مُعطاة.
+    function _localYMD(instant, tz) {
+        try {
+            const parts = new Intl.DateTimeFormat('en-CA', {
+                timeZone: tz || 'UTC', year: 'numeric', month: '2-digit', day: '2-digit'
+            }).format(instant).split('-');
+            return { y: Number(parts[0]), m: Number(parts[1]), d: Number(parts[2]) };
+        } catch (_e) {
+            return { y: instant.getUTCFullYear(), m: instant.getUTCMonth() + 1, d: instant.getUTCDate() };
+        }
+    }
+    // صفة ثانويّة (قريب من البدر/المحاق) — للأيّام غير-الحدثيّة فقط، وليست الطور الرئيسيّ.
+    function _secondaryNote(illumPct, isEventDay) {
+        if (isEventDay) return null;
+        if (illumPct >= 97) return { name: 'قريب من البدر', english: 'Near Full', key: 'moon.near_full' };
+        if (illumPct <= 3)  return { name: 'قريب من المحاق', english: 'Near New', key: 'moon.near_new' };
+        return null;
+    }
+
+    // شبكة شهر كاملة بتسمية حدثيّة محلّيّة. tz = IANA المدينة/الصفحة (أو 'UTC').
+    // تُرجِع مصفوفة بطول أيّام الشهر: { day, phase, illumination, event, eventAt, secondary, isNewMoon, isFullMoon, tz }.
+    // الطور لليوم غير-الحدثيّ = حسب آخر حدث وقع قبله (الموقع بين الأحداث الدقيقة).
+    const _PHASE_AFTER_EVENT = {
+        new_moon:      { name: 'هلال متزايد', icon: '🌒', english: 'Waxing Crescent', key: 'moon.phase_waxing_crescent' },
+        first_quarter: { name: 'أحدب متزايد', icon: '🌔', english: 'Waxing Gibbous',  key: 'moon.phase_waxing_gibbous' },
+        full_moon:     { name: 'أحدب متناقص', icon: '🌖', english: 'Waning Gibbous',  key: 'moon.phase_waning_gibbous' },
+        last_quarter:  { name: 'هلال متناقص', icon: '🌘', english: 'Waning Crescent', key: 'moon.phase_waning_crescent' }
+    };
+    function getMonthGrid(year, month, tz) {
+        tz = (typeof tz === 'string' && tz) ? tz : 'UTC';
+        const last = new Date(Date.UTC(year, month, 0)).getUTCDate();
+        // نطاق واسع (±10 أيّام) لضمان وجود حدث سابق لكلّ يوم (التسمية بالموقع بين الأحداث).
+        const rangeStart = new Date(_localNoonInTz(year, month, 1, tz).getTime() - 10 * 86400000);
+        const rangeEnd   = new Date(_localNoonInTz(year, month, last, tz).getTime() + 10 * 86400000);
+        const events = findPhaseEventsInRange(rangeStart, rangeEnd) || []; // مرتّبة زمنيًّا
+        // اربط كلّ حدث بيومه المحلّيّ داخل الشهر (في tz).
+        const eventByDay = {};
+        for (const ev of events) {
+            const ld = _localYMD(ev.date, tz);
+            if (ld.y === year && ld.m === month && !eventByDay[ld.d]) eventByDay[ld.d] = ev;
+        }
+        const out = [];
+        for (let day = 1; day <= last; day++) {
+            const noon = _localNoonInTz(year, month, day, tz);
+            const st = _moonState(noon);
+            const illum = Math.round(st.illuminationPct * 100) / 100;
+            const ev = eventByDay[day] || null;
+            let phase;
+            if (ev) {
+                phase = Object.assign({}, ev.phase);
+            } else {
+                // آخر حدث قبل ظهر هذا اليوم المحلّيّ → القطاع (هلال/أحدب) — لا عتبة إضاءة.
+                let prev = null;
+                for (let i = 0; i < events.length; i++) {
+                    if (events[i].date.getTime() <= noon.getTime()) prev = events[i]; else break;
+                }
+                phase = (prev && _PHASE_AFTER_EVENT[prev.type])
+                    ? Object.assign({}, _PHASE_AFTER_EVENT[prev.type])
+                    : _quadrantPhase(noon); // fallback نادر فقط
+            }
+            out.push({
+                day,
+                phase,
+                illumination: illum,
+                event: ev ? ev.type : null,
+                eventAt: ev ? ev.date : null,
+                secondary: _secondaryNote(illum, !!ev),
+                isNewMoon: !!(ev && ev.type === 'new_moon'),
+                isFullMoon: !!(ev && ev.type === 'full_moon'),
+                tz
+            });
+        }
+        return out;
+    }
+
+    // طور يوم محلّيّ واحد (للـ moon-today و /moon-in-{city}/{date}). نفس منطق الشبكة.
+    function getDayPhase(date, tz) {
+        tz = (typeof tz === 'string' && tz) ? tz : 'UTC';
+        const inst = new Date(date);
+        const ld = _localYMD(inst, tz);
+        const grid = getMonthGrid(ld.y, ld.m, tz);
+        for (let i = 0; i < grid.length; i++) if (grid[i].day === ld.d) return grid[i];
+        // fallback نادر — يوم خارج الشبكة (لا يحدث عمليًّا)
+        const st = _moonState(inst);
+        const illum = Math.round(st.illuminationPct * 100) / 100;
+        return { day: ld.d, phase: _quadrantPhase(inst), illumination: illum, event: null, eventAt: null, secondary: null, isNewMoon: false, isFullMoon: false, tz };
     }
 
     // ══════════ كوكبة القمر على المسار الفلكيّ (IAU Constellation) ══════════
@@ -668,7 +809,10 @@ const MoonCalc = (function() {
         getNextLastQuarter,
         findPhaseEventsInRange,
         get7DayForecast,
-        getForecast
+        getForecast,
+        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: event-based local day labels
+        getMonthGrid,
+        getDayPhase
     };
 })();
 

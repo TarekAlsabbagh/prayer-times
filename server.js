@@ -7969,17 +7969,12 @@ function _downgradeInactiveH1s(html, urlPath) {
 // Round 17 (smart content): dateObj (اختياريّ) — إن مُرِّر، تُحتسب البيانات لذلك اليوم بدل
 // new Date()، ما يجعل كلّ صفحة `/moon-in-{city}/{date}` تحصل على فقرة فريدة بأرقامها الحقيقيّة.
 // dateLabel/hijriLabel (اختياريّان): لحقن التاريخ في الفقرة (unique-per-page SEO).
-function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz) {
+function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel) {
     try {
         if (!MoonCalc || !I18N) return null;
         const _hasDate = (dateObj instanceof Date && !isNaN(dateObj.getTime()));
         const today = _hasDate ? dateObj : new Date();
-        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: phase name from the EVENT-based
-        // local-day labeler (major phases only on their local event day; never a
-        // threshold "Full Moon" on a day adjacent to the real full-moon event).
-        // Falls back to getPhaseName only if getDayPhase is unavailable.
-        const _dayInfo = (typeof MoonCalc.getDayPhase === 'function') ? MoonCalc.getDayPhase(today, tz) : null;
-        const phase = (_dayInfo && _dayInfo.phase) || MoonCalc.getPhaseName(today); // {name, icon, english, key}
+        const phase = MoonCalc.getPhaseName(today);                 // {name, icon, english, key}
         const illumRaw = MoonCalc.getMoonIllumination(today);       // 0..100
         const ageRaw = MoonCalc.getMoonAge(today);                  // 0..29.53
         const zodiac = MoonCalc.getMoonZodiac(today);               // {key, icon, i18nKey, ...}
@@ -21002,15 +20997,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _introDateObj = (_isMoonDatePage && seo.moonCity.dateObj) ? seo.moonCity.dateObj : null;
         const _introDateLabel = _isMoonDatePage ? (seo.moonCity.dateLabel || '') : '';
         const _introHijriLabel = _isMoonDatePage ? (seo.moonCity.hijriLabelWithSfx || seo.moonCity.hijriLabel || '') : '';
-        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: resolve the CITY's own IANA tz
-        // (curated exact tz preferred → country-primary → Asia/Riyadh global ref)
-        // so the intro's phase name binds the event to the city's local day.
-        const _introTz = ((seo.moonCity && seo.moonCity.slug && typeof _findPlaceBySlug === 'function')
-                ? ((_findPlaceBySlug(seo.moonCity.slug) || {}).timezone || '') : '')
-            || (seo.moonCity && seo.moonCity.tz) || 'Asia/Riyadh';
         const _introMoonDynamic = _buildSsrMoonIntro(
             Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng,
-            _introDateObj, _introDateLabel, _introHijriLabel, _introTz
+            _introDateObj, _introDateLabel, _introHijriLabel
         ) || _introMoon;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.
@@ -21709,30 +21698,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah']
                 };
                 const _cellHmNames = _CELL_HM_NAMES[Lm] || _CELL_HM_NAMES.en;
-                // ═══ MOON-PHASE-CALENDAR-CALCULATION-FIX-1 (2026-06-16) ═══
-                //   Label each calendar cell from the EVENT-based local month grid
-                //   (major phases on their local event day only; other days by
-                //   elongation quadrant) instead of the old illumination-threshold
-                //   getPhaseName(noon) which duplicated محاق/بدر across 2 days.
-                //   Timezone = the CITY's own IANA (curated exact tz preferred, e.g.
-                //   Seattle→America/Los_Angeles), so the event binds to the city's
-                //   local day. Non-city / unknown → Asia/Riyadh (project global ref).
-                const _moonCitySlugGrid = (seo.moonCity && seo.moonCity.slug) || '';
-                const _moonCuratedTz = (_moonCitySlugGrid && typeof _findPlaceBySlug === 'function')
-                    ? ((_findPlaceBySlug(_moonCitySlugGrid) || {}).timezone || '')
-                    : '';
-                const _moonGridTz = _moonCuratedTz || (seo.moonCity && seo.moonCity.tz) || 'Asia/Riyadh';
-                const _monthGrid = (MoonCalc && typeof MoonCalc.getMonthGrid === 'function')
-                    ? (MoonCalc.getMonthGrid(_calY, _calMo, _moonGridTz) || [])
-                    : [];
                 for (let day = 1; day <= _calLastDay; day++) {
                     const _cellD = new Date(_calY, _calMo - 1, day, 12, 0, 0);
                     const _cellIso = _isoOf(_cellD);
-                    const _gridRow = _monthGrid[day - 1] || null;
-                    // Event-based label (primary). getPhaseName only as a defensive
-                    // fallback if the grid is unavailable — never the normal path.
-                    const _cellPhase = (_gridRow && _gridRow.phase)
-                        || (typeof MoonCalc.getPhaseName === 'function' ? (MoonCalc.getPhaseName(_cellD) || { icon: '🌕' }) : { icon: '🌕' });
+                    const _cellPhase = MoonCalc.getPhaseName(_cellD) || { icon: '🌕' };
                     const _isToday = (
                         _calTodayD.getFullYear() === _calY
                         && _calTodayD.getMonth() === _calMo - 1
@@ -21809,12 +21778,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         + `<span class="moon-hub-cal-phase" aria-hidden="true">${_cellPhase.icon || '🌕'}</span>`
                         + (_cellIsMonthPage
                             ? `<span class="moon-hub-cal-phase-name">${_escHtml(_cellPhaseNameTxt)}</span>`
-                            : '')
-                        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: on the new-moon DAY only,
-                        // a SEPARATE visibility note (crescent watch) — distinct from the
-                        // phase label. Astronomical phase ≠ crescent sighting ≠ Hijri month start.
-                        + ((_cellIsMonthPage && _gridRow && _gridRow.isNewMoon)
-                            ? `<span class="moon-hub-cal-watch">${_escHtml(_phaseName('moon.cal_new_moon_watch'))}</span>`
                             : '')
                         + `</a></li>`;
                 }

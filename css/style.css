@@ -3854,25 +3854,6 @@ html[data-theme="dark"] #page-qibla #qibla-faq details > p {
 html[data-theme="dark"] .moon-hub-cal-phase-name {
     color: var(--primary-light, #66bb6a);
 }
-/* MOON-PHASE-CALCULATION-FIX-1: crescent-watch note on the new-moon day cell.
-   A SEPARATE, secondary line (muted, small) — visually distinct from the main
-   phase label so "astronomical phase" ≠ "crescent visibility". */
-.moon-hub-cal-watch {
-    font-size: 0.6rem;
-    line-height: 1.2;
-    color: var(--gold, #b8860b);
-    font-weight: 600;
-    text-align: center;
-    margin-top: 2px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-    word-break: break-word;
-}
-html[data-theme="dark"] .moon-hub-cal-watch {
-    color: var(--gold-light, #e0c068);
-}
 .moon-hub-cal-cell--today a {
     background: rgba(46,125,50,0.20);
     border-color: var(--primary);

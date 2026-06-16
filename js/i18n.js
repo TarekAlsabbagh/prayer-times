@@ -285,12 +285,6 @@ const TRANSLATIONS = {
         'moon.phase_waning_gibbous': 'أحدب متناقص',
         'moon.phase_last_quarter': 'التربيع الأخير',
         'moon.phase_waning_crescent': 'هلال متناقص',
-        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: separate notes (NOT the main phase label)
-        'moon.cal_new_moon_watch': 'يُتحرّى هلال الشهر مساء هذا اليوم',
-        'moon.near_full': 'قريب من البدر',
-        'moon.near_new': 'قريب من المحاق',
-        'moon.visibility_note': 'يُتحرّى هلال الشهر الجديد بعد غروب شمس هذا اليوم، وقد تختلف الرؤية حسب الموقع والظروف.',
-        'moon.hijri_month_note': 'قد يُعدّ اليوم التالي بداية الشهر في بعض التقاويم إذا ثبتت رؤية الهلال مساء اليوم السابق.',
         'moon.distance': 'المسافة إلى القمر',
         // Legacy default — kept for geolocation widget context where the
         // reference is the visitor's own device. On /moon-today and
@@ -1839,12 +1833,6 @@ const TRANSLATIONS = {
         'moon.phase_waning_gibbous': 'Waning Gibbous',
         'moon.phase_last_quarter': 'Last Quarter',
         'moon.phase_waning_crescent': 'Waning Crescent',
-        // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: separate notes (NOT the main phase label)
-        'moon.cal_new_moon_watch': 'New crescent watched after sunset',
-        'moon.near_full': 'Near Full',
-        'moon.near_new': 'Near New',
-        'moon.visibility_note': 'The new crescent is sought after sunset on this day; visibility varies by location and conditions.',
-        'moon.hijri_month_note': 'The next day may begin the new month in some calendars if the crescent is sighted the previous evening.',
         'moon.distance': 'Distance to Moon',
         'moon.distance_sub': 'km from your location',
         // ── Expanded moon page (H1, breadcrumb, forecast, cities, FAQ, evergreen) ──

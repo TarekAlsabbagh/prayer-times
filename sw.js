@@ -1557,7 +1557,7 @@
 //   labeling + city-tz binding retained.
 //   Cache-busters: js/app.js?v=783→784, js/moon.js?v=54→55, js/i18n.js?v=193→194,
 //   css/style.css?v=479→480.
-const CACHE_VERSION = 'v444';
+const CACHE_VERSION = 'v445';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1584,7 +1584,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=7',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=784',
+    '/js/app.js?v=785',
 ];
 
 self.addEventListener('install', (event) => {

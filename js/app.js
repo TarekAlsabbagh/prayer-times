@@ -43,6 +43,22 @@ let currentCountryCode = 'sa'; // كود ISO للدولة الحالية
 let currentLocalizedName = '';
 let currentLocalizedCountry = '';
 
+// ── MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1 (2026-06-17) ──────────────
+//   Single source of truth for "is this pathname a MOON page?" — used by the SPA's
+//   page-activation deciders (initApp activation block + the pageshow/BFCache
+//   self-heal router). It matches BOTH the current stable flat routes AND any
+//   /moon-prefixed nested path, with an optional /{lang}/ prefix:
+//     • /moon            and  /moon/…   (e.g. /moon/{country}/{city}/today)  ← forward-ready
+//     • /moon-today  ·  /moon-today-in-…  ·  /moon-in-…                       ← current routes
+//   CLIENT-ONLY classifier: it ONLY decides which #page-* the SPA activates after
+//   hydration. It adds NO server route, NO redirect, NO SSR — it just makes app.js
+//   ready to show #page-moon if the server ever serves a /moon/… URL. A path is a
+//   moon page iff it starts with "/moon" followed by "-today" | "-in-" | "/" | end;
+//   "/moonshine", "/moonlight" etc. are deliberately NOT moon pages.
+function _isMoonPath(p) {
+    return /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon(?:-today|-in-|\/|$)/.test(String(p == null ? '' : p));
+}
+
 // UAT-FOUC: synchronous URL-slug → globals override at script-top.
 //   Runs immediately when app.js executes (after `let` declarations, before
 //   any other code or rendering). Reads the URL pathname for a city slug;
@@ -4030,9 +4046,9 @@ async function initApp() {
     //   • /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM}               (UAT-Moon-Hub-Month: month page)
     //   • /moon-in-{slug}[-{lat}-{lng}]/{YYYY-MM-DD}            (Round 15: dated)
     const _mpPath = window.location.pathname;
-    // UAT-Moon-Hub-Month: \d{4}-\d{2}(?:-\d{2})? matches both month + day URLs.
-    const _isMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(_mpPath)
-        || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?$/.test(_mpPath);
+    // MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1: classify via the shared /moon-prefix
+    //   helper so legacy flat routes AND any future nested /moon/… both activate #page-moon.
+    const _isMoonPage = _isMoonPath(_mpPath);
     if (_isMoonPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-moon')?.classList.add('active');
@@ -11901,7 +11917,11 @@ window.addEventListener('pageshow', function(e) {
         let _expectedId = null;
         if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla(?:-in-[a-z]|$)/.test(_path)) {
             _expectedId = 'page-qibla';
-        } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today|moon-in-)/.test(_path)) {
+        } else if (_isMoonPath(_path)) {
+            // MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1: recognize the /moon prefix
+            //   (legacy flat /moon-today, /moon-in-… AND any nested /moon/…) so these
+            //   self-heal to #page-moon instead of falling through to the page-prayer-times
+            //   default — which is stripped on moon pages and left only the footer visible.
             _expectedId = 'page-moon';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(_path)) {
             _expectedId = 'page-tasbih';

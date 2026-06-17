@@ -106,8 +106,8 @@ try {
     check('guard precedes preventDefault in initNavigation', idxGuard !== -1 && idxPD !== -1 && idxGuard < idxPD, `${idxGuard} < ${idxPD}`);
 
     // ── 5) cache-buster bumped ──
-    // NOTE: cache-buster bumped to 784 by MOON-PHASE-EVENT-ENGINE-MEEUS49-FIX-1 (2026-06-16).
-    check('index.html references app.js?v=784', (await get('/')).body.indexOf('app.js?v=784') !== -1);
+    // NOTE: cache-buster bumped to 785 by MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1 (2026-06-17).
+    check('index.html references app.js?v=785', (await get('/')).body.indexOf('app.js?v=785') !== -1);
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

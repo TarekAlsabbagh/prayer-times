@@ -71,8 +71,10 @@ let exitCode = 1;
 const s = spawn(process.execPath, ['server.js'], { cwd: ROOT, env: { ...process.env, PORT: String(PORT) }, stdio: ['ignore', 'ignore', 'ignore'] });
 try {
     if (!await waitReady(25000)) { console.error('✗ server not ready'); s.kill('SIGKILL'); process.exit(1); }
-    console.log('\n── C) legacy moon routes still render (SSR) ──');
-    for (const u of ['/moon-today', '/moon-today-in-riyadh', '/moon-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
+    console.log('\n── C) moon routes still render (SSR) ──');
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the hub moved /moon-today → /moon (the bare
+    //   /moon-today now 301s to /moon, covered by its own smoke). The 200 hub is /moon.
+    for (const u of ['/moon', '/moon-today-in-riyadh', '/moon-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
         const r = await get(u);
         const active = r.body.includes('class="page active" id="page-moon"');
         const h1 = (r.body.match(/<h1[^>]*id="(?:moon-hub-h1|moon-page-h1)"/g) || []).length;

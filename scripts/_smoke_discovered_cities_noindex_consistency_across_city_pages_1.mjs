@@ -83,7 +83,8 @@ try {
 
     // ── Hubs / tools / country must stay indexable ──
     console.log('-- hubs / tools / country (must stay index) --');
-    for (const [label, p] of [['/qibla', '/qibla'], ['/moon-today', '/moon-today'], ['home /', '/'], ['country morocco', '/prayer-times-in-morocco']]) {
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the indexable moon hub is now /moon (/moon-today 301s → /moon).
+    for (const [label, p] of [['/qibla', '/qibla'], ['/moon', '/moon'], ['home /', '/'], ['country morocco', '/prayer-times-in-morocco']]) {
         const { robots, status } = await robotsOf(p);
         check(`${label}: index + 200`, robots === 'index' && status === 200, `${robots} / ${status}`);
     }

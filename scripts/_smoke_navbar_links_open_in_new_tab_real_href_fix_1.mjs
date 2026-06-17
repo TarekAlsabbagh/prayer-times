@@ -28,7 +28,7 @@ console.log('═══ NAVBAR-LINKS-OPEN-IN-NEW-TAB-REAL-HREF-FIX-1 ═══');
 const NAV = {
     'prayer-times':   '/',
     'qibla':          '/qibla',
-    'moon':           '/moon-today',
+    'moon':           '/moon',
     'zakat':          '/zakat-calculator',
     'azkar':          '/azkar',
     'tasbih':         '/msbaha',
@@ -88,7 +88,7 @@ try {
         check(`${route} → 200 (not a redirect)`, r.status === 200, r.status + (r.loc ? ' → ' + r.loc : ''));
     }
     // canonical confirms the served page IS the route (not the homepage) for the new ones.
-    for (const route of ['/qibla', '/moon-today', '/date-converter', '/msbaha', '/today-hijri-date', '/hijri-calendar']) {
+    for (const route of ['/qibla', '/moon', '/date-converter', '/msbaha', '/today-hijri-date', '/hijri-calendar']) {
         const body = (await get(route)).body;
         const cm = body.match(/<link rel="canonical" href="[^"]*?(\/[a-z-]*)"/);
         const canon = cm ? cm[1] : '';
@@ -106,8 +106,8 @@ try {
     check('guard precedes preventDefault in initNavigation', idxGuard !== -1 && idxPD !== -1 && idxGuard < idxPD, `${idxGuard} < ${idxPD}`);
 
     // ── 5) cache-buster bumped ──
-    // NOTE: cache-buster bumped to 785 by MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1 (2026-06-17).
-    check('index.html references app.js?v=785', (await get('/')).body.indexOf('app.js?v=785') !== -1);
+    // NOTE: cache-buster bumped to 786 by MOON-TODAY-CONTENT-MOVE-TO-MOON-1 (2026-06-17).
+    check('index.html references app.js?v=786', (await get('/')).body.indexOf('app.js?v=786') !== -1);
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

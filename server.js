@@ -7890,7 +7890,9 @@ function _getActiveH1Marker(urlPath) {
     if (/^\/today-hijri-date$/.test(path))           return { kind: 'id',   value: 'hijri-today-full' };
     if (/^\/hijri-date\//.test(path))                return { kind: 'id',   value: 'hday-title' };
     if (/^\/(?:moon-today|moon-in)-/.test(path))     return { kind: 'id',   value: 'moon-page-h1' };
-    // UAT-Moon-Home: hub /moon-today uses the new hero H1 (#moon-hub-h1)
+    // UAT-Moon-Home: hub uses the new hero H1 (#moon-hub-h1)
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: hub now at /moon (was /moon-today, kept defensively).
+    if (/^\/moon$/.test(path))                       return { kind: 'id',   value: 'moon-hub-h1' };
     if (/^\/moon-today$/.test(path))                 return { kind: 'id',   value: 'moon-hub-h1' };
     if (/^\/moon-in$/.test(path))                    return { kind: 'id',   value: 'moon-page-h1' };
     // HIJRI-NEW-YEAR-COUNTDOWN-SEO-CONTENT-H1-FIX-1 (2026-06-15): the 4 countdown
@@ -9974,6 +9976,11 @@ function buildSeoForPath(urlPath) {
             ogType: 'article',
         },
     };
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: /moon serves the moon-phase "today" hub.
+    // Alias its SEO (title/desc/moonFaq/app) to the existing /moon-today config so
+    // title/meta/FAQ are byte-identical. canonical stays self (origin + p = /moon)
+    // — buildSeoForPath never overrides canonical for staticPages entries.
+    staticPages['/moon'] = staticPages['/moon-today'];
 
     if (staticPages[corePath]) {
         const sp = staticPages[corePath];
@@ -11599,7 +11606,8 @@ function buildSeoForPath(urlPath) {
                 ur: 'چاند', de: 'Mond', id: 'Bulan',
                 es: 'Luna', bn: 'চাঁদ', ms: 'Bulan',
             }[lang] || 'Moon';
-            breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon-today' });
+            // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: moon hub parent → /moon (was /moon-today).
+            breadcrumbs.push({ name: _moonLabel, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon' });
             // Round 16: city breadcrumb يشير إلى hub (/moon-in-{slug}) كوالد لصفحات التاريخ/الشهر،
             // أو إلى صفحة اليوم (/moon-today-in-{slug}) كوالد للصفحة الحاليّة إن كانت هي صفحة اليوم.
             // - hub page: self (/moon-in-{slug})
@@ -15171,8 +15179,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   JS. Runs for: (a) the homepage / language-roots (Mecca defaults),
     //   (b) /prayer-times-in-{slug} city pages (resolved from slug),
     //   NOT for /time-left-* or /next-prayer-time-* (those are pruned).
-    // UAT-Moon-Home: detect moon-today hub upfront for both gating and strip
-    const _isMoonTodayHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath);
+    // UAT-Moon-Home: detect moon-today hub upfront for both gating and strip.
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the hub now lives at /moon (the canonical
+    // URL). /moon-today still recognized here defensively, but it 301s to /moon
+    // before reaching SSR, so in practice only /moon renders this hub body.
+    const _isMoonTodayHub = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon|moon-today)$/.test(urlPath);
     // Phase Q-Hub-A (2026-05-04): /qibla Hub detection. Used to (a) strip the
     // prayer shell from SSR, (b) inject html.qibla-hub-page so #page-qibla is
     // visible immediately, and (c) inject the educational section + override H1.
@@ -23560,6 +23571,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         }
     }
 
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1 (2026-06-17): the moon-phase "today" hub
+    //   moved /moon-today → /moon. Rewrite every GENERAL hub link the SSR injectors
+    //   emitted — href="/moon-today" or href="/{lang}/moon-today" (navbar, qibla-hub
+    //   cards, breadcrumb anchors, homepage tool cards, the countdown / azkar
+    //   "moon today" cards, …) → the same with /moon. SAFE by construction:
+    //     • Anchored to a trailing '"' so /moon-today-in-{slug} city links never
+    //       match (the `-in-…` sits between moon-today and the closing quote).
+    //     • Runs AFTER the city-context navbar rewrite above (on city pages the
+    //       navbar is already /moon-today-in-{slug}, left untouched) and BEFORE the
+    //       lang-prefix pass below (which then prefixes the bare /moon on non-AR).
+    //     • Only href="/…" values match; absolute canonical/hreflang/og:url and
+    //       JSON-LD "item"/"url" keys (no href=) are NOT touched.
+    html = html.replace(/href="(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon-today"/g,
+        (full, lp) => 'href="' + (lp || '') + '/moon"');
+
     // ISLAMIC-EVENT-CARDS-LANG-ROUTING-FIX-1 (2026-06-05): GENERALIZED the
     //   unified language-prefix pass to EVERY non-AR SSR page. Originally
     //   added for the homepage (HOME-ALL-LINKS-LANG-ROUTING-FIX-1) then the
@@ -25764,12 +25790,18 @@ const server = http.createServer(async (req, res) => {
     //   `/zakat-calculator`. Targets the SEOptimer "Avoid multiple page
     //   redirects" finding (0.63s mobile saving).
 
-    // /moon (+ language prefixes) → /moon-today
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1 (2026-06-17): the moon-phase "today" hub
+    // now lives at /moon (was /moon-today). REVERSED direction: /moon-today
+    // (+ language prefixes, optional trailing slash) → 301 /moon, preserving the
+    // language prefix. City routes (/moon-today-in-{slug}, /moon-in-{slug}[/date])
+    // are NOT matched — the `\/?$` anchor rejects the `-in-` suffix — so they stay
+    // exactly as they are. /moon itself now serves 200 (see _isIndexHtmlRoute +
+    // _isMoonTodayHub + staticPages['/moon']).
     {
-        const _oldMoonMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/?$/);
-        if (_oldMoonMatch) {
-            const _prefix = _oldMoonMatch[1] || '';
-            res.writeHead(301, { 'Location': `/${_prefix}moon-today`, 'Cache-Control': 'public, max-age=31536000' });
+        const _oldMoonTodayMatch = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today\/?$/);
+        if (_oldMoonTodayMatch) {
+            const _prefix = _oldMoonTodayMatch[1] || '';
+            res.writeHead(301, { 'Location': `/${_prefix}moon`, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
         }
@@ -26016,7 +26048,8 @@ const server = http.createServer(async (req, res) => {
             const staticPaths = [
                 ['/', '1.0', 'daily'],
                 ['/qibla', '0.9', 'monthly'],
-                ['/moon-today', '0.8', 'daily'],
+                // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: moon hub moved /moon-today → /moon
+                ['/moon', '0.8', 'daily'],
                 ['/zakat-calculator', '0.8', 'monthly'],
                 ['/azkar', '0.8', 'monthly'],
                 // AZKAR-RESTRUCTURE-MORNING-PHASE-1: independent morning page
@@ -26228,6 +26261,9 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla$/.test(urlPath) ||
+        // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: /moon is the moon-phase hub (was /moon-today,
+        // which now 301s here). Keep /moon-today$ too as a defensive no-op (it 301s first).
+        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today$/.test(urlPath) ||
         // Round 15: فصل الـ URLs — /moon-today-in-{slug} للـ today، /moon-in-{slug}/{date} للصفحات المؤرَّخة
         // Round 16: /moon-in-{slug} hub page (بلا تاريخ) — صفحة مدينة دائمة

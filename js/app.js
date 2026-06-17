@@ -2968,7 +2968,8 @@ function getSlugFromURL() {
     // القمر: /moon-today أو /moon-today-in-{slug}[-{lat}-{lng}][/{YYYY-MM-DD}] — نعيد 'moon' كمفتاح جلسة
     //   لاستعادة موقع المستخدم (لاستمراريّة السياق عند الانتقال من صفحة المدينة).
     //   Round 12: نضيف دعم coord-suffix (-LAT-LNG) + تاريخ اختياريّ.
-    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?)?$/.test(window.location.pathname)) return 'moon';
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: bare /moon is the hub too (city-context continuity).
+    if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today(?:-in-[a-z][a-z0-9-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?)?|moon)$/.test(window.location.pathname)) return 'moon';
     return null;
 }
 
@@ -3189,7 +3190,7 @@ async function _revalidateCachedCity(lat, lng, slug, expectedEn) {
             healed = true;
             // إعادة رسم صفحة القمر إن كنّا عليها
             try {
-                const onMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/
+                const onMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today(?:-in-[a-z][a-z0-9-]+)?|moon)$/
                     .test(window.location.pathname);
                 if (onMoon && typeof updateMoonInfo === 'function') updateMoonInfo();
             } catch (_e) { /* silent */ }
@@ -5523,10 +5524,12 @@ function initNavigation() {
                 const _moonIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
                 if (_moonIsHome) {
                     _showNavLoadingOverlay('moon');
-                    window.location.href = pageUrl('/moon-today');
+                    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: general moon hub now lives at /moon.
+                    window.location.href = pageUrl('/moon');
                     return;
                 }
-                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?$/.test(window.location.pathname);
+                // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: bare /moon is the hub too.
+                const _alreadyOnMoon = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today(?:-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?)?|moon)$/.test(window.location.pathname);
                 if (!_alreadyOnMoon) {
                     // UAT-Q5h: URL slug is authoritative — also accept moon-today-in-/moon-in-
                     //   plus other city pages, plus loc-XX.X-YY.Y dot-containing slugs.
@@ -7844,7 +7847,7 @@ async function fetchLocalizedCityName(lat, lng) {
         // إعادة رسم محتوى صفحة القمر (H1/H2/intro/FAQ) بالاسم المترجَم — مهمّ للغات UR/TR/FR/DE/ID/BN/ES/MS
         //   لأنّ updateMoonInfo() يستخدم _moonCityDisplayName() الذي يعتمد على currentCity/currentLocalizedName.
         try {
-            const _onMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-[a-z][a-z0-9-]+)?$/
+            const _onMoonPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today(?:-in-[a-z][a-z0-9-]+)?|moon)$/
                 .test(window.location.pathname);
             if (_onMoonPage && typeof updateMoonInfo === 'function') updateMoonInfo();
         } catch (_e) { /* silent */ }
@@ -10649,7 +10652,9 @@ function _wireMoonHubHero() {
             const path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
             // Match: /moon-today, /{lang}/moon-today, /moon-today-in-{slug},
             //        /{lang}/moon-today-in-{slug}
-            if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today(?:-in-|\/?$)/.test(path)) {
+            // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: also the new bare hub /moon (+lang),
+            //   so the hub search hero wires there too. /moon-in-{city} unaffected.
+            if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today(?:-in-|\/?$)|moon\/?$)/.test(path)) {
                 _wireMoonHubSmartPill();
                 _wireMoonHubHero();
             }

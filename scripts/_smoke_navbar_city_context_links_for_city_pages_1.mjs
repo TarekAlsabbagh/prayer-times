@@ -61,13 +61,15 @@ try {
         check(`${route}: NO nav href is "#"`, !Object.values(n).some(h => h === '#'));
     }
 
-    // ── 2) Hub / tool / home pages → generic hubs (unchanged) ──
-    for (const route of ['/qibla', '/moon-today', '/', '/azkar', '/date-converter']) {
+    // ── 2) Hub / tool / home pages → generic hubs ──
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the generic moon hub moved /moon-today → /moon
+    //   (and /moon-today now 301s → /moon, so it is no longer in this 200-hub list).
+    for (const route of ['/qibla', '/moon', '/', '/azkar', '/date-converter']) {
         console.log(`-- hub/tool ${route} --`);
         const n = await navOf(route);
         check(`${route}: prayer-times → /`, n['prayer-times'] === '/', n['prayer-times']);
         check(`${route}: qibla → /qibla`, n['qibla'] === '/qibla', n['qibla']);
-        check(`${route}: moon → /moon-today`, n['moon'] === '/moon-today', n['moon']);
+        check(`${route}: moon → /moon (generic hub)`, n['moon'] === '/moon', n['moon']);
     }
 
     // ── 3) EN curated city → lang-prefixed city-specific ──
@@ -86,7 +88,8 @@ try {
         const n = await navOf(route);
         check(`${route}: prayer-times stays / (hub)`, n['prayer-times'] === '/', n['prayer-times']);
         check(`${route}: qibla stays /qibla (hub)`, n['qibla'] === '/qibla', n['qibla']);
-        check(`${route}: moon stays /moon-today (hub)`, n['moon'] === '/moon-today', n['moon']);
+        // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: generic moon hub is now /moon.
+        check(`${route}: moon stays /moon (hub)`, n['moon'] === '/moon', n['moon']);
     }
 
     // ── 5) routes resolve 200 (no redirect-to-home) ──

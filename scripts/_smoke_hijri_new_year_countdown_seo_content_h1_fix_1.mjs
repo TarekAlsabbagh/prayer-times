@@ -126,7 +126,8 @@ try {
 
     // ── 3) Other pages unaffected: still exactly 1 H1, still 200 ──
     console.log('\n-- other pages unaffected (H1=1) --');
-    for (const [p, marker] of [['/', 'loc-hero-title'], ['/zakat-calculator', 'zakat-h1'], ['/date-converter', 'dconv-h1'], ['/azkar', null], ['/msbaha', 'tasbih-h1'], ['/qibla', 'qibla-hero-title'], ['/moon-today', 'moon-hub-h1'], ['/today-hijri-date', 'hijri-today-full']]) {
+    // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the moon hub (200, #moon-hub-h1) is now /moon (/moon-today 301s → /moon).
+    for (const [p, marker] of [['/', 'loc-hero-title'], ['/zakat-calculator', 'zakat-h1'], ['/date-converter', 'dconv-h1'], ['/azkar', null], ['/msbaha', 'tasbih-h1'], ['/qibla', 'qibla-hero-title'], ['/moon', 'moon-hub-h1'], ['/today-hijri-date', 'hijri-today-full']]) {
         const r = await get(p); const n = (r.body.match(/<h1\b/g) || []).length;
         check(`${p} → 200 & exactly 1 H1`, r.status === 200 && n === 1, `status=${r.status} h1=${n}`);
     }

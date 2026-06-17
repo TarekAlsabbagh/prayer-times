@@ -7870,6 +7870,15 @@ function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
 // Map: route → identifier للـ H1 النشط (id أو data-i18n)
 function _getActiveH1Marker(urlPath) {
     const path = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
+    // MOON-COUNTRY-PAGES-SSR-ADD-1: /moon/{country} reuses prayer-times-cities.html — its single
+    // H1 is the hero #loc-hero-title (filled with the localized moon-country title). Keep it.
+    {
+        const _mcm = path.match(/^\/moon\/([a-z][a-z0-9-]+)$/);
+        if (_mcm) {
+            const _mcc = _countryFromSlug(_mcm[1]);
+            if (_mcc && _mcc.cc && _mcc.cc !== '__') return { kind: 'id', value: 'loc-hero-title' };
+        }
+    }
     if (/^\/prayer-times-in-/.test(path)) {
         // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: country listing pages (prayer-times-cities.html)
         // have NO #page-h1 — their single H1 is the hero #loc-hero-title (filled with the localized
@@ -8262,6 +8271,200 @@ function _buildCountrySeoContent(cn, lang) {
         }))
     });
     return { html, faqJsonLd };
+}
+
+// ============================================================
+// MOON-COUNTRY-PAGES-SSR-ADD-1 (2026-06-17, enriched 2026-06-17): SSR content for
+// /moon/{country} (served via the SAME prayer-times-cities.html grid, moon variant).
+// Builds: a computed "moon summary" card (today's phase + illumination + next full/new),
+// an "upcoming major phases" grid (next new / first quarter / full / last quarter), a
+// monthly-calendar-by-city links block, 3 educational sections, and an 8-Q SSR FAQ + FAQPage
+// JSON-LD. AR + EN authored; other 8 langs fall back to EN for prose (computed dates/phase
+// still localize via Intl / MoonCalc i18n keys). All values are computed with the EXISTING
+// MoonCalc (Meeus 49) engine — read-only, never modified — against the country's primary
+// timezone (_CC_TO_PRIMARY_TZ), with a disclaimer to pick a city for local accuracy.
+// No runtime translation of place names; {C} = seo.moonCountryListing.name (already localized).
+// ============================================================
+// Breadcrumb label — meaning "Moon Phase" (NOT just "Moon"). Shared by the DOM breadcrumb
+// injection AND the BreadcrumbList JSON-LD so the two are byte-for-byte identical.
+const _MOON_PHASE_CRUMB_L10N = { ar: 'حالة القمر', en: 'Moon Phase', fr: 'Phase de la Lune', tr: 'Ay Evresi', ur: 'چاند کی حالت', de: 'Mondphase', id: 'Fase Bulan', es: 'Fase Lunar', bn: 'চাঁদের দশা', ms: 'Fasa Bulan' };
+const _MOON_COUNTRY_SEO_L10N = {
+    ar: {
+        h1: 'مراحل القمر في {C}',
+        hero: 'تعرض هذه الصفحة مرحلة القمر اليوم وتقويم القمر في مدن {C}. اختر المدينة لعرض حالة القمر، نسبة الإضاءة، ومواعيد البدر والمحاق حسب التوقيت المحلي للمدينة.',
+        summaryTitle: 'ملخص القمر في {C}',
+        lblTodayPhase: 'مرحلة القمر اليوم', lblIllum: 'نسبة الإضاءة', lblNextFull: 'البدر القادم', lblNextNew: 'المحاق القادم',
+        summaryNote: 'هذه البيانات مرجعية عامة للدولة وفق توقيتها المرجعي. للحصول على نتيجة أدقّ حسب التوقيت المحلي، اختر مدينتك من القائمة أدناه.',
+        citiesHeading: 'قمر اليوم في مدن {C}',
+        upcomingTitle: 'أهم مراحل القمر القادمة في {C}',
+        lblUpNew: 'المحاق القادم', lblUpFQ: 'التربيع الأول القادم', lblUpFull: 'البدر القادم', lblUpLQ: 'التربيع الأخير القادم',
+        upcomingNote: 'قد يختلف التاريخ المحلي لبعض المدن إذا وقع الحدث قريبًا من منتصف الليل، لذلك اختر المدينة للحصول على النتيجة الأدقّ.',
+        monthlyTitle: 'تقويم القمر الشهري في مدن {C}',
+        monthlyText: 'يمكنك استعراض تقويم القمر الشهري حسب المدينة لمعرفة أطوار القمر اليومية، ومواعيد البدر والمحاق والتربيع الأول والأخير. اختر إحدى المدن التالية:',
+        sec: [
+            ['كيف تُحسب مراحل القمر في {C}؟', 'تُحسب مراحل القمر فلكيًا داخل الموقع دون الاعتماد على أيّ مصدر بيانات خارجي. يُحدَّد وقت الحدث الفلكي أولًا ثم يُحوَّل إلى التوقيت المحلي للمدينة، لذلك قد يختلف يوم البدر أو المحاق من منطقة زمنية لأخرى داخل {C} وخارجها.'],
+            ['رؤية الهلال وبداية الشهر الهجري', 'المحاق حدث فلكي، أمّا رؤية الهلال فتكون بعد غروب الشمس وتعتمد على الموقع والظروف الجوية ومعايير الرؤية. لذلك لا يعني المحاق دائمًا بداية الشهر الهجري في كلّ بلد.'],
+            ['لماذا قد يختلف تاريخ البدر أو المحاق بين المدن؟', 'الحدث الفلكي له وقت عالمي واحد، لكن التاريخ المحلي يختلف حسب المنطقة الزمنية. لذلك قد يظهر البدر في يومٍ بمدينة، وفي اليوم السابق أو التالي بمدينة أخرى إذا وقع الحدث قريبًا من منتصف الليل.']
+        ],
+        faqTitle: 'الأسئلة الشائعة',
+        faq: [
+            ['ما مرحلة القمر اليوم في {C}؟', 'يعرض ملخص القمر أعلى الصفحة مرحلة القمر اليوم ونسبة الإضاءة وفق التوقيت المرجعي للدولة. ولنتيجة أدقّ حسب مدينتك، اخترها من القائمة لعرض حالة القمر بتوقيتها المحلي.'],
+            ['كيف أجد قمر اليوم في مدينتي؟', 'اختر مدينتك من شبكة المدن أو ابحث عنها داخل {C}، فتفتح صفحة قمر اليوم للمدينة بمرحلة القمر ونسبة الإضاءة وعمر القمر حسب التوقيت المحلي.'],
+            ['هل تختلف مرحلة القمر بين مدن {C}؟', 'مرحلة القمر نفسها لحظيًا في كل مكان، لكن اليوم المحلي للحدث (البدر أو المحاق) قد يختلف بين المدن إذا وقع قرب منتصف الليل، لأن كل مدينة تُحسب بتوقيتها المحلي.'],
+            ['لماذا قد يختلف تاريخ البدر حسب المدينة؟', 'للبدر لحظة عالمية واحدة، لكن التاريخ المحلي يعتمد على المنطقة الزمنية للمدينة، فقد يقع في يومين مختلفين بين مدينتين متباعدتين زمنيًا.'],
+            ['هل المحاق يعني بداية الشهر الهجري؟', 'لا. المحاق حدث فلكي، أمّا بداية الشهر الهجري فتعتمد على رؤية الهلال بعد الغروب ومعايير الرؤية والموقع، وقد تختلف بين البلدان.'],
+            ['كيف يتم حساب تقويم القمر؟', 'يُحسب تقويم القمر من الحسابات الفلكية داخل الموقع لكل يوم، ثم يُحوَّل وقت الحدث إلى التوقيت المحلي للمدينة لعرض الطور الصحيح لكل يوم.'],
+            ['هل يعتمد الموقع على API خارجي لحساب القمر؟', 'لا. تتم كل حسابات مراحل القمر فلكيًا داخل الموقع، دون جلب بيانات القمر من أيّ خدمة خارجية.'],
+            ['أين أجد تقويم القمر الشهري لمدينتي؟', 'افتح صفحة مدينتك من الشبكة أعلاه، ثم انتقل إلى تقويم القمر الشهري للمدينة لعرض أطوار القمر يومًا بيوم حسب التوقيت المحلي.']
+        ]
+    },
+    en: {
+        h1: 'Moon Phases in {C}',
+        hero: 'This page shows today’s moon phase and the lunar calendar for cities in {C}. Choose a city to view the moon phase, illumination, and full moon / new moon dates based on the city’s local time.',
+        summaryTitle: 'Moon Summary in {C}',
+        lblTodayPhase: 'Today’s Moon Phase', lblIllum: 'Illumination', lblNextFull: 'Next Full Moon', lblNextNew: 'Next New Moon',
+        summaryNote: 'These values are a general reference for the country in its primary time zone. For local accuracy, choose your city from the list below.',
+        citiesHeading: 'Moon Today in Cities of {C}',
+        upcomingTitle: 'Upcoming Major Moon Phases in {C}',
+        lblUpNew: 'Next New Moon', lblUpFQ: 'Next First Quarter', lblUpFull: 'Next Full Moon', lblUpLQ: 'Next Last Quarter',
+        upcomingNote: 'The local date can differ for some cities when an event falls near midnight, so choose the city for the most accurate result.',
+        monthlyTitle: 'Monthly Moon Calendar in Cities of {C}',
+        monthlyText: 'You can browse the monthly moon calendar by city to see the daily moon phases and the dates of the full moon, new moon, first quarter and last quarter. Choose one of these cities:',
+        sec: [
+            ['How Are Moon Phases Calculated in {C}?', 'Moon phases are computed astronomically inside the site, without relying on any external data source. The time of the astronomical event is determined first, then converted to the city’s local time — so the date of the full moon or new moon can differ from one time zone to another in {C} and beyond.'],
+            ['Crescent Visibility and the Hijri Month Start', 'The new moon is an astronomical event, while crescent visibility happens after sunset and depends on location, sky conditions and sighting criteria. So the new moon does not always mean the Hijri month begins on the same day everywhere.'],
+            ['Why Can the Full Moon or New Moon Date Differ Between Cities?', 'An astronomical event has one global moment, but the local date depends on the time zone. The full moon may fall on one day in one city and on the previous or next day in another when the event occurs near midnight.']
+        ],
+        faqTitle: 'Frequently Asked Questions',
+        faq: [
+            ['What is today’s moon phase in {C}?', 'The moon summary at the top of the page shows today’s moon phase and illumination in the country’s reference time zone. For a result accurate to your city, choose it from the list to see the moon in its local time.'],
+            ['How can I find the moon phase in my city?', 'Choose your city from the grid or search for it within {C}; the city’s moon-today page opens with the moon phase, illumination and lunar age in the city’s local time.'],
+            ['Can the moon phase date differ between cities in {C}?', 'The phase itself is identical everywhere at a given instant, but the local date of an event (full moon or new moon) can differ between cities when it falls near midnight, because each city is computed in its own local time.'],
+            ['Why can the full moon date differ by city?', 'The full moon has one global moment, but its local date depends on the city’s time zone, so it can land on different days for cities far apart in time.'],
+            ['Is the new moon the same as the Hijri month start?', 'No. The new moon is an astronomical event, while the Hijri month start depends on crescent visibility after sunset, sighting criteria and location, and can differ between countries.'],
+            ['How is the lunar calendar calculated?', 'The lunar calendar is computed from astronomical formulas inside the site for each day, then the event time is converted to the city’s local time to show the correct daily phase.'],
+            ['Does the site use an external API for moon data?', 'No. All moon-phase calculations are done astronomically inside the site, without fetching moon data from any external service.'],
+            ['Where can I view the monthly moon calendar for my city?', 'Open your city page from the grid above, then go to the city’s monthly moon calendar to view the moon phases day by day in local time.']
+        ]
+    }
+};
+// Localize a MoonCalc phase object ({name(ar), english, key}) to the page language.
+function _moonLocalPhaseName(p, lang) {
+    if (!p) return '';
+    if (lang === 'ar') return p.name || p.english || '';
+    if (lang === 'en') return p.english || p.name || '';
+    try { const v = (typeof I18N !== 'undefined' && I18N[lang] && p.key) ? I18N[lang][p.key] : ''; if (v) return v; } catch (_) { }
+    return p.english || p.name || '';
+}
+// Compute today's phase + illumination + the next 4 major phase events for a country, against
+// its primary timezone, using the EXISTING MoonCalc (Meeus 49) engine. Read-only. Returns null
+// if MoonCalc is unavailable (the page then skips the summary/upcoming cards but keeps the rest).
+function _moonCountryComputed(cc, lang) {
+    try {
+        if (!MoonCalc) return null;
+        const tz = (cc && typeof _CC_TO_PRIMARY_TZ !== 'undefined' && _CC_TO_PRIMARY_TZ[cc]) || 'UTC';
+        const now = new Date();
+        const _dp = (typeof MoonCalc.getDayPhase === 'function') ? MoonCalc.getDayPhase(now, tz) : null;
+        const phase = (_dp && _dp.phase) || (typeof MoonCalc.getPhaseName === 'function' ? MoonCalc.getPhaseName(now) : null);
+        const illum = (typeof MoonCalc.getMoonIllumination === 'function') ? Math.round(MoonCalc.getMoonIllumination(now)) : null;
+        const loc = { ar: 'ar', en: 'en-GB', fr: 'fr', tr: 'tr', ur: 'ur', de: 'de', id: 'id', es: 'es', bn: 'bn', ms: 'ms' }[lang] || 'en-GB';
+        const fmt = (d) => {
+            if (!d) return '—';
+            try { return new Intl.DateTimeFormat(loc, { timeZone: tz, year: 'numeric', month: 'long', day: 'numeric' }).format(d); }
+            catch (_) { try { return new Intl.DateTimeFormat('en-GB', { timeZone: 'UTC', year: 'numeric', month: 'long', day: 'numeric' }).format(d); } catch (__) { return '—'; } }
+        };
+        return {
+            tz,
+            phaseName: _moonLocalPhaseName(phase, lang),
+            phaseIcon: (phase && phase.icon) || '🌙',
+            illum,
+            nextNew: fmt(typeof MoonCalc.getNextNewMoon === 'function' ? MoonCalc.getNextNewMoon(now) : null),
+            nextFQ: fmt(typeof MoonCalc.getNextFirstQuarter === 'function' ? MoonCalc.getNextFirstQuarter(now) : null),
+            nextFull: fmt(typeof MoonCalc.getNextFullMoon === 'function' ? MoonCalc.getNextFullMoon(now) : null),
+            nextLQ: fmt(typeof MoonCalc.getNextLastQuarter === 'function' ? MoonCalc.getNextLastQuarter(now) : null),
+        };
+    } catch (_) { return null; }
+}
+// Builds the moon-country page content. Returns:
+//   h1, hero                  — hero text (no search, no prayer CTA)
+//   summaryHtml               — the computed "moon summary" card (inject before the city search)
+//   citiesHeadingHtml         — the "Moon Today in Cities of {C}" heading (inject before the grid)
+//   belowHtml                 — upcoming phases + monthly-by-city + educational + FAQ (#country-seo-content)
+//   faqJsonLd                 — FAQPage JSON-LD whose Q/A text is byte-identical to the visible FAQ
+function _buildMoonCountrySeoContent(cn, lang, cc) {
+    const L = _MOON_COUNTRY_SEO_L10N[lang] ? lang : 'en';
+    const data = _MOON_COUNTRY_SEO_L10N[L];
+    const sub = s => String(s).split('{C}').join(cn);
+    const comp = _moonCountryComputed(cc, lang);
+
+    // (1) computed moon summary card — only when MoonCalc produced values
+    let summaryHtml = '';
+    if (comp) {
+        const cells = [
+            [comp.phaseIcon, data.lblTodayPhase, comp.phaseName || '—'],
+            ['💡', data.lblIllum, (comp.illum != null ? comp.illum + '%' : '—')],
+            ['🌕', data.lblNextFull, comp.nextFull],
+            ['🌑', data.lblNextNew, comp.nextNew],
+        ];
+        summaryHtml = `<section class="mc-summary"><h2>${_escHtml(sub(data.summaryTitle))}</h2><div class="mc-summary-grid">`
+            + cells.map(([ic, lbl, val]) => `<div class="mc-card"><div class="mc-card-ico" aria-hidden="true">${ic}</div><div class="mc-card-lbl">${_escHtml(sub(lbl))}</div><div class="mc-card-val">${_escHtml(val)}</div></div>`).join('')
+            + `</div><p class="mc-note">${_escHtml(sub(data.summaryNote))}</p></section>`;
+    }
+
+    // (2) cities-grid heading (moon)
+    const citiesHeadingHtml = `<h2 class="mc-cities-heading">${_escHtml(sub(data.citiesHeading))}</h2>`;
+
+    // below-grid content wrapper
+    const pfx = (lang === 'ar') ? '' : '/' + lang;
+    let below = '<div class="country-seo-wrap">';
+
+    // (3) upcoming major phases (computed)
+    if (comp) {
+        const ups = [
+            ['🌑', data.lblUpNew, comp.nextNew],
+            ['🌓', data.lblUpFQ, comp.nextFQ],
+            ['🌕', data.lblUpFull, comp.nextFull],
+            ['🌗', data.lblUpLQ, comp.nextLQ],
+        ];
+        below += `<section class="country-seo-block mc-upcoming"><h2>${_escHtml(sub(data.upcomingTitle))}</h2><div class="mc-upcoming-grid">`
+            + ups.map(([ic, lbl, val]) => `<div class="mc-up"><span class="mc-up-ico" aria-hidden="true">${ic}</span><span class="mc-up-lbl">${_escHtml(sub(lbl))}</span><span class="mc-up-date">${_escHtml(val)}</span></div>`).join('')
+            + `</div><p class="mc-note">${_escHtml(sub(data.upcomingNote))}</p></section>`;
+    }
+
+    // (4) monthly moon calendar by city — links to the EXISTING /moon-in-{city} month-hub route
+    let cityLinks = '';
+    try {
+        const top = _curatedCitiesForCc(cc).slice(0, 8);
+        cityLinks = top.map(c => {
+            const nm = (lang === 'ar') ? c.nameAr : ((c.names && c.names[lang]) || c.nameEn);
+            return `<a class="mc-city-link" href="${pfx}/moon-in-${c.slug}">${_escHtml(nm)}</a>`;
+        }).join('');
+    } catch (_) { cityLinks = ''; }
+    if (cityLinks) {
+        below += `<section class="country-seo-block mc-monthly"><h2>${_escHtml(sub(data.monthlyTitle))}</h2><p>${_escHtml(sub(data.monthlyText))}</p><div class="mc-city-links">${cityLinks}</div></section>`;
+    }
+
+    // (5) educational sections
+    for (const [h, p] of data.sec) {
+        below += `<section class="country-seo-block"><h2>${_escHtml(sub(h))}</h2><p>${_escHtml(sub(p))}</p></section>`;
+    }
+
+    // (6) FAQ (SSR-visible) + matching FAQPage JSON-LD
+    below += `<section class="country-seo-block country-seo-faq"><h2>${_escHtml(sub(data.faqTitle))}</h2><div class="country-faq-list">`;
+    for (const [q, a] of data.faq) {
+        below += `<details class="country-faq-item"><summary><h3>${_escHtml(sub(q))}</h3></summary><p>${_escHtml(sub(a))}</p></details>`;
+    }
+    below += '</div></section></div>';
+
+    const faqJsonLd = JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: data.faq.map(([q, a]) => ({
+            '@type': 'Question', name: sub(q),
+            acceptedAnswer: { '@type': 'Answer', text: sub(a) }
+        }))
+    });
+    return { h1: sub(data.h1), hero: sub(data.hero), summaryHtml, citiesHeadingHtml, belowHtml: below, faqJsonLd };
 }
 
 // يأخذ slug دولة (مثل 'saudi-arabia') ويعيد {cc, nameAr, nameEn}
@@ -12104,6 +12307,60 @@ function buildSeoForPath(urlPath) {
         }
     }
 
+    // ── MOON-COUNTRY-PAGES-SSR-ADD-1 (2026-06-17): /moon/{country} listing ──
+    // Moon variant of the country city grid (served via prayer-times-cities.html). Only a
+    // KNOWN country slug WITH curated cities becomes an indexable 200 page; otherwise this
+    // stays null and the route dispatch returns 404 (no thin/empty country page).
+    let moonCountryListing = null;
+    {
+        const _mcm = corePath.match(/^\/moon\/([a-z][a-z0-9-]+)$/);
+        if (_mcm) {
+            const _mc = _countryFromSlug(_mcm[1]);
+            if (_mc && _mc.cc && _mc.cc !== '__' && _curatedCitiesForCc(_mc.cc).length > 0) {
+                const cname = _countryNameForLang(_mc.cc, lang);
+                // Length-aware Title (AR+EN authored; other langs fall back to EN). base + suffix
+                // when it fits ≤ 62 cp (keeps long country names from overflowing), else base alone.
+                const _MT_BASE = {
+                    ar: `مراحل القمر في ${cname}`, en: `Moon Phases in ${cname}`,
+                    fr: `Phases de la Lune en ${cname}`, tr: `${cname} Ay Evreleri`,
+                    ur: `${cname} میں چاند کے مراحل`, de: `Mondphasen in ${cname}`,
+                    id: `Fase Bulan di ${cname}`, es: `Fases de la Luna en ${cname}`,
+                    bn: `${cname}-এ চাঁদের দশা`, ms: `Fasa Bulan di ${cname}`,
+                };
+                const _MT_SUFFIX = {
+                    ar: ' — قمر اليوم والتقويم القمري', en: ' — Today’s Moon & Lunar Calendar',
+                    fr: ' — Lune & calendrier lunaire', tr: ' — Bugünkü Ay & Takvim',
+                    ur: ' — آج کا چاند اور قمری تقویم', de: ' — Mond & Mondkalender',
+                    id: ' — Bulan Hari Ini & Kalender', es: ' — Luna y calendario lunar',
+                    bn: ' — আজকের চাঁদ ও বর্ষপঞ্জি', ms: ' — Bulan & Kalendar Bulan',
+                };
+                {
+                    const _tb = _MT_BASE[lang] || _MT_BASE.en;
+                    const _ts = _MT_SUFFIX[lang] || _MT_SUFFIX.en;
+                    title = ((_tb + _ts).length <= 62) ? (_tb + _ts) : _tb;
+                }
+                const _MD = {
+                    ar: `تعرّف على مرحلة القمر اليوم وتقويم القمر في مدن ${cname}، مع مواعيد البدر والمحاق ونسبة الإضاءة حسب المدينة.`,
+                    en: `View today’s moon phase and lunar calendar for cities in ${cname}. Find full moon, new moon, moon illumination, and monthly moon calendar by city.`,
+                    fr: `Découvrez la phase de la Lune aujourd’hui et le calendrier lunaire dans les villes de ${cname} : pleine lune, nouvelle lune et illumination par ville.`,
+                    tr: `${cname} şehirlerinde bugünkü ay evresini ve ay takvimini görün: dolunay, yeni ay ve aydınlanma — şehir bazında.`,
+                    ur: `${cname} کے شہروں میں آج چاند کا مرحلہ اور قمری تقویم دیکھیں: بدر، محاق اور روشنی — شہر کے حساب سے۔`,
+                    de: `Sehen Sie die heutige Mondphase und den Mondkalender für Städte in ${cname}: Vollmond, Neumond und Beleuchtung je Stadt.`,
+                    id: `Lihat fase bulan hari ini dan kalender bulan untuk kota-kota di ${cname}: purnama, bulan baru, dan iluminasi per kota.`,
+                    es: `Vea la fase lunar de hoy y el calendario lunar para ciudades de ${cname}: luna llena, luna nueva e iluminación por ciudad.`,
+                    bn: `${cname}-এর শহরগুলোর জন্য আজকের চাঁদের দশা ও চান্দ্র বর্ষপঞ্জি দেখুন: পূর্ণিমা, অমাবস্যা ও আলোকন — শহরভিত্তিক।`,
+                    ms: `Lihat fasa bulan hari ini dan kalendar bulan untuk bandar di ${cname}: purnama, bulan baharu dan pencahayaan ikut bandar.`,
+                };
+                description = _MD[lang] || _MD.en;
+                // Breadcrumb: Home > Moon Phase > {Country} (label shared with the DOM breadcrumb).
+                const _moonCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
+                breadcrumbs.push({ name: _moonCrumb, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon' });
+                breadcrumbs.push({ name: cname, item: canonical });
+                moonCountryListing = { code: _mc.cc, name: cname, slug: _mcm[1] };
+            }
+        }
+    }
+
     // ── DISCOVERED-CITIES-NOINDEX-CONSISTENCY-ACROSS-CITY-PAGES-1 (2026-06-15) ──
     // Unified gate: any CITY SEO route (qibla / moon today|hub|dated|month / time-left /
     // next-prayer) whose slug is NOT in the final curated set must be noindex — the SAME
@@ -12131,7 +12388,7 @@ function buildSeoForPath(urlPath) {
         title, description, canonical, arUrl, enUrl, frUrl, trUrl, urUrl, deUrl, idUrl, esUrl, bnUrl, msUrl,
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
-        webApp, qiblaRef, countryListing, cityModified, origin,
+        webApp, qiblaRef, countryListing, moonCountryListing, cityModified, origin,
         moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride,
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
         canonicalOverride: _canonicalOverride,
@@ -12488,6 +12745,17 @@ function renderSeoHeadHtml(seo) {
             "@type": "Place",
             "@id": `${seo.canonical}#country`,
             "name": seo.countryListing.name,
+            "description": seo.description,
+            "url": seo.canonical,
+            "additionalType": "https://schema.org/Country"
+        });
+    }
+    // MOON-COUNTRY-PAGES-SSR-ADD-1: Place schema for /moon/{country} listing pages.
+    if (seo.moonCountryListing) {
+        ssrGraph.push({
+            "@type": "Place",
+            "@id": `${seo.canonical}#country`,
+            "name": seo.moonCountryListing.name,
             "description": seo.description,
             "url": seo.canonical,
             "additionalType": "https://schema.org/Country"
@@ -18982,6 +19250,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 bn: `${cn}-এর শহরগুলোতে নামাজের সময়`,
                 ms: `Waktu Solat di Bandar-Bandar ${cn}`,
             }[Lh] || `Prayer Times in Cities of ${cn}`;
+        } else if (seo.moonCountryListing) {
+            // MOON-COUNTRY-PAGES-SSR-ADD-1: moon country page H1 (mirrors the dedicated block below).
+            _h1Text = _buildMoonCountrySeoContent(seo.moonCountryListing.name, Lh, seo.moonCountryListing.code).h1;
         } else if (cityMatchSsr) {
             // 🔧 Phase 2 (هـ) — استخدام الاسم المحلّي بدل slug title case
             const _slug = cityMatchSsr[1];
@@ -19065,7 +19336,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   complained about. Mirror the JS strings here so SSR + client agree
     //   on the first paint. Homepage tagline already matches the i18n base
     //   string (no swap), so we only inject when there's a city slug.
-    if (cityMatchSsr && !seo.countryListing) {
+    if (cityMatchSsr && !seo.countryListing && !seo.moonCountryListing) {
         // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: skip the city-tagline rewrite on country listing
         // pages. Their slug (e.g. "morocco") is NOT a city, so _resolveCityName returns null and
         // _slugToTitle leaked the raw English slug ("Morocco") into the Arabic hero. The country
@@ -19095,6 +19366,91 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             /(<(?:h1|h2|h3)\b[^>]*\bid="loc-hero-title"[^>]*>)[^<]*(<\/(?:h1|h2|h3)>)/,
             `$1${_escHtml(_taglineText)}$2`
         );
+    }
+
+    // ── MOON-COUNTRY-PAGES-SSR-ADD-1 (2026-06-17): /moon/{country} listing ──
+    //   Moon variant of the SAME prayer-times-cities.html grid. Mutually exclusive with the
+    //   prayer countryListing block below (only one of the two flags is ever set). Injects:
+    //   cities-data (same source), a variant flag the inline JS reads to render moon city links +
+    //   moon-scoped search, the moon H1/subtitle, moon SEO content + FAQPage, a Home > Moon >
+    //   {Country} breadcrumb, and the banner/seo-line copy. NO prayer text leaks onto the page.
+    if (seo.moonCountryListing) {
+        const cn = seo.moonCountryListing.name;
+        const L = seo.lang;
+        const _mc = _buildMoonCountrySeoContent(cn, L, seo.moonCountryListing.code);   // { h1, hero, summaryHtml, citiesHeadingHtml, belowHtml, faqJsonLd }
+        const _ccTagM = _countryCitiesScriptTag(seo.moonCountryListing.code);
+        if (_ccTagM && html.indexOf('id="country-cities-data"') === -1) {
+            html = html.replace('</head>', _ccTagM + '\n</head>');
+        }
+        // Variant flag → prayer-times-cities.html inline JS renders /moon-today-in-{city} links
+        // + a moon-scoped country search instead of the prayer-times defaults. Absent on the
+        // prayer country page → that page stays byte-identical.
+        if (html.indexOf('id="moon-country-variant"') === -1) {
+            html = html.replace('</head>', `<script id="moon-country-variant">window.__COUNTRY_PAGE_VARIANT='moon';window.__MOON_COUNTRY_SLUG=${JSON.stringify(seo.moonCountryListing.slug)};</script>\n</head>`);
+        }
+        // Layout marker (moon variant only): drives the compact hero (drops the full-hero CLS
+        // min-height reservation, which left empty space after the search/CTA were removed) + a
+        // contained content width with side gutters — see .moon-country-layout CSS in the template.
+        // The prayer country page keeps the bare "main-content" (full-bleed) → layout unchanged.
+        html = html.replace('<main class="main-content">', '<main class="main-content moon-country-layout">');
+        // H1 (#loc-hero-title) + subtitle + navbar #page-title span → localized moon-country text.
+        //   Drop the data-i18n attr on the hero H1/subtitle so the late _translateI18nAttrs pass does
+        //   NOT revert them to the prayer-times template defaults on non-AR pages.
+        html = html.replace(/<h1\b[^>]*\bid="loc-hero-title"[^>]*>[\s\S]*?<\/h1>/, `<h1 id="loc-hero-title" class="loc-hero-title">${_escHtml(_mc.h1)}</h1>`);
+        html = html.replace(/<p\b[^>]*\bid="loc-hero-subtitle"[^>]*>[\s\S]*?<\/p>/, `<p id="loc-hero-subtitle" class="loc-hero-subtitle">${_escHtml(_mc.hero)}</p>`);
+        html = html.replace(/(<span\b[^>]*\bid="page-title"[^>]*>)[\s\S]*?(<\/span>)/, `$1${_escHtml(_mc.h1)}$2`);
+        // Moon content layout (moon variant only):
+        //   (a) computed moon-summary card  → before the in-country city search (.cities-search-card)
+        //   (b) "Moon Today in Cities of {C}" heading → before the city grid (.cities-main-card)
+        //   (c) upcoming phases + monthly-by-city + educational + FAQ → into #country-seo-content
+        //   (d) matching FAQPage JSON-LD (text byte-identical to the visible FAQ)
+        try {
+            if (_mc) {
+                // (a) computed summary card before the unified cities box.
+                if (_mc.summaryHtml) {
+                    html = html.replace('<div class="cities-search-card">', `${_mc.summaryHtml}\n        <div class="cities-search-card">`);
+                }
+                // (b) ONE unified box (.mc-cities-box) wrapping the heading + in-country search
+                //     (.cities-search-card) + the city grid (.cities-main-card): OPEN with the heading
+                //     before the search card, CLOSE right before #country-seo-content (after the grid).
+                //     CSS strips the inner cards' own chrome so the three read as a single section.
+                html = html.replace('<div class="cities-search-card">', `<section class="mc-cities-box">${_mc.citiesHeadingHtml}\n        <div class="cities-search-card">`);
+                html = html.replace('<div id="country-seo-content">', `</section>\n        <div id="country-seo-content">`);
+                // (c) below-grid content into #country-seo-content.
+                if (html.indexOf('id="country-seo-content"') !== -1) {
+                    html = html.replace(/(<div id="country-seo-content">)[\s\S]*?(<\/div>)/, `$1${_mc.belowHtml}$2`);
+                }
+                if (html.indexOf('"@type":"FAQPage"') === -1) {
+                    html = html.replace('</head>', `<script type="application/ld+json">${_mc.faqJsonLd}</script>\n</head>`);
+                }
+            }
+        } catch (_e) { try { console.warn('[moon-country-seo] inject failed:', _e && _e.message); } catch(_){} }
+        // Breadcrumb: Home > Moon Phase > {Country} (insert the Moon-Phase level + fill the country
+        // crumb). Label shared with the BreadcrumbList JSON-LD (_MOON_PHASE_CRUMB_L10N) → DOM ≡ JSON-LD.
+        const _moonBcLabel = _MOON_PHASE_CRUMB_L10N[L] || _MOON_PHASE_CRUMB_L10N.en;
+        html = html.replace(
+            '<li class="bc-item bc-current" id="cbc-country" aria-current="page">--</li>',
+            `<li class="bc-item"><a class="bc-link" href="/moon">${_escHtml(_moonBcLabel)}</a></li><li class="bc-sep" aria-hidden="true">›</li><li class="bc-item bc-current" id="cbc-country" aria-current="page">${_escHtml(cn)}</li>`
+        );
+        html = html.replace('<span itemprop="name" id="bc-city" aria-current="page">--</span>', `<span itemprop="name" id="bc-city" aria-current="page">${_escHtml(cn)}</span>`);
+        html = html.replace('<span itemprop="name" id="bc-country-name">--</span>', `<span itemprop="name" id="bc-country-name">${_escHtml(cn)}</span>`);
+        html = html.replace('<span id="banner-city-name">--</span>', `<span id="banner-city-name">${_escHtml(cn)}</span>`);
+        const _ml1 = { ar:`مراحل القمر في مدن ${cn} — اختر مدينتك.`, en:`Moon phases across cities of ${cn} — choose your city.` }[L] || `Moon phases across cities of ${cn}.`;
+        const _ml2 = { ar:`اعرض مرحلة القمر اليوم وتقويم القمر لكل مدينة في ${cn} حسب التوقيت المحلي.`, en:`View today's moon phase and the lunar calendar for each city in ${cn} in local time.` }[L] || `View today's moon phase for cities in ${cn}.`;
+        html = html.replace('<p class="seo-line" id="seo-line-1"></p>', `<p class="seo-line" id="seo-line-1">${_escHtml(_ml1)}</p>`);
+        html = html.replace('<p class="seo-line" id="seo-line-2"></p>', `<p class="seo-line" id="seo-line-2">${_escHtml(_ml2)}</p>`);
+        // ── Hero cleanup (moon variant only): remove the ENTIRE hero actions block ──
+        // i.e. the "search any city" box, the geolocation CTA ("عرض مواقيت الصلاة في موقعي الآن" →
+        // a prayer/general-homepage affordance that must NOT appear in moon-page content), the
+        // "pick your city" button, the geo microcopy and the GPS badges. The functional search is
+        // the in-country city filter above the grid (#country-city-filter), which STAYS. Removed
+        // from SSR and never re-created client-side (static markup; the hero search instance is
+        // built lazily only inside onSearch(), which can't fire once the input is gone; the
+        // pick/geo/smart-pill wiring is null-guarded). Scope: moon country pages only — the prayer
+        // country page (seo.countryListing, below) and the /moon SPA hub do NOT reach this block,
+        // so both keep their hero actions unchanged. The regex deletes the .loc-hero-hero-actions
+        // div (incl. its nested divs) up to — but not including — the next .results-count div.
+        html = html.replace(/<div[^>]*\bloc-hero-hero-actions\b[\s\S]*?(<div[^>]*\bresults-count\b)/, '$1');
     }
 
     if (seo.countryListing) {
@@ -26084,6 +26440,17 @@ const server = http.createServer(async (req, res) => {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.8', 'weekly', today));
             }
 
+            // 2b) MOON-COUNTRY-PAGES-SSR-ADD-1: moon country pages /moon/{slug} — ONLY countries
+            //     with curated cities (same gate as the route → never emit a URL that 404s).
+            //     Nested /moon/{country}/{city}[/…] is NOT emitted (not activated yet).
+            for (const cc of countryCodes) {
+                if (COUNTRY_SLUG_OVERRIDES[cc]) continue;
+                const slug = makeCountrySlugSrv(cc);
+                if (!slug) continue;
+                if (_curatedCitiesForCc(cc).length === 0) continue;
+                entries.push(...bilingualUrl('/moon/' + slug, '0.7', 'weekly', today));
+            }
+
             // 3) التقويم الهجري — 3 سنوات (سنوي + شهري) 🆕 Round 11: numeric zero-padded URLs
             // HIJRI-UMM-AL-QURA-STAGE-B2-SEO-ROUTING-POLISH (2026-05-23):
             //   - Switched from the formula `(gYear-622)*33/32` to the
@@ -26550,6 +26917,27 @@ const server = http.createServer(async (req, res) => {
     // ===== نمط موحَّد: /prayer-times-in-{slug} يُستخدم لدولة أو مدينة =====
     // AR: /prayer-times-in-saudi-arabia | EN: /en/prayer-times-in-saudi-arabia
     // AR: /prayer-times-in-cairo        | EN: /en/prayer-times-in-cairo
+    // MOON-COUNTRY-PAGES-SSR-ADD-1 (2026-06-17): /moon/{country} listing (moon variant of the
+    //   country city grid). Served via prayer-times-cities.html (same grid) ONLY when the slug is
+    //   a KNOWN country WITH curated cities; otherwise it falls through → catch-all 404 (no thin or
+    //   empty country page). The regex requires exactly ONE path segment after /moon/, so nested
+    //   /moon/{country}/{city}[/…] never matches here → those stay 404 until a later ticket.
+    {
+        const _moonCountryMatch = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)$/);
+        if (_moonCountryMatch) {
+            const _mcCheck = _countryFromSlug(_moonCountryMatch[1]);
+            const _mcOk = _mcCheck && _mcCheck.cc && _mcCheck.cc !== '__' && _curatedCitiesForCc(_mcCheck.cc).length > 0;
+            if (_mcOk) {
+                readCachedFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
+                    if (err) { res.writeHead(404); res.end('Not Found'); return; }
+                    serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
+                });
+                return;
+            }
+            // matched the /moon/{slug} shape but not a country with cities → fall through to 404.
+        }
+    }
+
     // الفحص: إذا كان الـ slug يطابق دولة معروفة → cities listing (country page)
     // وإلا → صفحة المدينة (index.html مع SSR للمدينة).
     {

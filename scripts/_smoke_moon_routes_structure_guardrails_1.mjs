@@ -11,8 +11,8 @@
 //          (FAQ + search hero + body size) — i.e. NOT footer-only at SSR level.
 // PART C — /moon-today: 301 → /moon (langs + trailing slash), not a 200, absent from sitemap.
 // PART D — city routes (today / hub / month / day): 200 + page-moon + 1 H1 + self canonical.
-// PART E — future /moon/{country}[/…]: clean 404 (NOT 200 / footer-only / shell) — not active yet.
-// PART F — sitemap: has /moon, NOT bare /moon-today, NOT future /moon/{country}, no day flood.
+// PART E — /moon/{country}: LIVE 200 country moon page; nested /moon/{country}/{city}[/…] stays clean 404.
+// PART F — sitemap: has /moon + /moon/{country}, NOT bare /moon-today, NOT nested /moon/{country}/{city}, no day flood.
 // PART G — canonical: /moon self, city self, /moon-today no 200 body → no duplicate canonical.
 // PART H — non-moon pages are NOT page-moon (server SSR).
 // PART I — Meeus 49 + city tz: Riyadh Jun 2026 (15 المحاق · 16 هلال متزايد · 29 أحدب متزايد · 30 البدر),
@@ -111,19 +111,30 @@ try {
         check(`${u}: 200 + page-moon + 1 H1 + self canonical`, r.status === 200 && pageMoonActive(r.body) && h1Count(r.body) === 1 && selfCanon, `status=${r.status} pm=${pageMoonActive(r.body)} h1=${h1Count(r.body)} canon=${canonOf(r.body)}`);
     }
 
-    // ── E) future /moon/{country}… NOT activated → clean 404 ──
-    console.log('\n── E) future /moon/{country}… = clean 404 (no empty 200 / footer-only / shell) ──');
-    for (const u of ['/moon/saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17']) {
+    // ── E) /moon/{country} = LIVE 200 country page (MOON-COUNTRY-PAGES-SSR-ADD-1);
+    //        nested /moon/{country}/{city}[/…] stays clean 404 (NOT activated yet) ──
+    console.log('\n── E) /moon/{country} = 200 country page · nested /moon/{country}/{city}[/…] = clean 404 ──');
+    {
+        const c = await req('/moon/saudi-arabia');
+        check('/moon/saudi-arabia -> 200 (country moon page)', c.status === 200, String(c.status));
+        check('/moon/saudi-arabia: one H1 + moon hero ("مراحل القمر")', h1Count(c.body) === 1 && /<h1[^>]*id="loc-hero-title"[^>]*>[^<]*مراحل القمر/.test(c.body), `h1=${h1Count(c.body)}`);
+        check('/moon/saudi-arabia: NOT footer-only (substantial body)', c.body.length > 60000, c.body.length + ' bytes');
+        check('/moon/saudi-arabia: canonical self', canonOf(c.body) === SITE + '/moon/saudi-arabia', canonOf(c.body));
+        check('/moon/saudi-arabia: indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(c.body));
+    }
+    for (const u of ['/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17']) {
         const r = await req(u);
         check(`${u}: 404, not page-moon, small error page (not the 200KB shell)`, r.status === 404 && !pageMoonActive(r.body) && r.body.length < 50000, `status=${r.status} pm=${pageMoonActive(r.body)} len=${r.body.length}`);
     }
+    check('/moon/zzz-not-a-country -> 404 (unknown country, no thin page)', (await req('/moon/zzz-not-a-country')).status === 404);
 
     // ── F) sitemap rules ──
-    console.log('\n── F) sitemap: /moon in, /moon-today out, no future routes, no day flood ──');
+    console.log('\n── F) sitemap: /moon + /moon/{country} in, /moon-today out, no nested city routes, no day flood ──');
     const sm = (await req('/sitemap-main.xml')).body;
     check('sitemap has SITE/moon (+ /en/moon)', sm.includes(`<loc>${SITE}/moon</loc>`) && sm.includes(`<loc>${SITE}/en/moon</loc>`));
     check('sitemap: bare /moon-today hub ABSENT', !/\/moon-today<\/loc>/.test(sm));
-    check('sitemap: future /moon/{country} ABSENT', !/\/moon\/[a-z-]+<\/loc>/.test(sm) && !sm.includes('/moon/saudi-arabia'));
+    check('sitemap: /moon/{country} PRESENT (e.g. /moon/saudi-arabia + /en)', sm.includes(`<loc>${SITE}/moon/saudi-arabia</loc>`) && sm.includes(`<loc>${SITE}/en/moon/saudi-arabia</loc>`));
+    check('sitemap: nested /moon/{country}/{city} ABSENT', !/\/moon\/[a-z-]+\/[a-z-]+<\/loc>/.test(sm));
     check('sitemap: no day-page flood (no /moon…/{YYYY-MM-DD} locs)', !/\/moon[^<]*\d{4}-\d{2}-\d{2}<\/loc>/.test(sm), `${(sm.match(/\/moon[^<]*\d{4}-\d{2}-\d{2}<\/loc>/g) || []).length} day locs`);
 
     // ── G) canonical contract ──

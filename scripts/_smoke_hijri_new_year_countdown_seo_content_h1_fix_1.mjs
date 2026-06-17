@@ -29,7 +29,17 @@ const PORT = 8211;
 function get(p) {
     return new Promise((resolve) => {
         const r = http.request({ host: 'localhost', port: PORT, path: p, method: 'GET', headers: { 'Accept-Encoding': 'identity' } }, res => {
-            let b = ''; res.on('data', c => b += c); res.on('end', () => resolve({ status: res.statusCode, body: b }));
+            // Collect raw Buffer chunks and decode the COMPLETE byte stream once.
+            // Do NOT `b += c` per chunk: a multibyte UTF-8 char (e.g. Turkish ı,
+            // Bengali digits, Spanish í, Arabic letters) can straddle a stream-chunk
+            // boundary, and per-chunk Buffer→string decoding turns the split bytes
+            // into U+FFFD (�). Because the split position is timing-dependent, that
+            // made the "JSON-LD text matches visible" check flaky (the FAQ answer's
+            // two copies decoded differently). Buffer.concat reassembles all bytes
+            // before a single UTF-8 decode, so the read is exact and deterministic.
+            const chunks = [];
+            res.on('data', c => chunks.push(c));
+            res.on('end', () => resolve({ status: res.statusCode, body: Buffer.concat(chunks).toString('utf8') }));
         });
         r.on('error', () => resolve({ status: 0, body: '' }));
         r.end();

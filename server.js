@@ -7320,16 +7320,32 @@ function _stripElement(html, lookup) {
     if (m[0].endsWith('/>')) {
         return html.slice(0, startIdx) + html.slice(afterOpen);
     }
-    // عدّ متوازن
+    // عدّ متوازن — مع تخطّي تعليقات HTML (<!-- … -->) بالكامل.
+    // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1-FIX-1: تعليقٌ توثيقيّ قد يحوي وسمًا
+    // حرفيًّا مثل "</div>" (انظر index.html قرب moon-events). بدون هذا التخطّي
+    // يحسب العدّاد ذلك الوسم الوهميّ فيصل العمق إلى الصفر مبكرًا، فتُقطع الإزالة
+    // في منتصف العنصر وتتسرّب بقيّته + شظايا تعليق (افتتاحُه حُذف وإغلاقُه نجا)
+    // كنصٍّ مرئيّ. تخطّي التعليق كوحدةٍ واحدة يمنع ذلك ويُصلّب كلّ مسارات الـstrip.
     const openTagRe  = new RegExp('<' + tag + '\\b',  'ig');
     const closeTagRe = new RegExp('</' + tag + '\\s*>', 'ig');
+    const commentRe  = /<!--/g;
     let depth = 1, i = afterOpen;
     while (depth > 0 && i < html.length) {
         openTagRe.lastIndex  = i;
         closeTagRe.lastIndex = i;
-        const nextOpen  = openTagRe.exec(html);
-        const nextClose = closeTagRe.exec(html);
+        commentRe.lastIndex  = i;
+        const nextOpen    = openTagRe.exec(html);
+        const nextClose   = closeTagRe.exec(html);
+        const nextComment = commentRe.exec(html);
         if (!nextClose) return html; // HTML سيّء؛ لا نحذف شيئاً
+        // تعليق يبدأ قبل أقرب وسم فتح/إغلاق ⇒ تخطَّ التعليق كاملاً (وسومه وهميّة)
+        if (nextComment && nextComment.index < nextClose.index &&
+            (!nextOpen || nextComment.index < nextOpen.index)) {
+            const cEnd = html.indexOf('-->', nextComment.index + 4);
+            if (cEnd === -1) return html; // تعليق غير مغلق؛ لا نخاطر بالحذف
+            i = cEnd + 3;
+            continue;
+        }
         if (nextOpen && nextOpen.index < nextClose.index) {
             depth++;
             i = nextOpen.index + nextOpen[0].length;
@@ -7681,6 +7697,10 @@ const _MOON_CITY_STRIP_IDS = [
     'page-hijri-year',
     'page-hijri-month',
     'page-date-converter',
+    // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the year page's own section is inactive on
+    // the flat moon hub/today/month/date pages — strip its empty shell so it adds no
+    // leaked heading/breadcrumb placeholders to these SEO-tuned pages.
+    'page-moon-year',
 ];
 function _stripHtmlForMoonCity(html) {
     for (const id of _MOON_CITY_STRIP_IDS) {
@@ -7780,6 +7800,26 @@ function _stripHtmlForHijriMonthHub(html) {
 function _stripHtmlForHijriYearOnly(html) {
     let out = _stripHtmlForHijriYearHub(html);
     out = _stripElement(out, { type: 'id', value: 'page-hijri-month' });
+    return out;
+}
+
+// ── MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: strip for the city YEAR page ──
+// The year page lives in its OWN section #page-moon-year. Remove every other SPA
+// wrapper (including the live #page-moon hub) so the served HTML carries ONLY the
+// year content — single H1, no leaked headings/keywords from unrelated tools.
+const _MOON_YEAR_STRIP_IDS = [
+    'page-prayer-times', 'tl-hero', 'tl-sticky', 'npt-hero', 'npt-sticky', 'sticky-next-bar',
+    'page-moon',                 // the live city moon hub — not relevant on the year overview
+    'page-qibla', 'page-zakat',
+    'page-azkar-hub', 'page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer',
+    'page-tasbih',
+    'page-hijri-today', 'page-hijri-day', 'page-hijri-year', 'page-hijri-month', 'page-hijri-calendar',
+    'page-date-converter', 'page-all-cities',
+    'page-eid-al-adha-countdown', 'page-eid-al-fitr-countdown', 'page-hijri-new-year-countdown', 'page-ramadan-countdown',
+];
+function _stripHtmlForMoonYear(html) {
+    let out = html;
+    for (const id of _MOON_YEAR_STRIP_IDS) out = _stripElement(out, { type: 'id', value: id });
     return out;
 }
 
@@ -7889,6 +7929,16 @@ function _getActiveH1Marker(urlPath) {
         if (_mchm) {
             const _mchc = _countryFromSlug(_mchm[1]);
             if (_mchc && _mchc.cc && _mchc.cc !== '__') return { kind: 'id', value: 'moon-page-h1' };
+        }
+    }
+    // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the nested city YEAR page
+    //   /moon/{country}/{city}/{yyyy} is its OWN section #page-moon-year — its single
+    //   H1 is #moon-year-h1. Keep it, downgrade every other SPA H1 to <h2>.
+    {
+        const _myhm = path.match(/^\/moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})$/);
+        if (_myhm) {
+            const _myhc = _countryFromSlug(_myhm[1]);
+            if (_myhc && _myhc.cc && _myhc.cc !== '__') return { kind: 'id', value: 'moon-year-h1' };
         }
     }
     if (/^\/prayer-times-in-/.test(path)) {
@@ -8526,6 +8576,224 @@ function _classifyNestedMoonHub(urlPath) {
     if (_correct && _correct === _countrySlug) return { kind: 'valid' };
     if (_correct) return { kind: 'redirect', target: '/' + _lp + 'moon/' + _correct + '/' + _citySlug };
     return { kind: 'none' };
+}
+
+// ── MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1 (2026-06-18) ─────────────────────────
+// Classify a /[lang/]moon/{country}/{city}/{yyyy} request (the new city YEAR page).
+// Returns { kind, target?, lp?, countrySlug?, citySlug?, cc?, year? }:
+//   'valid'    → real country slug + city resolves to THAT country + a sane 4-digit
+//                year (1900-2100) → serve the year page (index.html + SSR).
+//   'redirect' → city resolves but to a DIFFERENT country → 301 to the correct
+//                /[lang/]moon/{correctCountry}/{city}/{yyyy} (no mismatched index).
+//   'none'     → not the {country}/{city}/{4-digit-year} shape, OR unknown country/
+//                city, OR out-of-range/non-4-digit year → caller leaves it → clean 404.
+// The regex requires EXACTLY a 4-digit final segment, so every other shape stays 404:
+//   …/today · …/{yyyy}/{mm} · …/{yyyy}/{mm}/{dd} · …/{yyyy-mm} · …/{yyyy-mm-dd}
+//   (the dash forms are NOT part of the new structure and must 404 — per spec).
+// Year window 1900-2100 = a safe practical range for a lunar calendar (Meeus 49 is
+// accurate well beyond, but we bound the indexable surface). Decision noted in report.
+function _classifyMoonYear(urlPath) {
+    const _core = String(urlPath || '').replace(/\.html$/, '');
+    const _m = _core.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})$/);
+    if (!_m) return { kind: 'none' };
+    const _lp = _m[1] || '';
+    const _countrySlug = _m[2];
+    const _citySlug = _m[3];
+    const _year = parseInt(_m[4], 10);
+    if (!(_year >= 1900 && _year <= 2100)) return { kind: 'none' };
+    const _country = _countryFromSlug(_countrySlug);
+    if (!_country || _country.cc === '__') return { kind: 'none' };
+    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    if (!_cityCc) return { kind: 'none' };
+    const _correct = makeCountrySlugSrv(_cityCc);
+    if (_correct && _correct === _countrySlug) {
+        return { kind: 'valid', lp: _lp, countrySlug: _countrySlug, citySlug: _citySlug, cc: _cityCc, year: _year };
+    }
+    if (_correct) return { kind: 'redirect', target: '/' + _lp + 'moon/' + _correct + '/' + _citySlug + '/' + _m[4] };
+    return { kind: 'none' };
+}
+
+// ── MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: SSR builder for the city YEAR page ──
+// Computes the WHOLE year's major moon phases (new / first-quarter / full / last-
+// quarter) in the CITY's local timezone via the existing Meeus 49 engine (MoonCalc,
+// already required at the top) — NO external API, NO js/moon.js change. Returns
+// localized HTML blocks: intro · year-summary card · SSR-visible major-phases table ·
+// 12 month cards (each linking to the LEGACY month route /moon-in-{city}/{yyyy-mm},
+// since the nested month route is not activated yet) · prev/next-year links · FAQ +
+// matching FAQPage JSON-LD. Phase + month names are localized in all 10 langs; the
+// prose/headings are AR+EN authored with EN fallback (same policy as the country page).
+const _MY_MONTHS = {
+    ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+    en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+    fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+    tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+    ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+    de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+    id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+    es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+    bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+    ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember'],
+};
+const _MY_PHASE = {
+    new_moon:      { icon:'🌑', ar:'المحاق', en:'New Moon', fr:'Nouvelle lune', tr:'Yeni Ay', ur:'محاق', de:'Neumond', id:'Bulan Baru', es:'Luna nueva', bn:'অমাবস্যা', ms:'Anak Bulan' },
+    first_quarter: { icon:'🌓', ar:'التربيع الأول', en:'First Quarter', fr:'Premier quartier', tr:'İlk Dördün', ur:'پہلی ربع', de:'Erstes Viertel', id:'Kuartal Pertama', es:'Cuarto creciente', bn:'প্রথম চতুর্থাংশ', ms:'Suku Pertama' },
+    full_moon:     { icon:'🌕', ar:'البدر', en:'Full Moon', fr:'Pleine lune', tr:'Dolunay', ur:'بدر', de:'Vollmond', id:'Purnama', es:'Luna llena', bn:'পূর্ণিমা', ms:'Purnama' },
+    last_quarter:  { icon:'🌗', ar:'التربيع الأخير', en:'Last Quarter', fr:'Dernier quartier', tr:'Son Dördün', ur:'آخری ربع', de:'Letztes Viertel', id:'Kuartal Akhir', es:'Cuarto menguante', bn:'শেষ চতুর্থাংশ', ms:'Suku Akhir' },
+};
+function _moonYearStrings(lang, city, year, country) {
+    const A = {
+        intro: `تعرض هذه الصفحة تقويم القمر في ${city} لعام ${year} حسب التوقيت المحلي للمدينة، مع مواعيد المحاق والبدر والتربيع الأول والتربيع الأخير خلال السنة.`,
+        summaryTitle: `ملخص قمر عام ${year} في ${city}`,
+        lblFull: 'عدد مرات البدر', lblNew: 'عدد مرات المحاق', lblNearestFull: 'أقرب بدر', lblNearestNew: 'أقرب محاق', lblTz: 'التوقيت المحلي', none: '—',
+        tableTitle: `مراحل القمر الكبرى في ${city} لعام ${year}`,
+        thDate: 'التاريخ المحلي', thTime: 'الوقت المحلي', thPhase: 'المرحلة', thMonth: 'الشهر',
+        monthsTitle: `أشهر تقويم القمر في ${city} لعام ${year}`,
+        viewMonth: 'عرض تقويم الشهر', noEvents: 'لا أحداث كبرى',
+        eventsLabel: (n) => `${n} ${n === 1 ? 'حدث كبير' : 'أحداث كبرى'}`,
+        prevYear: `قمر ${year - 1}`, nextYear: `قمر ${year + 1}`, navTitle: 'تصفّح سنوات أخرى',
+        // HERO chips + anchor quick-nav + section notes
+        chipCity: 'المدينة', chipYear: 'السنة', chipEventsLbl: 'الأحداث الكبرى', chipFullLbl: 'البدر', chipNewLbl: 'المحاق', chipTimes: 'مرة',
+        navSummary: 'ملخص السنة', navTable: 'جدول مراحل القمر', navMonths: 'أشهر السنة', heroNavTitle: 'تنقّل سريع',
+        summaryNote: `تُعرض التواريخ والأوقات حسب التوقيت المحلي لمدينة ${city}، وقد يختلف التاريخ المحلي بين المدن إذا وقع الحدث قريبًا من منتصف الليل.`,
+        tableIntro: `يعرض هذا الجدول جميع مراحل القمر الكبرى في ${city} خلال عام ${year}، مرتبة حسب التاريخ المحلي، وتشمل المحاق والتربيع الأول والبدر والتربيع الأخير.`,
+        faqTitle: 'الأسئلة الشائعة',
+        faq: [
+            [`ما موعد البدر في ${city} لعام ${year}؟`, `تُحسب مواعيد البدر والمحاق في ${city} لعام ${year} فلكيًّا داخل الموقع حسب التوقيت المحلي للمدينة، وتجدها كاملةً في جدول مراحل القمر الكبرى أعلى الصفحة.`],
+            [`ما موعد المحاق في ${city} لعام ${year}؟`, `مواعيد المحاق (القمر الجديد) في ${city} لعام ${year} مدرجة في جدول المراحل الكبرى بالوقت المحلي، وهي بداية كل دورة قمرية جديدة خلال السنة.`],
+            [`هل يعتمد تقويم القمر على توقيت ${city} المحلي؟`, `نعم، تُعرض كل التواريخ والأوقات في هذه الصفحة بالتوقيت المحلي لمدينة ${city}، فقد يقع الحدث نفسه في يوم مختلف بين مدينة وأخرى حسب المنطقة الزمنية.`],
+            ['لماذا قد يختلف موعد البدر بين مدينة وأخرى؟', 'لحظة البدر واحدة عالميًّا، لكن وقتها المحلي يختلف بين المدن حسب المنطقة الزمنية، فقد يظهر في تاريخ مختلف عند تجاوز منتصف الليل.'],
+            ['هل المحاق يعني بداية الشهر الهجري؟', 'المحاق هو الاقتران الفلكي، أما بداية الشهر الهجري فتعتمد على رؤية الهلال بعد غروب شمس يوم المحاق أو اليوم التالي، لذا قد يبدأ الشهر بعد المحاق بيوم أو يومين.'],
+            [`أين أجد تقويم القمر الشهري في ${city}؟`, `اختر أي شهر من بطاقات الأشهر الاثني عشر في هذه الصفحة لفتح تقويم القمر الشهري المفصّل في ${city} لذلك الشهر.`],
+        ],
+    };
+    const E = {
+        intro: `This page shows the moon calendar in ${city} for ${year} in the city's local time, with the dates of the new moon, full moon, first quarter and last quarter throughout the year.`,
+        summaryTitle: `${year} Moon Summary for ${city}`,
+        lblFull: 'Full moons', lblNew: 'New moons', lblNearestFull: 'Nearest full moon', lblNearestNew: 'Nearest new moon', lblTz: 'Local time zone', none: '—',
+        tableTitle: `Major Moon Phases in ${city} for ${year}`,
+        thDate: 'Local date', thTime: 'Local time', thPhase: 'Phase', thMonth: 'Month',
+        monthsTitle: `Moon Calendar Months in ${city} for ${year}`,
+        viewMonth: 'View monthly calendar', noEvents: 'No major events',
+        eventsLabel: (n) => `${n} major ${n === 1 ? 'event' : 'events'}`,
+        prevYear: `Moon ${year - 1}`, nextYear: `Moon ${year + 1}`, navTitle: 'Browse other years',
+        // HERO chips + anchor quick-nav + section notes
+        chipCity: 'City', chipYear: 'Year', chipEventsLbl: 'Major events', chipFullLbl: 'Full moons', chipNewLbl: 'New moons', chipTimes: '',
+        navSummary: 'Year summary', navTable: 'Major phases table', navMonths: 'Months', heroNavTitle: 'Quick navigation',
+        summaryNote: `Dates and times are shown in ${city}'s local time; the local date can differ between cities when an event falls near midnight.`,
+        tableIntro: `This table lists every major moon phase in ${city} during ${year}, ordered by local date — new moon, first quarter, full moon and last quarter.`,
+        faqTitle: 'Frequently Asked Questions',
+        faq: [
+            [`When is the full moon in ${city} in ${year}?`, `The full moon and new moon dates in ${city} for ${year} are computed astronomically on-site in the city's local time — you'll find them all in the major moon phases table above.`],
+            [`When is the new moon in ${city} in ${year}?`, `The new moon dates in ${city} for ${year} are listed in the major phases table in local time; each one marks the start of a new lunar cycle during the year.`],
+            [`Does this calendar use ${city} local time?`, `Yes, every date and time on this page is shown in ${city}'s local time zone, so the same event can fall on a different calendar day from one city to another.`],
+            ['Why can the full moon date differ between cities?', 'The full moon instant is the same worldwide, but its local time differs by time zone, so it can appear on a different date once it crosses midnight.'],
+            ['Is the new moon the same as the Hijri month start?', 'The new moon is the astronomical conjunction; the Hijri month begins with the sighting of the crescent after sunset on the day of (or after) the new moon, so the month may start a day or two later.'],
+            [`Where can I view the monthly moon calendar for ${city}?`, `Pick any of the twelve month cards on this page to open the detailed monthly moon calendar in ${city} for that month.`],
+        ],
+    };
+    if (lang === 'ar') return A;
+    return E;   // EN authored; all non-AR langs use EN prose (labels/months/phases stay per-lang)
+}
+function _buildMoonYearContent(my, lang) {
+    const L = (lang && _MY_MONTHS[lang]) ? lang : 'en';
+    const _e = _escHtml;
+    const _Y = my.year;
+    const _tz = my.tz || 'Asia/Riyadh';
+    const _city = my.cityName;
+    const _S = _moonYearStrings(lang, _city, _Y, my.countryName);
+    const _months = _MY_MONTHS[L];
+    const _lp = (lang === 'ar') ? '' : ('/' + lang);
+    const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
+    const _phaseLbl = (type) => (_MY_PHASE[type] ? (_MY_PHASE[type][L] || _MY_PHASE[type].en) : type);
+    const _phaseIcon = (type) => (_MY_PHASE[type] ? _MY_PHASE[type].icon : '🌙');
+    // ── all major phases whose CITY-LOCAL year == _Y (Meeus 49, city tz) ──
+    const _events = [];
+    try {
+        const raw = MoonCalc.findPhaseEventsInRange(
+            new Date(Date.UTC(_Y - 1, 11, 1)), new Date(Date.UTC(_Y + 1, 0, 31))
+        ) || [];
+        for (const ev of raw) {
+            const parts = new Intl.DateTimeFormat('en-CA', { timeZone: _tz, year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(ev.date);
+            const ly = +(parts.find(p => p.type === 'year') || {}).value;
+            if (ly !== _Y) continue;
+            const lm = +(parts.find(p => p.type === 'month') || {}).value;   // 1-12
+            const ld = +(parts.find(p => p.type === 'day') || {}).value;
+            const time = new Intl.DateTimeFormat('en-GB', { timeZone: _tz, hour: '2-digit', minute: '2-digit', hour12: false }).format(ev.date);
+            _events.push({ type: ev.type, utc: ev.date, m: lm, d: ld, time });
+        }
+    } catch (_) { /* graceful: empty year */ }
+    _events.sort((a, b) => a.utc - b.utc);
+    const _dateStr = (e) => `${e.d} ${_months[e.m - 1]} ${_Y}`;
+    // (1) HERO body: short description + info chips (city/year/tz/events/full/new) + quick-nav anchors.
+    let _now; try { _now = new Date(); } catch (_) { _now = null; }
+    const _fulls = _events.filter(e => e.type === 'full_moon');
+    const _news  = _events.filter(e => e.type === 'new_moon');
+    const _nearestFull = (_now && _fulls.find(e => e.utc >= _now)) || _fulls[0] || null;
+    const _nearestNew  = (_now && _news.find(e => e.utc >= _now)) || _news[0] || null;
+    const _chip = (lbl, val) => `<span class="my-chip"><span class="my-chip-lbl">${_e(lbl)}:</span> <b>${_e(val)}</b></span>`;
+    const _times = _S.chipTimes ? (' ' + _S.chipTimes) : '';   // 'مرة' on full/new counts (AR); '' (EN)
+    const heroBodyHtml = `<p class="my-hero-desc">${_e(_S.intro)}</p>`
+        + `<div class="my-chips">`
+        + _chip(_S.chipCity, _city) + _chip(_S.chipYear, String(_Y)) + _chip(_S.lblTz, _tz || _S.none)
+        + _chip(_S.chipEventsLbl, String(_events.length)) + _chip(_S.chipFullLbl, _fulls.length + _times) + _chip(_S.chipNewLbl, _news.length + _times)
+        + `</div>`
+        + `<nav class="my-anchor-nav" aria-label="${_e(_S.heroNavTitle)}">`
+        + `<a class="my-anchor" href="#moon-year-summary">${_e(_S.navSummary)}</a>`
+        + `<a class="my-anchor" href="#moon-year-table">${_e(_S.navTable)}</a>`
+        + `<a class="my-anchor" href="#moon-year-months">${_e(_S.navMonths)}</a>`
+        + `</nav>`;
+    // (2) year-summary card (city-specific) + local-time note
+    const _sumCell = (lbl, val) => `<div class="my-sum-cell"><span class="my-sum-lbl">${_e(lbl)}</span><span class="my-sum-val">${_e(val)}</span></div>`;
+    const summaryHtml = `<section class="section-card moon-year-summary" id="moon-year-summary"><h2 class="my-sum-title">${_e(_S.summaryTitle)}</h2><div class="my-sum-grid">`
+        + _sumCell(_S.lblFull, String(_fulls.length))
+        + _sumCell(_S.lblNew, String(_news.length))
+        + _sumCell(_S.lblNearestFull, _nearestFull ? _dateStr(_nearestFull) : _S.none)
+        + _sumCell(_S.lblNearestNew, _nearestNew ? _dateStr(_nearestNew) : _S.none)
+        + _sumCell(_S.lblTz, _tz || _S.none)
+        + `</div><p class="my-sum-note">${_e(_S.summaryNote)}</p></section>`;
+    // (3) major-phases table (SSR-visible)
+    const tableHtml = `<section class="section-card moon-year-table-wrap" id="moon-year-table"><h2>${_e(_S.tableTitle)}</h2>`
+        + `<p class="my-table-intro">${_e(_S.tableIntro)}</p>`
+        + `<div class="my-table-scroll"><table class="my-table"><thead><tr>`
+        + `<th>${_e(_S.thDate)}</th><th>${_e(_S.thTime)}</th><th>${_e(_S.thPhase)}</th><th>${_e(_S.thMonth)}</th>`
+        + `</tr></thead><tbody>`
+        + _events.map(e => `<tr><td>${_e(_dateStr(e))}</td><td>${_e(e.time)}</td><td><span class="my-ph-ico" aria-hidden="true">${_phaseIcon(e.type)}</span> ${_e(_phaseLbl(e.type))}</td><td>${_e(_months[e.m - 1])}</td></tr>`).join('')
+        + `</tbody></table></div></section>`;
+    // (4) 12 month cards (links to LEGACY month route /moon-in-{city}/{yyyy-mm})
+    let _cards = '';
+    for (let m = 1; m <= 12; m++) {
+        const _evM = _events.filter(e => e.m === m);
+        const _newM = _evM.find(e => e.type === 'new_moon');
+        const _fullM = _evM.find(e => e.type === 'full_moon');
+        const _href = `${_lp}/moon-in-${my.citySlug}/${_Y}-${_pad2(m)}`;
+        let _lines = '';
+        if (_newM)  _lines += `<div class="my-card-line">${_phaseIcon('new_moon')} ${_e(_phaseLbl('new_moon'))}: ${_e(_newM.d + ' ' + _months[m - 1])}</div>`;
+        if (_fullM) _lines += `<div class="my-card-line">${_phaseIcon('full_moon')} ${_e(_phaseLbl('full_moon'))}: ${_e(_fullM.d + ' ' + _months[m - 1])}</div>`;
+        _lines += `<div class="my-card-meta">${_e(_evM.length ? _S.eventsLabel(_evM.length) : _S.noEvents)}</div>`;
+        _cards += `<a class="my-month-card" href="${_e(_href)}"><span class="my-month-name">${_e(_months[m - 1] + ' ' + _Y)}</span>${_lines}<span class="my-month-cta">${_e(_S.viewMonth)} ›</span></a>`;
+    }
+    const monthCardsHtml = `<section class="section-card moon-year-months" id="moon-year-months"><h2>${_e(_S.monthsTitle)}</h2><div class="my-month-grid">${_cards}</div></section>`;
+    // (5) prev / next year (bounded to 1900-2100)
+    let _nav = '';
+    if (_Y - 1 >= 1900) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y - 1))}">‹ ${_e(_S.prevYear)}</a>`;
+    if (_Y + 1 <= 2100) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y + 1))}">${_e(_S.nextYear)} ›</a>`;
+    const prevNextHtml = _nav ? `<nav class="moon-year-nav" aria-label="${_e(_S.navTitle)}">${_nav}</nav>` : '';
+    // (6) FAQ (SSR-visible) + matching FAQPage JSON-LD
+    // FAQ reuses the today-page moon FAQ styling (.moon-faq-city-card + .moon-faq +
+    // .moon-faq-item) so the year FAQ looks identical to /moon-today-in-{city} — the
+    // .moon-faq-item rules expect <summary> + a DIRECT <p> (no answer wrapper).
+    let _faqItems = '';
+    for (const [q, a] of _S.faq) {
+        _faqItems += `<details class="moon-faq-item"><summary>${_e(q)}</summary><p>${_e(a)}</p></details>`;
+    }
+    const faqHtml = `<section class="section-card moon-faq-city-card moon-year-faq" id="moon-year-faq"><h2>${_e(_S.faqTitle)}</h2><div class="moon-faq">${_faqItems}</div></section>`;
+    const faqJsonLd = JSON.stringify({
+        '@context': 'https://schema.org', '@type': 'FAQPage',
+        mainEntity: _S.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
+    });
+    // intro moved into the hero body; #moon-year-content now starts at the summary card.
+    const belowHtml = summaryHtml + tableHtml + monthCardsHtml + prevNextHtml + faqHtml;
+    return { heroBodyHtml, belowHtml, faqJsonLd, eventCount: _events.length };
 }
 
 // ============================================================
@@ -12458,6 +12726,65 @@ function buildSeoForPath(urlPath) {
         }
     }
 
+    // ── MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1 (2026-06-18): city YEAR page SEO ──
+    //   /moon/{country}/{city}/{yyyy} → title/desc/self-canonical + 5-level breadcrumb
+    //   (Home › Moon Phase › {Country} › {City} › {yyyy}) DOM≡JSON-LD. The actual page
+    //   content (intro + year summary + major-phases table + 12 month cards + prev/next
+    //   + FAQ) is built by `_buildMoonYearContent` and SSR-injected in serveHtmlWithSeo.
+    let moonYear = null;
+    {
+        const _yc = (typeof _classifyMoonYear === 'function') ? _classifyMoonYear(p) : { kind: 'none' };
+        if (_yc.kind === 'valid') {
+            const _ycCity    = _resolveCityName(_yc.citySlug, lang) || _slugToTitle(_yc.citySlug);
+            const _ycCountry = _countryNameForLang(_yc.cc, lang);
+            const _ycGeo     = (typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(_yc.citySlug) : null;
+            const _ycCurated = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(_yc.citySlug) : null;
+            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_CC_TO_PRIMARY_TZ[_yc.cc] || null);
+            const _ycLat = _ycGeo ? _ycGeo.lat : (_ycCurated ? _ycCurated.lat : 21.4225);
+            const _ycLng = _ycGeo ? _ycGeo.lng : (_ycCurated ? _ycCurated.lng : 39.8262);
+            const _Y = _yc.year;
+            // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
+            // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.
+            const _MY_TITLE = {
+                ar: `تقويم القمر في ${_ycCity} ${_Y} | مواعيد البدر والمحاق`,
+                en: `Moon Calendar in ${_ycCity} ${_Y} | Full Moon and New Moon Dates`,
+                fr: `Calendrier lunaire ${_ycCity} ${_Y} | Pleine et nouvelle lune`,
+                tr: `${_ycCity} Ay Takvimi ${_Y} | Dolunay ve Yeni Ay`,
+                ur: `${_ycCity} چاند کیلنڈر ${_Y} | بدر اور محاق کی تاریخیں`,
+                de: `Mondkalender ${_ycCity} ${_Y} | Vollmond und Neumond`,
+                id: `Kalender Bulan ${_ycCity} ${_Y} | Tanggal Purnama & Bulan Baru`,
+                es: `Calendario lunar ${_ycCity} ${_Y} | Luna llena y luna nueva`,
+                bn: `${_ycCity} ${_Y} চাঁদের ক্যালেন্ডার | পূর্ণিমা ও অমাবস্যা`,
+                ms: `Kalendar Bulan ${_ycCity} ${_Y} | Tarikh Purnama & Anak Bulan`,
+            };
+            title = _MY_TITLE[lang] || _MY_TITLE.en;
+            const _MY_DESC = {
+                ar: `تقويم القمر في ${_ycCity} لعام ${_Y} حسب التوقيت المحلي، مع مواعيد البدر والمحاق والتربيع الأول والأخير، وروابط تقويم القمر الشهري لكل شهر.`,
+                en: `View the ${_Y} moon calendar for ${_ycCity} with local full moon, new moon, first quarter, and last quarter dates, plus monthly moon calendar links.`,
+                fr: `Calendrier lunaire à ${_ycCity} pour ${_Y} : dates de nouvelle lune, pleine lune, premier et dernier quartier sur l'année en heure locale, avec les douze mois.`,
+                tr: `${_ycCity} için ${_Y} ay takvimi: yıl boyunca yeni ay, dolunay, ilk ve son dördün tarihleri — şehrin yerel saatiyle, on iki ay kartıyla.`,
+                ur: `${_ycCity} میں ${_Y} کے لیے چاند کا تقویم: سال بھر محاق، بدر، پہلی اور آخری ربع کی تاریخیں مقامی وقت کے مطابق، بارہ ماہ کے ساتھ۔`,
+                de: `Mondkalender in ${_ycCity} für ${_Y}: Neumond-, Vollmond-, erste und letzte Viertel-Daten im Jahr in Ortszeit, mit allen zwölf Monaten.`,
+                id: `Kalender bulan di ${_ycCity} untuk ${_Y}: tanggal bulan baru, purnama, kuartal pertama dan terakhir sepanjang tahun dalam waktu setempat, dengan dua belas bulan.`,
+                es: `Calendario lunar en ${_ycCity} para ${_Y}: fechas de luna nueva, llena, cuarto creciente y menguante durante el año en hora local, con los doce meses.`,
+                bn: `${_ycCity}-এ ${_Y} সালের চাঁদের ক্যালেন্ডার: সারা বছরের অমাবস্যা, পূর্ণিমা, প্রথম ও শেষ চতুর্থাংশের তারিখ স্থানীয় সময়ে, বারো মাস সহ।`,
+                ms: `Kalendar bulan di ${_ycCity} untuk ${_Y}: tarikh anak bulan, purnama, suku pertama dan terakhir sepanjang tahun mengikut waktu tempatan, dengan dua belas bulan.`,
+            };
+            description = _MY_DESC[lang] || _MY_DESC.en;
+            ogType = 'website';
+            const _myCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
+            const _myLp = (lang === 'ar') ? '' : ('/' + lang);
+            breadcrumbs.push({ name: _myCrumb, item: origin + _myLp + '/moon' });
+            breadcrumbs.push({ name: _ycCountry, item: origin + _myLp + '/moon/' + _yc.countrySlug });
+            breadcrumbs.push({ name: _ycCity, item: origin + _myLp + '/moon/' + _yc.countrySlug + '/' + _yc.citySlug });
+            breadcrumbs.push({ name: String(_Y), item: canonical });
+            moonYear = {
+                cc: _yc.cc, citySlug: _yc.citySlug, countrySlug: _yc.countrySlug, year: _Y,
+                cityName: _ycCity, countryName: _ycCountry, lat: _ycLat, lng: _ycLng, tz: _ycTz,
+            };
+        }
+    }
+
     // ── DISCOVERED-CITIES-NOINDEX-CONSISTENCY-ACROSS-CITY-PAGES-1 (2026-06-15) ──
     // Unified gate: any CITY SEO route (qibla / moon today|hub|dated|month / time-left /
     // next-prayer) whose slug is NOT in the final curated set must be noindex — the SAME
@@ -12486,6 +12813,7 @@ function buildSeoForPath(urlPath) {
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, moonCountryListing, cityModified, origin,
+        moonYear,   // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: city year page (null otherwise)
         moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride,
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
         canonicalOverride: _canonicalOverride,
@@ -19141,6 +19469,69 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<div class="page active" id="page-moon">'
         );
     }
+    // ── MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: SSR the city YEAR page ──
+    //   The year page lives in its OWN section #page-moon-year. Strip every other SPA
+    //   wrapper (incl. the live #page-moon hub), activate the section, fill the H1 +
+    //   5-level breadcrumb (DOM ≡ the BreadcrumbList JSON-LD built from seo.breadcrumbs),
+    //   inject the Meeus-computed content into #moon-year-content, and add FAQPage JSON-LD.
+    if (seo.moonYear) {
+        const _my = seo.moonYear;
+        const _Lmy = seo.lang;
+        const _myLp = (_Lmy === 'ar') ? '' : ('/' + _Lmy);
+        html = _stripHtmlForMoonYear(html);
+        html = html.replace('<div class="page" id="page-moon-year">', '<div class="page active" id="page-moon-year">');
+        // H1 (same wording as the SEO title, no suffix) — single H1 on the page.
+        const _myH1 = {
+            ar: `تقويم القمر في ${_my.cityName} لعام ${_my.year}`,
+            en: `Moon Calendar in ${_my.cityName} for ${_my.year}`,
+            fr: `Calendrier lunaire à ${_my.cityName} pour ${_my.year}`,
+            tr: `${_my.cityName} Ay Takvimi ${_my.year}`,
+            ur: `${_my.cityName} میں چاند کا تقویم برائے ${_my.year}`,
+            de: `Mondkalender in ${_my.cityName} für ${_my.year}`,
+            id: `Kalender Bulan di ${_my.cityName} untuk ${_my.year}`,
+            es: `Calendario lunar en ${_my.cityName} para ${_my.year}`,
+            bn: `${_my.cityName}-এ ${_my.year} সালের চাঁদের ক্যালেন্ডার`,
+            ms: `Kalendar Bulan di ${_my.cityName} untuk ${_my.year}`,
+        }[_Lmy] || `Moon Calendar in ${_my.cityName} for ${_my.year}`;
+        html = html.replace(
+            /<h1 class="page-h1" id="moon-year-h1">[\s\S]*?<\/h1>/,
+            `<h1 class="page-h1" id="moon-year-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span>${_escHtml(_myH1)}</span></h1>`
+        );
+        // Breadcrumb rungs — DOM ≡ JSON-LD. Home keeps data-i18n (server-translated).
+        const _myMoonLbl = _MOON_PHASE_CRUMB_L10N[_Lmy] || _MOON_PHASE_CRUMB_L10N.en;
+        html = html.replace(
+            /<a class="bc-link" id="bc-my-hub" href="[^"]*">[^<]*<\/a>/,
+            `<a class="bc-link" id="bc-my-hub" href="${_myLp}/moon">${_escHtml(_myMoonLbl)}</a>`
+        );
+        html = html.replace(
+            /<a class="bc-link" id="bc-my-country" href="[^"]*">[^<]*<\/a>/,
+            `<a class="bc-link" id="bc-my-country" href="${_escHtml(_myLp + '/moon/' + _my.countrySlug)}">${_escHtml(_my.countryName)}</a>`
+        );
+        html = html.replace(
+            /<a class="bc-link" id="bc-my-city" href="[^"]*">[^<]*<\/a>/,
+            `<a class="bc-link" id="bc-my-city" href="${_escHtml(_myLp + '/moon/' + _my.countrySlug + '/' + _my.citySlug)}">${_escHtml(_my.cityName)}</a>`
+        );
+        html = html.replace(
+            /<li class="bc-item bc-current" id="bc-my-year" aria-current="page">[^<]*<\/li>/,
+            `<li class="bc-item bc-current" id="bc-my-year" aria-current="page">${_escHtml(String(_my.year))}</li>`
+        );
+        // Computed content: hero body (desc + chips + quick-nav) into #moon-year-hero-body,
+        // and (summary + table + 12 cards + prev/next + FAQ) into #moon-year-content + FAQ JSON-LD.
+        try {
+            const _yc = _buildMoonYearContent(_my, _Lmy);
+            html = html.replace(
+                /<div id="moon-year-hero-body">[\s\S]*?<\/div>/,
+                `<div id="moon-year-hero-body">${_yc.heroBodyHtml}</div>`
+            );
+            html = html.replace(
+                /<div id="moon-year-content">[\s\S]*?<\/div>/,
+                `<div id="moon-year-content">${_yc.belowHtml}</div>`
+            );
+            if (_yc.faqJsonLd && html.indexOf('"@type":"FAQPage"') === -1) {
+                html = html.replace('</head>', `<script type="application/ld+json">${_yc.faqJsonLd}</script>\n</head>`);
+            }
+        } catch (_e) { try { console.warn('[moon-year] content inject failed:', _e && _e.message); } catch (_) {} }
+    }
     // ── Phase E4-final-B (2026-05-02): pre-fill the Hijri-date placeholders
     //    inside #moon-city-answer using seo.moonCity data already computed
     //    above (no extra astronomy work). Eliminates the text reflow when JS
@@ -23862,12 +24253,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _cityRouteMatch = urlPath
             .replace(/\.html$/, '')
             .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/);
-        // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: the nested city moon hub
-        //   /[lang/]moon/{country}/{city} carries the city in its 2nd segment —
+        // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 + MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1:
+        //   the nested city moon hub /[lang/]moon/{country}/{city} and the year page
+        //   /[lang/]moon/{country}/{city}/{yyyy} carry the city in the 2nd segment —
         //   feed the same ssr-city-name meta so _syncCityNameInDom works there too.
         const _nestedMoonCityMatch = urlPath
             .replace(/\.html$/, '')
-            .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
+            .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/\d{4})?$/);
         if ((_cityRouteMatch && _cityRouteMatch[1]) || (_nestedMoonCityMatch && _nestedMoonCityMatch[1])) {
             const _ssrCitySlug = _nestedMoonCityMatch ? _nestedMoonCityMatch[1] : _cityRouteMatch[1];
             const _ssrCityName = (typeof _resolveCityName === 'function')
@@ -23943,7 +24335,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 //   moon hub /[lang/]moon/{country}/{city} (city in 2nd segment) so
                 //   the client Tier-0 finds the authoritative lang-correct name and
                 //   skips geocodeSlug — same as the flat /moon-in-{city} hub.
-                const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+)$/.test(urlPath.replace(/\.html$/, ''));
+                const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/\d{4})?)$/.test(urlPath.replace(/\.html$/, ''));
                 if (_bareCityRoute && typeof _findPlaceBySlug === 'function') {
                     // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13):
                     // seed curated FIRST (unchanged), else a prefetched discovered
@@ -26691,6 +27083,16 @@ const server = http.createServer(async (req, res) => {
                         const _mcCountrySlug = _mcCc ? makeCountrySlugSrv(_mcCc) : '';
                         if (_mcCountrySlug) {
                             entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug, '0.7', 'weekly', today));
+                            // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: year pages — ONLY the
+                            // previous, current and next year (bounded crawl surface; the
+                            // Meeus engine supports 1900-2100). The deeper today/month/day
+                            // nested routes are NOT emitted (they 404 this phase).
+                            const _cy = new Date().getFullYear();
+                            for (const _yy of [_cy - 1, _cy, _cy + 1]) {
+                                if (_yy >= 1900 && _yy <= 2100) {
+                                    entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug + '/' + _yy, '0.5', 'monthly', today));
+                                }
+                            }
                         }
                     }
                     // Round 15: صفحات تاريخ محدَّد تحت /moon-in- (بدل /moon-today-in-).
@@ -26788,6 +27190,18 @@ const server = http.createServer(async (req, res) => {
         res.end();
         return;
     }
+    // ===== MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: nested city YEAR page =====
+    //   /[lang/]moon/{country}/{city}/{yyyy}. Same shape: a 'redirect' (city in a
+    //   different country) 301s to the correct year URL; a 'valid' classification
+    //   serves index.html (added to _isIndexHtmlRoute below); 'none' (unknown
+    //   country/city, bad/out-of-range year, or a deeper today/month/date path)
+    //   falls through to a clean 404.
+    const _moonYear = _classifyMoonYear(urlPath);
+    if (_moonYear.kind === 'redirect') {
+        res.writeHead(301, { 'Location': _moonYear.target, 'Cache-Control': 'public, max-age=31536000' });
+        res.end();
+        return;
+    }
     // ===== HTML pages served from index.html (SSR SEO injection) =====
     // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
     const _LANG_PREFIX_RE = '(?:en|fr|tr|ur|de|id|es|bn|ms)';
@@ -26795,6 +27209,9 @@ const server = http.createServer(async (req, res) => {
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested city moon hub (valid only —
         //   exactly /moon/{country}/{city} with the city resolving to that country).
         (_nestedMoon.kind === 'valid') ||
+        // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: nested city YEAR page (valid only —
+        //   /moon/{country}/{city}/{yyyy}, city resolves to country, year 1900-2100).
+        (_moonYear.kind === 'valid') ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath) ||

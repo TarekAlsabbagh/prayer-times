@@ -1559,7 +1559,9 @@
 //   css/style.css?v=479→480.
 // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 (2026-06-18): js/app.js?v=786→787 (nested
 //   /moon/{country}/{city} hub: _moonPathname() normalization + breadcrumb guard).
-const CACHE_VERSION = 'v447';
+// MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1 (2026-06-18): js/app.js?v=787→788 (year page
+//   /moon/{country}/{city}/{yyyy}: #page-moon-year activation + hub-updater skip).
+const CACHE_VERSION = 'v449';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

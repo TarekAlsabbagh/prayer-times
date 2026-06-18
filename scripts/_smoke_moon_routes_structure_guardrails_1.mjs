@@ -148,9 +148,23 @@ try {
         check('/moon/saudi-arabia: canonical self', canonOf(c.body) === SITE + '/moon/saudi-arabia', canonOf(c.body));
         check('/moon/saudi-arabia: indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(c.body));
     }
-    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: the nested city HUB is now LIVE 200 (see PART D2);
-    //   only the deeper today/month/date nested routes remain clean 404 (Phase 4 = hub only).
-    for (const u of ['/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/today']) {
+    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: the nested city HUB is LIVE 200 (see PART D2).
+    // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the city YEAR page /moon/{country}/{city}/{yyyy}
+    //   is now LIVE 200 in its own #page-moon-year section.
+    {
+        const y = await req('/moon/saudi-arabia/riyadh/2026');
+        check('/moon/saudi-arabia/riyadh/2026 -> 200 (#page-moon-year active, 1 H1)', y.status === 200 && /class="page active" id="page-moon-year"/.test(y.body) && (y.body.match(/<h1\b/g) || []).length === 1, `status=${y.status}`);
+        // …-FIX-1: the year page carries ONLY year content — no leaked #page-moon sections,
+        // no orphaned comment fragments (was _stripElement counting </div> inside HTML
+        // comments), balanced HTML comments.
+        const leaked = ['moon-general-faq', 'moon-hub-related-links', 'moon-events-section', 'moon-hub-hero', 'moon-event-ramadan'].filter(id => new RegExp('id="' + id + '"').test(y.body));
+        const tech = ['closing </div>', 'LAST visible section', 'closing #page-moon'].filter(t => y.body.includes(t));
+        const opens = (y.body.match(/<!--/g) || []).length, closes = (y.body.match(/-->/g) || []).length;
+        check('/moon/.../2026: 0 leaked sections + 0 orphaned comment text + balanced comments', leaked.length === 0 && tech.length === 0 && opens === closes, `leaked=[${leaked}] tech=[${tech}] cmt=${opens}/${closes}`);
+    }
+    //   The deeper nested routes stay clean 404: today, month/day UNDER the year (slash form),
+    //   and the legacy dash forms /{yyyy-mm} + /{yyyy-mm-dd} (NOT part of the new structure).
+    for (const u of ['/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/17', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/today']) {
         const r = await req(u);
         check(`${u}: 404, not page-moon, small error page (not the 200KB shell)`, r.status === 404 && !pageMoonActive(r.body) && r.body.length < 50000, `status=${r.status} pm=${pageMoonActive(r.body)} len=${r.body.length}`);
     }

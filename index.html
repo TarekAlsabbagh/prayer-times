@@ -72,7 +72,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=2" as="script">
-    <link rel="preload" href="js/app.js?v=787" as="script">
+    <link rel="preload" href="js/app.js?v=789" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -2427,12 +2427,15 @@
 
                 <!-- MOON-EVENTS-MOVE-BOTTOM-1 (2026-05-23): Islamic-events
                      countdown card relocated here — at the VERY END of the
-                     moon page (last child of #page-moon, just before its
-                     closing </div>) so it appears as the LAST visible
-                     section on /moon-today (after moon-general-faq and
-                     moon-hub-related-links). IDs/classes/i18n keys preserved
+                     moon page (last child of the page-moon wrapper, just
+                     before its closing div tag) so it appears as the final
+                     section on /moon-today. IDs/classes/i18n keys preserved
                      verbatim so the JS countdown renderer + i18n hydration +
-                     CSS all continue to work unchanged. -->
+                     CSS all continue to work unchanged.
+                     NOTE: do NOT write a literal closing-div token inside this
+                     or any comment within page-moon — the SSR _stripElement
+                     counter now skips comments, but keeping comments tag-free
+                     is the belt-and-suspenders guard (see server.js FIX-1). -->
                 <!-- 🆕 Wave A: عدّ تنازليّ للمناسبات الإسلاميّة الكبرى — مرتبط بالهلال والقمر -->
                 <section class="section-card moon-events-section" id="moon-events-section" aria-labelledby="moon-events-h2">
                     <h2 id="moon-events-h2" class="moon-events-title" data-i18n="moon.events.title">⏳ العد التنازلي للمناسبات الإسلامية</h2>
@@ -2472,6 +2475,75 @@
                     </div>
                     <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
+            </div>
+
+            <!-- ===== MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: city YEAR page /moon/{country}/{city}/{yyyy} =====
+                 Dedicated SSR section (isolated from #page-moon's live hub logic). The breadcrumb rungs,
+                 H1, and #moon-year-content are filled by serveHtmlWithSeo's seo.moonYear block. The SPA
+                 activates this section for year paths and runs NO hub logic on it (see js/app.js). -->
+            <div class="page" id="page-moon-year">
+                <style>
+                  #page-moon-year .moon-year-intro{margin:6px 0 18px;line-height:1.9}
+                  #page-moon-year .my-sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
+                  #page-moon-year .my-sum-cell{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:var(--bg-subtle,#f5f5f5);border-radius:10px}
+                  #page-moon-year .my-sum-lbl{font-size:.85rem;color:var(--text-light)}
+                  #page-moon-year .my-sum-val{font-weight:700;font-size:1.05rem}
+                  #page-moon-year .my-table-scroll{overflow-x:auto}
+                  #page-moon-year .my-table{width:100%;border-collapse:collapse;margin-top:8px}
+                  #page-moon-year .my-table th,#page-moon-year .my-table td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;white-space:nowrap}
+                  #page-moon-year .my-table thead th{font-weight:700;color:var(--primary)}
+                  #page-moon-year .my-ph-ico{margin-inline-end:4px}
+                  #page-moon-year .my-month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:10px}
+                  #page-moon-year .my-month-card{display:flex;flex-direction:column;gap:6px;padding:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:inherit;transition:transform .18s,box-shadow .18s}
+                  #page-moon-year .my-month-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
+                  #page-moon-year .my-month-name{font-weight:700;font-size:1.08rem}
+                  #page-moon-year .my-card-line{font-size:.9rem}
+                  #page-moon-year .my-card-meta{font-size:.82rem;color:var(--text-light)}
+                  #page-moon-year .my-month-cta{margin-top:auto;color:var(--primary);font-weight:600;font-size:.88rem}
+                  #page-moon-year .moon-year-nav{display:flex;justify-content:space-between;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
+                  #page-moon-year .my-yearnav-link{padding:10px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--primary);font-weight:600}
+                  #page-moon-year .my-yearnav-link:hover{background:var(--primary);color:#fff}
+                  /* MOON-CITY-YEAR-…-FIX-1: centred, padded content column (≈new moon pages) — no edge-stick / no horizontal overflow.
+                     width:100% gives a DEFINITE width so the page does NOT resize when a FAQ <details> opens.
+                     (#page-moon-year is a flex item of main.main-content; margin-inline:auto alone disables
+                      align-items:stretch and makes it size to its content's intrinsic width → jumps on expand.) */
+                  #page-moon-year{width:100%;max-width:1100px;margin-inline:auto;padding:14px clamp(14px,3vw,28px) 48px;overflow-x:clip}
+                  #page-moon-year [id]{scroll-margin-top:84px}  /* anchor scroll clears the sticky header */
+                  /* HERO card: breadcrumb + H1 + description + info chips + quick-nav anchors */
+                  #page-moon-year .moon-year-hero{padding:18px 22px}
+                  #page-moon-year .moon-year-hero .moon-breadcrumb{margin:0 0 10px}
+                  #page-moon-year .moon-year-hero .page-h1{margin:2px 0 8px}
+                  #page-moon-year .my-hero-desc{margin:0 0 14px;color:var(--text-light);line-height:1.9}
+                  #page-moon-year .my-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
+                  #page-moon-year .my-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;background:var(--bg-subtle,#f5f5f5);border:1px solid var(--border);border-radius:999px;font-size:.86rem;line-height:1.4}
+                  #page-moon-year .my-chip-lbl{color:var(--text-light)}
+                  #page-moon-year .my-chip b{color:var(--primary);font-weight:700}
+                  #page-moon-year .my-anchor-nav{display:flex;flex-wrap:wrap;gap:8px}
+                  #page-moon-year .my-anchor{padding:7px 14px;background:var(--primary);color:#fff;border-radius:8px;text-decoration:none;font-size:.86rem;font-weight:600;transition:opacity .15s}
+                  #page-moon-year .my-anchor:hover{opacity:.88}
+                  #page-moon-year .my-sum-note{margin:14px 0 0;font-size:.84rem;color:var(--text-light);line-height:1.7}
+                  #page-moon-year .my-table-intro{margin:4px 0 10px;color:var(--text-light);line-height:1.8;font-size:.95rem}
+                  @media (max-width:600px){#page-moon-year .moon-year-hero{padding:16px}#page-moon-year .my-table th,#page-moon-year .my-table td{padding:8px 10px;font-size:.92rem}#page-moon-year .moon-year-nav{flex-direction:column}#page-moon-year .my-yearnav-link{text-align:center}#page-moon-year .my-anchor-nav{flex-direction:column}#page-moon-year .my-anchor{text-align:center}}
+                </style>
+                <!-- HERO card: breadcrumb + H1 + (SSR) description + info chips + quick-nav anchors -->
+                <header class="section-card moon-year-hero" id="moon-year-hero">
+                    <nav class="moon-breadcrumb" aria-label="breadcrumb">
+                        <ol class="breadcrumb-list">
+                            <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
+                            <li class="bc-sep" aria-hidden="true">›</li>
+                            <li class="bc-item"><a class="bc-link" id="bc-my-hub" href="/moon">حالة القمر</a></li>
+                            <li class="bc-sep" aria-hidden="true">›</li>
+                            <li class="bc-item"><a class="bc-link" id="bc-my-country" href="/moon">—</a></li>
+                            <li class="bc-sep" aria-hidden="true">›</li>
+                            <li class="bc-item"><a class="bc-link" id="bc-my-city" href="/moon">—</a></li>
+                            <li class="bc-sep" aria-hidden="true">›</li>
+                            <li class="bc-item bc-current" id="bc-my-year" aria-current="page">—</li>
+                        </ol>
+                    </nav>
+                    <h1 class="page-h1" id="moon-year-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span>تقويم القمر</span></h1>
+                    <div id="moon-year-hero-body"><!-- SSR: description + info chips + quick-nav anchors --></div>
+                </header>
+                <div id="moon-year-content"><!-- SSR: summary + major-phases table + 12 month cards + prev/next + FAQ --></div>
             </div>
 
             <!-- ===== صفحة حاسبة الزكاة — UAT-Z1 Redesign (Professional Tool) ===== -->
@@ -5178,7 +5250,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=2"></script>
-    <script defer src="js/app.js?v=787"></script>
+    <script defer src="js/app.js?v=789"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

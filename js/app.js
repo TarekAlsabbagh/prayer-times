@@ -58,6 +58,12 @@ let currentLocalizedCountry = '';
 function _isMoonPath(p) {
     return /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon(?:-today|-in-|\/|$)/.test(String(p == null ? '' : p));
 }
+// MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the city YEAR page /[lang/]moon/{country}/{city}/{yyyy}
+//   is a SEPARATE SSR section (#page-moon-year), not the live #page-moon hub. This classifier
+//   lets the SPA activate the right section + skip the hub updater on the year page.
+function _isMoonYearPath(p) {
+    return /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/\d{4}$/.test(String(p == null ? '' : p));
+}
 
 // UAT-FOUC: synchronous URL-slug → globals override at script-top.
 //   Runs immediately when app.js executes (after `let` declarations, before
@@ -75,7 +81,10 @@ function _isMoonPath(p) {
         //   /[lang/]moon/{country}/{city} also carries a __PRAYER_CITY__ seed — match
         //   it (city in 2nd segment) so this pre-paint hydrator seeds the globals from
         //   the seed and skips the FOUC, same as the flat /moon-in-{city} routes.
-        const _mNested = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
+        // MOON-CITY-HUB + YEAR-ROUTE-STRUCTURE-ADD-1: nested hub /moon/{country}/{city}
+        //   AND the year page /moon/{country}/{city}/{yyyy} carry the city in the 2nd
+        //   segment — seed globals from __PRAYER_CITY__ for both (no FOUC on either).
+        const _mNested = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/\d{4})?$/);
         if (!_m && !_mNested) return;
         const _slug = _m ? _m[1] : _mNested[1];
         const _urlLat = (_m && _m[2] != null) ? parseFloat(_m[2]) : NaN;
@@ -4055,13 +4064,17 @@ async function initApp() {
     // MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1: classify via the shared /moon-prefix
     //   helper so legacy flat routes AND any future nested /moon/… both activate #page-moon.
     const _isMoonPage = _isMoonPath(_mpPath);
+    // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the year page is its own SSR section.
+    const _isMoonYearPage = _isMoonYearPath(_mpPath);
     if (_isMoonPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById('page-moon')?.classList.add('active');
+        document.getElementById(_isMoonYearPage ? 'page-moon-year' : 'page-moon')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
         // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
-        try { updateMoonInfo(); } catch (_e) {}
+        //   The year page is fully SSR-static — do NOT run the live hub updater on it
+        //   (its hub elements are stripped server-side, and the SSR content must stand).
+        if (!_isMoonYearPage) { try { updateMoonInfo(); } catch (_e) {} }
 
         // FIX: استبدال اسم المدينة في moon-hub-cta بالاسم الفعليّ الظاهر في الهيدر
         //   (يحلّ مشكلة "At Taif" بدل "الطائف" بدون الاعتماد على slug resolution)
@@ -5411,6 +5424,31 @@ function _hydrateCurrentCityFromUrlOrStorage() {
         } catch (_) {}
     }, true /* capture: قبل أي معالج آخر */);
 })();
+
+// MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1-HERO: in-page quick-nav anchors
+// (#moon-year-summary / #moon-year-table / #moon-year-months) in the year-page hero.
+// The SPA history router can swallow native hash navigation (a hashchange re-routes to
+// home and wipes the page), so handle .my-anchor clicks explicitly: preventDefault +
+// smooth scrollIntoView — NO hash change, NO routing. Scoped to a.my-anchor, which
+// exists ONLY on /moon/{country}/{city}/{yyyy}; inert on every other page.
+document.addEventListener('click', function (e) {
+    try {
+        const a = e.target.closest && e.target.closest('a.my-anchor[href^="#"]');
+        if (!a) return;
+        const el = document.getElementById(a.getAttribute('href').slice(1));
+        if (!el) return;
+        // CAPTURE phase + stopImmediatePropagation: run BEFORE (and instead of) the SPA's
+        // own click/router listeners, which otherwise reset the scroll. preventDefault stops
+        // the native hash navigation (which the history router would turn into a home nav).
+        e.preventDefault();
+        e.stopPropagation();
+        if (e.stopImmediatePropagation) e.stopImmediatePropagation();
+        // synchronous instant scroll — honours scroll-margin-top:84 (clears the sticky
+        // header). Running in capture + stopImmediatePropagation means no other handler
+        // fires to reset the scroll, so no rAF/defer is needed.
+        el.scrollIntoView({ block: 'start' });
+    } catch (_) {}
+}, true /* capture: ahead of the SPA router's own handlers */);
 
 function initNavigation() {
     const navLinks = document.querySelectorAll('.sidebar-nav a');
@@ -11927,6 +11965,10 @@ window.addEventListener('pageshow', function(e) {
         let _expectedId = null;
         if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla(?:-in-[a-z]|$)/.test(_path)) {
             _expectedId = 'page-qibla';
+        } else if (_isMoonYearPath(_path)) {
+            // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the year page is its own SSR section,
+            //   so BFCache restore must re-activate #page-moon-year (NOT #page-moon).
+            _expectedId = 'page-moon-year';
         } else if (_isMoonPath(_path)) {
             // MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1: recognize the /moon prefix
             //   (legacy flat /moon-today, /moon-in-… AND any nested /moon/…) so these

@@ -1557,7 +1557,9 @@
 //   labeling + city-tz binding retained.
 //   Cache-busters: js/app.js?v=783→784, js/moon.js?v=54→55, js/i18n.js?v=193→194,
 //   css/style.css?v=479→480.
-const CACHE_VERSION = 'v446';
+// MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 (2026-06-18): js/app.js?v=786→787 (nested
+//   /moon/{country}/{city} hub: _moonPathname() normalization + breadcrumb guard).
+const CACHE_VERSION = 'v447';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

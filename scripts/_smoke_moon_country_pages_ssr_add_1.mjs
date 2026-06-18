@@ -77,8 +77,9 @@ try {
     check('cities-grid heading ("قمر اليوم في مدن" + .mc-cities-heading)', m.body.includes('قمر اليوم في مدن') && /class="mc-cities-heading"/.test(m.body));
     // Upcoming major phases (4 events).
     check('upcoming phases ("أهم مراحل القمر القادمة" + first/last quarter)', m.body.includes('أهم مراحل القمر القادمة') && m.body.includes('التربيع الأول القادم') && m.body.includes('التربيع الأخير القادم'));
-    // Monthly-by-city → OLD /moon-in-{city} route; NO nested /moon/{country}/{city} links.
-    check('monthly-by-city links → /moon-in-{city} (old route, not nested)', m.body.includes('تقويم القمر الشهري في مدن') && /href="\/moon-in-[a-z-]+"/.test(m.body) && !/href="[^"]*\/moon\/saudi-arabia\/[a-z-]+"/.test(m.body));
+    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: monthly-by-city links now point to the NESTED city
+    //   hub /moon/{country}/{city} (the legacy /moon-in-{city} 301s there), NOT the old form.
+    check('monthly-by-city links → nested /moon/saudi-arabia/{city} (not legacy /moon-in-)', m.body.includes('تقويم القمر الشهري في مدن') && /href="\/moon\/saudi-arabia\/[a-z-]+"/.test(m.body) && !/href="\/moon-in-[a-z-]+"/.test(m.body));
     // 3 educational sections.
     check('educational sections (calc + crescent + city-diff)', m.body.includes('كيف تُحسب مراحل القمر') && m.body.includes('رؤية الهلال وبداية الشهر الهجري') && m.body.includes('لماذا قد يختلف تاريخ البدر'));
     // 8 SSR-visible FAQ + matching FAQPage JSON-LD.
@@ -102,11 +103,13 @@ try {
     check('EN breadcrumb DOM "Moon Phase" → /en/moon', /<a class="bc-link" href="\/en\/moon">Moon Phase<\/a>/.test(en.body));
     check('EN breadcrumb JSON-LD "Moon Phase" → /en/moon (matches DOM)', /"name":"Moon Phase","item":"[^"]*\/en\/moon"/.test(en.body));
     check('EN no prayer CTA / no hero search', !en.body.includes('id="search-input"') && !en.body.includes('id="loc-hero-geo-btn"'));
-    check('EN summary + 8 FAQ + monthly /en/moon-in- links', en.body.includes('Moon Summary in') && (en.body.match(/class="country-faq-item"/g) || []).length === 8 && /href="\/en\/moon-in-[a-z-]+"/.test(en.body));
+    check('EN summary + 8 FAQ + monthly nested /en/moon/saudi-arabia/{city} links', en.body.includes('Moon Summary in') && (en.body.match(/class="country-faq-item"/g) || []).length === 8 && /href="\/en\/moon\/saudi-arabia\/[a-z-]+"/.test(en.body));
 
-    // ── C) future nested routes stay clean 404 (NOT activated) ──
-    console.log('\n── C) future /moon/{country}/{city}[/…] = clean 404 ──');
-    for (const u of ['/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17']) {
+    // ── C) nested city hub now LIVE 200 (MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1);
+    //        only the deeper today/month/date nested routes stay clean 404 ──
+    console.log('\n── C) /moon/{country}/{city} = 200 hub · deeper today/month/date = clean 404 ──');
+    check('/moon/saudi-arabia/riyadh: 200 (nested city hub now LIVE)', (await req('/moon/saudi-arabia/riyadh')).status === 200);
+    for (const u of ['/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17']) {
         const r = await req(u);
         check(`${u}: 404 (not 200/empty)`, r.status === 404, String(r.status));
     }

@@ -1,6 +1,6 @@
 # Moon Routes — Structure Contract (MOON-ROUTES-STRUCTURE-GUARDRAILS-1)
 
-**التاريخ:** 2026-06-17. **النوع:** عقد بنية + اختبارات حماية فقط — **لا تغيير runtime، لا تغيير محتوى.**
+**التاريخ:** 2026-06-17 (أُنشئ) · **آخر تحديث:** 2026-06-18 (`MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1` — فعّلت `/moon/{country}/{city}` وحوّلت `/moon-in-{city}` 301 إليه).
 هذا الملفّ هو **مصدر الحقيقة** لِحالة روابط القمر الحاليّة والمستقبليّة. أيّ تذكرة لاحقة تُغيّر هذا العقد يجب أن تُحدّث هذا الملفّ + اختبار الحماية `scripts/_smoke_moon_routes_structure_guardrails_1.mjs` معًا.
 
 ---
@@ -12,10 +12,11 @@
 | `/moon` (+10 لغات) | **200** | ذاتيّ `…/moon` | **موجود** (index) | `page-moon` | هب «قمر اليوم» الرسميّ — نفس محتوى moon-today |
 | `/moon/{country}` (+10 لغات، دول لها مدن curated) | **200** | ذاتيّ `…/moon/{country}` | **موجود** (index) | قالب المدن `prayer-times-cities.html` (variant=moon) | صفحة دولة — مراحل القمر، تعيد استعمال شبكة مدن الدولة؛ البطاقات والبحث → `/moon-today-in-{city}` (MOON-COUNTRY-PAGES-SSR-ADD-1) |
 | `/moon-today` (+لغات، +/) | **301 → /moon** | — (لا جسم) | **غير موجود** | — | تحويلة دائمة، حفظ اللغة |
+| `/moon/{country}/{city}` (+10 لغات) | **200** | ذاتيّ `…/moon/{country}/{city}` | **موجود** (cities sitemap) | `page-moon` | **هب المدينة الجديد** (البنية المتداخلة) — نفس محتوى `/moon-in-{city}` + breadcrumb 4 مستويات (MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1) |
+| `/moon-in-{city}` (+coord) | **301 → /moon/{country}/{city}** | — (لا جسم) | **غير موجود** | — | الهب القديم — صار تحويلة دائمة للبنية المتداخلة (+حفظ اللغة) |
 | `/moon-today-in-{city}` (+coord) | **200** | ذاتيّ | حسب السياسة الحاليّة (مدن مشهورة فقط) | `page-moon` | صفحة اليوم لِمدينة — **دون مساس** |
-| `/moon-in-{city}` (+coord) | **200** | ذاتيّ | حسب السياسة | `page-moon` | هب مدينة دائم — **دون مساس** |
-| `/moon-in-{city}/{YYYY-MM}` | **200** | ذاتيّ | لا (لا إغراق) | `page-moon` | صفحة شهر مدينة — **دون مساس** |
-| `/moon-in-{city}/{YYYY-MM-DD}` | **200** | ذاتيّ | لا (لا إغراق أيّام) | `page-moon` | صفحة يوم مدينة — **دون مساس** |
+| `/moon-in-{city}/{YYYY-MM}` | **200** | ذاتيّ | لا (لا إغراق) | `page-moon` | صفحة شهر مدينة — **دون مساس** (لم تُهاجَر) |
+| `/moon-in-{city}/{YYYY-MM-DD}` | **200** | ذاتيّ | لا (لا إغراق أيّام) | `page-moon` | صفحة يوم مدينة — **دون مساس** (لم تُهاجَر) |
 
 **ثوابت SEO:** `/moon` = index + canonical ذاتيّ + في sitemap. لا تكرار canonical بين `/moon` و`/moon-today` (الأخيرة 301 بلا جسم). صفحات المدن canonical ذاتيّ.
 
@@ -29,14 +30,15 @@
 
 | الرابط المستقبليّ | الحالة الحاليّة المطلوبة | عند التفعيل (تذكرة لاحقة) |
 |---|---|---|
-| `/moon/{country}/{city}` | **404 نظيف** | هب مدينة بالبنية المتداخلة |
-| `/moon/{country}/{city}/today` | **404 نظيف** | صفحة اليوم |
-| `/moon/{country}/{city}/{YYYY-MM}` | **404 نظيف** | صفحة شهر |
-| `/moon/{country}/{city}/{YYYY-MM-DD}` | **404 نظيف** | صفحة يوم |
+| `/moon/{country}/{city}/today` | **404 نظيف** | صفحة اليوم المتداخلة |
+| `/moon/{country}/{city}/{YYYY-MM}` | **404 نظيف** | صفحة شهر متداخلة |
+| `/moon/{country}/{city}/{YYYY-MM-DD}` | **404 نظيف** | صفحة يوم متداخلة |
 
-> ملاحظة: `/moon/{country}` نفسها **لم تَعُد مستقبليّة** — صارت **200 LIVE** (انظر القسم 1) بعد `MOON-COUNTRY-PAGES-SSR-ADD-1`. الجدول أعلاه يخصّ فقط المستوى **الأعمق** (مدينة فأكثر) الذي لم يُفعَّل بعد.
+> ملاحظة: `/moon/{country}` صارت **200 LIVE** بعد `MOON-COUNTRY-PAGES-SSR-ADD-1`، و`/moon/{country}/{city}` (هب المدينة) صارت **200 LIVE** بعد `MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1` (انظر القسم 1). الجدول أعلاه يخصّ فقط المستوى **الأعمق** المتداخل (today / شهر / يوم تحت `/moon/{country}/{city}/…`) الذي لم يُفعَّل بعد.
 
-**القاعدة الآن:** السيرفر يُرجِع **404** (صفحة خطأ صغيرة ~2KB، ليست shell 200KB) لِكلّ مسار **متداخل** `/moon/{country}/{city}[/…]`. أمّا `/moon/{country}` (دولة لها مدن curated) فتُرجِع **200** الآن. العميل (`_isMoonPath`) يعرف كلّ بادئات `/moon/...` كـ`page-moon`. **روابط المدينة المتداخلة لا تدخل sitemap قبل تفعيلها** — بينما `/moon/{country}` **داخل** sitemap الآن.
+**التحقّق من البنية المتداخلة (MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1):** `/moon/{country}/{city}` يُخدَم **200** فقط حين تكون الدولة حقيقيّة (`_countryFromSlug`) **و** المدينة تُحلّ (`_resolveCcForSlug`) **و** تنتمي لتلك الدولة (`makeCountrySlugSrv(cc)===country`). دولة/مدينة مجهولة → **404**. مدينة في دولة خاطئة → **301** إلى `/moon/{correctCountry}/{city}` (لا فهرسة لرابط غير مطابق).
+
+**القاعدة الآن:** السيرفر يُرجِع **404** (صفحة خطأ صغيرة ~2KB، ليست shell 200KB) لِكلّ مسار متداخل **أعمق** `/moon/{country}/{city}/{today|YYYY-MM|YYYY-MM-DD}`. أمّا `/moon/{country}` و`/moon/{country}/{city}` فتُرجِعان **200**. العميل (`_isMoonPath`) يعرف كلّ بادئات `/moon/...` كـ`page-moon`؛ وعلى الهب المتداخل يُطبِّع العميل المسار (`_moonPathname`) إلى `/moon-in-{city}` لِكلّ مُحلِّلات القمر، ويترك breadcrumb الـ4 مستويات المحقون من SSR كما هو. روابط الهب المتداخل **داخل** cities sitemap؛ الهب القديم `/moon-in-{city}` **خرج** منها (لأنّه 301).
 
 **ممنوع عند التفعيل لاحقًا:** إغراق sitemap بِملايين صفحات الأيّام (`…/{YYYY-MM-DD}`)؛ canonical خاطئ؛ صفحة index ناقصة؛ 200 فارغة.
 
@@ -46,9 +48,10 @@
 A) مُصنِّف `_isMoonPath` (مستخرَج فعليًّا) — كلّ القديم + الجديد `/moon/...` = page-moon؛ غير القمر = لا.
 B) `/moon` = 200 + H1 واحد + page-moon + canonical ذاتيّ + index + محتوى فعليّ + FAQ + search hero + ليس footer-only.
 C) `/moon-today` = 301→/moon (لغات +/)، ليست 200، خارج sitemap.
-D) روابط المدن الأربع = 200 + page-moon + H1 + محتوى + canonical ذاتيّ.
-E) `/moon/{country}` = **200** صفحة دولة (H1 قمر واحد + شبكة مدن + محتوى + canonical ذاتيّ + index + ليست footer-only)؛ المتداخلة `/moon/{country}/{city}[/…]` = **404 نظيف** (+ دولة مجهولة = 404).
-F) sitemap: فيه `/moon` و`/moon/{country}`، ليس فيه `/moon-today`، ليس فيه المتداخلة `/moon/{country}/{city}`، لا إغراق أيّام.
+D) روابط مدينة القمر: الهب المتداخل `/moon/{country}/{city}` = 200 + page-moon + H1 واحد + canonical ذاتيّ + breadcrumb 4 مستويات؛ الهب القديم `/moon-in-{city}` = **301 → المتداخل** (+لغات)؛ today/شهر/يوم المسطّحة = 200 (دون مساس).
+E) `/moon/{country}` = **200** صفحة دولة؛ الهب المتداخل `/moon/{country}/{city}` = **200**؛ المتداخل الأعمق `/moon/{country}/{city}/{today|YYYY-MM|YYYY-MM-DD}` = **404 نظيف**؛ دولة/مدينة مجهولة = **404**؛ مدينة في دولة خاطئة = **301** للصحيح.
+F) sitemap-main: فيه `/moon` و`/moon/{country}`، ليس فيه `/moon-today`، لا إغراق أيّام. sitemap-cities: فيه الهب المتداخل `/moon/{country}/{city}`، **ليس** فيه الهب القديم `/moon-in-{city}`، وفيه `/moon-today-in-{city}` + اليوم القديم `/moon-in-{city}/{date}` (لم يُهاجَرا).
++ اختبار مخصّص `scripts/_smoke_moon_city_hub_route_structure_add_1.mjs`: تطابق breadcrumb DOM≡JSON-LD (4 مستويات، AR+EN) + hreflang 10 لغات + x-default + بذرة `__PRAYER_CITY__` + 301 قديم→جديد (+لغات) + mismatch→301 + 404 التحقّق.
 G) canonical: `/moon` ذاتيّ، مدن ذاتيّ، `/moon-today` بلا جسم/canonical، لا تكرار.
 H) صفحات غير القمر ليست page-moon (SSR).
 I) Meeus 49: الرياض 15/16/29/30 + مدينة أمريكيّة تعرض صفحة قمر + `_hijriForIana` للمدن + محرّك Meeus 49 موجود في moon.js.

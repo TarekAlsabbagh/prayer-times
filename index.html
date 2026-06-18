@@ -72,7 +72,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=2" as="script">
-    <link rel="preload" href="js/app.js?v=786" as="script">
+    <link rel="preload" href="js/app.js?v=787" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1729,7 +1729,12 @@
                         <!-- Level 2: Moon root HUB — always visible. Renamed from "Moon Today" → "Moon". -->
                         <li class="bc-item" id="bc-moon-hub-li" hidden><a class="bc-link" id="bc-moon-hub" href="/moon-today" data-i18n="moon.bc_root">حالة القمر</a></li>
                         <li class="bc-sep" id="bc-moon-hub-sep" aria-hidden="true" hidden>›</li>
-                        <!-- Level 3: dynamic city — "Moon" on /moon-today, "Moon in {City}" on city pages -->
+                        <!-- Level 3 (NEW — MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1): Country rung — only on the
+                             nested city hub /moon/{country}/{city}. Filled + unhidden by SSR (and left intact
+                             by the client). Stays hidden on /moon, /moon-today-in-{city} and date/month pages. -->
+                        <li class="bc-item" id="bc-moon-country-li" hidden><a class="bc-link" id="bc-moon-country" href="/moon">—</a></li>
+                        <li class="bc-sep" id="bc-moon-country-sep" aria-hidden="true" hidden>›</li>
+                        <!-- Level 4: dynamic city — "Moon" on /moon-today, "Moon in {City}" on city pages -->
                         <li class="bc-item" id="bc-moon-li"><a class="bc-link bc-moon" id="bc-moon" href="/moon-today" data-i18n="moon.bc_root" aria-current="page">حالة القمر</a></li>
                         <!-- Level 4 (NEW): Month rung — only on month/day pages. Filled by JS. -->
                         <li class="bc-sep" id="bc-month-sep" aria-hidden="true" hidden>›</li>
@@ -5173,7 +5178,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=2"></script>
-    <script defer src="js/app.js?v=786"></script>
+    <script defer src="js/app.js?v=787"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

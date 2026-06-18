@@ -71,10 +71,15 @@ function _isMoonPath(p) {
     try {
         const _p = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
         const _m = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
-        if (!_m) return;
-        const _slug = _m[1];
-        const _urlLat = _m[2] != null ? parseFloat(_m[2]) : NaN;
-        const _urlLng = _m[3] != null ? parseFloat(_m[3]) : NaN;
+        // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: the nested city moon hub
+        //   /[lang/]moon/{country}/{city} also carries a __PRAYER_CITY__ seed — match
+        //   it (city in 2nd segment) so this pre-paint hydrator seeds the globals from
+        //   the seed and skips the FOUC, same as the flat /moon-in-{city} routes.
+        const _mNested = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
+        if (!_m && !_mNested) return;
+        const _slug = _m ? _m[1] : _mNested[1];
+        const _urlLat = (_m && _m[2] != null) ? parseFloat(_m[2]) : NaN;
+        const _urlLng = (_m && _m[3] != null) ? parseFloat(_m[3]) : NaN;
         // 0) PLACE-CITY-PAGE-L10N-FIX-1 (2026-05-14) — SSR-injected
         // `window.__PRAYER_CITY__` is the authoritative source on
         // /prayer-times-in-{slug} bare routes. Seed globals from it
@@ -17579,6 +17584,20 @@ const FAMOUS_MOON_CITIES = {
     'vienna':        { lat: 48.2082, lng: 16.3738,   tz: 'Europe/Vienna' }
 };
 
+// MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 (2026-06-18): the canonical city moon HUB now
+//   lives at the nested /[lang/]moon/{country}/{city} (the legacy flat /moon-in-{city}
+//   301s there). It renders the SAME content as the flat hub. Rather than thread the
+//   new shape through every moon path parser, normalize it to the legacy flat form at
+//   ONE chokepoint; the existing slug/coords/date/hub parsers then work unchanged.
+//   (The breadcrumb builder intentionally does NOT use this — it detects the raw
+//   nested path and leaves the SSR-rendered 4-level breadcrumb in place.)
+function _moonPathname() {
+    const p = window.location.pathname;
+    const m = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
+    if (m) return '/' + (m[1] || '') + 'moon-in-' + m[2];
+    return p;
+}
+
 function _moonCitySlugFromPath() {
     // Round 15 + Round 16 + UAT-Moon-Hub-Month: four URL shapes —
     //   /moon-today-in-{slug}[-{lat}-{lng}]                → صفحة اليوم
@@ -17586,7 +17605,9 @@ function _moonCitySlugFromPath() {
     //   /moon-in-{slug}[-{lat}-{lng}]/YYYY-MM             → صفحة شهر (NEW)
     //   /moon-in-{slug}[-{lat}-{lng}]                      → صفحة hub (Round 16)
     // نُرجِع slug فقط — الإحداثيّات تُقرأ عبر _moonCoordsFromPath().
-    const p = window.location.pathname;
+    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: _moonPathname() maps the nested hub to the
+    //   flat /moon-in-{city} form so the hub regex below resolves the city slug.
+    const p = _moonPathname();
     let m = p.match(/\/moon-today-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     if (m) return m[1];
     m = p.match(/\/moon-in-([a-z][a-z0-9-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/\d{4}-\d{2}-\d{2}$/);
@@ -17605,7 +17626,7 @@ function _moonCitySlugFromPath() {
 //   (ب) تعديل H1 إن لزم
 //   (ج) تعديل روابط «مدن أخرى» لتشير إلى hub بدل today
 function _moonIsHubPath() {
-    const p = window.location.pathname;
+    const p = _moonPathname();   // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested hub → flat form
     // استبعد صفحة التاريخ أوّلاً (التاريخ ينتهي بـ /YYYY-MM-DD)
     if (/\/moon-in-[a-z][a-z0-9-]+(?:-[-.\d]+-[-.\d]+)?\/\d{4}-\d{2}-\d{2}$/.test(p)) return false;
     return /\/moon-in-[a-z][a-z0-9-]+?(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/.test(p);
@@ -17614,7 +17635,7 @@ function _moonIsHubPath() {
 // Round 12: إحداثيّات المدينة من الـ URL إن كانت coord-suffix موجودة.
 // Round 15 + Round 16: ندعم ثلاثة أشكال (today + dated + hub). يُرجِع {lat, lng} أو null.
 function _moonCoordsFromPath() {
-    const p = window.location.pathname;
+    const p = _moonPathname();   // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested hub → flat form (no coords)
     let m = p.match(/\/moon-today-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
     if (!m) {
         m = p.match(/\/moon-in-[a-z][a-z0-9-]+?-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)\/\d{4}-\d{2}-\d{2}$/);
@@ -17638,7 +17659,8 @@ function _moonCoordsFromPath() {
 //   الـ Date يعود في منتصف النهار (12:00) لتجنّب حدود DST.
 //   Round 15: التاريخ موجود فقط تحت /moon-in- (ليس /moon-today-in-).
 function _moonDateFromPath() {
-    const m = window.location.pathname.match(/\/moon-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
+    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested hub → flat form (no date → null).
+    const m = _moonPathname().match(/\/moon-in-[a-z][a-z0-9-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
     if (!m) return null;
     const y = parseInt(m[1], 10);
     const mo = parseInt(m[2], 10);
@@ -21994,6 +22016,16 @@ function updateMoonInfo() {
     //   - مع city slug بلا تاريخ → Home › (current) القمر اليوم في {City}
     //   - مع city slug + تاريخ → Home › (link) القمر اليوم في {City} › (current) {Date}
     try {
+        // ── MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: on the nested city hub
+        //    /[lang/]moon/{country}/{city} the server SSR-renders the full 4-level
+        //    breadcrumb (Home › Moon Phase › Country › City) and it already matches
+        //    the BreadcrumbList JSON-LD. The client 3-level rebuild below would drop
+        //    the Country rung + relabel the City, so SKIP it here and leave SSR's DOM.
+        //    (This block is the last in updateMoonInfo, so returning is a clean no-op
+        //    for everything else.) Detect the RAW nested path, not the normalized one.
+        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+$/.test(window.location.pathname)) {
+            return;
+        }
         const _bcMoon       = document.getElementById('bc-moon');
         const _bcMoonHubLi  = document.getElementById('bc-moon-hub-li');
         const _bcMoonHubSep = document.getElementById('bc-moon-hub-sep');

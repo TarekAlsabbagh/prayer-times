@@ -10989,6 +10989,9 @@ function buildSeoForPath(urlPath) {
         geo = { lat, lng };
         cityModified = new Date().toISOString();
         breadcrumbs.push({ name: cityDisplay, item: canonical });
+        // PRAYER-BREADCRUMB-DUPLICATE-SCHEMA-FIX-1: prayer city page injects its own dedicated 3-rung
+        //   standalone BreadcrumbList (DOM + JSON-LD) below — suppress the generic 2-rung @graph one.
+        breadcrumbs._suppressGraphBcLd = true;
     }
 
     // ── 🆕 Time-Left pages (Polish Round F): /time-left-until-next-prayer-in-{slug} ──
@@ -11222,6 +11225,7 @@ function buildSeoForPath(urlPath) {
         ogType = 'article';
         cityModified = new Date().toISOString();
         breadcrumbs.push({ name: _tlCityDisplay, item: canonical });
+        breadcrumbs._suppressGraphBcLd = true;   // PRAYER-BREADCRUMB-DUPLICATE-SCHEMA-FIX-1 (dedicated standalone BreadcrumbList below)
         timeLeftPage = { slug: _tlSlug, cityName: _tlCityDisplay };
     }
 
@@ -11326,6 +11330,7 @@ function buildSeoForPath(urlPath) {
         ogType = 'article';
         cityModified = new Date().toISOString();
         breadcrumbs.push({ name: _nptCityDisplay, item: canonical });
+        breadcrumbs._suppressGraphBcLd = true;   // PRAYER-BREADCRUMB-DUPLICATE-SCHEMA-FIX-1 (dedicated standalone BreadcrumbList below)
         nextPrayerPage = { slug: _nptSlug, cityName: _nptCityDisplay };
     }
 
@@ -13106,6 +13111,10 @@ function buildSeoForPath(urlPath) {
             ogType = 'article';
             cityModified = new Date().toISOString();
             breadcrumbs.push({ name: cityDisplay, item: canonical });
+            // PRAYER-BREADCRUMB-DUPLICATE-SCHEMA-FIX-1: bare curated city /prayer-times-in-{city} injects
+            //   its own dedicated 3-rung standalone BreadcrumbList (DOM + JSON-LD) below — suppress the
+            //   generic 2-rung @graph one to avoid a duplicate/conflicting BreadcrumbList.
+            breadcrumbs._suppressGraphBcLd = true;
         }
     }
 
@@ -13474,7 +13483,14 @@ function renderSeoHeadHtml(seo) {
     });
 
     // BreadcrumbList (if >= 2 items)
-    if (seo.breadcrumbs && seo.breadcrumbs.length >= 2) {
+    // PRAYER-BREADCRUMB-DUPLICATE-SCHEMA-FIX-1 (2026-06-21): skip the generic @graph BreadcrumbList
+    //   when the page already injects its OWN dedicated, more-complete standalone BreadcrumbList
+    //   (prayer-city / next-prayer / time-left) + matching DOM. Without this guard those 3 pages
+    //   emitted TWO conflicting BreadcrumbList blocks: this generic 2-rung Home›City (built from the
+    //   2-item seo.breadcrumbs) AND the dedicated 3-rung Home›Country›Prayer-Times-in-City. The flag
+    //   `_suppressGraphBcLd` is set on the breadcrumbs array at those 3 prayer push-sites only, so
+    //   every other page (moon/qibla/country/zakat/hijri/azkar/…) keeps emitting the @graph crumb.
+    if (seo.breadcrumbs && seo.breadcrumbs.length >= 2 && !seo.breadcrumbs._suppressGraphBcLd) {
         ssrGraph.push({
             "@type": "BreadcrumbList",
             "@id": `${seo.canonical}#breadcrumb`,
@@ -20852,7 +20868,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     return obj;
                 })
             };
-            const _ld = `<script type="application/ld+json" id="breadcrumb-schema-ssr">${JSON.stringify(_bcJsonLd)}</script>`;
+            // PRAYER-BREADCRUMB-DUPLICATE-SCHEMA-FIX-1: emit this SSR crawler BreadcrumbList under the
+            //   SAME id the client uses (`breadcrumb-schema`), NOT a separate `breadcrumb-schema-ssr`.
+            //   On hydration js/app.js `_injectBreadcrumbSchema` does getElementById('breadcrumb-schema')
+            //   .remove() before re-injecting its own — so sharing the id lets the client DEDUPE this SSR
+            //   block instead of leaving two BreadcrumbList scripts in the hydrated DOM. Crawlers with no
+            //   JS still see exactly this one (SSR=1); JS-rendering crawlers see the client's one (hydrated=1).
+            const _ld = `<script type="application/ld+json" id="breadcrumb-schema">${JSON.stringify(_bcJsonLd)}</script>`;
             html = html.replace('</head>', _ld + '</head>');
         } catch (_e) { /* silent */ }
 

@@ -28,8 +28,8 @@ function get(path) {
         http.get({ host: 'localhost', port: 8080, path }, r => {
             let body = '';
             r.on('data', c => body += c);
-            r.on('end', () => resolve({ status: r.statusCode, body }));
-        }).on('error', () => resolve({ status: 0, body: '' }));
+            r.on('end', () => resolve({ status: r.statusCode, body, loc: r.headers.location || '' }));
+        }).on('error', () => resolve({ status: 0, body: '', loc: '' }));
     });
 }
 
@@ -109,30 +109,20 @@ ok('index.html cache-buster bumped (>= 655 across all references)',
     minVer >= 655);
 
 // ───────────────────────────────────────────────────────────────────────
-// PART B — /moon-today + lang variants return 200
+// PART B — the moon hub moved /moon-today → /moon (MOON-TODAY-CONTENT-MOVE-TO-MOON-1, committed):
+//   /moon-today (+langs) now 301 → /moon; the moon-page search box lives on /moon. (Pre-existing
+//   route change — refreshed here so this test reflects committed behavior, NOT an MLRC change.)
 // ───────────────────────────────────────────────────────────────────────
-console.log('\n── Part B — /moon-today + lang variants ──');
+console.log('\n── Part B — /moon-today + langs → 301 /moon · search box on /moon ──');
 
-const MOON_TODAY_PAGES = [
-    '/moon-today',
-    '/en/moon-today',
-    '/ur/moon-today',
-    '/fr/moon-today',
-    '/de/moon-today',
-    '/tr/moon-today',
-    '/es/moon-today',
-    '/bn/moon-today',
-    '/ms/moon-today',
-    '/id/moon-today'
-];
+const MOON_HUB_LANGS = ['', '/en', '/ur', '/fr', '/de', '/tr', '/es', '/bn', '/ms', '/id'];
 
-for (const url of MOON_TODAY_PAGES) {
-    const r = await get(url);
-    // Must serve 200 + must contain the new moon-page-search element
-    const hasNewSearch = r.body.includes('id="moon-page-search"')
-        && r.body.includes('id="moon-hub-suggestions"');
-    ok(url.padEnd(25) + ' served 200 + new search markup present',
-        r.status === 200 && hasNewSearch);
+for (const lp of MOON_HUB_LANGS) {
+    const legacy = await get(lp + '/moon-today');
+    ok((lp + '/moon-today').padEnd(20) + ' 301 → ' + (lp + '/moon'), legacy.status === 301 && legacy.loc === (lp + '/moon'), `status=${legacy.status} loc=${legacy.loc}`);
+    const hub = await get(lp + '/moon');
+    const hasNewSearch = hub.body.includes('id="moon-page-search"') && hub.body.includes('id="moon-hub-suggestions"');
+    ok((lp + '/moon').padEnd(20) + ' 200 + new search markup present', hub.status === 200 && hasNewSearch);
 }
 
 // ───────────────────────────────────────────────────────────────────────
@@ -161,9 +151,9 @@ for (const c of API_CASES) {
 }
 
 // ───────────────────────────────────────────────────────────────────────
-// PART D — /moon-in-{slug} regression (server-side route untouched)
+// PART D — /moon-in-{slug} now 301 → nested hub (MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH)
 // ───────────────────────────────────────────────────────────────────────
-console.log('\n── Part D — /moon-in-{slug} routes still work ──');
+console.log('\n── Part D — /moon-in-{slug} now 301 → nested hub (MLRC) ──');
 
 const MOON_IN_PAGES = [
     '/moon-in-charikar',
@@ -176,13 +166,15 @@ const MOON_IN_PAGES = [
 
 for (const url of MOON_IN_PAGES) {
     const r = await get(url);
-    ok(url.padEnd(28) + ' returns 200', r.status === 200);
+    // 301 (lang-preserved) to the nested hub /[lang/]moon/{country}/{city}
+    const nested = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z-]+\/[a-z-]+$/.test(r.loc);
+    ok(url.padEnd(28) + ' 301 → nested hub', r.status === 301 && nested, `status=${r.status} loc=${r.loc}`);
 }
 
 // ───────────────────────────────────────────────────────────────────────
-// PART E — /moon-today-in-{slug} regression (legacy route still works)
+// PART E — /moon-today-in-{slug} now 301 → nested today (MLRC)
 // ───────────────────────────────────────────────────────────────────────
-console.log('\n── Part E — /moon-today-in-{slug} legacy route regression ──');
+console.log('\n── Part E — /moon-today-in-{slug} now 301 → nested today (MLRC) ──');
 
 const MOON_TODAY_IN_PAGES = [
     '/moon-today-in-charikar',
@@ -192,7 +184,8 @@ const MOON_TODAY_IN_PAGES = [
 
 for (const url of MOON_TODAY_IN_PAGES) {
     const r = await get(url);
-    ok(url.padEnd(32) + ' returns 200', r.status === 200);
+    const nested = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z-]+\/[a-z-]+\/today$/.test(r.loc);
+    ok(url.padEnd(32) + ' 301 → nested today', r.status === 301 && nested, `status=${r.status} loc=${r.loc}`);
 }
 
 // ───────────────────────────────────────────────────────────────────────

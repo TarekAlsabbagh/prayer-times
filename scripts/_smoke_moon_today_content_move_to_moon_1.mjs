@@ -10,10 +10,10 @@
 //   D) sitemap lists /moon (NOT the bare /moon-today hub) but KEEPS /moon-today-in-{city}.
 //   E) GENERAL internal hub links in served HTML are /moon (navbar, qibla card),
 //      with NO leftover bare href="/moon-today" hub link and NO {LANG_PREFIX} leak.
-//   F) vs THIS migration: /moon-today-in-{city} + dated /moon-in-{city}/{date} still 200
-//      (page-moon) and do NOT 301 to /moon. The bare hub /moon-in-{city} 301s to the nested
-//      hub /moon/{country}/{city} (NOT /moon) since MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1.
-//   G) Meeus 49 unchanged on the dated grid (Riyadh Jun 2026: 15=المحاق, 30=البدر).
+//   F) MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: ALL legacy flat moon routes now 301 (lang-preserved)
+//      to their nested equivalent — /moon-today-in-{city}→/…/today, dated→/…/{yyyy}/{mm}[/{dd}],
+//      bare hub /moon-in-{city}→/moon/{country}/{city}.
+//   G) Meeus 49 unchanged (Riyadh Jun 2026: 15=المحاق, 30=البدر) — via nested day pages.
 //
 // Run: node scripts/_smoke_moon_today_content_move_to_moon_1.mjs
 import http from 'node:http';
@@ -103,25 +103,26 @@ try {
     const qibla = (await req('/qibla')).body;
     check('/qibla "Moon Today" hub card → /moon', qibla.includes('href="/moon"') && !qibla.includes('href="/moon-today"'));
 
-    // ── F) city routes vs the /moon-today migration: today/dated still 200 (THIS ticket left
-    //   them alone). The bare flat hub /moon-in-{city} 301s to the NESTED hub
-    //   /moon/{country}/{city} — NOT to /moon — since MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1
-    //   (d0dd388, already in HEAD). Test-only expectation refresh; no runtime/route change. ──
-    console.log('\n── F) city moon routes: today/dated 200 · bare hub 301 → nested ──');
-    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
-        const r = await req(u);
-        check(`${u}: 200 + #page-moon active (not 301)`, r.status === 200 && /class="page active" id="page-moon"/.test(r.body), `status=${r.status}`);
-    }
-    for (const [from, to] of [['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'], ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh']]) {
+    // ── F) city routes — MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: ALL legacy flat routes now 301
+    //   (lang-preserved) to their nested equivalent. The bare flat hub /moon-in-{city} → nested hub
+    //   /moon/{country}/{city}; today → /…/today; dated → /…/{yyyy}/{mm}[/{dd}]. ──
+    console.log('\n── F) city moon routes: ALL legacy flat routes 301 → nested (MLRC) ──');
+    for (const [from, to] of [
+        ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'],
+        ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'],
+        ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'],
+        ['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'],
+        ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh'],
+    ]) {
         const r = await req(from);
-        check(`${from} → 301 ${to} (nested hub, NOT /moon)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+        check(`${from} → 301 ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
 
-    // ── G) Meeus 49 unchanged on the dated grid ──
-    console.log('\n── G) Meeus 49 unchanged (Riyadh Jun 2026 grid) ──');
-    const grid = (await req('/moon-in-riyadh/2026-06')).body;
-    check('15 Jun = المحاق (new moon)', /2026-06-15[\s\S]{0,200}?المحاق/.test(grid));
-    check('30 Jun = البدر (full moon)', /2026-06-30[\s\S]{0,200}?البدر/.test(grid));
+    // ── G) Meeus 49 unchanged (validated via nested day pages — legacy grid now 301s) ──
+    console.log('\n── G) Meeus 49 unchanged (Riyadh Jun 2026, nested day pages) ──');
+    const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
+    check('15 Jun = المحاق (new moon)', r15.status === 200 && r15.body.includes('المحاق'));
+    check('30 Jun = البدر (full moon)', r30.status === 200 && r30.body.includes('البدر'));
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

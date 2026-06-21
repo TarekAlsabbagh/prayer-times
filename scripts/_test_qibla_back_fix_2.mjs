@@ -24,7 +24,7 @@ function makePageshowHandler(win, doc) {
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(_path)) {
             _expectedId = 'page-tasbih';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?azkar$/.test(_path)) {
-            _expectedId = 'page-duas';
+            _expectedId = 'page-azkar-hub';   // AZKAR-HUB restructure renamed page-duas → page-azkar-hub
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(_path)) {
             _expectedId = 'page-hijri-today';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(_path)) {
@@ -103,10 +103,10 @@ const SCENARIOS = [
         ['page-tasbih'],
     ],
     [
-        'I) /azkar + polluted (page-moon active) → heal to page-duas',
+        'I) /azkar + polluted (page-moon active) → heal to page-azkar-hub',
         '/azkar',
         ['page-moon'],
-        ['page-duas'],
+        ['page-azkar-hub'],
     ],
     [
         'J) /today-hijri-date + polluted (page-qibla active) → heal to page-hijri-today',
@@ -138,7 +138,12 @@ for (const [label, urlPath, preActive, expectedActive] of SCENARIOS) {
     // present in the DOM mirror what BFCache would freeze + restore.
     // BFCache snapshots the OUTGOING page's DOM — so if we Back into
     // /moon-today-in-X, the SSR for that URL is what we work with.
-    const html = await fetchUrl('http://localhost:8080' + urlPath);
+    // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: legacy moon URLs (/moon-today-in-X, /moon-in-X) now 301 →
+    //   nested, so their redirect body has no `.page` wrappers. Fetch the full SPA shell from a stable 200
+    //   URL (/moon — same index.html shell, all `.page` divs) for the DOM fixture, while the JSDOM url stays
+    //   `urlPath` so the self-heal still CLASSIFIES the legacy pathname → page-moon (classifier unchanged).
+    const _fixtureUrl = /\/(?:moon-today-in-|moon-in-)/.test(urlPath) ? '/moon' : urlPath;
+    const html = await fetchUrl('http://localhost:8080' + _fixtureUrl);
     const dom = new JSDOM(html, { url: 'http://localhost:8080' + urlPath });
     const win = dom.window;
     const doc = win.document;

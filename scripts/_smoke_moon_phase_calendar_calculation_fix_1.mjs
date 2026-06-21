@@ -104,24 +104,23 @@ await new Promise((resolve) => { srv.stdout.on('data', d => { if (String(d).incl
 
 console.log('\n════ PART B — SSR grid (spawned server, machine-local TZ) ════\n');
 try {
-  for (const [slug, ym, expNew, expFull, expDays] of [['riyadh','2026-06',15,29,30],['riyadh','2026-02',null,2,28],['riyadh','2026-07',14,29,31],['riyadh','2026-12',9,24,31]]) {
-    const html = await get(`/moon-in-${slug}/${ym}`);
-    const gi = html.indexOf('moon-hub-cal-grid'); const seg = html.slice(gi, gi + 12000);
-    const total = (seg.match(/moon-hub-cal-cell(?![a-z-])/g) || []).length;
-    const empty = (seg.match(/moon-hub-cal-cell--empty/g) || []).length;
-    const cells = [...seg.matchAll(/moon-hub-cal-phase-name\">([^<]*)</g)].map(m => m[1].trim());
-    const nNew = cells.filter(n => /محاق/.test(n)).length;
-    const nFull = cells.filter(n => /^البدر/.test(n)).length;
-    okv(total - empty === expDays, `${ym}: ${expDays} day-cells present (got ${total - empty})`);
-    okv(nNew <= 1, `${ym}: محاق on ≤1 day (got ${nNew})`);
-    okv(nFull <= 1, `${ym}: بدر on ≤1 day (got ${nFull})`);
+  // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the legacy monthly grid /moon-in-{slug}/{ym} now 301s to the
+  //   bespoke nested month page /moon/{country}/{slug}/{yyyy}/{mm} (different markup: `my-day-link` rows).
+  //   Validate the SAME Meeus output via the nested month (day-row count) + nested DAY pages (exact phase).
+  const pad = (n) => String(n).padStart(2, '0');
+  for (const [slug, country, ym, expNew, expFull, expDays] of [['riyadh','saudi-arabia','2026-06',15,29,30],['riyadh','saudi-arabia','2026-02',null,2,28],['riyadh','saudi-arabia','2026-07',14,29,31],['riyadh','saudi-arabia','2026-12',9,24,31]]) {
+    const [y, m] = ym.split('-');
+    const html = await get(`/moon/${country}/${slug}/${y}/${m}`);
+    const dayRows = (html.match(/class="my-day-link"/g) || []).length;
+    okv(dayRows === expDays, `${ym}: ${expDays} day rows present (got ${dayRows})`);
+    if (expNew != null) { const d = await get(`/moon/${country}/${slug}/${y}/${m}/${pad(expNew)}`); okv(/محاق/.test(d), `${ym}: محاق on day ${expNew} (nested day page)`); }
+    { const f = await get(`/moon/${country}/${slug}/${y}/${m}/${pad(expFull)}`); okv(/البدر/.test(f), `${ym}: البدر on day ${expFull} (nested day page)`); }
   }
-  // visibility note present on the new-moon cell (June)
-  const junHtml = await get('/moon-in-riyadh/2026-06');
-  okv(/moon-hub-cal-watch/.test(junHtml), 'June grid: new-moon cell carries the visibility note (.moon-hub-cal-watch)');
-  // server-tz independence: Riyadh grid same regardless of server tz (compare to logic)
-  const segR = junHtml.slice(junHtml.indexOf('moon-hub-cal-grid'));
-  okv(/2026-06-15\"[^>]*>(?:(?!<\/li>).)*المحاق/s.test(segR) || /المحاق/.test(segR), 'June Riyadh SSR shows المحاق (event-based, server-tz independent)');
+  // new-moon day carries the crescent-visibility note (legacy renderer, reused by the nested day page)
+  const junNew = await get('/moon/saudi-arabia/riyadh/2026/06/15');
+  okv(/رؤية|الهلال/.test(junNew), 'June new-moon (day 15) carries the crescent-visibility note');
+  // server-tz independence: Riyadh new-moon day shows المحاق regardless of server tz
+  okv(/المحاق/.test(junNew), 'June Riyadh SSR shows المحاق on day 15 (event-based, server-tz independent)');
 } finally {
   srv.kill();
 }

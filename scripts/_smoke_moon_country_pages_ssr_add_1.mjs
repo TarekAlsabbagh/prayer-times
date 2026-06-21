@@ -135,7 +135,9 @@ try {
     console.log('\n── E) /moon hub + /moon-today + Meeus unchanged ──');
     check('/moon → 200', (await req('/moon')).status === 200);
     { const r = await req('/moon-today'); check('/moon-today → 301 /moon', r.status === 301 && r.loc === '/moon', `${r.status} ${r.loc}`); }
-    { const g = (await req('/moon-in-riyadh/2026-06')).body; check('Meeus Riyadh 15=المحاق · 30=البدر', /2026-06-15[\s\S]{0,260}?المحاق/.test(g) && /2026-06-30[\s\S]{0,260}?البدر/.test(g)); }
+    { // MLRC: legacy grid now 301s — validate Meeus via nested DAY pages (same engine, same output).
+      const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
+      check('Meeus Riyadh 15=المحاق · 30=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر')); }
 
     // ── F) sitemap: /moon/{country} present, /moon-today absent, no nested future routes ──
     console.log('\n── F) sitemap ──');

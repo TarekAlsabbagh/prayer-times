@@ -74,14 +74,19 @@ try {
     console.log('\n── C) moon routes still render (SSR) ──');
     // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the hub moved /moon-today → /moon (the bare
     //   /moon-today now 301s to /moon, covered by its own smoke). The 200 hub is /moon.
-    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 (d0dd388, already in HEAD): the bare flat hub
-    //   /moon-in-{city} now 301s to the nested hub /moon/{country}/{city}; today + dated
-    //   /moon-in-{city}/{date} stay 200. Test-only expectation refresh; no runtime change.
-    for (const u of ['/moon', '/moon-today-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
+    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 + MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the bare flat hub
+    //   /moon-in-{city} 301s to the nested hub; today + dated legacy routes now ALSO 301 to their nested
+    //   equivalent. /moon (global hub) + the NESTED city routes stay the 200 page-moon pages.
+    for (const u of ['/moon', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17']) {
         const r = await get(u);
         const active = r.body.includes('class="page active" id="page-moon"');
         const h1 = (r.body.match(/<h1[^>]*id="(?:moon-hub-h1|moon-page-h1)"/g) || []).length;
         check(`${u}: 200 + #page-moon active + 1 moon H1`, r.status === 200 && active && h1 === 1, `status=${r.status} active=${active} h1=${h1}`);
+    }
+    // MLRC: legacy today/dated now 301 → nested (lang preserved)
+    for (const [from, to] of [['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'], ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17']]) {
+        const r = await get(from);
+        check(`${from} → 301 ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
     // the bare flat hub /moon-in-{city} 301s to the nested hub /moon/{country}/{city} (lang preserved)
     for (const [from, to] of [['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'], ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh']]) {

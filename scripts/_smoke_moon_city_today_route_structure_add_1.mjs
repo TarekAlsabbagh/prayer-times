@@ -9,9 +9,10 @@
 //   3. hreflang (the new nested URL, 10 langs + x-default),
 //   4. a 5-level breadcrumb (Home › Moon Phase › {Country} › {City} › Today) DOM ≡ BreadcrumbList JSON-LD.
 // Validation: /today/anything → 404, dash forms → 404, uppercase /Today → 404, wrong country → 301,
-// unknown country/city → 404. The legacy /moon-today-in-{city} stays a 200 (NO redirect this phase).
-// Internal "today" links inside the NEW nested pages point at the new nested today. js/moon.js +
-// Meeus 49 untouched. Today pages ARE added to the cities sitemap (alongside legacy today — no cleanup).
+// unknown country/city → 404. MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the legacy /moon-today-in-{city}
+// now 301s (lang-preserved) to the nested today. Internal "today" links inside the NEW nested pages point
+// at the new nested today. js/moon.js + Meeus 49 untouched. The cities sitemap carries the nested today
+// (legacy today + legacy dated DROPPED by MLRC).
 //
 // Run: node scripts/_smoke_moon_city_today_route_structure_add_1.mjs
 import http from 'node:http';
@@ -77,16 +78,18 @@ try {
         check(`${u}: 200 + page-moon + NO #page-moon-day + 1 H1 + self canonical`, ok, `status=${r.status} pm=${pageMoonActive(r.body)} h1=${h1Count(r.body)} canon=${canonOf(r.body)}`);
     }
 
-    // ── B) SAME CONTENT as the legacy /moon-today-in-{city} (renderer / title / H1 / body) ──
-    console.log('\n── B) same content as legacy /moon-today-in-{city} (renderer · title · H1 · body) ──');
+    // ── B) legacy today renderer (renderer / title / H1 / body) ──
+    //   MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the legacy /moon-today-in-{city} now 301s to THIS nested
+    //   URL (no 200 body to diff against), so assert non-empty title/H1 here + legacy 301→here.
+    console.log('\n── B) legacy today renderer (renderer · title · H1 · body) + legacy URL 301→nested ──');
     for (const [nested, legacy] of [
         ['/moon/saudi-arabia/riyadh/today', '/moon-today-in-riyadh'],
         ['/en/moon/saudi-arabia/riyadh/today', '/en/moon-today-in-riyadh'],
         ['/moon/united-states/new-york/today', '/moon-today-in-new-york'],
     ]) {
         const d = await req(nested), lg = await req(legacy);
-        check(`${nested}: same <title> as ${legacy}`, lg.status === 200 && titleText(d.body) === titleText(lg.body) && titleText(d.body).length > 0, `day="${titleText(d.body)}" legacy="${titleText(lg.body)}"`);
-        check(`${nested}: same #moon-page-h1 text as legacy`, h1Text(d.body) === h1Text(lg.body) && h1Text(d.body).length > 0, `day="${h1Text(d.body)}" legacy="${h1Text(lg.body)}"`);
+        check(`${nested}: non-empty <title> + legacy ${legacy} 301→here`, titleText(d.body).length > 0 && lg.status === 301 && lg.loc === nested, `day="${titleText(d.body)}" legacy=${lg.status}→${lg.loc}`);
+        check(`${nested}: non-empty #moon-page-h1`, h1Text(d.body).length > 0, `day="${h1Text(d.body)}"`);
         check(`${nested}: reuses legacy body (#moon-city-answer present)`, /id="moon-city-answer"/.test(d.body));
         const bespoke = ['page-moon-day', 'moon-day-hero', 'moon-year-summary', 'moon-month-summary'].filter(id => new RegExp('id="' + id + '"').test(d.body));
         check(`${nested}: 0 bespoke section artifacts`, bespoke.length === 0, `present=[${bespoke.join(',')}]`);
@@ -139,12 +142,12 @@ try {
         check('/en/… mismatch → 301 /en/moon/saudi-arabia/riyadh/today (lang preserved)', re.status === 301 && re.loc === '/en/moon/saudi-arabia/riyadh/today', `status=${re.status} loc=${re.loc}`);
     }
 
-    // ── F) sitemap: nested today PRESENT (alongside legacy today — no cleanup this phase) ──
-    console.log('\n── F) sitemap-cities: nested today PRESENT · legacy today still present (no cleanup) ──');
+    // ── F) sitemap: nested today PRESENT · legacy today ABSENT (MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH) ──
+    console.log('\n── F) sitemap-cities: nested today PRESENT · legacy today ABSENT (MLRC cleanup) ──');
     {
         const smc = (await req('/sitemap-cities-1.xml')).body;
         check('sitemap: nested today /moon/saudi-arabia/medina/today PRESENT', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
-        check('sitemap: legacy /moon-today-in-{city} STILL present (no broad cleanup)', /\/moon-today-in-[a-z-]+<\/loc>/.test(smc));
+        check('sitemap: legacy /moon-today-in-{city} ABSENT (MLRC — now 301)', !/\/moon-today-in-[a-z-]+<\/loc>/.test(smc), `${(smc.match(/\/moon-today-in-[a-z-]+<\/loc>/g) || []).length}`);
         check('sitemap: nested hub /moon/saudi-arabia/medina still present', /\/moon\/saudi-arabia\/medina<\/loc>/.test(smc));
     }
 
@@ -156,21 +159,27 @@ try {
         check('nested hub: NO self-city legacy /moon-today-in-riyadh link', count(hub, /href="\/moon-today-in-riyadh"/g) === 0, `${count(hub, /href="\/moon-today-in-riyadh"/g)}`);
     }
 
-    // ── H) legacy routes untouched (NO redirect from legacy today) + structure intact + Meeus 49 ──
-    console.log('\n── H) legacy routes untouched (no redirect from legacy today) + structure intact + Meeus 49 ──');
-    check('/moon-today-in-riyadh still 200 (legacy today — NOT redirected)', (await req('/moon-today-in-riyadh')).status === 200);
-    { const r = await req('/moon-in-riyadh'); check('/moon-in-riyadh → 301 /moon/saudi-arabia/riyadh (hub still 301)', r.status === 301 && r.loc === '/moon/saudi-arabia/riyadh', `status=${r.status} loc=${r.loc}`); }
-    check('/moon-in-riyadh/2026-06 still 200 (legacy month)', (await req('/moon-in-riyadh/2026-06')).status === 200);
-    check('/moon-in-riyadh/2026-06-17 still 200 (legacy dated)', (await req('/moon-in-riyadh/2026-06-17')).status === 200);
+    // ── H) legacy routes now 301 → nested (MLRC) + nested structure intact + Meeus 49 ──
+    console.log('\n── H) legacy today/month/date 301 → nested (MLRC) + nested structure intact + Meeus 49 ──');
+    for (const [u, to] of [
+        ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'],
+        ['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'],
+        ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'],
+        ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'],
+    ]) {
+        const r = await req(u);
+        check(`${u} → 301 ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    }
     check('/moon/saudi-arabia/riyadh = 200 (hub)', (await req('/moon/saudi-arabia/riyadh')).status === 200);
     check('/moon/saudi-arabia/riyadh/2026 = 200 (year)', (await req('/moon/saudi-arabia/riyadh/2026')).status === 200);
     check('/moon/saudi-arabia/riyadh/2026/06 = 200 (month)', (await req('/moon/saudi-arabia/riyadh/2026/06')).status === 200);
     check('/moon/saudi-arabia/riyadh/2026/06/17 = 200 (day)', (await req('/moon/saudi-arabia/riyadh/2026/06/17')).status === 200);
     check('/moon/saudi-arabia = 200 (country) · /moon = 200 (hub)', (await req('/moon/saudi-arabia')).status === 200 && (await req('/moon')).status === 200);
     {
-        const grid = (await req('/moon-in-riyadh/2026-06')).body;
-        const ok15 = /2026-06-15[\s\S]{0,260}?المحاق/.test(grid), ok30 = /2026-06-30[\s\S]{0,260}?البدر/.test(grid);
-        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر', ok15 && ok30, `15=${ok15} 30=${ok30}`);
+        // MLRC: validate Meeus via nested DAY pages (legacy grid now 301s; same engine, same output).
+        const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
+        const ok15 = r15.status === 200 && r15.body.includes('المحاق'), ok30 = r30.status === 200 && r30.body.includes('البدر');
+        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', ok15 && ok30, `15=${ok15} 30=${ok30}`);
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

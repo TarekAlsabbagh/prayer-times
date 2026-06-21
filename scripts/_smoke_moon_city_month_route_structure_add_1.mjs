@@ -182,18 +182,20 @@ try {
         check('year page: month cards NO LONGER use legacy /moon-in-riyadh/2026-NN', count(y, /class="my-month-card" href="\/moon-in-riyadh\//g) === 0);
     }
 
-    // ── H) legacy routes untouched + Meeus 49 unchanged ──
-    console.log('\n── H) legacy routes untouched (no redirect) + Meeus 49 unchanged ──');
-    check('/moon-in-riyadh/2026-06 still 200 (legacy month — NOT redirected)', (await req('/moon-in-riyadh/2026-06')).status === 200);
-    check('/moon-in-riyadh/2026-06-17 still 200 (legacy day)', (await req('/moon-in-riyadh/2026-06-17')).status === 200);
-    check('/moon-today-in-riyadh still 200', (await req('/moon-today-in-riyadh')).status === 200);
+    // ── H) legacy routes 301 → nested (MLRC) + Meeus 49 unchanged ──
+    console.log('\n── H) legacy month/day/today 301 → nested (MLRC) + Meeus 49 unchanged ──');
+    for (const [u, to] of [['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'], ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'], ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today']]) {
+        const r = await req(u);
+        check(`${u}: 301 → ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    }
     check('/moon/saudi-arabia/riyadh/2026 still 200 (year)', (await req('/moon/saudi-arabia/riyadh/2026')).status === 200);
     check('/moon/saudi-arabia/riyadh still 200 (hub)', (await req('/moon/saudi-arabia/riyadh')).status === 200);
     check('/moon/saudi-arabia still 200 (country)', (await req('/moon/saudi-arabia')).status === 200);
     check('/moon still 200', (await req('/moon')).status === 200);
     {
-        const grid = (await req('/moon-in-riyadh/2026-06')).body;
-        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر', /2026-06-15[\s\S]{0,260}?المحاق/.test(grid) && /2026-06-30[\s\S]{0,260}?البدر/.test(grid));
+        // MLRC: validate Meeus via nested DAY pages (legacy grid now 301s; same engine, same output).
+        const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
+        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر'));
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

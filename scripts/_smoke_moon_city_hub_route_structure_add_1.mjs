@@ -146,11 +146,16 @@ try {
         check(`${u} → 404 (not a served route)`, r.status === 404 && !pageMoonActive(r.body), `status=${r.status} pm=${pageMoonActive(r.body)}`);
     }
 
-    // ── E) legacy routes UNTOUCHED (not migrated this phase) ──
-    console.log('\n── E) legacy routes untouched (today / month / date 200 · /moon · /moon/{country}) ──');
-    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
+    // ── E) legacy routes — MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: ALL legacy flat routes now 301
+    //        (lang-preserved) to their nested equivalent (was 200 before MLRC). /moon + /moon/{country} 200.
+    console.log('\n── E) legacy today/month/date now 301 → nested · /moon · /moon/{country} 200 ──');
+    for (const [u, to] of [
+        ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'],
+        ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'],
+        ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'],
+    ]) {
         const r = await req(u);
-        check(`${u}: still 200 + page-moon + self canonical`, r.status === 200 && pageMoonActive(r.body) && canonOf(r.body).endsWith(u), `status=${r.status} pm=${pageMoonActive(r.body)} canon=${canonOf(r.body)}`);
+        check(`${u}: 301 → ${to} (MLRC legacy cleanup)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
     check('/moon still 200 (global hub)', (await req('/moon')).status === 200);
     check('/moon/saudi-arabia still 200 (country page)', (await req('/moon/saudi-arabia')).status === 200);

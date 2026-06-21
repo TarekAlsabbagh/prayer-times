@@ -181,8 +181,9 @@ console.log('\n── Part E — Homepage + moon + prayer-times unaffected ─�
 
 const REG = [
     { url: '/',                                          marker: 'id="loc-hero-search"' },
-    { url: '/moon-today',                                marker: 'id="moon-page-search"' },
-    { url: '/ur/moon-today',                             marker: 'id="moon-hub-suggestions"' },
+    // moon hub moved /moon-today → /moon (MOON-TODAY-CONTENT-MOVE-TO-MOON-1, committed) — search box on /moon
+    { url: '/moon',                                      marker: 'id="moon-page-search"' },
+    { url: '/ur/moon',                                   marker: 'id="moon-hub-suggestions"' },
     { url: '/prayer-times-in-charikar',                  marker: 'id="city-search-input"' },
     { url: '/ur/prayer-times-in-charikar',               marker: 'ssr-city-name" content="چاریکار"' },
     { url: '/fr/prayer-times-in-london',                 marker: 'ssr-city-name" content="Londres"' }

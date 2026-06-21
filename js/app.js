@@ -4151,7 +4151,7 @@ async function initApp() {
                     const _path = window.location.pathname;
                     const _langMatch = _path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
                     const _prefix = _langMatch ? '/' + _langMatch[1] : '';
-                    _readMore.setAttribute('href', _prefix + '/moon-in-' + _slug);
+                    _readMore.setAttribute('href', _nestedMoonHrefClient(_slug, _prefix, 'hub'));
                 }
             }
         } catch (_) { /* silent */ }
@@ -7502,7 +7502,7 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
     const _hashByTarget = (_target === 'moon-hub')  ? `moon-in-${slug}`
                        : (_target === 'qibla-hub') ? `qibla-in-${slug}`
                        : `prayer-times-in-${slug}`;
-    const _pathByTarget = (_target === 'moon-hub')  ? `/moon-in-${slug}`
+    const _pathByTarget = (_target === 'moon-hub')  ? _nestedMoonHrefClient(slug, '', 'hub', (countryCode || '').toLowerCase())
                        : (_target === 'qibla-hub') ? `/qibla-in-${slug}`
                        : `/prayer-times-in-${slug}`;
     const _overlayFlavor = (_target === 'moon-hub')  ? 'moon'
@@ -9580,7 +9580,7 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
         ['rl-qibla',        prefix + '/qibla-in-' + _qiblaSlug,                'rls.qibla',        cityName, true],
         // 🔵 Info tier
         ['rl-hijri',     prefix + '/hijri-calendar',                        'rls.hijri',     cityName, true],
-        ['rl-moon',      prefix + '/moon-today-in-' + _moonSlug,            'rls.moon',      cityName, true],
+        ['rl-moon',      _nestedMoonHrefClient(_moonSlug, prefix, 'today'), 'rls.moon',      cityName, true],
         // ⚪ Nav tier — REMOVED in CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1
         // (2026-05-31). The DOM elements `rl-weekly` + `rl-country` are
         // gone from index.html; the tier-3 nav block was replaced by a
@@ -9761,7 +9761,7 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
             const _setHref = (id, href) => { const el = document.getElementById(id); if (el) el.setAttribute('href', href); };
             _setHref('pt-tool-azkar', prefix + '/azkar');
             _setHref('pt-tool-qibla', prefix + '/qibla-in-' + citySlug);
-            _setHref('pt-tool-moon',  prefix + '/moon-today-in-' + citySlug);
+            _setHref('pt-tool-moon',  _nestedMoonHrefClient(citySlug, prefix, 'today'));
             _setHref('pt-tool-hijri', prefix + '/today-hijri-date');
             // Reveal
             _ptSec.classList.remove('u-hidden');
@@ -9870,7 +9870,7 @@ function updateMiniIslamicTools(citySlug, lang) {
     const items = [
         { id: 'mit-qibla', href: prefix + '/qibla-in-' + _mitSlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
         { id: 'mit-hijri', href: prefix + '/hijri-calendar',           key: 'mit.hijri', fallback: { ar:'التاريخ الهجريّ', en:'Hijri Date', fr:'Date Hijri', tr:'Hicri Tarih', ur:'ہجری تاریخ', de:'Hidschri',    id:'Tanggal Hijriah', es:'Fecha Hijri', bn:'হিজরি তারিখ', ms:'Tarikh Hijriah' } },
-        { id: 'mit-moon',  href: prefix + '/moon-today-in-' + _mitSlug, key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
+        { id: 'mit-moon',  href: _nestedMoonHrefClient(_mitSlug, prefix, 'today'), key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
     ];
 
     items.forEach(it => {
@@ -10132,7 +10132,7 @@ function updateMoonTodayCard() {
         const _lngStr = Number(currentLng).toFixed(4);
         _ctaSlug = `${_citySlug}-${_latStr}-${_lngStr}`;
     }
-    cta.setAttribute('href', _langPrefix + '/moon-today-in-' + _ctaSlug);
+    cta.setAttribute('href', _nestedMoonHrefClient(_ctaSlug, _langPrefix, 'today'));
 
     // ── (2) phase name + illum + age ──────────────────────────
     const phaseEl = document.getElementById('mtc-phase-label');
@@ -10463,7 +10463,8 @@ function navigateToMoonToday(lat, lng, city, country, englishName = '', countryC
         window.location.hash = `moon-today-in-${slug}`;
     } else {
         _showNavLoadingOverlay('moon');
-        window.location.href = pageUrl(`/moon-today-in-${slug}`);
+        // MLRC (Option-1): search/suggestion transition HAS countryCode → emit nested today URL.
+        window.location.href = pageUrl(_nestedMoonHrefClient(slug, '', 'today', (countryCode || '').toLowerCase()));
     }
 }
 
@@ -10563,7 +10564,8 @@ function _wireMoonHubSmartPill() {
             if (slug === 'djibouti'  && cc === 'dj') slug = 'djibouti-city';
             if (slug === 'singapore' && cc === 'sg') slug = 'singapore-city';
             if (!slug) return false;
-            const target = pageUrl(`/moon-today-in-${slug}`);
+            // MLRC (Option-1): smart-pill carries cc → emit nested today URL.
+            const target = pageUrl(_nestedMoonHrefClient(slug, '', 'today', (cc || '').toLowerCase()));
             const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
             const display = _cleanCityForPill(lang === 'ar' ? (name || en) : (en || name));
             // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): on the generic
@@ -12253,7 +12255,7 @@ function updateCityRelatedServices() {
         {
             icon: '🌙',
             label: t.moon,
-            url: _moonCitySlug ? pageUrl(`/moon-today-in-${_moonCitySlug}`) : pageUrl('/moon-today')
+            url: _moonCitySlug ? pageUrl(_nestedMoonHrefClient(_moonCitySlug, '', 'today')) : pageUrl('/moon-today')
         },
         {
             icon: '💰',
@@ -12654,6 +12656,28 @@ function makeCountrySlug(cc, englishName) {
     // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1 HARDENING: never return the raw country
     // code as a slug (was `return cc` → broken /prayer-times-in-mo). '' = no country link.
     return '';
+}
+
+// MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH (2026-06-21): build a NESTED moon URL on the client when
+//   the country is known — the CURRENT city's cc by default, or an explicit cc (e.g. a search result's
+//   countryCode). Falls back to the legacy /moon-today-in-/ /moon-in- form (which 301s to the nested
+//   structure) ONLY when the country is unknown or the slug carries a coord suffix (no nested target).
+//   Per the approved Option-1 policy: never infer city→country unsafely on the client.
+//   kind='today'|'hub'|'month'|'day'. For 'month' pass dateStr='YYYY-MM'; for 'day' pass 'YYYY-MM-DD'.
+function _nestedMoonHrefClient(slug, langPrefix, kind, ccOverride, dateStr) {
+    var lp = langPrefix || '';
+    var legacy = (kind === 'month' || kind === 'day')
+        ? lp + '/moon-in-' + slug + '/' + dateStr
+        : lp + (kind === 'hub' ? '/moon-in-' : '/moon-today-in-') + slug;
+    if (/-\-?\d+(?:\.\d+)?-\-?\d+(?:\.\d+)?$/.test(slug)) return legacy;   // coord suffix → no nested target
+    var cc = (ccOverride || (typeof currentCountryCode !== 'undefined' ? currentCountryCode : '') || '').toLowerCase();
+    if (!cc || typeof makeCountrySlug !== 'function') return legacy;
+    var cs = makeCountrySlug(cc, ccOverride ? '' : ((typeof currentEnglishCountry !== 'undefined' ? currentEnglishCountry : '') || '')) || '';
+    if (!cs) return legacy;
+    var base = lp + '/moon/' + cs + '/' + slug;
+    if (kind === 'hub') return base;
+    if (kind === 'today') return base + '/today';
+    return base + '/' + String(dateStr || '').replace(/-/g, '/');   // month (YYYY-MM) or day (YYYY-MM-DD)
 }
 
 // ========= قاعدة بيانات المدن =========
@@ -17268,7 +17292,7 @@ function loadQiblaPage(ctx) {
                         }));
                     }
                 } catch (_) {}
-                moonHref = pageUrl(`/moon-today-in-${citySlugForUrl}`);
+                moonHref = pageUrl(_nestedMoonHrefClient(citySlugForUrl, '', 'today'));
             } else {
                 moonHref = pageUrl('/moon-today');
             }
@@ -17379,7 +17403,7 @@ function loadQiblaPage(ctx) {
             const prayerHref = citySlugForUrl ? pageUrl(`/prayer-times-in-${citySlugForUrl}`) : pageUrl('/');
             // UAT-Q5d: clean moon URL — sessionStorage seed (above) carries coords.
             const relMoonHref = citySlugForUrl
-                ? pageUrl(`/moon-today-in-${citySlugForUrl}`)
+                ? pageUrl(_nestedMoonHrefClient(citySlugForUrl, '', 'today'))
                 : pageUrl('/moon-today');
             const hijriHref = pageUrl('/today-hijri-date');
             // QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 (2026-05-26): switch from
@@ -17769,8 +17793,11 @@ function _moonDatePagePath(slug, dateOrNull) {
     const path = window.location.pathname;
     const langMatch = path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
     const prefix = langMatch ? '/' + langMatch[1] : '';
-    const base = prefix + (dateOrNull ? '/moon-in-' : '/moon-today-in-') + slug;
-    return dateOrNull ? (base + '/' + _isoDateStr(dateOrNull)) : base;
+    // MLRC (Option-1): slug is always the CURRENT moon city, so currentCountryCode applies —
+    //   emit the nested today/day route when the country resolves; legacy 301-fallback otherwise.
+    return dateOrNull
+        ? _nestedMoonHrefClient(slug, prefix, 'day', '', _isoDateStr(dateOrNull))
+        : _nestedMoonHrefClient(slug, prefix, 'today');
 }
 
 function _prettifySlug(slug) {
@@ -19067,11 +19094,11 @@ function updateMoonInfo() {
                         const _link3 = document.querySelector('.moon-city-hub-edu-link-hijri');
                         if (_link1) {
                             _link1.textContent = _eduLinkLabels[0];
-                            _link1.setAttribute('href', _langPrefixEdu + '/moon-today-in-' + _citySlug);
+                            _link1.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'today'));
                         }
                         if (_link2) {
                             _link2.textContent = _eduLinkLabels[1];
-                            _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _citySlug);
+                            _link2.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'hub'));
                         }
                         if (_link3) {
                             _link3.textContent = _eduLinkLabels[2];
@@ -20217,11 +20244,11 @@ function updateMoonInfo() {
                 const _link3 = document.querySelector('.moon-city-hub-edu-link-hijri');
                 if (_link1) {
                     _link1.textContent = _eduLinks[0];
-                    _link1.setAttribute('href', _langPrefixEdu + '/moon-today-in-' + _citySlug);
+                    _link1.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'today'));
                 }
                 if (_link2) {
                     _link2.textContent = _eduLinks[1];
-                    _link2.setAttribute('href', _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _eduMonthIso);
+                    _link2.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'month', '', _eduMonthIso));
                 }
                 if (_link3) {
                     _link3.textContent = _eduLinks[2];
@@ -20420,9 +20447,9 @@ function updateMoonInfo() {
                 //   links" spec where prayer-times + qibla move to 5/6 and
                 //   hijri-today gets the more prominent #4 slot.
                 const _hrefs = [
-                    _langPrefixEdu + '/moon-today-in-' + _citySlug,
-                    _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _curMonthIso,
-                    _langPrefixEdu + '/moon-in-' + _citySlug + '/' + _nextMonthIso,
+                    _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'today'),
+                    _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'month', '', _curMonthIso),
+                    _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'month', '', _nextMonthIso),
                     _langPrefixEdu + _hijriTodayPath,
                     _langPrefixEdu + '/prayer-times-in-' + _citySlug,
                     _langPrefixEdu + '/qibla-in-' + _citySlug
@@ -20643,9 +20670,9 @@ function updateMoonInfo() {
                 };
                 const _tdc = _TDC_BY_LANG[_lng_] || _TDC_BY_LANG.en;
                 const _hrefsB4 = [
-                    _langPrefixB4 + '/moon-in-' + _citySlug,
-                    _langPrefixB4 + '/moon-in-' + _citySlug + '/' + _gregMonthISO,
-                    _langPrefixB4 + '/moon-in-' + _citySlug + '/' + _gregISO,
+                    _nestedMoonHrefClient(_citySlug, _langPrefixB4, 'hub'),
+                    _nestedMoonHrefClient(_citySlug, _langPrefixB4, 'month', '', _gregMonthISO),
+                    _nestedMoonHrefClient(_citySlug, _langPrefixB4, 'day', '', _gregISO),
                     _hijriISO ? (_langPrefixB4 + '/hijri-date/' + _hijriISO) : (_langPrefixB4 + '/today-hijri-date')
                 ];
                 const _setTdc = (sel, txt) => {
@@ -20829,7 +20856,7 @@ function updateMoonInfo() {
                         // FIX: href now uses _rowIso (Gregorian) — was previously
                         //   `hj.year + '-' + hj.month + '-' + hj.day` (Hijri 1447-12-07
                         //   format) which now returns 404 under the strict route policy.
-                        const _hHrefGreg = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso;
+                        const _hHrefGreg = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
                         hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
                     } else {
                         hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
@@ -20846,7 +20873,7 @@ function updateMoonInfo() {
                 // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1: uses _rowIso
                 //   computed at the top of this loop iteration (hoisted from the
                 //   former local-only `_iso = _fcIso(dp, row.date)`).
-                const _href = _langPrefixFC + '/moon-in-' + _citySlug + '/' + _rowIso;
+                const _href = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
                 dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
                 rowClasses.push('fc-row-clickable');
             } else {
@@ -21069,8 +21096,8 @@ function updateMoonInfo() {
         };
         const _eventHref = (d) => {
             if (!d || !_citySlug) return null;
-            // Round 15: روابط أحداث القمر (بدر/محاق) لتاريخ محدَّد → /moon-in-.
-            return _langPrefixLD + '/moon-in-' + _citySlug + '/' + _isoOf(d);
+            // Round 15: روابط أحداث القمر (بدر/محاق) لتاريخ محدَّد → nested day route (Option-1).
+            return _nestedMoonHrefClient(_citySlug, _langPrefixLD, 'day', '', _isoOf(d));
         };
 
         // 2) Quick Highlights box (BOND 6 + 8): البدر التالي + المحاق التالي + تقييم الرؤية بالنجوم
@@ -22167,7 +22194,7 @@ function updateMoonInfo() {
                 if (_bcMonthLi) _bcMonthLi.classList.add('bc-current');
             } else {
                 const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
-                _bcMonth.setAttribute('href', _langPrefixBC + '/moon-in-' + citySlug + '/' + year + '-' + _pad2(monthNum));
+                _bcMonth.setAttribute('href', _nestedMoonHrefClient(citySlug, _langPrefixBC, 'month', '', year + '-' + _pad2(monthNum)));
                 _bcMonth.removeAttribute('aria-current');
                 if (_bcMonthLi) _bcMonthLi.classList.remove('bc-current');
             }
@@ -22270,7 +22297,7 @@ function updateMoonInfo() {
                 if (_bcMoon) {
                     _bcMoon.textContent = _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
-                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-in-' + _citySlug);
+                    _bcMoon.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixBC, 'hub'));
                     _markAsLink(_bcMoon);
                 }
                 _showMonthLevel(_monthFromUrl.y, _monthFromUrl.m, _citySlug, /* isCurrent */ true);
@@ -22283,7 +22310,7 @@ function updateMoonInfo() {
                 if (_bcMoon) {
                     _bcMoon.textContent = _moonCityText;
                     _bcMoon.removeAttribute('data-i18n');
-                    _bcMoon.setAttribute('href', _langPrefixBC + '/moon-in-' + _citySlug);
+                    _bcMoon.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixBC, 'hub'));
                     _markAsLink(_bcMoon);
                 }
                 // UAT-Moon-Hub-Month: insert {Month Year} rung between city and day.
@@ -23276,7 +23303,7 @@ function loadHijriDayPage() {
         // carries coords for the destination page.
         let _moonHref = `${prefix}/moon-today`;
         if (isGeoToday) {
-            _moonHref = `${prefix}/moon-today-in-${locSlug}`;
+            _moonHref = _nestedMoonHrefClient(locSlug, prefix, 'today');
             try {
                 if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/^loc-/.test(locSlug)) {
                     sessionStorage.setItem('city_' + locSlug, JSON.stringify({

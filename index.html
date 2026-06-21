@@ -72,7 +72,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=2" as="script">
-    <link rel="preload" href="js/app.js?v=793" as="script">
+    <link rel="preload" href="js/app.js?v=794" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1228,7 +1228,7 @@
                            title="🌙 استكشف القمر"
                            aria-label="استكشف القمر"
                           ><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.explore_hub">استكشف القمر</span></a>
-                        <a class="mtc-cta mtc-cta-ghost" id="mtc-cta" href="/moon-today-in-makkah"
+                        <a class="mtc-cta mtc-cta-ghost" id="mtc-cta" href="/moon/saudi-arabia/makkah/today"
                            data-i18n-title="moon.view_in_city"
                            data-i18n-aria-label="moon.view_in_city"
                            title="في مدينتك"
@@ -2073,18 +2073,18 @@
                 <div class="section-card" id="moon-other-cities">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="moon.cities_title">القمر اليوم في مدن أخرى</span></h2>
                     <ul class="moon-cities-grid">
-                        <li><a href="/moon-today-in-makkah"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
-                        <li><a href="/moon-today-in-medina"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
-                        <li><a href="/moon-today-in-riyadh"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
-                        <li><a href="/moon-today-in-cairo"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="Egypt flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
-                        <li><a href="/moon-today-in-dubai"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="United Arab Emirates flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
-                        <li><a href="/moon-today-in-istanbul"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="Turkey flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
-                        <li><a href="/moon-today-in-jakarta"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="Indonesia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
-                        <li><a href="/moon-today-in-karachi"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="Pakistan flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
-                        <li><a href="/moon-today-in-london"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="United Kingdom flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
-                        <li><a href="/moon-today-in-paris"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
-                        <li><a href="/moon-today-in-new-york"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="United States flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
-                        <li><a href="/moon-today-in-kuala-lumpur"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="Malaysia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
+                        <li><a href="/moon/saudi-arabia/makkah/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
+                        <li><a href="/moon/saudi-arabia/medina/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
+                        <li><a href="/moon/saudi-arabia/riyadh/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
+                        <li><a href="/moon/egypt/cairo/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="Egypt flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
+                        <li><a href="/moon/united-arab-emirates/dubai/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="United Arab Emirates flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
+                        <li><a href="/moon/turkey/istanbul/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="Turkey flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
+                        <li><a href="/moon/indonesia/jakarta/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="Indonesia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
+                        <li><a href="/moon/pakistan/karachi/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="Pakistan flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
+                        <li><a href="/moon/united-kingdom/london/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="United Kingdom flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
+                        <li><a href="/moon/france/paris/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
+                        <li><a href="/moon/united-states/new-york/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="United States flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
+                        <li><a href="/moon/malaysia/kuala-lumpur/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="Malaysia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
                     </ul>
                 </div>
 
@@ -5320,7 +5320,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=2"></script>
-    <script defer src="js/app.js?v=793"></script>
+    <script defer src="js/app.js?v=794"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

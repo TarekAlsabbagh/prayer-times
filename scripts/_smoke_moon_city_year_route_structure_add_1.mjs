@@ -195,18 +195,20 @@ try {
         check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
     }
 
-    // ── F) legacy routes untouched + Meeus 49 unchanged ──
-    console.log('\n── F) legacy routes untouched + Meeus 49 unchanged ──');
-    for (const [u, id] of [['/moon/saudi-arabia/riyadh', 'page-moon'], ['/moon-today-in-riyadh', 'page-moon'], ['/moon-in-riyadh/2026-06', 'page-moon'], ['/moon-in-riyadh/2026-06-17', 'page-moon']]) {
+    // ── F) legacy routes 301 → nested (MLRC) + Meeus 49 unchanged ──
+    console.log('\n── F) legacy today/month/date 301 → nested (MLRC) + Meeus 49 unchanged ──');
+    check('/moon/saudi-arabia/riyadh: 200 + page-moon active (nested hub)', (await req('/moon/saudi-arabia/riyadh')).status === 200);
+    for (const [u, to] of [['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'], ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'], ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17']]) {
         const r = await req(u);
-        check(`${u}: still 200 + ${id} active`, r.status === 200 && pageActive(r.body, id), `status=${r.status}`);
+        check(`${u}: 301 → ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
     check('/moon still 200', (await req('/moon')).status === 200);
     check('/moon/saudi-arabia still 200', (await req('/moon/saudi-arabia')).status === 200);
     check('/moon-today still 301 → /moon', (await req('/moon-today')).status === 301);
     {
-        const grid = (await req('/moon-in-riyadh/2026-06')).body;
-        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر', /2026-06-15[\s\S]{0,260}?المحاق/.test(grid) && /2026-06-30[\s\S]{0,260}?البدر/.test(grid));
+        // MLRC: validate Meeus via nested DAY pages (legacy grid now 301s; same engine, same output).
+        const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
+        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر'));
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

@@ -14,8 +14,9 @@
 //          /moon/{country}/{city} (200, self canonical, 4-level breadcrumb); the legacy flat hub
 //          /moon-in-{city} 301s to it (+langs); today/month/day flat routes UNCHANGED (200).
 // PART E — /moon/{country}: LIVE 200 country page · nested HUB /moon/{country}/{city} = 200 ·
-//          deeper /moon/{country}/{city}/{today|YYYY-MM|YYYY-MM-DD} stay clean 404 ·
-//          unknown country/city → 404 · city-in-wrong-country → 301 to the correct nested URL.
+//          YEAR /moon/{country}/{city}/{yyyy} = 200 · MONTH /moon/{country}/{city}/{yyyy}/{mm} = 200 ·
+//          deeper /moon/{country}/{city}/{today|yyyy/mm/dd|yyyy/6|yyyy/00|yyyy/13|YYYY-MM|YYYY-MM-DD}
+//          stay clean 404 · unknown country/city → 404 · city-in-wrong-country → 301 to nested URL.
 // PART F — sitemap-main: has /moon + /moon/{country}, NOT bare /moon-today, no day flood.
 //          sitemap-cities: nested /moon/{country}/{city} hub PRESENT, bare /moon-in-{city} ABSENT,
 //          /moon-today-in-{city} + legacy dated /moon-in-{city}/{date} still present.
@@ -162,9 +163,18 @@ try {
         const opens = (y.body.match(/<!--/g) || []).length, closes = (y.body.match(/-->/g) || []).length;
         check('/moon/.../2026: 0 leaked sections + 0 orphaned comment text + balanced comments', leaked.length === 0 && tech.length === 0 && opens === closes, `leaked=[${leaked}] tech=[${tech}] cmt=${opens}/${closes}`);
     }
-    //   The deeper nested routes stay clean 404: today, month/day UNDER the year (slash form),
-    //   and the legacy dash forms /{yyyy-mm} + /{yyyy-mm-dd} (NOT part of the new structure).
-    for (const u of ['/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/17', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/today']) {
+    // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the city MONTH page /moon/{country}/{city}/{yyyy}/{mm}
+    //   is now LIVE 200 in its own #page-moon-month section (deeper day/today/dash stay 404).
+    {
+        const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
+        check('/moon/saudi-arabia/riyadh/2026/06 -> 200 (#page-moon-month active, 1 H1)', mo.status === 200 && /class="page active" id="page-moon-month"/.test(mo.body) && (mo.body.match(/<h1\b/g) || []).length === 1, `status=${mo.status}`);
+        const leaked = ['moon-general-faq', 'moon-hub-related-links', 'moon-events-section', 'moon-hub-hero', 'moon-event-ramadan', 'moon-year-summary'].filter(id => new RegExp('id="' + id + '"').test(mo.body));
+        const opens = (mo.body.match(/<!--/g) || []).length, closes = (mo.body.match(/-->/g) || []).length;
+        check('/moon/.../2026/06: 0 leaked hub/year sections + balanced comments', leaked.length === 0 && opens === closes, `leaked=[${leaked}] cmt=${opens}/${closes}`);
+    }
+    //   The deeper nested routes stay clean 404: today, day UNDER the month (slash form), bad
+    //   month (1-digit / 00 / 13), and the legacy dash forms /{yyyy-mm} + /{yyyy-mm-dd}.
+    for (const u of ['/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17', '/moon/saudi-arabia/riyadh/2026/6', '/moon/saudi-arabia/riyadh/2026/00', '/moon/saudi-arabia/riyadh/2026/13', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/today']) {
         const r = await req(u);
         check(`${u}: 404, not page-moon, small error page (not the 200KB shell)`, r.status === 404 && !pageMoonActive(r.body) && r.body.length < 50000, `status=${r.status} pm=${pageMoonActive(r.body)} len=${r.body.length}`);
     }

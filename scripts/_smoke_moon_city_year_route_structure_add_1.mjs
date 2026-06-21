@@ -3,8 +3,8 @@
 // Pins the contract: /[lang/]moon/{country}/{city}/{yyyy} is the city YEAR overview —
 // 200, single H1, self canonical + 10-lang hreflang, 5-level breadcrumb (Home › Moon
 // Phase › {Country} › {City} › {yyyy}) DOM ≡ BreadcrumbList JSON-LD, SSR-visible major-
-// phases table + 12 month cards (each → the LEGACY month route /moon-in-{city}/{yyyy-mm},
-// NOT the un-activated nested month route) + prev/next-year links + 5-6 FAQ. Validation:
+// phases table + 12 month cards (each → the NEW nested month route /moon/{country}/{city}/
+// {yyyy}/{mm}, live since MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1) + prev/next-year links + 5-6 FAQ. Validation:
 // unknown country/city → 404, wrong country → 301, bad/non-4-digit/out-of-range year →
 // 404, and the deeper today/month/day + dash forms stay clean 404. Legacy moon routes
 // and Meeus 49 are untouched.
@@ -140,13 +140,15 @@ try {
     }
 
     // ── C) SSR content: phases table + 12 month cards + prev/next + FAQ + hreflang ──
-    console.log('\n── C) SSR content (table · 12 month cards → legacy month route · prev/next · FAQ · hreflang) ──');
+    // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1 §3: the 12 month cards now point at the NEW nested
+    // month route /moon/{country}/{city}/{yyyy}/{mm} (was the legacy /moon-in-{city}/{yyyy-mm}).
+    console.log('\n── C) SSR content (table · 12 month cards → new nested month route · prev/next · FAQ · hreflang) ──');
     {
         const b = (await req('/moon/saudi-arabia/riyadh/2026')).body;
         check('major-phases table present + ≥ 40 event rows', /class="my-table"/.test(b) && count(b, /<tbody>[\s\S]*?<\/tbody>/) >= 0 && count(b, /<tr>/g) >= 40, `${count(b, /<tr>/g)} rows`);
         check('exactly 12 month cards', count(b, /class="my-month-card"/g) === 12, `${count(b, /class="my-month-card"/g)} cards`);
-        check('month links use LEGACY /moon-in-riyadh/2026-NN (12)', count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g) === 12, `${count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g)}`);
-        check('NO links to the 404 nested month route /moon/saudi-arabia/riyadh/2026/NN', count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === 0);
+        check('month links use NEW nested /moon/saudi-arabia/riyadh/2026/NN (12)', count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === 12, `${count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
+        check('month cards NO LONGER use the legacy /moon-in-riyadh/2026-NN route', count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g) === 0, `${count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g)}`);
         check('prev + next year links (2025 + 2027)', b.includes('/moon/saudi-arabia/riyadh/2025') && b.includes('/moon/saudi-arabia/riyadh/2027'));
         check('year summary card present', /id="moon-year-summary"/.test(b));
         // FAQ reuses the today-page moon FAQ styling (.moon-faq-item, same look as /moon-today-in-{city})
@@ -160,7 +162,7 @@ try {
     // ── D) validation: deeper/dash/bad-year 404 · mismatch 301 · unknown 404 ──
     console.log('\n── D) validation (deeper/dash/bad-year 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/17',
+        '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
         '/moon/saudi-arabia/riyadh/26', '/moon/saudi-arabia/riyadh/202', '/moon/saudi-arabia/riyadh/20261',
         '/moon/saudi-arabia/riyadh/abcd', '/moon/saudi-arabia/riyadh/1899', '/moon/saudi-arabia/riyadh/2101',
@@ -176,14 +178,16 @@ try {
         check('/en/… mismatch → 301 /en/moon/saudi-arabia/riyadh/2026 (lang preserved)', re.status === 301 && re.loc === '/en/moon/saudi-arabia/riyadh/2026', `status=${re.status} loc=${re.loc}`);
     }
 
-    // ── E) sitemap: year pages (prev/cur/next) in, deeper NOT in ──
-    console.log('\n── E) sitemap-cities: year pages in, deeper nested out ──');
+    // ── E) sitemap: year pages (prev/cur/next) in · month pages now in (MCMR) · deeper day/today out ──
+    console.log('\n── E) sitemap-cities: year pages in · month pages in (MCMR) · deeper day/today out ──');
     {
         const smc = (await req('/sitemap-cities-1.xml')).body;
         const cy = new Date().getFullYear();
         check(`sitemap has current-year /moon/saudi-arabia/medina/${cy}`, smc.includes(`${SITE}/moon/saudi-arabia/medina/${cy}</loc>`));
         check('sitemap has prev + next year for the city', smc.includes(`/moon/saudi-arabia/medina/${cy - 1}</loc>`) && smc.includes(`/moon/saudi-arabia/medina/${cy + 1}</loc>`));
-        check('sitemap: NO deeper nested /moon/{c}/{city}/{yyyy}/{mm}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}<\/loc>/.test(smc));
+        // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1 §9: month pages /moon/{c}/{city}/{yyyy}/{mm} are now emitted.
+        check('sitemap NOW has nested month /moon/saudi-arabia/medina/{yyyy}/{mm} (MCMR)', /\/moon\/saudi-arabia\/medina\/\d{4}\/\d{2}<\/loc>/.test(smc));
+        check('sitemap: still NO deeper day /moon/{c}/{city}/{yyyy}/{mm}/{dd}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/.test(smc));
         check('sitemap: NO nested today /moon/{c}/{city}/today', !/\/moon\/[a-z-]+\/[a-z-]+\/today<\/loc>/.test(smc));
     }
 

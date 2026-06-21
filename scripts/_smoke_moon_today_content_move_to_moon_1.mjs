@@ -10,8 +10,9 @@
 //   D) sitemap lists /moon (NOT the bare /moon-today hub) but KEEPS /moon-today-in-{city}.
 //   E) GENERAL internal hub links in served HTML are /moon (navbar, qibla card),
 //      with NO leftover bare href="/moon-today" hub link and NO {LANG_PREFIX} leak.
-//   F) City routes unchanged: /moon-today-in-{city}, /moon-in-{city}[/date] still 200
-//      (page-moon), and DO NOT 301 to /moon.
+//   F) vs THIS migration: /moon-today-in-{city} + dated /moon-in-{city}/{date} still 200
+//      (page-moon) and do NOT 301 to /moon. The bare hub /moon-in-{city} 301s to the nested
+//      hub /moon/{country}/{city} (NOT /moon) since MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1.
 //   G) Meeus 49 unchanged on the dated grid (Riyadh Jun 2026: 15=المحاق, 30=البدر).
 //
 // Run: node scripts/_smoke_moon_today_content_move_to_moon_1.mjs
@@ -102,11 +103,18 @@ try {
     const qibla = (await req('/qibla')).body;
     check('/qibla "Moon Today" hub card → /moon', qibla.includes('href="/moon"') && !qibla.includes('href="/moon-today"'));
 
-    // ── F) city routes UNCHANGED (no 301 to /moon, still page-moon) ──
-    console.log('\n── F) city moon routes unchanged ──');
-    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
+    // ── F) city routes vs the /moon-today migration: today/dated still 200 (THIS ticket left
+    //   them alone). The bare flat hub /moon-in-{city} 301s to the NESTED hub
+    //   /moon/{country}/{city} — NOT to /moon — since MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1
+    //   (d0dd388, already in HEAD). Test-only expectation refresh; no runtime/route change. ──
+    console.log('\n── F) city moon routes: today/dated 200 · bare hub 301 → nested ──');
+    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
         const r = await req(u);
         check(`${u}: 200 + #page-moon active (not 301)`, r.status === 200 && /class="page active" id="page-moon"/.test(r.body), `status=${r.status}`);
+    }
+    for (const [from, to] of [['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'], ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh']]) {
+        const r = await req(from);
+        check(`${from} → 301 ${to} (nested hub, NOT /moon)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
 
     // ── G) Meeus 49 unchanged on the dated grid ──

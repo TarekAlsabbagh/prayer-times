@@ -58,9 +58,9 @@ const PORT = 8209;
 function get(p) {
     return new Promise((resolve) => {
         const r = http.request({ host: 'localhost', port: PORT, path: p, method: 'GET', headers: { 'Accept-Encoding': 'identity' } }, res => {
-            let b = ''; res.on('data', c => b += c); res.on('end', () => resolve({ status: res.statusCode, body: b }));
+            let b = ''; res.on('data', c => b += c); res.on('end', () => resolve({ status: res.statusCode, body: b, loc: res.headers.location || '' }));
         });
-        r.on('error', () => resolve({ status: 0, body: '' }));
+        r.on('error', () => resolve({ status: 0, body: '', loc: '' }));
         r.end();
     });
 }
@@ -74,11 +74,19 @@ try {
     console.log('\n── C) moon routes still render (SSR) ──');
     // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the hub moved /moon-today → /moon (the bare
     //   /moon-today now 301s to /moon, covered by its own smoke). The 200 hub is /moon.
-    for (const u of ['/moon', '/moon-today-in-riyadh', '/moon-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
+    // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 (d0dd388, already in HEAD): the bare flat hub
+    //   /moon-in-{city} now 301s to the nested hub /moon/{country}/{city}; today + dated
+    //   /moon-in-{city}/{date} stay 200. Test-only expectation refresh; no runtime change.
+    for (const u of ['/moon', '/moon-today-in-riyadh', '/moon-in-riyadh/2026-06', '/moon-in-riyadh/2026-06-17']) {
         const r = await get(u);
         const active = r.body.includes('class="page active" id="page-moon"');
         const h1 = (r.body.match(/<h1[^>]*id="(?:moon-hub-h1|moon-page-h1)"/g) || []).length;
         check(`${u}: 200 + #page-moon active + 1 moon H1`, r.status === 200 && active && h1 === 1, `status=${r.status} active=${active} h1=${h1}`);
+    }
+    // the bare flat hub /moon-in-{city} 301s to the nested hub /moon/{country}/{city} (lang preserved)
+    for (const [from, to] of [['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'], ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh']]) {
+        const r = await get(from);
+        check(`${from} → 301 ${to} (nested hub)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
     // non-moon pages must NOT be page-moon (server unchanged regression)
     console.log('\n── C2) non-moon routes are NOT page-moon ──');

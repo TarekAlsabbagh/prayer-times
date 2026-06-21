@@ -126,6 +126,26 @@ try {
         check('__PRAYER_CITY__ seed present with localized name (الرياض)', /window\.__PRAYER_CITY__=\{[^<]*"slug":"riyadh"[^<]*"name":"الرياض"/.test(b));
     }
 
+    // ── C2) HUB calendar widget = COMPACT CTA (#moon-hub-cal) ONLY, nested dynamic href, NO full grid ──
+    //   MOON-CITY-HUB-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the legacy hub /moon-in-{city} carried a compact
+    //   calendar CTA card (`#moon-hub-cal` / `.moon-hub-cal-compact`) linking to the CURRENT month. The nested
+    //   hub restores it with a NESTED href /moon/{country}/{city}/{yyyy}/{mm} (current month, DYNAMIC — not
+    //   hardcoded, from the same legacy _calTodayD), and must NOT show the full `.moon-hub-cal-grid` (month-only).
+    console.log('\n── C2) hub compact calendar CTA (#moon-hub-cal) restored + nested dynamic href + NO full grid ──');
+    {
+        const _now = new Date();
+        const _curYM = `${_now.getFullYear()}/${String(_now.getMonth() + 1).padStart(2, '0')}`;
+        for (const base of ['/moon/saudi-arabia/riyadh', '/en/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/jeddah']) {
+            const b = (await req(base)).body;
+            check(`${base}: #moon-hub-cal compact CTA present`, /id="moon-hub-cal"[^>]*moon-hub-cal-compact|moon-hub-cal-compact[^>]*id="moon-hub-cal"/.test(b));
+            const href = ((b.match(/id="moon-hub-cal"[^>]*href="([^"]+)"|href="([^"]+)"[^>]*id="moon-hub-cal"/) || []).slice(1).find(Boolean)) || '';
+            check(`${base}: #moon-hub-cal href = nested current month ${base}/${_curYM}`, href === `${base}/${_curYM}`, `href=${href}`);
+            check(`${base}: NO full .moon-hub-cal-grid on hub`, !b.includes('moon-hub-cal-grid'));
+            check(`${base}: #moon-forecast still present`, /id="moon-forecast"/.test(b));
+            check(`${base}: 0 SSR legacy moon hrefs`, (b.match(/href="\/(?:moon-in-|moon-today-in-)[^"]*"/g) || []).length === 0);
+        }
+    }
+
     // ── D) 301 old→new (+langs) · mismatch→301 · validation 404 ──
     console.log('\n── D) 301 legacy→nested (+langs) · mismatch→301 · validation 404 ──');
     for (const [from, to] of [

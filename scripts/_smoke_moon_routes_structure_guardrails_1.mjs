@@ -199,10 +199,12 @@ try {
         const leaked = ['moon-month-hero', 'moon-month-summary', 'moon-month-calendar', 'my-chip', 'my-day-link', 'my-month-card', 'moon-year-summary'].filter(id => new RegExp(id).test(mo.body));
         const opens = (mo.body.match(/<!--/g) || []).length, closes = (mo.body.match(/-->/g) || []).length;
         check('/moon/.../2026/06: 0 bespoke month/year artefacts + balanced comments', leaked.length === 0 && opens === closes, `leaked=[${leaked}] cmt=${opens}/${closes}`);
-        // HUB INVARIANT: the city hub must NOT render the calendar (grid OR compact CTA).
+        // HUB INVARIANT (MOON-CITY-HUB-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1): the city hub shows the legacy
+        // COMPACT calendar CTA (#moon-hub-cal / .moon-hub-cal-compact) — NOT the full month grid. The full
+        // .moon-hub-cal-grid is month-page only.
         const hub = await req('/moon/saudi-arabia/riyadh');
-        check('/moon/saudi-arabia/riyadh (hub): NO calendar widget (grid/card/compact)',
-            hub.status === 200 && !hub.body.includes('moon-hub-cal-grid') && !hub.body.includes('moon-hub-calendar-card') && !hub.body.includes('moon-hub-cal-compact'), `status=${hub.status}`);
+        check('/moon/saudi-arabia/riyadh (hub): compact CTA present + NO full grid',
+            hub.status === 200 && hub.body.includes('moon-hub-cal-compact') && !hub.body.includes('moon-hub-cal-grid'), `status=${hub.status}`);
     }
     // MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the city DAY page
     //   /moon/{country}/{city}/{yyyy}/{mm}/{dd} is the STRUCTURAL alias of the legacy dated page

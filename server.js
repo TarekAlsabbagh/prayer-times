@@ -23087,17 +23087,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             } catch (_e) { /* silent — Hub guide injection optional */ }
         }
 
-        // ── (17-B) MONTH pages ONLY: حقن Calendar Grid الشهريّ الكامل قبل جدول التوقّعات ──
-        //   كلّ خليّة: تاريخ + أيقونة طور + رابط nested /moon/{country}/{city}/{yyyy}/{mm}/{dd}.
-        //   MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 (2026-06-21):
-        //   gate scoped from `_isMoonHubPageSsr` (hub OR month) → `_isMoonMonthPageSsr`
-        //   (month ONLY). The city hub (/moon/{country}/{city}) renders NO calendar
-        //   widget — مطلب التذكرة: التمييز الواضح بين city-hub و month-page. The legacy
-        //   flat hub/month URLs both 301 to the nested structure, so this never affects
-        //   a served hub page. Also fixes a pre-existing `_hubPath` ReferenceError (see
-        //   _pickerActionHref below) that had been silently swallowing this whole block
-        //   for ALL nested moon pages since the nested structure was introduced.
-        if (_isMoonMonthPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
+        // ── (17-B) HUB + MONTH calendar widget — قبل جدول التوقّعات ──
+        //   MONTH page (`_isMonthPage` below) → full monthly Calendar Grid (`.moon-hub-cal-grid`).
+        //   HUB page → COMPACT calendar CTA card (`#moon-hub-cal` / `.moon-hub-cal-compact`) only —
+        //     a single navigation card linking to the CURRENT month's nested calendar
+        //     (`_nestedMoonMonthLink` with the dynamic `_calY`/`_calMo` = today's year/month), NOT the
+        //     full grid. This exactly mirrors the legacy hub `/moon-in-{city}` (which had this card).
+        //   MOON-CITY-HUB-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 (2026-06-21): gate restored from the
+        //   month-only `_isMoonMonthPageSsr` back to `_isMoonHubPageSsr` (= isHub, true on hub AND
+        //   month). The prior MCMR month fix had narrowed it to month-only on the (mistaken) belief
+        //   the legacy hub showed no calendar; the HUB-LEGACY-PARITY-AUDIT-1 proved the legacy hub
+        //   DID show the compact CTA. Day/today/year keep isHub=false → no calendar. The inner
+        //   `if (_isMonthPage)` split keeps the grid month-only and the compact CTA hub-only, so the
+        //   full grid never appears on the hub. (`_hubPath` ReferenceError already fixed below.)
+        if (_isMoonHubPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
             try {
                 // UAT-Moon-City-Hub-Polish: include "أطوار" + city in calendar H2 so it
                 //   reads "تقويم أطوار القمر في {city} — أبريل 2026" (was just

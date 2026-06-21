@@ -148,13 +148,15 @@ try {
         check('EN month page also renders the calendar grid', en.includes('moon-hub-cal-grid'));
     }
 
-    // ── C2) HUB INVARIANT: city hub /moon/{country}/{city} renders NO calendar widget ──
-    console.log('\n── C2) HUB unchanged: /moon/saudi-arabia/riyadh has NO calendar (grid OR compact CTA) ──');
+    // ── C2) HUB INVARIANT: the full month grid is MONTH-page only — the hub shows the COMPACT CTA, not the grid ──
+    //   MOON-CITY-HUB-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the hub carries the legacy compact calendar CTA
+    //   (.moon-hub-cal-compact) but must NOT show the full .moon-hub-cal-grid (that is exclusive to the month page).
+    console.log('\n── C2) hub shows compact CTA, NOT the full month grid (.moon-hub-cal-grid is month-only) ──');
     for (const u of ['/moon/saudi-arabia/riyadh', '/en/moon/saudi-arabia/riyadh']) {
         const b = (await req(u)).body;
         check(`${u}: 200 + page-moon active`, (await req(u)).status === 200 && pageMoonActive(b));
-        check(`${u}: NO moon-hub-cal-grid (full month grid must NOT appear on hub)`, !b.includes('moon-hub-cal-grid'));
-        check(`${u}: NO moon-hub-calendar-card / moon-hub-cal-compact`, !b.includes('moon-hub-calendar-card') && !b.includes('moon-hub-cal-compact'));
+        check(`${u}: NO full .moon-hub-cal-grid on hub (month-only)`, !b.includes('moon-hub-cal-grid'));
+        check(`${u}: compact CTA .moon-hub-cal-compact present (legacy parity)`, b.includes('moon-hub-cal-compact'));
     }
 
     // ── C3) the calendar is MONTH-page ONLY (day/today/year/country show none) ──

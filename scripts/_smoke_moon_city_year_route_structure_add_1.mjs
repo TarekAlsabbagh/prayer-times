@@ -162,7 +162,9 @@ try {
     // ── D) validation: deeper/dash/bad-year 404 · mismatch 301 · unknown 404 ──
     console.log('\n── D) validation (deeper/dash/bad-year 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17',
+        // /2026/06 (month) and /2026/06/17 (day) are now LIVE 200 since the month + day tickets;
+        // here only today / dash forms / a path deeper than a day stay 404.
+        '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17/extra',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
         '/moon/saudi-arabia/riyadh/26', '/moon/saudi-arabia/riyadh/202', '/moon/saudi-arabia/riyadh/20261',
         '/moon/saudi-arabia/riyadh/abcd', '/moon/saudi-arabia/riyadh/1899', '/moon/saudi-arabia/riyadh/2101',

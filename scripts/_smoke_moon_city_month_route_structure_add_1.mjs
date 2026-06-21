@@ -4,8 +4,8 @@
 // 200, single H1, self canonical + 10-lang hreflang, 6-level breadcrumb (Home › Moon
 // Phase › {Country} › {City} › {yyyy} › {Month}) DOM ≡ BreadcrumbList JSON-LD, SSR hero
 // (desc + 7 info chips + quick-nav anchors), month summary, an SSR daily calendar with
-// EVERY day of the month (June 2026 = 30 rows) whose day links use the LEGACY day route
-// /moon-in-{city}/{yyyy-mm-dd} (the nested day route is NOT activated → 404), prev/next
+// EVERY day of the month (June 2026 = 30 rows) whose day links use the NEW nested day route
+// /moon/{country}/{city}/{yyyy}/{mm}/{dd} (live since MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1), prev/next
 // month (cross-year), back links, and a 6-question FAQ with matching FAQPage JSON-LD (no
 // Event schema). Validation: deeper day / today / dash / bad month → 404, wrong country →
 // 301. Year-page month cards now point at the new nested route. Legacy routes + Meeus 49
@@ -93,7 +93,7 @@ try {
             new RegExp('id="bc-mm-city" href="' + lp + '/moon/saudi-arabia/riyadh"').test(b) && new RegExp('id="bc-mm-country" href="' + lp + '/moon/saudi-arabia"').test(b));
     }
 
-    // ── C) hero chips + daily calendar (30 days, legacy day links) + summary + prev/next + back + FAQ + hreflang ──
+    // ── C) hero chips + daily calendar (30 days, nested day links) + summary + prev/next + back + FAQ + hreflang ──
     console.log('\n── C) hero chips · daily calendar (June=30) · day links legacy · summary · prev/next · back · FAQ · hreflang ──');
     {
         const b = (await req('/moon/saudi-arabia/riyadh/2026/06')).body;
@@ -107,8 +107,9 @@ try {
         const _calHead = (b.match(/id="moon-month-calendar"[\s\S]*?<\/thead>/) || [''])[0];
         check('5 table columns (date/day/phase/illum/age)', count(_calHead, /<th>/g) === 5, `${count(_calHead, /<th>/g)} th`);
         check('June 2026 = exactly 30 day rows', count(b, /class="my-day-link"/g) === 30, `${count(b, /class="my-day-link"/g)} rows`);
-        check('day links use LEGACY day route /moon-in-riyadh/2026-06-NN (30)', count(b, /href="\/moon-in-riyadh\/2026-06-\d\d"/g) === 30, `${count(b, /href="\/moon-in-riyadh\/2026-06-\d\d"/g)}`);
-        check('NO links to the 404 nested day route /moon/.../2026/06/NN', count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g) === 0);
+        // MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1 §3: day links now use the NEW nested day route.
+        check('day links use NEW nested day route /moon/saudi-arabia/riyadh/2026/06/NN (30)', count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g) === 30, `${count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g)}`);
+        check('day links NO LONGER use the legacy /moon-in-riyadh/2026-06-NN route', count(b, /href="\/moon-in-riyadh\/2026-06-\d\d"/g) === 0, `${count(b, /href="\/moon-in-riyadh\/2026-06-\d\d"/g)}`);
         check('prev + next month links (2026/05 + 2026/07)', b.includes('/moon/saudi-arabia/riyadh/2026/05') && b.includes('/moon/saudi-arabia/riyadh/2026/07'));
         check('back links → year + city', b.includes('href="/moon/saudi-arabia/riyadh/2026"') && /class="my-back-link"[^>]*href="\/moon\/saudi-arabia\/riyadh"/.test(b.replace(/\n/g, '')));
         check('6 SSR FAQ (.moon-faq-item) + FAQPage JSON-LD', count(b, /class="moon-faq-item"/g) === 6 && /"@type":"FAQPage"/.test(b), `${count(b, /class="moon-faq-item"/g)} faq`);
@@ -143,7 +144,9 @@ try {
     // ── E) validation: deeper/dash/bad-month 404 · mismatch 301 · unknown 404 ──
     console.log('\n── E) validation (deeper/dash/bad-month/bad-year 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        '/moon/saudi-arabia/riyadh/2026/06/17', '/moon/saudi-arabia/riyadh/today',
+        // /2026/06/17 (the day page) is now LIVE 200 since MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1;
+        // only the path DEEPER than a day (…/{dd}/extra) and today/dash stay 404 here.
+        '/moon/saudi-arabia/riyadh/2026/06/17/extra', '/moon/saudi-arabia/riyadh/today',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
         '/moon/saudi-arabia/riyadh/2026/6', '/moon/saudi-arabia/riyadh/2026/00', '/moon/saudi-arabia/riyadh/2026/13',
         '/moon/saudi-arabia/riyadh/2026/abc', '/moon/saudi-arabia/riyadh/1899/06', '/moon/saudi-arabia/riyadh/2101/06',

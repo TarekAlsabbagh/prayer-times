@@ -43,9 +43,15 @@ const textOfId = (b, id) => { const m = b.match(new RegExp('id="' + id + '"[^>]*
 function domCrumbs(b) {
     const nav = (b.match(/<nav class="moon-breadcrumb"[\s\S]*?<\/nav>/) || [''])[0];
     const out = [];
-    const re = /(?:<a[^>]*class="bc-link[^"]*"[^>]*>|<span[^>]*class="bc-link bc-moon"[^>]*>)([^<]*)</g;
-    let m;
-    while ((m = re.exec(nav)) !== null) { const t = m[1].trim(); if (t) out.push(t); }
+    // MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: the shared #page-moon breadcrumb gained a hidden
+    //   year rung (bc-moon-year-li, unhidden only on the nested DAY). Walk each <li> and SKIP the
+    //   hidden ones + the separators so this reflects the VISIBLE rungs (4 on the hub).
+    const items = [...nav.matchAll(/<li class="[^"]*"[^>]*?>([\s\S]*?)<\/li>/g)];
+    for (const m of items) {
+        if (/\bhidden\b/.test(m[0])) continue;
+        const t = m[1].replace(/<[^>]*>/g, '').trim();
+        if (t && t !== '›') out.push(t);
+    }
     return out;
 }
 // Anchor on the BreadcrumbList object, then grab its itemListElement array up to the

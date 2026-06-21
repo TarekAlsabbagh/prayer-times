@@ -72,7 +72,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=2" as="script">
-    <link rel="preload" href="js/app.js?v=791" as="script">
+    <link rel="preload" href="js/app.js?v=792" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1736,6 +1736,11 @@
                         <li class="bc-sep" id="bc-moon-country-sep" aria-hidden="true" hidden>›</li>
                         <!-- Level 4: dynamic city — "Moon" on /moon-today, "Moon in {City}" on city pages -->
                         <li class="bc-item" id="bc-moon-li"><a class="bc-link bc-moon" id="bc-moon" href="/moon-today" data-i18n="moon.bc_root" aria-current="page">حالة القمر</a></li>
+                        <!-- Level 5 (NEW — MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1): Year rung — only on the
+                             nested day page /moon/{country}/{city}/{yyyy}/{mm}/{dd}. Filled + unhidden by SSR
+                             (the client breadcrumb builder skips its rebuild on the nested day, like the hub). -->
+                        <li class="bc-sep" id="bc-moon-year-sep" aria-hidden="true" hidden>›</li>
+                        <li class="bc-item" id="bc-moon-year-li" hidden><a class="bc-link" id="bc-moon-year" href="/moon">—</a></li>
                         <!-- Level 4 (NEW): Month rung — only on month/day pages. Filled by JS. -->
                         <li class="bc-sep" id="bc-month-sep" aria-hidden="true" hidden>›</li>
                         <li class="bc-item" id="bc-month-li" hidden><a class="bc-link" id="bc-month" href="#" aria-label="انتقل إلى تقويم الشهر للقمر"></a></li>
@@ -2609,70 +2614,6 @@
                     <div id="moon-month-hero-body"><!-- SSR: description + info chips + quick-nav anchors --></div>
                 </header>
                 <div id="moon-month-content"><!-- SSR: summary + daily calendar + prev/next + back links + FAQ --></div>
-            </div>
-
-            <!-- ===== MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1: city DAY page /moon/{country}/{city}/{yyyy}/{mm}/{dd} =====
-                 Dedicated SSR section (#page-moon-day), isolated like the month/year pages. The breadcrumb rungs,
-                 H1, hero body and #moon-day-content are filled by serveHtmlWithSeo's seo.moonDay block.
-                 The SPA activates this section for day paths and runs NO hub logic on it (see js/app.js). -->
-            <div class="page" id="page-moon-day">
-                <style>
-                  /* re-scoped copy of the moon-month layout/hero/chip/table rules + day-specific additions (isolated; month/year sections untouched) */
-                  #page-moon-day{width:100%;max-width:1100px;margin-inline:auto;padding:14px clamp(14px,3vw,28px) 48px;overflow-x:clip}
-                  #page-moon-day [id]{scroll-margin-top:84px}
-                  #page-moon-day .moon-year-hero{padding:18px 22px}
-                  #page-moon-day .moon-year-hero .moon-breadcrumb{margin:0 0 10px}
-                  #page-moon-day .moon-year-hero .page-h1{margin:2px 0 8px}
-                  #page-moon-day .my-hero-desc{margin:0 0 14px;color:var(--text-light);line-height:1.9}
-                  #page-moon-day .my-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
-                  #page-moon-day .my-chip{display:inline-flex;align-items:center;gap:5px;padding:6px 13px;background:var(--bg-subtle,#f5f5f5);border:1px solid var(--border);border-radius:999px;font-size:.86rem;line-height:1.4}
-                  #page-moon-day .my-chip-lbl{color:var(--text-light)}
-                  #page-moon-day .my-chip b{color:var(--primary);font-weight:700}
-                  #page-moon-day .my-anchor-nav{display:flex;flex-wrap:wrap;gap:8px}
-                  #page-moon-day .my-anchor{padding:7px 14px;background:var(--primary);color:#fff;border-radius:8px;text-decoration:none;font-size:.86rem;font-weight:600;transition:opacity .15s}
-                  #page-moon-day .my-anchor:hover{opacity:.88}
-                  #page-moon-day .my-sum-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-top:8px}
-                  #page-moon-day .my-sum-cell{display:flex;flex-direction:column;gap:4px;padding:12px 14px;background:var(--bg-subtle,#f5f5f5);border-radius:10px}
-                  #page-moon-day .my-sum-lbl{font-size:.85rem;color:var(--text-light)}
-                  #page-moon-day .my-sum-val{font-weight:700;font-size:1.05rem}
-                  #page-moon-day .my-sum-note{margin:14px 0 0;font-size:.84rem;color:var(--text-light);line-height:1.7}
-                  #page-moon-day .my-table-intro{margin:4px 0 10px;color:var(--text-light);line-height:1.8;font-size:.95rem}
-                  #page-moon-day .my-table-scroll{overflow-x:auto}
-                  #page-moon-day .my-table{width:100%;border-collapse:collapse;margin-top:8px}
-                  #page-moon-day .my-table th,#page-moon-day .my-table td{padding:9px 12px;border-bottom:1px solid var(--border);text-align:start;white-space:nowrap}
-                  #page-moon-day .my-table thead th{font-weight:700;color:var(--primary)}
-                  #page-moon-day .my-ph-ico{margin-inline-end:4px}
-                  #page-moon-day .moon-day-monthlink{margin-top:14px}
-                  #page-moon-day .moon-year-nav{display:flex;justify-content:space-between;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
-                  #page-moon-day .my-yearnav-link{padding:10px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--primary);font-weight:600}
-                  #page-moon-day .my-yearnav-link:hover{background:var(--primary);color:#fff}
-                  #page-moon-day .moon-month-back{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0 0}
-                  #page-moon-day .my-back-link{padding:8px 14px;border:1px solid var(--border);border-radius:8px;text-decoration:none;color:var(--primary);font-weight:600;font-size:.9rem;background:var(--card-bg)}
-                  #page-moon-day .my-back-link:hover{background:var(--primary);color:#fff}
-                  @media (max-width:600px){#page-moon-day .moon-year-hero{padding:16px}#page-moon-day .my-table th,#page-moon-day .my-table td{padding:8px 10px;font-size:.9rem}#page-moon-day .moon-year-nav,#page-moon-day .moon-month-back{flex-direction:column}#page-moon-day .my-yearnav-link,#page-moon-day .my-back-link,#page-moon-day .my-anchor{text-align:center}#page-moon-day .my-anchor-nav{flex-direction:column}}
-                </style>
-                <header class="section-card moon-year-hero" id="moon-day-hero">
-                    <nav class="moon-breadcrumb" aria-label="breadcrumb">
-                        <ol class="breadcrumb-list">
-                            <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-md-hub" href="/moon">حالة القمر</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-md-country" href="/moon">—</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-md-city" href="/moon">—</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-md-year" href="/moon">—</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-md-month" href="/moon">—</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item bc-current" id="bc-md-day" aria-current="page">—</li>
-                        </ol>
-                    </nav>
-                    <h1 class="page-h1" id="moon-day-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span>حالة القمر</span></h1>
-                    <div id="moon-day-hero-body"><!-- SSR: description + info chips + quick-nav anchors --></div>
-                </header>
-                <div id="moon-day-content"><!-- SSR: day summary + day details + prev/next + back links + FAQ --></div>
             </div>
 
             <!-- ===== صفحة حاسبة الزكاة — UAT-Z1 Redesign (Professional Tool) ===== -->
@@ -5379,7 +5320,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=2"></script>
-    <script defer src="js/app.js?v=791"></script>
+    <script defer src="js/app.js?v=792"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

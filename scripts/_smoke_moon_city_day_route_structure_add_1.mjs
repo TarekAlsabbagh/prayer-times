@@ -1,14 +1,17 @@
-// MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1 — dedicated smoke for the city DAY page.
+// MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 — dedicated smoke for the city DAY page.
 //
-// Pins the contract: /[lang/]moon/{country}/{city}/{yyyy}/{mm}/{dd} is the city DAY page —
-// 200, single H1, self canonical + 10-lang hreflang, 7-level breadcrumb (Home › Moon Phase ›
-// {Country} › {City} › {yyyy} › {Month} › {dd}) DOM ≡ BreadcrumbList JSON-LD, SSR hero
-// (desc + 7 info chips + quick-nav anchors), day summary, an SSR day-details table, prev/next
-// DAY (cross-month + cross-year), back links (month/year/city), and a 5-question FAQ with a
-// matching FAQPage JSON-LD (no Event schema). Validation: deeper/today/dash/bad-day/bad-month
-// → 404, leap-aware day-of-month, wrong country → 301. Day pages are index + self-canonical
-// but NOT bulk-added to the sitemap. Month-page day links now point at the new nested day
-// route. Legacy moon routes + Meeus 49 untouched; no redirect from /moon-in-{city}/{yyyy-mm-dd}.
+// SCOPE CORRECTION: the nested DAY route /[lang/]moon/{country}/{city}/{yyyy}/{mm}/{dd} is the
+// STRUCTURAL alias of the legacy dated page /moon-in-{city}/{yyyy-mm-dd}. It reuses the SAME legacy
+// renderer — #page-moon active, the same #moon-page-h1, the same #moon-city-answer body, the same
+// <title> — NOT a bespoke #page-moon-day section. The ONLY permitted differences are:
+//   1. self-canonical (the new nested URL),
+//   2. hreflang (the new nested URL, 10 langs + x-default),
+//   3. a 7-level breadcrumb (Home › Moon Phase › {Country} › {City} › {yyyy} › {Month} › {dd})
+//      with DOM ≡ BreadcrumbList JSON-LD.
+// Validation: deeper/today/dash/bad-day/bad-month → 404, leap-aware day-of-month, wrong country →
+// 301 to the nested URL. Day pages are index + self-canonical but NOT bulk-added to the sitemap.
+// Month-page day links point at the new nested day route. Legacy /moon-in-{city}/{yyyy-mm-dd} stays
+// a 200 (NO redirect); js/moon.js + Meeus 49 untouched.
 //
 // Run: node scripts/_smoke_moon_city_day_route_structure_add_1.mjs
 import http from 'node:http';
@@ -34,18 +37,29 @@ function req(p) {
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 async function waitReady(ms) { const t0 = Date.now(); while (Date.now() - t0 < ms) { const r = await req('/health'); if (r.status === 200) return true; await sleep(400); } return false; }
 
-const pageActive = (b, id) => new RegExp('class="page active" id="' + id + '"').test(b);
+const pageMoonActive = (b) => /class="page active" id="page-moon"/.test(b);
 const canonOf = (b) => (b.match(/<link rel="canonical" href="([^"]+)"/) || [])[1] || '';
 const count = (b, re) => (b.match(re) || []).length;
+const h1Count = (b) => count(b, /<h1\b/g);
+// the legacy renderer's H1 (#moon-page-h1) and its text — shared by the legacy + nested-day pages
+const h1Text = (b) => ((b.match(/id="moon-page-h1"[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]*>/g, '').trim();
+const titleText = (b) => (b.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
+// VISIBLE breadcrumb rungs inside <nav class="moon-breadcrumb"> (skip hidden <li> + separators)
 function domCrumbs(b) {
     const nav = (b.match(/<nav class="moon-breadcrumb"[\s\S]*?<\/nav>/) || [''])[0];
-    const out = []; const re = /(?:<a[^>]*class="bc-link[^"]*"[^>]*>|<li[^>]*id="bc-md-day"[^>]*>)([^<]*)</g; let m;
-    while ((m = re.exec(nav)) !== null) { const t = m[1].trim(); if (t) out.push(t); }
+    const out = [];
+    for (const m of nav.matchAll(/<li class="[^"]*"[^>]*?>([\s\S]*?)<\/li>/g)) {
+        if (/\bhidden\b/.test(m[0])) continue;   // skip the rungs still hidden on this page
+        if (/bc-sep/.test(m[0])) continue;        // skip separators (›)
+        const t = m[1].replace(/<[^>]*>/g, '').trim();
+        if (t && t !== '›') out.push(t);
+    }
     return out;
 }
 function jsonldCrumbNames(b) {
     const i = b.indexOf('"@type":"BreadcrumbList"'); if (i < 0) return null;
     const m = b.slice(i).match(/"itemListElement":\[([\s\S]*?)\]/);
+    if (!m) return null;
     return (m[1].match(/"name":"([^"]*)"/g) || []).map(s => s.replace(/^"name":"/, '').replace(/"$/, ''));
 }
 
@@ -56,28 +70,43 @@ try {
     if (!await waitReady(25000)) { console.error('✗ server not ready'); s.kill('SIGKILL'); process.exit(1); }
     SITE = (canonOf((await req('/moon/saudi-arabia/riyadh/2026/06/17')).body).match(/^(https?:\/\/[^/]+)/) || [])[1] || SITE;
 
-    // ── A) day page = 200, #page-moon-day active, 1 H1, self canonical (multi-country) ──
-    console.log('── A) day page = 200 + #page-moon-day active + 1 H1 + self canonical ──');
-    for (const u of ['/moon/saudi-arabia/riyadh/2026/06/17', '/en/moon/saudi-arabia/riyadh/2026/06/17', '/moon/united-states/new-york/2027/01/15', '/fr/moon/saudi-arabia/jeddah/2025/12/03']) {
+    // ── A) nested day = 200, #page-moon active (legacy renderer, NOT #page-moon-day), 1 H1, self canonical ──
+    //   In-range dates (today 2026-06-21; range [today-30, today+90]) so the page is the indexable
+    //   dated page — apples-to-apples with the legacy comparison in §B.
+    console.log('── A) nested day = 200 + #page-moon active (legacy renderer) + 1 H1 + self canonical (new nested URL) ──');
+    for (const u of ['/moon/saudi-arabia/riyadh/2026/06/17', '/en/moon/saudi-arabia/riyadh/2026/06/17', '/moon/united-states/new-york/2026/07/15', '/fr/moon/saudi-arabia/jeddah/2026/08/03']) {
         const r = await req(u);
-        const ok = r.status === 200 && pageActive(r.body, 'page-moon-day') && count(r.body, /<h1\b/g) === 1 && canonOf(r.body) === SITE + u && r.body.length > 60000;
-        check(`${u}: 200 + page-moon-day + 1 H1 + self canonical`, ok, `status=${r.status} pmd=${pageActive(r.body, 'page-moon-day')} h1=${count(r.body, /<h1\b/g)} canon=${canonOf(r.body)}`);
+        const ok = r.status === 200 && pageMoonActive(r.body) && !/id="page-moon-day"/.test(r.body) && h1Count(r.body) === 1 && canonOf(r.body) === SITE + u && r.body.length > 60000;
+        check(`${u}: 200 + page-moon active + NO #page-moon-day + 1 H1 + self canonical`, ok, `status=${r.status} pm=${pageMoonActive(r.body)} pmd=${/id="page-moon-day"/.test(r.body)} h1=${h1Count(r.body)} canon=${canonOf(r.body)}`);
     }
 
-    // ── A2) NO leaked sections + NO orphaned comment text + balanced comments ──
-    console.log('\n── A2) NO leaked #page-moon / #page-moon-year / #page-moon-month sections + balanced comments ──');
-    for (const u of ['/moon/saudi-arabia/riyadh/2026/06/17', '/en/moon/saudi-arabia/riyadh/2026/06/17']) {
-        const b = (await req(u)).body;
-        const leaked = ['moon-general-faq', 'moon-hub-related-links', 'moon-events-section', 'moon-hub-hero', 'moon-event-ramadan', 'moon-year-summary', 'moon-month-summary', 'moon-page-h1']
-            .filter(id => new RegExp('id="' + id + '"').test(b));
-        check(`${u}: 0 leaked hub/year/month section IDs`, leaked.length === 0, `leaked=[${leaked.join(',')}]`);
-        const opens = (b.match(/<!--/g) || []).length, closes = (b.match(/-->/g) || []).length;
-        check(`${u}: HTML comments balanced (<!-- == -->)`, opens === closes, `open=${opens} close=${closes}`);
-        check(`${u}: #page-moon-day max-width container present`, /#page-moon-day\{[^}]*max-width:1100px/.test(b));
+    // ── B) SAME CONTENT as the legacy dated page (same renderer / title / H1 / body container) ──
+    console.log('\n── B) same content as legacy /moon-in-{city}/{yyyy-mm-dd} (same renderer · title · H1 · body) ──');
+    for (const [nested, legacy] of [
+        ['/moon/saudi-arabia/riyadh/2026/06/17', '/moon-in-riyadh/2026-06-17'],
+        ['/en/moon/saudi-arabia/riyadh/2026/06/17', '/en/moon-in-riyadh/2026-06-17'],
+        ['/moon/united-states/new-york/2026/07/15', '/moon-in-new-york/2026-07-15'],
+    ]) {
+        const d = await req(nested), lg = await req(legacy);
+        check(`${nested}: same <title> as ${legacy}`, lg.status === 200 && titleText(d.body) === titleText(lg.body) && titleText(d.body).length > 0, `day="${titleText(d.body)}" legacy="${titleText(lg.body)}"`);
+        check(`${nested}: same #moon-page-h1 text as legacy`, h1Text(d.body) === h1Text(lg.body) && h1Text(d.body).length > 0, `day="${h1Text(d.body)}" legacy="${h1Text(lg.body)}"`);
+        check(`${nested}: reuses legacy body (#moon-city-answer present)`, /id="moon-city-answer"/.test(d.body));
+        // NO bespoke day artifacts (the removed #page-moon-day page): id/hero/summary/details/H1 all absent
+        const bespoke = ['page-moon-day', 'moon-day-hero', 'moon-day-summary', 'moon-day-details', 'moon-day-h1'].filter(id => new RegExp('id="' + id + '"').test(d.body));
+        check(`${nested}: 0 bespoke day artifacts (page-moon-day/hero/summary/details/h1)`, bespoke.length === 0, `present=[${bespoke.join(',')}]`);
+    }
+    // out-of-range nested day (date far from today): STILL self-canonical to the new nested URL
+    //   (NOT the legacy /moon-today-in-{city}) — requirement #1 holds regardless of range. Legacy
+    //   out-of-range pages are noindex + canonical→/moon-today; the nested day keeps self-canonical.
+    //   (MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 — the canonical-override-skip.)
+    {
+        const oor = '/moon/saudi-arabia/riyadh/2030/01/15';
+        const r = await req(oor);
+        check(`${oor} (out of range): 200 + self canonical (NOT /moon-today-in-…)`, r.status === 200 && canonOf(r.body) === SITE + oor, `status=${r.status} canon=${canonOf(r.body)}`);
     }
 
-    // ── B) 7-level breadcrumb DOM ≡ JSON-LD (AR + EN) ──
-    console.log('\n── B) 7-level breadcrumb DOM ≡ JSON-LD (Home › Moon Phase › Country › City › Year › Month › Day) ──');
+    // ── C) 7-level breadcrumb DOM ≡ JSON-LD (AR + EN) + correct nested hrefs ──
+    console.log('\n── C) 7-level breadcrumb DOM ≡ JSON-LD (Home › Moon Phase › Country › City › Year › Month › Day) ──');
     for (const [u, hub, country, city, mn] of [
         ['/moon/saudi-arabia/riyadh/2026/06/17', 'حالة القمر', 'المملكة العربية السعودية', 'الرياض', 'يونيو'],
         ['/en/moon/saudi-arabia/riyadh/2026/06/17', 'Moon Phase', 'Saudi Arabia', 'Riyadh', 'June'],
@@ -85,63 +114,32 @@ try {
         const b = (await req(u)).body;
         const dom = domCrumbs(b), names = jsonldCrumbNames(b);
         const lp = u.startsWith('/en') ? '/en' : '';
-        check(`${u}: DOM ≡ JSON-LD (7 rungs)`, dom.length === 7 && JSON.stringify(dom) === JSON.stringify(names), `dom=${JSON.stringify(dom)}`);
+        check(`${u}: DOM ≡ JSON-LD (7 rungs)`, dom.length === 7 && JSON.stringify(dom) === JSON.stringify(names), `dom=${JSON.stringify(dom)} ld=${JSON.stringify(names)}`);
         check(`${u}: rungs = [Home,${hub},${country},${city},2026,${mn},17]`, !!names && names.slice(1).join('|') === [hub, country, city, '2026', mn, '17'].join('|'), JSON.stringify(names));
-        check(`${u}: year rung → /moon/saudi-arabia/riyadh/2026 · month rung → …/2026/06`,
-            new RegExp('id="bc-md-year" href="' + lp + '/moon/saudi-arabia/riyadh/2026"').test(b) && new RegExp('id="bc-md-month" href="' + lp + '/moon/saudi-arabia/riyadh/2026/06"').test(b));
-        check(`${u}: city rung ${lp}/moon/saudi-arabia/riyadh · country ${lp}/moon/saudi-arabia`,
-            new RegExp('id="bc-md-city" href="' + lp + '/moon/saudi-arabia/riyadh"').test(b) && new RegExp('id="bc-md-country" href="' + lp + '/moon/saudi-arabia"').test(b));
+        // hrefs: City → /moon/{c}/{city} · Year → …/2026 · Month → …/2026/06 · Country → /moon/{c} · Moon Phase → /moon
+        check(`${u}: city → ${lp}/moon/saudi-arabia/riyadh · year → …/2026 · month → …/2026/06`,
+            new RegExp('id="bc-moon" href="' + lp + '/moon/saudi-arabia/riyadh"').test(b) &&
+            new RegExp('id="bc-moon-year" href="' + lp + '/moon/saudi-arabia/riyadh/2026"').test(b) &&
+            new RegExp('id="bc-month" href="' + lp + '/moon/saudi-arabia/riyadh/2026/06"').test(b));
+        check(`${u}: country → ${lp}/moon/saudi-arabia · moon-phase → ${lp}/moon · day rung is current (no link)`,
+            new RegExp('id="bc-moon-country" href="' + lp + '/moon/saudi-arabia"').test(b) &&
+            new RegExp('id="bc-moon-hub" href="' + lp + '/moon"').test(b) &&
+            /<li class="bc-item bc-current bc-date" id="bc-date" aria-current="page">17<\/li>/.test(b));
     }
 
-    // ── C) hero chips · day summary · day details · prev/next day · back · FAQ · hreflang ──
-    console.log('\n── C) hero chips · day summary · day details · prev/next day · back · FAQ · hreflang ──');
+    // ── D) hreflang (10 langs + x-default) points at the new nested URL ──
+    console.log('\n── D) hreflang 10 langs + x-default → nested day URL ──');
     {
         const b = (await req('/moon/saudi-arabia/riyadh/2026/06/17')).body;
-        check('hero card #moon-day-hero is a .section-card', /<header class="section-card moon-year-hero" id="moon-day-hero">/.test(b));
-        check('hero has 7 info chips (city/date/weekday/tz/phase/illum/age)', count(b, /class="my-chip"/g) === 7, `${count(b, /class="my-chip"/g)} chips`);
-        check('chips show المدينة + التاريخ + اليوم + التوقيت + الطور + الإضاءة + العمر',
-            ['المدينة', 'التاريخ', 'اليوم', 'التوقيت المحلي', 'الطور', 'الإضاءة', 'العمر'].every(l => b.includes(l)));
-        check('chips carry live values (Asia/Riyadh · 17 يونيو 2026)', b.includes('Asia/Riyadh') && b.includes('17 يونيو 2026'));
-        check('day summary present (#moon-day-summary) + note', /id="moon-day-summary"/.test(b) && /class="my-sum-note"/.test(b));
-        check('day details present (#moon-day-details) + intro', /id="moon-day-details"/.test(b) && /class="my-table-intro"/.test(b));
-        const _calHead = (b.match(/id="moon-day-details"[\s\S]*?<\/thead>/) || [''])[0];
-        check('6 detail columns (date/day/phase/illum/age/nearest)', count(_calHead, /<th>/g) === 6, `${count(_calHead, /<th>/g)} th`);
-        check('details row has the city-local date 17 يونيو 2026', /id="moon-day-details"[\s\S]*?17 يونيو 2026/.test(b));
-        check('month-calendar link (#moon-day-details → /2026/06)', /class="moon-day-monthlink"[\s\S]*?href="\/moon\/saudi-arabia\/riyadh\/2026\/06"/.test(b.replace(/\n/g, '')));
-        check('prev + next DAY links (06/16 + 06/18)', b.includes('/moon/saudi-arabia/riyadh/2026/06/16') && b.includes('/moon/saudi-arabia/riyadh/2026/06/18'));
-        check('back links → month + year + city', b.includes('href="/moon/saudi-arabia/riyadh/2026/06"') && b.includes('href="/moon/saudi-arabia/riyadh/2026"') && /class="my-back-link"[^>]*href="\/moon\/saudi-arabia\/riyadh"/.test(b.replace(/\n/g, '')));
-        check('NO links to the legacy day route /moon-in-riyadh/2026-06-17', count(b, /href="\/moon-in-riyadh\/2026-06-17"/g) === 0);
-        check('5 SSR FAQ (.moon-faq-item) + FAQPage JSON-LD', count(b, /class="moon-faq-item"/g) === 5 && /"@type":"FAQPage"/.test(b), `${count(b, /class="moon-faq-item"/g)} faq`);
-        check('NO Event schema (phases are not events)', !/"@type":"Event"/.test(b));
         const hl = new Set((b.match(/hreflang="([a-z-]+)"/g) || []).map(x => x.replace(/hreflang="|"/g, '')));
         check('hreflang 10 langs + x-default', ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'].every(l => hl.has(l)) && hl.has('x-default'));
+        check('ar alternate → /moon/saudi-arabia/riyadh/2026/06/17 (nested)', /hreflang="ar" href="[^"]*\/moon\/saudi-arabia\/riyadh\/2026\/06\/17"/.test(b));
+        check('en alternate → /en/moon/saudi-arabia/riyadh/2026/06/17 (nested, lang-prefixed)', /hreflang="en" href="[^"]*\/en\/moon\/saudi-arabia\/riyadh\/2026\/06\/17"/.test(b));
         check('indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(b));
-        const t = (b.match(/<title>([^<]*)<\/title>/) || [])[1];
-        check('AR title = "حالة القمر في الرياض 17 يونيو 2026 | طور القمر والإضاءة"', t === 'حالة القمر في الرياض 17 يونيو 2026 | طور القمر والإضاءة', t);
-        const h1 = (b.match(/<h1[^>]*id="moon-day-h1">[\s\S]*?<span>([^<]*)<\/span>/) || [])[1];
-        check('AR H1 = "حالة القمر في الرياض يوم 17 يونيو 2026"', h1 === 'حالة القمر في الرياض يوم 17 يونيو 2026', h1);
-    }
-    {
-        const en = (await req('/en/moon/saudi-arabia/riyadh/2026/06/17')).body;
-        check('EN title = "Moon Phase in Riyadh on June 17, 2026 | Illumination and Moon Age"', (en.match(/<title>([^<]*)<\/title>/) || [])[1] === 'Moon Phase in Riyadh on June 17, 2026 | Illumination and Moon Age');
-        check('EN H1 = "Moon Phase in Riyadh on June 17, 2026"', (en.match(/<h1[^>]*id="moon-day-h1">[\s\S]*?<span>([^<]*)<\/span>/) || [])[1] === 'Moon Phase in Riyadh on June 17, 2026');
-    }
-
-    // ── D) prev/next day CROSS-MONTH + CROSS-YEAR boundaries ──
-    console.log('\n── D) prev/next day cross-month + cross-year boundaries ──');
-    {
-        const jun1 = (await req('/moon/saudi-arabia/riyadh/2026/06/01')).body;
-        check('Jun 1: prev = May 31 (/2026/05/31) + next = Jun 2 (/2026/06/02)', jun1.includes('/moon/saudi-arabia/riyadh/2026/05/31') && jun1.includes('/moon/saudi-arabia/riyadh/2026/06/02'));
-        const jun30 = (await req('/moon/saudi-arabia/riyadh/2026/06/30')).body;
-        check('Jun 30: next = Jul 1 (/2026/07/01) + prev = Jun 29 (/2026/06/29)', jun30.includes('/moon/saudi-arabia/riyadh/2026/07/01') && jun30.includes('/moon/saudi-arabia/riyadh/2026/06/29'));
-        const jan1 = (await req('/moon/saudi-arabia/riyadh/2026/01/01')).body;
-        check('Jan 1 2026: prev = Dec 31 2025 (/2025/12/31)', jan1.includes('/moon/saudi-arabia/riyadh/2025/12/31'));
-        const dec31 = (await req('/moon/saudi-arabia/riyadh/2026/12/31')).body;
-        check('Dec 31 2026: next = Jan 1 2027 (/2027/01/01)', dec31.includes('/moon/saudi-arabia/riyadh/2027/01/01'));
     }
 
     // ── E) validation: deeper/dash/bad-day/bad-month 404 · leap-aware · mismatch 301 · unknown 404 ──
-    console.log('\n── E) validation (today/dash/bad-day/bad-month 404 · leap-aware · mismatch 301 · unknown 404) ──');
+    console.log('\n── E) validation (today/dash/bad-day/bad-month/deeper 404 · leap-aware · mismatch 301 · unknown 404) ──');
     for (const u of [
         '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026-06',
         '/moon/saudi-arabia/riyadh/2026/6/17', '/moon/saudi-arabia/riyadh/2026/06/7',
@@ -151,7 +149,7 @@ try {
         '/moon/saudi-arabia/notacity/2026/06/17', '/moon/zzz-not-a-country/riyadh/2026/06/17',
     ]) {
         const r = await req(u);
-        check(`${u} → 404 (not served)`, r.status === 404 && !pageActive(r.body, 'page-moon-day'), `status=${r.status}`);
+        check(`${u} → 404 (not served, not page-moon)`, r.status === 404 && !pageMoonActive(r.body), `status=${r.status}`);
     }
     // leap-aware day-of-month: 2024-02-29 valid (leap), 2026-02-29 invalid (non-leap)
     check('/moon/saudi-arabia/riyadh/2024/02/29 → 200 (leap year)', (await req('/moon/saudi-arabia/riyadh/2024/02/29')).status === 200);
@@ -181,8 +179,8 @@ try {
         check('month page: day links NO LONGER use legacy /moon-in-riyadh/2026-06-NN', count(m, /href="\/moon-in-riyadh\/2026-06-\d\d"/g) === 0);
     }
 
-    // ── H) legacy routes untouched (no redirect) + Meeus 49 unchanged ──
-    console.log('\n── H) legacy routes untouched (no redirect) + Meeus 49 unchanged ──');
+    // ── H) legacy routes untouched (NO redirect from legacy day) + Meeus 49 unchanged ──
+    console.log('\n── H) legacy routes untouched (no redirect from legacy day) + Meeus 49 unchanged ──');
     check('/moon-in-riyadh/2026-06-17 still 200 (legacy day — NOT redirected)', (await req('/moon-in-riyadh/2026-06-17')).status === 200);
     check('/moon-in-riyadh/2026-06 still 200 (legacy month)', (await req('/moon-in-riyadh/2026-06')).status === 200);
     check('/moon-today-in-riyadh still 200', (await req('/moon-today-in-riyadh')).status === 200);

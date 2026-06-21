@@ -173,14 +173,23 @@ try {
         const opens = (mo.body.match(/<!--/g) || []).length, closes = (mo.body.match(/-->/g) || []).length;
         check('/moon/.../2026/06: 0 leaked hub/year sections + balanced comments', leaked.length === 0 && opens === closes, `leaked=[${leaked}] cmt=${opens}/${closes}`);
     }
-    // MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1: the city DAY page /moon/{country}/{city}/{yyyy}/{mm}/{dd}
-    //   is now LIVE 200 in its own #page-moon-day section (today / dash / bad-day / deeper stay 404).
+    // MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the city DAY page
+    //   /moon/{country}/{city}/{yyyy}/{mm}/{dd} is the STRUCTURAL alias of the legacy dated page
+    //   /moon-in-{city}/{yyyy-mm-dd}. It renders the SAME legacy renderer (#page-moon active, same
+    //   #moon-page-h1, same #moon-city-answer body) — NOT a bespoke #page-moon-day section. The only
+    //   permitted differences: self-canonical (new URL), hreflang (new URL), 7-level breadcrumb.
     {
         const dy = await req('/moon/saudi-arabia/riyadh/2026/06/17');
-        check('/moon/saudi-arabia/riyadh/2026/06/17 -> 200 (#page-moon-day active, 1 H1)', dy.status === 200 && /class="page active" id="page-moon-day"/.test(dy.body) && (dy.body.match(/<h1\b/g) || []).length === 1, `status=${dy.status}`);
-        const leaked = ['moon-general-faq', 'moon-hub-related-links', 'moon-events-section', 'moon-hub-hero', 'moon-event-ramadan', 'moon-year-summary', 'moon-month-summary'].filter(id => new RegExp('id="' + id + '"').test(dy.body));
-        const opens = (dy.body.match(/<!--/g) || []).length, closes = (dy.body.match(/-->/g) || []).length;
-        check('/moon/.../2026/06/17: 0 leaked hub/year/month sections + balanced comments', leaked.length === 0 && opens === closes, `leaked=[${leaked}] cmt=${opens}/${closes}`);
+        const lg = await req('/moon-in-riyadh/2026-06-17');
+        check('/moon/saudi-arabia/riyadh/2026/06/17 -> 200 (#page-moon active, 1 H1, legacy renderer)', dy.status === 200 && pageMoonActive(dy.body) && h1Count(dy.body) === 1 && !/id="page-moon-day"/.test(dy.body), `status=${dy.status} pm=${pageMoonActive(dy.body)} h1=${h1Count(dy.body)}`);
+        // same legacy body: identical #moon-page-h1 text and the legacy #moon-city-answer container present
+        const h1Of = (b) => ((b.match(/id="moon-page-h1"[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]*>/g, '').trim();
+        check('/moon/.../2026/06/17: same content as legacy /moon-in-riyadh/2026-06-17 (same H1 + body container)', lg.status === 200 && h1Of(dy.body) === h1Of(lg.body) && h1Of(dy.body).length > 0 && /id="moon-city-answer"/.test(dy.body), `dayH1="${h1Of(dy.body)}" legacyH1="${h1Of(lg.body)}"`);
+        // self-canonical to the NEW nested URL (NOT the legacy flat URL)
+        check('/moon/.../2026/06/17: canonical self (new nested URL)', canonOf(dy.body) === SITE + '/moon/saudi-arabia/riyadh/2026/06/17', canonOf(dy.body));
+        // 7-level breadcrumb: Home › Moon Phase › Country › City › Year › Month › Day, DOM ≡ JSON-LD
+        const ldItems = (() => { const m = dy.body.match(/"@type"\s*:\s*"BreadcrumbList"[\s\S]*?"itemListElement"\s*:\s*(\[[\s\S]*?\])\s*\}/); if (!m) return 0; try { return JSON.parse(m[1]).length; } catch { return -1; } })();
+        check('/moon/.../2026/06/17: 7-level BreadcrumbList JSON-LD', ldItems === 7, `ldItems=${ldItems}`);
         // leap-aware day-of-month: 2024-02-29 valid (leap), 2026-02-29 invalid (non-leap)
         check('/moon/.../2024/02/29 -> 200 (leap year)', (await req('/moon/saudi-arabia/riyadh/2024/02/29')).status === 200);
     }

@@ -69,11 +69,9 @@ function _isMoonYearPath(p) {
 function _isMoonMonthPath(p) {
     return /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/\d{4}\/\d{2}$/.test(String(p == null ? '' : p));
 }
-// MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1: the city DAY page /[lang/]moon/{country}/{city}/{yyyy}/{mm}/{dd}
-//   is its OWN SSR section (#page-moon-day). Activate that section + skip the hub updater on it.
-function _isMoonDayPath(p) {
-    return /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/\d{4}\/\d{2}\/\d{2}$/.test(String(p == null ? '' : p));
-}
+// MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: the nested DAY page /moon/{country}/{city}/{yyyy}/{mm}/{dd}
+//   does NOT have its own section — it reuses the legacy dated renderer in #page-moon (normalized via
+//   _moonPathname). So there is no _isMoonDayPath here; _isMoonPath classifies it as page-moon.
 
 // UAT-FOUC: synchronous URL-slug → globals override at script-top.
 //   Runs immediately when app.js executes (after `let` declarations, before
@@ -4077,19 +4075,22 @@ async function initApp() {
     // MOON-SPA-ROUTER-MOON-PREFIX-ACTIVATION-AUDIT-1: classify via the shared /moon-prefix
     //   helper so legacy flat routes AND any future nested /moon/… both activate #page-moon.
     const _isMoonPage = _isMoonPath(_mpPath);
-    // MOON-CITY-YEAR / MONTH / DAY-ROUTE-STRUCTURE-ADD-1: the year, month & day pages are their own SSR sections.
+    // MOON-CITY-YEAR / MONTH-ROUTE-STRUCTURE-ADD-1: the year & month pages are their own SSR sections.
+    //   MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: the nested DAY reuses the legacy dated renderer in
+    //   #page-moon (NOT a separate section) — so it activates #page-moon and DOES run updateMoonInfo
+    //   (via _moonPathname → flat dated form) to render the SAME content as /moon-in-{city}/{date}.
     const _isMoonYearPage = _isMoonYearPath(_mpPath);
     const _isMoonMonthPage = _isMoonMonthPath(_mpPath);
-    const _isMoonDayPage = _isMoonDayPath(_mpPath);
     if (_isMoonPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(_isMoonDayPage ? 'page-moon-day' : (_isMoonMonthPage ? 'page-moon-month' : (_isMoonYearPage ? 'page-moon-year' : 'page-moon')))?.classList.add('active');
+        document.getElementById(_isMoonMonthPage ? 'page-moon-month' : (_isMoonYearPage ? 'page-moon-year' : 'page-moon'))?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
         // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
-        //   The year, month & day pages are fully SSR-static — do NOT run the live hub updater on
-        //   them (their hub elements are stripped server-side, and the SSR content must stand).
-        if (!_isMoonYearPage && !_isMoonMonthPage && !_isMoonDayPage) { try { updateMoonInfo(); } catch (_e) {} }
+        //   The year & month pages are fully SSR-static — do NOT run the live hub updater on them
+        //   (their hub elements are stripped server-side, and the SSR content must stand). The nested
+        //   day page IS a #page-moon date page, so it runs updateMoonInfo like the legacy date page.
+        if (!_isMoonYearPage && !_isMoonMonthPage) { try { updateMoonInfo(); } catch (_e) {} }
 
         // FIX: استبدال اسم المدينة في moon-hub-cta بالاسم الفعليّ الظاهر في الهيدر
         //   (يحلّ مشكلة "At Taif" بدل "الطائف" بدون الاعتماد على slug resolution)
@@ -11980,11 +11981,6 @@ window.addEventListener('pageshow', function(e) {
         let _expectedId = null;
         if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla(?:-in-[a-z]|$)/.test(_path)) {
             _expectedId = 'page-qibla';
-        } else if (_isMoonDayPath(_path)) {
-            // MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1: the day page is its own SSR section,
-            //   so BFCache restore must re-activate #page-moon-day (NOT #page-moon).
-            //   Checked BEFORE month/year (its path is the most specific).
-            _expectedId = 'page-moon-day';
         } else if (_isMoonMonthPath(_path)) {
             // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the month page is its own SSR section,
             //   so BFCache restore must re-activate #page-moon-month (NOT #page-moon).
@@ -17659,6 +17655,11 @@ const FAMOUS_MOON_CITIES = {
 //   nested path and leaves the SSR-rendered 4-level breadcrumb in place.)
 function _moonPathname() {
     const p = window.location.pathname;
+    // MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: the nested DAY /moon/{country}/{city}/{yyyy}/{mm}/{dd}
+    //   renders the SAME content as the legacy /moon-in-{city}/{yyyy-mm-dd} — normalize it to the flat
+    //   dated form here (the single chokepoint) so every date/slug parser works unchanged.
+    const md = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})\/(\d{2})$/);
+    if (md) return '/' + (md[1] || '') + 'moon-in-' + md[2] + '/' + md[3] + '-' + md[4] + '-' + md[5];
     const m = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
     if (m) return '/' + (m[1] || '') + 'moon-in-' + m[2];
     return p;
@@ -22089,7 +22090,10 @@ function updateMoonInfo() {
         //    the Country rung + relabel the City, so SKIP it here and leave SSR's DOM.
         //    (This block is the last in updateMoonInfo, so returning is a clean no-op
         //    for everything else.) Detect the RAW nested path, not the normalized one.
-        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+$/.test(window.location.pathname)) {
+        // MOON-CITY-HUB + DAY-…-SCOPE-CORRECTION-FIX-1: the nested hub /moon/{country}/{city} AND the
+        //   nested day /moon/{country}/{city}/{yyyy}/{mm}/{dd} both carry a full SSR breadcrumb that
+        //   already matches the BreadcrumbList JSON-LD — skip the client rebuild and leave SSR's DOM.
+        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/\d{4}\/\d{2}\/\d{2})?$/.test(window.location.pathname)) {
             return;
         }
         const _bcMoon       = document.getElementById('bc-moon');

@@ -4083,14 +4083,17 @@ async function initApp() {
     const _isMoonMonthPage = _isMoonMonthPath(_mpPath);
     if (_isMoonPage && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-        document.getElementById(_isMoonMonthPage ? 'page-moon-month' : (_isMoonYearPage ? 'page-moon-year' : 'page-moon'))?.classList.add('active');
+        // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: the nested MONTH reuses the legacy month renderer in
+        //   #page-moon (NOT a bespoke #page-moon-month) — it activates #page-moon and runs updateMoonInfo
+        //   (via _moonPathname → flat month form) to render the SAME calendar as /moon-in-{city}/{yyyy-mm}.
+        document.getElementById(_isMoonYearPage ? 'page-moon-year' : 'page-moon')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
         document.querySelector('.sidebar-nav a[data-page="moon"]')?.classList.add('active');
         // إعادة احتساب بيانات القمر بعد تفعيل القسم (لملء جدول التوقّعات والعنوان والموقع)
         //   The year & month pages are fully SSR-static — do NOT run the live hub updater on them
         //   (their hub elements are stripped server-side, and the SSR content must stand). The nested
         //   day page IS a #page-moon date page, so it runs updateMoonInfo like the legacy date page.
-        if (!_isMoonYearPage && !_isMoonMonthPage) { try { updateMoonInfo(); } catch (_e) {} }
+        if (!_isMoonYearPage) { try { updateMoonInfo(); } catch (_e) {} }
 
         // FIX: استبدال اسم المدينة في moon-hub-cta بالاسم الفعليّ الظاهر في الهيدر
         //   (يحلّ مشكلة "At Taif" بدل "الطائف" بدون الاعتماد على slug resolution)
@@ -11983,10 +11986,9 @@ window.addEventListener('pageshow', function(e) {
         let _expectedId = null;
         if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla(?:-in-[a-z]|$)/.test(_path)) {
             _expectedId = 'page-qibla';
-        } else if (_isMoonMonthPath(_path)) {
-            // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the month page is its own SSR section,
-            //   so BFCache restore must re-activate #page-moon-month (NOT #page-moon).
-            _expectedId = 'page-moon-month';
+        // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: the nested month reuses the legacy #page-moon
+        //   renderer (NOT a bespoke #page-moon-month) — it falls through to the _isMoonPath branch below
+        //   and self-heals to #page-moon, exactly like the nested day. No page-moon-month branch here.
         } else if (_isMoonYearPath(_path)) {
             // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the year page is its own SSR section,
             //   so BFCache restore must re-activate #page-moon-year (NOT #page-moon).
@@ -14421,14 +14423,22 @@ document.addEventListener('DOMContentLoaded', () => {
         try {
             const y = _ySel.value;
             const m = String(_mSel.value).padStart(2, '0');
-            // UAT-Moon-Hub-Month: build PATH-based URL /moon-in-{slug}/YYYY-MM
-            //   (the canonical month-page URL). Action attr is the hub base.
+            // Build the canonical month-page URL. Action attr is the hub base.
             const _action = _f.getAttribute('action') || window.location.pathname;
             const _abs = new URL(_action, window.location.origin);
-            // Strip any existing /YYYY-MM(-DD) suffix and any cal-* query
-            //   so we always navigate fresh from the hub base.
-            _abs.pathname = _abs.pathname.replace(/\/(?:\d{4}-\d{2}(?:-\d{2})?)\/?$/, '');
-            _abs.pathname = _abs.pathname.replace(/\/$/, '') + `/${y}-${m}`;
+            // Strip any existing month suffix — nested /YYYY/MM OR legacy /YYYY-MM(-DD) —
+            //   plus a trailing slash, so we always navigate fresh from the hub base.
+            _abs.pathname = _abs.pathname
+                .replace(/\/\d{4}\/\d{2}\/?$/, '')
+                .replace(/\/(?:\d{4}-\d{2}(?:-\d{2})?)\/?$/, '')
+                .replace(/\/$/, '');
+            // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 (2026-06-21): on the nested
+            //   structure the canonical month URL is the SLASH form /moon/{country}/{city}/YYYY/MM
+            //   (the DASH form /…/YYYY-MM is a 404 there). Detect a nested moon base and build the
+            //   slash form; the dash branch survives only for any legacy /moon-in-{slug} hub (which
+            //   301s to nested anyway). This fixes the month-picker dropdown landing on a 404.
+            const _isNestedBase = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+$/.test(_abs.pathname);
+            _abs.pathname = _abs.pathname + (_isNestedBase ? `/${y}/${m}` : `/${y}-${m}`);
             _abs.searchParams.delete('cal');
             _abs.searchParams.delete('cal-y');
             _abs.searchParams.delete('cal-m');
@@ -14450,7 +14460,9 @@ document.addEventListener('DOMContentLoaded', () => {
 //   when arriving via prev/next/picker — without ugly fragments in the URL.
 document.addEventListener('DOMContentLoaded', () => {
     try {
-        const _isMonthUrl = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname);
+        const _isMonthUrl = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-[a-z][a-z0-9.-]+(?:-[-.0-9]+-[-.0-9]+)?\/\d{4}-\d{2}$/.test(window.location.pathname)
+            // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: also the nested month URL.
+            || /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/\d{4}\/\d{2}$/.test(window.location.pathname);
         if (!_isMonthUrl) return;
         // Wait a tick for the SSR-rendered calendar + any layout shifts to settle.
         const _scrollToCal = () => {
@@ -17689,6 +17701,11 @@ function _moonPathname() {
     //   today parser (hero/forecast/coords) works unchanged.
     const mt = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/today$/);
     if (mt) return '/' + (mt[1] || '') + 'moon-today-in-' + mt[2];
+    // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: the nested MONTH /moon/{country}/{city}/{yyyy}/{mm}
+    //   renders the SAME content as the legacy /moon-in-{city}/{yyyy-mm} — normalize it to the flat
+    //   month form so the client month-calendar parser (updateMoonInfo) renders the URL month.
+    const mmo = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
+    if (mmo) return '/' + (mmo[1] || '') + 'moon-in-' + mmo[2] + '/' + mmo[3] + '-' + mmo[4];
     const m = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
     if (m) return '/' + (m[1] || '') + 'moon-in-' + m[2];
     return p;
@@ -22123,10 +22140,12 @@ function updateMoonInfo() {
         //    (This block is the last in updateMoonInfo, so returning is a clean no-op
         //    for everything else.) Detect the RAW nested path, not the normalized one.
         // MOON-CITY-HUB + DAY-…-SCOPE-CORRECTION-FIX-1 + TODAY-…-ADD-1: the nested hub
-        //   /moon/{country}/{city}, the nested today /moon/{country}/{city}/today, AND the nested day
-        //   /moon/{country}/{city}/{yyyy}/{mm}/{dd} all carry a full SSR breadcrumb that already matches
-        //   the BreadcrumbList JSON-LD — skip the client rebuild and leave SSR's DOM.
-        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}\/\d{2})?$/.test(window.location.pathname)) {
+        //   /moon/{country}/{city}, the nested today /moon/{country}/{city}/today, the nested MONTH
+        //   /moon/{country}/{city}/{yyyy}/{mm} (MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1), AND the nested
+        //   day /moon/{country}/{city}/{yyyy}/{mm}/{dd} all carry a full SSR breadcrumb that already
+        //   matches the BreadcrumbList JSON-LD — skip the client rebuild and leave SSR's DOM (the /{dd}
+        //   is optional → month + day both match).
+        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}(?:\/\d{2})?)?$/.test(window.location.pathname)) {
             return;
         }
         const _bcMoon       = document.getElementById('bc-moon');

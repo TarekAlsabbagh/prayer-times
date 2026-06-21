@@ -174,11 +174,16 @@ try {
         check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
     }
 
-    // ── G) MONTH page day links now point at the NEW nested day route ──
-    console.log('\n── G) month page day links → new nested /moon/{country}/{city}/{yyyy}/{mm}/{dd} ──');
+    // ── G) MONTH page calendar day links point at the NEW nested day route ──
+    //   SCOPE-CORRECTION-FIX-1: the month page now renders the legacy #page-moon monthly CALENDAR GRID
+    //   (not the bespoke my-day-link table). The grid day cells link to the nested day route; the
+    //   "today" cell (when today ∈ the month) links to …/today, so the dated count is dim or dim-1.
+    console.log('\n── G) month-page calendar day links → new nested /moon/{country}/{city}/{yyyy}/{mm}/{dd} ──');
     {
         const m = (await req('/moon/saudi-arabia/riyadh/2026/06')).body;
-        check('month page: 30 day links → /moon/saudi-arabia/riyadh/2026/06/NN', count(m, /class="my-day-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g) === 30, `${count(m, /class="my-day-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g)}`);
+        const dated = count(m, /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g);
+        check('month page: calendar grid present + nested day links (29/30) → /moon/saudi-arabia/riyadh/2026/06/NN',
+            m.includes('moon-hub-cal-grid') && dated >= 29 && dated <= 30, `dated=${dated}`);
         check('month page: day links NO LONGER use legacy /moon-in-riyadh/2026-06-NN', count(m, /href="\/moon-in-riyadh\/2026-06-\d\d"/g) === 0);
     }
 

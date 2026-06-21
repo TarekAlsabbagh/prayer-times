@@ -1565,7 +1565,7 @@
 //   /moon/{country}/{city}/{yyyy}/{mm}/{dd}: #page-moon-day activation + hub-updater skip).
 // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH (2026-06-21): js/app.js?v=793→794 + v453→v454 (client
 //   internal moon links emit nested /moon/{country}/{city}[...] when country known; legacy 301-fallback).
-const CACHE_VERSION = 'v454';
+const CACHE_VERSION = 'v456';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

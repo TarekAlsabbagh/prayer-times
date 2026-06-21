@@ -104,15 +104,16 @@ await new Promise((resolve) => { srv.stdout.on('data', d => { if (String(d).incl
 
 console.log('\n════ PART B — SSR grid (spawned server, machine-local TZ) ════\n');
 try {
-  // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the legacy monthly grid /moon-in-{slug}/{ym} now 301s to the
-  //   bespoke nested month page /moon/{country}/{slug}/{yyyy}/{mm} (different markup: `my-day-link` rows).
-  //   Validate the SAME Meeus output via the nested month (day-row count) + nested DAY pages (exact phase).
+  // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the legacy monthly grid /moon-in-{slug}/{ym}
+  //   301s to the nested month page /moon/{country}/{slug}/{yyyy}/{mm}, which now renders the SAME legacy
+  //   #page-moon monthly CALENDAR GRID (.moon-hub-cal-grid). Validate the SAME Meeus output via the grid's
+  //   nested day links (the "today" cell links to …/today, so the count is dim or dim-1) + nested DAY pages.
   const pad = (n) => String(n).padStart(2, '0');
   for (const [slug, country, ym, expNew, expFull, expDays] of [['riyadh','saudi-arabia','2026-06',15,29,30],['riyadh','saudi-arabia','2026-02',null,2,28],['riyadh','saudi-arabia','2026-07',14,29,31],['riyadh','saudi-arabia','2026-12',9,24,31]]) {
     const [y, m] = ym.split('-');
     const html = await get(`/moon/${country}/${slug}/${y}/${m}`);
-    const dayRows = (html.match(/class="my-day-link"/g) || []).length;
-    okv(dayRows === expDays, `${ym}: ${expDays} day rows present (got ${dayRows})`);
+    const dayRows = (html.match(new RegExp('href="/moon/' + country + '/' + slug + '/' + y + '/' + m + '/\\d{2}"', 'g')) || []).length;
+    okv(html.includes('moon-hub-cal-grid') && dayRows >= expDays - 1 && dayRows <= expDays, `${ym}: legacy grid + ${expDays}/${expDays - 1} day links (got ${dayRows})`);
     if (expNew != null) { const d = await get(`/moon/${country}/${slug}/${y}/${m}/${pad(expNew)}`); okv(/محاق/.test(d), `${ym}: محاق on day ${expNew} (nested day page)`); }
     { const f = await get(`/moon/${country}/${slug}/${y}/${m}/${pad(expFull)}`); okv(/البدر/.test(f), `${ym}: البدر on day ${expFull} (nested day page)`); }
   }

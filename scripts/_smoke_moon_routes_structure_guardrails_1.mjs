@@ -180,14 +180,29 @@ try {
         const opens = (y.body.match(/<!--/g) || []).length, closes = (y.body.match(/-->/g) || []).length;
         check('/moon/.../2026: 0 leaked sections + 0 orphaned comment text + balanced comments', leaked.length === 0 && tech.length === 0 && opens === closes, `leaked=[${leaked}] tech=[${tech}] cmt=${opens}/${closes}`);
     }
-    // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the city MONTH page /moon/{country}/{city}/{yyyy}/{mm}
-    //   is now LIVE 200 in its own #page-moon-month section (deeper day/today/dash stay 404).
+    // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the city MONTH page
+    //   /moon/{country}/{city}/{yyyy}/{mm} is the STRUCTURAL alias of the legacy month page
+    //   /moon-in-{city}/{yyyy-mm}. It renders the SAME legacy renderer (#page-moon active — NOT a
+    //   bespoke #page-moon-month) AND the SAME legacy monthly calendar grid (.moon-hub-cal-grid)
+    //   whose day cells link to the nested day route. The calendar is gated month-page-ONLY so the
+    //   city HUB renders no calendar widget.
     {
         const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
-        check('/moon/saudi-arabia/riyadh/2026/06 -> 200 (#page-moon-month active, 1 H1)', mo.status === 200 && /class="page active" id="page-moon-month"/.test(mo.body) && (mo.body.match(/<h1\b/g) || []).length === 1, `status=${mo.status}`);
-        const leaked = ['moon-general-faq', 'moon-hub-related-links', 'moon-events-section', 'moon-hub-hero', 'moon-event-ramadan', 'moon-year-summary'].filter(id => new RegExp('id="' + id + '"').test(mo.body));
+        check('/moon/saudi-arabia/riyadh/2026/06 -> 200 (#page-moon active, NO bespoke #page-moon-month, 1 H1)',
+            mo.status === 200 && pageMoonActive(mo.body) && !/<[a-z]+[^>]*\bid="page-moon-month"/.test(mo.body) && (mo.body.match(/<h1\b/g) || []).length === 1, `status=${mo.status}`);
+        check('/moon/.../2026/06: legacy calendar grid present (.moon-hub-cal-grid) + nested day links + 0 legacy',
+            mo.body.includes('moon-hub-cal-grid') && /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d{2}"/.test(mo.body) && !/href="\/moon-in-riyadh\/2026-06-\d{2}"/.test(mo.body));
+        check('/moon/.../2026/06: 6-level BreadcrumbList JSON-LD', (mo.body.match(/"position":/g) || []).length === 6 && canonOf(mo.body) === SITE + '/moon/saudi-arabia/riyadh/2026/06');
+        // The month page IS the legacy #page-moon renderer, so the shared hub sections (hero/faq/
+        // related-links/events) are LEGITIMATE legacy content — NOT leaks. We only assert the BESPOKE
+        // month artefacts (and the year-specific summary) are gone.
+        const leaked = ['moon-month-hero', 'moon-month-summary', 'moon-month-calendar', 'my-chip', 'my-day-link', 'my-month-card', 'moon-year-summary'].filter(id => new RegExp(id).test(mo.body));
         const opens = (mo.body.match(/<!--/g) || []).length, closes = (mo.body.match(/-->/g) || []).length;
-        check('/moon/.../2026/06: 0 leaked hub/year sections + balanced comments', leaked.length === 0 && opens === closes, `leaked=[${leaked}] cmt=${opens}/${closes}`);
+        check('/moon/.../2026/06: 0 bespoke month/year artefacts + balanced comments', leaked.length === 0 && opens === closes, `leaked=[${leaked}] cmt=${opens}/${closes}`);
+        // HUB INVARIANT: the city hub must NOT render the calendar (grid OR compact CTA).
+        const hub = await req('/moon/saudi-arabia/riyadh');
+        check('/moon/saudi-arabia/riyadh (hub): NO calendar widget (grid/card/compact)',
+            hub.status === 200 && !hub.body.includes('moon-hub-cal-grid') && !hub.body.includes('moon-hub-calendar-card') && !hub.body.includes('moon-hub-cal-compact'), `status=${hub.status}`);
     }
     // MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the city DAY page
     //   /moon/{country}/{city}/{yyyy}/{mm}/{dd} is the STRUCTURAL alias of the legacy dated page

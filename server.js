@@ -7970,13 +7970,14 @@ function _getActiveH1Marker(urlPath) {
             if (_myhc && _myhc.cc && _myhc.cc !== '__') return { kind: 'id', value: 'moon-year-h1' };
         }
     }
-    // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: /moon/{country}/{city}/{yyyy}/{mm} is its OWN
-    //   section #page-moon-month — single H1 #moon-month-h1. Keep it, downgrade the rest.
+    // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: /moon/{country}/{city}/{yyyy}/{mm} reuses the legacy
+    //   month renderer in #page-moon — its single H1 is #moon-page-h1 (same as the nested hub + the
+    //   legacy /moon-in-{city}/{yyyy-mm} month page). Keep it, downgrade every other SPA H1.
     {
         const _mmhm = path.match(/^\/moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
         if (_mmhm) {
             const _mmhc = _countryFromSlug(_mmhm[1]);
-            if (_mmhc && _mmhc.cc && _mmhc.cc !== '__') return { kind: 'id', value: 'moon-month-h1' };
+            if (_mmhc && _mmhc.cc && _mmhc.cc !== '__') return { kind: 'id', value: 'moon-page-h1' };
         }
     }
     // MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: /moon/{country}/{city}/{yyyy}/{mm}/{dd} reuses the
@@ -11625,6 +11626,26 @@ function buildSeoForPath(urlPath) {
             _moonNestedTodayCountryName = _countryNameForLang(_ntCityCc, lang);
         }
     }
+    // ── MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the nested MONTH page
+    //   /moon/{country}/{city}/{yyyy}/{mm} reuses the SAME legacy month renderer as the legacy
+    //   /moon-in-{city}/{yyyy-mm} (the #page-moon monthly grid) — NOT a bespoke #page-moon-month.
+    //   Synthesize a month match below so the legacy monthly-grid renderer runs (_isMoonMonthPage).
+    //   The only differences are self-canonical + a 6-level breadcrumb (DOM≡JSON-LD) + nested hreflang
+    //   + nested day-cell links. Validation: year 1900-2100, month 01-12 (mirrors _classifyMoonMonth).
+    const _MNESTED_MONTH = corePath.match(/^\/moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
+    let _isMoonNestedMonth = false;
+    let _moonNestedMonthCountrySlug = '', _moonNestedMonthCountryName = '';
+    if (_MNESTED_MONTH) {
+        const _nmY = parseInt(_MNESTED_MONTH[3], 10), _nmMo = parseInt(_MNESTED_MONTH[4], 10);
+        const _nmCountry = _countryFromSlug(_MNESTED_MONTH[1]);
+        const _nmCityCc  = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_MNESTED_MONTH[2]) : '';
+        if (_nmCountry && _nmCountry.cc !== '__' && _nmCityCc && makeCountrySlugSrv(_nmCityCc) === _MNESTED_MONTH[1]
+            && _nmY >= 1900 && _nmY <= 2100 && _nmMo >= 1 && _nmMo <= 12) {
+            _isMoonNestedMonth = true;
+            _moonNestedMonthCountrySlug = _MNESTED_MONTH[1];
+            _moonNestedMonthCountryName = _countryNameForLang(_nmCityCc, lang);
+        }
+    }
     const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
     // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1: dated route now requires
@@ -11653,6 +11674,9 @@ function buildSeoForPath(urlPath) {
     // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: nested today → synthesize the today match
     //   (m[2]=city slug, no date) so the legacy TODAY renderer runs (isHub false, date null).
     if (!m && _isMoonNestedToday) m = _MNESTED_TODAY;
+    // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: nested month → synthesize the month match
+    //   (m[2]=city slug, m[3]/m[4]=yyyy/mm) so the legacy monthly-grid renderer runs (_isMoonMonthPage).
+    if (!m && _isMoonNestedMonth) m = _MNESTED_MONTH;
     // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
     //   When _MD matched the URL but the year guard rejected it (Hijri year),
     //   we mark the path as needing an explicit 404 so the route handler
@@ -11663,17 +11687,17 @@ function buildSeoForPath(urlPath) {
     const _isMoonHijriReject = !!((_MD && !_isMoonDatedMatch) || (_MM && !_isMoonMonthMatch));
     // flag: هل الـ URL الحاليّ hub page (بلا تاريخ، تحت /moon-in-)؟
     const _isMoonHubPage = _isMoonNestedHub || (!!_MH && !_isMoonDatedMatch && !_MT && !_isMoonMonthMatch);
-    // flag: هل الـ URL الحاليّ month page؟
-    const _isMoonMonthPage = _isMoonMonthMatch;
-    const _moonMonthYear  = _isMoonMonthMatch ? parseInt(_MM[4], 10) : null;
-    const _moonMonthMonth = _isMoonMonthMatch ? parseInt(_MM[5], 10) : null;
+    // flag: هل الـ URL الحاليّ month page؟ (legacy _MM OR nested _MNESTED_MONTH — same renderer)
+    const _isMoonMonthPage = _isMoonMonthMatch || _isMoonNestedMonth;
+    const _moonMonthYear  = _isMoonNestedMonth ? parseInt(_MNESTED_MONTH[3], 10) : (_isMoonMonthMatch ? parseInt(_MM[4], 10) : null);
+    const _moonMonthMonth = _isMoonNestedMonth ? parseInt(_MNESTED_MONTH[4], 10) : (_isMoonMonthMatch ? parseInt(_MM[5], 10) : null);
     if (m) {
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: on the nested form m[2]=city slug
         //   (m[1]=country slug). The nested URL never carries a coord suffix, so
         //   force coords null there (m[2]/m[3] are NOT lat/lng on this shape).
-        const citySlug = (_isMoonNestedHub || _isMoonNestedDay || _isMoonNestedToday) ? m[2] : m[1];
-        const _coordLat = (!_isMoonNestedHub && !_isMoonNestedDay && !_isMoonNestedToday && m[2] != null) ? parseFloat(m[2]) : null;
-        const _coordLng = (!_isMoonNestedHub && !_isMoonNestedDay && !_isMoonNestedToday && m[3] != null) ? parseFloat(m[3]) : null;
+        const citySlug = (_isMoonNestedHub || _isMoonNestedDay || _isMoonNestedToday || _isMoonNestedMonth) ? m[2] : m[1];
+        const _coordLat = (!_isMoonNestedHub && !_isMoonNestedDay && !_isMoonNestedToday && !_isMoonNestedMonth && m[2] != null) ? parseFloat(m[2]) : null;
+        const _coordLng = (!_isMoonNestedHub && !_isMoonNestedDay && !_isMoonNestedToday && !_isMoonNestedMonth && m[3] != null) ? parseFloat(m[3]) : null;
         const _hasCoordSuffix = (_coordLat != null && _coordLng != null && isFinite(_coordLat) && isFinite(_coordLng));
         // التاريخ: _MD (مواضع 4/5/6) أو nested-day (_MNESTED_DAY مواضع 3/4/5). لـ _MT/_MH: null.
         const _dyStr = _isMoonNestedDay ? m[3] : ((_MD && m[4]) ? m[4] : null);
@@ -12507,7 +12531,11 @@ function buildSeoForPath(urlPath) {
                 // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: nested-today context for the 5-level breadcrumb.
                 isNestedToday:          _isMoonNestedToday,
                 nestedTodayCountrySlug: _isMoonNestedToday ? _moonNestedTodayCountrySlug : '',
-                nestedTodayCountryName: _isMoonNestedToday ? _moonNestedTodayCountryName : ''
+                nestedTodayCountryName: _isMoonNestedToday ? _moonNestedTodayCountryName : '',
+                // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: nested-month context for the 6-level breadcrumb.
+                isNestedMonth:          _isMoonNestedMonth,
+                nestedMonthCountrySlug: _isMoonNestedMonth ? _moonNestedMonthCountrySlug : '',
+                nestedMonthCountryName: _isMoonNestedMonth ? _moonNestedMonthCountryName : ''
             };
             // Breadcrumb: "Moon" (renamed from "Moon Today" per UAT-Moon-Hub-Month —
             //   second level is the moon hub, not specifically "today")
@@ -12555,6 +12583,20 @@ function buildSeoForPath(urlPath) {
                 breadcrumbs.push({ name: _moonHubCrumb, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon' });
                 breadcrumbs.push({ name: _moonNestedCountryName, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon/' + _moonNestedCountrySlug });
                 breadcrumbs.push({ name: cityDisplay, item: canonical });
+            } else if (_isMoonNestedMonth) {
+                // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: 6-level breadcrumb on the nested month —
+                //   Home › Moon Phase (/moon) › {Country} › {City} › {yyyy} › {Month} (self). The body
+                //   content is the SAME legacy month grid as /moon-in-{city}/{yyyy-mm}; only the
+                //   breadcrumb (DOM≡JSON-LD) + self canonical + nested hreflang + nested day-links differ.
+                const _nmCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
+                const _nmLp = (lang === 'ar') ? '' : ('/' + lang);
+                const _nmCityBase = _nmLp + '/moon/' + _moonNestedMonthCountrySlug + '/' + citySlug;
+                const _nmMonthName = (_MY_MONTHS[lang] || _MY_MONTHS.en)[_moonMonthMonth - 1];
+                breadcrumbs.push({ name: _nmCrumb, item: origin + _nmLp + '/moon' });
+                breadcrumbs.push({ name: _moonNestedMonthCountryName, item: origin + _nmLp + '/moon/' + _moonNestedMonthCountrySlug });
+                breadcrumbs.push({ name: cityDisplay, item: origin + _nmCityBase });
+                breadcrumbs.push({ name: String(_moonMonthYear), item: origin + _nmCityBase + '/' + _moonMonthYear });
+                breadcrumbs.push({ name: _nmMonthName, item: canonical });
             } else {
             const _moonLabel = {
                 ar: 'حالة القمر', en: 'Moon', fr: 'Lune', tr: 'Ay',
@@ -12593,7 +12635,7 @@ function buildSeoForPath(urlPath) {
             //   on day pages: rung links to its parent month page /moon-in-{slug}/YYYY-MM.
             // MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: the nested day builds its OWN 7-level breadcrumb
             //   above — skip the legacy month + date rung pushes here so it stays exactly 7 rungs.
-            if (!_isMoonNestedDay && (_isMoonMonthPage || (_moonDateIso && _moonDateInRange && _moonDateObj))) {
+            if (!_isMoonNestedDay && !_isMoonNestedMonth && (_isMoonMonthPage || (_moonDateIso && _moonDateInRange && _moonDateObj))) {
                 const _gMonthFullByLang = {
                     ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
                     en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
@@ -13180,11 +13222,15 @@ function buildSeoForPath(urlPath) {
         }
     }
 
-    // ── MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: SEO for the city MONTH page ──
+    // ── MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1 + …-SCOPE-CORRECTION-FIX-1: SEO for the city MONTH page.
+    //   The nested /moon/{country}/{city}/{yyyy}/{mm} now reuses the LEGACY month renderer (#page-moon
+    //   monthly grid) via the _MNESTED_MONTH synthesis above — its title/desc/breadcrumb/canonical are
+    //   built in the moon-city `m`-block. So the bespoke #page-moon-month seo (moonMonth) is suppressed
+    //   here (`!_isMoonNestedMonth`) → seo.moonMonth stays null → the bespoke renderer never fires. ──
     let moonMonth = null;
     {
         const _mc = (typeof _classifyMoonMonth === 'function') ? _classifyMoonMonth(p) : { kind: 'none' };
-        if (_mc.kind === 'valid') {
+        if (_mc.kind === 'valid' && !_isMoonNestedMonth) {
             const _mcCity    = _resolveCityName(_mc.citySlug, lang) || _slugToTitle(_mc.citySlug);
             const _mcCountry = _countryNameForLang(_mc.cc, lang);
             const _mcGeo     = (typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(_mc.citySlug) : null;
@@ -16346,7 +16392,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: also match the nested city moon hub
     //   /[lang/]moon/{country}/{city} (exactly 2 segments) so the same #page-moon
     //   strip + active-class + SSR moon block fire for it as for /moon-in-{city}.
-    const _isMoonCityPageSsr = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?|moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}\/\d{2})?)$/.test(urlPath);
+    // MOON-CITY-MONTH-…-SCOPE-CORRECTION-FIX-1: the nested-form branch now also matches the MONTH
+    //   /moon/{country}/{city}/{yyyy}/{mm} (the trailing /{dd} is optional → month + day both match),
+    //   so the nested month fires the SAME legacy #page-moon renderer as the nested day (NOT the bespoke
+    //   #page-moon-month). The nested hub + today shapes are unchanged.
+    const _isMoonCityPageSsr = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?|moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}(?:\/\d{2})?)?)$/.test(urlPath);
     if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome && !_isMoonTodayHub) {
         // (UAT-Home-Simplify + UAT-Moon-Home) Skip when the prayer-cards block
         //   will be stripped immediately after (homepage + moon hub).
@@ -22474,6 +22524,49 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<li class="bc-item bc-current bc-date" id="bc-date" aria-current="page">${_escHtml(String(parseInt(_ndD, 10)))}</li>`
             );
         }
+        // ── MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 (2026-06-21): nested MONTH breadcrumb DOM-fill.
+        //    /moon/{country}/{city}/{yyyy}/{mm}: Home › Moon Phase › {Country} › {City} › {yyyy} › {Month}
+        //    (current). DOM ≡ BreadcrumbList JSON-LD. Mirrors the nested-day block but stops at the month
+        //    rung — rendered as the CURRENT page (no link, no day rung). Same legacy renderer body; only this
+        //    breadcrumb + the self canonical + nested hreflang differ. The client breadcrumb builder skips
+        //    its rebuild on the nested month (like the nested hub/day).
+        if (seo.moonCity.isNestedMonth && seo.moonCity.nestedMonthCountrySlug) {
+            const _bcLp = (Lm === 'ar') ? '' : ('/' + Lm);
+            const _bcMoonPhaseLbl = _MOON_PHASE_CRUMB_L10N[Lm] || _MOON_PHASE_CRUMB_L10N.en;
+            const _nmCS = seo.moonCity.nestedMonthCountrySlug;
+            const _nmCityBase = _bcLp + '/moon/' + _nmCS + '/' + seo.moonCity.slug;
+            const _nmY = String(seo.moonCity.monthYear), _nmM = String(seo.moonCity.monthMonth).padStart(2, '0');
+            const _nmMonthName = (_MY_MONTHS[Lm] || _MY_MONTHS.en)[parseInt(_nmM, 10) - 1];
+            // Level 2 — Moon Phase → /moon
+            html = html.replace(
+                /<li class="bc-item" id="bc-moon-hub-li" hidden><a class="bc-link" id="bc-moon-hub" href="[^"]*"[^>]*>[^<]*<\/a><\/li>/,
+                `<li class="bc-item" id="bc-moon-hub-li"><a class="bc-link" id="bc-moon-hub" href="${_bcLp}/moon">${_escHtml(_bcMoonPhaseLbl)}</a></li>`
+            );
+            html = html.replace(/<li class="bc-sep" id="bc-moon-hub-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-moon-hub-sep" aria-hidden="true">›</li>');
+            // Level 3 — Country → /moon/{country}
+            html = html.replace(
+                /<li class="bc-item" id="bc-moon-country-li" hidden><a class="bc-link" id="bc-moon-country" href="[^"]*"[^>]*>[^<]*<\/a><\/li>/,
+                `<li class="bc-item" id="bc-moon-country-li"><a class="bc-link" id="bc-moon-country" href="${_escHtml(_bcLp + '/moon/' + _nmCS)}">${_escHtml(seo.moonCity.nestedMonthCountryName || '')}</a></li>`
+            );
+            html = html.replace(/<li class="bc-sep" id="bc-moon-country-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-moon-country-sep" aria-hidden="true">›</li>');
+            // Level 4 — City → /moon/{country}/{city}
+            html = html.replace(
+                /<a class="bc-link bc-moon" id="bc-moon"[^>]*>[^<]*<\/a>/,
+                `<a class="bc-link bc-moon" id="bc-moon" href="${_escHtml(_nmCityBase)}">${_escHtml(cityName)}</a>`
+            );
+            // Level 5 — Year → /moon/{country}/{city}/{yyyy}
+            html = html.replace(/<li class="bc-sep" id="bc-moon-year-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-moon-year-sep" aria-hidden="true">›</li>');
+            html = html.replace(
+                /<li class="bc-item" id="bc-moon-year-li" hidden><a class="bc-link" id="bc-moon-year" href="[^"]*"[^>]*>[^<]*<\/a><\/li>/,
+                `<li class="bc-item" id="bc-moon-year-li"><a class="bc-link" id="bc-moon-year" href="${_escHtml(_nmCityBase + '/' + _nmY)}">${_escHtml(_nmY)}</a></li>`
+            );
+            // Level 6 — Month (CURRENT page): the month name, no link, no day rung below it.
+            html = html.replace(/<li class="bc-sep" id="bc-month-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-month-sep" aria-hidden="true">›</li>');
+            html = html.replace(
+                /<li class="bc-item" id="bc-month-li" hidden><a class="bc-link" id="bc-month" href="[^"]*"[^>]*>[\s\S]*?<\/a><\/li>/,
+                `<li class="bc-item bc-current" id="bc-month-li" aria-current="page">${_escHtml(_nmMonthName)}</li>`
+            );
+        }
         // قوالب الفقرة التعريفيّة (fallback — بدون JS) — تُستبدَل لاحقًا بالنصّ الديناميكيّ
         const _introMoon = {
             ar: `اليوم في ${cityName}، ${countryName}، يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.`,
@@ -22994,10 +23087,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             } catch (_e) { /* silent — Hub guide injection optional */ }
         }
 
-        // ── (17-B) Hub pages: حقن Calendar Grid (يوم ± 3) قبل جدول التوقّعات ──
-        //   كلّ خليّة: يوم نسبيّ (أمس/اليوم/غدًا/+2/…) + تاريخ + أيقونة طور + رابط /moon-in-{slug}/{iso}.
-        //   يَكشف Googlebot 7 روابط تاريخ فوريّاً لكلّ hub → discovery أسرع.
-        if (_isMoonHubPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
+        // ── (17-B) MONTH pages ONLY: حقن Calendar Grid الشهريّ الكامل قبل جدول التوقّعات ──
+        //   كلّ خليّة: تاريخ + أيقونة طور + رابط nested /moon/{country}/{city}/{yyyy}/{mm}/{dd}.
+        //   MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 (2026-06-21):
+        //   gate scoped from `_isMoonHubPageSsr` (hub OR month) → `_isMoonMonthPageSsr`
+        //   (month ONLY). The city hub (/moon/{country}/{city}) renders NO calendar
+        //   widget — مطلب التذكرة: التمييز الواضح بين city-hub و month-page. The legacy
+        //   flat hub/month URLs both 301 to the nested structure, so this never affects
+        //   a served hub page. Also fixes a pre-existing `_hubPath` ReferenceError (see
+        //   _pickerActionHref below) that had been silently swallowing this whole block
+        //   for ALL nested moon pages since the nested structure was introduced.
+        if (_isMoonMonthPageSsr && MoonCalc && typeof MoonCalc.getPhaseName === 'function') {
             try {
                 // UAT-Moon-City-Hub-Polish: include "أطوار" + city in calendar H2 so it
                 //   reads "تقويم أطوار القمر في {city} — أبريل 2026" (was just
@@ -23338,10 +23438,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 for (let m = 1; m <= 12; m++) {
                     _moOptsHtml += `<option value="${m}"${m === _calMo ? ' selected' : ''}>${_escHtml(_gMonthsFull[m - 1])}</option>`;
                 }
-                // Picker form action: clean hub path. The 301 redirect for
-                //   ?cal-y/?cal-m sends the visitor to the canonical /YYYY-MM
-                //   path WITHOUT the fragment; JS auto-scrolls to the calendar.
-                const _pickerActionHref = _hubPath;
+                // Picker form action: clean nested hub path for the current city.
+                //   The ?cal-y/?cal-m no-JS form folds into the canonical
+                //   /{yyyy}/{mm} path; JS auto-scrolls to the calendar.
+                //   MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: was a
+                //   dangling `_hubPath` reference (defined only inside an unrelated
+                //   301 handler scope) → ReferenceError that silently killed the
+                //   whole calendar block. Use the already-computed nested base.
+                const _pickerActionHref = _moonNestBaseHc;
                 const _pickerHtml = `<form class="moon-hub-cal-picker" method="get" action="${_escHtml(_pickerActionHref)}" role="search">`
                     + `<select name="cal-y" aria-label="Year">${_yearOptsHtml}</select>`
                     + `<select name="cal-m" aria-label="Month">${_moOptsHtml}</select>`
@@ -23380,9 +23484,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 };
                 const _hubDetailCtaText = _hubDetailCtaTpl[Lm] || _hubDetailCtaTpl.en;
                 // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: on the nested hub, the "view today" CTA
-                //   points at the new nested today /moon/{country}/{city}/today (legacy fallback kept).
-                const _hubDetailCtaHref = (seo.moonCity.isNested && seo.moonCity.nestedCountrySlug)
-                    ? (_langPrefixHc + '/moon/' + seo.moonCity.nestedCountrySlug + '/' + seo.moonCity.slug + '/today')
+                //   points at the new nested today /moon/{country}/{city}/today.
+                // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 (2026-06-21): the calendar
+                //   block now renders on the nested MONTH page too (where seo.moonCity.isNested — the
+                //   nested-HUB flag — is false). Resolve the nested country slug from the month context
+                //   as well so this CTA stays NESTED (no SSR legacy /moon-today-in- link leaks onto the
+                //   month page). The legacy flat fallback is now unreachable for served pages (legacy 301s).
+                const _ctaNestedCC = (seo.moonCity.isNested && seo.moonCity.nestedCountrySlug) ? seo.moonCity.nestedCountrySlug
+                    : (seo.moonCity.isNestedMonth && seo.moonCity.nestedMonthCountrySlug) ? seo.moonCity.nestedMonthCountrySlug
+                    : '';
+                const _hubDetailCtaHref = _ctaNestedCC
+                    ? (_langPrefixHc + '/moon/' + _ctaNestedCC + '/' + seo.moonCity.slug + '/today')
                     : (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug);
                 const _hubDetailCtaHtml = `<a class="moon-hub-detail-cta" href="${_escHtml(_hubDetailCtaHref)}">${_escHtml(_hubDetailCtaText)}</a>`;
                 // id="moon-hub-cal" lets prev/next/picker URLs use #moon-hub-cal
@@ -26983,6 +27095,35 @@ const server = http.createServer(async (req, res) => {
                     res.end();
                     return;
                 }
+            }
+        } catch (_) { /* malformed query — fall through to normal handling */ }
+    }
+
+    // ───── MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: no-JS month-picker on NESTED hub ─────
+    //   The month-picker form posts ?cal-y=Y&cal-m=M (or ?cal=YYYY-MM) to the nested hub base
+    //   /moon/{country}/{city}. Redirect to the canonical nested month path
+    //   /moon/{country}/{city}/YYYY/MM (SLASH form) so the dropdown works without JS — mirrors the
+    //   legacy ?cal redirect above. Only fires when a valid cal param is present; the bare hub is untouched.
+    if (qs && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+$/.test(urlPath)) {
+        try {
+            const _qp = new URLSearchParams(qs);
+            let _calIso = _qp.get('cal') || '';
+            if (!_calIso && _qp.get('cal-y') && _qp.get('cal-m')) {
+                const _y = _qp.get('cal-y');
+                const _m = _qp.get('cal-m');
+                if (/^\d{4}$/.test(_y) && /^\d{1,2}$/.test(_m)) {
+                    _calIso = `${_y}-${String(_m).padStart(2, '0')}`;
+                }
+            }
+            const _cm = _calIso.match(/^(\d{4})-(\d{2})$/);
+            if (_cm && parseInt(_cm[1], 10) >= 1900 && parseInt(_cm[1], 10) <= 2100
+                && parseInt(_cm[2], 10) >= 1 && parseInt(_cm[2], 10) <= 12) {
+                res.writeHead(301, {
+                    'Location': `${urlPath}/${_cm[1]}/${_cm[2]}`,
+                    'Cache-Control': 'public, max-age=31536000'
+                });
+                res.end();
+                return;
             }
         } catch (_) { /* malformed query — fall through to normal handling */ }
     }

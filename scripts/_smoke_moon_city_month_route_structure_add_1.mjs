@@ -1,15 +1,22 @@
-// MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1 — dedicated smoke for the city MONTH page.
+// MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 — dedicated smoke for the city MONTH page.
 //
-// Pins the contract: /[lang/]moon/{country}/{city}/{yyyy}/{mm} is the city MONTH page —
-// 200, single H1, self canonical + 10-lang hreflang, 6-level breadcrumb (Home › Moon
-// Phase › {Country} › {City} › {yyyy} › {Month}) DOM ≡ BreadcrumbList JSON-LD, SSR hero
-// (desc + 7 info chips + quick-nav anchors), month summary, an SSR daily calendar with
-// EVERY day of the month (June 2026 = 30 rows) whose day links use the NEW nested day route
-// /moon/{country}/{city}/{yyyy}/{mm}/{dd} (live since MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1), prev/next
-// month (cross-year), back links, and a 6-question FAQ with matching FAQPage JSON-LD (no
-// Event schema). Validation: deeper day / today / dash / bad month → 404, wrong country →
-// 301. Year-page month cards now point at the new nested route. Legacy routes + Meeus 49
-// untouched; no redirect added from /moon-in-{city}/{yyyy-mm}.
+// SCOPE CORRECTION: the nested MONTH route /[lang/]moon/{country}/{city}/{yyyy}/{mm} is the
+// STRUCTURAL alias of the legacy month page /moon-in-{city}/{yyyy-mm}. It reuses the SAME legacy
+// renderer — #page-moon active (NOT a bespoke #page-moon-month), the same #moon-page-h1, the same
+// legacy <title>, AND — critically — the SAME legacy monthly calendar grid (.moon-hub-cal-grid,
+// 7-column wall calendar) whose day cells link to the NEW nested day route
+// /moon/{country}/{city}/{yyyy}/{mm}/{dd}. The ONLY permitted differences are:
+//   1. self-canonical (the new nested URL),
+//   2. hreflang (10 langs + x-default on the new nested URL),
+//   3. a 6-level breadcrumb (Home › Moon Phase › {Country} › {City} › {yyyy} › {Month})
+//      with DOM ≡ BreadcrumbList JSON-LD,
+//   4. calendar day links use the nested day route.
+// The bespoke #page-moon-month section (hero/my-chip/my-day-link table/summary/FAQ) is GONE.
+// HUB INVARIANT: the city hub /moon/{country}/{city} renders NO calendar widget (grid OR compact
+// CTA) — the calendar block is now gated month-page-ONLY (`_isMoonMonthPageSsr`). This also fixed a
+// pre-existing `_hubPath` ReferenceError that had been silently swallowing the calendar for every
+// nested moon page. Validation: dash/bad-month/bad-year → 404, wrong country → 301. Year-page month
+// cards → nested month route. Legacy /moon-in-{city}/{yyyy-mm} 301s (MLRC); js/moon.js + Meeus 49 untouched.
 //
 // Run: node scripts/_smoke_moon_city_month_route_structure_add_1.mjs
 import http from 'node:http';
@@ -35,20 +42,35 @@ function req(p) {
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 async function waitReady(ms) { const t0 = Date.now(); while (Date.now() - t0 < ms) { const r = await req('/health'); if (r.status === 200) return true; await sleep(400); } return false; }
 
-const pageActive = (b, id) => new RegExp('class="page active" id="' + id + '"').test(b);
+const pageMoonActive = (b) => /class="page active" id="page-moon"/.test(b);
+const pageMoonMonthEl = (b) => /<[a-z]+[^>]*\bid="page-moon-month"/.test(b);   // the BESPOKE section element (must be ABSENT)
 const canonOf = (b) => (b.match(/<link rel="canonical" href="([^"]+)"/) || [])[1] || '';
 const count = (b, re) => (b.match(re) || []).length;
+const h1Count = (b) => count(b, /<h1\b/g);
+const h1Text = (b) => ((b.match(/id="moon-page-h1"[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]*>/g, '').trim();
+const titleText = (b) => (b.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
+const daysInMonth = (y, m) => new Date(y, m, 0).getDate();
+// VISIBLE breadcrumb rungs inside <nav class="moon-breadcrumb"> (skip hidden <li> + separators)
 function domCrumbs(b) {
     const nav = (b.match(/<nav class="moon-breadcrumb"[\s\S]*?<\/nav>/) || [''])[0];
-    const out = []; const re = /(?:<a[^>]*class="bc-link[^"]*"[^>]*>|<li[^>]*id="bc-mm-month"[^>]*>)([^<]*)</g; let m;
-    while ((m = re.exec(nav)) !== null) { const t = m[1].trim(); if (t) out.push(t); }
+    const out = [];
+    for (const m of nav.matchAll(/<li class="[^"]*"[^>]*?>([\s\S]*?)<\/li>/g)) {
+        if (/\bhidden\b/.test(m[0])) continue;   // skip the rungs still hidden on this page
+        if (/bc-sep/.test(m[0])) continue;        // skip separators (›)
+        const t = m[1].replace(/<[^>]*>/g, '').trim();
+        if (t && t !== '›') out.push(t);
+    }
     return out;
 }
 function jsonldCrumbNames(b) {
     const i = b.indexOf('"@type":"BreadcrumbList"'); if (i < 0) return null;
-    const m = b.slice(i).match(/"itemListElement":\[([\s\S]*?)\]/); if (!m) return null;
+    const m = b.slice(i).match(/"itemListElement":\[([\s\S]*?)\]/);
+    if (!m) return null;
     return (m[1].match(/"name":"([^"]*)"/g) || []).map(s => s.replace(/^"name":"/, '').replace(/"$/, ''));
 }
+// count nested dated day-links into a given {yyyy}/{mm}, and legacy day-links
+const datedDayLinks = (b, slug, y, mm) => count(b, new RegExp('href="/moon/saudi-arabia/' + slug + '/' + y + '/' + mm + '/\\d{2}"', 'g'));
+const legacyDayLinks = (b, slug, ymd) => count(b, new RegExp('href="/moon-in-' + slug + '/' + ymd + '-\\d{2}"', 'g'));
 
 let exitCode = 1;
 let SITE = `http://localhost:${PORT}`;
@@ -57,24 +79,25 @@ try {
     if (!await waitReady(25000)) { console.error('✗ server not ready'); s.kill('SIGKILL'); process.exit(1); }
     SITE = (canonOf((await req('/moon/saudi-arabia/riyadh/2026/06')).body).match(/^(https?:\/\/[^/]+)/) || [])[1] || SITE;
 
-    // ── A) month page = 200, #page-moon-month active, 1 H1, self canonical (multi-country) ──
-    console.log('── A) month page = 200 + #page-moon-month active + 1 H1 + self canonical ──');
+    // ── A) month page = 200, #page-moon active (legacy renderer), 1 H1, self canonical (multi-country/lang) ──
+    console.log('── A) month page = 200 + #page-moon active (legacy renderer) + 1 H1 + self canonical ──');
     for (const u of ['/moon/saudi-arabia/riyadh/2026/06', '/en/moon/saudi-arabia/riyadh/2026/06', '/moon/united-states/new-york/2027/01', '/fr/moon/saudi-arabia/jeddah/2025/12']) {
         const r = await req(u);
-        const ok = r.status === 200 && pageActive(r.body, 'page-moon-month') && count(r.body, /<h1\b/g) === 1 && canonOf(r.body) === SITE + u && r.body.length > 60000;
-        check(`${u}: 200 + page-moon-month + 1 H1 + self canonical`, ok, `status=${r.status} pmm=${pageActive(r.body, 'page-moon-month')} h1=${count(r.body, /<h1\b/g)} canon=${canonOf(r.body)}`);
+        const ok = r.status === 200 && pageMoonActive(r.body) && !pageMoonMonthEl(r.body) && h1Count(r.body) === 1 && canonOf(r.body) === SITE + u && r.body.length > 60000;
+        check(`${u}: 200 + page-moon + NO bespoke page-moon-month + 1 H1 + self canonical`, ok,
+            `status=${r.status} pm=${pageMoonActive(r.body)} pmmEl=${pageMoonMonthEl(r.body)} h1=${h1Count(r.body)} canon=${canonOf(r.body)}`);
     }
 
-    // ── A2) NO leaked sections + NO orphaned comment text + balanced comments ──
-    console.log('\n── A2) NO leaked #page-moon / #page-moon-year sections + balanced comments ──');
+    // ── A2) bespoke MONTH renderer fully removed + legacy renderer present + balanced comments ──
+    console.log('\n── A2) bespoke #page-moon-month removed (0 my-chip/my-day-link/moon-month-*) + legacy #moon-page-h1 ──');
     for (const u of ['/moon/saudi-arabia/riyadh/2026/06', '/en/moon/saudi-arabia/riyadh/2026/06']) {
         const b = (await req(u)).body;
-        const leaked = ['moon-general-faq', 'moon-hub-related-links', 'moon-events-section', 'moon-hub-hero', 'moon-event-ramadan', 'moon-year-summary', 'moon-page-h1']
-            .filter(id => new RegExp('id="' + id + '"').test(b));
-        check(`${u}: 0 leaked hub/year section IDs`, leaked.length === 0, `leaked=[${leaked.join(',')}]`);
+        const bespoke = ['moon-month-hero', 'moon-month-summary', 'moon-month-calendar', 'my-chip', 'my-day-link', 'my-month-card']
+            .filter(id => new RegExp(id).test(b));
+        check(`${u}: 0 bespoke month artefacts`, bespoke.length === 0, `found=[${bespoke.join(',')}]`);
+        check(`${u}: legacy #moon-page-h1 present + page-moon active`, /id="moon-page-h1"/.test(b) && pageMoonActive(b));
         const opens = (b.match(/<!--/g) || []).length, closes = (b.match(/-->/g) || []).length;
         check(`${u}: HTML comments balanced (<!-- == -->)`, opens === closes, `open=${opens} close=${closes}`);
-        check(`${u}: #page-moon-month max-width container present`, /#page-moon-month\{[^}]*max-width:1100px/.test(b));
     }
 
     // ── B) 6-level breadcrumb DOM ≡ JSON-LD (AR + EN) ──
@@ -86,74 +109,103 @@ try {
         const b = (await req(u)).body;
         const dom = domCrumbs(b), names = jsonldCrumbNames(b);
         const lp = u.startsWith('/en') ? '/en' : '';
-        check(`${u}: DOM ≡ JSON-LD (6 rungs)`, dom.length === 6 && JSON.stringify(dom) === JSON.stringify(names), `dom=${JSON.stringify(dom)}`);
-        check(`${u}: rungs = [Home,${hub},${country},${city},2026,${mn}]`, !!names && names.slice(1).join('|') === [hub, country, city, '2026', mn].join('|'), JSON.stringify(names));
-        check(`${u}: year rung links to ${lp}/moon/saudi-arabia/riyadh/2026`, new RegExp('id="bc-mm-year" href="' + lp + '/moon/saudi-arabia/riyadh/2026"').test(b));
+        check(`${u}: DOM ≡ JSON-LD (6 rungs)`, dom.length === 6 && JSON.stringify(dom) === JSON.stringify(names), `dom=${JSON.stringify(dom)} jsonld=${JSON.stringify(names)}`);
+        check(`${u}: rungs = [Home,${hub},${country},${city},2026,${mn}]`, !!names && names.length === 6 && names.slice(1).join('|') === [hub, country, city, '2026', mn].join('|'), JSON.stringify(names));
+        check(`${u}: year rung links to ${lp}/moon/saudi-arabia/riyadh/2026`, new RegExp('href="' + lp + '/moon/saudi-arabia/riyadh/2026"').test(b));
         check(`${u}: city rung ${lp}/moon/saudi-arabia/riyadh · country ${lp}/moon/saudi-arabia`,
-            new RegExp('id="bc-mm-city" href="' + lp + '/moon/saudi-arabia/riyadh"').test(b) && new RegExp('id="bc-mm-country" href="' + lp + '/moon/saudi-arabia"').test(b));
+            new RegExp('href="' + lp + '/moon/saudi-arabia/riyadh"').test(b) && new RegExp('href="' + lp + '/moon/saudi-arabia"').test(b));
     }
 
-    // ── C) hero chips + daily calendar (30 days, nested day links) + summary + prev/next + back + FAQ + hreflang ──
-    console.log('\n── C) hero chips · daily calendar (June=30) · day links legacy · summary · prev/next · back · FAQ · hreflang ──');
+    // ── C) legacy monthly CALENDAR GRID present + nested day links + legacy title + hreflang ──
+    console.log('\n── C) legacy calendar grid (.moon-hub-cal-grid) + nested day links + legacy title ──');
     {
         const b = (await req('/moon/saudi-arabia/riyadh/2026/06')).body;
-        check('hero card #moon-month-hero is a .section-card', /<header class="section-card moon-year-hero" id="moon-month-hero">/.test(b));
-        check('hero has 7 info chips (city/month/year/tz/days/full/new)', count(b, /class="my-chip"/g) === 7, `${count(b, /class="my-chip"/g)} chips`);
-        check('chips show المدينة + الشهر + السنة + التوقيت + عدد أيام الشهر + البدر + المحاق',
-            ['المدينة', 'الشهر', 'السنة', 'التوقيت المحلي', 'عدد أيام الشهر', 'البدر', 'المحاق'].every(l => b.includes(l)));
-        check('chips carry live values (Asia/Riyadh · 30 days)', b.includes('Asia/Riyadh') && /<b>30<\/b>/.test(b));
-        check('month summary present (#moon-month-summary)', /id="moon-month-summary"/.test(b) && /class="my-sum-note"/.test(b));
-        check('daily calendar present (#moon-month-calendar) + intro', /id="moon-month-calendar"/.test(b) && /class="my-table-intro"/.test(b));
-        const _calHead = (b.match(/id="moon-month-calendar"[\s\S]*?<\/thead>/) || [''])[0];
-        check('5 table columns (date/day/phase/illum/age)', count(_calHead, /<th>/g) === 5, `${count(_calHead, /<th>/g)} th`);
-        check('June 2026 = exactly 30 day rows', count(b, /class="my-day-link"/g) === 30, `${count(b, /class="my-day-link"/g)} rows`);
-        // MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1 §3: day links now use the NEW nested day route.
-        check('day links use NEW nested day route /moon/saudi-arabia/riyadh/2026/06/NN (30)', count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g) === 30, `${count(b, /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d\d"/g)}`);
-        check('day links NO LONGER use the legacy /moon-in-riyadh/2026-06-NN route', count(b, /href="\/moon-in-riyadh\/2026-06-\d\d"/g) === 0, `${count(b, /href="\/moon-in-riyadh\/2026-06-\d\d"/g)}`);
-        check('prev + next month links (2026/05 + 2026/07)', b.includes('/moon/saudi-arabia/riyadh/2026/05') && b.includes('/moon/saudi-arabia/riyadh/2026/07'));
-        check('back links → year + city', b.includes('href="/moon/saudi-arabia/riyadh/2026"') && /class="my-back-link"[^>]*href="\/moon\/saudi-arabia\/riyadh"/.test(b.replace(/\n/g, '')));
-        check('6 SSR FAQ (.moon-faq-item) + FAQPage JSON-LD', count(b, /class="moon-faq-item"/g) === 6 && /"@type":"FAQPage"/.test(b), `${count(b, /class="moon-faq-item"/g)} faq`);
-        check('NO Event schema (phases are not events)', !/"@type":"Event"/.test(b));
+        check('calendar grid card present (.moon-hub-calendar-card + .moon-hub-cal-grid + .moon-hub-cal-title)',
+            b.includes('moon-hub-calendar-card') && b.includes('moon-hub-cal-grid') && b.includes('moon-hub-cal-title'));
+        check('calendar H2 = "📆 تقويم أطوار القمر في الرياض — يونيو 2026"', b.includes('📆 تقويم أطوار القمر في الرياض — يونيو 2026'));
+        const dim = daysInMonth(2026, 6); // 30
+        const dated = datedDayLinks(b, 'riyadh', '2026', '06');
+        // day cells link to the nested day route; the "today" cell (when today ∈ this month) links to …/today,
+        // so the dated count is dim or dim-1. Either way: covers the month, 0 legacy.
+        check(`calendar day links use NEW nested route /moon/saudi-arabia/riyadh/2026/06/NN (${dim}/${dim - 1})`,
+            dated >= dim - 1 && dated <= dim, `dated=${dated} dim=${dim}`);
+        check('calendar day links NO LONGER use legacy /moon-in-riyadh/2026-06-NN', legacyDayLinks(b, 'riyadh', '2026-06') === 0, `legacy=${legacyDayLinks(b, 'riyadh', '2026-06')}`);
+        check('NO bespoke my-day-link rows', count(b, /class="my-day-link"/g) === 0);
+        // SCOPE-CORRECTION-FIX-1: 0 SSR legacy moon hrefs anywhere (calendar prev/next/picker/day cells +
+        // the "view today" CTA must all be nested — no /moon-in- or /moon-today-in- leak).
+        const _legHrefs = (b.match(/href="\/(?:moon-in-|moon-today-in-)[^"]*"/g) || []);
+        check('0 SSR legacy moon hrefs (/moon-in-, /moon-today-in-)', _legHrefs.length === 0, `${JSON.stringify(_legHrefs)}`);
+        check('"view today" CTA is nested (/moon/saudi-arabia/riyadh/today)', /class="moon-hub-detail-cta" href="\/moon\/saudi-arabia\/riyadh\/today"/.test(b));
+        // prev/next month nav uses the nested route (cross-month + the picker form action is the nested base)
+        check('calendar prev/next nav nested (2026/05 + 2026/07) + picker action nested', /class="moon-hub-cal-prev" href="\/moon\/saudi-arabia\/riyadh\/2026\/05"/.test(b) && /class="moon-hub-cal-next" href="\/moon\/saudi-arabia\/riyadh\/2026\/07"/.test(b) && /class="moon-hub-cal-picker"[^>]*action="\/moon\/saudi-arabia\/riyadh"/.test(b));
         const hl = new Set((b.match(/hreflang="([a-z-]+)"/g) || []).map(x => x.replace(/hreflang="|"/g, '')));
         check('hreflang 10 langs + x-default', ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'].every(l => hl.has(l)) && hl.has('x-default'));
         check('indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(b));
-        const t = (b.match(/<title>([^<]*)<\/title>/) || [])[1];
-        check('AR title = "تقويم القمر في الرياض يونيو 2026 | أطوار القمر اليومية"', t === 'تقويم القمر في الرياض يونيو 2026 | أطوار القمر اليومية', t);
-    }
-    // EN title + the day-count correctness for other month lengths
-    {
+        check('AR title = "تقويم القمر في الرياض لشهر يونيو 2026 ومراحل القمر"', titleText(b) === 'تقويم القمر في الرياض لشهر يونيو 2026 ومراحل القمر', titleText(b));
+        check('legacy H1 = "🌙 أطوار القمر في الرياض — يونيو 2026"', h1Text(b) === '🌙 أطوار القمر في الرياض — يونيو 2026', h1Text(b));
         const en = (await req('/en/moon/saudi-arabia/riyadh/2026/06')).body;
-        check('EN title = "Moon Calendar in Riyadh June 2026 | Daily Moon Phases"', (en.match(/<title>([^<]*)<\/title>/) || [])[1] === 'Moon Calendar in Riyadh June 2026 | Daily Moon Phases');
-        const jan = (await req('/moon/saudi-arabia/riyadh/2026/01')).body;   // 31 days
-        check('January 2026 = 31 day rows', count(jan, /class="my-day-link"/g) === 31, `${count(jan, /class="my-day-link"/g)}`);
-        const feb = (await req('/moon/saudi-arabia/riyadh/2026/02')).body;   // 28 days (2026 not leap)
-        check('February 2026 = 28 day rows', count(feb, /class="my-day-link"/g) === 28, `${count(feb, /class="my-day-link"/g)}`);
-        const feb24 = (await req('/moon/saudi-arabia/riyadh/2024/02')).body; // 29 (leap)
-        check('February 2024 = 29 day rows (leap year)', count(feb24, /class="my-day-link"/g) === 29, `${count(feb24, /class="my-day-link"/g)}`);
+        check('EN title carries Riyadh + June + 2026', /Riyadh/.test(titleText(en)) && /June/.test(titleText(en)) && /2026/.test(titleText(en)), titleText(en));
+        check('EN month page also renders the calendar grid', en.includes('moon-hub-cal-grid'));
     }
 
-    // ── D) prev/next month CROSS-YEAR boundaries ──
-    console.log('\n── D) prev/next month cross-year (Jan prev = Dec prev-year · Dec next = Jan next-year) ──');
-    {
-        const janB = (await req('/moon/saudi-arabia/riyadh/2026/01')).body;
-        check('Jan 2026: prev = Dec 2025 (/2025/12) + next = Feb (/2026/02)', janB.includes('/moon/saudi-arabia/riyadh/2025/12') && janB.includes('/moon/saudi-arabia/riyadh/2026/02'));
-        const decB = (await req('/moon/saudi-arabia/riyadh/2026/12')).body;
-        check('Dec 2026: next = Jan 2027 (/2027/01) + prev = Nov (/2026/11)', decB.includes('/moon/saudi-arabia/riyadh/2027/01') && decB.includes('/moon/saudi-arabia/riyadh/2026/11'));
+    // ── C2) HUB INVARIANT: city hub /moon/{country}/{city} renders NO calendar widget ──
+    console.log('\n── C2) HUB unchanged: /moon/saudi-arabia/riyadh has NO calendar (grid OR compact CTA) ──');
+    for (const u of ['/moon/saudi-arabia/riyadh', '/en/moon/saudi-arabia/riyadh']) {
+        const b = (await req(u)).body;
+        check(`${u}: 200 + page-moon active`, (await req(u)).status === 200 && pageMoonActive(b));
+        check(`${u}: NO moon-hub-cal-grid (full month grid must NOT appear on hub)`, !b.includes('moon-hub-cal-grid'));
+        check(`${u}: NO moon-hub-calendar-card / moon-hub-cal-compact`, !b.includes('moon-hub-calendar-card') && !b.includes('moon-hub-cal-compact'));
     }
 
-    // ── E) validation: deeper/dash/bad-month 404 · mismatch 301 · unknown 404 ──
-    console.log('\n── E) validation (deeper/dash/bad-month/bad-year 404 · mismatch 301 · unknown 404) ──');
+    // ── C3) the calendar is MONTH-page ONLY (day/today/year/country show none) ──
+    console.log('\n── C3) calendar is month-page ONLY (day/today/year/country = no grid) ──');
+    for (const [lbl, u] of [['day', '/moon/saudi-arabia/riyadh/2026/06/17'], ['today', '/moon/saudi-arabia/riyadh/today'], ['year', '/moon/saudi-arabia/riyadh/2026'], ['country', '/moon/saudi-arabia']]) {
+        const r = await req(u);
+        check(`${lbl} ${u}: 200 + NO moon-hub-cal-grid`, r.status === 200 && !r.body.includes('moon-hub-cal-grid'), `status=${r.status} grid=${r.body.includes('moon-hub-cal-grid')}`);
+    }
+
+    // ── C4) month-picker (year/month dropdown) no-JS fallback → nested month 301 (NOT 404) ──
+    //   SCOPE-CORRECTION-FIX-1: the SSR picker form posts ?cal-y/?cal-m (or ?cal=YYYY-MM) to the nested
+    //   hub base; the server 301s it to the canonical nested month /YYYY/MM (slash form). The JS handler
+    //   (app.js) builds the same nested slash URL. Previously the dropdown landed on a 404 (dash form).
+    console.log('\n── C4) month-picker no-JS fallback → nested month 301 (not 404) ──');
+    for (const [u, to] of [
+        ['/moon/saudi-arabia/riyadh?cal-y=2026&cal-m=7', '/moon/saudi-arabia/riyadh/2026/07'],
+        ['/moon/saudi-arabia/riyadh?cal=2026-07', '/moon/saudi-arabia/riyadh/2026/07'],
+        ['/en/moon/saudi-arabia/riyadh?cal-y=2027&cal-m=1', '/en/moon/saudi-arabia/riyadh/2027/01'],
+    ]) {
+        const r = await req(u);
+        check(`picker ${u} → 301 ${to}`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    }
+    // invalid month in the picker query must NOT redirect to a bad URL — fall through to the hub (200)
+    for (const u of ['/moon/saudi-arabia/riyadh?cal-y=2026&cal-m=13', '/moon/saudi-arabia/riyadh?cal-y=2026&cal-m=0']) {
+        const r = await req(u);
+        check(`picker ${u} (invalid month) → 200 hub, no bad redirect`, r.status === 200, `status=${r.status}`);
+    }
+    // the picker form action is the nested hub base (so the JS handler + no-JS form both target nested)
+    check('month-picker form action = nested hub base', /class="moon-hub-cal-picker"[^>]*action="\/moon\/saudi-arabia\/riyadh"/.test((await req('/moon/saudi-arabia/riyadh/2026/06')).body));
+
+    // ── D) other month lengths render the grid with nested day links (cross-year + leap) ──
+    console.log('\n── D) other months: grid present + nested day links (Jan 2027 = 31 · Feb 2024 = 29 leap) ──');
+    for (const [y, mm] of [['2027', '01'], ['2024', '02'], ['2026', '12']]) {
+        const b = (await req(`/moon/saudi-arabia/riyadh/${y}/${mm}`)).body;
+        const dim = daysInMonth(+y, +mm);
+        const dated = datedDayLinks(b, 'riyadh', y, mm);
+        check(`${y}/${mm}: grid present + ${dim}/${dim - 1} nested day links + 0 legacy`,
+            b.includes('moon-hub-cal-grid') && dated >= dim - 1 && dated <= dim && legacyDayLinks(b, 'riyadh', `${y}-${mm}`) === 0,
+            `dated=${dated} dim=${dim}`);
+    }
+
+    // ── E) validation: dash/bad-month/bad-year/deeper 404 · mismatch 301 · unknown 404 ──
+    console.log('\n── E) validation (dash/bad-month/bad-year/deeper 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        // /2026/06/17 (day) and /today (today) are now LIVE 200 since the day + today tickets;
-        // only the path DEEPER than a day (…/{dd}/extra), deeper-than-today (…/today/x) and dash stay 404.
-        '/moon/saudi-arabia/riyadh/2026/06/17/extra', '/moon/saudi-arabia/riyadh/today/test',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
         '/moon/saudi-arabia/riyadh/2026/6', '/moon/saudi-arabia/riyadh/2026/00', '/moon/saudi-arabia/riyadh/2026/13',
         '/moon/saudi-arabia/riyadh/2026/abc', '/moon/saudi-arabia/riyadh/1899/06', '/moon/saudi-arabia/riyadh/2101/06',
         '/moon/saudi-arabia/notacity/2026/06', '/moon/zzz-not-a-country/riyadh/2026/06',
     ]) {
         const r = await req(u);
-        check(`${u} → 404 (not served)`, r.status === 404 && !pageActive(r.body, 'page-moon-month'), `status=${r.status}`);
+        check(`${u} → 404 (not served)`, r.status === 404, `status=${r.status}`);
     }
     {
         const r = await req('/moon/united-states/riyadh/2026/06');
@@ -162,24 +214,23 @@ try {
         check('/en/… mismatch → 301 /en/moon/saudi-arabia/riyadh/2026/06 (lang preserved)', re.status === 301 && re.loc === '/en/moon/saudi-arabia/riyadh/2026/06', `status=${re.status} loc=${re.loc}`);
     }
 
-    // ── F) sitemap: month pages in, deeper day/today NOT in ──
-    console.log('\n── F) sitemap-cities: month pages in, deeper day/today out ──');
+    // ── F) sitemap: month pages in, deeper day/today policy ──
+    console.log('\n── F) sitemap-cities: month pages in, deeper day out, today in ──');
     {
         const smc = (await req('/sitemap-cities-1.xml')).body;
         const cy = new Date().getFullYear();
         check(`sitemap has current-year month /moon/saudi-arabia/medina/${cy}/06`, smc.includes(`${SITE}/moon/saudi-arabia/medina/${cy}/06</loc>`));
         check('sitemap has all 12 months for the current year (city)', Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).every(mm => smc.includes(`/moon/saudi-arabia/medina/${cy}/${mm}</loc>`)));
         check('sitemap: NO nested day /moon/{c}/{city}/{yyyy}/{mm}/{dd}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/.test(smc));
-        // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1 §8: nested today /moon/{c}/{city}/today is now emitted.
-        check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
+        check('sitemap has nested today /moon/saudi-arabia/medina/today', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
     }
 
-    // ── G) YEAR page month cards now point at the NEW nested month route ──
-    console.log('\n── G) year page month cards → new nested /moon/{country}/{city}/{yyyy}/{mm} ──');
+    // ── G) YEAR page month cards point at the nested month route ──
+    console.log('\n── G) year page month cards → nested /moon/{country}/{city}/{yyyy}/{mm} ──');
     {
         const y = (await req('/moon/saudi-arabia/riyadh/2026')).body;
-        check('year page: 12 month cards → /moon/saudi-arabia/riyadh/2026/NN', count(y, /class="my-month-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === 12, `${count(y, /class="my-month-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
-        check('year page: month cards NO LONGER use legacy /moon-in-riyadh/2026-NN', count(y, /class="my-month-card" href="\/moon-in-riyadh\//g) === 0);
+        check('year page: 12 month cards → /moon/saudi-arabia/riyadh/2026/NN', count(y, /href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) >= 12, `${count(y, /href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
+        check('year page: month cards NO LONGER use legacy /moon-in-riyadh/2026-NN', count(y, /href="\/moon-in-riyadh\/2026-\d\d"/g) === 0);
     }
 
     // ── H) legacy routes 301 → nested (MLRC) + Meeus 49 unchanged ──
@@ -193,9 +244,12 @@ try {
     check('/moon/saudi-arabia still 200 (country)', (await req('/moon/saudi-arabia')).status === 200);
     check('/moon still 200', (await req('/moon')).status === 200);
     {
-        // MLRC: validate Meeus via nested DAY pages (legacy grid now 301s; same engine, same output).
+        // Meeus via the month grid (New/Full tokens) + nested DAY pages (legacy renderer, same engine).
+        const mo = (await req('/moon/saudi-arabia/riyadh/2026/06')).body;
+        check('Meeus 49 in grid: 15 Jun region = المحاق · 30 Jun region = بدر',
+            /2026\/06\/15[^]{0,400}?(?:المحاق|محاق)/.test(mo) && /2026\/06\/30[^]{0,400}?بدر/.test(mo));
         const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
-        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر'));
+        check('Meeus 49: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر'));
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

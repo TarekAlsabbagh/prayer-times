@@ -1563,7 +1563,7 @@
 //   /moon/{country}/{city}/{yyyy}: #page-moon-year activation + hub-updater skip).
 // MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1 (2026-06-18): js/app.js?v=790→791 + v450→v451 (day page
 //   /moon/{country}/{city}/{yyyy}/{mm}/{dd}: #page-moon-day activation + hub-updater skip).
-const CACHE_VERSION = 'v452';
+const CACHE_VERSION = 'v453';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

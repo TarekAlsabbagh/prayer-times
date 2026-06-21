@@ -105,11 +105,11 @@ try {
     check('EN no prayer CTA / no hero search', !en.body.includes('id="search-input"') && !en.body.includes('id="loc-hero-geo-btn"'));
     check('EN summary + 8 FAQ + monthly nested /en/moon/saudi-arabia/{city} links', en.body.includes('Moon Summary in') && (en.body.match(/class="country-faq-item"/g) || []).length === 8 && /href="\/en\/moon\/saudi-arabia\/[a-z-]+"/.test(en.body));
 
-    // ── C) nested city hub now LIVE 200 (MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1);
-    //        only the deeper today/month/date nested routes stay clean 404 ──
-    console.log('\n── C) /moon/{country}/{city} = 200 hub · deeper today/month/date = clean 404 ──');
+    // ── C) nested city hub now LIVE 200 (MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1); the nested today/year/
+    //        month/day are now LIVE 200 too — only the DASH forms + deeper-than-today stay clean 404 ──
+    console.log('\n── C) /moon/{country}/{city} = 200 hub · dash forms + deeper-than-today = clean 404 ──');
     check('/moon/saudi-arabia/riyadh: 200 (nested city hub now LIVE)', (await req('/moon/saudi-arabia/riyadh')).status === 200);
-    for (const u of ['/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17']) {
+    for (const u of ['/moon/saudi-arabia/riyadh/today/test', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17']) {
         const r = await req(u);
         check(`${u}: 404 (not 200/empty)`, r.status === 404, String(r.status));
     }

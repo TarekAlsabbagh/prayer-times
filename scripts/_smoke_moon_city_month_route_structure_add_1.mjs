@@ -144,9 +144,9 @@ try {
     // ── E) validation: deeper/dash/bad-month 404 · mismatch 301 · unknown 404 ──
     console.log('\n── E) validation (deeper/dash/bad-month/bad-year 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        // /2026/06/17 (the day page) is now LIVE 200 since MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1;
-        // only the path DEEPER than a day (…/{dd}/extra) and today/dash stay 404 here.
-        '/moon/saudi-arabia/riyadh/2026/06/17/extra', '/moon/saudi-arabia/riyadh/today',
+        // /2026/06/17 (day) and /today (today) are now LIVE 200 since the day + today tickets;
+        // only the path DEEPER than a day (…/{dd}/extra), deeper-than-today (…/today/x) and dash stay 404.
+        '/moon/saudi-arabia/riyadh/2026/06/17/extra', '/moon/saudi-arabia/riyadh/today/test',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
         '/moon/saudi-arabia/riyadh/2026/6', '/moon/saudi-arabia/riyadh/2026/00', '/moon/saudi-arabia/riyadh/2026/13',
         '/moon/saudi-arabia/riyadh/2026/abc', '/moon/saudi-arabia/riyadh/1899/06', '/moon/saudi-arabia/riyadh/2101/06',
@@ -170,7 +170,8 @@ try {
         check(`sitemap has current-year month /moon/saudi-arabia/medina/${cy}/06`, smc.includes(`${SITE}/moon/saudi-arabia/medina/${cy}/06</loc>`));
         check('sitemap has all 12 months for the current year (city)', Array.from({ length: 12 }, (_, i) => String(i + 1).padStart(2, '0')).every(mm => smc.includes(`/moon/saudi-arabia/medina/${cy}/${mm}</loc>`)));
         check('sitemap: NO nested day /moon/{c}/{city}/{yyyy}/{mm}/{dd}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/.test(smc));
-        check('sitemap: NO nested today /moon/{c}/{city}/today', !/\/moon\/[a-z-]+\/[a-z-]+\/today<\/loc>/.test(smc));
+        // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1 §8: nested today /moon/{c}/{city}/today is now emitted.
+        check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
     }
 
     // ── G) YEAR page month cards now point at the NEW nested month route ──

@@ -10652,6 +10652,15 @@ html.city-page #city-breadcrumb {
     align-items: center;
 }
 
+/* MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the author rule `.bc-item{display:flex}` above
+   overrides the UA `[hidden]{display:none}`, so a hidden breadcrumb rung (e.g. the year/month
+   placeholder rungs on the nested hub + today pages, which carry a "—"/empty placeholder) would
+   still render. Restore hidden semantics so the VISIBLE breadcrumb matches the BreadcrumbList
+   JSON-LD on every moon route. (The .bc-sep separators already hide correctly.) */
+.bc-item[hidden] {
+    display: none;
+}
+
 .bc-link {
     color: var(--primary);
     font-weight: 600;

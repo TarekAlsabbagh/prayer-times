@@ -17660,6 +17660,11 @@ function _moonPathname() {
     //   dated form here (the single chokepoint) so every date/slug parser works unchanged.
     const md = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})\/(\d{2})$/);
     if (md) return '/' + (md[1] || '') + 'moon-in-' + md[2] + '/' + md[3] + '-' + md[4] + '-' + md[5];
+    // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the nested TODAY /moon/{country}/{city}/today renders the
+    //   SAME content as the legacy /moon-today-in-{city} — normalize it to the flat today form so every
+    //   today parser (hero/forecast/coords) works unchanged.
+    const mt = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/today$/);
+    if (mt) return '/' + (mt[1] || '') + 'moon-today-in-' + mt[2];
     const m = p.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)$/);
     if (m) return '/' + (m[1] || '') + 'moon-in-' + m[2];
     return p;
@@ -22090,10 +22095,11 @@ function updateMoonInfo() {
         //    the Country rung + relabel the City, so SKIP it here and leave SSR's DOM.
         //    (This block is the last in updateMoonInfo, so returning is a clean no-op
         //    for everything else.) Detect the RAW nested path, not the normalized one.
-        // MOON-CITY-HUB + DAY-…-SCOPE-CORRECTION-FIX-1: the nested hub /moon/{country}/{city} AND the
-        //   nested day /moon/{country}/{city}/{yyyy}/{mm}/{dd} both carry a full SSR breadcrumb that
-        //   already matches the BreadcrumbList JSON-LD — skip the client rebuild and leave SSR's DOM.
-        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/\d{4}\/\d{2}\/\d{2})?$/.test(window.location.pathname)) {
+        // MOON-CITY-HUB + DAY-…-SCOPE-CORRECTION-FIX-1 + TODAY-…-ADD-1: the nested hub
+        //   /moon/{country}/{city}, the nested today /moon/{country}/{city}/today, AND the nested day
+        //   /moon/{country}/{city}/{yyyy}/{mm}/{dd} all carry a full SSR breadcrumb that already matches
+        //   the BreadcrumbList JSON-LD — skip the client rebuild and leave SSR's DOM.
+        if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}\/\d{2})?$/.test(window.location.pathname)) {
             return;
         }
         const _bcMoon       = document.getElementById('bc-moon');

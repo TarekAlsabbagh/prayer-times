@@ -7974,6 +7974,16 @@ function _getActiveH1Marker(urlPath) {
             if (_mdhc && _mdhc.cc && _mdhc.cc !== '__') return { kind: 'id', value: 'moon-page-h1' };
         }
     }
+    // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: /moon/{country}/{city}/today reuses the legacy
+    //   TODAY renderer in #page-moon — its single H1 is #moon-page-h1 (same as the legacy
+    //   /moon-today-in-{city} page). Keep it, downgrade every other SPA H1.
+    {
+        const _mthm = path.match(/^\/moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/today$/);
+        if (_mthm) {
+            const _mthc = _countryFromSlug(_mthm[1]);
+            if (_mthc && _mthc.cc && _mthc.cc !== '__') return { kind: 'id', value: 'moon-page-h1' };
+        }
+    }
     if (/^\/prayer-times-in-/.test(path)) {
         // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: country listing pages (prayer-times-cities.html)
         // have NO #page-h1 — their single H1 is the hero #loc-hero-title (filled with the localized
@@ -8383,6 +8393,9 @@ function _buildCountrySeoContent(cn, lang) {
 // Breadcrumb label — meaning "Moon Phase" (NOT just "Moon"). Shared by the DOM breadcrumb
 // injection AND the BreadcrumbList JSON-LD so the two are byte-for-byte identical.
 const _MOON_PHASE_CRUMB_L10N = { ar: 'حالة القمر', en: 'Moon Phase', fr: 'Phase de la Lune', tr: 'Ay Evresi', ur: 'چاند کی حالت', de: 'Mondphase', id: 'Fase Bulan', es: 'Fase Lunar', bn: 'চাঁদের দশা', ms: 'Fasa Bulan' };
+// MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the "Today" (current) rung label on the nested today
+//   breadcrumb /moon/{country}/{city}/today — Home › Moon Phase › {Country} › {City} › Today.
+const _MOON_TODAY_CRUMB_L10N = { ar: 'اليوم', en: 'Today', fr: 'Aujourd’hui', tr: 'Bugün', ur: 'آج', de: 'Heute', id: 'Hari Ini', es: 'Hoy', bn: 'আজ', ms: 'Hari Ini' };
 const _MOON_COUNTRY_SEO_L10N = {
     ar: {
         h1: 'مراحل القمر في {C}',
@@ -8608,6 +8621,33 @@ function _classifyNestedMoonHub(urlPath) {
     const _correct = makeCountrySlugSrv(_cityCc);
     if (_correct && _correct === _countrySlug) return { kind: 'valid' };
     if (_correct) return { kind: 'redirect', target: '/' + _lp + 'moon/' + _correct + '/' + _citySlug };
+    return { kind: 'none' };
+}
+
+// ── MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1 (2026-06-21) ────────────────────────
+// Classify a /[lang/]moon/{country}/{city}/today request (the new city TODAY page —
+// the structural alias of the legacy /moon-today-in-{city}). EXACTLY the literal segment
+// "today" after {country}/{city}; the trailing $ keeps /today/anything OUT (→ 404), and the
+// lowercase-only class keeps /Today, /TODAY out (→ 404 — site policy is lowercase routes).
+//   'valid'    → real country + city resolves to THAT country → serve index.html (SSR today).
+//   'redirect' → city resolves to a DIFFERENT country → 301 to the correct nested today URL.
+//   'none'     → unknown country/city or any other shape → caller leaves it → clean 404.
+function _classifyMoonToday(urlPath) {
+    const _core = String(urlPath || '').replace(/\.html$/, '');
+    const _m = _core.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/today$/);
+    if (!_m) return { kind: 'none' };
+    const _lp = _m[1] || '';
+    const _countrySlug = _m[2];
+    const _citySlug = _m[3];
+    const _country = _countryFromSlug(_countrySlug);
+    if (!_country || _country.cc === '__') return { kind: 'none' };
+    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    if (!_cityCc) return { kind: 'none' };
+    const _correct = makeCountrySlugSrv(_cityCc);
+    if (_correct && _correct === _countrySlug) {
+        return { kind: 'valid', lp: _lp, countrySlug: _countrySlug, citySlug: _citySlug, cc: _cityCc };
+    }
+    if (_correct) return { kind: 'redirect', target: '/' + _lp + 'moon/' + _correct + '/' + _citySlug + '/today' };
     return { kind: 'none' };
 }
 
@@ -11553,6 +11593,23 @@ function buildSeoForPath(urlPath) {
             _moonNestedDayCountryName = _countryNameForLang(_ndCityCc, lang);
         }
     }
+    // ── MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the nested TODAY page
+    //   /moon/{country}/{city}/today reuses the SAME legacy today renderer as
+    //   /moon-today-in-{city} (NOT a bespoke page) — synthesize a today match below so the
+    //   block runs with today semantics (no date, isHub false). The only differences are
+    //   self-canonical + a 5-level breadcrumb (DOM≡JSON-LD) + nested hreflang.
+    const _MNESTED_TODAY = corePath.match(/^\/moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/today$/);
+    let _isMoonNestedToday = false;
+    let _moonNestedTodayCountrySlug = '', _moonNestedTodayCountryName = '';
+    if (_MNESTED_TODAY) {
+        const _ntCountry = _countryFromSlug(_MNESTED_TODAY[1]);
+        const _ntCityCc  = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_MNESTED_TODAY[2]) : '';
+        if (_ntCountry && _ntCountry.cc !== '__' && _ntCityCc && makeCountrySlugSrv(_ntCityCc) === _MNESTED_TODAY[1]) {
+            _isMoonNestedToday = true;
+            _moonNestedTodayCountrySlug = _MNESTED_TODAY[1];
+            _moonNestedTodayCountryName = _countryNameForLang(_ntCityCc, lang);
+        }
+    }
     const _MT = corePath.match(/^\/moon-today-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
     const _MD = corePath.match(/^\/moon-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?\/(\d{4})-(\d{2})-(\d{2})$/);
     // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1: dated route now requires
@@ -11578,6 +11635,9 @@ function buildSeoForPath(urlPath) {
     // MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: nested day → synthesize the dated match
     //   (m[2]=city slug, m[3]/m[4]/m[5]=yyyy/mm/dd) so the legacy dated renderer runs.
     if (!m && _isMoonNestedDay) m = _MNESTED_DAY;
+    // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: nested today → synthesize the today match
+    //   (m[2]=city slug, no date) so the legacy TODAY renderer runs (isHub false, date null).
+    if (!m && _isMoonNestedToday) m = _MNESTED_TODAY;
     // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
     //   When _MD matched the URL but the year guard rejected it (Hijri year),
     //   we mark the path as needing an explicit 404 so the route handler
@@ -11596,9 +11656,9 @@ function buildSeoForPath(urlPath) {
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: on the nested form m[2]=city slug
         //   (m[1]=country slug). The nested URL never carries a coord suffix, so
         //   force coords null there (m[2]/m[3] are NOT lat/lng on this shape).
-        const citySlug = (_isMoonNestedHub || _isMoonNestedDay) ? m[2] : m[1];
-        const _coordLat = (!_isMoonNestedHub && !_isMoonNestedDay && m[2] != null) ? parseFloat(m[2]) : null;
-        const _coordLng = (!_isMoonNestedHub && !_isMoonNestedDay && m[3] != null) ? parseFloat(m[3]) : null;
+        const citySlug = (_isMoonNestedHub || _isMoonNestedDay || _isMoonNestedToday) ? m[2] : m[1];
+        const _coordLat = (!_isMoonNestedHub && !_isMoonNestedDay && !_isMoonNestedToday && m[2] != null) ? parseFloat(m[2]) : null;
+        const _coordLng = (!_isMoonNestedHub && !_isMoonNestedDay && !_isMoonNestedToday && m[3] != null) ? parseFloat(m[3]) : null;
         const _hasCoordSuffix = (_coordLat != null && _coordLng != null && isFinite(_coordLat) && isFinite(_coordLng));
         // التاريخ: _MD (مواضع 4/5/6) أو nested-day (_MNESTED_DAY مواضع 3/4/5). لـ _MT/_MH: null.
         const _dyStr = _isMoonNestedDay ? m[3] : ((_MD && m[4]) ? m[4] : null);
@@ -12428,7 +12488,11 @@ function buildSeoForPath(urlPath) {
                 nestedDayCountryName: _isMoonNestedDay ? _moonNestedDayCountryName : '',
                 nestedDayYear:  _isMoonNestedDay ? _dyStr : '',
                 nestedDayMonth: _isMoonNestedDay ? _dmStr : '',
-                nestedDayDay:   _isMoonNestedDay ? _ddStr : ''
+                nestedDayDay:   _isMoonNestedDay ? _ddStr : '',
+                // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: nested-today context for the 5-level breadcrumb.
+                isNestedToday:          _isMoonNestedToday,
+                nestedTodayCountrySlug: _isMoonNestedToday ? _moonNestedTodayCountrySlug : '',
+                nestedTodayCountryName: _isMoonNestedToday ? _moonNestedTodayCountryName : ''
             };
             // Breadcrumb: "Moon" (renamed from "Moon Today" per UAT-Moon-Hub-Month —
             //   second level is the moon hub, not specifically "today")
@@ -12453,6 +12517,18 @@ function buildSeoForPath(urlPath) {
                 breadcrumbs.push({ name: _dyStr, item: origin + _ndCityBase + '/' + _dyStr });
                 breadcrumbs.push({ name: _ndMonthName, item: origin + _ndCityBase + '/' + _dyStr + '/' + _dmStr });
                 breadcrumbs.push({ name: String(parseInt(_ddStr, 10)), item: canonical });
+            } else if (_isMoonNestedToday) {
+                // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: 5-level breadcrumb on the nested today —
+                //   Home › Moon Phase (/moon) › {Country} › {City} (link → nested hub) › Today (self).
+                //   The body content is the SAME as the legacy /moon-today-in-{city}; only the
+                //   breadcrumb (DOM≡JSON-LD) + self canonical + nested hreflang differ.
+                const _ntCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
+                const _ntLp = (lang === 'ar') ? '' : ('/' + lang);
+                const _ntTodayLbl = (_MOON_TODAY_CRUMB_L10N[lang] || _MOON_TODAY_CRUMB_L10N.en);
+                breadcrumbs.push({ name: _ntCrumb, item: origin + _ntLp + '/moon' });
+                breadcrumbs.push({ name: _moonNestedTodayCountryName, item: origin + _ntLp + '/moon/' + _moonNestedTodayCountrySlug });
+                breadcrumbs.push({ name: cityDisplay, item: origin + _ntLp + '/moon/' + _moonNestedTodayCountrySlug + '/' + citySlug });
+                breadcrumbs.push({ name: _ntTodayLbl, item: canonical });
             } else if (_isMoonNestedHub) {
                 // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: 4-level breadcrumb —
                 //   Home › Moon Phase (/moon) › {Country} (/moon/{country}) › {City} (self).
@@ -16250,7 +16326,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: also match the nested city moon hub
     //   /[lang/]moon/{country}/{city} (exactly 2 segments) so the same #page-moon
     //   strip + active-class + SSR moon block fire for it as for /moon-in-{city}.
-    const _isMoonCityPageSsr = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?|moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/\d{4}\/\d{2}\/\d{2})?)$/.test(urlPath);
+    const _isMoonCityPageSsr = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?|moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}\/\d{2})?)$/.test(urlPath);
     if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome && !_isMoonTodayHub) {
         // (UAT-Home-Simplify + UAT-Moon-Home) Skip when the prayer-cards block
         //   will be stripped immediately after (homepage + moon hub).
@@ -22295,6 +22371,41 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<a class="bc-link bc-moon" id="bc-moon" aria-current="page">${_escHtml(cityName)}</a>`
             );
         }
+        // ── MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: SSR the 5-level breadcrumb on the nested TODAY
+        //    /moon/{country}/{city}/today: Home › Moon Phase › {Country} › {City} (link → nested hub)
+        //    › Today (current). DOM ≡ BreadcrumbList JSON-LD. The body content is the SAME legacy
+        //    /moon-today-in-{city}; only this breadcrumb + the self canonical + nested hreflang differ.
+        //    The client breadcrumb builder skips its rebuild on the nested today (like the nested hub/day).
+        if (seo.moonCity.isNestedToday && seo.moonCity.nestedTodayCountrySlug) {
+            const _btLp = (Lm === 'ar') ? '' : ('/' + Lm);
+            const _btMoonPhaseLbl = _MOON_PHASE_CRUMB_L10N[Lm] || _MOON_PHASE_CRUMB_L10N.en;
+            const _btTodayLbl = _MOON_TODAY_CRUMB_L10N[Lm] || _MOON_TODAY_CRUMB_L10N.en;
+            const _ntCS = seo.moonCity.nestedTodayCountrySlug;
+            const _ntCityBase = _btLp + '/moon/' + _ntCS + '/' + seo.moonCity.slug;
+            // Level 2 — Moon Phase → /moon
+            html = html.replace(
+                /<li class="bc-item" id="bc-moon-hub-li" hidden><a class="bc-link" id="bc-moon-hub" href="[^"]*"[^>]*>[^<]*<\/a><\/li>/,
+                `<li class="bc-item" id="bc-moon-hub-li"><a class="bc-link" id="bc-moon-hub" href="${_btLp}/moon">${_escHtml(_btMoonPhaseLbl)}</a></li>`
+            );
+            html = html.replace(/<li class="bc-sep" id="bc-moon-hub-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-moon-hub-sep" aria-hidden="true">›</li>');
+            // Level 3 — Country → /moon/{country}
+            html = html.replace(
+                /<li class="bc-item" id="bc-moon-country-li" hidden><a class="bc-link" id="bc-moon-country" href="[^"]*"[^>]*>[^<]*<\/a><\/li>/,
+                `<li class="bc-item" id="bc-moon-country-li"><a class="bc-link" id="bc-moon-country" href="${_escHtml(_btLp + '/moon/' + _ntCS)}">${_escHtml(seo.moonCity.nestedTodayCountryName || '')}</a></li>`
+            );
+            html = html.replace(/<li class="bc-sep" id="bc-moon-country-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-moon-country-sep" aria-hidden="true">›</li>');
+            // Level 4 — City (LINK → nested hub, NOT current; "Today" is current)
+            html = html.replace(
+                /<a class="bc-link bc-moon" id="bc-moon" href="[^"]*"[^>]*>[^<]*<\/a>/,
+                `<a class="bc-link bc-moon" id="bc-moon" href="${_escHtml(_ntCityBase)}">${_escHtml(cityName)}</a>`
+            );
+            // Level 5 — Today (current page): no link.
+            html = html.replace(/<li class="bc-sep bc-date-sep" id="bc-date-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep bc-date-sep" id="bc-date-sep" aria-hidden="true">›</li>');
+            html = html.replace(
+                /<li class="bc-item bc-current bc-date" id="bc-date" aria-current="page" hidden><\/li>/,
+                `<li class="bc-item bc-current bc-date" id="bc-date" aria-current="page">${_escHtml(_btTodayLbl)}</li>`
+            );
+        }
         // ── MOON-CITY-DAY-…-SCOPE-CORRECTION-FIX-1: SSR the 7-level breadcrumb on the nested DAY
         //    /moon/{country}/{city}/{yyyy}/{mm}/{dd}: Home › Moon Phase › {Country} › {City} › {yyyy}
         //    › {Month} › {dd} (current). DOM ≡ BreadcrumbList JSON-LD. The body content is the SAME
@@ -23142,8 +23253,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                             _cellHijriTxt = `${_hj.day} ${_hMonName}`;
                         }
                     } catch (_e) {}
+                    // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: on the NESTED hub (a new-structure
+                    //   page) the "today" cell links to the new nested today /moon/{country}/{city}/today;
+                    //   the legacy /moon-today-in-{city} stays the fallback (dated cells unchanged — date
+                    //   migration is out of this ticket's scope). The legacy /moon-in-{city} hub 301s here,
+                    //   so this swap only affects the new page.
                     const _cellHref = _isToday
-                        ? (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug)
+                        ? ((seo.moonCity.isNested && seo.moonCity.nestedCountrySlug)
+                            ? (_langPrefixHc + '/moon/' + seo.moonCity.nestedCountrySlug + '/' + seo.moonCity.slug + '/today')
+                            : (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug))
                         : (_langPrefixHc + '/moon-in-' + seo.moonCity.slug + '/' + _cellIso);
                     const _cellActive = _isToday ? ' moon-hub-cal-cell--today' : '';
                     // MOON-HUB-SEO-6 (2026-05-11): drop the `.moon-hub-cal-phase-name`
@@ -23247,7 +23365,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     ms: `📅 Lihat status Bulan hari ini di ${cityName}`
                 };
                 const _hubDetailCtaText = _hubDetailCtaTpl[Lm] || _hubDetailCtaTpl.en;
-                const _hubDetailCtaHref = _langPrefixHc + '/moon-today-in-' + seo.moonCity.slug;
+                // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: on the nested hub, the "view today" CTA
+                //   points at the new nested today /moon/{country}/{city}/today (legacy fallback kept).
+                const _hubDetailCtaHref = (seo.moonCity.isNested && seo.moonCity.nestedCountrySlug)
+                    ? (_langPrefixHc + '/moon/' + seo.moonCity.nestedCountrySlug + '/' + seo.moonCity.slug + '/today')
+                    : (_langPrefixHc + '/moon-today-in-' + seo.moonCity.slug);
                 const _hubDetailCtaHtml = `<a class="moon-hub-detail-cta" href="${_escHtml(_hubDetailCtaHref)}">${_escHtml(_hubDetailCtaText)}</a>`;
                 // id="moon-hub-cal" lets prev/next/picker URLs use #moon-hub-cal
                 //   fragment to scroll the visitor straight back to the calendar
@@ -24729,7 +24851,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //   feed the same ssr-city-name meta so _syncCityNameInDom works there too.
         const _nestedMoonCityMatch = urlPath
             .replace(/\.html$/, '')
-            .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?$/);
+            .match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/today|\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?$/);
         if ((_cityRouteMatch && _cityRouteMatch[1]) || (_nestedMoonCityMatch && _nestedMoonCityMatch[1])) {
             const _ssrCitySlug = _nestedMoonCityMatch ? _nestedMoonCityMatch[1] : _cityRouteMatch[1];
             const _ssrCityName = (typeof _resolveCityName === 'function')
@@ -24805,7 +24927,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 //   moon hub /[lang/]moon/{country}/{city} (city in 2nd segment) so
                 //   the client Tier-0 finds the authoritative lang-correct name and
                 //   skips geocodeSlug — same as the flat /moon-in-{city} hub.
-                const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?)$/.test(urlPath.replace(/\.html$/, ''));
+                const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?)$/.test(urlPath.replace(/\.html$/, ''));
                 if (_bareCityRoute && typeof _findPlaceBySlug === 'function') {
                     // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13):
                     // seed curated FIRST (unchanged), else a prefetched discovered
@@ -27553,6 +27675,13 @@ const server = http.createServer(async (req, res) => {
                         const _mcCountrySlug = _mcCc ? makeCountrySlugSrv(_mcCc) : '';
                         if (_mcCountrySlug) {
                             entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug, '0.7', 'weekly', today));
+                            // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the new nested TODAY page
+                            // /moon/{country}/{city}/today (structural alias of the legacy
+                            // /moon-today-in-{city}). Added alongside the legacy today emission above —
+                            // NO broad cleanup of legacy today routes this phase (site not launched yet).
+                            // Legacy today routes are left unchanged intentionally; final redirect/
+                            // noindex/sitemap cleanup is handled in MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH.
+                            entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug + '/today', '0.6', 'weekly', today));
                             // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: year pages — ONLY the
                             // previous, current and next year (bounded crawl surface; the
                             // Meeus engine supports 1900-2100). The deeper today/month/day
@@ -27668,6 +27797,18 @@ const server = http.createServer(async (req, res) => {
         res.end();
         return;
     }
+    // ===== MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: nested city TODAY page =====
+    //   /[lang/]moon/{country}/{city}/today — structural alias of the legacy
+    //   /moon-today-in-{city}. 'redirect' (city in a different country) 301s to the
+    //   correct nested today URL; 'valid' serves index.html (added to _isIndexHtmlRoute
+    //   below) reusing the legacy today renderer; 'none' (unknown country/city, or any
+    //   /today/anything deeper path) falls through to a clean 404.
+    const _moonToday = _classifyMoonToday(urlPath);
+    if (_moonToday.kind === 'redirect') {
+        res.writeHead(301, { 'Location': _moonToday.target, 'Cache-Control': 'public, max-age=31536000' });
+        res.end();
+        return;
+    }
     // ===== MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: nested city YEAR page =====
     //   /[lang/]moon/{country}/{city}/{yyyy}. Same shape: a 'redirect' (city in a
     //   different country) 301s to the correct year URL; a 'valid' classification
@@ -27707,6 +27848,9 @@ const server = http.createServer(async (req, res) => {
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested city moon hub (valid only —
         //   exactly /moon/{country}/{city} with the city resolving to that country).
         (_nestedMoon.kind === 'valid') ||
+        // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: nested city TODAY page (valid only —
+        //   /moon/{country}/{city}/today, city resolves to that country).
+        (_moonToday.kind === 'valid') ||
         // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: nested city YEAR page (valid only —
         //   /moon/{country}/{city}/{yyyy}, city resolves to country, year 1900-2100).
         (_moonYear.kind === 'valid') ||

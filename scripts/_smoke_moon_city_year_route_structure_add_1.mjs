@@ -162,9 +162,10 @@ try {
     // ── D) validation: deeper/dash/bad-year 404 · mismatch 301 · unknown 404 ──
     console.log('\n── D) validation (deeper/dash/bad-year 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        // /2026/06 (month) and /2026/06/17 (day) are now LIVE 200 since the month + day tickets;
-        // here only today / dash forms / a path deeper than a day stay 404.
-        '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17/extra',
+        // /2026/06 (month), /2026/06/17 (day) and /today (today) are now LIVE 200 since the
+        // month + day + today tickets; here only deeper-than-today / dash forms / a path deeper
+        // than a day stay 404.
+        '/moon/saudi-arabia/riyadh/today/test', '/moon/saudi-arabia/riyadh/2026/06/17/extra',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
         '/moon/saudi-arabia/riyadh/26', '/moon/saudi-arabia/riyadh/202', '/moon/saudi-arabia/riyadh/20261',
         '/moon/saudi-arabia/riyadh/abcd', '/moon/saudi-arabia/riyadh/1899', '/moon/saudi-arabia/riyadh/2101',
@@ -190,7 +191,8 @@ try {
         // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1 §9: month pages /moon/{c}/{city}/{yyyy}/{mm} are now emitted.
         check('sitemap NOW has nested month /moon/saudi-arabia/medina/{yyyy}/{mm} (MCMR)', /\/moon\/saudi-arabia\/medina\/\d{4}\/\d{2}<\/loc>/.test(smc));
         check('sitemap: still NO deeper day /moon/{c}/{city}/{yyyy}/{mm}/{dd}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/.test(smc));
-        check('sitemap: NO nested today /moon/{c}/{city}/today', !/\/moon\/[a-z-]+\/[a-z-]+\/today<\/loc>/.test(smc));
+        // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1 §8: nested today /moon/{c}/{city}/today is now emitted.
+        check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
     }
 
     // ── F) legacy routes untouched + Meeus 49 unchanged ──

@@ -141,7 +141,7 @@ try {
         const r = await req('/moon/united-states/riyadh');
         check('/moon/united-states/riyadh → 301 /moon/saudi-arabia/riyadh (city in wrong country)', r.status === 301 && r.loc === '/moon/saudi-arabia/riyadh', `status=${r.status} loc=${r.loc}`);
     }
-    for (const u of ['/moon/saudi-arabia/notacity', '/moon/zzz-not-a-country/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/2026-06-17']) {
+    for (const u of ['/moon/saudi-arabia/notacity', '/moon/zzz-not-a-country/riyadh', '/moon/saudi-arabia/riyadh/today/test', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/2026-06-17']) {
         const r = await req(u);
         check(`${u} → 404 (not a served route)`, r.status === 404 && !pageMoonActive(r.body), `status=${r.status} pm=${pageMoonActive(r.body)}`);
     }

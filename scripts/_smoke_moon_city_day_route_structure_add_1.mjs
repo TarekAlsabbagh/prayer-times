@@ -141,7 +141,7 @@ try {
     // ── E) validation: deeper/dash/bad-day/bad-month 404 · leap-aware · mismatch 301 · unknown 404 ──
     console.log('\n── E) validation (today/dash/bad-day/bad-month/deeper 404 · leap-aware · mismatch 301 · unknown 404) ──');
     for (const u of [
-        '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026-06',
+        '/moon/saudi-arabia/riyadh/today/test', '/moon/saudi-arabia/riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026-06',
         '/moon/saudi-arabia/riyadh/2026/6/17', '/moon/saudi-arabia/riyadh/2026/06/7',
         '/moon/saudi-arabia/riyadh/2026/06/00', '/moon/saudi-arabia/riyadh/2026/06/32',
         '/moon/saudi-arabia/riyadh/2026/02/30', '/moon/saudi-arabia/riyadh/2026/13/01',
@@ -168,7 +168,8 @@ try {
         const smc = (await req('/sitemap-cities-1.xml')).body;
         check('sitemap: NO bulk day pages /moon/{c}/{city}/{yyyy}/{mm}/{dd}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/.test(smc), `${(smc.match(/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/g) || []).length} day locs`);
         check('sitemap: still has nested month /moon/saudi-arabia/medina/{yyyy}/{mm}', /\/moon\/saudi-arabia\/medina\/\d{4}\/\d{2}<\/loc>/.test(smc));
-        check('sitemap: NO nested today /moon/{c}/{city}/today', !/\/moon\/[a-z-]+\/[a-z-]+\/today<\/loc>/.test(smc));
+        // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1 §8: nested today /moon/{c}/{city}/today is now emitted.
+        check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
     }
 
     // ── G) MONTH page day links now point at the NEW nested day route ──

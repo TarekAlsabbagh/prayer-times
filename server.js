@@ -23731,12 +23731,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                         + `<span class="mhcal-btn moon-hub-cal-cta" role="presentation">${_escHtml(_hubCalBtnLabel)}<span class="mhcal-btn-arrow" aria-hidden="true">›</span></span>`
                         + `<p class="mhcal-note">${_escHtml(_ctaCfg.note)}</p>`
                         + `</a>`;
-                    // Inject the calendar widget right under #moon-main-card
-                    // (anchor = the <h2 id="moon-current-month-h2"> that
-                    // follows moon-main-card in index.html). Stable anchor
-                    // because moon-current-month-h2 is a unique ID.
+                    // MOON-CITY-HUB-CALENDAR-CTA-TOP-PLACEMENT-1 (2026-06-21): inject the compact
+                    // calendar CTA at the TOP of the hub content — right BEFORE #moon-main-card (the
+                    // moon-phase card) — so it is the first content card the visitor sees, after the
+                    // page-definition header (hero/H1 + breadcrumb) and before the moon-phase card and
+                    // every section below. This is an intentional, USER-APPROVED visual/order deviation
+                    // from the legacy hub parity (the legacy hub placed this card lower, just before
+                    // #moon-current-month-h2). HUB-ONLY branch (see `_isMonthPage` above) — the month
+                    // page renders the full grid here instead and is unaffected. Anchor = the unique
+                    // <div … id="moon-main-card"> opening tag (tolerant of attribute order).
                     html = html.replace(
-                        /(<h2 id="moon-current-month-h2")/,
+                        /(<div[^>]*\sid="moon-main-card")/,
                         _hubCalCompactHtml + '\n                $1'
                     );
                     // Keep the detail-CTA at its legacy position (right

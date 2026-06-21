@@ -138,6 +138,9 @@ try {
         for (const base of ['/moon/saudi-arabia/riyadh', '/en/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/jeddah']) {
             const b = (await req(base)).body;
             check(`${base}: #moon-hub-cal compact CTA present`, /id="moon-hub-cal"[^>]*moon-hub-cal-compact|moon-hub-cal-compact[^>]*id="moon-hub-cal"/.test(b));
+            // MOON-CITY-HUB-CALENDAR-CTA-TOP-PLACEMENT-1: the CTA now sits at the TOP of the hub
+            // content — BEFORE the moon-phase card (#moon-main-card). User-approved order deviation.
+            check(`${base}: #moon-hub-cal placed BEFORE #moon-main-card (top placement)`, b.indexOf('id="moon-hub-cal"') > -1 && b.indexOf('id="moon-hub-cal"') < b.indexOf('id="moon-main-card"'));
             const href = ((b.match(/id="moon-hub-cal"[^>]*href="([^"]+)"|href="([^"]+)"[^>]*id="moon-hub-cal"/) || []).slice(1).find(Boolean)) || '';
             check(`${base}: #moon-hub-cal href = nested current month ${base}/${_curYM}`, href === `${base}/${_curYM}`, `href=${href}`);
             check(`${base}: NO full .moon-hub-cal-grid on hub`, !b.includes('moon-hub-cal-grid'));

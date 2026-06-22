@@ -2530,7 +2530,15 @@
                   /* HERO-DASHBOARD-REDESIGN: Moon Year Dashboard — a 3-card grid (year picker / section
                      links / today CTA) replacing the old box. Cards are equal-height; collapses to one
                      column on mobile (year → today → sections). */
-                  #page-moon-year .my-dash-grid{display:grid;grid-template-columns:1fr 1fr 1.15fr;gap:14px;margin:2px 0 6px;align-items:stretch}
+                  /* HERO-DASHBOARD-REDESIGN-RESPONSIVE-FIX: wrap by available width (auto-fit) instead of a
+                     fixed 3-col grid. The year-picker card has a ~217px intrinsic min (the stepper), so on a
+                     narrow content area (e.g. sidebar in-flow on a small window) a forced 3-col grid pushed the
+                     today card outside the hero. auto-fit drops to 2→1 columns and never overflows. min 220px
+                     keeps the year stepper within its track; 3 cards collapse empty tracks → clean 3-across when wide. */
+                  #page-moon-year .my-dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;margin:2px 0 6px;align-items:stretch}
+                  /* genuine desktop (content area always wide enough — sidebar is bounded): restore the
+                     approved 3-across with the today card slightly wider. Below this, auto-fit wraps safely. */
+                  @media (min-width:1100px){#page-moon-year .my-dash-grid{grid-template-columns:1fr 1fr 1.15fr}}
                   #page-moon-year .my-dash-card{display:flex;flex-direction:column;gap:12px;padding:16px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:18px;box-shadow:0 1px 3px rgba(0,0,0,.05)}
                   #page-moon-year .my-dash-head{display:flex;flex-direction:column;gap:3px}
                   #page-moon-year .my-dash-title{font-weight:700;font-size:1rem;color:var(--text)}

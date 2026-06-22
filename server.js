@@ -6218,6 +6218,63 @@ const _MOON_HIJRI_SELECTED_LABEL_L10N = {
     id: 'Tanggal Hijriah yang sesuai', es: 'Fecha hijrí correspondiente', bn: 'সংশ্লিষ্ট হিজরি তারিখ', ms: 'Tarikh Hijrah yang sepadan',
 };
 
+// ── MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: NEW standalone year-page chrome, 10-lang native ──
+//    (the existing year prose in _moonYearStrings stays AR/EN per the frozen policy — out of scope).
+// Year picker (hero): select-a-year + prev/next labels.
+const _MOON_YEAR_PICKER_L10N = {
+    ar: { label: 'اختر سنة التقويم', prev: 'السنة السابقة', next: 'السنة التالية' },
+    en: { label: 'Choose calendar year', prev: 'Previous year', next: 'Next year' },
+    fr: { label: 'Choisir l’année du calendrier', prev: 'Année précédente', next: 'Année suivante' },
+    tr: { label: 'Takvim yılını seçin', prev: 'Önceki yıl', next: 'Sonraki yıl' },
+    ur: { label: 'تقویم کا سال منتخب کریں', prev: 'پچھلا سال', next: 'اگلا سال' },
+    de: { label: 'Kalenderjahr wählen', prev: 'Vorheriges Jahr', next: 'Nächstes Jahr' },
+    id: { label: 'Pilih tahun kalender', prev: 'Tahun sebelumnya', next: 'Tahun berikutnya' },
+    es: { label: 'Elegir año del calendario', prev: 'Año anterior', next: 'Año siguiente' },
+    bn: { label: 'ক্যালেন্ডার বছর নির্বাচন করুন', prev: 'আগের বছর', next: 'পরের বছর' },
+    ms: { label: 'Pilih tahun kalendar', prev: 'Tahun sebelumnya', next: 'Tahun seterusnya' },
+};
+// HERO-DASHBOARD-REDESIGN: small descriptive texts for the 3 dashboard cards (10-lang native).
+//   {city} is substituted at render. Card TITLES reuse existing dicts (picker label / today CTA label);
+//   the section-button labels stay on the existing _moonYearStrings (AR/EN policy, frozen).
+const _MOON_YEAR_DASH_L10N = {
+    ar: { yearDesc: 'انتقل إلى تقويم القمر لأي سنة', sectionsTitle: 'تصفّح محتوى السنة', todayDesc: 'شاهد حالة القمر الحالية في {city}' },
+    en: { yearDesc: 'Jump to the moon calendar for any year', sectionsTitle: 'Browse the year', todayDesc: 'See the current moon status in {city}' },
+    fr: { yearDesc: 'Accédez au calendrier lunaire de n’importe quelle année', sectionsTitle: 'Parcourir l’année', todayDesc: 'Voir l’état actuel de la Lune à {city}' },
+    tr: { yearDesc: 'Herhangi bir yılın ay takvimine geçin', sectionsTitle: 'Yılı keşfedin', todayDesc: '{city} için güncel ay durumunu görün' },
+    ur: { yearDesc: 'کسی بھی سال کے قمری تقویم پر جائیں', sectionsTitle: 'سال کا مواد دیکھیں', todayDesc: '{city} میں چاند کی موجودہ حالت دیکھیں' },
+    de: { yearDesc: 'Zum Mondkalender eines beliebigen Jahres springen', sectionsTitle: 'Das Jahr durchsuchen', todayDesc: 'Aktuellen Mondstatus in {city} ansehen' },
+    id: { yearDesc: 'Buka kalender bulan untuk tahun mana pun', sectionsTitle: 'Jelajahi tahun ini', todayDesc: 'Lihat status bulan saat ini di {city}' },
+    es: { yearDesc: 'Ir al calendario lunar de cualquier año', sectionsTitle: 'Explorar el año', todayDesc: 'Ver el estado actual de la luna en {city}' },
+    bn: { yearDesc: 'যেকোনো বছরের চাঁদের ক্যালেন্ডারে যান', sectionsTitle: 'বছরের বিষয়বস্তু দেখুন', todayDesc: '{city}-এ চাঁদের বর্তমান অবস্থা দেখুন' },
+    ms: { yearDesc: 'Pergi ke kalendar bulan untuk mana-mana tahun', sectionsTitle: 'Layari kandungan tahun', todayDesc: 'Lihat status bulan semasa di {city}' },
+};
+// "Moon highlights of the year" cards: title template ({city}/{year}) + 4 card labels.
+const _MOON_YEAR_HIGHLIGHTS_L10N = {
+    ar: { title: 'أبرز أحداث القمر في {city} لعام {year}', firstFull: 'أول بدر في السنة', lastFull: 'آخر بدر في السنة', firstNew: 'أول محاق في السنة', busiestMonth: 'الشهر الأكثر أحداثًا' },
+    en: { title: 'Moon highlights in {city} for {year}', firstFull: 'First full moon', lastFull: 'Last full moon', firstNew: 'First new moon', busiestMonth: 'Busiest month' },
+    fr: { title: 'Temps forts de la Lune à {city} en {year}', firstFull: 'Première pleine lune', lastFull: 'Dernière pleine lune', firstNew: 'Première nouvelle lune', busiestMonth: 'Mois le plus actif' },
+    tr: { title: '{city} için {year} Ay öne çıkanları', firstFull: 'İlk dolunay', lastFull: 'Son dolunay', firstNew: 'İlk yeni ay', busiestMonth: 'En yoğun ay' },
+    ur: { title: '{city} میں {year} کے نمایاں قمری واقعات', firstFull: 'سال کا پہلا مکمل چاند', lastFull: 'سال کا آخری مکمل چاند', firstNew: 'سال کا پہلا نیا چاند', busiestMonth: 'سب سے زیادہ واقعات والا مہینہ' },
+    de: { title: 'Mond-Höhepunkte in {city} für {year}', firstFull: 'Erster Vollmond', lastFull: 'Letzter Vollmond', firstNew: 'Erster Neumond', busiestMonth: 'Aktivster Monat' },
+    id: { title: 'Sorotan Bulan di {city} untuk {year}', firstFull: 'Bulan purnama pertama', lastFull: 'Bulan purnama terakhir', firstNew: 'Bulan baru pertama', busiestMonth: 'Bulan tersibuk' },
+    es: { title: 'Destacados lunares en {city} para {year}', firstFull: 'Primera luna llena', lastFull: 'Última luna llena', firstNew: 'Primera luna nueva', busiestMonth: 'Mes más activo' },
+    bn: { title: '{city}-এ {year} সালের চাঁদের উল্লেখযোগ্য ঘটনা', firstFull: 'বছরের প্রথম পূর্ণিমা', lastFull: 'বছরের শেষ পূর্ণিমা', firstNew: 'বছরের প্রথম অমাবস্যা', busiestMonth: 'সবচেয়ে ব্যস্ত মাস' },
+    ms: { title: 'Sorotan Bulan di {city} untuk {year}', firstFull: 'Bulan purnama pertama', lastFull: 'Bulan purnama terakhir', firstNew: 'Bulan baharu pertama', busiestMonth: 'Bulan paling sibuk' },
+};
+// "How to read the annual moon calendar" explainer: title + 4 short points.
+const _MOON_YEAR_EXPLAINER_L10N = {
+    ar: { title: 'كيف تقرأ تقويم القمر السنوي؟', p1: 'يعرض الجدول مواعيد البدر والمحاق والتربيع الأول والتربيع الأخير عبر السنة.', p2: 'تُعرض كل الأوقات حسب التوقيت المحلي للمدينة.', p3: 'قد يختلف التاريخ المحلي بين المدن بسبب اختلاف المنطقة الزمنية، خاصة قرب منتصف الليل.', p4: 'التاريخ الهجري تقريبي وقد يختلف يومًا واحدًا حسب الرؤية الشرعية في بلدك.' },
+    en: { title: 'How to read the annual moon calendar', p1: 'The table lists the dates of the full moon, new moon, first quarter and last quarter throughout the year.', p2: 'All times are shown in the city’s local time zone.', p3: 'The local date can differ between cities because of their time zones, especially near midnight.', p4: 'The Hijri date is approximate and may differ by one day depending on the moon sighting in your country.' },
+    fr: { title: 'Comment lire le calendrier lunaire annuel', p1: 'Le tableau indique les dates de la pleine lune, de la nouvelle lune, du premier et du dernier quartier tout au long de l’année.', p2: 'Toutes les heures sont affichées dans le fuseau horaire local de la ville.', p3: 'La date locale peut différer d’une ville à l’autre selon le fuseau horaire, surtout près de minuit.', p4: 'La date hégirienne est approximative et peut varier d’un jour selon l’observation du croissant dans votre pays.' },
+    tr: { title: 'Yıllık ay takvimi nasıl okunur', p1: 'Tablo, yıl boyunca dolunay, yeni ay, ilk dördün ve son dördün tarihlerini listeler.', p2: 'Tüm saatler şehrin yerel saat diliminde gösterilir.', p3: 'Yerel tarih, saat dilimi nedeniyle şehirden şehre değişebilir, özellikle gece yarısına yakın.', p4: 'Hicri tarih yaklaşıktır ve ülkenizdeki hilal gözlemine göre bir gün değişebilir.' },
+    ur: { title: 'سالانہ قمری تقویم کیسے پڑھیں', p1: 'جدول سال بھر مکمل چاند، نئے چاند، پہلی اور آخری سہ ماہی کی تاریخیں دکھاتا ہے۔', p2: 'تمام اوقات شہر کے مقامی وقت کے مطابق دکھائے جاتے ہیں۔', p3: 'وقت کے فرق کی وجہ سے مقامی تاریخ شہروں کے درمیان مختلف ہو سکتی ہے، خاص طور پر آدھی رات کے قریب۔', p4: 'ہجری تاریخ تخمینی ہے اور آپ کے ملک میں رویتِ ہلال کے مطابق ایک دن مختلف ہو سکتی ہے۔' },
+    de: { title: 'So lesen Sie den jährlichen Mondkalender', p1: 'Die Tabelle listet die Daten von Vollmond, Neumond, erstem und letztem Viertel im Laufe des Jahres auf.', p2: 'Alle Zeiten werden in der Ortszeit der Stadt angezeigt.', p3: 'Das lokale Datum kann sich aufgrund der Zeitzonen zwischen Städten unterscheiden, besonders um Mitternacht.', p4: 'Das Hidschri-Datum ist ungefähr und kann je nach Mondsichtung in Ihrem Land um einen Tag abweichen.' },
+    id: { title: 'Cara membaca kalender bulan tahunan', p1: 'Tabel mencantumkan tanggal bulan purnama, bulan baru, kuartal pertama dan kuartal terakhir sepanjang tahun.', p2: 'Semua waktu ditampilkan dalam zona waktu lokal kota.', p3: 'Tanggal lokal dapat berbeda antar kota karena zona waktu, terutama menjelang tengah malam.', p4: 'Tanggal Hijriah bersifat perkiraan dan dapat berbeda satu hari tergantung rukyat hilal di negara Anda.' },
+    es: { title: 'Cómo leer el calendario lunar anual', p1: 'La tabla muestra las fechas de la luna llena, la luna nueva, el cuarto creciente y el cuarto menguante a lo largo del año.', p2: 'Todas las horas se muestran en la zona horaria local de la ciudad.', p3: 'La fecha local puede variar entre ciudades por su zona horaria, sobre todo cerca de la medianoche.', p4: 'La fecha hijri es aproximada y puede variar un día según la observación de la luna en tu país.' },
+    bn: { title: 'বার্ষিক চাঁদের ক্যালেন্ডার কীভাবে পড়বেন', p1: 'সারণিতে সারা বছরের পূর্ণিমা, অমাবস্যা, প্রথম ও শেষ চতুর্থাংশের তারিখ দেওয়া আছে।', p2: 'সব সময় শহরের স্থানীয় সময় অঞ্চলে দেখানো হয়েছে।', p3: 'সময় অঞ্চলের কারণে স্থানীয় তারিখ শহরভেদে আলাদা হতে পারে, বিশেষত মধ্যরাতের কাছাকাছি।', p4: 'হিজরি তারিখ আনুমানিক এবং আপনার দেশে চাঁদ দেখার উপর নির্ভর করে একদিন আলাদা হতে পারে।' },
+    ms: { title: 'Cara membaca kalendar bulan tahunan', p1: 'Jadual menyenaraikan tarikh bulan purnama, bulan baharu, suku pertama dan suku terakhir sepanjang tahun.', p2: 'Semua waktu dipaparkan dalam zon waktu tempatan bandar.', p3: 'Tarikh tempatan boleh berbeza antara bandar kerana zon waktu, terutamanya menghampiri tengah malam.', p4: 'Tarikh Hijrah adalah anggaran dan boleh berbeza sehari bergantung pada rukyah hilal di negara anda.' },
+};
+
 // الشهر الميلادي (لـ SSR تحسين keyword consistency: "أبريل 2026" إلخ)
 const _GREG_MONTHS = {
     ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
@@ -8865,6 +8922,7 @@ function _moonYearStrings(lang, city, year, country) {
             ['لماذا قد يختلف موعد البدر بين مدينة وأخرى؟', 'لحظة البدر واحدة عالميًّا، لكن وقتها المحلي يختلف بين المدن حسب المنطقة الزمنية، فقد يظهر في تاريخ مختلف عند تجاوز منتصف الليل.'],
             ['هل المحاق يعني بداية الشهر الهجري؟', 'المحاق هو الاقتران الفلكي، أما بداية الشهر الهجري فتعتمد على رؤية الهلال بعد غروب شمس يوم المحاق أو اليوم التالي، لذا قد يبدأ الشهر بعد المحاق بيوم أو يومين.'],
             [`أين أجد تقويم القمر الشهري في ${city}؟`, `اختر أي شهر من بطاقات الأشهر الاثني عشر في هذه الصفحة لفتح تقويم القمر الشهري المفصّل في ${city} لذلك الشهر.`],
+            ['كيف أغيّر سنة تقويم القمر؟', 'يمكنك استخدام أداة اختيار السنة أعلى الصفحة، أو زرّي السنة السابقة والسنة التالية، للانتقال إلى سنة أخرى لنفس المدينة.'],
         ],
     };
     const E = {
@@ -8890,6 +8948,7 @@ function _moonYearStrings(lang, city, year, country) {
             ['Why can the full moon date differ between cities?', 'The full moon instant is the same worldwide, but its local time differs by time zone, so it can appear on a different date once it crosses midnight.'],
             ['Is the new moon the same as the Hijri month start?', 'The new moon is the astronomical conjunction; the Hijri month begins with the sighting of the crescent after sunset on the day of (or after) the new moon, so the month may start a day or two later.'],
             [`Where can I view the monthly moon calendar for ${city}?`, `Pick any of the twelve month cards on this page to open the detailed monthly moon calendar in ${city} for that month.`],
+            ['How do I change the moon calendar year?', 'Use the year picker at the top of the page, or the previous and next year buttons, to jump to another year for the same city.'],
         ],
     };
     if (lang === 'ar') return A;
@@ -8939,18 +8998,53 @@ function _buildMoonYearContent(my, lang) {
     //   lang-preserved; placed by context (near the year summary), NOT clustered with the 12 months.
     const _yNavCtaCfg  = _MOON_NAV_CTA_L10N[lang] || _MOON_NAV_CTA_L10N.en;
     const _yTodayHref  = _lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/today';
-    const _yTodayCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--today" id="moon-year-today-cta" href="${_e(_yTodayHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">🌙</span> ${_e(_yNavCtaCfg.todayMoon)}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
+    // HERO-DASHBOARD-REDESIGN: the today CTA is now built inline as the 3rd dashboard card (whole-card
+    //   <a href>), so the old standalone today-chip const is removed. _yNavCtaCfg/_yTodayHref reused below.
+    // (1b) MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: year picker in the hero — prev/next SSR links +
+    //   a <select> that navigates to the SAME year route /moon/{c}/{city}/{yyyy}, lang-preserved via
+    //   _lp. The select uses an inline onchange handler (CSP allows 'unsafe-inline' scripts) → no app.js.
+    const _yPick  = _MOON_YEAR_PICKER_L10N[lang] || _MOON_YEAR_PICKER_L10N.en;
+    const _yrLink = (yy) => `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${yy}`;
+    const _yMin = Math.max(1900, _Y - 10), _yMax = Math.min(2100, _Y + 10);
+    let _yOpts = '';
+    for (let yy = _yMin; yy <= _yMax; yy++) {
+        _yOpts += `<option value="${_e(_yrLink(yy))}"${yy === _Y ? ' selected' : ''}>${yy}</option>`;
+    }
+    const _yPrevHtml = (_Y - 1 >= 1900) ? `<a class="my-yp-btn my-yp-prev" href="${_e(_yrLink(_Y - 1))}" rel="prev" aria-label="${_e(_yPick.prev)}" title="${_e(_yPick.prev)}">‹</a>` : '';
+    const _yNextHtml = (_Y + 1 <= 2100) ? `<a class="my-yp-btn my-yp-next" href="${_e(_yrLink(_Y + 1))}" rel="next" aria-label="${_e(_yPick.next)}" title="${_e(_yPick.next)}">›</a>` : '';
+    // HERO-DASHBOARD-REDESIGN: the hero controls are rebuilt as a "Moon Year Dashboard" — a 3-card
+    //   grid (NOT a single box): [year-picker card] [section-links card] [today's-moon CTA card].
+    //   Same links/ids/route; the WHOLE today card is a single <a href>. Small card descriptions are
+    //   10-lang native (_MOON_YEAR_DASH_L10N); section-button labels stay on _moonYearStrings (AR/EN).
+    const _yDash = _MOON_YEAR_DASH_L10N[lang] || _MOON_YEAR_DASH_L10N.en;
+    const _yTodaySub = String(_yDash.todayDesc || '').replace('{city}', _city);
+    const _dashYearCard = `<div class="my-dash-card my-dash-year">`
+        + `<div class="my-dash-head"><span class="my-dash-title">${_e(_yPick.label)}</span><span class="my-dash-sub">${_e(_yDash.yearDesc)}</span></div>`
+        + `<div class="my-yp-group" role="group" aria-label="${_e(_yPick.label)}">`
+        +   _yPrevHtml
+        +   `<select id="moon-year-select" class="my-yp-select" onchange="if(this.value)window.location.href=this.value">${_yOpts}</select>`
+        +   _yNextHtml
+        + `</div>`
+        + `</div>`;
+    const _dashSectionsCard = `<div class="my-dash-card my-dash-sections">`
+        + `<span class="my-dash-title">${_e(_yDash.sectionsTitle)}</span>`
+        + `<nav class="my-anchor-nav my-dash-tabs" aria-label="${_e(_S.heroNavTitle)}">`
+        +   `<a class="my-anchor" href="#moon-year-summary">${_e(_S.navSummary)}</a>`
+        +   `<a class="my-anchor" href="#moon-year-table">${_e(_S.navTable)}</a>`
+        +   `<a class="my-anchor" href="#moon-year-months">${_e(_S.navMonths)}</a>`
+        + `</nav>`
+        + `</div>`;
+    const _dashTodayCard = `<a class="my-dash-card my-dash-today" id="moon-year-today-cta" href="${_e(_yTodayHref)}">`
+        + `<span class="my-dash-today-ico" aria-hidden="true">🌙</span>`
+        + `<span class="my-dash-today-body"><span class="my-dash-today-title">${_e(_yNavCtaCfg.todayMoon)}</span><span class="my-dash-today-sub">${_e(_yTodaySub)}</span></span>`
+        + `<span class="my-dash-today-arrow" aria-hidden="true">›</span>`
+        + `</a>`;
     const heroBodyHtml = `<p class="my-hero-desc">${_e(_S.intro)}</p>`
         + `<div class="my-chips">`
         + _chip(_S.chipCity, _city) + _chip(_S.chipYear, String(_Y)) + _chip(_S.lblTz, _tz || _S.none)
         + _chip(_S.chipEventsLbl, String(_events.length)) + _chip(_S.chipFullLbl, _fulls.length + _times) + _chip(_S.chipNewLbl, _news.length + _times)
         + `</div>`
-        + `<nav class="my-anchor-nav" aria-label="${_e(_S.heroNavTitle)}">`
-        + `<a class="my-anchor" href="#moon-year-summary">${_e(_S.navSummary)}</a>`
-        + `<a class="my-anchor" href="#moon-year-table">${_e(_S.navTable)}</a>`
-        + `<a class="my-anchor" href="#moon-year-months">${_e(_S.navMonths)}</a>`
-        + `</nav>`
-        + _yTodayCtaHtml;
+        + `<div class="my-dash-grid">` + _dashYearCard + _dashSectionsCard + _dashTodayCard + `</div>`;
     // (2) year-summary card (city-specific) + local-time note
     const _sumCell = (lbl, val) => `<div class="my-sum-cell"><span class="my-sum-lbl">${_e(lbl)}</span><span class="my-sum-val">${_e(val)}</span></div>`;
     const summaryHtml = `<section class="section-card moon-year-summary" id="moon-year-summary"><h2 class="my-sum-title">${_e(_S.summaryTitle)}</h2><div class="my-sum-grid">`
@@ -9018,8 +9112,29 @@ function _buildMoonYearContent(my, lang) {
         '@context': 'https://schema.org', '@type': 'FAQPage',
         mainEntity: _S.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
     });
+    // (3b) MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: "Moon highlights of the year" — 4 cards built from
+    //   the already-computed _events (NO new astronomy): first/last full moon → day page, first new
+    //   moon → day page, busiest month → month page. All nested + lang-preserved. Placed BEFORE the table.
+    const _hl = _MOON_YEAR_HIGHLIGHTS_L10N[lang] || _MOON_YEAR_HIGHLIGHTS_L10N.en;
+    const _hlTitle = String(_hl.title || '').replace('{city}', _city).replace('{year}', String(_Y));
+    const _firstFull = _fulls[0] || null;
+    const _lastFull  = _fulls.length ? _fulls[_fulls.length - 1] : null;
+    const _firstNew  = _news[0] || null;
+    let _busiestM = 0, _busiestN = 0;
+    for (let m = 1; m <= 12; m++) { const c = _events.filter(e => e.m === m).length; if (c > _busiestN) { _busiestN = c; _busiestM = m; } }
+    const _hlCard = (icon, lbl, valTxt, href) => `<a class="my-hl-card" href="${_e(href)}"><span class="my-hl-ico" aria-hidden="true">${icon}</span><span class="my-hl-body"><span class="my-hl-lbl">${_e(lbl)}</span><span class="my-hl-val">${_e(valTxt)}</span></span></a>`;
+    let _hlCards = '';
+    if (_firstFull) _hlCards += _hlCard(_phaseIcon('full_moon'), _hl.firstFull, _dateStr(_firstFull), _myDayLink(_firstFull.m, _firstFull.d));
+    if (_lastFull && _lastFull !== _firstFull) _hlCards += _hlCard(_phaseIcon('full_moon'), _hl.lastFull, _dateStr(_lastFull), _myDayLink(_lastFull.m, _lastFull.d));
+    if (_firstNew)  _hlCards += _hlCard(_phaseIcon('new_moon'), _hl.firstNew, _dateStr(_firstNew), _myDayLink(_firstNew.m, _firstNew.d));
+    if (_busiestM)  _hlCards += _hlCard('📅', _hl.busiestMonth, _months[_busiestM - 1] + ' (' + _busiestN + ')', _myMonthLink(_busiestM));
+    const highlightsHtml = _hlCards ? `<section class="section-card moon-year-highlights" id="moon-year-highlights"><h2>${_e(_hlTitle)}</h2><div class="my-hl-grid">${_hlCards}</div></section>` : '';
+    // (6b) MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: short "how to read the annual calendar" explainer
+    //   (10-lang native), placed BEFORE the FAQ.
+    const _ex = _MOON_YEAR_EXPLAINER_L10N[lang] || _MOON_YEAR_EXPLAINER_L10N.en;
+    const explainerHtml = `<section class="section-card moon-year-explainer" id="moon-year-explainer"><h2>${_e(_ex.title)}</h2><ul class="my-ex-list"><li>${_e(_ex.p1)}</li><li>${_e(_ex.p2)}</li><li>${_e(_ex.p3)}</li><li>${_e(_ex.p4)}</li></ul></section>`;
     // intro moved into the hero body; #moon-year-content now starts at the summary card.
-    const belowHtml = summaryHtml + tableHtml + monthCardsHtml + prevNextHtml + faqHtml;
+    const belowHtml = summaryHtml + highlightsHtml + tableHtml + monthCardsHtml + prevNextHtml + explainerHtml + faqHtml;
     return { heroBodyHtml, belowHtml, faqJsonLd, eventCount: _events.length };
 }
 

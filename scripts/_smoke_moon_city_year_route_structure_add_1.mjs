@@ -158,8 +158,17 @@ try {
         check('table cell links never use legacy /moon-in- or /moon-today-in-', !/class="my-table-link" href="[^"]*moon-(?:in|today-in)-/.test(b));
         check('prev + next year links (2025 + 2027)', b.includes('/moon/saudi-arabia/riyadh/2025') && b.includes('/moon/saudi-arabia/riyadh/2027'));
         check('year summary card present', /id="moon-year-summary"/.test(b));
+        // MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: year picker (hero) + highlights + explainer
+        // HERO-DASHBOARD-REDESIGN: controls rebuilt as a 3-card Moon Year Dashboard (year picker / section links / today CTA)
+        check('hero Moon Year Dashboard: 3 cards in order; today CTA is a whole-card <a> to /today', /<div class="my-dash-grid"><div class="my-dash-card my-dash-year">[\s\S]*?id="moon-year-select"[\s\S]*?<div class="my-dash-card my-dash-sections">[\s\S]*?<nav class="my-anchor-nav my-dash-tabs"[\s\S]*?<a class="my-dash-card my-dash-today" id="moon-year-today-cta" href="\/moon\/saudi-arabia\/riyadh\/today">/.test(b));
+        check('today CTA whole card is the link (icon + title + sub + arrow inside the <a>)', /<a class="my-dash-card my-dash-today"[^>]*>[\s\S]*?my-dash-today-ico[\s\S]*?my-dash-today-title[\s\S]*?my-dash-today-sub[\s\S]*?my-dash-today-arrow[\s\S]*?<\/a>/.test(b));
+        check('year picker <select> present (inline onchange + selected 2026 → nested year route)', /id="moon-year-select"/.test(b) && /onchange="if\(this\.value\)window\.location\.href=this\.value"/.test(b) && /<option value="\/moon\/saudi-arabia\/riyadh\/2026" selected>2026<\/option>/.test(b));
+        check('year picker prev + next links (2025 + 2027, nested)', /class="my-yp-btn my-yp-prev" href="\/moon\/saudi-arabia\/riyadh\/2025"/.test(b) && /class="my-yp-btn my-yp-next" href="\/moon\/saudi-arabia\/riyadh\/2027"/.test(b));
+        check('highlights section + exactly 4 cards', /id="moon-year-highlights"/.test(b) && count(b, /class="my-hl-card"/g) === 4, `${count(b, /class="my-hl-card"/g)} cards`);
+        check('highlights: 3 nested day links + 1 nested month link, no legacy', (() => { const hl = b.slice(b.indexOf('id="moon-year-highlights"'), b.indexOf('id="moon-year-table"')); const day = count(hl, /class="my-hl-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g); const mon = count(hl, /class="my-hl-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g); return day === 3 && mon === 1 && !/moon-in-|moon-today-in-/.test(hl); })());
+        check('explainer section present + 4 points', /id="moon-year-explainer"/.test(b) && count(b.slice(b.indexOf('id="moon-year-explainer"')).split('</section>')[0], /<li>/g) === 4);
         // FAQ reuses the today-page moon FAQ styling (.moon-faq-item, same look as /moon-today-in-{city})
-        check('5-6 SSR FAQ (.moon-faq-item) + FAQPage JSON-LD', count(b, /class="moon-faq-item"/g) >= 5 && count(b, /class="moon-faq-item"/g) <= 6 && /"@type":"FAQPage"/.test(b), `${count(b, /class="moon-faq-item"/g)} faq`);
+        check('7 SSR FAQ (.moon-faq-item, incl. year-picker Q) + FAQPage JSON-LD', count(b, /class="moon-faq-item"/g) === 7 && /"@type":"FAQPage"/.test(b), `${count(b, /class="moon-faq-item"/g)} faq`);
         check('year FAQ uses .moon-faq container (today-page style, no country-faq-item)', /<div class="moon-faq">/.test(b) && !/class="country-faq-item"/.test(b));
         const hl = new Set((b.match(/hreflang="([a-z-]+)"/g) || []).map(s => s.replace(/hreflang="|"/g, '')));
         check('hreflang 10 langs + x-default', ['ar','en','fr','tr','ur','de','id','es','bn','ms'].every(l => hl.has(l)) && hl.has('x-default'));

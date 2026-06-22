@@ -146,8 +146,8 @@ try {
     {
         const b = (await req('/moon/saudi-arabia/riyadh/2026')).body;
         check('major-phases table present + ≥ 40 event rows', /class="my-table"/.test(b) && count(b, /<tbody>[\s\S]*?<\/tbody>/) >= 0 && count(b, /<tr>/g) >= 40, `${count(b, /<tr>/g)} rows`);
-        check('exactly 12 month cards', count(b, /class="my-month-card"/g) === 12, `${count(b, /class="my-month-card"/g)} cards`);
-        check('month cards use NEW nested /moon/saudi-arabia/riyadh/2026/NN (12)', count(b, /class="my-month-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === 12, `${count(b, /class="my-month-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
+        check('exactly 12 month cards', count(b, /class="my-month-card[ "]/g) === 12, `${count(b, /class="my-month-card[ "]/g)} cards`);
+        check('month cards use NEW nested /moon/saudi-arabia/riyadh/2026/NN (12)', count(b, /class="my-month-card[^"]*"[^>]*href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === 12, `${count(b, /class="my-month-card[^"]*"[^>]*href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
         check('month cards NO LONGER use the legacy /moon-in-riyadh/2026-NN route', count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g) === 0, `${count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g)}`);
         // MOON-YEAR-PHASES-TABLE-LINKED-DATES-HIJRI-COLUMN-1: new first-column Hijri date + linked date/hijri/month cells
         const _rowCount = count(b, /<tr>/g) - 1; // exclude the header row
@@ -157,6 +157,21 @@ try {
         check('month cell links to nested month page (rows×1)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === _rowCount, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
         check('table cell links never use legacy /moon-in- or /moon-today-in-', !/class="my-table-link" href="[^"]*moon-(?:in|today-in)-/.test(b));
         check('prev + next year links (2025 + 2027)', b.includes('/moon/saudi-arabia/riyadh/2025') && b.includes('/moon/saudi-arabia/riyadh/2027'));
+        // MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1
+        // year-nav prev/next moved INSIDE the months section as styled pill footer (not a separate sibling)
+        check('year-nav footer is INSIDE the months section + 2 pills', b.indexOf('class="my-year-nav-footer"') > b.indexOf('id="moon-year-months"') && b.indexOf('class="my-year-nav-footer"') < b.indexOf('id="moon-year-explainer"') && count(b, /class="my-yearnav-pill/g) === 2, `footer@${b.indexOf('class="my-year-nav-footer"')} pills=${count(b, /class="my-yearnav-pill/g)}`);
+        check('year-nav pills carry prev(2025)+next(2027) hrefs', /class="my-yearnav-pill my-yearnav-prev" href="\/moon\/saudi-arabia\/riyadh\/2025"/.test(b) && /class="my-yearnav-pill my-yearnav-next" href="\/moon\/saudi-arabia\/riyadh\/2027"/.test(b));
+        // current-month highlight: depends on the CITY-LOCAL current year (Asia/Riyadh tz, same source as the server).
+        // Count the ELEMENT (trailing quote) not the CSS selector (.my-month-card--current{ / space).
+        const _np = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit' }).formatToParts(new Date());
+        const _ny = +(_np.find(p => p.type === 'year') || {}).value;
+        const bCur = (await req(`/moon/saudi-arabia/riyadh/${_ny}`)).body;
+        check(`current-month: exactly 1 highlighted card + 1 badge on the current Riyadh year (${_ny})`, count(bCur, /my-month-card--current"/g) === 1 && count(bCur, /class="my-month-badge"/g) === 1, `cur=${count(bCur, /my-month-card--current"/g)} badge=${count(bCur, /class="my-month-badge"/g)}`);
+        check('current-month: badge localized ar (الشهر الحالي)', bCur.includes('الشهر الحالي'));
+        const bCurEn = (await req(`/en/moon/saudi-arabia/riyadh/${_ny}`)).body;
+        check('current-month: badge localized en (Current month) + 1 highlight', bCurEn.includes('Current month') && count(bCurEn, /my-month-card--current"/g) === 1);
+        const bNext = (await req(`/moon/saudi-arabia/riyadh/${_ny + 1}`)).body;
+        check(`current-month: NO highlight on a non-current year (${_ny + 1})`, count(bNext, /my-month-card--current"/g) === 0 && count(bNext, /class="my-month-badge"/g) === 0, `cur=${count(bNext, /my-month-card--current"/g)} badge=${count(bNext, /class="my-month-badge"/g)}`);
         check('year summary card present', /id="moon-year-summary"/.test(b));
         // MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: year picker (hero) + highlights + explainer
         // HERO-DASHBOARD-REDESIGN: controls rebuilt as a 3-card Moon Year Dashboard (year picker / section links / today CTA)

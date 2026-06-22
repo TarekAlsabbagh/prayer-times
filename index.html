@@ -2508,9 +2508,16 @@
                   #page-moon-year .my-card-line{font-size:.9rem}
                   #page-moon-year .my-card-meta{font-size:.82rem;color:var(--text-light)}
                   #page-moon-year .my-month-cta{margin-top:auto;color:var(--primary);font-weight:600;font-size:.88rem}
-                  #page-moon-year .moon-year-nav{display:flex;justify-content:space-between;gap:12px;margin:18px 0 6px;flex-wrap:wrap}
-                  #page-moon-year .my-yearnav-link{padding:10px 18px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;text-decoration:none;color:var(--primary);font-weight:600}
-                  #page-moon-year .my-yearnav-link:hover{background:var(--primary);color:#fff}
+                  /* MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1 — current-month accent + year-nav footer pills */
+                  /* current-month highlight (markup only emitted when displayed year == city-local current year) */
+                  #page-moon-year .my-month-card--current{border:2px solid var(--primary);background:linear-gradient(180deg,rgba(46,125,50,.08),rgba(46,125,50,.02));box-shadow:0 2px 10px rgba(46,125,50,.12)}
+                  #page-moon-year .my-month-card--current .my-month-name{color:var(--primary)}
+                  #page-moon-year .my-month-badge{align-self:flex-start;display:inline-block;background:var(--primary);color:#fff;font-size:.7rem;font-weight:700;letter-spacing:.2px;padding:3px 10px;border-radius:999px;margin-bottom:2px}
+                  /* prev/next year — section footer (inside the months section) with pill buttons */
+                  #page-moon-year .my-year-nav-footer{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:22px;padding-top:18px;border-top:1px solid var(--border)}
+                  #page-moon-year .my-yearnav-pill{display:inline-flex;align-items:center;gap:6px;padding:11px 22px;border:1.5px solid var(--primary);border-radius:999px;background:var(--card-bg);color:var(--primary);font-weight:700;font-size:.95rem;text-decoration:none;transition:background .15s,color .15s,transform .15s,box-shadow .15s}
+                  #page-moon-year .my-yearnav-pill:hover{background:var(--primary);color:#fff;transform:translateY(-1px);box-shadow:0 4px 12px rgba(46,125,50,.22)}
+                  #page-moon-year .my-yearnav-pill:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
                   /* MOON-CITY-YEAR-…-FIX-1: centred, padded content column (≈new moon pages) — no edge-stick / no horizontal overflow.
                      width:100% gives a DEFINITE width so the page does NOT resize when a FAQ <details> opens.
                      (#page-moon-year is a flex item of main.main-content; margin-inline:auto alone disables
@@ -2585,7 +2592,7 @@
                   /* month-card link clarity (no redesign — clearer affordance only) */
                   #page-moon-year .my-month-card:hover .my-month-cta,#page-moon-year .my-month-card:focus-visible .my-month-cta{text-decoration:underline}
                   #page-moon-year .my-month-card:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-                  @media (max-width:600px){#page-moon-year .moon-year-hero{padding:16px}#page-moon-year .my-table th,#page-moon-year .my-table td{padding:8px 10px;font-size:.92rem}#page-moon-year .moon-year-nav{flex-direction:column}#page-moon-year .my-yearnav-link{text-align:center}#page-moon-year .my-dash-grid{grid-template-columns:1fr}#page-moon-year .my-dash-year{order:1}#page-moon-year .my-dash-today{order:2}#page-moon-year .my-dash-sections{order:3}#page-moon-year .my-hl-grid{grid-template-columns:1fr}}
+                  @media (max-width:600px){#page-moon-year .moon-year-hero{padding:16px}#page-moon-year .my-table th,#page-moon-year .my-table td{padding:8px 10px;font-size:.92rem}#page-moon-year .my-year-nav-footer{flex-direction:column}#page-moon-year .my-yearnav-pill{justify-content:center}#page-moon-year .my-dash-grid{grid-template-columns:1fr}#page-moon-year .my-dash-year{order:1}#page-moon-year .my-dash-today{order:2}#page-moon-year .my-dash-sections{order:3}#page-moon-year .my-hl-grid{grid-template-columns:1fr}}
                 </style>
                 <!-- MOON-YEAR-BREADCRUMB-OUTSIDE-HERO-BOX-1: breadcrumb moved OUT of the hero card to a
                      standalone element ABOVE it (consistent with the other moon pages). Rungs are unchanged

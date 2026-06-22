@@ -6274,6 +6274,13 @@ const _MOON_YEAR_EXPLAINER_L10N = {
     bn: { title: 'বার্ষিক চাঁদের ক্যালেন্ডার কীভাবে পড়বেন', p1: 'সারণিতে সারা বছরের পূর্ণিমা, অমাবস্যা, প্রথম ও শেষ চতুর্থাংশের তারিখ দেওয়া আছে।', p2: 'সব সময় শহরের স্থানীয় সময় অঞ্চলে দেখানো হয়েছে।', p3: 'সময় অঞ্চলের কারণে স্থানীয় তারিখ শহরভেদে আলাদা হতে পারে, বিশেষত মধ্যরাতের কাছাকাছি।', p4: 'হিজরি তারিখ আনুমানিক এবং আপনার দেশে চাঁদ দেখার উপর নির্ভর করে একদিন আলাদা হতে পারে।' },
     ms: { title: 'Cara membaca kalendar bulan tahunan', p1: 'Jadual menyenaraikan tarikh bulan purnama, bulan baharu, suku pertama dan suku terakhir sepanjang tahun.', p2: 'Semua waktu dipaparkan dalam zon waktu tempatan bandar.', p3: 'Tarikh tempatan boleh berbeza antara bandar kerana zon waktu, terutamanya menghampiri tengah malam.', p4: 'Tarikh Hijrah adalah anggaran dan boleh berbeza sehari bergantung pada rukyah hilal di negara anda.' },
 };
+// MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1: "Current month" badge — 10-lang native
+//   (shown on the month card whose month == the city-local current month, only when the displayed year
+//   equals the city-local current year). No AR/EN fallback for any served language.
+const _MOON_YEAR_CURRENT_MONTH_L10N = {
+    ar: 'الشهر الحالي', en: 'Current month', fr: 'Mois en cours', tr: 'Bu ay', ur: 'موجودہ مہینہ',
+    de: 'Aktueller Monat', id: 'Bulan ini', es: 'Mes actual', bn: 'বর্তমান মাস', ms: 'Bulan ini',
+};
 
 // الشهر الميلادي (لـ SSR تحسين keyword consistency: "أبريل 2026" إلخ)
 const _GREG_MONTHS = {
@@ -8934,7 +8941,7 @@ function _moonYearStrings(lang, city, year, country) {
         monthsTitle: `Moon Calendar Months in ${city} for ${year}`,
         viewMonth: 'View monthly calendar', noEvents: 'No major events',
         eventsLabel: (n) => `${n} major ${n === 1 ? 'event' : 'events'}`,
-        prevYear: `Moon ${year - 1}`, nextYear: `Moon ${year + 1}`, navTitle: 'Browse other years',
+        prevYear: `${year - 1} Moon`, nextYear: `${year + 1} Moon`, navTitle: 'Browse other years',
         // HERO chips + anchor quick-nav + section notes
         chipCity: 'City', chipYear: 'Year', chipEventsLbl: 'Major events', chipFullLbl: 'Full moons', chipNewLbl: 'New moons', chipTimes: '',
         navSummary: 'Year summary', navTable: 'Major phases table', navMonths: 'Months', heroNavTitle: 'Quick navigation',
@@ -9283,24 +9290,33 @@ function _buildMoonYearContent(my, lang) {
         + `</tbody></table></div></section>`;
     // (4) 12 month cards — link to the NEW nested month route /moon/{country}/{city}/{yyyy}/{mm}
     //     (activated by MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1; was the legacy /moon-in-{city}/{yyyy-mm}).
+    // MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1: highlight the CURRENT month (accent +
+    //   badge) ONLY when the displayed year == the city-local current year (per _tz, not device-only).
+    let _curY = null, _curM = null;
+    try { if (_now) { const _cp = new Intl.DateTimeFormat('en-CA', { timeZone: _tz, year: 'numeric', month: '2-digit' }).formatToParts(_now); _curY = +(_cp.find(x => x.type === 'year') || {}).value; _curM = +(_cp.find(x => x.type === 'month') || {}).value; } } catch (_) { /* graceful: no highlight */ }
+    const _isCurYear = (_curY === _Y);
+    const _curMonthLbl = _MOON_YEAR_CURRENT_MONTH_L10N[lang] || _MOON_YEAR_CURRENT_MONTH_L10N.en;
     let _cards = '';
     for (let m = 1; m <= 12; m++) {
         const _evM = _events.filter(e => e.m === m);
         const _newM = _evM.find(e => e.type === 'new_moon');
         const _fullM = _evM.find(e => e.type === 'full_moon');
         const _href = `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${_Y}/${_pad2(m)}`;
+        const _isCur = _isCurYear && (m === _curM);
         let _lines = '';
         if (_newM)  _lines += `<div class="my-card-line">${_phaseIcon('new_moon')} ${_e(_phaseLbl('new_moon'))}: ${_e(_newM.d + ' ' + _months[m - 1])}</div>`;
         if (_fullM) _lines += `<div class="my-card-line">${_phaseIcon('full_moon')} ${_e(_phaseLbl('full_moon'))}: ${_e(_fullM.d + ' ' + _months[m - 1])}</div>`;
         _lines += `<div class="my-card-meta">${_e(_evM.length ? _S.eventsLabel(_evM.length) : _S.noEvents)}</div>`;
-        _cards += `<a class="my-month-card" href="${_e(_href)}"><span class="my-month-name">${_e(_months[m - 1] + ' ' + _Y)}</span>${_lines}<span class="my-month-cta">${_e(_S.viewMonth)} ›</span></a>`;
+        const _badge = _isCur ? `<span class="my-month-badge">${_e(_curMonthLbl)}</span>` : '';
+        _cards += `<a class="my-month-card${_isCur ? ' my-month-card--current' : ''}"${_isCur ? ' aria-current="date"' : ''} href="${_e(_href)}">${_badge}<span class="my-month-name">${_e(_months[m - 1] + ' ' + _Y)}</span>${_lines}<span class="my-month-cta">${_e(_S.viewMonth)} ›</span></a>`;
     }
-    const monthCardsHtml = `<section class="section-card moon-year-months" id="moon-year-months"><h2>${_e(_S.monthsTitle)}</h2><div class="my-month-grid">${_cards}</div></section>`;
-    // (5) prev / next year (bounded to 1900-2100)
+    // (5) prev / next year (bounded to 1900-2100) — placed INSIDE the months section as a styled footer
+    //     (pill buttons) so year navigation lives with the months it controls, not on the grey background.
     let _nav = '';
-    if (_Y - 1 >= 1900) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y - 1))}">‹ ${_e(_S.prevYear)}</a>`;
-    if (_Y + 1 <= 2100) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y + 1))}">${_e(_S.nextYear)} ›</a>`;
-    const prevNextHtml = _nav ? `<nav class="moon-year-nav" aria-label="${_e(_S.navTitle)}">${_nav}</nav>` : '';
+    if (_Y - 1 >= 1900) _nav += `<a class="my-yearnav-pill my-yearnav-prev" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y - 1))}" rel="prev">‹ ${_e(_S.prevYear)}</a>`;
+    if (_Y + 1 <= 2100) _nav += `<a class="my-yearnav-pill my-yearnav-next" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y + 1))}" rel="next">${_e(_S.nextYear)} ›</a>`;
+    const _yearNavFooter = _nav ? `<nav class="my-year-nav-footer" aria-label="${_e(_S.navTitle)}">${_nav}</nav>` : '';
+    const monthCardsHtml = `<section class="section-card moon-year-months" id="moon-year-months"><h2>${_e(_S.monthsTitle)}</h2><div class="my-month-grid">${_cards}</div>${_yearNavFooter}</section>`;
     // (6) FAQ (SSR-visible) + matching FAQPage JSON-LD
     // FAQ reuses the today-page moon FAQ styling (.moon-faq-city-card + .moon-faq +
     // .moon-faq-item) so the year FAQ looks identical to /moon-today-in-{city} — the
@@ -9336,7 +9352,7 @@ function _buildMoonYearContent(my, lang) {
     const _ex = _MOON_YEAR_EXPLAINER_L10N[lang] || _MOON_YEAR_EXPLAINER_L10N.en;
     const explainerHtml = `<section class="section-card moon-year-explainer" id="moon-year-explainer"><h2>${_e(_ex.title)}</h2><ul class="my-ex-list"><li>${_e(_ex.p1)}</li><li>${_e(_ex.p2)}</li><li>${_e(_ex.p3)}</li><li>${_e(_ex.p4)}</li></ul></section>`;
     // intro moved into the hero body; #moon-year-content now starts at the summary card.
-    const belowHtml = summaryHtml + highlightsHtml + tableHtml + monthCardsHtml + prevNextHtml + explainerHtml + faqHtml;
+    const belowHtml = summaryHtml + highlightsHtml + tableHtml + monthCardsHtml + explainerHtml + faqHtml;
     return { heroBodyHtml, belowHtml, faqJsonLd, eventCount: _events.length };
 }
 

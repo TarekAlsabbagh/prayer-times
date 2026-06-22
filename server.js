@@ -6208,6 +6208,16 @@ const _YEAR_TABLE_HIJRI_HEADER_L10N = {
     de: 'Hidschri-Datum', id: 'Tanggal Hijriah', es: 'Fecha hijri', bn: 'হিজরি তারিখ', ms: 'Tarikh Hijrah',
 };
 
+// MOON-DAY-HIJRI-DATE-SELECTED-DATE-TEXT-FIX-1: the Hijri-card LABEL on a dated DAY page
+// (/moon/{country}/{city}/{yyyy}/{mm}/{dd}) — "Corresponding Hijri date" in all 10 langs.
+// SSR swaps the card label to this on dated day pages (NOT today/hub/month). Mirrors the
+// client _MOON_HIJRI_SELECTED_L10N.label in js/app.js.
+const _MOON_HIJRI_SELECTED_LABEL_L10N = {
+    ar: 'التاريخ الهجري الموافق', en: 'Corresponding Hijri date', fr: 'Date hégirienne correspondante',
+    tr: 'Karşılık gelen Hicri tarih', ur: 'متعلقہ ہجری تاریخ', de: 'Entsprechendes Hidschri-Datum',
+    id: 'Tanggal Hijriah yang sesuai', es: 'Fecha hijrí correspondiente', bn: 'সংশ্লিষ্ট হিজরি তারিখ', ms: 'Tarikh Hijrah yang sepadan',
+};
+
 // الشهر الميلادي (لـ SSR تحسين keyword consistency: "أبريل 2026" إلخ)
 const _GREG_MONTHS = {
     ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
@@ -20200,6 +20210,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 html = html.replace(
                     /<div class="moon-hijri-date" id="moon-hijri-date">[^<]*<\/div>/,
                     `<div class="moon-hijri-date" id="moon-hijri-date">${_escHtml(_hijriSfx)}</div>`
+                );
+                // MOON-DAY-HIJRI-DATE-SELECTED-DATE-TEXT-FIX-1: a dated DAY page (non-empty _hijriSfx)
+                //   is NOT "today" — retitle the card label "Corresponding Hijri date". Drop data-i18n
+                //   so the client i18n walker won't revert it to the "today" key (app.js sets the same
+                //   text). today (empty _hijriSfx) + month (not _isMoonCityPageSsr) are excluded.
+                const _selLbl = _MOON_HIJRI_SELECTED_LABEL_L10N[seo.lang] || _MOON_HIJRI_SELECTED_LABEL_L10N.en;
+                html = html.replace(
+                    /<div class="moon-hijri-label"[^>]*>[^<]*<\/div>/,
+                    `<div class="moon-hijri-label">${_escHtml(_selLbl)}</div>`
                 );
             }
             if (_gregLbl) {

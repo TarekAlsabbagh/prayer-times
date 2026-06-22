@@ -18281,6 +18281,24 @@ function _moonCityLocalNoon(tz, baseDate) {
     }
 }
 
+// MOON-DAY-HIJRI-DATE-SELECTED-DATE-TEXT-FIX-1: card wording for a dated DAY page
+//   (/moon/{country}/{city}/{yyyy}/{mm}/{dd}) — "Corresponding Hijri date" + "This date
+//   corresponds to …" (10 langs, no "today" phrasing). The today/hub pages keep the existing
+//   moon.hijri.today_label + moon.hijri.lunar_day_template ("today"). `{remaining}` already
+//   carries its unit via arPluralDays, so the templates add no trailing unit.
+const _MOON_HIJRI_SELECTED_L10N = {
+    ar: { label: 'التاريخ الهجري الموافق',            lunarTemplate: 'يوافق هذا التاريخ {day} {month} {hYear} هـ، ويتبقى نحو {remaining} على نهاية الشهر الهجري.' },
+    en: { label: 'Corresponding Hijri date',          lunarTemplate: 'This date corresponds to {day} {month} {hYear} AH, with about {remaining} until the lunar month ends.' },
+    fr: { label: 'Date hégirienne correspondante',    lunarTemplate: 'Cette date correspond au {day} {month} {hYear} H — il reste environ {remaining} avant la fin du mois lunaire.' },
+    tr: { label: 'Karşılık gelen Hicri tarih',        lunarTemplate: 'Bu tarih {day} {month} {hYear} H tarihine denk gelir — ayın bitmesine {remaining} kaldı.' },
+    ur: { label: 'متعلقہ ہجری تاریخ',                 lunarTemplate: 'یہ تاریخ {day} {month} {hYear} ہجری کے مطابق ہے — مہینے کے اختتام میں {remaining} باقی ہیں۔' },
+    de: { label: 'Entsprechendes Hidschri-Datum',     lunarTemplate: 'Dieses Datum entspricht dem {day} {month} {hYear} H — noch etwa {remaining} bis zum Monatsende.' },
+    id: { label: 'Tanggal Hijriah yang sesuai',       lunarTemplate: 'Tanggal ini bertepatan dengan {day} {month} {hYear} H — sekitar {remaining} lagi hingga akhir bulan kamariah.' },
+    es: { label: 'Fecha hijrí correspondiente',       lunarTemplate: 'Esta fecha corresponde al {day} {month} {hYear} H — quedan {remaining} para el fin del mes.' },
+    bn: { label: 'সংশ্লিষ্ট হিজরি তারিখ',                lunarTemplate: 'এই তারিখটি {day} {month} {hYear} হিজরির সাথে মিলে — মাস শেষ হতে আরও {remaining} বাকি।' },
+    ms: { label: 'Tarikh Hijrah yang sepadan',        lunarTemplate: 'Tarikh ini bertepatan dengan {day} {month} {hYear} H — {remaining} lagi sebelum hujung bulan.' },
+};
+
 function updateMoonInfo() {
     // إن كان المسار /moon-today-in-{slug}/YYYY-MM-DD → استخدم التاريخ المطلوب
     // وإلا اليوم الحاليّ.
@@ -21218,6 +21236,15 @@ function updateMoonInfo() {
                 //   Skip the 3 today-Hijri text writes on month pages —
                 //   SSR rendered the Hijri-RANGE card content already.
                 if (!_isMonthPageHijri) {
+                    // MOON-DAY-HIJRI-DATE-SELECTED-DATE-TEXT-FIX-1: retitle the card on a dated DAY
+                    //   page ("Corresponding Hijri date"); today/hub keep the "today" label.
+                    const _lblEl = document.querySelector('#moon-hijri-today .moon-hijri-label');
+                    if (_lblEl) {
+                        _lblEl.textContent = _selDate
+                            ? ((_MOON_HIJRI_SELECTED_L10N[_lngA] || _MOON_HIJRI_SELECTED_L10N.en).label)
+                            : (_tt('moon.hijri.today_label') || _lblEl.textContent);
+                        if (_selDate) _lblEl.removeAttribute('data-i18n');
+                    }
                     _setText('moon-hijri-date', _hijriText);
 
                     // (2) التاريخ الميلاديّ — اليوم + اسم الشهر + السنة
@@ -21237,12 +21264,20 @@ function updateMoonInfo() {
                         const _remLabel = (typeof arPluralDays === 'function')
                             ? arPluralDays(_remaining, _hLang)
                             : (_remaining + ' days');
-                        const _lunarTxt = _tt('moon.hijri.lunar_day_template', {
-                            day: _hCard.day,
-                            month: _hMonthName,
-                            hYear: _hCard.year,
-                            remaining: _remLabel
-                        });
+                        // MOON-DAY-HIJRI-DATE-SELECTED-DATE-TEXT-FIX-1: on a dated DAY page use the
+                        //   "this date corresponds to …" wording; today/hub keep "today is …".
+                        const _lunarTxt = _selDate
+                            ? (_MOON_HIJRI_SELECTED_L10N[_lngA] || _MOON_HIJRI_SELECTED_L10N.en).lunarTemplate
+                                .replace(/\{day\}/g, _hCard.day)
+                                .replace(/\{month\}/g, _hMonthName)
+                                .replace(/\{hYear\}/g, _hCard.year)
+                                .replace(/\{remaining\}/g, _remLabel)
+                            : _tt('moon.hijri.lunar_day_template', {
+                                day: _hCard.day,
+                                month: _hMonthName,
+                                hYear: _hCard.year,
+                                remaining: _remLabel
+                            });
                         if (_lunarTxt) _setText('moon-hijri-lunar', _lunarTxt);
                     } catch(_) {}
                 }

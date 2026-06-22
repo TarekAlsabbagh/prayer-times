@@ -6185,6 +6185,29 @@ const _HIJRI_MONTHS = {
     12: { ar: 'ذو الحجة',         en: 'Dhu al-Hijjah'   },
 };
 
+// MOON-YEAR-PHASES-TABLE-LINKED-DATES-HIJRI-COLUMN-1: module-level 10-lang Hijri month names
+// (mirrors the city-banner _HM_BY_LANG_CITY + client _formatHijriLabelLang) — used to render the
+// Hijri date column in the year phases table. The Greg→Hijri CONVERSION reuses the existing
+// _jdToHijri(_gregToJD(...)) Umm al-Qura system; these are display labels only (no new library).
+const _HIJRI_MONTHS_L10N = {
+    ar: ['محرم','صفر','ربيع الأول','ربيع الآخر','جمادى الأولى','جمادى الآخرة','رجب','شعبان','رمضان','شوال','ذو القعدة','ذو الحجة'],
+    en: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Jumada al-Ula','Jumada al-Akhira','Rajab','Shaban','Ramadan','Shawwal','Dhu al-Qidah','Dhu al-Hijjah'],
+    fr: ['Mouharram','Safar','Rabi al-Awwal','Rabi al-Thani','Joumada al-Oula','Joumada al-Thania','Rajab','Chaabane','Ramadan','Chawwal','Dhou al-Qida','Dhou al-Hijja'],
+    tr: ['Muharrem','Safer','Rebiülevvel','Rebiülahir','Cemaziyelevvel','Cemaziyelahir','Recep','Şaban','Ramazan','Şevval','Zilkade','Zilhicce'],
+    ur: ['محرّم','صفر','ربیع الاول','ربیع الثانی','جمادی الاول','جمادی الثانی','رجب','شعبان','رمضان','شوال','ذوالقعدہ','ذوالحجہ'],
+    de: ['Muharram','Safar','Rabīʿ al-awwal','Rabīʿ ath-thānī','Dschumādā l-ūlā','Dschumādā th-thāniya','Radschab','Schaʿbān','Ramadan','Schawwāl','Dhū l-qaʿda','Dhū l-hidscha'],
+    id: ['Muharram','Safar','Rabiul Awal','Rabiul Akhir','Jumadil Awal','Jumadil Akhir','Rajab','Syaban','Ramadan','Syawal','Zulkaidah','Zulhijah'],
+    es: ['Muharram','Safar','Rabi al-Awwal','Rabi al-Thani','Yumada al-Awwal','Yumada al-Thani','Rayab','Shaabán','Ramadán','Shawwal','Du al-Qida','Du al-Hiyya'],
+    bn: ['মুহররম','সফর','রবিউল আউয়াল','রবিউস সানি','জমাদিউল আউয়াল','জমাদিউস সানি','রজব','শাবান','রমজান','শাওয়াল','জিলকদ','জিলহজ'],
+    ms: ['Muharam','Safar','Rabiulawal','Rabiulakhir','Jamadilawal','Jamadilakhir','Rejab','Syaaban','Ramadan','Syawal','Zulkaedah','Zulhijah'],
+};
+// MOON-YEAR-PHASES-TABLE-LINKED-DATES-HIJRI-COLUMN-1: the new "Hijri date" column header — native
+// in all 10 supported langs (per user spec: no AR/EN fallback for THIS header).
+const _YEAR_TABLE_HIJRI_HEADER_L10N = {
+    ar: 'التاريخ الهجري', en: 'Hijri date', fr: 'Date hégirienne', tr: 'Hicri tarih', ur: 'ہجری تاریخ',
+    de: 'Hidschri-Datum', id: 'Tanggal Hijriah', es: 'Fecha hijri', bn: 'হিজরি তারিখ', ms: 'Tarikh Hijrah',
+};
+
 // الشهر الميلادي (لـ SSR تحسين keyword consistency: "أبريل 2026" إلخ)
 const _GREG_MONTHS = {
     ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
@@ -8928,12 +8951,29 @@ function _buildMoonYearContent(my, lang) {
         + _sumCell(_S.lblTz, _tz || _S.none)
         + `</div><p class="my-sum-note">${_e(_S.summaryNote)}</p></section>`;
     // (3) major-phases table (SSR-visible)
+    // MOON-YEAR-PHASES-TABLE-LINKED-DATES-HIJRI-COLUMN-1: a new Hijri-date column (first, RTL-start),
+    //   and the Hijri / local-date / month cells are now nested links (day page / month page),
+    //   lang-preserved via `_lp`. Greg→Hijri via the existing _jdToHijri(_gregToJD(...)) (Umm al-Qura).
+    const _hijHdr    = _YEAR_TABLE_HIJRI_HEADER_L10N[lang] || _YEAR_TABLE_HIJRI_HEADER_L10N.en;
+    const _hijMonths = _HIJRI_MONTHS_L10N[lang] || _HIJRI_MONTHS_L10N.en;
+    const _myDayLink   = (m, d) => `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${_Y}/${_pad2(m)}/${_pad2(d)}`;
+    const _myMonthLink = (m)    => `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${_Y}/${_pad2(m)}`;
+    const _hijStr = (m, d) => { try { const h = _jdToHijri(_gregToJD(_Y, m, d)); return h ? (h.day + ' ' + (_hijMonths[h.month - 1] || '') + ' ' + h.year) : ''; } catch (_) { return ''; } };
     const tableHtml = `<section class="section-card moon-year-table-wrap" id="moon-year-table"><h2>${_e(_S.tableTitle)}</h2>`
         + `<p class="my-table-intro">${_e(_S.tableIntro)}</p>`
         + `<div class="my-table-scroll"><table class="my-table"><thead><tr>`
-        + `<th>${_e(_S.thDate)}</th><th>${_e(_S.thTime)}</th><th>${_e(_S.thPhase)}</th><th>${_e(_S.thMonth)}</th>`
+        + `<th>${_e(_hijHdr)}</th><th>${_e(_S.thDate)}</th><th>${_e(_S.thTime)}</th><th>${_e(_S.thPhase)}</th><th>${_e(_S.thMonth)}</th>`
         + `</tr></thead><tbody>`
-        + _events.map(e => `<tr><td>${_e(_dateStr(e))}</td><td>${_e(e.time)}</td><td><span class="my-ph-ico" aria-hidden="true">${_phaseIcon(e.type)}</span> ${_e(_phaseLbl(e.type))}</td><td>${_e(_months[e.m - 1])}</td></tr>`).join('')
+        + _events.map(e => {
+            const _dl = _myDayLink(e.m, e.d);
+            return `<tr>`
+                + `<td><a class="my-table-link" href="${_e(_dl)}">${_e(_hijStr(e.m, e.d))}</a></td>`
+                + `<td><a class="my-table-link" href="${_e(_dl)}">${_e(_dateStr(e))}</a></td>`
+                + `<td>${_e(e.time)}</td>`
+                + `<td><span class="my-ph-ico" aria-hidden="true">${_phaseIcon(e.type)}</span> ${_e(_phaseLbl(e.type))}</td>`
+                + `<td><a class="my-table-link" href="${_e(_myMonthLink(e.m))}">${_e(_months[e.m - 1])}</a></td>`
+                + `</tr>`;
+        }).join('')
         + `</tbody></table></div></section>`;
     // (4) 12 month cards — link to the NEW nested month route /moon/{country}/{city}/{yyyy}/{mm}
     //     (activated by MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1; was the legacy /moon-in-{city}/{yyyy-mm}).

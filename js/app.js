@@ -21180,6 +21180,23 @@ function updateMoonInfo() {
                 const _mCi = _currentCityIana();
                 const _today = _mCi ? _cityNowDate(_mCi) : new Date();
                 const _hToday = _mCi ? HijriDate.getTodayInTimezone(_mCi) : HijriDate.getToday(); // { day, month, year }
+                // MOON-DAY-HIJRI-DATE-SELECTED-DATE-FIX-1: on a dated DAY page
+                //   (/moon/{country}/{city}/{yyyy}/{mm}/{dd}), the Hijri date CARD must reflect the
+                //   SELECTED date from the route — NOT the city's "today". `_moonDateFromPath()` returns
+                //   a LOCAL-NOON Date for the selected day (null on hub/today/month pages), so its
+                //   y/m/d parts are stable (no UTC shift). Greg→Hijri uses the SAME existing Umm al-Qura
+                //   converter the "today" path uses (HijriDate.gregorianToHijri). On the today/hub
+                //   pages _selDate is null so the card keeps showing the city's "today" (unchanged).
+                //   The Islamic-events countdown below is unaffected — it resolves cycles now-relative
+                //   via _islamicEventResolveCycle, independent of this card's date.
+                const _selDate = (typeof _moonDateFromPath === 'function') ? _moonDateFromPath() : null;
+                const _cardDate = _selDate || _today;
+                const _g2h = (typeof HijriDate.gregorianToHijri === 'function')
+                    ? HijriDate.gregorianToHijri
+                    : (typeof HijriDate.toHijri === 'function' ? HijriDate.toHijri : null);
+                const _hCard = (_selDate && _g2h)
+                    ? (_g2h(_selDate.getFullYear(), _selDate.getMonth() + 1, _selDate.getDate()) || _hToday)
+                    : _hToday;
                 const _lngA = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
                 const _tt = (k, p) => {
                     try {
@@ -21189,14 +21206,14 @@ function updateMoonInfo() {
                 };
 
                 // (1) التاريخ الهجريّ — اسم اليوم + اليوم + الشهر + السنة
-                const _dayName = _tt('wday.' + _today.getDay()) || '';
-                const _hMonthName = _tt('hmonth.' + _hToday.month) || '';
+                const _dayName = _tt('wday.' + _cardDate.getDay()) || '';
+                const _hMonthName = _tt('hmonth.' + _hCard.month) || '';
                 // فاصلة مناسبة لكلّ لغة (عربيّة/أردية = «، »، الباقي = «, »)
                 const _comma = (_lngA === 'ar' || _lngA === 'ur') ? '، ' : ', ';
                 // لاحقة السنة الهجريّة: «هـ» للعربيّة والأردية، «AH» للبقيّة
                 const _ahSuffix = (_lngA === 'ar') ? ' هـ' : (_lngA === 'ur') ? ' ہجری' : ' AH';
                 const _hijriText = (_dayName ? _dayName + _comma : '') +
-                    _hToday.day + ' ' + _hMonthName + ' ' + _hToday.year + _ahSuffix;
+                    _hCard.day + ' ' + _hMonthName + ' ' + _hCard.year + _ahSuffix;
                 // MOON-MONTHLY-PAGE-HERO-CONTENT-UI-FIX-1 (2026-05-24):
                 //   Skip the 3 today-Hijri text writes on month pages —
                 //   SSR rendered the Hijri-RANGE card content already.
@@ -21204,15 +21221,15 @@ function updateMoonInfo() {
                     _setText('moon-hijri-date', _hijriText);
 
                     // (2) التاريخ الميلاديّ — اليوم + اسم الشهر + السنة
-                    const _gMonthName = _tt('gmonth.' + (_today.getMonth() + 1)) || String(_today.getMonth() + 1);
-                    _setText('moon-hijri-greg', _today.getDate() + ' ' + _gMonthName + ' ' + _today.getFullYear());
+                    const _gMonthName = _tt('gmonth.' + (_cardDate.getMonth() + 1)) || String(_cardDate.getMonth() + 1);
+                    _setText('moon-hijri-greg', _cardDate.getDate() + ' ' + _gMonthName + ' ' + _cardDate.getFullYear());
 
                     // (3) رابط اليوم في الشهر القمريّ
                     try {
                         const _daysInMonth = (typeof HijriDate.getDaysInHijriMonth === 'function')
-                            ? HijriDate.getDaysInHijriMonth(_hToday.year, _hToday.month)
+                            ? HijriDate.getDaysInHijriMonth(_hCard.year, _hCard.month)
                             : 29;
-                        const _remaining = Math.max(0, _daysInMonth - _hToday.day);
+                        const _remaining = Math.max(0, _daysInMonth - _hCard.day);
                         // UAT-Moon-Today-Polish: pass {hYear} to template + use
                         //   arPluralDays for the {remaining} substitution so AR
                         //   gets correct dual/plural ("يومًا واحدًا" / "يومين" / etc.).
@@ -21221,9 +21238,9 @@ function updateMoonInfo() {
                             ? arPluralDays(_remaining, _hLang)
                             : (_remaining + ' days');
                         const _lunarTxt = _tt('moon.hijri.lunar_day_template', {
-                            day: _hToday.day,
+                            day: _hCard.day,
                             month: _hMonthName,
-                            hYear: _hToday.year,
+                            hYear: _hCard.year,
                             remaining: _remLabel
                         });
                         if (_lunarTxt) _setText('moon-hijri-lunar', _lunarTxt);

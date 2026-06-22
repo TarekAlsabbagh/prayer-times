@@ -2514,9 +2514,10 @@
                       align-items:stretch and makes it size to its content's intrinsic width → jumps on expand.) */
                   #page-moon-year{width:100%;max-width:1100px;margin-inline:auto;padding:14px clamp(14px,3vw,28px) 48px;overflow-x:clip}
                   #page-moon-year [id]{scroll-margin-top:84px}  /* anchor scroll clears the sticky header */
-                  /* HERO card: breadcrumb + H1 + description + info chips + quick-nav anchors */
+                  /* MOON-YEAR-BREADCRUMB-OUTSIDE-HERO-BOX-1: breadcrumb is now a standalone element ABOVE the hero card */
+                  #page-moon-year > .moon-breadcrumb{margin:0 0 12px}
+                  /* HERO card: H1 + description + info chips + quick-nav anchors */
                   #page-moon-year .moon-year-hero{padding:18px 22px}
-                  #page-moon-year .moon-year-hero .moon-breadcrumb{margin:0 0 10px}
                   #page-moon-year .moon-year-hero .page-h1{margin:2px 0 8px}
                   #page-moon-year .my-hero-desc{margin:0 0 14px;color:var(--text-light);line-height:1.9}
                   #page-moon-year .my-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 14px}
@@ -2530,21 +2531,24 @@
                   #page-moon-year .my-table-intro{margin:4px 0 10px;color:var(--text-light);line-height:1.8;font-size:.95rem}
                   @media (max-width:600px){#page-moon-year .moon-year-hero{padding:16px}#page-moon-year .my-table th,#page-moon-year .my-table td{padding:8px 10px;font-size:.92rem}#page-moon-year .moon-year-nav{flex-direction:column}#page-moon-year .my-yearnav-link{text-align:center}#page-moon-year .my-anchor-nav{flex-direction:column}#page-moon-year .my-anchor{text-align:center}}
                 </style>
-                <!-- HERO card: breadcrumb + H1 + (SSR) description + info chips + quick-nav anchors -->
+                <!-- MOON-YEAR-BREADCRUMB-OUTSIDE-HERO-BOX-1: breadcrumb moved OUT of the hero card to a
+                     standalone element ABOVE it (consistent with the other moon pages). Rungs are unchanged
+                     (same ids/links/text); SSR fills them by id (#bc-my-*) so DOM position is irrelevant. -->
+                <nav class="moon-breadcrumb" aria-label="breadcrumb">
+                    <ol class="breadcrumb-list">
+                        <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item"><a class="bc-link" id="bc-my-hub" href="/moon">حالة القمر</a></li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item"><a class="bc-link" id="bc-my-country" href="/moon">—</a></li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item"><a class="bc-link" id="bc-my-city" href="/moon">—</a></li>
+                        <li class="bc-sep" aria-hidden="true">›</li>
+                        <li class="bc-item bc-current" id="bc-my-year" aria-current="page">—</li>
+                    </ol>
+                </nav>
+                <!-- HERO card: H1 + (SSR) description + info chips + quick-nav anchors -->
                 <header class="section-card moon-year-hero" id="moon-year-hero">
-                    <nav class="moon-breadcrumb" aria-label="breadcrumb">
-                        <ol class="breadcrumb-list">
-                            <li class="bc-item"><a class="bc-link" href="/" data-i18n="nav.home">الرئيسية</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-my-hub" href="/moon">حالة القمر</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-my-country" href="/moon">—</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item"><a class="bc-link" id="bc-my-city" href="/moon">—</a></li>
-                            <li class="bc-sep" aria-hidden="true">›</li>
-                            <li class="bc-item bc-current" id="bc-my-year" aria-current="page">—</li>
-                        </ol>
-                    </nav>
                     <h1 class="page-h1" id="moon-year-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span>تقويم القمر</span></h1>
                     <div id="moon-year-hero-body"><!-- SSR: description + info chips + quick-nav anchors --></div>
                 </header>

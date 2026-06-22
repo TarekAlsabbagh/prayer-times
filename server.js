@@ -2497,6 +2497,24 @@ function _nestedMoonHubLink(slug, lpSlash)   { return _nestedMoonBaseForSlug(slu
 function _nestedMoonTodayLink(slug, lpSlash) { const b = _nestedMoonBaseForSlug(slug, lpSlash); return b ? (b + '/today') : ((lpSlash || '') + '/moon'); }
 function _nestedMoonMonthLink(slug, lpSlash, y, m) { const b = _nestedMoonBaseForSlug(slug, lpSlash); const _m = (m < 10 ? '0' + m : String(m)); return b ? (b + '/' + y + '/' + _m) : ((lpSlash || '') + '/moon'); }
 function _nestedMoonDayLink(slug, lpSlash, y, m, d) { const b = _nestedMoonBaseForSlug(slug, lpSlash); const _m = (m < 10 ? '0' + m : String(m)); const _d = (d < 10 ? '0' + d : String(d)); return b ? (b + '/' + y + '/' + _m + '/' + _d) : ((lpSlash || '') + '/moon'); }
+// MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: nested year link /moon/{country}/{city}/{yyyy}.
+function _nestedMoonYearLink(slug, lpSlash, y) { const b = _nestedMoonBaseForSlug(slug, lpSlash); return b ? (b + '/' + y) : ((lpSlash || '') + '/moon'); }
+// MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: short, contextual cross-page CTA labels (10 langs).
+//   Used by the distributed in-page navigation links added between moon page families
+//   (hub→year, today→month, today→year, year→today). Kept terse — these are nav CTAs,
+//   not body content. Falls back to `en` for any missing language.
+const _MOON_NAV_CTA_L10N = {
+    ar: { yearCal: (y) => `تقويم القمر لسنة ${y}`, thisMonthCal: 'تقويم القمر لهذا الشهر', todayMoon: 'حالة القمر اليوم' },
+    en: { yearCal: (y) => `${y} moon calendar`,    thisMonthCal: "This month's moon calendar", todayMoon: "Today's moon" },
+    fr: { yearCal: (y) => `Calendrier lunaire ${y}`, thisMonthCal: 'Calendrier lunaire du mois', todayMoon: "La Lune aujourd'hui" },
+    tr: { yearCal: (y) => `${y} ay takvimi`,        thisMonthCal: 'Bu ayın ay takvimi',        todayMoon: 'Bugünkü ay' },
+    ur: { yearCal: (y) => `${y} کا چاند کیلنڈر`,   thisMonthCal: 'اس مہینے کا چاند کیلنڈر',   todayMoon: 'آج کا چاند' },
+    de: { yearCal: (y) => `Mondkalender ${y}`,      thisMonthCal: 'Mondkalender dieses Monats', todayMoon: 'Mond heute' },
+    id: { yearCal: (y) => `Kalender Bulan ${y}`,    thisMonthCal: 'Kalender Bulan bulan ini',  todayMoon: 'Bulan hari ini' },
+    es: { yearCal: (y) => `Calendario lunar ${y}`,  thisMonthCal: 'Calendario lunar del mes',  todayMoon: 'La Luna hoy' },
+    bn: { yearCal: (y) => `${y} সালের চাঁদের ক্যালেন্ডার`, thisMonthCal: 'এই মাসের চাঁদের ক্যালেন্ডার', todayMoon: 'আজকের চাঁদ' },
+    ms: { yearCal: (y) => `Kalendar Bulan ${y}`,    thisMonthCal: 'Kalendar Bulan bulan ini',  todayMoon: 'Bulan hari ini' }
+};
 
 // ===== SSR-Prayer-Times: pre-compute prayer times for SEO-critical pages =====
 // Returns { fajr, sunrise, dhuhr, asr, maghrib, isha } as "HH:MM" strings (24h)
@@ -8882,6 +8900,13 @@ function _buildMoonYearContent(my, lang) {
     const _nearestNew  = (_now && _news.find(e => e.utc >= _now)) || _news[0] || null;
     const _chip = (lbl, val) => `<span class="my-chip"><span class="my-chip-lbl">${_e(lbl)}:</span> <b>${_e(val)}</b></span>`;
     const _times = _S.chipTimes ? (' ' + _S.chipTimes) : '';   // 'مرة' on full/new counts (AR); '' (EN)
+    // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: year → today's moon. A contextual SSR link at
+    //   the top of the year content (right after the intro chips + in-page quick-nav), so a visitor
+    //   browsing the annual calendar can jump straight back to the moon's state TODAY. Nested +
+    //   lang-preserved; placed by context (near the year summary), NOT clustered with the 12 months.
+    const _yNavCtaCfg  = _MOON_NAV_CTA_L10N[lang] || _MOON_NAV_CTA_L10N.en;
+    const _yTodayHref  = _lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/today';
+    const _yTodayCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--today" id="moon-year-today-cta" href="${_e(_yTodayHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">🌙</span> ${_e(_yNavCtaCfg.todayMoon)}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
     const heroBodyHtml = `<p class="my-hero-desc">${_e(_S.intro)}</p>`
         + `<div class="my-chips">`
         + _chip(_S.chipCity, _city) + _chip(_S.chipYear, String(_Y)) + _chip(_S.lblTz, _tz || _S.none)
@@ -8891,7 +8916,8 @@ function _buildMoonYearContent(my, lang) {
         + `<a class="my-anchor" href="#moon-year-summary">${_e(_S.navSummary)}</a>`
         + `<a class="my-anchor" href="#moon-year-table">${_e(_S.navTable)}</a>`
         + `<a class="my-anchor" href="#moon-year-months">${_e(_S.navMonths)}</a>`
-        + `</nav>`;
+        + `</nav>`
+        + _yTodayCtaHtml;
     // (2) year-summary card (city-specific) + local-time note
     const _sumCell = (lbl, val) => `<div class="my-sum-cell"><span class="my-sum-lbl">${_e(lbl)}</span><span class="my-sum-val">${_e(val)}</span></div>`;
     const summaryHtml = `<section class="section-card moon-year-summary" id="moon-year-summary"><h2 class="my-sum-title">${_e(_S.summaryTitle)}</h2><div class="my-sum-grid">`
@@ -23762,9 +23788,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     // #moon-current-month-h2). HUB-ONLY branch (see `_isMonthPage` above) — the month
                     // page renders the full grid here instead and is unaffected. Anchor = the unique
                     // <div … id="moon-main-card"> opening tag (tolerant of attribute order).
+                    // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: a small contextual link to the
+                    // CURRENT-YEAR moon calendar, placed DIRECTLY UNDER the month-calendar card so it
+                    // reads as "…and view the whole year" — distributed by context (next to the
+                    // calendar concept), NOT clustered in a generic link block. Hub-only (same branch).
+                    const _hubYearCtaCfg = _MOON_NAV_CTA_L10N[Lm] || _MOON_NAV_CTA_L10N.en;
+                    const _hubYearCtaHref = _nestedMoonYearLink(seo.moonCity.slug, _langPrefixHc, _calY);
+                    const _hubYearCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--year" id="moon-hub-year-cta" href="${_escHtml(_hubYearCtaHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">🗓️</span> ${_escHtml(_hubYearCtaCfg.yearCal(_calY))}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
                     html = html.replace(
                         /(<div[^>]*\sid="moon-main-card")/,
-                        _hubCalCompactHtml + '\n                $1'
+                        _hubCalCompactHtml + '\n                ' + _hubYearCtaHtml + '\n                $1'
                     );
                     // Keep the detail-CTA at its legacy position (right
                     // before moon-upcoming-section). Separate injection.
@@ -23774,6 +23807,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     );
                 }
             } catch (_eCal) { /* silent — fall back to no calendar */ }
+        }
+
+        // ═════════════════════════════════════════════════════════════════════
+        // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: distributed cross-page CTAs on the
+        //   city TODAY page (/moon/{country}/{city}/today). Two SSR <a href> links, nested +
+        //   lang-preserved, placed by context and well-separated (NOT a clustered link block):
+        //     • today → THIS MONTH's calendar — right before the "Moon phases this month" heading
+        //       (#moon-current-month-h2), i.e. adjacent to the day-status / this-month area.
+        //     • today → THIS YEAR's calendar — right before the 14-day forecast (#moon-forecast),
+        //       i.e. below the upcoming-phases section ("…now see the whole year").
+        //   Gated to the nested today page only (isNestedToday). The today page is NOT
+        //   _isMoonHubPageSsr, so it keeps the full legacy renderer (both anchors are present).
+        if (seo.moonCity && seo.moonCity.isNestedToday) {
+            try {
+                const _tLang   = seo.lang || 'en';
+                const _tCtaCfg = _MOON_NAV_CTA_L10N[_tLang] || _MOON_NAV_CTA_L10N.en;
+                const _tLp     = (_tLang === 'ar' ? '' : '/' + _tLang);
+                const _tNow    = new Date();
+                const _tY      = _tNow.getFullYear();
+                const _tMo     = _tNow.getMonth() + 1;
+                const _tMonthHref = _nestedMoonMonthLink(seo.moonCity.slug, _tLp, _tY, _tMo);
+                const _tYearHref  = _nestedMoonYearLink(seo.moonCity.slug, _tLp, _tY);
+                const _tMonthCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--month" id="moon-today-month-cta" href="${_escHtml(_tMonthHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">📅</span> ${_escHtml(_tCtaCfg.thisMonthCal)}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
+                html = html.replace(
+                    /(<h2 id="moon-current-month-h2")/,
+                    _tMonthCtaHtml + '\n                $1'
+                );
+                const _tYearCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--year" id="moon-today-year-cta" href="${_escHtml(_tYearHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">🗓️</span> ${_escHtml(_tCtaCfg.yearCal(_tY))}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
+                html = html.replace(
+                    /(<div class="section-card" id="moon-forecast")/,
+                    _tYearCtaHtml + '\n                $1'
+                );
+            } catch (_eTodayCta) { /* silent — nav CTAs are enhancement-only */ }
         }
 
         // ═════════════════════════════════════════════════════════════════════

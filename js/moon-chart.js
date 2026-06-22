@@ -119,6 +119,12 @@
 
         // رسم polyline للمنحنى
         const N = points.length;
+        // MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1: when there are many points
+        // (full-month mode = 28–31 days), thin the X-axis TEXT labels to avoid
+        // crowding — show ~8 labels (every _lblStep) plus the last + the centre.
+        // The DATA points (dots) are ALWAYS all drawn. For the 7-day chart
+        // (N≤12) _lblStep=1 → every label, i.e. byte-identical behaviour.
+        const _lblStep = (N > 12) ? Math.ceil(N / 8) : 1;
         const xAt = function(i) { return PAD_L + (N === 1 ? CW / 2 : (i * CW) / (N - 1)); };
         const yAt = function(pct) { return PAD_T + CH - (pct / 100) * CH; };
 
@@ -218,17 +224,19 @@
             //   aria-label على الـ <a> الأبّ.
             dotGroup.appendChild(circle);
 
-            // تسمية X-axis تحت كلّ نقطة
-            const xLbl = _createEl('text', {
-                x: cx, y: H - 14,
-                'text-anchor': 'middle',
-                'font-size': isCenter ? '12' : '11',
-                'font-weight': isCenter ? '700' : '500',
-                fill: 'currentColor',
-                opacity: isCenter ? '1' : '0.7'
-            });
-            xLbl.textContent = _shortLabel(p.date, cfg.lang);
-            svg.appendChild(xLbl);
+            // تسمية X-axis تحت كلّ نقطة (مع تخفيف عند الشهر الكامل — البيانات كاملة دومًا)
+            if (i % _lblStep === 0 || i === N - 1 || isCenter) {
+                const xLbl = _createEl('text', {
+                    x: cx, y: H - 14,
+                    'text-anchor': 'middle',
+                    'font-size': isCenter ? '12' : '11',
+                    'font-weight': isCenter ? '700' : '500',
+                    fill: 'currentColor',
+                    opacity: isCenter ? '1' : '0.7'
+                });
+                xLbl.textContent = _shortLabel(p.date, cfg.lang);
+                svg.appendChild(xLbl);
+            }
 
             // نسبة فوق نقطة اليوم المركزيّ
             if (isCenter) {
@@ -368,6 +376,79 @@
         return points;
     }
 
+    /**
+     * MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1:
+     * حساب نقاط المنحنى لكلّ أيّام شهر محدَّد (من 1 إلى آخر يوم) — لصفحة الشهر فقط.
+     * يستعمل نفس محرّك القمر (MoonCalc.getMoonIllumination / Meeus 49) — لا تغيير في الدقّة،
+     * فقط نطاق البيانات (الشهر كاملًا بدل نافذة 7 أيّام). كلّ نقطة تشير لرابط اليوم المتداخل
+     * /{lang}/moon/{country}/{city}/{yyyy}/{mm}/{dd} (nested — لا روابط legacy).
+     * أخذ العيّنة عند ظهر التوقيت المحلّيّ للمتصفّح (مطابق لمسار العيّنة الموجود حين لا يوجد tz).
+     */
+    function _computeMonthPoints(year, month, nestedDayBase) {
+        const MC = (typeof MoonCalc !== 'undefined') ? MoonCalc : (global.MoonCalc || null);
+        if (!MC || typeof MC.getMoonIllumination !== 'function') {
+            return [];
+        }
+        const lastDay = new Date(year, month, 0).getDate();   // month=1-12 → اليوم 0 من التالي = آخر يوم
+        const mStart = new Date(year, month - 1, 1, 0, 0, 0, 0);
+        const mEnd = new Date(year, month - 1, lastDay, 23, 59, 59, 999);
+
+        let phaseEvents = [];
+        try {
+            if (typeof MC.findPhaseEventsInRange === 'function') {
+                phaseEvents = MC.findPhaseEventsInRange(mStart, mEnd) || [];
+            }
+        } catch (_) {}
+
+        let _todayIso = '';
+        try { _todayIso = _isoDate(new Date()); } catch (_) {}
+
+        const points = [];
+        for (let day = 1; day <= lastDay; day++) {
+            const d = new Date(year, month - 1, day, 12, 0, 0, 0);   // ظهرًا (نفس مسار العيّنة non-tz)
+            let pct = 0;
+            try { pct = MC.getMoonIllumination(d) || 0; } catch (_) {}
+
+            let phaseIcon = '•';
+            let phaseName = '';
+            try {
+                if (typeof MC.getPhaseName === 'function') {
+                    const ph = MC.getPhaseName(d);
+                    if (ph) {
+                        phaseIcon = ph.icon || phaseIcon;
+                        const _t = (typeof t === 'function') ? t : (global.t || null);
+                        if (_t && ph.key) {
+                            const tr = _t(ph.key);
+                            if (tr && !/^moon\.phase_/.test(tr)) phaseName = tr;
+                        }
+                        if (!phaseName) phaseName = ph.name || ph.english || '';
+                    }
+                }
+            } catch (_) {}
+
+            const iso = _isoDate(d);
+            const _mm = _pad2(month);
+            const _dd = _pad2(day);
+            const href = nestedDayBase ? (nestedDayBase + '/' + year + '/' + _mm + '/' + _dd) : null;
+            const ev = phaseEvents.find(function(e) {
+                return e.date && _isoDate(e.date) === iso;
+            });
+
+            points.push({
+                date: d,
+                iso: iso,
+                pct: pct,
+                label: _shortLabel(d, null),
+                isCenter: (iso === _todayIso),   // إبراز «اليوم» فقط إن كان ضمن الشهر المعروض
+                href: href,
+                phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || phaseIcon } : null,
+                phaseIcon: phaseIcon,
+                phaseName: phaseName
+            });
+        }
+        return points;
+    }
+
     // 🆕 Wave C: تنسيق تاريخ كامل للـ tooltip (مثلاً: "الاثنين 20 أبريل 2026")
     function _fullDateLabel(d, lang) {
         try {
@@ -417,7 +498,11 @@
         //   widget), the legacy browser-local-noon sampling is preserved.
         const tz = (typeof opts.tz === 'string' && opts.tz) ? opts.tz : '';
 
-        const points = _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz);
+        // MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1: month page → full-month range;
+        // every other moon page keeps the centred 7-day window unchanged.
+        const points = (opts.monthMode && opts.monthYear && opts.monthMonth)
+            ? _computeMonthPoints(opts.monthYear, opts.monthMonth, opts.nestedDayBase || '')
+            : _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz);
         if (!points.length) {
             container.textContent = '';
             return;

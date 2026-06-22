@@ -21823,21 +21823,58 @@ function updateMoonInfo() {
         const _chartContainer = document.getElementById('moon-chart-container');
         if (_chartContainer && typeof MoonChart !== 'undefined' && MoonChart.render) {
             const _langNow = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-            MoonChart.render(_chartContainer, {
-                date: today,
-                rangeDays: 7,
-                lang: _langNow,
-                citySlug: _citySlug || '',
-                langPrefix: (_langNow === 'ar') ? '' : ('/' + _langNow),
-                // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): pass the
-                // city tz so the chart can use city-local-noon sampling for
-                // every point (instead of browser-local noon). `today` above
-                // is already city-local noon thanks to the unification block
-                // earlier in this function; the chart will preserve that
-                // instant for the centre point and use exact 24-hour offsets
-                // for the surrounding ±3 days.
-                tz: _tz || ''
-            });
+            const _lpNow = (_langNow === 'ar') ? '' : ('/' + _langNow);
+            // MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1: on the nested MONTH page ONLY
+            // (/[lang/]moon/{country}/{city}/{yyyy}/{mm}), draw the chart for the FULL
+            // month (1 → last day) instead of the centred 7-day window. The month page
+            // is always the nested form (legacy month URLs 301 → nested), so parsing the
+            // real pathname is reliable. Today / single-day / hub / year pages are NOT
+            // matched here → they keep the existing 7-day chart untouched.
+            let _mChart = null;
+            try {
+                const _mm = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
+                if (_mm) {
+                    const _y = parseInt(_mm[3], 10), _mo = parseInt(_mm[4], 10);
+                    if (_y >= 1800 && _y <= 2200 && _mo >= 1 && _mo <= 12) {
+                        _mChart = { country: _mm[1], city: _mm[2], year: _y, month: _mo };
+                    }
+                }
+            } catch (_) {}
+            if (_mChart) {
+                MoonChart.render(_chartContainer, {
+                    monthMode: true,
+                    monthYear: _mChart.year,
+                    monthMonth: _mChart.month,
+                    nestedDayBase: _lpNow + '/moon/' + _mChart.country + '/' + _mChart.city,
+                    lang: _langNow
+                });
+                // عنوان/وصف المخطّط على صفحة الشهر (10 لغات) — يستبدل نصّ «— 7 أيّام».
+                // يُشغَّل بعد كتلة H2 التاريخ (#7 أعلاه) داخل نفس الدالّة، فيفوز على الشهر.
+                try {
+                    const _CMT = { ar:'مخطّط إضاءة القمر خلال الشهر', en:'Moon illumination over the month', fr:'Illumination de la Lune au cours du mois', tr:'Ay boyunca Ay aydınlanması', ur:'مہینے کے دوران چاند کی روشنی', de:'Mondhelligkeit im Monatsverlauf', id:'Iluminasi Bulan sepanjang bulan', es:'Iluminación de la Luna durante el mes', bn:'মাস জুড়ে চাঁদের আলোকসজ্জা', ms:'Pencahayaan Bulan sepanjang bulan' };
+                    const _CMS = { ar:'يعرض هذا المخطّط نسبة إضاءة القمر لكلّ يوم من أيّام الشهر المعروض.', en:'This chart shows the Moon’s illumination for each day of the displayed month.', fr:'Ce graphique montre l’illumination de la Lune pour chaque jour du mois affiché.', tr:'Bu grafik, gösterilen ayın her günü için Ay aydınlanmasını gösterir.', ur:'یہ چارٹ دکھائے گئے مہینے کے ہر دن کے لیے چاند کی روشنی دکھاتا ہے۔', de:'Dieses Diagramm zeigt die Mondhelligkeit für jeden Tag des angezeigten Monats.', id:'Grafik ini menunjukkan iluminasi Bulan untuk setiap hari pada bulan yang ditampilkan.', es:'Este gráfico muestra la iluminación de la Luna para cada día del mes mostrado.', bn:'এই চার্টটি প্রদর্শিত মাসের প্রতিটি দিনের জন্য চাঁদের আলোকসজ্জা দেখায়।', ms:'Carta ini menunjukkan pencahayaan Bulan bagi setiap hari dalam bulan yang dipaparkan.' };
+                    const _h2 = document.querySelector('#moon-chart-h2 [data-i18n="moon.chart_title"]');
+                    if (_h2) { _h2.textContent = _CMT[_langNow] || _CMT.en; _h2.removeAttribute('data-i18n'); }
+                    const _sub = document.getElementById('moon-chart-subtitle');
+                    if (_sub) { _sub.textContent = _CMS[_langNow] || _CMS.en; _sub.removeAttribute('data-i18n'); }
+                } catch (_) {}
+            } else {
+                MoonChart.render(_chartContainer, {
+                    date: today,
+                    rangeDays: 7,
+                    lang: _langNow,
+                    citySlug: _citySlug || '',
+                    langPrefix: _lpNow,
+                    // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): pass the
+                    // city tz so the chart can use city-local-noon sampling for
+                    // every point (instead of browser-local noon). `today` above
+                    // is already city-local noon thanks to the unification block
+                    // earlier in this function; the chart will preserve that
+                    // instant for the centre point and use exact 24-hour offsets
+                    // for the surrounding ±3 days.
+                    tz: _tz || ''
+                });
+            }
         }
     } catch (_cerr) {
         if (window.console && console.warn) console.warn('Moon chart render failed:', _cerr);

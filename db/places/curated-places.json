@@ -128348,5 +128348,27 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "sacramento",
+    "type": "city",
+    "countryCode": "us",
+    "lat": 38.5810606,
+    "lng": -121.493895,
+    "timezone": "America/Los_Angeles",
+    "names": {
+      "ar": "ساكرامنتو",
+      "bn": "স্যাক্রামেন্টো",
+      "en": "Sacramento",
+      "ur": "سکرامنٹو"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

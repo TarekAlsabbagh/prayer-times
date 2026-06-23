@@ -8578,6 +8578,22 @@ const _MOON_COUNTRY_CAPITAL_L10N = {
     bn: { title: '{C}-এ চাঁদ অন্বেষণ করুন', todayLabel: '{C}-এ আজ চাঁদ', todayDesc: 'বর্তমান দশা ও আলোকন', yearLabel: '{C}-এ বার্ষিক চান্দ্র বর্ষপঞ্জি', yearDesc: 'সব পূর্ণিমা ও অমাবস্যার তারিখ', monthLabel: '{C}-এ মাসিক চান্দ্র বর্ষপঞ্জি', monthDesc: 'দিনে দিনে চাঁদের দশা', pickLabel: 'নির্দিষ্ট তারিখ নির্বাচন করুন', pickDesc: '{C}-এ যেকোনো দিনের চাঁদে যান', yearAria: 'বছর', monthAria: 'মাস', dayAria: 'দিন', go: 'চাঁদ দেখুন' },
     ms: { title: 'Terokai Bulan di {C}', todayLabel: 'Bulan hari ini di {C}', todayDesc: 'Fasa semasa & pencahayaan', yearLabel: 'Kalendar bulan tahunan di {C}', yearDesc: 'Semua tarikh purnama & anak bulan', monthLabel: 'Kalendar bulan bulanan di {C}', monthDesc: 'Fasa bulan hari demi hari', pickLabel: 'Pilih tarikh tertentu', pickDesc: 'Pergi ke bulan mana-mana hari di {C}', yearAria: 'Tahun', monthAria: 'Bulan', dayAria: 'Hari', go: 'Lihat bulan' },
 };
+// MOON-CITY-TODAY-EXPLORE-SECTION-1: the FIRST card of the city "Explore the Moon" section (on the nested today
+//   page) links UP to the COUNTRY moon page ("moon in any city of {country}"), replacing the redundant
+//   "moon today in {city}" card. {C} = localized COUNTRY name (the other cards reuse _MOON_COUNTRY_CAPITAL_L10N
+//   with {C} = city name).
+const _MOON_EXPLORE_COUNTRY_CARD_L10N = {
+    ar: { label: 'القمر في مدن {C}', desc: 'تعرّف على حالة القمر في أي مدينة في {C}' },
+    en: { label: 'Moon in cities of {C}', desc: 'See the moon in any city across {C}' },
+    fr: { label: 'La Lune dans les villes de {C}', desc: 'Découvrez la Lune dans n’importe quelle ville de {C}' },
+    tr: { label: '{C} şehirlerinde ay', desc: '{C}’deki herhangi bir şehrin ayını görün' },
+    ur: { label: '{C} کے شہروں میں چاند', desc: '{C} کے کسی بھی شہر میں چاند کی حالت دیکھیں' },
+    de: { label: 'Mond in Städten von {C}', desc: 'Den Mond in jeder Stadt in {C} ansehen' },
+    id: { label: 'Bulan di kota-kota {C}', desc: 'Lihat bulan di kota mana pun di {C}' },
+    es: { label: 'La Luna en ciudades de {C}', desc: 'Ve la Luna en cualquier ciudad de {C}' },
+    bn: { label: '{C}-এর শহরগুলোতে চাঁদ', desc: '{C}-এর যেকোনো শহরে চাঁদের অবস্থা দেখুন' },
+    ms: { label: 'Bulan di bandar-bandar {C}', desc: 'Lihat bulan di mana-mana bandar di {C}' },
+};
 // Localized Gregorian month names for the capital date-picker (built once via Intl per lang; falls back to numeric).
 const _GREG_MONTHS_L10N = (() => {
     const locs = { ar: 'ar', en: 'en', fr: 'fr', tr: 'tr', ur: 'ur', de: 'de', id: 'id', es: 'es', bn: 'bn', ms: 'ms' };
@@ -24715,36 +24731,64 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         }
 
         // ═════════════════════════════════════════════════════════════════════
-        // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: distributed cross-page CTAs on the
-        //   city TODAY page (/moon/{country}/{city}/today). Two SSR <a href> links, nested +
-        //   lang-preserved, placed by context and well-separated (NOT a clustered link block):
-        //     • today → THIS MONTH's calendar — right before the "Moon phases this month" heading
-        //       (#moon-current-month-h2), i.e. adjacent to the day-status / this-month area.
-        //     • today → THIS YEAR's calendar — right before the 14-day forecast (#moon-forecast),
-        //       i.e. below the upcoming-phases section ("…now see the whole year").
-        //   Gated to the nested today page only (isNestedToday). The today page is NOT
-        //   _isMoonHubPageSsr, so it keeps the full legacy renderer (both anchors are present).
-        if (seo.moonCity && seo.moonCity.isNestedToday) {
+        // MOON-CITY-TODAY-EXPLORE-SECTION-1: on the nested today page (/moon/{country}/{city}/today), render a
+        //   single "Explore the Moon in {city}" quick-links section (mirrors the country page's mc-capital
+        //   section, but for THIS city) IN PLACE OF the two former standalone nav CTAs (this-month / this-year
+        //   — now superseded by the section's own year + month cards). The FIRST card links UP to the country
+        //   moon page ("moon in any city of {country}") instead of a redundant "moon today" card. Placed before
+        //   #moon-current-month-h2 (where the month CTA used to sit). SSR <a> links + a leap-aware date picker →
+        //   the nested day page. Styles live in css/style.css (.mc-explore-*) because the today page is the SPA,
+        //   not the country template (whose .mc-cap-* inline styles are unavailable here). Gated to isNestedToday.
+        if (seo.moonCity && seo.moonCity.isNestedToday && seo.moonCity.nestedTodayCountrySlug) {
             try {
-                const _tLang   = seo.lang || 'en';
-                const _tCtaCfg = _MOON_NAV_CTA_L10N[_tLang] || _MOON_NAV_CTA_L10N.en;
-                const _tLp     = (_tLang === 'ar' ? '' : '/' + _tLang);
-                const _tNow    = new Date();
-                const _tY      = _tNow.getFullYear();
-                const _tMo     = _tNow.getMonth() + 1;
-                const _tMonthHref = _nestedMoonMonthLink(seo.moonCity.slug, _tLp, _tY, _tMo);
-                const _tYearHref  = _nestedMoonYearLink(seo.moonCity.slug, _tLp, _tY);
-                const _tMonthCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--month" id="moon-today-month-cta" href="${_escHtml(_tMonthHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">📅</span> ${_escHtml(_tCtaCfg.thisMonthCal)}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
-                html = html.replace(
-                    /(<h2 id="moon-current-month-h2")/,
-                    _tMonthCtaHtml + '\n                $1'
-                );
-                const _tYearCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--year" id="moon-today-year-cta" href="${_escHtml(_tYearHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">🗓️</span> ${_escHtml(_tCtaCfg.yearCal(_tY))}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
-                html = html.replace(
-                    /(<div class="section-card" id="moon-forecast")/,
-                    _tYearCtaHtml + '\n                $1'
-                );
-            } catch (_eTodayCta) { /* silent — nav CTAs are enhancement-only */ }
+                const _xLang = seo.lang || 'en';
+                const _xLp   = (_xLang === 'ar' ? '' : '/' + _xLang);
+                const _xCap  = _MOON_COUNTRY_CAPITAL_L10N[_xLang] || _MOON_COUNTRY_CAPITAL_L10N.en;
+                const _xCtry = _MOON_EXPLORE_COUNTRY_CARD_L10N[_xLang] || _MOON_EXPLORE_COUNTRY_CARD_L10N.en;
+                const _xCitySub = s => String(s).split('{C}').join(seo.moonCity.name || '');
+                const _xCtrySub = s => String(s).split('{C}').join(seo.moonCity.nestedTodayCountryName || '');
+                const _xCityBase = _nestedMoonBaseForSlug(seo.moonCity.slug, _xLp);   // /[lang]/moon/{country}/{city}
+                const _xCountryHref = `${_xLp}/moon/${seo.moonCity.nestedTodayCountrySlug}`;
+                if (_xCityBase) {
+                    // current Y/M in the CITY's local tz (NOT device), clamped to the 1900–2100 route range
+                    const _xTz = seo.moonCity.tz || 'UTC';
+                    let _xY = 2026, _xMo = 1;
+                    try {
+                        const _xm = new Intl.DateTimeFormat('en-CA', { timeZone: _xTz, year: 'numeric', month: '2-digit' }).format(new Date()).match(/(\d{4})-(\d{2})/);
+                        if (_xm) { _xY = Math.min(2100, Math.max(1900, parseInt(_xm[1], 10))); _xMo = parseInt(_xm[2], 10); }
+                    } catch (_) { }
+                    const _xP2 = (n) => String(n).padStart(2, '0');
+                    const _xCard = (href, ico, lbl, desc, sub) => `<a class="mc-explore-card" href="${_escHtml(href)}"><span class="mc-explore-ico" aria-hidden="true">${ico}</span><span class="mc-explore-card-body"><span class="mc-explore-card-title">${_escHtml(sub(lbl))}</span><span class="mc-explore-card-desc">${_escHtml(sub(desc))}</span></span><span class="mc-explore-arrow" aria-hidden="true">›</span></a>`;
+                    const _xMonths = _GREG_MONTHS_L10N[_xLang] || _GREG_MONTHS_L10N.en;
+                    const _xYMin = Math.max(1900, _xY - 5), _xYMax = Math.min(2100, _xY + 5);
+                    let _xYO = ''; for (let y = _xYMin; y <= _xYMax; y++) _xYO += `<option value="${y}"${y === _xY ? ' selected' : ''}>${y}</option>`;
+                    let _xMO = ''; for (let m = 1; m <= 12; m++) _xMO += `<option value="${_xP2(m)}"${m === _xMo ? ' selected' : ''}>${_escHtml(_xMonths[m - 1] || String(m))}</option>`;
+                    let _xDO = ''; for (let d = 1; d <= 31; d++) _xDO += `<option value="${_xP2(d)}">${_xP2(d)}</option>`;
+                    const _xPicker = `<div class="mc-explore-card mc-explore-picker">`
+                        + `<span class="mc-explore-ico" aria-hidden="true">🔭</span>`
+                        + `<span class="mc-explore-card-body"><span class="mc-explore-card-title">${_escHtml(_xCitySub(_xCap.pickLabel))}</span><span class="mc-explore-card-desc">${_escHtml(_xCitySub(_xCap.pickDesc))}</span>`
+                        +   `<span class="mc-explore-fields">`
+                        +     `<select id="mc-exp-y" class="mc-explore-sel" aria-label="${_escHtml(_xCap.yearAria)}">${_xYO}</select>`
+                        +     `<select id="mc-exp-m" class="mc-explore-sel" aria-label="${_escHtml(_xCap.monthAria)}">${_xMO}</select>`
+                        +     `<select id="mc-exp-d" class="mc-explore-sel" aria-label="${_escHtml(_xCap.dayAria)}"><option value="" selected>${_escHtml(_xCap.dayAria)}</option>${_xDO}</select>`
+                        +   `</span>`
+                        +   `<button type="button" id="mc-exp-go" class="mc-explore-go" disabled>${_escHtml(_xCap.go)}</button>`
+                        + `</span></div>`;
+                    const _xScript = `<script>(function(){var b=${JSON.stringify(_xCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+                    const _xSection = `<section class="section-card mc-explore" id="mc-explore" aria-labelledby="mc-explore-title">`
+                        + `<h2 id="mc-explore-title">${_escHtml(_xCitySub(_xCap.title))}</h2>`
+                        + `<div class="mc-explore-grid">`
+                        +   _xCard(_xCountryHref, '🏙️', _xCtry.label, _xCtry.desc, _xCtrySub)
+                        +   _xCard(`${_xCityBase}/${_xY}`, '📅', _xCap.yearLabel, _xCap.yearDesc, _xCitySub)
+                        +   _xCard(`${_xCityBase}/${_xY}/${_xP2(_xMo)}`, '🗓️', _xCap.monthLabel, _xCap.monthDesc, _xCitySub)
+                        +   _xPicker
+                        + `</div></section>` + _xScript;
+                    html = html.replace(
+                        /(<h2 id="moon-current-month-h2")/,
+                        _xSection + '\n                $1'
+                    );
+                }
+            } catch (_eTodayExplore) { /* silent — nav section is enhancement-only */ }
         }
 
         // ═════════════════════════════════════════════════════════════════════

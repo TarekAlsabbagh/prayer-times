@@ -22555,6 +22555,46 @@ html[data-theme="dark"] .hijri-date-related-links a:hover {
     outline: 2px solid var(--primary, #1a6b3c);
     outline-offset: 3px;
 }
+/* MOON-CITY-TODAY-EXPLORE-SECTION-1: "Explore the Moon in {city}" quick-links section on the nested today page.
+   Mirrors the country page's .mc-cap-* look, but lives HERE in css/style.css because the today page is the SPA
+   (index.html) — the country page's .mc-cap-* styles are inline in prayer-times-cities.html and unavailable here.
+   The section wrapper reuses .section-card chrome; only the inner grid/cards/picker are styled below. RTL via
+   [dir], dark mode via the same theme tokens. */
+.mc-explore > h2 { font-size: 1.15rem; margin: 0 0 12px; }
+.mc-explore-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(225px, 1fr)); gap: 14px; }
+.mc-explore-card {
+    display: flex; align-items: center; gap: 12px; padding: 16px;
+    background: var(--card-bg); border: 1px solid var(--border, rgba(12,94,54,0.10)); border-radius: var(--radius);
+    box-shadow: var(--shadow); text-decoration: none; color: inherit;
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+}
+a.mc-explore-card:hover { transform: translateY(-2px); border-color: var(--primary); box-shadow: 0 6px 18px rgba(12,94,54,0.12); }
+a.mc-explore-card:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.mc-explore-ico { font-size: 1.5rem; line-height: 1; flex: 0 0 auto; }
+.mc-explore-card-body { display: flex; flex-direction: column; gap: 3px; flex: 1 1 auto; min-width: 0; }
+.mc-explore-card-title { font-weight: 700; color: var(--primary-dark); font-size: 0.98rem; line-height: 1.4; }
+.mc-explore-card-desc { color: var(--text-light); font-size: 0.85rem; line-height: 1.45; }
+.mc-explore-arrow { color: var(--primary); font-size: 1.3rem; flex: 0 0 auto; }
+[dir="rtl"] .mc-explore-arrow { transform: scaleX(-1); }
+.mc-explore-card.mc-explore-picker { align-items: flex-start; }
+.mc-explore-fields { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
+.mc-explore-sel {
+    flex: 1 1 auto; min-width: 70px; padding: 8px 6px; font: inherit; font-size: 0.9rem;
+    border: 1px solid var(--border); border-radius: 8px; background: var(--bg); color: var(--text); cursor: pointer;
+}
+.mc-explore-sel:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+.mc-explore-go {
+    margin-top: 8px; align-self: flex-start; padding: 10px 16px; font: inherit; font-weight: 700; font-size: 0.92rem;
+    border: none; border-radius: 8px; background: var(--primary); color: #fff; cursor: pointer; transition: background 0.15s, opacity 0.15s;
+}
+.mc-explore-go:hover:not(:disabled) { background: var(--primary-dark); }
+.mc-explore-go:disabled { opacity: 0.45; cursor: not-allowed; }
+.mc-explore-go:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+@media (max-width: 480px) {
+    .mc-explore-grid { grid-template-columns: 1fr; }
+    .mc-explore-sel { min-height: 42px; }
+    .mc-explore-go { min-height: 44px; width: 100%; align-self: stretch; text-align: center; }
+}
 /* MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: small contextual cross-page nav CTA.
    A compact, one-line pill link placed by context between moon page families
    (hub→year, today→month, today→year, year→today). Distinct from the big calendar

@@ -1565,7 +1565,7 @@
 //   /moon/{country}/{city}/{yyyy}/{mm}/{dd}: #page-moon-day activation + hub-updater skip).
 // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH (2026-06-21): js/app.js?v=793→794 + v453→v454 (client
 //   internal moon links emit nested /moon/{country}/{city}[...] when country known; legacy 301-fallback).
-const CACHE_VERSION = 'v459';
+const CACHE_VERSION = 'v460';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1583,7 +1583,7 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
-    '/css/style.css?v=480',
+    '/css/style.css?v=484',
     '/js/i18n.js?v=194',
     '/js/prayer-times.js?v=47',
     '/js/hijri-date.js?v=44',

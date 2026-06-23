@@ -182,6 +182,32 @@ try {
         check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', ok15 && ok30, `15=${ok15} 30=${ok30}`);
     }
 
+    // ── MOON-CITY-TODAY-EXPLORE-SECTION-1: "Explore the Moon in {city}" section replaces the today nav CTAs ──
+    console.log('\n── Explore-the-Moon section on the today page (replaces the month/year nav CTAs) ──');
+    {
+        const xTitle = (x) => (x.match(/id="mc-explore-title"[^>]*>([^<]*)</) || [])[1] || '';
+        const tb = (await req('/moon/saudi-arabia/riyadh/today')).body;
+        check('today: #mc-explore section + title ("استكشف القمر في الرياض")', /id="mc-explore"/.test(tb) && tb.includes('استكشف القمر في الرياض'));
+        const xHrefs = [...tb.matchAll(/<a class="mc-explore-card" href="([^"]+)"/g)].map(m => m[1]);
+        check('today: 3 link cards; FIRST → country page, then city year + month', xHrefs.length === 3 && xHrefs[0] === '/moon/saudi-arabia' && /\/moon\/saudi-arabia\/riyadh\/\d{4}$/.test(xHrefs[1]) && /\/moon\/saudi-arabia\/riyadh\/\d{4}\/\d{2}$/.test(xHrefs[2]), xHrefs.join(' '));
+        check('today: first-card label = "moon in cities of {country}"', tb.includes('القمر في مدن المملكة العربية السعودية'));
+        check('today: date picker present (y/m/d + disabled go + scoped base)', /id="mc-exp-y"/.test(tb) && /id="mc-exp-m"/.test(tb) && /id="mc-exp-d"/.test(tb) && /id="mc-exp-go" class="mc-explore-go" disabled/.test(tb) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(tb));
+        check('today: OLD nav CTAs removed (no moon-today-month/year-cta)', !/id="moon-today-month-cta"/.test(tb) && !/id="moon-today-year-cta"/.test(tb));
+        check('today: section placed before #moon-current-month-h2', tb.indexOf('id="mc-explore"') > 0 && tb.indexOf('id="mc-explore"') < tb.indexOf('id="moon-current-month-h2"'));
+        for (const u of [xHrefs[0], xHrefs[1], xHrefs[2], '/moon/saudi-arabia/riyadh/2026/12/09']) check(`today: link 200 ${u}`, (await req(u)).status === 200);
+        // 10/10 native title + lang-prefixed country href on the first card (no /en/en double prefix)
+        const xNat = { en: 'Explore the Moon in', fr: 'Explorez la Lune', tr: 'Keşfedin', ur: 'دریافت کریں', de: 'entdecken', id: 'Jelajahi Bulan', es: 'Explora la Luna', bn: 'অন্বেষণ করুন', ms: 'Terokai Bulan' };
+        for (const [lang, sent] of Object.entries(xNat)) {
+            const b = (await req(`/${lang}/moon/saudi-arabia/riyadh/today`)).body;
+            const fh = (b.match(/<a class="mc-explore-card" href="([^"]+)"/) || [])[1] || '';
+            check(`today explore native ${lang} + /${lang}/ country href`, xTitle(b).includes(sent) && fh === `/${lang}/moon/saudi-arabia` && !/\/en\/en\//.test(b));
+        }
+        // scope: section is today-page only — NOT on hub / year / month / day
+        for (const u of ['/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/17']) {
+            check(`scope: no explore section on ${u}`, !(await req(u)).body.includes('id="mc-explore"'));
+        }
+    }
+
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;
 } catch (e) {

@@ -8603,7 +8603,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'أهم مراحل القمر القادمة في {C}',
         lblUpNew: 'المحاق القادم', lblUpFQ: 'التربيع الأول القادم', lblUpFull: 'البدر القادم', lblUpLQ: 'التربيع الأخير القادم',
         upcomingNote: 'قد يختلف التاريخ المحلي لبعض المدن إذا وقع الحدث قريبًا من منتصف الليل، لذلك اختر المدينة للحصول على النتيجة الأدقّ.',
-        monthlyTitle: 'تقويم القمر الشهري في مدن {C}',
+        monthlyTitle: 'تقويم القمر الشهري في أبرز مدن {C}',
         monthlyText: 'يمكنك استعراض تقويم القمر الشهري حسب المدينة لمعرفة أطوار القمر اليومية، ومواعيد البدر والمحاق والتربيع الأول والأخير. اختر إحدى المدن التالية:',
         sec: [
             ['كيف تُحسب مراحل القمر في {C}؟', 'تُحسب مراحل القمر فلكيًا داخل الموقع من معادلات دقيقة دون الاعتماد على أيّ مصدر بيانات أو API خارجي. يُحدَّد وقت الحدث الفلكي أولًا ثم يُحوَّل إلى التوقيت المحلي للمدينة، لذلك قد يختلف يوم البدر أو المحاق من منطقة زمنية لأخرى داخل {C} وخارجها.'],
@@ -8635,7 +8635,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'Upcoming Major Moon Phases in {C}',
         lblUpNew: 'Next New Moon', lblUpFQ: 'Next First Quarter', lblUpFull: 'Next Full Moon', lblUpLQ: 'Next Last Quarter',
         upcomingNote: 'The local date can differ for some cities when an event falls near midnight, so choose the city for the most accurate result.',
-        monthlyTitle: 'Monthly Moon Calendar in Cities of {C}',
+        monthlyTitle: 'Monthly Moon Calendar in Major Cities of {C}',
         monthlyText: 'You can browse the monthly moon calendar by city to see the daily moon phases and the dates of the full moon, new moon, first quarter and last quarter. Choose one of these cities:',
         sec: [
             ['How Are Moon Phases Calculated in {C}?', 'Moon phases are computed astronomically inside the site from precise formulas, without any external data source or API. The exact time of each astronomical event is determined first, then converted to the city’s local time — so the day of the full moon or new moon can differ from one time zone to another in {C} and beyond.'],
@@ -8667,7 +8667,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'Prochaines phases majeures de la Lune en {C}',
         lblUpNew: 'Prochaine nouvelle lune', lblUpFQ: 'Prochain premier quartier', lblUpFull: 'Prochaine pleine lune', lblUpLQ: 'Prochain dernier quartier',
         upcomingNote: 'La date locale peut différer pour certaines villes lorsqu’un événement tombe près de minuit ; choisissez la ville pour le résultat le plus précis.',
-        monthlyTitle: 'Calendrier lunaire mensuel des villes de {C}',
+        monthlyTitle: 'Calendrier lunaire mensuel des principales villes de {C}',
         monthlyText: 'Parcourez le calendrier lunaire mensuel par ville pour voir les phases quotidiennes et les dates de pleine lune, nouvelle lune, premier et dernier quartier. Choisissez l’une de ces villes :',
         sec: [
             ['Comment les phases de la Lune sont-elles calculées en {C} ?', 'Les phases de la Lune sont calculées astronomiquement sur le site à partir de formules précises, sans aucune source de données ni API externe. L’heure exacte de chaque événement astronomique est d’abord déterminée, puis convertie à l’heure locale de la ville — le jour de la pleine ou de la nouvelle lune peut donc varier d’un fuseau horaire à l’autre en {C} et ailleurs.'],
@@ -8699,7 +8699,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: '{C} İçin Yaklaşan Ana Ay Evreleri',
         lblUpNew: 'Sonraki Yeni Ay', lblUpFQ: 'Sonraki İlk Dördün', lblUpFull: 'Sonraki Dolunay', lblUpLQ: 'Sonraki Son Dördün',
         upcomingNote: 'Bir olay gece yarısına yakın gerçekleştiğinde yerel tarih bazı şehirler için değişebilir; en doğru sonuç için şehri seçin.',
-        monthlyTitle: '{C} Şehirlerinde Aylık Ay Takvimi',
+        monthlyTitle: '{C} Önemli Şehirlerinde Aylık Ay Takvimi',
         monthlyText: 'Günlük ay evrelerini ve dolunay, yeni ay, ilk ve son dördün tarihlerini görmek için şehre göre aylık ay takvimine göz atın. Şu şehirlerden birini seçin:',
         sec: [
             ['{C} Ay Evreleri Nasıl Hesaplanır?', 'Ay evreleri, herhangi bir dış veri kaynağı veya API olmadan, sitenin içinde hassas formüllerle astronomik olarak hesaplanır. Önce her astronomik olayın tam zamanı belirlenir, ardından şehrin yerel saatine dönüştürülür; bu nedenle dolunay veya yeni ay günü {C} içinde ve dışında saat diliminden saat dilimine değişebilir.'],
@@ -8731,7 +8731,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: '{C} میں آنے والے اہم چاند کے مراحل',
         lblUpNew: 'اگلا محاق', lblUpFQ: 'اگلا پہلا ربع', lblUpFull: 'اگلا بدر', lblUpLQ: 'اگلا آخری ربع',
         upcomingNote: 'جب کوئی واقعہ آدھی رات کے قریب پیش آئے تو بعض شہروں کے لیے مقامی تاریخ مختلف ہو سکتی ہے، اس لیے سب سے درست نتیجے کے لیے شہر منتخب کریں۔',
-        monthlyTitle: '{C} کے شہروں میں ماہانہ قمری تقویم',
+        monthlyTitle: '{C} کے نمایاں شہروں میں ماہانہ قمری تقویم',
         monthlyText: 'روزانہ چاند کے مراحل اور بدر، محاق، پہلے اور آخری ربع کی تاریخیں دیکھنے کے لیے شہر کے حساب سے ماہانہ قمری تقویم دیکھیں۔ ان شہروں میں سے کوئی ایک منتخب کریں:',
         sec: [
             ['{C} میں چاند کے مراحل کیسے شمار کیے جاتے ہیں؟', 'چاند کے مراحل کسی بیرونی ڈیٹا ذریعہ یا API کے بغیر، سائٹ کے اندر درست فلکی فارمولوں سے شمار کیے جاتے ہیں۔ پہلے ہر فلکی واقعے کا درست وقت طے ہوتا ہے، پھر اسے شہر کے مقامی وقت میں بدلا جاتا ہے؛ اسی لیے بدر یا محاق کا دن {C} کے اندر اور باہر مختلف وقت کے علاقوں میں مختلف ہو سکتا ہے۔'],
@@ -8763,7 +8763,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'Kommende Hauptmondphasen in {C}',
         lblUpNew: 'Nächster Neumond', lblUpFQ: 'Nächstes erstes Viertel', lblUpFull: 'Nächster Vollmond', lblUpLQ: 'Nächstes letztes Viertel',
         upcomingNote: 'Das lokale Datum kann sich für manche Städte unterscheiden, wenn ein Ereignis nahe Mitternacht fällt; wählen Sie die Stadt für das genaueste Ergebnis.',
-        monthlyTitle: 'Monatlicher Mondkalender in Städten von {C}',
+        monthlyTitle: 'Monatlicher Mondkalender in den wichtigsten Städten von {C}',
         monthlyText: 'Durchsuchen Sie den monatlichen Mondkalender nach Stadt, um die täglichen Mondphasen und die Daten von Vollmond, Neumond, erstem und letztem Viertel zu sehen. Wählen Sie eine dieser Städte:',
         sec: [
             ['Wie werden Mondphasen in {C} berechnet?', 'Mondphasen werden astronomisch innerhalb der Website aus präzisen Formeln berechnet, ohne externe Datenquelle oder API. Zuerst wird die genaue Zeit jedes astronomischen Ereignisses bestimmt und dann in die Ortszeit der Stadt umgerechnet — so kann der Tag von Vollmond oder Neumond von Zeitzone zu Zeitzone in {C} und darüber hinaus variieren.'],
@@ -8795,7 +8795,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'Fase Bulan Utama Mendatang di {C}',
         lblUpNew: 'Bulan Baru Berikutnya', lblUpFQ: 'Kuarter Pertama Berikutnya', lblUpFull: 'Purnama Berikutnya', lblUpLQ: 'Kuarter Terakhir Berikutnya',
         upcomingNote: 'Tanggal lokal dapat berbeda untuk sebagian kota ketika peristiwa jatuh mendekati tengah malam, jadi pilih kota untuk hasil paling akurat.',
-        monthlyTitle: 'Kalender Bulan Bulanan di Kota-Kota {C}',
+        monthlyTitle: 'Kalender Bulan Bulanan di Kota-Kota Utama {C}',
         monthlyText: 'Telusuri kalender bulan bulanan per kota untuk melihat fase bulan harian dan tanggal purnama, bulan baru, kuarter pertama, dan kuarter terakhir. Pilih salah satu kota berikut:',
         sec: [
             ['Bagaimana Fase Bulan Dihitung di {C}?', 'Fase bulan dihitung secara astronomis di dalam situs dari rumus yang presisi, tanpa sumber data atau API eksternal apa pun. Waktu pasti setiap peristiwa astronomi ditentukan lebih dulu, lalu dikonversi ke waktu lokal kota — sehingga hari purnama atau bulan baru dapat berbeda dari satu zona waktu ke zona lain di {C} dan sekitarnya.'],
@@ -8827,7 +8827,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'Próximas fases principales de la Luna en {C}',
         lblUpNew: 'Próxima luna nueva', lblUpFQ: 'Próximo cuarto creciente', lblUpFull: 'Próxima luna llena', lblUpLQ: 'Próximo cuarto menguante',
         upcomingNote: 'La fecha local puede variar para algunas ciudades cuando un evento cae cerca de la medianoche, así que elige la ciudad para el resultado más preciso.',
-        monthlyTitle: 'Calendario lunar mensual en ciudades de {C}',
+        monthlyTitle: 'Calendario lunar mensual en las principales ciudades de {C}',
         monthlyText: 'Explora el calendario lunar mensual por ciudad para ver las fases diarias y las fechas de luna llena, luna nueva, cuarto creciente y cuarto menguante. Elige una de estas ciudades:',
         sec: [
             ['¿Cómo se calculan las fases de la Luna en {C}?', 'Las fases de la Luna se calculan astronómicamente dentro del sitio a partir de fórmulas precisas, sin ninguna fuente de datos ni API externa. Primero se determina la hora exacta de cada evento astronómico y luego se convierte a la hora local de la ciudad, por lo que el día de la luna llena o nueva puede variar de una zona horaria a otra en {C} y más allá.'],
@@ -8859,7 +8859,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: '{C}-এ আসন্ন প্রধান চাঁদের দশা',
         lblUpNew: 'পরবর্তী অমাবস্যা', lblUpFQ: 'পরবর্তী প্রথম পক্ষ', lblUpFull: 'পরবর্তী পূর্ণিমা', lblUpLQ: 'পরবর্তী শেষ পক্ষ',
         upcomingNote: 'কোনো ঘটনা মধ্যরাতের কাছাকাছি ঘটলে কিছু শহরের জন্য স্থানীয় তারিখ ভিন্ন হতে পারে, তাই সবচেয়ে নির্ভুল ফলের জন্য শহর নির্বাচন করুন।',
-        monthlyTitle: '{C}-এর শহরগুলোতে মাসিক চান্দ্র বর্ষপঞ্জি',
+        monthlyTitle: '{C}-এর প্রধান শহরগুলোতে মাসিক চান্দ্র বর্ষপঞ্জি',
         monthlyText: 'দৈনিক চাঁদের দশা এবং পূর্ণিমা, অমাবস্যা, প্রথম ও শেষ পক্ষের তারিখ দেখতে শহর অনুযায়ী মাসিক চান্দ্র বর্ষপঞ্জি দেখুন। এই শহরগুলোর একটি নির্বাচন করুন:',
         sec: [
             ['{C}-এ চাঁদের দশা কীভাবে গণনা করা হয়?', 'চাঁদের দশা কোনো বাহ্যিক ডেটা উৎস বা API ছাড়াই সাইটের ভেতরে নির্ভুল সূত্র থেকে জ্যোতির্বৈজ্ঞানিকভাবে গণনা করা হয়। প্রথমে প্রতিটি জ্যোতির্বৈজ্ঞানিক ঘটনার সঠিক সময় নির্ধারণ করা হয়, তারপর তা শহরের স্থানীয় সময়ে রূপান্তর করা হয় — তাই পূর্ণিমা বা অমাবস্যার দিন {C}-এর ভেতরে ও বাইরে এক সময় অঞ্চল থেকে অন্যটিতে ভিন্ন হতে পারে।'],
@@ -8891,7 +8891,7 @@ const _MOON_COUNTRY_SEO_L10N = {
         upcomingTitle: 'Fasa Bulan Utama Akan Datang di {C}',
         lblUpNew: 'Anak Bulan Seterusnya', lblUpFQ: 'Suku Pertama Seterusnya', lblUpFull: 'Purnama Seterusnya', lblUpLQ: 'Suku Akhir Seterusnya',
         upcomingNote: 'Tarikh tempatan boleh berbeza bagi sesetengah bandar apabila peristiwa berlaku hampir tengah malam, jadi pilih bandar untuk hasil paling tepat.',
-        monthlyTitle: 'Kalendar Bulan Bulanan di Bandar-Bandar {C}',
+        monthlyTitle: 'Kalendar Bulan Bulanan di Bandar-Bandar Utama {C}',
         monthlyText: 'Layari kalendar bulan bulanan mengikut bandar untuk melihat fasa bulan harian dan tarikh purnama, anak bulan, suku pertama dan suku akhir. Pilih salah satu bandar berikut:',
         sec: [
             ['Bagaimana Fasa Bulan Dikira di {C}?', 'Fasa bulan dikira secara astronomi di dalam laman dari formula yang tepat, tanpa sebarang sumber data atau API luaran. Waktu tepat setiap peristiwa astronomi ditentukan dahulu, kemudian ditukar kepada waktu tempatan bandar — jadi hari purnama atau anak bulan boleh berbeza dari satu zon waktu ke zon lain di {C} dan sekitarnya.'],

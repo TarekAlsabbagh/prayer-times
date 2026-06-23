@@ -79,7 +79,7 @@ try {
     check('upcoming phases ("أهم مراحل القمر القادمة" + first/last quarter)', m.body.includes('أهم مراحل القمر القادمة') && m.body.includes('التربيع الأول القادم') && m.body.includes('التربيع الأخير القادم'));
     // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: monthly-by-city links now point to the NESTED city
     //   hub /moon/{country}/{city} (the legacy /moon-in-{city} 301s there), NOT the old form.
-    check('monthly-by-city links → nested /moon/saudi-arabia/{city} (not legacy /moon-in-)', m.body.includes('تقويم القمر الشهري في مدن') && /href="\/moon\/saudi-arabia\/[a-z-]+"/.test(m.body) && !/href="\/moon-in-[a-z-]+"/.test(m.body));
+    check('monthly-by-city links → nested /moon/saudi-arabia/{city} (not legacy /moon-in-)', m.body.includes('تقويم القمر الشهري في أبرز مدن') && /href="\/moon\/saudi-arabia\/[a-z-]+"/.test(m.body) && !/href="\/moon-in-[a-z-]+"/.test(m.body));
     // educational sections — MOON-COUNTRY-PAGE-SEO-CONTENT-PERFORMANCE-TUNE-1 expanded 3→6 (new titles asserted in §G).
     check('educational sections (calc + astronomical-vs-sighting + city-diff)', m.body.includes('كيف تُحسب مراحل القمر') && m.body.includes('الفرق بين الطور الفلكي ورؤية الهلال') && m.body.includes('لماذا قد يختلف تاريخ البدر'));
     // 8 SSR-visible FAQ + matching FAQPage JSON-LD.

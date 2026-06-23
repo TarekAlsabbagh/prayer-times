@@ -6250,16 +6250,16 @@ const _MOON_YEAR_DASH_L10N = {
 };
 // "Moon highlights of the year" cards: title template ({city}/{year}) + 4 card labels.
 const _MOON_YEAR_HIGHLIGHTS_L10N = {
-    ar: { title: 'أبرز أحداث القمر في {city} لعام {year}', firstFull: 'أول بدر في السنة', lastFull: 'آخر بدر في السنة', firstNew: 'أول محاق في السنة', busiestMonth: 'الشهر الأكثر أحداثًا' },
-    en: { title: 'Moon highlights in {city} for {year}', firstFull: 'First full moon', lastFull: 'Last full moon', firstNew: 'First new moon', busiestMonth: 'Busiest month' },
-    fr: { title: 'Temps forts de la Lune à {city} en {year}', firstFull: 'Première pleine lune', lastFull: 'Dernière pleine lune', firstNew: 'Première nouvelle lune', busiestMonth: 'Mois le plus actif' },
-    tr: { title: '{city} için {year} Ay öne çıkanları', firstFull: 'İlk dolunay', lastFull: 'Son dolunay', firstNew: 'İlk yeni ay', busiestMonth: 'En yoğun ay' },
-    ur: { title: '{city} میں {year} کے نمایاں قمری واقعات', firstFull: 'سال کا پہلا مکمل چاند', lastFull: 'سال کا آخری مکمل چاند', firstNew: 'سال کا پہلا نیا چاند', busiestMonth: 'سب سے زیادہ واقعات والا مہینہ' },
-    de: { title: 'Mond-Höhepunkte in {city} für {year}', firstFull: 'Erster Vollmond', lastFull: 'Letzter Vollmond', firstNew: 'Erster Neumond', busiestMonth: 'Aktivster Monat' },
-    id: { title: 'Sorotan Bulan di {city} untuk {year}', firstFull: 'Bulan purnama pertama', lastFull: 'Bulan purnama terakhir', firstNew: 'Bulan baru pertama', busiestMonth: 'Bulan tersibuk' },
-    es: { title: 'Destacados lunares en {city} para {year}', firstFull: 'Primera luna llena', lastFull: 'Última luna llena', firstNew: 'Primera luna nueva', busiestMonth: 'Mes más activo' },
-    bn: { title: '{city}-এ {year} সালের চাঁদের উল্লেখযোগ্য ঘটনা', firstFull: 'বছরের প্রথম পূর্ণিমা', lastFull: 'বছরের শেষ পূর্ণিমা', firstNew: 'বছরের প্রথম অমাবস্যা', busiestMonth: 'সবচেয়ে ব্যস্ত মাস' },
-    ms: { title: 'Sorotan Bulan di {city} untuk {year}', firstFull: 'Bulan purnama pertama', lastFull: 'Bulan purnama terakhir', firstNew: 'Bulan baharu pertama', busiestMonth: 'Bulan paling sibuk' },
+    ar: { title: 'أبرز أحداث القمر في {city} لعام {year}', firstFull: 'أول بدر في السنة', lastFull: 'آخر بدر في السنة', firstNew: 'أول محاق في السنة', lastNew: 'آخر محاق في السنة', busiestMonth: 'الشهر الأكثر أحداثًا' },
+    en: { title: 'Moon highlights in {city} for {year}', firstFull: 'First full moon', lastFull: 'Last full moon', firstNew: 'First new moon', lastNew: 'Last new moon', busiestMonth: 'Busiest month' },
+    fr: { title: 'Temps forts de la Lune à {city} en {year}', firstFull: 'Première pleine lune', lastFull: 'Dernière pleine lune', firstNew: 'Première nouvelle lune', lastNew: 'Dernière nouvelle lune', busiestMonth: 'Mois le plus actif' },
+    tr: { title: '{city} için {year} Ay öne çıkanları', firstFull: 'İlk dolunay', lastFull: 'Son dolunay', firstNew: 'İlk yeni ay', lastNew: 'Son yeni ay', busiestMonth: 'En yoğun ay' },
+    ur: { title: '{city} میں {year} کے نمایاں قمری واقعات', firstFull: 'سال کا پہلا مکمل چاند', lastFull: 'سال کا آخری مکمل چاند', firstNew: 'سال کا پہلا نیا چاند', lastNew: 'سال کا آخری نیا چاند', busiestMonth: 'سب سے زیادہ واقعات والا مہینہ' },
+    de: { title: 'Mond-Höhepunkte in {city} für {year}', firstFull: 'Erster Vollmond', lastFull: 'Letzter Vollmond', firstNew: 'Erster Neumond', lastNew: 'Letzter Neumond', busiestMonth: 'Aktivster Monat' },
+    id: { title: 'Sorotan Bulan di {city} untuk {year}', firstFull: 'Bulan purnama pertama', lastFull: 'Bulan purnama terakhir', firstNew: 'Bulan baru pertama', lastNew: 'Bulan baru terakhir', busiestMonth: 'Bulan tersibuk' },
+    es: { title: 'Destacados lunares en {city} para {year}', firstFull: 'Primera luna llena', lastFull: 'Última luna llena', firstNew: 'Primera luna nueva', lastNew: 'Última luna nueva', busiestMonth: 'Mes más activo' },
+    bn: { title: '{city}-এ {year} সালের চাঁদের উল্লেখযোগ্য ঘটনা', firstFull: 'বছরের প্রথম পূর্ণিমা', lastFull: 'বছরের শেষ পূর্ণিমা', firstNew: 'বছরের প্রথম অমাবস্যা', lastNew: 'বছরের শেষ অমাবস্যা', busiestMonth: 'সবচেয়ে ব্যস্ত মাস' },
+    ms: { title: 'Sorotan Bulan di {city} untuk {year}', firstFull: 'Bulan purnama pertama', lastFull: 'Bulan purnama terakhir', firstNew: 'Bulan baharu pertama', lastNew: 'Bulan baharu terakhir', busiestMonth: 'Bulan paling sibuk' },
 };
 // "How to read the annual moon calendar" explainer: title + 4 short points.
 const _MOON_YEAR_EXPLAINER_L10N = {
@@ -9377,6 +9377,7 @@ function _buildMoonYearContent(my, lang) {
     const _firstFull = _fulls[0] || null;
     const _lastFull  = _fulls.length ? _fulls[_fulls.length - 1] : null;
     const _firstNew  = _news[0] || null;
+    const _lastNew   = _news.length ? _news[_news.length - 1] : null; // MOON-YEAR-HIGHLIGHTS-LAST-NEW-MOON-1
     let _busiestM = 0, _busiestN = 0;
     for (let m = 1; m <= 12; m++) { const c = _events.filter(e => e.m === m).length; if (c > _busiestN) { _busiestN = c; _busiestM = m; } }
     const _hlCard = (icon, lbl, valTxt, href) => `<a class="my-hl-card" href="${_e(href)}"><span class="my-hl-ico" aria-hidden="true">${icon}</span><span class="my-hl-body"><span class="my-hl-lbl">${_e(lbl)}</span><span class="my-hl-val">${_e(valTxt)}</span></span></a>`;
@@ -9384,6 +9385,7 @@ function _buildMoonYearContent(my, lang) {
     if (_firstFull) _hlCards += _hlCard(_phaseIcon('full_moon'), _hl.firstFull, _dateStr(_firstFull), _myDayLink(_firstFull.m, _firstFull.d));
     if (_lastFull && _lastFull !== _firstFull) _hlCards += _hlCard(_phaseIcon('full_moon'), _hl.lastFull, _dateStr(_lastFull), _myDayLink(_lastFull.m, _lastFull.d));
     if (_firstNew)  _hlCards += _hlCard(_phaseIcon('new_moon'), _hl.firstNew, _dateStr(_firstNew), _myDayLink(_firstNew.m, _firstNew.d));
+    if (_lastNew && _lastNew !== _firstNew) _hlCards += _hlCard(_phaseIcon('new_moon'), _hl.lastNew, _dateStr(_lastNew), _myDayLink(_lastNew.m, _lastNew.d));
     if (_busiestM)  _hlCards += _hlCard('📅', _hl.busiestMonth, _months[_busiestM - 1] + ' (' + _busiestN + ')', _myMonthLink(_busiestM));
     const highlightsHtml = _hlCards ? `<section class="section-card moon-year-highlights" id="moon-year-highlights"><h2>${_e(_hlTitle)}</h2><div class="my-hl-grid">${_hlCards}</div></section>` : '';
     // (6b) MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: short "how to read the annual calendar" explainer

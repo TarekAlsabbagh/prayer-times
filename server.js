@@ -8555,9 +8555,12 @@ const _MOON_COUNTRY_SEO_L10N = {
         monthlyTitle: 'تقويم القمر الشهري في مدن {C}',
         monthlyText: 'يمكنك استعراض تقويم القمر الشهري حسب المدينة لمعرفة أطوار القمر اليومية، ومواعيد البدر والمحاق والتربيع الأول والأخير. اختر إحدى المدن التالية:',
         sec: [
-            ['كيف تُحسب مراحل القمر في {C}؟', 'تُحسب مراحل القمر فلكيًا داخل الموقع دون الاعتماد على أيّ مصدر بيانات خارجي. يُحدَّد وقت الحدث الفلكي أولًا ثم يُحوَّل إلى التوقيت المحلي للمدينة، لذلك قد يختلف يوم البدر أو المحاق من منطقة زمنية لأخرى داخل {C} وخارجها.'],
-            ['رؤية الهلال وبداية الشهر الهجري', 'المحاق حدث فلكي، أمّا رؤية الهلال فتكون بعد غروب الشمس وتعتمد على الموقع والظروف الجوية ومعايير الرؤية. لذلك لا يعني المحاق دائمًا بداية الشهر الهجري في كلّ بلد.'],
-            ['لماذا قد يختلف تاريخ البدر أو المحاق بين المدن؟', 'الحدث الفلكي له وقت عالمي واحد، لكن التاريخ المحلي يختلف حسب المنطقة الزمنية. لذلك قد يظهر البدر في يومٍ بمدينة، وفي اليوم السابق أو التالي بمدينة أخرى إذا وقع الحدث قريبًا من منتصف الليل.']
+            ['كيف تُحسب مراحل القمر في {C}؟', 'تُحسب مراحل القمر فلكيًا داخل الموقع من معادلات دقيقة دون الاعتماد على أيّ مصدر بيانات أو API خارجي. يُحدَّد وقت الحدث الفلكي أولًا ثم يُحوَّل إلى التوقيت المحلي للمدينة، لذلك قد يختلف يوم البدر أو المحاق من منطقة زمنية لأخرى داخل {C} وخارجها.'],
+            ['كيف تختلف مراحل القمر بين مدن {C}؟', 'في اللحظة نفسها يكون طور القمر ونسبة إضاءته متماثلين في كل مكان على الأرض، لكن الذي يتغيّر بين مدينة وأخرى هو توقيت الحدث المحلي. فقد يقع البدر بعد منتصف الليل بقليل في مدينة فيُحسب في اليوم التالي، بينما يبقى في مساء اليوم السابق في مدينة أخرى. كل مدينة هنا تُحسب بتوقيتها المحلي ليطابق العرض ما يراه سكانها فعلًا.'],
+            ['لماذا قد يختلف تاريخ البدر أو المحاق بين المدن؟', 'الحدث الفلكي له وقت عالمي واحد، لكن تاريخه على التقويم يعتمد على المنطقة الزمنية المحلية. فإذا وقع الحدث قريبًا من منتصف الليل قد يظهر البدر أو المحاق في يومٍ بمدينة شرقية، وفي اليوم السابق أو التالي بمدينة غربية، حتى داخل {C} نفسها.'],
+            ['لماذا تختار مدينتك بدل توقيت الدولة؟', 'يستخدم الملخص أعلى الصفحة التوقيت المرجعي للدولة كمؤشّر عام فقط. والدول الكبيرة قد تمتدّ عبر أكثر من منطقة زمنية، وحتى فرق محلي بسيط قد يزيح الحدث إلى ما بعد منتصف الليل. اختيار مدينتك يمنحك مرحلة القمر ونسبة الإضاءة ومواعيد الأحداث محسوبة لموقعك بالتحديد، وهو أدقّ من رقم الدولة العام.'],
+            ['الفرق بين الطور الفلكي ورؤية الهلال الشرعية', 'المحاق لحظة فلكية دقيقة، أمّا بداية الشهر الهجري فتعتمد على رؤية الهلال الوليد بعد غروب الشمس، وتتأثّر بالموقع والظروف الجوية ومعايير الرؤية المعتمَدة. لذلك لا يعني المحاق المحسوب بذاته بداية الشهر الهجري، وقد يختلف التاريخ الرسمي بين البلدان.'],
+            ['كيف تستخدم روابط المدن وتقويم الشهر؟', 'اختر مدينتك من الشبكة أو من مربّع البحث لتفتح صفحة قمر اليوم بمرحلته الحالية ونسبة الإضاءة وعمر القمر. ومنها يمكنك فتح تقويم القمر الشهري لمتابعة الأطوار يومًا بيوم، أو استعراض التقويم السنوي لكل مواعيد البدر والمحاق — وكل صفحة محسوبة بالتوقيت المحلي للمدينة.']
         ],
         faqTitle: 'الأسئلة الشائعة',
         faq: [
@@ -8584,9 +8587,12 @@ const _MOON_COUNTRY_SEO_L10N = {
         monthlyTitle: 'Monthly Moon Calendar in Cities of {C}',
         monthlyText: 'You can browse the monthly moon calendar by city to see the daily moon phases and the dates of the full moon, new moon, first quarter and last quarter. Choose one of these cities:',
         sec: [
-            ['How Are Moon Phases Calculated in {C}?', 'Moon phases are computed astronomically inside the site, without relying on any external data source. The time of the astronomical event is determined first, then converted to the city’s local time — so the date of the full moon or new moon can differ from one time zone to another in {C} and beyond.'],
-            ['Crescent Visibility and the Hijri Month Start', 'The new moon is an astronomical event, while crescent visibility happens after sunset and depends on location, sky conditions and sighting criteria. So the new moon does not always mean the Hijri month begins on the same day everywhere.'],
-            ['Why Can the Full Moon or New Moon Date Differ Between Cities?', 'An astronomical event has one global moment, but the local date depends on the time zone. The full moon may fall on one day in one city and on the previous or next day in another when the event occurs near midnight.']
+            ['How Are Moon Phases Calculated in {C}?', 'Moon phases are computed astronomically inside the site from precise formulas, without any external data source or API. The exact time of each astronomical event is determined first, then converted to the city’s local time — so the day of the full moon or new moon can differ from one time zone to another in {C} and beyond.'],
+            ['How Do Moon Phases Differ Between Cities of {C}?', 'At any single instant the Moon’s phase and illumination are the same everywhere on Earth; what changes from city to city is the local clock time of the event. A full moon that peaks just after midnight in one city is counted on the next day, while it still falls on the previous evening in another. Each city here is computed in its own local time, so the day shown matches what residents actually see.'],
+            ['Why Can the Full Moon or New Moon Date Differ Between Cities?', 'An astronomical event has one single global moment, but its calendar date depends on the local time zone. When the event occurs close to midnight, the full moon or new moon can land on one day in an eastern city and on the previous or next day in a western one, even within {C}.'],
+            ['Why Choose Your City Instead of the Country Time?', 'The summary at the top uses the country’s primary time zone as a general reference only. Larger countries span more than one time zone, and even a small local difference can push an event past midnight. Choosing your own city gives you the moon phase, illumination and event dates calculated for your exact location — more accurate than the country-wide figure.'],
+            ['Astronomical Moon Phase vs. Crescent Sighting', 'The new moon is a precise astronomical moment, while the start of the Hijri month depends on sighting the young crescent after sunset, which is affected by location, weather and the adopted sighting criteria. So the calculated new moon does not by itself mark the beginning of the Hijri month, and the official date can differ between countries.'],
+            ['How to Use the City Links and Monthly Calendar', 'Pick your city from the grid or the search box to open its moon-today page with the current phase, illumination and lunar age. From there, open the monthly moon calendar to follow the phases day by day, or browse the yearly calendar for every full moon and new moon date — each page is calculated in the city’s local time.']
         ],
         faqTitle: 'Frequently Asked Questions',
         faq: [
@@ -8598,6 +8604,262 @@ const _MOON_COUNTRY_SEO_L10N = {
             ['How is the lunar calendar calculated?', 'The lunar calendar is computed from astronomical formulas inside the site for each day, then the event time is converted to the city’s local time to show the correct daily phase.'],
             ['Does the site use an external API for moon data?', 'No. All moon-phase calculations are done astronomically inside the site, without fetching moon data from any external service.'],
             ['Where can I view the monthly moon calendar for my city?', 'Open your city page from the grid above, then go to the city’s monthly moon calendar to view the moon phases day by day in local time.']
+        ]
+    },
+    fr: {
+        h1: 'Phases de la Lune en {C}',
+        hero: 'Cette page présente la phase de la Lune aujourd’hui et le calendrier lunaire des villes de {C}. Choisissez une ville pour voir la phase, l’illumination et les dates de pleine et nouvelle lune selon l’heure locale de la ville.',
+        summaryTitle: 'Résumé lunaire en {C}',
+        lblTodayPhase: 'Phase de la Lune aujourd’hui', lblIllum: 'Illumination', lblNextFull: 'Prochaine pleine lune', lblNextNew: 'Prochaine nouvelle lune',
+        summaryNote: 'Ces valeurs sont une référence générale pour le pays dans son fuseau horaire principal. Pour une précision locale, choisissez votre ville dans la liste ci-dessous.',
+        citiesHeading: 'La Lune aujourd’hui dans les villes de {C}',
+        upcomingTitle: 'Prochaines phases majeures de la Lune en {C}',
+        lblUpNew: 'Prochaine nouvelle lune', lblUpFQ: 'Prochain premier quartier', lblUpFull: 'Prochaine pleine lune', lblUpLQ: 'Prochain dernier quartier',
+        upcomingNote: 'La date locale peut différer pour certaines villes lorsqu’un événement tombe près de minuit ; choisissez la ville pour le résultat le plus précis.',
+        monthlyTitle: 'Calendrier lunaire mensuel des villes de {C}',
+        monthlyText: 'Parcourez le calendrier lunaire mensuel par ville pour voir les phases quotidiennes et les dates de pleine lune, nouvelle lune, premier et dernier quartier. Choisissez l’une de ces villes :',
+        sec: [
+            ['Comment les phases de la Lune sont-elles calculées en {C} ?', 'Les phases de la Lune sont calculées astronomiquement sur le site à partir de formules précises, sans aucune source de données ni API externe. L’heure exacte de chaque événement astronomique est d’abord déterminée, puis convertie à l’heure locale de la ville — le jour de la pleine ou de la nouvelle lune peut donc varier d’un fuseau horaire à l’autre en {C} et ailleurs.'],
+            ['Comment les phases varient-elles entre les villes de {C} ?', 'À un instant donné, la phase et l’illumination de la Lune sont identiques partout sur Terre ; ce qui change d’une ville à l’autre, c’est l’heure locale de l’événement. Une pleine lune qui culmine juste après minuit dans une ville est comptée le lendemain, alors qu’elle tombe encore la veille au soir dans une autre. Chaque ville est calculée à son heure locale, afin que le jour affiché corresponde à ce que voient réellement ses habitants.'],
+            ['Pourquoi la date de pleine ou nouvelle lune diffère-t-elle selon la ville ?', 'Un événement astronomique a un seul instant global, mais sa date de calendrier dépend du fuseau horaire local. Lorsqu’il se produit près de minuit, la pleine ou la nouvelle lune peut tomber un jour dans une ville de l’est et la veille ou le lendemain dans une ville de l’ouest, même au sein de {C}.'],
+            ['Pourquoi choisir votre ville plutôt que l’heure du pays ?', 'Le résumé en haut utilise le fuseau horaire principal du pays comme simple référence générale. Les grands pays s’étendent sur plusieurs fuseaux, et même un léger décalage local peut faire basculer un événement après minuit. Choisir votre ville vous donne la phase, l’illumination et les dates calculées pour votre emplacement exact — plus précis que la valeur nationale.'],
+            ['Phase astronomique contre observation du croissant', 'La nouvelle lune est un instant astronomique précis, tandis que le début du mois hégirien dépend de l’observation du jeune croissant après le coucher du soleil, influencée par le lieu, la météo et les critères de visibilité adoptés. La nouvelle lune calculée ne marque donc pas à elle seule le début du mois hégirien, et la date officielle peut varier d’un pays à l’autre.'],
+            ['Comment utiliser les liens de villes et le calendrier mensuel', 'Choisissez votre ville dans la grille ou la barre de recherche pour ouvrir sa page « lune aujourd’hui » avec la phase actuelle, l’illumination et l’âge lunaire. De là, ouvrez le calendrier lunaire mensuel pour suivre les phases jour par jour, ou parcourez le calendrier annuel pour toutes les dates de pleine et nouvelle lune — chaque page est calculée à l’heure locale de la ville.']
+        ],
+        faqTitle: 'Questions fréquentes',
+        faq: [
+            ['Quelle est la phase de la Lune aujourd’hui en {C} ?', 'Le résumé lunaire en haut de page indique la phase et l’illumination du jour dans le fuseau de référence du pays. Pour un résultat précis à votre ville, choisissez-la dans la liste afin de voir la Lune à son heure locale.'],
+            ['Comment trouver la phase de la Lune dans ma ville ?', 'Choisissez votre ville dans la grille ou recherchez-la dans {C} ; la page « lune aujourd’hui » de la ville s’ouvre avec la phase, l’illumination et l’âge lunaire à l’heure locale.'],
+            ['La date de la phase peut-elle différer entre les villes de {C} ?', 'La phase elle-même est identique partout au même instant, mais la date locale d’un événement (pleine ou nouvelle lune) peut différer entre les villes lorsqu’il tombe près de minuit, car chaque ville est calculée à son heure locale.'],
+            ['Pourquoi la date de la pleine lune varie-t-elle selon la ville ?', 'La pleine lune a un seul instant global, mais sa date locale dépend du fuseau horaire de la ville ; elle peut donc tomber des jours différents pour des villes éloignées dans le temps.'],
+            ['La nouvelle lune équivaut-elle au début du mois hégirien ?', 'Non. La nouvelle lune est un événement astronomique, tandis que le début du mois hégirien dépend de l’observation du croissant après le coucher du soleil, des critères de visibilité et du lieu, et peut varier selon les pays.'],
+            ['Comment le calendrier lunaire est-il calculé ?', 'Le calendrier lunaire est calculé chaque jour à partir de formules astronomiques sur le site, puis l’heure de l’événement est convertie à l’heure locale de la ville pour afficher la bonne phase quotidienne.'],
+            ['Le site utilise-t-il une API externe pour les données lunaires ?', 'Non. Tous les calculs de phases lunaires sont effectués astronomiquement sur le site, sans récupérer de données lunaires auprès d’un service externe.'],
+            ['Où voir le calendrier lunaire mensuel de ma ville ?', 'Ouvrez la page de votre ville depuis la grille ci-dessus, puis accédez au calendrier lunaire mensuel de la ville pour voir les phases jour après jour à l’heure locale.']
+        ]
+    },
+    tr: {
+        h1: '{C} Ay Evreleri',
+        hero: 'Bu sayfa, {C} şehirlerindeki bugünkü ay evresini ve ay takvimini gösterir. Ay evresini, aydınlanma oranını ve dolunay / yeni ay tarihlerini şehrin yerel saatine göre görmek için bir şehir seçin.',
+        summaryTitle: '{C} Ay Özeti',
+        lblTodayPhase: 'Bugünkü Ay Evresi', lblIllum: 'Aydınlanma', lblNextFull: 'Sonraki Dolunay', lblNextNew: 'Sonraki Yeni Ay',
+        summaryNote: 'Bu değerler, ülkenin birincil saat dilimine göre genel bir referanstır. Yerel doğruluk için aşağıdaki listeden şehrinizi seçin.',
+        citiesHeading: '{C} Şehirlerinde Bugün Ay',
+        upcomingTitle: '{C} İçin Yaklaşan Ana Ay Evreleri',
+        lblUpNew: 'Sonraki Yeni Ay', lblUpFQ: 'Sonraki İlk Dördün', lblUpFull: 'Sonraki Dolunay', lblUpLQ: 'Sonraki Son Dördün',
+        upcomingNote: 'Bir olay gece yarısına yakın gerçekleştiğinde yerel tarih bazı şehirler için değişebilir; en doğru sonuç için şehri seçin.',
+        monthlyTitle: '{C} Şehirlerinde Aylık Ay Takvimi',
+        monthlyText: 'Günlük ay evrelerini ve dolunay, yeni ay, ilk ve son dördün tarihlerini görmek için şehre göre aylık ay takvimine göz atın. Şu şehirlerden birini seçin:',
+        sec: [
+            ['{C} Ay Evreleri Nasıl Hesaplanır?', 'Ay evreleri, herhangi bir dış veri kaynağı veya API olmadan, sitenin içinde hassas formüllerle astronomik olarak hesaplanır. Önce her astronomik olayın tam zamanı belirlenir, ardından şehrin yerel saatine dönüştürülür; bu nedenle dolunay veya yeni ay günü {C} içinde ve dışında saat diliminden saat dilimine değişebilir.'],
+            ['{C} Şehirleri Arasında Ay Evreleri Nasıl Farklılaşır?', 'Belirli bir anda Ay’ın evresi ve aydınlanması Dünya’nın her yerinde aynıdır; şehirden şehre değişen şey olayın yerel saatidir. Bir şehirde gece yarısından hemen sonra zirve yapan dolunay ertesi güne sayılırken, başka bir şehirde hâlâ önceki akşama denk gelir. Buradaki her şehir kendi yerel saatine göre hesaplanır, böylece gösterilen gün sakinlerin gerçekte gördüğüyle örtüşür.'],
+            ['Dolunay veya Yeni Ay Tarihi Şehirler Arasında Neden Farklı Olabilir?', 'Astronomik bir olayın tek bir küresel anı vardır, ancak takvim tarihi yerel saat dilimine bağlıdır. Olay gece yarısına yakın gerçekleştiğinde dolunay veya yeni ay, doğudaki bir şehirde bir gün, batıdaki bir şehirde önceki veya sonraki gün gerçekleşebilir; {C} içinde bile.'],
+            ['Neden Ülke Saati Yerine Şehrinizi Seçmelisiniz?', 'Üstteki özet, yalnızca genel bir referans olarak ülkenin birincil saat dilimini kullanır. Büyük ülkeler birden fazla saat dilimine yayılır ve küçük bir yerel fark bile bir olayı gece yarısının ötesine itebilir. Kendi şehrinizi seçmek, ay evresini, aydınlanmayı ve olay tarihlerini tam konumunuza göre hesaplanmış olarak verir — ülke geneli değerden daha doğrudur.'],
+            ['Astronomik Ay Evresi ve Hilal Gözlemi', 'Yeni ay hassas bir astronomik andır; Hicri ayın başlangıcı ise gün batımından sonra genç hilalin gözlemlenmesine bağlıdır ve konumdan, hava durumundan ve benimsenen görüş ölçütlerinden etkilenir. Bu nedenle hesaplanan yeni ay tek başına Hicri ayın başlangıcını işaret etmez ve resmî tarih ülkeden ülkeye değişebilir.'],
+            ['Şehir Bağlantıları ve Aylık Takvim Nasıl Kullanılır', 'Mevcut evre, aydınlanma ve ay yaşıyla birlikte “bugün ay” sayfasını açmak için şehrinizi ızgaradan veya arama kutusundan seçin. Oradan, evreleri gün gün takip etmek için aylık ay takvimini açın veya tüm dolunay ve yeni ay tarihleri için yıllık takvime göz atın — her sayfa şehrin yerel saatine göre hesaplanır.']
+        ],
+        faqTitle: 'Sık Sorulan Sorular',
+        faq: [
+            ['{C} bugünkü ay evresi nedir?', 'Sayfanın üstündeki ay özeti, ülkenin referans saat diliminde bugünkü ay evresini ve aydınlanmayı gösterir. Şehrinize göre doğru bir sonuç için listeden şehri seçerek Ay’ı yerel saatinde görün.'],
+            ['Şehrimdeki ay evresini nasıl bulurum?', 'Şehrinizi ızgaradan seçin veya {C} içinde arayın; şehrin “bugün ay” sayfası, yerel saatte evre, aydınlanma ve ay yaşıyla açılır.'],
+            ['{C} şehirleri arasında ay evresi tarihi değişebilir mi?', 'Belirli bir anda evrenin kendisi her yerde aynıdır, ancak bir olayın (dolunay veya yeni ay) yerel tarihi, gece yarısına yakın gerçekleştiğinde şehirler arasında değişebilir; çünkü her şehir kendi yerel saatine göre hesaplanır.'],
+            ['Dolunay tarihi şehre göre neden değişebilir?', 'Dolunayın tek bir küresel anı vardır, ancak yerel tarihi şehrin saat dilimine bağlıdır; bu yüzden zaman olarak uzak şehirlerde farklı günlere denk gelebilir.'],
+            ['Yeni ay, Hicri ayın başlangıcıyla aynı mı?', 'Hayır. Yeni ay astronomik bir olaydır; Hicri ayın başlangıcı ise gün batımından sonra hilal gözlemine, görüş ölçütlerine ve konuma bağlıdır ve ülkeden ülkeye değişebilir.'],
+            ['Ay takvimi nasıl hesaplanır?', 'Ay takvimi her gün için sitenin içinde astronomik formüllerle hesaplanır, ardından doğru günlük evreyi göstermek için olay zamanı şehrin yerel saatine dönüştürülür.'],
+            ['Site, ay verileri için harici bir API kullanıyor mu?', 'Hayır. Tüm ay evresi hesaplamaları, herhangi bir harici hizmetten ay verisi alınmadan sitenin içinde astronomik olarak yapılır.'],
+            ['Şehrimin aylık ay takvimini nerede görebilirim?', 'Yukarıdaki ızgaradan şehir sayfanızı açın, ardından evreleri gün gün yerel saatte görmek için şehrin aylık ay takvimine gidin.']
+        ]
+    },
+    ur: {
+        h1: '{C} میں چاند کے مراحل',
+        hero: 'یہ صفحہ {C} کے شہروں میں آج چاند کا مرحلہ اور قمری تقویم دکھاتا ہے۔ چاند کا مرحلہ، روشنی کا تناسب اور بدر/محاق کی تاریخیں شہر کے مقامی وقت کے مطابق دیکھنے کے لیے کوئی شہر منتخب کریں۔',
+        summaryTitle: '{C} میں چاند کا خلاصہ',
+        lblTodayPhase: 'آج چاند کا مرحلہ', lblIllum: 'روشنی', lblNextFull: 'اگلا بدر', lblNextNew: 'اگلا محاق',
+        summaryNote: 'یہ قدریں ملک کے بنیادی وقت کے مطابق ایک عمومی حوالہ ہیں۔ مقامی درستی کے لیے نیچے دی گئی فہرست سے اپنا شہر منتخب کریں۔',
+        citiesHeading: '{C} کے شہروں میں آج چاند',
+        upcomingTitle: '{C} میں آنے والے اہم چاند کے مراحل',
+        lblUpNew: 'اگلا محاق', lblUpFQ: 'اگلا پہلا ربع', lblUpFull: 'اگلا بدر', lblUpLQ: 'اگلا آخری ربع',
+        upcomingNote: 'جب کوئی واقعہ آدھی رات کے قریب پیش آئے تو بعض شہروں کے لیے مقامی تاریخ مختلف ہو سکتی ہے، اس لیے سب سے درست نتیجے کے لیے شہر منتخب کریں۔',
+        monthlyTitle: '{C} کے شہروں میں ماہانہ قمری تقویم',
+        monthlyText: 'روزانہ چاند کے مراحل اور بدر، محاق، پہلے اور آخری ربع کی تاریخیں دیکھنے کے لیے شہر کے حساب سے ماہانہ قمری تقویم دیکھیں۔ ان شہروں میں سے کوئی ایک منتخب کریں:',
+        sec: [
+            ['{C} میں چاند کے مراحل کیسے شمار کیے جاتے ہیں؟', 'چاند کے مراحل کسی بیرونی ڈیٹا ذریعہ یا API کے بغیر، سائٹ کے اندر درست فلکی فارمولوں سے شمار کیے جاتے ہیں۔ پہلے ہر فلکی واقعے کا درست وقت طے ہوتا ہے، پھر اسے شہر کے مقامی وقت میں بدلا جاتا ہے؛ اسی لیے بدر یا محاق کا دن {C} کے اندر اور باہر مختلف وقت کے علاقوں میں مختلف ہو سکتا ہے۔'],
+            ['{C} کے شہروں کے درمیان چاند کے مراحل کیسے مختلف ہوتے ہیں؟', 'کسی ایک لمحے میں چاند کا مرحلہ اور روشنی زمین پر ہر جگہ یکساں ہوتے ہیں؛ شہر سے شہر جو چیز بدلتی ہے وہ واقعے کا مقامی وقت ہے۔ جو بدر ایک شہر میں آدھی رات کے فوراً بعد عروج پر ہو، وہ اگلے دن شمار ہوتا ہے، جبکہ دوسرے شہر میں وہ پچھلی شام کو ہی رہتا ہے۔ یہاں ہر شہر اپنے مقامی وقت کے مطابق شمار کیا جاتا ہے تاکہ دکھایا گیا دن وہی ہو جو رہائشی حقیقتاً دیکھتے ہیں۔'],
+            ['بدر یا محاق کی تاریخ شہروں کے درمیان کیوں مختلف ہو سکتی ہے؟', 'فلکی واقعے کا ایک ہی عالمی لمحہ ہوتا ہے، لیکن اس کی تقویمی تاریخ مقامی وقت کے علاقے پر منحصر ہے۔ جب واقعہ آدھی رات کے قریب پیش آئے تو بدر یا محاق مشرقی شہر میں ایک دن اور مغربی شہر میں پچھلے یا اگلے دن پڑ سکتا ہے، حتیٰ کہ {C} ہی کے اندر۔'],
+            ['ملک کے وقت کے بجائے اپنا شہر کیوں منتخب کریں؟', 'اوپر دیا گیا خلاصہ صرف ایک عمومی حوالے کے طور پر ملک کا بنیادی وقت استعمال کرتا ہے۔ بڑے ممالک ایک سے زیادہ وقت کے علاقوں پر پھیلے ہوتے ہیں، اور تھوڑا سا مقامی فرق بھی کسی واقعے کو آدھی رات کے پار کر سکتا ہے۔ اپنا شہر منتخب کرنے سے آپ کو چاند کا مرحلہ، روشنی اور واقعات کی تاریخیں آپ کے ٹھیک مقام کے مطابق ملتی ہیں — جو ملک کے عمومی عدد سے زیادہ درست ہے۔'],
+            ['فلکی مرحلہ اور رؤیتِ ہلال میں فرق', 'محاق ایک درست فلکی لمحہ ہے، جبکہ ہجری مہینے کا آغاز غروبِ آفتاب کے بعد نئے ہلال کی رؤیت پر منحصر ہے، جو مقام، موسم اور اختیار کردہ رؤیت کے معیار سے متاثر ہوتا ہے۔ اس لیے شمار کیا گیا محاق بذاتِ خود ہجری مہینے کا آغاز نہیں ہوتا، اور سرکاری تاریخ ممالک کے درمیان مختلف ہو سکتی ہے۔'],
+            ['شہر کے روابط اور ماہانہ تقویم کیسے استعمال کریں', 'موجودہ مرحلے، روشنی اور چاند کی عمر کے ساتھ “آج چاند” کا صفحہ کھولنے کے لیے اپنا شہر گرڈ یا تلاش کے خانے سے منتخب کریں۔ وہاں سے مراحل کو روز بہ روز دیکھنے کے لیے ماہانہ قمری تقویم کھولیں، یا تمام بدر و محاق کی تاریخوں کے لیے سالانہ تقویم دیکھیں — ہر صفحہ شہر کے مقامی وقت کے مطابق شمار کیا جاتا ہے۔']
+        ],
+        faqTitle: 'اکثر پوچھے جانے والے سوالات',
+        faq: [
+            ['{C} میں آج چاند کا مرحلہ کیا ہے؟', 'صفحے کے اوپر چاند کا خلاصہ ملک کے حوالہ وقت کے مطابق آج چاند کا مرحلہ اور روشنی دکھاتا ہے۔ اپنے شہر کے مطابق درست نتیجے کے لیے اسے فہرست سے منتخب کریں تاکہ چاند اس کے مقامی وقت میں نظر آئے۔'],
+            ['میں اپنے شہر میں چاند کا مرحلہ کیسے تلاش کروں؟', 'اپنا شہر گرڈ سے منتخب کریں یا {C} کے اندر تلاش کریں؛ شہر کا “آج چاند” صفحہ مقامی وقت میں مرحلہ، روشنی اور چاند کی عمر کے ساتھ کھلتا ہے۔'],
+            ['کیا {C} کے شہروں کے درمیان چاند کے مرحلے کی تاریخ مختلف ہو سکتی ہے؟', 'کسی لمحے میں مرحلہ خود ہر جگہ یکساں ہوتا ہے، لیکن کسی واقعے (بدر یا محاق) کی مقامی تاریخ شہروں کے درمیان مختلف ہو سکتی ہے جب وہ آدھی رات کے قریب پڑے، کیونکہ ہر شہر اپنے مقامی وقت کے مطابق شمار ہوتا ہے۔'],
+            ['بدر کی تاریخ شہر کے حساب سے کیوں مختلف ہو سکتی ہے؟', 'بدر کا ایک ہی عالمی لمحہ ہوتا ہے، لیکن اس کی مقامی تاریخ شہر کے وقت کے علاقے پر منحصر ہے، اس لیے وقت میں دور دراز شہروں کے لیے مختلف دنوں میں پڑ سکتی ہے۔'],
+            ['کیا محاق ہجری مہینے کے آغاز کے برابر ہے؟', 'نہیں۔ محاق ایک فلکی واقعہ ہے، جبکہ ہجری مہینے کا آغاز غروب کے بعد ہلال کی رؤیت، رؤیت کے معیار اور مقام پر منحصر ہے، اور ممالک کے درمیان مختلف ہو سکتا ہے۔'],
+            ['قمری تقویم کیسے شمار کی جاتی ہے؟', 'قمری تقویم ہر دن کے لیے سائٹ کے اندر فلکی فارمولوں سے شمار کی جاتی ہے، پھر درست روزانہ مرحلہ دکھانے کے لیے واقعے کا وقت شہر کے مقامی وقت میں بدل دیا جاتا ہے۔'],
+            ['کیا سائٹ چاند کے اعداد و شمار کے لیے بیرونی API استعمال کرتی ہے؟', 'نہیں۔ چاند کے مراحل کے تمام حسابات کسی بیرونی سروس سے چاند کا ڈیٹا لیے بغیر سائٹ کے اندر فلکی طور پر کیے جاتے ہیں۔'],
+            ['میں اپنے شہر کی ماہانہ قمری تقویم کہاں دیکھ سکتا ہوں؟', 'اوپر گرڈ سے اپنے شہر کا صفحہ کھولیں، پھر مراحل کو روز بہ روز مقامی وقت میں دیکھنے کے لیے شہر کی ماہانہ قمری تقویم پر جائیں۔']
+        ]
+    },
+    de: {
+        h1: 'Mondphasen in {C}',
+        hero: 'Diese Seite zeigt die heutige Mondphase und den Mondkalender für Städte in {C}. Wählen Sie eine Stadt, um Mondphase, Beleuchtung sowie Vollmond- und Neumond-Daten in der Ortszeit der Stadt zu sehen.',
+        summaryTitle: 'Mond-Überblick in {C}',
+        lblTodayPhase: 'Heutige Mondphase', lblIllum: 'Beleuchtung', lblNextFull: 'Nächster Vollmond', lblNextNew: 'Nächster Neumond',
+        summaryNote: 'Diese Werte sind ein allgemeiner Bezug für das Land in seiner primären Zeitzone. Für lokale Genauigkeit wählen Sie Ihre Stadt aus der Liste unten.',
+        citiesHeading: 'Mond heute in Städten von {C}',
+        upcomingTitle: 'Kommende Hauptmondphasen in {C}',
+        lblUpNew: 'Nächster Neumond', lblUpFQ: 'Nächstes erstes Viertel', lblUpFull: 'Nächster Vollmond', lblUpLQ: 'Nächstes letztes Viertel',
+        upcomingNote: 'Das lokale Datum kann sich für manche Städte unterscheiden, wenn ein Ereignis nahe Mitternacht fällt; wählen Sie die Stadt für das genaueste Ergebnis.',
+        monthlyTitle: 'Monatlicher Mondkalender in Städten von {C}',
+        monthlyText: 'Durchsuchen Sie den monatlichen Mondkalender nach Stadt, um die täglichen Mondphasen und die Daten von Vollmond, Neumond, erstem und letztem Viertel zu sehen. Wählen Sie eine dieser Städte:',
+        sec: [
+            ['Wie werden Mondphasen in {C} berechnet?', 'Mondphasen werden astronomisch innerhalb der Website aus präzisen Formeln berechnet, ohne externe Datenquelle oder API. Zuerst wird die genaue Zeit jedes astronomischen Ereignisses bestimmt und dann in die Ortszeit der Stadt umgerechnet — so kann der Tag von Vollmond oder Neumond von Zeitzone zu Zeitzone in {C} und darüber hinaus variieren.'],
+            ['Wie unterscheiden sich Mondphasen zwischen Städten von {C}?', 'In einem bestimmten Augenblick sind Phase und Beleuchtung des Mondes überall auf der Erde gleich; was sich von Stadt zu Stadt ändert, ist die örtliche Uhrzeit des Ereignisses. Ein Vollmond, der in einer Stadt kurz nach Mitternacht seinen Höhepunkt erreicht, wird dem nächsten Tag zugerechnet, während er in einer anderen noch auf den Vorabend fällt. Jede Stadt wird hier in ihrer eigenen Ortszeit berechnet, sodass der angezeigte Tag dem entspricht, was die Bewohner tatsächlich sehen.'],
+            ['Warum kann das Vollmond- oder Neumond-Datum zwischen Städten abweichen?', 'Ein astronomisches Ereignis hat einen einzigen globalen Moment, aber sein Kalenderdatum hängt von der lokalen Zeitzone ab. Tritt das Ereignis nahe Mitternacht ein, kann der Vollmond oder Neumond in einer östlichen Stadt auf einen Tag und in einer westlichen auf den vorherigen oder nächsten fallen — sogar innerhalb von {C}.'],
+            ['Warum Ihre Stadt statt der Landeszeit wählen?', 'Der Überblick oben verwendet die primäre Zeitzone des Landes nur als allgemeinen Bezug. Größere Länder erstrecken sich über mehrere Zeitzonen, und schon ein kleiner örtlicher Unterschied kann ein Ereignis über Mitternacht schieben. Die Wahl Ihrer Stadt liefert Mondphase, Beleuchtung und Ereignisdaten, die für Ihren genauen Standort berechnet sind — genauer als der landesweite Wert.'],
+            ['Astronomische Mondphase vs. Sichtung der Mondsichel', 'Der Neumond ist ein präziser astronomischer Moment, während der Beginn des Hidschri-Monats von der Sichtung der jungen Mondsichel nach Sonnenuntergang abhängt, die von Ort, Wetter und den angewandten Sichtungskriterien beeinflusst wird. Der berechnete Neumond markiert daher nicht für sich den Beginn des Hidschri-Monats, und das offizielle Datum kann sich zwischen Ländern unterscheiden.'],
+            ['So nutzen Sie die Stadt-Links und den Monatskalender', 'Wählen Sie Ihre Stadt aus dem Raster oder dem Suchfeld, um ihre „Mond heute“-Seite mit aktueller Phase, Beleuchtung und Mondalter zu öffnen. Von dort öffnen Sie den monatlichen Mondkalender, um die Phasen Tag für Tag zu verfolgen, oder durchsuchen den Jahreskalender für alle Vollmond- und Neumond-Daten — jede Seite wird in der Ortszeit der Stadt berechnet.']
+        ],
+        faqTitle: 'Häufig gestellte Fragen',
+        faq: [
+            ['Was ist heute die Mondphase in {C}?', 'Der Mond-Überblick oben auf der Seite zeigt die heutige Mondphase und Beleuchtung in der Referenzzeitzone des Landes. Für ein auf Ihre Stadt genaues Ergebnis wählen Sie sie aus der Liste, um den Mond in ihrer Ortszeit zu sehen.'],
+            ['Wie finde ich die Mondphase in meiner Stadt?', 'Wählen Sie Ihre Stadt aus dem Raster oder suchen Sie sie in {C}; die „Mond heute“-Seite der Stadt öffnet sich mit Phase, Beleuchtung und Mondalter in Ortszeit.'],
+            ['Kann das Mondphasen-Datum zwischen Städten in {C} abweichen?', 'Die Phase selbst ist in einem Augenblick überall gleich, aber das lokale Datum eines Ereignisses (Vollmond oder Neumond) kann zwischen Städten abweichen, wenn es nahe Mitternacht fällt, da jede Stadt in ihrer eigenen Ortszeit berechnet wird.'],
+            ['Warum kann das Vollmond-Datum je Stadt abweichen?', 'Der Vollmond hat einen einzigen globalen Moment, aber sein lokales Datum hängt von der Zeitzone der Stadt ab, sodass er für zeitlich weit entfernte Städte auf verschiedene Tage fallen kann.'],
+            ['Ist der Neumond dasselbe wie der Beginn des Hidschri-Monats?', 'Nein. Der Neumond ist ein astronomisches Ereignis, während der Beginn des Hidschri-Monats von der Sichtung der Mondsichel nach Sonnenuntergang, den Sichtungskriterien und dem Ort abhängt und sich zwischen Ländern unterscheiden kann.'],
+            ['Wie wird der Mondkalender berechnet?', 'Der Mondkalender wird für jeden Tag aus astronomischen Formeln innerhalb der Website berechnet, dann wird die Ereigniszeit in die Ortszeit der Stadt umgerechnet, um die korrekte Tagesphase anzuzeigen.'],
+            ['Nutzt die Website eine externe API für Monddaten?', 'Nein. Alle Mondphasen-Berechnungen erfolgen astronomisch innerhalb der Website, ohne Monddaten von einem externen Dienst abzurufen.'],
+            ['Wo sehe ich den monatlichen Mondkalender für meine Stadt?', 'Öffnen Sie Ihre Stadtseite über das Raster oben und gehen Sie dann zum monatlichen Mondkalender der Stadt, um die Mondphasen Tag für Tag in Ortszeit zu sehen.']
+        ]
+    },
+    id: {
+        h1: 'Fase Bulan di {C}',
+        hero: 'Halaman ini menampilkan fase bulan hari ini dan kalender bulan untuk kota-kota di {C}. Pilih kota untuk melihat fase bulan, iluminasi, serta tanggal purnama / bulan baru berdasarkan waktu lokal kota.',
+        summaryTitle: 'Ringkasan Bulan di {C}',
+        lblTodayPhase: 'Fase Bulan Hari Ini', lblIllum: 'Iluminasi', lblNextFull: 'Purnama Berikutnya', lblNextNew: 'Bulan Baru Berikutnya',
+        summaryNote: 'Nilai-nilai ini adalah rujukan umum untuk negara dalam zona waktu utamanya. Untuk akurasi lokal, pilih kota Anda dari daftar di bawah.',
+        citiesHeading: 'Bulan Hari Ini di Kota-Kota {C}',
+        upcomingTitle: 'Fase Bulan Utama Mendatang di {C}',
+        lblUpNew: 'Bulan Baru Berikutnya', lblUpFQ: 'Kuarter Pertama Berikutnya', lblUpFull: 'Purnama Berikutnya', lblUpLQ: 'Kuarter Terakhir Berikutnya',
+        upcomingNote: 'Tanggal lokal dapat berbeda untuk sebagian kota ketika peristiwa jatuh mendekati tengah malam, jadi pilih kota untuk hasil paling akurat.',
+        monthlyTitle: 'Kalender Bulan Bulanan di Kota-Kota {C}',
+        monthlyText: 'Telusuri kalender bulan bulanan per kota untuk melihat fase bulan harian dan tanggal purnama, bulan baru, kuarter pertama, dan kuarter terakhir. Pilih salah satu kota berikut:',
+        sec: [
+            ['Bagaimana Fase Bulan Dihitung di {C}?', 'Fase bulan dihitung secara astronomis di dalam situs dari rumus yang presisi, tanpa sumber data atau API eksternal apa pun. Waktu pasti setiap peristiwa astronomi ditentukan lebih dulu, lalu dikonversi ke waktu lokal kota — sehingga hari purnama atau bulan baru dapat berbeda dari satu zona waktu ke zona lain di {C} dan sekitarnya.'],
+            ['Bagaimana Fase Bulan Berbeda Antar Kota di {C}?', 'Pada satu momen tertentu, fase dan iluminasi Bulan sama di seluruh Bumi; yang berubah dari kota ke kota adalah waktu lokal peristiwanya. Purnama yang memuncak tepat setelah tengah malam di satu kota dihitung pada hari berikutnya, sementara di kota lain masih jatuh pada malam sebelumnya. Setiap kota di sini dihitung dalam waktu lokalnya sendiri, sehingga hari yang ditampilkan sesuai dengan yang benar-benar dilihat penduduknya.'],
+            ['Mengapa Tanggal Purnama atau Bulan Baru Bisa Berbeda Antar Kota?', 'Peristiwa astronomi memiliki satu momen global, tetapi tanggal kalendernya bergantung pada zona waktu lokal. Ketika peristiwa terjadi mendekati tengah malam, purnama atau bulan baru bisa jatuh pada satu hari di kota timur dan pada hari sebelum atau sesudahnya di kota barat, bahkan di dalam {C}.'],
+            ['Mengapa Memilih Kota Anda Alih-alih Waktu Negara?', 'Ringkasan di atas hanya menggunakan zona waktu utama negara sebagai rujukan umum. Negara yang luas membentang lebih dari satu zona waktu, dan selisih lokal kecil pun dapat menggeser peristiwa melewati tengah malam. Memilih kota Anda memberikan fase bulan, iluminasi, dan tanggal peristiwa yang dihitung untuk lokasi tepat Anda — lebih akurat daripada angka tingkat negara.'],
+            ['Fase Bulan Astronomis vs. Rukyat Hilal', 'Bulan baru adalah momen astronomi yang presisi, sedangkan awal bulan Hijriah bergantung pada melihat hilal muda setelah matahari terbenam, yang dipengaruhi oleh lokasi, cuaca, dan kriteria rukyat yang dianut. Jadi bulan baru yang dihitung tidak dengan sendirinya menandai awal bulan Hijriah, dan tanggal resminya dapat berbeda antar negara.'],
+            ['Cara Menggunakan Tautan Kota dan Kalender Bulanan', 'Pilih kota Anda dari kisi atau kotak pencarian untuk membuka halaman “bulan hari ini” dengan fase saat ini, iluminasi, dan usia bulan. Dari sana, buka kalender bulan bulanan untuk mengikuti fase hari demi hari, atau telusuri kalender tahunan untuk semua tanggal purnama dan bulan baru — setiap halaman dihitung dalam waktu lokal kota.']
+        ],
+        faqTitle: 'Pertanyaan yang Sering Diajukan',
+        faq: [
+            ['Apa fase bulan hari ini di {C}?', 'Ringkasan bulan di bagian atas halaman menampilkan fase bulan dan iluminasi hari ini dalam zona waktu rujukan negara. Untuk hasil yang akurat sesuai kota Anda, pilih dari daftar agar melihat Bulan dalam waktu lokalnya.'],
+            ['Bagaimana menemukan fase bulan di kota saya?', 'Pilih kota Anda dari kisi atau cari di dalam {C}; halaman “bulan hari ini” kota terbuka dengan fase, iluminasi, dan usia bulan dalam waktu lokal.'],
+            ['Apakah tanggal fase bulan bisa berbeda antar kota di {C}?', 'Fase itu sendiri sama di mana pun pada satu momen, tetapi tanggal lokal suatu peristiwa (purnama atau bulan baru) bisa berbeda antar kota ketika jatuh mendekati tengah malam, karena setiap kota dihitung dalam waktu lokalnya.'],
+            ['Mengapa tanggal purnama bisa berbeda per kota?', 'Purnama memiliki satu momen global, tetapi tanggal lokalnya bergantung pada zona waktu kota, sehingga bisa jatuh pada hari yang berbeda untuk kota-kota yang jauh secara waktu.'],
+            ['Apakah bulan baru sama dengan awal bulan Hijriah?', 'Tidak. Bulan baru adalah peristiwa astronomi, sedangkan awal bulan Hijriah bergantung pada rukyat hilal setelah matahari terbenam, kriteria rukyat, dan lokasi, serta dapat berbeda antar negara.'],
+            ['Bagaimana kalender bulan dihitung?', 'Kalender bulan dihitung untuk setiap hari dari rumus astronomi di dalam situs, lalu waktu peristiwa dikonversi ke waktu lokal kota untuk menampilkan fase harian yang benar.'],
+            ['Apakah situs memakai API eksternal untuk data bulan?', 'Tidak. Semua perhitungan fase bulan dilakukan secara astronomis di dalam situs, tanpa mengambil data bulan dari layanan eksternal mana pun.'],
+            ['Di mana saya bisa melihat kalender bulan bulanan untuk kota saya?', 'Buka halaman kota Anda dari kisi di atas, lalu masuk ke kalender bulan bulanan kota untuk melihat fase bulan hari demi hari dalam waktu lokal.']
+        ]
+    },
+    es: {
+        h1: 'Fases de la Luna en {C}',
+        hero: 'Esta página muestra la fase lunar de hoy y el calendario lunar para ciudades de {C}. Elige una ciudad para ver la fase, la iluminación y las fechas de luna llena / luna nueva según la hora local de la ciudad.',
+        summaryTitle: 'Resumen lunar en {C}',
+        lblTodayPhase: 'Fase lunar de hoy', lblIllum: 'Iluminación', lblNextFull: 'Próxima luna llena', lblNextNew: 'Próxima luna nueva',
+        summaryNote: 'Estos valores son una referencia general para el país en su zona horaria principal. Para mayor precisión local, elige tu ciudad de la lista de abajo.',
+        citiesHeading: 'La Luna hoy en ciudades de {C}',
+        upcomingTitle: 'Próximas fases principales de la Luna en {C}',
+        lblUpNew: 'Próxima luna nueva', lblUpFQ: 'Próximo cuarto creciente', lblUpFull: 'Próxima luna llena', lblUpLQ: 'Próximo cuarto menguante',
+        upcomingNote: 'La fecha local puede variar para algunas ciudades cuando un evento cae cerca de la medianoche, así que elige la ciudad para el resultado más preciso.',
+        monthlyTitle: 'Calendario lunar mensual en ciudades de {C}',
+        monthlyText: 'Explora el calendario lunar mensual por ciudad para ver las fases diarias y las fechas de luna llena, luna nueva, cuarto creciente y cuarto menguante. Elige una de estas ciudades:',
+        sec: [
+            ['¿Cómo se calculan las fases de la Luna en {C}?', 'Las fases de la Luna se calculan astronómicamente dentro del sitio a partir de fórmulas precisas, sin ninguna fuente de datos ni API externa. Primero se determina la hora exacta de cada evento astronómico y luego se convierte a la hora local de la ciudad, por lo que el día de la luna llena o nueva puede variar de una zona horaria a otra en {C} y más allá.'],
+            ['¿Cómo difieren las fases entre las ciudades de {C}?', 'En un instante dado, la fase y la iluminación de la Luna son iguales en toda la Tierra; lo que cambia de una ciudad a otra es la hora local del evento. Una luna llena que alcanza su punto máximo justo después de la medianoche en una ciudad se cuenta al día siguiente, mientras que en otra cae aún la tarde anterior. Cada ciudad se calcula en su propia hora local, de modo que el día mostrado coincide con lo que ven realmente sus habitantes.'],
+            ['¿Por qué puede variar la fecha de luna llena o nueva entre ciudades?', 'Un evento astronómico tiene un único momento global, pero su fecha de calendario depende de la zona horaria local. Cuando ocurre cerca de la medianoche, la luna llena o nueva puede caer un día en una ciudad del este y el día anterior o siguiente en una del oeste, incluso dentro de {C}.'],
+            ['¿Por qué elegir tu ciudad en lugar de la hora del país?', 'El resumen de arriba usa la zona horaria principal del país solo como referencia general. Los países grandes abarcan más de una zona horaria, y hasta una pequeña diferencia local puede desplazar un evento más allá de la medianoche. Elegir tu ciudad te da la fase, la iluminación y las fechas calculadas para tu ubicación exacta, más preciso que la cifra nacional.'],
+            ['Fase lunar astronómica frente a la observación del creciente', 'La luna nueva es un momento astronómico preciso, mientras que el inicio del mes hijri depende de avistar el creciente joven tras la puesta del sol, lo que se ve afectado por el lugar, el clima y los criterios de visibilidad adoptados. Por eso la luna nueva calculada no marca por sí sola el comienzo del mes hijri, y la fecha oficial puede variar entre países.'],
+            ['Cómo usar los enlaces de ciudades y el calendario mensual', 'Elige tu ciudad en la cuadrícula o el buscador para abrir su página de “luna hoy” con la fase actual, la iluminación y la edad lunar. Desde ahí, abre el calendario lunar mensual para seguir las fases día a día, o explora el calendario anual con todas las fechas de luna llena y nueva; cada página se calcula en la hora local de la ciudad.']
+        ],
+        faqTitle: 'Preguntas frecuentes',
+        faq: [
+            ['¿Cuál es la fase lunar de hoy en {C}?', 'El resumen lunar en la parte superior muestra la fase y la iluminación de hoy en la zona horaria de referencia del país. Para un resultado preciso según tu ciudad, elígela de la lista para ver la Luna en su hora local.'],
+            ['¿Cómo encuentro la fase lunar en mi ciudad?', 'Elige tu ciudad en la cuadrícula o búscala dentro de {C}; la página de “luna hoy” de la ciudad se abre con la fase, la iluminación y la edad lunar en hora local.'],
+            ['¿Puede variar la fecha de la fase entre ciudades de {C}?', 'La fase en sí es idéntica en todas partes en un instante dado, pero la fecha local de un evento (luna llena o nueva) puede variar entre ciudades cuando cae cerca de la medianoche, porque cada ciudad se calcula en su propia hora local.'],
+            ['¿Por qué puede variar la fecha de luna llena por ciudad?', 'La luna llena tiene un único momento global, pero su fecha local depende de la zona horaria de la ciudad, así que puede caer en días distintos para ciudades muy separadas en el tiempo.'],
+            ['¿La luna nueva es lo mismo que el inicio del mes hijri?', 'No. La luna nueva es un evento astronómico, mientras que el inicio del mes hijri depende del avistamiento del creciente tras la puesta del sol, de los criterios de visibilidad y del lugar, y puede variar entre países.'],
+            ['¿Cómo se calcula el calendario lunar?', 'El calendario lunar se calcula cada día a partir de fórmulas astronómicas dentro del sitio, y luego la hora del evento se convierte a la hora local de la ciudad para mostrar la fase diaria correcta.'],
+            ['¿El sitio usa una API externa para los datos lunares?', 'No. Todos los cálculos de fases lunares se hacen astronómicamente dentro del sitio, sin obtener datos de la Luna de ningún servicio externo.'],
+            ['¿Dónde puedo ver el calendario lunar mensual de mi ciudad?', 'Abre la página de tu ciudad desde la cuadrícula de arriba y luego ve al calendario lunar mensual de la ciudad para ver las fases día a día en hora local.']
+        ]
+    },
+    bn: {
+        h1: '{C}-এ চাঁদের দশা',
+        hero: 'এই পৃষ্ঠাটি {C}-এর শহরগুলোর জন্য আজকের চাঁদের দশা ও চান্দ্র বর্ষপঞ্জি দেখায়। শহরের স্থানীয় সময় অনুযায়ী চাঁদের দশা, আলোকন এবং পূর্ণিমা / অমাবস্যার তারিখ দেখতে একটি শহর নির্বাচন করুন।',
+        summaryTitle: '{C}-এ চাঁদের সারসংক্ষেপ',
+        lblTodayPhase: 'আজকের চাঁদের দশা', lblIllum: 'আলোকন', lblNextFull: 'পরবর্তী পূর্ণিমা', lblNextNew: 'পরবর্তী অমাবস্যা',
+        summaryNote: 'এই মানগুলো দেশের মূল সময় অঞ্চলে একটি সাধারণ রেফারেন্স। স্থানীয় নির্ভুলতার জন্য নিচের তালিকা থেকে আপনার শহর নির্বাচন করুন।',
+        citiesHeading: '{C}-এর শহরগুলোতে আজ চাঁদ',
+        upcomingTitle: '{C}-এ আসন্ন প্রধান চাঁদের দশা',
+        lblUpNew: 'পরবর্তী অমাবস্যা', lblUpFQ: 'পরবর্তী প্রথম পক্ষ', lblUpFull: 'পরবর্তী পূর্ণিমা', lblUpLQ: 'পরবর্তী শেষ পক্ষ',
+        upcomingNote: 'কোনো ঘটনা মধ্যরাতের কাছাকাছি ঘটলে কিছু শহরের জন্য স্থানীয় তারিখ ভিন্ন হতে পারে, তাই সবচেয়ে নির্ভুল ফলের জন্য শহর নির্বাচন করুন।',
+        monthlyTitle: '{C}-এর শহরগুলোতে মাসিক চান্দ্র বর্ষপঞ্জি',
+        monthlyText: 'দৈনিক চাঁদের দশা এবং পূর্ণিমা, অমাবস্যা, প্রথম ও শেষ পক্ষের তারিখ দেখতে শহর অনুযায়ী মাসিক চান্দ্র বর্ষপঞ্জি দেখুন। এই শহরগুলোর একটি নির্বাচন করুন:',
+        sec: [
+            ['{C}-এ চাঁদের দশা কীভাবে গণনা করা হয়?', 'চাঁদের দশা কোনো বাহ্যিক ডেটা উৎস বা API ছাড়াই সাইটের ভেতরে নির্ভুল সূত্র থেকে জ্যোতির্বৈজ্ঞানিকভাবে গণনা করা হয়। প্রথমে প্রতিটি জ্যোতির্বৈজ্ঞানিক ঘটনার সঠিক সময় নির্ধারণ করা হয়, তারপর তা শহরের স্থানীয় সময়ে রূপান্তর করা হয় — তাই পূর্ণিমা বা অমাবস্যার দিন {C}-এর ভেতরে ও বাইরে এক সময় অঞ্চল থেকে অন্যটিতে ভিন্ন হতে পারে।'],
+            ['{C}-এর শহরগুলোর মধ্যে চাঁদের দশা কীভাবে ভিন্ন হয়?', 'কোনো একটি মুহূর্তে চাঁদের দশা ও আলোকন পৃথিবীর সর্বত্র একই; শহরভেদে যা বদলায় তা হলো ঘটনার স্থানীয় সময়। যে পূর্ণিমা এক শহরে মধ্যরাতের ঠিক পরে শীর্ষে ওঠে তা পরের দিনে গণনা হয়, অথচ অন্য শহরে তা আগের সন্ধ্যায়ই থাকে। এখানে প্রতিটি শহর তার নিজস্ব স্থানীয় সময়ে গণনা করা হয়, যাতে দেখানো দিনটি বাসিন্দারা যা দেখেন তার সাথে মেলে।'],
+            ['পূর্ণিমা বা অমাবস্যার তারিখ শহরভেদে কেন ভিন্ন হতে পারে?', 'একটি জ্যোতির্বৈজ্ঞানিক ঘটনার একটিই বৈশ্বিক মুহূর্ত থাকে, কিন্তু তার পঞ্জিকা-তারিখ স্থানীয় সময় অঞ্চলের ওপর নির্ভর করে। ঘটনাটি মধ্যরাতের কাছাকাছি ঘটলে পূর্ণিমা বা অমাবস্যা পূর্বের কোনো শহরে এক দিনে এবং পশ্চিমের কোনো শহরে আগের বা পরের দিনে পড়তে পারে, এমনকি {C}-এর ভেতরেও।'],
+            ['দেশের সময়ের বদলে আপনার শহর কেন বেছে নেবেন?', 'উপরের সারসংক্ষেপটি কেবল একটি সাধারণ রেফারেন্স হিসেবে দেশের মূল সময় অঞ্চল ব্যবহার করে। বড় দেশগুলো একাধিক সময় অঞ্চলে বিস্তৃত, এবং সামান্য স্থানীয় পার্থক্যও কোনো ঘটনাকে মধ্যরাতের ওপারে ঠেলে দিতে পারে। আপনার শহর বেছে নিলে চাঁদের দশা, আলোকন ও ঘটনার তারিখ আপনার সঠিক অবস্থানের জন্য গণনা করা হয় — যা দেশভিত্তিক মানের চেয়ে বেশি নির্ভুল।'],
+            ['জ্যোতির্বৈজ্ঞানিক দশা বনাম চাঁদ দেখা', 'অমাবস্যা একটি নির্ভুল জ্যোতির্বৈজ্ঞানিক মুহূর্ত, অথচ হিজরি মাসের শুরু সূর্যাস্তের পর নতুন চাঁদ দেখার ওপর নির্ভর করে, যা অবস্থান, আবহাওয়া ও গৃহীত দর্শন-মানদণ্ড দ্বারা প্রভাবিত হয়। তাই গণনাকৃত অমাবস্যা নিজে থেকে হিজরি মাসের সূচনা চিহ্নিত করে না, এবং সরকারি তারিখ দেশভেদে ভিন্ন হতে পারে।'],
+            ['শহরের লিঙ্ক ও মাসিক বর্ষপঞ্জি কীভাবে ব্যবহার করবেন', 'বর্তমান দশা, আলোকন ও চাঁদের বয়স সহ “আজ চাঁদ” পৃষ্ঠা খুলতে গ্রিড বা অনুসন্ধান বাক্স থেকে আপনার শহর বেছে নিন। সেখান থেকে দশাগুলো দিনে দিনে অনুসরণ করতে মাসিক চান্দ্র বর্ষপঞ্জি খুলুন, অথবা সব পূর্ণিমা ও অমাবস্যার তারিখের জন্য বার্ষিক বর্ষপঞ্জি দেখুন — প্রতিটি পৃষ্ঠা শহরের স্থানীয় সময়ে গণনা করা হয়।']
+        ],
+        faqTitle: 'প্রায়শই জিজ্ঞাসিত প্রশ্ন',
+        faq: [
+            ['{C}-এ আজ চাঁদের দশা কী?', 'পৃষ্ঠার শীর্ষে চাঁদের সারসংক্ষেপ দেশের রেফারেন্স সময় অঞ্চলে আজকের চাঁদের দশা ও আলোকন দেখায়। আপনার শহর অনুযায়ী নির্ভুল ফলের জন্য তালিকা থেকে সেটি বেছে নিন যাতে চাঁদ তার স্থানীয় সময়ে দেখা যায়।'],
+            ['আমার শহরে চাঁদের দশা কীভাবে খুঁজে পাব?', 'গ্রিড থেকে আপনার শহর বেছে নিন অথবা {C}-এর ভেতরে খুঁজুন; শহরের “আজ চাঁদ” পৃষ্ঠা স্থানীয় সময়ে দশা, আলোকন ও চাঁদের বয়স সহ খুলে যায়।'],
+            ['{C}-এর শহরগুলোর মধ্যে চাঁদের দশার তারিখ কি ভিন্ন হতে পারে?', 'কোনো মুহূর্তে দশা নিজে সর্বত্র একই, কিন্তু কোনো ঘটনার (পূর্ণিমা বা অমাবস্যা) স্থানীয় তারিখ শহরভেদে ভিন্ন হতে পারে যখন তা মধ্যরাতের কাছাকাছি পড়ে, কারণ প্রতিটি শহর তার নিজস্ব স্থানীয় সময়ে গণনা করা হয়।'],
+            ['পূর্ণিমার তারিখ শহরভেদে কেন ভিন্ন হতে পারে?', 'পূর্ণিমার একটিই বৈশ্বিক মুহূর্ত থাকে, কিন্তু তার স্থানীয় তারিখ শহরের সময় অঞ্চলের ওপর নির্ভর করে, তাই সময়ে দূরবর্তী শহরগুলোর জন্য তা ভিন্ন দিনে পড়তে পারে।'],
+            ['অমাবস্যা কি হিজরি মাসের শুরুর সমান?', 'না। অমাবস্যা একটি জ্যোতির্বৈজ্ঞানিক ঘটনা, অথচ হিজরি মাসের শুরু সূর্যাস্তের পর চাঁদ দেখা, দর্শন-মানদণ্ড ও অবস্থানের ওপর নির্ভর করে এবং দেশভেদে ভিন্ন হতে পারে।'],
+            ['চান্দ্র বর্ষপঞ্জি কীভাবে গণনা করা হয়?', 'চান্দ্র বর্ষপঞ্জি প্রতিদিনের জন্য সাইটের ভেতরে জ্যোতির্বৈজ্ঞানিক সূত্র থেকে গণনা করা হয়, তারপর সঠিক দৈনিক দশা দেখাতে ঘটনার সময় শহরের স্থানীয় সময়ে রূপান্তর করা হয়।'],
+            ['সাইটটি কি চাঁদের তথ্যের জন্য বাহ্যিক API ব্যবহার করে?', 'না। চাঁদের দশার সব গণনা কোনো বাহ্যিক পরিষেবা থেকে চাঁদের তথ্য না নিয়ে সাইটের ভেতরেই জ্যোতির্বৈজ্ঞানিকভাবে করা হয়।'],
+            ['আমার শহরের মাসিক চান্দ্র বর্ষপঞ্জি কোথায় দেখব?', 'উপরের গ্রিড থেকে আপনার শহরের পৃষ্ঠা খুলুন, তারপর দশাগুলো দিনে দিনে স্থানীয় সময়ে দেখতে শহরের মাসিক চান্দ্র বর্ষপঞ্জিতে যান।']
+        ]
+    },
+    ms: {
+        h1: 'Fasa Bulan di {C}',
+        hero: 'Halaman ini memaparkan fasa bulan hari ini dan kalendar bulan untuk bandar di {C}. Pilih sebuah bandar untuk melihat fasa bulan, pencahayaan, serta tarikh purnama / anak bulan mengikut waktu tempatan bandar.',
+        summaryTitle: 'Ringkasan Bulan di {C}',
+        lblTodayPhase: 'Fasa Bulan Hari Ini', lblIllum: 'Pencahayaan', lblNextFull: 'Purnama Seterusnya', lblNextNew: 'Anak Bulan Seterusnya',
+        summaryNote: 'Nilai ini ialah rujukan umum bagi negara dalam zon waktu utamanya. Untuk ketepatan tempatan, pilih bandar anda daripada senarai di bawah.',
+        citiesHeading: 'Bulan Hari Ini di Bandar-Bandar {C}',
+        upcomingTitle: 'Fasa Bulan Utama Akan Datang di {C}',
+        lblUpNew: 'Anak Bulan Seterusnya', lblUpFQ: 'Suku Pertama Seterusnya', lblUpFull: 'Purnama Seterusnya', lblUpLQ: 'Suku Akhir Seterusnya',
+        upcomingNote: 'Tarikh tempatan boleh berbeza bagi sesetengah bandar apabila peristiwa berlaku hampir tengah malam, jadi pilih bandar untuk hasil paling tepat.',
+        monthlyTitle: 'Kalendar Bulan Bulanan di Bandar-Bandar {C}',
+        monthlyText: 'Layari kalendar bulan bulanan mengikut bandar untuk melihat fasa bulan harian dan tarikh purnama, anak bulan, suku pertama dan suku akhir. Pilih salah satu bandar berikut:',
+        sec: [
+            ['Bagaimana Fasa Bulan Dikira di {C}?', 'Fasa bulan dikira secara astronomi di dalam laman dari formula yang tepat, tanpa sebarang sumber data atau API luaran. Waktu tepat setiap peristiwa astronomi ditentukan dahulu, kemudian ditukar kepada waktu tempatan bandar — jadi hari purnama atau anak bulan boleh berbeza dari satu zon waktu ke zon lain di {C} dan sekitarnya.'],
+            ['Bagaimana Fasa Bulan Berbeza Antara Bandar di {C}?', 'Pada satu-satu saat, fasa dan pencahayaan Bulan adalah sama di seluruh Bumi; yang berubah dari bandar ke bandar ialah waktu tempatan peristiwa itu. Purnama yang memuncak sejurus selepas tengah malam di satu bandar dikira pada hari berikutnya, manakala di bandar lain ia masih jatuh pada malam sebelumnya. Setiap bandar di sini dikira dalam waktu tempatannya sendiri, supaya hari yang dipaparkan sepadan dengan apa yang benar-benar dilihat penduduknya.'],
+            ['Mengapa Tarikh Purnama atau Anak Bulan Boleh Berbeza Antara Bandar?', 'Peristiwa astronomi mempunyai satu detik global, tetapi tarikh kalendarnya bergantung pada zon waktu tempatan. Apabila peristiwa berlaku hampir tengah malam, purnama atau anak bulan boleh jatuh pada satu hari di bandar timur dan pada hari sebelum atau selepasnya di bandar barat, malah dalam {C} sendiri.'],
+            ['Mengapa Pilih Bandar Anda dan Bukan Waktu Negara?', 'Ringkasan di atas menggunakan zon waktu utama negara sebagai rujukan umum sahaja. Negara yang luas merentangi lebih daripada satu zon waktu, dan perbezaan tempatan yang kecil pun boleh menolak peristiwa melepasi tengah malam. Memilih bandar anda memberikan fasa bulan, pencahayaan dan tarikh peristiwa yang dikira untuk lokasi tepat anda — lebih tepat daripada angka peringkat negara.'],
+            ['Fasa Bulan Astronomi vs. Rukyah Anak Bulan', 'Anak bulan ialah detik astronomi yang tepat, manakala permulaan bulan Hijrah bergantung pada melihat anak bulan muda selepas matahari terbenam, yang dipengaruhi oleh lokasi, cuaca dan kriteria rukyah yang dipakai. Maka anak bulan yang dikira tidak dengan sendirinya menandakan permulaan bulan Hijrah, dan tarikh rasmi boleh berbeza antara negara.'],
+            ['Cara Menggunakan Pautan Bandar dan Kalendar Bulanan', 'Pilih bandar anda daripada grid atau kotak carian untuk membuka halaman “bulan hari ini” dengan fasa semasa, pencahayaan dan usia bulan. Dari situ, buka kalendar bulan bulanan untuk mengikuti fasa hari demi hari, atau layari kalendar tahunan untuk semua tarikh purnama dan anak bulan — setiap halaman dikira dalam waktu tempatan bandar.']
+        ],
+        faqTitle: 'Soalan Lazim',
+        faq: [
+            ['Apakah fasa bulan hari ini di {C}?', 'Ringkasan bulan di bahagian atas halaman memaparkan fasa bulan dan pencahayaan hari ini dalam zon waktu rujukan negara. Untuk hasil yang tepat mengikut bandar anda, pilih ia daripada senarai supaya melihat Bulan dalam waktu tempatannya.'],
+            ['Bagaimana saya mencari fasa bulan di bandar saya?', 'Pilih bandar anda daripada grid atau cari di dalam {C}; halaman “bulan hari ini” bandar terbuka dengan fasa, pencahayaan dan usia bulan dalam waktu tempatan.'],
+            ['Bolehkah tarikh fasa bulan berbeza antara bandar di {C}?', 'Fasa itu sendiri sama di mana-mana pada satu saat, tetapi tarikh tempatan sesuatu peristiwa (purnama atau anak bulan) boleh berbeza antara bandar apabila ia jatuh hampir tengah malam, kerana setiap bandar dikira dalam waktu tempatannya.'],
+            ['Mengapa tarikh purnama boleh berbeza ikut bandar?', 'Purnama mempunyai satu detik global, tetapi tarikh tempatannya bergantung pada zon waktu bandar, jadi ia boleh jatuh pada hari berbeza bagi bandar yang jauh dari segi waktu.'],
+            ['Adakah anak bulan sama dengan permulaan bulan Hijrah?', 'Tidak. Anak bulan ialah peristiwa astronomi, manakala permulaan bulan Hijrah bergantung pada rukyah anak bulan selepas matahari terbenam, kriteria rukyah dan lokasi, serta boleh berbeza antara negara.'],
+            ['Bagaimana kalendar bulan dikira?', 'Kalendar bulan dikira bagi setiap hari dari formula astronomi di dalam laman, kemudian waktu peristiwa ditukar kepada waktu tempatan bandar untuk memaparkan fasa harian yang betul.'],
+            ['Adakah laman ini menggunakan API luaran untuk data bulan?', 'Tidak. Semua pengiraan fasa bulan dilakukan secara astronomi di dalam laman, tanpa mengambil data bulan daripada mana-mana perkhidmatan luaran.'],
+            ['Di mana saya boleh melihat kalendar bulan bulanan untuk bandar saya?', 'Buka halaman bandar anda daripada grid di atas, kemudian pergi ke kalendar bulan bulanan bandar untuk melihat fasa bulan hari demi hari dalam waktu tempatan.']
         ]
     }
 };
@@ -13586,8 +13848,11 @@ function buildSeoForPath(urlPath) {
             const _mc = _countryFromSlug(_mcm[1]);
             if (_mc && _mc.cc && _mc.cc !== '__' && _curatedCitiesForCc(_mc.cc).length > 0) {
                 const cname = _countryNameForLang(_mc.cc, lang);
-                // Length-aware Title (AR+EN authored; other langs fall back to EN). base + suffix
-                // when it fits ≤ 62 cp (keeps long country names from overflowing), else base alone.
+                // MOON-COUNTRY-PAGE-SEO-CONTENT-PERFORMANCE-TUNE-1: length-aware adaptive Title (all 10 langs).
+                //   base + the LONGEST suffix tier that keeps the whole title ≤ 60 code points, else base alone.
+                //   Two suffix tiers (LONG/SHORT) so short country names get a richer title and long ones
+                //   (e.g. "المملكة العربية السعودية") still land in the 50–60 band instead of falling to a bare
+                //   ~39-char base. [...t].length counts code points (correct for ar/ur/bn). Natural phrasing only.
                 const _MT_BASE = {
                     ar: `مراحل القمر في ${cname}`, en: `Moon Phases in ${cname}`,
                     fr: `Phases de la Lune en ${cname}`, tr: `${cname} Ay Evreleri`,
@@ -13595,17 +13860,36 @@ function buildSeoForPath(urlPath) {
                     id: `Fase Bulan di ${cname}`, es: `Fases de la Luna en ${cname}`,
                     bn: `${cname}-এ চাঁদের দশা`, ms: `Fasa Bulan di ${cname}`,
                 };
-                const _MT_SUFFIX = {
-                    ar: ' — قمر اليوم والتقويم القمري', en: ' — Today’s Moon & Lunar Calendar',
-                    fr: ' — Lune & calendrier lunaire', tr: ' — Bugünkü Ay & Takvim',
-                    ur: ' — آج کا چاند اور قمری تقویم', de: ' — Mond & Mondkalender',
+                const _MT_LONG = {
+                    ar: ' اليوم — مواعيد البدر والمحاق', en: ' — Today’s Moon Phase & Lunar Calendar',
+                    fr: ' — Lune du jour et calendrier lunaire', tr: ' — Bugünkü Ay Evresi ve Ay Takvimi',
+                    ur: ' — آج کا چاند اور قمری کیلنڈر', de: ' — Heutige Mondphase & Mondkalender',
+                    id: ' — Fase Bulan Hari Ini & Kalender', es: ' — Luna de hoy y calendario lunar',
+                    bn: ' — আজকের চাঁদ ও চান্দ্র বর্ষপঞ্জি', ms: ' — Fasa Bulan Hari Ini & Kalendar',
+                };
+                const _MT_MID = {
+                    ar: ' اليوم — التقويم القمري', en: ' — Today’s Moon & Calendar',
+                    fr: ' — Lune et calendrier lunaire', tr: ' — Bugünkü Ay ve Takvim',
+                    ur: ' — آج کا چاند اور تقویم', de: ' — Mond heute & Mondkalender',
                     id: ' — Bulan Hari Ini & Kalender', es: ' — Luna y calendario lunar',
-                    bn: ' — আজকের চাঁদ ও বর্ষপঞ্জি', ms: ' — Bulan & Kalendar Bulan',
+                    bn: ' — আজকের চাঁদ ও বর্ষপঞ্জি', ms: ' — Bulan Hari Ini & Kalendar',
+                };
+                const _MT_SHORT = {
+                    ar: ' — تقويم القمر', en: ' — Moon Calendar',
+                    fr: ' — Calendrier lunaire', tr: ' — Ay Takvimi',
+                    ur: ' — قمری کیلنڈر', de: ' — Mondkalender',
+                    id: ' — Kalender Bulan', es: ' — Calendario lunar',
+                    bn: ' — চাঁদের বর্ষপঞ্জি', ms: ' — Kalendar Bulan',
                 };
                 {
                     const _tb = _MT_BASE[lang] || _MT_BASE.en;
-                    const _ts = _MT_SUFFIX[lang] || _MT_SUFFIX.en;
-                    title = ((_tb + _ts).length <= 62) ? (_tb + _ts) : _tb;
+                    const _cands = [
+                        _tb + (_MT_LONG[lang] || _MT_LONG.en),
+                        _tb + (_MT_MID[lang] || _MT_MID.en),
+                        _tb + (_MT_SHORT[lang] || _MT_SHORT.en),
+                        _tb,
+                    ];
+                    title = _cands.find(t => [...t].length <= 60) || _tb;
                 }
                 const _MD = {
                     ar: `تعرّف على مرحلة القمر اليوم وتقويم القمر في مدن ${cname}، مع مواعيد البدر والمحاق ونسبة الإضاءة حسب المدينة.`,

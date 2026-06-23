@@ -80,8 +80,8 @@ try {
     // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: monthly-by-city links now point to the NESTED city
     //   hub /moon/{country}/{city} (the legacy /moon-in-{city} 301s there), NOT the old form.
     check('monthly-by-city links → nested /moon/saudi-arabia/{city} (not legacy /moon-in-)', m.body.includes('تقويم القمر الشهري في مدن') && /href="\/moon\/saudi-arabia\/[a-z-]+"/.test(m.body) && !/href="\/moon-in-[a-z-]+"/.test(m.body));
-    // 3 educational sections.
-    check('educational sections (calc + crescent + city-diff)', m.body.includes('كيف تُحسب مراحل القمر') && m.body.includes('رؤية الهلال وبداية الشهر الهجري') && m.body.includes('لماذا قد يختلف تاريخ البدر'));
+    // educational sections — MOON-COUNTRY-PAGE-SEO-CONTENT-PERFORMANCE-TUNE-1 expanded 3→6 (new titles asserted in §G).
+    check('educational sections (calc + astronomical-vs-sighting + city-diff)', m.body.includes('كيف تُحسب مراحل القمر') && m.body.includes('الفرق بين الطور الفلكي ورؤية الهلال') && m.body.includes('لماذا قد يختلف تاريخ البدر'));
     // 8 SSR-visible FAQ + matching FAQPage JSON-LD.
     check('8 SSR FAQ items (.country-faq-item)', (m.body.match(/class="country-faq-item"/g) || []).length === 8, String((m.body.match(/class="country-faq-item"/g) || []).length));
     check('FAQ string updated ("هل المحاق يعني بداية الشهر الهجري")', m.body.includes('هل المحاق يعني بداية الشهر الهجري'));
@@ -146,6 +146,47 @@ try {
     check('sitemap still has /moon hub', sm.includes(`<loc>${SITE}/moon</loc>`));
     check('sitemap: bare /moon-today ABSENT', !/\/moon-today<\/loc>/.test(sm));
     check('sitemap: NO nested /moon/{country}/{city}', !/\/moon\/[a-z-]+\/[a-z-]+<\/loc>/.test(sm));
+
+    // ── G) MOON-COUNTRY-PAGE-SEO-CONTENT-PERFORMANCE-TUNE-1: adaptive title 50–60 + expanded 10-lang content ──
+    console.log('\n── G) SEO/content tune: adaptive title + expanded 10-lang content ──');
+    const cpLen = (t) => [...t.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&[a-z]+;/g, '?')].length;
+    {
+        // adaptive title: Saudi Arabia (a long country name that previously fell to a bare ~39-char base)
+        //   must now land in the 50–60 code-point band across languages.
+        for (const [lang, pfx] of [['ar', ''], ['en', '/en'], ['ur', '/ur'], ['de', '/de'], ['id', '/id']]) {
+            const n = cpLen(titleOf((await req(`${pfx}/moon/saudi-arabia`)).body));
+            check(`title ${lang} /moon/saudi-arabia in 50–60 cp (adaptive)`, n >= 50 && n <= 60, `${n} cp`);
+        }
+        const ar = (await req('/moon/saudi-arabia')).body;
+        // heading hierarchy: 1 H1; H2 expanded (summary+cities+upcoming+monthly+6 educational+faq ⇒ ≥11); 8 FAQ H3
+        check('/moon/saudi-arabia: H1 = 1', h1Count(ar) === 1, String(h1Count(ar)));
+        const h2n = (ar.match(/<h2\b/g) || []).length, h3n = (ar.match(/<h3\b/g) || []).length;
+        check('/moon/saudi-arabia: H2 expanded (≥11 sections, was 8)', h2n >= 11, `${h2n} h2`);
+        check('/moon/saudi-arabia: H3 = 8 (FAQ questions only)', h3n === 8, `${h3n} h3`);
+        // the 3 NEW educational sections (AR) are present (more content, no stuffing)
+        check('AR new section "how phases differ between cities"', ar.includes('كيف تختلف مراحل القمر بين مدن'));
+        check('AR new section "why choose your city"', ar.includes('لماذا تختار مدينتك'));
+        check('AR new section "how to use the city links + calendar"', ar.includes('كيف تستخدم روابط المدن'));
+        // FAQ accordion still intact (first open) + matching FAQPage JSON-LD (unchanged behaviour)
+        check('AR FAQ accordion: moon-country-faq + exactly the first item open', /class="country-faq-list moon-country-faq"/.test(ar) && (ar.match(/<details class="country-faq-item" open>/g) || []).length === 1);
+        check('AR FAQPage JSON-LD present', /"@type":"FAQPage"/.test(ar));
+        // 10/10 native content — the 8 non-ar/en langs must NOT fall back to English (distinct native sentinels)
+        const enLeak = 'Moon phases are computed astronomically inside the site';
+        const natives = {
+            fr: 'phases de la Lune sont calculées astronomiquement',
+            tr: 'hassas formüllerle astronomik',
+            ur: 'فلکی فارمولوں سے شمار',
+            de: 'Mondphasen werden astronomisch innerhalb',
+            id: 'Fase bulan dihitung secara astronomis',
+            es: 'fases de la Luna se calculan astronómicamente',
+            bn: 'চাঁদের দশা কোনো বাহ্যিক',
+            ms: 'Fasa bulan dikira secara astronomi',
+        };
+        for (const [lang, sent] of Object.entries(natives)) {
+            const b = (await req(`/${lang}/moon/saudi-arabia`)).body;
+            check(`${lang} content native (no EN fallback)`, b.includes(sent) && !b.includes(enLeak), b.includes(enLeak) ? 'EN LEAK!' : 'native');
+        }
+    }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

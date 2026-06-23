@@ -242,8 +242,10 @@ try {
             const b = (await req(`/${lang}/moon/saudi-arabia`)).body;
             check(`occasions native ${lang} + /${lang}/ href`, occTitle(b).includes(sent) && new RegExp(`href="/${lang}/ramadan-countdown"`).test(b));
         }
-        // scope: NO rendered occasions section off /moon/{country} (prayer / city hub / year / today / month)
-        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06']) {
+        // scope: NO rendered occasions section off the country + year pages. The YEAR page intentionally
+        //   carries it too (MOON-YEAR-ISLAMIC-OCCASIONS-COUNTDOWN-1), so it is NOT in this list; prayer /
+        //   city hub / today / month must stay clean.
+        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06']) {
             check(`scope: no occasions section on ${u}`, !(await req(u)).body.includes('id="mc-occasions"'));
         }
     }

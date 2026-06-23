@@ -9833,7 +9833,10 @@ function _buildMoonYearContent(my, lang) {
     const _ex = _MOON_YEAR_EXPLAINER_L10N[lang] || _MOON_YEAR_EXPLAINER_L10N.en;
     const explainerHtml = `<section class="section-card moon-year-explainer" id="moon-year-explainer"><h2>${_e(_ex.title)}</h2><ul class="my-ex-list"><li>${_e(_ex.p1)}</li><li>${_e(_ex.p2)}</li><li>${_e(_ex.p3)}</li><li>${_e(_ex.p4)}</li></ul></section>`;
     // intro moved into the hero body; #moon-year-content now starts at the summary card.
-    const belowHtml = summaryHtml + highlightsHtml + tableHtml + monthCardsHtml + explainerHtml + faqHtml;
+    // MOON-YEAR-ISLAMIC-OCCASIONS-COUNTDOWN-1: Islamic-occasions countdown (reuses the SSR helper from the
+    //   country moon page), rendered BELOW the year FAQ as the last section of #moon-year-content. Same
+    //   .moon-events-section / .moon-event-card styling, 10-lang labels, lang-prefixed countdown links.
+    const belowHtml = summaryHtml + highlightsHtml + tableHtml + monthCardsHtml + explainerHtml + faqHtml + _buildMoonOccasionsCountdownHtml(lang);
     return { heroBodyHtml, belowHtml, faqJsonLd, eventCount: _events.length };
 }
 

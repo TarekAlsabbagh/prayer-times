@@ -111,11 +111,12 @@ try {
         check('EN title = "Moon Calendar in Riyadh 2026 | Full Moon and New Moon Dates"', enT && enT[1] === 'Moon Calendar in Riyadh 2026 | Full Moon and New Moon Dates', enT && enT[1]);
         check('AR + EN title length in the 50–60 SEO sweet spot', arT && [...arT[1]].length >= 50 && [...arT[1]].length <= 60 && enT && [...enT[1]].length >= 50 && [...enT[1]].length <= 60, `ar=${arT && [...arT[1]].length} en=${enT && [...enT[1]].length}`);
         check('H1 keeps "لعام 2026" (no SEO suffix) — matches page intent', /id="moon-year-h1">[\s\S]*?تقويم القمر في الرياض لعام 2026[\s\S]*?<\/h1>/.test(b));
-        // heading hierarchy: 1 H1 → 6 H2 sections → 7 H3 (FAQ questions). Logical outline (matches FAQPage schema).
+        // heading hierarchy: 1 H1 → 7 H2 sections → 7 H3 (FAQ questions). Logical outline (matches FAQPage schema).
+        //   7th H2 = the Islamic-occasions countdown (MOON-YEAR-ISLAMIC-OCCASIONS-COUNTDOWN-1), below the FAQ.
         const h2s = (b.match(/<h2[^>]*>/g) || []).length;
         const h3s = (b.match(/<h3[^>]*>/g) || []).length;
         check('exactly 1 H1', count(b, /<h1\b/g) === 1);
-        check('6 H2 section headings (summary/highlights/table/months/explainer/faq)', h2s === 6, `${h2s} h2`);
+        check('7 H2 section headings (summary/highlights/table/months/explainer/faq/occasions)', h2s === 7, `${h2s} h2`);
         check('7 H3 = FAQ questions as headings under the FAQ H2 (logical hierarchy)', h3s === 7 && count(b, /<summary><h3 class="moon-faq-q">/g) === 7, `${h3s} h3`);
         // structured data: BreadcrumbList + FAQPage only — NO Event schema for full/new moons
         check('NO Event schema (full/new moons are not events)', !/"@type":"Event"/.test(b));
@@ -262,6 +263,24 @@ try {
         // MLRC: validate Meeus via nested DAY pages (legacy grid now 301s; same engine, same output).
         const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
         check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر'));
+    }
+
+    // ── G) MOON-YEAR-ISLAMIC-OCCASIONS-COUNTDOWN-1: Islamic-occasions countdown below the year FAQ ──
+    console.log('\n── G) Islamic-occasions countdown on the YEAR page (below FAQ, SSR) ──');
+    {
+        const occTitle = (x) => (x.match(/id="mc-occasions-h2"[^>]*>([^<]*)</) || [])[1] || '';
+        const yb = (await req('/moon/saudi-arabia/riyadh/2026')).body;
+        check('year page: #mc-occasions + title (ar)', /id="mc-occasions"/.test(yb) && yb.includes('العدّ التنازليّ للمناسبات الإسلاميّة'));
+        check('year page: occasions AFTER the year FAQ', yb.indexOf('moon-year-faq') > 0 && yb.indexOf('id="mc-occasions"') > yb.indexOf('moon-year-faq'), `faq=${yb.indexOf('moon-year-faq')} occ=${yb.indexOf('id="mc-occasions"')}`);
+        for (const id of ['ramadan', 'fitr', 'adha', 'newyear']) check(`year occasion card moon-event-${id}`, new RegExp(`moon-event-${id}\\b`).test(yb));
+        check('year occasion cards show a computed date', /<div class="moon-event-date">\d{1,2} [^<]+ \d{4}<\/div>/.test(yb));
+        // localized + lang-prefixed countdown link on /en/ (must NOT double-prefix to /en/en/)
+        const eb = (await req('/en/moon/saudi-arabia/riyadh/2026')).body;
+        check('year occasions /en native + /en/ href (no /en/en/)', occTitle(eb).includes('Countdown to Islamic Events') && /href="\/en\/ramadan-countdown"/.test(eb) && !/\/en\/en\//.test(eb));
+        // scope: occasions are year-page only — NOT on month / day / today
+        for (const u of ['/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/15', '/moon/saudi-arabia/riyadh/today']) {
+            check(`scope: no occasions on ${u}`, !(await req(u)).body.includes('id="mc-occasions"'));
+        }
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

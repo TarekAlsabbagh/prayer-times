@@ -106,13 +106,17 @@ try {
         // SEO title carries the value-add suffix; H1 stays without it (matches page intent)
         const arT = (await req('/moon/saudi-arabia/riyadh/2026')).body.match(/<title>([^<]*)<\/title>/);
         const enT = (await req('/en/moon/saudi-arabia/riyadh/2026')).body.match(/<title>([^<]*)<\/title>/);
-        check('AR title = "تقويم القمر في الرياض 2026 | مواعيد البدر والمحاق"', arT && arT[1] === 'تقويم القمر في الرياض 2026 | مواعيد البدر والمحاق', arT && arT[1]);
+        // MOON-YEAR-LIGHTHOUSE-PERFORMANCE-SEO-TUNE-1: AR title lengthened into the 50–60 sweet spot (was 49)
+        check('AR title = "تقويم القمر في الرياض 2026 | مواعيد البدر والمحاق السنوية"', arT && arT[1] === 'تقويم القمر في الرياض 2026 | مواعيد البدر والمحاق السنوية', arT && arT[1]);
         check('EN title = "Moon Calendar in Riyadh 2026 | Full Moon and New Moon Dates"', enT && enT[1] === 'Moon Calendar in Riyadh 2026 | Full Moon and New Moon Dates', enT && enT[1]);
+        check('AR + EN title length in the 50–60 SEO sweet spot', arT && [...arT[1]].length >= 50 && [...arT[1]].length <= 60 && enT && [...enT[1]].length >= 50 && [...enT[1]].length <= 60, `ar=${arT && [...arT[1]].length} en=${enT && [...enT[1]].length}`);
         check('H1 keeps "لعام 2026" (no SEO suffix) — matches page intent', /id="moon-year-h1">[\s\S]*?تقويم القمر في الرياض لعام 2026[\s\S]*?<\/h1>/.test(b));
-        // heading hierarchy: exactly 1 H1 + the four section H2s
+        // heading hierarchy: 1 H1 → 6 H2 sections → 7 H3 (FAQ questions). Logical outline (matches FAQPage schema).
         const h2s = (b.match(/<h2[^>]*>/g) || []).length;
+        const h3s = (b.match(/<h3[^>]*>/g) || []).length;
         check('exactly 1 H1', count(b, /<h1\b/g) === 1);
-        check('≥ 4 H2 section headings (summary/table/months/faq)', h2s >= 4, `${h2s} h2`);
+        check('6 H2 section headings (summary/highlights/table/months/explainer/faq)', h2s === 6, `${h2s} h2`);
+        check('7 H3 = FAQ questions as headings under the FAQ H2 (logical hierarchy)', h3s === 7 && count(b, /<summary><h3 class="moon-faq-q">/g) === 7, `${h3s} h3`);
         // structured data: BreadcrumbList + FAQPage only — NO Event schema for full/new moons
         check('NO Event schema (full/new moons are not events)', !/"@type":"Event"/.test(b));
         check('still has BreadcrumbList + FAQPage', /"@type":"BreadcrumbList"/.test(b) && /"@type":"FAQPage"/.test(b));

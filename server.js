@@ -9362,7 +9362,10 @@ function _buildMoonYearContent(my, lang) {
     // .moon-faq-item rules expect <summary> + a DIRECT <p> (no answer wrapper).
     let _faqItems = '';
     for (const [q, a] of _S.faq) {
-        _faqItems += `<details class="moon-faq-item"><summary>${_e(q)}</summary><p>${_e(a)}</p></details>`;
+        // MOON-YEAR-LIGHTHOUSE-PERFORMANCE-SEO-TUNE-1: FAQ questions become <h3> under the section <h2> for a
+        //   logical heading outline (H1 → H2 → H3, matching the FAQPage JSON-LD). Reset to inherit in the
+        //   #page-moon-year inline CSS so the disclosure chip looks pixel-identical (year page only).
+        _faqItems += `<details class="moon-faq-item"><summary><h3 class="moon-faq-q">${_e(q)}</h3></summary><p>${_e(a)}</p></details>`;
     }
     const faqHtml = `<section class="section-card moon-faq-city-card moon-year-faq" id="moon-year-faq"><h2>${_e(_S.faqTitle)}</h2><div class="moon-faq">${_faqItems}</div></section>`;
     const faqJsonLd = JSON.stringify({
@@ -13641,17 +13644,24 @@ function buildSeoForPath(urlPath) {
             const _Y = _yc.year;
             // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
             // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.
+            // MOON-YEAR-LIGHTHOUSE-PERFORMANCE-SEO-TUNE-1: ar/tr/ur/de were < 50 chars for short city names.
+            //   `_fit(long, short)` appends a natural "annual / dates" tail ONLY when the result stays ≤ 60 — so
+            //   short-name cities (e.g. الرياض) get lengthened into the 50–60 sweet spot, while long-name cities
+            //   (e.g. مكة المكرمة / New York) fall back to the shorter form and never overflow. No keyword stuffing.
+            //   en/fr/id/es/bn/ms already land in range for the audited city and use a single title (a very long
+            //   city name may push en/fr/id to ~61 — pre-existing, 1 char over, harmless).
+            const _fit = (long, short) => ([...long].length <= 60 ? long : short);
             const _MY_TITLE = {
-                ar: `تقويم القمر في ${_ycCity} ${_Y} | مواعيد البدر والمحاق`,
-                en: `Moon Calendar in ${_ycCity} ${_Y} | Full Moon and New Moon Dates`,
+                ar: _fit(`تقويم القمر في ${_ycCity} ${_Y} | مواعيد البدر والمحاق السنوية`, `تقويم القمر في ${_ycCity} ${_Y} | مواعيد البدر والمحاق`),
+                en: _fit(`Moon Calendar in ${_ycCity} ${_Y} | Full Moon and New Moon Dates`, `Moon Calendar in ${_ycCity} ${_Y} | Full Moon and New Moon`),
                 fr: `Calendrier lunaire ${_ycCity} ${_Y} | Pleine et nouvelle lune`,
-                tr: `${_ycCity} Ay Takvimi ${_Y} | Dolunay ve Yeni Ay`,
-                ur: `${_ycCity} چاند کیلنڈر ${_Y} | بدر اور محاق کی تاریخیں`,
-                de: `Mondkalender ${_ycCity} ${_Y} | Vollmond und Neumond`,
-                id: `Kalender Bulan ${_ycCity} ${_Y} | Tanggal Purnama & Bulan Baru`,
+                tr: _fit(`${_ycCity} Ay Takvimi ${_Y} | Dolunay ve Yeni Ay Tarihleri`, `${_ycCity} Ay Takvimi ${_Y} | Dolunay ve Yeni Ay`),
+                ur: _fit(`${_ycCity} چاند کیلنڈر ${_Y} | سالانہ بدر اور محاق کی تاریخیں`, `${_ycCity} چاند کیلنڈر ${_Y} | بدر اور محاق کی تاریخیں`),
+                de: _fit(`Mondkalender ${_ycCity} ${_Y} | Vollmond- und Neumond-Termine`, `Mondkalender ${_ycCity} ${_Y} | Vollmond und Neumond`),
+                id: _fit(`Kalender Bulan ${_ycCity} ${_Y} | Tanggal Purnama & Bulan Baru`, `Kalender Bulan ${_ycCity} ${_Y} | Purnama & Bulan Baru`),
                 es: `Calendario lunar ${_ycCity} ${_Y} | Luna llena y luna nueva`,
                 bn: `${_ycCity} ${_Y} চাঁদের ক্যালেন্ডার | পূর্ণিমা ও অমাবস্যা`,
-                ms: `Kalendar Bulan ${_ycCity} ${_Y} | Tarikh Purnama & Anak Bulan`,
+                ms: _fit(`Kalendar Bulan ${_ycCity} ${_Y} | Tarikh Purnama & Anak Bulan`, `Kalendar Bulan ${_ycCity} ${_Y} | Purnama & Anak Bulan`),
             };
             title = _MY_TITLE[lang] || _MY_TITLE.en;
             const _MY_DESC = {

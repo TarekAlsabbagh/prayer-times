@@ -6281,6 +6281,20 @@ const _MOON_YEAR_CURRENT_MONTH_L10N = {
     ar: 'الشهر الحالي', en: 'Current month', fr: 'Mois en cours', tr: 'Bu ay', ur: 'موجودہ مہینہ',
     de: 'Aktueller Monat', id: 'Bulan ini', es: 'Mes actual', bn: 'বর্তমান মাস', ms: 'Bulan ini',
 };
+// MOON-YEAR-PHASES-TABLE-PHASE-FILTER-1: hint above the (now interactive) phase chips — turns the
+//   colour legend into a multi-select filter for the major-phases table. 10/10 native, no fallback.
+const _MOON_YEAR_PHASE_FILTER_HINT_L10N = {
+    ar: 'اختر مرحلة لتصفية الجدول',
+    en: 'Select a phase to filter the table',
+    fr: 'Sélectionnez une phase pour filtrer le tableau',
+    tr: 'Tabloyu filtrelemek için bir evre seçin',
+    ur: 'جدول کو فلٹر کرنے کے لیے ایک مرحلہ منتخب کریں',
+    de: 'Wählen Sie eine Phase, um die Tabelle zu filtern',
+    id: 'Pilih satu fase untuk memfilter tabel',
+    es: 'Selecciona una fase para filtrar la tabla',
+    bn: 'টেবিল ফিল্টার করতে একটি পর্যায় নির্বাচন করুন',
+    ms: 'Pilih satu fasa untuk menapis jadual',
+};
 
 // الشهر الميلادي (لـ SSR تحسين keyword consistency: "أبريل 2026" إلخ)
 const _GREG_MONTHS = {
@@ -9279,10 +9293,23 @@ function _buildMoonYearContent(my, lang) {
     //   (decorative) because every row already states its phase name in text (so we never rely on colour
     //   alone). Scope is this major-phases table only (the month-page calendar grid is a separate builder).
     const _phaseCls = (t) => 'phase-' + String(t).replace(/_/g, '-');
+    // MOON-YEAR-PHASES-TABLE-PHASE-FILTER-1: short ticket token per phase (new_moon→new, full_moon→full,
+    //   first_quarter→first-quarter, last_quarter→last-quarter) used for `data-phase-filter` on the chips.
+    const _filterTok = (t) => String(t).replace('_moon', '').replace(/_/g, '-');
     const _legendOrder = ['new_moon', 'first_quarter', 'full_moon', 'last_quarter'];
-    const _phLegend = `<div class="my-ph-legend" aria-hidden="true">`
-        + _legendOrder.map(t => `<span class="my-ph-legend-item ${_phaseCls(t)}"><span class="my-ph-ico">${_phaseIcon(t)}</span>${_e(_phaseLbl(t))}</span>`).join('')
-        + `</div>`;
+    const _filterHint = _MOON_YEAR_PHASE_FILTER_HINT_L10N[lang] || _MOON_YEAR_PHASE_FILTER_HINT_L10N.en;
+    // The colour legend is now an interactive SINGLE-SELECT FILTER (one phase at a time): each chip is a toggle
+    //   <button> carrying data-phase-filter + aria-pressed. A small 10-lang hint labels the group (role=group).
+    //   Clicking a chip selects ONLY that phase (any other selection is cleared); clicking the selected chip again
+    //   clears it → all rows. The rows already carry data-phase + a shared `phase-*` class (from PHASE-ROW-STYLING-1);
+    //   the inline script below filters purely client-side by toggling row display — NO reload, NO link/data/calc change.
+    const _phLegend = `<div class="my-ph-filter"><p class="my-ph-filter-hint" id="my-ph-filter-hint">${_e(_filterHint)}</p>`
+        + `<div class="my-ph-legend" role="group" aria-labelledby="my-ph-filter-hint">`
+        + _legendOrder.map(t => `<button type="button" class="my-ph-legend-item ${_phaseCls(t)}" data-phase-filter="${_filterTok(t)}" aria-pressed="false"><span class="my-ph-ico" aria-hidden="true">${_phaseIcon(t)}</span>${_e(_phaseLbl(t))}</button>`).join('')
+        + `</div></div>`;
+    // Self-contained, idempotent. Matches rows by the chip's own `phase-*` class (shared with the rows) so
+    //   no token→class map is needed. Inline is allowed by CSP (script-src 'self' 'unsafe-inline').
+    const _phFilterScript = `<script>(function(){var s=document.getElementById('moon-year-table');if(!s||s.__phf)return;s.__phf=1;var l=s.querySelector('.my-ph-legend');if(!l)return;function c(e){for(var i=0;i<e.classList.length;i++){if(e.classList[i].indexOf('phase-')===0)return e.classList[i];}return null;}function a(){var on=[].filter.call(l.querySelectorAll('[data-phase-filter]'),function(b){return b.getAttribute('aria-pressed')==='true';}).map(c).filter(Boolean);[].forEach.call(s.querySelectorAll('tr.my-ph-row'),function(r){r.style.display=(on.length===0||on.some(function(x){return r.classList.contains(x);}))?'':'none';});}l.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-phase-filter]'):null;if(!b||!l.contains(b))return;var was=b.getAttribute('aria-pressed')==='true';[].forEach.call(l.querySelectorAll('[data-phase-filter]'),function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed',was?'false':'true');a();});})();</scr`+`ipt>`;
     const tableHtml = `<section class="section-card moon-year-table-wrap" id="moon-year-table"><h2>${_e(_S.tableTitle)}</h2>`
         + `<p class="my-table-intro">${_e(_S.tableIntro)}</p>`
         + _phLegend
@@ -9299,7 +9326,7 @@ function _buildMoonYearContent(my, lang) {
                 + `<td><a class="my-table-link" href="${_e(_myMonthLink(e.m))}">${_e(_months[e.m - 1])}</a></td>`
                 + `</tr>`;
         }).join('')
-        + `</tbody></table></div></section>`;
+        + `</tbody></table></div>${_phFilterScript}</section>`;
     // (4) 12 month cards — link to the NEW nested month route /moon/{country}/{city}/{yyyy}/{mm}
     //     (activated by MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1; was the legacy /moon-in-{city}/{yyyy-mm}).
     // MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1: highlight the CURRENT month (accent +

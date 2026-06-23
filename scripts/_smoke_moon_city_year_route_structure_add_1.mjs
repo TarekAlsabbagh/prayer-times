@@ -163,7 +163,14 @@ try {
             check('each event row carries a data-phase attribute (=== rows)', count(b, /<tr class="my-ph-row [^"]*" data-phase="(?:new_moon|first_quarter|full_moon|last_quarter)"/g) === _rowCount, `${count(b, /<tr class="my-ph-row [^"]*" data-phase="/g)}`);
             check('phase color legend above the table (1 .my-ph-legend + 4 .my-ph-legend-item, before the table)', count(b, /class="my-ph-legend"/g) === 1 && count(b, /class="my-ph-legend-item /g) === 4 && b.indexOf('class="my-ph-legend"') < b.indexOf('class="my-table"'), `legend=${count(b, /class="my-ph-legend"/g)} items=${count(b, /class="my-ph-legend-item /g)}`);
             check('legend reuses existing 10-lang phase labels (ar البدر + المحاق, no new strings)', b.includes('البدر') && b.includes('المحاق'));
-            check('legend is decorative (aria-hidden) — phase name still in every row text', /<div class="my-ph-legend" aria-hidden="true">/.test(b));
+        }
+        // MOON-YEAR-PHASES-TABLE-PHASE-FILTER-1: the colour legend is now a client-side multi-select filter (chips → toggle buttons)
+        {
+            check('phase legend is now an interactive filter group (role=group, NOT aria-hidden)', /class="my-ph-legend" role="group" aria-labelledby="my-ph-filter-hint"/.test(b) && !/class="my-ph-legend" aria-hidden/.test(b));
+            check('4 toggle <button> chips: ticket data-phase-filter tokens + aria-pressed=false default', count(b, /<button type="button" class="my-ph-legend-item [^"]*" data-phase-filter="(?:full|new|first-quarter|last-quarter)" aria-pressed="false">/g) === 4 && ['full', 'new', 'first-quarter', 'last-quarter'].every(t => b.includes(`data-phase-filter="${t}"`)), `${count(b, /data-phase-filter="/g)} chips`);
+            check('filter hint (ar, single-select) + inline filter script wired to the chips (no link/data change)', b.includes('اختر مرحلة لتصفية الجدول') && /id="my-ph-filter-hint"/.test(b) && /\.__phf/.test(b));
+            check('SINGLE-SELECT: script clears all chips before toggling the clicked one (one phase at a time)', /querySelectorAll\('\[data-phase-filter\]'\)[\s\S]{0,80}aria-pressed','false'/.test(b));
+            check('filter hint localized en (no AR/EN fallback)', (await req('/en/moon/saudi-arabia/riyadh/2026')).body.includes('Select a phase to filter the table'));
         }
         check('prev + next year links (2025 + 2027)', b.includes('/moon/saudi-arabia/riyadh/2025') && b.includes('/moon/saudi-arabia/riyadh/2027'));
         // MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1

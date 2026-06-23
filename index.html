@@ -2527,12 +2527,24 @@
                   [data-theme="dark"] #page-moon-year .my-ph-row.phase-last-quarter:hover td{background-color:rgba(234,138,31,.28)}
                   /* compact phase color legend above the table (reuses 10-lang phase labels) */
                   #page-moon-year .my-ph-legend{display:flex;flex-wrap:wrap;gap:8px;margin:6px 0 4px}
-                  #page-moon-year .my-ph-legend-item{display:inline-flex;align-items:center;gap:5px;padding:3px 11px;border-radius:999px;font-size:.82rem;font-weight:600;border:1px solid var(--border);color:var(--text)}
+                  /* MOON-YEAR-PHASES-TABLE-PHASE-FILTER-1: chips are now toggle <button>s (multi-select filter).
+                     Base = subtle tint + translucent border; pressed = stronger tint + SOLID accent border + bold
+                     (clearly more prominent), no border-width change so the row never shifts. */
+                  #page-moon-year .my-ph-filter{margin:8px 0 6px}
+                  #page-moon-year .my-ph-filter-hint{margin:0 0 2px;font-size:.85rem;color:var(--text-light)}
+                  #page-moon-year .my-ph-legend-item{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:999px;font-size:.82rem;font-weight:600;border:1px solid var(--border);color:var(--text);cursor:pointer;font-family:inherit;line-height:1.4;-webkit-appearance:none;appearance:none;transition:background-color .12s,border-color .12s,box-shadow .12s}
                   #page-moon-year .my-ph-legend-item .my-ph-ico{margin:0}
+                  #page-moon-year .my-ph-legend-item:hover{box-shadow:0 1px 5px rgba(0,0,0,.12)}
+                  #page-moon-year .my-ph-legend-item:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
+                  #page-moon-year .my-ph-legend-item[aria-pressed="true"]{font-weight:700;box-shadow:0 1px 6px rgba(0,0,0,.16)}
                   #page-moon-year .my-ph-legend-item.phase-full-moon{background-color:rgba(212,160,23,.12);border-color:rgba(212,160,23,.55)}
                   #page-moon-year .my-ph-legend-item.phase-new-moon{background-color:rgba(107,114,128,.14);border-color:rgba(107,114,128,.55)}
                   #page-moon-year .my-ph-legend-item.phase-first-quarter{background-color:rgba(59,130,246,.12);border-color:rgba(59,130,246,.55)}
                   #page-moon-year .my-ph-legend-item.phase-last-quarter{background-color:rgba(234,138,31,.14);border-color:rgba(234,138,31,.55)}
+                  #page-moon-year .my-ph-legend-item.phase-full-moon[aria-pressed="true"]{background-color:rgba(212,160,23,.30);border-color:#d4a017}
+                  #page-moon-year .my-ph-legend-item.phase-new-moon[aria-pressed="true"]{background-color:rgba(107,114,128,.34);border-color:#6b7280}
+                  #page-moon-year .my-ph-legend-item.phase-first-quarter[aria-pressed="true"]{background-color:rgba(59,130,246,.28);border-color:#3b82f6}
+                  #page-moon-year .my-ph-legend-item.phase-last-quarter[aria-pressed="true"]{background-color:rgba(234,138,31,.32);border-color:#ea8a1f}
                   #page-moon-year .my-month-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:14px;margin-top:10px}
                   #page-moon-year .my-month-card{display:flex;flex-direction:column;gap:6px;padding:16px;background:var(--card-bg);border:1px solid var(--border);border-radius:var(--radius);text-decoration:none;color:inherit;transition:transform .18s,box-shadow .18s}
                   #page-moon-year .my-month-card:hover{box-shadow:var(--shadow);transform:translateY(-2px)}
@@ -2624,7 +2636,7 @@
                   /* month-card link clarity (no redesign — clearer affordance only) */
                   #page-moon-year .my-month-card:hover .my-month-cta,#page-moon-year .my-month-card:focus-visible .my-month-cta{text-decoration:underline}
                   #page-moon-year .my-month-card:focus-visible{outline:2px solid var(--primary);outline-offset:2px}
-                  @media (max-width:600px){#page-moon-year .moon-year-hero{padding:16px}#page-moon-year .my-table th,#page-moon-year .my-table td{padding:8px 10px;font-size:.92rem}#page-moon-year .my-year-nav-footer{flex-direction:column}#page-moon-year .my-yearnav-pill{justify-content:center}#page-moon-year .my-dash-grid{grid-template-columns:1fr}#page-moon-year .my-dash-year{order:1}#page-moon-year .my-dash-today{order:2}#page-moon-year .my-dash-sections{order:3}#page-moon-year .my-hl-grid{grid-template-columns:1fr}#page-moon-year .my-ph-legend-item{font-size:.78rem;padding:2px 9px}}
+                  @media (max-width:600px){#page-moon-year .moon-year-hero{padding:16px}#page-moon-year .my-table th,#page-moon-year .my-table td{padding:8px 10px;font-size:.92rem}#page-moon-year .my-year-nav-footer{flex-direction:column}#page-moon-year .my-yearnav-pill{justify-content:center}#page-moon-year .my-dash-grid{grid-template-columns:1fr}#page-moon-year .my-dash-year{order:1}#page-moon-year .my-dash-today{order:2}#page-moon-year .my-dash-sections{order:3}#page-moon-year .my-hl-grid{grid-template-columns:1fr}#page-moon-year .my-ph-legend-item{font-size:.82rem;padding:8px 13px}}
                 </style>
                 <!-- MOON-YEAR-BREADCRUMB-OUTSIDE-HERO-BOX-1: breadcrumb moved OUT of the hero card to a
                      standalone element ABOVE it (consistent with the other moon pages). Rungs are unchanged

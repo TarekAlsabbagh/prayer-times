@@ -145,17 +145,26 @@ try {
     console.log('\n── C) SSR content (table · 12 month cards → new nested month route · prev/next · FAQ · hreflang) ──');
     {
         const b = (await req('/moon/saudi-arabia/riyadh/2026')).body;
-        check('major-phases table present + ≥ 40 event rows', /class="my-table"/.test(b) && count(b, /<tbody>[\s\S]*?<\/tbody>/) >= 0 && count(b, /<tr>/g) >= 40, `${count(b, /<tr>/g)} rows`);
+        check('major-phases table present + ≥ 40 event rows', /class="my-table"/.test(b) && count(b, /<tbody>[\s\S]*?<\/tbody>/) >= 0 && count(b, /<tr class="my-ph-row /g) >= 40, `${count(b, /<tr class="my-ph-row /g)} rows`);
         check('exactly 12 month cards', count(b, /class="my-month-card[ "]/g) === 12, `${count(b, /class="my-month-card[ "]/g)} cards`);
         check('month cards use NEW nested /moon/saudi-arabia/riyadh/2026/NN (12)', count(b, /class="my-month-card[^"]*"[^>]*href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === 12, `${count(b, /class="my-month-card[^"]*"[^>]*href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
         check('month cards NO LONGER use the legacy /moon-in-riyadh/2026-NN route', count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g) === 0, `${count(b, /href="\/moon-in-riyadh\/2026-\d\d"/g)}`);
         // MOON-YEAR-PHASES-TABLE-LINKED-DATES-HIJRI-COLUMN-1: new first-column Hijri date + linked date/hijri/month cells
-        const _rowCount = count(b, /<tr>/g) - 1; // exclude the header row
+        const _rowCount = count(b, /<tr class="my-ph-row /g); // MOON-YEAR-PHASES-TABLE-PHASE-ROW-STYLING-1: body rows now tagged <tr class="my-ph-row …"> (header stays bare <tr>)
         check('phases table has Hijri-date column header first (التاريخ الهجري)', /<thead><tr><th>التاريخ الهجري<\/th>/.test(b));
         check('every row has 3 linked cells (hijri+date+month): my-table-link === rows×3', count(b, /class="my-table-link"/g) === _rowCount * 3, `${count(b, /class="my-table-link"/g)} links / ${_rowCount} rows`);
         check('hijri+date cells link to nested day page (rows×2)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g) === _rowCount * 2, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g)}`);
         check('month cell links to nested month page (rows×1)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === _rowCount, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
         check('table cell links never use legacy /moon-in- or /moon-today-in-', !/class="my-table-link" href="[^"]*moon-(?:in|today-in)-/.test(b));
+        // MOON-YEAR-PHASES-TABLE-PHASE-ROW-STYLING-1: every event row carries one phase class + data-phase; compact legend above the table
+        {
+            const _pFull = count(b, /class="my-ph-row phase-full-moon"/g), _pNew = count(b, /class="my-ph-row phase-new-moon"/g), _pFq = count(b, /class="my-ph-row phase-first-quarter"/g), _pLq = count(b, /class="my-ph-row phase-last-quarter"/g);
+            check('each event row has exactly one phase class (sum === rows, all 4 phase types present)', (_pFull + _pNew + _pFq + _pLq) === _rowCount && _pFull >= 1 && _pNew >= 1 && _pFq >= 1 && _pLq >= 1, `full=${_pFull} new=${_pNew} firstQ=${_pFq} lastQ=${_pLq} / ${_rowCount} rows`);
+            check('each event row carries a data-phase attribute (=== rows)', count(b, /<tr class="my-ph-row [^"]*" data-phase="(?:new_moon|first_quarter|full_moon|last_quarter)"/g) === _rowCount, `${count(b, /<tr class="my-ph-row [^"]*" data-phase="/g)}`);
+            check('phase color legend above the table (1 .my-ph-legend + 4 .my-ph-legend-item, before the table)', count(b, /class="my-ph-legend"/g) === 1 && count(b, /class="my-ph-legend-item /g) === 4 && b.indexOf('class="my-ph-legend"') < b.indexOf('class="my-table"'), `legend=${count(b, /class="my-ph-legend"/g)} items=${count(b, /class="my-ph-legend-item /g)}`);
+            check('legend reuses existing 10-lang phase labels (ar البدر + المحاق, no new strings)', b.includes('البدر') && b.includes('المحاق'));
+            check('legend is decorative (aria-hidden) — phase name still in every row text', /<div class="my-ph-legend" aria-hidden="true">/.test(b));
+        }
         check('prev + next year links (2025 + 2027)', b.includes('/moon/saudi-arabia/riyadh/2025') && b.includes('/moon/saudi-arabia/riyadh/2027'));
         // MOON-YEAR-MONTH-CARDS-CURRENT-HIGHLIGHT-AND-YEAR-NAV-STYLE-1
         // year-nav prev/next moved INSIDE the months section as styled pill footer (not a separate sibling)

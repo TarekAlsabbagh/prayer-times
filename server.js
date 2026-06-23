@@ -9272,14 +9272,26 @@ function _buildMoonYearContent(my, lang) {
     const _myDayLink   = (m, d) => `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${_Y}/${_pad2(m)}/${_pad2(d)}`;
     const _myMonthLink = (m)    => `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${_Y}/${_pad2(m)}`;
     const _hijStr = (m, d) => { try { const h = _jdToHijri(_gregToJD(_Y, m, d)); return h ? (h.day + ' ' + (_hijMonths[h.month - 1] || '') + ' ' + h.year) : ''; } catch (_) { return ''; } };
+    // MOON-YEAR-PHASES-TABLE-PHASE-ROW-STYLING-1: tag each row with its phase type so CSS can tint/accent
+    //   it by phase (full / new / first-quarter / last-quarter). Class + data-phase only — row DATA,
+    //   ORDER, LINKS and the underlying moon calculation are untouched. A compact color legend sits above
+    //   the table; it reuses the existing 10-lang `_MY_PHASE` labels (NO new strings) and is aria-hidden
+    //   (decorative) because every row already states its phase name in text (so we never rely on colour
+    //   alone). Scope is this major-phases table only (the month-page calendar grid is a separate builder).
+    const _phaseCls = (t) => 'phase-' + String(t).replace(/_/g, '-');
+    const _legendOrder = ['new_moon', 'first_quarter', 'full_moon', 'last_quarter'];
+    const _phLegend = `<div class="my-ph-legend" aria-hidden="true">`
+        + _legendOrder.map(t => `<span class="my-ph-legend-item ${_phaseCls(t)}"><span class="my-ph-ico">${_phaseIcon(t)}</span>${_e(_phaseLbl(t))}</span>`).join('')
+        + `</div>`;
     const tableHtml = `<section class="section-card moon-year-table-wrap" id="moon-year-table"><h2>${_e(_S.tableTitle)}</h2>`
         + `<p class="my-table-intro">${_e(_S.tableIntro)}</p>`
+        + _phLegend
         + `<div class="my-table-scroll"><table class="my-table"><thead><tr>`
         + `<th>${_e(_hijHdr)}</th><th>${_e(_S.thDate)}</th><th>${_e(_S.thTime)}</th><th>${_e(_S.thPhase)}</th><th>${_e(_S.thMonth)}</th>`
         + `</tr></thead><tbody>`
         + _events.map(e => {
             const _dl = _myDayLink(e.m, e.d);
-            return `<tr>`
+            return `<tr class="my-ph-row ${_phaseCls(e.type)}" data-phase="${_e(e.type)}">`
                 + `<td><a class="my-table-link" href="${_e(_dl)}">${_e(_hijStr(e.m, e.d))}</a></td>`
                 + `<td><a class="my-table-link" href="${_e(_dl)}">${_e(_dateStr(e))}</a></td>`
                 + `<td>${_e(e.time)}</td>`

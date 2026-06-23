@@ -165,6 +165,12 @@ try {
         check('/moon/saudi-arabia: NOT footer-only (substantial body)', c.body.length > 60000, c.body.length + ' bytes');
         check('/moon/saudi-arabia: canonical self', canonOf(c.body) === SITE + '/moon/saudi-arabia', canonOf(c.body));
         check('/moon/saudi-arabia: indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(c.body));
+        // MOON-COUNTRY-FAQ-ACCORDION-AFFORDANCE-1: FAQ is a clear native-<details> accordion, FIRST item open
+        check('/moon/saudi-arabia: FAQ is a moon-country-faq accordion (≥4 items) + FAQPage JSON-LD', /class="country-faq-list moon-country-faq"/.test(c.body) && (c.body.match(/<details class="country-faq-item"/g) || []).length >= 4 && /"@type":"FAQPage"/.test(c.body), `${(c.body.match(/<details class="country-faq-item"/g) || []).length} items`);
+        check('/moon/saudi-arabia: exactly the FIRST FAQ item is open (rest closed)', (c.body.match(/<details class="country-faq-item" open>/g) || []).length === 1, `${(c.body.match(/<details class="country-faq-item" open>/g) || []).length} open`);
+        // scope: prayer country page shares the .country-faq-item class but must stay UNTOUCHED (no moon-country-faq, no forced-open)
+        const pc = await req('/prayer-times-in-saudi-arabia');
+        check('scope: prayer country page FAQ unchanged (no moon-country-faq, no forced-open)', !/moon-country-faq/.test(pc.body) && (pc.body.match(/<details class="country-faq-item" open>/g) || []).length === 0);
     }
     // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: the nested city HUB is LIVE 200 (see PART D2).
     // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: the city YEAR page /moon/{country}/{city}/{yyyy}

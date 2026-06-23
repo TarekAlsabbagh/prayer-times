@@ -8710,10 +8710,14 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
     }
 
     // (6) FAQ (SSR-visible) + matching FAQPage JSON-LD
-    below += `<section class="country-seo-block country-seo-faq"><h2>${_escHtml(sub(data.faqTitle))}</h2><div class="country-faq-list">`;
-    for (const [q, a] of data.faq) {
-        below += `<details class="country-faq-item"><summary><h3>${_escHtml(sub(q))}</h3></summary><p>${_escHtml(sub(a))}</p></details>`;
-    }
+    // MOON-COUNTRY-FAQ-ACCORDION-AFFORDANCE-1: scope the accordion styling to the moon country page via the
+    //   `moon-country-faq` wrapper (the .country-faq-item class is SHARED with the prayer country page, which
+    //   must stay untouched). The FIRST item is `open` in SSR so meaningful content shows immediately; the rest
+    //   are closed. Content/Q&A and the FAQPage JSON-LD below are unchanged — native <details> only, no JS.
+    below += `<section class="country-seo-block country-seo-faq"><h2>${_escHtml(sub(data.faqTitle))}</h2><div class="country-faq-list moon-country-faq">`;
+    data.faq.forEach(([q, a], _i) => {
+        below += `<details class="country-faq-item"${_i === 0 ? ' open' : ''}><summary><h3>${_escHtml(sub(q))}</h3></summary><p>${_escHtml(sub(a))}</p></details>`;
+    });
     below += '</div></section></div>';
 
     const faqJsonLd = JSON.stringify({

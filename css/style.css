@@ -7026,6 +7026,61 @@ html[dir="rtl"] .moon-faq-live .moon-faq-item {
     color: var(--text);
 }
 
+/* MOON-COUNTRY-FAQ-ACCORDION-AFFORDANCE-1: clear native-<details> accordion for the /moon/{country} FAQ.
+   Scoped to .moon-country-faq so the SHARED .country-faq-item class on the prayer country page is untouched.
+   Mirrors the .moon-faq-item look: hidden default marker + custom +/− affordance (RTL-aware via
+   inset-inline-end), bolder question than answer, padded answer, hover/focus, light marker transition. */
+.moon-country-faq .country-faq-item {
+    background: var(--card-bg, #ffffff);
+    border: 1px solid rgba(12, 94, 54, 0.08);
+    border-radius: 10px;
+    overflow: hidden;
+}
+.moon-country-faq .country-faq-item + .country-faq-item { margin-top: 8px; }
+.moon-country-faq .country-faq-item summary {
+    cursor: pointer;
+    list-style: none;
+    position: relative;
+    padding: 14px 18px;
+    padding-inline-end: 40px;
+    transition: background-color 0.15s;
+}
+.moon-country-faq .country-faq-item summary::-webkit-details-marker { display: none; }
+.moon-country-faq .country-faq-item summary h3 {
+    display: inline;
+    margin: 0;
+    font-size: 0.98rem;
+    font-weight: 700;
+    line-height: 1.5;
+    color: var(--primary-dark);
+}
+.moon-country-faq .country-faq-item summary::after {
+    content: '+';
+    position: absolute;
+    inset-inline-end: 14px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.25rem;
+    font-weight: 400;
+    color: var(--primary);
+    transition: transform 0.2s;
+}
+.moon-country-faq .country-faq-item[open] summary::after {
+    content: '−';
+    transform: translateY(-50%) rotate(180deg);
+}
+.moon-country-faq .country-faq-item summary:hover { background-color: rgba(12, 94, 54, 0.04); }
+.moon-country-faq .country-faq-item summary:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.moon-country-faq .country-faq-item p {
+    margin: 0;
+    padding: 6px 18px 14px;
+    color: var(--text-light, #4a5660);
+    line-height: 1.7;
+    font-size: 0.95rem;
+}
+html[data-theme="dark"] .moon-country-faq .country-faq-item { border-color: var(--border); }
+html[data-theme="dark"] .moon-country-faq .country-faq-item summary:hover { background-color: rgba(255, 255, 255, 0.05); }
+
 /* ============================================================
    🔴 LIVE DASHBOARD (redesign): HERO + Events + Quick Stats
    Glance-first UI replacing the previous dynamic FAQ accordion.

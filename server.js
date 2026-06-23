@@ -126,6 +126,29 @@ function _curatedCitiesForCc(cc) {
     return out;
 }
 
+// MOON-COUNTRY-CAPITAL-MOON-LINKS-SECTION-1: resolve a country's CAPITAL to its CURATED entry (which
+// carries a real slug), so the capital moon-links section is data-driven — never a hardcoded slug.
+// Mirrors sortWithCapitalFirst's name match (English first-word OR exact Arabic name) + a lat/lng
+// tiebreak to the capital's known coordinates (CAPITAL_DATA). Returns the curated city object
+// ({slug, names, nameAr, nameEn, lat, lng}) or null when the capital is not a curated city (→ section skipped).
+function _capitalCuratedEntry(cc) {
+    try {
+        const cap = (typeof CAPITAL_DATA !== 'undefined') ? CAPITAL_DATA[cc] : null;
+        if (!cap) return null;
+        const capEn0 = String(cap.nameEn || '').toLowerCase().split(' ')[0];
+        const capAr = cap.nameAr || '';
+        let best = null, bestD = Infinity;
+        for (const c of _curatedCitiesForCc(cc)) {
+            const enMatch = capEn0 && String(c.nameEn || '').toLowerCase().includes(capEn0);
+            const arMatch = capAr && c.nameAr === capAr;
+            if (!enMatch && !arMatch) continue;
+            const d = Math.abs((c.lat || 0) - cap.lat) + Math.abs((c.lng || 0) - cap.lng);
+            if (d < bestD) { bestD = d; best = c; }
+        }
+        return best;   // null when the capital is not among the curated cities
+    } catch (_) { return null; }
+}
+
 // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: build a server-injected
 // <script type="application/json" id="country-cities-data"> tag carrying the curated
 // cities for `cc` (same shape + helper as /api/cities) so the client renders the country
@@ -8541,6 +8564,34 @@ const _MOON_PHASE_CRUMB_L10N = { ar: 'حالة القمر', en: 'Moon Phase', fr
 // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the "Today" (current) rung label on the nested today
 //   breadcrumb /moon/{country}/{city}/today — Home › Moon Phase › {Country} › {City} › Today.
 const _MOON_TODAY_CRUMB_L10N = { ar: 'اليوم', en: 'Today', fr: 'Aujourd’hui', tr: 'Bugün', ur: 'آج', de: 'Heute', id: 'Hari Ini', es: 'Hoy', bn: 'আজ', ms: 'Hari Ini' };
+// MOON-COUNTRY-CAPITAL-MOON-LINKS-SECTION-1: 10-lang strings for the capital quick-links section
+//   on /moon/{country}. {C} = the (localized) capital city name. No AR/EN fallback — every lang authored.
+const _MOON_COUNTRY_CAPITAL_L10N = {
+    ar: { title: 'استكشف القمر في {C}', todayLabel: 'قمر اليوم في {C}', todayDesc: 'المرحلة الحالية ونسبة الإضاءة', yearLabel: 'تقويم القمر السنوي في {C}', yearDesc: 'كل مواعيد البدر والمحاق', monthLabel: 'تقويم القمر الشهري في {C}', monthDesc: 'أطوار القمر يومًا بيوم', pickLabel: 'اختر تاريخًا محددًا', pickDesc: 'انتقل إلى قمر أي يوم في {C}', yearAria: 'السنة', monthAria: 'الشهر', dayAria: 'اليوم', go: 'عرض القمر' },
+    en: { title: 'Explore the Moon in {C}', todayLabel: 'Moon today in {C}', todayDesc: 'Current phase & illumination', yearLabel: 'Yearly moon calendar in {C}', yearDesc: 'All full & new moon dates', monthLabel: 'Monthly moon calendar in {C}', monthDesc: 'Moon phases day by day', pickLabel: 'Pick a specific date', pickDesc: 'Jump to any day’s moon in {C}', yearAria: 'Year', monthAria: 'Month', dayAria: 'Day', go: 'View moon' },
+    fr: { title: 'Explorez la Lune à {C}', todayLabel: 'La Lune aujourd’hui à {C}', todayDesc: 'Phase actuelle et illumination', yearLabel: 'Calendrier lunaire annuel à {C}', yearDesc: 'Toutes les pleines et nouvelles lunes', monthLabel: 'Calendrier lunaire mensuel à {C}', monthDesc: 'Les phases jour après jour', pickLabel: 'Choisir une date précise', pickDesc: 'Accédez à la Lune de n’importe quel jour à {C}', yearAria: 'Année', monthAria: 'Mois', dayAria: 'Jour', go: 'Voir la Lune' },
+    tr: { title: '{C} Ay’ını Keşfedin', todayLabel: '{C} bugünkü ay', todayDesc: 'Mevcut evre ve aydınlanma', yearLabel: '{C} yıllık ay takvimi', yearDesc: 'Tüm dolunay ve yeni ay tarihleri', monthLabel: '{C} aylık ay takvimi', monthDesc: 'Gün gün ay evreleri', pickLabel: 'Belirli bir tarih seçin', pickDesc: '{C} için herhangi bir günün ayına gidin', yearAria: 'Yıl', monthAria: 'Ay', dayAria: 'Gün', go: 'Ay’ı gör' },
+    ur: { title: '{C} میں چاند دریافت کریں', todayLabel: '{C} میں آج چاند', todayDesc: 'موجودہ مرحلہ اور روشنی', yearLabel: '{C} میں سالانہ قمری تقویم', yearDesc: 'تمام بدر و محاق کی تاریخیں', monthLabel: '{C} میں ماہانہ قمری تقویم', monthDesc: 'چاند کے مراحل روز بہ روز', pickLabel: 'مخصوص تاریخ منتخب کریں', pickDesc: '{C} میں کسی بھی دن کے چاند پر جائیں', yearAria: 'سال', monthAria: 'مہینہ', dayAria: 'دن', go: 'چاند دیکھیں' },
+    de: { title: 'Den Mond in {C} entdecken', todayLabel: 'Mond heute in {C}', todayDesc: 'Aktuelle Phase und Beleuchtung', yearLabel: 'Jährlicher Mondkalender in {C}', yearDesc: 'Alle Voll- und Neumond-Termine', monthLabel: 'Monatlicher Mondkalender in {C}', monthDesc: 'Mondphasen Tag für Tag', pickLabel: 'Bestimmtes Datum wählen', pickDesc: 'Zum Mond eines beliebigen Tages in {C}', yearAria: 'Jahr', monthAria: 'Monat', dayAria: 'Tag', go: 'Mond ansehen' },
+    id: { title: 'Jelajahi Bulan di {C}', todayLabel: 'Bulan hari ini di {C}', todayDesc: 'Fase saat ini & iluminasi', yearLabel: 'Kalender bulan tahunan di {C}', yearDesc: 'Semua tanggal purnama & bulan baru', monthLabel: 'Kalender bulan bulanan di {C}', monthDesc: 'Fase bulan hari demi hari', pickLabel: 'Pilih tanggal tertentu', pickDesc: 'Lihat bulan pada hari mana pun di {C}', yearAria: 'Tahun', monthAria: 'Bulan', dayAria: 'Hari', go: 'Lihat bulan' },
+    es: { title: 'Explora la Luna en {C}', todayLabel: 'La Luna hoy en {C}', todayDesc: 'Fase actual e iluminación', yearLabel: 'Calendario lunar anual en {C}', yearDesc: 'Todas las lunas llenas y nuevas', monthLabel: 'Calendario lunar mensual en {C}', monthDesc: 'Las fases día a día', pickLabel: 'Elegir una fecha concreta', pickDesc: 'Ve a la Luna de cualquier día en {C}', yearAria: 'Año', monthAria: 'Mes', dayAria: 'Día', go: 'Ver la Luna' },
+    bn: { title: '{C}-এ চাঁদ অন্বেষণ করুন', todayLabel: '{C}-এ আজ চাঁদ', todayDesc: 'বর্তমান দশা ও আলোকন', yearLabel: '{C}-এ বার্ষিক চান্দ্র বর্ষপঞ্জি', yearDesc: 'সব পূর্ণিমা ও অমাবস্যার তারিখ', monthLabel: '{C}-এ মাসিক চান্দ্র বর্ষপঞ্জি', monthDesc: 'দিনে দিনে চাঁদের দশা', pickLabel: 'নির্দিষ্ট তারিখ নির্বাচন করুন', pickDesc: '{C}-এ যেকোনো দিনের চাঁদে যান', yearAria: 'বছর', monthAria: 'মাস', dayAria: 'দিন', go: 'চাঁদ দেখুন' },
+    ms: { title: 'Terokai Bulan di {C}', todayLabel: 'Bulan hari ini di {C}', todayDesc: 'Fasa semasa & pencahayaan', yearLabel: 'Kalendar bulan tahunan di {C}', yearDesc: 'Semua tarikh purnama & anak bulan', monthLabel: 'Kalendar bulan bulanan di {C}', monthDesc: 'Fasa bulan hari demi hari', pickLabel: 'Pilih tarikh tertentu', pickDesc: 'Pergi ke bulan mana-mana hari di {C}', yearAria: 'Tahun', monthAria: 'Bulan', dayAria: 'Hari', go: 'Lihat bulan' },
+};
+// Localized Gregorian month names for the capital date-picker (built once via Intl per lang; falls back to numeric).
+const _GREG_MONTHS_L10N = (() => {
+    const locs = { ar: 'ar', en: 'en', fr: 'fr', tr: 'tr', ur: 'ur', de: 'de', id: 'id', es: 'es', bn: 'bn', ms: 'ms' };
+    const out = {};
+    for (const lang in locs) {
+        const arr = [];
+        for (let m = 0; m < 12; m++) {
+            try { arr.push(new Intl.DateTimeFormat(locs[lang], { month: 'long' }).format(new Date(Date.UTC(2025, m, 15)))); }
+            catch (_) { arr.push(String(m + 1)); }
+        }
+        out[lang] = arr;
+    }
+    return out;
+})();
 const _MOON_COUNTRY_SEO_L10N = {
     ar: {
         h1: 'مراحل القمر في {C}',
@@ -8944,6 +8995,57 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
         below += `<section class="country-seo-block mc-upcoming"><h2>${_escHtml(sub(data.upcomingTitle))}</h2><div class="mc-upcoming-grid">`
             + ups.map(([ic, lbl, val]) => `<div class="mc-up"><span class="mc-up-ico" aria-hidden="true">${ic}</span><span class="mc-up-lbl">${_escHtml(sub(lbl))}</span><span class="mc-up-date">${_escHtml(val)}</span></div>`).join('')
             + `</div><p class="mc-note">${_escHtml(sub(data.upcomingNote))}</p></section>`;
+    }
+
+    // (3.5) MOON-COUNTRY-CAPITAL-MOON-LINKS-SECTION-1: quick-links to the CAPITAL's moon pages — today /
+    //   year / month as REAL SSR <a> links + a leap-aware date picker (tiny inline script) → the nested
+    //   day page. The capital is resolved from the DATA (_capitalCuratedEntry → curated slug), never
+    //   hardcoded. Section is skipped gracefully when the capital is not a curated city of the country.
+    {
+        const _capEntry = _capitalCuratedEntry(cc);
+        const _capSlug = _capEntry && _capEntry.slug;
+        const _ccSlugCap = (typeof makeCountrySlugSrv === 'function') ? makeCountrySlugSrv(cc) : null;
+        if (_capEntry && _capSlug && _ccSlugCap) {
+            const cap = _MOON_COUNTRY_CAPITAL_L10N[lang] || _MOON_COUNTRY_CAPITAL_L10N.en;
+            const _capName = (lang === 'ar') ? _capEntry.nameAr : ((_capEntry.names && _capEntry.names[lang]) || _capEntry.nameEn);
+            const capSub = s => String(s).split('{C}').join(_capName);
+            // current Y/M in the country's primary timezone (NOT hardcoded), clamped to the 1900–2100 route range
+            const _capTz = (comp && comp.tz) || (typeof _CC_TO_PRIMARY_TZ !== 'undefined' && _CC_TO_PRIMARY_TZ[cc]) || 'UTC';
+            let _curY = 2026, _curM = 1;
+            try {
+                const _m = new Intl.DateTimeFormat('en-CA', { timeZone: _capTz, year: 'numeric', month: '2-digit' }).format(new Date()).match(/(\d{4})-(\d{2})/);
+                if (_m) { _curY = Math.min(2100, Math.max(1900, parseInt(_m[1], 10))); _curM = parseInt(_m[2], 10); }
+            } catch (_) { }
+            const _p2 = (n) => String(n).padStart(2, '0');
+            const _capBase = `${pfx}/moon/${_ccSlugCap}/${_capSlug}`;
+            const _card = (href, ico, lbl, desc) => `<a class="mc-cap-card" href="${href}"><span class="mc-cap-ico" aria-hidden="true">${ico}</span><span class="mc-cap-card-body"><span class="mc-cap-card-title">${_escHtml(capSub(lbl))}</span><span class="mc-cap-card-desc">${_escHtml(capSub(desc))}</span></span><span class="mc-cap-arrow" aria-hidden="true">›</span></a>`;
+            const _months = _GREG_MONTHS_L10N[lang] || _GREG_MONTHS_L10N.en;
+            const _yMin = Math.max(1900, _curY - 5), _yMax = Math.min(2100, _curY + 5);
+            let _yO = ''; for (let y = _yMin; y <= _yMax; y++) _yO += `<option value="${y}"${y === _curY ? ' selected' : ''}>${y}</option>`;
+            let _mO = ''; for (let m = 1; m <= 12; m++) _mO += `<option value="${_p2(m)}"${m === _curM ? ' selected' : ''}>${_escHtml(_months[m - 1] || String(m))}</option>`;
+            let _dO = ''; for (let d = 1; d <= 31; d++) _dO += `<option value="${_p2(d)}">${_p2(d)}</option>`;
+            const _pickerCard = `<div class="mc-cap-card mc-cap-picker">`
+                + `<span class="mc-cap-ico" aria-hidden="true">🔭</span>`
+                + `<span class="mc-cap-card-body"><span class="mc-cap-card-title">${_escHtml(capSub(cap.pickLabel))}</span><span class="mc-cap-card-desc">${_escHtml(capSub(cap.pickDesc))}</span>`
+                +   `<span class="mc-cap-fields">`
+                +     `<select id="mc-cap-y" class="mc-cap-sel" aria-label="${_escHtml(cap.yearAria)}">${_yO}</select>`
+                +     `<select id="mc-cap-m" class="mc-cap-sel" aria-label="${_escHtml(cap.monthAria)}">${_mO}</select>`
+                +     `<select id="mc-cap-d" class="mc-cap-sel" aria-label="${_escHtml(cap.dayAria)}"><option value="" selected>${_escHtml(cap.dayAria)}</option>${_dO}</select>`
+                +   `</span>`
+                +   `<button type="button" id="mc-cap-go" class="mc-cap-go" disabled>${_escHtml(cap.go)}</button>`
+                + `</span></div>`;
+            // tiny scoped picker script (CSP allows inline). Leap-aware: Date round-trip rejects e.g. 31 Feb,
+            //   so the button stays disabled until a real calendar date is chosen. Values are already 2-digit.
+            const _capScript = `<script>(function(){var b=${JSON.stringify(_capBase + '/')};var y=document.getElementById('mc-cap-y'),m=document.getElementById('mc-cap-m'),d=document.getElementById('mc-cap-d'),g=document.getElementById('mc-cap-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+            below += `<section class="country-seo-block mc-capital" aria-labelledby="mc-cap-title">`
+                + `<h2 id="mc-cap-title">${_escHtml(capSub(cap.title))}</h2>`
+                + `<div class="mc-cap-grid">`
+                +   _card(`${_capBase}/today`, '🌙', cap.todayLabel, cap.todayDesc)
+                +   _card(`${_capBase}/${_curY}`, '📅', cap.yearLabel, cap.yearDesc)
+                +   _card(`${_capBase}/${_curY}/${_p2(_curM)}`, '🗓️', cap.monthLabel, cap.monthDesc)
+                +   _pickerCard
+                + `</div></section>` + _capScript;
+        }
     }
 
     // (4) monthly moon calendar by city — links to the canonical city moon HUB.

@@ -188,6 +188,40 @@ try {
         }
     }
 
+    // ── H) MOON-COUNTRY-CAPITAL-MOON-LINKS-SECTION-1: capital quick-links + date picker ──
+    console.log('\n── H) capital quick-links section (data-driven capital) ──');
+    {
+        const capTitle = (b) => (b.match(/id="mc-cap-title"[^>]*>([^<]*)</) || [])[1] || '';
+        const ar = (await req('/moon/saudi-arabia')).body;
+        check('mc-capital section + H2 ("استكشف القمر في الرياض")', /class="country-seo-block mc-capital"/.test(ar) && ar.includes('استكشف القمر في الرياض'));
+        // exactly 3 SSR <a> link cards, all on the capital riyadh (today / year / month)
+        const capLinks = [...ar.matchAll(/<a class="mc-cap-card" href="([^"]+)"/g)].map(m => m[1]);
+        check('3 SSR capital link cards on /moon/saudi-arabia/riyadh', capLinks.length === 3 && capLinks.every(h => h.startsWith('/moon/saudi-arabia/riyadh/')), capLinks.join(' '));
+        check('capital today/year/month link shapes', /\/riyadh\/today$/.test(capLinks[0]) && /\/riyadh\/\d{4}$/.test(capLinks[1]) && /\/riyadh\/\d{4}\/\d{2}$/.test(capLinks[2]));
+        for (const l of capLinks) check(`capital link 200: ${l}`, (await req(l)).status === 200);
+        check('capital picker day URL 200 (/riyadh/2026/12/09)', (await req('/moon/saudi-arabia/riyadh/2026/12/09')).status === 200);
+        // date picker: y/m/d selects + button disabled by default + scoped inline script with the capital base
+        check('picker: y/m/d selects + disabled button + scoped script', /id="mc-cap-y"/.test(ar) && /id="mc-cap-m"/.test(ar) && /id="mc-cap-d"/.test(ar) && /id="mc-cap-go" class="mc-cap-go" disabled/.test(ar) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(ar));
+        // placement: after "upcoming", before "monthly" — match the rendered <section> markers (NOT bare class
+        //   strings, which also appear in the template's inline <style> in the head and would mis-order).
+        const _iU = ar.indexOf('class="country-seo-block mc-upcoming"'), _iC = ar.indexOf('class="country-seo-block mc-capital"'), _iM = ar.indexOf('class="country-seo-block mc-monthly"');
+        check('section order: upcoming < capital < monthly', _iU > 0 && _iC > _iU && _iM > _iC, `U=${_iU} C=${_iC} M=${_iM}`);
+        // data-driven capital for OTHER countries (NOT hardcoded riyadh)
+        const eg = (await req('/moon/egypt')).body, tk = (await req('/moon/turkey')).body;
+        check('data-driven capital: egypt→cairo, turkey→ankara', /<a class="mc-cap-card" href="\/moon\/egypt\/cairo\//.test(eg) && /<a class="mc-cap-card" href="\/moon\/turkey\/ankara\//.test(tk));
+        // 10/10 native section title (no AR/EN fallback) — distinct native sentinels in the H2
+        const capNat = { fr: 'Explorez la Lune à', tr: 'Keşfedin', ur: 'چاند دریافت کریں', de: 'entdecken', id: 'Jelajahi Bulan di', es: 'Explora la Luna en', bn: 'অন্বেষণ করুন', ms: 'Terokai Bulan di' };
+        for (const [lang, sent] of Object.entries(capNat)) {
+            check(`capital section native ${lang}`, capTitle((await req(`/${lang}/moon/saudi-arabia`)).body).includes(sent));
+        }
+        // scope: NO RENDERED capital section on prayer country / city hub / year / today. Use the section's
+        //   unique H2 id (id="mc-cap-title") — the prayer page shares the template so it carries the INERT
+        //   .mc-capital CSS in its <style> (like the other .mc-* rules), but never renders the section.
+        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/today']) {
+            check(`scope: no rendered capital section on ${u}`, !(await req(u)).body.includes('id="mc-cap-title"'));
+        }
+    }
+
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;
 } catch (e) {

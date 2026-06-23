@@ -24716,16 +24716,69 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     const _hubYearCtaCfg = _MOON_NAV_CTA_L10N[Lm] || _MOON_NAV_CTA_L10N.en;
                     const _hubYearCtaHref = _nestedMoonYearLink(seo.moonCity.slug, _langPrefixHc, _calY);
                     const _hubYearCtaHtml = `<a class="moon-ctx-cta moon-ctx-cta--year" id="moon-hub-year-cta" href="${_escHtml(_hubYearCtaHref)}"><span class="moon-ctx-cta-ico" aria-hidden="true">🗓️</span> ${_escHtml(_hubYearCtaCfg.yearCal(_calY))}<span class="moon-ctx-cta-arrow" aria-hidden="true">›</span></a>`;
+                    // MOON-CITY-HUB-EXPLORE-SECTION-1: on the nested city hub, render an "Explore the Moon in {city}"
+                    //   section (mirrors the today page's #mc-explore, but WITH a "moon today" card too → 5 cards:
+                    //   explore-country / today / year / month / picker) BELOW #moon-main-card. The first card links
+                    //   UP to the country moon page. Reuses the .mc-explore-* CSS (already in css/style.css). When it
+                    //   renders, the now-redundant standalone year-CTA (its year card) AND the detail-CTA → today (its
+                    //   today card) are dropped. Gated to the nested hub (country slug available).
+                    let _hubExploreHtml = '';
+                    if (seo.moonCity && seo.moonCity.isNested && seo.moonCity.nestedCountrySlug) {
+                        try {
+                            const _hCap  = _MOON_COUNTRY_CAPITAL_L10N[Lm] || _MOON_COUNTRY_CAPITAL_L10N.en;
+                            const _hCtry = _MOON_EXPLORE_COUNTRY_CARD_L10N[Lm] || _MOON_EXPLORE_COUNTRY_CARD_L10N.en;
+                            const _hCitySub = s => String(s).split('{C}').join(seo.moonCity.name || '');
+                            const _hCtrySub = s => String(s).split('{C}').join(seo.moonCity.nestedCountryName || '');
+                            const _hCityBase = _nestedMoonBaseForSlug(seo.moonCity.slug, _langPrefixHc);   // /[lang]/moon/{country}/{city}
+                            const _hCountryHref = `${_langPrefixHc}/moon/${seo.moonCity.nestedCountrySlug}`;
+                            if (_hCityBase) {
+                                const _hP2 = (n) => String(n).padStart(2, '0');
+                                const _hCard = (href, ico, lbl, desc, sub) => `<a class="mc-explore-card" href="${_escHtml(href)}"><span class="mc-explore-ico" aria-hidden="true">${ico}</span><span class="mc-explore-card-body"><span class="mc-explore-card-title">${_escHtml(sub(lbl))}</span><span class="mc-explore-card-desc">${_escHtml(sub(desc))}</span></span><span class="mc-explore-arrow" aria-hidden="true">›</span></a>`;
+                                const _hMonths = _GREG_MONTHS_L10N[Lm] || _GREG_MONTHS_L10N.en;
+                                const _hYMin = Math.max(1900, _calY - 5), _hYMax = Math.min(2100, _calY + 5);
+                                let _hYO = ''; for (let y = _hYMin; y <= _hYMax; y++) _hYO += `<option value="${y}"${y === _calY ? ' selected' : ''}>${y}</option>`;
+                                let _hMO = ''; for (let m = 1; m <= 12; m++) _hMO += `<option value="${_hP2(m)}"${m === _calMo ? ' selected' : ''}>${_escHtml(_hMonths[m - 1] || String(m))}</option>`;
+                                let _hDO = ''; for (let d = 1; d <= 31; d++) _hDO += `<option value="${_hP2(d)}">${_hP2(d)}</option>`;
+                                const _hPicker = `<div class="mc-explore-card mc-explore-picker">`
+                                    + `<span class="mc-explore-ico" aria-hidden="true">🔭</span>`
+                                    + `<span class="mc-explore-card-body"><span class="mc-explore-card-title">${_escHtml(_hCitySub(_hCap.pickLabel))}</span><span class="mc-explore-card-desc">${_escHtml(_hCitySub(_hCap.pickDesc))}</span>`
+                                    +   `<span class="mc-explore-fields">`
+                                    +     `<select id="mc-exp-y" class="mc-explore-sel" aria-label="${_escHtml(_hCap.yearAria)}">${_hYO}</select>`
+                                    +     `<select id="mc-exp-m" class="mc-explore-sel" aria-label="${_escHtml(_hCap.monthAria)}">${_hMO}</select>`
+                                    +     `<select id="mc-exp-d" class="mc-explore-sel" aria-label="${_escHtml(_hCap.dayAria)}"><option value="" selected>${_escHtml(_hCap.dayAria)}</option>${_hDO}</select>`
+                                    +   `</span>`
+                                    +   `<button type="button" id="mc-exp-go" class="mc-explore-go" disabled>${_escHtml(_hCap.go)}</button>`
+                                    + `</span></div>`;
+                                const _hScript = `<script>(function(){var b=${JSON.stringify(_hCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+                                _hubExploreHtml = `<section class="section-card mc-explore" id="mc-explore" aria-labelledby="mc-explore-title">`
+                                    + `<h2 id="mc-explore-title">${_escHtml(_hCitySub(_hCap.title))}</h2>`
+                                    + `<div class="mc-explore-grid">`
+                                    +   _hCard(_hCountryHref, '🏙️', _hCtry.label, _hCtry.desc, _hCtrySub)
+                                    +   _hCard(`${_hCityBase}/today`, '🌙', _hCap.todayLabel, _hCap.todayDesc, _hCitySub)
+                                    +   _hCard(`${_hCityBase}/${_calY}`, '📅', _hCap.yearLabel, _hCap.yearDesc, _hCitySub)
+                                    +   _hCard(`${_hCityBase}/${_calY}/${_hP2(_calMo)}`, '🗓️', _hCap.monthLabel, _hCap.monthDesc, _hCitySub)
+                                    +   _hPicker
+                                    + `</div></section>` + _hScript;
+                            }
+                        } catch (_eHubExplore) { _hubExploreHtml = ''; }
+                    }
+                    // Compact calendar stays ABOVE moon-main-card; the standalone year-CTA is kept ONLY when the
+                    //   explore section is absent (the section's own year card supersedes it).
                     html = html.replace(
                         /(<div[^>]*\sid="moon-main-card")/,
-                        _hubCalCompactHtml + '\n                ' + _hubYearCtaHtml + '\n                $1'
+                        _hubCalCompactHtml + (_hubExploreHtml ? '' : ('\n                ' + _hubYearCtaHtml)) + '\n                $1'
                     );
-                    // Keep the detail-CTA at its legacy position (right
-                    // before moon-upcoming-section). Separate injection.
-                    html = html.replace(
-                        /(<section class="section-card moon-upcoming-section")/,
-                        _hubDetailCtaHtml + '\n                $1'
-                    );
+                    // Explore section goes BELOW moon-main-card (before the "phases this month" heading).
+                    if (_hubExploreHtml) {
+                        html = html.replace(/(<h2 id="moon-current-month-h2")/, _hubExploreHtml + '\n                $1');
+                    }
+                    // detail-CTA → today: kept ONLY when the explore section is absent (its "today" card supersedes it).
+                    if (!_hubExploreHtml) {
+                        html = html.replace(
+                            /(<section class="section-card moon-upcoming-section")/,
+                            _hubDetailCtaHtml + '\n                $1'
+                        );
+                    }
                 }
             } catch (_eCal) { /* silent — fall back to no calendar */ }
         }

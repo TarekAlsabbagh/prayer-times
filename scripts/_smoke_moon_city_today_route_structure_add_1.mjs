@@ -203,7 +203,9 @@ try {
             check(`today explore native ${lang} + /${lang}/ country href`, xTitle(b).includes(sent) && fh === `/${lang}/moon/saudi-arabia` && !/\/en\/en\//.test(b));
         }
         // scope: section is today-page only — NOT on hub / year / month / day
-        for (const u of ['/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/17']) {
+        // NOTE: the HUB (/moon/saudi-arabia/riyadh) intentionally carries its OWN explore section now
+        //   (MOON-CITY-HUB-EXPLORE-SECTION-1), so it is NOT in this list; year / month / day stay clean.
+        for (const u of ['/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/17']) {
             check(`scope: no explore section on ${u}`, !(await req(u)).body.includes('id="mc-explore"'));
         }
     }

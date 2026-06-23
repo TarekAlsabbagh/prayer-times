@@ -183,6 +183,30 @@ try {
     check('/moon still 200 (global hub)', (await req('/moon')).status === 200);
     check('/moon/saudi-arabia still 200 (country page)', (await req('/moon/saudi-arabia')).status === 200);
 
+    // ── F) MOON-CITY-HUB-EXPLORE-SECTION-1: "Explore the Moon in {city}" section below #moon-main-card ──
+    console.log('\n── F) hub explore section (5 cards) below #moon-main-card; year-CTA + detail-CTA removed ──');
+    {
+        const xTitle = (x) => (x.match(/id="mc-explore-title"[^>]*>([^<]*)</) || [])[1] || '';
+        const hb = (await req('/moon/saudi-arabia/riyadh')).body;
+        check('hub: #mc-explore section + title ("استكشف القمر في الرياض")', /id="mc-explore"/.test(hb) && hb.includes('استكشف القمر في الرياض'));
+        const xHrefs = [...hb.matchAll(/<a class="mc-explore-card" href="([^"]+)"/g)].map(m => m[1]);
+        check('hub: 4 link cards — FIRST → country, then today/year/month', xHrefs.length === 4 && xHrefs[0] === '/moon/saudi-arabia' && /\/riyadh\/today$/.test(xHrefs[1]) && /\/riyadh\/\d{4}$/.test(xHrefs[2]) && /\/riyadh\/\d{4}\/\d{2}$/.test(xHrefs[3]), xHrefs.join(' '));
+        check('hub: first-card label = "moon in cities of {country}"', hb.includes('القمر في مدن المملكة العربية السعودية'));
+        check('hub: "moon today" card KEPT (قمر اليوم في الرياض)', hb.includes('قمر اليوم في الرياض'));
+        check('hub: date picker present (y/m/d + disabled go + scoped base)', /id="mc-exp-y"/.test(hb) && /id="mc-exp-go" class="mc-explore-go" disabled/.test(hb) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(hb));
+        check('hub: explore BELOW #moon-main-card (main < explore < month-h2)', hb.indexOf('id="moon-main-card"') > 0 && hb.indexOf('id="mc-explore"') > hb.indexOf('id="moon-main-card"') && hb.indexOf('id="moon-current-month-h2"') > hb.indexOf('id="mc-explore"'));
+        check('hub: standalone year-CTA + detail-CTA REMOVED, compact-cal KEPT', !/id="moon-hub-year-cta"/.test(hb) && !/moon-hub-detail-cta/.test(hb) && /id="moon-hub-cal"/.test(hb));
+        for (const u of [xHrefs[0], xHrefs[1], xHrefs[2], xHrefs[3], '/moon/saudi-arabia/riyadh/2026/12/09']) check(`hub: link 200 ${u}`, (await req(u)).status === 200);
+        const xNat = { en: 'Explore the Moon in', fr: 'Explorez la Lune', tr: 'Keşfedin', ur: 'دریافت کریں', de: 'entdecken', id: 'Jelajahi Bulan', es: 'Explora la Luna', bn: 'অন্বেষণ করুন', ms: 'Terokai Bulan' };
+        for (const [lang, sent] of Object.entries(xNat)) {
+            const b = (await req(`/${lang}/moon/saudi-arabia/riyadh`)).body;
+            const fh = (b.match(/<a class="mc-explore-card" href="([^"]+)"/) || [])[1] || '';
+            check(`hub explore native ${lang} + /${lang}/ country href`, xTitle(b).includes(sent) && fh === `/${lang}/moon/saudi-arabia` && !/\/en\/en\//.test(b));
+        }
+        // the MONTH page keeps its own detail-CTA (only the HUB's standalone CTAs were removed)
+        check('month page detail-CTA untouched (only hub CTAs removed)', (await req('/moon/saudi-arabia/riyadh/2026/06')).body.includes('moon-hub-detail-cta'));
+    }
+
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;
 } catch (e) {

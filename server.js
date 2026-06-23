@@ -8951,6 +8951,71 @@ function _moonCountryComputed(cc, lang) {
         };
     } catch (_) { return null; }
 }
+// ── MOON-COUNTRY-ISLAMIC-OCCASIONS-COUNTDOWN-1 (2026-06-23) ───────────────────────
+// SSR build of the Islamic-occasions countdown (Ramadan / Eid al-Fitr / Eid al-Adha /
+// Hijri New Year) for the /moon/{country} page, rendered BELOW the FAQ. Mirrors the
+// moon CITY page's #moon-events-section using the SAME .moon-events-section /
+// .moon-event-card / .moon-events-title / .moon-events-notice CSS (css/style.css) →
+// identical look, NO new CSS. The country page does NOT load app.js (which fills the
+// city section client-side), so days/dates are computed here server-side from the
+// module-level hijri helpers (_hijriNow / _nowMeccaDate / _hijriToGregorian) against
+// the Mecca reference time, localized via the existing _GREG_MONTHS_L10N. Labels
+// mirror the i18n keys moon.events.* across all 10 languages. Country-scoped id
+// (#mc-occasions) avoids any collision and gives the scope-smoke a clean target.
+const _MOON_OCCASIONS_L10N = {
+    ar: { title: 'العدّ التنازليّ للمناسبات الإسلاميّة', ramadan: 'رمضان القادم', fitr: 'عيد الفطر', adha: 'عيد الأضحى', newyear: 'رأس السنة الهجريّة', today: 'اليوم', tomorrow: 'غدًا', notice: '* التواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.' },
+    en: { title: 'Countdown to Islamic Events', ramadan: 'Next Ramadan', fitr: 'Eid al-Fitr', adha: 'Eid al-Adha', newyear: 'Hijri New Year', today: 'Today', tomorrow: 'Tomorrow', notice: '* Dates are approximate and may vary with the local crescent sighting in your country.' },
+    fr: { title: 'Compte à rebours des événements islamiques', ramadan: 'Prochain Ramadan', fitr: 'Aïd al-Fitr', adha: 'Aïd al-Adha', newyear: 'Nouvel An hégirien', today: "Aujourd'hui", tomorrow: 'Demain', notice: "* Les dates sont approximatives et peuvent varier selon l'observation du croissant dans votre pays." },
+    tr: { title: 'İslami Olaylara Geri Sayım', ramadan: 'Gelecek Ramazan', fitr: 'Ramazan Bayramı', adha: 'Kurban Bayramı', newyear: 'Hicri Yılbaşı', today: 'Bugün', tomorrow: 'Yarın', notice: '* Tarihler yaklaşıktır ve ülkenizdeki hilal görüşüne göre değişebilir.' },
+    ur: { title: 'اسلامی مواقع کی الٹی گنتی', ramadan: 'آنے والا رمضان', fitr: 'عید الفطر', adha: 'عید الاضحیٰ', newyear: 'ہجری نیا سال', today: 'آج', tomorrow: 'کل', notice: '* تاریخیں تخمینی ہیں اور آپ کے ملک میں چاند کی رؤیت کے مطابق مختلف ہو سکتی ہیں۔' },
+    de: { title: 'Countdown zu islamischen Ereignissen', ramadan: 'Nächster Ramadan', fitr: 'Eid al-Fitr', adha: 'Eid al-Adha', newyear: 'Islamisches Neujahr', today: 'Heute', tomorrow: 'Morgen', notice: '* Die Daten sind ungefähr und können je nach Mondsichtung in Ihrem Land variieren.' },
+    id: { title: 'Hitung Mundur Peristiwa Islam', ramadan: 'Ramadan Mendatang', fitr: 'Idul Fitri', adha: 'Idul Adha', newyear: 'Tahun Baru Hijriah', today: 'Hari ini', tomorrow: 'Besok', notice: '* Tanggal bersifat perkiraan dan dapat berbeda sesuai rukyat hilal di negara Anda.' },
+    es: { title: 'Cuenta regresiva de eventos islámicos', ramadan: 'Próximo Ramadán', fitr: 'Eid al-Fitr', adha: 'Eid al-Adha', newyear: 'Año Nuevo hijrí', today: 'Hoy', tomorrow: 'Mañana', notice: '* Las fechas son aproximadas y pueden variar según el avistamiento de la luna en su país.' },
+    bn: { title: 'ইসলামী উৎসবের গণনা', ramadan: 'আসন্ন রমজান', fitr: 'ঈদুল ফিতর', adha: 'ঈদুল আজহা', newyear: 'হিজরি নববর্ষ', today: 'আজ', tomorrow: 'আগামীকাল', notice: '* তারিখগুলো আনুমানিক এবং আপনার দেশে চাঁদ দেখার ভিত্তিতে ভিন্ন হতে পারে।' },
+    ms: { title: 'Kiraan Detik Peristiwa Islam', ramadan: 'Ramadan Akan Datang', fitr: 'Aidilfitri', adha: 'Aidiladha', newyear: 'Tahun Baru Hijrah', today: 'Hari ini', tomorrow: 'Esok', notice: '* Tarikh adalah anggaran dan mungkin berbeza mengikut rukyah hilal di negara anda.' },
+};
+// Hijri anchor (month, day) + SSR-safe emoji icon + countdown-page slug per occasion.
+const _MOON_OCCASIONS_EVENTS = [
+    { id: 'ramadan', icon: '🕋', hm: 9,  hd: 1,  slug: 'ramadan-countdown' },
+    { id: 'fitr',    icon: '🌙', hm: 10, hd: 1,  slug: 'eid-al-fitr-countdown' },
+    { id: 'adha',    icon: '🐑', hm: 12, hd: 10, slug: 'eid-al-adha-countdown' },
+    { id: 'newyear', icon: '🎊', hm: 1,  hd: 1,  slug: 'hijri-new-year-countdown' },
+];
+function _buildMoonOccasionsCountdownHtml(lang) {
+    const L = _MOON_OCCASIONS_L10N[lang] || _MOON_OCCASIONS_L10N.en;
+    const months = _GREG_MONTHS_L10N[lang] || _GREG_MONTHS_L10N.en;
+    const pfx = (lang === 'ar') ? '' : '/' + lang;
+    let nowMs, hToday;
+    try { nowMs = _nowMeccaDate().getTime(); hToday = _hijriNow(); }
+    catch (_) { return ''; } // never break the page if the hijri engine is unavailable
+    const _daysLabel = (n) => {
+        if (n <= 0) return L.today;
+        if (n === 1) return L.tomorrow;
+        if (lang === 'ar') {
+            if (n === 2) return 'يومان';
+            if (n >= 3 && n <= 10) return n + ' أيّام';
+            return n + ' يومًا';
+        }
+        const unit = { en: 'days', fr: 'jours', tr: 'gün', ur: 'دن', de: 'Tage', id: 'hari', es: 'días', bn: 'দিন', ms: 'hari' };
+        return n + ' ' + (unit[lang] || 'days');
+    };
+    const _nextDate = (hm, hd) => {
+        let g = _hijriToGregorian(hToday.year, hm, hd);
+        let d = new Date(Date.UTC(g.year, g.month - 1, g.day));
+        if (d.getTime() < nowMs) { g = _hijriToGregorian(hToday.year + 1, hm, hd); d = new Date(Date.UTC(g.year, g.month - 1, g.day)); }
+        return d;
+    };
+    const events = _MOON_OCCASIONS_EVENTS.map(ev => {
+        const d = _nextDate(ev.hm, ev.hd);
+        return { ...ev, date: d, days: Math.ceil((d.getTime() - nowMs) / 86400000) };
+    }).sort((a, b) => a.days - b.days);
+    const cards = events.map((ev, idx) => {
+        const dateTxt = ev.date.getUTCDate() + ' ' + (months[ev.date.getUTCMonth()] || '') + ' ' + ev.date.getUTCFullYear();
+        const soon = (ev.days >= 0 && ev.days <= 5) ? ' moon-event-soon' : '';
+        return `<a class="moon-event-card moon-event-${ev.id}${soon}" href="${_escHtml(pfx + '/' + ev.slug)}" style="order: ${idx};"><span class="moon-event-icon" aria-hidden="true">${ev.icon}</span><div class="moon-event-body"><div class="moon-event-label">${_escHtml(L[ev.id])}</div><div class="moon-event-days">${_escHtml(_daysLabel(ev.days))}</div><div class="moon-event-date">${_escHtml(dateTxt)}</div></div></a>`;
+    }).join('');
+    return `<section class="section-card moon-events-section mc-occasions" id="mc-occasions" aria-labelledby="mc-occasions-h2"><h2 id="mc-occasions-h2" class="moon-events-title">${_escHtml(L.title)}</h2><div class="moon-events-countdown">${cards}</div><p class="moon-events-notice">${_escHtml(L.notice)}</p></section>`;
+}
 // Builds the moon-country page content. Returns:
 //   h1, hero                  — hero text (no search, no prayer CTA)
 //   summaryHtml               — the computed "moon summary" card (inject before the city search)
@@ -9082,7 +9147,11 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
     data.faq.forEach(([q, a], _i) => {
         below += `<details class="country-faq-item"${_i === 0 ? ' open' : ''}><summary><h3>${_escHtml(sub(q))}</h3></summary><p>${_escHtml(sub(a))}</p></details>`;
     });
-    below += '</div></section></div>';
+    below += '</div></section>';
+    // MOON-COUNTRY-ISLAMIC-OCCASIONS-COUNTDOWN-1: Islamic-occasions countdown card, mirroring the moon CITY
+    //   page's #moon-events-section, placed BELOW the FAQ as the last child of .country-seo-wrap.
+    below += _buildMoonOccasionsCountdownHtml(lang);
+    below += '</div>';
 
     const faqJsonLd = JSON.stringify({
         '@context': 'https://schema.org',

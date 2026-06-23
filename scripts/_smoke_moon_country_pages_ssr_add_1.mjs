@@ -222,6 +222,32 @@ try {
         }
     }
 
+    // ── I) MOON-COUNTRY-ISLAMIC-OCCASIONS-COUNTDOWN-1: Islamic-occasions countdown below the FAQ ──
+    console.log('\n── I) Islamic-occasions countdown (below FAQ, SSR) ──');
+    {
+        const occTitle = (b) => (b.match(/id="mc-occasions-h2"[^>]*>([^<]*)</) || [])[1] || '';
+        const ar = (await req('/moon/saudi-arabia')).body;
+        check('mc-occasions section + title ("العدّ التنازليّ للمناسبات الإسلاميّة")', /id="mc-occasions"/.test(ar) && ar.includes('العدّ التنازليّ للمناسبات الإسلاميّة'));
+        // exactly 4 occasion cards (ramadan/fitr/adha/newyear) → the 4 countdown pages
+        for (const id of ['ramadan', 'fitr', 'adha', 'newyear']) check(`occasion card moon-event-${id}`, new RegExp(`moon-event-${id}\\b`).test(ar));
+        const occHrefs = [...ar.matchAll(/<a class="moon-event-card[^"]*" href="([^"]+)"/g)].map(m => m[1]);
+        check('4 occasion cards → the 4 countdown pages', occHrefs.length === 4 && occHrefs.some(h => /\/ramadan-countdown$/.test(h)) && occHrefs.some(h => /\/eid-al-fitr-countdown$/.test(h)) && occHrefs.some(h => /\/eid-al-adha-countdown$/.test(h)) && occHrefs.some(h => /\/hijri-new-year-countdown$/.test(h)), occHrefs.join(' '));
+        check('occasion cards show a computed date (e.g. " … 2027")', /<div class="moon-event-date">\d{1,2} [^<]+ \d{4}<\/div>/.test(ar));
+        check('occasion link target 200 (/ramadan-countdown)', (await req('/ramadan-countdown')).status === 200);
+        // placement: occasions section is rendered AFTER the FAQ
+        check('placement: occasions after FAQ', ar.indexOf('country-seo-faq') > 0 && ar.indexOf('id="mc-occasions"') > ar.indexOf('country-seo-faq'), `faq=${ar.indexOf('country-seo-faq')} occ=${ar.indexOf('id="mc-occasions"')}`);
+        // 10/10 native section title (distinct sentinels) + lang-prefixed countdown hrefs
+        const occNat = { en: 'Countdown to Islamic Events', fr: 'Compte à rebours', tr: 'Geri Sayım', ur: 'الٹی گنتی', de: 'islamischen Ereignissen', id: 'Hitung Mundur', es: 'Cuenta regresiva', bn: 'ইসলামী উৎসবের গণনা', ms: 'Kiraan Detik' };
+        for (const [lang, sent] of Object.entries(occNat)) {
+            const b = (await req(`/${lang}/moon/saudi-arabia`)).body;
+            check(`occasions native ${lang} + /${lang}/ href`, occTitle(b).includes(sent) && new RegExp(`href="/${lang}/ramadan-countdown"`).test(b));
+        }
+        // scope: NO rendered occasions section off /moon/{country} (prayer / city hub / year / today / month)
+        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06']) {
+            check(`scope: no occasions section on ${u}`, !(await req(u)).body.includes('id="mc-occasions"'));
+        }
+    }
+
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;
 } catch (e) {

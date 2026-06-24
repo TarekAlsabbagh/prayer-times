@@ -21473,6 +21473,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // so both keep their hero actions unchanged. The regex deletes the .loc-hero-hero-actions
         // div (incl. its nested divs) up to — but not including — the next .results-count div.
         html = html.replace(/<div[^>]*\bloc-hero-hero-actions\b[\s\S]*?(<div[^>]*\bresults-count\b)/, '$1');
+        // ── MOON-COUNTRY-HEADER-UNIFY-NO-SEARCH-1 (moon variant only): the country-grid template's
+        //   .top-header carries an IN-HEADER search box (.city-search-wrapper → #city-search-input +
+        //   #city-suggestions) that the site's GENERAL header does NOT have (index.html's .top-header has
+        //   no such box). Strip it on /moon/{country} so the header matches the rest of the site. The prayer
+        //   country page (seo.countryListing, below) never reaches this block → its header stays untouched.
+        //   Safe: the header box was wired ONLY by the inline onCitySearchInput/onSearchKeyDown stubs (which
+        //   can't fire once the input is gone); the two SiteSearch.createBox boxes target the GRID filter
+        //   (#country-city-filter) and the hero search (#search-input) — NOT this header input — so the
+        //   in-CONTENT "search cities in this country" filter is unaffected.
+        html = html.replace(/<div class="city-search-wrapper">[\s\S]*?id="city-suggestions">\s*<\/div>\s*<\/div>/, '');
+        // ── (option ب, user-approved 2026-06-23): ALSO remove the "موقعي" (detectLocation) geolocation
+        //   button — the site's GENERAL header (index.html) has only theme + lang + home, with NO
+        //   "my location" button. Removing it makes /moon/{country} match the general header exactly.
+        //   Moon variant only; the prayer country page (seo.countryListing) keeps it untouched.
+        //   detectLocation() is referenced only by this single header button (no other caller on the page).
+        html = html.replace(/<button[^>]*onclick="detectLocation\(\)"[\s\S]*?<\/button>/, '');
+        // ── (user-approved 2026-06-24): unify the header ICONS with the GENERAL site header. index.html's
+        //   header uses inline-SVG sprite icons (#i-map-pin / #i-moon / #i-home); this grid template uses
+        //   emoji (🏙️/🌙/🏠). The template has NO sprite, so (1) inject the 3 needed <symbol>s (paths copied
+        //   verbatim from index.html's sprite) right before the header, then (2) swap the 3 header emoji for
+        //   the SAME <use> markup + classes index.html uses → the moon-country header becomes visually
+        //   identical (icons + dimensions + spacing) to the header on every other moon page. Moon variant
+        //   ONLY → the prayer country page keeps its emoji header. No CSS change (reuses .icon / .ttb-icon
+        //   already in style.css, exactly as index.html does), so no cache-buster bump.
+        html = html.replace('<div class="top-header">',
+            '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">' +
+            '<symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>' +
+            '<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>' +
+            '<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>' +
+            '</svg><div class="top-header">');
+        html = html.replace('<span class="icon">🏙️</span>', '<svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>');
+        html = html.replace(/<span class="ttb-icon ttb-icon-moon"[^>]*>🌙<\/span>/, '<svg class="icon ttb-icon ttb-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>');
+        html = html.replace('>🏠 <span class="btn-text" data-i18n="header.home">', '><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> <span class="btn-text" data-i18n="header.home">');
     }
 
     if (seo.countryListing) {

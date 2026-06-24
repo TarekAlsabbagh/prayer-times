@@ -3815,8 +3815,33 @@ async function initApp() {
                 } catch (_e) { /* silent — fall back to Mecca defaults */ }
             }
         } else {
-            // على الرئيسيّة: امسح آخر سياق مدينة (سياق التنقّل بين الصفحات)
-            try { sessionStorage.removeItem('last_city_context'); } catch (_e) { /* silent */ }
+            // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: the user's EXPLICITLY selected city
+            //   (sessionStorage 'selected_city', written by the search pick) is the PERSISTENT nav
+            //   context — it must stay on the HOMEPAGE too and OUTRANK lsb_detected, until the next pick
+            //   or detectLocation() clears it. Only when there is no selected city do we fall back to the
+            //   legacy behavior (clear the transient last_city_context carrier + use lsb_detected).
+            let _selHydrated = false;
+            try {
+                const _selRaw = sessionStorage.getItem('selected_city');
+                if (_selRaw) {
+                    const _sel = JSON.parse(_selRaw);
+                    if (_sel && _sel.englishName && isFinite(_sel.lat) && isFinite(_sel.lng)) {
+                        currentLat = _sel.lat; currentLng = _sel.lng;
+                        currentCity = _sel.name || currentCity;
+                        currentEnglishName = _sel.englishName;
+                        currentEnglishDisplayName = _sel.englishName;
+                        currentCountry = _sel.country || currentCountry;
+                        currentCountryCode = (_sel.countryCode || '').toLowerCase();
+                        if (currentCountryCode && typeof COUNTRY_EN_NAMES !== 'undefined') {
+                            currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
+                        }
+                        if (typeof _sel.timezone === 'number') currentTimezone = _sel.timezone;
+                        _selHydrated = true; _hydratedFromContext = true;
+                    }
+                }
+            } catch (_e) { /* silent */ }
+            // على الرئيسيّة: امسح آخر سياق مدينة (سياق التنقّل) — ONLY when there is no explicit selection.
+            if (!_selHydrated) { try { sessionStorage.removeItem('last_city_context'); } catch (_e) { /* silent */ } }
             // BUG-FIX (lang-switch reverts to Mecca): إن سبق للمستخدم اكتشاف
             //   موقعه (lsb_detected في localStorage صالح حتّى 7 أيّام)، استعمله
             //   على الرئيسيّة وفي كلّ روابط الناف-بار بدلاً من Mecca defaults.
@@ -3828,7 +3853,7 @@ async function initApp() {
                     const _lsb = JSON.parse(_lsbRaw);
                     const _ageMs = Date.now() - (Number(_lsb && _lsb.ts) || 0);
                     const _validTs = isFinite(_ageMs) && _ageMs < 7 * 24 * 60 * 60 * 1000; // 7 days
-                    if (_lsb && _validTs && isFinite(_lsb.lat) && isFinite(_lsb.lng) && _lsb.enName) {
+                    if (!_selHydrated && _lsb && _validTs && isFinite(_lsb.lat) && isFinite(_lsb.lng) && _lsb.enName) {
                         currentLat = _lsb.lat;
                         currentLng = _lsb.lng;
                         currentCity = _lsb.arCity || _lsb.enName;
@@ -3859,6 +3884,11 @@ async function initApp() {
         try { updateCityDisplay(); } catch(_e) { try { console.warn('[initApp] updateCityDisplay:', _e); } catch(_){} }
         try { updatePrayerTimes(); } catch(_e) { try { console.warn('[initApp] updatePrayerTimes:', _e); } catch(_){} }
         try { updateQibla();       } catch(_e) { try { console.warn('[initApp] updateQibla:',       _e); } catch(_){} }
+        // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: the city globals are now resolved (URL slug /
+        //   last_city_context / lsb_detected / Mecca default), so rewrite the 3 city-bound sidebar-nav
+        //   hrefs to the resolved city — this runs AFTER the homepage clears last_city_context, so the
+        //   hrefs agree with the click handler (no stale value). No real city → generic hubs stay.
+        try { if (typeof _applyLastCityNavLinks === 'function') _applyLastCityNavLinks(); } catch(_e) {}
         // Round 31: لا تستدعِ detectLocation على صفحة غير-مدنيّة حين يوجد سياق
         //   (مثل /date-converter بعد /prayer-times-in-tokyo): detectLocation يكتب
         //   فوق currentLat/Lng/EnglishName بموقع GPS الحقيقيّ للمستخدم عبر
@@ -4996,6 +5026,96 @@ function _saveLastCityContextNow() {
     } catch (_) {}
 }
 
+// GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1 (2026-06-24): resolve the user's CURRENT or
+//   LAST-USED city for the sidebar nav so the prayer-times / qibla / moon tabs deep-link to
+//   that city (instead of the generic hub) from the homepage / hub / tool pages. Source order
+//   (the SAME data the rest of the site uses — no new source): (1) the current globals IF they
+//   represent a real, non-Mecca-default city; else (2) sessionStorage 'last_city_context' (then
+//   'city_moon') written by site-search.js / _saveLastCityContextNow. Returns { slug, cc } or
+//   null. Mecca-default is treated as "no city" so the homepage default never forces
+//   /prayer-times-in-mecca (the homepage already IS the prayer-times entry for that default).
+function _lastCityForNav() {
+    const _meccaish = (la, ln, en) => Math.abs((la || 0) - 21.4225) < 0.02
+        && Math.abs((ln || 0) - 39.8262) < 0.02
+        && (!en || en === 'Mecca' || en === 'Makkah');
+    // 0) the user's EXPLICITLY selected city (search pick) — HIGHEST priority, persists across ALL
+    //    pages incl. the homepage and OUTRANKS lsb_detected, until the next pick / detectLocation clear.
+    try {
+        const _selRaw = sessionStorage.getItem('selected_city');
+        if (_selRaw) {
+            const _sel = JSON.parse(_selRaw);
+            if (_sel && _sel.englishName && !_meccaish(_sel.lat, _sel.lng, _sel.englishName)) {
+                const _s = _sel.slug || (typeof makeSlug === 'function' ? makeSlug(_sel.englishName, _sel.lat, _sel.lng) : '');
+                if (_s) return { slug: _s, cc: (_sel.countryCode || '').toLowerCase() };
+            }
+        }
+    } catch (_) {}
+    try {
+        if (currentEnglishName && !_meccaish(currentLat, currentLng, currentEnglishName)
+            && typeof makeSlug === 'function') {
+            const _s = makeSlug(currentEnglishName, currentLat, currentLng);
+            if (_s) return { slug: _s, cc: (currentCountryCode || '').toLowerCase() };
+        }
+    } catch (_) {}
+    // 'last_city_context' is the page-to-page navigation carrier — but initApp DELETES it on the
+    //   homepage (it's transient there) and resolves the homepage from lsb_detected instead. So read
+    //   it only OFF the homepage to avoid a stale value the homepage is about to clear.
+    try {
+        const _isHomeLc = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
+        if (!_isHomeLc) {
+            let _raw = null;
+            try { _raw = sessionStorage.getItem('last_city_context') || sessionStorage.getItem('city_moon'); } catch (_) {}
+            if (_raw) {
+                const _c = JSON.parse(_raw);
+                if (_c && _c.englishName && !_meccaish(_c.lat, _c.lng, _c.englishName)) {
+                    const _s = _c.slug || (typeof makeSlug === 'function' ? makeSlug(_c.englishName, _c.lat, _c.lng) : '');
+                    if (_s) return { slug: _s, cc: (_c.countryCode || '').toLowerCase() };
+                }
+            }
+        }
+    } catch (_) {}
+    // lsb_detected (localStorage, 7-day) is the user's persistent geo-detected location — the same
+    //   source the existing homepage nav uses (initApp lines ~3825). Lets the homepage tabs deep-link
+    //   to the user's detected city.
+    try {
+        const _lsbRaw = localStorage.getItem('lsb_detected');
+        if (_lsbRaw) {
+            const _l = JSON.parse(_lsbRaw);
+            const _ageOk = isFinite(Date.now() - (Number(_l && _l.ts) || 0)) && (Date.now() - (Number(_l && _l.ts) || 0)) < 7 * 24 * 60 * 60 * 1000;
+            if (_l && _l.enName && _ageOk && !_meccaish(_l.lat, _l.lng, _l.enName) && typeof makeSlug === 'function') {
+                const _s = makeSlug(_l.enName, _l.lat, _l.lng);
+                if (_s) return { slug: _s, cc: (_l.countryCode || '').toLowerCase() };
+            }
+        }
+    } catch (_) {}
+    return null;
+}
+
+// GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: rewrite the 3 city-bound sidebar-nav hrefs
+//   (prayer-times / qibla / moon) to the last-used city so right-click / Ctrl+click "open in
+//   new tab" + plain navigation all land on the city page. SKIPPED on city pages — there the
+//   SSR pass (NAVBAR-CITY-CONTEXT-LINKS-FOR-CITY-PAGES-1) already set the correct city hrefs, so
+//   we never overwrite them with a (possibly stale) last_city_context. Moon uses the NESTED
+//   /moon/{country}/{city}/today via _nestedMoonHrefClient (legacy 301 fallback inside it). When
+//   there is no real last-used city the generic hub hrefs are left untouched.
+function _applyLastCityNavLinks() {
+    try {
+        const _p = window.location.pathname;
+        const _isCityPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|next-prayer-in|time-left-until-next-prayer-in)-[a-z]/.test(_p)
+            || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z]/.test(_p);
+        if (_isCityPage) return;
+        const _lc = _lastCityForNav();
+        if (!_lc || !_lc.slug) return;
+        const _lp = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
+        const _set = (sel, href) => { const el = document.querySelector(sel); if (el && href) el.setAttribute('href', href); };
+        _set('.sidebar-nav a[data-page="prayer-times"]', pageUrl('/prayer-times-in-' + _lc.slug));
+        _set('.sidebar-nav a[data-page="qibla"]', pageUrl('/qibla-in-' + _lc.slug));
+        if (typeof _nestedMoonHrefClient === 'function') {
+            _set('.sidebar-nav a[data-page="moon"]', _nestedMoonHrefClient(_lc.slug, _lp, 'today', _lc.cc));
+        }
+    } catch (_) {}
+}
+
 // FIX: helper موحّد يضمن أنّ currentLat/currentLng/currentEnglishName معبّأة قبل
 //   أي تنقّل من الـ sidebar — يهيّئها من الـ URL الحاليّ أو sessionStorage.
 //   يُستعمَل تلقائياً في initNavigation قبل تنفيذ كل branch.
@@ -5471,6 +5591,11 @@ document.addEventListener('click', function (e) {
 
 function initNavigation() {
     const navLinks = document.querySelectorAll('.sidebar-nav a');
+    // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: rewrite the 3 city-bound nav hrefs to the
+    //   last-used city now (so right-click / Ctrl+click "open in new tab" lands on the city),
+    //   and again on pageshow (BFCache restore) so a Back/Forward shows fresh hrefs.
+    try { _applyLastCityNavLinks(); } catch (_) {}
+    try { window.addEventListener('pageshow', function () { try { _applyLastCityNavLinks(); } catch (_) {} }); } catch (_) {}
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             // NAVBAR-LINKS-OPEN-IN-NEW-TAB-REAL-HREF-FIX-1: the nav items are now real
@@ -5585,6 +5710,15 @@ function initNavigation() {
                 //   through to the existing city-slug logic below.
                 const _moonIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
                 if (_moonIsHome) {
+                    // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: a real last-used city → go to its
+                    //   nested moon-today page, NOT the generic hub. No city → hub (unchanged).
+                    const _lcMoon = _lastCityForNav();
+                    if (_lcMoon && _lcMoon.slug && typeof _nestedMoonHrefClient === 'function') {
+                        const _lpMoon = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
+                        _showNavLoadingOverlay('moon');
+                        window.location.href = _nestedMoonHrefClient(_lcMoon.slug, _lpMoon, 'today', _lcMoon.cc);
+                        return;
+                    }
                     _showNavLoadingOverlay('moon');
                     // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: general moon hub now lives at /moon.
                     window.location.href = pageUrl('/moon');
@@ -5666,6 +5800,14 @@ function initNavigation() {
                 //   through to the city-slug logic below.
                 const _ptIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
                 if (_ptIsHome) {
+                    // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: a real last-used city → go to its
+                    //   prayer-times page. No city → stay on the homepage (it IS the entry).
+                    const _lcPt = _lastCityForNav();
+                    if (_lcPt && _lcPt.slug) {
+                        _showNavLoadingOverlay('prayer-times');
+                        window.location.href = pageUrl('/prayer-times-in-' + _lcPt.slug);
+                        return;
+                    }
                     try { closeSidebar(); } catch (_) {}
                     return;
                 }
@@ -5732,6 +5874,14 @@ function initNavigation() {
                 if (window.location.protocol !== 'file:') {
                     const _qiblaIsHome = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(window.location.pathname);
                     if (_qiblaIsHome) {
+                        // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: a real last-used city → go to its
+                        //   qibla page. No city → the generic qibla hub (unchanged).
+                        const _lcQ = _lastCityForNav();
+                        if (_lcQ && _lcQ.slug) {
+                            _showNavLoadingOverlay('qibla');
+                            window.location.href = pageUrl('/qibla-in-' + _lcQ.slug);
+                            return;
+                        }
                         _showNavLoadingOverlay('qibla');
                         window.location.href = pageUrl('/qibla');
                         return;
@@ -8402,6 +8552,9 @@ function detectLocation() {
     // منع الطلبات المتزامنة عند الضغط المتكرر على "موقعي"
     if (_locationInProgress) return;
     _locationInProgress = true;
+    // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: requesting "my location" is the intentional mechanism
+    //   that clears the explicitly-selected city, so geo (lsb_detected) takes over the nav context.
+    try { sessionStorage.removeItem('selected_city'); } catch (_) {}
 
     if (!navigator.geolocation) {
         _locationInProgress = false;

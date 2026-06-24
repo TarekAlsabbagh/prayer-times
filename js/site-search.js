@@ -146,13 +146,17 @@
                 || r.displayName || r.slug;
             var _country = r.countryName || '';
             var _tz = (r.timezone != null) ? r.timezone : null;
+            // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: persist the authoritative `slug` too so the
+            //   sidebar-nav deep-link rewriters (app.js + the country-page rewriter below) build
+            //   /prayer-times-in-{slug} · /qibla-in-{slug} · /moon/{country}/{slug}/today without
+            //   re-deriving it from englishName.
             var _seed = JSON.stringify({
                 lat: r.lat, lng: r.lng, name: _name, country: _country,
-                englishName: _en, countryCode: _cc, timezone: _tz, _v: 2
+                englishName: _en, countryCode: _cc, timezone: _tz, slug: r.slug, _v: 2
             });
             var _ctx = JSON.stringify({
                 lat: r.lat, lng: r.lng, name: _name, country: _country,
-                englishName: _en, countryCode: _cc, timezone: _tz, ts: Date.now()
+                englishName: _en, countryCode: _cc, timezone: _tz, slug: r.slug, ts: Date.now()
             });
             try { sessionStorage.setItem('city_' + r.slug, _seed); } catch (_e) {}
             if (targetRoute === 'moon-hub') {
@@ -161,6 +165,11 @@
                 try { sessionStorage.setItem('city_qibla', _seed); } catch (_e) {}
             }
             try { sessionStorage.setItem('last_city_context', _ctx); } catch (_e) {}
+            // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: the user's EXPLICIT pick. Unlike the transient
+            //   'last_city_context' (which the homepage clears as a page-nav carrier), this persists across
+            //   ALL pages incl. the homepage and OUTRANKS lsb_detected, until the next pick overwrites it
+            //   or detectLocation() clears it intentionally. Same pick event — not a new data source.
+            try { sessionStorage.setItem('selected_city', _ctx); } catch (_e) {}
         } catch (_) { /* best-effort — never block navigation */ }
         // navigate defaults to true; opts.navigate === false runs persist+seed WITHOUT routing
         // (used by the country grid-injection so the picked discovered city is added to the
@@ -294,7 +303,77 @@
         return { search: search, onEnter: onEnter, hide: hide, getResults: function () { return lastResults; } };
     }
 
+    // ── GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1 ───────────────────────────────────────────────
+    //   On pages that DON'T load js/app.js (the country grid template — /moon/{country},
+    //   /prayer-times-in-{country}) rewrite the 3 city-bound sidebar-nav hrefs (prayer-times /
+    //   qibla / moon) to the user's last-used city from sessionStorage 'last_city_context' (then
+    //   'city_moon'). Moon prefers the NESTED /moon/{country}/{city}/today when the country slug is
+    //   derivable, else the legacy /moon-today-in-{slug} (301 → nested). No real last-used city →
+    //   the generic hub hrefs stay. NO-OP on the SPA (app.js owns the nav there). Same data source
+    //   the rest of the site uses; never reintroduces search / "my location".
+    function _slugifyEn(s) {
+        return String(s || '').normalize('NFD').replace(/[̀-ͯ]/g, '')
+            .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    }
+    function _lastCityForNavCtx() {
+        try {
+            // selected_city (explicit pick) OUTRANKS the transient carriers.
+            var raw = sessionStorage.getItem('selected_city') || sessionStorage.getItem('last_city_context') || sessionStorage.getItem('city_moon');
+            if (!raw) return null;
+            var c = JSON.parse(raw);
+            if (!c || !c.englishName) return null;
+            var meccaish = Math.abs((c.lat || 0) - 21.4225) < 0.02 && Math.abs((c.lng || 0) - 39.8262) < 0.02
+                && (c.englishName === 'Mecca' || c.englishName === 'Makkah');
+            if (meccaish) return null;
+            var slug = c.slug || _slugifyEn(c.englishName);
+            if (!slug) return null;
+            return { slug: slug, cc: (c.countryCode || '').toLowerCase() };
+        } catch (_) { return null; }
+    }
+    function _ccToCountrySlug(cc) {
+        if (!cc) return '';
+        var OV = { mo: 'macau', hk: 'hong-kong' };
+        if (OV[cc]) return OV[cc];
+        try { if (typeof window.makeCountrySlug === 'function') return window.makeCountrySlug(cc, '') || ''; } catch (_) {}
+        try {
+            var M = window.COUNTRY_NAMES_EN || window.COUNTRY_EN_NAMES;
+            if (M && M[cc]) return _slugifyEn(M[cc]);
+        } catch (_) {}
+        return '';
+    }
+    function applyNavCityLinks() {
+        try {
+            // SPA already handles its own nav via app.js — never double-rewrite there.
+            if (typeof window._applyLastCityNavLinks === 'function') return;
+            var lc = _lastCityForNavCtx();
+            if (!lc || !lc.slug) return;
+            var lp = langPrefix();
+            var links = document.querySelectorAll('.sidebar-nav a');
+            for (var i = 0; i < links.length; i++) {
+                var a = links[i];
+                var core = (a.getAttribute('href') || '').replace(/[?#].*$/, '')
+                    .replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/, '');
+                if (core === '/qibla') {
+                    a.setAttribute('href', lp + '/qibla-in-' + lc.slug);
+                } else if (core === '/moon' || core === '/moon-today') {
+                    var cs = _ccToCountrySlug(lc.cc);
+                    a.setAttribute('href', cs ? (lp + '/moon/' + cs + '/' + lc.slug + '/today')
+                                              : (lp + '/moon-today-in-' + lc.slug));
+                } else if (core === '' || core === '/') {
+                    a.setAttribute('href', lp + '/prayer-times-in-' + lc.slug);
+                }
+            }
+        } catch (_) {}
+    }
+    try {
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyNavCityLinks);
+        } else { applyNavCityLinks(); }
+        window.addEventListener('pageshow', applyNavCityLinks);
+    } catch (_) {}
+
     window.SiteSearch = {
+        applyNavCityLinks: applyNavCityLinks,
         SUPPORTED_LANGS: SUPPORTED_LANGS,
         esc: esc,
         pickLang: pickLang,

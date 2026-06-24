@@ -11370,28 +11370,32 @@ function buildSeoForPath(urlPath) {
                 // sits in the 50–60 SEOptimer sweet spot. Deliberately omits the
                 // month name (E2-keywords-diag hard rule: no monthly title rotation)
                 // and the default city name (Hub is generic, not city-specific).
-                ar: 'حالة القمر اليوم: الطور الحالي ومراحل القمر والتقويم الهجري',
-                en: 'Moon Today: Current Phase, Moon Phases & Hijri Calendar',
-                fr: 'Lune aujourd\u2019hui : phases lunaires et calendrier hégirien',
-                tr: 'Bugün Ay: Mevcut Evre, Ay Evreleri ve Hicri Takvim',
-                ur: 'آج چاند کی حالت: موجودہ طور، چاند کے مراحل اور ہجری تقویم',
-                de: 'Mond heute: aktuelle Phase, Mondphasen & Hidschri-Kalender',
-                id: 'Bulan Hari Ini: Fase Saat Ini, Fase Bulan & Kalender Hijriah',
-                es: 'Luna hoy: fase actual, fases lunares y calendario hijri',
-                bn: 'আজ চাঁদ: বর্তমান দশা, চাঁদের দশা ও হিজরি ক্যালেন্ডার',
-                ms: 'Bulan Hari Ini: Fasa Semasa, Fasa Bulan & Kalendar Hijrah',
+                // MOON-HUB-KEYWORD-CONSISTENCY-ALL-LANGS-1 (2026-06-24, user-approved direction):
+                // foreground حالة القمر اليوم + طور القمر + تقويم القمر (moon-calendar concept, distinct
+                // from التقويم الهجري) while KEEPING the Hijri-month reference. مراحل/أطوار القمر move to
+                // the H2 headings + meta + body. All ≤60 code points (no _fit needed).
+                ar: 'حالة القمر اليوم: طور القمر وتقويم القمر والشهر الهجري',
+                en: 'Moon Today: Phase, Moon Calendar & Hijri Month',
+                fr: 'Lune aujourd\u2019hui : phase, calendrier lunaire, hégire',
+                tr: 'Bugün Ay: Evre, Ay Takvimi ve Hicri Ay',
+                ur: 'آج چاند کی حالت: طور، چاند کا تقویم اور ہجری مہینہ',
+                de: 'Mond heute: Phase, Mondkalender und Hidschri-Monat',
+                id: 'Bulan Hari Ini: Fase, Kalender Bulan & Bulan Hijriah',
+                es: 'Luna hoy: fase, calendario lunar y mes hijri',
+                bn: 'আজ চাঁদ: দশা, চাঁদের ক্যালেন্ডার ও হিজরি মাস',
+                ms: 'Bulan Hari Ini: Fasa, Kalendar Bulan & Bulan Hijrah',
             },
             desc: {
-                ar: 'حالة القمر اليوم: طور القمر ونسبة إضاءته الآن، عمر القمر بالأيّام، المسافة بين موقعك والقمر، موعد مطلع القمر ومغيبه، البدر القادم ورؤية هلال الشهر الهجريّ.',
-                en: "Today's moon phase, illumination, age, moonrise and moonset times, distance to Earth, plus the next full moon and crescent visibility dates.",
-                fr: 'État de la Lune aujourd\u2019hui : phase actuelle et pourcentage d\u2019illumination, âge de la Lune en jours, distance entre votre ville et la Lune, heures de lever/coucher, prochaine pleine lune et visibilité du croissant (hilal) pour le prochain mois hégirien.',
-                tr: 'Ayın bugünkü durumu: şu anki evre ve aydınlanma yüzdesi, ayın gün olarak yaşı, şehriniz ile Ay arasındaki mesafe, ay doğuşu/batışı saatleri, bir sonraki dolunay ve gelecek hicri ay için hilal görünürlüğü.',
-                ur: 'آج چاند کی حالت: موجودہ طور اور روشنی کا فیصد، چاند کی عمر دنوں میں، آپ کے شہر اور چاند کے درمیان فاصلہ، مطلع اور مغیبِ چاند کے اوقات، اگلا بدر اور آنے والے ہجری مہینے کے لیے ہلال کی رؤیت۔',
-                de: 'Mondzustand heute: aktuelle Phase und Beleuchtungsprozent, Mondalter in Tagen, Entfernung zwischen Ihrer Stadt und dem Mond, Mondaufgang und -untergang, nächster Vollmond und Hilal-Sichtbarkeit für den kommenden Hidschri-Monat.',
-                id: 'Keadaan Bulan hari ini: fase dan persentase iluminasi saat ini, usia bulan dalam hari, jarak antara kota Anda dan Bulan, waktu terbit dan terbenam, purnama berikutnya dan rukyat hilal untuk bulan Hijriyah mendatang.',
-                es: 'Estado de la Luna hoy: fase actual y porcentaje de iluminación, edad de la Luna en días, distancia entre su ciudad y la Luna, horas de salida y puesta, próxima luna llena y visibilidad del hilal para el próximo mes Hijri.',
-                bn: 'আজ চাঁদের অবস্থা: বর্তমান দশা ও আলোকন শতাংশ, দিনের হিসেবে চাঁদের বয়স, আপনার শহর ও চাঁদের মধ্যকার দূরত্ব, চাঁদের উদয় ও অস্ত সময়, পরবর্তী পূর্ণিমা এবং আসন্ন হিজরি মাসের হিলাল দৃশ্যমানতা।',
-                ms: 'Keadaan Bulan hari ini: fasa semasa dan peratus pencahayaan, usia bulan dalam hari, jarak antara bandar anda dan Bulan, waktu terbit dan terbenam, bulan purnama seterusnya dan rukyah hilal untuk bulan Hijrah mendatang.',
+                ar: 'حالة القمر اليوم: طور القمر ونسبة إضاءته وعمره، مواعيد البدر والمحاق، تقويم القمر ومراحله، ومطلع القمر ومغيبه ورؤية هلال بداية الشهر الهجري حسب مدينتك.',
+                en: "Today's moon phase, illumination and age, the next full moon and new moon dates, the moon calendar and its phases, and crescent visibility for the Hijri month.",
+                fr: 'Phase de la Lune aujourd’hui, illumination, âge, dates de pleine et nouvelle lune, calendrier lunaire et ses phases, visibilité du croissant du mois hégirien.',
+                tr: 'Ayın bugünkü evresi, aydınlanması ve yaşı, dolunay ve yeni ay tarihleri, ay takvimi ve evreleri, ayrıca hicri ay için hilal görünürlüğü.',
+                ur: 'آج چاند کا طور، روشنی اور عمر، بدر اور محاق کی تاریخیں، چاند کا تقویم اور اس کے مراحل، اور ہجری مہینے کے لیے ہلال کی رؤیت۔',
+                de: 'Heutige Mondphase, Beleuchtung und Alter, Termine von Vollmond und Neumond, Mondkalender und seine Phasen sowie Hilal-Sichtbarkeit für den Hidschri-Monat.',
+                id: 'Fase Bulan hari ini, iluminasi dan usianya, tanggal purnama dan bulan baru, kalender Bulan beserta fase-fasenya, serta rukyat hilal untuk bulan Hijriah.',
+                es: 'Fase de la Luna hoy, iluminación y edad, fechas de luna llena y luna nueva, el calendario lunar y sus fases, y la visibilidad del hilal para el mes Hijri.',
+                bn: 'আজ চাঁদের দশা, আলোকন ও বয়স, পূর্ণিমা ও অমাবস্যার তারিখ, চাঁদের ক্যালেন্ডার ও এর দশাসমূহ, এবং হিজরি মাসের জন্য হিলাল দৃশ্যমানতা।',
+                ms: 'Fasa Bulan hari ini, pencahayaan dan usianya, tarikh bulan purnama dan anak bulan, kalendar Bulan serta fasa-fasanya, dan rukyah hilal untuk bulan Hijrah.',
             },
             app: { category: 'UtilitiesApplication' },
             moonFaq: true,   // يُفعّل FAQPage schema لصفحة القمر
@@ -20667,6 +20671,24 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             }
             return '<html' + a + ' class="moon-today-hub-page">';
         });
+        // ── MOON-HUB-KEYWORD-CONSISTENCY-ALL-LANGS-1: H1 carries حالة القمر اليوم + تقويم القمر (the
+        //   user-approved H1). Drop data-i18n so _translateI18nAttrs (which runs later) does not
+        //   overwrite the SSR text with the generic moon.hub.title value. Hub only (single H1 kept).
+        try {
+            const _hubH1 = {
+                ar: 'حالة القمر اليوم وتقويم القمر',
+                en: 'Moon Status Today and Moon Calendar',
+                fr: 'État de la Lune aujourd’hui et calendrier lunaire',
+                tr: 'Bugün Ayın Durumu ve Ay Takvimi',
+                ur: 'آج چاند کی حالت اور چاند کا تقویم',
+                de: 'Mondzustand heute und Mondkalender',
+                id: 'Keadaan Bulan Hari Ini dan Kalender Bulan',
+                es: 'Estado de la Luna hoy y calendario lunar',
+                bn: 'আজ চাঁদের অবস্থা ও চাঁদের ক্যালেন্ডার',
+                ms: 'Keadaan Bulan Hari Ini dan Kalendar Bulan',
+            }[seo.lang] || 'Moon Status Today and Moon Calendar';
+            html = html.replace(/<span data-i18n="moon\.hub\.title">[^<]*<\/span>/, `<span>${_escHtml(_hubH1)}</span>`);
+        } catch (_e) { /* keep the static i18n H1 on failure */ }
         // ── Phase E2-keywords (2026-05-01): inject current-month heading ──
         // SEOptimer flagged "مايو" / "مايو 2026" as appearing frequently in
         // /moon-today body without showing in any heading. This block fills
@@ -20781,16 +20803,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             //   Inserted AFTER #moon-upcoming-section closes — next-phases
             //   table flows into "next full moon" topic naturally.
             const _hubSec2H2 = {
-                    ar: 'موعد بدر قمر مكتمل والطور القادم',
-                    en: 'Next Full Moon (Badr) Date and Upcoming Phase',
-                    fr: 'Date de la prochaine pleine lune (Badr) et phase à venir',
-                    tr: 'Sıradaki Dolunay (Badr) Tarihi ve Yaklaşan Evre',
-                    ur: 'اگلے بدر مکمل چاند کی تاریخ اور آنے والا مرحلہ',
-                    de: 'Nächstes Vollmond-Datum (Badr) und kommende Phase',
-                    id: 'Tanggal Purnama (Badr) Berikutnya dan Fase Mendatang',
-                    es: 'Próxima fecha de luna llena (Badr) y fase venidera',
-                    bn: 'পরবর্তী পূর্ণিমা (বদর) তারিখ ও আসন্ন পর্যায়',
-                    ms: 'Tarikh Bulan Purnama (Badr) Seterusnya dan Fasa Akan Datang',
+                    ar: 'مواعيد البدر والمحاق',
+                    en: 'Full Moon (Badr) and New Moon Dates',
+                    fr: 'Dates de la pleine lune et de la nouvelle lune',
+                    tr: 'Dolunay ve Yeni Ay Tarihleri',
+                    ur: 'بدر اور محاق کی تاریخیں',
+                    de: 'Termine von Vollmond und Neumond',
+                    id: 'Tanggal Purnama dan Bulan Baru',
+                    es: 'Fechas de luna llena y luna nueva',
+                    bn: 'পূর্ণিমা ও অমাবস্যার তারিখ',
+                    ms: 'Tarikh Bulan Purnama dan Anak Bulan',
                 };
             const _hubSec2P  = {
                     ar: 'يوضح هذا القسم موعد البدر القادم ومرحلة القمر المكتمل ضمن الدورة القمرية الحالية. عند ظهور بدر قمر مكتمل، يصل القمر إلى أعلى نسبة إضاءة، ويمكن مقارنة ذلك مع مراحل القمر الأخرى مثل المحاق والتربيع الأول والتربيع الأخير. تتغير حالة القمر يومياً وتمر بعدة أطوار بين المحاق والبدر، ولكل طور علاماته البصرية ومدته الزمنية ضمن الشهر القمري الذي يبلغ متوسطه 29.5 يوماً.',
@@ -20808,25 +20830,55 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 + '<h2>' + _escHtml(_hubPick(_hubSec2H2)) + '</h2>'
                 + '<p>'  + _escHtml(_hubPick(_hubSec2P))  + '</p>'
                 + '</section>';
+            // SECTION 5 (MOON-HUB-KEYWORD-CONSISTENCY-ALL-LANGS-1): تقويم القمر ومراحل القمر — puts the
+            //   «تقويم القمر» + «مراحل القمر» keywords in a heading + a useful paragraph (not stuffing).
+            const _hubSec5H2 = {
+                    ar: 'تقويم القمر ومراحل القمر',
+                    en: 'Moon Calendar and Moon Phases',
+                    fr: 'Calendrier lunaire et phases de la Lune',
+                    tr: 'Ay Takvimi ve Ay Evreleri',
+                    ur: 'چاند کا تقویم اور چاند کے مراحل',
+                    de: 'Mondkalender und Mondphasen',
+                    id: 'Kalender Bulan dan Fase Bulan',
+                    es: 'Calendario lunar y fases de la Luna',
+                    bn: 'চাঁদের ক্যালেন্ডার ও চাঁদের দশা',
+                    ms: 'Kalendar Bulan dan Fasa Bulan',
+                };
+            const _hubSec5P = {
+                    ar: 'يعرض تقويم القمر مراحل القمر يوماً بيوم خلال الشهر القمري، من المحاق إلى التربيع الأول ثم البدر فالتربيع الأخير، ويعود إلى المحاق بعد نحو 29.5 يوماً. يساعدك تقويم القمر على معرفة موعد كل طور ومتابعة أطوار القمر القادمة، كما يمكنك فتح تقويم القمر الشهري أو السنوي لأي مدينة لعرض البدر والمحاق وبقية المراحل بتواريخها.',
+                    en: 'The moon calendar shows the moon phases day by day through the lunar month, from the new moon to the first quarter, then the full moon and the last quarter, returning to the new moon after about 29.5 days. The moon calendar helps you find the date of each phase and follow the upcoming moon phases, and you can open the monthly or yearly moon calendar for any city to view the full moon, new moon, and the other phases with their dates.',
+                    fr: 'Le calendrier lunaire montre les phases de la Lune jour après jour durant le mois lunaire, de la nouvelle lune au premier quartier, puis la pleine lune et le dernier quartier, avant de revenir à la nouvelle lune après environ 29,5 jours. Le calendrier lunaire vous aide à trouver la date de chaque phase et à suivre les phases à venir, et vous pouvez ouvrir le calendrier lunaire mensuel ou annuel de chaque ville pour voir la pleine lune, la nouvelle lune et les autres phases avec leurs dates.',
+                    tr: 'Ay takvimi, ay döngüsü boyunca ay evrelerini gün gün gösterir: yeni aydan ilk dördüne, ardından dolunay ve son dördün, yaklaşık 29,5 gün sonra yeniden yeni aya döner. Ay takvimi her evrenin tarihini bulmanıza ve yaklaşan ay evrelerini takip etmenize yardımcı olur; ayrıca herhangi bir şehir için aylık veya yıllık ay takvimini açarak dolunay, yeni ay ve diğer evreleri tarihleriyle görebilirsiniz.',
+                    ur: 'چاند کا تقویم قمری مہینے کے دوران چاند کے مراحل کو دن بہ دن دکھاتا ہے، محاق سے پہلے چوتھائی تک، پھر بدر اور آخری چوتھائی، اور تقریباً 29.5 دن بعد دوبارہ محاق کی طرف لوٹتا ہے۔ چاند کا تقویم ہر مرحلے کی تاریخ جاننے اور آنے والے مراحل کو دیکھنے میں مدد دیتا ہے، اور آپ کسی بھی شہر کے لیے ماہانہ یا سالانہ تقویم کھول کر بدر، محاق اور باقی مراحل ان کی تاریخوں کے ساتھ دیکھ سکتے ہیں۔',
+                    de: 'Der Mondkalender zeigt die Mondphasen Tag für Tag im Mondmonat – vom Neumond zum ersten Viertel, dann Vollmond und letztes Viertel und nach etwa 29,5 Tagen zurück zum Neumond. Der Mondkalender hilft Ihnen, das Datum jeder Phase zu finden und die kommenden Mondphasen zu verfolgen; zudem können Sie den monatlichen oder jährlichen Mondkalender jeder Stadt öffnen, um Vollmond, Neumond und die übrigen Phasen mit ihren Daten zu sehen.',
+                    id: 'Kalender Bulan menampilkan fase Bulan hari demi hari sepanjang bulan lunar, dari bulan baru ke kuartal pertama, lalu purnama dan kuartal terakhir, dan kembali ke bulan baru setelah sekitar 29,5 hari. Kalender Bulan membantu Anda menemukan tanggal setiap fase dan mengikuti fase Bulan mendatang; Anda juga dapat membuka kalender Bulan bulanan atau tahunan untuk kota mana pun guna melihat purnama, bulan baru, dan fase lainnya beserta tanggalnya.',
+                    es: 'El calendario lunar muestra las fases de la Luna día a día durante el mes lunar, de la luna nueva al primer cuarto, luego la luna llena y el último cuarto, y vuelve a la luna nueva tras unos 29,5 días. El calendario lunar le ayuda a encontrar la fecha de cada fase y a seguir las fases próximas; además, puede abrir el calendario lunar mensual o anual de cualquier ciudad para ver la luna llena, la luna nueva y las demás fases con sus fechas.',
+                    bn: 'চাঁদের ক্যালেন্ডার চান্দ্র মাস জুড়ে চাঁদের দশা দিন-প্রতিদিন দেখায়—অমাবস্যা থেকে প্রথম পাদ, এরপর পূর্ণিমা ও শেষ পাদ, এবং প্রায় ২৯.৫ দিন পর আবার অমাবস্যায় ফিরে আসে। চাঁদের ক্যালেন্ডার প্রতিটি দশার তারিখ জানতে ও আসন্ন দশাগুলো অনুসরণ করতে সাহায্য করে; এছাড়া যেকোনো শহরের মাসিক বা বার্ষিক চাঁদের ক্যালেন্ডার খুলে পূর্ণিমা, অমাবস্যা ও অন্যান্য দশা তাদের তারিখসহ দেখতে পারেন।',
+                    ms: 'Kalendar Bulan memaparkan fasa Bulan hari demi hari sepanjang bulan lunar, dari anak bulan ke suku pertama, kemudian bulan purnama dan suku terakhir, dan kembali ke anak bulan selepas kira-kira 29.5 hari. Kalendar Bulan membantu anda mencari tarikh setiap fasa dan mengikuti fasa Bulan akan datang; anda juga boleh membuka kalendar Bulan bulanan atau tahunan bagi mana-mana bandar untuk melihat bulan purnama, anak bulan dan fasa lain berserta tarikhnya.',
+                };
+            const _hubSec5Html = '<section class="section-card moon-seo-info moon-seo-calendar">'
+                + '<h2>' + _escHtml(_hubPick(_hubSec5H2)) + '</h2>'
+                + '<p>'  + _escHtml(_hubPick(_hubSec5P))  + '</p>'
+                + '</section>';
             html = html.replace(
                 /(<section[^>]*id="moon-upcoming-section"[^>]*>[\s\S]*?<\/section>)/,
-                (m) => m + _hubSec2Html
+                (m) => m + _hubSec2Html + _hubSec5Html
             );
 
             // SECTION 3: حسابات القمر حسب المدينة المختارة (~75 words AR)
             //   Inserted BEFORE #moon-other-cities — explains the default
             //   city, then the existing "moon in other cities" grid follows.
             const _hubSec3H2 = {
-                    ar: 'حسابات القمر حسب المدينة المختارة',
-                    en: 'Moon Calculations by Selected City',
-                    fr: 'Calculs lunaires selon la ville sélectionnée',
-                    tr: 'Seçilen Şehre Göre Ay Hesaplamaları',
-                    ur: 'منتخب شہر کے مطابق چاند کے حسابات',
-                    de: 'Mondberechnungen nach gewählter Stadt',
-                    id: 'Perhitungan Bulan Berdasarkan Kota Terpilih',
-                    es: 'Cálculos lunares por ciudad seleccionada',
-                    bn: 'নির্বাচিত শহর অনুযায়ী চাঁদের গণনা',
-                    ms: 'Pengiraan Bulan Mengikut Bandar Dipilih',
+                    ar: 'اختر الدولة أو المدينة لعرض بيانات القمر',
+                    en: 'Choose a Country or City to View Moon Data',
+                    fr: 'Choisissez un pays ou une ville pour les données lunaires',
+                    tr: 'Ay Verileri için Ülke veya Şehir Seçin',
+                    ur: 'چاند کا ڈیٹا دیکھنے کے لیے ملک یا شہر منتخب کریں',
+                    de: 'Land oder Stadt wählen, um Monddaten anzuzeigen',
+                    id: 'Pilih Negara atau Kota untuk Melihat Data Bulan',
+                    es: 'Elija un país o ciudad para ver los datos lunares',
+                    bn: 'চাঁদের তথ্য দেখতে দেশ বা শহর নির্বাচন করুন',
+                    ms: 'Pilih Negara atau Bandar untuk Melihat Data Bulan',
                 };
             const _hubSec3P  = {
                     ar: 'قد تظهر بيانات القمر افتراضياً لمدينة مكة المكرمة أو للمدينة التي يختارها المستخدم، مع إمكانية الانتقال نحو صفحات المدن لمتابعة حالة القمر اليوم في الرياض أو المدينة الحالية أو غيرها. تختلف أوقات شروق القمر وغروبه قليلاً حسب الموقع الجغرافي، بينما تبقى مراحل القمر العامة مرتبطة بالدورة القمرية نفسها. تتوفر بيانات القمر لجميع المدن الكبرى في العالم العربي والإسلامي.',
@@ -20844,9 +20896,39 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 + '<h2>' + _escHtml(_hubPick(_hubSec3H2)) + '</h2>'
                 + '<p>'  + _escHtml(_hubPick(_hubSec3P))  + '</p>'
                 + '</section>';
+            // SECTION 6 (MOON-HUB-KEYWORD-CONSISTENCY-ALL-LANGS-1): رؤية الهلال وبداية الشهر الهجري —
+            //   puts «رؤية الهلال» + «بداية الشهر الهجري» (+ المحاق link) in a heading + a useful paragraph.
+            const _hubSec6H2 = {
+                    ar: 'رؤية الهلال وبداية الشهر الهجري',
+                    en: 'Crescent Visibility and the Start of the Hijri Month',
+                    fr: 'Visibilité du croissant et début du mois hégirien',
+                    tr: 'Hilal Görünürlüğü ve Hicri Ayın Başlangıcı',
+                    ur: 'ہلال کی رؤیت اور ہجری مہینے کا آغاز',
+                    de: 'Hilal-Sichtbarkeit und Beginn des Hidschri-Monats',
+                    id: 'Rukyat Hilal dan Awal Bulan Hijriah',
+                    es: 'Visibilidad del hilal e inicio del mes Hijri',
+                    bn: 'হিলাল দৃশ্যমানতা ও হিজরি মাসের শুরু',
+                    ms: 'Rukyah Hilal dan Permulaan Bulan Hijrah',
+                };
+            const _hubSec6P = {
+                    ar: 'بعد المحاق بيوم أو يومين يظهر هلال جديد قرب الأفق بعد غروب الشمس، ورؤية الهلال هي ما تحدد بداية الشهر الهجري في كثير من البلدان. لذلك قد تختلف بداية الشهر يوماً واحداً بين دولة وأخرى حسب رؤية الهلال والحسابات الفلكية. تربط هذه الصفحة بين حالة القمر اليوم وأطوار القمر وبين التقويم الهجري، فمتابعة طور القمر تساعد على توقّع موعد رؤية الهلال وبداية الشهر القمري الجديد.',
+                    en: 'A day or two after the new moon, a thin crescent appears near the horizon after sunset, and crescent visibility is what marks the start of the Hijri month in many countries. The start of the month can therefore differ by one day between countries, depending on crescent visibility and astronomical calculations. This page links the moon status today and the moon phases with the Hijri calendar, so following the moon phase helps you anticipate crescent visibility and the start of the new lunar month.',
+                    fr: 'Un jour ou deux après la nouvelle lune, un fin croissant apparaît près de l’horizon après le coucher du soleil, et la visibilité du croissant marque le début du mois hégirien dans de nombreux pays. Le début du mois peut donc varier d’un jour selon les pays, en fonction de la visibilité du croissant et des calculs astronomiques. Cette page relie la phase de la Lune au calendrier hégirien, de sorte que suivre la phase aide à anticiper la visibilité du croissant et le début du nouveau mois lunaire.',
+                    tr: 'Yeni aydan bir iki gün sonra, gün batımından sonra ufka yakın ince bir hilal görünür ve hilal görünürlüğü birçok ülkede hicri ayın başlangıcını belirler. Bu nedenle ayın başlangıcı, hilal görünürlüğüne ve astronomik hesaplamalara bağlı olarak ülkeden ülkeye bir gün değişebilir. Bu sayfa, ayın bugünkü durumu ve ay evrelerini hicri takvimle ilişkilendirir; böylece ay evresini takip etmek, hilal görünürlüğünü ve yeni kameri ayın başlangıcını öngörmeye yardımcı olur.',
+                    ur: 'محاق کے ایک دو دن بعد غروبِ آفتاب کے بعد افق کے قریب ایک باریک ہلال نظر آتا ہے، اور بہت سے ممالک میں ہلال کی رؤیت ہی ہجری مہینے کے آغاز کا تعین کرتی ہے۔ اسی لیے مہینے کا آغاز ہلال کی رؤیت اور فلکی حسابات کے مطابق ملک بہ ملک ایک دن مختلف ہو سکتا ہے۔ یہ صفحہ آج کی چاند کی حالت اور چاند کے مراحل کو ہجری تقویم سے جوڑتا ہے، چنانچہ چاند کے طور کی پیروی ہلال کی رؤیت اور نئے قمری مہینے کے آغاز کا اندازہ لگانے میں مدد دیتی ہے۔',
+                    de: 'Ein bis zwei Tage nach dem Neumond erscheint nach Sonnenuntergang eine dünne Sichel nahe dem Horizont, und die Hilal-Sichtbarkeit bestimmt in vielen Ländern den Beginn des Hidschri-Monats. Der Monatsbeginn kann daher je nach Hilal-Sichtbarkeit und astronomischen Berechnungen um einen Tag zwischen Ländern abweichen. Diese Seite verbindet die heutige Mondphase mit dem Hidschri-Kalender, sodass das Verfolgen der Mondphase hilft, die Hilal-Sichtbarkeit und den Beginn des neuen Mondmonats vorherzusehen.',
+                    id: 'Satu atau dua hari setelah bulan baru, hilal tipis muncul dekat ufuk setelah matahari terbenam, dan rukyat hilal-lah yang menandai awal bulan Hijriah di banyak negara. Karena itu, awal bulan dapat berbeda satu hari antarnegara, tergantung rukyat hilal dan perhitungan astronomi. Halaman ini menghubungkan keadaan Bulan hari ini dan fase Bulan dengan kalender Hijriah, sehingga mengikuti fase Bulan membantu memperkirakan rukyat hilal dan awal bulan kamariah baru.',
+                    es: 'Uno o dos días después de la luna nueva, un fino creciente aparece cerca del horizonte tras la puesta del sol, y la visibilidad del hilal es lo que marca el inicio del mes Hijri en muchos países. Por eso el inicio del mes puede variar un día entre países, según la visibilidad del hilal y los cálculos astronómicos. Esta página vincula la fase de la Luna con el calendario Hijri, de modo que seguir la fase ayuda a prever la visibilidad del hilal y el inicio del nuevo mes lunar.',
+                    bn: 'অমাবস্যার এক-দুই দিন পর সূর্যাস্তের পর দিগন্তের কাছে একটি সরু চাঁদ (হিলাল) দেখা যায়, এবং অনেক দেশে হিলাল দৃশ্যমানতাই হিজরি মাসের শুরু নির্ধারণ করে। তাই হিলাল দৃশ্যমানতা ও জ্যোতির্বৈজ্ঞানিক হিসাবের উপর নির্ভর করে মাসের শুরু দেশভেদে এক দিন আলাদা হতে পারে। এই পৃষ্ঠাটি আজকের চাঁদের অবস্থা ও চাঁদের দশাকে হিজরি ক্যালেন্ডারের সঙ্গে যুক্ত করে, ফলে চাঁদের দশা অনুসরণ হিলাল দৃশ্যমানতা ও নতুন চান্দ্র মাসের শুরু অনুমান করতে সাহায্য করে।',
+                    ms: 'Sehari dua selepas anak bulan, sabit nipis muncul berhampiran ufuk selepas matahari terbenam, dan rukyah hilal inilah yang menandakan permulaan bulan Hijrah di banyak negara. Oleh itu, permulaan bulan boleh berbeza satu hari antara negara, bergantung pada rukyah hilal dan pengiraan astronomi. Halaman ini menghubungkan keadaan Bulan hari ini dan fasa Bulan dengan kalendar Hijrah, jadi mengikuti fasa Bulan membantu menjangka rukyah hilal dan permulaan bulan qamari baharu.',
+                };
+            const _hubSec6Html = '<section class="section-card moon-seo-info moon-seo-hilal">'
+                + '<h2>' + _escHtml(_hubPick(_hubSec6H2)) + '</h2>'
+                + '<p>'  + _escHtml(_hubPick(_hubSec6P))  + '</p>'
+                + '</section>';
             html = html.replace(
                 /<div class="section-card" id="moon-other-cities"/,
-                _hubSec3Html + '<div class="section-card" id="moon-other-cities"'
+                _hubSec6Html + _hubSec3Html + '<div class="section-card" id="moon-other-cities"'
             );
 
             // SECTION 4: footer note inside #moon-hub-faq (~25 words AR)

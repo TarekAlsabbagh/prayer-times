@@ -162,6 +162,68 @@ function _countryCitiesScriptTag(cc) {
     } catch (_) { return ''; }
 }
 
+// PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1 (2026-06-24): the country-grid template
+// (prayer-times-cities.html) serves BOTH /moon/{country} (moon variant) AND the prayer
+// country page /prayer-times-in-{country}. The moon variant unifies its .top-header with
+// the GENERAL site header — strip the in-header search box + the "موقعي" geo button, swap
+// the 3 emoji for the SVG sprite icons (#i-map-pin/#i-moon/#i-home), and SSR a capital /
+// last-used-city SUBTITLE. This helper factors those 4 HEADER transformations out of the
+// moon block so the PRAYER country page applies the IDENTICAL header. It does NOT touch the
+// hero (.loc-hero-hero-actions) — that strip is moon-specific and stays inline in the moon
+// block; the prayer page keeps its hero + the in-content #country-city-filter + breadcrumb.
+// Pure string-rewrite on `html`; returns the rewritten html.
+//   cc   = ISO2 country code (subtitle capital resolve + same-country guard)
+//   cn   = localized country name (ultimate subtitle fallback)
+//   lang = page lang (subtitle localization)
+//   opts.readSelectedCity — when TRUE the subtitle refinement reads sessionStorage
+//     'selected_city' FIRST (the global nav policy, GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1
+//     / c878aa1). The moon block passes it FALSE so its emitted markup is byte-identical to
+//     what shipped (no change to /moon/{country}); the prayer page passes it TRUE.
+function _applyCountryHeaderSiteMatch(html, cc, cn, lang, opts) {
+    // (②) strip the in-header search box (.city-search-wrapper → #city-search-input + #city-suggestions).
+    html = html.replace(/<div class="city-search-wrapper">[\s\S]*?id="city-suggestions">\s*<\/div>\s*<\/div>/, '');
+    // (③) strip the "موقعي" (detectLocation) geo button — general header has only theme+lang+home.
+    html = html.replace(/<button[^>]*onclick="detectLocation\(\)"[\s\S]*?<\/button>/, '');
+    // (④) unify ICONS: inject the 3 sprite <symbol>s (paths verbatim from index.html) + swap the 3 emoji
+    //   for the SAME <use> markup/classes. No CSS change (reuses .icon / .ttb-icon already in style.css).
+    html = html.replace('<div class="top-header">',
+        '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">' +
+        '<symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>' +
+        '<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>' +
+        '<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>' +
+        '</svg><div class="top-header">');
+    html = html.replace('<span class="icon">🏙️</span>', '<svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>');
+    html = html.replace(/<span class="ttb-icon ttb-icon-moon"[^>]*>🌙<\/span>/, '<svg class="icon ttb-icon ttb-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>');
+    html = html.replace('>🏠 <span class="btn-text" data-i18n="header.home">', '><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> <span class="btn-text" data-i18n="header.home">');
+    // (⑤) SUBTITLE: SSR a SAFE fallback (this country's CAPITAL, localized; else country name),
+    //   then refine client-side to the last-used / selected city in the SAME country.
+    let _hdrSub = cn;   // country name = ultimate fallback
+    try {
+        const _capE = _capitalCuratedEntry(cc);
+        if (_capE && _capE.names) _hdrSub = _capE.names[lang] || _capE.names.en || _capE.nameAr || cn;
+    } catch (_) {}
+    html = html.replace(/(<div[^>]*\bid="page-subtitle"[^>]*>)\s*(<\/div>)/, `$1${_escHtml(_hdrSub)}$2`);
+    const _wantSrc = (opts && opts.readSelectedCity)
+        ? 'sessionStorage.getItem("selected_city")||sessionStorage.getItem("last_city_context")||sessionStorage.getItem("city_moon")'
+        : 'sessionStorage.getItem("last_city_context")||sessionStorage.getItem("city_moon")';
+    const _hdrCitySync = '<script id="moon-country-header-city">(function(){'
+        + 'var S=document.getElementById("page-subtitle");if(!S)return;'
+        + 'var LANG=(document.documentElement.lang||"ar");'
+        + 'var CC=' + JSON.stringify((cc || '').toLowerCase()) + ';'
+        + 'var CAP=' + JSON.stringify(_hdrSub).replace(/</g, '\\u003c') + ';'
+        + 'function loc(ctx){try{var en=(ctx.englishName||"").toLowerCase(),nm=ctx.name||"";'
+        + 'var el=document.getElementById("country-cities-data");if(el){var a=JSON.parse(el.textContent||"[]");'
+        + 'for(var i=0;i<a.length;i++){var c=a[i];if(c&&c.nameEn&&en&&String(c.nameEn).toLowerCase()===en){'
+        + 'return (c.names&&(c.names[LANG]||c.names.en))||nm||c.nameEn;}}}return nm;}catch(_){return ctx.name||"";}}'
+        + 'function want(){try{var raw=null;try{raw=' + _wantSrc + ';}catch(_){}'
+        + 'if(raw){var ctx=JSON.parse(raw);if(ctx&&ctx.name&&(!ctx.countryCode||String(ctx.countryCode).toLowerCase()===CC)){var d=loc(ctx);if(d)return d;}}}catch(_){}return CAP||"";}'
+        + 'var D=want();function ap(){D=want();if(D&&S.textContent!==D)S.textContent=D;}ap();'
+        + 'try{var o=new MutationObserver(function(){if(D&&S.textContent!==D)S.textContent=D;});o.observe(S,{childList:true,characterData:true,subtree:true});setTimeout(function(){try{o.disconnect();}catch(_){}} ,4000);}catch(_){}'
+        + 'window.addEventListener("pageshow",function(){ap();});})();</script>';
+    html = html.replace('</body>', _hdrCitySync + '\n</body>');
+    return html;
+}
+
 // Small Arabic+Latin normalization (mirrors the client `_normArabic` /
 // `normalizeText` semantics enough to match the same way the client
 // would). NFD-fold Latin diacritics, lowercase, Arabic alif/ta-marbuta
@@ -21473,74 +21535,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // so both keep their hero actions unchanged. The regex deletes the .loc-hero-hero-actions
         // div (incl. its nested divs) up to — but not including — the next .results-count div.
         html = html.replace(/<div[^>]*\bloc-hero-hero-actions\b[\s\S]*?(<div[^>]*\bresults-count\b)/, '$1');
-        // ── MOON-COUNTRY-HEADER-UNIFY-NO-SEARCH-1 (moon variant only): the country-grid template's
-        //   .top-header carries an IN-HEADER search box (.city-search-wrapper → #city-search-input +
-        //   #city-suggestions) that the site's GENERAL header does NOT have (index.html's .top-header has
-        //   no such box). Strip it on /moon/{country} so the header matches the rest of the site. The prayer
-        //   country page (seo.countryListing, below) never reaches this block → its header stays untouched.
-        //   Safe: the header box was wired ONLY by the inline onCitySearchInput/onSearchKeyDown stubs (which
-        //   can't fire once the input is gone); the two SiteSearch.createBox boxes target the GRID filter
-        //   (#country-city-filter) and the hero search (#search-input) — NOT this header input — so the
-        //   in-CONTENT "search cities in this country" filter is unaffected.
-        html = html.replace(/<div class="city-search-wrapper">[\s\S]*?id="city-suggestions">\s*<\/div>\s*<\/div>/, '');
-        // ── (option ب, user-approved 2026-06-23): ALSO remove the "موقعي" (detectLocation) geolocation
-        //   button — the site's GENERAL header (index.html) has only theme + lang + home, with NO
-        //   "my location" button. Removing it makes /moon/{country} match the general header exactly.
-        //   Moon variant only; the prayer country page (seo.countryListing) keeps it untouched.
-        //   detectLocation() is referenced only by this single header button (no other caller on the page).
-        html = html.replace(/<button[^>]*onclick="detectLocation\(\)"[\s\S]*?<\/button>/, '');
-        // ── (user-approved 2026-06-24): unify the header ICONS with the GENERAL site header. index.html's
-        //   header uses inline-SVG sprite icons (#i-map-pin / #i-moon / #i-home); this grid template uses
-        //   emoji (🏙️/🌙/🏠). The template has NO sprite, so (1) inject the 3 needed <symbol>s (paths copied
-        //   verbatim from index.html's sprite) right before the header, then (2) swap the 3 header emoji for
-        //   the SAME <use> markup + classes index.html uses → the moon-country header becomes visually
-        //   identical (icons + dimensions + spacing) to the header on every other moon page. Moon variant
-        //   ONLY → the prayer country page keeps its emoji header. No CSS change (reuses .icon / .ttb-icon
-        //   already in style.css, exactly as index.html does), so no cache-buster bump.
-        html = html.replace('<div class="top-header">',
-            '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">' +
-            '<symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>' +
-            '<symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></symbol>' +
-            '<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>' +
-            '</svg><div class="top-header">');
-        html = html.replace('<span class="icon">🏙️</span>', '<svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>');
-        html = html.replace(/<span class="ttb-icon ttb-icon-moon"[^>]*>🌙<\/span>/, '<svg class="icon ttb-icon ttb-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>');
-        html = html.replace('>🏠 <span class="btn-text" data-i18n="header.home">', '><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> <span class="btn-text" data-i18n="header.home">');
-        // ── MOON-COUNTRY-HEADER-LOCATION-CONTEXT-MATCH-SITE-1 (moon variant only) ───────────────────
-        //   The GENERAL site header shows the user's current / last-used CITY in its subtitle. This
-        //   country page showed only the country name (#page-subtitle, set client-side by the template's
-        //   updatePageHeader()). Mirror the general mechanism: (1) SSR a SAFE fallback — the country's
-        //   CAPITAL city, localized to the page lang (else the country name) — into #page-subtitle; then
-        //   (2) refine client-side to the last-used city. The country template does NOT load js/app.js,
-        //   so we reuse the SAME data the general header reads: the sessionStorage 'last_city_context'
-        //   (and 'city_moon') seed written by js/site-search.js on every pick, localized through the
-        //   already-injected #country-cities-data curated names map. No search box / geo button is
-        //   reintroduced; the SVG icons stay; the prayer page never reaches this block. The capital is
-        //   resolved from DATA (_capitalCuratedEntry → curated names), never hardcoded.
-        let _hdrSub = cn;   // country name = ultimate fallback
-        try {
-            const _capE = _capitalCuratedEntry(seo.moonCountryListing.code);
-            if (_capE && _capE.names) _hdrSub = _capE.names[L] || _capE.names.en || _capE.nameAr || cn;
-        } catch (_) {}
-        // (1) SSR fallback into the (empty) subtitle slot → safe first paint before JS.
-        html = html.replace(/(<div[^>]*\bid="page-subtitle"[^>]*>)\s*(<\/div>)/, `$1${_escHtml(_hdrSub)}$2`);
-        // (2) Client refinement (runs after the template's updatePageHeader, kept by a short-lived
-        //   MutationObserver so the last-used city / capital wins over the country name it writes).
-        const _hdrCitySync = '<script id="moon-country-header-city">(function(){'
-            + 'var S=document.getElementById("page-subtitle");if(!S)return;'
-            + 'var LANG=(document.documentElement.lang||"ar");'
-            + 'var CC=' + JSON.stringify((seo.moonCountryListing.code || '').toLowerCase()) + ';'
-            + 'var CAP=' + JSON.stringify(_hdrSub).replace(/</g, '\\u003c') + ';'
-            + 'function loc(ctx){try{var en=(ctx.englishName||"").toLowerCase(),nm=ctx.name||"";'
-            + 'var el=document.getElementById("country-cities-data");if(el){var a=JSON.parse(el.textContent||"[]");'
-            + 'for(var i=0;i<a.length;i++){var c=a[i];if(c&&c.nameEn&&en&&String(c.nameEn).toLowerCase()===en){'
-            + 'return (c.names&&(c.names[LANG]||c.names.en))||nm||c.nameEn;}}}return nm;}catch(_){return ctx.name||"";}}'
-            + 'function want(){try{var raw=null;try{raw=sessionStorage.getItem("last_city_context")||sessionStorage.getItem("city_moon");}catch(_){}'
-            + 'if(raw){var ctx=JSON.parse(raw);if(ctx&&ctx.name&&(!ctx.countryCode||String(ctx.countryCode).toLowerCase()===CC)){var d=loc(ctx);if(d)return d;}}}catch(_){}return CAP||"";}'
-            + 'var D=want();function ap(){D=want();if(D&&S.textContent!==D)S.textContent=D;}ap();'
-            + 'try{var o=new MutationObserver(function(){if(D&&S.textContent!==D)S.textContent=D;});o.observe(S,{childList:true,characterData:true,subtree:true});setTimeout(function(){try{o.disconnect();}catch(_){}} ,4000);}catch(_){}'
-            + 'window.addEventListener("pageshow",function(){ap();});})();</script>';
-        html = html.replace('</body>', _hdrCitySync + '\n</body>');
+        // ── Header site-match (moon variant): strip the in-header search + "موقعي" button, swap the 3
+        //   emoji for the SVG sprite icons, and SSR the capital/last-used-city subtitle. Factored into the
+        //   shared _applyCountryHeaderSiteMatch (PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1) so the prayer
+        //   country page can apply the IDENTICAL header. readSelectedCity:false keeps the emitted markup
+        //   BYTE-IDENTICAL to what shipped here → no change to /moon/{country}. (Absorbs the former inline
+        //   MOON-COUNTRY-HEADER-UNIFY-NO-SEARCH-1 + MOON-COUNTRY-HEADER-LOCATION-CONTEXT-MATCH-SITE-1 code;
+        //   the in-CONTENT #country-city-filter + breadcrumb are untouched. The hero strip above stays inline
+        //   — it is moon-specific; the prayer page keeps its hero.)
+        html = _applyCountryHeaderSiteMatch(html, seo.moonCountryListing.code, cn, L, { readSelectedCity: false });
     }
 
     if (seo.countryListing) {
@@ -21661,6 +21664,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<div class="banner-date-greg" id="banner-greg-date">${_escHtml(gregDate)}</div>`
             );
         } catch(e) { /* noop */ }
+        // ── PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1 (2026-06-24): give the prayer country page the
+        //   SAME header as /moon/{country} — strip the in-header search + "موقعي" geo button, swap the 3
+        //   emoji for SVG sprite icons (#i-map-pin/#i-moon/#i-home), and SSR the capital / last-used-city
+        //   subtitle. readSelectedCity:true so the subtitle honors an explicitly-selected SAME-country city
+        //   first (global nav policy, GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1 / c878aa1), else falls back
+        //   to the localized capital. The in-content #country-city-filter, the hero, and breadcrumb stay
+        //   untouched. Same shared helper the moon variant uses → header markup matches /moon/{country}.
+        html = _applyCountryHeaderSiteMatch(html, seo.countryListing.code, cn, L, { readSelectedCity: true });
     } else if (cityMatchSsr) {
         const cityDisplay = _slugToTitle(cityMatchSsr[1]);
         const L = seo.lang;

@@ -253,7 +253,7 @@ try {
     // ── J) MOON-COUNTRY-HEADER-UNIFY-NO-SEARCH-1: header unified with the general site header on
     //   /moon/{country} — in-header search + "موقعي" (detectLocation) geo button both removed (option ب);
     //   the prayer country page keeps both. The in-CONTENT #country-city-filter is untouched. ──
-    console.log('\n── J) header unify: in-header search + "موقعي" removed (moon variant only) ──');
+    console.log('\n── J) header unify: in-header search + "موقعي" removed (moon + prayer country pages) ──');
     {
         const mh = (await req('/moon/saudi-arabia')).body;
         const ph = (await req('/prayer-times-in-saudi-arabia')).body;
@@ -261,16 +261,19 @@ try {
         check('moon country: "موقعي" geo button REMOVED (no onclick=detectLocation button / no header.my_location)', !/onclick="detectLocation\(\)"/.test(mh) && !/data-i18n="header\.my_location"/.test(mh));
         check('moon country: header == general site header (theme + lang + home ONLY; breadcrumb KEPT)', /class="top-header"/.test(mh) && /theme-toggle-btn/.test(mh) && /lang-switcher/.test(mh) && /data-i18n="header\.home"/.test(mh) && /id="country-breadcrumb"/.test(mh));
         check('moon country: in-CONTENT city filter (#country-city-filter) KEPT', /id="country-city-filter"/.test(mh));
-        check('PRAYER country page UNTOUCHED: in-header search + "موقعي" button STILL present', /id="city-search-input"/.test(ph) && /city-search-wrapper/.test(ph) && /onclick="detectLocation\(\)"/.test(ph));
+        // PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1: the prayer country page NOW shares the moon header
+        //   (in-header search + "موقعي" stripped; the hero geo CTA, which is AFTER loc-hero-hero-actions, stays).
+        check('PRAYER country page NOW MATCHES moon header: in-header search REMOVED + "موقعي" not in header', !/city-search-wrapper/.test(ph) && (ph.indexOf('onclick="detectLocation()"') === -1 || ph.indexOf('onclick="detectLocation()"') > ph.indexOf('loc-hero-hero-actions')));
         check('moon country: header ICONS unified with general header (sprite #i-map-pin/#i-moon/#i-home injected + 3 <use> refs)', /<symbol id="i-map-pin"/.test(mh) && /<symbol id="i-moon"/.test(mh) && /<symbol id="i-home"/.test(mh) && /use href="#i-map-pin"/.test(mh) && /use href="#i-moon"/.test(mh) && /use href="#i-home"/.test(mh));
-        check('PRAYER country page UNTOUCHED: NO injected sprite + header NOT swapped to SVG <use> (keeps emoji)', !/<symbol id="i-map-pin"/.test(ph) && !/use href="#i-map-pin"/.test(ph));
+        check('PRAYER country page NOW MATCHES moon header: sprite injected + emoji→SVG (use #i-map-pin)', /<symbol id="i-map-pin"/.test(ph) && /use href="#i-map-pin"/.test(ph));
         check('moon country: title/canonical UNCHANGED (no SEO regression)', /<title>مراحل القمر/.test(mh) && /rel="canonical" href="[^"]+\/moon\/saudi-arabia"/.test(mh));
     }
 
     // ── K) MOON-COUNTRY-HEADER-LOCATION-CONTEXT-MATCH-SITE-1: the header subtitle (#page-subtitle)
     //   shows a localized CITY like the general header — SSR = the country CAPITAL fallback (localized),
     //   refined client-side to the last-used city (sessionStorage last_city_context/city_moon, localized
-    //   via #country-cities-data). The prayer page keeps an empty SSR subtitle + no refinement script. ──
+    //   via #country-cities-data). The prayer country page NOW shares this header (PRAYER-COUNTRY-HEADER-
+    //   MATCH-MOON-COUNTRY-1): same SSR capital subtitle + header-city script (reading selected_city first). ──
     console.log('\n── K) header location-context: subtitle = capital fallback (SSR) + last-city client refine ──');
     {
         const mh = (await req('/moon/saudi-arabia')).body;
@@ -281,7 +284,7 @@ try {
         check('moon country EG(ar): #page-subtitle SSR = localized CAPITAL fallback (القاهرة)', /id="page-subtitle"[^>]*>\s*القاهرة\s*</.test(meg));
         check('moon country SA(en): #page-subtitle SSR = localized CAPITAL fallback (Riyadh)', /id="page-subtitle"[^>]*>\s*Riyadh\s*</.test(men));
         check('moon country: last-used-city client refinement script injected (reads last_city_context + country-cities-data)', /id="moon-country-header-city"/.test(mh) && /last_city_context/.test(mh) && /country-cities-data/.test(mh));
-        check('PRAYER country page UNTOUCHED: #page-subtitle SSR empty + NO header-city refinement script', /id="page-subtitle"[^>]*>\s*<\/div>/.test(ph) && !/id="moon-country-header-city"/.test(ph));
+        check('PRAYER country page NOW MATCHES moon header: #page-subtitle SSR = capital (الرياض) + header-city script present', /id="page-subtitle"[^>]*>\s*الرياض\s*</.test(ph) && /id="moon-country-header-city"/.test(ph));
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

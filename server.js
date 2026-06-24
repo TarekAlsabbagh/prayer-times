@@ -14116,36 +14116,30 @@ function buildSeoForPath(urlPath) {
                     id: `Fase Bulan di ${cname}`, es: `Fases de la Luna en ${cname}`,
                     bn: `${cname}-এ চাঁদের দশা`, ms: `Fasa Bulan di ${cname}`,
                 };
-                const _MT_LONG = {
-                    ar: ' اليوم — مواعيد البدر والمحاق', en: ' — Today’s Moon Phase & Lunar Calendar',
-                    fr: ' — Lune du jour et calendrier lunaire', tr: ' — Bugünkü Ay Evresi ve Ay Takvimi',
-                    ur: ' — آج کا چاند اور قمری کیلنڈر', de: ' — Heutige Mondphase & Mondkalender',
-                    id: ' — Fase Bulan Hari Ini & Kalender', es: ' — Luna de hoy y calendario lunar',
-                    bn: ' — আজকের চাঁদ ও চান্দ্র বর্ষপঞ্জি', ms: ' — Fasa Bulan Hari Ini & Kalendar',
-                };
-                const _MT_MID = {
-                    ar: ' اليوم — التقويم القمري', en: ' — Today’s Moon & Calendar',
-                    fr: ' — Lune et calendrier lunaire', tr: ' — Bugünkü Ay ve Takvim',
-                    ur: ' — آج کا چاند اور تقویم', de: ' — Mond heute & Mondkalender',
-                    id: ' — Bulan Hari Ini & Kalender', es: ' — Luna y calendario lunar',
-                    bn: ' — আজকের চাঁদ ও বর্ষপঞ্জি', ms: ' — Bulan Hari Ini & Kalendar',
-                };
-                const _MT_SHORT = {
-                    ar: ' — تقويم القمر', en: ' — Moon Calendar',
-                    fr: ' — Calendrier lunaire', tr: ' — Ay Takvimi',
-                    ur: ' — قمری کیلنڈر', de: ' — Mondkalender',
-                    id: ' — Kalender Bulan', es: ' — Calendario lunar',
-                    bn: ' — চাঁদের বর্ষপঞ্জি', ms: ' — Kalendar Bulan',
+                // MOON-COUNTRY-TITLE-LENGTH-ALL-LANGS-FIX-1 (2026-06-24): a 6-tier suffix ladder per lang,
+                //   ordered LONGEST→SHORTEST with fine steps (≤ ~8 code points apart). The picker keeps the
+                //   LONGEST candidate (base + suffix) whose total length ≤ 60. This lands the Title in the
+                //   50–60 band for ANY country-name length: very short names (مصر / Egypt / EAU) get a rich
+                //   tail, very long ones (Émirats arabes unis / الولايات المتحدة) get a tiny tail instead of
+                //   falling to a bare <50 base. Natural phrasing only; weaves مراحل/حالة/تقويم القمر; no stuffing.
+                const _MT_SUFFIXES = {
+                    ar: [' اليوم وتقويم القمر — مواعيد البدر والمحاق', ' اليوم وتقويم القمر — البدر والمحاق', ' اليوم — مواعيد البدر والمحاق', ' اليوم — التقويم القمري', ' — تقويم القمر', ' اليوم'],
+                    en: [' — Today’s Moon Phase, Calendar & Full Moon', ' — Today’s Moon Phase & Lunar Calendar', ' — Today’s Moon Phase & Calendar', ' — Today’s Moon & Calendar', ' — Moon Calendar', ' — Today'],
+                    fr: [' — Phase de la Lune du jour et calendrier lunaire', ' — Lune du jour et calendrier lunaire', ' — Phase de la Lune et calendrier', ' — Lune et calendrier lunaire', ' — Calendrier lunaire', ' — Lune du jour'],
+                    tr: [' — Bugünkü Ay Evresi, Takvim ve Dolunay', ' — Bugünkü Ay Evresi ve Ay Takvimi', ' — Bugünkü Ay Evresi ve Takvim', ' — Bugünkü Ay ve Takvim', ' — Ay Takvimi', ' — Bugün'],
+                    ur: [' — آج کا چاند، قمری کیلنڈر اور بدر و محاق', ' — آج کا چاند اور قمری کیلنڈر', ' — آج کا چاند اور قمری تقویم', ' — آج کا چاند اور تقویم', ' — قمری کیلنڈر', ' — آج'],
+                    de: [' — Heutige Mondphase, Kalender & Vollmond', ' — Heutige Mondphase & Mondkalender', ' — Heutige Mondphase & Kalender', ' — Mond heute & Mondkalender', ' — Mondkalender', ' — heute'],
+                    id: [' — Fase Bulan Hari Ini, Kalender & Purnama', ' — Fase Bulan Hari Ini & Kalender', ' — Fase Bulan & Kalender Bulan', ' — Bulan Hari Ini & Kalender', ' — Kalender Bulan', ' — Hari Ini'],
+                    es: [' — Fase de la Luna de hoy y calendario lunar', ' — Luna de hoy y calendario lunar', ' — Fase de la Luna y calendario', ' — Luna y calendario lunar', ' — Calendario lunar', ' — Luna de hoy'],
+                    bn: [' — আজকের চাঁদ, বর্ষপঞ্জি ও পূর্ণিমা', ' — আজকের চাঁদ ও চান্দ্র বর্ষপঞ্জি', ' — আজকের চাঁদ ও বর্ষপঞ্জি', ' — আজকের চাঁদের দশা', ' — চাঁদের বর্ষপঞ্জি', ' — আজ'],
+                    ms: [' — Fasa Bulan Hari Ini, Kalendar & Purnama', ' — Fasa Bulan Hari Ini & Kalendar', ' — Fasa Bulan & Kalendar Bulan', ' — Bulan Hari Ini & Kalendar', ' — Kalendar Bulan', ' — Hari Ini'],
                 };
                 {
                     const _tb = _MT_BASE[lang] || _MT_BASE.en;
-                    const _cands = [
-                        _tb + (_MT_LONG[lang] || _MT_LONG.en),
-                        _tb + (_MT_MID[lang] || _MT_MID.en),
-                        _tb + (_MT_SHORT[lang] || _MT_SHORT.en),
-                        _tb,
-                    ];
-                    title = _cands.find(t => [...t].length <= 60) || _tb;
+                    const _sufs = _MT_SUFFIXES[lang] || _MT_SUFFIXES.en;
+                    let _best = _tb;   // base alone = ultimate fallback
+                    for (const s of _sufs) { const c = _tb + s; if ([...c].length <= 60) { _best = c; break; } }
+                    title = _best;
                 }
                 const _MD = {
                     ar: `تعرّف على مرحلة القمر اليوم وتقويم القمر في مدن ${cname}، مع مواعيد البدر والمحاق ونسبة الإضاءة حسب المدينة.`,

@@ -267,6 +267,23 @@ try {
         check('moon country: title/canonical UNCHANGED (no SEO regression)', /<title>مراحل القمر/.test(mh) && /rel="canonical" href="[^"]+\/moon\/saudi-arabia"/.test(mh));
     }
 
+    // ── K) MOON-COUNTRY-HEADER-LOCATION-CONTEXT-MATCH-SITE-1: the header subtitle (#page-subtitle)
+    //   shows a localized CITY like the general header — SSR = the country CAPITAL fallback (localized),
+    //   refined client-side to the last-used city (sessionStorage last_city_context/city_moon, localized
+    //   via #country-cities-data). The prayer page keeps an empty SSR subtitle + no refinement script. ──
+    console.log('\n── K) header location-context: subtitle = capital fallback (SSR) + last-city client refine ──');
+    {
+        const mh = (await req('/moon/saudi-arabia')).body;
+        const meg = (await req('/moon/egypt')).body;
+        const men = (await req('/en/moon/saudi-arabia')).body;
+        const ph = (await req('/prayer-times-in-saudi-arabia')).body;
+        check('moon country SA(ar): #page-subtitle SSR = localized CAPITAL fallback (الرياض)', /id="page-subtitle"[^>]*>\s*الرياض\s*</.test(mh));
+        check('moon country EG(ar): #page-subtitle SSR = localized CAPITAL fallback (القاهرة)', /id="page-subtitle"[^>]*>\s*القاهرة\s*</.test(meg));
+        check('moon country SA(en): #page-subtitle SSR = localized CAPITAL fallback (Riyadh)', /id="page-subtitle"[^>]*>\s*Riyadh\s*</.test(men));
+        check('moon country: last-used-city client refinement script injected (reads last_city_context + country-cities-data)', /id="moon-country-header-city"/.test(mh) && /last_city_context/.test(mh) && /country-cities-data/.test(mh));
+        check('PRAYER country page UNTOUCHED: #page-subtitle SSR empty + NO header-city refinement script', /id="page-subtitle"[^>]*>\s*<\/div>/.test(ph) && !/id="moon-country-header-city"/.test(ph));
+    }
+
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;
 } catch (e) {

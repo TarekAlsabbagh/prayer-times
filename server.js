@@ -21506,6 +21506,41 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace('<span class="icon">🏙️</span>', '<svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg>');
         html = html.replace(/<span class="ttb-icon ttb-icon-moon"[^>]*>🌙<\/span>/, '<svg class="icon ttb-icon ttb-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>');
         html = html.replace('>🏠 <span class="btn-text" data-i18n="header.home">', '><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> <span class="btn-text" data-i18n="header.home">');
+        // ── MOON-COUNTRY-HEADER-LOCATION-CONTEXT-MATCH-SITE-1 (moon variant only) ───────────────────
+        //   The GENERAL site header shows the user's current / last-used CITY in its subtitle. This
+        //   country page showed only the country name (#page-subtitle, set client-side by the template's
+        //   updatePageHeader()). Mirror the general mechanism: (1) SSR a SAFE fallback — the country's
+        //   CAPITAL city, localized to the page lang (else the country name) — into #page-subtitle; then
+        //   (2) refine client-side to the last-used city. The country template does NOT load js/app.js,
+        //   so we reuse the SAME data the general header reads: the sessionStorage 'last_city_context'
+        //   (and 'city_moon') seed written by js/site-search.js on every pick, localized through the
+        //   already-injected #country-cities-data curated names map. No search box / geo button is
+        //   reintroduced; the SVG icons stay; the prayer page never reaches this block. The capital is
+        //   resolved from DATA (_capitalCuratedEntry → curated names), never hardcoded.
+        let _hdrSub = cn;   // country name = ultimate fallback
+        try {
+            const _capE = _capitalCuratedEntry(seo.moonCountryListing.code);
+            if (_capE && _capE.names) _hdrSub = _capE.names[L] || _capE.names.en || _capE.nameAr || cn;
+        } catch (_) {}
+        // (1) SSR fallback into the (empty) subtitle slot → safe first paint before JS.
+        html = html.replace(/(<div[^>]*\bid="page-subtitle"[^>]*>)\s*(<\/div>)/, `$1${_escHtml(_hdrSub)}$2`);
+        // (2) Client refinement (runs after the template's updatePageHeader, kept by a short-lived
+        //   MutationObserver so the last-used city / capital wins over the country name it writes).
+        const _hdrCitySync = '<script id="moon-country-header-city">(function(){'
+            + 'var S=document.getElementById("page-subtitle");if(!S)return;'
+            + 'var LANG=(document.documentElement.lang||"ar");'
+            + 'var CC=' + JSON.stringify((seo.moonCountryListing.code || '').toLowerCase()) + ';'
+            + 'var CAP=' + JSON.stringify(_hdrSub).replace(/</g, '\\u003c') + ';'
+            + 'function loc(ctx){try{var en=(ctx.englishName||"").toLowerCase(),nm=ctx.name||"";'
+            + 'var el=document.getElementById("country-cities-data");if(el){var a=JSON.parse(el.textContent||"[]");'
+            + 'for(var i=0;i<a.length;i++){var c=a[i];if(c&&c.nameEn&&en&&String(c.nameEn).toLowerCase()===en){'
+            + 'return (c.names&&(c.names[LANG]||c.names.en))||nm||c.nameEn;}}}return nm;}catch(_){return ctx.name||"";}}'
+            + 'function want(){try{var raw=null;try{raw=sessionStorage.getItem("last_city_context")||sessionStorage.getItem("city_moon");}catch(_){}'
+            + 'if(raw){var ctx=JSON.parse(raw);if(ctx&&ctx.name&&(!ctx.countryCode||String(ctx.countryCode).toLowerCase()===CC)){var d=loc(ctx);if(d)return d;}}}catch(_){}return CAP||"";}'
+            + 'var D=want();function ap(){D=want();if(D&&S.textContent!==D)S.textContent=D;}ap();'
+            + 'try{var o=new MutationObserver(function(){if(D&&S.textContent!==D)S.textContent=D;});o.observe(S,{childList:true,characterData:true,subtree:true});setTimeout(function(){try{o.disconnect();}catch(_){}} ,4000);}catch(_){}'
+            + 'window.addEventListener("pageshow",function(){ap();});})();</script>';
+        html = html.replace('</body>', _hdrCitySync + '\n</body>');
     }
 
     if (seo.countryListing) {

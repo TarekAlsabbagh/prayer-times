@@ -95,7 +95,14 @@ function _isMoonMonthPath(p) {
         // MOON-CITY-MONTH + DAY-ROUTE-STRUCTURE-ADD-1: the month /{yyyy}/{mm} and day
         //   /{yyyy}/{mm}/{dd} pages also carry the city in the 2nd segment — extend the
         //   optional tail so the pre-paint hydrator seeds globals on those too (no FOUC).
-        const _mNested = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?$/);
+        // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): include the
+        //   nested-today route (/moon/{country}/{city}/today) in the optional tail.
+        //   Without /today the pre-paint hydrator bailed on those pages (the tail only
+        //   matched /{yyyy}[/mm[/dd]]), so currentCity was never seeded from
+        //   __PRAYER_CITY__ and fell to a stale country-capital fallback (e.g. الرياض)
+        //   — the sticky header (#city-name) then showed the wrong city after a city
+        //   click from /moon/{country}.
+        const _mNested = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/today|\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?$/);
         if (!_m && !_mNested) return;
         const _slug = _m ? _m[1] : _mNested[1];
         const _urlLat = (_m && _m[2] != null) ? parseFloat(_m[2]) : NaN;
@@ -127,6 +134,35 @@ function _isMoonMonthPath(p) {
                             currentEnglishCountry = COUNTRY_EN_NAMES[currentCountryCode] || '';
                         }
                     } catch (_) {}
+                    // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): on a
+                    //   nested moon city route the URL city is the source of truth. Adopt
+                    //   it as the persistent nav context (selected_city + last_city_context
+                    //   + city_moon) so the global nav tabs (prayer/qibla/moon, rewritten by
+                    //   _applyLastCityNavLinks on init/pageshow) point at THIS city, never a
+                    //   stale/foreign one (e.g. Paris/Riyadh). Same shape site-search.js
+                    //   onPick writes. Scoped to nested-moon — flat prayer/qibla/moon-today-in
+                    //   routes keep their existing selected_city behavior.
+                    if (_mNested && pc.slug) {
+                        try {
+                            const _navCtx = JSON.stringify({
+                                lat: pc.lat, lng: pc.lng, name: pc.name, country: pc.country,
+                                englishName: pc.englishName || '',
+                                countryCode: (pc.countryCode || '').toLowerCase(),
+                                timezone: (pc.timezoneOffset != null ? pc.timezoneOffset : pc.timezone),
+                                slug: pc.slug, ts: Date.now()
+                            });
+                            const _navSeed = JSON.stringify({
+                                lat: pc.lat, lng: pc.lng, name: pc.name, country: pc.country,
+                                englishName: pc.englishName || '',
+                                countryCode: (pc.countryCode || '').toLowerCase(),
+                                timezone: (pc.timezoneOffset != null ? pc.timezoneOffset : pc.timezone),
+                                slug: pc.slug, _v: 2
+                            });
+                            sessionStorage.setItem('selected_city', _navCtx);
+                            sessionStorage.setItem('last_city_context', _navCtx);
+                            sessionStorage.setItem('city_moon', _navSeed);
+                        } catch (_navErr) {}
+                    }
                     return;
                 }
             }
@@ -884,6 +920,14 @@ function getDisplayCity() {
                 /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugM && _slugM[1] === _pc.slug) {
+                return _pc.name;
+            }
+            // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): nested moon
+            //   city routes carry the city in the 2nd path segment
+            //   (/moon/{country}/{city}[/today|/{yyyy}…]). Trust the SSR-seeded
+            //   __PRAYER_CITY__ (URL city) here too — twin of the getCurrentCityLabel() guard.
+            const _nestM = _path.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/today|\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?$/);
+            if (_nestM && _nestM[1] === _pc.slug) {
                 return _pc.name;
             }
         }
@@ -5101,13 +5145,34 @@ function _lastCityForNav() {
 function _applyLastCityNavLinks() {
     try {
         const _p = window.location.pathname;
-        const _isCityPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|next-prayer-in|time-left-until-next-prayer-in)-[a-z]/.test(_p)
-            || /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z]/.test(_p);
+        const _lp = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
+        const _set = (sel, href) => { const el = document.querySelector(sel); if (el && href) el.setAttribute('href', href); };
+        // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): nested moon city
+        //   pages (/moon/{country}/{city}[/today|/{yyyy}…]) do NOT receive the flat-route SSR
+        //   nav pass, so without this the three city tabs fall back to the generic hub — or to
+        //   a stale last-city value that site-search.js wrote before app.js loaded. Point the
+        //   tabs at THIS page's city (the SSR-seeded __PRAYER_CITY__ = the URL city). This runs
+        //   after site-search.js (defer order), so it overrides any stale early rewrite. The
+        //   moon tab uses the nested /moon/{country}/{city}/today form via _nestedMoonHrefClient.
+        const _isNestedMoonCity = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z]/.test(_p);
+        if (_isNestedMoonCity) {
+            const _pcNav = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
+            if (_pcNav && _pcNav.slug) {
+                _set('.sidebar-nav a[data-page="prayer-times"]', pageUrl('/prayer-times-in-' + _pcNav.slug));
+                _set('.sidebar-nav a[data-page="qibla"]', pageUrl('/qibla-in-' + _pcNav.slug));
+                if (typeof _nestedMoonHrefClient === 'function') {
+                    _set('.sidebar-nav a[data-page="moon"]', _nestedMoonHrefClient(_pcNav.slug, _lp, 'today', (_pcNav.countryCode || '').toLowerCase()));
+                }
+            }
+            return;
+        }
+        // Flat city pages (prayer-times-in-/qibla-in-/moon-today-in-/…) already get the correct
+        //   city hrefs from the SSR pass (NAVBAR-CITY-CONTEXT-LINKS-FOR-CITY-PAGES-1) — never
+        //   overwrite them with a (possibly stale) last_city_context.
+        const _isCityPage = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|qibla-in|moon-today-in|moon-in|next-prayer-in|time-left-until-next-prayer-in)-[a-z]/.test(_p);
         if (_isCityPage) return;
         const _lc = _lastCityForNav();
         if (!_lc || !_lc.slug) return;
-        const _lp = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
-        const _set = (sel, href) => { const el = document.querySelector(sel); if (el && href) el.setAttribute('href', href); };
         _set('.sidebar-nav a[data-page="prayer-times"]', pageUrl('/prayer-times-in-' + _lc.slug));
         _set('.sidebar-nav a[data-page="qibla"]', pageUrl('/qibla-in-' + _lc.slug));
         if (typeof _nestedMoonHrefClient === 'function') {
@@ -13966,6 +14031,15 @@ function getCurrentCityLabel() {
                 /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|time-left-until-next-prayer-in|next-prayer-in|qibla-in|moon-today-in|moon-in)-([a-z][a-z0-9-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2})?(?:-\d{2})?)?$/
             );
             if (_slugM && _slugM[1] === _pc.slug) {
+                return _strip(_pc.name);
+            }
+            // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): nested moon
+            //   city routes carry the city in the 2nd path segment
+            //   (/moon/{country}/{city}[/today|/{yyyy}…]), not the flat -in- form. Trust the
+            //   SSR-seeded __PRAYER_CITY__ (the URL city) here too so the sticky header
+            //   (#city-name) never shows a stale/foreign city on these pages.
+            const _nestM = _path.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/today|\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?$/);
+            if (_nestM && _nestM[1] === _pc.slug) {
                 return _strip(_pc.name);
             }
         }

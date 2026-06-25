@@ -2000,6 +2000,12 @@ function renderGrid() {
         if (city._discovered) a.setAttribute('data-source', 'discovered');
         a.innerHTML = `${cardLabel}<span class="city-type">${cardSub}${city._new ? ' ✦' : ''}</span>`;
         a.addEventListener('click', e => {
+            // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): let the
+            //   browser handle modified clicks natively (Ctrl/Cmd/Shift/Alt or non-left
+            //   button → open in new tab/window) — do NOT preventDefault or we'd swallow
+            //   "open in new tab". The new tab seeds its own city context from the URL
+            //   (__PRAYER_CITY__) on load, so it still lands on the right city.
+            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
             e.preventDefault();
             // إذا كانت مدينة جديدة من Nominatim → احفظها في قاعدة البيانات الآن
             if (city._new) {
@@ -2011,6 +2017,24 @@ function renderGrid() {
                 name: city.nameAr, country: getCountryAr(),
                 englishName: city.nameEn, countryCode
             }));
+            // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1: store the clicked city as
+            //   the persistent nav context BEFORE navigating, so the destination's header
+            //   + global nav tabs (prayer/qibla/moon) reflect THIS city — not a stale or
+            //   foreign one. Same keys/shape site-search.js onPick writes. (The destination
+            //   also self-heals from the URL, so this is belt-and-suspenders.)
+            try {
+                const _navCtx = JSON.stringify({
+                    lat: city.lat, lng: city.lng,
+                    name: (city.names && city.names[_lngCard]) || city.nameAr || city.nameEn,
+                    country: getCountryAr(),
+                    englishName: city.nameEn,
+                    countryCode: countryCode,
+                    timezone: city.timezone, slug: slug, ts: Date.now()
+                });
+                sessionStorage.setItem('selected_city', _navCtx);
+                sessionStorage.setItem('last_city_context', _navCtx);
+                if (_CPV === 'moon') sessionStorage.setItem('city_moon', _navCtx);
+            } catch (_navErr) {}
             window.location.href = href;
         });
         grid.appendChild(a);

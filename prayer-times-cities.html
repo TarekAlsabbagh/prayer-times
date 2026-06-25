@@ -1108,7 +1108,13 @@ function updatePageHeader() {
             : (_titleFallbacks[lng] || _titleFallbacks.en));
     document.getElementById('page-title').textContent = fullTitle;
     document.getElementById('page-subtitle').textContent = cn;
-    document.title = fullTitle;
+    // MOON-COUNTRY-BROWSER-TITLE-HYDRATION-PRESERVE-1 (2026-06-25): on the moon variant the SSR
+    //   <title> is the authoritative long SEO title (e.g. «… اليوم وتقويم القمر — مواعيد البدر والمحاق»);
+    //   `fullTitle` above is the SHORT H1 form («مراحل القمر في {country}»). Overwriting document.title
+    //   with it clobbered the correct browser-tab title. Keep the SSR <title> on moon (it is already
+    //   per-country/per-lang correct on these full page loads). Prayer variant unchanged — its title is
+    //   (re)built by updateCountryListingSEO below.
+    if (!_isMoonCP) document.title = fullTitle;
     // Also update the persuasive-landing hero H1 to match the country-specific title
     const _heroH1 = document.getElementById('loc-hero-title');
     if (_heroH1) _heroH1.textContent = fullTitle;

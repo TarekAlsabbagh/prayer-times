@@ -171,6 +171,12 @@
             line-height: 1.4;
             cursor: pointer;
             transition: all 0.2s;
+            /* MOON-COUNTRY-CITIES-BOX-CLS-FIX-1: modest height floor + border-box so cards keep a
+               stable height across font-load and SSR↔client renders (enhancement on top of the SSR
+               first-page grid, which is the primary CLS fix). Not a tall reservation — the typical
+               2-line card is ~66px, so most cards are unaffected; only 1-line cards gain a small floor. */
+            min-height: 56px;
+            box-sizing: border-box;
         }
         .city-link:hover {
             border-color: var(--primary);
@@ -1462,6 +1468,9 @@ async function fetchCities() {
             if (Array.isArray(_inj) && _inj.length > 0) {
                 allCities = _inj;
                 filtered = [...allCities]; currentPage = 1;
+                // MOON-COUNTRY-CITIES-BOX-CLS-FIX-1: renderGrid() reuses the SSR first-page grid in
+                //   place on this first call (its reuse guard) → no rebuild, no CLS. (Prayer country
+                //   page has no SSR grid → renderGrid builds it as before.)
                 renderGrid();
                 injectCitiesItemList();
                 return;
@@ -1872,7 +1881,94 @@ function onCountryCityFilter() {
     }
 }
 
+// MOON-COUNTRY-CITIES-BOX-CLS-FIX-1: shared city-card click wiring (stores the clicked city as the
+//   persistent nav context BEFORE navigating — MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1).
+//   Used by BOTH renderGrid (client-built cards) AND _hydrateSsrGridIfPresent (the SSR first-page
+//   grid) so the behavior is identical regardless of who rendered the card. Modified clicks
+//   (Ctrl/Cmd/Shift/Alt / non-left button) fall through to the browser → "open in new tab" is never
+//   swallowed; the new tab self-seeds its context from the URL.
+function _wireCityCardContext(a, city, slug, href) {
+    a.addEventListener('click', e => {
+        if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+        e.preventDefault();
+        if (city && city._new) { const { _new, ...cityData } = city; saveToDb([cityData]); }
+        try {
+            sessionStorage.setItem(`city_${slug}`, JSON.stringify({
+                lat: city.lat, lng: city.lng,
+                name: city.nameAr, country: getCountryAr(),
+                englishName: city.nameEn, countryCode
+            }));
+        } catch (_e) {}
+        try {
+            const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            const _navCtx = JSON.stringify({
+                lat: city.lat, lng: city.lng,
+                name: (city.names && city.names[_lng]) || city.nameAr || city.nameEn,
+                country: getCountryAr(), englishName: city.nameEn, countryCode: countryCode,
+                timezone: city.timezone, slug: slug, ts: Date.now()
+            });
+            sessionStorage.setItem('selected_city', _navCtx);
+            sessionStorage.setItem('last_city_context', _navCtx);
+            if (_CPV === 'moon') sessionStorage.setItem('city_moon', _navCtx);
+        } catch (_navErr) {}
+        window.location.href = href;
+    });
+}
+
+// MOON-COUNTRY-CITIES-BOX-CLS-FIX-1: when the server already SSR-rendered the first-page grid
+//   (#cities-container[data-ssr-grid="1"] — moon country pages), DO NOT rebuild the grid. Re-wire the
+//   existing cards' click-context (looked up in allCities by data-slug) + render the results-count and
+//   page-1 pagination. Returns true when it hydrated SSR cards; false → caller renders normally (prayer
+//   country page, or any page without the SSR grid). Reusing the SSR DOM keeps the box full-height from
+//   first paint → no spinner→grid growth (the CLS this ticket fixes), and avoids a redundant rebuild.
+function _hydrateSsrGridIfPresent() {
+    try {
+        const container = document.getElementById('cities-container');
+        if (!container || container.getAttribute('data-ssr-grid') !== '1') return false;
+        const cards = container.querySelectorAll('.cities-grid a.city-link[data-slug]');
+        if (!cards.length) return false;
+        const bySlug = {};
+        (Array.isArray(allCities) ? allCities : []).forEach(c => { if (c && c.slug) bySlug[c.slug] = c; });
+        cards.forEach(a => {
+            if (a.getAttribute('data-wired') === '1') return;   // idempotent — never double-bind the click
+            const slug = a.getAttribute('data-slug');
+            const city = bySlug[slug];
+            if (city) { _wireCityCardContext(a, city, slug, a.getAttribute('href')); a.setAttribute('data-wired', '1'); }
+        });
+        const total = Array.isArray(filtered) ? filtered.length : cards.length;
+        const rc = document.getElementById('results-count');
+        if (rc && total > 0) {
+            // mirror renderGrid's _countLabel (which is renderGrid-local) so we don't depend on it.
+            const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            rc.textContent = ({
+                en: `${total} regions / cities`, fr: `${total} régions / villes`, tr: `${total} bölge / şehir`,
+                ur: `${total} علاقے / شہر`, de: `${total} Regionen / Städte`, id: `${total} wilayah / kota`,
+                es: `${total} regiones / ciudades`, bn: `${total} অঞ্চল / শহর`, ms: `${total} wilayah / bandar`
+            })[_lng] || `${total} منطقة / مدينة`;
+        }
+        const totalPages = Math.ceil(total / PER_PAGE);
+        const paginationEl = document.getElementById('pagination');
+        if (paginationEl) {
+            if (totalPages <= 1) { paginationEl.style.display = 'none'; }
+            else { paginationEl.style.display = 'flex'; renderPagination(totalPages); }
+        }
+        return true;
+    } catch (_) { return false; }
+}
+
+// MOON-COUNTRY-CITIES-BOX-CLS-FIX-1: the language the SSR first-page grid was rendered in (captured on
+//   the first renderGrid call). While the page is still showing exactly what that grid represents —
+//   page 1 of the full unfiltered list, in the SSR language — renderGrid REUSES it in place instead of
+//   rebuilding; that is what keeps the cities box from shifting after load. A search, a page change, or
+//   a real language switch all fall through to a normal rebuild.
+let _ssrGridLang = null;
 function renderGrid() {
+    const _curLng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    if (_ssrGridLang === null) _ssrGridLang = _curLng;
+    if (_curLng === _ssrGridLang && currentPage === 1
+        && Array.isArray(allCities) && allCities.length > 0
+        && Array.isArray(filtered) && filtered.length === allCities.length
+        && _hydrateSsrGridIfPresent()) return;
     const container    = document.getElementById('cities-container');
     const paginationEl = document.getElementById('pagination');
     const total      = filtered.length;
@@ -2005,44 +2101,7 @@ function renderGrid() {
         // badge — a subtle dashed accent in CSS); same card shape/label as curated grid cards.
         if (city._discovered) a.setAttribute('data-source', 'discovered');
         a.innerHTML = `${cardLabel}<span class="city-type">${cardSub}${city._new ? ' ✦' : ''}</span>`;
-        a.addEventListener('click', e => {
-            // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): let the
-            //   browser handle modified clicks natively (Ctrl/Cmd/Shift/Alt or non-left
-            //   button → open in new tab/window) — do NOT preventDefault or we'd swallow
-            //   "open in new tab". The new tab seeds its own city context from the URL
-            //   (__PRAYER_CITY__) on load, so it still lands on the right city.
-            if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-            e.preventDefault();
-            // إذا كانت مدينة جديدة من Nominatim → احفظها في قاعدة البيانات الآن
-            if (city._new) {
-                const { _new, ...cityData } = city;
-                saveToDb([cityData]);
-            }
-            sessionStorage.setItem(`city_${slug}`, JSON.stringify({
-                lat: city.lat, lng: city.lng,
-                name: city.nameAr, country: getCountryAr(),
-                englishName: city.nameEn, countryCode
-            }));
-            // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1: store the clicked city as
-            //   the persistent nav context BEFORE navigating, so the destination's header
-            //   + global nav tabs (prayer/qibla/moon) reflect THIS city — not a stale or
-            //   foreign one. Same keys/shape site-search.js onPick writes. (The destination
-            //   also self-heals from the URL, so this is belt-and-suspenders.)
-            try {
-                const _navCtx = JSON.stringify({
-                    lat: city.lat, lng: city.lng,
-                    name: (city.names && city.names[_lngCard]) || city.nameAr || city.nameEn,
-                    country: getCountryAr(),
-                    englishName: city.nameEn,
-                    countryCode: countryCode,
-                    timezone: city.timezone, slug: slug, ts: Date.now()
-                });
-                sessionStorage.setItem('selected_city', _navCtx);
-                sessionStorage.setItem('last_city_context', _navCtx);
-                if (_CPV === 'moon') sessionStorage.setItem('city_moon', _navCtx);
-            } catch (_navErr) {}
-            window.location.href = href;
-        });
+        _wireCityCardContext(a, city, slug, href);
         grid.appendChild(a);
     });
 

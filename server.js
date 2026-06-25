@@ -162,6 +162,49 @@ function _countryCitiesScriptTag(cc) {
     } catch (_) { return ''; }
 }
 
+// MOON-COUNTRY-CITIES-BOX-CLS-FIX-1 (2026-06-25): SSR-render the FIRST PAGE (PER_PAGE=26, mirrors the
+// template's renderGrid) of moon city cards for /moon/{country}, so #cities-container ships the REAL
+// grid at first paint instead of the spinner. Previously the spinner (~1 row) was replaced client-side
+// by the full 26-card grid (444px desktop / ~1955px mobile) → a large layout shift of everything below
+// (section.mc-cities-box was Lighthouse's top CLS source, 0.163). Cards are shaped exactly like the
+// client's renderGrid output (a.city-link → moon label + .city-type sub) PLUS a data-slug so the client
+// re-wires the click-context without rebuilding the grid. Order/labels/hrefs mirror _curatedCitiesForCc
+// (same sorted list the client gets) + the template's _cardLabelFn / _cityHref (moon variant).
+const _MC_FIRST_PAGE = 26;   // === template PER_PAGE
+function _moonCountryFirstPageGridHtml(cc, L) {
+    try {
+        const all = _curatedCitiesForCc(cc);
+        if (!all || !all.length) return '';
+        const cities = all.slice(0, _MC_FIRST_PAGE);
+        const pfx = (L === 'ar') ? '' : '/' + L;
+        const moonLabel = (cEn, cAr, cLoc) => {
+            switch (L) {
+                case 'en': return `Moon Today in ${cEn}`;
+                case 'fr': return `Lune aujourd’hui à ${cLoc}`;
+                case 'tr': return `${cLoc} bugün Ay`;
+                case 'ur': return `${cLoc} میں آج چاند`;
+                case 'de': return `Mond heute in ${cLoc}`;
+                case 'id': return `Bulan Hari Ini di ${cLoc}`;
+                case 'es': return `Luna hoy en ${cLoc}`;
+                case 'bn': return `${cLoc}-এ আজ চাঁদ`;
+                case 'ms': return `Bulan Hari Ini di ${cLoc}`;
+                default:   return `قمر اليوم في ${cAr}`;
+            }
+        };
+        const cards = cities.map(c => {
+            const nm = c.names || {};
+            const cEn = nm.en || c.nameEn || c.nameAr || '';
+            const cAr = nm.ar || c.nameAr || cEn;
+            const cLoc = nm[L] || nm.en || cEn;
+            const sub = (L === 'ar') ? (nm.en || c.nameEn || '') : '';
+            const href = pfx + '/moon-today-in-' + c.slug;
+            return `<a class="city-link" href="${_escHtml(href)}" data-slug="${_escHtml(c.slug)}">`
+                + `${_escHtml(moonLabel(cEn, cAr, cLoc))}<span class="city-type">${_escHtml(sub)}</span></a>`;
+        }).join('');
+        return `<div class="cities-grid">${cards}</div>`;
+    } catch (_) { return ''; }
+}
+
 // PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1 (2026-06-24): the country-grid template
 // (prayer-times-cities.html) serves BOTH /moon/{country} (moon variant) AND the prayer
 // country page /prayer-times-in-{country}. The moon variant unifies its .top-header with
@@ -21576,6 +21619,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 //     CSS strips the inner cards' own chrome so the three read as a single section.
                 html = html.replace('<div class="cities-search-card">', `<section class="mc-cities-box">${_mc.citiesHeadingHtml}\n        <div class="cities-search-card">`);
                 html = html.replace('<div id="country-seo-content">', `</section>\n        <div id="country-seo-content">`);
+                // MOON-COUNTRY-CITIES-BOX-CLS-FIX-1: SSR the first-page (26) city grid INTO #cities-container
+                //   (replacing the spinner placeholder), so the cities box is full-height at first paint and
+                //   no longer grows when the client builds the grid → kills the layout shift. data-ssr-grid
+                //   tells the client to hydrate (wire clicks + pagination) instead of rebuilding. Moon variant
+                //   only — the prayer country page keeps the spinner + client render (out of scope).
+                const _mcGrid = _moonCountryFirstPageGridHtml(seo.moonCountryListing.code, L);
+                if (_mcGrid) {
+                    html = html.replace(
+                        /<div id="cities-container">[\s\S]*?<\/div>\s*<\/div>\s*(?=<div class="pagination")/,
+                        `<div id="cities-container" data-ssr-grid="1">${_mcGrid}</div>\n            `
+                    );
+                }
                 // (c) below-grid content into #country-seo-content.
                 if (html.indexOf('id="country-seo-content"') !== -1) {
                     html = html.replace(/(<div id="country-seo-content">)[\s\S]*?(<\/div>)/, `$1${_mc.belowHtml}$2`);

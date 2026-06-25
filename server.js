@@ -21581,9 +21581,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const cn = seo.moonCountryListing.name;
         const L = seo.lang;
         const _mc = _buildMoonCountrySeoContent(cn, L, seo.moonCountryListing.code);   // { h1, hero, summaryHtml, citiesHeadingHtml, belowHtml, faqJsonLd }
+        // MOON-COUNTRY-MOBILE-FCP-LCP-TUNE-1: inject the curated cities data island into the BODY
+        //   (right before the first body <script>, i.e. AFTER all visible + SSR content) instead of the
+        //   <head>. It's a ~49KB <script type="application/json"> read ONLY at body-end — the template's
+        //   fetchCities() (end of its inline script) and the moon-country-header-city sync appended at
+        //   </body>; nothing reads it during head parse. In <head> it pushed the body (hero / LCP element
+        //   #loc-hero-subtitle) ~49KB later in the byte stream → later mobile FCP/LCP. Moving it after the
+        //   hero streams the hero earlier. Data is byte-identical (NO field trim) so grid / search /
+        //   pagination / click-context / ItemList schema are all unchanged. Fallback = prior in-head spot.
         const _ccTagM = _countryCitiesScriptTag(seo.moonCountryListing.code);
         if (_ccTagM && html.indexOf('id="country-cities-data"') === -1) {
-            html = html.replace('</head>', _ccTagM + '\n</head>');
+            if (html.indexOf('<script src="js/i18n.js') !== -1) {
+                html = html.replace('<script src="js/i18n.js', _ccTagM + '\n<script src="js/i18n.js');
+            } else {
+                html = html.replace('</head>', _ccTagM + '\n</head>');   // fallback: prior in-head placement (correct, just slower)
+            }
+        }
+        // MOON-COUNTRY-MOBILE-FCP-LCP-TUNE-1: preload the render-blocking critical stylesheet (same href as
+        //   the existing <link>, version-extracted so it never drifts) so the browser fetches style.css —
+        //   which carries the hero (.loc-hero-*) styles that gate the LCP — at highest priority from the
+        //   first <head> bytes. NOT async/defer: it stays a render-blocking <link> (deferring would FOUC the
+        //   hero). Moon variant only → the prayer country page stays byte-identical.
+        {
+            const _cssM = html.match(/<link rel="stylesheet" href="(css\/style\.css\?v=\d+)">/);
+            if (_cssM && html.indexOf('rel="preload" as="style" href="css/style.css') === -1) {
+                html = html.replace(_cssM[0], `<link rel="preload" as="style" href="${_cssM[1]}">\n    ${_cssM[0]}`);
+            }
         }
         // Variant flag → prayer-times-cities.html inline JS renders /moon-today-in-{city} links
         // + a moon-scoped country search instead of the prayer-times defaults. Absent on the

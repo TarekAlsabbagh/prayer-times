@@ -21083,6 +21083,15 @@ function updateMoonInfo() {
         // whether the user is on the generic /moon-today page or a specific /moon-in-{city}/{date} page.
         const _nowParts = _getDayPartsInTz(new Date(), _tz);
 
+        // MOON-CITY-HUB-KEYWORD-NOISE-ROOT-FIX-1 (2026-06-28): the 14-day forecast previously repeated
+        //   the full Gregorian month+year («يوليو 2026») AND Hijri month+year («محرم 1448») in EVERY
+        //   row → ~14× each → SEO "Keyword Consistency" noise (the tool reads those repeats as page
+        //   keywords). Fix: show month+year ONCE per month-group heading row; day rows carry only a
+        //   compact weekday+day (Gregorian) and Hijri day number, with the FULL date kept in the link
+        //   aria-label + <time datetime> (accessibility — not visible text, not keyword stuffing).
+        //   Calc/data (MoonCalc/Meeus) untouched — display only.
+        let _fcLastMK = null;
+        const _fcColspan = 6;
         let html = '';
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
@@ -21109,19 +21118,24 @@ function updateMoonInfo() {
             // بالصيغة الميلاديّة (canonical موحَّد لكلّ يوم قمر) بَعد سياسة
             // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1.
             let hijriCell = '<td class="fc-hijri-cell">—</td>';
+            let _hjMonthName = null, _hjYear = null;
             try {
                 if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
                     const hj = HijriDate.toHijri(dp.y, dp.m + 1, dp.d);
                     const hMonthName = _hMonthsLang[hj.month - 1] || String(hj.month);
-                    const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
+                    _hjMonthName = hMonthName; _hjYear = hj.year;   // for the month-group heading
+                    const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;   // FULL — aria-label only
+                    // MOON-CITY-HUB-KEYWORD-NOISE-ROOT-FIX-1: visible = Hijri DAY NUMBER only; the Hijri
+                    //   month+year live once in the month-group heading; full date stays in aria-label.
+                    const hijriVis = String(hj.day);
                     if (_citySlug) {
                         // FIX: href now uses _rowIso (Gregorian) — was previously
                         //   `hj.year + '-' + hj.month + '-' + hj.day` (Hijri 1447-12-07
                         //   format) which now returns 404 under the strict route policy.
                         const _hHrefGreg = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
-                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
+                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriVis)}</a></td>`;
                     } else {
-                        hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
+                        hijriCell = `<td class="fc-hijri-cell" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriVis)}</td>`;
                     }
                 }
             } catch (_e) { /* keep placeholder */ }
@@ -21129,22 +21143,35 @@ function updateMoonInfo() {
             // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
             // (Round 16b: أُزيل عمود «تفاصيل» — خليّة اليوم والخليّة الهجريّة تبقيان قابلتَين للنقر.)
             let dayCell, rowClasses = [];
-            const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
+            const _dayFull = wd + ' ' + dd + ' ' + mm + ' ' + yy;   // FULL — aria-label / <time> only
+            // MOON-CITY-HUB-KEYWORD-NOISE-ROOT-FIX-1: visible = weekday + day number; the Gregorian
+            //   month+year live once in the month-group heading; full date stays in aria-label + <time>.
+            const _dayVis = wd + ' ' + dd;
+            const _dayIsoT = _fcIso(dp, row.date);
             if (_citySlug) {
                 // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
                 // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1: uses _rowIso
                 //   computed at the top of this loop iteration (hoisted from the
                 //   former local-only `_iso = _fcIso(dp, row.date)`).
                 const _href = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
-                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
+                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}" aria-label="${_escHtml(_dayFull)}"><time datetime="${_dayIsoT}">${_escHtml(_dayVis)}</time></a></td>`;
                 rowClasses.push('fc-row-clickable');
             } else {
-                dayCell = `<td>${_escHtml(_dayText)}</td>`;
+                dayCell = `<td class="fc-day-cell"><time datetime="${_dayIsoT}" aria-label="${_escHtml(_dayFull)}">${_escHtml(_dayVis)}</time></td>`;
             }
             if (_isTodayRow) rowClasses.push('fc-row-today');
             const rowClass = rowClasses.length ? ` class="${rowClasses.join(' ')}"` : '';
             const rowAria  = _isTodayRow ? ' aria-current="date"' : '';
 
+            // MOON-CITY-HUB-KEYWORD-NOISE-ROOT-FIX-1: one month-group heading row per month change,
+            //   carrying «{gregMonth} {gregYear} · {hijriMonth} {hijriYear}» a SINGLE time (vs ~14×).
+            const _mk = mm + ' ' + yy + '|' + (_hjMonthName || '') + ' ' + (_hjYear || '');
+            if (_mk !== _fcLastMK) {
+                _fcLastMK = _mk;
+                const _grpGreg = mm + ' ' + yy;
+                const _grpLabel = _hjMonthName ? (_grpGreg + ' · ' + _hjMonthName + ' ' + _hjYear) : _grpGreg;
+                html += `<tr class="fc-month-group"><td colspan="${_fcColspan}" style="font-weight:700;background:var(--bg,#f4f6f8);padding:8px 12px;font-size:0.92rem;">🗓️ ${_escHtml(_grpLabel)}</td></tr>`;
+            }
             html += `<tr${rowClass}${rowAria}>`
                 + dayCell
                 + hijriCell

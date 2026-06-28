@@ -1568,7 +1568,7 @@
 // MOON-COUNTRY-CITY-LINKS-UPDATE-LOCATION-CONTEXT-1 (2026-06-25): js/app.js?v=801→803 + v462→v464
 //   (nested-moon city pages adopt the URL city as header + nav context; nav tabs point at the
 //   page city; city-grid click stores it before navigating without breaking open-in-new-tab).
-const CACHE_VERSION = 'v464';
+const CACHE_VERSION = 'v465';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1595,7 +1595,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=803',
+    '/js/app.js?v=804',
 ];
 
 self.addEventListener('install', (event) => {

@@ -12887,30 +12887,76 @@ function buildSeoForPath(urlPath) {
                 // format was a pipe-separated tag-line; new format is a natural-language
                 // sentence that explicitly mentions "moon phases" / "مراحل القمر" — a
                 // legitimate keyword for this page (not stuffing).
-                _moonTitle = {
-                    ar: `تقويم القمر في ${cityDisplay} لشهر ${_mNameT} ${_mYearT} ومراحل القمر`,
-                    en: `Moon Calendar in ${cityDisplay} for ${_mNameT} ${_mYearT} and Moon Phases`,
-                    fr: `Calendrier lunaire à ${cityDisplay} pour ${_mNameT} ${_mYearT} et phases lunaires`,
-                    tr: `${cityDisplay} Ay Takvimi: ${_mNameT} ${_mYearT} ve Ay Evreleri`,
-                    ur: `${cityDisplay} چاند کیلنڈر: ${_mNameT} ${_mYearT} اور چاند کے مراحل`,
-                    de: `Mondkalender in ${cityDisplay} für ${_mNameT} ${_mYearT} und Mondphasen`,
-                    id: `Kalender Bulan ${cityDisplay} untuk ${_mNameT} ${_mYearT} dan Fase Bulan`,
-                    es: `Calendario lunar en ${cityDisplay} para ${_mNameT} ${_mYearT} y fases de la Luna`,
-                    bn: `${cityDisplay}-এ ${_mNameT} ${_mYearT} এর চাঁদের ক্যালেন্ডার ও দশা`,
-                    ms: `Kalendar Bulan ${cityDisplay} untuk ${_mNameT} ${_mYearT} dan Fasa Bulan`,
+                // MOON-CITY-MONTH-TITLE-AND-KEYWORD-CONSISTENCY-ALL-LANGS-FIX-1 (2026-06-28):
+                //   Adaptive month-title ladder. The old single "...for {M} {Y} and Moon Phases"
+                //   form overflowed 60 for long-name cities (Santiago de Querétaro EN = 68).
+                //   Per-lang candidates long→mid→short; pick first in [50,60], else longest ≤60,
+                //   else shortest. Keeps Moon Calendar + city + month + year; drops the trailing
+                //   "and Moon Phases" (mid) or uses a pipe form (short) when the long one is too long.
+                const _pickByLen = (cands) => {
+                    const inR = cands.find(s => { const n = [...s].length; return n >= 50 && n <= 60; });
+                    if (inR) return inR;
+                    const under = cands.filter(s => [...s].length <= 60);
+                    if (under.length) return under.reduce((a, b) => ([...a].length >= [...b].length ? a : b));
+                    return cands.reduce((a, b) => ([...a].length <= [...b].length ? a : b));
                 };
-                _moonDesc = {
-                    ar: `تقويم القمر في ${cityDisplay} لشهر ${_mNameT} ${_mYearT}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل.`,
-                    en: `Moon calendar in ${cityDisplay} for ${_mNameT} ${_mYearT}: daily phase, illumination, full moon and new moon dates, hilal visibility, and matching Hijri calendar.`,
-                    fr: `Calendrier lunaire à ${cityDisplay} pour ${_mNameT} ${_mYearT} : phase quotidienne, illumination, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien correspondant.`,
-                    tr: `${cityDisplay} için ${_mNameT} ${_mYearT} ay takvimi: günlük evre, aydınlanma, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve karşılık gelen hicri takvim.`,
-                    ur: `${cityDisplay} میں ${_mNameT} ${_mYearT} کے لیے چاند کی تقویم: روزانہ طور، روشنی، بدر اور نئے چاند کی تاریخیں، ہلال کی رؤیت اور متعلقہ ہجری تقویم۔`,
-                    de: `Mondkalender in ${cityDisplay} für ${_mNameT} ${_mYearT}: tägliche Phase, Beleuchtung, Vollmond- und Neumonddaten, Hilal-Sichtbarkeit und passender Hidschri-Kalender.`,
-                    id: `Kalender bulan di ${cityDisplay} untuk ${_mNameT} ${_mYearT}: fase harian, iluminasi, tanggal purnama dan bulan baru, rukyat hilal, dan kalender Hijriah yang sesuai.`,
-                    es: `Calendario lunar en ${cityDisplay} para ${_mNameT} ${_mYearT}: fase diaria, iluminación, fechas de luna llena y nueva, visibilidad del hilal y calendario hijri correspondiente.`,
-                    bn: `${cityDisplay}-এ ${_mNameT} ${_mYearT}-এর জন্য চাঁদের ক্যালেন্ডার: দৈনিক দশা, আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার তারিখ, হিলাল দৃশ্যমানতা এবং সংশ্লিষ্ট হিজরি ক্যালেন্ডার।`,
-                    ms: `Kalendar bulan di ${cityDisplay} untuk ${_mNameT} ${_mYearT}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah yang sepadan.`,
+                const _mtC = cityDisplay, _mtM = _mNameT, _mtY = _mYearT;
+                const _mTitleCands = {
+                    ar: [`تقويم القمر في ${_mtC} لشهر ${_mtM} ${_mtY} ومراحل القمر`, `تقويم القمر في ${_mtC} لشهر ${_mtM} ${_mtY}`, `تقويم القمر في ${_mtC} | ${_mtM} ${_mtY}`],
+                    en: [`Moon Calendar in ${_mtC} for ${_mtM} ${_mtY} and Moon Phases`, `Moon Calendar in ${_mtC} for ${_mtM} ${_mtY}`, `Moon Calendar in ${_mtC} | ${_mtM} ${_mtY}`],
+                    fr: [`Calendrier lunaire à ${_mtC} pour ${_mtM} ${_mtY} et phases lunaires`, `Calendrier lunaire à ${_mtC} pour ${_mtM} ${_mtY}`, `Calendrier lunaire à ${_mtC} | ${_mtM} ${_mtY}`],
+                    tr: [`${_mtC} Ay Takvimi: ${_mtM} ${_mtY} — Ay Evreleri ve Hicri Ay`, `${_mtC} Ay Takvimi: ${_mtM} ${_mtY} — Hicri Ay`, `${_mtC} Ay Takvimi | ${_mtM} ${_mtY}`],
+                    ur: [`${_mtC} میں چاند کا تقویم: ${_mtM} ${_mtY} اور چاند کے مراحل`, `${_mtC} میں چاند کا تقویم: ${_mtM} ${_mtY} اور مراحل`, `${_mtC} چاند کا تقویم | ${_mtM} ${_mtY}`],
+                    de: [`Mondkalender in ${_mtC} für ${_mtM} ${_mtY} und Hidschri-Monat`, `Mondkalender in ${_mtC} für ${_mtM} ${_mtY}`, `Mondkalender in ${_mtC} | ${_mtM} ${_mtY}`],
+                    id: [`Kalender Bulan ${_mtC} untuk ${_mtM} ${_mtY} dan Fase Bulan`, `Kalender Bulan ${_mtC} untuk ${_mtM} ${_mtY}`, `Kalender Bulan ${_mtC} | ${_mtM} ${_mtY}`],
+                    es: [`Calendario lunar en ${_mtC} para ${_mtM} ${_mtY} y fases de la Luna`, `Calendario lunar en ${_mtC} para ${_mtM} ${_mtY}`, `Calendario lunar en ${_mtC} | ${_mtM} ${_mtY}`],
+                    bn: [`${_mtC}-এ ${_mtM} ${_mtY} এর চাঁদের ক্যালেন্ডার, দশা ও হিজরি মাস`, `${_mtC}-এ ${_mtM} ${_mtY} এর চাঁদের ক্যালেন্ডার ও দশা`, `${_mtC} চাঁদের ক্যালেন্ডার | ${_mtM} ${_mtY}`],
+                    ms: [`Kalendar Bulan ${_mtC} untuk ${_mtM} ${_mtY} dan Fasa Bulan`, `Kalendar Bulan ${_mtC} untuk ${_mtM} ${_mtY}`, `Kalendar Bulan ${_mtC} | ${_mtM} ${_mtY}`],
                 };
+                _moonTitle = {};
+                for (const _lk of Object.keys(_mTitleCands)) _moonTitle[_lk] = _pickByLen(_mTitleCands[_lk]);
+                // Adaptive meta: long (detailed) → short (drop hilal-visibility clause) so it
+                // stays ≤160 even for long city names; pick long if ≤160 else short.
+                const _mDescLong = {
+                    ar: `تقويم القمر في ${_mtC} لشهر ${_mtM} ${_mtY}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل.`,
+                    en: `Moon calendar in ${_mtC} for ${_mtM} ${_mtY}: daily phase, illumination, full moon and new moon dates, hilal visibility, and matching Hijri calendar.`,
+                    fr: `Calendrier lunaire à ${_mtC} pour ${_mtM} ${_mtY} : phase quotidienne, illumination, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien correspondant.`,
+                    tr: `${_mtC} için ${_mtM} ${_mtY} ay takvimi: günlük evre, aydınlanma, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve karşılık gelen hicri takvim.`,
+                    ur: `${_mtC} میں ${_mtM} ${_mtY} کے لیے چاند کی تقویم: روزانہ طور، روشنی، بدر اور نئے چاند کی تاریخیں، ہلال کی رؤیت اور متعلقہ ہجری تقویم۔`,
+                    de: `Mondkalender in ${_mtC} für ${_mtM} ${_mtY}: tägliche Phase, Beleuchtung, Vollmond- und Neumonddaten, Hilal-Sichtbarkeit und passender Hidschri-Kalender.`,
+                    id: `Kalender bulan di ${_mtC} untuk ${_mtM} ${_mtY}: fase harian, iluminasi, tanggal purnama dan bulan baru, rukyat hilal, dan kalender Hijriah yang sesuai.`,
+                    es: `Calendario lunar en ${_mtC} para ${_mtM} ${_mtY}: fase diaria, iluminación, fechas de luna llena y nueva, visibilidad del hilal y calendario hijri correspondiente.`,
+                    bn: `${_mtC}-এ ${_mtM} ${_mtY}-এর জন্য চাঁদের ক্যালেন্ডার: দৈনিক দশা, আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার তারিখ, হিলাল দৃশ্যমানতা এবং সংশ্লিষ্ট হিজরি ক্যালেন্ডার।`,
+                    ms: `Kalendar bulan di ${_mtC} untuk ${_mtM} ${_mtY}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah yang sepadan.`,
+                };
+                const _mDescShort = {
+                    ar: `تقويم القمر في ${_mtC} لشهر ${_mtM} ${_mtY}: طور القمر اليوميّ ونسبة الإضاءة والتقويم الهجريّ المقابل.`,
+                    en: `Moon calendar in ${_mtC} for ${_mtM} ${_mtY}: daily moon phase, illumination and the matching Hijri calendar.`,
+                    fr: `Calendrier lunaire à ${_mtC} pour ${_mtM} ${_mtY} : phase quotidienne, illumination et calendrier hégirien correspondant.`,
+                    tr: `${_mtC} için ${_mtM} ${_mtY} ay takvimi: günlük evre, aydınlanma ve karşılık gelen hicri takvim.`,
+                    ur: `${_mtC} میں ${_mtM} ${_mtY} کے لیے چاند کی تقویم: روزانہ طور، روشنی اور متعلقہ ہجری تقویم۔`,
+                    de: `Mondkalender in ${_mtC} für ${_mtM} ${_mtY}: tägliche Mondphase, Beleuchtung und passender Hidschri-Kalender.`,
+                    id: `Kalender bulan di ${_mtC} untuk ${_mtM} ${_mtY}: fase harian, iluminasi dan kalender Hijriah yang sesuai.`,
+                    es: `Calendario lunar en ${_mtC} para ${_mtM} ${_mtY}: fase diaria, iluminación y calendario hijri correspondiente.`,
+                    bn: `${_mtC}-এ ${_mtM} ${_mtY}-এর চাঁদের ক্যালেন্ডার: দৈনিক দশা, আলোকসজ্জা এবং সংশ্লিষ্ট হিজরি ক্যালেন্ডার।`,
+                    ms: `Kalendar bulan di ${_mtC} untuk ${_mtM} ${_mtY}: fasa harian, pencahayaan dan kalendar Hijrah yang sepadan.`,
+                };
+                const _mDescMid = {
+                    ar: `تقويم القمر في ${_mtC} لشهر ${_mtM} ${_mtY}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، والتقويم الهجريّ المقابل.`,
+                    en: `Moon calendar in ${_mtC} for ${_mtM} ${_mtY}: daily moon phase, illumination, full moon and new moon dates, and the matching Hijri calendar.`,
+                    fr: `Calendrier lunaire à ${_mtC} pour ${_mtM} ${_mtY} : phase quotidienne, illumination, dates de pleine et nouvelle lune et calendrier hégirien correspondant.`,
+                    tr: `${_mtC} için ${_mtM} ${_mtY} ay takvimi: günlük evre, aydınlanma, dolunay ve yeni ay tarihleri ve karşılık gelen hicri takvim.`,
+                    ur: `${_mtC} میں ${_mtM} ${_mtY} کے لیے چاند کی تقویم: روزانہ طور، روشنی، بدر اور نئے چاند کی تاریخیں اور متعلقہ ہجری تقویم۔`,
+                    de: `Mondkalender in ${_mtC} für ${_mtM} ${_mtY}: tägliche Mondphase, Beleuchtung, Vollmond- und Neumonddaten und passender Hidschri-Kalender.`,
+                    id: `Kalender bulan di ${_mtC} untuk ${_mtM} ${_mtY}: fase harian, iluminasi, tanggal purnama dan bulan baru, serta kalender Hijriah yang sesuai.`,
+                    es: `Calendario lunar en ${_mtC} para ${_mtM} ${_mtY}: fase diaria, iluminación, fechas de luna llena y nueva y calendario hijri correspondiente.`,
+                    bn: `${_mtC}-এ ${_mtM} ${_mtY}-এর চাঁদের ক্যালেন্ডার: দৈনিক দশা, আলোকসজ্জা, পূর্ণিমা ও অমাবস্যার তারিখ এবং সংশ্লিষ্ট হিজরি ক্যালেন্ডার।`,
+                    ms: `Kalendar bulan di ${_mtC} untuk ${_mtM} ${_mtY}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan serta kalendar Hijrah yang sepadan.`,
+                };
+                // pick the LONGEST candidate ≤160 (long → mid → short); lands in [120,160] for every lang/city.
+                const _pickDesc = (lng) => { for (const c of [_mDescLong[lng], _mDescMid[lng], _mDescShort[lng]]) { if (c && [...c].length <= 160) return c; } return _mDescShort[lng] || _mDescLong[lng]; };
+                _moonDesc = {};
+                for (const _lk2 of Object.keys(_mDescLong)) _moonDesc[_lk2] = _pickDesc(_lk2);
             } else if (_isMoonHubPage) {
                 // ── /moon-in-{city} Hub — MOON-HUB-SEO-3 (2026-05-11) ──
                 // The page is a permanent CITY HUB, not a "today" page (which

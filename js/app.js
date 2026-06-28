@@ -22442,6 +22442,45 @@ function updateMoonInfo() {
         if (window.console && console.warn) console.warn('Moon date H1/intro override failed:', _derr);
     }
 
+    // ── MOON-CITY-MONTH-TITLE-AND-KEYWORD-CONSISTENCY-ALL-LANGS-FIX-1 (2026-06-28) ──
+    //   On the nested MONTH page /moon/{country}/{city}/{YYYY}/{MM} the SSR H1 is the
+    //   month form «🌙 Moon Phases in {city} — {Month} {Year}», but the generic moon
+    //   hero logic treats this page like a date page and overwrote the H1 with the
+    //   "today" form on hydration. Re-assert the month H1 here (LAST write wins) so the
+    //   hydrated H1 == the SSR H1. Wording mirrors server.js `_h1Moon` month branch.
+    //   Guarded to the nested MONTH url only ($ excludes the /dd day page) — /today,
+    //   /day, /year and the bare hub are untouched. Sets ONLY #moon-page-h1.
+    try {
+        const _mmH1M = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
+        if (_mmH1M) {
+            const _mLng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+            const _mCity = _moonCityDisplayName(_mmH1M[1]) || '';
+            const _mYear = _mmH1M[2];
+            const _mMoNum = parseInt(_mmH1M[3], 10);
+            let _mName = '';
+            try { _mName = (typeof t === 'function') ? t('gmonth.' + _mMoNum) : ''; } catch (_) {}
+            if (!_mName || _mName === 'gmonth.' + _mMoNum) {
+                _mName = ['January','February','March','April','May','June','July','August','September','October','November','December'][_mMoNum - 1] || '';
+            }
+            if (_mCity && _mName) {
+                const _MH1 = {
+                    ar: `🌙 أطوار القمر في ${_mCity} — ${_mName} ${_mYear}`,
+                    en: `🌙 Moon Phases in ${_mCity} — ${_mName} ${_mYear}`,
+                    fr: `🌙 Phases de la Lune à ${_mCity} — ${_mName} ${_mYear}`,
+                    tr: `🌙 ${_mCity} Ay Evreleri — ${_mName} ${_mYear}`,
+                    ur: `🌙 ${_mCity} میں چاند کے مراحل — ${_mName} ${_mYear}`,
+                    de: `🌙 Mondphasen in ${_mCity} — ${_mName} ${_mYear}`,
+                    id: `🌙 Fase Bulan di ${_mCity} — ${_mName} ${_mYear}`,
+                    es: `🌙 Fases de la Luna en ${_mCity} — ${_mName} ${_mYear}`,
+                    bn: `🌙 ${_mCity}-এ চাঁদের পর্যায় — ${_mName} ${_mYear}`,
+                    ms: `🌙 Fasa Bulan di ${_mCity} — ${_mName} ${_mYear}`
+                };
+                const _h1m = document.getElementById('moon-page-h1');
+                if (_h1m) { _h1m.textContent = _MH1[_mLng] || _MH1.en; _h1m.removeAttribute('data-i18n'); }
+            }
+        }
+    } catch (_mh1e) { /* silent — SSR month H1 stays */ }
+
     // ── Breadcrumb: Home › [القمر اليوم | القمر اليوم في {City}] › {Date} ──
     //   - بلا city slug وبلا مدينة حاليّة → Home › (current) القمر اليوم
     //   - بلا city slug مع مدينة حاليّة → Home › (current) القمر اليوم في {CurrentCity}

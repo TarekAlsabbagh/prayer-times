@@ -23578,6 +23578,44 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 `<h2 class="moon-subtitle" id="moon-subtitle">${_escHtml(_subHubSsr)}</h2>`
             );
         }
+        // ── MOON-CITY-HUB-CALENDAR-CONTEXT-SEO-SAFE-FIX-1 (2026-06-28) ──
+        //   Inject a VISIBLE, localized, city-dynamic SEO context block right
+        //   BEFORE the 14-day forecast table on the CITY HUB ONLY
+        //   (/moon/{country}/{city}; NOT today/month/day/year). It strengthens
+        //   the real page keywords (Moon Calendar / Moon Phases / Hijri Month /
+        //   Moon Status / city) around the calendar so SEOptimer "Keyword
+        //   Consistency" stops treating the table's date tokens (Muharram /
+        //   July / 1448 / 2026) as the page's main words — WITHOUT touching the
+        //   table itself (no row/format change; the rejected 865f505 group-
+        //   header idea is NOT reintroduced). Server-side only: no app.js, no
+        //   index.html, no CSS (reuses .section-card), no cache-buster.
+        //   Guard: isHub is true for hub AND month pages → exclude month (and
+        //   require nested) to hit the bare /moon/{country}/{city} hub exactly.
+        const _isCityHubOnly = _isMoonHubPageSsr && !_isMoonMonthPageSsr && !!seo.moonCity.isNested;
+        if (_isCityHubOnly) {
+            const _HUB_CAL_CTX = {
+                ar: { h2:`تقويم القمر في ${cityName}`, intro:`يعرض تقويم القمر في ${cityName} حالة القمر وأطوار القمر خلال الشهر الهجري، مع مقارنة بين التاريخ الهجري والتاريخ الميلادي لمتابعة مراحل القمر بدقّة حسب التوقيت المحلّي.`, h3:`أطوار القمر حسب الشهر الهجري`, desc:`يوضّح الجدول التالي تقويم القمر يومًا بيوم في ${cityName}: طور القمر، ونسبة الإضاءة، والتاريخ الهجري والميلادي لكل يوم.` },
+                en: { h2:`Moon Calendar in ${cityName}`, intro:`The moon calendar in ${cityName} shows the moon status and the moon phases through the Hijri month, comparing the Hijri and Gregorian dates so you can follow the moon phases accurately in local time.`, h3:`Moon Phases by Hijri Month`, desc:`The table below shows the daily moon calendar in ${cityName}: the moon phase, illumination, and both the Hijri and Gregorian date for each day.` },
+                fr: { h2:`Calendrier lunaire à ${cityName}`, intro:`Le calendrier lunaire à ${cityName} présente l’état de la Lune et les phases de la Lune au fil du mois hégirien, en comparant les dates hégirienne et grégorienne pour suivre précisément les phases lunaires à l’heure locale.`, h3:`Phases de la Lune selon le mois hégirien`, desc:`Le tableau ci-dessous présente le calendrier lunaire quotidien à ${cityName} : la phase de la Lune, l’illumination ainsi que les dates hégirienne et grégorienne de chaque jour.` },
+                tr: { h2:`${cityName} Ay Takvimi`, intro:`${cityName} ay takvimi, Hicri ay boyunca Ay’ın durumunu ve Ay evrelerini gösterir; Hicri ve Miladi tarihleri karşılaştırarak Ay evrelerini yerel saatle doğru biçimde takip edebilirsiniz.`, h3:`Hicri Aya Göre Ay Evreleri`, desc:`Aşağıdaki tablo ${cityName} için günlük ay takvimini gösterir: Ay evresi, aydınlanma ve her gün için Hicri ve Miladi tarih.` },
+                ur: { h2:`${cityName} میں چاند کا تقویم`, intro:`${cityName} میں چاند کا تقویم ہجری مہینے کے دوران چاند کی حالت اور چاند کے اطوار دکھاتا ہے، اور ہجری و میلادی تاریخ کا موازنہ کرتے ہوئے مقامی وقت کے مطابق چاند کے مراحل کو درست طور پر دیکھا جا سکتا ہے۔`, h3:`ہجری مہینے کے مطابق چاند کے اطوار`, desc:`نیچے دیا گیا جدول ${cityName} کے لیے روزانہ چاند کا تقویم دکھاتا ہے: چاند کا طور، روشنی، اور ہر دن کی ہجری و میلادی تاریخ۔` },
+                de: { h2:`Mondkalender in ${cityName}`, intro:`Der Mondkalender in ${cityName} zeigt den Mondstatus und die Mondphasen im Verlauf des Hidschri-Monats und vergleicht das Hidschri- mit dem gregorianischen Datum, sodass Sie die Mondphasen in Ortszeit genau verfolgen können.`, h3:`Mondphasen nach dem Hidschri-Monat`, desc:`Die folgende Tabelle zeigt den täglichen Mondkalender in ${cityName}: die Mondphase, die Beleuchtung sowie das Hidschri- und das gregorianische Datum für jeden Tag.` },
+                id: { h2:`Kalender Bulan di ${cityName}`, intro:`Kalender bulan di ${cityName} menampilkan status bulan dan fase bulan sepanjang bulan Hijriah, dengan membandingkan tanggal Hijriah dan Masehi agar Anda dapat mengikuti fase bulan secara akurat menurut waktu setempat.`, h3:`Fase Bulan menurut Bulan Hijriah`, desc:`Tabel di bawah menampilkan kalender bulan harian di ${cityName}: fase bulan, iluminasi, serta tanggal Hijriah dan Masehi untuk setiap hari.` },
+                es: { h2:`Calendario lunar en ${cityName}`, intro:`El calendario lunar en ${cityName} muestra el estado de la Luna y las fases de la Luna a lo largo del mes hijri, comparando las fechas hijri y gregoriana para seguir las fases lunares con precisión en hora local.`, h3:`Fases de la Luna según el mes hijri`, desc:`La tabla siguiente muestra el calendario lunar diario en ${cityName}: la fase de la Luna, la iluminación y las fechas hijri y gregoriana de cada día.` },
+                bn: { h2:`${cityName}-এ চাঁদের ক্যালেন্ডার`, intro:`${cityName}-এ চাঁদের ক্যালেন্ডার হিজরি মাস জুড়ে চাঁদের অবস্থা ও চাঁদের দশা দেখায়, এবং হিজরি ও গ্রেগরীয় তারিখের তুলনা করে স্থানীয় সময় অনুযায়ী চাঁদের দশা নির্ভুলভাবে অনুসরণ করা যায়।`, h3:`হিজরি মাস অনুযায়ী চাঁদের দশা`, desc:`নিচের টেবিলটি ${cityName}-এর জন্য দৈনিক চাঁদের ক্যালেন্ডার দেখায়: চাঁদের দশা, আলোকন, এবং প্রতিদিনের হিজরি ও গ্রেগরীয় তারিখ।` },
+                ms: { h2:`Kalendar Bulan di ${cityName}`, intro:`Kalendar bulan di ${cityName} memaparkan status bulan dan fasa bulan sepanjang bulan Hijrah, dengan membandingkan tarikh Hijrah dan Masihi supaya anda dapat mengikuti fasa bulan dengan tepat mengikut waktu tempatan.`, h3:`Fasa Bulan mengikut Bulan Hijrah`, desc:`Jadual di bawah memaparkan kalendar bulan harian di ${cityName}: fasa bulan, pencahayaan, serta tarikh Hijrah dan Masihi bagi setiap hari.` }
+            };
+            const _cc = _HUB_CAL_CTX[Lm] || _HUB_CAL_CTX.en;
+            const _ctxHtml =
+                `<section class="section-card moon-hub-calendar-context" id="moon-hub-calendar-context" aria-labelledby="moon-hub-calendar-context-h2">`
+                + `<h2 id="moon-hub-calendar-context-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> ${_escHtml(_cc.h2)}</h2>`
+                + `<p class="moon-hub-calendar-context-intro">${_escHtml(_cc.intro)}</p>`
+                + `<h3 class="moon-hub-calendar-context-h3">${_escHtml(_cc.h3)}</h3>`
+                + `<p class="moon-hub-calendar-context-desc">${_escHtml(_cc.desc)}</p>`
+                + `</section>`;
+            // Prepend before the 14-day forecast card — the table element is left byte-identical.
+            html = html.replace('<div class="section-card" id="moon-forecast">', _ctxHtml + '<div class="section-card" id="moon-forecast">');
+        }
         // ── Round 14 polish #4: Breadcrumb SSR — يعرض التاريخ الهجريّ أو الميلاديّ حسب نوع URL ──
         //   قبل: bc-date يبقى hidden حتى JS. الآن: نحقنه في SSR بلغة الزائر مع التسمية الصحيحة
         //   ليراه الزائر بلا JS وتراه محرّكات البحث مباشرةً.

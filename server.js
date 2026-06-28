@@ -12942,74 +12942,80 @@ function buildSeoForPath(urlPath) {
                 // to `long` (which is in-range for those). Title intent stays
                 // permanent-city-hub: NO "اليوم", NO month name, NO date.
                 const _MOON_HUB_TITLE_FORMS = {
+                    // MOON-CITY-HUB-KEYWORD-CONSISTENCY-ALL-LANGS-1 (2026-06-28): foreground the page's
+                    //   real keywords — moon calendar + moon phase + Hijri month + city — in the title to
+                    //   match the headings/content (Keyword Consistency). Calendar term aligned to «تقويم
+                    //   القمر / Moon Calendar» (was «تقويم الأطوار» / "Lunar Calendar", inconsistent with H1).
+                    //   Hub stays permanent-city (NO «اليوم»/today, NO date) → distinct from the /today page.
+                    //   Illumination dropped from the title (kept in meta). Ladder still _fit-picks 50–60.
                     ar: c => ({
-                        longer:   `حالة القمر في ${c} | طور القمر، الإضاءة وتقويم الأطوار`,
-                        long:     `حالة القمر في ${c} | طور القمر وتقويم القمر`,
-                        medium:   `القمر في ${c} | الطور والإضاءة والتقويم`,
+                        longer:   `حالة القمر في ${c} | تقويم القمر وأطواره والشهر الهجري`,
+                        long:     `حالة القمر في ${c} | تقويم القمر والشهر الهجري`,
+                        medium:   `حالة القمر في ${c} | طور القمر وتقويمه`,
                         short:    `حالة القمر في ${c}`,
                         fallback: `القمر في ${c}`,
                     }),
                     en: c => ({
-                        longer:   `Moon in ${c} | Moon Phase, Illumination and Lunar Calendar`,
-                        long:     `Moon in ${c} | Moon Phase and Lunar Calendar`,
-                        medium:   `Moon in ${c} | Phase, Illumination and Calendar`,
-                        short:    `Moon in ${c} | Phase and Illumination`,
+                        longer:   `Moon in ${c} | Moon Calendar, Phase & Hijri Month`,
+                        long:     `Moon in ${c} | Moon Calendar & Hijri Month`,
+                        medium:   `Moon in ${c} | Moon Phase & Moon Calendar`,
+                        short:    `Moon in ${c} | Phase and Calendar`,
                         fallback: `Moon in ${c}`,
                     }),
                     fr: c => ({
-                        longer:   `Lune à ${c} | Phase, illumination et calendrier des phases lunaires`,
-                        long:     `Lune à ${c} | Phase de la Lune et calendrier lunaire`,
-                        medium:   `Lune à ${c} | Phase, illumination et calendrier`,
-                        short:    `Lune à ${c} | Phase et illumination`,
+                        longer:   `Lune à ${c} | calendrier lunaire, phase et mois hégirien`,
+                        long:     `Lune à ${c} | calendrier lunaire et mois hégirien`,
+                        medium:   `Lune à ${c} | phase et calendrier lunaire`,
+                        short:    `Lune à ${c} | phase et calendrier`,
                         fallback: `Lune à ${c}`,
                     }),
                     tr: c => ({
-                        longer:   `${c} Ay Durumu | Ay Evresi, Aydınlanma ve Ay Takvimi`,
-                        long:     `${c} Ay Durumu | Ay Evresi ve Ay Takvimi`,
-                        medium:   `${c} Ay Durumu | Evre, Aydınlanma ve Takvim`,
-                        short:    `${c} Ay Durumu | Evre ve Aydınlanma`,
+                        longer:   `${c} Ay Durumu | Ay Takvimi, Ay Evresi ve Hicri Ay`,
+                        long:     `${c} Ay Takvimi ve Hicri Ay | Ay Evresi`,
+                        medium:   `${c} Ay Durumu | Ay Evresi ve Ay Takvimi`,
+                        short:    `${c} Ay Durumu | Evre ve Takvim`,
                         fallback: `${c} Ay Durumu`,
                     }),
                     ur: c => ({
-                        longer:   `${c} میں چاند کی حالت | طور، روشنی اور چاند کی تقویم`,
-                        long:     `${c} میں چاند | چاند کا طور اور چاند کی تقویم`,
-                        medium:   `${c} میں چاند | طور، روشنی اور تقویم`,
-                        short:    `${c} میں چاند کا طور اور تقویم`,
+                        longer:   `${c} میں چاند کی موجودہ حالت: تقویم، اطوار اور ہجری مہینہ`,
+                        long:     `${c} میں چاند کی موجودہ حالت، تقویم اور ہجری مہینہ`,
+                        medium:   `${c} میں چاند کی حالت، تقویم اور ہجری مہینہ`,
+                        short:    `${c} میں چاند کی تقویم اور حالت`,
                         fallback: `${c} میں چاند`,
                     }),
                     de: c => ({
-                        longer:   `Mond in ${c} | Mondphase, Beleuchtung und Mondkalender`,
-                        long:     `Mond in ${c} | Mondphase und Mondkalender`,
-                        medium:   `Mond in ${c} | Phase, Beleuchtung und Kalender`,
-                        short:    `Mond in ${c} | Phase und Beleuchtung`,
+                        longer:   `Mond in ${c} | Mondkalender, Phase & Hidschri-Monat`,
+                        long:     `Mond in ${c} | Mondkalender & Hidschri-Monat`,
+                        medium:   `Mond in ${c} | Mondphase und Mondkalender`,
+                        short:    `Mond in ${c} | Phase und Kalender`,
                         fallback: `Mond in ${c}`,
                     }),
                     id: c => ({
-                        longer:   `Bulan di ${c} | Fase Bulan, Iluminasi dan Kalender Bulan`,
-                        long:     `Bulan di ${c} | Fase Bulan dan Kalender Bulan`,
-                        medium:   `Bulan di ${c} | Fase, Iluminasi dan Kalender`,
-                        short:    `Bulan di ${c} | Fase dan Iluminasi`,
+                        longer:   `Bulan di ${c} | Kalender Bulan, Fase & Bulan Hijriah`,
+                        long:     `Bulan di ${c} | Kalender Bulan & Bulan Hijriah`,
+                        medium:   `Bulan di ${c} | Fase dan Kalender Bulan`,
+                        short:    `Bulan di ${c} | Fase dan Kalender`,
                         fallback: `Bulan di ${c}`,
                     }),
                     es: c => ({
-                        longer:   `Luna en ${c} | Fase Lunar, Iluminación y Calendario Lunar`,
-                        long:     `Luna en ${c} | Fase Lunar y Calendario Lunar`,
-                        medium:   `Luna en ${c} | Fase, Iluminación y Calendario`,
-                        short:    `Luna en ${c} | Fase e Iluminación`,
+                        longer:   `La Luna en ${c} | calendario lunar, fase y mes hijri`,
+                        long:     `Luna en ${c} | calendario lunar y mes hijri`,
+                        medium:   `Luna en ${c} | fase y calendario lunar`,
+                        short:    `Luna en ${c} | fase y calendario`,
                         fallback: `Luna en ${c}`,
                     }),
                     bn: c => ({
-                        longer:   `${c}-এ চাঁদ | চাঁদের দশা, আলোকসজ্জা ও চাঁদের পঞ্জিকা`,
-                        long:     `${c}-এ চাঁদ | চাঁদের দশা ও চাঁদের পঞ্জিকা`,
-                        medium:   `${c}-এ চাঁদ | দশা, আলোকসজ্জা ও পঞ্জিকা`,
-                        short:    `${c}-এ চাঁদের দশা ও পঞ্জিকা`,
+                        longer:   `${c}-এ চাঁদের অবস্থা: পঞ্জিকা, দশা, আলোকন ও হিজরি মাস`,
+                        long:     `${c}-এ চাঁদের অবস্থা: পঞ্জিকা, দশা ও হিজরি মাস`,
+                        medium:   `${c}-এ চাঁদের পঞ্জিকা ও হিজরি মাস`,
+                        short:    `${c}-এ চাঁদের অবস্থা ও পঞ্জিকা`,
                         fallback: `${c}-এ চাঁদ`,
                     }),
                     ms: c => ({
-                        longer:   `Bulan di ${c} | Fasa Bulan, Pencahayaan dan Kalendar Bulan`,
-                        long:     `Bulan di ${c} | Fasa Bulan dan Kalendar Bulan`,
-                        medium:   `Bulan di ${c} | Fasa, Pencahayaan dan Kalendar`,
-                        short:    `Bulan di ${c} | Fasa dan Pencahayaan`,
+                        longer:   `Bulan di ${c} | Kalendar Bulan, Fasa & Bulan Hijrah`,
+                        long:     `Bulan di ${c} | Kalendar Bulan & Bulan Hijrah`,
+                        medium:   `Bulan di ${c} | Fasa dan Kalendar Bulan`,
+                        short:    `Bulan di ${c} | Fasa dan Kalendar`,
                         fallback: `Bulan di ${c}`,
                     }),
                 };
@@ -13040,45 +13046,49 @@ function buildSeoForPath(urlPath) {
                 // Long form ~140-150 cp; falls back to ~120-130 short form when
                 // city name pushes the long form past 160.
                 const _MOON_HUB_DESC_FORMS = {
+                    // MOON-CITY-HUB-KEYWORD-CONSISTENCY-ALL-LANGS-1 (2026-06-28): weave «الشهر الهجري /
+                    //   Hijri month» into the meta (frequent in the page's monthly calendar tables but
+                    //   previously absent from title+meta) + align «تقويم القمر / moon calendar». `long`
+                    //   trimmed so it stays ≤160 for long city names; `short` is the compact fallback.
                     ar: c => ({
-                        long:  `اعرف حالة القمر في ${c}، طور القمر الحالي ونسبة الإضاءة وعمر القمر، مع تقويم القمر والأيام القريبة وروابط للأطوار الشهرية.`,
-                        short: `تعرف على حالة القمر في ${c}: طور القمر ونسبة الإضاءة والعمر، مع تقويم القمر وروابط الأيام القريبة.`,
+                        long:  `اعرف حالة القمر في ${c}، طور القمر ونسبة الإضاءة وعمر القمر، مع تقويم القمر وأطواره خلال الشهر الهجري وروابط الأيام القريبة.`,
+                        short: `حالة القمر في ${c}: طور القمر والإضاءة، مع تقويم القمر وأطواره خلال الشهر الهجري.`,
                     }),
                     en: c => ({
-                        long:  `See the Moon in ${c}: current phase, illumination, and moon age — along with the lunar calendar, nearby dates, and links to monthly phases.`,
-                        short: `Moon in ${c}: phase, illumination, and age, with the lunar calendar and links to nearby dates.`,
+                        long:  `See the Moon in ${c}: current phase, illumination, and moon age, with the moon calendar and its phases through the Hijri month.`,
+                        short: `Moon in ${c}: phase, illumination, and moon age, with the moon calendar and its phases through the Hijri month.`,
                     }),
                     fr: c => ({
-                        long:  `Découvrez la Lune à ${c} : phase actuelle, illumination et âge, ainsi que le calendrier lunaire, les dates proches et les liens vers les phases mensuelles.`,
-                        short: `La Lune à ${c} : phase, illumination et âge, avec le calendrier lunaire et les dates proches.`,
+                        long:  `Découvrez la Lune à ${c} : phase, illumination et âge, avec le calendrier lunaire et ses phases au fil du mois hégirien.`,
+                        short: `La Lune à ${c} : phase, illumination et âge, avec le calendrier lunaire et ses phases au fil du mois hégirien.`,
                     }),
                     tr: c => ({
-                        long:  `${c} için Ay durumunu öğrenin: güncel evre, aydınlanma ve Ay yaşı; ayrıca Ay takvimi, yakın tarihler ve aylık evrelere bağlantılar.`,
-                        short: `${c} için Ay: evre, aydınlanma ve yaş, Ay takvimi ve yakın tarihlere bağlantılarla.`,
+                        long:  `${c} için Ay durumunu öğrenin: evre, aydınlanma ve Ay yaşı; hicri ay boyunca Ay takvimi ve evreleri, yakın tarihlere bağlantılarla.`,
+                        short: `${c} için Ay: evre, aydınlanma ve yaş; hicri ay boyunca Ay takvimi ve evreleri.`,
                     }),
                     ur: c => ({
-                        long:  `${c} میں چاند کی حالت جانیں: موجودہ طور، روشنی اور چاند کی عمر، ساتھ ہی چاند کی تقویم، قریبی تاریخیں اور ماہانہ مراحل کے روابط۔`,
-                        short: `${c} میں چاند: طور، روشنی اور عمر، چاند کی تقویم اور قریبی تاریخوں کے روابط کے ساتھ۔`,
+                        long:  `${c} میں چاند کی حالت جانیں: طور، روشنی اور عمر، ہجری مہینے کے دوران چاند کی تقویم اور اس کے اطوار، اور قریبی تاریخوں کے روابط۔`,
+                        short: `${c} میں چاند: طور، روشنی اور عمر، ہجری مہینے میں چاند کی تقویم اور اطوار کے ساتھ۔`,
                     }),
                     de: c => ({
-                        long:  `Sehen Sie den Mond in ${c}: aktuelle Phase, Beleuchtung und Mondalter — mit Mondkalender, nahen Daten und Links zu den monatlichen Phasen.`,
-                        short: `Mond in ${c}: Phase, Beleuchtung und Alter, mit Mondkalender und Links zu nahen Daten.`,
+                        long:  `Sehen Sie den Mond in ${c}: Phase, Beleuchtung und Mondalter, mit Mondkalender und seinen Phasen im Hidschri-Monat und Links zu nahen Daten.`,
+                        short: `Mond in ${c}: Phase, Beleuchtung und Alter, mit Mondkalender und Phasen im Hidschri-Monat.`,
                     }),
                     id: c => ({
-                        long:  `Lihat Bulan di ${c}: fase saat ini, iluminasi, dan usia Bulan — beserta kalender Bulan, tanggal terdekat, dan tautan ke fase bulanan.`,
-                        short: `Bulan di ${c}: fase, iluminasi, dan usia, dengan kalender Bulan dan tautan tanggal terdekat.`,
+                        long:  `Lihat Bulan di ${c}: fase, iluminasi, dan usia Bulan, dengan kalender Bulan dan fase-fasenya sepanjang bulan Hijriah serta tautan tanggal terdekat.`,
+                        short: `Bulan di ${c}: fase, iluminasi, dan usia, dengan kalender Bulan sepanjang bulan Hijriah.`,
                     }),
                     es: c => ({
-                        long:  `Conoce la Luna en ${c}: fase actual, iluminación y edad lunar — junto con el calendario lunar, las fechas cercanas y enlaces a las fases mensuales.`,
-                        short: `La Luna en ${c}: fase, iluminación y edad, con el calendario lunar y enlaces a fechas cercanas.`,
+                        long:  `Conoce la Luna en ${c}: fase, iluminación y edad lunar, con el calendario lunar y sus fases durante el mes hijri y enlaces a fechas cercanas.`,
+                        short: `La Luna en ${c}: fase, iluminación y edad, con el calendario lunar durante el mes hijri.`,
                     }),
                     bn: c => ({
-                        long:  `${c}-এ চাঁদের অবস্থা জানুন: বর্তমান দশা, আলোকসজ্জা ও চাঁদের বয়স, সাথে চাঁদের পঞ্জিকা, নিকটতম তারিখ ও মাসিক দশার লিঙ্ক।`,
-                        short: `${c}-এ চাঁদ: দশা, আলোকসজ্জা ও বয়স, চাঁদের পঞ্জিকা ও নিকটতম তারিখের লিঙ্কসহ।`,
+                        long:  `${c}-এ চাঁদের অবস্থা জানুন: বর্তমান দশা, আলোকসজ্জা ও চাঁদের বয়স, হিজরি মাস জুড়ে চাঁদের পঞ্জিকা ও দশাসমূহ এবং নিকটতম তারিখের লিঙ্ক।`,
+                        short: `${c}-এ চাঁদ: দশা, আলোকসজ্জা ও বয়স, হিজরি মাস জুড়ে চাঁদের পঞ্জিকা ও দশাসমূহ সহ।`,
                     }),
                     ms: c => ({
-                        long:  `Lihat Bulan di ${c}: fasa semasa, pencahayaan dan usia Bulan — beserta kalendar Bulan, tarikh berhampiran, dan pautan ke fasa bulanan.`,
-                        short: `Bulan di ${c}: fasa, pencahayaan dan usia, dengan kalendar Bulan dan pautan ke tarikh berhampiran.`,
+                        long:  `Lihat Bulan di ${c}: fasa, pencahayaan dan usia Bulan, dengan kalendar Bulan dan fasanya sepanjang bulan Hijrah serta pautan ke tarikh berhampiran.`,
+                        short: `Bulan di ${c}: fasa, pencahayaan dan usia, dengan kalendar Bulan sepanjang bulan Hijrah.`,
                     }),
                 };
                 const _pickMoonHubDesc = (lng, c) => {

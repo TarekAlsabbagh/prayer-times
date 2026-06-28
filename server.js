@@ -11418,14 +11418,14 @@ function buildSeoForPath(urlPath) {
                 // from التقويم الهجري) while KEEPING the Hijri-month reference. مراحل/أطوار القمر move to
                 // the H2 headings + meta + body. All ≤60 code points (no _fit needed).
                 ar: 'حالة القمر اليوم: طور القمر وتقويم القمر والشهر الهجري',
-                en: 'Moon Today: Phase, Moon Calendar & Hijri Month',
+                en: 'Moon Today: Phase, Moon Calendar & Hijri Month Dates',
                 fr: 'Lune aujourd\u2019hui : phase, calendrier lunaire, hégire',
-                tr: 'Bugün Ay: Evre, Ay Takvimi ve Hicri Ay',
+                tr: 'Bugünkü Ay: Evre, Aydınlanma, Ay Takvimi ve Hicri Ay',
                 ur: 'آج چاند کی حالت: طور، چاند کا تقویم اور ہجری مہینہ',
                 de: 'Mond heute: Phase, Mondkalender und Hidschri-Monat',
                 id: 'Bulan Hari Ini: Fase, Kalender Bulan & Bulan Hijriah',
-                es: 'Luna hoy: fase, calendario lunar y mes hijri',
-                bn: 'আজ চাঁদ: দশা, চাঁদের ক্যালেন্ডার ও হিজরি মাস',
+                es: 'Luna hoy: fase, iluminación, calendario lunar y mes hijri',
+                bn: 'আজ চাঁদ: দশা, আলোকন, চাঁদের ক্যালেন্ডার ও হিজরি মাস',
                 ms: 'Bulan Hari Ini: Fasa, Kalendar Bulan & Bulan Hijrah',
             },
             desc: {

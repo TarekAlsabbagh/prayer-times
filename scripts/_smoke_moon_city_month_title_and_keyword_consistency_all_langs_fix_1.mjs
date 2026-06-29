@@ -87,7 +87,10 @@ const MLONG = '/moon/mexico/santiago-de-queretaro/2026/06';
         check('js/app.js carries the month-H1 hydration fix (marker + #moon-page-h1)', APPJS.includes('MOON-CITY-MONTH-TITLE-AND-KEYWORD-CONSISTENCY-ALL-LANGS-FIX-1') && APPJS.includes('moon-page-h1'));
 
         console.log('\n── F) table untouched + SEO intact (month page) ──');
-        check('month still has #moon-forecast-body', arMp.includes('moon-forecast-body'));
+        // MOON-CITY-MONTH-REMOVE-14DAY-TABLE-ADD-MONTH-SUMMARY-1 (2026-06-29): the 14-day forecast is
+        // removed on month pages (kept on /today) and replaced by #moon-month-stats.
+        check('month: 14-day forecast removed (kept on /today)', !arMp.includes('id="moon-forecast"'));
+        check('month: #moon-month-stats present (replacement)', arMp.includes('id="moon-month-stats"'));
         check('month has NO fc-month-group (865f505 not back)', !arMp.includes('fc-month-group'));
         check('month has exactly ONE H1', h1Count(arMp) === 1, String(h1Count(arMp)));
         check('month canonical self (…/2026/06)', /\/moon\/saudi-arabia\/riyadh\/2026\/06$/.test(canonOf(arMp)), canonOf(arMp));

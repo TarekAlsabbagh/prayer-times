@@ -25647,10 +25647,84 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 + `<div class="moon-hijri-lunar moon-hijri-lunar--month" id="moon-hijri-lunar">${_escHtml(_hijriCardDesc)}</div>`
                 + `<div class="moon-hijri-notice">${_escHtml(_hijriNoticeText)}</div>`
                 + `</div>`;
-            // Replace the entire #moon-hijri-today block (multi-line in source)
+            // ────────────────────────────────────────────────────────────────
+            // MOON-CITY-MONTH-REMOVE-14DAY-TABLE-ADD-MONTH-SUMMARY-1 (2026-06-29):
+            //   MONTH pages drop the 14-day forecast table (it belongs on /today)
+            //   and gain a DATA-DRIVEN monthly STAT summary placed right after the
+            //   Hijri-range card and before the day-nav. The four stats come from
+            //   the SAME MoonCalc.getMonthGrid engine as the calendar: the brightest
+            //   and dimmest day (illumination extremes) + the longest waxing (rising)
+            //   and waning (falling) illumination spans. NO major-phase timeline —
+            //   the existing #moon-upcoming-section already lists the 4 major phases
+            //   with their dates (so we do NOT repeat the phase names here). Reuses
+            //   .section-card / .moon-quick-stats / .moon-stat → server-side only:
+            //   no CSS, no app.js, no template change, no cache-buster.
+            let _monthSummaryHtml = '';
+            try {
+                let _msGrid = [];
+                try { _msGrid = MoonCalc.getMonthGrid(_mY, _mM, seo.moonCity.tz || 'Asia/Riyadh') || []; } catch (_e) { _msGrid = []; }
+                if (_msGrid.length) {
+                    // illumination extremes — the brightest / dimmest day of the month
+                    let _maxG = _msGrid[0], _minG = _msGrid[0];
+                    for (const g of _msGrid) {
+                        if ((g.illumination || 0) > (_maxG.illumination || 0)) _maxG = g;
+                        if ((g.illumination || 0) < (_minG.illumination || 0)) _minG = g;
+                    }
+                    // longest contiguous waxing (rising illumination) + waning (falling) spans
+                    let _bestWax = null, _bestWan = null, _waxS = -1, _wanS = -1;
+                    for (let i = 1; i < _msGrid.length; i++) {
+                        if ((_msGrid[i].illumination || 0) >= (_msGrid[i - 1].illumination || 0)) {
+                            if (_waxS < 0) _waxS = i - 1;
+                            if (!_bestWax || (i - _waxS) > (_bestWax.e - _bestWax.s)) _bestWax = { s: _waxS, e: i };
+                            _wanS = -1;
+                        } else {
+                            if (_wanS < 0) _wanS = i - 1;
+                            if (!_bestWan || (i - _wanS) > (_bestWan.e - _bestWan.s)) _bestWan = { s: _wanS, e: i };
+                            _waxS = -1;
+                        }
+                    }
+                    const _dnum = (g) => `${g.day} ${_mName}`;
+                    const _rng = (r) => r ? `${_msGrid[r.s].day} ${_toWord} ${_msGrid[r.e].day} ${_mName}` : '—';
+                    const _pct = (g) => `${Math.round(g.illumination || 0)}%`;
+                    const _MS = {
+                        ar: { h2: `ملخّص القمر الشهريّ في ${cityName} — ${_mName} ${_mY}`, hi: 'أعلى إضاءة', lo: 'أدنى إضاءة', wax: 'فترة التزايد', wan: 'فترة التناقص', help: `يمنحك هذا الملخّص نظرة شهريّة سريعة على القمر في ${cityName} خلال ${_mName} ${_mY} قبل استعراض تفاصيل كلّ يوم في تقويم الشهر أدناه.` },
+                        en: { h2: `Monthly moon summary for ${cityName} — ${_mName} ${_mY}`, hi: 'Highest illumination', lo: 'Lowest illumination', wax: 'Waxing period', wan: 'Waning period', help: `This summary gives a quick monthly overview of the moon in ${cityName} during ${_mName} ${_mY}, before the day-by-day details in the month calendar below.` },
+                        fr: { h2: `Résumé lunaire mensuel pour ${cityName} — ${_mName} ${_mY}`, hi: 'Illumination maximale', lo: 'Illumination minimale', wax: 'Période croissante', wan: 'Période décroissante', help: `Ce résumé offre un aperçu mensuel rapide de la Lune à ${cityName} durant ${_mName} ${_mY}, avant les détails jour par jour dans le calendrier ci-dessous.` },
+                        tr: { h2: `${cityName} için aylık ay özeti — ${_mName} ${_mY}`, hi: 'En yüksek aydınlanma', lo: 'En düşük aydınlanma', wax: 'Büyüme dönemi', wan: 'Küçülme dönemi', help: `Bu özet, aşağıdaki takvimdeki günlük ayrıntılardan önce ${_mName} ${_mY} boyunca ${cityName} Ay'ına hızlı bir aylık bakış sunar.` },
+                        ur: { h2: `${cityName} کے لیے ماہانہ چاند خلاصہ — ${_mName} ${_mY}`, hi: 'زیادہ سے زیادہ روشنی', lo: 'کم سے کم روشنی', wax: 'بڑھنے کا دور', wan: 'گھٹنے کا دور', help: `یہ خلاصہ ${_mName} ${_mY} کے دوران ${cityName} میں چاند پر ایک تیز ماہانہ نظر فراہم کرتا ہے، نیچے دیے گئے تقویم میں روزانہ تفصیلات سے پہلے۔` },
+                        de: { h2: `Monatliche Mondübersicht für ${cityName} — ${_mName} ${_mY}`, hi: 'Höchste Beleuchtung', lo: 'Niedrigste Beleuchtung', wax: 'Zunehmende Phase', wan: 'Abnehmende Phase', help: `Diese Übersicht bietet einen schnellen monatlichen Blick auf den Mond in ${cityName} während ${_mName} ${_mY}, vor den täglichen Details im Kalender unten.` },
+                        id: { h2: `Ringkasan bulanan Bulan untuk ${cityName} — ${_mName} ${_mY}`, hi: 'Iluminasi tertinggi', lo: 'Iluminasi terendah', wax: 'Periode membesar', wan: 'Periode mengecil', help: `Ringkasan ini memberikan gambaran bulanan singkat tentang Bulan di ${cityName} selama ${_mName} ${_mY}, sebelum detail harian pada kalender di bawah.` },
+                        es: { h2: `Resumen lunar mensual para ${cityName} — ${_mName} ${_mY}`, hi: 'Iluminación máxima', lo: 'Iluminación mínima', wax: 'Periodo creciente', wan: 'Periodo menguante', help: `Este resumen ofrece una vista mensual rápida de la Luna en ${cityName} durante ${_mName} ${_mY}, antes de los detalles diarios en el calendario de abajo.` },
+                        bn: { h2: `${cityName}-এর মাসিক চাঁদ সারাংশ — ${_mName} ${_mY}`, hi: 'সর্বোচ্চ আলোকন', lo: 'সর্বনিম্ন আলোকন', wax: 'বৃদ্ধির সময়কাল', wan: 'হ্রাসের সময়কাল', help: `এই সারাংশটি নিচের ক্যালেন্ডারে দৈনিক বিবরণের আগে ${_mName} ${_mY}-এ ${cityName}-এ চাঁদের একটি দ্রুত মাসিক চিত্র দেয়।` },
+                        ms: { h2: `Ringkasan bulanan Bulan untuk ${cityName} — ${_mName} ${_mY}`, hi: 'Pencahayaan tertinggi', lo: 'Pencahayaan terendah', wax: 'Tempoh membesar', wan: 'Tempoh mengecil', help: `Ringkasan ini memberikan gambaran bulanan ringkas tentang Bulan di ${cityName} sepanjang ${_mName} ${_mY}, sebelum butiran harian dalam kalendar di bawah.` }
+                    };
+                    const _ms = _MS[Lm] || _MS.en;
+                    _monthSummaryHtml = `<section class="section-card moon-month-stats" id="moon-month-stats" aria-labelledby="moon-month-stats-h2" data-month-page="1">`
+                        + `<h2 id="moon-month-stats-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> ${_escHtml(_ms.h2)}</h2>`
+                        + `<div class="moon-seo-grid moon-month-stats-grid">`
+                        +   `<div class="moon-stat"><span class="moon-stat-icon" aria-hidden="true">🔆</span><span class="moon-stat-value">${_escHtml(_dnum(_maxG))} · ${_pct(_maxG)}</span><span class="moon-stat-label">${_escHtml(_ms.hi)}</span></div>`
+                        +   `<div class="moon-stat"><span class="moon-stat-icon" aria-hidden="true">🔅</span><span class="moon-stat-value">${_escHtml(_dnum(_minG))} · ${_pct(_minG)}</span><span class="moon-stat-label">${_escHtml(_ms.lo)}</span></div>`
+                        +   `<div class="moon-stat"><span class="moon-stat-icon" aria-hidden="true">📈</span><span class="moon-stat-value">${_escHtml(_rng(_bestWax))}</span><span class="moon-stat-label">${_escHtml(_ms.wax)}</span></div>`
+                        +   `<div class="moon-stat"><span class="moon-stat-icon" aria-hidden="true">📉</span><span class="moon-stat-value">${_escHtml(_rng(_bestWan))}</span><span class="moon-stat-label">${_escHtml(_ms.wan)}</span></div>`
+                        + `</div>`
+                        + `<p class="moon-month-stats-help">${_escHtml(_ms.help)}</p>`
+                        + `</section>`;
+                }
+            } catch (_msErr) { try { console.warn('[moon-month-stats] build failed:', _msErr && _msErr.message); } catch (_) {} _monthSummaryHtml = ''; }
+            // Replace the entire #moon-hijri-today block (multi-line in source) — the
+            // new month summary renders immediately after the Hijri-range card.
             html = html.replace(
                 /<div class="moon-hijri-today"[^>]*id="moon-hijri-today"[^>]*>[\s\S]*?<div class="moon-hijri-notice"[^>]*>[^<]*<\/div>\s*<\/div>/,
-                _hijriCardReplacement
+                _hijriCardReplacement + _monthSummaryHtml
+            );
+            // Remove the 14-day forecast table on MONTH pages only. Runs AFTER the
+            // MOON-CITY-MONTH-KEYWORD-CONSISTENCY-DATA-DRIVEN-CONTEXT-1 injection
+            // (whose anchor is #moon-forecast) so that data-driven context survives;
+            // it now sits as a standalone card. The client filler (#moon-forecast-body)
+            // is null-guarded in js/app.js, so dropping the card is a no-op there.
+            html = html.replace(
+                /<div class="section-card" id="moon-forecast">[\s\S]*?<\/table>\s*<\/div>\s*<\/div>/,
+                ''
             );
         }
         // ── Phase M1 (2026-05-03): inject 3 SSR-visible H2 sections on /moon-in-{city}

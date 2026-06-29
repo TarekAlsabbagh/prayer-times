@@ -92,7 +92,10 @@ const SANTIAGO = '/mexico/santiago-de-queretaro/2026/06';
 
         console.log('\n── D) Table untouched + SEO intact (month page) ──');
         const arJun = await req(RIYADH.replace(/^/, '/moon')); // /moon/.../2026/06
-        check('month still has #moon-forecast-body', arJun.includes('moon-forecast-body'));
+        // MOON-CITY-MONTH-REMOVE-14DAY-TABLE-ADD-MONTH-SUMMARY-1 (2026-06-29): the 14-day forecast is
+        // removed on month pages (kept on /today) and replaced by #moon-month-stats.
+        check('month: 14-day forecast removed (kept on /today)', !arJun.includes('id="moon-forecast"'));
+        check('month: #moon-month-stats present (replacement)', arJun.includes('id="moon-month-stats"'));
         check('month has NO fc-month-group (865f505 not back)', !arJun.includes('fc-month-group'));
         check('month has exactly ONE H1', h1Count(arJun) === 1, String(h1Count(arJun)));
         check('SSR H1 = month form (page month)', /أطوار القمر في/.test(h1Txt(arJun)) && h1Txt(arJun).includes('2026'), h1Txt(arJun));

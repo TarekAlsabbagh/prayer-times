@@ -72,7 +72,10 @@ const CSS = fs.readFileSync(path.join(ROOT, 'css', 'style.css'), 'utf8');
             const t = cp(titleOf(b)), m = cp(metaOf(b)), h1 = (b.match(/<h1\b/g) || []).length;
             check(`${name}: title 50-60 (${t}), meta 120-160 (${m}), H1=1`, t >= 50 && t <= 60 && m >= 120 && m <= 160 && h1 === 1, `t=${t} m=${m} h1=${h1}`);
             check(`${name}: NO fc-month-group (865f505 not reintroduced)`, !b.includes('fc-month-group'));
-            check(`${name}: forecast table still present (untouched)`, b.includes('id="moon-forecast"'));
+            // MOON-CITY-MONTH-REMOVE-14DAY-TABLE-ADD-MONTH-SUMMARY-1 (2026-06-29): the 14-day forecast
+            // is now REMOVED on month pages (kept on /today) and replaced by #moon-month-stats.
+            check(`${name}: 14-day forecast REMOVED on month page`, !b.includes('id="moon-forecast"'));
+            check(`${name}: month summary present (replacement)`, b.includes('id="moon-month-stats"'));
             check(`${name}: canonical self + hreflang present + noindex=false`, /<link rel="canonical"/.test(b) && /hreflang=/.test(b) && !/name="robots"[^>]*noindex/.test(b));
         }
 

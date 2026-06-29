@@ -97,11 +97,14 @@ const MLONG = '/moon/mexico/santiago-de-queretaro/2026/06';
         check('global /moon + country /moon/sa unaffected', /اليوم/.test(titleOf(await req('/moon'))) && !/2026/.test(titleOf(await req('/moon/saudi-arabia'))));
 
         console.log('\n── H) source guards ──');
-        check('server.js carries adaptive month-title marker', SRV.includes('MOON-CITY-MONTH-TITLE-AND-KEYWORD-CONSISTENCY-ALL-LANGS-FIX-1') && SRV.includes('_mTitleCands'));
+        // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1 superseded the hand-tuned _mTitleCands arrays with the
+        // algorithmic fitter module (js/moon-month-seo.js). The title stays adaptive 50-60 (asserted above).
+        check('server.js month title is adaptive via the universal fitter module', SRV.includes("require('./js/moon-month-seo.js')") && SRV.includes('MoonMonthSeo.fitMonthTitle'));
         check('js/moon.js untouched (no marker)', !MOONJS.includes('MOON-CITY-MONTH-TITLE-AND-KEYWORD-CONSISTENCY'));
         check('index.html does NOT carry moon-month-context', !INDEX.includes('moon-month-context'));
         check('css/style.css does NOT carry moon-month-context', !CSS.includes('moon-month-context'));
-        check('index.html cache-buster bumped to app.js?v=804', INDEX.includes('js/app.js?v=804') && !INDEX.includes('js/app.js?v=803'));
+        // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1 bumped app.js?v 804→805 (Upcoming-Phases month-scope fix).
+        check('index.html cache-buster ≥ app.js?v=805 (current)', INDEX.includes('js/app.js?v=805') && !INDEX.includes('js/app.js?v=804'));
 
         s.kill('SIGKILL');
     } catch (e) { console.error(e); try { s.kill('SIGKILL'); } catch (_) {} }

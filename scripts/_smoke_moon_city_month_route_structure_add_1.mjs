@@ -141,7 +141,10 @@ try {
         const hl = new Set((b.match(/hreflang="([a-z-]+)"/g) || []).map(x => x.replace(/hreflang="|"/g, '')));
         check('hreflang 10 langs + x-default', ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'].every(l => hl.has(l)) && hl.has('x-default'));
         check('indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(b));
-        check('AR title = "تقويم القمر في الرياض لشهر يونيو 2026 ومراحل القمر"', titleText(b) === 'تقويم القمر في الرياض لشهر يونيو 2026 ومراحل القمر', titleText(b));
+        // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1: title now produced by the algorithmic fitter
+        // (js/moon-month-seo.js) — adaptive 50-60, exact wording varies by city/month. Assert the
+        // invariants (length window + city + calendar keyword + month/year), not a frozen string.
+        check('AR title is 50-60 + الرياض + تقويم القمر + يونيو 2026', (() => { const t = titleText(b); const n = [...t].length; return n >= 50 && n <= 60 && t.includes('الرياض') && t.includes('تقويم القمر') && t.includes('يونيو 2026'); })(), titleText(b));
         check('legacy H1 = "🌙 أطوار القمر في الرياض — يونيو 2026"', h1Text(b) === '🌙 أطوار القمر في الرياض — يونيو 2026', h1Text(b));
         const en = (await req('/en/moon/saudi-arabia/riyadh/2026/06')).body;
         check('EN title carries Riyadh + June + 2026', /Riyadh/.test(titleText(en)) && /June/.test(titleText(en)) && /2026/.test(titleText(en)), titleText(en));

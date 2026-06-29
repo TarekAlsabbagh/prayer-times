@@ -21955,12 +21955,42 @@ function updateMoonInfo() {
         const _upTimelineEl = document.getElementById('moon-upcoming-timeline');
         if (_upTimelineEl && typeof MoonCalc !== 'undefined' && MoonCalc.findPhaseEventsInRange) {
             const _nowD = today;
-            const _endD = new Date(_nowD.getTime() + 35 * 86400000);
-            const _evs = MoonCalc.findPhaseEventsInRange(_nowD, _endD);
-            const _next4 = _evs.filter(e => e.date.getTime() > _nowD.getTime()).slice(0, 4);
+            // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1 (2026-06-28): on the nested MONTH page
+            // (/[lang/]moon/{country}/{city}/{YYYY}/{MM}) scope the phases to the PAGE's
+            // month (data-driven, NOT today-relative) — a past month never shows
+            // "upcoming-from-today" phases; a future month shows that month's phases.
+            // today / single-day / hub / year keep the today-relative "next 4" untouched.
+            let _moMonth = null;
+            try {
+                const _mmU = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
+                if (_mmU) { const _yU = parseInt(_mmU[3], 10), _moU = parseInt(_mmU[4], 10); if (_yU >= 1800 && _yU <= 2200 && _moU >= 1 && _moU <= 12) _moMonth = { year: _yU, month: _moU }; }
+            } catch (_) {}
+            const _isMonthScoped = !!_moMonth;
+            let _next4;
+            if (_isMonthScoped) {
+                const _msU = new Date(_moMonth.year, _moMonth.month - 1, 1, 0, 0, 0, 0);
+                const _meU = new Date(_moMonth.year, _moMonth.month, 0, 23, 59, 59, 999);
+                _next4 = (MoonCalc.findPhaseEventsInRange(_msU, _meU) || []).slice(0, 6);
+            } else {
+                const _endD = new Date(_nowD.getTime() + 35 * 86400000);
+                _next4 = (MoonCalc.findPhaseEventsInRange(_nowD, _endD) || []).filter(e => e.date.getTime() > _nowD.getTime()).slice(0, 4);
+            }
 
-            // H2 بالعنوان الموقعيّ عند توفّر مدينة
-            if (_citySlug) {
+            // H2 + subtitle
+            if (_isMonthScoped) {
+                // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1: month-scoped heading + subtitle (10 langs) —
+                // NOT "Upcoming"; describes the page's month. _gm = localized Gregorian months (line ~21030).
+                const _miU = _moMonth.month - 1, _yyU = _moMonth.year;
+                const _mNmU = (_gm && _gm[_miU]) || '';
+                const _lngM = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                const _MPM = { ar: `أطوار القمر في ${_mNmU} ${_yyU}`, en: `Moon Phases in ${_mNmU} ${_yyU}`, fr: `Phases de la Lune en ${_mNmU} ${_yyU}`, tr: `${_mNmU} ${_yyU} Ay Evreleri`, ur: `${_mNmU} ${_yyU} میں چاند کے مراحل`, de: `Mondphasen im ${_mNmU} ${_yyU}`, id: `Fase Bulan pada ${_mNmU} ${_yyU}`, es: `Fases de la Luna en ${_mNmU} ${_yyU}`, bn: `${_mNmU} ${_yyU}-এ চাঁদের পর্যায়`, ms: `Fasa Bulan pada ${_mNmU} ${_yyU}` };
+                const _MPS = { ar: `المراحل القمريّة الرئيسة خلال ${_mNmU} ${_yyU} — محسوبة بدقّة فلكيّة.`, en: `Principal moon phases during ${_mNmU} ${_yyU} — calculated with astronomical accuracy.`, fr: `Phases lunaires principales en ${_mNmU} ${_yyU} — calculées avec précision astronomique.`, tr: `${_mNmU} ${_yyU} ayının başlıca ay evreleri — astronomik doğrulukla hesaplanır.`, ur: `${_mNmU} ${_yyU} کے دوران چاند کے بنیادی مراحل — فلکی درستگی سے شمار شدہ۔`, de: `Wichtigste Mondphasen im ${_mNmU} ${_yyU} — astronomisch genau berechnet.`, id: `Fase Bulan utama selama ${_mNmU} ${_yyU} — dihitung dengan akurasi astronomi.`, es: `Fases lunares principales en ${_mNmU} ${_yyU} — calculadas con precisión astronómica.`, bn: `${_mNmU} ${_yyU}-এ প্রধান চাঁদের দশা — জ্যোতির্বৈজ্ঞানিক নির্ভুলতায় গণনা করা।`, ms: `Fasa Bulan utama sepanjang ${_mNmU} ${_yyU} — dikira dengan ketepatan astronomi.` };
+                const _h2 = document.getElementById('moon-upcoming-h2');
+                if (_h2) { _h2.textContent = _MPM[_lngM] || _MPM.en; _h2.removeAttribute('data-i18n'); }
+                const _subEl = document.querySelector('.moon-upcoming-subtitle');
+                if (_subEl) { _subEl.textContent = _MPS[_lngM] || _MPS.en; _subEl.removeAttribute('data-i18n'); }
+            } else if (_citySlug) {
+                // H2 بالعنوان الموقعيّ عند توفّر مدينة (today-relative variant — unchanged)
                 const _h2 = document.getElementById('moon-upcoming-h2');
                 if (_h2 && typeof t === 'function') {
                     const _cityName = _moonCityDisplayName(_citySlug);
@@ -21975,7 +22005,7 @@ function updateMoonInfo() {
             // the generic "المدينة المعتمدة" fallback already in i18n).
             try {
                 const _lngUpc = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                if (_lngUpc === 'ar' && typeof t === 'function') {
+                if (!_isMonthScoped && _lngUpc === 'ar' && typeof t === 'function') {
                     let _refCityNameUpc = '';
                     if (_citySlug && typeof _moonCityDisplayName === 'function') {
                         _refCityNameUpc = _moonCityDisplayName(_citySlug) || '';
@@ -22078,14 +22108,17 @@ function updateMoonInfo() {
                 timeEl.className = 'mu-time';
                 timeEl.textContent = _fmtUpTime(ev.date);
 
-                const cdEl = document.createElement('div');
-                cdEl.className = 'mu-countdown';
-                cdEl.textContent = _fmtCountdown(ev.date);
-
                 body.appendChild(nameEl);
                 body.appendChild(dateEl);
                 body.appendChild(timeEl);
-                body.appendChild(cdEl);
+                // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1: the "in N days" countdown is today-relative
+                // and meaningless on a month page → only the today-relative variant shows it.
+                if (!_isMonthScoped) {
+                    const cdEl = document.createElement('div');
+                    cdEl.className = 'mu-countdown';
+                    cdEl.textContent = _fmtCountdown(ev.date);
+                    body.appendChild(cdEl);
+                }
                 card.appendChild(icon);
                 card.appendChild(body);
                 _upTimelineEl.appendChild(card);

@@ -19,6 +19,7 @@ const MoonCalc   = require('./js/moon.js');
 // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1: algorithmic month-page title/meta fitter (50–60 / 120–160
 // for ANY city/month/lang — no hardcoded per-city exceptions). Pure, shared with the matrix test.
 const MoonMonthSeo = require('./js/moon-month-seo.js');
+const MoonDaySeo = require('./js/moon-day-seo.js');
 const { TRANSLATIONS: I18N } = require('./js/i18n.js');
 // SSR-Prayer-Times: pre-compute the 5 daily prayer times on the server so the
 //   FIRST byte of HTML carries real numbers (07:24, 12:15, …) instead of
@@ -13133,150 +13134,27 @@ function buildSeoForPath(urlPath) {
                 //   4. fallback: "حالة القمر في {city} يوم {date}"
                 // Algorithm: first ∈ [50, 60] → else longest ≤ 60 → else fallback.
                 // Same shape as TL-SEO-3 / NPT-SEO-2 / PT-CITY-SEO-1.
-                const _MOON_DAY_TITLE_FORMS = {
-                    ar: (c, d) => ({
-                        long:     `حالة القمر في ${c} يوم ${d} | طور القمر والإضاءة`,
-                        medium:   `حالة القمر في ${c} يوم ${d} | طور القمر`,
-                        short:    `طور القمر في ${c} يوم ${d}`,
-                        fallback: `حالة القمر في ${c} يوم ${d}`,
-                    }),
-                    en: (c, d) => ({
-                        long:     `Moon Phase in ${c} on ${d} | Illumination and Lunar Details`,
-                        medium:   `Moon Phase in ${c} on ${d} | Phase and Illumination`,
-                        short:    `Moon phase in ${c} on ${d}`,
-                        fallback: `Moon in ${c} on ${d}`,
-                    }),
-                    fr: (c, d) => ({
-                        long:     `Phase de la Lune à ${c} le ${d} | Illumination et détails`,
-                        medium:   `Phase de la Lune à ${c} le ${d} | Phase et illumination`,
-                        short:    `Phase de la Lune à ${c} le ${d}`,
-                        fallback: `Lune à ${c} le ${d}`,
-                    }),
-                    tr: (c, d) => ({
-                        long:     `${c} Ay Evresi: ${d} | Aydınlanma ve Detaylar`,
-                        medium:   `${c} Ay Evresi: ${d} | Aydınlanma`,
-                        short:    `${c} ay evresi: ${d}`,
-                        fallback: `${c} ay durumu: ${d}`,
-                    }),
-                    ur: (c, d) => ({
-                        long:     `${c} میں چاند کا طور: ${d} | روشنی اور تفصیلات`,
-                        medium:   `${c} میں چاند کا طور: ${d} | روشنی`,
-                        short:    `${c} میں چاند کا طور: ${d}`,
-                        fallback: `${c} میں چاند: ${d}`,
-                    }),
-                    de: (c, d) => ({
-                        long:     `Mondphase in ${c} am ${d} | Beleuchtung und Details`,
-                        medium:   `Mondphase in ${c} am ${d} | Beleuchtung`,
-                        short:    `Mondphase in ${c} am ${d}`,
-                        fallback: `Mond in ${c} am ${d}`,
-                    }),
-                    id: (c, d) => ({
-                        long:     `Fase Bulan di ${c} pada ${d} | Iluminasi dan Detail`,
-                        medium:   `Fase Bulan di ${c} pada ${d} | Iluminasi`,
-                        short:    `Fase Bulan di ${c} pada ${d}`,
-                        fallback: `Bulan di ${c} pada ${d}`,
-                    }),
-                    es: (c, d) => ({
-                        long:     `Fase de la Luna en ${c} el ${d} | Iluminación y detalles`,
-                        medium:   `Fase de la Luna en ${c} el ${d} | Iluminación`,
-                        short:    `Fase de la Luna en ${c} el ${d}`,
-                        fallback: `Luna en ${c} el ${d}`,
-                    }),
-                    bn: (c, d) => ({
-                        long:     `${c}-এ ${d} তারিখে চাঁদের দশা | আলোকসজ্জা ও বিবরণ`,
-                        medium:   `${c}-এ ${d} তারিখে চাঁদের দশা | আলোকসজ্জা`,
-                        short:    `${c}-এ ${d} তারিখে চাঁদের দশা`,
-                        fallback: `${c}-এ ${d} তারিখে চাঁদ`,
-                    }),
-                    ms: (c, d) => ({
-                        long:     `Fasa Bulan di ${c} pada ${d} | Pencahayaan dan Butiran`,
-                        medium:   `Fasa Bulan di ${c} pada ${d} | Pencahayaan`,
-                        short:    `Fasa Bulan di ${c} pada ${d}`,
-                        fallback: `Bulan di ${c} pada ${d}`,
-                    }),
-                };
-                const _pickMoonDayTitle = (lng, c, d) => {
-                    const f = (_MOON_DAY_TITLE_FORMS[lng] || _MOON_DAY_TITLE_FORMS.en)(c, d);
-                    const len = s => Array.from(s).length;
-                    // 1) First candidate in [50, 60] (priority order: long → medium → short → fallback).
-                    const order = [f.long, f.medium, f.short, f.fallback];
-                    for (const t of order) {
-                        if (len(t) >= 50 && len(t) <= 60) return t;
-                    }
-                    // 2) Longest candidate ≤ 60.
-                    const ok = order.filter(t => len(t) <= 60).sort((a, b) => len(b) - len(a));
-                    if (ok.length) return ok[0];
-                    // 3) Fallback escape hatch (very long city names).
-                    return f.fallback;
-                };
-                _moonTitle = {
-                    ar: _pickMoonDayTitle('ar', cityDisplay, _primaryDateLabel),
-                    en: _pickMoonDayTitle('en', cityDisplay, _primaryDateLabel),
-                    fr: _pickMoonDayTitle('fr', cityDisplay, _primaryDateLabel),
-                    tr: _pickMoonDayTitle('tr', cityDisplay, _primaryDateLabel),
-                    ur: _pickMoonDayTitle('ur', cityDisplay, _primaryDateLabel),
-                    de: _pickMoonDayTitle('de', cityDisplay, _primaryDateLabel),
-                    id: _pickMoonDayTitle('id', cityDisplay, _primaryDateLabel),
-                    es: _pickMoonDayTitle('es', cityDisplay, _primaryDateLabel),
-                    bn: _pickMoonDayTitle('bn', cityDisplay, _primaryDateLabel),
-                    ms: _pickMoonDayTitle('ms', cityDisplay, _primaryDateLabel),
-                };
-                // ──────────────────────────────────────────────────────────
-                // EN-MOON-CITY-DATE-META-DESCRIPTION-LENGTH-FIX-1 (2026-06-01)
-                //
-                // EN-only fix: the previous template embedded `_mainWithEquiv`
-                // (= "3 June 2026 (equivalent to 17 Dhu al-Hijjah 1447 AH)")
-                // in the meta description, pushing it to 179-186 chars across
-                // all sampled EN cities (Jeddah/Riyadh/Mecca/Cairo/New York/
-                // Kuala Lumpur/Los Angeles/Washington) — well above the
-                // SEOptimer 120-160 sweet spot.
-                //
-                // Fix: 4-rung dynamic ladder using `_primaryDateLabel` (the
-                // Gregorian-only "3 June 2026" form) instead of `_mainWithEquiv`.
-                // Hijri equivalent stays in body/title/H1/JSON-LD — only the
-                // meta description drops it. The ladder picks the longest
-                // template in [120, 160] for the given city + date combo:
-                //
-                //   long    (~134-140 typical): full key terms + "for this date"
-                //   medium  (~120-126 typical): full key terms, no "for this date"
-                //   short   (~102-108 typical): drop "Hijri date" → only core moon
-                //   minimal (drops date entirely): for extreme-length cities
-                //
-                // Other 9 langs UNCHANGED — they're already in [120, 160] range
-                // (AR 139-143, FR/TR/UR/DE/ID/ES/BN/MS unverified but not
-                // flagged in any SEOptimer audit and out of this task's scope).
-                // ──────────────────────────────────────────────────────────
-                const _enMoonDateDescForms = (city, date) => ({
-                    long:   `Moon phase in ${city} on ${date}: view illumination, moon age, moonrise, moonset, Hijri date, and daily lunar details for this date.`,
-                    medium: `Moon phase in ${city} on ${date}: view illumination, moon age, moonrise, moonset, Hijri date, and daily lunar details.`,
-                    short:  `Moon phase in ${city} on ${date}: check illumination, moon age, moonrise, moonset, and Hijri date.`,
-                    minimal: `Moon phase in ${city}: check illumination, moon age, moonrise, moonset, and Hijri date for this date.`,
-                });
-                const _pickEnMoonDateDesc = (city, date) => {
-                    const f = _enMoonDateDescForms(city, date);
-                    const order = [f.long, f.medium, f.short, f.minimal];
-                    // 1) first candidate in [120, 160]
-                    for (const t of order) {
-                        if (t.length >= 120 && t.length <= 160) return t;
-                    }
-                    // 2) longest candidate ≤ 160
-                    const ok = order.filter(t => t.length <= 160).sort((a, b) => b.length - a.length);
-                    if (ok.length) return ok[0];
-                    // 3) escape hatch for pathologically long city names
-                    return f.minimal;
-                };
-                _moonDesc = {
-                    ar: `طور القمر في ${cityDisplay} يوم ${_mainWithEquiv}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والكوكبة — محسوبة بدقّة فلكيّة.`,
-                    en: _pickEnMoonDateDesc(cityDisplay, _primaryDateLabel),
-                    fr: `Phase de la Lune à ${cityDisplay} le ${_mainWithEquiv} : illumination, âge, heures de lever et coucher, et signe zodiacal — calculés avec des algorithmes astronomiques précis.`,
-                    tr: `${cityDisplay} için ${_mainWithEquiv} tarihinde Ay evresi: aydınlanma, yaş, doğuş ve batış saatleri ve burç — kesin astronomik algoritmalarla hesaplanır.`,
-                    ur: `${cityDisplay} میں ${_mainWithEquiv} کو چاند کا مرحلہ: روشنی، عمر، طلوع و غروب کے اوقات اور برج — درست فلکی فارمولوں سے حساب لگایا گیا۔`,
-                    de: `Mondphase in ${cityDisplay} am ${_mainWithEquiv}: Beleuchtung, Mondalter, Aufgang, Untergang und Sternbild — berechnet mit präzisen astronomischen Algorithmen.`,
-                    id: `Fase Bulan di ${cityDisplay} pada ${_mainWithEquiv}: iluminasi, usia Bulan, terbit, terbenam, dan rasi bintang — dihitung dengan algoritme astronomi presisi.`,
-                    es: `Fase de la Luna en ${cityDisplay} el ${_mainWithEquiv}: iluminación, edad, salida y puesta lunar y constelación — calculadas con algoritmos astronómicos precisos.`,
-                    bn: `${cityDisplay}-এ ${_mainWithEquiv}-এ চাঁদের দশা: আলোকসজ্জা, বয়স, উদয় ও অস্তের সময় এবং রাশি — নির্ভুল জ্যোতির্বিজ্ঞান অ্যালগরিদম দ্বারা গণনা।`,
-                    ms: `Fasa Bulan di ${cityDisplay} pada ${_mainWithEquiv}: pencahayaan, usia, waktu terbit dan terbenam, serta buruj — dikira dengan algoritma astronomi tepat.`,
-                };
+                // MOON-CITY-DAY-TITLE-META-ALL-LANGS-FIX-1 (2026-06-29): the previous 4-rung
+                // day-title ladder (long/medium/short/fallback) had a GAP — for short city
+                // names medium/long jumped over 60 while short/fallback sat below 50, so
+                // nothing landed in [50,60] (en/Riyadh = 36). Replaced by the ALGORITHMIC
+                // universal fitter (js/moon-day-seo.js): a core day title (moon phase + city
+                // + date) + GRADUATED natural keyword suffixes (illumination / moon age /
+                // details) + shorter pipe forms for very long cities; picks the codepoint
+                // length in 50–60 for ANY (lang, city, date), all 10 langs, NO hardcoded
+                // cities and NO EN fallback. Meta uses the same picker for 120–160. Exhaustively
+                // validated by scripts/_matrix_moon_day_seo_all_langs_fix_1.mjs (city-len 3..30 ×
+                // 6 date lengths × 10 langs → 0 out of window). cityDisplay + _primaryDateLabel
+                // (current-lang) for every key; only _moonTitle[lang]/_moonDesc[lang] is consumed.
+                _moonTitle = {};
+                _moonDesc = {};
+                for (const _lk of ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms']) {
+                    _moonTitle[_lk] = MoonDaySeo.fitDayTitle(_lk, cityDisplay, _primaryDateLabel);
+                    _moonDesc[_lk]  = MoonDaySeo.fitDayDesc(_lk, cityDisplay, _primaryDateLabel);
+                }
+                // Meta for all 10 langs is built by the MoonDaySeo.fitDayDesc loop above
+                // (window 120–160, Gregorian _primaryDateLabel — no Hijri-equivalent
+                // parenthetical that previously pushed fr/tr/de/id/es/ms over 160; no EN fallback).
             } else {
                 // ── عناوين صفحة اليوم ──
                 // Moon title templates cleanup — E2-keywords-ext (2026-05-01):

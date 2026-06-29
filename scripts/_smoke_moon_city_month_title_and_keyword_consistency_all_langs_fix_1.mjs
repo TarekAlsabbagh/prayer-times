@@ -65,10 +65,14 @@ const MLONG = '/moon/mexico/santiago-de-queretaro/2026/06';
             }
         }
 
-        console.log('\n── C) NO redundant block (the added moon-month-context was removed) ──');
-        check('server.js does NOT build moon-month-context', !SRV.includes('moon-month-context'));
+        // MOON-CITY-MONTH-KEYWORD-CONSISTENCY-DATA-DRIVEN-CONTEXT-1 (2026-06-29): a SINGLE data-driven
+        // month-context block (phases + Hijri months) is now expected on every month page (server-side;
+        // index.html/css guards below confirm it is NOT a template/CSS change).
+        console.log('\n── C) data-driven moon-month-context present on month pages (1 per page) ──');
+        check('server.js builds moon-month-context (data-driven)', SRV.includes('moon-month-context'));
         for (const l of ['', '/en', '/fr', '/tr']) {
-            check(`${l || '/ar'} month page has NO moon-month-context`, !(await req(l + MROOT)).includes('moon-month-context'));
+            const _mc = (await req(l + MROOT));
+            check(`${l || '/ar'} month page has exactly one moon-month-context`, (_mc.split('id="moon-month-context"').length - 1) === 1);
         }
 
         console.log('\n── D) the EXISTING month context survives (data-driven Hijri span present) ──');

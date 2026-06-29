@@ -23682,6 +23682,59 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // Prepend before the 14-day forecast card — the table element is left byte-identical.
             html = html.replace('<div class="section-card" id="moon-forecast">', _ctxHtml + '<div class="section-card" id="moon-forecast">');
         }
+        // ── MOON-CITY-MONTH-KEYWORD-CONSISTENCY-DATA-DRIVEN-CONTEXT-1 (2026-06-29) ──
+        //   MONTH pages ONLY (/moon/{country}/{city}/{yyyy}/{mm}). The forecast + daily calendar repeat
+        //   the moon-phase words (waxing/waning/crescent/gibbous/full/new) and the Hijri month names
+        //   many times; SEOptimer reads them as the page's main words but they are missing from the
+        //   headings → "Keyword Consistency". Fix: inject a VISIBLE, DATA-DRIVEN context block (H2 +
+        //   intro naming the real Hijri month(s) this Gregorian month spans + a legend of the moon
+        //   phases ACTUALLY present in the month grid) right before #moon-forecast. Data = the same
+        //   MoonCalc.getMonthGrid engine as the table + Greg→Hijri; phase labels reuse the table's
+        //   wording (AR names for ar, English otherwise) so the legend matches the table. No table
+        //   change, no hidden text, no stuffing, no 865f505. Mutually exclusive with the hub block
+        //   above (hub = !isMonthPage). Server-side only — reuses .section-card → no app.js/css/cache-buster.
+        if (_isMoonMonthPageSsr && _monthYearSsr && _monthMonthSsr) {
+            try {
+                let _mgrid = [];
+                try { _mgrid = MoonCalc.getMonthGrid(_monthYearSsr, _monthMonthSsr, seo.moonCity.tz || 'Asia/Riyadh') || []; } catch (_e) { _mgrid = []; }
+                const _mdays = _mgrid.length || 28;
+                const _phL = (g) => ((Lm === 'ar' ? (g.phase && g.phase.name) : (g.phase && g.phase.english)) || '');
+                const _phSeen = new Set(); const _phItems = [];
+                for (const g of _mgrid) { const _l = _phL(g); if (!_l || _phSeen.has(_l)) continue; _phSeen.add(_l); _phItems.push(`${(g.phase && g.phase.icon) || '🌙'} ${_l}`); }
+                const _hijNm = _HIJRI_MONTHS_L10N[Lm] || _HIJRI_MONTHS_L10N.en;
+                const _hijKeys = []; const _hijList = [];
+                try {
+                    for (const _dd of [1, _mdays]) {
+                        const _hj = _jdToHijri(_gregToJD(_monthYearSsr, _monthMonthSsr, _dd));
+                        if (!_hj) continue; const _k = _hj.year + '-' + _hj.month; if (_hijKeys.indexOf(_k) !== -1) continue;
+                        _hijKeys.push(_k); _hijList.push((_hijNm[_hj.month - 1] || '') + ' ' + _hj.year);
+                    }
+                } catch (_e) { /* out-of-range → omit Hijri part */ }
+                const _hjJoin = _hijList.join(Lm === 'ar' ? ' و' : ', ');
+                if (_phItems.length) {
+                    const _MC = {
+                        ar: { h2:`أطوار القمر والشهور الهجرية في ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`يعرض تقويم القمر في ${cityName} أطوار القمر اليوميّة طوال شهر ${_monthNameSsr} ${_monthYearSsr}${_hjJoin ? `، ويمتدّ هذا الشهر الميلاديّ عبر الشهور الهجرية ${_hjJoin}` : ''}. في ما يلي الشهور الهجرية وأطوار القمر الموجودة فعليًّا في بيانات هذا الشهر.`, hijriLbl:'الشهور الهجرية في هذا الشهر', phasesLbl:'أطوار القمر في هذا الشهر' },
+                        en: { h2:`Moon phases and Hijri months in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`The moon calendar in ${cityName} lists the daily moon phases throughout ${_monthNameSsr} ${_monthYearSsr}${_hjJoin ? `, and this Gregorian month spans the Hijri month${_hijList.length > 1 ? 's' : ''} ${_hjJoin}` : ''}. The Hijri months and the moon phases that actually occur this month are shown below.`, hijriLbl:'Hijri months this month', phasesLbl:'Moon phases this month' },
+                        fr: { h2:`Phases de la Lune et mois hégiriens à ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`Le calendrier lunaire à ${cityName} présente les phases quotidiennes de la Lune tout au long de ${_monthNameSsr} ${_monthYearSsr}${_hjJoin ? `, et ce mois grégorien couvre le${_hijList.length > 1 ? 's' : ''} mois hégirien${_hijList.length > 1 ? 's' : ''} ${_hjJoin}` : ''}. Les mois hégiriens et les phases de la Lune réellement présents ce mois-ci sont indiqués ci-dessous.`, hijriLbl:'Mois hégiriens ce mois-ci', phasesLbl:'Phases de la Lune ce mois-ci' },
+                        tr: { h2:`${cityName} Ay evreleri ve Hicri aylar — ${_monthNameSsr} ${_monthYearSsr}`, intro:`${cityName} ay takvimi, ${_monthNameSsr} ${_monthYearSsr} boyunca günlük Ay evrelerini gösterir${_hjJoin ? `; bu Miladi ay ${_hjJoin} Hicri ayını kapsar` : ''}. Bu ay gerçekte görülen Hicri aylar ve Ay evreleri aşağıda listelenmiştir.`, hijriLbl:'Bu ayki Hicri aylar', phasesLbl:'Bu ayki Ay evreleri' },
+                        ur: { h2:`${cityName} میں چاند کے اطوار اور ہجری مہینے — ${_monthNameSsr} ${_monthYearSsr}`, intro:`${cityName} کا چاند کا تقویم ${_monthNameSsr} ${_monthYearSsr} کے دوران چاند کے روزانہ اطوار دکھاتا ہے${_hjJoin ? `، اور یہ میلادی مہینہ ہجری مہینوں ${_hjJoin} پر پھیلا ہوا ہے` : ''}۔ اس مہینے میں موجود ہجری مہینے اور چاند کے اطوار نیچے دیے گئے ہیں۔`, hijriLbl:'اس مہینے کے ہجری مہینے', phasesLbl:'اس مہینے چاند کے اطوار' },
+                        de: { h2:`Mondphasen und Hidschri-Monate in ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`Der Mondkalender in ${cityName} listet die täglichen Mondphasen während ${_monthNameSsr} ${_monthYearSsr} auf${_hjJoin ? ` und dieser gregorianische Monat umfasst die Hidschri-Monate ${_hjJoin}` : ''}. Die Hidschri-Monate und die Mondphasen, die in diesem Monat tatsächlich vorkommen, sind unten aufgeführt.`, hijriLbl:'Hidschri-Monate in diesem Monat', phasesLbl:'Mondphasen in diesem Monat' },
+                        id: { h2:`Fase Bulan dan bulan Hijriah di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`Kalender bulan di ${cityName} menampilkan fase Bulan harian sepanjang ${_monthNameSsr} ${_monthYearSsr}${_hjJoin ? `, dan bulan Masehi ini mencakup bulan Hijriah ${_hjJoin}` : ''}. Bulan Hijriah dan fase Bulan yang benar-benar terjadi bulan ini ditampilkan di bawah.`, hijriLbl:'Bulan Hijriah bulan ini', phasesLbl:'Fase Bulan bulan ini' },
+                        es: { h2:`Fases de la Luna y meses hijri en ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`El calendario lunar en ${cityName} muestra las fases diarias de la Luna durante ${_monthNameSsr} ${_monthYearSsr}${_hjJoin ? `, y este mes gregoriano abarca los meses hijri ${_hjJoin}` : ''}. Los meses hijri y las fases de la Luna que realmente ocurren este mes se muestran a continuación.`, hijriLbl:'Meses hijri este mes', phasesLbl:'Fases de la Luna este mes' },
+                        bn: { h2:`${cityName}-এ চাঁদের দশা ও হিজরি মাস — ${_monthNameSsr} ${_monthYearSsr}`, intro:`${cityName}-এর চাঁদের ক্যালেন্ডার ${_monthNameSsr} ${_monthYearSsr} জুড়ে দৈনিক চাঁদের দশা দেখায়${_hjJoin ? `, এবং এই গ্রেগরীয় মাসটি ${_hjJoin} হিজরি মাস জুড়ে বিস্তৃত` : ''}। এই মাসে প্রকৃতপক্ষে থাকা হিজরি মাস ও চাঁদের দশাগুলো নিচে দেখানো হলো।`, hijriLbl:'এই মাসের হিজরি মাস', phasesLbl:'এই মাসে চাঁদের দশা' },
+                        ms: { h2:`Fasa Bulan dan bulan Hijrah di ${cityName} — ${_monthNameSsr} ${_monthYearSsr}`, intro:`Kalendar bulan di ${cityName} menyenaraikan fasa Bulan harian sepanjang ${_monthNameSsr} ${_monthYearSsr}${_hjJoin ? `, dan bulan Masihi ini merangkumi bulan Hijrah ${_hjJoin}` : ''}. Bulan Hijrah dan fasa Bulan yang benar-benar berlaku bulan ini ditunjukkan di bawah.`, hijriLbl:'Bulan Hijrah bulan ini', phasesLbl:'Fasa Bulan bulan ini' },
+                    };
+                    const _mc = _MC[Lm] || _MC.en;
+                    const _mctx = `<section class="section-card moon-month-context" id="moon-month-context" aria-labelledby="moon-month-context-h2">`
+                        + `<h2 id="moon-month-context-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> ${_escHtml(_mc.h2)}</h2>`
+                        + `<p class="moon-month-context-intro">${_escHtml(_mc.intro)}</p>`
+                        + (_hijList.length ? `<h3 class="moon-month-context-h3">${_escHtml(_mc.hijriLbl)}</h3><p class="moon-month-context-hijri">${_escHtml(_hijList.join(' · '))}</p>` : '')
+                        + `<h3 class="moon-month-context-h3">${_escHtml(_mc.phasesLbl)}</h3><p class="moon-month-context-phases">${_escHtml(_phItems.join(' · '))}</p>`
+                        + `</section>`;
+                    html = html.replace('<div class="section-card" id="moon-forecast">', _mctx + '<div class="section-card" id="moon-forecast">');
+                }
+            } catch (_e) { try { console.warn('[moon-month-ctx] inject failed:', _e && _e.message); } catch (_) {} }
+        }
         // ── Round 14 polish #4: Breadcrumb SSR — يعرض التاريخ الهجريّ أو الميلاديّ حسب نوع URL ──
         //   قبل: bc-date يبقى hidden حتى JS. الآن: نحقنه في SSR بلغة الزائر مع التسمية الصحيحة
         //   ليراه الزائر بلا JS وتراه محرّكات البحث مباشرةً.

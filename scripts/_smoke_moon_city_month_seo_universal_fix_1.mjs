@@ -85,7 +85,10 @@ const SANTIAGO = '/mexico/santiago-de-queretaro/2026/06';
         check('EN intro names the PAGE month (January)', /This calendar shows the moon[\s\S]{0,80}January 2026/.test(enJan));
         check('Hijri-range card present + real Hijri (Jumada/Rajab + 1447)', /moon-hijri-range/.test(enJan) && /(Jumada|Rajab|Rabi)/.test(enJan) && enJan.includes('1447'));
         check('monthly-overview summary chip present', enJan.includes('moon-summary-line--month'));
-        check('NO moon-month-context block (no duplicate added this ticket)', !enJan.includes('moon-month-context') && !SRV.includes('moon-month-context'));
+        // MOON-CITY-MONTH-KEYWORD-CONSISTENCY-DATA-DRIVEN-CONTEXT-1 (2026-06-29) replaces the old
+        // "no block" guard with a SINGLE data-driven month-context block (phases + Hijri months),
+        // server-side only (NOT in index.html/css — those guards remain below).
+        check('moon-month-context block present once (data-driven, MONTH page)', SRV.includes('moon-month-context') && (enJan.split('id="moon-month-context"').length - 1) === 1);
 
         console.log('\n── D) Table untouched + SEO intact (month page) ──');
         const arJun = await req(RIYADH.replace(/^/, '/moon')); // /moon/.../2026/06

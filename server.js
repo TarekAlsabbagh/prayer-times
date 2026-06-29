@@ -15740,6 +15740,62 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.split('{LANG_PREFIX}').join(_lpFor);
     }
 
+    // ═════════════════════════════════════════════════════════════════════
+    // MOON-FRIENDLY-LINKS-HREF-HASH-CONTROLS-TO-BUTTONS-1 (2026-06-29): kill the remaining
+    // href="#" on MOON pages only (SEOptimer "Friendly Links"). Classification showed these are
+    // NOT controls but NAV placeholders that js/app.js fills on hydration from drift-prone
+    // (today / Hijri-today) or client-only (geolocation / last-city storage) state — so the
+    // server cannot emit a safe value. Fix = STRIP the href="#" attribute → the served HTML has
+    // no empty link (crawler is happy), and app.js still sets the real href on hydration (its
+    // setAttribute is by id/class, indifferent to a missing href ⇒ zero mismatch, zero visual
+    // change; href is not a visible property). The deterministic-safe nav (tdc-edu-1/2, readmore,
+    // related-1/2/3/5/6, sticky on city pages) is REAL-href SSR-filled LATER in the seo.moonCity
+    // block — NOT stripped here (this runs first; it only strips classes that block never fills).
+    // The one genuine control — the footer "cookie settings" link — keeps its inline onclick
+    // (opens the modal for JS users) but gains a real {lang}/privacy href (no-JS users reach the
+    // privacy page; the SEO tool sees a friendly link, not "#"). NO javascript:void(0), NO fake
+    // links, NO legacy/redirect targets. Server-side only ⇒ no app.js / index.html / css / cache-
+    // buster. Scope guard: moon pages only (the prayer page & rest of the site are untouched).
+    {
+        const _flhPath = (urlPath || '').split('?')[0];
+        const _isAnyMoonPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon(?:\/|$)/.test(_flhPath);
+        if (_isAnyMoonPage) {
+            const _flhStrip = (needle) => { html = html.replace(new RegExp('(<a\\b[^>]*' + needle + '[^>]*?) href="#"'), '$1'); };
+            _flhStrip('moon-hub-related-4');     // related card → today's Hijri date (browser-tz → drift)
+            _flhStrip('moon-tdc-edu-link-3');    // city-edu link → today's day (browser-tz → drift)
+            _flhStrip('moon-tdc-edu-link-4');    // city-edu link → today's Hijri date (browser-tz → drift)
+            _flhStrip('id="moon-date-prev"');    // date nav (prev) — client legacy/Hijri path builder
+            _flhStrip('moon-date-today-link');   // date nav (today) — relative to browser today
+            _flhStrip('id="moon-date-next"');    // date nav (next)
+            // bc-month (breadcrumb month rung): its href="#" is the MARKER the server's legacy month/day
+            // breadcrumb renderer matches to inject the real month href + "{Month}" text + un-hide the
+            // <li> — so on MONTH/DAY pages bc-month is already a real href here and MUST NOT be touched
+            // (touching it pre-fill breaks the injection + the BreadcrumbList DOM≡JSON-LD parity). It only
+            // stays href="#" on the city HUB/TODAY, where the <li> is hidden and the rung is absent from
+            // BOTH the DOM (domCrumbs skips hidden) and the JSON-LD. There — and ONLY there (gated by
+            // urlPath) — give it a REAL nested current-month href (option 1), so zero <a href="#"> remain
+            // on any moon page while the month/day renderer + DOM≡JSON-LD stay fully intact.
+            if (seo.moonCity && seo.moonCity.slug && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[^/]+\/[^/]+(?:\/today)?$/.test(_flhPath)) {
+                try {
+                    let _bcY, _bcM;
+                    try { const _bcP = new Intl.DateTimeFormat('en-CA', { timeZone: seo.moonCity.tz || 'UTC', year: 'numeric', month: '2-digit' }).formatToParts(new Date()); _bcY = parseInt((_bcP.find(x => x.type === 'year') || {}).value, 10); _bcM = parseInt((_bcP.find(x => x.type === 'month') || {}).value, 10); } catch (_e) { const _d = new Date(); _bcY = _d.getFullYear(); _bcM = _d.getMonth() + 1; }
+                    const _bcUrl = _nestedMoonMonthLink(seo.moonCity.slug, _lpFor, _bcY, _bcM);   // /{lang}/moon/{country}/{city}/{YYYY}/{MM}
+                    if (_bcUrl) html = html.replace(/(<a\b[^>]*id="bc-month"[^>]*?) href="#"/, '$1 href="' + _bcUrl + '"');
+                } catch (_bcErr) { /* leave as-is on any failure */ }
+            }
+            _flhStrip('id="lsb-go-btn"');        // location-suggestion-bar GO (detected city, bar hidden until geo)
+            _flhStrip('id="moon-hub-smart-pill"');   // smart-redirect pill (last city, hidden) — /moon hub + city pages (target by UNIQUE id: the `qibla-hub-smart-pill` CLASS is shared with the #page-qibla pill earlier in the SPA shell)
+            _flhStrip('id="loc-hero-smart-pill"');    // smart-redirect pill (last city, hidden) — /moon/{country}
+            // Sticky next-prayer bar: on CITY pages it is real-href SSR-filled in the seo.moonCity
+            // block below; only strip where it is NOT filled (hub/country: no page city → app.js
+            // fills it from the user's stored/detected city on hydration).
+            if (!(seo.moonCity && seo.moonCity.slug)) _flhStrip('id="sticky-next-bar"');
+            // The single genuine control: footer "cookie settings" → give it a real /privacy href
+            // (the inline onclick keeps opening the cookie modal for JS users via preventDefault).
+            html = html.replace(/href="#"(\s+onclick="[^"]*openCookieSettings[^"]*")/, 'href="' + _lpFor + '/privacy"$1');
+        }
+    }
+
     // 1) Language swap (ar → lang) لمنع CLS + دعم RTL للأردو والعربية
     if (seo.lang !== 'ar') {
         const newDir = seo.isRtl ? 'rtl' : 'ltr';
@@ -25281,6 +25337,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 const _flPrayer = _flLp + '/prayer-times-in-' + _flSlug;
                 const _flQibla = _flLp + '/qibla-in-' + _flSlug;
                 const _flTimeLeft = _flLp + '/time-left-until-next-prayer-in-' + _flSlug;
+                const _flHub = _nestedMoonHubLink(_flSlug, _flLp);   // /{lp}/moon/{country}/{city}
                 const _flSet = (cls, url) => { if (url) html = html.replace(new RegExp('(<a\\b[^>]*' + cls + '[^>]*?)href="#"'), '$1href="' + url + '"'); };
                 _flSet('moon-hub-related-1', _flToday);
                 _flSet('moon-hub-related-2', _flCurMonth);
@@ -25290,6 +25347,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 _flSet('moon-city-hub-edu-link-today', _flToday);
                 _flSet('moon-city-hub-edu-link-other', _flCurMonth);
                 _flSet('sticky-next-bar', _flTimeLeft);
+                // MOON-FRIENDLY-LINKS-HREF-HASH-CONTROLS-TO-BUTTONS-1: the city-edu block's
+                // deterministic-safe nav links also get real SSR hrefs (app.js sets the same on
+                // hydration → no mismatch). tdc-edu-3/4 (today/Hijri) are drift-prone → stripped above.
+                _flSet('moon-tdc-edu-link-1', _flHub);        // → city moon hub
+                _flSet('moon-tdc-edu-link-2', _flCurMonth);   // → current month (city-tz)
+                _flSet('moon-edu-readmore', _flHub);          // "read more" → city moon hub
             } catch (_flErr) { /* silent — keep placeholders */ }
         }
         // ═════════════════════════════════════════════════════════════════════

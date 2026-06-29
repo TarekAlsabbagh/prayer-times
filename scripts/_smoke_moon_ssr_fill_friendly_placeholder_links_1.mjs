@@ -79,20 +79,22 @@ const IDX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
             check(`${name}: related-3 = month AFTER related-2 (wraps year)`, !!m3 && `${parseInt(m3[1], 10)}/${m3[2]}` === expectNext, `${r2} → ${r3}`);
         }
 
-        // ── B) the 9th (Hijri-date) is intentionally LEFT as "#" in SSR (no drift) ──
-        console.log('\n── B) related-card #4 (Hijri date) intentionally LEFT as "#" in SSR ──');
+        // ── B) the 9th (Hijri-date) is no longer "#": MOON-FRIENDLY-LINKS-HREF-HASH-CONTROLS-TO-BUTTONS-1
+        //   STRIPPED its href="#" (→ hrefless <a>); app.js fills the real /hijri-date href on hydration.
+        console.log('\n── B) related-card #4 (Hijri date) STRIPPED to hrefless (no href="#") ──');
         for (const [name, p] of pages) {
             const h = (await req(p)).body;
-            check(`${name}: related-4 (hijri) still href="#" (excluded by design)`, hrefOf(h, 'moon-hub-related-4') === '#');
+            check(`${name}: related-4 (hijri) is no longer href="#" (stripped → app.js fills)`, hrefOf(h, 'moon-hub-related-4') !== '#');
         }
 
-        // ── C) no rendered legacy links; href="#" count dropped vs control-only baseline ──
-        console.log('\n── C) zero rendered legacy + href="#" reduced ──');
+        // ── C) no rendered legacy links; href="#" now ~0 after the controls-to-buttons strip pass ──
+        console.log('\n── C) zero rendered legacy + href="#" ~0 (only hidden bc-month placeholder may remain) ──');
         for (const [name, p] of pages) {
             const h = (await req(p)).body;
             check(`${name}: 0 rendered <a href> legacy /moon-today-in-`, renderedLegacy(h) === 0, String(renderedLegacy(h)));
-            // hub had ~20 href="#" pre-fix; after filling 8 it must be well under that (controls + r4 only)
-            check(`${name}: href="#" count reduced (≤ 14, controls + r4 only)`, hashCount(h) <= 14, String(hashCount(h)));
+            // After MOON-FRIENDLY-LINKS-HREF-HASH-CONTROLS-TO-BUTTONS-1: nav placeholders stripped/filled,
+            // cookie → /privacy. Only the HIDDEN bc-month breadcrumb rung may keep href="#" (hub/today).
+            check(`${name}: href="#" count ≤ 1 (only the hidden bc-month breadcrumb placeholder)`, hashCount(h) <= 1, String(hashCount(h)));
         }
 
         // ── D) scope: the global /moon hub (no city) is NOT touched by the city-gated fill ──

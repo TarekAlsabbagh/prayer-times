@@ -25253,6 +25253,46 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         //
         //   Applied to ALL 10 supported langs.
         // ═════════════════════════════════════════════════════════════════════
+        // ═════════════════════════════════════════════════════════════════════
+        // MOON-SSR-FILL-FRIENDLY-PLACEHOLDER-LINKS-1 (2026-06-28): on every moon CITY page, fill the
+        // 8 DETERMINISTIC placeholder hrefs (href="#" → real NESTED url) so a no-JS crawler / SEO tool
+        // sees Friendly Links from first paint. app.js re-sets the SAME hrefs on hydration (idempotent
+        // → no mismatch, no flicker; href not visible). related-card #4 ("today's Hijri date" →
+        // /hijri-date/{Y-M-D}) is intentionally LEFT as-is: app.js derives it from the browser-tz
+        // today, which can drift from any server value (SSR/hydration mismatch) → out of scope per
+        // MOON-FRIENDLY-LINKS-DETAILS-ROOT-AUDIT-1. Control buttons (lsb-btn, qibla pill, inert
+        // date-nav, tdc-edu) are NOT touched. SSR/template-only → NO cache-buster. Each anchor is
+        // targeted by its unique class/id; href="#" follows the class within the same <a> (source
+        // order in index.html; the lazy [^>]*? stays inside the tag, minify-tolerant).
+        if (seo.moonCity && seo.moonCity.slug) {
+            try {
+                const _flSlug = seo.moonCity.slug;
+                const _flLp = (Lm === 'ar') ? '' : ('/' + Lm);
+                const _flToday = _nestedMoonTodayLink(_flSlug, _flLp);
+                let _flCy, _flCm;
+                try {
+                    const _flP = new Intl.DateTimeFormat('en-CA', { timeZone: seo.moonCity.tz || 'UTC', year: 'numeric', month: '2-digit' }).formatToParts(new Date());
+                    _flCy = parseInt((_flP.find(x => x.type === 'year') || {}).value, 10);
+                    _flCm = parseInt((_flP.find(x => x.type === 'month') || {}).value, 10);
+                } catch (_flE) { const _flD = new Date(); _flCy = _flD.getFullYear(); _flCm = _flD.getMonth() + 1; }
+                const _flNd = new Date(_flCy, _flCm, 1);   // m is 1-indexed → Date(y, m, 1) is the FIRST of next month
+                const _flCurMonth = _nestedMoonMonthLink(_flSlug, _flLp, _flCy, _flCm);
+                const _flNextMonth = _nestedMoonMonthLink(_flSlug, _flLp, _flNd.getFullYear(), _flNd.getMonth() + 1);
+                const _flPrayer = _flLp + '/prayer-times-in-' + _flSlug;
+                const _flQibla = _flLp + '/qibla-in-' + _flSlug;
+                const _flTimeLeft = _flLp + '/time-left-until-next-prayer-in-' + _flSlug;
+                const _flSet = (cls, url) => { if (url) html = html.replace(new RegExp('(<a\\b[^>]*' + cls + '[^>]*?)href="#"'), '$1href="' + url + '"'); };
+                _flSet('moon-hub-related-1', _flToday);
+                _flSet('moon-hub-related-2', _flCurMonth);
+                _flSet('moon-hub-related-3', _flNextMonth);
+                _flSet('moon-hub-related-5', _flPrayer);
+                _flSet('moon-hub-related-6', _flQibla);
+                _flSet('moon-city-hub-edu-link-today', _flToday);
+                _flSet('moon-city-hub-edu-link-other', _flCurMonth);
+                _flSet('sticky-next-bar', _flTimeLeft);
+            } catch (_flErr) { /* silent — keep placeholders */ }
+        }
+        // ═════════════════════════════════════════════════════════════════════
         if (_isMoonMonthPageSsr && _monthYearSsr && _monthMonthSsr) {
             const _mY = _monthYearSsr;
             const _mM = _monthMonthSsr;

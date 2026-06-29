@@ -200,7 +200,12 @@ function _moonCountryFirstPageGridHtml(cc, L) {
             const cAr = nm.ar || c.nameAr || cEn;
             const cLoc = nm[L] || nm.en || cEn;
             const sub = (L === 'ar') ? (nm.en || c.nameEn || '') : '';
-            const href = pfx + '/moon-today-in-' + c.slug;
+            // MOON-COUNTRY-CITY-LINKS-NESTED-FRIENDLY-FIX-1 (2026-06-28): emit the NESTED direct
+            // today URL /{lang}/moon/{country}/{city}/today instead of the legacy flat
+            // /moon-today-in-{city} (which 301-redirects). _nestedMoonTodayLink resolves the country
+            // from the slug (curated) + preserves the language prefix (pfx = '' for ar, '/xx' else),
+            // with a graceful /moon fallback if unresolvable. No redirect hop → Friendly Links.
+            const href = _nestedMoonTodayLink(c.slug, pfx);
             return `<a class="city-link" href="${_escHtml(href)}" data-slug="${_escHtml(c.slug)}">`
                 + `${_escHtml(moonLabel(cEn, cAr, cLoc))}<span class="city-type">${_escHtml(sub)}</span></a>`;
         }).join('');

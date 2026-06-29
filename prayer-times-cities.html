@@ -2090,7 +2090,15 @@ function renderGrid() {
             slug = makeSlug(city.nameEn, city.lat, city.lng);
             if (_countryUrlSlug && slug === _countryUrlSlug) slug = `${slug}-city`;
         }
-        const href = _cityHref(slug);
+        // MOON-COUNTRY-CITY-LINKS-NESTED-FRIENDLY-FIX-1 (2026-06-28): moon-variant grid CITY CARDS
+        //   (incl. paginated cities >26) → nested direct /{lang}/moon/{country}/{city}/today instead
+        //   of the legacy flat /moon-today-in-{city} (301 hop). The grid lists the CURRENT country's
+        //   curated cities, so _countryUrlSlug is the correct country. Prayer variant unchanged
+        //   (_cityHref); cross-country chips (last-used) + discovered search keep the universal flat
+        //   route (server 301-resolves their country).
+        const href = (_CPV === 'moon' && _countryUrlSlug)
+            ? pageUrl('/moon/' + _countryUrlSlug + '/' + slug + '/today')
+            : _cityHref(slug);
         const a = document.createElement('a');
         const cardLabel = _cardLabelFn(city);
         // الـ subtitle يظهر فقط بالعربي (الاسم اللاتيني كمُعرِّف إضافي).

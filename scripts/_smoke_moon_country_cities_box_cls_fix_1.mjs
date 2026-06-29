@@ -55,9 +55,11 @@ const MOONJS = fs.readFileSync(path.join(ROOT, 'js', 'moon.js'), 'utf8');
         const sa = (await req('/moon/saudi-arabia')).body; const saSeg = containerSeg(sa);
         check('AR /moon/saudi-arabia #cities-container has data-ssr-grid="1"', /id="cities-container"[^>]*data-ssr-grid="1"/.test(sa));
         check('  …ships 26 real .city-link cards (PER_PAGE), NOT a spinner', cardCount(saSeg) === 26 && !/class="spinner"/.test(saSeg), String(cardCount(saSeg)));
-        check('  …first card = موcity link with data-slug + nested moon href + AR label', /<a class="city-link" href="\/moon-today-in-[a-z-]+" data-slug="[a-z-]+">قمر اليوم في /.test(saSeg));
+        // MOON-COUNTRY-CITY-LINKS-NESTED-FRIENDLY-FIX-1: city cards now use the NESTED direct today URL
+        // /moon/{country}/{city}/today (was legacy /moon-today-in-{city} which 301-redirected).
+        check('  …first card = city link with data-slug + nested moon href + AR label', /<a class="city-link" href="\/moon\/saudi-arabia\/[a-z-]+\/today" data-slug="[a-z-]+">قمر اليوم في /.test(saSeg));
         const egEn = (await req('/en/moon/egypt')).body; const egSeg = containerSeg(egEn);
-        check('EN /en/moon/egypt cards use EN label + /en/ href prefix', /<a class="city-link" href="\/en\/moon-today-in-[a-z-]+" data-slug="[a-z-]+">Moon Today in /.test(egSeg) && cardCount(egSeg) === 26);
+        check('EN /en/moon/egypt cards use EN label + nested /en/ href prefix', /<a class="city-link" href="\/en\/moon\/egypt\/[a-z-]+\/today" data-slug="[a-z-]+">Moon Today in /.test(egSeg) && cardCount(egSeg) === 26);
 
         // ── B) count-aware (small countries: exactly their cards — no padding/gap) ──
         console.log('\n── B) count-aware first page (no gap for small countries) ──');

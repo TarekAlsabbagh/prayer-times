@@ -13256,6 +13256,7 @@ function buildSeoForPath(urlPath) {
                     bn: c => ({
                         longer:     `${c}-এ আজকের চাঁদ | চাঁদের দশা, আলোকসজ্জা ও চাঁদের বয়স`,
                         long:       `${c}-এ আজকের চাঁদ | চাঁদের দশা ও আলোকসজ্জা`,
+                        mid:        `${c}-এ আজকের চাঁদ | চাঁদের দশা, আলোকসজ্জা ও বয়স`,
                         mediumWide: `আজ ${c}-এ চাঁদ | দশা, আলোকসজ্জা ও বয়স`,
                         medium:     `${c}-এ আজকের চাঁদ | চাঁদের দশা`,
                         short:      `আজ ${c}-এ চাঁদ | দশা ও আলোকসজ্জা`,
@@ -13273,7 +13274,7 @@ function buildSeoForPath(urlPath) {
                 const _pickMoonTodayCityTitle = (lng, c) => {
                     const f = (_MOON_TODAY_CITY_TITLE_FORMS[lng] || _MOON_TODAY_CITY_TITLE_FORMS.en)(c);
                     const len = s => Array.from(s).length;
-                    const order = [f.longer, f.long, f.mediumWide, f.medium, f.short, f.fallback];
+                    const order = [f.longer, f.long, f.mid, f.mediumWide, f.medium, f.short, f.fallback].filter(Boolean);
                     for (const t of order) {
                         if (len(t) >= 50 && len(t) <= 60) return t;
                     }

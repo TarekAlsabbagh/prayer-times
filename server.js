@@ -13083,15 +13083,15 @@ function buildSeoForPath(urlPath) {
                     }),
                     de: c => ({
                         long:  `Sehen Sie den Mond in ${c}: Phase, Beleuchtung und Mondalter, mit Mondkalender und seinen Phasen im Hidschri-Monat und Links zu nahen Daten.`,
-                        short: `Mond in ${c}: Phase, Beleuchtung und Alter, mit Mondkalender und Phasen im Hidschri-Monat.`,
+                        short: `Mond in ${c}: Phase, Beleuchtung und Mondalter, mit Mondkalender und seinen Phasen im Hidschri-Monat.`,
                     }),
                     id: c => ({
                         long:  `Lihat Bulan di ${c}: fase, iluminasi, dan usia Bulan, dengan kalender Bulan dan fase-fasenya sepanjang bulan Hijriah serta tautan tanggal terdekat.`,
-                        short: `Bulan di ${c}: fase, iluminasi, dan usia, dengan kalender Bulan sepanjang bulan Hijriah.`,
+                        short: `Bulan di ${c}: fase, iluminasi, dan usia Bulan, dengan kalender Bulan dan fase-fasenya sepanjang bulan Hijriah.`,
                     }),
                     es: c => ({
                         long:  `Conoce la Luna en ${c}: fase, iluminación y edad lunar, con el calendario lunar y sus fases durante el mes hijri y enlaces a fechas cercanas.`,
-                        short: `La Luna en ${c}: fase, iluminación y edad, con el calendario lunar durante el mes hijri.`,
+                        short: `La Luna en ${c}: fase, iluminación y edad lunar, con el calendario lunar y sus fases durante el mes hijri.`,
                     }),
                     bn: c => ({
                         long:  `${c}-এ চাঁদের অবস্থা জানুন: বর্তমান দশা, আলোকসজ্জা ও চাঁদের বয়স, হিজরি মাস জুড়ে চাঁদের পঞ্জিকা ও দশাসমূহ এবং নিকটতম তারিখের লিঙ্ক।`,
@@ -13099,7 +13099,7 @@ function buildSeoForPath(urlPath) {
                     }),
                     ms: c => ({
                         long:  `Lihat Bulan di ${c}: fasa, pencahayaan dan usia Bulan, dengan kalendar Bulan dan fasanya sepanjang bulan Hijrah serta pautan ke tarikh berhampiran.`,
-                        short: `Bulan di ${c}: fasa, pencahayaan dan usia, dengan kalendar Bulan sepanjang bulan Hijrah.`,
+                        short: `Bulan di ${c}: fasa, pencahayaan dan usia Bulan, dengan kalendar Bulan dan fasa-fasenya sepanjang bulan Hijrah.`,
                     }),
                 };
                 const _pickMoonHubDesc = (lng, c) => {

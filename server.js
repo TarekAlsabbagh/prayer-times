@@ -24396,7 +24396,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 };
                 const _pad2Hc = (n) => (n < 10 ? '0' + n : String(n));
                 const _isoOf = (d) => d.getFullYear() + '-' + _pad2Hc(d.getMonth() + 1) + '-' + _pad2Hc(d.getDate());
-                const _calTodayD = new Date(); _calTodayD.setHours(12, 0, 0, 0);
+                // MOON-CITY-MONTH-CURRENT-DAY-TZ-FIX-1 (2026-06-30): the calendar
+                //   "today / yesterday / tomorrow" markers (incl. .moon-hub-cal-cell--today)
+                //   MUST follow the TARGET CITY's local calendar date (its IANA timezone),
+                //   NOT the server/UTC clock. Previously `new Date()` read the server tz
+                //   (Render = UTC) → every city worldwide got the SAME (UTC) "today",
+                //   wrong by ±1 day for cities whose local date differs from UTC near
+                //   midnight. Resolve the city tz here (same source the phase grid uses
+                //   below) and derive "today" via Intl formatToParts → independent of
+                //   process.env.TZ, UTC, and the user's device. Defensive fallback to the
+                //   server clock only if Intl throws (never the normal path).
+                const _moonCitySlugGrid = (seo.moonCity && seo.moonCity.slug) || '';
+                const _moonCuratedTz = (_moonCitySlugGrid && typeof _findPlaceBySlug === 'function')
+                    ? ((_findPlaceBySlug(_moonCitySlugGrid) || {}).timezone || '')
+                    : '';
+                const _moonGridTz = _moonCuratedTz || (seo.moonCity && seo.moonCity.tz) || 'Asia/Riyadh';
+                const _calTodayD = (function () {
+                    try {
+                        const _tp = new Intl.DateTimeFormat('en-US', {
+                            timeZone: _moonGridTz, year: 'numeric', month: '2-digit', day: '2-digit'
+                        }).formatToParts(new Date());
+                        const _gp = (t) => parseInt((_tp.find(x => x.type === t) || {}).value, 10);
+                        const _cy = _gp('year'), _cmo = _gp('month'), _cd = _gp('day');
+                        if (_cy && _cmo && _cd) return new Date(_cy, _cmo - 1, _cd, 12, 0, 0);
+                    } catch (_e) {}
+                    const _f = new Date(); _f.setHours(12, 0, 0, 0); return _f; // defensive only
+                })();
                 const _langPrefixHc = (Lm === 'ar' ? '' : '/' + Lm);
                 // Resolve the per-language relative-label helpers (used by the per-cell
                 // "اليوم / أمس / غدًا / قبل X أيّام" label).
@@ -24556,11 +24581,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 //   Timezone = the CITY's own IANA (curated exact tz preferred, e.g.
                 //   Seattle→America/Los_Angeles), so the event binds to the city's
                 //   local day. Non-city / unknown → Asia/Riyadh (project global ref).
-                const _moonCitySlugGrid = (seo.moonCity && seo.moonCity.slug) || '';
-                const _moonCuratedTz = (_moonCitySlugGrid && typeof _findPlaceBySlug === 'function')
-                    ? ((_findPlaceBySlug(_moonCitySlugGrid) || {}).timezone || '')
-                    : '';
-                const _moonGridTz = _moonCuratedTz || (seo.moonCity && seo.moonCity.tz) || 'Asia/Riyadh';
+                // _moonCitySlugGrid / _moonCuratedTz / _moonGridTz hoisted above for
+                //   MOON-CITY-MONTH-CURRENT-DAY-TZ-FIX-1 (city-local "today" needs the tz
+                //   before the calendar loop). Reused here for the event-based phase grid.
                 const _monthGrid = (MoonCalc && typeof MoonCalc.getMonthGrid === 'function')
                     ? (MoonCalc.getMonthGrid(_calY, _calMo, _moonGridTz) || [])
                     : [];

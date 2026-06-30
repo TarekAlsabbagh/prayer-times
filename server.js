@@ -13319,12 +13319,12 @@ function buildSeoForPath(urlPath) {
                         short: `Lune aujourd'hui à ${c} : phase, illumination, âge, lever et coucher, et prochaine pleine lune.`,
                     }),
                     tr: c => ({
-                        long:  `${c} için bugün ay: mevcut evre, aydınlanma, yaş, doğuş ve batış, sonraki dolunay; aylık ay takvimine bağlantıyla.`,
-                        short: `${c} için bugün ay: evre, aydınlanma, yaş, doğuş ve batış, sonraki dolunay bilgileri.`,
+                        long:  `${c} için bugün ay: mevcut evre, aydınlanma, ay yaşı, doğuş ve batış, sonraki dolunay, Hicri tarih ve aylık ay takvimi bağlantısı.`,
+                        short: `${c} için bugün ay: evre, aydınlanma, ay yaşı, doğuş ve batış, sonraki dolunay ve Hicri tarih.`,
                     }),
                     ur: c => ({
-                        long:  `${c} میں آج چاند: موجودہ طور، روشنی، عمر، طلوع و غروب، اگلا بدر، اور ماہانہ چاند کی تقویم کا لنک۔`,
-                        short: `${c} میں آج چاند: طور، روشنی، عمر، طلوع و غروب، اور اگلا بدر۔`,
+                        long:  `${c} میں آج چاند کی حالت: موجودہ طور، نسبتِ روشنی، چاند کی عمر، طلوع و غروب، اگلا بدر، ہجری تاریخ، اور ماہانہ چاند کی تقویم کا لنک۔`,
+                        short: `${c} میں آج چاند: طور، نسبتِ روشنی، عمر، طلوع و غروب، اگلا بدر، ہجری تاریخ اور ماہانہ تقویم۔`,
                     }),
                     de: c => ({
                         long:  `Mond heute in ${c}: aktuelle Phase, Beleuchtung, Alter, Auf- und Untergang, nächster Vollmond, mit Link zum monatlichen Mondkalender.`,
@@ -13339,8 +13339,8 @@ function buildSeoForPath(urlPath) {
                         short: `Luna hoy en ${c}: fase, iluminación, edad, salida y puesta, próxima luna llena.`,
                     }),
                     bn: c => ({
-                        long:  `${c}-এ আজ চাঁদ: বর্তমান দশা, আলোকন, বয়স, উদয় ও অস্ত, পরবর্তী পূর্ণিমা, মাসিক চাঁদের ক্যালেন্ডারের লিঙ্কসহ।`,
-                        short: `${c}-এ আজ চাঁদ: দশা, আলোকন, বয়স, উদয় ও অস্ত, এবং পরবর্তী পূর্ণিমা।`,
+                        long:  `${c}-এ আজকের চাঁদ: বর্তমান দশা, আলোকনের হার, চাঁদের বয়স, উদয় ও অস্ত, পরবর্তী পূর্ণিমা, হিজরি তারিখ এবং মাসিক চাঁদের ক্যালেন্ডার।`,
+                        short: `${c}-এ আজ চাঁদ: দশা, আলোকন, বয়স, উদয় ও অস্ত, পরবর্তী পূর্ণিমা, হিজরি তারিখ ও মাসিক ক্যালেন্ডার।`,
                     }),
                     ms: c => ({
                         long:  `Bulan hari ini di ${c}: fasa, pencahayaan, usia, terbit dan terbenam, bulan purnama seterusnya, dengan pautan ke kalendar bulanan.`,

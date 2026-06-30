@@ -14146,39 +14146,74 @@ function buildSeoForPath(urlPath) {
             const _Y = _yc.year;
             // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
             // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.
-            // MOON-YEAR-LIGHTHOUSE-PERFORMANCE-SEO-TUNE-1: ar/tr/ur/de were < 50 chars for short city names.
-            //   `_fit(long, short)` appends a natural "annual / dates" tail ONLY when the result stays ≤ 60 — so
-            //   short-name cities (e.g. الرياض) get lengthened into the 50–60 sweet spot, while long-name cities
-            //   (e.g. مكة المكرمة / New York) fall back to the shorter form and never overflow. No keyword stuffing.
-            //   en/fr/id/es/bn/ms already land in range for the audited city and use a single title (a very long
-            //   city name may push en/fr/id to ~61 — pre-existing, 1 char over, harmless).
-            const _fit = (long, short) => ([...long].length <= 60 ? long : short);
-            const _MY_TITLE = {
-                ar: _fit(`تقويم القمر في ${_ycCity} ${_Y} | مواعيد البدر والمحاق السنوية`, `تقويم القمر في ${_ycCity} ${_Y} | مواعيد البدر والمحاق`),
-                en: _fit(`Moon Calendar in ${_ycCity} ${_Y} | Full Moon and New Moon Dates`, `Moon Calendar in ${_ycCity} ${_Y} | Full Moon and New Moon`),
-                fr: `Calendrier lunaire ${_ycCity} ${_Y} | Pleine et nouvelle lune`,
-                tr: _fit(`${_ycCity} Ay Takvimi ${_Y} | Dolunay ve Yeni Ay Tarihleri`, `${_ycCity} Ay Takvimi ${_Y} | Dolunay ve Yeni Ay`),
-                ur: _fit(`${_ycCity} چاند کیلنڈر ${_Y} | سالانہ بدر اور محاق کی تاریخیں`, `${_ycCity} چاند کیلنڈر ${_Y} | بدر اور محاق کی تاریخیں`),
-                de: _fit(`Mondkalender ${_ycCity} ${_Y} | Vollmond- und Neumond-Termine`, `Mondkalender ${_ycCity} ${_Y} | Vollmond und Neumond`),
-                id: _fit(`Kalender Bulan ${_ycCity} ${_Y} | Tanggal Purnama & Bulan Baru`, `Kalender Bulan ${_ycCity} ${_Y} | Purnama & Bulan Baru`),
-                es: `Calendario lunar ${_ycCity} ${_Y} | Luna llena y luna nueva`,
-                bn: `${_ycCity} ${_Y} চাঁদের ক্যালেন্ডার | পূর্ণিমা ও অমাবস্যা`,
-                ms: _fit(`Kalendar Bulan ${_ycCity} ${_Y} | Tarikh Purnama & Anak Bulan`, `Kalendar Bulan ${_ycCity} ${_Y} | Purnama & Anak Bulan`),
+            // MOON-CITY-YEAR-TITLE-META-LONG-CITY-FIX-1: adaptive title (core + graduated suffix
+            //   ladder → longest variant whose code-point length ∈ [50,60]) replaces the old
+            //   `_fit(long,short)` which overflowed >60 for long city names (Santiago de Querétaro,
+            //   Las Palmas de Gran Canaria) and left fr/es/bn on a single un-fitted string. The core
+            //   (calendar + city + year) always fits ≤60 for realistic names; a graduated suffix is
+            //   appended only while ≤60, lengthening short-name cities into 50–60. No keyword stuffing.
+            const _yCp = s => [...s].length;
+            const _yCore = {
+                ar: `تقويم القمر في ${_ycCity} ${_Y}`,
+                en: `Moon Calendar in ${_ycCity} ${_Y}`,
+                fr: `Calendrier lunaire ${_ycCity} ${_Y}`,
+                tr: `${_ycCity} Ay Takvimi ${_Y}`,
+                ur: `${_ycCity} چاند کیلنڈر ${_Y}`,
+                de: `Mondkalender ${_ycCity} ${_Y}`,
+                id: `Kalender Bulan ${_ycCity} ${_Y}`,
+                es: `Calendario lunar ${_ycCity} ${_Y}`,
+                bn: `${_ycCity} ${_Y} চাঁদের ক্যালেন্ডার`,
+                ms: `Kalendar Bulan ${_ycCity} ${_Y}`,
             };
-            title = _MY_TITLE[lang] || _MY_TITLE.en;
-            const _MY_DESC = {
+            const _ySfx = {
+                ar: ['مواعيد البدر والمحاق السنوية', 'مواعيد البدر والمحاق', 'البدر والمحاق', 'الأطوار'],
+                en: ['Full Moon and New Moon Dates', 'Full Moon and New Moon', 'Moon Phases', 'Phases'],
+                fr: ['Dates pleine et nouvelle lune', 'Pleine et nouvelle lune', 'Phases lunaires', 'Phases'],
+                tr: ['Yıllık Dolunay ve Yeni Ay Tarihleri', 'Dolunay ve Yeni Ay Tarihleri', 'Dolunay ve Yeni Ay', 'Ay Evreleri', 'Evreler'],
+                ur: ['سالانہ بدر اور محاق کی تاریخیں', 'بدر اور محاق کی تاریخیں', 'بدر اور محاق', 'اطوار'],
+                de: ['Vollmond- und Neumond-Termine', 'Vollmond und Neumond', 'Mondphasen', 'Phasen'],
+                id: ['Tanggal Purnama & Bulan Baru', 'Purnama & Bulan Baru', 'Fase Bulan', 'Fase'],
+                es: ['Fechas de luna llena y nueva', 'Luna llena y luna nueva', 'Fases lunares', 'Fases'],
+                bn: ['পূর্ণিমা ও অমাবস্যার তারিখ', 'পূর্ণিমা ও অমাবস্যা', 'চাঁদের দশা', 'দশা'],
+                ms: ['Tarikh Purnama & Anak Bulan', 'Purnama & Anak Bulan', 'Fasa Bulan', 'Fasa'],
+            };
+            const _pickYearTitle = (lng) => {
+                const core = _yCore[lng] || _yCore.en;
+                const sfx = _ySfx[lng] || _ySfx.en;
+                const cands = sfx.map(s => `${core} | ${s}`).concat([core]);
+                for (const t of cands) if (_yCp(t) >= 50 && _yCp(t) <= 60) return t;
+                const fitc = cands.filter(t => _yCp(t) <= 60).sort((a, b) => _yCp(b) - _yCp(a));
+                return fitc.length ? fitc[0] : core;
+            };
+            title = _pickYearTitle(lang);
+            // Meta: adaptive long → trimmed short (for the verbose langs) so meta stays in
+            //   [120,160] for any city-name length. ar/tr/ur/de/bn never exceed 160 for realistic
+            //   names so they keep a single long form (ur lengthened with «مکمل» to clear the 120
+            //   floor for very short names). en/fr/id/es/ms drop to a short form when long > 160.
+            const _MY_DESC_LONG = {
                 ar: `تقويم القمر في ${_ycCity} لعام ${_Y} حسب التوقيت المحلي، مع مواعيد البدر والمحاق والتربيع الأول والأخير، وروابط تقويم القمر الشهري لكل شهر.`,
                 en: `View the ${_Y} moon calendar for ${_ycCity} with local full moon, new moon, first quarter, and last quarter dates, plus monthly moon calendar links.`,
                 fr: `Calendrier lunaire à ${_ycCity} pour ${_Y} : dates de nouvelle lune, pleine lune, premier et dernier quartier sur l'année en heure locale, avec les douze mois.`,
                 tr: `${_ycCity} için ${_Y} ay takvimi: yıl boyunca yeni ay, dolunay, ilk ve son dördün tarihleri — şehrin yerel saatiyle, on iki ay kartıyla.`,
-                ur: `${_ycCity} میں ${_Y} کے لیے چاند کا تقویم: سال بھر محاق، بدر، پہلی اور آخری ربع کی تاریخیں مقامی وقت کے مطابق، بارہ ماہ کے ساتھ۔`,
+                ur: `${_ycCity} میں ${_Y} کے لیے چاند کا مکمل تقویم: سال بھر محاق، بدر، پہلی اور آخری ربع کی تاریخیں مقامی وقت کے مطابق، بارہ ماہ کے ساتھ۔`,
                 de: `Mondkalender in ${_ycCity} für ${_Y}: Neumond-, Vollmond-, erste und letzte Viertel-Daten im Jahr in Ortszeit, mit allen zwölf Monaten.`,
                 id: `Kalender bulan di ${_ycCity} untuk ${_Y}: tanggal bulan baru, purnama, kuartal pertama dan terakhir sepanjang tahun dalam waktu setempat, dengan dua belas bulan.`,
                 es: `Calendario lunar en ${_ycCity} para ${_Y}: fechas de luna nueva, llena, cuarto creciente y menguante durante el año en hora local, con los doce meses.`,
                 bn: `${_ycCity}-এ ${_Y} সালের চাঁদের ক্যালেন্ডার: সারা বছরের অমাবস্যা, পূর্ণিমা, প্রথম ও শেষ চতুর্থাংশের তারিখ স্থানীয় সময়ে, বারো মাস সহ।`,
                 ms: `Kalendar bulan di ${_ycCity} untuk ${_Y}: tarikh anak bulan, purnama, suku pertama dan terakhir sepanjang tahun mengikut waktu tempatan, dengan dua belas bulan.`,
             };
-            description = _MY_DESC[lang] || _MY_DESC.en;
+            const _MY_DESC_SHORT = {
+                en: `View the ${_Y} moon calendar for ${_ycCity}: full moon, new moon, first and last quarter dates, with monthly links.`,
+                fr: `Calendrier lunaire à ${_ycCity} pour ${_Y} : nouvelle et pleine lune, premier et dernier quartier, avec les douze mois.`,
+                id: `Kalender bulan di ${_ycCity} untuk ${_Y}: tanggal bulan baru, purnama, kuartal pertama dan terakhir sepanjang tahun, dengan dua belas bulan.`,
+                es: `Calendario lunar en ${_ycCity} para ${_Y}: luna nueva, llena, cuarto creciente y menguante, con los doce meses.`,
+                ms: `Kalendar bulan di ${_ycCity} untuk ${_Y}: tarikh anak bulan, purnama, suku pertama dan terakhir sepanjang tahun, dengan dua belas bulan.`,
+            };
+            {
+                const _dl = _MY_DESC_LONG[lang] || _MY_DESC_LONG.en;
+                const _ds = _MY_DESC_SHORT[lang];
+                description = (_yCp(_dl) <= 160 || !_ds) ? _dl : _ds;
+            }
             ogType = 'website';
             const _myCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
             const _myLp = (lang === 'ar') ? '' : ('/' + lang);

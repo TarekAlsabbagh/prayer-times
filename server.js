@@ -14082,19 +14082,41 @@ function buildSeoForPath(urlPath) {
                     for (const s of _sufs) { const c = _tb + s; if ([...c].length <= 60) { _best = c; break; } }
                     title = _best;
                 }
-                const _MD = {
-                    ar: `تعرّف على مرحلة القمر اليوم وتقويم القمر في مدن ${cname}، مع مواعيد البدر والمحاق ونسبة الإضاءة حسب المدينة.`,
-                    en: `View today’s moon phase and lunar calendar for cities in ${cname}. Find full moon, new moon, moon illumination, and monthly moon calendar by city.`,
-                    fr: `Découvrez la phase de la Lune aujourd’hui et le calendrier lunaire dans les villes de ${cname} : pleine lune, nouvelle lune et illumination par ville.`,
-                    tr: `${cname} şehirlerinde bugünkü ay evresini ve ay takvimini görün: dolunay, yeni ay ve aydınlanma — şehir bazında.`,
-                    ur: `${cname} کے شہروں میں آج چاند کا مرحلہ اور قمری تقویم دیکھیں: بدر، محاق اور روشنی — شہر کے حساب سے۔`,
-                    de: `Sehen Sie die heutige Mondphase und den Mondkalender für Städte in ${cname}: Vollmond, Neumond und Beleuchtung je Stadt.`,
-                    id: `Lihat fase bulan hari ini dan kalender bulan untuk kota-kota di ${cname}: purnama, bulan baru, dan iluminasi per kota.`,
-                    es: `Vea la fase lunar de hoy y el calendario lunar para ciudades de ${cname}: luna llena, luna nueva e iluminación por ciudad.`,
-                    bn: `${cname}-এর শহরগুলোর জন্য আজকের চাঁদের দশা ও চান্দ্র বর্ষপঞ্জি দেখুন: পূর্ণিমা, অমাবস্যা ও আলোকন — শহরভিত্তিক।`,
-                    ms: `Lihat fasa bulan hari ini dan kalendar bulan untuk bandar di ${cname}: purnama, bulan baharu dan pencahayaan ikut bandar.`,
+                // MOON-COUNTRY-META-ALL-LANGS-FIX-1 (2026-06-30): the old single-string meta
+                //   fell below 120 code points for ar/tr/ur/de/id/bn/ms (and es borderline) with
+                //   short country names, while a richer fixed string would overflow >160 for the
+                //   longest names (e.g. fr "République démocratique du Congo"). Use a length-aware
+                //   pair like the Title above: a LONG variant, falling back to a SHORT variant when
+                //   LONG would exceed 160 — so every country name (≈3–31 cp) lands in [120,160] in
+                //   all 10 langs. Natural phrasing; weaves طور/تقويم القمر + البدر/المحاق + الإضاءة/العمر.
+                //   `cname` localization (EN-fallback for some countries) is a separate shared-dict
+                //   concern (_COUNTRY_NAMES_*), tracked apart from this length fix.
+                const _fitMD = (lng, sht) => ([...lng].length <= 160 ? lng : sht);
+                const _MD_LONG = {
+                    ar: `تعرّف على طور القمر اليوم وتقويم القمر الشهري في مدن ${cname}، مع مواعيد البدر والمحاق ونسبة إضاءة القمر وعمره وأفضل أوقات الرؤية في كل مدينة.`,
+                    en: `View today’s moon phase and the monthly lunar calendar for cities in ${cname}: full moon and new moon dates, moon illumination, moon age, and the best viewing times by city.`,
+                    fr: `Découvrez la phase de la Lune et le calendrier lunaire mensuel pour ${cname} : pleine lune, nouvelle lune, illumination et âge de la Lune par ville.`,
+                    tr: `${cname} şehirlerinde bugünkü ay evresini ve aylık ay takvimini görün: dolunay ve yeni ay tarihleri, ay aydınlanması, ay yaşı ve en iyi gözlem saatleri — şehir bazında.`,
+                    ur: `${cname} کے شہروں میں آج چاند کا طور اور ماہانہ قمری تقویم دیکھیں: بدر اور محاق کی تاریخیں، چاند کی روشنی، عمر اور دیکھنے کے بہترین اوقات — ہر شہر کے مطابق۔`,
+                    de: `Sehen Sie die heutige Mondphase und den monatlichen Mondkalender für Städte in ${cname}: Vollmond- und Neumond-Termine, Mondbeleuchtung, Mondalter und beste Beobachtungszeiten je Stadt.`,
+                    id: `Lihat fase bulan hari ini dan kalender bulan bulanan untuk kota-kota di ${cname}: tanggal purnama dan bulan baru, iluminasi bulan, usia bulan, serta waktu pengamatan terbaik per kota.`,
+                    es: `Vea la fase lunar de hoy y el calendario lunar mensual para ciudades de ${cname}: fechas de luna llena y luna nueva, iluminación, edad de la Luna y los mejores horarios de observación por ciudad.`,
+                    bn: `${cname}-এর শহরগুলোর জন্য আজকের চাঁদের দশা ও মাসিক চান্দ্র বর্ষপঞ্জি দেখুন: পূর্ণিমা ও অমাবস্যার তারিখ, চাঁদের আলোকন, বয়স এবং দেখার সেরা সময় — শহরভিত্তিক।`,
+                    ms: `Lihat fasa bulan hari ini dan kalendar bulan bulanan untuk bandar di ${cname}: tarikh purnama dan bulan baharu, pencahayaan bulan, usia bulan serta waktu cerapan terbaik mengikut bandar.`,
                 };
-                description = _MD[lang] || _MD.en;
+                const _MD_SHORT = {
+                    ar: `طور القمر اليوم وتقويم القمر الشهري في مدن ${cname}، مع مواعيد البدر والمحاق ونسبة إضاءة القمر وعمره حسب كل مدينة وتاريخ.`,
+                    en: `Today’s moon phase and the monthly lunar calendar for cities in ${cname}: full moon, new moon, moon illumination and moon age by city and date.`,
+                    fr: `Phase de la Lune et calendrier lunaire mensuel pour ${cname} : pleine lune, nouvelle lune, illumination et âge de la Lune par ville.`,
+                    tr: `${cname} şehirlerinde bugünkü ay evresi ve aylık ay takvimi: dolunay, yeni ay, ay aydınlanması ve ay yaşı — şehir ve tarihe göre.`,
+                    ur: `${cname} کے شہروں میں آج چاند کا طور اور ماہانہ قمری تقویم: بدر، محاق، چاند کی روشنی اور عمر — شہر اور تاریخ کے حساب سے۔`,
+                    de: `Heutige Mondphase und monatlicher Mondkalender für Städte in ${cname}: Vollmond, Neumond, Mondbeleuchtung und Mondalter je Stadt und Datum.`,
+                    id: `Fase bulan hari ini dan kalender bulan bulanan untuk kota-kota di ${cname}: purnama, bulan baru, iluminasi, dan usia bulan per kota dan tanggal.`,
+                    es: `Fase lunar de hoy y calendario lunar mensual para ciudades de ${cname}: luna llena, luna nueva, iluminación y edad de la Luna por ciudad y fecha.`,
+                    bn: `${cname}-এর শহরগুলোর জন্য আজকের চাঁদের দশা ও মাসিক চান্দ্র বর্ষপঞ্জি: পূর্ণিমা, অমাবস্যা, চাঁদের আলোকন ও বয়স — শহর ও তারিখ অনুসারে।`,
+                    ms: `Fasa bulan hari ini dan kalendar bulan bulanan untuk bandar di ${cname}: purnama, bulan baharu, pencahayaan dan usia bulan mengikut bandar.`,
+                };
+                description = _fitMD(_MD_LONG[lang] || _MD_LONG.en, _MD_SHORT[lang] || _MD_SHORT.en);
                 // Breadcrumb: Home > Moon Phase > {Country} (label shared with the DOM breadcrumb).
                 const _moonCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
                 breadcrumbs.push({ name: _moonCrumb, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon' });

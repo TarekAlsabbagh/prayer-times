@@ -8832,9 +8832,15 @@ function updateCityDisplay() {
     if (locEl) locEl.textContent = dispCountry ? `${dispCity}${sep}${dispCountry}` : dispCity;
 
     // تحديث صفحة القبلة
-    document.getElementById('qibla-city').textContent = dispCity;
-    document.getElementById('qibla-lat').textContent = currentLat.toFixed(4) + '°';
-    document.getElementById('qibla-lng').textContent = currentLng.toFixed(4) + '°';
+    // MOON-PAGES-JS-ERRORS-FIX-1: عناصر #qibla-* تعيش في قسم #page-qibla غير
+    //   الموجود على صفحات القمر (وغيرها) → احرسها بنفس أسلوب if(el) أدناه
+    //   كي لا يُرمى TypeError «Cannot set properties of null». لا تغيير منطق.
+    const _qiblaCityEl = document.getElementById('qibla-city');
+    if (_qiblaCityEl) _qiblaCityEl.textContent = dispCity;
+    const _qiblaLatEl = document.getElementById('qibla-lat');
+    if (_qiblaLatEl) _qiblaLatEl.textContent = currentLat.toFixed(4) + '°';
+    const _qiblaLngEl = document.getElementById('qibla-lng');
+    if (_qiblaLngEl) _qiblaLngEl.textContent = currentLng.toFixed(4) + '°';
 
     // عنوان صفحة القبلة: "اتجاه القبلة في (المدينة)"
     const qiblaTitle = document.querySelector('#page-qibla h2[data-i18n="qibla.title"]');
@@ -15345,6 +15351,11 @@ async function updateCityCountryInfo() {
 async function fetchNearbyPlaces(lat, lng) {
     const section = document.getElementById('nearby-section');
     const grid = document.getElementById('nearby-grid');
+    // MOON-PAGES-JS-ERRORS-FIX-1: قسم «الأماكن القريبة» (#nearby-section/#nearby-grid)
+    //   غير موجود على بعض الصفحات (الرئيسيّة/القمر…). إن غاب أيّهما نخرج بهدوء
+    //   بدل رمي TypeError «Cannot set properties of null (innerHTML)». لا تغيير
+    //   لمنطق الصفحات التي تحوي العنصر فعلًا (الصلاة/القبلة).
+    if (!grid || !section) return;
     // FIX i18n: نصّ التحميل لكل اللغات
     const _loadingTxt = (typeof t === 'function')
         ? (t('nearby.loading') || '⏳ Loading nearby places...')
@@ -17751,7 +17762,13 @@ function updateQibla() {
     const direction = Qibla.getDirection(_qiblaAngle, _ln);
     const distance = Qibla.getDistance(currentLat, currentLng);
 
-    document.getElementById('qibla-angle').textContent = _qiblaAngle.toFixed(1) + '°';
+    // MOON-PAGES-JS-ERRORS-FIX-1: #qibla-* readouts live in #page-qibla, absent
+    //   on moon pages; the global /moon hub reaches here via the geolocation
+    //   callback. Guard: if the readout is absent, no-op (skip DOM writes +
+    //   compass). No change to the qibla page (nodes present → full render).
+    const _qiblaAngleEl = document.getElementById('qibla-angle');
+    if (!_qiblaAngleEl) return;
+    _qiblaAngleEl.textContent = _qiblaAngle.toFixed(1) + '°';
     document.getElementById('qibla-direction').textContent = t('qibla.direction_label', { dir: direction });
     // R36g — always render the distance in Western Arabic numerals (0-9). User reported
     //   that Arabic-Indic digits (٧٩٠) on Arabic UI were unwanted; Latin digits read
@@ -25073,16 +25090,22 @@ function goToHijriYear(year) {
 }
 
 function renderCalendar() {
+    // MOON-PAGES-JS-ERRORS-FIX-1: the Hijri-calendar nodes (#calendar-body/
+    //   #calendar-title) live in #page-hijri-calendar, which is stripped from
+    //   some moon-page DOMs (e.g. the /year page). onLanguageChange() calls this
+    //   on every page → guard: if the calendar body is absent, no-op (no TypeError).
+    //   No change to the /hijri-calendar page itself (the nodes are present there).
+    const tbody = document.getElementById('calendar-body');
+    if (!tbody) return;
     const calendar = HijriDate.getHijriCalendar(calendarYear, calendarMonth);
     const monthName = HijriDate.hijriMonths[calendarMonth - 1];
 
     const hSfxCal = (typeof t === 'function') ? t('date.hijri_suffix') : ' هـ';
-    document.getElementById('calendar-title').textContent =
-        `${monthName} ${calendarYear}${hSfxCal}`;
+    const _calTitleEl = document.getElementById('calendar-title');
+    if (_calTitleEl) _calTitleEl.textContent = `${monthName} ${calendarYear}${hSfxCal}`;
 
     populateHijriYearSelect();
 
-    const tbody = document.getElementById('calendar-body');
     tbody.innerHTML = '';
 
     const today = HijriDate.getToday();

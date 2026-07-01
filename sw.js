@@ -1572,7 +1572,7 @@
 //   updateCityDisplay (#qibla-city/#qibla-lat/#qibla-lng live in #page-qibla, absent on moon pages)
 //   + early-return guard in fetchNearbyPlaces (#nearby-grid/#nearby-section absent on homepage) →
 //   eliminate the uncaught TypeError on every moon page + the homepage. app.js-only; no logic/UI/calc change.
-const CACHE_VERSION = 'v469';
+const CACHE_VERSION = 'v470';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

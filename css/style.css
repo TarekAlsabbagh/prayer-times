@@ -2685,6 +2685,36 @@ html[data-theme="dark"] .ns-item.is-selected {
     transition: none !important;
 }
 
+/* MOON-TODAY-VISUAL-NO-ANIMATION-MATCH-DATED-DAY-1 (2026-07-01):
+   Belt-and-suspenders — extend the freeze above to the moon disc's
+   ::before / ::after pseudo-elements (and the .moon-display container's)
+   so NO pseudo-driven glow / pulse / shimmer can ever run on the disc,
+   at any breakpoint, in dark mode, or in RTL/LTR. This is unconditional
+   (no media / theme / direction gate) and purely defensive: the disc has
+   no such pseudo animation in the source today, so it is a no-op on the
+   current render — it does NOT change the disc shape, illumination,
+   phase, age, size, colors, or the dark drop-shadow, and it applies
+   equally to the /today and dated-day pages (so they stay identical). */
+.moon-display::before,
+.moon-display::after,
+.moon-visual::before,
+.moon-visual::after,
+.moon-visual *::before,
+.moon-visual *::after,
+.moon-svg::before,
+.moon-svg::after,
+.moon-svg *::before,
+.moon-svg *::after,
+.moon-icon::before,
+.moon-icon::after,
+.moon-disc::before,
+.moon-disc::after,
+.moon-disc *::before,
+.moon-disc *::after {
+    animation: none !important;
+    transition: none !important;
+}
+
 /* MOON-TODAY-DISABLE-MOON-ANIMATION-FIX-1 (2026-06-06):
    Guarantee NOTHING on the /moon-today moon shape or its illumination widgets
    moves — mobile or desktop. MOON-DISC-ANIMATION-DISABLE-1 (above) already

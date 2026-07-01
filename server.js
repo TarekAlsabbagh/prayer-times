@@ -8373,10 +8373,13 @@ function _downgradeInactiveH1s(html, urlPath) {
 // Used so the /today SSR intro (and the Article JSON-LD that reuses its text)
 // computes illumination/age at the SAME instant the hydrated client uses
 // → SSR == DOM == JSON-LD, and the value respects the city's timezone.
-function _moonCityLocalNoonSsr(tz) {
+function _moonCityLocalNoonSsr(tz, baseDate) {
     if (!tz || typeof tz !== 'string') return null;
     try {
-        const d = new Date();
+        // MOON-ILLUMINATION-CONSISTENCY-ALL-MOON-PAGES-FIX-1: optional `baseDate` (mirrors the
+        // client _moonCityLocalNoon(tz, baseDate)) → resolves 12:00 local noon of baseDate's
+        // city-local calendar day. Omitted → today. Used for dated day pages (page date's noon).
+        const d = (baseDate instanceof Date && !isNaN(baseDate.getTime())) ? baseDate : new Date();
         const parts = new Intl.DateTimeFormat('en-CA', {
             timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
         }).format(d).split('-').map(Number);
@@ -8392,17 +8395,20 @@ function _moonCityLocalNoonSsr(tz) {
     }
 }
 
-function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz, todayInstant) {
+function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz, calcInstant) {
     try {
         if (!MoonCalc || !I18N) return null;
         const _hasDate = (dateObj instanceof Date && !isNaN(dateObj.getTime()));
-        // MOON-TODAY-ILLUMINATION-UNIFY-CITYNOON-FIX-1: on the /today page the caller
-        // passes `todayInstant` = city-local noon (via _moonCityLocalNoonSsr) so the
-        // astronomical numbers (illumination/age/phase) match the client, which anchors
-        // its `today` to city-local noon too. Dated pages keep dateObj; any other caller
-        // (or a null instant) falls back to new Date() — unchanged behavior.
-        const _todayInstant = (todayInstant instanceof Date && !isNaN(todayInstant.getTime())) ? todayInstant : new Date();
-        const today = _hasDate ? dateObj : _todayInstant;
+        // MOON-ILLUMINATION-CONSISTENCY-ALL-MOON-PAGES-FIX-1: `calcInstant` (when provided) is
+        // the CITY-LOCAL-NOON instant the astronomical numbers (illumination/age/phase/zodiac/
+        // altitude) are computed at, so SSR == the hydrated client (which anchors to city-local
+        // noon) AND the reused Article JSON-LD. The caller passes city-local noon of TODAY for
+        // hub/today/month/year and of the PAGE DATE for dated day pages. When absent it falls
+        // back to dateObj (dated) or new Date() — prior behavior. dateObj/dateLabel/_hasDate
+        // still drive template choice + the {date}/{hijriInline} labels (unchanged).
+        const today = (calcInstant instanceof Date && !isNaN(calcInstant.getTime()))
+            ? calcInstant
+            : (_hasDate ? dateObj : new Date());
         // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: phase name from the EVENT-based
         // local-day labeler (major phases only on their local event day; never a
         // threshold "Full Moon" on a day adjacent to the real full-moon event).
@@ -9091,9 +9097,16 @@ function _moonCountryComputed(cc, lang) {
         if (!MoonCalc) return null;
         const tz = (cc && typeof _CC_TO_PRIMARY_TZ !== 'undefined' && _CC_TO_PRIMARY_TZ[cc]) || 'UTC';
         const now = new Date();
+        // MOON-ILLUMINATION-CONSISTENCY-ALL-MOON-PAGES-FIX-1: the country summary is a GENERAL
+        // country-reference indicator (the hero + FAQ explicitly tell users to pick a city for
+        // city-accurate values). Compute illumination at the country reference tz's LOCAL NOON
+        // (not UTC-now, which drifts per request and ignores the declared reference) and keep
+        // 2 decimals, matching every other moon page. Phase + next-event dates stay on `now`
+        // (getDayPhase is tz-aware; the event dates are day-level and unaffected).
+        const _illumInstant = (typeof _moonCityLocalNoonSsr === 'function' && _moonCityLocalNoonSsr(tz)) || now;
         const _dp = (typeof MoonCalc.getDayPhase === 'function') ? MoonCalc.getDayPhase(now, tz) : null;
         const phase = (_dp && _dp.phase) || (typeof MoonCalc.getPhaseName === 'function' ? MoonCalc.getPhaseName(now) : null);
-        const illum = (typeof MoonCalc.getMoonIllumination === 'function') ? Math.round(MoonCalc.getMoonIllumination(now)) : null;
+        const illum = (typeof MoonCalc.getMoonIllumination === 'function') ? MoonCalc.getMoonIllumination(_illumInstant) : null;
         const loc = { ar: 'ar', en: 'en-GB', fr: 'fr', tr: 'tr', ur: 'ur', de: 'de', id: 'id', es: 'es', bn: 'bn', ms: 'ms' }[lang] || 'en-GB';
         const fmt = (d) => {
             if (!d) return '—';
@@ -24000,17 +24013,21 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _introTz = ((seo.moonCity && seo.moonCity.slug && typeof _findPlaceBySlug === 'function')
                 ? ((_findPlaceBySlug(seo.moonCity.slug) || {}).timezone || '') : '')
             || (seo.moonCity && seo.moonCity.tz) || 'Asia/Riyadh';
-        // MOON-TODAY-ILLUMINATION-UNIFY-CITYNOON-FIX-1: on the nested /today page ONLY,
-        // anchor the intro's astronomical instant to the city's LOCAL NOON (mirrors the
-        // client _moonCityLocalNoon) so the SSR illumination/age == the hydrated DOM and
-        // the Article JSON-LD (which reuses this text). Hub/month/year/day are untouched
-        // (null → _buildSsrMoonIntro keeps its prior new Date() fallback).
-        const _introTodayInstant = (seo.moonCity && seo.moonCity.isNestedToday)
-            ? _moonCityLocalNoonSsr(_introTz)
+        // MOON-ILLUMINATION-CONSISTENCY-ALL-MOON-PAGES-FIX-1: anchor the intro's astronomical
+        // instant to the city's LOCAL NOON for EVERY moon city page so the SSR illumination/age
+        // == the hydrated client AND the reused Article JSON-LD, with NO UTC-now left:
+        //   • dated day  → city-local noon of the PAGE DATE. `_introDateObj` is midnight-UTC, so
+        //     +12h anchors it to noon-UTC first → the city-local-date extraction lands on the
+        //     page date even for far-west cities (mirrors the client `new Date(y,m,d,12)` path).
+        //   • hub / today / month / year → city-local noon of TODAY.
+        const _introInstant = (seo.moonCity && _introTz)
+            ? ((_isMoonDatePage && _introDateObj)
+                ? _moonCityLocalNoonSsr(_introTz, new Date(_introDateObj.getTime() + 12 * 3600 * 1000))
+                : _moonCityLocalNoonSsr(_introTz))
             : null;
         const _introMoonDynamic = _buildSsrMoonIntro(
             Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng,
-            _introDateObj, _introDateLabel, _introHijriLabel, _introTz, _introTodayInstant
+            _introDateObj, _introDateLabel, _introHijriLabel, _introTz, _introInstant
         ) || _introMoon;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.

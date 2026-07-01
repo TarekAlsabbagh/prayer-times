@@ -10166,6 +10166,22 @@ const _COUNTRY_NAMES_FR = {
     sr:'Suriname', gy:'Guyana', tt:'Trinité-et-Tobago', jm:'Jamaïque',
     pa:'Panama', ht:'Haïti', cr:'Costa Rica',
     bt:'Bhoutan', fj:'Fidji', pg:'Papouasie-Nouvelle-Guinée',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    am:'Arménie', ar:'Argentine', at:'Autriche', au:'Australie', az:'Azerbaïdjan',
+    be:'Belgique', bn:'Brunei', bo:'Bolivie', ch:'Suisse', cl:'Chili',
+    cm:'Cameroun', co:'Colombie', cy:'Chypre', cz:'Tchéquie', dk:'Danemark',
+    ec:'Équateur', ee:'Estonie', es:'Espagne', et:'Éthiopie', fi:'Finlande',
+    ge:'Géorgie', gh:'Ghana', gr:'Grèce', hk:'Hong Kong', is:'Islande',
+    it:'Italie', ke:'Kenya', kg:'Kirghizistan', kh:'Cambodge', kp:'Corée du Nord',
+    kz:'Kazakhstan', la:'Laos', lk:'Sri Lanka', lt:'Lituanie', lu:'Luxembourg',
+    lv:'Lettonie', me:'Monténégro', ml:'Mali', mm:'Birmanie', mn:'Mongolie',
+    mo:'Macao', mt:'Malte', ne:'Niger', ng:'Nigéria', nl:'Pays-Bas',
+    no:'Norvège', np:'Népal', nz:'Nouvelle-Zélande', pe:'Pérou', ph:'Philippines',
+    pl:'Pologne', pt:'Portugal', ro:'Roumanie', se:'Suède', sg:'Singapour',
+    sn:'Sénégal', td:'Tchad', th:'Thaïlande', tj:'Tadjikistan', tl:'Timor oriental',
+    tm:'Turkménistan', tw:'Taïwan', tz:'Tanzanie', ua:'Ukraine', ug:'Ouganda',
+    uy:'Uruguay', uz:'Ouzbékistan', ve:'Venezuela', vn:'Vietnam', xk:'Kosovo',
+    za:'Afrique du Sud',
 };
 const _COUNTRY_NAMES_TR = {
     sa:'Suudi Arabistan', eg:'Mısır', ae:'BAE', iq:'Irak', sy:'Suriye',
@@ -10190,6 +10206,22 @@ const _COUNTRY_NAMES_TR = {
     sr:'Surinam', gy:'Guyana', tt:'Trinidad ve Tobago', jm:'Jamaika',
     pa:'Panama', ht:'Haiti', cr:'Kosta Rika',
     bt:'Butan', fj:'Fiji', pg:'Papua Yeni Gine',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    am:'Ermenistan', ar:'Arjantin', at:'Avusturya', au:'Avustralya', az:'Azerbaycan',
+    be:'Belçika', bn:'Brunei', bo:'Bolivya', ch:'İsviçre', cl:'Şili',
+    cm:'Kamerun', co:'Kolombiya', cy:'Kıbrıs', cz:'Çekya', dk:'Danimarka',
+    ec:'Ekvador', ee:'Estonya', es:'İspanya', et:'Etiyopya', fi:'Finlandiya',
+    ge:'Gürcistan', gh:'Gana', gr:'Yunanistan', hk:'Hong Kong', is:'İzlanda',
+    it:'İtalya', ke:'Kenya', kg:'Kırgızistan', kh:'Kamboçya', kp:'Kuzey Kore',
+    kz:'Kazakistan', la:'Laos', lk:'Sri Lanka', lt:'Litvanya', lu:'Lüksemburg',
+    lv:'Letonya', me:'Karadağ', ml:'Mali', mm:'Myanmar', mn:'Moğolistan',
+    mo:'Makao', mt:'Malta', ne:'Nijer', ng:'Nijerya', nl:'Hollanda',
+    no:'Norveç', np:'Nepal', nz:'Yeni Zelanda', pe:'Peru', ph:'Filipinler',
+    pl:'Polonya', pt:'Portekiz', ro:'Romanya', se:'İsveç', sg:'Singapur',
+    sn:'Senegal', td:'Çad', th:'Tayland', tj:'Tacikistan', tl:'Doğu Timor',
+    tm:'Türkmenistan', tw:'Tayvan', tz:'Tanzanya', ua:'Ukrayna', ug:'Uganda',
+    uy:'Uruguay', uz:'Özbekistan', ve:'Venezuela', vn:'Vietnam', xk:'Kosova',
+    za:'Güney Afrika',
 };
 const _COUNTRY_NAMES_UR = {
     sa:'سعودی عرب', eg:'مصر', ae:'متحدہ عرب امارات', iq:'عراق', sy:'شام',
@@ -10214,6 +10246,22 @@ const _COUNTRY_NAMES_UR = {
     sr:'سرینام', gy:'گیانا', tt:'ٹرینیڈاڈ اور ٹوباگو', jm:'جمیکا',
     pa:'پاناما', ht:'ہیٹی', cr:'کوسٹا ریکا',
     bt:'بھوٹان', fj:'فجی', pg:'پاپوا نیو گنی',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    am:'آرمینیا', ar:'ارجنٹینا', at:'آسٹریا', au:'آسٹریلیا', az:'آذربائیجان',
+    be:'بیلجیم', bn:'برونائی', bo:'بولیویا', ch:'سوئٹزرلینڈ', cl:'چلی',
+    cm:'کیمرون', co:'کولمبیا', cy:'قبرص', cz:'چیک جمہوریہ', dk:'ڈنمارک',
+    ec:'ایکواڈور', ee:'اسٹونیا', es:'اسپین', et:'ایتھوپیا', fi:'فن لینڈ',
+    ge:'جارجیا', gh:'گھانا', gr:'یونان', hk:'ہانگ کانگ', is:'آئس لینڈ',
+    it:'اٹلی', ke:'کینیا', kg:'کرغزستان', kh:'کمبوڈیا', kp:'شمالی کوریا',
+    kz:'قازقستان', la:'لاؤس', lk:'سری لنکا', lt:'لتھوانیا', lu:'لکسمبرگ',
+    lv:'لٹویا', me:'مونٹینیگرو', ml:'مالی', mm:'میانمار', mn:'منگولیا',
+    mo:'مکاؤ', mt:'مالٹا', ne:'نائجر', ng:'نائجیریا', nl:'نیدرلینڈز',
+    no:'ناروے', np:'نیپال', nz:'نیوزی لینڈ', pe:'پیرو', ph:'فلپائن',
+    pl:'پولینڈ', pt:'پرتگال', ro:'رومانیہ', se:'سویڈن', sg:'سنگاپور',
+    sn:'سینیگال', td:'چاڈ', th:'تھائی لینڈ', tj:'تاجکستان', tl:'مشرقی تیمور',
+    tm:'ترکمانستان', tw:'تائیوان', tz:'تنزانیہ', ua:'یوکرین', ug:'یوگنڈا',
+    uy:'یوراگوئے', uz:'ازبکستان', ve:'وینزویلا', vn:'ویتنام', xk:'کوسوو',
+    za:'جنوبی افریقہ',
 };
 const _COUNTRY_NAMES_DE = {
     sa:'Saudi-Arabien', eg:'Ägypten', ae:'Vereinigte Arabische Emirate', iq:'Irak', sy:'Syrien',
@@ -10255,6 +10303,10 @@ const _COUNTRY_NAMES_DE = {
     gt:'Guatemala', cu:'Kuba', do:'Dominikanische Republik',
     ar:'Argentinien', co:'Kolumbien', pe:'Peru', ve:'Venezuela',
     cl:'Chile', ec:'Ecuador', bo:'Bolivien', py:'Paraguay', uy:'Uruguay',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    cy:'Zypern', ee:'Estland', hk:'Hongkong', is:'Island', lt:'Litauen',
+    lu:'Luxemburg', lv:'Lettland', me:'Montenegro', mo:'Macau', mt:'Malta',
+    tw:'Taiwan',
 };
 const _COUNTRY_NAMES_ID = {
     sa:'Arab Saudi', eg:'Mesir', ae:'Uni Emirat Arab', iq:'Irak', sy:'Suriah',
@@ -10296,6 +10348,10 @@ const _COUNTRY_NAMES_ID = {
     gt:'Guatemala', cu:'Kuba', do:'Republik Dominika',
     ar:'Argentina', co:'Kolombia', pe:'Peru', ve:'Venezuela',
     cl:'Chili', ec:'Ekuador', bo:'Bolivia', py:'Paraguay', uy:'Uruguay',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    cy:'Siprus', ee:'Estonia', hk:'Hong Kong', is:'Islandia', lt:'Lituania',
+    lu:'Luksemburg', lv:'Latvia', me:'Montenegro', mo:'Makau', mt:'Malta',
+    tw:'Taiwan',
 };
 const _COUNTRY_NAMES_ES = {
     sa:'Arabia Saudita', eg:'Egipto', ae:'Emiratos Árabes Unidos', iq:'Irak', sy:'Siria',
@@ -10335,6 +10391,10 @@ const _COUNTRY_NAMES_ES = {
     gt:'Guatemala', cu:'Cuba', do:'República Dominicana',
     ar:'Argentina', co:'Colombia', pe:'Perú', ve:'Venezuela',
     cl:'Chile', ec:'Ecuador', bo:'Bolivia', py:'Paraguay', uy:'Uruguay',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    cy:'Chipre', ee:'Estonia', hk:'Hong Kong', is:'Islandia', lt:'Lituania',
+    lu:'Luxemburgo', lv:'Letonia', me:'Montenegro', mo:'Macao', mt:'Malta',
+    tw:'Taiwán',
 };
 const _COUNTRY_NAMES_BN = {
     sa:'সৌদি আরব', eg:'মিশর', ae:'সংযুক্ত আরব আমিরাত', iq:'ইরাক', sy:'সিরিয়া',
@@ -10374,6 +10434,10 @@ const _COUNTRY_NAMES_BN = {
     gt:'গুয়াতেমালা', cu:'কিউবা', do:'ডোমিনিকান প্রজাতন্ত্র',
     ar:'আর্জেন্টিনা', co:'কলম্বিয়া', pe:'পেরু', ve:'ভেনেজুয়েলা',
     cl:'চিলি', ec:'ইকুয়েডর', bo:'বলিভিয়া', py:'প্যারাগুয়ে', uy:'উরুগুয়ে',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    cy:'সাইপ্রাস', ee:'এস্তোনিয়া', hk:'হংকং', is:'আইসল্যান্ড', lt:'লিথুয়ানিয়া',
+    lu:'লুক্সেমবার্গ', lv:'লাটভিয়া', me:'মন্টিনিগ্রো', mo:'ম্যাকাও', mt:'মাল্টা',
+    tw:'তাইওয়ান',
 };
 const _COUNTRY_NAMES_MS = {
     sa:'Arab Saudi', eg:'Mesir', ae:'Emiriah Arab Bersatu', iq:'Iraq', sy:'Syria',
@@ -10413,6 +10477,10 @@ const _COUNTRY_NAMES_MS = {
     gt:'Guatemala', cu:'Cuba', do:'Republik Dominican',
     ar:'Argentina', co:'Colombia', pe:'Peru', ve:'Venezuela',
     cl:'Chile', ec:'Ecuador', bo:'Bolivia', py:'Paraguay', uy:'Uruguay',
+    // MOON-COUNTRY-NAME-L10N-COVERAGE-FIX-1: complete curated-country coverage
+    cy:'Cyprus', ee:'Estonia', hk:'Hong Kong', is:'Iceland', lt:'Lithuania',
+    lu:'Luxembourg', lv:'Latvia', me:'Montenegro', mo:'Macau', mt:'Malta',
+    tw:'Taiwan',
 };
 
 // ترجمات نصوص صفحة /countries

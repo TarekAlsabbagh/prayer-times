@@ -8367,11 +8367,42 @@ function _downgradeInactiveH1s(html, urlPath) {
 // Round 17 (smart content): dateObj (اختياريّ) — إن مُرِّر، تُحتسب البيانات لذلك اليوم بدل
 // new Date()، ما يجعل كلّ صفحة `/moon-in-{city}/{date}` تحصل على فقرة فريدة بأرقامها الحقيقيّة.
 // dateLabel/hijriLabel (اختياريّان): لحقن التاريخ في الفقرة (unique-per-page SEO).
-function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz) {
+// MOON-TODAY-ILLUMINATION-UNIFY-CITYNOON-FIX-1: server-side mirror of the client
+// _moonCityLocalNoon(tz, new Date()) (js/app.js) — resolves the UTC instant that
+// corresponds to 12:00 LOCAL NOON of the city's CURRENT calendar day in `tz`.
+// Used so the /today SSR intro (and the Article JSON-LD that reuses its text)
+// computes illumination/age at the SAME instant the hydrated client uses
+// → SSR == DOM == JSON-LD, and the value respects the city's timezone.
+function _moonCityLocalNoonSsr(tz) {
+    if (!tz || typeof tz !== 'string') return null;
+    try {
+        const d = new Date();
+        const parts = new Intl.DateTimeFormat('en-CA', {
+            timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(d).split('-').map(Number);
+        const [y, m, day] = parts;
+        const noonUtc = Date.UTC(y, m - 1, day, 12, 0, 0, 0);
+        const seenH = parseInt(new Intl.DateTimeFormat('en-GB', {
+            timeZone: tz, hour: '2-digit', hour12: false
+        }).format(new Date(noonUtc)), 10);
+        if (!Number.isFinite(seenH)) return null;
+        return new Date(noonUtc + (12 - seenH) * 3600 * 1000);
+    } catch (_) {
+        return null;
+    }
+}
+
+function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz, todayInstant) {
     try {
         if (!MoonCalc || !I18N) return null;
         const _hasDate = (dateObj instanceof Date && !isNaN(dateObj.getTime()));
-        const today = _hasDate ? dateObj : new Date();
+        // MOON-TODAY-ILLUMINATION-UNIFY-CITYNOON-FIX-1: on the /today page the caller
+        // passes `todayInstant` = city-local noon (via _moonCityLocalNoonSsr) so the
+        // astronomical numbers (illumination/age/phase) match the client, which anchors
+        // its `today` to city-local noon too. Dated pages keep dateObj; any other caller
+        // (or a null instant) falls back to new Date() — unchanged behavior.
+        const _todayInstant = (todayInstant instanceof Date && !isNaN(todayInstant.getTime())) ? todayInstant : new Date();
+        const today = _hasDate ? dateObj : _todayInstant;
         // MOON-PHASE-CALENDAR-CALCULATION-FIX-1: phase name from the EVENT-based
         // local-day labeler (major phases only on their local event day; never a
         // threshold "Full Moon" on a day adjacent to the real full-moon event).
@@ -23969,9 +24000,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         const _introTz = ((seo.moonCity && seo.moonCity.slug && typeof _findPlaceBySlug === 'function')
                 ? ((_findPlaceBySlug(seo.moonCity.slug) || {}).timezone || '') : '')
             || (seo.moonCity && seo.moonCity.tz) || 'Asia/Riyadh';
+        // MOON-TODAY-ILLUMINATION-UNIFY-CITYNOON-FIX-1: on the nested /today page ONLY,
+        // anchor the intro's astronomical instant to the city's LOCAL NOON (mirrors the
+        // client _moonCityLocalNoon) so the SSR illumination/age == the hydrated DOM and
+        // the Article JSON-LD (which reuses this text). Hub/month/year/day are untouched
+        // (null → _buildSsrMoonIntro keeps its prior new Date() fallback).
+        const _introTodayInstant = (seo.moonCity && seo.moonCity.isNestedToday)
+            ? _moonCityLocalNoonSsr(_introTz)
+            : null;
         const _introMoonDynamic = _buildSsrMoonIntro(
             Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng,
-            _introDateObj, _introDateLabel, _introHijriLabel, _introTz
+            _introDateObj, _introDateLabel, _introHijriLabel, _introTz, _introTodayInstant
         ) || _introMoon;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.

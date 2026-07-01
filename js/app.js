@@ -21363,7 +21363,7 @@ function updateMoonInfo() {
         // BOND 7: Sticky Mini Bar — نفس البيانات لشريط ثابت يظهر عند التمرير
         _setText('moon-sticky-icon', phase.icon || '🌙');
         _setText('moon-sticky-phase', _phaseLabel || phase.name || '');
-        _setText('moon-sticky-illum', '· ' + _fmtNum(illumination, 1) + '%');
+        _setText('moon-sticky-illum', '· ' + _fmtNum(illumination, 2) + '%');
 
         // 2) EVENTS — full moon + new moon cards (date + countdown + hijri + clickable link to that day)
         const _lngLD = (typeof getCurrentLang === 'function') ? getCurrentLang() : (_lng_ || 'ar');
@@ -21839,9 +21839,9 @@ function updateMoonInfo() {
                 const _tIcon = document.getElementById('mc-today-icon');
                 const _tIllumEl = document.getElementById('mc-today-illum');
                 if (_yIcon) _yIcon.textContent = yPhaseIcon;
-                if (_yIllumEl) _yIllumEl.textContent = _fmtNum2(yIllum, 1) + '%';
+                if (_yIllumEl) _yIllumEl.textContent = _fmtNum2(yIllum, 2) + '%';
                 if (_tIcon) _tIcon.textContent = phase.icon || '🌙';
-                if (_tIllumEl) _tIllumEl.textContent = _fmtNum2(illumination, 1) + '%';
+                if (_tIllumEl) _tIllumEl.textContent = _fmtNum2(illumination, 2) + '%';
             } catch (_e5) { if (window.console && console.warn) console.warn('mc step5 (y/t fill) failed:', _e5); }
 
             // 6) الدلتا

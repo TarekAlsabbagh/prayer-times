@@ -1572,7 +1572,7 @@
 //   updateCityDisplay (#qibla-city/#qibla-lat/#qibla-lng live in #page-qibla, absent on moon pages)
 //   + early-return guard in fetchNearbyPlaces (#nearby-grid/#nearby-section absent on homepage) →
 //   eliminate the uncaught TypeError on every moon page + the homepage. app.js-only; no logic/UI/calc change.
-const CACHE_VERSION = 'v471';
+const CACHE_VERSION = 'v472';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1618,6 +1618,16 @@ self.addEventListener('activate', (event) => {
                     .map((k) => caches.delete(k))
             )
         ).then(() => self.clients.claim())
+         // MOON-CITY-TODAY-MOBILE-MATCH-DATED-MOON-VISUAL-1 (2026-07-01):
+         // Notify open pages that a new version activated so they auto-refresh ONCE
+         // (client guards against loops via sessionStorage + hadController). Ensures
+         // no device stays on stale cached CSS/HTML after a deploy. Best-effort;
+         // wrapped so it never blocks activation or the cache purge above.
+         .then(() => self.clients.matchAll({ type: 'window' }))
+         .then((clients) => {
+             clients.forEach((c) => { try { c.postMessage({ type: 'SW_ACTIVATED', version: CACHE_VERSION }); } catch (_) {} });
+         })
+         .catch(() => {})
     );
 });
 

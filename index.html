@@ -5464,6 +5464,28 @@
             window.addEventListener('load', () => {
                 navigator.serviceWorker.register('/sw.js').catch(() => {});
             });
+            // MOON-CITY-TODAY-MOBILE-MATCH-DATED-MOON-VISUAL-1 (2026-07-01):
+            // Auto-refresh ONCE when a newly-deployed SW version activates, so no device
+            // stays stuck on old cached CSS/HTML/JS after a deploy (the moon-glow reported
+            // on mobile was a stale-cache artifact of the pre-2026-05-31 assets). The SW's
+            // activate handler posts {type:'SW_ACTIVATED',version}; we reload a single time
+            // per version, guarded by sessionStorage AND by hadController so:
+            //   • brand-new visitors (no prior SW) never reload — the page is already fresh;
+            //   • returning visitors reload exactly once per new version — NO reload loop;
+            //   • if sessionStorage is unavailable we skip the reload (never loop).
+            // Inline in the (network-first) HTML so it ships fresh with every page.
+            var _swHadController = !!navigator.serviceWorker.controller;
+            navigator.serviceWorker.addEventListener('message', function (e) {
+                if (!e || !e.data || e.data.type !== 'SW_ACTIVATED') return;
+                if (!_swHadController) return;            // first install → already fresh
+                try {
+                    var _k = 'sw_reloaded_' + (e.data.version || 'x');
+                    if (!sessionStorage.getItem(_k)) {
+                        sessionStorage.setItem(_k, '1');   // one reload per version → no loop
+                        location.reload();
+                    }
+                } catch (_) { /* storage blocked → skip (never loop) */ }
+            });
         }
     </script>
 

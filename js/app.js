@@ -7683,6 +7683,22 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
     }
     sessionStorage.setItem(`city_${slug}`, JSON.stringify(_seed));
 
+    // HOME-LAST-LOCATION-AFTER-GEOLOCATION-FIX-1: when the caller marks this navigation as an
+    //   EXPLICIT user location choice (opts.persistSelected — set by the homepage "locate me" geo
+    //   button _locHeroDetectAndNavigate), ALSO persist `selected_city` in the SAME shape the manual
+    //   search pick writes (site-search.js `_ctx`: lat/lng/name/country/englishName/countryCode/
+    //   timezone/slug/ts), so the freshly geo-detected city OUTRANKS any stale prior search pick on
+    //   the homepage display (initApp) + header nav (_lastCityForNav). Off by default → no other
+    //   navigateToCity caller (moon/qibla home boxes, smart-pill, etc.) is affected.
+    if (opts.persistSelected) {
+        try {
+            sessionStorage.setItem('selected_city', JSON.stringify({
+                lat, lng, name: city, country, englishName, countryCode,
+                timezone: (_seed.timezone != null ? _seed.timezone : null), slug: slug, ts: Date.now()
+            }));
+        } catch (_) {}
+    }
+
     // MOON-GENERAL-HOME-SEARCH-BOX-1 + QIBLA-GENERAL-HOME-SEARCH-BOX-1
     // (2026-05-18): opts.targetRoute lets callers redirect this same flow
     // to a different city-page family. Supported values:
@@ -10513,7 +10529,8 @@ function _locHeroDetectAndNavigate() {
                         d.arCity || (d.names && d.names.ar) || '',
                         d.country || '',
                         d.enName || (d.names && d.names.en) || '',
-                        (d.countryCode || '').toLowerCase());
+                        (d.countryCode || '').toLowerCase(),
+                        { persistSelected: true });
                 } catch (e) { _restore(); try { console.warn('[locHeroNav] fast-path nav failed:', e); } catch(_) {} }
                 return;
             }
@@ -10534,7 +10551,7 @@ function _locHeroDetectAndNavigate() {
             try {
                 const c = _findNearestKnownCity(lat, lng);
                 _writeLsbDetected(c, lat, lng);
-                navigateToCity(lat, lng, c.ar, c.country, c.en, c.cc);
+                navigateToCity(lat, lng, c.ar, c.country, c.en, c.cc, { persistSelected: true });
             } catch (e) {
                 _restore();
                 try { console.warn('[locHeroNav] navigateToCity failed:', e); } catch (_) {}

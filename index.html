@@ -80,6 +80,27 @@
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
     <link rel="preload" href="css/style.css?v=485" as="style">
     <link rel="stylesheet" href="css/style.css?v=485">
+    <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
+         Cache-proof critical freeze for the moon disc + its wrapper + halo.
+         This inline block lives in the SSR <head> (served network-first =
+         always fresh), so it overrides ANY older/stale cached css/style.css on
+         the visitor's device — guaranteeing the moon shape, its drop-shadow,
+         and the zone AROUND it are 100% static (no animation / transition /
+         breathing glow / moving halo) on /moon/{country}/{city}/today AND
+         /moon/{country}/{city}, matching the dated-day page — even when the
+         external stylesheet is served from an old Service Worker / HTTP cache.
+         Purely defensive: it mirrors the CURRENT css/style.css rest state and
+         changes NO moon data, illumination, phase, age, or calculation. -->
+    <style id="moon-freeze-critical">
+    .moon-visual,.moon-visual *,.moon-svg,.moon-svg *,.moon-svg-lit,.moon-icon,.moon-disc,.moon-disc *,
+    .moon-display::before,.moon-display::after,.moon-visual::before,.moon-visual::after,
+    .moon-visual *::before,.moon-visual *::after,.moon-svg::before,.moon-svg::after,
+    .moon-svg *::before,.moon-svg *::after,.moon-icon::before,.moon-icon::after,
+    .moon-disc::before,.moon-disc::after,.moon-disc *::before,.moon-disc *::after{
+      animation:none!important;transition:none!important;
+    }
+    .moon-svg{filter:drop-shadow(0 4px 10px rgba(0,0,0,0.25))!important;}
+    </style>
 </head>
 <body>
     <!-- ═══ E3-a (2026-05-01): Navigation transition overlay ═══

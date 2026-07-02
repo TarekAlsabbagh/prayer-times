@@ -3574,7 +3574,12 @@ function _getDiscoveredSsrEntry(slug) {
 async function _prefetchDiscoveredForSsr(urlPath) {
     if (!urlPath) return;
     const core = String(urlPath).replace(/\.html$/, '');
-    const m = core.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-([a-z][a-z0-9-]+)$/);
+    let m = core.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-([a-z][a-z0-9-]+)$/);
+    // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1 (2026-07-02): also prefetch the discovered
+    // row for the NESTED moon families /moon/{country}/{city}[/today | /{yyyy}[/{mm}[/{dd}]]]
+    // (city = 2nd path segment) so the SYNCHRONOUS classifiers + SSR moon builder can resolve
+    // a discovered city. Curated slugs early-return below; unknown slugs cache a negative.
+    if (!m) m = core.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/(?:today|\d{4}(?:\/\d{2}(?:\/\d{2})?)?))?$/);
     if (!m) return;
     const slug = m[1];
     if (_findPlaceBySlug(slug)) return;                        // curated → existing path handles it
@@ -3611,6 +3616,26 @@ async function _prefetchDiscoveredForSsr(urlPath) {
         if (k !== undefined) _DISCOVERED_SSR_CACHE.delete(k);
     }
     _DISCOVERED_SSR_CACHE.set(slug, { entry, expires: Date.now() + _DISCOVERED_SSR_TTL_MS });
+}
+
+// ═══ DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1 (2026-07-02) ══════════════════
+// Moon-only slug → country-code resolver. Curated FIRST (delegates verbatim to
+// _resolveCcForSlug, so curated cities are byte-for-byte unchanged), then the
+// prefetched discovered layer as a FALLBACK so a discovered place resolves to its
+// ISO cc (e.g. ad-dana → 'sy'). Deliberately a SEPARATE wrapper — NOT folded into
+// _resolveCcForSlug — so the many NON-moon callers of _resolveCcForSlug (next-prayer
+// city card, sitemap builder, internal nested-link builders) stay curated-only and a
+// discovered place can never leak into the sitemap or an indexable internal link.
+// Read-only: reads the same _DISCOVERED_SSR_CACHE the request-time prefetch populated
+// (no Supabase call here); returns '' when neither curated nor a prefetched row exists.
+function _resolveCcForMoonSlug(slug) {
+    const _cc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(slug) : '';
+    if (_cc) return _cc;
+    try {
+        const _d = (typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(slug) : null;
+        if (_d && _d.countryCode) return String(_d.countryCode).toLowerCase();
+    } catch (_) { /* discovered layer optional */ }
+    return '';
 }
 
 // ═══ DISCOVERED-CITIES-ADMIN-DASHBOARD-MVP-1 (2026-06-14) ═════════════════════
@@ -9372,7 +9397,7 @@ function _classifyNestedMoonHub(urlPath) {
     const _citySlug = _m[3];
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
-    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    const _cityCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_citySlug) : '';
     if (!_cityCc) return { kind: 'none' };
     const _correct = makeCountrySlugSrv(_cityCc);
     if (_correct && _correct === _countrySlug) return { kind: 'valid' };
@@ -9397,7 +9422,7 @@ function _classifyMoonToday(urlPath) {
     const _citySlug = _m[3];
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
-    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    const _cityCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_citySlug) : '';
     if (!_cityCc) return { kind: 'none' };
     const _correct = makeCountrySlugSrv(_cityCc);
     if (_correct && _correct === _countrySlug) {
@@ -9432,7 +9457,7 @@ function _classifyMoonYear(urlPath) {
     if (!(_year >= 1900 && _year <= 2100)) return { kind: 'none' };
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
-    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    const _cityCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_citySlug) : '';
     if (!_cityCc) return { kind: 'none' };
     const _correct = makeCountrySlugSrv(_cityCc);
     if (_correct && _correct === _countrySlug) {
@@ -9460,7 +9485,7 @@ function _classifyMoonMonth(urlPath) {
     if (!(_month >= 1 && _month <= 12)) return { kind: 'none' };
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
-    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    const _cityCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_citySlug) : '';
     if (!_cityCc) return { kind: 'none' };
     const _correct = makeCountrySlugSrv(_cityCc);
     if (_correct && _correct === _countrySlug) {
@@ -9493,7 +9518,7 @@ function _classifyMoonDay(urlPath) {
     if (!(_day >= 1 && _day <= _dim)) return { kind: 'none' };
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
-    const _cityCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_citySlug) : '';
+    const _cityCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_citySlug) : '';
     if (!_cityCc) return { kind: 'none' };
     const _correct = makeCountrySlugSrv(_cityCc);
     if (_correct && _correct === _countrySlug) {
@@ -12725,7 +12750,7 @@ function buildSeoForPath(urlPath) {
     let _moonNestedCountryName = '';
     if (_MNESTED) {
         const _ncCountry = _countryFromSlug(_MNESTED[1]);
-        const _ncCityCc  = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_MNESTED[2]) : '';
+        const _ncCityCc  = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_MNESTED[2]) : '';
         if (_ncCountry && _ncCountry.cc !== '__' && _ncCityCc
             && makeCountrySlugSrv(_ncCityCc) === _MNESTED[1]) {
             _isMoonNestedHub = true;
@@ -12745,7 +12770,7 @@ function buildSeoForPath(urlPath) {
         const _ndY = parseInt(_MNESTED_DAY[3], 10), _ndMo = parseInt(_MNESTED_DAY[4], 10), _ndDd = parseInt(_MNESTED_DAY[5], 10);
         const _ndDim = new Date(Date.UTC(_ndY, _ndMo, 0)).getUTCDate();   // days-in-month (leap-aware)
         const _ndCountry = _countryFromSlug(_MNESTED_DAY[1]);
-        const _ndCityCc  = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_MNESTED_DAY[2]) : '';
+        const _ndCityCc  = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_MNESTED_DAY[2]) : '';
         if (_ndCountry && _ndCountry.cc !== '__' && _ndCityCc && makeCountrySlugSrv(_ndCityCc) === _MNESTED_DAY[1]
             && _ndY >= 1900 && _ndY <= 2100 && _ndMo >= 1 && _ndMo <= 12 && _ndDd >= 1 && _ndDd <= _ndDim) {
             _isMoonNestedDay = true;
@@ -12763,7 +12788,7 @@ function buildSeoForPath(urlPath) {
     let _moonNestedTodayCountrySlug = '', _moonNestedTodayCountryName = '';
     if (_MNESTED_TODAY) {
         const _ntCountry = _countryFromSlug(_MNESTED_TODAY[1]);
-        const _ntCityCc  = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_MNESTED_TODAY[2]) : '';
+        const _ntCityCc  = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_MNESTED_TODAY[2]) : '';
         if (_ntCountry && _ntCountry.cc !== '__' && _ntCityCc && makeCountrySlugSrv(_ntCityCc) === _MNESTED_TODAY[1]) {
             _isMoonNestedToday = true;
             _moonNestedTodayCountrySlug = _MNESTED_TODAY[1];
@@ -12782,7 +12807,7 @@ function buildSeoForPath(urlPath) {
     if (_MNESTED_MONTH) {
         const _nmY = parseInt(_MNESTED_MONTH[3], 10), _nmMo = parseInt(_MNESTED_MONTH[4], 10);
         const _nmCountry = _countryFromSlug(_MNESTED_MONTH[1]);
-        const _nmCityCc  = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_MNESTED_MONTH[2]) : '';
+        const _nmCityCc  = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_MNESTED_MONTH[2]) : '';
         if (_nmCountry && _nmCountry.cc !== '__' && _nmCityCc && makeCountrySlugSrv(_nmCityCc) === _MNESTED_MONTH[1]
             && _nmY >= 1900 && _nmY <= 2100 && _nmMo >= 1 && _nmMo <= 12) {
             _isMoonNestedMonth = true;
@@ -12855,6 +12880,22 @@ function buildSeoForPath(urlPath) {
         //   sessionStorage.city_moon لإحداثيّات المستخدم الحقيقيّة.
         let cityGeo = _resolveCityForMoon(citySlug);
         const _moonResolvedFromDb = !!cityGeo;
+        // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1 (2026-07-02): curated coord DB missed →
+        // use the prefetched discovered row's real coords/cc/tz so the nested moon page renders
+        // the ACTUAL city (illumination + Article JSON-LD bound to its location) instead of the
+        // Mecca fallback. Deliberately kept OUT of _moonResolvedFromDb so the page stays noindex
+        // (unified city-route gate) and never triggers the coord→canonical 301. tz captured for
+        // the moonCity seed below (exact IANA straight from discovered_places.timezone).
+        let _moonDiscoveredTz = '';
+        if (!cityGeo) {
+            try {
+                const _md = (typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(citySlug) : null;
+                if (_md && typeof _md.lat === 'number' && typeof _md.lng === 'number' && isFinite(_md.lat) && isFinite(_md.lng)) {
+                    cityGeo = { lat: _md.lat, lng: _md.lng, cc: (_md.countryCode || '').toLowerCase() };
+                    _moonDiscoveredTz = _md.timezone || '';
+                }
+            } catch (_) { /* discovered layer optional */ }
+        }
         if (!cityGeo && _hasCoordSuffix) {
             cityGeo = { lat: _coordLat, lng: _coordLng, cc: '' };
         } else if (!cityGeo) {
@@ -13530,7 +13571,9 @@ function buildSeoForPath(urlPath) {
             // IANA tz — مُستنتَج من cc عبر _CC_TO_PRIMARY_TZ. للمدن خارج الخريطة:
             // null → العميل سيستعمل _tzFromLongitude fallback (Etc/GMT±N).
             const _moonCc = (cityGeo.cc || '').toLowerCase();
-            const _moonTz = _moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null;
+            // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1: prefer the discovered row's EXACT IANA
+            // tz (e.g. Asia/Damascus) when present; else the curated cc→primary-tz map (unchanged).
+            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null);
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
                 tz: _moonTz,                          // Asia/Tokyo إلخ — أو null عند عدم التوفّر
@@ -14252,9 +14295,14 @@ function buildSeoForPath(urlPath) {
             const _ycCountry = _countryNameForLang(_yc.cc, lang);
             const _ycGeo     = (typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(_yc.citySlug) : null;
             const _ycCurated = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(_yc.citySlug) : null;
-            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_CC_TO_PRIMARY_TZ[_yc.cc] || null);
-            const _ycLat = _ycGeo ? _ycGeo.lat : (_ycCurated ? _ycCurated.lat : 21.4225);
-            const _ycLng = _ycGeo ? _ycGeo.lng : (_ycCurated ? _ycCurated.lng : 39.8262);
+            // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1 (2026-07-02): the year page has its own SSR
+            // block (separate from the m-block) — on a curated miss use the prefetched discovered row's
+            // real coords/tz so the year calendar binds to the actual city (the Mecca fallback was the
+            // bug). Page stays noindex via the unified nested-moon city-route gate below.
+            const _ycDisc = (!_ycGeo && !_ycCurated && typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(_yc.citySlug) : null;
+            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_CC_TO_PRIMARY_TZ[_yc.cc] || null);
+            const _ycLat = _ycGeo ? _ycGeo.lat : (_ycCurated ? _ycCurated.lat : (_ycDisc && typeof _ycDisc.lat === 'number' ? _ycDisc.lat : 21.4225));
+            const _ycLng = _ycGeo ? _ycGeo.lng : (_ycCurated ? _ycCurated.lng : (_ycDisc && typeof _ycDisc.lng === 'number' ? _ycDisc.lng : 39.8262));
             const _Y = _yc.year;
             // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
             // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.
@@ -14411,7 +14459,13 @@ function buildSeoForPath(urlPath) {
     // listing pages stay indexable. Only fires when no stronger robots rule already set
     // (moon out-of-range / coord-only noindex). Curated cities are unaffected.
     if (!robotsOverride) {
-        const _cityRouteSlug = (corePath.match(/^\/(?:qibla-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2}){0,2})?$/) || [])[1];
+        const _cityRouteSlug = (corePath.match(/^\/(?:qibla-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/\d{4}(?:-\d{2}){0,2})?$/) || [])[1]
+            // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1 (2026-07-02): nested moon families
+            // /moon/{country}/{city}[/today | /{yyyy}[/{mm}[/{dd}]]] — city = 2nd segment. A curated
+            // city returns false from _shouldNoindexCityRoute (stays indexable, unchanged); a
+            // discovered city returns true → noindex, keeping discovered moon pages out of the index
+            // like their prayer/qibla siblings. The sitemap is unaffected (built curated-only elsewhere).
+            || (corePath.match(/^\/moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/(?:today|\d{4}(?:\/\d{2}(?:\/\d{2})?)?))?$/) || [])[1];
         if (_cityRouteSlug && _shouldNoindexCityRoute(_cityRouteSlug)) {
             robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         }
@@ -29813,7 +29867,7 @@ const server = http.createServer(async (req, res) => {
                 );
             };
             {
-                const _legCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(_moonResolvedSlug) : '';
+                const _legCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_moonResolvedSlug) : '';
                 const _legCountrySlug = _legCc ? makeCountrySlugSrv(_legCc) : '';
                 if (_legCountrySlug) {
                     const _legBase = '/' + _moonLangPrefix + 'moon/' + _legCountrySlug + '/' + _moonResolvedSlug;

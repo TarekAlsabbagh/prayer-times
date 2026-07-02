@@ -78,8 +78,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=485" as="style">
-    <link rel="stylesheet" href="css/style.css?v=485">
+    <link rel="preload" href="css/style.css?v=486" as="style">
+    <link rel="stylesheet" href="css/style.css?v=486">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -425,12 +425,10 @@
                          discovered / Nominatim results keep this hidden. v1
                          (the legacy fetcher) never shows this badge. -->
                     <span id="search-attribution-locationiq"
-                          class="search-attribution"
-                          style="display:none;font-size:11px;color:#888;margin-top:4px;line-height:1.5;text-align:start;">
+                          class="search-attribution">
                         <span data-i18n="search.locationiq_attribution">بيانات البحث الخارجية بواسطة</span>
                         <a href="https://locationiq.com/?ref=prayertimes"
-                           target="_blank" rel="noopener"
-                           style="color:#4a5cdb;text-decoration:none;">LocationIQ</a>
+                           target="_blank" rel="noopener">LocationIQ</a>
                     </span>
                 </section>
 

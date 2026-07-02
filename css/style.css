@@ -9546,6 +9546,15 @@ html[data-theme="dark"] .azkar-edu-link-card:hover {
     font-size: 0.9rem;
 }
 
+/* RAMADAN-COUNTDOWN-ALL-LANGS-INLINE-STYLES-FRIENDLY-LINKS-REVIEW-1 (2026-07-02):
+   moved the LocationIQ attribution badge's two inline style="" attributes (index.html
+   #search-attribution-locationiq span + its <a>) into this class so no page carries them.
+   Hidden by DEFAULT — it is a functional, TOS-required attribution badge shown ONLY when a
+   LocationIQ external result appears; js/app.js _renderHomepageAttributionLocationIQ() sets
+   el.style.display at runtime (inline wins over this rule). NOT hidden SEO/keyword text. */
+.search-attribution { display: none; font-size: 11px; color: #888; margin-top: 4px; line-height: 1.5; text-align: start; }
+.search-attribution a { color: #4a5cdb; text-decoration: none; }
+
 /* زر البحث الخارجي في القائمة المنسدلة */
 .sugg-online-btn {
     display: flex;

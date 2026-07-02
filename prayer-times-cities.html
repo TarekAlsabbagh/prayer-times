@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة في مدن الدولة</title>
-    <meta name="description" content="تصفّح مدن الدولة لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.">
+    <meta name="description" content="تصفح مدن الدولة لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;700;800&family=Noto+Sans+Bengali:wght@400;500;700&display=optional" onload="this.onload=null;this.rel='stylesheet'">
@@ -458,7 +458,7 @@
             <a id="loc-hero-smart-pill" class="loc-hero-smart-pill" href="#" hidden></a>
 
             <h1 id="loc-hero-title" class="loc-hero-title" data-i18n="cities_page.hero_title">مواقيت الصلاة في مدن الدولة</h1>
-            <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="cities_page.hero_subtitle">تصفّح المدن أدناه أو استخدم موقعك الجغرافيّ للحصول على مواقيت دقيقة</p>
+            <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="cities_page.hero_subtitle">تصفح المدن أدناه أو استخدم موقعك الجغرافي للحصول على مواقيت دقيقة</p>
 
             <!-- Hero actions: search → dual CTA → microcopy → badges -->
             <div class="loc-hero-hero-actions">
@@ -477,13 +477,13 @@
                         <span class="lhb-icon" aria-hidden="true">📍</span>
                         <span class="lhb-label" data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
                     </button>
-                    <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn" data-i18n="home.pick_city">🌍 اختر مدينتك يدويّاً</button>
+                    <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn" data-i18n="home.pick_city">🌍 اختر مدينتك يدوياً</button>
                 </div>
 
-                <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ</p>
+                <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتم تحديد موقعك تلقائيًا خلال ثوانٍ</p>
 
                 <ul id="loc-hero-hero-badges" class="loc-hero-hero-badges">
-                    <li data-i18n="home.badge_gps">دقّة عالية باستخدام GPS</li>
+                    <li data-i18n="home.badge_gps">دقة عالية باستخدام GPS</li>
                     <li data-i18n="home.badge_all_countries">يعمل في جميع الدول</li>
                 </ul>
             </div>
@@ -1206,7 +1206,7 @@ function updateCountryListingSEO(lngOrIsEn, countryName) {
         ms: `Waktu Solat di Bandar-Bandar ${countryName}`,
     };
     const _descs = {
-        ar: `تصفّح جميع مدن ${countryName} لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.`,
+        ar: `تصفح جميع مدن ${countryName} لمعرفة مواقيت الصلاة الدقيقة، اتجاه القبلة والتاريخ الهجري لكل موقع.`,
         en: `Browse all cities in ${countryName} to see accurate Islamic prayer times, Qibla direction and Hijri date for each location.`,
         fr: `Parcourez toutes les villes de ${countryName} pour des heures de prière précises, la direction de la Qibla et la date hégirienne pour chaque lieu.`,
         tr: `${countryName} şehirlerinde doğru namaz vakitleri, kıble yönü ve hicri tarih için tüm şehirlere göz atın.`,
@@ -1476,7 +1476,7 @@ function showError() {
     const _tf = (k, fb) => (typeof t === 'function') ? t(k) : fb;
     document.getElementById('cities-container').innerHTML =
         `<div class="status-msg">
-            ${_tf('cities_page.error', '⚠️ تعذّر تحميل البيانات حالياً.')}<br>
+            ${_tf('cities_page.error', '⚠️ تعذر تحميل البيانات حالياً.')}<br>
             <small style="color:var(--text-light);display:block;margin:6px 0 12px">${_tf('cities_page.check_connection', 'تحقق من اتصالك بالإنترنت وأعد المحاولة')}</small>
             <button onclick="fetchCities()" style="padding:8px 24px;background:var(--primary);color:#fff;border:none;border-radius:10px;font-size:0.95rem;font-family:inherit;cursor:pointer;font-weight:600;">
                 ${_tf('cities_page.retry', '↺ إعادة المحاولة')}
@@ -1687,7 +1687,7 @@ function _dscSearchingLabel() {
         case 'es': return '🔍 Buscando en la base global…';
         case 'bn': return '🔍 গ্লোবাল ডেটাবেসে খোঁজা হচ্ছে…';
         case 'ms': return '🔍 Mencari dalam pangkalan data global…';
-        default:   return '🔍 جاري البحث في قاعدة البحث العامّة…';
+        default:   return '🔍 جاري البحث في قاعدة البحث العامة…';
     }
 }
 function _dscNoResultLabel() {
@@ -1701,7 +1701,7 @@ function _dscNoResultLabel() {
         case 'es': return 'No se encontró ninguna ciudad en este país ni mediante la búsqueda global.';
         case 'bn': return 'এই দেশে বা গ্লোবাল সার্চে কোনো মিল পাওয়া যায়নি।';
         case 'ms': return 'Tiada bandar sepadan dalam negara ini atau melalui carian global.';
-        default:   return 'لم نجد مدينة مطابقة داخل هذه الدولة أو عبر البحث العامّ.';
+        default:   return 'لم نجد مدينة مطابقة داخل هذه الدولة أو عبر البحث العام.';
     }
 }
 // COUNTRY-PRAYER-PAGE-CITY-SEARCH-DISCOVERY-UI-FIX-1: in-country grid filter is a context-scoped

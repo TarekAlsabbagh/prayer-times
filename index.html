@@ -72,7 +72,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=809" as="script">
+    <link rel="preload" href="js/app.js?v=810" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -342,12 +342,12 @@
                 <!-- ═══════ Location Hero — Persuasive Landing (mirrors qibla-hub-hero) ═══════ -->
                 <section class="location-hero section-card loc-hero-card" id="location-hero">
                     <!-- Collapse / expand toggle button (chevron rotates with state) -->
-                    <button type="button" class="loc-hero-close-btn" id="loc-hero-close-btn" aria-label="طيّ/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
+                    <button type="button" class="loc-hero-close-btn" id="loc-hero-close-btn" aria-label="طي/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
                     <!-- Smart-redirect pill (hidden until a last-used location is cached) -->
                     <a id="loc-hero-smart-pill" class="loc-hero-smart-pill" href="#" hidden></a>
 
-                    <h1 id="loc-hero-title" class="loc-hero-title" data-i18n="home.tagline">مواقيت الصلاة اليوم والتاريخ الهجريّ</h1>
-                    <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="home.subtitle">اعرف أوقات الصلاة الدقيقة في مدينتك أو انطلاقاً من موقعك الجغرافيّ</p>
+                    <h1 id="loc-hero-title" class="loc-hero-title" data-i18n="home.tagline">مواقيت الصلاة اليوم والتاريخ الهجري</h1>
+                    <p id="loc-hero-subtitle" class="loc-hero-subtitle" data-i18n="home.subtitle">اعرف أوقات الصلاة الدقيقة في مدينتك أو انطلاقاً من موقعك الجغرافي</p>
 
                     <!-- Small current-city hint (preserved from Round 20) -->
                     <div class="loc-hero-city"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg> <span id="loc-hero-city-label" data-i18n="header.locating">جاري التحديد…</span></div>
@@ -376,13 +376,13 @@
                                 <svg class="icon lhb-icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
                                 <span class="lhb-label" data-i18n="home.use_location">عرض مواقيت الصلاة في موقعي الآن</span>
                             </button>
-                            <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="home.pick_city">اختر مدينتك يدويّاً</span></button>
+                            <button type="button" id="loc-hero-pick-btn" class="loc-hero-pick-btn"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="home.pick_city">اختر مدينتك يدوياً</span></button>
                         </div>
 
-                        <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ</p>
+                        <p id="loc-hero-geo-microcopy" class="loc-hero-geo-microcopy" data-i18n="home.geo_microcopy">سيتم تحديد موقعك تلقائيًا خلال ثوانٍ</p>
 
                         <ul id="loc-hero-hero-badges" class="loc-hero-hero-badges">
-                            <li data-i18n="home.badge_gps">دقّة عالية باستخدام GPS</li>
+                            <li data-i18n="home.badge_gps">دقة عالية باستخدام GPS</li>
                             <li data-i18n="home.badge_all_countries">يعمل في جميع الدول</li>
                         </ul>
 
@@ -554,7 +554,7 @@
                             <div class="banner-big-countdown" id="next-prayer-countdown">--:--:--</div>
                             <!-- Round 22: ثمّ القادمة بعدها -->
                             <div class="banner-then-prayer" id="banner-then-prayer" hidden>
-                                <span data-i18n="banner.then">ثمّ</span>
+                                <span data-i18n="banner.then">ثم</span>
                                 <b id="banner-then-prayer-name">--</b>
                                 <span class="btp-time" id="banner-then-prayer-time">--</span>
                             </div>
@@ -624,12 +624,12 @@
                      يَظهر فقط على صفحات المدينة (html.city-page) عبر CSS،
                      ويتلقّى hrefs canonical عبر SSR injection (mit-qibla / mit-moon / mit-hijri). -->
                 <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
-                    <h3 class="mit-title" id="mit-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="mit.title">أدوات إسلاميّة سريعة</span></h3>
+                    <h3 class="mit-title" id="mit-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="mit.title">أدوات إسلامية سريعة</span></h3>
                     <div class="mit-grid">
                         <!-- href values are real canonical landings; on city pages, server.js Phase I rewrites them to /qibla-in-{slug}, /moon-today-in-{slug}, /hijri-date/YYYY-MM-DD. On homepage they remain the generic landings. -->
                         <a class="mit-item" id="mit-qibla" href="/qibla" data-tool="qibla" aria-label="اتجاه القبلة" data-i18n-aria-label="home.qibla">
                             <svg class="icon mit-icon" aria-hidden="true"><use href="#i-compass"/></svg>
-                            <span class="mit-label" data-i18n="mit.qibla">اتّجاه القبلة</span>
+                            <span class="mit-label" data-i18n="mit.qibla">اتجاه القبلة</span>
                         </a>
                         <a class="mit-item" id="mit-hijri" href="/today-hijri-date" data-tool="hijri" aria-label="التاريخ الهجري اليوم" data-i18n-aria-label="home.hijri_today">
                             <svg class="icon mit-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
@@ -657,14 +657,14 @@
                         <span class="ecb-label" data-i18n="event_badge.ramadan">باقي على شهر رمضان المبارك</span>
                         <b class="ecb-days" id="ecb-days">—</b>
                     </span>
-                    <span class="ecb-cta" data-i18n="event_badge.view">اعرض العدّاد</span>
+                    <span class="ecb-cta" data-i18n="event_badge.view">اعرض العداد</span>
                 </a>
 
                 <!-- ⭐ Summary+Info Strip — 4 عناصر + زرّ إعدادات (Phase 2: +طريقة الحساب) -->
                 <div class="section-card summary-info-strip" id="summary-info-strip">
                     <span class="sis-item">🌅 <span data-i18n="sis.imsak">الإمساك</span>: <b id="sis-imsak">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
-                    <span class="sis-item">⏳ <span data-i18n="sis.fasting">مدّة الصيام</span>: <b id="sis-fasting">—</b></span>
+                    <span class="sis-item">⏳ <span data-i18n="sis.fasting">مدة الصيام</span>: <b id="sis-fasting">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
                     <span class="sis-item"><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="sis.last_third">آخر ثلث الليل</span>: <b id="sis-last-third">—</b></span>
                     <span class="sis-sep" aria-hidden="true">•</span>
@@ -698,7 +698,7 @@
                             <select id="cs-time"></select>
                         </div>
                         <button type="button" class="ccs-advanced-link" onclick="openSettingsModal()">
-                            <span data-i18n="settings.advanced">إعدادات متقدّمة</span>
+                            <span data-i18n="settings.advanced">إعدادات متقدمة</span>
                             <span aria-hidden="true">›</span>
                         </button>
                     </div>
@@ -1001,7 +1001,7 @@
                     </div><!-- /home-world-countries-block -->
 
                     <div class="u-center-mt countries-toggle-wrap">
-                        <button type="button" class="countries-expand-btn" onclick="toggleCountriesFull(this)"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="countries.show_all">عرض كلّ الدول</span></button>
+                        <button type="button" class="countries-expand-btn" onclick="toggleCountriesFull(this)"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="countries.show_all">عرض كل الدول</span></button>
                         <a href="/prayer-times-worldwide" class="more-countries-btn" id="more-countries-btn"><svg class="icon" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="countries.more">استعرض كل دول العالم</span></a>
                     </div>
                 </section>
@@ -1038,7 +1038,7 @@
                             </a></li>
                             <li><a id="rl-qibla" href="#" data-rel="qibla">
                                 <svg class="icon rls-icon" aria-hidden="true"><use href="#i-compass"/></svg>
-                                <span class="rls-text" data-i18n="rls.qibla">اتّجاه القبلة في {loc}</span>
+                                <span class="rls-text" data-i18n="rls.qibla">اتجاه القبلة في {loc}</span>
                                 <span class="rls-badge" data-i18n="rls.badge_now">الآن</span>
                             </a></li>
                         </ul>
@@ -1050,7 +1050,7 @@
                         <ul class="rls-list rls-list-info">
                             <li><a id="rl-hijri" href="/hijri-calendar" data-rel="hijri">
                                 <svg class="icon rls-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                                <span class="rls-text" data-i18n="rls.hijri">التاريخ الهجريّ اليوم في {loc}</span>
+                                <span class="rls-text" data-i18n="rls.hijri">التاريخ الهجري اليوم في {loc}</span>
                             </a></li>
                             <li><a id="rl-moon" href="#" data-rel="moon">
                                 <svg class="icon rls-icon" aria-hidden="true"><use href="#i-moon"/></svg>
@@ -1145,7 +1145,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
 
                 <!-- 🆕 Other Trending Cities (Phase 2) — مدن يبحث عنها الناس الآن (popularity، مستبعد المدينة الحاليّة) -->
@@ -1187,7 +1187,7 @@
                            title="كم باقي على الصلاة">
                             <span class="qa-icon">⏳</span>
                             <div class="qa-title" data-i18n="home.time_left">كم باقي على الصلاة</div>
-                            <div class="qa-sub" id="qa-time-left-sub" data-i18n="home.time_left_sub">الوقت المتبقّي للصلاة التالية</div>
+                            <div class="qa-sub" id="qa-time-left-sub" data-i18n="home.time_left_sub">الوقت المتبقي للصلاة التالية</div>
                         </a>
                         <a class="qa-card" id="qa-next-prayer" href="{LANG_PREFIX}/next-prayer-in-makkah"
                            data-i18n-title="home.next_prayer"
@@ -1329,7 +1329,7 @@
                     </div>
 
                     <!-- زرّ كشف كلّ الأسئلة — يظهر عند إضافة أسئلة ≥ 4 -->
-                    <button class="faq-expand-all" id="faq-expand-all" onclick="toggleFaqAll(this)" type="button" data-i18n="faq.show_all" hidden>عرض كلّ الأسئلة</button>
+                    <button class="faq-expand-all" id="faq-expand-all" onclick="toggleFaqAll(this)" type="button" data-i18n="faq.show_all" hidden>عرض كل الأسئلة</button>
                 </div>
 
                 <!-- 📜 حديث اليوم — منقول لأسفل FAQ (Round 20) -->
@@ -1356,7 +1356,7 @@
                         <a href="/prayer-times-in-cairo">مواقيت الصلاة في <strong>القاهرة</strong></a>
                         <a href="/prayer-times-in-istanbul">مواقيت الصلاة في <strong>إسطنبول</strong></a>
                         <a href="/prayer-times-in-dubai">مواقيت الصلاة في <strong>دبي</strong></a>
-                        <a href="/prayer-times-in-amman">مواقيت الصلاة في <strong>عمّان</strong></a>
+                        <a href="/prayer-times-in-amman">مواقيت الصلاة في <strong>عمان</strong></a>
                         <a href="/prayer-times-in-baghdad">مواقيت الصلاة في <strong>بغداد</strong></a>
                         <a href="/prayer-times-in-damascus">مواقيت الصلاة في <strong>دمشق</strong></a>
                         <a href="/prayer-times-in-casablanca">مواقيت الصلاة في <strong>الدار البيضاء</strong></a>
@@ -1388,14 +1388,14 @@
                             <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-refresh-cw"/></svg>
                             <div class="home-service-body">
                                 <span class="home-service-title" data-i18n="footer.link_date_converter">تحويل التاريخ</span>
-                                <span class="home-service-desc" data-i18n="footer.svc_date_converter_desc">حوّل بين الميلادي والهجري.</span>
+                                <span class="home-service-desc" data-i18n="footer.svc_date_converter_desc">حول بين الميلادي والهجري.</span>
                             </div>
                         </a>
                         <a class="home-service-card" href="/msbaha">
                             <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-rosary"/></svg>
                             <div class="home-service-body">
                                 <span class="home-service-title" data-i18n="footer.link_tasbih">المسبحة الإلكترونية</span>
-                                <span class="home-service-desc" data-i18n="footer.svc_tasbih_desc">عدّ الأذكار بسهولة.</span>
+                                <span class="home-service-desc" data-i18n="footer.svc_tasbih_desc">عد الأذكار بسهولة.</span>
                             </div>
                         </a>
                     </nav>
@@ -1404,7 +1404,7 @@
                     <div id="home-refs-block">
                     <div class="home-footer-subtitle"><svg class="icon" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="footer.refs_title">مصادر ومراجع خارجية</span></div>
                     <p class="home-footer-refs" data-i18n="footer.refs_text">
-                        تعرّف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:
+                        تعرف على المزيد عن الصلاة في الإسلام من مصدر موسوعي:
                         <a href="https://ar.wikipedia.org/wiki/%D8%B5%D9%84%D8%A7%D8%A9" target="_blank" rel="noopener external">الصلاة على ويكيبيديا ↗</a>
                     </p>
                     </div><!-- /home-refs-block -->
@@ -1644,7 +1644,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
 
                 <!-- JSON-LD @graph (not a visible section) -->
@@ -1658,7 +1658,7 @@
                      IDs are moon-* for JS targeting; CLASSES are qibla-hub-* for styling. -->
                 <div class="section-card qibla-hub-hero-card hub-only" id="moon-hub-hero">
                     <!-- Collapse / expand toggle button (chevron rotates with state) -->
-                    <button type="button" class="loc-hero-close-btn" id="moon-hub-close-btn" aria-label="طيّ/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
+                    <button type="button" class="loc-hero-close-btn" id="moon-hub-close-btn" aria-label="طي/فتح قسم البحث" data-i18n-aria-label="ui.toggle"></button>
                     <a id="moon-hub-smart-pill" class="qibla-hub-smart-pill" href="#" hidden></a>
                     <!-- Phase E2-3: own class for the moon H1 (was reusing .qibla-hero-title from the
                          shared SPA template). The CSS rule below ([css/style.css:11715]) now matches
@@ -1772,7 +1772,7 @@
                 <h1 class="page-h1" id="moon-page-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.h1">القمر اليوم</span></h1>
 
                 <!-- 🆕 Priority A: H2 تعريفيّ بارز مباشرةً تحت H1 (Hook + keyword-rich) -->
-                <h2 class="moon-subtitle" id="moon-subtitle" data-i18n="moon.subtitle_generic">تابع حالة القمر بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب</h2>
+                <h2 class="moon-subtitle" id="moon-subtitle" data-i18n="moon.subtitle_generic">تابع حالة القمر بدقة فلكية — الطور والإضاءة والعمر ومواعيد الشروق والغروب</h2>
 
                 <!-- 🆕 Top Summary line — ملخّص سريع قابل للمسح بنظرة واحدة، يُملأ بـ JS -->
                 <!-- UAT-Moon-Today-Polish: summary chip restructured to clearer
@@ -1797,14 +1797,14 @@
                 </div>
 
                 <!-- 🆕 Priority A: Intro paragraph promoted UP (was below Hijri widget) — hook مرئيّ مباشرةً -->
-                <p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">اليوم يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقّة فلكيّة. تُحسب هذه البيانات باستخدام نماذج فلكيّة دقيقة (خوارزميّات Meeus) بناءً على إحداثيّات موقعك.</p>
+                <p class="moon-intro" id="moon-intro" data-i18n="moon.intro_fallback">اليوم يمكنك معرفة طور القمر ونسبة إضاءته وعمره وموعد شروقه وغروبه بدقة فلكية. تُحسب هذه البيانات باستخدام نماذج فلكية دقيقة (خوارزميات Meeus) بناءً على إحداثيات موقعك.</p>
 
                 <!-- 🆕 Wave A: التاريخ الهجريّ اليوم — مرئيّ بصرياً + مرتبط بالقمر (SEO + UX) -->
                 <div class="moon-hijri-today" id="moon-hijri-today">
                     <div class="moon-hijri-row">
                         <svg class="icon moon-hijri-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
                         <div class="moon-hijri-body">
-                            <div class="moon-hijri-label" data-i18n="moon.hijri.today_label">التاريخ الهجريّ اليوم</div>
+                            <div class="moon-hijri-label" data-i18n="moon.hijri.today_label">التاريخ الهجري اليوم</div>
                             <div class="moon-hijri-date" id="moon-hijri-date">—</div>
                             <div class="moon-hijri-greg" id="moon-hijri-greg">—</div>
                         </div>
@@ -1909,8 +1909,8 @@
                         <div class="moon-detail-card moon-zodiac-card">
                             <div class="label">
                                 <span data-i18n="moon.zodiac_label">موقع القمر فلكيًا</span>
-                                <button type="button" class="info-tooltip-trigger" id="moon-zodiac-info" aria-label="معلومات عن الكوكبة الفلكيّة" tabindex="0">ⓘ</button>
-                                <span class="info-tooltip-content" id="moon-zodiac-tooltip" role="tooltip" data-i18n="moon.zodiac_tooltip">تُحسب حسب موضع القمر بين حدود الكوكبات الفلكيّة المعتمدة من الاتّحاد الفلكيّ الدوليّ (IAU)، وليس الأبراج التنجيميّة.</span>
+                                <button type="button" class="info-tooltip-trigger" id="moon-zodiac-info" aria-label="معلومات عن الكوكبة الفلكية" tabindex="0">ⓘ</button>
+                                <span class="info-tooltip-content" id="moon-zodiac-tooltip" role="tooltip" data-i18n="moon.zodiac_tooltip">تُحسب حسب موضع القمر بين حدود الكوكبات الفلكية المعتمدة من الاتحاد الفلكي الدولي (IAU)، وليس الأبراج التنجيمية.</span>
                             </div>
                             <div class="value" id="moon-zodiac">--</div>
                         </div>
@@ -1931,7 +1931,7 @@
                     <div class="moon-comparison" id="moon-comparison" hidden data-direction="waxing">
                         <div class="mc-header">
                             <svg class="icon mc-header-icon" aria-hidden="true"><use href="#i-bar-chart"/></svg>
-                            <span class="mc-header-title" data-i18n="moon.mc_title">تغيّر إضاءة القمر من الأمس إلى اليوم</span>
+                            <span class="mc-header-title" data-i18n="moon.mc_title">تغير إضاءة القمر من الأمس إلى اليوم</span>
                             <span class="mc-header-badge" id="mc-direction-badge" data-i18n="moon.mc_waxing">متزايد</span>
                         </div>
                         <div class="mc-compare-row">
@@ -2044,12 +2044,12 @@
 
                 <!-- 🆕 Priority C: الأطوار القمريّة القادمة (Killer Feature) — التواريخ الدقيقة للأطوار الأربعة التالية -->
                 <section class="section-card moon-upcoming-section" id="moon-upcoming-section" aria-labelledby="moon-upcoming-h2">
-                    <h2 id="moon-upcoming-h2" class="moon-upcoming-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-telescope"/></svg> <span data-i18n="moon.upcoming.title">مواعيد الأطوار القمريّة القادمة</span></h2>
+                    <h2 id="moon-upcoming-h2" class="moon-upcoming-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-telescope"/></svg> <span data-i18n="moon.upcoming.title">مواعيد الأطوار القمرية القادمة</span></h2>
                     <p class="moon-upcoming-subtitle" data-i18n="moon.upcoming.subtitle">مواعيد الأطوار الأربعة التالية للقمر، محسوبة حسب توقيت المدينة المعتمدة.</p>
                     <div class="moon-upcoming-timeline" id="moon-upcoming-timeline" role="list">
                         <!-- يُملأ بـ JS: 4 بطاقات أطوار -->
                     </div>
-                    <p class="moon-upcoming-notice" data-i18n="moon.upcoming.notice">* الأوقات محسوبة حسب توقيت المدينة المعتمدة باستخدام خوارزميّات Meeus الفلكيّة.</p>
+                    <p class="moon-upcoming-notice" data-i18n="moon.upcoming.notice">* الأوقات محسوبة حسب توقيت المدينة المعتمدة باستخدام خوارزميات Meeus الفلكية.</p>
                 </section>
 
                 <!-- MOON-EVENTS-MOVE-BELOW-FAQ-1 (2026-05-23): the Islamic-events
@@ -2060,15 +2060,15 @@
 
                 <!-- مخطّط إضاءة القمر (7 أيّام: 3 قبل + اليوم + 3 بعد) -->
                 <section class="section-card moon-chart-section" id="moon-chart-section" aria-labelledby="moon-chart-h2">
-                    <h2 id="moon-chart-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-trending-up"/></svg> <span data-i18n="moon.chart_title">مخطّط إضاءة القمر — 7 أيّام</span></h2>
-                    <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة الإضاءة المرئيّة من ثلاثة أيّام قبل إلى ثلاثة أيّام بعد</div>
+                    <h2 id="moon-chart-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-trending-up"/></svg> <span data-i18n="moon.chart_title">مخطط إضاءة القمر — 7 أيام</span></h2>
+                    <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة الإضاءة المرئية من ثلاثة أيام قبل إلى ثلاثة أيام بعد</div>
                     <div class="moon-chart-container" id="moon-chart-container" role="img" aria-label="Moon illumination 7-day trend"></div>
-                    <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اضغط على أيّ نقطة للانتقال إلى صفحة ذلك اليوم.</p>
+                    <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اضغط على أي نقطة للانتقال إلى صفحة ذلك اليوم.</p>
                 </section>
 
                 <!-- 14-day forecast -->
                 <div class="section-card" id="moon-forecast">
-                    <h2 id="moon-forecast-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="moon.forecast_title">توقّعات القمر للأربعة عشر يومًا القادمة</span></h2>
+                    <h2 id="moon-forecast-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="moon.forecast_title">توقعات القمر للأربعة عشر يومًا القادمة</span></h2>
                     <div class="moon-forecast-wrap">
                         <table class="moon-forecast-table" id="moon-forecast-table" aria-label="14-day moon forecast">
                             <thead>
@@ -2115,35 +2115,35 @@
                     <h2 id="moon-hub-faq-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.hub.faq_title">أسئلة شائعة عن القمر</span></h2>
                     <details class="moon-faq-item" open>
                         <summary data-i18n="moon.faq.dq1">ما هو طور القمر اليوم؟</summary>
-                        <p data-i18n="moon.faq.da1">يَمرّ القمر بثمانية أطوار خلال دورة 29.5 يوم: المحاق، الهلال المتزايد، التربيع الأوّل، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص. يَعرض الموقع الطور الحاليّ ونسبة الإضاءة لحظيّاً حسب موقعك.</p>
+                        <p data-i18n="moon.faq.da1">يَمر القمر بثمانية أطوار خلال دورة 29.5 يوم: المحاق، الهلال المتزايد، التربيع الأول، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص. يَعرض الموقع الطور الحالي ونسبة الإضاءة لحظياً حسب موقعك.</p>
                     </details>
                     <details class="moon-faq-item">
                         <summary data-i18n="moon.faq.dq_illum">كم نسبة إضاءة القمر اليوم؟</summary>
-                        <p data-i18n="moon.faq.da_illum">تُحسب نسبة إضاءة القمر فلكيّاً من الزاوية بين الشمس والقمر والأرض. تتراوح بين 0٪ (محاق) و100٪ (بدر مكتمل)، وتُعرض على الموقع لحظيّاً حسب موقعك.</p>
+                        <p data-i18n="moon.faq.da_illum">تُحسب نسبة إضاءة القمر فلكياً من الزاوية بين الشمس والقمر والأرض. تتراوح بين 0٪ (محاق) و100٪ (بدر مكتمل)، وتُعرض على الموقع لحظياً حسب موقعك.</p>
                     </details>
                     <details class="moon-faq-item">
                         <summary data-i18n="moon.faq.dq5">كم عمر القمر اليوم؟</summary>
-                        <p data-i18n="moon.faq.da5">عمر القمر هو عدد الأيّام المنقضية منذ آخر محاق، ويتراوح بين 0 و29.5 يوم. يَعرض الموقع العمر الدقيق لحظيّاً مع تَحديد موقع القمر في دورته الحاليّة.</p>
+                        <p data-i18n="moon.faq.da5">عمر القمر هو عدد الأيام المنقضية منذ آخر محاق، ويتراوح بين 0 و29.5 يوم. يَعرض الموقع العمر الدقيق لحظياً مع تَحديد موقع القمر في دورته الحالية.</p>
                     </details>
                     <details class="moon-faq-item">
                         <summary data-i18n="moon.faq.dq6">متى يشرق القمر اليوم؟</summary>
-                        <p data-i18n="moon.faq.da6">يَعتمد شروق القمر على خطّ الطول الجغرافيّ لموقعك. يَعرض الموقع وقت الشروق بالتوقيت المحلّيّ بمجرّد تَحديد الموقع.</p>
+                        <p data-i18n="moon.faq.da6">يَعتمد شروق القمر على خط الطول الجغرافي لموقعك. يَعرض الموقع وقت الشروق بالتوقيت المحلي بمجرد تَحديد الموقع.</p>
                     </details>
                     <details class="moon-faq-item">
                         <summary data-i18n="moon.faq.dq7">متى يغرب القمر اليوم؟</summary>
-                        <p data-i18n="moon.faq.da7">يَعتمد غروب القمر على خطّ الطول الجغرافيّ وخطّ العرض لموقعك. يَعرض الموقع وقت الغروب بالتوقيت المحلّيّ.</p>
+                        <p data-i18n="moon.faq.da7">يَعتمد غروب القمر على خط الطول الجغرافي وخط العرض لموقعك. يَعرض الموقع وقت الغروب بالتوقيت المحلي.</p>
                     </details>
                     <details class="moon-faq-item">
                         <summary data-i18n="moon.faq.dq2">متى يكون البدر القادم؟</summary>
-                        <p data-i18n="moon.faq.da2">يَتكرّر البدر كلّ 29.5 يوم. يَعرض الموقع التاريخ الميلاديّ والهجريّ للبدر القادم بدقّة حسابيّة عالية، مع نسبة إضاءة 100٪ ليلة اكتمال القمر.</p>
+                        <p data-i18n="moon.faq.da2">يَتكرر البدر كل 29.5 يوم. يَعرض الموقع التاريخ الميلادي والهجري للبدر القادم بدقة حسابية عالية، مع نسبة إضاءة 100٪ ليلة اكتمال القمر.</p>
                     </details>
                     <details class="moon-faq-item">
                         <summary data-i18n="moon.faq.dq_constellation">ما الفرق بين الكوكبة والبرج؟</summary>
-                        <p data-i18n="moon.faq.da_constellation">الكوكبة الفلكيّة (Constellation) هي رقعة من السماء تُحدّدها حدود رسميّة من الاتّحاد الفلكيّ الدوليّ (IAU)، وعددها 88 كوكبة منها 13 على دائرة البروج (تشمل الحوّاء). أمّا البرج (Zodiac sign) فهو تَقسيم تَنجيميّ يَفترض 12 جزءاً متساويًا (30° لكلّ جزء)، ولا يَعكس الموقع الفلكيّ الفعليّ للقمر. موقعنا يَستخدم الكوكبات الفلكيّة (IAU)، وليس الأبراج التَنجيميّة.</p>
+                        <p data-i18n="moon.faq.da_constellation">الكوكبة الفلكية (Constellation) هي رقعة من السماء تُحددها حدود رسمية من الاتحاد الفلكي الدولي (IAU)، وعددها 88 كوكبة منها 13 على دائرة البروج (تشمل الحواء). أما البرج (Zodiac sign) فهو تَقسيم تَنجيمي يَفترض 12 جزءاً متساويًا (30° لكل جزء)، ولا يَعكس الموقع الفلكي الفعلي للقمر. موقعنا يَستخدم الكوكبات الفلكية (IAU)، وليس الأبراج التَنجيمية.</p>
                     </details>
                     <details class="moon-faq-item">
-                        <summary data-i18n="moon.hub.faq.q4">ما علاقة دورة القمر بالتقويم الهجريّ؟</summary>
-                        <p data-i18n="moon.hub.faq.a4">يَعتمد التقويم الهجريّ كلّيّاً على دورة القمر. كلّ شهر هجريّ يَبدأ برؤية الهلال ويَستمرّ 29 أو 30 يومًا، فمجموع السنة الهجريّة 354 أو 355 يومًا — أقصر من السنة الشمسيّة بـ 11 يومًا.</p>
+                        <summary data-i18n="moon.hub.faq.q4">ما علاقة دورة القمر بالتقويم الهجري؟</summary>
+                        <p data-i18n="moon.hub.faq.a4">يَعتمد التقويم الهجري كلياً على دورة القمر. كل شهر هجري يَبدأ برؤية الهلال ويَستمر 29 أو 30 يومًا، فمجموع السنة الهجرية 354 أو 355 يومًا — أقصر من السنة الشمسية بـ 11 يومًا.</p>
                     </details>
                 </section>
 
@@ -2251,10 +2251,10 @@
 
                 <!-- FAQ — General Astronomy / Islamic Section (static, SEO-friendly) -->
                 <div class="section-card" id="moon-general-faq">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_general_title">أسئلة عامّة عن القمر</span></h2>
+                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-help-circle"/></svg> <span data-i18n="moon.faq_general_title">أسئلة عامة عن القمر</span></h2>
                     <div class="moon-faq moon-faq-general" id="moon-faq-general">
                         <!-- 🆕 Priority B.1: تصنيف الأسئلة إلى مجموعتين (معلومات لحظيّة + أسئلة فلكيّة) -->
-                        <h3 class="moon-faq-group-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-clock"/></svg> <span data-i18n="moon.faq.group_live">معلومات لحظيّة</span></h3>
+                        <h3 class="moon-faq-group-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-clock"/></svg> <span data-i18n="moon.faq.group_live">معلومات لحظية</span></h3>
                         <!-- 🆕 Wave B.3: الأسئلة الديناميكيّة غير الموقعيّة (الإجابات مملوءة JS-side) -->
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q_age">كم عمر القمر اليوم؟</summary>
@@ -2272,59 +2272,59 @@
                             <summary data-i18n="moon.faq.q_full_count">كم تبقى على البدر القادم؟</summary>
                             <p id="moon-dq4-a" data-i18n="moon.faq.tpl_dq4">—</p>
                         </details>
-                        <h3 class="moon-faq-group-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-telescope"/></svg> <span data-i18n="moon.faq.group_astronomy">أسئلة فلكيّة عامّة عن القمر</span></h3>
+                        <h3 class="moon-faq-group-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-telescope"/></svg> <span data-i18n="moon.faq.group_astronomy">أسئلة فلكية عامة عن القمر</span></h3>
                         <!-- الأسئلة التعليميّة/الفلكيّة (ثابتة) -->
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q4">كيف تُحسب نسبة إضاءة القمر؟</summary>
-                            <p data-i18n="moon.faq.a4">نسبة إضاءة القمر هي الجزء المرئيّ من سطحه المضاء بالشمس كما يُرى من الأرض. تتراوح من 0٪ (محاق) إلى 100٪ (بدر) وتُحسب فلكياً من الزاوية بين الشمس والقمر والأرض وفق معادلة k = (1 + cos i)/2 حيث i هي زاوية الطور.</p>
+                            <p data-i18n="moon.faq.a4">نسبة إضاءة القمر هي الجزء المرئي من سطحه المضاء بالشمس كما يُرى من الأرض. تتراوح من 0٪ (محاق) إلى 100٪ (بدر) وتُحسب فلكياً من الزاوية بين الشمس والقمر والأرض وفق معادلة k = (1 + cos i)/2 حيث i هي زاوية الطور.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q5">ما الفرق بين المحاق والهلال؟</summary>
-                            <p data-i18n="moon.faq.a5">المحاق هو اللحظة التي يكون فيها القمر بين الأرض والشمس (إضاءة 0٪ وغير مرئيّ). الهلال يظهر بعد المحاق بيوم أو يومين، وهو أوّل ظهور للقمر في السماء بشكل قوس دقيق ضيّق في الأفق الغربيّ بعد غروب الشمس.</p>
+                            <p data-i18n="moon.faq.a5">المحاق هو اللحظة التي يكون فيها القمر بين الأرض والشمس (إضاءة 0٪ وغير مرئي). الهلال يظهر بعد المحاق بيوم أو يومين، وهو أول ظهور للقمر في السماء بشكل قوس دقيق ضيق في الأفق الغربي بعد غروب الشمس.</p>
                         </details>
                         <details class="moon-faq-item">
-                            <summary data-i18n="moon.faq.q10">كيف أرى الهلال بالعين المجرّدة؟</summary>
-                            <p data-i18n="moon.faq.a10">يُرى الهلال بعد غروب الشمس في الأفق الغربيّ، عند عمر قمر لا يقلّ عن 15 ساعة تقريباً. يحتاج أفقاً غربيّاً صافياً بلا غيوم ولا إضاءة صناعيّة مزعجة. يستمرّ ظهوره 30-60 دقيقة قبل أن يغيب.</p>
+                            <summary data-i18n="moon.faq.q10">كيف أرى الهلال بالعين المجردة؟</summary>
+                            <p data-i18n="moon.faq.a10">يُرى الهلال بعد غروب الشمس في الأفق الغربي، عند عمر قمر لا يقل عن 15 ساعة تقريباً. يحتاج أفقاً غربياً صافياً بلا غيوم ولا إضاءة صناعية مزعجة. يستمر ظهوره 30-60 دقيقة قبل أن يغيب.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q11">ما هي أطوار القمر الثمانية؟</summary>
-                            <p data-i18n="moon.faq.a11">أطوار القمر الثمانية بالترتيب: (1) المحاق 0٪، (2) الهلال المتزايد 1-49٪، (3) التربيع الأوّل 50٪، (4) الأحدب المتزايد 51-99٪، (5) البدر 100٪، (6) الأحدب المتناقص 99-51٪، (7) التربيع الأخير 50٪، (8) الهلال المتناقص 49-1٪. تتكرّر الدورة كاملة كلّ 29.5 يوم.</p>
+                            <p data-i18n="moon.faq.a11">أطوار القمر الثمانية بالترتيب: (1) المحاق 0٪، (2) الهلال المتزايد 1-49٪، (3) التربيع الأول 50٪، (4) الأحدب المتزايد 51-99٪، (5) البدر 100٪، (6) الأحدب المتناقص 99-51٪، (7) التربيع الأخير 50٪، (8) الهلال المتناقص 49-1٪. تتكرر الدورة كاملة كل 29.5 يوم.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q12">لماذا تختلف مواعيد مطلع القمر من مدينة لأخرى؟</summary>
-                            <p data-i18n="moon.faq.a12">مطلع القمر يعتمد بشكل أساسيّ على خطّ الطول الجغرافيّ للمدينة. الفرق قد يصل إلى 12 ساعة بين شرق العالم وغربه. خطّ العرض يؤثّر قليلاً على الاتّجاه وارتفاع القمر في السماء ومدّة بقائه.</p>
+                            <p data-i18n="moon.faq.a12">مطلع القمر يعتمد بشكل أساسي على خط الطول الجغرافي للمدينة. الفرق قد يصل إلى 12 ساعة بين شرق العالم وغربه. خط العرض يؤثر قليلاً على الاتجاه وارتفاع القمر في السماء ومدة بقائه.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q13">ما هي ليلة القدر؟</summary>
-                            <p data-i18n="moon.faq.a13">ليلة القدر ليلة مباركة في العشر الأواخر من رمضان، يُرجَّح أنّها ليلة 27 لكنّها قد تكون في أيّ من الليالي الوتريّة (21، 23، 25، 27، 29). وصفها الله في القرآن بأنّها «خير من ألف شهر».</p>
+                            <p data-i18n="moon.faq.a13">ليلة القدر ليلة مباركة في العشر الأواخر من رمضان، يُرجَح أنها ليلة 27 لكنها قد تكون في أي من الليالي الوترية (21، 23، 25، 27، 29). وصفها الله في القرآن بأنها «خير من ألف شهر».</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q14">هل يمكن رؤية القمر في النهار؟</summary>
-                            <p data-i18n="moon.faq.a14">نعم، يمكن رؤية القمر أحياناً في النهار، خاصّة خلال أطوار التربيع الأوّل والتربيع الأخير والأحدب. في طور البدر يُرى ليلاً فقط لأنّه يكون مقابل الشمس تماماً. في المحاق لا يُرى نهاراً ولا ليلاً.</p>
+                            <p data-i18n="moon.faq.a14">نعم، يمكن رؤية القمر أحياناً في النهار، خاصة خلال أطوار التربيع الأول والتربيع الأخير والأحدب. في طور البدر يُرى ليلاً فقط لأنه يكون مقابل الشمس تماماً. في المحاق لا يُرى نهاراً ولا ليلاً.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q15">ما خسوف القمر ولماذا يحدث؟</summary>
-                            <p data-i18n="moon.faq.a15">خسوف القمر يحدث عندما تقع الأرض بين الشمس والقمر فيدخل القمر ظلّ الأرض. يحدث فقط في طور البدر، ويتراوح بين خسوف جزئيّ وخسوف كلّيّ. في الخسوف الكلّيّ يظهر القمر بلون أحمر داكن يُعرف بـ«القمر الدمويّ» بسبب تشتّت ضوء الشمس في غلاف الأرض الجوّيّ.</p>
+                            <p data-i18n="moon.faq.a15">خسوف القمر يحدث عندما تقع الأرض بين الشمس والقمر فيدخل القمر ظل الأرض. يحدث فقط في طور البدر، ويتراوح بين خسوف جزئي وخسوف كلي. في الخسوف الكلي يظهر القمر بلون أحمر داكن يُعرف بـ«القمر الدموي» بسبب تشتت ضوء الشمس في غلاف الأرض الجوي.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q16">لماذا نرى دائمًا نفس وجه القمر؟</summary>
-                            <p data-i18n="moon.faq.a16">يُعرف هذا بـ«القفل المدّيّ» (tidal locking): دورة القمر حول نفسه (27.3 يوم) تساوي دورته حول الأرض. لذلك يظلّ أحد وجهيه مواجهاً للأرض دائماً، والوجه الآخر يُعرف بـ«الجانب البعيد» وقد صُوِّر لأوّل مرّة عام 1959 بمركبة لونا 3 السوفيتيّة.</p>
+                            <p data-i18n="moon.faq.a16">يُعرف هذا بـ«القفل المدي» (tidal locking): دورة القمر حول نفسه (27.3 يوم) تساوي دورته حول الأرض. لذلك يظل أحد وجهيه مواجهاً للأرض دائماً، والوجه الآخر يُعرف بـ«الجانب البعيد» وقد صُوِر لأول مرة عام 1959 بمركبة لونا 3 السوفيتية.</p>
                         </details>
                         <details class="moon-faq-item">
-                            <summary data-i18n="moon.faq.q17">كيف يؤثّر القمر على المدّ والجزر؟</summary>
-                            <p data-i18n="moon.faq.a17">جاذبيّة القمر تسحب مياه المحيطات فتنتفخ تجاه القمر (مدّ) وفي الجانب المقابل أيضاً بسبب القوّة الطاردة المركزيّة. بين النتوءين يحدث الجزر. يحدث مدّان وجزران في اليوم الواحد تقريباً. عند اجتماع القمر مع الشمس (محاق أو بدر) يصل المدّ لأقصاه ويُسمّى «مدّ الربيع».</p>
+                            <summary data-i18n="moon.faq.q17">كيف يؤثر القمر على المد والجزر؟</summary>
+                            <p data-i18n="moon.faq.a17">جاذبية القمر تسحب مياه المحيطات فتنتفخ تجاه القمر (مد) وفي الجانب المقابل أيضاً بسبب القوة الطاردة المركزية. بين النتوءين يحدث الجزر. يحدث مدان وجزران في اليوم الواحد تقريباً. عند اجتماع القمر مع الشمس (محاق أو بدر) يصل المد لأقصاه ويُسمى «مد الربيع».</p>
                         </details>
                         <details class="moon-faq-item">
-                            <summary data-i18n="moon.faq.q18">هل تؤثّر أطوار القمر على النوم والمزاج؟</summary>
-                            <p data-i18n="moon.faq.a18">دراسات علميّة محدودة أظهرت أنّ بعض الأشخاص يعانون من نوم أقلّ جودة بنحو 20-30 دقيقة في ليالي البدر، وقد يعود ذلك إلى زيادة الضوء في السماء. لكن التأثير طفيف ويختلف من شخص لآخر، ولا يوجد دليل علميّ قاطع على تأثير القمر على المزاج أو السلوك بشكل عامّ.</p>
+                            <summary data-i18n="moon.faq.q18">هل تؤثر أطوار القمر على النوم والمزاج؟</summary>
+                            <p data-i18n="moon.faq.a18">دراسات علمية محدودة أظهرت أن بعض الأشخاص يعانون من نوم أقل جودة بنحو 20-30 دقيقة في ليالي البدر، وقد يعود ذلك إلى زيادة الضوء في السماء. لكن التأثير طفيف ويختلف من شخص لآخر، ولا يوجد دليل علمي قاطع على تأثير القمر على المزاج أو السلوك بشكل عام.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q19">لماذا يبدو القمر أحيانًا أصفر أو أحمر؟</summary>
-                            <p data-i18n="moon.faq.a19">عندما يكون القمر قريباً من الأفق، ضوؤه يمرّ بطبقة أسمك من الغلاف الجوّيّ، فيتشتّت الضوء الأزرق ويبقى الأحمر والأصفر. نفس الظاهرة تُسبّب شروقاً وغروباً ملوّنَين للشمس. كلّما ارتفع القمر في السماء عاد لونه إلى الأبيض الفضّيّ.</p>
+                            <p data-i18n="moon.faq.a19">عندما يكون القمر قريباً من الأفق، ضوؤه يمر بطبقة أسمك من الغلاف الجوي، فيتشتت الضوء الأزرق ويبقى الأحمر والأصفر. نفس الظاهرة تُسبب شروقاً وغروباً ملونَين للشمس. كلما ارتفع القمر في السماء عاد لونه إلى الأبيض الفضي.</p>
                         </details>
                         <details class="moon-faq-item">
                             <summary data-i18n="moon.faq.q20">ما معنى «القمر الأزرق» و«القمر العملاق»؟</summary>
-                            <p data-i18n="moon.faq.a20">«القمر الأزرق» (Blue Moon): بدر ثانٍ في الشهر الميلاديّ نفسه، يحدث تقريباً كلّ 2.7 سنة (ليس أزرق اللون فعلاً). «القمر العملاق» (Supermoon): بدر يتزامن مع أقرب نقطة للقمر من الأرض (الحضيض)، فيظهر أكبر بـ14٪ وأكثر إشراقاً بـ30٪ من البدر المتوسّط.</p>
+                            <p data-i18n="moon.faq.a20">«القمر الأزرق» (Blue Moon): بدر ثانٍ في الشهر الميلادي نفسه، يحدث تقريباً كل 2.7 سنة (ليس أزرق اللون فعلاً). «القمر العملاق» (Supermoon): بدر يتزامن مع أقرب نقطة للقمر من الأرض (الحضيض)، فيظهر أكبر بـ14٪ وأكثر إشراقاً بـ30٪ من البدر المتوسط.</p>
                         </details>
                     </div>
                 </div>
@@ -2340,34 +2340,34 @@
                          pages where this short version is visible, the H3 gives the
                          section a sub-headline rather than competing with the page H2s. -->
                     <h3><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="moon.edu_title">فهم أطوار القمر</span></h3>
-                    <p data-i18n="moon.edu_short_p1">دورة القمر تستغرق نحو 29.5 يومًا، يَمرّ خلالها بثمانية أطوار: المحاق، الهلال المتزايد، التربيع الأوّل، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص.</p>
-                    <p data-i18n="moon.edu_short_p2">تَختلف مواعيد شروق وغروب القمر من مدينة لأخرى بحسب خطّ الطول والمنطقة الزمنيّة، لذلك تُعرض بيانات هذه الصفحة بالتوقيت المحلّيّ لمدينتك.</p>
+                    <p data-i18n="moon.edu_short_p1">دورة القمر تستغرق نحو 29.5 يومًا، يَمر خلالها بثمانية أطوار: المحاق، الهلال المتزايد، التربيع الأول، الأحدب المتزايد، البدر، الأحدب المتناقص، التربيع الأخير، الهلال المتناقص.</p>
+                    <p data-i18n="moon.edu_short_p2">تَختلف مواعيد شروق وغروب القمر من مدينة لأخرى بحسب خط الطول والمنطقة الزمنية، لذلك تُعرض بيانات هذه الصفحة بالتوقيت المحلي لمدينتك.</p>
                     <p><a class="moon-edu-readmore" id="moon-edu-readmore-link" href="#"><span data-i18n="moon.edu_read_more">اقرأ المزيد عن أطوار القمر في مدينتك</span> ←</a></p>
                 </div>
 
                 <div class="section-card moon-evergreen moon-evergreen-long">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="moon.edu_title">فهم أطوار القمر</span></h2>
 
-                    <h3 data-i18n="moon.edu_phases_title">الدورة القمريّة والأطوار الثمانية</h3>
-                    <p data-i18n="moon.edu_phases_1">دورة القمر حول الأرض تستغرق 29.5 يوماً تقريباً، تُعرف بالشهر القمريّ. خلال هذه الفترة يمرّ القمر بثمانية أطوار متتابعة، تبدأ من المحاق وتنتهي بالهلال المتناقص قبل أن تتكرّر الدورة.</p>
-                    <p data-i18n="moon.edu_phases_2">المحاق (New Moon) هو اللحظة التي يقع فيها القمر بين الشمس والأرض، فيكون الوجه المقابل للأرض مظلماً تماماً (إضاءة 0٪). لا يُرى القمر في هذه اللحظة لأنّه يرتفع ويغيب مع الشمس.</p>
-                    <p data-i18n="moon.edu_phases_3">بعد المحاق بيوم أو يومين يبدأ الهلال المتزايد (Waxing Crescent) في الظهور على شكل قوس نحيل في الأفق الغربيّ بعد غروب الشمس. تزداد الإضاءة تدريجياً من 1٪ إلى نحو 49٪.</p>
-                    <p data-i18n="moon.edu_phases_4">عند وصول الإضاءة إلى 50٪ يصل القمر إلى طور التربيع الأوّل (First Quarter)، ويظهر كنصف دائرة. بعد ذلك يأتي الأحدب المتزايد (Waxing Gibbous) حيث تزيد الإضاءة من 51٪ إلى 99٪، ثمّ يصل القمر إلى البدر (Full Moon) بإضاءة 100٪.</p>
-                    <p data-i18n="moon.edu_phases_5">البدر يطلع وقت غروب الشمس ويغيب مع شروقها. بعد البدر تبدأ الإضاءة بالنقصان في الأطوار المتناقصة: الأحدب المتناقص ثمّ التربيع الأخير ثمّ الهلال المتناقص قبل أن يعود القمر إلى المحاق من جديد.</p>
+                    <h3 data-i18n="moon.edu_phases_title">الدورة القمرية والأطوار الثمانية</h3>
+                    <p data-i18n="moon.edu_phases_1">دورة القمر حول الأرض تستغرق 29.5 يوماً تقريباً، تُعرف بالشهر القمري. خلال هذه الفترة يمر القمر بثمانية أطوار متتابعة، تبدأ من المحاق وتنتهي بالهلال المتناقص قبل أن تتكرر الدورة.</p>
+                    <p data-i18n="moon.edu_phases_2">المحاق (New Moon) هو اللحظة التي يقع فيها القمر بين الشمس والأرض، فيكون الوجه المقابل للأرض مظلماً تماماً (إضاءة 0٪). لا يُرى القمر في هذه اللحظة لأنه يرتفع ويغيب مع الشمس.</p>
+                    <p data-i18n="moon.edu_phases_3">بعد المحاق بيوم أو يومين يبدأ الهلال المتزايد (Waxing Crescent) في الظهور على شكل قوس نحيل في الأفق الغربي بعد غروب الشمس. تزداد الإضاءة تدريجياً من 1٪ إلى نحو 49٪.</p>
+                    <p data-i18n="moon.edu_phases_4">عند وصول الإضاءة إلى 50٪ يصل القمر إلى طور التربيع الأول (First Quarter)، ويظهر كنصف دائرة. بعد ذلك يأتي الأحدب المتزايد (Waxing Gibbous) حيث تزيد الإضاءة من 51٪ إلى 99٪، ثم يصل القمر إلى البدر (Full Moon) بإضاءة 100٪.</p>
+                    <p data-i18n="moon.edu_phases_5">البدر يطلع وقت غروب الشمس ويغيب مع شروقها. بعد البدر تبدأ الإضاءة بالنقصان في الأطوار المتناقصة: الأحدب المتناقص ثم التربيع الأخير ثم الهلال المتناقص قبل أن يعود القمر إلى المحاق من جديد.</p>
 
                     <h3 data-i18n="moon.edu_city_title">لماذا تختلف مواعيد القمر من مدينة لأخرى؟</h3>
-                    <p data-i18n="moon.edu_city_1">مطلع القمر ومغيبه يعتمدان بشكل أساسيّ على خطّ الطول الجغرافيّ للمدينة. لأنّ الأرض تدور حول محورها مرّة كلّ 24 ساعة، فإنّ المدن الواقعة شرقاً تشهد مطلع القمر قبل المدن الغربيّة. الفرق بين شرق الأرض وأقصى غربها قد يصل إلى 12 ساعة.</p>
-                    <p data-i18n="moon.edu_city_2">كما يؤثّر خطّ العرض على اتّجاه مطلع القمر (شمال-شرق أم جنوب-شرق) ومدّة بقائه في السماء. لذا فإنّ مواعيد القمر في مكّة تختلف عن الرياض، وعن دبي، وعن القاهرة، وعن لندن، وعن جاكرتا.</p>
+                    <p data-i18n="moon.edu_city_1">مطلع القمر ومغيبه يعتمدان بشكل أساسي على خط الطول الجغرافي للمدينة. لأن الأرض تدور حول محورها مرة كل 24 ساعة، فإن المدن الواقعة شرقاً تشهد مطلع القمر قبل المدن الغربية. الفرق بين شرق الأرض وأقصى غربها قد يصل إلى 12 ساعة.</p>
+                    <p data-i18n="moon.edu_city_2">كما يؤثر خط العرض على اتجاه مطلع القمر (شمال-شرق أم جنوب-شرق) ومدة بقائه في السماء. لذا فإن مواعيد القمر في مكة تختلف عن الرياض، وعن دبي، وعن القاهرة، وعن لندن، وعن جاكرتا.</p>
 
-                    <h3 data-i18n="moon.edu_islam_title">الأهمّيّة الإسلاميّة لدورة القمر</h3>
-                    <p data-i18n="moon.edu_islam_1">يعتمد التقويم الهجريّ كلّيّاً على دورة القمر. كلّ شهر هجريّ يبدأ بظهور الهلال ويستمرّ 29 أو 30 يوماً. هذه الدورة القمريّة تحدّد مواعيد العبادات الكبرى في الإسلام:</p>
+                    <h3 data-i18n="moon.edu_islam_title">الأهمية الإسلامية لدورة القمر</h3>
+                    <p data-i18n="moon.edu_islam_1">يعتمد التقويم الهجري كلياً على دورة القمر. كل شهر هجري يبدأ بظهور الهلال ويستمر 29 أو 30 يوماً. هذه الدورة القمرية تحدد مواعيد العبادات الكبرى في الإسلام:</p>
                     <ul class="moon-islam-list">
                         <li data-i18n="moon.edu_islam_ramadan">رمضان: يبدأ صيامه بظهور هلال رمضان بعد غروب شمس اليوم الـ29 من شعبان.</li>
-                        <li data-i18n="moon.edu_islam_fitr">عيد الفطر: يبدأ بظهور هلال شوّال بعد رمضان.</li>
-                        <li data-i18n="moon.edu_islam_adha">الحجّ وعيد الأضحى: يُحدَّدان بهلال ذي الحجّة.</li>
+                        <li data-i18n="moon.edu_islam_fitr">عيد الفطر: يبدأ بظهور هلال شوال بعد رمضان.</li>
+                        <li data-i18n="moon.edu_islam_adha">الحج وعيد الأضحى: يُحدَدان بهلال ذي الحجة.</li>
                         <li data-i18n="moon.edu_islam_qadr">ليلة القدر: في العشر الأواخر من رمضان، غالباً ليلة 27.</li>
                     </ul>
-                    <p data-i18n="moon.edu_islam_2">رؤية الهلال بالعين المجرّدة شرطٌ في كثير من الاجتهادات الفقهيّة لبداية الشهر الهجريّ. يُشترط أن يكون عمر الهلال 15 ساعة على الأقلّ وقت غروب الشمس، وأن يكون ارتفاعه عن الأفق كافياً لرؤيته.</p>
+                    <p data-i18n="moon.edu_islam_2">رؤية الهلال بالعين المجردة شرطٌ في كثير من الاجتهادات الفقهية لبداية الشهر الهجري. يُشترط أن يكون عمر الهلال 15 ساعة على الأقل وقت غروب الشمس، وأن يكون ارتفاعه عن الأفق كافياً لرؤيته.</p>
                 </div>
 
                 <!-- ════════════════════════════════════════════════════════════════════
@@ -2497,7 +2497,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
             </div>
 
@@ -2768,11 +2768,11 @@
                         <svg class="icon icon-lg icon-gold" aria-hidden="true"><use href="#i-coins"/></svg>
                         <span data-i18n="zakat.hero.title">حاسبة الزكاة — احسب زكاة المال بسهولة</span>
                     </h1>
-                    <p class="zakat-hero-subtitle" data-i18n="zakat.hero.subtitle">احسب زكاة المال والمدّخرات والذهب والفضّة والاستثمارات تقديريًّا، مع توضيح النصاب ونسبة الزكاة المستحقّة.</p>
+                    <p class="zakat-hero-subtitle" data-i18n="zakat.hero.subtitle">احسب زكاة المال والمدخرات والذهب والفضة والاستثمارات تقديريًا، مع توضيح النصاب ونسبة الزكاة المستحقة.</p>
                     <ul class="zakat-hero-badges" role="list">
                         <li><svg class="icon icon-primary" aria-hidden="true"><use href="#i-bar-chart"/></svg> <span data-i18n="zakat.hero.badge_percent">النسبة 2.5%</span></li>
-                        <li><svg class="icon icon-primary" aria-hidden="true"><use href="#i-scale"/></svg> <span data-i18n="zakat.hero.badge_nisab">النصاب 85غ ذهب أو 595غ فضّة</span></li>
-                        <li><svg class="icon icon-primary" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="zakat.hero.badge_hawl">الحول سنة هجريّة</span></li>
+                        <li><svg class="icon icon-primary" aria-hidden="true"><use href="#i-scale"/></svg> <span data-i18n="zakat.hero.badge_nisab">النصاب 85غ ذهب أو 595غ فضة</span></li>
+                        <li><svg class="icon icon-primary" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="zakat.hero.badge_hawl">الحول سنة هجرية</span></li>
                     </ul>
                 </section>
 
@@ -2813,31 +2813,31 @@
                                         </label>
                                         <label class="zakat-radio">
                                             <input type="radio" name="zakat-nisab-type" value="silver">
-                                            <span data-i18n="zakat.settings.nisab_silver">نصاب الفضّة (595غ)</span>
+                                            <span data-i18n="zakat.settings.nisab_silver">نصاب الفضة (595غ)</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <label for="zakat-gold-price-per-gram">
                                         <span data-i18n="zakat.settings.gold_price">سعر جرام الذهب</span>
-                                        <span class="zakat-approx-badge" data-i18n="zakat.settings.price_approx_badge">تقديريّ</span>
+                                        <span class="zakat-approx-badge" data-i18n="zakat.settings.price_approx_badge">تقديري</span>
                                     </label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-gold-price-per-gram" placeholder="280">
                                 </div>
                                 <div class="form-group">
                                     <label for="zakat-silver-price-per-gram">
-                                        <span data-i18n="zakat.settings.silver_price">سعر جرام الفضّة</span>
-                                        <span class="zakat-approx-badge" data-i18n="zakat.settings.price_approx_badge">تقديريّ</span>
+                                        <span data-i18n="zakat.settings.silver_price">سعر جرام الفضة</span>
+                                        <span class="zakat-approx-badge" data-i18n="zakat.settings.price_approx_badge">تقديري</span>
                                     </label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-silver-price-per-gram" placeholder="3.5">
                                 </div>
                             </div>
-                            <p class="zakat-card-note" data-i18n="zakat.settings.price_helper">عدّل سعر الجرام حسب السوق المحلّيّ لديك.</p>
+                            <p class="zakat-card-note" data-i18n="zakat.settings.price_helper">عدل سعر الجرام حسب السوق المحلي لديك.</p>
                         </details>
 
                         <!-- Hawl card -->
                         <details class="zakat-card zakat-hawl-card" open>
-                            <summary class="zakat-card-summary"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="zakat.hawl.title">هل مرّ حول هجريّ كامل على المال؟</span></summary>
+                            <summary class="zakat-card-summary"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="zakat.hawl.title">هل مر حول هجري كامل على المال؟</span></summary>
                             <div class="zakat-radio-stack" role="radiogroup">
                                 <label class="zakat-radio">
                                     <input type="radio" name="zakat-hawl" value="yes">
@@ -2849,37 +2849,37 @@
                                 </label>
                                 <label class="zakat-radio">
                                     <input type="radio" name="zakat-hawl" value="unsure" checked>
-                                    <span data-i18n="zakat.hawl.unsure">غير متأكّد</span>
+                                    <span data-i18n="zakat.hawl.unsure">غير متأكد</span>
                                 </label>
                             </div>
                             <p class="zakat-card-note zakat-hawl-note-yes" data-i18n="zakat.hawl.note_yes" hidden>سيتم احتساب الزكاة إذا بلغ المال النصاب.</p>
-                            <p class="zakat-card-note zakat-hawl-note-no" data-i18n="zakat.hawl.note_no" hidden>قد لا تجب الزكاة بعد إذا لم يَمرّ حول هجريّ كامل على المال، إلّا في حالات خاصّة.</p>
-                            <p class="zakat-card-note zakat-hawl-note-unsure" data-i18n="zakat.hawl.note_unsure">يُمكنك استخدام الحاسبة لمعرفة المبلغ التقريبيّ، ثمّ مراجعة تاريخ امتلاك المال أو سؤال جهة شرعيّة موثوقة.</p>
+                            <p class="zakat-card-note zakat-hawl-note-no" data-i18n="zakat.hawl.note_no" hidden>قد لا تجب الزكاة بعد إذا لم يَمر حول هجري كامل على المال، إلا في حالات خاصة.</p>
+                            <p class="zakat-card-note zakat-hawl-note-unsure" data-i18n="zakat.hawl.note_unsure">يُمكنك استخدام الحاسبة لمعرفة المبلغ التقريبي، ثم مراجعة تاريخ امتلاك المال أو سؤال جهة شرعية موثوقة.</p>
                         </details>
 
                         <!-- Cash & savings card -->
                         <details class="zakat-card zakat-cash-card" open>
-                            <summary class="zakat-card-summary"><svg class="icon icon-md icon-primary" aria-hidden="true"><use href="#i-wallet"/></svg> <span data-i18n="zakat.cash.title">الأموال النقديّة والمدّخرات</span></summary>
+                            <summary class="zakat-card-summary"><svg class="icon icon-md icon-primary" aria-hidden="true"><use href="#i-wallet"/></svg> <span data-i18n="zakat.cash.title">الأموال النقدية والمدخرات</span></summary>
                             <div class="zakat-card-grid">
                                 <div class="form-group">
-                                    <label for="zakat-cash" data-i18n="zakat.cash.cash">النقد المتوفّر</label>
+                                    <label for="zakat-cash" data-i18n="zakat.cash.cash">النقد المتوفر</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-cash" placeholder="0">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zakat-bank" data-i18n="zakat.cash.bank">الحسابات البنكيّة</label>
+                                    <label for="zakat-bank" data-i18n="zakat.cash.bank">الحسابات البنكية</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-bank" placeholder="0">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zakat-savings" data-i18n="zakat.cash.savings">المدّخرات</label>
+                                    <label for="zakat-savings" data-i18n="zakat.cash.savings">المدخرات</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-savings" placeholder="0">
                                 </div>
                             </div>
-                            <p class="zakat-card-note" data-i18n="zakat.cash.note">أدخل الأموال التي تَملكها فعليًّا عند موعد الزكاة.</p>
+                            <p class="zakat-card-note" data-i18n="zakat.cash.note">أدخل الأموال التي تَملكها فعليًا عند موعد الزكاة.</p>
                         </details>
 
                         <!-- Gold & silver card -->
                         <details class="zakat-card zakat-gold-silver-card">
-                            <summary class="zakat-card-summary"><svg class="icon icon-md icon-gold" aria-hidden="true"><use href="#i-coins"/></svg> <span data-i18n="zakat.gs.title">الذهب والفضّة</span></summary>
+                            <summary class="zakat-card-summary"><svg class="icon icon-md icon-gold" aria-hidden="true"><use href="#i-coins"/></svg> <span data-i18n="zakat.gs.title">الذهب والفضة</span></summary>
 
                             <!-- Gold -->
                             <fieldset class="zakat-fieldset">
@@ -2904,14 +2904,14 @@
 
                             <!-- Silver -->
                             <fieldset class="zakat-fieldset">
-                                <legend><svg class="icon icon-silver" aria-hidden="true"><use href="#i-medal"/></svg> <span data-i18n="zakat.gs.silver">الفضّة</span></legend>
+                                <legend><svg class="icon icon-silver" aria-hidden="true"><use href="#i-medal"/></svg> <span data-i18n="zakat.gs.silver">الفضة</span></legend>
                                 <div class="zakat-tabs" role="tablist" data-target="silver">
                                     <button type="button" class="zakat-tab is-active" role="tab" aria-selected="true" data-mode="value" data-i18n="zakat.gs.by_value">بالقيمة</button>
                                     <button type="button" class="zakat-tab" role="tab" aria-selected="false" data-mode="weight" data-i18n="zakat.gs.by_weight">بالوزن</button>
                                 </div>
                                 <div class="zakat-tab-panel" data-mode-panel="silver-value">
                                     <div class="form-group">
-                                        <label for="zakat-silver" data-i18n="zakat.gs.silver_value">قيمة الفضّة</label>
+                                        <label for="zakat-silver" data-i18n="zakat.gs.silver_value">قيمة الفضة</label>
                                         <input type="number" inputmode="decimal" step="0.01" id="zakat-silver" placeholder="0">
                                     </div>
                                 </div>
@@ -2923,7 +2923,7 @@
                                 </div>
                             </fieldset>
 
-                            <p class="zakat-card-note" data-i18n="zakat.gs.note">في زكاة الذهب الشخصيّ المعدّ للزينة توجد خلافات فقهيّة، لذلك قد تَختلف طريقة الحساب حسب الفتوى المعتمدة.</p>
+                            <p class="zakat-card-note" data-i18n="zakat.gs.note">في زكاة الذهب الشخصي المعد للزينة توجد خلافات فقهية، لذلك قد تَختلف طريقة الحساب حسب الفتوى المعتمدة.</p>
                         </details>
 
                         <!-- Investments card -->
@@ -2935,19 +2935,19 @@
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-stocks" placeholder="0">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zakat-trade-goods" data-i18n="zakat.invest.trade">البضائع التجاريّة</label>
+                                    <label for="zakat-trade-goods" data-i18n="zakat.invest.trade">البضائع التجارية</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-trade-goods" placeholder="0">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zakat-property" data-i18n="zakat.invest.property">العقارات المعدّة للبيع</label>
+                                    <label for="zakat-property" data-i18n="zakat.invest.property">العقارات المعدة للبيع</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-property" placeholder="0">
                                 </div>
                                 <div class="form-group">
-                                    <label for="zakat-receivables" data-i18n="zakat.invest.receivables">أموال مستحقّة لك</label>
+                                    <label for="zakat-receivables" data-i18n="zakat.invest.receivables">أموال مستحقة لك</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-receivables" placeholder="0">
                                 </div>
                             </div>
-                            <p class="zakat-card-note" data-i18n="zakat.invest.note">العقارات المخصّصة للسكن أو الاستخدام الشخصيّ لا تَدخل عادة في زكاة عروض التجارة، أمّا العقارات المعدّة للبيع فتَدخل بقيمتها السوقيّة.</p>
+                            <p class="zakat-card-note" data-i18n="zakat.invest.note">العقارات المخصصة للسكن أو الاستخدام الشخصي لا تَدخل عادة في زكاة عروض التجارة، أما العقارات المعدة للبيع فتَدخل بقيمتها السوقية.</p>
                         </details>
 
                         <!-- Debts card -->
@@ -2955,7 +2955,7 @@
                             <summary class="zakat-card-summary"><svg class="icon icon-md icon-amber" aria-hidden="true"><use href="#i-receipt"/></svg> <span data-i18n="zakat.debts.title">الديون والخصومات</span></summary>
                             <div class="zakat-card-grid">
                                 <div class="form-group">
-                                    <label for="zakat-debts" data-i18n="zakat.debts.debts">ديون مستحقّة عليك</label>
+                                    <label for="zakat-debts" data-i18n="zakat.debts.debts">ديون مستحقة عليك</label>
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-debts" placeholder="0">
                                 </div>
                                 <div class="form-group">
@@ -2963,7 +2963,7 @@
                                     <input type="number" inputmode="decimal" step="0.01" id="zakat-obligations" placeholder="0">
                                 </div>
                             </div>
-                            <p class="zakat-card-note" data-i18n="zakat.debts.note">تَختلف طريقة خصم الديون في الزكاة حسب نوع الدين وحالته، وهذه الحاسبة تُقدّم تقديرًا عامًّا.</p>
+                            <p class="zakat-card-note" data-i18n="zakat.debts.note">تَختلف طريقة خصم الديون في الزكاة حسب نوع الدين وحالته، وهذه الحاسبة تُقدم تقديرًا عامًا.</p>
                         </details>
 
                     </div>
@@ -2975,7 +2975,7 @@
                 <!-- UI-CONTENT-UX-IMPROVEMENT-1: compact inline disclaimer chip — sits between the result grid and the breakdown table so the user sees the "estimate-not-fatwa" caveat in-context after seeing their result, not only buried at the bottom of the page. -->
                 <div class="zakat-compact-disclaimer" role="note">
                     <svg class="icon icon-amber" aria-hidden="true"><use href="#i-info"/></svg>
-                    <span data-i18n="zakat.compact_disclaimer.text">تنبيه: الحاسبة تقديريّة لمساعدتك على معرفة الزكاة، وليست فتوى شرعيّة. في الحالات الخاصّة راجع جهة شرعيّة موثوقة.</span>
+                    <span data-i18n="zakat.compact_disclaimer.text">تنبيه: الحاسبة تقديرية لمساعدتك على معرفة الزكاة، وليست فتوى شرعية. في الحالات الخاصة راجع جهة شرعية موثوقة.</span>
                 </div>
 
                 <!-- 3. Breakdown table -->
@@ -2985,12 +2985,12 @@
                         <table class="zakat-breakdown-table">
                             <tbody>
                                 <tr><td data-i18n="zakat.breakdown.cash_total">مجموع الأموال</td><td class="zbt-value" id="zbt-cash">0</td></tr>
-                                <tr><td data-i18n="zakat.breakdown.gs_total">مجموع الذهب والفضّة</td><td class="zbt-value" id="zbt-gs">0</td></tr>
+                                <tr><td data-i18n="zakat.breakdown.gs_total">مجموع الذهب والفضة</td><td class="zbt-value" id="zbt-gs">0</td></tr>
                                 <tr><td data-i18n="zakat.breakdown.invest_total">مجموع الاستثمارات والتجارة</td><td class="zbt-value" id="zbt-invest">0</td></tr>
                                 <tr><td data-i18n="zakat.breakdown.debts_total">الديون المخصومة</td><td class="zbt-value" id="zbt-debts">0</td></tr>
-                                <tr class="is-net"><td data-i18n="zakat.breakdown.net">صافي المال الزكويّ</td><td class="zbt-value" id="zbt-net">0</td></tr>
+                                <tr class="is-net"><td data-i18n="zakat.breakdown.net">صافي المال الزكوي</td><td class="zbt-value" id="zbt-net">0</td></tr>
                                 <tr><td data-i18n="zakat.breakdown.nisab">النصاب</td><td class="zbt-value" id="zbt-nisab">0</td></tr>
-                                <tr class="is-total"><td data-i18n="zakat.breakdown.amount">الزكاة المستحقّة</td><td class="zbt-value" id="zbt-amount">0</td></tr>
+                                <tr class="is-total"><td data-i18n="zakat.breakdown.amount">الزكاة المستحقة</td><td class="zbt-value" id="zbt-amount">0</td></tr>
                             </tbody>
                         </table>
                     </div>
@@ -3011,34 +3011,34 @@
 
                 <!-- 4. SEO content blocks — UI-CONTENT-UX-IMPROVEMENT-1: restructured from 4 plain h2-paragraph pairs into a 4-card grid (.zakat-edu-grid) for visual scan-ability. Top of section: new h2 (zakat.edu.title) + intro (zakat.edu.intro). Cards use h3 (semantically nested under the section's h2). All existing zakat.seo.h1..h4 + _body i18n keys preserved unchanged — no content lost. Existing .zakat-seo class kept for backwards-compatible CSS. -->
                 <section class="section-card zakat-seo zakat-edu" id="zakat-edu">
-                    <h2 class="zakat-edu-section-title" data-i18n="zakat.edu.title">تعلَّم عن زكاة المال</h2>
-                    <p class="zakat-edu-section-intro" data-i18n="zakat.edu.intro">تُحسب زكاة المال عادةً بنسبة 2.5% من صافي المال الزكويّ إذا بلغ النصاب وحال عليه الحول الهجريّ.</p>
+                    <h2 class="zakat-edu-section-title" data-i18n="zakat.edu.title">تعلَم عن زكاة المال</h2>
+                    <p class="zakat-edu-section-intro" data-i18n="zakat.edu.intro">تُحسب زكاة المال عادةً بنسبة 2.5% من صافي المال الزكوي إذا بلغ النصاب وحال عليه الحول الهجري.</p>
                     <div class="zakat-edu-grid">
                         <article class="zakat-edu-card">
-                            <h3 class="zakat-edu-card-title" data-i18n="zakat.seo.h1">كيف يتمّ حساب زكاة المال؟</h3>
-                            <p data-i18n="zakat.seo.h1_body">يتمّ حساب زكاة المال عادة بنسبة 2.5% من صافي المال الزكويّ إذا بلغ النصاب ومرّ عليه حول هجريّ كامل. المعادلة: الزكاة = صافي المال الزكويّ × 2.5%.</p>
+                            <h3 class="zakat-edu-card-title" data-i18n="zakat.seo.h1">كيف يتم حساب زكاة المال؟</h3>
+                            <p data-i18n="zakat.seo.h1_body">يتم حساب زكاة المال عادة بنسبة 2.5% من صافي المال الزكوي إذا بلغ النصاب ومر عليه حول هجري كامل. المعادلة: الزكاة = صافي المال الزكوي × 2.5%.</p>
                         </article>
                         <article class="zakat-edu-card">
                             <h3 class="zakat-edu-card-title" data-i18n="zakat.seo.h2">ما هو نصاب الزكاة؟</h3>
-                            <p data-i18n="zakat.seo.h2_body">النصاب هو الحدّ الأدنى من المال الذي إذا بلغه ومرّ عليه الحول وجبت فيه الزكاة. ويُقدّر نصاب المال غالبًا بما يَعادل 85 جرامًا من الذهب أو 595 جرامًا من الفضّة.</p>
+                            <p data-i18n="zakat.seo.h2_body">النصاب هو الحد الأدنى من المال الذي إذا بلغه ومر عليه الحول وجبت فيه الزكاة. ويُقدر نصاب المال غالبًا بما يَعادل 85 جرامًا من الذهب أو 595 جرامًا من الفضة.</p>
                         </article>
                         <article class="zakat-edu-card">
                             <h3 class="zakat-edu-card-title" data-i18n="zakat.seo.h3">ما الأموال التي تَدخل في حساب الزكاة؟</h3>
                             <ul class="zakat-seo-list" data-i18n-html="zakat.seo.h3_body">
-                                <li>النقد والحسابات البنكيّة والمدّخرات</li>
-                                <li>الذهب والفضّة</li>
+                                <li>النقد والحسابات البنكية والمدخرات</li>
+                                <li>الذهب والفضة</li>
                                 <li>عروض التجارة والبضائع</li>
                                 <li>الأسهم والاستثمارات</li>
-                                <li>العقارات المعدّة للبيع</li>
+                                <li>العقارات المعدة للبيع</li>
                             </ul>
                         </article>
                         <article class="zakat-edu-card">
                             <h3 class="zakat-edu-card-title" data-i18n="zakat.seo.h4">ما الأموال التي لا تَدخل غالبًا؟</h3>
                             <ul class="zakat-seo-list" data-i18n-html="zakat.seo.h4_body">
-                                <li>المنزل الشخصيّ</li>
-                                <li>السيّارة الشخصيّة</li>
-                                <li>الأثاث والأغراض الشخصيّة</li>
-                                <li>العقار غير المعدّ للبيع</li>
+                                <li>المنزل الشخصي</li>
+                                <li>السيارة الشخصية</li>
+                                <li>الأثاث والأغراض الشخصية</li>
+                                <li>العقار غير المعد للبيع</li>
                                 <li>الأدوات المستخدمة للعمل وليست للبيع</li>
                             </ul>
                         </article>
@@ -3059,7 +3059,7 @@
                     <div class="zakat-faq-list">
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q1">كيف أحسب زكاة المال؟</summary>
-                            <p data-i18n="zakat.faq.a1">إذا بلغ المال النصاب ومرّ عليه حول هجريّ كامل، تُحسَب الزكاة بنسبة 2.5% من صافي المال الزكويّ.</p>
+                            <p data-i18n="zakat.faq.a1">إذا بلغ المال النصاب ومر عليه حول هجري كامل، تُحسَب الزكاة بنسبة 2.5% من صافي المال الزكوي.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q2">كم نسبة زكاة المال؟</summary>
@@ -3067,39 +3067,39 @@
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q3">هل تجب الزكاة على الراتب؟</summary>
-                            <p data-i18n="zakat.faq.a3">الراتب نفسه لا تجب فيه الزكاة بمجرّد استلامه، لكن ما يَتبقّى منه ويُدّخر ويَبلغ النصاب ويَمرّ عليه الحول يَدخل في حساب الزكاة.</p>
+                            <p data-i18n="zakat.faq.a3">الراتب نفسه لا تجب فيه الزكاة بمجرد استلامه، لكن ما يَتبقى منه ويُدخر ويَبلغ النصاب ويَمر عليه الحول يَدخل في حساب الزكاة.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q4">هل الذهب عليه زكاة؟</summary>
-                            <p data-i18n="zakat.faq.a4">تجب الزكاة في الذهب إذا بلغ النصاب، لكنّ الذهب المعدّ للزينة فيه اختلاف فقهيّ، لذلك يُفضَّل الرجوع للفتوى المعتمدة لديك.</p>
+                            <p data-i18n="zakat.faq.a4">تجب الزكاة في الذهب إذا بلغ النصاب، لكن الذهب المعد للزينة فيه اختلاف فقهي، لذلك يُفضَل الرجوع للفتوى المعتمدة لديك.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q5">هل الأسهم عليها زكاة؟</summary>
-                            <p data-i18n="zakat.faq.a5">نعم، قد تجب الزكاة على الأسهم حسب نيّة التملّك (استثمار طويل أو مضاربة أو تجارة). يُمكن تقديرها ضمن الاستثمارات في الحاسبة.</p>
+                            <p data-i18n="zakat.faq.a5">نعم، قد تجب الزكاة على الأسهم حسب نية التملك (استثمار طويل أو مضاربة أو تجارة). يُمكن تقديرها ضمن الاستثمارات في الحاسبة.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q6">هل أخصم الديون من الزكاة؟</summary>
-                            <p data-i18n="zakat.faq.a6">قد تُخصَم بعض الديون المستحقّة، لكنّ التفصيل يَختلف حسب نوع الدين ووقته، لذلك الحاسبة تُقدّم تقديرًا عامًّا.</p>
+                            <p data-i18n="zakat.faq.a6">قد تُخصَم بعض الديون المستحقة، لكن التفصيل يَختلف حسب نوع الدين ووقته، لذلك الحاسبة تُقدم تقديرًا عامًا.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q7">هل هذه الحاسبة تُغني عن سؤال المفتي؟</summary>
-                            <p data-i18n="zakat.faq.a7">لا، الحاسبة تُساعدك في التقدير، لكنّها لا تُغني عن سؤال أهل العلم في الحالات الخاصّة أو المعقّدة.</p>
+                            <p data-i18n="zakat.faq.a7">لا، الحاسبة تُساعدك في التقدير، لكنها لا تُغني عن سؤال أهل العلم في الحالات الخاصة أو المعقدة.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q8">متى تُخرَج الزكاة؟</summary>
-                            <p data-i18n="zakat.faq.a8">تُخرَج زكاة المال عند بلوغه النصاب ومرور حول هجريّ كامل عليه، ويختار كثيرون موعدًا ثابتًا في السنة لحساب الزكاة وإخراجها بانتظام.</p>
+                            <p data-i18n="zakat.faq.a8">تُخرَج زكاة المال عند بلوغه النصاب ومرور حول هجري كامل عليه، ويختار كثيرون موعدًا ثابتًا في السنة لحساب الزكاة وإخراجها بانتظام.</p>
                         </details>
                         <details class="zakat-faq-item">
                             <summary data-i18n="zakat.faq.q9">هل تختلف زكاة الذهب عن زكاة النقد؟</summary>
-                            <p data-i18n="zakat.faq.a9">النسبة واحدة 2.5% في زكاة الذهب وزكاة النقد، لكنّ نصاب الذهب يُقاس بوزنه بالجرام، بينما يُقاس نصاب النقد بقيمته مقارنةً بنصاب الذهب أو الفضّة.</p>
+                            <p data-i18n="zakat.faq.a9">النسبة واحدة 2.5% في زكاة الذهب وزكاة النقد، لكن نصاب الذهب يُقاس بوزنه بالجرام، بينما يُقاس نصاب النقد بقيمته مقارنةً بنصاب الذهب أو الفضة.</p>
                         </details>
                     </div>
                 </section>
 
                 <!-- 6. Disclaimer -->
                 <div class="zakat-disclaimer" role="note">
-                    <strong data-i18n="zakat.disclaimer.title">تنبيه مهمّ</strong>
-                    <p data-i18n="zakat.disclaimer.body">هذه الحاسبة تُقدّم تقديرًا عامًّا لزكاة المال بناءً على المدخلات. قد تَختلف بعض التفاصيل حسب نوع المال، الديون، الذهب، الأسهم، أو الفتوى المعتمدة في بلدك. في الحالات الخاصّة، يُنصَح بسؤال جهة شرعيّة موثوقة.</p>
+                    <strong data-i18n="zakat.disclaimer.title">تنبيه مهم</strong>
+                    <p data-i18n="zakat.disclaimer.body">هذه الحاسبة تُقدم تقديرًا عامًا لزكاة المال بناءً على المدخلات. قد تَختلف بعض التفاصيل حسب نوع المال، الديون، الذهب، الأسهم، أو الفتوى المعتمدة في بلدك. في الحالات الخاصة، يُنصَح بسؤال جهة شرعية موثوقة.</p>
                 </div>
 
                 <!-- Toast for copy success -->
@@ -3740,7 +3740,7 @@
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
                         <span class="azkar-card-icon" aria-hidden="true">🕋</span>
                         <h3 class="azkar-card-title" data-i18n="azkar.hub.card_mosque_title">أذكار دخول المسجد والخروج منه</h3>
-                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_mosque_desc">السنّة عند الدخول إلى المسجد والخروج منه.</p>
+                        <p class="azkar-card-desc" data-i18n="azkar.hub.card_mosque_desc">السنة عند الدخول إلى المسجد والخروج منه.</p>
                     </div>
 
                     <div class="azkar-card azkar-card--soon" aria-disabled="true">
@@ -3792,16 +3792,16 @@
 
                         <ul class="azkar-info-strip" aria-label="معلومات عامة">
                             <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 25 ذكرًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكررة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عداد للأذكار المتكررة</li>
                             <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
                         </ul>
 
                         <div class="azkar-progress-wrap" id="azkar-morning-progress-wrap">
                             <div class="azkar-progress-row">
                                 <span class="azkar-progress-label" id="azkar-morning-progress-label">تم إكمال 0 من 0</span>
-                                <button type="button" class="azkar-reset-btn" id="azkar-morning-reset-all" aria-label="إعادة ضبط العدّادات">
+                                <button type="button" class="azkar-reset-btn" id="azkar-morning-reset-all" aria-label="إعادة ضبط العدادات">
                                     <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                                    <span>إعادة ضبط العدّادات</span>
+                                    <span>إعادة ضبط العدادات</span>
                                 </button>
                             </div>
                             <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -3815,7 +3815,7 @@
                 <div class="azkar-sticky-progress" id="azkar-morning-sticky" role="region" aria-label="ملخص التقدم">
                     <div class="azkar-sticky-progress-row">
                         <span class="azkar-sticky-progress-text" id="azkar-morning-sticky-label">تم إكمال 0 من 0</span>
-                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-morning-sticky-reset" aria-label="إعادة ضبط العدّادات">
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-morning-sticky-reset" aria-label="إعادة ضبط العدادات">
                             <span class="azkar-reset-icon" aria-hidden="true">↺</span>
                             <span>إعادة الضبط</span>
                         </button>
@@ -3868,7 +3868,7 @@
                         </h2>
                         <div class="azkar-edu-body">
                             <p>صُممت هذه الصفحة لتكون سهلة القراءة على الهاتف والكمبيوتر. يظهر كل ذكر داخل بطاقة مستقلة مع عدد التكرار والمصدر، وتظهر الأذكار التي تحتاج إلى تكرار بعداد يساعدك على إكمال العدد دون نسيان.</p>
-                            <p>عند إكمال ذكر معيّن، ينتقل بك الموقع تلقائيًا إلى الذكر التالي لتكون القراءة أكثر سلاسة. كما يتم حفظ تقدمك خلال اليوم، وتعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.</p>
+                            <p>عند إكمال ذكر معين، ينتقل بك الموقع تلقائيًا إلى الذكر التالي لتكون القراءة أكثر سلاسة. كما يتم حفظ تقدمك خلال اليوم، وتعود العدادات من البداية عند تغير اليوم حسب توقيت جهازك المحلي.</p>
                         </div>
                     </article>
 
@@ -3942,7 +3942,7 @@
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">هل يجب قراءة أذكار الصباح بالترتيب؟</summary>
                             <div class="azkar-faq-answer">
-                                لا يجب قراءة أذكار الصباح بترتيب معيّن، لكن ترتيبها في الصفحة يساعد على المتابعة وعدم نسيان أي ذكر، خاصة مع وجود عداد للتكرار.
+                                لا يجب قراءة أذكار الصباح بترتيب معين، لكن ترتيبها في الصفحة يساعد على المتابعة وعدم نسيان أي ذكر، خاصة مع وجود عداد للتكرار.
                             </div>
                         </details>
 
@@ -3977,7 +3977,7 @@
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">هل أذكار الصباح تحفظ تلقائيًا في هذه الصفحة؟</summary>
                             <div class="azkar-faq-answer">
-                                نعم، تحفظ الصفحة تقدمك خلال اليوم في هذا المتصفح، ثم تبدأ العدادات من جديد عند تغيّر اليوم حسب توقيت جهازك المحلي.
+                                نعم، تحفظ الصفحة تقدمك خلال اليوم في هذا المتصفح، ثم تبدأ العدادات من جديد عند تغير اليوم حسب توقيت جهازك المحلي.
                             </div>
                         </details>
 
@@ -4032,7 +4032,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
             </div>
 
@@ -4059,16 +4059,16 @@
 
                         <ul class="azkar-info-strip" aria-label="معلومات عامة">
                             <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 23 ذكرًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكررة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عداد للأذكار المتكررة</li>
                             <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
                         </ul>
 
                         <div class="azkar-progress-wrap" id="azkar-evening-progress-wrap">
                             <div class="azkar-progress-row">
                                 <span class="azkar-progress-label" id="azkar-evening-progress-label">تم إكمال 0 من 0</span>
-                                <button type="button" class="azkar-reset-btn" id="azkar-evening-reset-all" aria-label="إعادة ضبط العدّادات">
+                                <button type="button" class="azkar-reset-btn" id="azkar-evening-reset-all" aria-label="إعادة ضبط العدادات">
                                     <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                                    <span>إعادة ضبط العدّادات</span>
+                                    <span>إعادة ضبط العدادات</span>
                                 </button>
                             </div>
                             <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4082,7 +4082,7 @@
                 <div class="azkar-sticky-progress" id="azkar-evening-sticky" role="region" aria-label="ملخص التقدم">
                     <div class="azkar-sticky-progress-row">
                         <span class="azkar-sticky-progress-text" id="azkar-evening-sticky-label">تم إكمال 0 من 0</span>
-                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-evening-sticky-reset" aria-label="إعادة ضبط العدّادات">
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-evening-sticky-reset" aria-label="إعادة ضبط العدادات">
                             <span class="azkar-reset-icon" aria-hidden="true">↺</span>
                             <span>إعادة الضبط</span>
                         </button>
@@ -4127,7 +4127,7 @@
                         </h2>
                         <div class="azkar-edu-body">
                             <p>صُممت هذه الصفحة لتكون سهلة القراءة على الهاتف والكمبيوتر. يظهر كل ذكر داخل بطاقة مستقلة مع عدد التكرار والمصدر، وتظهر الأذكار التي تحتاج إلى تكرار بعداد يساعدك على إكمال العدد دون نسيان.</p>
-                            <p>عند إكمال ذكر معين، ينتقل لك الموقع تلقائيًا إلى الذكر التالي لتكون القراءة أكثر سلاسة. كما يتم حفظ تقدمك خلال الليلة، وتعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.</p>
+                            <p>عند إكمال ذكر معين، ينتقل لك الموقع تلقائيًا إلى الذكر التالي لتكون القراءة أكثر سلاسة. كما يتم حفظ تقدمك خلال الليلة، وتعود العدادات من البداية عند تغير اليوم حسب توقيت جهازك المحلي.</p>
                         </div>
                     </article>
 
@@ -4231,14 +4231,14 @@
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">هل أذكار المساء تحفظ تقدمي تلقائيًا في هذه الصفحة؟</summary>
                             <div class="azkar-faq-answer">
-                                نعم، تحفظ الصفحة تقدمك تلقائيًا خلال الليلة في نفس المتصفح، ثم تعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.
+                                نعم، تحفظ الصفحة تقدمك تلقائيًا خلال الليلة في نفس المتصفح، ثم تعود العدادات من البداية عند تغير اليوم حسب توقيت جهازك المحلي.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">ما فائدة عداد أذكار المساء؟</summary>
                             <div class="azkar-faq-answer">
-                                يساعدك عداد أذكار المساء على إكمال الأذكار المتكررة بسهولة، خاصة الأذكار التي تُقال ثلاث مرات أو سبع مرات أو مئة مرة، دون الحاجة إلى العدّ يدويًا.
+                                يساعدك عداد أذكار المساء على إكمال الأذكار المتكررة بسهولة، خاصة الأذكار التي تُقال ثلاث مرات أو سبع مرات أو مئة مرة، دون الحاجة إلى العد يدويًا.
                             </div>
                         </details>
                     </div>
@@ -4281,7 +4281,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
             </div>
 
@@ -4308,16 +4308,16 @@
 
                         <ul class="azkar-info-strip" aria-label="معلومات عامة">
                             <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 17 ذكرًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عدّاد للأذكار المتكررة</li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عداد للأذكار المتكررة</li>
                             <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
                         </ul>
 
                         <div class="azkar-progress-wrap" id="azkar-prayer-progress-wrap">
                             <div class="azkar-progress-row">
                                 <span class="azkar-progress-label" id="azkar-prayer-progress-label">تم إكمال 0 من 0</span>
-                                <button type="button" class="azkar-reset-btn" id="azkar-prayer-reset-all" aria-label="إعادة ضبط العدّادات">
+                                <button type="button" class="azkar-reset-btn" id="azkar-prayer-reset-all" aria-label="إعادة ضبط العدادات">
                                     <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                                    <span>إعادة ضبط العدّادات</span>
+                                    <span>إعادة ضبط العدادات</span>
                                 </button>
                             </div>
                             <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4331,7 +4331,7 @@
                 <div class="azkar-sticky-progress" id="azkar-prayer-sticky" role="region" aria-label="ملخص التقدم">
                     <div class="azkar-sticky-progress-row">
                         <span class="azkar-sticky-progress-text" id="azkar-prayer-sticky-label">تم إكمال 0 من 0</span>
-                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-prayer-sticky-reset" aria-label="إعادة ضبط العدّادات">
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-prayer-sticky-reset" aria-label="إعادة ضبط العدادات">
                             <span class="azkar-reset-icon" aria-hidden="true">↺</span>
                             <span>إعادة الضبط</span>
                         </button>
@@ -4353,7 +4353,7 @@
                 <div class="azkar-completed-banner u-hidden" id="azkar-prayer-completed">
                     <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
                     <p class="azkar-completed-banner-title">تم إكمال أذكار الصلاة</p>
-                    <p class="azkar-completed-banner-sub">نسأل الله أن يتقبّل منك صلاتك ودعاءك.</p>
+                    <p class="azkar-completed-banner-sub">نسأل الله أن يتقبل منك صلاتك ودعاءك.</p>
                 </div>
 
                 <!-- ===== Educational mini-cards (prayer-specific) ===== -->
@@ -4375,8 +4375,8 @@
                             <span>كيف تستخدم صفحة أذكار الصلاة؟</span>
                         </h2>
                         <div class="azkar-edu-body">
-                            <p>تظهر الأذكار مرتبة في بطاقات مستقلة من أذكار الوضوء وحتى ما بعد السلام، ويوضّح في كل بطاقة عدد التكرار والمصدر. تستطيع قراءة جميع الأذكار بالترتيب، أو الرجوع إلى ذكر معين كالقنوت أو دعاء الوتر مباشرة.</p>
-                            <p>الأذكار التي يُسنّ تكرارها — مثل ما يُقال بعد الوتر ثلاث مرات — يساعدك العداد على إكمال العدد دون نسيان، ويُحفظ التقدم تلقائيًا خلال نفس اليوم في متصفحك.</p>
+                            <p>تظهر الأذكار مرتبة في بطاقات مستقلة من أذكار الوضوء وحتى ما بعد السلام، ويوضح في كل بطاقة عدد التكرار والمصدر. تستطيع قراءة جميع الأذكار بالترتيب، أو الرجوع إلى ذكر معين كالقنوت أو دعاء الوتر مباشرة.</p>
+                            <p>الأذكار التي يُسن تكرارها — مثل ما يُقال بعد الوتر ثلاث مرات — يساعدك العداد على إكمال العدد دون نسيان، ويُحفظ التقدم تلقائيًا خلال نفس اليوم في متصفحك.</p>
                         </div>
                     </article>
 
@@ -4386,8 +4386,8 @@
                             <span>أذكار الصلاة بين السنة والحرص على المعنى</span>
                         </h2>
                         <div class="azkar-edu-body">
-                            <p>كثير من أذكار الصلاة وردت بصيغ متعددة في كتب السنة المعروفة، مثل أدعية استفتاح الصلاة والقنوت ودعاء الجلسة بين السجدتين، ويصحّ للمسلم أن يختار بين الصيغ الثابتة. والأهم هو فهم معنى الذكر وحضوره في القلب، لا الاكتفاء بقراءته باللسان.</p>
-                            <p>ولتكامل العبادة في يومك، يُستحبّ قراءة أذكار الصباح والمساء كذلك، وكلاهما متوفر في صفحات مستقلة على هذا الموقع.</p>
+                            <p>كثير من أذكار الصلاة وردت بصيغ متعددة في كتب السنة المعروفة، مثل أدعية استفتاح الصلاة والقنوت ودعاء الجلسة بين السجدتين، ويصح للمسلم أن يختار بين الصيغ الثابتة. والأهم هو فهم معنى الذكر وحضوره في القلب، لا الاكتفاء بقراءته باللسان.</p>
+                            <p>ولتكامل العبادة في يومك، يُستحب قراءة أذكار الصباح والمساء كذلك، وكلاهما متوفر في صفحات مستقلة على هذا الموقع.</p>
                         </div>
                         <nav class="azkar-edu-links" aria-label="روابط ذات صلة">
                             <a href="/azkar" class="azkar-edu-link-card">
@@ -4433,7 +4433,7 @@
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">هل أذكار الصلاة كلها ثابتة عن النبي ﷺ؟</summary>
                             <div class="azkar-faq-answer">
-                                أغلب أذكار الصلاة وأدعيتها وردت في كتب السنة المعروفة، وتعدّدت صيغ بعضها كأدعية الاستفتاح والقنوت. هذه الصفحة تجمع الصيغ المشهورة المنقولة من كتب الأذكار، ويُنصح بمراجعة المصادر للتأكد من الصيغة والتشكيل.
+                                أغلب أذكار الصلاة وأدعيتها وردت في كتب السنة المعروفة، وتعددت صيغ بعضها كأدعية الاستفتاح والقنوت. هذه الصفحة تجمع الصيغ المشهورة المنقولة من كتب الأذكار، ويُنصح بمراجعة المصادر للتأكد من الصيغة والتشكيل.
                             </div>
                         </details>
 
@@ -4447,7 +4447,7 @@
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">ما حكم قراءة دعاء الاستفتاح؟</summary>
                             <div class="azkar-faq-answer">
-                                دعاء الاستفتاح سُنّة عند جمهور أهل العلم، يُقال بعد تكبيرة الإحرام وقبل قراءة الفاتحة. وقد وردت صيغ متعددة، تجد بعضًا منها في بطاقة «أدعية استفتاح الصلاة» في هذه الصفحة.
+                                دعاء الاستفتاح سُنة عند جمهور أهل العلم، يُقال بعد تكبيرة الإحرام وقبل قراءة الفاتحة. وقد وردت صيغ متعددة، تجد بعضًا منها في بطاقة «أدعية استفتاح الصلاة» في هذه الصفحة.
                             </div>
                         </details>
 
@@ -4468,14 +4468,14 @@
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">ما الذي يُقال بعد الانتهاء من الوتر؟</summary>
                             <div class="azkar-faq-answer">
-                                ثبت عن النبي ﷺ أنه كان يقول بعد الوتر: «سبحان الملك القدوس» ثلاث مرات، ويرفع صوته في الثالثة. وتجد هذا الذكر في بطاقة «ما يقال بعد الانتهاء من الوتر» مع عدّاد لتسهيل التكرار.
+                                ثبت عن النبي ﷺ أنه كان يقول بعد الوتر: «سبحان الملك القدوس» ثلاث مرات، ويرفع صوته في الثالثة. وتجد هذا الذكر في بطاقة «ما يقال بعد الانتهاء من الوتر» مع عداد لتسهيل التكرار.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
                             <summary class="azkar-faq-question">هل تحفظ الصفحة تقدمي تلقائيًا؟</summary>
                             <div class="azkar-faq-answer">
-                                نعم، تحفظ الصفحة تقدمك تلقائيًا خلال اليوم في نفس المتصفح، ثم تعود العدادات من البداية عند تغيّر اليوم حسب توقيت جهازك المحلي.
+                                نعم، تحفظ الصفحة تقدمك تلقائيًا خلال اليوم في نفس المتصفح، ثم تعود العدادات من البداية عند تغير اليوم حسب توقيت جهازك المحلي.
                             </div>
                         </details>
 
@@ -4525,7 +4525,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
             </div>
 
@@ -4623,40 +4623,40 @@
                 <!-- 1. ما هي المسبحة الإلكترونية؟ -->
                 <section class="section-card tasbih-edu" id="tasbih-edu">
                     <h2 class="tasbih-edu-title" data-i18n="tasbih.edu.title">ما هي المسبحة الإلكترونية؟</h2>
-                    <p class="tasbih-edu-intro" data-i18n="tasbih.edu.intro">المسبحة الإلكترونية أداة رقميّة بسيطة تساعدك على عدّ التسبيح والتحميد والتكبير دون الحاجة إلى مسبحة يدويّة. تعمل من المتصفّح مباشرةً، وتحفظ عدّك أثناء الجلسة، وتدعم وضعَين: التسبيح التلقائيّ بعد الصلاة (33 + 33 + 33)، والعدّاد المفتوح لأيّ ذكر آخر.</p>
+                    <p class="tasbih-edu-intro" data-i18n="tasbih.edu.intro">المسبحة الإلكترونية أداة رقمية بسيطة تساعدك على عد التسبيح والتحميد والتكبير دون الحاجة إلى مسبحة يدوية. تعمل من المتصفح مباشرةً، وتحفظ عدك أثناء الجلسة، وتدعم وضعَين: التسبيح التلقائي بعد الصلاة (33 + 33 + 33)، والعداد المفتوح لأي ذكر آخر.</p>
                 </section>
 
                 <!-- 2. كيف تستخدم المسبحة الإلكترونية؟ -->
                 <section class="section-card tasbih-howto" id="tasbih-howto">
                     <h2 class="tasbih-howto-title" data-i18n="tasbih.howto.title">كيف تستخدم المسبحة الإلكترونية؟</h2>
-                    <p class="tasbih-howto-intro" data-i18n="tasbih.howto.intro">اتّبع هذه الخطوات البسيطة:</p>
+                    <p class="tasbih-howto-intro" data-i18n="tasbih.howto.intro">اتبع هذه الخطوات البسيطة:</p>
                     <ol class="tasbih-howto-steps">
                         <li>
                             <span class="tasbih-howto-step-num">1</span>
                             <div class="tasbih-howto-step-body">
                                 <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step1_title">اختر الوضع المناسب</h3>
-                                <p data-i18n="tasbih.howto.step1_desc">«التسبيح التلقائي» للتسبيح بعد الصلاة بترتيب: سبحان الله، الحمد لله، الله أكبر — كلّ منها 33 مرّة. أو «عدّاد مفتوح» لعدّ أيّ ذكر آخر مثل الاستغفار أو الصلاة على النبي ﷺ.</p>
+                                <p data-i18n="tasbih.howto.step1_desc">«التسبيح التلقائي» للتسبيح بعد الصلاة بترتيب: سبحان الله، الحمد لله، الله أكبر — كل منها 33 مرة. أو «عداد مفتوح» لعد أي ذكر آخر مثل الاستغفار أو الصلاة على النبي ﷺ.</p>
                             </div>
                         </li>
                         <li>
                             <span class="tasbih-howto-step-num">2</span>
                             <div class="tasbih-howto-step-body">
                                 <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step2_title">اضغط الدائرة الكبيرة</h3>
-                                <p data-i18n="tasbih.howto.step2_desc">كلّ ضغطة تزيد العدّ واحدًا. في الوضع التلقائيّ ينتقل العدّاد ذاتيًّا إلى الذكر التالي عند الوصول إلى 33، فلا تحتاج إلى أيّ إجراء إضافيّ.</p>
+                                <p data-i18n="tasbih.howto.step2_desc">كل ضغطة تزيد العد واحدًا. في الوضع التلقائي ينتقل العداد ذاتيًا إلى الذكر التالي عند الوصول إلى 33، فلا تحتاج إلى أي إجراء إضافي.</p>
                             </div>
                         </li>
                         <li>
                             <span class="tasbih-howto-step-num">3</span>
                             <div class="tasbih-howto-step-body">
-                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step3_title">تابع شريط التقدّم</h3>
-                                <p data-i18n="tasbih.howto.step3_desc">يظهر تحت الدائرة شريط يوضّح موقعك من 33، ومجموع تسبيحات الجلسة في الأسفل، حتى تطمئنّ إلى أنّك أكملت العدد المطلوب.</p>
+                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step3_title">تابع شريط التقدم</h3>
+                                <p data-i18n="tasbih.howto.step3_desc">يظهر تحت الدائرة شريط يوضح موقعك من 33، ومجموع تسبيحات الجلسة في الأسفل، حتى تطمئن إلى أنك أكملت العدد المطلوب.</p>
                             </div>
                         </li>
                         <li>
                             <span class="tasbih-howto-step-num">4</span>
                             <div class="tasbih-howto-step-body">
-                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step4_title">صفِّر متى احتجت</h3>
-                                <p data-i18n="tasbih.howto.step4_desc">استخدم «تصفير العدّاد» لإعادة الذكر الحاليّ إلى 0 دون فقد إجماليّ الجلسة، أو «تصفير الجلسة» لبدء جلسة جديدة من الصفر تمامًا.</p>
+                                <h3 class="tasbih-howto-step-title" data-i18n="tasbih.howto.step4_title">صفِر متى احتجت</h3>
+                                <p data-i18n="tasbih.howto.step4_desc">استخدم «تصفير العداد» لإعادة الذكر الحالي إلى 0 دون فقد إجمالي الجلسة، أو «تصفير الجلسة» لبدء جلسة جديدة من الصفر تمامًا.</p>
                             </div>
                         </li>
                     </ol>
@@ -4670,17 +4670,17 @@
                         <article class="tasbih-after-card">
                             <div class="tasbih-after-card-dhikr">سُبْحَانَ اللَّهِ</div>
                             <div class="tasbih-after-card-count">33×</div>
-                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card1_desc">تنزيه لله تعالى عن كلّ نقص. تُقال ثلاثًا وثلاثين مرّة عقب الصلاة المفروضة.</p>
+                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card1_desc">تنزيه لله تعالى عن كل نقص. تُقال ثلاثًا وثلاثين مرة عقب الصلاة المفروضة.</p>
                         </article>
                         <article class="tasbih-after-card">
                             <div class="tasbih-after-card-dhikr">الْحَمْدُ لِلَّهِ</div>
                             <div class="tasbih-after-card-count">33×</div>
-                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card2_desc">حمد لله على نعمه الظاهرة والباطنة. تُقال ثلاثًا وثلاثين مرّة بعد التسبيح.</p>
+                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card2_desc">حمد لله على نعمه الظاهرة والباطنة. تُقال ثلاثًا وثلاثين مرة بعد التسبيح.</p>
                         </article>
                         <article class="tasbih-after-card">
                             <div class="tasbih-after-card-dhikr">اللَّهُ أَكْبَرُ</div>
                             <div class="tasbih-after-card-count">33×</div>
-                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card3_desc">تعظيم لله سبحانه. تُقال ثلاثًا وثلاثين مرّة، ثمّ يُختم العدد بكلمة التوحيد ليكتمل المئة.</p>
+                            <p class="tasbih-after-card-desc" data-i18n="tasbih.after.card3_desc">تعظيم لله سبحانه. تُقال ثلاثًا وثلاثين مرة، ثم يُختم العدد بكلمة التوحيد ليكتمل المئة.</p>
                         </article>
                     </div>
                 </section>
@@ -4688,22 +4688,22 @@
                 <!-- 4. متى تستخدم المسبحة الإلكترونية؟ -->
                 <section class="section-card tasbih-when" id="tasbih-when">
                     <h2 class="tasbih-when-title" data-i18n="tasbih.when.title">متى تستخدم المسبحة الإلكترونية؟</h2>
-                    <p class="tasbih-when-intro" data-i18n="tasbih.when.intro">يمكنك الاستفادة منها في عدّة مواطن:</p>
+                    <p class="tasbih-when-intro" data-i18n="tasbih.when.intro">يمكنك الاستفادة منها في عدة مواطن:</p>
                     <div class="tasbih-when-grid">
                         <article class="tasbih-when-card">
                             <span class="tasbih-when-icon" aria-hidden="true">🕌</span>
                             <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c1_title">بعد الصلوات الخمس</h3>
-                            <p data-i18n="tasbih.when.c1_desc">الاستخدام الأشهر: عدّ سبحان الله 33 والحمد لله 33 والله أكبر 33، ثمّ كلمة التوحيد.</p>
+                            <p data-i18n="tasbih.when.c1_desc">الاستخدام الأشهر: عد سبحان الله 33 والحمد لله 33 والله أكبر 33، ثم كلمة التوحيد.</p>
                         </article>
                         <article class="tasbih-when-card">
                             <span class="tasbih-when-icon" aria-hidden="true">🌅</span>
                             <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c2_title">أذكار الصباح والمساء</h3>
-                            <p data-i18n="tasbih.when.c2_desc">عدّ التهليل والاستغفار والصلاة على النبي ﷺ ضمن أوراد الصباح والمساء.</p>
+                            <p data-i18n="tasbih.when.c2_desc">عد التهليل والاستغفار والصلاة على النبي ﷺ ضمن أوراد الصباح والمساء.</p>
                         </article>
                         <article class="tasbih-when-card">
                             <span class="tasbih-when-icon" aria-hidden="true">🤲</span>
                             <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c3_title">الاستغفار اليومي</h3>
-                            <p data-i18n="tasbih.when.c3_desc">حدّد هدفًا يوميًّا مثل 100 استغفارة وعدّها بسهولة في وضع العدّاد المفتوح.</p>
+                            <p data-i18n="tasbih.when.c3_desc">حدد هدفًا يوميًا مثل 100 استغفارة وعدها بسهولة في وضع العداد المفتوح.</p>
                         </article>
                         <article class="tasbih-when-card">
                             <span class="tasbih-when-icon" aria-hidden="true">⏳</span>
@@ -4712,8 +4712,8 @@
                         </article>
                         <article class="tasbih-when-card">
                             <span class="tasbih-when-icon" aria-hidden="true">✈️</span>
-                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c5_title">السفر والتنقّل</h3>
-                            <p data-i18n="tasbih.when.c5_desc">بديل عمليّ للمسبحة اليدويّة أثناء السفر، يعمل على هاتفك مباشرةً.</p>
+                            <h3 class="tasbih-when-card-title" data-i18n="tasbih.when.c5_title">السفر والتنقل</h3>
+                            <p data-i18n="tasbih.when.c5_desc">بديل عملي للمسبحة اليدوية أثناء السفر، يعمل على هاتفك مباشرةً.</p>
                         </article>
                     </div>
                 </section>
@@ -4721,12 +4721,12 @@
                 <!-- 5. أدوات وعبادات مرتبطة -->
                 <section class="section-card tasbih-related" id="tasbih-related">
                     <h2 class="tasbih-related-title" data-i18n="tasbih.related.title">أدوات وعبادات مرتبطة</h2>
-                    <p class="tasbih-related-intro" data-i18n="tasbih.related.intro">روابط مفيدة تكمّل عبادتك اليوميّة:</p>
+                    <p class="tasbih-related-intro" data-i18n="tasbih.related.intro">روابط مفيدة تكمل عبادتك اليومية:</p>
                     <div class="tasbih-related-grid">
                         <a class="tasbih-related-card" href="/prayer-times-in-riyadh">
                             <span class="tasbih-related-icon" aria-hidden="true">🕋</span>
                             <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.prayer_title">مواقيت الصلاة</h3>
-                            <p data-i18n="tasbih.related.prayer_desc">اعرف مواقيت الصلوات الخمس في مدينتك حتى لا تفوّت تسبيحًا بعد كلّ صلاة.</p>
+                            <p data-i18n="tasbih.related.prayer_desc">اعرف مواقيت الصلوات الخمس في مدينتك حتى لا تفوت تسبيحًا بعد كل صلاة.</p>
                         </a>
                         <a class="tasbih-related-card" href="/azkar">
                             <span class="tasbih-related-icon" aria-hidden="true">📿</span>
@@ -4735,13 +4735,13 @@
                         </a>
                         <a class="tasbih-related-card" href="/qibla">
                             <span class="tasbih-related-icon" aria-hidden="true">🧭</span>
-                            <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.qibla_title">اتّجاه القبلة</h3>
-                            <p data-i18n="tasbih.related.qibla_desc">حدّد اتّجاه القبلة من موقعك قبل الصلاة بدقّة.</p>
+                            <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.qibla_title">اتجاه القبلة</h3>
+                            <p data-i18n="tasbih.related.qibla_desc">حدد اتجاه القبلة من موقعك قبل الصلاة بدقة.</p>
                         </a>
                         <a class="tasbih-related-card" href="/today-hijri-date">
                             <span class="tasbih-related-icon" aria-hidden="true">📅</span>
                             <h3 class="tasbih-related-card-title" data-i18n="tasbih.related.hijri_title">التاريخ الهجري</h3>
-                            <p data-i18n="tasbih.related.hijri_desc">تابع التاريخ الهجريّ اليوم وتذكّر الأيام الفضيلة كأيام البِيض.</p>
+                            <p data-i18n="tasbih.related.hijri_desc">تابع التاريخ الهجري اليوم وتذكر الأيام الفضيلة كأيام البِيض.</p>
                         </a>
                     </div>
                 </section>
@@ -4749,7 +4749,7 @@
                 <!-- 6. تنبيه لطيف -->
                 <div class="tasbih-disclaimer" role="note">
                     <strong data-i18n="tasbih.disclaimer.title">ملاحظة</strong>
-                    <p data-i18n="tasbih.disclaimer.body">المسبحة الإلكترونية وسيلة مساعِدة لا أكثر — الأجر مرتبط بنيّة الذاكر وحضور قلبه، لا بكون العدّ على مسبحة يدويّة أو إلكترونيّة أو على عقود الأصابع.</p>
+                    <p data-i18n="tasbih.disclaimer.body">المسبحة الإلكترونية وسيلة مساعِدة لا أكثر — الأجر مرتبط بنية الذاكر وحضور قلبه، لا بكون العد على مسبحة يدوية أو إلكترونية أو على عقود الأصابع.</p>
                 </div>
 
                 <!-- 7. الأسئلة الشائعة — تستخدم نفس مفاتيح i18n التي تُنبَع منها FAQPage JSON-LD في server.js (مصدر واحد) -->
@@ -4761,27 +4761,27 @@
                     <div class="tasbih-faq-list">
                         <details class="tasbih-faq-item">
                             <summary data-i18n="tasbih.faq.q1">هل المسبحة الإلكترونية بدعة؟</summary>
-                            <p data-i18n="tasbih.faq.a1">لا. هي مجرّد وسيلة لعدّ الذكر، تمامًا كالمسبحة اليدويّة أو العدّ على عقود الأصابع. الأصل أنّ الذكر سنّة، وأيّ أداة تُعين عليه مباحة ما لم تشغل عن المقصود.</p>
+                            <p data-i18n="tasbih.faq.a1">لا. هي مجرد وسيلة لعد الذكر، تمامًا كالمسبحة اليدوية أو العد على عقود الأصابع. الأصل أن الذكر سنة، وأي أداة تُعين عليه مباحة ما لم تشغل عن المقصود.</p>
                         </details>
                         <details class="tasbih-faq-item">
-                            <summary data-i18n="tasbih.faq.q2">هل تحفظ المسبحة العدّ بعد إغلاق الصفحة؟</summary>
-                            <p data-i18n="tasbih.faq.a2">حاليًّا يُحفظ العدّ خلال الجلسة فقط. عند إعادة تحميل الصفحة يبدأ العدّ من جديد، وهذا متعمَّد ليُلائم أداء التسبيح بعد كلّ صلاة كحدث مستقلّ.</p>
+                            <summary data-i18n="tasbih.faq.q2">هل تحفظ المسبحة العد بعد إغلاق الصفحة؟</summary>
+                            <p data-i18n="tasbih.faq.a2">حاليًا يُحفظ العد خلال الجلسة فقط. عند إعادة تحميل الصفحة يبدأ العد من جديد، وهذا متعمَد ليُلائم أداء التسبيح بعد كل صلاة كحدث مستقل.</p>
                         </details>
                         <details class="tasbih-faq-item">
                             <summary data-i18n="tasbih.faq.q3">لماذا العدد 33 بعد الصلاة؟</summary>
-                            <p data-i18n="tasbih.faq.a3">العدد 33 ورد في الحديث النبويّ الشريف: التسبيح 33 + التحميد 33 + التكبير 33 = 99، ثمّ تُختم بكلمة التوحيد لتُكمل المئة. والمسبحة الإلكترونية في وضعها التلقائيّ تتبع هذا الترتيب تمامًا.</p>
+                            <p data-i18n="tasbih.faq.a3">العدد 33 ورد في الحديث النبوي الشريف: التسبيح 33 + التحميد 33 + التكبير 33 = 99، ثم تُختم بكلمة التوحيد لتُكمل المئة. والمسبحة الإلكترونية في وضعها التلقائي تتبع هذا الترتيب تمامًا.</p>
                         </details>
                         <details class="tasbih-faq-item">
                             <summary data-i18n="tasbih.faq.q4">هل أستطيع استخدامها بدلاً من المسبحة العادية؟</summary>
-                            <p data-i18n="tasbih.faq.a4">نعم. لا فرق شرعيًّا بين العدّ على مسبحة يدويّة أو إلكترونيّة أو على عقود الأصابع — والأخيرة وردت في حديث: «اعقدنَ بالأنامل فإنّهنّ مسؤولات ومُستنطَقات». اختر ما يُعينك أكثر على الحضور.</p>
+                            <p data-i18n="tasbih.faq.a4">نعم. لا فرق شرعيًا بين العد على مسبحة يدوية أو إلكترونية أو على عقود الأصابع — والأخيرة وردت في حديث: «اعقدنَ بالأنامل فإنهن مسؤولات ومُستنطَقات». اختر ما يُعينك أكثر على الحضور.</p>
                         </details>
                         <details class="tasbih-faq-item">
                             <summary data-i18n="tasbih.faq.q5">هل تعمل المسبحة بدون إنترنت؟</summary>
-                            <p data-i18n="tasbih.faq.a5">نعم بعد فتح الصفحة لأوّل مرّة. يدعم الموقع التشغيل دون اتّصال (PWA)، فبمجرّد تحميل الصفحة تعمل المسبحة محلّيًّا على جهازك.</p>
+                            <p data-i18n="tasbih.faq.a5">نعم بعد فتح الصفحة لأول مرة. يدعم الموقع التشغيل دون اتصال (PWA)، فبمجرد تحميل الصفحة تعمل المسبحة محليًا على جهازك.</p>
                         </details>
                         <details class="tasbih-faq-item">
-                            <summary data-i18n="tasbih.faq.q6">هل المسبحة مجانيّة وآمنة؟</summary>
-                            <p data-i18n="tasbih.faq.a6">نعم، مجانيّة بالكامل بلا تسجيل ولا إعلانات داخل الأداة، والعدّ يبقى على جهازك ولا يُرسَل إلى أيّ خادم.</p>
+                            <summary data-i18n="tasbih.faq.q6">هل المسبحة مجانية وآمنة؟</summary>
+                            <p data-i18n="tasbih.faq.a6">نعم، مجانية بالكامل بلا تسجيل ولا إعلانات داخل الأداة، والعد يبقى على جهازك ولا يُرسَل إلى أي خادم.</p>
                         </details>
                     </div>
                 </section>
@@ -4837,7 +4837,7 @@
                             </div>
                         </a>
                     </div>
-                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العدّاد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
+                    <p class="moon-events-notice" data-i18n="moon.events.notice">* العداد حسب توقيت جهازك المحلي، والتواريخ تقريبية وقد تختلف حسب رؤية الهلال في بلدك.</p>
                 </section>
 
             </div>
@@ -4848,7 +4848,7 @@
                 <section class="section-card countdown-hero">
                     <h1 id="cd-h1-ramadan" class="countdown-h1" data-i18n="ramadan.h1">🕋 كم باقي على رمضان؟</h1>
                     <p class="cd-h1-seo" id="ram-h1-seo"></p>
-                    <p class="countdown-intro" data-i18n="ramadan.intro">اكتشف الأيام المتبقّية حتّى شهر رمضان المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد تختلف بداية الشهر يوماً حسب رؤية الهلال في بلدك.</p>
+                    <p class="countdown-intro" data-i18n="ramadan.intro">اكتشف الأيام المتبقية حتى شهر رمضان المبارك مع التاريخ الميلادي المتوقع والهجري. قد تختلف بداية الشهر يوماً حسب رؤية الهلال في بلدك.</p>
                     <div class="countdown-timer" id="ramadan-timer" role="timer" aria-live="polite">
                         <div class="ct-cell"><span class="ct-value" id="ram-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
                         <div class="ct-cell"><span class="ct-value" id="ram-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
@@ -4876,8 +4876,8 @@
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="ramadan.event_name">رمضان</strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجريّ:</span> <strong><span data-i18n="ramadan.hijri_1">1 رمضان</span> <span id="ram-hyear">—</span></strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلاديّ المتوقّع:</span> <strong id="ram-greg">—</strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجري:</span> <strong><span data-i18n="ramadan.hijri_1">1 رمضان</span> <span id="ram-hyear">—</span></strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلادي المتوقع:</span> <strong id="ram-greg">—</strong></div>
                     </div>
                 </section>
 
@@ -4893,9 +4893,9 @@
                         <table class="countdown-table" id="ram-years-table">
                             <thead>
                                 <tr>
-                                    <th data-i18n="ramadan.years_col_hijri">السنة الهجريّة</th>
-                                    <th data-i18n="ramadan.years_col_greg">السنة الميلاديّة</th>
-                                    <th data-i18n="ramadan.years_col_start">بداية رمضان (تقديريّ)</th>
+                                    <th data-i18n="ramadan.years_col_hijri">السنة الهجرية</th>
+                                    <th data-i18n="ramadan.years_col_greg">السنة الميلادية</th>
+                                    <th data-i18n="ramadan.years_col_start">بداية رمضان (تقديري)</th>
                                     <th data-i18n="ramadan.years_col_note">ملاحظة</th>
                                 </tr>
                             </thead>
@@ -4904,7 +4904,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="countdown-small-note" data-i18n="ramadan.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
+                    <p class="countdown-small-note" data-i18n="ramadan.years_note">* جميع التواريخ تقديرية حسابيًا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
                 <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
@@ -4936,7 +4936,7 @@
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
                             <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                            <span class="cdc-text" data-i18n="ramadan.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                            <span class="cdc-text" data-i18n="ramadan.link_hijri_today">التاريخ الهجري اليوم</span>
                         </a>
                     </div>
                 </section>
@@ -4952,17 +4952,17 @@
                 <section class="section-card countdown-info">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="ramadan.info_title">معلومات عن شهر رمضان</span></h2>
                     <h3 data-i18n="ramadan.info_h1">ما هو شهر رمضان</h3>
-                    <p data-i18n="ramadan.info_h1_body">شهر رمضان هو الشهر التاسع في التقويم الهجريّ القمريّ، ويُعدّ من أعظم الشهور في الإسلام. فيه أُنزل القرآن الكريم، ويصوم المسلمون من الفجر إلى غروب الشمس طوال أيّامه.</p>
+                    <p data-i18n="ramadan.info_h1_body">شهر رمضان هو الشهر التاسع في التقويم الهجري القمري، ويُعد من أعظم الشهور في الإسلام. فيه أُنزل القرآن الكريم، ويصوم المسلمون من الفجر إلى غروب الشمس طوال أيامه.</p>
                     <h3 data-i18n="ramadan.info_h2">كيف يثبت دخول رمضان</h3>
-                    <p data-i18n="ramadan.info_h2_body">يثبت دخول رمضان برؤية هلاله بعد غروب شمس اليوم التاسع والعشرين من شهر شعبان. فإن لم يُرَ الهلال أُكملت عدّة شعبان ثلاثين يومًا، ثمّ يبدأ رمضان في اليوم التالي.</p>
-                    <h3 data-i18n="ramadan.info_h3">لماذا يتقدّم رمضان كلّ سنة ميلاديّة</h3>
-                    <p data-i18n="ramadan.info_h3_body">السنة الهجريّة القمريّة أقصر من السنة الميلاديّة الشمسيّة بحوالي 10 إلى 11 يومًا، لذلك يتقدّم رمضان (مع كلّ المناسبات الإسلاميّة) في التقويم الميلاديّ بنفس المقدار سنويًّا.</p>
+                    <p data-i18n="ramadan.info_h2_body">يثبت دخول رمضان برؤية هلاله بعد غروب شمس اليوم التاسع والعشرين من شهر شعبان. فإن لم يُرَ الهلال أُكملت عدة شعبان ثلاثين يومًا، ثم يبدأ رمضان في اليوم التالي.</p>
+                    <h3 data-i18n="ramadan.info_h3">لماذا يتقدم رمضان كل سنة ميلادية</h3>
+                    <p data-i18n="ramadan.info_h3_body">السنة الهجرية القمرية أقصر من السنة الميلادية الشمسية بحوالي 10 إلى 11 يومًا، لذلك يتقدم رمضان (مع كل المناسبات الإسلامية) في التقويم الميلادي بنفس المقدار سنويًا.</p>
                 </section>
 
                 <!-- [7] اعتماد التاريخ — آخر شيء بالصفحة -->
                 <section class="section-card countdown-notice">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="ramadan.notice_title">اعتماد التاريخ</span></h2>
-                    <p data-i18n="ramadan.notice_body">بداية رمضان ترتبط بثبوت هلال 1 رمضان. التاريخ المعروض أعلاه محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
+                    <p data-i18n="ramadan.notice_body">بداية رمضان ترتبط بثبوت هلال 1 رمضان. التاريخ المعروض أعلاه محسوب فلكيًا وفق التقويم الهجري الحسابي، وقد يختلف الإعلان الرسمي بيوم واحد حسب الجهة الشرعية في كل بلد.</p>
                 </section>
             </div>
 
@@ -4972,7 +4972,7 @@
                 <section class="section-card countdown-hero">
                     <h1 id="cd-h1-eid-fitr" class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="eid_fitr.h1">كم باقي على عيد الفطر؟</span></h1>
                     <p class="cd-h1-seo" id="fitr-h1-seo"></p>
-                    <p class="countdown-intro" data-i18n="eid_fitr.intro">اكتشف الأيّام المتبقّية حتّى عيد الفطر المبارك مع التاريخ الميلاديّ المتوقّع والهجريّ. قد يختلف يوم العيد يوماً حسب رؤية هلال شوّال في بلدك.</p>
+                    <p class="countdown-intro" data-i18n="eid_fitr.intro">اكتشف الأيام المتبقية حتى عيد الفطر المبارك مع التاريخ الميلادي المتوقع والهجري. قد يختلف يوم العيد يوماً حسب رؤية هلال شوال في بلدك.</p>
                     <div class="countdown-timer" id="fitr-timer" role="timer" aria-live="polite">
                         <div class="ct-cell"><span class="ct-value" id="fitr-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
                         <div class="ct-cell"><span class="ct-value" id="fitr-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
@@ -4996,8 +4996,8 @@
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="eid_fitr.event_name">عيد الفطر</strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجريّ:</span> <strong><span data-i18n="eid_fitr.hijri_1">1 شوّال</span> <span id="fitr-hyear">—</span></strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلاديّ المتوقّع:</span> <strong id="fitr-greg">—</strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجري:</span> <strong><span data-i18n="eid_fitr.hijri_1">1 شوال</span> <span id="fitr-hyear">—</span></strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلادي المتوقع:</span> <strong id="fitr-greg">—</strong></div>
                     </div>
                 </section>
 
@@ -5013,9 +5013,9 @@
                         <table class="countdown-table" id="fitr-years-table">
                             <thead>
                                 <tr>
-                                    <th data-i18n="eid_fitr.years_col_hijri">السنة الهجريّة</th>
-                                    <th data-i18n="eid_fitr.years_col_greg">السنة الميلاديّة</th>
-                                    <th data-i18n="eid_fitr.years_col_start">عيد الفطر (تقديريّ)</th>
+                                    <th data-i18n="eid_fitr.years_col_hijri">السنة الهجرية</th>
+                                    <th data-i18n="eid_fitr.years_col_greg">السنة الميلادية</th>
+                                    <th data-i18n="eid_fitr.years_col_start">عيد الفطر (تقديري)</th>
                                     <th data-i18n="eid_fitr.years_col_note">ملاحظة</th>
                                 </tr>
                             </thead>
@@ -5024,7 +5024,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="countdown-small-note" data-i18n="eid_fitr.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
+                    <p class="countdown-small-note" data-i18n="eid_fitr.years_note">* جميع التواريخ تقديرية حسابيًا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
                 <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
@@ -5057,7 +5057,7 @@
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
                             <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                            <span class="cdc-text" data-i18n="eid_fitr.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                            <span class="cdc-text" data-i18n="eid_fitr.link_hijri_today">التاريخ الهجري اليوم</span>
                         </a>
                     </div>
                 </section>
@@ -5073,17 +5073,17 @@
                 <section class="section-card countdown-info">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="eid_fitr.info_title">معلومات عن عيد الفطر</span></h2>
                     <h3 data-i18n="eid_fitr.info_h1">ما هو عيد الفطر</h3>
-                    <p data-i18n="eid_fitr.info_h1_body">عيد الفطر هو أحد العيدين في الإسلام، يأتي بعد إتمام صيام شهر رمضان المبارك ويبدأ من اليوم الأوّل من شوّال. يُشرع فيه التكبير، صلاة العيد، زكاة الفطر قبل الصلاة، والتبادل بالتهاني.</p>
+                    <p data-i18n="eid_fitr.info_h1_body">عيد الفطر هو أحد العيدين في الإسلام، يأتي بعد إتمام صيام شهر رمضان المبارك ويبدأ من اليوم الأول من شوال. يُشرع فيه التكبير، صلاة العيد، زكاة الفطر قبل الصلاة، والتبادل بالتهاني.</p>
                     <h3 data-i18n="eid_fitr.info_h2">كيف يثبت عيد الفطر</h3>
-                    <p data-i18n="eid_fitr.info_h2_body">يثبت عيد الفطر بأحد أمرين: رؤية هلال شوّال بعد غروب شمس اليوم التاسع والعشرين من رمضان، أو إكمال عدّة رمضان ثلاثين يومًا إن لم يُرَ الهلال.</p>
-                    <h3 data-i18n="eid_fitr.info_h3">لماذا يتقدّم عيد الفطر كلّ سنة ميلاديّة</h3>
-                    <p data-i18n="eid_fitr.info_h3_body">السنة الهجريّة القمريّة أقصر بحوالي 10-11 يومًا من الميلاديّة، لذا يتقدّم عيد الفطر في التقويم الميلاديّ بنفس المقدار سنويًّا، ويدور عبر جميع الفصول كلّ ~33 سنة.</p>
+                    <p data-i18n="eid_fitr.info_h2_body">يثبت عيد الفطر بأحد أمرين: رؤية هلال شوال بعد غروب شمس اليوم التاسع والعشرين من رمضان، أو إكمال عدة رمضان ثلاثين يومًا إن لم يُرَ الهلال.</p>
+                    <h3 data-i18n="eid_fitr.info_h3">لماذا يتقدم عيد الفطر كل سنة ميلادية</h3>
+                    <p data-i18n="eid_fitr.info_h3_body">السنة الهجرية القمرية أقصر بحوالي 10-11 يومًا من الميلادية، لذا يتقدم عيد الفطر في التقويم الميلادي بنفس المقدار سنويًا، ويدور عبر جميع الفصول كل ~33 سنة.</p>
                 </section>
 
                 <!-- [7] اعتماد التاريخ — آخر شيء بالصفحة -->
                 <section class="section-card countdown-notice">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="eid_fitr.notice_title">اعتماد التاريخ</span></h2>
-                    <p data-i18n="eid_fitr.notice_body">يرتبط عيد الفطر بثبوت هلال شوّال بعد إكمال 29 أو 30 يومًا من رمضان. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب الجهة الشرعيّة في كلّ بلد.</p>
+                    <p data-i18n="eid_fitr.notice_body">يرتبط عيد الفطر بثبوت هلال شوال بعد إكمال 29 أو 30 يومًا من رمضان. التاريخ المعروض محسوب فلكيًا وفق التقويم الهجري الحسابي، وقد يختلف الإعلان الرسمي بيوم واحد حسب الجهة الشرعية في كل بلد.</p>
                 </section>
             </div>
 
@@ -5093,7 +5093,7 @@
                 <section class="section-card countdown-hero">
                     <h1 id="cd-h1-eid-adha" class="countdown-h1" data-i18n="eid_adha.h1">🐑 كم باقي على عيد الأضحى؟</h1>
                     <p class="cd-h1-seo" id="adha-h1-seo"></p>
-                    <p class="countdown-intro" data-i18n="eid_adha.intro">اكتشف الأيّام المتبقّية حتّى عيد الأضحى المبارك مع التاريخ الميلاديّ والهجريّ. يُصادف عيد الأضحى يوم النحر (10 ذي الحجّة) وقد يختلف يومًا بين الدول حسب ثبوت هلال ذي الحجّة.</p>
+                    <p class="countdown-intro" data-i18n="eid_adha.intro">اكتشف الأيام المتبقية حتى عيد الأضحى المبارك مع التاريخ الميلادي والهجري. يُصادف عيد الأضحى يوم النحر (10 ذي الحجة) وقد يختلف يومًا بين الدول حسب ثبوت هلال ذي الحجة.</p>
                     <div class="countdown-timer" id="adha-timer" role="timer" aria-live="polite">
                         <div class="ct-cell"><span class="ct-value" id="adha-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
                         <div class="ct-cell"><span class="ct-value" id="adha-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
@@ -5117,8 +5117,8 @@
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="eid_adha.event_name">عيد الأضحى</strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجريّ:</span> <strong><span data-i18n="eid_adha.hijri_1">10 ذو الحجّة</span> <span id="adha-hyear">—</span></strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلاديّ المتوقّع:</span> <strong id="adha-greg">—</strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجري:</span> <strong><span data-i18n="eid_adha.hijri_1">10 ذو الحجة</span> <span id="adha-hyear">—</span></strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلادي المتوقع:</span> <strong id="adha-greg">—</strong></div>
                     </div>
                 </section>
 
@@ -5134,9 +5134,9 @@
                         <table class="countdown-table" id="adha-years-table">
                             <thead>
                                 <tr>
-                                    <th data-i18n="eid_adha.years_col_hijri">السنة الهجريّة</th>
-                                    <th data-i18n="eid_adha.years_col_greg">السنة الميلاديّة</th>
-                                    <th data-i18n="eid_adha.years_col_start">عيد الأضحى (تقديريّ)</th>
+                                    <th data-i18n="eid_adha.years_col_hijri">السنة الهجرية</th>
+                                    <th data-i18n="eid_adha.years_col_greg">السنة الميلادية</th>
+                                    <th data-i18n="eid_adha.years_col_start">عيد الأضحى (تقديري)</th>
                                     <th data-i18n="eid_adha.years_col_note">ملاحظة</th>
                                 </tr>
                             </thead>
@@ -5145,7 +5145,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="countdown-small-note" data-i18n="eid_adha.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
+                    <p class="countdown-small-note" data-i18n="eid_adha.years_note">* جميع التواريخ تقديرية حسابيًا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
                 <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
@@ -5177,7 +5177,7 @@
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
                             <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                            <span class="cdc-text" data-i18n="eid_adha.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                            <span class="cdc-text" data-i18n="eid_adha.link_hijri_today">التاريخ الهجري اليوم</span>
                         </a>
                     </div>
                 </section>
@@ -5193,17 +5193,17 @@
                 <section class="section-card countdown-info">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="eid_adha.info_title">معلومات عن عيد الأضحى</span></h2>
                     <h3 data-i18n="eid_adha.info_h1">ما هو عيد الأضحى</h3>
-                    <p data-i18n="eid_adha.info_h1_body">عيد الأضحى هو أكبر العيدين في الإسلام، يأتي في اليوم العاشر من شهر ذي الحجّة بعد يوم عرفة، ويُعرف بيوم النحر. فيه يذبح المسلمون أضاحيهم إحياءً لسنّة إبراهيم عليه السلام.</p>
+                    <p data-i18n="eid_adha.info_h1_body">عيد الأضحى هو أكبر العيدين في الإسلام، يأتي في اليوم العاشر من شهر ذي الحجة بعد يوم عرفة، ويُعرف بيوم النحر. فيه يذبح المسلمون أضاحيهم إحياءً لسنة إبراهيم عليه السلام.</p>
                     <h3 data-i18n="eid_adha.info_h2">كيف يثبت عيد الأضحى</h3>
-                    <p data-i18n="eid_adha.info_h2_body">يثبت عيد الأضحى بثبوت دخول شهر ذي الحجّة عبر رؤية هلاله، ثمّ يُحسب اليوم العاشر منه. قد يختلف التاريخ بيوم بين الدول حسب اختلاف الرؤية.</p>
-                    <h3 data-i18n="eid_adha.info_h3">لماذا يتقدّم عيد الأضحى كلّ سنة ميلاديّة</h3>
-                    <p data-i18n="eid_adha.info_h3_body">السنة الهجريّة القمريّة أقصر بحوالي 10-11 يومًا من الميلاديّة، لذا يتقدّم عيد الأضحى في التقويم الميلاديّ بنفس المقدار سنويًّا، ويدور عبر جميع الفصول كلّ ~33 سنة.</p>
+                    <p data-i18n="eid_adha.info_h2_body">يثبت عيد الأضحى بثبوت دخول شهر ذي الحجة عبر رؤية هلاله، ثم يُحسب اليوم العاشر منه. قد يختلف التاريخ بيوم بين الدول حسب اختلاف الرؤية.</p>
+                    <h3 data-i18n="eid_adha.info_h3">لماذا يتقدم عيد الأضحى كل سنة ميلادية</h3>
+                    <p data-i18n="eid_adha.info_h3_body">السنة الهجرية القمرية أقصر بحوالي 10-11 يومًا من الميلادية، لذا يتقدم عيد الأضحى في التقويم الميلادي بنفس المقدار سنويًا، ويدور عبر جميع الفصول كل ~33 سنة.</p>
                 </section>
 
                 <!-- [7] اعتماد التاريخ — آخر شيء -->
                 <section class="section-card countdown-notice">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="eid_adha.notice_title">اعتماد التاريخ</span></h2>
-                    <p data-i18n="eid_adha.notice_body">عيد الأضحى يرتبط بيوم النحر العاشر من ذي الحجّة بعد يوم عرفة. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال ذي الحجّة في كلّ بلد.</p>
+                    <p data-i18n="eid_adha.notice_body">عيد الأضحى يرتبط بيوم النحر العاشر من ذي الحجة بعد يوم عرفة. التاريخ المعروض محسوب فلكيًا وفق التقويم الهجري الحسابي، وقد يختلف الإعلان الرسمي بيوم واحد حسب رؤية هلال ذي الحجة في كل بلد.</p>
                 </section>
             </div>
 
@@ -5213,7 +5213,7 @@
                 <section class="section-card countdown-hero">
                     <h1 id="cd-h1-hijri-ny" class="countdown-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-calendar"/></svg> <span data-i18n="hijri_ny.h1">كم باقي على رأس السنة الهجرية؟</span></h1>
                     <p class="cd-h1-seo" id="ny-h1-seo"></p>
-                    <p class="countdown-intro" data-i18n="hijri_ny.intro">اكتشف الأيّام المتبقّية حتّى رأس السنة الهجرية الجديدة مع التاريخ الميلاديّ والهجريّ. يوافق أوّل يوم من شهر محرّم بداية السنة الهجريّة، وقد يختلف الإعلان يومًا بين الدول حسب ثبوت هلال محرّم.</p>
+                    <p class="countdown-intro" data-i18n="hijri_ny.intro">اكتشف الأيام المتبقية حتى رأس السنة الهجرية الجديدة مع التاريخ الميلادي والهجري. يوافق أول يوم من شهر محرم بداية السنة الهجرية، وقد يختلف الإعلان يومًا بين الدول حسب ثبوت هلال محرم.</p>
                     <div class="countdown-timer" id="ny-timer" role="timer" aria-live="polite">
                         <div class="ct-cell"><span class="ct-value" id="ny-secs">--</span><span class="ct-label" data-i18n="countdown.seconds">ثواني</span></div>
                         <div class="ct-cell"><span class="ct-value" id="ny-mins">--</span><span class="ct-label" data-i18n="countdown.minutes">دقائق</span></div>
@@ -5237,8 +5237,8 @@
                     </div>
                     <div class="countdown-meta">
                         <div><span class="cm-key" data-i18n="countdown.event">المناسبة:</span> <strong data-i18n="hijri_ny.event_name">رأس السنة الهجرية</strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجريّ:</span> <strong><span data-i18n="hijri_ny.hijri_1">1 محرّم</span> <span id="ny-hyear">—</span></strong></div>
-                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلاديّ المتوقّع:</span> <strong id="ny-greg">—</strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.hijri_date">التاريخ الهجري:</span> <strong><span data-i18n="hijri_ny.hijri_1">1 محرم</span> <span id="ny-hyear">—</span></strong></div>
+                        <div><span class="cm-key" data-i18n="countdown.greg_date">التاريخ الميلادي المتوقع:</span> <strong id="ny-greg">—</strong></div>
                     </div>
                 </section>
 
@@ -5254,9 +5254,9 @@
                         <table class="countdown-table" id="ny-years-table">
                             <thead>
                                 <tr>
-                                    <th data-i18n="hijri_ny.years_col_hijri">السنة الهجريّة</th>
-                                    <th data-i18n="hijri_ny.years_col_greg">السنة الميلاديّة</th>
-                                    <th data-i18n="hijri_ny.years_col_start">1 محرّم (تقديريّ)</th>
+                                    <th data-i18n="hijri_ny.years_col_hijri">السنة الهجرية</th>
+                                    <th data-i18n="hijri_ny.years_col_greg">السنة الميلادية</th>
+                                    <th data-i18n="hijri_ny.years_col_start">1 محرم (تقديري)</th>
                                     <th data-i18n="hijri_ny.years_col_note">ملاحظة</th>
                                 </tr>
                             </thead>
@@ -5265,7 +5265,7 @@
                             </tbody>
                         </table>
                     </div>
-                    <p class="countdown-small-note" data-i18n="hijri_ny.years_note">* جميع التواريخ تقديريّة حسابيًّا وقد تختلف بيوم واحد حسب الرؤية.</p>
+                    <p class="countdown-small-note" data-i18n="hijri_ny.years_note">* جميع التواريخ تقديرية حسابيًا وقد تختلف بيوم واحد حسب الرؤية.</p>
                 </section>
 
                 <!-- [3b] أقسام تعليميّة (SSR — تُحقَن من data/countdown-seo.js) -->
@@ -5297,7 +5297,7 @@
                         </a>
                         <a class="cd-link-card" href="/today-hijri-date">
                             <svg class="icon cdc-icon" aria-hidden="true"><use href="#i-calendar"/></svg>
-                            <span class="cdc-text" data-i18n="hijri_ny.link_hijri_today">التاريخ الهجريّ اليوم</span>
+                            <span class="cdc-text" data-i18n="hijri_ny.link_hijri_today">التاريخ الهجري اليوم</span>
                         </a>
                     </div>
                 </section>
@@ -5312,18 +5312,18 @@
                 <!-- [6] معلومات (SEO) -->
                 <section class="section-card countdown-info">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> <span data-i18n="hijri_ny.info_title">معلومات عن رأس السنة الهجرية</span></h2>
-                    <h3 data-i18n="hijri_ny.info_h1">بداية التقويم الإسلاميّ</h3>
-                    <p data-i18n="hijri_ny.info_h1_body">التقويم الهجريّ تقويم قمريّ اعتمده المسلمون رسميًّا في عهد الخليفة عمر بن الخطّاب رضي الله عنه، وجُعلت بدايته من السنة التي هاجر فيها النبيّ ﷺ من مكّة إلى المدينة المنوّرة، ويتكوّن من 12 شهرًا قمريًّا.</p>
-                    <h3 data-i18n="hijri_ny.info_h2">شهر محرّم والأشهر الحرم</h3>
-                    <p data-i18n="hijri_ny.info_h2_body">محرّم أحد الأشهر الحرم الأربعة (ذو القعدة، ذو الحجّة، محرّم، رجب)، وقد عظّمه الإسلام كما عظّمته العرب من قبل، ويتأكّد فيه اجتناب الظلم والمحرّمات.</p>
+                    <h3 data-i18n="hijri_ny.info_h1">بداية التقويم الإسلامي</h3>
+                    <p data-i18n="hijri_ny.info_h1_body">التقويم الهجري تقويم قمري اعتمده المسلمون رسميًا في عهد الخليفة عمر بن الخطاب رضي الله عنه، وجُعلت بدايته من السنة التي هاجر فيها النبي ﷺ من مكة إلى المدينة المنورة، ويتكون من 12 شهرًا قمريًا.</p>
+                    <h3 data-i18n="hijri_ny.info_h2">شهر محرم والأشهر الحرم</h3>
+                    <p data-i18n="hijri_ny.info_h2_body">محرم أحد الأشهر الحرم الأربعة (ذو القعدة، ذو الحجة، محرم، رجب)، وقد عظمه الإسلام كما عظمته العرب من قبل، ويتأكد فيه اجتناب الظلم والمحرمات.</p>
                     <h3 data-i18n="hijri_ny.info_h3">يوم عاشوراء</h3>
-                    <p data-i18n="hijri_ny.info_h3_body">اليوم العاشر من محرّم يوم فضيل؛ صامه النبيّ ﷺ شكرًا لله لما نجّى موسى عليه السلام، ويُستحبّ صيامه مع اليوم التاسع (تاسوعاء) مخالفةً لأهل الكتاب.</p>
+                    <p data-i18n="hijri_ny.info_h3_body">اليوم العاشر من محرم يوم فضيل؛ صامه النبي ﷺ شكرًا لله لما نجى موسى عليه السلام، ويُستحب صيامه مع اليوم التاسع (تاسوعاء) مخالفةً لأهل الكتاب.</p>
                 </section>
 
                 <!-- [7] اعتماد التاريخ — آخر شيء -->
                 <section class="section-card countdown-notice">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-scroll"/></svg> <span data-i18n="hijri_ny.notice_title">اعتماد التاريخ</span></h2>
-                    <p data-i18n="hijri_ny.notice_body">رأس السنة الهجرية يبدأ بأوّل يوم من شهر محرّم. التاريخ المعروض محسوب فلكيًّا وفق التقويم الهجريّ الحسابيّ، وقد يختلف الإعلان الرسميّ بيوم واحد حسب رؤية هلال محرّم في كلّ بلد.</p>
+                    <p data-i18n="hijri_ny.notice_body">رأس السنة الهجرية يبدأ بأول يوم من شهر محرم. التاريخ المعروض محسوب فلكيًا وفق التقويم الهجري الحسابي، وقد يختلف الإعلان الرسمي بيوم واحد حسب رؤية هلال محرم في كل بلد.</p>
                 </section>
             </div>
 
@@ -5414,7 +5414,7 @@
                     <svg class="icon adhan-setting-icon" aria-hidden="true"><use href="#i-volume"/></svg>
                     <div>
                         <div class="adhan-setting-title" data-i18n="adhan.title">تشغيل الأذان تلقائياً</div>
-                        <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَّل صوت الأذان عند دخول وقت كل صلاة</div>
+                        <div class="adhan-setting-desc" data-i18n="adhan.desc">يُشغَل صوت الأذان عند دخول وقت كل صلاة</div>
                     </div>
                 </div>
                 <div class="adhan-modal-controls">
@@ -5453,7 +5453,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=809"></script>
+    <script defer src="js/app.js?v=810"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

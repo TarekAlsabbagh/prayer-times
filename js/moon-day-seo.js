@@ -121,7 +121,7 @@ function fitDayTitle(lang, city, dateLabel) {
 // Built on the Gregorian date label D (no Hijri-equivalent parenthetical → shorter).
 const DESC = {
     xlong: {
-        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، التاريخ الهجريّ المقابل، والكوكبة — محسوبة بدقّة فلكيّة لتوقيت المدينة.`,
+        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، التاريخ الهجري المقابل، والكوكبة — محسوبة بدقة فلكية لتوقيت المدينة.`,
         en: (C, D) => `Moon phase in ${C} on ${D}: illumination, moon age, moonrise, moonset, the matching Hijri date and constellation — computed with precise astronomy for the city.`,
         fr: (C, D) => `Phase de la Lune à ${C} le ${D} : illumination, âge de la Lune, lever et coucher, date hégirienne correspondante et constellation — calculés avec une astronomie précise.`,
         tr: (C, D) => `${C} için ${D} tarihinde Ay evresi: aydınlanma, ay yaşı, doğuş ve batış saatleri, karşılık gelen hicri tarih ve burç bilgileri.`,
@@ -133,7 +133,7 @@ const DESC = {
         ms: (C, D) => `Fasa Bulan di ${C} pada ${D}: pencahayaan, usia Bulan, terbit, terbenam, tarikh Hijrah yang sepadan dan buruj — dikira dengan astronomi tepat untuk bandar.`
     },
     long: {
-        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والتاريخ الهجريّ المقابل — محسوبة بدقّة فلكيّة.`,
+        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة، عمر القمر، وقت المطلع والمغيب، والتاريخ الهجري المقابل — محسوبة بدقة فلكية.`,
         en: (C, D) => `Moon phase in ${C} on ${D}: view illumination, moon age, moonrise, moonset, the matching Hijri date and daily lunar details for this date.`,
         fr: (C, D) => `Phase de la Lune à ${C} le ${D} : illumination, âge de la Lune, heures de lever et de coucher, et date hégirienne correspondante.`,
         tr: (C, D) => `${C} için ${D} tarihinde Ay evresi: aydınlanma, ay yaşı, doğuş ve batış saatleri ve karşılık gelen hicri tarih.`,
@@ -145,7 +145,7 @@ const DESC = {
         ms: (C, D) => `Fasa Bulan di ${C} pada ${D}: pencahayaan, usia Bulan, waktu terbit dan terbenam, serta tarikh Hijrah yang sepadan.`
     },
     mid: {
-        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة، عمر القمر، والمطلع والمغيب، والتاريخ الهجريّ.`,
+        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة، عمر القمر، والمطلع والمغيب، والتاريخ الهجري.`,
         en: (C, D) => `Moon phase in ${C} on ${D}: illumination, moon age, moonrise, moonset and the matching Hijri date.`,
         fr: (C, D) => `Phase de la Lune à ${C} le ${D} : illumination, âge, lever et coucher, et date hégirienne.`,
         tr: (C, D) => `${C} için ${D} tarihinde Ay evresi: aydınlanma, ay yaşı, doğuş–batış ve hicri tarih.`,
@@ -157,7 +157,7 @@ const DESC = {
         ms: (C, D) => `Fasa Bulan di ${C} pada ${D}: pencahayaan, usia, terbit, terbenam dan tarikh Hijrah.`
     },
     short: {
-        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة وعمر القمر والتاريخ الهجريّ المقابل.`,
+        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة وعمر القمر والتاريخ الهجري المقابل.`,
         en: (C, D) => `Moon phase in ${C} on ${D}: illumination, moon age and the matching Hijri date.`,
         fr: (C, D) => `Phase de la Lune à ${C} le ${D} : illumination, âge et date hégirienne.`,
         tr: (C, D) => `${C} için ${D} tarihinde Ay evresi: aydınlanma, yaş ve hicri tarih.`,
@@ -169,7 +169,7 @@ const DESC = {
         ms: (C, D) => `Fasa Bulan di ${C} pada ${D}: pencahayaan, usia dan tarikh Hijrah.`
     },
     xshort: {
-        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة والتاريخ الهجريّ.`,
+        ar: (C, D) => `طور القمر في ${C} يوم ${D}: نسبة الإضاءة والتاريخ الهجري.`,
         en: (C, D) => `Moon phase in ${C} on ${D}: illumination and the matching Hijri date.`,
         fr: (C, D) => `Phase de la Lune à ${C} le ${D} : illumination et date hégirienne.`,
         tr: (C, D) => `${C} için ${D} tarihinde Ay evresi: aydınlanma ve hicri tarih.`,

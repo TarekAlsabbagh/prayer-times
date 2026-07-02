@@ -119,7 +119,7 @@ function fitMonthTitle(lang, city, monthName, year) {
 // Ported from the reviewed server.js month-meta strings. long→mid→short, window [120,160].
 const DESC = {
     long: {
-        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل.`,
+        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليومي، نسبة الإضاءة، البدر والمحاق، رؤية الهلال، والتقويم الهجري المقابل.`,
         en: (C, M, Y) => `Moon calendar in ${C} for ${M} ${Y}: daily phase, illumination, full moon and new moon dates, hilal visibility, and matching Hijri calendar.`,
         fr: (C, M, Y) => `Calendrier lunaire à ${C} pour ${M} ${Y} : phase quotidienne, illumination, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien correspondant.`,
         tr: (C, M, Y) => `${C} için ${M} ${Y} ay takvimi: günlük evre, aydınlanma, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve karşılık gelen hicri takvim.`,
@@ -131,7 +131,7 @@ const DESC = {
         ms: (C, M, Y) => `Kalendar bulan di ${C} untuk ${M} ${Y}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan, rukyah hilal serta kalendar Hijrah yang sepadan.`
     },
     mid: {
-        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليوميّ، نسبة الإضاءة، البدر والمحاق، والتقويم الهجريّ المقابل.`,
+        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليومي، نسبة الإضاءة، البدر والمحاق، والتقويم الهجري المقابل.`,
         en: (C, M, Y) => `Moon calendar in ${C} for ${M} ${Y}: daily moon phase, illumination, full moon and new moon dates, and the matching Hijri calendar.`,
         fr: (C, M, Y) => `Calendrier lunaire à ${C} pour ${M} ${Y} : phase quotidienne, illumination, dates de pleine et nouvelle lune et calendrier hégirien correspondant.`,
         tr: (C, M, Y) => `${C} için ${M} ${Y} ay takvimi: günlük evre, aydınlanma, dolunay ve yeni ay tarihleri ve karşılık gelen hicri takvim.`,
@@ -143,7 +143,7 @@ const DESC = {
         ms: (C, M, Y) => `Kalendar bulan di ${C} untuk ${M} ${Y}: fasa harian, pencahayaan, tarikh bulan purnama dan anak bulan serta kalendar Hijrah yang sepadan.`
     },
     short: {
-        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليوميّ ونسبة الإضاءة والتقويم الهجريّ المقابل.`,
+        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليومي ونسبة الإضاءة والتقويم الهجري المقابل.`,
         en: (C, M, Y) => `Moon calendar in ${C} for ${M} ${Y}: daily moon phase, illumination and the matching Hijri calendar.`,
         fr: (C, M, Y) => `Calendrier lunaire à ${C} pour ${M} ${Y} : phase quotidienne, illumination et calendrier hégirien correspondant.`,
         tr: (C, M, Y) => `${C} için ${M} ${Y} ay takvimi: günlük evre, aydınlanma ve karşılık gelen hicri takvim.`,
@@ -156,7 +156,7 @@ const DESC = {
     },
     // Extra-long pad for very SHORT city names (keeps meta ≥120 even at min city length).
     xlong: {
-        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليوميّ، نسبة الإضاءة، عمر القمر، البدر والمحاق، رؤية الهلال، والتقويم الهجريّ المقابل بتوقيت المدينة.`,
+        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: طور القمر اليومي، نسبة الإضاءة، عمر القمر، البدر والمحاق، رؤية الهلال، والتقويم الهجري المقابل بتوقيت المدينة.`,
         en: (C, M, Y) => `Moon calendar in ${C} for ${M} ${Y}: daily phase, illumination, moon age, full moon and new moon dates, hilal visibility, and the matching Hijri calendar in local time.`,
         fr: (C, M, Y) => `Calendrier lunaire à ${C} pour ${M} ${Y} : phase quotidienne, illumination, âge de la Lune, dates de pleine et nouvelle lune, visibilité du croissant et calendrier hégirien correspondant.`,
         tr: (C, M, Y) => `${C} için ${M} ${Y} ay takvimi: günlük evre, aydınlanma, ay yaşı, dolunay ve yeni ay tarihleri, hilal görünürlüğü ve karşılık gelen hicri takvim (yerel saat).`,
@@ -169,7 +169,7 @@ const DESC = {
     },
     // Extra-short for very LONG city names (keeps meta ≤160).
     xshort: {
-        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: الطور اليوميّ والتقويم الهجريّ المقابل.`,
+        ar: (C, M, Y) => `تقويم القمر في ${C} لشهر ${M} ${Y}: الطور اليومي والتقويم الهجري المقابل.`,
         en: (C, M, Y) => `Moon calendar in ${C} for ${M} ${Y}: daily phase and the matching Hijri calendar.`,
         fr: (C, M, Y) => `Calendrier lunaire à ${C} pour ${M} ${Y} : phase quotidienne et calendrier hégirien.`,
         tr: (C, M, Y) => `${C} için ${M} ${Y} ay takvimi: günlük evre ve hicri takvim.`,

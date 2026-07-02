@@ -248,10 +248,10 @@ function arPluralDays(n, lang) {
     if (!isFinite(n) || n < 0) n = 0;
     switch ((lang || '').toLowerCase()) {
         case 'ar':
-            if (n === 0) return 'لا أيّام';
+            if (n === 0) return 'لا أيام';
             if (n === 1) return 'يومًا واحدًا';
             if (n === 2) return 'يومين';
-            if (n >= 3 && n <= 10) return n + ' أيّام';
+            if (n >= 3 && n <= 10) return n + ' أيام';
             return n + ' يومًا';
         case 'fr':
             return n + (n === 1 ? ' jour' : ' jours');
@@ -452,7 +452,7 @@ const CITY_NAMES_UR = {
     Cairo:'قاہرہ', Alexandria:'اسکندریہ', Giza:'جیزہ',
     Istanbul:'استنبول', Ankara:'انقرہ', Izmir:'ازمیر',
     Dubai:'دبئی', 'Abu Dhabi':'ابوظہبی', Sharjah:'شارجہ',
-    Amman:'عمّان', Baghdad:'بغداد', Basra:'بصرہ', Mosul:'موصل',
+    Amman:'عمان', Baghdad:'بغداد', Basra:'بصرہ', Mosul:'موصل',
     Damascus:'دمشق', Aleppo:'حلب', Homs:'حمص',
     Casablanca:'کاسابلانکا', Rabat:'رباط', Marrakesh:'مراکش',
     Jerusalem:'یروشلم', Gaza:'غزہ', Ramallah:'رام اللہ',
@@ -625,22 +625,22 @@ const CITY_NAMES_ID = {
 // للـ fallback في _moonCityDisplayName عند الزيارة المباشرة لـ /moon-today-in-<slug>
 // بدون session storage (مثلًا طوكيو بدون إعادة توجيه من صفحة الصلاة).
 const CITY_NAMES_AR = {
-    Mecca:'مكّة المكرّمة', Medina:'المدينة المنوّرة', Riyadh:'الرياض', Jeddah:'جدّة',
+    Mecca:'مكة المكرمة', Medina:'المدينة المنورة', Riyadh:'الرياض', Jeddah:'جدة',
     Dammam:'الدمام', Khobar:'الخُبر', Taif:'الطائف', Tabuk:'تبوك',
     Buraidah:'بريدة', Buraydah:'بريدة', Abha:'أبها', Yanbu:'ينبع', Hail:'حائل',
     Najran:'نجران', Jizan:'جازان', 'Khamis Mushait':'خميس مشيط',
     'Al Hofuf':'الهفوف', Hofuf:'الهفوف', 'Al Kharj':'الخرج',
     Qatif:'القطيف', 'Al Jubail':'الجبيل', Jubail:'الجبيل',
-    Cairo:'القاهرة', Alexandria:'الإسكندريّة', Giza:'الجيزة',
+    Cairo:'القاهرة', Alexandria:'الإسكندرية', Giza:'الجيزة',
     Istanbul:'إسطنبول', Ankara:'أنقرة', Izmir:'إزمير',
     Dubai:'دبي', 'Abu Dhabi':'أبوظبي', Sharjah:'الشارقة',
-    Amman:'عمّان', Baghdad:'بغداد', Basra:'البصرة', Mosul:'الموصل',
+    Amman:'عمان', Baghdad:'بغداد', Basra:'البصرة', Mosul:'الموصل',
     Damascus:'دمشق', Aleppo:'حلب', Homs:'حمص',
-    Casablanca:'الدار البيضاء', Rabat:'الرباط', Marrakesh:'مرّاكش',
-    Jerusalem:'القدس', Gaza:'غزّة', Ramallah:'رام الله',
+    Casablanca:'الدار البيضاء', Rabat:'الرباط', Marrakesh:'مراكش',
+    Jerusalem:'القدس', Gaza:'غزة', Ramallah:'رام الله',
     Doha:'الدوحة', 'Kuwait City':'مدينة الكويت', Manama:'المنامة',
     Muscat:'مسقط', Sanaa:'صنعاء', Aden:'عدن',
-    Dhaka:'دكّا', Chittagong:'شيتاغونغ',
+    Dhaka:'دكا', Chittagong:'شيتاغونغ',
     Karachi:'كراتشي', Lahore:'لاهور', Islamabad:'إسلام آباد',
     Delhi:'دلهي', Mumbai:'مومباي', Kolkata:'كولكاتا',
     Bangalore:'بنغالور', Chennai:'تشيناي', Hyderabad:'حيدر آباد',
@@ -1536,7 +1536,7 @@ const _HDAY_NONTODAY = {
             //   Total-days is read live from the table (354/355 for normal
             //   years; 353 for historical anomalies 1356/1401).
             [`هل سنة ${c.year}${c.hSfx} سنة كبيسة؟`, c.isLeap?`نعم، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> عدد أيامها ${c.totalYearDays} يومًا حسب تقويم أم القرى.`:`لا، <a href="/hijri-calendar/${c.year}">سنة ${c.year}${c.hSfx}</a> عدد أيامها ${c.totalYearDays} يومًا حسب تقويم أم القرى.`],
-            [`كم عدد أيام شهر ${c.monthName} ${c.year}؟`, `شهر ${c.monthName} ${c.year}${c.hSfx} يتكوّن من ${c.totalDays} يوماً.`],
+            [`كم عدد أيام شهر ${c.monthName} ${c.year}؟`, `شهر ${c.monthName} ${c.year}${c.hSfx} يتكون من ${c.totalDays} يوماً.`],
         ],
     },
     en: {
@@ -4191,7 +4191,7 @@ async function initApp() {
                 // of server.js update — "اختر/Choose" instead of
                 // "استعرض/Explore" for a clearer action intent.
                 const _tpl = {
-                    ar: '📅 تقويم القمر في {city} — اختر أيّ تاريخ',
+                    ar: '📅 تقويم القمر في {city} — اختر أي تاريخ',
                     en: '📅 Moon Calendar for {city} — Choose any date',
                     fr: '📅 Calendrier de la Lune pour {city} — Choisir une date',
                     tr: '📅 {city} Ay Takvimi — Bir tarih seçin',
@@ -4370,7 +4370,7 @@ async function initApp() {
         //       #*-seo-line. "بدأت أيام {event} يوم {date}." etc.
         const _activeCelebratoryByEvent = {
             ramadan: {
-                ar: `نحن الآن في شهر رمضان المبارك ${_eventHYear} هـ، تقبّل الله صيامكم وقيامكم.`,
+                ar: `نحن الآن في شهر رمضان المبارك ${_eventHYear} هـ، تقبل الله صيامكم وقيامكم.`,
                 en: `We are now in the blessed month of Ramadan ${_eventHYear} AH — may Allah accept your fasting and prayers.`
             },
             fitr: {
@@ -4483,7 +4483,7 @@ async function initApp() {
             const _eventName = _tt(_kp + '.event_name') || cfg.id;
             const _gregFmt = _fmtGreg(_eventGreg);
             const _seoTpl = {
-                ar: `يبدأ شهر ${_eventName} ${_eventHYear} هـ يوم ${_gregFmt}، ويتبقّى عليه ${_daysLeft} يوماً`,
+                ar: `يبدأ شهر ${_eventName} ${_eventHYear} هـ يوم ${_gregFmt}، ويتبقى عليه ${_daysLeft} يوماً`,
                 en: `${_eventName} ${_eventHYear} AH begins on ${_gregFmt}, with ${_daysLeft} days remaining`,
                 fr: `${_eventName} ${_eventHYear} AH commence le jour du ${_gregFmt}, il reste ${_daysLeft} jours`,
                 tr: `${_eventName} ${_eventHYear} AH ${_gregFmt} günü başlar, ${_daysLeft} gün kaldı`,
@@ -4520,7 +4520,7 @@ async function initApp() {
                 const _evNFull = _evWithPrefix(_evN);
                 const _gFmt = _fmtGreg(_eventGreg);
                 const _aTpl = {
-                    ar: `يتبقّى ${_daysLeft} يوماً على بداية ${_evNFull} ${_eventHYear} هـ الموافق ${_gFmt}.`,
+                    ar: `يتبقى ${_daysLeft} يوماً على بداية ${_evNFull} ${_eventHYear} هـ الموافق ${_gFmt}.`,
                     en: `${_daysLeft} days remain until ${_evN} ${_eventHYear} AH begins on ${_gFmt}.`,
                     fr: `Il reste ${_daysLeft} jours avant le début de ${_evN} ${_eventHYear} AH le ${_gFmt}.`,
                     tr: `${_evN} ${_eventHYear} AH'ın ${_gFmt} tarihinde başlamasına ${_daysLeft} gün kaldı.`,
@@ -4646,7 +4646,7 @@ async function initApp() {
                 //   ⏱ العدّاد بتوقيت جهازك:
                 //   يتبقّى 287 يوماً على بداية رمضان
                 const _line1Tpl = {
-                    ar: 'العدّاد بتوقيت جهازك المحلّيّ:',
+                    ar: 'العداد بتوقيت جهازك المحلي:',
                     en: 'Counter set to your device timezone:',
                     fr: 'Compteur réglé sur le fuseau horaire de votre appareil :',
                     tr: 'Sayaç cihazınızın saat dilimine ayarlı:',
@@ -4659,7 +4659,7 @@ async function initApp() {
                 };
                 const _evNameFull = _evWithPrefix(_evName);
                 const _line2Tpl = {
-                    ar: `يتبقّى ${_daysLeft} يوماً على بداية ${_evNameFull}`,
+                    ar: `يتبقى ${_daysLeft} يوماً على بداية ${_evNameFull}`,
                     en: `${_daysLeft} days remain until ${_evName} begins`,
                     fr: `Il reste ${_daysLeft} jours avant le début de ${_evName}`,
                     tr: `${_evName}'ın başlamasına ${_daysLeft} gün kaldı`,
@@ -4700,7 +4700,7 @@ async function initApp() {
                 const _evN = _tt(_kp + '.event_name') || cfg.id;
                 const _gFmt = _fmtGreg(_eventGreg);
                 const _introTpl = {
-                    ar: `${_evN} هو إحدى أهمّ المناسبات الإسلاميّة، ويبدأ هذا العام في ${_gFmt}.`,
+                    ar: `${_evN} هو إحدى أهم المناسبات الإسلامية، ويبدأ هذا العام في ${_gFmt}.`,
                     en: `${_evN} is one of the most important Islamic occasions, beginning this year on ${_gFmt}.`,
                     fr: `${_evN} est l'une des occasions islamiques les plus importantes, commence cette année le ${_gFmt}.`,
                     tr: `${_evN}, en önemli İslami günlerden biridir ve bu yıl ${_gFmt} tarihinde başlar.`,
@@ -4740,7 +4740,7 @@ async function initApp() {
                 };
                 const _evNS = _evWithPrefix(_evN);
                 const _suffixTpl = {
-                    ar: `— اقتراب فلكيّ من ${_evNS}`,
+                    ar: `— اقتراب فلكي من ${_evNS}`,
                     en: `— astronomical approach to ${_evN}`,
                     fr: `— approche astronomique de ${_evN}`,
                     tr: `— ${_evN}'a astronomik yaklaşım`,
@@ -4882,7 +4882,7 @@ async function initApp() {
                 const _badge = _isNext ? ' <span class="cd-badge-next">' + _escHtml(_nextLabel) + '</span>' : '';
                 const _noteCell = _isNext
                     ? '<strong class="cd-after-days">' + _escHtml(_afterTpl(_daysLeftForRow)) + '</strong>'
-                    : (_tt(_kp + '.years_note_cell') || 'تقديريّ · يعتمد على الرؤية');
+                    : (_tt(_kp + '.years_note_cell') || 'تقديري · يعتمد على الرؤية');
                 rows.push(
                     '<tr' + (_isNext ? ' class="cd-row-current"' : '') + '>' +
                         '<td>' + hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH') + _badge + '</td>' +
@@ -4926,7 +4926,7 @@ async function initApp() {
             // أضف زرّ "عرض المزيد" إن كان عدد الأسئلة > 3
             if (faqs.length > 3) {
                 const _showLbl = _tt(_kp + '.faq_show_more') || (_lang === 'ar' ? '↓ عرض جميع الأسئلة' : '↓ Show all questions');
-                const _hideLbl = _tt(_kp + '.faq_show_less') || (_lang === 'ar' ? '↑ عرض أقلّ' : '↑ Show less');
+                const _hideLbl = _tt(_kp + '.faq_show_less') || (_lang === 'ar' ? '↑ عرض أقل' : '↑ Show less');
                 const _btn = document.createElement('button');
                 _btn.type = 'button';
                 _btn.className = 'cd-faq-toggle';
@@ -6356,7 +6356,7 @@ const LOCAL_CITIES = [
     {ar:'صنعاء',en:'Sanaa',lat:15.3694,lng:44.1910,cc:'ye',country:'اليمن',type:'city',priority:100,countryEn:'Yemen',aliasEn:['San\'a','Sanaá']},
     {ar:'عدن',en:'Aden',lat:12.7794,lng:45.0367,cc:'ye',country:'اليمن',type:'city',priority:60,countryEn:'Yemen'},
     // الأردن
-    {ar:'عمّان',en:'Amman',lat:31.9454,lng:35.9284,cc:'jo',country:'الأردن',type:'city',priority:100,countryEn:'Jordan',aliasEn:['Ammaan']},
+    {ar:'عمان',en:'Amman',lat:31.9454,lng:35.9284,cc:'jo',country:'الأردن',type:'city',priority:100,countryEn:'Jordan',aliasEn:['Ammaan']},
     // سوريا
     {ar:'دمشق',en:'Damascus',lat:33.5138,lng:36.2765,cc:'sy',country:'سوريا',type:'city',priority:100,countryEn:'Syria',aliasEn:['Dimashq','Esh Sham']},
     {ar:'حلب',en:'Aleppo',lat:36.2021,lng:37.1343,cc:'sy',country:'سوريا',type:'city',priority:80,countryEn:'Syria',aliasEn:['Halab']},
@@ -7128,7 +7128,7 @@ async function fetchCitySuggestionsV2(query, ctx) {
         let msg;
         if (status === 'rate_limited' || status === 'error' || status === 'timeout' || status === 'disabled') {
             msg = isAr
-                ? 'تعذّر البحث الخارجي مؤقتاً — حاول بعد لحظة'
+                ? 'تعذر البحث الخارجي مؤقتاً — حاول بعد لحظة'
                 : 'External search is temporarily unavailable — try again shortly';
         } else if (status === 'too_short') {
             // < 2 chars — just hide dropdown silently
@@ -9759,7 +9759,7 @@ function updateCitySummaryParagraph(cityName, countryName, methodLabel, tz) {
     // 🆕 Round 2.1: ملء النصّ القصير المرئيّ (humanized + Hijri keyword للـSEO)
     if (visEl && (visEl.textContent || '').trim().length < 10) {
         const shortTpl = (({
-            ar: `مواقيت الصلاة اليوم في ${cityName || ''} بالتوقيت المحلّي — مع التاريخ الهجريّ والميلاديّ.`,
+            ar: `مواقيت الصلاة اليوم في ${cityName || ''} بالتوقيت المحلي — مع التاريخ الهجري والميلادي.`,
             en: `Today's prayer times in ${cityName || ''} in local time — with Hijri and Gregorian dates.`,
             fr: `Heures de prière aujourd'hui à ${cityName || ''} à l'heure locale — avec les dates hégirienne et grégorienne.`,
             tr: `${cityName || ''} için bugünün namaz vakitleri — yerel saatle, Hicri ve Miladi tarihle birlikte.`,
@@ -9781,7 +9781,7 @@ function updateCitySummaryParagraph(cityName, countryName, methodLabel, tz) {
     const _t = (typeof t === 'function') ? t : null;
     const tpl = (_t ? _t('city.summary.tpl') : '') ||
         (({
-            ar: 'تعرض هذه الصفحة مواقيت الصلاة لمدينة {city}, {country}, وفق طريقة {method}, بتوقيت {tz}. تُحدَّث المواقيت يوميّاً وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء.',
+            ar: 'تعرض هذه الصفحة مواقيت الصلاة لمدينة {city}, {country}, وفق طريقة {method}, بتوقيت {tz}. تُحدَث المواقيت يومياً وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء.',
             en: 'This page shows prayer times for {city}, {country} using the {method} method, in timezone {tz}. Times are updated daily and include Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.',
             fr: "Cette page affiche les heures de prière pour {city}, {country} selon la méthode {method}, fuseau horaire {tz}. Mises à jour quotidiennement.",
             tr: '{city}, {country} için namaz vakitleri — {method} yöntemi, {tz} zaman dilimi. Günlük güncellenir.',
@@ -9857,9 +9857,9 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
         'rls.time_left': { ar: 'كم باقي على الصلاة في {loc}', en: 'Time left until prayer in {loc}', fr: 'Temps restant avant la prière à {loc}', tr: '{loc} namaza kalan süre', ur: '{loc} اگلی نماز میں وقت باقی', de: 'Zeit bis zum nächsten Gebet in {loc}', id: 'Berapa lama lagi sholat di {loc}', es: 'Tiempo restante para la oración en {loc}', bn: '{loc}-এ পরবর্তী নামাজের বাকি সময়', ms: 'Berapa lama lagi solat di {loc}' },
         'rls.next_prayer': { ar: 'الصلاة القادمة في {loc}', en: 'Next prayer in {loc}', fr: 'Prochaine prière à {loc}', tr: '{loc} için sıradaki namaz', ur: '{loc} میں اگلی نماز', de: 'Nächstes Gebet in {loc}', id: 'Sholat berikutnya di {loc}', es: 'Próxima oración en {loc}', bn: '{loc}-এ পরবর্তী নামাজ', ms: 'Solat seterusnya di {loc}' },
         'rls.country':   { ar: 'مواقيت الصلاة اليوم في {loc}', en: "Today's Prayer Times in {loc}", fr: "Heures de prière aujourd'hui à {loc}", tr: '{loc} için bugünkü namaz vakitleri', ur: 'آج {loc} میں اوقاتِ نماز', de: 'Gebetszeiten heute in {loc}', id: 'Jadwal Sholat Hari Ini di {loc}', es: 'Horarios de Oración Hoy en {loc}', bn: 'আজ {loc}-এ নামাজের সময়', ms: 'Waktu Solat Hari Ini di {loc}' },
-        'rls.weekly':    { ar: 'الجدول الأسبوعيّ في {loc}',    en: 'Weekly Schedule in {loc}',      fr: 'Programme hebdomadaire à {loc}', tr: '{loc} Haftalık Program', ur: '{loc} ہفتہ وار شیڈول', de: 'Wochenplan in {loc}', id: 'Jadwal Mingguan di {loc}', es: 'Programa Semanal en {loc}', bn: '{loc}-এ সাপ্তাহিক সূচি', ms: 'Jadual Mingguan di {loc}' },
-        'rls.qibla':     { ar: 'اتّجاه القبلة في {loc}',       en: 'Qibla Direction in {loc}',      fr: 'Direction de la Qibla à {loc}', tr: '{loc} Kıble Yönü', ur: '{loc} سمتِ قبلہ', de: 'Qibla-Richtung in {loc}', id: 'Arah Kiblat di {loc}', es: 'Dirección de Qibla en {loc}', bn: '{loc}-এ কিবলার দিক', ms: 'Arah Kiblat di {loc}' },
-        'rls.hijri':     { ar: 'التاريخ الهجريّ في {loc}',     en: 'Hijri Date in {loc}',           fr: 'Date Hijri à {loc}', tr: '{loc} Hicri Tarih', ur: '{loc} ہجری تاریخ', de: 'Hidschri-Datum in {loc}', id: 'Tanggal Hijriah di {loc}', es: 'Fecha Hijri en {loc}', bn: '{loc}-এ হিজরি তারিখ', ms: 'Tarikh Hijriah di {loc}' },
+        'rls.weekly':    { ar: 'الجدول الأسبوعي في {loc}',    en: 'Weekly Schedule in {loc}',      fr: 'Programme hebdomadaire à {loc}', tr: '{loc} Haftalık Program', ur: '{loc} ہفتہ وار شیڈول', de: 'Wochenplan in {loc}', id: 'Jadwal Mingguan di {loc}', es: 'Programa Semanal en {loc}', bn: '{loc}-এ সাপ্তাহিক সূচি', ms: 'Jadual Mingguan di {loc}' },
+        'rls.qibla':     { ar: 'اتجاه القبلة في {loc}',       en: 'Qibla Direction in {loc}',      fr: 'Direction de la Qibla à {loc}', tr: '{loc} Kıble Yönü', ur: '{loc} سمتِ قبلہ', de: 'Qibla-Richtung in {loc}', id: 'Arah Kiblat di {loc}', es: 'Dirección de Qibla en {loc}', bn: '{loc}-এ কিবলার দিক', ms: 'Arah Kiblat di {loc}' },
+        'rls.hijri':     { ar: 'التاريخ الهجري في {loc}',     en: 'Hijri Date in {loc}',           fr: 'Date Hijri à {loc}', tr: '{loc} Hicri Tarih', ur: '{loc} ہجری تاریخ', de: 'Hidschri-Datum in {loc}', id: 'Tanggal Hijriah di {loc}', es: 'Fecha Hijri en {loc}', bn: '{loc}-এ হিজরি তারিখ', ms: 'Tarikh Hijriah di {loc}' },
         'rls.moon':      { ar: 'حالة القمر اليوم في {loc}',    en: 'Moon Phase Today in {loc}',     fr: 'Phase de la lune à {loc}', tr: '{loc} Ay Evresi', ur: '{loc} میں چاند کی حالت', de: 'Mondphase heute in {loc}', id: 'Fase Bulan Hari Ini di {loc}', es: 'Fase Lunar Hoy en {loc}', bn: '{loc}-এ আজকের চাঁদ', ms: 'Fasa Bulan Hari Ini di {loc}' },
     };
 
@@ -10055,16 +10055,16 @@ function updateOtherTrendingCities(currentSlug, lang) {
     // قائمة popularity موسّعة لتعبئة الفراغ (16 مدينة بدل 8).
     // تُستبدَل Phase 3 بـ analytics. أسماء محلّية لكلّ لغة.
     const POP = [
-        { slug: 'mecca',         names: { ar:'مكّة المكرّمة', en:'Mecca', fr:'La Mecque', tr:'Mekke', ur:'مکّہ مکرّمہ', de:'Mekka', id:'Makkah', es:'La Meca', bn:'মক্কা', ms:'Mekah' } },
-        { slug: 'medina',        names: { ar:'المدينة المنوّرة', en:'Medina', fr:'Médine', tr:'Medine', ur:'مدینہ منوّرہ', de:'Medina', id:'Madinah', es:'Medina', bn:'মদিনা', ms:'Madinah' } },
+        { slug: 'mecca',         names: { ar:'مكة المكرمة', en:'Mecca', fr:'La Mecque', tr:'Mekke', ur:'مکّہ مکرّمہ', de:'Mekka', id:'Makkah', es:'La Meca', bn:'মক্কা', ms:'Mekah' } },
+        { slug: 'medina',        names: { ar:'المدينة المنورة', en:'Medina', fr:'Médine', tr:'Medine', ur:'مدینہ منوّرہ', de:'Medina', id:'Madinah', es:'Medina', bn:'মদিনা', ms:'Madinah' } },
         { slug: 'riyadh',        names: { ar:'الرياض', en:'Riyadh', fr:'Riyad', tr:'Riyad', ur:'ریاض', de:'Riad', id:'Riyadh', es:'Riad', bn:'রিয়াদ', ms:'Riyadh' } },
-        { slug: 'jeddah',        names: { ar:'جدّة', en:'Jeddah', fr:'Djeddah', tr:'Cidde', ur:'جدہ', de:'Dschidda', id:'Jeddah', es:'Yeda', bn:'জেদ্দা', ms:'Jeddah' } },
+        { slug: 'jeddah',        names: { ar:'جدة', en:'Jeddah', fr:'Djeddah', tr:'Cidde', ur:'جدہ', de:'Dschidda', id:'Jeddah', es:'Yeda', bn:'জেদ্দা', ms:'Jeddah' } },
         { slug: 'cairo',         names: { ar:'القاهرة', en:'Cairo', fr:'Le Caire', tr:'Kahire', ur:'قاہرہ', de:'Kairo', id:'Kairo', es:'El Cairo', bn:'কায়রো', ms:'Kaherah' } },
         { slug: 'alexandria',    names: { ar:'الإسكندرية', en:'Alexandria', fr:'Alexandrie', tr:'İskenderiye', ur:'اسکندریہ', de:'Alexandria', id:'Aleksandria', es:'Alejandría', bn:'আলেকজান্দ্রিয়া', ms:'Alexandria' } },
         { slug: 'dubai',         names: { ar:'دبي', en:'Dubai', fr:'Dubaï', tr:'Dubai', ur:'دبئی', de:'Dubai', id:'Dubai', es:'Dubái', bn:'দুবাই', ms:'Dubai' } },
         { slug: 'abu-dhabi',     names: { ar:'أبوظبي', en:'Abu Dhabi', fr:'Abou Dabi', tr:'Abu Dabi', ur:'ابوظہبی', de:'Abu Dhabi', id:'Abu Dhabi', es:'Abu Dabi', bn:'আবুধাবি', ms:'Abu Dhabi' } },
         { slug: 'istanbul',      names: { ar:'إسطنبول', en:'Istanbul', fr:'Istanbul', tr:'İstanbul', ur:'استنبول', de:'Istanbul', id:'Istanbul', es:'Estambul', bn:'ইস্তাম্বুল', ms:'Istanbul' } },
-        { slug: 'amman',         names: { ar:'عمّان', en:'Amman', fr:'Amman', tr:'Amman', ur:'عمان', de:'Amman', id:'Amman', es:'Amán', bn:'আম্মান', ms:'Amman' } },
+        { slug: 'amman',         names: { ar:'عمان', en:'Amman', fr:'Amman', tr:'Amman', ur:'عمان', de:'Amman', id:'Amman', es:'Amán', bn:'আম্মান', ms:'Amman' } },
         { slug: 'baghdad',       names: { ar:'بغداد', en:'Baghdad', fr:'Bagdad', tr:'Bağdat', ur:'بغداد', de:'Bagdad', id:'Baghdad', es:'Bagdad', bn:'বাগদাদ', ms:'Baghdad' } },
         { slug: 'doha',          names: { ar:'الدوحة', en:'Doha', fr:'Doha', tr:'Doha', ur:'دوحہ', de:'Doha', id:'Doha', es:'Doha', bn:'দোহা', ms:'Doha' } },
         { slug: 'kuwait-city',   names: { ar:'مدينة الكويت', en:'Kuwait City', fr:'Koweït', tr:'Kuveyt', ur:'کویت سٹی', de:'Kuwait-Stadt', id:'Kota Kuwait', es:'Kuwait', bn:'কুয়েত সিটি', ms:'Bandar Kuwait' } },
@@ -10133,7 +10133,7 @@ function updateMiniIslamicTools(citySlug, lang) {
 
     const items = [
         { id: 'mit-qibla', href: prefix + '/qibla-in-' + _mitSlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
-        { id: 'mit-hijri', href: prefix + '/hijri-calendar',           key: 'mit.hijri', fallback: { ar:'التاريخ الهجريّ', en:'Hijri Date', fr:'Date Hijri', tr:'Hicri Tarih', ur:'ہجری تاریخ', de:'Hidschri',    id:'Tanggal Hijriah', es:'Fecha Hijri', bn:'হিজরি তারিখ', ms:'Tarikh Hijriah' } },
+        { id: 'mit-hijri', href: prefix + '/hijri-calendar',           key: 'mit.hijri', fallback: { ar:'التاريخ الهجري', en:'Hijri Date', fr:'Date Hijri', tr:'Hicri Tarih', ur:'ہجری تاریخ', de:'Hidschri',    id:'Tanggal Hijriah', es:'Fecha Hijri', bn:'হিজরি তারিখ', ms:'Tarikh Hijriah' } },
         { id: 'mit-moon',  href: _nestedMoonHrefClient(_mitSlug, prefix, 'today'), key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
     ];
 
@@ -10335,7 +10335,7 @@ function toggleWeeklyFull(btn) {
     const newKey = isFull ? 'weekly.show_all' : 'weekly.collapse';
     if (btn) {
         btn.setAttribute('data-i18n', newKey);
-        btn.textContent = (typeof t === 'function') ? t(newKey) : (isFull ? 'عرض الجدول الكامل' : 'طيّ الجدول');
+        btn.textContent = (typeof t === 'function') ? t(newKey) : (isFull ? 'عرض الجدول الكامل' : 'طي الجدول');
     }
 }
 
@@ -10350,7 +10350,7 @@ function toggleFaqAll(btn) {
     const newKey = expanded ? 'faq.collapse' : 'faq.show_all';
     if (btn) {
         btn.setAttribute('data-i18n', newKey);
-        btn.textContent = (typeof t === 'function') ? t(newKey) : (expanded ? 'طيّ الأسئلة' : 'عرض كلّ الأسئلة');
+        btn.textContent = (typeof t === 'function') ? t(newKey) : (expanded ? 'طي الأسئلة' : 'عرض كل الأسئلة');
     }
 }
 
@@ -10366,7 +10366,7 @@ function toggleCountriesFull(btn) {
     const newKey = isFull ? 'countries.show_all' : 'countries.collapse';
     if (btn) {
         btn.setAttribute('data-i18n', newKey);
-        btn.textContent = (typeof t === 'function') ? t(newKey) : (isFull ? '📖 عرض كلّ الدول' : '🔼 طيّ');
+        btn.textContent = (typeof t === 'function') ? t(newKey) : (isFull ? '📖 عرض كل الدول' : '🔼 طي');
     }
 }
 
@@ -11577,7 +11577,7 @@ function updatePageSEO() {
             title: isEn ? 'Digital Tasbih Counter (Masbaha)' : 'المسبحة الإلكترونية',
             description: isEn
                 ? 'Free digital tasbih counter for dhikr and athkar — count subhanallah, alhamdulillah, allahu akbar and custom dhikr.'
-                : 'مسبحة إلكترونية مجانية لعدّ الأذكار: سبحان الله، الحمد لله، الله أكبر، واستغفر الله مع حفظ العداد.',
+                : 'مسبحة إلكترونية مجانية لعد الأذكار: سبحان الله، الحمد لله، الله أكبر، واستغفر الله مع حفظ العداد.',
             ogType: 'website',
             schemaId: 'page-seo-schema',
             schemaGraph: {
@@ -12082,7 +12082,7 @@ const _NAV_LOADING_MSGS = {
         bn: 'আজকের চাঁদ লোড হচ্ছে...',           ms: 'Memuat halaman bulan hari ini...',
     },
     qibla: {
-        ar: 'جاري تحميل اتّجاه القبلة...',     en: 'Loading qibla direction...',
+        ar: 'جاري تحميل اتجاه القبلة...',     en: 'Loading qibla direction...',
         fr: 'Chargement de la direction de la Qibla...', tr: 'Kıble yönü yükleniyor...',
         ur: 'قبلہ کی سمت لوڈ ہو رہی ہے...',    de: 'Qibla-Richtung wird geladen...',
         id: 'Memuat arah kiblat...',           es: 'Cargando dirección de la Qibla...',
@@ -12135,7 +12135,7 @@ const _NAV_LOADING_MSGS = {
         bn: 'হিজরি ক্যালেন্ডার লোড হচ্ছে...',     ms: 'Memuat kalendar Hijrah...',
     },
     'date-converter': {
-        ar: 'جاري تحميل محوّل التاريخ...',     en: 'Loading date converter...',
+        ar: 'جاري تحميل محول التاريخ...',     en: 'Loading date converter...',
         fr: 'Chargement du convertisseur de date...', tr: 'Tarih dönüştürücü yükleniyor...',
         ur: 'تاریخ کنورٹر لوڈ ہو رہا ہے...',   de: 'Datumsumrechner wird geladen...',
         id: 'Memuat konverter tanggal...',     es: 'Cargando conversor de fecha...',
@@ -14010,7 +14010,7 @@ function initRamadanBadge() {
         // SEO title
         try {
             const cityLabel = getCurrentCityLabel();
-            const titleAr = `باقي على رمضان ${diffDays} يوم — اعرض العدّاد التفصيليّ${cityLabel ? ' في ' + cityLabel : ''}`;
+            const titleAr = `باقي على رمضان ${diffDays} يوم — اعرض العداد التفصيلي${cityLabel ? ' في ' + cityLabel : ''}`;
             const titleEn = `${diffDays} days until Ramadan — open full countdown${cityLabel ? ' in ' + cityLabel : ''}`;
             badge.setAttribute('title', lang === 'ar' ? titleAr : titleEn);
             badge.setAttribute('aria-label', lang === 'ar' ? titleAr : titleEn);
@@ -14286,7 +14286,7 @@ function updatePrayerCardsSEO() {
     const wb = document.querySelector('.weekly-expand-btn');
     if (wb) {
         const _weeklyByLang = {
-            ar: `جدول مواقيت الصلاة الأسبوعيّ في ${cityLabel}`,
+            ar: `جدول مواقيت الصلاة الأسبوعي في ${cityLabel}`,
             en: `Weekly prayer times schedule in ${cityLabel}`,
             fr: `Horaires de prière hebdomadaires à ${cityLabel}`,
             tr: `${cityLabel} için haftalık namaz vakitleri`,
@@ -14349,7 +14349,7 @@ function updatePrayerCardsSEO() {
         } else {
             // City pages: keep the city-specific H1 (the URL slug owns the keyword)
             const _taglineByLang = {
-                ar: `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجريّ والميلاديّ`,
+                ar: `مواقيت الصلاة اليوم في ${cityLabel} والتاريخ الهجري والميلادي`,
                 en: `Prayer Times Today in ${cityLabel} — Hijri & Gregorian Date`,
                 fr: `Horaires de prière aujourd'hui à ${cityLabel} — Date hégirienne et grégorienne`,
                 tr: `${cityLabel} İçin Bugünün Namaz Vakitleri — Hicri ve Miladi Tarih`,
@@ -15117,9 +15117,9 @@ const COUNTRY_INFO_DB = {
     jo:{desc:'الأردن يحتضن مدينة البتراء الأثرية الرائعة والبحر الميت أخفض نقطة على وجه الأرض، ويتميز بموقعه في قلب المنطقة العربية.',food:'المنسف، الزعتر، الفلافل، الكنافة النابلسية، المجدرة',pop:10203140,gr:0.012},
     lb:{desc:'لبنان صغير المساحة كبير الحضور، تُعرف بجبالها الخضراء وتنوعها الثقافي وبيروتها الجميلة وإطلالتها المميزة على البحر المتوسط.',food:'الحمص، التبولة، الكبة، الفتوش، السفيحة، البقلاوة',pop:5489739,gr:0.008},
     ae:{desc:'الإمارات مركز عالمي للأعمال والسياحة نجحت في عقود قليلة أن تتحول إلى دولة حديثة متطورة تستضيف ناطحات السحاب ومعالم العمران الحديث.',food:'الهريس، المجبوس، اللقيمات، الثريد، البرياني الإماراتي',pop:9282410,gr:0.012},
-    kw:{desc:'الكويت دولة خليجية تتميز بتراثها البحري الأصيل وضيافتها الكريمة وثروتها النفطية التي حوّلتها إلى واحدة من أعلى الدول دخلًا في العالم.',food:'المجبوس، المرقوق، الگاوري، الثريد، المطبق',pop:4270563,gr:0.018},
+    kw:{desc:'الكويت دولة خليجية تتميز بتراثها البحري الأصيل وضيافتها الكريمة وثروتها النفطية التي حولتها إلى واحدة من أعلى الدول دخلًا في العالم.',food:'المجبوس، المرقوق، الگاوري، الثريد، المطبق',pop:4270563,gr:0.018},
     qa:{desc:'قطر تحولت من صيد اللؤلؤ إلى إمارة نفطية حديثة وضعت بصمتها عالميًا باستضافة كأس العالم 2022 وبناء مشاريع الطموح الكبرى.',food:'الهريس، المجبوس، الثريد، المرقوق، المفطح',pop:2695122,gr:0.020},
-    bh:{desc:'البحرين أرخبيل جزر في الخليج العربي ذو تاريخ عريق في صيد اللؤلؤ، يُعدّ اليوم مركزًا ماليًا وسياحيًا بارزًا يجمع الأصالة والحداثة.',food:'المجبوس، الهريس، البليلة، المثروبة، القوزي',pop:1463265,gr:0.012},
+    bh:{desc:'البحرين أرخبيل جزر في الخليج العربي ذو تاريخ عريق في صيد اللؤلؤ، يُعد اليوم مركزًا ماليًا وسياحيًا بارزًا يجمع الأصالة والحداثة.',food:'المجبوس، الهريس، البليلة، المثروبة، القوزي',pop:1463265,gr:0.012},
     om:{desc:'سلطنة عُمان تتميز بطبيعتها الجبلية الخلابة وسواحلها الجميلة وأسواقها العتيقة وحضارتها الزاهرة التي تمتد لآلاف السنين.',food:'الشواء العماني، الصحناة، القبولي، الحلوى العمانية، المراق',pop:4644384,gr:0.0155},
     ye:{desc:'اليمن موطن حضارة سبأ القديمة ومملكة ملكة سبأ، يتميز ببيوت صنعاء الحجرية الفريدة وجزيرة سقطرى ذات التنوع البيولوجي النادر.',food:'السلتة، الفهسة، الملوج، البنطاش، العصيد',pop:32981641,gr:0.023},
     ma:{desc:'المغرب يجمع بين التراث العربي والأمازيغي ويطل على البحر المتوسط والمحيط الأطلسي، تشتهر مدنه العتيقة كفاس ومراكش وشفشاون.',food:'الطاجين، الكسكس، الحريرة، البسطيلة، الرفيسة',pop:37457971,gr:0.011},
@@ -16064,17 +16064,17 @@ const _QIBLA_UI = {
             [`ما هي زاوية القبلة من ${ctx.cityName}؟`, `زاوية القبلة من ${ctx.cityName} تساوي تقريباً ${ctx.angle}° باتجاه ${ctx.cardinal}، مُقاسة من الشمال الجغرافي باتجاه عقارب الساعة.`],
             [`كم تبعد ${ctx.cityName} عن الكعبة؟`, `المسافة بين ${ctx.cityName} والكعبة المشرفة في مكة المكرمة تبلغ ${ctx.distanceKm.toLocaleString('ar')} كم تقريباً.`],
             [`كيف أعرف اتجاه القبلة من ${ctx.cityName}؟`, `يمكنك معرفة اتجاه القبلة من ${ctx.cityName} من خلال خريطة القبلة أو البوصلة الرقمية في الصفحة. تعتمد النتيجة على إحداثيات ${ctx.cityName} وموقع الكعبة المشرفة، ثم يُحسب أقصر اتجاه على سطح الأرض نحو القبلة.`],
-            [`ما اتجاه القبلة بالبوصلة في ${ctx.cityName}؟`, `اتجاه القبلة بالبوصلة في ${ctx.cityName} يُعرض على الصفحة كزاوية رقمية بالدرجات (${ctx.angle}°). وجّه البوصلة حتى تقترب من هذه الزاوية، مع الانتباه إلى أن دقة البوصلة قد تتأثر بالمعادن أو المغناطيس القريبة.`],
+            [`ما اتجاه القبلة بالبوصلة في ${ctx.cityName}؟`, `اتجاه القبلة بالبوصلة في ${ctx.cityName} يُعرض على الصفحة كزاوية رقمية بالدرجات (${ctx.angle}°). وجه البوصلة حتى تقترب من هذه الزاوية، مع الانتباه إلى أن دقة البوصلة قد تتأثر بالمعادن أو المغناطيس القريبة.`],
             [`هل اتجاه القبلة في ${ctx.cityName} نحو الشمال أم الجنوب؟`, `يعتمد ذلك على موقع ${ctx.cityName} الجغرافي بالنسبة إلى مكة المكرمة. قد يكون اتجاه القبلة من بعض المدن مائلاً نحو الجنوب الشرقي أو الجنوب الغربي أو الشمال الشرقي. تعرض الصفحة زاوية القبلة الدقيقة (${ctx.angle}° — ${ctx.cardinal}) بدل الوصف العام.`],
-            [`هل يمكن تحديد القبلة من الجوال في ${ctx.cityName}؟`, `نعم، يمكن استخدام الجوال لمعرفة اتجاه القبلة في ${ctx.cityName} عبر البوصلة الرقمية أو خريطة القبلة. فعّل خدمات الموقع وحرّك الهاتف بعيداً عن الأجهزة المعدنية أو المغناطيسية، ثم قارن قراءة البوصلة بالزاوية المعروضة.`],
-            [`كيف أحدّد اتجاه القبلة يدوياً؟`, `استخدم البوصلة أعلاه وأَدِر نفسك حتى يشير السهم إلى ${ctx.angle}°، مع الابتعاد عن المعادن لزيادة الدقة.`],
+            [`هل يمكن تحديد القبلة من الجوال في ${ctx.cityName}؟`, `نعم، يمكن استخدام الجوال لمعرفة اتجاه القبلة في ${ctx.cityName} عبر البوصلة الرقمية أو خريطة القبلة. فعل خدمات الموقع وحرك الهاتف بعيداً عن الأجهزة المعدنية أو المغناطيسية، ثم قارن قراءة البوصلة بالزاوية المعروضة.`],
+            [`كيف أحدد اتجاه القبلة يدوياً؟`, `استخدم البوصلة أعلاه وأَدِر نفسك حتى يشير السهم إلى ${ctx.angle}°، مع الابتعاد عن المعادن لزيادة الدقة.`],
             [`لماذا تختلف زاوية القبلة بين مدينة وأخرى؟`, `تختلف زاوية القبلة لأن كل مدينة تقع في إحداثيات جغرافية مختلفة. يُحسب الاتجاه من موقع المدينة إلى الكعبة المشرفة، لذلك تختلف زاوية ${ctx.cityName} عن مدينة أخرى داخل الدولة أو خارجها.`],
-            [`ما سبب اختلاف اتجاه القبلة بين التطبيقات؟`, `قد يختلف الاتجاه بين التطبيقات بسبب اختلاف طريقة الحساب أو دقة الإحداثيات أو تأثر بوصلة الهاتف بالمجال المغناطيسي. يُفضّل الاعتماد على إحداثيات دقيقة ومقارنة الزاوية المعروضة مع البوصلة بعد معايرتها.`],
+            [`ما سبب اختلاف اتجاه القبلة بين التطبيقات؟`, `قد يختلف الاتجاه بين التطبيقات بسبب اختلاف طريقة الحساب أو دقة الإحداثيات أو تأثر بوصلة الهاتف بالمجال المغناطيسي. يُفضل الاعتماد على إحداثيات دقيقة ومقارنة الزاوية المعروضة مع البوصلة بعد معايرتها.`],
             [`هل الصلاة صحيحة مع انحراف بسيط؟`, `نعم، الانحراف اليسير مغتفر شرعاً ما دام الاتجاه العام إلى الكعبة.`]
         ],
-        footer: ctx => `اتجاه القبلة في ${ctx.cityName} هو ${ctx.angle}° (${ctx.cardinal})، وتبلغ المسافة إلى الكعبة المشرفة ${ctx.distanceKm.toLocaleString('ar')} كم. يمكنك استخدام البوصلة أعلاه لتحديد الاتجاه بدقّة، أو الاستفادة من الخدمات التالية المرتبطة بمدينة ${ctx.cityName}:`,
-        trust_note: `${_Q_ICON.pin} يُحسب الاتجاه باستخدام إحداثيات الموقع الجغرافيّة بدقّة فلكيّة عالية.`,
-        related_labels: city => [`${_Q_ICON.mosque} اعرف مواقيت الصلاة في ${city}`, `${_Q_ICON.moon} تحقّق من حالة القمر اليوم في ${city}`, `${_Q_ICON.calendar} اعرف التاريخ الهجري اليوم`],
+        footer: ctx => `اتجاه القبلة في ${ctx.cityName} هو ${ctx.angle}° (${ctx.cardinal})، وتبلغ المسافة إلى الكعبة المشرفة ${ctx.distanceKm.toLocaleString('ar')} كم. يمكنك استخدام البوصلة أعلاه لتحديد الاتجاه بدقة، أو الاستفادة من الخدمات التالية المرتبطة بمدينة ${ctx.cityName}:`,
+        trust_note: `${_Q_ICON.pin} يُحسب الاتجاه باستخدام إحداثيات الموقع الجغرافية بدقة فلكية عالية.`,
+        related_labels: city => [`${_Q_ICON.mosque} اعرف مواقيت الصلاة في ${city}`, `${_Q_ICON.moon} تحقق من حالة القمر اليوم في ${city}`, `${_Q_ICON.calendar} اعرف التاريخ الهجري اليوم`],
         // QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 (2026-05-26): structured
         // card data (icon + title + desc) — JS renderer turns each entry
         // into a fully-clickable card with a clear title + 1-line
@@ -16412,33 +16412,33 @@ const _QIBLA_UI = {
 const _QIBLA_HUB_UI = {
     ar: {
         title: 'اعرف اتجاه القبلة بدقة من أي مكان في العالم',
-        subtitle: 'باستخدام بوصلة ذكيّة تعتمد على موقعك الجغرافيّ أو اختيار مدينتك',
-        hero_badges: ['يعمل في جميع الدول', 'دقّة فلكيّة عالية'],
+        subtitle: 'باستخدام بوصلة ذكية تعتمد على موقعك الجغرافي أو اختيار مدينتك',
+        hero_badges: ['يعمل في جميع الدول', 'دقة فلكية عالية'],
         smart_pill_prefix: 'آخر موقع استخدمته',
         smart_pill_cta: 'اعرف اتجاه القبلة',
         geo_btn: '📍 اعرف اتجاه القبلة من موقعي',
         geo_btn_loading: 'جارٍ تحديد موقعك…',
-        cta_pick_city: '🌍 اختر مدينتك يدويّاً',
-        cta_microcopy: 'سيتمّ تحديد موقعك تلقائيًّا خلال ثوانٍ',
+        cta_pick_city: '🌍 اختر مدينتك يدوياً',
+        cta_microcopy: 'سيتم تحديد موقعك تلقائيًا خلال ثوانٍ',
         geo_status_loading: '… جارٍ تحديد موقعك',
-        geo_status_denied: '⚠️ لم نتمكّن من تحديد موقعك — يمكنك البحث عن مدينتك في الأسفل.',
-        geo_status_unavailable: 'متصفّحك لا يدعم تحديد الموقع — ابحث عن مدينتك في الأسفل.',
-        trust_chips: ['دقّة عالية باستخدام GPS', 'يعمل بدون تطبيق', 'مناسب لجميع الدول'],
-        authority_note: '📍 يُحسب اتجاه القبلة باستخدام إحداثيّات دقيقة ونماذج فلكيّة معتمدة.',
+        geo_status_denied: '⚠️ لم نتمكن من تحديد موقعك — يمكنك البحث عن مدينتك في الأسفل.',
+        geo_status_unavailable: 'متصفحك لا يدعم تحديد الموقع — ابحث عن مدينتك في الأسفل.',
+        trust_chips: ['دقة عالية باستخدام GPS', 'يعمل بدون تطبيق', 'مناسب لجميع الدول'],
+        authority_note: '📍 يُحسب اتجاه القبلة باستخدام إحداثيات دقيقة ونماذج فلكية معتمدة.',
         search_placeholder: 'ابحث عن مدينتك (مثال: الرياض، القاهرة، Istanbul)',
-        search_empty: 'لا توجد مدن مطابقة — جرّب اختيار بلد من الأسفل.',
+        search_empty: 'لا توجد مدن مطابقة — جرب اختيار بلد من الأسفل.',
         visited_title: '🕓 آخر المدن التي زرتها',
         cities_title: 'المدن الأكثر بحثًا عن القبلة',
-        tier1_label: 'مميّز',
+        tier1_label: 'مميز',
         countries_title: '🌐 اختر بلدك',
         countries_note: 'اختر بلدك لعرض أقرب المدن إليك.',
-        howto_title: 'كيف تحدّد اتجاه القبلة؟',
+        howto_title: 'كيف تحدد اتجاه القبلة؟',
         howto_steps: [
             'اضغط «اعرف اتجاه القبلة من موقعي»، أو اكتب اسم مدينتك في شريط البحث أعلاه.',
-            'نحسب الزاوية الدقيقة نحو الكعبة المشرّفة باستخدام صيغة Great-Circle الفلكيّة.',
-            'اتّجِه بهاتفك أو بوصلتك نحو الزاوية المعروضة — ستكون الكعبة أمامك مباشرةً.'
+            'نحسب الزاوية الدقيقة نحو الكعبة المشرفة باستخدام صيغة Great-Circle الفلكية.',
+            'اتجِه بهاتفك أو بوصلتك نحو الزاوية المعروضة — ستكون الكعبة أمامك مباشرةً.'
         ],
-        usecases_title: 'يمكنك استخدامها في أيّ مكان',
+        usecases_title: 'يمكنك استخدامها في أي مكان',
         usecases: [
             { icon: '🏠', label: 'في البيت' },
             { icon: '✈️', label: 'في السفر' },
@@ -16447,18 +16447,18 @@ const _QIBLA_HUB_UI = {
         ],
         faq_title: 'أسئلة شائعة',
         faq: [
-            ['كيف أحدّد اتجاه القبلة بدقّة؟',
-             'اضغط زرّ «اعرف اتجاه القبلة من موقعي» ليحدّد المتصفّح موقعك تلقائيًّا، ثمّ نحسب الزاوية هندسيًّا نحو الكعبة المشرّفة بمعادلة Great-Circle الفلكيّة. إذا لم ترغب بمشاركة الموقع، يمكنك اختيار مدينتك من قائمة المدن للحصول على نفس الدقّة.'],
+            ['كيف أحدد اتجاه القبلة بدقة؟',
+             'اضغط زر «اعرف اتجاه القبلة من موقعي» ليحدد المتصفح موقعك تلقائيًا، ثم نحسب الزاوية هندسيًا نحو الكعبة المشرفة بمعادلة Great-Circle الفلكية. إذا لم ترغب بمشاركة الموقع، يمكنك اختيار مدينتك من قائمة المدن للحصول على نفس الدقة.'],
             ['هل يمكن معرفة القبلة بدون GPS؟',
-             'نعم — اختر مدينتك من قائمة المدن أو ابحث عن اسمها، وسنعرض لك اتجاه القبلة الدقيق من تلك المدينة بالاعتماد على إحداثيّاتها الرسميّة.'],
+             'نعم — اختر مدينتك من قائمة المدن أو ابحث عن اسمها، وسنعرض لك اتجاه القبلة الدقيق من تلك المدينة بالاعتماد على إحداثياتها الرسمية.'],
             ['ما هي زاوية القبلة؟',
-             'زاوية القبلة هي الاتجاه الأقصر هندسيًّا بين موقعك والكعبة المشرّفة على سطح الكرة الأرضيّة، وتُقاس بالدرجات انطلاقًا من الشمال الجغرافيّ.'],
+             'زاوية القبلة هي الاتجاه الأقصر هندسيًا بين موقعك والكعبة المشرفة على سطح الكرة الأرضية، وتُقاس بالدرجات انطلاقًا من الشمال الجغرافي.'],
             ['هل تختلف القبلة حسب الموقع؟',
-             'نعم — تختلف زاوية القبلة من مدينة إلى أخرى بحسب موقعها نسبةً إلى مكّة المكرّمة، لذلك نحسب الزاوية مخصّصة لموقعك أو لمدينتك المختارة.']
+             'نعم — تختلف زاوية القبلة من مدينة إلى أخرى بحسب موقعها نسبةً إلى مكة المكرمة، لذلك نحسب الزاوية مخصصة لموقعك أو لمدينتك المختارة.']
         ],
-        footer: 'استخدم هذه الصفحة لتحديد اتجاه القبلة من أيّ مكان في العالم، عبر تحديد موقعك تلقائيًّا أو اختيار مدينتك، للحصول على زاوية دقيقة نحو الكعبة المشرّفة.',
-        trust_note: '📍 يُحسب الاتجاه باستخدام إحداثيّات الموقع الجغرافيّة بدقّة فلكيّة عالية.',
-        bc_home: 'الرئيسيّة', bc_qibla: 'اتجاه القبلة'
+        footer: 'استخدم هذه الصفحة لتحديد اتجاه القبلة من أي مكان في العالم، عبر تحديد موقعك تلقائيًا أو اختيار مدينتك، للحصول على زاوية دقيقة نحو الكعبة المشرفة.',
+        trust_note: '📍 يُحسب الاتجاه باستخدام إحداثيات الموقع الجغرافية بدقة فلكية عالية.',
+        bc_home: 'الرئيسية', bc_qibla: 'اتجاه القبلة'
     },
     en: {
         title: 'Find the Qibla Direction Accurately from Anywhere in the World',
@@ -19045,7 +19045,7 @@ function updateMoonInfo() {
                     //   month for clarity (was just month). Reads "تابع أطوار
                     //   القمر اليوميّة في {city} خلال {month} {year}، …".
                     const _SUB_MONTH = {
-                        ar: `تابع أطوار القمر اليوميّة في ${_cityName} خلال ${_mName} ${_mY}، مع نسبة الإضاءة ومواعيد البدر والمحاق.`,
+                        ar: `تابع أطوار القمر اليومية في ${_cityName} خلال ${_mName} ${_mY}، مع نسبة الإضاءة ومواعيد البدر والمحاق.`,
                         en: `Track daily moon phases in ${_cityName} during ${_mName} ${_mY} — illumination, full moon and new moon times.`,
                         fr: `Suivez les phases quotidiennes de la Lune à ${_cityName} pendant ${_mName} ${_mY} — illumination, pleines et nouvelles lunes.`,
                         tr: `${_cityName}'da ${_mName} ${_mY} boyunca günlük ay evrelerini takip edin — aydınlanma, dolunay ve yeni ay zamanları.`,
@@ -19143,25 +19143,25 @@ function updateMoonInfo() {
                         "ar": [
                             [".moon-city-hub-faq-title-text", `أسئلة شائعة عن تقويم القمر في ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `ما هو تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a1", `يَعرض هذا التقويم أطوار القمر اليوميّة في ${_Cm} خلال شهر ${_mName} ${_mY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكلّ يوم.`],
-                            [".moon-city-hub-faq-q2", `كيف أعرف طور القمر لكلّ يوم في ${_Cm} خلال ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a2", `يَعرض هذا التقويم طور القمر لكلّ يوم في ${_Cm} خلال ${_mName} ${_mY}، مع نسبة الإضاءة والتاريخ الهجريّ والميلاديّ. اضغط على أيّ يوم لفتح صفحة تَفاصيل القمر لذلك التاريخ.`],
+                            [".moon-city-hub-faq-a1", `يَعرض هذا التقويم أطوار القمر اليومية في ${_Cm} خلال شهر ${_mName} ${_mY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكل يوم.`],
+                            [".moon-city-hub-faq-q2", `كيف أعرف طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}؟`],
+                            [".moon-city-hub-faq-a2", `يَعرض هذا التقويم طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي. اضغط على أي يوم لفتح صفحة تَفاصيل القمر لذلك التاريخ.`],
                             [".moon-city-hub-faq-q3", `متى يكون البدر في ${_Cm} خلال ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a3", `قسم "الأطوار القمريّة القادمة" أعلاه يَعرض موعد البدر القادم في ${_Cm} مع التاريخ الميلاديّ والهجريّ الدقيق. خلال شهر ${_mName} ${_mY}، البدر يَظهر بإضاءة 100٪ في الليلة المحدّدة.`],
+                            [".moon-city-hub-faq-a3", `قسم "الأطوار القمرية القادمة" أعلاه يَعرض موعد البدر القادم في ${_Cm} مع التاريخ الميلادي والهجري الدقيق. خلال شهر ${_mName} ${_mY}، البدر يَظهر بإضاءة 100٪ في الليلة المحددة.`],
                             [".moon-city-hub-faq-q4", `متى يكون المحاق في ${_Cm} خلال ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a4", `قسم "الأطوار القمريّة القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجريّ الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.`],
-                            [".moon-city-hub-faq-q5", `كيف أقرأ تقويم أطوار القمر الشهريّ؟`],
-                            [".moon-city-hub-faq-a5", `كلّ خانة في التقويم تُمثّل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنيّة من اليوم الحاليّ. اضغط على أيّ يوم لفتح صفحة تَفاصيل ذلك اليوم.`],
+                            [".moon-city-hub-faq-a4", `قسم "الأطوار القمرية القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجري الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.`],
+                            [".moon-city-hub-faq-q5", `كيف أقرأ تقويم أطوار القمر الشهري؟`],
+                            [".moon-city-hub-faq-a5", `كل خانة في التقويم تُمثل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنية من اليوم الحالي. اضغط على أي يوم لفتح صفحة تَفاصيل ذلك اليوم.`],
                             [".moon-city-hub-faq-q6", `لماذا تَختلف مواعيد شروق وغروب القمر بين المدن؟`],
-                            [".moon-city-hub-faq-a6", `يَعتمد شروق وغروب القمر على خطّ الطول والعرض الجغرافيّ والمنطقة الزمنيّة. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة بالتوقيت المحلّيّ لـ ${_Cm}.`],
-                            [".moon-city-hub-faq-q7", `هل يَعتمد هذا التقويم على توقيت ${_Cm} المحلّيّ؟`],
-                            [".moon-city-hub-faq-a7", `نعم. كلّ مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلّيّ لـ ${_Cm}. الإحداثيّات الجغرافيّة لهذه المدينة تُؤثّر على الاتّجاه والارتفاع أيضًا.`],
-                            [".moon-city-hub-faq-q8", `ما علاقة أطوار القمر بالتقويم الهجريّ؟`],
-                            [".moon-city-hub-faq-a8", `التقويم الهجريّ قمريّ بالكامل: كلّ شهر يَبدأ برؤية الهلال بعد المحاق ويَستمرّ 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقّع بداية الشهر الهجريّ القادم.`],
+                            [".moon-city-hub-faq-a6", `يَعتمد شروق وغروب القمر على خط الطول والعرض الجغرافي والمنطقة الزمنية. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة بالتوقيت المحلي لـ ${_Cm}.`],
+                            [".moon-city-hub-faq-q7", `هل يَعتمد هذا التقويم على توقيت ${_Cm} المحلي؟`],
+                            [".moon-city-hub-faq-a7", `نعم. كل مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلي لـ ${_Cm}. الإحداثيات الجغرافية لهذه المدينة تُؤثر على الاتجاه والارتفاع أيضًا.`],
+                            [".moon-city-hub-faq-q8", `ما علاقة أطوار القمر بالتقويم الهجري؟`],
+                            [".moon-city-hub-faq-a8", `التقويم الهجري قمري بالكامل: كل شهر يَبدأ برؤية الهلال بعد المحاق ويَستمر 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقع بداية الشهر الهجري القادم.`],
                             [".moon-city-hub-edu-title", `حول تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}`],
-                            [".moon-city-hub-edu-p1", `هذا التقويم يَعرض أطوار القمر اليوميّة في ${_Cm} خلال شهر ${_mName} ${_mY}، مع نسبة الإضاءة لكلّ يوم.`],
-                            [".moon-city-hub-edu-p2", `اضغط على أيّ يوم في الجدول أعلاه لفتح صفحة تَفاصيل ذلك اليوم في ${_Cm}.`],
-                            [".moon-city-hub-edu-p3", `للمزيد عن قراءة التقويم وأهمّ الأطوار وعلاقة الشهر بالتقويم الهجريّ، اقرأ القسم التَفصيليّ أدناه.`]
+                            [".moon-city-hub-edu-p1", `هذا التقويم يَعرض أطوار القمر اليومية في ${_Cm} خلال شهر ${_mName} ${_mY}، مع نسبة الإضاءة لكل يوم.`],
+                            [".moon-city-hub-edu-p2", `اضغط على أي يوم في الجدول أعلاه لفتح صفحة تَفاصيل ذلك اليوم في ${_Cm}.`],
+                            [".moon-city-hub-edu-p3", `للمزيد عن قراءة التقويم وأهم الأطوار وعلاقة الشهر بالتقويم الهجري، اقرأ القسم التَفصيلي أدناه.`]
                         ],
                         "en": [
                             [".moon-city-hub-faq-title-text", `FAQ about the moon calendar in ${_Cm} — ${_mName} ${_mY}`],
@@ -19398,7 +19398,7 @@ function updateMoonInfo() {
                         //   derived from the middle of the visible Gregorian month so
                         //   span-2-Hijri-months pages still land in a representative month.
                         const _EDU_LINKS_BY_LANG = {
-                            ar: [`حالة القمر اليوم في ${_cityName}`, `تقويم القمر في ${_cityName}`, 'التقويم الهجريّ المقابل'],
+                            ar: [`حالة القمر اليوم في ${_cityName}`, `تقويم القمر في ${_cityName}`, 'التقويم الهجري المقابل'],
                             en: [`Moon status today in ${_cityName}`, `Moon calendar in ${_cityName}`, 'Corresponding Hijri calendar'],
                             fr: [`État de la Lune aujourd'hui à ${_cityName}`, `Calendrier lunaire à ${_cityName}`, 'Calendrier hégirien correspondant'],
                             tr: [`${_cityName}'de bugünkü ay durumu`, `${_cityName} ay takvimi`, 'İlgili hicri takvim'],
@@ -19463,9 +19463,9 @@ function updateMoonInfo() {
                         const _MONTH_EDU_BY_LANG = {
                             ar: {
                                 title: `فهم تقويم القمر في ${_cityName} لشهر ${_mName} ${_mY}`,
-                                p1: `يَعرض هذا التقويم أطوار القمر اليوميّة في ${_cityName} خلال ${_mName} ${_mY}، من الهلال والمحاق إلى التربيع والبدر. كلّ يوم في الجدول يوضّح التاريخ، وطور القمر، ونسبة الإضاءة، مع بيانات محسوبة حسب توقيت ${_cityName} المحلّيّ.`,
-                                p2: `تُساعدك هذه الصفحة على متابعة تغيّر الإضاءة وعمر القمر خلال الشهر، ومعرفة مواعيد المراحل القمريّة المهمّة مثل البدر والمحاق. اضغط على أيّ يوم في التقويم لفتح صفحة تفاصيل القمر لذلك التاريخ.`,
-                                p3: `يَرتبط هذا التقويم أيضًا بالتقويم الهجريّ، لأنّ الأشهر الهجريّة تعتمد على دورة القمر. لذلك قد يَمتدّ الشهر الميلاديّ عبر شهر هجريّ واحد أو شهرَين، وتُعرض البيانات وفق تقويم أمّ القرى مع التنبيه إلى أنّ الرؤية الشرعيّة قد تختلف محلّيًّا.`
+                                p1: `يَعرض هذا التقويم أطوار القمر اليومية في ${_cityName} خلال ${_mName} ${_mY}، من الهلال والمحاق إلى التربيع والبدر. كل يوم في الجدول يوضح التاريخ، وطور القمر، ونسبة الإضاءة، مع بيانات محسوبة حسب توقيت ${_cityName} المحلي.`,
+                                p2: `تُساعدك هذه الصفحة على متابعة تغير الإضاءة وعمر القمر خلال الشهر، ومعرفة مواعيد المراحل القمرية المهمة مثل البدر والمحاق. اضغط على أي يوم في التقويم لفتح صفحة تفاصيل القمر لذلك التاريخ.`,
+                                p3: `يَرتبط هذا التقويم أيضًا بالتقويم الهجري، لأن الأشهر الهجرية تعتمد على دورة القمر. لذلك قد يَمتد الشهر الميلادي عبر شهر هجري واحد أو شهرَين، وتُعرض البيانات وفق تقويم أم القرى مع التنبيه إلى أن الرؤية الشرعية قد تختلف محليًا.`
                             },
                             en: {
                                 title: `Understanding the moon calendar in ${_cityName} for ${_mName} ${_mY}`,
@@ -19585,7 +19585,7 @@ function updateMoonInfo() {
                     title: 'تفاصيل حالة وطور القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
                     cities: 'حالة القمر في مدن أخرى لنفس التاريخ',
                     faq: 'أسئلة شائعة عن حالة القمر في ' + _cityName + (_dateLabel ? ' يوم ' + _dateLabel : ''),
-                    subtitle: 'تابع حالة القمر في ' + _cityName + (_dateLabel ? ' في هذا التاريخ' : '') + ' بدقّة فلكيّة — الطور والإضاءة والعمر ومواعيد الشروق والغروب'
+                    subtitle: 'تابع حالة القمر في ' + _cityName + (_dateLabel ? ' في هذا التاريخ' : '') + ' بدقة فلكية — الطور والإضاءة والعمر ومواعيد الشروق والغروب'
                 },
                 en: {
                     title: 'Moon details in ' + _cityName + (_dateLabel ? ' on ' + _dateLabel : ''),
@@ -19669,7 +19669,7 @@ function updateMoonInfo() {
             //   نحن دائماً نحسب من الآن). نستبدلها بـ «مناسبات إسلاميّة قادمة» وهو وصف زمنيّ محايد.
             try {
                 const _EVENTS_H2 = {
-                    ar: 'مناسبات إسلاميّة قادمة',
+                    ar: 'مناسبات إسلامية قادمة',
                     en: 'Upcoming Islamic occasions',
                     fr: 'Occasions islamiques à venir',
                     tr: 'Yaklaşan İslami günler',
@@ -19754,7 +19754,7 @@ function updateMoonInfo() {
             // #3 — Evolution comparison H2 ("تطوّر القمر")
             try {
                 const _EVO_TITLE = {
-                    ar: 'تطوّر القمر مقارنة باليوم السابق',
+                    ar: 'تطور القمر مقارنة باليوم السابق',
                     en: 'Moon evolution compared to the previous day',
                     fr: 'Évolution de la Lune par rapport au jour précédent',
                     tr: 'Önceki güne göre Ay’ın değişimi',
@@ -19802,7 +19802,7 @@ function updateMoonInfo() {
             // #7 — 7-day chart H2 ("مخطّط إضاءة القمر — 7 أيّام")
             try {
                 const _CHART_H2 = {
-                    ar: 'إضاءة القمر حول هذا التاريخ — 7 أيّام',
+                    ar: 'إضاءة القمر حول هذا التاريخ — 7 أيام',
                     en: 'Moon illumination around this date — 7 days',
                     fr: 'Illumination de la Lune autour de cette date — 7 jours',
                     tr: 'Bu tarih çevresinde Ay aydınlanması — 7 gün',
@@ -19823,7 +19823,7 @@ function updateMoonInfo() {
             // #8 — 14-day table H2 ("توقّعات القمر للأربعة عشر يومًا القادمة")
             try {
                 const _TABLE_H2 = {
-                    ar: `جدول القمر للأيّام التالية في ${_cityName}`,
+                    ar: `جدول القمر للأيام التالية في ${_cityName}`,
                     en: `Moon schedule for the following days in ${_cityName}`,
                     fr: `Calendrier de la Lune pour les jours suivants à ${_cityName}`,
                     tr: `${_cityName} için sonraki günlerin Ay programı`,
@@ -19860,17 +19860,17 @@ function updateMoonInfo() {
                 //   (matches HTML template ordering: phase/illum/age/rise/set/distance).
                 const _DATE_FAQ_AR = [
                     ['#moon-dq1-q', `ما طور القمر في ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq1-a', `طور القمر في ${_cityName} يوم ${_DT} هو ${_phaseValid}، بنسبة إضاءة تبلغ ${_illumPct}٪، محسوبًا فلكيًّا بدقّة عالية وفق منهجيّات Jean Meeus.`],
+                    ['#moon-dq1-a', `طور القمر في ${_cityName} يوم ${_DT} هو ${_phaseValid}، بنسبة إضاءة تبلغ ${_illumPct}٪، محسوبًا فلكيًا بدقة عالية وفق منهجيات Jean Meeus.`],
                     ['#moon-dq_illum-q', `كم نسبة إضاءة القمر في ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq_illum-a', `نسبة إضاءة القمر في ${_cityName} في هذا التاريخ تبلغ ${_illumPct}٪، وهي محسوبة فلكيًّا من زاوية الشمس والقمر والأرض.`],
+                    ['#moon-dq_illum-a', `نسبة إضاءة القمر في ${_cityName} في هذا التاريخ تبلغ ${_illumPct}٪، وهي محسوبة فلكيًا من زاوية الشمس والقمر والأرض.`],
                     ['#moon-dq_age-q', `كم عمر القمر في ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq_age-a', `عمر القمر في ${_cityName} يوم ${_DT} هو ${_ageDays} يومًا من أصل دورة قمريّة طولها نحو 29.5 يومًا.`],
+                    ['#moon-dq_age-a', `عمر القمر في ${_cityName} يوم ${_DT} هو ${_ageDays} يومًا من أصل دورة قمرية طولها نحو 29.5 يومًا.`],
                     ['#moon-dq6-q', `متى يشرق القمر في ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq6-a', `يشرق القمر في ${_cityName} يوم ${_DT} عند الساعة ${_riseT} حسب التوقيت المحلّيّ للمدينة.`],
+                    ['#moon-dq6-a', `يشرق القمر في ${_cityName} يوم ${_DT} عند الساعة ${_riseT} حسب التوقيت المحلي للمدينة.`],
                     ['#moon-dq7-q', `متى يغرب القمر في ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq7-a', `يغرب القمر في ${_cityName} يوم ${_DT} عند الساعة ${_setT} حسب التوقيت المحلّيّ للمدينة.`],
+                    ['#moon-dq7-a', `يغرب القمر في ${_cityName} يوم ${_DT} عند الساعة ${_setT} حسب التوقيت المحلي للمدينة.`],
                     ['#moon-dq8-q', `ما المسافة بين القمر والأرض من ${_cityName} يوم ${_DT}؟`],
-                    ['#moon-dq8-a', `بيانات المسافة بين القمر والأرض من ${_cityName} في هذا التاريخ معروضة في القسم الرئيسيّ من الصفحة، وهي محسوبة بدقّة فلكيّة وفق منهجيّات Jean Meeus.`]
+                    ['#moon-dq8-a', `بيانات المسافة بين القمر والأرض من ${_cityName} في هذا التاريخ معروضة في القسم الرئيسي من الصفحة، وهي محسوبة بدقة فلكية وفق منهجيات Jean Meeus.`]
                 ];
                 const _DATE_FAQ_EN = [
                     ['#moon-dq1-q', `What was the moon phase in ${_cityName} on ${_DT}?`],
@@ -20028,7 +20028,7 @@ function updateMoonInfo() {
                 //   to include the city name explicitly (was generic "المدينة المحلّيّ").
                 //   Other 9 langs deferred — they already convey local-time context.
                 const _SEO_LINE = {
-                    ar: `توضّح هذه الصفحة حالة القمر في ${_cityName} لهذا التاريخ المحدّد، مع حساب مَواعيد الشروق والغروب حسب توقيت ${_cityName} المحلّيّ، وقد تَختلف هذه المَواعيد من مدينة إلى أخرى.`,
+                    ar: `توضح هذه الصفحة حالة القمر في ${_cityName} لهذا التاريخ المحدد، مع حساب مَواعيد الشروق والغروب حسب توقيت ${_cityName} المحلي، وقد تَختلف هذه المَواعيد من مدينة إلى أخرى.`,
                     en: "This page shows the Moon's state on this specific date in the city's local time. Moonrise and moonset times vary between cities.",
                     fr: "Cette page indique l'état de la Lune à cette date précise selon l'heure locale de la ville. Le lever et le coucher de la Lune varient entre les villes.",
                     tr: "Bu sayfa, Ay'ın bu belirli tarihteki durumunu şehrin yerel saatine göre gösterir. Ay'ın doğuş ve batış saatleri şehirler arasında değişir.",
@@ -20069,10 +20069,10 @@ function updateMoonInfo() {
                         //   separation between calendar-tie / calculation method /
                         //   local-time disclaimer + explicit "Hijri start may vary by
                         //   local moon-sighting jurisprudence" disclaimer.
-                        title: `التاريخ الهجريّ ورؤية الهلال في ${_Cd} يوم ${_D}`,
-                        p1: `يَرتبط القمر بالتقويم الهجريّ ارتباطًا مباشرًا، إذ يَبدأ كلّ شهر هجريّ برؤية الهلال بعد المحاق ويَستمرّ عادةً 29 أو 30 يومًا. وفي هذا التاريخ، توافق حالة القمر في ${_Cd} يوم ${_D} يومًا محدّدًا من الشهر الهجريّ بحسب تقويم أمّ القرى.`,
-                        p2: `تُحسب بيانات القمر المعروضة هنا باستخدام خوارزميّات فلكيّة دقيقة وفق منهجيّات Jean Meeus، وتشمل الطور، ونسبة الإضاءة، وعمر القمر، ومَواعيد الشروق والغروب. أمّا بداية الشهر الهجريّ رسميًّا فقد تَختلف من بلد إلى آخر حسب الرؤية الشرعيّة المحلّيّة.`,
-                        p3: `تُعرض مَواعيد القمر حسب توقيت ${_Cd} المحلّيّ وبناءً على إحداثيّات المدينة، لذلك قد تَختلف أوقات الشروق والغروب ورؤية الهلال من مدينة إلى أخرى بحسب خطّ الطول والعرض وارتفاع الأفق.`
+                        title: `التاريخ الهجري ورؤية الهلال في ${_Cd} يوم ${_D}`,
+                        p1: `يَرتبط القمر بالتقويم الهجري ارتباطًا مباشرًا، إذ يَبدأ كل شهر هجري برؤية الهلال بعد المحاق ويَستمر عادةً 29 أو 30 يومًا. وفي هذا التاريخ، توافق حالة القمر في ${_Cd} يوم ${_D} يومًا محددًا من الشهر الهجري بحسب تقويم أم القرى.`,
+                        p2: `تُحسب بيانات القمر المعروضة هنا باستخدام خوارزميات فلكية دقيقة وفق منهجيات Jean Meeus، وتشمل الطور، ونسبة الإضاءة، وعمر القمر، ومَواعيد الشروق والغروب. أما بداية الشهر الهجري رسميًا فقد تَختلف من بلد إلى آخر حسب الرؤية الشرعية المحلية.`,
+                        p3: `تُعرض مَواعيد القمر حسب توقيت ${_Cd} المحلي وبناءً على إحداثيات المدينة، لذلك قد تَختلف أوقات الشروق والغروب ورؤية الهلال من مدينة إلى أخرى بحسب خط الطول والعرض وارتفاع الأفق.`
                     },
                     en: {
                         title: `Hijri date and crescent visibility on ${_D}`,
@@ -20186,7 +20186,7 @@ function updateMoonInfo() {
                     title: `حالة القمر اليوم في ${_cityName}`,
                     faq: `أسئلة شائعة عن القمر في ${_cityName}`,
                     cities: `تقويم القمر في مدن أخرى`,
-                    subtitle: `اعرف أطوار القمر في ${_cityName}، ونسبة الإضاءة، ومواعيد البدر والمحاق، مع تقويم شهريّ كامل حسب التوقيت المحلّيّ.`
+                    subtitle: `اعرف أطوار القمر في ${_cityName}، ونسبة الإضاءة، ومواعيد البدر والمحاق، مع تقويم شهري كامل حسب التوقيت المحلي.`
                 },
                 en: {
                     title: `The Moon today in ${_cityName}`,
@@ -20289,13 +20289,13 @@ function updateMoonInfo() {
                         ['.moon-city-hub-faq-q6', `ما علاقة القمر بالتقويم الهجري؟`],
                         ['.moon-city-hub-faq-a6', `يعتمد التقويم الهجري على دورة القمر؛ فكل شهر يبدأ برؤية الهلال ويستمر عادة 29 أو 30 يومًا. ولهذا تكون السنة الهجرية أقصر من السنة الشمسية بنحو 11 يومًا.`],
                         ['.moon-city-hub-faq-q7', `ما الفرق بين الكوكبة الفلكية والبرج؟`],
-                        ['.moon-city-hub-faq-a7', `الكوكبة الفلكية هي منطقة معتمدة من السماء وفق حدود الاتحاد الفلكي الدولي (IAU)، أما البرج التنجيمي فهو تقسيم اصطلاحي لا يعبّر عن الموقع الفلكي الدقيق للقمر. يستخدم الموقع الكوكبات الفلكية، وليس الأبراج التنجيمية.`],
+                        ['.moon-city-hub-faq-a7', `الكوكبة الفلكية هي منطقة معتمدة من السماء وفق حدود الاتحاد الفلكي الدولي (IAU)، أما البرج التنجيمي فهو تقسيم اصطلاحي لا يعبر عن الموقع الفلكي الدقيق للقمر. يستخدم الموقع الكوكبات الفلكية، وليس الأبراج التنجيمية.`],
                         ['.moon-city-hub-faq-q8', `هل تعتمد بيانات القمر على توقيت ${_C} المحلي؟`],
                         ['.moon-city-hub-faq-a8', `نعم، تُحسب مواعيد الطلوع والغروب والبدر والمحاق حسب التوقيت المحلي لـ ${_C}. أما بعض القيم مثل الطور ونسبة الإضاءة فتُعرض ضمن سياق اليوم المحلي للمدينة لضمان اتساق البيانات داخل الصفحة.`],
                         ['.moon-city-hub-edu-title', `تقويم القمر في ${_C}`],  // Phase M2 (2026-05-03): drop 'فهم' prefix per user request
-                        ['.moon-city-hub-edu-p1', `يَعرض تقويم القمر في ${_C} تَغيّر أطوار القمر خلال الشهر، من المحاق إلى الهلال المتزايد، ثمّ التربيع الأوّل، الأحدب المتزايد، البدر، ثمّ الأطوار المتناقصة حتّى يَعود القمر إلى المحاق.`],
-                        ['.moon-city-hub-edu-p2', `تَختلف مواعيد شروق وغروب القمر حسب المدينة بسبب اختلاف خطّ الطول والمنطقة الزمنيّة، لذلك تُعرض بيانات ${_C} بحسب توقيتها المحلّيّ.`],
-                        ['.moon-city-hub-edu-p3', `يَرتبط القمر أيضًا بالتقويم الهجريّ، إذ تَبدأ الأشهر الهجريّة برؤية الهلال، وقد يَختلف ثبوت بداية الشهر من بلد إلى آخر حسب الرؤية الشرعيّة.`]
+                        ['.moon-city-hub-edu-p1', `يَعرض تقويم القمر في ${_C} تَغير أطوار القمر خلال الشهر، من المحاق إلى الهلال المتزايد، ثم التربيع الأول، الأحدب المتزايد، البدر، ثم الأطوار المتناقصة حتى يَعود القمر إلى المحاق.`],
+                        ['.moon-city-hub-edu-p2', `تَختلف مواعيد شروق وغروب القمر حسب المدينة بسبب اختلاف خط الطول والمنطقة الزمنية، لذلك تُعرض بيانات ${_C} بحسب توقيتها المحلي.`],
+                        ['.moon-city-hub-edu-p3', `يَرتبط القمر أيضًا بالتقويم الهجري، إذ تَبدأ الأشهر الهجرية برؤية الهلال، وقد يَختلف ثبوت بداية الشهر من بلد إلى آخر حسب الرؤية الشرعية.`]
                     ],
                     en: [
                         ['.moon-city-hub-faq-title-text', `FAQ about the Moon in ${_C}`],
@@ -20548,7 +20548,7 @@ function updateMoonInfo() {
                 };
                 const _eduMonthLabel = _eduMonthLabelByLang[_lng_] || _eduMonthLabelByLang.en;
                 const _eduLinkLabels = {
-                    ar: [`حالة القمر اليوم في ${_C}`, _eduMonthLabel, 'التاريخ الهجريّ اليوم'],
+                    ar: [`حالة القمر اليوم في ${_C}`, _eduMonthLabel, 'التاريخ الهجري اليوم'],
                     en: [`Moon status today in ${_C}`, _eduMonthLabel, "Today's Hijri date"],
                     fr: [`État de la Lune aujourd'hui à ${_C}`, _eduMonthLabel, "Date hégirienne d'aujourd'hui"],
                     tr: [`${_C}'de bugünkü ay durumu`, _eduMonthLabel, 'Bugünün hicri tarihi'],
@@ -20635,9 +20635,9 @@ function updateMoonInfo() {
                             `حالة القمر اليوم في ${_cityName}`,
                             `تقويم القمر لشهر ${_curMonthName} ${_curYear}`,
                             `تقويم القمر لشهر ${_nextMonthName} ${_nextYear}`,
-                            `التاريخ الهجريّ اليوم`,
+                            `التاريخ الهجري اليوم`,
                             `مواقيت الصلاة في ${_cityName}`,
-                            `اتّجاه القبلة من ${_cityName}`
+                            `اتجاه القبلة من ${_cityName}`
                         ]
                     },
                     en: {
@@ -20859,16 +20859,16 @@ function updateMoonInfo() {
                 // Phase D3.1.3b: 10-lang lookup (was: _TDC_AR / _TDC_EN ternary)
                 const _TDC_BY_LANG = {
                     ar: {
-                        title: `ملخّص قمر اليوم في ${_cityName}`,
-                        p1: `في ${_cityName} اليوم، يَكون القمر في طور ${_phaseValB4} بإضاءة ${_illumB4}٪ وعمر ${_ageB4} يوم من الدورة القمريّة الحاليّة. هذه القيم لحظيّة، محسوبة فلكيّاً وفق منهجيّات Jean Meeus حسب إحداثيّات ${_cityName} وتوقيتها المحلّيّ، وتَتَجدَّد تلقائيّاً.`,
-                        p2: `تَختلف مَواعيد شروق وغروب القمر بين المدن بحسب خطّ الطول والمنطقة الزمنيّة. الأرقام المعروضة هنا خاصّة بـ ${_cityName} فقط — قد تَختلف عن مدن أخرى مثل القاهرة أو لندن أو نيويورك.`,
-                        p3: `حالة القمر اليوم في ${_cityName} تَرتبط بالتقويم الهجريّ، إذ تُساعد على تَوقّع موعد رؤية الهلال للشهر الهجريّ القادم. هذه بيانات فلكيّة موضوعيّة — أمّا ثبوت بدء الشهر الهجريّ فيَخضع للرؤية الشرعيّة في كلّ بلد.`,
-                        p4: `للمتابعة بعد حالة اليوم، يُمكنك تَصفّح تقويم القمر الكامل في ${_cityName}، أو الاطّلاع على تقويم شهر ${_curMonthLbl}، أو فتح صفحة تَفاصيل قمر اليوم بالتاريخ الميلاديّ الكامل، أو مُراجعة التاريخ الهجريّ اليوم.`,
+                        title: `ملخص قمر اليوم في ${_cityName}`,
+                        p1: `في ${_cityName} اليوم، يَكون القمر في طور ${_phaseValB4} بإضاءة ${_illumB4}٪ وعمر ${_ageB4} يوم من الدورة القمرية الحالية. هذه القيم لحظية، محسوبة فلكياً وفق منهجيات Jean Meeus حسب إحداثيات ${_cityName} وتوقيتها المحلي، وتَتَجدَد تلقائياً.`,
+                        p2: `تَختلف مَواعيد شروق وغروب القمر بين المدن بحسب خط الطول والمنطقة الزمنية. الأرقام المعروضة هنا خاصة بـ ${_cityName} فقط — قد تَختلف عن مدن أخرى مثل القاهرة أو لندن أو نيويورك.`,
+                        p3: `حالة القمر اليوم في ${_cityName} تَرتبط بالتقويم الهجري، إذ تُساعد على تَوقع موعد رؤية الهلال للشهر الهجري القادم. هذه بيانات فلكية موضوعية — أما ثبوت بدء الشهر الهجري فيَخضع للرؤية الشرعية في كل بلد.`,
+                        p4: `للمتابعة بعد حالة اليوم، يُمكنك تَصفح تقويم القمر الكامل في ${_cityName}، أو الاطلاع على تقويم شهر ${_curMonthLbl}، أو فتح صفحة تَفاصيل قمر اليوم بالتاريخ الميلادي الكامل، أو مُراجعة التاريخ الهجري اليوم.`,
                         links: [
                             `تقويم القمر في ${_cityName}`,
                             `تقويم القمر لشهر ${_curMonthLbl}`,
                             `تَفاصيل قمر اليوم بالتاريخ`,
-                            `التاريخ الهجريّ اليوم`
+                            `التاريخ الهجري اليوم`
                         ]
                     },
                     en: {
@@ -21436,9 +21436,9 @@ function updateMoonInfo() {
         const _illumPct = Number(illumination) || 0;
         let _stars, _visKey, _visFallback;
         if (_illumPct >= 80) { _stars = 5; _visKey = 'moon.hl.vis_excellent'; _visFallback = 'ممتازة'; }
-        else if (_illumPct >= 50) { _stars = 4; _visKey = 'moon.hl.vis_very_good'; _visFallback = 'جيّدة جداً'; }
-        else if (_illumPct >= 20) { _stars = 3; _visKey = 'moon.hl.vis_good'; _visFallback = 'جيّدة'; }
-        else if (_illumPct >= 5)  { _stars = 2; _visKey = 'moon.hl.vis_fair'; _visFallback = 'متوسّطة'; }
+        else if (_illumPct >= 50) { _stars = 4; _visKey = 'moon.hl.vis_very_good'; _visFallback = 'جيدة جداً'; }
+        else if (_illumPct >= 20) { _stars = 3; _visKey = 'moon.hl.vis_good'; _visFallback = 'جيدة'; }
+        else if (_illumPct >= 5)  { _stars = 2; _visKey = 'moon.hl.vis_fair'; _visFallback = 'متوسطة'; }
         else { _stars = 1; _visKey = 'moon.hl.vis_poor'; _visFallback = 'ضعيفة'; }
         const _starsStr = '★'.repeat(_stars) + '☆'.repeat(5 - _stars);
         _setText('moon-hl-vis-stars', _starsStr);
@@ -22043,7 +22043,7 @@ function updateMoonInfo() {
                 const _mNmU = (_gm && _gm[_miU]) || '';
                 const _lngM = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
                 const _MPM = { ar: `أطوار القمر في ${_mNmU} ${_yyU}`, en: `Moon Phases in ${_mNmU} ${_yyU}`, fr: `Phases de la Lune en ${_mNmU} ${_yyU}`, tr: `${_mNmU} ${_yyU} Ay Evreleri`, ur: `${_mNmU} ${_yyU} میں چاند کے مراحل`, de: `Mondphasen im ${_mNmU} ${_yyU}`, id: `Fase Bulan pada ${_mNmU} ${_yyU}`, es: `Fases de la Luna en ${_mNmU} ${_yyU}`, bn: `${_mNmU} ${_yyU}-এ চাঁদের পর্যায়`, ms: `Fasa Bulan pada ${_mNmU} ${_yyU}` };
-                const _MPS = { ar: `المراحل القمريّة الرئيسة خلال ${_mNmU} ${_yyU} — محسوبة بدقّة فلكيّة.`, en: `Principal moon phases during ${_mNmU} ${_yyU} — calculated with astronomical accuracy.`, fr: `Phases lunaires principales en ${_mNmU} ${_yyU} — calculées avec précision astronomique.`, tr: `${_mNmU} ${_yyU} ayının başlıca ay evreleri — astronomik doğrulukla hesaplanır.`, ur: `${_mNmU} ${_yyU} کے دوران چاند کے بنیادی مراحل — فلکی درستگی سے شمار شدہ۔`, de: `Wichtigste Mondphasen im ${_mNmU} ${_yyU} — astronomisch genau berechnet.`, id: `Fase Bulan utama selama ${_mNmU} ${_yyU} — dihitung dengan akurasi astronomi.`, es: `Fases lunares principales en ${_mNmU} ${_yyU} — calculadas con precisión astronómica.`, bn: `${_mNmU} ${_yyU}-এ প্রধান চাঁদের দশা — জ্যোতির্বৈজ্ঞানিক নির্ভুলতায় গণনা করা।`, ms: `Fasa Bulan utama sepanjang ${_mNmU} ${_yyU} — dikira dengan ketepatan astronomi.` };
+                const _MPS = { ar: `المراحل القمرية الرئيسة خلال ${_mNmU} ${_yyU} — محسوبة بدقة فلكية.`, en: `Principal moon phases during ${_mNmU} ${_yyU} — calculated with astronomical accuracy.`, fr: `Phases lunaires principales en ${_mNmU} ${_yyU} — calculées avec précision astronomique.`, tr: `${_mNmU} ${_yyU} ayının başlıca ay evreleri — astronomik doğrulukla hesaplanır.`, ur: `${_mNmU} ${_yyU} کے دوران چاند کے بنیادی مراحل — فلکی درستگی سے شمار شدہ۔`, de: `Wichtigste Mondphasen im ${_mNmU} ${_yyU} — astronomisch genau berechnet.`, id: `Fase Bulan utama selama ${_mNmU} ${_yyU} — dihitung dengan akurasi astronomi.`, es: `Fases lunares principales en ${_mNmU} ${_yyU} — calculadas con precisión astronómica.`, bn: `${_mNmU} ${_yyU}-এ প্রধান চাঁদের দশা — জ্যোতির্বৈজ্ঞানিক নির্ভুলতায় গণনা করা।`, ms: `Fasa Bulan utama sepanjang ${_mNmU} ${_yyU} — dikira dengan ketepatan astronomi.` };
                 const _h2 = document.getElementById('moon-upcoming-h2');
                 if (_h2) { _h2.textContent = _MPM[_lngM] || _MPM.en; _h2.removeAttribute('data-i18n'); }
                 const _subEl = document.querySelector('.moon-upcoming-subtitle');
@@ -22222,8 +22222,8 @@ function updateMoonInfo() {
                 // عنوان/وصف المخطّط على صفحة الشهر (10 لغات) — يستبدل نصّ «— 7 أيّام».
                 // يُشغَّل بعد كتلة H2 التاريخ (#7 أعلاه) داخل نفس الدالّة، فيفوز على الشهر.
                 try {
-                    const _CMT = { ar:'مخطّط إضاءة القمر خلال الشهر', en:'Moon illumination over the month', fr:'Illumination de la Lune au cours du mois', tr:'Ay boyunca Ay aydınlanması', ur:'مہینے کے دوران چاند کی روشنی', de:'Mondhelligkeit im Monatsverlauf', id:'Iluminasi Bulan sepanjang bulan', es:'Iluminación de la Luna durante el mes', bn:'মাস জুড়ে চাঁদের আলোকসজ্জা', ms:'Pencahayaan Bulan sepanjang bulan' };
-                    const _CMS = { ar:'يعرض هذا المخطّط نسبة إضاءة القمر لكلّ يوم من أيّام الشهر المعروض.', en:'This chart shows the Moon’s illumination for each day of the displayed month.', fr:'Ce graphique montre l’illumination de la Lune pour chaque jour du mois affiché.', tr:'Bu grafik, gösterilen ayın her günü için Ay aydınlanmasını gösterir.', ur:'یہ چارٹ دکھائے گئے مہینے کے ہر دن کے لیے چاند کی روشنی دکھاتا ہے۔', de:'Dieses Diagramm zeigt die Mondhelligkeit für jeden Tag des angezeigten Monats.', id:'Grafik ini menunjukkan iluminasi Bulan untuk setiap hari pada bulan yang ditampilkan.', es:'Este gráfico muestra la iluminación de la Luna para cada día del mes mostrado.', bn:'এই চার্টটি প্রদর্শিত মাসের প্রতিটি দিনের জন্য চাঁদের আলোকসজ্জা দেখায়।', ms:'Carta ini menunjukkan pencahayaan Bulan bagi setiap hari dalam bulan yang dipaparkan.' };
+                    const _CMT = { ar:'مخطط إضاءة القمر خلال الشهر', en:'Moon illumination over the month', fr:'Illumination de la Lune au cours du mois', tr:'Ay boyunca Ay aydınlanması', ur:'مہینے کے دوران چاند کی روشنی', de:'Mondhelligkeit im Monatsverlauf', id:'Iluminasi Bulan sepanjang bulan', es:'Iluminación de la Luna durante el mes', bn:'মাস জুড়ে চাঁদের আলোকসজ্জা', ms:'Pencahayaan Bulan sepanjang bulan' };
+                    const _CMS = { ar:'يعرض هذا المخطط نسبة إضاءة القمر لكل يوم من أيام الشهر المعروض.', en:'This chart shows the Moon’s illumination for each day of the displayed month.', fr:'Ce graphique montre l’illumination de la Lune pour chaque jour du mois affiché.', tr:'Bu grafik, gösterilen ayın her günü için Ay aydınlanmasını gösterir.', ur:'یہ چارٹ دکھائے گئے مہینے کے ہر دن کے لیے چاند کی روشنی دکھاتا ہے۔', de:'Dieses Diagramm zeigt die Mondhelligkeit für jeden Tag des angezeigten Monats.', id:'Grafik ini menunjukkan iluminasi Bulan untuk setiap hari pada bulan yang ditampilkan.', es:'Este gráfico muestra la iluminación de la Luna para cada día del mes mostrado.', bn:'এই চার্টটি প্রদর্শিত মাসের প্রতিটি দিনের জন্য চাঁদের আলোকসজ্জা দেখায়।', ms:'Carta ini menunjukkan pencahayaan Bulan bagi setiap hari dalam bulan yang dipaparkan.' };
                     const _h2 = document.querySelector('#moon-chart-h2 [data-i18n="moon.chart_title"]');
                     if (_h2) { _h2.textContent = _CMT[_langNow] || _CMT.en; _h2.removeAttribute('data-i18n'); }
                     const _sub = document.getElementById('moon-chart-subtitle');
@@ -25404,18 +25404,18 @@ function copyZakatResult() {
     const fmt = (amt) => _zakatFmtMoney(amt, s.currency, lang);
     const _t = (k, fb) => (typeof t === 'function') ? (t(k) || fb) : fb;
     let text = '';
-    text += _t('zakat.result.net', 'صافي المال الزكويّ') + ': ' + fmt(s.net) + '\n';
+    text += _t('zakat.result.net', 'صافي المال الزكوي') + ': ' + fmt(s.net) + '\n';
     text += _t('zakat.result.nisab', 'النصاب المعتمد') + ': ' + fmt(s.nisab) + '\n';
-    text += _t('zakat.result.amount', 'الزكاة المستحقّة') + ': ' + fmt(s.zakatAmount);
+    text += _t('zakat.result.amount', 'الزكاة المستحقة') + ': ' + fmt(s.zakatAmount);
     if (s.isEstimate) {
-        text += ' (' + _t('zakat.result.estimate_badge', 'تقديريّ') + ')';
+        text += ' (' + _t('zakat.result.estimate_badge', 'تقديري') + ')';
     }
     text += '\n';
 
     const showToast = () => {
         const toast = document.getElementById('zakat-toast');
         if (!toast) return;
-        toast.textContent = _t('zakat.actions.copied', 'تمّ النسخ ✓');
+        toast.textContent = _t('zakat.actions.copied', 'تم النسخ ✓');
         toast.hidden = false;
         clearTimeout(toast._timer);
         toast._timer = setTimeout(() => { toast.hidden = true; }, 2000);
@@ -25451,16 +25451,16 @@ function _zakatDownloadPDF() {
     const val = (id) => (document.getElementById(id)?.textContent || '0').trim();
     const rows = [
         [_t('zakat.breakdown.cash_total',   'مجموع الأموال'),                val('zbt-cash')],
-        [_t('zakat.breakdown.gs_total',     'مجموع الذهب والفضّة'),         val('zbt-gs')],
+        [_t('zakat.breakdown.gs_total',     'مجموع الذهب والفضة'),         val('zbt-gs')],
         [_t('zakat.breakdown.invest_total', 'مجموع الاستثمارات والتجارة'),  val('zbt-invest')],
         [_t('zakat.breakdown.debts_total',  'الديون المخصومة'),             val('zbt-debts')],
-        [_t('zakat.breakdown.net',          'صافي المال الزكويّ'),         val('zbt-net')],
+        [_t('zakat.breakdown.net',          'صافي المال الزكوي'),         val('zbt-net')],
         [_t('zakat.breakdown.nisab',        'النصاب'),                       val('zbt-nisab')]
     ];
-    const totalRow = [_t('zakat.breakdown.amount', 'الزكاة المستحقّة'), val('zbt-amount')];
+    const totalRow = [_t('zakat.breakdown.amount', 'الزكاة المستحقة'), val('zbt-amount')];
     const docTitle = _t('zakat.hero.title', 'حاسبة الزكاة');
     const printedAt = new Date().toLocaleString(lang === 'ar' ? 'ar-EG' : lang);
-    const disclaimer = _t('zakat.compact_disclaimer.text', 'تنبيه: الحاسبة تقديريّة وليست فتوى شرعيّة.');
+    const disclaimer = _t('zakat.compact_disclaimer.text', 'تنبيه: الحاسبة تقديرية وليست فتوى شرعية.');
     const sourceURL = location.origin + location.pathname;
     // Build receipt HTML — self-contained (own <style>, no external CSS)
     const html = '<!DOCTYPE html><html dir="' + dir + '" lang="' + lang + '"><head>' +
@@ -26361,8 +26361,8 @@ function _azkarLocalized(field, fallback) {
 // screen readers still hear the full instruction, but page text no
 // longer repeats the long phrase 25×.
 const _AZKAR_AR_CHROME = {
-    counterTap: 'عدّ',
-    counterTapAria: 'اضغط للعدّ',
+    counterTap: 'عد',
+    counterTapAria: 'اضغط للعد',
     counterDone: '✓ مكتمل',
     undo: 'تراجع',
     resetItem: 'إعادة',
@@ -26381,7 +26381,7 @@ const _AZKAR_AR_CHROME = {
 function _azkarRepeatLabelAR(n) {
     n = Number(n) || 1;
     if (n === 1) return 'مرة واحدة';
-    if (n === 2) return 'مرّتان';
+    if (n === 2) return 'مرتان';
     if (n === 3) return 'ثلاث مرات';
     if (n === 7) return 'سبع مرات';
     if (n === 10) return 'عشر مرات';
@@ -26821,7 +26821,7 @@ function _loadAzkarEvening() {
     try { console.warn('[azkar-evening] SSR cards missing — full client-render fallback not implemented (SSR is the supported path).'); } catch (_) {}
     const notice = document.createElement('p');
     notice.className = 'azkar-empty';
-    notice.textContent = 'تعذّر تحميل أذكار المساء. يرجى إعادة تحميل الصفحة.';
+    notice.textContent = 'تعذر تحميل أذكار المساء. يرجى إعادة تحميل الصفحة.';
     listEl.appendChild(notice);
     _updateEveningProgress(0, items.length);
 }
@@ -27073,7 +27073,7 @@ function _loadAzkarPrayer() {
     try { console.warn('[azkar-prayer] SSR cards missing — full client-render fallback not implemented (SSR is the supported path).'); } catch (_) {}
     const notice = document.createElement('p');
     notice.className = 'azkar-empty';
-    notice.textContent = 'تعذّر تحميل أذكار الصلاة. يرجى إعادة تحميل الصفحة.';
+    notice.textContent = 'تعذر تحميل أذكار الصلاة. يرجى إعادة تحميل الصفحة.';
     listEl.appendChild(notice);
     _updatePrayerProgress(0, items.length);
 }
@@ -27593,7 +27593,7 @@ function _updateMorningProgress(_doneOverride, _totalOverride) {
         const externalDown = (status === 'rate_limited' || status === 'error' || status === 'timeout');
         const msg = externalDown
             ? (IS_AR
-                ? 'تعذّر البحث الخارجي مؤقتاً. جرّب مرة أخرى بعد قليل، أو ابحث باسم مدينة أكبر قريبة.'
+                ? 'تعذر البحث الخارجي مؤقتاً. جرب مرة أخرى بعد قليل، أو ابحث باسم مدينة أكبر قريبة.'
                 : 'External place search is temporarily unavailable. Please try again shortly.')
             : (IS_AR ? 'لا توجد نتائج' : 'No results');
         box.innerHTML = '<div class="search-test-empty"' +

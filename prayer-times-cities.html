@@ -104,6 +104,38 @@
            monthly / educational / FAQ) align edge-for-edge with .mc-cities-box (prayer pages keep 900). */
         .moon-country-layout #country-seo-content .country-seo-wrap { max-width: none; }
 
+        /* PRAYER-COUNTRY-CONTENT-GUTTER-MATCH-CITY-1 (2026-07-01):
+           The prayer /prayer-times-in-{country} page uses the bare main-content
+           (no .moon-country-layout marker) → its content blocks span the full
+           width, flush to the edges — unlike /prayer-times-in-{city}, whose
+           content sits inside `.page.active` with a 24px side gutter (12px at
+           ≤768px). Give the prayer country content column the SAME gutter so the
+           breadcrumb + hero + city search + city grid + SEO all align with a
+           comfortable, consistent side margin that matches the city page. The
+           navbar (.top-header) + footer are intentionally NOT selected → they
+           stay full-bleed site chrome. Moon country pages are untouched (they
+           keep their own .moon-country-layout contained column). Uses width +
+           align-self:center (main-content is a flex column) so it is RTL/LTR-
+           agnostic and adds NO horizontal padding to the cards themselves. */
+        main.main-content:not(.moon-country-layout) > #country-breadcrumb,
+        main.main-content:not(.moon-country-layout) > #location-hero,
+        main.main-content:not(.moon-country-layout) > .cities-search-card,
+        main.main-content:not(.moon-country-layout) > .cities-main-card,
+        main.main-content:not(.moon-country-layout) > #country-seo-content {
+            width: calc(100% - 48px);
+            align-self: center;
+            box-sizing: border-box;
+        }
+        @media (max-width: 768px) {
+            main.main-content:not(.moon-country-layout) > #country-breadcrumb,
+            main.main-content:not(.moon-country-layout) > #location-hero,
+            main.main-content:not(.moon-country-layout) > .cities-search-card,
+            main.main-content:not(.moon-country-layout) > .cities-main-card,
+            main.main-content:not(.moon-country-layout) > #country-seo-content {
+                width: calc(100% - 24px);
+            }
+        }
+
         /* MOON-COUNTRY-CAPITAL-MOON-LINKS-SECTION-1: capital quick-links cards (today/year/month + date
            picker). Lives here with the other .mc-* moon-country styles (inline = always fresh, no
            cache-buster gotcha). Inert on the prayer page (no .mc-capital elements). RTL via [dir], dark

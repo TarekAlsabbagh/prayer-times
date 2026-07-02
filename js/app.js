@@ -4420,17 +4420,38 @@ async function initApp() {
         const _kp = cfg.keyPrefix || cfg.id;
 
         // ── (أ) تحديث meta tags + document.title ──
+        // COUNTDOWN-SSR-TITLE-META-HYDRATION-GUARD-FIX-1 (2026-07-02): on the SSR DIRECT LANDING
+        // (the path the browser first loaded) the server already rendered the correct, length-fitted
+        // Title + meta description from data/countdown-seo.js. Overwriting them here with the generic
+        // i18n meta_title/meta_desc caused a visible Title/Description flip after DOMContentLoaded and
+        // made JS-rendering crawlers read the i18n value instead of the SSR ladder. So capture the SSR
+        // landing once (same mechanism as setSEOMeta's _ssrSeoPath/_ssrSeoTitle guard) and, on that
+        // first direct-landing activation only, KEEP the SSR Title/meta. Real SPA navigations to a
+        // countdown page (path differs from the landing) still receive the i18n Title/meta as before.
         try {
-            const _title = _tt(_kp + '.meta_title') || _tt(_kp + '.h1') || document.title;
-            if (_title) document.title = _title;
-            let _metaDesc = document.querySelector('meta[name="description"]');
-            if (!_metaDesc) {
-                _metaDesc = document.createElement('meta');
-                _metaDesc.setAttribute('name', 'description');
-                document.head.appendChild(_metaDesc);
+            if (_ssrSeoPath === null) {
+                _ssrSeoPath  = window.location.pathname;
+                _ssrSeoTitle = document.title || '';
+                const _ssrMd = document.querySelector('meta[name="description"]');
+                _ssrSeoDesc  = _ssrMd ? (_ssrMd.getAttribute('content') || '') : '';
             }
-            const _desc = _tt(_kp + '.meta_desc') || _tt(_kp + '.intro') || '';
-            if (_desc) _metaDesc.setAttribute('content', _desc);
+            const _cdOnSsrLanding = !_cdSeoGuardUsed && (_ssrSeoPath === window.location.pathname);
+            if (_cdOnSsrLanding) {
+                // Direct SSR landing → keep the server-rendered Title + meta description intact.
+                _cdSeoGuardUsed = true;
+            } else {
+                // SPA navigation (or a later re-activation) → apply the i18n Title/meta.
+                const _title = _tt(_kp + '.meta_title') || _tt(_kp + '.h1') || document.title;
+                if (_title) document.title = _title;
+                let _metaDesc = document.querySelector('meta[name="description"]');
+                if (!_metaDesc) {
+                    _metaDesc = document.createElement('meta');
+                    _metaDesc.setAttribute('name', 'description');
+                    document.head.appendChild(_metaDesc);
+                }
+                const _desc = _tt(_kp + '.meta_desc') || _tt(_kp + '.intro') || '';
+                if (_desc) _metaDesc.setAttribute('content', _desc);
+            }
         } catch (_) {}
 
         // ── (ب) قيم ثابتة من الـ event ──
@@ -11280,6 +11301,10 @@ function _seoGetBilingualUrls() {
 // GLOBAL-CLIENT-SEO-NO-OVERWRITE-SSR-FIX-1 (2026-06-02): module-level state
 // for the "trust SSR on the initial landing page" guard inside setSEOMeta.
 let _ssrSeoPath = null, _ssrSeoTitle = '', _ssrSeoDesc = '', _ssrSeoGuardUsed = false;
+// COUNTDOWN-SSR-TITLE-META-HYDRATION-GUARD-FIX-1 (2026-07-02): one-shot flag so
+// _initCountdownPage keeps the SSR-rendered Title/meta on the direct-landing path
+// (mirrors the _ssrSeoPath guard above); i18n title/meta apply only on SPA nav.
+let _cdSeoGuardUsed = false;
 
 function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGraph }) {
     if (window.location.protocol === 'file:') return; // لا SEO على ملف محلي

@@ -4883,23 +4883,30 @@ async function initApp() {
                 const _noteCell = _isNext
                     ? '<strong class="cd-after-days">' + _escHtml(_afterTpl(_daysLeftForRow)) + '</strong>'
                     : (_tt(_kp + '.years_note_cell') || 'تقديري · يعتمد على الرؤية');
-                // HIJRI-NEW-YEAR-COUNTDOWN-ALL-LANGS-CONTENT-AND-TABLE-LINKS-1:
-                // On the Hijri-New-Year page ONLY (_P === 'ny'), deep-link the
-                // Hijri-year cell to the existing Hijri-year page
-                // (/hijri-calendar/{hy}) and the "1 Muharram" (Gregorian date)
-                // cell to the existing Hijri-date page (/hijri-date/{hy}-01-01),
-                // both lang-prefixed. Guarded to the Umm-al-Qura data range
-                // (1356–1500) so a table link can never 404. On this page the
-                // note cell also drops .countdown-small-note so the column
-                // matches the other cells (size/color/weight + start-align).
+                // HIJRI-NEW-YEAR-COUNTDOWN-ALL-LANGS-CONTENT-AND-TABLE-LINKS-1 +
+                // EID-COUNTDOWN-TABLE-LINKS-AND-NOTE-STYLING-ALL-LANGS-1:
+                // On the Hijri-New-Year AND the two Eid pages (_P ∈ ny|fitr|adha),
+                // deep-link the Hijri-year cell to the existing Hijri-year page
+                // (/hijri-calendar/{hy}) and the occasion's Gregorian-date cell to
+                // the existing Hijri-date page. The Hijri-date suffix is DERIVED
+                // from cfg.hMonth/hDay — the SAME values that compute the displayed
+                // date — so each link matches its own row exactly: ny 01-01,
+                // fitr 10-01 (1 Shawwal), adha 12-10 (10 Dhul-Hijjah). Ramadan
+                // (_P==='ram') stays unlinked. Both lang-prefixed; range-guarded to
+                // the Umm-al-Qura data range (1356–1500) so a link can never 404.
+                // On these pages the note cell also drops .countdown-small-note so
+                // the column matches the other cells (size/color/weight + start-align).
                 let _hyCell = hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH');
                 let _dtCell = _fmtGreg(gd);
-                if (_P === 'ny' && hy >= 1356 && hy <= 1500) {
+                const _cdLinkable = (_P === 'ny' || _P === 'fitr' || _P === 'adha');
+                if (_cdLinkable && hy >= 1356 && hy <= 1500) {
                     const _lp = (_lang === 'ar') ? '' : ('/' + _lang);
+                    const _mm = ('0' + cfg.hMonth).slice(-2);
+                    const _dd = ('0' + cfg.hDay).slice(-2);
                     _hyCell = '<a class="cd-years-link" href="' + _lp + '/hijri-calendar/' + hy + '">' + _hyCell + '</a>';
-                    _dtCell = '<a class="cd-years-link" href="' + _lp + '/hijri-date/' + hy + '-01-01">' + _dtCell + '</a>';
+                    _dtCell = '<a class="cd-years-link" href="' + _lp + '/hijri-date/' + hy + '-' + _mm + '-' + _dd + '">' + _dtCell + '</a>';
                 }
-                const _noteAttr = (_P === 'ny') ? '' : ' class="countdown-small-note"';
+                const _noteAttr = _cdLinkable ? '' : ' class="countdown-small-note"';
                 rows.push(
                     '<tr' + (_isNext ? ' class="cd-row-current"' : '') + '>' +
                         '<td>' + _hyCell + _badge + '</td>' +

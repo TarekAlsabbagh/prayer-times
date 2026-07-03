@@ -4972,6 +4972,24 @@ html[data-theme="dark"] .cd-after-days { color: #80d8a8; }
 }
 html[data-theme="dark"] #ny-years-table a.cd-years-link { color: #80d8a8; }
 
+/* EID-COUNTDOWN-TABLE-LINKS-AND-NOTE-STYLING-ALL-LANGS-1: same table-link
+   styling on the two Eid year tables (#fitr-years-table / #adha-years-table).
+   The Hijri-New-Year block above is left untouched. Links are emitted only on
+   ny/fitr/adha (JS-gated), never ramadan. */
+#fitr-years-table a.cd-years-link,
+#adha-years-table a.cd-years-link {
+    color: var(--primary);
+    text-decoration: none;
+}
+#fitr-years-table a.cd-years-link:hover,
+#fitr-years-table a.cd-years-link:focus-visible,
+#adha-years-table a.cd-years-link:hover,
+#adha-years-table a.cd-years-link:focus-visible {
+    text-decoration: underline;
+}
+html[data-theme="dark"] #fitr-years-table a.cd-years-link,
+html[data-theme="dark"] #adha-years-table a.cd-years-link { color: #80d8a8; }
+
 /* ── سطر SEO تحت الـ H1 — سؤال + جواب على سطرَين ── */
 .cd-h1-seo {
     margin: 8px auto 12px;

@@ -68,11 +68,14 @@ const MOONJS = fs.readFileSync(path.join(ROOT, 'js', 'moon.js'), 'utf8');
         const sg = (await req('/moon/singapore')).body;
         check('AR /moon/singapore (1 city) ships exactly 1 card', cardCount(containerSeg(sg)) === 1, String(cardCount(containerSeg(sg))));
 
-        // ── C) prayer country page UNCHANGED (spinner, no SSR grid) ──
-        console.log('\n── C) prayer country page unchanged (out of scope) ──');
+        // ── C) prayer country page NOW ALSO SSR-grids (PRAYER-COUNTRY-SSR-GRID-AND-DATA-IN-BODY-FIX-1) ──
+        //   The moon-only scope guard was retired when the sibling ticket applied the same SSR-grid fix
+        //   to /prayer-times-in-{country}. Cross-check the new state here (full coverage in
+        //   _smoke_prayer_country_ssr_grid_and_data_in_body_fix_1.mjs).
+        console.log('\n── C) prayer country page also SSR-grids (sibling fix) ──');
         const pr = (await req('/prayer-times-in-saudi-arabia')).body;
-        check('/prayer-times-in-saudi-arabia #cities-container has NO data-ssr-grid', !/id="cities-container"[^>]*data-ssr-grid/.test(pr));
-        check('  …still ships the spinner placeholder (client renders it)', /id="cities-container"[\s\S]{0,160}?class="spinner"/.test(pr));
+        check('/prayer-times-in-saudi-arabia #cities-container HAS data-ssr-grid', /id="cities-container"[^>]*data-ssr-grid/.test(pr));
+        check('  …no longer ships the spinner placeholder (SSR grid at first paint)', !/id="cities-container"[\s\S]{0,160}?class="spinner"/.test(pr));
 
         // ── D) server.js source guards (the SSR builder + injection) ──
         console.log('\n── D) server.js source guards ──');

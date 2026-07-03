@@ -92,12 +92,16 @@ const TPL = fs.readFileSync(path.join(ROOT, 'prayer-times-cities.html'), 'utf8')
         const en = (await req('/en/moon/egypt')).body;
         check('/en/moon/egypt: data in body + preload + 26 cards', idx(en, 'id="country-cities-data"') > idx(en, '</head>') && /preload" as="style" href="css\/style\.css/.test(en) && cardsIn(en) === 26);
 
-        // ── E) SCOPE: prayer + city pages byte-identical (data still in head, NO preload) ──
-        console.log('\n── E) scope guards (prayer page unchanged) ──');
+        // ── E) prayer NOW ALSO relocated (PRAYER-COUNTRY-SSR-GRID-AND-DATA-IN-BODY-FIX-1); CITY still in head (C deferred) ──
+        //   The moon-only scope guard was retired when the sibling ticket moved the prayer country island
+        //   to the body + added the css preload. CITY pages are the deferred "C" scope → still in <head>.
+        console.log('\n── E) prayer page also FCP/LCP-tuned (sibling fix); city deferred ──');
         const pr = (await req('/prayer-times-in-saudi-arabia')).body;
-        check('prayer: cities-data STILL in <head> (unchanged)', idx(pr, 'id="country-cities-data"') > 0 && idx(pr, 'id="country-cities-data"') < idx(pr, '</head>'));
-        check('prayer: NO style.css preload added (byte-identical head)', !/preload" as="style" href="css\/style\.css/.test(pr));
-        check('prayer: still ships the spinner (client renders grid — unchanged)', /id="cities-container"[\s\S]{0,160}?class="spinner"/.test(pr));
+        check('prayer: cities-data now in BODY (after </head>)', idx(pr, 'id="country-cities-data"') > idx(pr, '</head>'));
+        check('prayer: style.css preload added', /preload" as="style" href="css\/style\.css/.test(pr));
+        check('prayer: no longer ships the spinner (SSR grid at first paint)', !/id="cities-container"[\s\S]{0,160}?class="spinner"/.test(pr));
+        const cty = (await req('/prayer-times-in-riyadh')).body;
+        check('city page UNCHANGED — cities-data still in <head> (scope C deferred)', idx(cty, 'id="country-cities-data"') > 0 && idx(cty, 'id="country-cities-data"') < idx(cty, '</head>'));
 
         // ── F) source guards ──
         console.log('\n── F) server.js / moon.js source guards ──');

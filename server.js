@@ -214,6 +214,49 @@ function _moonCountryFirstPageGridHtml(cc, L) {
     } catch (_) { return ''; }
 }
 
+// PRAYER-COUNTRY-SSR-GRID-AND-DATA-IN-BODY-FIX-1 (2026-07-03): the PRAYER twin of
+// _moonCountryFirstPageGridHtml — SSR-render the FIRST PAGE (_MC_FIRST_PAGE=26, mirrors the template
+// renderGrid) of PRAYER city cards for /prayer-times-in-{country}, so #cities-container ships the REAL
+// grid at first paint instead of the spinner (kills the spinner→grid CLS the moon variant already
+// fixed). Card shape/label/href BYTE-MATCH the client renderGrid PRAYER branch (a.city-link →
+// "Prayer Times in {city}" localized + .city-type sub) PLUS a data-slug so the client re-wires the
+// click-context via _hydrateSsrGridIfPresent without rebuilding. Order/labels mirror _curatedCitiesForCc
+// (same sorted list) + the template's _cardLabelFn (prayer branch) / _cityHref = pageUrl('/prayer-times-in-'+slug).
+function _prayerCountryFirstPageGridHtml(cc, L) {
+    try {
+        const all = _curatedCitiesForCc(cc);
+        if (!all || !all.length) return '';
+        const cities = all.slice(0, _MC_FIRST_PAGE);
+        const pfx = (L === 'ar') ? '' : '/' + L;
+        const prayerLabel = (cEn, cAr, cLoc) => {
+            switch (L) {
+                case 'en': return `Prayer Times in ${cEn}`;
+                case 'fr': return `Heures de prière à ${cLoc}`;
+                case 'tr': return `${cLoc} Namaz Vakitleri`;
+                case 'ur': return `${cLoc} میں اوقاتِ نماز`;
+                case 'de': return `Gebetszeiten in ${cLoc}`;
+                case 'id': return `Jadwal Sholat di ${cLoc}`;
+                case 'es': return `Horarios de Oración en ${cLoc}`;
+                case 'bn': return `${cLoc}-এ নামাজের সময়`;
+                case 'ms': return `Waktu Solat di ${cLoc}`;
+                default:   return `مواقيت الصلاة في ${cAr}`;
+            }
+        };
+        const cards = cities.map(c => {
+            const nm = c.names || {};
+            const cEn = nm.en || c.nameEn || c.nameAr || '';
+            const cAr = nm.ar || c.nameAr || cEn;
+            const cLoc = nm[L] || nm.en || cEn;
+            const sub = (L === 'ar') ? (nm.en || c.nameEn || '') : '';
+            // prayer variant: flat /prayer-times-in-{slug} (lang-prefixed) == the client _cityHref(slug).
+            const href = pfx + '/prayer-times-in-' + c.slug;
+            return `<a class="city-link" href="${_escHtml(href)}" data-slug="${_escHtml(c.slug)}">`
+                + `${_escHtml(prayerLabel(cEn, cAr, cLoc))}<span class="city-type">${_escHtml(sub)}</span></a>`;
+        }).join('');
+        return `<div class="cities-grid">${cards}</div>`;
+    } catch (_) { return ''; }
+}
+
 // PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1 (2026-06-24): the country-grid template
 // (prayer-times-cities.html) serves BOTH /moon/{country} (moon variant) AND the prayer
 // country page /prayer-times-in-{country}. The moon variant unifies its .top-header with
@@ -21917,9 +21960,43 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: prehydrate the full curated city
         // list for this country so prayer-times-cities.html renders the grid instantly (no
         // /api/cities fetch, no spinner). The client (fetchCities) reads #country-cities-data first.
+        // PRAYER-COUNTRY-SSR-GRID-AND-DATA-IN-BODY-FIX-1 (Fix B, 2026-07-03): inject the ~19–54KB island
+        //   into the BODY (right before the first body <script>, i.e. AFTER all visible + SSR content)
+        //   instead of <head>. Its only consumers run at body-end (the template's fetchCities() + the
+        //   header-city sync appended at </body>); nothing reads it during head parse. In <head> it
+        //   pushed the hero / LCP element (#loc-hero-subtitle) ~19–54KB later in the byte stream → later
+        //   FCP/LCP. Data byte-identical (NO field trim) → grid / search / pagination unchanged.
+        //   In-head fallback kept. Mirrors the moon variant (MOON-COUNTRY-MOBILE-FCP-LCP-TUNE-1).
         const _ccTag = _countryCitiesScriptTag(seo.countryListing.code);
         if (_ccTag && html.indexOf('id="country-cities-data"') === -1) {
-            html = html.replace('</head>', _ccTag + '\n</head>');
+            if (html.indexOf('<script src="js/i18n.js') !== -1) {
+                html = html.replace('<script src="js/i18n.js', _ccTag + '\n<script src="js/i18n.js');
+            } else {
+                html = html.replace('</head>', _ccTag + '\n</head>');   // fallback: prior in-head placement (correct, just slower)
+            }
+        }
+        // PRAYER-COUNTRY-SSR-GRID-AND-DATA-IN-BODY-FIX-1 (Fix B): preload the render-blocking critical
+        //   stylesheet (same href as the existing <link>, version-extracted so it never drifts) so the
+        //   browser fetches style.css — which carries the hero (.loc-hero-*) styles that gate the LCP —
+        //   at highest priority from the first <head> bytes. NOT async/defer (deferring would FOUC the
+        //   hero). Mirrors the moon variant.
+        {
+            const _cssP = html.match(/<link rel="stylesheet" href="(css\/style\.css\?v=\d+)">/);
+            if (_cssP && html.indexOf('rel="preload" as="style" href="css/style.css') === -1) {
+                html = html.replace(_cssP[0], `<link rel="preload" as="style" href="${_cssP[1]}">\n    ${_cssP[0]}`);
+            }
+        }
+        // PRAYER-COUNTRY-SSR-GRID-AND-DATA-IN-BODY-FIX-1 (Fix A): SSR the first-page (26) city grid INTO
+        //   #cities-container (replacing the spinner placeholder), so the cities box is full-height at
+        //   first paint and no longer grows when the client builds the grid → kills the layout shift.
+        //   data-ssr-grid tells the client to hydrate (_hydrateSsrGridIfPresent: wire clicks + pagination)
+        //   instead of rebuilding. Same regex/mechanism as the moon variant; prayer labels/hrefs.
+        const _pcGrid = _prayerCountryFirstPageGridHtml(seo.countryListing.code, L);
+        if (_pcGrid) {
+            html = html.replace(
+                /<div id="cities-container">[\s\S]*?<\/div>\s*<\/div>\s*(?=<div class="pagination")/,
+                `<div id="cities-container" data-ssr-grid="1">${_pcGrid}</div>\n            `
+            );
         }
         // SSR للعنوان الرئيسي لـ prayer-times-cities.html (id="page-title" — مكتوب بالعربية في القالب)
         const _countryH1 = {

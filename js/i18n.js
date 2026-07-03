@@ -1422,7 +1422,7 @@ const TRANSLATIONS = {
         'home.faq_title': 'الأسئلة الشائعة',
         'home.cities_section_title': 'مواقيت الصلاة في مدن {country}',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'مواقيت الصلاة اليوم والتاريخ الهجري',
+        'home.tagline': 'مواقيت الصلاة اليوم حسب المدينة',
         'home.subtitle': 'اعرف أوقات الصلاة الدقيقة في مدينتك أو انطلاقاً من موقعك الجغرافي',
         'home.search_big': '🔍 ابحث عن مدينة أو موقع…',
         'home.use_location': 'عرض مواقيت الصلاة في موقعي الآن',
@@ -2955,7 +2955,7 @@ const TRANSLATIONS = {
         'home.cities_section_title': 'Prayer Times in Cities of {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': "Today's Prayer Times & Hijri Date",
+        'home.tagline': "Today's Prayer Times by City",
         'home.subtitle': 'Get accurate prayer times in your city — or detected from your geolocation',
         'home.search_big': '🔍 Search for a city or location…',
         'home.use_location': 'Show prayer times at my location now',
@@ -4203,7 +4203,7 @@ const TRANSLATIONS = {
         'home.faq_title': 'Questions fréquentes',
         'home.cities_section_title': 'Heures de prière dans les villes de {country}',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': "Heures de prière du jour & date hégirienne",
+        'home.tagline': "Heures de prière du jour par ville",
         'home.subtitle': 'Obtenez des horaires de prière précis dans votre ville ou depuis votre géolocalisation',
         'home.search_big': '🔍 Rechercher une ville ou un lieu…',
         'home.use_location': 'Afficher les horaires de prière à ma position',
@@ -5500,7 +5500,7 @@ const TRANSLATIONS = {
         'home.faq_title': 'Sıkça Sorulan Sorular',
         'home.cities_section_title': '{country} Şehirlerinde Namaz Vakitleri',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Bugünün Namaz Vakitleri & Hicri Tarih',
+        'home.tagline': 'Şehre Göre Bugünkü Namaz Vakitleri',
         'home.subtitle': 'Şehrinizdeki doğru namaz vakitlerini veya konumunuza göre öğrenin',
         'home.search_big': '🔍 Şehir veya konum ara…',
         'home.use_location': 'Konumuma göre namaz vakitlerini göster',
@@ -6810,7 +6810,7 @@ const TRANSLATIONS = {
         'home.faq_title': 'اکثر پوچھے گئے سوالات',
         'home.cities_section_title': '{country} کے شہروں میں اوقاتِ نماز',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'آج کے اوقاتِ نماز اور ہجری تاریخ',
+        'home.tagline': 'آج کے اوقاتِ نماز شہر کے مطابق',
         'home.subtitle': 'اپنے شہر میں یا اپنے مقام سے درست نماز کے اوقات جانیں',
         'home.search_big': '🔍 شہر یا مقام تلاش کریں…',
         'home.use_location': 'میرے مقام پر نماز کے اوقات دکھائیں',
@@ -8117,7 +8117,7 @@ const TRANSLATIONS = {
         'home.cities_section_title': 'Gebetszeiten in Städten von {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Heutige Gebetszeiten & Hidschri-Datum',
+        'home.tagline': 'Heutige Gebetszeiten nach Stadt',
         'home.subtitle': 'Erhalten Sie genaue Gebetszeiten in Ihrer Stadt oder anhand Ihres Standorts',
         'home.search_big': '🔍 Stadt oder Ort suchen…',
         'home.use_location': 'Gebetszeiten an meinem Standort anzeigen',
@@ -9469,7 +9469,7 @@ const TRANSLATIONS = {
         'home.cities_section_title': 'Jadwal Sholat di Kota-Kota {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Jadwal Sholat Hari Ini & Tanggal Hijriah',
+        'home.tagline': 'Jadwal Sholat Hari Ini per Kota',
         'home.subtitle': 'Dapatkan jadwal sholat yang akurat di kota Anda atau dari lokasi Anda',
         'home.search_big': '🔍 Cari kota atau lokasi…',
         'home.use_location': 'Tampilkan jadwal shalat di lokasi saya',
@@ -10821,7 +10821,7 @@ const TRANSLATIONS = {
         'home.cities_section_title': 'Horarios de Oración en Ciudades de {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Horarios de oración hoy y fecha hijri',
+        'home.tagline': 'Horarios de oración hoy por ciudad',
         'home.subtitle': 'Obtenga horarios de oración precisos en su ciudad o desde su ubicación',
         'home.search_big': '🔍 Buscar una ciudad o ubicación…',
         'home.use_location': 'Ver horarios de oración en mi ubicación',
@@ -12173,7 +12173,7 @@ const TRANSLATIONS = {
         'home.cities_section_title': '{country}-এর শহরগুলোতে নামাজের সময়',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'আজকের নামাজের সময় ও হিজরি তারিখ',
+        'home.tagline': 'আজকের নামাজের সময় শহর অনুযায়ী',
         'home.subtitle': 'আপনার শহরে বা আপনার অবস্থান থেকে সঠিক নামাজের সময় জানুন',
         'home.search_big': '🔍 শহর বা অবস্থান খুঁজুন…',
         'home.use_location': 'আমার অবস্থানের নামাজের সময় দেখান',
@@ -13529,7 +13529,7 @@ const TRANSLATIONS = {
         'home.cities_section_title': 'Waktu Solat di Bandar-Bandar {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Waktu Solat Hari Ini & Tarikh Hijrah',
+        'home.tagline': 'Waktu Solat Hari Ini Ikut Bandar',
         'home.subtitle': 'Dapatkan waktu solat yang tepat di bandar anda atau dari lokasi anda',
         'home.search_big': '🔍 Cari bandar atau lokasi…',
         'home.use_location': 'Tunjuk waktu solat di lokasi saya',

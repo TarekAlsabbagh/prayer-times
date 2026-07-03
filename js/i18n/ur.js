@@ -1141,7 +1141,7 @@ window.TRANSLATIONS['ur'] = {
         'home.faq_title': 'اکثر پوچھے گئے سوالات',
         'home.cities_section_title': '{country} کے شہروں میں اوقاتِ نماز',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'آج کے اوقاتِ نماز اور ہجری تاریخ',
+        'home.tagline': 'آج کے اوقاتِ نماز شہر کے مطابق',
         'home.subtitle': 'اپنے شہر میں یا اپنے مقام سے درست نماز کے اوقات جانیں',
         'home.search_big': '🔍 شہر یا مقام تلاش کریں…',
         'home.use_location': 'میرے مقام پر نماز کے اوقات دکھائیں',

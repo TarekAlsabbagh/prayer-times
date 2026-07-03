@@ -1188,7 +1188,7 @@ window.TRANSLATIONS['ms'] = {
         'home.cities_section_title': 'Waktu Solat di Bandar-Bandar {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Waktu Solat Hari Ini & Tarikh Hijrah',
+        'home.tagline': 'Waktu Solat Hari Ini Ikut Bandar',
         'home.subtitle': 'Dapatkan waktu solat yang tepat di bandar anda atau dari lokasi anda',
         'home.search_big': '🔍 Cari bandar atau lokasi…',
         'home.use_location': 'Tunjuk waktu solat di lokasi saya',

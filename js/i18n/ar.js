@@ -1430,7 +1430,7 @@ window.TRANSLATIONS['ar'] = {
         'home.faq_title': 'الأسئلة الشائعة',
         'home.cities_section_title': 'مواقيت الصلاة في مدن {country}',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'مواقيت الصلاة اليوم والتاريخ الهجري',
+        'home.tagline': 'مواقيت الصلاة اليوم حسب المدينة',
         'home.subtitle': 'اعرف أوقات الصلاة الدقيقة في مدينتك أو انطلاقاً من موقعك الجغرافي',
         'home.search_big': '🔍 ابحث عن مدينة أو موقع…',
         'home.use_location': 'عرض مواقيت الصلاة في موقعي الآن',

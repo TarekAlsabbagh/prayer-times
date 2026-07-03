@@ -1404,7 +1404,7 @@ window.TRANSLATIONS['en'] = {
         'home.cities_section_title': 'Prayer Times in Cities of {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': "Today's Prayer Times & Hijri Date",
+        'home.tagline': "Today's Prayer Times by City",
         'home.subtitle': 'Get accurate prayer times in your city — or detected from your geolocation',
         'home.search_big': '🔍 Search for a city or location…',
         'home.use_location': 'Show prayer times at my location now',

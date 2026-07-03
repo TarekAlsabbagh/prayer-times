@@ -1184,7 +1184,7 @@ window.TRANSLATIONS['de'] = {
         'home.cities_section_title': 'Gebetszeiten in Städten von {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Heutige Gebetszeiten & Hidschri-Datum',
+        'home.tagline': 'Heutige Gebetszeiten nach Stadt',
         'home.subtitle': 'Erhalten Sie genaue Gebetszeiten in Ihrer Stadt oder anhand Ihres Standorts',
         'home.search_big': '🔍 Stadt oder Ort suchen…',
         'home.use_location': 'Gebetszeiten an meinem Standort anzeigen',

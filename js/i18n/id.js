@@ -1184,7 +1184,7 @@ window.TRANSLATIONS['id'] = {
         'home.cities_section_title': 'Jadwal Sholat di Kota-Kota {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Jadwal Sholat Hari Ini & Tanggal Hijriah',
+        'home.tagline': 'Jadwal Sholat Hari Ini per Kota',
         'home.subtitle': 'Dapatkan jadwal sholat yang akurat di kota Anda atau dari lokasi Anda',
         'home.search_big': '🔍 Cari kota atau lokasi…',
         'home.use_location': 'Tampilkan jadwal shalat di lokasi saya',

@@ -4990,6 +4990,12 @@ html[data-theme="dark"] #ny-years-table a.cd-years-link { color: #80d8a8; }
 html[data-theme="dark"] #fitr-years-table a.cd-years-link,
 html[data-theme="dark"] #adha-years-table a.cd-years-link { color: #80d8a8; }
 
+/* HOME-SEO-PRAYER-TIMES-CONTENT-KEYWORD-CONSISTENCY-ALL-LANGS-1: the 5 homepage
+   educational sections (#home-seo, SSR-injected on / and /{lang}) reuse
+   .section-card. They belong to the base homepage only — the shared
+   #page-prayer-times is reused for city pages, so hide #home-seo in city mode. */
+html.city-page #home-seo { display: none; }
+
 /* ── سطر SEO تحت الـ H1 — سؤال + جواب على سطرَين ── */
 .cd-h1-seo {
     margin: 8px auto 12px;

@@ -1572,7 +1572,7 @@
 //   updateCityDisplay (#qibla-city/#qibla-lat/#qibla-lng live in #page-qibla, absent on moon pages)
 //   + early-return guard in fetchNearbyPlaces (#nearby-grid/#nearby-section absent on homepage) →
 //   eliminate the uncaught TypeError on every moon page + the homepage. app.js-only; no logic/UI/calc change.
-const CACHE_VERSION = 'v477';
+const CACHE_VERSION = 'v478';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1590,7 +1590,7 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
-    '/css/style.css?v=488',
+    '/css/style.css?v=489',
     '/js/i18n.js?v=194',
     '/js/prayer-times.js?v=47',
     '/js/hijri-date.js?v=44',
@@ -1599,7 +1599,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=812',
+    '/js/app.js?v=814',
 ];
 
 self.addEventListener('install', (event) => {

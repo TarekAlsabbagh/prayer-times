@@ -14354,20 +14354,22 @@ function updatePrayerCardsSEO() {
         const _path = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
         const _isHomePage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/?)?(?:index\.html)?$/.test(_path);
         if (_isHomePage) {
-            // Generic H1 — must match server.js _h1Text for the homepage branch
-            //   (see serveHtmlWithSeo "Homepage H1" else-block) so SSR + client
-            //   stay in lockstep with no flash.
+            // Generic H1 — MUST match the SSR-filled #loc-hero-title (home.tagline)
+            //   so SSR + client stay in lockstep with no flash. HOME-SEO-PRAYER-
+            //   TIMES-CONTENT-KEYWORD-CONSISTENCY-ALL-LANGS-1 (2026-07-03): retuned
+            //   to the prayer-times + by-city focus (dropped the Hijri emphasis from
+            //   the H1; Hijri stays a supporting tool). Values == home.tagline.
             const _genericByLang = {
-                ar: 'مواقيت الصلاة اليوم والتاريخ الهجري',
-                en: "Today's Prayer Times and Hijri Calendar",
-                fr: "Heures de prière aujourd'hui et calendrier Hégirien",
-                tr: 'Bugünkü Namaz Vakitleri ve Hicri Takvim',
-                ur: 'آج اوقاتِ نماز اور ہجری کیلنڈر',
-                de: 'Heutige Gebetszeiten und Hidschri-Kalender',
-                id: 'Jadwal Sholat Hari Ini dan Kalender Hijriyah',
-                es: 'Horarios de Oración Hoy y Calendario Hijri',
-                bn: 'আজকের নামাজের সময় ও হিজরি ক্যালেন্ডার',
-                ms: 'Waktu Solat Hari Ini dan Kalendar Hijrah'
+                ar: 'مواقيت الصلاة اليوم حسب المدينة',
+                en: "Today's Prayer Times by City",
+                fr: 'Heures de prière du jour par ville',
+                tr: 'Şehre Göre Bugünkü Namaz Vakitleri',
+                ur: 'آج کے اوقاتِ نماز شہر کے مطابق',
+                de: 'Heutige Gebetszeiten nach Stadt',
+                id: 'Jadwal Sholat Hari Ini per Kota',
+                es: 'Horarios de oración hoy por ciudad',
+                bn: 'আজকের নামাজের সময় শহর অনুযায়ী',
+                ms: 'Waktu Solat Hari Ini Ikut Bandar'
             };
             tagline.textContent = _genericByLang[_ln] || _genericByLang.en;
         } else {

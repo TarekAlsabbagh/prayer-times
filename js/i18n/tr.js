@@ -1128,7 +1128,7 @@ window.TRANSLATIONS['tr'] = {
         'home.faq_title': 'Sıkça Sorulan Sorular',
         'home.cities_section_title': '{country} Şehirlerinde Namaz Vakitleri',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Bugünün Namaz Vakitleri & Hicri Tarih',
+        'home.tagline': 'Şehre Göre Bugünkü Namaz Vakitleri',
         'home.subtitle': 'Şehrinizdeki doğru namaz vakitlerini veya konumunuza göre öğrenin',
         'home.search_big': '🔍 Şehir veya konum ara…',
         'home.use_location': 'Konumuma göre namaz vakitlerini göster',

@@ -1184,7 +1184,7 @@ window.TRANSLATIONS['es'] = {
         'home.cities_section_title': 'Horarios de Oración en Ciudades de {country}',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'Horarios de oración hoy y fecha hijri',
+        'home.tagline': 'Horarios de oración hoy por ciudad',
         'home.subtitle': 'Obtenga horarios de oración precisos en su ciudad o desde su ubicación',
         'home.search_big': '🔍 Buscar una ciudad o ubicación…',
         'home.use_location': 'Ver horarios de oración en mi ubicación',

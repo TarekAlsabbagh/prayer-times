@@ -1184,7 +1184,7 @@ window.TRANSLATIONS['bn'] = {
         'home.cities_section_title': '{country}-এর শহরগুলোতে নামাজের সময়',
         // City "About" section (Wikipedia)
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': 'আজকের নামাজের সময় ও হিজরি তারিখ',
+        'home.tagline': 'আজকের নামাজের সময় শহর অনুযায়ী',
         'home.subtitle': 'আপনার শহরে বা আপনার অবস্থান থেকে সঠিক নামাজের সময় জানুন',
         'home.search_big': '🔍 শহর বা অবস্থান খুঁজুন…',
         'home.use_location': 'আমার অবস্থানের নামাজের সময় দেখান',

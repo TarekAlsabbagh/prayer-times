@@ -1125,7 +1125,7 @@ window.TRANSLATIONS['fr'] = {
         'home.faq_title': 'Questions fréquentes',
         'home.cities_section_title': 'Heures de prière dans les villes de {country}',
         // Round 20: Hero + Summary Strip + Compact toggles
-        'home.tagline': "Heures de prière du jour & date hégirienne",
+        'home.tagline': "Heures de prière du jour par ville",
         'home.subtitle': 'Obtenez des horaires de prière précis dans votre ville ou depuis votre géolocalisation',
         'home.search_big': '🔍 Rechercher une ville ou un lieu…',
         'home.use_location': 'Afficher les horaires de prière à ma position',

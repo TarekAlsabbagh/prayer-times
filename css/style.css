@@ -4956,6 +4956,22 @@ html[data-theme="dark"] .cd-link-card.cd-link-primary:hover {
 }
 html[data-theme="dark"] .cd-after-days { color: #80d8a8; }
 
+/* HIJRI-NEW-YEAR-COUNTDOWN-ALL-LANGS-CONTENT-AND-TABLE-LINKS-1:
+   clickable Hijri-year / 1-Muharram-date cells in the Hijri-New-Year years
+   table (#ny-years-table, rendered only on that page). Mirrors the site
+   table-link convention (primary colour, no underline, underline on
+   hover/focus); font-weight is inherited so the linked cells keep the same
+   visual weight as the other table cells. */
+#ny-years-table a.cd-years-link {
+    color: var(--primary);
+    text-decoration: none;
+}
+#ny-years-table a.cd-years-link:hover,
+#ny-years-table a.cd-years-link:focus-visible {
+    text-decoration: underline;
+}
+html[data-theme="dark"] #ny-years-table a.cd-years-link { color: #80d8a8; }
+
 /* ── سطر SEO تحت الـ H1 — سؤال + جواب على سطرَين ── */
 .cd-h1-seo {
     margin: 8px auto 12px;

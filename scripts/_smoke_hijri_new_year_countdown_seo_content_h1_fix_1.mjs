@@ -8,7 +8,8 @@
 //     after the {hy}/{gy} year substitution, plus a 120–160 char Meta;
 //   • the 10-item FAQ rendered in SSR HTML from the existing i18n keys, with a
 //     single matching FAQPage JSON-LD;
-//   • 4 educational H2 sections injected from data/countdown-seo.js (#cd-edu-{occ}).
+//   • ≥4 educational H2 sections injected from data/countdown-seo.js (#cd-edu-{occ});
+//     ramadan + hijri-new-year now carry 7 (base 4 + 3 expansion sections).
 // The counter / years table / FAQ accordion keep their client containers, and no
 // other page is affected.
 //
@@ -114,7 +115,7 @@ try {
             check(`${o.route} ${tag} exactly 1 H1 and it is #${o.h1}`, h1 === 1 && h1IsId, 'h1=' + h1);
             check(`${o.route} ${tag} H2≥6 & H3≥1`, h2 >= 6 && h3 >= 1, `h2=${h2} h3=${h3}`);
             check(`${o.route} ${tag} 10 FAQ visible`, faq === 10, 'faq=' + faq);
-            check(`${o.route} ${tag} 4 edu sections`, eduSec === 4, 'edu=' + eduSec);
+            check(`${o.route} ${tag} ≥4 edu sections`, eduSec >= 4, 'edu=' + eduSec);
             check(`${o.route} ${tag} page active + homepage shell off`, active && ptInactive);
             check(`${o.route} ${tag} 0 raw tokens / 0 raw keys`, rawTok === 0 && rawKey === 0, `tok=${rawTok} key=${rawKey}`);
             check(`${o.route} ${tag} 1 FAQPage JSON-LD, 10 Q, text matches visible`, ldOk && ldMatches);

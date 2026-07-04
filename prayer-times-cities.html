@@ -1115,6 +1115,57 @@ function getCountryDisplay() {
     }
 }
 
+// PRAYER-COUNTRY-SEO-SERVED-HTML-PARITY-AND-CONTENT-DEPTH-FIX-1: client mirror of the server's
+//   buildSeoForPath country title LADDER + length-aware meta. MUST stay byte-identical to server.js
+//   `_CT_TITLE` / `_CD_LONG` / `_CD_SHORT` so that document.title + meta description after hydration
+//   AND after a client-side language switch equal the SSR-injected values (served-HTML parity).
+//   NOTE: keep the visible H1 / #page-title as the short «مواقيت الصلاة في مدن {country}» heading —
+//   only the browser <title> and <meta description> use this long SEO form.
+function _countrySeoTitleDesc(lng, cn) {
+    const _cp = s => [...s].length;
+    const _T = {
+        ar: { b: `مواقيت الصلاة في ${cn}`,                 s: [' اليوم حسب مدنها والتوقيت المحلي', ' اليوم حسب مدنها | أوقات الأذان', ' اليوم حسب مدنها', ' اليوم حسب المدينة', ' اليوم', ''] },
+        en: { b: `Prayer Times in ${cn}`,                  s: [' Today by City with Local Adhan Times', ' Today by City — Local Adhan Times', ' Today by City with Adhan Times', ' Today by City', ' by City', ''] },
+        fr: { b: `Heures de prière dans les villes de ${cn}`, s: [' aujourd’hui — heure locale', ' aujourd’hui', ''] },
+        tr: { b: `${cn} Şehirlerinde Namaz Vakitleri`,     s: [' — Bugün, Yerel Saat', ' — Bugün', ''] },
+        ur: { b: `${cn} کے شہروں میں اوقاتِ نماز`,          s: [' — آج، مقامی وقت کے مطابق', ' — آج', ''] },
+        de: { b: `Gebetszeiten in den Städten von ${cn}`,  s: [' — heute, Ortszeit', ' — heute', ''] },
+        id: { b: `Jadwal Sholat di Kota-Kota ${cn}`,       s: [' Hari Ini — Waktu Setempat', ' Hari Ini', ''] },
+        es: { b: `Horarios de oración en ciudades de ${cn}`, s: [' hoy — hora local', ' hoy', ''] },
+        bn: { b: `${cn}-এর শহরগুলোতে নামাজের সময়`,        s: [' — আজ, স্থানীয় সময়', ' — আজ', ''] },
+        ms: { b: `Waktu Solat di Bandar-Bandar ${cn}`,     s: [' Hari Ini — Waktu Tempatan', ' Hari Ini', ''] },
+    };
+    const _ct = _T[lng] || _T.en;
+    let title = _ct.b;
+    for (const _s of _ct.s) { if (_cp(_ct.b + _s) <= 60) { title = _ct.b + _s; break; } }
+    const _LONG = {
+        ar: `تعرّف على مواقيت الصلاة في ${cn} اليوم حسب المدينة، مع أوقات الفجر والظهر والعصر والمغرب والعشاء والتاريخ الهجري والتوقيت المحلي.`,
+        en: `Find prayer times in ${cn} today by city — Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Hijri date and local time for each city.`,
+        fr: `Découvrez les heures de prière dans les villes de ${cn} aujourd’hui : Fajr, Dhuhr, Asr, Maghrib et Isha avec l’adhan, la date hégirienne et l’heure locale.`,
+        tr: `${cn} şehirlerinde bugünkü namaz vakitleri: İmsak, Öğle, İkindi, Akşam ve Yatsı, ezan saati, hicri tarih ve yerel saat — her şehir için ayrı.`,
+        ur: `${cn} کے شہروں میں آج کے اوقاتِ نماز: فجر، ظہر، عصر، مغرب اور عشاء، وقتِ اذان، ہجری تاریخ اور مقامی وقت — ہر شہر کے لیے الگ۔`,
+        de: `Gebetszeiten in den Städten von ${cn} heute: Fadschr, Dhuhr, Asr, Maghrib und Ischa mit Adhan-Zeit, Hidschri-Datum und Ortszeit je Stadt.`,
+        id: `Jadwal sholat di kota-kota ${cn} hari ini: Subuh, Zuhur, Asar, Magrib, dan Isya dengan waktu azan, tanggal Hijriah, dan waktu setempat tiap kota.`,
+        es: `Consulta los horarios de oración en las ciudades de ${cn} hoy: Fayr, Dhuhr, Asr, Magrib e Isha con el adhan, la fecha hijri y la hora local por ciudad.`,
+        bn: `${cn}-এর শহরগুলোতে আজকের নামাজের সময়: ফজর, জোহর, আসর, মাগরিব ও এশা, আজানের সময়, হিজরি তারিখ এবং প্রতিটি শহরের স্থানীয় সময়।`,
+        ms: `Waktu solat di bandar-bandar ${cn} hari ini: Subuh, Zohor, Asar, Maghrib dan Isyak dengan waktu azan, tarikh Hijrah dan waktu tempatan setiap bandar.`,
+    };
+    const _SHORT = {
+        ar: `مواقيت الصلاة في ${cn} حسب مدينتك: الفجر والظهر والعصر والمغرب والعشاء والتاريخ الهجري بالتوقيت المحلي لكل مدينة.`,
+        en: `Prayer times in ${cn} by city: Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Hijri date and local time for each city.`,
+        fr: `Heures de prière à ${cn} par ville : Fajr, Dhuhr, Asr, Maghrib et Isha avec l’adhan, la date hégirienne et l’heure locale.`,
+        tr: `${cn} şehirlerinde namaz vakitleri: İmsak, Öğle, İkindi, Akşam, Yatsı, ezan saati, hicri tarih ve yerel saat.`,
+        ur: `${cn} کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء، وقتِ اذان، ہجری تاریخ اور مقامی وقت۔`,
+        de: `Gebetszeiten in ${cn} je Stadt: Fadschr, Dhuhr, Asr, Maghrib, Ischa, Adhan-Zeit, Hidschri-Datum und Ortszeit.`,
+        id: `Jadwal sholat di ${cn} per kota: Subuh, Zuhur, Asar, Magrib, Isya, waktu azan, tanggal Hijriah, dan waktu setempat.`,
+        es: `Horarios de oración en ${cn} por ciudad: Fayr, Dhuhr, Asr, Magrib, Isha, adhan, fecha hijri y hora local.`,
+        bn: `${cn}-এর শহরে নামাজের সময়: ফজর, জোহর, আসর, মাগরিব, এশা, আজান, হিজরি তারিখ ও স্থানীয় সময়।`,
+        ms: `Waktu solat di ${cn} ikut bandar: Subuh, Zohor, Asar, Maghrib, Isyak, waktu azan, tarikh Hijrah dan waktu tempatan.`,
+    };
+    const _lo = _LONG[lng] || _LONG.en, _sh = _SHORT[lng] || _SHORT.en;
+    return { title: title, desc: (_cp(_lo) <= 160 ? _lo : _sh) };
+}
+
 function updatePageHeader() {
     const lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const cn = getCountryDisplay();
@@ -1152,7 +1203,8 @@ function updatePageHeader() {
     //   with it clobbered the correct browser-tab title. Keep the SSR <title> on moon (it is already
     //   per-country/per-lang correct on these full page loads). Prayer variant unchanged — its title is
     //   (re)built by updateCountryListingSEO below.
-    if (!_isMoonCP) document.title = fullTitle;
+    // PARITY: browser <title> uses the SEO ladder (== server SSR <title>), NOT the short H1 form.
+    if (!_isMoonCP) document.title = _countrySeoTitleDesc(lng, cn).title;
     // Also update the persuasive-landing hero H1 to match the country-specific title
     const _heroH1 = document.getElementById('loc-hero-title');
     if (_heroH1) _heroH1.textContent = fullTitle;
@@ -1217,8 +1269,10 @@ function updateCountryListingSEO(lngOrIsEn, countryName) {
         bn: `${countryName}-এর সকল শহর ব্রাউজ করুন যেন প্রতিটি অবস্থানের জন্য সঠিক ইসলামিক নামাজের সময়, কিবলার দিক ও হিজরি তারিখ দেখতে পারেন।`,
         ms: `Layari semua bandar di ${countryName} untuk melihat waktu solat Islam tepat, arah Kiblat dan tarikh Hijrah bagi setiap lokasi.`,
     };
-    const title = _titles[curLang] || _titles.en;
-    const desc  = _descs[curLang]  || _descs.en;
+    // PARITY: description + og use the SEO ladder (== server SSR values), not the old short _titles/_descs.
+    const _seoTD = _countrySeoTitleDesc(curLang, countryName);
+    const title = _seoTD.title;
+    const desc  = _seoTD.desc;
     upsertMeta('description', 'name', desc);
     upsertMeta('robots', 'name', 'index, follow');
     upsertLink('canonical', canonical);

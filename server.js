@@ -3517,6 +3517,17 @@ function _resolveCityName(slug, lang) {
         if (_disc) {
             const _r = _placeL10n.getLocalizedPlaceName(_disc, lang);
             if (_r && _r.hasNativeName && _r.displayName) return _r.displayName;
+            // DISCOVERED-PLACE-CROSS-ROUTE-LOCALIZED-NAME-AND-FALLBACK-FIX-1 (Fix N, 2026-07-04):
+            //   getLocalizedPlaceName already covers names[lang] → aliases[lang][0] (script-gated).
+            //   For ARABIC only, add the captured original native name (admin.originalName) as the
+            //   final NATIVE step BEFORE the AR-safety-net / English slug — so a discovered row that
+            //   stored its Arabic name only in admin.originalName still renders Arabic on the ar page.
+            //   Script-gated (isAcceptableScriptForLang) so a Latin/other-script originalName never
+            //   leaks; ar-only per the approved policy (other langs keep names[lang]→names.en).
+            if (lang === 'ar') {
+                const _orig = (_disc.admin && typeof _disc.admin.originalName === 'string') ? _disc.admin.originalName.trim() : '';
+                if (_orig && _placeL10n.isAcceptableScriptForLang(_orig, 'ar')) return _orig;
+            }
         }
     } catch (_) { /* fall through to legacy/AR-safety resolvers */ }
     // Fallback: جرّب نزع بادئة "ال" العربيّة (at-/al-/ad-/an-/...) — يُغطّي أسماء OSM/Wikipedia
@@ -12579,9 +12590,25 @@ function buildSeoForPath(urlPath) {
         const mClean = corePath.match(/^\/qibla-in-([a-z][a-z0-9.-]+)$/);
         if (mClean) {
             const _cleanSlug = mClean[1];
-            const _res = (typeof _resolveCityForMoon === 'function')
+            let _res = (typeof _resolveCityForMoon === 'function')
                 ? _resolveCityForMoon(_cleanSlug)
                 : (FAMOUS_CITY_OVERRIDES[_cleanSlug] || null);
+            // DISCOVERED-PLACE-CROSS-ROUTE-LOCALIZED-NAME-AND-FALLBACK-FIX-1 (Fix Q, 2026-07-04):
+            //   when the CURATED resolver misses, fall back to the prefetched discovered_places row
+            //   (the qibla-in-{slug} route already triggers _prefetchDiscoveredForSsr) so the qibla
+            //   city SEO — title / #qibla-hero-title H1 / breadcrumb (all derived from cityDisplay +
+            //   qiblaRef below) — builds with the discovered city's coords + localized name instead
+            //   of falling through to the generic homepage title. Coords feed the SAME lat/lng path →
+            //   NO compass/qibla-calc change. Page stays noindex (via _shouldNoindexCityRoute). Mirrors
+            //   the moon discovered fallback (DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1).
+            if (!(_res && typeof _res.lat === 'number' && typeof _res.lng === 'number')
+                && typeof _getDiscoveredSsrEntry === 'function') {
+                const _disc = _getDiscoveredSsrEntry(_cleanSlug);
+                if (_disc && typeof _disc.lat === 'number' && isFinite(_disc.lat)
+                    && typeof _disc.lng === 'number' && isFinite(_disc.lng)) {
+                    _res = { lat: _disc.lat, lng: _disc.lng };
+                }
+            }
             if (_res && typeof _res.lat === 'number' && typeof _res.lng === 'number') {
                 m = [corePath, _cleanSlug, String(_res.lat), String(_res.lng)];
             }

@@ -8671,7 +8671,8 @@ const _COUNTRY_SEO_L10N = {
             ['Comment les heures de prière sont-elles calculées en {C} ?', 'Les heures de prière dépendent de la position du soleil à la latitude et la longitude de chaque ville et varient donc de quelques minutes d’un lieu à l’autre. Nous utilisons des coordonnées fiables pour chaque ville de {C} et le fuseau horaire local.'],
             ['Choisir la bonne ville en {C}', 'Pour des heures de prière précises, choisissez la ville la plus proche de vous en {C}. Si votre ville n’est pas dans la liste, utilisez la recherche pour trouver un lieu voisin affichant le Fajr, le Dhuhr, l’Asr, le Maghrib et l’Isha.'],
             ['Différences d’horaires entre les villes de {C}', 'Les heures de prière varient de quelques minutes entre l’est et l’ouest de {C} car le lever et le coucher du soleil dépendent de la position géographique. Le tableau indique donc l’heure de l’adhan pour chaque ville.'],
-            ['Conseils pour utiliser le tableau des heures de prière', 'Épinglez votre ville préférée pour un accès rapide, consultez les heures de prière chaque jour car elles évoluent légèrement dans l’année, et fiez-vous à l’heure locale de la ville en voyage dans {C}.']
+            ['Conseils pour utiliser le tableau des heures de prière', 'Épinglez votre ville préférée pour un accès rapide, consultez les heures de prière chaque jour car elles évoluent légèrement dans l’année, et fiez-vous à l’heure locale de la ville en voyage dans {C}.'],
+            ['Heures de prière disponibles pour chaque ville de {C}', 'La page de chaque ville de {C} affiche les cinq prières quotidiennes — Fajr, Dhuhr, Asr, Maghrib et Isha — ainsi que l’heure du lever du soleil (Chourouk) et l’heure de l’adhan, avec la date hégirienne et l’heure locale de la ville. Ces horaires dépendent de la ville choisie, de ses coordonnées et de la date du jour, alors choisissez votre ville pour obtenir des heures de prière plus précises que celles du pays seul.']
         ],
         faqTitle: 'Questions fréquentes',
         faq: [
@@ -8688,7 +8689,8 @@ const _COUNTRY_SEO_L10N = {
             ['{C} İçin Namaz Vakitleri Nasıl Hesaplanır?', 'Namaz vakitleri her şehrin enlem ve boylamındaki güneş konumundan hesaplanır, bu yüzden yerden yere birkaç dakika değişir. {C} içindeki her şehir için güvenilir koordinatları ve yerel saat dilimini kullanırız.'],
             ['{C} İçinde Doğru Şehri Seçmek', 'En doğru namaz vakitleri için {C} içinde size en yakın şehri seçin. Şehriniz listede yoksa İmsak, Öğle, İkindi, Akşam ve Yatsı gösteren yakın bir konumu arama kutusundan bulun.'],
             ['{C} Şehirleri Arasındaki Vakit Farkları', '{C} ülkesinin doğusu ile batısı arasında namaz vakitleri birkaç dakika değişir çünkü güneşin doğuşu ve batışı coğrafi konuma bağlıdır. Bu nedenle tablo her şehir için ezan saatini ayrı gösterir.'],
-            ['Namaz Vakitleri Tablosunu Kullanma İpuçları', 'Hızlı erişim için sık kullandığınız şehri sabitleyin, namaz vakitlerini her gün kontrol edin çünkü yıl boyunca biraz değişir ve {C} içinde seyahat ederken cihaz saatinize değil şehrin yerel saatine güvenin.']
+            ['Namaz Vakitleri Tablosunu Kullanma İpuçları', 'Hızlı erişim için sık kullandığınız şehri sabitleyin, namaz vakitlerini her gün kontrol edin çünkü yıl boyunca biraz değişir ve {C} içinde seyahat ederken cihaz saatinize değil şehrin yerel saatine güvenin.'],
+            ['{C} İçindeki Her Şehrin Namaz Vakitleri', '{C} içindeki her şehrin sayfası beş vakit namazı — İmsak, Öğle, İkindi, Akşam ve Yatsı — güneşin doğuş (işrak) saati ve ezan saatiyle birlikte, Hicri tarih ve şehrin yerel saatiyle gösterir. Bu vakitler seçtiğiniz şehre, koordinatlarına ve günün tarihine bağlıdır; bu yüzden yalnızca ülkeye güvenmek yerine daha doğru namaz vakitleri için şehrinizi seçin.']
         ],
         faqTitle: 'Sıkça Sorulan Sorular',
         faq: [
@@ -8705,7 +8707,8 @@ const _COUNTRY_SEO_L10N = {
             ['{C} میں اوقاتِ نماز کیسے شمار ہوتے ہیں؟', 'اوقاتِ نماز ہر شہر کے طول و عرض پر سورج کی پوزیشن سے شمار ہوتے ہیں، اس لیے جگہ بہ جگہ چند منٹ کا فرق ہوتا ہے۔ ہم {C} کے ہر شہر کے معتبر نقاط اور مقامی ٹائم زون استعمال کرتے ہیں۔'],
             ['{C} میں درست شہر کا انتخاب', 'سب سے درست اوقاتِ نماز کے لیے {C} میں اپنے قریب ترین شہر کا انتخاب کریں۔ اگر آپ کا شہر فہرست میں نہ ہو تو تلاش کے خانے سے قریبی مقام تلاش کریں جو فجر، ظہر، عصر، مغرب اور عشاء دکھائے۔'],
             ['{C} کے شہروں کے درمیان وقت کا فرق', '{C} کے مشرق و مغرب کے درمیان اوقاتِ نماز میں چند منٹ کا فرق ہوتا ہے کیونکہ طلوع و غروبِ آفتاب جغرافیائی محلِ وقوع پر منحصر ہے۔ اسی لیے جدول ہر شہر کا وقتِ اذان الگ دکھاتا ہے۔'],
-            ['اوقاتِ نماز کا جدول استعمال کرنے کے مشورے', 'فوری رسائی کے لیے اپنا پسندیدہ شہر پن کریں، اوقاتِ نماز روزانہ دیکھیں کیونکہ سال بھر تھوڑے بدلتے ہیں، اور {C} میں سفر کے دوران اپنے آلے کے بجائے شہر کے مقامی وقت پر اعتماد کریں۔']
+            ['اوقاتِ نماز کا جدول استعمال کرنے کے مشورے', 'فوری رسائی کے لیے اپنا پسندیدہ شہر پن کریں، اوقاتِ نماز روزانہ دیکھیں کیونکہ سال بھر تھوڑے بدلتے ہیں، اور {C} میں سفر کے دوران اپنے آلے کے بجائے شہر کے مقامی وقت پر اعتماد کریں۔'],
+            ['{C} کے ہر شہر کے لیے دستیاب اوقاتِ نماز', '{C} کے ہر شہر کا صفحہ پانچوں نمازوں — فجر، ظہر، عصر، مغرب اور عشاء — کے اوقات طلوعِ آفتاب (اشراق) اور اذان کے وقت کے ساتھ دکھاتا ہے، نیز ہجری تاریخ اور شہر کا مقامی وقت۔ یہ اوقات منتخب شہر، اس کے جغرافیائی نقاط اور موجودہ تاریخ پر منحصر ہیں، اس لیے صرف ملک پر انحصار کے بجائے زیادہ درست اوقاتِ نماز کے لیے اپنا شہر منتخب کریں۔']
         ],
         faqTitle: 'اکثر پوچھے گئے سوالات',
         faq: [
@@ -8722,7 +8725,8 @@ const _COUNTRY_SEO_L10N = {
             ['Wie werden die Gebetszeiten in {C} berechnet?', 'Die Gebetszeiten ergeben sich aus dem Sonnenstand am Breiten- und Längengrad jeder Stadt und unterscheiden sich daher um einige Minuten. Wir verwenden zuverlässige Koordinaten für jede Stadt in {C} und die lokale Zeitzone.'],
             ['Die richtige Stadt in {C} wählen', 'Für möglichst genaue Gebetszeiten wählen Sie die Ihnen nächste Stadt in {C}. Steht Ihre Stadt nicht in der Liste, finden Sie über die Suche einen nahen Ort mit Fadschr, Dhuhr, Asr, Maghrib und Ischa.'],
             ['Zeitunterschiede zwischen den Städten von {C}', 'Die Gebetszeiten verschieben sich zwischen Ost und West von {C} um einige Minuten, da Sonnenauf- und -untergang vom geografischen Ort abhängen. Daher zeigt der Plan die Adhan-Zeit für jede Stadt einzeln.'],
-            ['Tipps zur Nutzung des Gebetszeiten-Plans', 'Heften Sie Ihre bevorzugte Stadt für schnellen Zugriff an, prüfen Sie die Gebetszeiten täglich, da sie sich übers Jahr leicht ändern, und verlassen Sie sich auf Reisen in {C} auf die lokale Zeit der Stadt.']
+            ['Tipps zur Nutzung des Gebetszeiten-Plans', 'Heften Sie Ihre bevorzugte Stadt für schnellen Zugriff an, prüfen Sie die Gebetszeiten täglich, da sie sich übers Jahr leicht ändern, und verlassen Sie sich auf Reisen in {C} auf die lokale Zeit der Stadt.'],
+            ['Verfügbare Gebetszeiten für jede Stadt in {C}', 'Die Seite jeder Stadt in {C} zeigt alle fünf täglichen Gebete — Fadschr, Dhuhr, Asr, Maghrib und Ischa — zusammen mit dem Sonnenaufgang (Schuruq) und der Adhan-Zeit sowie dem Hidschri-Datum und der Ortszeit der Stadt. Diese Zeiten hängen von der gewählten Stadt, ihren Koordinaten und dem heutigen Datum ab; wählen Sie daher Ihre Stadt, um genauere Gebetszeiten zu erhalten als nur für das Land.']
         ],
         faqTitle: 'Häufig gestellte Fragen',
         faq: [
@@ -8739,7 +8743,8 @@ const _COUNTRY_SEO_L10N = {
             ['Bagaimana Jadwal Sholat di {C} Dihitung?', 'Jadwal sholat dihitung dari posisi matahari pada lintang dan bujur tiap kota, sehingga berbeda beberapa menit antar lokasi. Kami memakai koordinat tepercaya untuk setiap kota di {C} dan zona waktu setempat.'],
             ['Memilih Kota yang Tepat di {C}', 'Untuk jadwal sholat paling akurat, pilih kota terdekat dengan Anda di {C}. Jika kota Anda tidak ada dalam daftar, gunakan kotak pencarian untuk menemukan lokasi terdekat yang menampilkan Subuh, Zuhur, Asar, Magrib, dan Isya.'],
             ['Perbedaan Waktu Antar Kota di {C}', 'Jadwal sholat bergeser beberapa menit antara timur dan barat {C} karena matahari terbit dan terbenam bergantung pada lokasi geografis. Karena itu tabel menampilkan waktu azan tiap kota secara terpisah.'],
-            ['Tips Memakai Tabel Jadwal Sholat', 'Sematkan kota favorit Anda untuk akses cepat, periksa jadwal sholat setiap hari karena sedikit berubah sepanjang tahun, dan andalkan waktu setempat kota, bukan jam perangkat, saat bepergian di {C}.']
+            ['Tips Memakai Tabel Jadwal Sholat', 'Sematkan kota favorit Anda untuk akses cepat, periksa jadwal sholat setiap hari karena sedikit berubah sepanjang tahun, dan andalkan waktu setempat kota, bukan jam perangkat, saat bepergian di {C}.'],
+            ['Jadwal Sholat yang Tersedia untuk Setiap Kota di {C}', 'Halaman setiap kota di {C} menampilkan kelima waktu sholat — Subuh, Zuhur, Asar, Magrib, dan Isya — beserta waktu terbit matahari (Syuruk) dan waktu azan, serta tanggal Hijriah dan waktu setempat kota tersebut. Waktu-waktu ini bergantung pada kota yang dipilih, koordinatnya, dan tanggal hari ini, jadi pilih kota Anda untuk mendapatkan jadwal sholat yang lebih akurat daripada hanya mengandalkan negara.']
         ],
         faqTitle: 'Pertanyaan yang Sering Diajukan',
         faq: [
@@ -8756,7 +8761,8 @@ const _COUNTRY_SEO_L10N = {
             ['¿Cómo se calculan los horarios de oración en {C}?', 'Los horarios de oración se obtienen de la posición del sol en la latitud y longitud de cada ciudad, por lo que varían unos minutos. Usamos coordenadas fiables para cada ciudad de {C} y la zona horaria local.'],
             ['Elegir la ciudad correcta en {C}', 'Para los horarios de oración más precisos, elija la ciudad más cercana a usted en {C}. Si su ciudad no está en la lista, use el buscador para hallar un lugar cercano que muestre el Fayr, Dhuhr, Asr, Magrib e Isha.'],
             ['Diferencias de horario entre las ciudades de {C}', 'Los horarios de oración cambian unos minutos entre el este y el oeste de {C} porque el amanecer y el atardecer dependen de la ubicación geográfica. Por eso la tabla muestra la hora del adhan de cada ciudad por separado.'],
-            ['Consejos para usar la tabla de horarios de oración', 'Fije su ciudad favorita para un acceso rápido, revise los horarios de oración a diario porque varían ligeramente durante el año y confíe en la hora local de la ciudad, no en su dispositivo, al viajar por {C}.']
+            ['Consejos para usar la tabla de horarios de oración', 'Fije su ciudad favorita para un acceso rápido, revise los horarios de oración a diario porque varían ligeramente durante el año y confíe en la hora local de la ciudad, no en su dispositivo, al viajar por {C}.'],
+            ['Horarios de oración disponibles para cada ciudad de {C}', 'La página de cada ciudad de {C} muestra las cinco oraciones diarias — Fayr, Dhuhr, Asr, Magrib e Isha — junto con la hora del amanecer (Shuruq) y la hora del adhan, además de la fecha hijri y la hora local de la ciudad. Estos horarios dependen de la ciudad elegida, de sus coordenadas y de la fecha actual, así que elija su ciudad para obtener horarios de oración más precisos que los del país por sí solo.']
         ],
         faqTitle: 'Preguntas frecuentes',
         faq: [
@@ -8773,7 +8779,8 @@ const _COUNTRY_SEO_L10N = {
             ['{C}-এ নামাজের সময় কীভাবে গণনা করা হয়?', 'নামাজের সময় প্রতিটি শহরের অক্ষাংশ ও দ্রাঘিমায় সূর্যের অবস্থান থেকে গণনা করা হয়, তাই স্থানভেদে কয়েক মিনিট পার্থক্য হয়। আমরা {C}-এর প্রতিটি শহরের নির্ভরযোগ্য স্থানাঙ্ক ও স্থানীয় টাইম জোন ব্যবহার করি।'],
             ['{C}-এ সঠিক শহর নির্বাচন', 'সবচেয়ে নির্ভুল নামাজের সময়ের জন্য {C}-এ আপনার নিকটতম শহর নির্বাচন করুন। আপনার শহর তালিকায় না থাকলে সার্চ বক্স ব্যবহার করে কাছের একটি অবস্থান খুঁজুন যা ফজর, জোহর, আসর, মাগরিব ও এশা দেখায়।'],
             ['{C}-এর শহরগুলোর মধ্যে সময়ের পার্থক্য', '{C}-এর পূর্ব ও পশ্চিমের মধ্যে নামাজের সময় কয়েক মিনিট আলাদা হয় কারণ সূর্যোদয় ও সূর্যাস্ত ভৌগোলিক অবস্থানের ওপর নির্ভর করে। তাই সূচিটি প্রতিটি শহরের আজানের সময় আলাদাভাবে দেখায়।'],
-            ['নামাজের সময়সূচি ব্যবহারের টিপস', 'দ্রুত প্রবেশের জন্য আপনার প্রিয় শহর পিন করুন, প্রতিদিন নামাজের সময় দেখুন কারণ বছরজুড়ে সামান্য বদলায়, এবং {C}-এ ভ্রমণের সময় ডিভাইসের ঘড়ির বদলে শহরের স্থানীয় সময়ের ওপর নির্ভর করুন।']
+            ['নামাজের সময়সূচি ব্যবহারের টিপস', 'দ্রুত প্রবেশের জন্য আপনার প্রিয় শহর পিন করুন, প্রতিদিন নামাজের সময় দেখুন কারণ বছরজুড়ে সামান্য বদলায়, এবং {C}-এ ভ্রমণের সময় ডিভাইসের ঘড়ির বদলে শহরের স্থানীয় সময়ের ওপর নির্ভর করুন।'],
+            ['{C}-এর প্রতিটি শহরের জন্য উপলব্ধ নামাজের সময়', '{C}-এর প্রতিটি শহরের পৃষ্ঠা পাঁচ ওয়াক্ত নামাজ — ফজর, জোহর, আসর, মাগরিব ও এশা — সূর্যোদয় (ইশরাক) ও আজানের সময়সহ দেখায়, সেই সঙ্গে হিজরি তারিখ এবং শহরের স্থানীয় সময়। এই সময়গুলো নির্বাচিত শহর, তার স্থানাঙ্ক এবং বর্তমান তারিখের উপর নির্ভর করে, তাই শুধু দেশের উপর নির্ভর না করে আরও নির্ভুল নামাজের সময়ের জন্য আপনার শহর নির্বাচন করুন।']
         ],
         faqTitle: 'সাধারণ জিজ্ঞাসা',
         faq: [
@@ -8790,7 +8797,8 @@ const _COUNTRY_SEO_L10N = {
             ['Bagaimana Waktu Solat di {C} Dikira?', 'Waktu solat dikira daripada kedudukan matahari pada latitud dan longitud setiap bandar, jadi berbeza beberapa minit antara lokasi. Kami menggunakan koordinat yang boleh dipercayai bagi setiap bandar di {C} dan zon waktu tempatan.'],
             ['Memilih Bandar yang Betul di {C}', 'Untuk waktu solat paling tepat, pilih bandar terdekat dengan anda di {C}. Jika bandar anda tiada dalam senarai, gunakan kotak carian untuk mencari lokasi berdekatan yang memaparkan Subuh, Zohor, Asar, Maghrib dan Isyak.'],
             ['Perbezaan Waktu Antara Bandar {C}', 'Waktu solat beralih beberapa minit antara timur dan barat {C} kerana matahari terbit dan terbenam bergantung pada lokasi geografi. Justeru jadual memaparkan waktu azan setiap bandar secara berasingan.'],
-            ['Tip Menggunakan Jadual Waktu Solat', 'Semat bandar kegemaran anda untuk akses pantas, semak waktu solat setiap hari kerana ia berubah sedikit sepanjang tahun, dan bergantung pada waktu tempatan bandar, bukan jam peranti, semasa mengembara di {C}.']
+            ['Tip Menggunakan Jadual Waktu Solat', 'Semat bandar kegemaran anda untuk akses pantas, semak waktu solat setiap hari kerana ia berubah sedikit sepanjang tahun, dan bergantung pada waktu tempatan bandar, bukan jam peranti, semasa mengembara di {C}.'],
+            ['Waktu Solat Tersedia untuk Setiap Bandar di {C}', 'Halaman setiap bandar di {C} memaparkan kelima-lima waktu solat — Subuh, Zohor, Asar, Maghrib dan Isyak — bersama waktu terbit matahari (Syuruk) dan waktu azan, serta tarikh Hijrah dan waktu tempatan bandar tersebut. Waktu-waktu ini bergantung pada bandar yang dipilih, koordinatnya dan tarikh semasa, jadi pilih bandar anda untuk mendapatkan waktu solat yang lebih tepat berbanding hanya bergantung pada negara.']
         ],
         faqTitle: 'Soalan Lazim',
         faq: [

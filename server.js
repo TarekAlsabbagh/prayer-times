@@ -14533,7 +14533,13 @@ function buildSeoForPath(urlPath) {
                 const _moonCrumb = _MOON_PHASE_CRUMB_L10N[lang] || _MOON_PHASE_CRUMB_L10N.en;
                 breadcrumbs.push({ name: _moonCrumb, item: origin + (lang === 'ar' ? '' : '/' + lang) + '/moon' });
                 breadcrumbs.push({ name: cname, item: canonical });
-                moonCountryListing = { code: _mc.cc, name: cname, slug: _mcm[1] };
+                // MOON-COUNTRY-CLIENT-COUNTRY-FALLBACK-PARITY-FIX-1: carry the cc + 10-lang names (same
+                //   `_countryNameForLang` as the SSR title) so the moon country page can inject the shared
+                //   window.__PT_COUNTRY__ context — the client resolution (live since DEPTH-2) reads it and
+                //   no longer defaults countryCode → 'sa' (which flipped the hydrated H1/hero to Saudi Arabia).
+                const _mcNames = {};
+                for (const _ml of ['ar','en','fr','tr','ur','de','id','es','bn','ms']) _mcNames[_ml] = _countryNameForLang(_mc.cc, _ml);
+                moonCountryListing = { code: _mc.cc, name: cname, slug: _mcm[1], names: _mcNames };
             }
         }
     }
@@ -22033,6 +22039,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 html = html.replace('<script src="js/i18n.js', _ccTagM + '\n<script src="js/i18n.js');
             } else {
                 html = html.replace('</head>', _ccTagM + '\n</head>');   // fallback: prior in-head placement (correct, just slower)
+            }
+        }
+        // MOON-COUNTRY-CLIENT-COUNTRY-FALLBACK-PARITY-FIX-1: inject the SAME authoritative country context
+        //   (window.__PT_COUNTRY__ = cc + 10-lang names) that the prayer country page uses, so the shared
+        //   client resolution (countryCode + getCountryDisplay) renders the moon H1/hero/subtitle/breadcrumb
+        //   from SSR truth and never falls back to 'sa'. Emitted before js/i18n.js (defined at the client's
+        //   countryCode resolution). Server-only; the client already consumes this global since DEPTH-2.
+        if (seo.moonCountryListing.names && html.indexOf('data-pt-ctx="1"') === -1) {
+            const _ctxTagM = `<script data-pt-ctx="1">window.__PT_COUNTRY__=${JSON.stringify({ cc: seo.moonCountryListing.code, names: seo.moonCountryListing.names }).replace(/</g, '\\u003c')};</script>`;
+            if (html.indexOf('<script src="js/i18n.js') !== -1) {
+                html = html.replace('<script src="js/i18n.js', _ctxTagM + '\n<script src="js/i18n.js');
+            } else {
+                html = html.replace('</head>', _ctxTagM + '\n</head>');
             }
         }
         // MOON-COUNTRY-MOBILE-FCP-LCP-TUNE-1: preload the render-blocking critical stylesheet (same href as

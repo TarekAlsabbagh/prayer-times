@@ -8635,7 +8635,8 @@ const _COUNTRY_SEO_L10N = {
             ['كيف تُحسب أوقات الصلاة في {C}؟', 'تُحسب أوقات الصلاة من موقع الشمس عند خط طول وعرض كل مدينة، فتختلف بضع دقائق بين موقع وآخر. نعتمد إحداثيات موثوقة لكل مدينة في {C} والمنطقة الزمنية المحلية لضمان دقة مواقيت الصلاة ووقت الأذان.'],
             ['اختيار المدينة الصحيحة داخل {C}', 'للحصول على أدق أوقات الصلاة اختر أقرب مدينة إليك داخل {C}. إن لم تجد مدينتك في قائمة المدن فاستخدم مربع البحث للعثور على موقع قريب يعرض الفجر والظهر والعصر والمغرب والعشاء.'],
             ['اختلاف الأوقات بين مدن {C}', 'تختلف أوقات الصلاة بين شرق {C} وغربها بفارق دقائق بسبب اختلاف وقت شروق الشمس وغروبها مع الموقع الجغرافي. لذلك يعرض الجدول وقت الأذان لكل مدينة على حدة بدل توقيت موحد.'],
-            ['نصائح لاستخدام جدول مواقيت الصلاة', 'ثبت مدينتك المفضلة للوصول السريع، وراجع مواقيت الصلاة يوميًا لأنها تتغير قليلًا عبر العام، واعتمد التوقيت المحلي للمدينة لا توقيت جهازك إن كنت مسافرًا داخل {C}.']
+            ['نصائح لاستخدام جدول مواقيت الصلاة', 'ثبت مدينتك المفضلة للوصول السريع، وراجع مواقيت الصلاة يوميًا لأنها تتغير قليلًا عبر العام، واعتمد التوقيت المحلي للمدينة لا توقيت جهازك إن كنت مسافرًا داخل {C}.'],
+            ['أوقات الصلاة المتاحة لكل مدينة في {C}', 'تعرض صفحة كل مدينة في {C} أوقات الصلاة الخمس كاملة: الفجر والظهر والعصر والمغرب والعشاء، إلى جانب وقت الشروق ووقت الأذان لكل صلاة، مع التاريخ الهجري والتوقيت المحلي للمدينة، لتتابع مواقيت الصلاة في {C} بدقة على مدار اليوم.']
         ],
         faqTitle: 'الأسئلة الشائعة',
         faq: [
@@ -8652,7 +8653,8 @@ const _COUNTRY_SEO_L10N = {
             ['How Are Prayer Times Calculated in {C}?', 'Prayer times are derived from the position of the sun at each city’s latitude and longitude, so they differ by a few minutes from one place to another. We use reliable coordinates for every city in {C} and the local time zone to keep prayer and adhan times accurate.'],
             ['Choosing the Right City in {C}', 'For the most accurate prayer times, choose the city closest to you in {C}. If your city is not in the list, use the search box to find a nearby location that shows Fajr, Dhuhr, Asr, Maghrib and Isha.'],
             ['Time Differences Between Cities of {C}', 'Prayer times shift by a few minutes between the east and west of {C} because sunrise and sunset depend on geographic location. That is why the schedule shows the adhan time for each city separately rather than a single nationwide time.'],
-            ['Tips for Using the Prayer Times Schedule', 'Pin your favourite city for quick access, check prayer times daily since they drift slightly through the year, and rely on the city’s local time rather than your device clock when travelling within {C}.']
+            ['Tips for Using the Prayer Times Schedule', 'Pin your favourite city for quick access, check prayer times daily since they drift slightly through the year, and rely on the city’s local time rather than your device clock when travelling within {C}.'],
+            ['Prayer Times Available for Each City in {C}', 'Every city page in {C} shows all five daily prayers — Fajr, Dhuhr, Asr, Maghrib and Isha — along with the sunrise (Shuruq) time and the adhan time for each prayer, plus the Hijri date and the city’s local time, so you can follow prayer times in {C} accurately throughout the day.']
         ],
         faqTitle: 'Frequently Asked Questions',
         faq: [
@@ -14296,42 +14298,55 @@ function buildSeoForPath(urlPath) {
             // COUNTRY-PRAYER-PAGE-SEO-CONTENT-FIX-1: length-aware Title (base + adhan suffix when it
             // fits ≤62 cp, else base alone) + enriched Meta (Fajr…Isha + adhan + Qibla + Hijri) so even
             // short country names reach the 120–160 window. cname = LOCALIZED country name (no leak).
-            const _CT_BASE = {
-                ar: `مواقيت الصلاة في مدن ${cname}`,
-                en: `Prayer Times in Cities of ${cname}`,
-                fr: `Heures de prière dans les villes de ${cname}`,
-                tr: `${cname} Şehirlerinde Namaz Vakitleri`,
-                ur: `${cname} کے شہروں میں اوقاتِ نماز`,
-                de: `Gebetszeiten in den Städten von ${cname}`,
-                id: `Jadwal Sholat di Kota-Kota ${cname}`,
-                es: `Horarios de Oración en Ciudades de ${cname}`,
-                bn: `${cname}-এর শহরগুলোতে নামাজের সময়`,
-                ms: `Waktu Solat di Bandar-Bandar ${cname}`,
-            };
-            const _CT_SUFFIX = {
-                ar: ' | أوقات الأذان اليومية', en: ' — Daily Adhan Times', fr: ' — Heures d’adhan',
-                tr: ' — Günlük Ezan Saatleri', ur: ' — یومیہ اذان اوقات', de: ' — Tägliche Adhan-Zeiten',
-                id: ' — Waktu Azan Harian', es: ' — Horarios de Adhan', bn: ' — দৈনিক আজানের সময়',
-                ms: ' — Waktu Azan Harian',
+            // PRAYER-COUNTRY-SEO-CONTENT-KEYWORD-CONSISTENCY-FIX-1: length-aware Title LADDER (aims 50–60 cp)
+            //   + length-aware Meta (aims 120–160 cp). Title = base + the LONGEST suffix that keeps the whole
+            //   title ≤ 60 code points; trailing '' suffix = base-alone fallback for very long country names.
+            //   AR/EN use the new «…{country} today by city…» keyword template; the other 8 keep their
+            //   grammatically-safe «…cities of {country}…» base + a length-aware today/local-time tail.
+            const _CT_TITLE = {
+                ar: { b: `مواقيت الصلاة في ${cname}`,                 s: [' اليوم حسب مدنها والتوقيت المحلي', ' اليوم حسب مدنها | أوقات الأذان', ' اليوم حسب مدنها', ' اليوم حسب المدينة', ' اليوم', ''] },
+                en: { b: `Prayer Times in ${cname}`,                  s: [' Today by City with Local Adhan Times', ' Today by City — Local Adhan Times', ' Today by City with Adhan Times', ' Today by City', ' by City', ''] },
+                fr: { b: `Heures de prière dans les villes de ${cname}`, s: [' aujourd’hui — heure locale', ' aujourd’hui', ''] },
+                tr: { b: `${cname} Şehirlerinde Namaz Vakitleri`,     s: [' — Bugün, Yerel Saat', ' — Bugün', ''] },
+                ur: { b: `${cname} کے شہروں میں اوقاتِ نماز`,          s: [' — آج، مقامی وقت کے مطابق', ' — آج', ''] },
+                de: { b: `Gebetszeiten in den Städten von ${cname}`,  s: [' — heute, Ortszeit', ' — heute', ''] },
+                id: { b: `Jadwal Sholat di Kota-Kota ${cname}`,       s: [' Hari Ini — Waktu Setempat', ' Hari Ini', ''] },
+                es: { b: `Horarios de oración en ciudades de ${cname}`, s: [' hoy — hora local', ' hoy', ''] },
+                bn: { b: `${cname}-এর শহরগুলোতে নামাজের সময়`,        s: [' — আজ, স্থানীয় সময়', ' — আজ', ''] },
+                ms: { b: `Waktu Solat di Bandar-Bandar ${cname}`,     s: [' Hari Ini — Waktu Tempatan', ' Hari Ini', ''] },
             };
             {
-                const _tb = _CT_BASE[lang] || _CT_BASE.en;
-                const _ts = _CT_SUFFIX[lang] || _CT_SUFFIX.en;
-                title = ((_tb + _ts).length <= 62) ? (_tb + _ts) : _tb;
+                const _ct = _CT_TITLE[lang] || _CT_TITLE.en;
+                let _best = _ct.b;
+                for (const _s of _ct.s) { if ([...(_ct.b + _s)].length <= 60) { _best = _ct.b + _s; break; } }
+                title = _best;
             }
-            const _COUNTRY_DESC_TEMPLATES = {
-                ar: `تعرف على مواقيت الصلاة في مدن ${cname}: أوقات الفجر والظهر والعصر والمغرب والعشاء ووقت الأذان، مع اتجاه القبلة والتاريخ الهجري حسب التوقيت المحلي لكل مدينة.`,
-                en: `Find prayer times across the cities of ${cname}: Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Qibla direction and the Hijri date in each city’s local time.`,
-                fr: `Découvrez les heures de prière dans les villes de ${cname} : Fajr, Dhuhr, Asr, Maghrib et Isha avec l’heure de l’adhan, la direction de la Qibla et la date hégirienne en heure locale.`,
-                tr: `${cname} şehirlerinde namaz vakitlerini öğrenin: İmsak, Öğle, İkindi, Akşam ve Yatsı, ezan saati, kıble yönü ve hicri tarih — her şehrin yerel saatiyle.`,
-                ur: `${cname} کے شہروں میں اوقاتِ نماز جانیں: فجر، ظہر، عصر، مغرب اور عشاء، وقتِ اذان، سمتِ قبلہ اور ہجری تاریخ — ہر شہر کے مقامی وقت کے مطابق۔`,
-                de: `Finden Sie die Gebetszeiten in den Städten von ${cname}: Fadschr, Dhuhr, Asr, Maghrib und Ischa mit Adhan-Zeit, Qibla-Richtung und Hidschri-Datum in der Ortszeit.`,
-                id: `Temukan jadwal sholat di kota-kota ${cname}: Subuh, Zuhur, Asar, Magrib, dan Isya dengan waktu azan, arah kiblat, dan tanggal Hijriah dalam waktu setempat.`,
-                es: `Encuentra los horarios de oración en las ciudades de ${cname}: Fayr, Dhuhr, Asr, Magrib e Isha con la hora del adhan, la dirección de la Qibla y la fecha hijri en la hora local.`,
-                bn: `${cname}-এর শহরগুলোতে নামাজের সময় জানুন: ফজর, জোহর, আসর, মাগরিব ও এশা, আজানের সময়, কিবলার দিক এবং হিজরি তারিখ — প্রতিটি শহরের স্থানীয় সময়ে।`,
-                ms: `Cari waktu solat di bandar-bandar ${cname}: Subuh, Zohor, Asar, Maghrib dan Isyak dengan waktu azan, arah kiblat dan tarikh Hijrah mengikut waktu tempatan.`,
+            const _fitCD = (lng, sht) => ([...lng].length <= 160 ? lng : sht);
+            const _CD_LONG = {
+                ar: `تعرّف على مواقيت الصلاة في ${cname} اليوم حسب المدينة، مع أوقات الفجر والظهر والعصر والمغرب والعشاء والتاريخ الهجري والتوقيت المحلي.`,
+                en: `Find prayer times in ${cname} today by city — Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Hijri date and local time for each city.`,
+                fr: `Découvrez les heures de prière dans les villes de ${cname} aujourd’hui : Fajr, Dhuhr, Asr, Maghrib et Isha avec l’adhan, la date hégirienne et l’heure locale.`,
+                tr: `${cname} şehirlerinde bugünkü namaz vakitleri: İmsak, Öğle, İkindi, Akşam ve Yatsı, ezan saati, hicri tarih ve yerel saat — her şehir için ayrı.`,
+                ur: `${cname} کے شہروں میں آج کے اوقاتِ نماز: فجر، ظہر، عصر، مغرب اور عشاء، وقتِ اذان، ہجری تاریخ اور مقامی وقت — ہر شہر کے لیے الگ۔`,
+                de: `Gebetszeiten in den Städten von ${cname} heute: Fadschr, Dhuhr, Asr, Maghrib und Ischa mit Adhan-Zeit, Hidschri-Datum und Ortszeit je Stadt.`,
+                id: `Jadwal sholat di kota-kota ${cname} hari ini: Subuh, Zuhur, Asar, Magrib, dan Isya dengan waktu azan, tanggal Hijriah, dan waktu setempat tiap kota.`,
+                es: `Consulta los horarios de oración en las ciudades de ${cname} hoy: Fayr, Dhuhr, Asr, Magrib e Isha con el adhan, la fecha hijri y la hora local por ciudad.`,
+                bn: `${cname}-এর শহরগুলোতে আজকের নামাজের সময়: ফজর, জোহর, আসর, মাগরিব ও এশা, আজানের সময়, হিজরি তারিখ এবং প্রতিটি শহরের স্থানীয় সময়।`,
+                ms: `Waktu solat di bandar-bandar ${cname} hari ini: Subuh, Zohor, Asar, Maghrib dan Isyak dengan waktu azan, tarikh Hijrah dan waktu tempatan setiap bandar.`,
             };
-            description = _COUNTRY_DESC_TEMPLATES[lang] || _COUNTRY_DESC_TEMPLATES.en;
+            const _CD_SHORT = {
+                ar: `مواقيت الصلاة في ${cname} حسب مدينتك: الفجر والظهر والعصر والمغرب والعشاء والتاريخ الهجري بالتوقيت المحلي لكل مدينة.`,
+                en: `Prayer times in ${cname} by city: Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Hijri date and local time for each city.`,
+                fr: `Heures de prière à ${cname} par ville : Fajr, Dhuhr, Asr, Maghrib et Isha avec l’adhan, la date hégirienne et l’heure locale.`,
+                tr: `${cname} şehirlerinde namaz vakitleri: İmsak, Öğle, İkindi, Akşam, Yatsı, ezan saati, hicri tarih ve yerel saat.`,
+                ur: `${cname} کے شہروں میں اوقاتِ نماز: فجر، ظہر، عصر، مغرب، عشاء، وقتِ اذان، ہجری تاریخ اور مقامی وقت۔`,
+                de: `Gebetszeiten in ${cname} je Stadt: Fadschr, Dhuhr, Asr, Maghrib, Ischa, Adhan-Zeit, Hidschri-Datum und Ortszeit.`,
+                id: `Jadwal sholat di ${cname} per kota: Subuh, Zuhur, Asar, Magrib, Isya, waktu azan, tanggal Hijriah, dan waktu setempat.`,
+                es: `Horarios de oración en ${cname} por ciudad: Fayr, Dhuhr, Asr, Magrib, Isha, adhan, fecha hijri y hora local.`,
+                bn: `${cname}-এর শহরে নামাজের সময়: ফজর, জোহর, আসর, মাগরিব, এশা, আজান, হিজরি তারিখ ও স্থানীয় সময়।`,
+                ms: `Waktu solat di ${cname} ikut bandar: Subuh, Zohor, Asar, Maghrib, Isyak, waktu azan, tarikh Hijrah dan waktu tempatan.`,
+            };
+            description = _fitCD(_CD_LONG[lang] || _CD_LONG.en, _CD_SHORT[lang] || _CD_SHORT.en);
             breadcrumbs.push({ name: cname, item: canonical });
             countryListing = { code: c.cc, name: cname };
         } else {

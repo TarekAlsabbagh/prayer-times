@@ -1806,6 +1806,11 @@ function getBaseUrl() { return SITE_URL; }
 
 // ===== خريطة أسماء الدول بالإنجليزية (لتوليد slugs للـ sitemap) =====
 const COUNTRY_NAMES_EN = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2, 2026-07-04): 21 small island/Pacific sovereign states
+    ag:'Antigua and Barbuda', bs:'Bahamas', bb:'Barbados', bz:'Belize', dm:'Dominica', gd:'Grenada',
+    kn:'Saint Kitts and Nevis', lc:'Saint Lucia', vc:'Saint Vincent and the Grenadines', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Solomon Islands', ki:'Kiribati', mh:'Marshall Islands', fm:'Micronesia', nr:'Nauru',
+    pw:'Palau', tv:'Tuvalu', st:'Sao Tome and Principe', sc:'Seychelles',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1, 2026-07-04): 16 missing UN
     // sovereign states. Their discovered cities (e.g. Praia/cv) previously 404'd on ALL moon routes
     // because makeCountrySlugSrv(cc) returned '' (cc not mapped) → no /moon/{country}/{city} could be
@@ -6348,6 +6353,11 @@ const LEGAL_PAGES = {
 
 // أسماء الدول بالعربية (للـ SSR — يجب أن تطابق ما في prayer-times-cities.html)
 const COUNTRY_NAMES_AR = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'أنتيغوا وباربودا', bs:'باهاماس', bb:'بربادوس', bz:'بليز', dm:'دومينيكا', gd:'غرينادا',
+    kn:'سانت كيتس ونيفيس', lc:'سانت لوسيا', vc:'سانت فنسنت والغرينادين', ws:'ساموا', to:'تونغا',
+    vu:'فانواتو', sb:'جزر سليمان', ki:'كيريباتي', mh:'جزر مارشال', fm:'ميكرونيسيا', nr:'ناورو',
+    pw:'بالاو', tv:'توفالو', st:'ساو تومي وبرينسيبي', sc:'سيشل',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states (shadda-free)
     cv:'الرأس الأخضر', by:'بيلاروسيا', md:'مولدوفا', hn:'هندوراس', ni:'نيكاراغوا', sv:'السلفادور',
     na:'ناميبيا', bw:'بوتسوانا', ga:'الغابون', cg:'جمهورية الكونغو', cf:'جمهورية أفريقيا الوسطى', bi:'بوروندي',
@@ -10305,6 +10315,11 @@ const _REGION_TITLES = {
 // ترجمات أسماء الدول لغير العربية (لغير AR — نعتمد على COUNTRY_NAMES_EN كأساس،
 // ونضيف ترجمات لـ fr/tr/ur للدول العربية + الكبرى لجعلها localized)
 const _COUNTRY_NAMES_FR = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'Antigua-et-Barbuda', bs:'Bahamas', bb:'Barbade', bz:'Belize', dm:'Dominique', gd:'Grenade',
+    kn:'Saint-Christophe-et-Niévès', lc:'Sainte-Lucie', vc:'Saint-Vincent-et-les-Grenadines', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Îles Salomon', ki:'Kiribati', mh:'Îles Marshall', fm:'Micronésie', nr:'Nauru',
+    pw:'Palaos', tv:'Tuvalu', st:'Sao Tomé-et-Principe', sc:'Seychelles',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'Cap-Vert', by:'Biélorussie', md:'Moldavie', hn:'Honduras', ni:'Nicaragua', sv:'Salvador',
     na:'Namibie', bw:'Botswana', ga:'Gabon', cg:'République du Congo', cf:'République centrafricaine', bi:'Burundi',
@@ -10349,6 +10364,11 @@ const _COUNTRY_NAMES_FR = {
     za:'Afrique du Sud',
 };
 const _COUNTRY_NAMES_TR = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'Antigua ve Barbuda', bs:'Bahamalar', bb:'Barbados', bz:'Belize', dm:'Dominika', gd:'Grenada',
+    kn:'Saint Kitts ve Nevis', lc:'Saint Lucia', vc:'Saint Vincent ve Grenadinler', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Solomon Adaları', ki:'Kiribati', mh:'Marshall Adaları', fm:'Mikronezya', nr:'Nauru',
+    pw:'Palau', tv:'Tuvalu', st:'Sao Tome ve Principe', sc:'Seyşeller',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'Cabo Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nikaragua', sv:'El Salvador',
     na:'Namibya', bw:'Botsvana', ga:'Gabon', cg:'Kongo Cumhuriyeti', cf:'Orta Afrika Cumhuriyeti', bi:'Burundi',
@@ -10393,6 +10413,11 @@ const _COUNTRY_NAMES_TR = {
     za:'Güney Afrika',
 };
 const _COUNTRY_NAMES_UR = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'اینٹیگوا و باربوڈا', bs:'بہاماس', bb:'بارباڈوس', bz:'بلیز', dm:'ڈومینیکا', gd:'گریناڈا',
+    kn:'سینٹ کٹس و نیوس', lc:'سینٹ لوسیا', vc:'سینٹ ونسنٹ و گریناڈائنز', ws:'ساموا', to:'ٹونگا',
+    vu:'وانواتو', sb:'جزائر سلیمان', ki:'کیریباتی', mh:'جزائر مارشل', fm:'مائیکرونیشیا', nr:'ناورو',
+    pw:'پلاؤ', tv:'ٹوالو', st:'ساؤ ٹومے و پرنسپے', sc:'سیشلز',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'کیپ ورڈی', by:'بیلاروس', md:'مالدووا', hn:'ہونڈوراس', ni:'نکاراگوا', sv:'ایل سلواڈور',
     na:'نمیبیا', bw:'بوٹسوانا', ga:'گیبون', cg:'جمہوریہ کانگو', cf:'وسطی افریقی جمہوریہ', bi:'برونڈی',
@@ -10437,6 +10462,11 @@ const _COUNTRY_NAMES_UR = {
     za:'جنوبی افریقہ',
 };
 const _COUNTRY_NAMES_DE = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'Antigua und Barbuda', bs:'Bahamas', bb:'Barbados', bz:'Belize', dm:'Dominica', gd:'Grenada',
+    kn:'St. Kitts und Nevis', lc:'St. Lucia', vc:'St. Vincent und die Grenadinen', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Salomonen', ki:'Kiribati', mh:'Marshallinseln', fm:'Mikronesien', nr:'Nauru',
+    pw:'Palau', tv:'Tuvalu', st:'São Tomé und Príncipe', sc:'Seychellen',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'Kap Verde', by:'Belarus', md:'Moldau', hn:'Honduras', ni:'Nicaragua', sv:'El Salvador',
     na:'Namibia', bw:'Botswana', ga:'Gabun', cg:'Republik Kongo', cf:'Zentralafrikanische Republik', bi:'Burundi',
@@ -10486,6 +10516,11 @@ const _COUNTRY_NAMES_DE = {
     tw:'Taiwan',
 };
 const _COUNTRY_NAMES_ID = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'Antigua dan Barbuda', bs:'Bahama', bb:'Barbados', bz:'Belize', dm:'Dominika', gd:'Grenada',
+    kn:'Saint Kitts dan Nevis', lc:'Saint Lucia', vc:'Saint Vincent dan Grenadines', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Kepulauan Solomon', ki:'Kiribati', mh:'Kepulauan Marshall', fm:'Mikronesia', nr:'Nauru',
+    pw:'Palau', tv:'Tuvalu', st:'Sao Tome dan Principe', sc:'Seychelles',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'Tanjung Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nikaragua', sv:'El Salvador',
     na:'Namibia', bw:'Botswana', ga:'Gabon', cg:'Republik Kongo', cf:'Republik Afrika Tengah', bi:'Burundi',
@@ -10535,6 +10570,11 @@ const _COUNTRY_NAMES_ID = {
     tw:'Taiwan',
 };
 const _COUNTRY_NAMES_ES = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'Antigua y Barbuda', bs:'Bahamas', bb:'Barbados', bz:'Belice', dm:'Dominica', gd:'Granada',
+    kn:'San Cristóbal y Nieves', lc:'Santa Lucía', vc:'San Vicente y las Granadinas', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Islas Salomón', ki:'Kiribati', mh:'Islas Marshall', fm:'Micronesia', nr:'Nauru',
+    pw:'Palaos', tv:'Tuvalu', st:'Santo Tomé y Príncipe', sc:'Seychelles',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'Cabo Verde', by:'Bielorrusia', md:'Moldavia', hn:'Honduras', ni:'Nicaragua', sv:'El Salvador',
     na:'Namibia', bw:'Botsuana', ga:'Gabón', cg:'República del Congo', cf:'República Centroafricana', bi:'Burundi',
@@ -10582,6 +10622,11 @@ const _COUNTRY_NAMES_ES = {
     tw:'Taiwán',
 };
 const _COUNTRY_NAMES_BN = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'অ্যান্টিগুয়া ও বারবুডা', bs:'বাহামা', bb:'বার্বাডোস', bz:'বেলিজ', dm:'ডোমিনিকা', gd:'গ্রেনাডা',
+    kn:'সেন্ট কিটস ও নেভিস', lc:'সেন্ট লুসিয়া', vc:'সেন্ট ভিনসেন্ট ও গ্রেনাডাইনস', ws:'সামোয়া', to:'টোঙ্গা',
+    vu:'ভানুয়াতু', sb:'সলোমন দ্বীপপুঞ্জ', ki:'কিরিবাতি', mh:'মার্শাল দ্বীপপুঞ্জ', fm:'মাইক্রোনেশিয়া', nr:'নাউরু',
+    pw:'পালাউ', tv:'টুভালু', st:'সাও টোমে ও প্রিন্সিপে', sc:'সেশেলস',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'কেপ ভার্দে', by:'বেলারুশ', md:'মলদোভা', hn:'হন্ডুরাস', ni:'নিকারাগুয়া', sv:'এল সালভাদর',
     na:'নামিবিয়া', bw:'বতসোয়ানা', ga:'গ্যাবন', cg:'কঙ্গো প্রজাতন্ত্র', cf:'মধ্য আফ্রিকান প্রজাতন্ত্র', bi:'বুরুন্ডি',
@@ -10629,6 +10674,11 @@ const _COUNTRY_NAMES_BN = {
     tw:'তাইওয়ান',
 };
 const _COUNTRY_NAMES_MS = {
+    // COUNTRY-AND-CITIES-COVERAGE-BATCH-1-AND-BATCH-2-FIX-1 (BATCH-2): 21 small island/Pacific sovereign states
+    ag:'Antigua dan Barbuda', bs:'Bahamas', bb:'Barbados', bz:'Belize', dm:'Dominica', gd:'Grenada',
+    kn:'Saint Kitts dan Nevis', lc:'Saint Lucia', vc:'Saint Vincent dan Grenadines', ws:'Samoa', to:'Tonga',
+    vu:'Vanuatu', sb:'Kepulauan Solomon', ki:'Kiribati', mh:'Kepulauan Marshall', fm:'Mikronesia', nr:'Nauru',
+    pw:'Palau', tv:'Tuvalu', st:'Sao Tome dan Principe', sc:'Seychelles',
     // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
     cv:'Tanjung Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nikaragua', sv:'El Salvador',
     na:'Namibia', bw:'Botswana', ga:'Gabon', cg:'Republik Congo', cf:'Republik Afrika Tengah', bi:'Burundi',

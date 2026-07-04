@@ -128370,5 +128370,2343 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "praia",
+    "type": "city",
+    "countryCode": "cv",
+    "lat": 14.9315,
+    "lng": -23.5125,
+    "timezone": "Atlantic/Cape_Verde",
+    "names": {
+      "ar": "برايا",
+      "en": "Praia"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الرأس الأخضر",
+      "countryEn": "Cape Verde"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mindelo",
+    "type": "city",
+    "countryCode": "cv",
+    "lat": 16.8901,
+    "lng": -24.9804,
+    "timezone": "Atlantic/Cape_Verde",
+    "names": {
+      "ar": "مينديلو",
+      "en": "Mindelo"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الرأس الأخضر",
+      "countryEn": "Cape Verde"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "espargos",
+    "type": "city",
+    "countryCode": "cv",
+    "lat": 16.7552,
+    "lng": -22.9446,
+    "timezone": "Atlantic/Cape_Verde",
+    "names": {
+      "ar": "إسباركوس",
+      "en": "Espargos"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الرأس الأخضر",
+      "countryEn": "Cape Verde"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "assomada",
+    "type": "city",
+    "countryCode": "cv",
+    "lat": 15.1,
+    "lng": -23.6833,
+    "timezone": "Atlantic/Cape_Verde",
+    "names": {
+      "ar": "أسومادا",
+      "en": "Assomada"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الرأس الأخضر",
+      "countryEn": "Cape Verde"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "minsk",
+    "type": "city",
+    "countryCode": "by",
+    "lat": 53.9002,
+    "lng": 27.5665,
+    "timezone": "Europe/Minsk",
+    "names": {
+      "ar": "مينسك",
+      "en": "Minsk"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بيلاروسيا",
+      "countryEn": "Belarus"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "homyel",
+    "type": "city",
+    "countryCode": "by",
+    "lat": 52.4345,
+    "lng": 30.9754,
+    "timezone": "Europe/Minsk",
+    "names": {
+      "ar": "غوميل",
+      "en": "Homyel"
+    },
+    "aliases": {
+      "ar": [
+        "هوميل"
+      ],
+      "en": [
+        "Gomel"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيلاروسيا",
+      "countryEn": "Belarus"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "hrodna",
+    "type": "city",
+    "countryCode": "by",
+    "lat": 53.6758,
+    "lng": 23.8289,
+    "timezone": "Europe/Minsk",
+    "names": {
+      "ar": "غرودنو",
+      "en": "Hrodna"
+    },
+    "aliases": {
+      "ar": [
+        "هرودنا"
+      ],
+      "en": [
+        "Grodno"
+      ]
+    },
+    "admin": {
+      "countryAr": "بيلاروسيا",
+      "countryEn": "Belarus"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "vitebsk",
+    "type": "city",
+    "countryCode": "by",
+    "lat": 55.1904,
+    "lng": 30.2049,
+    "timezone": "Europe/Minsk",
+    "names": {
+      "ar": "فيتيبسك",
+      "en": "Vitebsk"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بيلاروسيا",
+      "countryEn": "Belarus"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "chisinau",
+    "type": "city",
+    "countryCode": "md",
+    "lat": 47.009,
+    "lng": 28.8594,
+    "timezone": "Europe/Chisinau",
+    "names": {
+      "ar": "كيشيناو",
+      "en": "Chisinau"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "مولدوفا",
+      "countryEn": "Moldova"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tiraspol",
+    "type": "city",
+    "countryCode": "md",
+    "lat": 46.8428,
+    "lng": 29.6284,
+    "timezone": "Europe/Chisinau",
+    "names": {
+      "ar": "تيراسبول",
+      "en": "Tiraspol"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "مولدوفا",
+      "countryEn": "Moldova"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "balti",
+    "type": "city",
+    "countryCode": "md",
+    "lat": 47.7629,
+    "lng": 27.9285,
+    "timezone": "Europe/Chisinau",
+    "names": {
+      "ar": "بالتي",
+      "en": "Balti"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "مولدوفا",
+      "countryEn": "Moldova"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bender",
+    "type": "city",
+    "countryCode": "md",
+    "lat": 46.8316,
+    "lng": 29.4767,
+    "timezone": "Europe/Chisinau",
+    "names": {
+      "ar": "بندر",
+      "en": "Bender"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "مولدوفا",
+      "countryEn": "Moldova"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tegucigalpa",
+    "type": "city",
+    "countryCode": "hn",
+    "lat": 14.0818,
+    "lng": -87.2068,
+    "timezone": "America/Tegucigalpa",
+    "names": {
+      "ar": "تيغوسيغالبا",
+      "en": "Tegucigalpa"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "هندوراس",
+      "countryEn": "Honduras"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "san-pedro-sula",
+    "type": "city",
+    "countryCode": "hn",
+    "lat": 15.5059,
+    "lng": -88.0259,
+    "timezone": "America/Tegucigalpa",
+    "names": {
+      "ar": "سان بيدرو سولا",
+      "en": "San Pedro Sula"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "هندوراس",
+      "countryEn": "Honduras"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "la-ceiba",
+    "type": "city",
+    "countryCode": "hn",
+    "lat": 15.7597,
+    "lng": -86.7822,
+    "timezone": "America/Tegucigalpa",
+    "names": {
+      "ar": "لا سيبا",
+      "en": "La Ceiba"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "هندوراس",
+      "countryEn": "Honduras"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "danli",
+    "type": "city",
+    "countryCode": "hn",
+    "lat": 14.0333,
+    "lng": -86.5833,
+    "timezone": "America/Tegucigalpa",
+    "names": {
+      "ar": "دانلي",
+      "en": "Danli"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "هندوراس",
+      "countryEn": "Honduras"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "managua",
+    "type": "city",
+    "countryCode": "ni",
+    "lat": 12.1328,
+    "lng": -86.2504,
+    "timezone": "America/Managua",
+    "names": {
+      "ar": "ماناغوا",
+      "en": "Managua"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "نيكاراغوا",
+      "countryEn": "Nicaragua"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "leon-nicaragua",
+    "type": "city",
+    "countryCode": "ni",
+    "lat": 12.4353,
+    "lng": -86.8786,
+    "timezone": "America/Managua",
+    "names": {
+      "ar": "ليون",
+      "en": "Leon"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "نيكاراغوا",
+      "countryEn": "Nicaragua"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "masaya",
+    "type": "city",
+    "countryCode": "ni",
+    "lat": 11.9732,
+    "lng": -86.0959,
+    "timezone": "America/Managua",
+    "names": {
+      "ar": "ماسايا",
+      "en": "Masaya"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "نيكاراغوا",
+      "countryEn": "Nicaragua"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "chinandega",
+    "type": "city",
+    "countryCode": "ni",
+    "lat": 12.6295,
+    "lng": -87.1313,
+    "timezone": "America/Managua",
+    "names": {
+      "ar": "تشينانديغا",
+      "en": "Chinandega"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "نيكاراغوا",
+      "countryEn": "Nicaragua"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "san-salvador",
+    "type": "city",
+    "countryCode": "sv",
+    "lat": 13.6894,
+    "lng": -89.1872,
+    "timezone": "America/El_Salvador",
+    "names": {
+      "ar": "سان سلفادور",
+      "en": "San Salvador"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "السلفادور",
+      "countryEn": "El Salvador"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "soyapango",
+    "type": "city",
+    "countryCode": "sv",
+    "lat": 13.7102,
+    "lng": -89.1399,
+    "timezone": "America/El_Salvador",
+    "names": {
+      "ar": "سويابانغو",
+      "en": "Soyapango"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "السلفادور",
+      "countryEn": "El Salvador"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "san-miguel",
+    "type": "city",
+    "countryCode": "sv",
+    "lat": 13.4826,
+    "lng": -88.1821,
+    "timezone": "America/El_Salvador",
+    "names": {
+      "ar": "سان ميغيل",
+      "en": "San Miguel"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "السلفادور",
+      "countryEn": "El Salvador"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "santa-ana",
+    "type": "city",
+    "countryCode": "sv",
+    "lat": 13.9883,
+    "lng": -89.5568,
+    "timezone": "America/El_Salvador",
+    "names": {
+      "ar": "سانتا آنا",
+      "en": "Santa Ana"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "السلفادور",
+      "countryEn": "El Salvador"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "windhoek",
+    "type": "city",
+    "countryCode": "na",
+    "lat": -22.5594,
+    "lng": 17.0832,
+    "timezone": "Africa/Windhoek",
+    "names": {
+      "ar": "فيندهوك",
+      "en": "Windhoek"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناميبيا",
+      "countryEn": "Namibia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "rundu",
+    "type": "city",
+    "countryCode": "na",
+    "lat": -17.918,
+    "lng": 19.7731,
+    "timezone": "Africa/Windhoek",
+    "names": {
+      "ar": "روندو",
+      "en": "Rundu"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناميبيا",
+      "countryEn": "Namibia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "walvis-bay",
+    "type": "city",
+    "countryCode": "na",
+    "lat": -22.9575,
+    "lng": 14.5053,
+    "timezone": "Africa/Windhoek",
+    "names": {
+      "ar": "والفيس باي",
+      "en": "Walvis Bay"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناميبيا",
+      "countryEn": "Namibia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "swakopmund",
+    "type": "city",
+    "countryCode": "na",
+    "lat": -22.6784,
+    "lng": 14.5266,
+    "timezone": "Africa/Windhoek",
+    "names": {
+      "ar": "سواكوبموند",
+      "en": "Swakopmund"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناميبيا",
+      "countryEn": "Namibia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "gaborone",
+    "type": "city",
+    "countryCode": "bw",
+    "lat": -24.6545,
+    "lng": 25.9086,
+    "timezone": "Africa/Gaborone",
+    "names": {
+      "ar": "غابورون",
+      "en": "Gaborone"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوتسوانا",
+      "countryEn": "Botswana"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "francistown",
+    "type": "city",
+    "countryCode": "bw",
+    "lat": -21.17,
+    "lng": 27.5078,
+    "timezone": "Africa/Gaborone",
+    "names": {
+      "ar": "فرانسيستاون",
+      "en": "Francistown"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوتسوانا",
+      "countryEn": "Botswana"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "maun",
+    "type": "city",
+    "countryCode": "bw",
+    "lat": -19.9833,
+    "lng": 23.4167,
+    "timezone": "Africa/Gaborone",
+    "names": {
+      "ar": "ماون",
+      "en": "Maun"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوتسوانا",
+      "countryEn": "Botswana"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mogoditshane",
+    "type": "city",
+    "countryCode": "bw",
+    "lat": -24.6269,
+    "lng": 25.8656,
+    "timezone": "Africa/Gaborone",
+    "names": {
+      "ar": "موغوديتشاني",
+      "en": "Mogoditshane"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوتسوانا",
+      "countryEn": "Botswana"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "libreville",
+    "type": "city",
+    "countryCode": "ga",
+    "lat": 0.3924,
+    "lng": 9.4536,
+    "timezone": "Africa/Libreville",
+    "names": {
+      "ar": "ليبرفيل",
+      "en": "Libreville"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الغابون",
+      "countryEn": "Gabon"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "port-gentil",
+    "type": "city",
+    "countryCode": "ga",
+    "lat": -0.7193,
+    "lng": 8.7815,
+    "timezone": "Africa/Libreville",
+    "names": {
+      "ar": "بور جنتيل",
+      "en": "Port-Gentil"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الغابون",
+      "countryEn": "Gabon"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "franceville",
+    "type": "city",
+    "countryCode": "ga",
+    "lat": -1.6333,
+    "lng": 13.5836,
+    "timezone": "Africa/Libreville",
+    "names": {
+      "ar": "فرانسفيل",
+      "en": "Franceville"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الغابون",
+      "countryEn": "Gabon"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "owendo",
+    "type": "city",
+    "countryCode": "ga",
+    "lat": 0.2912,
+    "lng": 9.5047,
+    "timezone": "Africa/Libreville",
+    "names": {
+      "ar": "أويندو",
+      "en": "Owendo"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الغابون",
+      "countryEn": "Gabon"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "brazzaville",
+    "type": "city",
+    "countryCode": "cg",
+    "lat": -4.2661,
+    "lng": 15.2832,
+    "timezone": "Africa/Brazzaville",
+    "names": {
+      "ar": "برازافيل",
+      "en": "Brazzaville"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية الكونغو",
+      "countryEn": "Republic of the Congo"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "pointe-noire",
+    "type": "city",
+    "countryCode": "cg",
+    "lat": -4.7761,
+    "lng": 11.8635,
+    "timezone": "Africa/Brazzaville",
+    "names": {
+      "ar": "بوانت نوار",
+      "en": "Pointe-Noire"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية الكونغو",
+      "countryEn": "Republic of the Congo"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "dolisie",
+    "type": "city",
+    "countryCode": "cg",
+    "lat": -4.1983,
+    "lng": 12.6666,
+    "timezone": "Africa/Brazzaville",
+    "names": {
+      "ar": "دوليسي",
+      "en": "Dolisie"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية الكونغو",
+      "countryEn": "Republic of the Congo"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nkayi",
+    "type": "city",
+    "countryCode": "cg",
+    "lat": -4.184,
+    "lng": 13.2859,
+    "timezone": "Africa/Brazzaville",
+    "names": {
+      "ar": "نكايي",
+      "en": "Nkayi"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية الكونغو",
+      "countryEn": "Republic of the Congo"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bangui",
+    "type": "city",
+    "countryCode": "cf",
+    "lat": 4.3612,
+    "lng": 18.555,
+    "timezone": "Africa/Bangui",
+    "names": {
+      "ar": "بانغي",
+      "en": "Bangui"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية أفريقيا الوسطى",
+      "countryEn": "Central African Republic"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bimbo",
+    "type": "city",
+    "countryCode": "cf",
+    "lat": 4.2567,
+    "lng": 18.4158,
+    "timezone": "Africa/Bangui",
+    "names": {
+      "ar": "بيمبو",
+      "en": "Bimbo"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية أفريقيا الوسطى",
+      "countryEn": "Central African Republic"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "begoua",
+    "type": "city",
+    "countryCode": "cf",
+    "lat": 4.4544,
+    "lng": 18.5348,
+    "timezone": "Africa/Bangui",
+    "names": {
+      "ar": "بيغوا",
+      "en": "Begoua"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية أفريقيا الوسطى",
+      "countryEn": "Central African Republic"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "carnot",
+    "type": "city",
+    "countryCode": "cf",
+    "lat": 4.9427,
+    "lng": 15.8774,
+    "timezone": "Africa/Bangui",
+    "names": {
+      "ar": "كارنو",
+      "en": "Carnot"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جمهورية أفريقيا الوسطى",
+      "countryEn": "Central African Republic"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "gitega",
+    "type": "city",
+    "countryCode": "bi",
+    "lat": -3.4271,
+    "lng": 29.9246,
+    "timezone": "Africa/Bujumbura",
+    "names": {
+      "ar": "غيتيغا",
+      "en": "Gitega"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوروندي",
+      "countryEn": "Burundi"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bujumbura",
+    "type": "city",
+    "countryCode": "bi",
+    "lat": -3.3819,
+    "lng": 29.3614,
+    "timezone": "Africa/Bujumbura",
+    "names": {
+      "ar": "بوجومبورا",
+      "en": "Bujumbura"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوروندي",
+      "countryEn": "Burundi"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ngozi",
+    "type": "city",
+    "countryCode": "bi",
+    "lat": -2.9075,
+    "lng": 29.8306,
+    "timezone": "Africa/Bujumbura",
+    "names": {
+      "ar": "نغوزي",
+      "en": "Ngozi"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوروندي",
+      "countryEn": "Burundi"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mpanda-bi",
+    "type": "city",
+    "countryCode": "bi",
+    "lat": -3.1703,
+    "lng": 29.4026,
+    "timezone": "Africa/Bujumbura",
+    "names": {
+      "ar": "مباندا",
+      "en": "Mpanda"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بوروندي",
+      "countryEn": "Burundi"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "maseru",
+    "type": "city",
+    "countryCode": "ls",
+    "lat": -29.3167,
+    "lng": 27.4833,
+    "timezone": "Africa/Maseru",
+    "names": {
+      "ar": "ماسيرو",
+      "en": "Maseru"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ليسوتو",
+      "countryEn": "Lesotho"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "maputsoe",
+    "type": "city",
+    "countryCode": "ls",
+    "lat": -28.8866,
+    "lng": 27.8992,
+    "timezone": "Africa/Maseru",
+    "names": {
+      "ar": "مابوتسوي",
+      "en": "Maputsoe"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ليسوتو",
+      "countryEn": "Lesotho"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mafeteng",
+    "type": "city",
+    "countryCode": "ls",
+    "lat": -29.823,
+    "lng": 27.2374,
+    "timezone": "Africa/Maseru",
+    "names": {
+      "ar": "مافيتينغ",
+      "en": "Mafeteng"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ليسوتو",
+      "countryEn": "Lesotho"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mohale-s-hoek",
+    "type": "city",
+    "countryCode": "ls",
+    "lat": -30.1514,
+    "lng": 27.4769,
+    "timezone": "Africa/Maseru",
+    "names": {
+      "ar": "موهاليس هوك",
+      "en": "Mohale's Hoek"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ليسوتو",
+      "countryEn": "Lesotho"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bissau",
+    "type": "city",
+    "countryCode": "gw",
+    "lat": 11.8636,
+    "lng": -15.5977,
+    "timezone": "Africa/Bissau",
+    "names": {
+      "ar": "بيساو",
+      "en": "Bissau"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غينيا بيساو",
+      "countryEn": "Guinea-Bissau"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "gabu",
+    "type": "city",
+    "countryCode": "gw",
+    "lat": 12.28,
+    "lng": -14.2222,
+    "timezone": "Africa/Bissau",
+    "names": {
+      "ar": "غابو",
+      "en": "Gabu"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غينيا بيساو",
+      "countryEn": "Guinea-Bissau"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ciudad-de-la-paz",
+    "type": "city",
+    "countryCode": "gq",
+    "lat": 1.5925,
+    "lng": 10.8236,
+    "timezone": "Africa/Malabo",
+    "names": {
+      "ar": "سيوداد دي لا باز",
+      "en": "Ciudad de la Paz"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غينيا الاستوائية",
+      "countryEn": "Equatorial Guinea"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "malabo",
+    "type": "city",
+    "countryCode": "gq",
+    "lat": 3.7558,
+    "lng": 8.7817,
+    "timezone": "Africa/Malabo",
+    "names": {
+      "ar": "مالابو",
+      "en": "Malabo"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غينيا الاستوائية",
+      "countryEn": "Equatorial Guinea"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bata",
+    "type": "city",
+    "countryCode": "gq",
+    "lat": 1.8639,
+    "lng": 9.7658,
+    "timezone": "Africa/Malabo",
+    "names": {
+      "ar": "باتا",
+      "en": "Bata"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غينيا الاستوائية",
+      "countryEn": "Equatorial Guinea"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ebebiyin",
+    "type": "city",
+    "countryCode": "gq",
+    "lat": 2.1522,
+    "lng": 11.3301,
+    "timezone": "Africa/Malabo",
+    "names": {
+      "ar": "إيبيبيين",
+      "en": "Ebebiyin"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غينيا الاستوائية",
+      "countryEn": "Equatorial Guinea"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "mbabane",
+    "type": "city",
+    "countryCode": "sz",
+    "lat": -26.3167,
+    "lng": 31.1333,
+    "timezone": "Africa/Mbabane",
+    "names": {
+      "ar": "مبابان",
+      "en": "Mbabane"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "إسواتيني",
+      "countryEn": "Eswatini"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "manzini",
+    "type": "city",
+    "countryCode": "sz",
+    "lat": -26.4988,
+    "lng": 31.38,
+    "timezone": "Africa/Mbabane",
+    "names": {
+      "ar": "مانزيني",
+      "en": "Manzini"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "إسواتيني",
+      "countryEn": "Eswatini"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nhlangano",
+    "type": "city",
+    "countryCode": "sz",
+    "lat": -27.1122,
+    "lng": 31.1983,
+    "timezone": "Africa/Mbabane",
+    "names": {
+      "ar": "نهلانغانو",
+      "en": "Nhlangano"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "إسواتيني",
+      "countryEn": "Eswatini"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "saint-johns",
+    "type": "city",
+    "countryCode": "ag",
+    "lat": 17.121,
+    "lng": -61.8433,
+    "timezone": "America/Antigua",
+    "names": {
+      "ar": "سانت جونز",
+      "en": "Saint John's"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "أنتيغوا وباربودا",
+      "countryEn": "Antigua and Barbuda"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nassau",
+    "type": "city",
+    "countryCode": "bs",
+    "lat": 25.0582,
+    "lng": -77.3431,
+    "timezone": "America/Nassau",
+    "names": {
+      "ar": "ناساو",
+      "en": "Nassau"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باهاماس",
+      "countryEn": "Bahamas"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "freeport",
+    "type": "city",
+    "countryCode": "bs",
+    "lat": 26.5333,
+    "lng": -78.7,
+    "timezone": "America/Nassau",
+    "names": {
+      "ar": "فريبورت",
+      "en": "Freeport"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باهاماس",
+      "countryEn": "Bahamas"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "lucaya",
+    "type": "city",
+    "countryCode": "bs",
+    "lat": 26.5333,
+    "lng": -78.6667,
+    "timezone": "America/Nassau",
+    "names": {
+      "ar": "لوكايا",
+      "en": "Lucaya"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "باهاماس",
+      "countryEn": "Bahamas"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bridgetown",
+    "type": "city",
+    "countryCode": "bb",
+    "lat": 13.1073,
+    "lng": -59.6202,
+    "timezone": "America/Barbados",
+    "names": {
+      "ar": "بريدجتاون",
+      "en": "Bridgetown"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بربادوس",
+      "countryEn": "Barbados"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "speightstown",
+    "type": "city",
+    "countryCode": "bb",
+    "lat": 13.2507,
+    "lng": -59.644,
+    "timezone": "America/Barbados",
+    "names": {
+      "ar": "سبايتستاون",
+      "en": "Speightstown"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بربادوس",
+      "countryEn": "Barbados"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "oistins",
+    "type": "city",
+    "countryCode": "bb",
+    "lat": 13.0707,
+    "lng": -59.5464,
+    "timezone": "America/Barbados",
+    "names": {
+      "ar": "أويستينز",
+      "en": "Oistins"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بربادوس",
+      "countryEn": "Barbados"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "belmopan",
+    "type": "city",
+    "countryCode": "bz",
+    "lat": 17.2538,
+    "lng": -88.764,
+    "timezone": "America/Belize",
+    "names": {
+      "ar": "بلموبان",
+      "en": "Belmopan"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بليز",
+      "countryEn": "Belize"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "belize-city",
+    "type": "city",
+    "countryCode": "bz",
+    "lat": 17.4995,
+    "lng": -88.1976,
+    "timezone": "America/Belize",
+    "names": {
+      "ar": "مدينة بليز",
+      "en": "Belize City"
+    },
+    "aliases": {
+      "ar": [
+        "بليز سيتي"
+      ]
+    },
+    "admin": {
+      "countryAr": "بليز",
+      "countryEn": "Belize"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "san-pedro-bz",
+    "type": "city",
+    "countryCode": "bz",
+    "lat": 17.916,
+    "lng": -87.9659,
+    "timezone": "America/Belize",
+    "names": {
+      "ar": "سان بيدرو",
+      "en": "San Pedro"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بليز",
+      "countryEn": "Belize"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "orange-walk",
+    "type": "city",
+    "countryCode": "bz",
+    "lat": 18.0812,
+    "lng": -88.5633,
+    "timezone": "America/Belize",
+    "names": {
+      "ar": "أورانج ووك",
+      "en": "Orange Walk"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بليز",
+      "countryEn": "Belize"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "roseau",
+    "type": "city",
+    "countryCode": "dm",
+    "lat": 15.3017,
+    "lng": -61.3881,
+    "timezone": "America/Dominica",
+    "names": {
+      "ar": "روزو",
+      "en": "Roseau"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "دومينيكا",
+      "countryEn": "Dominica"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "marigot-dm",
+    "type": "city",
+    "countryCode": "dm",
+    "lat": 15.5374,
+    "lng": -61.282,
+    "timezone": "America/Dominica",
+    "names": {
+      "ar": "ماريغو",
+      "en": "Marigot"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "دومينيكا",
+      "countryEn": "Dominica"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "berekua",
+    "type": "city",
+    "countryCode": "dm",
+    "lat": 15.2333,
+    "lng": -61.3167,
+    "timezone": "America/Dominica",
+    "names": {
+      "ar": "بيريكوا",
+      "en": "Berekua"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "دومينيكا",
+      "countryEn": "Dominica"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "saint-georges",
+    "type": "city",
+    "countryCode": "gd",
+    "lat": 12.0529,
+    "lng": -61.7523,
+    "timezone": "America/Grenada",
+    "names": {
+      "ar": "سانت جورجز",
+      "en": "Saint George's"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غرينادا",
+      "countryEn": "Grenada"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "gouyave",
+    "type": "city",
+    "countryCode": "gd",
+    "lat": 12.1646,
+    "lng": -61.7296,
+    "timezone": "America/Grenada",
+    "names": {
+      "ar": "غوياف",
+      "en": "Gouyave"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غرينادا",
+      "countryEn": "Grenada"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "grenville",
+    "type": "city",
+    "countryCode": "gd",
+    "lat": 12.1228,
+    "lng": -61.625,
+    "timezone": "America/Grenada",
+    "names": {
+      "ar": "غرينفيل",
+      "en": "Grenville"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "غرينادا",
+      "countryEn": "Grenada"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "basseterre",
+    "type": "city",
+    "countryCode": "kn",
+    "lat": 17.2955,
+    "lng": -62.725,
+    "timezone": "America/St_Kitts",
+    "names": {
+      "ar": "باستير",
+      "en": "Basseterre"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت كيتس ونيفيس",
+      "countryEn": "Saint Kitts and Nevis"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sandy-point-town",
+    "type": "city",
+    "countryCode": "kn",
+    "lat": 17.3591,
+    "lng": -62.8486,
+    "timezone": "America/St_Kitts",
+    "names": {
+      "ar": "ساندي بوينت تاون",
+      "en": "Sandy Point Town"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت كيتس ونيفيس",
+      "countryEn": "Saint Kitts and Nevis"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "castries",
+    "type": "city",
+    "countryCode": "lc",
+    "lat": 13.9957,
+    "lng": -61.0061,
+    "timezone": "America/St_Lucia",
+    "names": {
+      "ar": "كاستريس",
+      "en": "Castries"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت لوسيا",
+      "countryEn": "Saint Lucia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "gros-islet",
+    "type": "city",
+    "countryCode": "lc",
+    "lat": 14.0667,
+    "lng": -60.95,
+    "timezone": "America/St_Lucia",
+    "names": {
+      "ar": "غرو إيسليه",
+      "en": "Gros Islet"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت لوسيا",
+      "countryEn": "Saint Lucia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "dennery",
+    "type": "city",
+    "countryCode": "lc",
+    "lat": 13.9141,
+    "lng": -60.8913,
+    "timezone": "America/St_Lucia",
+    "names": {
+      "ar": "دينيري",
+      "en": "Dennery"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت لوسيا",
+      "countryEn": "Saint Lucia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "laborie",
+    "type": "city",
+    "countryCode": "lc",
+    "lat": 13.75,
+    "lng": -60.9833,
+    "timezone": "America/St_Lucia",
+    "names": {
+      "ar": "لابوري",
+      "en": "Laborie"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت لوسيا",
+      "countryEn": "Saint Lucia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "kingstown",
+    "type": "city",
+    "countryCode": "vc",
+    "lat": 13.1553,
+    "lng": -61.2274,
+    "timezone": "America/St_Vincent",
+    "names": {
+      "ar": "كينغستاون",
+      "en": "Kingstown"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت فنسنت والغرينادين",
+      "countryEn": "Saint Vincent and the Grenadines"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "calliaqua",
+    "type": "city",
+    "countryCode": "vc",
+    "lat": 13.1287,
+    "lng": -61.1918,
+    "timezone": "America/St_Vincent",
+    "names": {
+      "ar": "كالياكوا",
+      "en": "Calliaqua"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سانت فنسنت والغرينادين",
+      "countryEn": "Saint Vincent and the Grenadines"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "apia",
+    "type": "city",
+    "countryCode": "ws",
+    "lat": -13.8333,
+    "lng": -171.7667,
+    "timezone": "Pacific/Apia",
+    "names": {
+      "ar": "آبيا",
+      "en": "Apia"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ساموا",
+      "countryEn": "Samoa"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "vaitele",
+    "type": "city",
+    "countryCode": "ws",
+    "lat": -13.8293,
+    "lng": -171.806,
+    "timezone": "Pacific/Apia",
+    "names": {
+      "ar": "فايتيلي",
+      "en": "Vaitele"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ساموا",
+      "countryEn": "Samoa"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "asau",
+    "type": "city",
+    "countryCode": "ws",
+    "lat": -13.5196,
+    "lng": -172.6378,
+    "timezone": "Pacific/Apia",
+    "names": {
+      "ar": "أساو",
+      "en": "Asau"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ساموا",
+      "countryEn": "Samoa"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "nuku-alofa",
+    "type": "city",
+    "countryCode": "to",
+    "lat": -21.1368,
+    "lng": -175.2011,
+    "timezone": "Pacific/Tongatapu",
+    "names": {
+      "ar": "نوكو ألوفا",
+      "en": "Nuku'alofa"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "تونغا",
+      "countryEn": "Tonga"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "neiafu",
+    "type": "city",
+    "countryCode": "to",
+    "lat": -18.6514,
+    "lng": -173.9835,
+    "timezone": "Pacific/Tongatapu",
+    "names": {
+      "ar": "نيافو",
+      "en": "Neiafu"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "تونغا",
+      "countryEn": "Tonga"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "port-vila",
+    "type": "city",
+    "countryCode": "vu",
+    "lat": -17.7365,
+    "lng": 168.3137,
+    "timezone": "Pacific/Efate",
+    "names": {
+      "ar": "بورت فيلا",
+      "en": "Port-Vila"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "فانواتو",
+      "countryEn": "Vanuatu"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "luganville",
+    "type": "city",
+    "countryCode": "vu",
+    "lat": -15.5199,
+    "lng": 167.1624,
+    "timezone": "Pacific/Efate",
+    "names": {
+      "ar": "لوغانفيل",
+      "en": "Luganville"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "فانواتو",
+      "countryEn": "Vanuatu"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "honiara",
+    "type": "city",
+    "countryCode": "sb",
+    "lat": -9.4333,
+    "lng": 159.95,
+    "timezone": "Pacific/Guadalcanal",
+    "names": {
+      "ar": "هونيارا",
+      "en": "Honiara"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جزر سليمان",
+      "countryEn": "Solomon Islands"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "noro",
+    "type": "city",
+    "countryCode": "sb",
+    "lat": -8.2227,
+    "lng": 157.1998,
+    "timezone": "Pacific/Guadalcanal",
+    "names": {
+      "ar": "نورو",
+      "en": "Noro"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جزر سليمان",
+      "countryEn": "Solomon Islands"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tarawa",
+    "type": "city",
+    "countryCode": "ki",
+    "lat": 1.3278,
+    "lng": 172.977,
+    "timezone": "Pacific/Tarawa",
+    "names": {
+      "ar": "تاراوا",
+      "en": "Tarawa"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "كيريباتي",
+      "countryEn": "Kiribati"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "betio",
+    "type": "city",
+    "countryCode": "ki",
+    "lat": 1.358,
+    "lng": 172.9211,
+    "timezone": "Pacific/Tarawa",
+    "names": {
+      "ar": "بيتيو",
+      "en": "Betio"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "كيريباتي",
+      "countryEn": "Kiribati"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "bikenibeu",
+    "type": "city",
+    "countryCode": "ki",
+    "lat": 1.3673,
+    "lng": 173.1241,
+    "timezone": "Pacific/Tarawa",
+    "names": {
+      "ar": "بيكينيبيو",
+      "en": "Bikenibeu"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "كيريباتي",
+      "countryEn": "Kiribati"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "majuro",
+    "type": "city",
+    "countryCode": "mh",
+    "lat": 7.0897,
+    "lng": 171.3803,
+    "timezone": "Pacific/Majuro",
+    "names": {
+      "ar": "ماجورو",
+      "en": "Majuro"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جزر مارشال",
+      "countryEn": "Marshall Islands"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ebeye",
+    "type": "city",
+    "countryCode": "mh",
+    "lat": 8.7748,
+    "lng": 167.7392,
+    "timezone": "Pacific/Kwajalein",
+    "names": {
+      "ar": "إيباي",
+      "en": "Ebeye"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جزر مارشال",
+      "countryEn": "Marshall Islands"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "arno-mh",
+    "type": "city",
+    "countryCode": "mh",
+    "lat": 7.0669,
+    "lng": 171.5541,
+    "timezone": "Pacific/Majuro",
+    "names": {
+      "ar": "أرنو",
+      "en": "Arno"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "جزر مارشال",
+      "countryEn": "Marshall Islands"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "palikir",
+    "type": "city",
+    "countryCode": "fm",
+    "lat": 6.9248,
+    "lng": 158.1611,
+    "timezone": "Pacific/Pohnpei",
+    "names": {
+      "ar": "باليكير",
+      "en": "Palikir"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ميكرونيسيا",
+      "countryEn": "Micronesia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "weno",
+    "type": "city",
+    "countryCode": "fm",
+    "lat": 7.4465,
+    "lng": 151.8414,
+    "timezone": "Pacific/Chuuk",
+    "names": {
+      "ar": "وينو",
+      "en": "Weno"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ميكرونيسيا",
+      "countryEn": "Micronesia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "colonia-fm",
+    "type": "city",
+    "countryCode": "fm",
+    "lat": 9.5164,
+    "lng": 138.1217,
+    "timezone": "Pacific/Chuuk",
+    "names": {
+      "ar": "كولونيا",
+      "en": "Colonia"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ميكرونيسيا",
+      "countryEn": "Micronesia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "tofol",
+    "type": "city",
+    "countryCode": "fm",
+    "lat": 5.3248,
+    "lng": 163.0078,
+    "timezone": "Pacific/Kosrae",
+    "names": {
+      "ar": "توفول",
+      "en": "Tofol"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ميكرونيسيا",
+      "countryEn": "Micronesia"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "yaren",
+    "type": "city",
+    "countryCode": "nr",
+    "lat": -0.5508,
+    "lng": 166.9252,
+    "timezone": "Pacific/Nauru",
+    "names": {
+      "ar": "يارين",
+      "en": "Yaren"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناورو",
+      "countryEn": "Nauru"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "denigomodu",
+    "type": "city",
+    "countryCode": "nr",
+    "lat": -0.5257,
+    "lng": 166.9126,
+    "timezone": "Pacific/Nauru",
+    "names": {
+      "ar": "دينيغومودو",
+      "en": "Denigomodu"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناورو",
+      "countryEn": "Nauru"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "meneng",
+    "type": "city",
+    "countryCode": "nr",
+    "lat": -0.5454,
+    "lng": 166.9487,
+    "timezone": "Pacific/Nauru",
+    "names": {
+      "ar": "مينينغ",
+      "en": "Meneng"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ناورو",
+      "countryEn": "Nauru"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "ngerulmud",
+    "type": "city",
+    "countryCode": "pw",
+    "lat": 7.5008,
+    "lng": 134.6238,
+    "timezone": "Pacific/Palau",
+    "names": {
+      "ar": "نغيرولمود",
+      "en": "Ngerulmud"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بالاو",
+      "countryEn": "Palau"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "koror",
+    "type": "city",
+    "countryCode": "pw",
+    "lat": 7.3398,
+    "lng": 134.4733,
+    "timezone": "Pacific/Palau",
+    "names": {
+      "ar": "كورور",
+      "en": "Koror"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "بالاو",
+      "countryEn": "Palau"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "funafuti",
+    "type": "city",
+    "countryCode": "tv",
+    "lat": -8.5242,
+    "lng": 179.1942,
+    "timezone": "Pacific/Funafuti",
+    "names": {
+      "ar": "فونافوتي",
+      "en": "Funafuti"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "توفالو",
+      "countryEn": "Tuvalu"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "sao-tome",
+    "type": "city",
+    "countryCode": "st",
+    "lat": 0.3376,
+    "lng": 6.7299,
+    "timezone": "Africa/Sao_Tome",
+    "names": {
+      "ar": "ساو تومي",
+      "en": "Sao Tome"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ساو تومي وبرينسيبي",
+      "countryEn": "Sao Tome and Principe"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "neves",
+    "type": "city",
+    "countryCode": "st",
+    "lat": 0.3567,
+    "lng": 6.549,
+    "timezone": "Africa/Sao_Tome",
+    "names": {
+      "ar": "نيفيس",
+      "en": "Neves"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ساو تومي وبرينسيبي",
+      "countryEn": "Sao Tome and Principe"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "agua-ize",
+    "type": "city",
+    "countryCode": "st",
+    "lat": 0.2195,
+    "lng": 6.7278,
+    "timezone": "Africa/Sao_Tome",
+    "names": {
+      "ar": "أغوا إيزي",
+      "en": "Agua Ize"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ساو تومي وبرينسيبي",
+      "countryEn": "Sao Tome and Principe"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "victoria-mahe",
+    "type": "city",
+    "countryCode": "sc",
+    "lat": -4.62,
+    "lng": 55.455,
+    "timezone": "Indian/Mahe",
+    "names": {
+      "ar": "فيكتوريا",
+      "en": "Victoria"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سيشل",
+      "countryEn": "Seychelles"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "cascade-sc",
+    "type": "city",
+    "countryCode": "sc",
+    "lat": -4.6691,
+    "lng": 55.4995,
+    "timezone": "Indian/Mahe",
+    "names": {
+      "ar": "كاسكاد",
+      "en": "Cascade"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سيشل",
+      "countryEn": "Seychelles"
+    },
+    "priority": 70,
+    "source": "curated",
+    "verified": true
   }
 ]

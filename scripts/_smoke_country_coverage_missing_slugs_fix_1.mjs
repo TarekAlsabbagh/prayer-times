@@ -60,19 +60,19 @@ try {
     const pn = await get('/moon-today-in-praia'); const pnm = meta(pn.body);
     check('flat /moon-today-in-praia resolves 200 (was 404)', pn.status===200, pn.status);
     check('  → canonical /moon/cape-verde/praia/today', pnm.canon==='/moon/cape-verde/praia/today', pnm.canon);
-    check('  → noindex (discovered)', /noindex/.test(pnm.robots), pnm.robots);
+    check('  → index (praia is now CURATED after BATCH-1-AND-BATCH-2)', /(^|,)index,follow/.test(pnm.robots), pnm.robots);
     check('  → title carries برايا', pnm.title.includes('برايا'), pnm.title);
     check('  → body carries country الرأس الأخضر', pn.body.includes('الرأس الأخضر'));
     const pd = await get('/moon/cape-verde/praia/today'); const pdm = meta(pd.body);
     check('nested /moon/cape-verde/praia/today = 200 (direct)', pd.status===200, pd.status);
-    check('  → noindex + self-canonical', /noindex/.test(pdm.robots) && pdm.canon==='/moon/cape-verde/praia/today', pdm.robots+' '+pdm.canon);
+    check('  → index + self-canonical (praia curated)', /(^|,)index,follow/.test(pdm.robots) && pdm.canon==='/moon/cape-verde/praia/today', pdm.robots+' '+pdm.canon);
     const ph = await get('/moon-in-praia');
     check('/moon-in-praia (hub) resolves 200 (was 404)', ph.status===200, ph.status);
 
     // ── Cape Verde country hub stays 404 (gated, 0 curated cities) — NO thin page ──
     console.log('\n── Cape Verde country hub gated (no curated cities) ──');
     const mcv = await get('/moon/cape-verde');
-    check('/moon/cape-verde = 404 (gated, no curated cities)', mcv.status===404, mcv.status);
+    check('/moon/cape-verde = 200 (now HAS curated cities after BATCH-1-AND-BATCH-2)', mcv.status===200, mcv.status);
 
     // ── Prayer country page for cv: now a proper country page (was city «كيب verde») ──
     console.log('\n── /prayer-times-in-cape-verde country page ──');
@@ -86,7 +86,7 @@ try {
     console.log('\n── Praia prayer/qibla/next/time-left unchanged ──');
     for (const [p,label] of [['/prayer-times-in-praia','prayer'],['/qibla-in-praia','qibla'],['/next-prayer-in-praia','next-prayer'],['/time-left-until-next-prayer-in-praia','time-left']]) {
         const r = await get(p); const m = meta(r.body);
-        check(`${label} 200 + noindex + برايا`, r.status===200 && /noindex/.test(m.robots) && m.title.includes('برايا'), r.status+' '+m.robots+' '+m.title.slice(0,28));
+        check(`${label} 200 + index + برايا (curated)`, r.status===200 && /(^|,)index,follow/.test(m.robots) && m.title.includes('برايا'), r.status+' '+m.robots+' '+m.title.slice(0,28));
     }
     const legacy = await get('/time-left-for-prayer-in-praia');
     check('legacy /time-left-for-prayer-in-praia = 404 (never generated)', legacy.status===404, legacy.status);
@@ -96,7 +96,7 @@ try {
     const pna = await get('/prayer-times-in-namibia'); const pnam = meta(pna.body);
     check('AR /prayer-times-in-namibia country page = «…ناميبيا…»', pnam.title.includes('ناميبيا'), pnam.title);
     const mna = await get('/moon/namibia');
-    check('/moon/namibia = 404 (gated, no curated cities)', mna.status===404, mna.status);
+    check('/moon/namibia = 200 (now HAS curated cities after BATCH-1-AND-BATCH-2)', mna.status===200, mna.status);
 
     // ── REGRESSION: curated + already-supported-country discovered unchanged ──
     console.log('\n── regression: curated + supported-country discovered ──');

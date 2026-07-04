@@ -761,7 +761,14 @@ const COUNTRY_NAMES_EN = {
     const _slugMap = {};
     for (const [_cc, _name] of Object.entries(COUNTRY_NAMES_EN))
         _slugMap[_name.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'')] = _cc;
-    if (/^[a-z]{2,3}$/.test(_rawSlug)) {
+    // PRAYER-COUNTRY-CLIENT-COUNTRYCODE-RESOLUTION-FIX (DEPTH-2 addendum): the SSR injects the
+    //   authoritative country cc as window.__PT_COUNTRY__.cc on every country page (curated AND
+    //   non-curated). Prefer it so a country the client's own maps don't know (e.g. saint-vincent,
+    //   central-african, cape-verde) NEVER falls back to 'sa' → no title/H1/meta flip to Saudi Arabia.
+    const _ssrCc = (typeof window !== 'undefined' && window.__PT_COUNTRY__ && window.__PT_COUNTRY__.cc) || null;
+    if (_ssrCc) {
+        countryCode = _ssrCc;
+    } else if (/^[a-z]{2,3}$/.test(_rawSlug)) {
         countryCode = _rawSlug;
     } else {
         // slug → code بالخريطة، أو من sessionStorage، أو احتياطي 'sa'
@@ -1097,10 +1104,17 @@ function _localizedCityName(cityEn, lang) {
     return (dict && dict[cityEn]) || cityEn;
 }
 
-function getCountryAr() { return storedCountry.name || COUNTRY_NAMES[countryCode] || countryCode.toUpperCase(); }
-function getCountryEn() { return COUNTRY_NAMES_EN[countryCode] || countryCode.toUpperCase(); }
+// PRAYER-COUNTRY-CLIENT-COUNTRYCODE-RESOLUTION-FIX (DEPTH-2 addendum): the SSR-authoritative country
+//   name per lang (== `_countryNameForLang`, the SAME source as the SSR title/H1). Consulted FIRST so
+//   the hydrated title/H1/meta/content-name match SSR for EVERY country — including non-curated ones the
+//   client's own COUNTRY_NAMES_* maps don't cover (which previously resolved to Saudi Arabia).
+function _ptCtxName(lng) { try { const c = window.__PT_COUNTRY__; return (c && c.names && c.names[lng]) || ''; } catch (_e) { return ''; } }
+function getCountryAr() { return _ptCtxName('ar') || storedCountry.name || COUNTRY_NAMES[countryCode] || countryCode.toUpperCase(); }
+function getCountryEn() { return _ptCtxName('en') || COUNTRY_NAMES_EN[countryCode] || countryCode.toUpperCase(); }
 function getCountryDisplay() {
     const lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+    const _ctx = _ptCtxName(lng);
+    if (_ctx) return _ctx;
     switch (lng) {
         case 'en': return getCountryEn();
         case 'fr': return COUNTRY_NAMES_FR[countryCode] || getCountryEn();
@@ -1126,18 +1140,21 @@ function _countrySeoTitleDesc(lng, cn) {
     const _T = {
         ar: { b: `مواقيت الصلاة في ${cn}`,                 s: [' اليوم حسب مدنها والتوقيت المحلي', ' اليوم حسب مدنها | أوقات الأذان', ' اليوم حسب مدنها', ' اليوم حسب المدينة', ' اليوم', ''] },
         en: { b: `Prayer Times in ${cn}`,                  s: [' Today by City with Local Adhan Times', ' Today by City — Local Adhan Times', ' Today by City with Adhan Times', ' Today by City', ' by City', ''] },
-        fr: { b: `Heures de prière dans les villes de ${cn}`, s: [' aujourd’hui — heure locale', ' aujourd’hui', ''] },
+        fr: { b: `Heures de prière dans les villes de ${cn}`, b2: `Heures de prière — ${cn}`, s: [' aujourd’hui — heure locale', ' aujourd’hui', ''] },
         tr: { b: `${cn} Şehirlerinde Namaz Vakitleri`,     s: [' — Bugün, Yerel Saat', ' — Bugün', ''] },
-        ur: { b: `${cn} کے شہروں میں اوقاتِ نماز`,          s: [' — آج، مقامی وقت کے مطابق', ' — آج', ''] },
-        de: { b: `Gebetszeiten in den Städten von ${cn}`,  s: [' — heute, Ortszeit', ' — heute', ''] },
+        ur: { b: `${cn} کے شہروں میں اوقاتِ نماز`,          s: [' — آج، مقامی وقت کے مطابق', ' — آج، مقامی وقت', ' — آج', ''] },
+        de: { b: `Gebetszeiten in den Städten von ${cn}`,  b2: `Gebetszeiten in ${cn}`,       s: [' — heute, Ortszeit', ' — heute', ''] },
         id: { b: `Jadwal Sholat di Kota-Kota ${cn}`,       s: [' Hari Ini — Waktu Setempat', ' Hari Ini', ''] },
-        es: { b: `Horarios de oración en ciudades de ${cn}`, s: [' hoy — hora local', ' hoy', ''] },
+        es: { b: `Horarios de oración en ciudades de ${cn}`, b2: `Horarios de oración en ${cn}`, s: [' hoy — hora local', ' hoy', ''] },
         bn: { b: `${cn}-এর শহরগুলোতে নামাজের সময়`,        s: [' — আজ, স্থানীয় সময়', ' — আজ', ''] },
-        ms: { b: `Waktu Solat di Bandar-Bandar ${cn}`,     s: [' Hari Ini — Waktu Tempatan', ' Hari Ini', ''] },
+        ms: { b: `Waktu Solat di Bandar-Bandar ${cn}`,     s: [' Hari Ini — Waktu Tempatan', ' Ikut Waktu Tempatan', ' Hari Ini', ''] },
     };
+    // MUST stay byte-identical to server.js `_CT_TITLE` picker: primary base with the LONGEST suffix
+    // ≤ 60 cp; only when the primary base alone exceeds 60 (very long names — fr/de/es) fall back to
+    // the shorter `b2` base. ur/ms intermediate suffix fills the <46 gap for medium names.
     const _ct = _T[lng] || _T.en;
-    let title = _ct.b;
-    for (const _s of _ct.s) { if (_cp(_ct.b + _s) <= 60) { title = _ct.b + _s; break; } }
+    const _pick = (base) => { let _b = null; for (const _s of _ct.s) { const _c = base + _s; if (_cp(_c) <= 60 && (!_b || _cp(_c) > _cp(_b))) _b = _c; } return _b; };
+    let title = _pick(_ct.b) || (_ct.b2 && _pick(_ct.b2)) || _ct.b2 || _ct.b;
     const _LONG = {
         ar: `تعرّف على مواقيت الصلاة في ${cn} اليوم حسب المدينة، مع أوقات الفجر والظهر والعصر والمغرب والعشاء والتاريخ الهجري والتوقيت المحلي.`,
         en: `Find prayer times in ${cn} today by city — Fajr, Dhuhr, Asr, Maghrib and Isha with the adhan time, Hijri date and local time for each city.`,

@@ -79,7 +79,7 @@ try {
         console.log(`── [${lang}] title[${tl}] meta[${dl}] blocks=${m.blocks}`);
         check(`${lang} 200`, r.status===200, r.status);
         check(`${lang} NEW section rendered SSR`, r.body.includes(needle));
-        check(`${lang} 6 content blocks (was 5)`, m.blocks===6, m.blocks);
+        check(`${lang} 9 content blocks (L10N added 1; DEPTH-2 added 3 more)`, m.blocks===9, m.blocks);
         check(`${lang} title ≤ 60`, tl<=60, `[${tl}] ${m.title}`);
         check(`${lang} meta 120–160`, dl>=120 && dl<=160, `[${dl}]`);
         check(`${lang} H1 = 1`, m.h1n===1, m.h1n);
@@ -94,9 +94,9 @@ try {
     // ── AR + EN section still present (unchanged) ──
     console.log('── AR + EN unchanged (still 6 blocks + section) ──');
     const ar = await get('/prayer-times-in-saudi-arabia'); const arm = parse(ar.body);
-    check('AR still has section «أوقات الصلاة المتاحة»', ar.body.includes('أوقات الصلاة المتاحة لكل مدينة') && arm.blocks===6, arm.blocks);
+    check('AR still has section «أوقات الصلاة المتاحة»', ar.body.includes('أوقات الصلاة المتاحة لكل مدينة') && arm.blocks===9, arm.blocks);
     const en = await get('/en/prayer-times-in-saudi-arabia'); const enm = parse(en.body);
-    check('EN still has section «Prayer Times Available» + 6 blocks', en.body.includes('Prayer Times Available for Each City') && enm.blocks===6, enm.blocks);
+    check('EN still has section «Prayer Times Available» + 9 blocks', en.body.includes('Prayer Times Available for Each City') && enm.blocks===9, enm.blocks);
 
     // ── regression ──
     console.log('\n── regression ──');

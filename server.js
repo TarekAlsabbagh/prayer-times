@@ -1806,6 +1806,15 @@ function getBaseUrl() { return SITE_URL; }
 
 // ===== خريطة أسماء الدول بالإنجليزية (لتوليد slugs للـ sitemap) =====
 const COUNTRY_NAMES_EN = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1, 2026-07-04): 16 missing UN
+    // sovereign states. Their discovered cities (e.g. Praia/cv) previously 404'd on ALL moon routes
+    // because makeCountrySlugSrv(cc) returned '' (cc not mapped) → no /moon/{country}/{city} could be
+    // built. Additive names only; slugs collision-checked (no city/country/curated-entry clash). These
+    // have no curated cities → their /moon/{slug} hub stays 404 (gated) + they never enter the sitemap
+    // (sitemap iterates CURATED_ENTRIES ccs). BATCH-2 (small island/Pacific states) deferred.
+    cv:'Cape Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nicaragua', sv:'El Salvador',
+    na:'Namibia', bw:'Botswana', ga:'Gabon', cg:'Republic of the Congo', cf:'Central African Republic', bi:'Burundi',
+    ls:'Lesotho', gw:'Guinea-Bissau', gq:'Equatorial Guinea', sz:'Eswatini',
     sa:'Saudi Arabia', sy:'Syria', eg:'Egypt', iq:'Iraq',
     jo:'Jordan', lb:'Lebanon', ps:'Palestine', kw:'Kuwait', ae:'United Arab Emirates',
     qa:'Qatar', bh:'Bahrain', om:'Oman', ye:'Yemen', ly:'Libya',
@@ -6339,6 +6348,10 @@ const LEGAL_PAGES = {
 
 // أسماء الدول بالعربية (للـ SSR — يجب أن تطابق ما في prayer-times-cities.html)
 const COUNTRY_NAMES_AR = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states (shadda-free)
+    cv:'الرأس الأخضر', by:'بيلاروسيا', md:'مولدوفا', hn:'هندوراس', ni:'نيكاراغوا', sv:'السلفادور',
+    na:'ناميبيا', bw:'بوتسوانا', ga:'الغابون', cg:'جمهورية الكونغو', cf:'جمهورية أفريقيا الوسطى', bi:'بوروندي',
+    ls:'ليسوتو', gw:'غينيا بيساو', gq:'غينيا الاستوائية', sz:'إسواتيني',
     sa:'المملكة العربية السعودية', sy:'سوريا', eg:'مصر', iq:'العراق',
     jo:'الأردن', lb:'لبنان', ps:'فلسطين', kw:'الكويت', ae:'الإمارات',
     qa:'قطر', bh:'البحرين', om:'عُمان', ye:'اليمن', ly:'ليبيا',
@@ -10292,6 +10305,10 @@ const _REGION_TITLES = {
 // ترجمات أسماء الدول لغير العربية (لغير AR — نعتمد على COUNTRY_NAMES_EN كأساس،
 // ونضيف ترجمات لـ fr/tr/ur للدول العربية + الكبرى لجعلها localized)
 const _COUNTRY_NAMES_FR = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'Cap-Vert', by:'Biélorussie', md:'Moldavie', hn:'Honduras', ni:'Nicaragua', sv:'Salvador',
+    na:'Namibie', bw:'Botswana', ga:'Gabon', cg:'République du Congo', cf:'République centrafricaine', bi:'Burundi',
+    ls:'Lesotho', gw:'Guinée-Bissau', gq:'Guinée équatoriale', sz:'Eswatini',
     sa:'Arabie Saoudite', eg:'Égypte', ae:'Émirats arabes unis', iq:'Irak', sy:'Syrie',
     jo:'Jordanie', ps:'Palestine', lb:'Liban', ye:'Yémen', om:'Oman',
     kw:'Koweït', qa:'Qatar', bh:'Bahreïn', ma:'Maroc', dz:'Algérie',
@@ -10332,6 +10349,10 @@ const _COUNTRY_NAMES_FR = {
     za:'Afrique du Sud',
 };
 const _COUNTRY_NAMES_TR = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'Cabo Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nikaragua', sv:'El Salvador',
+    na:'Namibya', bw:'Botsvana', ga:'Gabon', cg:'Kongo Cumhuriyeti', cf:'Orta Afrika Cumhuriyeti', bi:'Burundi',
+    ls:'Lesotho', gw:'Gine-Bissau', gq:'Ekvator Ginesi', sz:'Esvatini',
     sa:'Suudi Arabistan', eg:'Mısır', ae:'BAE', iq:'Irak', sy:'Suriye',
     jo:'Ürdün', ps:'Filistin', lb:'Lübnan', ye:'Yemen', om:'Umman',
     kw:'Kuveyt', qa:'Katar', bh:'Bahreyn', ma:'Fas', dz:'Cezayir',
@@ -10372,6 +10393,10 @@ const _COUNTRY_NAMES_TR = {
     za:'Güney Afrika',
 };
 const _COUNTRY_NAMES_UR = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'کیپ ورڈی', by:'بیلاروس', md:'مالدووا', hn:'ہونڈوراس', ni:'نکاراگوا', sv:'ایل سلواڈور',
+    na:'نمیبیا', bw:'بوٹسوانا', ga:'گیبون', cg:'جمہوریہ کانگو', cf:'وسطی افریقی جمہوریہ', bi:'برونڈی',
+    ls:'لیسوتھو', gw:'گنی بساؤ', gq:'استوائی گنی', sz:'ایسواتینی',
     sa:'سعودی عرب', eg:'مصر', ae:'متحدہ عرب امارات', iq:'عراق', sy:'شام',
     jo:'اردن', ps:'فلسطین', lb:'لبنان', ye:'یمن', om:'عمان',
     kw:'کویت', qa:'قطر', bh:'بحرین', ma:'مراکش', dz:'الجزائر',
@@ -10412,6 +10437,10 @@ const _COUNTRY_NAMES_UR = {
     za:'جنوبی افریقہ',
 };
 const _COUNTRY_NAMES_DE = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'Kap Verde', by:'Belarus', md:'Moldau', hn:'Honduras', ni:'Nicaragua', sv:'El Salvador',
+    na:'Namibia', bw:'Botswana', ga:'Gabun', cg:'Republik Kongo', cf:'Zentralafrikanische Republik', bi:'Burundi',
+    ls:'Lesotho', gw:'Guinea-Bissau', gq:'Äquatorialguinea', sz:'Eswatini',
     sa:'Saudi-Arabien', eg:'Ägypten', ae:'Vereinigte Arabische Emirate', iq:'Irak', sy:'Syrien',
     jo:'Jordanien', ps:'Palästina', lb:'Libanon', ye:'Jemen', om:'Oman',
     kw:'Kuwait', qa:'Katar', bh:'Bahrain', ma:'Marokko', dz:'Algerien',
@@ -10457,6 +10486,10 @@ const _COUNTRY_NAMES_DE = {
     tw:'Taiwan',
 };
 const _COUNTRY_NAMES_ID = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'Tanjung Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nikaragua', sv:'El Salvador',
+    na:'Namibia', bw:'Botswana', ga:'Gabon', cg:'Republik Kongo', cf:'Republik Afrika Tengah', bi:'Burundi',
+    ls:'Lesotho', gw:'Guinea-Bissau', gq:'Guinea Khatulistiwa', sz:'Eswatini',
     sa:'Arab Saudi', eg:'Mesir', ae:'Uni Emirat Arab', iq:'Irak', sy:'Suriah',
     jo:'Yordania', ps:'Palestina', lb:'Lebanon', ye:'Yaman', om:'Oman',
     kw:'Kuwait', qa:'Qatar', bh:'Bahrain', ma:'Maroko', dz:'Aljazair',
@@ -10502,6 +10535,10 @@ const _COUNTRY_NAMES_ID = {
     tw:'Taiwan',
 };
 const _COUNTRY_NAMES_ES = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'Cabo Verde', by:'Bielorrusia', md:'Moldavia', hn:'Honduras', ni:'Nicaragua', sv:'El Salvador',
+    na:'Namibia', bw:'Botsuana', ga:'Gabón', cg:'República del Congo', cf:'República Centroafricana', bi:'Burundi',
+    ls:'Lesoto', gw:'Guinea-Bisáu', gq:'Guinea Ecuatorial', sz:'Esuatini',
     sa:'Arabia Saudita', eg:'Egipto', ae:'Emiratos Árabes Unidos', iq:'Irak', sy:'Siria',
     jo:'Jordania', ps:'Palestina', lb:'Líbano', ye:'Yemen', om:'Omán',
     kw:'Kuwait', qa:'Catar', bh:'Baréin', ma:'Marruecos', dz:'Argelia',
@@ -10545,6 +10582,10 @@ const _COUNTRY_NAMES_ES = {
     tw:'Taiwán',
 };
 const _COUNTRY_NAMES_BN = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'কেপ ভার্দে', by:'বেলারুশ', md:'মলদোভা', hn:'হন্ডুরাস', ni:'নিকারাগুয়া', sv:'এল সালভাদর',
+    na:'নামিবিয়া', bw:'বতসোয়ানা', ga:'গ্যাবন', cg:'কঙ্গো প্রজাতন্ত্র', cf:'মধ্য আফ্রিকান প্রজাতন্ত্র', bi:'বুরুন্ডি',
+    ls:'লেসোথো', gw:'গিনি-বিসাউ', gq:'নিরক্ষীয় গিনি', sz:'ইসোয়াতিনি',
     sa:'সৌদি আরব', eg:'মিশর', ae:'সংযুক্ত আরব আমিরাত', iq:'ইরাক', sy:'সিরিয়া',
     jo:'জর্ডান', ps:'ফিলিস্তিন', lb:'লেবানন', ye:'ইয়েমেন', om:'ওমান',
     kw:'কুয়েত', qa:'কাতার', bh:'বাহরাইন', ma:'মরক্কো', dz:'আলজেরিয়া',
@@ -10588,6 +10629,10 @@ const _COUNTRY_NAMES_BN = {
     tw:'তাইওয়ান',
 };
 const _COUNTRY_NAMES_MS = {
+    // COUNTRY-COVERAGE-AUDIT-AND-MISSING-COUNTRY-SLUGS-FIX-1 (BATCH-1): 16 missing sovereign states
+    cv:'Tanjung Verde', by:'Belarus', md:'Moldova', hn:'Honduras', ni:'Nikaragua', sv:'El Salvador',
+    na:'Namibia', bw:'Botswana', ga:'Gabon', cg:'Republik Congo', cf:'Republik Afrika Tengah', bi:'Burundi',
+    ls:'Lesotho', gw:'Guinea-Bissau', gq:'Guinea Khatulistiwa', sz:'Eswatini',
     sa:'Arab Saudi', eg:'Mesir', ae:'Emiriah Arab Bersatu', iq:'Iraq', sy:'Syria',
     jo:'Jordan', ps:'Palestin', lb:'Lubnan', ye:'Yaman', om:'Oman',
     kw:'Kuwait', qa:'Qatar', bh:'Bahrain', ma:'Maghribi', dz:'Algeria',

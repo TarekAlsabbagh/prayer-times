@@ -1577,7 +1577,14 @@
 //   ?qiblaDebug=1 overlay with raw event.alpha/beta/gamma/absolute/type + BOTH
 //   heading candidates, and adds temporary ?headingMode=alpha|invert triage
 //   toggles to resolve the correct Android absolute convention on a real device.
-const CACHE_VERSION = 'v485';
+// DEVICE-TEST-FAIL ADDENDUM — decision pass (test branch): js/app.js?v=818→820,
+//   css/style.css?v=490→491, sw v485→v487. Real-Android result confirmed invert
+//   (heading = 360 - alpha, absolute-only) → production LOCKED to invert; headingMode
+//   is now debug-only (gated behind ?qiblaDebug=1). Adds a reliability layer: collapse
+//   to a single listener after the absolute source is confirmed (2→1), a wobble
+//   detector that flags an unstable magnetometer, and a persistent honest accuracy note
+//   (figure-8 + avoid-metal + exact digital bearing). NO fixed offset, NO bearing change.
+const CACHE_VERSION = 'v487';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1595,7 +1602,7 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
-    '/css/style.css?v=490',
+    '/css/style.css?v=491',
     '/js/i18n.js?v=194',
     '/js/prayer-times.js?v=54',
     '/js/hijri-date.js?v=44',
@@ -1604,7 +1611,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=818',
+    '/js/app.js?v=820',
 ];
 
 self.addEventListener('install', (event) => {

@@ -2542,6 +2542,20 @@ html[data-theme="dark"] .ns-item.is-selected {
     opacity: 0.85;
 }
 .compass-status:empty { display: none; }
+/* DEVICE-TEST-FAIL ADDENDUM — persistent honest accuracy/calibration note under the
+   compass (figure-8 + avoid-metal + "exact angle above"). Muted, always present. */
+.compass-accuracy-note {
+    margin: 8px auto 0;
+    max-width: 340px;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    text-align: center;
+    opacity: 0.68;
+}
+.compass-accuracy-note:empty { display: none; }
+/* When the magnetometer is jittering (unstable), dim the needle so it doesn't read as
+   absolute truth — the exact digital bearing above stays authoritative. */
+#compass.compass-uncertain .compass-arrow { opacity: 0.45; }
 
 .compass-permission-btn {
     display: none;

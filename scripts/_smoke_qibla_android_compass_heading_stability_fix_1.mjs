@@ -54,6 +54,7 @@ try {
   console.log('\n── shipped DOM + JS ──');
   const q = await get('/qibla-in-riyadh');
   check('#compass-status element present (fallback UI)', /id="compass-status"/.test(q));
+  check('#compass-accuracy-note persistent note present', /id="compass-accuracy-note"/.test(q));
 
   // (c) served app.js carries the fix (string literals survive minification)
   const appjs = await get('/js/app.js');
@@ -67,6 +68,14 @@ try {
   check('app.js has headingMode triage toggle', appjs.includes('headingMode'));
   check('app.js computes both candidates (candInvert)', appjs.includes('candInvert'));
   check('app.js debug carries cand360mAlpha', appjs.includes('cand360mAlpha'));
+  // DEVICE-TEST-FAIL ADDENDUM (decision pass): reliability layer ships.
+  check('app.js collapses to a single source', appjs.includes('_qCollapseToSingleSource'));
+  check('app.js has the wobble detector', appjs.includes('_qIsWobbling'));
+  check('app.js dims needle when uncertain', appjs.includes('compass-uncertain'));
+  check('app.js ships the accuracy-note dict', appjs.includes('_QC_ACCURACY'));
+  const cssTxt = await get('/css/style.css');
+  check('style.css styles .compass-accuracy-note', cssTxt.includes('compass-accuracy-note'));
+  check('style.css dims needle on .compass-uncertain', cssTxt.includes('compass-uncertain'));
 
   // (d) bearing UNCHANGED
   console.log('\n── bearing (unchanged) + rotation formula ──');

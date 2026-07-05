@@ -15642,6 +15642,16 @@ let _qLastApplied = null, _qPending = null, _qRaf = 0, _qTimeout = 0;
 let _qHasReliable = false, _qSawRelative = false;
 let _qLastSource = '', _qLastEventType = '', _qListenerCount = 0, _qBindTs = 0;
 let _qTeardownBound = false;
+// DEVICE-TEST-FAIL ADDENDUM — reliability layer:
+//  • _qCollapsed: once an ABSOLUTE (Android) or webkit (iOS) reading arrives we drop
+//    the losing listener so the two streams can never contend (listeners 2 → 1).
+//  • _qHist: short rolling window of {t,h} raw headings → a wobble detector that flags
+//    an UNSTABLE (jittering-in-place) magnetometer without false-positiving on a real
+//    intentional rotation. A steady magnetic OFFSET is intentionally NOT flagged — it
+//    is undetectable in-browser (no true-north reference), so the honest mitigation is
+//    the always-visible digital bearing + the calibration note, never a fixed offset.
+let _qCollapsed = false, _qUnstable = false;
+let _qHist = [];
 
 // ───── Qibla helpers (Round 25: Tool Page + localized city names) ─────
 
@@ -17882,6 +17892,22 @@ const _QC_L10N = {
     bn: { reading:'কম্পাস পড়া হচ্ছে…', calibrate:'কম্পাস ক্যালিব্রেট করতে ফোনটি ৮-এর আকারে নাড়ান, তারপর ফোনের উপরের দিক সামনে রাখুন।', unstable:'ডিভাইসের দিক অস্থির — ফোন ৮-এর আকারে নাড়িয়ে ক্যালিব্রেট করুন।', unsupported:'এই ব্রাউজারে কম্পাস সমর্থিত নয় — প্রদর্শিত কোণ ব্যবহার করে নিজে দিক ঠিক করুন।' },
     ms: { reading:'Membaca kompas…', calibrate:'Gerakkan telefon dalam bentuk angka 8 untuk menentukur kompas, kemudian halakan bahagian atas telefon ke hadapan.', unstable:'Arah peranti tidak stabil — tentukur dengan menggerakkan telefon dalam bentuk 8.', unsupported:'Kompas tidak disokong dalam pelayar ini — gunakan sudut dipaparkan secara manual.' }
 };
+// DEVICE-TEST-FAIL ADDENDUM — persistent honest disclaimer under the compass. The live
+// needle depends on the device magnetometer (which can carry a steady offset we cannot
+// detect in-browser), so we always steer the user to the exact digital bearing shown
+// above + calibration. NO fixed offset is ever applied.
+const _QC_ACCURACY = {
+    ar:'إذا بدا الاتجاه غير دقيق: حرّك الهاتف على شكل الرقم ٨ وابتعد عن المعادن والأغطية المغناطيسية. زاوية القبلة الدقيقة معروضة بالأعلى.',
+    en:'If the direction looks off: move your phone in a figure-8 and keep it away from metal or magnetic cases. The exact Qibla angle is shown above.',
+    fr:'Si la direction semble incorrecte : bougez le téléphone en forme de 8 et éloignez-le du métal ou des étuis magnétiques. L’angle exact de la Qibla est indiqué ci-dessus.',
+    tr:'Yön yanlış görünüyorsa: telefonu 8 şeklinde hareket ettirin ve metal ya da manyetik kılıflardan uzak tutun. Kesin Kıble açısı yukarıda gösterilir.',
+    ur:'اگر سمت درست نہ لگے: فون کو 8 کی شکل میں حرکت دیں اور دھات یا مقناطیسی کور سے دور رکھیں۔ قبلہ کا درست زاویہ اوپر دکھایا گیا ہے۔',
+    de:'Wenn die Richtung falsch wirkt: Bewegen Sie das Telefon in einer Acht und halten Sie es von Metall oder magnetischen Hüllen fern. Der genaue Qibla-Winkel wird oben angezeigt.',
+    id:'Jika arah tampak keliru: gerakkan ponsel membentuk angka 8 dan jauhkan dari logam atau casing magnetik. Sudut kiblat yang tepat ditampilkan di atas.',
+    es:'Si la dirección parece incorrecta: mueve el teléfono en forma de 8 y aléjalo del metal o de fundas magnéticas. El ángulo exacto de la alquibla se muestra arriba.',
+    bn:'দিক ভুল মনে হলে: ফোনটি ৮-এর আকারে নাড়ান এবং ধাতু বা চৌম্বকীয় কভার থেকে দূরে রাখুন। সঠিক কিবলার কোণ উপরে দেখানো হয়েছে।',
+    ms:'Jika arah kelihatan salah: gerakkan telefon dalam bentuk angka 8 dan jauhkan daripada logam atau sarung magnetik. Sudut kiblat tepat dipaparkan di atas.'
+};
 function _qcMsg(key){ const l=(typeof getCurrentLang==='function')?getCurrentLang():'ar'; return (_QC_L10N[l]||_QC_L10N.ar)[key]||''; }
 function _qNorm(a){ a=a%360; return a<0?a+360:a; }
 function _qAngDiff(a,b){ const d=((a-b+540)%360)-180; return Math.abs(d); }
@@ -17889,13 +17915,48 @@ function _qScreenAngle(){ try{ if(typeof screen!=='undefined'&&screen.orientatio
 function _qDebugOn(){ try{ return new URLSearchParams(location.search).get('qiblaDebug')==='1'; }catch(_){ return false; } }
 function _qDebug(o){ if(!_qDebugOn())return; try{ console.debug('[qiblaDebug]', o); let el=document.getElementById('qibla-debug'); if(!el){ el=document.createElement('pre'); el.id='qibla-debug'; el.style.cssText='position:fixed;left:6px;bottom:6px;z-index:99999;max-width:60vw;font:11px/1.35 monospace;background:rgba(0,0,0,.82);color:#0f0;padding:6px 8px;border-radius:6px;white-space:pre-wrap;pointer-events:none'; (document.body||document.documentElement).appendChild(el); } el.textContent=Object.keys(o).map(k=>k+': '+o[k]).join('\n'); }catch(_){} }
 
-// DEVICE-TEST-FAIL ADDENDUM: temporary heading-convention override for triage.
-//   ?headingMode=alpha  → heading = alpha         (some Android absolute streams
-//                                                   report alpha AS the clockwise heading)
-//   ?headingMode=invert → heading = 360 - alpha   (W3C-standard; the current default)
-// Not surfaced to normal users — only to determine the correct Android convention on a
-// real device. Default (no param) keeps the existing behaviour (invert).
-function _qHeadingMode(){ try{ const m=new URLSearchParams(location.search).get('headingMode'); return (m==='alpha'||m==='invert')?m:''; }catch(_){ return ''; } }
+// DEVICE-TEST-FAIL ADDENDUM: heading-convention override — DEBUG-ONLY triage tool.
+//   Real-Android testing confirmed invert (heading = 360 - alpha) is the correct
+//   Android absolute convention, so production is LOCKED to invert. The override is
+//   now gated behind ?qiblaDebug=1 so a normal user URL can NEVER flip the convention:
+//     ?qiblaDebug=1&headingMode=alpha  → heading = alpha        (triage only)
+//     ?qiblaDebug=1&headingMode=invert → heading = 360 - alpha  (production default)
+//   Without ?qiblaDebug=1, headingMode is ignored entirely → always invert.
+function _qHeadingMode(){ try{ if(!_qDebugOn())return ''; const m=new URLSearchParams(location.search).get('headingMode'); return (m==='alpha'||m==='invert')?m:''; }catch(_){ return ''; } }
+
+// DEVICE-TEST-FAIL ADDENDUM — once the winning source is confirmed, drop the losing
+// listener so the two orientation streams can never contend (Android keeps
+// deviceorientationabsolute, iOS keeps the plain deviceorientation that carries
+// webkitCompassHeading). Idempotent → runs once. relative rejection is unaffected.
+function _qCollapseToSingleSource(source){
+    if (_qCollapsed || !_orientationHandler) return;
+    try {
+        if (source === 'android-absolute'){ window.removeEventListener('deviceorientation', _orientationHandler, true); _qCollapsed = true; if (_qListenerCount>0) _qListenerCount--; }
+        else if (source === 'ios-webkit'){  window.removeEventListener('deviceorientationabsolute', _orientationHandler, true); _qCollapsed = true; if (_qListenerCount>0) _qListenerCount--; }
+    } catch(_){}
+}
+
+// Wobble detector — tells a JITTERING-in-place magnetometer (large total angular
+// variation, ~zero net displacement) apart from a real intentional rotation (variation
+// ≈ net displacement), with hysteresis. A steady OFFSET is deliberately NOT flagged:
+// it is undetectable in-browser (no true-north reference), so we never invent a fixed
+// correction — the digital bearing + calibration note are the honest mitigation.
+function _qIsWobbling(h, now){
+    _qHist.push({ t: now, h: h });
+    while (_qHist.length && (now - _qHist[0].t) > 1600) _qHist.shift();     // ~1.6s window
+    if (_qHist.length < 6 || (now - _qHist[0].t) < 900) return _qUnstable;  // too little data → keep prior
+    let totalVar = 0;
+    for (let i = 1; i < _qHist.length; i++) totalVar += _qAngDiff(_qHist[i].h, _qHist[i-1].h);
+    const net = _qAngDiff(_qHist[_qHist.length-1].h, _qHist[0].h);
+    if (totalVar >= 50 && totalVar >= net * 3) return true;   // wobbling in place → unstable
+    if (totalVar < 18) return false;                          // settled → stable
+    return _qUnstable;                                        // in-between → hysteresis
+}
+
+// Persistent honest disclaimer under the compass (figure-8 + avoid-metal + "exact angle
+// is shown above"). Set from _QC_L10N (no i18n split-bundle touch); refreshed on every
+// startDeviceCompass call so it follows the active language on qibla re-render.
+function _qSetAccuracyNote(){ const el=document.getElementById('compass-accuracy-note'); if(!el)return; const l=(typeof getCurrentLang==='function')?getCurrentLang():'ar'; el.textContent=(_QC_ACCURACY[l]||_QC_ACCURACY.ar); }
 
 // Resolve a TRUE compass heading (0=N, clockwise) from an orientation event, or null.
 function resolveCompassHeading(e){
@@ -17935,6 +17996,15 @@ function _applyCompassHeading(res){
         headingMode:res.mode||'-', candAlpha:_rnd(res.candAlpha), cand360mAlpha:_rnd(res.candInvert),
         chosenHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed),
         qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(_qNorm((_qiblaAngle||0)-smoothed)), listeners:_qListenerCount });
+    // reliability: flag a JITTERING magnetometer → 'unstable' message + dim the needle
+    //   (never hidden, never re-mathed). Fed the RAW heading (smoothing would mask the
+    //   very jitter we detect). A steady offset is NOT flaggable in-browser.
+    const _wob = _qIsWobbling(rawHeading, Date.now());
+    if (_wob !== _qUnstable){
+        _qUnstable = _wob;
+        const cu = document.getElementById('compass'); if (cu) cu.classList.toggle('compass-uncertain', _wob);
+        _qSetStatus(_wob ? 'unstable' : '');
+    }
     // threshold: skip sub-1.5° changes (kills idle jitter). No rAF — a throttled/
     // backgrounded rAF would freeze the needle; and with .compass-live disabling
     // the CSS transition, a direct write jumps straight to the already-smoothed
@@ -17957,6 +18027,7 @@ _orientationHandler = function(e){
         const btn = document.getElementById('compass-permission-btn'); if (btn) btn.style.display='none';
         const compass = document.getElementById('compass'); if (compass) compass.classList.add('compass-live');
         _qSetStatus('');
+        _qCollapseToSingleSource(res.source);   // drop the losing stream → listeners 2 → 1
     }
     _qLastSource = res.source;
     _applyCompassHeading(res);
@@ -17964,11 +18035,13 @@ _orientationHandler = function(e){
 
 function startDeviceCompass(){
     if (typeof window === 'undefined') return;
+    _qSetAccuracyNote();                                 // persistent honest note (lang-refreshed each call)
     if (!window.DeviceOrientationEvent){ _qHasReliable=false; _qSetStatus('unsupported'); return; }
     if (_compassListening) return;                      // idempotent — already bound
     _qSawRelative=false; _qHasReliable=false; _qSmoothInit=false; _qLastApplied=null; _qPending=null;
+    _qCollapsed=false; _qUnstable=false; _qHist=[];      // reset reliability layer
     _qSetStatus('reading');
-    const compass = document.getElementById('compass'); if (compass) compass.classList.remove('compass-live');
+    const compass = document.getElementById('compass'); if (compass){ compass.classList.remove('compass-live'); compass.classList.remove('compass-uncertain'); }
     try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); _qListenerCount++; } catch(_){}
     try { window.addEventListener('deviceorientation',         _orientationHandler, true); _qListenerCount++; } catch(_){}
     _compassListening = true; _qBindTs = Date.now();
@@ -17989,10 +18062,11 @@ function stopDeviceCompass(){
     try { window.removeEventListener('deviceorientationabsolute', _orientationHandler, true); } catch(_){}
     try { window.removeEventListener('deviceorientation',         _orientationHandler, true); } catch(_){}
     _compassListening = false; _qListenerCount = 0;
+    _qCollapsed = false; _qUnstable = false; _qHist = [];
     if (_qRaf){ try{ cancelAnimationFrame(_qRaf); }catch(_){} _qRaf = 0; }
     if (_qTimeout){ clearTimeout(_qTimeout); _qTimeout = 0; }
     _qPending = null;
-    const compass = document.getElementById('compass'); if (compass) compass.classList.remove('compass-live');
+    const compass = document.getElementById('compass'); if (compass){ compass.classList.remove('compass-live'); compass.classList.remove('compass-uncertain'); }
 }
 
 function _qEnsureTeardown(){
@@ -18014,13 +18088,14 @@ function requestCompassPermission(){
     // iOS 13+ — explicit gesture-gated permission.
     if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
         DeviceOrientationEvent.requestPermission().then(function(state){
-            if (state === 'granted'){ _compassListening = false; startDeviceCompass(); }
+            if (state === 'granted'){ stopDeviceCompass(); startDeviceCompass(); }
             else { _qSetStatus('unsupported'); }
         }).catch(function(){ _qSetStatus('unsupported'); });
         return;
     }
-    // non-iOS — the user gesture is enough; (re)start cleanly.
-    _compassListening = false; startDeviceCompass();
+    // non-iOS — the user gesture is enough. stop-then-start so a prior auto-start's
+    // listeners are removed first → _qListenerCount stays truthful (no double-count).
+    stopDeviceCompass(); startDeviceCompass();
 }
 
 // ========= القمر =========

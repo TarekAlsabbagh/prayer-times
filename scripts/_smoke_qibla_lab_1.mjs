@@ -58,13 +58,20 @@ try {
   check('app.js has ?qiblaLab gate', appjs.includes('qiblaLab'));
   check('app.js has the Lab overlay ("QIBLA LAB")', appjs.includes('QIBLA LAB'));
   check('app.js has candidate C (tilt-comp)', appjs.includes('tilt-comp'));
-  check('app.js has candidate D (abs-only, "waiting-absolute")', appjs.includes('waiting-absolute'));
+  check('app.js has candidate D (absolute-gated, "abs 360-a")', appjs.includes('abs 360-a'));
   check('app.js has candidate E (AbsoluteOrientationSensor)', appjs.includes('AbsoluteOrientationSensor'));
   check('app.js has candidate E label (AbsOrientSensor)', appjs.includes('AbsOrientSensor'));
   // v2 LAB HOLD (read-only diagnostics): needle frozen + dimmed dial + FREEZE control + stability summary.
-  check('app.js Lab shows "LAB MODE" needle-disabled notice', appjs.includes('LAB MODE'));
   check('app.js Lab has FREEZE control', appjs.includes('FREEZE'));
-  check('app.js Lab freeze button id present', appjs.includes('qibla-lab-btn'));
+  // v3 LAB MOBILE USABILITY: Capture-3s sample + flatness gate + abs-unavailable + reset + direction selector.
+  check('app.js Lab has "Capture 3s Sample"', appjs.includes('Capture 3s Sample'));
+  check('app.js Lab has "Reset Sample"', appjs.includes('Reset Sample'));
+  check('app.js Lab has RESUME (unstuck-freeze)', appjs.includes('RESUME'));
+  check('app.js Lab has FLAT OK / TILTED gate', appjs.includes('FLAT OK') && appjs.includes('TILTED'));
+  check('app.js Lab shows "deviceorientationabsolute unavailable"', appjs.includes('deviceorientationabsolute unavailable'));
+  check('app.js Lab has SAMPLE RESULT summary', appjs.includes('SAMPLE RESULT'));
+  check('app.js Lab has Direction-being-tested selector', appjs.includes('Direction being tested'));
+  check('app.js Lab has best-looking candidate pick', appjs.includes('best-looking candidate'));
 
   // (c) PRODUCTION + iOS path preserved (surviving property/global names; exact-byte proof = git diff)
   console.log('\n── production + iOS path preserved ──');

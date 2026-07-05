@@ -1583,7 +1583,13 @@
 //   early-return in _applyCompassHeading — real users unaffected) and the dial is dimmed; the
 //   Lab shows a 2s stability summary (cur/min/max/range) + a FREEZE button and applies no
 //   candidate to the needle. iOS path / permission flow / qiblaBearing / qibla.js unchanged.
-const CACHE_VERSION = 'v485';
+// QIBLA-ANDROID-COMPASS-ROOT-REBUILD-1 — LAB MOBILE USABILITY (test branch): js/app.js
+//   ?v=817→818, sw v485→v486. Compass Lab rebuilt for on-phone use: big LIVE/FREEZE→RESUME +
+//   Reset buttons, a "Capture 3s Sample" (3s countdown → auto-snapshot with avg/median/range),
+//   a FLAT OK/TILTED gate (tilted capture = INVALID), explicit "deviceorientationabsolute
+//   unavailable" (Candidate D excluded), a prominent Candidate E status, and a manual
+//   Direction selector stamped into the snapshot. Needle still frozen; iOS/qibla.js untouched.
+const CACHE_VERSION = 'v486';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1610,7 +1616,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=817',
+    '/js/app.js?v=818',
 ];
 
 self.addEventListener('install', (event) => {

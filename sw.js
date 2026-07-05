@@ -1584,7 +1584,11 @@
 //   to a single listener after the absolute source is confirmed (2→1), a wobble
 //   detector that flags an unstable magnetometer, and a persistent honest accuracy note
 //   (figure-8 + avoid-metal + exact digital bearing). NO fixed offset, NO bearing change.
-const CACHE_VERSION = 'v487';
+// DEVICE-HAPTIC ADDENDUM (test branch): js/app.js?v=820→821, sw v487→v488. Adds a
+//   light Vibration-API buzz when the user faces the Qibla (enter ≤6° / exit >10°
+//   hysteresis, ~600ms dwell, buzz-once, cancel on exit/teardown). UX-only, Android;
+//   iOS/desktop (no navigator.vibrate) silently no-op. No bearing/rotation/offset change.
+const CACHE_VERSION = 'v488';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1611,7 +1615,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=820',
+    '/js/app.js?v=821',
 ];
 
 self.addEventListener('install', (event) => {

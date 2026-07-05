@@ -76,6 +76,10 @@ try {
   // iOS non-regression: the webkitCompassHeading source is preserved (checked FIRST in
   // resolveCompassHeading, so invert-lock/headingMode can never touch the iOS path).
   check('app.js keeps iOS webkitCompassHeading source', appjs.includes('webkitCompassHeading'));
+  // DEVICE-HAPTIC ADDENDUM: guarded Vibration API + alignment state machine ship.
+  check('app.js has the haptic state machine', appjs.includes('_qUpdateHaptic'));
+  check('app.js guards the Vibration API', appjs.includes('navigator.vibrate'));
+  check('app.js exposes qiblaAligned in debug', appjs.includes('qiblaAligned'));
   const cssTxt = await get('/css/style.css');
   check('style.css styles .compass-accuracy-note', cssTxt.includes('compass-accuracy-note'));
   check('style.css dims needle on .compass-uncertain', cssTxt.includes('compass-uncertain'));

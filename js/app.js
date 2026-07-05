@@ -15652,6 +15652,13 @@ let _qTeardownBound = false;
 //    the always-visible digital bearing + the calibration note, never a fixed offset.
 let _qCollapsed = false, _qUnstable = false;
 let _qHist = [];
+// DEVICE-HAPTIC ADDENDUM — light vibration when the user faces the Qibla.
+//  UX-only (Vibration API, Android; iOS has no navigator.vibrate → silent no-op).
+//  _qInZone: within the alignment band (enter ≤6°, exit >10° — hysteresis so a jittery
+//  sensor can't flip on/off). _qHapticArmed: already buzzed for THIS in-zone episode
+//  (buzz once on entry, not every frame). _qAlignedSince: dwell timer (must hold ~600ms
+//  in-zone before buzzing → no buzz on a fast sweep-through). No bearing/offset change.
+let _qInZone = false, _qHapticArmed = false, _qAlignedSince = 0, _qLastVibrationAt = 0, _qLastAngularDiff = null;
 
 // ───── Qibla helpers (Round 25: Tool Page + localized city names) ─────
 
@@ -17958,6 +17965,37 @@ function _qIsWobbling(h, now){
 // startDeviceCompass call so it follows the active language on qibla re-render.
 function _qSetAccuracyNote(){ const el=document.getElementById('compass-accuracy-note'); if(!el)return; const l=(typeof getCurrentLang==='function')?getCurrentLang():'ar'; el.textContent=(_QC_ACCURACY[l]||_QC_ACCURACY.ar); }
 
+// DEVICE-HAPTIC ADDENDUM — Vibration API guarded so unsupported browsers (iOS/desktop)
+// silently no-op (never throws, never blocks the compass).
+function _qHapticSupported(){ try { return typeof navigator !== 'undefined' && typeof navigator.vibrate === 'function'; } catch(_){ return false; } }
+function _qVibrate(pattern){ if(!_qHapticSupported())return; try { navigator.vibrate(pattern); } catch(_){} }
+// Cancel any buzz + reset the alignment machine (on leaving the zone / teardown / ineligible).
+function _qHapticReset(){ if(_qInZone||_qHapticArmed) _qVibrate(0); _qInZone=false; _qHapticArmed=false; _qAlignedSince=0; }
+// Drive the buzz from the SMOOTHED on-screen rotation. angularDiff = distance from "up"
+// (0 = facing Qibla). Buzz ONCE when the user settles into the band; silence on exit;
+// re-buzz on re-entry. Never repeats every frame; never runs on an unreliable/unstable
+// reading. Debug never changes behaviour. No change to bearing/rotation/offset.
+function _qUpdateHaptic(finalRotation, source, now){
+    if (!_qHapticSupported()){ _qLastAngularDiff = _qAngDiff(finalRotation, 0); return; }
+    const eligible = _qHasReliable && !_qUnstable && (source === 'android-absolute' || source === 'ios-webkit');
+    if (!eligible){ _qHapticReset(); _qLastAngularDiff = null; return; }
+    const diff = _qAngDiff(finalRotation, 0);   // 0° = pointing straight up = facing Qibla
+    _qLastAngularDiff = diff;
+    if (_qInZone){
+        if (diff > 10) { _qHapticReset(); return; }   // exit hysteresis → silence + reset
+    } else if (diff <= 6) {
+        _qInZone = true; _qAlignedSince = now;         // entered the band → start the dwell timer
+    } else {
+        _qAlignedSince = 0;
+        return;
+    }
+    // in-zone: buzz once after a short stable dwell (guards against a fast sweep-through).
+    if (!_qHapticArmed && _qAlignedSince && (now - _qAlignedSince) >= 600){
+        _qVibrate([80, 40, 80]);
+        _qHapticArmed = true; _qLastVibrationAt = now;
+    }
+}
+
 // Resolve a TRUE compass heading (0=N, clockwise) from an orientation event, or null.
 function resolveCompassHeading(e){
     if (!e) return { heading:null, source:'unsupported' };
@@ -17988,23 +18026,26 @@ function _applyCompassHeading(res){
     if (!_qSmoothInit){ _qSmoothSin = Math.sin(r); _qSmoothCos = Math.cos(r); _qSmoothInit = true; }
     else { _qSmoothSin += K*(Math.sin(r)-_qSmoothSin); _qSmoothCos += K*(Math.cos(r)-_qSmoothCos); }
     const smoothed = _qNorm(Math.atan2(_qSmoothSin,_qSmoothCos)*180/Math.PI);
-    // DEVICE-TEST overlay — raw event values + BOTH heading candidates so the correct
-    // Android convention (alpha vs 360-alpha) can be read directly on the device.
-    const _rnd = v => (typeof v === 'number' && !isNaN(v)) ? Math.round(v) : '-';
-    _qDebug({ type:_qLastEventType, source:res.source, absolute:(res.absolute===undefined?'-':res.absolute),
-        alpha:_rnd(res.alpha), beta:_rnd(res.beta), gamma:_rnd(res.gamma), screenAngle:_qScreenAngle(),
-        headingMode:res.mode||'-', candAlpha:_rnd(res.candAlpha), cand360mAlpha:_rnd(res.candInvert),
-        chosenHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed),
-        qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(_qNorm((_qiblaAngle||0)-smoothed)), listeners:_qListenerCount });
-    // reliability: flag a JITTERING magnetometer → 'unstable' message + dim the needle
-    //   (never hidden, never re-mathed). Fed the RAW heading (smoothing would mask the
-    //   very jitter we detect). A steady offset is NOT flaggable in-browser.
-    const _wob = _qIsWobbling(rawHeading, Date.now());
+    const now = Date.now();
+    const finalRotation = _qNorm((_qiblaAngle||0) - smoothed);   // on-screen needle angle (0 = up = facing Qibla)
+    // reliability + haptics run BEFORE the write threshold, so they keep updating while the
+    // user holds steady on the Qibla (events keep arriving even when the transform doesn't move).
+    const _wob = _qIsWobbling(rawHeading, now);   // fed the RAW heading (smoothing would mask the jitter)
     if (_wob !== _qUnstable){
         _qUnstable = _wob;
         const cu = document.getElementById('compass'); if (cu) cu.classList.toggle('compass-uncertain', _wob);
         _qSetStatus(_wob ? 'unstable' : '');
     }
+    _qUpdateHaptic(finalRotation, res.source, now);   // light buzz when aligned (Android; iOS no-op)
+    // DEVICE-TEST + HAPTIC overlay — raw event values, both heading candidates, and haptic state.
+    const _rnd = v => (typeof v === 'number' && !isNaN(v)) ? Math.round(v) : '-';
+    _qDebug({ type:_qLastEventType, source:res.source, absolute:(res.absolute===undefined?'-':res.absolute),
+        alpha:_rnd(res.alpha), beta:_rnd(res.beta), gamma:_rnd(res.gamma), screenAngle:_qScreenAngle(),
+        headingMode:res.mode||'-', candAlpha:_rnd(res.candAlpha), cand360mAlpha:_rnd(res.candInvert),
+        chosenHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed),
+        qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(finalRotation), listeners:_qListenerCount,
+        vibrationSupported:_qHapticSupported(), qiblaAligned:_qInZone, hapticArmed:_qHapticArmed,
+        angularDiff:(_qLastAngularDiff==null?'-':Math.round(_qLastAngularDiff)), lastVibrationAt:(_qLastVibrationAt||'-') });
     // threshold: skip sub-1.5° changes (kills idle jitter). No rAF — a throttled/
     // backgrounded rAF would freeze the needle; and with .compass-live disabling
     // the CSS transition, a direct write jumps straight to the already-smoothed
@@ -18040,6 +18081,7 @@ function startDeviceCompass(){
     if (_compassListening) return;                      // idempotent — already bound
     _qSawRelative=false; _qHasReliable=false; _qSmoothInit=false; _qLastApplied=null; _qPending=null;
     _qCollapsed=false; _qUnstable=false; _qHist=[];      // reset reliability layer
+    _qHapticReset();                                     // reset alignment/haptic state (cancels any buzz)
     _qSetStatus('reading');
     const compass = document.getElementById('compass'); if (compass){ compass.classList.remove('compass-live'); compass.classList.remove('compass-uncertain'); }
     try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); _qListenerCount++; } catch(_){}
@@ -18063,6 +18105,7 @@ function stopDeviceCompass(){
     try { window.removeEventListener('deviceorientation',         _orientationHandler, true); } catch(_){}
     _compassListening = false; _qListenerCount = 0;
     _qCollapsed = false; _qUnstable = false; _qHist = [];
+    _qHapticReset();                                     // cancel any active vibration on teardown
     if (_qRaf){ try{ cancelAnimationFrame(_qRaf); }catch(_){} _qRaf = 0; }
     if (_qTimeout){ clearTimeout(_qTimeout); _qTimeout = 0; }
     _qPending = null;

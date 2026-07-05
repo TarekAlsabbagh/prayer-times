@@ -71,7 +71,13 @@ try {
   check('app.js Lab shows "deviceorientationabsolute unavailable"', appjs.includes('deviceorientationabsolute unavailable'));
   check('app.js Lab has SAMPLE RESULT summary', appjs.includes('SAMPLE RESULT'));
   check('app.js Lab has Direction-being-tested selector', appjs.includes('Direction being tested'));
-  check('app.js Lab has best-looking candidate pick', appjs.includes('best-looking candidate'));
+  check('app.js Lab has best-match direction pick', appjs.includes('best-match this direction'));
+  // v4 SENSOR OFFSET DIAGNOSTIC: cross-direction error analysis + accept rule + miscalibrated verdict + tools.
+  check('app.js Lab has OFFSET DIAGNOSTIC panel', appjs.includes('OFFSET DIAGNOSTIC'));
+  check('app.js Lab has "STABLE but MISCALIBRATED" verdict', appjs.includes('STABLE but MISCALIBRATED'));
+  check('app.js Lab has Restart Sensors button', appjs.includes('Restart Sensors'));
+  check('app.js Lab has Recalibrate Test Session (diagnostic)', appjs.includes('Recalibrate Test Session'));
+  check('app.js Lab has session-offset diagnostic-only guard text', appjs.includes('NOT in product'));
 
   // (c) PRODUCTION + iOS path preserved (surviving property/global names; exact-byte proof = git diff)
   console.log('\n── production + iOS path preserved ──');

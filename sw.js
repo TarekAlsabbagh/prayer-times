@@ -1589,7 +1589,14 @@
 //   a FLAT OK/TILTED gate (tilted capture = INVALID), explicit "deviceorientationabsolute
 //   unavailable" (Candidate D excluded), a prominent Candidate E status, and a manual
 //   Direction selector stamped into the snapshot. Needle still frozen; iOS/qibla.js untouched.
-const CACHE_VERSION = 'v486';
+// QIBLA-ANDROID-COMPASS-ROOT-REBUILD-1 — SENSOR OFFSET DIAGNOSTIC (test branch): js/app.js
+//   ?v=818→819, sw v486→v487. Field test = no winner: B/C/D/E stable+monotonic but share a
+//   constant ~+85° offset (A reversed). Lab now quantifies it: per-candidate signed/|abs| error,
+//   an OFFSET DIAGNOSTIC accumulating N/E/S/W (mean/max|err|, const-vs-var, sense, accept-rule
+//   verdict), a "STABLE but MISCALIBRATED" conclusion + retest steps, a Restart Sensors button,
+//   and a DIAGNOSTIC-ONLY Recalibrate (session offset preview, never saved/product/resolver).
+//   No product offset added; qiblaBearing/qibla.js/iOS untouched; needle still frozen.
+const CACHE_VERSION = 'v487';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1616,7 +1623,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=818',
+    '/js/app.js?v=819',
 ];
 
 self.addEventListener('install', (event) => {

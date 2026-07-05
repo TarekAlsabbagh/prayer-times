@@ -17943,6 +17943,16 @@ function requestCompassPermission() {
 //     Android source when the absolute DOM event never fires;
 //   • a manual "Direction being tested" selector (North/East/South/West/Qibla) stamped into
 //     the snapshot, with the best-matching candidate auto-picked.
+// v4 (SENSOR OFFSET DIAGNOSTIC): field tests showed candidates B/C/D/E stable + monotonic but
+// all sharing a large CONSTANT ~+85° offset (A is reversed) — a magnetometer miscalibration a
+// browser cannot detect without an external reference. This layer quantifies it: per-candidate
+// signed/|abs| error vs the chosen direction; an OFFSET DIAGNOSTIC that accumulates N/E/S/W and
+// reports each candidate's mean/max |error|, constant-vs-variable offset, rotational sense, and a
+// verdict against the accept rule (mean|err|≤15°, max|err|≤25°, N→E→S→W monotonic); a "Sensor
+// heading is STABLE but MISCALIBRATED" conclusion + retest steps; a "Restart Sensors" button
+// (restarts the sensor pipeline, no reload); and a DIAGNOSTIC-ONLY "Recalibrate Test Session"
+// that previews a temporary session offset (never saved, never in product, never in a resolver).
+// NO constant offset is ever added to the product; no resolver is built here.
 // The Lab still applies NO candidate to the needle; the needle stays frozen (guard in
 // _applyCompassHeading) and the dial is dimmed. iOS path / permission flow / qiblaBearing /
 // qibla.js remain untouched.
@@ -17953,12 +17963,16 @@ function requestCompassPermission() {
   var DIRS = ['North','East','South','West','Qibla'];
   var CANDMETA = { A:'alpha', B:'360-alpha', C:'tilt-comp+scr', D:'abs 360-a+scr', E:'AbsOrientSensor' };
   var FLAT_DEG = 15;   // |beta| and |gamma| must both be within this to count as flat
+  var ACC_MEAN = 15;   // accept rule: a candidate's mean |error| across N/E/S/W must be ≤ this …
+  var ACC_MAX  = 25;   // … AND its max |error| must be ≤ this AND the four must move monotonically.
 
   var LAB = { started:false, handler:null, aosSensor:null, aos:{ state:'idle', heading:null },
               el:null, refs:null, mode:'live', dir:null,
               stat:{}, lastEventTs:0, lastRaw:null, lastRenderTs:0, absSeen:false,
               capturing:false, capStart:0, capUntil:0, capBuf:null, capTilted:false, capAbsSeen:false, capTimer:null,
-              sample:null, dimEl:null, dimPrev:'' };
+              sample:null, dimEl:null, dimPrev:'',
+              // OFFSET DIAGNOSTIC: per-direction captured medians + a diagnostic-only session offset.
+              dirSamples:{}, sessionOffset:null, sessionRef:null, recalHint:null };
   function _N(a){ a = a % 360; return a < 0 ? a + 360 : a; }
   function _screen(){ try{ if(typeof screen!=='undefined' && screen.orientation && typeof screen.orientation.angle==='number') return screen.orientation.angle; if(typeof window.orientation==='number') return ((window.orientation%360)+360)%360; }catch(_){} return 0; }
 
@@ -17987,6 +18001,38 @@ function requestCompassPermission() {
   }
   function _cdist(a,b){ return Math.abs(((a-b+540)%360)-180); }
   function _expected(dir){ if(dir==='North')return 0; if(dir==='East')return 90; if(dir==='South')return 180; if(dir==='West')return 270; if(dir==='Qibla')return (typeof _qiblaAngle==='number'?_N(_qiblaAngle):null); return null; }
+
+  // Signed circular error (candidate − expected) in [-180,180]. + means the candidate reads
+  // clockwise of the true heading; a magnetometer offset shows up as the SAME sign at every direction.
+  function _signedErr(median, expected){ return ((median - expected + 540) % 360) - 180; }
+
+  // Cross-direction analysis of one candidate over whatever cardinals (N/E/S/W) have been captured:
+  // per-direction signed error, mean/max |error|, whether the offset is CONSTANT (errors cluster) vs
+  // VARIABLE, the rotational sense (clockwise / reversed / irregular), and a verdict against the rule.
+  function _candAnalysis(key){
+    var order=['North','East','South','West'], errs={}, med={}, present=[];
+    order.forEach(function(d){ var s=LAB.dirSamples[d]; if(s && s.cand && s.cand[key]!=null){ med[d]=s.cand[key]; errs[d]=_signedErr(s.cand[key], _expected(d)); present.push(d); } });
+    if (!present.length) return null;
+    var sumAbs=0, maxAbs=0; present.forEach(function(d){ var a=Math.abs(errs[d]); sumAbs+=a; if(a>maxAbs)maxAbs=a; });
+    var meanAbs=sumAbs/present.length;
+    // constant-offset test: circular mean + spread of the SIGNED errors.
+    var sx=0, sy=0; present.forEach(function(d){ var r=errs[d]*Math.PI/180; sx+=Math.cos(r); sy+=Math.sin(r); });
+    var offMean=((Math.atan2(sy,sx)*180/Math.PI)+540)%360-180, spread=0;
+    present.forEach(function(d){ var dd=Math.abs(((errs[d]-offMean+540)%360)-180); if(dd>spread)spread=dd; });
+    var offsetConst=(spread<=12);
+    // rotational sense: consecutive N→E→S→W median deltas should all be ~+90 (clockwise).
+    var deltas=[], mono='n/a', i;
+    for (i=0;i<order.length-1;i++){ var a=med[order[i]], b=med[order[i+1]]; if(a!=null && b!=null) deltas.push(((b-a+540)%360)-180); }
+    if (deltas.length>=2){ var pos=0,neg=0; deltas.forEach(function(x){ if(x>45&&x<135)pos++; else if(x<-45&&x>-135)neg++; });
+      mono=(pos===deltas.length)?'clockwise':((neg===deltas.length)?'reversed':'irregular'); }
+    var verdict, ok=false;
+    if (mono==='reversed') verdict='REJECTED (reversed)';
+    else if (mono==='irregular') verdict='REJECTED (irregular)';
+    else if (present.length<4) verdict='pending (need N/E/S/W)';
+    else if (meanAbs<=ACC_MEAN && maxAbs<=ACC_MAX){ verdict='✅ WINNER'; ok=true; }
+    else verdict='REJECTED (offset '+Math.round(meanAbs)+'° > '+ACC_MEAN+'°)';
+    return { present:present, errs:errs, med:med, meanAbs:meanAbs, maxAbs:maxAbs, offsetConst:offsetConst, offsetMean:offMean, monotonic:mono, verdict:verdict, ok:ok };
+  }
 
   // Live 2-second rolling buffer per candidate (for the on-screen "cur / med / rng / win").
   function _pushLive(key, h, now){ if (typeof h!=='number') return; var b=LAB.stat[key]||(LAB.stat[key]=[]); b.push({t:now,h:h}); while(b.length && (now-b[0].t)>2000) b.shift(); }
@@ -18045,13 +18091,25 @@ function requestCompassPermission() {
     actions.appendChild(refs.resetBtn);
     box.appendChild(actions);
 
+    var actions2 = _mk('div','margin:2px 0 4px');
+    refs.restartBtn = _mk('button', BTN+';background:#268;color:#fff', '🔄 Restart Sensors'); refs.restartBtn.type='button';
+    refs.restartBtn.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); _restartSensors(); });
+    actions2.appendChild(refs.restartBtn);
+    refs.recalBtn = _mk('button', BTN+';background:#528;color:#fff', '🧭 Recalibrate Test Session'); refs.recalBtn.type='button';
+    refs.recalBtn.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); _recalibrate(); });
+    actions2.appendChild(refs.recalBtn);
+    box.appendChild(actions2);
+
     refs.live = _mk('pre','margin:4px 0;white-space:pre;overflow-x:auto','waiting for sensor events…');
     box.appendChild(refs.live);
 
     refs.sample = _mk('pre','margin:4px 0;padding:6px 8px;white-space:pre;overflow-x:auto;background:#010;border:1px dashed #0a0;border-radius:6px','(no sample yet — pick a direction, hold flat, tap “Capture 3s Sample”)');
     box.appendChild(refs.sample);
 
-    box.appendChild(_mk('div','color:#7a7;margin-top:4px','Hold the phone FLAT, point its TOP edge with an external compass, then Capture. The needle never moves in Lab mode.'));
+    refs.offset = _mk('pre','margin:4px 0;padding:6px 8px;white-space:pre;overflow-x:auto;background:#001018;border:1px dashed #08a;border-radius:6px','(offset diagnostic — capture N/E/S/W to populate)');
+    box.appendChild(refs.offset);
+
+    box.appendChild(_mk('div','color:#7a7;margin-top:4px','Hold the phone FLAT, point its TOP edge with an external compass, then Capture each of N/E/S/W. The needle never moves in Lab mode.'));
 
     (document.body||document.documentElement).appendChild(box);
     LAB.el=box; LAB.refs=refs; return box;
@@ -18080,15 +18138,17 @@ function requestCompassPermission() {
     L.push(s.valid ? 'validity: ✅ VALID' : ('validity: ❌ INVALID — '+(s.tilted?'device was TILTED during capture — hold flat & recapture':'not enough data')));
     L.push('flatness during capture: '+(s.tilted?'TILTED':'FLAT OK')+'    absolute available: '+(s.absAvailable?'yes':'no (D excluded)')+'    sensor E: '+s.sensor);
     L.push('');
-    L.push(_padR('cand',5)+_padR('formula',16)+_pad('avg',5)+' '+_pad('median',7)+' '+_pad('range',6)+' '+_pad('n',4)+'  win');
+    L.push(_padR('cand',5)+_padR('formula',16)+_pad('median',7)+' '+_pad('range',6)+' '+_pad('n',4)+'  '+_padR('win',7)+(exp!=null?'error (signed / |abs|)':''));
     ['A','B','C','D','E'].forEach(function(k){
       if (k==='D' && !s.absAvailable){ L.push(_padR('D',5)+_padR(CANDMETA.D,16)+'  excluded (no absolute)'); return; }
       var c=s.cand[k];
       if (!c){ L.push(_padR(k,5)+_padR(CANDMETA[k],16)+'  (no data)'); return; }
-      L.push(_padR(k,5)+_padR(CANDMETA[k],16)+_pad(Math.round(c.avg),5)+' '+_pad(Math.round(c.median),7)+' '+_pad(Math.round(c.range)+'°',6)+' '+_pad(c.n,4)+'  '+(c.range<8?'stable':'JITTER'));
+      var errStr='';
+      if (exp!=null){ var se=_signedErr(c.median, exp); errStr=(se>=0?'+':'')+Math.round(se)+'°  (|'+Math.round(Math.abs(se))+'°|)'; }
+      L.push(_padR(k,5)+_padR(CANDMETA[k],16)+_pad(Math.round(c.median),7)+' '+_pad(Math.round(c.range)+'°',6)+' '+_pad(c.n,4)+'  '+_padR(c.range<8?'stable':'JITTER',7)+errStr);
     });
     L.push('');
-    L.push('best-looking candidate: '+(s.best?(s.best+'  ('+CANDMETA[s.best]+', Δ'+s.bestDelta+'° from expected '+Math.round(exp)+'°)'):'(select a direction to auto-pick)'));
+    L.push('best-match this direction: '+(s.best?(s.best+'  ('+CANDMETA[s.best]+', |'+s.bestDelta+'°| from expected '+Math.round(exp)+'°)'):'(select a direction to auto-pick)'));
     return L.join('\n');
   }
 
@@ -18109,8 +18169,10 @@ function requestCompassPermission() {
     if (r.capBtn){ if (LAB.capturing){ var left=Math.max(0,Math.ceil((LAB.capUntil-now)/1000)); r.capBtn.textContent='● Capturing… '+left+'s (hold flat)'; r.capBtn.style.background='#e60'; }
                    else { r.capBtn.textContent='⏺ Capture 3s Sample'; r.capBtn.style.background='#0a0'; } }
     if (r.modeBtn){ r.modeBtn.textContent = LAB.mode==='frozen'?'▶ RESUME (go LIVE)':'⏸ FREEZE'; r.modeBtn.style.background = LAB.mode==='frozen'?'#fb0':'#08a'; r.modeBtn.style.color = LAB.mode==='frozen'?'#000':'#fff'; }
+    if (r.recalBtn){ r.recalBtn.textContent = LAB.sessionOffset!=null ? '🧭 Clear Session Offset' : '🧭 Recalibrate Test Session'; r.recalBtn.style.background = LAB.sessionOffset!=null?'#a30':'#528'; }
     if (r.live){ r.live.textContent=_liveText(now); }
     if (r.sample){ r.sample.textContent = LAB.sample ? _sampleText(LAB.sample) : '(no sample yet — pick a direction, hold flat, tap “Capture 3s Sample”)'; }
+    if (r.offset){ r.offset.textContent=_offsetDiagText(); }
   }
 
   // ---- capture -------------------------------------------------------------
@@ -18141,6 +18203,10 @@ function requestCompassPermission() {
         var c=res.cand[k]; if(!c) return; var d=_cdist(c.median,exp); if(d<bd){ bd=d; best=k; } });
       res.best=best; res.bestDelta=(best!=null?Math.round(bd):null); }
     res.valid = (!res.tilted && res.cand.A && res.cand.A.n>=3);
+    // Accumulate the per-direction medians for the OFFSET DIAGNOSTIC (only a VALID, direction-tagged
+    // capture is stored; re-capturing a direction overwrites it). Tilted captures are not stored.
+    if (LAB.dir && res.valid){ var dd={ expected:exp, tilted:res.tilted, absAvailable:absAvail, sensor:res.sensor, cand:{} };
+      ['A','B','C','D','E'].forEach(function(k){ dd.cand[k]= res.cand[k]? res.cand[k].median : null; }); LAB.dirSamples[LAB.dir]=dd; }
     LAB.sample=res; LAB.mode='frozen';                 // auto-freeze the snapshot
     _render();
   }
@@ -18148,6 +18214,75 @@ function requestCompassPermission() {
     LAB.sample=null; LAB.stat={}; LAB.mode='live';
     if (LAB.capturing){ LAB.capturing=false; if(LAB.capTimer){clearInterval(LAB.capTimer);LAB.capTimer=null;} }
     _render();
+  }
+
+  // ---- offset diagnostic ---------------------------------------------------
+  function _offsetDiagText(){
+    var caps=['North','East','South','West'].filter(function(d){ return !!LAB.dirSamples[d]; });
+    var L=[];
+    L.push('OFFSET DIAGNOSTIC   captured: '+(caps.length?caps.join(', '):'(none)')+'   accept: mean|err|≤'+ACC_MEAN+'°, max|err|≤'+ACC_MAX+'°, N→E→S→W monotonic');
+    if (!caps.length){ L.push('Pick North, hold flat, Capture — then East, South, West (one each) to build the table.'); return L.join('\n'); }
+    L.push('');
+    L.push(_padR('cand',5)+_padR('formula',16)+_pad('N',5)+' '+_pad('E',5)+' '+_pad('S',5)+' '+_pad('W',5)+'  '+_pad('mean|e|',8)+' '+_pad('max|e|',7)+'  '+_padR('offset',10)+_padR('sense',10)+'verdict');
+    var winners=[], constOffenders=[];
+    ['A','B','C','D','E'].forEach(function(k){ var an=_candAnalysis(k);
+      if(!an){ L.push(_padR(k,5)+_padR(CANDMETA[k],16)+'  (no data)'); return; }
+      function ce(d){ return an.errs[d]==null?'-':((an.errs[d]>=0?'+':'')+Math.round(an.errs[d])); }
+      L.push(_padR(k,5)+_padR(CANDMETA[k],16)+_pad(ce('North'),5)+' '+_pad(ce('East'),5)+' '+_pad(ce('South'),5)+' '+_pad(ce('West'),5)+'  '+
+        _pad(Math.round(an.meanAbs)+'°',8)+' '+_pad(Math.round(an.maxAbs)+'°',7)+'  '+
+        _padR((an.offsetConst?'const ':'var ')+(an.offsetMean>=0?'+':'')+Math.round(an.offsetMean)+'°',10)+_padR(an.monotonic,10)+an.verdict);
+      if(an.ok) winners.push(k);
+      if(an.monotonic==='clockwise' && an.offsetConst && an.meanAbs>ACC_MEAN) constOffenders.push({k:k, off:an.offsetMean});
+    });
+    L.push('');
+    if (winners.length){ L.push('CONCLUSION: ✅ WINNER — candidate '+winners.join('/')+' meets the accept rule. This can drive the resolver.'); }
+    else if (constOffenders.length && caps.length>=3){
+      var off=Math.round(constOffenders[0].off);
+      L.push('CONCLUSION: Sensor heading is STABLE but MISCALIBRATED — the monotonic candidates ('+
+        constOffenders.map(function(x){return x.k;}).join('/')+') share a ~'+(off>=0?'+':'')+off+'° CONSTANT offset; none meets accept. This is NOT a formula bug — the magnetometer’s North is skewed. A browser cannot detect this without an external reference.');
+      L.push('RETEST: (1) remove any magnetic case/cover; (2) move away from laptop, charger, keys, speakers, any metal; (3) wave the phone in a figure-8 for ~15s; (4) open an external compass app and confirm it reads N/E/S/W correctly; (5) tap Restart Sensors, then re-Capture each direction.');
+    } else { L.push('CONCLUSION: no winner yet — capture all of N/E/S/W (held flat) to complete the verdict.'); }
+    if (LAB.recalHint){ L.push(''); L.push('· '+LAB.recalHint); }
+    if (LAB.sessionOffset!=null){
+      L.push('');
+      L.push('SESSION OFFSET (diagnostic only — NOT saved, NOT in product, NOT in any resolver): '+(LAB.sessionOffset>=0?'+':'')+Math.round(LAB.sessionOffset)+'°  ['+(LAB.sessionRef||'?')+']');
+      var parts=[];
+      ['B','C','D','E'].forEach(function(k){ var an=_candAnalysis(k); if(!an) return; var sum=0;
+        an.present.forEach(function(d){ sum+=Math.abs(_signedErr(_N(an.med[d]+LAB.sessionOffset), _expected(d))); });
+        parts.push(k+': '+Math.round(sum/an.present.length)+'°'); });
+      L.push('corrected mean|err| (= candidate + sessionOffset):   '+parts.join('   '));
+      L.push('If these collapse to ~0 for all four, the error is a genuine CONSTANT offset — diagnostic confirmation only.');
+    }
+    return L.join('\n');
+  }
+
+  function _restartSensors(){
+    // Stop lab listeners + sensor, clear the sampling window AND the accumulated diagnostic, then
+    // restart the DeviceOrientation + AbsoluteOrientationSensor pipeline — WITHOUT reloading the page.
+    try { window.removeEventListener('deviceorientationabsolute', LAB.handler, true); } catch(_){}
+    try { window.removeEventListener('deviceorientation',         LAB.handler, true); } catch(_){}
+    try { if (LAB.aosSensor && LAB.aosSensor.stop) LAB.aosSensor.stop(); } catch(_){}
+    if (LAB.capTimer){ try{ clearInterval(LAB.capTimer); }catch(_){} LAB.capTimer=null; }
+    LAB.aosSensor=null; LAB.aos={ state:'idle', heading:null };
+    LAB.stat={}; LAB.sample=null; LAB.capturing=false; LAB.capBuf=null; LAB.mode='live';
+    LAB.dirSamples={}; LAB.sessionOffset=null; LAB.sessionRef=null; LAB.recalHint=null; LAB.absSeen=false; LAB.lastRaw=null;
+    LAB.handler=_onOrient;
+    try { window.addEventListener('deviceorientationabsolute', LAB.handler, true); } catch(_){}
+    try { window.addEventListener('deviceorientation',         LAB.handler, true); } catch(_){}
+    _startAOS(); _render();
+  }
+
+  function _recalibrate(){
+    // DIAGNOSTIC ONLY. Derive a temporary session offset from the current sample's chosen direction
+    // (offset = expected − reference-candidate median) so we can SEE whether the error is a constant
+    // offset. Never saved, never applied to the needle, never used by any production resolver.
+    if (LAB.sessionOffset!=null){ LAB.sessionOffset=null; LAB.sessionRef=null; LAB.recalHint=null; _render(); return; }  // toggle off
+    var s=LAB.sample;
+    if (!s || s.expected==null){ LAB.recalHint='Recalibrate needs a captured direction first — pick a direction, Capture, then tap Recalibrate.'; _render(); return; }
+    var ref=null; ['E','D','C','B'].forEach(function(k){ if(ref==null && s.cand[k]) ref=k; });
+    if (ref==null){ LAB.recalHint='No usable candidate in the current sample to derive an offset from.'; _render(); return; }
+    LAB.sessionOffset=((_expected(s.dir) - s.cand[ref].median)+540)%360-180;
+    LAB.sessionRef=s.dir+' via '+ref; LAB.recalHint=null; _render();
   }
 
   // ---- sensor input --------------------------------------------------------
@@ -18222,7 +18357,7 @@ function requestCompassPermission() {
   function _start(){
     if (LAB.started) return; LAB.started = true;
     LAB.mode='live'; LAB.dir=null; LAB.stat={}; LAB.lastRaw=null; LAB.absSeen=false; LAB.sample=null;
-    LAB.capturing=false; LAB.capBuf=null;
+    LAB.capturing=false; LAB.capBuf=null; LAB.dirSamples={}; LAB.sessionOffset=null; LAB.sessionRef=null; LAB.recalHint=null;
     _dimCompass(true);                            // dim the (frozen) production dial
     LAB.handler = _onOrient;
     try { window.addEventListener('deviceorientationabsolute', LAB.handler, true); } catch(_){}
@@ -18240,6 +18375,7 @@ function requestCompassPermission() {
     _dimCompass(false);
     if (LAB.el && LAB.el.parentNode) LAB.el.parentNode.removeChild(LAB.el);
     LAB.el=null; LAB.refs=null; LAB.lastRaw=null; LAB.stat={}; LAB.sample=null; LAB.capturing=false; LAB.mode='live'; LAB.dir=null;
+    LAB.dirSamples={}; LAB.sessionOffset=null; LAB.sessionRef=null; LAB.recalHint=null;
   }
 
   function _maybeStart(){ if (!_labOn()) return; if (!document.getElementById('compass')) return; _start(); }

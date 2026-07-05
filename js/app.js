@@ -17853,6 +17853,11 @@ function updateQibla() {
 }
 
 function _applyCompassHeading(heading) {
+    // QIBLA-ANDROID-COMPASS-ROOT-REBUILD-1: in Compass Lab mode (?qiblaLab=1) the needle is
+    // FROZEN — the Lab is read-only diagnostics and must NOT move the (old) production needle.
+    // Real users (no ?qiblaLab) are unaffected; the iOS heading logic above is untouched — this
+    // only skips the transform WRITE when the dev Lab param is present.
+    try { if (new URLSearchParams(location.search).get('qiblaLab') === '1') return; } catch(_){}
     const compass = document.getElementById('compass');
     const arrow   = document.getElementById('qibla-arrow');
     if (!compass || !arrow) return;
@@ -17926,13 +17931,18 @@ function requestCompassPermission() {
 // permission flow, qiblaBearing, or qibla.js. Unsupported browsers silently no-op.
 // Candidate C (tilt-comp) is a research-verified rotation-matrix formula (reduces to
 // 360-alpha when flat); Candidate E (AbsoluteOrientationSensor) is feature-detected.
+// v2 (LAB HOLD fix): the Lab is READ-ONLY diagnostics. In Lab mode the OLD production needle
+// is frozen (guard added in _applyCompassHeading) and the compass dial is dimmed, so nothing
+// "dances". Per candidate it shows a 2-second stability summary (cur/min/max/range + window)
+// and a FREEZE button so readings can be recorded without jumping. It applies NO candidate to
+// the needle. iOS path / permission flow / qiblaBearing / qibla.js remain untouched.
 (function(){
   if (typeof window === 'undefined' || typeof document === 'undefined') return;
   function _labOn(){ try { return new URLSearchParams(location.search).get('qiblaLab') === '1'; } catch(_){ return false; } }
 
-  var LAB = { started:false, handler:null, aosSensor:null, aos:{ state:'idle', heading:null }, el:null, hist:{}, lastEventTs:0, lastRaw:null };
+  var LAB = { started:false, handler:null, aosSensor:null, aos:{ state:'idle', heading:null }, el:null, btn:null,
+              stat:{}, lastEventTs:0, lastRaw:null, frozen:false, lastRenderTs:0, dimEl:null, dimPrev:'' };
   function _N(a){ a = a % 360; return a < 0 ? a + 360 : a; }
-  function _ad(a,b){ var d = ((a - b + 540) % 360) - 180; return Math.abs(d); }
   function _screen(){ try{ if(typeof screen!=='undefined' && screen.orientation && typeof screen.orientation.angle==='number') return screen.orientation.angle; if(typeof window.orientation==='number') return ((window.orientation%360)+360)%360; }catch(_){} return 0; }
 
   // Candidate C — tilt-compensated heading from the full device->world rotation matrix.
@@ -17948,14 +17958,15 @@ function requestCompassPermission() {
   // Candidate E — AbsoluteOrientationSensor quaternion [x,y,z,w] -> heading (self-verified).
   function _quatHeading(x,y,z,w,scr){ return _N(Math.atan2(2*(x*y - w*z), 1 - 2*(x*x + z*z))*180/Math.PI + (scr||0)); }
 
-  function _diag(key, h, now){
-    var buf = LAB.hist[key] || (LAB.hist[key]=[]);
-    var prev = buf.length ? buf[buf.length-1].h : null;
-    var delta = (typeof prev==='number' && typeof h==='number') ? Math.round(_ad(h, prev)) : null;
-    if (typeof h==='number'){ buf.push({t:now,h:h}); while(buf.length && (now-buf[0].t)>1200) buf.shift(); }
-    var stable = '?';
-    if (buf.length >= 4){ var mx=0; for(var i=1;i<buf.length;i++) mx=Math.max(mx, _ad(buf[i].h, buf[0].h)); stable = (mx < 6) ? 'stable' : 'JITTER'; }
-    return { delta:delta, stable:stable };
+  // 2-second circular stability summary for a candidate: current + min/max/range + window flag.
+  function _push(key, h, now){ if (typeof h!=='number') return; var b=LAB.stat[key]||(LAB.stat[key]=[]); b.push({t:now,h:h}); while(b.length && (now-b[0].t)>2000) b.shift(); }
+  function _stats(key, now){
+    var b=LAB.stat[key]; if(!b || !b.length) return null;
+    var sx=0, sy=0; for(var i=0;i<b.length;i++){ var r=b[i].h*Math.PI/180; sx+=Math.cos(r); sy+=Math.sin(r); }
+    var mean=_N(Math.atan2(sy,sx)*180/Math.PI), lo=0, hi=0;
+    for(var j=0;j<b.length;j++){ var d=((b[j].h-mean+540)%360)-180; if(d<lo)lo=d; if(d>hi)hi=d; }
+    var range=hi-lo, span=(now-b[0].t), win=(b.length>=4 && span>=700) ? (range<6?'stable':'JITTER') : '?';
+    return { cur:Math.round(b[b.length-1].h), min:Math.round(_N(mean+lo)), max:Math.round(_N(mean+hi)), range:Math.round(range), win:win };
   }
   function _pad(v,n){ v = (v==null?'-':String(v)); while(v.length<n) v=' '+v; return v; }
   function _padR(v,n){ v = String(v); while(v.length<n) v=v+' '; return v.slice(0,n); }
@@ -17963,28 +17974,41 @@ function requestCompassPermission() {
   function _el(){
     if (LAB.el && document.body && document.body.contains(LAB.el)) return LAB.el;
     var el = document.createElement('pre'); el.id='qibla-lab';
-    el.style.cssText='position:fixed;left:4px;right:4px;bottom:4px;z-index:99999;max-height:72vh;overflow:auto;margin:0;font:11px/1.35 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.86);color:#0f0;padding:8px 10px;border-radius:8px;white-space:pre;pointer-events:none;direction:ltr;text-align:left';
+    el.style.cssText='position:fixed;left:4px;right:4px;bottom:4px;z-index:99999;max-height:72vh;overflow:auto;margin:0;font:11px/1.3 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.88);color:#0f0;padding:8px 10px;border-radius:8px;white-space:pre;pointer-events:none;direction:ltr;text-align:left';
     (document.body||document.documentElement).appendChild(el); LAB.el = el; return el;
   }
+  function _button(){
+    if (LAB.btn && document.body && document.body.contains(LAB.btn)) return LAB.btn;
+    var b = document.createElement('button'); b.id='qibla-lab-btn'; b.type='button';
+    b.style.cssText='position:fixed;top:6px;right:6px;z-index:100000;pointer-events:auto;min-height:40px;padding:8px 14px;font:bold 13px/1 ui-monospace,monospace;background:#0a0;color:#000;border:0;border-radius:8px;box-shadow:0 2px 8px rgba(0,0,0,.4)';
+    b.addEventListener('click', function(ev){ ev.preventDefault(); ev.stopPropagation(); LAB.frozen=!LAB.frozen; _syncBtn(); _render(); });
+    (document.body||document.documentElement).appendChild(b); LAB.btn=b; _syncBtn(); return b;
+  }
+  function _syncBtn(){ if(LAB.btn){ LAB.btn.textContent = LAB.frozen ? '▶ LIVE' : '⏸ FREEZE'; LAB.btn.style.background = LAB.frozen ? '#e80' : '#0a0'; } }
 
   function _render(){
-    var r = LAB.lastRaw; if (!r) return;
+    var r = LAB.lastRaw, now = Date.now();
     var L = [];
-    L.push('== QIBLA LAB (Android) · ?qiblaLab=1 · dev only ==');
+    L.push('== QIBLA LAB (Android) · ?qiblaLab=1 · dev only ==   ['+(LAB.frozen?'FROZEN':'LIVE')+']');
+    L.push('LAB MODE: needle movement disabled — record candidates only.');
+    if (!r){ _el().textContent = L.join('\n') + '\n\nwaiting for sensor events… (tap "enable compass" once if nothing appears).'; return; }
     L.push('raw: type='+r.type+'  abs='+r.absolute+'  a='+r.alpha+'  b='+r.beta+'  g='+r.gamma+'  screen='+r.screen+'  updateMs='+r.updateMs);
     L.push('qiblaBearing(ref)='+r.qibla+(r.tilt?'   ** TILTED: A/B/D degrade, hold flatter; C is tilt-robust **':''));
     L.push('');
-    L.push(_padR('cand',5)+_padR('formula',16)+_pad('norm',5)+' '+_pad('d',4)+'  '+_padR('window',7)+'source');
-    ['A','B','C','D','E'].forEach(function(k){ var c=r.cand[k]; if(!c) return;
-      L.push(_padR(k,5)+_padR(c.desc,16)+_pad(c.norm,5)+' '+_pad(c.delta,4)+'  '+_padR(c.stable,7)+c.source);
+    L.push(_padR('cand',5)+_padR('formula',15)+_pad('cur',4)+' '+_pad('min',4)+' '+_pad('max',4)+' '+_pad('rng',4)+'  '+_padR('win',7)+'source');
+    ['A','B','C','D','E'].forEach(function(k){ var c=r.cand[k]; if(!c) return; var s=r.stats[k];
+      L.push(_padR(k,5)+_padR(c.desc,15)+
+        _pad(s?s.cur:c.norm,4)+' '+_pad(s?s.min:'-',4)+' '+_pad(s?s.max:'-',4)+' '+_pad(s?s.range:'-',4)+'  '+_padR(s?s.win:'-',7)+c.source);
     });
     L.push('');
     L.push('iOS ref: webkitCompassHeading='+r.ios+'   (production iOS path — unchanged)');
     L.push('TEST: point phone TOP edge N/E/S/W (external compass); correct candidate reads ~0/90/180/270.');
+    L.push('Tap FREEZE (top-right) to pause and record the min/max range.');
     _el().textContent = L.join('\n');
   }
 
   function _onOrient(e){
+    if (LAB.frozen) return;                       // frozen: keep the snapshot, ignore new events
     var now = Date.now();
     var type = (e && e.type) || '';
     var abs  = (e && e.absolute===true);
@@ -18008,18 +18032,18 @@ function requestCompassPermission() {
       ? { desc:'AbsOrientSensor', norm:Math.round(LAB.aos.heading), source:'sensor' }
       : { desc:'AbsOrientSensor', norm:null, source:'unsupported:'+LAB.aos.state };
 
-    ['A','B','C','D','E'].forEach(function(k){ var c=cand[k]; if(!c) return;
-      if (c.norm!=null){ var d=_diag(k,c.norm,now); c.delta=d.delta; c.stable=d.stable; } else { c.delta=null; c.stable='-'; } });
+    var stats = {};
+    ['A','B','C','D','E'].forEach(function(k){ var c=cand[k]; if(c && c.norm!=null){ _push(k, c.norm, now); stats[k]=_stats(k, now); } });
 
     LAB.lastRaw = {
       type:type,
       absolute:(abs?'true':(e && e.absolute===false ? 'false':'-')),
       alpha:(alpha==null?'-':Math.round(alpha)), beta:(beta==null?'-':Math.round(beta)), gamma:(gamma==null?'-':Math.round(gamma)),
       tilt:(Math.abs(beta||0)>25 || Math.abs(gamma||0)>25), screen:scr, updateMs:Math.round(updateMs),
-      qibla:(typeof _qiblaAngle==='number' ? (+_qiblaAngle.toFixed(1)) : '-'), ios:ios, cand:cand
+      qibla:(typeof _qiblaAngle==='number' ? (+_qiblaAngle.toFixed(1)) : '-'), ios:ios, cand:cand, stats:stats
     };
     try { if (console && console.debug) console.debug('[qiblaLab]', LAB.lastRaw); } catch(_){}
-    _render();
+    if (now - LAB.lastRenderTs >= 250){ LAB.lastRenderTs = now; _render(); }   // throttle so it doesn't flicker
   }
 
   // Candidate E — Generic Sensor API AbsoluteOrientationSensor (feature-detected, graceful).
@@ -18043,13 +18067,23 @@ function requestCompassPermission() {
     } catch(e){ LAB.aos.state='unsupported'; }
   }
 
+  function _dimCompass(on){
+    try {
+      var c = document.getElementById('compass'); if (!c) return;
+      if (on){ if (LAB.dimEl!==c){ LAB.dimEl=c; LAB.dimPrev=c.style.opacity; } c.style.opacity='0.28'; c.style.filter='grayscale(1)'; }
+      else if (LAB.dimEl){ LAB.dimEl.style.opacity=LAB.dimPrev; LAB.dimEl.style.filter=''; LAB.dimEl=null; }
+    } catch(_){}
+  }
+
   function _start(){
     if (LAB.started) return; LAB.started = true;
+    LAB.frozen = false; LAB.stat = {}; LAB.lastRaw = null;
+    _dimCompass(true);                            // dim the (now-frozen) production dial
     LAB.handler = _onOrient;
     try { window.addEventListener('deviceorientationabsolute', LAB.handler, true); } catch(_){}
     try { window.addEventListener('deviceorientation',         LAB.handler, true); } catch(_){}
     _startAOS();
-    _el().textContent = '== QIBLA LAB == waiting for sensor events…\n(If nothing appears, tap the existing "enable compass" button once — iOS / strict Android need a user gesture.)';
+    _button(); _render();                          // shows the "waiting…" + FREEZE control
   }
   function _stop(){
     if (!LAB.started) return; LAB.started = false;
@@ -18057,8 +18091,10 @@ function requestCompassPermission() {
     try { window.removeEventListener('deviceorientation',         LAB.handler, true); } catch(_){}
     try { if (LAB.aosSensor && LAB.aosSensor.stop) LAB.aosSensor.stop(); } catch(_){}
     LAB.aosSensor=null; LAB.aos={ state:'idle', heading:null };
+    _dimCompass(false);
     if (LAB.el && LAB.el.parentNode) LAB.el.parentNode.removeChild(LAB.el);
-    LAB.el=null; LAB.lastRaw=null; LAB.hist={};
+    if (LAB.btn && LAB.btn.parentNode) LAB.btn.parentNode.removeChild(LAB.btn);
+    LAB.el=null; LAB.btn=null; LAB.lastRaw=null; LAB.stat={}; LAB.frozen=false;
   }
 
   function _maybeStart(){ if (!_labOn()) return; if (!document.getElementById('compass')) return; _start(); }

@@ -1578,7 +1578,12 @@
 //   for on-device comparison vs an external compass. PURELY ADDITIVE: no change to the
 //   production compass path, the iOS webkitCompassHeading logic, the permission flow,
 //   qiblaBearing, qibla.js, coords, routes, or SEO.
-const CACHE_VERSION = 'v484';
+// QIBLA-ANDROID-COMPASS-ROOT-REBUILD-1 — Phase 1 LAB HOLD fix (test branch): js/app.js
+//   ?v=816→817, sw v484→v485. In ?qiblaLab=1 the OLD production needle is now FROZEN (guarded
+//   early-return in _applyCompassHeading — real users unaffected) and the dial is dimmed; the
+//   Lab shows a 2s stability summary (cur/min/max/range) + a FREEZE button and applies no
+//   candidate to the needle. iOS path / permission flow / qiblaBearing / qibla.js unchanged.
+const CACHE_VERSION = 'v485';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1605,7 +1610,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=816',
+    '/js/app.js?v=817',
 ];
 
 self.addEventListener('install', (event) => {

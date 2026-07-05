@@ -61,6 +61,10 @@ try {
   check('app.js has candidate D (abs-only, "waiting-absolute")', appjs.includes('waiting-absolute'));
   check('app.js has candidate E (AbsoluteOrientationSensor)', appjs.includes('AbsoluteOrientationSensor'));
   check('app.js has candidate E label (AbsOrientSensor)', appjs.includes('AbsOrientSensor'));
+  // v2 LAB HOLD (read-only diagnostics): needle frozen + dimmed dial + FREEZE control + stability summary.
+  check('app.js Lab shows "LAB MODE" needle-disabled notice', appjs.includes('LAB MODE'));
+  check('app.js Lab has FREEZE control', appjs.includes('FREEZE'));
+  check('app.js Lab freeze button id present', appjs.includes('qibla-lab-btn'));
 
   // (c) PRODUCTION + iOS path preserved (surviving property/global names; exact-byte proof = git diff)
   console.log('\n── production + iOS path preserved ──');

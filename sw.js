@@ -1572,7 +1572,13 @@
 //   updateCityDisplay (#qibla-city/#qibla-lat/#qibla-lng live in #page-qibla, absent on moon pages)
 //   + early-return guard in fetchNearbyPlaces (#nearby-grid/#nearby-section absent on homepage) →
 //   eliminate the uncaught TypeError on every moon page + the homepage. app.js-only; no logic/UI/calc change.
-const CACHE_VERSION = 'v483';
+// QIBLA-ANDROID-COMPASS-ROOT-REBUILD-1 — Phase 1 (test branch): js/app.js?v=815→816,
+//   sw v483→v484. Adds a DEV-ONLY (?qiblaLab=1) Android Compass Lab overlay that displays
+//   heading candidates A(alpha)/B(360-alpha)/C(tilt-comp)/D(absolute-only)/E(AbsoluteOrientationSensor)
+//   for on-device comparison vs an external compass. PURELY ADDITIVE: no change to the
+//   production compass path, the iOS webkitCompassHeading logic, the permission flow,
+//   qiblaBearing, qibla.js, coords, routes, or SEO.
+const CACHE_VERSION = 'v484';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1599,7 +1605,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=814',
+    '/js/app.js?v=816',
 ];
 
 self.addEventListener('install', (event) => {

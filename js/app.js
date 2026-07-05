@@ -17917,6 +17917,160 @@ function requestCompassPermission() {
     _attach();
 }
 
+// ===== QIBLA-ANDROID-COMPASS-ROOT-REBUILD-1 — Phase 1: Android Compass Lab =====
+// DEV-ONLY diagnostic (?qiblaLab=1). PURELY ADDITIVE and SELF-CONTAINED: it shows several
+// Android heading candidates side-by-side so the correct source can be chosen by comparing
+// with an external compass on a real device. It binds its OWN listeners and NEVER touches
+// the production compass path (_orientationHandler / startDeviceCompass /
+// requestCompassPermission / _applyCompassHeading), the iOS webkitCompassHeading logic, the
+// permission flow, qiblaBearing, or qibla.js. Unsupported browsers silently no-op.
+// Candidate C (tilt-comp) is a research-verified rotation-matrix formula (reduces to
+// 360-alpha when flat); Candidate E (AbsoluteOrientationSensor) is feature-detected.
+(function(){
+  if (typeof window === 'undefined' || typeof document === 'undefined') return;
+  function _labOn(){ try { return new URLSearchParams(location.search).get('qiblaLab') === '1'; } catch(_){ return false; } }
+
+  var LAB = { started:false, handler:null, aosSensor:null, aos:{ state:'idle', heading:null }, el:null, hist:{}, lastEventTs:0, lastRaw:null };
+  function _N(a){ a = a % 360; return a < 0 ? a + 360 : a; }
+  function _ad(a,b){ var d = ((a - b + 540) % 360) - 180; return Math.abs(d); }
+  function _screen(){ try{ if(typeof screen!=='undefined' && screen.orientation && typeof screen.orientation.angle==='number') return screen.orientation.angle; if(typeof window.orientation==='number') return ((window.orientation%360)+360)%360; }catch(_){} return 0; }
+
+  // Candidate C — tilt-compensated heading from the full device->world rotation matrix.
+  function _tiltHeading(alpha, beta, gamma, scr){
+    var D=Math.PI/180, R=180/Math.PI;
+    var a=(alpha||0)*D, b=(beta||0)*D, g=(gamma||0)*D;
+    var cA=Math.cos(a), sA=Math.sin(a), cB=Math.cos(b), sB=Math.sin(b), cG=Math.cos(g), sG=Math.sin(g);
+    var Ye=-cB*sA, Yn=cA*cB, mag=Math.sqrt(Ye*Ye+Yn*Yn), h;
+    if (mag < 1e-4){ var Ze=-(cA*sG+cG*sA*sB), Zn=-(sA*sG-cA*cG*sB); h=Math.atan2(Ze,Zn)*R; }
+    else { h=Math.atan2(Ye,Yn)*R; }
+    return _N(h + (scr||0));
+  }
+  // Candidate E — AbsoluteOrientationSensor quaternion [x,y,z,w] -> heading (self-verified).
+  function _quatHeading(x,y,z,w,scr){ return _N(Math.atan2(2*(x*y - w*z), 1 - 2*(x*x + z*z))*180/Math.PI + (scr||0)); }
+
+  function _diag(key, h, now){
+    var buf = LAB.hist[key] || (LAB.hist[key]=[]);
+    var prev = buf.length ? buf[buf.length-1].h : null;
+    var delta = (typeof prev==='number' && typeof h==='number') ? Math.round(_ad(h, prev)) : null;
+    if (typeof h==='number'){ buf.push({t:now,h:h}); while(buf.length && (now-buf[0].t)>1200) buf.shift(); }
+    var stable = '?';
+    if (buf.length >= 4){ var mx=0; for(var i=1;i<buf.length;i++) mx=Math.max(mx, _ad(buf[i].h, buf[0].h)); stable = (mx < 6) ? 'stable' : 'JITTER'; }
+    return { delta:delta, stable:stable };
+  }
+  function _pad(v,n){ v = (v==null?'-':String(v)); while(v.length<n) v=' '+v; return v; }
+  function _padR(v,n){ v = String(v); while(v.length<n) v=v+' '; return v.slice(0,n); }
+
+  function _el(){
+    if (LAB.el && document.body && document.body.contains(LAB.el)) return LAB.el;
+    var el = document.createElement('pre'); el.id='qibla-lab';
+    el.style.cssText='position:fixed;left:4px;right:4px;bottom:4px;z-index:99999;max-height:72vh;overflow:auto;margin:0;font:11px/1.35 ui-monospace,Menlo,Consolas,monospace;background:rgba(0,0,0,.86);color:#0f0;padding:8px 10px;border-radius:8px;white-space:pre;pointer-events:none;direction:ltr;text-align:left';
+    (document.body||document.documentElement).appendChild(el); LAB.el = el; return el;
+  }
+
+  function _render(){
+    var r = LAB.lastRaw; if (!r) return;
+    var L = [];
+    L.push('== QIBLA LAB (Android) · ?qiblaLab=1 · dev only ==');
+    L.push('raw: type='+r.type+'  abs='+r.absolute+'  a='+r.alpha+'  b='+r.beta+'  g='+r.gamma+'  screen='+r.screen+'  updateMs='+r.updateMs);
+    L.push('qiblaBearing(ref)='+r.qibla+(r.tilt?'   ** TILTED: A/B/D degrade, hold flatter; C is tilt-robust **':''));
+    L.push('');
+    L.push(_padR('cand',5)+_padR('formula',16)+_pad('norm',5)+' '+_pad('d',4)+'  '+_padR('window',7)+'source');
+    ['A','B','C','D','E'].forEach(function(k){ var c=r.cand[k]; if(!c) return;
+      L.push(_padR(k,5)+_padR(c.desc,16)+_pad(c.norm,5)+' '+_pad(c.delta,4)+'  '+_padR(c.stable,7)+c.source);
+    });
+    L.push('');
+    L.push('iOS ref: webkitCompassHeading='+r.ios+'   (production iOS path — unchanged)');
+    L.push('TEST: point phone TOP edge N/E/S/W (external compass); correct candidate reads ~0/90/180/270.');
+    _el().textContent = L.join('\n');
+  }
+
+  function _onOrient(e){
+    var now = Date.now();
+    var type = (e && e.type) || '';
+    var abs  = (e && e.absolute===true);
+    var alpha = (e && typeof e.alpha==='number') ? e.alpha : null;
+    var beta  = (e && typeof e.beta==='number')  ? e.beta  : null;
+    var gamma = (e && typeof e.gamma==='number') ? e.gamma : null;
+    var scr = _screen();
+    var ios = (e && typeof e.webkitCompassHeading==='number') ? Math.round(_N(e.webkitCompassHeading)) : '-';
+    var updateMs = LAB.lastEventTs ? (now - LAB.lastEventTs) : 0; LAB.lastEventTs = now;
+
+    var cand = {};
+    if (alpha != null){
+      cand.A = { desc:'alpha',         norm:Math.round(_N(alpha)),        source:type };
+      cand.B = { desc:'360-alpha',     norm:Math.round(_N(360 - alpha)),  source:type };
+      cand.C = { desc:'tilt-comp+scr', norm:Math.round(_tiltHeading(alpha,beta,gamma,scr)), source:type };
+      cand.D = (abs || type==='deviceorientationabsolute')
+        ? { desc:'abs+scr 360-a', norm:Math.round(_N(360 - alpha + scr)), source:type+(abs?'(abs)':'') }
+        : { desc:'abs+scr 360-a', norm:null, source:'waiting-absolute' };
+    }
+    cand.E = (LAB.aos.state==='reading' && typeof LAB.aos.heading==='number')
+      ? { desc:'AbsOrientSensor', norm:Math.round(LAB.aos.heading), source:'sensor' }
+      : { desc:'AbsOrientSensor', norm:null, source:'unsupported:'+LAB.aos.state };
+
+    ['A','B','C','D','E'].forEach(function(k){ var c=cand[k]; if(!c) return;
+      if (c.norm!=null){ var d=_diag(k,c.norm,now); c.delta=d.delta; c.stable=d.stable; } else { c.delta=null; c.stable='-'; } });
+
+    LAB.lastRaw = {
+      type:type,
+      absolute:(abs?'true':(e && e.absolute===false ? 'false':'-')),
+      alpha:(alpha==null?'-':Math.round(alpha)), beta:(beta==null?'-':Math.round(beta)), gamma:(gamma==null?'-':Math.round(gamma)),
+      tilt:(Math.abs(beta||0)>25 || Math.abs(gamma||0)>25), screen:scr, updateMs:Math.round(updateMs),
+      qibla:(typeof _qiblaAngle==='number' ? (+_qiblaAngle.toFixed(1)) : '-'), ios:ios, cand:cand
+    };
+    try { if (console && console.debug) console.debug('[qiblaLab]', LAB.lastRaw); } catch(_){}
+    _render();
+  }
+
+  // Candidate E — Generic Sensor API AbsoluteOrientationSensor (feature-detected, graceful).
+  function _startAOS(){
+    try {
+      if (typeof window.AbsoluteOrientationSensor !== 'function'){ LAB.aos.state='no-API'; return; }
+      var launch = function(){
+        try {
+          var s = new window.AbsoluteOrientationSensor({ frequency: 30 });
+          LAB.aosSensor = s; LAB.aos.state='starting';
+          s.addEventListener('reading', function(){ try { var q=s.quaternion; if (q && q.length===4){ LAB.aos.heading=_quatHeading(q[0],q[1],q[2],q[3], _screen()); LAB.aos.state='reading'; } }catch(_){} });
+          s.addEventListener('error', function(ev){ LAB.aos.state='error:'+((ev&&ev.error&&ev.error.name)||'unknown'); });
+          s.start();
+        } catch(err){ LAB.aos.state='error:'+((err&&err.name)||'construct'); }
+      };
+      if (navigator.permissions && navigator.permissions.query){
+        Promise.all(['accelerometer','gyroscope','magnetometer'].map(function(n){ return navigator.permissions.query({name:n}).catch(function(){ return {state:'unknown'}; }); }))
+          .then(function(res){ if (res.some(function(r){ return r.state==='denied'; })){ LAB.aos.state='permission-denied'; } else { launch(); } })
+          .catch(function(){ launch(); });
+      } else { launch(); }
+    } catch(e){ LAB.aos.state='unsupported'; }
+  }
+
+  function _start(){
+    if (LAB.started) return; LAB.started = true;
+    LAB.handler = _onOrient;
+    try { window.addEventListener('deviceorientationabsolute', LAB.handler, true); } catch(_){}
+    try { window.addEventListener('deviceorientation',         LAB.handler, true); } catch(_){}
+    _startAOS();
+    _el().textContent = '== QIBLA LAB == waiting for sensor events…\n(If nothing appears, tap the existing "enable compass" button once — iOS / strict Android need a user gesture.)';
+  }
+  function _stop(){
+    if (!LAB.started) return; LAB.started = false;
+    try { window.removeEventListener('deviceorientationabsolute', LAB.handler, true); } catch(_){}
+    try { window.removeEventListener('deviceorientation',         LAB.handler, true); } catch(_){}
+    try { if (LAB.aosSensor && LAB.aosSensor.stop) LAB.aosSensor.stop(); } catch(_){}
+    LAB.aosSensor=null; LAB.aos={ state:'idle', heading:null };
+    if (LAB.el && LAB.el.parentNode) LAB.el.parentNode.removeChild(LAB.el);
+    LAB.el=null; LAB.lastRaw=null; LAB.hist={};
+  }
+
+  function _maybeStart(){ if (!_labOn()) return; if (!document.getElementById('compass')) return; _start(); }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', _maybeStart); else _maybeStart();
+  try {
+    var pg = document.getElementById('page-qibla');
+    if (pg && 'MutationObserver' in window){ new MutationObserver(function(){ if (!pg.classList.contains('active')) _stop(); else _maybeStart(); }).observe(pg, { attributes:true, attributeFilter:['class'] }); }
+  } catch(_){}
+  try { window.addEventListener('pagehide', _stop); } catch(_){}
+  try { document.addEventListener('visibilitychange', function(){ if (document.hidden) _stop(); else _maybeStart(); }); } catch(_){}
+})();
+
 // ========= القمر =========
 // جدول المدن المشهورة (يُطابق FAMOUS_CITY_OVERRIDES في server.js) —
 // يُستخدم فقط على صفحة /moon-today-in-{slug} لمطابقة الإحداثيّات مع الـ URL.

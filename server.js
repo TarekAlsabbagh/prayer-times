@@ -8860,11 +8860,14 @@ const _COUNTRY_SEO_L10N = {
         ]
     }
 };
-function _buildCountrySeoContent(cn, lang) {
+function _buildCountrySeoContent(cn, lang, cc) {
     const L = _COUNTRY_SEO_L10N[lang] ? lang : 'en';
     const data = _COUNTRY_SEO_L10N[L];
     const sub = s => String(s).split('{C}').join(cn);
     let html = '<div class="country-seo-wrap">';
+    // DEPTH-3: prepend the visually-distinct quick-guide (popular cities + prayer-details chips +
+    //   useful links) as the FIRST child — after the city grid, before the article sections.
+    try { if (cc) html += _buildCountryQuickGuide(cc, cn, L); } catch (_) {}
     for (const [h, p] of data.sec) {
         html += `<section class="country-seo-block"><h2>${_escHtml(sub(h))}</h2><p>${_escHtml(sub(p))}</p></section>`;
     }
@@ -8882,6 +8885,271 @@ function _buildCountrySeoContent(cn, lang) {
         }))
     });
     return { html, faqJsonLd };
+}
+
+// ============================================================
+// PRAYER-COUNTRY-CONTENT-DEPTH-3-UX-SEO-SECTIONS-FIX-1 (2026-07-05): a visually-distinct
+// "quick guide" for /prayer-times-in-{country}, injected as the FIRST child of #country-seo-content
+// (after the city grid, before the article sections). 3 units: (1) popular cities — up to 8 REAL SSR
+// links to /prayer-times-in-{slug} (data-driven from _curatedCitiesForCc, localized label + 2
+// alternating descriptions to avoid robotic repetition), (2) prayer-details chips, (3) useful links —
+// qibla + moon (gated on a resolved countrySlug) + a NON-link "pick your city" card. SSR-only (client
+// never rebuilds #country-seo-content); real hrefs only (no href="#"); deepens content + keyword
+// consistency + internal links with no stuffing. {C}=localized country name, {city}=localized city.
+// ============================================================
+const _COUNTRY_GUIDE_L10N = {
+    ar: {
+        guideTitle: 'دليل سريع لمواقيت الصلاة في {C}',
+        guideLead: 'اختر مدينتك داخل {C} لعرض مواقيت الصلاة الدقيقة حسب الموقع؛ فلكل مدينة أوقاتها الخاصة للفجر والظهر والعصر والمغرب والعشاء بدل توقيت عام للدولة.',
+        citiesTitle: 'أشهر المدن لمتابعة مواقيت الصلاة في {C}',
+        cityLabel: 'مواقيت الصلاة في {city}',
+        cityDescA: 'تابع أوقات الفجر والظهر والعصر والمغرب والعشاء في {city} حسب التوقيت المحلي.',
+        cityDescB: 'افتح صفحة {city} لعرض أوقات الصلاة اليومية مع وقت الأذان والتاريخ الهجري.',
+        detailsTitle: 'ماذا تعرض صفحة مواقيت الصلاة لكل مدينة؟',
+        chips: ['الفجر', 'الشروق', 'الظهر', 'العصر', 'المغرب', 'العشاء', 'التاريخ الهجري', 'التوقيت المحلي'],
+        detailsText: 'عند فتح صفحة أي مدينة داخل {C} ستجد جدولًا مستقلًا يعرض أوقات الصلاة اليومية حسب موقع المدينة، بدل الاعتماد على توقيت عام للدولة.',
+        linksTitle: 'روابط مفيدة مرتبطة بمواقيت الصلاة في {C}',
+        qiblaTitle: 'اتجاه القبلة',
+        qiblaDesc: 'استخدم صفحة اتجاه القبلة لمعرفة اتجاه الكعبة من مدينتك داخل {C}.',
+        moonTitle: 'حالة القمر',
+        moonDesc: 'راجع حالة القمر ومراحله في {C} لمعرفة طور القمر والتقويم القمري.',
+        pickTitle: 'اختيار المدينة',
+        pickDesc: 'استخدم مربع البحث أو شبكة المدن أعلاه للوصول بسرعة إلى المدينة الأقرب لك واختر مدينتك.'
+    },
+    en: {
+        guideTitle: 'Quick Guide to Prayer Times in {C}',
+        guideLead: 'Choose your city in {C} to view accurate prayer times by location — each city has its own Fajr, Dhuhr, Asr, Maghrib and Isha times rather than one nationwide schedule.',
+        citiesTitle: 'Popular Cities for Prayer Times in {C}',
+        cityLabel: 'Prayer Times in {city}',
+        cityDescA: 'Follow Fajr, Dhuhr, Asr, Maghrib and Isha times in {city} in local time.',
+        cityDescB: 'Open the {city} page for the daily prayer schedule with the adhan time and Hijri date.',
+        detailsTitle: 'What Does Each City Prayer Times Page Show?',
+        chips: ['Fajr', 'Sunrise', 'Dhuhr', 'Asr', 'Maghrib', 'Isha', 'Hijri date', 'Local time'],
+        detailsText: 'When you open any city page in {C}, you get an independent table showing the daily prayer times by the city’s location, instead of relying on one nationwide time.',
+        linksTitle: 'Useful Links Related to Prayer Times in {C}',
+        qiblaTitle: 'Qibla Direction',
+        qiblaDesc: 'Use the Qibla direction page to find the direction of the Kaaba from your city in {C}.',
+        moonTitle: 'Moon Status',
+        moonDesc: 'Check the moon status and phases in {C} to see the current moon phase and lunar calendar.',
+        pickTitle: 'Select Your City',
+        pickDesc: 'Use the search box or the city grid above to quickly reach the closest city and select your city.'
+    },
+    fr: {
+        guideTitle: 'Guide rapide des heures de prière en {C}',
+        guideLead: 'Choisissez votre ville en {C} pour afficher des heures de prière précises selon la localisation ; chaque ville a ses propres horaires du Fajr, Dhuhr, Asr, Maghrib et Isha plutôt qu’un horaire national unique.',
+        citiesTitle: 'Villes populaires pour les heures de prière en {C}',
+        cityLabel: 'Heures de prière à {city}',
+        cityDescA: 'Suivez les heures du Fajr, Dhuhr, Asr, Maghrib et Isha à {city} à l’heure locale.',
+        cityDescB: 'Ouvrez la page de {city} pour le programme quotidien avec l’heure de l’adhan et la date hégirienne.',
+        detailsTitle: 'Que montre la page des heures de prière de chaque ville ?',
+        chips: ['Fajr', 'Lever du soleil', 'Dhuhr', 'Asr', 'Maghrib', 'Isha', 'Date hégirienne', 'Heure locale'],
+        detailsText: 'En ouvrant la page d’une ville de {C}, vous obtenez un tableau indépendant affichant les heures de prière quotidiennes selon la localisation de la ville, au lieu d’une heure nationale unique.',
+        linksTitle: 'Liens utiles liés aux heures de prière en {C}',
+        qiblaTitle: 'Direction de la Qibla',
+        qiblaDesc: 'Utilisez la page de direction de la Qibla pour trouver la direction de la Kaaba depuis votre ville en {C}.',
+        moonTitle: 'État de la lune',
+        moonDesc: 'Consultez l’état et les phases de la lune en {C} pour connaître la phase lunaire et le calendrier lunaire.',
+        pickTitle: 'Choisir votre ville',
+        pickDesc: 'Utilisez la barre de recherche ou la grille des villes ci-dessus pour atteindre rapidement la ville la plus proche et choisir votre ville.'
+    },
+    tr: {
+        guideTitle: '{C} Namaz Vakitleri Hızlı Rehberi',
+        guideLead: 'Konuma göre doğru namaz vakitlerini görmek için {C} içindeki şehrinizi seçin; her şehrin ülke geneli tek bir program yerine kendi İmsak, Öğle, İkindi, Akşam ve Yatsı vakitleri vardır.',
+        citiesTitle: '{C} namaz vakitleri için popüler şehirler',
+        cityLabel: '{city} Namaz Vakitleri',
+        cityDescA: '{city} şehrinde İmsak, Öğle, İkindi, Akşam ve Yatsı vakitlerini yerel saatle takip edin.',
+        cityDescB: 'Günlük program, ezan saati ve Hicri tarih için {city} sayfasını açın.',
+        detailsTitle: 'Her şehrin namaz vakitleri sayfası ne gösterir?',
+        chips: ['İmsak', 'Güneş', 'Öğle', 'İkindi', 'Akşam', 'Yatsı', 'Hicri tarih', 'Yerel saat'],
+        detailsText: '{C} içindeki herhangi bir şehir sayfasını açtığınızda, ülke geneli tek bir saat yerine şehrin konumuna göre günlük namaz vakitlerini gösteren bağımsız bir tablo elde edersiniz.',
+        linksTitle: '{C} namaz vakitleriyle ilgili faydalı bağlantılar',
+        qiblaTitle: 'Kıble Yönü',
+        qiblaDesc: '{C} içindeki şehrinizden Kâbe’nin yönünü bulmak için Kıble yönü sayfasını kullanın.',
+        moonTitle: 'Ay Durumu',
+        moonDesc: 'Ay evresini ve kameri takvimi görmek için {C} içindeki ay durumunu ve evrelerini inceleyin.',
+        pickTitle: 'Şehrinizi Seçin',
+        pickDesc: 'En yakın şehre hızlıca ulaşmak ve şehrinizi seçmek için yukarıdaki arama kutusunu veya şehir ızgarasını kullanın.'
+    },
+    ur: {
+        guideTitle: '{C} میں اوقاتِ نماز کی فوری رہنمائی',
+        guideLead: 'مقام کے مطابق درست اوقاتِ نماز دیکھنے کے لیے {C} میں اپنا شہر منتخب کریں؛ ہر شہر کے اپنے فجر، ظہر، عصر، مغرب اور عشاء کے اوقات ہوتے ہیں، نہ کہ پورے ملک کا ایک ہی وقت۔',
+        citiesTitle: '{C} میں اوقاتِ نماز کے لیے مشہور شہر',
+        cityLabel: '{city} میں اوقاتِ نماز',
+        cityDescA: '{city} میں فجر، ظہر، عصر، مغرب اور عشاء کے اوقات مقامی وقت کے مطابق دیکھیں۔',
+        cityDescB: 'روزانہ اوقات، وقتِ اذان اور ہجری تاریخ کے لیے {city} کا صفحہ کھولیں۔',
+        detailsTitle: 'ہر شہر کا اوقاتِ نماز صفحہ کیا دکھاتا ہے؟',
+        chips: ['فجر', 'طلوعِ آفتاب', 'ظہر', 'عصر', 'مغرب', 'عشاء', 'ہجری تاریخ', 'مقامی وقت'],
+        detailsText: '{C} میں کسی بھی شہر کا صفحہ کھولنے پر آپ کو ایک مستقل جدول ملتا ہے جو شہر کے مقام کے مطابق روزانہ اوقاتِ نماز دکھاتا ہے، پورے ملک کے ایک وقت کے بجائے۔',
+        linksTitle: '{C} میں اوقاتِ نماز سے متعلق مفید روابط',
+        qiblaTitle: 'سمتِ قبلہ',
+        qiblaDesc: '{C} میں اپنے شہر سے کعبہ کی سمت جاننے کے لیے سمتِ قبلہ کا صفحہ استعمال کریں۔',
+        moonTitle: 'چاند کی حالت',
+        moonDesc: 'چاند کا مرحلہ اور قمری تقویم جاننے کے لیے {C} میں چاند کی حالت اور مراحل دیکھیں۔',
+        pickTitle: 'شہر کا انتخاب',
+        pickDesc: 'قریب ترین شہر تک تیزی سے پہنچنے اور اپنا شہر منتخب کرنے کے لیے اوپر دیا گیا تلاش کا خانہ یا شہروں کی فہرست استعمال کریں۔'
+    },
+    de: {
+        guideTitle: 'Kurzanleitung zu Gebetszeiten in {C}',
+        guideLead: 'Wählen Sie Ihre Stadt in {C}, um genaue Gebetszeiten je Standort anzuzeigen; jede Stadt hat ihre eigenen Zeiten für Fadschr, Dhuhr, Asr, Maghrib und Ischa statt eines landesweiten Zeitplans.',
+        citiesTitle: 'Beliebte Städte für Gebetszeiten in {C}',
+        cityLabel: 'Gebetszeiten in {city}',
+        cityDescA: 'Verfolgen Sie Fadschr, Dhuhr, Asr, Maghrib und Ischa in {city} in der Ortszeit.',
+        cityDescB: 'Öffnen Sie die Seite von {city} für den Tagesplan mit Adhan-Zeit und Hidschri-Datum.',
+        detailsTitle: 'Was zeigt die Gebetszeitenseite jeder Stadt?',
+        chips: ['Fadschr', 'Sonnenaufgang', 'Dhuhr', 'Asr', 'Maghrib', 'Ischa', 'Hidschri-Datum', 'Ortszeit'],
+        detailsText: 'Wenn Sie eine Stadtseite in {C} öffnen, erhalten Sie eine eigene Tabelle mit den täglichen Gebetszeiten nach dem Standort der Stadt, statt einer einzigen landesweiten Zeit.',
+        linksTitle: 'Nützliche Links zu Gebetszeiten in {C}',
+        qiblaTitle: 'Qibla-Richtung',
+        qiblaDesc: 'Nutzen Sie die Qibla-Seite, um die Richtung der Kaaba von Ihrer Stadt in {C} zu finden.',
+        moonTitle: 'Mondstatus',
+        moonDesc: 'Prüfen Sie den Mondstatus und die Mondphasen in {C}, um die Mondphase und den Mondkalender zu sehen.',
+        pickTitle: 'Ihre Stadt wählen',
+        pickDesc: 'Nutzen Sie das Suchfeld oder das Städteraster oben, um schnell die nächste Stadt zu erreichen und Ihre Stadt zu wählen.'
+    },
+    id: {
+        guideTitle: 'Panduan Cepat Jadwal Sholat di {C}',
+        guideLead: 'Pilih kota Anda di {C} untuk melihat jadwal sholat yang akurat menurut lokasi; setiap kota memiliki waktu Subuh, Zuhur, Asar, Magrib, dan Isya sendiri, bukan satu jadwal untuk seluruh negara.',
+        citiesTitle: 'Kota populer untuk jadwal sholat di {C}',
+        cityLabel: 'Jadwal Sholat di {city}',
+        cityDescA: 'Ikuti waktu Subuh, Zuhur, Asar, Magrib, dan Isya di {city} dalam waktu setempat.',
+        cityDescB: 'Buka halaman {city} untuk jadwal harian dengan waktu azan dan tanggal Hijriah.',
+        detailsTitle: 'Apa yang ditampilkan halaman jadwal sholat tiap kota?',
+        chips: ['Subuh', 'Terbit', 'Zuhur', 'Asar', 'Magrib', 'Isya', 'Tanggal Hijriah', 'Waktu setempat'],
+        detailsText: 'Saat Anda membuka halaman kota mana pun di {C}, Anda mendapat tabel tersendiri yang menampilkan jadwal sholat harian menurut lokasi kota, bukan satu waktu untuk seluruh negara.',
+        linksTitle: 'Tautan berguna terkait jadwal sholat di {C}',
+        qiblaTitle: 'Arah Kiblat',
+        qiblaDesc: 'Gunakan halaman arah kiblat untuk menemukan arah Kakbah dari kota Anda di {C}.',
+        moonTitle: 'Status Bulan',
+        moonDesc: 'Periksa status dan fase bulan di {C} untuk melihat fase bulan dan kalender qamariah.',
+        pickTitle: 'Pilih Kota Anda',
+        pickDesc: 'Gunakan kotak pencarian atau kisi kota di atas untuk cepat mencapai kota terdekat dan memilih kota Anda.'
+    },
+    es: {
+        guideTitle: 'Guía rápida de horarios de oración en {C}',
+        guideLead: 'Elija su ciudad en {C} para ver horarios de oración precisos según la ubicación; cada ciudad tiene sus propios horarios de Fayr, Dhuhr, Asr, Magrib e Isha en lugar de un único horario nacional.',
+        citiesTitle: 'Ciudades populares para horarios de oración en {C}',
+        cityLabel: 'Horarios de Oración en {city}',
+        cityDescA: 'Siga los horarios de Fayr, Dhuhr, Asr, Magrib e Isha en {city} en la hora local.',
+        cityDescB: 'Abra la página de {city} para el programa diario con la hora del adhan y la fecha hijri.',
+        detailsTitle: '¿Qué muestra la página de horarios de oración de cada ciudad?',
+        chips: ['Fayr', 'Amanecer', 'Dhuhr', 'Asr', 'Magrib', 'Isha', 'Fecha hijri', 'Hora local'],
+        detailsText: 'Al abrir la página de cualquier ciudad en {C}, obtiene una tabla independiente que muestra los horarios de oración diarios según la ubicación de la ciudad, en lugar de una única hora nacional.',
+        linksTitle: 'Enlaces útiles relacionados con los horarios de oración en {C}',
+        qiblaTitle: 'Dirección de la Qibla',
+        qiblaDesc: 'Use la página de dirección de la Qibla para hallar la dirección de la Kaaba desde su ciudad en {C}.',
+        moonTitle: 'Estado de la luna',
+        moonDesc: 'Consulte el estado y las fases de la luna en {C} para ver la fase lunar y el calendario lunar.',
+        pickTitle: 'Seleccione su ciudad',
+        pickDesc: 'Use el buscador o la cuadrícula de ciudades de arriba para llegar rápido a la ciudad más cercana y seleccionar su ciudad.'
+    },
+    bn: {
+        guideTitle: '{C}-এ নামাজের সময়ের দ্রুত নির্দেশিকা',
+        guideLead: 'অবস্থান অনুযায়ী নির্ভুল নামাজের সময় দেখতে {C}-এ আপনার শহর নির্বাচন করুন; প্রতিটি শহরের নিজস্ব ফজর, জোহর, আসর, মাগরিব ও এশার সময় আছে, পুরো দেশের একটিমাত্র সময়সূচি নয়।',
+        citiesTitle: '{C}-এ নামাজের সময়ের জন্য জনপ্রিয় শহর',
+        cityLabel: '{city}-এ নামাজের সময়',
+        cityDescA: '{city}-এ ফজর, জোহর, আসর, মাগরিব ও এশার সময় স্থানীয় সময় অনুযায়ী অনুসরণ করুন।',
+        cityDescB: 'দৈনিক সময়সূচি, আজানের সময় ও হিজরি তারিখের জন্য {city}-এর পৃষ্ঠা খুলুন।',
+        detailsTitle: 'প্রতিটি শহরের নামাজের সময় পৃষ্ঠা কী দেখায়?',
+        chips: ['ফজর', 'সূর্যোদয়', 'জোহর', 'আসর', 'মাগরিব', 'এশা', 'হিজরি তারিখ', 'স্থানীয় সময়'],
+        detailsText: '{C}-এর যেকোনো শহরের পৃষ্ঠা খুললে আপনি একটি স্বতন্ত্র সারণি পাবেন যা শহরের অবস্থান অনুযায়ী দৈনিক নামাজের সময় দেখায়, পুরো দেশের একটি সময়ের বদলে।',
+        linksTitle: '{C}-এ নামাজের সময় সম্পর্কিত উপকারী লিঙ্ক',
+        qiblaTitle: 'কিবলার দিক',
+        qiblaDesc: '{C}-এ আপনার শহর থেকে কাবার দিক জানতে কিবলার দিক পৃষ্ঠাটি ব্যবহার করুন।',
+        moonTitle: 'চাঁদের অবস্থা',
+        moonDesc: 'চাঁদের দশা ও চান্দ্র পঞ্জিকা জানতে {C}-এ চাঁদের অবস্থা ও দশা দেখুন।',
+        pickTitle: 'আপনার শহর নির্বাচন',
+        pickDesc: 'নিকটতম শহরে দ্রুত পৌঁছাতে ও আপনার শহর নির্বাচন করতে উপরের সার্চ বক্স বা শহরের গ্রিড ব্যবহার করুন।'
+    },
+    ms: {
+        guideTitle: 'Panduan Ringkas Waktu Solat di {C}',
+        guideLead: 'Pilih bandar anda di {C} untuk melihat waktu solat yang tepat mengikut lokasi; setiap bandar mempunyai waktu Subuh, Zohor, Asar, Maghrib dan Isyak tersendiri, bukan satu jadual untuk seluruh negara.',
+        citiesTitle: 'Bandar popular untuk waktu solat di {C}',
+        cityLabel: 'Waktu Solat di {city}',
+        cityDescA: 'Ikuti waktu Subuh, Zohor, Asar, Maghrib dan Isyak di {city} mengikut waktu tempatan.',
+        cityDescB: 'Buka halaman {city} untuk jadual harian dengan waktu azan dan tarikh Hijrah.',
+        detailsTitle: 'Apa yang dipaparkan halaman waktu solat setiap bandar?',
+        chips: ['Subuh', 'Syuruk', 'Zohor', 'Asar', 'Maghrib', 'Isyak', 'Tarikh Hijrah', 'Waktu tempatan'],
+        detailsText: 'Apabila anda membuka halaman mana-mana bandar di {C}, anda memperoleh jadual tersendiri yang memaparkan waktu solat harian mengikut lokasi bandar, bukannya satu waktu untuk seluruh negara.',
+        linksTitle: 'Pautan berguna berkaitan waktu solat di {C}',
+        qiblaTitle: 'Arah Kiblat',
+        qiblaDesc: 'Gunakan halaman arah kiblat untuk mencari arah Kaabah dari bandar anda di {C}.',
+        moonTitle: 'Status Bulan',
+        moonDesc: 'Semak status dan fasa bulan di {C} untuk melihat fasa bulan dan kalendar qamari.',
+        pickTitle: 'Pilih Bandar Anda',
+        pickDesc: 'Gunakan kotak carian atau grid bandar di atas untuk cepat mencapai bandar terdekat dan memilih bandar anda.'
+    }
+};
+// Scoped styles for the quick-guide — injected once into <head> as <style id="pc-guide-css"> in the
+//   network-first country HTML (always fresh; no css/style.css edit, no cache-buster). Uses the brand
+//   CSS vars so dark mode (html[data-theme="dark"]) themes automatically; a few dark overrides tune tints.
+const _PC_GUIDE_CSS = '.pc-guide{margin:0 0 26px;padding:22px 24px;border:1px solid var(--border-light,#ecf0ec);border-radius:16px;background:linear-gradient(180deg,#f4f9f6,var(--card-bg,#fff));}'
+    + '.pc-guide>h2{margin:0 0 6px;font-size:1.3rem;line-height:1.4;color:var(--primary-dark,#0d4a28);}'
+    + '.pc-guide-lead{margin:0 0 4px;color:var(--text-light,#5f6b78);font-size:.97rem;line-height:1.7;}'
+    + '.pc-guide-unit{margin-top:20px;}'
+    + '.pc-guide-unit>h3{margin:0 0 12px;font-size:1.06rem;line-height:1.4;color:var(--primary,#1a6b3c);}'
+    + '.pc-cities-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));gap:12px;}'
+    + '.pc-city-card{display:flex;flex-direction:column;gap:4px;padding:14px 16px;border:1px solid var(--border-light,#ecf0ec);border-radius:12px;background:var(--card-bg,#fff);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}'
+    + '.pc-city-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(12,94,54,.10);border-color:var(--primary-light,#2d8f54);}'
+    + '.pc-city-name{font-weight:700;color:var(--primary-dark,#0d4a28);font-size:.98rem;}'
+    + '.pc-city-desc{color:var(--text-light,#5f6b78);font-size:.85rem;line-height:1.6;}'
+    + '.pc-chips{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px;}'
+    + '.pc-chip{display:inline-block;padding:6px 14px;border-radius:999px;background:var(--bg-muted,#f5f7f5);color:var(--primary-dark,#0d4a28);font-size:.84rem;font-weight:600;border:1px solid var(--border-light,#ecf0ec);}'
+    + '.pc-guide-p{margin:0;color:var(--text,#2c3e50);font-size:.94rem;line-height:1.75;}'
+    + '.pc-links-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px;}'
+    + '.pc-link-card{display:flex;flex-direction:column;gap:5px;padding:15px 16px;border:1px solid var(--border-light,#ecf0ec);border-radius:12px;background:var(--card-bg,#fff);text-decoration:none;transition:transform .15s ease,box-shadow .15s ease,border-color .15s ease;}'
+    + 'a.pc-link-card:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(12,94,54,.10);border-color:var(--primary-light,#2d8f54);}'
+    + '.pc-link-title{font-weight:700;color:var(--primary-dark,#0d4a28);font-size:.98rem;}'
+    + '.pc-link-desc{color:var(--text-light,#5f6b78);font-size:.87rem;line-height:1.65;}'
+    + '.pc-link-static{background:var(--bg-muted,#f5f7f5);}'
+    + '@media(max-width:600px){.pc-guide{padding:18px 16px;}.pc-cities-grid,.pc-links-grid{grid-template-columns:1fr;}}'
+    + 'html[data-theme="dark"] .pc-guide{background:linear-gradient(180deg,rgba(45,143,84,.08),var(--card-bg));border-color:var(--border);}'
+    + 'html[data-theme="dark"] .pc-city-card,html[data-theme="dark"] a.pc-link-card{border-color:var(--border);}'
+    + 'html[data-theme="dark"] .pc-chip{background:rgba(255,255,255,.06);border-color:var(--border);color:var(--primary-dark);}'
+    + 'html[data-theme="dark"] .pc-link-static{background:rgba(255,255,255,.04);}';
+function _buildCountryQuickGuide(cc, cn, L) {
+    try {
+        const G = _COUNTRY_GUIDE_L10N[L] || _COUNTRY_GUIDE_L10N.en;
+        const sub = s => String(s).split('{C}').join(cn);
+        const pfx = (L === 'ar') ? '' : ('/' + L);
+        // Unit 1 — popular cities (up to 8 REAL links; localized label + alternating desc)
+        let citiesUnit = '';
+        const cities = (typeof _curatedCitiesForCc === 'function') ? _curatedCitiesForCc(cc).slice(0, 8) : [];
+        if (cities.length) {
+            const cards = cities.map((c, i) => {
+                const nm = c.names || {};
+                const cLoc = nm[L] || nm.en || c.nameEn || c.nameAr || c.slug;
+                const label = String(G.cityLabel).split('{city}').join(cLoc);
+                const desc = String(i % 2 === 0 ? G.cityDescA : G.cityDescB).split('{city}').join(cLoc);
+                const href = pfx + '/prayer-times-in-' + c.slug;
+                return `<a class="pc-city-card" href="${_escHtml(href)}">`
+                    + `<span class="pc-city-name">${_escHtml(label)}</span>`
+                    + `<span class="pc-city-desc">${_escHtml(desc)}</span></a>`;
+            }).join('');
+            citiesUnit = `<div class="pc-guide-unit"><h3>${_escHtml(sub(G.citiesTitle))}</h3><div class="pc-cities-grid">${cards}</div></div>`;
+        }
+        // Unit 2 — prayer-details chips
+        const chips = (G.chips || []).map(ch => `<span class="pc-chip">${_escHtml(ch)}</span>`).join('');
+        const detailsUnit = `<div class="pc-guide-unit"><h3>${_escHtml(sub(G.detailsTitle))}</h3>`
+            + `<div class="pc-chips">${chips}</div><p class="pc-guide-p">${_escHtml(sub(G.detailsText))}</p></div>`;
+        // Unit 3 — useful links (qibla always; moon gated on a resolved slug; pick = non-link card)
+        const countrySlug = (typeof makeCountrySlugSrv === 'function') ? (makeCountrySlugSrv(cc) || '') : '';
+        let linkCards = `<a class="pc-link-card" href="${_escHtml(pfx + '/qibla')}">`
+            + `<span class="pc-link-title">${_escHtml(sub(G.qiblaTitle))}</span>`
+            + `<span class="pc-link-desc">${_escHtml(sub(G.qiblaDesc))}</span></a>`;
+        if (countrySlug) {
+            linkCards += `<a class="pc-link-card" href="${_escHtml(pfx + '/moon/' + countrySlug)}">`
+                + `<span class="pc-link-title">${_escHtml(sub(G.moonTitle))}</span>`
+                + `<span class="pc-link-desc">${_escHtml(sub(G.moonDesc))}</span></a>`;
+        }
+        linkCards += `<div class="pc-link-card pc-link-static">`
+            + `<span class="pc-link-title">${_escHtml(sub(G.pickTitle))}</span>`
+            + `<span class="pc-link-desc">${_escHtml(sub(G.pickDesc))}</span></div>`;
+        const linksUnit = `<div class="pc-guide-unit"><h3>${_escHtml(sub(G.linksTitle))}</h3><div class="pc-links-grid">${linkCards}</div></div>`;
+        return `<section class="pc-guide" aria-labelledby="pc-guide-title">`
+            + `<h2 id="pc-guide-title">${_escHtml(sub(G.guideTitle))}</h2>`
+            + `<p class="pc-guide-lead">${_escHtml(sub(G.guideLead))}</p>`
+            + `${citiesUnit}${detailsUnit}${linksUnit}</section>`;
+    } catch (_) { return ''; }
 }
 
 // ============================================================
@@ -22266,7 +22534,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         );
         // Inject localized SEO content (6 H2 sections + FAQ H3) into #country-seo-content + FAQPage JSON-LD.
         try {
-            const _cseo = _buildCountrySeoContent(cn, L);
+            const _cseo = _buildCountrySeoContent(cn, L, seo.countryListing.code);
             if (_cseo && html.indexOf('id="country-seo-content"') !== -1) {
                 html = html.replace(
                     /(<div id="country-seo-content">)[\s\S]*?(<\/div>)/,
@@ -22274,6 +22542,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 );
                 if (html.indexOf('"@type":"FAQPage"') === -1) {   // signature, not the template comment that mentions "FAQPage"
                     html = html.replace('</head>', `<script type="application/ld+json">${_cseo.faqJsonLd}</script>\n</head>`);
+                }
+                // DEPTH-3: scoped quick-guide styles travel in the network-first HTML (always fresh; no
+                //   css/style.css edit, no cache-buster). Injected once, guarded on the style id.
+                if (typeof _PC_GUIDE_CSS === 'string' && html.indexOf('id="pc-guide-css"') === -1) {
+                    html = html.replace('</head>', `<style id="pc-guide-css">${_PC_GUIDE_CSS}</style>\n</head>`);
                 }
             }
         } catch (_e) { try { console.warn('[country-seo] inject failed:', _e && _e.message); } catch(_){} }

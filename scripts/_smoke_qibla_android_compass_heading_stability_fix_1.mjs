@@ -73,6 +73,9 @@ try {
   check('app.js has the wobble detector', appjs.includes('_qIsWobbling'));
   check('app.js dims needle when uncertain', appjs.includes('compass-uncertain'));
   check('app.js ships the accuracy-note dict', appjs.includes('_QC_ACCURACY'));
+  // iOS non-regression: the webkitCompassHeading source is preserved (checked FIRST in
+  // resolveCompassHeading, so invert-lock/headingMode can never touch the iOS path).
+  check('app.js keeps iOS webkitCompassHeading source', appjs.includes('webkitCompassHeading'));
   const cssTxt = await get('/css/style.css');
   check('style.css styles .compass-accuracy-note', cssTxt.includes('compass-accuracy-note'));
   check('style.css dims needle on .compass-uncertain', cssTxt.includes('compass-uncertain'));

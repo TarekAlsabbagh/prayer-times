@@ -48,7 +48,10 @@ try {
     check(`${p} 200/index/canonical/hreflang`, ok, robots(b));
   }
   // discovered stays noindex
-  check('/qibla-in-abu-hardub discovered = noindex', robots(await get('/qibla-in-abu-hardub')) === 'noindex');
+  // discovered (non-curated) qibla page must stay noindex. NOTE: pick a slug that is NOT in
+  // curated-places.json — the admin dashboard promotes discovered cities to curated over time
+  // (abu-hardub was promoted on main, which is why this now uses ad-dana). Swap if promoted.
+  check('/qibla-in-ad-dana discovered = noindex', robots(await get('/qibla-in-ad-dana')) === 'noindex');
 
   // (b) the fallback status element ships in the served HTML
   console.log('\n── shipped DOM + JS ──');

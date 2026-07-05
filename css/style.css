@@ -2528,6 +2528,21 @@ html[data-theme="dark"] .ns-item.is-selected {
     will-change: transform;
 }
 
+/* QIBLA-ANDROID-COMPASS-HEADING-STABILITY-FIX-1: while the live compass is
+   tracking, the dial jumps to the already-smoothed heading on each rAF frame,
+   so a CSS transition would make it perpetually chase a moving target. JS adds
+   .compass-live only after a reliable ABSOLUTE heading arrives → transition off. */
+#compass.compass-live { transition: none; }
+.compass-status {
+    margin: 10px auto 0;
+    max-width: 340px;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    text-align: center;
+    opacity: 0.85;
+}
+.compass-status:empty { display: none; }
+
 .compass-permission-btn {
     display: none;
     margin-top: 16px;

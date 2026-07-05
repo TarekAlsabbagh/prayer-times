@@ -15635,6 +15635,13 @@ function renderNearbyGrid(places, grid) {
 let _qiblaAngle = 0;
 let _compassListening = false;
 let _orientationHandler = null;
+// QIBLA-ANDROID-COMPASS-HEADING-STABILITY-FIX-1 — compass runtime state (all
+// module-level so start/stop can share + removeEventListener uses one handler ref).
+let _qSmoothSin = 0, _qSmoothCos = 0, _qSmoothInit = false;
+let _qLastApplied = null, _qPending = null, _qRaf = 0, _qTimeout = 0;
+let _qHasReliable = false, _qSawRelative = false;
+let _qLastSource = '', _qLastEventType = '', _qListenerCount = 0, _qBindTs = 0;
+let _qTeardownBound = false;
 
 // ───── Qibla helpers (Round 25: Tool Page + localized city names) ─────
 
@@ -17852,69 +17859,148 @@ function updateQibla() {
     startDeviceCompass();
 }
 
-function _applyCompassHeading(heading) {
-    const compass = document.getElementById('compass');
-    const arrow   = document.getElementById('qibla-arrow');
-    if (!compass || !arrow) return;
-    // دوّر الكمبس عكس اتجاه الجهاز حتى يبقى الشمال في أعلى
-    compass.style.transform = `rotate(${-heading}deg)`;
-    // السهم يشير إلى القبلة بزاوية مطلقة (بغض النظر عن دوران الجهاز)
-    arrow.style.transform = `translate(-50%, -100%) rotate(${_qiblaAngle}deg)`;
-}
+// ===== QIBLA-ANDROID-COMPASS-HEADING-STABILITY-FIX-1 =====
+// Bearing + rotation formula are UNCHANGED: the needle (#qibla-arrow) sits at
+// +_qiblaAngle inside #compass, and #compass rotates by -heading, so on-screen
+// the needle resolves to normalize(_qiblaAngle - heading). The fix is entirely
+// in the HEADING SOURCE + update pipeline: (1) never treat a RELATIVE Android
+// alpha as an absolute compass — only iOS webkitCompassHeading or an ABSOLUTE
+// reading (event.absolute===true / deviceorientationabsolute) is accepted;
+// relative is rejected → no wrong-lock, no two-stream fight. (2) circular
+// low-pass smoothing + a 1.5° threshold + rAF coalescing → no jitter/spin.
+// (3) screen.orientation.angle compensation. (4) a clear fallback UI (never
+// spin / never show a wrong direction). (5) full listener cleanup on leave.
+const _QC_L10N = {
+    ar: { reading:'جارٍ قراءة البوصلة…', calibrate:'حرّك الهاتف على شكل الرقم ٨ لمعايرة البوصلة، ثم وجّه أعلى الهاتف للأمام.', unstable:'اتجاه الجهاز غير مستقر — يرجى معايرة البوصلة بتحريك الهاتف على شكل ٨.', unsupported:'البوصلة غير مدعومة في هذا المتصفح — استخدم الزاوية المعروضة للتوجّه يدويًا.' },
+    en: { reading:'Reading the compass…', calibrate:'Move your phone in a figure-8 to calibrate the compass, then point the top of the phone forward.', unstable:'Device direction is unstable — please calibrate by moving your phone in a figure-8.', unsupported:'The compass is not supported in this browser — use the angle shown to face the Qibla manually.' },
+    fr: { reading:'Lecture de la boussole…', calibrate:'Bougez le téléphone en forme de 8 pour calibrer la boussole, puis pointez le haut du téléphone vers l’avant.', unstable:'Direction instable — calibrez en bougeant le téléphone en forme de 8.', unsupported:'Boussole non prise en charge — utilisez l’angle affiché pour vous orienter manuellement.' },
+    tr: { reading:'Pusula okunuyor…', calibrate:'Pusulayı kalibre etmek için telefonu 8 şeklinde hareket ettirin, sonra telefonun üstünü ileri doğrultun.', unstable:'Cihaz yönü kararsız — telefonu 8 şeklinde hareket ettirerek kalibre edin.', unsupported:'Pusula bu tarayıcıda desteklenmiyor — gösterilen açıyı kullanarak elle yönelin.' },
+    ur: { reading:'کمپاس پڑھا جا رہا ہے…', calibrate:'کمپاس کیلیبریٹ کرنے کے لیے فون کو 8 کی شکل میں حرکت دیں، پھر فون کا اوپری حصہ آگے کریں۔', unstable:'آلے کی سمت غیر مستحکم ہے — فون کو 8 کی شکل میں حرکت دے کر کیلیبریٹ کریں۔', unsupported:'اس براؤزر میں کمپاس معاون نہیں — دکھائے گئے زاویے سے دستی رخ کریں۔' },
+    de: { reading:'Kompass wird gelesen…', calibrate:'Bewegen Sie das Telefon in einer Acht, um den Kompass zu kalibrieren, und richten Sie dann die Oberseite nach vorne.', unstable:'Geräterichtung instabil — kalibrieren Sie durch Bewegen in einer Acht.', unsupported:'Kompass in diesem Browser nicht unterstützt — nutzen Sie den angezeigten Winkel manuell.' },
+    id: { reading:'Membaca kompas…', calibrate:'Gerakkan ponsel membentuk angka 8 untuk mengalibrasi kompas, lalu arahkan bagian atas ponsel ke depan.', unstable:'Arah perangkat tidak stabil — kalibrasi dengan menggerakkan ponsel membentuk angka 8.', unsupported:'Kompas tidak didukung di peramban ini — gunakan sudut yang ditampilkan secara manual.' },
+    es: { reading:'Leyendo la brújula…', calibrate:'Mueve el teléfono en forma de 8 para calibrar la brújula y apunta la parte superior hacia adelante.', unstable:'Dirección inestable — calibra moviendo el teléfono en forma de 8.', unsupported:'La brújula no es compatible con este navegador — usa el ángulo mostrado manualmente.' },
+    bn: { reading:'কম্পাস পড়া হচ্ছে…', calibrate:'কম্পাস ক্যালিব্রেট করতে ফোনটি ৮-এর আকারে নাড়ান, তারপর ফোনের উপরের দিক সামনে রাখুন।', unstable:'ডিভাইসের দিক অস্থির — ফোন ৮-এর আকারে নাড়িয়ে ক্যালিব্রেট করুন।', unsupported:'এই ব্রাউজারে কম্পাস সমর্থিত নয় — প্রদর্শিত কোণ ব্যবহার করে নিজে দিক ঠিক করুন।' },
+    ms: { reading:'Membaca kompas…', calibrate:'Gerakkan telefon dalam bentuk angka 8 untuk menentukur kompas, kemudian halakan bahagian atas telefon ke hadapan.', unstable:'Arah peranti tidak stabil — tentukur dengan menggerakkan telefon dalam bentuk 8.', unsupported:'Kompas tidak disokong dalam pelayar ini — gunakan sudut dipaparkan secara manual.' }
+};
+function _qcMsg(key){ const l=(typeof getCurrentLang==='function')?getCurrentLang():'ar'; return (_QC_L10N[l]||_QC_L10N.ar)[key]||''; }
+function _qNorm(a){ a=a%360; return a<0?a+360:a; }
+function _qAngDiff(a,b){ const d=((a-b+540)%360)-180; return Math.abs(d); }
+function _qScreenAngle(){ try{ if(typeof screen!=='undefined'&&screen.orientation&&typeof screen.orientation.angle==='number') return screen.orientation.angle; if(typeof window.orientation==='number') return ((window.orientation%360)+360)%360; }catch(_){} return 0; }
+function _qDebugOn(){ try{ return new URLSearchParams(location.search).get('qiblaDebug')==='1'; }catch(_){ return false; } }
+function _qDebug(o){ if(!_qDebugOn())return; try{ console.debug('[qiblaDebug]', o); let el=document.getElementById('qibla-debug'); if(!el){ el=document.createElement('pre'); el.id='qibla-debug'; el.style.cssText='position:fixed;left:6px;bottom:6px;z-index:99999;max-width:60vw;font:11px/1.35 monospace;background:rgba(0,0,0,.82);color:#0f0;padding:6px 8px;border-radius:6px;white-space:pre-wrap;pointer-events:none'; (document.body||document.documentElement).appendChild(el); } el.textContent=Object.keys(o).map(k=>k+': '+o[k]).join('\n'); }catch(_){} }
 
-function startDeviceCompass() {
-    if (_compassListening || !window.DeviceOrientationEvent) return;
-
-    const _btn = document.getElementById('compass-permission-btn');
-    const _hideBtnOnFirstEvent = () => { if (_btn) _btn.style.display = 'none'; };
-
-    // Simple original handler — any usable heading wins.
-    _orientationHandler = function(e) {
-        let heading = null;
-        if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            heading = e.webkitCompassHeading; // iOS — true magnetic heading
-        } else if (e.alpha != null) {
-            heading = (360 - e.alpha) % 360;   // Android — alpha is screen-relative
-        }
-        if (heading === null) return;
-        _hideBtnOnFirstEvent();
-        _applyCompassHeading(heading);
-    };
-
-    // Always attach listeners (safe on iOS — works if permission already granted).
-    try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
-    try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
-    _compassListening = true;
-
-    // Surface the enable button on iOS or any touchscreen (WebView / strict-policy
-    // browsers may need the user gesture to flow). Hides automatically on first event.
-    if (typeof DeviceOrientationEvent.requestPermission === 'function') {
-        if (_btn) _btn.style.display = 'block';
-    } else {
-        const _isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
-        if (_isTouch && _btn) _btn.style.display = 'block';
+// Resolve a TRUE compass heading (0=N, clockwise) from an orientation event, or null.
+function resolveCompassHeading(e){
+    if (!e) return { heading:null, source:'unsupported' };
+    // iOS: webkitCompassHeading is already a true, screen-corrected heading.
+    if (typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)) {
+        return { heading:_qNorm(e.webkitCompassHeading), source:'ios-webkit' };
     }
+    // Android: accept alpha ONLY when the reading is ABSOLUTE (magnetic-north referenced).
+    const isAbsolute = (e.absolute === true) || (e.type === 'deviceorientationabsolute' && e.absolute !== false);
+    if (isAbsolute && typeof e.alpha === 'number' && !isNaN(e.alpha)) {
+        // alpha grows counter-clockwise from north (device frame) → heading = 360 - alpha,
+        // then compensate the screen rotation (portrait = 0, so unaffected). Landscape sign
+        // is best-effort and must be confirmed on a real device.
+        return { heading:_qNorm(360 - e.alpha + _qScreenAngle()), source:'android-absolute' };
+    }
+    if (typeof e.alpha === 'number') return { heading:null, source:'rejected-relative' };
+    return { heading:null, source:'unsupported' };
 }
 
-function requestCompassPermission() {
-    const _attach = () => {
-        // قد تكون المستمعون مُسجّلون مسبقاً من startDeviceCompass على Android — مكرّر آمن.
-        try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
-        try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
-        _compassListening = true;
-        const btn = document.getElementById('compass-permission-btn');
-        if (btn) btn.style.display = 'none';
-    };
-    // iOS 13+ — يحتاج إذن صريح عبر requestPermission()
-    if (typeof DeviceOrientationEvent !== 'undefined'
-        && typeof DeviceOrientationEvent.requestPermission === 'function') {
-        DeviceOrientationEvent.requestPermission().then(state => {
-            if (state === 'granted') _attach();
-        }).catch(console.error);
+function _applyCompassHeading(rawHeading, source){
+    // circular low-pass smoothing (sin/cos — safe across the 359↔0 wrap).
+    const r = rawHeading * Math.PI / 180, K = 0.15;
+    if (!_qSmoothInit){ _qSmoothSin = Math.sin(r); _qSmoothCos = Math.cos(r); _qSmoothInit = true; }
+    else { _qSmoothSin += K*(Math.sin(r)-_qSmoothSin); _qSmoothCos += K*(Math.cos(r)-_qSmoothCos); }
+    const smoothed = _qNorm(Math.atan2(_qSmoothSin,_qSmoothCos)*180/Math.PI);
+    _qDebug({ type:_qLastEventType, source, screenAngle:_qScreenAngle(), rawHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed), qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(_qNorm((_qiblaAngle||0)-smoothed)), listeners:_qListenerCount });
+    // threshold: skip sub-1.5° changes (kills idle jitter). No rAF — a throttled/
+    // backgrounded rAF would freeze the needle; and with .compass-live disabling
+    // the CSS transition, a direct write jumps straight to the already-smoothed
+    // value (no chasing). Sensor stream is capped by the threshold, not by frames.
+    if (_qLastApplied !== null && _qAngDiff(smoothed,_qLastApplied) < 1.5) return;
+    _qLastApplied = smoothed;
+    const compass = document.getElementById('compass');
+    if (compass) compass.style.transform = `rotate(${-smoothed}deg)`;
+}
+function _qSetStatus(key){ const el=document.getElementById('compass-status'); if(el) el.textContent = key ? _qcMsg(key) : ''; }
+
+_orientationHandler = function(e){
+    _qLastEventType = (e && e.type) || '';
+    const res = resolveCompassHeading(e);
+    if (res.source === 'rejected-relative') _qSawRelative = true;
+    if (res.heading === null){ _qDebug({ type:_qLastEventType, source:res.source, rejected:true, listeners:_qListenerCount }); return; }
+    if (!_qHasReliable){
+        _qHasReliable = true;
+        if (_qTimeout){ clearTimeout(_qTimeout); _qTimeout = 0; }
+        const btn = document.getElementById('compass-permission-btn'); if (btn) btn.style.display='none';
+        const compass = document.getElementById('compass'); if (compass) compass.classList.add('compass-live');
+        _qSetStatus('');
+    }
+    _qLastSource = res.source;
+    _applyCompassHeading(res.heading, res.source);
+};
+
+function startDeviceCompass(){
+    if (typeof window === 'undefined') return;
+    if (!window.DeviceOrientationEvent){ _qHasReliable=false; _qSetStatus('unsupported'); return; }
+    if (_compassListening) return;                      // idempotent — already bound
+    _qSawRelative=false; _qHasReliable=false; _qSmoothInit=false; _qLastApplied=null; _qPending=null;
+    _qSetStatus('reading');
+    const compass = document.getElementById('compass'); if (compass) compass.classList.remove('compass-live');
+    try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); _qListenerCount++; } catch(_){}
+    try { window.addEventListener('deviceorientation',         _orientationHandler, true); _qListenerCount++; } catch(_){}
+    _compassListening = true; _qBindTs = Date.now();
+    _qEnsureTeardown();
+    const _btn = document.getElementById('compass-permission-btn');
+    if (typeof DeviceOrientationEvent.requestPermission === 'function'){ if(_btn)_btn.style.display='block'; }
+    else { const t=('ontouchstart'in window)||(navigator.maxTouchPoints>0); if(t&&_btn)_btn.style.display='block'; }
+    // no reliable heading within 3.5s → calibrate / unstable / unsupported message.
+    if (_qTimeout) clearTimeout(_qTimeout);
+    _qTimeout = setTimeout(function(){
+        if (_qHasReliable) return;
+        const touch=('ontouchstart'in window)||(navigator.maxTouchPoints>0);
+        _qSetStatus(_qSawRelative ? 'unstable' : (touch ? 'calibrate' : 'unsupported'));
+    }, 3500);
+}
+
+function stopDeviceCompass(){
+    try { window.removeEventListener('deviceorientationabsolute', _orientationHandler, true); } catch(_){}
+    try { window.removeEventListener('deviceorientation',         _orientationHandler, true); } catch(_){}
+    _compassListening = false; _qListenerCount = 0;
+    if (_qRaf){ try{ cancelAnimationFrame(_qRaf); }catch(_){} _qRaf = 0; }
+    if (_qTimeout){ clearTimeout(_qTimeout); _qTimeout = 0; }
+    _qPending = null;
+    const compass = document.getElementById('compass'); if (compass) compass.classList.remove('compass-live');
+}
+
+function _qEnsureTeardown(){
+    if (_qTeardownBound) return; _qTeardownBound = true;
+    // Stop the compass when leaving the qibla page (SPA nav clears #page-qibla.active),
+    // when the tab is hidden, or on unload — prevents a sensor/listener leak.
+    try {
+        const pg = document.getElementById('page-qibla');
+        if (pg && 'MutationObserver' in window){
+            new MutationObserver(function(){ if (!pg.classList.contains('active')) stopDeviceCompass(); })
+                .observe(pg, { attributes:true, attributeFilter:['class'] });
+        }
+    } catch(_){}
+    try { window.addEventListener('pagehide', stopDeviceCompass); } catch(_){}
+    try { document.addEventListener('visibilitychange', function(){ if (document.hidden) stopDeviceCompass(); }); } catch(_){}
+}
+
+function requestCompassPermission(){
+    // iOS 13+ — explicit gesture-gated permission.
+    if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function'){
+        DeviceOrientationEvent.requestPermission().then(function(state){
+            if (state === 'granted'){ _compassListening = false; startDeviceCompass(); }
+            else { _qSetStatus('unsupported'); }
+        }).catch(function(){ _qSetStatus('unsupported'); });
         return;
     }
-    // R36: غير-iOS — مجرّد user-gesture يكفي لكي يسمح المتصفّح بأحداث المستشعر.
-    _attach();
+    // non-iOS — the user gesture is enough; (re)start cleanly.
+    _compassListening = false; startDeviceCompass();
 }
 
 // ========= القمر =========

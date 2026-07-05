@@ -130730,5 +130730,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "abu-hardub",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 34.8451991,
+    "lng": 40.6279369,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "أبو حردوب",
+      "en": "Abu Hardub"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

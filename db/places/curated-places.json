@@ -130770,5 +130770,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "dirab",
+    "type": "suburb",
+    "countryCode": "sa",
+    "lat": 24.4994755,
+    "lng": 46.6254673,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "ديراب",
+      "en": "Dirab"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

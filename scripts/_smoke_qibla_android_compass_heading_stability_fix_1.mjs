@@ -83,6 +83,9 @@ try {
   check('app.js has the haptic state machine', appjs.includes('_qUpdateHaptic'));
   check('app.js guards the Vibration API', appjs.includes('navigator.vibrate'));
   check('app.js exposes qiblaAligned in debug', appjs.includes('qiblaAligned'));
+  // ANDROID RESPONSE SPEED ADDENDUM: adaptive smoothing factor ships + is exposed in debug.
+  check('app.js ships adaptive smoothingFactor', appjs.includes('smoothingFactor'));
+  check('app.js exposes rawToSmoothedLag in debug', appjs.includes('rawToSmoothedLag'));
   const cssTxt = await get('/css/style.css');
   check('style.css styles .compass-accuracy-note', cssTxt.includes('compass-accuracy-note'));
   check('style.css dims needle on .compass-uncertain', cssTxt.includes('compass-uncertain'));

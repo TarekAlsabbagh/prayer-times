@@ -15659,6 +15659,7 @@ let _qHist = [];
 //  (buzz once on entry, not every frame). _qAlignedSince: dwell timer (must hold ~600ms
 //  in-zone before buzzing → no buzz on a fast sweep-through). No bearing/offset change.
 let _qInZone = false, _qHapticArmed = false, _qAlignedSince = 0, _qLastVibrationAt = 0, _qLastAngularDiff = null;
+let _qLastReadingTs = 0;   // ANDROID RESPONSE SPEED ADDENDUM — timestamp of the previous reading (for updateMs)
 
 // ───── Qibla helpers (Round 25: Tool Page + localized city names) ─────
 
@@ -18021,13 +18022,26 @@ function resolveCompassHeading(e){
 
 function _applyCompassHeading(res){
     const rawHeading = res.heading;
-    // circular low-pass smoothing (sin/cos — safe across the 359↔0 wrap).
-    const r = rawHeading * Math.PI / 180, K = 0.15;
+    const now = Date.now();
+    const updateMs = _qLastReadingTs ? (now - _qLastReadingTs) : 0;   // ms since the previous reading
+    _qLastReadingTs = now;
+    // ADAPTIVE circular low-pass smoothing (sin/cos — wrap-safe). ANDROID RESPONSE SPEED
+    // ADDENDUM: a FIXED K=0.15 made the needle lag the phone. K now scales with how far the
+    // raw heading is from the current smoothed value: a 3° deadband keeps K low at rest (no
+    // jitter), and K ramps toward ~0.95 as you rotate (the needle snaps almost instantly).
+    // Smoothing is never disabled → no return of the spin/jitter. (raw alpha still rejected,
+    // absolute-only, no offset, bearing/rotation formula unchanged.)
+    const prevSmoothed = _qSmoothInit ? _qNorm(Math.atan2(_qSmoothSin,_qSmoothCos)*180/Math.PI) : rawHeading;
+    const headingDelta = _qAngDiff(rawHeading, prevSmoothed);              // gap the smoother must close
+    // K ≈ 0.15 at rest (identical to the old, proven-stable behaviour → no new jitter),
+    // then ramps steeply to ~0.95 as the gap grows (rotating → near-instant tracking).
+    const K = Math.min(0.95, 0.15 + Math.max(0, headingDelta - 2) * 0.11);
+    const r = rawHeading * Math.PI / 180;
     if (!_qSmoothInit){ _qSmoothSin = Math.sin(r); _qSmoothCos = Math.cos(r); _qSmoothInit = true; }
     else { _qSmoothSin += K*(Math.sin(r)-_qSmoothSin); _qSmoothCos += K*(Math.cos(r)-_qSmoothCos); }
     const smoothed = _qNorm(Math.atan2(_qSmoothSin,_qSmoothCos)*180/Math.PI);
-    const now = Date.now();
-    const finalRotation = _qNorm((_qiblaAngle||0) - smoothed);   // on-screen needle angle (0 = up = facing Qibla)
+    const rawToSmoothedLag = _qAngDiff(rawHeading, smoothed);              // residual lag AFTER smoothing
+    const finalRotation = _qNorm((_qiblaAngle||0) - smoothed);            // on-screen needle angle (0 = facing Qibla)
     // reliability + haptics run BEFORE the write threshold, so they keep updating while the
     // user holds steady on the Qibla (events keep arriving even when the transform doesn't move).
     const _wob = _qIsWobbling(rawHeading, now);   // fed the RAW heading (smoothing would mask the jitter)
@@ -18045,12 +18059,13 @@ function _applyCompassHeading(res){
         chosenHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed),
         qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(finalRotation), listeners:_qListenerCount,
         vibrationSupported:_qHapticSupported(), qiblaAligned:_qInZone, hapticArmed:_qHapticArmed,
-        angularDiff:(_qLastAngularDiff==null?'-':Math.round(_qLastAngularDiff)), lastVibrationAt:(_qLastVibrationAt||'-') });
-    // threshold: skip sub-1.5° changes (kills idle jitter). No rAF — a throttled/
-    // backgrounded rAF would freeze the needle; and with .compass-live disabling
-    // the CSS transition, a direct write jumps straight to the already-smoothed
-    // value (no chasing). Sensor stream is capped by the threshold, not by frames.
-    if (_qLastApplied !== null && _qAngDiff(smoothed,_qLastApplied) < 1.5) return;
+        angularDiff:(_qLastAngularDiff==null?'-':Math.round(_qLastAngularDiff)), lastVibrationAt:(_qLastVibrationAt||'-'),
+        headingDelta:Math.round(headingDelta), smoothingFactor:+K.toFixed(2), rawToSmoothedLag:Math.round(rawToSmoothedLag), updateMs:Math.round(updateMs) });
+    // threshold: skip sub-1.0° changes (kills idle jitter without swallowing fine motion —
+    // the adaptive-K deadband already holds the needle steady at rest). No rAF — a throttled/
+    // backgrounded rAF would freeze the needle; and with .compass-live disabling the CSS
+    // transition, a direct write jumps straight to the already-smoothed value (no chasing).
+    if (_qLastApplied !== null && _qAngDiff(smoothed,_qLastApplied) < 1.0) return;
     _qLastApplied = smoothed;
     const compass = document.getElementById('compass');
     if (compass) compass.style.transform = `rotate(${-smoothed}deg)`;

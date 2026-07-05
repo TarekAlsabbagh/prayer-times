@@ -1588,7 +1588,12 @@
 //   light Vibration-API buzz when the user faces the Qibla (enter ≤6° / exit >10°
 //   hysteresis, ~600ms dwell, buzz-once, cancel on exit/teardown). UX-only, Android;
 //   iOS/desktop (no navigator.vibrate) silently no-op. No bearing/rotation/offset change.
-const CACHE_VERSION = 'v488';
+// ANDROID RESPONSE SPEED ADDENDUM (test branch): js/app.js?v=821→822, sw v488→v489.
+//   Replaces the fixed low-pass K=0.15 (which lagged the needle on Android) with ADAPTIVE
+//   smoothing — K ramps with movement (near-instant snap while rotating) and stays low at
+//   rest (no jitter). Threshold 1.5°→1.0°. Debug adds headingDelta/smoothingFactor/
+//   rawToSmoothedLag/updateMs. No spin, no offset, bearing/rotation/haptics/iOS unchanged.
+const CACHE_VERSION = 'v489';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1615,7 +1620,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=821',
+    '/js/app.js?v=822',
 ];
 
 self.addEventListener('install', (event) => {

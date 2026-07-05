@@ -84,7 +84,23 @@ const PrayerTimes = (function () {
         'Kuwait':    { name: 'الكويت',                                     fajr: 18,   isha: 17.5     },
         'Qatar':     { name: 'قطر',                                        fajr: 18,   isha: '90 min' },
         'Singapore': { name: 'سنغافورة / إندونيسيا',                      fajr: 20,   isha: 18       },
-        'Turkey':    { name: 'تركيا - ديانت',                              fajr: 18,   isha: 17       },
+        // TURKEY-DIYANET-TEMKIN-APPLY-1 (2026-07-05, PRAYER-TR-DIYANET-TEMKIN-1):
+        //   The raw 18°/17° angles are Diyanet-correct, but Diyanet's published
+        //   tables (namazvakitleri.diyanet.gov.tr — what Google shows for Turkey)
+        //   add a fixed "temkin/ihtiyat" precaution on top. Without it our Turkey
+        //   output == raw MWL: İmsak/Fajr + Yatsı/Isha already matched Diyanet to
+        //   the minute (Diyanet dropped their temkin on those two in 1983), but
+        //   sunrise ran ~7 min late and dhuhr/asr/maghrib ~5-7 min early.
+        //   Verified against the OFFICIAL Diyanet site + aladhan method 13 across
+        //   Istanbul/Ankara/Izmir/Bursa/Konya × summer/winter/autumn/Ramadan:
+        //   sunrise -7, dhuhr +5, maghrib +7 are city- and season-stable to the
+        //   minute; fajr/isha stay 0 (they already match Diyanet). Asr carries a
+        //   genuine ±1-2 min SEASONAL temkin drift (offset ranges +2..+5), so +4
+        //   is the best fixed value (mean |err| ≈ 0.9, max 2). Raw academic angles
+        //   preserved; the minute tune is applied via `adj` inside computeAllTimes
+        //   (before the user's per-card adjustment), exactly like JAKIM/MoroccoAwqaf.
+        'Turkey':    { name: 'تركيا - ديانت', fajr: 18, isha: 17,
+                       adj: { sunrise: -7, dhuhr: 5, asr: 4, maghrib: 7 } },
         'France':    { name: 'اتحاد المنظمات الإسلامية في فرنسا (UIOF)',  fajr: 12,   isha: 12       },
         'Russia':    { name: 'روسيا',                                      fajr: 16,   isha: 15       },
         // COUNTRY-SPECIFIC-CALC-METHODS-1 (2026-05-26):

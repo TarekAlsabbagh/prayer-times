@@ -17889,32 +17889,52 @@ function _qScreenAngle(){ try{ if(typeof screen!=='undefined'&&screen.orientatio
 function _qDebugOn(){ try{ return new URLSearchParams(location.search).get('qiblaDebug')==='1'; }catch(_){ return false; } }
 function _qDebug(o){ if(!_qDebugOn())return; try{ console.debug('[qiblaDebug]', o); let el=document.getElementById('qibla-debug'); if(!el){ el=document.createElement('pre'); el.id='qibla-debug'; el.style.cssText='position:fixed;left:6px;bottom:6px;z-index:99999;max-width:60vw;font:11px/1.35 monospace;background:rgba(0,0,0,.82);color:#0f0;padding:6px 8px;border-radius:6px;white-space:pre-wrap;pointer-events:none'; (document.body||document.documentElement).appendChild(el); } el.textContent=Object.keys(o).map(k=>k+': '+o[k]).join('\n'); }catch(_){} }
 
+// DEVICE-TEST-FAIL ADDENDUM: temporary heading-convention override for triage.
+//   ?headingMode=alpha  → heading = alpha         (some Android absolute streams
+//                                                   report alpha AS the clockwise heading)
+//   ?headingMode=invert → heading = 360 - alpha   (W3C-standard; the current default)
+// Not surfaced to normal users — only to determine the correct Android convention on a
+// real device. Default (no param) keeps the existing behaviour (invert).
+function _qHeadingMode(){ try{ const m=new URLSearchParams(location.search).get('headingMode'); return (m==='alpha'||m==='invert')?m:''; }catch(_){ return ''; } }
+
 // Resolve a TRUE compass heading (0=N, clockwise) from an orientation event, or null.
 function resolveCompassHeading(e){
     if (!e) return { heading:null, source:'unsupported' };
     // iOS: webkitCompassHeading is already a true, screen-corrected heading.
     if (typeof e.webkitCompassHeading === 'number' && !isNaN(e.webkitCompassHeading)) {
-        return { heading:_qNorm(e.webkitCompassHeading), source:'ios-webkit' };
+        return { heading:_qNorm(e.webkitCompassHeading), source:'ios-webkit', webkit:e.webkitCompassHeading };
     }
     // Android: accept alpha ONLY when the reading is ABSOLUTE (magnetic-north referenced).
     const isAbsolute = (e.absolute === true) || (e.type === 'deviceorientationabsolute' && e.absolute !== false);
     if (isAbsolute && typeof e.alpha === 'number' && !isNaN(e.alpha)) {
-        // alpha grows counter-clockwise from north (device frame) → heading = 360 - alpha,
-        // then compensate the screen rotation (portrait = 0, so unaffected). Landscape sign
-        // is best-effort and must be confirmed on a real device.
-        return { heading:_qNorm(360 - e.alpha + _qScreenAngle()), source:'android-absolute' };
+        const scr = _qScreenAngle();
+        const candAlpha  = _qNorm(e.alpha);          // heading = alpha
+        const candInvert = _qNorm(360 - e.alpha);    // heading = 360 - alpha (W3C default)
+        const mode = _qHeadingMode() || 'invert';
+        const base = (mode === 'alpha') ? candAlpha : candInvert;
+        return { heading:_qNorm(base + scr), source:'android-absolute',
+                 alpha:e.alpha, beta:e.beta, gamma:e.gamma, absolute:e.absolute,
+                 candAlpha, candInvert, mode, screenAngle:scr };
     }
-    if (typeof e.alpha === 'number') return { heading:null, source:'rejected-relative' };
+    if (typeof e.alpha === 'number') return { heading:null, source:'rejected-relative', alpha:e.alpha, absolute:e.absolute };
     return { heading:null, source:'unsupported' };
 }
 
-function _applyCompassHeading(rawHeading, source){
+function _applyCompassHeading(res){
+    const rawHeading = res.heading;
     // circular low-pass smoothing (sin/cos — safe across the 359↔0 wrap).
     const r = rawHeading * Math.PI / 180, K = 0.15;
     if (!_qSmoothInit){ _qSmoothSin = Math.sin(r); _qSmoothCos = Math.cos(r); _qSmoothInit = true; }
     else { _qSmoothSin += K*(Math.sin(r)-_qSmoothSin); _qSmoothCos += K*(Math.cos(r)-_qSmoothCos); }
     const smoothed = _qNorm(Math.atan2(_qSmoothSin,_qSmoothCos)*180/Math.PI);
-    _qDebug({ type:_qLastEventType, source, screenAngle:_qScreenAngle(), rawHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed), qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(_qNorm((_qiblaAngle||0)-smoothed)), listeners:_qListenerCount });
+    // DEVICE-TEST overlay — raw event values + BOTH heading candidates so the correct
+    // Android convention (alpha vs 360-alpha) can be read directly on the device.
+    const _rnd = v => (typeof v === 'number' && !isNaN(v)) ? Math.round(v) : '-';
+    _qDebug({ type:_qLastEventType, source:res.source, absolute:(res.absolute===undefined?'-':res.absolute),
+        alpha:_rnd(res.alpha), beta:_rnd(res.beta), gamma:_rnd(res.gamma), screenAngle:_qScreenAngle(),
+        headingMode:res.mode||'-', candAlpha:_rnd(res.candAlpha), cand360mAlpha:_rnd(res.candInvert),
+        chosenHeading:Math.round(rawHeading), smoothedHeading:Math.round(smoothed),
+        qiblaBearing:+(_qiblaAngle||0).toFixed(1), finalRotation:Math.round(_qNorm((_qiblaAngle||0)-smoothed)), listeners:_qListenerCount });
     // threshold: skip sub-1.5° changes (kills idle jitter). No rAF — a throttled/
     // backgrounded rAF would freeze the needle; and with .compass-live disabling
     // the CSS transition, a direct write jumps straight to the already-smoothed
@@ -17939,7 +17959,7 @@ _orientationHandler = function(e){
         _qSetStatus('');
     }
     _qLastSource = res.source;
-    _applyCompassHeading(res.heading, res.source);
+    _applyCompassHeading(res);
 };
 
 function startDeviceCompass(){

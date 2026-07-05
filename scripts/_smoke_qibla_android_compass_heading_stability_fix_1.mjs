@@ -63,6 +63,10 @@ try {
   }
   check('app.js has stopDeviceCompass (cleanup)', appjs.includes('stopDeviceCompass'));
   check('app.js has resolveCompassHeading', appjs.includes('resolveCompassHeading'));
+  // DEVICE-TEST-FAIL ADDENDUM: triage toggle + both heading candidates ship.
+  check('app.js has headingMode triage toggle', appjs.includes('headingMode'));
+  check('app.js computes both candidates (candInvert)', appjs.includes('candInvert'));
+  check('app.js debug carries cand360mAlpha', appjs.includes('cand360mAlpha'));
 
   // (d) bearing UNCHANGED
   console.log('\n── bearing (unchanged) + rotation formula ──');

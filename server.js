@@ -2677,6 +2677,26 @@ function _resolveCcForSlug(slug) {
     return '';
 }
 
+// PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: authoritative city→cc for the prayer-city breadcrumb
+//   country rung (HTML href + BreadcrumbList JSON-LD). Chains the FAMOUS map (fast, unchanged for
+//   old famous cities) → curated-places `_findPlaceBySlug().countryCode` (covers ALL curated incl.
+//   the new BATCH cities like praia/windhoek) → `_resolveCcForSlug` (coord DB / slug fallback). Returns
+//   '' when unresolved → caller renders NO country link (never a broken href="#"/'sa' fallback). The
+//   country slug itself is derived downstream via makeCountrySlugSrv(cc); '' there = no link too.
+function _cityCcForBreadcrumb(slug) {
+    if (!slug) return '';
+    const _fx = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[slug]) ? FAMOUS_CITY_OVERRIDES[slug] : null;
+    if (_fx && _fx.cc) return String(_fx.cc).toLowerCase();
+    const _cur = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+    if (_cur && _cur.countryCode) return String(_cur.countryCode).toLowerCase();
+    // Discovered places (Supabase prefetch cache, camelCase `country_code`) — so a discovered city page
+    //   (noindex) still links its country crumb when the cc is known; unknown → '' → no link (unchanged noindex).
+    const _disc = (typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(slug) : null;
+    if (_disc && _disc.country_code) return String(_disc.country_code).toLowerCase();
+    const _cc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(slug) : '';
+    return _cc ? String(_cc).toLowerCase() : '';
+}
+
 // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH (2026-06-21): build a NESTED moon URL for an internal
 // user-facing link, so no link ever points at a legacy /moon-in-/ /moon-today-in- route (which 301s).
 // When the city resolves to a known country → the nested city URL; otherwise → the global /moon hub
@@ -22423,24 +22443,30 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // نحتاج الدولة من lookup — نستخدم FAMOUS_CITY_OVERRIDES + _countryNameForLang
         try {
             const _citySlug = cityMatchSsr[1];
-            const _cityOverride = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[_citySlug]) ? FAMOUS_CITY_OVERRIDES[_citySlug] : null;
-            if (_cityOverride && _cityOverride.cc && typeof _countryNameForLang === 'function') {
-                const _countryNameLoc = _countryNameForLang(_cityOverride.cc, L) || _cityOverride.cc;
-                const _countrySlugSsr = (typeof makeCountrySlugSrv === 'function')
-                    ? makeCountrySlugSrv(_cityOverride.cc)
-                    : (_cityOverride.cc ? _cityOverride.cc.toLowerCase() : '');
-                const _langPfxSsr = (L === 'ar') ? '' : ('/' + L);
-                const _countryHrefSsr = _countrySlugSsr
-                    ? `${_langPfxSsr}/prayer-times-in-${_countrySlugSsr}`
-                    : `${_langPfxSsr}/`;
+            // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: resolve the country from the AUTHORITATIVE chain
+            //   (famous → curated-places → coord/slug), not just FAMOUS_CITY_OVERRIDES — so new curated
+            //   cities (praia/windhoek/…) get a real country crumb link, not a dead href="#".
+            const _bcCc = _cityCcForBreadcrumb(_citySlug);
+            const _bcCountryName = (_bcCc && typeof _countryNameForLang === 'function') ? (_countryNameForLang(_bcCc, L) || '') : '';
+            const _bcCountrySlug = (_bcCc && typeof makeCountrySlugSrv === 'function') ? (makeCountrySlugSrv(_bcCc) || '') : '';
+            if (_bcCountryName) {
                 html = html.replace(
                     '<span itemprop="name" id="bc-country-name">--</span>',
-                    `<span itemprop="name" id="bc-country-name">${_escHtml(_countryNameLoc)}</span>`
+                    `<span itemprop="name" id="bc-country-name">${_escHtml(_bcCountryName)}</span>`
                 );
-                // ضع href للدولة في bc-country
+            }
+            if (_bcCountrySlug) {
+                const _langPfxSsr = (L === 'ar') ? '' : ('/' + L);
                 html = html.replace(
                     '<a class="bc-link" href="#" id="bc-country" itemprop="item">',
-                    `<a class="bc-link" href="${_countryHrefSsr}" id="bc-country" itemprop="item">`
+                    `<a class="bc-link" href="${_langPfxSsr}/prayer-times-in-${_bcCountrySlug}" id="bc-country" itemprop="item">`
+                );
+            } else {
+                // No valid country slug → NOT a broken link: drop the placeholder href entirely
+                //   (an <a> without href is inert text, never a dead href="#").
+                html = html.replace(
+                    '<a class="bc-link" href="#" id="bc-country" itemprop="item">',
+                    '<a class="bc-link" id="bc-country" itemprop="item">'
                 );
             }
         } catch (_e) { /* silent */ }
@@ -22525,12 +22551,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // ═══ Phase 2 — SSR حقن BreadcrumbList JSON-LD + FAQPage JSON-LD ═══
         try {
             const _citySlug = cityMatchSsr[1];
-            const _override = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[_citySlug]) ? FAMOUS_CITY_OVERRIDES[_citySlug] : null;
+            // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: same authoritative resolver as the HTML crumb, so
+            //   the JSON-LD country item matches the visible breadcrumb (present for curated cities, absent
+            //   — no broken URL — when unresolved). The `if (_countryNameJL && _countrySlugJL)` push below
+            //   already gates on both, so an unresolved city yields a clean 2-item list.
+            const _bcCcJL = _cityCcForBreadcrumb(_citySlug);
             let _countryNameJL = '';
             let _countrySlugJL = '';
-            if (_override && _override.cc) {
-                if (typeof _countryNameForLang === 'function') _countryNameJL = _countryNameForLang(_override.cc, L) || '';
-                if (typeof makeCountrySlugSrv === 'function') _countrySlugJL = makeCountrySlugSrv(_override.cc) || '';
+            if (_bcCcJL) {
+                if (typeof _countryNameForLang === 'function') _countryNameJL = _countryNameForLang(_bcCcJL, L) || '';
+                if (typeof makeCountrySlugSrv === 'function') _countrySlugJL = makeCountrySlugSrv(_bcCcJL) || '';
             }
             const _origin = (typeof SITE_URL !== 'undefined' && SITE_URL) ? SITE_URL : '';
             const _prefix = (L === 'ar') ? '' : ('/' + L);
@@ -27146,6 +27176,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     }
                     if (_seedEntry) {
                         const _placeData = _buildSlugLookupResult(_seedEntry, seo.lang, _seedSource);
+                        // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: seed the AUTHORITATIVE country slug so the
+                        //   client breadcrumb links the country crumb from SSR truth (no reliance on the client's
+                        //   partial COUNTRY_EN_NAMES map, no 'sa' fallback). Derived from the city's countryCode
+                        //   via makeCountrySlugSrv (same as the SSR crumb + JSON-LD). '' → client renders no link.
+                        if (_placeData && typeof makeCountrySlugSrv === 'function') {
+                            const _seedCc = (_seedEntry.countryCode || _placeData.countryCode || '');
+                            const _seedCountrySlug = _seedCc ? (makeCountrySlugSrv(String(_seedCc).toLowerCase()) || '') : '';
+                            if (_seedCountrySlug) _placeData.countrySlug = _seedCountrySlug;
+                        }
                         if (_placeData && _placeData.name && _placeData.country) {
                             const _cityEsc    = _escHtml(_placeData.name);
                             const _countryEsc = _escHtml(_placeData.country);

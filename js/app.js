@@ -9036,7 +9036,12 @@ function updateBreadcrumb() {
     const isAr        = (lang === 'ar');
     const langPrefix  = isAr ? '/' : ('/' + lang + '/');
     const origin      = window.SITE_URL || window.location.origin;
-    const countrySlug = makeCountrySlug(currentCountryCode, currentEnglishCountry);
+    // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: prefer the SSR-authoritative country slug seeded on
+    //   window.__PRAYER_CITY__ (server makeCountrySlugSrv(cc)) so the country crumb links for ALL curated
+    //   cities — incl. new BATCH cities whose code the client's partial COUNTRY_EN_NAMES map lacks. Falls
+    //   back to the client resolver only when the seed is absent (e.g. SPA nav). Never yields '/prayer-times-in-'.
+    const countrySlug = (window.__PRAYER_CITY__ && window.__PRAYER_CITY__.countrySlug)
+        || makeCountrySlug(currentCountryCode, currentEnglishCountry);
 
     // ── نصوص العرض (عبر i18n مع fallback) ──
     const _t = (typeof t === 'function') ? t : (k) => k;
@@ -9163,38 +9168,30 @@ function updateBreadcrumb() {
     // ── حقن / تحديث BreadcrumbList Schema ──
     // نُرسِل countryFinal (المسبوق بـ "مواقيت الصلاة في") ليُطابق ما يراه المستخدم
     _injectBreadcrumbSchema({
-        origin, homeLabel, countryLabel: countryFinal, countryHref, finalLabel, lang
+        origin, homeLabel, countryLabel: countryFinal, countryHref, countrySlug, finalLabel, lang
     });
 }
 
 /** يحقن أو يُحدِّث <script id="breadcrumb-schema"> في <head> */
-function _injectBreadcrumbSchema({ origin, homeLabel, countryLabel, countryHref, finalLabel }) {
+function _injectBreadcrumbSchema({ origin, homeLabel, countryLabel, countryHref, countrySlug, finalLabel }) {
     // لا تحقن Schema في وضع الملف المحلي
     if (window.location.protocol === 'file:') return;
 
+    // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: include the country rung ONLY when we have a real slug
+    //   → never emit a broken `item:"…/prayer-times-in-"` (empty slug). Positions stay sequential, and the
+    //   JSON-LD mirrors the visible breadcrumb (server SSR emits the same 3-rung / 2-rung shape).
+    const _items = [
+        { "@type": "ListItem", "position": 1, "name": homeLabel, "item": `${origin}/` }
+    ];
+    let _pos = 2;
+    if (countrySlug) {
+        _items.push({ "@type": "ListItem", "position": _pos++, "name": countryLabel, "item": countryHref });
+    }
+    _items.push({ "@type": "ListItem", "position": _pos, "name": finalLabel });  // current item — no "item"
     const schema = {
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
-        "itemListElement": [
-            {
-                "@type": "ListItem",
-                "position": 1,
-                "name": homeLabel,
-                "item": `${origin}/`
-            },
-            {
-                "@type": "ListItem",
-                "position": 2,
-                "name": countryLabel,
-                "item": countryHref
-            },
-            {
-                "@type": "ListItem",
-                "position": 3,
-                "name": finalLabel
-                // لا يوجد "item" — هذا هو العنصر الحالي (aria-current)
-            }
-        ]
+        "itemListElement": _items
     };
 
     // إزالة قديم (عند تنقّل SPA بين مدن)

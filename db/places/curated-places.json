@@ -130708,5 +130708,27 @@
     "priority": 70,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "tarrafal",
+    "type": "county",
+    "countryCode": "cv",
+    "lat": 15.2664503,
+    "lng": -23.7227339,
+    "timezone": "Atlantic/Cape_Verde",
+    "names": {
+      "ar": "تارفال",
+      "en": "Tarrafal",
+      "es": "Municipio de Tarrafal",
+      "ur": "تارافال، کیپ ورڈی"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الرأس الأخضر",
+      "countryEn": "Cape Verde"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

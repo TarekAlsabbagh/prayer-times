@@ -30074,7 +30074,19 @@ const server = http.createServer(async (req, res) => {
     //   كلّ slug فيه canonical، لا تكرار، لا coord-only، لا روابط Nominatim.
     //   نُبقي fallback إلى الطريقة القديمة فقط لو لم يُحمَّل الملف (للسلامة في dev).
     function buildSitemapDataFresh() {
-        // Primary: curated entries
+        // SITEMAP-CURATED-SYNC-AFTER-SIZE-SPLIT-1: source the sitemap CITY set from _CURATED_PLACES —
+        // the SAME set `_findPlaceBySlug` uses to gate a city page to robots=index (server.js ~15080:
+        // `_shouldNoindexCityRoute === !_findPlaceBySlug`). This makes the sitemap == exactly the index
+        // cities: it ADDS the curated-places cities that were missing (praia/qubtan/… ≈2900) and DROPS
+        // the legacy curated-slugs entries NOT in curated-places (marrakech/washington/qassim/… ≈120 —
+        // those are served NOINDEX and must never appear in the sitemap). Discovered (Supabase
+        // discovered_places) is a separate layer, never loaded here, so it can never leak in.
+        if (_CURATED_PLACES && _CURATED_PLACES.length > 0) {
+            const cities = _CURATED_PLACES.map(e => e.slug).filter(Boolean);
+            const ccSet = new Set(_CURATED_PLACES.map(e => (e.countryCode || '').toLowerCase()).filter(Boolean));
+            return { countryCodes: [...ccSet], cities: [...new Set(cities)] };
+        }
+        // Fallback: legacy curated-slugs entries (ONLY if _CURATED_PLACES failed to load — dev safety)
         if (CURATED_ENTRIES && CURATED_ENTRIES.length > 0) {
             const cities = CURATED_ENTRIES.map(e => e.slug).filter(Boolean);
             const ccSet = new Set(CURATED_ENTRIES.map(e => (e.cc || '').toLowerCase()).filter(Boolean));

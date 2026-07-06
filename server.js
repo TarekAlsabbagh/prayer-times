@@ -4830,7 +4830,10 @@ function _renderSidebar({ spa = false, active = null } = {}) {
     }
     return '<aside class="sidebar" id="sidebar">'
         + '<div class="sidebar-header">'
-        +   '<div class="sidebar-logo" role="banner" onclick="goHome()" title="الرئيسية" data-i18n-title="header.logo_title">' + _ic('i-mosque') + ' <span data-i18n="app.title">مواقيت الصلاة</span></div>'
+        +   '<a href="/" class="sidebar-logo" id="sidebar-logo-link" aria-label="الصفحة الرئيسية" data-i18n-aria-label="header.home_title">'
+        +     '<img class="sidebar-logo-img" src="/assets/brand/logo-white.svg?v=1" alt="Prayer Times" width="64" height="52" decoding="async">'
+        +     '<span class="sidebar-logo-text" data-i18n="app.title">مواقيت الصلاة</span>'
+        +   '</a>'
         +   '<div class="hijri-date" id="sidebar-hijri-date"></div>'
         +   '<div class="greg-date" id="sidebar-greg-date"></div>'
         + '</div>'

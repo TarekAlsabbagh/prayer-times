@@ -1525,7 +1525,12 @@ button, input, select { font-family: inherit; }
 .sidebar-logo {
     cursor: pointer;
     transition: opacity 0.2s;
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #fff;
 }
 .sidebar-logo:hover { opacity: 0.82; }
 
@@ -29218,4 +29223,10 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
         background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8' fill='none' stroke='%234ab87a' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'><path d='M1 1.5 L6 6.5 L11 1.5'/></svg>");
     }
 }
+
+/* ===== SITE-LOGO-NAVBAR-AND-FAVICON-BRANDING-1 — brand logo at the top of the shared side nav ===== */
+.sidebar-logo-img { height: 52px; width: auto; max-width: 82%; display: block; }
+.sidebar-logo-text { font-size: 1.15rem; font-weight: 700; line-height: 1.2; }
+.sidebar-logo:focus-visible { outline: 2px solid var(--gold-light, #f5d547); outline-offset: 3px; border-radius: 8px; }
+@media (max-width: 600px) { .sidebar-logo-img { height: 46px; } }
 

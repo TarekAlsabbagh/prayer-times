@@ -1579,7 +1579,12 @@
 //   removes the "last used location" smart-redirect pill on city pages only (SSR strip + client
 //   guard; homepage pill kept). Labels only: no prayer/date/countdown CALCULATION, title/meta/
 //   canonical/hreflang/robots, sitemap/slugs/routes change. Regenerated js/i18n/{lang}.js bundles.
-const CACHE_VERSION = 'v485';
+// SITE-LOGO-NAVBAR-AND-FAVICON-BRANDING-1 (2026-07-06): added the brand logo at the TOP OF THE SIDE NAV
+//   (assets/brand/logo-white.svg precached — sidebar is dark in both themes; logo-color.svg available)
+//   + full favicon/app-icon set (favicon.svg/.ico + 16/32/apple-touch-180/192/512 PNG) + manifest
+//   icons. css/style.css?v=489→490. Assets/branding only;
+//   no prayer/moon/qibla CALCULATION, title/meta/canonical/hreflang/robots, sitemap/slugs/routes change.
+const CACHE_VERSION = 'v486';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1597,7 +1602,8 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
-    '/css/style.css?v=489',
+    '/css/style.css?v=490',
+    '/assets/brand/logo-white.svg?v=1',
     '/js/i18n.js?v=194',
     '/js/prayer-times.js?v=54',
     '/js/hijri-date.js?v=44',

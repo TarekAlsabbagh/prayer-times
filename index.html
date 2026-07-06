@@ -12,8 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مواقيت الصلاة - Prayer Times</title>
     <meta name="description" content="مواقيت الصلاة، اتجاه القبلة، التقويم الهجري، حاسبة الزكاة، الأدعية والأذكار">
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg">
+    <link rel="icon" href="/favicon.ico" sizes="32x32">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
+    <link rel="icon" type="image/png" sizes="16x16" href="/assets/brand/favicon-16x16.png?v=1">
+    <link rel="icon" type="image/png" sizes="32x32" href="/assets/brand/favicon-32x32.png?v=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="/assets/brand/apple-touch-icon.png?v=1">
     <!-- Phase E2-2 (2026-05-01): manifest deferred to AFTER `load` event.
          Lighthouse network-dependency-tree showed /manifest.webmanifest in
          the critical path of /moon-today (1.15 KiB, 1,816 ms). Injecting it
@@ -78,8 +81,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=489" as="style">
-    <link rel="stylesheet" href="css/style.css?v=489">
+    <link rel="preload" href="css/style.css?v=490" as="style">
+    <link rel="stylesheet" href="css/style.css?v=490">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =

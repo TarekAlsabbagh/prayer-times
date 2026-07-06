@@ -130790,5 +130790,26 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "qubtan",
+    "type": "village",
+    "countryCode": "sy",
+    "lat": 36.5265146,
+    "lng": 37.3637779,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "قبتان",
+      "de": "Kubtan",
+      "en": "Qubtan"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

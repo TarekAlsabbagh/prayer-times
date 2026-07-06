@@ -130811,5 +130811,27 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "qubtan-al-jabal",
+    "type": "town",
+    "countryCode": "sy",
+    "lat": 36.2642792,
+    "lng": 36.9494636,
+    "timezone": "Asia/Damascus",
+    "names": {
+      "ar": "قبتان الجبل",
+      "de": "Kubtan al-Dschabal",
+      "en": "Qubtan al-Jabal",
+      "fr": "Qubtan al-Djabal"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "سوريا",
+      "countryEn": "Syria"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

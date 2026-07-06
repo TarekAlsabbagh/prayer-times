@@ -1891,8 +1891,10 @@ function makeCountrySlugSrv(cc) {
 
 // ===== Cache الـ sitemap (30 دقيقة TTL) =====
 let _sitemapCache = { data: null, time: 0 };
+// SITEMAP-CITIES-SPLIT-BY-SIZE-FOR-GSC-1: cached city→file chunking (by estimated URL budget)
+let _citySitemapChunks = { data: null, time: 0 };
 const SITEMAP_TTL = 30 * 60 * 1000;
-function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; }
+function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; _citySitemapChunks = { data: null, time: 0 }; }
 
 // ===== Phase G — Curated slug redirects (db/curated-slugs.json) =====
 // مولَّد عبر scripts/build-curated-sitemap.mjs من LOCAL_CITIES + LOCAL_PROVINCES
@@ -30116,6 +30118,48 @@ const server = http.createServer(async (req, res) => {
         return data;
     }
 
+    // ===== SITEMAP-CITIES-SPLIT-BY-SIZE-FOR-GSC-1 =====
+    // Chunk the city sitemaps by an estimated <url> BUDGET (not raw city count) so every
+    // /sitemap-cities-N.xml stays well under Google's 50 MB / 50k-URL limits. Root cause of the
+    // GSC "sitemap file size exceeds the maximum" warning: a 4000-CITY chunk expanded to ~44k
+    // <url> entries (each city → prayer-times + qibla [+ time-left + next-prayer for clean slugs]
+    // + [famous: moon hub/today/3yr/36mo], ×10 langs, ×11 hreflang) ≈ 60 MB in ONE file. Budgeting
+    // by URL count guarantees the size cap no matter how famous cities fall in the list.
+    const SITEMAP_URL_BUDGET = 7500;
+    function _estCityUrlCount(slug) {
+        // Conservative UPPER bound of the <url> entries this city emits in sitemap-cities-N.xml,
+        // mirroring the emission gates in the chunk route. Overestimating famous cities keeps
+        // files smaller/safer (actual emission is ≤ this estimate).
+        let n = 20; // /prayer-times-in + /qibla-in  (×10 langs each)
+        const clean = !/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug);
+        if (clean) n += 20; // /time-left-until-next-prayer-in + /next-prayer-in (×10 each)
+        let baseSlug = null;
+        if (FAMOUS_CITY_OVERRIDES[slug]) baseSlug = slug;
+        else { const m = String(slug).match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/); baseSlug = m ? m[1] : null; }
+        if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
+            n += 20; // moon hub (10) + today (10)
+            const _cy = new Date().getFullYear();
+            for (const _yy of [_cy - 1, _cy, _cy + 1]) { if (_yy >= 1900 && _yy <= 2100) n += 130; } // year(10)+12 months(120)
+        }
+        return n;
+    }
+    function getCitySitemapChunks() {
+        const now = Date.now();
+        if (_citySitemapChunks.data && (now - _citySitemapChunks.time) < SITEMAP_TTL) return _citySitemapChunks.data;
+        const { cities } = getSitemapData();
+        const chunks = [];
+        let cur = [], curCount = 0;
+        for (const slug of cities) {
+            const c = _estCityUrlCount(slug);
+            if (cur.length > 0 && (curCount + c) > SITEMAP_URL_BUDGET) { chunks.push(cur); cur = []; curCount = 0; }
+            cur.push(slug); curCount += c;
+        }
+        if (cur.length) chunks.push(cur);
+        if (chunks.length === 0) chunks.push([]); // always ≥1 chunk so index + route stay consistent
+        _citySitemapChunks = { data: chunks, time: now };
+        return chunks;
+    }
+
     // مولّد URL متعدد اللغات (10 لغات) مع hreflang
     function bilingualUrl(relPath, prio, cf, today) {
         const langs = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
@@ -30146,12 +30190,10 @@ const server = http.createServer(async (req, res) => {
         const mi = urlPath.match(/^\/sitemap\.xml(\.gz)?$/);
         if (mi) {
             const today = new Date().toISOString().split('T')[0];
-            const { cities } = getSitemapData();
-            const CHUNK_SIZE = 4000;
-            const chunkCount = Math.max(1, Math.ceil(cities.length / CHUNK_SIZE));
+            const chunks = getCitySitemapChunks();
             const sitemaps = [];
             sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-main.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
-            for (let i = 0; i < chunkCount; i++) {
+            for (let i = 0; i < chunks.length; i++) {
                 sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-cities-${i+1}.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
             }
             const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join('\n')}\n</sitemapindex>\n`;
@@ -30267,10 +30309,9 @@ const server = http.createServer(async (req, res) => {
         if (mc) {
             const idx = parseInt(mc[1], 10) - 1;
             const today = new Date().toISOString().split('T')[0];
-            const { cities } = getSitemapData();
-            const CHUNK_SIZE = 4000;
-            const chunk = cities.slice(idx * CHUNK_SIZE, (idx + 1) * CHUNK_SIZE);
-            if (chunk.length === 0) {
+            const chunks = getCitySitemapChunks();
+            const chunk = chunks[idx];
+            if (!chunk || chunk.length === 0) {
                 res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found'); return;
             }
             const entries = [];

@@ -9983,10 +9983,10 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
                     ms: 'Cari arah kiblat dan sudut yang tepat dari lokasi atau bandar anda.'
                 },
                 moon_name: {
-                    ar: 'حالة القمر اليوم', en: 'Moon Phase Today', fr: 'Phase de la lune aujourd’hui',
-                    tr: 'Bugün Ay Evresi', ur: 'آج چاند کی حالت', de: 'Mondphase heute',
-                    id: 'Fase Bulan Hari Ini', es: 'Fase Lunar Hoy', bn: 'আজকের চাঁদের পর্যায়',
-                    ms: 'Fasa Bulan Hari Ini'
+                    ar: 'حالة القمر اليوم في {loc}', en: 'Moon Phase Today in {loc}', fr: 'Phase de la lune aujourd’hui à {loc}',
+                    tr: '{loc} bugün ay evresi', ur: '{loc} میں آج چاند کی حالت', de: 'Mondphase heute in {loc}',
+                    id: 'Fase Bulan Hari Ini di {loc}', es: 'Fase Lunar Hoy en {loc}', bn: '{loc}-এ আজকের চাঁদের পর্যায়',
+                    ms: 'Fasa Bulan Hari Ini di {loc}'
                 },
                 moon_desc: {
                     ar: 'اعرف طور القمر ونسبة الإضاءة وموعد الشروق والغروب.',
@@ -10001,10 +10001,10 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
                     ms: 'Semak fasa bulan, peratusan pencahayaan, dan masa terbit/terbenam.'
                 },
                 hijri_name: {
-                    ar: 'التاريخ الهجري اليوم', en: 'Today’s Hijri Date', fr: 'Date hijri d’aujourd’hui',
-                    tr: 'Bugünkü Hicri Tarih', ur: 'آج کی ہجری تاریخ', de: 'Heutiges Hidschri-Datum',
-                    id: 'Tanggal Hijriah Hari Ini', es: 'Fecha Hijri de Hoy', bn: 'আজকের হিজরি তারিখ',
-                    ms: 'Tarikh Hijrah Hari Ini'
+                    ar: 'التاريخ الهجري اليوم في {loc}', en: 'Today’s Hijri Date in {loc}', fr: 'Date hijri d’aujourd’hui à {loc}',
+                    tr: '{loc} bugünkü hicri tarih', ur: '{loc} میں آج کی ہجری تاریخ', de: 'Heutiges Hidschri-Datum in {loc}',
+                    id: 'Tanggal Hijriah Hari Ini di {loc}', es: 'Fecha Hijri de Hoy en {loc}', bn: '{loc}-এ আজকের হিজরি তারিখ',
+                    ms: 'Tarikh Hijrah Hari Ini di {loc}'
                 },
                 hijri_desc: {
                     ar: 'اعرف التاريخ الهجري والميلادي لهذا اليوم.',
@@ -10038,9 +10038,9 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
             _ptSetText('pt-tool-azkar-desc', 'azkar_desc', false);
             _ptSetText('pt-tool-qibla-name', 'qibla_name', true);
             _ptSetText('pt-tool-qibla-desc', 'qibla_desc', false);
-            _ptSetText('pt-tool-moon-name',  'moon_name',  false);
+            _ptSetText('pt-tool-moon-name',  'moon_name',  true);  // PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1: «… في {city}»
             _ptSetText('pt-tool-moon-desc',  'moon_desc',  false);
-            _ptSetText('pt-tool-hijri-name', 'hijri_name', false);
+            _ptSetText('pt-tool-hijri-name', 'hijri_name', true);  // PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1: «… في {city}»
             _ptSetText('pt-tool-hijri-desc', 'hijri_desc', false);
             // Dynamic hrefs (azkar + hijri are static, qibla + moon need slug)
             const _setHref = (id, href) => { const el = document.getElementById(id); if (el) el.setAttribute('href', href); };
@@ -10259,6 +10259,27 @@ function applyFaqCityMode(cityName, methodLabel, countryName) {
  * orchestrator يُستدعى من updatePrayerTimes() بعد حساب الصلاة القادمة.
  * يستقبل: times (pt object), nextPrayerName, nextPrayerTime (formatted).
  */
+// PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1: on the city page, append the localized city name
+// to the banner / info-strip / date-card / summary labels that carry a `data-i18n-city` key. The
+// generic i18n walker only sets the base (city-less) text via `data-i18n`; this overrides it with
+// the `{loc}`-interpolated city variant (same mechanism as updateRelatedLinks) and reveals the
+// hidden Gregorian-date label. City-page only (caller is gated); the homepage never runs this.
+function _applyCityContextLabels(cityNameLoc) {
+    try {
+        if (!cityNameLoc) return;
+        var nodes = document.querySelectorAll('[data-i18n-city]');
+        for (var i = 0; i < nodes.length; i++) {
+            var el = nodes[i];
+            var key = el.getAttribute('data-i18n-city');
+            if (!key) continue;
+            var tpl = (typeof t === 'function') ? t(key) : key;
+            if (!tpl || tpl === key) continue;                    // no translation → keep base label
+            el.textContent = tpl.replace(/\{loc\}/g, cityNameLoc);
+            if (el.hasAttribute('hidden')) el.removeAttribute('hidden');  // reveal the new greg-date label
+        }
+    } catch (_e) { /* silent */ }
+}
+
 function applyPhase2CityPage(times, nextPrayerName, nextPrayerTime) {
     if (!_isCityPagePhase2()) return;
     try {
@@ -10318,6 +10339,13 @@ function applyPhase2CityPage(times, nextPrayerName, nextPrayerTime) {
         if (citySlug) {
             updateRelatedLinks(citySlug, cityNameLoc, countrySlug, countryNameLoc, lang);
         }
+
+        // PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1: city-context banner / info-strip / date /
+        // summary labels (banner.next_prayer_city, banner.today_date_*_city, sis.*_city,
+        // summary.next_prefix_city) + hide the "last used location" smart-redirect pill on city
+        // pages (SSR strips it on fresh loads; this covers homepage→city SPA-nav). Homepage untouched.
+        _applyCityContextLabels(cityNameLoc);
+        try { var _lhsp = document.getElementById('loc-hero-smart-pill'); if (_lhsp) { _lhsp.hidden = true; _lhsp.classList.remove('is-visible'); } } catch (_e) {}
 
         // 5. Other Trending Cities (popularity)
         if (citySlug) {
@@ -10632,6 +10660,9 @@ function _wireLocHeroExtras() {
     // ── Smart-redirect pill ──
     const pill = document.getElementById('loc-hero-smart-pill');
     if (!pill) return;
+    // PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1: never build/show the "last used location" pill on
+    // a city page (/prayer-times-in-{city}) — it stays on the homepage hero only.
+    if (typeof _isCityPagePhase2 === 'function' && _isCityPagePhase2()) { pill.hidden = true; pill.classList.remove('is-visible'); return; }
 
     let shown = false;
     try {

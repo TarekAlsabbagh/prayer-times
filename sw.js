@@ -1572,7 +1572,14 @@
 //   updateCityDisplay (#qibla-city/#qibla-lat/#qibla-lng live in #page-qibla, absent on moon pages)
 //   + early-return guard in fetchNearbyPlaces (#nearby-grid/#nearby-section absent on homepage) →
 //   eliminate the uncaught TypeError on every moon page + the homepage. app.js-only; no logic/UI/calc change.
-const CACHE_VERSION = 'v483';
+// PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1 (2026-07-06): js/app.js?v=815→816, sw v483→v484,
+//   i18n version 205→206. City prayer page (/prayer-times-in-{city}) now appends the localized city
+//   name to the banner next-prayer, date-card (Hijri + new Gregorian label), info-strip (imsak /
+//   fasting / last-third) and "next prayer" labels — SSR + client hydration, all 10 langs — and
+//   removes the "last used location" smart-redirect pill on city pages only (SSR strip + client
+//   guard; homepage pill kept). Labels only: no prayer/date/countdown CALCULATION, title/meta/
+//   canonical/hreflang/robots, sitemap/slugs/routes change. Regenerated js/i18n/{lang}.js bundles.
+const CACHE_VERSION = 'v485';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1599,7 +1606,7 @@ const PRECACHE_URLS = [
     '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
     '/js/azkar-data.js?v=2',
-    '/js/app.js?v=814',
+    '/js/app.js?v=817',
 ];
 
 self.addEventListener('install', (event) => {

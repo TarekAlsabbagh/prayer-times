@@ -83,18 +83,21 @@ ok(/getElementById\('qd-live'\)/.test(updateBody), '_qcDebugUpdate writes to the
 ok(!/_applyCompassHeading|_androidCompassStabilize/.test(updateBody),
    '_qcDebugUpdate NEVER drives the rendered compass (read-only observer)');
 
-console.log('\n================ 4. AbsoluteOrientationSensor ONLY behind the flag ================');
+console.log('\n================ 4. AbsoluteOrientationSensor helper (now a PRODUCTION source) ================');
 ok(/function _qcStartAos\(\)/.test(appSrc) && /'AbsoluteOrientationSensor' in window/.test(appSrc),
    '_qcStartAos feature-detects AbsoluteOrientationSensor (no throw when unsupported)');
+// AOS-PRIORITY-1: _qcStartAos is now invoked from BOTH the gated debug init AND startDeviceCompass (Android).
 const initStart = appSrc.indexOf('function _qcDebugInit()');
 const initEnd   = appSrc.indexOf('function _qcFmt(');
-ok(appSrc.slice(initStart, initEnd).includes('_qcStartAos()'), '_qcStartAos invoked ONLY from the gated _qcDebugInit');
+ok(appSrc.slice(initStart, initEnd).includes('_qcStartAos()'), '_qcStartAos still invoked from the gated _qcDebugInit (debug display)');
+const sdcStart = appSrc.indexOf('function startDeviceCompass()');
+ok(sdcStart > -1 && appSrc.slice(sdcStart).includes('_qcStartAos()'), '_qcStartAos ALSO invoked from startDeviceCompass (production Android source)');
 ok(dS > -1 && dE > dS, 'diagnostic block present + delimited');
-// strip comments from the OUTSIDE region so a benign "NO AbsoluteOrientationSensor" *comment* in the
-// RR2 block doesn't false-trip; only real CODE references outside the diagnostic should fail this.
+// The AbsoluteOrientationSensor constructor + feature-detect stay confined to the _qcStartAos helper.
 const stripC = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:])\/\/[^\n]*/g, '$1');
-ok(!/AbsoluteOrientationSensor/.test(stripC(appSrc.slice(0, dS)) + stripC(appSrc.slice(dE))),
-   'AbsoluteOrientationSensor CODE appears ONLY inside the hidden diagnostic (not in the live heading path)');
+const aosFn = appSrc.match(/function _qcStartAos\(\)[\s\S]*?\n\}/);
+ok(!/AbsoluteOrientationSensor/.test(stripC(appSrc.replace(aosFn ? aosFn[0] : 'x', ''))),
+   'AbsoluteOrientationSensor constructor/detect confined to _qcStartAos (no stray refs)');
 
 console.log('\n================ 5. 6 candidate headings + snapshot + copy ================');
 for (const k of ['H_alpha', 'H_360', 'H_dd94875', 'H_matrix', 'H_matrixNoScreen', 'H_aos']) {
@@ -128,9 +131,9 @@ ok(/\.qibla-debug\b/.test(cssSrc) && /\.qd-live\b/.test(cssSrc), 'CSS .qibla-deb
 const _dbgBase = cssSrc.match(/\.qibla-debug\s*\{[^}]*\}/);
 ok(!!_dbgBase && (!/display:\s*block/.test(_dbgBase[0]) || /\.qibla-debug\[hidden\]\s*\{\s*display:\s*none/.test(cssSrc)),
    'CSS: [hidden] hides the panel for all normal users (no display:block leak in the base rule)');
-ok(/js\/app\.js\?v=821/.test(htmlSrc), 'index.html app.js?v=821');
-ok(/css\/style\.css\?v=492/.test(htmlSrc), 'index.html css/style.css?v=492');
-ok(/CACHE_VERSION = 'v490'/.test(swSrc), 'sw.js CACHE_VERSION v490');
+ok(/js\/app\.js\?v=822/.test(htmlSrc), 'index.html app.js?v=822');
+ok(/css\/style\.css\?v=492/.test(htmlSrc), 'index.html css/style.css?v=492 (unchanged this ticket)');
+ok(/CACHE_VERSION = 'v491'/.test(swSrc), 'sw.js CACHE_VERSION v491');
 
 console.log(`\nPASS=${pass}  FAIL=${fail}`);
 if (fail > 0) { console.log('FAILED:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

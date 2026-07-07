@@ -17942,6 +17942,11 @@ function _androidAlphaToHeading(alpha) {
 // "recalibrate" button, and a static-bearing fallback on hard failure. NO constant offset,
 // NO bearing change, NO AbsoluteOrientationSensor, NO visible Compass Lab.
 const _ANDROID_COMPASS_V2 = true;             // flag: false ⇒ instant fall-back to dd94875 path
+// QIBLA-ANDROID-AOS-PRIORITY-HEADING-SOURCE-1: on Android, prefer AbsoluteOrientationSensor (OS-fused,
+// proven correct on-device via the ?qiblaDebug=1 N/E/S/W capture) over the DeviceOrientation matrix
+// (which was E/W-mirrored on the user's device). Flag OFF ⇒ exact e16ace5 behaviour (AOS diagnostic-only).
+const _ANDROID_AOS_PRIORITY = true;
+const _QC_AOS_MAX_AGE_MS = 500;               // an AOS reading older than this ⇒ stale ⇒ DeviceOrientation fallback
 const _QC_D2R = Math.PI / 180, _QC_R2D = 180 / Math.PI;
 const _QC_HARD_FAIL_MS = 4000;                // no heading within this ⇒ static-bearing fallback
 let _qcAbsoluteSeen  = false;                 // received an ABSOLUTE orientation reading?
@@ -18046,6 +18051,7 @@ function _qcArmHardFail() {
   if (_qcHardFailTimer) clearTimeout(_qcHardFailTimer);
   _qcHardFailTimer = setTimeout(function () {
     if (_qcHeadingEver) return;
+    _qcActiveSource = 'fallback';
     let dir = '';
     try { dir = Qibla.getDirection(_qiblaAngle, (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'); } catch (_) {}
     _qcSetHelp('fail', _qiblaAngle.toFixed(1) + '° ' + dir);
@@ -18065,10 +18071,24 @@ if (typeof window !== 'undefined') { window.recalibrateCompass = recalibrateComp
 // HIDDEN, READ-ONLY diagnostic. Activated ONLY via `?qiblaDebug=1` OR localStorage['qiblaDebug']='1'.
 // It NEVER changes what the compass renders (the default V2 path is untouched); it only OBSERVES each
 // orientation event and displays candidate headings side-by-side so we can capture REAL device numbers
-// (Android vs iPhone) at N/E/S/W. AbsoluteOrientationSensor is started ONLY here, behind the same flag,
-// only to display H_aos for comparison — it is NOT a production heading source. NO Compass Lab, NO offset.
+// (Android vs iPhone) at N/E/S/W. The debug panel stays hidden + read-only for all normal users.
+// NOTE (AOS-PRIORITY-1): AbsoluteOrientationSensor is now ALSO a production Android heading source when
+// `_ANDROID_AOS_PRIORITY` is on — `_qcStartAos()` is called from startDeviceCompass on Android, and a
+// fresh AOS reading drives the compass (see `_qcAosUsable`). The debug panel still shows H_aos + the
+// chosen source. NO Compass Lab, NO constant offset; iOS never starts AOS.
 let _qcDbgOn = null, _qcDbgInit = false, _qcDbgSnaps = [], _qcDbgLive = null;
 let _qcAosHeading = null, _qcAosState = 'n/a', _qcAosSensor = null;
+let _qcAosTs = 0;                 // _qcNow() timestamp of the last VALID AOS heading (freshness gate)
+let _qcAosLive = false;          // AOS has emitted ≥1 valid reading and hasn't errored
+let _qcActiveSource = 'none';    // which source last drove the compass: 'aos' | 'deviceorientation-matrix' | 'fallback' | 'none'
+// Monotonic clock for the AOS freshness window (falls back to Date.now where performance is absent).
+function _qcNow() { try { if (window.performance && performance.now) return performance.now(); } catch (_) {} return Date.now(); }
+// True when AbsoluteOrientationSensor should drive the compass NOW: priority on, sensor live, a valid
+// (non-NaN) heading, and the last reading is fresh (< _QC_AOS_MAX_AGE_MS). Otherwise ⇒ DeviceOrientation.
+function _qcAosUsable() {
+  return _ANDROID_AOS_PRIORITY && _qcAosLive && _qcAosHeading != null && !isNaN(_qcAosHeading)
+    && (_qcNow() - _qcAosTs) < _QC_AOS_MAX_AGE_MS;
+}
 function _qiblaDebugOn() {
   if (_qcDbgOn !== null) return _qcDbgOn;
   let on = false;
@@ -18096,6 +18116,7 @@ function _qcMatrixNoScreen(e) {
   return isNaN(h) ? null : (((h%360)+360)%360);
 }
 function _qcStartAos() {
+  if (_qcAosSensor) return;   // idempotent — production (startDeviceCompass) + debug both may call
   if (typeof window === 'undefined' || !('AbsoluteOrientationSensor' in window)) { _qcAosState = 'unsupported'; return; }
   try {
     if (navigator.permissions && navigator.permissions.query) {
@@ -18106,8 +18127,23 @@ function _qcStartAos() {
   } catch (_) {}
   try {
     _qcAosSensor = new window.AbsoluteOrientationSensor({ frequency: 30 });
-    _qcAosSensor.addEventListener('reading', function () { try { _qcAosHeading = _qcHeadingFromQuat(_qcAosSensor.quaternion); } catch (_) {} });
-    _qcAosSensor.addEventListener('error', function (ev) { _qcAosState = 'error:' + ((ev.error && ev.error.name) || '?'); });
+    _qcAosSensor.addEventListener('reading', function () {
+      try {
+        const h = _qcHeadingFromQuat(_qcAosSensor.quaternion);
+        if (h === null || isNaN(h)) return;
+        _qcAosHeading = h; _qcAosTs = _qcNow(); _qcAosLive = true;
+        // AOS-PRIORITY-1: AbsoluteOrientationSensor is the trusted Android source → drive the compass
+        // directly (its readings, not the DeviceOrientation event, move the rose). Same jitter stabilizer.
+        if (_ANDROID_AOS_PRIORITY) {
+          _qcActiveSource = 'aos';
+          _qcHeadingEver = true;
+          if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
+          _qcSetHelp('ok');
+          _androidCompassStabilize(h);
+        }
+      } catch (_) {}
+    });
+    _qcAosSensor.addEventListener('error', function (ev) { _qcAosState = 'error:' + ((ev.error && ev.error.name) || '?'); _qcAosLive = false; });
     _qcAosSensor.start();
     if (_qcAosState === 'n/a') _qcAosState = 'started';
   } catch (err) { _qcAosState = 'exception:' + ((err && err.name) || '?'); }
@@ -18136,14 +18172,15 @@ function _qcDebugUpdate(e) {
     H_dd94875: _qcFmt(a == null ? null : _androidAlphaToHeading(a)),
     H_matrix: _qcFmt(_qcHeadingFromEvent(e)), H_matrixNoScreen: _qcFmt(_qcMatrixNoScreen(e)), H_aos: _qcFmt(_qcAosHeading),
     final: _qcFmt(finalH), needle: _qcFmt(needle), qibla: _qcFmt(_qiblaAngle),
-    confidence: (_qcHelpState || 'ok'), aosState: _qcAosState
+    confidence: (_qcHelpState || 'ok'), aosState: _qcAosState,
+    source: _qcActiveSource, aosUsable: _qcAosUsable()
   };
   const L = _qcDbgLive;
   live.textContent =
     'type='+L.type+' abs='+L.absolute+' | α='+L.alpha+' β='+L.beta+' γ='+L.gamma+' scr='+L.screen+
     '\nH_alpha='+L.H_alpha+' H_360='+L.H_360+' H_dd='+L.H_dd94875+' H_matrix='+L.H_matrix+' H_mNoScr='+L.H_matrixNoScreen+' H_aos='+L.H_aos+
     '\nfinal='+L.final+' needle='+L.needle+' qibla='+L.qibla+' conf='+L.confidence+
-    '\naos='+L.aosState;
+    '\nsource='+L.source+' aosUsable='+L.aosUsable+' aos='+L.aosState;
 }
 function qiblaDebugSnapshot() {
   if (!_qcDbgLive) return;
@@ -18154,7 +18191,7 @@ function qiblaDebugSnapshot() {
     const div = document.createElement('div'); div.className = 'qd-row';
     div.textContent = row.label+': α='+row.alpha+' β='+row.beta+' γ='+row.gamma+' scr='+row.screen+
       ' | alpha='+row.H_alpha+' 360='+row.H_360+' matrix='+row.H_matrix+' mNoScr='+row.H_matrixNoScreen+' aos='+row.H_aos+
-      ' | final='+row.final+' needle='+row.needle+' conf='+row.confidence;
+      ' | final='+row.final+' needle='+row.needle+' conf='+row.confidence+' src='+row.source;
     rows.appendChild(div);
   }
 }
@@ -18230,12 +18267,19 @@ function startDeviceCompass() {
             return;
         }
         if (e.alpha == null) return;
+        // AOS-PRIORITY-1: when AbsoluteOrientationSensor is live with a fresh, valid heading it drives
+        // the compass (proven correct on-device) — its own `reading` callback moves the rose, so ignore
+        // this DeviceOrientation event to avoid fighting it. DeviceOrientation is only the FALLBACK.
+        if (_qcAosUsable()) { _hideBtnOnFirstEvent(); return; }
         // Android — ROOT-REBUILD-2: source-aware canonical heading when the flag is on;
         // dd94875 alpha-direct path when off. Either way it feeds the jitter stabilizer.
         let heading;
         if (_ANDROID_COMPASS_V2) {
             heading = _qcResolveHeading(e);
             if (heading === null) return;            // relative reading skipped while an absolute source exists
+            _qcActiveSource = 'deviceorientation-matrix';
+            // AOS is the trusted Android source; on the DeviceOrientation fallback flag lower confidence.
+            if (_ANDROID_AOS_PRIORITY) _qcSetHelp('low');
         } else {
             heading = _androidAlphaToHeading(e.alpha); // flag OFF ⇒ exact dd94875 behaviour
         }
@@ -18254,6 +18298,13 @@ function startDeviceCompass() {
         const _isIOSPerm  = (typeof DeviceOrientationEvent.requestPermission === 'function');
         const _isTouchDev = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         if (!_isIOSPerm && _isTouchDev) _qcArmHardFail();
+    }
+    // AOS-PRIORITY-1: on Android (non-iOS), begin AbsoluteOrientationSensor so a fresh reading can drive
+    // the compass as the PRIORITY source. Idempotent + feature-detected: unsupported / permission-blocked
+    // ⇒ no-op or 'error' ⇒ DeviceOrientation fallback. iOS (requestPermission) never starts AOS.
+    if (_ANDROID_AOS_PRIORITY) {
+        const _isIOSPermAos = (typeof DeviceOrientationEvent.requestPermission === 'function');
+        if (!_isIOSPermAos) { try { _qcStartAos(); } catch (_) {} }
     }
     if (_qiblaDebugOn()) { try { _qcDebugInit(); } catch (_) {} }   // hidden read-only diagnostic
 

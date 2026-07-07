@@ -1616,7 +1616,16 @@
 //   display H_aos (NOT a production source). Diagnostic is READ-ONLY: it never changes the rendered
 //   heading/needle. Default V2 (`_ANDROID_COMPASS_V2`) + iOS + jitter UNCHANGED; NO constant offset; NO
 //   bearing/SEO/sitemap/GA4/legal/prayer/moon change.
-const CACHE_VERSION = 'v490';
+// QIBLA-ANDROID-AOS-PRIORITY-HEADING-SOURCE-1 (2026-07-07): js/app.js?v=821→822, sw v490→v491 (css UNCHANGED).
+//   The on-device ?qiblaDebug=1 N/E/S/W capture proved AbsoluteOrientationSensor (H_aos) matches the true
+//   heading while DeviceOrientation V2 (H_alpha/H_matrix) is E/W-mirrored on the user's Android. So AOS is
+//   now the PRIORITY Android heading source (flag `_ANDROID_AOS_PRIORITY`): `_qcStartAos()` runs on Android
+//   in startDeviceCompass; a fresh valid AOS reading (< _QC_AOS_MAX_AGE_MS) drives the compass via the SAME
+//   jitter stabilizer. If AOS is unavailable / errors / NaN / stale ⇒ fall back to DeviceOrientation V2 with
+//   LOW confidence (accuracy warning). Debug panel now shows the chosen `source=` (aos / deviceorientation-
+//   matrix / fallback). iOS never starts AOS; needle rotation + qiblaBearing UNCHANGED; NO constant offset;
+//   NO Compass Lab; NO server/i18n/SEO/sitemap/GA4/legal/prayer/moon change. Flag OFF ⇒ exact e16ace5.
+const CACHE_VERSION = 'v491';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

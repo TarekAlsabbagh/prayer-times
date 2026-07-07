@@ -5055,6 +5055,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> للبحث عن المدن وتحويل الإحداثيات إلى أسماء مواقع.</li>
 <li><strong>ويكيبيديا API:</strong> لجلب معلومات تاريخية ومدنية ضمن صفحات "عن المدينة".</li>
 <li><strong>Google Fonts:</strong> لتحميل خط Cairo العربي.</li>
+<li><strong>Google Analytics:</strong> لقياس زيارات الموقع وتحليلها بشكل مجمّع ومجهول الهوية بهدف تحسين المحتوى والأداء.</li>
 <li><strong>Google AdSense (اختياري):</strong> لعرض إعلانات تساعد في تشغيل الموقع مجاناً.</li>
 </ul>
 <h2>4. حقوقك</h2>
@@ -5093,6 +5094,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> for city search and reverse geocoding.</li>
 <li><strong>Wikipedia API:</strong> to fetch historical and city information on About pages.</li>
 <li><strong>Google Fonts:</strong> for loading the Cairo Arabic font.</li>
+<li><strong>Google Analytics:</strong> for aggregated, anonymized traffic measurement and analytics used to improve content and performance.</li>
 <li><strong>Google AdSense (optional):</strong> to display ads that help keep the site free.</li>
 </ul>
 <h2>4. Your Rights</h2>
@@ -5131,6 +5133,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim :</strong> pour la recherche de villes et le géocodage inversé.</li>
 <li><strong>API Wikipédia :</strong> pour récupérer des informations historiques et municipales sur les pages « À propos ».</li>
 <li><strong>Google Fonts :</strong> pour charger la police arabe Cairo.</li>
+<li><strong>Google Analytics :</strong> pour la mesure d'audience et l'analyse agrégées et anonymisées, afin d'améliorer le contenu et les performances.</li>
 <li><strong>Google AdSense (facultatif) :</strong> pour afficher des publicités qui aident à maintenir le site gratuit.</li>
 </ul>
 <h2>4. Vos droits</h2>
@@ -5169,6 +5172,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> şehir arama ve ters jeokodlama için.</li>
 <li><strong>Wikipedia API:</strong> "Şehir Hakkında" sayfalarında tarihi ve şehir bilgilerini almak için.</li>
 <li><strong>Google Fonts:</strong> Cairo Arapça yazı tipini yüklemek için.</li>
+<li><strong>Google Analytics:</strong> içeriği ve performansı iyileştirmek için toplu ve anonim ziyaret ölçümü ve analizi amacıyla.</li>
 <li><strong>Google AdSense (isteğe bağlı):</strong> siteyi ücretsiz tutmaya yardımcı reklamları göstermek için.</li>
 </ul>
 <h2>4. Haklarınız</h2>
@@ -5207,6 +5211,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> شہروں کی تلاش اور الٹی جیوکوڈنگ کے لیے۔</li>
 <li><strong>Wikipedia API:</strong> "شہر کے بارے میں" صفحات پر تاریخی اور شہری معلومات حاصل کرنے کے لیے۔</li>
 <li><strong>Google Fonts:</strong> Cairo عربی فونٹ لوڈ کرنے کے لیے۔</li>
+<li><strong>Google Analytics:</strong> مواد اور کارکردگی بہتر بنانے کے لیے سائٹ کی مجموعی اور گمنام ٹریفک کی پیمائش اور تجزیے کے لیے۔</li>
 <li><strong>Google AdSense (اختیاری):</strong> سائٹ کو مفت رکھنے میں مدد کرنے والے اشتہارات دکھانے کے لیے۔</li>
 </ul>
 <h2>4. آپ کے حقوق</h2>
@@ -5245,6 +5250,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> für die Städtesuche und das Reverse-Geocoding.</li>
 <li><strong>Wikipedia-API:</strong> zum Abrufen von historischen und städtischen Informationen auf den Seiten „Über die Stadt".</li>
 <li><strong>Google Fonts:</strong> zum Laden der arabischen Schriftart Cairo.</li>
+<li><strong>Google Analytics:</strong> zur aggregierten, anonymisierten Besuchsmessung und Analyse zur Verbesserung von Inhalt und Leistung.</li>
 <li><strong>Google AdSense (optional):</strong> zur Anzeige von Werbung, die hilft, die Seite kostenlos zu halten.</li>
 </ul>
 <h2>4. Ihre Rechte</h2>
@@ -5283,6 +5289,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> untuk pencarian kota dan reverse geocoding.</li>
 <li><strong>Wikipedia API:</strong> untuk mengambil informasi historis dan kota pada halaman "Tentang".</li>
 <li><strong>Google Fonts:</strong> untuk memuat font Cairo bahasa Arab.</li>
+<li><strong>Google Analytics:</strong> untuk pengukuran dan analitik kunjungan secara agregat dan anonim guna meningkatkan konten dan performa.</li>
 <li><strong>Google AdSense (opsional):</strong> untuk menampilkan iklan yang membantu menjaga situs tetap gratis.</li>
 </ul>
 <h2>4. Hak Anda</h2>
@@ -5321,6 +5328,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> para búsqueda de ciudades y geocodificación inversa.</li>
 <li><strong>Wikipedia API:</strong> para recuperar información histórica y sobre ciudades en las páginas "Acerca de".</li>
 <li><strong>Google Fonts:</strong> para cargar la fuente árabe Cairo.</li>
+<li><strong>Google Analytics:</strong> para la medición y el análisis de tráfico de forma agregada y anónima, con el fin de mejorar el contenido y el rendimiento.</li>
 <li><strong>Google AdSense (opcional):</strong> para mostrar anuncios que ayudan a mantener el sitio gratuito.</li>
 </ul>
 <h2>4. Tus Derechos</h2>
@@ -5359,6 +5367,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> শহর অনুসন্ধান ও বিপরীত জিওকোডিংয়ের জন্য।</li>
 <li><strong>Wikipedia API:</strong> "সম্পর্কে" পৃষ্ঠায় ঐতিহাসিক ও শহর সংক্রান্ত তথ্য আনার জন্য।</li>
 <li><strong>Google Fonts:</strong> আরবি Cairo ফন্ট লোড করার জন্য।</li>
+<li><strong>Google Analytics:</strong> কন্টেন্ট ও পারফরম্যান্স উন্নত করার জন্য সমষ্টিগত ও পরিচয়হীনভাবে ট্রাফিক পরিমাপ ও বিশ্লেষণের জন্য।</li>
 <li><strong>Google AdSense (ঐচ্ছিক):</strong> সাইট ফ্রি রাখতে সহায়তা করে এমন বিজ্ঞাপন দেখানোর জন্য।</li>
 </ul>
 <h2>৪. আপনার অধিকার</h2>
@@ -5397,6 +5406,7 @@ const LEGAL_PAGES = {
 <li><strong>OpenStreetMap Nominatim:</strong> untuk carian bandar dan pengekodan geo songsang.</li>
 <li><strong>Wikipedia API:</strong> untuk mendapatkan maklumat sejarah dan bandar di halaman "Tentang".</li>
 <li><strong>Google Fonts:</strong> untuk memuat fon Cairo Arab.</li>
+<li><strong>Google Analytics:</strong> untuk pengukuran dan analitik lawatan secara agregat dan tanpa nama bagi menambah baik kandungan dan prestasi.</li>
 <li><strong>Google AdSense (pilihan):</strong> untuk memaparkan iklan yang membantu memastikan laman ini percuma.</li>
 </ul>
 <h2>4. Hak Anda</h2>
@@ -30938,6 +30948,22 @@ const server = http.createServer(async (req, res) => {
                 res.end('<!doctype html><meta charset="utf-8"><title>404</title><h1>Not found</h1><p>Hijri URLs use numeric zero-padded format: <code>/hijri-calendar/YYYY-MM</code> or <code>/hijri-date/YYYY-MM-DD</code>.</p>');
                 return;
             }
+        }
+    }
+
+    // ADSENSE-LEGAL-ALIASES-AND-PRIVACY-GA-LINE-1: 301 the two expected legal aliases to their
+    // real pages (lang-preserving) so an expected path never 404s before an AdSense review.
+    //   /privacy-policy → /privacy   |   /about → /about-us
+    // These are 301 aliases only — NOT added to the sitemap (a redirect must never be listed);
+    // the canonical targets (/privacy, /about-us) already live in sitemap-main.xml unchanged.
+    {
+        const _aliasMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?(privacy-policy|about)$/);
+        if (_aliasMatch) {
+            const _lg = _aliasMatch[1] ? '/' + _aliasMatch[1] : '';
+            const _dest = (_aliasMatch[2] === 'privacy-policy') ? '/privacy' : '/about-us';
+            res.writeHead(301, { 'Location': _lg + _dest, 'Cache-Control': 'public, max-age=31536000' });
+            res.end();
+            return;
         }
     }
 

@@ -2604,6 +2604,19 @@ html[data-theme="dark"] .qibla-compass-help {
 }
 html[data-theme="dark"] .qibla-compass-help[data-state="low"] { color: #ffd18a; }
 
+/* QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1 — hidden read-only debug panel (?qiblaDebug=1).
+   NOTE: no `display` in the base rule so the UA `[hidden]{display:none}` keeps it hidden for all normal users
+   (like .qibla-compass-help); the explicit [hidden] guard below is belt-and-suspenders. */
+.qibla-debug { width: 100%; max-width: 100%; box-sizing: border-box; margin-top: 14px; padding: 10px; border: 1px dashed #888; border-radius: 8px; background: rgba(0,0,0,0.04); font-size: 11px; text-align: left; overflow-x: auto; }
+.qibla-debug[hidden] { display: none; }
+.qibla-debug .qd-title { font-weight: 700; margin-bottom: 6px; }
+.qibla-debug .qd-live { white-space: pre-wrap; word-break: break-word; margin: 0 0 8px; font-family: monospace; }
+.qibla-debug .qd-btns { display: flex; gap: 8px; margin-bottom: 8px; }
+.qibla-debug .qd-btn { padding: 6px 12px; border: 1px solid var(--primary); background: transparent; color: var(--primary); border-radius: 8px; font-size: 12px; cursor: pointer; }
+.qibla-debug .qd-row { font-family: monospace; padding: 3px 0; border-top: 1px solid rgba(0,0,0,0.08); word-break: break-word; }
+.qibla-debug .qd-json { width: 100%; min-height: 120px; margin-top: 8px; font-family: monospace; font-size: 10px; box-sizing: border-box; }
+html[data-theme="dark"] .qibla-debug { background: rgba(255,255,255,0.05); border-color: #666; color: #e8eef5; }
+
 .compass-arrow {
     position: absolute;
     top: 50%;

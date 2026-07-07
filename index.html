@@ -75,14 +75,14 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=820" as="script">
+    <link rel="preload" href="js/app.js?v=821" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=491" as="style">
-    <link rel="stylesheet" href="css/style.css?v=491">
+    <link rel="preload" href="css/style.css?v=492" as="style">
+    <link rel="stylesheet" href="css/style.css?v=492">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -1529,6 +1529,17 @@
                             <div class="qch-bearing" id="qch-bearing"></div>
                             <div class="qch-msg" id="qch-msg"></div>
                             <button type="button" class="qch-btn" id="qch-recalib" onclick="recalibrateCompass()"></button>
+                        </div>
+                        <!-- QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1: HIDDEN read-only debug panel.
+                             Shown by js/app.js ONLY when ?qiblaDebug=1 or localStorage.qiblaDebug='1'; hidden for all normal users. -->
+                        <div class="qibla-debug" id="qibla-debug" hidden>
+                            <div class="qd-title">QIBLA DEBUG (?qiblaDebug=1) — read-only</div>
+                            <pre class="qd-live" id="qd-live"></pre>
+                            <div class="qd-btns">
+                                <button type="button" class="qd-btn" id="qd-snap" onclick="qiblaDebugSnapshot()">Snapshot</button>
+                                <button type="button" class="qd-btn" id="qd-copy" onclick="qiblaDebugCopy()">Copy JSON</button>
+                            </div>
+                            <div class="qd-rows" id="qd-rows"></div>
                         </div>
                     </div>
                     <p id="qibla-wow-caption" class="qibla-wow-caption" aria-live="polite"></p>
@@ -5470,7 +5481,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=820"></script>
+    <script defer src="js/app.js?v=821"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

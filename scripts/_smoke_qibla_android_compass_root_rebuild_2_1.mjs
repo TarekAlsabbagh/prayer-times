@@ -72,16 +72,22 @@ ok(!/\b8[35]\b/.test(region), 'NO +83/-83/85 constant offset in the compass code
 // strip comments (my own comment block mentions "Compass Lab"/"AbsoluteOrientationSensor" to say they're NOT used)
 const appCode = appSrc.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:])\/\/[^\n]*/g, '$1');
 ok(!/qiblaLab(?!el)/.test(appCode) && !/Compass Lab/.test(appCode), 'NO Compass Lab / ?qiblaLab param (in code)');
-ok(!/AbsoluteOrientationSensor/.test(appCode), 'NO AbsoluteOrientationSensor in code (deferred per decision #2)');
+// AOS is now permitted but ONLY inside the hidden ?qiblaDebug=1 diagnostic — never in the live heading path.
+const _dS = appSrc.indexOf('QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1');
+const _dE = appSrc.indexOf('window.qiblaDebugCopy = qiblaDebugCopy;');
+ok(_dS > -1 && _dE > _dS, 'hidden diagnostic block present + delimited');
+// strip comments from the OUTSIDE region — a benign "NO AbsoluteOrientationSensor" comment must not false-trip.
+const _stripC = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:])\/\/[^\n]*/g, '$1');
+ok(!/AbsoluteOrientationSensor/.test(_stripC(appSrc.slice(0, _dS)) + _stripC(appSrc.slice(_dE))), 'NO AbsoluteOrientationSensor CODE OUTSIDE the hidden diagnostic (not in the live heading path)');
 ok(/_qiblaAngle = Qibla\.calculate\(currentLat, currentLng\);/.test(appSrc), 'Qibla bearing calc UNCHANGED');
 
 console.log('\n================ 5. DOM + CSS hooks + cache-busters ================');
 ok(/id="qibla-compass-help"/.test(htmlSrc) && /id="qch-msg"/.test(htmlSrc) && /id="qch-recalib"/.test(htmlSrc) && /id="qch-bearing"/.test(htmlSrc), 'help-card DOM ids present in index.html');
 ok(/onclick="recalibrateCompass\(\)"/.test(htmlSrc), 'recalibrate button wired');
 ok(/\.qibla-compass-help/.test(cssSrc) && /\.compass\.compass-unavailable/.test(cssSrc), 'CSS: help card + compass-unavailable styles');
-ok(/js\/app\.js\?v=820/.test(htmlSrc), 'index.html app.js?v=820');
-ok(/css\/style\.css\?v=491/.test(htmlSrc), 'index.html css/style.css?v=491');
-ok(/CACHE_VERSION = 'v489'/.test(fs.readFileSync(path.join(ROOT,'sw.js'),'utf8')), 'sw.js CACHE_VERSION v489');
+ok(/js\/app\.js\?v=821/.test(htmlSrc), 'index.html app.js?v=821');
+ok(/css\/style\.css\?v=492/.test(htmlSrc), 'index.html css/style.css?v=492');
+ok(/CACHE_VERSION = 'v490'/.test(fs.readFileSync(path.join(ROOT,'sw.js'),'utf8')), 'sw.js CACHE_VERSION v490');
 
 console.log(`\nPASS=${pass}  FAIL=${fail}`);
 if (fail > 0) { console.log('FAILED:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

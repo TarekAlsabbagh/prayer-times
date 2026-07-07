@@ -18061,6 +18061,112 @@ function recalibrateCompass() {
 }
 if (typeof window !== 'undefined') { window.recalibrateCompass = recalibrateCompass; }
 
+// ===== QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1 (2026-07-07) =====
+// HIDDEN, READ-ONLY diagnostic. Activated ONLY via `?qiblaDebug=1` OR localStorage['qiblaDebug']='1'.
+// It NEVER changes what the compass renders (the default V2 path is untouched); it only OBSERVES each
+// orientation event and displays candidate headings side-by-side so we can capture REAL device numbers
+// (Android vs iPhone) at N/E/S/W. AbsoluteOrientationSensor is started ONLY here, behind the same flag,
+// only to display H_aos for comparison — it is NOT a production heading source. NO Compass Lab, NO offset.
+let _qcDbgOn = null, _qcDbgInit = false, _qcDbgSnaps = [], _qcDbgLive = null;
+let _qcAosHeading = null, _qcAosState = 'n/a', _qcAosSensor = null;
+function _qiblaDebugOn() {
+  if (_qcDbgOn !== null) return _qcDbgOn;
+  let on = false;
+  try { on = /[?&]qiblaDebug=1\b/.test(location.search) || (window.localStorage && localStorage.getItem('qiblaDebug') === '1'); } catch (_) {}
+  _qcDbgOn = on; return on;
+}
+function _qcRotVecQuat(v, q) {
+  const vx=v[0],vy=v[1],vz=v[2], x=q[0],y=q[1],z=q[2],w=q[3];
+  const tx=2*(y*vz-z*vy), ty=2*(z*vx-x*vz), tz=2*(x*vy-y*vx);
+  return [ vx + w*tx + (y*tz-z*ty), vy + w*ty + (z*tx-x*tz), vz + w*tz + (x*ty-y*tx) ];
+}
+function _qcHeadingFromQuat(q) {
+  if (!q || q.length < 4) return null;
+  const top = _qcRotVecQuat([0,1,0], q);          // device +Y (top edge) in the sensor's world frame
+  let h = Math.atan2(top[0], top[1]) * _QC_R2D;   // atan2(East, North) = bearing CW from N
+  return isNaN(h) ? null : (((h%360)+360)%360);
+}
+// Tilt-compensated azimuth WITHOUT the screen-orientation term (diagnostic candidate only).
+function _qcMatrixNoScreen(e) {
+  if (e.alpha == null) return null;
+  if (e.beta == null || e.gamma == null) return (((e.alpha%360)+360)%360);
+  const a=e.alpha*_QC_D2R, b=e.beta*_QC_D2R, g=e.gamma*_QC_D2R;
+  const sA=Math.sin(a),cA=Math.cos(a),sB=Math.sin(b),cB=Math.cos(b),sG=Math.sin(g),cG=Math.cos(g);
+  let h = Math.atan2(sA*cG + cA*sB*sG, cA*cB) * _QC_R2D;
+  return isNaN(h) ? null : (((h%360)+360)%360);
+}
+function _qcStartAos() {
+  if (typeof window === 'undefined' || !('AbsoluteOrientationSensor' in window)) { _qcAosState = 'unsupported'; return; }
+  try {
+    if (navigator.permissions && navigator.permissions.query) {
+      Promise.all(['accelerometer','gyroscope','magnetometer'].map(n =>
+        navigator.permissions.query({ name: n }).then(p => n[0]+':'+p.state).catch(() => n[0]+':?')))
+        .then(a => { _qcAosState = 'perm ' + a.join(' ') + (_qcAosSensor ? ' started' : ''); }).catch(() => {});
+    }
+  } catch (_) {}
+  try {
+    _qcAosSensor = new window.AbsoluteOrientationSensor({ frequency: 30 });
+    _qcAosSensor.addEventListener('reading', function () { try { _qcAosHeading = _qcHeadingFromQuat(_qcAosSensor.quaternion); } catch (_) {} });
+    _qcAosSensor.addEventListener('error', function (ev) { _qcAosState = 'error:' + ((ev.error && ev.error.name) || '?'); });
+    _qcAosSensor.start();
+    if (_qcAosState === 'n/a') _qcAosState = 'started';
+  } catch (err) { _qcAosState = 'exception:' + ((err && err.name) || '?'); }
+}
+function _qcDebugInit() {
+  if (_qcDbgInit || !_qiblaDebugOn()) return;
+  const panel = document.getElementById('qibla-debug');
+  if (!panel) return;
+  _qcDbgInit = true; panel.hidden = false; _qcStartAos();
+}
+function _qcFmt(v) { return (v == null || isNaN(v)) ? '—' : (Math.round(v*10)/10).toString(); }
+// READ-ONLY observer: called from the handler top when debug is on. Writes ONLY to the debug panel.
+function _qcDebugUpdate(e) {
+  if (!_qiblaDebugOn()) return;
+  if (!_qcDbgInit) _qcDebugInit();
+  const live = document.getElementById('qd-live');
+  if (!live) return;
+  const a = e.alpha;
+  const finalH = (typeof _andHeadingSmoothed === 'number') ? _andHeadingSmoothed : null;
+  const needle = (finalH == null) ? null : ((((_qiblaAngle - finalH) % 360) + 360) % 360);
+  _qcDbgLive = {
+    ua: navigator.userAgent, type: e.type, absolute: (e.absolute === true),
+    alpha: _qcFmt(a), beta: _qcFmt(e.beta), gamma: _qcFmt(e.gamma), screen: _qcScreenAngle(),
+    H_alpha: _qcFmt(a == null ? null : (((a%360)+360)%360)),
+    H_360: _qcFmt(a == null ? null : ((((360-a)%360)+360)%360)),
+    H_dd94875: _qcFmt(a == null ? null : _androidAlphaToHeading(a)),
+    H_matrix: _qcFmt(_qcHeadingFromEvent(e)), H_matrixNoScreen: _qcFmt(_qcMatrixNoScreen(e)), H_aos: _qcFmt(_qcAosHeading),
+    final: _qcFmt(finalH), needle: _qcFmt(needle), qibla: _qcFmt(_qiblaAngle),
+    confidence: (_qcHelpState || 'ok'), aosState: _qcAosState
+  };
+  const L = _qcDbgLive;
+  live.textContent =
+    'type='+L.type+' abs='+L.absolute+' | α='+L.alpha+' β='+L.beta+' γ='+L.gamma+' scr='+L.screen+
+    '\nH_alpha='+L.H_alpha+' H_360='+L.H_360+' H_dd='+L.H_dd94875+' H_matrix='+L.H_matrix+' H_mNoScr='+L.H_matrixNoScreen+' H_aos='+L.H_aos+
+    '\nfinal='+L.final+' needle='+L.needle+' qibla='+L.qibla+' conf='+L.confidence+
+    '\naos='+L.aosState;
+}
+function qiblaDebugSnapshot() {
+  if (!_qcDbgLive) return;
+  const row = Object.assign({ label: 'S' + (_qcDbgSnaps.length + 1) }, _qcDbgLive); delete row.ua;
+  _qcDbgSnaps.push(row);
+  const rows = document.getElementById('qd-rows');
+  if (rows) {
+    const div = document.createElement('div'); div.className = 'qd-row';
+    div.textContent = row.label+': α='+row.alpha+' β='+row.beta+' γ='+row.gamma+' scr='+row.screen+
+      ' | alpha='+row.H_alpha+' 360='+row.H_360+' matrix='+row.H_matrix+' mNoScr='+row.H_matrixNoScreen+' aos='+row.H_aos+
+      ' | final='+row.final+' needle='+row.needle+' conf='+row.confidence;
+    rows.appendChild(div);
+  }
+}
+function qiblaDebugCopy() {
+  const payload = { userAgent: (_qcDbgLive && _qcDbgLive.ua) || navigator.userAgent, qiblaBearing: _qcFmt(_qiblaAngle), aosState: _qcAosState, snapshots: _qcDbgSnaps };
+  const text = JSON.stringify(payload, null, 2);
+  try { if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text); } catch (_) {}
+  const rows = document.getElementById('qd-rows');
+  if (rows) { const ta = document.createElement('textarea'); ta.className='qd-json'; ta.readOnly=true; ta.value=text; rows.appendChild(ta); }
+}
+if (typeof window !== 'undefined') { window.qiblaDebugSnapshot = qiblaDebugSnapshot; window.qiblaDebugCopy = qiblaDebugCopy; }
+
 // Android entry point — smooth the noisy heading toward a steady rendered value.
 // iOS never calls this (it applies webkitCompassHeading directly, unchanged).
 function _androidCompassStabilize(raw) {
@@ -18115,6 +18221,8 @@ function startDeviceCompass() {
     // it raw + immediately, exactly as before. Android only has `alpha` (noisy) → route
     // it through the QIBLA-ANDROID-COMPASS-JITTER-STABILIZATION-1 smoothing layer.
     _orientationHandler = function(e) {
+        // READ-ONLY diagnostic observe (no-op unless ?qiblaDebug=1); never changes rendering.
+        if (_qiblaDebugOn()) { try { _qcDebugUpdate(e); } catch (_) {} }
         // iOS — OS-fused true heading, applied raw + immediately (UNCHANGED from dd94875).
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
             _hideBtnOnFirstEvent();
@@ -18147,6 +18255,7 @@ function startDeviceCompass() {
         const _isTouchDev = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         if (!_isIOSPerm && _isTouchDev) _qcArmHardFail();
     }
+    if (_qiblaDebugOn()) { try { _qcDebugInit(); } catch (_) {} }   // hidden read-only diagnostic
 
     // Surface the enable button on iOS or any touchscreen (WebView / strict-policy
     // browsers may need the user gesture to flow). Hides automatically on first event.

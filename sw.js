@@ -1607,7 +1607,16 @@
 //   + «إعادة المعايرة» button; hard-fail ⇒ static bearing (hide needle). L10N via in-app.js dict (NO
 //   i18n.js / server change). iOS (webkitCompassHeading) UNCHANGED; jitter stabilizer UNCHANGED; NO
 //   Compass Lab; NO bearing/prayer/moon/SEO/sitemap/GA4/legal change.
-const CACHE_VERSION = 'v489';
+// QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1 (2026-07-07): js/app.js?v=820→821, css?v=491→492, sw v489→v490.
+//   HIDDEN READ-ONLY diagnostic behind `?qiblaDebug=1`/localStorage (NOT the visible Compass Lab): a
+//   panel (`#qibla-debug`, hidden by default) shows live userAgent/event.type/e.absolute/α/β/γ/screenAngle
+//   + candidate headings side-by-side (alpha, 360-alpha, dd94875, matrix V2, matrix-no-screen, AOS
+//   quaternion) + final/needle/confidence + Snapshot/Copy buttons — to capture REAL device numbers
+//   (Android vs iPhone) at N/E/S/W. AbsoluteOrientationSensor is started ONLY behind this flag, ONLY to
+//   display H_aos (NOT a production source). Diagnostic is READ-ONLY: it never changes the rendered
+//   heading/needle. Default V2 (`_ANDROID_COMPASS_V2`) + iOS + jitter UNCHANGED; NO constant offset; NO
+//   bearing/SEO/sitemap/GA4/legal/prayer/moon change.
+const CACHE_VERSION = 'v490';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

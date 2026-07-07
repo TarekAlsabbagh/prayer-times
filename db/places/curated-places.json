@@ -130833,5 +130833,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "saad",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 25.1006266,
+    "lng": 47.5694127,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "سعد",
+      "en": "Saad"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

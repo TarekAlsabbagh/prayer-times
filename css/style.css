@@ -2553,6 +2553,57 @@ html[data-theme="dark"] .ns-item.is-selected {
     50%       { transform: scale(1.04); box-shadow: 0 6px 20px rgba(0,128,0,0.45); }
 }
 
+/* QIBLA-ANDROID-COMPASS-ROOT-REBUILD-2 — Android-only compass help/calibration card.
+   Toggled + filled by js/app.js (data-state ok|low|fail); hidden by default; never on iOS. */
+.qibla-compass-help {
+    margin-top: 14px;
+    width: 100%;
+    max-width: 320px;
+    box-sizing: border-box;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: var(--surface-2, #f3f5f7);
+    border: 1px solid var(--border, rgba(0,0,0,0.08));
+    text-align: center;
+    font-size: 0.85rem;
+    line-height: 1.5;
+    color: var(--text, #1c2430);
+}
+.qibla-compass-help[data-state="low"] {
+    background: rgba(240,173,78,0.12);
+    border-color: rgba(240,173,78,0.5);
+    color: #8a5a00;
+}
+.qibla-compass-help[data-state="fail"] {
+    background: rgba(220,53,69,0.08);
+    border-color: rgba(220,53,69,0.4);
+}
+.qibla-compass-help .qch-bearing { font-weight: 800; font-size: 1.15rem; margin-bottom: 4px; }
+.qibla-compass-help[data-state="ok"] .qch-bearing,
+.qibla-compass-help[data-state="low"] .qch-bearing { display: none; }
+.qibla-compass-help .qch-msg:empty { display: none; }
+.qibla-compass-help .qch-btn {
+    margin-top: 8px;
+    padding: 7px 16px;
+    border: 1px solid var(--primary);
+    background: transparent;
+    color: var(--primary);
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+.qibla-compass-help .qch-btn:hover { background: rgba(0,128,0,0.06); }
+/* Hard-fail: hide the unreliable live needle, dim the rose (bearing shown in the card) */
+.compass.compass-unavailable .compass-arrow { display: none; }
+.compass.compass-unavailable { opacity: 0.5; }
+html[data-theme="dark"] .qibla-compass-help {
+    background: rgba(255,255,255,0.05);
+    border-color: rgba(255,255,255,0.12);
+    color: #e8eef5;
+}
+html[data-theme="dark"] .qibla-compass-help[data-state="low"] { color: #ffd18a; }
+
 .compass-arrow {
     position: absolute;
     top: 50%;

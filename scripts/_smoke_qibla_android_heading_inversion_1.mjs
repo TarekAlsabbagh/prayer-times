@@ -47,8 +47,8 @@ ok(_androidAlphaToHeading(0) === oldMap(0) && _androidAlphaToHeading(180) === ol
 console.log('\n================ 3. Structural: Android branch, iOS unchanged, stabilizer intact, no offset ================');
 ok(/heading = _androidAlphaToHeading\(e\.alpha\);/.test(appSrc), 'Android branch now uses _androidAlphaToHeading(e.alpha)');
 ok(!/heading = \(360 - e\.alpha\) % 360;/.test(appSrc), 'OLD inline (360 - e.alpha) mapping is GONE');
-ok(/heading = e\.webkitCompassHeading;/.test(appSrc), 'iOS still reads webkitCompassHeading (unchanged)');
-ok(/if \(isIosHeading\) \{[\s\S]{0,120}?_applyCompassHeading\(heading\);/.test(appSrc), 'iOS branch applies raw heading immediately (unchanged)');
+ok(/_applyCompassHeading\(e\.webkitCompassHeading\)/.test(appSrc), 'iOS still reads + applies webkitCompassHeading (unchanged)');
+ok(/if \(e\.webkitCompassHeading != null[\s\S]{0,240}?_applyCompassHeading\(e\.webkitCompassHeading\);[\s\S]{0,60}?return;/.test(appSrc), 'iOS branch applies raw heading immediately + returns (unchanged)');
 ok(/\} else \{[\s\S]{0,160}?_androidCompassStabilize\(heading\);/.test(appSrc), 'Android branch still routes through the jitter stabilizer');
 // jitter stabilizer still present
 ok(/_AND_DEADBAND\s*=\s*2\b/.test(appSrc) && /_AND_MAX_STEP\s*=\s*10\b/.test(appSrc), 'stabilizer deadband(2)+rate-limit(10) still present');
@@ -58,8 +58,9 @@ const regStart = appSrc.indexOf('function _applyCompassHeading');
 const regEnd = appSrc.indexOf('function requestCompassPermission');
 const region = appSrc.slice(regStart, regEnd).replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
 ok(!/\b8[35]\b/.test(region), 'NO +83/-83/85 constant offset in compass code');
-// `qiblaLab(?!el)` so the breadcrumb variable `qiblaLabel` is not a false positive
-ok(!/qiblaLab(?!el)/.test(appSrc) && !/Compass Lab/.test(appSrc), 'NO Compass Lab / ?qiblaLab param');
+// strip comments (RR2 comment mentions "Compass Lab"); `qiblaLab(?!el)` avoids the breadcrumb var qiblaLabel
+const _invCode = appSrc.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:])\/\/[^\n]*/g, '$1');
+ok(!/qiblaLab(?!el)/.test(_invCode) && !/Compass Lab/.test(_invCode), 'NO Compass Lab / ?qiblaLab param (code)');
 
 console.log(`\nPASS=${pass}  FAIL=${fail}`);
 if (fail > 0) { console.log('FAILED:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

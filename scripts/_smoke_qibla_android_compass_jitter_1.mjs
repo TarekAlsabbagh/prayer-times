@@ -81,12 +81,12 @@ ok(/_AND_DEADBAND\s*=\s*2\b/.test(appSrc), 'deadband constant = 2°');
 ok(/_AND_SMOOTH\s*=\s*0\.15\b/.test(appSrc), 'EMA smooth factor = 0.15');
 ok(/_AND_MAX_STEP\s*=\s*10\b/.test(appSrc), 'rate-limit max step = 10°/frame');
 // handler branches: iOS reads webkitCompassHeading & applies raw immediately; Android → stabilizer
-ok(/heading = e\.webkitCompassHeading;/.test(appSrc), 'iOS still reads webkitCompassHeading (unchanged)');
+ok(/_applyCompassHeading\(e\.webkitCompassHeading\)/.test(appSrc), 'iOS still reads + applies webkitCompassHeading (unchanged)');
 // QIBLA-ANDROID-HEADING-DIRECTION-INVERSION-FIX-1 moved the alpha→heading mapping into a helper;
 // the Android branch still derives heading from e.alpha and feeds the stabilizer (jitter path intact).
 ok(/heading = _androidAlphaToHeading\(e\.alpha\);/.test(appSrc), 'Android heading derived from e.alpha (via _androidAlphaToHeading) → stabilizer');
-ok(/if \(isIosHeading\) \{[\s\S]{0,120}?_applyCompassHeading\(heading\);/.test(appSrc), 'iOS branch applies raw heading immediately');
-ok(/\} else \{[\s\S]{0,120}?_androidCompassStabilize\(heading\);/.test(appSrc), 'Android branch routes through _androidCompassStabilize');
+ok(/if \(e\.webkitCompassHeading != null[\s\S]{0,240}?_applyCompassHeading\(e\.webkitCompassHeading\);[\s\S]{0,60}?return;/.test(appSrc), 'iOS branch applies raw heading immediately + returns (ROOT-REBUILD-2 shape)');
+ok(/_androidCompassStabilize\(heading\);/.test(appSrc), 'Android branch routes through _androidCompassStabilize');
 // no constant offset anywhere in the compass region
 const regStart = appSrc.indexOf('function _applyCompassHeading');
 const regEnd = appSrc.indexOf('function requestCompassPermission');

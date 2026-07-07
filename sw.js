@@ -1598,7 +1598,16 @@
 //   new `_androidAlphaToHeading(alpha)` = alpha normalised (Android branch only). iOS (webkitCompassHeading)
 //   UNCHANGED; jitter stabilizer UNCHANGED; NO constant offset (+83/−83); NO bearing change; no
 //   server/routes/SEO/sitemap/GA4/prayer/moon change.
-const CACHE_VERSION = 'v488';
+// QIBLA-ANDROID-COMPASS-ROOT-REBUILD-2 (2026-07-07): js/app.js?v=819→820, css/style.css?v=490→491, sw v488→v489.
+//   Android heading path rebuilt behind flag `_ANDROID_COMPASS_V2` (off ⇒ exact dd94875 alpha path):
+//   source-aware resolver (deviceorientationabsolute → deviceorientation w/ e.absolute → hard-fallback)
+//   + canonical tilt+screen-corrected heading from the (alpha,beta,gamma) rotation matrix (reduces to
+//   alpha when flat, so cardinals don't regress; NO alpha-sign guess, NO constant offset). Android-only
+//   help card below the compass: low-accuracy amber badge (LIVE needle kept) + figure-8 calibration hint
+//   + «إعادة المعايرة» button; hard-fail ⇒ static bearing (hide needle). L10N via in-app.js dict (NO
+//   i18n.js / server change). iOS (webkitCompassHeading) UNCHANGED; jitter stabilizer UNCHANGED; NO
+//   Compass Lab; NO bearing/prayer/moon/SEO/sitemap/GA4/legal change.
+const CACHE_VERSION = 'v489';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

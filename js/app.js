@@ -17933,6 +17933,134 @@ function _androidAlphaToHeading(alpha) {
     return (((alpha % 360) + 360) % 360);
 }
 
+// ===== QIBLA-ANDROID-COMPASS-ROOT-REBUILD-2 (2026-07-07) =====
+// Root rebuild of the ANDROID heading path only (iOS webkitCompassHeading is UNTOUCHED).
+// Behind the flag _ANDROID_COMPASS_V2: OFF ⇒ exact dd94875 behaviour (_androidAlphaToHeading).
+// Pipeline (flag ON): raw DeviceOrientation → source-aware resolver → canonical tilt+screen-
+// corrected heading → _androidCompassStabilize (jitter fix, UNCHANGED) → _applyCompassHeading.
+// A small Android-only help card (below the compass) shows a low-accuracy badge + a
+// "recalibrate" button, and a static-bearing fallback on hard failure. NO constant offset,
+// NO bearing change, NO AbsoluteOrientationSensor, NO visible Compass Lab.
+const _ANDROID_COMPASS_V2 = true;             // flag: false ⇒ instant fall-back to dd94875 path
+const _QC_D2R = Math.PI / 180, _QC_R2D = 180 / Math.PI;
+const _QC_HARD_FAIL_MS = 4000;                // no heading within this ⇒ static-bearing fallback
+let _qcAbsoluteSeen  = false;                 // received an ABSOLUTE orientation reading?
+let _qcHeadingEver   = false;                 // any usable Android heading yet?
+let _qcHelpState     = null;                  // 'ok' | 'low' | 'fail' | null
+let _qcHardFailTimer = null;
+
+// Localised help-card strings kept in app.js so this ticket needs NO js/i18n.js / server
+// _i18nVersion change. Falls back to en then ar.
+const _QIBLA_COMPASS_L10N = {
+  ar: { low:'دقة البوصلة منخفضة', hint:'حرّك الهاتف على شكل رقم 8 بعيدًا عن المعادن لتحسين الدقة.', recal:'إعادة معايرة البوصلة', unavail:'تعذّر الحصول على اتجاه موثوق من بوصلة هذا الجهاز — الاتجاه المحسوب صحيح لكن حسّاس الجهاز غير دقيق.' },
+  en: { low:'Low compass accuracy', hint:'Move your phone in a figure-8, away from metal, to improve accuracy.', recal:'Recalibrate compass', unavail:'Couldn’t get a reliable heading from this device’s compass — the calculated direction is correct, but the device sensor isn’t accurate.' },
+  fr: { low:'Précision de la boussole faible', hint:'Bougez votre téléphone en forme de 8, loin du métal, pour améliorer la précision.', recal:'Recalibrer la boussole', unavail:'Impossible d’obtenir un cap fiable de la boussole de cet appareil — la direction calculée est correcte, mais le capteur n’est pas précis.' },
+  tr: { low:'Pusula doğruluğu düşük', hint:'Doğruluğu artırmak için telefonu metalden uzakta 8 şeklinde hareket ettirin.', recal:'Pusulayı yeniden ayarla', unavail:'Bu cihazın pusulasından güvenilir bir yön alınamadı — hesaplanan yön doğru, ancak cihaz sensörü hassas değil.' },
+  ur: { low:'کمپاس کی درستگی کم ہے', hint:'درستگی بہتر بنانے کے لیے فون کو دھات سے دور 8 کی شکل میں حرکت دیں۔', recal:'کمپاس دوبارہ کیلبریٹ کریں', unavail:'اس آلے کے کمپاس سے قابلِ اعتماد سمت نہیں مل سکی — حساب شدہ سمت درست ہے، لیکن آلے کا سینسر درست نہیں۔' },
+  de: { low:'Geringe Kompassgenauigkeit', hint:'Bewegen Sie Ihr Telefon in einer Acht, fern von Metall, um die Genauigkeit zu verbessern.', recal:'Kompass neu kalibrieren', unavail:'Von der Kompass dieses Geräts konnte keine zuverlässige Richtung ermittelt werden — die berechnete Richtung ist korrekt, aber der Gerätesensor ist ungenau.' },
+  id: { low:'Akurasi kompas rendah', hint:'Gerakkan ponsel membentuk angka 8, jauh dari logam, untuk meningkatkan akurasi.', recal:'Kalibrasi ulang kompas', unavail:'Tidak dapat memperoleh arah yang andal dari kompas perangkat ini — arah yang dihitung sudah benar, tetapi sensor perangkat tidak akurat.' },
+  es: { low:'Baja precisión de la brújula', hint:'Mueva el teléfono en forma de 8, lejos del metal, para mejorar la precisión.', recal:'Recalibrar la brújula', unavail:'No se pudo obtener una orientación fiable de la brújula de este dispositivo — la dirección calculada es correcta, pero el sensor no es preciso.' },
+  bn: { low:'কম্পাসের নির্ভুলতা কম', hint:'নির্ভুলতা বাড়াতে ফোনটি ধাতু থেকে দূরে ৮-এর আকারে নাড়ান।', recal:'কম্পাস পুনরায় ক্যালিব্রেট করুন', unavail:'এই ডিভাইসের কম্পাস থেকে নির্ভরযোগ্য দিক পাওয়া যায়নি — হিসাবকৃত দিক সঠিক, তবে ডিভাইসের সেন্সর নির্ভুল নয়।' },
+  ms: { low:'Ketepatan kompas rendah', hint:'Gerakkan telefon dalam bentuk angka 8, jauh dari logam, untuk meningkatkan ketepatan.', recal:'Tentukur semula kompas', unavail:'Tidak dapat memperoleh arah yang boleh dipercayai daripada kompas peranti ini — arah yang dikira betul, tetapi penderia peranti tidak tepat.' }
+};
+function _qcL10n() {
+  const ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+  return _QIBLA_COMPASS_L10N[ln] || _QIBLA_COMPASS_L10N.en || _QIBLA_COMPASS_L10N.ar;
+}
+
+// Screen-orientation angle (0/90/180/270) — corrects the heading in landscape.
+function _qcScreenAngle() {
+  try {
+    if (window.screen && screen.orientation && typeof screen.orientation.angle === 'number') return screen.orientation.angle || 0;
+  } catch (_) {}
+  return (typeof window.orientation === 'number') ? (window.orientation || 0) : 0;
+}
+
+// Canonical compass heading (0=N, clockwise) from a DeviceOrientation event, tilt- and screen-
+// compensated. From the W3C rotation matrix (device→Earth): the top-edge azimuth reduces to
+// `alpha` when the phone is flat (β=γ=0) — matching dd94875, so cardinals don't regress — and
+// stays correct when tilted. NO per-device sign guess, NO constant offset.
+function _qcHeadingFromEvent(e) {
+  if (e.alpha == null) return null;
+  const scr = _qcScreenAngle();
+  if (e.beta == null || e.gamma == null) {
+    return ((((e.alpha + scr) % 360) + 360) % 360);   // no tilt data → flat: alpha (dd94875-consistent)
+  }
+  const a = e.alpha * _QC_D2R, b = e.beta * _QC_D2R, g = e.gamma * _QC_D2R;
+  const sA = Math.sin(a), cA = Math.cos(a);
+  const sB = Math.sin(b), cB = Math.cos(b);
+  const sG = Math.sin(g), cG = Math.cos(g);
+  const east  = sA * cG + cA * sB * sG;   // Earth-East component of the device top edge
+  const north = cA * cB;                  // Earth-North component
+  let h = Math.atan2(east, north) * _QC_R2D;   // 0=N, clockwise
+  h += scr;
+  if (isNaN(h)) return null;
+  return (((h % 360) + 360) % 360);
+}
+
+// Source-aware selection: prefer an ABSOLUTE orientation; once seen, ignore the relative
+// `deviceorientation` event (arbitrary zero). Returns a canonical heading, or null to skip.
+function _qcResolveHeading(e) {
+  const isAbs = (e.type === 'deviceorientationabsolute') || (e.absolute === true);
+  if (isAbs) _qcAbsoluteSeen = true;
+  if (!isAbs && _qcAbsoluteSeen) return null;      // don't let a relative reading override absolute
+  const h = _qcHeadingFromEvent(e);
+  if (h === null) return null;
+  _qcHeadingEver = true;
+  if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
+  // Confidence: the only reliable in-browser signal is source absoluteness. A relative-only
+  // source has an arbitrary zero ⇒ LOW. (A magnetometer calibration OFFSET is NOT detectable
+  // from the browser — hence the always-available manual "recalibrate" button.)
+  _qcSetHelp(isAbs ? 'ok' : 'low');
+  return h;
+}
+
+// Android-only help card: 'ok' (subtle recalibrate button), 'low' (amber badge + fig-8 hint),
+// 'fail' (hide live needle, show static bearing text). Never shown on iOS (iOS never calls this).
+function _qcSetHelp(state, bearingText) {
+  const card = document.getElementById('qibla-compass-help');
+  if (!card) return;
+  if (state === _qcHelpState && state !== 'fail') return;
+  _qcHelpState = state;
+  const compass = document.getElementById('compass');
+  const msg = document.getElementById('qch-msg');
+  const btn = document.getElementById('qch-recalib');
+  const bar = document.getElementById('qch-bearing');
+  const L = _qcL10n();
+  card.hidden = false;
+  card.setAttribute('data-state', state);
+  if (btn) btn.textContent = L.recal;
+  if (state === 'fail') {
+    if (msg) msg.textContent = L.unavail;
+    if (bar) bar.textContent = bearingText || '';
+    if (compass) compass.classList.add('compass-unavailable');
+  } else {
+    if (compass) compass.classList.remove('compass-unavailable');
+    if (bar) bar.textContent = '';
+    if (msg) msg.textContent = (state === 'low') ? (L.low + ' — ' + L.hint) : '';
+  }
+}
+
+// Arm a hard-fail: if NO usable heading arrives, switch to the static-bearing fallback.
+function _qcArmHardFail() {
+  if (_qcHardFailTimer) clearTimeout(_qcHardFailTimer);
+  _qcHardFailTimer = setTimeout(function () {
+    if (_qcHeadingEver) return;
+    let dir = '';
+    try { dir = Qibla.getDirection(_qiblaAngle, (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'); } catch (_) {}
+    _qcSetHelp('fail', _qiblaAngle.toFixed(1) + '° ' + dir);
+  }, _QC_HARD_FAIL_MS);
+}
+
+// Manual recalibration (help-card button): re-acquire the heading fresh + show the fig-8 hint.
+function recalibrateCompass() {
+  _andHeadingSmoothed = null; _andHeadingTarget = null;
+  _qcAbsoluteSeen = false; _qcHeadingEver = false; _qcHelpState = null;
+  _qcSetHelp('low');
+  _qcArmHardFail();
+}
+if (typeof window !== 'undefined') { window.recalibrateCompass = recalibrateCompass; }
+
 // Android entry point — smooth the noisy heading toward a steady rendered value.
 // iOS never calls this (it applies webkitCompassHeading directly, unchanged).
 function _androidCompassStabilize(raw) {
@@ -17987,27 +18115,38 @@ function startDeviceCompass() {
     // it raw + immediately, exactly as before. Android only has `alpha` (noisy) → route
     // it through the QIBLA-ANDROID-COMPASS-JITTER-STABILIZATION-1 smoothing layer.
     _orientationHandler = function(e) {
-        let heading = null;
-        let isIosHeading = false;
+        // iOS — OS-fused true heading, applied raw + immediately (UNCHANGED from dd94875).
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            heading = e.webkitCompassHeading; // iOS — true magnetic heading (OS-fused, stable)
-            isIosHeading = true;
-        } else if (e.alpha != null) {
-            heading = _androidAlphaToHeading(e.alpha);   // Android — alpha is already a CW compass heading (0=N,90=E,180=S,270=W)
+            _hideBtnOnFirstEvent();
+            _applyCompassHeading(e.webkitCompassHeading);
+            return;
         }
-        if (heading === null) return;
-        _hideBtnOnFirstEvent();
-        if (isIosHeading) {
-            _applyCompassHeading(heading);        // iOS: UNCHANGED — raw heading, immediate
+        if (e.alpha == null) return;
+        // Android — ROOT-REBUILD-2: source-aware canonical heading when the flag is on;
+        // dd94875 alpha-direct path when off. Either way it feeds the jitter stabilizer.
+        let heading;
+        if (_ANDROID_COMPASS_V2) {
+            heading = _qcResolveHeading(e);
+            if (heading === null) return;            // relative reading skipped while an absolute source exists
         } else {
-            _androidCompassStabilize(heading);    // Android: smooth the noisy heading
+            heading = _androidAlphaToHeading(e.alpha); // flag OFF ⇒ exact dd94875 behaviour
         }
+        _hideBtnOnFirstEvent();
+        _androidCompassStabilize(heading);           // Android: smooth (jitter fix, unchanged)
     };
 
     // Always attach listeners (safe on iOS — works if permission already granted).
     try { window.addEventListener('deviceorientationabsolute', _orientationHandler, true); } catch (_) {}
     try { window.addEventListener('deviceorientation',         _orientationHandler, true); } catch (_) {}
     _compassListening = true;
+
+    // ROOT-REBUILD-2: on an Android touch device, arm a hard-fail so the static-bearing
+    // fallback appears if no usable heading ever arrives. iOS (requestPermission) + desktop excluded.
+    if (_ANDROID_COMPASS_V2) {
+        const _isIOSPerm  = (typeof DeviceOrientationEvent.requestPermission === 'function');
+        const _isTouchDev = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
+        if (!_isIOSPerm && _isTouchDev) _qcArmHardFail();
+    }
 
     // Surface the enable button on iOS or any touchscreen (WebView / strict-policy
     // browsers may need the user gesture to flow). Hides automatically on first event.

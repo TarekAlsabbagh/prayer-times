@@ -1896,6 +1896,57 @@ let _citySitemapChunks = { data: null, time: 0 };
 const SITEMAP_TTL = 30 * 60 * 1000;
 function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; _citySitemapChunks = { data: null, time: 0 }; }
 
+// ═════════════════════════════════════════════════════════════════════════════
+// SITEMAP-MEMORY-EFFICIENT-SERVING-1 (2026-07-07): stream a sitemap body to the
+// response instead of assembling the full ~10 MB XML string + a second ~10 MB
+// Buffer + an in-memory gzip (the old sendXml path). That path spiked ~25 MB per
+// request and, under a concurrent GSC/Googlebot crawl of the 24 sitemap files,
+// pushed the Render instance over its memory limit → OOM restart.
+//   • The body callback receives a backpressure-aware `write(str)` (awaits 'drain',
+//     and also resolves if the client disconnects so the producer never hangs).
+//   • When the client accepts gzip we pipe through a STREAMING zlib.createGzip(),
+//     so nothing large is ever resident — only the current small batch + the gzip
+//     window. Output bytes are IDENTICAL to the previous sendXml() assembly.
+//   • Headers match sendXml exactly (Content-Type/Cache-Control/Vary [+ gzip]).
+function streamSitemap(req, res, forceGzip, writeBodyAsync) {
+    const acceptEnc = (req.headers['accept-encoding'] || '');
+    const useGzip = forceGzip || acceptEnc.includes('gzip');
+    const headers = {
+        'Content-Type': 'application/xml; charset=utf-8',
+        'Cache-Control': 'public, max-age=3600',
+        'Vary': 'Accept-Encoding'
+    };
+    return new Promise((resolve) => {
+        let finished = false;
+        const done = () => { if (!finished) { finished = true; resolve(); } };
+        res.on('finish', done);
+        res.on('close', done);
+        res.on('error', done);
+        let sink;
+        if (useGzip) {
+            res.writeHead(200, { ...headers, 'Content-Encoding': 'gzip' });
+            sink = zlib.createGzip();
+            sink.on('error', () => { try { res.end(); } catch (_) {} done(); });
+            sink.pipe(res); // pipe auto-ends res when sink ends
+        } else {
+            res.writeHead(200, headers);
+            sink = res;
+        }
+        const write = (s) => new Promise((r) => {
+            if (finished || !sink.writable) return r();
+            if (sink.write(s)) return r();
+            const cleanup = () => { try { sink.removeListener('drain', onDrain); res.removeListener('close', onClose); } catch (_) {} };
+            const onDrain = () => { cleanup(); r(); };
+            const onClose = () => { cleanup(); r(); };
+            sink.once('drain', onDrain);
+            res.once('close', onClose);
+        });
+        Promise.resolve(writeBodyAsync(write))
+            .then(() => { try { sink.end(); } catch (_) {} })
+            .catch(() => { try { sink.end(); } catch (_) {} });
+    });
+}
+
 // ===== Phase G — Curated slug redirects (db/curated-slugs.json) =====
 // مولَّد عبر scripts/build-curated-sitemap.mjs من LOCAL_CITIES + LOCAL_PROVINCES
 //   - يحتوي خريطة { oldSlug: canonicalSlug } (مثلًا mecca → makkah, giza-governorate → giza)
@@ -30350,8 +30401,16 @@ const server = http.createServer(async (req, res) => {
                 }
             }
 
-            const xml = `${URLSET_OPEN}\n${entries.join('\n')}\n${URLSET_CLOSE}`;
-            sendXml(res, xml, req.headers['accept-encoding']||'', !!mm[1]);
+            // SITEMAP-MEMORY-EFFICIENT-SERVING-1: stream the (pre-built) entries array in
+            // ~300-URL batches through a gzip stream — avoids the extra ~10 MB joined string
+            // + Buffer + in-memory gzip of the old sendXml path. Byte-identical output.
+            await streamSitemap(req, res, !!mm[1], async (write) => {
+                await write(URLSET_OPEN + '\n');
+                for (let _i = 0; _i < entries.length; _i += 300) {
+                    await write(entries.slice(_i, _i + 300).join('\n') + '\n');
+                }
+                await write(URLSET_CLOSE);
+            });
             return;
         }
     }
@@ -30367,7 +30426,6 @@ const server = http.createServer(async (req, res) => {
             if (!chunk || chunk.length === 0) {
                 res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found'); return;
             }
-            const entries = [];
             // Round 9: استخرج الـ base slug (بدون lat/lng) لصفحات القمر المدنيّة
             // مثال 1: /prayer-times-in-london-51.5-0.1 → london
             // مثال 2: /prayer-times-in-mecca → mecca (الـ slug بالفعل نظيف)
@@ -30379,6 +30437,14 @@ const server = http.createServer(async (req, res) => {
                 const m = s.match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
                 return m ? m[1] : null;
             };
+            // SITEMAP-MEMORY-EFFICIENT-SERVING-1: stream per-city <url> batches through a
+            // gzip stream instead of building one ~10 MB string + Buffer per request. The
+            // `entries` array is flushed every ~300 <url> so peak memory stays ~constant.
+            // Emission logic below is byte-identical to the previous version.
+            await streamSitemap(req, res, !!mc[2], async (write) => {
+            await write(URLSET_OPEN + '\n');
+            const entries = [];
+            const flush = async () => { if (entries.length) { await write(entries.join('\n') + '\n'); entries.length = 0; } };
             for (const slug of chunk) {
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.7', 'daily', today));
                 entries.push(...bilingualUrl('/qibla-in-' + slug, '0.6', 'monthly', today));
@@ -30435,9 +30501,11 @@ const server = http.createServer(async (req, res) => {
                     // bulk-added (discoverable from the month page). The nested month pages (12/yr × 3 yrs)
                     // emitted above are the only month surface; no day pages in the sitemap.
                 }
+                if (entries.length >= 300) await flush();
             }
-            const xml = `${URLSET_OPEN}\n${entries.join('\n')}\n${URLSET_CLOSE}`;
-            sendXml(res, xml, req.headers['accept-encoding']||'', !!mc[2]);
+            await flush();
+            await write(URLSET_CLOSE);
+            });
             return;
         }
     }

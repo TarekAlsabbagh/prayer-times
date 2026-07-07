@@ -17920,6 +17920,19 @@ function _shortestAngleDiff(a, b) {
     return ((((b - a) % 360) + 540) % 360) - 180;
 }
 
+// ===== QIBLA-ANDROID-HEADING-DIRECTION-INVERSION-FIX-1 (2026-07-07) =====
+// Map an Android DeviceOrientation `alpha` to a compass heading. On real Android hardware
+// `alpha` already increases CLOCKWISE with the compass (≈0° North, 90° East, 180° South,
+// 270° West) — i.e. alpha IS the heading. The previous `(360 - alpha) % 360` mapping
+// horizontally MIRRORED it (swapping East↔West while leaving North/South fixed), which is
+// exactly the reported bug (East showed as West). So use alpha directly, normalised to
+// 0..360. Android-only — iOS uses webkitCompassHeading and never calls this. NO constant
+// offset (no +83/−83), NO change to the Qibla bearing. The jitter stabilizer is unchanged
+// and still consumes this heading.
+function _androidAlphaToHeading(alpha) {
+    return (((alpha % 360) + 360) % 360);
+}
+
 // Android entry point — smooth the noisy heading toward a steady rendered value.
 // iOS never calls this (it applies webkitCompassHeading directly, unchanged).
 function _androidCompassStabilize(raw) {
@@ -17980,7 +17993,7 @@ function startDeviceCompass() {
             heading = e.webkitCompassHeading; // iOS — true magnetic heading (OS-fused, stable)
             isIosHeading = true;
         } else if (e.alpha != null) {
-            heading = (360 - e.alpha) % 360;   // Android — alpha is screen-relative (noisy)
+            heading = _androidAlphaToHeading(e.alpha);   // Android — alpha is already a CW compass heading (0=N,90=E,180=S,270=W)
         }
         if (heading === null) return;
         _hideBtnOnFirstEvent();

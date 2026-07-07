@@ -1591,7 +1591,14 @@
 //   only. iOS (webkitCompassHeading) is UNCHANGED — still applies the raw heading immediately and
 //   keeps its CSS transition. NO Qibla BEARING change, NO constant offset. app.js-only client fix;
 //   no server/routes/SEO/sitemap/prayer/moon change.
-const CACHE_VERSION = 'v487';
+// QIBLA-ANDROID-HEADING-DIRECTION-INVERSION-FIX-1 (2026-07-07): js/app.js?v=818→819, sw v487→v488.
+//   Android compass direction was mirrored (East showed as West) after the jitter fix. Root cause:
+//   on real Android hardware `alpha` already increases CLOCKWISE (0=N,90=E,180=S,270=W) = the compass
+//   heading, so the old `(360 - alpha)` mapping horizontally flipped East↔West (N/S unaffected). Fix =
+//   new `_androidAlphaToHeading(alpha)` = alpha normalised (Android branch only). iOS (webkitCompassHeading)
+//   UNCHANGED; jitter stabilizer UNCHANGED; NO constant offset (+83/−83); NO bearing change; no
+//   server/routes/SEO/sitemap/GA4/prayer/moon change.
+const CACHE_VERSION = 'v488';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

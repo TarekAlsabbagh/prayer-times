@@ -17893,23 +17893,102 @@ function _applyCompassHeading(heading) {
     arrow.style.transform = `translate(-50%, -100%) rotate(${_qiblaAngle}deg)`;
 }
 
+// ===== QIBLA-ANDROID-COMPASS-JITTER-STABILIZATION-1 (2026-07-07) =====
+// Android's raw DeviceOrientation `alpha` is noisy, so feeding it straight to the
+// compass on every event made the disc jitter/dance. iOS reports an OS-fused
+// `webkitCompassHeading` that is already stable, so the iOS path is LEFT UNTOUCHED:
+// it still calls _applyCompassHeading(rawHeading) synchronously and keeps the shared
+// CSS `.compass { transition: transform 0.12s linear }`. ONLY the Android (alpha)
+// branch is routed through this smoothing layer — deadband + circular low-pass (EMA)
+// + rate limit, rendered once per animation frame. It does NOT change the bearing and
+// adds NO offset: `_qiblaAngle` (the Qibla arrow) is never touched here; we only
+// smooth how fast the disc rotation catches up to the device heading.
+const _AND_DEADBAND = 2;     // deg — ignore sub-2° noise (holds steady while the phone is still)
+const _AND_SMOOTH   = 0.15;  // circular EMA factor (0..1) — lower = smoother/slower catch-up
+const _AND_MAX_STEP = 10;    // deg — max rotation applied per frame (rate limit vs big noise spikes)
+let _andHeadingSmoothed = null;    // last rendered heading (deg 0..360); null until first Android event
+let _andHeadingTarget   = null;    // latest raw heading awaiting a frame
+let _andRafPending      = false;   // true while a frame is scheduled (coalesces sensor bursts)
+let _andTransitionCleared = false; // Android-only: disable the CSS 0.12s transition once (iOS keeps it)
+
+const _andRaf = (typeof window !== 'undefined' && window.requestAnimationFrame)
+    ? window.requestAnimationFrame.bind(window)
+    : function (cb) { return setTimeout(cb, 16); };
+
+// Smallest signed angular difference a→b, in (-180, 180]; handles the 0/360 wrap.
+function _shortestAngleDiff(a, b) {
+    return ((((b - a) % 360) + 540) % 360) - 180;
+}
+
+// Android entry point — smooth the noisy heading toward a steady rendered value.
+// iOS never calls this (it applies webkitCompassHeading directly, unchanged).
+function _androidCompassStabilize(raw) {
+    if (raw == null || isNaN(raw)) return;
+    raw = ((raw % 360) + 360) % 360;
+    if (_andHeadingSmoothed === null) {
+        // First reading on THIS (Android) device: disable the shared CSS transition
+        // inline so the rAF+EMA loop below is the single source of motion (no
+        // double-smoothing lag). iOS never reaches this line, so its CSS transition
+        // stays intact.
+        if (!_andTransitionCleared) {
+            const _c = document.getElementById('compass');
+            if (_c) _c.style.transition = 'none';
+            _andTransitionCleared = true;
+        }
+        _andHeadingSmoothed = raw;
+        _applyCompassHeading(_andHeadingSmoothed);   // snap to the first fix (no animated jump)
+        return;
+    }
+    _andHeadingTarget = raw;
+    if (_andRafPending) return;   // a frame is already queued — coalesce this event into it
+    _andRafPending = true;
+    _andRaf(_androidCompassFrame);
+}
+
+// One animation frame of easing toward the latest target; re-schedules itself until settled.
+function _androidCompassFrame() {
+    _andRafPending = false;
+    if (_andHeadingTarget === null || _andHeadingSmoothed === null) return;
+    const diff = _shortestAngleDiff(_andHeadingSmoothed, _andHeadingTarget);
+    if (Math.abs(diff) < _AND_DEADBAND) return;         // deadband — hold steady, stop the loop
+    let step = diff * _AND_SMOOTH;                       // circular low-pass (EMA) toward target
+    if (step >  _AND_MAX_STEP) step =  _AND_MAX_STEP;    // rate limit (both directions)
+    if (step < -_AND_MAX_STEP) step = -_AND_MAX_STEP;
+    _andHeadingSmoothed = (((_andHeadingSmoothed + step) % 360) + 360) % 360;
+    _applyCompassHeading(_andHeadingSmoothed);
+    // keep easing on the next frame until we're within the deadband of the target
+    if (Math.abs(_shortestAngleDiff(_andHeadingSmoothed, _andHeadingTarget)) >= _AND_DEADBAND) {
+        _andRafPending = true;
+        _andRaf(_androidCompassFrame);
+    }
+}
+
 function startDeviceCompass() {
     if (_compassListening || !window.DeviceOrientationEvent) return;
 
     const _btn = document.getElementById('compass-permission-btn');
     const _hideBtnOnFirstEvent = () => { if (_btn) _btn.style.display = 'none'; };
 
-    // Simple original handler — any usable heading wins.
+    // Any usable heading wins. The platform is distinguished by WHICH sensor value is
+    // present: iOS exposes the OS-fused `webkitCompassHeading` (already stable) → apply
+    // it raw + immediately, exactly as before. Android only has `alpha` (noisy) → route
+    // it through the QIBLA-ANDROID-COMPASS-JITTER-STABILIZATION-1 smoothing layer.
     _orientationHandler = function(e) {
         let heading = null;
+        let isIosHeading = false;
         if (e.webkitCompassHeading != null && !isNaN(e.webkitCompassHeading)) {
-            heading = e.webkitCompassHeading; // iOS — true magnetic heading
+            heading = e.webkitCompassHeading; // iOS — true magnetic heading (OS-fused, stable)
+            isIosHeading = true;
         } else if (e.alpha != null) {
-            heading = (360 - e.alpha) % 360;   // Android — alpha is screen-relative
+            heading = (360 - e.alpha) % 360;   // Android — alpha is screen-relative (noisy)
         }
         if (heading === null) return;
         _hideBtnOnFirstEvent();
-        _applyCompassHeading(heading);
+        if (isIosHeading) {
+            _applyCompassHeading(heading);        // iOS: UNCHANGED — raw heading, immediate
+        } else {
+            _androidCompassStabilize(heading);    // Android: smooth the noisy heading
+        }
     };
 
     // Always attach listeners (safe on iOS — works if permission already granted).

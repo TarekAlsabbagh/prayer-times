@@ -1584,7 +1584,14 @@
 //   + full favicon/app-icon set (favicon.svg/.ico + 16/32/apple-touch-180/192/512 PNG) + manifest
 //   icons. css/style.css?v=489→490. Assets/branding only;
 //   no prayer/moon/qibla CALCULATION, title/meta/canonical/hreflang/robots, sitemap/slugs/routes change.
-const CACHE_VERSION = 'v486';
+// QIBLA-ANDROID-COMPASS-JITTER-STABILIZATION-1 (2026-07-07): js/app.js?v=817→818, sw v486→v487.
+//   Android live-compass smoothing ONLY: the noisy DeviceOrientation `alpha` branch is now routed
+//   through a deadband (2°) + circular low-pass (EMA 0.15) + rate limit (10°/frame) rendered via
+//   requestAnimationFrame, and the shared CSS `.compass` transition is disabled inline on Android
+//   only. iOS (webkitCompassHeading) is UNCHANGED — still applies the raw heading immediately and
+//   keeps its CSS transition. NO Qibla BEARING change, NO constant offset. app.js-only client fix;
+//   no server/routes/SEO/sitemap/prayer/moon change.
+const CACHE_VERSION = 'v487';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -15196,8 +15196,11 @@ function buildSeoForPath(urlPath) {
         }
     }
 
-    // OG image URL (dynamic SVG endpoint)
-    const ogImageUrl = `${origin}/og-image.svg?t=${encodeURIComponent(title)}&l=${lang}`;
+    // OG image URL — static 1200x630 raster PNG. SOCIAL-SHARE-OG-IMAGE-WHATSAPP-PREVIEW-1:
+    // WhatsApp/Facebook/Twitter do NOT render an SVG as og:image (that was why the share preview
+    // showed no image). A single cached raster is also bandwidth-friendly vs per-request rasterization.
+    // Absolute URL (origin = SITE_URL); never relative.
+    const ogImageUrl = `${origin}/og-image.png`;
 
     // isHome: true when visiting language root (ar='/', en='/en/', fr='/fr/', ...)
     const isHome = (corePath === '/');
@@ -15269,6 +15272,8 @@ function renderSeoHeadHtml(seo) {
         if (_l !== seo.lang) parts.push(`<meta property="og:locale:alternate" content="${_v}">`);
     }
     parts.push(`<meta property="og:image" content="${esc(seo.ogImageUrl)}">`);
+    parts.push(`<meta property="og:image:secure_url" content="${esc(seo.ogImageUrl)}">`);
+    parts.push(`<meta property="og:image:type" content="image/png">`);
     parts.push(`<meta property="og:image:width" content="1200">`);
     parts.push(`<meta property="og:image:height" content="630">`);
     parts.push(`<meta property="og:image:alt" content="${esc(seo.title)}">`);
@@ -15351,8 +15356,8 @@ function renderSeoHeadHtml(seo) {
     ssrGraph.push({
         "@type": "ImageObject",
         "@id": logoId,
-        "url": `${seo.origin}/og-image.svg`,
-        "contentUrl": `${seo.origin}/og-image.svg`,
+        "url": `${seo.origin}/og-image.png`,
+        "contentUrl": `${seo.origin}/og-image.png`,
         "width": 1200,
         "height": 630,
         "caption": seo.siteName

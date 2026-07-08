@@ -3615,6 +3615,25 @@ window._islamicEventResolveCycle = function (eventKey, now) {
     return null;
 };
 
+// GSC-EVENT-STRUCTURED-DATA-OPTIONAL-FIELDS-FIX-1: honest Event.endDate helper — the LAST inclusive day
+// of an Islamic observance (start + durationDays − 1). Duration is read from the SAME registry the
+// countdown/ticker already use (ISLAMIC_EVENT_DATES: ramadan 29/30, eid-fitr 3, eid-adha 4, new-year 1),
+// so this NEVER changes any displayed date or the counter — it only feeds the countdown Event JSON-LD.
+// Single-day events (durationDays 1) ⇒ endDate === startDate. Falls back to startDate on any error.
+function _cdEventEndDate(startDate, registryKey, hYear) {
+    try {
+        if (!(startDate instanceof Date)) return startDate;
+        const ev = (window.ISLAMIC_EVENT_DATES || {})[registryKey];
+        let dur = (ev && typeof ev.durationDays === 'number') ? ev.durationDays : 1;
+        if (ev && Array.isArray(ev.cycles)) {
+            for (const c of ev.cycles) {
+                if (c && c.hijriYear === hYear && typeof c.durationDays === 'number') { dur = c.durationDays; break; }
+            }
+        }
+        return new Date(startDate.getFullYear(), startDate.getMonth(), startDate.getDate() + Math.max(0, dur - 1), 0, 0, 0);
+    } catch (_) { return startDate; }
+}
+
 // ISLAMIC-EVENTS-ROLLING-CYCLE-FIX-1: Status-aware label.
 //   • active   → "يجري الآن" / "Happening now" (localized)
 //   • upcoming → uses the legacy days label ("N يومًا" / "Today" / "Tomorrow")
@@ -5049,6 +5068,13 @@ async function initApp() {
                     const _dd = String(d.getDate()).padStart(2, '0');
                     return _y + '-' + _m + '-' + _dd;
                 })(_eventGreg),
+                // GSC-EVENT-…-1: honest endDate (last inclusive day of the observance; single-day ⇒ == startDate).
+                'endDate': (function(d){ // Local YYYY-MM-DD, same formatter as startDate
+                    const _y = d.getFullYear();
+                    const _m = String(d.getMonth() + 1).padStart(2, '0');
+                    const _dd = String(d.getDate()).padStart(2, '0');
+                    return _y + '-' + _m + '-' + _dd;
+                })(_cdEventEndDate(_eventGreg, _registryKey, _eventHYear)),
                 'description': _tt(_kp + '.intro') || '',
                 'eventAttendanceMode': 'https://schema.org/MixedEventAttendanceMode',
                 'eventStatus': 'https://schema.org/EventScheduled',
@@ -9336,108 +9362,12 @@ function updatePrayerTimes() {
  * يُستدعى بعد توفر currentPrayerTimes في صفحات prayer-times-in-*.
  */
 function injectPrayerEventsSchema() {
-    if (window.location.protocol === 'file:') return;
-    const path = window.location.pathname.replace(/\.html$/, '');
-    if (!/\/(?:en\/)?prayer-times-in-/.test(path)) { _seoRemoveSchema('prayer-events-schema'); return; }
-    if (!currentPrayerTimes || !currentPrayerTimes.raw) return;
-
-    const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const isEn = lang !== 'ar';
-    const origin = window.SITE_URL || window.location.origin;
-    const pageUrl = origin + window.location.pathname;
-    // PLACE-NAMES-SITEWIDE-TEMPLATE-CONSISTENCY-FIX-1 (2026-05-18): use
-    // the lang-aware display picker for JSON-LD schema too. The legacy
-    // `isEn ? currentEnglishName : currentCity` ternary made ALL non-AR
-    // languages (UR/BN/FR/DE/TR/ID/ES/MS) write English to the schema
-    // even when curated had a localized name. Arabic Google Search and
-    // similar non-English crawlers index the schema's localized name —
-    // so /ur/prayer-times-in-charikar should expose "چاریکار", not
-    // "Charikar". getDisplayCity() handles this correctly (Tier-0
-    // trust-SSR for matching slugs, then PT-LANG-GUARD chains).
-    const cityDisplay = (typeof getDisplayCity === 'function')
-        ? (getDisplayCity() || currentEnglishName || currentCity)
-        : (isEn ? (currentEnglishName || currentCity) : currentCity);
-    const countryName = (typeof getDisplayCountry === 'function')
-        ? (getDisplayCountry() || currentEnglishCountry || currentCountry)
-        : (isEn ? (currentEnglishCountry || currentCountry) : currentCountry);
-
-    const now = new Date();
-    const localOffset = -now.getTimezoneOffset() / 60;
-    const cityDate = new Date(now.getTime() + (currentTimezone - localOffset) * 3600000);
-    const tz = currentTimezone || 0;
-
-    const pad2 = (n) => String(n).padStart(2, '0');
-    const tzSign = tz >= 0 ? '+' : '-';
-    const tzAbs  = Math.abs(tz);
-    const tzStr  = `${tzSign}${pad2(Math.floor(tzAbs))}:${pad2(Math.round((tzAbs - Math.floor(tzAbs)) * 60))}`;
-    const dateStr = `${cityDate.getFullYear()}-${pad2(cityDate.getMonth() + 1)}-${pad2(cityDate.getDate())}`;
-    const isoAt = (hDec) => {
-        if (typeof hDec !== 'number' || isNaN(hDec)) return null;
-        const h = Math.floor(hDec);
-        const m = Math.floor((hDec - h) * 60);
-        return `${dateStr}T${pad2(h)}:${pad2(m)}:00${tzStr}`;
-    };
-    // مدة الصلاة الافتراضية لـ Event schema (30 دقيقة) — قابلة للاستخدام في تقاويم Google
-    const isoAtPlus = (hDec, addMinutes) => {
-        if (typeof hDec !== 'number' || isNaN(hDec)) return null;
-        const total = hDec * 60 + addMinutes;
-        const h = Math.floor(total / 60);
-        const m = Math.floor(total % 60);
-        return `${dateStr}T${pad2(h)}:${pad2(m)}:00${tzStr}`;
-    };
-
-    const raw = currentPrayerTimes.raw;
-    const prayerDefs = [
-        { key: 'fajr',    nameAr: 'صلاة الفجر',    nameEn: 'Fajr Prayer' },
-        { key: 'dhuhr',   nameAr: 'صلاة الظهر',    nameEn: 'Dhuhr Prayer' },
-        { key: 'asr',     nameAr: 'صلاة العصر',    nameEn: 'Asr Prayer' },
-        { key: 'maghrib', nameAr: 'صلاة المغرب',   nameEn: 'Maghrib Prayer' },
-        { key: 'isha',    nameAr: 'صلاة العشاء',   nameEn: 'Isha Prayer' },
-    ];
-
-    const location = {
-        "@type": "Place",
-        "name": cityDisplay,
-        "address": countryName ? {
-            "@type": "PostalAddress",
-            "addressLocality": cityDisplay,
-            "addressCountry": countryName
-        } : undefined,
-        "geo": (typeof currentLat === 'number' && typeof currentLng === 'number') ? {
-            "@type": "GeoCoordinates",
-            "latitude": currentLat,
-            "longitude": currentLng
-        } : undefined
-    };
-
-    const events = prayerDefs.map((p) => {
-        const start = isoAt(raw[p.key]);
-        if (!start) return null;
-        const end = isoAtPlus(raw[p.key], 30); // 30 دقيقة افتراضياً
-        return {
-            "@type": "Event",
-            "@id": `${pageUrl}#event-${p.key}-${dateStr}`,
-            "name": isEn ? `${p.nameEn} in ${cityDisplay}` : `${p.nameAr} في ${cityDisplay}`,
-            "startDate": start,
-            "endDate": end,
-            "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-            "eventStatus": "https://schema.org/EventScheduled",
-            "location": location,
-            "inLanguage": isEn ? 'en' : 'ar',
-            "isAccessibleForFree": true,
-            "organizer": {
-                "@type": "Organization",
-                "name": isEn ? 'Prayer Times' : 'مواقيت الصلاة',
-                "url": origin + '/'
-            }
-        };
-    }).filter(Boolean);
-
-    if (!events.length) return;
-    _seoUpsertSchema('prayer-events-schema', {
-        "@context": "https://schema.org",
-        "@graph": events
-    });
+    // GSC-EVENT-STRUCTURED-DATA-OPTIONAL-FIELDS-FIX-1: daily prayer times are NOT attendable "Events"
+    // (Google surfaces no prayer-time Event rich result, and `performer`/`offers` don't apply — adding
+    // them would be misleading). So we no longer emit the prayer-times Event JSON-LD; we only clean up
+    // any `#prayer-events-schema` element a prior app.js version injected (e.g. from a cached bundle on
+    // SPA nav). The SSR schema (Organization / BreadcrumbList / FAQPage / Place) is unaffected.
+    try { _seoRemoveSchema('prayer-events-schema'); } catch (_) {}
 }
 
 // ─────────────────────────────────────────────────────────────

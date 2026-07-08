@@ -1625,7 +1625,16 @@
 //   LOW confidence (accuracy warning). Debug panel now shows the chosen `source=` (aos / deviceorientation-
 //   matrix / fallback). iOS never starts AOS; needle rotation + qiblaBearing UNCHANGED; NO constant offset;
 //   NO Compass Lab; NO server/i18n/SEO/sitemap/GA4/legal/prayer/moon change. Flag OFF ⇒ exact e16ace5.
-const CACHE_VERSION = 'v491';
+// GSC-EVENT-STRUCTURED-DATA-OPTIONAL-FIELDS-FIX-1 (2026-07-08): js/app.js?v=822→823, sw v491→v492 (css/server/i18n UNCHANGED).
+//   Resolves GSC "Event structured data" recommended-field warnings HONESTLY (no fake data). The Event
+//   JSON-LD is client-injected by js/app.js only. (B) The prayer-times Event schema (5 daily prayers ×
+//   every city page) is REMOVED — daily prayers aren't attendable Events, Google shows no rich result,
+//   and performer/offers would be misleading; `injectPrayerEventsSchema()` now only cleans up any stale
+//   `#prayer-events-schema`. (A) The countdown Event (ramadan/eid/hijri-ny) gains an honest `endDate`
+//   (last inclusive day, from the SAME registry the counter uses — `_cdEventEndDate`); description stays
+//   (`.intro`). NO image (og-image is SVG; deferred), NO performer, NO offers (recommended-only, inapplicable).
+//   NO change to prayer/moon/qibla calcs, dates, sitemap, robots, canonical/hreflang/title/meta, GA4, city data.
+const CACHE_VERSION = 'v492';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

@@ -1644,7 +1644,16 @@
 //   Behind flag `_ANDROID_MANUAL_CALIB` (default on; 0/no-op until the user calibrates). NO global hardcoded
 //   offset (no +160/−160); iOS never loads/shows/applies it; qiblaBearing + needle rotation + calcs UNCHANGED;
 //   NO Compass Lab; NO server/i18n/SEO/sitemap/GA4/prayer/moon change. Debug shows raw/calibOffset/calibrated.
-const CACHE_VERSION = 'v493';
+// v496 — QIBLA-ANDROID-REMOVE-MANUAL-CALIBRATION-UX-1: manual "set North" is REMOVED from the UX AND the
+//   internal calibration code is fully DELETED (product decision: the user does nothing but allow the compass —
+//   no set-North, no clear, no recalibrate button, no advanced options). Deleted: the #qibla-calib card + CSS,
+//   the #qch-recalib button + its .qch-btn CSS, qiblaSetNorth / qiblaResetCalibration / recalibrateCompass
+//   (declarations + window globals), _qcApplyCalibration / _qcLoadCalib / _qcCalibCardUpdate / _qcRevealCalibCard
+//   / _qcNorm360 / _QIBLA_CALIB_L10N and every offset variable. NO code path can apply a manual offset. The only
+//   remnant is a one-time wipe of the legacy localStorage key `qiblaCalibOffset` on Android load. The compass
+//   just works: AOS priority → DeviceOrientation fallback (low-accuracy badge + figure-8 hint, message only) →
+//   static «اتجاه القبلة: 243.8° — <dir>» text when the sensor fails. iOS untouched; NO global offset; NO Compass Lab.
+const CACHE_VERSION = 'v496';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

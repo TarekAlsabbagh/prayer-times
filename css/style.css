@@ -2582,18 +2582,8 @@ html[data-theme="dark"] .ns-item.is-selected {
 .qibla-compass-help[data-state="ok"] .qch-bearing,
 .qibla-compass-help[data-state="low"] .qch-bearing { display: none; }
 .qibla-compass-help .qch-msg:empty { display: none; }
-.qibla-compass-help .qch-btn {
-    margin-top: 8px;
-    padding: 7px 16px;
-    border: 1px solid var(--primary);
-    background: transparent;
-    color: var(--primary);
-    border-radius: 10px;
-    font-size: 0.85rem;
-    font-weight: 600;
-    cursor: pointer;
-}
-.qibla-compass-help .qch-btn:hover { background: rgba(0,128,0,0.06); }
+/* QIBLA-ANDROID-REMOVE-MANUAL-CALIBRATION-UX-1: the `.qch-btn` recalibrate button was removed — the help card
+   is message-only (no calibration control of any kind). */
 /* Hard-fail: hide the unreliable live needle, dim the rose (bearing shown in the card) */
 .compass.compass-unavailable .compass-arrow { display: none; }
 .compass.compass-unavailable { opacity: 0.5; }
@@ -2617,20 +2607,8 @@ html[data-theme="dark"] .qibla-compass-help[data-state="low"] { color: #ffd18a; 
 .qibla-debug .qd-json { width: 100%; min-height: 120px; margin-top: 8px; font-family: monospace; font-size: 10px; box-sizing: border-box; }
 html[data-theme="dark"] .qibla-debug { background: rgba(255,255,255,0.05); border-color: #666; color: #e8eef5; }
 
-/* QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1 — Android-only "set North" card. LESSON applied: NO `display`
-   in the base rule (so UA `[hidden]{display:none}` keeps it hidden until JS reveals it on Android), plus an
-   explicit [hidden] guard. Matches .qibla-compass-help styling. */
-.qibla-calib { width: 100%; max-width: 340px; box-sizing: border-box; margin: 12px auto 0; padding: 10px 12px; border-radius: 12px; background: var(--surface-2, #f3f5f7); border: 1px solid var(--border, rgba(0,0,0,0.08)); text-align: center; }
-.qibla-calib[hidden] { display: none; }
-.qibla-calib[data-calibrated="1"] { background: rgba(0,128,0,0.07); border-color: rgba(0,128,0,0.35); }
-.qibla-calib .qcal-hint { margin: 0 0 8px; font-size: 0.82rem; line-height: 1.5; color: var(--text, #1c2430); }
-.qibla-calib .qcal-btns { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; }
-.qibla-calib .qcal-btn { padding: 7px 16px; border-radius: 10px; font-size: 0.85rem; font-weight: 600; cursor: pointer; border: 1px solid var(--primary); }
-.qibla-calib .qcal-set { background: var(--primary); color: #fff; }
-.qibla-calib .qcal-reset { background: transparent; color: var(--primary); }
-.qibla-calib .qcal-reset[hidden] { display: none; }
-html[data-theme="dark"] .qibla-calib { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.12); color: #e8eef5; }
-html[data-theme="dark"] .qibla-calib .qcal-hint { color: #e8eef5; }
+/* QIBLA-ANDROID-REMOVE-MANUAL-CALIBRATION-UX-1 — the manual "set North" calibration card (.qibla-calib) was
+   removed from the UX; its styles are deleted with it. The safe compass UX is .qibla-compass-help (above). */
 
 .compass-arrow {
     position: absolute;

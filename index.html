@@ -75,14 +75,14 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=825" as="script">
+    <link rel="preload" href="js/app.js?v=829" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=493" as="style">
-    <link rel="stylesheet" href="css/style.css?v=493">
+    <link rel="preload" href="css/style.css?v=496" as="style">
+    <link rel="stylesheet" href="css/style.css?v=496">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -1522,24 +1522,17 @@
                         <button class="compass-permission-btn" id="compass-permission-btn" onclick="requestCompassPermission()">
                             <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
                         </button>
-                        <!-- QIBLA-ANDROID-COMPASS-ROOT-REBUILD-2: Android-only compass help/calibration card.
-                             Text + visibility are set entirely by js/app.js (localised via _QIBLA_COMPASS_L10N);
-                             hidden by default; NEVER shown on iPhone (iOS never calls _qcSetHelp). -->
+                        <!-- QIBLA-ANDROID-COMPASS help card (Android-only, no buttons). Text + visibility are set
+                             entirely by js/app.js (localised via _QIBLA_COMPASS_L10N); hidden by default; NEVER
+                             shown on iPhone (iOS never calls _qcSetHelp). Low accuracy → figure-8 message only;
+                             failed sensor → static textual bearing. No calibration control of any kind. -->
                         <div class="qibla-compass-help" id="qibla-compass-help" data-state="ok" hidden>
                             <div class="qch-bearing" id="qch-bearing"></div>
                             <div class="qch-msg" id="qch-msg"></div>
-                            <button type="button" class="qch-btn" id="qch-recalib" onclick="recalibrateCompass()"></button>
                         </div>
-                        <!-- QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1: optional per-device "set North" (Android only).
-                             Text + visibility are set by js/app.js (localised via _QIBLA_CALIB_L10N); hidden by default and
-                             NEVER shown on iPhone. Applies only if the user calibrates; stored locally; user can clear it. -->
-                        <div class="qibla-calib" id="qibla-calib" data-calibrated="0" hidden>
-                            <p class="qcal-hint" id="qcal-hint"></p>
-                            <div class="qcal-btns">
-                                <button type="button" class="qcal-btn qcal-set" id="qcal-set" onclick="qiblaSetNorth()"></button>
-                                <button type="button" class="qcal-btn qcal-reset" id="qcal-reset" onclick="qiblaResetCalibration()" hidden></button>
-                            </div>
-                        </div>
+                        <!-- QIBLA-ANDROID-REMOVE-MANUAL-CALIBRATION-UX-1: the manual "set North" calibration card was
+                             removed — the user does nothing but allow the compass. Low accuracy shows only the
+                             #qibla-compass-help badge (figure-8 hint); a failed sensor shows the static textual bearing. -->
                         <!-- QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1: HIDDEN read-only debug panel.
                              Shown by js/app.js ONLY when ?qiblaDebug=1 or localStorage.qiblaDebug='1'; hidden for all normal users. -->
                         <div class="qibla-debug" id="qibla-debug" hidden>
@@ -5491,7 +5484,7 @@
     <script defer src="js/azkar-data.js?v=4"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=825"></script>
+    <script defer src="js/app.js?v=829"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -17877,16 +17877,11 @@ const _ANDROID_COMPASS_V2 = true;             // flag: false ⇒ instant fall-ba
 // (which was E/W-mirrored on the user's device). Flag OFF ⇒ exact e16ace5 behaviour (AOS diagnostic-only).
 const _ANDROID_AOS_PRIORITY = true;
 const _QC_AOS_MAX_AGE_MS = 500;               // an AOS reading older than this ⇒ stale ⇒ DeviceOrientation fallback
-// QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1: optional, Android-only, USER-INITIATED "set North". Some devices'
-// magnetometer reports a stable per-device bias (e.g. ~+160° on the user's phone) that no software source fixes
-// and that varies between sessions — so NO global hardcoded offset. This is 0 (no-op) unless the user calibrates,
-// applies ONLY on Android, is stored per-device in localStorage, and is cleared by the user's own reset button.
-// iOS never sees or applies it. Flag OFF ⇒ calibration disabled (exact eb41565 behaviour).
-const _ANDROID_MANUAL_CALIB = true;
-const _QC_CALIB_KEY = 'qiblaCalibOffset';     // localStorage key — a single number of degrees
-let _qcCalibOffset  = null;                   // null = uncalibrated (no-op); else degrees added to the raw heading
-let _qcLastRawHeading = null;                 // latest RAW source heading (PRE-calibration) — read by "set North"
-let _qcCalibCardShown = false;                // reveal the calibration card only once a REAL heading arrives (Android)
+// QIBLA-ANDROID-REMOVE-MANUAL-CALIBRATION-UX-1: manual "set North" compass calibration is fully REMOVED — the
+// user does nothing but allow the compass. All of the manual-calibration code (offset apply/load/save, the
+// card, the reveal, the L10N, the qiblaSetNorth/qiblaResetCalibration globals) is deleted. The only remnant is
+// a one-time cleanup on Android load that removes any `qiblaCalibOffset` a user saved under the earlier
+// experiment (see startDeviceCompass) so it can never be applied. iOS never had any of this.
 const _QC_D2R = Math.PI / 180, _QC_R2D = 180 / Math.PI;
 const _QC_HARD_FAIL_MS = 4000;                // no heading within this ⇒ static-bearing fallback
 let _qcAbsoluteSeen  = false;                 // received an ABSOLUTE orientation reading?
@@ -17896,95 +17891,29 @@ let _qcHardFailTimer = null;
 
 // Localised help-card strings kept in app.js so this ticket needs NO js/i18n.js / server
 // _i18nVersion change. Falls back to en then ar.
+// UX-REMOVE: `low`/`hint` drive the low-accuracy badge + figure-8 guidance (no manual-calibration prompt).
+// `unavail` + `dirLabel` drive the hard-fallback: hide the needle, show «اتجاه القبلة: 243.8° — <dir>» + a
+// plain "sensor unavailable/unreliable, calculated direction is correct" note.
 const _QIBLA_COMPASS_L10N = {
-  ar: { low:'دقة البوصلة منخفضة', hint:'حرّك الهاتف على شكل رقم 8 بعيدًا عن المعادن لتحسين الدقة.', recal:'إعادة معايرة البوصلة', unavail:'تعذّر الحصول على اتجاه موثوق من بوصلة هذا الجهاز — الاتجاه المحسوب صحيح لكن حسّاس الجهاز غير دقيق.' },
-  en: { low:'Low compass accuracy', hint:'Move your phone in a figure-8, away from metal, to improve accuracy.', recal:'Recalibrate compass', unavail:'Couldn’t get a reliable heading from this device’s compass — the calculated direction is correct, but the device sensor isn’t accurate.' },
-  fr: { low:'Précision de la boussole faible', hint:'Bougez votre téléphone en forme de 8, loin du métal, pour améliorer la précision.', recal:'Recalibrer la boussole', unavail:'Impossible d’obtenir un cap fiable de la boussole de cet appareil — la direction calculée est correcte, mais le capteur n’est pas précis.' },
-  tr: { low:'Pusula doğruluğu düşük', hint:'Doğruluğu artırmak için telefonu metalden uzakta 8 şeklinde hareket ettirin.', recal:'Pusulayı yeniden ayarla', unavail:'Bu cihazın pusulasından güvenilir bir yön alınamadı — hesaplanan yön doğru, ancak cihaz sensörü hassas değil.' },
-  ur: { low:'کمپاس کی درستگی کم ہے', hint:'درستگی بہتر بنانے کے لیے فون کو دھات سے دور 8 کی شکل میں حرکت دیں۔', recal:'کمپاس دوبارہ کیلبریٹ کریں', unavail:'اس آلے کے کمپاس سے قابلِ اعتماد سمت نہیں مل سکی — حساب شدہ سمت درست ہے، لیکن آلے کا سینسر درست نہیں۔' },
-  de: { low:'Geringe Kompassgenauigkeit', hint:'Bewegen Sie Ihr Telefon in einer Acht, fern von Metall, um die Genauigkeit zu verbessern.', recal:'Kompass neu kalibrieren', unavail:'Von der Kompass dieses Geräts konnte keine zuverlässige Richtung ermittelt werden — die berechnete Richtung ist korrekt, aber der Gerätesensor ist ungenau.' },
-  id: { low:'Akurasi kompas rendah', hint:'Gerakkan ponsel membentuk angka 8, jauh dari logam, untuk meningkatkan akurasi.', recal:'Kalibrasi ulang kompas', unavail:'Tidak dapat memperoleh arah yang andal dari kompas perangkat ini — arah yang dihitung sudah benar, tetapi sensor perangkat tidak akurat.' },
-  es: { low:'Baja precisión de la brújula', hint:'Mueva el teléfono en forma de 8, lejos del metal, para mejorar la precisión.', recal:'Recalibrar la brújula', unavail:'No se pudo obtener una orientación fiable de la brújula de este dispositivo — la dirección calculada es correcta, pero el sensor no es preciso.' },
-  bn: { low:'কম্পাসের নির্ভুলতা কম', hint:'নির্ভুলতা বাড়াতে ফোনটি ধাতু থেকে দূরে ৮-এর আকারে নাড়ান।', recal:'কম্পাস পুনরায় ক্যালিব্রেট করুন', unavail:'এই ডিভাইসের কম্পাস থেকে নির্ভরযোগ্য দিক পাওয়া যায়নি — হিসাবকৃত দিক সঠিক, তবে ডিভাইসের সেন্সর নির্ভুল নয়।' },
-  ms: { low:'Ketepatan kompas rendah', hint:'Gerakkan telefon dalam bentuk angka 8, jauh dari logam, untuk meningkatkan ketepatan.', recal:'Tentukur semula kompas', unavail:'Tidak dapat memperoleh arah yang boleh dipercayai daripada kompas peranti ini — arah yang dikira betul, tetapi penderia peranti tidak tepat.' }
+  ar: { low:'دقة البوصلة منخفضة', hint:'حرّك الهاتف على شكل رقم 8 بعيدًا عن المعادن لتحسين الدقة.', dirLabel:'اتجاه القبلة', unavail:'قد لا تكون بوصلة هذا الجهاز دقيقة. الاتجاه المحسوب صحيح، لكن حسّاس الجهاز غير متاح أو غير موثوق.' },
+  en: { low:'Low compass accuracy', hint:'Move your phone in a figure-8, away from metal, to improve accuracy.', dirLabel:'Qibla direction', unavail:'This device’s compass may not be accurate. The calculated direction is correct, but the device sensor is unavailable or unreliable.' },
+  fr: { low:'Précision de la boussole faible', hint:'Bougez votre téléphone en forme de 8, loin du métal, pour améliorer la précision.', dirLabel:'Direction de la qibla', unavail:'La boussole de cet appareil n’est peut-être pas précise. La direction calculée est correcte, mais le capteur est indisponible ou peu fiable.' },
+  tr: { low:'Pusula doğruluğu düşük', hint:'Doğruluğu artırmak için telefonu metalden uzakta 8 şeklinde hareket ettirin.', dirLabel:'Kıble yönü', unavail:'Bu cihazın pusulası doğru olmayabilir. Hesaplanan yön doğru, ancak cihaz sensörü kullanılamıyor veya güvenilir değil.' },
+  ur: { low:'کمپاس کی درستگی کم ہے', hint:'درستگی بہتر بنانے کے لیے فون کو دھات سے دور 8 کی شکل میں حرکت دیں۔', dirLabel:'قبلہ کی سمت', unavail:'اس آلے کا کمپاس درست نہ ہو۔ حساب شدہ سمت درست ہے، لیکن آلے کا سینسر دستیاب نہیں یا قابلِ اعتماد نہیں۔' },
+  de: { low:'Geringe Kompassgenauigkeit', hint:'Bewegen Sie Ihr Telefon in einer Acht, fern von Metall, um die Genauigkeit zu verbessern.', dirLabel:'Qibla-Richtung', unavail:'Der Kompass dieses Geräts ist möglicherweise ungenau. Die berechnete Richtung ist korrekt, aber der Gerätesensor ist nicht verfügbar oder unzuverlässig.' },
+  id: { low:'Akurasi kompas rendah', hint:'Gerakkan ponsel membentuk angka 8, jauh dari logam, untuk meningkatkan akurasi.', dirLabel:'Arah kiblat', unavail:'Kompas perangkat ini mungkin tidak akurat. Arah yang dihitung sudah benar, tetapi sensor perangkat tidak tersedia atau tidak dapat diandalkan.' },
+  es: { low:'Baja precisión de la brújula', hint:'Mueva el teléfono en forma de 8, lejos del metal, para mejorar la precisión.', dirLabel:'Dirección de la alquibla', unavail:'Puede que la brújula de este dispositivo no sea precisa. La dirección calculada es correcta, pero el sensor no está disponible o no es fiable.' },
+  bn: { low:'কম্পাসের নির্ভুলতা কম', hint:'নির্ভুলতা বাড়াতে ফোনটি ধাতু থেকে দূরে ৮-এর আকারে নাড়ান।', dirLabel:'কিবলার দিক', unavail:'এই ডিভাইসের কম্পাস সঠিক নাও হতে পারে। হিসাবকৃত দিক সঠিক, তবে ডিভাইসের সেন্সর অনুপলব্ধ বা অনির্ভরযোগ্য।' },
+  ms: { low:'Ketepatan kompas rendah', hint:'Gerakkan telefon dalam bentuk angka 8, jauh dari logam, untuk meningkatkan ketepatan.', dirLabel:'Arah kiblat', unavail:'Kompas peranti ini mungkin tidak tepat. Arah yang dikira betul, tetapi penderia peranti tidak tersedia atau tidak boleh dipercayai.' }
 };
 function _qcL10n() {
   const ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
   return _QIBLA_COMPASS_L10N[ln] || _QIBLA_COMPASS_L10N.en || _QIBLA_COMPASS_L10N.ar;
 }
 
-// ── QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1 — Android-only, user-initiated "set North" ──
-// Card strings kept in app.js (no js/i18n.js / _i18nVersion change), same idiom as _QIBLA_COMPASS_L10N.
-const _QIBLA_CALIB_L10N = {
-  ar: { hint:'إذا كان اتجاه البوصلة غير دقيق، وجّه أعلى الهاتف نحو الشمال الحقيقي ثم اضغط «ضبط الشمال». يمكنك استخدام خرائط Google لمعرفة الشمال.', set:'ضبط الشمال', reset:'إلغاء المعايرة', done:'تمت المعايرة ✓ — الاتجاه مضبوط لهذا الجهاز. أعِد الضبط إذا تغيّر.' },
-  en: { hint:'If the compass looks wrong, point the top of your phone at true North, then tap “Set North”. You can use Google Maps to find North.', set:'Set North', reset:'Clear calibration', done:'Calibrated ✓ — direction adjusted for this device. Re-set if it drifts.' },
-  fr: { hint:'Si la boussole semble incorrecte, orientez le haut du téléphone vers le vrai Nord, puis appuyez sur « Régler le Nord ». Utilisez Google Maps pour trouver le Nord.', set:'Régler le Nord', reset:'Annuler la calibration', done:'Calibré ✓ — direction ajustée pour cet appareil.' },
-  tr: { hint:'Pusula yanlış görünüyorsa telefonun üstünü gerçek Kuzey’e doğrultup “Kuzey’i Ayarla”ya dokunun. Kuzey’i bulmak için Google Haritalar’ı kullanabilirsiniz.', set:'Kuzey’i Ayarla', reset:'Kalibrasyonu sıfırla', done:'Kalibre edildi ✓ — yön bu cihaz için ayarlandı.' },
-  ur: { hint:'اگر کمپاس کی سمت غلط لگے تو فون کا اوپری حصہ اصل شمال کی طرف کریں پھر «شمال سیٹ کریں» دبائیں۔ شمال کے لیے گوگل میپس استعمال کر سکتے ہیں۔', set:'شمال سیٹ کریں', reset:'کیلبریشن ہٹائیں', done:'کیلبریٹ ہو گیا ✓ — سمت اس آلے کے لیے درست کر دی گئی۔' },
-  de: { hint:'Wenn der Kompass falsch wirkt, richten Sie die Oberseite des Telefons nach echtem Norden und tippen Sie auf „Norden festlegen“. Nutzen Sie Google Maps für Norden.', set:'Norden festlegen', reset:'Kalibrierung löschen', done:'Kalibriert ✓ — Richtung für dieses Gerät angepasst.' },
-  id: { hint:'Jika kompas terlihat salah, arahkan bagian atas ponsel ke Utara sebenarnya, lalu ketuk “Setel Utara”. Gunakan Google Maps untuk menemukan Utara.', set:'Setel Utara', reset:'Hapus kalibrasi', done:'Terkalibrasi ✓ — arah disesuaikan untuk perangkat ini.' },
-  es: { hint:'Si la brújula parece incorrecta, apunte la parte superior del teléfono al Norte real y toque «Fijar Norte». Puede usar Google Maps para hallar el Norte.', set:'Fijar Norte', reset:'Borrar calibración', done:'Calibrado ✓ — dirección ajustada para este dispositivo.' },
-  bn: { hint:'কম্পাস ভুল মনে হলে ফোনের উপরের অংশ প্রকৃত উত্তরে তাক করে “উত্তর সেট করুন” চাপুন। উত্তর জানতে Google Maps ব্যবহার করতে পারেন।', set:'উত্তর সেট করুন', reset:'ক্যালিব্রেশন মুছুন', done:'ক্যালিব্রেটেড ✓ — এই ডিভাইসের জন্য দিক ঠিক করা হয়েছে।' },
-  ms: { hint:'Jika kompas kelihatan salah, halakan bahagian atas telefon ke Utara sebenar, kemudian ketik “Tetapkan Utara”. Gunakan Google Maps untuk mencari Utara.', set:'Tetapkan Utara', reset:'Kosongkan penentukuran', done:'Ditentukur ✓ — arah dilaraskan untuk peranti ini.' }
-};
-function _qcCalibL10n() {
-  const ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-  return _QIBLA_CALIB_L10N[ln] || _QIBLA_CALIB_L10N.en || _QIBLA_CALIB_L10N.ar;
-}
-const _qcNorm360 = (x) => (((x % 360) + 360) % 360);
-// Apply the user's per-device calibration to a RAW heading. No-op when disabled / uncalibrated / invalid input.
-function _qcApplyCalibration(h) {
-  if (!_ANDROID_MANUAL_CALIB || _qcCalibOffset === null || h === null || isNaN(h)) return h;
-  return _qcNorm360(h + _qcCalibOffset);
-}
-// Load a previously-saved per-device offset from localStorage (called once on Android init).
-function _qcLoadCalib() {
-  try {
-    const v = (window.localStorage) ? localStorage.getItem(_QC_CALIB_KEY) : null;
-    if (v == null) { _qcCalibOffset = null; return; }
-    const n = parseFloat(v);
-    _qcCalibOffset = isNaN(n) ? null : _qcNorm360(n);
-  } catch (_) { _qcCalibOffset = null; }
-}
-// User tapped "Set North": the phone-top points at TRUE north ⇒ trueHeading = 0. Store the offset that maps the
-// current RAW source heading to 0. Replaces (does NOT stack) any prior calibration. Android-only; no-op on iOS.
-function qiblaSetNorth() {
-  if (!_ANDROID_MANUAL_CALIB || _qcLastRawHeading === null || isNaN(_qcLastRawHeading)) return;
-  _qcCalibOffset = _qcNorm360(0 - _qcLastRawHeading);
-  try { localStorage.setItem(_QC_CALIB_KEY, String(_qcCalibOffset)); } catch (_) {}
-  _andHeadingSmoothed = null; _andHeadingTarget = null;   // snap to the corrected heading on the next reading
-  try { _qcCalibCardUpdate(); } catch (_) {}
-}
-// User tapped "Clear calibration": forget the offset, return to the default (uncalibrated) behaviour.
-function qiblaResetCalibration() {
-  _qcCalibOffset = null;
-  try { localStorage.removeItem(_QC_CALIB_KEY); } catch (_) {}
-  _andHeadingSmoothed = null; _andHeadingTarget = null;
-  try { _qcCalibCardUpdate(); } catch (_) {}
-}
-// Reflect calibrated/uncalibrated state in the Android calibration card (localised).
-function _qcCalibCardUpdate() {
-  const card = document.getElementById('qibla-calib');
-  if (!card) return;
-  const L = _qcCalibL10n();
-  const hint = document.getElementById('qcal-hint');
-  const setB = document.getElementById('qcal-set');
-  const resB = document.getElementById('qcal-reset');
-  const calibrated = (_qcCalibOffset !== null);
-  if (hint) hint.textContent = calibrated ? L.done : L.hint;
-  if (setB) setB.textContent = L.set;
-  if (resB) { resB.textContent = L.reset; resB.hidden = !calibrated; }
-  card.setAttribute('data-calibrated', calibrated ? '1' : '0');
-}
-// Reveal the calibration card ONCE, the first time a real device heading arrives. Both call sites are in
-// the Android heading path (AFTER the iOS webkitCompassHeading early-return), so iOS never reveals it, and
-// a desktop browser with no live compass never fires a heading ⇒ card stays hidden. Android-only by design.
-function _qcRevealCalibCard() {
-  if (!_ANDROID_MANUAL_CALIB || _qcCalibCardShown) return;
-  _qcCalibCardShown = true;
-  try { const c = document.getElementById('qibla-calib'); if (c) { c.hidden = false; _qcCalibCardUpdate(); } } catch (_) {}
-}
-if (typeof window !== 'undefined') { window.qiblaSetNorth = qiblaSetNorth; window.qiblaResetCalibration = qiblaResetCalibration; }
+// UX-REMOVE: the manual-calibration subsystem (_qcApplyCalibration / _qcLoadCalib / _qcCalibCardUpdate /
+// _qcRevealCalibCard / qiblaSetNorth / qiblaResetCalibration / _QIBLA_CALIB_L10N) is fully DELETED — no code
+// path can apply a manual offset, and there are no calibration globals on the window.
 
 // Screen-orientation angle (0/90/180/270) — corrects the heading in landscape.
 function _qcScreenAngle() {
@@ -18027,14 +17956,17 @@ function _qcResolveHeading(e) {
   _qcHeadingEver = true;
   if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
   // Confidence: the only reliable in-browser signal is source absoluteness. A relative-only
-  // source has an arbitrary zero ⇒ LOW. (A magnetometer calibration OFFSET is NOT detectable
-  // from the browser — hence the always-available manual "recalibrate" button.)
+  // source has an arbitrary zero ⇒ LOW ⇒ show the low-accuracy badge + figure-8 hint (message
+  // only). The user improves it by moving the phone in a figure-8 — there is no calibration button.
   _qcSetHelp(isAbs ? 'ok' : 'low');
   return h;
 }
 
-// Android-only help card: 'ok' (subtle recalibrate button), 'low' (amber badge + fig-8 hint),
-// 'fail' (hide live needle, show static bearing text). Never shown on iOS (iOS never calls this).
+// Android-only help card — NO buttons (the user does nothing but allow the compass):
+//   'ok'   → nothing to show, needle is fine ⇒ the card is HIDDEN.
+//   'low'  → amber badge «دقة البوصلة منخفضة» + figure-8 hint (message only).
+//   'fail' → hide the live needle + show the static «اتجاه القبلة: 243.8° — <dir>» bearing text.
+// Never shown on iOS (iOS never calls this).
 function _qcSetHelp(state, bearingText) {
   const card = document.getElementById('qibla-compass-help');
   if (!card) return;
@@ -18042,20 +17974,24 @@ function _qcSetHelp(state, bearingText) {
   _qcHelpState = state;
   const compass = document.getElementById('compass');
   const msg = document.getElementById('qch-msg');
-  const btn = document.getElementById('qch-recalib');
   const bar = document.getElementById('qch-bearing');
   const L = _qcL10n();
-  card.hidden = false;
   card.setAttribute('data-state', state);
-  if (btn) btn.textContent = L.recal;
   if (state === 'fail') {
     if (msg) msg.textContent = L.unavail;
     if (bar) bar.textContent = bearingText || '';
     if (compass) compass.classList.add('compass-unavailable');
-  } else {
+    card.hidden = false;
+  } else if (state === 'low') {
     if (compass) compass.classList.remove('compass-unavailable');
     if (bar) bar.textContent = '';
-    if (msg) msg.textContent = (state === 'low') ? (L.low + ' — ' + L.hint) : '';
+    if (msg) msg.textContent = L.low + ' — ' + L.hint;
+    card.hidden = false;
+  } else {                                        // 'ok' — live needle is fine ⇒ nothing to show
+    if (compass) compass.classList.remove('compass-unavailable');
+    if (bar) bar.textContent = '';
+    if (msg) msg.textContent = '';
+    card.hidden = true;
   }
 }
 
@@ -18065,20 +18001,15 @@ function _qcArmHardFail() {
   _qcHardFailTimer = setTimeout(function () {
     if (_qcHeadingEver) return;
     _qcActiveSource = 'fallback';
-    let dir = '';
+    let dir = ''; const L = _qcL10n();
     try { dir = Qibla.getDirection(_qiblaAngle, (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'); } catch (_) {}
-    _qcSetHelp('fail', _qiblaAngle.toFixed(1) + '° ' + dir);
+    // UX-REMOVE: static textual fallback — «اتجاه القبلة: 243.8° — <dir>» (needle hidden by _qcSetHelp('fail')).
+    _qcSetHelp('fail', L.dirLabel + ': ' + _qiblaAngle.toFixed(1) + '° — ' + dir);
   }, _QC_HARD_FAIL_MS);
 }
 
-// Manual recalibration (help-card button): re-acquire the heading fresh + show the fig-8 hint.
-function recalibrateCompass() {
-  _andHeadingSmoothed = null; _andHeadingTarget = null;
-  _qcAbsoluteSeen = false; _qcHeadingEver = false; _qcHelpState = null;
-  _qcSetHelp('low');
-  _qcArmHardFail();
-}
-if (typeof window !== 'undefined') { window.recalibrateCompass = recalibrateCompass; }
+// UX-REMOVE: recalibrateCompass() and its window global are DELETED — there is no user-facing calibration or
+// recalibrate button. The compass simply works (AOS → DeviceOrientation fallback → static text) with no buttons.
 
 // ===== QIBLA-ANDROID-HEADING-SOURCE-DIAGNOSTIC-AND-AOS-EXPERIMENT-1 (2026-07-07) =====
 // HIDDEN, READ-ONLY diagnostic. Activated ONLY via `?qiblaDebug=1` OR localStorage['qiblaDebug']='1'.
@@ -18152,9 +18083,7 @@ function _qcStartAos() {
           _qcHeadingEver = true;
           if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
           _qcSetHelp('ok');
-          _qcLastRawHeading = h;                              // raw (pre-calibration) → read by "set North"
-          _qcRevealCalibCard();                               // Android-only: show the "set North" card on first real heading
-          _androidCompassStabilize(_qcApplyCalibration(h));   // apply per-device calibration (no-op if uncalibrated)
+          _androidCompassStabilize(h);   // AOS heading → jitter stabilizer (no manual calibration)
         }
       } catch (_) {}
     });
@@ -18188,17 +18117,14 @@ function _qcDebugUpdate(e) {
     H_matrix: _qcFmt(_qcHeadingFromEvent(e)), H_matrixNoScreen: _qcFmt(_qcMatrixNoScreen(e)), H_aos: _qcFmt(_qcAosHeading),
     final: _qcFmt(finalH), needle: _qcFmt(needle), qibla: _qcFmt(_qiblaAngle),
     confidence: (_qcHelpState || 'ok'), aosState: _qcAosState,
-    source: _qcActiveSource, aosUsable: _qcAosUsable(),
-    rawHeading: _qcFmt(_qcLastRawHeading), calibOffset: (_qcCalibOffset === null ? 'none' : _qcFmt(_qcCalibOffset)),
-    calibrated: _qcFmt(_qcApplyCalibration(_qcLastRawHeading))
+    source: _qcActiveSource, aosUsable: _qcAosUsable()
   };
   const L = _qcDbgLive;
   live.textContent =
     'type='+L.type+' abs='+L.absolute+' | α='+L.alpha+' β='+L.beta+' γ='+L.gamma+' scr='+L.screen+
     '\nH_alpha='+L.H_alpha+' H_360='+L.H_360+' H_dd='+L.H_dd94875+' H_matrix='+L.H_matrix+' H_mNoScr='+L.H_matrixNoScreen+' H_aos='+L.H_aos+
     '\nfinal='+L.final+' needle='+L.needle+' qibla='+L.qibla+' conf='+L.confidence+
-    '\nsource='+L.source+' aosUsable='+L.aosUsable+' aos='+L.aosState+
-    '\nraw='+L.rawHeading+' calibOffset='+L.calibOffset+' calibrated='+L.calibrated;
+    '\nsource='+L.source+' aosUsable='+L.aosUsable+' aos='+L.aosState;
 }
 function qiblaDebugSnapshot() {
   if (!_qcDbgLive) return;
@@ -18302,9 +18228,7 @@ function startDeviceCompass() {
             heading = _androidAlphaToHeading(e.alpha); // flag OFF ⇒ exact dd94875 behaviour
         }
         _hideBtnOnFirstEvent();
-        _qcLastRawHeading = heading;                 // raw (pre-calibration) → read by "set North"
-        _qcRevealCalibCard();                        // Android-only: show the "set North" card on first real heading
-        _androidCompassStabilize(_qcApplyCalibration(heading));   // apply per-device calibration (no-op if uncalibrated)
+        _androidCompassStabilize(heading);   // DeviceOrientation fallback heading → jitter stabilizer
     };
 
     // Always attach listeners (safe on iOS — works if permission already granted).
@@ -18326,14 +18250,13 @@ function startDeviceCompass() {
         const _isIOSPermAos = (typeof DeviceOrientationEvent.requestPermission === 'function');
         if (!_isIOSPermAos) { try { _qcStartAos(); } catch (_) {} }
     }
-    // QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1: on Android (non-iOS), pre-load any saved per-device offset so
-    // it is applied from the very first heading. The card itself is revealed lazily by _qcRevealCalibCard() when
-    // a REAL heading arrives (Android only) — NOT here — so a desktop browser with no live compass never shows it.
-    // iOS (requestPermission) never loads it and, returning early on webkitCompassHeading, never reveals the card.
-    if (_ANDROID_MANUAL_CALIB) {
+    // QIBLA-ANDROID-REMOVE-MANUAL-CALIBRATION-UX-1: manual calibration is gone — there is no code path left that
+    // reads or applies an offset. One-time cleanup on Android: wipe any offset a user saved under the earlier
+    // experiment so nothing lingers in storage (the key `qiblaCalibOffset` was ours; iOS never wrote it).
+    try {
         const _isIOSPermCal = (typeof DeviceOrientationEvent.requestPermission === 'function');
-        if (!_isIOSPermCal) { try { _qcLoadCalib(); } catch (_) {} }
-    }
+        if (!_isIOSPermCal && window.localStorage) { localStorage.removeItem('qiblaCalibOffset'); }
+    } catch (_) {}
     if (_qiblaDebugOn()) { try { _qcDebugInit(); } catch (_) {} }   // hidden read-only diagnostic
 
     // Surface the enable button on iOS or any touchscreen (WebView / strict-policy

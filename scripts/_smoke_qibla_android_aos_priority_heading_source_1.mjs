@@ -65,7 +65,7 @@ ok(/const h = _qcHeadingFromQuat\(_qcAosSensor\.quaternion\);/.test(A), 'reading
 ok(/if \(h === null \|\| isNaN\(h\)\) return;/.test(A), 'reading GUARDS NaN/null before use');
 ok(/_qcAosHeading = h; _qcAosTs = _qcNow\(\); _qcAosLive = true;/.test(A), 'reading records heading + fresh timestamp + live flag');
 ok(/if \(_ANDROID_AOS_PRIORITY\)/.test(A) && /_qcActiveSource = 'aos';/.test(A), 'reading drives ONLY when the flag is on; marks source=aos');
-ok(/_androidCompassStabilize\((?:_qcApplyCalibration\()?h\b/.test(A), 'AOS reading feeds the SAME jitter stabilizer (via _qcApplyCalibration since CALIBRATION-1)');
+ok(/_androidCompassStabilize\(h\b/.test(A), 'AOS reading feeds the SAME jitter stabilizer (raw heading; manual calibration removed)');
 ok(/_qcSetHelp\('ok'\);/.test(A), 'AOS live ⇒ confidence ok');
 ok(/_qcAosLive = false;/.test(A), 'AOS error handler clears the live flag ⇒ fallback');
 
@@ -77,7 +77,7 @@ ok(/if \(_qcAosUsable\(\)\) \{ _hideBtnOnFirstEvent\(\); return; \}/.test(H), 'h
 ok(H.indexOf('_qcAosUsable()') < H.indexOf('_qcResolveHeading(e)'), 'AOS-usable check runs BEFORE the V2 resolver');
 ok(/_qcActiveSource = 'deviceorientation-matrix';/.test(H), 'V2 fallback marks source=deviceorientation-matrix');
 ok(/if \(_ANDROID_AOS_PRIORITY\) _qcSetHelp\('low'\);/.test(H), 'V2 fallback ⇒ LOW confidence / accuracy warning (item 11)');
-ok(/_androidCompassStabilize\((?:_qcApplyCalibration\()?heading\b/.test(H), 'V2 fallback still feeds the jitter stabilizer (via _qcApplyCalibration since CALIBRATION-1)');
+ok(/_androidCompassStabilize\(heading\b/.test(H), 'V2 fallback still feeds the jitter stabilizer (raw heading; manual calibration removed)');
 
 console.log('\n================ 4. startDeviceCompass starts AOS on Android (never iOS) ================');
 const sdc = appSrc.slice(appSrc.indexOf('function startDeviceCompass()'), appSrc.indexOf('function requestCompassPermission'));
@@ -105,9 +105,9 @@ ok(!/\b8[35]\b/.test(stripC(A)) && !/\b8[35]\b/.test(stripC(H)), 'NO +83/-83/85 
 const appCode = stripC(appSrc);
 ok(!/qiblaLab(?!el)/.test(appCode) && !/Compass Lab/.test(appCode), 'NO visible Compass Lab / ?qiblaLab param (in code)');
 ok(/id="qibla-debug"[^>]*\bhidden\b/.test(htmlSrc), 'debug panel still hidden by default (all normal users)');
-ok(/js\/app\.js\?v=825/.test(htmlSrc), 'index.html app.js?v=825 (bumped by CALIBRATION-1)');
-ok(/css\/style\.css\?v=493/.test(htmlSrc), 'index.html css/style.css?v=493 (bumped by CALIBRATION-1)');
-ok(/CACHE_VERSION = 'v493'/.test(swSrc), 'sw.js CACHE_VERSION v493 (bumped by CALIBRATION-1)');
+ok(/js\/app\.js\?v=829/.test(htmlSrc), 'index.html app.js?v=829 (bumped by REMOVE-MANUAL-CALIBRATION-UX-1)');
+ok(/css\/style\.css\?v=496/.test(htmlSrc), 'index.html css/style.css?v=496 (bumped by REMOVE-MANUAL-CALIBRATION-UX-1)');
+ok(/CACHE_VERSION = 'v496'/.test(swSrc), 'sw.js CACHE_VERSION v496 (bumped by REMOVE-MANUAL-CALIBRATION-UX-1)');
 
 console.log(`\nPASS=${pass}  FAIL=${fail}`);
 if (fail > 0) { console.log('FAILED:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

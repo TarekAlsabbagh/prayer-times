@@ -86,7 +86,7 @@ ok(/_applyCompassHeading\(e\.webkitCompassHeading\)/.test(appSrc), 'iOS still re
 // the Android branch still derives heading from e.alpha and feeds the stabilizer (jitter path intact).
 ok(/heading = _androidAlphaToHeading\(e\.alpha\);/.test(appSrc), 'Android heading derived from e.alpha (via _androidAlphaToHeading) → stabilizer');
 ok(/if \(e\.webkitCompassHeading != null[\s\S]{0,240}?_applyCompassHeading\(e\.webkitCompassHeading\);[\s\S]{0,60}?return;/.test(appSrc), 'iOS branch applies raw heading immediately + returns (ROOT-REBUILD-2 shape)');
-ok(/_androidCompassStabilize\((?:_qcApplyCalibration\()?heading\b/.test(appSrc), 'Android branch routes through _androidCompassStabilize (via _qcApplyCalibration since CALIBRATION-1)');
+ok(/_androidCompassStabilize\(heading\b/.test(appSrc), 'Android branch routes through _androidCompassStabilize (raw heading; manual calibration removed)');
 // no constant offset anywhere in the compass region
 const regStart = appSrc.indexOf('function _applyCompassHeading');
 const regEnd = appSrc.indexOf('function requestCompassPermission');
@@ -95,10 +95,11 @@ ok(regStart > 0 && regEnd > regStart, 'compass region located');
 // strip comments so the checks inspect executable code only (my own comment says "NO offset")
 const codeOnly = region.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/[^\n]*/g, '');
 ok(!/\b8[35]\b/.test(codeOnly), 'NO +83/-83/85 constant offset anywhere in the compass code');
-// CALIBRATION-1 introduced the per-device `_qcCalibOffset` (a USER-set value, not a hardcoded degree
-// offset) — exclude that identifier before asserting no stray "offset" token remains.
-const codeNoCalib = codeOnly.replace(/calibOffset/gi, '');
-ok(!/offset/i.test(codeNoCalib), 'NO stray "offset" token in the compass CODE (per-device calibOffset excluded)');
+// REMOVE-MANUAL-CALIBRATION-UX-1: the manual-calibration subsystem (and its `_qcCalibOffset`) was DELETED.
+// The only remaining "offset" substring is the one-time cleanup that WIPES the legacy localStorage key
+// `qiblaCalibOffset` — exclude that string literal before asserting no offset MATH remains in the code.
+const codeNoCalib = codeOnly.replace(/qiblaCalibOffset/g, '');
+ok(!/offset/i.test(codeNoCalib), 'NO stray "offset" token in the compass CODE (legacy-key wipe literal excluded)');
 // Android disables the CSS transition inline (one-time); iOS keeps the CSS transition
 ok(/_c\.style\.transition = 'none'/.test(appSrc), 'Android disables .compass transition inline (Android-only, one-time)');
 ok(/_andTransitionCleared/.test(appSrc), 'inline transition-disable is guarded (runs once)');

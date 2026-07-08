@@ -1634,7 +1634,17 @@
 //   (last inclusive day, from the SAME registry the counter uses — `_cdEventEndDate`); description stays
 //   (`.intro`). NO image (og-image is SVG; deferred), NO performer, NO offers (recommended-only, inapplicable).
 //   NO change to prayer/moon/qibla calcs, dates, sitemap, robots, canonical/hreflang/title/meta, GA4, city data.
-const CACHE_VERSION = 'v492';
+// QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1 (2026-07-08): js/app.js?v=823→824, css?v=492→493, sw v492→v493.
+//   The on-device AOS-priority capture showed source=aos but a STABLE per-device magnetometer bias (~+160°)
+//   that varies between sessions — so NO global offset. Adds an optional, Android-only, USER-INITIATED "set
+//   North" card (`#qibla-calib`): the user points the phone-top at true North + taps «ضبط الشمال»; we compute
+//   `_qcCalibOffset = normalize(0 − rawHeading)` from the CURRENT source (e.g. AOS) and store it per-device in
+//   localStorage (`qiblaCalibOffset`). Every heading is then `_qcApplyCalibration(raw) = normalize(raw + offset)`,
+//   applied BEFORE the jitter stabilizer (one calibrated frame for rose/needle/debug). «إلغاء المعايرة» clears it.
+//   Behind flag `_ANDROID_MANUAL_CALIB` (default on; 0/no-op until the user calibrates). NO global hardcoded
+//   offset (no +160/−160); iOS never loads/shows/applies it; qiblaBearing + needle rotation + calcs UNCHANGED;
+//   NO Compass Lab; NO server/i18n/SEO/sitemap/GA4/prayer/moon change. Debug shows raw/calibOffset/calibrated.
+const CACHE_VERSION = 'v493';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

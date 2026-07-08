@@ -49,7 +49,7 @@ ok(/heading = _androidAlphaToHeading\(e\.alpha\);/.test(appSrc), 'Android branch
 ok(!/heading = \(360 - e\.alpha\) % 360;/.test(appSrc), 'OLD inline (360 - e.alpha) mapping is GONE');
 ok(/_applyCompassHeading\(e\.webkitCompassHeading\)/.test(appSrc), 'iOS still reads + applies webkitCompassHeading (unchanged)');
 ok(/if \(e\.webkitCompassHeading != null[\s\S]{0,240}?_applyCompassHeading\(e\.webkitCompassHeading\);[\s\S]{0,60}?return;/.test(appSrc), 'iOS branch applies raw heading immediately + returns (unchanged)');
-ok(/\} else \{[\s\S]{0,160}?_androidCompassStabilize\(heading\);/.test(appSrc), 'Android branch still routes through the jitter stabilizer');
+ok(/_qcLastRawHeading = heading;[\s\S]{0,240}?_androidCompassStabilize\(_qcApplyCalibration\(heading\)\)/.test(appSrc), 'Android branch still routes through the jitter stabilizer (via _qcApplyCalibration since CALIBRATION-1)');
 // jitter stabilizer still present
 ok(/_AND_DEADBAND\s*=\s*2\b/.test(appSrc) && /_AND_MAX_STEP\s*=\s*10\b/.test(appSrc), 'stabilizer deadband(2)+rate-limit(10) still present');
 ok(/function _androidCompassFrame\(\)/.test(appSrc) && /requestAnimationFrame/.test(appSrc), 'stabilizer rAF loop still present');

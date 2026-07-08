@@ -51,7 +51,7 @@ ok(/if \(_ANDROID_COMPASS_V2\) \{[\s\S]{0,160}?_qcResolveHeading\(e\);/.test(app
 ok(/\} else \{[\s\S]{0,160}?_androidAlphaToHeading\(e\.alpha\);/.test(appSrc), 'flag OFF ⇒ Android falls back to dd94875 _androidAlphaToHeading');
 ok(/_applyCompassHeading\(e\.webkitCompassHeading\);/.test(appSrc), 'iOS applies webkitCompassHeading raw (unchanged)');
 ok(/if \(e\.webkitCompassHeading != null[\s\S]{0,160}?return;/.test(appSrc), 'iOS branch returns early (never enters Android resolver)');
-ok(/_androidCompassStabilize\(heading\);/.test(appSrc), 'Android still feeds the jitter stabilizer');
+ok(/_androidCompassStabilize\((?:_qcApplyCalibration\()?heading\b/.test(appSrc), 'Android still feeds the jitter stabilizer (via _qcApplyCalibration since CALIBRATION-1)');
 ok(/_AND_DEADBAND\s*=\s*2\b/.test(appSrc) && /_AND_MAX_STEP\s*=\s*10\b/.test(appSrc) && /requestAnimationFrame/.test(appSrc), 'jitter stabilizer (deadband/rate/rAF) intact');
 
 console.log('\n================ 3. Resolver + confidence + fallback + recalibrate ================');
@@ -84,9 +84,9 @@ console.log('\n================ 5. DOM + CSS hooks + cache-busters =============
 ok(/id="qibla-compass-help"/.test(htmlSrc) && /id="qch-msg"/.test(htmlSrc) && /id="qch-recalib"/.test(htmlSrc) && /id="qch-bearing"/.test(htmlSrc), 'help-card DOM ids present in index.html');
 ok(/onclick="recalibrateCompass\(\)"/.test(htmlSrc), 'recalibrate button wired');
 ok(/\.qibla-compass-help/.test(cssSrc) && /\.compass\.compass-unavailable/.test(cssSrc), 'CSS: help card + compass-unavailable styles');
-ok(/js\/app\.js\?v=822/.test(htmlSrc), 'index.html app.js?v=822');
-ok(/css\/style\.css\?v=492/.test(htmlSrc), 'index.html css/style.css?v=492');
-ok(/CACHE_VERSION = 'v491'/.test(fs.readFileSync(path.join(ROOT,'sw.js'),'utf8')), 'sw.js CACHE_VERSION v491');
+ok(/js\/app\.js\?v=825/.test(htmlSrc), 'index.html app.js?v=825 (bumped by CALIBRATION-1)');
+ok(/css\/style\.css\?v=493/.test(htmlSrc), 'index.html css/style.css?v=493 (bumped by CALIBRATION-1)');
+ok(/CACHE_VERSION = 'v493'/.test(fs.readFileSync(path.join(ROOT,'sw.js'),'utf8')), 'sw.js CACHE_VERSION v493 (bumped by CALIBRATION-1)');
 
 console.log(`\nPASS=${pass}  FAIL=${fail}`);
 if (fail > 0) { console.log('FAILED:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

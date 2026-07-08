@@ -17877,6 +17877,16 @@ const _ANDROID_COMPASS_V2 = true;             // flag: false ⇒ instant fall-ba
 // (which was E/W-mirrored on the user's device). Flag OFF ⇒ exact e16ace5 behaviour (AOS diagnostic-only).
 const _ANDROID_AOS_PRIORITY = true;
 const _QC_AOS_MAX_AGE_MS = 500;               // an AOS reading older than this ⇒ stale ⇒ DeviceOrientation fallback
+// QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1: optional, Android-only, USER-INITIATED "set North". Some devices'
+// magnetometer reports a stable per-device bias (e.g. ~+160° on the user's phone) that no software source fixes
+// and that varies between sessions — so NO global hardcoded offset. This is 0 (no-op) unless the user calibrates,
+// applies ONLY on Android, is stored per-device in localStorage, and is cleared by the user's own reset button.
+// iOS never sees or applies it. Flag OFF ⇒ calibration disabled (exact eb41565 behaviour).
+const _ANDROID_MANUAL_CALIB = true;
+const _QC_CALIB_KEY = 'qiblaCalibOffset';     // localStorage key — a single number of degrees
+let _qcCalibOffset  = null;                   // null = uncalibrated (no-op); else degrees added to the raw heading
+let _qcLastRawHeading = null;                 // latest RAW source heading (PRE-calibration) — read by "set North"
+let _qcCalibCardShown = false;                // reveal the calibration card only once a REAL heading arrives (Android)
 const _QC_D2R = Math.PI / 180, _QC_R2D = 180 / Math.PI;
 const _QC_HARD_FAIL_MS = 4000;                // no heading within this ⇒ static-bearing fallback
 let _qcAbsoluteSeen  = false;                 // received an ABSOLUTE orientation reading?
@@ -17902,6 +17912,79 @@ function _qcL10n() {
   const ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
   return _QIBLA_COMPASS_L10N[ln] || _QIBLA_COMPASS_L10N.en || _QIBLA_COMPASS_L10N.ar;
 }
+
+// ── QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1 — Android-only, user-initiated "set North" ──
+// Card strings kept in app.js (no js/i18n.js / _i18nVersion change), same idiom as _QIBLA_COMPASS_L10N.
+const _QIBLA_CALIB_L10N = {
+  ar: { hint:'إذا كان اتجاه البوصلة غير دقيق، وجّه أعلى الهاتف نحو الشمال الحقيقي ثم اضغط «ضبط الشمال». يمكنك استخدام خرائط Google لمعرفة الشمال.', set:'ضبط الشمال', reset:'إلغاء المعايرة', done:'تمت المعايرة ✓ — الاتجاه مضبوط لهذا الجهاز. أعِد الضبط إذا تغيّر.' },
+  en: { hint:'If the compass looks wrong, point the top of your phone at true North, then tap “Set North”. You can use Google Maps to find North.', set:'Set North', reset:'Clear calibration', done:'Calibrated ✓ — direction adjusted for this device. Re-set if it drifts.' },
+  fr: { hint:'Si la boussole semble incorrecte, orientez le haut du téléphone vers le vrai Nord, puis appuyez sur « Régler le Nord ». Utilisez Google Maps pour trouver le Nord.', set:'Régler le Nord', reset:'Annuler la calibration', done:'Calibré ✓ — direction ajustée pour cet appareil.' },
+  tr: { hint:'Pusula yanlış görünüyorsa telefonun üstünü gerçek Kuzey’e doğrultup “Kuzey’i Ayarla”ya dokunun. Kuzey’i bulmak için Google Haritalar’ı kullanabilirsiniz.', set:'Kuzey’i Ayarla', reset:'Kalibrasyonu sıfırla', done:'Kalibre edildi ✓ — yön bu cihaz için ayarlandı.' },
+  ur: { hint:'اگر کمپاس کی سمت غلط لگے تو فون کا اوپری حصہ اصل شمال کی طرف کریں پھر «شمال سیٹ کریں» دبائیں۔ شمال کے لیے گوگل میپس استعمال کر سکتے ہیں۔', set:'شمال سیٹ کریں', reset:'کیلبریشن ہٹائیں', done:'کیلبریٹ ہو گیا ✓ — سمت اس آلے کے لیے درست کر دی گئی۔' },
+  de: { hint:'Wenn der Kompass falsch wirkt, richten Sie die Oberseite des Telefons nach echtem Norden und tippen Sie auf „Norden festlegen“. Nutzen Sie Google Maps für Norden.', set:'Norden festlegen', reset:'Kalibrierung löschen', done:'Kalibriert ✓ — Richtung für dieses Gerät angepasst.' },
+  id: { hint:'Jika kompas terlihat salah, arahkan bagian atas ponsel ke Utara sebenarnya, lalu ketuk “Setel Utara”. Gunakan Google Maps untuk menemukan Utara.', set:'Setel Utara', reset:'Hapus kalibrasi', done:'Terkalibrasi ✓ — arah disesuaikan untuk perangkat ini.' },
+  es: { hint:'Si la brújula parece incorrecta, apunte la parte superior del teléfono al Norte real y toque «Fijar Norte». Puede usar Google Maps para hallar el Norte.', set:'Fijar Norte', reset:'Borrar calibración', done:'Calibrado ✓ — dirección ajustada para este dispositivo.' },
+  bn: { hint:'কম্পাস ভুল মনে হলে ফোনের উপরের অংশ প্রকৃত উত্তরে তাক করে “উত্তর সেট করুন” চাপুন। উত্তর জানতে Google Maps ব্যবহার করতে পারেন।', set:'উত্তর সেট করুন', reset:'ক্যালিব্রেশন মুছুন', done:'ক্যালিব্রেটেড ✓ — এই ডিভাইসের জন্য দিক ঠিক করা হয়েছে।' },
+  ms: { hint:'Jika kompas kelihatan salah, halakan bahagian atas telefon ke Utara sebenar, kemudian ketik “Tetapkan Utara”. Gunakan Google Maps untuk mencari Utara.', set:'Tetapkan Utara', reset:'Kosongkan penentukuran', done:'Ditentukur ✓ — arah dilaraskan untuk peranti ini.' }
+};
+function _qcCalibL10n() {
+  const ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+  return _QIBLA_CALIB_L10N[ln] || _QIBLA_CALIB_L10N.en || _QIBLA_CALIB_L10N.ar;
+}
+const _qcNorm360 = (x) => (((x % 360) + 360) % 360);
+// Apply the user's per-device calibration to a RAW heading. No-op when disabled / uncalibrated / invalid input.
+function _qcApplyCalibration(h) {
+  if (!_ANDROID_MANUAL_CALIB || _qcCalibOffset === null || h === null || isNaN(h)) return h;
+  return _qcNorm360(h + _qcCalibOffset);
+}
+// Load a previously-saved per-device offset from localStorage (called once on Android init).
+function _qcLoadCalib() {
+  try {
+    const v = (window.localStorage) ? localStorage.getItem(_QC_CALIB_KEY) : null;
+    if (v == null) { _qcCalibOffset = null; return; }
+    const n = parseFloat(v);
+    _qcCalibOffset = isNaN(n) ? null : _qcNorm360(n);
+  } catch (_) { _qcCalibOffset = null; }
+}
+// User tapped "Set North": the phone-top points at TRUE north ⇒ trueHeading = 0. Store the offset that maps the
+// current RAW source heading to 0. Replaces (does NOT stack) any prior calibration. Android-only; no-op on iOS.
+function qiblaSetNorth() {
+  if (!_ANDROID_MANUAL_CALIB || _qcLastRawHeading === null || isNaN(_qcLastRawHeading)) return;
+  _qcCalibOffset = _qcNorm360(0 - _qcLastRawHeading);
+  try { localStorage.setItem(_QC_CALIB_KEY, String(_qcCalibOffset)); } catch (_) {}
+  _andHeadingSmoothed = null; _andHeadingTarget = null;   // snap to the corrected heading on the next reading
+  try { _qcCalibCardUpdate(); } catch (_) {}
+}
+// User tapped "Clear calibration": forget the offset, return to the default (uncalibrated) behaviour.
+function qiblaResetCalibration() {
+  _qcCalibOffset = null;
+  try { localStorage.removeItem(_QC_CALIB_KEY); } catch (_) {}
+  _andHeadingSmoothed = null; _andHeadingTarget = null;
+  try { _qcCalibCardUpdate(); } catch (_) {}
+}
+// Reflect calibrated/uncalibrated state in the Android calibration card (localised).
+function _qcCalibCardUpdate() {
+  const card = document.getElementById('qibla-calib');
+  if (!card) return;
+  const L = _qcCalibL10n();
+  const hint = document.getElementById('qcal-hint');
+  const setB = document.getElementById('qcal-set');
+  const resB = document.getElementById('qcal-reset');
+  const calibrated = (_qcCalibOffset !== null);
+  if (hint) hint.textContent = calibrated ? L.done : L.hint;
+  if (setB) setB.textContent = L.set;
+  if (resB) { resB.textContent = L.reset; resB.hidden = !calibrated; }
+  card.setAttribute('data-calibrated', calibrated ? '1' : '0');
+}
+// Reveal the calibration card ONCE, the first time a real device heading arrives. Both call sites are in
+// the Android heading path (AFTER the iOS webkitCompassHeading early-return), so iOS never reveals it, and
+// a desktop browser with no live compass never fires a heading ⇒ card stays hidden. Android-only by design.
+function _qcRevealCalibCard() {
+  if (!_ANDROID_MANUAL_CALIB || _qcCalibCardShown) return;
+  _qcCalibCardShown = true;
+  try { const c = document.getElementById('qibla-calib'); if (c) { c.hidden = false; _qcCalibCardUpdate(); } } catch (_) {}
+}
+if (typeof window !== 'undefined') { window.qiblaSetNorth = qiblaSetNorth; window.qiblaResetCalibration = qiblaResetCalibration; }
 
 // Screen-orientation angle (0/90/180/270) — corrects the heading in landscape.
 function _qcScreenAngle() {
@@ -18069,7 +18152,9 @@ function _qcStartAos() {
           _qcHeadingEver = true;
           if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
           _qcSetHelp('ok');
-          _androidCompassStabilize(h);
+          _qcLastRawHeading = h;                              // raw (pre-calibration) → read by "set North"
+          _qcRevealCalibCard();                               // Android-only: show the "set North" card on first real heading
+          _androidCompassStabilize(_qcApplyCalibration(h));   // apply per-device calibration (no-op if uncalibrated)
         }
       } catch (_) {}
     });
@@ -18103,14 +18188,17 @@ function _qcDebugUpdate(e) {
     H_matrix: _qcFmt(_qcHeadingFromEvent(e)), H_matrixNoScreen: _qcFmt(_qcMatrixNoScreen(e)), H_aos: _qcFmt(_qcAosHeading),
     final: _qcFmt(finalH), needle: _qcFmt(needle), qibla: _qcFmt(_qiblaAngle),
     confidence: (_qcHelpState || 'ok'), aosState: _qcAosState,
-    source: _qcActiveSource, aosUsable: _qcAosUsable()
+    source: _qcActiveSource, aosUsable: _qcAosUsable(),
+    rawHeading: _qcFmt(_qcLastRawHeading), calibOffset: (_qcCalibOffset === null ? 'none' : _qcFmt(_qcCalibOffset)),
+    calibrated: _qcFmt(_qcApplyCalibration(_qcLastRawHeading))
   };
   const L = _qcDbgLive;
   live.textContent =
     'type='+L.type+' abs='+L.absolute+' | α='+L.alpha+' β='+L.beta+' γ='+L.gamma+' scr='+L.screen+
     '\nH_alpha='+L.H_alpha+' H_360='+L.H_360+' H_dd='+L.H_dd94875+' H_matrix='+L.H_matrix+' H_mNoScr='+L.H_matrixNoScreen+' H_aos='+L.H_aos+
     '\nfinal='+L.final+' needle='+L.needle+' qibla='+L.qibla+' conf='+L.confidence+
-    '\nsource='+L.source+' aosUsable='+L.aosUsable+' aos='+L.aosState;
+    '\nsource='+L.source+' aosUsable='+L.aosUsable+' aos='+L.aosState+
+    '\nraw='+L.rawHeading+' calibOffset='+L.calibOffset+' calibrated='+L.calibrated;
 }
 function qiblaDebugSnapshot() {
   if (!_qcDbgLive) return;
@@ -18214,7 +18302,9 @@ function startDeviceCompass() {
             heading = _androidAlphaToHeading(e.alpha); // flag OFF ⇒ exact dd94875 behaviour
         }
         _hideBtnOnFirstEvent();
-        _androidCompassStabilize(heading);           // Android: smooth (jitter fix, unchanged)
+        _qcLastRawHeading = heading;                 // raw (pre-calibration) → read by "set North"
+        _qcRevealCalibCard();                        // Android-only: show the "set North" card on first real heading
+        _androidCompassStabilize(_qcApplyCalibration(heading));   // apply per-device calibration (no-op if uncalibrated)
     };
 
     // Always attach listeners (safe on iOS — works if permission already granted).
@@ -18235,6 +18325,14 @@ function startDeviceCompass() {
     if (_ANDROID_AOS_PRIORITY) {
         const _isIOSPermAos = (typeof DeviceOrientationEvent.requestPermission === 'function');
         if (!_isIOSPermAos) { try { _qcStartAos(); } catch (_) {} }
+    }
+    // QIBLA-ANDROID-MANUAL-COMPASS-CALIBRATION-1: on Android (non-iOS), pre-load any saved per-device offset so
+    // it is applied from the very first heading. The card itself is revealed lazily by _qcRevealCalibCard() when
+    // a REAL heading arrives (Android only) — NOT here — so a desktop browser with no live compass never shows it.
+    // iOS (requestPermission) never loads it and, returning early on webkitCompassHeading, never reveals the card.
+    if (_ANDROID_MANUAL_CALIB) {
+        const _isIOSPermCal = (typeof DeviceOrientationEvent.requestPermission === 'function');
+        if (!_isIOSPermCal) { try { _qcLoadCalib(); } catch (_) {} }
     }
     if (_qiblaDebugOn()) { try { _qcDebugInit(); } catch (_) {} }   // hidden read-only diagnostic
 

@@ -114,7 +114,7 @@ console.log('\n================ 6. Default compass UNCHANGED + no offset + no Co
 ok(/const _ANDROID_COMPASS_V2 = true;/.test(appSrc), 'default V2 path unchanged (flag still on)');
 ok(/_applyCompassHeading\(e\.webkitCompassHeading\);/.test(appSrc), 'iOS path unchanged (webkitCompassHeading raw)');
 ok(/heading = _qcResolveHeading\(e\);/.test(appSrc), 'live Android heading still from _qcResolveHeading (not a debug candidate)');
-ok(/_androidCompassStabilize\(heading\);/.test(appSrc), 'Android still feeds the jitter stabilizer');
+ok(/_androidCompassStabilize\((?:_qcApplyCalibration\()?heading\b/.test(appSrc), 'Android still feeds the jitter stabilizer (via _qcApplyCalibration since CALIBRATION-1)');
 const appCode = appSrc.replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:])\/\/[^\n]*/g, '$1');
 ok(!/qiblaLab(?!el)/.test(appCode) && !/Compass Lab/.test(appCode), 'NO visible Compass Lab / ?qiblaLab param (in code)');
 const diagCode = appSrc.slice(dS, dE).replace(/\/\*[\s\S]*?\*\//g, '').replace(/([^:])\/\/[^\n]*/g, '$1');
@@ -131,9 +131,9 @@ ok(/\.qibla-debug\b/.test(cssSrc) && /\.qd-live\b/.test(cssSrc), 'CSS .qibla-deb
 const _dbgBase = cssSrc.match(/\.qibla-debug\s*\{[^}]*\}/);
 ok(!!_dbgBase && (!/display:\s*block/.test(_dbgBase[0]) || /\.qibla-debug\[hidden\]\s*\{\s*display:\s*none/.test(cssSrc)),
    'CSS: [hidden] hides the panel for all normal users (no display:block leak in the base rule)');
-ok(/js\/app\.js\?v=822/.test(htmlSrc), 'index.html app.js?v=822');
-ok(/css\/style\.css\?v=492/.test(htmlSrc), 'index.html css/style.css?v=492 (unchanged this ticket)');
-ok(/CACHE_VERSION = 'v491'/.test(swSrc), 'sw.js CACHE_VERSION v491');
+ok(/js\/app\.js\?v=825/.test(htmlSrc), 'index.html app.js?v=825 (bumped by CALIBRATION-1)');
+ok(/css\/style\.css\?v=493/.test(htmlSrc), 'index.html css/style.css?v=493 (bumped by CALIBRATION-1)');
+ok(/CACHE_VERSION = 'v493'/.test(swSrc), 'sw.js CACHE_VERSION v493 (bumped by CALIBRATION-1)');
 
 console.log(`\nPASS=${pass}  FAIL=${fail}`);
 if (fail > 0) { console.log('FAILED:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

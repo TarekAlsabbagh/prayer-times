@@ -26412,6 +26412,17 @@ function _azkarResetCardsInPlace(category, items, progressFn) {
 // ─────────────────────────────────────────────────────────────────────────────
 function _azkarShowResetConfirm(opts) {
     opts = opts || {};
+    // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: on the MORNING page, override the confirm
+    // strings from the 10-lang dict (evening/prayer keep the Arabic opts they pass in — unchanged).
+    if (_azkarActivePageIsMorning()) {
+        const ui = _azkarMorningUiMap();
+        if (ui) {
+            opts = Object.assign({}, opts, {
+                title: ui.resetConfirmTitle, sub: ui.resetConfirmSub,
+                cancelText: ui.cancel, confirmText: ui.confirmReset
+            });
+        }
+    }
     const overlay = document.createElement('div');
     overlay.className = 'azkar-modal-overlay';
     overlay.setAttribute('role', 'dialog');
@@ -26496,6 +26507,12 @@ function _azkarShowResetConfirm(opts) {
 let _azkarToastTimer = null;
 function _azkarShowToast(message) {
     try {
+        // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: localize the reset toast on the MORNING
+        // page (matches the Arabic base string; evening/prayer keep it Arabic — page not active).
+        if (message === 'تمت إعادة ضبط العدادات' && _azkarActivePageIsMorning()) {
+            const ui = _azkarMorningUiMap();
+            if (ui && ui.resetToast) message = ui.resetToast;
+        }
         // Replace any existing toast (debounce rapid resets)
         const existing = document.querySelector('.azkar-toast');
         if (existing && existing.parentNode) existing.parentNode.removeChild(existing);
@@ -26756,7 +26773,7 @@ function _azkarLocalized(field, fallback) {
 // form moves into `counterTapAria` and lands on aria-label only — so
 // screen readers still hear the full instruction, but page text no
 // longer repeats the long phrase 25×.
-const _AZKAR_AR_CHROME = {
+const _AZKAR_AR_CHROME_BASE = {
     counterTap: 'عد',
     counterTapAria: 'اضغط للعد',
     counterDone: '✓ مكتمل',
@@ -26774,8 +26791,48 @@ const _AZKAR_AR_CHROME = {
     progressTpl: function (done, total) { return 'تم إكمال ' + done + ' من ' + total; }
 };
 
+// AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: on the MORNING page ONLY, resolve UI chrome
+// from the 10-lang shared dict (window.AZKAR_MORNING_UI_L10N, single source of truth in
+// js/azkar-data.js — same object server.js SSR-renders from). Evening / prayer (and any non-morning
+// caller) transparently fall through to the Arabic base, so those pages stay byte-identical. All ~25
+// existing `_AZKAR_AR_CHROME.x` call sites are localized at once via this Proxy — no call-site churn.
+// `progressTpl` is wrapped so the {done}/{total} template stays a callable; `resetAllConfirm` maps to
+// the dict's `resetConfirmTitle`.
+function _azkarActivePageIsMorning() {
+    try { const el = document.getElementById('page-azkar-morning'); return !!(el && el.classList.contains('active')); }
+    catch (_) { return false; }
+}
+function _azkarMorningUiMap() {
+    const U = (typeof window !== 'undefined' && window.AZKAR_MORNING_UI_L10N) || null;
+    return U ? (U[_azkarPickLang()] || U.ar) : null;
+}
+const _AZKAR_AR_CHROME = (typeof Proxy === 'function') ? new Proxy(_AZKAR_AR_CHROME_BASE, {
+    get: function (base, prop) {
+        if (_azkarActivePageIsMorning()) {
+            const ui = _azkarMorningUiMap();
+            if (ui) {
+                if (prop === 'progressTpl' && ui.progressTpl != null) {
+                    return function (d, t) { return String(ui.progressTpl).replace('{done}', d).replace('{total}', t); };
+                }
+                if (prop === 'resetAllConfirm' && ui.resetConfirmTitle != null) return ui.resetConfirmTitle;
+                if (ui[prop] != null) return ui[prop];
+            }
+        }
+        return base[prop];
+    }
+}) : _AZKAR_AR_CHROME_BASE;
+
+// Repeat label — morning page uses the 10-lang dict (exact counts + generic "{n}" fallback);
+// evening/prayer keep the Arabic forms.
 function _azkarRepeatLabelAR(n) {
     n = Number(n) || 1;
+    if (_azkarActivePageIsMorning()) {
+        const ui = _azkarMorningUiMap();
+        if (ui && ui.rep) {
+            if (ui.rep[n] != null) return ui.rep[n];
+            if (ui.repN) return String(ui.repN).replace('{n}', String(n));
+        }
+    }
     if (n === 1) return 'مرة واحدة';
     if (n === 2) return 'مرتان';
     if (n === 3) return 'ثلاث مرات';
@@ -26787,9 +26844,31 @@ function _azkarRepeatLabelAR(n) {
     return n + ' مرة';
 }
 
+// AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: client walker for the STATIC morning chrome.
+// On SPA navigation the SSR walker never ran (no fresh HTML fetch), so translate the [data-azkar-ui]
+// and [data-azkar-ui-aria] nodes inside #page-azkar-morning from the 10-lang dict. Idempotent on the
+// full-load path (SSR already localized them to the same values).
+function _azkarLocalizeStaticUi() {
+    const ui = _azkarMorningUiMap();
+    const root = document.getElementById('page-azkar-morning');
+    if (!ui || !root) return;
+    const uiX = Object.assign({}, ui);
+    if (uiX.progressTpl && uiX.progressInit == null) {
+        uiX.progressInit = String(uiX.progressTpl).replace('{done}', '0').replace('{total}', '0');
+    }
+    root.querySelectorAll('[data-azkar-ui]').forEach(function (el) {
+        const k = el.getAttribute('data-azkar-ui');
+        if (uiX[k] != null) el.textContent = uiX[k];
+    });
+    root.querySelectorAll('[data-azkar-ui-aria]').forEach(function (el) {
+        const k = el.getAttribute('data-azkar-ui-aria');
+        if (uiX[k] != null) el.setAttribute('aria-label', uiX[k]);
+    });
+}
 function _loadAzkarMorning() {
     const listEl = document.getElementById('azkar-morning-list');
     if (!listEl) return;
+    _azkarLocalizeStaticUi();
     if (listEl.dataset.wired) return;
     listEl.dataset.wired = '1';
 
@@ -26918,7 +26997,9 @@ function _loadAzkarMorning() {
         // Repeat label always present for context (even repeat=1 → "مرة واحدة")
         const rl = document.createElement('span');
         rl.className = 'azkar-repeat-label';
-        const repeatText = _azkarLocalized(dhikr.repeatLabel, _azkarRepeatLabelAR(target));
+        // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: use the 10-lang repeat label directly
+        // (_azkarLocalized preferred repeatLabel.en over the fallback, which broke the 8 non-en langs).
+        const repeatText = _azkarRepeatLabelAR(target);
         rl.innerHTML = '<span class="azkar-repeat-label-key">' +
             _AZKAR_AR_CHROME.repeatLabel + ':</span> ' +
             '<span class="azkar-repeat-label-val">' + repeatText + '</span>';

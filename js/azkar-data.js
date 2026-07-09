@@ -1032,6 +1032,201 @@
         }
     ];
 
+    // ════════════════════════════════════════════════════════════════════════
+    // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1 (2026-07-09)
+    // Single source of truth for the morning-azkar PAGE UI CHROME across the 10
+    // supported languages. Loaded on BOTH sides: server.js reads it from the
+    // sandbox (window.AZKAR_MORNING_UI_L10N); js/app.js reads window.AZKAR_MORNING_UI_L10N.
+    // SCOPE = UI chrome only. The Arabic DHIKR TEXT + tashkeel, the virtue /
+    // authenticityNote bodies, and the source *values* (rawi names, e.g.
+    // 'رواه البخاري') are NOT here — they stay Arabic by design. Only the
+    // source *label* ('المصدر') is localized. `progressTpl` uses {done}/{total};
+    // `rep` maps the exact repeat counts in use (1,3,4,7,10,100 + 2 spare);
+    // `repN` is the generic '{n}' fallback.
+    // ════════════════════════════════════════════════════════════════════════
+    window.AZKAR_MORNING_UI_L10N = {
+        ar: {
+            heroTitle: 'أذكار الصباح',
+            heroSubtitle: 'اقرأ أذكار الصباح مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال اليوم.',
+            bcHub: 'الأذكار', bcCurrent: 'أذكار الصباح',
+            infoCount: '25 ذكرًا', infoCounter: 'عداد للأذكار المتكررة', infoAutosave: 'يُحفظ تقدمك تلقائيًا',
+            sectionTitle: 'أذكار الصباح مع التكرار والمصدر الصحيح',
+            sectionText: 'تضم هذه الصفحة أذكار الصباح مكتوبة كاملة، مع توضيح عدد التكرار والمصدر لكل ذكر، إضافة إلى عداد تفاعلي يساعدك على إكمال القراءة دون نسيان.',
+            completedTitle: 'تم إكمال أذكار الصباح', completedSub: 'نسأل الله أن يجعل يومك عامرًا بالذكر والطمأنينة.',
+            resetBtn: 'إعادة ضبط العدادات', resetBtnShort: 'إعادة الضبط',
+            ariaBreadcrumb: 'مسار التصفح', ariaInfo: 'معلومات عامة', ariaProgress: 'ملخص التقدم',
+            repeatLabel: 'التكرار', sourceLabel: 'المصدر', showVirtue: 'عرض الفضل', authenticityLabel: 'ملاحظة حول درجة الحديث',
+            markRead: 'تمت القراءة', markedRead: '✓ تمت القراءة', counterTap: 'عد', counterTapAria: 'اضغط للعد',
+            counterDone: '✓ مكتمل', undo: 'تراجع', resetItem: 'إعادة', completedCaption: 'تم إكمال الذكر',
+            emptyList: 'لا توجد أذكار متاحة حالياً.', progressTpl: 'تم إكمال {done} من {total}',
+            resetConfirmTitle: 'هل تريد إعادة ضبط جميع العدادات؟', resetConfirmSub: 'سيتم تصفير تقدمك في هذا القسم والبدء من جديد.',
+            cancel: 'إلغاء', confirmReset: 'نعم، إعادة الضبط', resetToast: 'تمت إعادة ضبط العدادات',
+            rep: { 1: 'مرة واحدة', 2: 'مرتان', 3: 'ثلاث مرات', 4: 'أربع مرات', 7: 'سبع مرات', 10: 'عشر مرات', 100: 'مئة مرة' }, repN: '{n} مرة'
+        },
+        en: {
+            heroTitle: 'Morning Athkar',
+            heroSubtitle: 'Read the morning adhkar with their repeat counts and authentic sources — your progress is saved automatically through the day.',
+            bcHub: 'Adhkar', bcCurrent: 'Morning Athkar',
+            infoCount: '25 adhkar', infoCounter: 'Counter for repeated adhkar', infoAutosave: 'Your progress is saved automatically',
+            sectionTitle: 'Morning Athkar with repeat counts and authentic sources',
+            sectionText: 'This page presents the morning adhkar in full, showing the repeat count and source for each, with an interactive counter that helps you complete them without losing your place.',
+            completedTitle: 'Morning Athkar completed', completedSub: 'We ask Allah to fill your day with remembrance and tranquility.',
+            resetBtn: 'Reset counters', resetBtnShort: 'Reset',
+            ariaBreadcrumb: 'Breadcrumb', ariaInfo: 'General information', ariaProgress: 'Progress summary',
+            repeatLabel: 'Repetition', sourceLabel: 'Source', showVirtue: 'Show virtue', authenticityLabel: 'Note on the hadith grading',
+            markRead: 'Mark as read', markedRead: '✓ Read', counterTap: 'Count', counterTapAria: 'Tap to count',
+            counterDone: '✓ Done', undo: 'Undo', resetItem: 'Reset', completedCaption: 'Dhikr completed',
+            emptyList: 'No adhkar available right now.', progressTpl: '{done} of {total} completed',
+            resetConfirmTitle: 'Reset all counters?', resetConfirmSub: "Your progress in this section will be cleared and you'll start over.",
+            cancel: 'Cancel', confirmReset: 'Yes, reset', resetToast: 'Counters have been reset',
+            rep: { 1: 'once', 2: 'twice', 3: 'three times', 4: 'four times', 7: 'seven times', 10: 'ten times', 100: 'one hundred times' }, repN: '{n} times'
+        },
+        fr: {
+            heroTitle: 'Invocations du matin',
+            heroSubtitle: 'Lisez les invocations du matin avec leur nombre de répétitions et leurs sources authentiques — votre progression est enregistrée automatiquement tout au long de la journée.',
+            bcHub: 'Invocations', bcCurrent: 'Invocations du matin',
+            infoCount: '25 invocations', infoCounter: 'Compteur pour les invocations répétées', infoAutosave: 'Votre progression est enregistrée automatiquement',
+            sectionTitle: 'Invocations du matin avec répétitions et sources authentiques',
+            sectionText: 'Cette page présente les invocations du matin en intégralité, avec le nombre de répétitions et la source de chacune, ainsi qu’un compteur interactif qui vous aide à les terminer sans perdre le fil.',
+            completedTitle: 'Invocations du matin terminées', completedSub: 'Nous demandons à Allah de remplir votre journée de rappel et de sérénité.',
+            resetBtn: 'Réinitialiser les compteurs', resetBtnShort: 'Réinitialiser',
+            ariaBreadcrumb: 'Fil d’Ariane', ariaInfo: 'Informations générales', ariaProgress: 'Résumé de la progression',
+            repeatLabel: 'Répétition', sourceLabel: 'Source', showVirtue: 'Afficher le mérite', authenticityLabel: 'Note sur le degré du hadith',
+            markRead: 'Marquer comme lu', markedRead: '✓ Lu', counterTap: 'Compter', counterTapAria: 'Appuyez pour compter',
+            counterDone: '✓ Terminé', undo: 'Annuler', resetItem: 'Réinit.', completedCaption: 'Invocation terminée',
+            emptyList: 'Aucune invocation disponible pour le moment.', progressTpl: '{done} sur {total} terminées',
+            resetConfirmTitle: 'Réinitialiser tous les compteurs ?', resetConfirmSub: 'Votre progression dans cette section sera effacée et vous recommencerez.',
+            cancel: 'Annuler', confirmReset: 'Oui, réinitialiser', resetToast: 'Les compteurs ont été réinitialisés',
+            rep: { 1: 'une fois', 2: 'deux fois', 3: 'trois fois', 4: 'quatre fois', 7: 'sept fois', 10: 'dix fois', 100: 'cent fois' }, repN: '{n} fois'
+        },
+        ur: {
+            heroTitle: 'صبح کے اذکار',
+            heroSubtitle: 'صبح کے اذکار تعداد اور مستند حوالے کے ساتھ پڑھیں — آپ کی پیش رفت دن بھر خودبخود محفوظ رہتی ہے۔',
+            bcHub: 'اذکار', bcCurrent: 'صبح کے اذکار',
+            infoCount: '25 اذکار', infoCounter: 'بار بار پڑھے جانے والے اذکار کا شمار کنندہ', infoAutosave: 'آپ کی پیش رفت خودبخود محفوظ ہوتی ہے',
+            sectionTitle: 'صبح کے اذکار تکرار اور مستند حوالے کے ساتھ',
+            sectionText: 'یہ صفحہ صبح کے اذکار مکمل طور پر پیش کرتا ہے، ہر ذکر کی تعداد اور حوالہ واضح کرتا ہے، اور ایک متعامل شمار کنندہ فراہم کرتا ہے جو انہیں بھولے بغیر مکمل کرنے میں مدد دیتا ہے۔',
+            completedTitle: 'صبح کے اذکار مکمل ہو گئے', completedSub: 'ہم اللہ سے دعا کرتے ہیں کہ آپ کا دن ذکر اور سکون سے معمور فرمائے۔',
+            resetBtn: 'شمار کنندہ ری سیٹ کریں', resetBtnShort: 'ری سیٹ',
+            ariaBreadcrumb: 'نیویگیشن راستہ', ariaInfo: 'عمومی معلومات', ariaProgress: 'پیش رفت کا خلاصہ',
+            repeatLabel: 'تکرار', sourceLabel: 'حوالہ', showVirtue: 'فضیلت دکھائیں', authenticityLabel: 'حدیث کے درجے پر نوٹ',
+            markRead: 'پڑھ لیا', markedRead: '✓ پڑھ لیا', counterTap: 'شمار', counterTapAria: 'شمار کے لیے دبائیں',
+            counterDone: '✓ مکمل', undo: 'واپس', resetItem: 'دوبارہ', completedCaption: 'ذکر مکمل ہوا',
+            emptyList: 'اس وقت کوئی ذکر دستیاب نہیں۔', progressTpl: '{total} میں سے {done} مکمل',
+            resetConfirmTitle: 'تمام شمار کنندہ ری سیٹ کریں؟', resetConfirmSub: 'اس حصے میں آپ کی پیش رفت صاف ہو جائے گی اور آپ نئے سرے سے شروع کریں گے۔',
+            cancel: 'منسوخ', confirmReset: 'ہاں، ری سیٹ کریں', resetToast: 'شمار کنندہ ری سیٹ ہو گئے',
+            rep: { 1: 'ایک بار', 2: 'دو بار', 3: 'تین بار', 4: 'چار بار', 7: 'سات بار', 10: 'دس بار', 100: 'سو بار' }, repN: '{n} بار'
+        },
+        tr: {
+            heroTitle: 'Sabah Zikirleri',
+            heroSubtitle: 'Sabah zikirlerini tekrar sayıları ve sahih kaynaklarıyla okuyun — ilerlemeniz gün boyunca otomatik olarak kaydedilir.',
+            bcHub: 'Zikirler', bcCurrent: 'Sabah Zikirleri',
+            infoCount: '25 zikir', infoCounter: 'Tekrarlanan zikirler için sayaç', infoAutosave: 'İlerlemeniz otomatik olarak kaydedilir',
+            sectionTitle: 'Tekrar sayıları ve sahih kaynaklarıyla sabah zikirleri',
+            sectionText: 'Bu sayfa sabah zikirlerini eksiksiz sunar; her zikrin tekrar sayısını ve kaynağını gösterir ve onları yerinizi kaybetmeden tamamlamanıza yardımcı olan etkileşimli bir sayaç sağlar.',
+            completedTitle: 'Sabah zikirleri tamamlandı', completedSub: 'Allah’tan gününüzü zikir ve huzurla doldurmasını dileriz.',
+            resetBtn: 'Sayaçları sıfırla', resetBtnShort: 'Sıfırla',
+            ariaBreadcrumb: 'Gezinme yolu', ariaInfo: 'Genel bilgiler', ariaProgress: 'İlerleme özeti',
+            repeatLabel: 'Tekrar', sourceLabel: 'Kaynak', showVirtue: 'Fazileti göster', authenticityLabel: 'Hadis derecesi hakkında not',
+            markRead: 'Okundu olarak işaretle', markedRead: '✓ Okundu', counterTap: 'Say', counterTapAria: 'Saymak için dokunun',
+            counterDone: '✓ Tamamlandı', undo: 'Geri al', resetItem: 'Sıfırla', completedCaption: 'Zikir tamamlandı',
+            emptyList: 'Şu anda uygun zikir yok.', progressTpl: '{total} zikirden {done} tamamlandı',
+            resetConfirmTitle: 'Tüm sayaçlar sıfırlansın mı?', resetConfirmSub: 'Bu bölümdeki ilerlemeniz silinecek ve yeniden başlayacaksınız.',
+            cancel: 'İptal', confirmReset: 'Evet, sıfırla', resetToast: 'Sayaçlar sıfırlandı',
+            rep: { 1: 'bir kez', 2: 'iki kez', 3: 'üç kez', 4: 'dört kez', 7: 'yedi kez', 10: 'on kez', 100: 'yüz kez' }, repN: '{n} kez'
+        },
+        bn: {
+            heroTitle: 'সকালের যিকির',
+            heroSubtitle: 'সকালের যিকিরগুলো পুনরাবৃত্তির সংখ্যা ও নির্ভরযোগ্য সূত্রসহ পড়ুন — আপনার অগ্রগতি সারা দিন স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়।',
+            bcHub: 'যিকির', bcCurrent: 'সকালের যিকির',
+            infoCount: '25 যিকির', infoCounter: 'পুনরাবৃত্ত যিকিরের জন্য কাউন্টার', infoAutosave: 'আপনার অগ্রগতি স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়',
+            sectionTitle: 'পুনরাবৃত্তি ও নির্ভরযোগ্য সূত্রসহ সকালের যিকির',
+            sectionText: 'এই পৃষ্ঠায় সকালের যিকির সম্পূর্ণরূপে দেওয়া হয়েছে, প্রতিটির পুনরাবৃত্তির সংখ্যা ও সূত্র উল্লেখসহ, এবং একটি ইন্টারেক্টিভ কাউন্টার যা ভুলে না গিয়ে সেগুলো সম্পূর্ণ করতে সাহায্য করে।',
+            completedTitle: 'সকালের যিকির সম্পন্ন হয়েছে', completedSub: 'আমরা আল্লাহর কাছে দোয়া করি তিনি যেন আপনার দিনটি যিকির ও প্রশান্তিতে পূর্ণ করেন।',
+            resetBtn: 'কাউন্টার রিসেট করুন', resetBtnShort: 'রিসেট',
+            ariaBreadcrumb: 'ব্রেডক্রাম্ব', ariaInfo: 'সাধারণ তথ্য', ariaProgress: 'অগ্রগতির সারসংক্ষেপ',
+            repeatLabel: 'পুনরাবৃত্তি', sourceLabel: 'সূত্র', showVirtue: 'ফজিলত দেখুন', authenticityLabel: 'হাদিসের মান সম্পর্কে নোট',
+            markRead: 'পঠিত হিসেবে চিহ্নিত করুন', markedRead: '✓ পঠিত', counterTap: 'গণনা', counterTapAria: 'গণনা করতে ট্যাপ করুন',
+            counterDone: '✓ সম্পন্ন', undo: 'পূর্বাবস্থা', resetItem: 'রিসেট', completedCaption: 'যিকির সম্পন্ন হয়েছে',
+            emptyList: 'এই মুহূর্তে কোনো যিকির উপলব্ধ নেই।', progressTpl: '{total}টির মধ্যে {done}টি সম্পন্ন',
+            resetConfirmTitle: 'সব কাউন্টার রিসেট করবেন?', resetConfirmSub: 'এই অংশে আপনার অগ্রগতি মুছে যাবে এবং আপনি নতুন করে শুরু করবেন।',
+            cancel: 'বাতিল', confirmReset: 'হ্যাঁ, রিসেট করুন', resetToast: 'কাউন্টার রিসেট করা হয়েছে',
+            rep: { 1: 'একবার', 2: 'দুইবার', 3: 'তিনবার', 4: 'চারবার', 7: 'সাতবার', 10: 'দশবার', 100: 'একশ বার' }, repN: '{n} বার'
+        },
+        ms: {
+            heroTitle: 'Zikir Pagi',
+            heroSubtitle: 'Baca zikir pagi dengan bilangan ulangan dan sumber sahih — kemajuan anda disimpan secara automatik sepanjang hari.',
+            bcHub: 'Zikir', bcCurrent: 'Zikir Pagi',
+            infoCount: '25 zikir', infoCounter: 'Kaunter untuk zikir berulang', infoAutosave: 'Kemajuan anda disimpan secara automatik',
+            sectionTitle: 'Zikir pagi dengan bilangan ulangan dan sumber sahih',
+            sectionText: 'Halaman ini memaparkan zikir pagi sepenuhnya, menunjukkan bilangan ulangan dan sumber bagi setiap satu, serta kaunter interaktif yang membantu anda menyelesaikannya tanpa hilang tempat.',
+            completedTitle: 'Zikir pagi selesai', completedSub: 'Kami memohon kepada Allah agar memenuhi hari anda dengan zikir dan ketenangan.',
+            resetBtn: 'Tetap semula kaunter', resetBtnShort: 'Tetap semula',
+            ariaBreadcrumb: 'Laluan navigasi', ariaInfo: 'Maklumat umum', ariaProgress: 'Ringkasan kemajuan',
+            repeatLabel: 'Ulangan', sourceLabel: 'Sumber', showVirtue: 'Tunjuk kelebihan', authenticityLabel: 'Nota tentang darjat hadis',
+            markRead: 'Tanda sebagai dibaca', markedRead: '✓ Dibaca', counterTap: 'Kira', counterTapAria: 'Ketik untuk mengira',
+            counterDone: '✓ Selesai', undo: 'Buat asal', resetItem: 'Set semula', completedCaption: 'Zikir selesai',
+            emptyList: 'Tiada zikir tersedia buat masa ini.', progressTpl: '{done} daripada {total} selesai',
+            resetConfirmTitle: 'Tetapkan semula semua kaunter?', resetConfirmSub: 'Kemajuan anda dalam bahagian ini akan dikosongkan dan anda akan bermula semula.',
+            cancel: 'Batal', confirmReset: 'Ya, tetapkan semula', resetToast: 'Kaunter telah ditetapkan semula',
+            rep: { 1: 'sekali', 2: 'dua kali', 3: 'tiga kali', 4: 'empat kali', 7: 'tujuh kali', 10: 'sepuluh kali', 100: 'seratus kali' }, repN: '{n} kali'
+        },
+        de: {
+            heroTitle: 'Morgen-Adhkar',
+            heroSubtitle: 'Lies die Morgen-Adhkar mit ihrer Wiederholungszahl und authentischen Quellen — dein Fortschritt wird den ganzen Tag über automatisch gespeichert.',
+            bcHub: 'Adhkar', bcCurrent: 'Morgen-Adhkar',
+            infoCount: '25 Adhkar', infoCounter: 'Zähler für wiederholte Adhkar', infoAutosave: 'Dein Fortschritt wird automatisch gespeichert',
+            sectionTitle: 'Morgen-Adhkar mit Wiederholungen und authentischen Quellen',
+            sectionText: 'Diese Seite zeigt die Morgen-Adhkar vollständig, mit Wiederholungszahl und Quelle für jedes, sowie einem interaktiven Zähler, der dir hilft, sie ohne den Faden zu verlieren zu vollenden.',
+            completedTitle: 'Morgen-Adhkar abgeschlossen', completedSub: 'Wir bitten Allah, deinen Tag mit Gedenken und Gelassenheit zu erfüllen.',
+            resetBtn: 'Zähler zurücksetzen', resetBtnShort: 'Zurücksetzen',
+            ariaBreadcrumb: 'Navigationspfad', ariaInfo: 'Allgemeine Informationen', ariaProgress: 'Fortschrittsübersicht',
+            repeatLabel: 'Wiederholung', sourceLabel: 'Quelle', showVirtue: 'Vorzug anzeigen', authenticityLabel: 'Hinweis zum Hadith-Grad',
+            markRead: 'Als gelesen markieren', markedRead: '✓ Gelesen', counterTap: 'Zählen', counterTapAria: 'Zum Zählen tippen',
+            counterDone: '✓ Fertig', undo: 'Rückgängig', resetItem: 'Zurücksetzen', completedCaption: 'Dhikr abgeschlossen',
+            emptyList: 'Derzeit sind keine Adhkar verfügbar.', progressTpl: '{done} von {total} abgeschlossen',
+            resetConfirmTitle: 'Alle Zähler zurücksetzen?', resetConfirmSub: 'Dein Fortschritt in diesem Abschnitt wird gelöscht und du beginnst von vorn.',
+            cancel: 'Abbrechen', confirmReset: 'Ja, zurücksetzen', resetToast: 'Zähler wurden zurückgesetzt',
+            rep: { 1: 'einmal', 2: 'zweimal', 3: 'dreimal', 4: 'viermal', 7: 'siebenmal', 10: 'zehnmal', 100: 'hundertmal' }, repN: '{n}-mal'
+        },
+        es: {
+            heroTitle: 'Adhkar de la mañana',
+            heroSubtitle: 'Lee los adhkar de la mañana con su número de repeticiones y fuentes auténticas — tu progreso se guarda automáticamente durante el día.',
+            bcHub: 'Adhkar', bcCurrent: 'Adhkar de la mañana',
+            infoCount: '25 adhkar', infoCounter: 'Contador para los adhkar repetidos', infoAutosave: 'Tu progreso se guarda automáticamente',
+            sectionTitle: 'Adhkar de la mañana con repeticiones y fuentes auténticas',
+            sectionText: 'Esta página presenta los adhkar de la mañana completos, mostrando el número de repeticiones y la fuente de cada uno, con un contador interactivo que te ayuda a completarlos sin perder el hilo.',
+            completedTitle: 'Adhkar de la mañana completados', completedSub: 'Pedimos a Allah que llene tu día de recuerdo y serenidad.',
+            resetBtn: 'Reiniciar contadores', resetBtnShort: 'Reiniciar',
+            ariaBreadcrumb: 'Ruta de navegación', ariaInfo: 'Información general', ariaProgress: 'Resumen del progreso',
+            repeatLabel: 'Repetición', sourceLabel: 'Fuente', showVirtue: 'Mostrar la virtud', authenticityLabel: 'Nota sobre el grado del hadiz',
+            markRead: 'Marcar como leído', markedRead: '✓ Leído', counterTap: 'Contar', counterTapAria: 'Toca para contar',
+            counterDone: '✓ Hecho', undo: 'Deshacer', resetItem: 'Reiniciar', completedCaption: 'Dhikr completado',
+            emptyList: 'No hay adhkar disponibles en este momento.', progressTpl: '{done} de {total} completados',
+            resetConfirmTitle: '¿Reiniciar todos los contadores?', resetConfirmSub: 'Tu progreso en esta sección se borrará y empezarás de nuevo.',
+            cancel: 'Cancelar', confirmReset: 'Sí, reiniciar', resetToast: 'Los contadores se han reiniciado',
+            rep: { 1: 'una vez', 2: 'dos veces', 3: 'tres veces', 4: 'cuatro veces', 7: 'siete veces', 10: 'diez veces', 100: 'cien veces' }, repN: '{n} veces'
+        },
+        id: {
+            heroTitle: 'Zikir Pagi',
+            heroSubtitle: 'Baca zikir pagi dengan jumlah pengulangan dan sumber sahih — kemajuan Anda disimpan otomatis sepanjang hari.',
+            bcHub: 'Zikir', bcCurrent: 'Zikir Pagi',
+            infoCount: '25 zikir', infoCounter: 'Penghitung untuk zikir berulang', infoAutosave: 'Kemajuan Anda disimpan otomatis',
+            sectionTitle: 'Zikir pagi dengan pengulangan dan sumber sahih',
+            sectionText: 'Halaman ini menyajikan zikir pagi secara lengkap, menampilkan jumlah pengulangan dan sumber setiap zikir, dengan penghitung interaktif yang membantu Anda menyelesaikannya tanpa kehilangan jejak.',
+            completedTitle: 'Zikir pagi selesai', completedSub: 'Kami memohon kepada Allah agar memenuhi hari Anda dengan zikir dan ketenangan.',
+            resetBtn: 'Setel ulang penghitung', resetBtnShort: 'Setel ulang',
+            ariaBreadcrumb: 'Jalur navigasi', ariaInfo: 'Informasi umum', ariaProgress: 'Ringkasan kemajuan',
+            repeatLabel: 'Pengulangan', sourceLabel: 'Sumber', showVirtue: 'Tampilkan keutamaan', authenticityLabel: 'Catatan tentang derajat hadis',
+            markRead: 'Tandai sudah dibaca', markedRead: '✓ Dibaca', counterTap: 'Hitung', counterTapAria: 'Ketuk untuk menghitung',
+            counterDone: '✓ Selesai', undo: 'Urungkan', resetItem: 'Atur ulang', completedCaption: 'Zikir selesai',
+            emptyList: 'Tidak ada zikir yang tersedia saat ini.', progressTpl: '{done} dari {total} selesai',
+            resetConfirmTitle: 'Setel ulang semua penghitung?', resetConfirmSub: 'Kemajuan Anda di bagian ini akan dihapus dan Anda mulai dari awal.',
+            cancel: 'Batal', confirmReset: 'Ya, setel ulang', resetToast: 'Penghitung telah disetel ulang',
+            rep: { 1: 'sekali', 2: 'dua kali', 3: 'tiga kali', 4: 'empat kali', 7: 'tujuh kali', 10: 'sepuluh kali', 100: 'seratus kali' }, repN: '{n} kali'
+        }
+    };
+
     try {
         console.log('[azkar-data] loaded · categories=' + window.AzkarCategories.length +
             ' · morning_items=' + window.AzkarMorning.length +

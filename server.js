@@ -6984,6 +6984,9 @@ function _escHtml(s) {
 let _AZKAR_MORNING_DATA = [];
 let _AZKAR_EVENING_DATA = [];
 let _AZKAR_PRAYER_DATA = [];
+// AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: 10-lang morning-page UI chrome dict,
+// plucked from the SAME sandbox (single source of truth = js/azkar-data.js).
+let _AZKAR_MORNING_UI_L10N = {};
 try {
     const _azkarSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-data.js'), 'utf8');
     const _azkarSandbox = { window: {}, console: { log: () => {} } };
@@ -6996,6 +6999,9 @@ try {
     // AZKAR-PRAYER-PHASE-1 (2026-05-26): third category, same sandbox.
     _AZKAR_PRAYER_DATA = Array.isArray(_azkarSandbox.window.AzkarPrayer)
         ? _azkarSandbox.window.AzkarPrayer : [];
+    _AZKAR_MORNING_UI_L10N = (_azkarSandbox.window.AZKAR_MORNING_UI_L10N &&
+        typeof _azkarSandbox.window.AZKAR_MORNING_UI_L10N === 'object')
+        ? _azkarSandbox.window.AZKAR_MORNING_UI_L10N : {};
     console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning + ' +
         _AZKAR_EVENING_DATA.length + ' evening + ' +
         _AZKAR_PRAYER_DATA.length + ' prayer dhikr items for SSR');
@@ -7006,36 +7012,35 @@ try {
     _AZKAR_PRAYER_DATA = [];
 }
 
-// Mirror of js/app.js:_AZKAR_AR_CHROME (AR-only, Phase 1 spec).
-const _AZKAR_AR_CHROME_SSR = {
-    counterTap:        'عد',
-    counterTapAria:    'اضغط للعد',
-    counterDone:       '✓ مكتمل',
-    undo:              'تراجع',
-    resetItem:         'إعادة',
-    repeatLabel:       'التكرار',
-    sourceLabel:       'المصدر',
-    showVirtue:        'عرض الفضل',
-    authenticityLabel: 'ملاحظة حول درجة الحديث',
-    markRead:          'تمت القراءة',
-    completedCaption:  'تم إكمال الذكر'
-};
-
-// AR-localized repeat label (matches js/app.js:_azkarRepeatLabelAR).
-function _azkarRepeatLabelAR_SSR(n) {
-    n = Number(n) || 1;
-    if (n === 1)   return 'مرة واحدة';
-    if (n === 2)   return 'مرتان';
-    if (n === 3)   return 'ثلاث مرات';
-    if (n === 7)   return 'سبع مرات';
-    if (n === 10)  return 'عشر مرات';
-    if (n === 33)  return 'ثلاث وثلاثون مرة';
-    if (n === 100) return 'مئة مرة';
-    if (n >= 3 && n <= 10) return n + ' مرات';
-    return n + ' مرة';
+// AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: morning-page UI chrome is now 10-lang,
+// sourced from the shared _AZKAR_MORNING_UI_L10N dict (js/azkar-data.js — single source of truth,
+// byte-mirrored by js/app.js). `_azkarUiL10n(lang)` returns the per-language chrome map, falling
+// back to Arabic if a language is somehow absent.
+function _azkarUiL10n(lang) {
+    return (_AZKAR_MORNING_UI_L10N && _AZKAR_MORNING_UI_L10N[lang]) ||
+           (_AZKAR_MORNING_UI_L10N && _AZKAR_MORNING_UI_L10N.ar) || {};
 }
 
-// Pick AR field from { ar, en } locale-map.
+// Localized repeat label ("مرة واحدة"/"once"/"une fois"/…): exact counts (1,3,4,7,10,100…) from
+// the shared dict's `rep` map, generic "{n} …" fallback via `repN`. Mirrors js/app.js:_azkarRepeatLabel.
+function _azkarRepeatLabel(n, lang) {
+    n = Number(n) || 1;
+    const ui = _azkarUiL10n(lang);
+    if (ui.rep && ui.rep[n] != null) return ui.rep[n];
+    return String(ui.repN || '{n}').replace('{n}', String(n));
+}
+
+// Pick a field from a { ar, en, … } locale-map for `lang`, with en→ar fallback. Used for the
+// Quran `title` only (4 surah names). Non-scope bodies (virtue / authenticityNote) stay Arabic
+// via _azkarLocalizedAR below.
+function _azkarPickField(field, lang, fallback) {
+    if (!field) return fallback || '';
+    if (typeof field === 'string') return field;
+    return field[lang] || field.en || field.ar || fallback || '';
+}
+
+// Pick AR field from { ar, en } locale-map — virtue / authenticityNote bodies stay Arabic by scope
+// (AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: only the UI chrome is localized this ticket).
 function _azkarLocalizedAR(field, fallback) {
     if (!field) return fallback || '';
     if (typeof field === 'string') return field;
@@ -7051,6 +7056,7 @@ function _buildAzkarCardHtml(dhikr, idx, lang) {
     const orderText = (idx + 1 < 10 ? '0' : '') + String(idx + 1);
     const isQuran = (dhikr.type === 'quran');
     const textClass = isQuran ? 'azkar-quran-text' : 'azkar-text';
+    const ui = _azkarUiL10n(lang);  // 10-lang UI chrome for this page language
 
     // ── Header: order badge + optional title (Quran items only) ──
     let headerHtml = '<header class="azkar-card-item-header' +
@@ -7058,7 +7064,7 @@ function _buildAzkarCardHtml(dhikr, idx, lang) {
         '<span class="azkar-card-item-order">' + _escHtml(orderText) + '</span>';
     if (isQuran && dhikr.title) {
         headerHtml += '<h3 class="azkar-card-item-title">' +
-            _escHtml(_azkarLocalizedAR(dhikr.title, '')) + '</h3>';
+            _escHtml(_azkarPickField(dhikr.title, lang, '')) + '</h3>';
     }
     headerHtml += '</header>';
 
@@ -7074,44 +7080,44 @@ function _buildAzkarCardHtml(dhikr, idx, lang) {
         _escHtml(dhikr.text || '') + '</p>';
 
     // ── Action row: repeat label + counter/button ──
-    const repeatText = _azkarLocalizedAR(dhikr.repeatLabel, _azkarRepeatLabelAR_SSR(target));
+    const repeatText = _azkarRepeatLabel(target, lang);
     let actionRowHtml = '<div class="azkar-action-row">' +
         '<span class="azkar-repeat-label">' +
-            '<span class="azkar-repeat-label-key">' + _AZKAR_AR_CHROME_SSR.repeatLabel + ':</span> ' +
+            '<span class="azkar-repeat-label-key">' + ui.repeatLabel + ':</span> ' +
             '<span class="azkar-repeat-label-val">' + _escHtml(repeatText) + '</span>' +
         '</span>';
     let counterBlockHtml = '';
     if (isSingleRead) {
         // Variant A: simple "تمت القراءة" toggle inside action row
         actionRowHtml += '<button type="button" class="azkar-mark-read" aria-pressed="false">' +
-            _AZKAR_AR_CHROME_SSR.markRead + '</button>';
+            ui.markRead + '</button>';
         actionRowHtml += '</div>';
     } else {
         // Variant B: counter pill in separate block AFTER action row
         actionRowHtml += '</div>';
         counterBlockHtml = '<div class="azkar-counter">' +
             '<button type="button" class="azkar-counter-tap" aria-label="' +
-                _escHtml(_AZKAR_AR_CHROME_SSR.counterTapAria) + '">' +
-                '<span class="azkar-counter-tap-prompt">' + _AZKAR_AR_CHROME_SSR.counterTap + '</span>' +
+                _escHtml(ui.counterTapAria) + '">' +
+                '<span class="azkar-counter-tap-prompt">' + ui.counterTap + '</span>' +
                 '<span class="azkar-counter-tap-count" dir="ltr">0 / ' + target + '</span>' +
             '</button>' +
             '<div class="azkar-counter-controls">' +
-                '<button type="button" class="azkar-counter-undo">' + _AZKAR_AR_CHROME_SSR.undo + '</button>' +
-                '<button type="button" class="azkar-counter-reset">' + _AZKAR_AR_CHROME_SSR.resetItem + '</button>' +
+                '<button type="button" class="azkar-counter-undo">' + ui.undo + '</button>' +
+                '<button type="button" class="azkar-counter-reset">' + ui.resetItem + '</button>' +
             '</div>' +
         '</div>';
     }
 
     // ── Completion caption ──
     const captionHtml = '<p class="azkar-completed-caption">✓ ' +
-        _AZKAR_AR_CHROME_SSR.completedCaption + '</p>';
+        ui.completedCaption + '</p>';
 
     // ── Footer: source + virtue + authenticity ──
     let footerInner = '';
     if (dhikr.source && dhikr.source.ref) {
         footerInner += '<p class="azkar-source" dir="rtl">' +
             '<span class="azkar-source-icon" aria-hidden="true">📖</span>' +
-            '<span class="azkar-source-key">' + _AZKAR_AR_CHROME_SSR.sourceLabel + ':</span> ' +
+            '<span class="azkar-source-key">' + ui.sourceLabel + ':</span> ' +
             '<span class="azkar-source-val">' + _escHtml(dhikr.source.ref) + '</span>' +
         '</p>';
     }
@@ -7119,7 +7125,7 @@ function _buildAzkarCardHtml(dhikr, idx, lang) {
         footerInner += '<details class="azkar-virtue">' +
             '<summary>' +
                 '<span class="azkar-disclosure-chev" aria-hidden="true">▾</span>' +
-                '<span>' + _AZKAR_AR_CHROME_SSR.showVirtue + '</span>' +
+                '<span>' + ui.showVirtue + '</span>' +
             '</summary>' +
             '<p dir="rtl">' + _escHtml(_azkarLocalizedAR(dhikr.virtue, '')) + '</p>' +
         '</details>';
@@ -7128,7 +7134,7 @@ function _buildAzkarCardHtml(dhikr, idx, lang) {
         footerInner += '<details class="azkar-authenticity">' +
             '<summary>' +
                 '<span class="azkar-disclosure-chev" aria-hidden="true">▾</span>' +
-                '<span>' + _AZKAR_AR_CHROME_SSR.authenticityLabel + '</span>' +
+                '<span>' + ui.authenticityLabel + '</span>' +
             '</summary>' +
             '<p dir="rtl">' + _escHtml(_azkarLocalizedAR(dhikr.authenticityNote, '')) + '</p>' +
         '</details>';
@@ -7155,13 +7161,49 @@ function _buildAzkarMorningListHtml(lang) {
 // different data source. Clone strategy keeps morning untouched.
 function _buildAzkarEveningListHtml() {
     if (!_AZKAR_EVENING_DATA.length) return '';
-    return _AZKAR_EVENING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
+    // Pass 'ar' explicitly: evening/prayer are OUT OF SCOPE for the morning UI-localization
+    // ticket and must render exactly as before (Arabic chrome + Arabic titles).
+    return _AZKAR_EVENING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx, 'ar')).join('');
 }
 
 // AZKAR-PRAYER-PHASE-1 (2026-05-26): same pattern, prayer category.
 function _buildAzkarPrayerListHtml() {
     if (!_AZKAR_PRAYER_DATA.length) return '';
-    return _AZKAR_PRAYER_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
+    return _AZKAR_PRAYER_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx, 'ar')).join('');
+}
+
+// AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: SSR walker that localizes the STATIC
+// morning-page chrome (hero title/subtitle, breadcrumb, info-strip, progress label, reset buttons,
+// section-intro, completed banner) at FIRST PAINT — no CLS, no JS wait. Every leaf element carrying
+// data-azkar-ui="key" has its inner text replaced with _azkarUiL10n(lang)[key]; every element with
+// data-azkar-ui-aria="key" has its aria-label replaced. `data-azkar-ui` is exclusive to this page, so
+// running it on the whole document is safe. Idempotent for 'ar' (re-writes the same Arabic value).
+function _translateAzkarMorningUi(html, lang) {
+    const ui = _azkarUiL10n(lang);
+    if (!ui || !html) return html;
+    // Derive the initial progress label ("… 0 / 0 …") from progressTpl so the first paint is already
+    // localized; js/app.js overwrites it with live localStorage counts on hydration.
+    const uiX = Object.assign({}, ui);
+    if (uiX.progressTpl && uiX.progressInit == null) {
+        uiX.progressInit = String(uiX.progressTpl).replace('{done}', '0').replace('{total}', '0');
+    }
+    // 1) inner-text of [data-azkar-ui="key"] leaf elements
+    html = html.replace(/(<([a-zA-Z0-9]+)\b[^>]*\sdata-azkar-ui="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g,
+        function (m, open, _tag, key, _inner, close) {
+            if (uiX[key] == null) return m;
+            return open + _escHtml(String(uiX[key])) + close;
+        });
+    // 2) aria-label of [data-azkar-ui-aria="key"] elements
+    html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?\sdata-azkar-ui-aria="([^"]+)"[^>]*?)>/g,
+        function (m, tag, attrs, key) {
+            if (ui[key] == null) return m;
+            const val = _escHtml(String(ui[key]));
+            const newAttrs = /\saria-label="[^"]*"/.test(attrs)
+                ? attrs.replace(/\saria-label="[^"]*"/, ' aria-label="' + val + '"')
+                : attrs + ' aria-label="' + val + '"';
+            return '<' + tag + newAttrs + '>';
+        });
+    return html;
 }
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -19998,6 +20040,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     '</div>'
                 );
             }
+            // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: localize the STATIC morning-page chrome
+            // (hero/breadcrumb/info-strip/progress/reset/section-intro/completed banner) at first paint,
+            // in the page language. Arabic route (no prefix) re-writes the same Arabic values (idempotent).
+            html = _translateAzkarMorningUi(html, _azkarUiLang);
         } else if (_isAzkarEveningRoute) {
             // AZKAR-EVENING-PHASE-1 (2026-05-26): same SSR pattern as morning.
             html = html.replace(

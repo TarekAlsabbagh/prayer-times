@@ -55,10 +55,10 @@ console.log('\n================ 3. SSR — morning passes lang; evening/prayer d
 ok(/function _buildAzkarMorningListHtml\(lang\)/.test(srvSrc), '_buildAzkarMorningListHtml gained a lang parameter');
 ok(/_AZKAR_MORNING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, lang\)\)/.test(srvSrc),
    'morning list forwards lang into _buildAzkarCardHtml');
-ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx\)\)/.test(srvSrc),
-   'evening list calls _buildAzkarCardHtml WITHOUT lang (untouched → no translation)');
-ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx\)\)/.test(srvSrc),
-   'prayer list calls _buildAzkarCardHtml WITHOUT lang (untouched → no translation)');
+ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc),
+   "evening list calls _buildAzkarCardHtml with 'ar' (out of scope → no translation)");
+ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc),
+   "prayer list calls _buildAzkarCardHtml with 'ar' (out of scope → no translation)");
 
 console.log('\n================ 4. SSR injection — UI lang from route prefix ================');
 ok(/const _azkarUiLang = \(urlPath\.match\(\/\^\\\/\(en\|fr\|tr\|ur\|de\|id\|es\|bn\|ms\)\\\/\/\) \|\| \[\]\)\[1\] \|\| 'ar';/.test(srvSrc),
@@ -86,10 +86,10 @@ ok(/html\[data-theme="dark"\]\s*\.azkar-translation-en\s*\{/.test(cssSrc), 'css 
 ok(/\.azkar-translation-en[\s\S]{0,220}direction:\s*ltr/.test(cssSrc), '.azkar-translation-en is direction:ltr');
 
 console.log('\n================ 7. Cache-busters bumped ================');
-ok(/js\/app\.js\?v=830/.test(htmlSrc), 'index.html app.js?v=830');
+ok(/js\/app\.js\?v=831/.test(htmlSrc), 'index.html app.js?v=831');
 ok(/css\/style\.css\?v=497/.test(htmlSrc), 'index.html style.css?v=497');
-ok(/js\/azkar-data\.js\?v=5/.test(htmlSrc), 'index.html azkar-data.js?v=5');
-ok(/CACHE_VERSION = 'v497'/.test(swSrc), "sw.js CACHE_VERSION 'v497'");
+ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6');
+ok(/CACHE_VERSION = 'v498'/.test(swSrc), "sw.js CACHE_VERSION 'v498'");
 
 console.log('\n================ 8. Out-of-scope guardrails (nothing leaked) ================');
 // The only English translation the site ships is this one paragraph on the morning card path — the marker

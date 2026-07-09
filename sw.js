@@ -1653,10 +1653,10 @@
 //   remnant is a one-time wipe of the legacy localStorage key `qiblaCalibOffset` on Android load. The compass
 //   just works: AOS priority → DeviceOrientation fallback (low-accuracy badge + figure-8 hint, message only) →
 //   static «اتجاه القبلة: 243.8° — <dir>» text when the sensor fails. iOS untouched; NO global offset; NO Compass Lab.
-// v498 — AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: morning-azkar PAGE UI CHROME (hero/labels/
-//   progress/status/card chrome/repeat values/source label) localized to all 10 languages via a shared
-//   dict (js/azkar-data.js) + SSR walker + client walker + Proxy chrome. Arabic dhikr text/virtue unchanged.
-const CACHE_VERSION = 'v498';
+// v499 — PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1: DE-only high-latitude-rule override. Germany keeps
+//   method MWL (18°/17°) but its twilight rule becomes NightMiddle in the CALC (SSR `_HIGHLAT_BY_CC` +
+//   client override in updatePrayerTimes) so Fajr/Isha match Google's MWL; every other country untouched.
+const CACHE_VERSION = 'v499';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

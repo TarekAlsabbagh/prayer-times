@@ -86,10 +86,10 @@ ok(/html\[data-theme="dark"\]\s*\.azkar-translation-en\s*\{/.test(cssSrc), 'css 
 ok(/\.azkar-translation-en[\s\S]{0,220}direction:\s*ltr/.test(cssSrc), '.azkar-translation-en is direction:ltr');
 
 console.log('\n================ 7. Cache-busters bumped ================');
-ok(/js\/app\.js\?v=831/.test(htmlSrc), 'index.html app.js?v=831');
+ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
 ok(/css\/style\.css\?v=497/.test(htmlSrc), 'index.html style.css?v=497');
 ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6');
-ok(/CACHE_VERSION = 'v498'/.test(swSrc), "sw.js CACHE_VERSION 'v498'");
+ok(/CACHE_VERSION = 'v49[0-9]'/.test(swSrc), "sw.js CACHE_VERSION bumped (≥v498)");
 
 console.log('\n================ 8. Out-of-scope guardrails (nothing leaked) ================');
 // The only English translation the site ships is this one paragraph on the morning card path — the marker

@@ -7981,7 +7981,15 @@ function _userExplicitMethod() {
     return '';
 }
 
+// PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1 (2026-07-09): DE-only high-latitude-rule override
+// (mirror of server.js `_HIGHLAT_BY_CC`). Germany keeps method MWL but its twilight rule becomes
+// 'NightMiddle' in the CALC (matches Google's MWL at high latitude; AngleBased was over-clamping).
+// Any cc NOT listed keeps the #high-lats dropdown value (global 'AngleBased' default) — so every
+// other country is untouched. It is applied to the calculation only; the method dropdown/label stay MWL.
+const _HIGHLAT_BY_CC = { de: 'NightMiddle' };
+let _autoCalcCc = ''; // current city's country code, recorded here for updatePrayerTimes()
 function autoSelectMethod(countryCode, countryName) {
+    _autoCalcCc = (countryCode || '').toLowerCase().trim();
     // Priority 1: user's explicit choice (set ONLY by the dropdown change
     // event below — programmatic `.value = …` doesn't fire change so it's
     // never auto-recorded as explicit).
@@ -9238,10 +9246,17 @@ function updatePrayerTimes() {
     const timeFormat = document.getElementById('time-format').value;
     const highLats   = document.getElementById('high-lats').value;
 
+    // PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1: DE-only high-lat override in the CALC (mirror of SSR).
+    // Germany → NightMiddle; every other cc → the #high-lats dropdown value (unchanged). Method/label
+    // are untouched (still MWL). cc from autoSelectMethod, with a __PRAYER_CITY__ seed fallback.
+    const _pc = (typeof window !== 'undefined' && window.__PRAYER_CITY__) || {};
+    const _calcCc = _autoCalcCc || String(_pc.countryCode || _pc.cc || '').toLowerCase();
+    const effHighLats = _HIGHLAT_BY_CC[_calcCc] || highLats;
+
     PrayerTimes.setMethod(method);
     PrayerTimes.setAsrMethod(asrMethod);
     PrayerTimes.setTimeFormat(timeFormat);
-    PrayerTimes.setHighLats(highLats);
+    PrayerTimes.setHighLats(effHighLats);
 
     // حساب التاريخ بتوقيت المدينة المختارة (لا توقيت المتصفح)
     const now = new Date();

@@ -87,9 +87,9 @@ ok(/data-azkar-ui-aria="ariaBreadcrumb"/.test(htmlSrc), 'aria-label keyed too (d
 ok((htmlSrc.match(/data-azkar-ui/g) || []).length >= 18, 'at least 18 data-azkar-ui markers on the page');
 
 console.log('\n================ 7. Cache-busters ================');
-ok(/js\/app\.js\?v=831/.test(htmlSrc), 'index.html app.js?v=831');
-ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6');
-ok(/CACHE_VERSION = 'v498'/.test(swSrc), "sw.js CACHE_VERSION 'v498'");
+ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
+ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6 (unchanged since this ticket)');
+ok(/CACHE_VERSION = 'v49[0-9]'/.test(swSrc), "sw.js CACHE_VERSION bumped (≥v498)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

@@ -2885,6 +2885,17 @@ const _SSR_METHOD_BY_CC = {
     // `_ssrPrayerTimesFor` (changed from 'Makkah' in APPLY-1).
 };
 
+// PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1 (2026-07-09): per-country high-latitude-rule OVERRIDE.
+// DE-ONLY. Germany keeps method = MWL (18°/17°), but its high-lat twilight rule becomes 'NightMiddle'
+// instead of the global 'AngleBased' default — AngleBased was clamping the long summer twilight and
+// pushing Fajr later / Isha earlier than Google's MWL. NightMiddle uses the raw angle when reachable
+// (matching Google: Heilbronn 2026-07-09 Fajr 03:04→02:06, Isha 23:44→00:20). Any cc NOT listed here
+// keeps the global 'AngleBased' default, so Riyadh/Istanbul/Paris and every other country are untouched.
+// The rule is applied to the CALC (setHighLats) — it is NOT a method and never appears in the method label.
+const _HIGHLAT_BY_CC = {
+    de: 'NightMiddle',
+};
+
 // Compute the IANA-timezone offset (in hours, fractional) for a given Date.
 //   Uses Intl.DateTimeFormat (Node 14+). Falls back to 0 on parse failure.
 function _ianaOffsetHours(iana, date) {
@@ -2927,6 +2938,10 @@ function _ssrPrayerTimesFor(slug) {
         // was incorrect for the ~150 unmapped countries.
         const method = _SSR_METHOD_BY_CC[cc] || 'MWL';
         PrayerTimesSrv.setMethod(method);
+        // PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1: set the high-lat rule EXPLICITLY every request
+        // (the module is a require-cached singleton, so we must not let a prior DE request leak
+        // 'NightMiddle' into the next non-DE one). DE → NightMiddle; everyone else → 'AngleBased' default.
+        PrayerTimesSrv.setHighLats(_HIGHLAT_BY_CC[cc] || 'AngleBased');
         PrayerTimesSrv.setTimeFormat('24h'); // SSR always emits 24h; client formats per-lang
         const t = PrayerTimesSrv.getTimes(now, lat, lng, tzOffset);
         // Validate: NaN-protected by formatTime → returns "--:--", reject those

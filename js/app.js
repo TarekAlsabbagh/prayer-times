@@ -26851,6 +26851,11 @@ function _loadAzkarMorning() {
         return;
     }
 
+    // AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1: English UI only — render the per-dhikr English
+    // translation ABOVE the Arabic ONLY when the UI language is 'en'. Arabic (and every other UI) is unchanged.
+    // (On a full page load the SSR already produced this for /en and JS hydrates; this covers SPA navigation.)
+    const _azkarUiLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+
     items.forEach((dhikr, idx) => {
         const target = Number(dhikr.repeat) || 1;
         const isSingleRead = (target === 1);
@@ -26888,6 +26893,16 @@ function _loadAzkarMorning() {
             headerRow.appendChild(titleEl);
         }
         card.appendChild(headerRow);
+
+        // ── English translation (EN UI only, ABOVE the Arabic) ──
+        if (_azkarUiLang === 'en' && dhikr.translation_en) {
+            const trEl = document.createElement('p');
+            trEl.className = 'azkar-translation-en';
+            trEl.setAttribute('dir', 'ltr');
+            trEl.setAttribute('lang', 'en');
+            trEl.textContent = dhikr.translation_en;
+            card.appendChild(trEl);
+        }
 
         // ── Dhikr text ──
         const textEl = document.createElement('p');

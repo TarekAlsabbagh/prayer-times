@@ -1653,7 +1653,9 @@
 //   remnant is a one-time wipe of the legacy localStorage key `qiblaCalibOffset` on Android load. The compass
 //   just works: AOS priority → DeviceOrientation fallback (low-accuracy badge + figure-8 hint, message only) →
 //   static «اتجاه القبلة: 243.8° — <dir>» text when the sensor fails. iOS untouched; NO global offset; NO Compass Lab.
-const CACHE_VERSION = 'v496';
+// v497 — AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1: morning dhikr 001 (Ayat al-Kursi) shows a
+//   Saheeh-International English translation ABOVE the Arabic ONLY in the English UI (/en). Arabic UI unchanged.
+const CACHE_VERSION = 'v497';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

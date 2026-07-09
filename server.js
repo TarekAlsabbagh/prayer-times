@@ -7045,7 +7045,7 @@ function _azkarLocalizedAR(field, fallback) {
 // Build the SSR HTML for ONE dhikr card. Output is byte-equivalent to what
 // js/app.js produces for an "uncompleted, restored=0" state. JS hydration
 // then applies localStorage progress + binds event handlers on top.
-function _buildAzkarCardHtml(dhikr, idx) {
+function _buildAzkarCardHtml(dhikr, idx, lang) {
     const target = Number(dhikr.repeat) || 1;
     const isSingleRead = (target === 1);
     const orderText = (idx + 1 < 10 ? '0' : '') + String(idx + 1);
@@ -7061,6 +7061,13 @@ function _buildAzkarCardHtml(dhikr, idx) {
             _escHtml(_azkarLocalizedAR(dhikr.title, '')) + '</h3>';
     }
     headerHtml += '</header>';
+
+    // ── English translation (EN UI only, ABOVE the Arabic) ──
+    // AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1: shown ONLY when the page language is 'en' AND the
+    // dhikr carries a translation_en. Never emitted for ar (or any other UI) — the Arabic text is unchanged.
+    const translationHtml = (lang === 'en' && dhikr.translation_en)
+        ? '<p class="azkar-translation-en" dir="ltr" lang="en">' + _escHtml(dhikr.translation_en) + '</p>'
+        : '';
 
     // ── Dhikr text ──
     const textHtml = '<p class="' + textClass + '" dir="rtl">' +
@@ -7133,14 +7140,15 @@ function _buildAzkarCardHtml(dhikr, idx) {
         '" id="azkar-item-' + _escHtml(dhikr.id) +
         '" data-dhikr-id="' + _escHtml(dhikr.id) +
         '" data-repeat="' + target + '">' +
-        headerHtml + textHtml + actionRowHtml + counterBlockHtml + captionHtml + footerHtml +
+        headerHtml + translationHtml + textHtml + actionRowHtml + counterBlockHtml + captionHtml + footerHtml +
     '</article>';
 }
 
 // Build the complete SSR HTML for #azkar-morning-list (25 cards).
-function _buildAzkarMorningListHtml() {
+// `lang` (optional) is the page UI language — only 'en' triggers the per-dhikr English translation block.
+function _buildAzkarMorningListHtml(lang) {
     if (!_AZKAR_MORNING_DATA.length) return '';
-    return _AZKAR_MORNING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx)).join('');
+    return _AZKAR_MORNING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx, lang)).join('');
 }
 
 // AZKAR-EVENING-PHASE-1 (2026-05-26): same _buildAzkarCardHtml helper,
@@ -19977,7 +19985,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // the SSR marker (data-ssr-rendered="1") and switches to
             // hydration-only mode — binds handlers + applies localStorage
             // state without rebuilding the DOM (no shift, no re-render).
-            const _azkarListHtml = _buildAzkarMorningListHtml();
+            // AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1: pass the route language so the English UI
+            // (/en/azkar/morning-azkar) SSR-renders the per-dhikr English translation above the Arabic. Arabic
+            // (no prefix) and every other language render exactly as before (Arabic text only).
+            const _azkarUiLang = (urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//) || [])[1] || 'ar';
+            const _azkarListHtml = _buildAzkarMorningListHtml(_azkarUiLang);
             if (_azkarListHtml) {
                 html = html.replace(
                     '<div class="azkar-list" id="azkar-morning-list" aria-live="polite"></div>',

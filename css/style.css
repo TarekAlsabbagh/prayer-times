@@ -8592,6 +8592,20 @@ html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
     white-space: pre-line;
 }
 
+/* AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1: English translation block, shown ABOVE the Arabic
+   ONLY in the English UI. LTR, left-aligned, visually distinct from (and quieter than) the Arabic scripture. */
+.azkar-translation-en {
+    direction: ltr;
+    text-align: left;
+    font-size: clamp(0.98rem, 2.4vw, 1.1rem);
+    line-height: 1.7;
+    color: var(--azkar-deep-text);
+    opacity: 0.9;
+    border-inline-start: 3px solid rgba(15, 110, 74, 0.35);
+    padding-inline-start: 14px;
+    margin: 4px 0 16px;
+}
+
 /* Action row — repeat label (right) + mark-read button (left) */
 .azkar-action-row {
     display: flex;
@@ -9373,6 +9387,10 @@ html[data-theme="dark"] .azkar-card-item-title {
 html[data-theme="dark"] .azkar-text,
 html[data-theme="dark"] .azkar-quran-text {
     color: #e2eee5;
+}
+html[data-theme="dark"] .azkar-translation-en {
+    color: #d6ead9;
+    border-inline-start-color: rgba(74, 222, 128, 0.4);
 }
 html[data-theme="dark"] .azkar-info-strip {
     background: rgba(11, 107, 58, 0.12);

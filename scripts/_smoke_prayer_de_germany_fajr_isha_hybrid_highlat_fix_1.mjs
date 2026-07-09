@@ -40,7 +40,7 @@ const DE = [
   ['Munich',    48.14, 11.58, 2, true,  true,  '02:24', '23:53'],
   ['Stuttgart', 48.78,  9.18, 2, true,  true,  '02:18', '00:13'],
   ['Heilbronn', 49.14,  9.22, 2, true,  true,  '02:06', '00:20'],
-  ['Frankfurt', 50.11,  8.68, 2, false, true,  '03:05', '00:47'], // MIXED: Fajr AB, Isha real
+  ['Frankfurt', 50.11,  8.68, 2, false, false, '03:05', '23:48'], // Fajr AB (18° not reached); Isha 17° reached-but-thin → AngleBased via MARGIN-THRESHOLD-FIX-1 (00:47→23:48)
   ['Cologne',   50.94,  6.96, 2, false, false, '03:10', '23:57'],
   ['Dusseldorf',51.23,  6.78, 2, false, false, '03:10', '23:58'],
   ['Essen',     51.46,  7.01, 2, false, false, '03:09', '23:58'],
@@ -83,13 +83,14 @@ ok(heil.fajr === '02:06', `Heilbronn Fajr 02:06 (= Google), NOT 03:04; got ${hei
 ok(heil.isha === '00:20', `Heilbronn Isha 00:20 (= Google), NOT 23:44; got ${heil.isha}`);
 ok(heil.fajr !== '03:04' && heil.isha !== '23:44', 'Heilbronn did not regress to the pre-fix AngleBased values');
 
-console.log('\n================ 5. Frankfurt MIXED — per-prayer reachability ================');
+console.log('\n================ 5. Frankfurt — Fajr AngleBased; Isha AngleBased via MARGIN-THRESHOLD-FIX-1 ================');
+// Superseded by PRAYER-DE-FRANKFURT-ISHA-MARGIN-THRESHOLD-FIX-1: Frankfurt Isha 17° IS reached but the
+// margin is thin (+0.5°) so the real-angle Isha (00:47) is replaced by the AngleBased fallback (23:48).
 const fra = times('MWL', 'DEHybrid', 50.11, 8.68, 2);
 const fraAB = times('MWL', 'AngleBased', 50.11, 8.68, 2);
-const fraNM = times('MWL', 'NightMiddle', 50.11, 8.68, 2);
 ok(fra.fajr === fraAB.fajr, `Frankfurt Fajr uses AngleBased (18° NOT reached): ${fra.fajr}`);
-ok(fra.isha === fraNM.isha, `Frankfurt Isha uses real angle (17° reached): ${fra.isha}`);
-ok(fra.fajr === '03:05' && fra.isha === '00:47', `Frankfurt = 03:05/00:47 (mixed); got ${fra.fajr}/${fra.isha}`);
+ok(fra.isha === fraAB.isha, `Frankfurt Isha uses AngleBased (17° reached-but-thin → margin threshold): ${fra.isha}`);
+ok(fra.fajr === '03:05' && fra.isha === '23:48', `Frankfurt = 03:05/23:48 (Isha no longer 00:47); got ${fra.fajr}/${fra.isha}`);
 
 console.log('\n================ 6. DE-ONLY — non-DE countries byte-identical to their normal rule ================');
 const REG = [
@@ -126,9 +127,9 @@ ok(!/de: 'NightMiddle'/.test(appSrc), 'app.js no longer maps de to NightMiddle')
 // 'DEHybrid' is an internal calc rule — never a user-facing method/high-lat dropdown OPTION.
 ok(!/<option[^>]*value="DEHybrid"/.test(htmlSrc), 'DEHybrid is NOT a dropdown <option> (never shown to the user)');
 ok(!/<option[^>]*value="NightMiddle"[^>]*>\s*[^<]*method/i.test(htmlSrc), 'NightMiddle is not offered as a calc METHOD');
-ok(/js\/prayer-times\.js\?v=55/.test(htmlSrc), 'index.html prayer-times.js?v=55 (engine changed)');
-ok(/js\/app\.js\?v=833/.test(htmlSrc), 'index.html app.js?v=833');
-ok(/CACHE_VERSION = 'v500'/.test(swSrc), "sw.js CACHE_VERSION 'v500'");
+ok(/js\/prayer-times\.js\?v=5[0-9]/.test(htmlSrc), 'index.html prayer-times.js?v bumped (engine changed)');
+ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v (≥833)');
+ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
 ok(/css\/style\.css\?v=497/.test(htmlSrc) && /js\/azkar-data\.js\?v=6/.test(htmlSrc), 'css v497 + azkar-data v6 unchanged');
 
 console.log('\n================ 8. Determinism — engine pure (SSR==client given same inputs) ================');

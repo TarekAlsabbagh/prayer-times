@@ -178,7 +178,18 @@ const PrayerTimes = (function () {
         return Math.abs(cosV) <= 1;
     }
 
-    function adjustHighLat(time, base, angle, night, dir, reached) {
+    // PRAYER-DE-FRANKFURT-ISHA-MARGIN-THRESHOLD-FIX-1: كم درجةً تنزل الشمس تحت الزاوية عند أدنى
+    // ارتفاع لها (منتصف الليل الشمسي) = |minSunAlt| − angle.  ≥0 ⟺ الزاوية تُبلَغ؛ وكلما صغُر الهامش
+    // اقترب وقتُ الزاوية الحقيقي من منتصف الليل الشمسي ⇒ عشاء متأخّر غير مستقر (Frankfurt 17° هامش
+    // +0.5° ⇒ Isha 00:47). minSunAlt = ارتفاع الشمس عند القرين الأدنى.
+    function angleMargin(angle, t, lat, jd) {
+        var decl = sunDeclination(jd + t / 24);
+        var minAlt = rtd(Math.asin(Math.sin(dtr(lat)) * Math.sin(dtr(decl)) -
+                                   Math.cos(dtr(lat)) * Math.cos(dtr(decl))));
+        return -minAlt - angle; // درجات تحت الزاوية (>0 = تُبلَغ بهامش، <0 = لا تُبلَغ)
+    }
+
+    function adjustHighLat(time, base, angle, night, dir, reached, margin) {
         // PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1 (DE-only, عبر setHighLats('DEHybrid')):
         //   • إذا تُبلَغ الزاوية فعلاً  → استخدم وقت الزاوية الحقيقي بلا قصّ (يطابق Google في جنوب
         //     ألمانيا؛ يتجنّب القصّ الزائد لـ AngleBased الذي كان يؤخّر الفجر/يقدّم العشاء).
@@ -186,9 +197,18 @@ const PrayerTimes = (function () {
         //     شمال ألمانيا؛ يتجنّب انهيار NightMiddle إلى منتصف الليل الشمسي حيث Fajr≈Isha≈01:xx).
         //   يُقرَّر لكل صلاة (فجر/عشاء) على حدة عبر `reached` (يعالج المدن المختلطة مثل Frankfurt).
         //   كل الدول الأخرى تمرّ عبر المنطق الأصلي أدناه دون تغيير (config.highLats !== 'DEHybrid').
+        // PRAYER-DE-FRANKFURT-ISHA-MARGIN-THRESHOLD-FIX-1: للعشاء فقط (dir==='cw') عتبة هامش إضافية —
+        //   إن كانت زاوية 17° تُبلَغ لكن *بالكاد* (هامش < DE_ISHA_MIN_MARGIN) فوقتها الحقيقي يتكدّس نحو
+        //   منتصف الليل الشمسي (Frankfurt 00:47) ⇒ استخدم AngleBased fallback (≈23:48، يطابق المراجع
+        //   السائدة). الفجر (dir==='ccw') يبقى على البلوغ وحده بلا عتبة (هامش Heilbronn للفجر 18° = +0.4°
+        //   فقط، ويجب أن يبقى real → 02:06). Heilbronn/Stuttgart Isha هامشهما ≥ العتبة ⇒ يبقيان real.
         if (config.highLats === 'DEHybrid') {
-            if (reached) return time;                       // وقت الزاوية الحقيقي (بلا قصّ)
-            var p = angle / 60 * night;                     // AngleBased fallback
+            var DE_ISHA_MIN_MARGIN = 1.0; // درجة — Frankfurt(+0.5)<العتبة⇒fallback؛ Heilbronn(+1.4)/Stuttgart(+1.8)≥⇒real
+            var useReal = (dir === 'cw')
+                ? (reached && margin >= DE_ISHA_MIN_MARGIN)   // العشاء: يتطلّب هامشًا كافيًا
+                : reached;                                    // الفجر: البلوغ وحده (بلا عتبة)
+            if (useReal) return time;                         // وقت الزاوية الحقيقي (بلا قصّ)
+            var p = angle / 60 * night;                       // AngleBased fallback
             return base + (dir === 'ccw' ? -p : p);
         }
         var portion = nightPortion(angle, night);
@@ -252,10 +272,10 @@ const PrayerTimes = (function () {
         // PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1: كشف بلوغ الزاوية لكل صلاة على حدة
         // (يُستخدم فقط في مسار 'DEHybrid'؛ يُتجاهل في كل القواعد الأخرى فلا يغيّر أي دولة).
         raw.fajr = adjustHighLat(raw.fajr, raw.sunrise, m.fajr, night, 'ccw',
-                                 angleReachable(m.fajr, t.fajr, lat, jd));
+                                 angleReachable(m.fajr, t.fajr, lat, jd), angleMargin(m.fajr, t.fajr, lat, jd));
         if (typeof m.isha !== 'string')
             raw.isha = adjustHighLat(raw.isha, raw.sunset, m.isha, night, 'cw',
-                                     angleReachable(m.isha, t.isha, lat, jd));
+                                     angleReachable(m.isha, t.isha, lat, jd), angleMargin(m.isha, t.isha, lat, jd));
 
         // MALAYSIA-JAKIM-IHTIYAT-APPLY-1 (2026-05-26):
         //   Method-level "ihtiyat" adjustments (e.g. JAKIM's published-table

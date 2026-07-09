@@ -7981,12 +7981,14 @@ function _userExplicitMethod() {
     return '';
 }
 
-// PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1 (2026-07-09): DE-only high-latitude-rule override
-// (mirror of server.js `_HIGHLAT_BY_CC`). Germany keeps method MWL but its twilight rule becomes
-// 'NightMiddle' in the CALC (matches Google's MWL at high latitude; AngleBased was over-clamping).
+// PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1 (2026-07-09): DE-only high-latitude-rule override
+// (mirror of server.js `_HIGHLAT_BY_CC`; supersedes the earlier 'NightMiddle'). Germany keeps method
+// MWL but its twilight rule becomes 'DEHybrid' in the CALC: per-prayer real solar angle where the
+// 18°/17° depression is reached (south = Google), AngleBased fallback where it is not (north = the
+// spread all references show — fixes the Fajr≈Isha≈01:xx collapse NightMiddle caused in the north).
 // Any cc NOT listed keeps the #high-lats dropdown value (global 'AngleBased' default) — so every
-// other country is untouched. It is applied to the calculation only; the method dropdown/label stay MWL.
-const _HIGHLAT_BY_CC = { de: 'NightMiddle' };
+// other country is untouched. Calculation only; the method dropdown/label stay MWL.
+const _HIGHLAT_BY_CC = { de: 'DEHybrid' };
 let _autoCalcCc = ''; // current city's country code, recorded here for updatePrayerTimes()
 function autoSelectMethod(countryCode, countryName) {
     _autoCalcCc = (countryCode || '').toLowerCase().trim();

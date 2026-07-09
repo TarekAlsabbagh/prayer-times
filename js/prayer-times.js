@@ -167,7 +167,30 @@ const PrayerTimes = (function () {
         return night / 2; // NightMiddle (افتراضي)
     }
 
-    function adjustHighLat(time, base, angle, night, dir) {
+    // هل تبلغ الشمس زاوية العرض العالي فعلاً في هذا اليوم/الموقع؟
+    // PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1: نفس صيغة cosV المستخدمة في sunAngleTime
+    // لكن *قبل* القصّ إلى [-1,1]. إذا كان |cosV| <= 1 فالزاوية تُبلَغ (يوجد وقت فلكي حقيقي للفجر/
+    // العشاء)؛ وإلا فلا تُبلَغ (الشمس لا تنزل لتلك الزاوية أصلاً — شائع في العرض العالي صيفاً).
+    function angleReachable(angle, t, lat, jd) {
+        var decl = sunDeclination(jd + t / 24);
+        var cosV = (-Math.sin(dtr(angle)) - Math.sin(dtr(decl)) * Math.sin(dtr(lat))) /
+                   ( Math.cos(dtr(decl)) * Math.cos(dtr(lat)));
+        return Math.abs(cosV) <= 1;
+    }
+
+    function adjustHighLat(time, base, angle, night, dir, reached) {
+        // PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1 (DE-only, عبر setHighLats('DEHybrid')):
+        //   • إذا تُبلَغ الزاوية فعلاً  → استخدم وقت الزاوية الحقيقي بلا قصّ (يطابق Google في جنوب
+        //     ألمانيا؛ يتجنّب القصّ الزائد لـ AngleBased الذي كان يؤخّر الفجر/يقدّم العشاء).
+        //   • إذا لا تُبلَغ الزاوية      → استخدم قصّ AngleBased المنتشر (يطابق المراجع المنتشرة في
+        //     شمال ألمانيا؛ يتجنّب انهيار NightMiddle إلى منتصف الليل الشمسي حيث Fajr≈Isha≈01:xx).
+        //   يُقرَّر لكل صلاة (فجر/عشاء) على حدة عبر `reached` (يعالج المدن المختلطة مثل Frankfurt).
+        //   كل الدول الأخرى تمرّ عبر المنطق الأصلي أدناه دون تغيير (config.highLats !== 'DEHybrid').
+        if (config.highLats === 'DEHybrid') {
+            if (reached) return time;                       // وقت الزاوية الحقيقي (بلا قصّ)
+            var p = angle / 60 * night;                     // AngleBased fallback
+            return base + (dir === 'ccw' ? -p : p);
+        }
         var portion = nightPortion(angle, night);
         var diff = dir === 'ccw' ? fixHour(base - time) : fixHour(time - base);
         if (isNaN(time) || diff > portion)
@@ -226,9 +249,13 @@ const PrayerTimes = (function () {
 
         // تعديل العروض الجغرافية العالية
         var night = fixHour(raw.sunrise + 24 - raw.sunset);
-        raw.fajr = adjustHighLat(raw.fajr, raw.sunrise, m.fajr, night, 'ccw');
+        // PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1: كشف بلوغ الزاوية لكل صلاة على حدة
+        // (يُستخدم فقط في مسار 'DEHybrid'؛ يُتجاهل في كل القواعد الأخرى فلا يغيّر أي دولة).
+        raw.fajr = adjustHighLat(raw.fajr, raw.sunrise, m.fajr, night, 'ccw',
+                                 angleReachable(m.fajr, t.fajr, lat, jd));
         if (typeof m.isha !== 'string')
-            raw.isha = adjustHighLat(raw.isha, raw.sunset, m.isha, night, 'cw');
+            raw.isha = adjustHighLat(raw.isha, raw.sunset, m.isha, night, 'cw',
+                                     angleReachable(m.isha, t.isha, lat, jd));
 
         // MALAYSIA-JAKIM-IHTIYAT-APPLY-1 (2026-05-26):
         //   Method-level "ihtiyat" adjustments (e.g. JAKIM's published-table

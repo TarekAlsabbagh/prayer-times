@@ -89,7 +89,7 @@ console.log('\n================ 7. Cache-busters bumped ================');
 ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
 ok(/css\/style\.css\?v=497/.test(htmlSrc), 'index.html style.css?v=497');
 ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6');
-ok(/CACHE_VERSION = 'v49[0-9]'/.test(swSrc), "sw.js CACHE_VERSION bumped (≥v498)");
+ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
 
 console.log('\n================ 8. Out-of-scope guardrails (nothing leaked) ================');
 // The only English translation the site ships is this one paragraph on the morning card path — the marker

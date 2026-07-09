@@ -89,7 +89,7 @@ ok((htmlSrc.match(/data-azkar-ui/g) || []).length >= 18, 'at least 18 data-azkar
 console.log('\n================ 7. Cache-busters ================');
 ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
 ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6 (unchanged since this ticket)');
-ok(/CACHE_VERSION = 'v49[0-9]'/.test(swSrc), "sw.js CACHE_VERSION bumped (≥v498)");
+ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

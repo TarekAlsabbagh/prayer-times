@@ -2885,15 +2885,17 @@ const _SSR_METHOD_BY_CC = {
     // `_ssrPrayerTimesFor` (changed from 'Makkah' in APPLY-1).
 };
 
-// PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1 (2026-07-09): per-country high-latitude-rule OVERRIDE.
-// DE-ONLY. Germany keeps method = MWL (18°/17°), but its high-lat twilight rule becomes 'NightMiddle'
-// instead of the global 'AngleBased' default — AngleBased was clamping the long summer twilight and
-// pushing Fajr later / Isha earlier than Google's MWL. NightMiddle uses the raw angle when reachable
-// (matching Google: Heilbronn 2026-07-09 Fajr 03:04→02:06, Isha 23:44→00:20). Any cc NOT listed here
-// keeps the global 'AngleBased' default, so Riyadh/Istanbul/Paris and every other country are untouched.
-// The rule is applied to the CALC (setHighLats) — it is NOT a method and never appears in the method label.
+// PRAYER-DE-GERMANY-FAJR-ISHA-HYBRID-HIGHLAT-FIX-1 (2026-07-09): per-country high-latitude-rule OVERRIDE.
+// DE-ONLY. Germany keeps method = MWL (18°/17°), but its high-lat twilight rule becomes 'DEHybrid'.
+// Supersedes the earlier DE-only 'NightMiddle' (MWL-MISMATCH-1): NightMiddle fixed the SOUTHERN cities
+// where the 18°/17° depression IS reached (Heilbronn 02:06 = Google) but COLLAPSED the NORTHERN cities
+// where it is NOT reached (Berlin/Hamburg/Cologne… → Fajr≈Isha≈01:xx). 'DEHybrid' (js/prayer-times.js)
+// decides PER PRAYER: real solar angle where the depression is reached (south → Google), AngleBased
+// fallback where it is not (north → matches aladhan/IslamicFinder/Diyanet). Any cc NOT listed keeps the
+// global 'AngleBased' default, so Riyadh/Istanbul/Paris and every other country are untouched.
+// Applied to the CALC (setHighLats) — it is NOT a method and never appears in the #calc-method label.
 const _HIGHLAT_BY_CC = {
-    de: 'NightMiddle',
+    de: 'DEHybrid',
 };
 
 // Compute the IANA-timezone offset (in hours, fractional) for a given Date.

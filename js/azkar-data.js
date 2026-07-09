@@ -171,6 +171,12 @@
             type: 'quran',
             title: { ar: 'سورة الإخلاص', en: 'Surah Al-Ikhlas' },
             text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nقُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.',
+            // AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-SURAH-IKHLAS-1: English translation shown ABOVE the Arabic
+            // ONLY in the English UI (lang=en), same class/style as Ayat al-Kursi (single flowing paragraph).
+            // Saheeh International (Quran 112:1-4); the Basmala is translated FIRST because the Arabic text
+            // above opens with the Basmala. Arabic text/tashkeel unchanged; morning-002 ONLY (not evening/prayer
+            // Al-Ikhlas); never shown in ar/other UIs.
+            translation_en: 'In the name of Allah, the Entirely Merciful, the Especially Merciful. Say, "He is Allah, [who is] One, Allah, the Eternal Refuge. He neither begets nor is born, Nor is there to Him any equivalent."',
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'القرآن الكريم', sourceUrl: null },

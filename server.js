@@ -15196,11 +15196,16 @@ function buildSeoForPath(urlPath) {
         }
     }
 
-    // OG image URL — static 1200x630 raster PNG. SOCIAL-SHARE-OG-IMAGE-WHATSAPP-PREVIEW-1:
-    // WhatsApp/Facebook/Twitter do NOT render an SVG as og:image (that was why the share preview
-    // showed no image). A single cached raster is also bandwidth-friendly vs per-request rasterization.
-    // Absolute URL (origin = SITE_URL); never relative.
-    const ogImageUrl = `${origin}/og-image.png`;
+    // OG image URL — static 1200x630 raster PNG, LOCALIZED per page language.
+    // SOCIAL-SHARE-LOCALIZED-OG-IMAGES-BY-LANGUAGE-1: one pre-rendered card per language
+    // (/og-images/og-{lang}.png) so the WhatsApp/Facebook/Twitter preview matches the page's
+    // language (same visual identity, localized tagline). All 10 site languages have a card;
+    // the `en` fallback is defensive only — `lang` here is always one of the 10 route languages,
+    // and default no-prefix pages resolve to `ar` → og-ar.png. Absolute URL; never relative.
+    // (The generic /og-image.png stays for the JSON-LD Organization logo + as an extra fallback.)
+    const _OG_IMG_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+    const _ogImgLang = _OG_IMG_LANGS.indexOf(lang) >= 0 ? lang : 'en';
+    const ogImageUrl = `${origin}/og-images/og-${_ogImgLang}.png`;
 
     // isHome: true when visiting language root (ar='/', en='/en/', fr='/fr/', ...)
     const isHome = (corePath === '/');

@@ -17,7 +17,10 @@ let pass = 0, fail = 0; const fails = [];
 function ok(c, m) { if (c) { pass++; console.log('  PASS  ' + m); } else { fail++; fails.push(m); console.log('  FAIL  ' + m); } }
 
 console.log('================ 1. ogImageUrl → static absolute PNG (not SVG) ================');
-ok(/const ogImageUrl = `\$\{origin\}\/og-image\.png`;/.test(srv), 'ogImageUrl = `${origin}/og-image.png` (absolute, static)');
+// SOCIAL-SHARE-LOCALIZED-OG-IMAGES-BY-LANGUAGE-1 superseded the single static PNG with per-language cards:
+// og:image is now `${origin}/og-images/og-${lang}.png` (still an absolute PNG, still never SVG). The generic
+// /og-image.png is retained for the JSON-LD Organization logo + as a fallback (asserted later in this file).
+ok(/const ogImageUrl = `\$\{origin\}\/og-images\/og-\$\{_ogImgLang\}\.png`;/.test(srv), 'ogImageUrl = per-language `${origin}/og-images/og-${lang}.png` (absolute PNG)');
 ok(!/const ogImageUrl = `\$\{origin\}\/og-image\.svg/.test(srv), 'ogImageUrl no longer the dynamic SVG endpoint');
 
 console.log('\n================ 2. OG/Twitter meta emitted ================');

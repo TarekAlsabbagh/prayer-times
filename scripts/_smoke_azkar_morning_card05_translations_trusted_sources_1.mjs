@@ -69,11 +69,14 @@ for (const l of IMPL) {
   ok(!/­/.test(t), `Card 05 ${l}: no soft hyphen`);
 }
 
-console.log('\n================ 3. Per-lang MORNING totals — 5 for the 8 approved langs, 4 for de; ar = 0 ================');
+console.log('\n================ 3. Per-lang MORNING totals (updated by the Card 06 ticket); ar = 0 ================');
+// CARD-06 ticket: morning-006 adds a 6th translation for en/ur/tr/bn/de/es/id (no fr/ms — PENDING_SOURCE).
+// Card 05 itself is UNCHANGED (still 8 fields, no de) — asserted in sections 1-2 above.
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
+const MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 5, fr: 5, ms: 5 };
 for (const l of ALL9) {
-  const exp = (l === 'de') ? 4 : 5;
-  ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === exp, `morning region translation_${l}: EXACTLY ${exp} (${exp === 5 ? 'Cards 01-05' : 'Cards 01-04 only — de Card 05 PENDING'})`);
+  const exp = MORN_EXPECT[l];
+  ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === exp, `morning region translation_${l}: EXACTLY ${exp}`);
 }
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere (Arabic UI = zero translation blocks)');
 
@@ -112,9 +115,9 @@ ok(!/quranenc\.com/i.test(dataSrc) && !/quranenc\.com/i.test(srvSrc) && !/qurane
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch (pure static data)');
 
 console.log('\n================ 8. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=12/.test(htmlSrc), 'index.html azkar-data.js?v=12 (bumped: Card 05 data added)');
+ok(/js\/azkar-data\.js\?v=1[3-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 13 (later tickets bump it)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 UNCHANGED (generic renderer — no app.js edit)');
-ok(/CACHE_VERSION = 'v508'/.test(swSrc), "sw.js CACHE_VERSION 'v508'");
+ok(/CACHE_VERSION = 'v5(0[89]|[1-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v508+ (later tickets bump it)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

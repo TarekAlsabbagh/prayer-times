@@ -292,6 +292,18 @@
             type: 'dhikr',
             title: { ar: 'اللهم بك أصبحنا', en: null },
             text: 'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا، وَبِكَ نَحْيَا، وَبِكَ نَمُوتُ، وَإِلَيْكَ النُّشُورُ.',
+            // AZKAR-MORNING-DUA-CARD-06-TRANSLATIONS-TRUSTED-SOURCES-AVAILABLE-LANGUAGES-1: static translations of this
+            // dhikr (MORNING form only), shown ABOVE the Arabic on non-Arabic UIs. All 7 = HadeethEnc encyclopedia
+            // (hadith 5490; the morning segment sliced verbatim from the same source translation — no word swaps).
+            // NO translation_fr and NO translation_ms (PENDING_SOURCE — /fr and /ms show NO block and NO fallback for
+            // this card) and NO translation_ar (Arabic UI never shows one).
+            translation_en: "O Allah, by You we have reached the morning, and by You we have reached the evening; by You we live, and by You we die, and to You is the Resurrection.",
+            translation_ur: "اے اللہ! تیری حفاظت میں ہم نے صبح کی اور تیری حفاظت میں ہی شام کی اور تیرے ہی نام پر ہم زندہ ہوتے اور تیرے ہی نام پر ہم مرتے ہیں اور تیری ہی طرف اٹھ کر جانا ہے",
+            translation_tr: "Allah'ım! Senin lütfunla sabaha ulaştık, senin lütfunla akşama erdik. Sen isteyince dirilir, sen isteyince ölürüz. Yeniden diriltip huzurunda toplayacak olan da Sensin.",
+            translation_bn: "হে আল্লাহ! আপনার অনুগ্রহে আমরা ভোরে উপনীত হই, সন্ধ্যায় উপনীত হই এবং বাঁচি ও মরি। আর আপনার দিকেই আমাদের প্রত্যাবর্তন",
+            translation_de: "O Allah, durch Dich traten wir in den Morgen, durch Dich traten wir in den Abend, durch Dich leben wir, durch Dich sterben wir und zu Dir ist die Auferstehung.",
+            translation_es: "¡Oh Al-lah, por Ti hemos amanecido y por Ti hemos anochecido; por Ti vivimos y por Ti morimos; y a Ti seremos congregados!",
+            translation_id: "Ya Allah! Dengan pertolongan dan rahmat-Mu kami memasuki pagi hari, dengan pertolongan dan rahmat-Mu kami memasuki sore hari, dengan pertolongan dan rahmat-Mu kami hidup, dengan pertolongan dan rahmat-Mu kami mati, dan hanya kepada-Mu kebangkitan semua makhluk",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه الترمذي', sourceUrl: null },

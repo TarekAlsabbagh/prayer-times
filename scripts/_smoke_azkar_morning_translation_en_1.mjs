@@ -51,14 +51,17 @@ const block4 = dataSrc.slice(i4, i5);   // Surah An-Nas
 // whole-file count doubles to 8.
 // AZKAR-MORNING-DUA-CARD-05-TRANSLATIONS-TRUSTED-SOURCES-AVAILABLE-LANGUAGES-1: morning-005 adds a 5th
 // translation for the 8 approved langs (en/fr/ur/tr/bn/ms/es/id); de stays 4 (Card 05 de = PENDING_SOURCE).
+// AZKAR-MORNING-DUA-CARD-06-TRANSLATIONS-TRUSTED-SOURCES-AVAILABLE-LANGUAGES-1: morning-006 adds a 6th for
+// en/ur/tr/bn/de/es/id (Card 06 HAS de); fr + ms stay 5 (Card 06 fr/ms = PENDING_SOURCE).
 const _mornEnd = dataSrc.indexOf('window.AzkarEvening');
 const morningRegion = (_mornEnd > i1) ? dataSrc.slice(i1, _mornEnd) : dataSrc;
+const _MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 5, fr: 5, ms: 5 };
 
-console.log('================ 1. Data — per-lang MORNING translations: 5 (Cards 01-05) for approved langs, 4 for de ================');
+console.log('================ 1. Data — per-lang MORNING translation totals (Cards 01-06; de/fr/ms map differs) ================');
 ok(i1 > -1 && i2 > i1 && i3 > i2 && i4 > i3 && i5 > i4, 'morning-001/002/003/004/005 ids present + ordered');
 for (const l of NONAR) {
-  const _mornExpected = (l === 'de') ? 4 : 5;   // Card 05 has no translation_de (PENDING_SOURCE)
-  ok((morningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === _mornExpected, `translation_${l}: appears EXACTLY ${_mornExpected}x in the MORNING region (Cards 01-04${_mornExpected === 5 ? ' + Card 05' : '; Card 05 de PENDING'})`);
+  const _mornExpected = _MORN_EXPECT[l];
+  ok((morningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === _mornExpected, `translation_${l}: appears EXACTLY ${_mornExpected}x in the MORNING region`);
   ok(block1.includes('translation_' + l + ':'), `Card 01 (Kursi) has translation_${l}`);
   ok(block2.includes('translation_' + l + ':'), `Card 02 (Al-Ikhlas) has translation_${l}`);
   ok(block3.includes('translation_' + l + ':'), `Card 03 (Al-Falaq) has translation_${l}`);
@@ -133,9 +136,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=12/.test(htmlSrc), 'index.html azkar-data.js?v=12 (data changed: Card 05 translations added)');
-ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 (app.js untouched by Card 05 — generic renderer)');
-ok(/CACHE_VERSION = 'v508'/.test(swSrc), "sw.js CACHE_VERSION 'v508'");
+ok(/js\/azkar-data\.js\?v=13/.test(htmlSrc), 'index.html azkar-data.js?v=13 (data changed: Card 06 translations added)');
+ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 (app.js untouched — generic renderer)');
+ok(/CACHE_VERSION = 'v509'/.test(swSrc), "sw.js CACHE_VERSION 'v509'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

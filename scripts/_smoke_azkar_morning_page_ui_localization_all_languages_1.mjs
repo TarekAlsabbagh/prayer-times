@@ -43,7 +43,7 @@ ok(U.en.rep && U.en.rep['1'] === 'once' && U.fr.rep['3'] === 'trois fois' && U.a
 ok(/\{done\}/.test(U.en.progressTpl) && /\{total\}/.test(U.en.progressTpl), 'progressTpl carries {done}/{total} placeholders');
 
 console.log('\n================ 2. Data invariants — dhikr text/virtue NOT touched ================');
-ok((dataSrc.match(/translation_en:/g) || []).length === 1, 'still EXACTLY ONE translation_en (Ayat al-Kursi, prior ticket)');
+ok((dataSrc.match(/translation_en:/g) || []).length >= 1, 'translation_en present (count owned by the translation smoke; later tickets add more langs/cards)');
 ok(dataSrc.includes('اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ'), 'Ayat al-Kursi Arabic text (with tashkeel) intact in data');
 ok(sb.window.AzkarMorning.length === 25, 'still 25 morning items');
 // virtue/authenticityNote remain { ar, en } data objects (NOT localized this ticket)
@@ -88,7 +88,7 @@ ok((htmlSrc.match(/data-azkar-ui/g) || []).length >= 18, 'at least 18 data-azkar
 
 console.log('\n================ 7. Cache-busters ================');
 ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
-ok(/js\/azkar-data\.js\?v=6/.test(htmlSrc), 'index.html azkar-data.js?v=6 (unchanged since this ticket)');
+ok(/js\/azkar-data\.js\?v=\d+/.test(htmlSrc), 'index.html azkar-data.js?v is bumped (version-agnostic; later tickets bump it)');
 ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);

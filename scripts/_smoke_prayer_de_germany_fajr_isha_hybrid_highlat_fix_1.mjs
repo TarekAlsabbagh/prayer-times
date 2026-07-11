@@ -130,7 +130,7 @@ ok(!/<option[^>]*value="NightMiddle"[^>]*>\s*[^<]*method/i.test(htmlSrc), 'Night
 ok(/js\/prayer-times\.js\?v=5[0-9]/.test(htmlSrc), 'index.html prayer-times.js?v bumped (engine changed)');
 ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v (≥833)');
 ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
-ok(/css\/style\.css\?v=497/.test(htmlSrc) && /js\/azkar-data\.js\?v=6/.test(htmlSrc), 'css v497 + azkar-data v6 unchanged');
+ok(/css\/style\.css\?v=497/.test(htmlSrc) && /js\/azkar-data\.js\?v=\d+/.test(htmlSrc), 'css v497 unchanged + azkar-data?v present (version-agnostic; later tickets bump azkar-data)');
 
 console.log('\n================ 8. Determinism — engine pure (SSR==client given same inputs) ================');
 const a1 = times('MWL', 'DEHybrid', 52.52, 13.40, 2);

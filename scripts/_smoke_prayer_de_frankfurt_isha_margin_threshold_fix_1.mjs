@@ -99,8 +99,8 @@ ok(/highLats:\s*'AngleBased'/.test(ptSrc), 'global default still AngleBased');
 ok(/de: 'DEHybrid'/.test(srvSrc) && /de: 'DEHybrid'/.test(appSrc), 'DE still mapped to DEHybrid on both sides (unchanged)');
 ok(!/de: 'NightMiddle'/.test(srvSrc) && !/de: 'NightMiddle'/.test(appSrc), 'no lingering NightMiddle mapping');
 ok(/js\/prayer-times\.js\?v=56/.test(htmlSrc), 'index.html prayer-times.js?v=56 (engine changed)');
-ok(/js\/app\.js\?v=833/.test(htmlSrc), 'index.html app.js?v=833 (app.js UNCHANGED this ticket)');
-ok(/CACHE_VERSION = 'v501'/.test(swSrc), "sw.js CACHE_VERSION 'v501'");
+ok(/js\/app\.js\?v=\d+/.test(htmlSrc), 'index.html app.js?v present (version-agnostic; later tickets bump it)');
+ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (version-agnostic; later tickets bump it)");
 ok(!/<option[^>]*value="DEHybrid"/.test(htmlSrc), 'DEHybrid still NOT a dropdown option (method stays MWL)');
 
 console.log('\n================ 7. Determinism (SSR==client given same inputs) ================');

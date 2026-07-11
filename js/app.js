@@ -26990,13 +26990,19 @@ function _loadAzkarMorning() {
         }
         card.appendChild(headerRow);
 
-        // ── English translation (EN UI only, ABOVE the Arabic) ──
-        if (_azkarUiLang === 'en' && dhikr.translation_en) {
+        // ── Quran translation (any NON-Arabic UI, ABOVE the Arabic) ──
+        // AZKAR-MORNING-QURAN-TRANSLATIONS-AYAT-KURSI-IKHLAS-ALL-LANGUAGES-1: generalized from en-only to any
+        // non-Arabic UI lang carrying a translation_{lang} (static QuranEnc data). Urdu = RTL (inline style
+        // overrides the .azkar-translation-en LTR base); others LTR; ar → none. Class name kept.
+        const _trLang = (_azkarUiLang && _azkarUiLang !== 'ar') ? _azkarUiLang : null;
+        const _trText = _trLang ? dhikr['translation_' + _trLang] : null;
+        if (_trText) {
             const trEl = document.createElement('p');
             trEl.className = 'azkar-translation-en';
-            trEl.setAttribute('dir', 'ltr');
-            trEl.setAttribute('lang', 'en');
-            trEl.textContent = dhikr.translation_en;
+            trEl.setAttribute('dir', _trLang === 'ur' ? 'rtl' : 'ltr');
+            trEl.setAttribute('lang', _trLang);
+            if (_trLang === 'ur') { trEl.style.direction = 'rtl'; trEl.style.textAlign = 'right'; }
+            trEl.textContent = _trText;
             card.appendChild(trEl);
         }
 

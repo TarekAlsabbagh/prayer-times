@@ -7085,11 +7085,16 @@ function _buildAzkarCardHtml(dhikr, idx, lang) {
     }
     headerHtml += '</header>';
 
-    // ── English translation (EN UI only, ABOVE the Arabic) ──
-    // AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1: shown ONLY when the page language is 'en' AND the
-    // dhikr carries a translation_en. Never emitted for ar (or any other UI) — the Arabic text is unchanged.
-    const translationHtml = (lang === 'en' && dhikr.translation_en)
-        ? '<p class="azkar-translation-en" dir="ltr" lang="en">' + _escHtml(dhikr.translation_en) + '</p>'
+    // ── Quran translation (any NON-Arabic UI, ABOVE the Arabic) ──
+    // AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1 + …-QURAN-TRANSLATIONS-AYAT-KURSI-IKHLAS-ALL-LANGUAGES-1:
+    // shown ONLY when the page language is non-Arabic AND the dhikr carries a translation_{lang} (static, QuranEnc-
+    // sourced). Never emitted for ar — the Arabic text is unchanged. Urdu is RTL (inline style overrides the
+    // .azkar-translation-en LTR base); every other language is LTR. The class name stays .azkar-translation-en.
+    const _trLang = (lang && lang !== 'ar') ? lang : null;
+    const _trText = _trLang ? dhikr['translation_' + _trLang] : null;
+    const translationHtml = _trText
+        ? '<p class="azkar-translation-en" dir="' + (_trLang === 'ur' ? 'rtl' : 'ltr') + '" lang="' + _trLang + '"'
+            + (_trLang === 'ur' ? ' style="direction:rtl;text-align:right"' : '') + '>' + _escHtml(_trText) + '</p>'
         : '';
 
     // ── Dhikr text ──

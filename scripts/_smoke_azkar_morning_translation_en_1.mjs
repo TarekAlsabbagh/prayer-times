@@ -1,11 +1,10 @@
-// Smoke — AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-ABOVE-ARABIC-1 + …-SURAH-IKHLAS-1
-// The FIRST two morning dhikr — Ayat al-Kursi (morning-001) and Surah Al-Ikhlas (morning-002) — each show a
-// Saheeh-International English translation ABOVE the Arabic text, but ONLY in the English UI (route prefix /en).
-// The Arabic UI (no prefix) and every other language are unchanged; evening/prayer azkar (incl. the SECOND,
-// evening/prayer copy of Al-Ikhlas) are unchanged; the Arabic text/tashkeel is untouched and stays visible in
-// all cases. SSR (server.js, /en-gated) and the client SPA rebuild (js/app.js, getCurrentLang) render the same
-// paragraph generically for ANY dhikr carrying translation_en; the CSS class .azkar-translation-en styles it
-// (single flowing paragraph — .azkar-translation-en has white-space:normal, same as Ayat al-Kursi).
+// Smoke — AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-* + …-QURAN-TRANSLATIONS-AYAT-KURSI-IKHLAS-ALL-LANGUAGES-1
+// The first two morning dhikr — Ayat al-Kursi (morning-001) and Surah Al-Ikhlas (morning-002) — each carry a
+// per-language Quran translation shown ABOVE the Arabic, in EVERY non-Arabic UI (en + fr/ur/tr/bn/ms/de/es/id),
+// and NEVER in the Arabic UI. English = Saheeh International (unchanged); the other 8 = QuranEnc.com static data
+// extracted once at dev time (scripts/_extract_quranenc_azkar_translations_once.mjs) — NO runtime API calls.
+// Basmala is prepended only for Al-Ikhlas (its Arabic opens with the Basmala), EXCEPT Turkish whose QuranEnc 1:1
+// is a transliteration → omitted. Spanish leading verse-numbers stripped. Urdu renders RTL. Arabic text unchanged.
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -18,101 +17,104 @@ const appSrc  = fs.readFileSync(path.join(ROOT, 'js', 'app.js'), 'utf8');
 const cssSrc  = fs.readFileSync(path.join(ROOT, 'css', 'style.css'), 'utf8');
 const htmlSrc = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const swSrc   = fs.readFileSync(path.join(ROOT, 'sw.js'), 'utf8');
+const extractPath = path.join(ROOT, 'scripts', '_extract_quranenc_azkar_translations_once.mjs');
 
 let pass = 0, fail = 0; const fails = [];
 function ok(c, m) { if (c) { pass++; console.log('  PASS  ' + m); } else { fail++; fails.push(m); console.log('  FAIL  ' + m); } }
 
-const SAHEEH_KURSI  = 'the Ever-Living, the Sustainer of [all] existence';
-const SAHEEH_IKHLAS = 'the Eternal Refuge. He neither begets nor is born, Nor is there to Him any equivalent.';
-const BASMALA_EN    = 'In the name of Allah, the Entirely Merciful, the Especially Merciful.';
+const NONAR = ['en', 'fr', 'ur', 'tr', 'bn', 'ms', 'de', 'es', 'id'];   // every UI lang that shows a translation
+// per-language Basmala opener (for "basmala only in Al-Ikhlas"); tr omitted on purpose (transliteration)
+const BASMALA = {
+  en: 'In the name of Allah, the Entirely Merciful',
+  fr: 'Au nom d’Allah',
+  de: 'Im Namen Allahs',
+  es: 'En el nombre de Dios',
+  id: 'Dengan nama Allah Yang Maha Pengasih',
+  ms: 'Dengan nama Allah, Yang Maha Pemurah',
+  ur: 'شروع کرتا ہوں',       // شروع کرتا ہوں
+  bn: 'রহমান, রহীম',                     // রহমান, রহীম
+};
 
-console.log('================ 1. Data — translation_en on morning-001 (Kursi) + morning-002 (Al-Ikhlas) ================');
-ok(/translation_en:/.test(dataSrc), 'js/azkar-data.js declares a translation_en field');
-ok((dataSrc.match(/translation_en:/g) || []).length === 2, 'EXACTLY TWO translation_en entries (morning-001 + morning-002 only)');
-ok(dataSrc.includes(SAHEEH_KURSI), 'Ayat al-Kursi Saheeh International text present');
-ok(dataSrc.includes(SAHEEH_IKHLAS), 'Al-Ikhlas Saheeh International text present ("the Eternal Refuge" … "any equivalent")');
-ok(dataSrc.includes(BASMALA_EN), 'Al-Ikhlas translation opens with the English Basmala (Arabic text opens with the Basmala)');
-// Both translations belong to MORNING entries, in order: inside morning-001 then inside morning-002 (< morning-003).
-const m001 = dataSrc.indexOf("id: 'morning-001'");
-const m002 = dataSrc.indexOf("id: 'morning-002'");
-const m003 = dataSrc.indexOf("id: 'morning-003'");
-const tr1 = dataSrc.indexOf('translation_en:');
-const tr2 = dataSrc.indexOf('translation_en:', tr1 + 1);
-ok(m001 > -1 && m002 > m001 && m003 > m002, 'morning-001/002/003 ids present + ordered (schema intact)');
-ok(tr1 > m001 && tr1 < m002, 'first translation_en sits inside morning-001 (Ayat al-Kursi)');
-ok(tr2 > m002 && tr2 < m003, 'second translation_en sits inside morning-002 (Al-Ikhlas), before morning-003');
-// The OTHER Surah Al-Ikhlas (evening/prayer list) must NOT gain a translation: both translation_en live in the
-// morning block, which precedes the 2nd Arabic Al-Ikhlas occurrence.
-const IKHLAS_AR = 'قُلْ هُوَ اللَّهُ أَحَدٌ';
-const firstIkhlas  = dataSrc.indexOf(IKHLAS_AR);
-const secondIkhlas = dataSrc.indexOf(IKHLAS_AR, firstIkhlas + 1);
-ok(secondIkhlas > -1 && tr2 < secondIkhlas, 'evening/prayer Al-Ikhlas (2nd occurrence) has NO translation_en (both translations precede it)');
-// No transliteration: the English is a pure translation, not romanised Arabic.
-ok(!/Qul\s+huwa|Ahadun|as-?Samad|lam\s+yalid/i.test(dataSrc), 'no romanised transliteration of Al-Ikhlas in the data');
-// Arabic text + tashkeel of BOTH suwar still present + unchanged (Kursi opener; Al-Ikhlas Basmala + surah with \n).
-ok(dataSrc.includes('اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ'), 'Ayat al-Kursi Arabic (with tashkeel) intact');
-ok(dataSrc.includes('بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\\nقُلْ هُوَ اللَّهُ أَحَدٌ'), 'Al-Ikhlas Arabic (Basmala + surah, tashkeel + \\n) intact');
+// morning-001 / -002 / -003 blocks (data)
+const i1 = dataSrc.indexOf("id: 'morning-001'");
+const i2 = dataSrc.indexOf("id: 'morning-002'");
+const i3 = dataSrc.indexOf("id: 'morning-003'");
+const block1 = dataSrc.slice(i1, i2);   // Ayat al-Kursi
+const block2 = dataSrc.slice(i2, i3);   // Surah Al-Ikhlas
 
-console.log('\n================ 2. SSR (server.js) — en-gated, ABOVE the Arabic ================');
-ok(/function _buildAzkarCardHtml\(dhikr, idx, lang\)/.test(srvSrc), '_buildAzkarCardHtml gained a lang parameter');
+console.log('================ 1. Data — every non-Arabic lang has 2 translations (Card 01 + Card 02) ================');
+ok(i1 > -1 && i2 > i1 && i3 > i2, 'morning-001/002/003 ids present + ordered');
+for (const l of NONAR) {
+  ok((dataSrc.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 2, `translation_${l}: appears EXACTLY twice (Card 01 + Card 02 only)`);
+  ok(block1.includes('translation_' + l + ':'), `Card 01 (Kursi) has translation_${l}`);
+  ok(block2.includes('translation_' + l + ':'), `Card 02 (Al-Ikhlas) has translation_${l}`);
+}
+
+console.log('\n================ 2. English unchanged (Saheeh International) ================');
+ok(dataSrc.includes('the Ever-Living, the Sustainer of [all] existence'), 'Card 01 English (Ayat al-Kursi Saheeh) intact');
+ok(dataSrc.includes('In the name of Allah, the Entirely Merciful, the Especially Merciful. Say, "He is Allah, [who is] One'), 'Card 02 English (Al-Ikhlas Saheeh, Basmala-first) intact');
+
+console.log('\n================ 3. Basmala ONLY in Al-Ikhlas (Card 02); NEVER in Ayat al-Kursi (Card 01) ================');
+for (const l of Object.keys(BASMALA)) {
+  ok(block2.includes(BASMALA[l]), `Card 02 ${l}: Basmala present (${BASMALA[l].slice(0, 16)}…)`);
+  ok(!block1.includes(BASMALA[l]), `Card 01 ${l}: NO Basmala (Kursi is 2:255 only)`);
+}
+
+console.log('\n================ 4. Turkish exception — NO transliterated Basmala anywhere ================');
+ok(!/Bismill/i.test(block2) && !/Bismill/i.test(block1), 'no "Bismill…" transliteration in any stored translation (tr Basmala omitted)');
+ok(/translation_tr:\s*"De ki:/.test(block2), 'Card 02 Turkish starts with the surah "De ki:" (Basmala omitted)');
+
+console.log('\n================ 5. No footnotes + no leading verse numbers in the stored data ================');
+// no digit-brackets in any script ([1] / [١] / [১]) inside the two blocks (letters brackets like es [Eterno] are allowed)
+ok(!/\[\p{Nd}+\]/u.test(block1) && !/\[\p{Nd}+\]/u.test(block2), 'no footnote-marker digit-brackets remain in the translations');
+// Spanish leading verse numbers stripped
+ok(/translation_es:\s*"¡Dios!/.test(block1), 'Card 01 Spanish starts with "¡Dios!" (leading "255." stripped)');
+ok(/translation_es:\s*"En el nombre de Dios/.test(block2), 'Card 02 Spanish starts with the Basmala, not "1." (leading number stripped)');
+
+console.log('\n================ 6. Arabic text byte-identical (untouched) ================');
+ok(dataSrc.includes("text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ"), 'Card 01 Arabic (Ayat al-Kursi) intact');
+ok(dataSrc.includes("text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\\nقُلْ هُوَ اللَّهُ أَحَدٌ"), 'Card 02 Arabic (Basmala + surah, tashkeel + \\n) intact');
+
+console.log('\n================ 7. SSR (server.js) — generalized to translation_{lang}, ar → none, Urdu RTL ================');
 const cardStart = srvSrc.indexOf('function _buildAzkarCardHtml(dhikr, idx, lang)');
 const cardEnd   = srvSrc.indexOf('function _buildAzkarMorningListHtml', cardStart);
 const cardBody  = srvSrc.slice(cardStart, cardEnd);
-ok(/const translationHtml = \(lang === 'en' && dhikr\.translation_en\)/.test(cardBody),
-   'translationHtml is gated on lang===\'en\' AND dhikr.translation_en');
-ok(/class="azkar-translation-en" dir="ltr" lang="en"/.test(cardBody), 'SSR paragraph carries class + dir=ltr + lang=en');
-ok(/_escHtml\(dhikr\.translation_en\)/.test(cardBody), 'SSR escapes the translation text (_escHtml)');
-// Ordering in the concat chain: translationHtml must come BEFORE textHtml (Arabic).
+ok(/const _trLang = \(lang && lang !== 'ar'\) \? lang : null;/.test(cardBody), 'SSR: _trLang gated on lang !== ar');
+ok(/dhikr\['translation_' \+ _trLang\]/.test(cardBody), 'SSR: reads dhikr[translation_{lang}] generically');
+ok(/dir="' \+ \(_trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(cardBody), 'SSR: Urdu dir=rtl, others ltr');
+ok(/_trLang === 'ur' \? ' style="direction:rtl;text-align:right"'/.test(cardBody), 'SSR: Urdu gets inline rtl style (overrides the LTR base)');
+ok(/class="azkar-translation-en"/.test(cardBody) && /_escHtml\(_trText\)/.test(cardBody), 'SSR: class kept + _escHtml(_trText)');
 const concat = cardBody.match(/headerHtml \+ translationHtml \+ textHtml \+ [^\n]+/);
-ok(!!concat, 'card body concat chain located (headerHtml + translationHtml + textHtml + …)');
-ok(concat && concat[0].indexOf('translationHtml') < concat[0].indexOf('textHtml'),
-   'concat order puts translationHtml BEFORE textHtml (English above Arabic)');
+ok(concat && concat[0].indexOf('translationHtml') < concat[0].indexOf('textHtml'), 'SSR: translation ABOVE Arabic (concat order)');
+// morning forwards the UI lang; evening/prayer pass 'ar' (out of scope → no translation)
+ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "evening list still 'ar' (no translation)");
+ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "prayer list still 'ar' (no translation)");
 
-console.log('\n================ 3. SSR — morning passes lang; evening/prayer do NOT (unchanged) ================');
-ok(/function _buildAzkarMorningListHtml\(lang\)/.test(srvSrc), '_buildAzkarMorningListHtml gained a lang parameter');
-ok(/_AZKAR_MORNING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, lang\)\)/.test(srvSrc),
-   'morning list forwards lang into _buildAzkarCardHtml');
-ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc),
-   "evening list calls _buildAzkarCardHtml with 'ar' (out of scope → no translation)");
-ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc),
-   "prayer list calls _buildAzkarCardHtml with 'ar' (out of scope → no translation)");
+console.log('\n================ 8. Client (js/app.js) — same generalization + Urdu RTL ================');
+const cIdx = appSrc.indexOf("const _trLang = (_azkarUiLang && _azkarUiLang !== 'ar') ? _azkarUiLang : null;");
+ok(cIdx > -1, 'client: _trLang gated on _azkarUiLang !== ar');
+const cBlock = appSrc.slice(cIdx, cIdx + 600);
+ok(/dhikr\['translation_' \+ _trLang\]/.test(cBlock), 'client: reads dhikr[translation_{lang}] generically');
+ok(/trEl\.setAttribute\('dir', _trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(cBlock), 'client: Urdu dir=rtl');
+ok(/_trLang === 'ur'\) \{ trEl\.style\.direction = 'rtl'; trEl\.style\.textAlign = 'right'; \}/.test(cBlock), 'client: Urdu inline rtl style');
+ok(/trEl\.textContent = _trText/.test(cBlock), 'client: textContent (no HTML injection)');
 
-console.log('\n================ 4. SSR injection — UI lang from route prefix ================');
-ok(/const _azkarUiLang = \(urlPath\.match\(\/\^\\\/\(en\|fr\|tr\|ur\|de\|id\|es\|bn\|ms\)\\\/\/\) \|\| \[\]\)\[1\] \|\| 'ar';/.test(srvSrc),
-   'injection computes _azkarUiLang from the route prefix (no prefix ⇒ ar)');
-ok(/_buildAzkarMorningListHtml\(_azkarUiLang\)/.test(srvSrc), 'injection passes _azkarUiLang into the morning list builder');
+console.log('\n================ 9. NO runtime external translation requests (QuranEnc dev-only) ================');
+ok(!/quranenc\.com/i.test(srvSrc), 'server.js has NO quranenc.com URL (no runtime fetch; "QuranEnc" in a comment is fine)');
+ok(!/quranenc\.com/i.test(appSrc), 'app.js has NO quranenc.com URL (no runtime fetch)');
+ok(!/quranenc\.com/i.test(dataSrc), 'azkar-data.js has NO quranenc.com URL (pure static strings)');
+ok(fs.existsSync(extractPath), 'dev-only extraction script exists (scripts/_extract_quranenc_azkar_translations_once.mjs)');
+ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extraction script is NOT imported by server.js/app.js (dev-only)');
 
-console.log('\n================ 5. Client (js/app.js) — same gate on SPA rebuild ================');
-ok(/const _azkarUiLang = \(typeof getCurrentLang === 'function'\) \? getCurrentLang\(\) : 'ar';/.test(appSrc),
-   'client derives _azkarUiLang from getCurrentLang()');
-const cIdx = appSrc.indexOf("if (_azkarUiLang === 'en' && dhikr.translation_en) {");
-ok(cIdx > -1, 'client gates the translation on _azkarUiLang===\'en\' AND dhikr.translation_en');
-const cBlock = appSrc.slice(cIdx, cIdx + 320);
-ok(/trEl\.className = 'azkar-translation-en'/.test(cBlock), 'client builds a .azkar-translation-en paragraph');
-ok(/trEl\.setAttribute\('dir', 'ltr'\)/.test(cBlock) && /trEl\.setAttribute\('lang', 'en'\)/.test(cBlock),
-   'client sets dir=ltr + lang=en');
-ok(/trEl\.textContent = dhikr\.translation_en/.test(cBlock), 'client uses textContent (no HTML injection)');
-// The client block sits AFTER the header append and BEFORE the Arabic text element.
-const hdrIdx  = appSrc.indexOf('card.appendChild(headerRow);');
-const textIdx = appSrc.indexOf("textEl.className = (dhikr.type === 'quran') ? 'azkar-quran-text' : 'azkar-text';");
-ok(hdrIdx > -1 && cIdx > hdrIdx && cIdx < textIdx, 'client translation block is AFTER header and BEFORE the Arabic text');
+console.log('\n================ 10. CSS + cache-busters ================');
+ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
+ok(/js\/azkar-data\.js\?v=8/.test(htmlSrc), 'index.html azkar-data.js?v=8 (data changed)');
+ok(/js\/app\.js\?v=834/.test(htmlSrc), 'index.html app.js?v=834 (render generalized)');
+ok(/CACHE_VERSION = 'v503'/.test(swSrc), "sw.js CACHE_VERSION 'v503'");
 
-console.log('\n================ 6. CSS — rule + dark variant present ================');
-ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css declares .azkar-translation-en');
-ok(/html\[data-theme="dark"\]\s*\.azkar-translation-en\s*\{/.test(cssSrc), 'css declares a dark-theme variant');
-ok(/\.azkar-translation-en[\s\S]{0,220}direction:\s*ltr/.test(cssSrc), '.azkar-translation-en is direction:ltr');
-
-console.log('\n================ 7. Cache-busters bumped ================');
-ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
-ok(/css\/style\.css\?v=497/.test(htmlSrc), 'index.html style.css?v=497');
-ok(/js\/azkar-data\.js\?v=7/.test(htmlSrc), 'index.html azkar-data.js?v=7 (data changed)');
-ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
-
-console.log('\n================ 8. Out-of-scope guardrails (nothing leaked) ================');
-// The only English translation the site ships is this one paragraph on the morning card path — the marker
-// class/field must not have leaked into evening/prayer/other builders.
-ok((srvSrc.match(/azkar-translation-en/g) || []).length === 1, 'server.js emits the translation markup in exactly ONE place');
-ok((appSrc.match(/azkar-translation-en/g) || []).length === 1, 'app.js builds the translation paragraph in exactly ONE place');
+console.log('\n================ 11. Out-of-scope guardrails ================');
+ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');
+ok((appSrc.match(/className = 'azkar-translation-en'/g) || []).length === 1, 'app.js builds the translation paragraph in exactly ONE place');
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

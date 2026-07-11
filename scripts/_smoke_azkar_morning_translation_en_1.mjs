@@ -1,10 +1,13 @@
 // Smoke — AZKAR-MORNING-ADD-ENGLISH-TRANSLATION-* + …-QURAN-TRANSLATIONS-AYAT-KURSI-IKHLAS-ALL-LANGUAGES-1
-// The first two morning dhikr — Ayat al-Kursi (morning-001) and Surah Al-Ikhlas (morning-002) — each carry a
-// per-language Quran translation shown ABOVE the Arabic, in EVERY non-Arabic UI (en + fr/ur/tr/bn/ms/de/es/id),
-// and NEVER in the Arabic UI. English = Saheeh International (unchanged); the other 8 = QuranEnc.com static data
+//        + …-QURAN-TRANSLATIONS-SURAH-AN-NAS-ALL-LANGUAGES-1
+// The Quran cards among the morning dhikr — Ayat al-Kursi (morning-001), Surah Al-Ikhlas (morning-002) and
+// Surah An-Nas (morning-004) — each carry a per-language Quran translation shown ABOVE the Arabic, in EVERY
+// non-Arabic UI (en + fr/ur/tr/bn/ms/de/es/id), and NEVER in the Arabic UI. Surah Al-Falaq (morning-003) is NOT
+// in scope (no translation). English = Saheeh International (unchanged); the other 8 = QuranEnc.com static data
 // extracted once at dev time (scripts/_extract_quranenc_azkar_translations_once.mjs) — NO runtime API calls.
-// Basmala is prepended only for Al-Ikhlas (its Arabic opens with the Basmala), EXCEPT Turkish whose QuranEnc 1:1
-// is a transliteration → omitted. Spanish leading verse-numbers stripped. Urdu renders RTL. Arabic text unchanged.
+// Basmala is prepended for Al-Ikhlas + An-Nas (their Arabic opens with the Basmala), EXCEPT Turkish whose
+// QuranEnc 1:1 is a transliteration → omitted. Spanish leading verse-numbers stripped. Urdu renders RTL.
+// Arabic text unchanged.
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -23,7 +26,7 @@ let pass = 0, fail = 0; const fails = [];
 function ok(c, m) { if (c) { pass++; console.log('  PASS  ' + m); } else { fail++; fails.push(m); console.log('  FAIL  ' + m); } }
 
 const NONAR = ['en', 'fr', 'ur', 'tr', 'bn', 'ms', 'de', 'es', 'id'];   // every UI lang that shows a translation
-// per-language Basmala opener (for "basmala only in Al-Ikhlas"); tr omitted on purpose (transliteration)
+// per-language Basmala opener (for "basmala only in Al-Ikhlas + An-Nas"); tr omitted on purpose (transliteration)
 const BASMALA = {
   en: 'In the name of Allah, the Entirely Merciful',
   fr: 'Au nom d’Allah',
@@ -35,45 +38,56 @@ const BASMALA = {
   bn: 'রহমান, রহীম',                     // রহমান, রহীম
 };
 
-// morning-001 / -002 / -003 blocks (data)
+// morning-001 / -002 / -003 / -004 blocks (data)
 const i1 = dataSrc.indexOf("id: 'morning-001'");
 const i2 = dataSrc.indexOf("id: 'morning-002'");
 const i3 = dataSrc.indexOf("id: 'morning-003'");
+const i4 = dataSrc.indexOf("id: 'morning-004'");
+const i5 = dataSrc.indexOf("id: 'morning-005'");
 const block1 = dataSrc.slice(i1, i2);   // Ayat al-Kursi
 const block2 = dataSrc.slice(i2, i3);   // Surah Al-Ikhlas
+const block3 = dataSrc.slice(i3, i4);   // Surah Al-Falaq (out of scope — NO translations)
+const block4 = dataSrc.slice(i4, i5);   // Surah An-Nas
 
-console.log('================ 1. Data — every non-Arabic lang has 2 translations (Card 01 + Card 02) ================');
-ok(i1 > -1 && i2 > i1 && i3 > i2, 'morning-001/002/003 ids present + ordered');
+console.log('================ 1. Data — every non-Arabic lang has 3 translations (Card 01 + 02 + 04); Card 03 has NONE ================');
+ok(i1 > -1 && i2 > i1 && i3 > i2 && i4 > i3 && i5 > i4, 'morning-001/002/003/004/005 ids present + ordered');
 for (const l of NONAR) {
-  ok((dataSrc.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 2, `translation_${l}: appears EXACTLY twice (Card 01 + Card 02 only)`);
+  ok((dataSrc.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 3, `translation_${l}: appears EXACTLY three times (Card 01 + 02 + 04)`);
   ok(block1.includes('translation_' + l + ':'), `Card 01 (Kursi) has translation_${l}`);
   ok(block2.includes('translation_' + l + ':'), `Card 02 (Al-Ikhlas) has translation_${l}`);
+  ok(block4.includes('translation_' + l + ':'), `Card 04 (An-Nas) has translation_${l}`);
+  ok(!block3.includes('translation_' + l + ':'), `Card 03 (Al-Falaq) has NO translation_${l} (out of scope)`);
 }
 
-console.log('\n================ 2. English unchanged (Saheeh International) ================');
+console.log('\n================ 2. English unchanged (Saheeh International) + An-Nas English ================');
 ok(dataSrc.includes('the Ever-Living, the Sustainer of [all] existence'), 'Card 01 English (Ayat al-Kursi Saheeh) intact');
 ok(dataSrc.includes('In the name of Allah, the Entirely Merciful, the Especially Merciful. Say, "He is Allah, [who is] One'), 'Card 02 English (Al-Ikhlas Saheeh, Basmala-first) intact');
+ok(block4.includes('Say, "I seek refuge in the Lord of mankind') && block4.includes('From among the jinn and mankind."'), 'Card 04 English (An-Nas Saheeh, Basmala-first) present');
 
-console.log('\n================ 3. Basmala ONLY in Al-Ikhlas (Card 02); NEVER in Ayat al-Kursi (Card 01) ================');
+console.log('\n================ 3. Basmala in Al-Ikhlas (Card 02) + An-Nas (Card 04); NEVER in Ayat al-Kursi (Card 01) ================');
 for (const l of Object.keys(BASMALA)) {
   ok(block2.includes(BASMALA[l]), `Card 02 ${l}: Basmala present (${BASMALA[l].slice(0, 16)}…)`);
+  ok(block4.includes(BASMALA[l]), `Card 04 ${l}: Basmala present`);
   ok(!block1.includes(BASMALA[l]), `Card 01 ${l}: NO Basmala (Kursi is 2:255 only)`);
 }
 
-console.log('\n================ 4. Turkish exception — NO transliterated Basmala anywhere ================');
-ok(!/Bismill/i.test(block2) && !/Bismill/i.test(block1), 'no "Bismill…" transliteration in any stored translation (tr Basmala omitted)');
+console.log('\n================ 4. Turkish exception — NO transliterated Basmala anywhere (Card 01/02/04) ================');
+ok(!/Bismill/i.test(block1) && !/Bismill/i.test(block2) && !/Bismill/i.test(block4), 'no "Bismill…" transliteration in any stored translation (tr Basmala omitted)');
 ok(/translation_tr:\s*"De ki:/.test(block2), 'Card 02 Turkish starts with the surah "De ki:" (Basmala omitted)');
+ok(/translation_tr:\s*"De ki: İnsanların Rabbine/.test(block4), 'Card 04 Turkish (An-Nas) starts with "De ki: İnsanların Rabbine" (Basmala omitted)');
 
 console.log('\n================ 5. No footnotes + no leading verse numbers in the stored data ================');
-// no digit-brackets in any script ([1] / [١] / [১]) inside the two blocks (letters brackets like es [Eterno] are allowed)
-ok(!/\[\p{Nd}+\]/u.test(block1) && !/\[\p{Nd}+\]/u.test(block2), 'no footnote-marker digit-brackets remain in the translations');
+// no digit-brackets in any script ([1] / [١] / [১]) inside the blocks (letter-brackets like es [Eterno]/[único] are allowed)
+ok(!/\[\p{Nd}+\]/u.test(block1) && !/\[\p{Nd}+\]/u.test(block2) && !/\[\p{Nd}+\]/u.test(block4), 'no footnote-marker digit-brackets remain in the translations');
 // Spanish leading verse numbers stripped
 ok(/translation_es:\s*"¡Dios!/.test(block1), 'Card 01 Spanish starts with "¡Dios!" (leading "255." stripped)');
 ok(/translation_es:\s*"En el nombre de Dios/.test(block2), 'Card 02 Spanish starts with the Basmala, not "1." (leading number stripped)');
+ok(/translation_es:\s*"En el nombre de Dios/.test(block4), 'Card 04 Spanish starts with the Basmala, not "1." (leading number stripped)');
 
 console.log('\n================ 6. Arabic text byte-identical (untouched) ================');
 ok(dataSrc.includes("text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ"), 'Card 01 Arabic (Ayat al-Kursi) intact');
 ok(dataSrc.includes("text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\\nقُلْ هُوَ اللَّهُ أَحَدٌ"), 'Card 02 Arabic (Basmala + surah, tashkeel + \\n) intact');
+ok(dataSrc.includes("text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ"), 'Card 04 Arabic (An-Nas: Basmala + surah, tashkeel + \\n) intact');
 
 console.log('\n================ 7. SSR (server.js) — generalized to translation_{lang}, ar → none, Urdu RTL ================');
 const cardStart = srvSrc.indexOf('function _buildAzkarCardHtml(dhikr, idx, lang)');
@@ -108,9 +122,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=8/.test(htmlSrc), 'index.html azkar-data.js?v=8 (data changed)');
-ok(/js\/app\.js\?v=834/.test(htmlSrc), 'index.html app.js?v=834 (render generalized)');
-ok(/CACHE_VERSION = 'v503'/.test(swSrc), "sw.js CACHE_VERSION 'v503'");
+ok(/js\/azkar-data\.js\?v=9/.test(htmlSrc), 'index.html azkar-data.js?v=9 (data changed)');
+ok(/js\/app\.js\?v=834/.test(htmlSrc), 'index.html app.js?v=834 (render generalized; unchanged this ticket)');
+ok(/CACHE_VERSION = 'v504'/.test(swSrc), "sw.js CACHE_VERSION 'v504'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

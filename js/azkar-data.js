@@ -221,6 +221,21 @@
             type: 'quran',
             title: { ar: 'سورة الناس', en: 'Surah An-Nas' },
             text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ، مَلِكِ النَّاسِ، إِلَٰهِ النَّاسِ، مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ، الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ، مِنَ الْجِنَّةِ وَالنَّاسِ.',
+            // AZKAR-MORNING-QURAN-TRANSLATIONS-SURAH-AN-NAS-ALL-LANGUAGES-1: An-Nas (Quran 114:1-6) shown ABOVE
+            // the Arabic in each non-Arabic UI (lang!=='ar'), same class/style as Ayat al-Kursi + Al-Ikhlas.
+            // The Basmala is translated FIRST because the Arabic text opens with it. en = Saheeh International;
+            // the 8 others = QuranEnc (static, extracted once at dev time, NO runtime API). tr omits the
+            // Basmala (its 1:1 is a transliteration, not a meaning translation). Arabic text/tashkeel unchanged;
+            // morning-004 ONLY (Al-Falaq/morning-003 not in scope); never shown in the ar UI.
+            translation_en: 'In the name of Allah, the Entirely Merciful, the Especially Merciful.\n\nSay, "I seek refuge in the Lord of mankind,\nThe Sovereign of mankind.\nThe God of mankind,\nFrom the evil of the retreating whisperer -\nWho whispers [evil] into the breasts of mankind -\nFrom among the jinn and mankind."',
+            translation_fr: "Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux .\n\nDis : « J’implore la protection du Seigneur des hommes,\nMaître des hommes,\nDieu des hommes,\ncontre le mal du démon qui se dérobe ou s’insinue chez l’homme ,\nsoufflant d’insidieuses pensées dans le cœur des hommes,\nqu’il soit du nombre des djinns ou du nombre des hommes. »",
+            translation_ur: "شروع کرتا ہوں اللہ تعالیٰ کے نام سے جو بڑا مہربان نہایت رحم واﻻ ہے۔\n\nآپ کہہ دیجئے! کہ میں لوگوں کے پروردگار کی پناه میں آتا ہوں.\nلوگوں کے مالک کی (اور).\nلوگوں کے معبود کی (پناه میں).\nوسوسہ ڈالنے والے پیچھے ہٹ جانے والے کے شر سے.\nجو لوگوں کے سینوں میں وسوسہ ڈالتا ہے.\n(خواه) وه جن میں سے ہو یا انسان میں سے.",
+            translation_tr: "De ki: İnsanların Rabbine sığınırım.\nİnsanların hükümdarına.\nİnsanların ilahına.\nSinsi/(Allah anıldığında geri kaçan) vesvesecinin şerrinden.\nKi o, insanların göğüslerine vesvese verir.\nGerek cinlerden, gerek insanlardan (olur).",
+            translation_bn: "রহমান, রহীম আল্লাহ্‌র নামে\n\nবলুন, ‘আমি আশ্ৰয় প্রার্থনা করছি মানুষের রবের,\nমানুষের অধিপতির,\nমানুষের ইলাহের কাছে\nআত্মগোপনকারী কুমন্ত্রণাদাতার অনিষ্ট হতে,\nযে কুমন্ত্রণা দেয় মানুষের অন্তরে,\nজিনের মধ্য থেকে এবং মানুষের মধ্য থেকে ।’",
+            translation_ms: "Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.\n\nKatakanlah (wahai Muhammad): “Aku berlindung kepada (Allah) Pemulihara sekalian manusia.\n“Yang Menguasai sekalian manusia,\n“Tuhan yang berhak disembah oleh sekalian manusia,\n“Dari kejahatan pembisik penghasut yang timbul tenggelam, -\n“Yang melemparkan bisikan dan hasutannya ke dalam hati manusia, -\n“(Iaitu pembisik dan penghasut) dari kalangan jin dan manusia”.",
+            translation_de: "Im Namen Allahs, des Allerbarmers, des Barmherzigen.\n\nSag: „Ich nehme Zuflucht beim Herrn der Menschen,\ndem König der Menschen,\ndem Gott der Menschen,\nvor dem Übel des Einflüsterers, des Davonschleichers,\nder in die Brüste der Menschen einflüstert,\nvon den Jinn und den Menschen.“",
+            translation_es: "En el nombre de Dios , el Compasivo con toda la creación, el Misericordioso con los creyentes .\n\nDi: “Me refugio en el Señor de los seres humanos,\nen el Rey Soberano de los seres humanos,\nen el [único] Dios de los seres humanos,\nde la maldad del [demonio] susurrador que huye [cuando el nombre de Dios es mencionado],\nque susurra en los corazones de los seres humanos,\ny existe entre los yinn y entre los seres humanos”.",
+            translation_id: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.\n\nKatakanlah, \"Aku berlindung kepada Tuhannya manusia,\nRaja manusia,\nsembahan manusia,\ndari kejahatan (bisikan) setan yang bersembunyi,\nyang membisikkan (kejahatan) ke dalam dada manusia,\ndari (golongan) jin dan manusia.\"",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'القرآن الكريم', sourceUrl: null },

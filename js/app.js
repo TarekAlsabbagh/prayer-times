@@ -26439,6 +26439,15 @@ function _azkarShowResetConfirm(opts) {
                 cancelText: ui.cancel, confirmText: ui.confirmReset
             });
         }
+    } else if (_azkarActivePageIsEvening()) {
+        // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: same override, evening dict.
+        const ui = _azkarEveningUiMap();
+        if (ui) {
+            opts = Object.assign({}, opts, {
+                title: ui.resetConfirmTitle, sub: ui.resetConfirmSub,
+                cancelText: ui.cancel, confirmText: ui.confirmReset
+            });
+        }
     }
     const overlay = document.createElement('div');
     overlay.className = 'azkar-modal-overlay';
@@ -26528,6 +26537,10 @@ function _azkarShowToast(message) {
         // page (matches the Arabic base string; evening/prayer keep it Arabic — page not active).
         if (message === 'تمت إعادة ضبط العدادات' && _azkarActivePageIsMorning()) {
             const ui = _azkarMorningUiMap();
+            if (ui && ui.resetToast) message = ui.resetToast;
+        } else if (message === 'تمت إعادة ضبط العدادات' && _azkarActivePageIsEvening()) {
+            // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening dict.
+            const ui = _azkarEveningUiMap();
             if (ui && ui.resetToast) message = ui.resetToast;
         }
         // Replace any existing toast (debounce rapid resets)
@@ -26823,17 +26836,32 @@ function _azkarMorningUiMap() {
     const U = (typeof window !== 'undefined' && window.AZKAR_MORNING_UI_L10N) || null;
     return U ? (U[_azkarPickLang()] || U.ar) : null;
 }
+// AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening equivalents + a resolver
+// returning the ACTIVE azkar page's chrome map (morning OR evening). Used by the shared chrome Proxy + the
+// reset toast/confirm so their DYNAMIC strings (live progress label, confirm dialog, reset toast) localize on
+// the evening page too. Prayer (and any other page) → null → Arabic base (unchanged).
+function _azkarActivePageIsEvening() {
+    try { const el = document.getElementById('page-azkar-evening'); return !!(el && el.classList.contains('active')); }
+    catch (_) { return false; }
+}
+function _azkarEveningUiMap() {
+    const U = (typeof window !== 'undefined' && window.AZKAR_EVENING_UI_L10N) || null;
+    return U ? (U[_azkarPickLang()] || U.ar) : null;
+}
+function _azkarActiveUiMap() {
+    if (_azkarActivePageIsMorning()) return _azkarMorningUiMap();
+    if (_azkarActivePageIsEvening()) return _azkarEveningUiMap();
+    return null;
+}
 const _AZKAR_AR_CHROME = (typeof Proxy === 'function') ? new Proxy(_AZKAR_AR_CHROME_BASE, {
     get: function (base, prop) {
-        if (_azkarActivePageIsMorning()) {
-            const ui = _azkarMorningUiMap();
-            if (ui) {
-                if (prop === 'progressTpl' && ui.progressTpl != null) {
-                    return function (d, t) { return String(ui.progressTpl).replace('{done}', d).replace('{total}', t); };
-                }
-                if (prop === 'resetAllConfirm' && ui.resetConfirmTitle != null) return ui.resetConfirmTitle;
-                if (ui[prop] != null) return ui[prop];
+        const ui = _azkarActiveUiMap();
+        if (ui) {
+            if (prop === 'progressTpl' && ui.progressTpl != null) {
+                return function (d, t) { return String(ui.progressTpl).replace('{done}', d).replace('{total}', t); };
             }
+            if (prop === 'resetAllConfirm' && ui.resetConfirmTitle != null) return ui.resetConfirmTitle;
+            if (ui[prop] != null) return ui[prop];
         }
         return base[prop];
     }
@@ -26845,6 +26873,13 @@ function _azkarRepeatLabelAR(n) {
     n = Number(n) || 1;
     if (_azkarActivePageIsMorning()) {
         const ui = _azkarMorningUiMap();
+        if (ui && ui.rep) {
+            if (ui.rep[n] != null) return ui.rep[n];
+            if (ui.repN) return String(ui.repN).replace('{n}', String(n));
+        }
+    } else if (_azkarActivePageIsEvening()) {
+        // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening dict (shared rep map).
+        const ui = _azkarEveningUiMap();
         if (ui && ui.rep) {
             if (ui.rep[n] != null) return ui.rep[n];
             if (ui.repN) return String(ui.repN).replace('{n}', String(n));
@@ -27464,7 +27499,10 @@ function _updateEveningProgress(_doneOverride, _totalOverride) {
         });
     }
     const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-    const labelText = 'تم إكمال ' + done + ' من ' + total;
+    // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: localize the live progress
+    // label via the active-page-aware chrome Proxy (evening dict on the evening page; the Arabic base's
+    // progressTpl is byte-identical to the old hardcoded string, so /ar is unchanged). Mirrors morning.
+    const labelText = _AZKAR_AR_CHROME.progressTpl(done, total);
     const labelEl = document.getElementById('azkar-evening-progress-label');
     if (labelEl) labelEl.textContent = labelText;
     const stickyLabel = document.getElementById('azkar-evening-sticky-label');

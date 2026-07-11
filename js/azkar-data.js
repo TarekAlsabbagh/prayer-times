@@ -603,6 +603,18 @@
             type: 'quran',
             title: { ar: 'آية الكرسي', en: 'Ayat al-Kursi' },
             text: 'اللَّهُ لَا إِلَٰهَ إِلَّا هُوَ الْحَيُّ الْقَيُّومُ، لَا تَأْخُذُهُ سِنَةٌ وَلَا نَوْمٌ، لَهُ مَا فِي السَّمَاوَاتِ وَمَا فِي الْأَرْضِ، مَنْ ذَا الَّذِي يَشْفَعُ عِنْدَهُ إِلَّا بِإِذْنِهِ، يَعْلَمُ مَا بَيْنَ أَيْدِيهِمْ وَمَا خَلْفَهُمْ، وَلَا يُحِيطُونَ بِشَيْءٍ مِنْ عِلْمِهِ إِلَّا بِمَا شَاءَ، وَسِعَ كُرْسِيُّهُ السَّمَاوَاتِ وَالْأَرْضَ، وَلَا يَئُودُهُ حِفْظُهُمَا، وَهُوَ الْعَلِيُّ الْعَظِيمُ.',
+            // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: Ayat al-Kursi translation shown ABOVE
+            // the Arabic in each non-Arabic UI (lang!=='ar'). COPIED VERBATIM from morning-001 (Arabic byte-identical);
+            // en = Saheeh International, 8 others = QuranEnc static (NO runtime). tr omits transliterated Basmala.
+            translation_en: "Allah - there is no deity except Him, the Ever-Living, the Sustainer of [all] existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is [presently] before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills. His Kursi extends over the heavens and the earth, and their preservation tires Him not. And He is the Most High, the Most Great.",
+            translation_fr: "Allah ! Il n’est de divinité digne d’être adorée que Lui, le Dieu Vivant et Eternel . Il n’est gagné ni par le sommeil, ni même par la somnolence. Tout ce qui se trouve dans les cieux et sur la terre Lui appartient. Qui donc pourrait intercéder auprès de Lui sans Sa permission ? Il connaît leur avenir comme leur passé , tandis que les hommes n’embrassent de Sa science et de Ses mystères que ce qu’Il veut bien leur dévoiler. Son Koursi embrasse les cieux et la terre dont Il assure la pérennité sans aucune difficulté. Il est le Très Haut, le Très Glorieux.",
+            translation_ur: "اللہ تعالیٰ ہی معبود برحق ہے جس کے سوا کوئی معبود نہیں جو زنده اور سب کا تھامنے واﻻ ہے، جسے نہ اونگھ آئے نہ نیند، اس کی ملکیت میں زمین اور آسمانوں کی تمام چیزیں ہیں۔ کون ہے جو اس کی اجازت کے بغیر اس کے سامنے شفاعت کرسکے، وه جانتا ہے جو ان کے سامنے ہے اور جو ان کے پیچھے ہے اور وه اس کے علم میں سے کسی چیز کا احاطہ نہیں کرسکتے مگر جتنا وه چاہے ، اس کی کرسی کی وسعت نے زمین و آسمان کو گھیر رکھا ہے اور اللہ تعالیٰ ان کی حفاﻇت سے نہ تھکتا اور نہ اکتاتا ہے، وه تو بہت بلند اور بہت بڑا ہے۔",
+            translation_tr: "Allah; O'ndan başka hakkıyla ibadete layık hiçbir hak ilâh olmayandır; Hayy'dır (diridir); Kayyûm'dur. (kendi zâtiyle kâimdir.) O'nu ne bir uyuklama, ne de bir uyku tutar. Göklerde ve yerde ne varsa hepsi O'nundur. İzni olmadan, O'nun yanında kim şefaat edebilir? Onların önünde ve arkasında olan her şeyi bilir. Onlar ise, O'nun dilediği kadarından başka ilminden hiçbir şey kavrayamazlar. O'nun Kürsü'sü gökleri ve yeri kaplamıştır. Onların her ikisini de görüp gözetmek O'na ağır gelmez. O, çok yücedir, çok büyüktür.",
+            translation_bn: "আল্লাহ্‌ , তিনি ছাড়া কোনো সত্য ইলাহ নেই । তিনি চিরঞ্জীব, সর্বসত্তার ধারক । তাঁকে তন্দ্রাও স্পর্শ করতে পারে না, নিদ্রাও নয় । আসমানসমূহে যা রয়েছে ও যমীনে যা রয়েছে সবই তাঁর । কে সে, যে তাঁর অনুমতি ব্যতীত তাঁর কাছে সুপারিশ করবে ? তাদের সামনে ও পেছনে যা কিছু আছে তা তিনি জানেন । আর যা তিনি ইচ্ছে করেন তা ছাড়া তাঁর জ্ঞানের কোনো কিছুকেই তারা পরিবেষ্টন করতে পারে না । তাঁর ‘কুরসী’ আসমানসমূহ ও যমীনকে পরিব্যাপ্ত করে আছে ; আর এ দুটোর রক্ষণাবেক্ষণ তাঁর জন্য বোঝা হয় না । আর তিনি সুউচ্চ সুমহান।",
+            translation_ms: "Allah, tiada Tuhan (yang berhak disembah) melainkan Dia, Yang Tetap hidup, Yang Kekal selama-lamanya mentadbirkan (sekalian makhlukNya). Yang tidak mengantuk usahkan tidur. Yang memiliki segala yang ada di langit dan yang ada di bumi. Tiada sesiapa yang dapat memberi syafaat (pertolongan) di sisiNya melainkan dengan izinNya. yang mengetahui apa yang ada di hadapan mereka dan apa yang ada di belakang mereka, sedang mereka tidak mengetahui sesuatu pun dari (kandungan) ilmu Allah melainkan apa yang Allah kehendaki (memberitahu kepadanya). Luasnya Kursi Allah (ilmuNya dan kekuasaanNya) meliputi langit dan bumi; dan tiadalah menjadi keberatan kepada Allah menjaga serta memelihara keduanya. Dan Dia lah Yang Maha Tinggi (darjat kemuliaanNya), lagi Maha Besar (kekuasaanNya)",
+            translation_de: "Allah - es gibt keine (zu Recht angebetete) Gottheit außer Ihm, dem Lebendigen, dem Beständigen. Ihn überkommt weder Schlummer noch Schlaf. Ihm gehört, was in den Himmeln und was auf der Erde ist. Wer ist es denn, der bei Ihm Fürsprache einlegen könnte - außer mit Seiner Erlaubnis? Er weiß, was vor ihnen und was hinter ihnen liegt, sie aber umfassen nichts von Seinem Wissen - außer, was Er will. Sein Thronschemel umfasst die Himmel und die Erde, und ihre Behütung beschwert Ihn nicht. Und Er ist der Hohe, (und) der Gewaltige.",
+            translation_es: "¡Dios! No existe nada ni nadie con derecho a ser adorado excepto Él, el Viviente [Eterno], el Sustentador [y Gobernador de toda la creación] . No Lo afectan somnolencia ni sueño. Suyo es cuanto hay en los cielos y la Tierra. ¿Quién podrá interceder ante Él si no es con Su permiso? Conoce el pasado y el futuro [lo manifiesto y lo oculto] y nadie abarca de Su conocimiento salvo lo que Él quiere. El escabel de Su Trono abarca los cielos y la Tierra, y la custodia [y mantenimiento] de ambos no Lo agobia. Y Él es el Sublime, el Grandioso.",
+            translation_id: "Allah, tidak ada tuhan selain Dia. Yang Mahahidup, Yang terus menerus mengurus (makhluk-Nya), tidak mengantuk dan tidak tidur. Milik-Nya apa yang ada di langit dan apa yang ada di bumi. Tidak ada yang dapat memberi syafaat di sisi-Nya tanpa izin-Nya. Dia mengetahui apa yang dihadapan mereka dan apa yang di belakang mereka, dan mereka tidak mengetahui sesuatu apa pun tentang ilmu-Nya melainkan apa yang Dia kehendaki. Kursi-Nya meliputi langit dan bumi. Dan Dia tidak merasa berat memelihara keduanya, dan Dia Mahatinggi, Mahabesar.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه الحاكم' },
@@ -617,6 +629,18 @@
             type: 'quran',
             title: { ar: 'سورة الإخلاص', en: 'Al-Ikhlas' },
             text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nقُلْ هُوَ اللَّهُ أَحَدٌ، اللَّهُ الصَّمَدُ، لَمْ يَلِدْ وَلَمْ يُولَدْ، وَلَمْ يَكُنْ لَهُ كُفُوًا أَحَدٌ.',
+            // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: Surah Al-Ikhlas translation shown ABOVE
+            // the Arabic in each non-Arabic UI (lang!=='ar'). COPIED VERBATIM from morning-002 (Arabic byte-identical);
+            // en = Saheeh International, 8 others = QuranEnc static (NO runtime). tr omits transliterated Basmala.
+            translation_en: "In the name of Allah, the Entirely Merciful, the Especially Merciful. Say, \"He is Allah, [who is] One, Allah, the Eternal Refuge. He neither begets nor is born, Nor is there to Him any equivalent.\"",
+            translation_fr: "Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux .\n\nDis : « Allah est la seule et unique divinité.\nAllah est le Maître dont nul ne peut se passer .\nIl n’a pas engendré, ni été Lui-même engendré.\nEt nul dans Sa création n’est à même de L’égaler. »",
+            translation_ur: "شروع کرتا ہوں اللہ تعالیٰ کے نام سے جو بڑا مہربان نہایت رحم واﻻ ہے۔\n\nآپ کہہ دیجئے کہ وه اللہ تعالیٰ ایک (ہی) ہے.\nاللہ تعالیٰ بے نیاز ہے.\nنہ اس سے کوئی پیدا ہوا نہ وه کسی سے پیدا ہوا.\nاور نہ کوئی اس کا ہمسر ہے.",
+            translation_tr: "De ki: O Allah birdir.\nAllah Samed'dir.\nDoğurmamıştır, doğurulmamıştır.\nO'nun hiçbir dengi yoktur.",
+            translation_bn: "রহমান, রহীম আল্লাহ্‌র নামে\n\nবলুন , ‘তিনি আল্লাহ্, এক-অদ্বিতীয় ,\n‘আল্লাহ্ হচ্ছেন ‘সামাদ' (তিনি কারো মুখাপেক্ষী নন, সকলেই তাঁর মুখাপেক্ষী);\nতিনি কাউকেও জন্ম দেননি এবং তাঁকেও জন্ম দেয়া হয়নি ,\n‘এবং তাঁর সমতুল্য কেউই নেই ।’",
+            translation_ms: "Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.\n\nKatakanlah (wahai Muhammad): “(Tuhanku) ialah Allah Yang Maha Esa;\n“Allah Yang menjadi tumpuan sekalian makhluk untuk memohon sebarang hajat;\n“Ia tiada beranak, dan Ia pula tidak diperanakkan;\n“Dan tidak ada sesiapapun yang serupa denganNya”.",
+            translation_de: "Im Namen Allahs, des Allerbarmers, des Barmherzigen.\n\nSag: „Er ist Allah, ein Einer,\nAllah, der Überlegene.\nEr hat nicht gezeugt und ist nicht gezeugt worden,\nund niemand ist Ihm jemals gleich.“",
+            translation_es: "En el nombre de Dios , el Compasivo con toda la creación, el Misericordioso con los creyentes .\n\nDi: “Él es Al-lah , Uno.\nAl-lah es el Absoluto .\nNo engendró ni fue engendrado.\nY no hay nada ni nadie que sea semejante a Él”.",
+            translation_id: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.\n\nKatakanlah (Muhammad), \"Dialah Allah, Yang Maha Esa.\nAllah tempat meminta segala sesuatu.\n(Allah) tidak beranak dan tidak pula diperanakkan.\nDan tidak ada sesuatu yang setara dengan Dia.\"",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'القرآن الكريم' },
@@ -631,6 +655,18 @@
             type: 'quran',
             title: { ar: 'سورة الفلق', en: 'Al-Falaq' },
             text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، مِنْ شَرِّ مَا خَلَقَ، وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ، وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ.',
+            // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: Surah Al-Falaq translation shown ABOVE
+            // the Arabic in each non-Arabic UI (lang!=='ar'). COPIED VERBATIM from morning-003 (Arabic byte-identical);
+            // en = Saheeh International, 8 others = QuranEnc static (NO runtime). tr omits transliterated Basmala.
+            translation_en: "In the name of Allah, the Entirely Merciful, the Especially Merciful.\n\nSay, \"I seek refuge in the Lord of daybreak\nFrom the evil of that which He created\nAnd from the evil of darkness when it settles\nAnd from the evil of the blowers in knots\nAnd from the evil of an envier when he envies.\"",
+            translation_fr: "Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux .\n\nDis : « J’implore la protection du Seigneur de l’aube,\ncontre le mal qui se trouve dans ce qu’Il a créé,\ncontre le mal de la nuit qui étend son obscurité,\ncontre le charme maléfique de tous les sorciers ,\ncontre l’envieux qui donne libre cours à sa méchanceté. »",
+            translation_ur: "شروع کرتا ہوں اللہ تعالیٰ کے نام سے جو بڑا مہربان نہایت رحم واﻻ ہے۔\n\nآپ کہہ دیجئے! کہ میں صبح کے رب کی پناه میں آتا ہوں.\nہر اس چیز کے شر سے جو اس نے پیدا کی ہے.\nاور اندھیری رات کی تاریکی کے شر سے جب اس کا اندھیرا پھیل جائے.\nاور گره (لگا کر ان) میں پھونکنے والیوں کے شر سے (بھی).\nاور حسد کرنے والے کی برائی سے بھی جب وه حسد کرے.",
+            translation_tr: "De ki: Ben, sabahın Rabbine sığınırım.\nYarattığı varlıkların şerrinden.\nKaranlığı çöktüğü zaman gecenin şerrinden.\nDüğümlere üfleyenlerin şerrinden.\nHaset ettiği zaman hasetçinin şerrinden.",
+            translation_bn: "রহমান, রহীম আল্লাহ্‌র নামে\n\nবলুন , ‘আমি আশ্রয় প্রার্থনা করছি ঊষার রবের\nতিনি যা সৃষ্টি করেছেন তার অনিষ্ট হতে ,\nআর অনিষ্ট হতে রাতের অন্ধকারের, যখন তা গভীর হয়\nআর অনিষ্ট হতে সমস্ত নারীদের, যারা গিরায় ফুঁক দেয় ,\nআর অনিষ্ট হতে হিংসুকের , যখন সে হিংসা করে ।’",
+            translation_ms: "Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.\n\nKatakanlah (wahai Muhammad); “Aku berlindung kepada (Allah) Tuhan yang menciptakan sekalian makhluk,\n“Dari bencana makhluk-makhluk yang Ia ciptakan;\n“Dan dari bahaya gelap apabila ia masuk;\n“Dan dari kejahatan makhluk-makhluk yang menghembus-hembus pada simpulan-simpulan (dan ikatan-ikatan);\n“Dan dari kejahatan orang yang dengki apabila ia melakukan dengkinya”.",
+            translation_de: "Im Namen Allahs, des Allerbarmers, des Barmherzigen.\n\nSag: „Ich nehme Zuflucht beim Herrn des Tagesanbruchs\nvor dem Übel dessen, was Er erschaffen hat,\nund vor dem Übel der Dunkelheit, wenn sie zunimmt,\nund vor dem Übel der Knotenanbläserinnen\nund vor dem Übel eines (jeden) Neidenden, wenn er neidet.“",
+            translation_es: "En el nombre de Dios , el Compasivo con toda la creación, el Misericordioso con los creyentes .\n\nDi: “Me refugio en el Señor del amanecer,\nde todo el mal que existe en lo que Él creó,\ndel mal de la oscuridad de la noche cuando se extiende,\ndel mal de las [hechiceras] sopladoras de nudos ,\ny del mal del envidioso cuando envidia”.",
+            translation_id: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.\n\nKatakanlah, \"Aku berlindung kepada Tuhan yang menguasai subuh (fajar),\ndari kejahatan (makhluk yang) Dia ciptakan,\ndan dari kejahatan malam apabila telah gelap gulita,\ndan dari kejahatan (perempuan-perempuan) penyihir yang meniup pada buhul-buhul (talinya),\ndan dari kejahatan orang yang dengki apabila dia dengki.\"",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'القرآن الكريم' },
@@ -645,6 +681,18 @@
             type: 'quran',
             title: { ar: 'سورة الناس', en: 'An-Nas' },
             text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nقُلْ أَعُوذُ بِرَبِّ النَّاسِ، مَلِكِ النَّاسِ، إِلَٰهِ النَّاسِ، مِنْ شَرِّ الْوَسْوَاسِ الْخَنَّاسِ، الَّذِي يُوَسْوِسُ فِي صُدُورِ النَّاسِ، مِنَ الْجِنَّةِ وَالنَّاسِ.',
+            // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: Surah An-Nas translation shown ABOVE
+            // the Arabic in each non-Arabic UI (lang!=='ar'). COPIED VERBATIM from morning-004 (Arabic byte-identical);
+            // en = Saheeh International, 8 others = QuranEnc static (NO runtime). tr omits transliterated Basmala.
+            translation_en: "In the name of Allah, the Entirely Merciful, the Especially Merciful.\n\nSay, \"I seek refuge in the Lord of mankind,\nThe Sovereign of mankind.\nThe God of mankind,\nFrom the evil of the retreating whisperer -\nWho whispers [evil] into the breasts of mankind -\nFrom among the jinn and mankind.\"",
+            translation_fr: "Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux .\n\nDis : « J’implore la protection du Seigneur des hommes,\nMaître des hommes,\nDieu des hommes,\ncontre le mal du démon qui se dérobe ou s’insinue chez l’homme ,\nsoufflant d’insidieuses pensées dans le cœur des hommes,\nqu’il soit du nombre des djinns ou du nombre des hommes. »",
+            translation_ur: "شروع کرتا ہوں اللہ تعالیٰ کے نام سے جو بڑا مہربان نہایت رحم واﻻ ہے۔\n\nآپ کہہ دیجئے! کہ میں لوگوں کے پروردگار کی پناه میں آتا ہوں.\nلوگوں کے مالک کی (اور).\nلوگوں کے معبود کی (پناه میں).\nوسوسہ ڈالنے والے پیچھے ہٹ جانے والے کے شر سے.\nجو لوگوں کے سینوں میں وسوسہ ڈالتا ہے.\n(خواه) وه جن میں سے ہو یا انسان میں سے.",
+            translation_tr: "De ki: İnsanların Rabbine sığınırım.\nİnsanların hükümdarına.\nİnsanların ilahına.\nSinsi/(Allah anıldığında geri kaçan) vesvesecinin şerrinden.\nKi o, insanların göğüslerine vesvese verir.\nGerek cinlerden, gerek insanlardan (olur).",
+            translation_bn: "রহমান, রহীম আল্লাহ্‌র নামে\n\nবলুন, ‘আমি আশ্ৰয় প্রার্থনা করছি মানুষের রবের,\nমানুষের অধিপতির,\nমানুষের ইলাহের কাছে\nআত্মগোপনকারী কুমন্ত্রণাদাতার অনিষ্ট হতে,\nযে কুমন্ত্রণা দেয় মানুষের অন্তরে,\nজিনের মধ্য থেকে এবং মানুষের মধ্য থেকে ।’",
+            translation_ms: "Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.\n\nKatakanlah (wahai Muhammad): “Aku berlindung kepada (Allah) Pemulihara sekalian manusia.\n“Yang Menguasai sekalian manusia,\n“Tuhan yang berhak disembah oleh sekalian manusia,\n“Dari kejahatan pembisik penghasut yang timbul tenggelam, -\n“Yang melemparkan bisikan dan hasutannya ke dalam hati manusia, -\n“(Iaitu pembisik dan penghasut) dari kalangan jin dan manusia”.",
+            translation_de: "Im Namen Allahs, des Allerbarmers, des Barmherzigen.\n\nSag: „Ich nehme Zuflucht beim Herrn der Menschen,\ndem König der Menschen,\ndem Gott der Menschen,\nvor dem Übel des Einflüsterers, des Davonschleichers,\nder in die Brüste der Menschen einflüstert,\nvon den Jinn und den Menschen.“",
+            translation_es: "En el nombre de Dios , el Compasivo con toda la creación, el Misericordioso con los creyentes .\n\nDi: “Me refugio en el Señor de los seres humanos,\nen el Rey Soberano de los seres humanos,\nen el [único] Dios de los seres humanos,\nde la maldad del [demonio] susurrador que huye [cuando el nombre de Dios es mencionado],\nque susurra en los corazones de los seres humanos,\ny existe entre los yinn y entre los seres humanos”.",
+            translation_id: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.\n\nKatakanlah, \"Aku berlindung kepada Tuhannya manusia,\nRaja manusia,\nsembahan manusia,\ndari kejahatan (bisikan) setan yang bersembunyi,\nyang membisikkan (kejahatan) ke dalam dada manusia,\ndari (golongan) jin dan manusia.\"",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'القرآن الكريم' },
@@ -1278,6 +1326,101 @@
             rep: { 1: 'sekali', 2: 'dua kali', 3: 'tiga kali', 4: 'empat kali', 7: 'tujuh kali', 10: 'sepuluh kali', 100: 'seratus kali' }, repN: '{n} kali'
         }
     };
+
+    // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1
+    // Evening page UI chrome per language, DERIVED from AZKAR_MORNING_UI_L10N: every shared/generic key
+    // (progressTpl, resetBtn, rep map, aria labels, count/undo/source/repeatLabel, reset-confirm, toast, …)
+    // is inherited byte-identical from morning (same internal lexicon); only the evening-specific keys below
+    // are overridden with morning→evening wording. The `ar` overrides equal the current hardcoded evening
+    // template strings exactly, so the Arabic UI stays visually unchanged.
+    window.AZKAR_EVENING_UI_L10N = (function () {
+        var M = window.AZKAR_MORNING_UI_L10N || {};
+        var OV = {
+            ar: {
+                heroTitle: 'أذكار المساء', bcCurrent: 'أذكار المساء',
+                heroSubtitle: 'اقرأ أذكار المساء مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال الليلة.',
+                infoCount: '23 ذكرًا',
+                sectionTitle: 'أذكار المساء مع التكرار والمصدر الصحيح',
+                sectionText: 'تضم هذه الصفحة أذكار المساء مكتوبة كاملة، مع توضيح عدد التكرار والمصدر لكل ذكر، إضافة إلى عداد تفاعلي يساعدك على إكمال القراءة دون نسيان.',
+                completedTitle: 'تم إكمال أذكار المساء', completedSub: 'نسأل الله أن يجعل ليلتك عامرة بالذكر والطمأنينة.'
+            },
+            en: {
+                heroTitle: 'Evening Athkar', bcCurrent: 'Evening Athkar',
+                heroSubtitle: 'Read the evening adhkar with their repeat counts and authentic sources — your progress is saved automatically through the evening.',
+                infoCount: '23 adhkar',
+                sectionTitle: 'Evening Athkar with repeat counts and authentic sources',
+                sectionText: 'This page presents the evening adhkar in full, showing the repeat count and source for each, with an interactive counter that helps you complete them without losing your place.',
+                completedTitle: 'Evening Athkar completed', completedSub: 'We ask Allah to fill your evening with remembrance and tranquility.'
+            },
+            fr: {
+                heroTitle: 'Invocations du soir', bcCurrent: 'Invocations du soir',
+                heroSubtitle: 'Lisez les invocations du soir avec leur nombre de répétitions et leurs sources authentiques — votre progression est enregistrée automatiquement tout au long de la soirée.',
+                infoCount: '23 invocations',
+                sectionTitle: 'Invocations du soir avec répétitions et sources authentiques',
+                sectionText: 'Cette page présente les invocations du soir en intégralité, avec le nombre de répétitions et la source de chacune, ainsi qu’un compteur interactif qui vous aide à les terminer sans perdre le fil.',
+                completedTitle: 'Invocations du soir terminées', completedSub: 'Nous demandons à Allah de remplir votre soirée de rappel et de sérénité.'
+            },
+            ur: {
+                heroTitle: 'شام کے اذکار', bcCurrent: 'شام کے اذکار',
+                heroSubtitle: 'شام کے اذکار تعداد اور مستند حوالے کے ساتھ پڑھیں — آپ کی پیش رفت شام بھر خودبخود محفوظ رہتی ہے۔',
+                infoCount: '23 اذکار',
+                sectionTitle: 'شام کے اذکار تکرار اور مستند حوالے کے ساتھ',
+                sectionText: 'یہ صفحہ شام کے اذکار مکمل طور پر پیش کرتا ہے، ہر ذکر کی تعداد اور حوالہ واضح کرتا ہے، اور ایک متعامل شمار کنندہ فراہم کرتا ہے جو انہیں بھولے بغیر مکمل کرنے میں مدد دیتا ہے۔',
+                completedTitle: 'شام کے اذکار مکمل ہو گئے', completedSub: 'ہم اللہ سے دعا کرتے ہیں کہ آپ کی شام ذکر اور سکون سے معمور فرمائے۔'
+            },
+            tr: {
+                heroTitle: 'Akşam Zikirleri', bcCurrent: 'Akşam Zikirleri',
+                heroSubtitle: 'Akşam zikirlerini tekrar sayıları ve sahih kaynaklarıyla okuyun — ilerlemeniz akşam boyunca otomatik olarak kaydedilir.',
+                infoCount: '23 zikir',
+                sectionTitle: 'Tekrar sayıları ve sahih kaynaklarıyla akşam zikirleri',
+                sectionText: 'Bu sayfa akşam zikirlerini eksiksiz sunar; her zikrin tekrar sayısını ve kaynağını gösterir ve onları yerinizi kaybetmeden tamamlamanıza yardımcı olan etkileşimli bir sayaç sağlar.',
+                completedTitle: 'Akşam zikirleri tamamlandı', completedSub: 'Allah’tan akşamınızı zikir ve huzurla doldurmasını dileriz.'
+            },
+            bn: {
+                heroTitle: 'সন্ধ্যার যিকির', bcCurrent: 'সন্ধ্যার যিকির',
+                heroSubtitle: 'সন্ধ্যার যিকিরগুলো পুনরাবৃত্তির সংখ্যা ও নির্ভরযোগ্য সূত্রসহ পড়ুন — আপনার অগ্রগতি সন্ধ্যা জুড়ে স্বয়ংক্রিয়ভাবে সংরক্ষিত হয়।',
+                infoCount: '23 যিকির',
+                sectionTitle: 'পুনরাবৃত্তি ও নির্ভরযোগ্য সূত্রসহ সন্ধ্যার যিকির',
+                sectionText: 'এই পৃষ্ঠায় সন্ধ্যার যিকির সম্পূর্ণরূপে দেওয়া হয়েছে, প্রতিটির পুনরাবৃত্তির সংখ্যা ও সূত্র উল্লেখসহ, এবং একটি ইন্টারেক্টিভ কাউন্টার যা ভুলে না গিয়ে সেগুলো সম্পূর্ণ করতে সাহায্য করে।',
+                completedTitle: 'সন্ধ্যার যিকির সম্পন্ন হয়েছে', completedSub: 'আমরা আল্লাহর কাছে দোয়া করি তিনি যেন আপনার সন্ধ্যা যিকির ও প্রশান্তিতে পূর্ণ করেন।'
+            },
+            ms: {
+                heroTitle: 'Zikir Petang', bcCurrent: 'Zikir Petang',
+                heroSubtitle: 'Baca zikir petang dengan bilangan ulangan dan sumber sahih — kemajuan anda disimpan secara automatik sepanjang petang.',
+                infoCount: '23 zikir',
+                sectionTitle: 'Zikir petang dengan bilangan ulangan dan sumber sahih',
+                sectionText: 'Halaman ini memaparkan zikir petang sepenuhnya, menunjukkan bilangan ulangan dan sumber bagi setiap satu, serta kaunter interaktif yang membantu anda menyelesaikannya tanpa hilang tempat.',
+                completedTitle: 'Zikir petang selesai', completedSub: 'Kami memohon kepada Allah agar memenuhi petang anda dengan zikir dan ketenangan.'
+            },
+            de: {
+                heroTitle: 'Abend-Adhkar', bcCurrent: 'Abend-Adhkar',
+                heroSubtitle: 'Lies die Abend-Adhkar mit ihrer Wiederholungszahl und authentischen Quellen — dein Fortschritt wird den ganzen Abend über automatisch gespeichert.',
+                infoCount: '23 Adhkar',
+                sectionTitle: 'Abend-Adhkar mit Wiederholungen und authentischen Quellen',
+                sectionText: 'Diese Seite zeigt die Abend-Adhkar vollständig, mit Wiederholungszahl und Quelle für jedes, sowie einem interaktiven Zähler, der dir hilft, sie ohne den Faden zu verlieren zu vollenden.',
+                completedTitle: 'Abend-Adhkar abgeschlossen', completedSub: 'Wir bitten Allah, deinen Abend mit Gedenken und Gelassenheit zu erfüllen.'
+            },
+            es: {
+                heroTitle: 'Adhkar de la tarde', bcCurrent: 'Adhkar de la tarde',
+                heroSubtitle: 'Lee los adhkar de la tarde con su número de repeticiones y fuentes auténticas — tu progreso se guarda automáticamente durante la tarde.',
+                infoCount: '23 adhkar',
+                sectionTitle: 'Adhkar de la tarde con repeticiones y fuentes auténticas',
+                sectionText: 'Esta página presenta los adhkar de la tarde completos, mostrando el número de repeticiones y la fuente de cada uno, con un contador interactivo que te ayuda a completarlos sin perder el hilo.',
+                completedTitle: 'Adhkar de la tarde completados', completedSub: 'Pedimos a Allah que llene tu tarde de recuerdo y serenidad.'
+            },
+            id: {
+                heroTitle: 'Zikir Petang', bcCurrent: 'Zikir Petang',
+                heroSubtitle: 'Baca zikir petang dengan jumlah pengulangan dan sumber sahih — kemajuan Anda disimpan otomatis sepanjang petang.',
+                infoCount: '23 zikir',
+                sectionTitle: 'Zikir petang dengan pengulangan dan sumber sahih',
+                sectionText: 'Halaman ini menyajikan zikir petang secara lengkap, menampilkan jumlah pengulangan dan sumber setiap zikir, dengan penghitung interaktif yang membantu Anda menyelesaikannya tanpa kehilangan jejak.',
+                completedTitle: 'Zikir petang selesai', completedSub: 'Kami memohon kepada Allah agar memenuhi petang Anda dengan zikir dan ketenangan.'
+            }
+        };
+        var out = {};
+        Object.keys(M).forEach(function (l) { out[l] = Object.assign({}, M[l], OV[l] || {}); });
+        return out;
+    })();
 
     try {
         console.log('[azkar-data] loaded · categories=' + window.AzkarCategories.length +

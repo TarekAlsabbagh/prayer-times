@@ -46,11 +46,16 @@ const block1 = dataSrc.slice(i1, i2);   // Ayat al-Kursi
 const block2 = dataSrc.slice(i2, i3);   // Surah Al-Ikhlas
 const block3 = dataSrc.slice(i3, i4);   // Surah Al-Falaq
 const block4 = dataSrc.slice(i4, i5);   // Surah An-Nas
+// AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: scope the per-lang count to the
+// MORNING region — the evening page now ALSO carries these 4 translations (verified by its own smoke), so the
+// whole-file count doubles to 8. Morning must stay EXACTLY 4 per non-Arabic lang.
+const _mornEnd = dataSrc.indexOf('window.AzkarEvening');
+const morningRegion = (_mornEnd > i1) ? dataSrc.slice(i1, _mornEnd) : dataSrc;
 
-console.log('================ 1. Data — every non-Arabic lang has 4 translations (Card 01 + 02 + 03 + 04) ================');
+console.log('================ 1. Data — every non-Arabic lang has 4 MORNING translations (Card 01 + 02 + 03 + 04) ================');
 ok(i1 > -1 && i2 > i1 && i3 > i2 && i4 > i3 && i5 > i4, 'morning-001/002/003/004/005 ids present + ordered');
 for (const l of NONAR) {
-  ok((dataSrc.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 4, `translation_${l}: appears EXACTLY four times (Card 01 + 02 + 03 + 04)`);
+  ok((morningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 4, `translation_${l}: appears EXACTLY four times in the MORNING region (Card 01 + 02 + 03 + 04)`);
   ok(block1.includes('translation_' + l + ':'), `Card 01 (Kursi) has translation_${l}`);
   ok(block2.includes('translation_' + l + ':'), `Card 02 (Al-Ikhlas) has translation_${l}`);
   ok(block3.includes('translation_' + l + ':'), `Card 03 (Al-Falaq) has translation_${l}`);
@@ -103,9 +108,9 @@ ok(/_trLang === 'ur' \? ' style="direction:rtl;text-align:right"'/.test(cardBody
 ok(/class="azkar-translation-en"/.test(cardBody) && /_escHtml\(_trText\)/.test(cardBody), 'SSR: class kept + _escHtml(_trText)');
 const concat = cardBody.match(/headerHtml \+ translationHtml \+ textHtml \+ [^\n]+/);
 ok(concat && concat[0].indexOf('translationHtml') < concat[0].indexOf('textHtml'), 'SSR: translation ABOVE Arabic (concat order)');
-// morning forwards the UI lang; evening/prayer pass 'ar' (out of scope → no translation)
-ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "evening list still 'ar' (no translation)");
-ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "prayer list still 'ar' (no translation)");
+// morning + evening now forward the UI lang (evening Quran translations localized); prayer stays 'ar'
+ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, lang \|\| 'ar'\)\)/.test(srvSrc), "evening list forwards lang (evening Quran translations now localized)");
+ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "prayer list still 'ar' (out of scope, unchanged)");
 
 console.log('\n================ 8. Client (js/app.js) — same generalization + Urdu RTL ================');
 const cIdx = appSrc.indexOf("const _trLang = (_azkarUiLang && _azkarUiLang !== 'ar') ? _azkarUiLang : null;");
@@ -125,9 +130,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=10/.test(htmlSrc), 'index.html azkar-data.js?v=10 (data changed)');
-ok(/js\/app\.js\?v=834/.test(htmlSrc), 'index.html app.js?v=834 (render generalized; unchanged this ticket)');
-ok(/CACHE_VERSION = 'v505'/.test(swSrc), "sw.js CACHE_VERSION 'v505'");
+ok(/js\/azkar-data\.js\?v=11/.test(htmlSrc), 'index.html azkar-data.js?v=11 (data changed: evening translations + evening UI dict)');
+ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 (client evening chrome localization added)');
+ok(/CACHE_VERSION = 'v507'/.test(swSrc), "sw.js CACHE_VERSION 'v507'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

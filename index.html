@@ -80,7 +80,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=834" as="script">
+    <link rel="preload" href="js/app.js?v=836" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -4082,29 +4082,29 @@
                 <!-- ===== Hero: breadcrumb + title + subtitle + info-strip + progress ===== -->
                 <section class="azkar-hero">
                     <div class="azkar-hero-inner">
-                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
-                            <a href="/azkar">الأذكار</a>
+                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح" data-azkar-ui-aria="ariaBreadcrumb">
+                            <a href="/azkar" data-azkar-ui="bcHub">الأذكار</a>
                             <span class="sep" aria-hidden="true">›</span>
-                            <span aria-current="page">أذكار المساء</span>
+                            <span aria-current="page" data-azkar-ui="bcCurrent">أذكار المساء</span>
                         </nav>
 
                         <header class="azkar-page-header">
-                            <h1 id="azkar-evening-h1">أذكار المساء</h1>
-                            <p class="azkar-page-subtitle">اقرأ أذكار المساء مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال الليلة.</p>
+                            <h1 id="azkar-evening-h1" data-azkar-ui="heroTitle">أذكار المساء</h1>
+                            <p class="azkar-page-subtitle" data-azkar-ui="heroSubtitle">اقرأ أذكار المساء مكتوبة مع عدد التكرار والمصدر، ويُحفظ تقدمك تلقائيًا خلال الليلة.</p>
                         </header>
 
-                        <ul class="azkar-info-strip" aria-label="معلومات عامة">
-                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 23 ذكرًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عداد للأذكار المتكررة</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
+                        <ul class="azkar-info-strip" aria-label="معلومات عامة" data-azkar-ui-aria="ariaInfo">
+                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> <span data-azkar-ui="infoCount">23 ذكرًا</span></li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> <span data-azkar-ui="infoCounter">عداد للأذكار المتكررة</span></li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> <span data-azkar-ui="infoAutosave">يُحفظ تقدمك تلقائيًا</span></li>
                         </ul>
 
                         <div class="azkar-progress-wrap" id="azkar-evening-progress-wrap">
                             <div class="azkar-progress-row">
-                                <span class="azkar-progress-label" id="azkar-evening-progress-label">تم إكمال 0 من 0</span>
-                                <button type="button" class="azkar-reset-btn" id="azkar-evening-reset-all" aria-label="إعادة ضبط العدادات">
+                                <span class="azkar-progress-label" id="azkar-evening-progress-label" data-azkar-ui="progressInit">تم إكمال 0 من 0</span>
+                                <button type="button" class="azkar-reset-btn" id="azkar-evening-reset-all" aria-label="إعادة ضبط العدادات" data-azkar-ui-aria="resetBtn">
                                     <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                                    <span>إعادة ضبط العدادات</span>
+                                    <span data-azkar-ui="resetBtn">إعادة ضبط العدادات</span>
                                 </button>
                             </div>
                             <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4117,10 +4117,10 @@
                 <!-- ===== Sticky compact progress bar (visible while scrolling) ===== -->
                 <div class="azkar-sticky-progress" id="azkar-evening-sticky" role="region" aria-label="ملخص التقدم">
                     <div class="azkar-sticky-progress-row">
-                        <span class="azkar-sticky-progress-text" id="azkar-evening-sticky-label">تم إكمال 0 من 0</span>
-                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-evening-sticky-reset" aria-label="إعادة ضبط العدادات">
+                        <span class="azkar-sticky-progress-text" id="azkar-evening-sticky-label" data-azkar-ui="progressInit">تم إكمال 0 من 0</span>
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-evening-sticky-reset" aria-label="إعادة ضبط العدادات" data-azkar-ui-aria="resetBtn">
                             <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                            <span>إعادة الضبط</span>
+                            <span data-azkar-ui="resetBtnShort">إعادة الضبط</span>
                         </button>
                     </div>
                     <div class="azkar-sticky-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4130,8 +4130,8 @@
 
                 <!-- ===== H2 SEO keyword bridge (AZKAR-MORNING-KEYWORD-CONSISTENCY-1 pattern) ===== -->
                 <header class="azkar-section-intro" id="azkar-evening-section-intro">
-                    <h2 class="azkar-section-intro-title">أذكار المساء مع التكرار والمصدر الصحيح</h2>
-                    <p class="azkar-section-intro-text">تضم هذه الصفحة أذكار المساء مكتوبة كاملة، مع توضيح عدد التكرار والمصدر لكل ذكر، إضافة إلى عداد تفاعلي يساعدك على إكمال القراءة دون نسيان.</p>
+                    <h2 class="azkar-section-intro-title" data-azkar-ui="sectionTitle">أذكار المساء مع التكرار والمصدر الصحيح</h2>
+                    <p class="azkar-section-intro-text" data-azkar-ui="sectionText">تضم هذه الصفحة أذكار المساء مكتوبة كاملة، مع توضيح عدد التكرار والمصدر لكل ذكر، إضافة إلى عداد تفاعلي يساعدك على إكمال القراءة دون نسيان.</p>
                 </header>
 
                 <!-- ===== Dhikr list — SSR-rendered by server.js _buildAzkarEveningListHtml() ===== -->
@@ -4139,8 +4139,8 @@
 
                 <div class="azkar-completed-banner u-hidden" id="azkar-evening-completed">
                     <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
-                    <p class="azkar-completed-banner-title">تم إكمال أذكار المساء</p>
-                    <p class="azkar-completed-banner-sub">نسأل الله أن يجعل ليلتك عامرة بالذكر والطمأنينة.</p>
+                    <p class="azkar-completed-banner-title" data-azkar-ui="completedTitle">تم إكمال أذكار المساء</p>
+                    <p class="azkar-completed-banner-sub" data-azkar-ui="completedSub">نسأل الله أن يجعل ليلتك عامرة بالذكر والطمأنينة.</p>
                 </div>
 
                 <!-- ===== Educational mini-cards (evening-specific) ===== -->
@@ -5486,10 +5486,10 @@
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/azkar-data.js?v=10"></script>
+    <script defer src="js/azkar-data.js?v=11"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=834"></script>
+    <script defer src="js/app.js?v=836"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -62,9 +62,11 @@ ok(/html = _translateAzkarMorningUi\(html, _azkarUiLang\);/.test(srvSrc), 'walke
 // virtue/authenticityNote stay AR via _azkarLocalizedAR
 ok(/_azkarLocalizedAR\(dhikr\.virtue/.test(srvSrc), 'virtue still rendered via _azkarLocalizedAR (Arabic, out of scope)');
 
-console.log('\n================ 4. SSR — evening/prayer unchanged (pass \'ar\') ================');
-ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "evening list forces 'ar'");
-ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "prayer list forces 'ar'");
+console.log('\n================ 4. SSR — evening now forwards lang (AZKAR-EVENING…-1); prayer still \'ar\' ================');
+// AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1 localized the evening page, so the
+// evening list builder now forwards the route language (was hardcoded 'ar'). Prayer remains out of scope ('ar').
+ok(/_AZKAR_EVENING_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, lang \|\| 'ar'\)\)/.test(srvSrc), "evening list forwards lang (evening now localized)");
+ok(/_AZKAR_PRAYER_DATA\.map\(\(dhikr, idx\) => _buildAzkarCardHtml\(dhikr, idx, 'ar'\)\)/.test(srvSrc), "prayer list still forces 'ar'");
 
 console.log('\n================ 5. Client (js/app.js) — Proxy chrome + walker ================');
 ok(/function _azkarActivePageIsMorning\(\)/.test(appSrc), '_azkarActivePageIsMorning() gate present');

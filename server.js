@@ -7004,6 +7004,8 @@ let _AZKAR_PRAYER_DATA = [];
 // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: 10-lang morning-page UI chrome dict,
 // plucked from the SAME sandbox (single source of truth = js/azkar-data.js).
 let _AZKAR_MORNING_UI_L10N = {};
+// AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening-page UI chrome dict.
+let _AZKAR_EVENING_UI_L10N = {};
 try {
     const _azkarSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-data.js'), 'utf8');
     const _azkarSandbox = { window: {}, console: { log: () => {} } };
@@ -7019,6 +7021,11 @@ try {
     _AZKAR_MORNING_UI_L10N = (_azkarSandbox.window.AZKAR_MORNING_UI_L10N &&
         typeof _azkarSandbox.window.AZKAR_MORNING_UI_L10N === 'object')
         ? _azkarSandbox.window.AZKAR_MORNING_UI_L10N : {};
+    // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening chrome dict (same sandbox,
+    // derived from AZKAR_MORNING_UI_L10N in js/azkar-data.js — shared keys byte-identical, evening keys overridden).
+    _AZKAR_EVENING_UI_L10N = (_azkarSandbox.window.AZKAR_EVENING_UI_L10N &&
+        typeof _azkarSandbox.window.AZKAR_EVENING_UI_L10N === 'object')
+        ? _azkarSandbox.window.AZKAR_EVENING_UI_L10N : {};
     console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning + ' +
         _AZKAR_EVENING_DATA.length + ' evening + ' +
         _AZKAR_PRAYER_DATA.length + ' prayer dhikr items for SSR');
@@ -7036,6 +7043,12 @@ try {
 function _azkarUiL10n(lang) {
     return (_AZKAR_MORNING_UI_L10N && _AZKAR_MORNING_UI_L10N[lang]) ||
            (_AZKAR_MORNING_UI_L10N && _AZKAR_MORNING_UI_L10N.ar) || {};
+}
+
+// AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening-page chrome map (per lang).
+function _azkarEveningUiL10n(lang) {
+    return (_AZKAR_EVENING_UI_L10N && _AZKAR_EVENING_UI_L10N[lang]) ||
+           (_AZKAR_EVENING_UI_L10N && _AZKAR_EVENING_UI_L10N.ar) || {};
 }
 
 // Localized repeat label ("مرة واحدة"/"once"/"une fois"/…): exact counts (1,3,4,7,10,100…) from
@@ -7181,11 +7194,12 @@ function _buildAzkarMorningListHtml(lang) {
 
 // AZKAR-EVENING-PHASE-1 (2026-05-26): same _buildAzkarCardHtml helper,
 // different data source. Clone strategy keeps morning untouched.
-function _buildAzkarEveningListHtml() {
+function _buildAzkarEveningListHtml(lang) {
     if (!_AZKAR_EVENING_DATA.length) return '';
-    // Pass 'ar' explicitly: evening/prayer are OUT OF SCOPE for the morning UI-localization
-    // ticket and must render exactly as before (Arabic chrome + Arabic titles).
-    return _AZKAR_EVENING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx, 'ar')).join('');
+    // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: forward the route language
+    // (default 'ar') so the first 4 Quran cards (evening-001..004 = Kursi/Ikhlas/Falaq/An-Nas) SSR-render
+    // their per-language translation ABOVE the Arabic on non-Arabic UIs; every other card is Arabic-only.
+    return _AZKAR_EVENING_DATA.map((dhikr, idx) => _buildAzkarCardHtml(dhikr, idx, lang || 'ar')).join('');
 }
 
 // AZKAR-PRAYER-PHASE-1 (2026-05-26): same pattern, prayer category.
@@ -7216,6 +7230,33 @@ function _translateAzkarMorningUi(html, lang) {
             return open + _escHtml(String(uiX[key])) + close;
         });
     // 2) aria-label of [data-azkar-ui-aria="key"] elements
+    html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?\sdata-azkar-ui-aria="([^"]+)"[^>]*?)>/g,
+        function (m, tag, attrs, key) {
+            if (ui[key] == null) return m;
+            const val = _escHtml(String(ui[key]));
+            const newAttrs = /\saria-label="[^"]*"/.test(attrs)
+                ? attrs.replace(/\saria-label="[^"]*"/, ' aria-label="' + val + '"')
+                : attrs + ' aria-label="' + val + '"';
+            return '<' + tag + newAttrs + '>';
+        });
+    return html;
+}
+
+// AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening-page parallel of the
+// morning walker (kept as a separate function so the morning path stays byte-identical). Same marker contract
+// (data-azkar-ui[-aria]), evening chrome dict. Applied ONLY on the evening route. Idempotent for 'ar'.
+function _translateAzkarEveningUi(html, lang) {
+    const ui = _azkarEveningUiL10n(lang);
+    if (!ui || !html) return html;
+    const uiX = Object.assign({}, ui);
+    if (uiX.progressTpl && uiX.progressInit == null) {
+        uiX.progressInit = String(uiX.progressTpl).replace('{done}', '0').replace('{total}', '0');
+    }
+    html = html.replace(/(<([a-zA-Z0-9]+)\b[^>]*\sdata-azkar-ui="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g,
+        function (m, open, _tag, key, _inner, close) {
+            if (uiX[key] == null) return m;
+            return open + _escHtml(String(uiX[key])) + close;
+        });
     html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?\sdata-azkar-ui-aria="([^"]+)"[^>]*?)>/g,
         function (m, tag, attrs, key) {
             if (ui[key] == null) return m;
@@ -20072,7 +20113,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 '<div class="page" id="page-azkar-evening">',
                 '<div class="page active" id="page-azkar-evening">'
             );
-            const _azkarEveningListHtml = _buildAzkarEveningListHtml();
+            // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: derive the route language
+            // so (a) the first 4 Quran cards SSR-render their translation above the Arabic, and (b) the static
+            // evening-page chrome is localized. Arabic route (no prefix) renders exactly as before (idempotent).
+            const _azkarEveningLang = (urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//) || [])[1] || 'ar';
+            const _azkarEveningListHtml = _buildAzkarEveningListHtml(_azkarEveningLang);
             if (_azkarEveningListHtml) {
                 html = html.replace(
                     '<div class="azkar-list" id="azkar-evening-list" aria-live="polite"></div>',
@@ -20081,6 +20126,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     '</div>'
                 );
             }
+            html = _translateAzkarEveningUi(html, _azkarEveningLang);
         } else if (_isAzkarPrayerRoute) {
             // AZKAR-PRAYER-PHASE-1 (2026-05-26): same SSR pattern.
             html = html.replace(

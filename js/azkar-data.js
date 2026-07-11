@@ -207,6 +207,21 @@
             type: 'quran',
             title: { ar: 'سورة الفلق', en: 'Surah Al-Falaq' },
             text: 'بِسْمِ اللَّهِ الرَّحْمَٰنِ الرَّحِيمِ\nقُلْ أَعُوذُ بِرَبِّ الْفَلَقِ، مِنْ شَرِّ مَا خَلَقَ، وَمِنْ شَرِّ غَاسِقٍ إِذَا وَقَبَ، وَمِنْ شَرِّ النَّفَّاثَاتِ فِي الْعُقَدِ، وَمِنْ شَرِّ حَاسِدٍ إِذَا حَسَدَ.',
+            // AZKAR-MORNING-QURAN-TRANSLATIONS-SURAH-AL-FALAQ-ALL-LANGUAGES-1: Al-Falaq (Quran 113:1-5) shown ABOVE
+            // the Arabic in each non-Arabic UI (lang!=='ar'), same class/style as Ayat al-Kursi + Al-Ikhlas + An-Nas.
+            // The Basmala is translated FIRST because the Arabic text opens with it. en = Saheeh International;
+            // the 8 others = QuranEnc (static, extracted once at dev time, NO runtime API). tr omits the Basmala
+            // (its 1:1 is a transliteration, not a meaning translation). Arabic text/tashkeel unchanged; morning-003
+            // ONLY; never shown in the ar UI.
+            translation_en: 'In the name of Allah, the Entirely Merciful, the Especially Merciful.\n\nSay, "I seek refuge in the Lord of daybreak\nFrom the evil of that which He created\nAnd from the evil of darkness when it settles\nAnd from the evil of the blowers in knots\nAnd from the evil of an envier when he envies."',
+            translation_fr: "Au nom d’Allah, le Tout Miséricordieux, le Très Miséricordieux .\n\nDis : « J’implore la protection du Seigneur de l’aube,\ncontre le mal qui se trouve dans ce qu’Il a créé,\ncontre le mal de la nuit qui étend son obscurité,\ncontre le charme maléfique de tous les sorciers ,\ncontre l’envieux qui donne libre cours à sa méchanceté. »",
+            translation_ur: "شروع کرتا ہوں اللہ تعالیٰ کے نام سے جو بڑا مہربان نہایت رحم واﻻ ہے۔\n\nآپ کہہ دیجئے! کہ میں صبح کے رب کی پناه میں آتا ہوں.\nہر اس چیز کے شر سے جو اس نے پیدا کی ہے.\nاور اندھیری رات کی تاریکی کے شر سے جب اس کا اندھیرا پھیل جائے.\nاور گره (لگا کر ان) میں پھونکنے والیوں کے شر سے (بھی).\nاور حسد کرنے والے کی برائی سے بھی جب وه حسد کرے.",
+            translation_tr: "De ki: Ben, sabahın Rabbine sığınırım.\nYarattığı varlıkların şerrinden.\nKaranlığı çöktüğü zaman gecenin şerrinden.\nDüğümlere üfleyenlerin şerrinden.\nHaset ettiği zaman hasetçinin şerrinden.",
+            translation_bn: "রহমান, রহীম আল্লাহ্‌র নামে\n\nবলুন , ‘আমি আশ্রয় প্রার্থনা করছি ঊষার রবের\nতিনি যা সৃষ্টি করেছেন তার অনিষ্ট হতে ,\nআর অনিষ্ট হতে রাতের অন্ধকারের, যখন তা গভীর হয়\nআর অনিষ্ট হতে সমস্ত নারীদের, যারা গিরায় ফুঁক দেয় ,\nআর অনিষ্ট হতে হিংসুকের , যখন সে হিংসা করে ।’",
+            translation_ms: "Dengan nama Allah, Yang Maha Pemurah, lagi Maha Mengasihani.\n\nKatakanlah (wahai Muhammad); “Aku berlindung kepada (Allah) Tuhan yang menciptakan sekalian makhluk,\n“Dari bencana makhluk-makhluk yang Ia ciptakan;\n“Dan dari bahaya gelap apabila ia masuk;\n“Dan dari kejahatan makhluk-makhluk yang menghembus-hembus pada simpulan-simpulan (dan ikatan-ikatan);\n“Dan dari kejahatan orang yang dengki apabila ia melakukan dengkinya”.",
+            translation_de: "Im Namen Allahs, des Allerbarmers, des Barmherzigen.\n\nSag: „Ich nehme Zuflucht beim Herrn des Tagesanbruchs\nvor dem Übel dessen, was Er erschaffen hat,\nund vor dem Übel der Dunkelheit, wenn sie zunimmt,\nund vor dem Übel der Knotenanbläserinnen\nund vor dem Übel eines (jeden) Neidenden, wenn er neidet.“",
+            translation_es: "En el nombre de Dios , el Compasivo con toda la creación, el Misericordioso con los creyentes .\n\nDi: “Me refugio en el Señor del amanecer,\nde todo el mal que existe en lo que Él creó,\ndel mal de la oscuridad de la noche cuando se extiende,\ndel mal de las [hechiceras] sopladoras de nudos ,\ny del mal del envidioso cuando envidia”.",
+            translation_id: "Dengan nama Allah Yang Maha Pengasih, Maha Penyayang.\n\nKatakanlah, \"Aku berlindung kepada Tuhan yang menguasai subuh (fajar),\ndari kejahatan (makhluk yang) Dia ciptakan,\ndan dari kejahatan malam apabila telah gelap gulita,\ndan dari kejahatan (perempuan-perempuan) penyihir yang meniup pada buhul-buhul (talinya),\ndan dari kejahatan orang yang dengki apabila dia dengki.\"",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'القرآن الكريم', sourceUrl: null },

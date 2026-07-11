@@ -60,7 +60,7 @@ async function getSura(key, sura) {
 }
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 
-const output = { 'morning-001': {}, 'morning-002': {}, 'morning-004': {} };
+const output = { 'morning-001': {}, 'morning-002': {}, 'morning-003': {}, 'morning-004': {} };
 const warnings = [];
 const failures = [];
 const basmalas = [];
@@ -85,9 +85,16 @@ for (const [lang, key] of Object.entries(QURANENC_TRANSLATION_KEYS)) {
       if (!row || !row.translation) throw new Error(`Missing ${key} 114:${ayaNumber}`);
       return String(row.translation);
     });
+    // 5) Surah Al-Falaq 113:1-5
+    const falaqSura = await getSura(key, 113); await sleep(120);
+    const falaqRaw = [1, 2, 3, 4, 5].map((ayaNumber) => {
+      const row = falaqSura.find((it) => Number(it.aya) === ayaNumber);
+      if (!row || !row.translation) throw new Error(`Missing ${key} 113:${ayaNumber}`);
+      return String(row.translation);
+    });
 
     // residual-bracket detection (before stripping numeric markers) — meaning brackets must be reported, not removed
-    for (const [label, raw] of [['2:255', kursiRaw], ['1:1', basmalaRaw], ['112:1', ikhlasRaw[0]], ['112:2', ikhlasRaw[1]], ['112:3', ikhlasRaw[2]], ['112:4', ikhlasRaw[3]], ['114:1', nasRaw[0]], ['114:2', nasRaw[1]], ['114:3', nasRaw[2]], ['114:4', nasRaw[3]], ['114:5', nasRaw[4]], ['114:6', nasRaw[5]]]) {
+    for (const [label, raw] of [['2:255', kursiRaw], ['1:1', basmalaRaw], ['112:1', ikhlasRaw[0]], ['112:2', ikhlasRaw[1]], ['112:3', ikhlasRaw[2]], ['112:4', ikhlasRaw[3]], ['114:1', nasRaw[0]], ['114:2', nasRaw[1]], ['114:3', nasRaw[2]], ['114:4', nasRaw[3]], ['114:5', nasRaw[4]], ['114:6', nasRaw[5]], ['113:1', falaqRaw[0]], ['113:2', falaqRaw[1]], ['113:3', falaqRaw[2]], ['113:4', falaqRaw[3]], ['113:5', falaqRaw[4]]]) {
       const rb = residualBrackets(raw);
       if (rb.length) warnings.push(`${lang} ${label}: residual non-footnote brackets ${JSON.stringify(rb)} in: ${raw}`);
     }
@@ -98,14 +105,17 @@ for (const [lang, key] of Object.entries(QURANENC_TRANSLATION_KEYS)) {
     const basmala = clean(basmalaRaw);
     const ikhlas = ikhlasRaw.map(clean);
     const nas = nasRaw.map(clean);
+    const falaq = falaqRaw.map(clean);
     basmalas.push(`${lang}: ${basmala}`);
 
     const ikhlasJoined = `${ikhlas[0]}\n${ikhlas[1]}\n${ikhlas[2]}\n${ikhlas[3]}`;
     const nasJoined = `${nas[0]}\n${nas[1]}\n${nas[2]}\n${nas[3]}\n${nas[4]}\n${nas[5]}`;
+    const falaqJoined = `${falaq[0]}\n${falaq[1]}\n${falaq[2]}\n${falaq[3]}\n${falaq[4]}`;
     output['morning-001'][`translation_${lang}`] = kursi;
-    // Al-Ikhlas / An-Nas: basmala + surah, EXCEPT for langs whose basmala is a transliteration (tr) → surah only.
+    // Al-Ikhlas / An-Nas / Al-Falaq: basmala + surah, EXCEPT for langs whose basmala is a transliteration (tr) → surah only.
     output['morning-002'][`translation_${lang}`] = OMIT_BASMALA_LANGS.has(lang) ? ikhlasJoined : `${basmala}\n\n${ikhlasJoined}`;
     output['morning-004'][`translation_${lang}`] = OMIT_BASMALA_LANGS.has(lang) ? nasJoined : `${basmala}\n\n${nasJoined}`;
+    output['morning-003'][`translation_${lang}`] = OMIT_BASMALA_LANGS.has(lang) ? falaqJoined : `${basmala}\n\n${falaqJoined}`;
   } catch (e) {
     failures.push(`${lang} (${key}): ${e.message}`);
   }

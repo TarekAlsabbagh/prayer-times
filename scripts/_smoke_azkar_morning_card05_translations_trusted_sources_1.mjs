@@ -2,8 +2,8 @@
 // morning-005 («أصبحنا وأصبح الملك لله», Muslim) gains 8 STATIC translations shown ABOVE the Arabic:
 // en/fr/ur/tr/bn/es/id = HadeethEnc encyclopedia (hadith 3008; morning wording built from the SAME source's
 // own translation per the hadith's instruction) · ms = akuislam morning-adhkar guide (Sahih Muslim, full text).
-// de = PENDING_SOURCE → NO translation_de: /de renders NO block and NO fallback for this card (stays 4 blocks).
-// ar never renders a translation block. Cards 01-04, evening and prayer azkar are untouched.
+// de was PENDING_SOURCE; FILLED later by …-PENDING-TRUSTED-TRANSLATIONS-CARD05-CARD06-1 (Islamische Datenbank
+// Hisn-ul-Muslim item 77). ar never renders a translation block. Cards 01-04, evening and prayer are untouched.
 import fs from 'fs';
 import path from 'path';
 import vm from 'vm';
@@ -56,11 +56,14 @@ for (const l of IMPL) {
   ok(a.not.every((x) => !N(t).includes(N(x))), `Card 05 ${l}: NO leftover evening/night wording`);
 }
 
-console.log('\n================ 2. Card 05 — NO ar, NO de (PENDING_SOURCE), no digits/footnotes/translit/soft-hyphen ================');
+console.log('\n================ 2. Card 05 — NO ar; de FILLED by the PENDING ticket (Islamische Datenbank Hisn item 77) ================');
 ok(card5.translation_ar === undefined, 'Card 05 has NO translation_ar (Arabic UI shows no block)');
-ok(card5.translation_de === undefined, 'Card 05 has NO translation_de (PENDING_SOURCE — not shipped)');
+// AZKAR-MORNING-DUA-PENDING-TRUSTED-TRANSLATIONS-CARD05-CARD06-1: de PENDING resolved.
+ok(typeof card5.translation_de === 'string' && card5.translation_de.startsWith('Wir haben den Morgen erreicht'), 'Card 05 translation_de present (Hisn ch.27/77, morning opening)');
+ok(['das Beste an diesem Tag', 'Höllenfeuer', 'Strafe im Grab'].every((x) => card5.translation_de.includes(x)), 'Card 05 de: completeness anchors (day-ask + fire + grave clauses)');
+ok(!/[\p{Nd}]/u.test(card5.translation_de) && !/Nacht|amsayn/i.test(card5.translation_de), 'Card 05 de: footnote markers stripped, no digits, no evening/night leakage');
 const b5 = dataSrc.slice(dataSrc.indexOf("id: 'morning-005'"), dataSrc.indexOf("id: 'morning-006'"));
-ok(!/translation_(ar|de)\s*:/.test(b5), 'morning-005 source block declares NO translation_ar/translation_de field');
+ok(!/translation_ar\s*:/.test(b5), 'morning-005 source block declares NO translation_ar field');
 for (const l of IMPL) {
   const t = card5['translation_' + l];
   ok(!/[\p{Nd}]/u.test(t), `Card 05 ${l}: no digits (any script)`);
@@ -70,10 +73,10 @@ for (const l of IMPL) {
 }
 
 console.log('\n================ 3. Per-lang MORNING totals (updated by the Card 06 ticket); ar = 0 ================');
-// CARD-06 ticket: morning-006 adds a 6th translation for en/ur/tr/bn/de/es/id (no fr/ms — PENDING_SOURCE).
-// Card 05 itself is UNCHANGED (still 8 fields, no de) — asserted in sections 1-2 above.
+// CARD-06 ticket: morning-006 adds a 6th translation for en/ur/tr/bn/de/es/id.
+// PENDING ticket: card05 += de, card06 += fr + ms → every non-Arabic lang = 6 morning translations.
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-const MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 5, fr: 5, ms: 5 };
+const MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 6, fr: 6, ms: 6 };
 for (const l of ALL9) {
   const exp = MORN_EXPECT[l];
   ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === exp, `morning region translation_${l}: EXACTLY ${exp}`);

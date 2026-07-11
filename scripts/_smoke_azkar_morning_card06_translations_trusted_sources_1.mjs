@@ -55,12 +55,15 @@ for (const l of IMPL) {
   ok(a.not.every((x) => !N(t).includes(N(x))), `Card 06 ${l}: NO evening form / NO «الم المصير» rendering / NO stale punctuation`);
 }
 
-console.log('\n================ 2. Card 06 — NO ar, NO fr, NO ms (PENDING_SOURCE); hygiene ================');
+console.log('\n================ 2. Card 06 — NO ar; fr + ms FILLED by the PENDING ticket ================');
 ok(card6.translation_ar === undefined, 'Card 06 has NO translation_ar');
-ok(card6.translation_fr === undefined, 'Card 06 has NO translation_fr (PENDING_SOURCE)');
-ok(card6.translation_ms === undefined, 'Card 06 has NO translation_ms (PENDING_SOURCE)');
+// AZKAR-MORNING-DUA-PENDING-TRUSTED-TRANSLATIONS-CARD05-CARD06-1: fr (Hisnii inv.7) + ms (akuislam) resolved.
+ok(typeof card6.translation_fr === 'string' && card6.translation_fr.startsWith('Ô Allah !') && card6.translation_fr.endsWith('la Résurrection.'), 'Card 06 translation_fr present (Hisnii invocation 7, morning form)');
+ok(['au matin', 'au soir', 'nous vivons', 'nous mourons'].every((x) => card6.translation_fr.includes(x)), 'Card 06 fr: all four clauses present');
+ok(typeof card6.translation_ms === 'string' && card6.translation_ms.startsWith('Ya Allah, dengan rahmat dan pertolongan-Mu kami memasuki waktu pagi'), 'Card 06 translation_ms present (akuislam, morning form)');
+ok(card6.translation_ms.includes('kebangkitan (bagi semua makhluk)'), 'Card 06 ms: resurrection clause present (verbatim akuislam)');
 const b6 = dataSrc.slice(dataSrc.indexOf("id: 'morning-006'"), dataSrc.indexOf("id: 'morning-007'"));
-ok(!/translation_(ar|fr|ms)\s*:/.test(b6), 'morning-006 source block declares NO ar/fr/ms field');
+ok(!/translation_ar\s*:/.test(b6), 'morning-006 source block declares NO translation_ar field');
 for (const l of IMPL) {
   const t = card6['translation_' + l];
   ok(!/[\p{Nd}]/u.test(t), `Card 06 ${l}: no digits (any script)`);
@@ -71,7 +74,7 @@ for (const l of IMPL) {
 
 console.log('\n================ 3. Per-lang MORNING totals + ar = 0 ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-const MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 5, fr: 5, ms: 5 };
+const MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 6, fr: 6, ms: 6 }; // PENDING ticket filled de/fr/ms
 for (const l of ALL9) {
   ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === MORN_EXPECT[l], `morning region translation_${l}: EXACTLY ${MORN_EXPECT[l]}`);
 }
@@ -84,8 +87,8 @@ ok(b6.includes('repeat: 1,') && b6.includes("repeatLabel: { ar: 'مرة واحد
 
 console.log('\n================ 5. Cards 01-05 + evening + prayer UNCHANGED ================');
 ok(dataSrc.includes('the Ever-Living, the Sustainer of [all] existence'), 'Card 01 (Kursi) translation intact');
-ok(card5.id === 'morning-005' && card5.translation_de === undefined && typeof card5.translation_ms === 'string', 'Card 05 untouched: still NO de + still HAS ms (akuislam)');
-ok(['en','fr','ur','tr','bn','ms','es','id'].every((l) => typeof card5['translation_' + l] === 'string'), 'Card 05 still carries its 8 translations');
+ok(card5.id === 'morning-005' && typeof card5.translation_de === 'string' && typeof card5.translation_ms === 'string', 'Card 05: HAS ms (akuislam) + de (filled by the PENDING ticket)');
+ok(['en','fr','ur','tr','bn','ms','de','es','id'].every((l) => typeof card5['translation_' + l] === 'string'), 'Card 05 carries all 9 translations');
 for (let c = 0; c < 4; c++) ok(ALL9.every((l) => typeof M[c]['translation_' + l] === 'string'), `Card 0${c + 1} still carries all 9 translations (incl. de/fr/ms)`);
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
 for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 4, `evening region translation_${l} still EXACTLY 4 (untouched)`);
@@ -108,9 +111,9 @@ ok(!/akuislam\.com/i.test(dataSrc) && !/quranenc\.com/i.test(dataSrc), 'no akuis
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch (pure static data)');
 
 console.log('\n================ 8. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=13/.test(htmlSrc), 'index.html azkar-data.js?v=13 (bumped: Card 06 data added)');
+ok(/js\/azkar-data\.js\?v=1[3-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 13 (later tickets bump it)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 UNCHANGED (generic renderer — no app.js edit)');
-ok(/CACHE_VERSION = 'v509'/.test(swSrc), "sw.js CACHE_VERSION 'v509'");
+ok(/CACHE_VERSION = 'v5(09|[1-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v509+ (later tickets bump it)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

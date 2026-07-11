@@ -52,10 +52,12 @@ const block4 = dataSrc.slice(i4, i5);   // Surah An-Nas
 // AZKAR-MORNING-DUA-CARD-05-TRANSLATIONS-TRUSTED-SOURCES-AVAILABLE-LANGUAGES-1: morning-005 adds a 5th
 // translation for the 8 approved langs (en/fr/ur/tr/bn/ms/es/id); de stays 4 (Card 05 de = PENDING_SOURCE).
 // AZKAR-MORNING-DUA-CARD-06-TRANSLATIONS-TRUSTED-SOURCES-AVAILABLE-LANGUAGES-1: morning-006 adds a 6th for
-// en/ur/tr/bn/de/es/id (Card 06 HAS de); fr + ms stay 5 (Card 06 fr/ms = PENDING_SOURCE).
+// en/ur/tr/bn/de/es/id (Card 06 HAS de).
+// AZKAR-MORNING-DUA-PENDING-TRUSTED-TRANSLATIONS-CARD05-CARD06-1: card05 += de (Islamische Datenbank) and
+// card06 += fr (Hisnii) + ms (akuislam) → EVERY non-Arabic lang now has EXACTLY 6 morning translations.
 const _mornEnd = dataSrc.indexOf('window.AzkarEvening');
 const morningRegion = (_mornEnd > i1) ? dataSrc.slice(i1, _mornEnd) : dataSrc;
-const _MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 5, fr: 5, ms: 5 };
+const _MORN_EXPECT = { en: 6, ur: 6, tr: 6, bn: 6, es: 6, id: 6, de: 6, fr: 6, ms: 6 };
 
 console.log('================ 1. Data — per-lang MORNING translation totals (Cards 01-06; de/fr/ms map differs) ================');
 ok(i1 > -1 && i2 > i1 && i3 > i2 && i4 > i3 && i5 > i4, 'morning-001/002/003/004/005 ids present + ordered');
@@ -136,9 +138,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=13/.test(htmlSrc), 'index.html azkar-data.js?v=13 (data changed: Card 06 translations added)');
+ok(/js\/azkar-data\.js\?v=14/.test(htmlSrc), 'index.html azkar-data.js?v=14 (data changed: pending de/fr/ms translations added)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 (app.js untouched — generic renderer)');
-ok(/CACHE_VERSION = 'v509'/.test(swSrc), "sw.js CACHE_VERSION 'v509'");
+ok(/CACHE_VERSION = 'v510'/.test(swSrc), "sw.js CACHE_VERSION 'v510'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

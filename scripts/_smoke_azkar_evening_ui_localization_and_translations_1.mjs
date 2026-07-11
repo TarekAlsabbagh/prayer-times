@@ -61,11 +61,13 @@ const eveningRegion = (evEnd > e1) ? dataSrc.slice(e1, evEnd) : dataSrc.slice(e1
 for (const l of NONAR) ok((eveningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 4, `translation_${l}: appears EXACTLY 4 times in the evening region`);
 ok(E.slice(4).every(d => NONAR.every(l => d['translation_' + l] == null)), 'evening cards 005+ carry NO translation fields');
 
-console.log('\n================ 3. Morning UNCHANGED (still 4 per non-Arabic lang) ================');
+console.log('\n================ 3. Morning counts (Cards 01-04 = 4; Card 05 adds a 5th for the 8 approved langs, de stays 4) ================');
+// AZKAR-MORNING-DUA-CARD-05-TRANSLATIONS-TRUSTED-SOURCES-AVAILABLE-LANGUAGES-1: morning-005 carries 8
+// translations (no de = PENDING_SOURCE) — owned by its own smoke; here we only pin the expected totals.
 const mornEnd = dataSrc.indexOf('window.AzkarEvening');
 const m1 = dataSrc.indexOf("id: 'morning-001'");
 const morningRegion = dataSrc.slice(m1, mornEnd);
-for (const l of NONAR) ok((morningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 4, `morning translation_${l} still EXACTLY 4`);
+for (const l of NONAR) { const _exp = (l === 'de') ? 4 : 5; ok((morningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === _exp, `morning translation_${l} EXACTLY ${_exp} (${_exp === 5 ? 'Cards 01-05' : 'Cards 01-04; Card 05 de PENDING'})`); }
 ok(sb.window.AzkarMorning.length === 25 && sb.window.AzkarEvening.length === 23, 'still 25 morning + 23 evening items');
 
 console.log('\n================ 4. No transliteration / footnotes / leading verse numbers in evening translations ================');
@@ -118,9 +120,9 @@ console.log('\n================ 8. NO runtime external translation requests ====
 ok(!/quranenc\.com/i.test(srvSrc) && !/quranenc\.com/i.test(appSrc) && !/quranenc\.com/i.test(dataSrc), 'no quranenc.com URL in server/app/azkar-data (static only)');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=11/.test(htmlSrc), 'index.html azkar-data.js?v=11');
+ok(/js\/azkar-data\.js\?v=12/.test(htmlSrc), 'index.html azkar-data.js?v=12 (bumped by the Card 05 ticket)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836');
-ok(/CACHE_VERSION = 'v507'/.test(swSrc), "sw.js CACHE_VERSION 'v507'");
+ok(/CACHE_VERSION = 'v508'/.test(swSrc), "sw.js CACHE_VERSION 'v508' (bumped by the Card 05 ticket)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

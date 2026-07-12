@@ -74,7 +74,7 @@ for (const l of IMPL) {
 
 console.log('\n================ 3. Per-lang MORNING totals + ar = 0 ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-const MORN_EXPECT = { en: 12, ur: 12, tr: 12, bn: 12, es: 12, id: 12, de: 12, fr: 12, ms: 12 }; // Card 12 complete: uniform 12
+const MORN_EXPECT = { en: 13, ur: 13, tr: 13, bn: 13, es: 13, id: 13, de: 13, fr: 13, ms: 13 }; // Card 13 complete: uniform 13
 for (const l of ALL9) {
   ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === MORN_EXPECT[l], `morning region translation_${l}: EXACTLY ${MORN_EXPECT[l]}`);
 }

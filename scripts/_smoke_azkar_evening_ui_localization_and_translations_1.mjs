@@ -67,7 +67,7 @@ console.log('\n================ 3. Morning totals (Cards 01-06; owned by the mor
 const mornEnd = dataSrc.indexOf('window.AzkarEvening');
 const m1 = dataSrc.indexOf("id: 'morning-001'");
 const morningRegion = dataSrc.slice(m1, mornEnd);
-const _MORN_EXPECT = { en: 13, ur: 13, tr: 13, bn: 13, es: 13, id: 13, de: 13, fr: 13, ms: 13 }; // Card 13 complete: uniform 13
+const _MORN_EXPECT = { en: 14, ur: 14, tr: 14, bn: 14, es: 14, id: 14, de: 14, fr: 14, ms: 14 }; // Card 14 complete: uniform 14
 for (const l of NONAR) { const _exp = _MORN_EXPECT[l]; ok((morningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === _exp, `morning translation_${l} EXACTLY ${_exp}`); }
 ok(sb.window.AzkarMorning.length === 25 && sb.window.AzkarEvening.length === 23, 'still 25 morning + 23 evening items');
 
@@ -121,9 +121,9 @@ console.log('\n================ 8. NO runtime external translation requests ====
 ok(!/quranenc\.com/i.test(srvSrc) && !/quranenc\.com/i.test(appSrc) && !/quranenc\.com/i.test(dataSrc), 'no quranenc.com URL in server/app/azkar-data (static only)');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=21/.test(htmlSrc), 'index.html azkar-data.js?v=21 (bumped by the Card 09 ticket)');
+ok(/js\/azkar-data\.js\?v=22/.test(htmlSrc), 'index.html azkar-data.js?v=22 (bumped by the Card 09 ticket)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836');
-ok(/CACHE_VERSION = 'v517'/.test(swSrc), "sw.js CACHE_VERSION 'v517' (bumped by the Card 09 ticket)");
+ok(/CACHE_VERSION = 'v518'/.test(swSrc), "sw.js CACHE_VERSION 'v518' (bumped by the Card 09 ticket)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

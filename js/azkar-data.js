@@ -481,6 +481,21 @@
             type: 'dhikr',
             title: { ar: 'حسبي الله لا إله إلا هو', en: null },
             text: 'حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ، وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ.',
+            // AZKAR-MORNING-DUA-CARD-12-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static translations of the dua
+            // meaning only (no repeat label, reference, virtue, hadith-grade note, transliteration, footnotes/digits,
+            // explanation, or evening variant). Dhikr text = Quran 9:129 (last verse of At-Tawbah); Hisn al-Muslim 83.
+            // en/es/id/bn=HisnMuslim ch.27; fr=Dar Al Athar ch.27; ur=IslamHouse (al-Qahtani booklet, item 17); tr=Turkish
+            // Hisnul Muslim; ms=Malaysian Ministry of Education (e-JAUHAR); de=Islamische Datenbank ch.27. de/id/ms keep the
+            // source's own inline glosses; ur orthography normalized (heh). NO translation_ar.
+            translation_en: "Allah is Sufficient for me, none has the right to be worshipped except Him, upon Him I rely and He is Lord of the exalted throne.",
+            translation_fr: "Allah me suffit, il n'y a de divinité que Lui, c'est en Lui que je place ma confiance et Il est le Seigneur du Trône immense.",
+            translation_ur: "میرے لیے اللہ کافی ہے۔ اس کے سوا کوئی معبود برحق نہیں۔ میں نے اسی پر بھروسہ کیا اور وہ بڑے عرش کا مالک ہے۔",
+            translation_tr: "Yeterli bana Allah, O'ndan başka ibâdete lâyık hiçbir ilah yoktur, O'na tevekkül ettim, O yüce arş'ın Rabbidir.",
+            translation_bn: "আল্লাহই আমার জন্য যথেষ্ট, তিনি ছাড়া আর কোনো হক্ব ইলাহ নেই। আমি তাঁর উপরই ভরসা করি। আর তিনি মহান আরশের রব্ব।",
+            translation_ms: "Cukuplah Allah (sebagai pelindung) bagiku tiada Tuhan yang berhak disembah melainkan Dia, kepadanyalah aku bertawakkal dan dialah Tuhan yang menguasai Arasy yang agung.",
+            translation_de: "Allāh genügt mir. Es gibt keinen wahren Ilāh (Anbetungswürdigen) außer Ihm. Auf Ihn verlasse ich mich; Er ist der Rabb (Herr) des gewaltigen Thrones.",
+            translation_es: "Allah me es suficiente, no hay divinidad excepto Él, en Él confío que es el Señor del Trono Magnífico.",
+            translation_id: "Cukup bagiku Allah (sebagai pelindung), tiada Tuhan (yang berhak disembah) kecuali Dia. Kepada-Nya aku bertawakkal dan Dia adalah Tuhan 'Arasy yang Agung.",
             repeat: 7,
             repeatLabel: { ar: 'سبع مرات', en: 'seven times' },
             source: { ref: 'رواه ابن السني', sourceUrl: null },

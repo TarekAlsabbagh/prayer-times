@@ -76,7 +76,7 @@ console.log('\n================ 3. Per-lang MORNING totals (updated by the Card 
 // CARD-06 ticket: morning-006 adds a 6th translation for en/ur/tr/bn/de/es/id.
 // PENDING ticket: card05 += de, card06 += fr + ms → every non-Arabic lang = 6 morning translations.
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-const MORN_EXPECT = { en: 11, ur: 11, tr: 11, bn: 11, es: 11, id: 11, de: 11, fr: 11, ms: 11 }; // Card 11 complete: uniform 11
+const MORN_EXPECT = { en: 12, ur: 12, tr: 12, bn: 12, es: 12, id: 12, de: 12, fr: 12, ms: 12 }; // Card 12 complete: uniform 12
 for (const l of ALL9) {
   const exp = MORN_EXPECT[l];
   ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === exp, `morning region translation_${l}: EXACTLY ${exp}`);

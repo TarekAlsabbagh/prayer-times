@@ -55,10 +55,11 @@ const block4 = dataSrc.slice(i4, i5);   // Surah An-Nas
 // en/ur/tr/bn/de/es/id (Card 06 HAS de).
 // AZKAR-MORNING-DUA-PENDING-TRUSTED-TRANSLATIONS-CARD05-CARD06-1: card05 += de (Islamische Datenbank) and
 // card06 += fr (Hisnii) + ms (akuislam).
-// AZKAR-MORNING-DUA-CARD-07-SAYYIDUL-ISTIGHFAR-…-1: morning-007 adds a 7th for ALL 9 langs → uniform 7.
+// AZKAR-MORNING-DUA-CARD-07-SAYYIDUL-ISTIGHFAR-…-1: morning-007 adds a 7th for ALL 9 langs.
+// AZKAR-MORNING-DUA-CARD-08-…-1: morning-008 adds an 8th for en ONLY (the 8 others = PENDING_SOURCE).
 const _mornEnd = dataSrc.indexOf('window.AzkarEvening');
 const morningRegion = (_mornEnd > i1) ? dataSrc.slice(i1, _mornEnd) : dataSrc;
-const _MORN_EXPECT = { en: 7, ur: 7, tr: 7, bn: 7, es: 7, id: 7, de: 7, fr: 7, ms: 7 };
+const _MORN_EXPECT = { en: 8, ur: 8, tr: 8, bn: 8, es: 8, id: 8, de: 8, fr: 8, ms: 8 };
 
 console.log('================ 1. Data — per-lang MORNING translation totals (Cards 01-06; de/fr/ms map differs) ================');
 ok(i1 > -1 && i2 > i1 && i3 > i2 && i4 > i3 && i5 > i4, 'morning-001/002/003/004/005 ids present + ordered');
@@ -139,9 +140,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=15/.test(htmlSrc), 'index.html azkar-data.js?v=15 (data changed: Card 07 translations added)');
+ok(/js\/azkar-data\.js\?v=16/.test(htmlSrc), 'index.html azkar-data.js?v=16 (data changed: Card 08 en translation added)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 (app.js untouched — generic renderer)');
-ok(/CACHE_VERSION = 'v511'/.test(swSrc), "sw.js CACHE_VERSION 'v511'");
+ok(/CACHE_VERSION = 'v512'/.test(swSrc), "sw.js CACHE_VERSION 'v512'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

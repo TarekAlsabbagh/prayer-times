@@ -66,7 +66,7 @@ ok(b7.includes('من قالها موقنًا بها حين يصبح'), 'virtue f
 
 console.log('\n================ 3. Per-lang MORNING totals — UNIFORM 7 for all 9 langs; ar = 0 ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-const _EXP9 = { en: 9, ur: 9, tr: 9, bn: 9, es: 9, id: 9, de: 9, fr: 9, ms: 9 }; // Card 09 complete: uniform 9
+const _EXP9 = { en: 10, ur: 10, tr: 10, bn: 10, es: 10, id: 10, de: 10, fr: 10, ms: 10 }; // Card 10 complete: uniform 10
 for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === _EXP9[l], `morning region translation_${l}: EXACTLY ${_EXP9[l]}`);
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
 

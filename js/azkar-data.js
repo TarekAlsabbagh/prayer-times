@@ -388,6 +388,22 @@
             type: 'dhikr',
             title: { ar: 'اللهم ما أصبح بي من نعمة', en: null },
             text: 'اللَّهُمَّ مَا أَصْبَحَ بِي مِنْ نِعْمَةٍ، أَوْ بِأَحَدٍ مِنْ خَلْقِكَ، فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.',
+            // AZKAR-MORNING-DUA-CARD-09-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static translations of the dua
+            // meaning only (no repeat label, reference, virtue, transliteration, explanation, footnotes/digits, or
+            // evening variant). en=Sunnah Hisn 81; es/id/bn=HisnMuslim item 81; de=Islamische Datenbank Hisnu-l-Muslim
+            // Kap.27; fr=Dar Al Athar Hisnul Muslim ch.27; ur=IslamHouse morning/evening azkar; tr=Turkish Hisnul
+            // Müslim böl.27 (morning form «sabaha çıkan»; not the evening-form Turkish source); ms=Duaa Mathurat
+            // Sughra (Doa 19, Pagi). Incidental cleaning: footnote digits + evening markers
+            // («[ou ce soir]», «[Akşamleyin…]») dropped. NO translation_ar (Arabic UI never shows a block).
+            translation_en: "O Allah, whatever blessing has been received by me or anyone of Your creation is from You alone, You have no partner. All praise is for you and thanks is to You.",
+            translation_fr: "Ô Seigneur ! Tout ce qui m’arrive comme bienfaits en ce jour qui se lève, à moi ou à l’une de Tes créatures, provient de Toi Seul, sans associé. A Toi la louange ainsi que la gratitude.",
+            translation_ur: "اے اللہ! مجھ پر یا تیری مخلوق میں سے کسی پر جس نعمت نے بھی صبح کی ہے وہ صرف تیری طرف سے ہے، تو اکیلا ہے، تیرا کوئی شریک نہیں، پس تیرے ہی لئے حمد اور تیرے ہی لئے شکر ہے۔",
+            translation_tr: "Allahım! Benim veya kullarından birisinin yanında sabaha çıkan her nimet, yalnızca sendendir. Senin ortağın yoktur. Hamd, yalnızca sanadır. Şükür de sanadır.",
+            translation_bn: "হে আল্লাহ! যে নি‘আমত আমার সাথে সকালে উপনীত হয়েছে, অথবা আপনার সৃষ্টির অন্য কারও সাথে; এসব নেয়ামত কেবলমাত্র আপনার নিকট থেকেই; আপনার কোনো শরীক নেই। সুতরাং সকল প্রশংসা আপনারই। আর সকল কৃতজ্ঞতা আপনারই প্রাপ্য।",
+            translation_ms: "Ya Allah, apa saja nikmat yang kami dapati pagi ini dari mana-mana makhlukMu maka sebenarnya dari Engkau jua. Tidak ada sekutu bagiMu. Puji dan kesyukuran (kami) untukMu.",
+            translation_de: "O Allāh, all meine Gaben und die Gaben zu Deinen Geschöpfen an diesem Morgen sind von Dir allein. Du hast keinen Teilhaber. So gebühren al-ḥamd (das Lob) und Dank Dir (allein).",
+            translation_es: "¡Oh Allah! Toda la gracia que poseo o posea alguien de Tu creación, proviene de Ti, único sin asociados, para Ti es la alabanza y el agradecimiento.",
+            translation_id: "Ya Allah, nikmat yang kuterima atau diterima oleh seseorang di antara makhluk-Mu di pagi ini adalah dari-Mu. Maha Esa Engkau, tiada sekutu bagi-Mu. Bagi-Mu segala puji dan kepada-Mu panjatan syukur (dari seluruh makhluk-Mu).",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه أبو داود', sourceUrl: null },

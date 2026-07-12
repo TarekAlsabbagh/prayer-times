@@ -59,7 +59,7 @@ const block4 = dataSrc.slice(i4, i5);   // Surah An-Nas
 // AZKAR-MORNING-DUA-CARD-08-…-1: morning-008 adds an 8th for en ONLY (the 8 others = PENDING_SOURCE).
 const _mornEnd = dataSrc.indexOf('window.AzkarEvening');
 const morningRegion = (_mornEnd > i1) ? dataSrc.slice(i1, _mornEnd) : dataSrc;
-const _MORN_EXPECT = { en: 15, ur: 15, tr: 15, bn: 15, es: 15, id: 15, de: 15, fr: 15, ms: 15 };
+const _MORN_EXPECT = { en: 16, ur: 16, tr: 16, bn: 16, es: 16, id: 16, de: 16, fr: 16, ms: 16 };
 
 console.log('================ 1. Data — per-lang MORNING translation totals (Cards 01-06; de/fr/ms map differs) ================');
 ok(i1 > -1 && i2 > i1 && i3 > i2 && i4 > i3 && i5 > i4, 'morning-001/002/003/004/005 ids present + ordered');
@@ -140,9 +140,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=23/.test(htmlSrc), 'index.html azkar-data.js?v=23 (data changed: Card 09 translations added)');
+ok(/js\/azkar-data\.js\?v=24/.test(htmlSrc), 'index.html azkar-data.js?v=24 (data changed: Card 09 translations added)');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 (app.js untouched — generic renderer)');
-ok(/CACHE_VERSION = 'v519'/.test(swSrc), "sw.js CACHE_VERSION 'v519'");
+ok(/CACHE_VERSION = 'v520'/.test(swSrc), "sw.js CACHE_VERSION 'v519'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

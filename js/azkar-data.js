@@ -610,6 +610,26 @@
             type: 'dhikr',
             title: { ar: 'رضيت بالله ربًا', en: null },
             text: 'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا.',
+            // AZKAR-MORNING-DUA-CARD-16-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static translations of the dua
+            // meaning only (no repeat label, reference, virtue/promise, hadith story, isnad/narrator, transliteration,
+            // footnotes/digits, explanation, or evening variant). Dhikr = Hisn al-Muslim 87 / Ibn Majah 3870 (+Ahmad
+            // 4/337, Nasai Amal 4, Ibn as-Sunni 68, Abu Dawud 5072, Tirmidhi 3389). All nine preserve the three
+            // meanings: Allah as Lord + Islam as religion + Muhammad as Prophet (Nabi, NOT Messenger/Rasul).
+            // Sources: en/es/id/bn=HisnMuslim ch.27; fr=Dar Al Athar 87; tr=Turkish Hisn al-Muslim ch.27 87 (Islamiokul
+            // carries only the adhan Rasul form, so it is not used); ms=Malaysian Ministry of Education (e-JAUHAR) 87;
+            // de=Islamische Datenbank ch.27 87; ur=IslamHouse. HadeethEnc NOT used (it lacks the morning/evening Nabi
+            // version, only the Rasul/Messenger one). Salawat kept where the source has it (ur/tr/bn/ms/de/es) and NOT
+            // added where the source omits it (en/fr/id). ms fixes source typo lslam to Islam; id resolves the -(ku)
+            // notation to natural Tuhanku/agamaku/nabiku. The virtue/promise stays in the separate virtue field. NO translation_ar.
+            translation_en: "I am pleased with Allah as a Lord, and Islam as a religion and Muhammad as a Prophet.",
+            translation_fr: "Je reconnais Allah en tant que Seigneur, l'Islam en tant que religion et Muhammad en tant que Prophète.",
+            translation_ur: "میں راضی ہو گیا اللہ کے رب ہونے پر اور اسلام کو دین اختیار کرنے پر اور محمدﷺ کو نبی تسلیم کرنے پر۔",
+            translation_tr: "Rab olarak Allah'tan, dîn olarak İslam'dan, nebi olarak Muhammed -sallallahu aleyhi ve sellem-'den râzı oldum.",
+            translation_bn: "আল্লাহকে রব, ইসলামকে দীন ও মুহাম্মাদ সাল্লাল্লাহু আলাইহি ওয়াসাল্লামকে নবীরূপে গ্রহণ করে আমি সন্তুষ্ট।",
+            translation_ms: "Aku redha Allah sebagai Tuhan, Islam sebagai agama dan Muhammad saw sebagai Nabi.",
+            translation_de: "Ich bin mit Allāh als Rabb (Herr), dem Islām als Dīn (Glauben) und Muḥammad, Allāh segne ihn gebe ihm Heil, als Prophet zufrieden.",
+            translation_es: "Me complazco de Allah como Señor, del Islam como religión, y de Muhámmad (la paz y las bendiciones de Allah sean con él) como Profeta.",
+            translation_id: "Aku rela Allah sebagai Tuhanku, Islam sebagai agamaku dan Muhammad sebagai nabiku.",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'رواه أحمد', sourceUrl: null },

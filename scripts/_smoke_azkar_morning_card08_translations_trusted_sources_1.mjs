@@ -72,7 +72,7 @@ ok(b8.includes('من قالها حين يصبح أو يمسي أربع مرات 
 
 console.log('\n================ 4. Per-lang MORNING totals — UNIFORM 8 for all 9 langs; ar = 0 ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 21, `morning region translation_${l}: EXACTLY 21`);
+for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 22, `morning region translation_${l}: EXACTLY 22`);
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
 
 console.log('\n================ 5. Card 08 Arabic text/source/repeat byte-identical ================');
@@ -104,10 +104,10 @@ ok(!/qurani\.io|hisnmuslim\.com|islamhouse\.com|akuislam\.com|kuranlasifa\.com/i
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=29/.test(htmlSrc), 'index.html azkar-data.js?v=29 (later card bumped it)');
+ok(/js\/azkar-data\.js\?v=30/.test(htmlSrc), 'index.html azkar-data.js?v=30 (later card bumped it)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 UNCHANGED (generic renderer)');
-ok(/CACHE_VERSION = 'v525'/.test(swSrc), "sw.js CACHE_VERSION 'v519'");
+ok(/CACHE_VERSION = 'v526'/.test(swSrc), "sw.js CACHE_VERSION 'v519'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

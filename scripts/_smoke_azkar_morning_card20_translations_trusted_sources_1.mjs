@@ -92,9 +92,9 @@ ok(b20.includes('repeat: 100,') && b20.includes("repeatLabel: { ar: 'عشر مر
 ok(typeof card20.virtue === 'object' && card20.virtue && card20.virtue.ar.includes('عدل عشر رقاب'), 'Card 20 virtue NON-null (separate field) intact');
 for (const l of ALL9) ok(!card20['translation_' + l].includes('عدل عشر رقاب'), `${l}: virtue «عدل عشر رقاب» NOT inside translation block`);
 
-console.log('\n================ 5. Per-lang MORNING totals — UNIFORM 22; ar = 0 ================');
+console.log('\n================ 5. Per-lang MORNING totals — UNIFORM 23; ar = 0 ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 22, `morning region translation_${l}: EXACTLY 22`);
+for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 23, `morning region translation_${l}: EXACTLY 23`);
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
 
 console.log('\n================ 6. Cards 01-19 + evening + prayer UNCHANGED ================');
@@ -121,10 +121,10 @@ ok(!/hadeethenc\.com/i.test(dataSrc), 'HadeethEnc NOT referenced');
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=30/.test(htmlSrc), 'index.html azkar-data.js?v=30 (Card 20 data added)');
+ok(/js\/azkar-data\.js\?v=31/.test(htmlSrc), 'index.html azkar-data.js?v=31 (Card 20 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 UNCHANGED');
-ok(/CACHE_VERSION = 'v526'/.test(swSrc), "sw.js CACHE_VERSION 'v524'");
+ok(/CACHE_VERSION = 'v527'/.test(swSrc), "sw.js CACHE_VERSION 'v524'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

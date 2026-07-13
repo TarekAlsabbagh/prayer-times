@@ -683,6 +683,28 @@
             type: 'dhikr',
             title: { ar: 'أصبحنا وأصبح الملك لله رب العالمين', en: null },
             text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذَا الْيَوْمِ، فَتْحَهُ وَنَصْرَهُ وَنُورَهُ وَبَرَكَتَهُ وَهُدَاهُ، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهِ وَشَرِّ مَا بَعْدَهُ.',
+            // AZKAR-MORNING-DUA-CARD-18-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static translations of the MORNING dua
+            // meaning only (no repeat label, reference, hadith story, isnad, transliteration, footnotes/digits, explanation,
+            // evening variant, or the evening-instruction footnote). MORNING form only (asbahna / this day) — NOT the evening
+            // (amsayna / this night). Dhikr = Hisn al-Muslim 89 / Abu Dawud 4/322 (5076) (Abu Malik al-Ashari); it is NOT the
+            // longer tahlil hadith (Muslim: ...wal-hamdu lillah, la ilaha illallah...), so HadeethEnc is NOT used (it only has
+            // that tahlil version). All nine keep the FIVE goodness elements: fath(conquest)+nasr(victory)+nur(light)+
+            // baraka(blessing)+huda(guidance), plus refuge from the evil in it and after it. Sources: en/bn=HisnMuslim ch.27
+            // 89; fr=Dar Al Athar 89 (evening brackets [ou au soir] removed); de=Islamische Datenbank 89; ms=e-JAUHAR (evening
+            // (petang) + evening-instruction removed; typos pembukaannya/pertolongannya fixed); ur=Mukhtasar Hisn al-Muslim
+            // 100; tr=Turkish Hisnul Muslim (Ilme Davet Dernegi) — explicit five elements, no gloss; es=La Fortaleza del
+            // Musulman Spanish 91 (keeps su victoria for nasr, NOT su fin; item number + evening note removed; Al-Lah kept);
+            // id=published Indonesian dhikr source (Abu Malik al-Ashari / Abu Dawud) with the full opening + five elements
+            // (honorific SWT normalized to Allah). NO translation_ar.
+            translation_en: "We have reached the morning and at this very time all sovereignty belongs to Allah, Lord of the worlds. O Allah, I ask You for the good of this day, its triumphs and its victories, its light and its blessings and its guidance, and I take refuge in You from the evil of this day and the evil that follows it.",
+            translation_fr: "Nous voilà au matin et le règne appartient à Allah, le Seigneur de l'univers. Ô Seigneur ! Je Te demande le bien de ce jour : ce qu'il contient comme conquêtes, victoires, lumière, bénédiction et guidée. Je me mets sous Ta protection contre le mal de ce jour et le mal qui vient après lui.",
+            translation_ur: "ہم نے صبح کی اور اللہ رب العالمین کے لئے (بادشاہت) نے بھی صبح کی، اے اللہ! میں تجھ سے اس دن کی بھلائی، فتح، نصرت، نور، برکت اور اس کی ہدایت کا سوال کرتا ہوں اور اس پر جو شر ہے اور اس کے بعد جو شر ہے اس سے تیری پناہ میں آتا ہوں۔",
+            translation_tr: "Mülk, Âlemlerin Rabbi Allah'ın olduğu halde sabahladık. Allahım! Senden bu günün hayrını, fethini, zaferini, nûrunu, bereketini ve hidâyetini dilerim. Onda ve sonrasındaki şerden sana sığınırım.",
+            translation_bn: "আমরা সকালে উপনীত হয়েছি, অনুরূপ যাবতীয় রাজত্বও সকালে উপনীত হয়েছে সৃষ্টিকুলের রব্ব আল্লাহর জন্য। হে আল্লাহ! আমি আপনার কাছে কামনা করি এই দিনের কল্যাণ: বিজয়, সাহায্য, নূর, রবকত ও হেদায়াত। আর আমি আপনার কাছে আশ্রয় চাই এ দিনের এবং এ দিনের পরের অকল্যাণ থেকে।",
+            translation_ms: "Kami hayati pagi kami dan pagi yang penuh Kekuasaan bagi Allah tuhan sekalian alam. Ya Allah, aku memohon kepadaMu kebaikan hari ini, pembukaannya, pertolongannya, cahayanya, berkatnya dan petunjuknya. Aku berlindung denganMu daripada kejahatan hari ini dan yang selepasnya.",
+            translation_de: "Wahrlich haben wir den Morgen erreicht, und die Herrschaft an diesem Morgen gehört Allāh, dem Rabb (Herr) der Welten. O Allāh, ich bitte Dich um das Gute dieses Tages, seinen Sieg, seine Hilfe (Unterstützung), sein Licht, seine Segnung und seine Rechtleitung. Ich suche Zuflucht bei Dir vor dem Übel an ihm (diesem Tag) und alldem, was danach kommt.",
+            translation_es: "Amanecimos y amaneció el reino para Al-Lah Señor del universo, ¡Oh Al-Lah! Te pido lo mejor de este día: su triunfo, su victoria, su luz, su bendición y su guía; me protejo en Ti del mal que haya en él y después de él.",
+            translation_id: "Kami telah berada di pagi hari dan kekuasaan ini hanyalah milik Allah, Tuhan semesta Alam. Ya Allah aku memohon kebaikan hari ini kepada-Mu, kemenangan, pertolongan, cahaya, keberkahan, dan petunjuknya. Aku juga berlindung kepada-Mu dari keburukannya dan keburukan sesudahnya.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه أبو داود', sourceUrl: null },

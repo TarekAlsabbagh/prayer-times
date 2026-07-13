@@ -4219,8 +4219,28 @@ function _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review) {
 async function _buildPromotePreview(items) {
     const review = await _loadReviewModule();
     const { rows: rawRows } = await _fetchDiscoveredRawRows();
+    // DISCOVERED-CITIES-PROMOTE-PREVIEW-CLEAN-SLUG-RAW-KEY-FIX-1: index discovered rows
+    // by BOTH the raw slug key (r.slug|cc) AND the clean slug key (cleanSlugFor(r.slug)|cc).
+    // The dashboard checkbox emits the CLEAN slug (cleanSlugFor strips a discovery "-{cc}"
+    // suffix), so a raw-only index missed suffixed rows — e.g. raw "schenefeld-de" vs the
+    // selected "schenefeld" → false "discovered row not found". Raw keys take precedence; a
+    // clean alias is added only when it differs from the raw key. If two DISTINCT rows share
+    // one clean key in the same cc, the alias is flagged ambiguous (never silently picked).
     const rawByKey = Object.create(null);
-    for (const r of rawRows) rawByKey[r.slug + '|' + String(r.country_code || '').toLowerCase()] = r;
+    const cleanByKey = Object.create(null);
+    const cleanAmbiguous = Object.create(null);
+    for (const r of rawRows) {
+        const rcc = String(r.country_code || '').toLowerCase();
+        const rawKey = r.slug + '|' + rcc;
+        rawByKey[rawKey] = r;
+        let cleanSlug = r.slug;
+        try { cleanSlug = review.cleanSlugFor(r.slug, rcc) || r.slug; } catch (_) { cleanSlug = r.slug; }
+        const cleanKey = cleanSlug + '|' + rcc;
+        if (cleanKey !== rawKey) {
+            if (cleanByKey[cleanKey] && cleanByKey[cleanKey] !== r) cleanAmbiguous[cleanKey] = true;
+            cleanByKey[cleanKey] = r;
+        }
+    }
     const reviews = await _fetchDiscoveredReviews();
     const nameOverrides = await _fetchDiscoveredNameOverrides();   // NAME-EDIT-AR-EN-1
     const idx = review.buildCuratedIndex(_CURATED_PLACES);
@@ -4229,8 +4249,13 @@ async function _buildPromotePreview(items) {
         const slug = String((it && it.slug) || '').toLowerCase();
         const cc = String((it && it.countryCode) || '').toLowerCase();
         const key = slug + '|' + cc;
-        const raw = rawByKey[key];
+        // Raw exact match wins; else fall back to the clean-slug alias (dashboard sends the clean slug).
+        let raw = rawByKey[key];
         const reviewDecision = (reviews[key] && reviews[key].decision) || 'pending';
+        if (!raw && cleanByKey[key]) {
+            if (cleanAmbiguous[key]) { outItems.push({ slug, countryCode: cc, reviewDecision, valid: false, checks: [{ name: 'discovered_row_exists', ok: false, detail: 'ambiguous_clean_slug' }], errors: ['ambiguous_clean_slug: multiple discovered rows map to this clean slug — select the raw slug'], warnings: [] }); errors.push(slug + ': ambiguous_clean_slug'); continue; }
+            raw = cleanByKey[key];
+        }
         if (!raw) { outItems.push({ slug, countryCode: cc, reviewDecision, valid: false, checks: [{ name: 'discovered_row_exists', ok: false }], errors: ['discovered row not found'], warnings: [] }); errors.push(slug + ': discovered row not found'); continue; }
         let cls = null; try { cls = review.classifyRow(raw, idx, {}); } catch (_) { cls = null; }
         const cand = _buildPromoteCandidate(raw, cls, review, nameOverrides[key]);

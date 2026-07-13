@@ -130853,5 +130853,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "schenefeld",
+    "type": "town",
+    "countryCode": "de",
+    "lat": 53.600266,
+    "lng": 9.836387,
+    "timezone": "Europe/Berlin",
+    "names": {
+      "ar": "شنفلد",
+      "en": "Schenefeld"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "ألمانيا",
+      "countryEn": "Germany"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

@@ -647,6 +647,28 @@
             type: 'dhikr',
             title: { ar: 'يا حي يا قيوم', en: null },
             text: 'يَا حَيُّ يَا قَيُّومُ بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.',
+            // AZKAR-MORNING-DUA-CARD-17-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static translations of the dua
+            // meaning only (no repeat label, reference, hadith story, the advice-to-Fatimah narration, ruling, isnad,
+            // transliteration of the whole dhikr, footnotes/digits, explanation, or evening variant). This is a du-a with
+            // NO salawat in the matn. Dhikr = Hisn al-Muslim 88 / Al-Hakim 1/545 / Sahih at-Targhib 1/273 (also Tirmidhi
+            // 3524, which supports the card source «رواه الترمذي» — source stays unchanged, virtue stays null). All nine
+            // preserve the three meanings: Ya Hayyu Ya Qayyum + by Your mercy I seek relief + set right all my affairs and
+            // do not leave me to myself for the blink of an eye. Sources: en/es/id/bn=HisnMuslim ch.27 88; fr=Dar Al Athar
+            // 88; ur=Mukhtasar Hisn al-Muslim 99 (Islamic Urdu Books, since the saved IslamHouse booklet lacked this item);
+            // tr=Turkish Hisn al-Muslim ch.27 — «Ya Hayy, Ya Kayyum» is the conventional invocation of
+            // the two divine names (kept like Allah), NOT a whole-dhikr transliteration; Islamiokul carries a different Ya
+            // Hayy Ya Kayyum dua (asking Paradise) so it is not used; de=Islamische Datenbank 88. Approved source-fix: ms
+            // «biarkankan»->«biarkan» (doubled suffix typo). Clarifying glosses kept verbatim: es (un instante), de (bei
+            // Dir), id (semua urusan). NO translation_ar.
+            translation_en: "O Ever Living, O Self-Subsisting and Supporter of all, by Your mercy I seek assistance, rectify for me all of my affairs and do not leave me to myself, even for the blink of an eye.",
+            translation_fr: "Ô Vivant ! Ô Toi qui es le Seul à être imploré pour ce que nous désirons ! C'est à Ta miséricorde que j'en appelle. Améliore ma situation et ne me livre pas à moi-même, ne serait-ce qu'un seul instant.",
+            translation_ur: "اے ہمیشہ زندہ رہنے والے، اے قائم رکھنے والے، تیری رحمت کے ساتھ ہی میں مدد مانگتا ہوں، میری مکمل حالت درست فرما دے، اور مجھے لحظہ بھر بھی میرے نفس کے سپرد نہ کر۔",
+            translation_tr: "Ya Hayy, Ya Kayyûm! Senin rahmetinle yardım dilerim. Bütün işlerimi düzelt ve göz açıp kapayınca kadar -bile olsa- beni nefsime bırakma.",
+            translation_bn: "হে চিরঞ্জীব, হে চিরস্থায়ী! আমি আপনার রহমতের অসীলায় আপনার কাছে উদ্ধার কামনা করি, আপনি আমার সার্বিক অবস্থা সংশোধন করে দিন, আর আমাকে আমার নিজের কাছে নিমেষের জন্যও সোপর্দ করবেন না।",
+            translation_ms: "Wahai tuhan yang Tetap Hidup, Yang Kekal memerintah selama-lamanya, dengan rahmatMu aku memohon pertolongan. Perelokkanlah bagiku segala urusanku dan janganlah Engkau biarkan nasibku ditentukan oleh diriku sendiri walaupun sekadar sekelip mata.",
+            translation_de: "O Lebendiger und Beständiger. Ich suche Zuflucht (bei Dir) mit Deiner Barmherzigkeit. Verbessere all meine Angelegenheiten. Überlass mir keinen Augenblick eine meiner Angelegenheiten.",
+            translation_es: "Oh Viviente, Oh Subsistente, en Tu misericordia busco asistencia, rectifica todos mis asuntos y no me dejes librado a mi mismo, ni siquiera por un pestañeo (un instante).",
+            translation_id: "Wahai Yang Maha Hidup dan Maha Terjaga, dengan rahmat-Mu aku minta pertolongan, perbaikilah segala urusanku dan jangan Engkau limpahkan (semua urusan) terhadap diriku walau sekejap mata.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه الترمذي', sourceUrl: null },

@@ -53,7 +53,7 @@ ok(!/[\p{Nd}]/u.test(ms) && !/aṣbaḥ|asbahn|nusyūr/i.test(ms), 'ms: no digit
 
 console.log('\n================ 4. Uniform totals + no ar; only these 3 fields were added ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-const _EXP9 = { en: 20, ur: 20, tr: 20, bn: 20, es: 20, id: 20, de: 20, fr: 20, ms: 20 }; // Card 20 complete: uniform 20
+const _EXP9 = { en: 21, ur: 21, tr: 21, bn: 21, es: 21, id: 21, de: 21, fr: 21, ms: 21 }; // Card 21 complete: uniform 21
 for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === _EXP9[l], `morning region translation_${l}: EXACTLY ${_EXP9[l]}`);
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar anywhere (Arabic UI = zero blocks)');
 ok(ALL9.every((l) => typeof c5['translation_' + l] === 'string') && ALL9.every((l) => typeof c6['translation_' + l] === 'string'), 'Cards 05 + 06 now carry all 9 translations each');

@@ -8736,6 +8736,9 @@ function detectLocation() {
             _locationInProgress = false;
             const _detLat = position.coords.latitude;
             const _detLng = position.coords.longitude;
+            // GEOLOCATION-DISCOVERED-PLACE-SELECTION-ADMIN-REVIEW-FLOW-1: best-effort discovered-place
+            //   recording (covers homepage suggestion + city-page detect). Never blocks the flow below.
+            try { _recordGeoDiscoveredPlaceCandidate(_detLat, _detLng); } catch (_) {}
 
             const _hasPageParam = new URLSearchParams(window.location.search).has('page');
             const _isCityPage = /\/(?:en\/)?(?:prayer-times-in|qibla-in)-/.test(window.location.pathname);
@@ -10568,6 +10571,8 @@ function _locHeroDetectAndNavigate() {
             try {
                 const c = _findNearestKnownCity(lat, lng);
                 _writeLsbDetected(c, lat, lng);
+                // GEOLOCATION-DISCOVERED-PLACE-SELECTION-ADMIN-REVIEW-FLOW-1: record the REAL place (not `c`, the nearest-known snap). Best-effort.
+                try { _recordGeoDiscoveredPlaceCandidate(lat, lng); } catch (_) {}
                 navigateToCity(lat, lng, c.ar, c.country, c.en, c.cc, { persistSelected: true });
             } catch (e) {
                 _restore();
@@ -10781,6 +10786,8 @@ function _moonHubDetectAndNavigate() {
             try {
                 const c = _findNearestKnownCity(lat, lng);
                 _writeLsbDetected(c, lat, lng);
+                // GEOLOCATION-DISCOVERED-PLACE-SELECTION-ADMIN-REVIEW-FLOW-1: record the REAL place (not `c`, the nearest-known snap). Best-effort.
+                try { _recordGeoDiscoveredPlaceCandidate(lat, lng); } catch (_) {}
                 navigateToMoonToday(lat, lng, c.ar, c.country, c.en, c.cc);
             } catch (e) {
                 _restore();
@@ -15766,6 +15773,119 @@ function _writeLsbDetected(city, userLat, userLng) {
     } catch (_e) { /* quota or disabled storage — silent */ }
 }
 
+// ===== GEOLOCATION → DISCOVERED PLACE CANDIDATE (best-effort admin-review recording) =====
+// GEOLOCATION-DISCOVERED-PLACE-SELECTION-ADMIN-REVIEW-FLOW-1: when any "detect my location"
+// button succeeds, the page keeps calculating + navigating EXACTLY as before; IN PARALLEL we
+// try to record the user's REAL reverse-geocoded place (NOT the nearest-known curated snap that
+// the buttons navigate to) as a discovered/pending candidate — via the SAME endpoint the manual
+// search pick uses (POST /api/place-selected) — so geolocation-discovered places surface in the
+// admin review dashboard just like search-discovered ones.
+//   • Privacy: sends the reverse-geocode PLACE CENTROID (feature lat/lon), NEVER the user's raw
+//     browser coordinates; browser IANA timezone only; stores NO IP / user-agent / user-id.
+//   • SEO: /api/place-selected inserts verified:false → the place stays noindex until an admin
+//     promotes it (unchanged flow — no sitemap/robots/canonical change).
+//   • Dedup: curated slugs are skipped (no discovered duplicate); an existing discovered row is
+//     upserted server-side by (slug, country_code) — never duplicated.
+//   • skip-safe: no reliable name / countryCode / settlement-type / timezone → record NOTHING.
+//   • best-effort: fully wrapped, silent on any failure (no console.error / pageerror); never
+//     blocks or delays prayer/qibla/moon calc or navigation. `keepalive` lets a ready candidate
+//     survive the button's navigation.
+let _CURATED_SLUG_SET_CLIENT = null;
+function _isCuratedSlugClient(slug, cc) {
+    try {
+        if (!_CURATED_SLUG_SET_CLIENT) {
+            _CURATED_SLUG_SET_CLIENT = new Set();
+            if (typeof LOCAL_CITIES !== 'undefined' && Array.isArray(LOCAL_CITIES)) {
+                LOCAL_CITIES.forEach(function (c) {
+                    try {
+                        const ccx = (c.cc || '').toLowerCase();
+                        const s1 = buildPrayerTimesSlug(c);
+                        if (s1) _CURATED_SLUG_SET_CLIENT.add(s1 + '|' + ccx);
+                        if (c.slug) _CURATED_SLUG_SET_CLIENT.add(String(c.slug).toLowerCase() + '|' + ccx);
+                    } catch (_) {}
+                });
+            }
+        }
+        return _CURATED_SLUG_SET_CLIENT.has((slug || '') + '|' + (cc || '').toLowerCase());
+    } catch (_) { return false; }
+}
+
+let _geoDiscoverLastKey = '';
+function _recordGeoDiscoveredPlaceCandidate(userLat, userLng) {
+    try {
+        const uLat = parseFloat(userLat), uLng = parseFloat(userLng);
+        if (!isFinite(uLat) || !isFinite(uLng)) return;
+        // collapse rapid repeat calls for the same ~11 m cell (multiple buttons / fast-path)
+        const runKey = _coordKey('geoDisc', uLat, uLng);
+        if (runKey === _geoDiscoverLastKey) return;
+        _geoDiscoverLastKey = runKey;
+
+        const _uiLang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+        // Reverse-geocode via the SAME cached server proxy the suggestion bar uses (zoom=10).
+        const _rev = (l) => _cached(_coordKey('revGeoCity', uLat, uLng, l), () =>
+            fetch(nomUrl('https://nominatim.openstreetmap.org/reverse?format=json&lat=' + uLat + '&lon=' + uLng + '&zoom=10&accept-language=' + l + '&namedetails=1'))
+                .then((r) => r.json()).catch(() => null), 30 * 86400000);
+
+        Promise.all([_rev('ar'), _rev('en')]).then((res) => {
+            try {
+                const arData = res[0], enData = res[1];
+                if (!enData || !enData.address) return;                     // skip-safe: no result
+                const addr = enData.address;
+                const nd = enData.namedetails || {};
+                const enName = (nd['name:en'] || nd['name:en-US'] || addr.city || addr.town || addr.village || '')
+                    .replace(/\s*District\b/gi, '').trim();
+                if (!enName || _isWardLike(enName) || _isAdminOrStreetLike(enName)) return;  // skip-safe: not a real city
+                const cc = (addr.country_code || '').toLowerCase();
+                if (!/^[a-z]{2}$/.test(cc)) return;                          // skip-safe: no country
+                // settlement type only (never a POI / admin boundary)
+                const rawType = String(enData.addresstype || enData.type || '').toLowerCase();
+                const type = (rawType === 'city' || rawType === 'town' || rawType === 'village')
+                    ? rawType
+                    : (rawType === 'hamlet' ? 'village'
+                        : (addr.city ? 'city' : addr.town ? 'town' : addr.village ? 'village' : ''));
+                if (!type) return;                                          // skip-safe: not a settlement
+                // PLACE CENTROID from the reverse-geocode feature (privacy: never the user's raw coords)
+                const cLat = parseFloat(enData.lat), cLng = parseFloat(enData.lon);
+                const pLat = isFinite(cLat) ? cLat : uLat;
+                const pLng = isFinite(cLng) ? cLng : uLng;
+                const slug = makeSlug(enName, pLat, pLng);
+                if (!slug || /^loc-/.test(slug)) return;                    // skip-safe: no reliable latin slug
+                if (_isCuratedSlugClient(slug, cc)) return;                 // curated → no discovered duplicate
+                let tz = '';
+                try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (_) {}
+                if (!tz) return;                                            // skip-safe: no timezone
+                const names = { en: enName };
+                try {
+                    const arAddr = (arData && arData.address) ? arData.address : {};
+                    const arNd = (arData && arData.namedetails) ? arData.namedetails : {};
+                    const arName = (arNd['name:ar'] || arAddr.city || arAddr.town || arAddr.village || '').trim();
+                    if (arName) names.ar = arName;
+                } catch (_) {}
+                if (_uiLang !== 'ar' && _uiLang !== 'en') {
+                    const locName = (nd['name:' + _uiLang] || '').trim();
+                    if (locName) names[_uiLang] = locName;
+                }
+                const admin = {};
+                if (addr.country) { const o = {}; o[_uiLang] = addr.country; admin.country = o; }
+                const nameQuality = {}; nameQuality[_uiLang] = 'namedetails';
+                const payload = {
+                    slug: slug, type: type, countryCode: cc,
+                    lat: pLat, lng: pLng, timezone: tz,
+                    names: names, aliases: {}, admin: admin,
+                    source: 'geolocation', nameQuality: nameQuality,
+                    originalName: (enData.name || '')
+                };
+                fetch('/api/place-selected', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                    keepalive: true
+                }).catch(() => {});
+            } catch (_) { /* best-effort — never surface */ }
+        }).catch(() => { /* silent */ });
+    } catch (_) { /* silent — must never break calc/nav */ }
+}
+
 function _popularCitiesList(currentKey, n) {
     // يستخدم LOCAL_CITIES إن وُجد، وإلا FAMOUS_MOON_CITIES كـ fallback
     const max = n || 6;
@@ -17094,6 +17214,8 @@ function _loadQiblaHubPage(ctx) {
                         sessionStorage.setItem('qibla_hub_user_loc',
                             JSON.stringify({ lat: la, lng: lo, ts: Date.now() }));
                     } catch (_) {}
+                    // GEOLOCATION-DISCOVERED-PLACE-SELECTION-ADMIN-REVIEW-FLOW-1: best-effort discovered-place recording.
+                    try { _recordGeoDiscoveredPlaceCandidate(la, lo); } catch (_) {}
                     // R35: unified nearest-city helper across all geo buttons.
                     // Always returns a clean city slug — never `qibla-in-loc-*`.
                     // Also writes lsb_detected so the prayer-times hero fast-path picks it up.

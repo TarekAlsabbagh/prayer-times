@@ -8536,7 +8536,13 @@ html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
     gap: 12px;
     flex-wrap: nowrap;
     margin-bottom: 14px;
-    direction: rtl;
+    /* AZKAR-CARD-HEADER-DIRECTION-ALIGNMENT-FIX-1: inherit page direction from
+       <html dir> (rtl for ar/ur, ltr for the 8 LTR langs) so the number badge +
+       optional title order correctly — badge on the LEFT for LTR, on the RIGHT
+       for RTL. Was hardcoded `direction: rtl` from the Arabic-only era, which
+       forced the badge to the right on every non-Arabic azkar page. The Arabic
+       dhikr text, translation, source, counters and progress all live OUTSIDE
+       this header (each keeps its own dir) and are unaffected. */
 }
 .azkar-card-item-header--badge-only {
     margin-bottom: 8px;

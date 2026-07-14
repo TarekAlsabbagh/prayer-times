@@ -8864,7 +8864,11 @@ html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
     display: flex;
     flex-direction: column;
     gap: 16px;
-    direction: rtl;
+    /* AZKAR-NON-ARABIC-PAGES-DIRECTION-ALIGNMENT-FIX-1: inherit page direction from <html dir>
+       (rtl for ar/ur, ltr for the 8 LTR langs) so the LOCALIZED edu content aligns per page
+       language. Was hardcoded `direction: rtl` from the Arabic-only era. Arabic dhikr/source
+       inside cards keep their own explicit dir=rtl and are unaffected. text-align is `start`
+       (logical) throughout, so alignment auto-corrects. */
 }
 .azkar-edu-card {
     background: var(--azkar-card-bg, #FFFFFF);
@@ -8967,7 +8971,8 @@ html[data-theme="dark"] .azkar-edu-link-card {
     border-radius: 18px;
     background: var(--azkar-card-bg, #FFFFFF);
     box-shadow: 0 4px 14px rgba(18, 48, 38, 0.045);
-    direction: rtl;
+    /* AZKAR-NON-ARABIC-PAGES-DIRECTION-ALIGNMENT-FIX-1: inherit page direction (see .azkar-edu-section).
+       Was hardcoded `direction: rtl` from the Arabic-only era; localized FAQ now follows page language. */
 }
 /* AZKAR-EVENTS-SPACING-FIX-1 (2026-05-25):
    The moon-events-section sits right after the .azkar-faq inside
@@ -8987,7 +8992,9 @@ html[data-theme="dark"] .azkar-edu-link-card {
     font-size: 1.3rem;
     font-weight: 700;
     line-height: 1.45;
-    text-align: right;
+    /* AZKAR-NON-ARABIC-PAGES-DIRECTION-ALIGNMENT-FIX-1: `start` (logical) instead of hardcoded `right`
+       so the localized FAQ title aligns left on LTR pages and right on ar/ur — follows page direction. */
+    text-align: start;
 }
 .azkar-faq-list {
     display: flex;

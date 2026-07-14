@@ -7267,6 +7267,24 @@ function _translateAzkarMorningUi(html, lang) {
     return html;
 }
 
+// AZKAR-MORNING-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: build the localized FAQPage JSON-LD for the
+// morning page from the SAME 9 Q/A strings the visible FAQ uses (_azkarUiL10n(lang).faqQ{1..9}/faqA{1..9}),
+// so the structured data is byte-identical to the on-page text and carries inLanguage=<route lang>. Returns
+// '' when the dict has no FAQ (never emits an empty/Arabic-in-non-Arabic block).
+function _buildAzkarMorningFaqJsonLd(lang) {
+    const ui = _azkarUiL10n(lang);
+    if (!ui) return '';
+    const ent = [];
+    for (let i = 1; i <= 9; i++) {
+        const q = ui['faqQ' + i], a = ui['faqA' + i];
+        if (!q || !a) continue;
+        ent.push({ '@type': 'Question', name: String(q), acceptedAnswer: { '@type': 'Answer', text: String(a) } });
+    }
+    if (!ent.length) return '';
+    const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang, mainEntity: ent };
+    return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
+}
+
 // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening-page parallel of the
 // morning walker (kept as a separate function so the morning path stays byte-identical). Same marker contract
 // (data-azkar-ui[-aria]), evening chrome dict. Applied ONLY on the evening route. Idempotent for 'ar'.
@@ -20132,6 +20150,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // (hero/breadcrumb/info-strip/progress/reset/section-intro/completed banner) at first paint,
             // in the page language. Arabic route (no prefix) re-writes the same Arabic values (idempotent).
             html = _translateAzkarMorningUi(html, _azkarUiLang);
+            // AZKAR-MORNING-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: inject the localized FAQPage
+            // JSON-LD (byte-identical to the visible, already-localized FAQ). The placeholder is an HTML
+            // comment, so every non-morning route leaves it untouched (invisible, no stray Arabic JSON-LD).
+            html = html.replace('<!-- AZKAR-MORNING-FAQ-SCHEMA -->', _buildAzkarMorningFaqJsonLd(_azkarUiLang));
         } else if (_isAzkarEveningRoute) {
             // AZKAR-EVENING-PHASE-1 (2026-05-26): same SSR pattern as morning.
             html = html.replace(

@@ -121,9 +121,9 @@ console.log('\n================ 8. NO runtime external translation requests ====
 ok(!/quranenc\.com/i.test(srvSrc) && !/quranenc\.com/i.test(appSrc) && !/quranenc\.com/i.test(dataSrc), 'no quranenc.com URL in server/app/azkar-data (static only)');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=33/.test(htmlSrc), 'index.html azkar-data.js?v=33 (bumped by the Card 09 ticket)');
-ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836');
-ok(/CACHE_VERSION = 'v529'/.test(swSrc), "sw.js CACHE_VERSION 'v519' (bumped by the Card 09 ticket)");
+ok(/js\/azkar-data\.js\?v=34/.test(htmlSrc), 'index.html azkar-data.js?v=34 (bumped by the Card 09 ticket)');
+ok(/js\/app\.js\?v=837/.test(htmlSrc), 'index.html app.js?v=837');
+ok(/CACHE_VERSION = 'v531'/.test(swSrc), "sw.js CACHE_VERSION 'v531' (bumped by the Card 09 ticket)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

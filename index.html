@@ -80,7 +80,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=837" as="script">
+    <link rel="preload" href="js/app.js?v=838" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -4378,62 +4378,62 @@
                 </div>
 
                 <!-- ===== Educational mini-cards (prayer-specific) ===== -->
-                <section class="azkar-edu-section" aria-label="معلومات تعليمية عن أذكار الصلاة">
+                <section class="azkar-edu-section" aria-label="معلومات تعليمية عن أذكار الصلاة" data-azkar-ui-aria="eduSecAria">
                     <article class="azkar-edu-card">
                         <h2 class="azkar-edu-title">
                             <span class="azkar-edu-icon" aria-hidden="true">🕌</span>
-                            <span>فضل أذكار الصلاة وأهميتها</span>
+                            <span data-azkar-ui="edu1T">فضل أذكار الصلاة وأهميتها</span>
                         </h2>
                         <div class="azkar-edu-body">
-                            <p>أذكار الصلاة جزء أساسي من إقامة الصلاة بصورتها الكاملة، وتشمل ما يُقال عند الوضوء والذهاب إلى المسجد، وأذكار استفتاح الصلاة والركوع والسجود والتشهد، إضافة إلى الأذكار بعد السلام. وهذه الأذكار مأثورة عن النبي ﷺ، وتُعين المسلم على حضور القلب وزيادة الخشوع في الصلاة.</p>
-                            <p>الالتزام بأذكار الصلاة يربط المسلم بالسنة، ويجعل صلاته أكمل أجرًا وأقرب إلى السكينة، خاصة عند الاهتمام بمعاني الأذكار لا بمجرد ترديدها.</p>
+                            <p data-azkar-ui="edu1P1">أذكار الصلاة جزء أساسي من إقامة الصلاة بصورتها الكاملة، وتشمل ما يُقال عند الوضوء والذهاب إلى المسجد، وأذكار استفتاح الصلاة والركوع والسجود والتشهد، إضافة إلى الأذكار بعد السلام. وهذه الأذكار مأثورة عن النبي ﷺ، وتُعين المسلم على حضور القلب وزيادة الخشوع في الصلاة.</p>
+                            <p data-azkar-ui="edu1P2">الالتزام بأذكار الصلاة يربط المسلم بالسنة، ويجعل صلاته أكمل أجرًا وأقرب إلى السكينة، خاصة عند الاهتمام بمعاني الأذكار لا بمجرد ترديدها.</p>
                         </div>
                     </article>
 
                     <article class="azkar-edu-card">
                         <h2 class="azkar-edu-title">
                             <span class="azkar-edu-icon" aria-hidden="true">📖</span>
-                            <span>كيف تستخدم صفحة أذكار الصلاة؟</span>
+                            <span data-azkar-ui="edu2T">كيف تستخدم صفحة أذكار الصلاة؟</span>
                         </h2>
                         <div class="azkar-edu-body">
-                            <p>تظهر الأذكار مرتبة في بطاقات مستقلة من أذكار الوضوء وحتى ما بعد السلام، ويوضح في كل بطاقة عدد التكرار والمصدر. تستطيع قراءة جميع الأذكار بالترتيب، أو الرجوع إلى ذكر معين كالقنوت أو دعاء الوتر مباشرة.</p>
-                            <p>الأذكار التي يُسن تكرارها — مثل ما يُقال بعد الوتر ثلاث مرات — يساعدك العداد على إكمال العدد دون نسيان، ويُحفظ التقدم تلقائيًا خلال نفس اليوم في متصفحك.</p>
+                            <p data-azkar-ui="edu2P1">تظهر الأذكار مرتبة في بطاقات مستقلة من أذكار الوضوء وحتى ما بعد السلام، ويوضح في كل بطاقة عدد التكرار والمصدر. تستطيع قراءة جميع الأذكار بالترتيب، أو الرجوع إلى ذكر معين كالقنوت أو دعاء الوتر مباشرة.</p>
+                            <p data-azkar-ui="edu2P2">الأذكار التي يُسن تكرارها — مثل ما يُقال بعد الوتر ثلاث مرات — يساعدك العداد على إكمال العدد دون نسيان، ويُحفظ التقدم تلقائيًا خلال نفس اليوم في متصفحك.</p>
                         </div>
                     </article>
 
                     <article class="azkar-edu-card">
                         <h2 class="azkar-edu-title">
                             <span class="azkar-edu-icon" aria-hidden="true">🌅</span>
-                            <span>أذكار الصلاة بين السنة والحرص على المعنى</span>
+                            <span data-azkar-ui="edu3T">أذكار الصلاة بين السنة والحرص على المعنى</span>
                         </h2>
                         <div class="azkar-edu-body">
-                            <p>كثير من أذكار الصلاة وردت بصيغ متعددة في كتب السنة المعروفة، مثل أدعية استفتاح الصلاة والقنوت ودعاء الجلسة بين السجدتين، ويصح للمسلم أن يختار بين الصيغ الثابتة. والأهم هو فهم معنى الذكر وحضوره في القلب، لا الاكتفاء بقراءته باللسان.</p>
-                            <p>ولتكامل العبادة في يومك، يُستحب قراءة أذكار الصباح والمساء كذلك، وكلاهما متوفر في صفحات مستقلة على هذا الموقع.</p>
+                            <p data-azkar-ui="edu3P1">كثير من أذكار الصلاة وردت بصيغ متعددة في كتب السنة المعروفة، مثل أدعية استفتاح الصلاة والقنوت ودعاء الجلسة بين السجدتين، ويصح للمسلم أن يختار بين الصيغ الثابتة. والأهم هو فهم معنى الذكر وحضوره في القلب، لا الاكتفاء بقراءته باللسان.</p>
+                            <p data-azkar-ui="edu3P2">ولتكامل العبادة في يومك، يُستحب قراءة أذكار الصباح والمساء كذلك، وكلاهما متوفر في صفحات مستقلة على هذا الموقع.</p>
                         </div>
-                        <nav class="azkar-edu-links" aria-label="روابط ذات صلة">
+                        <nav class="azkar-edu-links" aria-label="روابط ذات صلة" data-azkar-ui-aria="linksAria">
                             <a href="/azkar" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">↩</span>
-                                <span>العودة إلى الأذكار</span>
+                                <span data-azkar-ui="lnkBack">العودة إلى الأذكار</span>
                             </a>
                             <a href="/azkar/morning-azkar" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🌅</span>
-                                <span>أذكار الصباح</span>
+                                <span data-azkar-ui="lnkMorning">أذكار الصباح</span>
                             </a>
                             <a href="/azkar/evening-azkar" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🌙</span>
-                                <span>أذكار المساء</span>
+                                <span data-azkar-ui="lnkEvening">أذكار المساء</span>
                             </a>
                             <a href="/" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🕒</span>
-                                <span>مواقيت الصلاة اليوم</span>
+                                <span data-azkar-ui="lnkPrayerTimes">مواقيت الصلاة اليوم</span>
                             </a>
                             <a href="/qibla" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">🧭</span>
-                                <span>اتجاه القبلة</span>
+                                <span data-azkar-ui="lnkQibla">اتجاه القبلة</span>
                             </a>
                             <a href="/today-hijri-date" class="azkar-edu-link-card">
                                 <span class="azkar-edu-link-icon" aria-hidden="true">📅</span>
-                                <span>التاريخ الهجري اليوم</span>
+                                <span data-azkar-ui="lnkHijri">التاريخ الهجري اليوم</span>
                             </a>
                         </nav>
                     </article>
@@ -4441,73 +4441,75 @@
 
                 <!-- ===== FAQ (prayer-specific) ===== -->
                 <section class="azkar-faq" aria-labelledby="azkar-prayer-faq-title">
-                    <h2 id="azkar-prayer-faq-title" class="azkar-faq-title">أسئلة شائعة حول أذكار الصلاة</h2>
+                    <h2 id="azkar-prayer-faq-title" class="azkar-faq-title" data-azkar-ui="faqTitle">أسئلة شائعة حول أذكار الصلاة</h2>
 
                     <div class="azkar-faq-list">
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">ما هي أذكار الصلاة؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ1">ما هي أذكار الصلاة؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA1">
                                 أذكار الصلاة هي الأدعية والأذكار المأثورة التي تُقال قبل الصلاة وأثناءها وبعدها، وتبدأ من أذكار الوضوء، ثم الذهاب إلى المسجد ودخوله، وأذكار استفتاح الصلاة والركوع والسجود والتشهد، وتنتهي بالأذكار بعد السلام ودعاء الوتر.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">هل أذكار الصلاة كلها ثابتة عن النبي ﷺ؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ2">هل أذكار الصلاة كلها ثابتة عن النبي ﷺ؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA2">
                                 أغلب أذكار الصلاة وأدعيتها وردت في كتب السنة المعروفة، وتعددت صيغ بعضها كأدعية الاستفتاح والقنوت. هذه الصفحة تجمع الصيغ المشهورة المنقولة من كتب الأذكار، ويُنصح بمراجعة المصادر للتأكد من الصيغة والتشكيل.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">ما الفرق بين أذكار الصلاة وأذكار بعد الصلاة؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ3">ما الفرق بين أذكار الصلاة وأذكار بعد الصلاة؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA3">
                                 أذكار بعد الصلاة هي جزء من أذكار الصلاة بشكل عام، وتشمل التسبيح والتحميد والتكبير وقراءة آية الكرسي والمعوذات بعد التسليم. وقد جُمعت في هذه الصفحة ضمن قسم «الأذكار بعد السلام من الصلاة».
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">ما حكم قراءة دعاء الاستفتاح؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ4">ما حكم قراءة دعاء الاستفتاح؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA4">
                                 دعاء الاستفتاح سُنة عند جمهور أهل العلم، يُقال بعد تكبيرة الإحرام وقبل قراءة الفاتحة. وقد وردت صيغ متعددة، تجد بعضًا منها في بطاقة «أدعية استفتاح الصلاة» في هذه الصفحة.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">متى يُقال دعاء القنوت؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ5">متى يُقال دعاء القنوت؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA5">
                                 يُقال دعاء القنوت في صلاة الوتر، ويزاد عليه القنوت في الفجر عند بعض أهل العلم، وكذلك قنوت النوازل عند الحاجة. وتجد في الصفحة بطاقتين: «دعاء القنوت» و«دعاء استفتاح الصلاة في قيام الليل».
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">هل تظهر مصادر أذكار الصلاة في الصفحة؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ6">هل تظهر مصادر أذكار الصلاة في الصفحة؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA6">
                                 نعم، يظهر المصدر مع كل ذكر لمساعدة القارئ على معرفة موضع وروده، مع عرض الفضل أو الملاحظة المتعلقة بالذكر عند توفرها.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">ما الذي يُقال بعد الانتهاء من الوتر؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ7">ما الذي يُقال بعد الانتهاء من الوتر؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA7">
                                 ثبت عن النبي ﷺ أنه كان يقول بعد الوتر: «سبحان الملك القدوس» ثلاث مرات، ويرفع صوته في الثالثة. وتجد هذا الذكر في بطاقة «ما يقال بعد الانتهاء من الوتر» مع عداد لتسهيل التكرار.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">هل تحفظ الصفحة تقدمي تلقائيًا؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ8">هل تحفظ الصفحة تقدمي تلقائيًا؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA8">
                                 نعم، تحفظ الصفحة تقدمك تلقائيًا خلال اليوم في نفس المتصفح، ثم تعود العدادات من البداية عند تغير اليوم حسب توقيت جهازك المحلي.
                             </div>
                         </details>
 
                         <details class="azkar-faq-item">
-                            <summary class="azkar-faq-question">هل يمكن قراءة أذكار الصلاة من الهاتف؟</summary>
-                            <div class="azkar-faq-answer">
+                            <summary class="azkar-faq-question" data-azkar-ui="faqQ9">هل يمكن قراءة أذكار الصلاة من الهاتف؟</summary>
+                            <div class="azkar-faq-answer" data-azkar-ui="faqA9">
                                 نعم، الصفحة مصممة للهاتف والكمبيوتر، وبطاقات الأذكار سهلة القراءة، مع شريط تقدم ثابت يبقى مرئيًا أثناء التمرير لمتابعة ما تم إكماله.
                             </div>
                         </details>
                     </div>
                 </section>
+
+                <!-- AZKAR-PRAYER-FAQ-SCHEMA -->
 
                 <!-- ===== Islamic events countdown (same pattern as morning/evening AZKAR-EVENTS-ECHO-1) ===== -->
                 <section class="section-card moon-events-section" aria-labelledby="azkar-prayer-events-h2">
@@ -5471,10 +5473,10 @@
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
-    <script defer src="js/azkar-data.js?v=35"></script>
+    <script defer src="js/azkar-data.js?v=36"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=837"></script>
+    <script defer src="js/app.js?v=838"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

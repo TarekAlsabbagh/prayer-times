@@ -140,9 +140,9 @@ ok(!/_extract_quranenc/.test(srvSrc) && !/_extract_quranenc/.test(appSrc), 'extr
 
 console.log('\n================ 10. CSS + cache-busters ================');
 ok(/\.azkar-translation-en\s*\{/.test(cssSrc), 'css .azkar-translation-en present (base style; Urdu overridden inline)');
-ok(/js\/azkar-data\.js\?v=35/.test(htmlSrc), 'index.html azkar-data.js?v=35 (data changed: Card 09 translations added)');
-ok(/js\/app\.js\?v=837/.test(htmlSrc), 'index.html app.js?v=837 (app.js untouched — generic renderer)');
-ok(/CACHE_VERSION = 'v532'/.test(swSrc), "sw.js CACHE_VERSION 'v532'");
+ok(/js\/azkar-data\.js\?v=36/.test(htmlSrc), 'index.html azkar-data.js?v=36 (data changed: Card 09 translations added)');
+ok(/js\/app\.js\?v=838/.test(htmlSrc), 'index.html app.js?v=838 (app.js untouched — generic renderer)');
+ok(/CACHE_VERSION = 'v533'/.test(swSrc), "sw.js CACHE_VERSION 'v533'");
 
 console.log('\n================ 11. Out-of-scope guardrails ================');
 ok((srvSrc.match(/class="azkar-translation-en"/g) || []).length === 1, 'server.js emits the translation <p> markup in exactly ONE place');

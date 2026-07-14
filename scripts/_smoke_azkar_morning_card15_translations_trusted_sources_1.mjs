@@ -231,10 +231,10 @@ ok(!/hisnmuslim\.com|islamhouse\.com|daralathar\.fr|hadeethenc\.com|islamiokul\.
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=35/.test(htmlSrc), 'index.html azkar-data.js?v=35 (Card 15 data added)');
+ok(/js\/azkar-data\.js\?v=36/.test(htmlSrc), 'index.html azkar-data.js?v=36 (Card 15 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
-ok(/js\/app\.js\?v=837/.test(htmlSrc), 'index.html app.js?v=837 UNCHANGED (generic renderer)');
-ok(/CACHE_VERSION = 'v532'/.test(swSrc), "sw.js CACHE_VERSION 'v532'");
+ok(/js\/app\.js\?v=838/.test(htmlSrc), 'index.html app.js?v=838 UNCHANGED (generic renderer)');
+ok(/CACHE_VERSION = 'v533'/.test(swSrc), "sw.js CACHE_VERSION 'v533'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

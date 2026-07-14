@@ -7031,6 +7031,8 @@ let _AZKAR_PRAYER_DATA = [];
 let _AZKAR_MORNING_UI_L10N = {};
 // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening-page UI chrome dict.
 let _AZKAR_EVENING_UI_L10N = {};
+// AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: prayer-page BOTTOM chrome dict (bottom-only).
+let _AZKAR_PRAYER_UI_L10N = {};
 try {
     const _azkarSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-data.js'), 'utf8');
     const _azkarSandbox = { window: {}, console: { log: () => {} } };
@@ -7051,6 +7053,11 @@ try {
     _AZKAR_EVENING_UI_L10N = (_azkarSandbox.window.AZKAR_EVENING_UI_L10N &&
         typeof _azkarSandbox.window.AZKAR_EVENING_UI_L10N === 'object')
         ? _azkarSandbox.window.AZKAR_EVENING_UI_L10N : {};
+    // AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: prayer bottom chrome dict (same sandbox,
+    // standalone object in js/azkar-data.js — prayer had no dict before this batch).
+    _AZKAR_PRAYER_UI_L10N = (_azkarSandbox.window.AZKAR_PRAYER_UI_L10N &&
+        typeof _azkarSandbox.window.AZKAR_PRAYER_UI_L10N === 'object')
+        ? _azkarSandbox.window.AZKAR_PRAYER_UI_L10N : {};
     console.log('[azkar-ssr] Loaded ' + _AZKAR_MORNING_DATA.length + ' morning + ' +
         _AZKAR_EVENING_DATA.length + ' evening + ' +
         _AZKAR_PRAYER_DATA.length + ' prayer dhikr items for SSR');
@@ -7074,6 +7081,48 @@ function _azkarUiL10n(lang) {
 function _azkarEveningUiL10n(lang) {
     return (_AZKAR_EVENING_UI_L10N && _AZKAR_EVENING_UI_L10N[lang]) ||
            (_AZKAR_EVENING_UI_L10N && _AZKAR_EVENING_UI_L10N.ar) || {};
+}
+
+// ══════════════════════════════════════════════════════════════════════════
+// AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: prayer-page BOTTOM chrome (per lang) +
+// SSR walker + FAQPage builder. Prayer had NO l10n path before this batch, so these are fresh siblings
+// of the evening functions, applied ONLY on the prayer route. TOP chrome stays Arabic (out of scope).
+// ══════════════════════════════════════════════════════════════════════════
+function _azkarPrayerUiL10n(lang) {
+    return (_AZKAR_PRAYER_UI_L10N && _AZKAR_PRAYER_UI_L10N[lang]) ||
+           (_AZKAR_PRAYER_UI_L10N && _AZKAR_PRAYER_UI_L10N.ar) || {};
+}
+function _translateAzkarPrayerUi(html, lang) {
+    const ui = _azkarPrayerUiL10n(lang);
+    if (!ui || !html) return html;
+    html = html.replace(/(<([a-zA-Z0-9]+)\b[^>]*\sdata-azkar-ui="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g,
+        function (m, open, _tag, key, _inner, close) {
+            if (ui[key] == null) return m;
+            return open + _escHtml(String(ui[key])) + close;
+        });
+    html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?\sdata-azkar-ui-aria="([^"]+)"[^>]*?)>/g,
+        function (m, tag, attrs, key) {
+            if (ui[key] == null) return m;
+            const val = _escHtml(String(ui[key]));
+            const newAttrs = /\saria-label="[^"]*"/.test(attrs)
+                ? attrs.replace(/\saria-label="[^"]*"/, ' aria-label="' + val + '"')
+                : attrs + ' aria-label="' + val + '"';
+            return '<' + tag + newAttrs + '>';
+        });
+    return html;
+}
+function _buildAzkarPrayerFaqJsonLd(lang) {
+    const ui = _azkarPrayerUiL10n(lang);
+    if (!ui) return '';
+    const ent = [];
+    for (let i = 1; i <= 9; i++) {
+        const q = ui['faqQ' + i], a = ui['faqA' + i];
+        if (!q || !a) continue;
+        ent.push({ '@type': 'Question', name: String(q), acceptedAnswer: { '@type': 'Answer', text: String(a) } });
+    }
+    if (!ent.length) return '';
+    const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang, mainEntity: ent };
+    return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
 }
 
 // Localized repeat label ("مرة واحدة"/"once"/"une fois"/…): exact counts (1,3,4,7,10,100…) from
@@ -20209,6 +20258,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                     '</div>'
                 );
             }
+            // AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: localize the prayer-page BOTTOM
+            // chrome (edu cards + related-links + FAQ) + inject the localized FAQPage JSON-LD. TOP chrome
+            // (hero/breadcrumb/info-strip/progress) has no data-azkar-ui markers, so it stays Arabic (out of
+            // scope). Arabic route (no prefix) re-writes the same Arabic values (idempotent).
+            const _azkarPrayerLang = (urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//) || [])[1] || 'ar';
+            html = _translateAzkarPrayerUi(html, _azkarPrayerLang);
+            html = html.replace('<!-- AZKAR-PRAYER-FAQ-SCHEMA -->', _buildAzkarPrayerFaqJsonLd(_azkarPrayerLang));
         } else if (_isAzkarHubRoute) {
             html = html.replace(
                 '<div class="page" id="page-azkar-hub">',

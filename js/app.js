@@ -26970,6 +26970,13 @@ function _azkarEveningUiMap() {
     const U = (typeof window !== 'undefined' && window.AZKAR_EVENING_UI_L10N) || null;
     return U ? (U[_azkarPickLang()] || U.ar) : null;
 }
+// AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: prayer BOTTOM chrome map (per lang). Used ONLY
+// by _azkarLocalizePrayerStaticUi (SPA parity for the prayer bottom edu/FAQ/links). NOT wired into the shared
+// chrome Proxy or _azkarActiveUiMap — the prayer TOP chrome (progress/reset) intentionally stays Arabic.
+function _azkarPrayerUiMap() {
+    const U = (typeof window !== 'undefined' && window.AZKAR_PRAYER_UI_L10N) || null;
+    return U ? (U[_azkarPickLang()] || U.ar) : null;
+}
 function _azkarActiveUiMap() {
     if (_azkarActivePageIsMorning()) return _azkarMorningUiMap();
     if (_azkarActivePageIsEvening()) return _azkarEveningUiMap();
@@ -27037,6 +27044,23 @@ function _azkarLocalizeStaticUi() {
     root.querySelectorAll('[data-azkar-ui-aria]').forEach(function (el) {
         const k = el.getAttribute('data-azkar-ui-aria');
         if (uiX[k] != null) el.setAttribute('aria-label', uiX[k]);
+    });
+}
+// AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: SPA-nav parity for the prayer BOTTOM chrome.
+// Rewrites [data-azkar-ui] / [data-azkar-ui-aria] nodes inside #page-azkar-prayer from the 10-lang prayer dict.
+// Idempotent on the full-load path (SSR already localized them to the same values). The prayer TOP chrome has
+// no markers, so it is untouched (out of scope: AZKAR-PRAYER-PAGE-FULL-UI-LOCALIZATION-ALL-LANGUAGES-1).
+function _azkarLocalizePrayerStaticUi() {
+    const ui = _azkarPrayerUiMap();
+    const root = document.getElementById('page-azkar-prayer');
+    if (!ui || !root) return;
+    root.querySelectorAll('[data-azkar-ui]').forEach(function (el) {
+        const k = el.getAttribute('data-azkar-ui');
+        if (ui[k] != null) el.textContent = ui[k];
+    });
+    root.querySelectorAll('[data-azkar-ui-aria]').forEach(function (el) {
+        const k = el.getAttribute('data-azkar-ui-aria');
+        if (ui[k] != null) el.setAttribute('aria-label', ui[k]);
     });
 }
 function _loadAzkarMorning() {
@@ -27696,6 +27720,7 @@ function _azkarWireEveningStickyProgress() {
 function _loadAzkarPrayer() {
     const listEl = document.getElementById('azkar-prayer-list');
     if (!listEl) return;
+    _azkarLocalizePrayerStaticUi();
     if (listEl.dataset.wired) return;
     listEl.dataset.wired = '1';
 

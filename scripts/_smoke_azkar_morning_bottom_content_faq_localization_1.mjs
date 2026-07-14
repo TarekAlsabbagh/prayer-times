@@ -42,7 +42,11 @@ LANGS.filter((l) => l !== 'ar').forEach((l) => {
 });
 
 // (b) evening dict stays clean (batch-2 will add its own)
-['edu1T', 'faqTitle', 'faqQ1', 'lnkEvening'].forEach((k) => A(E && E.en && E.en[k] === undefined, 'evening dict clean: no morning "' + k + '"'));
+// Batch 2 (AZKAR-EVENING-BOTTOM-CONTENT-FAQ) intentionally populates the evening dict with its OWN
+// bottom content, so assert evening now has these keys but DISTINCT from morning, and still uses
+// lnkMorning (not the morning-only lnkEvening bottom label).
+['edu1T', 'faqTitle', 'faqQ1'].forEach((k) => A(E && E.en && E.en[k] && E.en[k] !== M.en[k], 'evening has its own "' + k + '" (≠ morning)'));
+A(E && E.en && E.en.lnkEvening === undefined && !!E.en.lnkMorning, 'evening uses lnkMorning, not morning-only lnkEvening');
 
 // (c) index.html wiring
 const html = read('index.html');
@@ -67,10 +71,10 @@ A(srv.includes("'@type': 'FAQPage'") && srv.includes('inLanguage: lang'), 'serve
 A(!srv.includes('data-azkar-ui-href'), 'server: walker has NO href rule (existing pass owns hrefs)');
 
 // (e) cache-busters
-A((html.match(/azkar-data\.js\?v=34\b/g) || []).length >= 1, 'index: azkar-data.js?v=34');
+A((html.match(/azkar-data\.js\?v=35\b/g) || []).length >= 1, 'index: azkar-data.js?v=35');
 A((html.match(/app\.js\?v=837\b/g) || []).length >= 2, 'index: app.js?v=837 (UNCHANGED — app.js not touched)');
 A(!/app\.js\?v=838/.test(html), 'index: no app.js?v=838');
-A(/CACHE_VERSION\s*=\s*'v531'/.test(read('sw.js')), 'sw.js: CACHE_VERSION v531');
+A(/CACHE_VERSION\s*=\s*'v532'/.test(read('sw.js')), 'sw.js: CACHE_VERSION v532');
 
 console.log('\n================ AZKAR MORNING BOTTOM L10N SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

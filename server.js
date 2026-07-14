@@ -7285,6 +7285,22 @@ function _buildAzkarMorningFaqJsonLd(lang) {
     return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
 }
 
+// AZKAR-EVENING-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: evening sibling of _buildAzkarMorningFaqJsonLd.
+// Reads the evening chrome dict so inLanguage + Q/A match the visible (localized) evening FAQ byte-for-byte.
+function _buildAzkarEveningFaqJsonLd(lang) {
+    const ui = _azkarEveningUiL10n(lang);
+    if (!ui) return '';
+    const ent = [];
+    for (let i = 1; i <= 9; i++) {
+        const q = ui['faqQ' + i], a = ui['faqA' + i];
+        if (!q || !a) continue;
+        ent.push({ '@type': 'Question', name: String(q), acceptedAnswer: { '@type': 'Answer', text: String(a) } });
+    }
+    if (!ent.length) return '';
+    const schema = { '@context': 'https://schema.org', '@type': 'FAQPage', inLanguage: lang, mainEntity: ent };
+    return '<script type="application/ld+json">' + JSON.stringify(schema).replace(/</g, '\\u003c') + '</script>';
+}
+
 // AZKAR-EVENING-PAGE-UI-LOCALIZATION-AND-QURAN-TRANSLATIONS-ALL-LANGUAGES-1: evening-page parallel of the
 // morning walker (kept as a separate function so the morning path stays byte-identical). Same marker contract
 // (data-azkar-ui[-aria]), evening chrome dict. Applied ONLY on the evening route. Idempotent for 'ar'.
@@ -20174,6 +20190,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 );
             }
             html = _translateAzkarEveningUi(html, _azkarEveningLang);
+            // AZKAR-EVENING-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: inject the localized FAQPage
+            // JSON-LD (byte-identical to the visible, already-localized evening FAQ). The placeholder is an HTML
+            // comment, so every non-evening route leaves it untouched (invisible, no stray Arabic JSON-LD).
+            html = html.replace('<!-- AZKAR-EVENING-FAQ-SCHEMA -->', _buildAzkarEveningFaqJsonLd(_azkarEveningLang));
         } else if (_isAzkarPrayerRoute) {
             // AZKAR-PRAYER-PHASE-1 (2026-05-26): same SSR pattern.
             html = html.replace(

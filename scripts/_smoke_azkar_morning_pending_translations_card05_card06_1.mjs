@@ -74,7 +74,7 @@ ok(!/islamische-datenbank|hisnii\.com/i.test(srvSrc) && !/islamische-datenbank|h
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 7. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=34[4-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 14 (later tickets bump it)');
+ok(/js\/azkar-data\.js\?v=35[4-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 14 (later tickets bump it)');
 ok(/js\/app\.js\?v=837/.test(htmlSrc), 'index.html app.js?v=837 UNCHANGED');
 ok(/CACHE_VERSION = 'v5(1\d|[2-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v510+ (later tickets bump it)");
 

@@ -99,7 +99,7 @@ ok(!/hadeethenc\.com|akuislam\.com|hisnii\.com/i.test(srvSrc) && !/hadeethenc\.c
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 8. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=34[5-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 15 (later tickets bump it)');
+ok(/js\/azkar-data\.js\?v=35[5-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 15 (later tickets bump it)');
 ok(/js\/app\.js\?v=837/.test(htmlSrc), 'index.html app.js?v=837 UNCHANGED (generic renderer)');
 ok(/CACHE_VERSION = 'v5(1[1-9]|[2-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v511+ (later tickets bump it)");
 

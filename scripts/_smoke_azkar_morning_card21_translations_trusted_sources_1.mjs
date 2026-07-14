@@ -98,9 +98,9 @@ ok(b21.includes("authenticity: 'sahih'"), "Card 21 authenticity stays 'sahih'");
 ok(typeof card21.virtue === 'object' && card21.virtue && card21.virtue.ar.includes('لم يأت أحد'), 'Card 21 virtue NON-null (separate field) intact');
 for (const l of ALL9) ok(!card21['translation_' + l].includes('لم يأت أحد'), `${l}: virtue «لم يأت أحد» NOT inside translation block`);
 
-console.log('\n================ 5. Per-lang MORNING totals — UNIFORM 24; ar = 0 ================');
+console.log('\n================ 5. Per-lang MORNING totals — UNIFORM 25; ar = 0 ================');
 const mr = dataSrc.slice(dataSrc.indexOf("id: 'morning-001'"), dataSrc.indexOf('window.AzkarEvening'));
-for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 24, `morning region translation_${l}: EXACTLY 24`);
+for (const l of ALL9) ok((mr.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 25, `morning region translation_${l}: EXACTLY 25`);
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
 
 console.log('\n================ 6. Cards 01-20 + evening + prayer UNCHANGED ================');
@@ -128,10 +128,10 @@ ok(!/hadeethenc\.com/i.test(dataSrc), 'HadeethEnc NOT referenced');
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=32/.test(htmlSrc), 'index.html azkar-data.js?v=32 (Card 21 data added)');
+ok(/js\/azkar-data\.js\?v=33/.test(htmlSrc), 'index.html azkar-data.js?v=33 (Card 21 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=836/.test(htmlSrc), 'index.html app.js?v=836 UNCHANGED');
-ok(/CACHE_VERSION = 'v528'/.test(swSrc), "sw.js CACHE_VERSION 'v525'");
+ok(/CACHE_VERSION = 'v529'/.test(swSrc), "sw.js CACHE_VERSION 'v525'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

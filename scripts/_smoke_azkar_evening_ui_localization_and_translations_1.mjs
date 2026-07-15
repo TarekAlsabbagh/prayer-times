@@ -54,12 +54,12 @@ for (const [mid, eid, name] of PAIRS) {
   ok(NONAR.every(l => e['translation_' + l] != null), `${name}: has all 9 non-ar translations`);
   ok(e['translation_ar'] == null, `${name}: NO translation_ar (Arabic UI shows no translation block)`);
 }
-// exactly 4 per non-ar lang in the EVENING region; rest-of-evening (005+) has none
+// exactly 5 per non-ar lang in the EVENING region (001-004 Quran + 005 dua); rest-of-evening (006+) has none
 const evEnd = dataSrc.indexOf('window.AzkarPrayer');
 const e1 = dataSrc.indexOf("id: 'evening-001'");
 const eveningRegion = (evEnd > e1) ? dataSrc.slice(e1, evEnd) : dataSrc.slice(e1);
-for (const l of NONAR) ok((eveningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 4, `translation_${l}: appears EXACTLY 4 times in the evening region`);
-ok(E.slice(4).every(d => NONAR.every(l => d['translation_' + l] == null)), 'evening cards 005+ carry NO translation fields');
+for (const l of NONAR) ok((eveningRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 5, `translation_${l}: appears EXACTLY 5 times in the evening region`);
+ok(E.slice(5).every(d => NONAR.every(l => d['translation_' + l] == null)), 'evening cards 006+ carry NO translation fields');
 
 console.log('\n================ 3. Morning totals (Cards 01-06; owned by the morning/card smokes — pinned here) ================');
 // CARD-05 ticket: morning-005 carries 8 translations (no de). CARD-06 ticket: morning-006 carries 7
@@ -121,9 +121,9 @@ console.log('\n================ 8. NO runtime external translation requests ====
 ok(!/quranenc\.com/i.test(srvSrc) && !/quranenc\.com/i.test(appSrc) && !/quranenc\.com/i.test(dataSrc), 'no quranenc.com URL in server/app/azkar-data (static only)');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=36/.test(htmlSrc), 'index.html azkar-data.js?v=36 (bumped by the Card 09 ticket)');
+ok(/js\/azkar-data\.js\?v=37/.test(htmlSrc), 'index.html azkar-data.js?v=37 (bumped by the Card 09 ticket)');
 ok(/js\/app\.js\?v=838/.test(htmlSrc), 'index.html app.js?v=838');
-ok(/CACHE_VERSION = 'v533'/.test(swSrc), "sw.js CACHE_VERSION 'v533' (bumped by the Card 09 ticket)");
+ok(/CACHE_VERSION = 'v534'/.test(swSrc), "sw.js CACHE_VERSION 'v534' (bumped by the Card 09 ticket)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

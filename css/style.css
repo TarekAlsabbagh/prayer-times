@@ -8238,7 +8238,9 @@ html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
     font-size: 0.85rem;
     color: var(--azkar-muted);
     margin-bottom: 14px;
-    direction: rtl;
+    /* AZKAR-TOP-CHROME-DIRECTION-ALIGNMENT-FIX-ALL-PAGES-1: inherit page direction from <html dir>
+       (rtl for ar/ur, ltr for the 8 LTR langs) so the breadcrumb starts on the leading side. Was
+       hardcoded `direction: rtl` from the Arabic-only era. */
 }
 .azkar-breadcrumb a {
     color: var(--azkar-primary);
@@ -8273,7 +8275,8 @@ html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
     display: flex;
     flex-wrap: wrap;
     gap: 8px 22px;
-    direction: rtl;
+    /* AZKAR-TOP-CHROME-DIRECTION-ALIGNMENT-FIX-ALL-PAGES-1: inherit page direction so the info items
+       flow leading→trailing and their icons are not mirrored. Was hardcoded `direction: rtl`. */
 }
 .azkar-info-strip li {
     display: inline-flex;
@@ -8423,7 +8426,8 @@ html:lang(ms) .azkar-card--soon::after { content: 'Akan datang'; }
     justify-content: space-between;
     gap: 12px;
     margin-bottom: 8px;
-    direction: rtl;
+    /* AZKAR-TOP-CHROME-DIRECTION-ALIGNMENT-FIX-ALL-PAGES-1: inherit page direction so the sticky
+       progress text + reset sit on the correct sides. Was hardcoded `direction: rtl`. */
 }
 .azkar-sticky-progress-text {
     font-size: 0.92rem;
@@ -9110,7 +9114,8 @@ html[data-theme="dark"] .azkar-faq-answer { color: #d6ead9; }
     padding: 22px 22px 18px;
     box-shadow: 0 18px 50px rgba(11, 107, 58, 0.20), 0 4px 12px rgba(0, 0, 0, 0.08);
     text-align: center;
-    direction: rtl;
+    /* AZKAR-TOP-CHROME-DIRECTION-ALIGNMENT-FIX-ALL-PAGES-1: reset-flow chrome — inherit page direction
+       so the confirm/cancel actions follow the page. Content is centred; was hardcoded `direction: rtl`. */
     animation: azkar-modal-pop .22s ease-out;
 }
 @keyframes azkar-modal-pop {
@@ -9203,7 +9208,8 @@ html[data-theme="dark"] .azkar-faq-answer { color: #d6ead9; }
     opacity: 0;
     transition: opacity .25s ease, transform .25s ease;
     box-shadow: 0 8px 24px rgba(11, 107, 58, 0.22);
-    direction: rtl;
+    /* AZKAR-TOP-CHROME-DIRECTION-ALIGNMENT-FIX-ALL-PAGES-1: reset-flow chrome — inherit page direction
+       so the toast icon + text order follows the page. Was hardcoded `direction: rtl`. */
     display: inline-flex;
     align-items: center;
     gap: 8px;

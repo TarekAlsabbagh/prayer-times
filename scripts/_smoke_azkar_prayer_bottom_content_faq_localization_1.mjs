@@ -91,9 +91,9 @@ A(mR.includes('<!-- AZKAR-MORNING-FAQ-SCHEMA -->') && mR.includes('data-azkar-ui
 A(eR.includes('<!-- AZKAR-EVENING-FAQ-SCHEMA -->') && eR.includes('data-azkar-ui="edu1T"'), 'evening region still wired');
 
 // ---- 9. cache-busters (app.js WAS touched → 838) ----
-A(html.includes('azkar-data.js?v=37'), 'index.html azkar-data.js?v=37');
+A(html.includes('azkar-data.js?v=38'), 'index.html azkar-data.js?v=38');
 A(html.includes('app.js?v=838') && !html.includes('app.js?v=837'), 'index.html app.js?v=838 (bumped, no stale 837)');
-A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v534'"), "sw.js CACHE_VERSION 'v534'");
+A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v535'"), "sw.js CACHE_VERSION 'v535'");
 
 console.log('\n================ AZKAR PRAYER BOTTOM SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

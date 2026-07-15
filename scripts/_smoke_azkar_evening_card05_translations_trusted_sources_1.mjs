@@ -142,11 +142,11 @@ ok(/source:\s*\{\s*ref:\s*'رواه مسلم'\s*\}/.test(b5), "source stays { re
 ok(/repeat:\s*1,/.test(b5) && /repeatLabel:\s*\{\s*ar:\s*'مرة واحدة',\s*en:\s*'once'\s*\}/.test(b5), "repeat stays 1 («مرة واحدة» / «once»)");
 ok(/authenticity:\s*'sahih'/.test(b5) && /virtue:\s*null/.test(b5), "authenticity 'sahih' + virtue null unchanged");
 
-console.log('\n================ 5. Per-region translation counts — evening 5, morning 25, prayer 0, ar 0 ================');
+console.log('\n================ 5. Per-region translation counts — evening 6, morning 25, prayer 0, ar 0 ================');
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
 const mornRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarMorning'), dataSrc.indexOf('window.AzkarEvening'));
 const prayRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 5, `evening region translation_${l}: EXACTLY 5 (001-004 Quran + 005 dua)`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 6, `evening region translation_${l}: EXACTLY 6 (001-004 Quran + 005-006 dua)`);
 for (const l of ALL9) ok((mornRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 25, `morning region translation_${l}: EXACTLY 25 (unchanged)`);
 ok(!/translation_[a-z]+\s*:/.test(prayRegion), 'prayer region has NO translation fields (unchanged)');
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
@@ -156,7 +156,7 @@ for (const id of ['evening-001','evening-002','evening-003','evening-004']) {
   const c = E.find(d => d.id === id);
   ok(ALL9.every(l => typeof c['translation_' + l] === 'string'), `${id} still carries all 9 translations`);
 }
-ok(E.slice(5).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 006+ carry NO translation fields');
+ok(E.slice(6).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 007+ carry NO translation fields');
 ok(M.length === 25 && E.length === 23 && P.length > 0, '25 morning + 23 evening + prayer intact');
 ok(M.every(d => ALL9.every(l => typeof d['translation_' + l] === 'string')), 'all 25 morning cards still fully translated (untouched)');
 
@@ -173,10 +173,10 @@ ok(!/https?:\/\/|www\.|\.(com|org|net|my|app|fr|de|es)\b|\bor\.id\b/i.test(dataS
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=37/.test(htmlSrc), 'index.html azkar-data.js?v=37 (evening-005 data added)');
+ok(/js\/azkar-data\.js\?v=38/.test(htmlSrc), 'index.html azkar-data.js?v=38 (evening-005 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=838/.test(htmlSrc), 'index.html app.js?v=838 UNCHANGED');
-ok(/CACHE_VERSION = 'v534'/.test(swSrc), "sw.js CACHE_VERSION 'v534'");
+ok(/CACHE_VERSION = 'v535'/.test(swSrc), "sw.js CACHE_VERSION 'v535'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

@@ -1,0 +1,76 @@
+{
+  "surah": 113,
+  "nameAr": "الفَلَق",
+  "nameEn": "Al-Falaq",
+  "ayahCount": 5,
+  "firstPage": 604,
+  "lastPage": 604,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 604,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 604,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "قُلۡ أَعُوذُ بِرَبِّ ٱلۡفَلَقِ ﰀ",
+          "textUthmaniBody": "قُلۡ أَعُوذُ بِرَبِّ ٱلۡفَلَقِ",
+          "textImlaei": "قل أعوذ برب الفلق",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 604,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "مِن شَرِّ مَا خَلَقَ ﰁ",
+          "textUthmaniBody": "مِن شَرِّ مَا خَلَقَ",
+          "textImlaei": "من شر ما خلق",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 604,
+          "lineStart": 7,
+          "lineEnd": 8,
+          "textUthmaniRaw": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ ﰂ",
+          "textUthmaniBody": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ",
+          "textImlaei": "ومن شر غاسق إذا وقب",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 604,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِي ٱلۡعُقَدِ ﰃ",
+          "textUthmaniBody": "وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِي ٱلۡعُقَدِ",
+          "textImlaei": "ومن شر النفاثات في العقد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 604,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ ﰄ",
+          "textUthmaniBody": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ",
+          "textImlaei": "ومن شر حاسد إذا حسد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        }
+      ]
+    }
+  ]
+}

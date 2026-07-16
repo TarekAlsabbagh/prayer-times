@@ -1,0 +1,715 @@
+{
+  "surah": 53,
+  "nameAr": "النَّجم",
+  "nameEn": "An-Najm",
+  "ayahCount": 62,
+  "firstPage": 526,
+  "lastPage": 528,
+  "pageCount": 3,
+  "juz": [
+    27
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 526,
+      "juz": 27,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 526,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "وَٱلنَّجۡمِ إِذَا هَوَىٰ ﰀ",
+          "textUthmaniBody": "وَٱلنَّجۡمِ إِذَا هَوَىٰ",
+          "textImlaei": "والنجم إذا هوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 526,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "مَا ضَلَّ صَاحِبُكُمۡ وَمَا غَوَىٰ ﰁ",
+          "textUthmaniBody": "مَا ضَلَّ صَاحِبُكُمۡ وَمَا غَوَىٰ",
+          "textImlaei": "ما ضل صاحبكم وما غوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 526,
+          "lineStart": 3,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَمَا يَنطِقُ عَنِ ٱلۡهَوَىٰٓ ﰂ",
+          "textUthmaniBody": "وَمَا يَنطِقُ عَنِ ٱلۡهَوَىٰٓ",
+          "textImlaei": "وما ينطق عن الهوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 526,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "إِنۡ هُوَ إِلَّا وَحۡيٞ يُوحَىٰ ﰃ",
+          "textUthmaniBody": "إِنۡ هُوَ إِلَّا وَحۡيٞ يُوحَىٰ",
+          "textImlaei": "إن هو إلا وحي يوحى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 526,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "عَلَّمَهُۥ شَدِيدُ ٱلۡقُوَىٰ ﰄ",
+          "textUthmaniBody": "عَلَّمَهُۥ شَدِيدُ ٱلۡقُوَىٰ",
+          "textImlaei": "علمه شديد القوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 526,
+          "lineStart": 4,
+          "lineEnd": 5,
+          "textUthmaniRaw": "ذُو مِرَّةٖ فَٱسۡتَوَىٰ ﰅ",
+          "textUthmaniBody": "ذُو مِرَّةٖ فَٱسۡتَوَىٰ",
+          "textImlaei": "ذو مرة فاستوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        },
+        {
+          "ayah": 7,
+          "page": 526,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "وَهُوَ بِٱلۡأُفُقِ ٱلۡأَعۡلَىٰ ﰆ",
+          "textUthmaniBody": "وَهُوَ بِٱلۡأُفُقِ ٱلۡأَعۡلَىٰ",
+          "textImlaei": "وهو بالأفق الأعلى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC06"
+        },
+        {
+          "ayah": 8,
+          "page": 526,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "ثُمَّ دَنَا فَتَدَلَّىٰ ﰇ",
+          "textUthmaniBody": "ثُمَّ دَنَا فَتَدَلَّىٰ",
+          "textImlaei": "ثم دنا فتدلى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC07"
+        },
+        {
+          "ayah": 9,
+          "page": 526,
+          "lineStart": 5,
+          "lineEnd": 6,
+          "textUthmaniRaw": "فَكَانَ قَابَ قَوۡسَيۡنِ أَوۡ أَدۡنَىٰ ﰈ",
+          "textUthmaniBody": "فَكَانَ قَابَ قَوۡسَيۡنِ أَوۡ أَدۡنَىٰ",
+          "textImlaei": "فكان قاب قوسين أو أدنى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC08"
+        },
+        {
+          "ayah": 10,
+          "page": 526,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "فَأَوۡحَىٰٓ إِلَىٰ عَبۡدِهِۦ مَآ أَوۡحَىٰ ﰉ",
+          "textUthmaniBody": "فَأَوۡحَىٰٓ إِلَىٰ عَبۡدِهِۦ مَآ أَوۡحَىٰ",
+          "textImlaei": "فأوحى إلى عبده ما أوحى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC09"
+        },
+        {
+          "ayah": 11,
+          "page": 526,
+          "lineStart": 6,
+          "lineEnd": 7,
+          "textUthmaniRaw": "مَا كَذَبَ ٱلۡفُؤَادُ مَا رَأَىٰٓ ﰊ",
+          "textUthmaniBody": "مَا كَذَبَ ٱلۡفُؤَادُ مَا رَأَىٰٓ",
+          "textImlaei": "ما كذب الفؤاد ما رأى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0A"
+        },
+        {
+          "ayah": 12,
+          "page": 526,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "أَفَتُمَٰرُونَهُۥ عَلَىٰ مَا يَرَىٰ ﰋ",
+          "textUthmaniBody": "أَفَتُمَٰرُونَهُۥ عَلَىٰ مَا يَرَىٰ",
+          "textImlaei": "أفتمارونه على ما يرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0B"
+        },
+        {
+          "ayah": 13,
+          "page": 526,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "وَلَقَدۡ رَءَاهُ نَزۡلَةً أُخۡرَىٰ ﰌ",
+          "textUthmaniBody": "وَلَقَدۡ رَءَاهُ نَزۡلَةً أُخۡرَىٰ",
+          "textImlaei": "ولقد رآه نزلة أخرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0C"
+        },
+        {
+          "ayah": 14,
+          "page": 526,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "عِندَ سِدۡرَةِ ٱلۡمُنتَهَىٰ ﰍ",
+          "textUthmaniBody": "عِندَ سِدۡرَةِ ٱلۡمُنتَهَىٰ",
+          "textImlaei": "عند سدرة المنتهى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0D"
+        },
+        {
+          "ayah": 15,
+          "page": 526,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "عِندَهَا جَنَّةُ ٱلۡمَأۡوَىٰٓ ﰎ",
+          "textUthmaniBody": "عِندَهَا جَنَّةُ ٱلۡمَأۡوَىٰٓ",
+          "textImlaei": "عندها جنة المأوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0E"
+        },
+        {
+          "ayah": 16,
+          "page": 526,
+          "lineStart": 8,
+          "lineEnd": 9,
+          "textUthmaniRaw": "إِذۡ يَغۡشَى ٱلسِّدۡرَةَ مَا يَغۡشَىٰ ﰏ",
+          "textUthmaniBody": "إِذۡ يَغۡشَى ٱلسِّدۡرَةَ مَا يَغۡشَىٰ",
+          "textImlaei": "إذ يغشى السدرة ما يغشى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0F"
+        },
+        {
+          "ayah": 17,
+          "page": 526,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "مَا زَاغَ ٱلۡبَصَرُ وَمَا طَغَىٰ ﰐ",
+          "textUthmaniBody": "مَا زَاغَ ٱلۡبَصَرُ وَمَا طَغَىٰ",
+          "textImlaei": "ما زاغ البصر وما طغى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC10"
+        },
+        {
+          "ayah": 18,
+          "page": 526,
+          "lineStart": 9,
+          "lineEnd": 10,
+          "textUthmaniRaw": "لَقَدۡ رَأَىٰ مِنۡ ءَايَٰتِ رَبِّهِ ٱلۡكُبۡرَىٰٓ ﰑ",
+          "textUthmaniBody": "لَقَدۡ رَأَىٰ مِنۡ ءَايَٰتِ رَبِّهِ ٱلۡكُبۡرَىٰٓ",
+          "textImlaei": "لقد رأى من آيات ربه الكبرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC11"
+        },
+        {
+          "ayah": 19,
+          "page": 526,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "أَفَرَءَيۡتُمُ ٱللَّٰتَ وَٱلۡعُزَّىٰ ﰒ",
+          "textUthmaniBody": "أَفَرَءَيۡتُمُ ٱللَّٰتَ وَٱلۡعُزَّىٰ",
+          "textImlaei": "أفرأيتم اللات والعزى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC12"
+        },
+        {
+          "ayah": 20,
+          "page": 526,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "وَمَنَوٰةَ ٱلثَّالِثَةَ ٱلۡأُخۡرَىٰٓ ﰓ",
+          "textUthmaniBody": "وَمَنَوٰةَ ٱلثَّالِثَةَ ٱلۡأُخۡرَىٰٓ",
+          "textImlaei": "ومناة الثالثة الأخرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC13"
+        },
+        {
+          "ayah": 21,
+          "page": 526,
+          "lineStart": 11,
+          "lineEnd": 11,
+          "textUthmaniRaw": "أَلَكُمُ ٱلذَّكَرُ وَلَهُ ٱلۡأُنثَىٰ ﰔ",
+          "textUthmaniBody": "أَلَكُمُ ٱلذَّكَرُ وَلَهُ ٱلۡأُنثَىٰ",
+          "textImlaei": "ألكم الذكر وله الأنثى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC14"
+        },
+        {
+          "ayah": 22,
+          "page": 526,
+          "lineStart": 11,
+          "lineEnd": 11,
+          "textUthmaniRaw": "تِلۡكَ إِذٗا قِسۡمَةٞ ضِيزَىٰٓ ﰕ",
+          "textUthmaniBody": "تِلۡكَ إِذٗا قِسۡمَةٞ ضِيزَىٰٓ",
+          "textImlaei": "تلك إذا قسمة ضيزى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC15"
+        },
+        {
+          "ayah": 23,
+          "page": 526,
+          "lineStart": 11,
+          "lineEnd": 13,
+          "textUthmaniRaw": "إِنۡ هِيَ إِلَّآ أَسۡمَآءٞ سَمَّيۡتُمُوهَآ أَنتُمۡ وَءَابَآؤُكُم مَّآ أَنزَلَ ٱللَّهُ بِهَا مِن سُلۡطَٰنٍۚ إِن يَتَّبِعُونَ إِلَّا ٱلظَّنَّ وَمَا تَهۡوَى ٱلۡأَنفُسُۖ وَلَقَدۡ جَآءَهُم مِّن رَّبِّهِمُ ٱلۡهُدَىٰٓ ﰖ",
+          "textUthmaniBody": "إِنۡ هِيَ إِلَّآ أَسۡمَآءٞ سَمَّيۡتُمُوهَآ أَنتُمۡ وَءَابَآؤُكُم مَّآ أَنزَلَ ٱللَّهُ بِهَا مِن سُلۡطَٰنٍۚ إِن يَتَّبِعُونَ إِلَّا ٱلظَّنَّ وَمَا تَهۡوَى ٱلۡأَنفُسُۖ وَلَقَدۡ جَآءَهُم مِّن رَّبِّهِمُ ٱلۡهُدَىٰٓ",
+          "textImlaei": "إن هي إلا أسماء سميتموها أنتم وآباؤكم ما أنزل الله بها من سلطان إن يتبعون إلا الظن وما تهوى الأنفس ولقد جاءهم من ربهم الهدى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC16"
+        },
+        {
+          "ayah": 24,
+          "page": 526,
+          "lineStart": 13,
+          "lineEnd": 14,
+          "textUthmaniRaw": "أَمۡ لِلۡإِنسَٰنِ مَا تَمَنَّىٰ ﰗ",
+          "textUthmaniBody": "أَمۡ لِلۡإِنسَٰنِ مَا تَمَنَّىٰ",
+          "textImlaei": "أم للإنسان ما تمنى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC17"
+        },
+        {
+          "ayah": 25,
+          "page": 526,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "فَلِلَّهِ ٱلۡأٓخِرَةُ وَٱلۡأُولَىٰ ﰘ",
+          "textUthmaniBody": "فَلِلَّهِ ٱلۡأٓخِرَةُ وَٱلۡأُولَىٰ",
+          "textImlaei": "فلله الآخرة والأولى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC18"
+        },
+        {
+          "ayah": 26,
+          "page": 526,
+          "lineStart": 14,
+          "lineEnd": 15,
+          "textUthmaniRaw": "۞ وَكَم مِّن مَّلَكٖ فِي ٱلسَّمَٰوَٰتِ لَا تُغۡنِي شَفَٰعَتُهُمۡ شَيۡـًٔا إِلَّا مِنۢ بَعۡدِ أَن يَأۡذَنَ ٱللَّهُ لِمَن يَشَآءُ وَيَرۡضَىٰٓ ﰙ",
+          "textUthmaniBody": "۞ وَكَم مِّن مَّلَكٖ فِي ٱلسَّمَٰوَٰتِ لَا تُغۡنِي شَفَٰعَتُهُمۡ شَيۡـًٔا إِلَّا مِنۢ بَعۡدِ أَن يَأۡذَنَ ٱللَّهُ لِمَن يَشَآءُ وَيَرۡضَىٰٓ",
+          "textImlaei": "وكم من ملك في السموات لا تغني شفاعتهم شيئا إلا من بعد أن يأذن الله لمن يشاء ويرضى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC19"
+        }
+      ]
+    },
+    {
+      "page": 527,
+      "juz": 27,
+      "ayahs": [
+        {
+          "ayah": 27,
+          "page": 527,
+          "lineStart": 1,
+          "lineEnd": 1,
+          "textUthmaniRaw": "إِنَّ ٱلَّذِينَ لَا يُؤۡمِنُونَ بِٱلۡأٓخِرَةِ لَيُسَمُّونَ ٱلۡمَلَٰٓئِكَةَ تَسۡمِيَةَ ٱلۡأُنثَىٰ ﰚ",
+          "textUthmaniBody": "إِنَّ ٱلَّذِينَ لَا يُؤۡمِنُونَ بِٱلۡأٓخِرَةِ لَيُسَمُّونَ ٱلۡمَلَٰٓئِكَةَ تَسۡمِيَةَ ٱلۡأُنثَىٰ",
+          "textImlaei": "إن الذين لا يؤمنون بالآخرة ليسمون الملائكة تسمية الأنثى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC1A"
+        },
+        {
+          "ayah": 28,
+          "page": 527,
+          "lineStart": 2,
+          "lineEnd": 3,
+          "textUthmaniRaw": "وَمَا لَهُم بِهِۦ مِنۡ عِلۡمٍۖ إِن يَتَّبِعُونَ إِلَّا ٱلظَّنَّۖ وَإِنَّ ٱلظَّنَّ لَا يُغۡنِي مِنَ ٱلۡحَقِّ شَيۡـٔٗا ﰛ",
+          "textUthmaniBody": "وَمَا لَهُم بِهِۦ مِنۡ عِلۡمٍۖ إِن يَتَّبِعُونَ إِلَّا ٱلظَّنَّۖ وَإِنَّ ٱلظَّنَّ لَا يُغۡنِي مِنَ ٱلۡحَقِّ شَيۡـٔٗا",
+          "textImlaei": "وما لهم به من علم إن يتبعون إلا الظن وإن الظن لا يغني من الحق شيئا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC1B"
+        },
+        {
+          "ayah": 29,
+          "page": 527,
+          "lineStart": 3,
+          "lineEnd": 4,
+          "textUthmaniRaw": "فَأَعۡرِضۡ عَن مَّن تَوَلَّىٰ عَن ذِكۡرِنَا وَلَمۡ يُرِدۡ إِلَّا ٱلۡحَيَوٰةَ ٱلدُّنۡيَا ﰜ",
+          "textUthmaniBody": "فَأَعۡرِضۡ عَن مَّن تَوَلَّىٰ عَن ذِكۡرِنَا وَلَمۡ يُرِدۡ إِلَّا ٱلۡحَيَوٰةَ ٱلدُّنۡيَا",
+          "textImlaei": "فأعرض عن من تولى عن ذكرنا ولم يرد إلا الحياة الدنيا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC1C"
+        },
+        {
+          "ayah": 30,
+          "page": 527,
+          "lineStart": 4,
+          "lineEnd": 5,
+          "textUthmaniRaw": "ذَٰلِكَ مَبۡلَغُهُم مِّنَ ٱلۡعِلۡمِۚ إِنَّ رَبَّكَ هُوَ أَعۡلَمُ بِمَن ضَلَّ عَن سَبِيلِهِۦ وَهُوَ أَعۡلَمُ بِمَنِ ٱهۡتَدَىٰ ﰝ",
+          "textUthmaniBody": "ذَٰلِكَ مَبۡلَغُهُم مِّنَ ٱلۡعِلۡمِۚ إِنَّ رَبَّكَ هُوَ أَعۡلَمُ بِمَن ضَلَّ عَن سَبِيلِهِۦ وَهُوَ أَعۡلَمُ بِمَنِ ٱهۡتَدَىٰ",
+          "textImlaei": "ذلك مبلغهم من العلم إن ربك هو أعلم بمن ضل عن سبيله وهو أعلم بمن اهتدى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC1D"
+        },
+        {
+          "ayah": 31,
+          "page": 527,
+          "lineStart": 5,
+          "lineEnd": 7,
+          "textUthmaniRaw": "وَلِلَّهِ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِ لِيَجۡزِيَ ٱلَّذِينَ أَسَٰٓـُٔواْ بِمَا عَمِلُواْ وَيَجۡزِيَ ٱلَّذِينَ أَحۡسَنُواْ بِٱلۡحُسۡنَى ﰞ",
+          "textUthmaniBody": "وَلِلَّهِ مَا فِي ٱلسَّمَٰوَٰتِ وَمَا فِي ٱلۡأَرۡضِ لِيَجۡزِيَ ٱلَّذِينَ أَسَٰٓـُٔواْ بِمَا عَمِلُواْ وَيَجۡزِيَ ٱلَّذِينَ أَحۡسَنُواْ بِٱلۡحُسۡنَى",
+          "textImlaei": "ولله ما في السموات وما في الأرض ليجزي الذين أساءوا بما عملوا ويجزي الذين أحسنوا بالحسنى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC1E"
+        },
+        {
+          "ayah": 32,
+          "page": 527,
+          "lineStart": 7,
+          "lineEnd": 10,
+          "textUthmaniRaw": "ٱلَّذِينَ يَجۡتَنِبُونَ كَبَٰٓئِرَ ٱلۡإِثۡمِ وَٱلۡفَوَٰحِشَ إِلَّا ٱللَّمَمَۚ إِنَّ رَبَّكَ وَٰسِعُ ٱلۡمَغۡفِرَةِۚ هُوَ أَعۡلَمُ بِكُمۡ إِذۡ أَنشَأَكُم مِّنَ ٱلۡأَرۡضِ وَإِذۡ أَنتُمۡ أَجِنَّةٞ فِي بُطُونِ أُمَّهَٰتِكُمۡۖ فَلَا تُزَكُّوٓاْ أَنفُسَكُمۡۖ هُوَ أَعۡلَمُ بِمَنِ ٱتَّقَىٰٓ ﰟ",
+          "textUthmaniBody": "ٱلَّذِينَ يَجۡتَنِبُونَ كَبَٰٓئِرَ ٱلۡإِثۡمِ وَٱلۡفَوَٰحِشَ إِلَّا ٱللَّمَمَۚ إِنَّ رَبَّكَ وَٰسِعُ ٱلۡمَغۡفِرَةِۚ هُوَ أَعۡلَمُ بِكُمۡ إِذۡ أَنشَأَكُم مِّنَ ٱلۡأَرۡضِ وَإِذۡ أَنتُمۡ أَجِنَّةٞ فِي بُطُونِ أُمَّهَٰتِكُمۡۖ فَلَا تُزَكُّوٓاْ أَنفُسَكُمۡۖ هُوَ أَعۡلَمُ بِمَنِ ٱتَّقَىٰٓ",
+          "textImlaei": "الذين يجتنبون كبائر الإثم والفواحش إلا اللمم إن ربك واسع المغفرة هو أعلم بكم إذ أنشأكم من الأرض وإذ أنتم أجنة في بطون أمهاتكم فلا تزكوا أنفسكم هو أعلم بمن اتقى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC1F"
+        },
+        {
+          "ayah": 33,
+          "page": 527,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "أَفَرَءَيۡتَ ٱلَّذِي تَوَلَّىٰ ﰠ",
+          "textUthmaniBody": "أَفَرَءَيۡتَ ٱلَّذِي تَوَلَّىٰ",
+          "textImlaei": "أفرأيت الذي تولى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC20"
+        },
+        {
+          "ayah": 34,
+          "page": 527,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "وَأَعۡطَىٰ قَلِيلٗا وَأَكۡدَىٰٓ ﰡ",
+          "textUthmaniBody": "وَأَعۡطَىٰ قَلِيلٗا وَأَكۡدَىٰٓ",
+          "textImlaei": "وأعطى قليلا وأكدى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC21"
+        },
+        {
+          "ayah": 35,
+          "page": 527,
+          "lineStart": 11,
+          "lineEnd": 11,
+          "textUthmaniRaw": "أَعِندَهُۥ عِلۡمُ ٱلۡغَيۡبِ فَهُوَ يَرَىٰٓ ﰢ",
+          "textUthmaniBody": "أَعِندَهُۥ عِلۡمُ ٱلۡغَيۡبِ فَهُوَ يَرَىٰٓ",
+          "textImlaei": "أعنده علم الغيب فهو يرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC22"
+        },
+        {
+          "ayah": 36,
+          "page": 527,
+          "lineStart": 11,
+          "lineEnd": 12,
+          "textUthmaniRaw": "أَمۡ لَمۡ يُنَبَّأۡ بِمَا فِي صُحُفِ مُوسَىٰ ﰣ",
+          "textUthmaniBody": "أَمۡ لَمۡ يُنَبَّأۡ بِمَا فِي صُحُفِ مُوسَىٰ",
+          "textImlaei": "أم لم ينبأ بما في صحف موسى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC23"
+        },
+        {
+          "ayah": 37,
+          "page": 527,
+          "lineStart": 12,
+          "lineEnd": 12,
+          "textUthmaniRaw": "وَإِبۡرَٰهِيمَ ٱلَّذِي وَفَّىٰٓ ﰤ",
+          "textUthmaniBody": "وَإِبۡرَٰهِيمَ ٱلَّذِي وَفَّىٰٓ",
+          "textImlaei": "وإبراهيم الذي وفى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC24"
+        },
+        {
+          "ayah": 38,
+          "page": 527,
+          "lineStart": 12,
+          "lineEnd": 12,
+          "textUthmaniRaw": "أَلَّا تَزِرُ وَازِرَةٞ وِزۡرَ أُخۡرَىٰ ﰥ",
+          "textUthmaniBody": "أَلَّا تَزِرُ وَازِرَةٞ وِزۡرَ أُخۡرَىٰ",
+          "textImlaei": "ألا تزر وازرة وزر أخرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC25"
+        },
+        {
+          "ayah": 39,
+          "page": 527,
+          "lineStart": 13,
+          "lineEnd": 13,
+          "textUthmaniRaw": "وَأَن لَّيۡسَ لِلۡإِنسَٰنِ إِلَّا مَا سَعَىٰ ﰦ",
+          "textUthmaniBody": "وَأَن لَّيۡسَ لِلۡإِنسَٰنِ إِلَّا مَا سَعَىٰ",
+          "textImlaei": "وأن ليس للإنسان إلا ما سعى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC26"
+        },
+        {
+          "ayah": 40,
+          "page": 527,
+          "lineStart": 13,
+          "lineEnd": 13,
+          "textUthmaniRaw": "وَأَنَّ سَعۡيَهُۥ سَوۡفَ يُرَىٰ ﰧ",
+          "textUthmaniBody": "وَأَنَّ سَعۡيَهُۥ سَوۡفَ يُرَىٰ",
+          "textImlaei": "وأن سعيه سوف يرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC27"
+        },
+        {
+          "ayah": 41,
+          "page": 527,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "ثُمَّ يُجۡزَىٰهُ ٱلۡجَزَآءَ ٱلۡأَوۡفَىٰ ﰨ",
+          "textUthmaniBody": "ثُمَّ يُجۡزَىٰهُ ٱلۡجَزَآءَ ٱلۡأَوۡفَىٰ",
+          "textImlaei": "ثم يجزاه الجزاء الأوفى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC28"
+        },
+        {
+          "ayah": 42,
+          "page": 527,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "وَأَنَّ إِلَىٰ رَبِّكَ ٱلۡمُنتَهَىٰ ﰩ",
+          "textUthmaniBody": "وَأَنَّ إِلَىٰ رَبِّكَ ٱلۡمُنتَهَىٰ",
+          "textImlaei": "وأن إلى ربك المنتهى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC29"
+        },
+        {
+          "ayah": 43,
+          "page": 527,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "وَأَنَّهُۥ هُوَ أَضۡحَكَ وَأَبۡكَىٰ ﰪ",
+          "textUthmaniBody": "وَأَنَّهُۥ هُوَ أَضۡحَكَ وَأَبۡكَىٰ",
+          "textImlaei": "وأنه هو أضحك وأبكى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC2A"
+        },
+        {
+          "ayah": 44,
+          "page": 527,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "وَأَنَّهُۥ هُوَ أَمَاتَ وَأَحۡيَا ﰫ",
+          "textUthmaniBody": "وَأَنَّهُۥ هُوَ أَمَاتَ وَأَحۡيَا",
+          "textImlaei": "وأنه هو أمات وأحيا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC2B"
+        }
+      ]
+    },
+    {
+      "page": 528,
+      "juz": 27,
+      "ayahs": [
+        {
+          "ayah": 45,
+          "page": 528,
+          "lineStart": 1,
+          "lineEnd": 1,
+          "textUthmaniRaw": "وَأَنَّهُۥ خَلَقَ ٱلزَّوۡجَيۡنِ ٱلذَّكَرَ وَٱلۡأُنثَىٰ ﰬ",
+          "textUthmaniBody": "وَأَنَّهُۥ خَلَقَ ٱلزَّوۡجَيۡنِ ٱلذَّكَرَ وَٱلۡأُنثَىٰ",
+          "textImlaei": "وأنه خلق الزوجين الذكر والأنثى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC2C"
+        },
+        {
+          "ayah": 46,
+          "page": 528,
+          "lineStart": 1,
+          "lineEnd": 1,
+          "textUthmaniRaw": "مِن نُّطۡفَةٍ إِذَا تُمۡنَىٰ ﰭ",
+          "textUthmaniBody": "مِن نُّطۡفَةٍ إِذَا تُمۡنَىٰ",
+          "textImlaei": "من نطفة إذا تمنى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC2D"
+        },
+        {
+          "ayah": 47,
+          "page": 528,
+          "lineStart": 2,
+          "lineEnd": 2,
+          "textUthmaniRaw": "وَأَنَّ عَلَيۡهِ ٱلنَّشۡأَةَ ٱلۡأُخۡرَىٰ ﰮ",
+          "textUthmaniBody": "وَأَنَّ عَلَيۡهِ ٱلنَّشۡأَةَ ٱلۡأُخۡرَىٰ",
+          "textImlaei": "وأن عليه النشأة الأخرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC2E"
+        },
+        {
+          "ayah": 48,
+          "page": 528,
+          "lineStart": 2,
+          "lineEnd": 2,
+          "textUthmaniRaw": "وَأَنَّهُۥ هُوَ أَغۡنَىٰ وَأَقۡنَىٰ ﰯ",
+          "textUthmaniBody": "وَأَنَّهُۥ هُوَ أَغۡنَىٰ وَأَقۡنَىٰ",
+          "textImlaei": "وأنه هو أغنى وأقنى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC2F"
+        },
+        {
+          "ayah": 49,
+          "page": 528,
+          "lineStart": 2,
+          "lineEnd": 3,
+          "textUthmaniRaw": "وَأَنَّهُۥ هُوَ رَبُّ ٱلشِّعۡرَىٰ ﰰ",
+          "textUthmaniBody": "وَأَنَّهُۥ هُوَ رَبُّ ٱلشِّعۡرَىٰ",
+          "textImlaei": "وأنه هو رب الشعرى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC30"
+        },
+        {
+          "ayah": 50,
+          "page": 528,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "وَأَنَّهُۥٓ أَهۡلَكَ عَادًا ٱلۡأُولَىٰ ﰱ",
+          "textUthmaniBody": "وَأَنَّهُۥٓ أَهۡلَكَ عَادًا ٱلۡأُولَىٰ",
+          "textImlaei": "وأنه أهلك عادا الأولى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC31"
+        },
+        {
+          "ayah": 51,
+          "page": 528,
+          "lineStart": 3,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَثَمُودَاْ فَمَآ أَبۡقَىٰ ﰲ",
+          "textUthmaniBody": "وَثَمُودَاْ فَمَآ أَبۡقَىٰ",
+          "textImlaei": "وثمود فما أبقى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC32"
+        },
+        {
+          "ayah": 52,
+          "page": 528,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَقَوۡمَ نُوحٖ مِّن قَبۡلُۖ إِنَّهُمۡ كَانُواْ هُمۡ أَظۡلَمَ وَأَطۡغَىٰ ﰳ",
+          "textUthmaniBody": "وَقَوۡمَ نُوحٖ مِّن قَبۡلُۖ إِنَّهُمۡ كَانُواْ هُمۡ أَظۡلَمَ وَأَطۡغَىٰ",
+          "textImlaei": "وقوم نوح من قبل إنهم كانوا هم أظلم وأطغى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC33"
+        },
+        {
+          "ayah": 53,
+          "page": 528,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "وَٱلۡمُؤۡتَفِكَةَ أَهۡوَىٰ ﰴ",
+          "textUthmaniBody": "وَٱلۡمُؤۡتَفِكَةَ أَهۡوَىٰ",
+          "textImlaei": "والمؤتفكة أهوى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC34"
+        },
+        {
+          "ayah": 54,
+          "page": 528,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "فَغَشَّىٰهَا مَا غَشَّىٰ ﰵ",
+          "textUthmaniBody": "فَغَشَّىٰهَا مَا غَشَّىٰ",
+          "textImlaei": "فغشاها ما غشى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC35"
+        },
+        {
+          "ayah": 55,
+          "page": 528,
+          "lineStart": 5,
+          "lineEnd": 6,
+          "textUthmaniRaw": "فَبِأَيِّ ءَالَآءِ رَبِّكَ تَتَمَارَىٰ ﰶ",
+          "textUthmaniBody": "فَبِأَيِّ ءَالَآءِ رَبِّكَ تَتَمَارَىٰ",
+          "textImlaei": "فبأي آلاء ربك تتمارى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC36"
+        },
+        {
+          "ayah": 56,
+          "page": 528,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "هَٰذَا نَذِيرٞ مِّنَ ٱلنُّذُرِ ٱلۡأُولَىٰٓ ﰷ",
+          "textUthmaniBody": "هَٰذَا نَذِيرٞ مِّنَ ٱلنُّذُرِ ٱلۡأُولَىٰٓ",
+          "textImlaei": "هذا نذير من النذر الأولى",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC37"
+        },
+        {
+          "ayah": 57,
+          "page": 528,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "أَزِفَتِ ٱلۡأٓزِفَةُ ﰸ",
+          "textUthmaniBody": "أَزِفَتِ ٱلۡأٓزِفَةُ",
+          "textImlaei": "أزفت الآزفة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC38"
+        },
+        {
+          "ayah": 58,
+          "page": 528,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "لَيۡسَ لَهَا مِن دُونِ ٱللَّهِ كَاشِفَةٌ ﰹ",
+          "textUthmaniBody": "لَيۡسَ لَهَا مِن دُونِ ٱللَّهِ كَاشِفَةٌ",
+          "textImlaei": "ليس لها من دون الله كاشفة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC39"
+        },
+        {
+          "ayah": 59,
+          "page": 528,
+          "lineStart": 7,
+          "lineEnd": 8,
+          "textUthmaniRaw": "أَفَمِنۡ هَٰذَا ٱلۡحَدِيثِ تَعۡجَبُونَ ﰺ",
+          "textUthmaniBody": "أَفَمِنۡ هَٰذَا ٱلۡحَدِيثِ تَعۡجَبُونَ",
+          "textImlaei": "أفمن هذا الحديث تعجبون",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC3A"
+        },
+        {
+          "ayah": 60,
+          "page": 528,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "وَتَضۡحَكُونَ وَلَا تَبۡكُونَ ﰻ",
+          "textUthmaniBody": "وَتَضۡحَكُونَ وَلَا تَبۡكُونَ",
+          "textImlaei": "وتضحكون ولا تبكون",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC3B"
+        },
+        {
+          "ayah": 61,
+          "page": 528,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "وَأَنتُمۡ سَٰمِدُونَ ﰼ",
+          "textUthmaniBody": "وَأَنتُمۡ سَٰمِدُونَ",
+          "textImlaei": "وأنتم سامدون",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC3C"
+        },
+        {
+          "ayah": 62,
+          "page": 528,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "فَٱسۡجُدُواْۤ لِلَّهِۤ وَٱعۡبُدُواْ۩ ﰽ",
+          "textUthmaniBody": "فَٱسۡجُدُواْۤ لِلَّهِۤ وَٱعۡبُدُواْ۩",
+          "textImlaei": "فاسجدوا لله واعبدوا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC3D"
+        }
+      ]
+    }
+  ]
+}

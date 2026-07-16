@@ -136,6 +136,9 @@ db/places/candidates/asia-1d-pk-persian-pregate.json
 #   node scripts/quran/build.mjs            (reads .quran-source/ by default)
 #   QURAN_SOURCE_DIR=/path node scripts/quran/build.mjs
 .quran-source/
+# …and by NAME too, so a stray copy dropped anywhere in the tree still cannot be committed.
+UthmanicHafs_v2-0.zip
+hafsData_v2-0.json
 
 # QURAN-AR — dev-only screenshot output (PNGs + throwaway headless-Chrome profile). Never committed.
 .quran-shots/

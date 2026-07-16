@@ -1,0 +1,98 @@
+{
+  "surah": 1,
+  "nameAr": "الفَاتِحة",
+  "nameEn": "Al-Fātiḥah",
+  "ayahCount": 7,
+  "firstPage": 1,
+  "lastPage": 1,
+  "pageCount": 1,
+  "juz": [
+    1
+  ],
+  "basmalaMode": "first-ayah",
+  "pages": [
+    {
+      "page": 1,
+      "juz": 1,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 1,
+          "lineStart": 2,
+          "lineEnd": 2,
+          "textUthmaniRaw": "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ ﰀ",
+          "textUthmaniBody": "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ",
+          "textImlaei": "بسم الله الرحمن الرحيم",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 1,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ ﰁ",
+          "textUthmaniBody": "ٱلۡحَمۡدُ لِلَّهِ رَبِّ ٱلۡعَٰلَمِينَ",
+          "textImlaei": "الحمد لله رب العالمين",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 1,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ ﰂ",
+          "textUthmaniBody": "ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ",
+          "textImlaei": "الرحمن الرحيم",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 1,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "مَٰلِكِ يَوۡمِ ٱلدِّينِ ﰃ",
+          "textUthmaniBody": "مَٰلِكِ يَوۡمِ ٱلدِّينِ",
+          "textImlaei": "مالك يوم الدين",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 1,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "إِيَّاكَ نَعۡبُدُ وَإِيَّاكَ نَسۡتَعِينُ ﰄ",
+          "textUthmaniBody": "إِيَّاكَ نَعۡبُدُ وَإِيَّاكَ نَسۡتَعِينُ",
+          "textImlaei": "إياك نعبد وإياك نستعين",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 1,
+          "lineStart": 5,
+          "lineEnd": 6,
+          "textUthmaniRaw": "ٱهۡدِنَا ٱلصِّرَٰطَ ٱلۡمُسۡتَقِيمَ ﰅ",
+          "textUthmaniBody": "ٱهۡدِنَا ٱلصِّرَٰطَ ٱلۡمُسۡتَقِيمَ",
+          "textImlaei": "اهدنا الصراط المستقيم",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        },
+        {
+          "ayah": 7,
+          "page": 1,
+          "lineStart": 6,
+          "lineEnd": 8,
+          "textUthmaniRaw": "صِرَٰطَ ٱلَّذِينَ أَنۡعَمۡتَ عَلَيۡهِمۡ غَيۡرِ ٱلۡمَغۡضُوبِ عَلَيۡهِمۡ وَلَا ٱلضَّآلِّينَ ﰆ",
+          "textUthmaniBody": "صِرَٰطَ ٱلَّذِينَ أَنۡعَمۡتَ عَلَيۡهِمۡ غَيۡرِ ٱلۡمَغۡضُوبِ عَلَيۡهِمۡ وَلَا ٱلضَّآلِّينَ",
+          "textImlaei": "صراط الذين أنعمت عليهم غير المغضوب عليهم ولا الضالين",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC06"
+        }
+      ]
+    }
+  ]
+}

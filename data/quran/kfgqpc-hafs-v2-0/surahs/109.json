@@ -1,0 +1,87 @@
+{
+  "surah": 109,
+  "nameAr": "الكافِرون",
+  "nameEn": "Al-Kāfirūn",
+  "ayahCount": 6,
+  "firstPage": 603,
+  "lastPage": 603,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 603,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 603,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "قُلۡ يَٰٓأَيُّهَا ٱلۡكَٰفِرُونَ ﰀ",
+          "textUthmaniBody": "قُلۡ يَٰٓأَيُّهَا ٱلۡكَٰفِرُونَ",
+          "textImlaei": "قل ياأيها الكافرون",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 603,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "لَآ أَعۡبُدُ مَا تَعۡبُدُونَ ﰁ",
+          "textUthmaniBody": "لَآ أَعۡبُدُ مَا تَعۡبُدُونَ",
+          "textImlaei": "لا أعبد ما تعبدون",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 603,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَلَآ أَنتُمۡ عَٰبِدُونَ مَآ أَعۡبُدُ ﰂ",
+          "textUthmaniBody": "وَلَآ أَنتُمۡ عَٰبِدُونَ مَآ أَعۡبُدُ",
+          "textImlaei": "ولا أنتم عابدون ما أعبد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 603,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَلَآ أَنَا۠ عَابِدٞ مَّا عَبَدتُّمۡ ﰃ",
+          "textUthmaniBody": "وَلَآ أَنَا۠ عَابِدٞ مَّا عَبَدتُّمۡ",
+          "textImlaei": "ولا أنا عابد ما عبدتم",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 603,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "وَلَآ أَنتُمۡ عَٰبِدُونَ مَآ أَعۡبُدُ ﰄ",
+          "textUthmaniBody": "وَلَآ أَنتُمۡ عَٰبِدُونَ مَآ أَعۡبُدُ",
+          "textImlaei": "ولا أنتم عابدون ما أعبد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 603,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "لَكُمۡ دِينُكُمۡ وَلِيَ دِينِ ﰅ",
+          "textUthmaniBody": "لَكُمۡ دِينُكُمۡ وَلِيَ دِينِ",
+          "textImlaei": "لكم دينكم ولي دين",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        }
+      ]
+    }
+  ]
+}

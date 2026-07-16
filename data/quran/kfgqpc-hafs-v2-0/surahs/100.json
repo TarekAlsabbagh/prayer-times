@@ -1,0 +1,148 @@
+{
+  "surah": 100,
+  "nameAr": "العَاديَات",
+  "nameEn": "Al-‘Ādiyāt",
+  "ayahCount": 11,
+  "firstPage": 599,
+  "lastPage": 600,
+  "pageCount": 2,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 599,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 599,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "وَٱلۡعَٰدِيَٰتِ ضَبۡحٗا ﰀ",
+          "textUthmaniBody": "وَٱلۡعَٰدِيَٰتِ ضَبۡحٗا",
+          "textImlaei": "والعاديات ضبحا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 599,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "فَٱلۡمُورِيَٰتِ قَدۡحٗا ﰁ",
+          "textUthmaniBody": "فَٱلۡمُورِيَٰتِ قَدۡحٗا",
+          "textImlaei": "فالموريات قدحا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 599,
+          "lineStart": 14,
+          "lineEnd": 15,
+          "textUthmaniRaw": "فَٱلۡمُغِيرَٰتِ صُبۡحٗا ﰂ",
+          "textUthmaniBody": "فَٱلۡمُغِيرَٰتِ صُبۡحٗا",
+          "textImlaei": "فالمغيرات صبحا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 599,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "فَأَثَرۡنَ بِهِۦ نَقۡعٗا ﰃ",
+          "textUthmaniBody": "فَأَثَرۡنَ بِهِۦ نَقۡعٗا",
+          "textImlaei": "فأثرن به نقعا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 599,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "فَوَسَطۡنَ بِهِۦ جَمۡعًا ﰄ",
+          "textUthmaniBody": "فَوَسَطۡنَ بِهِۦ جَمۡعًا",
+          "textImlaei": "فوسطن به جمعا",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        }
+      ]
+    },
+    {
+      "page": 600,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 6,
+          "page": 600,
+          "lineStart": 1,
+          "lineEnd": 1,
+          "textUthmaniRaw": "إِنَّ ٱلۡإِنسَٰنَ لِرَبِّهِۦ لَكَنُودٞ ﰅ",
+          "textUthmaniBody": "إِنَّ ٱلۡإِنسَٰنَ لِرَبِّهِۦ لَكَنُودٞ",
+          "textImlaei": "إن الإنسان لربه لكنود",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        },
+        {
+          "ayah": 7,
+          "page": 600,
+          "lineStart": 1,
+          "lineEnd": 1,
+          "textUthmaniRaw": "وَإِنَّهُۥ عَلَىٰ ذَٰلِكَ لَشَهِيدٞ ﰆ",
+          "textUthmaniBody": "وَإِنَّهُۥ عَلَىٰ ذَٰلِكَ لَشَهِيدٞ",
+          "textImlaei": "وإنه على ذلك لشهيد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC06"
+        },
+        {
+          "ayah": 8,
+          "page": 600,
+          "lineStart": 1,
+          "lineEnd": 2,
+          "textUthmaniRaw": "وَإِنَّهُۥ لِحُبِّ ٱلۡخَيۡرِ لَشَدِيدٌ ﰇ",
+          "textUthmaniBody": "وَإِنَّهُۥ لِحُبِّ ٱلۡخَيۡرِ لَشَدِيدٌ",
+          "textImlaei": "وإنه لحب الخير لشديد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC07"
+        },
+        {
+          "ayah": 9,
+          "page": 600,
+          "lineStart": 2,
+          "lineEnd": 2,
+          "textUthmaniRaw": "۞ أَفَلَا يَعۡلَمُ إِذَا بُعۡثِرَ مَا فِي ٱلۡقُبُورِ ﰈ",
+          "textUthmaniBody": "۞ أَفَلَا يَعۡلَمُ إِذَا بُعۡثِرَ مَا فِي ٱلۡقُبُورِ",
+          "textImlaei": "أفلا يعلم إذا بعثر ما في القبور",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC08"
+        },
+        {
+          "ayah": 10,
+          "page": 600,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "وَحُصِّلَ مَا فِي ٱلصُّدُورِ ﰉ",
+          "textUthmaniBody": "وَحُصِّلَ مَا فِي ٱلصُّدُورِ",
+          "textImlaei": "وحصل ما في الصدور",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC09"
+        },
+        {
+          "ayah": 11,
+          "page": 600,
+          "lineStart": 3,
+          "lineEnd": 3,
+          "textUthmaniRaw": "إِنَّ رَبَّهُم بِهِمۡ يَوۡمَئِذٖ لَّخَبِيرُۢ ﰊ",
+          "textUthmaniBody": "إِنَّ رَبَّهُم بِهِمۡ يَوۡمَئِذٖ لَّخَبِيرُۢ",
+          "textImlaei": "إن ربهم بهم يومئذ لخبير",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0A"
+        }
+      ]
+    }
+  ]
+}

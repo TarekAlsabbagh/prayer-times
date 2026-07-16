@@ -1,0 +1,186 @@
+{
+  "surah": 91,
+  "nameAr": "الشَّمس",
+  "nameEn": "Ash-Shams",
+  "ayahCount": 15,
+  "firstPage": 595,
+  "lastPage": 595,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 595,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 595,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَٱلشَّمۡسِ وَضُحَىٰهَا ﰀ",
+          "textUthmaniBody": "وَٱلشَّمۡسِ وَضُحَىٰهَا",
+          "textImlaei": "والشمس وضحاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 595,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَٱلۡقَمَرِ إِذَا تَلَىٰهَا ﰁ",
+          "textUthmaniBody": "وَٱلۡقَمَرِ إِذَا تَلَىٰهَا",
+          "textImlaei": "والقمر إذا تلاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 595,
+          "lineStart": 4,
+          "lineEnd": 4,
+          "textUthmaniRaw": "وَٱلنَّهَارِ إِذَا جَلَّىٰهَا ﰂ",
+          "textUthmaniBody": "وَٱلنَّهَارِ إِذَا جَلَّىٰهَا",
+          "textImlaei": "والنهار إذا جلاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 595,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "وَٱلَّيۡلِ إِذَا يَغۡشَىٰهَا ﰃ",
+          "textUthmaniBody": "وَٱلَّيۡلِ إِذَا يَغۡشَىٰهَا",
+          "textImlaei": "والليل إذا يغشاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 595,
+          "lineStart": 5,
+          "lineEnd": 5,
+          "textUthmaniRaw": "وَٱلسَّمَآءِ وَمَا بَنَىٰهَا ﰄ",
+          "textUthmaniBody": "وَٱلسَّمَآءِ وَمَا بَنَىٰهَا",
+          "textImlaei": "والسماء وما بناها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 595,
+          "lineStart": 5,
+          "lineEnd": 6,
+          "textUthmaniRaw": "وَٱلۡأَرۡضِ وَمَا طَحَىٰهَا ﰅ",
+          "textUthmaniBody": "وَٱلۡأَرۡضِ وَمَا طَحَىٰهَا",
+          "textImlaei": "والأرض وما طحاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        },
+        {
+          "ayah": 7,
+          "page": 595,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "وَنَفۡسٖ وَمَا سَوَّىٰهَا ﰆ",
+          "textUthmaniBody": "وَنَفۡسٖ وَمَا سَوَّىٰهَا",
+          "textImlaei": "ونفس وما سواها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC06"
+        },
+        {
+          "ayah": 8,
+          "page": 595,
+          "lineStart": 6,
+          "lineEnd": 7,
+          "textUthmaniRaw": "فَأَلۡهَمَهَا فُجُورَهَا وَتَقۡوَىٰهَا ﰇ",
+          "textUthmaniBody": "فَأَلۡهَمَهَا فُجُورَهَا وَتَقۡوَىٰهَا",
+          "textImlaei": "فألهمها فجورها وتقواها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC07"
+        },
+        {
+          "ayah": 9,
+          "page": 595,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "قَدۡ أَفۡلَحَ مَن زَكَّىٰهَا ﰈ",
+          "textUthmaniBody": "قَدۡ أَفۡلَحَ مَن زَكَّىٰهَا",
+          "textImlaei": "قد أفلح من زكاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC08"
+        },
+        {
+          "ayah": 10,
+          "page": 595,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "وَقَدۡ خَابَ مَن دَسَّىٰهَا ﰉ",
+          "textUthmaniBody": "وَقَدۡ خَابَ مَن دَسَّىٰهَا",
+          "textImlaei": "وقد خاب من دساها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC09"
+        },
+        {
+          "ayah": 11,
+          "page": 595,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "كَذَّبَتۡ ثَمُودُ بِطَغۡوَىٰهَآ ﰊ",
+          "textUthmaniBody": "كَذَّبَتۡ ثَمُودُ بِطَغۡوَىٰهَآ",
+          "textImlaei": "كذبت ثمود بطغواها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0A"
+        },
+        {
+          "ayah": 12,
+          "page": 595,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "إِذِ ٱنۢبَعَثَ أَشۡقَىٰهَا ﰋ",
+          "textUthmaniBody": "إِذِ ٱنۢبَعَثَ أَشۡقَىٰهَا",
+          "textImlaei": "إذ انبعث أشقاها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0B"
+        },
+        {
+          "ayah": 13,
+          "page": 595,
+          "lineStart": 8,
+          "lineEnd": 9,
+          "textUthmaniRaw": "فَقَالَ لَهُمۡ رَسُولُ ٱللَّهِ نَاقَةَ ٱللَّهِ وَسُقۡيَٰهَا ﰌ",
+          "textUthmaniBody": "فَقَالَ لَهُمۡ رَسُولُ ٱللَّهِ نَاقَةَ ٱللَّهِ وَسُقۡيَٰهَا",
+          "textImlaei": "فقال لهم رسول الله ناقة الله وسقياها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0C"
+        },
+        {
+          "ayah": 14,
+          "page": 595,
+          "lineStart": 9,
+          "lineEnd": 10,
+          "textUthmaniRaw": "فَكَذَّبُوهُ فَعَقَرُوهَا فَدَمۡدَمَ عَلَيۡهِمۡ رَبُّهُم بِذَنۢبِهِمۡ فَسَوَّىٰهَا ﰍ",
+          "textUthmaniBody": "فَكَذَّبُوهُ فَعَقَرُوهَا فَدَمۡدَمَ عَلَيۡهِمۡ رَبُّهُم بِذَنۢبِهِمۡ فَسَوَّىٰهَا",
+          "textImlaei": "فكذبوه فعقروها فدمدم عليهم ربهم بذنبهم فسواها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0D"
+        },
+        {
+          "ayah": 15,
+          "page": 595,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "وَلَا يَخَافُ عُقۡبَٰهَا ﰎ",
+          "textUthmaniBody": "وَلَا يَخَافُ عُقۡبَٰهَا",
+          "textImlaei": "ولا يخاف عقباها",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0E"
+        }
+      ]
+    }
+  ]
+}

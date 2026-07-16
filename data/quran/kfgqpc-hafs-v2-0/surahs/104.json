@@ -1,0 +1,120 @@
+{
+  "surah": 104,
+  "nameAr": "الهُمَزة",
+  "nameEn": "Al-Humazah",
+  "ayahCount": 9,
+  "firstPage": 601,
+  "lastPage": 601,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 601,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 601,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "وَيۡلٞ لِّكُلِّ هُمَزَةٖ لُّمَزَةٍ ﰀ",
+          "textUthmaniBody": "وَيۡلٞ لِّكُلِّ هُمَزَةٖ لُّمَزَةٍ",
+          "textImlaei": "ويل لكل همزة لمزة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 601,
+          "lineStart": 7,
+          "lineEnd": 7,
+          "textUthmaniRaw": "ٱلَّذِي جَمَعَ مَالٗا وَعَدَّدَهُۥ ﰁ",
+          "textUthmaniBody": "ٱلَّذِي جَمَعَ مَالٗا وَعَدَّدَهُۥ",
+          "textImlaei": "الذي جمع مالا وعدده",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 601,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "يَحۡسَبُ أَنَّ مَالَهُۥٓ أَخۡلَدَهُۥ ﰂ",
+          "textUthmaniBody": "يَحۡسَبُ أَنَّ مَالَهُۥٓ أَخۡلَدَهُۥ",
+          "textImlaei": "يحسب أن ماله أخلده",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 601,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "كَلَّاۖ لَيُنۢبَذَنَّ فِي ٱلۡحُطَمَةِ ﰃ",
+          "textUthmaniBody": "كَلَّاۖ لَيُنۢبَذَنَّ فِي ٱلۡحُطَمَةِ",
+          "textImlaei": "كلا لينبذن في الحطمة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 601,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡحُطَمَةُ ﰄ",
+          "textUthmaniBody": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡحُطَمَةُ",
+          "textImlaei": "وما أدراك ما الحطمة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 601,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "نَارُ ٱللَّهِ ٱلۡمُوقَدَةُ ﰅ",
+          "textUthmaniBody": "نَارُ ٱللَّهِ ٱلۡمُوقَدَةُ",
+          "textImlaei": "نار الله الموقدة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        },
+        {
+          "ayah": 7,
+          "page": 601,
+          "lineStart": 9,
+          "lineEnd": 10,
+          "textUthmaniRaw": "ٱلَّتِي تَطَّلِعُ عَلَى ٱلۡأَفۡـِٔدَةِ ﰆ",
+          "textUthmaniBody": "ٱلَّتِي تَطَّلِعُ عَلَى ٱلۡأَفۡـِٔدَةِ",
+          "textImlaei": "التي تطلع على الأفئدة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC06"
+        },
+        {
+          "ayah": 8,
+          "page": 601,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "إِنَّهَا عَلَيۡهِم مُّؤۡصَدَةٞ ﰇ",
+          "textUthmaniBody": "إِنَّهَا عَلَيۡهِم مُّؤۡصَدَةٞ",
+          "textImlaei": "إنها عليهم مؤصدة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC07"
+        },
+        {
+          "ayah": 9,
+          "page": 601,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "فِي عَمَدٖ مُّمَدَّدَةِۭ ﰈ",
+          "textUthmaniBody": "فِي عَمَدٖ مُّمَدَّدَةِۭ",
+          "textImlaei": "في عمد ممددة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC08"
+        }
+      ]
+    }
+  ]
+}

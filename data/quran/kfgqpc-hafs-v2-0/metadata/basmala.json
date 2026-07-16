@@ -2,6 +2,7 @@
   "derivedFrom": "1:1",
   "textUthmaniRaw": "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ ﰀ",
   "textUthmaniBody": "بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ",
+  "rawEndSeparatorCodePoint": "U+00A0",
   "rawEndMarkerCodePoint": "U+FC00",
   "codePointsBody": [
     "U+0628",

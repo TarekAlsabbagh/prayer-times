@@ -1,0 +1,87 @@
+{
+  "surah": 114,
+  "nameAr": "النَّاس",
+  "nameEn": "An-Nās",
+  "ayahCount": 6,
+  "firstPage": 604,
+  "lastPage": 604,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 604,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 604,
+          "lineStart": 12,
+          "lineEnd": 12,
+          "textUthmaniRaw": "قُلۡ أَعُوذُ بِرَبِّ ٱلنَّاسِ ﰀ",
+          "textUthmaniBody": "قُلۡ أَعُوذُ بِرَبِّ ٱلنَّاسِ",
+          "textImlaei": "قل أعوذ برب الناس",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 604,
+          "lineStart": 12,
+          "lineEnd": 12,
+          "textUthmaniRaw": "مَلِكِ ٱلنَّاسِ ﰁ",
+          "textUthmaniBody": "مَلِكِ ٱلنَّاسِ",
+          "textImlaei": "ملك الناس",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 604,
+          "lineStart": 12,
+          "lineEnd": 13,
+          "textUthmaniRaw": "إِلَٰهِ ٱلنَّاسِ ﰂ",
+          "textUthmaniBody": "إِلَٰهِ ٱلنَّاسِ",
+          "textImlaei": "إله الناس",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 604,
+          "lineStart": 13,
+          "lineEnd": 13,
+          "textUthmaniRaw": "مِن شَرِّ ٱلۡوَسۡوَاسِ ٱلۡخَنَّاسِ ﰃ",
+          "textUthmaniBody": "مِن شَرِّ ٱلۡوَسۡوَاسِ ٱلۡخَنَّاسِ",
+          "textImlaei": "من شر الوسواس الخناس",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 604,
+          "lineStart": 13,
+          "lineEnd": 14,
+          "textUthmaniRaw": "ٱلَّذِي يُوَسۡوِسُ فِي صُدُورِ ٱلنَّاسِ ﰄ",
+          "textUthmaniBody": "ٱلَّذِي يُوَسۡوِسُ فِي صُدُورِ ٱلنَّاسِ",
+          "textImlaei": "الذي يوسوس في صدور الناس",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 604,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "مِنَ ٱلۡجِنَّةِ وَٱلنَّاسِ ﰅ",
+          "textUthmaniBody": "مِنَ ٱلۡجِنَّةِ وَٱلنَّاسِ",
+          "textImlaei": "من الجنة والناس",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        }
+      ]
+    }
+  ]
+}

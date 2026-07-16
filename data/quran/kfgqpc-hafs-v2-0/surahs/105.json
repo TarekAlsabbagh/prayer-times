@@ -1,0 +1,76 @@
+{
+  "surah": 105,
+  "nameAr": "الفِيل",
+  "nameEn": "Al-Fīl",
+  "ayahCount": 5,
+  "firstPage": 601,
+  "lastPage": 601,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 601,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 601,
+          "lineStart": 13,
+          "lineEnd": 13,
+          "textUthmaniRaw": "أَلَمۡ تَرَ كَيۡفَ فَعَلَ رَبُّكَ بِأَصۡحَٰبِ ٱلۡفِيلِ ﰀ",
+          "textUthmaniBody": "أَلَمۡ تَرَ كَيۡفَ فَعَلَ رَبُّكَ بِأَصۡحَٰبِ ٱلۡفِيلِ",
+          "textImlaei": "ألم تر كيف فعل ربك بأصحاب الفيل",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 601,
+          "lineStart": 13,
+          "lineEnd": 14,
+          "textUthmaniRaw": "أَلَمۡ يَجۡعَلۡ كَيۡدَهُمۡ فِي تَضۡلِيلٖ ﰁ",
+          "textUthmaniBody": "أَلَمۡ يَجۡعَلۡ كَيۡدَهُمۡ فِي تَضۡلِيلٖ",
+          "textImlaei": "ألم يجعل كيدهم في تضليل",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 601,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "وَأَرۡسَلَ عَلَيۡهِمۡ طَيۡرًا أَبَابِيلَ ﰂ",
+          "textUthmaniBody": "وَأَرۡسَلَ عَلَيۡهِمۡ طَيۡرًا أَبَابِيلَ",
+          "textImlaei": "وأرسل عليهم طيرا أبابيل",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 601,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "تَرۡمِيهِم بِحِجَارَةٖ مِّن سِجِّيلٖ ﰃ",
+          "textUthmaniBody": "تَرۡمِيهِم بِحِجَارَةٖ مِّن سِجِّيلٖ",
+          "textImlaei": "ترميهم بحجارة من سجيل",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 601,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ ﰄ",
+          "textUthmaniBody": "فَجَعَلَهُمۡ كَعَصۡفٖ مَّأۡكُولِۭ",
+          "textImlaei": "فجعلهم كعصف مأكول",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        }
+      ]
+    }
+  ]
+}

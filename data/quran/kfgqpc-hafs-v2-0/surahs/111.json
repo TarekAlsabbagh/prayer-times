@@ -1,0 +1,76 @@
+{
+  "surah": 111,
+  "nameAr": "المَسَد",
+  "nameEn": "Al-Masad",
+  "ayahCount": 5,
+  "firstPage": 603,
+  "lastPage": 603,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 603,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 603,
+          "lineStart": 13,
+          "lineEnd": 13,
+          "textUthmaniRaw": "تَبَّتۡ يَدَآ أَبِي لَهَبٖ وَتَبَّ ﰀ",
+          "textUthmaniBody": "تَبَّتۡ يَدَآ أَبِي لَهَبٖ وَتَبَّ",
+          "textImlaei": "تبت يدا أبي لهب وتب",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 603,
+          "lineStart": 13,
+          "lineEnd": 13,
+          "textUthmaniRaw": "مَآ أَغۡنَىٰ عَنۡهُ مَالُهُۥ وَمَا كَسَبَ ﰁ",
+          "textUthmaniBody": "مَآ أَغۡنَىٰ عَنۡهُ مَالُهُۥ وَمَا كَسَبَ",
+          "textImlaei": "ما أغنى عنه ماله وما كسب",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 603,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "سَيَصۡلَىٰ نَارٗا ذَاتَ لَهَبٖ ﰂ",
+          "textUthmaniBody": "سَيَصۡلَىٰ نَارٗا ذَاتَ لَهَبٖ",
+          "textImlaei": "سيصلى نارا ذات لهب",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 603,
+          "lineStart": 14,
+          "lineEnd": 14,
+          "textUthmaniRaw": "وَٱمۡرَأَتُهُۥ حَمَّالَةَ ٱلۡحَطَبِ ﰃ",
+          "textUthmaniBody": "وَٱمۡرَأَتُهُۥ حَمَّالَةَ ٱلۡحَطَبِ",
+          "textImlaei": "وامرأته حمالة الحطب",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 603,
+          "lineStart": 15,
+          "lineEnd": 15,
+          "textUthmaniRaw": "فِي جِيدِهَا حَبۡلٞ مِّن مَّسَدِۭ ﰄ",
+          "textUthmaniBody": "فِي جِيدِهَا حَبۡلٞ مِّن مَّسَدِۭ",
+          "textImlaei": "في جيدها حبل من مسد",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        }
+      ]
+    }
+  ]
+}

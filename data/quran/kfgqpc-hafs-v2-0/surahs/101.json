@@ -1,0 +1,142 @@
+{
+  "surah": 101,
+  "nameAr": "القَارعَة",
+  "nameEn": "Al-Qāri‘ah",
+  "ayahCount": 11,
+  "firstPage": 600,
+  "lastPage": 600,
+  "pageCount": 1,
+  "juz": [
+    30
+  ],
+  "basmalaMode": "separate",
+  "pages": [
+    {
+      "page": 600,
+      "juz": 30,
+      "ayahs": [
+        {
+          "ayah": 1,
+          "page": 600,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "ٱلۡقَارِعَةُ ﰀ",
+          "textUthmaniBody": "ٱلۡقَارِعَةُ",
+          "textImlaei": "القارعة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC00"
+        },
+        {
+          "ayah": 2,
+          "page": 600,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "مَا ٱلۡقَارِعَةُ ﰁ",
+          "textUthmaniBody": "مَا ٱلۡقَارِعَةُ",
+          "textImlaei": "ما القارعة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC01"
+        },
+        {
+          "ayah": 3,
+          "page": 600,
+          "lineStart": 6,
+          "lineEnd": 6,
+          "textUthmaniRaw": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡقَارِعَةُ ﰂ",
+          "textUthmaniBody": "وَمَآ أَدۡرَىٰكَ مَا ٱلۡقَارِعَةُ",
+          "textImlaei": "وما أدراك ما القارعة",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC02"
+        },
+        {
+          "ayah": 4,
+          "page": 600,
+          "lineStart": 6,
+          "lineEnd": 7,
+          "textUthmaniRaw": "يَوۡمَ يَكُونُ ٱلنَّاسُ كَٱلۡفَرَاشِ ٱلۡمَبۡثُوثِ ﰃ",
+          "textUthmaniBody": "يَوۡمَ يَكُونُ ٱلنَّاسُ كَٱلۡفَرَاشِ ٱلۡمَبۡثُوثِ",
+          "textImlaei": "يوم يكون الناس كالفراش المبثوث",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC03"
+        },
+        {
+          "ayah": 5,
+          "page": 600,
+          "lineStart": 7,
+          "lineEnd": 8,
+          "textUthmaniRaw": "وَتَكُونُ ٱلۡجِبَالُ كَٱلۡعِهۡنِ ٱلۡمَنفُوشِ ﰄ",
+          "textUthmaniBody": "وَتَكُونُ ٱلۡجِبَالُ كَٱلۡعِهۡنِ ٱلۡمَنفُوشِ",
+          "textImlaei": "وتكون الجبال كالعهن المنفوش",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC04"
+        },
+        {
+          "ayah": 6,
+          "page": 600,
+          "lineStart": 8,
+          "lineEnd": 8,
+          "textUthmaniRaw": "فَأَمَّا مَن ثَقُلَتۡ مَوَٰزِينُهُۥ ﰅ",
+          "textUthmaniBody": "فَأَمَّا مَن ثَقُلَتۡ مَوَٰزِينُهُۥ",
+          "textImlaei": "فأما من ثقلت موازينه",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC05"
+        },
+        {
+          "ayah": 7,
+          "page": 600,
+          "lineStart": 8,
+          "lineEnd": 9,
+          "textUthmaniRaw": "فَهُوَ فِي عِيشَةٖ رَّاضِيَةٖ ﰆ",
+          "textUthmaniBody": "فَهُوَ فِي عِيشَةٖ رَّاضِيَةٖ",
+          "textImlaei": "فهو في عيشة راضية",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC06"
+        },
+        {
+          "ayah": 8,
+          "page": 600,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "وَأَمَّا مَنۡ خَفَّتۡ مَوَٰزِينُهُۥ ﰇ",
+          "textUthmaniBody": "وَأَمَّا مَنۡ خَفَّتۡ مَوَٰزِينُهُۥ",
+          "textImlaei": "وأما من خفت موازينه",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC07"
+        },
+        {
+          "ayah": 9,
+          "page": 600,
+          "lineStart": 9,
+          "lineEnd": 9,
+          "textUthmaniRaw": "فَأُمُّهُۥ هَاوِيَةٞ ﰈ",
+          "textUthmaniBody": "فَأُمُّهُۥ هَاوِيَةٞ",
+          "textImlaei": "فأمه هاوية",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC08"
+        },
+        {
+          "ayah": 10,
+          "page": 600,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "وَمَآ أَدۡرَىٰكَ مَا هِيَهۡ ﰉ",
+          "textUthmaniBody": "وَمَآ أَدۡرَىٰكَ مَا هِيَهۡ",
+          "textImlaei": "وما أدراك ما هيه",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC09"
+        },
+        {
+          "ayah": 11,
+          "page": 600,
+          "lineStart": 10,
+          "lineEnd": 10,
+          "textUthmaniRaw": "نَارٌ حَامِيَةُۢ ﰊ",
+          "textUthmaniBody": "نَارٌ حَامِيَةُۢ",
+          "textImlaei": "نار حامية",
+          "rawEndSeparatorCodePoint": "U+00A0",
+          "rawEndMarkerCodePoint": "U+FC0A"
+        }
+      ]
+    }
+  ]
+}

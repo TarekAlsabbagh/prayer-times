@@ -4,7 +4,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
 const srv = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 const js = fs.readFileSync(path.join(ROOT, 'js', 'quran.js'), 'utf8');
-const builder = srv.slice(srv.indexOf('function _buildQuranSurah21Body()'), srv.indexOf('// ===== HTTP Server =====', srv.indexOf('function _buildQuranSurah21Body()')));
+const builder = srv.slice(srv.indexOf('function _buildQuranSurahBody(n)'), srv.indexOf('// ===== HTTP Server =====', srv.indexOf('function _buildQuranSurahBody(n)')));
 // (1) SSR emits the ayah text + basmala directly into HTML (not injected by JS)
 ok(/a\.textUthmaniBody/.test(builder), 'SSR HTML contains the ayah body text');
 ok(/basmala\.textUthmaniBody/.test(builder), 'SSR HTML contains the derived basmala');

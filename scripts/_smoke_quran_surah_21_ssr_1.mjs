@@ -4,11 +4,11 @@ import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const b0 = src.indexOf('function _buildQuranSurah21Body()');
+const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
-ok(b0 > 0, '_buildQuranSurah21Body() present (content-only body builder)');
-ok(/\(process\.env\.QURAN_PROTOTYPE_ENABLED === '1' && urlPath === '\/quran\/surah\/21'\)/.test(src), 'route gated by flag + exact /quran/surah/21 (index.html shell)');
-ok(/staticPages\['\/quran\/surah\/21'\] = \{[\s\S]*noindex: true/.test(src), 'staticPages entry sets noindex for the route');
+ok(b0 > 0, '_buildQuranSurahBody(n) present (content-only body builder, parametrised over 1..114)');
+ok(/\(process\.env\.QURAN_PROTOTYPE_ENABLED === '1' && !!\(_quranSurahRoute\(urlPath\) \|\| \{\}\)\.canonical\)/.test(src), 'route gated by flag + exact /quran/surah/21 (index.html shell)');
+ok(/staticPages\[corePath\] = \{[\s\S]{0,900}?noindex: true/.test(src), 'the dynamic staticPages entry sets noindex for every surah route');
 ok(/if \(sp\.noindex\) robotsOverride = 'noindex,follow/.test(src), 'noindex flag drives robotsOverride → renderSeoHeadHtml emits noindex');
 ok((b.match(/<h1[\s>]/g) || []).length === 1, 'exactly ONE <h1> (#quran-surah-h1)');
 ok(/id="ayah-\$\{a\.ayah\}"/.test(b), 'each ayah gets id="ayah-N"');

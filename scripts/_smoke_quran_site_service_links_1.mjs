@@ -18,7 +18,7 @@ ok(hrefs.every(h => h === '/' || /^\/[a-z0-9/-]+$/.test(h)), 'all hrefs are clea
 ok(!hrefs.some(h => /^\/(en|fr|tr|ur|de|id|es|bn|ms)\//.test(h)), 'no language-prefixed routes (Arabic page = root routes)');
 ok(!hrefs.some(h => /^https?:/.test(h)), 'no external absolute links');
 // the builder actually renders the links section
-const b0 = src.indexOf('function _buildQuranSurah21Body()');
+const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
 ok(/_quranServiceLinksHtml\(/.test(b), 'builder renders the service-links section');
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`); if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }

@@ -23,7 +23,7 @@ let base = process.env.QURAN_SMOKE_URL || 'http://localhost:3100'; let spawnedSe
 async function ensureServer() {
   if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/id="mc-occasions"/.test(H)) return true; }
   const PORT = 3197; base = 'http://localhost:' + PORT;
-  spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], { cwd: ROOT, stdio: 'ignore', env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT) }) });
+  spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], { cwd: ROOT, stdio: 'ignore', env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT), NODE_PATH: process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules' }) });
   for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/id="mc-occasions"/.test(H)) return true; } }
   return false;
 }
@@ -38,7 +38,7 @@ async function main() {
   // ---- (A) SSR / No-JS source-level checks (raw HTML, no browser) ----
   const rawHtml = await fetch(base.replace(/\/$/, '') || 'http://localhost:3100').catch(() => null) && await fetch((base) + '/quran/surah/21').then(r => r.text()).catch(() => '');
   const srv = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
-  const qb = srv.slice(srv.indexOf('function _buildQuranSurah21Body()'), srv.indexOf('// ===== HTTP Server =====', srv.indexOf('function _buildQuranSurah21Body()')));
+  const qb = srv.slice(srv.indexOf('function _buildQuranSurahBody(n)'), srv.indexOf('// ===== HTTP Server =====', srv.indexOf('function _buildQuranSurahBody(n)')));
   ok(/_buildMoonOccasionsCountdownHtml\('ar'\)/.test(qb), 'the surah builder REUSES the site component _buildMoonOccasionsCountdownHtml (single source, no manual markup copy)');
   ok(!/\d+\s*يومًا/.test(qb) && !/\d+\s*(days|فبراير|مارس|مايو|يونيو)/.test(qb), 'NO hardcoded day counts / dates in the surah builder (values come from the shared calc)');
   if (rawHtml) {

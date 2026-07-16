@@ -132,10 +132,28 @@ ok(!!naml30 && naml30.textUthmaniRaw === rawByKey.get('27:30').aya_text, 'An-Nam
 // ---- surah-checksums.json ----
 const sums = JSON.parse(fs.readFileSync(path.join(META, 'surah-checksums.json'), 'utf8'));
 ok(sums.fileCount === TOTAL_SURAS && sums.files.length === TOTAL_SURAS, 'surah-checksums.json covers all 114 files');
-const badSum = sums.files.filter(f => crypto.createHash('sha256').update(fs.readFileSync(path.join(SURAHS, f.file))).digest('hex').toUpperCase() !== f.sha256);
-ok(badSum.length === 0, 'every recorded SHA-256 matches the file on disk' + (badSum.length ? ' — ' + badSum.map(b => b.file).slice(0, 3) : ''));
-const badBytes = sums.files.filter(f => fs.statSync(path.join(SURAHS, f.file)).size !== f.bytes);
-ok(badBytes.length === 0, 'every recorded byte size matches the file on disk');
+// The recorded hash/size are of the bytes the BUILDER wrote, which end lines with LF. Git is configured with
+// core.autocrlf=true here, so a checkout materialises these files with CRLF — different bytes, same content.
+// That made this check pass only in a tree where the build had just run, and fail on a fresh clone: a false
+// alarm that says "the Quran data is corrupt" when nothing is wrong. So compare the LF-NORMALISED bytes.
+// This gives up exactly one thing — noticing a pure line-ending change, which is the platform's business and
+// not corruption — and keeps everything that matters: any real byte change in the text still fails here, and
+// the raw-source comparison above already proves all 6236 ayat character by character.
+// Root-cause alternative (NOT taken here — it is outside this ticket and touches how git materialises the
+// data files): pin `data/quran/** text eol=lf` in .gitattributes, then the on-disk bytes match the record
+// exactly on every platform. Raised in the report as a recommendation for a separate ticket.
+const lfBytes = (p) => Buffer.from(fs.readFileSync(p, 'utf8').replace(/\r\n/g, '\n'), 'utf8');
+const badSum = sums.files.filter(f => crypto.createHash('sha256').update(lfBytes(path.join(SURAHS, f.file))).digest('hex').toUpperCase() !== f.sha256);
+ok(badSum.length === 0, 'every recorded SHA-256 matches the file on disk (line endings normalised)' + (badSum.length ? ' — ' + badSum.map(b => b.file).slice(0, 3) : ''));
+const badBytes = sums.files.filter(f => lfBytes(path.join(SURAHS, f.file)).length !== f.bytes);
+ok(badBytes.length === 0, 'every recorded byte size matches the file on disk (line endings normalised)');
+// …and prove the normalisation is not hiding a difference: on a tree whose files are already LF, the raw
+// bytes must equal the normalised bytes, i.e. this check is only ever a no-op or a genuine EOL difference.
+const eolOnly = sums.files.filter(f => {
+  const raw = fs.readFileSync(path.join(SURAHS, f.file));
+  return raw.length !== lfBytes(path.join(SURAHS, f.file)).length;
+});
+console.log(`     (${eolOnly.length}/114 surah files are CRLF in this working tree — content identical either way)`);
 ok(sums.totalBytes === sums.files.reduce((s, f) => s + f.bytes, 0), 'surah-checksums totalBytes is self-consistent');
 ok(sums.files.reduce((s, f) => s + f.ayahCount, 0) === TOTAL_AYAT, `surah-checksums ayah total == ${TOTAL_AYAT}`);
 

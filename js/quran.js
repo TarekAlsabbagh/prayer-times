@@ -1,6 +1,7 @@
-/* QURAN-AR-SURAH-21 — client ENHANCEMENTS ONLY (SPA-integrated: page served inside the real index.html
+/* QURAN-AR surah pages — client ENHANCEMENTS ONLY (SPA-integrated: page served inside the real index.html
    shell, so app.js already provides toggleSidebar/toggleTheme, the header, sidebar and footer).
-   Loaded ONLY on /quran/surah/21. Contains NO ayah text, NO surah data, NO basmala generation, NO text
+   Loaded ONLY on /quran/surah/:n (1..114). Nothing here is per-surah data: the ayah ceiling comes from the
+   SSR max="" and the position key from the route. Contains NO ayah text, NO surah data, NO basmala generation, NO text
    correction, NO page re-splitting. If JS is disabled the SSR page stays fully readable and the ayah/page
    jump falls back to a server GET->302 redirect to the fragment. All localStorage access is guarded.
    NOTE: deliberately contains NO Arabic letters — every user-facing string lives in the server-rendered
@@ -43,7 +44,12 @@
       get: function (k) { try { return window.localStorage.getItem(k); } catch (e) { return null; } },
       set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
     };
-    var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah21' };
+    // font + reading-mode are GLOBAL reader preferences → one key each, shared by all 114 surahs.
+    // The reading POSITION is per-surah: a single key would have stored Al-Fatiha's page under the name
+    // «surah21» and handed it back for a different surah. The number comes from the route, which is the only
+    // thing on this page that identifies the surah (quran.js loads on /quran/surah/:n and nowhere else).
+    var SURAH_N = (window.location.pathname.match(/\/quran\/surah\/(\d{1,3})$/) || [])[1] || '0';
+    var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + SURAH_N };
 
     /* ---- font size: step (-3..+6) added on top of the viewport-aware base var --q-ayah-base (CSS sets it
        to 1.55rem on desktop, 1.43rem on phones). Reading the base from CSS keeps the DEFAULT responsive per
@@ -101,11 +107,16 @@
     if (ajForm) {
       var ajInput = ajForm.querySelector('input[name="ayah"]');
       var ajErr = ajForm.querySelector('[data-quran-ayah-errmsg]');
+      // The ceiling is THIS surah's ayah count, read from the SSR-rendered max="" — the same number the
+      // server validates against and prints in the error message, so there is ONE source and they cannot
+      // drift apart. The old literal 112 was Al-Anbiya's: it would have let ayah 8 through on Al-Fatiha
+      // (7 ayat) and rejected a valid ayah 150 on Al-Baqara (286).
+      var ajMax = parseInt(ajInput ? ajInput.getAttribute('max') : '', 10);
       var clearErr = function () { if (ajErr) ajErr.hidden = true; if (ajInput) { ajInput.classList.remove('is-invalid'); ajInput.removeAttribute('aria-invalid'); } };
       ajForm.addEventListener('submit', function (e) {
         e.preventDefault();
         var n = parseInt(ajInput ? ajInput.value : '', 10);
-        if (!n || n < 1 || n > 112) {
+        if (!n || n < 1 || !(ajMax >= 1) || n > ajMax) {
           if (ajErr) ajErr.hidden = false;
           if (ajInput) { ajInput.classList.add('is-invalid'); ajInput.setAttribute('aria-invalid', 'true'); ajInput.focus(); }
           return;
@@ -224,9 +235,20 @@
         .trim();
     }
     function toArDigits(n) { return String(n).replace(/[0-9]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[+d]; }); }
-    // cache the normalized search key per surah ONCE (query is normalized per keystroke — the list is not re-parsed)
+    // cache the normalized search keys per surah ONCE (query is normalized per keystroke — the list is not re-parsed).
+    // `whole` holds the two complete names on their own (display AR + EN) so a query can match a name ENTIRELY;
+    // `name` is the loose haystack (raw mushaf spelling + EN) for substring hits. normalize() strips U+064B–U+0655,
+    // so the cleaned display name, the raw mushaf spelling and an undiacritised query all collapse to ONE key —
+    // for surah 36 that means typing it with or without the maddah (U+0653) finds the same row.
     var idxData = idxLis.map(function (li) {
-      return { li: li, num: (li.getAttribute('data-num') || '').replace(/\D/g, ''), name: normalize(li.getAttribute('data-name') || '') };
+      var ar = normalize(li.getAttribute('data-name-ar') || '');
+      var en = normalize(li.getAttribute('data-name-en') || '');
+      return {
+        li: li,
+        num: (li.getAttribute('data-num') || '').replace(/\D/g, ''),
+        name: normalize(li.getAttribute('data-name') || ''),
+        whole: [ar, en].filter(Boolean)
+      };
     });
     function countLabel(shown, hasQuery) {
       if (!hasQuery) return toArDigits(idxData.length) + ' سورة';
@@ -236,17 +258,34 @@
       if (shown <= 10) return toArDigits(shown) + ' سور مطابقة';
       return toArDigits(shown) + ' سورة مطابقة';
     }
+    // Text search is TIERED, best tier wins outright:
+    //   1) the query IS a whole name   2) a name STARTS WITH it   3) a name merely CONTAINS it
+    // Plain substring matching cannot serve the one-letter surah names (38 and 50): each of those letters also
+    // occurs inside a dozen longer names, so the surah actually NAMED by the letter would arrive buried among
+    // wrong answers. With tiering, a whole-name hit suppresses the looser tiers outright — a one-letter query
+    // returns that one surah — while a query that matches no name exactly still falls through to substring.
+    // (This file carries NO Arabic letters by design — every user-facing string is server-rendered. Examples
+    //  live in the test: scripts/_smoke_quran_drawer_search_priority_1.mjs.)
     function applyFilter() {
       if (!filterInput) return;
       var q = normalize(filterInput.value);
       var hasQuery = q.length > 0;
       var isNum = hasQuery && /^[0-9]+$/.test(q);   // pure-digit query → exact surah-number match
+      var tier = null;
+      if (hasQuery && !isNum) {
+        var starts = function (s) { return s.indexOf(q) === 0; };
+        if (idxData.some(function (d) { return d.whole.indexOf(q) !== -1; })) tier = 'exact';
+        else if (idxData.some(function (d) { return d.whole.some(starts); })) tier = 'prefix';
+        else tier = 'partial';
+      }
       var shown = 0;
       for (var i = 0; i < idxData.length; i++) {
         var d = idxData[i], match;
         if (!hasQuery) match = true;
-        else if (isNum) match = d.num === q;                 // "21"/"٢١" → only surah 21
-        else match = d.name.indexOf(q) !== -1;               // substring on normalized AR + EN name
+        else if (isNum) match = d.num === q;                          // "21"/"٢١" → only surah 21, equality
+        else if (tier === 'exact') match = d.whole.indexOf(q) !== -1; // the query IS this surah's name
+        else if (tier === 'prefix') match = d.whole.some(function (s) { return s.indexOf(q) === 0; });
+        else match = d.name.indexOf(q) !== -1;                        // substring on raw AR + EN
         d.li.hidden = !match; if (match) shown++;            // [hidden] → display:none (CSS override) → grid reflows, no gaps, not tabbable
       }
       if (filterEmpty) filterEmpty.hidden = !(hasQuery && shown === 0);
@@ -285,7 +324,7 @@
     updateProgress();
 
     /* ---- NON-ARABIC LANGUAGE UNAVAILABLE (P0) — Quran surah pages exist in ARABIC ONLY. The site switcher
-       (js/i18n-core.js setLanguage) would send the reader to /{lang}/quran/surah/21 → a real 404. We intercept
+       (js/i18n-core.js setLanguage) would send the reader to /{lang}/quran/surah/:n → a real 404. We intercept
        in the CAPTURE phase on document, so the menu item's own bubble-phase listener (which calls setLanguage)
        never runs: the URL, history, page language, scroll position, font size, theme and reading mode all stay
        exactly as they were. This file loads ONLY on the surah route → no other page's switcher is affected.

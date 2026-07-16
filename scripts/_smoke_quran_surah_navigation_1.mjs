@@ -7,7 +7,7 @@ import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const b0 = src.indexOf('function _buildQuranSurah21Body()');
+const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
 const nav0 = src.indexOf('function _quranNavCard(');
 const nav = src.slice(nav0, src.indexOf('\n}', nav0) + 2);
@@ -28,15 +28,21 @@ ok(/_quranNavCard\(prevSurah, 'prev'\)/.test(b) && /_quranNavCard\(nextSurah, 'n
 
 // card internals (in the module-level _quranNavCard builder)
 ok(nav.includes('السورة السابقة') && nav.includes('السورة التالية'), 'prev + next direction labels');
-ok(nav.includes('سورة ${_quranEsc(chapter.nameAr)}'), 'surah NAME shown prominently (dynamic nameAr)');
+// the neighbour name goes through the display-name helper now (so 36/38/50 read «يس» «ص» «ق», not «يسٓ» «صٓ» «قٓ»)
+ok(nav.includes('سورة ${_quranEsc(_quranCleanName(chapter.nameAr))}'), 'surah NAME shown prominently, via the display-name helper');
 ok(nav.includes('السورة رقم ${_quranAr(chapter.number)}'), 'surah NUMBER shown as secondary');
 ok(/quran-nav-arrow/.test(nav), 'a direction arrow is included');
 ok(/if \(!chapter\) return ''/.test(nav), 'Al-Fatiha-no-prev / An-Nas-no-next handled (null → card omitted)');
 
-// prototype safety: flag off, disabled + note, live-link gated, NO literal 404 links
-ok(/_QURAN_SURAHS_LIVE = false/.test(src), 'prototype flag _QURAN_SURAHS_LIVE=false');
-ok(/aria-disabled="true"/.test(nav) && nav.includes('ستتوفر عند إطلاق جميع سور القرآن'), 'prototype cards are aria-disabled with a coming-soon note');
-ok(/if \(_QURAN_SURAHS_LIVE\)[\s\S]*href="\/quran\/surah\/\$\{chapter\.number\}"/.test(nav), 'real /quran/surah/N link exists but is gated behind _QURAN_SURAHS_LIVE');
+// QURAN-AR-SSR-SURAH-GENERALIZATION-1 inverted the three assertions that used to live here. They encoded the
+// PROTOTYPE's safety rule — "only surah 21 exists, so the neighbour cards must be inert or they would 404".
+// All 114 surahs are built now, so that rule is not merely obsolete, its opposite is the requirement: a
+// disabled card or a "coming soon" note would be a lie about a page that exists. The scaffolding flag
+// (_QURAN_SURAHS_LIVE) and its dead branch are gone from server.js entirely, not left switched on.
+ok(!/_QURAN_SURAHS_LIVE/.test(src), 'the prototype flag _QURAN_SURAHS_LIVE is GONE (not just flipped to true)');
+ok(!/aria-disabled="true"/.test(nav) && !src.includes('ستتوفر عند إطلاق جميع سور القرآن'), 'no aria-disabled card and no «ستتوفر عند إطلاق جميع سور القرآن» anywhere');
+ok(/<a class="quran-surah-nav-card quran-surah-nav-card--\$\{kind\}" href="\/quran\/surah\/\$\{chapter\.number\}"/.test(nav), 'every neighbour card is an unconditional real link to /quran/surah/N');
+ok(/if \(!chapter\) return '';/.test(nav), 'a missing neighbour (Al-Fatiha prev / An-Nas next) renders NOTHING — never a dead card');
 ok(!/href="\/quran\/surah\/20"/.test(src) && !/href="\/quran\/surah\/22"/.test(src), 'NO literal href to /quran/surah/20 or /22 (no 404s)');
 ok(!/href="\/quran\/surah\/2[013-9]"/.test(src), 'NO literal sibling-surah href anywhere');
 

@@ -6,7 +6,7 @@ const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 const idx = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 const js = fs.readFileSync(path.join(ROOT, 'js', 'quran.js'), 'utf8');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const b0 = src.indexOf('function _buildQuranSurah21Body()');
+const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
 // (a) the site drawer is the REAL index.html one (menu-toggle + overlay + toggleSidebar live in the shell/app.js)
 ok(/class="menu-toggle" onclick="toggleSidebar\(\)"/.test(idx), 'index.html has the site menu-toggle (calls toggleSidebar)');

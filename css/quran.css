@@ -294,10 +294,13 @@ html[data-theme="dark"] .quran-surah-page {
 .quran-idx-li[hidden], .quran-surah-filter-empty[hidden], .quran-filter-clear[hidden] { display: none; }
 .quran-idx-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px;
   text-decoration: none; color: var(--text-light); border: 1px solid transparent; }
+/* Every item is a real link now (all 114 surahs exist), so each one needs the hover affordance and the
+   keyboard focus ring that the prototype only gave the current item — back then the other 113 were inert
+   <span>s that could not be hovered or tabbed to at all. Without these, tabbing the list shows no focus. */
+.quran-idx-item:hover { color: var(--text); background: var(--q-tint); }
+.quran-idx-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
 .quran-idx-item.is-current { color: var(--text); background: var(--q-tint); border-color: var(--q-tint-line); font-weight: 700; }
 .quran-idx-item.is-current:hover { background: color-mix(in srgb, var(--primary) 16%, var(--card-bg)); }
-.quran-idx-item.is-current:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
-.quran-idx-item.is-disabled { cursor: not-allowed; opacity: .72; }
 .quran-idx-num { min-width: 2.2em; height: 1.9em; display: inline-flex; align-items: center; justify-content: center;
   border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
 .quran-idx-item.is-current .quran-idx-num { border-color: var(--primary); color: var(--primary-dark); }

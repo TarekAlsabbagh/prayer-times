@@ -8,7 +8,7 @@ const srv = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 const css = fs.readFileSync(path.join(ROOT, 'css', 'quran.css'), 'utf8');
 const js  = fs.readFileSync(path.join(ROOT, 'js', 'quran.js'), 'utf8');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const b0 = srv.indexOf('function _buildQuranSurah21Body()');
+const b0 = srv.indexOf('function _buildQuranSurahBody(n)');
 const b = srv.slice(b0, srv.indexOf('// ===== HTTP Server =====', b0));
 
 // --- markup: ONE sticky wrapper holding the toolbar AND the progress bar ---

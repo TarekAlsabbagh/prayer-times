@@ -4,9 +4,11 @@ import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const b0 = src.indexOf('function _buildQuranSurah21Body()');
+const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
-const a0 = src.indexOf('function _quranAboutHtml');
+// The editorial cards moved into _quranEditorialHtml (surah-21-gated) and the reading-tools card into
+// _quranToolsHtml (shared by all 114) — this slice spans both, which is what the four H2s below live in.
+const a0 = src.indexOf('function _quranEditorialHtml');
 const about = src.slice(a0, src.indexOf('function _quranFaqHtml'));
 ok((b.match(/<h1[\s>]/g) || []).length === 1, 'exactly one H1');
 // the four editorial H2 titles in _quranAboutHtml (surah name is data-driven via ${sName} in the source template)
@@ -18,7 +20,7 @@ ok(!/display:\s*none[^}]*\/\* *seo/i.test(b), 'no display:none-for-SEO trick');
 // no hidden keyword stuffing
 ok(!/name="keywords"/.test(b), 'no <meta name="keywords">');
 // natural target phrases actually appear in the visible copy
-['سورة الأنبياء مكتوبة كاملة', 'بالرسم العثماني', 'رواية حفص عن عاصم', 'الجزء السابع عشر'].forEach(p =>
+['سورة ${_quranEsc(sName)} مكتوبة كاملة', 'بالرسم العثماني', 'رواية حفص عن عاصم', 'الجزء السابع عشر'].forEach(p =>
   ok(about.includes(p) || b.includes(p), 'target phrase present: ' + p));
 // NO phrases for non-existent services or unsourced tafsir (download / audio / tafsir / fadl / reason-of-revelation).
 // NOTE: makki classification (مكيّة) is now an APPROVED, sourced editorial field (ticket §2) → no longer forbidden.

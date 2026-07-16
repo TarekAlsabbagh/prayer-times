@@ -39,7 +39,7 @@ async function ensureServer() {
   const PORT = 3199; base = 'http://localhost:' + PORT;
   spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], {
     cwd: ROOT, stdio: 'ignore',
-    env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT) }),
+    env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT), NODE_PATH: process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules' }),
   });
   for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/data-quran-surah-filter/.test(H)) return true; } }
   return false;
@@ -105,11 +105,18 @@ async function main() {
     var foc=0; hid.forEach(function(li){ [].forEach.call(li.querySelectorAll('a[href],button,[tabindex]'), function(el){ if(el.offsetParent!==null) foc++; }); });
     return {hid:hid.length, foc:foc}; })()`);
   ok(s.hid === 113 && s.foc === 0, 'filtered-out surahs are display:none (113) and expose NO tabbable element');
+  // The prototype asserted the drawer held exactly ONE anchor and no route links (113 inert spans). With all
+  // 114 surahs built the drawer is a real index: the CURRENT surah stays an in-page anchor and the other 113
+  // are links to their own routes.
   s = await ev(`(function(){ ${H} type('');
     var a=[].slice.call(document.querySelectorAll('.quran-idx-item[href]'));
-    var bad=a.filter(function(x){return !/^#page-/.test(x.getAttribute('href'));});
-    return {a:a.length, bad:bad.length, route:document.querySelectorAll('a[href*="/quran/surah/"]').length}; })()`);
-  ok(s.a === 1 && s.bad === 0 && s.route === 0, 'exactly ONE in-page anchor (#page-*), NO /quran/surah route links → no 404s');
+    var self=a.filter(function(x){return /^#page-/.test(x.getAttribute('href'));});
+    var route=a.filter(function(x){return /^\\/quran\\/surah\\/(\\d+)$/.test(x.getAttribute('href'));});
+    var bad=a.length-self.length-route.length;
+    var oor=route.filter(function(x){var n=+/(\\d+)$/.exec(x.getAttribute('href'))[1]; return n<1||n>114;});
+    return {self:self.length, route:route.length, bad:bad, oor:oor.length}; })()`);
+  ok(s.self === 1 && s.route === 113 && s.bad === 0 && s.oor === 0,
+     `the drawer = 1 in-page anchor (the current surah) + 113 real surah links, none out of range — got self=${s.self} route=${s.route} other=${s.bad} out-of-range=${s.oor}`);
   s = await ev(`(function(){ ${H} type('زقزقة'); document.querySelector('.quran-empty-clear').click(); return {v:vis().length, val:inp.value, foc:document.activeElement===inp}; })()`);
   ok(s.v === 114 && s.val === '' && s.foc, 'empty-state "مسح البحث" → restores 114 + empties field + focuses input');
   s = await ev(`(function(){ ${H} type('الأنبياء'); document.querySelector('.quran-filter-clear').click(); return {v:vis().length, val:inp.value, foc:document.activeElement===inp}; })()`);

@@ -24,7 +24,7 @@ let base = process.env.QURAN_SMOKE_URL || 'http://localhost:3100'; let spawnedSe
 async function ensureServer() {
   if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/quran-browse-cta/.test(H)) return true; }
   const PORT = 3198; base = 'http://localhost:' + PORT;
-  spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], { cwd: ROOT, stdio: 'ignore', env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT) }) });
+  spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], { cwd: ROOT, stdio: 'ignore', env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT), NODE_PATH: process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules' }) });
   for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/quran-browse-cta/.test(H)) return true; } }
   return false;
 }
@@ -108,9 +108,18 @@ async function main() {
   // no duplicate ids
   s = await ev(`(function(){ var ids={},dups=[]; [].forEach.call(document.querySelectorAll('[id]'),function(el){ var id=el.id; if(ids[id]) dups.push(id); else ids[id]=1; }); return dups; })()`);
   ok(s.length === 0, 'NO duplicate element ids' + (s.length ? ' — ' + JSON.stringify(s) : ''));
-  // no broken sibling-surah links
-  s = await ev(`document.querySelectorAll('a[href*="/quran/surah/2"]').length`);
-  ok(s === 0, 'NO /quran/surah/{n} sibling links (no 404s)');
+  // Sibling-surah links: the prototype asserted there were NONE (only surah 21 existed, so any such link
+  // would 404). All 114 are built now, so the requirement inverts — the links must exist AND resolve.
+  s = await ev(`(function(){
+    var a = [].slice.call(document.querySelectorAll('a[href^="/quran/surah/"]'));
+    var bad = a.map(function(x){ return x.getAttribute('href'); })
+               .filter(function(h){ var m = /^\\/quran\\/surah\\/(\\d+)$/.exec(h); return !m || +m[1] < 1 || +m[1] > 114; });
+    return { total: a.length, bad: bad.length, sample: bad.slice(0, 3) };
+  })()`);
+  ok(s.total > 0 && s.bad === 0, `every /quran/surah/{n} link points at a real surah 1..114 — ${s.total} link(s), ${s.bad} malformed` + (s.bad ? ' → ' + JSON.stringify(s.sample) : ''));
+  // …and they really are served (a link is only good if the route answers)
+  const probe = await fetch(base + '/quran/surah/22').then(r => r.status).catch(() => 0);
+  ok(probe === 200, 'the neighbour route /quran/surah/22 actually returns 200 — got ' + probe);
 
   // ================= open + focus return: TOP =================
   s = await ev(`(function(){ ${H}

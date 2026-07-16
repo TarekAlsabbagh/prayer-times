@@ -130873,5 +130873,28 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "aradah",
+    "type": "village",
+    "countryCode": "ae",
+    "lat": 23.0021945,
+    "lng": 53.4232596,
+    "timezone": "Asia/Dubai",
+    "names": {
+      "ar": "عرادة",
+      "de": "Arada",
+      "en": "Aradah",
+      "es": "Aráda",
+      "fr": "Arada"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الإمارات العربية المتحدة",
+      "countryEn": "United Arab Emirates"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

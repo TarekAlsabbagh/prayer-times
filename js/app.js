@@ -4117,6 +4117,13 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="azkar"]')?.classList.add('active');
     }
 
+    // QURAN-AR-SURAH-21 prototype: activate #page-quran-surah (no sidebar nav item → none highlighted).
+    if (/^\/quran\/surah\/21$/.test(window.location.pathname) && !window._navigatingAway) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-quran-surah')?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+    }
+
     // تفعيل صفحة القبلة عند URL:
     //   • /qibla                                                   (hub)
     //   • /qibla-in-{slug}[-{lat}-{lng}]                            (city page)
@@ -12301,6 +12308,9 @@ window.addEventListener('pageshow', function(e) {
             _expectedId = 'page-zakat';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(_path)) {
             _expectedId = 'page-date-converter';
+        } else if (/^\/quran\/surah\/21$/.test(_path)) {
+            // QURAN-AR-SURAH-21 prototype: keep the SSR-active #page-quran-surah (no flash-to-home).
+            _expectedId = 'page-quran-surah';
         } else {
             // Default: homepage `/`, `/prayer-times-in-{slug}`,
             // `/time-left-until-next-prayer-in-{slug}`, `/next-prayer-in-{slug}`,

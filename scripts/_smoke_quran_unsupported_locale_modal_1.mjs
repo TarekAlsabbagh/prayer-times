@@ -1,5 +1,5 @@
 // Smoke — QURAN surah page: NON-ARABIC LANGUAGE UNAVAILABLE modal (P0).
-// Quran pages are Arabic-only. Picking any non-Arabic language must NOT navigate to /{lang}/quran/surah/21
+// Quran pages are Arabic-only. Picking any non-Arabic language must NOT navigate to /{lang}/quran/{slug}
 // (a real 404) — it opens an explanatory dialog instead and the reader keeps their exact place. Verifies:
 // Arabic never opens it; every non-Arabic language does; URL/history/scroll/reading-mode/font all untouched;
 // the picked language name + its own copy (Arabic = fallback); primary closes; secondary points at the locale
@@ -10,6 +10,11 @@ import { spawn } from 'child_process';
 import fs from 'fs'; import os from 'os'; import path from 'path'; import net from 'net';
 import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+// /quran/{official-english-slug} — the ONE URL per surah, read from the source-derived routes table.
+// Never spell a slug out in a test: it would become a second source of truth, and these tests SKIP (not
+// fail) when the page 404s — a drifted literal would go quietly green with zero coverage.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function findChrome() {
   const c = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
@@ -24,7 +29,7 @@ if (!CHROME) { console.log('SKIP — no Chrome/Chromium found'); process.exit(0)
 const NON_AR = ['en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
 let base = process.env.QURAN_SMOKE_URL || 'http://localhost:3100'; let spawnedServer = null;
 const NODE_PATH_FALLBACK = process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules';
-async function ready(b) { const H = await fetch(b + '/quran/surah/21').then(r => r.text()).catch(() => ''); return /id="quran-locale-modal"/.test(H) ? H : ''; }
+async function ready(b) { const H = await fetch(b + P(21)).then(r => r.text()).catch(() => ''); return /id="quran-locale-modal"/.test(H) ? H : ''; }
 async function ensureServer() {
   if (await reachable(base) && await ready(base)) return true;
   const PORT = 3195; base = 'http://localhost:' + PORT;
@@ -60,8 +65,8 @@ async function main() {
     const home = await fetch(base + '/' + l, { redirect: 'follow' }).then(r => r.status).catch(() => 0);
     ok(home === 200, 'No-JS destination /' + l + ' is a live page (200) — got ' + home);
   }
-  const bad = await fetch(base + '/en/quran/surah/21').then(r => r.status).catch(() => 0);
-  ok(bad === 404, 'control: /en/quran/surah/21 really is a 404 → the modal is what prevents reaching it');
+  const bad = await fetch(base + '/en' + P(21)).then(r => r.status).catch(() => 0);
+  ok(bad === 404, `control: /en${P(21)} really is a 404 → the modal is what prevents reaching it — got ${bad}`);
   // scope: the interception lives in js/quran.js (surah route only) — no global switcher file touched
   const qjs = fs.readFileSync(path.join(ROOT, 'js', 'quran.js'), 'utf8');
   ok(/addEventListener\('click', function \(e\) \{[\s\S]{0,400}lang-menu \[data-lang\][\s\S]{0,900}\}, true\);/.test(qjs), 'js/quran.js intercepts .lang-menu [data-lang] in the CAPTURE phase (setLanguage never runs)');
@@ -80,7 +85,7 @@ async function main() {
   cdp.on('Runtime.exceptionThrown', p => pageErrors.push(JSON.stringify(p.exceptionDetails && p.exceptionDetails.text)));
   cdp.on('Runtime.consoleAPICalled', p => { if (p.type === 'error') consoleErrors.push((p.args || []).map(a => a.value || a.description || '').join(' ')); });
   const ev = async (expr) => { const r = await cdp.send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw new Error('EVAL ' + JSON.stringify(r.exceptionDetails.exception && r.exceptionDetails.exception.description || r.exceptionDetails.text)); return r.result.value; };
-  const nav = async (w, h, mobile) => { await cdp.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile }); loaded = false; await cdp.send('Page.navigate', { url: base + '/quran/surah/21' }); for (let i = 0; i < 100 && !loaded; i++) await sleep(100); await sleep(900); };
+  const nav = async (w, h, mobile) => { await cdp.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile }); loaded = false; await cdp.send('Page.navigate', { url: base + P(21) }); for (let i = 0; i < 100 && !loaded; i++) await sleep(100); await sleep(900); };
   // helpers injected into every eval
   const H = `
     var M=document.getElementById('quran-locale-modal');
@@ -175,7 +180,7 @@ async function main() {
       return after(300, function(){ return { opened:opened, fr:fr, closed:!shown(M), sameY:window.scrollY===y, url:location.pathname }; });
     }); })()`);
   ok(s.opened && /Cette langue/.test(s.fr || ''), 'FRENCH opens it with French copy — got ' + JSON.stringify(s.fr));
-  ok(s.closed && s.sameY && s.url === '/quran/surah/21', 'the primary button closes it and the reader keeps their place + URL');
+  ok(s.closed && s.sameY && s.url === P(21), 'the primary button closes it and the reader keeps their place + URL');
 
   // 5) Urdu (RTL) + every remaining non-Arabic language behaves identically
   s = await ev(`(function(){ ${H} cookie();

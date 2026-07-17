@@ -18,6 +18,9 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
 const D = path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0');
 const CH = JSON.parse(fs.readFileSync(path.join(D, 'metadata/chapters.json'), 'utf8'));
+// /quran/{official-english-slug} — read from the source-derived table, never spelled out in a test.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(D, 'metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const BASMALA = JSON.parse(fs.readFileSync(path.join(D, 'metadata/basmala.json'), 'utf8')).textUthmaniBody;
 let pass = 0, fail = 0; const F = [];
 const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
@@ -26,7 +29,7 @@ const surahFile = n => JSON.parse(fs.readFileSync(path.join(D, 'surahs', String(
 
 let totalAyat = 0, textMismatch = [], numMismatch = [], orderMismatch = [], basmalaWrong = [], missingIds = [];
 for (const c of CH) {
-  const html = await fetch(`${BASE}/quran/surah/${c.number}`).then(r => r.text());
+  const html = await fetch(`${BASE}${P(c.number)}`).then(r => r.text());
   const s = surahFile(c.number);
   const want = s.pages.flatMap(p => p.ayahs);
 

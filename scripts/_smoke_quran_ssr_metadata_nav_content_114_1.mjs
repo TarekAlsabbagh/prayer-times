@@ -14,6 +14,10 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
 const D = path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0');
 const CH = JSON.parse(fs.readFileSync(path.join(D, 'metadata/chapters.json'), 'utf8'));
+// The one URL per surah — /quran/{official-english-slug}. Read from the source-derived table, never spelled
+// out here: a slug typed into a test is a second source of truth, and the first one to drift.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(D, 'metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const surahFile = n => JSON.parse(fs.readFileSync(path.join(D, 'surahs', String(n).padStart(3, '0') + '.json'), 'utf8'));
 // mirrors server.js `_quranCleanName` exactly — U+064B–U+0653 (maddah included, so 36/38/50 read «يس» «ص» «ق»)
 // + U+0670 + U+0640, and NOTHING beyond: U+0654/U+0655 are letter-forming and must survive.
@@ -24,7 +28,7 @@ let pass = 0, fail = 0; const F = [];
 const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
 
 const pages = new Map();
-for (const c of CH) pages.set(c.number, await fetch(`${BASE}/quran/surah/${c.number}`).then(r => r.text()));
+for (const c of CH) pages.set(c.number, await fetch(`${BASE}${P(c.number)}`).then(r => r.text()));
 // The page is served inside the SHARED index.html shell, whose other (inactive) .page sections carry their own
 // markup — 7 aria-disabled azkar cards and 3 empty <h2></h2> among them. A body-level assertion must therefore
 // look ONLY inside #page-quran-surah, or it fails on markup this ticket does not own and never touched.
@@ -54,12 +58,12 @@ for (const c of CH) {
   // ---- §8 noindex + self canonical + NO hreflang ----
   if (!/content="noindex,follow,max-snippet:-1,max-image-preview:large"/.test(html)) bad.robots.push(n);
   const canon = (html.match(/<link rel="canonical" href="([^"]*)"/) || [])[1] || '';
-  if (!canon.endsWith(`/quran/surah/${n}`)) bad.canon.push(`${n}: ${canon}`);
+  if (!canon.endsWith(P(n))) bad.canon.push(`${n}: ${canon}`);
   if (/rel="alternate" hreflang/.test(html)) bad.hreflang.push(n);
 
   // ---- §9 prev/next are real links; the boundaries carry NO card at all ----
-  const hasPrev = html.includes(`class="quran-surah-nav-card quran-surah-nav-card--prev" href="/quran/surah/${n - 1}"`);
-  const hasNext = html.includes(`class="quran-surah-nav-card quran-surah-nav-card--next" href="/quran/surah/${n + 1}"`);
+  const hasPrev = html.includes(`class="quran-surah-nav-card quran-surah-nav-card--prev" href="${n > 1 ? P(n - 1) : ''}"`);
+  const hasNext = html.includes(`class="quran-surah-nav-card quran-surah-nav-card--next" href="${n < 114 ? P(n + 1) : ''}"`);
   if (n === 1 ? /nav-card--prev/.test(html) : !hasPrev) bad.prev.push(n);
   if (n === 114 ? /nav-card--next/.test(html) : !hasNext) bad.next.push(n);
 
@@ -68,8 +72,10 @@ for (const c of CH) {
   if (/quran-index-note|في هذا النموذج الأولي/.test(body)) bad.note.push(n);
 
   // ---- §10 the drawer lists all 114: 113 links + the current one as an in-page anchor with its badge ----
-  const idxLinks = [...html.matchAll(/class="quran-idx-item" href="\/quran\/surah\/(\d+)"/g)].map(m => +m[1]);
-  const wantLinks = CH.map(x => x.number).filter(x => x !== n);
+  // Capture the href itself rather than a number pulled out of it: that way a stray numeric or /quran/surah/
+  // entry cannot slip through as a "match", it simply fails to equal the slug path the table demands.
+  const idxLinks = [...html.matchAll(/class="quran-idx-item" href="(\/quran\/[^"#]+)"/g)].map(m => m[1]);
+  const wantLinks = CH.map(x => x.number).filter(x => x !== n).map(P);
   if (idxLinks.length !== 113 || idxLinks.join() !== wantLinks.join()) bad.links.push(`${n}: ${idxLinks.length} links`);
   if (!html.includes(`<a class="quran-idx-item is-current" href="#page-${s.firstPage}" aria-current="true"`)) bad.badge.push(n);
   if ((html.match(/quran-idx-badge">الحالية/g) || []).length !== 1) bad.badge.push(n + ' (badge×)');
@@ -85,7 +91,7 @@ for (const c of CH) {
 
   // ---- §12 the jump bar is bounded by THIS surah and posts to THIS surah ----
   if (!html.includes(`max="${s.ayahCount}"`)) bad.ayahMax.push(n);
-  if ((html.match(new RegExp(`action="/quran/surah/${n}"`, 'g')) || []).length !== 2) bad.action.push(n);
+  if ((html.match(new RegExp(`action="${P(n)}"`, 'g')) || []).length !== 2) bad.action.push(n);
   for (const p of s.pages) if (!html.includes(`<option value="${p.page}">الصفحة ${ar(p.page)}</option>`)) bad.pages.push(`${n}: option ${p.page}`);
 
   // ---- §5 editorial gate: unsourced religious claims must NOT appear on the other 113 ----

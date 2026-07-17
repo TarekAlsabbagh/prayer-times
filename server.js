@@ -12815,7 +12815,7 @@ function buildSeoForPath(urlPath) {
     // Surah 21 keeps the EXACT copy approved in P0 (it is the regression reference) — the generic template
     // below phrases the count differently, so it must not silently rewrite the approved page.
     const _qsSeo = _quranSurahRoute(corePath);
-    if (_qsSeo && _qsSeo.canonical) {
+    if (_qsSeo) {
         const _ch = _quranChapter(_qsSeo.n);
         if (_ch) {
             const _nm = _quranCleanName(_ch.nameAr);
@@ -12827,7 +12827,7 @@ function buildSeoForPath(urlPath) {
                         : `اقرأ سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، وعدد آياتها ${_quranAr(_ch.ayahCount)}، مع الانتقال المباشر إلى الآية والصفحة.`,
                 },
                 noindex: true,
-                // Arabic-only: /{lang}/quran/surah/:n does not exist (it 404s), so this page advertises no
+                // Arabic-only: /{lang}/quran/{slug} does not exist (it 404s), so this page advertises no
                 // alternates. Without this the shared emitter would default to ten hreflang links per page —
                 // 1,026 links to 404s across the 114 pages, and a promise of translations we do not have.
                 noHreflang: true,
@@ -15498,7 +15498,7 @@ function renderSeoHeadHtml(seo) {
     parts.push(`<link rel="canonical" href="${esc(seo.canonical)}">`);
     // QURAN-AR-SSR-SURAH-GENERALIZATION-1 — `noHreflang` opts a route OUT of the alternates block entirely.
     // hreflang is a promise that the SAME page exists in another language. The Quran surah pages exist in
-    // ARABIC ONLY: every /{lang}/quran/surah/:n is a real 404, so advertising ten of them per page (×114
+    // ARABIC ONLY: every /{lang}/quran/{slug} is a real 404, so advertising ten of them per page (×114
     // pages) would be pointing search engines and readers at pages that do not exist. Nothing else on the
     // site sets this flag, so every other route keeps the exact alternates it emitted before.
     if (!seo.noHreflang) {
@@ -16806,13 +16806,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   real .top-header, shared sidebar, footer and app.js. Flip #page-quran-surah active, inject the surah
     //   body, and load the route-scoped Quran font/CSS/JS. NO standalone document, NO copied header. =====
     const _qsPage = process.env.QURAN_PROTOTYPE_ENABLED === '1' ? _quranSurahRoute(urlPath) : null;
-    if (_qsPage && _qsPage.canonical) {
+    if (_qsPage) {
         html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
         html = html.replace('<div class="page" id="page-quran-surah"></div>',
             '<div class="page active" id="page-quran-surah">' + _buildQuranSurahBody(_qsPage.n) + '</div>');
         // NON-ARABIC-LANGUAGE-UNAVAILABLE-MODAL-1 — No-JS safety: the shell ships an EMPTY .lang-menu that
         // i18n-core fills client-side. On this Arabic-only route we SSR it with real links to the locale HOME,
-        // so a scripting-disabled user can never be sent to /{lang}/quran/surah/21 (a 404). With JS the menu is
+        // so a scripting-disabled user can never be sent to /{lang}/quran/al-anbiya (a 404). With JS the menu is
         // re-rendered as buttons and js/quran.js intercepts the click → modal.
         html = html.replace('<div class="lang-menu" role="menu"></div>',
             '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
@@ -29832,26 +29832,38 @@ async function handleCitiesAdd(cc, body, res) {
 }
 
 // ===== QURAN-AR-SURAH-21-SSR-TEN-REFERENCE-PAGES-PROTOTYPE-1 (feature-flagged, internal, noindex) =====
-// Standalone SSR document for /quran/surah/21 (Al-Anbiya). Gated on env QURAN_PROTOTYPE_ENABLED='1'.
+// Standalone SSR document for the Arabic surah pages. Gated on env QURAN_PROTOTYPE_ENABLED='1'.
 // The full Uthmani text lives in the initial HTML (no data island, no hydration). The ayah NUMBER is a
 // standalone element derived from aya_no (never the FCxx font glyph). css/quran.css + js/quran.js + the
-// KFGQPC font load ONLY on this route. NOT in sitemap, NOT in any menu, NO other-language hreflang.
+// KFGQPC font load ONLY on these routes. NOT in sitemap, NOT in any menu, NO other-language hreflang.
 let _quranProtoCache = null;
-// ===== QURAN-AR-SSR-SURAH-GENERALIZATION-1 — data access for /quran/surah/:n =====
-// SHARED metadata (chapters + basmala + manifest) is small, immutable and needed by EVERY surah page, so it
-// is read once. The SURAH FILE is read PER REQUEST — only the one asked for. The 114 files are never
+// ===== QURAN-AR-SSR-SURAH-GENERALIZATION-1 — data access for the surah pages =====
+// SHARED metadata (chapters + basmala + manifest + routes) is small, immutable and needed by EVERY surah page,
+// so it is read once. The SURAH FILE is read PER REQUEST — only the one asked for. The 114 files are never
 // preloaded (5.1 MB) and never all read for one request. No new LRU is introduced here on a guess: the
 // per-request read/parse cost is measured (_QURAN_READ_STATS below) and reported before any cache is proposed.
 const _QURAN_DATA_BASE = () => path.join(ROOT, 'data', 'quran', 'kfgqpc-hafs-v2-0');
 function _quranShared() {
     if (_quranProtoCache) return _quranProtoCache;
     const base = _QURAN_DATA_BASE();
+    const routes = JSON.parse(fs.readFileSync(path.join(base, 'metadata', 'surah-routes.json'), 'utf8'));
     _quranProtoCache = {
         basmala:  JSON.parse(fs.readFileSync(path.join(base, 'metadata', 'basmala.json'), 'utf8')),
         manifest: JSON.parse(fs.readFileSync(path.join(base, 'source-manifest.json'), 'utf8')),
         chapters: JSON.parse(fs.readFileSync(path.join(base, 'metadata', 'chapters.json'), 'utf8')),
+        routes:   routes.surahs,
+        // slug → record, and number → record. Both built ONCE from the derived manifest: a slug is never
+        // re-derived from a name at request time (that would put the URL rule in two places and let them drift).
+        bySlug:   new Map(routes.surahs.map(r => [r.slug, r])),
+        byNumber: new Map(routes.surahs.map(r => [r.number, r])),
     };
     return _quranProtoCache;
+}
+// The ONE way any code in this file turns a surah number into a URL. Reads the derived manifest — never
+// slugifies at runtime.
+function _quranPathFor(n) {
+    const r = _quranShared().byNumber.get(Number(n));
+    return r ? r.path : null;
 }
 // last-read timings, for the P1b measurements (never rendered into the page)
 const _QURAN_READ_STATS = { surah: 0, bytes: 0, readMs: 0, parseMs: 0 };
@@ -29869,15 +29881,24 @@ function _quranSurahData(n) {
     const sh = _quranShared();
     return { surah, basmala: sh.basmala, manifest: sh.manifest, chapters: sh.chapters };
 }
-// /quran/surah/:n classifier. ONE canonical path per surah: bare 1..114, no leading zeros, no sign, no
-// decimals. '021' parses to 21 but is NOT canonical → the route 301s to /quran/surah/21 (never two URLs
-// for the same surah). Anything else simply does not match → the normal 404 path.
+// ===== QURAN-AR-FINAL-OFFICIAL-ENGLISH-SLUG-URL-STRUCTURE-NO-REDIRECTS-1 =====
+// /quran/{official-english-slug} — the ONE and ONLY shape that serves a surah. No number appears in a URL.
+//
+// This is a LOOKUP, never a pattern match: the path segment must be a literal, exact key in the derived
+// 114-entry manifest. That is what keeps `/quran/:surahSlug` from behaving as a catch-all — an unknown
+// segment is simply absent from the map and falls through to the site's normal 404, so a future `/quran/juz`
+// or `/quran/search` can be added as a static route without a surah ever shadowing it.
+//
+// NO redirects, by decision: these pages were never published, never indexed, never in a sitemap, never
+// merged. There is no old URL with traffic to preserve, so a wrong path is simply wrong — 404, no `Location`.
+// That means NO case-folding (`/quran/AL-ANBIYA` is not the URL), NO trailing-slash repair, NO "did you mean",
+// and NO quiet support for the retired numeric paths. Being lenient here would mint a second URL for one
+// surah, which is exactly what this ticket exists to prevent.
 function _quranSurahRoute(p) {
-    const m = /^\/quran\/surah\/(\d{1,3})$/.exec(p);
-    if (!m) return null;
-    const n = Number(m[1]);
-    if (!Number.isInteger(n) || n < 1 || n > 114) return null;
-    return { n, canonical: String(n) === m[1] };
+    const m = /^\/quran\/([^/]+)$/.exec(p);
+    if (!m) return null;                       // /quran, /quran/a/b, trailing slash → not a surah route
+    const rec = _quranShared().bySlug.get(m[1]);   // literal, case-sensitive, exact
+    return rec ? { n: rec.number, slug: rec.slug, path: rec.path, dataFile: rec.dataFile } : null;
 }
 // ===== THE display-name helper for surah names — the ONLY place a surah name is prepared for the UI. =====
 // chapters.json stores the MUSHAF spelling, which carries marks (e.g. "الأنبيَاء", "يسٓ"). The UI needs the
@@ -29937,7 +29958,7 @@ function _quranNavCard(chapter, kind) {
     const inner = `${dir}` +
         `<span class="quran-surah-nav-name">سورة ${_quranEsc(_quranCleanName(chapter.nameAr))}</span>` +
         `<span class="quran-surah-nav-num">السورة رقم ${_quranAr(chapter.number)}</span>`;
-    return `<a class="quran-surah-nav-card quran-surah-nav-card--${kind}" href="/quran/surah/${chapter.number}">${inner}</a>`;
+    return `<a class="quran-surah-nav-card quran-surah-nav-card--${kind}" href="${_quranPathFor(chapter.number)}">${inner}</a>`;
 }
 // ---- Arabic counted-noun phrasing — ONE shared formatter, categories from CLDR via Intl.PluralRules ----
 // Arabic agreement is not "singular vs plural". CLDR splits it into six categories, and above 100 the category
@@ -30099,7 +30120,7 @@ function _quranSourceHtml(surah, manifest, sName) {
 }
 // ===== QURAN-AR-SURAH-21-P0-NON-ARABIC-LANGUAGE-UNAVAILABLE-MODAL-1 =====
 // Quran surah pages exist in ARABIC ONLY. The site's language switcher navigates to `/{lang}` + basePath
-// (js/i18n-core.js setLanguage), which for these routes resolves to /{lang}/quran/surah/:n → a REAL 404.
+// (js/i18n-core.js setLanguage), which for these routes resolves to /{lang}/quran/{slug} → a REAL 404.
 // Fix = explain, never navigate to a route that does not exist:
 //   • JS  → js/quran.js intercepts the click (capture phase) and opens the modal below. NOTHING else changes:
 //           no URL, no history, no page lang, no scroll, no reading-mode exit.
@@ -30210,16 +30231,24 @@ function _buildQuranSurahBody(n) {
         // the English name so a query typed either way still lands; `data-name-ar` / `data-name-en` are the
         // single fields the tiered matcher needs for a whole-name hit — without them «ص» could only ever be a
         // substring of «القَصَص» and friends. Search-only attributes: chapters.json is never touched.
+        // Search keys. `data-name` = the loose haystack (raw mushaf spelling + English) for substring hits;
+        // `data-name-ar` / `data-name-en` / `data-slug` are the whole-value fields the tiered matcher needs.
+        // The slug is searchable because it is now the URL a reader may have seen or been sent — but it is
+        // only ever a KEY: the row still shows the Arabic name (§12), never the slug.
         const dataAttrs = `data-num="${c.number}" data-name="${_quranEsc(c.nameAr)} ${_quranEsc(c.nameEn)}"`
-            + ` data-name-ar="${_quranEsc(disp)}" data-name-en="${_quranEsc(c.nameEn)}"`;
+            + ` data-name-ar="${_quranEsc(disp)}" data-name-en="${_quranEsc(c.nameEn)}"`
+            + ` data-slug="${_quranEsc(_quranShared().byNumber.get(c.number).slug)}"`;
         const inner = `<span class="quran-idx-num">${num}</span><span class="quran-idx-name">${_quranEsc(disp)}</span><span class="quran-idx-ay">${_quranAyahPhrase(c.ayahCount)}</span>`;
         if (c.number === surah.surah) {
             return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item is-current" href="#page-${surah.firstPage}" aria-current="true" data-quran-close-index>${inner}<span class="quran-idx-badge">الحالية</span></a></li>`;
         }
-        return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item" href="/quran/surah/${c.number}">${inner}</a></li>`;
+        return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item" href="${_quranPathFor(c.number)}">${inner}</a></li>`;
     }).join('');
 
-    return `<div class="quran-surah-page quran-site-container" id="quran-top">
+    // data-quran-surah-number: the surah's permanent identity, for the client. The URL is /quran/{slug} now and
+    // carries no number, and js/quran.js must not re-derive one from a name — the position key stays keyed on
+    // the number. Not user-facing; the visible «السورة ٢١» chip is separate.
+    return `<div class="quran-surah-page quran-site-container" id="quran-top" data-quran-surah-number="${surah.surah}" data-quran-surah-slug="${_quranEsc(_quranShared().byNumber.get(surah.surah).slug)}">
 
   <nav class="moon-breadcrumb" aria-label="مسار التنقل">
     <ol class="breadcrumb-list">
@@ -30261,13 +30290,13 @@ function _buildQuranSurahBody(n) {
     <button class="quran-tool-btn quran-reading-exit" type="button" data-quran-action="reading" aria-label="الخروج من وضع القراءة" title="الخروج من وضع القراءة"><span class="quran-tool-ico" aria-hidden="true">✕</span><span class="quran-reading-exit-label">الخروج من وضع القراءة</span></button>
     <button class="quran-tool-btn" type="button" data-quran-action="top" aria-label="العودة إلى أعلى الصفحة" title="العودة إلى أعلى الصفحة"><span class="quran-tool-ico" aria-hidden="true">↑</span><span class="quran-tool-label">أعلى الصفحة</span></button>
     <span class="quran-tool-spacer"></span>
-    <form class="quran-jump quran-ayah-jump" method="get" action="/quran/surah/${surah.surah}" data-quran-ayah-jump>
+    <form class="quran-jump quran-ayah-jump" method="get" action="${_quranPathFor(surah.surah)}" data-quran-ayah-jump>
       <label class="quran-jump-label" for="quran-ayah-input">اذهب إلى آية</label>
       <input class="quran-jump-input" id="quran-ayah-input" name="ayah" type="number" min="1" max="${surah.ayahCount}" step="1" inputmode="numeric" placeholder="١…${_quranAr(surah.ayahCount)}" autocomplete="off" aria-describedby="quran-ayah-err">
       <button class="quran-tool-btn quran-jump-go" type="submit">اذهب</button>
       <span class="quran-jump-err" id="quran-ayah-err" role="alert" hidden data-quran-ayah-errmsg>أدخل رقم آية بين ١ و${_quranAr(surah.ayahCount)}</span>
     </form>
-    <form class="quran-jump quran-page-jump" method="get" action="/quran/surah/${surah.surah}" data-quran-page-jump>
+    <form class="quran-jump quran-page-jump" method="get" action="${_quranPathFor(surah.surah)}" data-quran-page-jump>
       <label class="quran-jump-label" for="quran-page-sel">صفحة مرجعية</label>
       <select class="quran-jump-sel" id="quran-page-sel" name="page" data-quran-goto aria-label="الانتقال إلى صفحة مرجعية">${pageOptions}</select>
       <noscript><button class="quran-tool-btn quran-jump-go" type="submit">اذهب</button></noscript>
@@ -30870,6 +30899,16 @@ const server = http.createServer(async (req, res) => {
     //   One-hop 301. Excluded: '/' itself (root, already handled above), and
     //   any path that ends in a file extension (.png, .css, .js, etc — these
     //   shouldn't have trailing slash anyway, but the guard is defensive).
+    // QURAN-AR-FINAL-OFFICIAL-ENGLISH-SLUG-URL-STRUCTURE-NO-REDIRECTS-1 — the Quran section opts OUT of the
+    // trailing-slash repair below. Everywhere else on the site that 301 is right: those URLs are published and
+    // indexed, so a slash variant must be folded back into the canonical. The Quran pages are the opposite —
+    // unpublished, unindexed, no sitemap — so there is nothing to preserve, and repairing `/quran/al-anbiya/`
+    // would hand out a SECOND working URL for a surah, which is exactly what this structure exists to prevent.
+    // A wrong URL here is simply wrong: 404, no `Location`. Deliberately narrower than the site default.
+    if (process.env.QURAN_PROTOTYPE_ENABLED === '1' && /^\/quran\/.+\/$/.test(urlPath)) {
+        send404Page(urlPath, res, req.headers['accept-encoding'] || '');
+        return;
+    }
     if (urlPath.length > 1 && urlPath.endsWith('/') && !/\.[a-z0-9]+\/$/i.test(urlPath)) {
         const _noSlash = urlPath.replace(/\/+$/, '') || '/';
         res.writeHead(301, {
@@ -30965,22 +31004,28 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== QURAN-AR surah routes /quran/surah/1..114 (feature-flagged, internal, noindex; NO push, NO sitemap) =====
+    // ===== QURAN-AR surah routes /quran/{official-english-slug} (feature-flagged, internal, noindex) =====
+    // NO URL redirect of any kind lives here. The retired numeric paths (/quran/surah/21, /quran/21, …) are not
+    // recognised anywhere in this file, so they reach the site's normal 404 with no `Location` header — they
+    // were never published, never indexed, never in a sitemap, so there is no traffic to preserve and a wrong
+    // URL is simply wrong. Mis-cased, mis-spelled and trailing-slash paths 404 for the same reason: repairing
+    // them would mint a second working URL for one surah, which is precisely what this structure forbids.
     if (process.env.QURAN_PROTOTYPE_ENABLED === '1') {
         const _qs = _quranSurahRoute(urlPath);
         if (_qs) {
-            // ONE canonical URL per surah: '021' (or '007') permanently redirects to the bare number.
-            if (!_qs.canonical) { res.writeHead(301, { Location: '/quran/surah/' + _qs.n }); res.end(); return; }
             const _ch = _quranChapter(_qs.n);
             if (_ch) {
-                // No-JS ayah/page jump: the GET form submits ?ayah=N or ?page=NNN → 302 to the in-page fragment.
-                // Bounds come from THIS surah's own data — never a hardcoded range.
+                // The no-JS ayah/page jump. This is NOT a URL redirect: it is the only way a <form> without
+                // JavaScript can reach an in-page anchor, and it lands on the SAME slug it was submitted from —
+                // it never maps one URL onto another, and a fragment never even reaches the server. §13/§16
+                // require the no-JS reader to keep working and §14 forbids changing the reading functions, so
+                // it stays. Bounds come from THIS surah's own data — never a hardcoded range.
                 const _am = /(?:^|&)ayah=(\d{1,3})(?:&|$)/.exec(qs);
-                if (_am) { const a = +_am[1]; if (a >= 1 && a <= _ch.ayahCount) { res.writeHead(302, { Location: '/quran/surah/' + _qs.n + '#ayah-' + a }); res.end(); return; } }
+                if (_am) { const a = +_am[1]; if (a >= 1 && a <= _ch.ayahCount) { res.writeHead(302, { Location: _qs.path + '#ayah-' + a }); res.end(); return; } }
                 const _pm = /(?:^|&)page=(\d{1,4})(?:&|$)/.exec(qs);
-                if (_pm) { const p = +_pm[1]; if (p >= _ch.firstPage && p <= _ch.lastPage) { res.writeHead(302, { Location: '/quran/surah/' + _qs.n + '#page-' + p }); res.end(); return; } }
+                if (_pm) { const p = +_pm[1]; if (p >= _ch.firstPage && p <= _ch.lastPage) { res.writeHead(302, { Location: _qs.path + '#page-' + p }); res.end(); return; } }
             }
-            // No redirect → fall through; the page is served through the REAL index.html shell (see _isIndexHtmlRoute).
+            // No jump → fall through; the page is served through the REAL index.html shell (see _isIndexHtmlRoute).
         }
     }
 
@@ -31472,11 +31517,13 @@ const server = http.createServer(async (req, res) => {
     // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
     const _LANG_PREFIX_RE = '(?:en|fr|tr|ur|de|id|es|bn|ms)';
     const _isIndexHtmlRoute =
-        // QURAN-AR surah pages (flag-gated, Arabic-only): served through the REAL index.html shell. Only the
-        // CANONICAL form is served — '/quran/surah/021' was already 301'd above, and 0/115/anything-else never
-        // matches, so it falls through to the site's normal 404. The `.canonical` test is repeated here on
-        // purpose: were the redirect ever to stop firing, this must NOT quietly serve a bodyless shell.
-        (process.env.QURAN_PROTOTYPE_ENABLED === '1' && !!(_quranSurahRoute(urlPath) || {}).canonical) ||
+        // QURAN-AR surah pages (flag-gated, Arabic-only): served through the REAL index.html shell. There is
+        // exactly ONE form per surah — the official English slug — and `_quranSurahRoute` is the only thing
+        // that recognises it: an exact, case-sensitive lookup against the source-derived table. Anything else
+        // (a number, a misspelling, a trailing slash) matches nothing here and falls through to the site's
+        // normal 404. This gate and the body injection below share that one resolver on purpose: if a path
+        // cannot name a surah, the shell must not be served bodyless — it must not be served at all.
+        (process.env.QURAN_PROTOTYPE_ENABLED === '1' && !!_quranSurahRoute(urlPath)) ||
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested city moon hub (valid only —
         //   exactly /moon/{country}/{city} with the city resolving to that country).
         (_nestedMoon.kind === 'valid') ||

@@ -9,6 +9,11 @@ import { spawn } from 'child_process';
 import fs from 'fs'; import os from 'os'; import path from 'path'; import net from 'net';
 import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+// /quran/{official-english-slug} — the ONE URL per surah, read from the source-derived routes table.
+// Never spell a slug out in a test: it would become a second source of truth, and these tests SKIP (not
+// fail) when the page 404s — a drifted literal would go quietly green with zero coverage.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function findChrome() {
   const c = ['C:/Program Files/Google/Chrome/Application/chrome.exe', 'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
@@ -22,10 +27,10 @@ const CHROME = findChrome();
 if (!CHROME) { console.log('SKIP — no Chrome/Chromium found'); process.exit(0); }
 let base = process.env.QURAN_SMOKE_URL || 'http://localhost:3100'; let spawnedServer = null;
 async function ensureServer() {
-  if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/quran-browse-cta/.test(H)) return true; }
+  if (await reachable(base)) { const H = await fetch(base + P(21)).then(r => r.text()).catch(() => ''); if (/quran-browse-cta/.test(H)) return true; }
   const PORT = 3198; base = 'http://localhost:' + PORT;
   spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], { cwd: ROOT, stdio: 'ignore', env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT), NODE_PATH: process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules' }) });
-  for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/quran-browse-cta/.test(H)) return true; } }
+  for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + P(21)).then(r => r.text()).catch(() => ''); if (/quran-browse-cta/.test(H)) return true; } }
   return false;
 }
 class CDP { constructor(ws) { this.ws = ws; this.id = 0; this.p = new Map(); this.h = {};
@@ -49,7 +54,7 @@ async function main() {
   cdp.on('Runtime.exceptionThrown', p => pageErrors.push(JSON.stringify(p.exceptionDetails && p.exceptionDetails.text)));
   cdp.on('Runtime.consoleAPICalled', p => { if (p.type === 'error') consoleErrors.push((p.args || []).map(a => a.value || a.description || '').join(' ')); });
   const ev = async (expr) => { const r = await cdp.send('Runtime.evaluate', { expression: expr, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw new Error('EVAL ' + JSON.stringify(r.exceptionDetails.exception && r.exceptionDetails.exception.description || r.exceptionDetails.text)); return r.result.value; };
-  const load = async (w, h, mobile) => { await cdp.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile }); loaded = false; await cdp.send('Page.navigate', { url: base + '/quran/surah/21' }); for (let i = 0; i < 100 && !loaded; i++) await sleep(100); await sleep(900); };
+  const load = async (w, h, mobile) => { await cdp.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile }); loaded = false; await cdp.send('Page.navigate', { url: base + P(21) }); for (let i = 0; i < 100 && !loaded; i++) await sleep(100); await sleep(900); };
   const H = `
     var ctas=[].slice.call(document.querySelectorAll('.quran-browse-cta'));
     var hero=document.querySelector('.quran-hero .quran-browse-cta');
@@ -110,16 +115,20 @@ async function main() {
   ok(s.length === 0, 'NO duplicate element ids' + (s.length ? ' — ' + JSON.stringify(s) : ''));
   // Sibling-surah links: the prototype asserted there were NONE (only surah 21 existed, so any such link
   // would 404). All 114 are built now, so the requirement inverts — the links must exist AND resolve.
+  // Every sibling link must be one of the 114 official slug paths. Checking the SHAPE alone would let
+  // /quran/al-anbia through, so the hrefs are compared against the routes table itself.
+  const VALID = JSON.stringify(ROUTES.map(x => x.path));
   s = await ev(`(function(){
-    var a = [].slice.call(document.querySelectorAll('a[href^="/quran/surah/"]'));
+    var valid = ${VALID};
+    var a = [].slice.call(document.querySelectorAll('a[href^="/quran/"]'));
     var bad = a.map(function(x){ return x.getAttribute('href'); })
-               .filter(function(h){ var m = /^\\/quran\\/surah\\/(\\d+)$/.exec(h); return !m || +m[1] < 1 || +m[1] > 114; });
+               .filter(function(h){ return h.indexOf('#') !== 0 && valid.indexOf(h.split('#')[0]) === -1; });
     return { total: a.length, bad: bad.length, sample: bad.slice(0, 3) };
   })()`);
-  ok(s.total > 0 && s.bad === 0, `every /quran/surah/{n} link points at a real surah 1..114 — ${s.total} link(s), ${s.bad} malformed` + (s.bad ? ' → ' + JSON.stringify(s.sample) : ''));
+  ok(s.total > 0 && s.bad === 0, `every /quran/ link is one of the 114 official slug paths — ${s.total} link(s), ${s.bad} off-table` + (s.bad ? ' → ' + JSON.stringify(s.sample) : ''));
   // …and they really are served (a link is only good if the route answers)
-  const probe = await fetch(base + '/quran/surah/22').then(r => r.status).catch(() => 0);
-  ok(probe === 200, 'the neighbour route /quran/surah/22 actually returns 200 — got ' + probe);
+  const probe = await fetch(base + P(22)).then(r => r.status).catch(() => 0);
+  ok(probe === 200, `the neighbour route ${P(22)} actually returns 200 — got ` + probe);
 
   // ================= open + focus return: TOP =================
   s = await ev(`(function(){ ${H}

@@ -9,6 +9,11 @@ import { spawn } from 'child_process';
 import fs from 'fs'; import os from 'os'; import path from 'path'; import net from 'net';
 import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+// /quran/{official-english-slug} — the ONE URL per surah, read from the source-derived routes table.
+// Never spell a slug out in a test: it would become a second source of truth, and these tests SKIP (not
+// fail) when the page 404s — a drifted literal would go quietly green with zero coverage.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function findChrome() {
   const c = [
@@ -35,13 +40,13 @@ if (!CHROME) { console.log('SKIP — no Chrome/Chromium found (browser-behaviour
 let base = process.env.QURAN_SMOKE_URL || 'http://localhost:3100';
 let spawnedServer = null;
 async function ensureServer() {
-  if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/data-quran-surah-filter/.test(H)) return true; }
+  if (await reachable(base)) { const H = await fetch(base + P(21)).then(r => r.text()).catch(() => ''); if (/data-quran-surah-filter/.test(H)) return true; }
   const PORT = 3199; base = 'http://localhost:' + PORT;
   spawnedServer = spawn(process.execPath, [path.join(ROOT, 'server.js')], {
     cwd: ROOT, stdio: 'ignore',
     env: Object.assign({}, process.env, { QURAN_PROTOTYPE_ENABLED: '1', PORT: String(PORT), NODE_PATH: process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules' }),
   });
-  for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + '/quran/surah/21').then(r => r.text()).catch(() => ''); if (/data-quran-surah-filter/.test(H)) return true; } }
+  for (let i = 0; i < 80; i++) { await sleep(400); if (await reachable(base)) { const H = await fetch(base + P(21)).then(r => r.text()).catch(() => ''); if (/data-quran-surah-filter/.test(H)) return true; } }
   return false;
 }
 
@@ -83,7 +88,7 @@ async function main() {
   `;
   const load = async (w, h, mobile) => {
     await cdp.send('Emulation.setDeviceMetricsOverride', { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile });
-    loaded = false; await cdp.send('Page.navigate', { url: base + '/quran/surah/21' });
+    loaded = false; await cdp.send('Page.navigate', { url: base + P(21) });
     for (let i = 0; i < 100 && !loaded; i++) await sleep(100); await sleep(900);
   };
 
@@ -105,25 +110,41 @@ async function main() {
     var foc=0; hid.forEach(function(li){ [].forEach.call(li.querySelectorAll('a[href],button,[tabindex]'), function(el){ if(el.offsetParent!==null) foc++; }); });
     return {hid:hid.length, foc:foc}; })()`);
   ok(s.hid === 113 && s.foc === 0, 'filtered-out surahs are display:none (113) and expose NO tabbable element');
-  // The prototype asserted the drawer held exactly ONE anchor and no route links (113 inert spans). With all
-  // 114 surahs built the drawer is a real index: the CURRENT surah stays an in-page anchor and the other 113
-  // are links to their own routes.
+  // The drawer is a real index: the CURRENT surah stays an in-page anchor (#page-N) and the other 113 are
+  // links to their own /quran/{slug} routes. Each link is matched against the routes table rather than a URL
+  // shape — a shape test would wave through /quran/al-anbia, which 404s.
+  const VALID = JSON.stringify(ROUTES.filter(x => x.number !== 21).map(x => x.path));
   s = await ev(`(function(){ ${H} type('');
+    var valid=${VALID};
     var a=[].slice.call(document.querySelectorAll('.quran-idx-item[href]'));
     var self=a.filter(function(x){return /^#page-/.test(x.getAttribute('href'));});
-    var route=a.filter(function(x){return /^\\/quran\\/surah\\/(\\d+)$/.test(x.getAttribute('href'));});
+    var route=a.filter(function(x){return valid.indexOf(x.getAttribute('href'))!==-1;});
     var bad=a.length-self.length-route.length;
-    var oor=route.filter(function(x){var n=+/(\\d+)$/.exec(x.getAttribute('href'))[1]; return n<1||n>114;});
-    return {self:self.length, route:route.length, bad:bad, oor:oor.length}; })()`);
-  ok(s.self === 1 && s.route === 113 && s.bad === 0 && s.oor === 0,
-     `the drawer = 1 in-page anchor (the current surah) + 113 real surah links, none out of range — got self=${s.self} route=${s.route} other=${s.bad} out-of-range=${s.oor}`);
+    var uniq={}; route.forEach(function(x){uniq[x.getAttribute('href')]=1;});
+    return {self:self.length, route:route.length, bad:bad, uniq:Object.keys(uniq).length}; })()`);
+  ok(s.self === 1 && s.route === 113 && s.bad === 0 && s.uniq === 113,
+     `the drawer = 1 in-page anchor (the current surah) + 113 DISTINCT official slug links, nothing else — got self=${s.self} slug-links=${s.route} distinct=${s.uniq} off-table=${s.bad}`);
   s = await ev(`(function(){ ${H} type('زقزقة'); document.querySelector('.quran-empty-clear').click(); return {v:vis().length, val:inp.value, foc:document.activeElement===inp}; })()`);
   ok(s.v === 114 && s.val === '' && s.foc, 'empty-state "مسح البحث" → restores 114 + empties field + focuses input');
   s = await ev(`(function(){ ${H} type('الأنبياء'); document.querySelector('.quran-filter-clear').click(); return {v:vis().length, val:inp.value, foc:document.activeElement===inp}; })()`);
   ok(s.v === 114 && s.val === '' && s.foc, 'inline clear ✕ → restores 114 + empties field + focuses input');
   await sleep(120); trackNet = false;
-  ok(net2.filter(u => /\/api\/|\/quran\/search|\/search\?/i.test(u)).length === 0, 'NO API/search network request while typing (client-only filter)');
-  ok(!/\.innerHTML\s*=/.test(fs.readFileSync(path.join(ROOT, 'js', 'quran.js'), 'utf8').split('function applyFilter')[1].split('function clearFilter')[0]), 'applyFilter performs NO .innerHTML assignment (textContent only)');
+  // The DRAWER filter is client-only: typing a surah name or number into it must never hit the network.
+  // NOTE — an earlier version of this check flagged ANY /api/ request in the window and was flaky, because the
+  // SHARED shell fires a background geolocation warm-up (js/app.js #nearby-section → /api/geocode?q=city / an
+  // overpass query) on load; that is the site's location feature, NOT the drawer, and it carries "city"/"town",
+  // never a surah query. The precise, timing-independent assertion is: no request carried anything the DRAWER
+  // was actually asked to search for. Its distinctive queries are surah names — not the bare numbers, which
+  // could coincidentally match coordinates in a geocode URL.
+  const TYPED = ['anbiya', 'الأنبياء', 'أنب', 'زقزقة'];
+  const drawerHits = net2.filter(u => TYPED.some(q => u.includes(q) || u.includes(encodeURIComponent(q))));
+  ok(drawerHits.length === 0, 'the drawer filter issued NO request carrying what was typed — client-only'
+     + (drawerHits.length ? ' — caught: ' + JSON.stringify(drawerHits) : ' (the shell\'s background geolocation is unrelated)'));
+  // …and the proof is structural, not a race: js/quran.js — which owns applyFilter — cannot make a network
+  // call at all. No fetch, no XHR, no WebSocket. This can never flake.
+  const qjs = fs.readFileSync(path.join(ROOT, 'js', 'quran.js'), 'utf8');
+  ok(!/\bfetch\s*\(|XMLHttpRequest|new\s+WebSocket|\.ajax\s*\(/.test(qjs), 'js/quran.js (owner of the drawer filter) contains NO fetch/XHR/WebSocket — the filter is structurally incapable of a network search');
+  ok(!/\.innerHTML\s*=/.test(qjs.split('function applyFilter')[1].split('function clearFilter')[0]), 'applyFilter performs NO .innerHTML assignment (textContent only)');
 
   // ================= MOBILE =================
   await load(390, 844, true);

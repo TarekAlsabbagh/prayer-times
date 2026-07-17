@@ -1,5 +1,5 @@
 /* QURAN-AR-SURAH-21 — REVISION-2 (consistent two-width system + mobile margins + FAQ + SEO content).
-   Loaded AFTER css/style.css on /quran/surah/21 only. Adds ONLY the Quran reading UI and INHERITS the
+   Loaded AFTER css/style.css on the /quran/{slug} surah pages only. Adds ONLY the Quran reading UI and INHERITS the
    whole site palette from style.css (var(--bg)/--card-bg/--text/--primary/--border/--shadow/--radius/…).
    No standalone palette; Quran tints derive from the site variables via color-mix (auto-flip in dark).
    The breadcrumb (.breadcrumb-list/.bc-*) and FAQ (.country-faq-item.moon-country-faq) are the SITE's own

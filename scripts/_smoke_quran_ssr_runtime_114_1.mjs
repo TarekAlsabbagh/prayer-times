@@ -1,13 +1,19 @@
-// Smoke — QURAN-AR-SSR-SURAH-GENERALIZATION-1 §13/§14: RUNTIME in a real (headless) browser.
-// SSR being right is not enough: app.js owns the SPA page activator and js/quran.js owns the jump bar and the
-// reading-position key, and ALL THREE were keyed to surah 21. This drives an actual browser over several
-// surahs and checks that the reader ends up looking at the surah they asked for — on first load, after a
-// reload, and after back/forward — with no pageerror and no console.error.
+// Smoke — QURAN-AR-FINAL-OFFICIAL-ENGLISH-SLUG-URL-STRUCTURE-NO-REDIRECTS-1 §16: RUNTIME in a real
+// (headless) browser. SSR being right is not enough: app.js owns the SPA page activator and js/quran.js owns
+// the jump bar and the reading-position key. The activator now matches a SLUG shape rather than a number, and
+// the position key reads a data- attribute the server wrote — so a browser has to prove it. This drives one
+// over several surahs and checks the reader ends up looking at the surah they asked for — on first load, after
+// a reload, and after back/forward — with no pageerror and no console.error.
 //
 //   QURAN_SSR_BASE=http://127.0.0.1:8085 node scripts/_smoke_quran_ssr_runtime_114_1.mjs
 import { spawn } from 'child_process';
 import fs from 'fs'; import os from 'os'; import path from 'path';
+import { fileURLToPath } from 'url';
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
+// /quran/{official-english-slug} — read from the source-derived table, never spelled out in a test.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..',
+  'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let pass = 0, fail = 0; const F = [];
@@ -22,7 +28,7 @@ class CDP { constructor(ws) { this.ws = ws; this.id = 0; this.p = new Map(); thi
 
 let chrome = null; const UDD = path.join(os.tmpdir(), 'quran-runtime-smoke-' + process.pid);
 async function main() {
-  if (!(await fetch(BASE + '/quran/surah/21').then(r => r.ok).catch(() => false))) { console.log('SKIP — no server at ' + BASE); process.exit(0); }
+  if (!(await fetch(BASE + P(21)).then(r => r.ok).catch(() => false))) { console.log('SKIP — no server at ' + BASE); process.exit(0); }
   const PORT = 9373;
   try { fs.rmSync(UDD, { recursive: true, force: true }); } catch (e) {}
   chrome = spawn(CHROME, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', '--no-default-browser-check',
@@ -55,7 +61,7 @@ async function main() {
 
   console.log('\n--- §13/§14 first load: the SSR page stays active; app.js does not flash it home ---');
   for (const [n, name, ayat] of [[1, 'الفاتحة', 7], [2, 'البقرة', 286], [9, 'التوبة', 129], [21, 'الأنبياء', 112], [108, 'الكوثر', 3], [114, 'الناس', 6]]) {
-    await goto(`${BASE}/quran/surah/${n}`);
+    await goto(`${BASE}${P(n)}`);
     const st = await ev(STATE);
     ok(st.active.length === 1 && st.active[0] === 'page-quran-surah', `surah ${n}: exactly one active page, and it is #page-quran-surah — got ${JSON.stringify(st.active)}`);
     ok(st.visible && st.h1 === `سورة ${name} مكتوبة كاملة بالتشكيل والرسم العثماني`, `surah ${n}: the VISIBLE H1 is «سورة ${name}…» — got «${st.h1}» visible=${st.visible}`);
@@ -70,18 +76,18 @@ async function main() {
     i.value = '${v}'; f.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
     return document.querySelector('[data-quran-ayah-errmsg]').hidden === false;
   })()`;
-  await goto(`${BASE}/quran/surah/1`);
+  await goto(`${BASE}${P(1)}`);
   ok(await ev(JUMP(8)) === true, 'Al-Fatiha: ayah 8 is REJECTED (the old literal 112 would have accepted it)');
   ok(await ev(JUMP(7)) === false, 'Al-Fatiha: ayah 7 is accepted');
-  await goto(`${BASE}/quran/surah/2`);
+  await goto(`${BASE}${P(2)}`);
   ok(await ev(JUMP(150)) === false, 'Al-Baqara: ayah 150 is accepted (the old literal 112 would have refused it)');
   ok(await ev(JUMP(287)) === true, 'Al-Baqara: ayah 287 is rejected');
 
   console.log('\n--- §14 the reading position is stored per surah ---');
   // localStorage survives navigation, so the keys from the loop above are still here — that is the point:
   // every surah visited so far must have written its OWN key. Clearing first would test less, not more.
-  await goto(`${BASE}/quran/surah/1`); await ev('window.scrollTo(0, 300)'); await sleep(400);
-  await goto(`${BASE}/quran/surah/2`); await ev('window.scrollTo(0, 900)'); await sleep(400);
+  await goto(`${BASE}${P(1)}`); await ev('window.scrollTo(0, 300)'); await sleep(400);
+  await goto(`${BASE}${P(2)}`); await ev('window.scrollTo(0, 900)'); await sleep(400);
   const pos = await ev(`(() => {
     const o = {}; Object.keys(localStorage).filter(k => k.indexOf('quran.pos.') === 0).forEach(k => o[k] = localStorage.getItem(k)); return o;
   })()`);
@@ -98,9 +104,9 @@ async function main() {
      + (strays.length ? ' — strays: ' + strays : ''));
 
   console.log('\n--- §14 reload / back / forward land on the right surah with no stale content ---');
-  await goto(`${BASE}/quran/surah/21`);
-  await goto(`${BASE}/quran/surah/36`);
-  await goto(`${BASE}/quran/surah/36`);
+  await goto(`${BASE}${P(21)}`);
+  await goto(`${BASE}${P(36)}`);
+  await goto(`${BASE}${P(36)}`);
   let st = await ev(STATE);
   ok(st.h1.includes('يس') && st.ayahs === 83, `reload of surah 36 re-renders Ya-Sin (83 ayat) — got «${st.h1}» / ${st.ayahs}`);
   await ev('history.back()'); await sleep(1800);
@@ -111,16 +117,25 @@ async function main() {
   ok(st.h1.includes('يس') && st.ayahs === 83, `forward → Ya-Sin again — got «${st.h1}» / ${st.ayahs}`);
 
   console.log('\n--- §10/§14 the drawer opens once and its entries are real links ---');
-  await goto(`${BASE}/quran/surah/21`);
+  await goto(`${BASE}${P(21)}`);
+  // The drawer lists all 114: 113 links OUT, plus the surah you are already reading as an in-page anchor
+  // (href="#page-N") rather than a link to itself. So the entries split exactly 113 + 1, and every one of the
+  // 113 must be a path the routes table knows — a stray numeric or misspelt href fails to match rather than
+  // slipping through a shape test.
+  const wantHrefs = ROUTES.filter(x => x.number !== 21).map(x => x.path);
   const modal = await ev(`(() => {
     document.querySelector('[data-quran-surah-browser-trigger]').click();
     const m = document.querySelectorAll('#quran-index');
-    const l = document.querySelector('.quran-idx-item[href="/quran/surah/36"]');
+    const l = document.querySelector('.quran-idx-item[href="${P(36)}"]');
+    const all = Array.from(document.querySelectorAll('.quran-idx-item')).map(a => a.getAttribute('href'));
     return { modals: m.length, open: m[0].getAttribute('aria-hidden') === 'false', href: l ? l.getAttribute('href') : null,
-             links: document.querySelectorAll('.quran-idx-item[href^="/quran/surah/"]').length };
+             all: all, links: all.filter(h => h && h.charAt(0) !== '#'), self: all.filter(h => h && h.charAt(0) === '#') };
   })()`);
   ok(modal.modals === 1 && modal.open, `exactly one drawer node, and it opens — got ${modal.modals} node(s), open=${modal.open}`);
-  ok(modal.href === '/quran/surah/36' && modal.links === 113, `the drawer holds 113 real surah links — got ${modal.links}, Ya-Sin → ${modal.href}`);
+  ok(modal.href === P(36) && modal.links.length === 113, `the drawer holds 113 real surah links — got ${modal.links.length}, Ya-Sin → ${modal.href}`);
+  ok(modal.self.length === 1, `…and exactly 1 in-page anchor for the surah being read — got ${modal.self.length}: ${JSON.stringify(modal.self)}`);
+  const notSlug = modal.links.filter(h => !wantHrefs.includes(h));
+  ok(notSlug.length === 0, 'every drawer link is one of the 114 official slug paths — no number, no /quran/surah/' + (notSlug.length ? ' | ' + JSON.stringify(notSlug.slice(0, 5)) : ''));
 
   console.log('\n--- runtime cleanliness across every navigation above ---');
   ok(pageErrors.length === 0, 'pageerror = 0' + (pageErrors.length ? ' — ' + pageErrors.slice(0, 3) : ''));

@@ -13,6 +13,9 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
 const D = path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/surahs');
 const CH = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/chapters.json'), 'utf8'));
+// /quran/{official-english-slug} — read from the source-derived table, never spelled out in a test.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const ms = (a, b) => Number(b - a) / 1e6;
 const fmt = (x, d = 2) => x.toFixed(d).padStart(7);
 
@@ -40,7 +43,7 @@ console.log('\n=== end-to-end SSR (HTTP), cold first hit vs warm median of 10 ==
 console.log('surah                   HTML KB    cold ms    warm ms');
 const t = async (u) => { const a = process.hrtime.bigint(); const r = await fetch(u); const b = await r.text(); return [ms(a, process.hrtime.bigint()), b.length]; };
 for (const [n, name] of [[1, 'Al-Fatiha (7)'], [2, 'Al-Baqara (286)'], [21, 'Al-Anbiya (112)'], [108, 'Al-Kauthar (3)'], [114, 'An-Nas (6)']]) {
-  const u = `${BASE}/quran/surah/${n}`;
+  const u = `${BASE}${P(n)}`;
   const [cold, len] = await t(u);
   const warm = [];
   for (let i = 0; i < 10; i++) warm.push((await t(u))[0]);
@@ -52,10 +55,10 @@ for (const [n, name] of [[1, 'Al-Fatiha (7)'], [2, 'Al-Baqara (286)'], [21, 'Al-
 console.log('\n=== sweep: every one of the 114 pages, twice ===');
 for (const pass of [1, 2]) {
   const a = process.hrtime.bigint();
-  for (const c of CH) await fetch(`${BASE}/quran/surah/${c.number}`).then(r => r.text());
+  for (const c of CH) await fetch(`${BASE}${P(c.number)}`).then(r => r.text());
   const total = ms(a, process.hrtime.bigint());
   console.log(`  pass ${pass}: 114 pages in ${(total / 1000).toFixed(2)}s — ${(total / 114).toFixed(1)} ms/page average`);
 }
-const rss = await fetch(`${BASE}/quran/surah/1`).then(() => process.memoryUsage().rss);
+const rss = await fetch(`${BASE}${P(1)}`).then(() => process.memoryUsage().rss);
 console.log(`  (this client's RSS: ${(rss / 1024 / 1024).toFixed(1)} MB — the SERVER's RSS is printed by its own log; see the report)`);
 console.log('\nRESULT: measurement only — no assertions, nothing to fail.');

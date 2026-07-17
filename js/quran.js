@@ -1,7 +1,8 @@
 /* QURAN-AR surah pages — client ENHANCEMENTS ONLY (SPA-integrated: page served inside the real index.html
    shell, so app.js already provides toggleSidebar/toggleTheme, the header, sidebar and footer).
-   Loaded ONLY on /quran/surah/:n (1..114). Nothing here is per-surah data: the ayah ceiling comes from the
-   SSR max="" and the position key from the route. Contains NO ayah text, NO surah data, NO basmala generation, NO text
+   Loaded ONLY on /quran/{slug} (the 114 official English slugs). Nothing here is per-surah data and no slug is
+   listed here: the ayah ceiling comes from the SSR max="", the surah number from a data- attribute the server
+   wrote, and the slug table lives on the server alone. Contains NO ayah text, NO surah data, NO basmala generation, NO text
    correction, NO page re-splitting. If JS is disabled the SSR page stays fully readable and the ayah/page
    jump falls back to a server GET->302 redirect to the fragment. All localStorage access is guarded.
    NOTE: deliberately contains NO Arabic letters — every user-facing string lives in the server-rendered
@@ -45,11 +46,14 @@
       set: function (k, v) { try { window.localStorage.setItem(k, v); } catch (e) {} }
     };
     // font + reading-mode are GLOBAL reader preferences → one key each, shared by all 114 surahs.
-    // The reading POSITION is per-surah: a single key would have stored Al-Fatiha's page under the name
-    // «surah21» and handed it back for a different surah. The number comes from the route, which is the only
-    // thing on this page that identifies the surah (quran.js loads on /quran/surah/:n and nowhere else).
-    var SURAH_N = (window.location.pathname.match(/\/quran\/surah\/(\d{1,3})$/) || [])[1] || '0';
-    var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + SURAH_N };
+    // The reading POSITION is per-surah. The URL no longer carries the number (it is /quran/{english-slug}
+    // now), so the number comes from an SSR data attribute instead of being parsed out of the path. Keying on
+    // the NUMBER, not the slug, is deliberate: the number is the surah's permanent identity, while a slug is a
+    // presentation choice — if a slug were ever corrected, slug-keyed positions would silently orphan, whereas
+    // number-keyed ones keep working. It also keeps every already-saved «quran.pos.surahN» key valid.
+    var SURAH_N = (shell.querySelector('[data-quran-surah-number]') || {}).getAttribute
+        ? shell.querySelector('[data-quran-surah-number]').getAttribute('data-quran-surah-number') : '0';
+    var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + (SURAH_N || '0') };
 
     /* ---- font size: step (-3..+6) added on top of the viewport-aware base var --q-ayah-base (CSS sets it
        to 1.55rem on desktop, 1.43rem on phones). Reading the base from CSS keeps the DEFAULT responsive per
@@ -243,11 +247,15 @@
     var idxData = idxLis.map(function (li) {
       var ar = normalize(li.getAttribute('data-name-ar') || '');
       var en = normalize(li.getAttribute('data-name-en') || '');
+      var sl = normalize(li.getAttribute('data-slug') || '');
+      // The slug joins the whole-value keys: it is the URL a reader may have been sent, so it must find its
+      // surah. normalize() strips the apostrophes and marks out of the English name, which is exactly what the
+      // slug rule did — so an English query usually lands on the slug key too, from either spelling.
       return {
         li: li,
         num: (li.getAttribute('data-num') || '').replace(/\D/g, ''),
-        name: normalize(li.getAttribute('data-name') || ''),
-        whole: [ar, en].filter(Boolean)
+        name: normalize(li.getAttribute('data-name') || '') + ' ' + sl,
+        whole: [ar, en, sl].filter(Boolean)
       };
     });
     function countLabel(shown, hasQuery) {
@@ -324,7 +332,7 @@
     updateProgress();
 
     /* ---- NON-ARABIC LANGUAGE UNAVAILABLE (P0) — Quran surah pages exist in ARABIC ONLY. The site switcher
-       (js/i18n-core.js setLanguage) would send the reader to /{lang}/quran/surah/:n → a real 404. We intercept
+       (js/i18n-core.js setLanguage) would send the reader to /{lang}/quran/{slug} → a real 404. We intercept
        in the CAPTURE phase on document, so the menu item's own bubble-phase listener (which calls setLanguage)
        never runs: the URL, history, page language, scroll position, font size, theme and reading mode all stay
        exactly as they were. This file loads ONLY on the surah route → no other page's switcher is affected.

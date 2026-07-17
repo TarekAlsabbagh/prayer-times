@@ -1,8 +1,8 @@
-// Smoke — QURAN surah-end + prev/next nav (REVISION-4, corrected). The surah-end box keeps EXACTLY ONE
-// "browse all surahs" button (de-duped) AND restores the prev(Ta-Ha 20)/next(Al-Hajj 22) navigation as two
-// EQUAL cards. PROTOTYPE: cards are aria-disabled with a "coming soon" note and NO href (zero
-// /quran/surah/{20,22} 404s); _QURAN_SURAHS_LIVE=false. The 114-generalization flips the flag → the SAME
-// builder emits real /quran/surah/N links. Dynamic for every surah (Al-Fatiha no prev, An-Nas no next).
+// Smoke — QURAN surah-end + prev/next nav. The surah-end box keeps EXACTLY ONE "browse all surahs" button
+// (de-duped) AND renders the prev/next neighbours as two EQUAL cards. Both are now unconditional real links
+// built through `_quranPathFor` — the ONE helper that turns a surah number into its official slug URL, so a
+// neighbour card can never hand-assemble a path of its own. Dynamic for every surah (Al-Fatiha has no prev,
+// An-Nas no next: a missing neighbour renders NOTHING rather than a dead card).
 import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
@@ -41,9 +41,14 @@ ok(/if \(!chapter\) return ''/.test(nav), 'Al-Fatiha-no-prev / An-Nas-no-next ha
 // (_QURAN_SURAHS_LIVE) and its dead branch are gone from server.js entirely, not left switched on.
 ok(!/_QURAN_SURAHS_LIVE/.test(src), 'the prototype flag _QURAN_SURAHS_LIVE is GONE (not just flipped to true)');
 ok(!/aria-disabled="true"/.test(nav) && !src.includes('ستتوفر عند إطلاق جميع سور القرآن'), 'no aria-disabled card and no «ستتوفر عند إطلاق جميع سور القرآن» anywhere');
-ok(/<a class="quran-surah-nav-card quran-surah-nav-card--\$\{kind\}" href="\/quran\/surah\/\$\{chapter\.number\}"/.test(nav), 'every neighbour card is an unconditional real link to /quran/surah/N');
+ok(/<a class="quran-surah-nav-card quran-surah-nav-card--\$\{kind\}" href="\$\{_quranPathFor\(chapter\.number\)\}"/.test(nav), 'every neighbour card is an unconditional real link built by _quranPathFor (the one number→slug helper)');
 ok(/if \(!chapter\) return '';/.test(nav), 'a missing neighbour (Al-Fatiha prev / An-Nas next) renders NOTHING — never a dead card');
-ok(!/href="\/quran\/surah\/20"/.test(src) && !/href="\/quran\/surah\/22"/.test(src), 'NO literal href to /quran/surah/20 or /22 (no 404s)');
-ok(!/href="\/quran\/surah\/2[013-9]"/.test(src), 'NO literal sibling-surah href anywhere');
+// The retired numeric structure must not survive in ANY href, and no surah URL may be hand-written either:
+// every one has to come from _quranPathFor, or the routes table stops being the single source of truth.
+ok(!/href="\/quran\/surah\//.test(src), 'NO href anywhere still points at the retired /quran/surah/… structure');
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const hardcoded = ROUTES.filter(r => src.includes('href="' + r.path + '"'));
+ok(hardcoded.length === 0, 'NO surah slug is hard-coded into an href — all 114 are built by _quranPathFor'
+   + (hardcoded.length ? ' — ' + JSON.stringify(hardcoded.slice(0, 3).map(r => r.path)) : ''));
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`); if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }

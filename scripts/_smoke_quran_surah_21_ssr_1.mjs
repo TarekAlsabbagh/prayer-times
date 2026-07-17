@@ -7,7 +7,7 @@ let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.
 const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
 ok(b0 > 0, '_buildQuranSurahBody(n) present (content-only body builder, parametrised over 1..114)');
-ok(/\(process\.env\.QURAN_PROTOTYPE_ENABLED === '1' && !!\(_quranSurahRoute\(urlPath\) \|\| \{\}\)\.canonical\)/.test(src), 'route gated by flag + exact /quran/surah/21 (index.html shell)');
+ok(/\(process\.env\.QURAN_PROTOTYPE_ENABLED === '1' && !!_quranSurahRoute\(urlPath\)\)/.test(src), 'route gated by flag + an exact slug match via _quranSurahRoute (index.html shell)');
 ok(/staticPages\[corePath\] = \{[\s\S]{0,900}?noindex: true/.test(src), 'the dynamic staticPages entry sets noindex for every surah route');
 ok(/if \(sp\.noindex\) robotsOverride = 'noindex,follow/.test(src), 'noindex flag drives robotsOverride → renderSeoHeadHtml emits noindex');
 ok((b.match(/<h1[\s>]/g) || []).length === 1, 'exactly ONE <h1> (#quran-surah-h1)');

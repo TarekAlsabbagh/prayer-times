@@ -4117,11 +4117,14 @@ async function initApp() {
         document.querySelector('.sidebar-nav a[data-page="azkar"]')?.classList.add('active');
     }
 
-    // QURAN-AR surah pages: activate #page-quran-surah (no sidebar nav item → none highlighted).
-    // The pattern is the SSR route's canonical shape — exactly 1..114, no leading zeros ('/quran/surah/021'
-    // is 301'd server-side and never reaches the client). Keyed on the route because a surah number is not
-    // otherwise knowable here; matching only '21' would have flashed the other 113 pages back to the home page.
-    if (/^\/quran\/surah\/(?:[1-9]|[1-9][0-9]|10[0-9]|11[0-4])$/.test(window.location.pathname) && !window._navigatingAway) {
+    // QURAN-AR surah pages at /quran/{official-english-slug}: activate #page-quran-surah (no sidebar nav item
+    // → none highlighted). Two conditions, and both matter: the URL has the slug SHAPE, and the server
+    // actually injected a surah body. The client deliberately does NOT carry the 114 slugs — the manifest is
+    // the server's, and a copied list would drift. The DOM check is what makes the shape test safe: only a
+    // real surah route gets `.quran-surah-page` injected, so `/quran/anything-else` cannot activate an empty
+    // page even though it has the same shape.
+    if (/^\/quran\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(window.location.pathname)
+        && document.querySelector('#page-quran-surah .quran-surah-page') && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-quran-surah')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
@@ -12311,8 +12314,11 @@ window.addEventListener('pageshow', function(e) {
             _expectedId = 'page-zakat';
         } else if (/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(_path)) {
             _expectedId = 'page-date-converter';
-        } else if (/^\/quran\/surah\/(?:[1-9]|[1-9][0-9]|10[0-9]|11[0-4])$/.test(_path)) {
-            // QURAN-AR surah pages (1..114): keep the SSR-active #page-quran-surah (no flash-to-home).
+        } else if (/^\/quran\/[a-z0-9]+(?:-[a-z0-9]+)*$/.test(_path)
+                   && document.querySelector('#page-quran-surah .quran-surah-page')) {
+            // QURAN-AR surah pages at /quran/{slug}: keep the SSR-active #page-quran-surah (no flash-to-home).
+            // Same pair as initApp: slug SHAPE + the server actually injected a body. Without the DOM half,
+            // any /quran/xyz shape would claim this branch and the self-heal would show an empty page.
             _expectedId = 'page-quran-surah';
         } else {
             // Default: homepage `/`, `/prayer-times-in-{slug}`,

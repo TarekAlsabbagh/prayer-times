@@ -42,7 +42,7 @@ ok(/e\.key === 'Tab'|keyCode === 9/.test(js) && /focusables\(\)/.test(js), 'focu
 ok(/lastOpener[\s\S]{0,40}\.focus\(\)/.test(js), 'focus returns to the button that opened the modal');
 ok(/data-quran-surah-filter/.test(js) && /li\.hidden = !match/.test(js), 'in-modal filter shows/hides surah items');
 
-// --- prototype safety: no broken sibling-surah links anywhere ---
-ok(!/href="\/quran\/surah\/2[0-9]"/.test(b), 'NO literal /quran/surah/20..29 link (prototype cards are disabled)');
+// --- link safety: the drawer never emits a URL from the retired numeric structure ---
+ok(!/href="\/quran\/surah\//.test(b), 'NO /quran/surah/… link survives in the surah body (that structure is retired → 404)');
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`); if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); } else console.log('  surah modal layering + viewport OK');

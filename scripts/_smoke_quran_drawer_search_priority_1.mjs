@@ -6,7 +6,14 @@
 //   QURAN_SSR_BASE=http://127.0.0.1:8085 node scripts/_smoke_quran_drawer_search_priority_1.mjs
 import { spawn } from 'child_process';
 import fs from 'fs'; import os from 'os'; import path from 'path';
+import { fileURLToPath } from 'url';
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
+// /quran/{official-english-slug} — the ONE URL per surah, read from the source-derived routes table.
+// Never spell a slug out in a test: this file SKIPs (not fails) when the page 404s, so a drifted literal
+// would go quietly green with zero coverage.
+const ROUTES = JSON.parse(fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..',
+  'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const P = n => ROUTES.find(x => x.number === n).path;
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let pass = 0, fail = 0; const F = [];
@@ -21,7 +28,7 @@ class CDP { constructor(ws) { this.ws = ws; this.id = 0; this.p = new Map(); thi
 
 let chrome = null; const UDD = path.join(os.tmpdir(), 'quran-search-smoke-' + process.pid);
 async function main() {
-  if (!(await fetch(BASE + '/quran/surah/21').then(r => r.ok).catch(() => false))) { console.log('SKIP — no server at ' + BASE); process.exit(0); }
+  if (!(await fetch(BASE + P(21)).then(r => r.ok).catch(() => false))) { console.log('SKIP — no server at ' + BASE); process.exit(0); }
   const PORT = 9374;
   try { fs.rmSync(UDD, { recursive: true, force: true }); } catch (e) {}
   chrome = spawn(CHROME, ['--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run', '--no-default-browser-check',
@@ -36,7 +43,7 @@ async function main() {
   cdp.on('Runtime.exceptionThrown', p => pageErrors.push(JSON.stringify(p.exceptionDetails?.text)));
   cdp.on('Runtime.consoleAPICalled', p => { if (p.type === 'error') consoleErrors.push((p.args || []).map(a => a.value || a.description || '').join(' ')); });
   const ev = async (e) => { const r = await cdp.send('Runtime.evaluate', { expression: e, returnByValue: true, awaitPromise: true }); if (r.exceptionDetails) throw new Error('EVAL ' + JSON.stringify(r.exceptionDetails.exception?.description || r.exceptionDetails.text)); return r.result.value; };
-  loaded = false; await cdp.send('Page.navigate', { url: BASE + '/quran/surah/21' });
+  loaded = false; await cdp.send('Page.navigate', { url: BASE + P(21) });
   for (let i = 0; i < 100 && !loaded; i++) await sleep(100);
   await sleep(800);
   await ev(`document.querySelector('[data-quran-surah-browser-trigger]').click()`);
@@ -104,7 +111,7 @@ async function main() {
   }
 
   console.log('\n--- §1 the Quran TEXT keeps every mark, including U+0653 ---');
-  loaded = false; await cdp.send('Page.navigate', { url: BASE + '/quran/surah/36' });
+  loaded = false; await cdp.send('Page.navigate', { url: BASE + P(36) });
   for (let i = 0; i < 100 && !loaded; i++) await sleep(100);
   await sleep(700);
   const t36 = await ev(`(function(){

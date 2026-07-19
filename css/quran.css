@@ -452,3 +452,190 @@ body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); 
   .quran-locale-ico { width: 48px; height: 48px; }
   .quran-locale-title { font-size: 1.12rem; }
 }
+
+/* ═══════ QURAN-AR-HOME-INDEX-SSR-1 — /quran (the section index) ═══════
+   Reuses the surah pages' tokens and the ONE outer width (.quran-site-container, 1180px). Nothing here
+   restyles a surah page: every selector is scoped under .quran-home-shell or a quran-home-* class. */
+.quran-home-shell .quran-home-hero { text-align: start; }
+.quran-home-stats { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 18px 0 0; }
+.quran-home-stats .quran-chip { display: inline-flex; align-items: baseline; gap: 6px; }
+.quran-home-stats .quran-chip-num { font-weight: 700; font-size: 1.05rem; }
+
+/* search */
+.quran-home-search-lead { margin: 4px 0 14px; opacity: .9; }
+.quran-home-search-row { display: flex; flex-direction: column; gap: 8px; }
+.quran-home-search-label { font-size: .92rem; opacity: .85; }
+.quran-home-search-field { position: relative; display: flex; align-items: center; }
+.quran-home-search-input {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 1.02rem;
+  padding: 12px 14px; padding-inline-end: 58px; min-height: 48px;   /* clears the 44px clear button + its 6px inset */
+  border-radius: 12px; border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  background: var(--card, var(--bg)); color: var(--text);
+}
+.quran-home-search-input:focus-visible { outline: 2px solid var(--accent, #1a6b3c); outline-offset: 2px; }
+/* QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-VISUAL-CORRECTIONS-FINAL-1 — clear button.
+   44px so the tap target is legitimate, but styled as a quiet affordance (soft tint, small glyph) so it
+   never reads as the page's primary action next to the text the reader just typed. */
+.quran-home-search-clear {
+  position: absolute; inset-inline-end: 6px; width: 44px; height: 44px; min-width: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 10px; cursor: pointer; font-size: .82rem; line-height: 1;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: color-mix(in srgb, var(--text) 70%, transparent);
+  transition: background .15s ease, color .15s ease;
+}
+.quran-home-search-clear:hover {
+  background: color-mix(in srgb, var(--text) 12%, transparent); color: var(--text);
+}
+.quran-home-search-clear:focus-visible {
+  outline: 2px solid var(--accent, #1a6b3c); outline-offset: 2px; color: var(--text);
+}
+/* The attribute alone does not hide it: .quran-home-search-clear sets display:inline-flex, which wins over
+   the UA's [hidden]{display:none}. Scoped to this component — a global [hidden] rule would reach the whole
+   site untested. */
+.quran-home-search-field [hidden] { display: none !important; }
+/* Chrome draws its own ✕ inside input[type=search] on focus; without this the reader sees two clear
+   buttons. Firefox and Safari render no native button, so the rule is inert there rather than breaking. */
+.quran-home-search-input::-webkit-search-cancel-button,
+.quran-home-search-input::-webkit-search-decoration {
+  -webkit-appearance: none; appearance: none; display: none;
+}
+/* The live region must stay in the DOM and stay announced, so it cannot be display:none or
+   visibility:hidden. Clipped to 1px instead: screen readers still read it, and its height no longer grows
+   from 17px to 24px when it fills — which is what was pushing the whole index down by 7px mid-typing. */
+.quran-home-search-count {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* continue reading */
+.quran-home-lastread-line { margin: 6px 0 14px; font-size: 1.02rem; }
+.quran-home-lastread-btn { display: inline-flex; }
+
+/* juz */
+.quran-home-juz-grid,
+.quran-home-idx-grid { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
+.quran-home-juz-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.quran-home-juz-card,
+.quran-home-idx-card {
+  display: flex; align-items: center; gap: 12px; min-height: 56px;
+  padding: 12px 14px; border-radius: 12px; text-decoration: none; color: inherit;
+  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+  background: color-mix(in srgb, var(--text) 3%, transparent);
+}
+.quran-home-juz-card:hover, .quran-home-idx-card:hover { border-color: color-mix(in srgb, var(--accent, #1a6b3c) 55%, transparent); }
+.quran-home-juz-card:focus-visible, .quran-home-idx-card:focus-visible { outline: 2px solid var(--accent, #1a6b3c); outline-offset: 2px; }
+.quran-home-juz-card { flex-direction: column; align-items: flex-start; gap: 4px; }
+.quran-home-juz-num { font-weight: 700; }
+.quran-home-juz-start { font-size: .88rem; }   /* same reason as .quran-home-idx-meta — no faded card text */
+
+/* surah index */
+.quran-home-idx-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+/* Six bands of 20 surahs; five of them are below the fold on every viewport. Lighthouse measured
+   Style & Layout as the single largest slice of main-thread work on this page, so let the browser skip
+   layout for the bands that are off-screen. `contain-intrinsic-size` supplies a placeholder height so the
+   scrollbar and page height do not jump as bands are realised — CLS stays at 0.011.
+   Scoped to the index bands ONLY: the hero, search, juz and FAQ all stay eagerly rendered, and because
+   search toggles [hidden] rather than relying on paint, filtering still finds surahs inside skipped bands. */
+.quran-home-idx-group { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+.quran-home-idx-group + .quran-home-idx-group { margin-top: 26px; }
+.quran-home-idx-grouptitle { font-size: .95rem; opacity: .72; margin: 0; font-weight: 600; }
+.quran-home-idx-num {
+  flex: 0 0 auto; min-width: 34px; height: 34px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 700;
+  /* The badge keeps its accent TINT but takes the body text colour: mixing the accent into the foreground
+     (the first attempt) measured below 4.5:1 against this tint in Lighthouse. A number the reader has to
+     squint at is not decoration — it is the card's index. Tint the background only. */
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 16%, transparent);
+  color: var(--text);
+}
+.quran-home-idx-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+/* the NAME is the visual anchor of the card; number and count stay secondary */
+.quran-home-idx-name { font-size: 1.02rem; font-weight: 600; overflow-wrap: anywhere; }
+/* No opacity on text inside the cards. The ayah count sat at .72 and measured under 4.5:1 once every band
+   was scanned; the visual hierarchy it was buying is already carried by the smaller size and lighter weight,
+   so dropping the fade costs nothing and puts this text at exactly the body's contrast. */
+.quran-home-idx-meta { font-size: .84rem; font-weight: 400; }
+.quran-home-idx-intro, .quran-home-juz-intro { margin: 4px 0 0; opacity: .82; }
+.quran-home-idx-empty { margin: 14px 0 0; font-weight: 600; }
+.quran-home-source-more { margin-top: 12px; font-size: .92rem; }
+
+@media (max-width: 560px) {
+  .quran-home-juz-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .quran-home-idx-grid { grid-template-columns: 1fr; }
+  .quran-home-stats { gap: 8px; }
+}
+
+/* ═══════ QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-SUGGESTIONS-UX-FINAL-GATE-1 — the suggestion listbox ═══════
+   Anchored to the field (position:relative on .quran-home-search-field) and floated above whatever
+   follows, so the continue-reading card and the juz grid never sit on top of it. Capped in height so a
+   long list scrolls inside itself instead of pushing the page around while the reader types. */
+.quran-home-search-field { position: relative; }
+.quran-home-suggest {
+  position: absolute; inset-inline: 0; top: calc(100% + 6px); z-index: 60;
+  margin: 0; padding: 6px; list-style: none;
+  max-height: min(52vh, 380px); overflow-y: auto; overscroll-behavior: contain;
+  scroll-behavior: smooth; scrollbar-gutter: stable;   /* the width must not jump when the bar appears */
+  background: var(--card-bg, var(--bg)); color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+}
+@media (prefers-reduced-motion: reduce) { .quran-home-suggest { scroll-behavior: auto; } }
+.quran-home-suggest[hidden] { display: none; }
+.quran-home-suggest-item { margin: 0; }
+/* A hairline between rows, not a card each: enough to scan by, no shadows and no per-row borders. */
+.quran-home-suggest-item + .quran-home-suggest-item { border-top: 1px solid color-mix(in srgb, var(--text) 9%, transparent); }
+.quran-home-suggest-link {
+  display: flex; align-items: center; gap: 12px; min-height: 56px;
+  padding: 8px 12px; border-radius: 10px; text-decoration: none; color: inherit;
+}
+/* the whole row is the target — not just the words */
+.quran-home-suggest-link:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+.quran-home-suggest-item[aria-selected="true"] .quran-home-suggest-link {
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 18%, transparent);
+  outline: 2px solid var(--accent, #1a6b3c); outline-offset: -2px;
+}
+.quran-home-suggest-link:focus-visible { outline: 2px solid var(--accent, #1a6b3c); outline-offset: -2px; }
+.quran-home-suggest-num {
+  flex: 0 0 auto; min-width: 36px; height: 36px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 700; line-height: 1;
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 16%, transparent); color: var(--text);
+}
+.quran-home-suggest-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+/* the NAME is what the reader scans for; the count stays subordinate but not faded (contrast).
+   line-height is set explicitly — the inherited body value (~1.7) was inflating every row to 73px. */
+.quran-home-suggest-name { font-size: 1.02rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.quran-home-suggest-meta { font-size: .84rem; font-weight: 400; line-height: 1.25; }
+.quran-home-suggest-none,
+.quran-home-suggest-more { padding: 12px; font-size: .92rem; line-height: 1.45; }
+.quran-home-suggest-none { font-weight: 600; }
+.quran-home-suggest-more { border-top: 1px solid color-mix(in srgb, var(--text) 12%, transparent); }
+
+/* Dark mode: a 16-18% accent wash over a dark surface lands olive and close to the rows around it. Give
+   the selected row its own lighter surface plus a full-strength accent edge, and lift the number badge —
+   the selection has to be obvious at a glance, not inferred. */
+@media (prefers-color-scheme: dark) {
+  .quran-home-suggest-item[aria-selected="true"] .quran-home-suggest-link {
+    background: color-mix(in srgb, var(--accent, #1a6b3c) 30%, #ffffff 10%);
+    outline-color: color-mix(in srgb, var(--accent, #1a6b3c) 55%, #ffffff);
+    color: #fff;
+  }
+  .quran-home-suggest-num { background: color-mix(in srgb, var(--accent, #1a6b3c) 34%, #ffffff 12%); }
+}
+:root[data-theme="dark"] .quran-home-suggest-item[aria-selected="true"] .quran-home-suggest-link {
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 30%, #ffffff 10%);
+  outline-color: color-mix(in srgb, var(--accent, #1a6b3c) 55%, #ffffff);
+  color: #fff;
+}
+:root[data-theme="dark"] .quran-home-suggest-num { background: color-mix(in srgb, var(--accent, #1a6b3c) 34%, #ffffff 12%); }
+
+/* Mobile: rows land at 60px (44px badge + 2×8px padding) — a real 44px+ touch target inside a compact
+   row. Height capped at 300px so roughly four rows read in full and the fifth peeks, which is what tells
+   the reader the list scrolls; all 8 results stay reachable by scrolling, none are dropped. */
+@media (max-width: 560px) {
+  .quran-home-suggest { max-height: min(40vh, 276px); }   /* 276 − 12 padding = 264 = 4.4 rows of 60px */
+  .quran-home-suggest-link { min-height: 60px; }
+  .quran-home-suggest-num { min-width: 44px; height: 44px; border-radius: 11px; font-size: .95rem; }
+}

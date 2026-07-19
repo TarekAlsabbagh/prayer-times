@@ -90,7 +90,12 @@ ok(!(await Promise.all(RETIRED.map(head))).some(r => r.s >= 300 && r.s < 400),
 
 console.log('\n--- 4) /quran is reserved, not a surah; the rest of the site is untouched ---');
 const q = await head('/quran');
-ok(q.s !== 200, `/quran does not serve a surah page (this ticket does not build it) — got ${q.s}`);
+// QURAN-AR-HOME-INDEX-SSR-1 built /quran as the section INDEX, so the old "not built → not 200" expectation
+// is obsolete. The invariant that actually mattered survives and is asserted directly: /quran is not a SURAH.
+ok(q.s === 200, `/quran serves the section index — got ${q.s}`);
+const qh = await (await fetch(BASE + '/quran')).text();
+ok(!/quran-surah-page|class="page active" id="page-quran-surah"/.test(qh), '/quran is NOT a surah page (no surah body, no #page-quran-surah active)');
+ok(/class="page active" id="page-quran-home"/.test(qh), '/quran activates #page-quran-home, its own page');
 ok(!R.some(x => x.slug === 'quran'), 'no surah claims the slug "quran"');
 // The site's own trailing-slash 301 is a pre-existing global rule and must survive: only /quran/* opts out.
 for (const p of ['/qibla/', '/moon/today/', '/azkar/']) {

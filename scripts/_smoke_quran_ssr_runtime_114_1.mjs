@@ -91,9 +91,16 @@ async function main() {
   const pos = await ev(`(() => {
     const o = {}; Object.keys(localStorage).filter(k => k.indexOf('quran.pos.') === 0).forEach(k => o[k] = localStorage.getItem(k)); return o;
   })()`);
-  const keys = Object.keys(pos).sort();
+  // QURAN-AR-HOME-INDEX-SSR-1 added ONE more key in this namespace — `quran.pos.last`, the recency pointer
+  // /quran reads. It is separated out here rather than added to the list: the assertion below is about the
+  // PER-SURAH keys, and folding a global pointer into that set would quietly weaken it.
+  const keys = Object.keys(pos).filter(k => k !== 'quran.pos.last').sort();
   const want = ['quran.pos.surah1', 'quran.pos.surah108', 'quran.pos.surah114', 'quran.pos.surah2', 'quran.pos.surah21', 'quran.pos.surah9'].sort();
   ok(keys.join() === want.join(), `each visited surah wrote its OWN position key — got ${keys.length}: «${keys.join(', ')}» (the prototype wrote every surah to one «quran.pos.surah21»)`);
+  // and the pointer itself must name the surah just left (2), with a real ayah — a stale or absent pointer
+  // would make /quran offer to resume in the wrong place.
+  let last = null; try { last = JSON.parse(pos['quran.pos.last'] || 'null'); } catch (e) {}
+  ok(!!last && last.n === 2 && last.ayah >= 1, `quran.pos.last points at the surah just read (2) — got ${JSON.stringify(last)}`);
   // …and every stored value is a page from THAT surah's own range. (Which page exactly depends on where the
   // scroll landed — Al-Baqara spans 48 pages, so 900px in is page 3, not page 2. The invariant that matters is
   // that surah N's key never holds a page belonging to a different surah.)

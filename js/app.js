@@ -3957,7 +3957,12 @@ async function initApp() {
         //   فوق currentLat/Lng/EnglishName بموقع GPS الحقيقيّ للمستخدم عبر
         //   reverseGeocode، فيضيع سياق طوكيو قبل أن يقرأه الشريط الجانبي.
         //   اطلب الإذن للموقع الحقيقي — يستعمله detectLocation() لملء شريط الاقتراح فقط على الرئيسية
-        if (!_hydratedFromContext) {
+        // QURAN-AR-HOME-INDEX-PERFORMANCE-AND-VISUAL-FINAL-GATE-1 §7: /quran is a reading index — it shows no
+        // prayer time, no qibla and no nearby city, so asking for the device's location the moment it opens
+        // is a permission prompt with nothing behind it. Same shape as the Round 31 guard above: skip the
+        // AUTOMATIC call only. detectLocation() itself is untouched, so the hero "my location" button and
+        // every page that genuinely needs a position keep working exactly as before.
+        if (!_hydratedFromContext && window.location.pathname !== '/quran') {
             try { detectLocation(); } catch(_e) { try { console.warn('[initApp] detectLocation:', _e); } catch(_){} }
         }
     }
@@ -4127,6 +4132,16 @@ async function initApp() {
         && document.querySelector('#page-quran-surah .quran-surah-page') && !window._navigatingAway) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-quran-surah')?.classList.add('active');
+        document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+    }
+
+    // QURAN-AR-HOME-INDEX-SSR-1: /quran, the section index. Same two-part test as the surah branch — the
+    // exact path AND proof the server injected the index body — so with the feature flag off (nothing
+    // injected) this never claims the page and the shell behaves exactly as it does today.
+    if (window.location.pathname === '/quran'
+        && document.querySelector('#page-quran-home .quran-home-shell') && !window._navigatingAway) {
+        document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+        document.getElementById('page-quran-home')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
     }
 
@@ -12320,6 +12335,10 @@ window.addEventListener('pageshow', function(e) {
             // Same pair as initApp: slug SHAPE + the server actually injected a body. Without the DOM half,
             // any /quran/xyz shape would claim this branch and the self-heal would show an empty page.
             _expectedId = 'page-quran-surah';
+        } else if (_path === '/quran' && document.querySelector('#page-quran-home .quran-home-shell')) {
+            // QURAN-AR-HOME-INDEX-SSR-1: keep the SSR-active #page-quran-home on bfcache restore, otherwise
+            // the self-heal would fall to the default branch and flash the prayer-times page over the index.
+            _expectedId = 'page-quran-home';
         } else {
             // Default: homepage `/`, `/prayer-times-in-{slug}`,
             // `/time-left-until-next-prayer-in-{slug}`, `/next-prayer-in-{slug}`,

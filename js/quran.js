@@ -53,7 +53,12 @@
     // number-keyed ones keep working. It also keeps every already-saved «quran.pos.surahN» key valid.
     var SURAH_N = (shell.querySelector('[data-quran-surah-number]') || {}).getAttribute
         ? shell.querySelector('[data-quran-surah-number]').getAttribute('data-quran-surah-number') : '0';
-    var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + (SURAH_N || '0') };
+    // QURAN-AR-HOME-INDEX-SSR-1 adds ONE key on top of the above — `last` — so /quran can answer "which
+    // surah was I reading?". The 114 per-surah keys cannot: they carry no timestamp and no ordering, so
+    // scanning them tells you where you stopped in each surah but never which one was most recent. This is
+    // an extra POINTER written at the same moment by the same code, not a second store: `pos` keeps its
+    // exact old meaning (a reference-page number, per surah) and every already-saved value stays valid.
+    var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + (SURAH_N || '0'), last: 'quran.pos.last' };
 
     /* ---- font size: step (-3..+6) added on top of the viewport-aware base var --q-ayah-base (CSS sets it
        to 1.55rem on desktop, 1.43rem on phones). Reading the base from CSS keeps the DEFAULT responsive per
@@ -314,6 +319,7 @@
     var out = shell.querySelector('[data-quran-progress-value]');
     var fill = shell.querySelector('[data-quran-progress-fill]');
     var cards = [].slice.call(shell.querySelectorAll('.quran-page-card'));
+    var ayahs = [].slice.call(shell.querySelectorAll('[id^="ayah-"]'));
     var total = cards.length, ticking = false;
     function ar(n) { return String(n).replace(/[0-9]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[+d]; }); }
     function updateProgress() {
@@ -325,6 +331,19 @@
       if (out) out.textContent = ar(idx) + ' / ' + ar(total);
       if (fill) fill.style.width = Math.round((idx / total) * 100) + '%';
       LS.set(K.pos, cur.getAttribute('data-reference-page'));
+      // The AYAH the reader is on — the page card alone is too coarse to resume from, and /quran links to
+      // #ayah-N. Same sweep, same threshold as the card above: the last ayah whose top has passed the line.
+      var n = parseInt(SURAH_N, 10);
+      if (ayahs.length && n >= 1 && n <= 114) {
+        var a = ayahs[0];
+        for (var j = 0; j < ayahs.length; j++) { if (ayahs[j].getBoundingClientRect().top <= mid) a = ayahs[j]; }
+        var num = parseInt(String(a.id).replace('ayah-', ''), 10);
+        if (num >= 1) {
+          // The path is stored for reference only; /quran resolves the link from `n` against its own
+          // 114-route table, so a stale or edited value here can never redirect a reader somewhere else.
+          LS.set(K.last, JSON.stringify({ n: n, ayah: num, path: location.pathname, t: Date.now() }));
+        }
+      }
     }
     window.addEventListener('scroll', function () {
       if (!ticking) { ticking = true; window.requestAnimationFrame(updateProgress); }

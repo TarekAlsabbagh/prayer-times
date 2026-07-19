@@ -50,9 +50,10 @@ async function main() {
   // ---- (A) SSR / No-JS source-level checks (raw HTML) ----
   const rawHtml = await fetch(base + P(21)).then(r => r.text()).catch(() => '');
   const has = s => rawHtml.includes(s), cnt = s => rawHtml.split(s).length - 1;
-  // QURAN-AR-SEO-TITLE-PRIMARY-SEARCH-INTENT-ALL-114-1: surah 21 no longer carries bespoke SEO copy — it uses
+  // QURAN-AR-SEO-TITLE-READING-INTENT-FINAL-ALL-114-1: surah 21 carries no bespoke SEO copy — it uses
   // the SAME title/description template as the other 113 (no site-name suffix, no ayah-count padding).
-  ok(has('<title>سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني</title>'), 'SSR <title> = the shared template, with NO «| مواقيت الصلاة» suffix');
+  // The title leads with «قراءة»; the H1 below deliberately does NOT — they are separate strings on purpose.
+  ok(has('<title>قراءة سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني</title>'), 'SSR <title> = the shared reading-intent template, with NO «| مواقيت الصلاة» suffix');
   ok(has('<meta name="description" content="قراءة سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.">'), 'SSR meta description = the shared template (no «١١٢ آية» count-padding)');
   ok(has('<h1 id="quran-surah-h1">سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني</h1>'), 'SSR H1 carries «بالتشكيل»');
   ['نبذة عن سورة الأنبياء', 'لماذا سميت سورة الأنبياء بهذا الاسم؟', 'أبرز موضوعات سورة الأنبياء',
@@ -139,7 +140,7 @@ async function main() {
   ok(s.about === 1 && s.naming === 1 && s.topics === 1 && s.tools === 1 && s.source === 1 && s.faq === 1, 'exactly the SIX editorial/technical sections each once — ' + JSON.stringify([s.about, s.naming, s.topics, s.tools, s.source, s.faq]));
   ok(s.idxMonotonic, 'section order: نبذة → تسمية → موضوعات → قراءة/أدوات → مصدر → FAQ (monotonic)');
   ok(s.h1 === 1, 'exactly ONE H1 in the page — got ' + s.h1);
-  ok(/بالتشكيل والرسم العثماني/.test(s.title), 'document.title carries «بالتشكيل والرسم العثماني»');
+  ok(s.title === 'قراءة سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني', 'live document.title = the shared reading-intent template exactly — got ' + s.title);
   ok(/^قراءة سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح\.$/.test(s.desc), 'live meta description = the shared template exactly');
   ok(s.tables === 0, 'NO <table> element in the page (no prophets/ayah-range tables) — got ' + s.tables);
   ok(s.topicItems >= 4 && s.topicItems <= 5, 'أبرز الموضوعات has 4–5 points — got ' + s.topicItems);

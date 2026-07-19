@@ -12810,17 +12810,23 @@ function buildSeoForPath(urlPath) {
     // Alias its SEO (title/desc/moonFaq/app) to the existing /moon-today config so
     // title/meta/FAQ are byte-identical. canonical stays self (origin + p = /moon)
     // — buildSeoForPath never overrides canonical for staticPages entries.
-    // QURAN-AR-SEO-TITLE-PRIMARY-SEARCH-INTENT-ALL-114-1 — Title/Meta for EVERY Arabic surah page (1..114),
+    // QURAN-AR-SEO-TITLE-READING-INTENT-FINAL-ALL-114-1 — Title/Meta for EVERY Arabic surah page (1..114),
     // built from the official chapters.json name only. Arabic-only, noindex, no hreflang, not in the sitemap.
     //
-    // The title is the SEARCH QUERY and nothing else: «سورة {name} مكتوبة كاملة بالتشكيل والرسم العثماني».
-    // The old «| مواقيت الصلاة» suffix was removed here (surah pages ONLY — every other section keeps it):
-    // on a surah page the site name spends characters without matching any intent a reader actually types,
-    // and it pushed the title past a comfortable SERP length. The narration, the ayah count and the reading
-    // features belong in the description and the body, not stacked into one crowded title — one template,
-    // one occurrence of each keyword, no list, no trailing marketing dash.
+    // The title is the SEARCH QUERY and nothing else: «قراءة سورة {name} مكتوبة كاملة بالتشكيل والرسم العثماني».
+    // It leads with «قراءة» because that is what someone looking for this page actually types — a reading page,
+    // not a download or a recitation. That one word is also what lands all 114 titles inside 50–60 characters
+    // (they ran 44–52 without it, i.e. under the band); it earns its place twice over, so it is not padding.
+    // The old «| مواقيت الصلاة» suffix stays removed here (surah pages ONLY — every other section keeps it):
+    // on a surah page the site name spends characters without matching any intent a reader actually types.
+    // The narration, the ayah count and the reading features belong in the description and the body, not
+    // stacked into one crowded title — one template, one occurrence of each keyword, no list, no trailing dash.
     //
-    // Surah 21 no longer carries bespoke copy: its old description led with «١١٢ آية من الجزء السابع عشر»,
+    // The H1 deliberately does NOT carry «قراءة» (it is built separately, in the body builder): the H1 names
+    // what the page IS — «سورة {name} …» — while the title answers what the reader ASKED for. Keeping them
+    // distinct is intentional; do not "sync" them.
+    //
+    // Surah 21 carries no bespoke copy: its old description led with «١١٢ آية من الجزء السابع عشر»,
     // which is exactly the count-padding this template drops. The juz still appears where it belongs — in the
     // VISIBLE about section, which is sourced.
     const _qsSeo = _quranSurahRoute(corePath);
@@ -12829,7 +12835,7 @@ function buildSeoForPath(urlPath) {
         if (_ch) {
             const _nm = _quranCleanName(_ch.nameAr);
             staticPages[corePath] = {
-                title: { ar: `سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني` },
+                title: { ar: `قراءة سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني` },
                 desc: {
                     ar: `قراءة سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.`,
                 },

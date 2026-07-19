@@ -39,17 +39,22 @@ const bodyOf = (html) => {
 
 const bad = { title: [], desc: [], h1: [], h1count: [], bc: [], robots: [], canon: [], hreflang: [],
               prev: [], next: [], badge: [], note: [], disabled: [], links: [], juz: [], pages: [],
-              ayahMax: [], action: [], editorial: [], stub: [], emptyH2: [] };
+              ayahMax: [], action: [], editorial: [], stub: [], emptyH2: [], titleUnits: [] };
 const titleLens = [];
 for (const c of CH) {
   const n = c.number, html = pages.get(n), body = bodyOf(html), s = surahFile(n), nm = clean(c.nameAr);
 
   // ---- §7 title / desc / H1 / breadcrumb, all built from this surah's own name ----
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
-  // QURAN-AR-SEO-TITLE-PRIMARY-SEARCH-INTENT-ALL-114-1: the title is the search query and nothing else —
-  // no «| مواقيت الصلاة» site-name suffix on surah pages (every other section keeps it).
-  if (title !== `سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني`) bad.title.push(n + ': ' + title);
-  titleLens.push([n, [...title].length]);
+  // QURAN-AR-SEO-TITLE-READING-INTENT-FINAL-ALL-114-1: the title is the search query and nothing else —
+  // it leads with «قراءة» (the intent behind a reading page) and carries no «| مواقيت الصلاة» site-name
+  // suffix (every other section keeps that suffix). The H1 asserted below deliberately has NO «قراءة».
+  if (title !== `قراءة سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني`) bad.title.push(n + ': ' + title);
+  // Measure with BOTH .length (UTF-16 units, what SEO tools count) and the code-point count, and record any
+  // disagreement: they can only differ if something outside the BMP enters an Arabic surah name, which would
+  // silently understate the length everywhere else in this file.
+  if (title.length !== [...title].length) bad.titleUnits.push(`${n}: ${title.length} vs ${[...title].length}`);
+  titleLens.push([n, title.length]);
   // The description is now ONE template for all 114 — surah 21 included. Asserting the whole string (not just
   // "does it name the surah") is what catches a silent drift back to per-surah copy or count-padding.
   const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
@@ -122,13 +127,19 @@ ok(bad.h1count.length === 0, 'exactly ONE H1 per page' + (bad.h1count.length ? '
 ok(bad.h1.length === 0, 'every H1 names its own surah' + (bad.h1.length ? ' — ' + bad.h1.slice(0, 3) : ''));
 ok(bad.bc.length === 0, 'every breadcrumb ends on its own surah' + (bad.bc.length ? ' — ' + bad.bc.slice(0, 5) : ''));
 titleLens.sort((a, b) => a[1] - b[1]);
-// Now ASSERTED, not merely reported: dropping the site-name suffix was the whole point, so a title that grows
-// back past a comfortable SERP width must fail rather than be noticed later. 60 is our internal ceiling — it
-// is not a documented Google limit, and the pages are noindex today; this guards the template, not a ranking.
+// Both ends are ASSERTED, not merely reported. 50–60 is OUR internal auditing band (it matches what SEOptimer
+// flags); it is not a documented Google limit, and these pages are noindex today — this guards the template
+// from drifting, it does not claim a ranking effect. The floor matters as much as the ceiling here: without
+// «قراءة» the same titles measured 44–52, i.e. SHORT of the band, which is the flag this ticket answers.
+const tooShort = titleLens.filter(([, len]) => len < 50);
 const overLong = titleLens.filter(([, len]) => len > 60);
-ok(overLong.length === 0, `no title exceeds 60 code points (internal ceiling) — longest surah ${titleLens[113][0]} = ${titleLens[113][1]} cp`
-   + (overLong.length ? ' — over: ' + JSON.stringify(overLong.slice(0, 5)) : ''));
-console.log(`     (title length: shortest surah ${titleLens[0][0]} = ${titleLens[0][1]} cp, longest surah ${titleLens[113][0]} = ${titleLens[113][1]} cp)`);
+ok(titleLens.every(([, len]) => len >= 50 && len <= 60),
+   `all 114 titles measure 50–60 chars — got ${titleLens[0][1]}–${titleLens[113][1]} (shortest surah ${titleLens[0][0]}, longest surah ${titleLens[113][0]})`
+   + (tooShort.length ? ' — under 50: ' + JSON.stringify(tooShort.slice(0, 5)) : '')
+   + (overLong.length ? ' — over 60: ' + JSON.stringify(overLong.slice(0, 5)) : ''));
+ok(bad.titleUnits.length === 0, 'title .length === code-point count on all 114 (no surrogate pairs to under-count)'
+   + (bad.titleUnits.length ? ' — ' + bad.titleUnits.slice(0, 3) : ''));
+console.log(`     (title length: shortest surah ${titleLens[0][0]} = ${titleLens[0][1]}, longest surah ${titleLens[113][0]} = ${titleLens[113][1]}, avg ${(titleLens.reduce((a, [, l]) => a + l, 0) / 114).toFixed(1)})`);
 
 console.log('\n--- §8 noindex + self canonical + NO hreflang ---');
 ok(bad.robots.length === 0, 'all 114 keep robots=noindex,follow' + (bad.robots.length ? ' — ' + bad.robots.slice(0, 5) : ''));

@@ -12810,21 +12810,28 @@ function buildSeoForPath(urlPath) {
     // Alias its SEO (title/desc/moonFaq/app) to the existing /moon-today config so
     // title/meta/FAQ are byte-identical. canonical stays self (origin + p = /moon)
     // — buildSeoForPath never overrides canonical for staticPages entries.
-    // QURAN-AR-SSR-SURAH-GENERALIZATION-1 — Title/Meta for EVERY Arabic surah page (1..114), built from the
-    // official chapters.json only (name + ayah count). Arabic-only, noindex, no hreflang, not in the sitemap.
-    // Surah 21 keeps the EXACT copy approved in P0 (it is the regression reference) — the generic template
-    // below phrases the count differently, so it must not silently rewrite the approved page.
+    // QURAN-AR-SEO-TITLE-PRIMARY-SEARCH-INTENT-ALL-114-1 — Title/Meta for EVERY Arabic surah page (1..114),
+    // built from the official chapters.json name only. Arabic-only, noindex, no hreflang, not in the sitemap.
+    //
+    // The title is the SEARCH QUERY and nothing else: «سورة {name} مكتوبة كاملة بالتشكيل والرسم العثماني».
+    // The old «| مواقيت الصلاة» suffix was removed here (surah pages ONLY — every other section keeps it):
+    // on a surah page the site name spends characters without matching any intent a reader actually types,
+    // and it pushed the title past a comfortable SERP length. The narration, the ayah count and the reading
+    // features belong in the description and the body, not stacked into one crowded title — one template,
+    // one occurrence of each keyword, no list, no trailing marketing dash.
+    //
+    // Surah 21 no longer carries bespoke copy: its old description led with «١١٢ آية من الجزء السابع عشر»,
+    // which is exactly the count-padding this template drops. The juz still appears where it belongs — in the
+    // VISIBLE about section, which is sourced.
     const _qsSeo = _quranSurahRoute(corePath);
     if (_qsSeo) {
         const _ch = _quranChapter(_qsSeo.n);
         if (_ch) {
             const _nm = _quranCleanName(_ch.nameAr);
             staticPages[corePath] = {
-                title: { ar: `سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني | مواقيت الصلاة` },
+                title: { ar: `سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني` },
                 desc: {
-                    ar: _qsSeo.n === 21
-                        ? 'اقرأ سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، ١١٢ آية من الجزء السابع عشر، مع الانتقال المباشر إلى الآية والصفحة.'
-                        : `اقرأ سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، وعدد آياتها ${_quranAr(_ch.ayahCount)}، مع الانتقال المباشر إلى الآية والصفحة.`,
+                    ar: `قراءة سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.`,
                 },
                 noindex: true,
                 // Arabic-only: /{lang}/quran/{slug} does not exist (it 404s), so this page advertises no

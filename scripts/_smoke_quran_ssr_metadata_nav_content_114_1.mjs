@@ -46,10 +46,14 @@ for (const c of CH) {
 
   // ---- §7 title / desc / H1 / breadcrumb, all built from this surah's own name ----
   const title = (html.match(/<title>([^<]*)<\/title>/) || [])[1] || '';
-  if (title !== `سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني | مواقيت الصلاة`) bad.title.push(n + ': ' + title);
+  // QURAN-AR-SEO-TITLE-PRIMARY-SEARCH-INTENT-ALL-114-1: the title is the search query and nothing else —
+  // no «| مواقيت الصلاة» site-name suffix on surah pages (every other section keeps it).
+  if (title !== `سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني`) bad.title.push(n + ': ' + title);
   titleLens.push([n, [...title].length]);
+  // The description is now ONE template for all 114 — surah 21 included. Asserting the whole string (not just
+  // "does it name the surah") is what catches a silent drift back to per-surah copy or count-padding.
   const desc = (html.match(/<meta name="description" content="([^"]*)"/) || [])[1] || '';
-  if (!desc.includes(`سورة ${nm}`)) bad.desc.push(n);
+  if (desc !== `قراءة سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.`) bad.desc.push(n + ': ' + desc);
   const h1s = [...html.matchAll(/<h1[^>]*>([\s\S]*?)<\/h1>/g)].map(m => m[1].trim());
   if (h1s.length !== 1) bad.h1count.push(`${n}: ${h1s.length} H1`);
   if (h1s[0] !== `سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني`) bad.h1.push(n + ': ' + (h1s[0] || ''));
@@ -104,13 +108,27 @@ for (const c of CH) {
 }
 
 console.log('\n--- §7 title / meta / H1 / breadcrumb (per-surah, from chapters.json) ---');
-ok(bad.title.length === 0, 'all 114 titles follow the template with their own clean name' + (bad.title.length ? ' — ' + bad.title.slice(0, 3) : ''));
-ok(bad.desc.length === 0, 'all 114 meta descriptions name their own surah' + (bad.desc.length ? ' — ' + bad.desc.slice(0, 5) : ''));
+ok(bad.title.length === 0, 'all 114 titles follow the template with their own clean name, and NONE carries the «| مواقيت الصلاة» suffix' + (bad.title.length ? ' — ' + bad.title.slice(0, 3) : ''));
+ok(bad.desc.length === 0, 'all 114 meta descriptions are the ONE template with their own surah name' + (bad.desc.length ? ' — ' + bad.desc.slice(0, 3) : ''));
+// Uniqueness: the name is the only variable, so 114 distinct titles/descriptions is the proof that no surah
+// silently inherited another's copy.
+const uTitles = new Set(), uDescs = new Set();
+for (const c of CH) { const h = pages.get(c.number);
+  uTitles.add((h.match(/<title>([^<]*)<\/title>/) || [])[1] || '');
+  uDescs.add((h.match(/<meta name="description" content="([^"]*)"/) || [])[1] || ''); }
+ok(uTitles.size === 114, `114 DISTINCT titles — got ${uTitles.size}`);
+ok(uDescs.size === 114, `114 DISTINCT meta descriptions — got ${uDescs.size}`);
 ok(bad.h1count.length === 0, 'exactly ONE H1 per page' + (bad.h1count.length ? ' — ' + bad.h1count.slice(0, 3) : ''));
 ok(bad.h1.length === 0, 'every H1 names its own surah' + (bad.h1.length ? ' — ' + bad.h1.slice(0, 3) : ''));
 ok(bad.bc.length === 0, 'every breadcrumb ends on its own surah' + (bad.bc.length ? ' — ' + bad.bc.slice(0, 5) : ''));
 titleLens.sort((a, b) => a[1] - b[1]);
-console.log(`     (title length: shortest surah ${titleLens[0][0]} = ${titleLens[0][1]} cp, longest surah ${titleLens[113][0]} = ${titleLens[113][1]} cp — reported, not asserted: the page is noindex)`);
+// Now ASSERTED, not merely reported: dropping the site-name suffix was the whole point, so a title that grows
+// back past a comfortable SERP width must fail rather than be noticed later. 60 is our internal ceiling — it
+// is not a documented Google limit, and the pages are noindex today; this guards the template, not a ranking.
+const overLong = titleLens.filter(([, len]) => len > 60);
+ok(overLong.length === 0, `no title exceeds 60 code points (internal ceiling) — longest surah ${titleLens[113][0]} = ${titleLens[113][1]} cp`
+   + (overLong.length ? ' — over: ' + JSON.stringify(overLong.slice(0, 5)) : ''));
+console.log(`     (title length: shortest surah ${titleLens[0][0]} = ${titleLens[0][1]} cp, longest surah ${titleLens[113][0]} = ${titleLens[113][1]} cp)`);
 
 console.log('\n--- §8 noindex + self canonical + NO hreflang ---');
 ok(bad.robots.length === 0, 'all 114 keep robots=noindex,follow' + (bad.robots.length ? ' — ' + bad.robots.slice(0, 5) : ''));

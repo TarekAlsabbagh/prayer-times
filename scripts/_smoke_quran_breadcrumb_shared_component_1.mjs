@@ -12,7 +12,13 @@ ok(/<ol class="breadcrumb-list">/.test(bc), 'uses the shared .breadcrumb-list');
 ok((bc.match(/class="bc-item/g) || []).length === 3, 'three bc-item rungs (home / القرآن الكريم / current)');
 ok(/class="bc-sep" aria-hidden="true">›</.test(bc), 'uses the shared › separators (.bc-sep)');
 ok(/<a class="bc-link" href="\/">الرئيسية<\/a>/.test(bc), 'الرئيسية is a REAL link to /');
-ok(!/href="\/quran/.test(bc), 'NO link to /quran (route is 404 — kept non-clickable)');
+// QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — this assertion was the exact inverse until now
+// («NO link to /quran (route is 404 — kept non-clickable)»), and it was correct when written: /quran did not
+// exist yet, so a link would have pointed at a 404. /quran has since shipped and returns 200, which turned
+// the same <span> from a safeguard into the defect this ticket fixes. The rung is now a real link, and the
+// assertion is inverted deliberately — not relaxed.
+ok(/<a class="bc-link" href="\/quran">القرآن الكريم<\/a>/.test(bc), 'القرآن الكريم is a REAL link to /quran');
+ok(!/href="\/quran\/surah\//.test(bc) && !/href="\/quran\/\d/.test(bc), 'the rung never points at a numeric or /quran/surah/ path');
 ok(/<span aria-current="page">سورة \$\{_quranEsc\(sName\)\}<\/span>/.test(bc), 'current page has aria-current="page", is not a link, and names the surah being read');
 // quran.css must NOT redefine the breadcrumb component
 ok(!/\.breadcrumb-list\s*\{/.test(css) && !/\.bc-item\s*\{/.test(css) && !/\.bc-link\s*\{/.test(css) && !/\.bc-sep\s*\{/.test(css), 'quran.css does NOT redefine .breadcrumb-list/.bc-* (shared component reused, not restyled)');

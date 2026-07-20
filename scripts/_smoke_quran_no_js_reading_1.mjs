@@ -8,7 +8,9 @@ const builder = srv.slice(srv.indexOf('function _buildQuranSurahBody(n)'), srv.i
 // (1) SSR emits the ayah text + basmala directly into HTML (not injected by JS)
 ok(/a\.textUthmaniBody/.test(builder), 'SSR HTML contains the ayah body text');
 ok(/basmala\.textUthmaniBody/.test(builder), 'SSR HTML contains the derived basmala');
-ok(/href="#page-\$\{surah\.firstPage\}"/.test(builder), 'in-page anchor nav present (works without JS)');
+// QURAN-BASE-HREF-FRAGMENT-NAVIGATION-…-1 — the in-page jumps are now route-qualified ({path}#ayah-1) so
+// <base href="/"> can't re-resolve them to «/»; they still work with JS off (a real <a> the browser follows).
+ok(/href="\$\{_quranPathFor\(surah\.surah\)\}#ayah-1"/.test(builder), 'route-qualified in-page anchor nav present (works without JS, base-href safe)');
 ok(!/spinner|skeleton|loading/i.test(builder), 'no spinner/skeleton/loading placeholder');
 // (2) client JS carries NO Quran data/text and does not generate ayah text. The result-counter UI labels
 // (chrome, NOT Quran data) legitimately live in the client → strip those known strings before the check.

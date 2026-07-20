@@ -292,6 +292,10 @@ html[data-theme="dark"] .quran-surah-page {
 /* ROOT FIX: an explicit display beats the UA [hidden] rule, so the toggled elements need their own
    [hidden] override — otherwise filtered-out surahs (and the empty/clear states) never actually hide. */
 .quran-idx-li[hidden], .quran-surah-filter-empty[hidden], .quran-filter-clear[hidden] { display: none; }
+/* Same class of bug for the hero «متابعة القراءة» button: it is a .quran-btn (display:inline-flex), which beats
+   the UA [hidden]{display:none}. Without this a first-time reader with no saved position sees it painted. It stays
+   hidden until js/quran-home.js clears [hidden] on a VALID last-read, at which point it also gets its full href. */
+#quran-home-continue[hidden] { display: none !important; }
 .quran-idx-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px;
   text-decoration: none; color: var(--text-light); border: 1px solid transparent; }
 /* Every item is a real link now (all 114 surahs exist), so each one needs the hover affordance and the
@@ -639,3 +643,41 @@ body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); 
   .quran-home-suggest-link { min-height: 60px; }
   .quran-home-suggest-num { min-width: 44px; height: 44px; border-radius: 11px; font-size: .95rem; }
 }
+
+/* ═══════ QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 ═══════
+   The browse CTA became a real <a> (it was a <button> that only opened the drawer, so it was invisible to
+   crawlers and dead without JS). An anchor inherits underline + link colour, so both are neutralised here —
+   the CTA's own colour rules above already paint it. */
+.quran-browse-cta { text-decoration: none; }
+.quran-browse-cta:visited { color: #fff; }
+
+/* The drawer kept its behaviour but lost its trigger when the CTA started navigating, so it now has its own
+   clearly-named button. Deliberately quieter than the CTA: same row, secondary weight — one obvious way to
+   LEAVE for the index, one modest way to pick a surah without leaving. */
+.quran-pick-surah-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box;
+  min-height: 48px; padding: 11px 18px; border-radius: 14px; cursor: pointer; font: inherit; font-size: 14px;
+  color: var(--text); background: color-mix(in srgb, var(--text) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  transition: background .18s ease, border-color .18s ease;
+}
+.quran-pick-surah-btn:hover {
+  background: color-mix(in srgb, var(--text) 11%, transparent);
+  border-color: color-mix(in srgb, var(--text) 30%, transparent);
+}
+.quran-pick-surah-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 45%, #fff); outline-offset: 2px; }
+.quran-pick-surah-ico { display: inline-flex; opacity: .8; }
+@media (max-width: 560px) { .quran-hero-actions > .quran-pick-surah-btn { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .quran-pick-surah-btn { transition: none; } }
+
+/* /quran#quran-surah-index — the index heading must clear the fixed site header when the hash lands.
+   /quran has NO sticky reading bar (that belongs to surah pages), so this uses the header height alone
+   rather than --q-scroll-margin, which also reserves room for that bar. */
+#quran-surah-index { scroll-margin-top: calc(var(--q-header-h, 74px) + 16px); }
+@media (max-width: 1024px) { #quran-surah-index { scroll-margin-top: calc(var(--q-header-h, 74px) + 72px); } }
+
+/* QURAN-AR-SURAH-SOURCE-TRUST-INPAGE-LINK-FIX-1 — the source/trust section is an in-page jump target on the
+   surah pages, where BOTH the site header and the sticky reading bar can sit above the fold. --q-scroll-margin
+   already accounts for exactly that pair (header + sticky + 14px), so the anchor reuses it rather than
+   inventing a second number that could drift away from the measured chrome. */
+#quran-source-trust { scroll-margin-top: var(--q-scroll-margin, 178px); }

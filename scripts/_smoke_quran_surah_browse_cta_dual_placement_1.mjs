@@ -1,6 +1,6 @@
 // Smoke — QURAN "browse all surahs" CTA: distinctive redesign + DUAL placement (P0). Browser test (headless
 // Chrome + CDP): EXACTLY two CTAs (hero + after the surah-end prev/next cards), each with an inline icon +
-// "تصفّح جميع سور القرآن" + "فهرس ١١٤ سورة" + chevron; both open the SAME ONE index modal (one search box) via
+// "تصفح سور القرآن" + "فهرس ١١٤ سورة" + chevron; both are LINKS to the home index (the drawer has its own button) via
 // the shared data-quran-surah-browser-trigger; focus returns to the button that opened it; no duplicate ids; no
 // route links (no 404s); both hidden in reading mode + restored on exit; no overflow (desktop/mobile); dark ok.
 // Self-contained: reuses QURAN_SMOKE_URL/localhost:3100 if serving the CTA, else spawns its own; SKIPs (exit 0)
@@ -69,13 +69,19 @@ async function main() {
     return { count:ctas.length,
       hasHero:!!hero, hasEnd:!!end,
       endAfterCards: !!end && (function(){ var nav=document.querySelector('.quran-surah-end .quran-surah-nav'); return nav && (nav.compareDocumentPosition(end) & Node.DOCUMENT_POSITION_FOLLOWING)>0; })(),
-      bothLabel: ctas.every(function(c){ return /تصفّح جميع سور القرآن/.test(c.textContent); }),
+      bothLabel: ctas.every(function(c){ return /تصفح سور القرآن/.test(c.textContent); }),
       bothIcon: ctas.every(function(c){ return !!c.querySelector('.quran-cta-ico-svg'); }),
       bothSub: ctas.every(function(c){ return /فهرس ١١٤ سورة/.test(c.textContent); }),
       bothArrow: ctas.every(function(c){ return !!c.querySelector('.quran-cta-arrow-svg'); }),
-      bothHaspopup: ctas.every(function(c){ return c.getAttribute('aria-haspopup')==='dialog'; }),
-      bothControls: ctas.every(function(c){ return c.getAttribute('aria-controls')==='quran-index'; }),
-      bothTrigger: ctas.every(function(c){ return c.hasAttribute('data-quran-surah-browser-trigger'); }),
+      // QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — the CTAs used to BE the drawer trigger
+      // (aria-haspopup=dialog + aria-controls). They now navigate to the home index instead, and the drawer
+      // has its own «اختيار سورة» button. So the expectation is inverted on purpose: link, not dialog opener.
+      bothAnchors: ctas.every(function(c){ return c.tagName === 'A'; }),
+      bothHref: ctas.every(function(c){ return c.getAttribute('href') === '/quran#quran-surah-index'; }),
+      noneIsDialogTrigger: ctas.every(function(c){ return !c.hasAttribute('aria-haspopup') && !c.hasAttribute('data-quran-surah-browser-trigger'); }),
+      pickBtnCount: document.querySelectorAll('.quran-pick-surah-btn').length,
+      pickIsDialogTrigger: (function(){ var p=document.querySelector('.quran-pick-surah-btn');
+        return !!p && p.tagName==='BUTTON' && p.getAttribute('aria-haspopup')==='dialog' && p.getAttribute('aria-controls')==='quran-index'; })(),
       modalCount: document.querySelectorAll('#quran-index').length,
       searchCount: document.querySelectorAll('[data-quran-surah-filter]').length };
   })()`);
@@ -83,11 +89,15 @@ async function main() {
   ok(s.hasHero, 'top/hero CTA present');
   ok(s.hasEnd, 'bottom CTA present (in the surah-end box)');
   ok(s.endAfterCards, 'bottom CTA sits AFTER the prev/next (طه/الحج) nav cards');
-  ok(s.bothLabel, 'both CTAs show «تصفّح جميع سور القرآن»');
+  ok(s.bothLabel, 'both CTAs show the approved literal «تصفح سور القرآن»');
   ok(s.bothIcon, 'both CTAs contain the inline mushaf icon (SVG)');
   ok(s.bothSub, 'both CTAs show the «فهرس ١١٤ سورة» subline');
   ok(s.bothArrow, 'both CTAs contain the chevron indicator (SVG)');
-  ok(s.bothHaspopup && s.bothControls && s.bothTrigger, 'both CTAs: aria-haspopup=dialog + aria-controls=quran-index + shared trigger');
+  ok(s.bothAnchors, 'both CTAs are real <a> elements (crawlable, Ctrl+click-able, work without JS)');
+  ok(s.bothHref, 'both CTAs point at /quran#quran-surah-index');
+  ok(s.noneIsDialogTrigger, 'neither CTA doubles as the drawer trigger any more');
+  ok(s.pickBtnCount === 1, 'exactly ONE «اختيار سورة» drawer button (got ' + s.pickBtnCount + ')');
+  ok(s.pickIsDialogTrigger, 'the drawer button is a <button> with aria-haspopup=dialog + aria-controls=quran-index');
   ok(s.modalCount === 1, 'exactly ONE #quran-index modal on the page');
   ok(s.searchCount === 1, 'exactly ONE surah search box on the page');
 
@@ -130,26 +140,26 @@ async function main() {
   const probe = await fetch(base + P(22)).then(r => r.status).catch(() => 0);
   ok(probe === 200, `the neighbour route ${P(22)} actually returns 200 — got ` + probe);
 
-  // ================= open + focus return: TOP =================
+  // ================= open + focus return: the DRAWER BUTTON =================
+  // QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — these three blocks used to click the two CTAs
+  // and expect the modal. The CTAs are links now, so clicking them navigates; the drawer belongs to the
+  // «اختيار سورة» button. Same guarantees (one modal, one search box, focus returns) — new owner.
   s = await ev(`(function(){ ${H}
-    hero.focus(); hero.click();
+    var pick = document.querySelector('.quran-pick-surah-btn');
+    pick.focus(); pick.click();
     var open1 = modal.classList.contains('is-open');
-    document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
-    var back1 = document.activeElement===hero;
-    return {open1:open1, back1:back1}; })()`);
-  ok(s.open1, 'TOP CTA opens the modal');
-  ok(s.back1, 'closing returns focus to the TOP CTA (the button that opened it)');
-  // ================= open + focus return: BOTTOM =================
-  s = await ev(`(function(){ ${H}
-    end.focus(); end.click();
-    var sameModal = document.getElementById('quran-index').classList.contains('is-open') && document.querySelectorAll('#quran-index').length===1;
+    var sameModal = document.querySelectorAll('#quran-index').length===1;
     var oneSearch = document.querySelectorAll('[data-quran-surah-filter]').length===1;
     document.dispatchEvent(new KeyboardEvent('keydown',{key:'Escape',bubbles:true}));
-    var back2 = document.activeElement===end;
-    return {sameModal:sameModal, oneSearch:oneSearch, back2:back2}; })()`);
-  ok(s.sameModal, 'BOTTOM CTA opens the SAME single modal');
+    var back1 = document.activeElement===pick;
+    return {open1:open1, back1:back1, sameModal:sameModal, oneSearch:oneSearch, href:location.pathname}; })()`);
+  ok(s.open1, 'the «اختيار سورة» button opens the modal');
+  ok(s.back1, 'closing returns focus to that button');
+  ok(s.sameModal, 'still exactly ONE #quran-index modal');
   ok(s.oneSearch, 'still exactly ONE search box (no duplicated list/box)');
-  ok(s.back2, 'closing returns focus to the BOTTOM CTA');
+  ok(s.href === P(21), 'opening the drawer does NOT navigate away from the surah — ' + s.href);
+  // (the old BOTTOM-CTA focus-return assertion lived here; the bottom CTA is a link now, so focus return is
+  //  asserted once, on the drawer button that actually owns the dialog)
 
   // ================= reading mode hides both, exit restores =================
   s = await ev(`(function(){ ${H}

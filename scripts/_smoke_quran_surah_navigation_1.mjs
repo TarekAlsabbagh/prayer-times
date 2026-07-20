@@ -17,7 +17,10 @@ ok(/class="quran-surah-end"/.test(b), 'surah-end completion box present');
 const ctaCalls = (b.match(/_quranBrowseCta\(/g) || []).length;
 ok(ctaCalls === 2, 'the distinctive browse CTA is rendered in EXACTLY two places (hero + surah-end) — found ' + ctaCalls);
 ok(/_quranBrowseCta\(chapters\.length, 'hero'\)/.test(b) && /_quranBrowseCta\(chapters\.length, 'end'\)/.test(b), 'one hero CTA + one surah-end CTA');
-ok(/تصفّح جميع سور القرآن/.test(src) && /data-quran-surah-browser-trigger/.test(src) && /aria-haspopup="dialog"/.test(src), 'the CTA helper emits the label + shared trigger + aria-haspopup=dialog');
+// QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — the CTA helper no longer emits the dialog
+// trigger; it emits a link to the home index. The trigger attributes moved to the «اختيار سورة» button.
+ok(/تصفح سور القرآن/.test(src) && /href="\/quran#quran-surah-index"/.test(src), 'the CTA helper emits the approved label + the home-index href');
+ok(/quran-pick-surah-btn/.test(src) && /data-quran-surah-browser-trigger/.test(src) && /aria-haspopup="dialog"/.test(src), 'the separate drawer button carries the trigger + aria-haspopup=dialog');
 ok(b.indexOf('quran-browse-cta-wrap') > b.indexOf('class="quran-surah-nav"'), 'the bottom browse CTA sits AFTER the prev/next nav cards');
 ok(!/quran-browse-all/.test(b), 'the OLD duplicate .quran-browse-all button is gone');
 

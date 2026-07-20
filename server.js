@@ -16859,7 +16859,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
         html = html.replace('</head>',
             '    <link rel="preload" as="font" href="/fonts/uthmanic_hafs_v20.ttf" type="font/ttf" crossorigin>\n' +
-            '    <link rel="stylesheet" href="/css/quran.css?v=20">\n' +
+            '    <link rel="stylesheet" href="/css/quran.css?v=21">\n' +
+            // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
+            // the structured-data URLs and the canonical can never disagree about the host.
+            '    ' + _quranSurahJsonLd(String((seo && seo.canonical) || '').replace(/\/quran\/[^/]+$/, ''), _qsPage.n) + '\n' +
             // the switcher opens via JS (onclick + .open). With JS off those SSR links would be unreachable —
             // this <noscript> rule (quran route only) lets keyboard focus reveal them. Inert when JS runs.
             '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
@@ -16887,7 +16890,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // TAG (rather than 404-ing the file) is what keeps the network panel and console clean.
         html = html.replace('<script defer src="js/azkar-data.js?v=39"></script>', '');
         html = html.replace('</head>',
-            '    <link rel="stylesheet" href="/css/quran.css?v=20">\n'
+            '    <link rel="stylesheet" href="/css/quran.css?v=21">\n'
             // Origin is derived from the page's OWN canonical rather than re-read from SITE_URL, so the
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
@@ -30113,7 +30116,7 @@ function _buildQuranHomeIndexHtml() {
             + `<h3 class="quran-home-idx-grouptitle">السور ${_quranAr(from)}–${_quranAr(to)}</h3>`
             + `<ul class="quran-home-idx-grid">${items}</ul></section>`;
     }).join('');
-    return `<section class="section-card quran-home-index" id="quran-home-index" aria-labelledby="quran-home-index-title">
+    return `<section class="section-card quran-home-index" id="quran-surah-index" aria-labelledby="quran-home-index-title">
   <h2 id="quran-home-index-title">فهرس سور القرآن الكريم</h2>
   <p class="quran-home-idx-intro">تصفح سور القرآن الكريم الـ${_quranAr(sh.chapters.length)} بالترتيب، من سورة الفاتحة إلى سورة الناس، مع رقم كل سورة وعدد آياتها.</p>
   <!-- The "no match" line moved into the combobox listbox (its natural home): the index is no longer
@@ -30163,7 +30166,7 @@ function _buildQuranHomeSourceHtml() {
     <li>أدوات البحث والفهرسة والانتقال لا تغيّر النص القرآني ولا تعيد كتابته؛ هي تنقلك إليه فقط.</li>
   </ul>
   ${link}
-  <p class="quran-home-source-more">تفاصيل المصدر والتحقق من سلامة النص مذكورة أسفل كل سورة — مثال: <a href="${sh.byNumber.get(1).path}#quran-source">مصدر نص سورة الفاتحة</a>.</p>
+  <p class="quran-home-source-more">تفاصيل المصدر والتحقق من سلامة النص مذكورة أسفل كل سورة — مثال: <a href="${sh.byNumber.get(1).path}#quran-source-trust">مصدر نص سورة الفاتحة</a>.</p>
 </section>`;
 }
 function _buildQuranHomeFaqHtml() {
@@ -30207,8 +30210,8 @@ function _buildQuranHomeBody() {
       <h1 id="quran-home-h1">فهرس سور القرآن الكريم بالترتيب</h1>
       <p class="quran-hero-intro">تصفح سور القرآن الكريم بالترتيب، وابحث باسم السورة أو رقمها، وانتقل مباشرة إلى السورة أو الجزء الذي تريد قراءته.</p>
       <div class="quran-hero-actions">
-        <a class="quran-btn quran-btn-primary" href="#quran-home-index">تصفح سور القرآن</a>
-        <a class="quran-btn quran-btn-ghost" id="quran-home-continue" href="#quran-home-index" data-quran-continue hidden>متابعة القراءة</a>
+        <a class="quran-btn quran-btn-primary" href="/quran#quran-surah-index">تصفح سور القرآن</a>
+        <a class="quran-btn quran-btn-ghost" id="quran-home-continue" href="/quran#quran-surah-index" data-quran-continue hidden>متابعة القراءة</a>
       </div>
       <ul class="quran-hero-chips quran-home-stats">
         <li class="quran-chip"><span class="quran-chip-num">${_quranAr(t.surahs)}</span> <span class="quran-chip-lbl">سورة</span></li>
@@ -30252,7 +30255,7 @@ function _buildQuranHomeBody() {
              data-quran-ayah-label="الآية" data-quran-cta-label="متابعة من الآية" aria-labelledby="quran-home-lastread-title">
       <h2 id="quran-home-lastread-title">تابع القراءة</h2>
       <p class="quran-home-lastread-line"><span data-quran-lastread-surah></span> · <span data-quran-lastread-ayah></span></p>
-      <a class="quran-btn quran-btn-primary quran-home-lastread-btn" href="#" data-quran-lastread-link></a>
+      <a class="quran-btn quran-btn-primary quran-home-lastread-btn" href="/quran#quran-surah-index" data-quran-lastread-link></a>
     </section>
 
     ${_buildQuranHomeJuzHtml()}
@@ -30292,6 +30295,26 @@ function _quranHomeJsonLd(origin) {
     return '<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>\n'
          + '<script type="application/ld+json">' + JSON.stringify(list) + '</script>';
 }
+// QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — the 114 surah pages emitted NO BreadcrumbList at
+// all (the generic @graph one never reaches this section, and unlike /quran they had no dedicated emitter).
+// Three rungs, mirroring the visible breadcrumb exactly: Home › القرآن الكريم › سورة {name}. The middle rung
+// ends literally at /quran and the last is the surah's official slug path — both taken from the same helpers
+// the DOM uses, so the markup and the structured data cannot drift apart.
+function _quranSurahJsonLd(origin, n) {
+    const sh = _quranShared();
+    const rec = sh.byNumber.get(n);
+    const ch = _quranChapter(n);
+    if (!rec || !ch) return '';
+    const crumbs = {
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: origin + '/' },
+            { '@type': 'ListItem', position: 2, name: 'القرآن الكريم', item: origin + '/quran' },
+            { '@type': 'ListItem', position: 3, name: 'سورة ' + _quranCleanName(ch.nameAr), item: origin + rec.path },
+        ],
+    };
+    return '<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>';
+}
 // The ONE distinctive "browse all surahs" CTA — rendered in TWO places (hero + after the surah-end nav cards),
 // both opening the SAME index modal via the shared trigger. Inline open-mushaf SVG (currentColor → light/dark),
 // title + "فهرس N سورة" subline + a chevron hinting it opens a panel. aria-haspopup=dialog + aria-controls.
@@ -30304,10 +30327,27 @@ function _quranBrowseCta(count, variant) {
     const arrow = '<svg class="quran-cta-arrow-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">'
         + '<path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
         + '</svg>';
-    return `<button class="quran-browse-cta quran-browse-cta--${variant}" type="button" data-quran-surah-browser-trigger data-quran-open-index aria-haspopup="dialog" aria-controls="quran-index">`
+    // QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — this was a <button> that only opened the
+    // in-page drawer, so the 114 surah pages had NO crawlable link to /quran and the CTA died without JS,
+    // on Ctrl+Click and in a new tab. It is now a real <a> to the home index anchor. The drawer keeps its
+    // own, separately-labelled trigger below — one control, one behaviour, identical on every viewport.
+    return `<a class="quran-browse-cta quran-browse-cta--${variant}" href="/quran#quran-surah-index" aria-label="الانتقال إلى فهرس سور القرآن الكريم">`
         + `<span class="quran-cta-ico" aria-hidden="true">${icon}</span>`
-        + `<span class="quran-cta-text"><span class="quran-cta-title">تصفّح جميع سور القرآن</span><span class="quran-cta-sub">فهرس ${_quranAr(count)} سورة</span></span>`
+        + `<span class="quran-cta-text"><span class="quran-cta-title">تصفح سور القرآن</span><span class="quran-cta-sub">فهرس ${_quranAr(count)} سورة</span></span>`
         + `<span class="quran-cta-arrow" aria-hidden="true">${arrow}</span>`
+        + `</a>`;
+}
+// The drawer's ONLY trigger used to be the browse CTA above. Now that the CTA navigates to /quran, the
+// dialog would be unreachable without this — so it gets its own button with a name that says what it does
+// (open a picker here) rather than what the CTA does (leave for the index).
+function _quranPickSurahBtn() {
+    return `<button class="quran-pick-surah-btn" type="button" data-quran-surah-browser-trigger data-quran-open-index`
+        + ` aria-haspopup="dialog" aria-controls="quran-index">`
+        + `<span class="quran-pick-surah-ico" aria-hidden="true">`
+        + `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">`
+        + `<path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>`
+        + `</svg></span>`
+        + `<span class="quran-pick-surah-text">اختيار سورة</span>`
         + `</button>`;
 }
 // Editorial sections — SSR, visible, no hidden-for-SEO text. SIMPLIFIED SCALABLE TEMPLATE
@@ -30405,7 +30445,7 @@ function _quranFaqHtml(surah, sName) {
 // from the other sections and the FAQ to avoid repetition. Keeps id=quran-source for the hero anchor.
 function _quranSourceHtml(surah, manifest, sName) {
     const n = _quranAr;
-    return `<section class="section-card quran-source-box" id="quran-source" aria-labelledby="quran-source-title">
+    return `<section class="section-card quran-source-box" id="quran-source-trust" aria-labelledby="quran-source-title">
   <h2 id="quran-source-title">الرسم العثماني ومصدر نص سورة ${sName}</h2>
   <p>يعتمد النصّ المعروض في هذه الصفحة على حزمة الرسم العثماني لرواية حفص عن عاصم الصادرة عن مجمّع الملك فهد لطباعة المصحف الشريف بالمدينة المنوّرة، وهو المصدر الرسمي المعتمد للنصّ. وقد جرى التحقّق من سلامة ملفات المصدر بمطابقة بصماتها الرقمية قبل استخدامها حفاظًا على أمانة النقل. وتُقسَّم الآيات وفق أرقام الصفحات المرجعية في ترقيم مصحف المدينة، وهي أرقامٌ تدلّ على مواضع الآيات في المصحف المطبوع وتُيسّر الرجوع إليها. أمّا توزيع الأسطر داخل البطاقات فيتكيّف تلقائيًا مع حجم الشاشة لتحسين القراءة، ولذلك فهو ليس محاكاةً طباعيةً مطابقةً لصفحة المصحف الورقية سطرًا بسطر.</p>
   <ul class="quran-source-facts">
@@ -30529,9 +30569,9 @@ function _buildQuranSurahBody(n) {
 
     const pageOptions = surah.pages.map(pg => `<option value="${pg.page}">الصفحة ${_quranAr(pg.page)}</option>`).join('');
 
-    // Surah index (114 chapters) — every one of them now a REAL destination. The CURRENT surah stays an in-page
-    // anchor (jumping to its own first page) and keeps the «الحالية» badge; the other 113 are links to their own
-    // route. No item is disabled: all 114 pages exist.
+    // Surah index (114 chapters) — every one of them a REAL route. A bare in-page hash like «#page-N» would
+    // resolve against the shell's <base href="/"> and jump to «/», so the CURRENT surah links to its own page
+    // (aria-current="page") and keeps the «الحالية» badge; the other 113 link to their routes. Nothing disabled.
     const indexItems = chapters.map(c => {
         const num = _quranAr(c.number), disp = _quranCleanName(c.nameAr);
         // Search keys (js/quran.js normalizes them client-side). `data-name` keeps the RAW mushaf spelling +
@@ -30547,7 +30587,7 @@ function _buildQuranSurahBody(n) {
             + ` data-slug="${_quranEsc(_quranShared().byNumber.get(c.number).slug)}"`;
         const inner = `<span class="quran-idx-num">${num}</span><span class="quran-idx-name">${_quranEsc(disp)}</span><span class="quran-idx-ay">${_quranAyahPhrase(c.ayahCount)}</span>`;
         if (c.number === surah.surah) {
-            return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item is-current" href="#page-${surah.firstPage}" aria-current="true" data-quran-close-index>${inner}<span class="quran-idx-badge">الحالية</span></a></li>`;
+            return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item is-current" href="${_quranPathFor(surah.surah)}" aria-current="page" data-quran-close-index>${inner}<span class="quran-idx-badge">الحالية</span></a></li>`;
         }
         return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item" href="${_quranPathFor(c.number)}">${inner}</a></li>`;
     }).join('');
@@ -30561,7 +30601,7 @@ function _buildQuranSurahBody(n) {
     <ol class="breadcrumb-list">
       <li class="bc-item"><a class="bc-link" href="/">الرئيسية</a></li>
       <li class="bc-sep" aria-hidden="true">›</li>
-      <li class="bc-item"><span>القرآن الكريم</span></li>
+      <li class="bc-item"><a class="bc-link" href="/quran">القرآن الكريم</a></li>
       <li class="bc-sep" aria-hidden="true">›</li>
       <li class="bc-item bc-current"><span aria-current="page">سورة ${_quranEsc(sName)}</span></li>
     </ol>
@@ -30582,9 +30622,10 @@ function _buildQuranSurahBody(n) {
       <span class="quran-chip">الرسم العثماني</span>
     </div>
     <div class="quran-hero-actions">
-      <a class="quran-btn quran-btn-primary" href="#page-${surah.firstPage}">ابدأ القراءة</a>
+      <a class="quran-btn quran-btn-primary" href="${_quranPathFor(surah.surah)}#ayah-1">ابدأ القراءة</a>
       ${_quranBrowseCta(chapters.length, 'hero')}
-      <a class="quran-btn quran-btn-ghost" href="#quran-source">مصدر النص وموثوقيته</a>
+      ${_quranPickSurahBtn()}
+      <a class="quran-btn quran-btn-ghost" href="${_quranShared().byNumber.get(surah.surah).path}#quran-source-trust">مصدر النص وموثوقيته</a>
     </div>
   </section>
 
@@ -30619,8 +30660,8 @@ ${pagesHtml}
       <h2>تمّت سورة ${_quranEsc(sName)}</h2>
       <p>خُتمت قراءة سورة ${_quranEsc(sName)} كاملةً (${_quranAyahPhrase(surah.ayahCount)}). يمكنك العودة إلى أوّل السورة، أو تصفّح بقية سور المصحف الشريف.</p>
       <div class="quran-surah-end-actions">
-        <a class="quran-btn quran-btn-secondary" href="#page-${surah.firstPage}">العودة إلى أوّل السورة</a>
-        <a class="quran-btn quran-btn-ghost" href="#quran-source">مصدر النص وموثوقيته</a>
+        <a class="quran-btn quran-btn-secondary" href="${_quranPathFor(surah.surah)}#ayah-1">العودة إلى أوّل السورة</a>
+        <a class="quran-btn quran-btn-ghost" href="${_quranShared().byNumber.get(surah.surah).path}#quran-source-trust">مصدر النص وموثوقيته</a>
       </div>
       <nav class="quran-surah-nav" aria-label="التنقّل بين السور">
         ${_quranNavCard(prevSurah, 'prev')}

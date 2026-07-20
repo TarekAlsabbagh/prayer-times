@@ -199,7 +199,7 @@ ok(await ev('location.pathname') === '/quran/al-baqarah', 'clicking a result ope
 console.log('\n--- §7 outside click + re-open ---');
 await go(B + '/quran');
 await type('البق');
-await ev(`document.querySelector('#quran-home-index h2').click()`);
+await ev(`document.querySelector('#quran-surah-index h2').click()`);
 await sleep(200);
 s = await state();
 ok(!s.openList, 'clicking outside closes the list');

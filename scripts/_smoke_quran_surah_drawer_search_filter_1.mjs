@@ -110,20 +110,23 @@ async function main() {
     var foc=0; hid.forEach(function(li){ [].forEach.call(li.querySelectorAll('a[href],button,[tabindex]'), function(el){ if(el.offsetParent!==null) foc++; }); });
     return {hid:hid.length, foc:foc}; })()`);
   ok(s.hid === 113 && s.foc === 0, 'filtered-out surahs are display:none (113) and expose NO tabbable element');
-  // The drawer is a real index: the CURRENT surah stays an in-page anchor (#page-N) and the other 113 are
-  // links to their own /quran/{slug} routes. Each link is matched against the routes table rather than a URL
-  // shape — a shape test would wave through /quran/al-anbia, which 404s.
-  const VALID = JSON.stringify(ROUTES.filter(x => x.number !== 21).map(x => x.path));
+  // QURAN-BASE-HREF-FRAGMENT-NAVIGATION-…-1 — the drawer is a real index of all 114 routes. The current surah used
+  // to be a bare «#page-N» in-page anchor, but <base href="/"> re-resolved it to «/»; it is now a self-link to its
+  // own /quran/{slug} route + aria-current="page". Each href is matched against the routes table (a shape test
+  // would wave through /quran/al-anbia, which 404s), and 0 bare in-page anchors of any kind remain.
+  const VALID = JSON.stringify(ROUTES.map(x => x.path));
   s = await ev(`(function(){ ${H} type('');
     var valid=${VALID};
     var a=[].slice.call(document.querySelectorAll('.quran-idx-item[href]'));
-    var self=a.filter(function(x){return /^#page-/.test(x.getAttribute('href'));});
+    var self=a.filter(function(x){return /^#/.test(x.getAttribute('href'));});
     var route=a.filter(function(x){return valid.indexOf(x.getAttribute('href'))!==-1;});
     var bad=a.length-self.length-route.length;
     var uniq={}; route.forEach(function(x){uniq[x.getAttribute('href')]=1;});
-    return {self:self.length, route:route.length, bad:bad, uniq:Object.keys(uniq).length}; })()`);
-  ok(s.self === 1 && s.route === 113 && s.bad === 0 && s.uniq === 113,
-     `the drawer = 1 in-page anchor (the current surah) + 113 DISTINCT official slug links, nothing else — got self=${s.self} slug-links=${s.route} distinct=${s.uniq} off-table=${s.bad}`);
+    var cur=document.querySelector('.quran-idx-item.is-current');
+    return {self:self.length, route:route.length, bad:bad, uniq:Object.keys(uniq).length,
+            curHref:cur?cur.getAttribute('href'):null, curAria:cur?cur.getAttribute('aria-current'):null}; })()`);
+  ok(s.self === 0 && s.route === 114 && s.bad === 0 && s.uniq === 114 && s.curHref === '/quran/al-anbiya' && s.curAria === 'page',
+     `the drawer = 114 DISTINCT official slug links, 0 bare in-page anchors, current = self-link + aria-current="page" — got self=${s.self} slug-links=${s.route} distinct=${s.uniq} off-table=${s.bad} cur=${s.curHref}/${s.curAria}`);
   s = await ev(`(function(){ ${H} type('زقزقة'); document.querySelector('.quran-empty-clear').click(); return {v:vis().length, val:inp.value, foc:document.activeElement===inp}; })()`);
   ok(s.v === 114 && s.val === '' && s.foc, 'empty-state "مسح البحث" → restores 114 + empties field + focuses input');
   s = await ev(`(function(){ ${H} type('الأنبياء'); document.querySelector('.quran-filter-clear').click(); return {v:vis().length, val:inp.value, foc:document.activeElement===inp}; })()`);

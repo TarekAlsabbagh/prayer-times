@@ -80,13 +80,15 @@ for (const c of CH) {
   if (/is-disabled|aria-disabled="true"|ستتوفر عند إطلاق/.test(body)) bad.disabled.push(n);
   if (/quran-index-note|في هذا النموذج الأولي/.test(body)) bad.note.push(n);
 
-  // ---- §10 the drawer lists all 114: 113 links + the current one as an in-page anchor with its badge ----
+  // ---- §10 the drawer lists all 114: 113 links to OTHER surahs + the current one as a self-link with its badge ----
   // Capture the href itself rather than a number pulled out of it: that way a stray numeric or /quran/surah/
   // entry cannot slip through as a "match", it simply fails to equal the slug path the table demands.
   const idxLinks = [...html.matchAll(/class="quran-idx-item" href="(\/quran\/[^"#]+)"/g)].map(m => m[1]);
   const wantLinks = CH.map(x => x.number).filter(x => x !== n).map(P);
   if (idxLinks.length !== 113 || idxLinks.join() !== wantLinks.join()) bad.links.push(`${n}: ${idxLinks.length} links`);
-  if (!html.includes(`<a class="quran-idx-item is-current" href="#page-${s.firstPage}" aria-current="true"`)) bad.badge.push(n);
+  // QURAN-BASE-HREF-FRAGMENT-NAVIGATION-…-1 — the current item used to be a bare «#page-N» in-page anchor, which
+  // <base href="/"> re-resolved to «/». It is now a REAL self-link to its own route + aria-current="page".
+  if (!html.includes(`<a class="quran-idx-item is-current" href="${P(n)}" aria-current="page"`)) bad.badge.push(n);
   if ((html.match(/quran-idx-badge">الحالية/g) || []).length !== 1) bad.badge.push(n + ' (badge×)');
 
   // ---- §11 single vs multi juz, single vs multi page ----

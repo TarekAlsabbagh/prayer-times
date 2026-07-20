@@ -23,7 +23,11 @@ ok(/\$\{_quranJuzPhrase\(surah\.juz\)\}/.test(b), 'chip: juz via the helper (ا�
 ['السورة', 'رواية حفص عن عاصم', 'الرسم العثماني'].forEach(t =>
   ok(new RegExp('quran-chip">[^<]*' + t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).test(b) || b.includes('>' + t) || b.includes(t + '</span>') || b.includes(t), 'chip present: ' + t));
 // action buttons (exact labels + roles)
-ok(/class="quran-btn quran-btn-primary" href="#page-\$\{surah\.firstPage\}">ابدأ القراءة<\/a>/.test(b), 'button: ابدأ القراءة → first page anchor');
-ok(/\$\{_quranBrowseCta\(chapters\.length, 'hero'\)\}/.test(b), 'hero renders the distinctive «تصفّح جميع سور القرآن» CTA (opens the surah index)');
-ok(/href="#quran-source">مصدر النص وموثوقيته<\/a>/.test(b), 'button: مصدر النص وموثوقيته → source anchor');
+// QURAN-BASE-HREF-FRAGMENT-NAVIGATION-…-1 — a bare «#page-N» re-resolves against <base href="/"> and jumps to
+// «/». «ابدأ القراءة» now carries the surah's own route before the fragment and targets the FIRST ayah.
+ok(/class="quran-btn quran-btn-primary" href="\$\{_quranPathFor\(surah\.surah\)\}#ayah-1">ابدأ القراءة<\/a>/.test(b), 'button: ابدأ القراءة → own path + #ayah-1');
+ok(/\$\{_quranBrowseCta\(chapters\.length, 'hero'\)\}/.test(b), 'hero renders the «تصفح سور القرآن» CTA (links to the home index)');
+// QURAN-AR-SURAH-SOURCE-TRUST-INPAGE-LINK-FIX-1 — a bare href="#hash" is re-resolved against <base href="/">,
+// so it used to land on the HOME page. The link now carries the surah's own path before the fragment.
+ok(/path\}#quran-source-trust">مصدر النص وموثوقيته<\/a>/.test(b), 'button: مصدر النص وموثوقيته → path + #quran-source-trust');
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`); if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }

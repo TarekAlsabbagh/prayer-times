@@ -125,22 +125,25 @@ async function main() {
 
   console.log('\n--- §10/§14 the drawer opens once and its entries are real links ---');
   await goto(`${BASE}${P(21)}`);
-  // The drawer lists all 114: 113 links OUT, plus the surah you are already reading as an in-page anchor
-  // (href="#page-N") rather than a link to itself. So the entries split exactly 113 + 1, and every one of the
-  // 113 must be a path the routes table knows — a stray numeric or misspelt href fails to match rather than
-  // slipping through a shape test.
-  const wantHrefs = ROUTES.filter(x => x.number !== 21).map(x => x.path);
+  // QURAN-BASE-HREF-FRAGMENT-NAVIGATION-…-1 — the drawer lists all 114 as REAL routes now. It used to render the
+  // surah you are reading as a bare «#page-N» in-page anchor, but <base href="/"> re-resolved that to «/»; the
+  // current item is now a self-link to its own route + aria-current="page". So all 114 are route links, 0 are
+  // bare hashes, and every href must be one of the 114 official slug paths.
+  const wantHrefs = ROUTES.map(x => x.path);
   const modal = await ev(`(() => {
     document.querySelector('[data-quran-surah-browser-trigger]').click();
     const m = document.querySelectorAll('#quran-index');
     const l = document.querySelector('.quran-idx-item[href="${P(36)}"]');
+    const cur = document.querySelector('.quran-idx-item.is-current');
     const all = Array.from(document.querySelectorAll('.quran-idx-item')).map(a => a.getAttribute('href'));
     return { modals: m.length, open: m[0].getAttribute('aria-hidden') === 'false', href: l ? l.getAttribute('href') : null,
-             all: all, links: all.filter(h => h && h.charAt(0) !== '#'), self: all.filter(h => h && h.charAt(0) === '#') };
+             all: all, links: all.filter(h => h && h.charAt(0) !== '#'), self: all.filter(h => h && h.charAt(0) === '#'),
+             curHref: cur ? cur.getAttribute('href') : null, curAria: cur ? cur.getAttribute('aria-current') : null };
   })()`);
   ok(modal.modals === 1 && modal.open, `exactly one drawer node, and it opens — got ${modal.modals} node(s), open=${modal.open}`);
-  ok(modal.href === P(36) && modal.links.length === 113, `the drawer holds 113 real surah links — got ${modal.links.length}, Ya-Sin → ${modal.href}`);
-  ok(modal.self.length === 1, `…and exactly 1 in-page anchor for the surah being read — got ${modal.self.length}: ${JSON.stringify(modal.self)}`);
+  ok(modal.href === P(36) && modal.links.length === 114, `the drawer holds 114 real surah links — got ${modal.links.length}, Ya-Sin → ${modal.href}`);
+  ok(modal.self.length === 0, `…and 0 bare in-page anchors (the current surah is a self-link now) — got ${modal.self.length}: ${JSON.stringify(modal.self)}`);
+  ok(modal.curHref === P(21) && modal.curAria === 'page', `the current surah is a self-link to ${P(21)} + aria-current="page" — got ${modal.curHref} / ${modal.curAria}`);
   const notSlug = modal.links.filter(h => !wantHrefs.includes(h));
   ok(notSlug.length === 0, 'every drawer link is one of the 114 official slug paths — no number, no /quran/surah/' + (notSlug.length ? ' | ' + JSON.stringify(notSlug.slice(0, 5)) : ''));
 

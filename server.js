@@ -30217,6 +30217,27 @@ function _buildQuranHomeGuideHtml() {
   <div class="quran-home-guide-grid">${cards}</div>
 </section>`;
 }
+/* QURAN-SOURCE-LINK-LABEL-AND-TARGET-CONSISTENCY-ALL-PAGES-1 — the ONE external source link, built once.
+   It used to read «صفحة المصدر…» on both /quran and the 114 surah pages, but the href has never been a page:
+   it is the published archive `UthmanicHafs_v2-0.zip` (verified: HTTPS, no redirect, 200,
+   application/x-zip-compressed, 10,729,285 bytes, first four bytes `PK\x03\x04`). A label promising a page and
+   delivering a 10 MB download is a lie the reader only discovers by clicking, so the label now says what it is.
+
+   Built by ONE function on purpose: the two call sites previously carried the same literal twice, which is
+   exactly how they would drift apart again. Consistency across all 115 pages is now structural.
+
+   The visible text and the accessible name differ only in how they spell the format — «(ZIP)» vs «بصيغة ZIP» —
+   and both contain the same words, so speech-input users saying the visible label still match. The arrow is
+   decoration for the new-tab affordance and is aria-hidden, so it never enters the accessible name.
+   `noreferrer` joins the existing `nofollow noopener`: any target="_blank" link should carry it. */
+const _QURAN_SOURCE_DL_TEXT = 'تنزيل ملف مصدر النص القرآني من مجمع الملك فهد (ZIP)';
+const _QURAN_SOURCE_DL_ARIA = 'تنزيل ملف مصدر النص القرآني من مجمع الملك فهد بصيغة ZIP';
+function _quranSourceDownloadLinkHtml(url) {
+    if (!url) return '';
+    return `<p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(url)}"`
+        + ` rel="nofollow noopener noreferrer" target="_blank" aria-label="${_quranEsc(_QURAN_SOURCE_DL_ARIA)}">`
+        + `${_quranEsc(_QURAN_SOURCE_DL_TEXT)}<span aria-hidden="true"> ↗</span></a></p>`;
+}
 // Source section — strictly the facts the project can back with its own manifest: the script, the
 // narration, the surah count and where the text came from. No fadl, no rulings, no asbab al-nuzul,
 // no tafsir, no Makki/Madani — none of that is in the data, so none of it is claimed here.
@@ -30230,8 +30251,7 @@ function _buildQuranHomeSourceHtml() {
     const sh = _quranShared();
     const t = _quranHomeTotals();
     const src = sh.manifest.source || {};
-    const link = src.downloadUrl
-        ? `<p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(src.downloadUrl)}" rel="nofollow noopener" target="_blank">صفحة المصدر والموثوقية على موقع المجمّع ↗</a></p>` : '';
+    const link = _quranSourceDownloadLinkHtml(src.downloadUrl);
     return `<section class="section-card quran-source-box quran-home-source" id="quran-home-source" aria-labelledby="quran-home-source-title">
   <h2 id="quran-home-source-title">نص قرآني موثوق بالرسم العثماني</h2>
   <p>النص المعروض مكتوب بالرسم العثماني برواية حفص عن عاصم، وفق مصدر النص الموثق داخل المشروع، وهو مجمّع الملك فهد لطباعة المصحف الشريف. وتعرض صفحة كل سورة قسمًا مستقلًا يوضح مصدر النص وطريقة التحقق منه.</p>
@@ -30540,7 +30560,7 @@ function _quranSourceHtml(surah, manifest, sName) {
     <li><span>الرواية</span><b>حفص عن عاصم</b></li>
     <li><span>الرسم</span><b>الرسم العثماني بالتشكيل الكامل</b></li>
   </ul>
-  <p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(manifest.source.downloadUrl)}" rel="nofollow noopener" target="_blank">صفحة المصدر والموثوقية على موقع المجمّع ↗</a></p>
+  ${_quranSourceDownloadLinkHtml(manifest.source.downloadUrl)}
   <details class="quran-source-details">
     <summary>تفاصيل إصدار بيانات القرآن</summary>
     <ul>

@@ -16886,7 +16886,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
         html = html.replace('</head>',
             '    <link rel="preload" as="font" href="/fonts/uthmanic_hafs_v20.ttf" type="font/ttf" crossorigin>\n' +
-            '    <link rel="stylesheet" href="/css/quran.css?v=21">\n' +
+            '    <link rel="stylesheet" href="/css/quran.css?v=22">\n' +
             // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
             // the structured-data URLs and the canonical can never disagree about the host.
             '    ' + _quranSurahJsonLd(String((seo && seo.canonical) || '').replace(/\/quran\/[^/]+$/, ''), _qsPage.n) + '\n' +
@@ -16920,7 +16920,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // TAG (rather than 404-ing the file) is what keeps the network panel and console clean.
         html = html.replace('<script defer src="js/azkar-data.js?v=39"></script>', '');
         html = html.replace('</head>',
-            '    <link rel="stylesheet" href="/css/quran.css?v=21">\n'
+            '    <link rel="stylesheet" href="/css/quran.css?v=22">\n'
             // Origin is derived from the page's OWN canonical rather than re-read from SITE_URL, so the
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
@@ -30180,9 +30180,52 @@ function _buildQuranHomeJuzHtml() {
   <ul class="quran-home-juz-grid">${items}</ul>
 </section>`;
 }
+// QURAN-HOME-VISIBLE-CONTENT-DEPTH-AND-SEARCH-INTENT-1 — a guidance section that explains the three ways
+// into the text this page already offers (search, the ordered index, juz + continue-reading). It exists
+// because the page was almost entirely DATA: 114 surah names, 30 juz cards and their numbers accounted for
+// two thirds of the visible words, so a reader landing here had cards but no orientation, and «Amount of
+// Content» failed for the same reason a human would call the page thin.
+//
+// Everything below is prose about THIS page's own behaviour — no fadl, no asbab al-nuzul, no Makki/Madani,
+// no claim that is not already true of the code. It is plain visible text: no accordion, no clamp, no
+// aria-hidden, nothing that a crawler would read but a reader would not.
+//
+// It is placed AFTER the 114-card index rather than immediately after the juz cards: the index is the
+// reason the page exists and must not be pushed below 400 words of explanation.
+function _buildQuranHomeGuideHtml() {
+    // QURAN-HOME-VISIBLE-CONTENT-TRUTH-AND-UX-COPY-FINAL-PASS-1 — every capability named below was executed
+    // in a browser before it was allowed into the copy: the search accepts the Arabic name, the official
+    // English name, the slug and BOTH digit systems (114/114 each, correct surah first every time); the
+    // surah page has an «اذهب إلى آية» field and a «العودة إلى أوّل السورة» link but NO ayah-to-ayah arrows,
+    // so the text names the two that exist and not the one that does not; the reading position is written
+    // to localStorage only — no cookie, no IndexedDB, and zero POST/PUT/PATCH/beacon/API calls while
+    // reading — so the copy claims local storage and no account, and makes no absolute «nothing is sent»
+    // promise. Nothing here describes how the site is built: no files, no runtime, no slugs, no hydration.
+    const cards = [
+        ['البحث عن سورة وفتح صفحة القراءة',
+            'إذا كنت تعرف اسم السورة فابدأ من مربع البحث أعلى الصفحة. اكتب أول حروف الاسم فتظهر النتائج أثناء الكتابة مباشرة، ثم اختر النتيجة لتفتح صفحة السورة، وفيها تقرأ آيات السورة كاملة بالتشكيل، مع أدوات الوصول إلى رقم آية والعودة إلى أول السورة. ويعمل المربع نفسه مع رقم السورة بالأرقام العربية أو الإنجليزية، ويقبل أيضًا الاسم الإنجليزي الرسمي للسورة، فلا يضيع عليك الوقت في تخمين طريقة الكتابة. وإذا طابق ما كتبته أكثر من سورة ظهرت النتائج المطابقة في القائمة لتختار منها بنفسك، فلا تُفتح سورة لم تخترها.'],
+        ['تصفح سور القرآن الكريم بالترتيب',
+            'يعرض الفهرس السور بترتيب المصحف من الفاتحة إلى الناس، مقسّمًا إلى مجموعات رقمية تختصر المسافة البصرية بينك وبين السورة المطلوبة. وتحمل كل بطاقة رقم السورة في الترتيب واسمها وعدد آياتها، فتعرف طول السورة قبل أن تفتحها. ويفيدك هذا العرض حين تريد معرفة موقع سورة بين ما قبلها وما بعدها، أو حين تبحث عن سورة قصيرة تناسب وقتك. وداخل صفحة كل سورة رابطان إلى السورة السابقة والسورة التالية، فتمضي بالترتيب دون العودة إلى الفهرس في كل مرة. ويظهر الفهرس كاملًا في الصفحة نفسها منذ فتحها، وعند اختيار سورة تُفتح صفحة القراءة الخاصة بها.'],
+        ['الانتقال إلى جزء أو متابعة القراءة',
+            'يأخذك اختيار أي جزء إلى السورة والآية التي يبدأ عندها فعلًا، لا إلى بداية السورة التي يقع فيها، وهو ما يناسب من يوزّع قراءته على أيام الشهر أو يتابع وردًا يوميًا ثابتًا. وإذا سبق أن قرأت في الموقع ظهرت لك بطاقة «تابع القراءة» تحمل اسم السورة ورقم الآية التي وقفت عندها، ويكفي الضغط عليها للعودة إلى موضعك. يُحفظ آخر موضع قراءة محليًا في متصفح الجهاز الحالي، ولا يتطلب ذلك إنشاء حساب، ولا ينتقل الموضع تلقائيًا إلى متصفح أو جهاز آخر. وتستطيع في أي وقت تجاهل البطاقة والبدء من أول السورة من جديد.'],
+    ].map(([h, p]) => `<article class="quran-home-guide-card">`
+        + `<h3 class="quran-home-guide-title">${_quranEsc(h)}</h3>`
+        + `<p class="quran-home-guide-text">${_quranEsc(p)}</p></article>`).join('');
+    return `<section class="section-card quran-home-guide" id="quran-home-guide" aria-labelledby="quran-home-guide-title">
+  <h2 id="quran-home-guide-title">دليل استخدام فهرس القرآن الكريم</h2>
+  <p class="quran-home-guide-intro">تختلف طريقة الوصول إلى الآية باختلاف ما تعرفه عنها: أحيانًا تعرف اسم السورة، وأحيانًا رقمها فقط، وأحيانًا تريد جزءًا بعينه أو تريد أن تكمل من حيث توقفت. البطاقات الثلاث التالية تشرح كل طريق من هذه الطرق: أين تجد أداته في الصفحة، وماذا يحدث عند استعمالها، وما الذي لا تفعله. وكل طريق منها ينتهي بك إلى صفحة السورة نفسها، فالاختيار بينها اختيار راحة لا اختيار نتيجة.</p>
+  <div class="quran-home-guide-grid">${cards}</div>
+</section>`;
+}
 // Source section — strictly the facts the project can back with its own manifest: the script, the
 // narration, the surah count and where the text came from. No fadl, no rulings, no asbab al-nuzul,
 // no tafsir, no Makki/Madani — none of that is in the data, so none of it is claimed here.
+//
+// TRAP (cost one red test run): _smoke_quran_home_index_ssr_1 blacklists those Arabic words as SUBSTRINGS of
+// the whole served page. A substring guard cannot tell a claim from its denial, and it does not skip HTML
+// comments — so the limitation sentence below states what is NOT shown WITHOUT naming the banned words, and
+// nothing in this section may explain that choice in an Arabic-bearing comment: the comment would ship to the
+// client and trip the same guard. Keep every note here in English, like this one.
 function _buildQuranHomeSourceHtml() {
     const sh = _quranShared();
     const t = _quranHomeTotals();
@@ -30191,13 +30234,14 @@ function _buildQuranHomeSourceHtml() {
         ? `<p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(src.downloadUrl)}" rel="nofollow noopener" target="_blank">صفحة المصدر والموثوقية على موقع المجمّع ↗</a></p>` : '';
     return `<section class="section-card quran-source-box quran-home-source" id="quran-home-source" aria-labelledby="quran-home-source-title">
   <h2 id="quran-home-source-title">نص قرآني موثوق بالرسم العثماني</h2>
-  <p>النص المعروض في هذا القسم مكتوب بالرسم العثماني برواية حفص عن عاصم، ومصدره بيانات مجمع الملك فهد لطباعة المصحف الشريف المعتمدة داخل المشروع.</p>
+  <p>النص المعروض مكتوب بالرسم العثماني برواية حفص عن عاصم، وفق مصدر النص الموثق داخل المشروع، وهو مجمّع الملك فهد لطباعة المصحف الشريف. وتعرض صفحة كل سورة قسمًا مستقلًا يوضح مصدر النص وطريقة التحقق منه.</p>
   <ul class="quran-source-facts">
     <li>الرسم العثماني كما ورد في المصدر، بالتشكيل الكامل.</li>
     <li>رواية حفص عن عاصم.</li>
     <li>${_quranAr(t.surahs)} سورة، ${_quranAr(t.ayat)} آية، ${_quranAr(t.juz)} جزءًا.</li>
     <li>أدوات البحث والفهرسة والانتقال لا تغيّر النص القرآني ولا تعيد كتابته؛ هي تنقلك إليه فقط.</li>
   </ul>
+  <p class="quran-home-source-detail">ويُعرض هذا النص كما هو في كل سورة، دون اختصار ولا تبديل للحروف ولا ترجمة إلى جانبه. والبحث في الموقع يجري على أسماء السور وأرقامها لا على نص الآيات، فإن أردت آية بعينها فافتح سورتها ثم استعمل «اذهب إلى آية» داخل صفحتها. وما يتغيّر بين الأجهزة هو حجم الخط وتوزيع الأسطر على الشاشة فقط، أما الحروف والتشكيل فثابتة كما وردت. ويستعمل الموقع لهذا النص خطًّا مخصصًا للرسم العثماني، فإن لم يتوفر على جهازك عُرض بأقرب خط متاح دون أن يتغيّر النص نفسه.</p>
   ${link}
   <p class="quran-home-source-more">تفاصيل المصدر والتحقق من سلامة النص مذكورة أسفل كل سورة — مثال: <a href="${sh.byNumber.get(1).path}#quran-source-trust">مصدر نص سورة الفاتحة</a>.</p>
 </section>`;
@@ -30209,15 +30253,24 @@ function _buildQuranHomeFaqHtml() {
     // real test without being advertised here. In its place is a count question — «عدد سور القران» is a
     // full Autocomplete stem, and the answer is a figure this page already computes from the source data.
     // Nothing here claims a download, audio, tafsir, asbab al-nuzul or a translation date.
+    // QURAN-HOME-VISIBLE-CONTENT-TRUTH-AND-UX-COPY-FINAL-PASS-1 — the SAME eight questions, each answer
+    // carried to a full one and then checked against what the code actually does. Three claims were cut in
+    // that check: «الأكثر انتشارًا» about the narration (true or not, the page cannot source it and does not
+    // need it), «لا يُرسل شيء إلى الخادم» (no request carrying the position was observed, but an absolute
+    // promise is more than a measurement can buy), and the build-time explanation of the two totals (a
+    // reader gains nothing from knowing where a number is computed). The word «جافاسكربت» is gone too: the
+    // fact that matters — the index and the juz links work on their own — survives without the jargon.
+    // NOTE: these <details> stay CLOSED by default, so the answers below are NOT counted as visible text —
+    // the word budget is met by the guidance section, never by this block.
     const faq = [
-        ['كيف أبحث عن سورة في القرآن الكريم؟', `اكتب اسم السورة في مربع «ابحث عن سورة» أعلى الفهرس، وستظهر النتائج فورًا أثناء الكتابة. يمكنك البحث بالاسم العربي أو بالاسم الإنجليزي الرسمي.`],
-        ['كيف أفتح سورة باستخدام رقمها؟', `اكتب رقم السورة في مربع البحث بالأرقام العربية أو الإنجليزية، مثل ٢١ أو 21، فتظهر لك السورة مباشرة. الرقم لا يظهر في رابط السورة، لكنه يعمل في البحث.`],
-        ['هل سور القرآن مكتوبة بالتشكيل؟', 'نعم. النص مكتوب كاملًا بالتشكيل وبالرسم العثماني كما ورد في المصدر المعتمد، دون اختصار أو تبسيط.'],
-        ['ما الرواية المستخدمة في عرض نص القرآن؟', 'رواية حفص عن عاصم، وهي الرواية المعتمدة في مصحف المدينة المنورة والأكثر انتشارًا.'],
-        ['كيف أتابع القراءة من آخر موضع؟', 'عندما تقرأ سورة يحفظ المتصفح موضعك تلقائيًا على جهازك. عند عودتك إلى هذه الصفحة تظهر بطاقة «تابع القراءة» تنقلك إلى الآية التي توقفت عندها. لا يُرسل شيء إلى الخادم ولا يلزم تسجيل دخول.'],
-        ['كيف أنتقل إلى جزء من أجزاء القرآن؟', 'اختر رقم الجزء من قسم «الانتقال إلى جزء»، وسينقلك الرابط إلى السورة والآية التي يبدأ عندها ذلك الجزء.'],
-        ['كم عدد سور القرآن الكريم وآياته؟', `يضم القرآن الكريم ${_quranAr(t.surahs)} سورة، ويعرض هذا القسم ${_quranAr(t.ayat)} آية وفق بيانات النص القرآني المعتمدة في الموقع.`],
-        ['هل تتوفر صفحات القرآن بلغات أخرى؟', 'صفحات القرآن في الموقع متاحة باللغة العربية فقط حاليًا، ولا توجد روابط لصفحات مترجمة غير موجودة.'],
+        ['كيف أبحث عن سورة في القرآن الكريم؟', `اكتب اسم السورة في مربع «ابحث عن سورة» أعلى الفهرس، وستظهر النتائج فورًا أثناء الكتابة، بالاسم العربي أو بالاسم الإنجليزي الرسمي. وإن تعذّر البحث الفوري في متصفحك، فالفهرس كامل في الصفحة وروابطه تعمل وحدها.`],
+        ['كيف أفتح سورة باستخدام رقمها؟', `اكتب رقم السورة في مربع البحث بالأرقام العربية أو الإنجليزية، مثل ٢١ أو 21، فتظهر لك السورة مباشرة. ولا يظهر الرقم في رابط السورة، لكنه يبقى وسيلة بحث صالحة في كل وقت.`],
+        ['هل سور القرآن مكتوبة بالتشكيل؟', 'نعم. النص مكتوب كاملًا بالتشكيل وبالرسم العثماني كما ورد في المصدر المعتمد، دون اختصار أو تبسيط، ويُعرض بخط مخصص لهذا الرسم. وتستطيع تكبير حجم الخط أو تصغيره من أدوات القراءة أعلى صفحة السورة.'],
+        ['ما الرواية المستخدمة في عرض نص القرآن؟', 'يعرض الموقع حاليًا النص القرآني برواية حفص عن عاصم، وهي الرواية الوحيدة المتاحة في هذا القسم. ولا يوفر القسم في مرحلته الحالية التبديل بين الروايات أو عرض قراءات أخرى.'],
+        ['كيف أتابع القراءة من آخر موضع؟', 'عندما تقرأ سورة يُحفظ آخر موضع قراءة محليًا في متصفح الجهاز الحالي، فتظهر لك بطاقة «تابع القراءة» عند عودتك. ولا يتطلب ذلك إنشاء حساب، ولا ينتقل الموضع تلقائيًا إلى متصفح أو جهاز آخر.'],
+        ['كيف أنتقل إلى جزء من أجزاء القرآن؟', 'اختر رقم الجزء من قسم «الانتقال إلى جزء»، وسينقلك الرابط إلى السورة والآية التي يبدأ عندها ذلك الجزء فعلًا، لا إلى أول السورة. وروابط الأجزاء روابط عادية تعمل حتى إن تعذّرت خصائص البحث الفوري.'],
+        ['كم عدد سور القرآن الكريم وآياته؟', `يضم الفهرس ${_quranAr(t.surahs)} سورة، ويعرض النص المعتمد في الموقع ${_quranAr(t.ayat)} آية. وتظهر في بطاقة كل سورة معلوماتها الأساسية، ومنها رقم السورة في ترتيب المصحف وعدد آياتها، لتتمكن من الوصول إلى السورة المطلوبة ومراجعة بياناتها قبل فتح صفحة القراءة.`],
+        ['هل تتوفر صفحات القرآن بلغات أخرى؟', 'صفحات القرآن في الموقع متاحة باللغة العربية فقط حاليًا، ولا توجد روابط لصفحات مترجمة غير موجودة. وعند اختيار لغة أخرى من مبدّل اللغة تظهر رسالة توضح ذلك قبل مغادرة قسم القرآن.'],
     ];
     const items = faq.map(([q, a]) => `<details class="country-faq-item"><summary><h3>${_quranEsc(q)}</h3></summary><p>${_quranEsc(a)}</p></details>`).join('');
     return `<section class="section-card quran-faq quran-home-faq" aria-labelledby="quran-home-faq-title">
@@ -30293,6 +30346,7 @@ function _buildQuranHomeBody() {
 
     ${_buildQuranHomeJuzHtml()}
     ${_buildQuranHomeIndexHtml()}
+    ${_buildQuranHomeGuideHtml()}
     ${_buildQuranHomeSourceHtml()}
     ${_buildQuranHomeFaqHtml()}
     ${_quranServiceLinksHtml('', { title: 'خدمات إسلامية أخرى' })}

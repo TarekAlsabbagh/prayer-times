@@ -564,11 +564,34 @@ body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); 
 .quran-home-idx-intro, .quran-home-juz-intro { margin: 4px 0 0; opacity: .82; }
 .quran-home-idx-empty { margin: 14px 0 0; font-weight: 600; }
 .quran-home-source-more { margin-top: 12px; font-size: .92rem; }
+.quran-home-source-detail { margin: 12px 0 0; line-height: 1.9; }
+
+/* ═══════ QURAN-HOME-VISIBLE-CONTENT-DEPTH-AND-SEARCH-INTENT-1 — the guidance section ═══════
+   Three cards of plain prose, built from the SAME tokens as the surah/juz cards above (the border and
+   background are the identical color-mix pair), so the section reads as part of this page rather than a
+   bolted-on article. Deliberately NOT auto-fill: the column count is stated per breakpoint — 3 / 2 / 1 —
+   because "three across on a desktop" is a layout decision, not whatever a minmax happens to produce.
+   No fixed height and no line-clamp anywhere: a card grows to fit its paragraph, so no sentence is ever
+   cut off screen and none of this text is hidden from a reader while remaining in the HTML. */
+.quran-home-guide-intro { margin: 4px 0 0; opacity: .82; line-height: 1.9; }
+.quran-home-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.quran-home-guide-card {
+  padding: 16px; border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+  background: color-mix(in srgb, var(--text) 3%, transparent);
+}
+.quran-home-guide-title { font-size: 1.02rem; font-weight: 700; margin: 0 0 8px; line-height: 1.5; }
+.quran-home-guide-text { margin: 0; line-height: 1.95; font-size: .95rem; overflow-wrap: anywhere; }
+
+@media (max-width: 980px) {
+  .quran-home-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
 
 @media (max-width: 560px) {
   .quran-home-juz-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
   .quran-home-idx-grid { grid-template-columns: 1fr; }
   .quran-home-stats { gap: 8px; }
+  .quran-home-guide-grid { grid-template-columns: 1fr; }
 }
 
 /* ═══════ QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-SUGGESTIONS-UX-FINAL-GATE-1 — the suggestion listbox ═══════

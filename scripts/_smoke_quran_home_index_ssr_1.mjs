@@ -180,4 +180,8 @@ const sm = await (await fetch(BASE + '/sitemap.xml')).text();
 ok(!/\/quran/.test(sm), 'sitemap.xml contains no /quran url');
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`);
-process.exit(fail ? 1 : 0);
+// Set the code and let Node drain its handles instead of calling process.exit(). On Windows this build aborts
+// with `Assertion failed: !(handle->flags & UV_HANDLE_CLOSING)` when process.exit() races undici's socket
+// teardown — isolated with a 3-line repro that crashes on a route this ticket never touches (/azkar) and exits
+// cleanly the moment process.exit() is removed. Nothing to do with the page content; the exit code is identical.
+process.exitCode = fail ? 1 : 0;

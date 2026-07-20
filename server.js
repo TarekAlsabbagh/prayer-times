@@ -8115,6 +8115,33 @@ function _stripElement(html, lookup) {
     if (depth !== 0) return html;
     return html.slice(0, startIdx) + html.slice(i);
 }
+
+/* SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — remove every `.page` block except the one this route renders.
+   The shell ships ALL 24 SPA pages in one document. On a Quran route only one is ever displayed; the other 23
+   put ~10k words and 177 headings belonging to OTHER pages into the RAW HTML — which is what an SEO crawler
+   reads. (Proved: SEOptimer listed «مواقيت الصلاة» headings while auditing /quran; every one of them lived in
+   the hidden #page-prayer-times / #page-tasbih blocks.) So they are removed SERVER-SIDE before the response —
+   not by CSS, not by JavaScript after load, so they are absent from the raw HTML AND the final DOM.
+
+   Ids are DISCOVERED from the document rather than hard-coded, so adding a new .page to index.html needs no
+   edit here. Removal reuses `_stripElement`, whose balanced-tag counter already skips HTML comments — a plain
+   regex would mis-cut on the nested markup these blocks contain.
+
+   SCOPE: this ticket calls it on Quran routes ONLY. Every other route keeps the shell exactly as it was. */
+function _stripForeignPageBlocks(html, keepId) {
+    const ids = new Set();
+    const openRe = /<div\b[^>]*\bid="(page-[^"]+)"[^>]*>/gi;
+    let m;
+    while ((m = openRe.exec(html))) {
+        // only real SPA page blocks (class contains `page`), never some other element that happens to be id="page-…"
+        if (/\bclass="[^"]*\bpage\b[^"]*"/i.test(m[0])) ids.add(m[1]);
+    }
+    for (const id of ids) {
+        if (id === keepId) continue;
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    return html;
+}
 function _reEsc(s) {
     return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -16867,6 +16894,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // this <noscript> rule (quran route only) lets keyboard focus reveal them. Inert when JS runs.
             '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
         html = html.replace('</body>', '    <script defer src="/js/quran.js?v=13"></script>\n</body>');
+        // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
+        // 23 other .page blocks so this surah is the only page in the raw HTML and in the final DOM.
+        html = _stripForeignPageBlocks(html, 'page-quran-surah');
     }
 
     // ===== QURAN-AR-HOME-INDEX-SSR-1 — /quran served through the SAME index.html shell. The whole page is
@@ -16896,6 +16926,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
             + '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
         html = html.replace('</body>', '    <script defer src="/js/quran-home.js?v=2"></script>\n</body>');
+        // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
+        // 23 other .page blocks so the index is the only page in the raw HTML and in the final DOM.
+        html = _stripForeignPageBlocks(html, 'page-quran-home');
     }
 
     // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):

@@ -808,3 +808,17 @@ body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); 
    already accounts for exactly that pair (header + sticky + 14px), so the anchor reuses it rather than
    inventing a second number that could drift away from the measured chrome. */
 #quran-source-trust { scroll-margin-top: var(--q-scroll-margin, 178px); }
+
+/* ---- Ad-safety backstop (QURAN-AR-TANZIL-UTHMANI-SOURCE-FONT-ATTRIBUTION-AND-ADSENSE-RELEASE-PREP-1) ------
+   The Quran reading pages ship ZERO ad code: no AdSense script, no publisher id (ca-pub-*), no ad slot, no
+   pagead2 loader. /quran and /quran/* are declared EXCLUDED from Google Auto Ads (a page-level exclusion set
+   in the AdSense console at activation time; also documented in server.js beside the Quran route injection).
+   This rule is a purely structural backstop with no live ad behind it: if Auto Ads were ever enabled
+   site-wide, any container Google tries to inject INTO the verse-reading surface is hard-hidden, so an ad can
+   never land between, over or inside the Quran text. It is display:none (not visibility/opacity), so it
+   reserves no box and causes no CLS. */
+[data-quran-reading-surface] ins.adsbygoogle,
+[data-quran-reading-surface] .google-auto-placed,
+[data-quran-reading-surface] [data-google-query-id],
+[data-quran-reading-surface] iframe[src*="googlesyndication"],
+[data-quran-reading-surface] iframe[src*="doubleclick"] { display: none !important; }

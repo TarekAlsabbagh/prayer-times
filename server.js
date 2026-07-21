@@ -16884,9 +16884,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // re-rendered as buttons and js/quran.js intercepts the click → modal.
         html = html.replace('<div class="lang-menu" role="menu"></div>',
             '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
+        // AD-SAFETY (release-prep): /quran and /quran/{slug} ship NO ad code — no AdSense script, no publisher
+        // id (ca-pub-*), no ad slot, no pagead2 loader — and are EXCLUDED from Google Auto Ads (page-level
+        // exclusion set in the AdSense console at activation). css/quran.css carries a structural backstop that
+        // hard-hides any ad container accidentally injected into the verse-reading surface (display:none, no CLS).
         html = html.replace('</head>',
             '    <link rel="preload" as="font" href="/fonts/AmiriQuran-Regular.ttf" type="font/ttf" crossorigin>\n' +
-            '    <link rel="stylesheet" href="/css/quran.css?v=23">\n' +
+            '    <link rel="stylesheet" href="/css/quran.css?v=24">\n' +
             // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
             // the structured-data URLs and the canonical can never disagree about the host.
             '    ' + _quranSurahJsonLd(String((seo && seo.canonical) || '').replace(/\/quran\/[^/]+$/, ''), _qsPage.n) + '\n' +
@@ -16920,7 +16924,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // TAG (rather than 404-ing the file) is what keeps the network panel and console clean.
         html = html.replace('<script defer src="js/azkar-data.js?v=39"></script>', '');
         html = html.replace('</head>',
-            '    <link rel="stylesheet" href="/css/quran.css?v=23">\n'
+            '    <link rel="stylesheet" href="/css/quran.css?v=24">\n'
             // Origin is derived from the page's OWN canonical rather than re-read from SITE_URL, so the
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'

@@ -7,10 +7,10 @@
    ONE outer width only: .quran-site-container (site content width). The ayah text sits in a centered
    inner column (--q-read-col) INSIDE the full-width card — NOT a second box width. */
 
-/* ---- KFGQPC Uthmanic Hafs (whole, unmodified TTF; no subset / no conversion) ---- */
+/* ---- Amiri Quran (open-licensed, SIL OFL 1.1; whole, unmodified TTF; no subset / no conversion) ---- */
 @font-face {
-  font-family: 'KFGQPCHafs';
-  src: url('../fonts/uthmanic_hafs_v20.ttf') format('truetype');
+  font-family: 'AmiriQuran';
+  src: url('../fonts/AmiriQuran-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
@@ -182,11 +182,11 @@ html[data-theme="dark"] .quran-surah-page {
 .quran-page-num-badge { color: var(--primary-dark); }
 
 /* basmala opener (once, before ayah 1; unnumbered) */
-.quran-basmala { font-family: 'KFGQPCHafs', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+.quran-basmala { font-family: 'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
   text-align: center; font-size: clamp(1.5rem, 5.5vw, 2rem); line-height: 2.4; color: var(--text); margin: 2px 0 18px; }
 
 /* ---- ayah flow ---- */
-.quran-ayah-flow { font-family: 'KFGQPCHafs', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+.quran-ayah-flow { font-family: 'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
   font-size: var(--q-ayah-size); line-height: 2.4; text-align: justify; text-align-last: center; word-spacing: .04em; color: var(--text); }
 .quran-ayah { display: inline; scroll-margin-top: var(--q-scroll-margin, 178px); border-radius: 8px; }
 .quran-ayah-num { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle;

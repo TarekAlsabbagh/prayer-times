@@ -1,7 +1,7 @@
 [
   {
     "number": 1,
-    "nameAr": "Ø§ÙÙØ§ØªØ­Ø©",
+    "nameAr": "الفاتحة",
     "nameEn": "Al-Faatiha",
     "ename": "The Opening",
     "ayahCount": 7,
@@ -11,7 +11,7 @@
   },
   {
     "number": 2,
-    "nameAr": "Ø§ÙØ¨ÙØ±Ø©",
+    "nameAr": "البقرة",
     "nameEn": "Al-Baqara",
     "ename": "The Cow",
     "ayahCount": 286,
@@ -23,7 +23,7 @@
   },
   {
     "number": 3,
-    "nameAr": "Ø¢Ù Ø¹ÙØ±Ø§Ù",
+    "nameAr": "آل عمران",
     "nameEn": "Aal-i-Imraan",
     "ename": "The Family of Imraan",
     "ayahCount": 200,
@@ -34,7 +34,7 @@
   },
   {
     "number": 4,
-    "nameAr": "Ø§ÙÙØ³Ø§Ø¡",
+    "nameAr": "النساء",
     "nameEn": "An-Nisaa",
     "ename": "The Women",
     "ayahCount": 176,
@@ -46,7 +46,7 @@
   },
   {
     "number": 5,
-    "nameAr": "Ø§ÙÙØ§Ø¦Ø¯Ø©",
+    "nameAr": "المائدة",
     "nameEn": "Al-Maaida",
     "ename": "The Table",
     "ayahCount": 120,
@@ -57,7 +57,7 @@
   },
   {
     "number": 6,
-    "nameAr": "Ø§ÙØ£ÙØ¹Ø§Ù",
+    "nameAr": "الأنعام",
     "nameEn": "Al-An'aam",
     "ename": "The Cattle",
     "ayahCount": 165,
@@ -68,7 +68,7 @@
   },
   {
     "number": 7,
-    "nameAr": "Ø§ÙØ£Ø¹Ø±Ø§Ù",
+    "nameAr": "الأعراف",
     "nameEn": "Al-A'raaf",
     "ename": "The Heights",
     "ayahCount": 206,
@@ -79,7 +79,7 @@
   },
   {
     "number": 8,
-    "nameAr": "Ø§ÙØ£ÙÙØ§Ù",
+    "nameAr": "الأنفال",
     "nameEn": "Al-Anfaal",
     "ename": "The Spoils of War",
     "ayahCount": 75,
@@ -90,7 +90,7 @@
   },
   {
     "number": 9,
-    "nameAr": "Ø§ÙØªÙØ¨Ø©",
+    "nameAr": "التوبة",
     "nameEn": "At-Tawba",
     "ename": "The Repentance",
     "ayahCount": 129,
@@ -101,7 +101,7 @@
   },
   {
     "number": 10,
-    "nameAr": "ÙÙÙØ³",
+    "nameAr": "يونس",
     "nameEn": "Yunus",
     "ename": "Jonas",
     "ayahCount": 109,
@@ -111,7 +111,7 @@
   },
   {
     "number": 11,
-    "nameAr": "ÙÙØ¯",
+    "nameAr": "هود",
     "nameEn": "Hud",
     "ename": "Hud",
     "ayahCount": 123,
@@ -122,7 +122,7 @@
   },
   {
     "number": 12,
-    "nameAr": "ÙÙØ³Ù",
+    "nameAr": "يوسف",
     "nameEn": "Yusuf",
     "ename": "Joseph",
     "ayahCount": 111,
@@ -133,7 +133,7 @@
   },
   {
     "number": 13,
-    "nameAr": "Ø§ÙØ±Ø¹Ø¯",
+    "nameAr": "الرعد",
     "nameEn": "Ar-Ra'd",
     "ename": "The Thunder",
     "ayahCount": 43,
@@ -143,7 +143,7 @@
   },
   {
     "number": 14,
-    "nameAr": "Ø§Ø¨Ø±Ø§ÙÙÙ",
+    "nameAr": "ابراهيم",
     "nameEn": "Ibrahim",
     "ename": "Abraham",
     "ayahCount": 52,
@@ -153,7 +153,7 @@
   },
   {
     "number": 15,
-    "nameAr": "Ø§ÙØ­Ø¬Ø±",
+    "nameAr": "الحجر",
     "nameEn": "Al-Hijr",
     "ename": "The Rock",
     "ayahCount": 99,
@@ -163,7 +163,7 @@
   },
   {
     "number": 16,
-    "nameAr": "Ø§ÙÙØ­Ù",
+    "nameAr": "النحل",
     "nameEn": "An-Nahl",
     "ename": "The Bee",
     "ayahCount": 128,
@@ -173,7 +173,7 @@
   },
   {
     "number": 17,
-    "nameAr": "Ø§ÙØ¥Ø³Ø±Ø§Ø¡",
+    "nameAr": "الإسراء",
     "nameEn": "Al-Israa",
     "ename": "The Night Journey",
     "ayahCount": 111,
@@ -183,7 +183,7 @@
   },
   {
     "number": 18,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "الكهف",
     "nameEn": "Al-Kahf",
     "ename": "The Cave",
     "ayahCount": 110,
@@ -194,7 +194,7 @@
   },
   {
     "number": 19,
-    "nameAr": "ÙØ±ÙÙ",
+    "nameAr": "مريم",
     "nameEn": "Maryam",
     "ename": "Mary",
     "ayahCount": 98,
@@ -204,7 +204,7 @@
   },
   {
     "number": 20,
-    "nameAr": "Ø·Ù",
+    "nameAr": "طه",
     "nameEn": "Taa-Haa",
     "ename": "Taa-Haa",
     "ayahCount": 135,
@@ -214,7 +214,7 @@
   },
   {
     "number": 21,
-    "nameAr": "Ø§ÙØ£ÙØ¨ÙØ§Ø¡",
+    "nameAr": "الأنبياء",
     "nameEn": "Al-Anbiyaa",
     "ename": "The Prophets",
     "ayahCount": 112,
@@ -224,7 +224,7 @@
   },
   {
     "number": 22,
-    "nameAr": "Ø§ÙØ­Ø¬",
+    "nameAr": "الحج",
     "nameEn": "Al-Hajj",
     "ename": "The Pilgrimage",
     "ayahCount": 78,
@@ -234,7 +234,7 @@
   },
   {
     "number": 23,
-    "nameAr": "Ø§ÙÙØ¤ÙÙÙÙ",
+    "nameAr": "المؤمنون",
     "nameEn": "Al-Muminoon",
     "ename": "The Believers",
     "ayahCount": 118,
@@ -244,7 +244,7 @@
   },
   {
     "number": 24,
-    "nameAr": "Ø§ÙÙÙØ±",
+    "nameAr": "النور",
     "nameEn": "An-Noor",
     "ename": "The Light",
     "ayahCount": 64,
@@ -254,7 +254,7 @@
   },
   {
     "number": 25,
-    "nameAr": "Ø§ÙÙØ±ÙØ§Ù",
+    "nameAr": "الفرقان",
     "nameEn": "Al-Furqaan",
     "ename": "The Criterion",
     "ayahCount": 77,
@@ -265,7 +265,7 @@
   },
   {
     "number": 26,
-    "nameAr": "Ø§ÙØ´Ø¹Ø±Ø§Ø¡",
+    "nameAr": "الشعراء",
     "nameEn": "Ash-Shu'araa",
     "ename": "The Poets",
     "ayahCount": 227,
@@ -275,7 +275,7 @@
   },
   {
     "number": 27,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "النمل",
     "nameEn": "An-Naml",
     "ename": "The Ant",
     "ayahCount": 93,
@@ -286,7 +286,7 @@
   },
   {
     "number": 28,
-    "nameAr": "Ø§ÙÙØµØµ",
+    "nameAr": "القصص",
     "nameEn": "Al-Qasas",
     "ename": "The Stories",
     "ayahCount": 88,
@@ -296,7 +296,7 @@
   },
   {
     "number": 29,
-    "nameAr": "Ø§ÙØ¹ÙÙØ¨ÙØª",
+    "nameAr": "العنكبوت",
     "nameEn": "Al-Ankaboot",
     "ename": "The Spider",
     "ayahCount": 69,
@@ -307,7 +307,7 @@
   },
   {
     "number": 30,
-    "nameAr": "Ø§ÙØ±ÙÙ",
+    "nameAr": "الروم",
     "nameEn": "Ar-Room",
     "ename": "The Romans",
     "ayahCount": 60,
@@ -317,7 +317,7 @@
   },
   {
     "number": 31,
-    "nameAr": "ÙÙÙØ§Ù",
+    "nameAr": "لقمان",
     "nameEn": "Luqman",
     "ename": "Luqman",
     "ayahCount": 34,
@@ -327,7 +327,7 @@
   },
   {
     "number": 32,
-    "nameAr": "Ø§ÙØ³Ø¬Ø¯Ø©",
+    "nameAr": "السجدة",
     "nameEn": "As-Sajda",
     "ename": "The Prostration",
     "ayahCount": 30,
@@ -337,7 +337,7 @@
   },
   {
     "number": 33,
-    "nameAr": "Ø§ÙØ£Ø­Ø²Ø§Ø¨",
+    "nameAr": "الأحزاب",
     "nameEn": "Al-Ahzaab",
     "ename": "The Clans",
     "ayahCount": 73,
@@ -348,7 +348,7 @@
   },
   {
     "number": 34,
-    "nameAr": "Ø³Ø¨Ø¥",
+    "nameAr": "سبإ",
     "nameEn": "Saba",
     "ename": "Sheba",
     "ayahCount": 54,
@@ -358,7 +358,7 @@
   },
   {
     "number": 35,
-    "nameAr": "ÙØ§Ø·Ø±",
+    "nameAr": "فاطر",
     "nameEn": "Faatir",
     "ename": "The Originator",
     "ayahCount": 45,
@@ -368,7 +368,7 @@
   },
   {
     "number": 36,
-    "nameAr": "ÙØ³",
+    "nameAr": "يس",
     "nameEn": "Yaseen",
     "ename": "Yaseen",
     "ayahCount": 83,
@@ -379,7 +379,7 @@
   },
   {
     "number": 37,
-    "nameAr": "Ø§ÙØµØ§ÙØ§Øª",
+    "nameAr": "الصافات",
     "nameEn": "As-Saaffaat",
     "ename": "Those drawn up in Ranks",
     "ayahCount": 182,
@@ -389,7 +389,7 @@
   },
   {
     "number": 38,
-    "nameAr": "Øµ",
+    "nameAr": "ص",
     "nameEn": "Saad",
     "ename": "The letter Saad",
     "ayahCount": 88,
@@ -399,7 +399,7 @@
   },
   {
     "number": 39,
-    "nameAr": "Ø§ÙØ²ÙØ±",
+    "nameAr": "الزمر",
     "nameEn": "Az-Zumar",
     "ename": "The Groups",
     "ayahCount": 75,
@@ -410,7 +410,7 @@
   },
   {
     "number": 40,
-    "nameAr": "ØºØ§ÙØ±",
+    "nameAr": "غافر",
     "nameEn": "Al-Ghaafir",
     "ename": "The Forgiver",
     "ayahCount": 85,
@@ -420,7 +420,7 @@
   },
   {
     "number": 41,
-    "nameAr": "ÙØµÙØª",
+    "nameAr": "فصلت",
     "nameEn": "Fussilat",
     "ename": "Explained in detail",
     "ayahCount": 54,
@@ -431,7 +431,7 @@
   },
   {
     "number": 42,
-    "nameAr": "Ø§ÙØ´ÙØ±Ù",
+    "nameAr": "الشورى",
     "nameEn": "Ash-Shura",
     "ename": "Consultation",
     "ayahCount": 53,
@@ -441,7 +441,7 @@
   },
   {
     "number": 43,
-    "nameAr": "Ø§ÙØ²Ø®Ø±Ù",
+    "nameAr": "الزخرف",
     "nameEn": "Az-Zukhruf",
     "ename": "Ornaments of gold",
     "ayahCount": 89,
@@ -451,7 +451,7 @@
   },
   {
     "number": 44,
-    "nameAr": "Ø§ÙØ¯Ø®Ø§Ù",
+    "nameAr": "الدخان",
     "nameEn": "Ad-Dukhaan",
     "ename": "The Smoke",
     "ayahCount": 59,
@@ -461,7 +461,7 @@
   },
   {
     "number": 45,
-    "nameAr": "Ø§ÙØ¬Ø§Ø«ÙØ©",
+    "nameAr": "الجاثية",
     "nameEn": "Al-Jaathiya",
     "ename": "Crouching",
     "ayahCount": 37,
@@ -471,7 +471,7 @@
   },
   {
     "number": 46,
-    "nameAr": "Ø§ÙØ£Ø­ÙØ§Ù",
+    "nameAr": "الأحقاف",
     "nameEn": "Al-Ahqaf",
     "ename": "The Dunes",
     "ayahCount": 35,
@@ -481,7 +481,7 @@
   },
   {
     "number": 47,
-    "nameAr": "ÙØ­ÙØ¯",
+    "nameAr": "محمد",
     "nameEn": "Muhammad",
     "ename": "Muhammad",
     "ayahCount": 38,
@@ -491,7 +491,7 @@
   },
   {
     "number": 48,
-    "nameAr": "Ø§ÙÙØªØ­",
+    "nameAr": "الفتح",
     "nameEn": "Al-Fath",
     "ename": "The Victory",
     "ayahCount": 29,
@@ -501,7 +501,7 @@
   },
   {
     "number": 49,
-    "nameAr": "Ø§ÙØ­Ø¬Ø±Ø§Øª",
+    "nameAr": "الحجرات",
     "nameEn": "Al-Hujuraat",
     "ename": "The Inner Apartments",
     "ayahCount": 18,
@@ -511,7 +511,7 @@
   },
   {
     "number": 50,
-    "nameAr": "Ù",
+    "nameAr": "ق",
     "nameEn": "Qaaf",
     "ename": "The letter Qaaf",
     "ayahCount": 45,
@@ -521,7 +521,7 @@
   },
   {
     "number": 51,
-    "nameAr": "Ø§ÙØ°Ø§Ø±ÙØ§Øª",
+    "nameAr": "الذاريات",
     "nameEn": "Adh-Dhaariyat",
     "ename": "The Winnowing Winds",
     "ayahCount": 60,
@@ -532,7 +532,7 @@
   },
   {
     "number": 52,
-    "nameAr": "Ø§ÙØ·ÙØ±",
+    "nameAr": "الطور",
     "nameEn": "At-Tur",
     "ename": "The Mount",
     "ayahCount": 49,
@@ -542,7 +542,7 @@
   },
   {
     "number": 53,
-    "nameAr": "Ø§ÙÙØ¬Ù",
+    "nameAr": "النجم",
     "nameEn": "An-Najm",
     "ename": "The Star",
     "ayahCount": 62,
@@ -552,7 +552,7 @@
   },
   {
     "number": 54,
-    "nameAr": "Ø§ÙÙÙØ±",
+    "nameAr": "القمر",
     "nameEn": "Al-Qamar",
     "ename": "The Moon",
     "ayahCount": 55,
@@ -562,7 +562,7 @@
   },
   {
     "number": 55,
-    "nameAr": "Ø§ÙØ±Ø­ÙÙ",
+    "nameAr": "الرحمن",
     "nameEn": "Ar-Rahmaan",
     "ename": "The Beneficent",
     "ayahCount": 78,
@@ -572,7 +572,7 @@
   },
   {
     "number": 56,
-    "nameAr": "Ø§ÙÙØ§ÙØ¹Ø©",
+    "nameAr": "الواقعة",
     "nameEn": "Al-Waaqia",
     "ename": "The Inevitable",
     "ayahCount": 96,
@@ -582,7 +582,7 @@
   },
   {
     "number": 57,
-    "nameAr": "Ø§ÙØ­Ø¯ÙØ¯",
+    "nameAr": "الحديد",
     "nameEn": "Al-Hadid",
     "ename": "The Iron",
     "ayahCount": 29,
@@ -592,7 +592,7 @@
   },
   {
     "number": 58,
-    "nameAr": "Ø§ÙÙØ¬Ø§Ø¯ÙØ©",
+    "nameAr": "المجادلة",
     "nameEn": "Al-Mujaadila",
     "ename": "The Pleading Woman",
     "ayahCount": 22,
@@ -602,7 +602,7 @@
   },
   {
     "number": 59,
-    "nameAr": "Ø§ÙØ­Ø´Ø±",
+    "nameAr": "الحشر",
     "nameEn": "Al-Hashr",
     "ename": "The Exile",
     "ayahCount": 24,
@@ -612,7 +612,7 @@
   },
   {
     "number": 60,
-    "nameAr": "Ø§ÙÙÙØªØ­ÙØ©",
+    "nameAr": "الممتحنة",
     "nameEn": "Al-Mumtahana",
     "ename": "She that is to be examined",
     "ayahCount": 13,
@@ -622,7 +622,7 @@
   },
   {
     "number": 61,
-    "nameAr": "Ø§ÙØµÙ",
+    "nameAr": "الصف",
     "nameEn": "As-Saff",
     "ename": "The Ranks",
     "ayahCount": 14,
@@ -632,7 +632,7 @@
   },
   {
     "number": 62,
-    "nameAr": "Ø§ÙØ¬ÙØ¹Ø©",
+    "nameAr": "الجمعة",
     "nameEn": "Al-Jumu'a",
     "ename": "Friday",
     "ayahCount": 11,
@@ -642,7 +642,7 @@
   },
   {
     "number": 63,
-    "nameAr": "Ø§ÙÙÙØ§ÙÙÙÙ",
+    "nameAr": "المنافقون",
     "nameEn": "Al-Munaafiqoon",
     "ename": "The Hypocrites",
     "ayahCount": 11,
@@ -652,7 +652,7 @@
   },
   {
     "number": 64,
-    "nameAr": "Ø§ÙØªØºØ§Ø¨Ù",
+    "nameAr": "التغابن",
     "nameEn": "At-Taghaabun",
     "ename": "Mutual Disillusion",
     "ayahCount": 18,
@@ -662,7 +662,7 @@
   },
   {
     "number": 65,
-    "nameAr": "Ø§ÙØ·ÙØ§Ù",
+    "nameAr": "الطلاق",
     "nameEn": "At-Talaaq",
     "ename": "Divorce",
     "ayahCount": 12,
@@ -672,7 +672,7 @@
   },
   {
     "number": 66,
-    "nameAr": "Ø§ÙØªØ­Ø±ÙÙ",
+    "nameAr": "التحريم",
     "nameEn": "At-Tahrim",
     "ename": "The Prohibition",
     "ayahCount": 12,
@@ -682,7 +682,7 @@
   },
   {
     "number": 67,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "الملك",
     "nameEn": "Al-Mulk",
     "ename": "The Sovereignty",
     "ayahCount": 30,
@@ -692,7 +692,7 @@
   },
   {
     "number": 68,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "القلم",
     "nameEn": "Al-Qalam",
     "ename": "The Pen",
     "ayahCount": 52,
@@ -702,7 +702,7 @@
   },
   {
     "number": 69,
-    "nameAr": "Ø§ÙØ­Ø§ÙØ©",
+    "nameAr": "الحاقة",
     "nameEn": "Al-Haaqqa",
     "ename": "The Reality",
     "ayahCount": 52,
@@ -712,7 +712,7 @@
   },
   {
     "number": 70,
-    "nameAr": "Ø§ÙÙØ¹Ø§Ø±Ø¬",
+    "nameAr": "المعارج",
     "nameEn": "Al-Ma'aarij",
     "ename": "The Ascending Stairways",
     "ayahCount": 44,
@@ -722,7 +722,7 @@
   },
   {
     "number": 71,
-    "nameAr": "ÙÙØ­",
+    "nameAr": "نوح",
     "nameEn": "Nooh",
     "ename": "Noah",
     "ayahCount": 28,
@@ -732,7 +732,7 @@
   },
   {
     "number": 72,
-    "nameAr": "Ø§ÙØ¬Ù",
+    "nameAr": "الجن",
     "nameEn": "Al-Jinn",
     "ename": "The Jinn",
     "ayahCount": 28,
@@ -742,7 +742,7 @@
   },
   {
     "number": 73,
-    "nameAr": "Ø§ÙÙØ²ÙÙ",
+    "nameAr": "المزمل",
     "nameEn": "Al-Muzzammil",
     "ename": "The Enshrouded One",
     "ayahCount": 20,
@@ -752,7 +752,7 @@
   },
   {
     "number": 74,
-    "nameAr": "Ø§ÙÙØ¯Ø«Ø±",
+    "nameAr": "المدثر",
     "nameEn": "Al-Muddaththir",
     "ename": "The Cloaked One",
     "ayahCount": 56,
@@ -762,7 +762,7 @@
   },
   {
     "number": 75,
-    "nameAr": "Ø§ÙÙÙØ§ÙØ©",
+    "nameAr": "القيامة",
     "nameEn": "Al-Qiyaama",
     "ename": "The Resurrection",
     "ayahCount": 40,
@@ -772,7 +772,7 @@
   },
   {
     "number": 76,
-    "nameAr": "Ø§ÙØ§ÙØ³Ø§Ù",
+    "nameAr": "الانسان",
     "nameEn": "Al-Insaan",
     "ename": "Man",
     "ayahCount": 31,
@@ -782,7 +782,7 @@
   },
   {
     "number": 77,
-    "nameAr": "Ø§ÙÙØ±Ø³ÙØ§Øª",
+    "nameAr": "المرسلات",
     "nameEn": "Al-Mursalaat",
     "ename": "The Emissaries",
     "ayahCount": 50,
@@ -792,7 +792,7 @@
   },
   {
     "number": 78,
-    "nameAr": "Ø§ÙÙØ¨Ø¥",
+    "nameAr": "النبإ",
     "nameEn": "An-Naba",
     "ename": "The Announcement",
     "ayahCount": 40,
@@ -802,7 +802,7 @@
   },
   {
     "number": 79,
-    "nameAr": "Ø§ÙÙØ§Ø²Ø¹Ø§Øª",
+    "nameAr": "النازعات",
     "nameEn": "An-Naazi'aat",
     "ename": "Those who drag forth",
     "ayahCount": 46,
@@ -812,7 +812,7 @@
   },
   {
     "number": 80,
-    "nameAr": "Ø¹Ø¨Ø³",
+    "nameAr": "عبس",
     "nameEn": "Abasa",
     "ename": "He frowned",
     "ayahCount": 42,
@@ -822,7 +822,7 @@
   },
   {
     "number": 81,
-    "nameAr": "Ø§ÙØªÙÙÙØ±",
+    "nameAr": "التكوير",
     "nameEn": "At-Takwir",
     "ename": "The Overthrowing",
     "ayahCount": 29,
@@ -832,7 +832,7 @@
   },
   {
     "number": 82,
-    "nameAr": "Ø§ÙØ¥ÙÙØ·Ø§Ø±",
+    "nameAr": "الإنفطار",
     "nameEn": "Al-Infitaar",
     "ename": "The Cleaving",
     "ayahCount": 19,
@@ -842,7 +842,7 @@
   },
   {
     "number": 83,
-    "nameAr": "Ø§ÙÙØ·ÙÙÙÙ",
+    "nameAr": "المطففين",
     "nameEn": "Al-Mutaffifin",
     "ename": "Defrauding",
     "ayahCount": 36,
@@ -852,7 +852,7 @@
   },
   {
     "number": 84,
-    "nameAr": "Ø§ÙØ¥ÙØ´ÙØ§Ù",
+    "nameAr": "الإنشقاق",
     "nameEn": "Al-Inshiqaaq",
     "ename": "The Splitting Open",
     "ayahCount": 25,
@@ -862,7 +862,7 @@
   },
   {
     "number": 85,
-    "nameAr": "Ø§ÙØ¨Ø±ÙØ¬",
+    "nameAr": "البروج",
     "nameEn": "Al-Burooj",
     "ename": "The Constellations",
     "ayahCount": 22,
@@ -872,7 +872,7 @@
   },
   {
     "number": 86,
-    "nameAr": "Ø§ÙØ·Ø§Ø±Ù",
+    "nameAr": "الطارق",
     "nameEn": "At-Taariq",
     "ename": "The Morning Star",
     "ayahCount": 17,
@@ -882,7 +882,7 @@
   },
   {
     "number": 87,
-    "nameAr": "Ø§ÙØ£Ø¹ÙÙ",
+    "nameAr": "الأعلى",
     "nameEn": "Al-A'laa",
     "ename": "The Most High",
     "ayahCount": 19,
@@ -892,7 +892,7 @@
   },
   {
     "number": 88,
-    "nameAr": "Ø§ÙØºØ§Ø´ÙØ©",
+    "nameAr": "الغاشية",
     "nameEn": "Al-Ghaashiya",
     "ename": "The Overwhelming",
     "ayahCount": 26,
@@ -902,7 +902,7 @@
   },
   {
     "number": 89,
-    "nameAr": "Ø§ÙÙØ¬Ø±",
+    "nameAr": "الفجر",
     "nameEn": "Al-Fajr",
     "ename": "The Dawn",
     "ayahCount": 30,
@@ -912,7 +912,7 @@
   },
   {
     "number": 90,
-    "nameAr": "Ø§ÙØ¨ÙØ¯",
+    "nameAr": "البلد",
     "nameEn": "Al-Balad",
     "ename": "The City",
     "ayahCount": 20,
@@ -922,7 +922,7 @@
   },
   {
     "number": 91,
-    "nameAr": "Ø§ÙØ´ÙØ³",
+    "nameAr": "الشمس",
     "nameEn": "Ash-Shams",
     "ename": "The Sun",
     "ayahCount": 15,
@@ -932,7 +932,7 @@
   },
   {
     "number": 92,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "الليل",
     "nameEn": "Al-Lail",
     "ename": "The Night",
     "ayahCount": 21,
@@ -942,7 +942,7 @@
   },
   {
     "number": 93,
-    "nameAr": "Ø§ÙØ¶Ø­Ù",
+    "nameAr": "الضحى",
     "nameEn": "Ad-Dhuhaa",
     "ename": "The Morning Hours",
     "ayahCount": 11,
@@ -952,7 +952,7 @@
   },
   {
     "number": 94,
-    "nameAr": "Ø§ÙØ´Ø±Ø­",
+    "nameAr": "الشرح",
     "nameEn": "Ash-Sharh",
     "ename": "The Consolation",
     "ayahCount": 8,
@@ -962,7 +962,7 @@
   },
   {
     "number": 95,
-    "nameAr": "Ø§ÙØªÙÙ",
+    "nameAr": "التين",
     "nameEn": "At-Tin",
     "ename": "The Fig",
     "ayahCount": 8,
@@ -972,7 +972,7 @@
   },
   {
     "number": 96,
-    "nameAr": "Ø§ÙØ¹ÙÙ",
+    "nameAr": "العلق",
     "nameEn": "Al-Alaq",
     "ename": "The Clot",
     "ayahCount": 19,
@@ -982,7 +982,7 @@
   },
   {
     "number": 97,
-    "nameAr": "Ø§ÙÙØ¯Ø±",
+    "nameAr": "القدر",
     "nameEn": "Al-Qadr",
     "ename": "The Power, Fate",
     "ayahCount": 5,
@@ -992,7 +992,7 @@
   },
   {
     "number": 98,
-    "nameAr": "Ø§ÙØ¨ÙÙØ©",
+    "nameAr": "البينة",
     "nameEn": "Al-Bayyina",
     "ename": "The Evidence",
     "ayahCount": 8,
@@ -1002,7 +1002,7 @@
   },
   {
     "number": 99,
-    "nameAr": "Ø§ÙØ²ÙØ²ÙØ©",
+    "nameAr": "الزلزلة",
     "nameEn": "Az-Zalzala",
     "ename": "The Earthquake",
     "ayahCount": 8,
@@ -1012,7 +1012,7 @@
   },
   {
     "number": 100,
-    "nameAr": "Ø§ÙØ¹Ø§Ø¯ÙØ§Øª",
+    "nameAr": "العاديات",
     "nameEn": "Al-Aadiyaat",
     "ename": "The Chargers",
     "ayahCount": 11,
@@ -1022,7 +1022,7 @@
   },
   {
     "number": 101,
-    "nameAr": "Ø§ÙÙØ§Ø±Ø¹Ø©",
+    "nameAr": "القارعة",
     "nameEn": "Al-Qaari'a",
     "ename": "The Calamity",
     "ayahCount": 11,
@@ -1032,7 +1032,7 @@
   },
   {
     "number": 102,
-    "nameAr": "Ø§ÙØªÙØ§Ø«Ø±",
+    "nameAr": "التكاثر",
     "nameEn": "At-Takaathur",
     "ename": "Competition",
     "ayahCount": 8,
@@ -1042,7 +1042,7 @@
   },
   {
     "number": 103,
-    "nameAr": "Ø§ÙØ¹ØµØ±",
+    "nameAr": "العصر",
     "nameEn": "Al-Asr",
     "ename": "The Declining Day, Epoch",
     "ayahCount": 3,
@@ -1052,7 +1052,7 @@
   },
   {
     "number": 104,
-    "nameAr": "Ø§ÙÙÙØ²Ø©",
+    "nameAr": "الهمزة",
     "nameEn": "Al-Humaza",
     "ename": "The Traducer",
     "ayahCount": 9,
@@ -1062,7 +1062,7 @@
   },
   {
     "number": 105,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "الفيل",
     "nameEn": "Al-Fil",
     "ename": "The Elephant",
     "ayahCount": 5,
@@ -1072,7 +1072,7 @@
   },
   {
     "number": 106,
-    "nameAr": "ÙØ±ÙØ´",
+    "nameAr": "قريش",
     "nameEn": "Quraish",
     "ename": "Quraysh",
     "ayahCount": 4,
@@ -1082,7 +1082,7 @@
   },
   {
     "number": 107,
-    "nameAr": "Ø§ÙÙØ§Ø¹ÙÙ",
+    "nameAr": "الماعون",
     "nameEn": "Al-Maa'un",
     "ename": "Almsgiving",
     "ayahCount": 7,
@@ -1092,7 +1092,7 @@
   },
   {
     "number": 108,
-    "nameAr": "Ø§ÙÙÙØ«Ø±",
+    "nameAr": "الكوثر",
     "nameEn": "Al-Kawthar",
     "ename": "Abundance",
     "ayahCount": 3,
@@ -1102,7 +1102,7 @@
   },
   {
     "number": 109,
-    "nameAr": "Ø§ÙÙØ§ÙØ±ÙÙ",
+    "nameAr": "الكافرون",
     "nameEn": "Al-Kaafiroon",
     "ename": "The Disbelievers",
     "ayahCount": 6,
@@ -1112,7 +1112,7 @@
   },
   {
     "number": 110,
-    "nameAr": "Ø§ÙÙØµØ±",
+    "nameAr": "النصر",
     "nameEn": "An-Nasr",
     "ename": "Divine Support",
     "ayahCount": 3,
@@ -1122,7 +1122,7 @@
   },
   {
     "number": 111,
-    "nameAr": "Ø§ÙÙØ³Ø¯",
+    "nameAr": "المسد",
     "nameEn": "Al-Masad",
     "ename": "The Palm Fibre",
     "ayahCount": 5,
@@ -1132,7 +1132,7 @@
   },
   {
     "number": 112,
-    "nameAr": "Ø§ÙØ¥Ø®ÙØ§Øµ",
+    "nameAr": "الإخلاص",
     "nameEn": "Al-Ikhlaas",
     "ename": "Sincerity",
     "ayahCount": 4,
@@ -1142,7 +1142,7 @@
   },
   {
     "number": 113,
-    "nameAr": "Ø§ÙÙÙÙ",
+    "nameAr": "الفلق",
     "nameEn": "Al-Falaq",
     "ename": "The Dawn",
     "ayahCount": 5,
@@ -1152,7 +1152,7 @@
   },
   {
     "number": 114,
-    "nameAr": "Ø§ÙÙØ§Ø³",
+    "nameAr": "الناس",
     "nameEn": "An-Naas",
     "ename": "Mankind",
     "ayahCount": 6,

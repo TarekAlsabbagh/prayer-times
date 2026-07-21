@@ -16885,7 +16885,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         html = html.replace('<div class="lang-menu" role="menu"></div>',
             '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
         html = html.replace('</head>',
-            '    <link rel="preload" as="font" href="/fonts/uthmanic_hafs_v20.ttf" type="font/ttf" crossorigin>\n' +
+            '    <link rel="preload" as="font" href="/fonts/AmiriQuran-Regular.ttf" type="font/ttf" crossorigin>\n' +
             '    <link rel="stylesheet" href="/css/quran.css?v=23">\n' +
             // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
             // the structured-data URLs and the canonical can never disagree about the host.
@@ -29941,7 +29941,7 @@ async function handleCitiesAdd(cc, body, res) {
 // Standalone SSR document for the Arabic surah pages. Gated on env QURAN_PROTOTYPE_ENABLED='1'.
 // The full Uthmani text lives in the initial HTML (no data island, no hydration). The ayah NUMBER is a
 // standalone element derived from aya_no (never the FCxx font glyph). css/quran.css + js/quran.js + the
-// KFGQPC font load ONLY on these routes. NOT in sitemap, NOT in any menu, NO other-language hreflang.
+// Amiri Quran font load ONLY on these routes. NOT in sitemap, NOT in any menu, NO other-language hreflang.
 let _quranProtoCache = null;
 // ===== QURAN-AR-SSR-SURAH-GENERALIZATION-1 — data access for the surah pages =====
 // SHARED metadata (chapters + basmala + manifest + routes) is small, immutable and needed by EVERY surah page,

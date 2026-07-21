@@ -27,7 +27,7 @@ const NEW = path.join(ROOT, 'data', 'quran', 'tanzil-uthmani-1-1');
 const TEXT_XML = path.join(NEW, 'vendor', 'quran-uthmani-1.1.xml');
 const META_XML = path.join(NEW, 'vendor', 'quran-data-1.1.xml');
 const EXPECT_TEXT_SHA = '203F0F1BF3158B1E5BE4AB9F8F6870E570AAB6D9A626FE6192A70B75D4AFE0FD';
-const EXPECT_META_SHA = '263DAE4992CCC580F5E4C6B387315C4E09733C69F1B0421D511797C93CE07E44';
+const EXPECT_META_SHA = '8867C1D88191472ADEC9DB694B3CD9F135B1A2EF580574D32CF888DCB22C5C7A';
 
 const sha = b => crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
 const dec = s => s.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&apos;/g, "'").replace(/&amp;/g, '&');
@@ -48,6 +48,22 @@ while ((msm = msRe.exec(metaXml))) {
     if (a.index) metaSura.set(+a.index, { name: a.name, ayas: +a.ayas, tname: a.tname, ename: a.ename });
 }
 if (metaSura.size !== 114) die('meta sura count ' + metaSura.size + ' != 114');
+// ENCODING TRIPWIRE: the Arabic sura names must be genuine UTF-8 Arabic. A metadata file pulled through a
+// charset-lossy download re-encodes each Arabic byte into Latin-1 mojibake (Ø Ù …). We NEVER repair that
+// here — no Latin-1 re-encode, no per-name fix list, no foreign name source — because the only correct fix
+// is re-downloading the official raw file. A corrupt file HARD-FAILS the build instead of being patched.
+const ENC_FAIL = 'TANZIL METADATA ENCODING INVALID — OFFICIAL RAW FILE MUST BE RE-DOWNLOADED';
+const MOJIBAKE = /[À-ÿ�]/;   // Latin-1 supplement letters + U+FFFD (never in clean Arabic names)
+const ARABIC = /[؀-ۿ]/;           // at least one Arabic-script codepoint must be present
+const _seenName = new Set();
+for (const [n, m] of metaSura) {
+    const nm = m.name;
+    if (!nm || !nm.trim()) die(ENC_FAIL + ' (empty sura name ' + n + ')');
+    if (MOJIBAKE.test(nm)) die(ENC_FAIL + ' (mojibake in sura ' + n + ' name: ' + JSON.stringify(nm) + ')');
+    if (!ARABIC.test(nm)) die(ENC_FAIL + ' (sura ' + n + ' name is not Arabic: ' + JSON.stringify(nm) + ')');
+    if (_seenName.has(nm)) die(ENC_FAIL + ' (duplicate sura name ' + JSON.stringify(nm) + ')');
+    _seenName.add(nm);
+}
 const juzStarts = [];         // {juz, sura, aya}
 let mjm; const mjRe = /<juz\s+index="(\d+)"\s+sura="(\d+)"\s+aya="(\d+)"\s*\/>/g;
 while ((mjm = mjRe.exec(metaXml))) juzStarts.push({ juz: +mjm[1], sura: +mjm[2], aya: +mjm[3] });

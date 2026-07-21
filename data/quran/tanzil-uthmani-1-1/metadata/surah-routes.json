@@ -9,7 +9,7 @@
   "surahs": [
     {
       "number": 1,
-      "nameArSource": "Ø§ÙÙØ§ØªØ­Ø©",
+      "nameArSource": "الفاتحة",
       "nameEnSource": "Al-Faatiha",
       "slug": "al-fatihah",
       "path": "/quran/al-fatihah",
@@ -17,7 +17,7 @@
     },
     {
       "number": 2,
-      "nameArSource": "Ø§ÙØ¨ÙØ±Ø©",
+      "nameArSource": "البقرة",
       "nameEnSource": "Al-Baqara",
       "slug": "al-baqarah",
       "path": "/quran/al-baqarah",
@@ -25,7 +25,7 @@
     },
     {
       "number": 3,
-      "nameArSource": "Ø¢Ù Ø¹ÙØ±Ø§Ù",
+      "nameArSource": "آل عمران",
       "nameEnSource": "Aal-i-Imraan",
       "slug": "al-imran",
       "path": "/quran/al-imran",
@@ -33,7 +33,7 @@
     },
     {
       "number": 4,
-      "nameArSource": "Ø§ÙÙØ³Ø§Ø¡",
+      "nameArSource": "النساء",
       "nameEnSource": "An-Nisaa",
       "slug": "an-nisa",
       "path": "/quran/an-nisa",
@@ -41,7 +41,7 @@
     },
     {
       "number": 5,
-      "nameArSource": "Ø§ÙÙØ§Ø¦Ø¯Ø©",
+      "nameArSource": "المائدة",
       "nameEnSource": "Al-Maaida",
       "slug": "al-maidah",
       "path": "/quran/al-maidah",
@@ -49,7 +49,7 @@
     },
     {
       "number": 6,
-      "nameArSource": "Ø§ÙØ£ÙØ¹Ø§Ù",
+      "nameArSource": "الأنعام",
       "nameEnSource": "Al-An'aam",
       "slug": "al-anam",
       "path": "/quran/al-anam",
@@ -57,7 +57,7 @@
     },
     {
       "number": 7,
-      "nameArSource": "Ø§ÙØ£Ø¹Ø±Ø§Ù",
+      "nameArSource": "الأعراف",
       "nameEnSource": "Al-A'raaf",
       "slug": "al-araf",
       "path": "/quran/al-araf",
@@ -65,7 +65,7 @@
     },
     {
       "number": 8,
-      "nameArSource": "Ø§ÙØ£ÙÙØ§Ù",
+      "nameArSource": "الأنفال",
       "nameEnSource": "Al-Anfaal",
       "slug": "al-anfal",
       "path": "/quran/al-anfal",
@@ -73,7 +73,7 @@
     },
     {
       "number": 9,
-      "nameArSource": "Ø§ÙØªÙØ¨Ø©",
+      "nameArSource": "التوبة",
       "nameEnSource": "At-Tawba",
       "slug": "at-taubah",
       "path": "/quran/at-taubah",
@@ -81,7 +81,7 @@
     },
     {
       "number": 10,
-      "nameArSource": "ÙÙÙØ³",
+      "nameArSource": "يونس",
       "nameEnSource": "Yunus",
       "slug": "yunus",
       "path": "/quran/yunus",
@@ -89,7 +89,7 @@
     },
     {
       "number": 11,
-      "nameArSource": "ÙÙØ¯",
+      "nameArSource": "هود",
       "nameEnSource": "Hud",
       "slug": "hud",
       "path": "/quran/hud",
@@ -97,7 +97,7 @@
     },
     {
       "number": 12,
-      "nameArSource": "ÙÙØ³Ù",
+      "nameArSource": "يوسف",
       "nameEnSource": "Yusuf",
       "slug": "yusuf",
       "path": "/quran/yusuf",
@@ -105,7 +105,7 @@
     },
     {
       "number": 13,
-      "nameArSource": "Ø§ÙØ±Ø¹Ø¯",
+      "nameArSource": "الرعد",
       "nameEnSource": "Ar-Ra'd",
       "slug": "ar-rad",
       "path": "/quran/ar-rad",
@@ -113,7 +113,7 @@
     },
     {
       "number": 14,
-      "nameArSource": "Ø§Ø¨Ø±Ø§ÙÙÙ",
+      "nameArSource": "ابراهيم",
       "nameEnSource": "Ibrahim",
       "slug": "ibrahim",
       "path": "/quran/ibrahim",
@@ -121,7 +121,7 @@
     },
     {
       "number": 15,
-      "nameArSource": "Ø§ÙØ­Ø¬Ø±",
+      "nameArSource": "الحجر",
       "nameEnSource": "Al-Hijr",
       "slug": "al-hijr",
       "path": "/quran/al-hijr",
@@ -129,7 +129,7 @@
     },
     {
       "number": 16,
-      "nameArSource": "Ø§ÙÙØ­Ù",
+      "nameArSource": "النحل",
       "nameEnSource": "An-Nahl",
       "slug": "an-nahl",
       "path": "/quran/an-nahl",
@@ -137,7 +137,7 @@
     },
     {
       "number": 17,
-      "nameArSource": "Ø§ÙØ¥Ø³Ø±Ø§Ø¡",
+      "nameArSource": "الإسراء",
       "nameEnSource": "Al-Israa",
       "slug": "al-isra",
       "path": "/quran/al-isra",
@@ -145,7 +145,7 @@
     },
     {
       "number": 18,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "الكهف",
       "nameEnSource": "Al-Kahf",
       "slug": "al-kahf",
       "path": "/quran/al-kahf",
@@ -153,7 +153,7 @@
     },
     {
       "number": 19,
-      "nameArSource": "ÙØ±ÙÙ",
+      "nameArSource": "مريم",
       "nameEnSource": "Maryam",
       "slug": "maryam",
       "path": "/quran/maryam",
@@ -161,7 +161,7 @@
     },
     {
       "number": 20,
-      "nameArSource": "Ø·Ù",
+      "nameArSource": "طه",
       "nameEnSource": "Taa-Haa",
       "slug": "ta-ha",
       "path": "/quran/ta-ha",
@@ -169,7 +169,7 @@
     },
     {
       "number": 21,
-      "nameArSource": "Ø§ÙØ£ÙØ¨ÙØ§Ø¡",
+      "nameArSource": "الأنبياء",
       "nameEnSource": "Al-Anbiyaa",
       "slug": "al-anbiya",
       "path": "/quran/al-anbiya",
@@ -177,7 +177,7 @@
     },
     {
       "number": 22,
-      "nameArSource": "Ø§ÙØ­Ø¬",
+      "nameArSource": "الحج",
       "nameEnSource": "Al-Hajj",
       "slug": "al-hajj",
       "path": "/quran/al-hajj",
@@ -185,7 +185,7 @@
     },
     {
       "number": 23,
-      "nameArSource": "Ø§ÙÙØ¤ÙÙÙÙ",
+      "nameArSource": "المؤمنون",
       "nameEnSource": "Al-Muminoon",
       "slug": "al-muminun",
       "path": "/quran/al-muminun",
@@ -193,7 +193,7 @@
     },
     {
       "number": 24,
-      "nameArSource": "Ø§ÙÙÙØ±",
+      "nameArSource": "النور",
       "nameEnSource": "An-Noor",
       "slug": "an-nur",
       "path": "/quran/an-nur",
@@ -201,7 +201,7 @@
     },
     {
       "number": 25,
-      "nameArSource": "Ø§ÙÙØ±ÙØ§Ù",
+      "nameArSource": "الفرقان",
       "nameEnSource": "Al-Furqaan",
       "slug": "al-furqan",
       "path": "/quran/al-furqan",
@@ -209,7 +209,7 @@
     },
     {
       "number": 26,
-      "nameArSource": "Ø§ÙØ´Ø¹Ø±Ø§Ø¡",
+      "nameArSource": "الشعراء",
       "nameEnSource": "Ash-Shu'araa",
       "slug": "ash-shuara",
       "path": "/quran/ash-shuara",
@@ -217,7 +217,7 @@
     },
     {
       "number": 27,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "النمل",
       "nameEnSource": "An-Naml",
       "slug": "an-naml",
       "path": "/quran/an-naml",
@@ -225,7 +225,7 @@
     },
     {
       "number": 28,
-      "nameArSource": "Ø§ÙÙØµØµ",
+      "nameArSource": "القصص",
       "nameEnSource": "Al-Qasas",
       "slug": "al-qasas",
       "path": "/quran/al-qasas",
@@ -233,7 +233,7 @@
     },
     {
       "number": 29,
-      "nameArSource": "Ø§ÙØ¹ÙÙØ¨ÙØª",
+      "nameArSource": "العنكبوت",
       "nameEnSource": "Al-Ankaboot",
       "slug": "al-ankabut",
       "path": "/quran/al-ankabut",
@@ -241,7 +241,7 @@
     },
     {
       "number": 30,
-      "nameArSource": "Ø§ÙØ±ÙÙ",
+      "nameArSource": "الروم",
       "nameEnSource": "Ar-Room",
       "slug": "ar-rum",
       "path": "/quran/ar-rum",
@@ -249,7 +249,7 @@
     },
     {
       "number": 31,
-      "nameArSource": "ÙÙÙØ§Ù",
+      "nameArSource": "لقمان",
       "nameEnSource": "Luqman",
       "slug": "luqman",
       "path": "/quran/luqman",
@@ -257,7 +257,7 @@
     },
     {
       "number": 32,
-      "nameArSource": "Ø§ÙØ³Ø¬Ø¯Ø©",
+      "nameArSource": "السجدة",
       "nameEnSource": "As-Sajda",
       "slug": "as-sajdah",
       "path": "/quran/as-sajdah",
@@ -265,7 +265,7 @@
     },
     {
       "number": 33,
-      "nameArSource": "Ø§ÙØ£Ø­Ø²Ø§Ø¨",
+      "nameArSource": "الأحزاب",
       "nameEnSource": "Al-Ahzaab",
       "slug": "al-ahzab",
       "path": "/quran/al-ahzab",
@@ -273,7 +273,7 @@
     },
     {
       "number": 34,
-      "nameArSource": "Ø³Ø¨Ø¥",
+      "nameArSource": "سبإ",
       "nameEnSource": "Saba",
       "slug": "saba",
       "path": "/quran/saba",
@@ -281,7 +281,7 @@
     },
     {
       "number": 35,
-      "nameArSource": "ÙØ§Ø·Ø±",
+      "nameArSource": "فاطر",
       "nameEnSource": "Faatir",
       "slug": "fatir",
       "path": "/quran/fatir",
@@ -289,7 +289,7 @@
     },
     {
       "number": 36,
-      "nameArSource": "ÙØ³",
+      "nameArSource": "يس",
       "nameEnSource": "Yaseen",
       "slug": "ya-sin",
       "path": "/quran/ya-sin",
@@ -297,7 +297,7 @@
     },
     {
       "number": 37,
-      "nameArSource": "Ø§ÙØµØ§ÙØ§Øª",
+      "nameArSource": "الصافات",
       "nameEnSource": "As-Saaffaat",
       "slug": "as-saffat",
       "path": "/quran/as-saffat",
@@ -305,7 +305,7 @@
     },
     {
       "number": 38,
-      "nameArSource": "Øµ",
+      "nameArSource": "ص",
       "nameEnSource": "Saad",
       "slug": "sad",
       "path": "/quran/sad",
@@ -313,7 +313,7 @@
     },
     {
       "number": 39,
-      "nameArSource": "Ø§ÙØ²ÙØ±",
+      "nameArSource": "الزمر",
       "nameEnSource": "Az-Zumar",
       "slug": "az-zumar",
       "path": "/quran/az-zumar",
@@ -321,7 +321,7 @@
     },
     {
       "number": 40,
-      "nameArSource": "ØºØ§ÙØ±",
+      "nameArSource": "غافر",
       "nameEnSource": "Al-Ghaafir",
       "slug": "ghafir",
       "path": "/quran/ghafir",
@@ -329,7 +329,7 @@
     },
     {
       "number": 41,
-      "nameArSource": "ÙØµÙØª",
+      "nameArSource": "فصلت",
       "nameEnSource": "Fussilat",
       "slug": "fussilat",
       "path": "/quran/fussilat",
@@ -337,7 +337,7 @@
     },
     {
       "number": 42,
-      "nameArSource": "Ø§ÙØ´ÙØ±Ù",
+      "nameArSource": "الشورى",
       "nameEnSource": "Ash-Shura",
       "slug": "ash-shura",
       "path": "/quran/ash-shura",
@@ -345,7 +345,7 @@
     },
     {
       "number": 43,
-      "nameArSource": "Ø§ÙØ²Ø®Ø±Ù",
+      "nameArSource": "الزخرف",
       "nameEnSource": "Az-Zukhruf",
       "slug": "az-zukhruf",
       "path": "/quran/az-zukhruf",
@@ -353,7 +353,7 @@
     },
     {
       "number": 44,
-      "nameArSource": "Ø§ÙØ¯Ø®Ø§Ù",
+      "nameArSource": "الدخان",
       "nameEnSource": "Ad-Dukhaan",
       "slug": "ad-dukhan",
       "path": "/quran/ad-dukhan",
@@ -361,7 +361,7 @@
     },
     {
       "number": 45,
-      "nameArSource": "Ø§ÙØ¬Ø§Ø«ÙØ©",
+      "nameArSource": "الجاثية",
       "nameEnSource": "Al-Jaathiya",
       "slug": "al-jathiyah",
       "path": "/quran/al-jathiyah",
@@ -369,7 +369,7 @@
     },
     {
       "number": 46,
-      "nameArSource": "Ø§ÙØ£Ø­ÙØ§Ù",
+      "nameArSource": "الأحقاف",
       "nameEnSource": "Al-Ahqaf",
       "slug": "al-ahqaf",
       "path": "/quran/al-ahqaf",
@@ -377,7 +377,7 @@
     },
     {
       "number": 47,
-      "nameArSource": "ÙØ­ÙØ¯",
+      "nameArSource": "محمد",
       "nameEnSource": "Muhammad",
       "slug": "muhammad",
       "path": "/quran/muhammad",
@@ -385,7 +385,7 @@
     },
     {
       "number": 48,
-      "nameArSource": "Ø§ÙÙØªØ­",
+      "nameArSource": "الفتح",
       "nameEnSource": "Al-Fath",
       "slug": "al-fath",
       "path": "/quran/al-fath",
@@ -393,7 +393,7 @@
     },
     {
       "number": 49,
-      "nameArSource": "Ø§ÙØ­Ø¬Ø±Ø§Øª",
+      "nameArSource": "الحجرات",
       "nameEnSource": "Al-Hujuraat",
       "slug": "al-hujurat",
       "path": "/quran/al-hujurat",
@@ -401,7 +401,7 @@
     },
     {
       "number": 50,
-      "nameArSource": "Ù",
+      "nameArSource": "ق",
       "nameEnSource": "Qaaf",
       "slug": "qaf",
       "path": "/quran/qaf",
@@ -409,7 +409,7 @@
     },
     {
       "number": 51,
-      "nameArSource": "Ø§ÙØ°Ø§Ø±ÙØ§Øª",
+      "nameArSource": "الذاريات",
       "nameEnSource": "Adh-Dhaariyat",
       "slug": "adh-dhariyat",
       "path": "/quran/adh-dhariyat",
@@ -417,7 +417,7 @@
     },
     {
       "number": 52,
-      "nameArSource": "Ø§ÙØ·ÙØ±",
+      "nameArSource": "الطور",
       "nameEnSource": "At-Tur",
       "slug": "at-tur",
       "path": "/quran/at-tur",
@@ -425,7 +425,7 @@
     },
     {
       "number": 53,
-      "nameArSource": "Ø§ÙÙØ¬Ù",
+      "nameArSource": "النجم",
       "nameEnSource": "An-Najm",
       "slug": "an-najm",
       "path": "/quran/an-najm",
@@ -433,7 +433,7 @@
     },
     {
       "number": 54,
-      "nameArSource": "Ø§ÙÙÙØ±",
+      "nameArSource": "القمر",
       "nameEnSource": "Al-Qamar",
       "slug": "al-qamar",
       "path": "/quran/al-qamar",
@@ -441,7 +441,7 @@
     },
     {
       "number": 55,
-      "nameArSource": "Ø§ÙØ±Ø­ÙÙ",
+      "nameArSource": "الرحمن",
       "nameEnSource": "Ar-Rahmaan",
       "slug": "ar-rahman",
       "path": "/quran/ar-rahman",
@@ -449,7 +449,7 @@
     },
     {
       "number": 56,
-      "nameArSource": "Ø§ÙÙØ§ÙØ¹Ø©",
+      "nameArSource": "الواقعة",
       "nameEnSource": "Al-Waaqia",
       "slug": "al-waqiah",
       "path": "/quran/al-waqiah",
@@ -457,7 +457,7 @@
     },
     {
       "number": 57,
-      "nameArSource": "Ø§ÙØ­Ø¯ÙØ¯",
+      "nameArSource": "الحديد",
       "nameEnSource": "Al-Hadid",
       "slug": "al-hadid",
       "path": "/quran/al-hadid",
@@ -465,7 +465,7 @@
     },
     {
       "number": 58,
-      "nameArSource": "Ø§ÙÙØ¬Ø§Ø¯ÙØ©",
+      "nameArSource": "المجادلة",
       "nameEnSource": "Al-Mujaadila",
       "slug": "al-mujadilah",
       "path": "/quran/al-mujadilah",
@@ -473,7 +473,7 @@
     },
     {
       "number": 59,
-      "nameArSource": "Ø§ÙØ­Ø´Ø±",
+      "nameArSource": "الحشر",
       "nameEnSource": "Al-Hashr",
       "slug": "al-hashr",
       "path": "/quran/al-hashr",
@@ -481,7 +481,7 @@
     },
     {
       "number": 60,
-      "nameArSource": "Ø§ÙÙÙØªØ­ÙØ©",
+      "nameArSource": "الممتحنة",
       "nameEnSource": "Al-Mumtahana",
       "slug": "al-mumtahanah",
       "path": "/quran/al-mumtahanah",
@@ -489,7 +489,7 @@
     },
     {
       "number": 61,
-      "nameArSource": "Ø§ÙØµÙ",
+      "nameArSource": "الصف",
       "nameEnSource": "As-Saff",
       "slug": "as-saff",
       "path": "/quran/as-saff",
@@ -497,7 +497,7 @@
     },
     {
       "number": 62,
-      "nameArSource": "Ø§ÙØ¬ÙØ¹Ø©",
+      "nameArSource": "الجمعة",
       "nameEnSource": "Al-Jumu'a",
       "slug": "al-jumuah",
       "path": "/quran/al-jumuah",
@@ -505,7 +505,7 @@
     },
     {
       "number": 63,
-      "nameArSource": "Ø§ÙÙÙØ§ÙÙÙÙ",
+      "nameArSource": "المنافقون",
       "nameEnSource": "Al-Munaafiqoon",
       "slug": "al-munafiqun",
       "path": "/quran/al-munafiqun",
@@ -513,7 +513,7 @@
     },
     {
       "number": 64,
-      "nameArSource": "Ø§ÙØªØºØ§Ø¨Ù",
+      "nameArSource": "التغابن",
       "nameEnSource": "At-Taghaabun",
       "slug": "at-taghabun",
       "path": "/quran/at-taghabun",
@@ -521,7 +521,7 @@
     },
     {
       "number": 65,
-      "nameArSource": "Ø§ÙØ·ÙØ§Ù",
+      "nameArSource": "الطلاق",
       "nameEnSource": "At-Talaaq",
       "slug": "at-talaq",
       "path": "/quran/at-talaq",
@@ -529,7 +529,7 @@
     },
     {
       "number": 66,
-      "nameArSource": "Ø§ÙØªØ­Ø±ÙÙ",
+      "nameArSource": "التحريم",
       "nameEnSource": "At-Tahrim",
       "slug": "at-tahrim",
       "path": "/quran/at-tahrim",
@@ -537,7 +537,7 @@
     },
     {
       "number": 67,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "الملك",
       "nameEnSource": "Al-Mulk",
       "slug": "al-mulk",
       "path": "/quran/al-mulk",
@@ -545,7 +545,7 @@
     },
     {
       "number": 68,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "القلم",
       "nameEnSource": "Al-Qalam",
       "slug": "al-qalam",
       "path": "/quran/al-qalam",
@@ -553,7 +553,7 @@
     },
     {
       "number": 69,
-      "nameArSource": "Ø§ÙØ­Ø§ÙØ©",
+      "nameArSource": "الحاقة",
       "nameEnSource": "Al-Haaqqa",
       "slug": "al-haqqah",
       "path": "/quran/al-haqqah",
@@ -561,7 +561,7 @@
     },
     {
       "number": 70,
-      "nameArSource": "Ø§ÙÙØ¹Ø§Ø±Ø¬",
+      "nameArSource": "المعارج",
       "nameEnSource": "Al-Ma'aarij",
       "slug": "al-maarij",
       "path": "/quran/al-maarij",
@@ -569,7 +569,7 @@
     },
     {
       "number": 71,
-      "nameArSource": "ÙÙØ­",
+      "nameArSource": "نوح",
       "nameEnSource": "Nooh",
       "slug": "nuh",
       "path": "/quran/nuh",
@@ -577,7 +577,7 @@
     },
     {
       "number": 72,
-      "nameArSource": "Ø§ÙØ¬Ù",
+      "nameArSource": "الجن",
       "nameEnSource": "Al-Jinn",
       "slug": "al-jinn",
       "path": "/quran/al-jinn",
@@ -585,7 +585,7 @@
     },
     {
       "number": 73,
-      "nameArSource": "Ø§ÙÙØ²ÙÙ",
+      "nameArSource": "المزمل",
       "nameEnSource": "Al-Muzzammil",
       "slug": "al-muzzammil",
       "path": "/quran/al-muzzammil",
@@ -593,7 +593,7 @@
     },
     {
       "number": 74,
-      "nameArSource": "Ø§ÙÙØ¯Ø«Ø±",
+      "nameArSource": "المدثر",
       "nameEnSource": "Al-Muddaththir",
       "slug": "al-muddaththir",
       "path": "/quran/al-muddaththir",
@@ -601,7 +601,7 @@
     },
     {
       "number": 75,
-      "nameArSource": "Ø§ÙÙÙØ§ÙØ©",
+      "nameArSource": "القيامة",
       "nameEnSource": "Al-Qiyaama",
       "slug": "al-qiyamah",
       "path": "/quran/al-qiyamah",
@@ -609,7 +609,7 @@
     },
     {
       "number": 76,
-      "nameArSource": "Ø§ÙØ§ÙØ³Ø§Ù",
+      "nameArSource": "الانسان",
       "nameEnSource": "Al-Insaan",
       "slug": "al-insan",
       "path": "/quran/al-insan",
@@ -617,7 +617,7 @@
     },
     {
       "number": 77,
-      "nameArSource": "Ø§ÙÙØ±Ø³ÙØ§Øª",
+      "nameArSource": "المرسلات",
       "nameEnSource": "Al-Mursalaat",
       "slug": "al-mursalat",
       "path": "/quran/al-mursalat",
@@ -625,7 +625,7 @@
     },
     {
       "number": 78,
-      "nameArSource": "Ø§ÙÙØ¨Ø¥",
+      "nameArSource": "النبإ",
       "nameEnSource": "An-Naba",
       "slug": "an-naba",
       "path": "/quran/an-naba",
@@ -633,7 +633,7 @@
     },
     {
       "number": 79,
-      "nameArSource": "Ø§ÙÙØ§Ø²Ø¹Ø§Øª",
+      "nameArSource": "النازعات",
       "nameEnSource": "An-Naazi'aat",
       "slug": "an-naziat",
       "path": "/quran/an-naziat",
@@ -641,7 +641,7 @@
     },
     {
       "number": 80,
-      "nameArSource": "Ø¹Ø¨Ø³",
+      "nameArSource": "عبس",
       "nameEnSource": "Abasa",
       "slug": "abasa",
       "path": "/quran/abasa",
@@ -649,7 +649,7 @@
     },
     {
       "number": 81,
-      "nameArSource": "Ø§ÙØªÙÙÙØ±",
+      "nameArSource": "التكوير",
       "nameEnSource": "At-Takwir",
       "slug": "at-takwir",
       "path": "/quran/at-takwir",
@@ -657,7 +657,7 @@
     },
     {
       "number": 82,
-      "nameArSource": "Ø§ÙØ¥ÙÙØ·Ø§Ø±",
+      "nameArSource": "الإنفطار",
       "nameEnSource": "Al-Infitaar",
       "slug": "al-infitar",
       "path": "/quran/al-infitar",
@@ -665,7 +665,7 @@
     },
     {
       "number": 83,
-      "nameArSource": "Ø§ÙÙØ·ÙÙÙÙ",
+      "nameArSource": "المطففين",
       "nameEnSource": "Al-Mutaffifin",
       "slug": "al-mutaffifin",
       "path": "/quran/al-mutaffifin",
@@ -673,7 +673,7 @@
     },
     {
       "number": 84,
-      "nameArSource": "Ø§ÙØ¥ÙØ´ÙØ§Ù",
+      "nameArSource": "الإنشقاق",
       "nameEnSource": "Al-Inshiqaaq",
       "slug": "al-inshiqaq",
       "path": "/quran/al-inshiqaq",
@@ -681,7 +681,7 @@
     },
     {
       "number": 85,
-      "nameArSource": "Ø§ÙØ¨Ø±ÙØ¬",
+      "nameArSource": "البروج",
       "nameEnSource": "Al-Burooj",
       "slug": "al-buruj",
       "path": "/quran/al-buruj",
@@ -689,7 +689,7 @@
     },
     {
       "number": 86,
-      "nameArSource": "Ø§ÙØ·Ø§Ø±Ù",
+      "nameArSource": "الطارق",
       "nameEnSource": "At-Taariq",
       "slug": "at-tariq",
       "path": "/quran/at-tariq",
@@ -697,7 +697,7 @@
     },
     {
       "number": 87,
-      "nameArSource": "Ø§ÙØ£Ø¹ÙÙ",
+      "nameArSource": "الأعلى",
       "nameEnSource": "Al-A'laa",
       "slug": "al-ala",
       "path": "/quran/al-ala",
@@ -705,7 +705,7 @@
     },
     {
       "number": 88,
-      "nameArSource": "Ø§ÙØºØ§Ø´ÙØ©",
+      "nameArSource": "الغاشية",
       "nameEnSource": "Al-Ghaashiya",
       "slug": "al-ghashiyah",
       "path": "/quran/al-ghashiyah",
@@ -713,7 +713,7 @@
     },
     {
       "number": 89,
-      "nameArSource": "Ø§ÙÙØ¬Ø±",
+      "nameArSource": "الفجر",
       "nameEnSource": "Al-Fajr",
       "slug": "al-fajr",
       "path": "/quran/al-fajr",
@@ -721,7 +721,7 @@
     },
     {
       "number": 90,
-      "nameArSource": "Ø§ÙØ¨ÙØ¯",
+      "nameArSource": "البلد",
       "nameEnSource": "Al-Balad",
       "slug": "al-balad",
       "path": "/quran/al-balad",
@@ -729,7 +729,7 @@
     },
     {
       "number": 91,
-      "nameArSource": "Ø§ÙØ´ÙØ³",
+      "nameArSource": "الشمس",
       "nameEnSource": "Ash-Shams",
       "slug": "ash-shams",
       "path": "/quran/ash-shams",
@@ -737,7 +737,7 @@
     },
     {
       "number": 92,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "الليل",
       "nameEnSource": "Al-Lail",
       "slug": "al-lail",
       "path": "/quran/al-lail",
@@ -745,7 +745,7 @@
     },
     {
       "number": 93,
-      "nameArSource": "Ø§ÙØ¶Ø­Ù",
+      "nameArSource": "الضحى",
       "nameEnSource": "Ad-Dhuhaa",
       "slug": "ad-duha",
       "path": "/quran/ad-duha",
@@ -753,7 +753,7 @@
     },
     {
       "number": 94,
-      "nameArSource": "Ø§ÙØ´Ø±Ø­",
+      "nameArSource": "الشرح",
       "nameEnSource": "Ash-Sharh",
       "slug": "ash-sharh",
       "path": "/quran/ash-sharh",
@@ -761,7 +761,7 @@
     },
     {
       "number": 95,
-      "nameArSource": "Ø§ÙØªÙÙ",
+      "nameArSource": "التين",
       "nameEnSource": "At-Tin",
       "slug": "at-tin",
       "path": "/quran/at-tin",
@@ -769,7 +769,7 @@
     },
     {
       "number": 96,
-      "nameArSource": "Ø§ÙØ¹ÙÙ",
+      "nameArSource": "العلق",
       "nameEnSource": "Al-Alaq",
       "slug": "al-alaq",
       "path": "/quran/al-alaq",
@@ -777,7 +777,7 @@
     },
     {
       "number": 97,
-      "nameArSource": "Ø§ÙÙØ¯Ø±",
+      "nameArSource": "القدر",
       "nameEnSource": "Al-Qadr",
       "slug": "al-qadr",
       "path": "/quran/al-qadr",
@@ -785,7 +785,7 @@
     },
     {
       "number": 98,
-      "nameArSource": "Ø§ÙØ¨ÙÙØ©",
+      "nameArSource": "البينة",
       "nameEnSource": "Al-Bayyina",
       "slug": "al-bayyinah",
       "path": "/quran/al-bayyinah",
@@ -793,7 +793,7 @@
     },
     {
       "number": 99,
-      "nameArSource": "Ø§ÙØ²ÙØ²ÙØ©",
+      "nameArSource": "الزلزلة",
       "nameEnSource": "Az-Zalzala",
       "slug": "az-zalzalah",
       "path": "/quran/az-zalzalah",
@@ -801,7 +801,7 @@
     },
     {
       "number": 100,
-      "nameArSource": "Ø§ÙØ¹Ø§Ø¯ÙØ§Øª",
+      "nameArSource": "العاديات",
       "nameEnSource": "Al-Aadiyaat",
       "slug": "al-adiyat",
       "path": "/quran/al-adiyat",
@@ -809,7 +809,7 @@
     },
     {
       "number": 101,
-      "nameArSource": "Ø§ÙÙØ§Ø±Ø¹Ø©",
+      "nameArSource": "القارعة",
       "nameEnSource": "Al-Qaari'a",
       "slug": "al-qariah",
       "path": "/quran/al-qariah",
@@ -817,7 +817,7 @@
     },
     {
       "number": 102,
-      "nameArSource": "Ø§ÙØªÙØ§Ø«Ø±",
+      "nameArSource": "التكاثر",
       "nameEnSource": "At-Takaathur",
       "slug": "at-takathur",
       "path": "/quran/at-takathur",
@@ -825,7 +825,7 @@
     },
     {
       "number": 103,
-      "nameArSource": "Ø§ÙØ¹ØµØ±",
+      "nameArSource": "العصر",
       "nameEnSource": "Al-Asr",
       "slug": "al-asr",
       "path": "/quran/al-asr",
@@ -833,7 +833,7 @@
     },
     {
       "number": 104,
-      "nameArSource": "Ø§ÙÙÙØ²Ø©",
+      "nameArSource": "الهمزة",
       "nameEnSource": "Al-Humaza",
       "slug": "al-humazah",
       "path": "/quran/al-humazah",
@@ -841,7 +841,7 @@
     },
     {
       "number": 105,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "الفيل",
       "nameEnSource": "Al-Fil",
       "slug": "al-fil",
       "path": "/quran/al-fil",
@@ -849,7 +849,7 @@
     },
     {
       "number": 106,
-      "nameArSource": "ÙØ±ÙØ´",
+      "nameArSource": "قريش",
       "nameEnSource": "Quraish",
       "slug": "quraish",
       "path": "/quran/quraish",
@@ -857,7 +857,7 @@
     },
     {
       "number": 107,
-      "nameArSource": "Ø§ÙÙØ§Ø¹ÙÙ",
+      "nameArSource": "الماعون",
       "nameEnSource": "Al-Maa'un",
       "slug": "al-maun",
       "path": "/quran/al-maun",
@@ -865,7 +865,7 @@
     },
     {
       "number": 108,
-      "nameArSource": "Ø§ÙÙÙØ«Ø±",
+      "nameArSource": "الكوثر",
       "nameEnSource": "Al-Kawthar",
       "slug": "al-kauthar",
       "path": "/quran/al-kauthar",
@@ -873,7 +873,7 @@
     },
     {
       "number": 109,
-      "nameArSource": "Ø§ÙÙØ§ÙØ±ÙÙ",
+      "nameArSource": "الكافرون",
       "nameEnSource": "Al-Kaafiroon",
       "slug": "al-kafirun",
       "path": "/quran/al-kafirun",
@@ -881,7 +881,7 @@
     },
     {
       "number": 110,
-      "nameArSource": "Ø§ÙÙØµØ±",
+      "nameArSource": "النصر",
       "nameEnSource": "An-Nasr",
       "slug": "an-nasr",
       "path": "/quran/an-nasr",
@@ -889,7 +889,7 @@
     },
     {
       "number": 111,
-      "nameArSource": "Ø§ÙÙØ³Ø¯",
+      "nameArSource": "المسد",
       "nameEnSource": "Al-Masad",
       "slug": "al-masad",
       "path": "/quran/al-masad",
@@ -897,7 +897,7 @@
     },
     {
       "number": 112,
-      "nameArSource": "Ø§ÙØ¥Ø®ÙØ§Øµ",
+      "nameArSource": "الإخلاص",
       "nameEnSource": "Al-Ikhlaas",
       "slug": "al-ikhlas",
       "path": "/quran/al-ikhlas",
@@ -905,7 +905,7 @@
     },
     {
       "number": 113,
-      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameArSource": "الفلق",
       "nameEnSource": "Al-Falaq",
       "slug": "al-falaq",
       "path": "/quran/al-falaq",
@@ -913,7 +913,7 @@
     },
     {
       "number": 114,
-      "nameArSource": "Ø§ÙÙØ§Ø³",
+      "nameArSource": "الناس",
       "nameEnSource": "An-Naas",
       "slug": "an-nas",
       "path": "/quran/an-nas",

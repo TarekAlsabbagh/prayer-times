@@ -1,0 +1,21 @@
+{
+  "family": "AmiriQuran",
+  "displayName": "Amiri Quran",
+  "file": "AmiriQuran-Regular.ttf",
+  "format": "truetype",
+  "weight": "regular",
+  "version": "1.003",
+  "source": "https://github.com/aliftype/amiri/releases/tag/1.003",
+  "sourceArchive": "Amiri-1.003.zip",
+  "assetInArchive": "AmiriQuran.ttf",
+  "license": "SIL Open Font License, Version 1.1",
+  "licenseFile": "LICENSE-AMIRI.txt",
+  "copyright": "Copyright (c) 2010-2024, Khaled Hosny (khaled@aliftype.com), with Reserved Font Names \"Amiri\" and \"Amiri Quran\".",
+  "sha256": "E2A47644762D16BDFB6D33E0D8DB8C6FF30BEAE84150EF5A705316BBD829455C",
+  "bytes": 136920,
+  "modified": false,
+  "subset": false,
+  "converted": false,
+  "usedBy": "css/quran.css @font-face 'AmiriQuran' — Quran surah reading pages only (/quran/{slug})",
+  "note": "Unmodified 'Amiri Quran' regular weight, taken verbatim from the official aliftype release. No subsetting, no format conversion, no CDN. Covers every codepoint in the Tanzil Uthmani 1.1 verse text (0 missing glyphs)."
+}

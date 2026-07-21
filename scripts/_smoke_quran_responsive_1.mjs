@@ -3,7 +3,9 @@ import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const css = fs.readFileSync(path.join(ROOT, 'css', 'quran.css'), 'utf8');
 let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-ok(/@font-face\s*\{[^}]*font-family:\s*'KFGQPCHafs'[^}]*uthmanic_hafs_v20\.ttf[^}]*\}/s.test(css), '@font-face KFGQPCHafs → uthmanic_hafs_v20.ttf (unmodified)');
+ok(/@font-face\s*\{[^}]*font-family:\s*'AmiriQuran'[^}]*AmiriQuran-Regular\.ttf[^}]*\}/s.test(css), '@font-face AmiriQuran → AmiriQuran-Regular.ttf (open-licensed OFL, unmodified)');
+ok(!/KFGQPCHafs|uthmanic_hafs/i.test(css), 'no KFGQPC font references remain in quran.css');
+ok(/font-family:\s*'AmiriQuran',\s*'Amiri'/.test(css), "reading stacks prefer 'AmiriQuran' then system 'Amiri' fallback");
 ok(/font-display:\s*swap/.test(css), 'font-display: swap');
 ok(/@media\s*\(max-width:\s*768px\)/.test(css), 'tablet breakpoint (<=768)');
 ok(/@media\s*\(max-width:\s*480px\)/.test(css), 'mobile breakpoint (<=480)');

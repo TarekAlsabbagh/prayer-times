@@ -1,9 +1,10 @@
 SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
 
 ----------------------------------------------------------
-The Amiri & Amiri Quran fonts (this file documents the license that
-applies to fonts/AmiriQuran-Regular.woff2 when that binary is added
-to this project).
+The Amiri & Amiri Quran fonts. This file documents the SIL Open Font
+License that applies to the vendored binary fonts/AmiriQuran-Regular.ttf
+(the "Amiri Quran" regular weight, taken unmodified from the official
+Amiri release https://github.com/aliftype/amiri, version 1.003).
 
 Copyright (c) 2010-2024, Khaled Hosny (khaled@aliftype.com), with
 Reserved Font Names "Amiri" and "Amiri Quran".

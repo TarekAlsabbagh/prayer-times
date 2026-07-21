@@ -1,0 +1,1163 @@
+[
+  {
+    "number": 1,
+    "nameAr": "Ø§ÙÙØ§ØªØ­Ø©",
+    "nameEn": "Al-Faatiha",
+    "ename": "The Opening",
+    "ayahCount": 7,
+    "juz": [
+      1
+    ]
+  },
+  {
+    "number": 2,
+    "nameAr": "Ø§ÙØ¨ÙØ±Ø©",
+    "nameEn": "Al-Baqara",
+    "ename": "The Cow",
+    "ayahCount": 286,
+    "juz": [
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "number": 3,
+    "nameAr": "Ø¢Ù Ø¹ÙØ±Ø§Ù",
+    "nameEn": "Aal-i-Imraan",
+    "ename": "The Family of Imraan",
+    "ayahCount": 200,
+    "juz": [
+      3,
+      4
+    ]
+  },
+  {
+    "number": 4,
+    "nameAr": "Ø§ÙÙØ³Ø§Ø¡",
+    "nameEn": "An-Nisaa",
+    "ename": "The Women",
+    "ayahCount": 176,
+    "juz": [
+      4,
+      5,
+      6
+    ]
+  },
+  {
+    "number": 5,
+    "nameAr": "Ø§ÙÙØ§Ø¦Ø¯Ø©",
+    "nameEn": "Al-Maaida",
+    "ename": "The Table",
+    "ayahCount": 120,
+    "juz": [
+      6,
+      7
+    ]
+  },
+  {
+    "number": 6,
+    "nameAr": "Ø§ÙØ£ÙØ¹Ø§Ù",
+    "nameEn": "Al-An'aam",
+    "ename": "The Cattle",
+    "ayahCount": 165,
+    "juz": [
+      7,
+      8
+    ]
+  },
+  {
+    "number": 7,
+    "nameAr": "Ø§ÙØ£Ø¹Ø±Ø§Ù",
+    "nameEn": "Al-A'raaf",
+    "ename": "The Heights",
+    "ayahCount": 206,
+    "juz": [
+      8,
+      9
+    ]
+  },
+  {
+    "number": 8,
+    "nameAr": "Ø§ÙØ£ÙÙØ§Ù",
+    "nameEn": "Al-Anfaal",
+    "ename": "The Spoils of War",
+    "ayahCount": 75,
+    "juz": [
+      9,
+      10
+    ]
+  },
+  {
+    "number": 9,
+    "nameAr": "Ø§ÙØªÙØ¨Ø©",
+    "nameEn": "At-Tawba",
+    "ename": "The Repentance",
+    "ayahCount": 129,
+    "juz": [
+      10,
+      11
+    ]
+  },
+  {
+    "number": 10,
+    "nameAr": "ÙÙÙØ³",
+    "nameEn": "Yunus",
+    "ename": "Jonas",
+    "ayahCount": 109,
+    "juz": [
+      11
+    ]
+  },
+  {
+    "number": 11,
+    "nameAr": "ÙÙØ¯",
+    "nameEn": "Hud",
+    "ename": "Hud",
+    "ayahCount": 123,
+    "juz": [
+      11,
+      12
+    ]
+  },
+  {
+    "number": 12,
+    "nameAr": "ÙÙØ³Ù",
+    "nameEn": "Yusuf",
+    "ename": "Joseph",
+    "ayahCount": 111,
+    "juz": [
+      12,
+      13
+    ]
+  },
+  {
+    "number": 13,
+    "nameAr": "Ø§ÙØ±Ø¹Ø¯",
+    "nameEn": "Ar-Ra'd",
+    "ename": "The Thunder",
+    "ayahCount": 43,
+    "juz": [
+      13
+    ]
+  },
+  {
+    "number": 14,
+    "nameAr": "Ø§Ø¨Ø±Ø§ÙÙÙ",
+    "nameEn": "Ibrahim",
+    "ename": "Abraham",
+    "ayahCount": 52,
+    "juz": [
+      13
+    ]
+  },
+  {
+    "number": 15,
+    "nameAr": "Ø§ÙØ­Ø¬Ø±",
+    "nameEn": "Al-Hijr",
+    "ename": "The Rock",
+    "ayahCount": 99,
+    "juz": [
+      14
+    ]
+  },
+  {
+    "number": 16,
+    "nameAr": "Ø§ÙÙØ­Ù",
+    "nameEn": "An-Nahl",
+    "ename": "The Bee",
+    "ayahCount": 128,
+    "juz": [
+      14
+    ]
+  },
+  {
+    "number": 17,
+    "nameAr": "Ø§ÙØ¥Ø³Ø±Ø§Ø¡",
+    "nameEn": "Al-Israa",
+    "ename": "The Night Journey",
+    "ayahCount": 111,
+    "juz": [
+      15
+    ]
+  },
+  {
+    "number": 18,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "Al-Kahf",
+    "ename": "The Cave",
+    "ayahCount": 110,
+    "juz": [
+      15,
+      16
+    ]
+  },
+  {
+    "number": 19,
+    "nameAr": "ÙØ±ÙÙ",
+    "nameEn": "Maryam",
+    "ename": "Mary",
+    "ayahCount": 98,
+    "juz": [
+      16
+    ]
+  },
+  {
+    "number": 20,
+    "nameAr": "Ø·Ù",
+    "nameEn": "Taa-Haa",
+    "ename": "Taa-Haa",
+    "ayahCount": 135,
+    "juz": [
+      16
+    ]
+  },
+  {
+    "number": 21,
+    "nameAr": "Ø§ÙØ£ÙØ¨ÙØ§Ø¡",
+    "nameEn": "Al-Anbiyaa",
+    "ename": "The Prophets",
+    "ayahCount": 112,
+    "juz": [
+      17
+    ]
+  },
+  {
+    "number": 22,
+    "nameAr": "Ø§ÙØ­Ø¬",
+    "nameEn": "Al-Hajj",
+    "ename": "The Pilgrimage",
+    "ayahCount": 78,
+    "juz": [
+      17
+    ]
+  },
+  {
+    "number": 23,
+    "nameAr": "Ø§ÙÙØ¤ÙÙÙÙ",
+    "nameEn": "Al-Muminoon",
+    "ename": "The Believers",
+    "ayahCount": 118,
+    "juz": [
+      18
+    ]
+  },
+  {
+    "number": 24,
+    "nameAr": "Ø§ÙÙÙØ±",
+    "nameEn": "An-Noor",
+    "ename": "The Light",
+    "ayahCount": 64,
+    "juz": [
+      18
+    ]
+  },
+  {
+    "number": 25,
+    "nameAr": "Ø§ÙÙØ±ÙØ§Ù",
+    "nameEn": "Al-Furqaan",
+    "ename": "The Criterion",
+    "ayahCount": 77,
+    "juz": [
+      18,
+      19
+    ]
+  },
+  {
+    "number": 26,
+    "nameAr": "Ø§ÙØ´Ø¹Ø±Ø§Ø¡",
+    "nameEn": "Ash-Shu'araa",
+    "ename": "The Poets",
+    "ayahCount": 227,
+    "juz": [
+      19
+    ]
+  },
+  {
+    "number": 27,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "An-Naml",
+    "ename": "The Ant",
+    "ayahCount": 93,
+    "juz": [
+      19,
+      20
+    ]
+  },
+  {
+    "number": 28,
+    "nameAr": "Ø§ÙÙØµØµ",
+    "nameEn": "Al-Qasas",
+    "ename": "The Stories",
+    "ayahCount": 88,
+    "juz": [
+      20
+    ]
+  },
+  {
+    "number": 29,
+    "nameAr": "Ø§ÙØ¹ÙÙØ¨ÙØª",
+    "nameEn": "Al-Ankaboot",
+    "ename": "The Spider",
+    "ayahCount": 69,
+    "juz": [
+      20,
+      21
+    ]
+  },
+  {
+    "number": 30,
+    "nameAr": "Ø§ÙØ±ÙÙ",
+    "nameEn": "Ar-Room",
+    "ename": "The Romans",
+    "ayahCount": 60,
+    "juz": [
+      21
+    ]
+  },
+  {
+    "number": 31,
+    "nameAr": "ÙÙÙØ§Ù",
+    "nameEn": "Luqman",
+    "ename": "Luqman",
+    "ayahCount": 34,
+    "juz": [
+      21
+    ]
+  },
+  {
+    "number": 32,
+    "nameAr": "Ø§ÙØ³Ø¬Ø¯Ø©",
+    "nameEn": "As-Sajda",
+    "ename": "The Prostration",
+    "ayahCount": 30,
+    "juz": [
+      21
+    ]
+  },
+  {
+    "number": 33,
+    "nameAr": "Ø§ÙØ£Ø­Ø²Ø§Ø¨",
+    "nameEn": "Al-Ahzaab",
+    "ename": "The Clans",
+    "ayahCount": 73,
+    "juz": [
+      21,
+      22
+    ]
+  },
+  {
+    "number": 34,
+    "nameAr": "Ø³Ø¨Ø¥",
+    "nameEn": "Saba",
+    "ename": "Sheba",
+    "ayahCount": 54,
+    "juz": [
+      22
+    ]
+  },
+  {
+    "number": 35,
+    "nameAr": "ÙØ§Ø·Ø±",
+    "nameEn": "Faatir",
+    "ename": "The Originator",
+    "ayahCount": 45,
+    "juz": [
+      22
+    ]
+  },
+  {
+    "number": 36,
+    "nameAr": "ÙØ³",
+    "nameEn": "Yaseen",
+    "ename": "Yaseen",
+    "ayahCount": 83,
+    "juz": [
+      22,
+      23
+    ]
+  },
+  {
+    "number": 37,
+    "nameAr": "Ø§ÙØµØ§ÙØ§Øª",
+    "nameEn": "As-Saaffaat",
+    "ename": "Those drawn up in Ranks",
+    "ayahCount": 182,
+    "juz": [
+      23
+    ]
+  },
+  {
+    "number": 38,
+    "nameAr": "Øµ",
+    "nameEn": "Saad",
+    "ename": "The letter Saad",
+    "ayahCount": 88,
+    "juz": [
+      23
+    ]
+  },
+  {
+    "number": 39,
+    "nameAr": "Ø§ÙØ²ÙØ±",
+    "nameEn": "Az-Zumar",
+    "ename": "The Groups",
+    "ayahCount": 75,
+    "juz": [
+      23,
+      24
+    ]
+  },
+  {
+    "number": 40,
+    "nameAr": "ØºØ§ÙØ±",
+    "nameEn": "Al-Ghaafir",
+    "ename": "The Forgiver",
+    "ayahCount": 85,
+    "juz": [
+      24
+    ]
+  },
+  {
+    "number": 41,
+    "nameAr": "ÙØµÙØª",
+    "nameEn": "Fussilat",
+    "ename": "Explained in detail",
+    "ayahCount": 54,
+    "juz": [
+      24,
+      25
+    ]
+  },
+  {
+    "number": 42,
+    "nameAr": "Ø§ÙØ´ÙØ±Ù",
+    "nameEn": "Ash-Shura",
+    "ename": "Consultation",
+    "ayahCount": 53,
+    "juz": [
+      25
+    ]
+  },
+  {
+    "number": 43,
+    "nameAr": "Ø§ÙØ²Ø®Ø±Ù",
+    "nameEn": "Az-Zukhruf",
+    "ename": "Ornaments of gold",
+    "ayahCount": 89,
+    "juz": [
+      25
+    ]
+  },
+  {
+    "number": 44,
+    "nameAr": "Ø§ÙØ¯Ø®Ø§Ù",
+    "nameEn": "Ad-Dukhaan",
+    "ename": "The Smoke",
+    "ayahCount": 59,
+    "juz": [
+      25
+    ]
+  },
+  {
+    "number": 45,
+    "nameAr": "Ø§ÙØ¬Ø§Ø«ÙØ©",
+    "nameEn": "Al-Jaathiya",
+    "ename": "Crouching",
+    "ayahCount": 37,
+    "juz": [
+      25
+    ]
+  },
+  {
+    "number": 46,
+    "nameAr": "Ø§ÙØ£Ø­ÙØ§Ù",
+    "nameEn": "Al-Ahqaf",
+    "ename": "The Dunes",
+    "ayahCount": 35,
+    "juz": [
+      26
+    ]
+  },
+  {
+    "number": 47,
+    "nameAr": "ÙØ­ÙØ¯",
+    "nameEn": "Muhammad",
+    "ename": "Muhammad",
+    "ayahCount": 38,
+    "juz": [
+      26
+    ]
+  },
+  {
+    "number": 48,
+    "nameAr": "Ø§ÙÙØªØ­",
+    "nameEn": "Al-Fath",
+    "ename": "The Victory",
+    "ayahCount": 29,
+    "juz": [
+      26
+    ]
+  },
+  {
+    "number": 49,
+    "nameAr": "Ø§ÙØ­Ø¬Ø±Ø§Øª",
+    "nameEn": "Al-Hujuraat",
+    "ename": "The Inner Apartments",
+    "ayahCount": 18,
+    "juz": [
+      26
+    ]
+  },
+  {
+    "number": 50,
+    "nameAr": "Ù",
+    "nameEn": "Qaaf",
+    "ename": "The letter Qaaf",
+    "ayahCount": 45,
+    "juz": [
+      26
+    ]
+  },
+  {
+    "number": 51,
+    "nameAr": "Ø§ÙØ°Ø§Ø±ÙØ§Øª",
+    "nameEn": "Adh-Dhaariyat",
+    "ename": "The Winnowing Winds",
+    "ayahCount": 60,
+    "juz": [
+      26,
+      27
+    ]
+  },
+  {
+    "number": 52,
+    "nameAr": "Ø§ÙØ·ÙØ±",
+    "nameEn": "At-Tur",
+    "ename": "The Mount",
+    "ayahCount": 49,
+    "juz": [
+      27
+    ]
+  },
+  {
+    "number": 53,
+    "nameAr": "Ø§ÙÙØ¬Ù",
+    "nameEn": "An-Najm",
+    "ename": "The Star",
+    "ayahCount": 62,
+    "juz": [
+      27
+    ]
+  },
+  {
+    "number": 54,
+    "nameAr": "Ø§ÙÙÙØ±",
+    "nameEn": "Al-Qamar",
+    "ename": "The Moon",
+    "ayahCount": 55,
+    "juz": [
+      27
+    ]
+  },
+  {
+    "number": 55,
+    "nameAr": "Ø§ÙØ±Ø­ÙÙ",
+    "nameEn": "Ar-Rahmaan",
+    "ename": "The Beneficent",
+    "ayahCount": 78,
+    "juz": [
+      27
+    ]
+  },
+  {
+    "number": 56,
+    "nameAr": "Ø§ÙÙØ§ÙØ¹Ø©",
+    "nameEn": "Al-Waaqia",
+    "ename": "The Inevitable",
+    "ayahCount": 96,
+    "juz": [
+      27
+    ]
+  },
+  {
+    "number": 57,
+    "nameAr": "Ø§ÙØ­Ø¯ÙØ¯",
+    "nameEn": "Al-Hadid",
+    "ename": "The Iron",
+    "ayahCount": 29,
+    "juz": [
+      27
+    ]
+  },
+  {
+    "number": 58,
+    "nameAr": "Ø§ÙÙØ¬Ø§Ø¯ÙØ©",
+    "nameEn": "Al-Mujaadila",
+    "ename": "The Pleading Woman",
+    "ayahCount": 22,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 59,
+    "nameAr": "Ø§ÙØ­Ø´Ø±",
+    "nameEn": "Al-Hashr",
+    "ename": "The Exile",
+    "ayahCount": 24,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 60,
+    "nameAr": "Ø§ÙÙÙØªØ­ÙØ©",
+    "nameEn": "Al-Mumtahana",
+    "ename": "She that is to be examined",
+    "ayahCount": 13,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 61,
+    "nameAr": "Ø§ÙØµÙ",
+    "nameEn": "As-Saff",
+    "ename": "The Ranks",
+    "ayahCount": 14,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 62,
+    "nameAr": "Ø§ÙØ¬ÙØ¹Ø©",
+    "nameEn": "Al-Jumu'a",
+    "ename": "Friday",
+    "ayahCount": 11,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 63,
+    "nameAr": "Ø§ÙÙÙØ§ÙÙÙÙ",
+    "nameEn": "Al-Munaafiqoon",
+    "ename": "The Hypocrites",
+    "ayahCount": 11,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 64,
+    "nameAr": "Ø§ÙØªØºØ§Ø¨Ù",
+    "nameEn": "At-Taghaabun",
+    "ename": "Mutual Disillusion",
+    "ayahCount": 18,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 65,
+    "nameAr": "Ø§ÙØ·ÙØ§Ù",
+    "nameEn": "At-Talaaq",
+    "ename": "Divorce",
+    "ayahCount": 12,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 66,
+    "nameAr": "Ø§ÙØªØ­Ø±ÙÙ",
+    "nameEn": "At-Tahrim",
+    "ename": "The Prohibition",
+    "ayahCount": 12,
+    "juz": [
+      28
+    ]
+  },
+  {
+    "number": 67,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "Al-Mulk",
+    "ename": "The Sovereignty",
+    "ayahCount": 30,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 68,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "Al-Qalam",
+    "ename": "The Pen",
+    "ayahCount": 52,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 69,
+    "nameAr": "Ø§ÙØ­Ø§ÙØ©",
+    "nameEn": "Al-Haaqqa",
+    "ename": "The Reality",
+    "ayahCount": 52,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 70,
+    "nameAr": "Ø§ÙÙØ¹Ø§Ø±Ø¬",
+    "nameEn": "Al-Ma'aarij",
+    "ename": "The Ascending Stairways",
+    "ayahCount": 44,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 71,
+    "nameAr": "ÙÙØ­",
+    "nameEn": "Nooh",
+    "ename": "Noah",
+    "ayahCount": 28,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 72,
+    "nameAr": "Ø§ÙØ¬Ù",
+    "nameEn": "Al-Jinn",
+    "ename": "The Jinn",
+    "ayahCount": 28,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 73,
+    "nameAr": "Ø§ÙÙØ²ÙÙ",
+    "nameEn": "Al-Muzzammil",
+    "ename": "The Enshrouded One",
+    "ayahCount": 20,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 74,
+    "nameAr": "Ø§ÙÙØ¯Ø«Ø±",
+    "nameEn": "Al-Muddaththir",
+    "ename": "The Cloaked One",
+    "ayahCount": 56,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 75,
+    "nameAr": "Ø§ÙÙÙØ§ÙØ©",
+    "nameEn": "Al-Qiyaama",
+    "ename": "The Resurrection",
+    "ayahCount": 40,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 76,
+    "nameAr": "Ø§ÙØ§ÙØ³Ø§Ù",
+    "nameEn": "Al-Insaan",
+    "ename": "Man",
+    "ayahCount": 31,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 77,
+    "nameAr": "Ø§ÙÙØ±Ø³ÙØ§Øª",
+    "nameEn": "Al-Mursalaat",
+    "ename": "The Emissaries",
+    "ayahCount": 50,
+    "juz": [
+      29
+    ]
+  },
+  {
+    "number": 78,
+    "nameAr": "Ø§ÙÙØ¨Ø¥",
+    "nameEn": "An-Naba",
+    "ename": "The Announcement",
+    "ayahCount": 40,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 79,
+    "nameAr": "Ø§ÙÙØ§Ø²Ø¹Ø§Øª",
+    "nameEn": "An-Naazi'aat",
+    "ename": "Those who drag forth",
+    "ayahCount": 46,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 80,
+    "nameAr": "Ø¹Ø¨Ø³",
+    "nameEn": "Abasa",
+    "ename": "He frowned",
+    "ayahCount": 42,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 81,
+    "nameAr": "Ø§ÙØªÙÙÙØ±",
+    "nameEn": "At-Takwir",
+    "ename": "The Overthrowing",
+    "ayahCount": 29,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 82,
+    "nameAr": "Ø§ÙØ¥ÙÙØ·Ø§Ø±",
+    "nameEn": "Al-Infitaar",
+    "ename": "The Cleaving",
+    "ayahCount": 19,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 83,
+    "nameAr": "Ø§ÙÙØ·ÙÙÙÙ",
+    "nameEn": "Al-Mutaffifin",
+    "ename": "Defrauding",
+    "ayahCount": 36,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 84,
+    "nameAr": "Ø§ÙØ¥ÙØ´ÙØ§Ù",
+    "nameEn": "Al-Inshiqaaq",
+    "ename": "The Splitting Open",
+    "ayahCount": 25,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 85,
+    "nameAr": "Ø§ÙØ¨Ø±ÙØ¬",
+    "nameEn": "Al-Burooj",
+    "ename": "The Constellations",
+    "ayahCount": 22,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 86,
+    "nameAr": "Ø§ÙØ·Ø§Ø±Ù",
+    "nameEn": "At-Taariq",
+    "ename": "The Morning Star",
+    "ayahCount": 17,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 87,
+    "nameAr": "Ø§ÙØ£Ø¹ÙÙ",
+    "nameEn": "Al-A'laa",
+    "ename": "The Most High",
+    "ayahCount": 19,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 88,
+    "nameAr": "Ø§ÙØºØ§Ø´ÙØ©",
+    "nameEn": "Al-Ghaashiya",
+    "ename": "The Overwhelming",
+    "ayahCount": 26,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 89,
+    "nameAr": "Ø§ÙÙØ¬Ø±",
+    "nameEn": "Al-Fajr",
+    "ename": "The Dawn",
+    "ayahCount": 30,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 90,
+    "nameAr": "Ø§ÙØ¨ÙØ¯",
+    "nameEn": "Al-Balad",
+    "ename": "The City",
+    "ayahCount": 20,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 91,
+    "nameAr": "Ø§ÙØ´ÙØ³",
+    "nameEn": "Ash-Shams",
+    "ename": "The Sun",
+    "ayahCount": 15,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 92,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "Al-Lail",
+    "ename": "The Night",
+    "ayahCount": 21,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 93,
+    "nameAr": "Ø§ÙØ¶Ø­Ù",
+    "nameEn": "Ad-Dhuhaa",
+    "ename": "The Morning Hours",
+    "ayahCount": 11,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 94,
+    "nameAr": "Ø§ÙØ´Ø±Ø­",
+    "nameEn": "Ash-Sharh",
+    "ename": "The Consolation",
+    "ayahCount": 8,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 95,
+    "nameAr": "Ø§ÙØªÙÙ",
+    "nameEn": "At-Tin",
+    "ename": "The Fig",
+    "ayahCount": 8,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 96,
+    "nameAr": "Ø§ÙØ¹ÙÙ",
+    "nameEn": "Al-Alaq",
+    "ename": "The Clot",
+    "ayahCount": 19,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 97,
+    "nameAr": "Ø§ÙÙØ¯Ø±",
+    "nameEn": "Al-Qadr",
+    "ename": "The Power, Fate",
+    "ayahCount": 5,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 98,
+    "nameAr": "Ø§ÙØ¨ÙÙØ©",
+    "nameEn": "Al-Bayyina",
+    "ename": "The Evidence",
+    "ayahCount": 8,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 99,
+    "nameAr": "Ø§ÙØ²ÙØ²ÙØ©",
+    "nameEn": "Az-Zalzala",
+    "ename": "The Earthquake",
+    "ayahCount": 8,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 100,
+    "nameAr": "Ø§ÙØ¹Ø§Ø¯ÙØ§Øª",
+    "nameEn": "Al-Aadiyaat",
+    "ename": "The Chargers",
+    "ayahCount": 11,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 101,
+    "nameAr": "Ø§ÙÙØ§Ø±Ø¹Ø©",
+    "nameEn": "Al-Qaari'a",
+    "ename": "The Calamity",
+    "ayahCount": 11,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 102,
+    "nameAr": "Ø§ÙØªÙØ§Ø«Ø±",
+    "nameEn": "At-Takaathur",
+    "ename": "Competition",
+    "ayahCount": 8,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 103,
+    "nameAr": "Ø§ÙØ¹ØµØ±",
+    "nameEn": "Al-Asr",
+    "ename": "The Declining Day, Epoch",
+    "ayahCount": 3,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 104,
+    "nameAr": "Ø§ÙÙÙØ²Ø©",
+    "nameEn": "Al-Humaza",
+    "ename": "The Traducer",
+    "ayahCount": 9,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 105,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "Al-Fil",
+    "ename": "The Elephant",
+    "ayahCount": 5,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 106,
+    "nameAr": "ÙØ±ÙØ´",
+    "nameEn": "Quraish",
+    "ename": "Quraysh",
+    "ayahCount": 4,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 107,
+    "nameAr": "Ø§ÙÙØ§Ø¹ÙÙ",
+    "nameEn": "Al-Maa'un",
+    "ename": "Almsgiving",
+    "ayahCount": 7,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 108,
+    "nameAr": "Ø§ÙÙÙØ«Ø±",
+    "nameEn": "Al-Kawthar",
+    "ename": "Abundance",
+    "ayahCount": 3,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 109,
+    "nameAr": "Ø§ÙÙØ§ÙØ±ÙÙ",
+    "nameEn": "Al-Kaafiroon",
+    "ename": "The Disbelievers",
+    "ayahCount": 6,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 110,
+    "nameAr": "Ø§ÙÙØµØ±",
+    "nameEn": "An-Nasr",
+    "ename": "Divine Support",
+    "ayahCount": 3,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 111,
+    "nameAr": "Ø§ÙÙØ³Ø¯",
+    "nameEn": "Al-Masad",
+    "ename": "The Palm Fibre",
+    "ayahCount": 5,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 112,
+    "nameAr": "Ø§ÙØ¥Ø®ÙØ§Øµ",
+    "nameEn": "Al-Ikhlaas",
+    "ename": "Sincerity",
+    "ayahCount": 4,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 113,
+    "nameAr": "Ø§ÙÙÙÙ",
+    "nameEn": "Al-Falaq",
+    "ename": "The Dawn",
+    "ayahCount": 5,
+    "juz": [
+      30
+    ]
+  },
+  {
+    "number": 114,
+    "nameAr": "Ø§ÙÙØ§Ø³",
+    "nameEn": "An-Naas",
+    "ename": "Mankind",
+    "ayahCount": 6,
+    "juz": [
+      30
+    ]
+  }
+]

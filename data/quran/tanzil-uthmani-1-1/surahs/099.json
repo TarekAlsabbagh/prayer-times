@@ -1,0 +1,45 @@
+{
+  "surah": 99,
+  "nameAr": "Ø§ÙØ²ÙØ²ÙØ©",
+  "nameEn": "Az-Zalzala",
+  "ayahCount": 8,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "إِذَا زُلْزِلَتِ ٱلْأَرْضُ زِلْزَالَهَا"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "وَأَخْرَجَتِ ٱلْأَرْضُ أَثْقَالَهَا"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "وَقَالَ ٱلْإِنسَٰنُ مَا لَهَا"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "يَوْمَئِذٍ تُحَدِّثُ أَخْبَارَهَا"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "بِأَنَّ رَبَّكَ أَوْحَىٰ لَهَا"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "يَوْمَئِذٍ يَصْدُرُ ٱلنَّاسُ أَشْتَاتًا لِّيُرَوْا۟ أَعْمَٰلَهُمْ"
+    },
+    {
+      "ayah": 7,
+      "textUthmaniBody": "فَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ خَيْرًا يَرَهُۥ"
+    },
+    {
+      "ayah": 8,
+      "textUthmaniBody": "وَمَن يَعْمَلْ مِثْقَالَ ذَرَّةٍ شَرًّا يَرَهُۥ"
+    }
+  ]
+}

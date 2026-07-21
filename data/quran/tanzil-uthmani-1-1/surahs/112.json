@@ -1,0 +1,29 @@
+{
+  "surah": 112,
+  "nameAr": "Ø§ÙØ¥Ø®ÙØ§Øµ",
+  "nameEn": "Al-Ikhlaas",
+  "ayahCount": 4,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "قُلْ هُوَ ٱللَّهُ أَحَدٌ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "ٱللَّهُ ٱلصَّمَدُ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "لَمْ يَلِدْ وَلَمْ يُولَدْ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "وَلَمْ يَكُن لَّهُۥ كُفُوًا أَحَدٌۢ"
+    }
+  ]
+}

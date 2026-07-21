@@ -29948,7 +29948,7 @@ let _quranProtoCache = null;
 // so it is read once. The SURAH FILE is read PER REQUEST — only the one asked for. The 114 files are never
 // preloaded (5.1 MB) and never all read for one request. No new LRU is introduced here on a guess: the
 // per-request read/parse cost is measured (_QURAN_READ_STATS below) and reported before any cache is proposed.
-const _QURAN_DATA_BASE = () => path.join(ROOT, 'data', 'quran', 'kfgqpc-hafs-v2-0');
+const _QURAN_DATA_BASE = () => path.join(ROOT, 'data', 'quran', 'tanzil-uthmani-1-1');
 function _quranShared() {
     if (_quranProtoCache) return _quranProtoCache;
     const base = _QURAN_DATA_BASE();
@@ -30088,9 +30088,6 @@ function _quranJuzPhrase(juz) {
     return juz.length === 1 ? `الجزء ${_quranAr(juz[0])}` : `الأجزاء ${_quranAr(juz[0])}–${_quranAr(juz[juz.length - 1])}`;
 }
 // 24 surahs occupy a single reference page — "٦٠٢–٦٠٢" would be a lie about a range that does not exist.
-function _quranPageRangeAr(surah) {
-    return surah.pageCount === 1 ? _quranAr(surah.firstPage) : `${_quranAr(surah.firstPage)}–${_quranAr(surah.lastPage)}`;
-}
 
 /* ═══════════════ QURAN-AR-HOME-INDEX-SSR-1 — the Arabic Quran home page at /quran ═══════════════
    The section's entry point: the full 114-surah index, search, the 30 juz starts and a continue-reading
@@ -30217,26 +30214,35 @@ function _buildQuranHomeGuideHtml() {
   <div class="quran-home-guide-grid">${cards}</div>
 </section>`;
 }
-/* QURAN-SOURCE-LINK-LABEL-AND-TARGET-CONSISTENCY-ALL-PAGES-1 — the ONE external source link, built once.
-   It used to read «صفحة المصدر…» on both /quran and the 114 surah pages, but the href has never been a page:
-   it is the published archive `UthmanicHafs_v2-0.zip` (verified: HTTPS, no redirect, 200,
-   application/x-zip-compressed, 10,729,285 bytes, first four bytes `PK\x03\x04`). A label promising a page and
-   delivering a 10 MB download is a lie the reader only discovers by clicking, so the label now says what it is.
+/* The ONE external source link, built once and shared by /quran and the 114 surah pages. The href is the
+   OFFICIAL Tanzil download PAGE (https://tanzil.net/docs/download) — a real page, so the label truthfully
+   says «تنزيل النص القرآني من صفحة Tanzil الرسمية». No local file and no bundled text archive is ever offered.
 
    Built by ONE function on purpose: the two call sites previously carried the same literal twice, which is
    exactly how they would drift apart again. Consistency across all 115 pages is now structural.
 
-   The visible text and the accessible name differ only in how they spell the format — «(ZIP)» vs «بصيغة ZIP» —
-   and both contain the same words, so speech-input users saying the visible label still match. The arrow is
-   decoration for the new-tab affordance and is aria-hidden, so it never enters the accessible name.
-   `noreferrer` joins the existing `nofollow noopener`: any target="_blank" link should carry it. */
-const _QURAN_SOURCE_DL_TEXT = 'تنزيل ملف مصدر النص القرآني من مجمع الملك فهد (ZIP)';
-const _QURAN_SOURCE_DL_ARIA = 'تنزيل ملف مصدر النص القرآني من مجمع الملك فهد بصيغة ZIP';
+   The visible text and the accessible name share the same words, so speech-input users saying the visible
+   label still match. The arrow is aria-hidden decoration for the new-tab affordance. This link carries NO
+   `nofollow` — the source must be discoverable — only `noopener noreferrer` for a target="_blank" link. */
+const _QURAN_SOURCE_DL_TEXT = 'تنزيل النص القرآني من صفحة Tanzil الرسمية';
+const _QURAN_SOURCE_DL_ARIA = 'تنزيل النص القرآني من صفحة Tanzil الرسمية (يفتح في صفحة جديدة)';
+// Visible link to the OFFICIAL Tanzil download page (never a local file, never a bundled ZIP). No `nofollow`
+// on the source link — the source must be discoverable.
 function _quranSourceDownloadLinkHtml(url) {
-    if (!url) return '';
-    return `<p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(url)}"`
-        + ` rel="nofollow noopener noreferrer" target="_blank" aria-label="${_quranEsc(_QURAN_SOURCE_DL_ARIA)}">`
+    const href = url || 'https://tanzil.net/docs/download';
+    return `<p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(href)}"`
+        + ` rel="noopener noreferrer" target="_blank" aria-label="${_quranEsc(_QURAN_SOURCE_DL_ARIA)}">`
         + `${_quranEsc(_QURAN_SOURCE_DL_TEXT)}<span aria-hidden="true"> ↗</span></a></p>`;
+}
+// The three visible Tanzil attribution links (source / license / updates), accessible + keyboard-reachable,
+// no `nofollow` on the source. Used by both the /quran home source box and every surah source box.
+function _quranTanzilLinksHtml() {
+    const a = (href, label, aria) => `<a class="quran-source-link" href="${href}" rel="noopener noreferrer" target="_blank" aria-label="${_quranEsc(aria)}">${_quranEsc(label)}<span aria-hidden="true"> ↗</span></a>`;
+    return `<p class="quran-source-links">`
+        + a('https://tanzil.net', 'مشروع Tanzil', 'مشروع Tanzil (يفتح في صفحة جديدة)') + ' · '
+        + a('https://creativecommons.org/licenses/by/3.0/', 'ترخيص النص', 'ترخيص النص: المشاع الإبداعي — النسبة 3.0 (يفتح في صفحة جديدة)') + ' · '
+        + a('https://tanzil.net/updates/', 'متابعة تحديثات النص', 'متابعة تحديثات النص على موقع Tanzil (يفتح في صفحة جديدة)')
+        + `</p>`;
 }
 // Source section — strictly the facts the project can back with its own manifest: the script, the
 // narration, the surah count and where the text came from. No fadl, no rulings, no asbab al-nuzul,
@@ -30250,18 +30256,18 @@ function _quranSourceDownloadLinkHtml(url) {
 function _buildQuranHomeSourceHtml() {
     const sh = _quranShared();
     const t = _quranHomeTotals();
-    const src = sh.manifest.source || {};
-    const link = _quranSourceDownloadLinkHtml(src.downloadUrl);
+    const link = _quranSourceDownloadLinkHtml(sh.manifest.downloadPage);
     return `<section class="section-card quran-source-box quran-home-source" id="quran-home-source" aria-labelledby="quran-home-source-title">
-  <h2 id="quran-home-source-title">نص قرآني موثوق بالرسم العثماني</h2>
-  <p>النص المعروض مكتوب بالرسم العثماني برواية حفص عن عاصم، وفق مصدر النص الموثق داخل المشروع، وهو مجمّع الملك فهد لطباعة المصحف الشريف. وتعرض صفحة كل سورة قسمًا مستقلًا يوضح مصدر النص وطريقة التحقق منه.</p>
+  <h2 id="quran-home-source-title">مصدر النص القرآني</h2>
+  <p>النصّ القرآني بالرسم العثماني من مشروع Tanzil، إصدار ١٫١، ويُعرض كما ورد في المصدر دون تعديل. النصّ مستخدم بموجب ترخيص Creative Commons Attribution 3.0. وتعرض صفحة كل سورة قسمًا مستقلًا يوضّح المصدر وطريقة التحقق من سلامة النص.</p>
   <ul class="quran-source-facts">
     <li>الرسم العثماني كما ورد في المصدر، بالتشكيل الكامل.</li>
     <li>رواية حفص عن عاصم.</li>
     <li>${_quranAr(t.surahs)} سورة، ${_quranAr(t.ayat)} آية، ${_quranAr(t.juz)} جزءًا.</li>
     <li>أدوات البحث والفهرسة والانتقال لا تغيّر النص القرآني ولا تعيد كتابته؛ هي تنقلك إليه فقط.</li>
   </ul>
-  <p class="quran-home-source-detail">ويُعرض هذا النص كما هو في كل سورة، دون اختصار ولا تبديل للحروف ولا ترجمة إلى جانبه. والبحث في الموقع يجري على أسماء السور وأرقامها لا على نص الآيات، فإن أردت آية بعينها فافتح سورتها ثم استعمل «اذهب إلى آية» داخل صفحتها. وما يتغيّر بين الأجهزة هو حجم الخط وتوزيع الأسطر على الشاشة فقط، أما الحروف والتشكيل فثابتة كما وردت. ويستعمل الموقع لهذا النص خطًّا مخصصًا للرسم العثماني، فإن لم يتوفر على جهازك عُرض بأقرب خط متاح دون أن يتغيّر النص نفسه.</p>
+  <p class="quran-home-source-detail">ويُعرض هذا النص كما هو في كل سورة، دون اختصار ولا تبديل للحروف ولا ترجمة إلى جانبه. والبحث في الموقع يجري على أسماء السور وأرقامها لا على نص الآيات، فإن أردت آية بعينها فافتح سورتها ثم استعمل «اذهب إلى آية» داخل صفحتها. وما يتغيّر بين الأجهزة هو حجم الخط وتوزيع الأسطر على الشاشة فقط، أما الحروف والتشكيل فثابتة كما وردت.</p>
+  ${_quranTanzilLinksHtml()}
   ${link}
   <p class="quran-home-source-more">تفاصيل المصدر والتحقق من سلامة النص مذكورة أسفل كل سورة — مثال: <a href="${sh.byNumber.get(1).path}#quran-source-trust">مصدر نص سورة الفاتحة</a>.</p>
 </section>`;
@@ -30532,7 +30538,7 @@ function _quranEditorialHtml(surah, sName) {
     const n = _quranAr;
     const about = `<section class="section-card quran-about" aria-labelledby="quran-about-title">
   <h2 id="quran-about-title">نبذة عن سورة ${sName}</h2>
-  <p>سورة ${sName} سورةٌ مكيّة بالاتفاق، وترتيبها الحادية والعشرون في المصحف الشريف، وهي السورة الحادية والسبعون في ترتيب النزول. وعدد آياتها مئة واثنتا عشرة آية في العدّ الكوفي الذي يجري عليه مصحف المدينة النبوية، وتقع كاملةً في الجزء السابع عشر ضمن الصفحات المرجعية ${n(surah.firstPage)}–${n(surah.lastPage)}. نزلت بمكة قبل الهجرة، ويدور خطابها على تقرير أصول الاعتقاد من توحيد الله وإثبات البعث وبيان حقيقة الرسالة. وتعرض هذه الصفحة نصّها كاملًا بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع أدواتٍ تُعين على القراءة والحفظ والمراجعة.</p>
+  <p>سورة ${sName} سورةٌ مكيّة بالاتفاق، وترتيبها الحادية والعشرون في المصحف الشريف، وهي السورة الحادية والسبعون في ترتيب النزول. وعدد آياتها مئة واثنتا عشرة آية في العدّ الكوفي الذي يجري عليه مصحف المدينة النبوية، وتقع كاملةً في الجزء السابع عشر. نزلت بمكة قبل الهجرة، ويدور خطابها على تقرير أصول الاعتقاد من توحيد الله وإثبات البعث وبيان حقيقة الرسالة. وتعرض هذه الصفحة نصّها كاملًا بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع أدواتٍ تُعين على القراءة والحفظ والمراجعة.</p>
 </section>`;
     const naming = `<section class="section-card quran-naming" aria-labelledby="quran-naming-title">
   <h2 id="quran-naming-title">لماذا سميت سورة ${sName} بهذا الاسم؟</h2>
@@ -30561,7 +30567,7 @@ function _quranEditorialHtml(surah, sName) {
 function _quranToolsHtml(surah, sName) {
     return `<section class="section-card quran-tools" aria-labelledby="quran-tools-title">
   <h2 id="quran-tools-title">قراءة سورة ${sName} وأدوات الصفحة</h2>
-  <p>تتيح هذه الصفحة قراءة سورة ${sName} كاملةً في مكانٍ واحد، مع أدواتٍ تُيسّر التلاوة والحفظ. يمكن تكبير حجم الخط أو تصغيره لاختيار المقاس المريح للعين، وتفعيل الوضع الليلي للقراءة في الإضاءة الخافتة، والدخول إلى وضع القراءة الذي يُخفي عناصر الصفحة ويُبقي النصّ وحده أمام القارئ. كما يوفّر شريط الأدوات الانتقالَ المباشر إلى رقم آيةٍ محدّدة عبر حقل «اذهب إلى آية»، والتنقّلَ بين الصفحات المرجعية من قائمةٍ مخصّصة، مع مؤشّرٍ يبيّن موضع القراءة الحالي. وتعمل هذه الأدوات على الجوال والحاسوب دون الحاجة إلى أيّ تطبيقٍ إضافي.</p>
+  <p>تتيح هذه الصفحة قراءة سورة ${sName} كاملةً في مكانٍ واحد، مع أدواتٍ تُيسّر التلاوة والحفظ. يمكن تكبير حجم الخط أو تصغيره لاختيار المقاس المريح للعين، وتفعيل الوضع الليلي للقراءة في الإضاءة الخافتة، والدخول إلى وضع القراءة الذي يُخفي عناصر الصفحة ويُبقي النصّ وحده أمام القارئ. كما يوفّر شريط الأدوات الانتقالَ المباشر إلى رقم آيةٍ محدّدة عبر حقل «اذهب إلى آية»، مع مؤشّرٍ يبيّن موضع القراءة الحالي. وتعمل هذه الأدوات على الجوال والحاسوب دون الحاجة إلى أيّ تطبيقٍ إضافي.</p>
 </section>`;
 }
 // FAQ — reuses the site's SHARED FAQ component (.country-faq-list.moon-country-faq + .country-faq-item)
@@ -30573,12 +30579,10 @@ function _quranToolsHtml(surah, sName) {
 // The generalization must not turn one verified surah's answers into a template stamped over 113 unverified ones.
 function _quranFaqHtml(surah, sName) {
     const n = _quranAr;
-    const multiPage = surah.pageCount > 1;
     const faq = _QURAN_EDITORIAL_SURAHS.has(surah.surah) ? [
         ['كم عدد آيات سورة الأنبياء؟', `عدد آيات سورة ${sName} مئة واثنتا عشرة آية (${n(surah.ayahCount)}).`],
         ['ما رقم سورة الأنبياء في القرآن الكريم؟', `سورة ${sName} هي السورة الحادية والعشرون (${n(surah.surah)}) في ترتيب المصحف الشريف.`],
         ['في أي جزء تقع سورة الأنبياء؟', `تقع سورة ${sName} في الجزء السابع عشر من القرآن الكريم.`],
-        ['من أي صفحة إلى أي صفحة تمتد سورة الأنبياء؟', `تمتد سورة ${sName} في هذا العرض من الصفحة المرجعية ${n(surah.firstPage)} إلى الصفحة ${n(surah.lastPage)} بحسب ترقيم مصحف المدينة.`],
         ['هل سورة الأنبياء مكية أم مدنية؟', `سورة ${sName} مكيّة بالاتفاق، أي نزلت بمكة قبل الهجرة.`],
         ['لماذا سميت سورة الأنبياء بهذا الاسم؟', `سُمِّيت بذلك لأنه ذُكِرت فيها أسماء ستة عشر نبيًّا من أنبياء الله عليهم السلام مع طرفٍ من أخبارهم.`],
         ['كيف أنتقل إلى آية محددة من سورة الأنبياء؟', `أدخل رقم الآية من ${n(1)} إلى ${n(surah.ayahCount)} في حقل «اذهب إلى آية» أعلى منطقة القراءة، ثم اضغط «اذهب» للانتقال مباشرةً.`],
@@ -30588,9 +30592,6 @@ function _quranFaqHtml(surah, sName) {
         [`في أي جزء تقع سورة ${sName}؟`, surah.juz.length === 1
             ? `تقع سورة ${sName} في الجزء ${n(surah.juz[0])} من القرآن الكريم.`
             : `تمتد سورة ${sName} على ${_quranJuzPhrase(surah.juz)} من القرآن الكريم.`],
-        multiPage
-            ? [`من أي صفحة إلى أي صفحة تمتد سورة ${sName}؟`, `تمتد سورة ${sName} في هذا العرض من الصفحة المرجعية ${n(surah.firstPage)} إلى الصفحة ${n(surah.lastPage)} بحسب ترقيم مصحف المدينة.`]
-            : [`في أي صفحة تقع سورة ${sName}؟`, `تقع سورة ${sName} كاملةً في الصفحة المرجعية ${n(surah.firstPage)} بحسب ترقيم مصحف المدينة.`],
         [`كيف أنتقل إلى آية محددة من سورة ${sName}؟`, `أدخل رقم الآية من ${n(1)} إلى ${n(surah.ayahCount)} في حقل «اذهب إلى آية» أعلى منطقة القراءة، ثم اضغط «اذهب» للانتقال مباشرةً.`],
     ];
     const items = faq.map(([q, a]) => `<details class="country-faq-item"><summary><h3>${_quranEsc(q)}</h3></summary><p>${_quranEsc(a)}</p></details>`).join('');
@@ -30603,23 +30604,24 @@ function _quranFaqHtml(surah, sName) {
 // source / riwayah / hash-verification / reference-pages / responsive-layout facts. These are removed
 // from the other sections and the FAQ to avoid repetition. Keeps id=quran-source for the hero anchor.
 function _quranSourceHtml(surah, manifest, sName) {
-    const n = _quranAr;
     return `<section class="section-card quran-source-box" id="quran-source-trust" aria-labelledby="quran-source-title">
-  <h2 id="quran-source-title">الرسم العثماني ومصدر نص سورة ${sName}</h2>
-  <p>يعتمد النصّ المعروض في هذه الصفحة على حزمة الرسم العثماني لرواية حفص عن عاصم الصادرة عن مجمّع الملك فهد لطباعة المصحف الشريف بالمدينة المنوّرة، وهو المصدر الرسمي المعتمد للنصّ. وقد جرى التحقّق من سلامة ملفات المصدر بمطابقة بصماتها الرقمية قبل استخدامها حفاظًا على أمانة النقل. وتُقسَّم الآيات وفق أرقام الصفحات المرجعية في ترقيم مصحف المدينة، وهي أرقامٌ تدلّ على مواضع الآيات في المصحف المطبوع وتُيسّر الرجوع إليها. أمّا توزيع الأسطر داخل البطاقات فيتكيّف تلقائيًا مع حجم الشاشة لتحسين القراءة، ولذلك فهو ليس محاكاةً طباعيةً مطابقةً لصفحة المصحف الورقية سطرًا بسطر.</p>
+  <h2 id="quran-source-title">مصدر النص القرآني</h2>
+  <p>النصّ القرآني بالرسم العثماني من مشروع Tanzil، إصدار ١٫١، ويُعرض كما ورد في المصدر دون تعديل. النصّ مستخدم بموجب ترخيص Creative Commons Attribution 3.0. وقد جرى التحقّق من مطابقة النص المعروض لملف المصدر الرسمي حرفًا حرفًا حفاظًا على أمانة النقل. وتوزيع الأسطر داخل البطاقات يتكيّف تلقائيًا مع حجم الشاشة لتحسين القراءة، دون أن يتغيّر النص أو تشكيله.</p>
   <ul class="quran-source-facts">
-    <li><span>المصدر</span><b>مجمّع الملك فهد لطباعة المصحف الشريف</b></li>
+    <li><span>المصدر</span><b>مشروع Tanzil</b></li>
     <li><span>الرواية</span><b>حفص عن عاصم</b></li>
     <li><span>الرسم</span><b>الرسم العثماني بالتشكيل الكامل</b></li>
+    <li><span>الترخيص</span><b>Creative Commons Attribution 3.0</b></li>
   </ul>
-  ${_quranSourceDownloadLinkHtml(manifest.source.downloadUrl)}
+  ${_quranTanzilLinksHtml()}
+  ${_quranSourceDownloadLinkHtml(manifest.downloadPage)}
   <details class="quran-source-details">
-    <summary>تفاصيل إصدار بيانات القرآن</summary>
+    <summary>تفاصيل إصدار النص</summary>
     <ul>
-      <li><b>اسم الحزمة:</b> ${_quranEsc(manifest.archiveFile)}</li>
-      <li><b>رقم الإصدار:</b> ${_quranEsc(manifest.packageVersion)} (تحديث ${_quranEsc(manifest.updateNumber)})</li>
+      <li><b>المصدر:</b> ${_quranEsc(manifest.sourceName)}</li>
+      <li><b>نوع النص:</b> ${_quranEsc(manifest.textType)} — إصدار ${_quranEsc(manifest.sourceVersion)}</li>
       <li><b>إصدار البيانات:</b> ${_quranEsc(manifest.dataVersion)}</li>
-      <li><b>طريقة تقسيم الصفحات:</b> بحسب أرقام صفحات مصحف المدينة (${_quranPageRangeAr(surah)})</li>
+      <li><b>النص مستخدم حرفيًا دون تعديل.</b></li>
     </ul>
   </details>
 </section>`;
@@ -30708,25 +30710,21 @@ function _buildQuranSurahBody(n) {
     const prevSurah = chapters.find(c => c.number === surah.surah - 1) || null;
     const nextSurah = chapters.find(c => c.number === surah.surah + 1) || null;
 
-    const pagesHtml = surah.pages.map(pg => {
-        // The basmala opener is decided by the DERIVED basmalaMode, never guessed at render time:
-        //   • 'separate'   (112 surahs) → the opener is printed above ayah 1, outside the numbered text.
-        //   • 'first-ayah' (Al-Fatiha)  → the basmala IS ayah 1; printing an opener would DUPLICATE it.
-        //   • 'none'       (At-Tawba)   → the surah has no basmala; printing one would ADD to the mushaf.
-        // An-Naml's 27:30 basmala is part of that ayah's own text and is untouched by this branch.
-        const openers = (surah.basmalaMode === 'separate' && pg.ayahs.some(a => a.ayah === 1))
-            ? `<div class="quran-basmala" aria-label="بسم الله الرحمن الرحيم">${_quranEsc(basmala.textUthmaniBody)}</div>` : '';
-        const flow = pg.ayahs.map(a =>
-            `<span class="quran-ayah" id="ayah-${a.ayah}"><span class="quran-ayah-text">${_quranEsc(a.textUthmaniBody)}</span>` +
-            `<span class="quran-ayah-num" role="img" aria-label="الآية ${_quranAr(a.ayah)}">${_quranAr(a.ayah)}</span></span>`
-        ).join(' ');
-        return `<section class="quran-page-card" id="page-${pg.page}" data-reference-page="${pg.page}" aria-label="الصفحة المرجعية ${_quranAr(pg.page)}">
-  <div class="quran-page-head"><span class="quran-page-num-badge">الصفحة المرجعية ${_quranAr(pg.page)}</span><span class="quran-page-juz">الجزء ${_quranAr(pg.juz)}</span></div>
+    // The surah renders as ONE flat ayah sequence — there is no Madinah-mushaf page/line layout in the
+    // open Tanzil source, so none is invented here. The basmala opener is decided by the DERIVED basmalaMode:
+    //   • 'separate'   (112 surahs) → the opener is printed above ayah 1, outside the numbered text.
+    //   • 'first-ayah' (Al-Fatiha)  → the basmala IS ayah 1; printing an opener would DUPLICATE it.
+    //   • 'none'       (At-Tawba)   → the surah has no basmala; printing one would ADD to the text.
+    // An-Naml's 27:30 basmala is part of that ayah's own text and is untouched by this branch.
+    const openers = (surah.basmalaMode === 'separate')
+        ? `<div class="quran-basmala" aria-label="بسم الله الرحمن الرحيم">${_quranEsc(basmala.textUthmaniBody)}</div>` : '';
+    const flow = surah.ayahs.map(a =>
+        `<span class="quran-ayah" id="ayah-${a.ayah}" data-quran-ayah="${a.ayah}"><span class="quran-ayah-text">${_quranEsc(a.textUthmaniBody)}</span>` +
+        `<span class="quran-ayah-num" role="img" aria-label="الآية ${_quranAr(a.ayah)}">${_quranAr(a.ayah)}</span></span>`
+    ).join(' ');
+    const pagesHtml = `<section class="quran-reading-card" data-quran-reading-surface>
   ${openers}<div class="quran-ayah-flow" dir="rtl">${flow}</div>
 </section>`;
-    }).join('\n');
-
-    const pageOptions = surah.pages.map(pg => `<option value="${pg.page}">الصفحة ${_quranAr(pg.page)}</option>`).join('');
 
     // Surah index (114 chapters) — every one of them a REAL route. A bare in-page hash like «#page-N» would
     // resolve against the shell's <base href="/"> and jump to «/», so the CURRENT surah links to its own page
@@ -30769,13 +30767,11 @@ function _buildQuranSurahBody(n) {
   <section class="section-card quran-hero">
     <div class="quran-eyebrow">القرآن الكريم — قراءة موثوقة بالرسم العثماني</div>
     <h1 id="quran-surah-h1">سورة ${_quranEsc(sName)} مكتوبة كاملة بالتشكيل والرسم العثماني</h1>
-    <p class="quran-hero-intro">اقرأ سورة ${_quranEsc(sName)} كاملةً (${_quranAyahPhrase(surah.ayahCount)}) بالرسم العثماني وفق رواية حفص عن عاصم، منسوخةً من النص الرسمي لمجمّع الملك فهد لطباعة المصحف الشريف، ${surah.pageCount > 1
-        ? `ومقسّمةً على صفحاتٍ مرجعيةٍ (${_quranAr(surah.firstPage)}–${_quranAr(surah.lastPage)})`
-        : `وواقعةً في الصفحة المرجعية (${_quranAr(surah.firstPage)})`} لتسهيل المتابعة والحفظ والمراجعة.</p>
+    <p class="quran-hero-intro">اقرأ سورة ${_quranEsc(sName)} كاملةً (${_quranAyahPhrase(surah.ayahCount)}) بالرسم العثماني وفق رواية حفص عن عاصم، منقولةً حرفيًا من نص مشروع Tanzil، لتسهيل المتابعة والحفظ والمراجعة.</p>
     <div class="quran-chips">
       <span class="quran-chip">السورة ${_quranAr(surah.surah)}</span>
       <span class="quran-chip">${_quranAyahPhrase(surah.ayahCount)}</span>
-      <span class="quran-chip">${_quranPagePhrase(surah.pageCount)}</span>
+      <span class="quran-chip">${_quranJuzPhrase(surah.juz)}</span>
       <span class="quran-chip">${_quranJuzPhrase(surah.juz)}</span>
       <span class="quran-chip">رواية حفص عن عاصم</span>
       <span class="quran-chip">الرسم العثماني</span>
@@ -30803,13 +30799,8 @@ function _buildQuranSurahBody(n) {
       <button class="quran-tool-btn quran-jump-go" type="submit">اذهب</button>
       <span class="quran-jump-err" id="quran-ayah-err" role="alert" hidden data-quran-ayah-errmsg>أدخل رقم آية بين ١ و${_quranAr(surah.ayahCount)}</span>
     </form>
-    <form class="quran-jump quran-page-jump" method="get" action="${_quranPathFor(surah.surah)}" data-quran-page-jump>
-      <label class="quran-jump-label" for="quran-page-sel">صفحة مرجعية</label>
-      <select class="quran-jump-sel" id="quran-page-sel" name="page" data-quran-goto aria-label="الانتقال إلى صفحة مرجعية">${pageOptions}</select>
-      <noscript><button class="quran-tool-btn quran-jump-go" type="submit">اذهب</button></noscript>
-    </form>
   </div>
-  <div class="quran-progress" aria-hidden="true"><span class="quran-progress-track"><span class="quran-progress-fill" data-quran-progress-fill></span></span><span class="quran-progress-text">الصفحة <span data-quran-progress-value>${_quranAr(1)} / ${_quranAr(surah.pageCount)}</span></span></div>
+  <div class="quran-progress" aria-hidden="true"><span class="quran-progress-track"><span class="quran-progress-fill" data-quran-progress-fill></span></span><span class="quran-progress-text">التقدّم <span data-quran-progress-value>${_quranAr(0)}٪</span></span></div>
   </div>
 
 ${pagesHtml}

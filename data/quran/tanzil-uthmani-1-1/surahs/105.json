@@ -1,0 +1,33 @@
+{
+  "surah": 105,
+  "nameAr": "Ø§ÙÙÙÙ",
+  "nameEn": "Al-Fil",
+  "ayahCount": 5,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "أَلَمْ تَرَ كَيْفَ فَعَلَ رَبُّكَ بِأَصْحَٰبِ ٱلْفِيلِ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "أَلَمْ يَجْعَلْ كَيْدَهُمْ فِى تَضْلِيلٍ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "وَأَرْسَلَ عَلَيْهِمْ طَيْرًا أَبَابِيلَ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "تَرْمِيهِم بِحِجَارَةٍ مِّن سِجِّيلٍ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "فَجَعَلَهُمْ كَعَصْفٍ مَّأْكُولٍۭ"
+    }
+  ]
+}

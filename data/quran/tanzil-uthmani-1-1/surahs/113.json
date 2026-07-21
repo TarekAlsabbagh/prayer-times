@@ -1,0 +1,33 @@
+{
+  "surah": 113,
+  "nameAr": "Ø§ÙÙÙÙ",
+  "nameEn": "Al-Falaq",
+  "ayahCount": 5,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "قُلْ أَعُوذُ بِرَبِّ ٱلْفَلَقِ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "مِن شَرِّ مَا خَلَقَ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "وَمِن شَرِّ غَاسِقٍ إِذَا وَقَبَ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "وَمِن شَرِّ ٱلنَّفَّٰثَٰتِ فِى ٱلْعُقَدِ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "وَمِن شَرِّ حَاسِدٍ إِذَا حَسَدَ"
+    }
+  ]
+}

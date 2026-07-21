@@ -1,0 +1,57 @@
+{
+  "surah": 101,
+  "nameAr": "Ø§ÙÙØ§Ø±Ø¹Ø©",
+  "nameEn": "Al-Qaari'a",
+  "ayahCount": 11,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "ٱلْقَارِعَةُ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "مَا ٱلْقَارِعَةُ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "وَمَآ أَدْرَىٰكَ مَا ٱلْقَارِعَةُ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "يَوْمَ يَكُونُ ٱلنَّاسُ كَٱلْفَرَاشِ ٱلْمَبْثُوثِ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "وَتَكُونُ ٱلْجِبَالُ كَٱلْعِهْنِ ٱلْمَنفُوشِ"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "فَأَمَّا مَن ثَقُلَتْ مَوَٰزِينُهُۥ"
+    },
+    {
+      "ayah": 7,
+      "textUthmaniBody": "فَهُوَ فِى عِيشَةٍ رَّاضِيَةٍ"
+    },
+    {
+      "ayah": 8,
+      "textUthmaniBody": "وَأَمَّا مَنْ خَفَّتْ مَوَٰزِينُهُۥ"
+    },
+    {
+      "ayah": 9,
+      "textUthmaniBody": "فَأُمُّهُۥ هَاوِيَةٌ"
+    },
+    {
+      "ayah": 10,
+      "textUthmaniBody": "وَمَآ أَدْرَىٰكَ مَا هِيَهْ"
+    },
+    {
+      "ayah": 11,
+      "textUthmaniBody": "نَارٌ حَامِيَةٌۢ"
+    }
+  ]
+}

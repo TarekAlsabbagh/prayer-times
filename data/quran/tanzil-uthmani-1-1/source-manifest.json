@@ -1,0 +1,23 @@
+{
+  "sourceName": "Tanzil Project",
+  "textType": "Uthmani",
+  "sourceVersion": "1.1",
+  "sourceUrl": "https://tanzil.net",
+  "downloadPage": "https://tanzil.net/docs/download",
+  "updatesUrl": "https://tanzil.net/updates/",
+  "licenseName": "Creative Commons Attribution 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+  "textUsedVerbatim": true,
+  "retrievedAt": "2026-07-21T00:00:00Z",
+  "textRawFile": "quran-uthmani-1.1.xml",
+  "textRawSha256": "203F0F1BF3158B1E5BE4AB9F8F6870E570AAB6D9A626FE6192A70B75D4AFE0FD",
+  "metaRawFile": "quran-data-1.1.xml",
+  "metaRawSha256": "263DAE4992CCC580F5E4C6B387315C4E09733C69F1B0421D511797C93CE07E44",
+  "chapterCount": 114,
+  "verseCount": 6236,
+  "bismillahElements": 112,
+  "dataVersion": "tanzil-uthmani-1-1-203f0f1b",
+  "encoding": "UTF-8",
+  "layout": "flat ayah sequence (no positional mushaf layout metadata)",
+  "nonTextFieldsSource": "Tanzil metadata (quran-data-1.1.xml, CC BY 3.0): sura names, ayah counts, juz boundaries. No proprietary layout data."
+}

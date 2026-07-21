@@ -1,25 +1,23 @@
-// Smoke — QURAN prototype: ayah end-marker extraction (documented ending only) + reassembly invariant.
+// Smoke — Tanzil model: NO KFGQPC end-of-ayah marker (U+FC00) / no Private-Use chars; ayah number is data, not text.
 import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASE = path.join(ROOT, 'data', 'quran', 'kfgqpc-hafs-v2-0');
-let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const s = JSON.parse(fs.readFileSync(path.join(BASE, 'surahs', '021.json'), 'utf8'));
-const all = s.pages.flatMap(p => p.ayahs);
-const FC0 = 0xFC00;
-let markerOk = 0, reassemble = 0, noFcInBody = 0, cpMatch = 0;
-for (const a of all) {
-  const mcp = parseInt(a.rawEndMarkerCodePoint.replace('U+', ''), 16);
-  if (mcp - FC0 + 1 === a.ayah) markerOk++;                         // marker code point == FC00 + (aya-1)
-  const marker = String.fromCodePoint(mcp);
-  if (a.textUthmaniBody + ' ' + marker === a.textUthmaniRaw) reassemble++;  // body + NBSP + marker == raw, code-point exact
-  if (![...a.textUthmaniBody].some(ch => { const c = ch.codePointAt(0); return c >= 0xFB50 && c <= 0xFDFF; })) noFcInBody++; // no FCxx presentation glyph in body
-  // raw must end with exactly NBSP + marker (2 trailing code points)
-  const arr = [...a.textUthmaniRaw];
-  if (arr[arr.length - 2].codePointAt(0) === 0x00A0 && arr[arr.length - 1].codePointAt(0) === mcp) cpMatch++;
+const BASE = path.join(ROOT, 'data', 'quran', 'tanzil-uthmani-1-1');
+let pass = 0, fail = 0; const ok = (c, m) => c ? pass++ : (fail++, console.log('  FAIL ' + m));
+let fc00 = 0, pua = 0, marker = 0, badAyah = 0, total = 0;
+for (let n = 1; n <= 114; n++) {
+  const s = JSON.parse(fs.readFileSync(path.join(BASE,'surahs',String(n).padStart(3,'0')+'.json'),'utf8'));
+  for (const a of s.ayahs) {
+    total++;
+    if ('rawEndMarkerCodePoint' in a) marker++;
+    if (typeof a.ayah !== 'number') badAyah++;
+    for (const ch of a.textUthmaniBody) { const c = ch.codePointAt(0);
+      if (c === 0xFC00) fc00++; if (c >= 0xE000 && c <= 0xF8FF) pua++; if (c >= 0xFC00 && c <= 0xFDFF) fc00++; }
+  }
 }
-ok(markerOk === 112, 'all 112: extracted marker == aya_no (FC00 + aya-1)');
-ok(reassemble === 112, 'all 112: textUthmaniBody + NBSP + marker === textUthmaniRaw (code-point exact)');
-ok(noFcInBody === 112, 'all 112: NO U+FBxx/FCxx presentation glyph inside textUthmaniBody');
-ok(cpMatch === 112, 'all 112: raw ends with exactly NBSP(U+00A0) + the marker code point');
-ok(all.every(a => a.textUthmaniBody.length < a.textUthmaniRaw.length), 'body is strictly shorter than raw (marker removed)');
-console.log(`\nRESULT: ${pass} passed, ${fail} failed`); if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }
+ok(total === 6236, '6236 ayat scanned');
+ok(fc00 === 0, 'zero U+FC00 / presentation-form markers in verse text');
+ok(pua === 0, 'zero Private-Use-Area characters in verse text');
+ok(marker === 0, 'no rawEndMarkerCodePoint field remains');
+ok(badAyah === 0, 'ayah number is an independent numeric field (not derived from a text glyph)');
+console.log('RESULT ayah_end_marker(Tanzil): '+pass+' passed, '+fail+' failed');
+if (fail) process.exit(1);

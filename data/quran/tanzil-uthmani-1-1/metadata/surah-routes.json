@@ -1,0 +1,923 @@
+{
+  "source": "Tanzil Uthmani 1.1",
+  "sourceUrl": "https://tanzil.net",
+  "licenseName": "Creative Commons Attribution 3.0",
+  "licenseUrl": "https://creativecommons.org/licenses/by/3.0/",
+  "slugRule": "NFKD -> lowercase -> drop combining marks -> drop apostrophes -> separators to \"-\" -> keep [a-z0-9-] -> collapse \"-\" -> trim",
+  "pathPattern": "/quran/{slug}",
+  "surahCount": 114,
+  "surahs": [
+    {
+      "number": 1,
+      "nameArSource": "Ø§ÙÙØ§ØªØ­Ø©",
+      "nameEnSource": "Al-Faatiha",
+      "slug": "al-fatihah",
+      "path": "/quran/al-fatihah",
+      "dataFile": "001.json"
+    },
+    {
+      "number": 2,
+      "nameArSource": "Ø§ÙØ¨ÙØ±Ø©",
+      "nameEnSource": "Al-Baqara",
+      "slug": "al-baqarah",
+      "path": "/quran/al-baqarah",
+      "dataFile": "002.json"
+    },
+    {
+      "number": 3,
+      "nameArSource": "Ø¢Ù Ø¹ÙØ±Ø§Ù",
+      "nameEnSource": "Aal-i-Imraan",
+      "slug": "al-imran",
+      "path": "/quran/al-imran",
+      "dataFile": "003.json"
+    },
+    {
+      "number": 4,
+      "nameArSource": "Ø§ÙÙØ³Ø§Ø¡",
+      "nameEnSource": "An-Nisaa",
+      "slug": "an-nisa",
+      "path": "/quran/an-nisa",
+      "dataFile": "004.json"
+    },
+    {
+      "number": 5,
+      "nameArSource": "Ø§ÙÙØ§Ø¦Ø¯Ø©",
+      "nameEnSource": "Al-Maaida",
+      "slug": "al-maidah",
+      "path": "/quran/al-maidah",
+      "dataFile": "005.json"
+    },
+    {
+      "number": 6,
+      "nameArSource": "Ø§ÙØ£ÙØ¹Ø§Ù",
+      "nameEnSource": "Al-An'aam",
+      "slug": "al-anam",
+      "path": "/quran/al-anam",
+      "dataFile": "006.json"
+    },
+    {
+      "number": 7,
+      "nameArSource": "Ø§ÙØ£Ø¹Ø±Ø§Ù",
+      "nameEnSource": "Al-A'raaf",
+      "slug": "al-araf",
+      "path": "/quran/al-araf",
+      "dataFile": "007.json"
+    },
+    {
+      "number": 8,
+      "nameArSource": "Ø§ÙØ£ÙÙØ§Ù",
+      "nameEnSource": "Al-Anfaal",
+      "slug": "al-anfal",
+      "path": "/quran/al-anfal",
+      "dataFile": "008.json"
+    },
+    {
+      "number": 9,
+      "nameArSource": "Ø§ÙØªÙØ¨Ø©",
+      "nameEnSource": "At-Tawba",
+      "slug": "at-taubah",
+      "path": "/quran/at-taubah",
+      "dataFile": "009.json"
+    },
+    {
+      "number": 10,
+      "nameArSource": "ÙÙÙØ³",
+      "nameEnSource": "Yunus",
+      "slug": "yunus",
+      "path": "/quran/yunus",
+      "dataFile": "010.json"
+    },
+    {
+      "number": 11,
+      "nameArSource": "ÙÙØ¯",
+      "nameEnSource": "Hud",
+      "slug": "hud",
+      "path": "/quran/hud",
+      "dataFile": "011.json"
+    },
+    {
+      "number": 12,
+      "nameArSource": "ÙÙØ³Ù",
+      "nameEnSource": "Yusuf",
+      "slug": "yusuf",
+      "path": "/quran/yusuf",
+      "dataFile": "012.json"
+    },
+    {
+      "number": 13,
+      "nameArSource": "Ø§ÙØ±Ø¹Ø¯",
+      "nameEnSource": "Ar-Ra'd",
+      "slug": "ar-rad",
+      "path": "/quran/ar-rad",
+      "dataFile": "013.json"
+    },
+    {
+      "number": 14,
+      "nameArSource": "Ø§Ø¨Ø±Ø§ÙÙÙ",
+      "nameEnSource": "Ibrahim",
+      "slug": "ibrahim",
+      "path": "/quran/ibrahim",
+      "dataFile": "014.json"
+    },
+    {
+      "number": 15,
+      "nameArSource": "Ø§ÙØ­Ø¬Ø±",
+      "nameEnSource": "Al-Hijr",
+      "slug": "al-hijr",
+      "path": "/quran/al-hijr",
+      "dataFile": "015.json"
+    },
+    {
+      "number": 16,
+      "nameArSource": "Ø§ÙÙØ­Ù",
+      "nameEnSource": "An-Nahl",
+      "slug": "an-nahl",
+      "path": "/quran/an-nahl",
+      "dataFile": "016.json"
+    },
+    {
+      "number": 17,
+      "nameArSource": "Ø§ÙØ¥Ø³Ø±Ø§Ø¡",
+      "nameEnSource": "Al-Israa",
+      "slug": "al-isra",
+      "path": "/quran/al-isra",
+      "dataFile": "017.json"
+    },
+    {
+      "number": 18,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "Al-Kahf",
+      "slug": "al-kahf",
+      "path": "/quran/al-kahf",
+      "dataFile": "018.json"
+    },
+    {
+      "number": 19,
+      "nameArSource": "ÙØ±ÙÙ",
+      "nameEnSource": "Maryam",
+      "slug": "maryam",
+      "path": "/quran/maryam",
+      "dataFile": "019.json"
+    },
+    {
+      "number": 20,
+      "nameArSource": "Ø·Ù",
+      "nameEnSource": "Taa-Haa",
+      "slug": "ta-ha",
+      "path": "/quran/ta-ha",
+      "dataFile": "020.json"
+    },
+    {
+      "number": 21,
+      "nameArSource": "Ø§ÙØ£ÙØ¨ÙØ§Ø¡",
+      "nameEnSource": "Al-Anbiyaa",
+      "slug": "al-anbiya",
+      "path": "/quran/al-anbiya",
+      "dataFile": "021.json"
+    },
+    {
+      "number": 22,
+      "nameArSource": "Ø§ÙØ­Ø¬",
+      "nameEnSource": "Al-Hajj",
+      "slug": "al-hajj",
+      "path": "/quran/al-hajj",
+      "dataFile": "022.json"
+    },
+    {
+      "number": 23,
+      "nameArSource": "Ø§ÙÙØ¤ÙÙÙÙ",
+      "nameEnSource": "Al-Muminoon",
+      "slug": "al-muminun",
+      "path": "/quran/al-muminun",
+      "dataFile": "023.json"
+    },
+    {
+      "number": 24,
+      "nameArSource": "Ø§ÙÙÙØ±",
+      "nameEnSource": "An-Noor",
+      "slug": "an-nur",
+      "path": "/quran/an-nur",
+      "dataFile": "024.json"
+    },
+    {
+      "number": 25,
+      "nameArSource": "Ø§ÙÙØ±ÙØ§Ù",
+      "nameEnSource": "Al-Furqaan",
+      "slug": "al-furqan",
+      "path": "/quran/al-furqan",
+      "dataFile": "025.json"
+    },
+    {
+      "number": 26,
+      "nameArSource": "Ø§ÙØ´Ø¹Ø±Ø§Ø¡",
+      "nameEnSource": "Ash-Shu'araa",
+      "slug": "ash-shuara",
+      "path": "/quran/ash-shuara",
+      "dataFile": "026.json"
+    },
+    {
+      "number": 27,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "An-Naml",
+      "slug": "an-naml",
+      "path": "/quran/an-naml",
+      "dataFile": "027.json"
+    },
+    {
+      "number": 28,
+      "nameArSource": "Ø§ÙÙØµØµ",
+      "nameEnSource": "Al-Qasas",
+      "slug": "al-qasas",
+      "path": "/quran/al-qasas",
+      "dataFile": "028.json"
+    },
+    {
+      "number": 29,
+      "nameArSource": "Ø§ÙØ¹ÙÙØ¨ÙØª",
+      "nameEnSource": "Al-Ankaboot",
+      "slug": "al-ankabut",
+      "path": "/quran/al-ankabut",
+      "dataFile": "029.json"
+    },
+    {
+      "number": 30,
+      "nameArSource": "Ø§ÙØ±ÙÙ",
+      "nameEnSource": "Ar-Room",
+      "slug": "ar-rum",
+      "path": "/quran/ar-rum",
+      "dataFile": "030.json"
+    },
+    {
+      "number": 31,
+      "nameArSource": "ÙÙÙØ§Ù",
+      "nameEnSource": "Luqman",
+      "slug": "luqman",
+      "path": "/quran/luqman",
+      "dataFile": "031.json"
+    },
+    {
+      "number": 32,
+      "nameArSource": "Ø§ÙØ³Ø¬Ø¯Ø©",
+      "nameEnSource": "As-Sajda",
+      "slug": "as-sajdah",
+      "path": "/quran/as-sajdah",
+      "dataFile": "032.json"
+    },
+    {
+      "number": 33,
+      "nameArSource": "Ø§ÙØ£Ø­Ø²Ø§Ø¨",
+      "nameEnSource": "Al-Ahzaab",
+      "slug": "al-ahzab",
+      "path": "/quran/al-ahzab",
+      "dataFile": "033.json"
+    },
+    {
+      "number": 34,
+      "nameArSource": "Ø³Ø¨Ø¥",
+      "nameEnSource": "Saba",
+      "slug": "saba",
+      "path": "/quran/saba",
+      "dataFile": "034.json"
+    },
+    {
+      "number": 35,
+      "nameArSource": "ÙØ§Ø·Ø±",
+      "nameEnSource": "Faatir",
+      "slug": "fatir",
+      "path": "/quran/fatir",
+      "dataFile": "035.json"
+    },
+    {
+      "number": 36,
+      "nameArSource": "ÙØ³",
+      "nameEnSource": "Yaseen",
+      "slug": "ya-sin",
+      "path": "/quran/ya-sin",
+      "dataFile": "036.json"
+    },
+    {
+      "number": 37,
+      "nameArSource": "Ø§ÙØµØ§ÙØ§Øª",
+      "nameEnSource": "As-Saaffaat",
+      "slug": "as-saffat",
+      "path": "/quran/as-saffat",
+      "dataFile": "037.json"
+    },
+    {
+      "number": 38,
+      "nameArSource": "Øµ",
+      "nameEnSource": "Saad",
+      "slug": "sad",
+      "path": "/quran/sad",
+      "dataFile": "038.json"
+    },
+    {
+      "number": 39,
+      "nameArSource": "Ø§ÙØ²ÙØ±",
+      "nameEnSource": "Az-Zumar",
+      "slug": "az-zumar",
+      "path": "/quran/az-zumar",
+      "dataFile": "039.json"
+    },
+    {
+      "number": 40,
+      "nameArSource": "ØºØ§ÙØ±",
+      "nameEnSource": "Al-Ghaafir",
+      "slug": "ghafir",
+      "path": "/quran/ghafir",
+      "dataFile": "040.json"
+    },
+    {
+      "number": 41,
+      "nameArSource": "ÙØµÙØª",
+      "nameEnSource": "Fussilat",
+      "slug": "fussilat",
+      "path": "/quran/fussilat",
+      "dataFile": "041.json"
+    },
+    {
+      "number": 42,
+      "nameArSource": "Ø§ÙØ´ÙØ±Ù",
+      "nameEnSource": "Ash-Shura",
+      "slug": "ash-shura",
+      "path": "/quran/ash-shura",
+      "dataFile": "042.json"
+    },
+    {
+      "number": 43,
+      "nameArSource": "Ø§ÙØ²Ø®Ø±Ù",
+      "nameEnSource": "Az-Zukhruf",
+      "slug": "az-zukhruf",
+      "path": "/quran/az-zukhruf",
+      "dataFile": "043.json"
+    },
+    {
+      "number": 44,
+      "nameArSource": "Ø§ÙØ¯Ø®Ø§Ù",
+      "nameEnSource": "Ad-Dukhaan",
+      "slug": "ad-dukhan",
+      "path": "/quran/ad-dukhan",
+      "dataFile": "044.json"
+    },
+    {
+      "number": 45,
+      "nameArSource": "Ø§ÙØ¬Ø§Ø«ÙØ©",
+      "nameEnSource": "Al-Jaathiya",
+      "slug": "al-jathiyah",
+      "path": "/quran/al-jathiyah",
+      "dataFile": "045.json"
+    },
+    {
+      "number": 46,
+      "nameArSource": "Ø§ÙØ£Ø­ÙØ§Ù",
+      "nameEnSource": "Al-Ahqaf",
+      "slug": "al-ahqaf",
+      "path": "/quran/al-ahqaf",
+      "dataFile": "046.json"
+    },
+    {
+      "number": 47,
+      "nameArSource": "ÙØ­ÙØ¯",
+      "nameEnSource": "Muhammad",
+      "slug": "muhammad",
+      "path": "/quran/muhammad",
+      "dataFile": "047.json"
+    },
+    {
+      "number": 48,
+      "nameArSource": "Ø§ÙÙØªØ­",
+      "nameEnSource": "Al-Fath",
+      "slug": "al-fath",
+      "path": "/quran/al-fath",
+      "dataFile": "048.json"
+    },
+    {
+      "number": 49,
+      "nameArSource": "Ø§ÙØ­Ø¬Ø±Ø§Øª",
+      "nameEnSource": "Al-Hujuraat",
+      "slug": "al-hujurat",
+      "path": "/quran/al-hujurat",
+      "dataFile": "049.json"
+    },
+    {
+      "number": 50,
+      "nameArSource": "Ù",
+      "nameEnSource": "Qaaf",
+      "slug": "qaf",
+      "path": "/quran/qaf",
+      "dataFile": "050.json"
+    },
+    {
+      "number": 51,
+      "nameArSource": "Ø§ÙØ°Ø§Ø±ÙØ§Øª",
+      "nameEnSource": "Adh-Dhaariyat",
+      "slug": "adh-dhariyat",
+      "path": "/quran/adh-dhariyat",
+      "dataFile": "051.json"
+    },
+    {
+      "number": 52,
+      "nameArSource": "Ø§ÙØ·ÙØ±",
+      "nameEnSource": "At-Tur",
+      "slug": "at-tur",
+      "path": "/quran/at-tur",
+      "dataFile": "052.json"
+    },
+    {
+      "number": 53,
+      "nameArSource": "Ø§ÙÙØ¬Ù",
+      "nameEnSource": "An-Najm",
+      "slug": "an-najm",
+      "path": "/quran/an-najm",
+      "dataFile": "053.json"
+    },
+    {
+      "number": 54,
+      "nameArSource": "Ø§ÙÙÙØ±",
+      "nameEnSource": "Al-Qamar",
+      "slug": "al-qamar",
+      "path": "/quran/al-qamar",
+      "dataFile": "054.json"
+    },
+    {
+      "number": 55,
+      "nameArSource": "Ø§ÙØ±Ø­ÙÙ",
+      "nameEnSource": "Ar-Rahmaan",
+      "slug": "ar-rahman",
+      "path": "/quran/ar-rahman",
+      "dataFile": "055.json"
+    },
+    {
+      "number": 56,
+      "nameArSource": "Ø§ÙÙØ§ÙØ¹Ø©",
+      "nameEnSource": "Al-Waaqia",
+      "slug": "al-waqiah",
+      "path": "/quran/al-waqiah",
+      "dataFile": "056.json"
+    },
+    {
+      "number": 57,
+      "nameArSource": "Ø§ÙØ­Ø¯ÙØ¯",
+      "nameEnSource": "Al-Hadid",
+      "slug": "al-hadid",
+      "path": "/quran/al-hadid",
+      "dataFile": "057.json"
+    },
+    {
+      "number": 58,
+      "nameArSource": "Ø§ÙÙØ¬Ø§Ø¯ÙØ©",
+      "nameEnSource": "Al-Mujaadila",
+      "slug": "al-mujadilah",
+      "path": "/quran/al-mujadilah",
+      "dataFile": "058.json"
+    },
+    {
+      "number": 59,
+      "nameArSource": "Ø§ÙØ­Ø´Ø±",
+      "nameEnSource": "Al-Hashr",
+      "slug": "al-hashr",
+      "path": "/quran/al-hashr",
+      "dataFile": "059.json"
+    },
+    {
+      "number": 60,
+      "nameArSource": "Ø§ÙÙÙØªØ­ÙØ©",
+      "nameEnSource": "Al-Mumtahana",
+      "slug": "al-mumtahanah",
+      "path": "/quran/al-mumtahanah",
+      "dataFile": "060.json"
+    },
+    {
+      "number": 61,
+      "nameArSource": "Ø§ÙØµÙ",
+      "nameEnSource": "As-Saff",
+      "slug": "as-saff",
+      "path": "/quran/as-saff",
+      "dataFile": "061.json"
+    },
+    {
+      "number": 62,
+      "nameArSource": "Ø§ÙØ¬ÙØ¹Ø©",
+      "nameEnSource": "Al-Jumu'a",
+      "slug": "al-jumuah",
+      "path": "/quran/al-jumuah",
+      "dataFile": "062.json"
+    },
+    {
+      "number": 63,
+      "nameArSource": "Ø§ÙÙÙØ§ÙÙÙÙ",
+      "nameEnSource": "Al-Munaafiqoon",
+      "slug": "al-munafiqun",
+      "path": "/quran/al-munafiqun",
+      "dataFile": "063.json"
+    },
+    {
+      "number": 64,
+      "nameArSource": "Ø§ÙØªØºØ§Ø¨Ù",
+      "nameEnSource": "At-Taghaabun",
+      "slug": "at-taghabun",
+      "path": "/quran/at-taghabun",
+      "dataFile": "064.json"
+    },
+    {
+      "number": 65,
+      "nameArSource": "Ø§ÙØ·ÙØ§Ù",
+      "nameEnSource": "At-Talaaq",
+      "slug": "at-talaq",
+      "path": "/quran/at-talaq",
+      "dataFile": "065.json"
+    },
+    {
+      "number": 66,
+      "nameArSource": "Ø§ÙØªØ­Ø±ÙÙ",
+      "nameEnSource": "At-Tahrim",
+      "slug": "at-tahrim",
+      "path": "/quran/at-tahrim",
+      "dataFile": "066.json"
+    },
+    {
+      "number": 67,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "Al-Mulk",
+      "slug": "al-mulk",
+      "path": "/quran/al-mulk",
+      "dataFile": "067.json"
+    },
+    {
+      "number": 68,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "Al-Qalam",
+      "slug": "al-qalam",
+      "path": "/quran/al-qalam",
+      "dataFile": "068.json"
+    },
+    {
+      "number": 69,
+      "nameArSource": "Ø§ÙØ­Ø§ÙØ©",
+      "nameEnSource": "Al-Haaqqa",
+      "slug": "al-haqqah",
+      "path": "/quran/al-haqqah",
+      "dataFile": "069.json"
+    },
+    {
+      "number": 70,
+      "nameArSource": "Ø§ÙÙØ¹Ø§Ø±Ø¬",
+      "nameEnSource": "Al-Ma'aarij",
+      "slug": "al-maarij",
+      "path": "/quran/al-maarij",
+      "dataFile": "070.json"
+    },
+    {
+      "number": 71,
+      "nameArSource": "ÙÙØ­",
+      "nameEnSource": "Nooh",
+      "slug": "nuh",
+      "path": "/quran/nuh",
+      "dataFile": "071.json"
+    },
+    {
+      "number": 72,
+      "nameArSource": "Ø§ÙØ¬Ù",
+      "nameEnSource": "Al-Jinn",
+      "slug": "al-jinn",
+      "path": "/quran/al-jinn",
+      "dataFile": "072.json"
+    },
+    {
+      "number": 73,
+      "nameArSource": "Ø§ÙÙØ²ÙÙ",
+      "nameEnSource": "Al-Muzzammil",
+      "slug": "al-muzzammil",
+      "path": "/quran/al-muzzammil",
+      "dataFile": "073.json"
+    },
+    {
+      "number": 74,
+      "nameArSource": "Ø§ÙÙØ¯Ø«Ø±",
+      "nameEnSource": "Al-Muddaththir",
+      "slug": "al-muddaththir",
+      "path": "/quran/al-muddaththir",
+      "dataFile": "074.json"
+    },
+    {
+      "number": 75,
+      "nameArSource": "Ø§ÙÙÙØ§ÙØ©",
+      "nameEnSource": "Al-Qiyaama",
+      "slug": "al-qiyamah",
+      "path": "/quran/al-qiyamah",
+      "dataFile": "075.json"
+    },
+    {
+      "number": 76,
+      "nameArSource": "Ø§ÙØ§ÙØ³Ø§Ù",
+      "nameEnSource": "Al-Insaan",
+      "slug": "al-insan",
+      "path": "/quran/al-insan",
+      "dataFile": "076.json"
+    },
+    {
+      "number": 77,
+      "nameArSource": "Ø§ÙÙØ±Ø³ÙØ§Øª",
+      "nameEnSource": "Al-Mursalaat",
+      "slug": "al-mursalat",
+      "path": "/quran/al-mursalat",
+      "dataFile": "077.json"
+    },
+    {
+      "number": 78,
+      "nameArSource": "Ø§ÙÙØ¨Ø¥",
+      "nameEnSource": "An-Naba",
+      "slug": "an-naba",
+      "path": "/quran/an-naba",
+      "dataFile": "078.json"
+    },
+    {
+      "number": 79,
+      "nameArSource": "Ø§ÙÙØ§Ø²Ø¹Ø§Øª",
+      "nameEnSource": "An-Naazi'aat",
+      "slug": "an-naziat",
+      "path": "/quran/an-naziat",
+      "dataFile": "079.json"
+    },
+    {
+      "number": 80,
+      "nameArSource": "Ø¹Ø¨Ø³",
+      "nameEnSource": "Abasa",
+      "slug": "abasa",
+      "path": "/quran/abasa",
+      "dataFile": "080.json"
+    },
+    {
+      "number": 81,
+      "nameArSource": "Ø§ÙØªÙÙÙØ±",
+      "nameEnSource": "At-Takwir",
+      "slug": "at-takwir",
+      "path": "/quran/at-takwir",
+      "dataFile": "081.json"
+    },
+    {
+      "number": 82,
+      "nameArSource": "Ø§ÙØ¥ÙÙØ·Ø§Ø±",
+      "nameEnSource": "Al-Infitaar",
+      "slug": "al-infitar",
+      "path": "/quran/al-infitar",
+      "dataFile": "082.json"
+    },
+    {
+      "number": 83,
+      "nameArSource": "Ø§ÙÙØ·ÙÙÙÙ",
+      "nameEnSource": "Al-Mutaffifin",
+      "slug": "al-mutaffifin",
+      "path": "/quran/al-mutaffifin",
+      "dataFile": "083.json"
+    },
+    {
+      "number": 84,
+      "nameArSource": "Ø§ÙØ¥ÙØ´ÙØ§Ù",
+      "nameEnSource": "Al-Inshiqaaq",
+      "slug": "al-inshiqaq",
+      "path": "/quran/al-inshiqaq",
+      "dataFile": "084.json"
+    },
+    {
+      "number": 85,
+      "nameArSource": "Ø§ÙØ¨Ø±ÙØ¬",
+      "nameEnSource": "Al-Burooj",
+      "slug": "al-buruj",
+      "path": "/quran/al-buruj",
+      "dataFile": "085.json"
+    },
+    {
+      "number": 86,
+      "nameArSource": "Ø§ÙØ·Ø§Ø±Ù",
+      "nameEnSource": "At-Taariq",
+      "slug": "at-tariq",
+      "path": "/quran/at-tariq",
+      "dataFile": "086.json"
+    },
+    {
+      "number": 87,
+      "nameArSource": "Ø§ÙØ£Ø¹ÙÙ",
+      "nameEnSource": "Al-A'laa",
+      "slug": "al-ala",
+      "path": "/quran/al-ala",
+      "dataFile": "087.json"
+    },
+    {
+      "number": 88,
+      "nameArSource": "Ø§ÙØºØ§Ø´ÙØ©",
+      "nameEnSource": "Al-Ghaashiya",
+      "slug": "al-ghashiyah",
+      "path": "/quran/al-ghashiyah",
+      "dataFile": "088.json"
+    },
+    {
+      "number": 89,
+      "nameArSource": "Ø§ÙÙØ¬Ø±",
+      "nameEnSource": "Al-Fajr",
+      "slug": "al-fajr",
+      "path": "/quran/al-fajr",
+      "dataFile": "089.json"
+    },
+    {
+      "number": 90,
+      "nameArSource": "Ø§ÙØ¨ÙØ¯",
+      "nameEnSource": "Al-Balad",
+      "slug": "al-balad",
+      "path": "/quran/al-balad",
+      "dataFile": "090.json"
+    },
+    {
+      "number": 91,
+      "nameArSource": "Ø§ÙØ´ÙØ³",
+      "nameEnSource": "Ash-Shams",
+      "slug": "ash-shams",
+      "path": "/quran/ash-shams",
+      "dataFile": "091.json"
+    },
+    {
+      "number": 92,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "Al-Lail",
+      "slug": "al-lail",
+      "path": "/quran/al-lail",
+      "dataFile": "092.json"
+    },
+    {
+      "number": 93,
+      "nameArSource": "Ø§ÙØ¶Ø­Ù",
+      "nameEnSource": "Ad-Dhuhaa",
+      "slug": "ad-duha",
+      "path": "/quran/ad-duha",
+      "dataFile": "093.json"
+    },
+    {
+      "number": 94,
+      "nameArSource": "Ø§ÙØ´Ø±Ø­",
+      "nameEnSource": "Ash-Sharh",
+      "slug": "ash-sharh",
+      "path": "/quran/ash-sharh",
+      "dataFile": "094.json"
+    },
+    {
+      "number": 95,
+      "nameArSource": "Ø§ÙØªÙÙ",
+      "nameEnSource": "At-Tin",
+      "slug": "at-tin",
+      "path": "/quran/at-tin",
+      "dataFile": "095.json"
+    },
+    {
+      "number": 96,
+      "nameArSource": "Ø§ÙØ¹ÙÙ",
+      "nameEnSource": "Al-Alaq",
+      "slug": "al-alaq",
+      "path": "/quran/al-alaq",
+      "dataFile": "096.json"
+    },
+    {
+      "number": 97,
+      "nameArSource": "Ø§ÙÙØ¯Ø±",
+      "nameEnSource": "Al-Qadr",
+      "slug": "al-qadr",
+      "path": "/quran/al-qadr",
+      "dataFile": "097.json"
+    },
+    {
+      "number": 98,
+      "nameArSource": "Ø§ÙØ¨ÙÙØ©",
+      "nameEnSource": "Al-Bayyina",
+      "slug": "al-bayyinah",
+      "path": "/quran/al-bayyinah",
+      "dataFile": "098.json"
+    },
+    {
+      "number": 99,
+      "nameArSource": "Ø§ÙØ²ÙØ²ÙØ©",
+      "nameEnSource": "Az-Zalzala",
+      "slug": "az-zalzalah",
+      "path": "/quran/az-zalzalah",
+      "dataFile": "099.json"
+    },
+    {
+      "number": 100,
+      "nameArSource": "Ø§ÙØ¹Ø§Ø¯ÙØ§Øª",
+      "nameEnSource": "Al-Aadiyaat",
+      "slug": "al-adiyat",
+      "path": "/quran/al-adiyat",
+      "dataFile": "100.json"
+    },
+    {
+      "number": 101,
+      "nameArSource": "Ø§ÙÙØ§Ø±Ø¹Ø©",
+      "nameEnSource": "Al-Qaari'a",
+      "slug": "al-qariah",
+      "path": "/quran/al-qariah",
+      "dataFile": "101.json"
+    },
+    {
+      "number": 102,
+      "nameArSource": "Ø§ÙØªÙØ§Ø«Ø±",
+      "nameEnSource": "At-Takaathur",
+      "slug": "at-takathur",
+      "path": "/quran/at-takathur",
+      "dataFile": "102.json"
+    },
+    {
+      "number": 103,
+      "nameArSource": "Ø§ÙØ¹ØµØ±",
+      "nameEnSource": "Al-Asr",
+      "slug": "al-asr",
+      "path": "/quran/al-asr",
+      "dataFile": "103.json"
+    },
+    {
+      "number": 104,
+      "nameArSource": "Ø§ÙÙÙØ²Ø©",
+      "nameEnSource": "Al-Humaza",
+      "slug": "al-humazah",
+      "path": "/quran/al-humazah",
+      "dataFile": "104.json"
+    },
+    {
+      "number": 105,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "Al-Fil",
+      "slug": "al-fil",
+      "path": "/quran/al-fil",
+      "dataFile": "105.json"
+    },
+    {
+      "number": 106,
+      "nameArSource": "ÙØ±ÙØ´",
+      "nameEnSource": "Quraish",
+      "slug": "quraish",
+      "path": "/quran/quraish",
+      "dataFile": "106.json"
+    },
+    {
+      "number": 107,
+      "nameArSource": "Ø§ÙÙØ§Ø¹ÙÙ",
+      "nameEnSource": "Al-Maa'un",
+      "slug": "al-maun",
+      "path": "/quran/al-maun",
+      "dataFile": "107.json"
+    },
+    {
+      "number": 108,
+      "nameArSource": "Ø§ÙÙÙØ«Ø±",
+      "nameEnSource": "Al-Kawthar",
+      "slug": "al-kauthar",
+      "path": "/quran/al-kauthar",
+      "dataFile": "108.json"
+    },
+    {
+      "number": 109,
+      "nameArSource": "Ø§ÙÙØ§ÙØ±ÙÙ",
+      "nameEnSource": "Al-Kaafiroon",
+      "slug": "al-kafirun",
+      "path": "/quran/al-kafirun",
+      "dataFile": "109.json"
+    },
+    {
+      "number": 110,
+      "nameArSource": "Ø§ÙÙØµØ±",
+      "nameEnSource": "An-Nasr",
+      "slug": "an-nasr",
+      "path": "/quran/an-nasr",
+      "dataFile": "110.json"
+    },
+    {
+      "number": 111,
+      "nameArSource": "Ø§ÙÙØ³Ø¯",
+      "nameEnSource": "Al-Masad",
+      "slug": "al-masad",
+      "path": "/quran/al-masad",
+      "dataFile": "111.json"
+    },
+    {
+      "number": 112,
+      "nameArSource": "Ø§ÙØ¥Ø®ÙØ§Øµ",
+      "nameEnSource": "Al-Ikhlaas",
+      "slug": "al-ikhlas",
+      "path": "/quran/al-ikhlas",
+      "dataFile": "112.json"
+    },
+    {
+      "number": 113,
+      "nameArSource": "Ø§ÙÙÙÙ",
+      "nameEnSource": "Al-Falaq",
+      "slug": "al-falaq",
+      "path": "/quran/al-falaq",
+      "dataFile": "113.json"
+    },
+    {
+      "number": 114,
+      "nameArSource": "Ø§ÙÙØ§Ø³",
+      "nameEnSource": "An-Naas",
+      "slug": "an-nas",
+      "path": "/quran/an-nas",
+      "dataFile": "114.json"
+    }
+  ]
+}

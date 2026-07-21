@@ -1,0 +1,37 @@
+{
+  "surah": 114,
+  "nameAr": "Ø§ÙÙØ§Ø³",
+  "nameEn": "An-Naas",
+  "ayahCount": 6,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "قُلْ أَعُوذُ بِرَبِّ ٱلنَّاسِ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "مَلِكِ ٱلنَّاسِ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "إِلَٰهِ ٱلنَّاسِ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "مِن شَرِّ ٱلْوَسْوَاسِ ٱلْخَنَّاسِ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "ٱلَّذِى يُوَسْوِسُ فِى صُدُورِ ٱلنَّاسِ"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "مِنَ ٱلْجِنَّةِ وَٱلنَّاسِ"
+    }
+  ]
+}

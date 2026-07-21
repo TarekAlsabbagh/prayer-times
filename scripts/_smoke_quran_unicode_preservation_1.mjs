@@ -1,28 +1,27 @@
-// Smoke — QURAN prototype: Unicode preservation (derived raw text == source, code-point exact; no mutation).
+// Smoke — Tanzil model: verse text preserved codepoint-by-codepoint (no normalization/trim/collapse/mojibake).
 import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const BASE = path.join(ROOT, 'data', 'quran', 'kfgqpc-hafs-v2-0');
-let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
-const SRC = process.env.QURAN_SOURCE_DIR || path.join(ROOT, '.quran-source');
-const HAFS = path.join(SRC, 'hafsData_v2-0.json');
-if (!fs.existsSync(HAFS)) { console.log('SKIP — local Quran source cache not present (' + SRC + '); raw-source checks need .quran-source/'); process.exit(0); }
-const raw = JSON.parse(fs.readFileSync(HAFS, 'utf8'));
-const s = JSON.parse(fs.readFileSync(path.join(BASE, 'surahs', '021.json'), 'utf8'));
-const all = s.pages.flatMap(p => p.ayahs);
-const srcById = new Map(raw.filter(r => Number(r.sura_no) === 21).map(r => [Number(r.aya_no), r]));
-let rawEq = 0, imlaeiEq = 0, nbsp = 0;
-for (const a of all) {
-  const r = srcById.get(a.ayah);
-  if (a.textUthmaniRaw === r.aya_text) rawEq++;               // byte/code-point identical to unmodified source
-  if (a.textImlaei === r.aya_text_emlaey) imlaeiEq++;         // search text preserved from source
-  if ([...a.textUthmaniRaw].slice(-2)[0].codePointAt(0) === 0x00A0) nbsp++;  // NBSP before the aya mark preserved
-}
-ok(rawEq === 112, 'all 112: textUthmaniRaw === source aya_text (code-point identical, unmodified)');
-ok(imlaeiEq === 112, 'all 112: textImlaei === source aya_text_emlaey (search text preserved)');
-ok(nbsp === 112, 'all 112: NBSP (U+00A0) preserved before the aya mark');
-// no Private Use Area glyphs anywhere in the display body (KFGQPC data is standard Unicode, not PUA glyphs)
-ok(all.every(a => ![...a.textUthmaniBody].some(ch => { const c = ch.codePointAt(0); return c >= 0xE000 && c <= 0xF8FF; })), 'no PUA (U+E000..F8FF) glyphs in any display body');
-// dagger alif preserved in body where the source has it (e.g. ٱلرَّحۡمَٰن in 21:26)
-const a26 = all.find(a => a.ayah === 26);
-ok(a26 && [...a26.textUthmaniRaw].some(ch => ch.codePointAt(0) === 0x0670), '21:26 retains dagger-alif (U+0670) from source');
-console.log(`\nRESULT: ${pass} passed, ${fail} failed`); if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }
+const BASE = path.join(ROOT, 'data', 'quran', 'tanzil-uthmani-1-1');
+let pass = 0, fail = 0; const ok = (c, m) => c ? pass++ : (fail++, console.log('  FAIL ' + m));
+const xml = fs.readFileSync(path.join(BASE,'vendor','quran-uthmani-1.1.xml'),'utf8');
+const dec = s => s.replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/&quot;/g,'"').replace(/&apos;/g,"'").replace(/&amp;/g,'&');
+const src = new Map(); let sm; const sr = /<sura\s+index="(\d+)"\s+name="[^"]*"\s*>([\s\S]*?)<\/sura>/g;
+while ((sm = sr.exec(xml))) { const s=+sm[1]; let am; const ar=/<aya\s+index="(\d+)"\s+text="([^"]*)"(?:\s+bismillah="[^"]*")?\s*\/>/g;
+  while ((am = ar.exec(sm[2]))) src.set(s+':'+ +am[1], dec(am[2])); }
+let exact = 0, nfc = 0, trimmed = 0, dbl = 0, repl = 0;
+for (let n = 1; n <= 114; n++) { const s = JSON.parse(fs.readFileSync(path.join(BASE,'surahs',String(n).padStart(3,'0')+'.json'),'utf8'));
+  for (const a of s.ayahs) { const t = a.textUthmaniBody, u = src.get(n+':'+a.ayah);
+    if (t === u) exact++;
+    if (t.normalize('NFC') !== t && t === u) {} // source itself may be non-NFC; we only forbid US changing it
+    if (t !== u && t.normalize('NFC') === u) nfc++;         // a difference caused by NFC normalization
+    if (t !== u && t.trim() === u) trimmed++;               // a difference caused by trimming
+    if (t !== u && t.replace(/ +/g,' ') === u) dbl++;       // a difference caused by space-collapsing
+    if (t.includes('�')) repl++;
+  } }
+ok(exact === 6236, 'all 6236 verse texts byte-for-byte equal to source (got '+exact+')');
+ok(nfc === 0, 'no verse changed by Unicode NFC normalization');
+ok(trimmed === 0, 'no verse changed by trimming');
+ok(dbl === 0, 'no verse changed by space-collapsing');
+ok(repl === 0, 'zero U+FFFD replacement characters (no mojibake)');
+console.log('RESULT unicode_preservation(Tanzil): '+pass+' passed, '+fail+' failed');
+if (fail) process.exit(1);

@@ -16890,14 +16890,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // hard-hides any ad container accidentally injected into the verse-reading surface (display:none, no CLS).
         html = html.replace('</head>',
             '    <link rel="preload" as="font" href="/fonts/AmiriQuran-Regular.ttf" type="font/ttf" crossorigin>\n' +
-            '    <link rel="stylesheet" href="/css/quran.css?v=24">\n' +
+            '    <link rel="stylesheet" href="/css/quran.css?v=25">\n' +
             // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
             // the structured-data URLs and the canonical can never disagree about the host.
             '    ' + _quranSurahJsonLd(String((seo && seo.canonical) || '').replace(/\/quran\/[^/]+$/, ''), _qsPage.n) + '\n' +
             // the switcher opens via JS (onclick + .open). With JS off those SSR links would be unreachable —
             // this <noscript> rule (quran route only) lets keyboard focus reveal them. Inert when JS runs.
             '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
-        html = html.replace('</body>', '    <script defer src="/js/quran.js?v=13"></script>\n</body>');
+        html = html.replace('</body>', '    <script defer src="/js/quran.js?v=14"></script>\n</body>');
         // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
         // 23 other .page blocks so this surah is the only page in the raw HTML and in the final DOM.
         html = _stripForeignPageBlocks(html, 'page-quran-surah');
@@ -16924,7 +16924,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // TAG (rather than 404-ing the file) is what keeps the network panel and console clean.
         html = html.replace('<script defer src="js/azkar-data.js?v=39"></script>', '');
         html = html.replace('</head>',
-            '    <link rel="stylesheet" href="/css/quran.css?v=24">\n'
+            '    <link rel="stylesheet" href="/css/quran.css?v=25">\n'
             // Origin is derived from the page's OWN canonical rather than re-read from SITE_URL, so the
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'

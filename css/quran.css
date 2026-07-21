@@ -22,8 +22,14 @@
   --q-tint:      color-mix(in srgb, var(--primary) 8%,  var(--card-bg));
   --q-tint-soft: color-mix(in srgb, var(--primary) 12%, transparent);
   --q-tint-line: color-mix(in srgb, var(--primary) 24%, var(--border));
-  --q-ayah-size: clamp(1.55rem, 4vw, 1.95rem);   /* no-JS fallback size */
-  --q-ayah-base: 1.55rem;            /* JS default base (desktop); JS adds the +/- step on top of this */
+  /* QURAN-READER-AYAH-FONT-SIZE-SSR-JS-CLS-STABILIZATION-1: the responsive base size lives ENTIRELY in CSS and
+     is the SAME value SSR / No-JS and JS render, so JS never rewrites the size on load. Previously JS wrote an
+     absolute --q-ayah-size (base 1.55rem) OVER the SSR clamp (1.95rem on desktop), shrinking every ayah on
+     first paint and reflowing the whole surah (~0.244 CLS on long surahs). Now JS only writes the reader's
+     +/- STEP as --q-ayah-size-offset; at the default step 0 it writes nothing, so post-JS layout == SSR. */
+  --q-ayah-size-base: clamp(1.55rem, 4vw, 1.95rem);   /* responsive base (desktop/tablet); shared by SSR + JS */
+  --q-ayah-size-offset: 0rem;                          /* reader +/- step in rem; JS sets it (0 at default) */
+  --q-ayah-size: calc(var(--q-ayah-size-base) + var(--q-ayah-size-offset, 0rem));   /* final; no-JS uses base */
   --q-read-col: 860px;               /* inner reading column for the ayah text (comfortable line length) */
   /* Measured chrome — js/quran.js sets --q-header-h / --q-sidebar-w / --q-sticky-h on :root (ResizeObserver);
      the fallbacks keep the layout sane before JS runs and with JS off. */
@@ -387,7 +393,7 @@ body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); 
 @media (max-width: 480px) {
   .quran-page-card { padding: 16px 16px 20px; border-radius: 14px; }
   /* one step smaller than desktop on phones (~390px): base 1.43rem instead of 1.55rem */
-  .quran-surah-page { --q-ayah-size: clamp(1.4rem, 5.8vw, 1.6rem); --q-ayah-base: 1.43rem; }
+  .quran-surah-page { --q-ayah-size-base: clamp(1.4rem, 5.8vw, 1.6rem); }   /* phone base; offset + final calc inherit */
   .quran-reading-sticky { padding: 7px 8px; }
   .quran-toolbar { gap: 6px; }
   .quran-tool-btn .quran-tool-label { display: none; }   /* icons only on small screens */

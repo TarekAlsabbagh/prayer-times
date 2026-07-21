@@ -60,22 +60,24 @@
     // exact old meaning (a reference-page number, per surah) and every already-saved value stays valid.
     var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + (SURAH_N || '0'), last: 'quran.pos.last' };
 
-    /* ---- font size: step (-3..+6) added on top of the viewport-aware base var --q-ayah-base (CSS sets it
-       to 1.55rem on desktop, 1.43rem on phones). Reading the base from CSS keeps the DEFAULT responsive per
-       breakpoint instead of forcing one fixed size everywhere. The +/- var is set on .quran-surah-page. ---- */
+    /* ---- font size (QURAN-READER-AYAH-FONT-SIZE-SSR-JS-CLS-STABILIZATION-1): the responsive base size lives
+       ENTIRELY in CSS (--q-ayah-size-base — a per-breakpoint clamp that SSR / No-JS already render). JS must
+       NEVER write the final --q-ayah-size, or it overwrites the SSR size on load and reflows every ayah (that
+       was ~0.244 CLS on long surahs). JS only writes the reader's +/- STEP as a rem OFFSET; at the default
+       step 0 it writes NOTHING, so the layout after JS is identical to SSR. Range -3..+6, 0.12rem per step.
+       The offset is breakpoint-independent, so no resize re-apply is needed — CSS keeps the base responsive. ---- */
     var step = parseInt(LS.get(K.font) || '0', 10); if (isNaN(step)) step = 0;
-    function readBaseRem() {
-      var v = parseFloat(getComputedStyle(fontEl).getPropertyValue('--q-ayah-base'));
-      return isNaN(v) ? 1.55 : v;
-    }
     function applyFont(persist) {
       step = Math.max(-3, Math.min(6, step));
-      fontEl.style.setProperty('--q-ayah-size', (readBaseRem() + step * 0.12).toFixed(2) + 'rem');
+      if (step === 0) {
+        fontEl.style.removeProperty('--q-ayah-size-offset');
+        fontEl.style.removeProperty('--q-ayah-size');   // clear any legacy absolute override; CSS calc takes over
+      } else {
+        fontEl.style.setProperty('--q-ayah-size-offset', (step * 0.12).toFixed(2) + 'rem');
+      }
       if (persist !== false) LS.set(K.font, String(step));
     }
     applyFont();
-    // re-apply (no persist) if the viewport crosses the phone/desktop breakpoint, e.g. on rotate
-    window.addEventListener('resize', function () { applyFont(false); });
 
     /* ---- reading mode (hides page chrome; class on <body>) ---- */
     if (LS.get(K.read) === '1') document.body.classList.add('quran-reading');

@@ -312,7 +312,12 @@ ok(await ev(`document.querySelectorAll('.quran-home-search-field button, .quran-
 
 console.log('\n--- §15b layout stability: the index must not move while typing ---');
 await go(B + '/quran');
-const idxTop = () => ev(`(()=>{const c=document.querySelector('.quran-home-idx-li');return +c.getBoundingClientRect().top.toFixed(2)})()`);
+// Measure the index's ABSOLUTE offset from the top of the document (rect.top + scrollY), not its
+// viewport-relative top. The suggestion listbox is position:absolute and must not reflow the page — that is
+// the real invariant (CLS). Focusing the search input, however, legitimately scrolls it into view now that
+// the stat + al-Kahf cards sit above it (QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1), and a browser
+// scroll is NOT a layout shift. Adding scrollY cancels the scroll so the assertion measures reflow only.
+const idxTop = () => ev(`(()=>{const c=document.querySelector('.quran-home-idx-li');return +(c.getBoundingClientRect().top + window.scrollY).toFixed(2)})()`);
 const base = await idxTop();
 await type('ال');                     const t1 = await idxTop();
 ok(Math.abs(t1 - base) <= 1, `typing a query moves the index by ≤1px — moved ${(t1-base).toFixed(2)}px`);

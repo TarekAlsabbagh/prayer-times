@@ -66,7 +66,7 @@ const M = JSON.parse(await ev(`(()=>{
   const faq = document.querySelector('.quran-home-faq');
   const source = document.getElementById('quran-home-source');
   // containers whose text is data, not prose
-  const dataBits = [...document.querySelectorAll('#page-quran-home .quran-home-idx-grid, #page-quran-home .quran-home-juz-grid, #page-quran-home .moon-breadcrumb, #page-quran-home .quran-home-stats, #page-quran-home .quran-services-grid, #page-quran-home .quran-services, #page-quran-home .quran-home-idx-grouptitle')];
+  const dataBits = [...document.querySelectorAll('#page-quran-home .quran-home-idx-grid, #page-quran-home .quran-home-juz-grid, #page-quran-home .moon-breadcrumb, #page-quran-home .quran-home-stats, #page-quran-home .quran-home-stats-cards, #page-quran-home .quran-services-grid, #page-quran-home .quran-services, #page-quran-home .quran-home-idx-grouptitle')];
   const dataWords = dataBits.reduce((a,el)=>a+vis(el),0);
   return JSON.stringify({
     total: vis(page),
@@ -104,7 +104,7 @@ ok(M.detailsOpen === 0, `no <details> forced open to inflate the count — ${M.d
 
 console.log('\n--- §13 the page still works ---');
 ok(M.h1 === 1, `H1 = ${M.h1}`);
-ok(M.h2 === 8, `H2 = ${M.h2} (7 before + the guidance section)`);
+ok(M.h2 === 9, `H2 = ${M.h2} (7 base + guidance + the al-Kahf feature card)`);
 ok(M.h3 === 17, `H3 = ${M.h3} (14 before + 3 card titles)`);
 ok(M.cards === 114 && M.juz === 30, `114 surah cards + 30 juz cards — ${M.cards}/${M.juz}`);
 ok(M.guideCards === 3, `3 guidance cards — ${M.guideCards}`);

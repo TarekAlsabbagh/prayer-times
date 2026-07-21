@@ -51,6 +51,11 @@ html[data-theme="dark"] .quran-surah-page {
 
 /* ---- hero (built on the site .section-card) ---- */
 .quran-hero { text-align: start; }
+/* QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — the hero is a <header>, not a .section-card, so it
+   carried no bottom margin: the first section under it (the search box) sat flush against it (0px) while
+   every section is spaced 24px from the next. Give the home hero the same 24px so the gap ABOVE the search
+   box equals the gap BELOW it. (Home hero only — the surah-page hero is untouched.) */
+.quran-home-hero { margin-bottom: 24px; }
 .quran-hero h1 { font-size: clamp(1.5rem, 4vw, 2.15rem); margin: 6px 0 8px; line-height: 1.3; }
 .quran-eyebrow { color: var(--primary-dark); font-weight: 700; font-size: 14px; letter-spacing: .2px; }
 .quran-hero-intro { color: var(--text-light); font-size: 15.5px; line-height: 1.85; max-width: 70ch; margin: 0 0 14px; }
@@ -592,6 +597,105 @@ body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); 
   .quran-home-idx-grid { grid-template-columns: 1fr; }
   .quran-home-stats { gap: 8px; }
   .quran-home-guide-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════ QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 ═══════
+   The three figures, promoted from a chip row into cards: a big number, a labelled icon in a rounded tile,
+   a title and a one-line gloss. Column count is stated per breakpoint (3 / 2 / 1), never auto-fill, so the
+   layout is a decision not an accident — and no fixed height anywhere, so a long gloss grows the card
+   instead of being clipped. Built on the same green identity tokens as the rest of the page; the accent
+   falls back to the site green when --accent is absent. RTL is inherited from the page, and the grid is
+   direction-agnostic, so the first card sits on the right automatically. */
+.quran-home-stats-cards {
+  list-style: none; padding: 0; margin: 18px 0 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+}
+/* Tinted with --primary (the green), NOT --accent: --accent is the site's GOLD (#d4a017), which would put a
+   gold wash on cards that must read as the calm green identity. --primary and --primary-dark both invert
+   correctly for dark mode (the icon goes light-green on a dark tile), so the identity variables ARE enough
+   here — no hard-coded colours needed on the stat cards. */
+.quran-stat-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  padding: 20px; border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--text) 11%, transparent);
+  background: color-mix(in srgb, var(--primary, #1a6b3c) 5%, var(--card-bg, var(--bg, #fff)));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+}
+.quran-stat-ico {
+  width: 52px; height: 52px; border-radius: 15px; margin-bottom: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--primary, #1a6b3c) 14%, transparent);
+  color: var(--primary-dark, var(--primary, #1a6b3c));
+}
+.quran-stat-ico svg { width: 28px; height: 28px; display: block; }
+.quran-stat-body { display: flex; flex-direction: column; gap: 3px; }
+.quran-stat-num { font-size: clamp(2.15rem, 4.5vw, 3.25rem); font-weight: 800; line-height: 1.05; color: var(--text); }
+.quran-stat-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.quran-stat-sub { font-size: .95rem; color: var(--text-light); line-height: 1.5; }
+
+/* al-Kahf feature card — a full-width highlighted panel with white text on a calm green gradient.
+   The gradient uses FIXED greens (dark → mid), NOT the theme variables: --accent is gold, and --primary-dark
+   INVERTS to a light green in dark mode — either would turn this panel gold or wash it out so the white text
+   fails contrast (§6 asks for green, §11 forbids a low-contrast block). A marketing panel that is always
+   white-on-green is exactly the case where fixed brand colours are correct. A faint 8-point star sits behind
+   the text (aria-hidden); the button is a solid white pill with an RTL-facing arrow. Stronger shadow than the
+   stat cards so it reads as the highlighted item; it lifts a little on hover where motion is welcome. */
+/* margin: 14px top AND bottom — the card carried no bottom margin, and the juz section below it has no top
+   margin, so the gap under the al-Kahf card was 0 while the gap above it was 14px. Matching them (14 = 14)
+   makes the card sit with equal breathing room on both sides. */
+.quran-home-kahf {
+  position: relative; overflow: hidden; margin: 14px 0;
+  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  padding: 24px 26px; border-radius: 22px;
+  background: linear-gradient(135deg, #0d4a28 0%, #1a6b3c 100%);
+  color: #fff; box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.quran-home-kahf:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(0, 0, 0, .22); }
+.quran-kahf-deco {
+  position: absolute; inset-inline-end: -14px; inset-block-start: -18px;
+  width: 150px; height: 150px; color: #fff; opacity: .10; pointer-events: none;
+}
+.quran-kahf-deco svg { width: 100%; height: 100%; }
+.quran-kahf-ico {
+  flex: 0 0 auto; width: 58px; height: 58px; border-radius: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .16); color: #fff;
+}
+.quran-kahf-ico svg { width: 32px; height: 32px; display: block; }
+.quran-kahf-body { position: relative; z-index: 1; flex: 1 1 320px; min-width: 0; }
+.quran-kahf-badge {
+  display: inline-block; margin: 0 0 8px; padding: 4px 12px; border-radius: 999px;
+  background: rgba(255, 255, 255, .18); color: #fff; font-size: .82rem; font-weight: 700;
+}
+.quran-kahf-title { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 800; color: #fff; }
+.quran-kahf-text { margin: 0 0 4px; font-size: 1rem; line-height: 1.8; color: rgba(255, 255, 255, .92); }
+.quran-kahf-meta { margin: 0 0 14px; font-size: .9rem; color: rgba(255, 255, 255, .78); }
+/* White pill, green text — the text colour is a FIXED dark green, matching the fixed gradient: var(--primary-dark)
+   would flip to light green in dark mode and vanish against the white pill. */
+.quran-kahf-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 999px;
+  background: #fff; color: #0d4a28;
+  font-weight: 700; font-size: 1rem; text-decoration: none;
+  transition: transform .18s ease, background .18s ease;
+}
+.quran-kahf-btn:hover { transform: translateX(-2px); background: #eef6f0; }
+.quran-kahf-arrow { font-size: 1.15rem; line-height: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .quran-home-kahf, .quran-home-kahf:hover, .quran-kahf-btn, .quran-kahf-btn:hover { transition: none; transform: none; }
+}
+
+/* Tablet: two stat cards then the third on a second row (half width — a stated 2-col grid, no squeeze). */
+@media (max-width: 900px) {
+  .quran-home-stats-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Mobile: one stat card per row, and the al-Kahf card stacks its icon above the text. */
+@media (max-width: 560px) {
+  .quran-home-stats-cards { grid-template-columns: 1fr; }
+  .quran-home-kahf { padding: 20px; gap: 16px; }
+  .quran-kahf-btn { width: 100%; justify-content: center; }
 }
 
 /* ═══════ QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-SUGGESTIONS-UX-FINAL-GATE-1 — the suggestion listbox ═══════

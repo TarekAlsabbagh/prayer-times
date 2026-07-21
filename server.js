@@ -16886,7 +16886,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
         html = html.replace('</head>',
             '    <link rel="preload" as="font" href="/fonts/uthmanic_hafs_v20.ttf" type="font/ttf" crossorigin>\n' +
-            '    <link rel="stylesheet" href="/css/quran.css?v=22">\n' +
+            '    <link rel="stylesheet" href="/css/quran.css?v=23">\n' +
             // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
             // the structured-data URLs and the canonical can never disagree about the host.
             '    ' + _quranSurahJsonLd(String((seo && seo.canonical) || '').replace(/\/quran\/[^/]+$/, ''), _qsPage.n) + '\n' +
@@ -16920,7 +16920,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         // TAG (rather than 404-ing the file) is what keeps the network panel and console clean.
         html = html.replace('<script defer src="js/azkar-data.js?v=39"></script>', '');
         html = html.replace('</head>',
-            '    <link rel="stylesheet" href="/css/quran.css?v=22">\n'
+            '    <link rel="stylesheet" href="/css/quran.css?v=23">\n'
             // Origin is derived from the page's OWN canonical rather than re-read from SITE_URL, so the
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
@@ -30298,8 +30298,60 @@ function _buildQuranHomeFaqHtml() {
   <div class="country-faq-list moon-country-faq">${items}</div>
 </section>`;
 }
-function _buildQuranHomeBody() {
+// QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — the three home figures, promoted from a thin chip row
+// in the hero to full cards with a large number, a labelled icon and a one-line gloss. The figures are the
+// SAME derived totals as before (_quranHomeTotals → chapters.length / juz.json length / summed ayahCount);
+// nothing is typed. Each card is a listitem carrying its own accessible name («١١٤ سورة في القرآن الكريم»),
+// and the visible number/label/gloss are aria-hidden so a screen reader hears the sentence once, not the
+// fragments twice. Icons are inline stroke SVGs at one visual weight (aria-hidden) — no emoji, no icon font,
+// no image request. The cards are NOT headings (§9): the number is a <strong>, so the H1→H2 outline is intact.
+const _QURAN_STAT_ICON = {
+    surahs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.6c3-1 6-1 9 .6 3-1.6 6-1.6 9-.6v12.4c-3-1-6-1-9 .6-3-1.6-6-1.6-9-.6V5.6Z"/><path d="M12 6.2v12.4"/></svg>',
+    juz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="m3 12 9 4.5L21 12"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>',
+    ayat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m12 7.6 1.15 2.4 2.65.35-1.95 1.85.48 2.6L12 15.9l-2.33 1.3.48-2.6L8.2 12.7l2.65-.35L12 7.6Z"/></svg>',
+};
+function _quranStatCard(num, title, sub, iconKey, aria) {
+    return `<li class="quran-stat-card" aria-label="${_quranEsc(aria)}">`
+        + `<span class="quran-stat-ico" aria-hidden="true">${_QURAN_STAT_ICON[iconKey]}</span>`
+        + `<span class="quran-stat-body" aria-hidden="true">`
+        + `<strong class="quran-stat-num">${num}</strong>`
+        + `<span class="quran-stat-title">${title}</span>`
+        + `<span class="quran-stat-sub">${sub}</span>`
+        + `</span></li>`;
+}
+function _buildQuranHomeStatsCardsHtml() {
     const t = _quranHomeTotals();
+    const s = _quranAr(t.surahs), j = _quranAr(t.juz), a = _quranAr(t.ayat);
+    return `<section class="quran-home-stats-cards" role="list" aria-label="إحصاءات القرآن الكريم">
+    ${_quranStatCard(s, 'سورة', 'جميع سور القرآن الكريم', 'surahs', s + ' سورة في القرآن الكريم')}
+    ${_quranStatCard(j, 'جزءًا', 'أجزاء القرآن الكريم', 'juz', j + ' جزءًا في القرآن الكريم')}
+    ${_quranStatCard(a, 'آية', 'في النص القرآني المعروض', 'ayat', a + ' آية في النص القرآني المعروض')}
+  </section>`;
+}
+// A full-width feature card for Surah al-Kahf, the customary Friday reading. The number (18), the ayah count
+// (110) and the /quran/al-kahf path are read from the chapter record + route map, never typed, so a data bump
+// can never leave the card lying. It is a plain link card, visible every day — the «قراءة يوم الجمعة» badge is
+// static context, not a schedule: no countdown, no geolocation, no timezone, no new storage (§7, out of scope).
+// One link only (the button); the H2 and icon are not links. The star + arrow are aria-hidden decoration.
+function _buildQuranHomeKahfHtml() {
+    const sh = _quranShared();
+    const ch = _quranChapter(18);
+    const rec = sh.byNumber.get(18);
+    const name = _quranCleanName(ch.nameAr);
+    return `<section class="quran-home-kahf" aria-labelledby="quran-home-kahf-title">
+    <span class="quran-kahf-deco" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M24 4 29 14 40 15.5 32 23.5 34 34.5 24 29.5 14 34.5 16 23.5 8 15.5 19 14 24 4Z"/></svg></span>
+    <span class="quran-kahf-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.6c3-1 6-1 9 .6 3-1.6 6-1.6 9-.6v12.4c-3-1-6-1-9 .6-3-1.6-6-1.6-9-.6V5.6Z"/><path d="M12 6.2v12.4"/></svg></span>
+    <div class="quran-kahf-body">
+      <span class="quran-kahf-badge">قراءة يوم الجمعة</span>
+      <h2 id="quran-home-kahf-title" class="quran-kahf-title">سورة ${_quranEsc(name)}</h2>
+      <p class="quran-kahf-text">اقرأ سورة ${_quranEsc(name)} كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم.</p>
+      <p class="quran-kahf-meta">${_quranAr(ch.ayahCount)} آيات · السورة رقم ${_quranAr(ch.number)}</p>
+      <a class="quran-kahf-btn" href="${rec.path}">قراءة سورة ${_quranEsc(name)}<span class="quran-kahf-arrow" aria-hidden="true"> ←</span></a>
+    </div>
+  </section>`;
+}
+function _buildQuranHomeBody() {
+    // (the three totals now live in the stat-cards builder; the hero no longer needs them here)
     return `<div class="quran-shell quran-home-shell" id="quran-top">
   <div class="quran-site-container">
     <nav class="moon-breadcrumb" aria-label="مسار التنقل">
@@ -30319,18 +30371,15 @@ function _buildQuranHomeBody() {
         <a class="quran-btn quran-btn-primary" href="/quran#quran-surah-index">تصفح سور القرآن</a>
         <a class="quran-btn quran-btn-ghost" id="quran-home-continue" href="/quran#quran-surah-index" data-quran-continue hidden>متابعة القراءة</a>
       </div>
-      <ul class="quran-hero-chips quran-home-stats">
-        <li class="quran-chip"><span class="quran-chip-num">${_quranAr(t.surahs)}</span> <span class="quran-chip-lbl">سورة</span></li>
-        <li class="quran-chip"><span class="quran-chip-num">${_quranAr(t.juz)}</span> <span class="quran-chip-lbl">جزءًا</span></li>
-        <li class="quran-chip"><span class="quran-chip-num">${_quranAr(t.ayat)}</span> <span class="quran-chip-lbl">آية</span></li>
-      </ul>
     </header>
 
-    <!-- A short services strip used to sit here. It repeated three of the eight links in the services block
-         at the foot of the page and interrupted the path from the hero to the search box, so it is gone —
-         one services block, at the bottom. (Deliberately no Arabic in this comment: it ships to the client,
-         and a heading that only exists in a comment would still be found by a text search of the page.) -->
-
+    <!-- QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — ORDER (per the user): the SEARCH box is the
+         first element under the hero actions, then the continue-reading card, then the stat cards + the
+         al-Kahf feature card (built lower down, just before the juz section). The old hero chip row is gone —
+         its numbers now live in the stat cards. A short services strip that used to sit here is gone too; it
+         repeated three of the eight links in the services block at the foot of the page. (No Arabic in this
+         comment: it ships to the client, and a heading that only existed in a comment would still be found by
+         a text search of the page.) -->
     <section class="section-card quran-home-search" aria-labelledby="quran-home-search-title">
       <h2 id="quran-home-search-title">ابحث عن سورة</h2>
       <p class="quran-home-search-lead">ابحث باسم السورة أو رقمها، ثم افتح صفحتها لقراءتها كاملة.</p>
@@ -30363,6 +30412,9 @@ function _buildQuranHomeBody() {
       <p class="quran-home-lastread-line"><span data-quran-lastread-surah></span> · <span data-quran-lastread-ayah></span></p>
       <a class="quran-btn quran-btn-primary quran-home-lastread-btn" href="/quran#quran-surah-index" data-quran-lastread-link></a>
     </section>
+
+    ${_buildQuranHomeStatsCardsHtml()}
+    ${_buildQuranHomeKahfHtml()}
 
     ${_buildQuranHomeJuzHtml()}
     ${_buildQuranHomeIndexHtml()}

@@ -92,13 +92,18 @@ ok(badJuz.length === 0, 'every juz link is its REAL first surah+ayah from juz.js
 ok(juz.map(x => +x[2]).join() === JZ.map(j => j.juz).join(), 'juz are listed 1..30 in order');
 ok(count(/\/quran\/juz\//g) === 0, 'no /quran/juz/N route was invented');
 
-console.log('\n--- §8 hero figures are derived, not typed ---');
+console.log('\n--- §8 the three figures are derived, not typed (now in the stat cards) ---');
+// QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — the figures moved out of the hero chip row into
+// dedicated stat cards. Still the same derived totals; here we assert each card prints its number as the
+// big <strong> next to the right title, so a data bump would change the card, not a hand-typed slogan.
 const totalAyat = CH.reduce((a, c) => a + c.ayahCount, 0);
 ok(totalAyat === 6236, 'chapters.json sums to 6236 ayat — got ' + totalAyat);
 const ar = n => String(n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[+d]);
-ok(html.includes('>' + ar(114) + '</span> <span class="quran-chip-lbl">سورة'), 'hero shows ١١٤ سورة');
-ok(html.includes('>' + ar(30) + '</span> <span class="quran-chip-lbl">جزءًا'), 'hero shows ٣٠ جزءًا');
-ok(html.includes('>' + ar(totalAyat) + '</span> <span class="quran-chip-lbl">آية'), 'hero shows ' + ar(totalAyat) + ' آية');
+ok(html.includes('<strong class="quran-stat-num">' + ar(114) + '</strong><span class="quran-stat-title">سورة'), 'stat card shows ١١٤ سورة');
+ok(html.includes('<strong class="quran-stat-num">' + ar(30) + '</strong><span class="quran-stat-title">جزءًا'), 'stat card shows ٣٠ جزءًا');
+ok(html.includes('<strong class="quran-stat-num">' + ar(totalAyat) + '</strong><span class="quran-stat-title">آية'), 'stat card shows ' + ar(totalAyat) + ' آية');
+ok((html.match(/class="quran-stat-card"/g) || []).length === 3, 'exactly three stat cards');
+ok(!/quran-hero-chips|quran-home-stats"/.test(html), 'the old hero chip row is gone');
 
 console.log('\n--- §9 search data island (no network needed) ---');
 ok(count(/data-num="\d+" data-num-ar="/g) === 114, 'every card carries its number in both digit systems');

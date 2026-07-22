@@ -4905,6 +4905,15 @@ const _preloadPaths = [
     'js/i18n/bn.js', 'js/i18n/ms.js',
     'index.html', 'prayer-times-cities.html', 'legal.html', 'countries.html',
     'sw.js',
+    // QURAN-AR-SURAH-PAGE-PERFORMANCE-PRELOAD-MINIFY-FIX-1: the Quran section's own
+    //   assets were served RAW (not in this list) — quran.css/quran.js unminified and
+    //   the 135 KB Amiri Quran TTF UNCOMPRESSED (fonts are not in the on-the-fly gzip
+    //   `compressible` set). Preloading them here minifies the CSS/JS and precomputes a
+    //   brotli+gzip copy of the TTF (~135 KB → ~65 KB on the wire), which is the LCP
+    //   driver on a surah page. NO file/UX/text/cache-buster change — same bytes, just
+    //   served minified+compressed like every other asset. (.ttf is added to the
+    //   `compressible` serve check below so the precomputed brotli is actually sent.)
+    'css/quran.css', 'js/quran.js', 'fonts/AmiriQuran-Regular.ttf',
 ];
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -33025,7 +33034,11 @@ const server = http.createServer(async (req, res) => {
     const ext         = path.extname(filePath).toLowerCase();
     const contentType = mimeTypes[ext] || 'application/octet-stream';
 
-    const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml'].includes(ext);
+    // QURAN-AR-SURAH-PAGE-PERFORMANCE-PRELOAD-MINIFY-FIX-1: .ttf added so the self-hosted
+    //   Amiri Quran font (preloaded into _staticCache with a brotli/gzip copy) is served
+    //   Content-Encoding: br (~135 KB → ~65 KB). Raw TTF gzips ~50% (unlike woff2, which is
+    //   already brotli-internal — do NOT add .woff2 here). This is the surah-page LCP lever.
+    const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml', '.ttf'].includes(ext);
     const isVersioned  = req.url.includes('?v=');
     const isServiceWorker = urlPath === '/sw.js';
     // ملفات وسائط ثابتة (أذان، أيقونات...) لا تتغير — 1 سنة

@@ -16897,7 +16897,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // the switcher opens via JS (onclick + .open). With JS off those SSR links would be unreachable —
             // this <noscript> rule (quran route only) lets keyboard focus reveal them. Inert when JS runs.
             '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
-        html = html.replace('</body>', '    <script defer src="/js/quran.js?v=14"></script>\n</body>');
+        html = html.replace('</body>', '    <script defer src="/js/quran.js?v=15"></script>\n</body>');
         // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
         // 23 other .page blocks so this surah is the only page in the raw HTML and in the final DOM.
         html = _stripForeignPageBlocks(html, 'page-quran-surah');

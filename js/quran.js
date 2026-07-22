@@ -56,8 +56,9 @@
     // QURAN-AR-HOME-INDEX-SSR-1 adds ONE key on top of the above — `last` — so /quran can answer "which
     // surah was I reading?". The 114 per-surah keys cannot: they carry no timestamp and no ordering, so
     // scanning them tells you where you stopped in each surah but never which one was most recent. This is
-    // an extra POINTER written at the same moment by the same code, not a second store: `pos` keeps its
-    // exact old meaning (a reference-page number, per surah) and every already-saved value stays valid.
+    // an extra POINTER written at the same moment by the same code, not a second store: `pos` stays a plain
+    // per-surah NUMBER (was a mushaf reference-page, now the ayah in the flat model) so every already-saved
+    // value stays valid.
     var K = { font: 'quran.pref.fontStep', read: 'quran.pref.reading', pos: 'quran.pos.surah' + (SURAH_N || '0'), last: 'quran.pos.last' };
 
     /* ---- font size (QURAN-READER-AYAH-FONT-SIZE-SSR-JS-CLS-STABILIZATION-1): the responsive base size lives
@@ -317,34 +318,31 @@
     if (filterInput) filterInput.addEventListener('input', applyFilter);
     filterClears.forEach(function (b) { b.addEventListener('click', function () { clearFilter(true); }); });
 
-    /* ---- reading progress bar + text + save last position (rAF-throttled) ---- */
+    /* ---- reading progress bar + save last position (ayah-based; rAF-throttled) ---- */
+    // Flat Tanzil model: there are NO mushaf `.quran-page-card` elements, so progress + resume are keyed off
+    // the AYAHS themselves. (Was `.quran-page-card` for the bar + a `data-reference-page` number for K.pos —
+    // both retired with the page/line layout; keying off page cards left the bar and the save dead on load.)
     var out = shell.querySelector('[data-quran-progress-value]');
     var fill = shell.querySelector('[data-quran-progress-fill]');
-    var cards = [].slice.call(shell.querySelectorAll('.quran-page-card'));
     var ayahs = [].slice.call(shell.querySelectorAll('[id^="ayah-"]'));
-    var total = cards.length, ticking = false;
+    var total = ayahs.length, ticking = false;
     function ar(n) { return String(n).replace(/[0-9]/g, function (d) { return '٠١٢٣٤٥٦٧٨٩'[+d]; }); }
     function updateProgress() {
       ticking = false;
-      if (!cards.length) return;
-      var mid = window.innerHeight * 0.35, cur = cards[0];
-      for (var i = 0; i < cards.length; i++) { if (cards[i].getBoundingClientRect().top <= mid) cur = cards[i]; }
-      var idx = cards.indexOf(cur) + 1;
+      if (!ayahs.length) return;
+      // the last ayah whose top has passed the 35%-viewport line = the one the reader is on
+      var mid = window.innerHeight * 0.35, cur = ayahs[0], idx = 1;
+      for (var i = 0; i < ayahs.length; i++) { if (ayahs[i].getBoundingClientRect().top <= mid) { cur = ayahs[i]; idx = i + 1; } }
       if (out) out.textContent = ar(idx) + ' / ' + ar(total);
       if (fill) fill.style.width = Math.round((idx / total) * 100) + '%';
-      LS.set(K.pos, cur.getAttribute('data-reference-page'));
-      // The AYAH the reader is on — the page card alone is too coarse to resume from, and /quran links to
-      // #ayah-N. Same sweep, same threshold as the card above: the last ayah whose top has passed the line.
+      // Resume position = that ayah's number. K.pos stays a plain number (was a mushaf page, now the ayah) so
+      // every already-saved value stays valid; /quran#ayah-N resumes to exactly this ayah. K.last is the
+      // "continue reading" pointer (surah + ayah + path); /quran re-resolves the path from `n` on its own table.
+      var num = parseInt(String(cur.id).replace('ayah-', ''), 10);
       var n = parseInt(SURAH_N, 10);
-      if (ayahs.length && n >= 1 && n <= 114) {
-        var a = ayahs[0];
-        for (var j = 0; j < ayahs.length; j++) { if (ayahs[j].getBoundingClientRect().top <= mid) a = ayahs[j]; }
-        var num = parseInt(String(a.id).replace('ayah-', ''), 10);
-        if (num >= 1) {
-          // The path is stored for reference only; /quran resolves the link from `n` against its own
-          // 114-route table, so a stale or edited value here can never redirect a reader somewhere else.
-          LS.set(K.last, JSON.stringify({ n: n, ayah: num, path: location.pathname, t: Date.now() }));
-        }
+      if (num >= 1) {
+        LS.set(K.pos, String(num));
+        if (n >= 1 && n <= 114) LS.set(K.last, JSON.stringify({ n: n, ayah: num, path: location.pathname, t: Date.now() }));
       }
     }
     window.addEventListener('scroll', function () {

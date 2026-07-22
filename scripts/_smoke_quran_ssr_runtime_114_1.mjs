@@ -12,7 +12,7 @@ import { fileURLToPath } from 'url';
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
 // /quran/{official-english-slug} — read from the source-derived table, never spelled out in a test.
 const ROUTES = JSON.parse(fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..',
-  'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+  'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 const P = n => ROUTES.find(x => x.number === n).path;
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const sleep = ms => new Promise(r => setTimeout(r, ms));
@@ -101,13 +101,14 @@ async function main() {
   // would make /quran offer to resume in the wrong place.
   let last = null; try { last = JSON.parse(pos['quran.pos.last'] || 'null'); } catch (e) {}
   ok(!!last && last.n === 2 && last.ayah >= 1, `quran.pos.last points at the surah just read (2) — got ${JSON.stringify(last)}`);
-  // …and every stored value is a page from THAT surah's own range. (Which page exactly depends on where the
-  // scroll landed — Al-Baqara spans 48 pages, so 900px in is page 3, not page 2. The invariant that matters is
-  // that surah N's key never holds a page belonging to a different surah.)
-  const RANGES = { 1: [1, 1], 2: [2, 49], 9: [187, 207], 21: [322, 331], 108: [602, 602], 114: [604, 604] };
+  // …and every stored value is an AYAH from THAT surah's own range [1, ayahCount]. The flat Tanzil model
+  // stores the AYAH the reader reached (a mushaf page number was retired with the page/line layout). Which
+  // ayah exactly depends on where the scroll landed; the invariant is that surah N's key never holds a value
+  // outside surah N's own ayah count.
+  const RANGES = { 1: [1, 7], 2: [1, 286], 9: [1, 129], 21: [1, 112], 108: [1, 3], 114: [1, 6] };
   const strays = Object.entries(RANGES).filter(([n, [lo, hi]]) => { const v = +pos['quran.pos.surah' + n]; return !(v >= lo && v <= hi); })
     .map(([n]) => `surah ${n} → ${pos['quran.pos.surah' + n]}`);
-  ok(strays.length === 0, `every key holds a page from ITS OWN surah's range — Fatiha=${pos['quran.pos.surah1']}, Baqara=${pos['quran.pos.surah2']}, Anbiya=${pos['quran.pos.surah21']}, Nas=${pos['quran.pos.surah114']}`
+  ok(strays.length === 0, `every key holds an ayah in ITS OWN surah's range — Fatiha=${pos['quran.pos.surah1']}, Baqara=${pos['quran.pos.surah2']}, Anbiya=${pos['quran.pos.surah21']}, Nas=${pos['quran.pos.surah114']}`
      + (strays.length ? ' — strays: ' + strays : ''));
 
   console.log('\n--- §14 reload / back / forward land on the right surah with no stale content ---');

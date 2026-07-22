@@ -255,12 +255,32 @@
     var L10N = null;
     try { var isl = document.getElementById('quran-locale-l10n'); if (isl) L10N = JSON.parse(isl.textContent); } catch (e) {}
 
+    // Full parity with the surah pages' js/quran.js → locApplyLang: swap ALL shared UI strings
+    // ([data-quran-locale-t] = title/desc/picked/stay/home + the close aria-label/title) to the PICKED
+    // language from the SAME #quran-locale-l10n island, set the picked language name + its home link, and give
+    // the dialog that language's own lang/dir. Reads ONLY existing shared data — this file stays free of any
+    // translation copy. Arabic (L10N.t.ar) is a defensive fallback for unexpectedly missing data only.
+    function applyLang(lang) {
+      var t = (L10N && L10N.t && (L10N.t[lang] || L10N.t.ar)) || null;
+      if (t) {
+        [].forEach.call(modal.querySelectorAll('[data-quran-locale-t]'), function (el) {
+          var v = t[el.getAttribute('data-quran-locale-t')];
+          if (typeof v === 'string' && v) el.textContent = v;
+        });
+        var cl = modal.querySelector('[data-quran-locale-close]');
+        if (cl && t.close) { cl.setAttribute('aria-label', t.close); cl.setAttribute('title', t.close); }
+      }
+      if (nameEl) nameEl.textContent = (L10N && L10N.names && L10N.names[lang]) || lang;
+      var home = (L10N && L10N.homes && L10N.homes[lang]) || ('/' + lang);
+      if (goEl) goEl.setAttribute('href', home);
+      // the dialog reads in the PICKED language → give it that language's direction, not the page's
+      modal.setAttribute('lang', lang);
+      modal.setAttribute('dir', (lang === 'ur' ? 'rtl' : (lang === 'ar' ? 'rtl' : 'ltr')));
+    }
     function openModal(lang, from) {
       if (!modal || open) return;
       open = true; opener = from;
-      // the copy is about the Quran SECTION, not any one surah — the SSR strings never name a surah
-      if (nameEl && L10N && L10N.names && L10N.names[lang]) nameEl.textContent = L10N.names[lang];
-      if (goEl && L10N && L10N.homes && L10N.homes[lang]) goEl.setAttribute('href', L10N.homes[lang]);
+      applyLang(lang);   // localize the whole dialog BEFORE it is shown → no Arabic-fallback flash
       modal.classList.add('is-open'); modal.setAttribute('aria-hidden', 'false');
       if (overlay) { overlay.hidden = false; overlay.classList.add('is-open'); }
       document.body.classList.add('quran-modal-open');

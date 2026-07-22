@@ -16929,7 +16929,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
             + '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
-        html = html.replace('</body>', '    <script defer src="/js/quran-home.js?v=2"></script>\n</body>');
+        html = html.replace('</body>', '    <script defer src="/js/quran-home.js?v=3"></script>\n</body>');
         // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
         // 23 other .page blocks so the index is the only page in the raw HTML and in the final DOM.
         html = _stripForeignPageBlocks(html, 'page-quran-home');

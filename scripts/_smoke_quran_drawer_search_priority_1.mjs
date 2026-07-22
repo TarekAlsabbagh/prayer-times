@@ -12,7 +12,7 @@ const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
 // Never spell a slug out in a test: this file SKIPs (not fails) when the page 404s, so a drifted literal
 // would go quietly green with zero coverage.
 const ROUTES = JSON.parse(fs.readFileSync(path.join(path.dirname(fileURLToPath(import.meta.url)), '..',
-  'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+  'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 const P = n => ROUTES.find(x => x.number === n).path;
 const CHROME = process.env.CHROME_PATH || 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const sleep = ms => new Promise(r => setTimeout(r, ms));

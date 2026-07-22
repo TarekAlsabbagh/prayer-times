@@ -49,7 +49,7 @@ ok(/if \(!chapter\) return '';/.test(nav), 'a missing neighbour (Al-Fatiha prev 
 // The retired numeric structure must not survive in ANY href, and no surah URL may be hand-written either:
 // every one has to come from _quranPathFor, or the routes table stops being the single source of truth.
 ok(!/href="\/quran\/surah\//.test(src), 'NO href anywhere still points at the retired /quran/surah/… structure');
-const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 const hardcoded = ROUTES.filter(r => src.includes('href="' + r.path + '"'));
 ok(hardcoded.length === 0, 'NO surah slug is hard-coded into an href — all 114 are built by _quranPathFor'
    + (hardcoded.length ? ' — ' + JSON.stringify(hardcoded.slice(0, 3).map(r => r.path)) : ''));

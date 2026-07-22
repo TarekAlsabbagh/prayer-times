@@ -9,7 +9,7 @@ const B = process.env.QURAN_SSR_BASE || process.env.QURAN_SMOKE_URL || 'http://l
 let pass = 0, fail = 0;
 const ok = (c, m) => { if (c) { pass++; console.log('  PASS ' + m); } else { fail++; console.log('  FAIL ' + m); } };
 
-const ROUTES = JSON.parse(fs.readFileSync('data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json', 'utf8')).surahs;
+const ROUTES = JSON.parse(fs.readFileSync('data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json', 'utf8')).surahs;
 const strip = h => h.replace(/<script[\s\S]*?<\/script>/gi, ' ').replace(/<style[\s\S]*?<\/style>/gi, ' ')
   .replace(/<!--[\s\S]*?-->/g, ' ').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
 const pageIds = h => [...new Set([...h.matchAll(

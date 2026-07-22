@@ -16,7 +16,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
-const D = path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0');
+const D = path.join(ROOT, 'data/quran/tanzil-uthmani-1-1');
 const CH = JSON.parse(fs.readFileSync(path.join(D, 'metadata/chapters.json'), 'utf8'));
 // /quran/{official-english-slug} — read from the source-derived table, never spelled out in a test.
 const ROUTES = JSON.parse(fs.readFileSync(path.join(D, 'metadata/surah-routes.json'), 'utf8')).surahs;
@@ -31,10 +31,10 @@ let totalAyat = 0, textMismatch = [], numMismatch = [], orderMismatch = [], basm
 for (const c of CH) {
   const html = await fetch(`${BASE}${P(c.number)}`).then(r => r.text());
   const s = surahFile(c.number);
-  const want = s.pages.flatMap(p => p.ayahs);
+  const want = s.ayahs;                    // Tanzil flat model: verses live directly on the surah file (no s.pages)
 
   // ---- every rendered ayah, in document order: text + number + id ----
-  const got = [...html.matchAll(/<span class="quran-ayah" id="ayah-(\d+)"><span class="quran-ayah-text">([\s\S]*?)<\/span><span class="quran-ayah-num"[^>]*>([^<]*)<\/span><\/span>/g)]
+  const got = [...html.matchAll(/<span class="quran-ayah" id="ayah-(\d+)"[^>]*><span class="quran-ayah-text">([\s\S]*?)<\/span><span class="quran-ayah-num"[^>]*>([^<]*)<\/span><\/span>/g)]
     .map(m => ({ id: +m[1], text: unesc(m[2]), num: m[3] }));
 
   if (got.length !== want.length) { orderMismatch.push(`${c.number}: rendered ${got.length} ayat, data has ${want.length}`); continue; }
@@ -54,8 +54,7 @@ for (const c of CH) {
   if (c.number === 1 && occurrences !== 1) basmalaWrong.push(`1: basmala appears ${occurrences}× — it IS ayah 1, so exactly 1`);
   if (c.number === 9 && occurrences !== 0) basmalaWrong.push(`9: basmala appears ${occurrences}× — At-Tawba has none`);
   if (c.number === 27 && occurrences !== 2) basmalaWrong.push(`27: basmala appears ${occurrences}× — expected 2 (opener + in-text 27:30)`);
-  // ---- every reference page is an anchor target (the page-jump select points at these) ----
-  for (const p of s.pages) if (!html.includes(`id="page-${p.page}"`)) missingIds.push(`${c.number}:page-${p.page}`);
+  // reference-page anchors (id="page-N") were RETIRED with the Tanzil flat model — nothing to check here.
 }
 
 console.log('\n--- ayah text served === verified data (all 114 surahs, every ayah) ---');
@@ -66,8 +65,6 @@ ok(numMismatch.length === 0, 'every ayah number is an Arabic-Indic numeral deriv
 
 console.log('\n--- basmala follows the DERIVED basmalaMode, never a render-time guess ---');
 ok(basmalaWrong.length === 0, 'Al-Fatiha=in-ayah / At-Tawba=none / An-Naml=opener+27:30 / 111 others=one opener' + (basmalaWrong.length ? ' — ' + basmalaWrong : ''));
-console.log('\n--- reference-page anchors ---');
-ok(missingIds.length === 0, 'every reference page in the data has a matching id="page-N" target' + (missingIds.length ? ' — ' + missingIds.slice(0, 5) : ''));
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`);
 if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }

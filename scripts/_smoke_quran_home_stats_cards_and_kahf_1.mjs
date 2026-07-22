@@ -11,7 +11,7 @@
 import { spawn } from 'child_process'; import os from 'os'; import path from 'path'; import fs from 'fs';
 
 const B = process.env.QURAN_SSR_BASE || process.env.QURAN_SMOKE_URL || 'http://localhost:3000';
-const ROOT = 'data/quran/kfgqpc-hafs-v2-0';
+const ROOT = 'data/quran/tanzil-uthmani-1-1';
 const CH = JSON.parse(fs.readFileSync(ROOT + '/metadata/chapters.json', 'utf8'));
 const JZ = JSON.parse(fs.readFileSync(ROOT + '/metadata/juz.json', 'utf8'));
 const kahf = CH.find(c => c.number === 18);

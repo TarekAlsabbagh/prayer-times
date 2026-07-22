@@ -1,120 +1,117 @@
-/* QURAN-SOURCE-LINK-LABEL-AND-TARGET-CONSISTENCY-ALL-PAGES-1
+/* QURAN-TANZIL-ORPHANED-SMOKES-AND-COMPLETE-LIGHTHOUSE-CLOSURE-1 §4.
 
-   The external source link must describe what it actually opens — a published ZIP archive, not a web page —
-   and it must read IDENTICALLY on /quran and on every one of the 114 surah pages. The old label («صفحة
-   المصدر…») promised a page and delivered a 10 MB download; a reader only found out by clicking.
+   Retargeted from the removed KFGQPC ZIP-download link to the LIVE Tanzil source attribution. Every Quran page
+   — /quran and all 114 surah pages — must name Tanzil as the SOLE source of the text, expose the four approved
+   Tanzil links (project / CC BY 3.0 licence / text-updates / official download page), state the version and the
+   "shown unmodified" wording, and carry ZERO residue of the old KFGQPC provenance: no King-Fahd-Complex name, no
+   UthmanicHafs ZIP, no copied SurahQuran wording, and no claim that this site owns the Quran text.
 
-   This is the durable guard. It sweeps all 115 pages and checks four things per page: exactly one external
-   source link, the approved visible text, an accessible name that names the format, and the href still
-   pointing at the manifest's own downloadUrl. It also asserts the INTERNAL «#quran-source-trust» anchor is
-   untouched — the two links live in the same section and must never be confused for one another.
+   Reads the surah list from the Tanzil manifest. Fetches over HTTP (SSR), so the local server must be running.
+   Base = QURAN_SSR_BASE / QURAN_SMOKE_URL (default http://127.0.0.1:8085), matching the other SSR smokes.
 
-   NO network call to the external host: a third-party outage must not turn this suite red. The live check on
-   the archive (status / content-type / ZIP magic) lives in the separate diagnostic smoke.
-
-   Run with QURAN_SSR_BASE / QURAN_SMOKE_URL (default http://localhost:3000). */
+   QURAN_SSR_BASE=http://localhost:8080 node scripts/_smoke_quran_source_link_label_consistency_1.mjs */
 import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
-const B = process.env.QURAN_SSR_BASE || process.env.QURAN_SMOKE_URL || 'http://localhost:3000';
-let pass = 0, fail = 0;
-const ok = (c, m) => { if (c) { pass++; console.log('  PASS ' + m); } else { fail++; console.log('  FAIL ' + m); } };
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const B = process.env.QURAN_SSR_BASE || process.env.QURAN_SMOKE_URL || 'http://127.0.0.1:8085';
+let pass = 0, fail = 0; const F = [];
+const ok = (c, m) => c ? (pass++, console.log('  PASS ' + m)) : (fail++, F.push(m), console.log('  FAIL ' + m));
 
-const ROOT = 'data/quran/kfgqpc-hafs-v2-0';
-const MANIFEST = JSON.parse(fs.readFileSync(ROOT + '/source-manifest.json', 'utf8'));
-const ROUTES = JSON.parse(fs.readFileSync(ROOT + '/metadata/surah-routes.json', 'utf8')).surahs;
-const URL_EXPECTED = MANIFEST.source.downloadUrl;
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 
-const TEXT = 'تنزيل ملف مصدر النص القرآني من مجمع الملك فهد (ZIP)';
-const ARIA = 'تنزيل ملف مصدر النص القرآني من مجمع الملك فهد بصيغة ZIP';
-// every retired spelling: none of them may come back as the label of a ZIP download
-const RETIRED = ['صفحة المصدر', 'زيارة صفحة المصدر', 'عرض صفحة المصدر', 'رابط صفحة المصدر'];
+// The four approved Tanzil source links — the ONLY external source links a Quran page may carry.
+const TANZIL_LINKS = [
+  'https://tanzil.net',
+  'https://creativecommons.org/licenses/by/3.0/',
+  'https://tanzil.net/updates/',
+  'https://tanzil.net/docs/download',
+];
+// Wording that must appear on every page (source section identity + version + licence + "unmodified").
+const MUST = ['مصدر النص القرآني', 'مشروع Tanzil', 'إصدار ١٫١', 'Creative Commons Attribution 3.0', 'دون تعديل'];
+// KFGQPC / copied-source residue that must appear NOWHERE.
+const FORBIDDEN = [
+  ['مجمع الملك فهد', 'King-Fahd-Complex name (Arabic)'],
+  ['King Fahd', 'King Fahd (English)'],
+  ['KFGQPC', 'KFGQPC token'],
+  ['UthmanicHafs', 'UthmanicHafs archive name'],
+  ['UthmanicHafs_v2-0.zip', 'the old ZIP filename'],
+  ['surahquran', 'SurahQuran copied wording'],
+  ['حقوق النص محفوظة', 'a "text rights reserved by this site" claim'],
+];
 
-// the <a class="quran-source-link"> elements on a page, with their attributes and inner text
-const links = html => [...html.matchAll(/<a\b([^>]*\bclass="[^"]*quran-source-link[^"]*"[^>]*)>([\s\S]*?)<\/a>/g)]
-  .map(m => ({
-    attrs: m[1],
-    href: (m[1].match(/\bhref="([^"]*)"/) || [, ''])[1],
-    aria: (m[1].match(/\baria-label="([^"]*)"/) || [, ''])[1],
-    rel: (m[1].match(/\brel="([^"]*)"/) || [, ''])[1],
-    target: (m[1].match(/\btarget="([^"]*)"/) || [, ''])[1],
-    // the accessible name is the aria-label when present; the arrow span is aria-hidden and excluded
-    text: m[2].replace(/<span[^>]*aria-hidden="true"[^>]*>[\s\S]*?<\/span>/g, '').replace(/<[^>]+>/g, '').trim(),
-  }));
+// every <a class="quran-source-link"> on a page, with the attributes we care about
+const sourceLinks = (html) => [...html.matchAll(/<a\b([^>]*\bclass="[^"]*quran-source-link[^"]*"[^>]*)>/g)].map(m => ({
+  attrs: m[1],
+  href: (m[1].match(/\bhref="([^"]*)"/) || [, ''])[1],
+  aria: (m[1].match(/\baria-label="([^"]*)"/) || [, ''])[1],
+  rel: (m[1].match(/\brel="([^"]*)"/) || [, ''])[1],
+  target: (m[1].match(/\btarget="([^"]*)"/) || [, ''])[1],
+}));
 
-const check = (html, where) => {
-  const L = links(html);
+const inspect = (html, where) => {
   const problems = [];
-  if (L.length !== 1) problems.push(`${L.length} external source links`);
-  else {
-    const a = L[0];
-    if (a.text !== TEXT) problems.push(`visible text = «${a.text}»`);
-    if (a.aria !== ARIA) problems.push(`aria-label = «${a.aria}»`);
-    if (!a.aria.includes('بصيغة ZIP')) problems.push('accessible name does not name the format');
-    if (a.href !== URL_EXPECTED) problems.push(`href = ${a.href}`);
-    if (a.target === '_blank' && !/\bnoopener\b/.test(a.rel)) problems.push(`target=_blank without noopener (rel="${a.rel}")`);
-    if (a.target === '_blank' && !/\bnoreferrer\b/.test(a.rel)) problems.push(`target=_blank without noreferrer (rel="${a.rel}")`);
+  for (const w of MUST) if (!html.includes(w)) problems.push(`missing «${w}»`);
+  for (const [bad, why] of FORBIDDEN) if (new RegExp(bad, 'i').test(html)) problems.push(`FORBIDDEN ${why}`);
+  const L = sourceLinks(html);
+  const hrefs = L.map(a => a.href);
+  for (const u of TANZIL_LINKS) if (!hrefs.includes(u)) problems.push(`missing source link ${u}`);
+  // no source link may point anywhere other than the four approved Tanzil URLs, and each must be well-formed https
+  for (const a of L) {
+    if (!TANZIL_LINKS.includes(a.href)) problems.push(`unexpected source link ${a.href}`);
+    if (!/^https:\/\/[^\s"]+$/.test(a.href)) problems.push(`malformed href ${a.href}`);
+    if (!a.aria) problems.push(`source link ${a.href} has no accessible name`);
+    if (/\bnofollow\b/.test(a.rel)) problems.push(`source link ${a.href} carries rel=nofollow`);
+    if (a.target === '_blank' && !(/\bnoopener\b/.test(a.rel) && /\bnoreferrer\b/.test(a.rel))) problems.push(`target=_blank without noopener/noreferrer on ${a.href}`);
   }
-  // a retired label is only a problem when it labels the ZIP link — the words may legitimately appear in prose
-  for (const r of RETIRED) if (L.some(a => a.text.includes(r))) problems.push(`retired label «${r}» used for the ZIP link`);
-  return problems.length ? `${where}: ${problems.join(' | ')}` : null;
+  return problems.length ? `${where}: ${problems.slice(0, 6).join(' | ')}` : null;
 };
 
-console.log('--- §7 /quran — one external source link, approved label ---');
+console.log('--- §4 /quran — Tanzil is the sole named source, four approved links, zero KFGQPC residue ---');
 {
   const html = await (await fetch(B + '/quran')).text();
-  const L = links(html);
-  ok(L.length === 1, `exactly one external source link — ${L.length}`);
-  const bad = check(html, '/quran');
-  ok(!bad, bad || `label, accessible name, href and rel all correct`);
-  ok(L[0] && L[0].text === TEXT, `visible text = «${TEXT}»`);
-  ok(L[0] && L[0].aria === ARIA, `accessible name = «${ARIA}»`);
-  ok(L[0] && L[0].href === URL_EXPECTED, `href = the manifest downloadUrl`);
-  ok(/\.zip(\?|$)/i.test(L[0] ? L[0].href : ''), 'the href really ends in .zip');
-  // the internal anchor into the surah source section is a DIFFERENT link and must be left alone
-  ok(/href="\/quran\/[a-z-]+#quran-source-trust"/.test(html), 'the internal #quran-source-trust link is still present and route-qualified');
+  const bad = inspect(html, '/quran');
+  ok(!bad, bad || 'source section names Tanzil + version + CC BY 3.0 + "unmodified", four approved links, no KFGQPC residue');
+  const hrefs = sourceLinks(html).map(a => a.href);
+  for (const u of TANZIL_LINKS) ok(hrefs.includes(u), `/quran carries the source link ${u}`);
+  ok(/href="\/quran\/[a-z0-9-]+#quran-source-trust"/.test(html), '/quran links into a surah #quran-source-trust section');
 }
 
-console.log('\n--- §7 all 114 surah pages — identical label, identical href ---');
+console.log('\n--- §4 all 114 surah pages — identical Tanzil attribution, one trust section each ---');
 {
-  let one = 0, text = 0, aria = 0, href = 0, anchor = 0, rel = 0, status = 0;
-  const problems = [];
+  let status = 0, must = 0, links4 = 0, clean = 0, trust = 0; const problems = [];
   for (const rec of ROUTES) {
     const res = await fetch(B + rec.path);
     if (res.status === 200) status++;
     const html = await res.text();
-    const L = links(html);
-    if (L.length === 1) one++;
-    if (L[0] && L[0].text === TEXT) text++;
-    if (L[0] && L[0].aria === ARIA) aria++;
-    if (L[0] && L[0].href === URL_EXPECTED) href++;
-    if (L[0] && /\bnoopener\b/.test(L[0].rel) && /\bnoreferrer\b/.test(L[0].rel)) rel++;
-    if ((html.match(/id="quran-source-trust"/g) || []).length === 1) anchor++;
-    const bad = check(html, rec.path);
+    if (MUST.every(w => html.includes(w))) must++;
+    const hrefs = sourceLinks(html).map(a => a.href);
+    if (TANZIL_LINKS.every(u => hrefs.includes(u)) && hrefs.every(h => TANZIL_LINKS.includes(h))) links4++;
+    if (!FORBIDDEN.some(([bad]) => new RegExp(bad, 'i').test(html))) clean++;
+    if ((html.match(/id="quran-source-trust"/g) || []).length === 1) trust++;
+    const bad = inspect(html, rec.path);
     if (bad && problems.length < 5) problems.push(bad);
   }
-  ok(status === 114, `114/114 surah pages → 200 — ${status}`);
-  ok(one === 114, `114/114 carry exactly one external source link — ${one}`);
-  ok(text === 114, `114/114 show the approved visible text — ${text}`);
-  ok(aria === 114, `114/114 expose the approved accessible name — ${aria}`);
-  ok(href === 114, `114/114 point at the manifest downloadUrl — ${href}`);
-  ok(rel === 114, `114/114 carry rel noopener + noreferrer — ${rel}`);
-  ok(anchor === 114, `114/114 still own exactly one #quran-source-trust section — ${anchor}`);
+  ok(status === 114, `114/114 surah pages → HTTP 200 — ${status}`);
+  ok(must === 114, `114/114 carry the Tanzil source wording (name + ١٫١ + CC BY 3.0 + «دون تعديل») — ${must}`);
+  ok(links4 === 114, `114/114 expose EXACTLY the four approved Tanzil links — ${links4}`);
+  ok(clean === 114, `114/114 carry ZERO KFGQPC / copied-source residue — ${clean}`);
+  ok(trust === 114, `114/114 own exactly one #quran-source-trust section — ${trust}`);
   ok(problems.length === 0, `no page deviates — ${problems.join(' ;; ') || 'none'}`);
 }
 
-console.log('\n--- §7 the 115-page total ---');
+console.log('\n--- §4 the whole section is Tanzil, KFGQPC nowhere in the 115-page sweep ---');
 {
+  let residue = 0;
   const home = await (await fetch(B + '/quran')).text();
-  let total = links(home).length;
-  let matching = links(home).filter(a => a.text === TEXT && a.aria === ARIA && a.href === URL_EXPECTED).length;
+  if (FORBIDDEN.some(([bad]) => new RegExp(bad, 'i').test(home))) residue++;
   for (const rec of ROUTES) {
-    const L = links(await (await fetch(B + rec.path)).text());
-    total += L.length;
-    matching += L.filter(a => a.text === TEXT && a.aria === ARIA && a.href === URL_EXPECTED).length;
+    const html = await (await fetch(B + rec.path)).text();
+    if (FORBIDDEN.some(([bad]) => new RegExp(bad, 'i').test(html))) residue++;
   }
-  ok(total === 115, `115 external source links across the section (1 home + 114 surahs) — ${total}`);
-  ok(matching === 115, `115/115 identical in text, accessible name and href — ${matching}`);
+  ok(residue === 0, `0/115 pages carry any KFGQPC or copied-source residue — ${residue} did`);
 }
 
-console.log(`\nRESULT: ${pass} passed, ${fail} failed`);
-process.exitCode = fail ? 1 : 0;
+console.log(`\nRESULT source_link_label_consistency(Tanzil): ${pass} passed, ${fail} failed`);
+if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }

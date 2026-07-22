@@ -14,7 +14,7 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 let pass = 0, fail = 0;
 const ok = (c, m) => { if (c) { pass++; console.log('  PASS ' + m); } else { fail++; console.log('  FAIL ' + m); } };
 
-const ROUTES = JSON.parse(fs.readFileSync('data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json', 'utf8')).surahs;
+const ROUTES = JSON.parse(fs.readFileSync('data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json', 'utf8')).surahs;
 
 // isolate ONE .page block by balanced-div matching, so shell chrome (the footer's cookie <a href="#">, nav,
 // other .page blocks) can never be counted against a Quran component.

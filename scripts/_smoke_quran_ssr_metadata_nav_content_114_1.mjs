@@ -12,7 +12,7 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
-const D = path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0');
+const D = path.join(ROOT, 'data/quran/tanzil-uthmani-1-1');
 const CH = JSON.parse(fs.readFileSync(path.join(D, 'metadata/chapters.json'), 'utf8'));
 // The one URL per surah — /quran/{official-english-slug}. Read from the source-derived table, never spelled
 // out here: a slug typed into a test is a second source of truth, and the first one to drift.
@@ -94,16 +94,12 @@ for (const c of CH) {
   // ---- §11 single vs multi juz, single vs multi page ----
   const juzChip = s.juz.length === 1 ? `الجزء ${ar(s.juz[0])}` : `الأجزاء ${ar(s.juz[0])}–${ar(s.juz[s.juz.length - 1])}`;
   if (!html.includes(`<span class="quran-chip">${juzChip}</span>`)) bad.juz.push(`${n}: want "${juzChip}"`);
-  const pgChip = s.pageCount === 1 ? 'صفحة مرجعية واحدة' : s.pageCount === 2 ? 'صفحتان مرجعيتان'
-               : s.pageCount <= 10 ? `${ar(s.pageCount)} صفحات مرجعية` : `${ar(s.pageCount)} صفحة مرجعية`;
-  if (!html.includes(`<span class="quran-chip">${pgChip}</span>`)) bad.pages.push(`${n}: want "${pgChip}"`);
-  // a single-page surah must never claim a page RANGE ("٦٠٤–٦٠٤")
-  if (s.pageCount === 1 && html.includes(`${ar(s.firstPage)}–${ar(s.lastPage)}`)) bad.pages.push(`${n}: fake range`);
+  // reference-page chip + single-page range guard RETIRED with the Tanzil flat model (no pageCount/firstPage/lastPage).
 
   // ---- §12 the jump bar is bounded by THIS surah and posts to THIS surah ----
   if (!html.includes(`max="${s.ayahCount}"`)) bad.ayahMax.push(n);
-  if ((html.match(new RegExp(`action="${P(n)}"`, 'g')) || []).length !== 2) bad.action.push(n);
-  for (const p of s.pages) if (!html.includes(`<option value="${p.page}">الصفحة ${ar(p.page)}</option>`)) bad.pages.push(`${n}: option ${p.page}`);
+  if ((html.match(new RegExp(`action="${P(n)}"`, 'g')) || []).length !== 1) bad.action.push(n);   // one jump form (ayah); page-jump form retired
+  // page-jump <option> list RETIRED with the flat model — the jump bar is ayah-bounded only (checked above).
 
   // ---- §5 editorial gate: unsourced religious claims must NOT appear on the other 113 ----
   const claims = [/quran-about-title/, /quran-naming-title/, /quran-topics-title/, /مكيّة|مدنيّة|مكية بالاتفاق/, /سُمِّيت/, /أبرز موضوعات/];
@@ -158,13 +154,12 @@ ok(bad.links.length === 0, 'every page lists the other 113 surahs as real links,
 ok(bad.badge.length === 0, 'the current surah stays an in-page anchor and keeps exactly one «الحالية» badge' + (bad.badge.length ? ' — ' + bad.badge.slice(0, 5) : ''));
 ok(bad.note.length === 0, 'the prototype note is gone from all 114' + (bad.note.length ? ' — ' + bad.note.slice(0, 5) : ''));
 
-console.log('\n--- §11 juz + reference pages adapt to the surah ---');
+console.log('\n--- §11 juz adapts to the surah (reference-page chip/options retired with the flat model) ---');
 ok(bad.juz.length === 0, '«الجزء N» for single-juz surahs, «الأجزاء A–B» for the 19 that span more' + (bad.juz.length ? ' — ' + bad.juz.slice(0, 4) : ''));
-ok(bad.pages.length === 0, 'page chip + page options match the data; no single-page surah claims a range' + (bad.pages.length ? ' — ' + bad.pages.slice(0, 4) : ''));
 
 console.log('\n--- §12 jump bar bounded by this surah ---');
 ok(bad.ayahMax.length === 0, 'the ayah input max = this surah\'s ayah count' + (bad.ayahMax.length ? ' — ' + bad.ayahMax.slice(0, 5) : ''));
-ok(bad.action.length === 0, 'both jump forms post to THIS surah\'s route' + (bad.action.length ? ' — ' + bad.action.slice(0, 5) : ''));
+ok(bad.action.length === 0, 'the ayah jump form posts to THIS surah\'s route' + (bad.action.length ? ' — ' + bad.action.slice(0, 5) : ''));
 
 console.log('\n--- §5 editorial gate: no unsourced religious claim on the 113 ---');
 ok(bad.editorial.length === 0, 'ONLY surah 21 (the one with a verification report) renders نبذة/سبب التسمية/الموضوعات' + (bad.editorial.length ? ' — ' + bad.editorial.slice(0, 4) : ''));

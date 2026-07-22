@@ -27,7 +27,7 @@ ok(new RegExp(`if \\(${SHAPE}\\.test\\(window\\.location\\.pathname\\)\\s*&&\\s*
    'app.js initApp activates #page-quran-surah on the slug shape AND only when the server injected a body');
 ok(new RegExp(`\\} else if \\(${SHAPE}\\.test\\(_path\\)\\s*&&\\s*document\\.querySelector\\('#page-quran-surah \\.quran-surah-page'\\)\\) \\{[\\s\\S]*?_expectedId = 'page-quran-surah'`).test(app),
    'app.js pageshow self-heal keeps #page-quran-surah on the same pair (no flash-to-home, no empty page)');
-const SLUGS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const SLUGS = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 const leaked = SLUGS.filter(r => app.includes(r.path));
 ok(leaked.length === 0, 'app.js carries NOT ONE of the 114 slug paths — the routes table stays the server\'s alone'
    + (leaked.length ? ' — leaked: ' + JSON.stringify(leaked.slice(0, 3).map(r => r.path)) : ''));

@@ -7,7 +7,7 @@ import path from 'path';
 
 const BASE = process.env.QURAN_SSR_BASE || process.env.QURAN_SMOKE_URL || 'http://localhost:3000';
 const ROOT = path.resolve(new URL('..', import.meta.url).pathname.replace(/^\/([A-Za-z]:)/, '$1'));
-const D = path.join(ROOT, 'data', 'quran', 'kfgqpc-hafs-v2-0', 'metadata');
+const D = path.join(ROOT, 'data', 'quran', 'tanzil-uthmani-1-1', 'metadata');
 const CH = JSON.parse(fs.readFileSync(path.join(D, 'chapters.json'), 'utf8'));
 const R = JSON.parse(fs.readFileSync(path.join(D, 'surah-routes.json'), 'utf8')).surahs;
 const JZ = JSON.parse(fs.readFileSync(path.join(D, 'juz.json'), 'utf8'));
@@ -122,7 +122,7 @@ ok(/data-quran-continue[^>]*hidden|hidden[^>]*data-quran-continue/.test(html), '
 ok(!/لا يوجد سجل/.test(html), 'no "no record" text anywhere in the hero');
 
 console.log('\n--- §14/§15 source + FAQ ---');
-ok(/نص قرآني موثوق بالرسم العثماني/.test(html), 'source section present');
+ok(/مصدر النص القرآني/.test(html) && /مشروع Tanzil/.test(html), 'Tanzil source section present');
 ok(/رواية حفص عن عاصم/.test(html), 'narration named');
 ok(!/فضل سورة|أسباب النزول|تفسير|مكية|مدنية/.test(html), 'no fadl / asbab / tafsir / Makki-Madani claims');
 const faqs = count(/class="country-faq-item"/g);

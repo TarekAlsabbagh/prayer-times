@@ -12,8 +12,8 @@ const sleep = ms => new Promise(r => setTimeout(r, ms));
 let pass = 0, fail = 0;
 const ok = (c, m) => { if (c) { pass++; console.log('  PASS ' + m); } else { fail++; console.log('  FAIL ' + m); } };
 
-const ROUTES = JSON.parse(fs.readFileSync('data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json', 'utf8')).surahs;
-const CHAPTERS = JSON.parse(fs.readFileSync('data/quran/kfgqpc-hafs-v2-0/metadata/chapters.json', 'utf8'));
+const ROUTES = JSON.parse(fs.readFileSync('data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json', 'utf8')).surahs;
+const CHAPTERS = JSON.parse(fs.readFileSync('data/quran/tanzil-uthmani-1-1/metadata/chapters.json', 'utf8'));
 const chByNum = new Map((Array.isArray(CHAPTERS) ? CHAPTERS : CHAPTERS.chapters).map(c => [c.number, c]));
 // mirrors server.js _quranCleanName — display names only, never the ayah text
 const clean = s => String(s || '').replace(/[ً-ٰٓـ]/g, '');
@@ -108,7 +108,10 @@ cdp.on('Page.loadEventFired',()=>{loaded=true;});
 cdp.on('Runtime.exceptionThrown', p=>errs.push(String(p.exceptionDetails?.text)));
 cdp.on('Runtime.consoleAPICalled', p=>{ if(p.type==='error') cerr.push((p.args||[]).map(a=>a.value||'').join(' ')); });
 const ev = async e => (await cdp.send('Runtime.evaluate',{expression:e,returnByValue:true,awaitPromise:true})).result.value;
-const go = async u => { loaded=false; await cdp.send('Page.navigate',{url:u}); for(let i=0;i<200&&!loaded;i++) await sleep(100); await sleep(1200); };
+// wait up to 5s for the load event (the flat Quran page renders in well under 1s; the old 20s cap × ~9 navs
+// pushed the whole run past the suite timeout without changing any assertion — the content is present after
+// navigate + settle regardless of when loadEventFired arrives).
+const go = async u => { loaded=false; await cdp.send('Page.navigate',{url:u}); for(let i=0;i<50&&!loaded;i++) await sleep(100); await sleep(1200); };
 const key = async k => { const vk = {Escape:27, Tab:9, Enter:13}[k];
   await cdp.send('Input.dispatchKeyEvent',{type:'rawKeyDown',key:k,code:k,windowsVirtualKeyCode:vk});
   await cdp.send('Input.dispatchKeyEvent',{type:'keyUp',key:k,code:k,windowsVirtualKeyCode:vk}); await sleep(200); };
@@ -387,5 +390,6 @@ ok(cerr.length === 0, 'console.error = 0' + (cerr.length ? ': ' + cerr.slice(0,2
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`);
 try{ chrome.kill(); }catch(e){}
-try{ fs.rmSync(UDD,{recursive:true,force:true}); }catch(e){}
+// process.exit BEFORE rmSync: on Windows the just-killed Chrome can still hold locks on its --user-data-dir,
+// so rmSync would block/retry and hang the process long after RESULT printed. The temp dir is OS-cleaned.
 process.exit(fail ? 1 : 0);

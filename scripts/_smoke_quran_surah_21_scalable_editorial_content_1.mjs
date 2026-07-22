@@ -14,7 +14,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 // /quran/{official-english-slug} — the ONE URL per surah, read from the source-derived routes table.
 // Never spell a slug out in a test: it would become a second source of truth, and these tests SKIP (not
 // fail) when the page 404s — a drifted literal would go quietly green with zero coverage.
-const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 const P = n => ROUTES.find(x => x.number === n).path;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function findChrome() {
@@ -30,7 +30,7 @@ if (!CHROME) { console.log('SKIP — no Chrome/Chromium found'); process.exit(0)
 let base = process.env.QURAN_SMOKE_URL || 'http://localhost:3100'; let spawnedServer = null;
 // worktree has no local node_modules → let a spawned fallback resolve deps from the main checkout
 const NODE_PATH_FALLBACK = process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TIME PRAYER/node_modules';
-async function ssrHasSections(b) { const H = await fetch(b + P(21)).then(r => r.text()).catch(() => ''); return /نبذة عن سورة الأنبياء/.test(H) && /الرسم العثماني ومصدر نص سورة الأنبياء/.test(H) ? H : ''; }
+async function ssrHasSections(b) { const H = await fetch(b + P(21)).then(r => r.text()).catch(() => ''); return /نبذة عن سورة الأنبياء/.test(H) && /مصدر النص القرآني/.test(H) ? H : ''; }
 async function ensureServer() {
   if (await reachable(base)) { if (await ssrHasSections(base)) return true; }
   const PORT = 3196; base = 'http://localhost:' + PORT;
@@ -57,7 +57,7 @@ async function main() {
   ok(has('<meta name="description" content="قراءة سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.">'), 'SSR meta description = the shared template (no «١١٢ آية» count-padding)');
   ok(has('<h1 id="quran-surah-h1">سورة الأنبياء مكتوبة كاملة بالتشكيل والرسم العثماني</h1>'), 'SSR H1 carries «بالتشكيل»');
   ['نبذة عن سورة الأنبياء', 'لماذا سميت سورة الأنبياء بهذا الاسم؟', 'أبرز موضوعات سورة الأنبياء',
-    'قراءة سورة الأنبياء وأدوات الصفحة', 'الرسم العثماني ومصدر نص سورة الأنبياء', 'الأسئلة الشائعة حول سورة الأنبياء']
+    'قراءة سورة الأنبياء وأدوات الصفحة', 'مصدر النص القرآني', 'الأسئلة الشائعة حول سورة الأنبياء']
     .forEach(t => ok(has(t), 'SSR (No-JS) contains section: ' + t));
   ok(cnt('class="quran-services') === 1, 'exactly ONE services block in SSR — got ' + cnt('class="quran-services'));
   ok(cnt('id="mc-occasions"') === 1, 'exactly ONE Islamic-events section in SSR');

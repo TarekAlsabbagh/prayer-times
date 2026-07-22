@@ -20,7 +20,7 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const DATA = path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0');
+const DATA = path.join(ROOT, 'data/quran/tanzil-uthmani-1-1');
 const BASE = process.env.QURAN_SSR_BASE || 'http://127.0.0.1:8085';
 const CH = JSON.parse(fs.readFileSync(path.join(DATA, 'metadata/chapters.json'), 'utf8'));
 const ROUTES = JSON.parse(fs.readFileSync(path.join(DATA, 'metadata/surah-routes.json'), 'utf8'));
@@ -57,7 +57,7 @@ for (const rec of R) {
   if (Number(num) !== rec.number || slug !== rec.slug) wrongNum.push([rec.path, num, slug]);
 
   const file = JSON.parse(fs.readFileSync(path.join(DATA, 'surahs', rec.dataFile), 'utf8'));
-  const firstAyah = file.pages[0].ayahs[0].text;
+  const firstAyah = file.ayahs[0].textUthmaniBody;   // Tanzil flat model: verses on file.ayahs (no file.pages)
   if (firstAyah && !h.includes(firstAyah)) missingText.push(rec.path);
 
   const ch = CH.find(c => c.number === rec.number);
@@ -115,10 +115,7 @@ for (const n of [1, 2, 21, 108, 114]) {
   ok(last.s === 302 && last.loc === `${P}#ayah-${c.ayahCount}`, `${P} ?ayah=${c.ayahCount} (last) → 302 — got ${last.s} ${last.loc || ''}`);
   const over = await head(`${P}?ayah=${c.ayahCount + 1}`);
   ok(over.s === 200, `${P} ?ayah=${c.ayahCount + 1} (past the end) → NOT redirected, serves the page (200) — got ${over.s}`);
-  const pg = await head(`${P}?page=${c.lastPage}`);
-  ok(pg.s === 302 && pg.loc === `${P}#page-${c.lastPage}`, `${P} ?page=${c.lastPage} (last page) → 302 — got ${pg.s} ${pg.loc || ''}`);
-  const pgBad = await head(`${P}?page=${c.firstPage - 1}`);
-  ok(pgBad.s === 200, `${P} ?page=${c.firstPage - 1} (outside this surah) → NOT redirected (200) — got ${pgBad.s}`);
+  // ?page= fragment redirect RETIRED with the Tanzil flat model (no reference pages) — only ?ayah= remains.
 }
 // The fragment target NEVER changes the path — that is what keeps this a fragment jump and not a URL redirect.
 const strays = [];

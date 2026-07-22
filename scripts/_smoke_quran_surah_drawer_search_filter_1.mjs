@@ -12,7 +12,7 @@ const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 // /quran/{official-english-slug} — the ONE URL per surah, read from the source-derived routes table.
 // Never spell a slug out in a test: it would become a second source of truth, and these tests SKIP (not
 // fail) when the page 404s — a drifted literal would go quietly green with zero coverage.
-const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/kfgqpc-hafs-v2-0/metadata/surah-routes.json'), 'utf8')).surahs;
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
 const P = n => ROUTES.find(x => x.number === n).path;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 function findChrome() {

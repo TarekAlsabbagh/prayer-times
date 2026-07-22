@@ -7,9 +7,9 @@ let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.
 const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
 ok(b0 > 0, '_buildQuranSurahBody(n) present (content-only body builder, parametrised over 1..114)');
-ok(/\(process\.env\.QURAN_PROTOTYPE_ENABLED === '1' && !!_quranSurahRoute\(urlPath\)\)/.test(src), 'route gated by flag + an exact slug match via _quranSurahRoute (index.html shell)');
-ok(/staticPages\[corePath\] = \{[\s\S]{0,900}?noindex: true/.test(src), 'the dynamic staticPages entry sets noindex for every surah route');
-ok(/if \(sp\.noindex\) robotsOverride = 'noindex,follow/.test(src), 'noindex flag drives robotsOverride → renderSeoHeadHtml emits noindex');
+ok(/\(!!_quranSurahRoute\(urlPath\)\) \|\|/.test(src) && !/QURAN_PROTOTYPE_ENABLED/.test(src), 'route recognised UNCONDITIONALLY via an exact slug match (index.html shell) — the QURAN_PROTOTYPE_ENABLED gate was removed at public release');
+ok(!/staticPages\[corePath\] = \{[\s\S]{0,1200}?noindex: true/.test(src), 'the dynamic staticPages entry carries NO noindex — every surah route is INDEXABLE (public release)');
+ok(/const _robots = seo\.robotsOverride \|\| 'index,follow/.test(src), 'default robots = index,follow → a surah page (no robotsOverride) is emitted indexable');
 ok((b.match(/<h1[\s>]/g) || []).length === 1, 'exactly ONE <h1> (#quran-surah-h1)');
 ok(/id="ayah-\$\{a\.ayah\}"/.test(b), 'each ayah gets id="ayah-N"');
 ok(/quran-ayah-flow/.test(b) && !/data-reference-page/.test(b), 'ayahs render in a flat flow (quran-ayah-flow) — the KFGQPC mushaf page card / data-reference-page is retired');

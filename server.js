@@ -8718,7 +8718,7 @@ function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
 // Map: route → identifier للـ H1 النشط (id أو data-i18n)
 function _getActiveH1Marker(urlPath) {
     const path = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
-    // QURAN-AR-SURAH-21 prototype: the single H1 is the hero #quran-surah-h1.
+    // QURAN-AR surah page: the single H1 is the hero #quran-surah-h1.
     if (_quranSurahRoute(path)) return { kind: 'id', value: 'quran-surah-h1' };
     // QURAN-AR-HOME-INDEX-SSR-1: /quran's single H1 is the hero #quran-home-h1. Without this the shell's
     // other page H1s would stay promoted and the index page would ship more than one H1.
@@ -12878,7 +12878,9 @@ function buildSeoForPath(urlPath) {
                 desc: {
                     ar: `قراءة سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.`,
                 },
-                noindex: true,
+                // QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1: the surah
+                // pages are PUBLISHED — no `noindex` here, so robotsOverride stays null and the default
+                // `index,follow,…` is emitted. hreflang stays 0 (ar-only), documented next:
                 // Arabic-only: /{lang}/quran/{slug} does not exist (it 404s), so this page advertises no
                 // alternates. Without this the shared emitter would default to ten hreflang links per page —
                 // 1,026 links to 404s across the 114 pages, and a promise of translations we do not have.
@@ -12907,7 +12909,9 @@ function buildSeoForPath(urlPath) {
             desc: {
                 ar: 'تصفح فهرس سور القرآن الكريم بالترتيب وعدد آياتها، وانتقل إلى أي سورة أو جزء لقراءة القرآن كاملًا بالتشكيل والرسم العثماني برواية حفص عن عاصم.',
             },
-            noindex: true,
+            // QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1: /quran is
+            // PUBLISHED — no `noindex` (default robots = index,follow). hreflang stays 0 (the /{lang}/quran
+            // twins do not exist).
             noHreflang: true,
         };
     }
@@ -16879,10 +16883,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     let html = htmlBuf.toString('utf8');
     const seo = buildSeoForPath(urlPath);
 
-    // ===== QURAN-AR surah pages (flag-gated): served through THIS index.html shell so they get the
+    // ===== QURAN-AR surah pages (PUBLIC, Arabic-only): served through THIS index.html shell so they get the
     //   real .top-header, shared sidebar, footer and app.js. Flip #page-quran-surah active, inject the surah
     //   body, and load the route-scoped Quran font/CSS/JS. NO standalone document, NO copied header. =====
-    const _qsPage = process.env.QURAN_PROTOTYPE_ENABLED === '1' ? _quranSurahRoute(urlPath) : null;
+    const _qsPage = _quranSurahRoute(urlPath);   // QURAN PUBLIC: surah routes served unconditionally (feature gate removed at release)
     if (_qsPage) {
         html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
         html = html.replace('<div class="page" id="page-quran-surah"></div>',
@@ -16916,7 +16920,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   built server-side: the 114 index links, the 30 juz links, the source section and the FAQ are all in
     //   the initial HTML, so the index works with JavaScript disabled. Only the search box and the
     //   continue-reading card are progressive enhancements, and neither gates access to a surah. =====
-    const _qhPage = process.env.QURAN_PROTOTYPE_ENABLED === '1' && _quranHomeRoute(urlPath);
+    const _qhPage = _quranHomeRoute(urlPath);   // QURAN PUBLIC: /quran served unconditionally (feature gate removed at release)
     if (_qhPage) {
         html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
         html = html.replace('<div class="page" id="page-quran-home"></div>',
@@ -29950,11 +29954,12 @@ async function handleCitiesAdd(cc, body, res) {
     res.end(JSON.stringify({ ok: true, added: r.added, total: r.total }));
 }
 
-// ===== QURAN-AR-SURAH-21-SSR-TEN-REFERENCE-PAGES-PROTOTYPE-1 (feature-flagged, internal, noindex) =====
-// Standalone SSR document for the Arabic surah pages. Gated on env QURAN_PROTOTYPE_ENABLED='1'.
+// ===== QURAN-AR SURAH PAGES — the Arabic Quran reader (PUBLIC, indexable, Arabic-only) =====
+// Standalone SSR document for the Arabic surah pages. PUBLIC — served unconditionally; the old prototype
+// runtime env-gate was removed at public release, so NO environment variable controls this section.
 // The full Uthmani text lives in the initial HTML (no data island, no hydration). The ayah NUMBER is a
 // standalone element derived from aya_no (never the FCxx font glyph). css/quran.css + js/quran.js + the
-// Amiri Quran font load ONLY on these routes. NOT in sitemap, NOT in any menu, NO other-language hreflang.
+// Amiri Quran font load ONLY on these routes. IN the sitemap (115 Quran URLs), NOT in any menu, Arabic-only (no hreflang).
 let _quranProtoCache = null;
 // ===== QURAN-AR-SSR-SURAH-GENERALIZATION-1 — data access for the surah pages =====
 // SHARED metadata (chapters + basmala + manifest + routes) is small, immutable and needed by EVERY surah page,
@@ -31412,11 +31417,12 @@ const server = http.createServer(async (req, res) => {
     //   shouldn't have trailing slash anyway, but the guard is defensive).
     // QURAN-AR-FINAL-OFFICIAL-ENGLISH-SLUG-URL-STRUCTURE-NO-REDIRECTS-1 — the Quran section opts OUT of the
     // trailing-slash repair below. Everywhere else on the site that 301 is right: those URLs are published and
-    // indexed, so a slash variant must be folded back into the canonical. The Quran pages are the opposite —
-    // unpublished, unindexed, no sitemap — so there is nothing to preserve, and repairing `/quran/al-anbiya/`
+    // indexed, so a slash variant must be folded back into the canonical. The Quran section is STRICTER than
+    // that default: even now that it is PUBLISHED and in the sitemap, it enforces EXACTLY ONE canonical URL per
+    // surah (the no-slash official slug), so a trailing-slash variant 404s rather than 301-repairing — repairing
     // would hand out a SECOND working URL for a surah, which is exactly what this structure exists to prevent.
     // A wrong URL here is simply wrong: 404, no `Location`. Deliberately narrower than the site default.
-    if (process.env.QURAN_PROTOTYPE_ENABLED === '1' && /^\/quran\/.+\/$/.test(urlPath)) {
+    if (/^\/quran\/.+\/$/.test(urlPath)) {   // QURAN PUBLIC: still one canonical URL per surah — a trailing-slash variant 404s (no second URL)
         send404Page(urlPath, res, req.headers['accept-encoding'] || '');
         return;
     }
@@ -31515,13 +31521,13 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    // ===== QURAN-AR surah routes /quran/{official-english-slug} (feature-flagged, internal, noindex) =====
+    // ===== QURAN-AR surah routes /quran/{official-english-slug} (PUBLIC, indexable, Arabic-only) =====
     // NO URL redirect of any kind lives here. The retired numeric paths (/quran/surah/21, /quran/21, …) are not
     // recognised anywhere in this file, so they reach the site's normal 404 with no `Location` header — they
     // were never published, never indexed, never in a sitemap, so there is no traffic to preserve and a wrong
     // URL is simply wrong. Mis-cased, mis-spelled and trailing-slash paths 404 for the same reason: repairing
     // them would mint a second working URL for one surah, which is precisely what this structure forbids.
-    if (process.env.QURAN_PROTOTYPE_ENABLED === '1') {
+    {   // QURAN PUBLIC: the no-JS ayah/page jump — served unconditionally (feature gate removed at release)
         const _qs = _quranSurahRoute(urlPath);
         if (_qs) {
             const _ch = _quranChapter(_qs.n);
@@ -31745,6 +31751,20 @@ const server = http.createServer(async (req, res) => {
             for (const [p, pr, cf] of staticPaths) {
                 entries.push(...bilingualUrl(p, pr, cf, today));
             }
+
+            // 1b) QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1:
+            //     the Arabic Quran section — /quran + the 114 official surah routes = 115 URLs.
+            //     Arabic-ONLY (the /{lang}/quran twins do not exist) → a SINGLE self-canonical <url> each with
+            //     NO xhtml:link alternates (unlike bilingualUrl, which would emit ten hreflang links). Slugs
+            //     come from the SAME source-derived table the routes use (_quranShared().routes) — no second
+            //     slug list, no ayah text, no surah-file reads. <lastmod> is a FIXED public-release date (NOT
+            //     `today`, NOT the Tanzil source date): the frozen text means it only moves on a real content
+            //     change, never per request.
+            const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';
+            const _quranSitemapUrl = (relPath, prio) =>
+                `  <url>\n    <loc>${escapeXml(SITE_URL + relPath)}</loc>\n    <lastmod>${QURAN_PUBLIC_RELEASE_LASTMOD}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${prio}</priority>\n  </url>`;
+            entries.push(_quranSitemapUrl('/quran', '0.8'));
+            for (const _qr of _quranShared().routes) entries.push(_quranSitemapUrl(_qr.path, '0.7'));
 
             // 2) صفحات الدول (نمط موحَّد مع المدن: /prayer-times-in-{slug})
             const { countryCodes } = getSitemapData();
@@ -32028,18 +32048,16 @@ const server = http.createServer(async (req, res) => {
     // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
     const _LANG_PREFIX_RE = '(?:en|fr|tr|ur|de|id|es|bn|ms)';
     const _isIndexHtmlRoute =
-        // QURAN-AR surah pages (flag-gated, Arabic-only): served through the REAL index.html shell. There is
+        // QURAN-AR surah pages (PUBLIC, Arabic-only): served through the REAL index.html shell. There is
         // exactly ONE form per surah — the official English slug — and `_quranSurahRoute` is the only thing
         // that recognises it: an exact, case-sensitive lookup against the source-derived table. Anything else
         // (a number, a misspelling, a trailing slash) matches nothing here and falls through to the site's
         // normal 404. This gate and the body injection below share that one resolver on purpose: if a path
         // cannot name a surah, the shell must not be served bodyless — it must not be served at all.
-        (process.env.QURAN_PROTOTYPE_ENABLED === '1' && !!_quranSurahRoute(urlPath)) ||
-        // QURAN-AR-HOME-INDEX-SSR-1: /quran, the section index. Behind the SAME flag, so with the flag off
-        // the path is unknown to this gate and falls through to the site's normal 404 — the page is not
-        // "hidden by CSS", it simply is not served. `_quranSurahRoute` cannot match the bare path, so the
-        // index and the surahs can never shadow each other and need no ordering between them.
-        (process.env.QURAN_PROTOTYPE_ENABLED === '1' && _quranHomeRoute(urlPath)) ||
+        (!!_quranSurahRoute(urlPath)) ||   // QURAN PUBLIC: surah routes recognised unconditionally (feature gate removed at release)
+        // QURAN-AR-HOME-INDEX-SSR-1: /quran, the section index. `_quranSurahRoute` cannot match the bare path,
+        // so the index and the surahs can never shadow each other and need no ordering between them.
+        (_quranHomeRoute(urlPath)) ||   // QURAN PUBLIC: /quran recognised unconditionally (feature gate removed at release)
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested city moon hub (valid only —
         //   exactly /moon/{country}/{city} with the city resolving to that country).
         (_nestedMoon.kind === 'valid') ||

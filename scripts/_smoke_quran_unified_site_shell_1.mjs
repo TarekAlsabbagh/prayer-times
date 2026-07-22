@@ -9,7 +9,7 @@ let pass = 0, fail = 0; const F = []; const ok = (c, m) => c ? (pass++, console.
 const b0 = src.indexOf('function _buildQuranSurahBody(n)');
 const b = src.slice(b0, src.indexOf('// ===== HTTP Server =====', b0));
 // (1) served through index.html shell (route classified + SSR-injected + page flipped active)
-ok(/\(process\.env\.QURAN_PROTOTYPE_ENABLED === '1' && !!_quranSurahRoute\(urlPath\)\)/.test(src), 'route added to _isIndexHtmlRoute (flag-gated, exact slug match) — served as index.html shell');
+ok(/\(!!_quranSurahRoute\(urlPath\)\) \|\|/.test(src) && !/QURAN_PROTOTYPE_ENABLED/.test(src), 'route added to _isIndexHtmlRoute UNCONDITIONALLY (exact slug match; QURAN_PROTOTYPE_ENABLED gate removed at public release) — served as index.html shell');
 ok(/<div class="page active" id="page-quran-surah">' \+ _buildQuranSurahBody\(_qsPage\.n\) \+ '<\/div>/.test(src), 'serveHtmlWithSeo injects the REQUESTED surah body into #page-quran-surah + flips it active');
 ok(/html\.replace\('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">'\)/.test(src), 'strips the default prayer-times active (exactly one active page)');
 ok(/if \(_quranSurahRoute\(path\)\) return \{ kind: 'id', value: 'quran-surah-h1' \}/.test(src), '_getActiveH1Marker registers the single quran H1 for every surah route');

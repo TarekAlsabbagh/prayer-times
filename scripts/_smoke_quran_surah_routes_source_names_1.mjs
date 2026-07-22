@@ -57,9 +57,9 @@ ok(/Creative Commons Attribution 3\.0|CC BY 3\.0/i.test(ROUTES.licenseName || ''
 ok(!('sourceArchive' in ROUTES) && !('sourceFields' in ROUTES), 'the KFGQPC-only sourceArchive / sourceFields keys are gone');
 ok(!/KFGQPC|UthmanicHafs|King Fahd/i.test(JSON.stringify(ROUTES)), 'no KFGQPC / UthmanicHafs / King-Fahd provenance remains');
 
-console.log('\n--- 5) live: all 114 routes → 200, right H1, self-canonical, noindex ---');
+console.log('\n--- 5) live: all 114 routes → 200, right H1, self-canonical, index,follow (PUBLIC) ---');
 {
-  let status = 0, h1 = 0, canon = 0, noindex = 0; const problems = [];
+  let status = 0, h1 = 0, canon = 0, indexable = 0; const problems = [];
   for (const r of R) {
     const res = await fetch(B + r.path);
     if (res.status === 200) status++; else { if (problems.length < 5) problems.push(`${r.path} → ${res.status}`); continue; }
@@ -70,12 +70,12 @@ console.log('\n--- 5) live: all 114 routes → 200, right H1, self-canonical, no
     const canonical = (html.match(/<link[^>]*rel="canonical"[^>]*href="([^"]*)"/) || [, ''])[1];
     if (canonical === B + r.path) canon++; else if (problems.length < 5) problems.push(`${r.path} canonical «${canonical}»`);
     const robots = (html.match(/<meta[^>]*name="robots"[^>]*content="([^"]*)"/) || [, ''])[1];
-    if (/\bnoindex\b/.test(robots)) noindex++; else if (problems.length < 5) problems.push(`${r.path} robots «${robots}» not noindex`);
+    if (/\bindex,follow\b/.test(robots) && !/\bnoindex\b/.test(robots)) indexable++; else if (problems.length < 5) problems.push(`${r.path} robots «${robots}» not index,follow`);
   }
   ok(status === 114, `114/114 routes → HTTP 200 — ${status}`);
   ok(h1 === 114, `114/114 carry the correct «سورة {name}» H1 — ${h1}`);
   ok(canon === 114, `114/114 self-canonical to ${B}/quran/{slug} — ${canon}`);
-  ok(noindex === 114, `114/114 carry a noindex robots directive — ${noindex}`);
+  ok(indexable === 114, `114/114 carry an index,follow robots directive (PUBLIC) — ${indexable}`);
   ok(problems.length === 0, `no route deviates — ${problems.join(' ;; ') || 'none'}`);
 }
 

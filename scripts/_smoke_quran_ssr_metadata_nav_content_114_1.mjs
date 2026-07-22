@@ -64,8 +64,8 @@ for (const c of CH) {
   if (h1s[0] !== `سورة ${nm} مكتوبة كاملة بالتشكيل والرسم العثماني`) bad.h1.push(n + ': ' + (h1s[0] || ''));
   if (!html.includes(`<span aria-current="page">سورة ${nm}</span>`)) bad.bc.push(n);
 
-  // ---- §8 noindex + self canonical + NO hreflang ----
-  if (!/content="noindex,follow,max-snippet:-1,max-image-preview:large"/.test(html)) bad.robots.push(n);
+  // ---- §8 INDEXABLE (PUBLIC release) + self canonical + NO hreflang ----
+  if (!/content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1"/.test(html) || /content="noindex/.test(html)) bad.robots.push(n);
   const canon = (html.match(/<link rel="canonical" href="([^"]*)"/) || [])[1] || '';
   if (!canon.endsWith(P(n))) bad.canon.push(`${n}: ${canon}`);
   if (/rel="alternate" hreflang/.test(html)) bad.hreflang.push(n);
@@ -139,8 +139,8 @@ ok(bad.titleUnits.length === 0, 'title .length === code-point count on all 114 (
    + (bad.titleUnits.length ? ' — ' + bad.titleUnits.slice(0, 3) : ''));
 console.log(`     (title length: shortest surah ${titleLens[0][0]} = ${titleLens[0][1]}, longest surah ${titleLens[113][0]} = ${titleLens[113][1]}, avg ${(titleLens.reduce((a, [, l]) => a + l, 0) / 114).toFixed(1)})`);
 
-console.log('\n--- §8 noindex + self canonical + NO hreflang ---');
-ok(bad.robots.length === 0, 'all 114 keep robots=noindex,follow' + (bad.robots.length ? ' — ' + bad.robots.slice(0, 5) : ''));
+console.log('\n--- §8 INDEXABLE (PUBLIC release) + self canonical + NO hreflang ---');
+ok(bad.robots.length === 0, 'all 114 carry robots=index,follow (PUBLIC)' + (bad.robots.length ? ' — ' + bad.robots.slice(0, 5) : ''));
 ok(bad.canon.length === 0, 'all 114 self-canonical' + (bad.canon.length ? ' — ' + bad.canon.slice(0, 5) : ''));
 ok(bad.hreflang.length === 0, 'NO page advertises an hreflang alternate (the /{lang} twins do not exist)' + (bad.hreflang.length ? ' — ' + bad.hreflang.slice(0, 5) : ''));
 

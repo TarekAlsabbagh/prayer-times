@@ -1,5 +1,5 @@
-// Smoke — QURAN Arabic-only SEO (REVISION-3): the prototype is noindex + Arabic-only — no hreflang / no
-// other-language alternates, and its staticPages entry declares ONLY Arabic title/desc.
+// Smoke — QURAN Arabic-only SEO (REVISION-4, PUBLIC release): the section is INDEXABLE + Arabic-only — no
+// hreflang / no other-language alternates, and its staticPages entry declares ONLY Arabic title/desc.
 import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
@@ -13,7 +13,7 @@ ok(!/lang="en"|lang="fr"|lang="ur"|lang="tr"|lang="bn"|lang="ms"|lang="de"|lang=
 // The Title/Meta entry is built dynamically per surah now (staticPages[corePath] inside the _qsSeo branch),
 // so the slice anchors on that branch instead of a hardcoded staticPages['/quran/…'] key.
 const sp = src.slice(src.indexOf('const _qsSeo = _quranSurahRoute(corePath);'), src.indexOf("staticPages['/moon']"));
-ok(/noindex: true/.test(sp), 'route is noindex');
+ok(!/noindex: true/.test(sp), 'route is INDEXABLE — the surah staticPages entry carries NO noindex (public release)');
 // `desc` is a multi-line object now (surah 21 keeps its approved copy, the other 113 use the template), so the
 // key may sit on the next line — what matters is that `ar` is the ONLY language key in either field.
 ok(/title: \{ ar: /.test(sp) && /desc:\s*\{\s*ar:/.test(sp), 'Arabic-only title + desc (ar key only)');

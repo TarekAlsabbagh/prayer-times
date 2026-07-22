@@ -57,7 +57,7 @@ const ogu = (html.match(/property="og:url" content="([^"]*)"/) || [])[1] || '';
 ok(ogt === TITLE, 'og:title = title');
 ok(ogd === desc, 'og:description = meta description');
 ok(ogu === canon, 'og:url = canonical');
-ok(/content="noindex,follow,max-snippet:-1,max-image-preview:large"/.test(html), 'robots = noindex,follow,max-snippet:-1,max-image-preview:large');
+ok(/<meta name="robots" content="index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1"/.test(html) && !/content="noindex/.test(html), 'robots = index,follow (PUBLIC release — no noindex)');
 ok(count(/rel="alternate" hreflang/g) === 0, 'no hreflang alternates');
 
 console.log('\n--- §10 the 114-surah index ---');
@@ -180,9 +180,11 @@ console.log('\n--- §22 the index never loads the 114 ayah files ---');
 ok(html.length < 900_000, 'served HTML is under 900 KB — got ' + Math.round(html.length / 1024) + ' KB');
 ok(!/textUthmani|quran-ayah-flow/.test(html), 'no ayah text or ayah-flow markup on the index');
 
-console.log('\n--- §4 sitemap still excludes the Quran section ---');
-const sm = await (await fetch(BASE + '/sitemap.xml')).text();
-ok(!/\/quran/.test(sm), 'sitemap.xml contains no /quran url');
+console.log('\n--- §4 sitemap INCLUDES the Quran section (PUBLIC release) ---');
+const sm = await (await fetch(BASE + '/sitemap-main.xml')).text();
+const quranSitemapUrls = (sm.match(/<loc>[^<]*\/quran(?:\/[a-z0-9-]+)?<\/loc>/g) || []);
+ok(quranSitemapUrls.length === 115, 'sitemap-main.xml contains exactly 115 /quran urls (/quran + 114 surahs) — ' + quranSitemapUrls.length);
+ok(new Set(quranSitemapUrls).size === 115, 'the 115 /quran sitemap urls are all distinct (no duplicates)');
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`);
 // Set the code and let Node drain its handles instead of calling process.exit(). On Windows this build aborts

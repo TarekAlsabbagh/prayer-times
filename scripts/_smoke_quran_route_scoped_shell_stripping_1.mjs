@@ -36,7 +36,7 @@ console.log('--- §1 /quran ships exactly one .page block ---');
   ok((html.match(/class="quran-home-juz-card"/g) || []).length === 30, '30 juz cards intact');
   ok(/id="quran-surah-index"/.test(html) && /quran-home-source/.test(html) && /quran-home-faq/.test(html),
      'index + source + FAQ sections intact');
-  ok(/<meta name="robots" content="noindex/.test(html), 'noindex retained');
+  ok(/<meta name="robots" content="index,follow/.test(html) && !/content="noindex/.test(html), 'indexable (PUBLIC release — no noindex)');
 }
 
 console.log('\n--- §2 surah routes ship exactly one .page block (sample + full sweep) ---');

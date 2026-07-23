@@ -1,0 +1,830 @@
+/* QURAN-AR-SURAH-21 — REVISION-2 (consistent two-width system + mobile margins + FAQ + SEO content).
+   Loaded AFTER css/style.css on the /quran/{slug} surah pages only. Adds ONLY the Quran reading UI and INHERITS the
+   whole site palette from style.css (var(--bg)/--card-bg/--text/--primary/--border/--shadow/--radius/…).
+   No standalone palette; Quran tints derive from the site variables via color-mix (auto-flip in dark).
+   The breadcrumb (.breadcrumb-list/.bc-*) and FAQ (.country-faq-item.moon-country-faq) are the SITE's own
+   shared components — styled by style.css, NOT redesigned here.
+   ONE outer width only: .quran-site-container (site content width). The ayah text sits in a centered
+   inner column (--q-read-col) INSIDE the full-width card — NOT a second box width. */
+
+/* ---- Amiri Quran (open-licensed, SIL OFL 1.1; whole, unmodified TTF; no subset / no conversion) ---- */
+@font-face {
+  font-family: 'AmiriQuran';
+  src: url('../fonts/AmiriQuran-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ---- Quran-local tokens — ALL derived from the site variables (no standalone palette). Scoped to the
+   page container; the page surface / background / theme come from index.html + app.js (NO override here). ---- */
+.quran-surah-page {
+  --q-tint:      color-mix(in srgb, var(--primary) 8%,  var(--card-bg));
+  --q-tint-soft: color-mix(in srgb, var(--primary) 12%, transparent);
+  --q-tint-line: color-mix(in srgb, var(--primary) 24%, var(--border));
+  /* QURAN-READER-AYAH-FONT-SIZE-SSR-JS-CLS-STABILIZATION-1: the responsive base size lives ENTIRELY in CSS and
+     is the SAME value SSR / No-JS and JS render, so JS never rewrites the size on load. Previously JS wrote an
+     absolute --q-ayah-size (base 1.55rem) OVER the SSR clamp (1.95rem on desktop), shrinking every ayah on
+     first paint and reflowing the whole surah (~0.244 CLS on long surahs). Now JS only writes the reader's
+     +/- STEP as --q-ayah-size-offset; at the default step 0 it writes nothing, so post-JS layout == SSR. */
+  --q-ayah-size-base: clamp(1.55rem, 4vw, 1.95rem);   /* responsive base (desktop/tablet); shared by SSR + JS */
+  --q-ayah-size-offset: 0rem;                          /* reader +/- step in rem; JS sets it (0 at default) */
+  --q-ayah-size: calc(var(--q-ayah-size-base) + var(--q-ayah-size-offset, 0rem));   /* final; no-JS uses base */
+  --q-read-col: 860px;               /* inner reading column for the ayah text (comfortable line length) */
+  /* Measured chrome — js/quran.js sets --q-header-h / --q-sidebar-w / --q-sticky-h on :root (ResizeObserver);
+     the fallbacks keep the layout sane before JS runs and with JS off. */
+  --q-reading-sticky-top: var(--q-header-h, 74px);   /* the reading bar sticks BELOW the real site header */
+  --q-scroll-margin: calc(var(--q-header-h, 74px) + var(--q-sticky-h, 90px) + 14px); /* jump targets clear header + bar */
+}
+html[data-theme="dark"] .quran-surah-page {
+  --q-tint:      color-mix(in srgb, var(--primary) 14%, var(--card-bg));
+  --q-tint-line: color-mix(in srgb, var(--primary) 30%, var(--border));
+}
+
+/* ================= ONE outer width for EVERY box (the site content width) ================= */
+/* breadcrumb, hero, services, toolbar, progress, ALL page cards, surah-end, about, source, FAQ share this. */
+.quran-site-container {
+  width: 100%;
+  max-width: 1180px;                 /* = the site SEO content wrap (.qibla-seo-info-wrap) */
+  margin-inline: auto;
+  padding: 14px max(16px, env(safe-area-inset-right)) 28px max(16px, env(safe-area-inset-left));
+  box-sizing: border-box;
+}
+/* The Quran TEXT stays in a comfortable centered inner column INSIDE the full-width card. */
+.quran-ayah-flow, .quran-basmala { max-width: var(--q-read-col); margin-inline: auto; }
+
+/* ---- breadcrumb: SITE shared component only (.moon-breadcrumb + .breadcrumb-list). No new design here. ---- */
+
+/* ---- hero (built on the site .section-card) ---- */
+.quran-hero { text-align: start; }
+/* QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — the hero is a <header>, not a .section-card, so it
+   carried no bottom margin: the first section under it (the search box) sat flush against it (0px) while
+   every section is spaced 24px from the next. Give the home hero the same 24px so the gap ABOVE the search
+   box equals the gap BELOW it. (Home hero only — the surah-page hero is untouched.) */
+.quran-home-hero { margin-bottom: 24px; }
+.quran-hero h1 { font-size: clamp(1.5rem, 4vw, 2.15rem); margin: 6px 0 8px; line-height: 1.3; }
+.quran-eyebrow { color: var(--primary-dark); font-weight: 700; font-size: 14px; letter-spacing: .2px; }
+.quran-hero-intro { color: var(--text-light); font-size: 15.5px; line-height: 1.85; max-width: 70ch; margin: 0 0 14px; }
+.quran-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.quran-chip { background: var(--q-tint); color: var(--primary-dark); border: 1px solid var(--q-tint-line);
+  border-radius: 999px; padding: 5px 13px; font-size: 13px; font-weight: 600; }
+.quran-hero-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ---- buttons (mirror the site's primary green; scoped to Quran) ---- */
+.quran-btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer;
+  border-radius: var(--radius); padding: 11px 20px; font-size: 15px; font-weight: 700; text-decoration: none;
+  border: 1.5px solid transparent; min-height: 44px; transition: transform .06s ease, box-shadow .15s ease, background .15s ease; }
+.quran-btn:active { transform: translateY(1px); }
+.quran-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-btn-primary { background: var(--primary); color: #fff; box-shadow: var(--shadow); }
+.quran-btn-primary:hover { background: var(--primary-dark); }
+
+/* ---- distinctive "browse all surahs" CTA — ONE design, TWO placements (hero + after surah-end nav cards).
+   Brand gradient (var(--primary)→var(--primary-dark)); works light + dark; subtle lift/shadow on hover; the
+   chevron nudges down (hints it opens a panel). No new colours, no continuous/flashing motion. ---- */
+/* BASE = the prominent (end) design. The RTL layout is: icon (right) — centred two-line text — arrow (left),
+   with the whole group centred and the arrow hugging the text (not pushed to the edge). */
+.quran-browse-cta { display: inline-flex; align-items: center; justify-content: center; gap: 10px; box-sizing: border-box;
+  min-height: 48px; padding: 11px 22px; border-radius: 14px; cursor: pointer; text-align: center; color: #fff;
+  border: 1px solid var(--primary-dark); background: linear-gradient(160deg, var(--primary), var(--primary-dark));
+  box-shadow: 0 6px 18px color-mix(in srgb, var(--primary) 26%, transparent);
+  transition: transform .18s ease, box-shadow .18s ease; }
+.quran-browse-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 26px color-mix(in srgb, var(--primary) 34%, transparent); }
+.quran-browse-cta:active { transform: translateY(0); box-shadow: 0 4px 12px color-mix(in srgb, var(--primary) 28%, transparent); }
+.quran-browse-cta:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 45%, #fff); outline-offset: 2px; }
+.quran-cta-ico { flex-shrink: 0; display: inline-flex; }
+.quran-cta-ico-svg, .quran-cta-arrow-svg { display: block; }
+.quran-cta-text { display: flex; flex-direction: column; align-items: center; line-height: 1.15; min-width: 0; }
+.quran-cta-title { font-size: 15px; font-weight: 800; white-space: nowrap; }
+.quran-cta-sub { font-size: 11.5px; font-weight: 500; opacity: .8; margin-top: 1px; }   /* subordinate to the title */
+.quran-cta-arrow { flex-shrink: 0; display: inline-flex; padding-inline-start: 2px; transition: transform .18s ease; }
+.quran-browse-cta:hover .quran-cta-arrow { transform: translateY(2px); }
+
+/* HERO variant — deliberately SECONDARY to «ابدأ القراءة»: ~12% narrower (tighter padding/gap/fonts), a much
+   lighter shadow, a softer gradient, the same height as the sibling hero buttons, and a minimal (≤1px) hover. */
+.quran-browse-cta--hero { padding: 7px 14px; gap: 8px;
+  background: linear-gradient(160deg, var(--primary), color-mix(in srgb, var(--primary-dark) 55%, var(--primary)));
+  box-shadow: 0 2px 6px color-mix(in srgb, var(--primary) 16%, transparent); }
+.quran-browse-cta--hero .quran-cta-title { font-size: 14px; }
+.quran-browse-cta--hero .quran-cta-sub { font-size: 11px; }
+.quran-browse-cta--hero .quran-cta-ico-svg { width: 19px; height: 19px; }
+.quran-browse-cta--hero .quran-cta-arrow-svg { width: 15px; height: 15px; }
+.quran-browse-cta--hero:hover { transform: translateY(-1px); box-shadow: 0 3px 9px color-mix(in srgb, var(--primary) 20%, transparent); }
+.quran-browse-cta--hero:hover .quran-cta-arrow { transform: translateY(1px); }
+/* balance the three hero action buttons to the same visual height + ≥48px touch target */
+.quran-hero-actions .quran-btn { min-height: 48px; }
+
+/* bottom placement — the prominent "next step" after finishing: centred block BELOW the prev/next cards,
+   min ~300px, never full page width on desktop; keeps the stronger BASE design. */
+.quran-browse-cta-wrap { margin-top: 22px; display: flex; justify-content: center; }
+.quran-browse-cta--end { min-width: 300px; }
+@media (max-width: 480px) {
+  .quran-hero-actions { flex-direction: column; }                                          /* phones: hero buttons stack… */
+  .quran-hero-actions > .quran-btn, .quran-hero-actions > .quran-browse-cta { width: 100%; } /* …each at full container width */
+  .quran-browse-cta--end { width: 100%; min-width: 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .quran-browse-cta, .quran-cta-arrow { transition: none; }
+  .quran-browse-cta:hover, .quran-browse-cta:active { transform: none; }
+  .quran-browse-cta:hover .quran-cta-arrow { transform: none; }
+}
+.quran-btn-secondary { background: var(--q-tint); color: var(--primary-dark); border-color: var(--q-tint-line); }
+.quran-btn-secondary:hover { background: color-mix(in srgb, var(--primary) 16%, var(--card-bg)); }
+.quran-btn-ghost { background: transparent; color: var(--primary-dark); border-color: var(--border); }
+.quran-btn-ghost:hover { border-color: var(--primary); }
+
+/* ---- other-services links (real routes only) ---- */
+.quran-services { background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: var(--shadow); padding: 14px 16px; margin: 16px 0; box-sizing: border-box; }
+.quran-svc-title { font-size: 13px; font-weight: 700; color: var(--text-light); margin-bottom: 10px; }
+.quran-svc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.quran-svc-link { display: flex; align-items: center; gap: 8px; text-decoration: none; color: var(--text);
+  background: var(--surface-sunken, var(--bg)); border: 1px solid var(--border); border-radius: 10px;
+  padding: 9px 12px; font-size: 14px; font-weight: 600; }
+.quran-svc-link:hover { border-color: var(--primary); color: var(--primary-dark); }
+.quran-svc-ico { font-size: 16px; }
+/* compact 3-link strip under the hero (mobile reaches reading fast) */
+.quran-services-short { padding: 10px 12px; margin: 12px 0; }
+.quran-services-short .quran-svc-title { display: none; }
+.quran-services-short .quran-svc-grid { grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); }
+
+/* ---- STICKY reading bar: the WRAPPER is sticky (holds the labeled toolbar + the progress bar) so both move
+   with the reader through the surah, docked just BELOW the real site header. z-index sits below the header
+   (1000) / sidebar (1100) / surah modal, and above the Quran cards. Height → --q-sticky-h (JS). ---- */
+.quran-reading-sticky { position: sticky; top: var(--q-reading-sticky-top, 74px); z-index: 40;
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: var(--radius);
+  box-shadow: 0 4px 14px rgba(0,0,0,.10); padding: 8px 10px; margin: 8px 0 12px; box-sizing: border-box; }
+.quran-toolbar { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.quran-tool-btn { display: inline-flex; align-items: center; gap: 7px; background: var(--card-bg); color: var(--text);
+  border: 1px solid var(--border); border-radius: 10px; padding: 8px 12px; font-size: 14px; font-weight: 600;
+  cursor: pointer; min-height: 40px; transition: border-color .12s ease, background .12s ease; }
+.quran-tool-btn:hover { border-color: var(--primary); color: var(--primary-dark); }
+.quran-tool-btn:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-tool-btn[aria-pressed="true"] { background: var(--q-tint); border-color: var(--q-tint-line); color: var(--primary-dark); }
+.quran-tool-ico { font-weight: 800; min-width: 1.2em; text-align: center; }
+.quran-tool-spacer { flex: 1 1 auto; }
+.quran-jump { display: inline-flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.quran-jump-label { font-size: 13px; font-weight: 600; color: var(--text-light); }
+.quran-jump-input { width: 84px; border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px;
+  background: var(--card-bg); color: var(--text); min-height: 40px; font-size: 14px; text-align: center; }
+.quran-jump-input:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+.quran-jump-input.is-invalid { border-color: #c0392b; }
+.quran-jump-sel { border: 1px solid var(--border); border-radius: 10px; padding: 8px 10px; background: var(--card-bg);
+  color: var(--text); min-height: 40px; font-size: 14px; }
+.quran-jump-err { flex-basis: 100%; color: #c0392b; font-size: 12.5px; font-weight: 600; }
+
+/* ---- progress ---- */
+.quran-progress { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--text-light); margin: 8px 0 0; }
+.quran-progress-track { flex: 1 1 auto; height: 6px; border-radius: 999px; background: var(--border); overflow: hidden; }
+.quran-progress-fill { display: block; height: 100%; width: 0; background: var(--primary); border-radius: 999px; transition: width .2s ease; }
+
+/* ---- reference page cards: ALL identical width/border/radius/shadow/spacing/padding (height free) ---- */
+.quran-page-card { width: 100%; max-width: none; box-sizing: border-box;
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: var(--shadow); padding: 20px 22px 24px; margin: 0 0 18px; scroll-margin-top: var(--q-scroll-margin, 178px); }
+.quran-page-head { display: flex; justify-content: space-between; align-items: center; gap: 10px;
+  border-bottom: 1px dashed var(--border); padding-bottom: 8px; margin-bottom: 14px;
+  font-size: 13px; color: var(--text-light); font-weight: 600; }
+.quran-page-num-badge { color: var(--primary-dark); }
+
+/* basmala opener (once, before ayah 1; unnumbered) */
+.quran-basmala { font-family: 'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+  text-align: center; font-size: clamp(1.5rem, 5.5vw, 2rem); line-height: 2.4; color: var(--text); margin: 2px 0 18px; }
+
+/* ---- ayah flow ---- */
+.quran-ayah-flow { font-family: 'AmiriQuran', 'Amiri', 'Scheherazade New', 'Traditional Arabic', serif;
+  font-size: var(--q-ayah-size); line-height: 2.4; text-align: justify; text-align-last: center; word-spacing: .04em; color: var(--text); }
+.quran-ayah { display: inline; scroll-margin-top: var(--q-scroll-margin, 178px); border-radius: 8px; }
+.quran-ayah-num { display: inline-flex; align-items: center; justify-content: center; vertical-align: middle;
+  min-width: 1.7em; height: 1.7em; margin: 0 .28em; padding: 0 .18em; border: 1.5px solid var(--primary);
+  border-radius: 999px; color: var(--primary-dark); font-family: 'Segoe UI', Tahoma, system-ui, sans-serif;
+  font-size: .5em; font-weight: 700; line-height: 1; }
+.quran-ayah.is-flash .quran-ayah-text,
+.quran-ayah:target .quran-ayah-text { background: var(--q-tint-soft); border-radius: 6px;
+  box-shadow: 0 0 0 4px var(--q-tint-soft); transition: background .6s ease, box-shadow .6s ease; }
+
+/* ---- surah end (full-width box, same outer width as every other box) ---- */
+.quran-surah-end { text-align: center; background: var(--q-tint); border: 1px solid var(--q-tint-line);
+  border-radius: 18px; padding: 22px 20px; margin: 6px 0 20px; box-sizing: border-box; }
+.quran-surah-end-badge { width: 44px; height: 44px; margin: 0 auto 8px; border-radius: 999px; background: var(--primary);
+  color: #fff; font-size: 21px; display: flex; align-items: center; justify-content: center; }
+.quran-surah-end h2 { margin: 0 0 6px; font-size: 1.35rem; color: var(--text); }
+.quran-surah-end p { color: var(--text-light); max-width: 60ch; margin: 0 auto 14px; line-height: 1.8; }
+.quran-surah-end-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-bottom: 0; }
+/* prev/next surah nav — two EQUAL cards below the actions row. RTL: prev card = right (first in DOM),
+   next card = left. Prototype cards are disabled (no href → no 404); the 114-generalization makes them links.
+   Same outer width as the box; stacks to one column on narrow phones (no crowding). */
+.quran-surah-nav { display: flex; flex-wrap: wrap; gap: 12px; align-items: stretch; margin-top: 18px; text-align: start; }
+.quran-surah-nav-card { flex: 1 1 220px; display: flex; flex-direction: column; gap: 3px; box-sizing: border-box;
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 14px; padding: 14px 16px;
+  text-decoration: none; color: var(--text); min-height: 44px; transition: border-color .12s ease, box-shadow .15s ease; }
+.quran-surah-nav-card:not(.is-disabled):hover { border-color: var(--primary); box-shadow: var(--shadow); color: var(--text); }
+.quran-surah-nav-card:not(.is-disabled):focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-surah-nav-card.is-disabled { opacity: .72; cursor: not-allowed; }
+.quran-surah-nav-card--next { text-align: end; }
+.quran-surah-nav-dir { display: flex; align-items: center; gap: 6px; font-size: 12.5px; font-weight: 600; color: var(--text-light); }
+.quran-surah-nav-card--next .quran-surah-nav-dir { justify-content: flex-end; }
+.quran-nav-arrow { font-size: 15px; font-weight: 800; color: var(--primary-dark); }
+.quran-surah-nav-name { font-size: 17px; font-weight: 800; color: var(--text); line-height: 1.35; }
+.quran-surah-nav-num { font-size: 12.5px; color: var(--text-light); }
+.quran-surah-nav-note { font-size: 11.5px; color: var(--text-light); margin-top: 2px; }
+@media (max-width: 560px) { .quran-surah-nav { flex-direction: column; } }
+
+/* ---- editorial sections (نبذة / سبب التسمية / أبرز الموضوعات / قراءة وأدوات) — built on .section-card ---- */
+.quran-about h2, .quran-naming h2, .quran-topics h2, .quran-tools h2 { font-size: 1.2rem; margin: 0 0 8px; color: var(--text); }
+.quran-about p, .quran-naming p, .quran-tools p { color: var(--text-light); line-height: 1.9; font-size: 15px; margin: 0 0 6px; }
+/* topics: title + one-sentence rows, no bullets, no ayah ranges */
+.quran-topics-list { list-style: none; margin: 4px 0 0; padding: 0; display: grid; gap: 10px; }
+.quran-topics-list li { padding: 10px 14px; background: var(--surface-sunken, var(--bg)); border: 1px solid var(--border); border-radius: 10px; }
+.quran-topic-title { display: block; color: var(--primary-dark); font-size: 15px; font-weight: 700; margin: 0 0 3px; }
+.quran-topics-list li span { display: block; color: var(--text-light); line-height: 1.85; font-size: 14.5px; }
+
+/* ---- source box (visible essentials + collapsible technical details) ---- */
+.quran-source-box h2 { font-size: 1.25rem; margin: 0 0 12px; }
+.quran-source-facts { list-style: none; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
+.quran-source-facts li { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap;
+  padding: 8px 12px; background: var(--surface-sunken, var(--bg)); border: 1px solid var(--border); border-radius: 10px; }
+.quran-source-facts li span { color: var(--text-light); font-size: 13px; min-width: 68px; }
+.quran-source-facts li b { color: var(--text); font-size: 14.5px; }
+.quran-source-cta { margin: 0 0 12px; }
+.quran-source-link { color: var(--primary-dark); text-decoration: none; font-weight: 700; }
+.quran-source-link:hover { text-decoration: underline; }
+.quran-source-details { border: 1px solid var(--border); border-radius: 10px; background: var(--surface-sunken, var(--bg)); }
+.quran-source-details summary { cursor: pointer; padding: 10px 14px; font-weight: 700; color: var(--text); font-size: 14px; min-height: 44px; display: flex; align-items: center; }
+.quran-source-details summary:focus-visible { outline: 2px solid var(--primary); outline-offset: -2px; }
+.quran-source-details ul { margin: 0; padding: 4px 20px 14px; color: var(--text-light); font-size: 13.5px; line-height: 1.9; }
+.quran-source-details ul b { color: var(--text); }
+.quran-data-version { font-size: 12px; color: var(--text-light); opacity: .8; margin: 14px 0 0; }
+
+/* ---- FAQ: SITE shared component (.country-faq-item.moon-country-faq) inside a .section-card. No new FAQ design. ---- */
+.quran-faq h2 { font-size: 1.25rem; margin: 0 0 12px; }
+.quran-faq .country-faq-list { display: block; }
+
+/* ---- surah MODAL: a centered dialog INSIDE the available content area. js/quran.js PORTALS it to <body>
+   (so no clipped ancestor / stacking context hides it). Full-screen dim overlay; z-index ABOVE the site
+   header (1000) / sidebar (1100) / menu-toggle (1200), BELOW the site's critical dialogs (9999). ONE modal
+   shared by every "browse surahs" button. Mobile → full-screen sheet inside the safe areas. ---- */
+.quran-index-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 1400; opacity: 0; transition: opacity .2s ease; }
+.quran-index-overlay.is-open { opacity: 1; }
+.quran-surah-modal { position: fixed; z-index: 1401; box-sizing: border-box;
+  top: calc(var(--q-header-h, 74px) + 20px); bottom: 20px;
+  left: max(16px, env(safe-area-inset-left));
+  right: calc(var(--q-sidebar-w, 0px) + max(16px, env(safe-area-inset-right)));   /* stay LEFT of the RTL sidebar rail */
+  margin-inline: auto; width: auto; max-width: 960px;
+  display: flex; flex-direction: column; background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 16px; box-shadow: 0 16px 48px rgba(0,0,0,.30);
+  opacity: 0; visibility: hidden; transform: translateY(10px); transition: opacity .2s ease, transform .2s ease, visibility .2s ease; }
+.quran-surah-modal.is-open { opacity: 1; visibility: visible; transform: none; }
+.quran-surah-modal-head { flex-shrink: 0; display: flex; align-items: center; gap: 10px; padding: 14px 16px; border-bottom: 1px solid var(--border); }
+.quran-index-title { font-size: 17px; font-weight: 800; color: var(--text); margin: 0; white-space: nowrap; }
+.quran-surah-filter { flex: 1 1 auto; min-width: 0; border: 1px solid var(--border); border-radius: 10px;
+  padding: 9px 12px; background: var(--surface-sunken, var(--bg)); color: var(--text); font-size: 14px; min-height: 40px; }
+.quran-surah-filter:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; border-color: var(--primary); }
+/* filter field wraps the input + an inline clear (✕); the ✕ sits at the trailing (inline-end) edge */
+.quran-filter-field { position: relative; flex: 1 1 auto; min-width: 0; display: flex; }
+.quran-filter-field .quran-surah-filter { flex: 1 1 auto; padding-inline-end: 38px; }
+.quran-filter-clear { position: absolute; inset-inline-end: 5px; top: 50%; transform: translateY(-50%);
+  width: 30px; height: 30px; border: none; background: transparent; color: var(--text-light); cursor: pointer;
+  border-radius: 8px; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+.quran-filter-clear:hover { background: var(--surface-sunken, var(--bg)); color: var(--text); }
+.quran-filter-clear:focus-visible { outline: 2px solid var(--primary); outline-offset: 1px; }
+.quran-index-close { flex-shrink: 0; background: var(--surface-sunken, var(--bg)); border: 1px solid var(--border);
+  border-radius: 10px; width: 40px; height: 40px; cursor: pointer; color: var(--text); font-size: 16px; }
+.quran-index-close:hover { border-color: var(--primary); color: var(--primary-dark); }
+.quran-index-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-surah-modal-body { flex: 1 1 auto; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: 4px 12px 16px; }
+.quran-index-note { font-size: 12.5px; color: var(--text-light); padding: 10px 6px 8px; line-height: 1.7; margin: 0; }
+/* subhead: note on one side, the aria-live result counter on the other */
+.quran-surah-subhead { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 8px 6px 6px; }
+.quran-surah-subhead .quran-index-note { padding: 0; flex: 1 1 220px; }
+.quran-surah-count { flex-shrink: 0; margin: 0; font-size: 12.5px; font-weight: 700; color: var(--primary-dark); white-space: nowrap; }
+.quran-index-list { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 6px; }
+.quran-idx-li { display: block; }
+/* ROOT FIX: an explicit display beats the UA [hidden] rule, so the toggled elements need their own
+   [hidden] override — otherwise filtered-out surahs (and the empty/clear states) never actually hide. */
+.quran-idx-li[hidden], .quran-surah-filter-empty[hidden], .quran-filter-clear[hidden] { display: none; }
+/* Same class of bug for the hero «متابعة القراءة» button: it is a .quran-btn (display:inline-flex), which beats
+   the UA [hidden]{display:none}. Without this a first-time reader with no saved position sees it painted. It stays
+   hidden until js/quran-home.js clears [hidden] on a VALID last-read, at which point it also gets its full href. */
+#quran-home-continue[hidden] { display: none !important; }
+.quran-idx-item { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px;
+  text-decoration: none; color: var(--text-light); border: 1px solid transparent; }
+/* Every item is a real link now (all 114 surahs exist), so each one needs the hover affordance and the
+   keyboard focus ring that the prototype only gave the current item — back then the other 113 were inert
+   <span>s that could not be hovered or tabbed to at all. Without these, tabbing the list shows no focus. */
+.quran-idx-item:hover { color: var(--text); background: var(--q-tint); }
+.quran-idx-item:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-idx-item.is-current { color: var(--text); background: var(--q-tint); border-color: var(--q-tint-line); font-weight: 700; }
+.quran-idx-item.is-current:hover { background: color-mix(in srgb, var(--primary) 16%, var(--card-bg)); }
+.quran-idx-num { min-width: 2.2em; height: 1.9em; display: inline-flex; align-items: center; justify-content: center;
+  border: 1px solid var(--border); border-radius: 8px; font-size: 12.5px; font-weight: 700; flex-shrink: 0; }
+.quran-idx-item.is-current .quran-idx-num { border-color: var(--primary); color: var(--primary-dark); }
+.quran-idx-name { flex: 1 1 auto; font-size: 15px; }
+.quran-idx-ay { font-size: 12px; color: var(--text-light); flex-shrink: 0; }
+.quran-idx-badge { font-size: 11px; font-weight: 700; color: #fff; background: var(--primary); border-radius: 999px; padding: 2px 8px; flex-shrink: 0; }
+/* empty-state: shown only when a query matches nothing — message + a "clear search" button */
+.quran-surah-filter-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 28px 16px; text-align: center; }
+.quran-empty-msg { margin: 0; font-size: 14px; color: var(--text-light); line-height: 1.7; }
+.quran-empty-clear { border: 1px solid var(--border); background: var(--surface-sunken, var(--bg)); color: var(--text);
+  border-radius: 10px; padding: 8px 18px; cursor: pointer; font-size: 13.5px; font-weight: 700; }
+.quran-empty-clear:hover { border-color: var(--primary); color: var(--primary-dark); }
+.quran-empty-clear:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-surah-filter-empty { padding: 20px 8px; text-align: center; color: var(--text-light); font-size: 14px; }
+/* body scroll lock while the modal is open (class toggled by JS on <body>) */
+body.quran-modal-open { overflow: hidden; }
+
+/* ---- reading mode: a TRUE focused reading experience. Hides ALL site + page chrome (site header, footer,
+   breadcrumb, hero, services, progress, surah-end, about, source, FAQ) and keeps ONLY the Quran page cards
+   + a MINIMIZED reading bar (font -/+, night, and a clear "exit reading mode" button). Works on desktop
+   and mobile; the ayah text and the reader's scroll position are untouched. ---- */
+body.quran-reading .top-header,
+body.quran-reading .site-footer,
+body.quran-reading #sticky-next-bar,
+body.quran-reading #sidebar,
+body.quran-reading .menu-toggle,
+body.quran-reading .moon-breadcrumb,
+body.quran-reading .quran-hero,
+body.quran-reading .quran-services,
+body.quran-reading .quran-progress,
+body.quran-reading .quran-surah-end,
+body.quran-reading .quran-about,
+body.quran-reading .quran-naming,
+body.quran-reading .quran-topics,
+body.quran-reading .quran-tools,
+body.quran-reading .quran-source-box,
+body.quran-reading .quran-faq,
+body.quran-reading .moon-events-section { display: none; }   /* hide the reused Islamic-events section in reading mode */
+/* the Islamic-events countdown is the SITE component reused as the last section; just give it top spacing inside the Quran container */
+.quran-surah-page .moon-events-section { margin-top: 22px; }
+/* reclaim the space the fixed desktop sidebar reserved, so the reading column re-centers full-width */
+body.quran-reading .main-content { margin-right: 0; }
+/* the header is hidden → the sticky reading bar docks to the very top (respecting the notch) */
+body.quran-reading .quran-reading-sticky { top: max(0px, env(safe-area-inset-top)); }
+body.quran-reading .quran-page-card { box-shadow: none; border-color: transparent; background: transparent; }
+/* minimized reading bar: drop the non-essential controls, keep it centered */
+body.quran-reading .quran-toolbar { justify-content: center; }
+body.quran-reading .quran-toolbar [data-quran-action="top"],
+body.quran-reading .quran-toolbar .quran-tool-spacer,
+body.quran-reading .quran-toolbar .quran-ayah-jump,
+body.quran-reading .quran-toolbar .quran-page-jump,
+body.quran-reading .quran-reading-enter { display: none; }
+/* the "exit reading mode" button — hidden normally; prominent (label ALWAYS visible, even on phones) in reading mode */
+.quran-reading-exit { display: none; }
+body.quran-reading .quran-reading-exit { display: inline-flex; background: var(--primary); color: #fff; border-color: var(--primary); }
+body.quran-reading .quran-reading-exit:hover { background: var(--primary-dark); color: #fff; border-color: var(--primary-dark); }
+.quran-reading-exit-label { display: inline; }
+
+/* ================= responsive ================= */
+/* The real site .top-header provides the top spacing now — NO menu-button clearance padding here. */
+@media (max-width: 768px) {
+  .quran-hero-actions .quran-btn { flex: 1 1 auto; }
+  /* surah modal → full-screen sheet inside the safe areas (no sidebar reservation on phones) */
+  .quran-surah-modal { top: calc(var(--q-header-h, 64px) + 8px); bottom: env(safe-area-inset-bottom);
+    left: env(safe-area-inset-left); right: env(safe-area-inset-right); max-width: none; margin: 0; border-radius: 16px 16px 0 0; }
+  .quran-index-list { grid-template-columns: 1fr; }
+}
+/* phones: the reading bar wraps to TWO rows — controls on row 1, the ayah/page jumps on row 2, progress below.
+   The spacer becomes a full-width break so the jumps flow onto their own line without crowding. */
+@media (max-width: 560px) {
+  .quran-tool-spacer { flex-basis: 100%; height: 0; margin: 0; }
+  .quran-surah-modal-head { flex-wrap: wrap; }
+  .quran-surah-filter { order: 3; flex-basis: 100%; }
+}
+@media (max-width: 480px) {
+  .quran-page-card { padding: 16px 16px 20px; border-radius: 14px; }
+  /* one step smaller than desktop on phones (~390px): base 1.43rem instead of 1.55rem */
+  .quran-surah-page { --q-ayah-size-base: clamp(1.4rem, 5.8vw, 1.6rem); }   /* phone base; offset + final calc inherit */
+  .quran-reading-sticky { padding: 7px 8px; }
+  .quran-toolbar { gap: 6px; }
+  .quran-tool-btn .quran-tool-label { display: none; }   /* icons only on small screens */
+  .quran-tool-btn { padding: 8px 10px; }
+  .quran-jump-label { display: none; }
+  .quran-svc-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
+}
+/* very small screens: allow a slightly tighter gutter (still no edge-touching text) */
+@media (max-width: 360px) {
+  .quran-site-container { padding-inline: max(12px, env(safe-area-inset-left)) max(12px, env(safe-area-inset-right)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { scroll-behavior: auto !important; }
+  .quran-surah-modal, .quran-index-overlay { transition: none; }
+  .quran-locale-modal, .quran-locale-overlay { transition: none; }
+  .quran-ayah.is-flash .quran-ayah-text, .quran-ayah:target .quran-ayah-text { transition: none; }
+}
+
+/* ==== NON-ARABIC LANGUAGE UNAVAILABLE dialog (P0) — Quran pages are Arabic-only. Portaled to <body> by
+   js/quran.js. Layer: ABOVE the sticky reading toolbar (40), the site header (1000), the sidebar (1100),
+   the menu-toggle (1200) AND the surah index modal (1400/1401) — but BELOW the site's critical dialogs
+   (9999). This stylesheet loads ONLY on the surah route, so nothing here can leak to another page. ==== */
+.quran-locale-overlay { position: fixed; inset: 0; background: rgba(0,0,0,.55); z-index: 1500; opacity: 0; transition: opacity .2s ease; }
+.quran-locale-overlay.is-open { opacity: 1; }
+.quran-locale-modal {
+  position: fixed; z-index: 1501; box-sizing: border-box;
+  top: 50%; left: 50%; transform: translate(-50%, -50%) scale(.97);
+  width: min(560px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow-y: auto;
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
+  box-shadow: 0 24px 60px rgba(0,0,0,.28); padding: 26px 24px 22px;
+  opacity: 0; visibility: hidden; transition: opacity .18s ease, transform .18s ease;
+  text-align: center;
+}
+.quran-locale-modal.is-open { opacity: 1; visibility: visible; transform: translate(-50%, -50%) scale(1); }
+.quran-locale-close {
+  position: absolute; inset-inline-end: 12px; top: 12px; width: 34px; height: 34px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--surface-sunken, var(--bg)); color: var(--text-light);
+  border: 1px solid var(--border); border-radius: 9px; cursor: pointer;
+}
+.quran-locale-close:hover { color: var(--text); }
+.quran-locale-close:focus-visible { outline: 2px solid var(--primary); outline-offset: 2px; }
+.quran-locale-ico {
+  width: 54px; height: 54px; margin: 2px auto 12px; display: flex; align-items: center; justify-content: center;
+  color: var(--primary-dark); background: color-mix(in srgb, var(--primary) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--primary) 24%, transparent); border-radius: 50%;
+}
+.quran-locale-title { font-size: 1.22rem; margin: 0 0 10px; color: var(--text); }
+.quran-locale-badge {
+  display: inline-flex; align-items: baseline; gap: 6px; margin: 0 0 12px;
+  padding: 5px 12px; font-size: 13px; color: var(--text-light);
+  background: var(--surface-sunken, var(--bg)); border: 1px solid var(--border); border-radius: 999px;
+}
+.quran-locale-badge b { color: var(--text); font-size: 14px; }
+.quran-locale-desc { color: var(--text-light); line-height: 1.9; font-size: 14.5px; margin: 0 0 18px; }
+.quran-locale-actions { display: flex; flex-direction: column; gap: 10px; }
+.quran-locale-actions .quran-btn { width: 100%; min-height: 48px; justify-content: center; text-align: center; }
+.quran-locale-home { text-decoration: none; }
+/* the SSR (No-JS) menu items are <a> — keep them looking exactly like the JS-rendered <button> items */
+.lang-menu-item[href] { text-decoration: none; }
+
+@media (max-width: 560px) {
+  /* comfortable bottom sheet: 16px gutters, full-width 48px buttons, nothing under the screen edge */
+  .quran-locale-modal {
+    top: auto; bottom: 0; left: 0; transform: translateY(12px);
+    width: 100%; max-width: none; max-height: 88vh;
+    border-radius: 18px 18px 0 0; padding: 22px 16px calc(16px + env(safe-area-inset-bottom));
+  }
+  .quran-locale-modal.is-open { transform: translateY(0); }
+  .quran-locale-ico { width: 48px; height: 48px; }
+  .quran-locale-title { font-size: 1.12rem; }
+}
+
+/* ═══════ QURAN-AR-HOME-INDEX-SSR-1 — /quran (the section index) ═══════
+   Reuses the surah pages' tokens and the ONE outer width (.quran-site-container, 1180px). Nothing here
+   restyles a surah page: every selector is scoped under .quran-home-shell or a quran-home-* class. */
+.quran-home-shell .quran-home-hero { text-align: start; }
+.quran-home-stats { display: flex; flex-wrap: wrap; gap: 10px; list-style: none; padding: 0; margin: 18px 0 0; }
+.quran-home-stats .quran-chip { display: inline-flex; align-items: baseline; gap: 6px; }
+.quran-home-stats .quran-chip-num { font-weight: 700; font-size: 1.05rem; }
+
+/* search */
+.quran-home-search-lead { margin: 4px 0 14px; opacity: .9; }
+.quran-home-search-row { display: flex; flex-direction: column; gap: 8px; }
+.quran-home-search-label { font-size: .92rem; opacity: .85; }
+.quran-home-search-field { position: relative; display: flex; align-items: center; }
+.quran-home-search-input {
+  width: 100%; box-sizing: border-box; font: inherit; font-size: 1.02rem;
+  padding: 12px 14px; padding-inline-end: 58px; min-height: 48px;   /* clears the 44px clear button + its 6px inset */
+  border-radius: 12px; border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  background: var(--card, var(--bg)); color: var(--text);
+}
+.quran-home-search-input:focus-visible { outline: 2px solid var(--accent, #1a6b3c); outline-offset: 2px; }
+/* QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-VISUAL-CORRECTIONS-FINAL-1 — clear button.
+   44px so the tap target is legitimate, but styled as a quiet affordance (soft tint, small glyph) so it
+   never reads as the page's primary action next to the text the reader just typed. */
+.quran-home-search-clear {
+  position: absolute; inset-inline-end: 6px; width: 44px; height: 44px; min-width: 44px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border: 0; border-radius: 10px; cursor: pointer; font-size: .82rem; line-height: 1;
+  background: color-mix(in srgb, var(--text) 6%, transparent);
+  color: color-mix(in srgb, var(--text) 70%, transparent);
+  transition: background .15s ease, color .15s ease;
+}
+.quran-home-search-clear:hover {
+  background: color-mix(in srgb, var(--text) 12%, transparent); color: var(--text);
+}
+.quran-home-search-clear:focus-visible {
+  outline: 2px solid var(--accent, #1a6b3c); outline-offset: 2px; color: var(--text);
+}
+/* The attribute alone does not hide it: .quran-home-search-clear sets display:inline-flex, which wins over
+   the UA's [hidden]{display:none}. Scoped to this component — a global [hidden] rule would reach the whole
+   site untested. */
+.quran-home-search-field [hidden] { display: none !important; }
+/* Chrome draws its own ✕ inside input[type=search] on focus; without this the reader sees two clear
+   buttons. Firefox and Safari render no native button, so the rule is inert there rather than breaking. */
+.quran-home-search-input::-webkit-search-cancel-button,
+.quran-home-search-input::-webkit-search-decoration {
+  -webkit-appearance: none; appearance: none; display: none;
+}
+/* The live region must stay in the DOM and stay announced, so it cannot be display:none or
+   visibility:hidden. Clipped to 1px instead: screen readers still read it, and its height no longer grows
+   from 17px to 24px when it fills — which is what was pushing the whole index down by 7px mid-typing. */
+.quran-home-search-count {
+  position: absolute !important; width: 1px; height: 1px; margin: -1px; padding: 0;
+  overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; border: 0;
+}
+
+/* continue reading */
+.quran-home-lastread-line { margin: 6px 0 14px; font-size: 1.02rem; }
+.quran-home-lastread-btn { display: inline-flex; }
+
+/* juz */
+.quran-home-juz-grid,
+.quran-home-idx-grid { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
+.quran-home-juz-grid { grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); }
+.quran-home-juz-card,
+.quran-home-idx-card {
+  display: flex; align-items: center; gap: 12px; min-height: 56px;
+  padding: 12px 14px; border-radius: 12px; text-decoration: none; color: inherit;
+  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+  background: color-mix(in srgb, var(--text) 3%, transparent);
+}
+.quran-home-juz-card:hover, .quran-home-idx-card:hover { border-color: color-mix(in srgb, var(--accent, #1a6b3c) 55%, transparent); }
+.quran-home-juz-card:focus-visible, .quran-home-idx-card:focus-visible { outline: 2px solid var(--accent, #1a6b3c); outline-offset: 2px; }
+.quran-home-juz-card { flex-direction: column; align-items: flex-start; gap: 4px; }
+.quran-home-juz-num { font-weight: 700; }
+.quran-home-juz-start { font-size: .88rem; }   /* same reason as .quran-home-idx-meta — no faded card text */
+
+/* surah index */
+.quran-home-idx-grid { grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+/* Six bands of 20 surahs; five of them are below the fold on every viewport. Lighthouse measured
+   Style & Layout as the single largest slice of main-thread work on this page, so let the browser skip
+   layout for the bands that are off-screen. `contain-intrinsic-size` supplies a placeholder height so the
+   scrollbar and page height do not jump as bands are realised — CLS stays at 0.011.
+   Scoped to the index bands ONLY: the hero, search, juz and FAQ all stay eagerly rendered, and because
+   search toggles [hidden] rather than relying on paint, filtering still finds surahs inside skipped bands. */
+.quran-home-idx-group { content-visibility: auto; contain-intrinsic-size: auto 720px; }
+.quran-home-idx-group + .quran-home-idx-group { margin-top: 26px; }
+.quran-home-idx-grouptitle { font-size: .95rem; opacity: .72; margin: 0; font-weight: 600; }
+.quran-home-idx-num {
+  flex: 0 0 auto; min-width: 34px; height: 34px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 700;
+  /* The badge keeps its accent TINT but takes the body text colour: mixing the accent into the foreground
+     (the first attempt) measured below 4.5:1 against this tint in Lighthouse. A number the reader has to
+     squint at is not decoration — it is the card's index. Tint the background only. */
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 16%, transparent);
+  color: var(--text);
+}
+.quran-home-idx-text { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+/* the NAME is the visual anchor of the card; number and count stay secondary */
+.quran-home-idx-name { font-size: 1.02rem; font-weight: 600; overflow-wrap: anywhere; }
+/* No opacity on text inside the cards. The ayah count sat at .72 and measured under 4.5:1 once every band
+   was scanned; the visual hierarchy it was buying is already carried by the smaller size and lighter weight,
+   so dropping the fade costs nothing and puts this text at exactly the body's contrast. */
+.quran-home-idx-meta { font-size: .84rem; font-weight: 400; }
+.quran-home-idx-intro, .quran-home-juz-intro { margin: 4px 0 0; opacity: .82; }
+.quran-home-idx-empty { margin: 14px 0 0; font-weight: 600; }
+.quran-home-source-more { margin-top: 12px; font-size: .92rem; }
+.quran-home-source-detail { margin: 12px 0 0; line-height: 1.9; }
+
+/* ═══════ QURAN-HOME-VISIBLE-CONTENT-DEPTH-AND-SEARCH-INTENT-1 — the guidance section ═══════
+   Three cards of plain prose, built from the SAME tokens as the surah/juz cards above (the border and
+   background are the identical color-mix pair), so the section reads as part of this page rather than a
+   bolted-on article. Deliberately NOT auto-fill: the column count is stated per breakpoint — 3 / 2 / 1 —
+   because "three across on a desktop" is a layout decision, not whatever a minmax happens to produce.
+   No fixed height and no line-clamp anywhere: a card grows to fit its paragraph, so no sentence is ever
+   cut off screen and none of this text is hidden from a reader while remaining in the HTML. */
+.quran-home-guide-intro { margin: 4px 0 0; opacity: .82; line-height: 1.9; }
+.quran-home-guide-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+.quran-home-guide-card {
+  padding: 16px; border-radius: 12px;
+  border: 1px solid color-mix(in srgb, var(--text) 12%, transparent);
+  background: color-mix(in srgb, var(--text) 3%, transparent);
+}
+.quran-home-guide-title { font-size: 1.02rem; font-weight: 700; margin: 0 0 8px; line-height: 1.5; }
+.quran-home-guide-text { margin: 0; line-height: 1.95; font-size: .95rem; overflow-wrap: anywhere; }
+
+@media (max-width: 980px) {
+  .quran-home-guide-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .quran-home-juz-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+  .quran-home-idx-grid { grid-template-columns: 1fr; }
+  .quran-home-stats { gap: 8px; }
+  .quran-home-guide-grid { grid-template-columns: 1fr; }
+}
+
+/* ═══════ QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 ═══════
+   The three figures, promoted from a chip row into cards: a big number, a labelled icon in a rounded tile,
+   a title and a one-line gloss. Column count is stated per breakpoint (3 / 2 / 1), never auto-fill, so the
+   layout is a decision not an accident — and no fixed height anywhere, so a long gloss grows the card
+   instead of being clipped. Built on the same green identity tokens as the rest of the page; the accent
+   falls back to the site green when --accent is absent. RTL is inherited from the page, and the grid is
+   direction-agnostic, so the first card sits on the right automatically. */
+.quran-home-stats-cards {
+  list-style: none; padding: 0; margin: 18px 0 0;
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px;
+}
+/* Tinted with --primary (the green), NOT --accent: --accent is the site's GOLD (#d4a017), which would put a
+   gold wash on cards that must read as the calm green identity. --primary and --primary-dark both invert
+   correctly for dark mode (the icon goes light-green on a dark tile), so the identity variables ARE enough
+   here — no hard-coded colours needed on the stat cards. */
+.quran-stat-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  padding: 20px; border-radius: 20px;
+  border: 1px solid color-mix(in srgb, var(--text) 11%, transparent);
+  background: color-mix(in srgb, var(--primary, #1a6b3c) 5%, var(--card-bg, var(--bg, #fff)));
+  box-shadow: 0 4px 16px rgba(0, 0, 0, .05);
+}
+.quran-stat-ico {
+  width: 52px; height: 52px; border-radius: 15px; margin-bottom: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: color-mix(in srgb, var(--primary, #1a6b3c) 14%, transparent);
+  color: var(--primary-dark, var(--primary, #1a6b3c));
+}
+.quran-stat-ico svg { width: 28px; height: 28px; display: block; }
+.quran-stat-body { display: flex; flex-direction: column; gap: 3px; }
+.quran-stat-num { font-size: clamp(2.15rem, 4.5vw, 3.25rem); font-weight: 800; line-height: 1.05; color: var(--text); }
+.quran-stat-title { font-size: 1.2rem; font-weight: 700; color: var(--text); }
+.quran-stat-sub { font-size: .95rem; color: var(--text-light); line-height: 1.5; }
+
+/* al-Kahf feature card — a full-width highlighted panel with white text on a calm green gradient.
+   The gradient uses FIXED greens (dark → mid), NOT the theme variables: --accent is gold, and --primary-dark
+   INVERTS to a light green in dark mode — either would turn this panel gold or wash it out so the white text
+   fails contrast (§6 asks for green, §11 forbids a low-contrast block). A marketing panel that is always
+   white-on-green is exactly the case where fixed brand colours are correct. A faint 8-point star sits behind
+   the text (aria-hidden); the button is a solid white pill with an RTL-facing arrow. Stronger shadow than the
+   stat cards so it reads as the highlighted item; it lifts a little on hover where motion is welcome. */
+/* margin: 14px top AND bottom — the card carried no bottom margin, and the juz section below it has no top
+   margin, so the gap under the al-Kahf card was 0 while the gap above it was 14px. Matching them (14 = 14)
+   makes the card sit with equal breathing room on both sides. */
+.quran-home-kahf {
+  position: relative; overflow: hidden; margin: 14px 0;
+  display: flex; align-items: center; gap: 22px; flex-wrap: wrap;
+  padding: 24px 26px; border-radius: 22px;
+  background: linear-gradient(135deg, #0d4a28 0%, #1a6b3c 100%);
+  color: #fff; box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+  transition: transform .18s ease, box-shadow .18s ease;
+}
+.quran-home-kahf:hover { transform: translateY(-2px); box-shadow: 0 16px 38px rgba(0, 0, 0, .22); }
+.quran-kahf-deco {
+  position: absolute; inset-inline-end: -14px; inset-block-start: -18px;
+  width: 150px; height: 150px; color: #fff; opacity: .10; pointer-events: none;
+}
+.quran-kahf-deco svg { width: 100%; height: 100%; }
+.quran-kahf-ico {
+  flex: 0 0 auto; width: 58px; height: 58px; border-radius: 16px;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: rgba(255, 255, 255, .16); color: #fff;
+}
+.quran-kahf-ico svg { width: 32px; height: 32px; display: block; }
+.quran-kahf-body { position: relative; z-index: 1; flex: 1 1 320px; min-width: 0; }
+.quran-kahf-badge {
+  display: inline-block; margin: 0 0 8px; padding: 4px 12px; border-radius: 999px;
+  background: rgba(255, 255, 255, .18); color: #fff; font-size: .82rem; font-weight: 700;
+}
+.quran-kahf-title { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 1.9rem); font-weight: 800; color: #fff; }
+.quran-kahf-text { margin: 0 0 4px; font-size: 1rem; line-height: 1.8; color: rgba(255, 255, 255, .92); }
+.quran-kahf-meta { margin: 0 0 14px; font-size: .9rem; color: rgba(255, 255, 255, .78); }
+/* White pill, green text — the text colour is a FIXED dark green, matching the fixed gradient: var(--primary-dark)
+   would flip to light green in dark mode and vanish against the white pill. */
+.quran-kahf-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 11px 22px; border-radius: 999px;
+  background: #fff; color: #0d4a28;
+  font-weight: 700; font-size: 1rem; text-decoration: none;
+  transition: transform .18s ease, background .18s ease;
+}
+.quran-kahf-btn:hover { transform: translateX(-2px); background: #eef6f0; }
+.quran-kahf-arrow { font-size: 1.15rem; line-height: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .quran-home-kahf, .quran-home-kahf:hover, .quran-kahf-btn, .quran-kahf-btn:hover { transition: none; transform: none; }
+}
+
+/* Tablet: two stat cards then the third on a second row (half width — a stated 2-col grid, no squeeze). */
+@media (max-width: 900px) {
+  .quran-home-stats-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Mobile: one stat card per row, and the al-Kahf card stacks its icon above the text. */
+@media (max-width: 560px) {
+  .quran-home-stats-cards { grid-template-columns: 1fr; }
+  .quran-home-kahf { padding: 20px; gap: 16px; }
+  .quran-kahf-btn { width: 100%; justify-content: center; }
+}
+
+/* ═══════ QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-SUGGESTIONS-UX-FINAL-GATE-1 — the suggestion listbox ═══════
+   Anchored to the field (position:relative on .quran-home-search-field) and floated above whatever
+   follows, so the continue-reading card and the juz grid never sit on top of it. Capped in height so a
+   long list scrolls inside itself instead of pushing the page around while the reader types. */
+.quran-home-search-field { position: relative; }
+.quran-home-suggest {
+  position: absolute; inset-inline: 0; top: calc(100% + 6px); z-index: 60;
+  margin: 0; padding: 6px; list-style: none;
+  max-height: min(52vh, 380px); overflow-y: auto; overscroll-behavior: contain;
+  scroll-behavior: smooth; scrollbar-gutter: stable;   /* the width must not jump when the bar appears */
+  background: var(--card-bg, var(--bg)); color: var(--text);
+  border: 1px solid color-mix(in srgb, var(--text) 16%, transparent);
+  border-radius: 14px; box-shadow: 0 12px 30px rgba(0, 0, 0, .18);
+}
+@media (prefers-reduced-motion: reduce) { .quran-home-suggest { scroll-behavior: auto; } }
+.quran-home-suggest[hidden] { display: none; }
+.quran-home-suggest-item { margin: 0; }
+/* A hairline between rows, not a card each: enough to scan by, no shadows and no per-row borders. */
+.quran-home-suggest-item + .quran-home-suggest-item { border-top: 1px solid color-mix(in srgb, var(--text) 9%, transparent); }
+.quran-home-suggest-link {
+  display: flex; align-items: center; gap: 12px; min-height: 56px;
+  padding: 8px 12px; border-radius: 10px; text-decoration: none; color: inherit;
+}
+/* the whole row is the target — not just the words */
+.quran-home-suggest-link:hover { background: color-mix(in srgb, var(--text) 7%, transparent); }
+.quran-home-suggest-item[aria-selected="true"] .quran-home-suggest-link {
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 18%, transparent);
+  outline: 2px solid var(--accent, #1a6b3c); outline-offset: -2px;
+}
+.quran-home-suggest-link:focus-visible { outline: 2px solid var(--accent, #1a6b3c); outline-offset: -2px; }
+.quran-home-suggest-num {
+  flex: 0 0 auto; min-width: 36px; height: 36px; border-radius: 9px;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: .9rem; font-weight: 700; line-height: 1;
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 16%, transparent); color: var(--text);
+}
+.quran-home-suggest-text { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+/* the NAME is what the reader scans for; the count stays subordinate but not faded (contrast).
+   line-height is set explicitly — the inherited body value (~1.7) was inflating every row to 73px. */
+.quran-home-suggest-name { font-size: 1.02rem; font-weight: 600; line-height: 1.3; overflow-wrap: anywhere; }
+.quran-home-suggest-meta { font-size: .84rem; font-weight: 400; line-height: 1.25; }
+.quran-home-suggest-none,
+.quran-home-suggest-more { padding: 12px; font-size: .92rem; line-height: 1.45; }
+.quran-home-suggest-none { font-weight: 600; }
+.quran-home-suggest-more { border-top: 1px solid color-mix(in srgb, var(--text) 12%, transparent); }
+
+/* Dark mode: a 16-18% accent wash over a dark surface lands olive and close to the rows around it. Give
+   the selected row its own lighter surface plus a full-strength accent edge, and lift the number badge —
+   the selection has to be obvious at a glance, not inferred. */
+@media (prefers-color-scheme: dark) {
+  .quran-home-suggest-item[aria-selected="true"] .quran-home-suggest-link {
+    background: color-mix(in srgb, var(--accent, #1a6b3c) 30%, #ffffff 10%);
+    outline-color: color-mix(in srgb, var(--accent, #1a6b3c) 55%, #ffffff);
+    color: #fff;
+  }
+  .quran-home-suggest-num { background: color-mix(in srgb, var(--accent, #1a6b3c) 34%, #ffffff 12%); }
+}
+:root[data-theme="dark"] .quran-home-suggest-item[aria-selected="true"] .quran-home-suggest-link {
+  background: color-mix(in srgb, var(--accent, #1a6b3c) 30%, #ffffff 10%);
+  outline-color: color-mix(in srgb, var(--accent, #1a6b3c) 55%, #ffffff);
+  color: #fff;
+}
+:root[data-theme="dark"] .quran-home-suggest-num { background: color-mix(in srgb, var(--accent, #1a6b3c) 34%, #ffffff 12%); }
+
+/* Mobile: rows land at 60px (44px badge + 2×8px padding) — a real 44px+ touch target inside a compact
+   row. Height capped at 300px so roughly four rows read in full and the fifth peeks, which is what tells
+   the reader the list scrolls; all 8 results stay reachable by scrolling, none are dropped. */
+@media (max-width: 560px) {
+  .quran-home-suggest { max-height: min(40vh, 276px); }   /* 276 − 12 padding = 264 = 4.4 rows of 60px */
+  .quran-home-suggest-link { min-height: 60px; }
+  .quran-home-suggest-num { min-width: 44px; height: 44px; border-radius: 11px; font-size: .95rem; }
+}
+
+/* ═══════ QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 ═══════
+   The browse CTA became a real <a> (it was a <button> that only opened the drawer, so it was invisible to
+   crawlers and dead without JS). An anchor inherits underline + link colour, so both are neutralised here —
+   the CTA's own colour rules above already paint it. */
+.quran-browse-cta { text-decoration: none; }
+.quran-browse-cta:visited { color: #fff; }
+
+/* The drawer kept its behaviour but lost its trigger when the CTA started navigating, so it now has its own
+   clearly-named button. Deliberately quieter than the CTA: same row, secondary weight — one obvious way to
+   LEAVE for the index, one modest way to pick a surah without leaving. */
+.quran-pick-surah-btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px; box-sizing: border-box;
+  min-height: 48px; padding: 11px 18px; border-radius: 14px; cursor: pointer; font: inherit; font-size: 14px;
+  color: var(--text); background: color-mix(in srgb, var(--text) 6%, transparent);
+  border: 1px solid color-mix(in srgb, var(--text) 18%, transparent);
+  transition: background .18s ease, border-color .18s ease;
+}
+.quran-pick-surah-btn:hover {
+  background: color-mix(in srgb, var(--text) 11%, transparent);
+  border-color: color-mix(in srgb, var(--text) 30%, transparent);
+}
+.quran-pick-surah-btn:focus-visible { outline: 3px solid color-mix(in srgb, var(--primary) 45%, #fff); outline-offset: 2px; }
+.quran-pick-surah-ico { display: inline-flex; opacity: .8; }
+@media (max-width: 560px) { .quran-hero-actions > .quran-pick-surah-btn { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .quran-pick-surah-btn { transition: none; } }
+
+/* /quran#quran-surah-index — the index heading must clear the fixed site header when the hash lands.
+   /quran has NO sticky reading bar (that belongs to surah pages), so this uses the header height alone
+   rather than --q-scroll-margin, which also reserves room for that bar. */
+#quran-surah-index { scroll-margin-top: calc(var(--q-header-h, 74px) + 16px); }
+@media (max-width: 1024px) { #quran-surah-index { scroll-margin-top: calc(var(--q-header-h, 74px) + 72px); } }
+
+/* QURAN-AR-SURAH-SOURCE-TRUST-INPAGE-LINK-FIX-1 — the source/trust section is an in-page jump target on the
+   surah pages, where BOTH the site header and the sticky reading bar can sit above the fold. --q-scroll-margin
+   already accounts for exactly that pair (header + sticky + 14px), so the anchor reuses it rather than
+   inventing a second number that could drift away from the measured chrome. */
+#quran-source-trust { scroll-margin-top: var(--q-scroll-margin, 178px); }
+
+/* ---- Ad-safety backstop (QURAN-AR-TANZIL-UTHMANI-SOURCE-FONT-ATTRIBUTION-AND-ADSENSE-RELEASE-PREP-1) ------
+   The Quran reading pages ship ZERO ad code: no AdSense script, no publisher id (ca-pub-*), no ad slot, no
+   pagead2 loader. /quran and /quran/* are declared EXCLUDED from Google Auto Ads (a page-level exclusion set
+   in the AdSense console at activation time; also documented in server.js beside the Quran route injection).
+   This rule is a purely structural backstop with no live ad behind it: if Auto Ads were ever enabled
+   site-wide, any container Google tries to inject INTO the verse-reading surface is hard-hidden, so an ad can
+   never land between, over or inside the Quran text. It is display:none (not visibility/opacity), so it
+   reserves no box and causes no CLS. */
+[data-quran-reading-surface] ins.adsbygoogle,
+[data-quran-reading-surface] .google-auto-placed,
+[data-quran-reading-surface] [data-google-query-id],
+[data-quran-reading-surface] iframe[src*="googlesyndication"],
+[data-quran-reading-surface] iframe[src*="doubleclick"] { display: none !important; }

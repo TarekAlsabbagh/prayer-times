@@ -1,0 +1,1022 @@
+[
+  {
+    "juz": 1,
+    "ayahCount": 148,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 1,
+        "firstAyah": 1,
+        "lastAyah": 7,
+        "ayahCount": 7
+      },
+      {
+        "surah": 2,
+        "firstAyah": 1,
+        "lastAyah": 141,
+        "ayahCount": 141
+      }
+    ]
+  },
+  {
+    "juz": 2,
+    "ayahCount": 111,
+    "surahCount": 1,
+    "surahs": [
+      {
+        "surah": 2,
+        "firstAyah": 142,
+        "lastAyah": 252,
+        "ayahCount": 111
+      }
+    ]
+  },
+  {
+    "juz": 3,
+    "ayahCount": 126,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 2,
+        "firstAyah": 253,
+        "lastAyah": 286,
+        "ayahCount": 34
+      },
+      {
+        "surah": 3,
+        "firstAyah": 1,
+        "lastAyah": 92,
+        "ayahCount": 92
+      }
+    ]
+  },
+  {
+    "juz": 4,
+    "ayahCount": 131,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 3,
+        "firstAyah": 93,
+        "lastAyah": 200,
+        "ayahCount": 108
+      },
+      {
+        "surah": 4,
+        "firstAyah": 1,
+        "lastAyah": 23,
+        "ayahCount": 23
+      }
+    ]
+  },
+  {
+    "juz": 5,
+    "ayahCount": 124,
+    "surahCount": 1,
+    "surahs": [
+      {
+        "surah": 4,
+        "firstAyah": 24,
+        "lastAyah": 147,
+        "ayahCount": 124
+      }
+    ]
+  },
+  {
+    "juz": 6,
+    "ayahCount": 110,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 4,
+        "firstAyah": 148,
+        "lastAyah": 176,
+        "ayahCount": 29
+      },
+      {
+        "surah": 5,
+        "firstAyah": 1,
+        "lastAyah": 81,
+        "ayahCount": 81
+      }
+    ]
+  },
+  {
+    "juz": 7,
+    "ayahCount": 149,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 5,
+        "firstAyah": 82,
+        "lastAyah": 120,
+        "ayahCount": 39
+      },
+      {
+        "surah": 6,
+        "firstAyah": 1,
+        "lastAyah": 110,
+        "ayahCount": 110
+      }
+    ]
+  },
+  {
+    "juz": 8,
+    "ayahCount": 142,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 6,
+        "firstAyah": 111,
+        "lastAyah": 165,
+        "ayahCount": 55
+      },
+      {
+        "surah": 7,
+        "firstAyah": 1,
+        "lastAyah": 87,
+        "ayahCount": 87
+      }
+    ]
+  },
+  {
+    "juz": 9,
+    "ayahCount": 159,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 7,
+        "firstAyah": 88,
+        "lastAyah": 206,
+        "ayahCount": 119
+      },
+      {
+        "surah": 8,
+        "firstAyah": 1,
+        "lastAyah": 40,
+        "ayahCount": 40
+      }
+    ]
+  },
+  {
+    "juz": 10,
+    "ayahCount": 127,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 8,
+        "firstAyah": 41,
+        "lastAyah": 75,
+        "ayahCount": 35
+      },
+      {
+        "surah": 9,
+        "firstAyah": 1,
+        "lastAyah": 92,
+        "ayahCount": 92
+      }
+    ]
+  },
+  {
+    "juz": 11,
+    "ayahCount": 151,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 9,
+        "firstAyah": 93,
+        "lastAyah": 129,
+        "ayahCount": 37
+      },
+      {
+        "surah": 10,
+        "firstAyah": 1,
+        "lastAyah": 109,
+        "ayahCount": 109
+      },
+      {
+        "surah": 11,
+        "firstAyah": 1,
+        "lastAyah": 5,
+        "ayahCount": 5
+      }
+    ]
+  },
+  {
+    "juz": 12,
+    "ayahCount": 170,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 11,
+        "firstAyah": 6,
+        "lastAyah": 123,
+        "ayahCount": 118
+      },
+      {
+        "surah": 12,
+        "firstAyah": 1,
+        "lastAyah": 52,
+        "ayahCount": 52
+      }
+    ]
+  },
+  {
+    "juz": 13,
+    "ayahCount": 154,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 12,
+        "firstAyah": 53,
+        "lastAyah": 111,
+        "ayahCount": 59
+      },
+      {
+        "surah": 13,
+        "firstAyah": 1,
+        "lastAyah": 43,
+        "ayahCount": 43
+      },
+      {
+        "surah": 14,
+        "firstAyah": 1,
+        "lastAyah": 52,
+        "ayahCount": 52
+      }
+    ]
+  },
+  {
+    "juz": 14,
+    "ayahCount": 227,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 15,
+        "firstAyah": 1,
+        "lastAyah": 99,
+        "ayahCount": 99
+      },
+      {
+        "surah": 16,
+        "firstAyah": 1,
+        "lastAyah": 128,
+        "ayahCount": 128
+      }
+    ]
+  },
+  {
+    "juz": 15,
+    "ayahCount": 185,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 17,
+        "firstAyah": 1,
+        "lastAyah": 111,
+        "ayahCount": 111
+      },
+      {
+        "surah": 18,
+        "firstAyah": 1,
+        "lastAyah": 74,
+        "ayahCount": 74
+      }
+    ]
+  },
+  {
+    "juz": 16,
+    "ayahCount": 269,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 18,
+        "firstAyah": 75,
+        "lastAyah": 110,
+        "ayahCount": 36
+      },
+      {
+        "surah": 19,
+        "firstAyah": 1,
+        "lastAyah": 98,
+        "ayahCount": 98
+      },
+      {
+        "surah": 20,
+        "firstAyah": 1,
+        "lastAyah": 135,
+        "ayahCount": 135
+      }
+    ]
+  },
+  {
+    "juz": 17,
+    "ayahCount": 190,
+    "surahCount": 2,
+    "surahs": [
+      {
+        "surah": 21,
+        "firstAyah": 1,
+        "lastAyah": 112,
+        "ayahCount": 112
+      },
+      {
+        "surah": 22,
+        "firstAyah": 1,
+        "lastAyah": 78,
+        "ayahCount": 78
+      }
+    ]
+  },
+  {
+    "juz": 18,
+    "ayahCount": 202,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 23,
+        "firstAyah": 1,
+        "lastAyah": 118,
+        "ayahCount": 118
+      },
+      {
+        "surah": 24,
+        "firstAyah": 1,
+        "lastAyah": 64,
+        "ayahCount": 64
+      },
+      {
+        "surah": 25,
+        "firstAyah": 1,
+        "lastAyah": 20,
+        "ayahCount": 20
+      }
+    ]
+  },
+  {
+    "juz": 19,
+    "ayahCount": 339,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 25,
+        "firstAyah": 21,
+        "lastAyah": 77,
+        "ayahCount": 57
+      },
+      {
+        "surah": 26,
+        "firstAyah": 1,
+        "lastAyah": 227,
+        "ayahCount": 227
+      },
+      {
+        "surah": 27,
+        "firstAyah": 1,
+        "lastAyah": 55,
+        "ayahCount": 55
+      }
+    ]
+  },
+  {
+    "juz": 20,
+    "ayahCount": 171,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 27,
+        "firstAyah": 56,
+        "lastAyah": 93,
+        "ayahCount": 38
+      },
+      {
+        "surah": 28,
+        "firstAyah": 1,
+        "lastAyah": 88,
+        "ayahCount": 88
+      },
+      {
+        "surah": 29,
+        "firstAyah": 1,
+        "lastAyah": 45,
+        "ayahCount": 45
+      }
+    ]
+  },
+  {
+    "juz": 21,
+    "ayahCount": 178,
+    "surahCount": 5,
+    "surahs": [
+      {
+        "surah": 29,
+        "firstAyah": 46,
+        "lastAyah": 69,
+        "ayahCount": 24
+      },
+      {
+        "surah": 30,
+        "firstAyah": 1,
+        "lastAyah": 60,
+        "ayahCount": 60
+      },
+      {
+        "surah": 31,
+        "firstAyah": 1,
+        "lastAyah": 34,
+        "ayahCount": 34
+      },
+      {
+        "surah": 32,
+        "firstAyah": 1,
+        "lastAyah": 30,
+        "ayahCount": 30
+      },
+      {
+        "surah": 33,
+        "firstAyah": 1,
+        "lastAyah": 30,
+        "ayahCount": 30
+      }
+    ]
+  },
+  {
+    "juz": 22,
+    "ayahCount": 169,
+    "surahCount": 4,
+    "surahs": [
+      {
+        "surah": 33,
+        "firstAyah": 31,
+        "lastAyah": 73,
+        "ayahCount": 43
+      },
+      {
+        "surah": 34,
+        "firstAyah": 1,
+        "lastAyah": 54,
+        "ayahCount": 54
+      },
+      {
+        "surah": 35,
+        "firstAyah": 1,
+        "lastAyah": 45,
+        "ayahCount": 45
+      },
+      {
+        "surah": 36,
+        "firstAyah": 1,
+        "lastAyah": 27,
+        "ayahCount": 27
+      }
+    ]
+  },
+  {
+    "juz": 23,
+    "ayahCount": 357,
+    "surahCount": 4,
+    "surahs": [
+      {
+        "surah": 36,
+        "firstAyah": 28,
+        "lastAyah": 83,
+        "ayahCount": 56
+      },
+      {
+        "surah": 37,
+        "firstAyah": 1,
+        "lastAyah": 182,
+        "ayahCount": 182
+      },
+      {
+        "surah": 38,
+        "firstAyah": 1,
+        "lastAyah": 88,
+        "ayahCount": 88
+      },
+      {
+        "surah": 39,
+        "firstAyah": 1,
+        "lastAyah": 31,
+        "ayahCount": 31
+      }
+    ]
+  },
+  {
+    "juz": 24,
+    "ayahCount": 175,
+    "surahCount": 3,
+    "surahs": [
+      {
+        "surah": 39,
+        "firstAyah": 32,
+        "lastAyah": 75,
+        "ayahCount": 44
+      },
+      {
+        "surah": 40,
+        "firstAyah": 1,
+        "lastAyah": 85,
+        "ayahCount": 85
+      },
+      {
+        "surah": 41,
+        "firstAyah": 1,
+        "lastAyah": 46,
+        "ayahCount": 46
+      }
+    ]
+  },
+  {
+    "juz": 25,
+    "ayahCount": 246,
+    "surahCount": 5,
+    "surahs": [
+      {
+        "surah": 41,
+        "firstAyah": 47,
+        "lastAyah": 54,
+        "ayahCount": 8
+      },
+      {
+        "surah": 42,
+        "firstAyah": 1,
+        "lastAyah": 53,
+        "ayahCount": 53
+      },
+      {
+        "surah": 43,
+        "firstAyah": 1,
+        "lastAyah": 89,
+        "ayahCount": 89
+      },
+      {
+        "surah": 44,
+        "firstAyah": 1,
+        "lastAyah": 59,
+        "ayahCount": 59
+      },
+      {
+        "surah": 45,
+        "firstAyah": 1,
+        "lastAyah": 37,
+        "ayahCount": 37
+      }
+    ]
+  },
+  {
+    "juz": 26,
+    "ayahCount": 195,
+    "surahCount": 6,
+    "surahs": [
+      {
+        "surah": 46,
+        "firstAyah": 1,
+        "lastAyah": 35,
+        "ayahCount": 35
+      },
+      {
+        "surah": 47,
+        "firstAyah": 1,
+        "lastAyah": 38,
+        "ayahCount": 38
+      },
+      {
+        "surah": 48,
+        "firstAyah": 1,
+        "lastAyah": 29,
+        "ayahCount": 29
+      },
+      {
+        "surah": 49,
+        "firstAyah": 1,
+        "lastAyah": 18,
+        "ayahCount": 18
+      },
+      {
+        "surah": 50,
+        "firstAyah": 1,
+        "lastAyah": 45,
+        "ayahCount": 45
+      },
+      {
+        "surah": 51,
+        "firstAyah": 1,
+        "lastAyah": 30,
+        "ayahCount": 30
+      }
+    ]
+  },
+  {
+    "juz": 27,
+    "ayahCount": 399,
+    "surahCount": 7,
+    "surahs": [
+      {
+        "surah": 51,
+        "firstAyah": 31,
+        "lastAyah": 60,
+        "ayahCount": 30
+      },
+      {
+        "surah": 52,
+        "firstAyah": 1,
+        "lastAyah": 49,
+        "ayahCount": 49
+      },
+      {
+        "surah": 53,
+        "firstAyah": 1,
+        "lastAyah": 62,
+        "ayahCount": 62
+      },
+      {
+        "surah": 54,
+        "firstAyah": 1,
+        "lastAyah": 55,
+        "ayahCount": 55
+      },
+      {
+        "surah": 55,
+        "firstAyah": 1,
+        "lastAyah": 78,
+        "ayahCount": 78
+      },
+      {
+        "surah": 56,
+        "firstAyah": 1,
+        "lastAyah": 96,
+        "ayahCount": 96
+      },
+      {
+        "surah": 57,
+        "firstAyah": 1,
+        "lastAyah": 29,
+        "ayahCount": 29
+      }
+    ]
+  },
+  {
+    "juz": 28,
+    "ayahCount": 137,
+    "surahCount": 9,
+    "surahs": [
+      {
+        "surah": 58,
+        "firstAyah": 1,
+        "lastAyah": 22,
+        "ayahCount": 22
+      },
+      {
+        "surah": 59,
+        "firstAyah": 1,
+        "lastAyah": 24,
+        "ayahCount": 24
+      },
+      {
+        "surah": 60,
+        "firstAyah": 1,
+        "lastAyah": 13,
+        "ayahCount": 13
+      },
+      {
+        "surah": 61,
+        "firstAyah": 1,
+        "lastAyah": 14,
+        "ayahCount": 14
+      },
+      {
+        "surah": 62,
+        "firstAyah": 1,
+        "lastAyah": 11,
+        "ayahCount": 11
+      },
+      {
+        "surah": 63,
+        "firstAyah": 1,
+        "lastAyah": 11,
+        "ayahCount": 11
+      },
+      {
+        "surah": 64,
+        "firstAyah": 1,
+        "lastAyah": 18,
+        "ayahCount": 18
+      },
+      {
+        "surah": 65,
+        "firstAyah": 1,
+        "lastAyah": 12,
+        "ayahCount": 12
+      },
+      {
+        "surah": 66,
+        "firstAyah": 1,
+        "lastAyah": 12,
+        "ayahCount": 12
+      }
+    ]
+  },
+  {
+    "juz": 29,
+    "ayahCount": 431,
+    "surahCount": 11,
+    "surahs": [
+      {
+        "surah": 67,
+        "firstAyah": 1,
+        "lastAyah": 30,
+        "ayahCount": 30
+      },
+      {
+        "surah": 68,
+        "firstAyah": 1,
+        "lastAyah": 52,
+        "ayahCount": 52
+      },
+      {
+        "surah": 69,
+        "firstAyah": 1,
+        "lastAyah": 52,
+        "ayahCount": 52
+      },
+      {
+        "surah": 70,
+        "firstAyah": 1,
+        "lastAyah": 44,
+        "ayahCount": 44
+      },
+      {
+        "surah": 71,
+        "firstAyah": 1,
+        "lastAyah": 28,
+        "ayahCount": 28
+      },
+      {
+        "surah": 72,
+        "firstAyah": 1,
+        "lastAyah": 28,
+        "ayahCount": 28
+      },
+      {
+        "surah": 73,
+        "firstAyah": 1,
+        "lastAyah": 20,
+        "ayahCount": 20
+      },
+      {
+        "surah": 74,
+        "firstAyah": 1,
+        "lastAyah": 56,
+        "ayahCount": 56
+      },
+      {
+        "surah": 75,
+        "firstAyah": 1,
+        "lastAyah": 40,
+        "ayahCount": 40
+      },
+      {
+        "surah": 76,
+        "firstAyah": 1,
+        "lastAyah": 31,
+        "ayahCount": 31
+      },
+      {
+        "surah": 77,
+        "firstAyah": 1,
+        "lastAyah": 50,
+        "ayahCount": 50
+      }
+    ]
+  },
+  {
+    "juz": 30,
+    "ayahCount": 564,
+    "surahCount": 37,
+    "surahs": [
+      {
+        "surah": 78,
+        "firstAyah": 1,
+        "lastAyah": 40,
+        "ayahCount": 40
+      },
+      {
+        "surah": 79,
+        "firstAyah": 1,
+        "lastAyah": 46,
+        "ayahCount": 46
+      },
+      {
+        "surah": 80,
+        "firstAyah": 1,
+        "lastAyah": 42,
+        "ayahCount": 42
+      },
+      {
+        "surah": 81,
+        "firstAyah": 1,
+        "lastAyah": 29,
+        "ayahCount": 29
+      },
+      {
+        "surah": 82,
+        "firstAyah": 1,
+        "lastAyah": 19,
+        "ayahCount": 19
+      },
+      {
+        "surah": 83,
+        "firstAyah": 1,
+        "lastAyah": 36,
+        "ayahCount": 36
+      },
+      {
+        "surah": 84,
+        "firstAyah": 1,
+        "lastAyah": 25,
+        "ayahCount": 25
+      },
+      {
+        "surah": 85,
+        "firstAyah": 1,
+        "lastAyah": 22,
+        "ayahCount": 22
+      },
+      {
+        "surah": 86,
+        "firstAyah": 1,
+        "lastAyah": 17,
+        "ayahCount": 17
+      },
+      {
+        "surah": 87,
+        "firstAyah": 1,
+        "lastAyah": 19,
+        "ayahCount": 19
+      },
+      {
+        "surah": 88,
+        "firstAyah": 1,
+        "lastAyah": 26,
+        "ayahCount": 26
+      },
+      {
+        "surah": 89,
+        "firstAyah": 1,
+        "lastAyah": 30,
+        "ayahCount": 30
+      },
+      {
+        "surah": 90,
+        "firstAyah": 1,
+        "lastAyah": 20,
+        "ayahCount": 20
+      },
+      {
+        "surah": 91,
+        "firstAyah": 1,
+        "lastAyah": 15,
+        "ayahCount": 15
+      },
+      {
+        "surah": 92,
+        "firstAyah": 1,
+        "lastAyah": 21,
+        "ayahCount": 21
+      },
+      {
+        "surah": 93,
+        "firstAyah": 1,
+        "lastAyah": 11,
+        "ayahCount": 11
+      },
+      {
+        "surah": 94,
+        "firstAyah": 1,
+        "lastAyah": 8,
+        "ayahCount": 8
+      },
+      {
+        "surah": 95,
+        "firstAyah": 1,
+        "lastAyah": 8,
+        "ayahCount": 8
+      },
+      {
+        "surah": 96,
+        "firstAyah": 1,
+        "lastAyah": 19,
+        "ayahCount": 19
+      },
+      {
+        "surah": 97,
+        "firstAyah": 1,
+        "lastAyah": 5,
+        "ayahCount": 5
+      },
+      {
+        "surah": 98,
+        "firstAyah": 1,
+        "lastAyah": 8,
+        "ayahCount": 8
+      },
+      {
+        "surah": 99,
+        "firstAyah": 1,
+        "lastAyah": 8,
+        "ayahCount": 8
+      },
+      {
+        "surah": 100,
+        "firstAyah": 1,
+        "lastAyah": 11,
+        "ayahCount": 11
+      },
+      {
+        "surah": 101,
+        "firstAyah": 1,
+        "lastAyah": 11,
+        "ayahCount": 11
+      },
+      {
+        "surah": 102,
+        "firstAyah": 1,
+        "lastAyah": 8,
+        "ayahCount": 8
+      },
+      {
+        "surah": 103,
+        "firstAyah": 1,
+        "lastAyah": 3,
+        "ayahCount": 3
+      },
+      {
+        "surah": 104,
+        "firstAyah": 1,
+        "lastAyah": 9,
+        "ayahCount": 9
+      },
+      {
+        "surah": 105,
+        "firstAyah": 1,
+        "lastAyah": 5,
+        "ayahCount": 5
+      },
+      {
+        "surah": 106,
+        "firstAyah": 1,
+        "lastAyah": 4,
+        "ayahCount": 4
+      },
+      {
+        "surah": 107,
+        "firstAyah": 1,
+        "lastAyah": 7,
+        "ayahCount": 7
+      },
+      {
+        "surah": 108,
+        "firstAyah": 1,
+        "lastAyah": 3,
+        "ayahCount": 3
+      },
+      {
+        "surah": 109,
+        "firstAyah": 1,
+        "lastAyah": 6,
+        "ayahCount": 6
+      },
+      {
+        "surah": 110,
+        "firstAyah": 1,
+        "lastAyah": 3,
+        "ayahCount": 3
+      },
+      {
+        "surah": 111,
+        "firstAyah": 1,
+        "lastAyah": 5,
+        "ayahCount": 5
+      },
+      {
+        "surah": 112,
+        "firstAyah": 1,
+        "lastAyah": 4,
+        "ayahCount": 4
+      },
+      {
+        "surah": 113,
+        "firstAyah": 1,
+        "lastAyah": 5,
+        "ayahCount": 5
+      },
+      {
+        "surah": 114,
+        "firstAyah": 1,
+        "lastAyah": 6,
+        "ayahCount": 6
+      }
+    ]
+  }
+]

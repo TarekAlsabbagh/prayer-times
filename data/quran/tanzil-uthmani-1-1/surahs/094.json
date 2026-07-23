@@ -1,0 +1,45 @@
+{
+  "surah": 94,
+  "nameAr": "الشرح",
+  "nameEn": "Ash-Sharh",
+  "ayahCount": 8,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "أَلَمْ نَشْرَحْ لَكَ صَدْرَكَ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "وَوَضَعْنَا عَنكَ وِزْرَكَ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "ٱلَّذِىٓ أَنقَضَ ظَهْرَكَ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "وَرَفَعْنَا لَكَ ذِكْرَكَ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "فَإِنَّ مَعَ ٱلْعُسْرِ يُسْرًا"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "إِنَّ مَعَ ٱلْعُسْرِ يُسْرًا"
+    },
+    {
+      "ayah": 7,
+      "textUthmaniBody": "فَإِذَا فَرَغْتَ فَٱنصَبْ"
+    },
+    {
+      "ayah": 8,
+      "textUthmaniBody": "وَإِلَىٰ رَبِّكَ فَٱرْغَب"
+    }
+  ]
+}

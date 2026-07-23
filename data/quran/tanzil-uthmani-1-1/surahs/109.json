@@ -1,0 +1,37 @@
+{
+  "surah": 109,
+  "nameAr": "الكافرون",
+  "nameEn": "Al-Kaafiroon",
+  "ayahCount": 6,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "قُلْ يَٰٓأَيُّهَا ٱلْكَٰفِرُونَ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "لَآ أَعْبُدُ مَا تَعْبُدُونَ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "وَلَآ أَنتُمْ عَٰبِدُونَ مَآ أَعْبُدُ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "وَلَآ أَنَا۠ عَابِدٌ مَّا عَبَدتُّمْ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "وَلَآ أَنتُمْ عَٰبِدُونَ مَآ أَعْبُدُ"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "لَكُمْ دِينُكُمْ وَلِىَ دِينِ"
+    }
+  ]
+}

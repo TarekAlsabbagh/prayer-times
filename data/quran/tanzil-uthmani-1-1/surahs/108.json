@@ -1,0 +1,25 @@
+{
+  "surah": 108,
+  "nameAr": "الكوثر",
+  "nameEn": "Al-Kawthar",
+  "ayahCount": 3,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "إِنَّآ أَعْطَيْنَٰكَ ٱلْكَوْثَرَ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "فَصَلِّ لِرَبِّكَ وَٱنْحَرْ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "إِنَّ شَانِئَكَ هُوَ ٱلْأَبْتَرُ"
+    }
+  ]
+}

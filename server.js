@@ -4905,6 +4905,15 @@ const _preloadPaths = [
     'js/i18n/bn.js', 'js/i18n/ms.js',
     'index.html', 'prayer-times-cities.html', 'legal.html', 'countries.html',
     'sw.js',
+    // QURAN-AR-SURAH-PAGE-PERFORMANCE-PRELOAD-MINIFY-FIX-1: the Quran section's own
+    //   assets were served RAW (not in this list) — quran.css/quran.js unminified and
+    //   the 135 KB Amiri Quran TTF UNCOMPRESSED (fonts are not in the on-the-fly gzip
+    //   `compressible` set). Preloading them here minifies the CSS/JS and precomputes a
+    //   brotli+gzip copy of the TTF (~135 KB → ~65 KB on the wire), which is the LCP
+    //   driver on a surah page. NO file/UX/text/cache-buster change — same bytes, just
+    //   served minified+compressed like every other asset. (.ttf is added to the
+    //   `compressible` serve check below so the precomputed brotli is actually sent.)
+    'css/quran.css', 'js/quran.js', 'fonts/AmiriQuran-Regular.ttf',
 ];
 
 // ════════════════════════════════════════════════════════════════════════════
@@ -8115,6 +8124,33 @@ function _stripElement(html, lookup) {
     if (depth !== 0) return html;
     return html.slice(0, startIdx) + html.slice(i);
 }
+
+/* SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — remove every `.page` block except the one this route renders.
+   The shell ships ALL 24 SPA pages in one document. On a Quran route only one is ever displayed; the other 23
+   put ~10k words and 177 headings belonging to OTHER pages into the RAW HTML — which is what an SEO crawler
+   reads. (Proved: SEOptimer listed «مواقيت الصلاة» headings while auditing /quran; every one of them lived in
+   the hidden #page-prayer-times / #page-tasbih blocks.) So they are removed SERVER-SIDE before the response —
+   not by CSS, not by JavaScript after load, so they are absent from the raw HTML AND the final DOM.
+
+   Ids are DISCOVERED from the document rather than hard-coded, so adding a new .page to index.html needs no
+   edit here. Removal reuses `_stripElement`, whose balanced-tag counter already skips HTML comments — a plain
+   regex would mis-cut on the nested markup these blocks contain.
+
+   SCOPE: this ticket calls it on Quran routes ONLY. Every other route keeps the shell exactly as it was. */
+function _stripForeignPageBlocks(html, keepId) {
+    const ids = new Set();
+    const openRe = /<div\b[^>]*\bid="(page-[^"]+)"[^>]*>/gi;
+    let m;
+    while ((m = openRe.exec(html))) {
+        // only real SPA page blocks (class contains `page`), never some other element that happens to be id="page-…"
+        if (/\bclass="[^"]*\bpage\b[^"]*"/i.test(m[0])) ids.add(m[1]);
+    }
+    for (const id of ids) {
+        if (id === keepId) continue;
+        html = _stripElement(html, { type: 'id', value: id });
+    }
+    return html;
+}
 function _reEsc(s) {
     return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
@@ -8682,6 +8718,11 @@ function _demoteHeadingsInInactivePageWrappers(html, activeWrapperId) {
 // Map: route → identifier للـ H1 النشط (id أو data-i18n)
 function _getActiveH1Marker(urlPath) {
     const path = urlPath.replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\//, '/');
+    // QURAN-AR surah page: the single H1 is the hero #quran-surah-h1.
+    if (_quranSurahRoute(path)) return { kind: 'id', value: 'quran-surah-h1' };
+    // QURAN-AR-HOME-INDEX-SSR-1: /quran's single H1 is the hero #quran-home-h1. Without this the shell's
+    // other page H1s would stay promoted and the index page would ship more than one H1.
+    if (_quranHomeRoute(path)) return { kind: 'id', value: 'quran-home-h1' };
     // MOON-COUNTRY-PAGES-SSR-ADD-1: /moon/{country} reuses prayer-times-cities.html — its single
     // H1 is the hero #loc-hero-title (filled with the localized moon-country title). Keep it.
     {
@@ -12333,6 +12374,8 @@ function buildSeoForPath(urlPath) {
     let webApp = null;           // WebApplication schema metadata (tool pages)
     let qiblaRef = null;         // Kaaba reference for /qibla-in-*
     let cityModified = null;     // dateModified for city pages
+    let noHreflang = false;      // QURAN-AR-SSR-SURAH-GENERALIZATION-1: opt a route out of the hreflang
+                                //   alternates block (Arabic-only routes; the /{lang} twins do not exist)
     let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
     let zakatFaq = false;        // UAT-Z1: يُفعّل FAQPage + HowTo schemas لصفحة الزكاة
     let tasbihFaq = false;       // MSBAHA-SEO-CONTENT-UX-EXPANSION-1: يُفعّل FAQPage schema لصفحة /msbaha
@@ -12806,6 +12849,72 @@ function buildSeoForPath(urlPath) {
     // Alias its SEO (title/desc/moonFaq/app) to the existing /moon-today config so
     // title/meta/FAQ are byte-identical. canonical stays self (origin + p = /moon)
     // — buildSeoForPath never overrides canonical for staticPages entries.
+    // QURAN-AR-SEO-TITLE-READING-INTENT-FINAL-ALL-114-1 — Title/Meta for EVERY Arabic surah page (1..114),
+    // built from the official chapters.json name only. Arabic-only, noindex, no hreflang, not in the sitemap.
+    //
+    // The title is the SEARCH QUERY and nothing else: «قراءة سورة {name} مكتوبة كاملة بالتشكيل والرسم العثماني».
+    // It leads with «قراءة» because that is what someone looking for this page actually types — a reading page,
+    // not a download or a recitation. That one word is also what lands all 114 titles inside 50–60 characters
+    // (they ran 44–52 without it, i.e. under the band); it earns its place twice over, so it is not padding.
+    // The old «| مواقيت الصلاة» suffix stays removed here (surah pages ONLY — every other section keeps it):
+    // on a surah page the site name spends characters without matching any intent a reader actually types.
+    // The narration, the ayah count and the reading features belong in the description and the body, not
+    // stacked into one crowded title — one template, one occurrence of each keyword, no list, no trailing dash.
+    //
+    // The H1 deliberately does NOT carry «قراءة» (it is built separately, in the body builder): the H1 names
+    // what the page IS — «سورة {name} …» — while the title answers what the reader ASKED for. Keeping them
+    // distinct is intentional; do not "sync" them.
+    //
+    // Surah 21 carries no bespoke copy: its old description led with «١١٢ آية من الجزء السابع عشر»,
+    // which is exactly the count-padding this template drops. The juz still appears where it belongs — in the
+    // VISIBLE about section, which is sourced.
+    const _qsSeo = _quranSurahRoute(corePath);
+    if (_qsSeo) {
+        const _ch = _quranChapter(_qsSeo.n);
+        if (_ch) {
+            const _nm = _quranCleanName(_ch.nameAr);
+            staticPages[corePath] = {
+                title: { ar: `قراءة سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني` },
+                desc: {
+                    ar: `قراءة سورة ${_nm} مكتوبة كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع الانتقال المباشر إلى الآيات والصفحات ووضع قراءة مريح.`,
+                },
+                // QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1: the surah
+                // pages are PUBLISHED — no `noindex` here, so robotsOverride stays null and the default
+                // `index,follow,…` is emitted. hreflang stays 0 (ar-only), documented next:
+                // Arabic-only: /{lang}/quran/{slug} does not exist (it 404s), so this page advertises no
+                // alternates. Without this the shared emitter would default to ten hreflang links per page —
+                // 1,026 links to 404s across the 114 pages, and a promise of translations we do not have.
+                noHreflang: true,
+            };
+        }
+    }
+    // QURAN-AR-HOME-FINAL-CONTENT-AND-SEO-COPY-IMPLEMENTATION-1 — /quran, the section's Arabic entry point.
+    // Same posture as the surah pages: Arabic-only, noindex, no hreflang (the /{lang}/quran twins do not
+    // exist), never in the sitemap. No «| مواقيت الصلاة» suffix here either.
+    //
+    // The title leads with «فهرس سور القرآن» on measured evidence, not taste: Google Trends (SA, 12 months,
+    // 2026-07-19) puts «سور القرآن» at an average of 19 against 5 for «القرآن الكريم مكتوب» and 1 for
+    // «الرسم العثماني», and «سور القرآن بالترتيب» is the #1 Autocomplete completion for that stem. The old
+    // title spent ~15 characters on the weakest of those three and never said «سور القرآن» at all — while
+    // the page itself says «سورة/سور» 319 times and «القرآن الكريم» 8. This page is an INDEX; the title now
+    // says so. «الرسم العثماني» and «رواية حفص» keep their job as trust signals in the description, the
+    // source section and the FAQ, where they cost no headline space.
+    //
+    // The H1 is deliberately NOT the title (unlike the surah pages, where Title === 'قراءة ' + H1): the
+    // title covers both the index and the reading intent, while the H1 names the one thing this page
+    // actually contains. No ayah text lives here — /quran links to the surah pages, it does not host them.
+    if (_quranHomeRoute(corePath)) {
+        staticPages[corePath] = {
+            title: { ar: 'فهرس سور القرآن الكريم بالترتيب وقراءة القرآن كاملًا' },
+            desc: {
+                ar: 'تصفح فهرس سور القرآن الكريم بالترتيب وعدد آياتها، وانتقل إلى أي سورة أو جزء لقراءة القرآن كاملًا بالتشكيل والرسم العثماني برواية حفص عن عاصم.',
+            },
+            // QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1: /quran is
+            // PUBLISHED — no `noindex` (default robots = index,follow). hreflang stays 0 (the /{lang}/quran
+            // twins do not exist).
+            noHreflang: true,
+        };
+    }
     staticPages['/moon'] = staticPages['/moon-today'];
 
     if (staticPages[corePath]) {
@@ -12848,6 +12957,8 @@ function buildSeoForPath(urlPath) {
         description = _pickField('desc');
         if (sp.ogType) ogType = sp.ogType;
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
+        if (sp.noindex) robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+        if (sp.noHreflang) noHreflang = true;
         if (sp.moonFaq) moonFaq = true;
         if (sp.zakatFaq) zakatFaq = true;
         if (sp.tasbihFaq) tasbihFaq = true;
@@ -15438,7 +15549,7 @@ function buildSeoForPath(urlPath) {
         webApp, qiblaRef, countryListing, moonCountryListing, cityModified, origin,
         moonYear,   // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: city year page (null otherwise)
         moonMonth,  // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: city month page (null otherwise)
-        moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride,
+        moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride, noHreflang,
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
@@ -15466,6 +15577,12 @@ function renderSeoHeadHtml(seo) {
     parts.push(`<meta name="robots" content="${esc(_robots)}">`);
     // NOTE: لا نضيف preconnect لـ nominatim — جميع طلبات الـ geocoding تمرّ عبر proxy محلي (/api/geocode)
     parts.push(`<link rel="canonical" href="${esc(seo.canonical)}">`);
+    // QURAN-AR-SSR-SURAH-GENERALIZATION-1 — `noHreflang` opts a route OUT of the alternates block entirely.
+    // hreflang is a promise that the SAME page exists in another language. The Quran surah pages exist in
+    // ARABIC ONLY: every /{lang}/quran/{slug} is a real 404, so advertising ten of them per page (×114
+    // pages) would be pointing search engines and readers at pages that do not exist. Nothing else on the
+    // site sets this flag, so every other route keeps the exact alternates it emitted before.
+    if (!seo.noHreflang) {
     parts.push(`<link rel="alternate" hreflang="ar" href="${esc(seo.arUrl)}">`);
     parts.push(`<link rel="alternate" hreflang="en" href="${esc(seo.enUrl)}">`);
     if (seo.frUrl) parts.push(`<link rel="alternate" hreflang="fr" href="${esc(seo.frUrl)}">`);
@@ -15477,12 +15594,15 @@ function renderSeoHeadHtml(seo) {
     if (seo.bnUrl) parts.push(`<link rel="alternate" hreflang="bn" href="${esc(seo.bnUrl)}">`);
     if (seo.msUrl) parts.push(`<link rel="alternate" hreflang="ms" href="${esc(seo.msUrl)}">`);
     parts.push(`<link rel="alternate" hreflang="x-default" href="${esc(seo.arUrl)}">`);
+    }
     // ضمان self-referential hreflang: إذا لم يكن URL اللغة الحالية = canonical (خلل build)،
     // أضف alternate إضافي يشير للـ canonical (SEO best practice: كل صفحة يجب أن ترى نفسها في hreflang).
     // عند canonical override مقصود (مثل /today-hijri-date → /hijri-date/...)، نتخطّى هذا الـ fallback
     // لمنع duplicate hreflang لنفس اللغة.
+    // …and this fallback is part of the alternates block, so `noHreflang` must silence it too — otherwise the
+    // opt-out would leak a lone hreflang back in and the flag would only be half-true.
     const _currentLangUrl = { ar: seo.arUrl, en: seo.enUrl, fr: seo.frUrl, tr: seo.trUrl, ur: seo.urUrl, de: seo.deUrl, id: seo.idUrl, es: seo.esUrl, bn: seo.bnUrl, ms: seo.msUrl }[seo.lang];
-    if (_currentLangUrl && _currentLangUrl !== seo.canonical && !seo.canonicalOverride) {
+    if (_currentLangUrl && _currentLangUrl !== seo.canonical && !seo.canonicalOverride && !seo.noHreflang) {
         parts.push(`<link rel="alternate" hreflang="${seo.lang}" href="${esc(seo.canonical)}">`);
     }
     // OpenGraph
@@ -16762,6 +16882,71 @@ function renderSeoHeadHtml(seo) {
 function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     let html = htmlBuf.toString('utf8');
     const seo = buildSeoForPath(urlPath);
+
+    // ===== QURAN-AR surah pages (PUBLIC, Arabic-only): served through THIS index.html shell so they get the
+    //   real .top-header, shared sidebar, footer and app.js. Flip #page-quran-surah active, inject the surah
+    //   body, and load the route-scoped Quran font/CSS/JS. NO standalone document, NO copied header. =====
+    const _qsPage = _quranSurahRoute(urlPath);   // QURAN PUBLIC: surah routes served unconditionally (feature gate removed at release)
+    if (_qsPage) {
+        html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
+        html = html.replace('<div class="page" id="page-quran-surah"></div>',
+            '<div class="page active" id="page-quran-surah">' + _buildQuranSurahBody(_qsPage.n) + '</div>');
+        // NON-ARABIC-LANGUAGE-UNAVAILABLE-MODAL-1 — No-JS safety: the shell ships an EMPTY .lang-menu that
+        // i18n-core fills client-side. On this Arabic-only route we SSR it with real links to the locale HOME,
+        // so a scripting-disabled user can never be sent to /{lang}/quran/al-anbiya (a 404). With JS the menu is
+        // re-rendered as buttons and js/quran.js intercepts the click → modal.
+        html = html.replace('<div class="lang-menu" role="menu"></div>',
+            '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
+        // AD-SAFETY (release-prep): /quran and /quran/{slug} ship NO ad code — no AdSense script, no publisher
+        // id (ca-pub-*), no ad slot, no pagead2 loader — and are EXCLUDED from Google Auto Ads (page-level
+        // exclusion set in the AdSense console at activation). css/quran.css carries a structural backstop that
+        // hard-hides any ad container accidentally injected into the verse-reading surface (display:none, no CLS).
+        html = html.replace('</head>',
+            '    <link rel="preload" as="font" href="/fonts/AmiriQuran-Regular.ttf" type="font/ttf" crossorigin>\n' +
+            '    <link rel="stylesheet" href="/css/quran.css?v=25">\n' +
+            // Same origin trick as /quran: derive it from THIS page's own canonical (strip the slug segment) so
+            // the structured-data URLs and the canonical can never disagree about the host.
+            '    ' + _quranSurahJsonLd(String((seo && seo.canonical) || '').replace(/\/quran\/[^/]+$/, ''), _qsPage.n) + '\n' +
+            // the switcher opens via JS (onclick + .open). With JS off those SSR links would be unreachable —
+            // this <noscript> rule (quran route only) lets keyboard focus reveal them. Inert when JS runs.
+            '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
+        html = html.replace('</body>', '    <script defer src="/js/quran.js?v=15"></script>\n</body>');
+        // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
+        // 23 other .page blocks so this surah is the only page in the raw HTML and in the final DOM.
+        html = _stripForeignPageBlocks(html, 'page-quran-surah');
+    }
+
+    // ===== QURAN-AR-HOME-INDEX-SSR-1 — /quran served through the SAME index.html shell. The whole page is
+    //   built server-side: the 114 index links, the 30 juz links, the source section and the FAQ are all in
+    //   the initial HTML, so the index works with JavaScript disabled. Only the search box and the
+    //   continue-reading card are progressive enhancements, and neither gates access to a surah. =====
+    const _qhPage = _quranHomeRoute(urlPath);   // QURAN PUBLIC: /quran served unconditionally (feature gate removed at release)
+    if (_qhPage) {
+        html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
+        html = html.replace('<div class="page" id="page-quran-home"></div>',
+            '<div class="page active" id="page-quran-home">' + _buildQuranHomeBody() + '</div>');
+        // Same No-JS language guard as the surah route: the shell ships an EMPTY .lang-menu that i18n-core
+        // fills client-side, which would offer /{lang}/quran — a 404. SSR real links to the locale HOME.
+        html = html.replace('<div class="lang-menu" role="menu"></div>',
+            '<div class="lang-menu" role="menu">' + _quranLangMenuNoJsHtml() + '</div>');
+        // QURAN-AR-HOME-INDEX-PERFORMANCE-AND-VISUAL-FINAL-GATE-1 §5 — drop the azkar DATA bundle on this
+        // route only. Measured with Chrome Coverage: 417 KB of raw JavaScript parsed and evaluated on every
+        // /quran load, and the index reads not one byte of it — it is the azkar pages' content, nothing else.
+        // The file is NOT removed from the site and its tag is untouched everywhere else; navigation to
+        // /azkar is a real document load, so those pages still receive it from their own HTML. Removing the
+        // TAG (rather than 404-ing the file) is what keeps the network panel and console clean.
+        html = html.replace('<script defer src="js/azkar-data.js?v=39"></script>', '');
+        html = html.replace('</head>',
+            '    <link rel="stylesheet" href="/css/quran.css?v=25">\n'
+            // Origin is derived from the page's OWN canonical rather than re-read from SITE_URL, so the
+            // JSON-LD urls and the canonical can never disagree about the host.
+            + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
+            + '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
+        html = html.replace('</body>', '    <script defer src="/js/quran-home.js?v=3"></script>\n</body>');
+        // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
+        // 23 other .page blocks so the index is the only page in the raw HTML and in the final DOM.
+        html = _stripForeignPageBlocks(html, 'page-quran-home');
+    }
 
     // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1 (2026-05-24):
     //   Hijri-format moon URL detected (year < 1800). Emit a clean 404
@@ -28463,6 +28648,7 @@ const mimeTypes = {
     '.svg':  'image/svg+xml',
     '.ico':  'image/x-icon',
     '.woff2':'font/woff2',
+    '.ttf':  'font/ttf',
     '.mp3':  'audio/mpeg',
     '.ogg':  'audio/ogg',
     '.wav':  'audio/wav',
@@ -29768,6 +29954,926 @@ async function handleCitiesAdd(cc, body, res) {
     res.end(JSON.stringify({ ok: true, added: r.added, total: r.total }));
 }
 
+// ===== QURAN-AR SURAH PAGES — the Arabic Quran reader (PUBLIC, indexable, Arabic-only) =====
+// Standalone SSR document for the Arabic surah pages. PUBLIC — served unconditionally; the old prototype
+// runtime env-gate was removed at public release, so NO environment variable controls this section.
+// The full Uthmani text lives in the initial HTML (no data island, no hydration). The ayah NUMBER is a
+// standalone element derived from aya_no (never the FCxx font glyph). css/quran.css + js/quran.js + the
+// Amiri Quran font load ONLY on these routes. IN the sitemap (115 Quran URLs), NOT in any menu, Arabic-only (no hreflang).
+let _quranProtoCache = null;
+// ===== QURAN-AR-SSR-SURAH-GENERALIZATION-1 — data access for the surah pages =====
+// SHARED metadata (chapters + basmala + manifest + routes) is small, immutable and needed by EVERY surah page,
+// so it is read once. The SURAH FILE is read PER REQUEST — only the one asked for. The 114 files are never
+// preloaded (5.1 MB) and never all read for one request. No new LRU is introduced here on a guess: the
+// per-request read/parse cost is measured (_QURAN_READ_STATS below) and reported before any cache is proposed.
+const _QURAN_DATA_BASE = () => path.join(ROOT, 'data', 'quran', 'tanzil-uthmani-1-1');
+function _quranShared() {
+    if (_quranProtoCache) return _quranProtoCache;
+    const base = _QURAN_DATA_BASE();
+    const routes = JSON.parse(fs.readFileSync(path.join(base, 'metadata', 'surah-routes.json'), 'utf8'));
+    _quranProtoCache = {
+        basmala:  JSON.parse(fs.readFileSync(path.join(base, 'metadata', 'basmala.json'), 'utf8')),
+        manifest: JSON.parse(fs.readFileSync(path.join(base, 'source-manifest.json'), 'utf8')),
+        chapters: JSON.parse(fs.readFileSync(path.join(base, 'metadata', 'chapters.json'), 'utf8')),
+        routes:   routes.surahs,
+        // slug → record, and number → record. Both built ONCE from the derived manifest: a slug is never
+        // re-derived from a name at request time (that would put the URL rule in two places and let them drift).
+        bySlug:   new Map(routes.surahs.map(r => [r.slug, r])),
+        byNumber: new Map(routes.surahs.map(r => [r.number, r])),
+    };
+    return _quranProtoCache;
+}
+// The ONE way any code in this file turns a surah number into a URL. Reads the derived manifest — never
+// slugifies at runtime.
+function _quranPathFor(n) {
+    const r = _quranShared().byNumber.get(Number(n));
+    return r ? r.path : null;
+}
+// last-read timings, for the P1b measurements (never rendered into the page)
+const _QURAN_READ_STATS = { surah: 0, bytes: 0, readMs: 0, parseMs: 0 };
+function _quranSurahData(n) {
+    const file = path.join(_QURAN_DATA_BASE(), 'surahs', String(n).padStart(3, '0') + '.json');
+    const t0 = process.hrtime.bigint();
+    const raw = fs.readFileSync(file, 'utf8');
+    const t1 = process.hrtime.bigint();
+    const surah = JSON.parse(raw);
+    const t2 = process.hrtime.bigint();
+    _QURAN_READ_STATS.surah = n;
+    _QURAN_READ_STATS.bytes = Buffer.byteLength(raw);
+    _QURAN_READ_STATS.readMs = Number(t1 - t0) / 1e6;
+    _QURAN_READ_STATS.parseMs = Number(t2 - t1) / 1e6;
+    const sh = _quranShared();
+    return { surah, basmala: sh.basmala, manifest: sh.manifest, chapters: sh.chapters };
+}
+// ===== QURAN-AR-FINAL-OFFICIAL-ENGLISH-SLUG-URL-STRUCTURE-NO-REDIRECTS-1 =====
+// /quran/{official-english-slug} — the ONE and ONLY shape that serves a surah. No number appears in a URL.
+//
+// This is a LOOKUP, never a pattern match: the path segment must be a literal, exact key in the derived
+// 114-entry manifest. That is what keeps `/quran/:surahSlug` from behaving as a catch-all — an unknown
+// segment is simply absent from the map and falls through to the site's normal 404, so a future `/quran/juz`
+// or `/quran/search` can be added as a static route without a surah ever shadowing it.
+//
+// NO redirects, by decision: these pages were never published, never indexed, never in a sitemap, never
+// merged. There is no old URL with traffic to preserve, so a wrong path is simply wrong — 404, no `Location`.
+// That means NO case-folding (`/quran/AL-ANBIYA` is not the URL), NO trailing-slash repair, NO "did you mean",
+// and NO quiet support for the retired numeric paths. Being lenient here would mint a second URL for one
+// surah, which is exactly what this ticket exists to prevent.
+function _quranSurahRoute(p) {
+    const m = /^\/quran\/([^/]+)$/.exec(p);
+    if (!m) return null;                       // /quran, /quran/a/b, trailing slash → not a surah route
+    const rec = _quranShared().bySlug.get(m[1]);   // literal, case-sensitive, exact
+    return rec ? { n: rec.number, slug: rec.slug, path: rec.path, dataFile: rec.dataFile } : null;
+}
+// ===== THE display-name helper for surah names — the ONLY place a surah name is prepared for the UI. =====
+// chapters.json stores the MUSHAF spelling, which carries marks (e.g. "الأنبيَاء", "يسٓ"). The UI needs the
+// conventional written form ("الأنبياء", "يس") — strip the marks only; never transliterate, reorder or rename.
+//
+// The stripped set is deliberately narrow and enumerated:
+//   U+064B–U+0652  tanween / harakat / shadda / sukun
+//   U+0653         maddah above — this is what makes «يسٓ» «صٓ» «قٓ» (36/38/50) print as «يس» «ص» «ق»
+//   U+0670         superscript alef        U+0640  tatweel
+// It STOPS at U+0653 on purpose. U+0654/U+0655 (hamza above/below) are letter-forming, not ornamental:
+// stripping them would turn «مؤمنون» into «مومنون» — a different word, not a cleaner one.
+//
+// SCOPE: names only. The Quran TEXT is never passed through this function — an ayah keeps every mark it has,
+// U+0653 included. The derived data files and chapters.json are read-only here; nothing is rewritten on disk.
+function _quranCleanName(nameAr) { return String(nameAr).replace(/[\u064B-\u0653\u0670\u0640]/g, ''); }
+function _quranChapter(n) { return _quranShared().chapters.find(c => c.number === n) || null; }
+function _quranEsc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+function _quranAr(n) { return String(n).replace(/[0-9]/g, d => '٠١٢٣٤٥٦٧٨٩'[+d]); }
+// Real-site service links shown on the Quran page (root/Arabic routes only — all verified 200; NO unbuilt /quran hub link).
+const _QURAN_SERVICE_LINKS = [
+    ['/',                     '🕌', 'مواقيت الصلاة'],
+    ['/qibla',                '🧭', 'اتجاه القبلة'],
+    ['/moon-today',           '🌙', 'حالة القمر اليوم'],
+    ['/azkar/morning-azkar',  '🌅', 'أذكار الصباح'],
+    ['/azkar/evening-azkar',  '🌇', 'أذكار المساء'],
+    ['/hijri-calendar',       '📅', 'التقويم الهجري'],
+    ['/zakat-calculator',     '💰', 'حاسبة الزكاة'],
+    ['/msbaha',               '📿', 'المسبحة الإلكترونية'],
+];
+// Compact 3-link strip shown under the hero (mobile reaches the reading area fast; full set is at the bottom).
+const _QURAN_SERVICE_LINKS_SHORT = [
+    ['/',       '🕌', 'مواقيت الصلاة'],
+    ['/qibla',  '🧭', 'اتجاه القبلة'],
+    ['/azkar',  '📿', 'أذكار الصباح والمساء'],
+];
+function _quranServiceLinksHtml(extraClass, opts) {
+    opts = opts || {};
+    const list = opts.links || _QURAN_SERVICE_LINKS;
+    const title = opts.title || 'خدمات أخرى من مواقيت الصلاة';
+    const items = list.map(([href, ic, label]) =>
+        `<a class="quran-svc-link" href="${href}"><span class="quran-svc-ico" aria-hidden="true">${ic}</span><span>${label}</span></a>`).join('');
+    return `<nav class="quran-services${extraClass ? ' ' + extraClass : ''}" aria-label="${_quranEsc(title)}"><div class="quran-svc-title">${title}</div><div class="quran-svc-grid">${items}</div></nav>`;
+}
+// Prev/next surah nav card. All 114 surahs are now built (QURAN-AR-SSR-SURAH-GENERALIZATION-1), so every card
+// is a REAL link — the prototype's aria-disabled placeholder + "coming soon" note are gone, not hidden. The
+// boundaries carry NO card at all: Al-Fatiha has no previous and An-Nas has no next (chapter === null), and an
+// absent neighbour must read as absent, never as a dead control.
+// The nav shows the MUSHAF spelling (chapter.nameAr, with harakat) to match the surah drawer — the clean form
+// is for the H1/title/prose only. That split is the P0-approved convention; keep both sides of it.
+function _quranNavCard(chapter, kind) {
+    if (!chapter) return ''; // Al-Fatiha has no previous, An-Nas has no next
+    const label = kind === 'prev' ? 'السورة السابقة' : 'السورة التالية';
+    const arrow = kind === 'prev' ? '→' : '←';
+    const dir = kind === 'prev'
+        ? `<span class="quran-surah-nav-dir">${label} <span class="quran-nav-arrow" aria-hidden="true">${arrow}</span></span>`
+        : `<span class="quran-surah-nav-dir"><span class="quran-nav-arrow" aria-hidden="true">${arrow}</span> ${label}</span>`;
+    const inner = `${dir}` +
+        `<span class="quran-surah-nav-name">سورة ${_quranEsc(_quranCleanName(chapter.nameAr))}</span>` +
+        `<span class="quran-surah-nav-num">السورة رقم ${_quranAr(chapter.number)}</span>`;
+    return `<a class="quran-surah-nav-card quran-surah-nav-card--${kind}" href="${_quranPathFor(chapter.number)}">${inner}</a>`;
+}
+// ---- Arabic counted-noun phrasing — ONE shared formatter, categories from CLDR via Intl.PluralRules ----
+// Arabic agreement is not "singular vs plural". CLDR splits it into six categories, and above 100 the category
+// is decided by the LAST TWO DIGITS. A hand-rolled `k <= 10 ? plural : singular` rule looks right and is wrong:
+// it printed «٢٠٦ آية» for Al-A'raf, «١٠٩ آية» for Yunus and «١١٠ آية» for Al-Kahf, where 06/09/10 are `few`
+// and the correct forms are «٢٠٦ آيات» / «١٠٩ آيات» / «١١٠ آيات». CLDR is the reference here, not intuition.
+//   zero→٠   one→1   two→2   few→n%100 = 3..10   many→n%100 = 11..99   other→everything else (100, 101, 200…)
+const _AR_PLURAL = new Intl.PluralRules('ar');
+// `one` and `two` are whole phrases: Arabic carries the count in the noun itself, so no numeral is printed.
+const _quranCountPhrase = (k, forms) => {
+    const cat = _AR_PLURAL.select(k);
+    return (cat === 'one' || cat === 'two') ? forms[cat] : `${_quranAr(k)} ${forms[cat]}`;
+};
+const _AYAH_FORMS = { zero: 'آيات', one: 'آية واحدة', two: 'آيتان', few: 'آيات', many: 'آية', other: 'آية' };
+const _PAGE_FORMS = { zero: 'صفحات مرجعية', one: 'صفحة مرجعية واحدة', two: 'صفحتان مرجعيتان', few: 'صفحات مرجعية', many: 'صفحة مرجعية', other: 'صفحة مرجعية' };
+function _quranAyahPhrase(k) { return _quranCountPhrase(k, _AYAH_FORMS); }
+function _quranPagePhrase(k) { return _quranCountPhrase(k, _PAGE_FORMS); }
+// juz[] is a CONTIGUOUS ascending range in every one of the 114 derived files (verified), so first–last is a
+// faithful rendering and never hides a gap. 19 surahs span more than one juz.
+function _quranJuzPhrase(juz) {
+    return juz.length === 1 ? `الجزء ${_quranAr(juz[0])}` : `الأجزاء ${_quranAr(juz[0])}–${_quranAr(juz[juz.length - 1])}`;
+}
+// 24 surahs occupy a single reference page — "٦٠٢–٦٠٢" would be a lie about a range that does not exist.
+
+/* ═══════════════ QURAN-AR-HOME-INDEX-SSR-1 — the Arabic Quran home page at /quran ═══════════════
+   The section's entry point: the full 114-surah index, search, the 30 juz starts and a continue-reading
+   card. Arabic-only, flag-gated, noindex, not in the sitemap — same posture as the surah pages.
+
+   `/quran` is NOT a surah and can never be mistaken for one: `_quranSurahRoute` only matches
+   /quran/{segment}, so the bare path returns null there and is recognised ONLY by `_quranHomeRoute`.
+   The two resolvers are disjoint by construction, which is why no ordering hack is needed to stop a
+   surah from shadowing the index.
+
+   PERFORMANCE: this page reads ONLY the small shared metadata (chapters + routes + juz, ~64 KB total,
+   all already cached). It never opens a single one of the 114 ayah files — the index needs names,
+   numbers and counts, none of which live in the text. */
+let _quranJuzCache = null;
+function _quranJuzData() {
+    if (_quranJuzCache) return _quranJuzCache;
+    _quranJuzCache = JSON.parse(fs.readFileSync(path.join(_QURAN_DATA_BASE(), 'metadata', 'juz.json'), 'utf8'));
+    return _quranJuzCache;
+}
+function _quranHomeRoute(p) { return p === '/quran'; }
+// The three hero figures are DERIVED, never typed: the ayah total is summed from chapters.json and the
+// juz count is the length of juz.json. If a future data bump changed either, the page would print the new
+// truth instead of a stale slogan — and the smoke asserts the sum equals 6236.
+function _quranHomeTotals() {
+    const chapters = _quranShared().chapters;
+    return {
+        surahs: chapters.length,
+        juz: _quranJuzData().length,
+        ayat: chapters.reduce((a, c) => a + c.ayahCount, 0),
+    };
+}
+// Visual grouping only — six numeric bands so the eye can find a surah without scrolling 114 rows.
+// Deliberately NOT مكية/مدنية/طويلة/قصيرة: none of those fields exist in the data this page reads, and
+// inventing them would put an unsourced religious claim on the page.
+const _QURAN_HOME_GROUPS = [[1, 20], [21, 40], [41, 60], [61, 80], [81, 100], [101, 114]];
+function _buildQuranHomeIndexHtml() {
+    const sh = _quranShared();
+    const groups = _QURAN_HOME_GROUPS.map(([from, to]) => {
+        const items = sh.chapters.filter(c => c.number >= from && c.number <= to).map(c => {
+            const nm = _quranCleanName(c.nameAr);
+            const rec = sh.byNumber.get(c.number);
+            // data-* carry what SEARCH matches on: number (both digit systems), the display name, the raw
+            // mushaf spelling, the official English name and the slug. They are attributes, never text —
+            // the slug and the English name are search keys, not something the reader is shown.
+            return `<li class="quran-home-idx-li" data-num="${c.number}" data-num-ar="${_quranAr(c.number)}"`
+                + ` data-name="${_quranEsc(nm)}" data-name-raw="${_quranEsc(c.nameAr)}"`
+                + ` data-en="${_quranEsc(c.nameEn || '')}" data-slug="${_quranEsc(rec.slug)}">`
+                + `<a class="quran-home-idx-card" href="${rec.path}">`
+                + `<span class="quran-home-idx-num" aria-hidden="true">${_quranAr(c.number)}</span>`
+                + `<span class="quran-home-idx-text">`
+                + `<span class="quran-home-idx-name">سورة ${_quranEsc(nm)}</span>`
+                + `<span class="quran-home-idx-meta">${_quranAyahPhrase(c.ayahCount)}</span>`
+                + `</span></a></li>`;
+        }).join('');
+        return `<section class="quran-home-idx-group" data-quran-group="${from}-${to}">`
+            + `<h3 class="quran-home-idx-grouptitle">السور ${_quranAr(from)}–${_quranAr(to)}</h3>`
+            + `<ul class="quran-home-idx-grid">${items}</ul></section>`;
+    }).join('');
+    return `<section class="section-card quran-home-index" id="quran-surah-index" aria-labelledby="quran-home-index-title">
+  <h2 id="quran-home-index-title">فهرس سور القرآن الكريم</h2>
+  <p class="quran-home-idx-intro">تصفح سور القرآن الكريم الـ${_quranAr(sh.chapters.length)} بالترتيب، من سورة الفاتحة إلى سورة الناس، مع رقم كل سورة وعدد آياتها.</p>
+  <!-- The "no match" line moved into the combobox listbox (its natural home): the index is no longer
+       filtered while you type, so it can never be empty and never needs a message of its own. -->
+  ${groups}
+</section>`;
+}
+// The 30 juz. Each link goes to the REAL first ayah of that juz, read from juz.json — surahs[0] is the
+// first surah the juz opens with and firstAyah is where it opens. Nothing here is inferred from page
+// numbers or estimated from ayah totals; an unsourced juz start would be a religious error, not a UI bug.
+function _buildQuranHomeJuzHtml() {
+    const sh = _quranShared();
+    const items = _quranJuzData().map(j => {
+        const open = j.surahs[0];
+        const rec = sh.byNumber.get(open.surah);
+        const ch = _quranChapter(open.surah);
+        const nm = _quranCleanName(ch.nameAr);
+        return `<li class="quran-home-juz-li">`
+            + `<a class="quran-home-juz-card" href="${rec.path}#ayah-${open.firstAyah}"`
+            + ` data-quran-juz="${j.juz}" data-quran-juz-surah="${open.surah}" data-quran-juz-ayah="${open.firstAyah}">`
+            + `<span class="quran-home-juz-num">الجزء ${_quranAr(j.juz)}</span>`
+            + `<span class="quran-home-juz-start">سورة ${_quranEsc(nm)} · الآية ${_quranAr(open.firstAyah)}</span>`
+            + `</a></li>`;
+    }).join('');
+    return `<section class="section-card quran-home-juz" id="quran-home-juz" aria-labelledby="quran-home-juz-title">
+  <h2 id="quran-home-juz-title">الانتقال إلى جزء</h2>
+  <p class="quran-home-juz-intro">تصفح أجزاء القرآن الكريم الثلاثين بالترتيب، وانتقل مباشرة إلى السورة والآية التي يبدأ عندها كل جزء.</p>
+  <ul class="quran-home-juz-grid">${items}</ul>
+</section>`;
+}
+// QURAN-HOME-VISIBLE-CONTENT-DEPTH-AND-SEARCH-INTENT-1 — a guidance section that explains the three ways
+// into the text this page already offers (search, the ordered index, juz + continue-reading). It exists
+// because the page was almost entirely DATA: 114 surah names, 30 juz cards and their numbers accounted for
+// two thirds of the visible words, so a reader landing here had cards but no orientation, and «Amount of
+// Content» failed for the same reason a human would call the page thin.
+//
+// Everything below is prose about THIS page's own behaviour — no fadl, no asbab al-nuzul, no Makki/Madani,
+// no claim that is not already true of the code. It is plain visible text: no accordion, no clamp, no
+// aria-hidden, nothing that a crawler would read but a reader would not.
+//
+// It is placed AFTER the 114-card index rather than immediately after the juz cards: the index is the
+// reason the page exists and must not be pushed below 400 words of explanation.
+function _buildQuranHomeGuideHtml() {
+    // QURAN-HOME-VISIBLE-CONTENT-TRUTH-AND-UX-COPY-FINAL-PASS-1 — every capability named below was executed
+    // in a browser before it was allowed into the copy: the search accepts the Arabic name, the official
+    // English name, the slug and BOTH digit systems (114/114 each, correct surah first every time); the
+    // surah page has an «اذهب إلى آية» field and a «العودة إلى أوّل السورة» link but NO ayah-to-ayah arrows,
+    // so the text names the two that exist and not the one that does not; the reading position is written
+    // to localStorage only — no cookie, no IndexedDB, and zero POST/PUT/PATCH/beacon/API calls while
+    // reading — so the copy claims local storage and no account, and makes no absolute «nothing is sent»
+    // promise. Nothing here describes how the site is built: no files, no runtime, no slugs, no hydration.
+    const cards = [
+        ['البحث عن سورة وفتح صفحة القراءة',
+            'إذا كنت تعرف اسم السورة فابدأ من مربع البحث أعلى الصفحة. اكتب أول حروف الاسم فتظهر النتائج أثناء الكتابة مباشرة، ثم اختر النتيجة لتفتح صفحة السورة، وفيها تقرأ آيات السورة كاملة بالتشكيل، مع أدوات الوصول إلى رقم آية والعودة إلى أول السورة. ويعمل المربع نفسه مع رقم السورة بالأرقام العربية أو الإنجليزية، ويقبل أيضًا الاسم الإنجليزي الرسمي للسورة، فلا يضيع عليك الوقت في تخمين طريقة الكتابة. وإذا طابق ما كتبته أكثر من سورة ظهرت النتائج المطابقة في القائمة لتختار منها بنفسك، فلا تُفتح سورة لم تخترها.'],
+        ['تصفح سور القرآن الكريم بالترتيب',
+            'يعرض الفهرس السور بترتيب المصحف من الفاتحة إلى الناس، مقسّمًا إلى مجموعات رقمية تختصر المسافة البصرية بينك وبين السورة المطلوبة. وتحمل كل بطاقة رقم السورة في الترتيب واسمها وعدد آياتها، فتعرف طول السورة قبل أن تفتحها. ويفيدك هذا العرض حين تريد معرفة موقع سورة بين ما قبلها وما بعدها، أو حين تبحث عن سورة قصيرة تناسب وقتك. وداخل صفحة كل سورة رابطان إلى السورة السابقة والسورة التالية، فتمضي بالترتيب دون العودة إلى الفهرس في كل مرة. ويظهر الفهرس كاملًا في الصفحة نفسها منذ فتحها، وعند اختيار سورة تُفتح صفحة القراءة الخاصة بها.'],
+        ['الانتقال إلى جزء أو متابعة القراءة',
+            'يأخذك اختيار أي جزء إلى السورة والآية التي يبدأ عندها فعلًا، لا إلى بداية السورة التي يقع فيها، وهو ما يناسب من يوزّع قراءته على أيام الشهر أو يتابع وردًا يوميًا ثابتًا. وإذا سبق أن قرأت في الموقع ظهرت لك بطاقة «تابع القراءة» تحمل اسم السورة ورقم الآية التي وقفت عندها، ويكفي الضغط عليها للعودة إلى موضعك. يُحفظ آخر موضع قراءة محليًا في متصفح الجهاز الحالي، ولا يتطلب ذلك إنشاء حساب، ولا ينتقل الموضع تلقائيًا إلى متصفح أو جهاز آخر. وتستطيع في أي وقت تجاهل البطاقة والبدء من أول السورة من جديد.'],
+    ].map(([h, p]) => `<article class="quran-home-guide-card">`
+        + `<h3 class="quran-home-guide-title">${_quranEsc(h)}</h3>`
+        + `<p class="quran-home-guide-text">${_quranEsc(p)}</p></article>`).join('');
+    return `<section class="section-card quran-home-guide" id="quran-home-guide" aria-labelledby="quran-home-guide-title">
+  <h2 id="quran-home-guide-title">دليل استخدام فهرس القرآن الكريم</h2>
+  <p class="quran-home-guide-intro">تختلف طريقة الوصول إلى الآية باختلاف ما تعرفه عنها: أحيانًا تعرف اسم السورة، وأحيانًا رقمها فقط، وأحيانًا تريد جزءًا بعينه أو تريد أن تكمل من حيث توقفت. البطاقات الثلاث التالية تشرح كل طريق من هذه الطرق: أين تجد أداته في الصفحة، وماذا يحدث عند استعمالها، وما الذي لا تفعله. وكل طريق منها ينتهي بك إلى صفحة السورة نفسها، فالاختيار بينها اختيار راحة لا اختيار نتيجة.</p>
+  <div class="quran-home-guide-grid">${cards}</div>
+</section>`;
+}
+/* The ONE external source link, built once and shared by /quran and the 114 surah pages. The href is the
+   OFFICIAL Tanzil download PAGE (https://tanzil.net/docs/download) — a real page, so the label truthfully
+   says «تنزيل النص القرآني من صفحة Tanzil الرسمية». No local file and no bundled text archive is ever offered.
+
+   Built by ONE function on purpose: the two call sites previously carried the same literal twice, which is
+   exactly how they would drift apart again. Consistency across all 115 pages is now structural.
+
+   The visible text and the accessible name share the same words, so speech-input users saying the visible
+   label still match. The arrow is aria-hidden decoration for the new-tab affordance. This link carries NO
+   `nofollow` — the source must be discoverable — only `noopener noreferrer` for a target="_blank" link. */
+const _QURAN_SOURCE_DL_TEXT = 'تنزيل النص القرآني من صفحة Tanzil الرسمية';
+const _QURAN_SOURCE_DL_ARIA = 'تنزيل النص القرآني من صفحة Tanzil الرسمية (يفتح في صفحة جديدة)';
+// Visible link to the OFFICIAL Tanzil download page (never a local file, never a bundled ZIP). No `nofollow`
+// on the source link — the source must be discoverable.
+function _quranSourceDownloadLinkHtml(url) {
+    const href = url || 'https://tanzil.net/docs/download';
+    return `<p class="quran-source-cta"><a class="quran-source-link" href="${_quranEsc(href)}"`
+        + ` rel="noopener noreferrer" target="_blank" aria-label="${_quranEsc(_QURAN_SOURCE_DL_ARIA)}">`
+        + `${_quranEsc(_QURAN_SOURCE_DL_TEXT)}<span aria-hidden="true"> ↗</span></a></p>`;
+}
+// The three visible Tanzil attribution links (source / license / updates), accessible + keyboard-reachable,
+// no `nofollow` on the source. Used by both the /quran home source box and every surah source box.
+function _quranTanzilLinksHtml() {
+    const a = (href, label, aria) => `<a class="quran-source-link" href="${href}" rel="noopener noreferrer" target="_blank" aria-label="${_quranEsc(aria)}">${_quranEsc(label)}<span aria-hidden="true"> ↗</span></a>`;
+    return `<p class="quran-source-links">`
+        + a('https://tanzil.net', 'مشروع Tanzil', 'مشروع Tanzil (يفتح في صفحة جديدة)') + ' · '
+        + a('https://creativecommons.org/licenses/by/3.0/', 'ترخيص النص', 'ترخيص النص: المشاع الإبداعي — النسبة 3.0 (يفتح في صفحة جديدة)') + ' · '
+        + a('https://tanzil.net/updates/', 'متابعة تحديثات النص', 'متابعة تحديثات النص على موقع Tanzil (يفتح في صفحة جديدة)')
+        + `</p>`;
+}
+// Source section — strictly the facts the project can back with its own manifest: the script, the
+// narration, the surah count and where the text came from. No fadl, no rulings, no asbab al-nuzul,
+// no tafsir, no Makki/Madani — none of that is in the data, so none of it is claimed here.
+//
+// TRAP (cost one red test run): _smoke_quran_home_index_ssr_1 blacklists those Arabic words as SUBSTRINGS of
+// the whole served page. A substring guard cannot tell a claim from its denial, and it does not skip HTML
+// comments — so the limitation sentence below states what is NOT shown WITHOUT naming the banned words, and
+// nothing in this section may explain that choice in an Arabic-bearing comment: the comment would ship to the
+// client and trip the same guard. Keep every note here in English, like this one.
+function _buildQuranHomeSourceHtml() {
+    const sh = _quranShared();
+    const t = _quranHomeTotals();
+    const link = _quranSourceDownloadLinkHtml(sh.manifest.downloadPage);
+    return `<section class="section-card quran-source-box quran-home-source" id="quran-home-source" aria-labelledby="quran-home-source-title">
+  <h2 id="quran-home-source-title">مصدر النص القرآني</h2>
+  <p>النصّ القرآني بالرسم العثماني من مشروع Tanzil، إصدار ١٫١، ويُعرض كما ورد في المصدر دون تعديل. النصّ مستخدم بموجب ترخيص Creative Commons Attribution 3.0. وتعرض صفحة كل سورة قسمًا مستقلًا يوضّح المصدر وطريقة التحقق من سلامة النص.</p>
+  <ul class="quran-source-facts">
+    <li>الرسم العثماني كما ورد في المصدر، بالتشكيل الكامل.</li>
+    <li>رواية حفص عن عاصم.</li>
+    <li>${_quranAr(t.surahs)} سورة، ${_quranAr(t.ayat)} آية، ${_quranAr(t.juz)} جزءًا.</li>
+    <li>أدوات البحث والفهرسة والانتقال لا تغيّر النص القرآني ولا تعيد كتابته؛ هي تنقلك إليه فقط.</li>
+  </ul>
+  <p class="quran-home-source-detail">ويُعرض هذا النص كما هو في كل سورة، دون اختصار ولا تبديل للحروف ولا ترجمة إلى جانبه. والبحث في الموقع يجري على أسماء السور وأرقامها لا على نص الآيات، فإن أردت آية بعينها فافتح سورتها ثم استعمل «اذهب إلى آية» داخل صفحتها. وما يتغيّر بين الأجهزة هو حجم الخط وتوزيع الأسطر على الشاشة فقط، أما الحروف والتشكيل فثابتة كما وردت.</p>
+  ${_quranTanzilLinksHtml()}
+  ${link}
+  <p class="quran-home-source-more">تفاصيل المصدر والتحقق من سلامة النص مذكورة أسفل كل سورة — مثال: <a href="${sh.byNumber.get(1).path}#quran-source-trust">مصدر نص سورة الفاتحة</a>.</p>
+</section>`;
+}
+function _buildQuranHomeFaqHtml() {
+    const t = _quranHomeTotals();
+    // Eight questions, each answering something a reader actually asks. The old «هل يمكن القراءة دون
+    // JavaScript؟» was dropped: it is a developer question, and No-JS support stays a real feature and a
+    // real test without being advertised here. In its place is a count question — «عدد سور القران» is a
+    // full Autocomplete stem, and the answer is a figure this page already computes from the source data.
+    // Nothing here claims a download, audio, tafsir, asbab al-nuzul or a translation date.
+    // QURAN-HOME-VISIBLE-CONTENT-TRUTH-AND-UX-COPY-FINAL-PASS-1 — the SAME eight questions, each answer
+    // carried to a full one and then checked against what the code actually does. Three claims were cut in
+    // that check: «الأكثر انتشارًا» about the narration (true or not, the page cannot source it and does not
+    // need it), «لا يُرسل شيء إلى الخادم» (no request carrying the position was observed, but an absolute
+    // promise is more than a measurement can buy), and the build-time explanation of the two totals (a
+    // reader gains nothing from knowing where a number is computed). The word «جافاسكربت» is gone too: the
+    // fact that matters — the index and the juz links work on their own — survives without the jargon.
+    // NOTE: these <details> stay CLOSED by default, so the answers below are NOT counted as visible text —
+    // the word budget is met by the guidance section, never by this block.
+    const faq = [
+        ['كيف أبحث عن سورة في القرآن الكريم؟', `اكتب اسم السورة في مربع «ابحث عن سورة» أعلى الفهرس، وستظهر النتائج فورًا أثناء الكتابة، بالاسم العربي أو بالاسم الإنجليزي الرسمي. وإن تعذّر البحث الفوري في متصفحك، فالفهرس كامل في الصفحة وروابطه تعمل وحدها.`],
+        ['كيف أفتح سورة باستخدام رقمها؟', `اكتب رقم السورة في مربع البحث بالأرقام العربية أو الإنجليزية، مثل ٢١ أو 21، فتظهر لك السورة مباشرة. ولا يظهر الرقم في رابط السورة، لكنه يبقى وسيلة بحث صالحة في كل وقت.`],
+        ['هل سور القرآن مكتوبة بالتشكيل؟', 'نعم. النص مكتوب كاملًا بالتشكيل وبالرسم العثماني كما ورد في المصدر المعتمد، دون اختصار أو تبسيط، ويُعرض بخط مخصص لهذا الرسم. وتستطيع تكبير حجم الخط أو تصغيره من أدوات القراءة أعلى صفحة السورة.'],
+        ['ما الرواية المستخدمة في عرض نص القرآن؟', 'يعرض الموقع حاليًا النص القرآني برواية حفص عن عاصم، وهي الرواية الوحيدة المتاحة في هذا القسم. ولا يوفر القسم في مرحلته الحالية التبديل بين الروايات أو عرض قراءات أخرى.'],
+        ['كيف أتابع القراءة من آخر موضع؟', 'عندما تقرأ سورة يُحفظ آخر موضع قراءة محليًا في متصفح الجهاز الحالي، فتظهر لك بطاقة «تابع القراءة» عند عودتك. ولا يتطلب ذلك إنشاء حساب، ولا ينتقل الموضع تلقائيًا إلى متصفح أو جهاز آخر.'],
+        ['كيف أنتقل إلى جزء من أجزاء القرآن؟', 'اختر رقم الجزء من قسم «الانتقال إلى جزء»، وسينقلك الرابط إلى السورة والآية التي يبدأ عندها ذلك الجزء فعلًا، لا إلى أول السورة. وروابط الأجزاء روابط عادية تعمل حتى إن تعذّرت خصائص البحث الفوري.'],
+        ['كم عدد سور القرآن الكريم وآياته؟', `يضم الفهرس ${_quranAr(t.surahs)} سورة، ويعرض النص المعتمد في الموقع ${_quranAr(t.ayat)} آية. وتظهر في بطاقة كل سورة معلوماتها الأساسية، ومنها رقم السورة في ترتيب المصحف وعدد آياتها، لتتمكن من الوصول إلى السورة المطلوبة ومراجعة بياناتها قبل فتح صفحة القراءة.`],
+        ['هل تتوفر صفحات القرآن بلغات أخرى؟', 'صفحات القرآن في الموقع متاحة باللغة العربية فقط حاليًا، ولا توجد روابط لصفحات مترجمة غير موجودة. وعند اختيار لغة أخرى من مبدّل اللغة تظهر رسالة توضح ذلك قبل مغادرة قسم القرآن.'],
+    ];
+    const items = faq.map(([q, a]) => `<details class="country-faq-item"><summary><h3>${_quranEsc(q)}</h3></summary><p>${_quranEsc(a)}</p></details>`).join('');
+    return `<section class="section-card quran-faq quran-home-faq" aria-labelledby="quran-home-faq-title">
+  <h2 id="quran-home-faq-title">الأسئلة الشائعة حول قراءة القرآن الكريم</h2>
+  <div class="country-faq-list moon-country-faq">${items}</div>
+</section>`;
+}
+// QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — the three home figures, promoted from a thin chip row
+// in the hero to full cards with a large number, a labelled icon and a one-line gloss. The figures are the
+// SAME derived totals as before (_quranHomeTotals → chapters.length / juz.json length / summed ayahCount);
+// nothing is typed. Each card is a listitem carrying its own accessible name («١١٤ سورة في القرآن الكريم»),
+// and the visible number/label/gloss are aria-hidden so a screen reader hears the sentence once, not the
+// fragments twice. Icons are inline stroke SVGs at one visual weight (aria-hidden) — no emoji, no icon font,
+// no image request. The cards are NOT headings (§9): the number is a <strong>, so the H1→H2 outline is intact.
+const _QURAN_STAT_ICON = {
+    surahs: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.6c3-1 6-1 9 .6 3-1.6 6-1.6 9-.6v12.4c-3-1-6-1-9 .6-3-1.6-6-1.6-9-.6V5.6Z"/><path d="M12 6.2v12.4"/></svg>',
+    juz: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 3 7.5 12 12l9-4.5L12 3Z"/><path d="m3 12 9 4.5L21 12"/><path d="m3 16.5 9 4.5 9-4.5"/></svg>',
+    ayat: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m12 7.6 1.15 2.4 2.65.35-1.95 1.85.48 2.6L12 15.9l-2.33 1.3.48-2.6L8.2 12.7l2.65-.35L12 7.6Z"/></svg>',
+};
+function _quranStatCard(num, title, sub, iconKey, aria) {
+    return `<li class="quran-stat-card" aria-label="${_quranEsc(aria)}">`
+        + `<span class="quran-stat-ico" aria-hidden="true">${_QURAN_STAT_ICON[iconKey]}</span>`
+        + `<span class="quran-stat-body" aria-hidden="true">`
+        + `<strong class="quran-stat-num">${num}</strong>`
+        + `<span class="quran-stat-title">${title}</span>`
+        + `<span class="quran-stat-sub">${sub}</span>`
+        + `</span></li>`;
+}
+function _buildQuranHomeStatsCardsHtml() {
+    const t = _quranHomeTotals();
+    const s = _quranAr(t.surahs), j = _quranAr(t.juz), a = _quranAr(t.ayat);
+    return `<section class="quran-home-stats-cards" role="list" aria-label="إحصاءات القرآن الكريم">
+    ${_quranStatCard(s, 'سورة', 'جميع سور القرآن الكريم', 'surahs', s + ' سورة في القرآن الكريم')}
+    ${_quranStatCard(j, 'جزءًا', 'أجزاء القرآن الكريم', 'juz', j + ' جزءًا في القرآن الكريم')}
+    ${_quranStatCard(a, 'آية', 'في النص القرآني المعروض', 'ayat', a + ' آية في النص القرآني المعروض')}
+  </section>`;
+}
+// A full-width feature card for Surah al-Kahf, the customary Friday reading. The number (18), the ayah count
+// (110) and the /quran/al-kahf path are read from the chapter record + route map, never typed, so a data bump
+// can never leave the card lying. It is a plain link card, visible every day — the «قراءة يوم الجمعة» badge is
+// static context, not a schedule: no countdown, no geolocation, no timezone, no new storage (§7, out of scope).
+// One link only (the button); the H2 and icon are not links. The star + arrow are aria-hidden decoration.
+function _buildQuranHomeKahfHtml() {
+    const sh = _quranShared();
+    const ch = _quranChapter(18);
+    const rec = sh.byNumber.get(18);
+    const name = _quranCleanName(ch.nameAr);
+    return `<section class="quran-home-kahf" aria-labelledby="quran-home-kahf-title">
+    <span class="quran-kahf-deco" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M24 4 29 14 40 15.5 32 23.5 34 34.5 24 29.5 14 34.5 16 23.5 8 15.5 19 14 24 4Z"/></svg></span>
+    <span class="quran-kahf-ico" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 5.6c3-1 6-1 9 .6 3-1.6 6-1.6 9-.6v12.4c-3-1-6-1-9 .6-3-1.6-6-1.6-9-.6V5.6Z"/><path d="M12 6.2v12.4"/></svg></span>
+    <div class="quran-kahf-body">
+      <span class="quran-kahf-badge">قراءة يوم الجمعة</span>
+      <h2 id="quran-home-kahf-title" class="quran-kahf-title">سورة ${_quranEsc(name)}</h2>
+      <p class="quran-kahf-text">اقرأ سورة ${_quranEsc(name)} كاملة بالتشكيل والرسم العثماني برواية حفص عن عاصم.</p>
+      <p class="quran-kahf-meta">${_quranAr(ch.ayahCount)} آيات · السورة رقم ${_quranAr(ch.number)}</p>
+      <a class="quran-kahf-btn" href="${rec.path}">قراءة سورة ${_quranEsc(name)}<span class="quran-kahf-arrow" aria-hidden="true"> ←</span></a>
+    </div>
+  </section>`;
+}
+function _buildQuranHomeBody() {
+    // (the three totals now live in the stat-cards builder; the hero no longer needs them here)
+    return `<div class="quran-shell quran-home-shell" id="quran-top">
+  <div class="quran-site-container">
+    <nav class="moon-breadcrumb" aria-label="مسار التنقل">
+      <ol class="breadcrumb-list">
+        <li class="bc-item"><a class="bc-link" href="/">الرئيسية</a></li>
+        <li class="bc-sep" aria-hidden="true">›</li>
+        <li class="bc-item"><span aria-current="page">القرآن الكريم</span></li>
+      </ol>
+    </nav>
+
+    <header class="quran-hero quran-home-hero">
+      <!-- The eyebrow used to read «القرآن الكريم» directly above an H1 that began with the same words.
+           It was repetition, not context, so it is gone. -->
+      <h1 id="quran-home-h1">فهرس سور القرآن الكريم بالترتيب</h1>
+      <p class="quran-hero-intro">تصفح سور القرآن الكريم بالترتيب، وابحث باسم السورة أو رقمها، وانتقل مباشرة إلى السورة أو الجزء الذي تريد قراءته.</p>
+      <div class="quran-hero-actions">
+        <a class="quran-btn quran-btn-primary" href="/quran#quran-surah-index">تصفح سور القرآن</a>
+        <a class="quran-btn quran-btn-ghost" id="quran-home-continue" href="/quran#quran-surah-index" data-quran-continue hidden>متابعة القراءة</a>
+      </div>
+    </header>
+
+    <!-- QURAN-HOME-STATS-CARDS-AND-AL-KAHF-FRIDAY-FEATURE-1 — ORDER (per the user): the SEARCH box is the
+         first element under the hero actions, then the continue-reading card, then the stat cards + the
+         al-Kahf feature card (built lower down, just before the juz section). The old hero chip row is gone —
+         its numbers now live in the stat cards. A short services strip that used to sit here is gone too; it
+         repeated three of the eight links in the services block at the foot of the page. (No Arabic in this
+         comment: it ships to the client, and a heading that only existed in a comment would still be found by
+         a text search of the page.) -->
+    <section class="section-card quran-home-search" aria-labelledby="quran-home-search-title">
+      <h2 id="quran-home-search-title">ابحث عن سورة</h2>
+      <p class="quran-home-search-lead">ابحث باسم السورة أو رقمها، ثم افتح صفحتها لقراءتها كاملة.</p>
+      <div class="quran-home-search-row">
+        <label class="quran-home-search-label" for="quran-home-q">اكتب اسم السورة أو رقمها</label>
+        <!-- QURAN-AR-HOME-SEARCH-AUTOCOMPLETE-SUGGESTIONS-UX-FINAL-GATE-1 — an accessible combobox.
+             The listbox is EMPTY in SSR on purpose: with JavaScript off there is no dangling empty dropdown,
+             and the full 114-surah index below is the no-JS path. Every user-facing string this component
+             needs lives here as a data- attribute, because js/quran-home.js is deliberately free of Arabic. -->
+        <div class="quran-home-search-field" data-quran-combobox
+             data-l10n-results="النتائج: {n}"
+             data-l10n-none="لم نعثر على سورة مطابقة. تحقق من الاسم أو الرقم."
+             data-l10n-more="يتم عرض أفضل ٨ نتائج من أصل {n}"
+             data-l10n-multi="عدة نتائج — استخدم سهمَي الأعلى والأسفل لاختيار سورة">
+          <input type="search" id="quran-home-q" class="quran-home-search-input" placeholder="اكتب اسم السورة أو رقمها"
+                 autocomplete="off" enterkeyhint="go" data-quran-search
+                 role="combobox" aria-autocomplete="list" aria-expanded="false"
+                 aria-haspopup="listbox" aria-controls="quran-home-suggestions">
+          <button type="button" class="quran-home-search-clear" data-quran-search-clear hidden aria-label="مسح البحث">✕</button>
+          <ul class="quran-home-suggest" id="quran-home-suggestions" role="listbox"
+              aria-label="نتائج البحث عن سورة" data-quran-suggest hidden></ul>
+        </div>
+      </div>
+      <p class="quran-home-search-count" data-quran-search-count role="status" aria-live="polite"></p>
+    </section>
+
+    <section class="section-card quran-home-lastread" id="quran-home-lastread" data-quran-lastread hidden
+             data-quran-ayah-label="الآية" data-quran-cta-label="متابعة من الآية" aria-labelledby="quran-home-lastread-title">
+      <h2 id="quran-home-lastread-title">تابع القراءة</h2>
+      <p class="quran-home-lastread-line"><span data-quran-lastread-surah></span> · <span data-quran-lastread-ayah></span></p>
+      <a class="quran-btn quran-btn-primary quran-home-lastread-btn" href="/quran#quran-surah-index" data-quran-lastread-link></a>
+    </section>
+
+    ${_buildQuranHomeStatsCardsHtml()}
+    ${_buildQuranHomeKahfHtml()}
+
+    ${_buildQuranHomeJuzHtml()}
+    ${_buildQuranHomeIndexHtml()}
+    ${_buildQuranHomeGuideHtml()}
+    ${_buildQuranHomeSourceHtml()}
+    ${_buildQuranHomeFaqHtml()}
+    ${_quranServiceLinksHtml('', { title: 'خدمات إسلامية أخرى' })}
+  </div>
+${_quranLocaleModalHtml()}
+</div>`;
+}
+// BreadcrumbList + ItemList. The ItemList is the same 114 links the page already renders, in mushaf order,
+// pointing at the official slug path — the identical URL the visible card links to, so the structured data
+// can never describe a page the reader cannot reach. No rating, no author, no readingTime: absent from the
+// data and inventing them would be a lie in a machine-readable field.
+function _quranHomeJsonLd(origin) {
+    const sh = _quranShared();
+    const crumbs = {
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: origin + '/' },
+            { '@type': 'ListItem', position: 2, name: 'القرآن الكريم', item: origin + '/quran' },
+        ],
+    };
+    const list = {
+        '@context': 'https://schema.org', '@type': 'ItemList',
+        name: 'فهرس سور القرآن الكريم',
+        numberOfItems: sh.chapters.length,
+        itemListOrder: 'https://schema.org/ItemListOrderAscending',
+        itemListElement: sh.chapters.map(c => ({
+            '@type': 'ListItem',
+            position: c.number,
+            name: 'سورة ' + _quranCleanName(c.nameAr),
+            url: origin + sh.byNumber.get(c.number).path,
+        })),
+    };
+    return '<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>\n'
+         + '<script type="application/ld+json">' + JSON.stringify(list) + '</script>';
+}
+// QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — the 114 surah pages emitted NO BreadcrumbList at
+// all (the generic @graph one never reaches this section, and unlike /quran they had no dedicated emitter).
+// Three rungs, mirroring the visible breadcrumb exactly: Home › القرآن الكريم › سورة {name}. The middle rung
+// ends literally at /quran and the last is the surah's official slug path — both taken from the same helpers
+// the DOM uses, so the markup and the structured data cannot drift apart.
+function _quranSurahJsonLd(origin, n) {
+    const sh = _quranShared();
+    const rec = sh.byNumber.get(n);
+    const ch = _quranChapter(n);
+    if (!rec || !ch) return '';
+    const crumbs = {
+        '@context': 'https://schema.org', '@type': 'BreadcrumbList',
+        itemListElement: [
+            { '@type': 'ListItem', position: 1, name: 'الرئيسية', item: origin + '/' },
+            { '@type': 'ListItem', position: 2, name: 'القرآن الكريم', item: origin + '/quran' },
+            { '@type': 'ListItem', position: 3, name: 'سورة ' + _quranCleanName(ch.nameAr), item: origin + rec.path },
+        ],
+    };
+    return '<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>';
+}
+// The ONE distinctive "browse all surahs" CTA — rendered in TWO places (hero + after the surah-end nav cards),
+// both opening the SAME index modal via the shared trigger. Inline open-mushaf SVG (currentColor → light/dark),
+// title + "فهرس N سورة" subline + a chevron hinting it opens a panel. aria-haspopup=dialog + aria-controls.
+function _quranBrowseCta(count, variant) {
+    const icon = '<svg class="quran-cta-ico-svg" viewBox="0 0 24 24" width="22" height="22" aria-hidden="true" focusable="false">'
+        + '<path d="M12 6.6C10.5 5.6 8.4 5.1 6.4 5.1c-1.3 0-2.6.2-3.4.4v12.3c.8-.2 2.1-.4 3.4-.4 2 0 4.1.5 5.6 1.5 1.5-1 3.6-1.5 5.6-1.5 1.3 0 2.6.2 3.4.4V5.5c-.8-.2-2.1-.4-3.4-.4-2 0-4.1.5-5.6 1.5Z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/>'
+        + '<path d="M12 6.6v11.3" fill="none" stroke="currentColor" stroke-width="1.5"/>'
+        + '<path d="M5.4 8.7h3.1M5.4 11.1h3.1M15.5 8.7h3.1M15.5 11.1h3.1" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>'
+        + '</svg>';
+    const arrow = '<svg class="quran-cta-arrow-svg" viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">'
+        + '<path d="M7 10l5 5 5-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>'
+        + '</svg>';
+    // QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — this was a <button> that only opened the
+    // in-page drawer, so the 114 surah pages had NO crawlable link to /quran and the CTA died without JS,
+    // on Ctrl+Click and in a new tab. It is now a real <a> to the home index anchor. The drawer keeps its
+    // own, separately-labelled trigger below — one control, one behaviour, identical on every viewport.
+    return `<a class="quran-browse-cta quran-browse-cta--${variant}" href="/quran#quran-surah-index" aria-label="الانتقال إلى فهرس سور القرآن الكريم">`
+        + `<span class="quran-cta-ico" aria-hidden="true">${icon}</span>`
+        + `<span class="quran-cta-text"><span class="quran-cta-title">تصفح سور القرآن</span><span class="quran-cta-sub">فهرس ${_quranAr(count)} سورة</span></span>`
+        + `<span class="quran-cta-arrow" aria-hidden="true">${arrow}</span>`
+        + `</a>`;
+}
+// The drawer's ONLY trigger used to be the browse CTA above. Now that the CTA navigates to /quran, the
+// dialog would be unreachable without this — so it gets its own button with a name that says what it does
+// (open a picker here) rather than what the CTA does (leave for the index).
+function _quranPickSurahBtn() {
+    return `<button class="quran-pick-surah-btn" type="button" data-quran-surah-browser-trigger data-quran-open-index`
+        + ` aria-haspopup="dialog" aria-controls="quran-index">`
+        + `<span class="quran-pick-surah-ico" aria-hidden="true">`
+        + `<svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true" focusable="false">`
+        + `<path d="M4 6h16M4 12h16M4 18h10" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>`
+        + `</svg></span>`
+        + `<span class="quran-pick-surah-text">اختيار سورة</span>`
+        + `</button>`;
+}
+// Editorial sections — SSR, visible, no hidden-for-SEO text. SIMPLIFIED SCALABLE TEMPLATE
+// (QURAN-AR-SURAH-21-SCALABLE-EDITORIAL-CONTENT-IMPLEMENTATION-1): three cards — نبذة + سبب التسمية +
+// أبرز الموضوعات (the reading-tools card is data-only and lives in _quranToolsHtml, shared by all 114).
+// Numbers derive from surah data. NO prophets table, NO supplications, NO ayah-range tables, NO fadl.
+//
+// EDITORIAL SOURCE (MINIMAL-EDITORIAL-SOURCE-VERIFICATION-FIX-1) — every religious claim below is
+// `verified` against ONE primary tafsir: «التحرير والتنوير» لمحمد الطاهر بن عاشور، مقدمة سورة الأنبياء:
+//   • classification → «وهي مكية بالاتفاق»            • name-reason → «ذكر فيها أسماء ستة عشر نبيا»
+//   • themes         → its «أغراض هذه السورة» list     • ayah count 112 → «عد أهل الكوفة مائة واثنتا عشرة»
+// Full citation + access date + per-field decision: reports/quran-surah-21-minimal-editorial-source-verification.md
+// NOTHING here may carry a needs-review/pending/placeholder state — unverifiable claims are DELETED, not hedged.
+//
+// QURAN-AR-SSR-SURAH-GENERALIZATION-1 — WHICH surahs may render these cards. A surah appears here ONLY once its
+// claims are verified against a primary tafsir and the per-surah verification report is written. The other 113
+// surahs render the data-derived sections alone: no makki/madani, no naming reason, no themes, no fadl — and NO
+// empty heading and NO «المحتوى قيد الإعداد» standing in for them. A section we cannot source is not rendered;
+// it is never stubbed. Serving 113 surahs is not a reason to lower the sourcing bar for even one claim.
+const _QURAN_EDITORIAL_SURAHS = new Set([21]);
+function _quranEditorialHtml(surah, sName) {
+    if (!_QURAN_EDITORIAL_SURAHS.has(surah.surah)) return '';
+    const n = _quranAr;
+    const about = `<section class="section-card quran-about" aria-labelledby="quran-about-title">
+  <h2 id="quran-about-title">نبذة عن سورة ${sName}</h2>
+  <p>سورة ${sName} سورةٌ مكيّة بالاتفاق، وترتيبها الحادية والعشرون في المصحف الشريف، وهي السورة الحادية والسبعون في ترتيب النزول. وعدد آياتها مئة واثنتا عشرة آية في العدّ الكوفي الذي يجري عليه مصحف المدينة النبوية، وتقع كاملةً في الجزء السابع عشر. نزلت بمكة قبل الهجرة، ويدور خطابها على تقرير أصول الاعتقاد من توحيد الله وإثبات البعث وبيان حقيقة الرسالة. وتعرض هذه الصفحة نصّها كاملًا بالتشكيل والرسم العثماني برواية حفص عن عاصم، مع أدواتٍ تُعين على القراءة والحفظ والمراجعة.</p>
+</section>`;
+    const naming = `<section class="section-card quran-naming" aria-labelledby="quran-naming-title">
+  <h2 id="quran-naming-title">لماذا سميت سورة ${sName} بهذا الاسم؟</h2>
+  <p>سُمِّيت سورة ${sName} بهذا الاسم لأنه ذُكِرت فيها أسماء ستة عشر نبيًّا من أنبياء الله عليهم السلام، مع عرض جانبٍ من أخبارهم؛ وبهذا الاسم سمّاها السلف. ويتّصل هذا الاسم بمقصد السورة في بيان أنّ الرسل بشرٌ يُوحى إليهم، وأنّ دعوتهم جميعًا واحدة في الدعوة إلى توحيد الله.</p>
+</section>`;
+    // Each theme mirrors an غرض explicitly stated in Ibn Ashur's «أغراض هذه السورة» (التحرير والتنوير,
+    // مقدمة سورة الأنبياء) — see reports/quran-surah-21-minimal-editorial-source-verification.md.
+    // NO unsourced inference (an earlier «الصبر والابتلاء وإجابة الدعاء» item was removed for that reason).
+    const topicItems = [
+        ['تنزيه الله وإثبات وحدانيته', 'تُنزّه السورة الله تعالى عن الشركاء وعن الأولاد، وتُقيم الدليل على وحدانيته.'],
+        ['الإنذار بالبعث وإقامة الحجة عليه', 'تُنذر بالبعث وتُقرّر تحقّق وقوعه وقربه، وتحتجّ عليه بخلق السماوات والأرض.'],
+        ['أنّ الرسل بشرٌ وذكر أخبارهم', 'تُذكّر بأنّ الرسول كأمثاله من الرسل، وتسوق كثيرًا من أخبار الرسل عليهم السلام.'],
+        ['التذكير بمصير الأمم المكذّبة', 'تُذكّر بما أصاب الأمم السالفة بسبب تكذيبها رسلَها.'],
+        ['التنويه بالقرآن وأنّ الرسالة رحمة للعالمين', 'تُنوّه بأنّ القرآن نعمةٌ على المخاطبين، وأنّ الرسالة رحمةٌ للعالمين.'],
+    ].map(([t, d]) => `<li><b class="quran-topic-title">${t}</b><span>${d}</span></li>`).join('');
+    const themes = `<section class="section-card quran-topics" aria-labelledby="quran-topics-title">
+  <h2 id="quran-topics-title">أبرز موضوعات سورة ${sName}</h2>
+  <ul class="quran-topics-list">${topicItems}</ul>
+</section>`;
+    return `${about}
+  ${naming}
+  ${themes}`;
+}
+// The reading-tools card describes THIS PAGE's own features (font size, night mode, reading mode, jump bar).
+// It states no religious claim and needs no tafsir — only the surah's name — so all 114 surahs render it.
+function _quranToolsHtml(surah, sName) {
+    return `<section class="section-card quran-tools" aria-labelledby="quran-tools-title">
+  <h2 id="quran-tools-title">قراءة سورة ${sName} وأدوات الصفحة</h2>
+  <p>تتيح هذه الصفحة قراءة سورة ${sName} كاملةً في مكانٍ واحد، مع أدواتٍ تُيسّر التلاوة والحفظ. يمكن تكبير حجم الخط أو تصغيره لاختيار المقاس المريح للعين، وتفعيل الوضع الليلي للقراءة في الإضاءة الخافتة، والدخول إلى وضع القراءة الذي يُخفي عناصر الصفحة ويُبقي النصّ وحده أمام القارئ. كما يوفّر شريط الأدوات الانتقالَ المباشر إلى رقم آيةٍ محدّدة عبر حقل «اذهب إلى آية»، مع مؤشّرٍ يبيّن موضع القراءة الحالي. وتعمل هذه الأدوات على الجوال والحاسوب دون الحاجة إلى أيّ تطبيقٍ إضافي.</p>
+</section>`;
+}
+// FAQ — reuses the site's SHARED FAQ component (.country-faq-list.moon-country-faq + .country-faq-item)
+// so it renders identically to the country/moon pages and works WITHOUT JavaScript (native <details>).
+//
+// TWO lists, deliberately. A surah with a verification report answers the sourced questions too (مكية/مدنية,
+// سبب التسمية) and keeps the hand-written Arabic ordinals («مئة واثنتا عشرة») that no template can generate.
+// Every other surah answers ONLY what its own data file states: ayah count, order, juz, pages, how to jump.
+// The generalization must not turn one verified surah's answers into a template stamped over 113 unverified ones.
+function _quranFaqHtml(surah, sName) {
+    const n = _quranAr;
+    const faq = _QURAN_EDITORIAL_SURAHS.has(surah.surah) ? [
+        ['كم عدد آيات سورة الأنبياء؟', `عدد آيات سورة ${sName} مئة واثنتا عشرة آية (${n(surah.ayahCount)}).`],
+        ['ما رقم سورة الأنبياء في القرآن الكريم؟', `سورة ${sName} هي السورة الحادية والعشرون (${n(surah.surah)}) في ترتيب المصحف الشريف.`],
+        ['في أي جزء تقع سورة الأنبياء؟', `تقع سورة ${sName} في الجزء السابع عشر من القرآن الكريم.`],
+        ['هل سورة الأنبياء مكية أم مدنية؟', `سورة ${sName} مكيّة بالاتفاق، أي نزلت بمكة قبل الهجرة.`],
+        ['لماذا سميت سورة الأنبياء بهذا الاسم؟', `سُمِّيت بذلك لأنه ذُكِرت فيها أسماء ستة عشر نبيًّا من أنبياء الله عليهم السلام مع طرفٍ من أخبارهم.`],
+        ['كيف أنتقل إلى آية محددة من سورة الأنبياء؟', `أدخل رقم الآية من ${n(1)} إلى ${n(surah.ayahCount)} في حقل «اذهب إلى آية» أعلى منطقة القراءة، ثم اضغط «اذهب» للانتقال مباشرةً.`],
+    ] : [
+        [`كم عدد آيات سورة ${sName}؟`, `عدد آيات سورة ${sName} ${_quranAyahPhrase(surah.ayahCount)} بحسب العدّ الكوفي الذي يجري عليه مصحف المدينة النبوية.`],
+        [`ما رقم سورة ${sName} في القرآن الكريم؟`, `سورة ${sName} هي السورة رقم ${n(surah.surah)} في ترتيب المصحف الشريف.`],
+        [`في أي جزء تقع سورة ${sName}؟`, surah.juz.length === 1
+            ? `تقع سورة ${sName} في الجزء ${n(surah.juz[0])} من القرآن الكريم.`
+            : `تمتد سورة ${sName} على ${_quranJuzPhrase(surah.juz)} من القرآن الكريم.`],
+        [`كيف أنتقل إلى آية محددة من سورة ${sName}؟`, `أدخل رقم الآية من ${n(1)} إلى ${n(surah.ayahCount)} في حقل «اذهب إلى آية» أعلى منطقة القراءة، ثم اضغط «اذهب» للانتقال مباشرةً.`],
+    ];
+    const items = faq.map(([q, a]) => `<details class="country-faq-item"><summary><h3>${_quranEsc(q)}</h3></summary><p>${_quranEsc(a)}</p></details>`).join('');
+    return `<section class="section-card quran-faq" aria-labelledby="quran-faq-title">
+  <h2 id="quran-faq-title">الأسئلة الشائعة حول سورة ${sName}</h2>
+  <div class="country-faq-list moon-country-faq">${items}</div>
+</section>`;
+}
+// Merged "rasm + source" section (SIMPLIFIED TEMPLATE §6): one section owns the Uthmani-script /
+// source / riwayah / hash-verification / reference-pages / responsive-layout facts. These are removed
+// from the other sections and the FAQ to avoid repetition. Keeps id=quran-source for the hero anchor.
+function _quranSourceHtml(surah, manifest, sName) {
+    return `<section class="section-card quran-source-box" id="quran-source-trust" aria-labelledby="quran-source-title">
+  <h2 id="quran-source-title">مصدر النص القرآني</h2>
+  <p>النصّ القرآني بالرسم العثماني من مشروع Tanzil، إصدار ١٫١، ويُعرض كما ورد في المصدر دون تعديل. النصّ مستخدم بموجب ترخيص Creative Commons Attribution 3.0. وقد جرى التحقّق من مطابقة النص المعروض لملف المصدر الرسمي حرفًا حرفًا حفاظًا على أمانة النقل. وتوزيع الأسطر داخل البطاقات يتكيّف تلقائيًا مع حجم الشاشة لتحسين القراءة، دون أن يتغيّر النص أو تشكيله.</p>
+  <ul class="quran-source-facts">
+    <li><span>المصدر</span><b>مشروع Tanzil</b></li>
+    <li><span>الرواية</span><b>حفص عن عاصم</b></li>
+    <li><span>الرسم</span><b>الرسم العثماني بالتشكيل الكامل</b></li>
+    <li><span>الترخيص</span><b>Creative Commons Attribution 3.0</b></li>
+  </ul>
+  ${_quranTanzilLinksHtml()}
+  ${_quranSourceDownloadLinkHtml(manifest.downloadPage)}
+  <details class="quran-source-details">
+    <summary>تفاصيل إصدار النص</summary>
+    <ul>
+      <li><b>المصدر:</b> ${_quranEsc(manifest.sourceName)}</li>
+      <li><b>نوع النص:</b> ${_quranEsc(manifest.textType)} — إصدار ${_quranEsc(manifest.sourceVersion)}</li>
+      <li><b>إصدار البيانات:</b> ${_quranEsc(manifest.dataVersion)}</li>
+      <li><b>النص مستخدم حرفيًا دون تعديل.</b></li>
+    </ul>
+  </details>
+</section>`;
+}
+// ===== QURAN-AR-SURAH-21-P0-NON-ARABIC-LANGUAGE-UNAVAILABLE-MODAL-1 =====
+// Quran surah pages exist in ARABIC ONLY. The site's language switcher navigates to `/{lang}` + basePath
+// (js/i18n-core.js setLanguage), which for these routes resolves to /{lang}/quran/{slug} → a REAL 404.
+// Fix = explain, never navigate to a route that does not exist:
+//   • JS  → js/quran.js intercepts the click (capture phase) and opens the modal below. NOTHING else changes:
+//           no URL, no history, no page lang, no scroll, no reading-mode exit.
+//   • NoJS→ the menu is SSR-rendered here as real <a href="/{lang}"> links to the LOCALE HOME (never to a
+//           surah route), so a scripting-disabled user lands on a live page instead of a 404.
+// Scope: this markup + js/quran.js + css/quran.css load ONLY on the surah routes → the switcher is untouched
+// on every other page.
+// The 10 locale home paths are the site's own routes: ar='/', others='/{lang}' (all verified 200).
+const _QURAN_LOCALE_LANGS = [
+    ['en', 'English',          'gb'], ['fr', 'Français',         'fr'],
+    ['tr', 'Türkçe',           'tr'], ['ur', 'اردو',              'pk'],
+    ['de', 'Deutsch',          'de'], ['id', 'Bahasa Indonesia', 'id'],
+    ['es', 'Español',          'es'], ['bn', 'বাংলা',             'bd'],
+    ['ms', 'Bahasa Melayu',    'my'],
+];
+const _quranLocaleHome = (lang) => (lang === 'ar' ? '/' : '/' + lang);
+// UI-chrome strings ONLY (never surah content). Served as a JSON island so js/quran.js stays text-free and the
+// modal can be shown in the language the user PICKED while the page itself stays Arabic (the site's split i18n
+// bundle only ever holds the CURRENT page language, so t() cannot supply another language here).
+// One dict for all 114 routes → no string here may name a surah. The `ar` copy said «سورة الأنبياء» while the
+// other nine already said just "the surah"; on the other 113 pages that would have named the wrong surah, so it
+// is now generic like its nine siblings. This is a DELIBERATE, listed difference from the P0 surah-21 page.
+const _QURAN_LOCALE_MODAL_L10N = {
+    ar: { title: 'هذه اللغة قيد الإعداد', desc: 'نعمل حاليًا على توفير محتوى صفحات القرآن الكريم باللغة التي اخترتها. نعتذر لعدم توفر هذه الخدمة في الوقت الحالي. يمكنك متابعة قراءة السورة باللغة العربية، أو الانتقال إلى الصفحة الرئيسية باللغة المختارة.', picked: 'اللغة المختارة', stay: 'متابعة القراءة بالعربية', home: 'الانتقال إلى الرئيسية باللغة المختارة', close: 'إغلاق' },
+    en: { title: 'This language is coming soon', desc: 'We are still preparing the Quran page content in the language you selected. We apologise that this is not available yet. You can continue reading the surah in Arabic, or go to the home page in the language you selected.', picked: 'Selected language', stay: 'Continue reading in Arabic', home: 'Go to the home page in the selected language', close: 'Close' },
+    fr: { title: 'Cette langue est en préparation', desc: 'Nous préparons encore le contenu des pages du Coran dans la langue que vous avez choisie. Nous sommes désolés, ce service n’est pas encore disponible. Vous pouvez poursuivre la lecture de la sourate en arabe, ou aller à la page d’accueil dans la langue choisie.', picked: 'Langue choisie', stay: 'Poursuivre la lecture en arabe', home: 'Aller à l’accueil dans la langue choisie', close: 'Fermer' },
+    tr: { title: 'Bu dil hazırlanıyor', desc: 'Seçtiğiniz dilde Kur’an sayfalarının içeriğini hâlâ hazırlıyoruz. Bu hizmetin şu anda mevcut olmaması için özür dileriz. Sureyi Arapça okumaya devam edebilir veya seçtiğiniz dilde ana sayfaya gidebilirsiniz.', picked: 'Seçilen dil', stay: 'Arapça okumaya devam et', home: 'Seçilen dilde ana sayfaya git', close: 'Kapat' },
+    ur: { title: 'یہ زبان ابھی تیار کی جا رہی ہے', desc: 'ہم آپ کی منتخب کردہ زبان میں قرآن کریم کے صفحات کا مواد ابھی تیار کر رہے ہیں۔ فی الحال یہ سہولت دستیاب نہ ہونے پر معذرت۔ آپ سورت کو عربی میں پڑھنا جاری رکھ سکتے ہیں، یا منتخب زبان میں مرکزی صفحے پر جا سکتے ہیں۔', picked: 'منتخب زبان', stay: 'عربی میں پڑھنا جاری رکھیں', home: 'منتخب زبان میں مرکزی صفحے پر جائیں', close: 'بند کریں' },
+    de: { title: 'Diese Sprache ist in Vorbereitung', desc: 'Wir bereiten die Inhalte der Koran-Seiten in der von Ihnen gewählten Sprache noch vor. Wir bitten um Entschuldigung, dass dies derzeit nicht verfügbar ist. Sie können die Sure weiter auf Arabisch lesen oder zur Startseite in der gewählten Sprache gehen.', picked: 'Gewählte Sprache', stay: 'Weiter auf Arabisch lesen', home: 'Zur Startseite in der gewählten Sprache', close: 'Schließen' },
+    id: { title: 'Bahasa ini sedang disiapkan', desc: 'Kami masih menyiapkan konten halaman Al-Qur’an dalam bahasa yang Anda pilih. Mohon maaf, layanan ini belum tersedia saat ini. Anda dapat melanjutkan membaca surah dalam bahasa Arab, atau membuka halaman utama dalam bahasa yang Anda pilih.', picked: 'Bahasa yang dipilih', stay: 'Lanjutkan membaca dalam bahasa Arab', home: 'Buka halaman utama dalam bahasa yang dipilih', close: 'Tutup' },
+    es: { title: 'Este idioma está en preparación', desc: 'Todavía estamos preparando el contenido de las páginas del Corán en el idioma que has elegido. Lamentamos que este servicio aún no esté disponible. Puedes seguir leyendo la sura en árabe o ir a la página de inicio en el idioma elegido.', picked: 'Idioma elegido', stay: 'Seguir leyendo en árabe', home: 'Ir al inicio en el idioma elegido', close: 'Cerrar' },
+    bn: { title: 'এই ভাষাটি প্রস্তুত করা হচ্ছে', desc: 'আপনি যে ভাষা নির্বাচন করেছেন সেই ভাষায় কুরআনের পৃষ্ঠার বিষয়বস্তু আমরা এখনও প্রস্তুত করছি। এই সেবাটি এখনই উপলব্ধ না থাকায় আমরা দুঃখিত। আপনি আরবিতে সূরাটি পড়া চালিয়ে যেতে পারেন, অথবা নির্বাচিত ভাষায় প্রধান পাতায় যেতে পারেন।', picked: 'নির্বাচিত ভাষা', stay: 'আরবিতে পড়া চালিয়ে যান', home: 'নির্বাচিত ভাষায় প্রধান পাতায় যান', close: 'বন্ধ করুন' },
+    ms: { title: 'Bahasa ini sedang disediakan', desc: 'Kami masih menyediakan kandungan halaman al-Quran dalam bahasa yang anda pilih. Kami memohon maaf kerana perkhidmatan ini belum tersedia buat masa ini. Anda boleh terus membaca surah dalam bahasa Arab, atau pergi ke halaman utama dalam bahasa yang anda pilih.', picked: 'Bahasa dipilih', stay: 'Terus membaca dalam bahasa Arab', home: 'Pergi ke halaman utama dalam bahasa dipilih', close: 'Tutup' },
+};
+// SSR language menu for the surah route ONLY: real <a> to the locale HOME (No-JS safety net). With JS,
+// i18n-core's _renderLangSwitcher() replaces these with its own buttons — js/quran.js intercepts either shape
+// via [data-lang] inside .lang-menu, so both paths are covered.
+function _quranLangMenuNoJsHtml() {
+    return _QURAN_LOCALE_LANGS.map(([l, name, iso]) =>
+        `<a class="lang-menu-item" role="menuitem" href="${_quranLocaleHome(l)}" data-lang="${l}" data-quran-locale-home>`
+        + `<img class="lang-flag" src="https://flagcdn.com/w40/${iso}.png" alt="${_quranEsc(name)}" width="22" height="16" loading="lazy">`
+        + `<span class="lang-name">${_quranEsc(name)}</span></a>`).join('');
+}
+// The dialog itself: SSR'd in ARABIC (so it is never empty and never shows raw keys — that IS the fallback);
+// js/quran.js swaps the six strings to the picked language from the JSON island on open.
+function _quranLocaleModalHtml() {
+    const ar = _QURAN_LOCALE_MODAL_L10N.ar;
+    const globe = '<svg viewBox="0 0 24 24" width="26" height="26" aria-hidden="true" focusable="false">'
+        + '<circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"/>'
+        + '<path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9S14.5 18.4 12 21c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" fill="none" stroke="currentColor" stroke-width="1.4"/>'
+        + '</svg>';
+    return `
+  <div class="quran-locale-overlay" data-quran-locale-overlay hidden></div>
+  <div class="quran-locale-modal" id="quran-locale-modal" role="dialog" aria-modal="true" aria-labelledby="quran-locale-title" aria-describedby="quran-locale-desc" aria-hidden="true">
+    <button class="quran-locale-close" type="button" data-quran-locale-close aria-label="${_quranEsc(ar.close)}" title="${_quranEsc(ar.close)}">
+      <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+    </button>
+    <div class="quran-locale-ico" aria-hidden="true">${globe}</div>
+    <h2 class="quran-locale-title" id="quran-locale-title" data-quran-locale-t="title">${_quranEsc(ar.title)}</h2>
+    <p class="quran-locale-badge"><span data-quran-locale-t="picked">${_quranEsc(ar.picked)}</span>: <b data-quran-locale-name>—</b></p>
+    <p class="quran-locale-desc" id="quran-locale-desc" data-quran-locale-t="desc">${_quranEsc(ar.desc)}</p>
+    <div class="quran-locale-actions">
+      <button class="quran-btn quran-btn-primary quran-locale-stay" type="button" data-quran-locale-stay data-quran-locale-t="stay">${_quranEsc(ar.stay)}</button>
+      <a class="quran-btn quran-btn-secondary quran-locale-home" href="/" data-quran-locale-go data-quran-locale-t="home">${_quranEsc(ar.home)}</a>
+    </div>
+  </div>
+  <script type="application/json" id="quran-locale-l10n" data-quran-locale-l10n>${JSON.stringify({ homes: _QURAN_LOCALE_LANGS.reduce((o, [l]) => (o[l] = _quranLocaleHome(l), o), {}), names: _QURAN_LOCALE_LANGS.reduce((o, [l, n]) => (o[l] = n, o), {}), t: _QURAN_LOCALE_MODAL_L10N }).replace(/</g, '\\u003c')}</script>`;
+}
+
+// Body-only content for #page-quran-surah — injected into the REAL index.html shell (so the page gets the
+// site .top-header, shared sidebar, footer and app.js natively; NO standalone document / NO copied header).
+// ONE outer width for every box (.quran-site-container); the ayah text sits in a centered inner column.
+// QURAN-AR-SSR-SURAH-GENERALIZATION-1: `n` is a validated 1..114 from _quranSurahRoute — every string below
+// derives from that surah's own data file. Nothing about surah 21 is hardcoded any more.
+function _buildQuranSurahBody(n) {
+    const { surah, basmala, manifest, chapters } = _quranSurahData(n);
+    const sName = _quranCleanName(surah.nameAr);
+    // Dynamic prev/next surah (from chapters.json): Al-Fatiha has no prev, An-Nas has no next.
+    const prevSurah = chapters.find(c => c.number === surah.surah - 1) || null;
+    const nextSurah = chapters.find(c => c.number === surah.surah + 1) || null;
+
+    // The surah renders as ONE flat ayah sequence — there is no Madinah-mushaf page/line layout in the
+    // open Tanzil source, so none is invented here. The basmala opener is decided by the DERIVED basmalaMode:
+    //   • 'separate'   (112 surahs) → the opener is printed above ayah 1, outside the numbered text.
+    //   • 'first-ayah' (Al-Fatiha)  → the basmala IS ayah 1; printing an opener would DUPLICATE it.
+    //   • 'none'       (At-Tawba)   → the surah has no basmala; printing one would ADD to the text.
+    // An-Naml's 27:30 basmala is part of that ayah's own text and is untouched by this branch.
+    const openers = (surah.basmalaMode === 'separate')
+        ? `<div class="quran-basmala" aria-label="بسم الله الرحمن الرحيم">${_quranEsc(basmala.textUthmaniBody)}</div>` : '';
+    const flow = surah.ayahs.map(a =>
+        `<span class="quran-ayah" id="ayah-${a.ayah}" data-quran-ayah="${a.ayah}"><span class="quran-ayah-text">${_quranEsc(a.textUthmaniBody)}</span>` +
+        `<span class="quran-ayah-num" role="img" aria-label="الآية ${_quranAr(a.ayah)}">${_quranAr(a.ayah)}</span></span>`
+    ).join(' ');
+    const pagesHtml = `<section class="quran-reading-card" data-quran-reading-surface>
+  ${openers}<div class="quran-ayah-flow" dir="rtl">${flow}</div>
+</section>`;
+
+    // Surah index (114 chapters) — every one of them a REAL route. A bare in-page hash like «#page-N» would
+    // resolve against the shell's <base href="/"> and jump to «/», so the CURRENT surah links to its own page
+    // (aria-current="page") and keeps the «الحالية» badge; the other 113 link to their routes. Nothing disabled.
+    const indexItems = chapters.map(c => {
+        const num = _quranAr(c.number), disp = _quranCleanName(c.nameAr);
+        // Search keys (js/quran.js normalizes them client-side). `data-name` keeps the RAW mushaf spelling +
+        // the English name so a query typed either way still lands; `data-name-ar` / `data-name-en` are the
+        // single fields the tiered matcher needs for a whole-name hit — without them «ص» could only ever be a
+        // substring of «القَصَص» and friends. Search-only attributes: chapters.json is never touched.
+        // Search keys. `data-name` = the loose haystack (raw mushaf spelling + English) for substring hits;
+        // `data-name-ar` / `data-name-en` / `data-slug` are the whole-value fields the tiered matcher needs.
+        // The slug is searchable because it is now the URL a reader may have seen or been sent — but it is
+        // only ever a KEY: the row still shows the Arabic name (§12), never the slug.
+        const dataAttrs = `data-num="${c.number}" data-name="${_quranEsc(c.nameAr)} ${_quranEsc(c.nameEn)}"`
+            + ` data-name-ar="${_quranEsc(disp)}" data-name-en="${_quranEsc(c.nameEn)}"`
+            + ` data-slug="${_quranEsc(_quranShared().byNumber.get(c.number).slug)}"`;
+        const inner = `<span class="quran-idx-num">${num}</span><span class="quran-idx-name">${_quranEsc(disp)}</span><span class="quran-idx-ay">${_quranAyahPhrase(c.ayahCount)}</span>`;
+        if (c.number === surah.surah) {
+            return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item is-current" href="${_quranPathFor(surah.surah)}" aria-current="page" data-quran-close-index>${inner}<span class="quran-idx-badge">الحالية</span></a></li>`;
+        }
+        return `<li class="quran-idx-li" ${dataAttrs}><a class="quran-idx-item" href="${_quranPathFor(c.number)}">${inner}</a></li>`;
+    }).join('');
+
+    // data-quran-surah-number: the surah's permanent identity, for the client. The URL is /quran/{slug} now and
+    // carries no number, and js/quran.js must not re-derive one from a name — the position key stays keyed on
+    // the number. Not user-facing; the visible «السورة ٢١» chip is separate.
+    return `<div class="quran-surah-page quran-site-container" id="quran-top" data-quran-surah-number="${surah.surah}" data-quran-surah-slug="${_quranEsc(_quranShared().byNumber.get(surah.surah).slug)}">
+
+  <nav class="moon-breadcrumb" aria-label="مسار التنقل">
+    <ol class="breadcrumb-list">
+      <li class="bc-item"><a class="bc-link" href="/">الرئيسية</a></li>
+      <li class="bc-sep" aria-hidden="true">›</li>
+      <li class="bc-item"><a class="bc-link" href="/quran">القرآن الكريم</a></li>
+      <li class="bc-sep" aria-hidden="true">›</li>
+      <li class="bc-item bc-current"><span aria-current="page">سورة ${_quranEsc(sName)}</span></li>
+    </ol>
+  </nav>
+
+  <section class="section-card quran-hero">
+    <div class="quran-eyebrow">القرآن الكريم — قراءة موثوقة بالرسم العثماني</div>
+    <h1 id="quran-surah-h1">سورة ${_quranEsc(sName)} مكتوبة كاملة بالتشكيل والرسم العثماني</h1>
+    <p class="quran-hero-intro">اقرأ سورة ${_quranEsc(sName)} كاملةً (${_quranAyahPhrase(surah.ayahCount)}) بالرسم العثماني وفق رواية حفص عن عاصم، منقولةً حرفيًا من نص مشروع Tanzil، لتسهيل المتابعة والحفظ والمراجعة.</p>
+    <div class="quran-chips">
+      <span class="quran-chip">السورة ${_quranAr(surah.surah)}</span>
+      <span class="quran-chip">${_quranAyahPhrase(surah.ayahCount)}</span>
+      <span class="quran-chip">${_quranJuzPhrase(surah.juz)}</span>
+      <span class="quran-chip">${_quranJuzPhrase(surah.juz)}</span>
+      <span class="quran-chip">رواية حفص عن عاصم</span>
+      <span class="quran-chip">الرسم العثماني</span>
+    </div>
+    <div class="quran-hero-actions">
+      <a class="quran-btn quran-btn-primary" href="${_quranPathFor(surah.surah)}#ayah-1">ابدأ القراءة</a>
+      ${_quranBrowseCta(chapters.length, 'hero')}
+      ${_quranPickSurahBtn()}
+      <a class="quran-btn quran-btn-ghost" href="${_quranShared().byNumber.get(surah.surah).path}#quran-source-trust">مصدر النص وموثوقيته</a>
+    </div>
+  </section>
+
+  <div class="quran-reading-sticky">
+  <div class="quran-toolbar" role="toolbar" aria-label="أدوات القراءة">
+    <button class="quran-tool-btn" type="button" data-quran-action="font-inc" aria-label="تكبير حجم النص" title="تكبير حجم النص"><span class="quran-tool-ico" aria-hidden="true">أ+</span><span class="quran-tool-label">تكبير النص</span></button>
+    <button class="quran-tool-btn" type="button" data-quran-action="font-dec" aria-label="تصغير حجم النص" title="تصغير حجم النص"><span class="quran-tool-ico" aria-hidden="true">أ−</span><span class="quran-tool-label">تصغير النص</span></button>
+    <button class="quran-tool-btn" type="button" data-quran-action="theme" aria-label="الوضع الليلي" title="الوضع الليلي" aria-pressed="false"><span class="quran-tool-ico" aria-hidden="true">☾</span><span class="quran-tool-label">الوضع الليلي</span></button>
+    <button class="quran-tool-btn quran-reading-enter" type="button" data-quran-action="reading" aria-label="وضع القراءة" title="وضع القراءة" aria-pressed="false"><span class="quran-tool-ico" aria-hidden="true">▤</span><span class="quran-tool-label">وضع القراءة</span></button>
+    <button class="quran-tool-btn quran-reading-exit" type="button" data-quran-action="reading" aria-label="الخروج من وضع القراءة" title="الخروج من وضع القراءة"><span class="quran-tool-ico" aria-hidden="true">✕</span><span class="quran-reading-exit-label">الخروج من وضع القراءة</span></button>
+    <button class="quran-tool-btn" type="button" data-quran-action="top" aria-label="العودة إلى أعلى الصفحة" title="العودة إلى أعلى الصفحة"><span class="quran-tool-ico" aria-hidden="true">↑</span><span class="quran-tool-label">أعلى الصفحة</span></button>
+    <span class="quran-tool-spacer"></span>
+    <form class="quran-jump quran-ayah-jump" method="get" action="${_quranPathFor(surah.surah)}" data-quran-ayah-jump>
+      <label class="quran-jump-label" for="quran-ayah-input">اذهب إلى آية</label>
+      <input class="quran-jump-input" id="quran-ayah-input" name="ayah" type="number" min="1" max="${surah.ayahCount}" step="1" inputmode="numeric" placeholder="١…${_quranAr(surah.ayahCount)}" autocomplete="off" aria-describedby="quran-ayah-err">
+      <button class="quran-tool-btn quran-jump-go" type="submit">اذهب</button>
+      <span class="quran-jump-err" id="quran-ayah-err" role="alert" hidden data-quran-ayah-errmsg>أدخل رقم آية بين ١ و${_quranAr(surah.ayahCount)}</span>
+    </form>
+  </div>
+  <div class="quran-progress" aria-hidden="true"><span class="quran-progress-track"><span class="quran-progress-fill" data-quran-progress-fill></span></span><span class="quran-progress-text">التقدّم <span data-quran-progress-value>${_quranAr(0)}٪</span></span></div>
+  </div>
+
+${pagesHtml}
+
+    <section class="quran-surah-end">
+      <div class="quran-surah-end-badge" aria-hidden="true">✓</div>
+      <h2>تمّت سورة ${_quranEsc(sName)}</h2>
+      <p>خُتمت قراءة سورة ${_quranEsc(sName)} كاملةً (${_quranAyahPhrase(surah.ayahCount)}). يمكنك العودة إلى أوّل السورة، أو تصفّح بقية سور المصحف الشريف.</p>
+      <div class="quran-surah-end-actions">
+        <a class="quran-btn quran-btn-secondary" href="${_quranPathFor(surah.surah)}#ayah-1">العودة إلى أوّل السورة</a>
+        <a class="quran-btn quran-btn-ghost" href="${_quranShared().byNumber.get(surah.surah).path}#quran-source-trust">مصدر النص وموثوقيته</a>
+      </div>
+      <nav class="quran-surah-nav" aria-label="التنقّل بين السور">
+        ${_quranNavCard(prevSurah, 'prev')}
+        ${_quranNavCard(nextSurah, 'next')}
+      </nav>
+      <div class="quran-browse-cta-wrap">${_quranBrowseCta(chapters.length, 'end')}</div>
+    </section>
+
+  ${_quranEditorialHtml(surah, sName)}
+  ${_quranToolsHtml(surah, sName)}
+  ${_quranSourceHtml(surah, manifest, sName)}
+  ${_quranFaqHtml(surah, sName)}
+  ${_quranServiceLinksHtml('quran-services-full')}
+
+  <!-- Islamic-events countdown: the SITE's existing component reused as the LAST visible section (before the
+       global footer). SSR-computed from the single source (_MOON_OCCASIONS_EVENTS + hijri engine), same CSS /
+       labels / icons; no second data source, no manual markup copy, no client duplication. Hidden in reading. -->
+  ${_buildMoonOccasionsCountdownHtml('ar')}
+
+  <div class="quran-index-overlay" data-quran-index-overlay hidden></div>
+  <div class="quran-surah-modal" id="quran-index" role="dialog" aria-modal="true" aria-labelledby="quran-index-title" aria-hidden="true">
+    <div class="quran-surah-modal-head">
+      <h2 class="quran-index-title" id="quran-index-title">سور القرآن الكريم</h2>
+      <div class="quran-filter-field">
+        <input class="quran-surah-filter" type="search" inputmode="search" placeholder="ابحث باسم السورة أو رقمها…" aria-label="تصفية قائمة السور بالاسم أو الرقم" autocomplete="off" autocapitalize="off" spellcheck="false" aria-controls="quran-index-list" aria-describedby="quran-surah-count" data-quran-surah-filter>
+        <button class="quran-filter-clear" type="button" data-quran-filter-clear aria-label="مسح مربع البحث" hidden>✕</button>
+      </div>
+      <button class="quran-index-close" type="button" data-quran-close-index aria-label="إغلاق قائمة السور">✕</button>
+    </div>
+    <div class="quran-surah-modal-body" data-quran-modal-body>
+      <div class="quran-surah-subhead">
+        <p class="quran-surah-count" id="quran-surah-count" data-quran-surah-count aria-live="polite" aria-atomic="true">${_quranAr(chapters.length)} سورة</p>
+      </div>
+      <ul class="quran-index-list" id="quran-index-list" data-quran-index-list>${indexItems}</ul>
+      <div class="quran-surah-filter-empty" data-quran-filter-empty hidden>
+        <p class="quran-empty-msg">لم يتم العثور على سورة مطابقة لبحثك.</p>
+        <button type="button" class="quran-empty-clear" data-quran-filter-clear>مسح البحث</button>
+      </div>
+    </div>
+  </div>
+${_quranLocaleModalHtml()}
+</div>`;
+}
+
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
     // Security Headers — تُطبَّق على كل استجابة
@@ -30309,6 +31415,17 @@ const server = http.createServer(async (req, res) => {
     //   One-hop 301. Excluded: '/' itself (root, already handled above), and
     //   any path that ends in a file extension (.png, .css, .js, etc — these
     //   shouldn't have trailing slash anyway, but the guard is defensive).
+    // QURAN-AR-FINAL-OFFICIAL-ENGLISH-SLUG-URL-STRUCTURE-NO-REDIRECTS-1 — the Quran section opts OUT of the
+    // trailing-slash repair below. Everywhere else on the site that 301 is right: those URLs are published and
+    // indexed, so a slash variant must be folded back into the canonical. The Quran section is STRICTER than
+    // that default: even now that it is PUBLISHED and in the sitemap, it enforces EXACTLY ONE canonical URL per
+    // surah (the no-slash official slug), so a trailing-slash variant 404s rather than 301-repairing — repairing
+    // would hand out a SECOND working URL for a surah, which is exactly what this structure exists to prevent.
+    // A wrong URL here is simply wrong: 404, no `Location`. Deliberately narrower than the site default.
+    if (/^\/quran\/.+\/$/.test(urlPath)) {   // QURAN PUBLIC: still one canonical URL per surah — a trailing-slash variant 404s (no second URL)
+        send404Page(urlPath, res, req.headers['accept-encoding'] || '');
+        return;
+    }
     if (urlPath.length > 1 && urlPath.endsWith('/') && !/\.[a-z0-9]+\/$/i.test(urlPath)) {
         const _noSlash = urlPath.replace(/\/+$/, '') || '/';
         res.writeHead(301, {
@@ -30402,6 +31519,31 @@ const server = http.createServer(async (req, res) => {
             res.end(data);
         });
         return;
+    }
+
+    // ===== QURAN-AR surah routes /quran/{official-english-slug} (PUBLIC, indexable, Arabic-only) =====
+    // NO URL redirect of any kind lives here. The retired numeric paths (/quran/surah/21, /quran/21, …) are not
+    // recognised anywhere in this file, so they reach the site's normal 404 with no `Location` header — they
+    // were never published, never indexed, never in a sitemap, so there is no traffic to preserve and a wrong
+    // URL is simply wrong. Mis-cased, mis-spelled and trailing-slash paths 404 for the same reason: repairing
+    // them would mint a second working URL for one surah, which is precisely what this structure forbids.
+    {   // QURAN PUBLIC: the no-JS ayah/page jump — served unconditionally (feature gate removed at release)
+        const _qs = _quranSurahRoute(urlPath);
+        if (_qs) {
+            const _ch = _quranChapter(_qs.n);
+            if (_ch) {
+                // The no-JS ayah/page jump. This is NOT a URL redirect: it is the only way a <form> without
+                // JavaScript can reach an in-page anchor, and it lands on the SAME slug it was submitted from —
+                // it never maps one URL onto another, and a fragment never even reaches the server. §13/§16
+                // require the no-JS reader to keep working and §14 forbids changing the reading functions, so
+                // it stays. Bounds come from THIS surah's own data — never a hardcoded range.
+                const _am = /(?:^|&)ayah=(\d{1,3})(?:&|$)/.exec(qs);
+                if (_am) { const a = +_am[1]; if (a >= 1 && a <= _ch.ayahCount) { res.writeHead(302, { Location: _qs.path + '#ayah-' + a }); res.end(); return; } }
+                const _pm = /(?:^|&)page=(\d{1,4})(?:&|$)/.exec(qs);
+                if (_pm) { const p = +_pm[1]; if (p >= _ch.firstPage && p <= _ch.lastPage) { res.writeHead(302, { Location: _qs.path + '#page-' + p }); res.end(); return; } }
+            }
+            // No jump → fall through; the page is served through the REAL index.html shell (see _isIndexHtmlRoute).
+        }
     }
 
     // ===== مساعدات Sitemap =====
@@ -30609,6 +31751,20 @@ const server = http.createServer(async (req, res) => {
             for (const [p, pr, cf] of staticPaths) {
                 entries.push(...bilingualUrl(p, pr, cf, today));
             }
+
+            // 1b) QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1:
+            //     the Arabic Quran section — /quran + the 114 official surah routes = 115 URLs.
+            //     Arabic-ONLY (the /{lang}/quran twins do not exist) → a SINGLE self-canonical <url> each with
+            //     NO xhtml:link alternates (unlike bilingualUrl, which would emit ten hreflang links). Slugs
+            //     come from the SAME source-derived table the routes use (_quranShared().routes) — no second
+            //     slug list, no ayah text, no surah-file reads. <lastmod> is a FIXED public-release date (NOT
+            //     `today`, NOT the Tanzil source date): the frozen text means it only moves on a real content
+            //     change, never per request.
+            const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';
+            const _quranSitemapUrl = (relPath, prio) =>
+                `  <url>\n    <loc>${escapeXml(SITE_URL + relPath)}</loc>\n    <lastmod>${QURAN_PUBLIC_RELEASE_LASTMOD}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${prio}</priority>\n  </url>`;
+            entries.push(_quranSitemapUrl('/quran', '0.8'));
+            for (const _qr of _quranShared().routes) entries.push(_quranSitemapUrl(_qr.path, '0.7'));
 
             // 2) صفحات الدول (نمط موحَّد مع المدن: /prayer-times-in-{slug})
             const { countryCodes } = getSitemapData();
@@ -30892,6 +32048,16 @@ const server = http.createServer(async (req, res) => {
     // يدعم: ar (افتراضي بدون prefix)، en، fr، tr، ur
     const _LANG_PREFIX_RE = '(?:en|fr|tr|ur|de|id|es|bn|ms)';
     const _isIndexHtmlRoute =
+        // QURAN-AR surah pages (PUBLIC, Arabic-only): served through the REAL index.html shell. There is
+        // exactly ONE form per surah — the official English slug — and `_quranSurahRoute` is the only thing
+        // that recognises it: an exact, case-sensitive lookup against the source-derived table. Anything else
+        // (a number, a misspelling, a trailing slash) matches nothing here and falls through to the site's
+        // normal 404. This gate and the body injection below share that one resolver on purpose: if a path
+        // cannot name a surah, the shell must not be served bodyless — it must not be served at all.
+        (!!_quranSurahRoute(urlPath)) ||   // QURAN PUBLIC: surah routes recognised unconditionally (feature gate removed at release)
+        // QURAN-AR-HOME-INDEX-SSR-1: /quran, the section index. `_quranSurahRoute` cannot match the bare path,
+        // so the index and the surahs can never shadow each other and need no ordering between them.
+        (_quranHomeRoute(urlPath)) ||   // QURAN PUBLIC: /quran recognised unconditionally (feature gate removed at release)
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: nested city moon hub (valid only —
         //   exactly /moon/{country}/{city} with the city resolving to that country).
         (_nestedMoon.kind === 'valid') ||
@@ -31886,7 +33052,11 @@ const server = http.createServer(async (req, res) => {
     const ext         = path.extname(filePath).toLowerCase();
     const contentType = mimeTypes[ext] || 'application/octet-stream';
 
-    const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml'].includes(ext);
+    // QURAN-AR-SURAH-PAGE-PERFORMANCE-PRELOAD-MINIFY-FIX-1: .ttf added so the self-hosted
+    //   Amiri Quran font (preloaded into _staticCache with a brotli/gzip copy) is served
+    //   Content-Encoding: br (~135 KB → ~65 KB). Raw TTF gzips ~50% (unlike woff2, which is
+    //   already brotli-internal — do NOT add .woff2 here). This is the surah-page LCP lever.
+    const compressible = ['.js', '.css', '.html', '.json', '.svg', '.xml', '.ttf'].includes(ext);
     const isVersioned  = req.url.includes('?v=');
     const isServiceWorker = urlPath === '/sw.js';
     // ملفات وسائط ثابتة (أذان، أيقونات...) لا تتغير — 1 سنة

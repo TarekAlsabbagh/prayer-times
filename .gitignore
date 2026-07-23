@@ -130,3 +130,15 @@ db/places/candidates/pk-geonames-normalized.json
 db/places/candidates/pk-geonames-candidates.json
 db/places/candidates/pk-geonames-candidates.preStage3_4.json
 db/places/candidates/asia-1d-pk-persian-pregate.json
+
+# QURAN-AR — raw KFGQPC package (ZIP + hafsData) is NOT tracked: 14 MB + font/text EULA not yet cleared.
+# It lives in a LOCAL cache; re-verify + regenerate the derived files via:
+#   node scripts/quran/build.mjs            (reads .quran-source/ by default)
+#   QURAN_SOURCE_DIR=/path node scripts/quran/build.mjs
+.quran-source/
+# …and by NAME too, so a stray copy dropped anywhere in the tree still cannot be committed.
+UthmanicHafs_v2-0.zip
+hafsData_v2-0.json
+
+# QURAN-AR — dev-only screenshot output (PNGs + throwaway headless-Chrome profile). Never committed.
+.quran-shots/

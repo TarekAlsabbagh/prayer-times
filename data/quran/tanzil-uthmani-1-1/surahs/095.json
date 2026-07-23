@@ -1,0 +1,45 @@
+{
+  "surah": 95,
+  "nameAr": "التين",
+  "nameEn": "At-Tin",
+  "ayahCount": 8,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "وَٱلتِّينِ وَٱلزَّيْتُونِ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "وَطُورِ سِينِينَ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "وَهَٰذَا ٱلْبَلَدِ ٱلْأَمِينِ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "لَقَدْ خَلَقْنَا ٱلْإِنسَٰنَ فِىٓ أَحْسَنِ تَقْوِيمٍ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "ثُمَّ رَدَدْنَٰهُ أَسْفَلَ سَٰفِلِينَ"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ فَلَهُمْ أَجْرٌ غَيْرُ مَمْنُونٍ"
+    },
+    {
+      "ayah": 7,
+      "textUthmaniBody": "فَمَا يُكَذِّبُكَ بَعْدُ بِٱلدِّينِ"
+    },
+    {
+      "ayah": 8,
+      "textUthmaniBody": "أَلَيْسَ ٱللَّهُ بِأَحْكَمِ ٱلْحَٰكِمِينَ"
+    }
+  ]
+}

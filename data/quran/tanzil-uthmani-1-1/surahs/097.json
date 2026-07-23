@@ -1,0 +1,33 @@
+{
+  "surah": 97,
+  "nameAr": "القدر",
+  "nameEn": "Al-Qadr",
+  "ayahCount": 5,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "إِنَّآ أَنزَلْنَٰهُ فِى لَيْلَةِ ٱلْقَدْرِ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "وَمَآ أَدْرَىٰكَ مَا لَيْلَةُ ٱلْقَدْرِ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "لَيْلَةُ ٱلْقَدْرِ خَيْرٌ مِّنْ أَلْفِ شَهْرٍ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "تَنَزَّلُ ٱلْمَلَٰٓئِكَةُ وَٱلرُّوحُ فِيهَا بِإِذْنِ رَبِّهِم مِّن كُلِّ أَمْرٍ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "سَلَٰمٌ هِىَ حَتَّىٰ مَطْلَعِ ٱلْفَجْرِ"
+    }
+  ]
+}

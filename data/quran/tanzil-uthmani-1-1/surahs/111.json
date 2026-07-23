@@ -1,0 +1,33 @@
+{
+  "surah": 111,
+  "nameAr": "المسد",
+  "nameEn": "Al-Masad",
+  "ayahCount": 5,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "تَبَّتْ يَدَآ أَبِى لَهَبٍ وَتَبَّ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "مَآ أَغْنَىٰ عَنْهُ مَالُهُۥ وَمَا كَسَبَ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "سَيَصْلَىٰ نَارًا ذَاتَ لَهَبٍ"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "وَٱمْرَأَتُهُۥ حَمَّالَةَ ٱلْحَطَبِ"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "فِى جِيدِهَا حَبْلٌ مِّن مَّسَدٍۭ"
+    }
+  ]
+}

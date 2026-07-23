@@ -1,0 +1,57 @@
+{
+  "surah": 100,
+  "nameAr": "العاديات",
+  "nameEn": "Al-Aadiyaat",
+  "ayahCount": 11,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "وَٱلْعَٰدِيَٰتِ ضَبْحًا"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "فَٱلْمُورِيَٰتِ قَدْحًا"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "فَٱلْمُغِيرَٰتِ صُبْحًا"
+    },
+    {
+      "ayah": 4,
+      "textUthmaniBody": "فَأَثَرْنَ بِهِۦ نَقْعًا"
+    },
+    {
+      "ayah": 5,
+      "textUthmaniBody": "فَوَسَطْنَ بِهِۦ جَمْعًا"
+    },
+    {
+      "ayah": 6,
+      "textUthmaniBody": "إِنَّ ٱلْإِنسَٰنَ لِرَبِّهِۦ لَكَنُودٌ"
+    },
+    {
+      "ayah": 7,
+      "textUthmaniBody": "وَإِنَّهُۥ عَلَىٰ ذَٰلِكَ لَشَهِيدٌ"
+    },
+    {
+      "ayah": 8,
+      "textUthmaniBody": "وَإِنَّهُۥ لِحُبِّ ٱلْخَيْرِ لَشَدِيدٌ"
+    },
+    {
+      "ayah": 9,
+      "textUthmaniBody": "أَفَلَا يَعْلَمُ إِذَا بُعْثِرَ مَا فِى ٱلْقُبُورِ"
+    },
+    {
+      "ayah": 10,
+      "textUthmaniBody": "وَحُصِّلَ مَا فِى ٱلصُّدُورِ"
+    },
+    {
+      "ayah": 11,
+      "textUthmaniBody": "إِنَّ رَبَّهُم بِهِمْ يَوْمَئِذٍ لَّخَبِيرٌۢ"
+    }
+  ]
+}

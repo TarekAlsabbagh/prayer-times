@@ -1,0 +1,35 @@
+Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+=====================================================
+
+The Arabic Quran text in this directory (Tanzil Uthmani, Version 1.1) is
+licensed by the Tanzil Project under the Creative Commons Attribution 3.0
+license.
+
+  License name : Creative Commons Attribution 3.0 Unported (CC BY 3.0)
+  License deed : https://creativecommons.org/licenses/by/3.0/
+  Legal code   : https://creativecommons.org/licenses/by/3.0/legalcode
+  Text source  : https://tanzil.net
+  Text updates : https://tanzil.net/updates/
+
+Human-readable summary of CC BY 3.0 (not a substitute for the license):
+
+  You are free to:
+    - Share  — copy and redistribute the material in any medium or format.
+    - Adapt  — remix, transform, and build upon the material,
+               for any purpose, even commercially.
+
+  Under the following term:
+    - Attribution — You must give appropriate credit, provide a link to the
+      license, and indicate if changes were made. You may do so in any
+      reasonable manner, but not in any way that suggests the licensor
+      endorses you or your use.
+
+Additional terms required by the Tanzil Project (see NOTICE.txt), which this
+project fully honours:
+  - The Quran text is used VERBATIM; it is NOT changed in any way.
+  - The source (Tanzil Project) is clearly indicated and a link is made to
+    tanzil.net.
+  - The Tanzil copyright notice (NOTICE.txt) is retained with the data.
+
+The full, authoritative legal text of CC BY 3.0 is published at the "Legal
+code" URL above and governs this use.

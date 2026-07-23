@@ -1,0 +1,25 @@
+{
+  "surah": 103,
+  "nameAr": "العصر",
+  "nameEn": "Al-Asr",
+  "ayahCount": 3,
+  "basmalaMode": "separate",
+  "juz": [
+    30
+  ],
+  "source": "Tanzil Uthmani 1.1",
+  "ayahs": [
+    {
+      "ayah": 1,
+      "textUthmaniBody": "وَٱلْعَصْرِ"
+    },
+    {
+      "ayah": 2,
+      "textUthmaniBody": "إِنَّ ٱلْإِنسَٰنَ لَفِى خُسْرٍ"
+    },
+    {
+      "ayah": 3,
+      "textUthmaniBody": "إِلَّا ٱلَّذِينَ ءَامَنُوا۟ وَعَمِلُوا۟ ٱلصَّٰلِحَٰتِ وَتَوَاصَوْا۟ بِٱلْحَقِّ وَتَوَاصَوْا۟ بِٱلصَّبْرِ"
+    }
+  ]
+}

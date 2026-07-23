@@ -1,0 +1,98 @@
+// Smoke — QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1.
+// Proves /sitemap-quran.xml is a standalone, LOW-RESOURCE Quran-only sitemap: exactly 115 self-canonical
+// Arabic-only URLs (/quran + the 114 official surah routes), no hreflang / query / fragment / language
+// prefix, fixed lastmod 2026-07-22, built ONCE + ETag/304 + brotli, and — statically — built from the
+// light _quranShared().routes with NO ayah text / surah-file read / Tanzil load / city generator / call
+// into the site-wide sitemap builder. The site-wide sitemap is NOT modified.
+//
+//   QURAN_SSR_BASE=http://localhost:8080 node scripts/_smoke_quran_dedicated_sitemap_1.mjs
+import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
+const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
+const B = process.env.QURAN_SSR_BASE || process.env.QURAN_SMOKE_URL || 'http://127.0.0.1:8085';
+const ROUTES = JSON.parse(fs.readFileSync(path.join(ROOT, 'data/quran/tanzil-uthmani-1-1/metadata/surah-routes.json'), 'utf8')).surahs;
+const ALL_PATHS = ['/quran', ...ROUTES.map(r => r.path)];   // 115
+const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
+let pass = 0, fail = 0; const F = [];
+const ok = (c, m) => c ? (pass++) : (fail++, F.push(m), console.log('  FAIL ' + m));
+
+// ---------------- STATIC (server.js source) — low-resource + isolation ----------------
+const b0 = src.indexOf('function _getQuranDedicatedSitemap()');
+const body = b0 >= 0 ? src.slice(b0, src.indexOf('\n}', b0)) : '';
+ok(b0 > 0, 'server.js defines _getQuranDedicatedSitemap()');
+ok(/let _quranSitemapCache = null;/.test(src) && /if \(_quranSitemapCache\) return _quranSitemapCache;/.test(body), 'built ONCE — cached in the module-level _quranSitemapCache (not rebuilt per request)');
+ok(/for \(const _qr of _quranShared\(\)\.routes\)/.test(body), 'source = _quranShared().routes (the light cached routes table)');
+ok(!/readFileSync|textUthmaniBody|surahs\/|tanzil-uthmani|kfgqpc/i.test(body), 'builder reads NO ayah text / surah files / Tanzil / KFGQPC');
+ok(!/getCitySitemapChunks|getSitemapData|curated|bilingualUrl|countryCodes|_CURATED_PLACES/.test(body), 'builder calls NO city/country data + NO site-wide sitemap builder');
+ok(/require\('crypto'\)[\s\S]*digest\('hex'\)/.test(body) && /ETag/.test(src.slice(src.indexOf('sitemap-quran'))), 'a strong ETag is precomputed');
+ok(/brotliCompressSync/.test(body) && /gzipSync/.test(body), 'brotli + gzip are precomputed once');
+// the route handler
+const h0 = src.indexOf('/sitemap-quran\\.xml');
+const handler = h0 >= 0 ? src.slice(src.indexOf('const mq = urlPath.match'), src.indexOf('// ===== /sitemap.xml')) : '';
+ok(/_getQuranDedicatedSitemap\(\)/.test(handler), 'the /sitemap-quran.xml route serves from the cached builder');
+ok(/if \(\(req\.headers\['if-none-match'\] \|\| ''\) === sm\.etag\)/.test(handler) && /writeHead\(304/.test(handler), 'the route answers a conditional GET with 304');
+ok(!/getCitySitemapChunks|sitemap-main|bilingualUrl/.test(handler), 'the route does NOT invoke the city generator or the site-wide sitemap builder');
+// site-wide sitemap NOT modified — its Quran block is still intact
+ok(/const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';/.test(src) && /entries\.push\(_quranSitemapUrl\('\/quran', '0\.8'\)\);/.test(src), 'the site-wide sitemap-main Quran block is left intact (not modified/removed)');
+// robots.txt advertises the new sitemap additionally
+ok(/Sitemap: \$\{SITE_URL\}\/sitemap\.xml/.test(src) && /Sitemap: \$\{SITE_URL\}\/sitemap-quran\.xml/.test(src), 'robots.txt keeps the site-wide Sitemap line AND adds the /sitemap-quran.xml line');
+
+async function main() {
+  // ---------------- RUNTIME ----------------
+  const res = await fetch(B + '/sitemap-quran.xml');
+  const ct = res.headers.get('content-type') || '';
+  const etag = res.headers.get('etag') || '';
+  const lastMod = res.headers.get('last-modified') || '';
+  const xml = await res.text();
+  ok(res.status === 200, '/sitemap-quran.xml → HTTP 200 — ' + res.status);
+  ok(/^application\/xml/.test(ct), 'Content-Type is application/xml — «' + ct + '»');
+  ok(/^<\?xml version="1\.0" encoding="UTF-8"\?>/.test(xml) && /<urlset\b/.test(xml) && /<\/urlset>/.test(xml), 'valid sitemap XML (xml decl + urlset open/close)');
+  ok(xml.length < 30000, 'the raw XML is small (< 30 KB) — ' + xml.length + ' bytes');
+  ok(!!etag, 'response carries an ETag — «' + etag + '»');
+
+  const origin = B.replace(/\/+$/, '');
+  const locs = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
+  const paths = locs.map(u => u.replace(/^https?:\/\/[^/]+/, ''));
+  const expected = new Set(ALL_PATHS);
+  ok(locs.length === 115, 'exactly 115 <loc> — ' + locs.length);
+  ok(new Set(paths).size === 115, '115 DISTINCT urls (duplicate = 0)');
+  ok(ALL_PATHS.every(p => paths.includes(p)), 'missing = 0 (all of /quran + the 114 slug paths present)');
+  ok(paths.every(p => expected.has(p)), 'extra = 0 (no url outside /quran)');
+  ok(locs.every(u => u === origin + u.replace(/^https?:\/\/[^/]+/, '')), 'every <loc> is origin + path (absolute, same host)');
+  ok(!locs.some(u => /[?]/.test(u)), 'query string = 0');
+  ok(!locs.some(u => /#/.test(u)), 'fragment = 0');
+  ok(!paths.some(p => /^\/(en|fr|de|tr|ur|id|es|bn|ms)\/quran/.test(p)), 'language-prefixed url = 0');
+  ok(!paths.some(p => !/^\/quran(\/[a-z0-9-]+)?$/.test(p)), 'every path matches /quran or /quran/{slug} exactly');
+  const urlBlocks = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(m => m[1]);
+  ok(urlBlocks.length === 115 && urlBlocks.every(b => b.includes('<lastmod>2026-07-22</lastmod>')), 'all 115 carry the fixed lastmod 2026-07-22');
+  ok(!/xhtml:link|hreflang/.test(xml), 'the sitemap carries NO hreflang alternates (Arabic-only)');
+
+  // every listed url is live + indexable + self-canonical
+  let s200 = 0, idx = 0, canon = 0, noNoindex = 0, noHl = 0; const bad = [];
+  for (const p of ALL_PATHS) {
+    const r = await fetch(origin + p); const h = await r.text();
+    if (r.status === 200) s200++; else { bad.push(p + ' status ' + r.status); continue; }
+    const rob = (h.match(/name="robots"[^>]*content="([^"]*)"/) || [, ''])[1];
+    if (/\bindex,follow\b/.test(rob) && !/noindex/.test(rob)) idx++; else bad.push(p + ' robots «' + rob + '»');
+    if (!/noindex/i.test(rob) && !/noindex/i.test(r.headers.get('x-robots-tag') || '')) noNoindex++; else bad.push(p + ' noindex');
+    const c = (h.match(/rel="canonical"[^>]*href="([^"]*)"/) || [, ''])[1];
+    if (c === origin + p) canon++; else bad.push(p + ' canon «' + c + '»');
+    if ((h.match(/rel="alternate" hreflang/g) || []).length === 0) noHl++; else bad.push(p + ' hreflang');
+  }
+  ok(s200 === 115, 'all 115 listed urls → HTTP 200 — ' + s200);
+  ok(idx === 115, 'all 115 are indexable (index,follow) — ' + idx);
+  ok(noNoindex === 115, 'noindex = 0 across the 115 — ' + noNoindex);
+  ok(canon === 115, 'canonical correct 115/115 (self-canonical) — ' + canon);
+  ok(noHl === 115, 'hreflang = 0 across the 115 — ' + noHl);
+  if (bad.length) console.log('  (first deviations) ' + bad.slice(0, 5).join(' ;; '));
+
+  // second response uses the ETag → 304 (repeat request re-uses cache, no body rebuild)
+  const r2 = await fetch(B + '/sitemap-quran.xml', { headers: { 'If-None-Match': etag } });
+  ok(r2.status === 304, 'a second request with If-None-Match → 304 Not Modified — ' + r2.status);
+  // brotli negotiation
+  const rBr = await fetch(B + '/sitemap-quran.xml', { headers: { 'accept-encoding': 'br' } });
+  ok((rBr.headers.get('content-encoding') || '') === 'br', 'serves Content-Encoding: br when requested');
+
+  console.log('RESULT quran_dedicated_sitemap: ' + pass + ' passed, ' + fail + ' failed');
+  if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }
+}
+main().catch(e => { console.log('  FAIL uncaught ' + (e && e.message)); process.exit(1); });

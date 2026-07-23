@@ -30874,6 +30874,39 @@ ${_quranLocaleModalHtml()}
 </div>`;
 }
 
+// ===== QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1 =====
+// A standalone, Quran-ONLY sitemap served at /sitemap-quran.xml so it can be submitted to Google
+// Search Console on its own — WITHOUT resubmitting the large site-wide sitemap. It lists exactly
+// /quran + the 114 official surah routes = 115 self-canonical, Arabic-only <url> entries (NO
+// alternate-language links, NO ayah anchors/fragments, NO query strings, NO language-prefixed paths).
+// LOW-RESOURCE by construction: the routes come from _quranShared() (the small cached routes table
+// — NO ayah text, NO per-request read of the 114 surah files, NO Tanzil load, NO city/country
+// generator, NO call into the site-wide sitemap builder). The XML + a strong ETag + brotli + gzip
+// are computed ONCE on first request and cached in-process, so every later request is a header
+// compare (→ 304) or a single pre-compressed buffer write — never a rebuild. <lastmod> is the FIXED
+// public-release date (identical to the sitemap-main Quran block); it does not depend on `today`.
+let _quranSitemapCache = null;
+function _getQuranDedicatedSitemap() {
+    if (_quranSitemapCache) return _quranSitemapCache;
+    const LASTMOD = '2026-07-22';
+    // Local XML-escape: `escapeXml` lives inside the request-handler closure and is out of scope
+    // here at module level. The Quran locs are safe (origin + /quran[/a-z0-9-]) so this is a no-op
+    // in practice, but it keeps the loc XML-correct if SITE_URL ever carried a special character.
+    const _esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&apos;');
+    const _u = (relPath, prio) =>
+        `  <url>\n    <loc>${_esc(SITE_URL + relPath)}</loc>\n    <lastmod>${LASTMOD}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${prio}</priority>\n  </url>`;
+    const entries = [_u('/quran', '0.8')];
+    for (const _qr of _quranShared().routes) entries.push(_u(_qr.path, '0.7'));
+    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${entries.join('\n')}\n</urlset>\n`;
+    const buf = Buffer.from(xml, 'utf8');
+    const etag = '"q' + require('crypto').createHash('sha256').update(buf).digest('hex').slice(0, 24) + '"';
+    let gzip = null, brotli = null;
+    try { gzip = zlib.gzipSync(buf); } catch (e) { /* fall back to identity */ }
+    try { brotli = zlib.brotliCompressSync(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } }); } catch (e) { /* fall back to gzip/identity */ }
+    _quranSitemapCache = { buf, gzip, brotli, etag, count: entries.length, lastModifiedHttp: new Date(LASTMOD + 'T00:00:00Z').toUTCString() };
+    return _quranSitemapCache;
+}
+
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
     // Security Headers — تُطبَّق على كل استجابة
@@ -31500,6 +31533,10 @@ const server = http.createServer(async (req, res) => {
             'Disallow: /*?q=',
             '',
             `Sitemap: ${SITE_URL}/sitemap.xml`,
+            // QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1: additional discovery hint for the
+            // Quran-only sitemap (multiple Sitemap lines are valid). Purely additive — the existing
+            // Sitemap line and all Allow/Disallow rules above are unchanged, so crawl behaviour is unchanged.
+            `Sitemap: ${SITE_URL}/sitemap-quran.xml`,
             '',
         ].join('\n');
         res.writeHead(200, {'Content-Type':'text/plain; charset=utf-8', 'Cache-Control':'public, max-age=86400'});
@@ -31699,6 +31736,42 @@ const server = http.createServer(async (req, res) => {
 
     const URLSET_OPEN = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
     const URLSET_CLOSE = `</urlset>\n`;
+
+    // ===== /sitemap-quran.xml = the Quran section ONLY (115 urls) — light, built-once, ETag/304 =====
+    // QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1. Served from _getQuranDedicatedSitemap()'s
+    // in-process cache — NEVER runs the city/country generator or the site-wide sitemap builder.
+    {
+        const mq = urlPath.match(/^\/sitemap-quran\.xml(\.gz)?$/);
+        if (mq) {
+            const sm = _getQuranDedicatedSitemap();
+            const baseHeaders = {
+                'Content-Type': 'application/xml; charset=utf-8',
+                'Cache-Control': 'public, max-age=86400',
+                'Vary': 'Accept-Encoding',
+                'ETag': sm.etag,
+                'Last-Modified': sm.lastModifiedHttp,
+            };
+            // Conditional GET → 304: a repeat request with the matching validator gets no body.
+            if ((req.headers['if-none-match'] || '') === sm.etag) {
+                res.writeHead(304, baseHeaders);
+                res.end();
+                return;
+            }
+            const acceptEnc = req.headers['accept-encoding'] || '';
+            const forceGz = !!mq[1];
+            if (!forceGz && acceptEnc.includes('br') && sm.brotli) {
+                res.writeHead(200, { ...baseHeaders, 'Content-Encoding': 'br', 'Content-Length': sm.brotli.length });
+                res.end(sm.brotli);
+            } else if ((forceGz || acceptEnc.includes('gzip')) && sm.gzip) {
+                res.writeHead(200, { ...baseHeaders, 'Content-Encoding': 'gzip', 'Content-Length': sm.gzip.length });
+                res.end(sm.gzip);
+            } else {
+                res.writeHead(200, { ...baseHeaders, 'Content-Length': sm.buf.length });
+                res.end(sm.buf);
+            }
+            return;
+        }
+    }
 
     // ===== /sitemap.xml (أو .xml.gz) = فهرس Sitemaps =====
     {

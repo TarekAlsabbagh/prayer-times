@@ -321,6 +321,19 @@
     }
     if (overlay) overlay.addEventListener('click', closeModal);
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape' && open) closeModal(); });
+
+    // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1: when the visitor arrived by clicking
+    // the shared sidebar's «القرآن» entry from a NON-Arabic interface, js/app.js stashed the source language in
+    // a single-use sessionStorage flag. Consume it EXACTLY once (read → delete BEFORE opening) and show the
+    // SAME locale-notice modal in that language via the existing openModal/applyLang + #quran-locale-l10n dict —
+    // no new modal, no new copy. Deleting first guarantees a refresh / direct visit / back-forward never
+    // re-opens it; an Arabic interface never writes the flag, so it never shows here.
+    try {
+      var _handoffLang = null;
+      try { _handoffLang = sessionStorage.getItem('tp-quran-locale-notice-lang'); sessionStorage.removeItem('tp-quran-locale-notice-lang'); } catch (e) {}
+      var _handoffOk = { en: 1, fr: 1, de: 1, tr: 1, ur: 1, es: 1, id: 1, bn: 1, ms: 1 };
+      if (modal && _handoffLang && _handoffLang !== 'ar' && _handoffOk[_handoffLang] && !open) openModal(_handoffLang, null);
+    } catch (e) {}
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);

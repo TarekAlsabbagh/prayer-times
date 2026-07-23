@@ -29,7 +29,9 @@ ok(/brotliCompressSync/.test(body) && /gzipSync/.test(body), 'brotli + gzip are 
 const h0 = src.indexOf('/sitemap-quran\\.xml');
 const handler = h0 >= 0 ? src.slice(src.indexOf('const mq = urlPath.match'), src.indexOf('// ===== /sitemap.xml')) : '';
 ok(/_getQuranDedicatedSitemap\(\)/.test(handler), 'the /sitemap-quran.xml route serves from the cached builder');
-ok(/if \(\(req\.headers\['if-none-match'\] \|\| ''\) === sm\.etag\)/.test(handler) && /writeHead\(304/.test(handler), 'the route answers a conditional GET with 304');
+ok(handler.includes('_normWeakETag') && handler.includes('_ifNoneMatchHit') && /writeHead\(304/.test(handler), 'conditional GET → 304 via an RFC-compatible weak ETag comparison (ignores the W/ prefix)');
+ok(handler.includes("split(',')") && handler.includes("tok === '*'"), 'If-None-Match honours a comma-separated ETag list and "*"');
+ok(handler.includes("req.headers['if-modified-since']") && handler.indexOf("req.headers['if-none-match']") < handler.indexOf("req.headers['if-modified-since']"), 'If-Modified-Since is only a fallback — If-None-Match takes precedence');
 ok(!/getCitySitemapChunks|sitemap-main|bilingualUrl/.test(handler), 'the route does NOT invoke the city generator or the site-wide sitemap builder');
 // site-wide sitemap NOT modified — its Quran block is still intact
 ok(/const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';/.test(src) && /entries\.push\(_quranSitemapUrl\('\/quran', '0\.8'\)\);/.test(src), 'the site-wide sitemap-main Quran block is left intact (not modified/removed)');
@@ -85,12 +87,36 @@ async function main() {
   ok(noHl === 115, 'hreflang = 0 across the 115 — ' + noHl);
   if (bad.length) console.log('  (first deviations) ' + bad.slice(0, 5).join(' ;; '));
 
-  // second response uses the ETag → 304 (repeat request re-uses cache, no body rebuild)
-  const r2 = await fetch(B + '/sitemap-quran.xml', { headers: { 'If-None-Match': etag } });
-  ok(r2.status === 304, 'a second request with If-None-Match → 304 Not Modified — ' + r2.status);
-  // brotli negotiation
+  // ---- conditional-GET matrix (weak-ETag + If-Modified-Since; If-None-Match precedence) ----
+  const cond = async (headers) => {
+    const r = await fetch(B + '/sitemap-quran.xml', { headers });
+    const body = await r.text();
+    return { status: r.status, len: body.length, etag: r.headers.get('etag') || '', lm: r.headers.get('last-modified') || '', cc: r.headers.get('cache-control') || '' };
+  };
+  const weak = 'W/' + etag;                              // the weak form Render's edge echoes back
+  const olderDate = 'Mon, 21 Jul 2026 00:00:00 GMT';    // < Last-Modified (2026-07-22)
+  const newerDate = 'Thu, 23 Jul 2026 00:00:00 GMT';    // > Last-Modified
+  let c;
+  c = await cond({ 'If-None-Match': etag });            ok(c.status === 304 && c.len === 0, '2) If-None-Match strong → 304 with empty body — ' + c.status + '/' + c.len);
+  c = await cond({ 'If-None-Match': weak });            ok(c.status === 304 && c.len === 0, '3) If-None-Match weak W/"…" → 304 with empty body — ' + c.status + '/' + c.len);
+  ok(c.etag === etag && c.lm === lastMod && /max-age=86400/.test(c.cc), '13) the 304 preserves ETag + Last-Modified + Cache-Control');
+  c = await cond({ 'If-None-Match': '"nope-000", ' + weak }); ok(c.status === 304, '4) If-None-Match list (miss, then the weak match) → 304 — ' + c.status);
+  c = await cond({ 'If-None-Match': '*' });             ok(c.status === 304, '5) If-None-Match: * → 304 — ' + c.status);
+  c = await cond({ 'If-None-Match': '"deadbeef00"' });  ok(c.status === 200, '6) If-None-Match non-match → 200 — ' + c.status);
+  c = await cond({ 'If-Modified-Since': lastMod });     ok(c.status === 304 && c.len === 0, '7) If-Modified-Since == Last-Modified → 304 — ' + c.status);
+  c = await cond({ 'If-Modified-Since': newerDate });   ok(c.status === 304, '8) If-Modified-Since newer than Last-Modified → 304 — ' + c.status);
+  c = await cond({ 'If-Modified-Since': olderDate });   ok(c.status === 200, '9) If-Modified-Since older than Last-Modified → 200 — ' + c.status);
+  c = await cond({ 'If-Modified-Since': 'not-a-valid-date' }); ok(c.status === 200, '10) invalid If-Modified-Since → 200 — ' + c.status);
+  c = await cond({ 'If-None-Match': '"deadbeef00"', 'If-Modified-Since': lastMod }); ok(c.status === 200, '11) If-None-Match miss + If-Modified-Since match → 200 (If-None-Match precedence) — ' + c.status);
+  // 14 + 15 + 16 — the payload + the general sitemap are unchanged by this fix
+  const xml2 = await (await fetch(B + '/sitemap-quran.xml')).text();
+  ok([...xml2.matchAll(/<loc>/g)].length === 115, '14) still exactly 115 urls after the fix');
+  ok(xml2 === xml, '15) the XML body is byte-identical across requests (deterministic, unchanged)');
+  const smMain2 = await (await fetch(B + '/sitemap-main.xml')).text();
+  ok([...smMain2.matchAll(/<loc>https?:\/\/[^/]+\/quran(\/[a-z0-9-]+)?<\/loc>/g)].length === 115, '16) the general sitemap-main still lists exactly 115 quran urls (unchanged)');
+  // brotli negotiation still works on the 200 path
   const rBr = await fetch(B + '/sitemap-quran.xml', { headers: { 'accept-encoding': 'br' } });
-  ok((rBr.headers.get('content-encoding') || '') === 'br', 'serves Content-Encoding: br when requested');
+  ok((rBr.headers.get('content-encoding') || '') === 'br', 'serves Content-Encoding: br on the 200 response when requested');
 
   console.log('RESULT quran_dedicated_sitemap: ' + pass + ' passed, ' + fail + ' failed');
   if (fail) { console.log('FAILURES:'); F.forEach(x => console.log('  - ' + x)); process.exit(1); }

@@ -31751,8 +31751,32 @@ const server = http.createServer(async (req, res) => {
                 'ETag': sm.etag,
                 'Last-Modified': sm.lastModifiedHttp,
             };
-            // Conditional GET → 304: a repeat request with the matching validator gets no body.
-            if ((req.headers['if-none-match'] || '') === sm.etag) {
+            // Conditional GET → 304 (no body). QURAN-DEDICATED-SITEMAP-WEAK-ETAG-AND-CONDITIONAL-304-FIX-1:
+            // Render's edge may rewrite our strong ETag "…" into the weak form W/"…", so a crawler echoes the
+            // weak validator back. Compare per RFC 7232 §2.3/§3.2 (weak comparison: ignore the leading "W/",
+            // honour a comma-separated list and "*", never strip the opaque tag's own quotes), and fall back
+            // to If-Modified-Since ONLY when If-None-Match is absent — If-None-Match always takes precedence.
+            const _normWeakETag = (v) => String(v == null ? '' : v).trim().replace(/^W\//i, '');
+            const _ifNoneMatchHit = (headerVal, currentETag) => {
+                if (!headerVal) return false;
+                const cur = _normWeakETag(currentETag);
+                return String(headerVal).split(',').map((t) => t.trim())
+                    .some((tok) => tok === '*' || _normWeakETag(tok) === cur);
+            };
+            const _inm = req.headers['if-none-match'];
+            const _ims = req.headers['if-modified-since'];
+            let _notModified = false;
+            if (_inm != null && _inm !== '') {
+                // If-None-Match present ⇒ authoritative; do NOT consult If-Modified-Since even on a miss.
+                _notModified = _ifNoneMatchHit(_inm, sm.etag);
+            } else if (_ims) {
+                const _imsMs = Date.parse(_ims);
+                if (!Number.isNaN(_imsMs)) {
+                    // HTTP dates are second-precision; Last-Modified <= If-Modified-Since ⇒ not modified.
+                    _notModified = (Date.parse(sm.lastModifiedHttp) <= _imsMs);
+                }
+            }
+            if (_notModified) {
                 res.writeHead(304, baseHeaders);
                 res.end();
                 return;

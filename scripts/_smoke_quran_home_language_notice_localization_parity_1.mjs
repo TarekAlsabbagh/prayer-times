@@ -32,9 +32,9 @@ ok(/L10N\s*&&\s*L10N\.t/.test(homeJs) || /L10N\.t\[/.test(homeJs), 'quran-home.j
 ok(!/coming soon|قيد الإعداد|en préparation|hazırlan/i.test(homeJs), 'quran-home.js hardcodes none of the modal copy phrases (text lives only in the dict; the file DOES legitimately carry search-normalization regexes + comments, which are not translation copy)');
 // The definitive "no duplicated copy" proof (against the dict itself) runs in main() once the island is parsed.
 // (2) cache-busters: quran-home.js v3 exactly; quran.js v15 + quran.css v25 untouched; no v=4 anywhere
-ok(/js\/quran-home\.js\?v=3\b/.test(server), 'server injects js/quran-home.js?v=3');
+ok(/js\/quran-home\.js\?v=4\b/.test(server), 'server injects js/quran-home.js?v=4');
 ok(!/js\/quran-home\.js\?v=2\b/.test(server), 'the old js/quran-home.js?v=2 reference is gone');
-ok(!/quran-home\.js\?v=4\b/.test(server), 'no js/quran-home.js?v=4 (single bump only)');
+ok(!/quran-home\.js\?v=3\b/.test(server), 'no stale js/quran-home.js?v=3 (single clean v=4 bump)');
 ok(/js\/quran\.js\?v=15\b/.test(server) && !/js\/quran\.js\?v=1[46]\b/.test(server), 'js/quran.js?v=15 is UNCHANGED');
 ok(/css\/quran\.css\?v=25\b/.test(server) && !/css\/quran\.css\?v=2[46]\b/.test(server), 'css/quran.css?v=25 is UNCHANGED');
 

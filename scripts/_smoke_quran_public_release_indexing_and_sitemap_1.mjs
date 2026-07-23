@@ -22,7 +22,7 @@ ok(/const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';/.test(server), 'server.js
 ok(/_quranSitemapUrl\('\/quran'/.test(server) && /_quranShared\(\)\.routes\) entries\.push\(_quranSitemapUrl/.test(server.replace(/\s+/g, ' ')), 'the sitemap builds the 115 Quran urls from _quranShared().routes (no second slug list, no ayah text)');
 ok(/css\/quran\.css\?v=25\b/.test(server) && !/css\/quran\.css\?v=2[46]/.test(server), 'css/quran.css?v=25 unchanged');
 ok(/js\/quran\.js\?v=15\b/.test(server) && !/js\/quran\.js\?v=1[46]/.test(server), 'js/quran.js?v=15 unchanged');
-ok(/js\/quran-home\.js\?v=3\b/.test(server) && !/js\/quran-home\.js\?v=[24]/.test(server), 'js/quran-home.js?v=3 unchanged');
+ok(/js\/quran-home\.js\?v=4\b/.test(server) && !/js\/quran-home\.js\?v=[23]\b/.test(server), 'js/quran-home.js bumped to v=4 (QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1)');
 // no KFGQPC runtime data dir anywhere the section reads at request time
 ok(!/data\/quran\/kfgqpc-hafs/.test(server), 'server.js has ZERO KFGQPC runtime data-path reference');
 

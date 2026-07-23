@@ -4133,6 +4133,7 @@ async function initApp() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-quran-surah')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        document.querySelector('.sidebar-nav a[data-page="quran"]')?.classList.add('active'); // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1: highlight the shared Quran entry on surah routes
     }
 
     // QURAN-AR-HOME-INDEX-SSR-1: /quran, the section index. Same two-part test as the surah branch — the
@@ -4143,6 +4144,7 @@ async function initApp() {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
         document.getElementById('page-quran-home')?.classList.add('active');
         document.querySelectorAll('.sidebar-nav a').forEach(l => l.classList.remove('active'));
+        document.querySelector('.sidebar-nav a[data-page="quran"]')?.classList.add('active'); // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1: highlight the shared Quran entry on /quran
     }
 
     // تفعيل صفحة القبلة عند URL:
@@ -5939,6 +5941,23 @@ function initNavigation() {
                     _showNavLoadingOverlay('hijri');
                     window.location.href = pageUrl('/hijri-calendar');
                 }
+                return;
+            }
+
+            // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1: the Quran section is a
+            // SEPARATE Arabic-only document (/quran, its own quran-home.js) — NOT an in-page SPA section, so
+            // there is no #page-quran to activate. Always FULL-navigate to the literal /quran (never
+            // pageUrl(), which prefixes the language → /en/quran, a 404). From a NON-Arabic interface, hand
+            // the source language to the arrival page via a single-use sessionStorage flag so quran-home.js
+            // can open the EXISTING locale-notice modal on arrival (reuse — no new modal, no new copy).
+            if (pageId === 'quran') {
+                const _qlang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+                try {
+                    if (_qlang && _qlang !== 'ar') sessionStorage.setItem('tp-quran-locale-notice-lang', _qlang);
+                    else sessionStorage.removeItem('tp-quran-locale-notice-lang');
+                } catch (e) {}
+                closeSidebar();
+                window.location.href = '/quran';
                 return;
             }
 

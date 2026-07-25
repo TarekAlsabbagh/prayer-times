@@ -130896,5 +130896,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "haradh",
+    "type": "town",
+    "countryCode": "sa",
+    "lat": 24.1418987,
+    "lng": 49.0529843,
+    "timezone": "Asia/Riyadh",
+    "names": {
+      "ar": "حرض",
+      "en": "Haradh"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "المملكة العربية السعودية",
+      "countryEn": "Saudi Arabia"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

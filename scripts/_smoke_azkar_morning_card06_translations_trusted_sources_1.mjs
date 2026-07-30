@@ -91,7 +91,7 @@ ok(card5.id === 'morning-005' && typeof card5.translation_de === 'string' && typ
 ok(['en','fr','ur','tr','bn','ms','de','es','id'].every((l) => typeof card5['translation_' + l] === 'string'), 'Card 05 carries all 9 translations');
 for (let c = 0; c < 4; c++) ok(ALL9.every((l) => typeof M[c]['translation_' + l] === 'string'), `Card 0${c + 1} still carries all 9 translations (incl. de/fr/ms)`);
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 7, `evening region translation_${l} still EXACTLY 7 (untouched)`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 8, `evening region translation_${l} still EXACTLY 8 (untouched)`);
 ok(!/translation_[a-z]+\s*:/.test(dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'))), 'prayer region has NO translation fields (untouched)');
 ok(sandbox.window.AzkarEvening.length === 23 && sandbox.window.AzkarPrayer.length > 0, 'evening 23 items + prayer list intact');
 
@@ -112,7 +112,7 @@ ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch (pure static da
 
 console.log('\n================ 8. Cache-busters ================');
 ok(/js\/azkar-data\.js\?v=36[3-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 13 (later tickets bump it)');
-ok(/js\/app\.js\?v=838/.test(htmlSrc), 'index.html app.js?v=838 UNCHANGED (generic renderer — no app.js edit)');
+ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED (generic renderer — no app.js edit)');
 ok(/CACHE_VERSION = 'v5(09|[1-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v509+ (later tickets bump it)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);

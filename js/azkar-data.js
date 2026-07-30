@@ -1086,6 +1086,30 @@
             type: 'dhikr',
             title: null,
             text: 'اللَّهُمَّ إِنِّي أَمْسَيْتُ أُشْهِدُكَ، وَأُشْهِدُ حَمَلَةَ عَرْشِكَ، وَمَلَائِكَتَكَ، وَجَمِيعَ خَلْقِكَ، أَنَّكَ أَنْتَ اللَّهُ لَا إِلَٰهَ إِلَّا أَنْتَ وَحْدَكَ لَا شَرِيكَ لَكَ، وَأَنَّ مُحَمَّدًا عَبْدُكَ وَرَسُولُكَ.',
+            // AZKAR-EVENING-DUA-CARD-08-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: shahada dua-MEANING translations x9 non-ar
+            // (same dua as morning-008, EVENING form «أمسيت»). NINE meanings each: ① O Allah ② I have reached the EVENING &
+            // call You to witness ③ bearers of Your Throne ④ Your angels ⑤ all creation ⑥ that You are Allah ⑦ no god but
+            // You ⑧ You ALONE, no partner ⑨ Muhammad Your servant & Messenger. en/fr/bn/ms/de/es/id = morning-008 reused with
+            // ONLY the time-word morning→evening (they already keep ⑧ «alone, no partner»). ur & tr DIVERGE: their morning-008
+            // form DROPS ⑧ «وحدك لا شريك لك», restored here from a trusted source (morning cards are NOT retro-fixed by this
+            // ticket). ur ⑧ «تو اکیلا ہے، تیرا کوئی شریک نہیں» = islamicurdubooks (Sunan Abi Dawud 5078, Faryawai/Saeedi; +
+            // Mukhtasar Hisn al-Muslim, Zubair Ali Zai #91). tr = TRUSTED COMPOSITE (Turkish only, user-approved Option 1):
+            // BODY from IslamHouse Hısnu'l-Müslim (al-Qahtani, çev. İsmail Yaşa) dua 80, evening «akşamladım» per its footnote 3,
+            // keeps 8/9; ⑧ completed from Diyanet Din İşleri Yüksek Kurulu «O tektir, ortağı yoktur», morph-fitted to the
+            // witness form «tek olduğuna, ortağın olmadığına». Other sources: en=Sunnah Hisn 80 (GSalam); fr=Dar Al Athar
+            // Hisnul Muslim ch.27; bn=HisnMuslim bn ch.1 #80 (বিকালে); ms=AkuIslam Zikir Petang; de=Islamische Datenbank
+            // Kap.27; es=hisnmuslim es #1 (anochezco); id=Rumaysho (petang). NO translation_ar; the Arabic dhikr, source
+            // «رواه أبو داود», repeat «أربع مرات» and virtue stay byte-identical/unchanged. No transliteration/reference/repeat/
+            // source/sanad/virtue/footnote inside any block. NO morning wording; renderers (server.js/app.js) untouched.
+            translation_en: "O Allah, I have entered a new evening and call upon You and upon the bearers of Your Throne, upon Your angels and all creation to bear witness that surely You are Allah, there is none worthy of worship but You alone, You have no partners, and that Muhammad is Your slave and Your Messenger.",
+            translation_fr: "Ô Seigneur ! Me voici au soir, je Te prends à témoin et je prends à témoins les porteurs de Ton Trône ainsi que Tes anges et toutes tes créatures, que c’est Toi Allah, il n’y a de divinité que Toi, Tu es Seul et sans associé, et que Muhammad est Ton esclave et Ton messager.",
+            translation_ur: "اے اللہ! میں نے اس حال میں شام کی کہ میں تجھے گواہ بناتا ہوں اور تیرا عرش اٹھانے والوں کو، تیرے فرشتوں کو اور تیری تمام مخلوق کو گواہ بناتا ہوں کہ تو ہی اللہ ہے، تیرے سوا کوئی معبود برحق نہیں، تو اکیلا ہے، تیرا کوئی شریک نہیں، اور بیشک محمد تیرے بندے اور تیرے رسول ہیں۔",
+            translation_tr: "Allahım! Senin, senden başka hak ilah olmayan Allah olduğuna, tek olduğuna, ortağın olmadığına ve Muhammed'in de senin kulun ve elçin olduğuna; Seni, senin arşını taşıyanları, meleklerini ve bütün yarattıklarını şahit tutarak akşamladım.",
+            translation_bn: "হে আল্লাহ! আমি বিকালে উপনীত হয়েছি। আপনাকে আমি সাক্ষী রাখছি, আরও সাক্ষী রাখছি আপনার ‘আরশ বহনকারীদেরকে, আপনার ফেরেশতাগণকে ও আপনার সকল সৃষ্টিকে, (এর উপর) যে— নিশ্চয় আপনিই আল্লাহ, একমাত্র আপনি ছাড়া আর কোনো হক্ব ইলাহ নেই, আপনার কোনো শরীক নেই; আর মুহাম্মাদ আপনার বান্দা ও রাসূল।",
+            translation_ms: "Ya Allah, sesungguhnya aku di waktu petang ini mempersaksikan Engkau, malaikat yang memikul ‘Arsy-Mu, malaikat-malaikat dan seluruh makhluk-Mu, bahawa sesungguhnya Engkau adalah Allah, tiada Ilah yang berhak disembah kecuali Engkau semata, tiada sekutu bagi-Mu dan sesungguhnya Muhammad adalah hamba dan utusan-Mu.",
+            translation_de: "O Allāh, wahrlich habe ich den Abend erreicht und rufe Dich, und die Deinen Thron tragenden (die Engel), Deine Malāʾikah (Engel) und all Deine Schöpfung zum Bezeugen, dass ich bezeuge, Du bist Allāh; und es gibt keinen wahren Ilāh (Anbetungswürdigen) außer Dir (allein). Du hast keinen Teilhaber; und Muḥammad ist Dein Diener und Gesandter.",
+            translation_es: "Oh Allah, ciertamente anochezco y atestiguo, así como atestiguan los (ángeles) que sostienen Tu Trono, Tus ángeles y toda Tu creación, de que Tu eres Allah y no hay divinidad salvo Tú, único, sin asociado y que Muhammad es Tu siervo y mensajero.",
+            translation_id: "Ya Allah, sesungguhnya aku di waktu petang bersaksi kepada-Mu, malaikat yang memikul ‘Arasy-Mu, malaikat-malaikat dan seluruh makhluk-Mu, sesungguhnya Engkau adalah Allah, tiada Tuhan yang berhak disembah kecuali Engkau Yang Maha Esa, tiada sekutu bagi-Mu dan sesungguhnya Muhammad adalah hamba dan utusan-Mu.",
             repeat: 4,
             repeatLabel: { ar: 'أربع مرات', en: 'four times' },
             source: { ref: 'رواه أبو داود' },

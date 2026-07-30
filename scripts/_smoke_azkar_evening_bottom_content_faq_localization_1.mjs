@@ -81,9 +81,9 @@ const mRegion = html.slice(ms, me);
 A(mRegion.includes('data-azkar-ui="edu1T"') && mRegion.includes('<!-- AZKAR-MORNING-FAQ-SCHEMA -->'), 'morning region still wired');
 
 // ---- 7. cache-busters ----
-A(html.includes('azkar-data.js?v=39'), 'index.html azkar-data.js?v=39');
-A(html.includes('app.js?v=838'), 'index.html app.js?v=838 (unchanged)');
-A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v536'"), "sw.js CACHE_VERSION 'v536'");
+A(html.includes('azkar-data.js?v=40'), 'index.html azkar-data.js?v=40');
+A(html.includes('app.js?v=842'), 'index.html app.js?v=842 (unchanged)');
+A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v538'"), "sw.js CACHE_VERSION 'v538'");
 
 console.log('\n================ AZKAR EVENING BOTTOM SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

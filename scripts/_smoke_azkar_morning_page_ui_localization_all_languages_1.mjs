@@ -89,7 +89,7 @@ ok(/data-azkar-ui-aria="ariaBreadcrumb"/.test(htmlSrc), 'aria-label keyed too (d
 ok((htmlSrc.match(/data-azkar-ui/g) || []).length >= 18, 'at least 18 data-azkar-ui markers on the page');
 
 console.log('\n================ 7. Cache-busters ================');
-ok(/js\/app\.js\?v=83[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
+ok(/js\/app\.js\?v=84[0-9]/.test(htmlSrc), 'index.html app.js?v bumped (≥831)');
 ok(/js\/azkar-data\.js\?v=\d+/.test(htmlSrc), 'index.html azkar-data.js?v is bumped (version-agnostic; later tickets bump it)');
 ok(/CACHE_VERSION = 'v\d{3}'/.test(swSrc), "sw.js CACHE_VERSION is a 3-digit version (bumped)");
 

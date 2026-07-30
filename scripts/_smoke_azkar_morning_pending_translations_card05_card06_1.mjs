@@ -63,7 +63,7 @@ for (let c = 0; c < 4; c++) ok(ALL9.every((l) => typeof M[c]['translation_' + l]
 ok(dataSrc.includes("text: 'أَصْبَحْنَا وَأَصْبَحَ الْمُلْكُ لِلَّهِ، وَالْحَمْدُ لِلَّهِ") && dataSrc.includes("text: 'اللَّهُمَّ بِكَ أَصْبَحْنَا، وَبِكَ أَمْسَيْنَا"), 'Card 05 + 06 Arabic texts byte-identical');
 ok(dataSrc.includes("source: { ref: 'رواه مسلم', sourceUrl: null }") && dataSrc.includes("source: { ref: 'رواه الترمذي', sourceUrl: null }"), 'sources unchanged (Muslim / Tirmidhi)');
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 7, `evening region translation_${l} still EXACTLY 7`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 8, `evening region translation_${l} still EXACTLY 8`);
 ok(!/translation_[a-z]+\s*:/.test(dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'))), 'prayer region has NO translation fields');
 
 console.log('\n================ 6. Renderer untouched (single generic read, no fallback) + no runtime sources ================');
@@ -75,7 +75,7 @@ ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 7. Cache-busters ================');
 ok(/js\/azkar-data\.js\?v=36[4-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 14 (later tickets bump it)');
-ok(/js\/app\.js\?v=838/.test(htmlSrc), 'index.html app.js?v=838 UNCHANGED');
+ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED');
 ok(/CACHE_VERSION = 'v5(1\d|[2-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v510+ (later tickets bump it)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);

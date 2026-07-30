@@ -71,10 +71,10 @@ A(srv.includes("'@type': 'FAQPage'") && srv.includes('inLanguage: lang'), 'serve
 A(!srv.includes('data-azkar-ui-href'), 'server: walker has NO href rule (existing pass owns hrefs)');
 
 // (e) cache-busters
-A((html.match(/azkar-data\.js\?v=39\b/g) || []).length >= 1, 'index: azkar-data.js?v=39');
-A((html.match(/app\.js\?v=838\b/g) || []).length >= 2, 'index: app.js?v=838 (bumped — app.js touched in batch 3)');
+A((html.match(/azkar-data\.js\?v=40\b/g) || []).length >= 1, 'index: azkar-data.js?v=40');
+A((html.match(/app\.js\?v=842\b/g) || []).length >= 2, 'index: app.js?v=842 (bumped — app.js touched in batch 3)');
 A(!/app\.js\?v=839/.test(html), 'index: no app.js?v=839');
-A(/CACHE_VERSION\s*=\s*'v536'/.test(read('sw.js')), 'sw.js: CACHE_VERSION v536');
+A(/CACHE_VERSION\s*=\s*'v538'/.test(read('sw.js')), 'sw.js: CACHE_VERSION v538');
 
 console.log('\n================ AZKAR MORNING BOTTOM L10N SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

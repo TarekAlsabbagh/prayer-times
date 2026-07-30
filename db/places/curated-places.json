@@ -130916,5 +130916,45 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "ashburn",
+    "type": "town",
+    "countryCode": "us",
+    "lat": 39.0437192,
+    "lng": -77.4874899,
+    "timezone": "America/New_York",
+    "names": {
+      "ar": "اشبورن",
+      "en": "Ashburn"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "الولايات المتحدة",
+      "countryEn": "United States"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
+  },
+  {
+    "slug": "miyashiro",
+    "type": "town",
+    "countryCode": "jp",
+    "lat": 36.0227087,
+    "lng": 139.722628,
+    "timezone": "Asia/Tokyo",
+    "names": {
+      "ar": "مياشيرو",
+      "en": "Miyashiro"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "اليابان",
+      "countryEn": "Japan"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

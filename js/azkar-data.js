@@ -1155,6 +1155,25 @@
             type: 'dhikr',
             title: null,
             text: 'اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَٰهَ إِلَّا أَنْتَ، اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْكُفْرِ وَالْفَقْرِ، وَأَعُوذُ بِكَ مِنْ عَذَابِ الْقَبْرِ، لَا إِلَٰهَ إِلَّا أَنْتَ.',
+            // AZKAR-EVENING-DUA-CARD-10-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static dua MEANING translations. This dua is
+            // TIME-NEUTRAL (no «أصبح/أمسى» — said morning AND evening with one text), so the evening translations are the same as
+            // the already-approved morning-010 (byte-identical reuse; no time-word swap, no composite). EIGHT meanings: grant
+            // health in body / hearing / sight / «لا إله إلا أنت» (first) / refuge from disbelief / poverty / punishment of the
+            // grave / «لا إله إلا أنت» (final). «عافني»=grant health/wellbeing (not merely heal); «الكفر»=disbelief/kufr (not
+            // ingratitude). Sources: en=printed Morning & Evening Adhkar ref (Hisn 85); fr=Turjman Islam Évocation; ur=Urdu Hisnul
+            // Muslim adhkar; tr=Turkish Hisnul Muslim; bn=Bengali Hisnul Muslim; ms=Malaysian Ministry-of-Education Hisnul Muslim;
+            // de=German Hisnu-l-Muslim ch.27; es=Spanish Hisnul Muslim; id=Indonesian Hisnul Muslim (keeps the translator's
+            // published bracketed clarifications, e.g. «(dari penyakit…)», as-is). NO repeat/reference/virtue/transliteration/
+            // footnote inside the block; NO translation_ar; morning-010 NOT touched.
+            translation_en: "O Allah, grant my body health, O Allah, grant my hearing health, O Allah, grant my sight health. None has the right to be worshipped except You. O Allah, I take refuge with You from disbelief and poverty, and I take refuge with You from the punishment of the grave. None has the right to be worshipped except You.",
+            translation_fr: "Ô Allah ! Préserve-moi dans mon corps. Ô Allah ! Préserve-moi dans mon ouïe. Ô Allah ! Préserve-moi dans ma vue. Nulle divinité ne mérite l’adoration hormis Toi. Ô Allah ! j’invoque Ta protection contre la mécréance et la pauvreté. Ô Allah ! J’invoque Ta protection contre le supplice de la tombe. Nulle divinité ne mérite l’adoration hormis Toi.",
+            translation_ur: "اے اللہ! مجھے میرے جسم میں عافیت دے، اے اللہ! مجھے میرے کانوں میں عافیت دے، اے اللہ! مجھے میری آنکھوں میں عافیت دے، تیرے علاوہ کوئی عبادت کے لائق نہیں، اے اللہ! میں کفر اور فقر سے تیری پناہ چاہتا ہوں، اور عذاب قبر سے تیری پناہ چاہتا ہوں، تیرے علاوہ کوئی عبادت کے لائق نہیں۔",
+            translation_tr: "Allah'ım! Bedenime afiyet ver. Allah'ım! Kulağıma afiyet ver. Allah'ım! Gözüme afiyet ver. Senden başka ilah yok. Allah'ım! Küfürden ve fakirlikten sana sığınırım. Kabir azabından sana sığınırım. Senden başka ilah yok.",
+            translation_bn: "হে আল্লাহ! আমাকে নিরাপত্তা দিন আমার শরীরে। হে আল্লাহ! আমাকে নিরাপত্তা দিন আমার শ্রবণশক্তিতে। হে আল্লাহ! আমাকে নিরাপত্তা দিন আমার দৃষ্টিশক্তিতে। আপনি ছাড়া কোনো হক্ব ইলাহ নেই। হে আল্লাহ! আমি আপনার কাছে আশ্রয় চাই কুফুরী ও দারিদ্র্য থেকে। আর আমি আপনার আশ্রয় চাই কবরের আযাব থেকে। আপনি ছাড়া আর কোনো হক্ব ইলাহ নেই।",
+            translation_ms: "Ya Allah, kurniakanlah kesihatan pada badanku, Ya Allah, kurniakanlah kesihatan pada pendengaranku, Ya Allah, kurniakanlah kesihatan pada penglihatanku, tiada Tuhan yang berhak disembah melainkan Engkau. Ya Allah, aku berlindung denganMu daripada kekufuran dan kefakiran. Ya Allah aku berlindung denganMu daripada azab kubur, tiada Tuhan yang berhak disembah melainkan Engkau.",
+            translation_de: "O Allāh, schenke mir Heil in meinem Körper. O Allāh, schenke mir Heil in meinem Gehör. O Allāh, schenke mir Heil in meinem Sehen. Es gibt keinen wahren Ilāh (Anbetungswürdigen) außer Dir. O Allāh, ich suche Zuflucht bei Dir vor dem Kufr und vor der Armut; und ich suche Zuflucht bei Dir vor der Strafe im Grab. Es gibt keinen wahren Ilāh außer Dir.",
+            translation_es: "Oh Allah, concede salud a mi cuerpo, Oh Allah, otorgale salud a mis oídos, Oh Allah, concede salud a mi vista, no hay dios sino Tú. Oh Allah ciertamente me refugio en Ti de la incredulidad, de la pobreza, y en Ti me amparo del tormento de la tumba, no hay dios sino Tú.",
+            translation_id: "Ya Allah, selamatkan tubuh-ku (dari penyakit dan yang tidak aku inginkan). Ya Allah, selamatkan pendengaranku (dari penyakit dan maksiat atau sesuatu yang tidak aku inginkan). Ya Allah, selamatkan penglihatanku, tiada Tuhan (yang berhak disembah) kecuali Engkau. Ya Allah!, Sesungguhnya aku berlindung kepada-Mu dari kekufuran dan kefakiran. Aku berlindung kepada-Mu dari siksa kubur, tiada Tuhan (yang berhak disembah) kecuali Engkau.",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'رواه أحمد' },

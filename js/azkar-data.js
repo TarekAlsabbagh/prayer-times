@@ -1124,6 +1124,23 @@
             type: 'dhikr',
             title: null,
             text: 'اللَّهُمَّ مَا أَمْسَى بِي مِنْ نِعْمَةٍ، أَوْ بِأَحَدٍ مِنْ خَلْقِكَ، فَمِنْكَ وَحْدَكَ لَا شَرِيكَ لَكَ، فَلَكَ الْحَمْدُ وَلَكَ الشُّكْرُ.',
+            // AZKAR-EVENING-DUA-CARD-09-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static dua MEANING translations in the
+            // EVENING form («أمسى»), same dua as morning-009 (twin). NINE meanings: O Allah / whatever blessing this EVENING /
+            // or to anyone of Your creation / from You / alone / no partner / all praise / all thanks. NO repeat label, reference,
+            // virtue, transliteration, footnotes/digits, or morning wording inside the block. Sources: en=printed Morning & Evening
+            // Adhkar reference; fr=French Hisnul Muslim ch.27 (ce soir); ur=Urdu Hisnul Muslim adhkar (شام کی); tr=Turkish Hisnul
+            // Muslim ch.27 (akşama çıkan); bn=Bengali Hisnul Muslim ch.1 (বিকালে); ms=Malay Ma'thurat Sughra Doa 20 Petang;
+            // de=German Hisnu-l-Muslim ch.27 (an diesem Abend, cleaned: no transliteration); es=Spanish Hisnul Muslim body +
+            // documented «al anochecer» (trusted composite); id=Indonesian Hisnul Muslim ch.27 (di sore ini). NO translation_ar.
+            translation_en: "O Allah, all the favours that I or anyone from Your creation has received in the evening, are from You Alone. You have no partner. To You Alone belong all praise and all thanks.",
+            translation_fr: "Ô Seigneur ! Tout ce qui m'arrive comme bienfaits ce soir, à moi ou à l'une de Tes créatures, provient de Toi Seul, sans associé. A Toi la louange ainsi que la gratitude.",
+            translation_ur: "اے اللہ! مجھ پر یا تیری مخلوق میں سے کسی پر جس نعمت نے بھی شام کی ہے وہ صرف تیری طرف سے ہے، تو اکیلا ہے، تیرا کوئی شریک نہیں، پس تیرے ہی لئے حمد اور تیرے ہی لئے شکر ہے۔",
+            translation_tr: "Allahım! Benim veya kullarından birisinin yanında akşama çıkan her nimet, yalnızca sendendir. Senin ortağın yoktur. Hamd, yalnızca sanadır. Şükür de sanadır.",
+            translation_bn: "হে আল্লাহ! যে নি‘আমত আমার সাথে বিকালে উপনীত হয়েছে, অথবা আপনার সৃষ্টির অন্য কারও সাথে; এসব নেয়ামত কেবলমাত্র আপনার নিকট থেকেই; আপনার কোনো শরীক নেই। সুতরাং সকল প্রশংসা আপনারই। আর সকল কৃতজ্ঞতা আপনারই প্রাপ্য।",
+            translation_ms: "Ya Allah, apa sahaja nikmat yang kami dapati pada petang ini atau yang diterima oleh mana-mana makhluk-Mu, maka sebenarnya ia datang dari Engkau sahaja. Tidak ada sekutu bagi-Mu. Maka bagi-Mu segala puji dan bagi-Mu segala kesyukuran.",
+            translation_de: "O Allāh, all meine Gaben und die Gaben zu Deinen Geschöpfen an diesem Abend sind von Dir allein. Du hast keinen Teilhaber. So gebühren Dir allein Lob und Dank.",
+            translation_es: "¡Oh Allah! Toda la gracia que poseo al anochecer, o que posea alguien de Tu creación, proviene de Ti, único sin asociados. Para Ti es la alabanza y el agradecimiento.",
+            translation_id: "Ya Allah, nikmat yang kuterima atau diterima oleh seseorang di antara makhluk-Mu di sore ini adalah dari-Mu. Maha Esa Engkau, tiada sekutu bagi-Mu. Bagi-Mu segala puji dan kepada-Mu panjatan syukur.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه أبو داود' },

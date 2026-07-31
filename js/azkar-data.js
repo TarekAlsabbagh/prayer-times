@@ -1188,6 +1188,22 @@
             type: 'dhikr',
             title: null,
             text: 'اللَّهُمَّ إِنِّي أَعُوذُ بِكَ مِنَ الْهَمِّ وَالْحَزَنِ، وَأَعُوذُ بِكَ مِنَ الْعَجْزِ وَالْكَسَلِ، وَأَعُوذُ بِكَ مِنَ الْجُبْنِ وَالْبُخْلِ، وَأَعُوذُ بِكَ مِنْ غَلَبَةِ الدَّيْنِ وَقَهْرِ الرِّجَالِ.',
+            // AZKAR-EVENING-DUA-CARD-11-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations
+            // of the anxiety-and-grief dua (Abu Dawud, Hisnul-Muslim ch.34). Time-neutral (no morning/evening word),
+            // so 7 langs (en/fr/tr/bn/de/es/id) reuse morning-011 byte-identical. ur + ms use their own trusted
+            // renderings: ur from the Sunan Abi Dawud 1555 Urdu translation; ms is a Malaysia-only trusted composite
+            // (Ministry-of-Education Hisnul-Muslim body + state-mufti wording for al-jubn / cowardice). Meaning only:
+            // no repeat label, reference, virtue, transliteration, footnotes or digits. No Arabic translation field.
+            // morning-011 is NOT modified by this ticket.
+            translation_en: "O Allah, I take refuge in You from anxiety and sorrow, weakness and laziness, miserliness and cowardice, the burden of debts and from being over powered by men.",
+            translation_fr: "Ô Seigneur! Je me mets sous Ta protection contre les soucis et la tristesse, contre l’incapacité et la paresse, contre l’avarice et la lâcheté, contre le poids de la dette et la domination des hommes.",
+            translation_ur: "اے اللہ! میں غم اور حزن سے تیری پناہ مانگتا ہوں، عاجزی و سستی سے تیری پناہ مانگتا ہوں، بزدلی اور کنجوسی سے تیری پناہ مانگتا ہوں اور قرض کے غلبہ اور لوگوں کے تسلط سے تیری پناہ مانگتا ہوں۔",
+            translation_tr: "Allahım! Keder ve hüzünden, acizlik ve tembellikten, cimrilik ve korkaklıktan, borcun belimi bükmesinden ve insanların bana galip gelmesinden sana sığınırım.",
+            translation_bn: "হে আল্লাহ! নিশ্চয় আমি আপনার আশ্রয় নিচ্ছি দুশ্চিন্তা ও দুঃখ থেকে, অপারগতা ও অলসতা থেকে, কৃপণতা ও ভীরুতা থেকে, ঋণের ভার ও মানুষদের দমন-পীড়ন থেকে।",
+            translation_ms: "Ya Allah, aku berlindung denganMu daripada ditimpa kesusahan dan kedukaan, daripada kelemahan dan kemalasan, daripada kedekut dan sifat pengecut dan daripada desakan berhutang dan paksaan orang.",
+            translation_de: "O Allāh, ich nehme Zuflucht bei Dir vor der Sorge und Trauer, vor Unfähigkeit und der Trägheit, vor Geiz, vor Feigheit, vor Last der Schulden und davor, von Männern unterdrückt zu werden.",
+            translation_es: "Oh Señor me refugio en Ti de las preocupaciones y las tristezas, de la debilidad y la vagancia, de la avaricia y la cobardía, del peso de las deudas y de ser dominado por los hombres.",
+            translation_id: "Ya Allah, sesungguhnya aku berlindung kepada-Mu dari keluh kesah dan rasa sedih, dari kelemahan dan kemalasan, dari sifat bakhil dan penakut, dari cengkraman utang dan laki-laki yang menindas-(ku).",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه أبو داود' },

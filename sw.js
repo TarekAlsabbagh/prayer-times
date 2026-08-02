@@ -1656,7 +1656,7 @@
 // v499 — PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1: DE-only high-latitude-rule override. Germany keeps
 //   method MWL (18°/17°) but its twilight rule becomes NightMiddle in the CALC (SSR `_HIGHLAT_BY_CC` +
 //   client override in updatePrayerTimes) so Fajr/Isha match Google's MWL; every other country untouched.
-const CACHE_VERSION = 'v542';
+const CACHE_VERSION = 'v543';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 

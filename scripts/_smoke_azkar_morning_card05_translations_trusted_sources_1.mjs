@@ -94,7 +94,7 @@ ok(dataSrc.includes('the Ever-Living, the Sustainer of [all] existence'), 'Card 
 ok(dataSrc.includes('In the name of Allah, the Entirely Merciful, the Especially Merciful. Say, "He is Allah, [who is] One'), 'Card 02 (Ikhlas) translation intact');
 for (let c = 0; c < 4; c++) ok(ALL9.every((l) => typeof M[c]['translation_' + l] === 'string'), `Card 0${c + 1} still carries all 9 translations (incl. de)`);
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 12, `evening region translation_${l} still EXACTLY 12 (untouched)`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 13, `evening region translation_${l} still EXACTLY 13 (untouched)`);
 const prRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'));
 ok(!/translation_[a-z]+\s*:/.test(prRegion), 'prayer region has NO translation fields (untouched)');
 ok(sandbox.window.AzkarEvening.length === 23 && sandbox.window.AzkarPrayer.length > 0, 'evening 23 items + prayer list intact');

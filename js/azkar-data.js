@@ -1374,6 +1374,25 @@
             type: 'dhikr',
             title: null,
             text: 'يَا حَيُّ يَا قَيُّومُ، بِرَحْمَتِكَ أَسْتَغِيثُ، أَصْلِحْ لِي شَأْنِي كُلَّهُ، وَلَا تَكِلْنِي إِلَى نَفْسِي طَرْفَةَ عَيْنٍ.',
+            // AZKAR-EVENING-DUA-CARD-17-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the dua
+            // (meaning only; no repeat label, reference, isnad, transliteration, footnote, or extra Arabic). Time-neutral dua
+            // (evening differs from morning-017 only by a comma after Qayyum). SIX meanings each: Ever-Living / Sustainer(Qayyum) /
+            // by-Your-mercy-I-seek-help / rectify ALL my affairs / do not leave me TO MYSELF / for the blink of an eye.
+            // FOUR reuse morning-017 verbatim: en (Hisn al-Muslim 79), ur (Mukhtasar Hisnul Muslim, Hakim 2000), tr (Ilme Davet),
+            // es (La Fortaleza / About Islam). FIVE DIVERGE because morning-017 underrepresents a meaning: fr (Hisnii — morning
+            // dropped Qayyum + "all") ; bn (IslamHouse Bengali al-Qahtani — morning everlasting-word lost Sustainer, USER-fixed to
+            // Sustainer-of-all in the source spelling) ; ms (Mufti Wilayah — morning garbled to-myself, USER-kept Kekal-memerintah
+            // for Qayyum) ; de (islamicazkar — morning mangled to-myself/ila-nafsi) ; id (Muslimah Yufid + Rumaysho, Tirmidhi 3524
+            // — morning Maha-Terjaga lost Sustainer). morning-017 NOT touched. NO translation_ar.
+            translation_en: "O Ever Living, O Self-Subsisting and Supporter of all, by Your mercy I seek assistance, rectify for me all of my affairs and do not leave me to myself, even for the blink of an eye.",
+            translation_fr: "Ô Toi le Vivant, Celui qui n'a besoin de rien et dont toute chose dépend, j'implore secours auprès de Ta miséricorde. Améliore ma situation en tout point et ne me laisse pas à mon propre sort ne serait-ce le temps d'un clin d'œil.",
+            translation_ur: "اے ہمیشہ زندہ رہنے والے، اے قائم رکھنے والے، تیری رحمت کے ساتھ ہی میں مدد مانگتا ہوں، میری مکمل حالت درست فرما دے، اور مجھے لحظہ بھر بھی میرے نفس کے سپرد نہ کر۔",
+            translation_tr: "Ya Hayy, Ya Kayyûm! Senin rahmetinle yardım dilerim. Bütün işlerimi düzelt ve göz açıp kapayınca kadar -bile olsa- beni nefsime bırakma.",
+            translation_bn: "হে চিরঞ্জীব, হে সবকিছুর ধারক! আমি আপনার রহমতের অসীলায় আপনার কাছে উদ্ধার কামনা করি, আপনি আমার সার্বিক অবস্থা সংশোধন করে দিন, আর আমাকে আমার নিজের কাছে নিমেষের জন্যও সোপর্দ করবেন না।",
+            translation_ms: "Wahai tuhan yang Tetap Hidup, Yang Kekal memerintah selama-lamanya, dengan rahmatMu aku memohon pertolongan. Perelokkanlah bagiku segala urusanku dan janganlah Engkau serahkan aku kepada diriku sendiri walaupun sekadar sekelip mata.",
+            translation_de: "O Lebendiger, O Beständiger, bei Deiner Barmherzigkeit bitte ich um Hilfe. Bringe für mich all meine Angelegenheiten in Ordnung und überlasse mich nicht mir selbst für einen Augenblick.",
+            translation_es: "Oh Viviente, Oh Subsistente, en Tu misericordia busco asistencia, rectifica todos mis asuntos y no me dejes librado a mi mismo, ni siquiera por un pestañeo (un instante).",
+            translation_id: "Wahai Dzat yang Maha Hidup, lagi Maha Berdiri Sendiri, dengan rahmat-Mu aku memohon pertolongan, perbaikilah seluruh urusanku, dan janganlah Engkau wakilkan aku kepada diriku sendiri sekejap mata pun.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه الترمذي' },

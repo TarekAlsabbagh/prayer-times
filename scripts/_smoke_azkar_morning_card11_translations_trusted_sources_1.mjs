@@ -86,7 +86,7 @@ for (let c = 0; c < 10; c++) ok(ALL9.every((l) => typeof M[c]['translation_' + l
 ok(M[9].translation_en.startsWith('O Allah, grant my body health'), 'Card 10 en intact');
 ok(M[8].translation_en.startsWith('O Allah, whatever blessing has been received'), 'Card 09 en intact');
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 13, `evening region translation_${l} still EXACTLY 13`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 14, `evening region translation_${l} still EXACTLY 14`);
 ok(!/translation_[a-z]+\s*:/.test(dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'))), 'prayer region has NO translation fields');
 ok(sandbox.window.AzkarEvening.length === 23 && sandbox.window.AzkarPrayer.length > 0, 'evening 23 + prayer intact');
 
@@ -104,10 +104,10 @@ ok(!/qurani\.io|hisnmuslim\.com|islamhouse\.com|duaa\.my|daralathar\.fr|islamiok
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=45/.test(htmlSrc), 'index.html azkar-data.js?v=45 (Card 11 data added)');
+ok(/js\/azkar-data\.js\?v=46/.test(htmlSrc), 'index.html azkar-data.js?v=46 (Card 11 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED (generic renderer)');
-ok(/CACHE_VERSION = 'v543'/.test(swSrc), "sw.js CACHE_VERSION 'v543'");
+ok(/CACHE_VERSION = 'v544'/.test(swSrc), "sw.js CACHE_VERSION 'v544'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

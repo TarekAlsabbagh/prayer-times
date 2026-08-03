@@ -1407,6 +1407,27 @@
             type: 'dhikr',
             title: null,
             text: 'أَمْسَيْنَا وَأَمْسَى الْمُلْكُ لِلَّهِ رَبِّ الْعَالَمِينَ، اللَّهُمَّ إِنِّي أَسْأَلُكَ خَيْرَ هَذِهِ اللَّيْلَةِ، فَتْحَهَا، وَنَصْرَهَا، وَنُورَهَا، وَبَرَكَتَهَا، وَهُدَاهَا، وَأَعُوذُ بِكَ مِنْ شَرِّ مَا فِيهَا وَشَرِّ مَا بَعْدَهَا.',
+            // AZKAR-EVENING-DUA-CARD-18-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the dua
+            // (meaning only; no repeat label, reference, isnad, transliteration, footnote, or extra Arabic). NOT time-neutral:
+            // this is the explicit EVENING form (amsayna / this-night / fathaha), so no verbatim reuse — each = its morning-018
+            // twin with the documented night-form swap, EXCEPT id (native evening source). TEN meanings each: ①amsayna(evening
+            // reached) ②al-mulk lillah rabb al-alamin ③good of THIS NIGHT ④its opening(fath) ⑤its victory(nasr) ⑥its light
+            // ⑦its blessing ⑧its guidance ⑨evil within it ⑩evil after it. Sources: en=Hisn al-Muslim 89; fr=Dar Al Athar
+            // ch.27 (Abu Dawud 5084); ur=islamicurdubooks (Abu Dawud 5084); tr=Ilme Davet Hisnu'l-Muslim 89 (host is a blog,
+            // text = Ilme Davet twin — disclosed); bn=Bengali Hisnul Muslim (gtaf, evening block; morning typo on baraka fixed
+            // to the correct spelling); ms=e-JAUHAR (JAKIM) 89 (confidence medium — disclosed); de=Islamische Datenbank ch.27
+            // (keeps the (Unterstützung) sense-gloss for consistency with the morning twin); es=La Fortaleza del Musulman
+            // al-Qahtani 91 (supporting host is a forum, text = al-Qahtani — disclosed); id=native Indonesian Dzikir Petang.
+            // morning-018 NOT touched. NO translation_ar.
+            translation_en: "We have reached the evening and at this very time all sovereignty belongs to Allah, Lord of the worlds. O Allah, I ask You for the good of this night, its triumphs and its victories, its light and its blessings and its guidance, and I take refuge in You from the evil of this night and the evil that follows it.",
+            translation_fr: "Nous voilà au soir et le règne appartient à Allah, le Seigneur de l'univers. Ô Seigneur ! Je Te demande le bien de cette nuit : ce qu'elle contient comme conquêtes, victoires, lumière, bénédiction et guidée. Je me mets sous Ta protection contre le mal de cette nuit et le mal qui vient après elle.",
+            translation_ur: "ہم نے شام کی اور اللہ رب العالمین کے لئے (بادشاہت) نے بھی شام کی، اے اللہ! میں تجھ سے اس رات کی بھلائی، فتح، نصرت، نور، برکت اور اس کی ہدایت کا سوال کرتا ہوں اور اس پر جو شر ہے اور اس کے بعد جو شر ہے اس سے تیری پناہ میں آتا ہوں۔",
+            translation_tr: "Mülk, Âlemlerin Rabbi Allah'ın olduğu halde akşamladık. Allahım! Senden bu gecenin hayrını, fethini, zaferini, nûrunu, bereketini ve hidâyetini dilerim. Onda ve sonrasındaki şerden sana sığınırım.",
+            translation_bn: "আমরা বিকালে উপনীত হয়েছি, অনুরূপ যাবতীয় রাজত্বও বিকালে উপনীত হয়েছে সৃষ্টিকুলের রব্ব আল্লাহ্‌র জন্য। হে আল্লাহ, আমি আপনার কাছে কামনা করি এই রাতের কল্যাণ: বিজয়, সাহায্য, নূর, বরকত ও হেদায়াত। আর আমি আপনার কাছে আশ্রয় চাই এ রাতের এবং এ রাতের পরের অকল্যাণ থেকে।",
+            translation_ms: "Kami hayati petang kami dan petang yang penuh Kekuasaan bagi Allah tuhan sekalian alam. Ya Allah, aku memohon kepadaMu kebaikan malam ini, pembukaannya, pertolongannya, cahayanya, berkatnya dan petunjuknya. Aku berlindung denganMu daripada kejahatan malam ini dan yang selepasnya.",
+            translation_de: "Wahrlich haben wir den Abend erreicht, und die Herrschaft an diesem Abend gehört Allāh, dem Rabb (Herr) der Welten. O Allāh, ich bitte Dich um das Gute dieser Nacht, ihren Sieg, ihre Hilfe (Unterstützung), ihr Licht, ihre Segnung und ihre Rechtleitung. Ich suche Zuflucht bei Dir vor dem Übel an ihr (dieser Nacht) und alldem, was danach kommt.",
+            translation_es: "Anochecimos y anocheció el reino para Al-Lah Señor del universo, ¡Oh Al-Lah! Te pido lo mejor de esta noche: su triunfo, su victoria, su luz, su bendición y su guía; me protejo en Ti del mal que haya en ella y después de ella.",
+            translation_id: "Kami telah memasuki waktu petang dan kerajaan milik Allah, Rabb semesta alam. Ya Allah, aku memohon kepada-Mu kebaikan malam ini: pembukaannya, kemenangannya, cahayanya, keberkahannya, dan petunjuknya. Aku berlindung kepada-Mu dari keburukan yang ada di dalamnya dan keburukan setelahnya.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه أبو داود' },

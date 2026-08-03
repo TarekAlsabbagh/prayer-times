@@ -1344,6 +1344,22 @@
             type: 'dhikr',
             title: null,
             text: 'رَضِيتُ بِاللَّهِ رَبًّا، وَبِالْإِسْلَامِ دِينًا، وَبِمُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ نَبِيًّا.',
+            // AZKAR-EVENING-DUA-CARD-16-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the dua
+            // (meaning only; no repeat label, reference, virtue/promise, isnad/narrator, transliteration, footnotes, or extra Arabic).
+            // Time-neutral dua (no morning/evening word) = morning-016 twin; en/ur/tr/bn/ms/de/es/id reused verbatim from morning-016.
+            // fr DIVERGES: morning-016 fr "reconnais" (recognize) weakens radiitu (pleased/content) -> corrected here to
+            // "Je suis satisfait" per Citadelle du musulman (Hisn al-Muslim), keeping "Prophète" not "messager". All nine keep the
+            // three meanings (Allah as Lord + Islam as religion + Muhammad as Prophet/Nabi, NOT Messenger/Rasul). de = source-faithful
+            // Islamische Datenbank form (Rabb (Herr) / Dīn (Glauben)) per user decision. bn = Bangla Hisnul Muslim ch.27. morning-016 NOT touched. NO translation_ar.
+            translation_en: "I am pleased with Allah as a Lord, and Islam as a religion and Muhammad as a Prophet.",
+            translation_fr: "Je suis satisfait qu'Allah soit mon Seigneur, que l'Islam soit ma religion et que Muhammad soit mon Prophète.",
+            translation_ur: "میں راضی ہو گیا اللہ کے رب ہونے پر اور اسلام کو دین اختیار کرنے پر اور محمدﷺ کو نبی تسلیم کرنے پر۔",
+            translation_tr: "Rab olarak Allah'tan, dîn olarak İslam'dan, nebi olarak Muhammed -sallallahu aleyhi ve sellem-'den râzı oldum.",
+            translation_bn: "আল্লাহকে রব, ইসলামকে দীন ও মুহাম্মাদ সাল্লাল্লাহু আলাইহি ওয়াসাল্লামকে নবীরূপে গ্রহণ করে আমি সন্তুষ্ট।",
+            translation_ms: "Aku redha Allah sebagai Tuhan, Islam sebagai agama dan Muhammad saw sebagai Nabi.",
+            translation_de: "Ich bin mit Allāh als Rabb (Herr), dem Islām als Dīn (Glauben) und Muḥammad, Allāh segne ihn gebe ihm Heil, als Prophet zufrieden.",
+            translation_es: "Me complazco de Allah como Señor, del Islam como religión, y de Muhámmad (la paz y las bendiciones de Allah sean con él) como Profeta.",
+            translation_id: "Aku rela Allah sebagai Tuhanku, Islam sebagai agamaku dan Muhammad sebagai nabiku.",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'رواه أحمد' },

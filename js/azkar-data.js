@@ -1313,6 +1313,23 @@
             type: 'dhikr',
             title: null,
             text: 'بِسْمِ اللَّهِ الَّذِي لَا يَضُرُّ مَعَ اسْمِهِ شَيْءٌ فِي الْأَرْضِ، وَلَا فِي السَّمَاءِ، وَهُوَ السَّمِيعُ الْعَلِيمُ.',
+            // AZKAR-EVENING-DUA-CARD-15-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-only
+            // translations of the dua (no repeat label, reference, virtue, hadith story, isnad/narrator,
+            // transliteration, footnotes/digits, explanation, or Arabic field). Dhikr = Hisn al-Muslim 86 /
+            // Ibn Majah 3869 (+Abu Dawud 5088, Tirmidhi 3388). TIME-NEUTRAL (the once/thrice + morning/evening
+            // wording lives only in the separate virtue field) → all NINE carried VERBATIM from the twin card
+            // morning-015, which the audit verified clean 6/6 in every language. All nine keep «مع اسمه» = with
+            // His name (never "Allah does not harm"), the earth and the heaven, As-Samee = All-Hearing (never
+            // All-Seeing), and Al-Alim = All-Knowing. morning-015 is NOT touched.
+            translation_en: "In the name of Allah, with Whose name nothing in the earth or the heaven can cause harm, and He is the All-Hearing, the All-Knowing.",
+            translation_fr: "Au Nom d'Allah dont la mention empêche toute chose de nuire, tant sur la terre que dans le ciel, et Il est l'Audient et l'Omniscient.",
+            translation_ur: "اس اللہ کے نام کے ساتھ جس کے نام کے ساتھ زمین وآسمان میں کوئی چیز نقصان نہیں پہنچاتی، اور وہ خوب سننے والا بڑا جاننے والا ہے۔",
+            translation_tr: "Yerde de gökte de O'nun ismiyle birlikte hiçbir şeyin zarar veremeyeceği Allah'ın adıyla. O, her şeyi işiten ve bilendir.",
+            translation_bn: "আল্লাহর নামে; যাঁর নামের সাথে আসমান ও যমীনে কোনো কিছুই ক্ষতি করতে পারে না। আর তিনি সর্বশ্রোতা, মহাজ্ঞানী।",
+            translation_ms: "Dengan Nama Allah yang tidak memberi mudharat bersama namaNya oleh sesuatu di bumi dan tidak juga di langit, Dialah Yang Maha Mendengar lagi Maha Mengetahui.",
+            translation_de: "Im Namen Allāhs, mit Dessen Namen kann nichts auf der Erde oder im Himmel Schaden zufügen. Er ist der Allhörende, der Allwissende.",
+            translation_es: "En el nombre de Allah el cual en su nombre nada perjudica, asi en la tierra como en los cielos, Él es quien todo lo oye el Omnisapiente.",
+            translation_id: "Dengan nama Allah yang tidak akan berbahaya sesuatu pun di bumi dan di langit bersama nama-Nya, dan Dia Maha Mendengar lagi Maha Mengetahui.",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'رواه ابن ماجه' },

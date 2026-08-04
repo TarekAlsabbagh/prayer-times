@@ -1554,6 +1554,40 @@
             type: 'dhikr',
             title: null,
             text: 'أَعُوذُ بِكَلِمَاتِ اللَّهِ التَّامَّاتِ مِنْ شَرِّ مَا خَلَقَ.',
+            // AZKAR-EVENING-DUA-CARD-22-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the
+            // refuge-by-the-words dhikr (meaning only; no repeat label, reference, isnad, transliteration, footnote,
+            // narration frame, virtue/reward, or extra Arabic). FIRST evening card with NO morning counterpart anywhere in
+            // this file — so all NINE are independently sourced NATIVE renderings, with no reuse baseline. FIVE meanings
+            // each: (1) I seek refuge / take shelter (not merely "I pray") (2) by the WORDS of Allah — kept as WORDS, not
+            // names or attributes (3) the PERFECT / complete words — the element most often dropped (4) from the EVIL,
+            // which stays the annexed head (5) of WHAT HE HAS CREATED — an overt created-thing nominal stands in for the
+            // relative particle. ⛔ SEMANTIC RULE, verified per language: the relative/genitive attaches to the CREATED
+            // THING, never to the evil — a rendering meaning "the evil that He created" makes evil itself the created
+            // object and is rejected. Three languages are settled by inflection, not taste: de needs the genitive
+            // correlate (an accusative one would bind the evil instead); ur agreement is feminine-plural so it can only
+            // bind the things; tr carries the participle inside the possessor so it cannot reach the evil.
+            // ⛔ ALSO REJECTED in all 9: the longer narration («which neither the upright nor the corrupt surpass…»), the
+            // wrath-and-punishment variant, the alighting-at-a-place narration frame, and the protection reward.
+            // Sources: en + bn = the translated-hadith encyclopedia (entry 5932); fr = Dar Al Athar, Hisn al-Muslim
+            // French, item 97; ur = Islam House Urdu, Morning & Evening Adhkar (book 827527); tr = Ilme Davet, Hisnul
+            // Muslim Turkish, item 97; de = Islamische Datenbank, Hisnu-l-Muslim chapter 27 entry 97; es = La Sunnah
+            // (in-text gloss); id = Almanhaj, Dzikir Pagi dan Petang. ms = Bin Sahak hadith-commentary article — the
+            // author's post at a Malaysian state mufti office is SELF-DECLARED on his own site, so this is cited as a
+            // personal scholarly publication, NOT as an institutional release; the wording is corroborated as mainstream
+            // by the same creature-reading this file already uses for the identical Arabic phrase in al-Falaq, which came
+            // from the Malaysian religious-affairs department — that parallel backs the PHRASING only, not this text.
+            // The two most prominent Malaysian publishers were checked and both collapse meaning (5), so they were not
+            // used. morning-022 is a DIFFERENT dhikr and was NOT consulted. virtue, authenticity, authenticityNote,
+            // source and repeat all stay untouched, Arabic-only fields. NO translation_ar.
+            translation_en: "I seek refuge in the perfect words of Allah from the evil of what He has created.",
+            translation_fr: "Je me réfugie auprès des paroles parfaites d'Allah contre le mal de ce qu'Il a créé.",
+            translation_ur: "میں اللہ تعالی کے مکمل کلمات کے ذریعہ ان تمام چیزوں کے شر سے پناہ چاہتا ہوں جو اس نے پیدا کی ہیں۔",
+            translation_tr: "Yarattıklarının şerrinden, Allah'ın eksiksiz kelimelerine sığınırım.",
+            translation_bn: "আল্লাহর পরিপূর্ণ কালেমাসমূহের অসীলায় তাঁর সৃষ্টির অনিষ্ট থেকে আমি আশ্রয় চাচ্ছি।",
+            translation_ms: "Aku berlindung dengan kalimah-kalimah Allah yang sempurna daripada kejahatan segala makhluk yang Dia ciptakan.",
+            translation_de: "Ich nehme Zuflucht mit Allāhs vollkommenen Worten vor dem Übel dessen, was Er erschaffen hat.",
+            translation_es: "Me refugio en las perfectas palabras de Allah del mal de lo que ha creado.",
+            translation_id: "Aku berlindung dengan kalimat-kalimat Allah yang sempurna dari kejahatan sesuatu yang diciptakan-Nya.",
             repeat: 3,
             repeatLabel: { ar: 'ثلاث مرات', en: 'three times' },
             source: { ref: 'ورد في كتب الأذكار' },

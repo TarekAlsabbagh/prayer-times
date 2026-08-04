@@ -105,22 +105,22 @@ ok(card.repeat === 1 && card.repeatLabel && card.repeatLabel.ar === 'مرة وا
 ok(card.virtue === null, 'virtue stays null (unchanged)');
 ok(card.authenticity === 'hasan', "authenticity stays 'hasan' (unchanged)");
 
-console.log('\n================ 8. Per-region counts — evening 18, morning 25, prayer 0, ar 0 ================');
+console.log('\n================ 8. Per-region counts — evening 19, morning 25, prayer 0, ar 0 ================');
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
 const mornRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarMorning'), dataSrc.indexOf('window.AzkarEvening'));
 const prayRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 18, `evening region translation_${l}: EXACTLY 18 (001-004 Quran + 005-018 dua)`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 19, `evening region translation_${l}: EXACTLY 19 (001-004 Quran + 005-019 dua)`);
 for (const l of ALL9) ok((mornRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 25, `morning region translation_${l}: EXACTLY 25 (unchanged)`);
 ok(!/translation_[a-z]+\s*:/.test(prayRegion), 'prayer region has NO translation fields (unchanged)');
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
 
-console.log('\n================ 9. Evening 001-018 translated; 019+ untranslated; prayer intact ================');
-for (let n = 1; n <= 18; n++) {
+console.log('\n================ 9. Evening 001-019 translated; 020+ untranslated; prayer intact ================');
+for (let n = 1; n <= 19; n++) {
   const id = 'evening-0' + String(n).padStart(2, '0');
   const c = E.find(d => d.id === id);
   ok(ALL9.every(l => typeof c['translation_' + l] === 'string'), `${id} carries all 9 translations`);
 }
-ok(E.slice(18).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 019+ carry NO translation fields');
+ok(E.slice(19).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 020+ carry NO translation fields');
 ok(M.length === 25 && E.length === 23 && P.length > 0, '25 morning + 23 evening + prayer intact');
 
 console.log('\n================ 10. Renderers (server.js / app.js) untouched — no runtime external translation ================');
@@ -128,10 +128,10 @@ ok((srvSrc.match(/dhikr\['translation_' \+ _trLang\]/g) || []).length === 1 && (
 ok(/dir="' \+ \(_trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(srvSrc) && /trEl\.setAttribute\('dir', _trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(appSrc), 'ur ⇒ dir=rtl (both sides)');
 ok(has(b17, 'AZKAR-EVENING-DUA-CARD-17-TRANSLATIONS'), 'evening-017 block carries the ticket provenance comment');
 
-console.log('\n================ 11. Cache-busters bumped (azkar-data.js?v=50 + sw v548; app.js?v=842 + style.css?v=500 STABLE) ================');
-ok(/js\/azkar-data\.js\?v=50\b/.test(htmlSrc), 'index.html loads js/azkar-data.js?v=50');
-ok(!/js\/azkar-data\.js\?v=49\b/.test(htmlSrc), 'no stale ?v=48 azkar-data reference in index.html');
-ok(/CACHE_VERSION\s*=\s*'v548'/.test(swSrc), "sw.js CACHE_VERSION = 'v548'");
+console.log('\n================ 11. Cache-busters bumped (azkar-data.js?v=51 + sw v549; app.js?v=842 + style.css?v=500 STABLE) ================');
+ok(/js\/azkar-data\.js\?v=51\b/.test(htmlSrc), 'index.html loads js/azkar-data.js?v=51');
+ok(!/js\/azkar-data\.js\?v=50\b/.test(htmlSrc), 'no stale ?v=48 azkar-data reference in index.html');
+ok(/CACHE_VERSION\s*=\s*'v549'/.test(swSrc), "sw.js CACHE_VERSION = 'v549'");
 ok(/js\/app\.js\?v=842\b/.test(htmlSrc) && /style\.css\?v=500\b/.test(htmlSrc), 'app.js?v=842 + style.css?v=500 STABLE (NOT bumped)');
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);

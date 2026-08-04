@@ -1442,6 +1442,29 @@
             type: 'dhikr',
             title: null,
             text: 'أَمْسَيْنَا عَلَى فِطْرَةِ الْإِسْلَامِ، وَعَلَى كَلِمَةِ الْإِخْلَاصِ، وَعَلَى دِينِ نَبِيِّنَا مُحَمَّدٍ صَلَّى اللَّهُ عَلَيْهِ وَسَلَّمَ، وَعَلَى مِلَّةِ أَبِينَا إِبْرَاهِيمَ، حَنِيفًا مُسْلِمًا وَمَا كَانَ مِنَ الْمُشْرِكِينَ.',
+            // AZKAR-EVENING-DUA-CARD-19-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the dua
+            // (meaning only; no repeat label, reference, isnad, transliteration, footnote, or extra Arabic). NOT time-neutral:
+            // explicit EVENING form (amsayna / this evening), so no verbatim reuse — each = its morning-019 twin with the
+            // documented day->night swap, EXCEPT en (native evening source). EIGHT meanings each: (1) amsayna=we entered the
+            // evening (2) upon the fitrah of Islam (natural disposition, not merely Islam) (3) the word of sincerity (kalimat
+            // al-ikhlas) (4) the religion of our Prophet Muhammad (5) the millah/way of our FATHER Ibrahim (our-father kept)
+            // (6) hanif (7) Muslim (8) and he was not of the polytheists. UNIFIED HONORIFIC-STRIP (user policy A): the salawat
+            // and any honorific are removed from EVERY translation block (all 9) — meaning «our Prophet Muhammad» only, NO
+            // salawat symbol/phrase, NO honorific on Ibrahim; the Arabic text above keeps «صلى الله عليه وسلم» byte-identical.
+            // Sources: en=Life With Allah evening (native, Ahmad 15360); fr=Ad3i evening (Citadelle/Hisnul Muslim, Dar Al Athar
+            // ch.27); ur=IslamHouse Urdu 827527; tr=Ilme Davet Hisnu'l-Muslim; bn=gtaf Hisnul Muslim Bengali (evening block);
+            // ms=Aku Islam (SWAP/COMPOSITE, disclosed medium confidence, evening set from «أمسينا», NOT AI/machine); de=German
+            // IslamHouse print edition; es=La Fortaleza del Musulman (al-Qahtani) DIVERGE (morning twin dropped «our father»);
+            // id=Indonesian Muslim (Yufid) morning-twin + evening swap. morning-019 NOT touched. NO translation_ar.
+            translation_en: "We have entered the evening upon the natural religion of Islam, the statement of pure faith, the religion of our Prophet Muhammad, and upon the way of our father Ibrahim, who turned away from all that is false, having surrendered to Allah, and he was not of the polytheists.",
+            translation_fr: "Nous voici au soir, et en nous se trouve la nature première qui est l'Islam, en nous, la parole du monothéisme ; nous sommes dans la religion de notre Prophète Muhammad et sur la voie de notre père Abraham qui vouait son culte exclusivement à Allah, soumis à Lui, et n'était point du nombre des associateurs.",
+            translation_ur: "ہم نے فطرت اسلام اور کلمہ اخلاص اور نبی محمد کے دین اور اپنے باپ ابراہیم کی ملت پر شام کی جو یک طرفہ خالص مسلمان تھے، اور وہ مشرکوں میں سے نہیں تھے۔",
+            translation_tr: "İslâm fıtratı, ihlas kelimesi ve Nebîmiz Muhammed'in dini üzere; hanif ve müslüman olan, müşriklerden olmayan babamız İbrahim'in milleti üzere akşama eriştik.",
+            translation_bn: "আমরা বিকালে উপনীত হয়েছি ইসলামের ফিত্বরাতের ওপর, নিষ্ঠাপূর্ণ বাণী (তাওহীদ) এর ওপর, আমাদের নবী মুহাম্মাদ-এর দীনের ওপর, আর আমাদের পিতা ইব্রাহীম-এর মিল্লাতের ওপর—যিনি ছিলেন একনিষ্ঠ মুসলিম এবং যিনি মুশরিকদের অন্তর্ভুক্ত ছিলেন না।",
+            translation_ms: "Kami berada pada waktu petang di atas fitrah Islam, di atas kalimah ikhlas, di atas agama Nabi kami Muhammad, dan di atas agama bapa kami Ibrahim yang lurus lagi muslim, dan beliau tidak tergolong dalam kalangan orang-orang musyrik.",
+            translation_de: "Wir sind mit der Fitrah (natürliche Veranlagung) des Islam in den Abend eingetreten, und mit dem Wort der Aufrichtigkeit und mit der Religion unseres Propheten Muhammad und der Religion unseres Vaters Ibrahim, der ein Anhänger des rechten Glaubens war, einer, der sich Allah ergeben hat, und er gehörte nicht zu den Götzendienern.",
+            translation_es: "Anochecimos con la fitrah del Islam, con la palabra del monoteísmo puro, en la religión de nuestro Profeta Muhámmad y de la religión de nuestro padre Abraham, quien fue monoteísta, musulmán y no se contó entre los asociadores.",
+            translation_id: "Kami berada di waktu petang di atas fitrah Islam, di atas kalimat ikhlas, di atas agama Nabi kami Muhammad, dan di atas millah (ajaran) bapak kami Ibrahim yang lurus, seorang muslim, dan beliau tidak termasuk dari golongan orang-orang musyrik.",
             repeat: 1,
             repeatLabel: { ar: 'مرة واحدة', en: 'once' },
             source: { ref: 'رواه أحمد' },

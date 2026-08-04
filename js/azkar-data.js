@@ -1516,6 +1516,30 @@
             type: 'dhikr',
             title: null,
             text: 'سُبْحَانَ اللَّهِ وَبِحَمْدِهِ.',
+            // AZKAR-EVENING-DUA-CARD-21-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the
+            // SHORT tasbih (meaning only; no repeat label, reference, isnad, transliteration, footnote, virtue/reward, or
+            // extra Arabic). TIME-NEUTRAL — same dhikr said morning AND evening → all NINE = the morning-021 twin verbatim
+            // (REUSE): zero DIVERGE, zero SWAP, zero COMPOSITE, and the Arabic here is byte-identical to that twin. TWO
+            // meanings each: (1) tasbih — glory/purity to Allah, declaring Him free of every imperfection (2) wa bihamdih —
+            // and with His praise. ⛔ SHORT form ONLY: this card carries no Mighty-attribute suffix, no by-the-number-of-His-
+            // creation extension, and no second dhikr appended; every such longer narration is a DIFFERENT card and was
+            // rejected in all 9 (the sources publish those as separate standalone entries). Sources: en=Hisn al-Muslim EN;
+            // fr=Hisnii Citadelle du Musulman item 20 (its item 21 longer variant rejected); ur=IslamicUrduBooks Ibn Majah
+            // 3812; tr=Ilme Davet Hisnul Muslim 91; bn=HisnMuslim Bengali 91-(17); ms=Aku Islam Zikir Pagi Petang item 14;
+            // de=printed German Hisn al-Muslim card (91)-17 — USER-decided REUSE, no German DIVERGE opened; es=HadeethEnc
+            // Spanish 5516; id=HisnMuslim Indonesian. Disclosures: bn keeps the published doublet purity+majesty inside the
+            // ONE tasbih (the Bengali adjective for the rejected attribute is absent); es mid-phrase capital is cosmetic
+            // only; id parenthesis is part of the source meaning, not a footnote. morning-021 NOT touched. virtue stays a
+            // separate Arabic field (untranslated). NO translation_ar.
+            translation_en: "How perfect Allah is and I praise Him.",
+            translation_fr: "Gloire, pureté et louange à Allah.",
+            translation_ur: "اللہ پاک ہے اور اپنی تعریف کے ساتھ ہے۔",
+            translation_tr: "Hamdederek Allah'ı tüm noksanlıklardan tenzih ederim.",
+            translation_bn: "আমি আল্লাহর প্রশংসাসহ পবিত্রতা ও মহিমা ঘোষণা করছি।",
+            translation_ms: "Mahasuci Allah, aku memuji-Nya.",
+            translation_de: "Gepriesen sei Allah und Lob sei Ihm.",
+            translation_es: "Glorificado sea Allah y Alabado sea.",
+            translation_id: "Maha Suci Allah dan segala puji (bagi-Nya).",
             repeat: 100,
             repeatLabel: { ar: 'مئة مرة', en: 'one hundred times' },
             source: { ref: 'رواه مسلم' },

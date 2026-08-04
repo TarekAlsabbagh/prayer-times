@@ -1479,6 +1479,29 @@
             type: 'dhikr',
             title: null,
             text: 'لَا إِلَٰهَ إِلَّا اللَّهُ، وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ.',
+            // AZKAR-EVENING-DUA-CARD-20-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the SHORT
+            // tahlil (meaning only; no repeat label, reference, isnad, transliteration, footnote, virtue/reward, or extra
+            // Arabic). TIME-NEUTRAL — same dhikr said morning AND evening → each = its morning-020 twin verbatim (REUSE),
+            // EXCEPT de and es (DIVERGE). SIX meanings each: (1) none worthy of worship except Allah (2) He ALONE (wahdah,
+            // kept distinct from no-partner) (3) no partner (4) to Him the dominion (5) and to Him all praise (6) He is over
+            // all things powerful. ⛔ SHORT form only — NO «yuhyi wa yumit / gives life and causes death», NO «biyadihi
+            // al-khayr», NO «huwa hayyun la yamut», NO other-narration addition (the longer 10×/post-prayer variant is a
+            // DIFFERENT narration and is rejected in all 9). de=DIVERGE: morning-020 de blurred ①(worthy-of-worship) and
+            // ②(alone folded into no-partner) → restored from HadeethEnc German 5517. es=DIVERGE-limited (user-approved):
+            // morning-020 es dropped «digna de adoracion» → inserted that phrase ONLY, rest identical to the twin; the long
+            // HadeethEnc es tafsir wording (glorificado sea / con amor y exaltacion) is rejected. Sources: en=Hisn al-Muslim
+            // EN; fr=Hisnii Forteresse du Musulman (bracket sense-gloss kept); ur=IslamHouse Urdu 827527 + HadeethEnc-ur 5517;
+            // tr=Muhammed short-tehlil + Sorularla; bn=HisnMuslim Bengali (100x note stripped); ms=Aku Islam; id=HisnMuslim
+            // Indonesian. morning-020 NOT touched. virtue stays a separate Arabic field (untranslated). NO translation_ar.
+            translation_en: "None has the right to be worshipped except Allah, alone, without partner, to Him belongs all sovereignty and praise, and He is over all things omnipotent.",
+            translation_fr: "Il n'y a aucune divinité [digne d'être adorée] en dehors d'Allah, Seul, sans associé. À Lui la royauté, à Lui la louange et Il est capable de toute chose.",
+            translation_ur: "اللہ کے علاوہ کوئی عبادت کے لائق نہیں، وہ اکیلا ہے، اس کا کوئی شریک نہیں، اسی کے لئے ملک ہے، اور اسی کے لئے حمد ہے اور وہ ہر چیز پر قادر ہے۔",
+            translation_tr: "Allah'tan başka hakkıyla ibâdete lâyık hiçbir ilah yoktur. O, birdir ve hiçbir ortağı yoktur. Mülk O'nundur, hamd da O'nadır. O, her şeye gücü yetendir.",
+            translation_bn: "একমাত্র আল্লাহ ছাড়া কোনো হক্ব ইলাহ নেই, তাঁর কোনো শরীক নেই, রাজত্ব তাঁরই, সমস্ত প্রশংসাও তাঁর, আর তিনি সকল কিছুর উপর ক্ষমতাবান।",
+            translation_ms: "Tidak ada Tuhan yang berhak disembah selain Allah semata, tidak ada sekutu bagi-Nya. Bagi-Nya kerajaan dan segala pujian. Dia-lah yang berkuasa atas segala sesuatu.",
+            translation_de: "Es gibt keinen anbetungswürdigen Gott außer Allah, Ihm allein, keinen Partner hat Er. Ihm gehört die Herrschaft und Ihm gebührt das Lob und Er hat zu allem die Macht.",
+            translation_es: "No hay divinidad digna de adoración salvo Allah, único, sin asociado, Suyo es el Reino y Suya es la alabanza y es sobre toda cosa Poderoso.",
+            translation_id: "Tidak ada ilah yang berhak disembah selain Allah semata, tidak ada sekutu bagi-Nya. Milik Allah kerajaan dan segala pujian. Dia-lah yang berkuasa atas segala sesuatu.",
             repeat: 100,
             repeatLabel: { ar: 'عشر مرات أو مئة مرة', en: '10 or 100 times' },
             source: { ref: 'رواه الترمذي' },

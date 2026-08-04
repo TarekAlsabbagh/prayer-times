@@ -117,22 +117,22 @@ ok(!/https?:\/\//.test(b18) && !/\.(com|org|net|my|app|fr|de|es)\b/i.test(b18), 
 ok(!/https?:\/\/|www\.|\.(com|org|net|my|app|fr|de|es)\b|\bor\.id\b/i.test(dataSrc), 'no source URLs/domains (TLD) anywhere in azkar-data — bare book/source names only');
 ok(has(b18, 'AZKAR-EVENING-DUA-CARD-18-TRANSLATIONS'), 'evening-018 block carries the ticket provenance comment');
 
-console.log('\n================ 9. Per-region counts — evening 19, morning 25, prayer 0, ar 0 ================');
+console.log('\n================ 9. Per-region counts — evening 20, morning 25, prayer 0, ar 0 ================');
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
 const mornRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarMorning'), dataSrc.indexOf('window.AzkarEvening'));
 const prayRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 19, `evening region translation_${l}: EXACTLY 19 (001-004 Quran + 005-019 dua)`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 20, `evening region translation_${l}: EXACTLY 20 (001-004 Quran + 005-020 dua)`);
 for (const l of ALL9) ok((mornRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 25, `morning region translation_${l}: EXACTLY 25 (unchanged)`);
 ok(!/translation_[a-z]+\s*:/.test(prayRegion), 'prayer region has NO translation fields (unchanged)');
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
 
-console.log('\n================ 10. Evening 001-019 translated; 020+ untranslated; morning/prayer intact ================');
-for (let n = 1; n <= 19; n++) {
+console.log('\n================ 10. Evening 001-020 translated; 021+ untranslated; morning/prayer intact ================');
+for (let n = 1; n <= 20; n++) {
   const id = 'evening-0' + String(n).padStart(2, '0');
   const c = E.find(d => d.id === id);
   ok(ALL9.every(l => typeof c['translation_' + l] === 'string'), `${id} carries all 9 translations`);
 }
-ok(E.slice(19).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 020+ carry NO translation fields');
+ok(E.slice(20).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 021+ carry NO translation fields');
 ok(M.length === 25 && M.every(d => ALL9.every(l => typeof d['translation_' + l] === 'string')), 'all 25 morning cards still fully translated (untouched)');
 ok(M.length === 25 && E.length === 23 && P.length > 0, '25 morning + 23 evening + prayer intact');
 
@@ -140,10 +140,10 @@ console.log('\n================ 11. Renderers (server.js / app.js) untouched —
 ok((srvSrc.match(/dhikr\['translation_' \+ _trLang\]/g) || []).length === 1 && (appSrc.match(/dhikr\['translation_' \+ _trLang\]/g) || []).length === 1, 'server+client read translation_{lang} in exactly ONE place each');
 ok(/dir="' \+ \(_trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(srvSrc) && /trEl\.setAttribute\('dir', _trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(appSrc), 'ur ⇒ dir=rtl (both sides)');
 
-console.log('\n================ 12. Cache-busters bumped (azkar-data.js?v=51 + sw v549; app.js?v=842 + style.css?v=500 STABLE) ================');
-ok(/js\/azkar-data\.js\?v=51\b/.test(htmlSrc), 'index.html loads js/azkar-data.js?v=51');
-ok(!/js\/azkar-data\.js\?v=50\b/.test(htmlSrc), 'no stale ?v=49 azkar-data reference in index.html');
-ok(/CACHE_VERSION\s*=\s*'v549'/.test(swSrc), "sw.js CACHE_VERSION = 'v549'");
+console.log('\n================ 12. Cache-busters bumped (azkar-data.js?v=52 + sw v550; app.js?v=842 + style.css?v=500 STABLE) ================');
+ok(/js\/azkar-data\.js\?v=52\b/.test(htmlSrc), 'index.html loads js/azkar-data.js?v=52');
+ok(!/js\/azkar-data\.js\?v=51\b/.test(htmlSrc), 'no stale ?v=49 azkar-data reference in index.html');
+ok(/CACHE_VERSION\s*=\s*'v550'/.test(swSrc), "sw.js CACHE_VERSION = 'v550'");
 ok(/js\/app\.js\?v=842\b/.test(htmlSrc) && /style\.css\?v=500\b/.test(htmlSrc), 'app.js?v=842 + style.css?v=500 STABLE (NOT bumped)');
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);

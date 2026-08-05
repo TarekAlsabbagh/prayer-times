@@ -104,7 +104,7 @@ ok(M[18].translation_en.startsWith('We rise upon the fitrah'), 'Card 19 en intac
 ok(M[17].translation_en.startsWith('We have reached the morning'), 'Card 18 en intact');
 ok(M[19].translation_en.startsWith('None has the right to be worshipped'), 'Card 20 en is the new tahlil');
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 22, `evening region translation_${l} still EXACTLY 22`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 23, `evening region translation_${l} still EXACTLY 23`);
 ok(!/translation_[a-z]+\s*:/.test(dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'))), 'prayer region has NO translation fields');
 ok(sandbox.window.AzkarEvening.length === 23 && sandbox.window.AzkarPrayer.length > 0, 'evening 23 + prayer intact');
 
@@ -121,10 +121,10 @@ ok(!/hadeethenc\.com/i.test(dataSrc), 'HadeethEnc NOT referenced');
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=54/.test(htmlSrc), 'index.html azkar-data.js?v=54 (Card 20 data added)');
+ok(/js\/azkar-data\.js\?v=55/.test(htmlSrc), 'index.html azkar-data.js?v=55 (Card 20 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED');
-ok(/CACHE_VERSION = 'v552'/.test(swSrc), "sw.js CACHE_VERSION 'v552'");
+ok(/CACHE_VERSION = 'v553'/.test(swSrc), "sw.js CACHE_VERSION 'v553'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

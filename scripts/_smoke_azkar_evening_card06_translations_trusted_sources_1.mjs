@@ -107,7 +107,7 @@ console.log('\n================ 5. Per-region translation counts — evening 7, 
 const evRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarEvening'), dataSrc.indexOf('window.AzkarPrayer'));
 const mornRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarMorning'), dataSrc.indexOf('window.AzkarEvening'));
 const prayRegion = dataSrc.slice(dataSrc.indexOf('window.AzkarPrayer'));
-for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 22, `evening region translation_${l}: EXACTLY 22 (001-004 Quran + 005-022 dua)`);
+for (const l of ALL9) ok((evRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 23, `evening region translation_${l}: EXACTLY 23 (001-004 Quran + 005-023 dua)`);
 for (const l of ALL9) ok((mornRegion.match(new RegExp('translation_' + l + ':', 'g')) || []).length === 25, `morning region translation_${l}: EXACTLY 25 (unchanged)`);
 ok(!/translation_[a-z]+\s*:/.test(prayRegion), 'prayer region has NO translation fields (unchanged)');
 ok(!/translation_ar\s*:/.test(dataSrc), 'NO translation_ar field anywhere');
@@ -119,7 +119,7 @@ for (const id of ['evening-001','evening-002','evening-003','evening-004','eveni
 }
 ok(E.find(d => d.id === 'evening-005').translation_en.includes('reached the evening') && E.find(d => d.id === 'evening-005').translation_en.includes('omnipotent'),
   'evening-005 (previous dua) translation intact');
-ok(E.slice(22).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 023+ carry NO translation fields');
+ok(E.slice(23).every(d => ALL9.every(l => d['translation_' + l] == null)), 'evening cards 024+ carry NO translation fields');
 ok(M.length === 25 && E.length === 23 && P.length > 0, '25 morning + 23 evening + prayer intact');
 ok(M.every(d => ALL9.every(l => typeof d['translation_' + l] === 'string')), 'all 25 morning cards still fully translated (untouched)');
 
@@ -136,10 +136,10 @@ ok(!/https?:\/\/|www\.|\.(com|org|net|my|app|fr|de|es)\b|\bor\.id\b/i.test(dataS
 ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 
 console.log('\n================ 9. Cache-busters ================');
-ok(/js\/azkar-data\.js\?v=54/.test(htmlSrc), 'index.html azkar-data.js?v=54 (evening-006 data added)');
+ok(/js\/azkar-data\.js\?v=55/.test(htmlSrc), 'index.html azkar-data.js?v=55 (evening-006 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
 ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED');
-ok(/CACHE_VERSION = 'v552'/.test(swSrc), "sw.js CACHE_VERSION 'v552'");
+ok(/CACHE_VERSION = 'v553'/.test(swSrc), "sw.js CACHE_VERSION 'v553'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

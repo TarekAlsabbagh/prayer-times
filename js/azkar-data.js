@@ -1602,6 +1602,36 @@
             type: 'dhikr',
             title: null,
             text: 'اللَّهُمَّ صَلِّ وَسَلِّمْ عَلَى نَبِيِّنَا مُحَمَّدٍ.',
+            // AZKAR-EVENING-DUA-CARD-23-TRANSLATIONS-TRUSTED-SOURCES-ALL-LANGUAGES-1: static meaning-translations of the
+            // SHORT salawat (meaning only; no repeat label, reference, isnad, transliteration, footnote, narration frame,
+            // virtue/reward, or extra Arabic). FOUR meanings each: (1) the vocative address to Allah (2) the imperative
+            // "send blessings upon" (3) the imperative "send peace upon" — kept as a SECOND distinct act, not folded into
+            // the first (4) our Prophet Muhammad. ⛔ HARD BAN in all 9: the long Ibrahimic formula, the Prophet's family,
+            // Ibrahim's family, the "as You blessed" clause, the separate "and bless" petition, the closing praise
+            // couplet, and any longer wording at all — this card is the short form only.
+            // The morning twin ships the same Arabic, so four of nine are reused verbatim (en, tr, bn, ms) and five
+            // diverge for stated defects: fr + es change the VOCATIVE ONLY, restoring the divine name that the Arabic
+            // actually says while keeping the publisher's sentence body word for word; ur drops the honorific formula the
+            // twin had embedded inside the translation block, which was both out of policy and redundant since this dhikr
+            // IS that formula; de replaces a verbless nominal that left meanings (2) and (3) as a wish rather than a
+            // petition, and is the only one of the nine carrying two separate imperatives; id promotes the verb the twin
+            // had left in parentheses, which read as a translator's insertion even though the Arabic states it outright.
+            // The vocative choice here is a per-card meaning decision, not a corpus-wide rule; unifying that address
+            // across every card is registered as its own separate future work and is NOT applied here. morning-025 is
+            // deliberately left exactly as it is. Sources: en + bn + es = the fortress-of-the-Muslim official editions
+            // (chapter 27, item 98 of 24); fr = Dar Al Athar, French edition, item 98; tr = Ilme Davet, Turkish edition,
+            // item 98; ur = Talaqqi, morning & evening adhkar; ms = Zikir, evening salawat entry; de = Islamische
+            // Datenbank, chapter 27 supplication 98. virtue, authenticity, authenticityNote, source, repeat and
+            // repeatLabel all stay untouched, Arabic-only fields. NO translation_ar.
+            translation_en: "O Allah, send prayers and peace upon our Prophet Muhammad.",
+            translation_fr: "Ô Allah ! Accorde Tes bénédictions et la paix à notre Prophète Muhammad.",
+            translation_ur: "اے اللہ، ہمارے نبی محمد پر درود و سلام بھیج۔",
+            translation_tr: "Allahım! Peygamberimiz Muhammed'e salât ve selâm eyle.",
+            translation_bn: "হে আল্লাহ! আপনি সালাত ও সালাম পেশ করুন আমাদের নবী মুহাম্মাদের উপর।",
+            translation_ms: "Ya Allah, limpahkan selawat dan salam atas Nabi kami Muhammad.",
+            translation_de: "O Allāh, sprich Gebete über unseren Propheten Muḥammad und sende ihm Friedensgrüße.",
+            translation_es: "Oh Allah, concede paz y bendiciones a nuestro Profeta Muhammad.",
+            translation_id: "Ya Allah, limpahkanlah shalawat dan salam atas Nabi kami Muhammad.",
             repeat: 10,
             repeatLabel: { ar: 'عشر مرات', en: 'ten times' },
             source: { ref: 'سورة الأحزاب 56، والحديث الصحيح' },

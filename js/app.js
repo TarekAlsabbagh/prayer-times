@@ -27105,20 +27105,48 @@ function _azkarLocalizeStaticUi() {
 }
 // AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: SPA-nav parity for the prayer BOTTOM chrome.
 // Rewrites [data-azkar-ui] / [data-azkar-ui-aria] nodes inside #page-azkar-prayer from the 10-lang prayer dict.
-// Idempotent on the full-load path (SSR already localized them to the same values). The prayer TOP chrome has
-// no markers, so it is untouched (out of scope: AZKAR-PRAYER-PAGE-FULL-UI-LOCALIZATION-ALL-LANGUAGES-1).
+// Idempotent on the full-load path (SSR already localized them to the same values).
+// AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1: the TOP chrome now has markers too, in the SEPARATE `data-azkar-pui`
+// namespace backed by window.AZKAR_PRAYER_PAGE_UI_L10N (js/azkar-prayer-ui-l10n.js). Two namespaces, two
+// dicts, one scoped pass each — a shared attribute would let the prayer dict rewrite the morning/evening
+// chrome, which carries generic keys of the same names. Both queries are scoped to #page-azkar-prayer.
+// Language resolution order is deliberate: <html lang> FIRST. SSR always stamps it with the route's
+// language, so it is correct from the very first byte, whereas `currentLang` can still be at its default
+// when this runs — and falling back to the Arabic map would overwrite correct SSR chrome with Arabic.
+function _azkarPrayerPageUiMap() {
+    const U = (typeof window !== 'undefined' && window.AZKAR_PRAYER_PAGE_UI_L10N) || null;
+    if (!U) return null;
+    const htmlLang = (document.documentElement.getAttribute('lang') || '').slice(0, 2);
+    const lang = (U[htmlLang] ? htmlLang : null) ||
+                 ((typeof currentLang !== 'undefined' && currentLang && U[currentLang]) ? currentLang : null);
+    // No confident language ⇒ do NOTHING rather than stamp Arabic over correct SSR output.
+    return lang ? U[lang] : null;
+}
 function _azkarLocalizePrayerStaticUi() {
-    const ui = _azkarPrayerUiMap();
     const root = document.getElementById('page-azkar-prayer');
-    if (!ui || !root) return;
-    root.querySelectorAll('[data-azkar-ui]').forEach(function (el) {
-        const k = el.getAttribute('data-azkar-ui');
-        if (ui[k] != null) el.textContent = ui[k];
-    });
-    root.querySelectorAll('[data-azkar-ui-aria]').forEach(function (el) {
-        const k = el.getAttribute('data-azkar-ui-aria');
-        if (ui[k] != null) el.setAttribute('aria-label', ui[k]);
-    });
+    if (!root) return;
+    const ui = _azkarPrayerUiMap();
+    if (ui) {
+        root.querySelectorAll('[data-azkar-ui]').forEach(function (el) {
+            const k = el.getAttribute('data-azkar-ui');
+            if (ui[k] != null) el.textContent = ui[k];
+        });
+        root.querySelectorAll('[data-azkar-ui-aria]').forEach(function (el) {
+            const k = el.getAttribute('data-azkar-ui-aria');
+            if (ui[k] != null) el.setAttribute('aria-label', ui[k]);
+        });
+    }
+    const pui = _azkarPrayerPageUiMap();
+    if (pui) {
+        root.querySelectorAll('[data-azkar-pui]').forEach(function (el) {
+            const k = el.getAttribute('data-azkar-pui');
+            if (pui[k] != null) el.textContent = pui[k];
+        });
+        root.querySelectorAll('[data-azkar-pui-aria]').forEach(function (el) {
+            const k = el.getAttribute('data-azkar-pui-aria');
+            if (pui[k] != null) el.setAttribute('aria-label', pui[k]);
+        });
+    }
 }
 function _loadAzkarMorning() {
     const listEl = document.getElementById('azkar-morning-list');
@@ -27952,7 +27980,14 @@ function _updatePrayerProgress(_doneOverride, _totalOverride) {
         });
     }
     const pct = total > 0 ? Math.round((done / total) * 100) : 0;
-    const labelText = 'تم إكمال ' + done + ' من ' + total;
+    // AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1: this label used to be a HARDCODED Arabic string, so every re-render
+    // stamped Arabic over the SSR-localized progress text on all 9 non-ar routes — the one genuine "client
+    // reverts SSR" case on this page. It now renders from the prayer-page chrome dict's `progressTpl`, falling
+    // back to the original Arabic when the dict is unavailable. Counting math above is untouched.
+    const _pui = _azkarPrayerPageUiMap();
+    const labelText = (_pui && _pui.progressTpl)
+        ? String(_pui.progressTpl).replace('{done}', done).replace('{total}', total)
+        : ('تم إكمال ' + done + ' من ' + total);
     const labelEl = document.getElementById('azkar-prayer-progress-label');
     if (labelEl) labelEl.textContent = labelText;
     const stickyLabel = document.getElementById('azkar-prayer-sticky-label');

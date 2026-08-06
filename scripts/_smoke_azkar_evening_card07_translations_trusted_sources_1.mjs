@@ -165,10 +165,10 @@ ok(/dir="' \+ \(_trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(srvSrc) && /trEl\.setA
 const srvConcat = srvSrc.match(/headerHtml \+ translationHtml \+ textHtml \+ [^\n]+/);
 ok(srvConcat && srvConcat[0].indexOf('translationHtml') < srvConcat[0].indexOf('textHtml'), 'translation rendered ABOVE the Arabic text');
 
-console.log('\n================ 8. Cache-busters bumped (azkar-data.js?v=55 + sw v553) ================');
+console.log('\n================ 8. Cache-busters bumped (azkar-data.js?v=55 + sw v554) ================');
 ok(/js\/azkar-data\.js\?v=55\b/.test(htmlSrc), 'index.html loads js/azkar-data.js?v=55');
 ok(!/js\/azkar-data\.js\?v=38\b/.test(htmlSrc), 'no stale ?v=38 azkar-data reference in index.html');
-ok(/CACHE_VERSION\s*=\s*'v553'/.test(swSrc), "sw.js CACHE_VERSION = 'v553'");
+ok(/CACHE_VERSION\s*=\s*'v554'/.test(swSrc), "sw.js CACHE_VERSION = 'v554'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

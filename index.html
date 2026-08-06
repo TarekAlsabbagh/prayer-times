@@ -80,7 +80,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=842" as="script">
+    <link rel="preload" href="js/app.js?v=843" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -4316,29 +4316,34 @@
                 <!-- ===== Hero: breadcrumb + title + subtitle + info-strip + progress ===== -->
                 <section class="azkar-hero">
                     <div class="azkar-hero-inner">
-                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح">
-                            <a href="/azkar">الأذكار</a>
+                        <!-- AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1: data-azkar-pui[-aria] keys resolve from
+                             window.AZKAR_PRAYER_PAGE_UI_L10N (js/azkar-prayer-ui-l10n.js). The `-pui-`
+                             namespace is deliberate: the prayer walker runs over the WHOLE document, and
+                             the morning/evening sections carry generic `data-azkar-ui` keys of the same
+                             names, so a shared attribute would rewrite THEIR chrome with prayer wording. -->
+                        <nav class="azkar-breadcrumb" aria-label="مسار التصفح" data-azkar-pui-aria="ariaBreadcrumb">
+                            <a href="/azkar" data-azkar-pui="bcHub">الأذكار</a>
                             <span class="sep" aria-hidden="true">›</span>
-                            <span aria-current="page">أذكار الصلاة</span>
+                            <span aria-current="page" data-azkar-pui="bcCurrent">أذكار الصلاة</span>
                         </nav>
 
                         <header class="azkar-page-header">
-                            <h1 id="azkar-prayer-h1">أذكار الصلاة</h1>
-                            <p class="azkar-page-subtitle">اقرأ أذكار الصلاة مكتوبة بالترتيب — من الوضوء وحتى ما بعد السلام — مع المصدر وحفظ التقدم تلقائيًا.</p>
+                            <h1 id="azkar-prayer-h1" data-azkar-pui="heroTitle">أذكار الصلاة</h1>
+                            <p class="azkar-page-subtitle" data-azkar-pui="heroSubtitle">اقرأ أذكار الصلاة مكتوبة بالترتيب — من الوضوء وحتى ما بعد السلام — مع المصدر وحفظ التقدم تلقائيًا.</p>
                         </header>
 
-                        <ul class="azkar-info-strip" aria-label="معلومات عامة">
-                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> 17 ذكرًا</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> عداد للأذكار المتكررة</li>
-                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> يُحفظ تقدمك تلقائيًا</li>
+                        <ul class="azkar-info-strip" aria-label="معلومات عامة" data-azkar-pui-aria="ariaInfo">
+                            <li><span class="azkar-info-icon" aria-hidden="true">📿</span> <span data-azkar-pui="infoCount">17 ذكرًا</span></li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">🔢</span> <span data-azkar-pui="infoCounter">عداد للأذكار المتكررة</span></li>
+                            <li><span class="azkar-info-icon" aria-hidden="true">💾</span> <span data-azkar-pui="infoAutosave">يُحفظ تقدمك تلقائيًا</span></li>
                         </ul>
 
                         <div class="azkar-progress-wrap" id="azkar-prayer-progress-wrap">
                             <div class="azkar-progress-row">
-                                <span class="azkar-progress-label" id="azkar-prayer-progress-label">تم إكمال 0 من 0</span>
-                                <button type="button" class="azkar-reset-btn" id="azkar-prayer-reset-all" aria-label="إعادة ضبط العدادات">
+                                <span class="azkar-progress-label" id="azkar-prayer-progress-label" data-azkar-pui="progressInit">تم إكمال 0 من 0</span>
+                                <button type="button" class="azkar-reset-btn" id="azkar-prayer-reset-all" aria-label="إعادة ضبط العدادات" data-azkar-pui-aria="resetBtn">
                                     <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                                    <span>إعادة ضبط العدادات</span>
+                                    <span data-azkar-pui="resetBtn">إعادة ضبط العدادات</span>
                                 </button>
                             </div>
                             <div class="azkar-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4349,12 +4354,12 @@
                 </section>
 
                 <!-- ===== Sticky compact progress bar (visible while scrolling) ===== -->
-                <div class="azkar-sticky-progress" id="azkar-prayer-sticky" role="region" aria-label="ملخص التقدم">
+                <div class="azkar-sticky-progress" id="azkar-prayer-sticky" role="region" aria-label="ملخص التقدم" data-azkar-pui-aria="ariaProgress">
                     <div class="azkar-sticky-progress-row">
-                        <span class="azkar-sticky-progress-text" id="azkar-prayer-sticky-label">تم إكمال 0 من 0</span>
-                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-prayer-sticky-reset" aria-label="إعادة ضبط العدادات">
+                        <span class="azkar-sticky-progress-text" id="azkar-prayer-sticky-label" data-azkar-pui="progressInit">تم إكمال 0 من 0</span>
+                        <button type="button" class="azkar-reset-btn azkar-reset-btn--sticky" id="azkar-prayer-sticky-reset" aria-label="إعادة ضبط العدادات" data-azkar-pui-aria="resetBtn">
                             <span class="azkar-reset-icon" aria-hidden="true">↺</span>
-                            <span>إعادة الضبط</span>
+                            <span data-azkar-pui="resetBtnShort">إعادة الضبط</span>
                         </button>
                     </div>
                     <div class="azkar-sticky-progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -4364,8 +4369,8 @@
 
                 <!-- ===== H2 SEO keyword bridge ===== -->
                 <header class="azkar-section-intro" id="azkar-prayer-section-intro">
-                    <h2 class="azkar-section-intro-title">أذكار الصلاة مرتبة مع المصدر الصحيح</h2>
-                    <p class="azkar-section-intro-text">تجد في هذه الصفحة أذكار الصلاة كاملة بالترتيب: من أذكار الوضوء والمسجد، ثم استفتاح الصلاة والركوع والسجود والتشهد، وحتى الأذكار بعد السلام ودعاء الوتر، مع توضيح المصدر وعداد للأذكار المتكررة.</p>
+                    <h2 class="azkar-section-intro-title" data-azkar-pui="sectionTitle">أذكار الصلاة مرتبة مع المصدر الصحيح</h2>
+                    <p class="azkar-section-intro-text" data-azkar-pui="sectionText">تجد في هذه الصفحة أذكار الصلاة كاملة بالترتيب: من أذكار الوضوء والمسجد، ثم استفتاح الصلاة والركوع والسجود والتشهد، وحتى الأذكار بعد السلام ودعاء الوتر، مع توضيح المصدر وعداد للأذكار المتكررة.</p>
                 </header>
 
                 <!-- ===== Dhikr list — SSR-rendered by server.js _buildAzkarPrayerListHtml() ===== -->
@@ -4373,8 +4378,8 @@
 
                 <div class="azkar-completed-banner u-hidden" id="azkar-prayer-completed">
                     <span class="azkar-completed-banner-check" aria-hidden="true">✓</span>
-                    <p class="azkar-completed-banner-title">تم إكمال أذكار الصلاة</p>
-                    <p class="azkar-completed-banner-sub">نسأل الله أن يتقبل منك صلاتك ودعاءك.</p>
+                    <p class="azkar-completed-banner-title" data-azkar-pui="completedTitle">تم إكمال أذكار الصلاة</p>
+                    <p class="azkar-completed-banner-sub" data-azkar-pui="completedSub">نسأل الله أن يتقبل منك صلاتك ودعاءك.</p>
                 </div>
 
                 <!-- ===== Educational mini-cards (prayer-specific) ===== -->
@@ -5479,9 +5484,12 @@
          Will be removed in a future Phase 2 cleanup. -->
     <script defer src="js/duas.js?v=43"></script>
     <script defer src="js/azkar-data.js?v=55"></script>
+    <!-- AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1: prayer-page TOP-chrome strings (page UI only, no card data).
+         Its own ?v= counter, independent of azkar-data.js so UI edits never bump the card-data buster. -->
+    <script defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=842"></script>
+    <script defer src="js/app.js?v=843"></script>
     <script defer src="js/footer-cookie.js?v=7"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

@@ -233,8 +233,8 @@ ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch');
 console.log('\n================ 9. Cache-busters ================');
 ok(/js\/azkar-data\.js\?v=55/.test(htmlSrc), 'index.html azkar-data.js?v=55 (Card 15 data added)');
 ok((htmlSrc.match(/js\/azkar-data\.js\?v=/g) || []).length === 1, 'azkar-data.js referenced EXACTLY once');
-ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED (generic renderer)');
-ok(/CACHE_VERSION = 'v553'/.test(swSrc), "sw.js CACHE_VERSION 'v553'");
+ok(/js\/app\.js\?v=843/.test(htmlSrc), 'index.html app.js?v=843 UNCHANGED (generic renderer)');
+ok(/CACHE_VERSION = 'v554'/.test(swSrc), "sw.js CACHE_VERSION 'v554'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

@@ -72,9 +72,9 @@ A(!srv.includes('data-azkar-ui-href'), 'server: walker has NO href rule (existin
 
 // (e) cache-busters
 A((html.match(/azkar-data\.js\?v=55\b/g) || []).length >= 1, 'index: azkar-data.js?v=55');
-A((html.match(/app\.js\?v=842\b/g) || []).length >= 2, 'index: app.js?v=842 (bumped — app.js touched in batch 3)');
+A((html.match(/app\.js\?v=843\b/g) || []).length >= 2, 'index: app.js?v=843 (bumped — app.js touched in batch 3)');
 A(!/app\.js\?v=839/.test(html), 'index: no app.js?v=839');
-A(/CACHE_VERSION\s*=\s*'v553'/.test(read('sw.js')), 'sw.js: CACHE_VERSION v553');
+A(/CACHE_VERSION\s*=\s*'v554'/.test(read('sw.js')), 'sw.js: CACHE_VERSION v554');
 
 console.log('\n================ AZKAR MORNING BOTTOM L10N SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

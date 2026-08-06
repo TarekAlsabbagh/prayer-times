@@ -122,8 +122,8 @@ ok(!/quranenc\.com/i.test(srvSrc) && !/quranenc\.com/i.test(appSrc) && !/quranen
 
 console.log('\n================ 9. Cache-busters ================');
 ok(/js\/azkar-data\.js\?v=55/.test(htmlSrc), 'index.html azkar-data.js?v=55 (bumped by the Card 09 ticket)');
-ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842');
-ok(/CACHE_VERSION = 'v553'/.test(swSrc), "sw.js CACHE_VERSION 'v553' (bumped by the Card 09 ticket)");
+ok(/js\/app\.js\?v=843/.test(htmlSrc), 'index.html app.js?v=843');
+ok(/CACHE_VERSION = 'v554'/.test(swSrc), "sw.js CACHE_VERSION 'v554' (bumped by the Card 09 ticket)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

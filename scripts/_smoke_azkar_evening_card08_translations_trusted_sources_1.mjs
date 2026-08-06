@@ -142,10 +142,10 @@ console.log('\n================ 8. Renderers (server.js / app.js) untouched ====
 ok((srvSrc.match(/dhikr\['translation_' \+ _trLang\]/g) || []).length === 1 && (appSrc.match(/dhikr\['translation_' \+ _trLang\]/g) || []).length === 1, 'server+client read translation_{lang} in exactly ONE place each');
 ok(/dir="' \+ \(_trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(srvSrc) && /trEl\.setAttribute\('dir', _trLang === 'ur' \? 'rtl' : 'ltr'\)/.test(appSrc), 'ur ⇒ dir=rtl (both sides)');
 
-console.log('\n================ 9. Cache-busters bumped (azkar-data.js?v=55 + sw v553) ================');
+console.log('\n================ 9. Cache-busters bumped (azkar-data.js?v=55 + sw v554) ================');
 ok(/js\/azkar-data\.js\?v=55\b/.test(htmlSrc), 'index.html loads js/azkar-data.js?v=55');
 ok(!/js\/azkar-data\.js\?v=39\b/.test(htmlSrc), 'no stale ?v=39 azkar-data reference in index.html');
-ok(/CACHE_VERSION\s*=\s*'v553'/.test(swSrc), "sw.js CACHE_VERSION = 'v553'");
+ok(/CACHE_VERSION\s*=\s*'v554'/.test(swSrc), "sw.js CACHE_VERSION = 'v554'");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);
 if (fail) { console.log('FAILURES:'); fails.forEach(f => console.log('  - ' + f)); process.exit(1); }

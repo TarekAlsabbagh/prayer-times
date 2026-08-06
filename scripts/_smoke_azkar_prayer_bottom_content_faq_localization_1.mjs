@@ -92,8 +92,8 @@ A(eR.includes('<!-- AZKAR-EVENING-FAQ-SCHEMA -->') && eR.includes('data-azkar-ui
 
 // ---- 9. cache-busters (app.js WAS touched → 838) ----
 A(html.includes('azkar-data.js?v=55'), 'index.html azkar-data.js?v=55');
-A(html.includes('app.js?v=842') && !html.includes('app.js?v=837'), 'index.html app.js?v=842 (bumped, no stale 837)');
-A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v553'"), "sw.js CACHE_VERSION 'v553'");
+A(html.includes('app.js?v=843') && !html.includes('app.js?v=837'), 'index.html app.js?v=843 (bumped, no stale 837)');
+A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v554'"), "sw.js CACHE_VERSION 'v554'");
 
 console.log('\n================ AZKAR PRAYER BOTTOM SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

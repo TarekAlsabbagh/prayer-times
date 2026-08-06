@@ -82,8 +82,8 @@ A(mRegion.includes('data-azkar-ui="edu1T"') && mRegion.includes('<!-- AZKAR-MORN
 
 // ---- 7. cache-busters ----
 A(html.includes('azkar-data.js?v=55'), 'index.html azkar-data.js?v=55');
-A(html.includes('app.js?v=842'), 'index.html app.js?v=842 (unchanged)');
-A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v553'"), "sw.js CACHE_VERSION 'v553'");
+A(html.includes('app.js?v=843'), 'index.html app.js?v=843 (unchanged)');
+A(fs.readFileSync(ROOT + '/sw.js', 'utf8').includes("CACHE_VERSION = 'v554'"), "sw.js CACHE_VERSION 'v554'");
 
 console.log('\n================ AZKAR EVENING BOTTOM SMOKE: ' + pass + ' passed, ' + fail + ' failed ================');
 process.exit(fail ? 1 : 0);

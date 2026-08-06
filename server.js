@@ -7079,6 +7079,26 @@ try {
     _AZKAR_PRAYER_DATA = [];
 }
 
+// AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1 (2026-08-06): prayer-page TOP-chrome dict, loaded from its OWN
+// file (js/azkar-prayer-ui-l10n.js) in a SEPARATE sandbox. Deliberate boundary: js/azkar-data.js is
+// reserved for the azkar CARDS, so page-UI work never opens the card-data file. Page chrome only —
+// no dhikr text, no card translation, no source/repeat/virtue/authenticity. Failure is non-fatal:
+// the dict stays empty, the walker becomes a no-op and the page renders its Arabic defaults.
+let _AZKAR_PRAYER_PAGE_UI_L10N = {};
+try {
+    const _pUiSrc = fs.readFileSync(path.join(__dirname, 'js', 'azkar-prayer-ui-l10n.js'), 'utf8');
+    const _pUiSandbox = { window: {}, console: { log: () => {} } };
+    new Function('window', 'console', _pUiSrc)(_pUiSandbox.window, _pUiSandbox.console);
+    _AZKAR_PRAYER_PAGE_UI_L10N = (_pUiSandbox.window.AZKAR_PRAYER_PAGE_UI_L10N &&
+        typeof _pUiSandbox.window.AZKAR_PRAYER_PAGE_UI_L10N === 'object')
+        ? _pUiSandbox.window.AZKAR_PRAYER_PAGE_UI_L10N : {};
+    console.log('[azkar-ssr] Loaded prayer-page UI chrome for ' +
+        Object.keys(_AZKAR_PRAYER_PAGE_UI_L10N).length + ' languages');
+} catch (e) {
+    console.warn('[azkar-ssr] Failed to load azkar-prayer-ui-l10n.js — prayer TOP chrome stays Arabic: ' + e.message);
+    _AZKAR_PRAYER_PAGE_UI_L10N = {};
+}
+
 // AZKAR-MORNING-PAGE-UI-LOCALIZATION-ALL-LANGUAGES-1: morning-page UI chrome is now 10-lang,
 // sourced from the shared _AZKAR_MORNING_UI_L10N dict (js/azkar-data.js — single source of truth,
 // byte-mirrored by js/app.js). `_azkarUiL10n(lang)` returns the per-language chrome map, falling
@@ -7112,6 +7132,37 @@ function _translateAzkarPrayerUi(html, lang) {
             return open + _escHtml(String(ui[key])) + close;
         });
     html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?\sdata-azkar-ui-aria="([^"]+)"[^>]*?)>/g,
+        function (m, tag, attrs, key) {
+            if (ui[key] == null) return m;
+            const val = _escHtml(String(ui[key]));
+            const newAttrs = /\saria-label="[^"]*"/.test(attrs)
+                ? attrs.replace(/\saria-label="[^"]*"/, ' aria-label="' + val + '"')
+                : attrs + ' aria-label="' + val + '"';
+            return '<' + tag + newAttrs + '>';
+        });
+    return html;
+}
+// AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1: TOP-chrome walker. Separate from _translateAzkarPrayerUi and
+// keyed on `data-azkar-pui[-aria]`, NOT `data-azkar-ui`. Both walkers run over the WHOLE document, and
+// the morning + evening sections ship in the same HTML carrying generic `data-azkar-ui` keys with the
+// same names (heroTitle, infoCount, resetBtn, …). Sharing the attribute would rewrite THEIR chrome with
+// prayer wording. The `-pui-` namespace exists only inside #page-azkar-prayer, so this walker is
+// structurally unable to touch another page. Idempotent for 'ar' (rewrites the same Arabic values).
+function _azkarPrayerPageUiL10n(lang) {
+    return (_AZKAR_PRAYER_PAGE_UI_L10N && _AZKAR_PRAYER_PAGE_UI_L10N[lang]) ||
+           (_AZKAR_PRAYER_PAGE_UI_L10N && _AZKAR_PRAYER_PAGE_UI_L10N.ar) || {};
+}
+function _translateAzkarPrayerPageUi(html, lang) {
+    const ui = _azkarPrayerPageUiL10n(lang);
+    if (!ui || !html) return html;
+    // 1) inner-text of [data-azkar-pui="key"] leaf elements
+    html = html.replace(/(<([a-zA-Z0-9]+)\b[^>]*\sdata-azkar-pui="([^"]+)"[^>]*>)([\s\S]*?)(<\/\2>)/g,
+        function (m, open, _tag, key, _inner, close) {
+            if (ui[key] == null) return m;
+            return open + _escHtml(String(ui[key])) + close;
+        });
+    // 2) aria-label of [data-azkar-pui-aria="key"] elements
+    html = html.replace(/<([a-zA-Z0-9]+)\b([^>]*?\sdata-azkar-pui-aria="([^"]+)"[^>]*?)>/g,
         function (m, tag, attrs, key) {
             if (ui[key] == null) return m;
             const val = _escHtml(String(ui[key]));
@@ -12592,30 +12643,33 @@ function buildSeoForPath(urlPath) {
         // Title diverges slightly from the canonical SEO template (user
         // provided a custom title for prayer category — focus on "أدعية
         // الصلاة مع المصدر" angle).
+        // AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1 (2026-08-06): the 8 non-en languages used to serve the ENGLISH
+        // title/desc verbatim as placeholders; they are now native per language. Prayer page ONLY — the
+        // morning/evening entries keep their existing fallback. No route/canonical/hreflang/sitemap change.
         '/azkar/prayer-azkar': {
             title: {
                 ar: 'أذكار الصلاة مكتوبة كاملة | أدعية الصلاة مع المصدر',
                 en: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                fr: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                tr: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                ur: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                de: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                id: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                es: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                bn: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
-                ms: 'Prayer Adhkar | Authentic Salah Supplications with Sources',
+                fr: 'Invocations de la prière | Douas authentiques avec sources',
+                tr: 'Namaz Zikirleri | Sahih Namaz Duaları ve Kaynakları',
+                ur: 'نماز کے اذکار | مستند دعائیں حوالوں کے ساتھ',
+                de: 'Gebets-Adhkar | Authentische Gebetsbittgebete mit Quellen',
+                id: 'Zikir Salat | Doa Salat Sahih Lengkap dengan Sumbernya',
+                es: 'Adhkar de la oración | Súplicas auténticas con fuentes',
+                bn: 'নামাজের যিকির | নির্ভরযোগ্য সূত্রসহ সালাতের দোয়া',
+                ms: 'Zikir Solat | Doa Solat Sahih Berserta Sumbernya',
             },
             desc: {
                 ar: 'اقرأ أذكار الصلاة مكتوبة كاملة، تشمل أذكار الوضوء والمسجد والركوع والسجود والتشهد وما بعد الصلاة، مع المصادر وترتيب واضح.',
                 en: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                fr: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                tr: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                ur: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                de: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                id: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                es: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                bn: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
-                ms: 'Read the prayer adhkar in full — wudu, mosque entry, ruku, sujud, tashahhud, and post-salam — with authentic sources and clear ordering.',
+                fr: 'Lisez les invocations de la prière en intégralité — ablutions, entrée à la mosquée, inclinaison, prosternation, tachahhoud et après le salam — avec leurs sources et un ordre clair.',
+                tr: 'Namaz zikirlerini eksiksiz okuyun — abdest, mescide giriş, rükû, secde, teşehhüd ve selam sonrası — sahih kaynaklarıyla ve açık bir sırayla.',
+                ur: 'نماز کے اذکار مکمل پڑھیں — وضو، مسجد میں داخلہ، رکوع، سجود، تشہد اور سلام کے بعد — مستند حوالوں اور واضح ترتیب کے ساتھ۔',
+                de: 'Lies die Gebets-Adhkar vollständig — Gebetswaschung, Betreten der Moschee, Verbeugung, Niederwerfung, Taschahhud und nach dem Salam — mit authentischen Quellen und klarer Reihenfolge.',
+                id: 'Baca zikir salat secara lengkap — wudu, masuk masjid, rukuk, sujud, tasyahud, dan setelah salam — dengan sumber sahih dan urutan yang jelas.',
+                es: 'Lee los adhkar de la oración completos — ablución, entrada a la mezquita, inclinación, postración, tashahhud y después del salam — con fuentes auténticas y un orden claro.',
+                bn: 'নামাজের যিকির সম্পূর্ণ পড়ুন — অজু, মসজিদে প্রবেশ, রুকু, সিজদা, তাশাহহুদ ও সালামের পর — নির্ভরযোগ্য সূত্র ও সুস্পষ্ট ধারাবাহিকতাসহ।',
+                ms: 'Baca zikir solat sepenuhnya — wuduk, masuk masjid, rukuk, sujud, tasyahhud dan selepas salam — dengan sumber sahih dan susunan yang jelas.',
             },
             ogType: 'article',
         },
@@ -20446,11 +20500,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
                 );
             }
             // AZKAR-PRAYER-BOTTOM-CONTENT-FAQ-LOCALIZATION-ALL-LANGUAGES-1: localize the prayer-page BOTTOM
-            // chrome (edu cards + related-links + FAQ) + inject the localized FAQPage JSON-LD. TOP chrome
-            // (hero/breadcrumb/info-strip/progress) has no data-azkar-ui markers, so it stays Arabic (out of
-            // scope). Arabic route (no prefix) re-writes the same Arabic values (idempotent).
+            // chrome (edu cards + related-links + FAQ) + inject the localized FAQPage JSON-LD.
+            // Arabic route (no prefix) re-writes the same Arabic values (idempotent).
             const _azkarPrayerLang = (urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//) || [])[1] || 'ar';
             html = _translateAzkarPrayerUi(html, _azkarPrayerLang);
+            // AZKAR-PRAYER-PAGE-UI-L10N-CHROME-1: TOP chrome (breadcrumb / H1 / subtitle / info strip /
+            // progress / sticky / section intro / completion banner) via the `data-azkar-pui` namespace and
+            // its own dict file. Separate pass so the two dictionaries can never collide.
+            html = _translateAzkarPrayerPageUi(html, _azkarPrayerLang);
             html = html.replace('<!-- AZKAR-PRAYER-FAQ-SCHEMA -->', _buildAzkarPrayerFaqJsonLd(_azkarPrayerLang));
         } else if (_isAzkarHubRoute) {
             html = html.replace(

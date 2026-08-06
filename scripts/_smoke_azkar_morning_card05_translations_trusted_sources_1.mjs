@@ -119,7 +119,7 @@ ok(!/fetch\s*\(/.test(dataSrc), 'azkar-data.js performs NO fetch (pure static da
 
 console.log('\n================ 8. Cache-busters ================');
 ok(/js\/azkar-data\.js\?v=36[3-9]|js\/azkar-data\.js\?v=[2-9]\d/.test(htmlSrc), 'index.html azkar-data.js?v >= 13 (later tickets bump it)');
-ok(/js\/app\.js\?v=842/.test(htmlSrc), 'index.html app.js?v=842 UNCHANGED (generic renderer — no app.js edit)');
+ok(/js\/app\.js\?v=843/.test(htmlSrc), 'index.html app.js?v=843 UNCHANGED (generic renderer — no app.js edit)');
 ok(/CACHE_VERSION = 'v5(0[89]|[1-9]\d)'/.test(swSrc), "sw.js CACHE_VERSION v508+ (later tickets bump it)");
 
 console.log(`\n================ RESULT: ${pass} passed, ${fail} failed ================`);

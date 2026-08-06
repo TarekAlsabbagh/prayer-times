@@ -130916,5 +130916,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "dahab",
+    "type": "city",
+    "countryCode": "eg",
+    "lat": 28.4963633,
+    "lng": 34.5145652,
+    "timezone": "Africa/Cairo",
+    "names": {
+      "ar": "دهب",
+      "en": "Dahab"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "مصر",
+      "countryEn": "Egypt"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

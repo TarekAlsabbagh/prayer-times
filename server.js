@@ -5856,7 +5856,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">للتواصل المباشر</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>أنواع الاستفسارات التي نستقبلها</h2>
@@ -5889,7 +5889,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Direct contact</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Types of inquiries we receive</h2>
@@ -5922,7 +5922,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Contact direct</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Types de demandes que nous recevons</h2>
@@ -5955,7 +5955,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Doğrudan iletişim</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Aldığımız sorgu türleri</h2>
@@ -5988,7 +5988,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">براہ راست رابطہ</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>ہم جن قسم کی پوچھ گچھ وصول کرتے ہیں</h2>
@@ -6021,7 +6021,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Direkter Kontakt</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Welche Anfragen wir erhalten</h2>
@@ -6054,7 +6054,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Kontak Langsung</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Jenis Pertanyaan yang Kami Terima</h2>
@@ -6087,7 +6087,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Contacto directo</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Tipos de Consultas que Recibimos</h2>
@@ -6120,7 +6120,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">সরাসরি যোগাযোগ</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>যে ধরনের প্রশ্ন আমরা গ্রহণ করি</h2>
@@ -6153,7 +6153,7 @@ const LEGAL_PAGES = {
     <span style="font-size:2rem;">✉️</span>
     <div>
         <div style="font-size:0.85rem;opacity:0.85;">Hubungan terus</div>
-        <a href="mailto:contact@prayer-times.example">contact@prayer-times.example</a>
+        <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
 <h2>Jenis Pertanyaan yang Kami Terima</h2>
@@ -6197,7 +6197,8 @@ const LEGAL_PAGES = {
 <li><strong>مواقيت الصلاة:</strong> الفجر، الظهر، العصر، المغرب، العشاء — لكل مدينة في العالم، مع جدول أسبوعي وتنبيه قبل كل صلاة.</li>
 <li><strong>اتجاه القبلة:</strong> بوصلة تفاعلية وخريطة تُظهر اتجاه الكعبة المشرفة من موقعك بدقة.</li>
 <li><strong>التقويم الهجري:</strong> تقويم كامل من سنة 1 هـ إلى 1500 هـ، ومحول بين الهجري والميلادي.</li>
-<li><strong>الأدعية والأذكار:</strong> مجموعة منظَمة من الكتاب والسنة (أذكار الصباح، المساء، الصلاة، النوم، السفر…).</li>
+<li><strong>الأدعية والأذكار:</strong> مجموعة منظَمة من الكتاب والسنة (أذكار الصباح، والمساء، والصلاة).</li>
+<li><strong>القرآن الكريم:</strong> نص القرآن الكريم بالرسم العثماني من <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">مشروع Tanzil</a>، الإصدار 1.1، ويُعرض النص كما ورد في المصدر دون تعديل، وفق ترخيص وشروط استخدام Tanzil.</li>
 <li><strong>المسبحة الإلكترونية:</strong> عداد ذكر يحفظ تقدمك ويسمح بتحديد أهداف يومية.</li>
 <li><strong>حاسبة الزكاة:</strong> تشمل النقد، الذهب، الفضة، الأسهم، والاستثمارات.</li>
 <li><strong>صفحات المدن:</strong> آلاف الصفحات لمدن العالم، كل صفحة تحتوي معلومات جغرافية ومواقيت ودقيقة.</li>
@@ -6212,7 +6213,7 @@ const LEGAL_PAGES = {
 <li>جامعة العلوم الإسلامية كراتشي</li>
 </ul>
 <h2>اللغات المدعومة</h2>
-<p>الموقع متاح حالياً بـ <strong>العربية</strong> و <strong>الإنجليزية</strong>، ونعمل على إضافة لغات جديدة (التركية، الفرنسية، الأردية، الإندونيسية).</p>
+<p>الموقع متاح حاليًا بعشر لغات: العربية، والإنجليزية، والفرنسية، والتركية، والأردية، والألمانية، والإسبانية، والإندونيسية، والبنغالية، والماليزية.</p>
 <h2>الفريق</h2>
 <p>الموقع مشروع تطوعي يديره مسلمون يحبون أمتهم، ويهدفون لخدمتها بأفضل الأدوات التقنية. نرحب بانضمام أي مطور، مصمم، أو مترجم — تواصل معنا عبر <a href="/contact">صفحة الاتصال</a>.</p>
 <h2>كيف يُموَل الموقع؟</h2>
@@ -6232,7 +6233,8 @@ const LEGAL_PAGES = {
 <li><strong>Prayer times:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — for every city in the world, with weekly schedule and pre-prayer reminders.</li>
 <li><strong>Qibla direction:</strong> Interactive compass and map showing the Kaaba direction from your location accurately.</li>
 <li><strong>Hijri calendar:</strong> Full calendar from year 1 AH to 1500 AH, plus a Hijri-Gregorian converter.</li>
-<li><strong>Duas and Athkar:</strong> Organized collection from Quran and Sunnah (morning, evening, prayer, sleep, travel…).</li>
+<li><strong>Duas and Athkar:</strong> Organized collection from Quran and Sunnah (morning, evening and prayer adhkar).</li>
+<li><strong>The Holy Quran:</strong> The Quran text in Uthmani script from the <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil Project</a>, version 1.1, shown exactly as provided by the source without modification, under Tanzil's license and terms of use.</li>
 <li><strong>Digital Tasbih:</strong> Counter that saves your progress and supports daily targets.</li>
 <li><strong>Zakat calculator:</strong> Covers cash, gold, silver, stocks, and investments.</li>
 <li><strong>City pages:</strong> Thousands of pages for cities worldwide, each with geographic info and accurate times.</li>
@@ -6247,7 +6249,7 @@ const LEGAL_PAGES = {
 <li>University of Islamic Sciences, Karachi</li>
 </ul>
 <h2>Supported Languages</h2>
-<p>The site is currently available in <strong>Arabic</strong> and <strong>English</strong>, with new languages in development (Turkish, French, Urdu, Indonesian).</p>
+<p>The site is currently available in ten languages: Arabic, English, French, Turkish, Urdu, German, Spanish, Indonesian, Bengali and Malay.</p>
 <h2>The Team</h2>
 <p>The site is a volunteer project run by Muslims who love their Ummah and aim to serve it with the best technology. We welcome developers, designers, and translators — contact us via the <a href="/en/contact">Contact page</a>.</p>
 <h2>How is the site funded?</h2>
@@ -6267,7 +6269,8 @@ const LEGAL_PAGES = {
 <li><strong>Heures de prière :</strong> Fajr, Dhouhr, Asr, Maghrib, Isha — pour chaque ville du monde, avec un programme hebdomadaire et des rappels avant la prière.</li>
 <li><strong>Direction de la Qibla :</strong> boussole interactive et carte montrant la direction de la Kaaba depuis votre emplacement avec précision.</li>
 <li><strong>Calendrier hégirien :</strong> calendrier complet de l'an 1 AH à 1500 AH, plus un convertisseur hégirien-grégorien.</li>
-<li><strong>Invocations et dhikrs :</strong> collection organisée du Coran et de la Sunna (matin, soir, prière, sommeil, voyage…).</li>
+<li><strong>Invocations et dhikrs :</strong> collection organisée du Coran et de la Sunna (matin, soir et prière).</li>
+<li><strong>Le Saint Coran :</strong> le texte coranique en graphie ottomane provenant du <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">projet Tanzil</a>, version 1.1, affiché tel quel, sans modification, conformément à la licence et aux conditions d'utilisation de Tanzil.</li>
 <li><strong>Tasbih numérique :</strong> compteur qui sauvegarde votre progression et prend en charge les objectifs quotidiens.</li>
 <li><strong>Calculateur de Zakat :</strong> couvre l'argent, l'or, l'argent, les actions et les investissements.</li>
 <li><strong>Pages de villes :</strong> des milliers de pages pour les villes du monde entier, chacune avec des informations géographiques et des heures précises.</li>
@@ -6282,7 +6285,7 @@ const LEGAL_PAGES = {
 <li>Université des sciences islamiques, Karachi</li>
 </ul>
 <h2>Langues prises en charge</h2>
-<p>Le site est actuellement disponible en <strong>arabe</strong>, <strong>anglais</strong>, <strong>français</strong>, <strong>turc</strong> et <strong>ourdou</strong>.</p>
+<p>Le site est actuellement disponible en dix langues : arabe, anglais, français, turc, ourdou, allemand, espagnol, indonésien, bengali et malais.</p>
 <h2>L'équipe</h2>
 <p>Le site est un projet bénévole géré par des musulmans qui aiment leur Oumma et cherchent à la servir avec les meilleures technologies. Nous accueillons les développeurs, designers et traducteurs — contactez-nous via la <a href="/fr/contact">page Contact</a>.</p>
 <h2>Comment le site est-il financé ?</h2>
@@ -6302,7 +6305,8 @@ const LEGAL_PAGES = {
 <li><strong>Namaz vakitleri:</strong> Fajr, Öğle, İkindi, Akşam, Yatsı — dünyanın her şehri için, haftalık program ve namaz öncesi hatırlatıcılarla.</li>
 <li><strong>Kıble yönü:</strong> Konumunuzdan Kâbe yönünü doğru şekilde gösteren etkileşimli pusula ve harita.</li>
 <li><strong>Hicri takvim:</strong> 1 AH'den 1500 AH'ye kadar tam takvim, ayrıca Hicri-Miladi dönüştürücü.</li>
-<li><strong>Dualar ve zikirler:</strong> Kur'an ve Sünnetten organize edilmiş koleksiyon (sabah, akşam, namaz, uyku, yolculuk…).</li>
+<li><strong>Dualar ve zikirler:</strong> Kur'an ve Sünnetten organize edilmiş koleksiyon (sabah, akşam ve namaz zikirleri).</li>
+<li><strong>Kur'an-ı Kerim:</strong> Osmanî hatla Kur'an metni <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil Projesi</a> kaynaklıdır, sürüm 1.1; metin kaynakta olduğu hâliyle, değiştirilmeden gösterilir ve Tanzil'in lisans ve kullanım şartlarına tabidir.</li>
 <li><strong>Dijital Tesbih:</strong> İlerlemenizi kaydeden ve günlük hedefleri destekleyen sayaç.</li>
 <li><strong>Zekat hesaplayıcı:</strong> Nakit, altın, gümüş, hisse senedi ve yatırımları kapsar.</li>
 <li><strong>Şehir sayfaları:</strong> Dünya çapında şehirler için binlerce sayfa, her biri coğrafi bilgiler ve doğru vakitlerle.</li>
@@ -6317,7 +6321,7 @@ const LEGAL_PAGES = {
 <li>Karaçi İslami Bilimler Üniversitesi</li>
 </ul>
 <h2>Desteklenen Diller</h2>
-<p>Site şu anda <strong>Arapça</strong>, <strong>İngilizce</strong>, <strong>Fransızca</strong>, <strong>Türkçe</strong> ve <strong>Urduca</strong> olarak mevcuttur.</p>
+<p>Site şu anda on dilde mevcuttur: Arapça, İngilizce, Fransızca, Türkçe, Urduca, Almanca, İspanyolca, Endonezce, Bengalce ve Malayca.</p>
 <h2>Ekip</h2>
 <p>Site, Ümmetini seven ve ona en iyi teknoloji ile hizmet etmeyi amaçlayan Müslümanlar tarafından yürütülen gönüllü bir projedir. Geliştiricileri, tasarımcıları ve çevirmenleri bekliyoruz — bizimle <a href="/tr/contact">İletişim sayfası</a> üzerinden iletişime geçin.</p>
 <h2>Site nasıl finanse edilir?</h2>
@@ -6337,7 +6341,8 @@ const LEGAL_PAGES = {
 <li><strong>نماز کے اوقات:</strong> فجر، ظہر، عصر، مغرب، عشاء — دنیا کے ہر شہر کے لیے، ہفتہ وار شیڈول اور نماز سے پہلے یاد دہانی کے ساتھ۔</li>
 <li><strong>قبلہ کی سمت:</strong> انٹرایکٹو قطب نما اور نقشہ جو آپ کے مقام سے کعبہ کی سمت درست طور پر دکھاتا ہے۔</li>
 <li><strong>ہجری کیلنڈر:</strong> 1 ہجری سے 1500 ہجری تک مکمل کیلنڈر، نیز ہجری-عیسوی کنورٹر۔</li>
-<li><strong>دعائیں اور اذکار:</strong> قرآن اور سنت سے منظم مجموعہ (صبح، شام، نماز، نیند، سفر…)۔</li>
+<li><strong>دعائیں اور اذکار:</strong> قرآن اور سنت سے منظم مجموعہ (صبح، شام اور نماز کے اذکار)۔</li>
+<li><strong>قرآن کریم:</strong> رسمِ عثمانی میں قرآن کا متن <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil پروجیکٹ</a> سے، ورژن 1.1؛ متن مصدر کے مطابق بغیر کسی تبدیلی کے دکھایا جاتا ہے، Tanzil کے لائسنس اور شرائطِ استعمال کے مطابق۔</li>
 <li><strong>ڈیجیٹل تسبیح:</strong> کاؤنٹر جو آپ کی پیش رفت محفوظ کرتا ہے اور روزانہ اہداف کی حمایت کرتا ہے۔</li>
 <li><strong>زکوٰۃ کیلکولیٹر:</strong> نقد، سونا، چاندی، اسٹاک اور سرمایہ کاری شامل ہیں۔</li>
 <li><strong>شہر کے صفحات:</strong> دنیا بھر کے شہروں کے لیے ہزاروں صفحات، ہر ایک جغرافیائی معلومات اور درست اوقات کے ساتھ۔</li>
@@ -6352,7 +6357,7 @@ const LEGAL_PAGES = {
 <li>یونیورسٹی آف اسلامک سائنسز، کراچی</li>
 </ul>
 <h2>معاون زبانیں</h2>
-<p>سائٹ اس وقت <strong>عربی</strong>، <strong>انگریزی</strong>، <strong>فرانسیسی</strong>، <strong>ترکی</strong> اور <strong>اردو</strong> میں دستیاب ہے۔</p>
+<p>سائٹ اس وقت دس زبانوں میں دستیاب ہے: عربی، انگریزی، فرانسیسی، ترکی، اردو، جرمن، ہسپانوی، انڈونیشی، بنگالی اور ملائی۔</p>
 <h2>ٹیم</h2>
 <p>یہ سائٹ رضاکارانہ منصوبہ ہے جسے مسلمان چلاتے ہیں جو اپنی امت سے محبت کرتے ہیں اور بہترین ٹیکنالوجی کے ساتھ اس کی خدمت کرنے کا مقصد رکھتے ہیں۔ ہم ڈویلپرز، ڈیزائنرز اور مترجمین کا خیرمقدم کرتے ہیں — ہمارے <a href="/ur/contact">رابطہ صفحے</a> کے ذریعے ہم سے رابطہ کریں۔</p>
 <h2>سائٹ کی فنڈنگ کیسے ہوتی ہے؟</h2>
@@ -6372,7 +6377,8 @@ const LEGAL_PAGES = {
 <li><strong>Gebetszeiten:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — für jede Stadt weltweit, mit Wochenplan und Erinnerungen vor jedem Gebet.</li>
 <li><strong>Qibla-Richtung:</strong> Interaktiver Kompass und Karte, die die Richtung zur Kaaba präzise von Ihrem Standort aus anzeigen.</li>
 <li><strong>Hidschri-Kalender:</strong> Vollständiger Kalender vom Jahr 1 AH bis 1500 AH sowie ein Hidschri-Gregorianischer Umrechner.</li>
-<li><strong>Duas und Adhkar:</strong> Organisierte Sammlung aus Koran und Sunna (Morgen, Abend, Gebet, Schlaf, Reise…).</li>
+<li><strong>Duas und Adhkar:</strong> Organisierte Sammlung aus Koran und Sunna (Morgen, Abend und Gebet).</li>
+<li><strong>Der edle Koran:</strong> Der Korantext in Uthmani-Schrift stammt vom <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil-Projekt</a>, Version 1.1, und wird unverändert so dargestellt, wie er in der Quelle vorliegt — gemäß der Lizenz und den Nutzungsbedingungen von Tanzil.</li>
 <li><strong>Digitaler Tasbih:</strong> Zähler, der Ihren Fortschritt speichert und tägliche Ziele unterstützt.</li>
 <li><strong>Zakat-Rechner:</strong> Umfasst Bargeld, Gold, Silber, Aktien und Investitionen.</li>
 <li><strong>Stadtseiten:</strong> Tausende von Seiten für Städte weltweit, jede mit geografischen Informationen und präzisen Zeiten.</li>
@@ -6387,7 +6393,7 @@ const LEGAL_PAGES = {
 <li>Universität der Islamischen Wissenschaften, Karachi</li>
 </ul>
 <h2>Unterstützte Sprachen</h2>
-<p>Die Seite ist derzeit auf <strong>Arabisch</strong>, <strong>Englisch</strong>, <strong>Französisch</strong>, <strong>Türkisch</strong>, <strong>Urdu</strong> und <strong>Deutsch</strong> verfügbar.</p>
+<p>Die Seite ist derzeit in zehn Sprachen verfügbar: Arabisch, Englisch, Französisch, Türkisch, Urdu, Deutsch, Spanisch, Indonesisch, Bengalisch und Malaiisch.</p>
 <h2>Das Team</h2>
 <p>Die Seite ist ein ehrenamtliches Projekt, das von Muslimen geleitet wird, die ihre Umma lieben und ihr mit den besten Technologien dienen möchten. Wir begrüßen Entwickler, Designer und Übersetzer — kontaktieren Sie uns über die <a href="/de/contact">Kontaktseite</a>.</p>
 <h2>Wie wird die Seite finanziert?</h2>
@@ -6407,7 +6413,8 @@ const LEGAL_PAGES = {
 <li><strong>Jadwal Sholat:</strong> Subuh, Zuhur, Asar, Magrib, Isya — untuk setiap kota di dunia, dengan jadwal mingguan dan pengingat sebelum setiap sholat.</li>
 <li><strong>Arah Kiblat:</strong> Kompas interaktif dan peta yang menunjukkan arah Kakbah secara akurat dari lokasi Anda.</li>
 <li><strong>Kalender Hijriyah:</strong> Kalender lengkap dari tahun 1 H hingga 1500 H serta konverter Hijriyah-Masehi.</li>
-<li><strong>Doa dan Dzikir:</strong> Koleksi tersusun dari Al-Qur'an dan Sunnah (pagi, sore, sholat, tidur, perjalanan…).</li>
+<li><strong>Doa dan Dzikir:</strong> Koleksi tersusun dari Al-Qur'an dan Sunnah (pagi, sore, dan salat).</li>
+<li><strong>Al-Qur'an:</strong> Teks Al-Qur'an dengan rasm Utsmani dari <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Proyek Tanzil</a>, versi 1.1, ditampilkan persis seperti pada sumbernya tanpa perubahan, sesuai lisensi dan ketentuan penggunaan Tanzil.</li>
 <li><strong>Tasbih Digital:</strong> Penghitung yang menyimpan kemajuan Anda dan mendukung target harian.</li>
 <li><strong>Kalkulator Zakat:</strong> Mencakup tunai, emas, perak, saham, dan investasi.</li>
 <li><strong>Halaman kota:</strong> Ribuan halaman untuk kota-kota di seluruh dunia, masing-masing dengan informasi geografis dan waktu yang akurat.</li>
@@ -6422,7 +6429,7 @@ const LEGAL_PAGES = {
 <li>Universitas Ilmu Islam, Karachi</li>
 </ul>
 <h2>Bahasa yang Didukung</h2>
-<p>Situs saat ini tersedia dalam <strong>Arab</strong>, <strong>Inggris</strong>, <strong>Prancis</strong>, <strong>Turki</strong>, <strong>Urdu</strong>, <strong>Jerman</strong>, dan <strong>Indonesia</strong>.</p>
+<p>Situs ini saat ini tersedia dalam sepuluh bahasa: Arab, Inggris, Prancis, Turki, Urdu, Jerman, Spanyol, Indonesia, Bengali, dan Melayu.</p>
 <h2>Tim</h2>
 <p>Situs ini adalah proyek sukarela yang dijalankan oleh Muslim yang mencintai umat mereka dan bertujuan melayani dengan teknologi terbaik. Kami menyambut pengembang, desainer, dan penerjemah — hubungi kami melalui <a href="/id/contact">halaman kontak</a>.</p>
 <h2>Bagaimana Situs Ini Didanai?</h2>
@@ -6442,7 +6449,8 @@ const LEGAL_PAGES = {
 <li><strong>Horarios de oración:</strong> Fajr, Dhuhr, Asr, Magrib, Isha — para cada ciudad del mundo, con programa semanal y recordatorios antes de cada oración.</li>
 <li><strong>Dirección de la Qibla:</strong> brújula interactiva y mapa que muestran la dirección de la Kaaba con precisión desde tu ubicación.</li>
 <li><strong>Calendario Hégira:</strong> calendario completo desde el año 1 AH hasta el 1500 AH, con conversor Hégira ↔ Gregoriano.</li>
-<li><strong>Duas y dhikr:</strong> colección organizada tomada del Corán y la Sunnah (mañana, tarde, oración, sueño, viaje…).</li>
+<li><strong>Duas y dhikr:</strong> colección organizada tomada del Corán y la Sunnah (mañana, tarde y oración).</li>
+<li><strong>El Sagrado Corán:</strong> el texto coránico en grafía uzmaní procedente del <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">proyecto Tanzil</a>, versión 1.1, mostrado tal cual aparece en la fuente y sin modificaciones, conforme a la licencia y las condiciones de uso de Tanzil.</li>
 <li><strong>Tasbih digital:</strong> contador que guarda tu progreso y admite objetivos diarios.</li>
 <li><strong>Calculadora de Zakat:</strong> incluye efectivo, oro, plata, acciones e inversiones.</li>
 <li><strong>Páginas de ciudades:</strong> miles de páginas para ciudades de todo el mundo, cada una con información geográfica y horarios precisos.</li>
@@ -6457,7 +6465,7 @@ const LEGAL_PAGES = {
 <li>Universidad de Ciencias Islámicas, Karachi</li>
 </ul>
 <h2>Idiomas Disponibles</h2>
-<p>El sitio está actualmente disponible en <strong>Árabe</strong>, <strong>Inglés</strong>, <strong>Francés</strong>, <strong>Turco</strong>, <strong>Urdu</strong>, <strong>Alemán</strong>, <strong>Indonesio</strong>, <strong>Español</strong>, <strong>Bengalí</strong> y <strong>Malayo</strong>.</p>
+<p>El sitio está disponible actualmente en diez idiomas: árabe, inglés, francés, turco, urdu, alemán, español, indonesio, bengalí y malayo.</p>
 <h2>El Equipo</h2>
 <p>El sitio es un proyecto voluntario dirigido por musulmanes que aman a su Ummah y buscan servirla con la mejor tecnología. Damos la bienvenida a desarrolladores, diseñadores y traductores — contáctanos a través de nuestra <a href="/es/contact">página de Contacto</a>.</p>
 <h2>¿Cómo se Financia el Sitio?</h2>
@@ -6477,7 +6485,8 @@ const LEGAL_PAGES = {
 <li><strong>নামাজের সময়:</strong> ফজর, জোহর, আসর, মাগরিব, এশা — বিশ্বের প্রতিটি শহরের জন্য, সাপ্তাহিক সময়সূচী এবং প্রতিটি নামাজের আগে রিমাইন্ডার সহ।</li>
 <li><strong>কিবলার দিক:</strong> ইন্টারঅ্যাকটিভ কম্পাস ও মানচিত্র যা আপনার অবস্থান থেকে কাবার দিক সঠিকভাবে দেখায়।</li>
 <li><strong>হিজরি ক্যালেন্ডার:</strong> ১ হিজরি থেকে ১৫০০ হিজরি পর্যন্ত সম্পূর্ণ ক্যালেন্ডার এবং হিজরি ↔ খ্রিস্টীয় রূপান্তরকারী।</li>
-<li><strong>দোয়া ও জিকির:</strong> কুরআন ও সুন্নাহ থেকে সুসংগঠিত সংগ্রহ (সকাল, সন্ধ্যা, নামাজ, ঘুম, ভ্রমণ…)।</li>
+<li><strong>দোয়া ও জিকির:</strong> কুরআন ও সুন্নাহ থেকে সুসংগঠিত সংগ্রহ (সকাল, সন্ধ্যা ও নামাজের জিকির)।</li>
+<li><strong>পবিত্র কুরআন:</strong> উসমানি রসমে কুরআনের পাঠ <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil প্রকল্প</a> থেকে, সংস্করণ 1.1; পাঠটি উৎসে যেমন আছে ঠিক তেমনই, কোনো পরিবর্তন ছাড়া দেখানো হয় — Tanzil-এর লাইসেন্স ও ব্যবহারের শর্ত অনুযায়ী।</li>
 <li><strong>ডিজিটাল তাসবিহ:</strong> কাউন্টার যা আপনার অগ্রগতি সংরক্ষণ করে এবং দৈনিক লক্ষ্য সমর্থন করে।</li>
 <li><strong>যাকাত ক্যালকুলেটর:</strong> নগদ, স্বর্ণ, রূপা, শেয়ার ও বিনিয়োগ অন্তর্ভুক্ত।</li>
 <li><strong>শহরের পৃষ্ঠা:</strong> বিশ্বের বিভিন্ন শহরের জন্য হাজার হাজার পৃষ্ঠা, প্রতিটির সঙ্গে ভৌগোলিক তথ্য ও সঠিক সময়।</li>
@@ -6492,7 +6501,7 @@ const LEGAL_PAGES = {
 <li>ইসলামি বিজ্ঞান বিশ্ববিদ্যালয়, করাচি</li>
 </ul>
 <h2>সমর্থিত ভাষা</h2>
-<p>সাইটটি বর্তমানে <strong>আরবি</strong>, <strong>ইংরেজি</strong>, <strong>ফরাসি</strong>, <strong>তুর্কি</strong>, <strong>উর্দু</strong>, <strong>জার্মান</strong>, <strong>ইন্দোনেশীয়</strong>, <strong>স্প্যানিশ</strong>, <strong>বাংলা</strong> এবং <strong>মালয়</strong> ভাষায় উপলব্ধ।</p>
+<p>সাইটটি বর্তমানে দশটি ভাষায় উপলব্ধ: আরবি, ইংরেজি, ফরাসি, তুর্কি, উর্দু, জার্মান, স্প্যানিশ, ইন্দোনেশীয়, বাংলা ও মালয়।</p>
 <h2>দল</h2>
 <p>এই সাইটটি একটি স্বেচ্ছাসেবী প্রকল্প যা তাদের উম্মাহকে ভালোবাসেন এবং সেরা প্রযুক্তি দিয়ে সেবা করতে চান এমন মুসলিমদের দ্বারা পরিচালিত। আমরা ডেভেলপার, ডিজাইনার ও অনুবাদকদের স্বাগত জানাই — আমাদের <a href="/bn/contact">যোগাযোগ পৃষ্ঠা</a>-র মাধ্যমে যোগাযোগ করুন।</p>
 <h2>এই সাইটটি কীভাবে অর্থায়িত হয়?</h2>
@@ -6512,7 +6521,8 @@ const LEGAL_PAGES = {
 <li><strong>Waktu Solat:</strong> Subuh, Zohor, Asar, Maghrib, Isyak — untuk setiap bandar di dunia, dengan jadual mingguan dan peringatan sebelum setiap solat.</li>
 <li><strong>Arah Kiblat:</strong> kompas interaktif dan peta yang menunjukkan arah Kaabah dengan tepat dari lokasi anda.</li>
 <li><strong>Kalendar Hijrah:</strong> kalendar penuh dari tahun 1 H hingga 1500 H serta penukar Hijrah ↔ Masihi.</li>
-<li><strong>Doa dan zikir:</strong> koleksi tersusun dari Al-Quran dan Sunnah (pagi, petang, solat, tidur, perjalanan…).</li>
+<li><strong>Doa dan zikir:</strong> koleksi tersusun dari Al-Quran dan Sunnah (pagi, petang dan solat).</li>
+<li><strong>Al-Quran:</strong> Teks Al-Quran dalam rasm Uthmani daripada <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Projek Tanzil</a>, versi 1.1, dipaparkan sepertimana dalam sumbernya tanpa sebarang perubahan, menurut lesen dan syarat penggunaan Tanzil.</li>
 <li><strong>Tasbih Digital:</strong> kaunter yang menyimpan kemajuan anda dan menyokong sasaran harian.</li>
 <li><strong>Kalkulator Zakat:</strong> merangkumi tunai, emas, perak, saham dan pelaburan.</li>
 <li><strong>Halaman bandar:</strong> beribu-ribu halaman untuk bandar di seluruh dunia, setiap satu dengan maklumat geografi dan waktu yang tepat.</li>
@@ -6527,7 +6537,7 @@ const LEGAL_PAGES = {
 <li>Universiti Sains Islam, Karachi</li>
 </ul>
 <h2>Bahasa yang Disokong</h2>
-<p>Laman ini kini tersedia dalam bahasa <strong>Arab</strong>, <strong>Inggeris</strong>, <strong>Perancis</strong>, <strong>Turki</strong>, <strong>Urdu</strong>, <strong>Jerman</strong>, <strong>Indonesia</strong>, <strong>Sepanyol</strong>, <strong>Benggali</strong> dan <strong>Melayu</strong>.</p>
+<p>Laman ini kini tersedia dalam sepuluh bahasa: Arab, Inggeris, Perancis, Turki, Urdu, Jerman, Sepanyol, Indonesia, Benggali dan Melayu.</p>
 <h2>Pasukan</h2>
 <p>Laman ini ialah projek sukarela yang dikendalikan oleh umat Islam yang mencintai umat mereka dan berhasrat untuk berkhidmat dengan teknologi terbaik. Kami mengalu-alukan pembangun, pereka bentuk dan penterjemah — hubungi kami melalui <a href="/ms/contact">halaman hubungi</a>.</p>
 <h2>Bagaimana Laman Ini Dibiayai?</h2>

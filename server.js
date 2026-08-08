@@ -5087,29 +5087,32 @@ function readCachedFile(fullPath, cb) {
 const LEGAL_PAGES = {
     'privacy': {
         ar: `<h1>سياسة الخصوصية</h1>
-<span class="legal-meta">آخر تحديث: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">آخر تحديث: 2026-08-09</span>
 <p>نحن في موقع <strong>مواقيت الصلاة</strong> نحترم خصوصيتك ونلتزم بحماية بياناتك الشخصية. توضح هذه السياسة طبيعة المعلومات التي نجمعها وطريقة استخدامها.</p>
 <h2>1. البيانات التي نجمعها</h2>
-<p>نحن لا نطلب التسجيل ولا نخزن بيانات شخصية على خوادمنا. تقتصر البيانات التي قد نتعامل معها على:</p>
+<p>لا يتطلب الموقع إنشاء حساب، ولا ننشئ ملفات تعريف للمستخدمين. وتقتصر البيانات التي يتعامل معها الموقع على:</p>
 <ul>
 <li><strong>الموقع الجغرافي:</strong> يُستخدم لحساب مواقيت الصلاة واتجاه القبلة بدقة. يبقى الإذن اختيارياً، وتُخزَن إحداثياتك محلياً في متصفحك فقط (localStorage).</li>
-<li><strong>تفضيلات اللغة والإعدادات:</strong> تُخزَن في المتصفح للحفاظ على تجربة موحدة عبر الزيارات.</li>
-<li><strong>سجلات الخادم الفنية:</strong> تتضمن عنوان IP، نوع المتصفح، الصفحات المزارة، لأغراض الأمان والتحليلات المجمعة فقط.</li>
+<li><strong>تفضيلات اللغة والإعدادات:</strong> مثل اللغة، وطريقة الحساب، وإعدادات التذكير، والمظهر، وتقدّمك في أدوات الأذكار والمسبحة وحاسبة الزكاة. تُحفَظ هذه التفضيلات في التخزين المحلي في متصفحك على جهازك.</li>
+<li><strong>بيانات التشغيل والبنية التحتية:</strong> لا يُنشئ تطبيق الموقع سجلات مخصصة لتتبع المستخدمين. ومع ذلك، قد يعالج مزودو الاستضافة والبنية التحتية معلومات تقنية مرتبطة بطلبات الاتصال والتشغيل بالقدر اللازم لتقديم الخدمة وحمايتها ومراقبة أدائها وتشخيص الأعطال، وذلك وفق سياساتهم وممارسات الاحتفاظ الخاصة بهم.</li>
 </ul>
-<h2>2. ملفات تعريف الارتباط (Cookies)</h2>
-<p>نستخدم نوعين من ملفات تعريف الارتباط:</p>
+<h2>2. ملفات تعريف الارتباط وتقنيات التخزين المشابهة</h2>
+<p>يستخدم الموقع التخزين المحلي وملفات تعريف الارتباط وتقنيات التخزين المشابهة على النحو التالي:</p>
 <ul>
-<li><strong>أساسية:</strong> ضرورية لعمل الموقع (تخزين اللغة، الموقع، إعدادات التذكير).</li>
-<li><strong>إعلانية:</strong> عند تفعيل خدمة Google AdSense، قد تستخدم Google ملفات ارتباط لعرض إعلانات مخصصة. يمكنك التحكم فيها عبر <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">إعدادات إعلانات Google</a>.</li>
+<li><strong>التخزين المحلي الوظيفي:</strong> يستخدم الموقع التخزين المحلي في المتصفح لحفظ بعض التفضيلات والميزات، مثل اللغة والموقع وإعدادات التذكير. وهذه ليست ملفات تعريف ارتباط، ولا يضع تطبيق الموقع ملفات تعريف ارتباط خاصة به.</li>
+<li><strong>التحليلات:</strong> خدمة Google Analytics مفعّلة حاليًا على الموقع وتستخدم ملفات تعريف الارتباط لأغراض القياس وتحليل الاستخدام والأداء.</li>
+<li><strong>الإعلانات:</strong> خدمة Google AdSense غير مفعّلة حاليًا. عند تفعيلها مستقبلًا، قد يستخدم مزودو الإعلانات من الأطراف الثالثة، بما في ذلك Google، ملفات تعريف الارتباط أو تقنيات مشابهة لعرض الإعلانات وقياسها وتخصيصها حيثما ينطبق ذلك، وقد يعتمد عرض الإعلانات على زيارات المستخدم لهذا الموقع أو لمواقع أخرى. وقد تستخدم خدمات الإعلانات أيضًا تقنيات مثل إشارات الويب (web beacons) أو معالجة عناوين IP نتيجة عرض الإعلانات. ويمكن للمستخدم إدارة تخصيص إعلانات Google عبر <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">إعدادات إعلانات Google</a>.</li>
 </ul>
 <h2>3. الخدمات الخارجية</h2>
-<p>يستخدم الموقع الخدمات التالية لتوفير تجربة كاملة:</p>
+<p>يعتمد الموقع على الخدمات التالية:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> للبحث عن المدن وتحويل الإحداثيات إلى أسماء مواقع.</li>
-<li><strong>ويكيبيديا API:</strong> لجلب معلومات تاريخية ومدنية ضمن صفحات "عن المدينة".</li>
-<li><strong>Google Fonts:</strong> لتحميل خط Cairo العربي.</li>
-<li><strong>Google Analytics:</strong> لقياس زيارات الموقع وتحليلها بشكل مجمّع ومجهول الهوية بهدف تحسين المحتوى والأداء.</li>
-<li><strong>Google AdSense (اختياري):</strong> لعرض إعلانات تساعد في تشغيل الموقع مجاناً.</li>
+<li><strong>Render:</strong> مزود استضافة وبنية تحتية يُستخدم لتشغيل الموقع وتقديمه عبر الإنترنت. وقد تعالج منصة الاستضافة معلومات تقنية وتشغيلية لازمة لتقديم الخدمة وأمانها ومراقبة أدائها وفق سياسة الخصوصية الخاصة بها.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> للبحث عن المدن وتحويل الإحداثيات إلى أسماء مواقع. ويُستدعى من المتصفح ومن الخادم معًا.</li>
+<li><strong>ويكيبيديا API:</strong> لجلب معلومات تاريخية ومدنية ضمن صفحات المدن. ويُستدعى من المتصفح ومن الخادم معًا.</li>
+<li><strong>Google Fonts:</strong> لتحميل الخطوط المستخدمة في الموقع من خوادم Google، ما يعني أن متصفحك يتصل بخوادم Google عند تحميل الخط.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> لعرض صور أعلام الدول المستخدمة في بعض أجزاء الموقع عبر شبكة توصيل محتوى خارجية. وعند تحميل هذه الصور، يتم الاتصال بخدمة الطرف الثالث، وقد تعالج الخدمة ومزودو بنيتها التحتية معلومات تقنية مرتبطة بالطلب وفق سياساتهم الخاصة.</li>
+<li><strong>Google Analytics:</strong> مفعّلة حاليًا، وتُستخدم لقياس زيارات الموقع وتحليل أدائه بهدف تحسين المحتوى والتجربة.</li>
+<li><strong>Google AdSense:</strong> غير مفعّلة حاليًا. وعند تفعيلها، ستُستخدم لعرض إعلانات تساعد في تغطية تكاليف تشغيل الموقع.</li>
 </ul>
 <h2>4. حقوقك</h2>
 <p>لك الحق في:</p>
@@ -5120,35 +5123,38 @@ const LEGAL_PAGES = {
 <li>طلب أي معلومة إضافية عبر <a href="/contact">صفحة الاتصال</a>.</li>
 </ul>
 <h2>5. الأطفال</h2>
-<p>الموقع مفتوح للجميع ولا يستهدف الأطفال دون 13 سنة بشكل خاص. لا نجمع أي بيانات شخصية من المستخدمين عمداً.</p>
+<p>الموقع مفتوح للجميع ولا يستهدف الأطفال دون 13 سنة بشكل خاص. ولا نطلب من الأطفال عمدًا إنشاء حساب أو تقديم بيانات تعريف شخصية مباشرة لاستخدام الموقع. وقد تعالج الخدمات الخارجية المذكورة في هذه السياسة معلومات تقنية وفق سياساتها الخاصة.</p>
 <h2>6. تعديلات السياسة</h2>
 <p>قد نُحدث هذه السياسة دورياً. سيُعرض تاريخ آخر تحديث في أعلى الصفحة. الاستمرار في استخدام الموقع بعد التعديل يعني الموافقة على النسخة المحدثة.</p>
 <h2>7. التواصل</h2>
 <p>لأي استفسار يخص هذه السياسة، يُرجى زيارة <a href="/contact">صفحة الاتصال</a>.</p>`,
         en: `<h1>Privacy Policy</h1>
-<span class="legal-meta">Last updated: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Last updated: 2026-08-09</span>
 <p>At <strong>Prayer Times</strong>, we respect your privacy and are committed to protecting your personal data. This policy explains what information we collect and how we use it.</p>
 <h2>1. Data We Collect</h2>
-<p>We do not require registration and do not store personal data on our servers. The information we may handle is limited to:</p>
+<p>The site does not require an account, and we do not build user profiles. The data the site handles is limited to:</p>
 <ul>
 <li><strong>Geographic location:</strong> Used to calculate accurate prayer times and Qibla direction. Permission is optional, and your coordinates are stored only locally in your browser (localStorage).</li>
-<li><strong>Language and preferences:</strong> Stored in your browser to provide a consistent experience across visits.</li>
-<li><strong>Technical server logs:</strong> Include IP address, browser type, and visited pages, used for security and aggregated analytics only.</li>
+<li><strong>Language and preferences:</strong> Such as language, calculation method, reminder settings, theme, and your progress in the Azkar, Tasbih and Zakat tools. These preferences are saved in your browser's local storage on your own device.</li>
+<li><strong>Hosting and infrastructure data:</strong> The site application does not create custom logs for tracking users. However, hosting and infrastructure providers may process technical information associated with network requests and service operation as necessary to deliver, secure, monitor, and troubleshoot the service, subject to their own policies and retention practices.</li>
 </ul>
-<h2>2. Cookies</h2>
-<p>We use two types of cookies:</p>
+<h2>2. Cookies and Similar Storage Technologies</h2>
+<p>The site uses local storage, cookies, and similar storage technologies as follows:</p>
 <ul>
-<li><strong>Essential:</strong> Necessary for site operation (storing language, location, reminder settings).</li>
-<li><strong>Advertising:</strong> When Google AdSense is enabled, Google may use cookies to display personalized ads. You can manage these through <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Ads Settings</a>.</li>
+<li><strong>Functional local storage:</strong> The site uses your browser's local storage to keep certain preferences and features, such as language, location and reminder settings. These are not cookies, and the site application does not set cookies of its own.</li>
+<li><strong>Analytics:</strong> Google Analytics is currently active on the site and uses cookies for measurement and analysis of usage and performance.</li>
+<li><strong>Advertising:</strong> Google AdSense is not currently active. If it is enabled in the future, third-party advertising vendors, including Google, may use cookies or similar technologies to serve, measure, and where applicable personalise ads. Ad serving may take account of a user's visits to this site or other sites. Advertising services may also use technologies such as web beacons or process IP addresses as a result of ad serving. Users can manage Google ad personalisation through <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google's ad settings</a>.</li>
 </ul>
 <h2>3. Third-Party Services</h2>
-<p>The site uses the following services to provide a complete experience:</p>
+<p>The site relies on the following services:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> for city search and reverse geocoding.</li>
-<li><strong>Wikipedia API:</strong> to fetch historical and city information on About pages.</li>
-<li><strong>Google Fonts:</strong> for loading the Cairo Arabic font.</li>
-<li><strong>Google Analytics:</strong> for aggregated, anonymized traffic measurement and analytics used to improve content and performance.</li>
-<li><strong>Google AdSense (optional):</strong> to display ads that help keep the site free.</li>
+<li><strong>Render:</strong> Our hosting and infrastructure provider used to operate and deliver the site. The hosting platform may process technical and operational information necessary to provide, secure, and monitor the service in accordance with its own privacy policy.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> For city search and reverse geocoding. It is called both from the browser and from our server.</li>
+<li><strong>Wikipedia API:</strong> To fetch historical and city information shown on city pages. It is called both from the browser and from our server.</li>
+<li><strong>Google Fonts:</strong> To load the fonts used on the site from Google's servers, which means your browser connects to Google's servers when a font is loaded.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> Used to load country flag images displayed in parts of the site through an external content delivery service. When these images are loaded, the browser connects to the third-party service, which and its infrastructure providers may process technical information associated with the request under their own policies.</li>
+<li><strong>Google Analytics:</strong> Currently active, used to measure site traffic and analyse performance in order to improve content and the user experience.</li>
+<li><strong>Google AdSense:</strong> Not active at this time. When enabled, it will be used to display ads that help cover the cost of running the site.</li>
 </ul>
 <h2>4. Your Rights</h2>
 <p>You have the right to:</p>
@@ -5159,35 +5165,38 @@ const LEGAL_PAGES = {
 <li>Request additional information via our <a href="/en/contact">Contact page</a>.</li>
 </ul>
 <h2>5. Children</h2>
-<p>The site is open to everyone and is not specifically targeted at children under 13. We do not knowingly collect personal data from any user.</p>
+<p>The site is open to everyone and is not specifically directed at children under 13. We do not knowingly ask children to create an account or provide direct identifying information in order to use the site. Third-party services described in this policy may process technical information under their own policies.</p>
 <h2>6. Policy Updates</h2>
 <p>We may update this policy periodically. The last update date will appear at the top of the page. Continued use of the site after changes means acceptance of the updated version.</p>
 <h2>7. Contact</h2>
 <p>For any questions about this policy, please visit our <a href="/en/contact">Contact page</a>.</p>`,
         fr: `<h1>Politique de confidentialité</h1>
-<span class="legal-meta">Dernière mise à jour : ${new Date().toISOString().split('T')[0]}</span>
-<p>Sur <strong>Heures de Prière</strong>, nous respectons votre vie privée et nous engageons à protéger vos données personnelles. Cette politique explique quelles informations nous collectons et comment nous les utilisons.</p>
+<span class="legal-meta">Dernière mise à jour : 2026-08-09</span>
+<p>Sur <strong>Heures de Prière</strong>, nous respectons votre vie privée et nous nous engageons à protéger vos données personnelles. Cette politique explique quelles informations nous collectons et comment nous les utilisons.</p>
 <h2>1. Données que nous collectons</h2>
-<p>Nous n'exigeons aucune inscription et ne stockons aucune donnée personnelle sur nos serveurs. Les informations éventuellement traitées se limitent à :</p>
+<p>Le site ne nécessite la création d'aucun compte et nous n'établissons aucun profil d'utilisateur. Les données traitées par le site se limitent à :</p>
 <ul>
 <li><strong>Localisation géographique :</strong> utilisée pour calculer avec précision les heures de prière et la direction de la Qibla. L'autorisation est facultative et vos coordonnées sont stockées uniquement localement dans votre navigateur (localStorage).</li>
-<li><strong>Langue et préférences :</strong> stockées dans votre navigateur pour une expérience cohérente d'une visite à l'autre.</li>
-<li><strong>Journaux techniques du serveur :</strong> incluent l'adresse IP, le type de navigateur et les pages visitées, utilisés uniquement pour la sécurité et les statistiques agrégées.</li>
+<li><strong>Langue et préférences :</strong> par exemple la langue, la méthode de calcul, les paramètres de rappel, le thème d'affichage, ainsi que votre progression dans les outils Azkar, Tasbih et Zakat. Ces préférences sont enregistrées dans le stockage local de votre navigateur, sur votre propre appareil.</li>
+<li><strong>Données d'hébergement et d'infrastructure :</strong> l'application du site ne crée aucun journal dédié au suivi des utilisateurs. Nos prestataires d'hébergement et d'infrastructure peuvent toutefois traiter des informations techniques liées aux requêtes réseau et au fonctionnement du service, dans la mesure nécessaire pour le fournir, le sécuriser, en surveiller les performances et en diagnostiquer les incidents, conformément à leurs propres politiques et pratiques de conservation.</li>
 </ul>
-<h2>2. Cookies</h2>
-<p>Nous utilisons deux types de cookies :</p>
+<h2>2. Cookies et technologies de stockage similaires</h2>
+<p>Le site utilise le stockage local, les cookies et des technologies de stockage similaires de la manière suivante :</p>
 <ul>
-<li><strong>Essentiels :</strong> nécessaires au fonctionnement du site (stockage de la langue, de la localisation, des paramètres de rappel).</li>
-<li><strong>Publicitaires :</strong> lorsque Google AdSense est activé, Google peut utiliser des cookies pour afficher des publicités personnalisées. Vous pouvez les gérer via les <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">paramètres des annonces Google</a>.</li>
+<li><strong>Stockage local fonctionnel :</strong> le site utilise le stockage local de votre navigateur pour conserver certaines préférences et fonctionnalités, comme la langue, la localisation et les paramètres de rappel. Il ne s'agit pas de cookies, et l'application du site ne dépose aucun cookie qui lui soit propre.</li>
+<li><strong>Mesure d'audience :</strong> Google Analytics est actuellement actif sur le site et utilise des cookies à des fins de mesure et d'analyse de l'utilisation et des performances.</li>
+<li><strong>Publicité :</strong> Google AdSense n'est pas actif à ce jour. S'il est activé à l'avenir, les fournisseurs de publicité tiers, y compris Google, pourront utiliser des cookies ou des technologies similaires pour diffuser et mesurer les annonces et, le cas échéant, les personnaliser. La diffusion des annonces peut tenir compte des visites de l'utilisateur sur ce site ou sur d'autres sites. Les services publicitaires peuvent également recourir à des technologies telles que les balises web (web beacons) ou traiter des adresses IP du fait de la diffusion des annonces. Vous pouvez gérer la personnalisation des annonces Google via les <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">paramètres des annonces Google</a>.</li>
 </ul>
 <h2>3. Services tiers</h2>
-<p>Le site utilise les services suivants pour offrir une expérience complète :</p>
+<p>Le site s'appuie sur les services suivants :</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim :</strong> pour la recherche de villes et le géocodage inversé.</li>
-<li><strong>API Wikipédia :</strong> pour récupérer des informations historiques et municipales sur les pages « À propos ».</li>
-<li><strong>Google Fonts :</strong> pour charger la police arabe Cairo.</li>
-<li><strong>Google Analytics :</strong> pour la mesure d'audience et l'analyse agrégées et anonymisées, afin d'améliorer le contenu et les performances.</li>
-<li><strong>Google AdSense (facultatif) :</strong> pour afficher des publicités qui aident à maintenir le site gratuit.</li>
+<li><strong>Render :</strong> notre prestataire d'hébergement et d'infrastructure, utilisé pour exploiter le site et le diffuser sur Internet. La plateforme d'hébergement peut traiter des informations techniques et opérationnelles nécessaires à la fourniture, à la sécurité et à la surveillance du service, conformément à sa propre politique de confidentialité.</li>
+<li><strong>OpenStreetMap Nominatim :</strong> pour la recherche de villes et le géocodage inversé. Ce service est appelé aussi bien depuis le navigateur que depuis notre serveur.</li>
+<li><strong>Wikipedia API :</strong> pour récupérer des informations historiques et municipales affichées sur les pages de villes. Ce service est appelé aussi bien depuis le navigateur que depuis notre serveur.</li>
+<li><strong>Google Fonts :</strong> pour charger depuis les serveurs de Google les polices utilisées sur le site, ce qui signifie que votre navigateur se connecte aux serveurs de Google lors du chargement d'une police.</li>
+<li><strong>FlagCDN / Flagpedia :</strong> pour charger, via un service externe de diffusion de contenu, les images de drapeaux des pays affichées dans certaines parties du site. Lors du chargement de ces images, votre navigateur se connecte à ce service tiers ; ce service et ses prestataires d'infrastructure peuvent traiter des informations techniques liées à la requête, conformément à leurs politiques respectives.</li>
+<li><strong>Google Analytics :</strong> actuellement actif, utilisé pour mesurer la fréquentation du site et analyser ses performances afin d'améliorer le contenu et l'expérience utilisateur.</li>
+<li><strong>Google AdSense :</strong> non actif à ce jour. Lorsqu'il sera activé, il servira à afficher des publicités qui contribuent à couvrir les coûts de fonctionnement du site.</li>
 </ul>
 <h2>4. Vos droits</h2>
 <p>Vous avez le droit de :</p>
@@ -5198,113 +5207,122 @@ const LEGAL_PAGES = {
 <li>Demander toute information supplémentaire via notre <a href="/fr/contact">page Contact</a>.</li>
 </ul>
 <h2>5. Enfants</h2>
-<p>Le site est ouvert à tous et ne cible pas spécifiquement les enfants de moins de 13 ans. Nous ne collectons sciemment aucune donnée personnelle auprès des utilisateurs.</p>
+<p>Le site est ouvert à tous et ne cible pas spécifiquement les enfants de moins de 13 ans. Nous ne demandons pas sciemment aux enfants de créer un compte ni de fournir des données permettant de les identifier directement afin d'utiliser le site. Les services tiers décrits dans la présente politique peuvent traiter des informations techniques conformément à leurs propres politiques.</p>
 <h2>6. Mises à jour de la politique</h2>
 <p>Nous pouvons mettre à jour cette politique périodiquement. La date de dernière mise à jour apparaîtra en haut de la page. La poursuite de l'utilisation du site après modification implique l'acceptation de la version mise à jour.</p>
 <h2>7. Contact</h2>
 <p>Pour toute question concernant cette politique, veuillez consulter notre <a href="/fr/contact">page Contact</a>.</p>`,
         tr: `<h1>Gizlilik Politikası</h1>
-<span class="legal-meta">Son güncelleme: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Son güncelleme: 2026-08-09</span>
 <p><strong>Namaz Vakitleri</strong> olarak gizliliğinize saygı duyar ve kişisel verilerinizi korumayı taahhüt ederiz. Bu politika, hangi bilgileri topladığımızı ve nasıl kullandığımızı açıklar.</p>
 <h2>1. Topladığımız Veriler</h2>
-<p>Kayıt gerektirmeyiz ve sunucularımızda kişisel veri saklamayız. İşleyebileceğimiz bilgiler şunlarla sınırlıdır:</p>
+<p>Site hesap oluşturmayı gerektirmez ve kullanıcı profilleri oluşturmayız. Sitenin ele aldığı veriler şunlarla sınırlıdır:</p>
 <ul>
 <li><strong>Coğrafi konum:</strong> Namaz vakitlerini ve Kıble yönünü doğru hesaplamak için kullanılır. İzin isteğe bağlıdır ve koordinatlarınız yalnızca tarayıcınızda yerel olarak saklanır (localStorage).</li>
-<li><strong>Dil ve tercihler:</strong> Ziyaretler arası tutarlı bir deneyim için tarayıcınızda saklanır.</li>
-<li><strong>Teknik sunucu kayıtları:</strong> IP adresi, tarayıcı türü ve ziyaret edilen sayfaları içerir; yalnızca güvenlik ve toplu analitik için kullanılır.</li>
+<li><strong>Dil ve tercihler:</strong> Dil, hesaplama yöntemi, hatırlatıcı ayarları ve tema gibi bilgiler ile Zikirler, Tesbih ve Zekat araçlarındaki ilerlemeniz. Bu tercihler kendi cihazınızda, tarayıcınızın yerel depolama alanında saklanır.</li>
+<li><strong>Barındırma ve altyapı verileri:</strong> Site uygulaması, kullanıcıları izlemeye yönelik özel kayıtlar oluşturmaz. Bununla birlikte barındırma ve altyapı sağlayıcıları; hizmetin sunulması, güvenliğinin sağlanması, performansının izlenmesi ve arızaların giderilmesi için gerekli olduğu ölçüde, ağ istekleri ve hizmetin işletilmesiyle ilişkili teknik bilgileri kendi politikaları ve saklama uygulamaları uyarınca işleyebilir.</li>
 </ul>
-<h2>2. Çerezler</h2>
-<p>İki tür çerez kullanıyoruz:</p>
+<h2>2. Çerezler ve Benzer Depolama Teknolojileri</h2>
+<p>Site; yerel depolamayı, çerezleri ve benzer depolama teknolojilerini şu şekilde kullanır:</p>
 <ul>
-<li><strong>Temel:</strong> Sitenin çalışması için gerekli (dil, konum, hatırlatıcı ayarları).</li>
-<li><strong>Reklam:</strong> Google AdSense etkinleştirildiğinde, Google kişiselleştirilmiş reklamlar göstermek için çerez kullanabilir. Bunları <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Reklam Ayarları</a> üzerinden yönetebilirsiniz.</li>
+<li><strong>İşlevsel yerel depolama:</strong> Site; dil, konum ve hatırlatıcı ayarları gibi bazı tercihleri ve özellikleri saklamak için tarayıcınızın yerel depolama alanını kullanır. Bunlar çerez değildir ve site uygulaması kendine ait çerezler yerleştirmez.</li>
+<li><strong>Analitik:</strong> Google Analytics şu anda sitede etkindir; kullanımı ölçmek ve performansı analiz etmek amacıyla çerez kullanır.</li>
+<li><strong>Reklamlar:</strong> Google AdSense şu anda etkin değildir. İleride etkinleştirilirse, Google dâhil üçüncü taraf reklam sağlayıcıları; reklamları sunmak, ölçmek ve geçerli olduğu durumlarda kişiselleştirmek amacıyla çerezler veya benzer teknolojiler kullanabilir. Reklamların gösterimi, kullanıcının bu siteye veya diğer sitelere yaptığı ziyaretleri dikkate alabilir. Reklam hizmetleri ayrıca web beacons gibi teknolojiler kullanabilir veya reklam gösterimi sonucunda IP adreslerini işleyebilir. Kullanıcılar Google reklam kişiselleştirmesini <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google Reklam Ayarları</a> üzerinden yönetebilir.</li>
 </ul>
 <h2>3. Üçüncü Taraf Hizmetler</h2>
-<p>Site, tam bir deneyim sunmak için aşağıdaki hizmetleri kullanır:</p>
+<p>Site aşağıdaki hizmetlere dayanır:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> şehir arama ve ters jeokodlama için.</li>
-<li><strong>Wikipedia API:</strong> "Şehir Hakkında" sayfalarında tarihi ve şehir bilgilerini almak için.</li>
-<li><strong>Google Fonts:</strong> Cairo Arapça yazı tipini yüklemek için.</li>
-<li><strong>Google Analytics:</strong> içeriği ve performansı iyileştirmek için toplu ve anonim ziyaret ölçümü ve analizi amacıyla.</li>
-<li><strong>Google AdSense (isteğe bağlı):</strong> siteyi ücretsiz tutmaya yardımcı reklamları göstermek için.</li>
+<li><strong>Render:</strong> Sitenin çalıştırılması ve internet üzerinden sunulması için kullandığımız barındırma ve altyapı sağlayıcısıdır. Barındırma platformu; hizmetin sunulması, güvenliğinin sağlanması ve performansının izlenmesi için gerekli teknik ve işletimsel bilgileri kendi gizlilik politikası uyarınca işleyebilir.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> Şehir arama ve ters jeokodlama için kullanılır. Hem tarayıcıdan hem de sunucumuzdan çağrılır.</li>
+<li><strong>Wikipedia API:</strong> Şehir sayfalarında gösterilen tarihî ve şehre dair bilgileri almak için kullanılır. Hem tarayıcıdan hem de sunucumuzdan çağrılır.</li>
+<li><strong>Google Fonts:</strong> Sitede kullanılan yazı tiplerini Google sunucularından yüklemek için kullanılır; bu da bir yazı tipi yüklenirken tarayıcınızın Google sunucularına bağlandığı anlamına gelir.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> Sitenin bazı bölümlerinde gösterilen ülke bayrağı görsellerini harici bir içerik dağıtım hizmeti üzerinden yüklemek için kullanılır. Bu görseller yüklenirken tarayıcı üçüncü taraf hizmete bağlanır; bu hizmet ve altyapı sağlayıcıları, isteğe ilişkin teknik bilgileri kendi politikaları uyarınca işleyebilir.</li>
+<li><strong>Google Analytics:</strong> Şu anda etkindir; içeriği ve kullanıcı deneyimini iyileştirmek amacıyla site ziyaretlerini ölçmek ve performansı analiz etmek için kullanılır.</li>
+<li><strong>Google AdSense:</strong> Şu anda etkin değildir. Etkinleştirildiğinde, sitenin işletme maliyetlerinin karşılanmasına yardımcı olan reklamları göstermek için kullanılacaktır.</li>
 </ul>
 <h2>4. Haklarınız</h2>
 <p>Şu haklara sahipsiniz:</p>
 <ul>
-<li>Taramanızı etkilemeden konum iznini reddetmek.</li>
+<li>Gezinmenizi etkilemeden konum iznini reddetmek.</li>
 <li>Yerel olarak saklanan site verilerini tarayıcı ayarlarınızdan silmek.</li>
 <li>Google ayarlarından kişiselleştirilmiş reklamları devre dışı bırakmak.</li>
 <li><a href="/tr/contact">İletişim sayfamız</a> aracılığıyla ek bilgi talep etmek.</li>
 </ul>
 <h2>5. Çocuklar</h2>
-<p>Site herkese açıktır ve özellikle 13 yaş altı çocukları hedeflemez. Hiçbir kullanıcıdan bilerek kişisel veri toplamıyoruz.</p>
+<p>Site herkese açıktır ve özellikle 13 yaş altı çocukları hedeflemez. Siteyi kullanabilmeleri için çocuklardan hesap oluşturmalarını veya doğrudan kimlik belirleyici bilgi vermelerini bilerek talep etmiyoruz. Bu politikada açıklanan üçüncü taraf hizmetler, teknik bilgileri kendi politikaları uyarınca işleyebilir.</p>
 <h2>6. Politika Güncellemeleri</h2>
 <p>Bu politikayı periyodik olarak güncelleyebiliriz. Son güncelleme tarihi sayfanın üst kısmında görünecektir. Değişikliklerden sonra sitenin kullanılmaya devam edilmesi güncel sürümün kabul edildiği anlamına gelir.</p>
 <h2>7. İletişim</h2>
 <p>Bu politika hakkında sorularınız için lütfen <a href="/tr/contact">İletişim sayfamıza</a> bakın.</p>`,
         ur: `<h1>پرائیویسی پالیسی</h1>
-<span class="legal-meta">آخری تازہ کاری: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">آخری تازہ کاری: 2026-08-09</span>
 <p><strong>اوقاتِ نماز</strong> پر ہم آپ کی پرائیویسی کا احترام کرتے ہیں اور آپ کے ذاتی ڈیٹا کی حفاظت کے پابند ہیں۔ یہ پالیسی واضح کرتی ہے کہ ہم کون سی معلومات جمع کرتے ہیں اور انہیں کیسے استعمال کرتے ہیں۔</p>
 <h2>1. جو ڈیٹا ہم جمع کرتے ہیں</h2>
-<p>ہم رجسٹریشن کا مطالبہ نہیں کرتے اور اپنے سرورز پر کوئی ذاتی ڈیٹا محفوظ نہیں کرتے۔ جو معلومات ہم ہینڈل کر سکتے ہیں وہ محدود ہیں:</p>
+<p>سائٹ کے استعمال کے لیے اکاؤنٹ بنانے کی ضرورت نہیں، اور ہم صارفین کی پروفائلز نہیں بناتے۔ سائٹ جس ڈیٹا سے واسطہ رکھتی ہے وہ صرف اتنا ہے:</p>
 <ul>
 <li><strong>جغرافیائی مقام:</strong> نماز کے درست اوقات اور قبلہ کی سمت حساب کرنے کے لیے استعمال ہوتا ہے۔ اجازت اختیاری ہے، اور آپ کے کوآرڈینیٹس صرف آپ کے براؤزر میں مقامی طور پر محفوظ ہوتے ہیں (localStorage)۔</li>
-<li><strong>زبان اور ترجیحات:</strong> وزٹس کے دوران یکساں تجربے کے لیے آپ کے براؤزر میں محفوظ۔</li>
-<li><strong>تکنیکی سرور لاگز:</strong> IP ایڈریس، براؤزر کی قسم، اور دیکھے گئے صفحات شامل ہیں، صرف سیکیورٹی اور مجموعی تجزیات کے لیے۔</li>
+<li><strong>زبان اور ترجیحات:</strong> جیسے زبان، طریقۂ حساب، یاد دہانی کی ترتیبات، تھیم، اور اذکار، تسبیح اور زکوٰۃ کے ٹولز میں آپ کی پیش رفت۔ یہ ترجیحات آپ کے اپنے ڈیوائس پر آپ کے براؤزر کے مقامی اسٹوریج میں محفوظ ہوتی ہیں۔</li>
+<li><strong>ہوسٹنگ اور بنیادی ڈھانچے کا ڈیٹا:</strong> سائٹ کی ایپلیکیشن صارفین کی نگرانی کے لیے کوئی مخصوص لاگز نہیں بناتی۔ تاہم ہوسٹنگ اور بنیادی ڈھانچہ فراہم کرنے والے ادارے نیٹ ورک درخواستوں اور سروس کے چلانے سے متعلق تکنیکی معلومات اس حد تک پروسیس کر سکتے ہیں جو سروس کی فراہمی، اس کی حفاظت، کارکردگی کی نگرانی اور خرابیوں کی تشخیص کے لیے ضروری ہو، اور یہ ان کی اپنی پالیسیوں اور ڈیٹا رکھنے کے طریقوں کے تابع ہے۔</li>
 </ul>
-<h2>2. کوکیز</h2>
-<p>ہم دو قسم کی کوکیز استعمال کرتے ہیں:</p>
+<h2>2. کوکیز اور اسی طرح کی اسٹوریج ٹیکنالوجیز</h2>
+<p>سائٹ مقامی اسٹوریج، کوکیز اور اسی طرح کی اسٹوریج ٹیکنالوجیز مندرجہ ذیل طریقے سے استعمال کرتی ہے:</p>
 <ul>
-<li><strong>ضروری:</strong> سائٹ کے کام کرنے کے لیے لازمی (زبان، مقام، یاد دہانی کی ترتیبات محفوظ کرنا)۔</li>
-<li><strong>اشتہاری:</strong> جب Google AdSense فعال ہو تو Google ذاتی نوعیت کے اشتہارات دکھانے کے لیے کوکیز استعمال کر سکتا ہے۔ آپ <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google ایڈ سیٹنگز</a> کے ذریعے انہیں کنٹرول کر سکتے ہیں۔</li>
+<li><strong>فنکشنل مقامی اسٹوریج:</strong> سائٹ بعض ترجیحات اور خصوصیات محفوظ رکھنے کے لیے آپ کے براؤزر کا مقامی اسٹوریج استعمال کرتی ہے، جیسے زبان، مقام اور یاد دہانی کی ترتیبات۔ یہ کوکیز نہیں ہیں، اور سائٹ کی ایپلیکیشن اپنی کوئی کوکی سیٹ نہیں کرتی۔</li>
+<li><strong>تجزیات:</strong> Google Analytics اس وقت سائٹ پر فعال ہے اور پیمائش نیز استعمال اور کارکردگی کے تجزیے کے مقاصد کے لیے کوکیز استعمال کرتی ہے۔</li>
+<li><strong>اشتہارات:</strong> Google AdSense اس وقت فعال نہیں ہے۔ مستقبل میں فعال کیے جانے پر تیسرے فریق کے اشتہاراتی فراہم کنندگان، بشمول Google، اشتہارات دکھانے، ان کی پیمائش کرنے اور جہاں لاگو ہو انہیں ذاتی نوعیت دینے کے لیے کوکیز یا اسی طرح کی ٹیکنالوجیز استعمال کر سکتے ہیں، اور اشتہارات کی نمائش صارف کے اس سائٹ یا دوسری سائٹس پر دوروں کو مدنظر رکھ سکتی ہے۔ اشتہاراتی خدمات web beacons جیسی ٹیکنالوجیز بھی استعمال کر سکتی ہیں یا اشتہار دکھانے کے نتیجے میں IP پتے پروسیس کر سکتی ہیں۔ صارف Google کے اشتہارات کی ذاتی نوعیت سازی کو <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google ایڈ سیٹنگز</a> کے ذریعے کنٹرول کر سکتا ہے۔</li>
 </ul>
 <h2>3. تیسرے فریق کی خدمات</h2>
-<p>مکمل تجربہ فراہم کرنے کے لیے سائٹ مندرجہ ذیل خدمات استعمال کرتی ہے:</p>
+<p>سائٹ مندرجہ ذیل خدمات پر انحصار کرتی ہے:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> شہروں کی تلاش اور الٹی جیوکوڈنگ کے لیے۔</li>
-<li><strong>Wikipedia API:</strong> "شہر کے بارے میں" صفحات پر تاریخی اور شہری معلومات حاصل کرنے کے لیے۔</li>
-<li><strong>Google Fonts:</strong> Cairo عربی فونٹ لوڈ کرنے کے لیے۔</li>
-<li><strong>Google Analytics:</strong> مواد اور کارکردگی بہتر بنانے کے لیے سائٹ کی مجموعی اور گمنام ٹریفک کی پیمائش اور تجزیے کے لیے۔</li>
-<li><strong>Google AdSense (اختیاری):</strong> سائٹ کو مفت رکھنے میں مدد کرنے والے اشتہارات دکھانے کے لیے۔</li>
+<li><strong>Render:</strong> ہوسٹنگ اور بنیادی ڈھانچہ فراہم کرنے والا ادارہ، جو سائٹ کو چلانے اور انٹرنیٹ پر پیش کرنے کے لیے استعمال ہوتا ہے۔ ہوسٹنگ پلیٹ فارم اپنی پرائیویسی پالیسی کے مطابق وہ تکنیکی اور آپریشنل معلومات پروسیس کر سکتا ہے جو سروس کی فراہمی، اس کی حفاظت اور کارکردگی کی نگرانی کے لیے ضروری ہوں۔</li>
+<li><strong>OpenStreetMap Nominatim:</strong> شہروں کی تلاش اور کوآرڈینیٹس کو مقامات کے ناموں میں بدلنے (الٹی جیوکوڈنگ) کے لیے۔ اسے براؤزر اور ہمارے سرور، دونوں سے طلب کیا جاتا ہے۔</li>
+<li><strong>Wikipedia API:</strong> شہر کے صفحات پر دکھائی جانے والی تاریخی اور شہری معلومات حاصل کرنے کے لیے۔ اسے براؤزر اور ہمارے سرور، دونوں سے طلب کیا جاتا ہے۔</li>
+<li><strong>Google Fonts:</strong> سائٹ میں استعمال ہونے والے فونٹس Google کے سرورز سے لوڈ کرنے کے لیے، یعنی فونٹ لوڈ ہوتے وقت آپ کا براؤزر Google کے سرورز سے رابطہ کرتا ہے۔</li>
+<li><strong>FlagCDN / Flagpedia:</strong> سائٹ کے بعض حصوں میں دکھائی جانے والی ممالک کے جھنڈوں کی تصاویر ایک بیرونی کنٹینٹ ڈیلیوری سروس کے ذریعے لوڈ کرنے کے لیے۔ ان تصاویر کے لوڈ ہوتے وقت براؤزر تیسرے فریق کی اس سروس سے رابطہ کرتا ہے، اور یہ سروس اور اس کے بنیادی ڈھانچے کے فراہم کنندگان درخواست سے متعلق تکنیکی معلومات اپنی پالیسیوں کے مطابق پروسیس کر سکتے ہیں۔</li>
+<li><strong>Google Analytics:</strong> اس وقت فعال ہے، اور مواد اور صارف کے تجربے کو بہتر بنانے کی غرض سے سائٹ کی ٹریفک کی پیمائش اور کارکردگی کے تجزیے کے لیے استعمال ہوتی ہے۔</li>
+<li><strong>Google AdSense:</strong> اس وقت فعال نہیں ہے۔ فعال کیے جانے پر یہ ایسے اشتہارات دکھانے کے لیے استعمال ہوگی جو سائٹ چلانے کے اخراجات پورے کرنے میں مدد دیں۔</li>
 </ul>
 <h2>4. آپ کے حقوق</h2>
 <p>آپ کو یہ حق حاصل ہے کہ:</p>
 <ul>
 <li>براؤزنگ کو متاثر کیے بغیر مقام کی اجازت سے انکار کریں۔</li>
-<li>اپنی براؤزر کی ترتیبات کے ذریعے مقامی طور پر محفوظ ڈیٹا صاف کریں۔</li>
+<li>اپنے براؤزر کی ترتیبات کے ذریعے مقامی طور پر محفوظ ڈیٹا صاف کریں۔</li>
 <li>Google کی ترتیبات کے ذریعے ذاتی اشتہارات بند کریں۔</li>
-<li>ہمارے <a href="/ur/contact">رابطہ صفحہ</a> کے ذریعے اضافی معلومات طلب کریں۔</li>
+<li>ہمارے <a href="/ur/contact">رابطہ صفحے</a> کے ذریعے اضافی معلومات طلب کریں۔</li>
 </ul>
 <h2>5. بچے</h2>
-<p>سائٹ سب کے لیے کھلی ہے اور خاص طور پر 13 سال سے کم عمر کے بچوں کو نشانہ نہیں بناتی۔ ہم جان بوجھ کر کسی صارف سے ذاتی ڈیٹا جمع نہیں کرتے۔</p>
+<p>سائٹ سب کے لیے کھلی ہے اور خاص طور پر 13 سال سے کم عمر کے بچوں کو نشانہ نہیں بناتی۔ ہم جان بوجھ کر بچوں سے یہ نہیں کہتے کہ وہ سائٹ استعمال کرنے کے لیے اکاؤنٹ بنائیں یا براہِ راست شناختی معلومات فراہم کریں۔ اس پالیسی میں مذکور تیسرے فریق کی خدمات اپنی پالیسیوں کے مطابق تکنیکی معلومات پروسیس کر سکتی ہیں۔</p>
 <h2>6. پالیسی اپ ڈیٹس</h2>
 <p>ہم اس پالیسی کو وقتاً فوقتاً اپ ڈیٹ کر سکتے ہیں۔ آخری اپ ڈیٹ کی تاریخ صفحے کے اوپر ظاہر ہوگی۔ تبدیلیوں کے بعد سائٹ کا مسلسل استعمال اپ ڈیٹڈ ورژن کی قبولیت کا مطلب ہے۔</p>
 <h2>7. رابطہ</h2>
 <p>اس پالیسی سے متعلق کسی بھی سوال کے لیے، براہ کرم ہمارے <a href="/ur/contact">رابطہ صفحے</a> پر جائیں۔</p>`,
         de: `<h1>Datenschutzerklärung</h1>
-<span class="legal-meta">Zuletzt aktualisiert: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Zuletzt aktualisiert: 2026-08-09</span>
 <p>Bei <strong>Gebetszeiten</strong> respektieren wir Ihre Privatsphäre und verpflichten uns zum Schutz Ihrer persönlichen Daten. Diese Erklärung beschreibt, welche Informationen wir erheben und wie wir sie verwenden.</p>
 <h2>1. Von uns erhobene Daten</h2>
-<p>Wir verlangen keine Registrierung und speichern keine personenbezogenen Daten auf unseren Servern. Die von uns verarbeiteten Informationen beschränken sich auf:</p>
+<p>Die Website erfordert kein Benutzerkonto, und wir erstellen keine Nutzerprofile. Die Daten, die die Seite verarbeitet, beschränken sich auf:</p>
 <ul>
 <li><strong>Geografischer Standort:</strong> Wird verwendet, um präzise Gebetszeiten und die Qibla-Richtung zu berechnen. Die Erlaubnis ist optional, und Ihre Koordinaten werden ausschließlich lokal in Ihrem Browser gespeichert (localStorage).</li>
-<li><strong>Sprache und Einstellungen:</strong> In Ihrem Browser gespeichert, um ein konsistentes Erlebnis über mehrere Besuche zu gewährleisten.</li>
-<li><strong>Technische Server-Logs:</strong> Umfassen IP-Adresse, Browser-Typ und besuchte Seiten; werden nur zu Sicherheits- und aggregierten Analysezwecken verwendet.</li>
+<li><strong>Sprache und Einstellungen:</strong> Etwa Sprache, Berechnungsmethode, Erinnerungseinstellungen, Erscheinungsbild sowie Ihr Fortschritt in den Werkzeugen für Adhkar, Tasbih und Zakat. Diese Einstellungen werden im lokalen Speicher Ihres Browsers auf Ihrem eigenen Gerät gespeichert.</li>
+<li><strong>Betriebs- und Infrastrukturdaten:</strong> Die Anwendung der Website erstellt keine eigenen Protokolle zur Nachverfolgung von Nutzern. Anbieter von Hosting und Infrastruktur können jedoch technische Informationen im Zusammenhang mit Netzwerkanfragen und dem Betrieb des Dienstes verarbeiten, soweit dies erforderlich ist, um den Dienst bereitzustellen, abzusichern, seine Leistung zu überwachen und Störungen zu beheben — nach Maßgabe ihrer eigenen Richtlinien und Aufbewahrungspraktiken.</li>
 </ul>
-<h2>2. Cookies</h2>
-<p>Wir verwenden zwei Arten von Cookies:</p>
+<h2>2. Cookies und ähnliche Speichertechnologien</h2>
+<p>Die Website nutzt den lokalen Speicher, Cookies und ähnliche Speichertechnologien wie folgt:</p>
 <ul>
-<li><strong>Essenziell:</strong> Notwendig für den Betrieb der Seite (Speichern von Sprache, Standort, Erinnerungseinstellungen).</li>
-<li><strong>Werbung:</strong> Wenn Google AdSense aktiviert ist, kann Google Cookies verwenden, um personalisierte Werbung anzuzeigen. Sie können diese über die <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google-Anzeigeneinstellungen</a> verwalten.</li>
+<li><strong>Funktionaler lokaler Speicher:</strong> Die Seite verwendet den lokalen Speicher Ihres Browsers, um bestimmte Einstellungen und Funktionen zu speichern, etwa Sprache, Standort und Erinnerungseinstellungen. Dabei handelt es sich nicht um Cookies, und die Anwendung der Website setzt keine eigenen Cookies.</li>
+<li><strong>Analyse:</strong> Google Analytics ist derzeit auf der Website aktiv und verwendet Cookies zur Messung sowie zur Analyse von Nutzung und Leistung.</li>
+<li><strong>Werbung:</strong> Google AdSense ist derzeit nicht aktiv. Falls der Dienst künftig aktiviert wird, können Drittanbieter von Werbung, einschließlich Google, Cookies oder ähnliche Technologien verwenden, um Anzeigen auszuliefern, zu messen und, soweit zutreffend, zu personalisieren. Die Auslieferung von Anzeigen kann dabei die Besuche eines Nutzers auf dieser oder auf anderen Websites berücksichtigen. Werbedienste können zudem Technologien wie Web Beacons einsetzen oder infolge der Anzeigenauslieferung IP-Adressen verarbeiten. Die Personalisierung von Google-Werbung können Sie über die <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google-Anzeigeneinstellungen</a> verwalten.</li>
 </ul>
 <h2>3. Dienste Dritter</h2>
-<p>Die Website nutzt folgende Dienste, um ein vollständiges Erlebnis zu bieten:</p>
+<p>Die Website stützt sich auf die folgenden Dienste:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> für die Städtesuche und das Reverse-Geocoding.</li>
-<li><strong>Wikipedia-API:</strong> zum Abrufen von historischen und städtischen Informationen auf den Seiten „Über die Stadt".</li>
-<li><strong>Google Fonts:</strong> zum Laden der arabischen Schriftart Cairo.</li>
-<li><strong>Google Analytics:</strong> zur aggregierten, anonymisierten Besuchsmessung und Analyse zur Verbesserung von Inhalt und Leistung.</li>
-<li><strong>Google AdSense (optional):</strong> zur Anzeige von Werbung, die hilft, die Seite kostenlos zu halten.</li>
+<li><strong>Render:</strong> Unser Anbieter für Hosting und Infrastruktur, über den die Website betrieben und ausgeliefert wird. Die Hosting-Plattform kann technische und betriebliche Informationen verarbeiten, die erforderlich sind, um den Dienst bereitzustellen, abzusichern und seine Leistung zu überwachen — gemäß ihrer eigenen Datenschutzerklärung.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> Für die Städtesuche und das Reverse-Geocoding. Der Dienst wird sowohl aus dem Browser als auch von unserem Server aus aufgerufen.</li>
+<li><strong>Wikipedia API:</strong> Zum Abrufen historischer und städtischer Informationen, die auf den Stadtseiten angezeigt werden. Der Dienst wird sowohl aus dem Browser als auch von unserem Server aus aufgerufen.</li>
+<li><strong>Google Fonts:</strong> Zum Laden der auf der Website verwendeten Schriftarten von Googles Servern; das bedeutet, dass Ihr Browser beim Laden einer Schriftart eine Verbindung zu den Servern von Google herstellt.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> Wird verwendet, um die in Teilen der Website angezeigten Länderflaggen über einen externen Dienst zur Auslieferung von Inhalten zu laden. Beim Laden dieser Bilder stellt der Browser eine Verbindung zum Dienst des Drittanbieters her; dieser und seine Infrastrukturanbieter können dabei technische Informationen im Zusammenhang mit der Anfrage nach Maßgabe ihrer eigenen Richtlinien verarbeiten.</li>
+<li><strong>Google Analytics:</strong> Derzeit aktiv; wird eingesetzt, um die Besuche der Website zu messen und ihre Leistung zu analysieren und so Inhalt und Nutzererlebnis zu verbessern.</li>
+<li><strong>Google AdSense:</strong> Derzeit nicht aktiv. Sobald der Dienst aktiviert ist, wird er genutzt, um Werbung anzuzeigen, die zur Deckung der Betriebskosten der Website beiträgt.</li>
 </ul>
 <h2>4. Ihre Rechte</h2>
 <p>Sie haben das Recht:</p>
@@ -5315,35 +5333,38 @@ const LEGAL_PAGES = {
 <li>Zusätzliche Informationen über unsere <a href="/de/contact">Kontaktseite</a> anzufordern.</li>
 </ul>
 <h2>5. Kinder</h2>
-<p>Die Seite steht allen offen und richtet sich nicht speziell an Kinder unter 13 Jahren. Wir erheben wissentlich keine personenbezogenen Daten von Nutzern.</p>
+<p>Die Seite steht allen offen und richtet sich nicht speziell an Kinder unter 13 Jahren. Wir fordern Kinder nicht wissentlich dazu auf, ein Konto zu erstellen oder unmittelbar identifizierende Angaben zu machen, um die Seite zu nutzen. Die in dieser Richtlinie beschriebenen Dienste Dritter können technische Informationen nach Maßgabe ihrer eigenen Richtlinien verarbeiten.</p>
 <h2>6. Aktualisierungen der Richtlinie</h2>
 <p>Wir können diese Richtlinie regelmäßig aktualisieren. Das Datum der letzten Aktualisierung wird oben auf der Seite angezeigt. Die fortgesetzte Nutzung der Seite nach Änderungen bedeutet die Zustimmung zur aktualisierten Version.</p>
 <h2>7. Kontakt</h2>
 <p>Für Fragen zu dieser Richtlinie besuchen Sie bitte unsere <a href="/de/contact">Kontaktseite</a>.</p>`,
         id: `<h1>Kebijakan Privasi</h1>
-<span class="legal-meta">Terakhir diperbarui: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Terakhir diperbarui: 2026-08-09</span>
 <p>Di <strong>Jadwal Sholat</strong>, kami menghormati privasi Anda dan berkomitmen untuk melindungi data pribadi Anda. Kebijakan ini menjelaskan informasi apa yang kami kumpulkan dan bagaimana kami menggunakannya.</p>
 <h2>1. Data yang Kami Kumpulkan</h2>
-<p>Kami tidak memerlukan pendaftaran dan tidak menyimpan data pribadi di server kami. Informasi yang kami tangani terbatas pada:</p>
+<p>Situs tidak memerlukan pembuatan akun, dan kami tidak menyusun profil pengguna. Data yang ditangani situs terbatas pada:</p>
 <ul>
 <li><strong>Lokasi geografis:</strong> Digunakan untuk menghitung jadwal sholat dan arah Kiblat yang akurat. Izin bersifat opsional, dan koordinat Anda disimpan hanya secara lokal di browser Anda (localStorage).</li>
-<li><strong>Bahasa dan preferensi:</strong> Disimpan di browser Anda untuk memberikan pengalaman yang konsisten di setiap kunjungan.</li>
-<li><strong>Log server teknis:</strong> Termasuk alamat IP, jenis browser, dan halaman yang dikunjungi, hanya digunakan untuk keamanan dan analisis agregat.</li>
+<li><strong>Bahasa dan preferensi:</strong> Seperti bahasa, metode perhitungan, pengaturan pengingat, tema tampilan, serta kemajuan Anda pada alat Dzikir, Tasbih, dan Kalkulator Zakat. Preferensi ini disimpan di penyimpanan lokal browser pada perangkat Anda sendiri.</li>
+<li><strong>Data hosting dan infrastruktur:</strong> Aplikasi situs tidak membuat catatan log khusus untuk melacak pengguna. Namun, penyedia hosting dan infrastruktur dapat memproses informasi teknis yang terkait dengan permintaan jaringan dan pengoperasian layanan sejauh diperlukan untuk menyediakan, mengamankan, memantau, dan mendiagnosis gangguan pada layanan, sesuai dengan kebijakan dan praktik retensi mereka sendiri.</li>
 </ul>
-<h2>2. Cookie</h2>
-<p>Kami menggunakan dua jenis cookie:</p>
+<h2>2. Cookie dan Teknologi Penyimpanan Serupa</h2>
+<p>Situs menggunakan penyimpanan lokal, cookie, dan teknologi penyimpanan serupa sebagai berikut:</p>
 <ul>
-<li><strong>Esensial:</strong> Diperlukan untuk operasi situs (menyimpan bahasa, lokasi, pengaturan pengingat).</li>
-<li><strong>Iklan:</strong> Ketika Google AdSense diaktifkan, Google dapat menggunakan cookie untuk menampilkan iklan yang dipersonalisasi. Anda dapat mengelolanya melalui <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Pengaturan Iklan Google</a>.</li>
+<li><strong>Penyimpanan lokal fungsional:</strong> Situs menggunakan penyimpanan lokal browser Anda untuk menyimpan sejumlah preferensi dan fitur, seperti bahasa, lokasi, dan pengaturan pengingat. Ini bukan cookie, dan aplikasi situs tidak menempatkan cookie miliknya sendiri.</li>
+<li><strong>Analitik:</strong> Google Analytics saat ini aktif di situs dan menggunakan cookie untuk keperluan pengukuran serta analisis penggunaan dan performa.</li>
+<li><strong>Iklan:</strong> Google AdSense saat ini tidak aktif. Jika nanti diaktifkan, penyedia iklan pihak ketiga, termasuk Google, dapat menggunakan cookie atau teknologi serupa untuk menayangkan, mengukur, dan bila berlaku mempersonalisasi iklan. Penayangan iklan dapat mempertimbangkan kunjungan pengguna ke situs ini atau ke situs lain. Layanan iklan juga dapat menggunakan teknologi seperti web beacons atau memproses alamat IP sebagai akibat dari penayangan iklan. Anda dapat mengelola personalisasi iklan Google melalui <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Pengaturan Iklan Google</a>.</li>
 </ul>
 <h2>3. Layanan Pihak Ketiga</h2>
-<p>Situs menggunakan layanan berikut untuk memberikan pengalaman lengkap:</p>
+<p>Situs bergantung pada layanan berikut:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> untuk pencarian kota dan reverse geocoding.</li>
-<li><strong>Wikipedia API:</strong> untuk mengambil informasi historis dan kota pada halaman "Tentang".</li>
-<li><strong>Google Fonts:</strong> untuk memuat font Cairo bahasa Arab.</li>
-<li><strong>Google Analytics:</strong> untuk pengukuran dan analitik kunjungan secara agregat dan anonim guna meningkatkan konten dan performa.</li>
-<li><strong>Google AdSense (opsional):</strong> untuk menampilkan iklan yang membantu menjaga situs tetap gratis.</li>
+<li><strong>Render:</strong> Penyedia hosting dan infrastruktur kami yang digunakan untuk mengoperasikan dan menyajikan situs. Platform hosting dapat memproses informasi teknis dan operasional yang diperlukan untuk menyediakan, mengamankan, dan memantau layanan sesuai dengan kebijakan privasinya sendiri.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> Untuk pencarian kota dan reverse geocoding. Layanan ini dipanggil baik dari browser maupun dari server kami.</li>
+<li><strong>Wikipedia API:</strong> Untuk mengambil informasi historis dan informasi kota yang ditampilkan pada halaman kota. Layanan ini dipanggil baik dari browser maupun dari server kami.</li>
+<li><strong>Google Fonts:</strong> Untuk memuat font yang digunakan di situs dari server Google, yang berarti browser Anda terhubung ke server Google saat sebuah font dimuat.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> Digunakan untuk memuat gambar bendera negara yang ditampilkan di sebagian situs melalui layanan pengiriman konten eksternal. Ketika gambar tersebut dimuat, browser terhubung ke layanan pihak ketiga tersebut, dan layanan itu beserta penyedia infrastrukturnya dapat memproses informasi teknis yang terkait dengan permintaan tersebut sesuai dengan kebijakan mereka sendiri.</li>
+<li><strong>Google Analytics:</strong> Saat ini aktif, digunakan untuk mengukur kunjungan situs dan menganalisis performa guna meningkatkan konten dan pengalaman pengguna.</li>
+<li><strong>Google AdSense:</strong> Saat ini tidak aktif. Ketika diaktifkan, layanan ini akan digunakan untuk menampilkan iklan yang membantu menutupi biaya pengoperasian situs.</li>
 </ul>
 <h2>4. Hak Anda</h2>
 <p>Anda berhak untuk:</p>
@@ -5354,35 +5375,38 @@ const LEGAL_PAGES = {
 <li>Meminta informasi tambahan melalui <a href="/id/contact">Halaman Kontak</a>.</li>
 </ul>
 <h2>5. Anak-Anak</h2>
-<p>Situs terbuka untuk semua orang dan tidak secara khusus ditujukan untuk anak-anak di bawah 13 tahun. Kami tidak secara sengaja mengumpulkan data pribadi dari pengguna mana pun.</p>
+<p>Situs terbuka untuk semua orang dan tidak secara khusus ditujukan untuk anak-anak di bawah 13 tahun. Kami tidak secara sengaja meminta anak-anak untuk membuat akun atau memberikan informasi yang mengidentifikasi mereka secara langsung guna menggunakan situs. Layanan pihak ketiga yang dijelaskan dalam kebijakan ini dapat memproses informasi teknis sesuai dengan kebijakan mereka sendiri.</p>
 <h2>6. Pembaruan Kebijakan</h2>
 <p>Kami dapat memperbarui kebijakan ini secara berkala. Tanggal pembaruan terakhir akan muncul di bagian atas halaman. Melanjutkan penggunaan situs setelah perubahan berarti menerima versi yang diperbarui.</p>
 <h2>7. Kontak</h2>
 <p>Untuk pertanyaan apa pun tentang kebijakan ini, silakan kunjungi <a href="/id/contact">Halaman Kontak</a> kami.</p>`,
         es: `<h1>Política de Privacidad</h1>
-<span class="legal-meta">Última actualización: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Última actualización: 2026-08-09</span>
 <p>En <strong>Horarios de Oración</strong>, respetamos tu privacidad y nos comprometemos a proteger tus datos personales. Esta política explica qué información recopilamos y cómo la usamos.</p>
 <h2>1. Datos que Recopilamos</h2>
-<p>No requerimos registro ni almacenamos datos personales en nuestros servidores. La información que manejamos se limita a:</p>
+<p>El sitio no requiere crear una cuenta y no elaboramos perfiles de usuario. Los datos que el sitio maneja se limitan a:</p>
 <ul>
 <li><strong>Ubicación geográfica:</strong> se utiliza para calcular con precisión los horarios de oración y la dirección de la Qibla. El permiso es opcional, y tus coordenadas se almacenan únicamente de forma local en tu navegador (localStorage).</li>
-<li><strong>Preferencias de idioma y configuración:</strong> se guardan en tu navegador para ofrecer una experiencia consistente en cada visita.</li>
-<li><strong>Registros técnicos del servidor:</strong> incluyen dirección IP, tipo de navegador y páginas visitadas, usados solo para seguridad y análisis agregados.</li>
+<li><strong>Preferencias de idioma y configuración:</strong> como el idioma, el método de cálculo, los ajustes de recordatorios, la apariencia y tu progreso en las herramientas de Azkar, Tasbih y Zakat. Estas preferencias se guardan en el almacenamiento local de tu navegador, en tu propio dispositivo.</li>
+<li><strong>Datos de funcionamiento e infraestructura:</strong> la aplicación del sitio no genera registros propios para rastrear a los usuarios. No obstante, los proveedores de alojamiento e infraestructura pueden tratar información técnica asociada a las peticiones de red y al funcionamiento del servicio en la medida necesaria para prestarlo, protegerlo, supervisar su rendimiento y diagnosticar incidencias, conforme a sus propias políticas y prácticas de conservación.</li>
 </ul>
-<h2>2. Cookies</h2>
-<p>Usamos dos tipos de cookies:</p>
+<h2>2. Cookies y Tecnologías de Almacenamiento Similares</h2>
+<p>El sitio utiliza almacenamiento local, cookies y otras tecnologías de almacenamiento similares del siguiente modo:</p>
 <ul>
-<li><strong>Esenciales:</strong> necesarias para el funcionamiento del sitio (idioma, ubicación, configuración de recordatorios).</li>
-<li><strong>Publicitarias:</strong> cuando Google AdSense está activado, Google puede usar cookies para mostrar anuncios personalizados. Puedes gestionarlas en la <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">configuración de anuncios de Google</a>.</li>
+<li><strong>Almacenamiento local funcional:</strong> el sitio utiliza el almacenamiento local de tu navegador para conservar ciertas preferencias y funciones, como el idioma, la ubicación y los ajustes de recordatorios. No se trata de cookies, y la aplicación del sitio no instala cookies propias.</li>
+<li><strong>Analítica:</strong> Google Analytics está activo actualmente en el sitio y utiliza cookies con fines de medición y de análisis del uso y del rendimiento.</li>
+<li><strong>Publicidad:</strong> Google AdSense no está activo por el momento. Cuando se active en el futuro, los proveedores publicitarios externos, incluido Google, podrán utilizar cookies o tecnologías similares para mostrar, medir y, cuando corresponda, personalizar los anuncios, y la publicación de anuncios podrá tener en cuenta las visitas del usuario a este sitio o a otros sitios. Los servicios de publicidad también pueden emplear tecnologías como los web beacons o tratar direcciones IP como consecuencia de la publicación de anuncios. Puedes gestionar la personalización de los anuncios de Google en la <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">configuración de anuncios de Google</a>.</li>
 </ul>
 <h2>3. Servicios de Terceros</h2>
-<p>El sitio utiliza los siguientes servicios para ofrecer una experiencia completa:</p>
+<p>El sitio depende de los siguientes servicios:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> para búsqueda de ciudades y geocodificación inversa.</li>
-<li><strong>Wikipedia API:</strong> para recuperar información histórica y sobre ciudades en las páginas "Acerca de".</li>
-<li><strong>Google Fonts:</strong> para cargar la fuente árabe Cairo.</li>
-<li><strong>Google Analytics:</strong> para la medición y el análisis de tráfico de forma agregada y anónima, con el fin de mejorar el contenido y el rendimiento.</li>
-<li><strong>Google AdSense (opcional):</strong> para mostrar anuncios que ayudan a mantener el sitio gratuito.</li>
+<li><strong>Render:</strong> nuestro proveedor de alojamiento e infraestructura, empleado para operar y ofrecer el sitio. La plataforma de alojamiento puede tratar información técnica y operativa necesaria para prestar el servicio, protegerlo y supervisarlo, de acuerdo con su propia política de privacidad.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> para la búsqueda de ciudades y la geocodificación inversa. Se invoca tanto desde el navegador como desde nuestro servidor.</li>
+<li><strong>Wikipedia API:</strong> para recuperar información histórica y sobre ciudades que se muestra en las páginas de ciudades. Se invoca tanto desde el navegador como desde nuestro servidor.</li>
+<li><strong>Google Fonts:</strong> para cargar las fuentes utilizadas en el sitio desde los servidores de Google, lo que significa que tu navegador se conecta a los servidores de Google cuando se carga una fuente.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> se utiliza para cargar las imágenes de las banderas de los países que aparecen en algunas partes del sitio a través de un servicio externo de distribución de contenidos. Al cargarse estas imágenes, el navegador se conecta al servicio de terceros, que, junto con sus proveedores de infraestructura, puede tratar información técnica asociada a la petición conforme a sus propias políticas.</li>
+<li><strong>Google Analytics:</strong> actualmente activo; se utiliza para medir el tráfico del sitio y analizar su rendimiento con el fin de mejorar el contenido y la experiencia de uso.</li>
+<li><strong>Google AdSense:</strong> no está activo por el momento. Cuando se active, se utilizará para mostrar anuncios que ayuden a cubrir los costes de funcionamiento del sitio.</li>
 </ul>
 <h2>4. Tus Derechos</h2>
 <p>Tienes derecho a:</p>
@@ -5393,35 +5417,38 @@ const LEGAL_PAGES = {
 <li>Solicitar información adicional a través de nuestra <a href="/es/contact">página de Contacto</a>.</li>
 </ul>
 <h2>5. Menores</h2>
-<p>El sitio está abierto a todos y no está dirigido específicamente a menores de 13 años. No recopilamos intencionalmente datos personales de ningún usuario.</p>
+<p>El sitio está abierto a todos y no está dirigido específicamente a menores de 13 años. No pedimos deliberadamente a los menores que creen una cuenta ni que faciliten datos identificativos directos para usar el sitio. Los servicios de terceros descritos en esta política pueden tratar información técnica conforme a sus propias políticas.</p>
 <h2>6. Actualizaciones de la Política</h2>
 <p>Podemos actualizar esta política periódicamente. La fecha de última actualización aparece en la parte superior de la página. El uso continuado del sitio tras los cambios implica la aceptación de la versión actualizada.</p>
 <h2>7. Contacto</h2>
 <p>Para cualquier pregunta sobre esta política, visita nuestra <a href="/es/contact">página de Contacto</a>.</p>`,
         bn: `<h1>গোপনীয়তা নীতি</h1>
-<span class="legal-meta">সর্বশেষ আপডেট: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">সর্বশেষ আপডেট: 2026-08-09</span>
 <p><strong>নামাজের সময়সূচী</strong>-তে আমরা আপনার গোপনীয়তাকে সম্মান করি এবং আপনার ব্যক্তিগত তথ্য সুরক্ষিত রাখতে প্রতিশ্রুতিবদ্ধ। এই নীতি ব্যাখ্যা করে আমরা কোন তথ্য সংগ্রহ করি এবং কীভাবে তা ব্যবহার করি।</p>
 <h2>১. আমরা যে তথ্য সংগ্রহ করি</h2>
-<p>আমরা নিবন্ধন চাই না এবং আমাদের সার্ভারে কোনো ব্যক্তিগত তথ্য সংরক্ষণ করি না। আমরা যে তথ্য নিয়ে কাজ করি তা সীমাবদ্ধ:</p>
+<p>সাইটটি ব্যবহারের জন্য কোনো অ্যাকাউন্ট তৈরির প্রয়োজন নেই, এবং আমরা ব্যবহারকারীদের কোনো প্রোফাইল তৈরি করি না। সাইটটি যে তথ্য নিয়ে কাজ করে তা কেবল নিম্নলিখিত বিষয়ে সীমাবদ্ধ:</p>
 <ul>
 <li><strong>ভৌগোলিক অবস্থান:</strong> নামাজের সময় ও কিবলার দিক নির্ভুলভাবে হিসাব করতে ব্যবহৃত হয়। অনুমতি ঐচ্ছিক, এবং আপনার স্থানাঙ্ক শুধু আপনার ব্রাউজারে (localStorage) স্থানীয়ভাবে সংরক্ষিত হয়।</li>
-<li><strong>ভাষা ও সেটিংস পছন্দ:</strong> প্রতি সফরে একই অভিজ্ঞতা দিতে ব্রাউজারে সংরক্ষিত হয়।</li>
-<li><strong>সার্ভারের কারিগরি লগ:</strong> IP ঠিকানা, ব্রাউজারের ধরন ও পরিদর্শিত পৃষ্ঠা অন্তর্ভুক্ত, শুধুমাত্র নিরাপত্তা ও সামগ্রিক বিশ্লেষণের জন্য ব্যবহৃত হয়।</li>
+<li><strong>ভাষা ও সেটিংস পছন্দ:</strong> যেমন ভাষা, গণনা পদ্ধতি, রিমাইন্ডার সেটিংস, থিম, এবং জিকির, তাসবিহ ও যাকাত সরঞ্জামে আপনার অগ্রগতি। এই পছন্দগুলো আপনার নিজের ডিভাইসে, আপনার ব্রাউজারের স্থানীয় স্টোরেজে সংরক্ষিত হয়।</li>
+<li><strong>হোস্টিং ও অবকাঠামো সংক্রান্ত তথ্য:</strong> সাইটের অ্যাপ্লিকেশন ব্যবহারকারীদের ট্র্যাক করার জন্য নিজস্ব কোনো লগ তৈরি করে না। তবে হোস্টিং ও অবকাঠামো সরবরাহকারীরা সেবাটি প্রদান, সুরক্ষা, পর্যবেক্ষণ ও ত্রুটি নির্ণয়ের প্রয়োজনে নেটওয়ার্ক অনুরোধ ও সেবা পরিচালনার সঙ্গে সম্পর্কিত কারিগরি তথ্য প্রক্রিয়া করতে পারে, যা তাদের নিজস্ব নীতিমালা ও তথ্য সংরক্ষণ সংক্রান্ত চর্চার অধীন।</li>
 </ul>
-<h2>২. কুকি</h2>
-<p>আমরা দুই ধরনের কুকি ব্যবহার করি:</p>
+<h2>২. কুকি ও অনুরূপ সংরক্ষণ প্রযুক্তি</h2>
+<p>সাইটটি স্থানীয় স্টোরেজ, কুকি ও অনুরূপ সংরক্ষণ প্রযুক্তি নিম্নলিখিতভাবে ব্যবহার করে:</p>
 <ul>
-<li><strong>অপরিহার্য:</strong> সাইট চালানোর জন্য প্রয়োজনীয় (ভাষা, অবস্থান, রিমাইন্ডার সেটিংস সংরক্ষণ)।</li>
-<li><strong>বিজ্ঞাপন:</strong> Google AdSense সক্রিয় হলে, Google ব্যক্তিগত বিজ্ঞাপন দেখাতে কুকি ব্যবহার করতে পারে। আপনি <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google বিজ্ঞাপন সেটিংস</a> থেকে এগুলো নিয়ন্ত্রণ করতে পারেন।</li>
+<li><strong>কার্যকরী স্থানীয় স্টোরেজ:</strong> ভাষা, অবস্থান ও রিমাইন্ডার সেটিংসের মতো কিছু পছন্দ ও বৈশিষ্ট্য ধরে রাখতে সাইটটি আপনার ব্রাউজারের স্থানীয় স্টোরেজ ব্যবহার করে। এগুলো কুকি নয়, এবং সাইটের অ্যাপ্লিকেশন নিজস্ব কোনো কুকি স্থাপন করে না।</li>
+<li><strong>বিশ্লেষণ:</strong> Google Analytics বর্তমানে সাইটে সক্রিয় রয়েছে এবং ব্যবহার ও পারফরম্যান্স পরিমাপ ও বিশ্লেষণের উদ্দেশ্যে কুকি ব্যবহার করে।</li>
+<li><strong>বিজ্ঞাপন:</strong> Google AdSense এই মুহূর্তে সক্রিয় নয়। ভবিষ্যতে এটি সক্রিয় করা হলে, Google সহ তৃতীয় পক্ষের বিজ্ঞাপন সরবরাহকারীরা বিজ্ঞাপন প্রদর্শন, পরিমাপ এবং প্রযোজ্য ক্ষেত্রে ব্যক্তিগতকরণের জন্য কুকি বা অনুরূপ প্রযুক্তি ব্যবহার করতে পারে, এবং বিজ্ঞাপন প্রদর্শনের ক্ষেত্রে এই সাইটে বা অন্যান্য সাইটে ব্যবহারকারীর ভিজিট বিবেচনায় নেওয়া হতে পারে। বিজ্ঞাপন সেবাগুলো web beacons-এর মতো প্রযুক্তিও ব্যবহার করতে পারে, অথবা বিজ্ঞাপন প্রদর্শনের ফলে IP ঠিকানা প্রক্রিয়া করতে পারে। ব্যবহারকারী <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Google বিজ্ঞাপন সেটিংস</a> থেকে Google বিজ্ঞাপনের ব্যক্তিগতকরণ নিয়ন্ত্রণ করতে পারেন।</li>
 </ul>
 <h2>৩. তৃতীয় পক্ষের সেবা</h2>
-<p>সম্পূর্ণ অভিজ্ঞতা দেওয়ার জন্য সাইটটি নিম্নলিখিত সেবাগুলো ব্যবহার করে:</p>
+<p>সাইটটি নিম্নলিখিত সেবাগুলোর উপর নির্ভর করে:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> শহর অনুসন্ধান ও বিপরীত জিওকোডিংয়ের জন্য।</li>
-<li><strong>Wikipedia API:</strong> "সম্পর্কে" পৃষ্ঠায় ঐতিহাসিক ও শহর সংক্রান্ত তথ্য আনার জন্য।</li>
-<li><strong>Google Fonts:</strong> আরবি Cairo ফন্ট লোড করার জন্য।</li>
-<li><strong>Google Analytics:</strong> কন্টেন্ট ও পারফরম্যান্স উন্নত করার জন্য সমষ্টিগত ও পরিচয়হীনভাবে ট্রাফিক পরিমাপ ও বিশ্লেষণের জন্য।</li>
-<li><strong>Google AdSense (ঐচ্ছিক):</strong> সাইট ফ্রি রাখতে সহায়তা করে এমন বিজ্ঞাপন দেখানোর জন্য।</li>
+<li><strong>Render:</strong> আমাদের হোস্টিং ও অবকাঠামো সরবরাহকারী, যা সাইটটি পরিচালনা ও ইন্টারনেটে পরিবেশন করতে ব্যবহৃত হয়। হোস্টিং প্ল্যাটফর্মটি তার নিজস্ব গোপনীয়তা নীতি অনুযায়ী সেবা প্রদান, সুরক্ষা ও পারফরম্যান্স পর্যবেক্ষণের জন্য প্রয়োজনীয় কারিগরি ও পরিচালনাগত তথ্য প্রক্রিয়া করতে পারে।</li>
+<li><strong>OpenStreetMap Nominatim:</strong> শহর অনুসন্ধান ও বিপরীত জিওকোডিংয়ের জন্য। এটি ব্রাউজার ও আমাদের সার্ভার — উভয় দিক থেকেই কল করা হয়।</li>
+<li><strong>Wikipedia API:</strong> শহরের পৃষ্ঠাগুলোতে দেখানো ঐতিহাসিক ও শহর সংক্রান্ত তথ্য আনার জন্য। এটি ব্রাউজার ও আমাদের সার্ভার — উভয় দিক থেকেই কল করা হয়।</li>
+<li><strong>Google Fonts:</strong> সাইটে ব্যবহৃত ফন্টগুলো Google-এর সার্ভার থেকে লোড করার জন্য; অর্থাৎ কোনো ফন্ট লোড হওয়ার সময় আপনার ব্রাউজার Google-এর সার্ভারের সঙ্গে সংযোগ স্থাপন করে।</li>
+<li><strong>FlagCDN / Flagpedia:</strong> সাইটের কিছু অংশে প্রদর্শিত দেশের পতাকার ছবি একটি বহিরাগত কন্টেন্ট ডেলিভারি সেবার মাধ্যমে লোড করার জন্য ব্যবহৃত হয়। এই ছবিগুলো লোড হওয়ার সময় ব্রাউজার ওই তৃতীয় পক্ষের সেবার সঙ্গে সংযুক্ত হয়, এবং সেবাটি ও তার অবকাঠামো সরবরাহকারীরা নিজেদের নীতিমালা অনুযায়ী অনুরোধ সংশ্লিষ্ট কারিগরি তথ্য প্রক্রিয়া করতে পারে।</li>
+<li><strong>Google Analytics:</strong> বর্তমানে সক্রিয়; কন্টেন্ট ও ব্যবহারকারীর অভিজ্ঞতা উন্নত করার উদ্দেশ্যে সাইটের ট্রাফিক পরিমাপ ও পারফরম্যান্স বিশ্লেষণে ব্যবহৃত হয়।</li>
+<li><strong>Google AdSense:</strong> এই মুহূর্তে সক্রিয় নয়। সক্রিয় করা হলে, সাইট পরিচালনার খরচ বহনে সহায়ক বিজ্ঞাপন দেখানোর জন্য এটি ব্যবহৃত হবে।</li>
 </ul>
 <h2>৪. আপনার অধিকার</h2>
 <p>আপনার অধিকার রয়েছে:</p>
@@ -5432,35 +5459,38 @@ const LEGAL_PAGES = {
 <li>আমাদের <a href="/bn/contact">যোগাযোগ পৃষ্ঠা</a>-র মাধ্যমে অতিরিক্ত তথ্য অনুরোধ করার।</li>
 </ul>
 <h2>৫. শিশুরা</h2>
-<p>সাইটটি সবার জন্য উন্মুক্ত এবং ১৩ বছরের নিচের শিশুদের জন্য বিশেষভাবে উদ্দিষ্ট নয়। আমরা কোনো ব্যবহারকারীর ব্যক্তিগত তথ্য ইচ্ছাকৃতভাবে সংগ্রহ করি না।</p>
+<p>সাইটটি সবার জন্য উন্মুক্ত এবং ১৩ বছরের নিচের শিশুদের জন্য বিশেষভাবে উদ্দিষ্ট নয়। সাইট ব্যবহারের জন্য আমরা জেনেশুনে শিশুদের অ্যাকাউন্ট তৈরি করতে বা সরাসরি শনাক্তকরণমূলক তথ্য দিতে বলি না। এই নীতিতে বর্ণিত তৃতীয় পক্ষের সেবাগুলো তাদের নিজস্ব নীতিমালা অনুযায়ী কারিগরি তথ্য প্রক্রিয়া করতে পারে।</p>
 <h2>৬. নীতি আপডেট</h2>
-<p>আমরা এই নীতি নিয়মিত আপডেট করতে পারি। সর্বশেষ আপডেটের তারিখ পৃষ্ঠার উপরে দেখা যাবে। পরিবর্তনের পর সাইট ব্যবহার চালিয়ে যাওয়া আপডেটকৃত সংস্করণের সম্মতি বোঝায়।</p>
+<p>আমরা সময়ে সময়ে এই নীতি আপডেট করতে পারি। সর্বশেষ আপডেটের তারিখ পৃষ্ঠার উপরে দেখা যাবে। পরিবর্তনের পর সাইট ব্যবহার চালিয়ে যাওয়ার অর্থ হলো আপডেট করা সংস্করণে আপনার সম্মতি।</p>
 <h2>৭. যোগাযোগ</h2>
 <p>এই নীতি সম্পর্কে কোনো প্রশ্নের জন্য, আমাদের <a href="/bn/contact">যোগাযোগ পৃষ্ঠা</a> দেখুন।</p>`,
         ms: `<h1>Dasar Privasi</h1>
-<span class="legal-meta">Kemas kini terakhir: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Kemas kini terakhir: 2026-08-09</span>
 <p>Di <strong>Waktu Solat</strong>, kami menghormati privasi anda dan komited untuk melindungi data peribadi anda. Dasar ini menerangkan maklumat yang kami kumpul dan cara kami menggunakannya.</p>
 <h2>1. Data yang Kami Kumpul</h2>
-<p>Kami tidak memerlukan pendaftaran dan tidak menyimpan data peribadi di pelayan kami. Maklumat yang kami uruskan terhad kepada:</p>
+<p>Laman ini tidak memerlukan pembukaan akaun, dan kami tidak membina profil pengguna. Data yang dikendalikan oleh laman ini terhad kepada:</p>
 <ul>
 <li><strong>Lokasi geografi:</strong> digunakan untuk mengira waktu solat dan arah Kiblat dengan tepat. Kebenaran bersifat pilihan, dan koordinat anda disimpan hanya secara tempatan di pelayar anda (localStorage).</li>
-<li><strong>Bahasa dan keutamaan:</strong> disimpan di pelayar untuk menyediakan pengalaman konsisten pada setiap lawatan.</li>
-<li><strong>Log pelayan teknikal:</strong> termasuk alamat IP, jenis pelayar dan halaman yang dilawati, digunakan hanya untuk keselamatan dan analisis agregat.</li>
+<li><strong>Bahasa dan keutamaan:</strong> seperti bahasa, kaedah pengiraan, tetapan peringatan, tema paparan, serta kemajuan anda dalam alat zikir, tasbih dan kalkulator zakat. Keutamaan ini disimpan dalam penyimpanan tempatan pelayar anda pada peranti anda sendiri.</li>
+<li><strong>Data pengehosan dan infrastruktur:</strong> aplikasi laman ini tidak menghasilkan log khusus untuk menjejaki pengguna. Namun begitu, penyedia pengehosan dan infrastruktur mungkin memproses maklumat teknikal yang berkaitan dengan permintaan rangkaian dan operasi perkhidmatan setakat yang perlu untuk menyampaikan perkhidmatan, menjaga keselamatannya, memantau prestasinya dan mengesan kerosakan, tertakluk kepada dasar serta amalan penyimpanan data mereka sendiri.</li>
 </ul>
-<h2>2. Kuki</h2>
-<p>Kami menggunakan dua jenis kuki:</p>
+<h2>2. Kuki dan Teknologi Penyimpanan Serupa</h2>
+<p>Laman ini menggunakan penyimpanan tempatan, kuki dan teknologi penyimpanan yang serupa seperti berikut:</p>
 <ul>
-<li><strong>Penting:</strong> diperlukan untuk operasi laman (menyimpan bahasa, lokasi, tetapan peringatan).</li>
-<li><strong>Pengiklanan:</strong> apabila Google AdSense diaktifkan, Google mungkin menggunakan kuki untuk memaparkan iklan diperibadikan. Anda boleh menguruskannya melalui <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Tetapan Iklan Google</a>.</li>
+<li><strong>Penyimpanan tempatan untuk fungsi laman:</strong> laman ini menggunakan penyimpanan tempatan dalam pelayar anda untuk menyimpan beberapa keutamaan dan ciri, seperti bahasa, lokasi dan tetapan peringatan. Ini bukan kuki, dan aplikasi laman ini tidak meletakkan sebarang kuki miliknya sendiri.</li>
+<li><strong>Analitik:</strong> Google Analytics kini aktif di laman ini dan menggunakan kuki bagi tujuan pengukuran serta analisis penggunaan dan prestasi.</li>
+<li><strong>Pengiklanan:</strong> Google AdSense belum aktif buat masa ini. Apabila ia diaktifkan kelak, penyedia iklan pihak ketiga, termasuk Google, mungkin menggunakan kuki atau teknologi serupa untuk memaparkan, mengukur dan memperibadikan iklan apabila berkenaan, dan pemaparan iklan mungkin mengambil kira lawatan pengguna ke laman ini atau ke laman lain. Perkhidmatan pengiklanan juga mungkin menggunakan teknologi seperti web beacons atau memproses alamat IP hasil daripada pemaparan iklan. Pengguna boleh menguruskan pemperibadian iklan Google melalui <a href="https://www.google.com/settings/ads" target="_blank" rel="noopener">Tetapan Iklan Google</a>.</li>
 </ul>
 <h2>3. Perkhidmatan Pihak Ketiga</h2>
-<p>Laman ini menggunakan perkhidmatan berikut untuk pengalaman lengkap:</p>
+<p>Laman ini bergantung pada perkhidmatan berikut:</p>
 <ul>
-<li><strong>OpenStreetMap Nominatim:</strong> untuk carian bandar dan pengekodan geo songsang.</li>
-<li><strong>Wikipedia API:</strong> untuk mendapatkan maklumat sejarah dan bandar di halaman "Tentang".</li>
-<li><strong>Google Fonts:</strong> untuk memuat fon Cairo Arab.</li>
-<li><strong>Google Analytics:</strong> untuk pengukuran dan analitik lawatan secara agregat dan tanpa nama bagi menambah baik kandungan dan prestasi.</li>
-<li><strong>Google AdSense (pilihan):</strong> untuk memaparkan iklan yang membantu memastikan laman ini percuma.</li>
+<li><strong>Render:</strong> penyedia pengehosan dan infrastruktur yang digunakan untuk mengendalikan dan menyampaikan laman ini melalui Internet. Platform pengehosan mungkin memproses maklumat teknikal dan operasi yang perlu untuk menyediakan perkhidmatan, menjaga keselamatannya dan memantau prestasinya menurut dasar privasinya sendiri.</li>
+<li><strong>OpenStreetMap Nominatim:</strong> untuk carian bandar dan pengekodan geo songsang. Ia dipanggil dari pelayar dan juga dari pelayan kami.</li>
+<li><strong>Wikipedia API:</strong> untuk mendapatkan maklumat sejarah dan bandar yang dipaparkan pada halaman bandar. Ia dipanggil dari pelayar dan juga dari pelayan kami.</li>
+<li><strong>Google Fonts:</strong> untuk memuatkan fon yang digunakan di laman ini daripada pelayan Google, yang bermaksud pelayar anda menghubungi pelayan Google apabila sesuatu fon dimuatkan.</li>
+<li><strong>FlagCDN / Flagpedia:</strong> untuk memuatkan imej bendera negara yang dipaparkan di sebahagian laman ini melalui perkhidmatan penyampaian kandungan luaran. Apabila imej tersebut dimuatkan, pelayar akan menghubungi perkhidmatan pihak ketiga itu, dan perkhidmatan berkenaan serta penyedia infrastrukturnya mungkin memproses maklumat teknikal yang berkaitan dengan permintaan tersebut menurut dasar mereka sendiri.</li>
+<li><strong>Google Analytics:</strong> kini aktif, digunakan untuk mengukur trafik laman dan menganalisis prestasinya bagi menambah baik kandungan serta pengalaman pengguna.</li>
+<li><strong>Google AdSense:</strong> belum aktif buat masa ini. Apabila diaktifkan, ia akan digunakan untuk memaparkan iklan yang membantu menampung kos pengendalian laman ini.</li>
 </ul>
 <h2>4. Hak Anda</h2>
 <p>Anda berhak untuk:</p>
@@ -5471,7 +5501,7 @@ const LEGAL_PAGES = {
 <li>Meminta maklumat tambahan melalui <a href="/ms/contact">Halaman Hubungi Kami</a>.</li>
 </ul>
 <h2>5. Kanak-kanak</h2>
-<p>Laman ini terbuka untuk semua dan tidak ditujukan khusus untuk kanak-kanak di bawah 13 tahun. Kami tidak mengumpul data peribadi mana-mana pengguna secara sengaja.</p>
+<p>Laman ini terbuka untuk semua dan tidak ditujukan khusus untuk kanak-kanak di bawah 13 tahun. Kami tidak dengan sengaja meminta kanak-kanak membuka akaun atau memberikan maklumat pengenalan diri secara langsung untuk menggunakan laman ini. Perkhidmatan pihak ketiga yang dinyatakan dalam dasar ini mungkin memproses maklumat teknikal menurut dasar mereka sendiri.</p>
 <h2>6. Kemas Kini Dasar</h2>
 <p>Kami mungkin mengemas kini dasar ini dari semasa ke semasa. Tarikh kemas kini terakhir akan dipaparkan di bahagian atas halaman. Penggunaan berterusan laman ini selepas perubahan bermaksud anda menerima versi yang dikemas kini.</p>
 <h2>7. Hubungi Kami</h2>
@@ -5479,7 +5509,7 @@ const LEGAL_PAGES = {
     },
     'terms': {
         ar: `<h1>شروط الاستخدام</h1>
-<span class="legal-meta">آخر تحديث: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">آخر تحديث: 2026-08-09</span>
 <p>باستخدامك لموقع <strong>مواقيت الصلاة</strong>، فإنك توافق على الالتزام بالشروط التالية. يُرجى قراءتها بعناية قبل استخدام أي من خدمات الموقع.</p>
 <h2>1. وصف الخدمة</h2>
 <p>يُقدم الموقع خدمات إسلامية مجانية، تشمل:</p>
@@ -5489,6 +5519,7 @@ const LEGAL_PAGES = {
 <li>التقويم الهجري ومحول التواريخ.</li>
 <li>مجموعة الأدعية والأذكار من الكتاب والسنة.</li>
 <li>المسبحة الإلكترونية وحاسبة الزكاة.</li>
+<li>قراءة القرآن الكريم مع بيان مصدر النص وإسناده.</li>
 </ul>
 <h2>2. إخلاء المسؤولية عن الدقة</h2>
 <p>نسعى دائماً لتوفير أدق المواقيت، إلا أن:</p>
@@ -5506,26 +5537,27 @@ const LEGAL_PAGES = {
 <li>استخدام الموقع لأي غرض غير مشروع أو مخالف للأخلاق العامة.</li>
 </ul>
 <h2>4. الملكية الفكرية</h2>
-<p>جميع حقوق التصميم، الكود، الواجهات، والشعارات محفوظة لمالك الموقع. أما النصوص الدينية (الآيات، الأحاديث، الأدعية) فهي ملك عام للأمة الإسلامية.</p>
+<p>حقوق التصميم والكود والواجهات والشعارات الخاصة بالموقع محفوظة لمالك الموقع. ولا يشمل ذلك المواد المملوكة لأطراف أخرى أو المتاحة بتراخيص مفتوحة والمستخدَمة في الموقع، ومنها نص القرآن الكريم من <a href="https://tanzil.net/" target="_blank" rel="noopener">مشروع Tanzil</a>، وخط Amiri، وبيانات OpenStreetMap، وصور الأعلام من مزودها الخارجي. وتظل المواد والنصوص المأخوذة من مصادر خارجية خاضعة لحقوق وشروط استخدام مصادرها عند انطباق ذلك. ولا تدّعي هذه الشروط ملكية الموقع للنصوص الدينية الأصلية أو للمواد التابعة لأطراف ثالثة.</p>
 <h2>5. الخدمات الخارجية</h2>
 <p>الموقع يعتمد على خدمات طرف ثالث (انظر سياسة الخصوصية). نحن غير مسؤولين عن انقطاعها أو تغييرها.</p>
 <h2>6. حدود المسؤولية</h2>
 <p>الموقع يُقدَم "كما هو" دون أي ضمان صريح أو ضمني. لا نتحمل المسؤولية عن أي قرار ديني، مالي، أو شخصي يُتخَذ بناءً على معلومات الموقع وحدها.</p>
 <h2>7. تعديل الشروط</h2>
 <p>نحتفظ بحق تعديل هذه الشروط في أي وقت. التعديلات تصبح سارية فور نشرها، واستمرار استخدامك للموقع يعني قبولك بها.</p>
-<h2>8. القانون الحاكم</h2>
-<p>تُحكم هذه الشروط بمبادئ القانون الدولي العام لاستخدام الإنترنت. في حال نشوء نزاع، يتم حله ودياً قدر الإمكان.</p>`,
+<h2>8. القانون الواجب التطبيق وتسوية النزاعات</h2>
+<p>لا تستبعد هذه الشروط أي حقوق أو التزامات إلزامية تنطبق بموجب القوانين السارية. وفي حال نشوء نزاع أو استفسار متعلق باستخدام الموقع، نرجو التواصل معنا أولًا عبر <a href="/contact">صفحة الاتصال</a> لمحاولة الوصول إلى حل ودي وبحسن نية.</p>`,
         en: `<h1>Terms of Use</h1>
-<span class="legal-meta">Last updated: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Last updated: 2026-08-09</span>
 <p>By using the <strong>Prayer Times</strong> website, you agree to comply with the following terms. Please read them carefully before using any service.</p>
 <h2>1. Service Description</h2>
 <p>The site provides free Islamic services, including:</p>
 <ul>
 <li>The five daily prayer times based on your geographic location.</li>
-<li>Qibla direction with interactive compass.</li>
+<li>Qibla direction with an interactive compass.</li>
 <li>Hijri calendar and date converter.</li>
 <li>Authentic duas and remembrance from the Quran and Sunnah.</li>
 <li>Digital tasbih counter and Zakat calculator.</li>
+<li>Quran reading with clear disclosure of the text source and attribution.</li>
 </ul>
 <h2>2. Accuracy Disclaimer</h2>
 <p>We always strive to provide the most accurate times, however:</p>
@@ -5543,17 +5575,17 @@ const LEGAL_PAGES = {
 <li>Using the site for any unlawful or unethical purpose.</li>
 </ul>
 <h2>4. Intellectual Property</h2>
-<p>All rights to design, code, interfaces, and logos are reserved by the site owner. Religious texts (verses, hadith, duas) are public property of the Muslim community.</p>
+<p>The design, code, interfaces and logos of the site are the property of the site owner. This does not cover third-party or openly licensed materials used on the site, including the Qur'an text from the <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil Project</a>, the Amiri font, OpenStreetMap data, and country flag images from their external provider. Third-party materials and sourced texts remain subject to the rights and usage terms of their respective sources where applicable. Nothing in these Terms claims ownership by the site over underlying religious texts or third-party materials.</p>
 <h2>5. Third-Party Services</h2>
 <p>The site relies on third-party services (see Privacy Policy). We are not responsible for their interruption or changes.</p>
 <h2>6. Limitation of Liability</h2>
 <p>The site is provided "as is" without any express or implied warranty. We are not liable for any religious, financial, or personal decision made solely based on information from the site.</p>
 <h2>7. Changes to Terms</h2>
 <p>We reserve the right to modify these terms at any time. Changes take effect upon publication, and your continued use of the site means acceptance.</p>
-<h2>8. Governing Law</h2>
-<p>These terms are governed by general international principles of internet use. In case of dispute, we seek amicable resolution whenever possible.</p>`,
+<h2>8. Applicable Law and Dispute Resolution</h2>
+<p>These Terms do not override any mandatory rights or obligations that apply under applicable law. If a dispute or concern arises regarding use of the site, please contact us first through the <a href="/en/contact">Contact page</a> so that we can attempt to resolve it amicably and in good faith.</p>`,
         fr: `<h1>Conditions d'utilisation</h1>
-<span class="legal-meta">Dernière mise à jour : ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Dernière mise à jour : 2026-08-09</span>
 <p>En utilisant le site <strong>Heures de Prière</strong>, vous acceptez les conditions suivantes. Veuillez les lire attentivement avant d'utiliser tout service.</p>
 <h2>1. Description du service</h2>
 <p>Le site propose des services islamiques gratuits, notamment :</p>
@@ -5561,8 +5593,9 @@ const LEGAL_PAGES = {
 <li>Les cinq prières quotidiennes selon votre localisation géographique.</li>
 <li>Direction de la Qibla avec boussole interactive.</li>
 <li>Calendrier hégirien et convertisseur de dates.</li>
-<li>Invocations et rappels authentiques du Coran et de la Sunna.</li>
+<li>Invocations et dhikrs authentiques du Coran et de la Sunna.</li>
 <li>Tasbih numérique et calculateur de Zakat.</li>
+<li>Lecture du Coran avec indication de la source du texte et de son attribution.</li>
 </ul>
 <h2>2. Clause de non-responsabilité sur l'exactitude</h2>
 <p>Nous nous efforçons de fournir les heures les plus précises, cependant :</p>
@@ -5580,17 +5613,17 @@ const LEGAL_PAGES = {
 <li>L'utilisation du site à des fins illégales ou contraires à l'éthique.</li>
 </ul>
 <h2>4. Propriété intellectuelle</h2>
-<p>Tous les droits sur la conception, le code, les interfaces et les logos sont réservés au propriétaire du site. Les textes religieux (versets, hadiths, invocations) sont un patrimoine public de la communauté musulmane.</p>
+<p>Les droits sur la conception, le code, les interfaces et les logos du site sont réservés au propriétaire du site. Cela ne couvre pas les contenus appartenant à des tiers ou placés sous licence ouverte et utilisés sur le site, notamment le texte du Coran issu du <a href="https://tanzil.net/" target="_blank" rel="noopener">projet Tanzil</a>, la police Amiri, les données OpenStreetMap et les images de drapeaux fournies par leur prestataire externe ; ces éléments restent soumis aux licences et aux conditions de leurs titulaires respectifs. Les présentes conditions ne revendiquent aucune propriété du site sur les textes religieux sous-jacents ni sur les contenus appartenant à des tiers.</p>
 <h2>5. Services tiers</h2>
 <p>Le site dépend de services tiers (voir la politique de confidentialité). Nous ne sommes pas responsables de leur interruption ou de leurs modifications.</p>
 <h2>6. Limitation de responsabilité</h2>
 <p>Le site est fourni « tel quel » sans aucune garantie expresse ou implicite. Nous ne sommes pas responsables des décisions religieuses, financières ou personnelles prises uniquement sur la base des informations du site.</p>
 <h2>7. Modifications des conditions</h2>
 <p>Nous nous réservons le droit de modifier ces conditions à tout moment. Les modifications prennent effet dès leur publication, et votre utilisation continue du site implique votre acceptation.</p>
-<h2>8. Loi applicable</h2>
-<p>Ces conditions sont régies par les principes généraux internationaux d'utilisation d'Internet. En cas de litige, nous recherchons une résolution amiable autant que possible.</p>`,
+<h2>8. Loi applicable et règlement des litiges</h2>
+<p>Les présentes conditions ne dérogent à aucun des droits ni à aucune des obligations impératives applicables en vertu du droit en vigueur. En cas de litige ou de question concernant l'utilisation du site, veuillez nous contacter en premier lieu via notre <a href="/fr/contact">page Contact</a> afin que nous puissions chercher une solution à l'amiable et de bonne foi.</p>`,
         tr: `<h1>Kullanım Şartları</h1>
-<span class="legal-meta">Son güncelleme: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Son güncelleme: 2026-08-09</span>
 <p><strong>Namaz Vakitleri</strong> sitesini kullanarak aşağıdaki şartlara uymayı kabul etmiş olursunuz. Herhangi bir hizmeti kullanmadan önce lütfen dikkatle okuyun.</p>
 <h2>1. Hizmet Açıklaması</h2>
 <p>Site, aşağıdakileri içeren ücretsiz İslami hizmetler sunar:</p>
@@ -5598,8 +5631,9 @@ const LEGAL_PAGES = {
 <li>Coğrafi konumunuza göre beş vakit namaz.</li>
 <li>Etkileşimli pusula ile Kıble yönü.</li>
 <li>Hicri takvim ve tarih dönüştürücü.</li>
-<li>Kur'an ve Sünnetten özgün dua ve zikirler.</li>
+<li>Kur'an ve Sünnetten sahih dua ve zikirler.</li>
 <li>Dijital tesbih ve Zekat hesaplayıcı.</li>
+<li>Kaynağı ve atfı açıkça belirtilen Kur'an-ı Kerim metnini okuma.</li>
 </ul>
 <h2>2. Doğruluk Sorumluluğu Reddi</h2>
 <p>Her zaman en doğru vakitleri sunmaya çalışıyoruz, ancak:</p>
@@ -5617,17 +5651,17 @@ const LEGAL_PAGES = {
 <li>Siteyi yasa dışı veya etik dışı amaçlar için kullanmak.</li>
 </ul>
 <h2>4. Fikri Mülkiyet</h2>
-<p>Tasarım, kod, arayüzler ve logolara ilişkin tüm haklar site sahibine aittir. Dini metinler (ayetler, hadisler, dualar) Müslüman topluluğunun kamu malıdır.</p>
+<p>Sitenin tasarımına, koduna, arayüzlerine ve logolarına ilişkin haklar site sahibine aittir. Bu, sitede kullanılan üçüncü taraflara ait veya açık lisanslı materyalleri kapsamaz; bunların arasında <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil Projesi</a> kaynaklı Kur'an-ı Kerim metni, Amiri yazı tipi, OpenStreetMap verileri ve harici sağlayıcısından alınan ülke bayrağı görselleri yer alır. Dış kaynaklardan alınan materyaller ve metinler, geçerli olduğu ölçüde kendi kaynaklarının haklarına ve kullanım şartlarına tabi olmaya devam eder. Bu şartların hiçbir hükmü, sitenin temel dini metinler veya üçüncü taraf materyalleri üzerinde mülkiyet iddia ettiği anlamına gelmez.</p>
 <h2>5. Üçüncü Taraf Hizmetler</h2>
 <p>Site üçüncü taraf hizmetlere dayanır (Gizlilik Politikasına bakın). Bunların kesintisi veya değişikliğinden sorumlu değiliz.</p>
 <h2>6. Sorumluluk Sınırlaması</h2>
 <p>Site açık veya zımni garanti olmaksızın "olduğu gibi" sunulmaktadır. Yalnızca site bilgilerine dayanılarak verilen herhangi bir dini, mali veya kişisel karardan sorumlu değiliz.</p>
 <h2>7. Şartların Değiştirilmesi</h2>
-<p>Bu şartları istediğimiz zaman değiştirme hakkını saklı tutarız. Değişiklikler yayın üzerine yürürlüğe girer ve siteyi kullanmaya devam etmeniz kabul anlamına gelir.</p>
-<h2>8. Uygulanacak Hukuk</h2>
-<p>Bu şartlar, internet kullanımının genel uluslararası ilkelerine tabidir. Anlaşmazlık durumunda mümkün olduğunca dostane çözüm ararız.</p>`,
+<p>Bu şartları istediğimiz zaman değiştirme hakkını saklı tutarız. Değişiklikler yayımlandığı anda yürürlüğe girer ve siteyi kullanmaya devam etmeniz kabul anlamına gelir.</p>
+<h2>8. Uygulanacak Hukuk ve Uyuşmazlıkların Çözümü</h2>
+<p>Bu şartlar, yürürlükteki mevzuat uyarınca geçerli olan emredici hak ve yükümlülükleri ortadan kaldırmaz. Sitenin kullanımına ilişkin bir uyuşmazlık veya soru ortaya çıkması hâlinde, dostane ve iyi niyetli bir çözüme ulaşabilmemiz için lütfen önce <a href="/tr/contact">İletişim sayfamız</a> aracılığıyla bizimle iletişime geçin.</p>`,
         ur: `<h1>شرائط استعمال</h1>
-<span class="legal-meta">آخری تازہ کاری: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">آخری تازہ کاری: 2026-08-09</span>
 <p><strong>اوقاتِ نماز</strong> ویب سائٹ کا استعمال کرکے آپ مندرجہ ذیل شرائط کی پابندی پر متفق ہوتے ہیں۔ کسی بھی سروس کے استعمال سے پہلے براہ کرم انہیں غور سے پڑھیں۔</p>
 <h2>1. سروس کی تفصیل</h2>
 <p>یہ سائٹ مفت اسلامی خدمات فراہم کرتی ہے، جن میں شامل ہیں:</p>
@@ -5637,6 +5671,7 @@ const LEGAL_PAGES = {
 <li>ہجری کیلنڈر اور تاریخ کنورٹر۔</li>
 <li>قرآن و سنت سے مستند دعائیں اور اذکار۔</li>
 <li>ڈیجیٹل تسبیح اور زکوٰۃ کیلکولیٹر۔</li>
+<li>قرآن کریم کی تلاوت، متن کے مصدر اور حوالے کی وضاحت کے ساتھ۔</li>
 </ul>
 <h2>2. درستگی سے متعلق دستبرداری</h2>
 <p>ہم ہمیشہ سب سے درست اوقات فراہم کرنے کی کوشش کرتے ہیں، تاہم:</p>
@@ -5654,17 +5689,17 @@ const LEGAL_PAGES = {
 <li>سائٹ کو کسی غیر قانونی یا غیر اخلاقی مقصد کے لیے استعمال کرنا۔</li>
 </ul>
 <h2>4. دانشورانہ املاک</h2>
-<p>ڈیزائن، کوڈ، انٹرفیس، اور لوگو کے تمام حقوق سائٹ کے مالک کے لیے محفوظ ہیں۔ مذہبی متون (آیات، احادیث، دعائیں) مسلم کمیونٹی کی عوامی ملکیت ہیں۔</p>
+<p>سائٹ کے ڈیزائن، کوڈ، انٹرفیس اور لوگو کے حقوق سائٹ کے مالک کے لیے محفوظ ہیں۔ اس میں وہ مواد شامل نہیں جو دوسروں کی ملکیت ہے یا کھلے لائسنس کے تحت دستیاب ہے اور سائٹ پر استعمال کیا گیا ہے، جیسے <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil پروجیکٹ</a> سے قرآن کریم کا متن، Amiri فونٹ، OpenStreetMap کا ڈیٹا، اور جھنڈوں کی تصاویر ان کے بیرونی فراہم کنندہ سے۔ بیرونی ذرائع سے لیے گئے مواد اور متون، جہاں لاگو ہو، اپنے ذرائع کے حقوق اور شرائط استعمال کے تابع رہتے ہیں۔ یہ شرائط بنیادی مذہبی متون یا تیسرے فریق کے مواد پر سائٹ کی ملکیت کا کوئی دعویٰ نہیں کرتیں۔</p>
 <h2>5. تیسرے فریق کی خدمات</h2>
 <p>سائٹ تیسرے فریق کی خدمات پر انحصار کرتی ہے (پرائیویسی پالیسی دیکھیں)۔ ہم ان کی رکاوٹ یا تبدیلیوں کے ذمہ دار نہیں ہیں۔</p>
 <h2>6. ذمہ داری کی حد</h2>
 <p>سائٹ کسی بھی واضح یا مضمر ضمانت کے بغیر "جیسی ہے" فراہم کی جاتی ہے۔ صرف سائٹ کی معلومات کی بنیاد پر لیے گئے کسی مذہبی، مالی، یا ذاتی فیصلے کے لیے ہم ذمہ دار نہیں ہیں۔</p>
 <h2>7. شرائط میں تبدیلی</h2>
-<p>ہم کسی بھی وقت ان شرائط کو تبدیل کرنے کا حق محفوظ رکھتے ہیں۔ تبدیلیاں اشاعت کے بعد نافذ العمل ہوتی ہیں، اور سائٹ کا آپ کا مسلسل استعمال قبولیت کا مطلب ہے۔</p>
-<h2>8. قابل اطلاق قانون</h2>
-<p>یہ شرائط انٹرنیٹ کے استعمال کے عمومی بین الاقوامی اصولوں کے تحت ہیں۔ تنازعہ کی صورت میں، ہم جہاں تک ممکن ہو دوستانہ حل تلاش کرتے ہیں۔</p>`,
+<p>ہم کسی بھی وقت ان شرائط کو تبدیل کرنے کا حق محفوظ رکھتے ہیں۔ تبدیلیاں اشاعت کے بعد نافذ العمل ہوتی ہیں، اور آپ کا سائٹ کو مسلسل استعمال کرنا ان کی قبولیت شمار ہوگا۔</p>
+<h2>8. قابل اطلاق قانون اور تنازعات کا تصفیہ</h2>
+<p>یہ شرائط ان لازمی حقوق یا ذمہ داریوں کو ختم نہیں کرتیں جو قابل اطلاق قوانین کے تحت لاگو ہوتی ہیں۔ سائٹ کے استعمال سے متعلق کوئی تنازع یا سوال پیدا ہونے کی صورت میں براہ کرم پہلے ہمارے <a href="/ur/contact">رابطہ صفحے</a> کے ذریعے ہم سے رابطہ کریں تاکہ دوستانہ طور پر اور نیک نیتی کے ساتھ حل تک پہنچنے کی کوشش کی جا سکے۔</p>`,
         de: `<h1>Nutzungsbedingungen</h1>
-<span class="legal-meta">Zuletzt aktualisiert: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Zuletzt aktualisiert: 2026-08-09</span>
 <p>Durch die Nutzung der Website <strong>Gebetszeiten</strong> erklären Sie sich mit den folgenden Bedingungen einverstanden. Bitte lesen Sie diese sorgfältig durch, bevor Sie einen der Dienste nutzen.</p>
 <h2>1. Beschreibung des Dienstes</h2>
 <p>Die Seite bietet kostenlose islamische Dienste, darunter:</p>
@@ -5672,8 +5707,9 @@ const LEGAL_PAGES = {
 <li>Die fünf täglichen Gebetszeiten basierend auf Ihrem geografischen Standort.</li>
 <li>Qibla-Richtung mit interaktivem Kompass.</li>
 <li>Hidschri-Kalender und Datumsumrechner.</li>
-<li>Authentische Duas und Gedenken aus Koran und Sunna.</li>
+<li>Authentische Duas und Adhkar aus Koran und Sunna.</li>
 <li>Digitaler Tasbih-Zähler und Zakat-Rechner.</li>
+<li>Lektüre des edlen Korans mit klarer Angabe von Quelle und Herkunft des Textes.</li>
 </ul>
 <h2>2. Genauigkeitshinweis</h2>
 <p>Wir bemühen uns stets, die genauesten Zeiten anzubieten, jedoch:</p>
@@ -5691,17 +5727,17 @@ const LEGAL_PAGES = {
 <li>Die Nutzung der Seite für rechtswidrige oder unethische Zwecke.</li>
 </ul>
 <h2>4. Geistiges Eigentum</h2>
-<p>Alle Rechte an Design, Code, Schnittstellen und Logos sind dem Eigentümer der Seite vorbehalten. Religiöse Texte (Verse, Hadithe, Duas) sind öffentliches Eigentum der muslimischen Gemeinschaft.</p>
+<p>Die Rechte an Design, Code, Schnittstellen und Logos der Website liegen beim Eigentümer der Seite. Davon ausgenommen sind auf der Seite verwendete Materialien Dritter sowie unter offenen Lizenzen bereitgestellte Inhalte — darunter der Korantext aus dem <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil-Projekt</a>, die Schriftart Amiri, die Daten von OpenStreetMap und die Bilder der Länderflaggen von ihrem externen Anbieter; diese unterliegen weiterhin den Lizenzen und Bedingungen der jeweiligen Rechteinhaber. Diese Bedingungen erheben keinen Eigentumsanspruch der Website an den zugrunde liegenden religiösen Texten oder an Materialien Dritter.</p>
 <h2>5. Dienste Dritter</h2>
 <p>Die Seite stützt sich auf Dienste Dritter (siehe Datenschutzerklärung). Wir übernehmen keine Verantwortung für deren Unterbrechung oder Änderung.</p>
 <h2>6. Haftungsbeschränkung</h2>
 <p>Die Seite wird „wie besehen" ohne ausdrückliche oder stillschweigende Gewährleistung bereitgestellt. Wir haften nicht für religiöse, finanzielle oder persönliche Entscheidungen, die ausschließlich auf Grundlage der Informationen dieser Seite getroffen werden.</p>
 <h2>7. Änderungen der Bedingungen</h2>
 <p>Wir behalten uns das Recht vor, diese Bedingungen jederzeit zu ändern. Änderungen treten mit ihrer Veröffentlichung in Kraft, und Ihre fortgesetzte Nutzung der Seite bedeutet Zustimmung.</p>
-<h2>8. Geltendes Recht</h2>
-<p>Diese Bedingungen unterliegen den allgemeinen internationalen Grundsätzen der Internetnutzung. Im Streitfall streben wir eine gütliche Einigung an, wann immer dies möglich ist.</p>`,
+<h2>8. Geltendes Recht und Streitbeilegung</h2>
+<p>Diese Bedingungen schränken zwingende Rechte oder Pflichten, die nach geltendem Recht Anwendung finden, nicht ein. Sollte im Zusammenhang mit der Nutzung der Seite eine Streitigkeit oder eine Frage entstehen, wenden Sie sich bitte zunächst über unsere <a href="/de/contact">Kontaktseite</a> an uns, damit wir das Anliegen gütlich und nach Treu und Glauben klären können.</p>`,
         id: `<h1>Syarat Penggunaan</h1>
-<span class="legal-meta">Terakhir diperbarui: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Terakhir diperbarui: 2026-08-09</span>
 <p>Dengan menggunakan situs <strong>Jadwal Sholat</strong>, Anda setuju untuk mematuhi syarat-syarat berikut. Harap baca dengan cermat sebelum menggunakan layanan situs apa pun.</p>
 <h2>1. Deskripsi Layanan</h2>
 <p>Situs ini menyediakan layanan Islami gratis, termasuk:</p>
@@ -5711,6 +5747,7 @@ const LEGAL_PAGES = {
 <li>Kalender Hijriyah dan konverter tanggal.</li>
 <li>Doa dan dzikir otentik dari Al-Qur'an dan Sunnah.</li>
 <li>Tasbih digital dan kalkulator Zakat.</li>
+<li>Bacaan Al-Qur'an dengan penjelasan sumber teks dan atribusinya.</li>
 </ul>
 <h2>2. Catatan Akurasi</h2>
 <p>Kami selalu berusaha memberikan waktu yang paling akurat, namun:</p>
@@ -5728,17 +5765,17 @@ const LEGAL_PAGES = {
 <li>Menggunakan situs untuk tujuan yang melanggar hukum atau tidak etis.</li>
 </ul>
 <h2>4. Kekayaan Intelektual</h2>
-<p>Semua hak atas desain, kode, antarmuka, dan logo dilindungi oleh pemilik situs. Teks-teks keagamaan (ayat, hadits, doa) merupakan milik publik komunitas Muslim.</p>
+<p>Hak atas desain, kode, antarmuka, dan logo situs dimiliki oleh pemilik situs. Hal ini tidak mencakup materi milik pihak ketiga atau materi berlisensi terbuka yang digunakan di situs, termasuk teks Al-Qur'an dari <a href="https://tanzil.net/" target="_blank" rel="noopener">Proyek Tanzil</a>, font Amiri, data OpenStreetMap, serta gambar bendera negara dari penyedia eksternalnya. Materi pihak ketiga dan teks yang berasal dari sumber luar tetap tunduk pada hak serta ketentuan penggunaan dari sumbernya masing-masing sepanjang hal itu berlaku. Tidak ada ketentuan dalam Syarat Penggunaan ini yang menyatakan kepemilikan situs atas teks-teks keagamaan yang mendasarinya maupun atas materi milik pihak ketiga.</p>
 <h2>5. Layanan Pihak Ketiga</h2>
 <p>Situs bergantung pada layanan pihak ketiga (lihat Kebijakan Privasi). Kami tidak bertanggung jawab atas gangguan atau perubahannya.</p>
 <h2>6. Batasan Tanggung Jawab</h2>
 <p>Situs disediakan "apa adanya" tanpa jaminan tersurat maupun tersirat. Kami tidak bertanggung jawab atas keputusan keagamaan, keuangan, atau pribadi apa pun yang diambil semata-mata berdasarkan informasi situs.</p>
 <h2>7. Perubahan Syarat</h2>
 <p>Kami berhak mengubah syarat-syarat ini kapan saja. Perubahan berlaku setelah dipublikasikan, dan penggunaan situs yang berkelanjutan berarti persetujuan Anda.</p>
-<h2>8. Hukum yang Berlaku</h2>
-<p>Syarat-syarat ini tunduk pada prinsip-prinsip umum internasional penggunaan internet. Jika terjadi sengketa, kami berupaya mencari solusi damai sebisa mungkin.</p>`,
+<h2>8. Hukum yang Berlaku dan Penyelesaian Sengketa</h2>
+<p>Syarat Penggunaan ini tidak mengesampingkan hak atau kewajiban yang bersifat memaksa berdasarkan peraturan perundang-undangan yang berlaku. Jika timbul sengketa atau kekhawatiran terkait penggunaan situs, silakan hubungi kami terlebih dahulu melalui <a href="/id/contact">Halaman Kontak</a> agar kami dapat berupaya menyelesaikannya secara damai dan dengan itikad baik.</p>`,
         es: `<h1>Términos de Uso</h1>
-<span class="legal-meta">Última actualización: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Última actualización: 2026-08-09</span>
 <p>Al usar el sitio <strong>Horarios de Oración</strong>, aceptas cumplir con los siguientes términos. Léelos cuidadosamente antes de usar cualquier servicio del sitio.</p>
 <h2>1. Descripción del Servicio</h2>
 <p>El sitio ofrece servicios islámicos gratuitos, entre ellos:</p>
@@ -5748,6 +5785,7 @@ const LEGAL_PAGES = {
 <li>Calendario Hégira y conversor de fechas.</li>
 <li>Duas y dhikr auténticos tomados del Corán y la Sunnah.</li>
 <li>Tasbih digital y calculadora de Zakat.</li>
+<li>Lectura del Corán con indicación clara de la fuente del texto y su atribución.</li>
 </ul>
 <h2>2. Nota sobre la Precisión</h2>
 <p>Siempre nos esforzamos por ofrecer los tiempos más precisos, pero:</p>
@@ -5765,17 +5803,17 @@ const LEGAL_PAGES = {
 <li>Usar el sitio con fines ilegales o no éticos.</li>
 </ul>
 <h2>4. Propiedad Intelectual</h2>
-<p>Todos los derechos sobre el diseño, el código, la interfaz y los logotipos están reservados por el propietario del sitio. Los textos religiosos (versículos, hadices, duas) son patrimonio público de la comunidad musulmana.</p>
+<p>Los derechos sobre el diseño, el código, las interfaces y los logotipos del sitio pertenecen al propietario del sitio. Esto no incluye los materiales de terceros ni los materiales con licencia abierta utilizados en el sitio, entre ellos el texto del Corán procedente del <a href="https://tanzil.net/" target="_blank" rel="noopener">proyecto Tanzil</a>, la fuente Amiri, los datos de OpenStreetMap y las imágenes de banderas de su proveedor externo; todos ellos siguen sujetos a las licencias y condiciones de sus respectivos titulares cuando corresponda. Nada de lo dispuesto en estos términos supone una reivindicación de propiedad por parte del sitio sobre los textos religiosos originales ni sobre los materiales de terceros.</p>
 <h2>5. Servicios de Terceros</h2>
 <p>El sitio depende de servicios de terceros (ver la Política de Privacidad). No somos responsables de sus interrupciones ni de sus cambios.</p>
 <h2>6. Limitación de Responsabilidad</h2>
 <p>El sitio se ofrece "tal cual", sin garantías expresas ni implícitas. No somos responsables de ninguna decisión religiosa, financiera o personal tomada únicamente en base a la información del sitio.</p>
 <h2>7. Cambios en los Términos</h2>
 <p>Nos reservamos el derecho de modificar estos términos en cualquier momento. Los cambios entran en vigor tras su publicación, y el uso continuado del sitio implica aceptación.</p>
-<h2>8. Ley Aplicable</h2>
-<p>Estos términos se rigen por los principios internacionales generales del uso de Internet. En caso de disputa, buscamos una solución amistosa siempre que sea posible.</p>`,
+<h2>8. Ley Aplicable y Resolución de Disputas</h2>
+<p>Estos términos no excluyen ningún derecho ni obligación de carácter imperativo que resulte aplicable conforme a la legislación vigente. Si surge alguna disputa o duda relacionada con el uso del sitio, te pedimos que nos escribas primero a través de nuestra <a href="/es/contact">página de Contacto</a> para intentar resolverla de forma amistosa y de buena fe.</p>`,
         bn: `<h1>শর্তাবলী</h1>
-<span class="legal-meta">সর্বশেষ আপডেট: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">সর্বশেষ আপডেট: 2026-08-09</span>
 <p><strong>নামাজের সময়সূচী</strong> সাইটটি ব্যবহার করে, আপনি নিম্নলিখিত শর্তাবলী মেনে চলতে সম্মত হচ্ছেন। সাইটের যেকোনো সেবা ব্যবহারের আগে সেগুলো মনোযোগ সহকারে পড়ুন।</p>
 <h2>১. সেবার বিবরণ</h2>
 <p>সাইটটি বিনামূল্যে ইসলামি সেবা প্রদান করে, যার মধ্যে রয়েছে:</p>
@@ -5785,6 +5823,7 @@ const LEGAL_PAGES = {
 <li>হিজরি ক্যালেন্ডার ও তারিখ রূপান্তরকারী।</li>
 <li>কুরআন ও সুন্নাহ থেকে সহিহ দোয়া ও জিকির।</li>
 <li>ডিজিটাল তাসবিহ ও যাকাত ক্যালকুলেটর।</li>
+<li>পাঠ্যের উৎস ও সূত্রের স্পষ্ট উল্লেখসহ পবিত্র কুরআন পাঠ।</li>
 </ul>
 <h2>২. নির্ভুলতা সম্পর্কিত নোট</h2>
 <p>আমরা সর্বদা সবচেয়ে নির্ভুল সময় প্রদানের চেষ্টা করি, তবে:</p>
@@ -5802,17 +5841,17 @@ const LEGAL_PAGES = {
 <li>অবৈধ বা অনৈতিক উদ্দেশ্যে সাইট ব্যবহার করা।</li>
 </ul>
 <h2>৪. মেধাস্বত্ব</h2>
-<p>ডিজাইন, কোড, ইন্টারফেস ও লোগোর সকল অধিকার সাইটের মালিকের কাছে সংরক্ষিত। ধর্মীয় পাঠ্যসমূহ (আয়াত, হাদিস, দোয়া) মুসলিম সমাজের সাধারণ সম্পত্তি।</p>
+<p>সাইটের ডিজাইন, কোড, ইন্টারফেস ও লোগোর মালিকানা সাইটের মালিকের। এর মধ্যে সাইটে ব্যবহৃত তৃতীয় পক্ষের বা উন্মুক্ত লাইসেন্সের অধীন উপকরণ অন্তর্ভুক্ত নয় — যেমন <a href="https://tanzil.net/" target="_blank" rel="noopener">Tanzil প্রকল্প</a> থেকে নেওয়া কুরআনের পাঠ, Amiri ফন্ট, OpenStreetMap-এর ডেটা এবং বহিরাগত সরবরাহকারীর কাছ থেকে নেওয়া দেশের পতাকার ছবি। তৃতীয় পক্ষের উপকরণ ও বাইরের উৎস থেকে নেওয়া পাঠ্যসমূহ, প্রযোজ্য ক্ষেত্রে, নিজ নিজ উৎসের অধিকার ও ব্যবহারের শর্তাবলীর অধীন থাকে। এই শর্তাবলীতে মূল ধর্মীয় পাঠ্য বা তৃতীয় পক্ষের উপকরণের উপর সাইটের কোনো মালিকানা দাবি করা হয় না।</p>
 <h2>৫. তৃতীয় পক্ষের সেবা</h2>
 <p>সাইটটি তৃতীয় পক্ষের সেবার উপর নির্ভর করে (গোপনীয়তা নীতি দেখুন)। আমরা তাদের বিঘ্ন বা পরিবর্তনের জন্য দায়ী নই।</p>
 <h2>৬. দায়বদ্ধতার সীমা</h2>
 <p>সাইটটি "যেমন আছে" ভিত্তিতে প্রদান করা হয়, কোনো প্রকাশ্য বা অন্তর্নিহিত ওয়ারেন্টি ছাড়াই। শুধু সাইটের তথ্যের উপর ভিত্তি করে নেওয়া কোনো ধর্মীয়, আর্থিক বা ব্যক্তিগত সিদ্ধান্তের জন্য আমরা দায়ী নই।</p>
 <h2>৭. শর্তাবলীর পরিবর্তন</h2>
 <p>আমরা যে কোনো সময় এই শর্তাবলী পরিবর্তন করার অধিকার সংরক্ষণ করি। পরিবর্তনগুলো প্রকাশের পর কার্যকর হয় এবং সাইট ব্যবহার চালিয়ে যাওয়া সম্মতির অর্থ বহন করে।</p>
-<h2>৮. প্রযোজ্য আইন</h2>
-<p>এই শর্তাবলী ইন্টারনেট ব্যবহারের সাধারণ আন্তর্জাতিক নীতির অধীন। কোনো বিরোধের ক্ষেত্রে, আমরা যতটা সম্ভব শান্তিপূর্ণ সমাধান খোঁজার চেষ্টা করি।</p>`,
+<h2>৮. প্রযোজ্য আইন ও বিরোধ নিষ্পত্তি</h2>
+<p>প্রযোজ্য আইনের অধীনে কার্যকর কোনো বাধ্যতামূলক অধিকার বা বাধ্যবাধকতা এই শর্তাবলী রদ করে না। সাইটের ব্যবহার সংক্রান্ত কোনো বিরোধ বা প্রশ্ন দেখা দিলে, অনুগ্রহ করে প্রথমে আমাদের <a href="/bn/contact">যোগাযোগ পৃষ্ঠা</a>-র মাধ্যমে আমাদের সঙ্গে যোগাযোগ করুন, যাতে আমরা সদিচ্ছার সঙ্গে সৌহার্দ্যপূর্ণভাবে তা নিষ্পত্তির চেষ্টা করতে পারি।</p>`,
         ms: `<h1>Terma Penggunaan</h1>
-<span class="legal-meta">Kemas kini terakhir: ${new Date().toISOString().split('T')[0]}</span>
+<span class="legal-meta">Kemas kini terakhir: 2026-08-09</span>
 <p>Dengan menggunakan laman <strong>Waktu Solat</strong>, anda bersetuju untuk mematuhi terma berikut. Sila baca dengan teliti sebelum menggunakan mana-mana perkhidmatan laman.</p>
 <h2>1. Penerangan Perkhidmatan</h2>
 <p>Laman ini menyediakan perkhidmatan Islam percuma, termasuk:</p>
@@ -5822,12 +5861,13 @@ const LEGAL_PAGES = {
 <li>Kalendar Hijrah dan penukar tarikh.</li>
 <li>Doa dan zikir sahih dari Al-Quran dan Sunnah.</li>
 <li>Tasbih digital dan kalkulator Zakat.</li>
+<li>Bacaan Al-Quran dengan penyataan sumber teks dan sandarannya.</li>
 </ul>
 <h2>2. Nota Ketepatan</h2>
 <p>Kami sentiasa berusaha memberikan waktu yang paling tepat, namun:</p>
 <ul>
-<li>Waktu solat dikira menggunakan persamaan astronomi yang boleh dipercayai dan mungkin berbeza beberapa minit dari waktu rasmi di negara anda.</li>
-<li>Kalendar Hijrah mengikuti kalendar Umm al-Qura (Arab Saudi) dan mungkin berbeza satu hari dari rukyah tempatan.</li>
+<li>Waktu solat dikira menggunakan persamaan astronomi yang boleh dipercayai dan mungkin berbeza beberapa minit daripada waktu rasmi di negara anda.</li>
+<li>Kalendar Hijrah mengikut kalendar Umm al-Qura (Arab Saudi) dan mungkin berbeza satu hari daripada rukyah tempatan.</li>
 <li>Arah Kiblat adalah tepat dari segi geografi, tetapi ketepatan paparan pada kompas bergantung pada sensor peranti anda.</li>
 </ul>
 <p>Tanggungjawab akhir untuk mengesahkan waktu solat dan rukyah hilal terletak pada pihak berkuasa agama di negara anda.</p>
@@ -5839,15 +5879,15 @@ const LEGAL_PAGES = {
 <li>Menggunakan laman untuk tujuan yang menyalahi undang-undang atau tidak beretika.</li>
 </ul>
 <h2>4. Harta Intelek</h2>
-<p>Semua hak ke atas reka bentuk, kod, antara muka dan logo terpelihara oleh pemilik laman. Teks keagamaan (ayat, hadis, doa) adalah hak milik umum masyarakat Muslim.</p>
+<p>Hak ke atas reka bentuk, kod, antara muka dan logo laman ini terpelihara oleh pemilik laman. Ini tidak merangkumi bahan milik pihak ketiga atau bahan berlesen terbuka yang digunakan di laman ini, termasuk teks Al-Quran daripada <a href="https://tanzil.net/" target="_blank" rel="noopener">Projek Tanzil</a>, fon Amiri, data OpenStreetMap, serta imej bendera negara daripada penyedia luarannya. Bahan pihak ketiga dan teks yang diambil daripada sumber luar kekal tertakluk kepada hak serta syarat penggunaan sumber masing-masing apabila berkenaan. Tiada apa-apa dalam terma ini yang mendakwa bahawa laman ini memiliki teks keagamaan asal atau bahan milik pihak ketiga.</p>
 <h2>5. Perkhidmatan Pihak Ketiga</h2>
 <p>Laman ini bergantung pada perkhidmatan pihak ketiga (rujuk Dasar Privasi). Kami tidak bertanggungjawab atas gangguan atau perubahannya.</p>
 <h2>6. Had Tanggungjawab</h2>
 <p>Laman ini disediakan "sebagaimana adanya" tanpa jaminan nyata atau tersirat. Kami tidak bertanggungjawab atas sebarang keputusan agama, kewangan atau peribadi yang dibuat hanya berdasarkan maklumat laman.</p>
 <h2>7. Perubahan Terma</h2>
 <p>Kami berhak mengubah terma ini pada bila-bila masa. Perubahan berkuat kuasa selepas diterbitkan, dan penggunaan berterusan laman bermaksud persetujuan.</p>
-<h2>8. Undang-undang Terpakai</h2>
-<p>Terma ini tertakluk kepada prinsip antarabangsa umum penggunaan Internet. Jika berlaku pertikaian, kami berusaha mencari penyelesaian secara baik sebisa mungkin.</p>`
+<h2>8. Undang-undang Terpakai dan Penyelesaian Pertikaian</h2>
+<p>Terma ini tidak mengetepikan sebarang hak atau kewajipan mandatori yang terpakai di bawah undang-undang yang berkuat kuasa. Sekiranya timbul sebarang pertikaian atau pertanyaan berkaitan penggunaan laman ini, sila hubungi kami terlebih dahulu melalui <a href="/ms/contact">Halaman Hubungi Kami</a> supaya kami dapat berusaha menyelesaikannya secara damai dan dengan niat baik.</p>`
     },
     'contact': {
         ar: `<h1>اتصل بنا</h1>
@@ -5861,7 +5901,7 @@ const LEGAL_PAGES = {
 </div>
 <h2>أنواع الاستفسارات التي نستقبلها</h2>
 <ul>
-<li><strong>الإبلاغ عن مواقيت غير دقيقة:</strong> أرفق اسم المدينة، الإحداثيات (إن أمكن)، والفرق بين موقيت الموقع والموقت الرسمي في بلدك.</li>
+<li><strong>الإبلاغ عن مواقيت غير دقيقة:</strong> أرفق اسم المدينة، الإحداثيات (إن أمكن)، والفرق بين مواقيت الموقع والمواقيت الرسمية في بلدك.</li>
 <li><strong>اقتراحات تحسين:</strong> أي ميزة جديدة، تصميم أفضل، أو لغة تود إضافتها.</li>
 <li><strong>طلبات شراكة:</strong> للأكاديميات، المساجد، أو التطبيقات التي تود استخدام بيانات الموقع.</li>
 <li><strong>الإبلاغ عن أخطاء تقنية:</strong> صفحات لا تعمل، ميزات معطلة، أو مشاكل في العرض.</li>
@@ -5909,7 +5949,7 @@ const LEGAL_PAGES = {
 <li><a href="/en/terms">Terms of Use</a> — answers questions about accuracy and responsibility.</li>
 <li><a href="/en/privacy">Privacy Policy</a> — explains how we handle your data.</li>
 </ul>
-<h2>Social media follow-up</h2>
+<h2>Follow us on social media</h2>
 <p>Follow us for the latest updates, announcements, and religious bulletins:</p>
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (Twitter): @TIMESPRAYESRS</strong></a></li>
@@ -5927,7 +5967,7 @@ const LEGAL_PAGES = {
 </div>
 <h2>Types de demandes que nous recevons</h2>
 <ul>
-<li><strong>Signaler des heures inexactes :</strong> incluez le nom de la ville, les coordonnées (si possible), et la différence entre les heures du site et celles officielles dans votre pays.</li>
+<li><strong>Signaler des heures inexactes :</strong> incluez le nom de la ville, les coordonnées (si possible), et la différence entre les heures du site et les heures officielles dans votre pays.</li>
 <li><strong>Suggestions d'amélioration :</strong> toute nouvelle fonctionnalité, un meilleur design ou une langue supplémentaire.</li>
 <li><strong>Demandes de partenariat :</strong> pour les académies, mosquées ou applications souhaitant utiliser les données du site.</li>
 <li><strong>Signalement d'erreurs techniques :</strong> pages qui ne fonctionnent pas, fonctionnalités cassées ou problèmes d'affichage.</li>
@@ -5950,7 +5990,7 @@ const LEGAL_PAGES = {
 <li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn : Times Prayers</strong></a></li>
 </ul>`,
         tr: `<h1>İletişim</h1>
-<p>Sizden haber almak bizi mutlu eder. Bir sorunuz, öneriniz veya şehrinizdeki yanlış namaz vakitleri hakkında bildiriminiz olsun, ekibimiz sizi dinlemeye hazırdır.</p>
+<p>Sizden haber almak bizi mutlu eder. İster bir sorunuz, ister öneriniz, ister şehrinizdeki yanlış namaz vakitleri hakkında bir bildiriminiz olsun, ekibimiz sizi dinlemeye hazırdır.</p>
 <div class="contact-card">
     <span style="font-size:2rem;">✉️</span>
     <div>
@@ -5958,13 +5998,13 @@ const LEGAL_PAGES = {
         <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
-<h2>Aldığımız sorgu türleri</h2>
+<h2>Aldığımız talep türleri</h2>
 <ul>
 <li><strong>Yanlış vakitleri bildirme:</strong> şehir adını, koordinatları (mümkünse) ve site vakitleri ile ülkenizdeki resmi vakitler arasındaki farkı belirtin.</li>
 <li><strong>İyileştirme önerileri:</strong> herhangi bir yeni özellik, daha iyi tasarım veya ek dil.</li>
 <li><strong>Ortaklık talepleri:</strong> site verilerini kullanmak isteyen akademiler, camiler veya uygulamalar için.</li>
 <li><strong>Teknik hata bildirimleri:</strong> çalışmayan sayfalar, bozuk özellikler veya görüntüleme sorunları.</li>
-<li><strong>Hesaplamalarla ilgili dini sorular:</strong> namaz vakitlerinin hesaplanma yöntemleri, Fajr/İşa vakitleri ve benimsenen fıkıh mezhepleri.</li>
+<li><strong>Hesaplamalarla ilgili dini sorular:</strong> namaz vakitlerinin hesaplanma yöntemleri, Sabah/Yatsı vakitleri ve benimsenen fıkıh mezhepleri.</li>
 </ul>
 <h2>Yanıt süresi</h2>
 <p>Tüm mesajlara <strong>3-5 iş günü</strong> içinde yanıt vermeye çalışıyoruz. Teknik hatalarla ilgili mesajlar daha yüksek önceliklidir.</p>
@@ -5983,7 +6023,7 @@ const LEGAL_PAGES = {
 <li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         ur: `<h1>ہم سے رابطہ کریں</h1>
-<p>ہمیں آپ سے سن کر خوشی ہوگی۔ چاہے آپ کا کوئی سوال، تجویز، یا آپ کے شہر میں نماز کے غلط اوقات کے بارے میں رپورٹ ہو، ہماری ٹیم سننے کے لیے تیار ہے۔</p>
+<p>ہمیں آپ کی بات سن کر خوشی ہوگی۔ چاہے آپ کا کوئی سوال، تجویز، یا آپ کے شہر میں نماز کے غلط اوقات کے بارے میں رپورٹ ہو، ہماری ٹیم سننے کے لیے تیار ہے۔</p>
 <div class="contact-card">
     <span style="font-size:2rem;">✉️</span>
     <div>
@@ -5991,7 +6031,7 @@ const LEGAL_PAGES = {
         <a href="mailto:infotimesprayers@gmail.com">infotimesprayers@gmail.com</a>
     </div>
 </div>
-<h2>ہم جن قسم کی پوچھ گچھ وصول کرتے ہیں</h2>
+<h2>ہمیں کس قسم کی پوچھ گچھ موصول ہوتی ہے</h2>
 <ul>
 <li><strong>غلط اوقات کی اطلاع:</strong> شہر کا نام، کوآرڈینیٹس (اگر ممکن ہو)، اور سائٹ کے اوقات اور آپ کے ملک میں سرکاری اوقات کے درمیان فرق شامل کریں۔</li>
 <li><strong>بہتری کی تجاویز:</strong> کوئی بھی نیا فیچر، بہتر ڈیزائن، یا اضافی زبان۔</li>
@@ -6008,7 +6048,7 @@ const LEGAL_PAGES = {
 <li><a href="/ur/terms">شرائط استعمال</a> — درستگی اور ذمہ داری کے سوالات کے جوابات دیتا ہے۔</li>
 <li><a href="/ur/privacy">پرائیویسی پالیسی</a> — بتاتی ہے کہ ہم آپ کے ڈیٹا کو کیسے سنبھالتے ہیں۔</li>
 </ul>
-<h2>سوشل میڈیا پر فالو اپ</h2>
+<h2>سوشل میڈیا پر ہم سے جڑے رہیں</h2>
 <p>تازہ ترین اپ ڈیٹس، اعلانات اور مذہبی بلیٹنز کے لیے ہمیں فالو کریں:</p>
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (ٹویٹر): @TIMESPRAYESRS</strong></a></li>
@@ -6049,7 +6089,7 @@ const LEGAL_PAGES = {
 <li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         id: `<h1>Hubungi Kami</h1>
-<p>Kami senang mendengar dari Anda. Baik Anda memiliki pertanyaan, saran, atau laporan tentang jadwal sholat yang tidak akurat di kota Anda, tim kami siap mendengarkan.</p>
+<p>Kami senang mendengar dari Anda. Baik Anda memiliki pertanyaan, saran, maupun laporan tentang jadwal sholat yang tidak akurat di kota Anda, tim kami siap mendengarkan.</p>
 <div class="contact-card">
     <span style="font-size:2rem;">✉️</span>
     <div>
@@ -6115,7 +6155,7 @@ const LEGAL_PAGES = {
 <li><a href="https://www.linkedin.com/in/times-prayers-072861404" target="_blank" rel="noopener noreferrer"><strong>LinkedIn: Times Prayers</strong></a></li>
 </ul>`,
         bn: `<h1>যোগাযোগ করুন</h1>
-<p>আমরা আপনার কাছ থেকে শুনতে ভালোবাসি। আপনার কোনো প্রশ্ন, পরামর্শ, বা আপনার শহরে ভুল নামাজের সময় সম্পর্কে রিপোর্ট থাকুক — আমাদের দল শুনতে প্রস্তুত।</p>
+<p>আপনার মতামত জানতে আমরা সবসময় আগ্রহী। আপনার কোনো প্রশ্ন, পরামর্শ কিংবা আপনার শহরের ভুল নামাজের সময় সম্পর্কে রিপোর্ট — যাই হোক না কেন, আমাদের দল শুনতে প্রস্তুত।</p>
 <div class="contact-card">
     <span style="font-size:2rem;">✉️</span>
     <div>
@@ -6140,7 +6180,7 @@ const LEGAL_PAGES = {
 <li><a href="/bn/terms">শর্তাবলী</a> — নির্ভুলতা ও দায়িত্ব সম্পর্কিত প্রশ্নের উত্তর দেয়।</li>
 <li><a href="/bn/privacy">গোপনীয়তা নীতি</a> — আমরা কীভাবে আপনার ডেটা পরিচালনা করি তা ব্যাখ্যা করে।</li>
 </ul>
-<h2>সামাজিক মাধ্যম</h2>
+<h2>সামাজিক যোগাযোগমাধ্যম</h2>
 <p>সর্বশেষ আপডেট, ঘোষণা এবং ধর্মীয় বুলেটিনের জন্য আমাদের ফলো করুন:</p>
 <ul>
 <li><a href="https://x.com/TIMESPRAYESRS" target="_blank" rel="noopener noreferrer"><strong>X (টুইটার): @TIMESPRAYESRS</strong></a></li>
@@ -6183,28 +6223,28 @@ const LEGAL_PAGES = {
     },
     'about-us': {
         ar: `<h1>عن موقع مواقيت الصلاة</h1>
-<p>موقع <strong>مواقيت الصلاة</strong> هو مشروع إسلامي مجاني يهدف إلى توفير أدوات إسلامية يومية موثوقة ودقيقة لكل مسلم حول العالم — في أي مدينة، بأي لغة، وعلى أي جهاز.</p>
+<p>موقع <strong>مواقيت الصلاة</strong> مشروع إسلامي مجاني يهدف إلى توفير أدوات إسلامية يومية موثوقة ودقيقة للمسلمين حول العالم، عبر مدن متعددة، وباللغات المدعومة، وعلى مختلف الأجهزة.</p>
 <h2>رسالتنا</h2>
 <p>نؤمن بأن الأدوات الدينية اليومية يجب أن تكون:</p>
 <ul>
-<li><strong>مجانية:</strong> الإسلام للجميع، ولا يجب أن تُحتجَب أدواته خلف اشتراكات.</li>
-<li><strong>دقيقة:</strong> نعتمد على أحدث المعادلات الفلكية ومصادر دينية موثوقة.</li>
-<li><strong>سريعة وخفيفة:</strong> الموقع يعمل على أبطأ الاتصالات وأقدم الأجهزة.</li>
-<li><strong>محترِمة للخصوصية:</strong> لا نطلب تسجيلاً ولا نخزن بياناتك على خوادمنا.</li>
+<li><strong>مجانية:</strong> الإسلام للجميع، ولا ينبغي أن تُحجَب أدواته خلف اشتراكات.</li>
+<li><strong>دقيقة:</strong> نعتمد على معادلات فلكية معروفة ومنشورة ومصادر دينية موثوقة.</li>
+<li><strong>سريعة وخفيفة:</strong> صُمم الموقع ليكون سريعًا وخفيفًا ويعمل بكفاءة على نطاق واسع من الأجهزة وسرعات الاتصال.</li>
+<li><strong>محترِمة للخصوصية:</strong> لا يتطلب الموقع إنشاء حساب، ونحرص على تقليل البيانات التي تتم معالجتها. تُحفظ التفضيلات التي يديرها الموقع محليًا على جهازك حيث ينطبق ذلك، بينما قد تعالج البنية التقنية معلومات تشغيلية محدودة لتقديم الخدمة وحمايتها.</li>
 </ul>
 <h2>الميزات الرئيسية</h2>
 <ul>
-<li><strong>مواقيت الصلاة:</strong> الفجر، الظهر، العصر، المغرب، العشاء — لكل مدينة في العالم، مع جدول أسبوعي وتنبيه قبل كل صلاة.</li>
+<li><strong>مواقيت الصلاة:</strong> الفجر، الظهر، العصر، المغرب، العشاء — لمدن حول العالم، مع جدول أسبوعي وتنبيه قبل كل صلاة.</li>
 <li><strong>اتجاه القبلة:</strong> بوصلة تفاعلية وخريطة تُظهر اتجاه الكعبة المشرفة من موقعك بدقة.</li>
 <li><strong>التقويم الهجري:</strong> تقويم كامل من سنة 1 هـ إلى 1500 هـ، ومحول بين الهجري والميلادي.</li>
-<li><strong>الأدعية والأذكار:</strong> مجموعة منظَمة من الكتاب والسنة (أذكار الصباح، والمساء، والصلاة).</li>
+<li><strong>الأدعية والأذكار:</strong> مجموعة منظَّمة من الكتاب والسنة (أذكار الصباح، والمساء، والصلاة).</li>
 <li><strong>القرآن الكريم:</strong> نص القرآن الكريم بالرسم العثماني من <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">مشروع Tanzil</a>، الإصدار 1.1، ويُعرض النص كما ورد في المصدر دون تعديل، وفق ترخيص وشروط استخدام Tanzil.</li>
 <li><strong>المسبحة الإلكترونية:</strong> عداد ذكر يحفظ تقدمك ويسمح بتحديد أهداف يومية.</li>
 <li><strong>حاسبة الزكاة:</strong> تشمل النقد، الذهب، الفضة، الأسهم، والاستثمارات.</li>
-<li><strong>صفحات المدن:</strong> آلاف الصفحات لمدن العالم، كل صفحة تحتوي معلومات جغرافية ومواقيت ودقيقة.</li>
+<li><strong>صفحات المدن:</strong> آلاف الصفحات لمدن العالم، كل صفحة تحتوي على معلومات جغرافية ومواقيت دقيقة.</li>
 </ul>
 <h2>كيف نحسب مواقيت الصلاة؟</h2>
-<p>نستخدم خوارزميات فلكية مُعتمَدة دولياً، مع دعم لمذاهب الحساب الرئيسية:</p>
+<p>نستخدم معادلات فلكية معروفة ومنشورة، مع دعم طرق الحساب المعتمدة لدى عدد من الجهات:</p>
 <ul>
 <li>الجمعية الإسلامية لأمريكا الشمالية (ISNA)</li>
 <li>رابطة العالم الإسلامي (MWL)</li>
@@ -6217,30 +6257,30 @@ const LEGAL_PAGES = {
 <h2>الفريق</h2>
 <p>الموقع مشروع تطوعي يديره مسلمون يحبون أمتهم، ويهدفون لخدمتها بأفضل الأدوات التقنية. نرحب بانضمام أي مطور، مصمم، أو مترجم — تواصل معنا عبر <a href="/contact">صفحة الاتصال</a>.</p>
 <h2>كيف يُموَل الموقع؟</h2>
-<p>الموقع مجاني تماماً. نعتمد على عوائد إعلانات Google AdSense (المخطط لها) لتغطية تكاليف الخوادم والتطوير. لن نعرض إعلاناتٍ مزعِجة أو مخالفة لقيمنا الإسلامية.</p>`,
+<p>استخدام الموقع مجاني. ولا يعرض الموقع حاليًا أي إعلانات. ونخطط مستقبلًا للاعتماد على عوائد إعلانات Google AdSense لتغطية تكاليف الخوادم والتطوير، ونسعى إلى الحفاظ على تجربة إعلانية مناسبة وغير مزعجة، والاستفادة من أدوات التحكم المتاحة للناشرين.</p>`,
         en: `<h1>About Prayer Times</h1>
-<p><strong>Prayer Times</strong> is a free Islamic project aiming to provide reliable and accurate daily Islamic tools for every Muslim worldwide — in any city, any language, and on any device.</p>
+<p><strong>Prayer Times</strong> is a free Islamic project that aims to provide reliable and accurate daily Islamic tools for Muslims around the world, across many cities, supported languages, and different devices.</p>
 <h2>Our Mission</h2>
 <p>We believe that daily religious tools should be:</p>
 <ul>
 <li><strong>Free:</strong> Islam is for everyone, and its tools should not be locked behind subscriptions.</li>
-<li><strong>Accurate:</strong> We rely on the latest astronomical equations and trusted religious sources.</li>
-<li><strong>Fast and lightweight:</strong> The site works on the slowest connections and oldest devices.</li>
-<li><strong>Privacy-respecting:</strong> No registration required, and we do not store your data on our servers.</li>
+<li><strong>Accurate:</strong> We rely on well-known, published astronomical formulas and trusted religious sources.</li>
+<li><strong>Fast and lightweight:</strong> The site is designed to be fast and lightweight and to work efficiently across a wide range of devices and connection speeds.</li>
+<li><strong>Privacy-respecting:</strong> No account is required, and we aim to minimize the data processed. Site-managed preferences are stored locally on your device where applicable, while the supporting infrastructure may process limited operational information needed to provide and secure the service.</li>
 </ul>
 <h2>Key Features</h2>
 <ul>
-<li><strong>Prayer times:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — for every city in the world, with weekly schedule and pre-prayer reminders.</li>
+<li><strong>Prayer times:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — for cities around the world, with a weekly table and an alert before each prayer.</li>
 <li><strong>Qibla direction:</strong> Interactive compass and map showing the Kaaba direction from your location accurately.</li>
 <li><strong>Hijri calendar:</strong> Full calendar from year 1 AH to 1500 AH, plus a Hijri-Gregorian converter.</li>
-<li><strong>Duas and Athkar:</strong> Organized collection from Quran and Sunnah (morning, evening and prayer adhkar).</li>
+<li><strong>Duas and Adhkar:</strong> Organized collection from the Quran and Sunnah (morning, evening and prayer adhkar).</li>
 <li><strong>The Holy Quran:</strong> The Quran text in Uthmani script from the <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil Project</a>, version 1.1, shown exactly as provided by the source without modification, under Tanzil's license and terms of use.</li>
 <li><strong>Digital Tasbih:</strong> Counter that saves your progress and supports daily targets.</li>
 <li><strong>Zakat calculator:</strong> Covers cash, gold, silver, stocks, and investments.</li>
 <li><strong>City pages:</strong> Thousands of pages for cities worldwide, each with geographic info and accurate times.</li>
 </ul>
 <h2>How do we calculate prayer times?</h2>
-<p>We use internationally adopted astronomical algorithms, supporting major calculation schools:</p>
+<p>We use well-known, published astronomical formulas, and support the calculation methods used by a number of organisations:</p>
 <ul>
 <li>Islamic Society of North America (ISNA)</li>
 <li>Muslim World League (MWL)</li>
@@ -6253,30 +6293,30 @@ const LEGAL_PAGES = {
 <h2>The Team</h2>
 <p>The site is a volunteer project run by Muslims who love their Ummah and aim to serve it with the best technology. We welcome developers, designers, and translators — contact us via the <a href="/en/contact">Contact page</a>.</p>
 <h2>How is the site funded?</h2>
-<p>The site is completely free. We rely on Google AdSense revenue (planned) to cover server and development costs. We will not display intrusive ads or anything inconsistent with our Islamic values.</p>`,
+<p>The site is free to use. It currently displays no advertising. In the future we plan to rely on Google AdSense revenue to cover server and development costs. We aim to keep the advertising experience appropriate and non-intrusive and to use the publisher controls available to us.</p>`,
         fr: `<h1>À propos d'Heures de Prière</h1>
-<p><strong>Heures de Prière</strong> est un projet islamique gratuit visant à fournir des outils islamiques quotidiens fiables et précis à chaque musulman dans le monde — dans n'importe quelle ville, n'importe quelle langue et sur n'importe quel appareil.</p>
+<p><strong>Heures de Prière</strong> est un projet islamique gratuit visant à fournir des outils islamiques quotidiens fiables et précis aux musulmans du monde entier, dans de nombreuses villes, dans les langues prises en charge et sur différents appareils.</p>
 <h2>Notre mission</h2>
 <p>Nous pensons que les outils religieux quotidiens doivent être :</p>
 <ul>
 <li><strong>Gratuits :</strong> l'Islam est pour tous, et ses outils ne doivent pas être bloqués derrière des abonnements.</li>
-<li><strong>Précis :</strong> nous nous appuyons sur les dernières équations astronomiques et des sources religieuses fiables.</li>
-<li><strong>Rapides et légers :</strong> le site fonctionne sur les connexions les plus lentes et les appareils les plus anciens.</li>
-<li><strong>Respectueux de la vie privée :</strong> aucune inscription requise et aucune donnée stockée sur nos serveurs.</li>
+<li><strong>Précis :</strong> nous nous appuyons sur des équations astronomiques connues et publiées ainsi que sur des sources religieuses fiables.</li>
+<li><strong>Rapides et légers :</strong> le site est conçu pour être rapide et léger et pour fonctionner efficacement sur une large gamme d'appareils et de vitesses de connexion.</li>
+<li><strong>Respectueux de la vie privée :</strong> aucune inscription n'est requise et nous cherchons à limiter au minimum les données traitées. Les préférences gérées par le site sont enregistrées localement sur votre appareil le cas échéant, tandis que l'infrastructure technique peut traiter des informations opérationnelles limitées, nécessaires à la fourniture et à la sécurité du service.</li>
 </ul>
 <h2>Fonctionnalités principales</h2>
 <ul>
-<li><strong>Heures de prière :</strong> Fajr, Dhouhr, Asr, Maghrib, Isha — pour chaque ville du monde, avec un programme hebdomadaire et des rappels avant la prière.</li>
+<li><strong>Heures de prière :</strong> Fajr, Dhouhr, Asr, Maghrib, Isha — pour des villes du monde entier, avec un programme hebdomadaire et des rappels avant la prière.</li>
 <li><strong>Direction de la Qibla :</strong> boussole interactive et carte montrant la direction de la Kaaba depuis votre emplacement avec précision.</li>
 <li><strong>Calendrier hégirien :</strong> calendrier complet de l'an 1 AH à 1500 AH, plus un convertisseur hégirien-grégorien.</li>
 <li><strong>Invocations et dhikrs :</strong> collection organisée du Coran et de la Sunna (matin, soir et prière).</li>
 <li><strong>Le Saint Coran :</strong> le texte coranique en graphie ottomane provenant du <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">projet Tanzil</a>, version 1.1, affiché tel quel, sans modification, conformément à la licence et aux conditions d'utilisation de Tanzil.</li>
 <li><strong>Tasbih numérique :</strong> compteur qui sauvegarde votre progression et prend en charge les objectifs quotidiens.</li>
-<li><strong>Calculateur de Zakat :</strong> couvre l'argent, l'or, l'argent, les actions et les investissements.</li>
+<li><strong>Calculateur de Zakat :</strong> couvre les liquidités, l'or, l'argent, les actions et les investissements.</li>
 <li><strong>Pages de villes :</strong> des milliers de pages pour les villes du monde entier, chacune avec des informations géographiques et des heures précises.</li>
 </ul>
 <h2>Comment calculons-nous les heures de prière ?</h2>
-<p>Nous utilisons des algorithmes astronomiques adoptés internationalement, prenant en charge les principales écoles de calcul :</p>
+<p>Nous utilisons des équations astronomiques connues et publiées, et prenons en charge les méthodes de calcul adoptées par plusieurs institutions :</p>
 <ul>
 <li>Société islamique d'Amérique du Nord (ISNA)</li>
 <li>Ligue mondiale musulmane (MWL)</li>
@@ -6289,22 +6329,22 @@ const LEGAL_PAGES = {
 <h2>L'équipe</h2>
 <p>Le site est un projet bénévole géré par des musulmans qui aiment leur Oumma et cherchent à la servir avec les meilleures technologies. Nous accueillons les développeurs, designers et traducteurs — contactez-nous via la <a href="/fr/contact">page Contact</a>.</p>
 <h2>Comment le site est-il financé ?</h2>
-<p>Le site est entièrement gratuit. Nous comptons sur les revenus de Google AdSense (prévus) pour couvrir les coûts du serveur et du développement. Nous n'afficherons pas de publicités intrusives ou contraires à nos valeurs islamiques.</p>`,
+<p>L'utilisation du site est gratuite. Le site n'affiche actuellement aucune publicité. À l'avenir, nous prévoyons de nous appuyer sur les revenus de Google AdSense pour couvrir les coûts de serveur et de développement. Nous cherchons à maintenir une expérience publicitaire appropriée et non intrusive, et à utiliser les outils de contrôle mis à la disposition des éditeurs.</p>`,
         tr: `<h1>Namaz Vakitleri Hakkında</h1>
-<p><strong>Namaz Vakitleri</strong>, dünyadaki her Müslümana — herhangi bir şehirde, herhangi bir dilde ve herhangi bir cihazda — güvenilir ve doğru günlük İslami araçlar sağlamayı amaçlayan ücretsiz bir İslami projedir.</p>
+<p><strong>Namaz Vakitleri</strong>, dünya genelindeki Müslümanlara birçok şehirde, desteklenen dillerde ve farklı cihazlarda güvenilir ve doğru günlük İslami araçlar sunmayı amaçlayan ücretsiz bir İslami projedir.</p>
 <h2>Misyonumuz</h2>
 <p>Günlük dini araçların şöyle olması gerektiğine inanıyoruz:</p>
 <ul>
-<li><strong>Ücretsiz:</strong> İslam herkes içindir ve araçları abonelikler arkasına kilitlenmemelidir.</li>
-<li><strong>Doğru:</strong> En son astronomik denklemlere ve güvenilir dini kaynaklara dayanıyoruz.</li>
-<li><strong>Hızlı ve hafif:</strong> Site en yavaş bağlantılarda ve en eski cihazlarda çalışır.</li>
-<li><strong>Gizliliğe saygılı:</strong> Kayıt gerekmiyor ve sunucularımızda veri saklamıyoruz.</li>
+<li><strong>Ücretsiz:</strong> İslam herkes içindir ve araçları aboneliklerin arkasına kilitlenmemelidir.</li>
+<li><strong>Doğru:</strong> Bilinen ve yayımlanmış astronomik denklemlere ve güvenilir dini kaynaklara dayanıyoruz.</li>
+<li><strong>Hızlı ve hafif:</strong> Site; hızlı ve hafif olacak, geniş bir cihaz ve bağlantı hızı yelpazesinde verimli çalışacak şekilde tasarlanmıştır.</li>
+<li><strong>Gizliliğe saygılı:</strong> Kayıt gerekmez ve işlenen veriyi en aza indirmeyi hedefleriz. Sitenin yönettiği tercihler, geçerli olduğu durumlarda cihazınızda yerel olarak saklanır; hizmeti sunmak ve güvenliğini sağlamak için gereken sınırlı işletimsel bilgiler ise altyapı tarafından işlenebilir.</li>
 </ul>
 <h2>Ana Özellikler</h2>
 <ul>
-<li><strong>Namaz vakitleri:</strong> Fajr, Öğle, İkindi, Akşam, Yatsı — dünyanın her şehri için, haftalık program ve namaz öncesi hatırlatıcılarla.</li>
+<li><strong>Namaz vakitleri:</strong> Sabah, Öğle, İkindi, Akşam, Yatsı — dünya genelindeki şehirler için, haftalık program ve namaz öncesi hatırlatıcılarla.</li>
 <li><strong>Kıble yönü:</strong> Konumunuzdan Kâbe yönünü doğru şekilde gösteren etkileşimli pusula ve harita.</li>
-<li><strong>Hicri takvim:</strong> 1 AH'den 1500 AH'ye kadar tam takvim, ayrıca Hicri-Miladi dönüştürücü.</li>
+<li><strong>Hicri takvim:</strong> Hicri 1'den 1500'e kadar tam takvim, ayrıca Hicri-Miladi dönüştürücü.</li>
 <li><strong>Dualar ve zikirler:</strong> Kur'an ve Sünnetten organize edilmiş koleksiyon (sabah, akşam ve namaz zikirleri).</li>
 <li><strong>Kur'an-ı Kerim:</strong> Osmanî hatla Kur'an metni <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil Projesi</a> kaynaklıdır, sürüm 1.1; metin kaynakta olduğu hâliyle, değiştirilmeden gösterilir ve Tanzil'in lisans ve kullanım şartlarına tabidir.</li>
 <li><strong>Dijital Tesbih:</strong> İlerlemenizi kaydeden ve günlük hedefleri destekleyen sayaç.</li>
@@ -6312,7 +6352,7 @@ const LEGAL_PAGES = {
 <li><strong>Şehir sayfaları:</strong> Dünya çapında şehirler için binlerce sayfa, her biri coğrafi bilgiler ve doğru vakitlerle.</li>
 </ul>
 <h2>Namaz vakitlerini nasıl hesaplıyoruz?</h2>
-<p>Uluslararası olarak benimsenmiş astronomik algoritmalar kullanıyoruz ve başlıca hesaplama ekollerini destekliyoruz:</p>
+<p>Bilinen ve yayımlanmış astronomik formüller kullanıyor, çeşitli kurumların benimsediği hesaplama yöntemlerini destekliyoruz:</p>
 <ul>
 <li>Kuzey Amerika İslam Toplumu (ISNA)</li>
 <li>Dünya İslam Birliği (MWL)</li>
@@ -6325,30 +6365,30 @@ const LEGAL_PAGES = {
 <h2>Ekip</h2>
 <p>Site, Ümmetini seven ve ona en iyi teknoloji ile hizmet etmeyi amaçlayan Müslümanlar tarafından yürütülen gönüllü bir projedir. Geliştiricileri, tasarımcıları ve çevirmenleri bekliyoruz — bizimle <a href="/tr/contact">İletişim sayfası</a> üzerinden iletişime geçin.</p>
 <h2>Site nasıl finanse edilir?</h2>
-<p>Site tamamen ücretsizdir. Sunucu ve geliştirme maliyetlerini karşılamak için Google AdSense gelirine (planlanan) güveniyoruz. Saldırgan reklamlar veya İslami değerlerimizle tutarsız hiçbir şey göstermeyeceğiz.</p>`,
+<p>Sitenin kullanımı ücretsizdir. Site şu anda hiçbir reklam göstermemektedir. İleride, sunucu ve geliştirme maliyetlerini karşılamak için Google AdSense gelirine dayanmayı planlıyoruz. Reklam deneyimini uygun ve rahatsız edici olmayan bir şekilde tutmayı ve yayıncılara sunulan kontrol araçlarından yararlanmayı hedefliyoruz.</p>`,
         ur: `<h1>اوقاتِ نماز کے بارے میں</h1>
-<p><strong>اوقاتِ نماز</strong> ایک مفت اسلامی منصوبہ ہے جس کا مقصد دنیا بھر کے ہر مسلمان کو قابل اعتماد اور درست روزمرہ اسلامی ٹولز فراہم کرنا ہے — کسی بھی شہر میں، کسی بھی زبان میں، اور کسی بھی ڈیوائس پر۔</p>
+<p><strong>اوقاتِ نماز</strong> ایک مفت اسلامی منصوبہ ہے جس کا مقصد دنیا بھر کے مسلمانوں کو قابل اعتماد اور درست روزمرہ اسلامی ٹولز فراہم کرنا ہے — متعدد شہروں میں، معاون زبانوں میں، اور مختلف آلات پر۔</p>
 <h2>ہمارا مشن</h2>
 <p>ہمارا ماننا ہے کہ روزمرہ کے مذہبی ٹولز ہونے چاہئیں:</p>
 <ul>
 <li><strong>مفت:</strong> اسلام سب کے لیے ہے، اور اس کے ٹولز سبسکرپشنز کے پیچھے بند نہیں ہونے چاہئیں۔</li>
-<li><strong>درست:</strong> ہم جدید ترین فلکیاتی مساواتوں اور قابل اعتماد مذہبی ذرائع پر انحصار کرتے ہیں۔</li>
-<li><strong>تیز اور ہلکے:</strong> سائٹ سب سے سست کنکشنز اور سب سے پرانے آلات پر کام کرتی ہے۔</li>
-<li><strong>پرائیویسی کا احترام:</strong> کوئی رجسٹریشن درکار نہیں، اور ہم آپ کا ڈیٹا اپنے سرورز پر محفوظ نہیں کرتے۔</li>
+<li><strong>درست:</strong> ہم معروف اور شائع شدہ فلکیاتی مساواتوں اور قابل اعتماد مذہبی ذرائع پر انحصار کرتے ہیں۔</li>
+<li><strong>تیز اور ہلکے:</strong> سائٹ کو تیز اور ہلکا بنایا گیا ہے تاکہ وہ آلات اور کنکشن کی رفتاروں کی ایک وسیع رینج پر مؤثر طریقے سے کام کرے۔</li>
+<li><strong>پرائیویسی کا احترام:</strong> کوئی اکاؤنٹ بنانے کی ضرورت نہیں، اور ہم پروسیس ہونے والے ڈیٹا کو کم سے کم رکھنے کی کوشش کرتے ہیں۔ جو ترجیحات سائٹ خود سنبھالتی ہے وہ، جہاں لاگو ہو، آپ کے ڈیوائس پر مقامی طور پر محفوظ ہوتی ہیں، جبکہ معاون تکنیکی ڈھانچہ سروس کی فراہمی اور حفاظت کے لیے درکار محدود آپریشنل معلومات پروسیس کر سکتا ہے۔</li>
 </ul>
 <h2>اہم خصوصیات</h2>
 <ul>
-<li><strong>نماز کے اوقات:</strong> فجر، ظہر، عصر، مغرب، عشاء — دنیا کے ہر شہر کے لیے، ہفتہ وار شیڈول اور نماز سے پہلے یاد دہانی کے ساتھ۔</li>
+<li><strong>نماز کے اوقات:</strong> فجر، ظہر، عصر، مغرب، عشاء — دنیا بھر کے شہروں کے لیے، ہفتہ وار شیڈول اور نماز سے پہلے یاد دہانی کے ساتھ۔</li>
 <li><strong>قبلہ کی سمت:</strong> انٹرایکٹو قطب نما اور نقشہ جو آپ کے مقام سے کعبہ کی سمت درست طور پر دکھاتا ہے۔</li>
 <li><strong>ہجری کیلنڈر:</strong> 1 ہجری سے 1500 ہجری تک مکمل کیلنڈر، نیز ہجری-عیسوی کنورٹر۔</li>
 <li><strong>دعائیں اور اذکار:</strong> قرآن اور سنت سے منظم مجموعہ (صبح، شام اور نماز کے اذکار)۔</li>
 <li><strong>قرآن کریم:</strong> رسمِ عثمانی میں قرآن کا متن <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil پروجیکٹ</a> سے، ورژن 1.1؛ متن مصدر کے مطابق بغیر کسی تبدیلی کے دکھایا جاتا ہے، Tanzil کے لائسنس اور شرائطِ استعمال کے مطابق۔</li>
-<li><strong>ڈیجیٹل تسبیح:</strong> کاؤنٹر جو آپ کی پیش رفت محفوظ کرتا ہے اور روزانہ اہداف کی حمایت کرتا ہے۔</li>
+<li><strong>ڈیجیٹل تسبیح:</strong> کاؤنٹر جو آپ کی پیش رفت محفوظ کرتا ہے اور روزانہ اہداف مقرر کرنے کی سہولت دیتا ہے۔</li>
 <li><strong>زکوٰۃ کیلکولیٹر:</strong> نقد، سونا، چاندی، اسٹاک اور سرمایہ کاری شامل ہیں۔</li>
 <li><strong>شہر کے صفحات:</strong> دنیا بھر کے شہروں کے لیے ہزاروں صفحات، ہر ایک جغرافیائی معلومات اور درست اوقات کے ساتھ۔</li>
 </ul>
 <h2>ہم نماز کے اوقات کیسے حساب کرتے ہیں؟</h2>
-<p>ہم بین الاقوامی طور پر اپنائے گئے فلکیاتی الگورتھم استعمال کرتے ہیں، جو اہم حساب کے مکاتب فکر کی حمایت کرتے ہیں:</p>
+<p>ہم معروف اور شائع شدہ فلکیاتی مساوات استعمال کرتے ہیں، اور حساب کے ان طریقوں کی حمایت کرتے ہیں جو متعدد اداروں کے ہاں رائج ہیں:</p>
 <ul>
 <li>شمالی امریکہ کی اسلامی سوسائٹی (ISNA)</li>
 <li>رابطہ عالم اسلامی (MWL)</li>
@@ -6361,22 +6401,22 @@ const LEGAL_PAGES = {
 <h2>ٹیم</h2>
 <p>یہ سائٹ رضاکارانہ منصوبہ ہے جسے مسلمان چلاتے ہیں جو اپنی امت سے محبت کرتے ہیں اور بہترین ٹیکنالوجی کے ساتھ اس کی خدمت کرنے کا مقصد رکھتے ہیں۔ ہم ڈویلپرز، ڈیزائنرز اور مترجمین کا خیرمقدم کرتے ہیں — ہمارے <a href="/ur/contact">رابطہ صفحے</a> کے ذریعے ہم سے رابطہ کریں۔</p>
 <h2>سائٹ کی فنڈنگ کیسے ہوتی ہے؟</h2>
-<p>سائٹ مکمل طور پر مفت ہے۔ سرور اور ڈیولپمنٹ کے اخراجات کو پورا کرنے کے لیے ہم Google AdSense کی آمدنی پر انحصار کرتے ہیں (منصوبہ بند)۔ ہم دخل اندازی والے اشتہارات یا ہماری اسلامی اقدار سے متضاد کچھ بھی نہیں دکھائیں گے۔</p>`,
+<p>سائٹ کا استعمال مفت ہے۔ سائٹ اس وقت کوئی اشتہار نہیں دکھاتی۔ مستقبل میں ہم سرور اور ڈیولپمنٹ کے اخراجات پورے کرنے کے لیے Google AdSense کی آمدنی پر انحصار کرنے کا ارادہ رکھتے ہیں، اور ہماری کوشش ہوگی کہ اشتہاراتی تجربہ مناسب اور غیر مخل رہے اور ناشرین کو دستیاب کنٹرولز سے فائدہ اٹھایا جائے۔</p>`,
         de: `<h1>Über Gebetszeiten</h1>
-<p><strong>Gebetszeiten</strong> ist ein kostenloses islamisches Projekt, das darauf abzielt, jedem Muslim weltweit zuverlässige und präzise tägliche islamische Werkzeuge zur Verfügung zu stellen — in jeder Stadt, in jeder Sprache und auf jedem Gerät.</p>
+<p><strong>Gebetszeiten</strong> ist ein kostenloses islamisches Projekt, das darauf abzielt, Muslimen weltweit zuverlässige und präzise tägliche islamische Werkzeuge zur Verfügung zu stellen — in zahlreichen Städten, in den unterstützten Sprachen und auf unterschiedlichen Geräten.</p>
 <h2>Unsere Mission</h2>
 <p>Wir glauben, dass tägliche religiöse Werkzeuge sein sollten:</p>
 <ul>
 <li><strong>Kostenlos:</strong> Der Islam ist für alle da, und seine Werkzeuge sollten nicht hinter Abonnements verborgen sein.</li>
-<li><strong>Präzise:</strong> Wir stützen uns auf die neuesten astronomischen Gleichungen und zuverlässige religiöse Quellen.</li>
-<li><strong>Schnell und leicht:</strong> Die Seite funktioniert auch bei den langsamsten Verbindungen und auf den ältesten Geräten.</li>
-<li><strong>Datenschutzfreundlich:</strong> Keine Registrierung erforderlich, und wir speichern Ihre Daten nicht auf unseren Servern.</li>
+<li><strong>Präzise:</strong> Wir stützen uns auf bekannte, veröffentlichte astronomische Gleichungen und zuverlässige religiöse Quellen.</li>
+<li><strong>Schnell und leicht:</strong> Die Seite ist schnell und leichtgewichtig gestaltet und arbeitet effizient auf einer breiten Palette von Geräten und bei unterschiedlichen Verbindungsgeschwindigkeiten.</li>
+<li><strong>Datenschutzfreundlich:</strong> Es ist kein Benutzerkonto erforderlich, und wir bemühen uns, die verarbeiteten Daten auf ein Minimum zu beschränken. Von der Seite verwaltete Einstellungen werden, soweit zutreffend, lokal auf Ihrem Gerät gespeichert, während die zugrunde liegende technische Infrastruktur begrenzte betriebliche Informationen verarbeiten kann, die zur Bereitstellung und Absicherung des Dienstes erforderlich sind.</li>
 </ul>
 <h2>Hauptfunktionen</h2>
 <ul>
-<li><strong>Gebetszeiten:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — für jede Stadt weltweit, mit Wochenplan und Erinnerungen vor jedem Gebet.</li>
+<li><strong>Gebetszeiten:</strong> Fajr, Dhuhr, Asr, Maghrib, Isha — für Städte weltweit, mit Wochenplan und Erinnerungen vor jedem Gebet.</li>
 <li><strong>Qibla-Richtung:</strong> Interaktiver Kompass und Karte, die die Richtung zur Kaaba präzise von Ihrem Standort aus anzeigen.</li>
-<li><strong>Hidschri-Kalender:</strong> Vollständiger Kalender vom Jahr 1 AH bis 1500 AH sowie ein Hidschri-Gregorianischer Umrechner.</li>
+<li><strong>Hidschri-Kalender:</strong> Vollständiger Kalender vom Jahr 1 AH bis 1500 AH sowie ein Umrechner zwischen Hidschri- und gregorianischem Kalender.</li>
 <li><strong>Duas und Adhkar:</strong> Organisierte Sammlung aus Koran und Sunna (Morgen, Abend und Gebet).</li>
 <li><strong>Der edle Koran:</strong> Der Korantext in Uthmani-Schrift stammt vom <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Tanzil-Projekt</a>, Version 1.1, und wird unverändert so dargestellt, wie er in der Quelle vorliegt — gemäß der Lizenz und den Nutzungsbedingungen von Tanzil.</li>
 <li><strong>Digitaler Tasbih:</strong> Zähler, der Ihren Fortschritt speichert und tägliche Ziele unterstützt.</li>
@@ -6384,7 +6424,7 @@ const LEGAL_PAGES = {
 <li><strong>Stadtseiten:</strong> Tausende von Seiten für Städte weltweit, jede mit geografischen Informationen und präzisen Zeiten.</li>
 </ul>
 <h2>Wie berechnen wir die Gebetszeiten?</h2>
-<p>Wir verwenden international anerkannte astronomische Algorithmen und unterstützen die wichtigsten Berechnungsschulen:</p>
+<p>Wir verwenden bekannte, veröffentlichte astronomische Gleichungen und unterstützen die Berechnungsmethoden einer Reihe von Institutionen:</p>
 <ul>
 <li>Islamische Gesellschaft Nordamerikas (ISNA)</li>
 <li>Muslimische Weltliga (MWL)</li>
@@ -6397,33 +6437,33 @@ const LEGAL_PAGES = {
 <h2>Das Team</h2>
 <p>Die Seite ist ein ehrenamtliches Projekt, das von Muslimen geleitet wird, die ihre Umma lieben und ihr mit den besten Technologien dienen möchten. Wir begrüßen Entwickler, Designer und Übersetzer — kontaktieren Sie uns über die <a href="/de/contact">Kontaktseite</a>.</p>
 <h2>Wie wird die Seite finanziert?</h2>
-<p>Die Seite ist vollständig kostenlos. Wir stützen uns auf die Einnahmen von Google AdSense (geplant), um Server- und Entwicklungskosten zu decken. Wir werden keine aufdringliche Werbung oder Inhalte anzeigen, die im Widerspruch zu unseren islamischen Werten stehen.</p>`,
+<p>Die Nutzung der Website ist kostenlos. Derzeit zeigt die Seite keinerlei Werbung an. Künftig planen wir, auf die Einnahmen aus Google AdSense zu setzen, um Server- und Entwicklungskosten zu decken. Dabei möchten wir das Werbeerlebnis angemessen und nicht aufdringlich halten und die uns als Publisher zur Verfügung stehenden Steuerungsmöglichkeiten nutzen.</p>`,
         id: `<h1>Tentang Jadwal Sholat</h1>
-<p><strong>Jadwal Sholat</strong> adalah proyek Islami gratis yang bertujuan menyediakan perangkat Islami harian yang andal dan akurat untuk setiap Muslim di seluruh dunia — di kota mana pun, dalam bahasa apa pun, dan di perangkat apa pun.</p>
+<p><strong>Jadwal Sholat</strong> adalah proyek Islami gratis yang bertujuan menyediakan alat-alat Islami harian yang andal dan akurat bagi umat Muslim di seluruh dunia, di berbagai kota, dalam bahasa-bahasa yang didukung, dan pada beragam perangkat.</p>
 <h2>Misi Kami</h2>
 <p>Kami percaya bahwa perangkat keagamaan harian haruslah:</p>
 <ul>
 <li><strong>Gratis:</strong> Islam untuk semua, dan alat-alatnya tidak boleh disembunyikan di balik langganan.</li>
-<li><strong>Akurat:</strong> Kami mengandalkan persamaan astronomi terbaru dan sumber-sumber keagamaan yang andal.</li>
-<li><strong>Cepat dan ringan:</strong> Situs bekerja pada koneksi paling lambat dan perangkat paling tua.</li>
-<li><strong>Menghormati privasi:</strong> Tidak diperlukan pendaftaran, dan kami tidak menyimpan data Anda di server kami.</li>
+<li><strong>Akurat:</strong> Kami mengandalkan persamaan astronomi yang dikenal luas dan telah dipublikasikan serta sumber-sumber keagamaan yang andal.</li>
+<li><strong>Cepat dan ringan:</strong> Situs dirancang agar cepat dan ringan serta bekerja secara efisien pada beragam perangkat dan kecepatan koneksi.</li>
+<li><strong>Menghormati privasi:</strong> Tidak diperlukan pendaftaran, dan kami berupaya meminimalkan data yang diproses. Preferensi yang dikelola situs disimpan secara lokal di perangkat Anda sejauh hal itu berlaku, sementara infrastruktur pendukung dapat memproses informasi operasional terbatas yang diperlukan untuk menyediakan dan mengamankan layanan.</li>
 </ul>
 <h2>Fitur Utama</h2>
 <ul>
-<li><strong>Jadwal Sholat:</strong> Subuh, Zuhur, Asar, Magrib, Isya — untuk setiap kota di dunia, dengan jadwal mingguan dan pengingat sebelum setiap sholat.</li>
+<li><strong>Jadwal Sholat:</strong> Subuh, Zuhur, Asar, Magrib, Isya — untuk kota-kota di seluruh dunia, dengan jadwal mingguan dan pengingat sebelum setiap sholat.</li>
 <li><strong>Arah Kiblat:</strong> Kompas interaktif dan peta yang menunjukkan arah Kakbah secara akurat dari lokasi Anda.</li>
 <li><strong>Kalender Hijriyah:</strong> Kalender lengkap dari tahun 1 H hingga 1500 H serta konverter Hijriyah-Masehi.</li>
-<li><strong>Doa dan Dzikir:</strong> Koleksi tersusun dari Al-Qur'an dan Sunnah (pagi, sore, dan salat).</li>
+<li><strong>Doa dan Dzikir:</strong> Koleksi tersusun dari Al-Qur'an dan Sunnah (pagi, sore, dan setelah salat).</li>
 <li><strong>Al-Qur'an:</strong> Teks Al-Qur'an dengan rasm Utsmani dari <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Proyek Tanzil</a>, versi 1.1, ditampilkan persis seperti pada sumbernya tanpa perubahan, sesuai lisensi dan ketentuan penggunaan Tanzil.</li>
 <li><strong>Tasbih Digital:</strong> Penghitung yang menyimpan kemajuan Anda dan mendukung target harian.</li>
 <li><strong>Kalkulator Zakat:</strong> Mencakup tunai, emas, perak, saham, dan investasi.</li>
 <li><strong>Halaman kota:</strong> Ribuan halaman untuk kota-kota di seluruh dunia, masing-masing dengan informasi geografis dan waktu yang akurat.</li>
 </ul>
 <h2>Bagaimana Kami Menghitung Jadwal Sholat?</h2>
-<p>Kami menggunakan algoritma astronomi yang diakui secara internasional dengan dukungan untuk mazhab perhitungan utama:</p>
+<p>Kami menggunakan persamaan astronomi yang dikenal luas dan telah dipublikasikan, serta mendukung metode perhitungan yang digunakan oleh sejumlah lembaga:</p>
 <ul>
 <li>Islamic Society of North America (ISNA)</li>
-<li>Liga Dunia Muslim (MWL)</li>
+<li>Liga Muslim Dunia (MWL)</li>
 <li>Otoritas Umum Mesir untuk Survei</li>
 <li>Umm al-Qura — Arab Saudi</li>
 <li>Universitas Ilmu Islam, Karachi</li>
@@ -6433,30 +6473,30 @@ const LEGAL_PAGES = {
 <h2>Tim</h2>
 <p>Situs ini adalah proyek sukarela yang dijalankan oleh Muslim yang mencintai umat mereka dan bertujuan melayani dengan teknologi terbaik. Kami menyambut pengembang, desainer, dan penerjemah — hubungi kami melalui <a href="/id/contact">halaman kontak</a>.</p>
 <h2>Bagaimana Situs Ini Didanai?</h2>
-<p>Situs ini sepenuhnya gratis. Kami mengandalkan pendapatan Google AdSense (direncanakan) untuk menutupi biaya server dan pengembangan. Kami tidak akan menampilkan iklan yang mengganggu atau konten apa pun yang bertentangan dengan nilai-nilai Islam kami.</p>`,
+<p>Situs ini gratis untuk digunakan. Saat ini situs tidak menampilkan iklan apa pun. Ke depan, kami berencana mengandalkan pendapatan Google AdSense untuk menutupi biaya server dan pengembangan, dan kami berupaya menjaga pengalaman iklan tetap pantas serta tidak mengganggu, dengan memanfaatkan kontrol yang tersedia bagi penerbit.</p>`,
         es: `<h1>Sobre Horarios de Oración</h1>
-<p><strong>Horarios de Oración</strong> es un proyecto islámico gratuito cuyo objetivo es ofrecer herramientas islámicas diarias fiables y precisas a todo musulmán del mundo — en cualquier ciudad, en cualquier idioma y en cualquier dispositivo.</p>
+<p><strong>Horarios de Oración</strong> es un proyecto islámico gratuito cuyo objetivo es ofrecer herramientas islámicas diarias fiables y precisas a los musulmanes de todo el mundo, en múltiples ciudades, en los idiomas disponibles y en distintos dispositivos.</p>
 <h2>Nuestra Misión</h2>
 <p>Creemos que las herramientas religiosas diarias deben ser:</p>
 <ul>
 <li><strong>Gratuitas:</strong> el Islam es para todos, y sus herramientas no deben quedar ocultas tras una suscripción.</li>
-<li><strong>Precisas:</strong> nos apoyamos en las ecuaciones astronómicas más actualizadas y en fuentes religiosas fiables.</li>
-<li><strong>Rápidas y ligeras:</strong> el sitio funciona con las conexiones más lentas y los dispositivos más antiguos.</li>
-<li><strong>Respetuosas con la privacidad:</strong> no requiere registro y no almacenamos tus datos en nuestros servidores.</li>
+<li><strong>Precisas:</strong> nos apoyamos en ecuaciones astronómicas conocidas y publicadas, y en fuentes religiosas fiables.</li>
+<li><strong>Rápidas y ligeras:</strong> el sitio está diseñado para ser rápido y ligero y para funcionar con eficacia en una amplia variedad de dispositivos y velocidades de conexión.</li>
+<li><strong>Respetuosas con la privacidad:</strong> no se requiere registro y procuramos minimizar los datos tratados. Las preferencias que gestiona el sitio se guardan localmente en tu dispositivo cuando corresponde, mientras que la infraestructura que lo sustenta puede tratar información operativa limitada, necesaria para prestar y proteger el servicio.</li>
 </ul>
 <h2>Características Principales</h2>
 <ul>
-<li><strong>Horarios de oración:</strong> Fajr, Dhuhr, Asr, Magrib, Isha — para cada ciudad del mundo, con programa semanal y recordatorios antes de cada oración.</li>
+<li><strong>Horarios de oración:</strong> Fajr, Dhuhr, Asr, Magrib, Isha — para ciudades de todo el mundo, con programa semanal y recordatorios antes de cada oración.</li>
 <li><strong>Dirección de la Qibla:</strong> brújula interactiva y mapa que muestran la dirección de la Kaaba con precisión desde tu ubicación.</li>
 <li><strong>Calendario Hégira:</strong> calendario completo desde el año 1 AH hasta el 1500 AH, con conversor Hégira ↔ Gregoriano.</li>
-<li><strong>Duas y dhikr:</strong> colección organizada tomada del Corán y la Sunnah (mañana, tarde y oración).</li>
-<li><strong>El Sagrado Corán:</strong> el texto coránico en grafía uzmaní procedente del <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">proyecto Tanzil</a>, versión 1.1, mostrado tal cual aparece en la fuente y sin modificaciones, conforme a la licencia y las condiciones de uso de Tanzil.</li>
+<li><strong>Duas y dhikr:</strong> colección organizada tomada del Corán y la Sunnah (de la mañana, de la tarde y de después de la oración).</li>
+<li><strong>El Sagrado Corán:</strong> el texto coránico en rasm Uthmani procedente del <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">proyecto Tanzil</a>, versión 1.1, mostrado tal cual aparece en la fuente y sin modificaciones, conforme a la licencia y las condiciones de uso de Tanzil.</li>
 <li><strong>Tasbih digital:</strong> contador que guarda tu progreso y admite objetivos diarios.</li>
 <li><strong>Calculadora de Zakat:</strong> incluye efectivo, oro, plata, acciones e inversiones.</li>
 <li><strong>Páginas de ciudades:</strong> miles de páginas para ciudades de todo el mundo, cada una con información geográfica y horarios precisos.</li>
 </ul>
 <h2>¿Cómo Calculamos los Horarios de Oración?</h2>
-<p>Utilizamos algoritmos astronómicos reconocidos internacionalmente, compatibles con las principales escuelas de cálculo:</p>
+<p>Utilizamos ecuaciones astronómicas conocidas y publicadas, y admitimos los métodos de cálculo empleados por diversas instituciones:</p>
 <ul>
 <li>Islamic Society of North America (ISNA)</li>
 <li>Liga Mundial Musulmana (MWL)</li>
@@ -6469,20 +6509,20 @@ const LEGAL_PAGES = {
 <h2>El Equipo</h2>
 <p>El sitio es un proyecto voluntario dirigido por musulmanes que aman a su Ummah y buscan servirla con la mejor tecnología. Damos la bienvenida a desarrolladores, diseñadores y traductores — contáctanos a través de nuestra <a href="/es/contact">página de Contacto</a>.</p>
 <h2>¿Cómo se Financia el Sitio?</h2>
-<p>El sitio es totalmente gratuito. Dependemos de los ingresos de Google AdSense (previsto) para cubrir los costes de servidor y desarrollo. Nunca mostraremos anuncios intrusivos ni contenidos contrarios a nuestros valores islámicos.</p>`,
+<p>El uso del sitio es gratuito. Actualmente no mostramos ningún anuncio. En el futuro prevemos apoyarnos en los ingresos de Google AdSense para cubrir los costes de servidor y desarrollo, y procuramos mantener una experiencia publicitaria adecuada y no intrusiva, aprovechando los controles disponibles para los editores.</p>`,
         bn: `<h1>নামাজের সময়সূচী সম্পর্কে</h1>
-<p><strong>নামাজের সময়সূচী</strong> একটি বিনামূল্যে ইসলামি প্রকল্প যার লক্ষ্য বিশ্বের প্রতিটি মুসলিমের জন্য — যে কোনো শহরে, যে কোনো ভাষায় এবং যে কোনো ডিভাইসে — নির্ভরযোগ্য ও সঠিক দৈনিক ইসলামি সরঞ্জাম প্রদান করা।</p>
+<p><strong>নামাজের সময়সূচী</strong> একটি বিনামূল্যে ইসলামি প্রকল্প যার লক্ষ্য বিশ্বজুড়ে মুসলিমদের জন্য — বিভিন্ন শহরে, সমর্থিত ভাষাগুলোতে এবং বিভিন্ন ডিভাইসে — নির্ভরযোগ্য ও সঠিক দৈনিক ইসলামি সরঞ্জাম প্রদান করা।</p>
 <h2>আমাদের লক্ষ্য</h2>
 <p>আমরা বিশ্বাস করি দৈনিক ধর্মীয় সরঞ্জামগুলো হওয়া উচিত:</p>
 <ul>
 <li><strong>বিনামূল্যে:</strong> ইসলাম সবার জন্য, এবং এর সরঞ্জামগুলো সাবস্ক্রিপশনের পিছনে লুকানো উচিত নয়।</li>
-<li><strong>নির্ভুল:</strong> আমরা সর্বশেষ জ্যোতির্বিদ্যার সমীকরণ এবং নির্ভরযোগ্য ধর্মীয় উৎসের উপর নির্ভর করি।</li>
-<li><strong>দ্রুত ও হালকা:</strong> সাইটটি সবচেয়ে ধীর সংযোগ ও পুরানো ডিভাইসেও কাজ করে।</li>
-<li><strong>গোপনীয়তার প্রতি শ্রদ্ধাশীল:</strong> কোনো নিবন্ধন প্রয়োজন নেই, এবং আমরা আমাদের সার্ভারে আপনার ডেটা সংরক্ষণ করি না।</li>
+<li><strong>নির্ভুল:</strong> আমরা সুপরিচিত ও প্রকাশিত জ্যোতির্বিদ্যার সমীকরণ এবং নির্ভরযোগ্য ধর্মীয় উৎসের উপর নির্ভর করি।</li>
+<li><strong>দ্রুত ও হালকা:</strong> সাইটটি দ্রুত ও হালকা করে তৈরি করা হয়েছে এবং বিস্তৃত পরিসরের ডিভাইস ও সংযোগ গতিতে দক্ষতার সঙ্গে কাজ করে।</li>
+<li><strong>গোপনীয়তার প্রতি শ্রদ্ধাশীল:</strong> কোনো অ্যাকাউন্ট তৈরির প্রয়োজন নেই, এবং প্রক্রিয়াকৃত তথ্যের পরিমাণ যতটা সম্ভব কম রাখাই আমাদের লক্ষ্য। সাইট-পরিচালিত পছন্দগুলো, যেখানে প্রযোজ্য, আপনার ডিভাইসেই স্থানীয়ভাবে সংরক্ষিত হয়; পাশাপাশি সেবাটি প্রদান ও সুরক্ষিত রাখতে প্রয়োজনীয় সীমিত পরিচালনাগত তথ্য সহায়ক কারিগরি অবকাঠামো প্রক্রিয়া করতে পারে।</li>
 </ul>
 <h2>প্রধান বৈশিষ্ট্যসমূহ</h2>
 <ul>
-<li><strong>নামাজের সময়:</strong> ফজর, জোহর, আসর, মাগরিব, এশা — বিশ্বের প্রতিটি শহরের জন্য, সাপ্তাহিক সময়সূচী এবং প্রতিটি নামাজের আগে রিমাইন্ডার সহ।</li>
+<li><strong>নামাজের সময়:</strong> ফজর, জোহর, আসর, মাগরিব, এশা — বিশ্বজুড়ে বিভিন্ন শহরের জন্য, সাপ্তাহিক সময়সূচী এবং প্রতিটি নামাজের আগে রিমাইন্ডার সহ।</li>
 <li><strong>কিবলার দিক:</strong> ইন্টারঅ্যাকটিভ কম্পাস ও মানচিত্র যা আপনার অবস্থান থেকে কাবার দিক সঠিকভাবে দেখায়।</li>
 <li><strong>হিজরি ক্যালেন্ডার:</strong> ১ হিজরি থেকে ১৫০০ হিজরি পর্যন্ত সম্পূর্ণ ক্যালেন্ডার এবং হিজরি ↔ খ্রিস্টীয় রূপান্তরকারী।</li>
 <li><strong>দোয়া ও জিকির:</strong> কুরআন ও সুন্নাহ থেকে সুসংগঠিত সংগ্রহ (সকাল, সন্ধ্যা ও নামাজের জিকির)।</li>
@@ -6492,7 +6532,7 @@ const LEGAL_PAGES = {
 <li><strong>শহরের পৃষ্ঠা:</strong> বিশ্বের বিভিন্ন শহরের জন্য হাজার হাজার পৃষ্ঠা, প্রতিটির সঙ্গে ভৌগোলিক তথ্য ও সঠিক সময়।</li>
 </ul>
 <h2>আমরা কীভাবে নামাজের সময় গণনা করি?</h2>
-<p>আমরা প্রধান গণনা পদ্ধতিগুলোর সমর্থন সহ আন্তর্জাতিকভাবে স্বীকৃত জ্যোতির্বিদ্যার অ্যালগরিদম ব্যবহার করি:</p>
+<p>আমরা সুপরিচিত ও প্রকাশিত জ্যোতির্বিদ্যার সমীকরণ ব্যবহার করি, এবং বেশ কয়েকটি প্রতিষ্ঠানের অনুসৃত গণনা পদ্ধতি সমর্থন করি:</p>
 <ul>
 <li>Islamic Society of North America (ISNA)</li>
 <li>বিশ্ব মুসলিম লিগ (MWL)</li>
@@ -6503,32 +6543,32 @@ const LEGAL_PAGES = {
 <h2>সমর্থিত ভাষা</h2>
 <p>সাইটটি বর্তমানে দশটি ভাষায় উপলব্ধ: আরবি, ইংরেজি, ফরাসি, তুর্কি, উর্দু, জার্মান, স্প্যানিশ, ইন্দোনেশীয়, বাংলা ও মালয়।</p>
 <h2>দল</h2>
-<p>এই সাইটটি একটি স্বেচ্ছাসেবী প্রকল্প যা তাদের উম্মাহকে ভালোবাসেন এবং সেরা প্রযুক্তি দিয়ে সেবা করতে চান এমন মুসলিমদের দ্বারা পরিচালিত। আমরা ডেভেলপার, ডিজাইনার ও অনুবাদকদের স্বাগত জানাই — আমাদের <a href="/bn/contact">যোগাযোগ পৃষ্ঠা</a>-র মাধ্যমে যোগাযোগ করুন।</p>
+<p>এই সাইটটি একটি স্বেচ্ছাসেবী প্রকল্প, যা নিজেদের উম্মাহকে ভালোবাসেন এবং সেরা প্রযুক্তি দিয়ে তার সেবা করতে চান এমন মুসলিমদের দ্বারা পরিচালিত হয়। আমরা ডেভেলপার, ডিজাইনার ও অনুবাদকদের স্বাগত জানাই — আমাদের <a href="/bn/contact">যোগাযোগ পৃষ্ঠা</a>-র মাধ্যমে যোগাযোগ করুন।</p>
 <h2>এই সাইটটি কীভাবে অর্থায়িত হয়?</h2>
-<p>সাইটটি সম্পূর্ণ বিনামূল্যে। সার্ভার ও উন্নয়ন খরচ বহনের জন্য আমরা Google AdSense আয়ের (পরিকল্পিত) উপর নির্ভর করি। আমরা কখনও বিঘ্নকারী বিজ্ঞাপন বা আমাদের ইসলামি মূল্যবোধের বিরুদ্ধে যায় এমন কোনো কন্টেন্ট দেখাব না।</p>`,
+<p>সাইটটির ব্যবহার সম্পূর্ণ বিনামূল্যে। বর্তমানে সাইটে কোনো বিজ্ঞাপন দেখানো হয় না। ভবিষ্যতে সার্ভার ও উন্নয়ন খরচ বহনের জন্য আমরা Google AdSense-এর আয়ের উপর নির্ভর করার পরিকল্পনা করছি, এবং বিজ্ঞাপনের অভিজ্ঞতা যথাযথ ও বিঘ্নহীন রাখতে ও প্রকাশকদের জন্য উপলব্ধ নিয়ন্ত্রণ সরঞ্জামগুলো কাজে লাগাতে আমরা সচেষ্ট।</p>`,
         ms: `<h1>Tentang Waktu Solat</h1>
-<p><strong>Waktu Solat</strong> ialah projek Islam percuma yang bertujuan menyediakan alat Islam harian yang boleh dipercayai dan tepat untuk setiap Muslim di seluruh dunia — di mana-mana bandar, dalam apa-apa bahasa dan pada apa-apa peranti.</p>
+<p><strong>Waktu Solat</strong> ialah projek Islam percuma yang bertujuan menyediakan alat Islam harian yang boleh dipercayai dan tepat untuk umat Islam di seluruh dunia, merangkumi pelbagai bandar, dalam bahasa yang disokong dan pada pelbagai peranti.</p>
 <h2>Misi Kami</h2>
 <p>Kami percaya alat keagamaan harian mestilah:</p>
 <ul>
 <li><strong>Percuma:</strong> Islam untuk semua, dan alatnya tidak sepatutnya tersembunyi di sebalik langganan.</li>
-<li><strong>Tepat:</strong> kami bergantung pada persamaan astronomi terkini dan sumber keagamaan yang boleh dipercayai.</li>
-<li><strong>Pantas dan ringan:</strong> laman ini berfungsi pada sambungan paling perlahan dan peranti paling lama.</li>
-<li><strong>Menghormati privasi:</strong> tiada pendaftaran diperlukan, dan kami tidak menyimpan data anda di pelayan kami.</li>
+<li><strong>Tepat:</strong> kami bergantung pada persamaan astronomi yang terkenal dan telah diterbitkan serta sumber keagamaan yang boleh dipercayai.</li>
+<li><strong>Pantas dan ringan:</strong> laman ini direka supaya pantas dan ringan serta berfungsi dengan cekap pada pelbagai jenis peranti dan kelajuan sambungan.</li>
+<li><strong>Menghormati privasi:</strong> tiada pendaftaran akaun diperlukan, dan kami berusaha meminimumkan data yang diproses. Keutamaan yang diuruskan oleh laman ini disimpan secara tempatan pada peranti anda jika berkenaan, manakala infrastruktur sokongan mungkin memproses maklumat operasi yang terhad bagi menyediakan perkhidmatan dan menjaga keselamatannya.</li>
 </ul>
 <h2>Ciri-ciri Utama</h2>
 <ul>
-<li><strong>Waktu Solat:</strong> Subuh, Zohor, Asar, Maghrib, Isyak — untuk setiap bandar di dunia, dengan jadual mingguan dan peringatan sebelum setiap solat.</li>
+<li><strong>Waktu Solat:</strong> Subuh, Zohor, Asar, Maghrib, Isyak — untuk bandar di seluruh dunia, dengan jadual mingguan dan peringatan sebelum setiap solat.</li>
 <li><strong>Arah Kiblat:</strong> kompas interaktif dan peta yang menunjukkan arah Kaabah dengan tepat dari lokasi anda.</li>
 <li><strong>Kalendar Hijrah:</strong> kalendar penuh dari tahun 1 H hingga 1500 H serta penukar Hijrah ↔ Masihi.</li>
-<li><strong>Doa dan zikir:</strong> koleksi tersusun dari Al-Quran dan Sunnah (pagi, petang dan solat).</li>
+<li><strong>Doa dan zikir:</strong> koleksi tersusun dari Al-Quran dan Sunnah (pagi, petang dan selepas solat).</li>
 <li><strong>Al-Quran:</strong> Teks Al-Quran dalam rasm Uthmani daripada <a href="https://tanzil.net/" rel="noopener noreferrer" target="_blank">Projek Tanzil</a>, versi 1.1, dipaparkan sepertimana dalam sumbernya tanpa sebarang perubahan, menurut lesen dan syarat penggunaan Tanzil.</li>
 <li><strong>Tasbih Digital:</strong> kaunter yang menyimpan kemajuan anda dan menyokong sasaran harian.</li>
 <li><strong>Kalkulator Zakat:</strong> merangkumi tunai, emas, perak, saham dan pelaburan.</li>
 <li><strong>Halaman bandar:</strong> beribu-ribu halaman untuk bandar di seluruh dunia, setiap satu dengan maklumat geografi dan waktu yang tepat.</li>
 </ul>
 <h2>Bagaimana Kami Mengira Waktu Solat?</h2>
-<p>Kami menggunakan algoritma astronomi yang diiktiraf di peringkat antarabangsa dengan sokongan untuk mazhab pengiraan utama:</p>
+<p>Kami menggunakan persamaan astronomi yang terkenal dan telah diterbitkan, di samping menyokong kaedah pengiraan yang diguna pakai oleh beberapa badan:</p>
 <ul>
 <li>Islamic Society of North America (ISNA)</li>
 <li>Liga Dunia Muslim (MWL)</li>
@@ -6541,7 +6581,7 @@ const LEGAL_PAGES = {
 <h2>Pasukan</h2>
 <p>Laman ini ialah projek sukarela yang dikendalikan oleh umat Islam yang mencintai umat mereka dan berhasrat untuk berkhidmat dengan teknologi terbaik. Kami mengalu-alukan pembangun, pereka bentuk dan penterjemah — hubungi kami melalui <a href="/ms/contact">halaman hubungi</a>.</p>
 <h2>Bagaimana Laman Ini Dibiayai?</h2>
-<p>Laman ini percuma sepenuhnya. Kami bergantung pada hasil Google AdSense (dirancang) untuk menampung kos pelayan dan pembangunan. Kami tidak akan memaparkan iklan yang mengganggu atau sebarang kandungan yang bertentangan dengan nilai Islam kami.</p>`
+<p>Laman ini percuma untuk digunakan. Buat masa ini, laman ini tidak memaparkan sebarang iklan. Pada masa hadapan, kami merancang untuk bergantung pada hasil iklan Google AdSense bagi menampung kos pelayan dan pembangunan, dan kami berusaha memastikan pengalaman pengiklanan kekal sesuai serta tidak mengganggu, di samping menggunakan kawalan yang tersedia untuk penerbit.</p>`
     }
 };
 

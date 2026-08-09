@@ -4931,6 +4931,39 @@ const _preloadPaths = [
 // Header navbar / routing / SEO / page content are untouched. Existing SSR passes
 // (lang-prefix, city-context href rewrite) still operate on the injected markup.
 // ════════════════════════════════════════════════════════════════════════════
+
+// ============================================================
+// TRUST-PAGES-SITEWIDE-HEADER-FOOTER-PARITY-1 (2026-08-09)
+// Single source of truth for the sitewide top-header + site-footer.
+// Both blocks are lifted VERBATIM from index.html, which was and remains the
+// reference chrome for the whole site. index.html and legal.html now carry only
+// the <!--SHARED-HEADER--> / <!--SHARED-FOOTER--> placeholders, so a future edit
+// here reaches the trust pages automatically.
+// Only .location-info differs per variant (page identity, exactly like the SPA's
+// city name); every action control is byte-identical across variants.
+// countries.html / prayer-times-cities.html are deliberately NOT wired here —
+// unifying all four templates is a separate follow-up ticket.
+// ============================================================
+const _CHROME_TEMPLATES = new Set(['index.html', 'legal.html']);
+
+// the 2 header <symbol>s the non-SPA templates lack. i-moon already ships in
+// _SIDENAV_SPRITE, so re-emitting it would create a duplicate id.
+const _SITE_HEADER_SPRITE = '<svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">'
+    + '<symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></symbol>'
+    + '<symbol id="i-home" viewBox="0 0 24 24"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></symbol>'
+    + '</svg>';
+
+const _SITE_HEADER_SPA   = "<div class=\"top-header\">\r\n                <div class=\"location-info\">\r\n                    <svg class=\"icon icon\" aria-hidden=\"true\"><use href=\"#i-map-pin\"/></svg>\r\n                    <div>\r\n                        <div class=\"city-name\" id=\"city-name\" data-i18n=\"header.locating\">جاري تحديد الموقع...</div>\r\n                        <div class=\"country\" id=\"country-name\"></div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"header-actions\">\r\n                    <button class=\"theme-toggle-btn\" type=\"button\" onclick=\"toggleTheme()\" title=\"تبديل الوضع الداكن/الفاتح\" data-i18n-title=\"header.theme_toggle\" aria-label=\"تبديل الوضع الداكن/الفاتح\" data-i18n-aria-label=\"header.theme_toggle\">\r\n                        <svg class=\"icon ttb-icon ttb-icon-moon\" aria-hidden=\"true\"><use href=\"#i-moon\"/></svg>\r\n                        <span class=\"ttb-icon ttb-icon-sun\" aria-hidden=\"true\">☀️</span>\r\n                    </button>\r\n                    <div class=\"lang-switcher\">\r\n                        <button class=\"lang-switcher-btn\" type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" onclick=\"toggleLangMenu(this)\">\r\n                            <img class=\"lang-flag\" src=\"https://flagcdn.com/w40/sa.png\" alt=\"Saudi Arabia flag\" aria-hidden=\"true\" width=\"20\" height=\"15\" loading=\"lazy\" decoding=\"async\">\r\n                            <span class=\"lang-code\">AR</span>\r\n                            <span class=\"lang-caret\" aria-hidden=\"true\">▾</span>\r\n                            <span class=\"visually-hidden\" data-i18n=\"header.change_language\">تغيير اللغة</span>\r\n                        </button>\r\n                        <div class=\"lang-menu\" role=\"menu\"></div>\r\n                    </div>\r\n                    <button class=\"btn btn-outline\" onclick=\"goHome()\" title=\"الصفحة الرئيسية\" data-i18n-title=\"header.home_title\"><svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-home\"/></svg> <span class=\"btn-text\" data-i18n=\"header.home\">الرئيسية</span></button>\r\n                </div>\r\n            </div>";
+const _SITE_HEADER_LEGAL = "<div class=\"top-header\">\r\n                <div class=\"location-info\">\r\n                    <svg class=\"icon icon\" aria-hidden=\"true\"><use href=\"#i-map-pin\"/></svg>\r\n                    <div>\r\n                        <div class=\"city-name\" data-i18n=\"legal.header_label\">معلومات قانونية</div>\r\n                        <div class=\"country\" id=\"legal-page-name\"></div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"header-actions\">\r\n                    <button class=\"theme-toggle-btn\" type=\"button\" onclick=\"toggleTheme()\" title=\"تبديل الوضع الداكن/الفاتح\" data-i18n-title=\"header.theme_toggle\" aria-label=\"تبديل الوضع الداكن/الفاتح\" data-i18n-aria-label=\"header.theme_toggle\">\r\n                        <svg class=\"icon ttb-icon ttb-icon-moon\" aria-hidden=\"true\"><use href=\"#i-moon\"/></svg>\r\n                        <span class=\"ttb-icon ttb-icon-sun\" aria-hidden=\"true\">☀️</span>\r\n                    </button>\r\n                    <div class=\"lang-switcher\">\r\n                        <button class=\"lang-switcher-btn\" type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" onclick=\"toggleLangMenu(this)\">\r\n                            <img class=\"lang-flag\" src=\"https://flagcdn.com/w40/sa.png\" alt=\"Saudi Arabia flag\" aria-hidden=\"true\" width=\"20\" height=\"15\" loading=\"lazy\" decoding=\"async\">\r\n                            <span class=\"lang-code\">AR</span>\r\n                            <span class=\"lang-caret\" aria-hidden=\"true\">▾</span>\r\n                            <span class=\"visually-hidden\" data-i18n=\"header.change_language\">تغيير اللغة</span>\r\n                        </button>\r\n                        <div class=\"lang-menu\" role=\"menu\"></div>\r\n                    </div>\r\n                    <button class=\"btn btn-outline\" onclick=\"goHome()\" title=\"الصفحة الرئيسية\" data-i18n-title=\"header.home_title\"><svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-home\"/></svg> <span class=\"btn-text\" data-i18n=\"header.home\">الرئيسية</span></button>\r\n                </div>\r\n            </div>";
+const _SITE_FOOTER_HTML  = "<footer class=\"footer site-footer\">\r\n                <div class=\"footer-links\">\r\n                    <a href=\"{LANG_PREFIX}/about-us\" data-i18n=\"footer.about\">عن الموقع</a>\r\n                    <a href=\"{LANG_PREFIX}/contact\" data-i18n=\"footer.contact\">اتصل بنا</a>\r\n                    <a href=\"{LANG_PREFIX}/privacy\" data-i18n=\"footer.privacy\">سياسة الخصوصية</a>\r\n                    <a href=\"{LANG_PREFIX}/terms\" data-i18n=\"footer.terms\">شروط الاستخدام</a>\r\n                    <a href=\"#\" onclick=\"event.preventDefault();if(window.openCookieSettings)window.openCookieSettings();\" data-i18n=\"footer.cookie_settings\">إعدادات ملفات الارتباط</a>\r\n                </div>\r\n                <p class=\"footer-copy\"><span data-i18n=\"app.title\">مواقيت الصلاة</span> © <span id=\"footer-year\"></span> - <span data-i18n=\"footer.rights\">جميع الحقوق محفوظة</span></p>\r\n                <p class=\"footer-note\" data-i18n=\"footer.note\">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>\r\n            </footer>";
+
+function _renderSiteHeader({ spa = false } = {}) {
+    return spa ? _SITE_HEADER_SPA : (_SITE_HEADER_SPRITE + _SITE_HEADER_LEGAL);
+}
+function _renderSiteFooter() {
+    return _SITE_FOOTER_HTML;
+}
+
 const _SIDENAV_TEMPLATES = new Set(['index.html', 'legal.html', 'prayer-times-cities.html', 'countries.html']);
 const _SIDENAV_GROUPS = [
     { gi18n: 'nav.group_islamic', gtext: 'الخدمات الإسلامية', gicon: 'i-mosque', items: [
@@ -5034,6 +5067,19 @@ async function _preloadStatic() {
                     // placeholder. index.html = SPA variant (no extra sprite; it already
                     // ships the full one); the 3 static templates = plain-href variant +
                     // a mini-sprite for the 11 sidebar icons.
+                    // TRUST-PAGES-SITEWIDE-HEADER-FOOTER-PARITY-1: fill the shared
+                    // header/footer placeholders from the single source above.
+                    if (_CHROME_TEMPLATES.has(rel)) {
+                        let _src4 = data.toString('utf8');
+                        const _isSpaC = (rel === 'index.html');
+                        if (_src4.includes('<!--SHARED-HEADER-->')) {
+                            _src4 = _src4.replace('<!--SHARED-HEADER-->', _renderSiteHeader({ spa: _isSpaC }));
+                        }
+                        if (_src4.includes('<!--SHARED-FOOTER-->')) {
+                            _src4 = _src4.replace('<!--SHARED-FOOTER-->', _renderSiteFooter());
+                        }
+                        data = Buffer.from(_src4, 'utf8');
+                    }
                     if (_SIDENAV_TEMPLATES.has(rel)) {
                         const _src2 = data.toString('utf8');
                         if (_src2.includes('<!--SHARED-SIDEBAR-->')) {

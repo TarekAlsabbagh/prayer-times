@@ -71,61 +71,18 @@
 
         <!-- ========= المحتوى الرئيسي ========= -->
         <main class="main-content">
-            <div class="top-header">
-                <div class="location-info">
-                    <span class="icon">📄</span>
-                    <div>
-                        <div class="city-name" data-i18n="legal.header_label">معلومات قانونية</div>
-                        <div class="country" id="legal-page-name"></div>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button class="theme-toggle-btn" type="button" onclick="toggleTheme()" title="تبديل الوضع الداكن/الفاتح" data-i18n-title="header.theme_toggle" aria-label="تبديل الوضع الداكن/الفاتح" data-i18n-aria-label="header.theme_toggle">
-                        <span class="ttb-icon ttb-icon-moon" aria-hidden="true">🌙</span>
-                        <span class="ttb-icon ttb-icon-sun" aria-hidden="true">☀️</span>
-                    </button>
-                    <div class="lang-switcher">
-                        <button class="lang-switcher-btn" type="button" aria-label="Change language" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu(this)">
-                            <img class="lang-flag" src="https://flagcdn.com/w40/sa.png" alt="AR" width="20" height="15">
-                            <span class="lang-code">AR</span>
-                            <span class="lang-caret">▾</span>
-                        </button>
-                        <div class="lang-menu" role="menu"></div>
-                    </div>
-                    <div class="city-search-wrapper">
-                        <input type="text" id="city-search-input" class="city-search-input"
-                            placeholder="🔍 ابحث عن مدينة أو موقع..."
-                            data-i18n-placeholder="header.search_placeholder"
-                            autocomplete="off"
-                            oninput="onCitySearchInput(this.value)"
-                            onkeydown="onSearchKeyDown(event)">
-                        <div class="city-search-suggestions" id="city-suggestions"></div>
-                    </div>
-                    <button class="btn btn-outline" onclick="detectLocation()" title="تحديد موقعي تلقائياً" data-i18n-title="header.detect_title">📍 <span class="btn-text" data-i18n="header.my_location">موقعي</span></button>
-                    <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title">🏠 <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
-                </div>
-            </div>
+            <!--SHARED-HEADER-->
 
             <article class="legal-wrap">
                 {{LEGAL_CONTENT}}
             </article>
 
-            <!-- Footer with legal links -->
-            <footer class="site-footer">
-                <div class="footer-links">
-                    <a href="{LANG_PREFIX}/" data-i18n="nav.prayer_times">مواقيت الصلاة</a>
-                    <a href="{LANG_PREFIX}/about-us" data-i18n="footer.about">عن الموقع</a>
-                    <a href="{LANG_PREFIX}/contact" data-i18n="footer.contact">اتصل بنا</a>
-                    <a href="{LANG_PREFIX}/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
-                    <a href="{LANG_PREFIX}/terms" data-i18n="footer.terms">شروط الاستخدام</a>
-                </div>
-                <p class="footer-copy">© <span id="footer-year"></span> <span data-i18n="footer.copyright">جميع الحقوق محفوظة — مواقيت الصلاة</span></p>
-            </footer>
+            <!--SHARED-FOOTER-->
         </main>
     </div>
 
     <script src="js/i18n.js?v=132"></script>
-    <script defer src="js/footer-cookie.js?v=4"></script>
+    <script defer src="js/footer-cookie.js?v=7"></script>
     <script>
         document.getElementById('footer-year').textContent = new Date().getFullYear();
 

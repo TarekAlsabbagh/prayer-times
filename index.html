@@ -283,31 +283,7 @@
             </a>
 
             <!-- ===== الهيدر الثابت المشترك لجميع الصفحات ===== -->
-            <div class="top-header">
-                <div class="location-info">
-                    <svg class="icon icon" aria-hidden="true"><use href="#i-map-pin"/></svg>
-                    <div>
-                        <div class="city-name" id="city-name" data-i18n="header.locating">جاري تحديد الموقع...</div>
-                        <div class="country" id="country-name"></div>
-                    </div>
-                </div>
-                <div class="header-actions">
-                    <button class="theme-toggle-btn" type="button" onclick="toggleTheme()" title="تبديل الوضع الداكن/الفاتح" data-i18n-title="header.theme_toggle" aria-label="تبديل الوضع الداكن/الفاتح" data-i18n-aria-label="header.theme_toggle">
-                        <svg class="icon ttb-icon ttb-icon-moon" aria-hidden="true"><use href="#i-moon"/></svg>
-                        <span class="ttb-icon ttb-icon-sun" aria-hidden="true">☀️</span>
-                    </button>
-                    <div class="lang-switcher">
-                        <button class="lang-switcher-btn" type="button" aria-haspopup="true" aria-expanded="false" onclick="toggleLangMenu(this)">
-                            <img class="lang-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="20" height="15" loading="lazy" decoding="async">
-                            <span class="lang-code">AR</span>
-                            <span class="lang-caret" aria-hidden="true">▾</span>
-                            <span class="visually-hidden" data-i18n="header.change_language">تغيير اللغة</span>
-                        </button>
-                        <div class="lang-menu" role="menu"></div>
-                    </div>
-                    <button class="btn btn-outline" onclick="goHome()" title="الصفحة الرئيسية" data-i18n-title="header.home_title"><svg class="icon" aria-hidden="true"><use href="#i-home"/></svg> <span class="btn-text" data-i18n="header.home">الرئيسية</span></button>
-                </div>
-            </div>
+            <!--SHARED-HEADER-->
 
             <!-- ===== شريط اقتراح المدينة المُكتشفة (مرفوع تحت الهيدر مباشرة — يظهر على كلّ الصفحات) ===== -->
             <div class="location-suggestion-bar u-hidden" id="location-suggestion-bar">
@@ -5373,17 +5349,7 @@
             <div class="page" id="page-quran-home"></div>
 
             <!-- ========= الفوتر ========= -->
-            <footer class="footer site-footer">
-                <div class="footer-links">
-                    <a href="{LANG_PREFIX}/about-us" data-i18n="footer.about">عن الموقع</a>
-                    <a href="{LANG_PREFIX}/contact" data-i18n="footer.contact">اتصل بنا</a>
-                    <a href="{LANG_PREFIX}/privacy" data-i18n="footer.privacy">سياسة الخصوصية</a>
-                    <a href="{LANG_PREFIX}/terms" data-i18n="footer.terms">شروط الاستخدام</a>
-                    <a href="#" onclick="event.preventDefault();if(window.openCookieSettings)window.openCookieSettings();" data-i18n="footer.cookie_settings">إعدادات ملفات الارتباط</a>
-                </div>
-                <p class="footer-copy"><span data-i18n="app.title">مواقيت الصلاة</span> © <span id="footer-year"></span> - <span data-i18n="footer.rights">جميع الحقوق محفوظة</span></p>
-                <p class="footer-note" data-i18n="footer.note">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>
-            </footer>
+            <!--SHARED-FOOTER-->
         </main>
     </div>
 

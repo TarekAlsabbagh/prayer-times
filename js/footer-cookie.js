@@ -107,8 +107,16 @@
     }
 
     // ===== Manage preferences modal =====
+    // Detach for the Escape handler of the dialog that is currently on screen.
+    // Held at module scope so it survives across openModal() calls: the dialog is
+    // rebuilt from scratch every time, and its keydown listener must go with it.
+    let detachEsc = null;
+    function dropEscHandler() { if (detachEsc) { detachEsc(); detachEsc = null; } }
+
     function openModal() {
-        // Close any existing modal
+        // Close any existing modal — and take its key handler down with it, otherwise
+        // reopening leaves the previous dialog's listener bound to document forever.
+        dropEscHandler();
         const old = document.getElementById('cc-modal'); if (old) old.remove();
 
         const current = readConsent() || { necessary: true, analytics: false, ads: false };
@@ -154,7 +162,7 @@
             '</div>';
         document.body.appendChild(modal);
 
-        function closeModal() { modal.classList.add('hidden'); setTimeout(function(){ modal.remove(); }, 300); }
+        function closeModal() { dropEscHandler(); modal.classList.add('hidden'); setTimeout(function(){ modal.remove(); }, 300); }
         modal.querySelectorAll('[data-cc-close]').forEach(function(el){ el.addEventListener('click', closeModal); });
         document.getElementById('cc-save-btn').addEventListener('click', function() {
             const ana = document.getElementById('cc-ana').checked;
@@ -166,9 +174,12 @@
             closeModal();
         });
 
-        // ESC closes
-        const escHandler = function(e) { if (e.key === 'Escape') { closeModal(); document.removeEventListener('keydown', escHandler); } };
+        // ESC closes. closeModal() detaches this via dropEscHandler(), so every exit
+        // path (Escape, Cancel, backdrop, Save, or a reopen) removes it — previously
+        // only the Escape path did, so each reopen left one more listener on document.
+        const escHandler = function(e) { if (e.key === 'Escape') closeModal(); };
         document.addEventListener('keydown', escHandler);
+        detachEsc = function() { document.removeEventListener('keydown', escHandler); };
     }
 
     // ===== Entry =====

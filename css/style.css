@@ -11973,26 +11973,36 @@ html[data-theme="dark"] .cookie-consent a {
 .cc-slider {
     position: absolute;
     inset: 0;
+    box-sizing: border-box;
     background: #c0c0c0;
     border-radius: 24px;
     cursor: pointer;
     transition: background 0.2s;
 }
+/* COOKIE-TOGGLE-KNOB-BOUNDS-1: the knob is positioned with the LOGICAL
+   inset-inline-start, never with a physical `left` + a direction-flipped
+   translateX. The old pair was `left: 3px` (physical, so NOT mirrored in RTL)
+   plus `[dir=rtl] … translateX(-18px)`, which resolved to 3 − 18 = −15px and
+   pushed 15 of the knob's 18px outside the track on every checked switch in
+   Arabic. With a logical inset both directions mirror for free: the knob rests
+   3px from the inline start and travels to 3px from the inline end, so its box
+   stays inside the track by construction — no clipping needed. */
 .cc-slider::before {
     content: '';
     position: absolute;
     height: 18px;
     width: 18px;
-    left: 3px;
-    top: 3px;
+    inset-inline-start: 3px;
+    top: 50%;
+    transform: translateY(-50%);
     background: var(--card-bg);
     border-radius: 50%;
-    transition: transform 0.2s;
+    transition: inset-inline-start 0.2s;
     box-shadow: 0 1px 3px rgba(0,0,0,0.2);
 }
 .cc-switch input:checked + .cc-slider { background: var(--primary, #0a7a55); }
-.cc-switch input:checked + .cc-slider::before { transform: translateX(18px); }
-[dir="rtl"] .cc-switch input:checked + .cc-slider::before { transform: translateX(-18px); }
+/* 100% = track width; minus the knob and the matching 3px inset on the far side. */
+.cc-switch input:checked + .cc-slider::before { inset-inline-start: calc(100% - 18px - 3px); }
 .cc-switch-disabled .cc-slider { background: var(--primary, #0a7a55); opacity: 0.6; cursor: not-allowed; }
 
 @media (max-width: 600px) {

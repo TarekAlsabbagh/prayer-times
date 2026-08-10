@@ -1674,7 +1674,7 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
 const PRECACHE_URLS = [
-    '/css/style.css?v=490',
+    '/css/style.css?v=502',
     '/assets/brand/logo-white.svg?v=1',
     '/js/i18n.js?v=194',
     '/js/prayer-times.js?v=54',

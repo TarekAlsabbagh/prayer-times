@@ -130936,5 +130936,25 @@
     "priority": 40,
     "source": "curated",
     "verified": true
+  },
+  {
+    "slug": "komesarac",
+    "type": "village",
+    "countryCode": "hr",
+    "lat": 45.1112335,
+    "lng": 15.7436398,
+    "timezone": "Europe/Zagreb",
+    "names": {
+      "en": "Komesarac",
+      "ar": "كوميساراك"
+    },
+    "aliases": {},
+    "admin": {
+      "countryAr": "كرواتيا",
+      "countryEn": "Croatia"
+    },
+    "priority": 40,
+    "source": "curated",
+    "verified": true
   }
 ]

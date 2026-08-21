@@ -18913,6 +18913,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
     //   <!-- HD-1-CONTENT --> anchor with per-lang Hub content (4-tool nav,
     //   3 H2 sections, 5-Q FAQ).
     const _isTodayHijriDateHubPath = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath);
+    // SSR-ACTIVE-SECTION-CORRECTNESS-1 (2026-08-21): /msbaha detection. Same shape as
+    //   _isTodayHijriDateHubPath above. css/style.css:26-27 already ships the contract
+    //   (html.msbaha-page #page-tasbih { display:block !important } +
+    //    html.msbaha-page #page-prayer-times { display:none !important }) but server.js
+    //   never emitted the class, so that CSS was dead and the SSR HTML declared
+    //   #page-prayer-times as the ACTIVE page on a tasbih route -- app.js repaired it only
+    //   after hydration. Same defect shape the hijri year/month block documents below.
+    const _isMsbahaPath = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath);
     // Phase E4-city (2026-05-02): detect ALL moon city pages so we can strip
     //   the leftover #page-prayer-times shell from SSR (was causing 0.939 CLS).
     //   Matches /moon-today-in-{slug}[-lat-lng], /moon-in-{slug}[-lat-lng],
@@ -19950,6 +19958,35 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             '<div class="page" id="page-qibla" data-qibla-mode="city">'
         );
     }
+    // ========================================================================
+    // SSR-ACTIVE-SECTION-CORRECTNESS-1 (2026-08-21): /msbaha SSR active section.
+    //   Mirrors the proven hijri-today / zakat-calculator injection exactly:
+    //   (a) add html.msbaha-page so the EXISTING css/style.css:26-27 rules apply at
+    //       first paint, (b) drop the default `active` from #page-prayer-times and
+    //       (c) put it on #page-tasbih, so the raw HTML carries exactly ONE
+    //       .page.active div and it is the one this route actually renders.
+    //   PURE class toggling: no wrapper is stripped, no heading is rewritten, no
+    //   content is added or removed -- so there is zero layout/CLS impact. Reducing
+    //   the foreign .page blocks themselves belongs to SSR-RENDER-ACTIVE-SECTION-ONLY-1.
+    // ========================================================================
+    if (_isMsbahaPath) {
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} msbaha-page"`) + '>';
+            }
+            return '<html' + a + ' class="msbaha-page">';
+        });
+        html = html.replace(
+            '<div class="page active" id="page-prayer-times">',
+            '<div class="page" id="page-prayer-times">'
+        );
+        html = html.replace(
+            '<div class="page" id="page-tasbih">',
+            '<div class="page active" id="page-tasbih">'
+        );
+    }
+
 
     // ════════════════════════════════════════════════════════════════════════
     // HD-1 (2026-05-07): /today-hijri-date Hub gateway. Inject the html class
@@ -19967,6 +20004,20 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
             }
             return '<html' + a + ' class="hijri-today-page">';
         });
+        // SSR-ACTIVE-SECTION-CORRECTNESS-1 (2026-08-21): the html class above already
+        //   hid #page-prayer-times via CSS, so there was no visible flicker -- but the
+        //   raw HTML still marked #page-prayer-times as the ACTIVE page while the route
+        //   renders #page-hijri-today. Crawlers read the raw HTML, so the served document
+        //   declared the wrong active section. Move the single `active` marker, matching
+        //   what the hijri year/month block already does further down.
+        html = html.replace(
+            '<div class="page active" id="page-prayer-times">',
+            '<div class="page" id="page-prayer-times">'
+        );
+        html = html.replace(
+            '<div class="page" id="page-hijri-today">',
+            '<div class="page active" id="page-hijri-today">'
+        );
         const _hd = _HD1_BY_LANG[seo.lang] || _HD1_BY_LANG.ar;
         const _langPrefHd1 = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
         // SSR-fill the existing hero intro paragraph (currently empty placeholder).

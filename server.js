@@ -2090,7 +2090,19 @@ function _translateI18nAttrs(html, lang, cityLoc) {
             const cm = /\bdata-i18n-city=["']([^"']+)["']/.exec(attrs);
             if (cm) { const cv = _trans(cm[1]); if (cv !== null) return cv.replace(/\{loc\}/g, cityLoc); }
         }
-        return _trans(key);
+        const v = _trans(key);
+        // SSR-PLACEHOLDER-RESOLUTION-1 (2026-08-22): a plain `data-i18n` key whose VALUE carries
+        //   {loc} (rls.*, tl.cta_all -- 41 such keys) used to ship the literal token in the served
+        //   HTML, because only the `data-i18n-city` branch above interpolated it. On city routes the
+        //   related-links block sits in the ACTIVE section, so "{loc}" was raw VISIBLE text until
+        //   app.js overwrote it after hydration -- a non-JS crawler read the token itself.
+        //   Interpolating here matches the client byte-for-byte: js/app.js does
+        //   `tpl.replace(/\{loc\}/g, loc || '')` with the same localized city name, so SSR == client
+        //   and no hydration flicker is introduced.
+        //   Guarded on cityLoc: off city pages it stays untouched rather than rendering a dangling
+        //   "... in " with an empty name. Those routes keep the token only inside INACTIVE blocks.
+        if (v !== null && cityLoc && v.indexOf('{loc}') !== -1) return v.replace(/\{loc\}/g, cityLoc);
+        return v;
     };
 
     // 1) text content for elements with data-i18n="key" (text-only body)

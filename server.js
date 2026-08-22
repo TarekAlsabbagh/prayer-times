@@ -31064,6 +31064,201 @@ function _getQuranDedicatedSitemap() {
     return _quranSitemapCache;
 }
 
+// ============================================================================
+// OBSERVABILITY-REQUEST-SAMPLING-1 (2026-08-22)
+//
+// Answers one question the CPU audit could not: WHICH route families and WHICH agent
+// categories actually generate the load. server.js currently emits no per-request log,
+// so Render's logs contain no path distribution at all.
+//
+// Design constraints, all deliberate:
+//   * OFF unless TP_REQUEST_OBSERVABILITY is set. When off the hot path executes exactly
+//     one numeric comparison (`_OBS_SAMPLE > 0`) and nothing else is allocated or timed.
+//   * Samples 1% by default, hard-capped at 5%.
+//   * Aggregates in memory and prints ONE block every 5 minutes. Never a per-request log.
+//   * Keys come from FIXED enums only -- never from user input -- so the map is bounded at
+//     FAMILIES x AGENTS x STATUS = 32 x 10 x 4 = 1280 entries maximum.
+//   * Stores no IP, no cookies, no auth header, no query string, no raw User-Agent.
+//     The UA string is classified into a category and then dropped.
+// ============================================================================
+const _OBS_ON = (() => {
+    const v = String(process.env.TP_REQUEST_OBSERVABILITY || '').trim().toLowerCase();
+    return v === '1' || v === 'true' || v === 'yes' || v === 'on';
+})();
+// 0 when disabled -> the hot-path guard short-circuits on a single numeric compare.
+const _OBS_SAMPLE = (() => {
+    if (!_OBS_ON) return 0;
+    const raw = parseFloat(process.env.TP_REQUEST_OBSERVABILITY_SAMPLE);
+    const v = Number.isFinite(raw) && raw > 0 ? raw : 0.01;
+    return Math.min(0.05, v);            // hard ceiling for this ticket
+})();
+
+// Fixed enums. Nothing derived from a request may ever create a new key.
+const _OBS_FAMILIES = [
+    'homepage', 'prayer-city', 'prayer-country', 'qibla-city', 'qibla-hub',
+    'next-prayer-city', 'time-left-city', 'moon-today', 'moon-monthly', 'moon-yearly',
+    'moon-city-hub', 'moon-country', 'moon-hub', 'quran-surah', 'quran-home',
+    'hijri-date', 'hijri-today', 'hijri-calendar', 'azkar-page', 'azkar-hub',
+    'static-js', 'static-css', 'static-assets', 'ads-txt', 'robots', 'health',
+    'sitemap', 'api-search-place', 'api-geocode', 'api-other', 'trust-page', 'other',
+];
+const _OBS_AGENTS = [
+    'googlebot', 'google-inspection', 'adsbot-google', 'mediapartners-google', 'bingbot',
+    'known-seo-crawler', 'known-social-bot', 'other-bot', 'browser', 'unknown',
+];
+const _OBS_STATUS = ['2xx', '3xx', '4xx', '5xx'];
+// upper bounds in ms; the last bucket is the overflow
+const _OBS_BUCKET_EDGES = [25, 50, 100, 250, 500, 1000, 3000, 10000];
+const _OBS_BUCKET_LABELS = ['<25', '25-50', '50-100', '100-250', '250-500', '500-1k', '1-3s', '3-10s', '>10s'];
+
+const _OBS_LANG_RE = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/;
+
+// Country slugs come from the curated data already loaded at startup, so a country page is
+// distinguished from a city page WITHOUT putting either slug into the output.
+let _obsCountrySlugs = null;
+function _obsCountrySet() {
+    if (_obsCountrySlugs) return _obsCountrySlugs;
+    _obsCountrySlugs = new Set();
+    try {
+        const { countryCodes } = getSitemapData();
+        for (const cc of countryCodes) {
+            const slug = makeCountrySlugSrv(cc);
+            if (slug) _obsCountrySlugs.add(slug);
+        }
+    } catch (_e) { /* fall back to treating everything as a city */ }
+    return _obsCountrySlugs;
+}
+
+/** Map a URL path to one of the FIXED families. Returns a constant string, never user input. */
+function _obsFamily(rawPath) {
+    let p = rawPath.replace(_OBS_LANG_RE, '');
+    if (p === '' ) p = '/';
+    if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+    if (p === '/') return 'homepage';
+
+    if (p === '/health') return 'health';
+    if (p === '/ads.txt') return 'ads-txt';
+    if (p === '/robots.txt') return 'robots';
+    if (p.startsWith('/sitemap')) return 'sitemap';
+    if (p.startsWith('/js/')) return 'static-js';
+    if (p.startsWith('/css/')) return 'static-css';
+    if (p.startsWith('/assets/')) return 'static-assets';
+
+    if (p === '/api/search-place') return 'api-search-place';
+    if (p === '/api/geocode') return 'api-geocode';
+    if (p.startsWith('/api/')) return 'api-other';
+
+    if (p === '/about-us' || p === '/contact' || p === '/privacy' || p === '/terms') return 'trust-page';
+
+    if (p === '/qibla') return 'qibla-hub';
+    if (p.startsWith('/qibla-in-') || p.startsWith('/qibla-direction-in-')) return 'qibla-city';
+    if (p.startsWith('/next-prayer-in-')) return 'next-prayer-city';
+    if (p.startsWith('/time-left-until-')) return 'time-left-city';
+
+    if (p.startsWith('/prayer-times-in-')) {
+        const slug = p.slice('/prayer-times-in-'.length);
+        return _obsCountrySet().has(slug) ? 'prayer-country' : 'prayer-city';
+    }
+    if (p === '/prayer-times-worldwide') return 'other';
+
+    if (p === '/moon' || p === '/moon-today') return 'moon-hub';
+    if (p.startsWith('/moon/')) {
+        const seg = p.split('/').length - 1;          // '/moon/a' -> 2
+        if (seg === 2) return 'moon-country';
+        if (seg === 3) return 'moon-city-hub';
+        if (seg === 4) return p.endsWith('/today') ? 'moon-today' : 'moon-yearly';
+        if (seg === 5) return 'moon-monthly';
+        return 'other';
+    }
+
+    if (p === '/quran') return 'quran-home';
+    if (p.startsWith('/quran/')) return 'quran-surah';
+
+    if (p === '/today-hijri-date') return 'hijri-today';
+    if (p.startsWith('/hijri-date/')) return 'hijri-date';
+    if (p.startsWith('/hijri-calendar')) return 'hijri-calendar';
+
+    if (p === '/azkar') return 'azkar-hub';
+    if (p.startsWith('/azkar/')) return 'azkar-page';
+
+    return 'other';
+}
+
+/** Classify the User-Agent into a FIXED category. The raw string is never stored. */
+function _obsAgent(ua) {
+    if (!ua) return 'unknown';
+    const u = ua.toLowerCase();
+    if (u.indexOf('mediapartners-google') !== -1) return 'mediapartners-google';
+    if (u.indexOf('adsbot-google') !== -1) return 'adsbot-google';
+    if (u.indexOf('google-inspectiontool') !== -1) return 'google-inspection';
+    if (u.indexOf('googlebot') !== -1 || u.indexOf('storebot-google') !== -1) return 'googlebot';
+    if (u.indexOf('bingbot') !== -1 || u.indexOf('adidxbot') !== -1) return 'bingbot';
+    if (u.indexOf('ahrefsbot') !== -1 || u.indexOf('semrushbot') !== -1 || u.indexOf('mj12bot') !== -1
+        || u.indexOf('dotbot') !== -1 || u.indexOf('seokicks') !== -1 || u.indexOf('screaming frog') !== -1
+        || u.indexOf('petalbot') !== -1 || u.indexOf('dataforseo') !== -1) return 'known-seo-crawler';
+    if (u.indexOf('facebookexternalhit') !== -1 || u.indexOf('twitterbot') !== -1
+        || u.indexOf('whatsapp') !== -1 || u.indexOf('telegrambot') !== -1
+        || u.indexOf('linkedinbot') !== -1 || u.indexOf('slackbot') !== -1
+        || u.indexOf('discordbot') !== -1 || u.indexOf('pinterest') !== -1) return 'known-social-bot';
+    if (u.indexOf('bot') !== -1 || u.indexOf('crawler') !== -1 || u.indexOf('spider') !== -1
+        || u.indexOf('curl') !== -1 || u.indexOf('wget') !== -1 || u.indexOf('python-requests') !== -1
+        || u.indexOf('scrapy') !== -1 || u.indexOf('headlesschrome') !== -1) return 'other-bot';
+    if (u.indexOf('mozilla') !== -1 || u.indexOf('applewebkit') !== -1 || u.indexOf('opera') !== -1) return 'browser';
+    return 'unknown';
+}
+
+function _obsBucketIndex(ms) {
+    for (let i = 0; i < _OBS_BUCKET_EDGES.length; i++) if (ms < _OBS_BUCKET_EDGES[i]) return i;
+    return _OBS_BUCKET_EDGES.length;             // overflow bucket
+}
+
+const _obsAgg = new Map();                        // 'family|agent|status' -> counters
+function _obsRecord(family, agent, statusCode, ms) {
+    const cls = statusCode >= 500 ? '5xx' : statusCode >= 400 ? '4xx' : statusCode >= 300 ? '3xx' : '2xx';
+    const key = family + '|' + agent + '|' + cls;
+    let e = _obsAgg.get(key);
+    if (!e) {
+        // Bounded by construction: every component is drawn from a fixed enum.
+        e = { n: 0, sum: 0, max: 0, b: new Uint32Array(_OBS_BUCKET_LABELS.length) };
+        _obsAgg.set(key, e);
+    }
+    e.n++;
+    e.sum += ms;
+    if (ms > e.max) e.max = ms;
+    e.b[_obsBucketIndex(ms)]++;
+}
+
+function _obsFlush() {
+    if (_obsAgg.size === 0) {
+        console.log('[request-observability] window=5m sample_rate=' + _OBS_SAMPLE + ' sampled=0');
+        return;
+    }
+    const rows = [..._obsAgg.entries()].sort((a, b) => b[1].n - a[1].n);
+    let total = 0;
+    for (const [, e] of rows) total += e.n;
+    console.log('[request-observability] window=5m sample_rate=' + _OBS_SAMPLE
+        + ' keys=' + rows.length + ' sampled=' + total
+        + ' est_total=' + Math.round(total / _OBS_SAMPLE));
+    for (const [key, e] of rows) {
+        const parts = key.split('|');
+        console.log('[request-observability]   family=' + parts[0]
+            + ' agent=' + parts[1]
+            + ' status=' + parts[2]
+            + ' sampled=' + e.n
+            + ' share=' + ((e.n / total) * 100).toFixed(1) + '%'
+            + ' avg_ms=' + (e.sum / e.n).toFixed(1)
+            + ' max_ms=' + e.max.toFixed(0)
+            + ' buckets=' + _OBS_BUCKET_LABELS.map((l, i) => l + ':' + e.b[i]).filter(x => !x.endsWith(':0')).join(','));
+    }
+    _obsAgg.clear();                              // reset so memory never accumulates
+}
+
+if (_OBS_ON) {
+    console.log('[request-observability] ENABLED sample_rate=' + _OBS_SAMPLE
+        + ' max_keys=' + (_OBS_FAMILIES.length * _OBS_AGENTS.length * _OBS_STATUS.length));
+    setInterval(_obsFlush, 5 * 60 * 1000).unref();
+}
+
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
     // Security Headers — تُطبَّق على كل استجابة
@@ -31113,6 +31308,22 @@ const server = http.createServer(async (req, res) => {
 
     let urlPath = req.url.split('?')[0];
     const qs    = req.url.includes('?') ? req.url.split('?')[1] : '';
+    // OBSERVABILITY-REQUEST-SAMPLING-1: one numeric compare when disabled (_OBS_SAMPLE === 0),
+    //   so the default path costs nothing. When enabled, only the sampled fraction pays for a
+    //   timestamp plus a 'finish' listener. The path is normalised to a fixed family name and
+    //   the User-Agent to a fixed category -- neither the slug, the query string nor the raw UA
+    //   is retained.
+    if (_OBS_SAMPLE > 0 && Math.random() < _OBS_SAMPLE) {
+        const _obsT0 = process.hrtime.bigint();
+        const _obsFam = _obsFamily(urlPath);
+        const _obsAg  = _obsAgent(req.headers['user-agent']);
+        res.once('finish', () => {
+            try {
+                _obsRecord(_obsFam, _obsAg, res.statusCode,
+                           Number(process.hrtime.bigint() - _obsT0) / 1e6);
+            } catch (_e) { /* observability must never break a response */ }
+        });
+    }
 
     // ─── HIJRI-UMM-AL-QURA-STAGE-B1-ALGORITHM-FLIP (2026-05-23) ──────────
     //   404 gate for invalid Hijri URLs. Per user policy, any Hijri year

@@ -33633,6 +33633,17 @@ const server = http.createServer(async (req, res) => {
     });
 });
 
+// RENDER-502-KEEPALIVE-TIMEOUT-FIX-1 (2026-08-23): Node closes an idle keep-alive socket after
+//   keepAliveTimeout + keepAliveTimeoutBuffer -- 5000 + 1000 ms by default on v24.19.0, an
+//   effective ~6s lifetime (measured close 6002-6010 ms). Render's proxy pools upstream
+//   connections, so when it reuses a pooled socket at the instant Node is closing it the request
+//   is lost and the proxy reports 502 while this process stays healthy. Reproduced locally by
+//   writing blindly at that boundary: 67 of 90 lost or reset; 0 of 45 after this change.
+//   The proxy must always be the side that closes, so our lifetime has to outlive its idle
+//   timeout. headersTimeout stays ABOVE keepAliveTimeout or a slow header send is cut early.
+server.keepAliveTimeout = 120000;   // 120s: longer than any common proxy idle timeout
+server.headersTimeout   = 125000;   // keepAliveTimeout + 5s margin (buffer/requestTimeout untouched)
+
 _preloadReady.then(() => {
     server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 }).catch(err => {

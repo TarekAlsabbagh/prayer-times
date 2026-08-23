@@ -31219,7 +31219,30 @@ const _OBS_FAMILIES = [
     'hijri-date', 'hijri-today', 'hijri-calendar', 'azkar-page', 'azkar-hub',
     'static-js', 'static-css', 'static-assets', 'ads-txt', 'robots', 'health',
     'sitemap', 'api-search-place', 'api-geocode', 'api-other', 'trust-page', 'other',
+    // OBSERVABILITY-CLASSIFIER-REFINEMENT-1 (2026-08-23): the original `other` bucket proved
+    //   analytically useless -- it mixed ~0.5 ms favicons and 404 probes with 51-59 ms SSR
+    //   pages, a ~200x spread inside one family. A browser fires 6 of these per page view
+    //   (favicon x4, apple-touch-icon, manifest) while a crawler fires none, which is what
+    //   made `other` look browser-dominated. These 14 families split it along the lines the
+    //   audit actually measured. `other` stays in the enum as a reserved fallback but is no
+    //   longer produced: unmatched paths resolve to unknown-route / other-valid by status.
+    'favicon', 'manifest', 'service-worker', 'static-image', 'og-image',
+    'static-font', 'static-audio', 'tasbih', 'zakat', 'date-converter',
+    'countdown', 'prayer-worldwide', 'unknown-route', 'other-valid',
 ];
+
+// Every family that names a FILE rather than a route. A 404 on one of these means the file is
+//   simply not there, so the request was a probe or a broken reference -- never real asset
+//   traffic, and counting it as such would re-pollute the buckets this refinement exists to
+//   clean. Applied uniformly: /js/nonexistent.js and /nonexistent.png are the same kind of
+//   event and must not land in different families just because one extension had a rule.
+//   NOT generalised beyond static: a 404 on /api/... or /prayer-times-in-... keeps its own
+//   family, because there the route pattern itself is the thing we want to measure.
+const _OBS_STATIC_FAMILIES = new Set([
+    'static-js', 'static-css', 'static-assets',
+    'favicon', 'manifest', 'service-worker', 'static-image',
+    'og-image', 'static-font', 'static-audio',
+]);
 const _OBS_AGENTS = [
     'googlebot', 'google-inspection', 'adsbot-google', 'mediapartners-google', 'bingbot',
     'known-seo-crawler', 'known-social-bot', 'other-bot', 'browser', 'unknown',
@@ -31266,7 +31289,30 @@ function _obsFamily(rawPath) {
     if (p === '/api/geocode') return 'api-geocode';
     if (p.startsWith('/api/')) return 'api-other';
 
+    // --- REFINEMENT-1 asset families, ordered narrowest-first so a specific icon or share
+    //     image is never swallowed by the generic root-image rule below. Every pattern here
+    //     matches a file that actually exists in the repo; nothing is speculative.
+    if (/^\/favicon(?:-\d+x\d+)?\.(?:ico|svg|png)$/.test(p)) return 'favicon';
+    if (/^\/apple-touch-icon(?:-[\w-]+)?\.png$/.test(p)) return 'favicon';
+    if (/^\/(?:android-chrome-|icon-)\d+(?:x\d+)?\.png$/.test(p)) return 'favicon';
+    if (p === '/manifest.webmanifest' || p === '/manifest.json' || p === '/site.webmanifest') return 'manifest';
+    if (p === '/sw.js') return 'service-worker';
+    // og-image BEFORE static-image: share images live at the root AND under /og-images/
+    if (p === '/og-image.png' || p === '/og-image.svg' || p.startsWith('/og-images/')) return 'og-image';
+    if (p.startsWith('/images/') || p.startsWith('/icons/')) return 'static-image';
+    if (p.startsWith('/fonts/')) return 'static-font';
+    if (p.startsWith('/audio/')) return 'static-audio';
+    // generic root-level image LAST, so it only catches what the rules above did not
+    if (/^\/[^/]+\.(?:png|jpe?g|webp|svg|gif|avif)$/i.test(p)) return 'static-image';
+
     if (p === '/about-us' || p === '/contact' || p === '/privacy' || p === '/terms') return 'trust-page';
+
+    // --- REFINEMENT-1 HTML routes. Measured at 51-59 ms of CPU each -- the same weight class
+    //     as a prayer-city page -- yet previously invisible inside `other`.
+    if (p === '/msbaha') return 'tasbih';
+    if (p === '/zakat-calculator') return 'zakat';
+    if (p === '/date-converter') return 'date-converter';
+    if (/^\/(?:ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/.test(p)) return 'countdown';
 
     if (p === '/qibla') return 'qibla-hub';
     if (p.startsWith('/qibla-in-') || p.startsWith('/qibla-direction-in-')) return 'qibla-city';
@@ -31277,7 +31323,7 @@ function _obsFamily(rawPath) {
         const slug = p.slice('/prayer-times-in-'.length);
         return _obsCountrySet().has(slug) ? 'prayer-country' : 'prayer-city';
     }
-    if (p === '/prayer-times-worldwide') return 'other';
+    if (p === '/prayer-times-worldwide') return 'prayer-worldwide';
 
     if (p === '/moon' || p === '/moon-today') return 'moon-hub';
     if (p.startsWith('/moon/')) {
@@ -31299,7 +31345,11 @@ function _obsFamily(rawPath) {
     if (p === '/azkar') return 'azkar-hub';
     if (p.startsWith('/azkar/')) return 'azkar-page';
 
-    return 'other';
+    // REFINEMENT-1: null means "no known family". The caller resolves it AFTER the response
+    //   status is known, because a path this function does not recognise may still be a
+    //   perfectly valid 200 route. Deciding 'unknown-route' from the path alone would
+    //   mislabel any legitimate route simply missing from the list above.
+    return null;
 }
 
 /** Classify the User-Agent into a FIXED category. The raw string is never stored. */
@@ -31441,7 +31491,16 @@ const server = http.createServer(async (req, res) => {
         const _obsAg  = _obsAgent(req.headers['user-agent']);
         res.once('finish', () => {
             try {
-                _obsRecord(_obsFam, _obsAg, res.statusCode,
+                // REFINEMENT-1: an unrecognised path is only 'unknown-route' when the server
+                //   actually returned 404 -- a 200 or 3xx on an unrecognised path is a real
+                //   route this classifier does not name yet, so it is 'other-valid'. And a
+                //   404 on ANY static family means the file is absent, so that was a probe too.
+                //   This reads the outcome; it never influences the status itself.
+                const st = res.statusCode;
+                const fam = (_obsFam === null)
+                    ? (st === 404 ? 'unknown-route' : 'other-valid')
+                    : ((st === 404 && _OBS_STATIC_FAMILIES.has(_obsFam)) ? 'unknown-route' : _obsFam);
+                _obsRecord(fam, _obsAg, st,
                            Number(process.hrtime.bigint() - _obsT0) / 1e6);
             } catch (_e) { /* observability must never break a response */ }
         });

@@ -1,3 +1,106 @@
+// =======================================================================================
+// NODE-TWO-WORKER-RENDER-1 (2026-08-23): use the CPUs Render actually gives us.
+//
+//   Node runs JS on ONE thread. Under concurrent SSR that thread saturates, the event loop
+//   backs up, and /health -- which costs 0.16 ms -- stops answering inside Render's 5-second
+//   health-check limit. Render then restarts the instance after 60s of consecutive failures
+//   (SIGTERM -> exit 143), and every request 502s during that restart.
+//
+//   Measured locally at 40 r/s, one process vs two:
+//     health max      21,820 ms  ->    123 ms
+//     health over 5s      73     ->      0
+//     event-loop max   4,647 ms  ->    189 ms
+//
+//   The worker count comes from WEB_CONCURRENCY (which Render already sets from the
+//   instance CPU count) and is NEVER hardcoded, so a 1-CPU Standard plan keeps exactly
+//   today's single-worker behaviour and a 2-CPU plan uses both cores.
+//
+//   NOTE: extra workers help only when there is more than one CPU. On a 1-CPU plan they
+//   would contend for the same core; that is precisely why the count follows WEB_CONCURRENCY.
+// =======================================================================================
+const cluster = require('cluster');
+const os      = require('os');
+
+const TP_WORKER_COUNT = (() => {
+    let cores = 1;
+    try {
+        cores = (typeof os.availableParallelism === 'function')
+            ? os.availableParallelism()
+            : (Array.isArray(os.cpus()) ? os.cpus().length : 1);
+    } catch (_e) { cores = 1; }
+    if (!Number.isInteger(cores) || cores < 1) cores = 1;
+    const n = Number.parseInt(String(process.env.WEB_CONCURRENCY || '').trim(), 10);
+    // missing or invalid -> 1, i.e. exactly the behaviour before this change
+    if (!Number.isInteger(n) || n < 1) return 1;
+    return Math.max(1, Math.min(n, cores));
+})();
+
+if (cluster.isPrimary) {
+    // SCHED_RR distributes accepted connections round-robin. It is the default on Linux
+    //   (Render) but NOT on Windows, where it is ignored -- so local Windows runs prove
+    //   correctness only, never load distribution.
+    cluster.schedulingPolicy = cluster.SCHED_RR;
+
+    let tpDraining = false;
+    const tpRestarts = [];                     // timestamps, for restart-storm backoff
+    const TP_RESTART_WINDOW_MS = 60000;
+    const TP_SHUTDOWN_GRACE_MS = 15000;
+
+    const tpSpawn = () => { if (!tpDraining) cluster.fork(); };
+
+    console.log('[cluster] primary pid=' + process.pid
+        + ' forking ' + TP_WORKER_COUNT + ' worker(s)'
+        + ' (WEB_CONCURRENCY=' + (process.env.WEB_CONCURRENCY || 'unset') + ')');
+    for (let i = 0; i < TP_WORKER_COUNT; i++) tpSpawn();
+
+    cluster.on('exit', (worker, code, signal) => {
+        if (tpDraining) {
+            console.log('[cluster] worker id=' + worker.id + ' exited during shutdown'
+                + ' code=' + code + ' signal=' + (signal || 'none'));
+            if (Object.keys(cluster.workers).length === 0) {
+                console.log('[cluster] all workers drained; primary exiting');
+                process.exit(0);
+            }
+            return;
+        }
+        const now = Date.now();
+        tpRestarts.push(now);
+        while (tpRestarts.length && now - tpRestarts[0] > TP_RESTART_WINDOW_MS) tpRestarts.shift();
+        // back off when workers die repeatedly, so a crash loop cannot become a fork storm
+        const delay = tpRestarts.length > 5 ? 5000 : (tpRestarts.length > 2 ? 1000 : 200);
+        console.error('[cluster] worker id=' + worker.id + ' died'
+            + ' code=' + code + ' signal=' + (signal || 'none')
+            + ' restarts_in_window=' + tpRestarts.length
+            + ' respawn_in_ms=' + delay);
+        setTimeout(tpSpawn, delay).unref();
+    });
+
+    const tpShutdown = (sig) => {
+        if (tpDraining) return;
+        tpDraining = true;                      // stop replacing workers from here on
+        console.log('[cluster] primary received ' + sig
+            + '; draining ' + Object.keys(cluster.workers).length + ' worker(s)');
+        for (const id of Object.keys(cluster.workers)) {
+            try { cluster.workers[id].process.kill(sig); } catch (_e) { /* already gone */ }
+        }
+        setTimeout(() => {
+            for (const id of Object.keys(cluster.workers)) {
+                try { cluster.workers[id].kill('SIGKILL'); } catch (_e) { /* already gone */ }
+            }
+            console.log('[cluster] drain window elapsed; primary exiting');
+            process.exit(0);
+        }, TP_SHUTDOWN_GRACE_MS).unref();
+    };
+    process.on('SIGTERM', () => tpShutdown('SIGTERM'));
+    process.on('SIGINT',  () => tpShutdown('SIGINT'));
+
+    // The primary supervises and nothing else: it never creates an HTTP server, never binds
+    //   PORT, and never loads any of the application below.
+    return;
+}
+
+const TP_WORKER_ID = (cluster.worker && cluster.worker.id) || 1;
+
 const http  = require('http');
 const https = require('https');
 const fs    = require('fs');
@@ -28704,7 +28807,14 @@ function handleOgImage(qs, res) {
 // ===== Rate Limiter متدرّج لـ /api/* =====
 // حدود مختلفة حسب تكلفة النقطة — حماية Nominatim دون إزعاج مستخدمي CGNAT
 const _rlWindowMs = 60 * 1000;
-const _RL_TIERS = {
+// NODE-TWO-WORKER-RENDER-1: `_rlMap` lives in each worker's own memory, so N workers would
+//   otherwise allow N times the intended per-IP rate. The per-worker allowance is therefore
+//   the documented site-wide limit divided by the worker count, keeping the AGGREGATE at or
+//   below the original figure. With WEB_CONCURRENCY=1 the arithmetic is a no-op and the
+//   numbers below are exactly the ones that shipped before.
+//   Caveat worth knowing: a keep-alive client stays pinned to one worker, so a single heavy
+//   client sees the divided limit rather than the aggregate -- stricter, never looser.
+const _RL_TIERS_BASE = {
     cheap:    300,  // /api/cities, /api/cities/add — DB محلي + كاش ذاكرة
     external: 60,   // /api/wiki-* — كاش داخلي 24h/7d
     // PT-SEARCH-AR-4 (2026-05-12): bumped strict 30 → 90 so that an active
@@ -28716,6 +28826,14 @@ const _RL_TIERS = {
     // the deploy's aggregate Nominatim quota.
     strict:   90,   // /api/geocode — Nominatim policy (1 req/sec avg)
 };
+const _RL_TIERS = (() => {
+    const n = Math.max(1, TP_WORKER_COUNT);
+    const out = {};
+    for (const k of Object.keys(_RL_TIERS_BASE)) {
+        out[k] = Math.max(1, Math.floor(_RL_TIERS_BASE[k] / n));   // never falls to zero
+    }
+    return out;
+})();
 const _rlMap = new Map(); // ip → { [tier]: { count, resetAt } }
 function checkRateLimit(ip, tier) {
     const max = _RL_TIERS[tier] || _RL_TIERS.strict;
@@ -31212,6 +31330,10 @@ function _obsBucketIndex(ms) {
     return _OBS_BUCKET_EDGES.length;             // overflow bucket
 }
 
+// NODE-TWO-WORKER-RENDER-1: each worker keeps its OWN _obsAgg and flushes its own block, so
+//   every line carries the worker id and the analyser must SUM the workers for one window.
+//   The id is a small integer from cluster -- no request data of any kind.
+const _OBS_WTAG = ' worker=' + TP_WORKER_ID;
 const _obsAgg = new Map();                        // 'family|agent|status' -> counters
 function _obsRecord(family, agent, statusCode, ms) {
     const cls = statusCode >= 500 ? '5xx' : statusCode >= 400 ? '4xx' : statusCode >= 300 ? '3xx' : '2xx';
@@ -31230,18 +31352,18 @@ function _obsRecord(family, agent, statusCode, ms) {
 
 function _obsFlush() {
     if (_obsAgg.size === 0) {
-        console.log('[request-observability] window=5m sample_rate=' + _OBS_SAMPLE + ' sampled=0');
+        console.log('[request-observability]' + _OBS_WTAG + ' window=5m sample_rate=' + _OBS_SAMPLE + ' sampled=0');
         return;
     }
     const rows = [..._obsAgg.entries()].sort((a, b) => b[1].n - a[1].n);
     let total = 0;
     for (const [, e] of rows) total += e.n;
-    console.log('[request-observability] window=5m sample_rate=' + _OBS_SAMPLE
+    console.log('[request-observability]' + _OBS_WTAG + ' window=5m sample_rate=' + _OBS_SAMPLE
         + ' keys=' + rows.length + ' sampled=' + total
         + ' est_total=' + Math.round(total / _OBS_SAMPLE));
     for (const [key, e] of rows) {
         const parts = key.split('|');
-        console.log('[request-observability]   family=' + parts[0]
+        console.log('[request-observability]' + _OBS_WTAG + '   family=' + parts[0]
             + ' agent=' + parts[1]
             + ' status=' + parts[2]
             + ' sampled=' + e.n
@@ -31254,7 +31376,7 @@ function _obsFlush() {
 }
 
 if (_OBS_ON) {
-    console.log('[request-observability] ENABLED sample_rate=' + _OBS_SAMPLE
+    console.log('[request-observability]' + _OBS_WTAG + ' ENABLED sample_rate=' + _OBS_SAMPLE
         + ' max_keys=' + (_OBS_FAMILIES.length * _OBS_AGENTS.length * _OBS_STATUS.length));
     setInterval(_obsFlush, 5 * 60 * 1000).unref();
 }
@@ -33643,6 +33765,28 @@ const server = http.createServer(async (req, res) => {
 //   timeout. headersTimeout stays ABOVE keepAliveTimeout or a slow header send is cut early.
 server.keepAliveTimeout = 120000;   // 120s: longer than any common proxy idle timeout
 server.headersTimeout   = 125000;   // keepAliveTimeout + 5s margin (buffer/requestTimeout untouched)
+
+// NODE-TWO-WORKER-RENDER-1: Render stops an instance with SIGTERM. Stop accepting new
+//   connections, let in-flight responses finish, and close idle keep-alive sockets, which
+//   would otherwise hold the process open for the full 120s keepAliveTimeout. Bounded, so a
+//   stuck connection can never block a deploy.
+const TP_DRAIN_MS = 10000;
+let _tpDraining = false;
+const _tpWorkerShutdown = (sig) => {
+    if (_tpDraining) return;
+    _tpDraining = true;
+    console.log('[cluster] worker id=' + TP_WORKER_ID + ' pid=' + process.pid + ' received ' + sig + '; draining');
+    try {
+        server.close(() => process.exit(0));
+        if (typeof server.closeIdleConnections === 'function') server.closeIdleConnections();
+    } catch (_e) { process.exit(0); }
+    setTimeout(() => {
+        try { if (typeof server.closeAllConnections === 'function') server.closeAllConnections(); } catch (_e) { /* noop */ }
+        process.exit(0);
+    }, TP_DRAIN_MS).unref();
+};
+process.on('SIGTERM', () => _tpWorkerShutdown('SIGTERM'));
+process.on('SIGINT',  () => _tpWorkerShutdown('SIGINT'));
 
 _preloadReady.then(() => {
     server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

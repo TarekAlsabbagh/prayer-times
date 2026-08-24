@@ -31443,9 +31443,22 @@ const _OBS_STATIC_FAMILIES = new Set([
 //   in the same family as a 312 KB SSR render, which is exactly the weight-mixing that
 //   REFINEMENT-1 removed from `other`. Built from the static set so the two never drift.
 const _OBS_404_UNKNOWN_FAMILIES = new Set([..._OBS_STATIC_FAMILIES, 'moon-day']);
+// OBSERVABILITY-NAMED-BOT-AGENTS-1 (2026-08-24): the crawlers that the MOON-DAY-CRAWL-LOAD
+//   audit showed were collapsing into the generic `other-bot` bucket. Each entry is BOTH the
+//   lowercase substring matched against the User-Agent AND the agent name recorded, so the
+//   matcher and the fixed enum below cannot drift apart -- the enum is built from this list.
+//   MEASUREMENT ONLY. A User-Agent is self-declared and trivially spoofed, so these names are
+//   never to be used for enforcement, blocking, rate limiting or access control.
+//   No raw User-Agent is ever stored: the header is reduced to one of these fixed names and
+//   discarded.
+const _OBS_NAMED_BOTS = [
+    'gptbot', 'claudebot', 'ccbot', 'bytespider', 'amazonbot',
+    'applebot', 'yandexbot', 'meta-external', 'perplexitybot',
+];
 const _OBS_AGENTS = [
     'googlebot', 'google-inspection', 'adsbot-google', 'mediapartners-google', 'bingbot',
-    'known-seo-crawler', 'known-social-bot', 'other-bot', 'browser', 'unknown',
+    'known-seo-crawler', 'known-social-bot', ..._OBS_NAMED_BOTS,
+    'other-bot', 'browser', 'unknown',
 ];
 const _OBS_STATUS = ['2xx', '3xx', '4xx', '5xx'];
 // upper bounds in ms; the last bucket is the overflow
@@ -31591,6 +31604,15 @@ function _obsAgent(ua) {
         || u.indexOf('whatsapp') !== -1 || u.indexOf('telegrambot') !== -1
         || u.indexOf('linkedinbot') !== -1 || u.indexOf('slackbot') !== -1
         || u.indexOf('discordbot') !== -1 || u.indexOf('pinterest') !== -1) return 'known-social-bot';
+    // OBSERVABILITY-NAMED-BOT-AGENTS-1: checked AFTER the Google/Bing/SEO/social names above --
+    //   so nothing already classified can move -- and BEFORE the generic fallback below, which
+    //   would otherwise swallow every one of them ('gptbot' contains 'bot', 'bytespider'
+    //   contains 'spider', and so on).
+    for (let i = 0; i < _OBS_NAMED_BOTS.length; i++) {
+        if (u.indexOf(_OBS_NAMED_BOTS[i]) !== -1) return _OBS_NAMED_BOTS[i];
+    }
+    // Residual bucket, deliberately kept: it still catches every self-declared crawler that is
+    //   not named anywhere above. It is NOT expected to reach zero.
     if (u.indexOf('bot') !== -1 || u.indexOf('crawler') !== -1 || u.indexOf('spider') !== -1
         || u.indexOf('curl') !== -1 || u.indexOf('wget') !== -1 || u.indexOf('python-requests') !== -1
         || u.indexOf('scrapy') !== -1 || u.indexOf('headlesschrome') !== -1) return 'other-bot';

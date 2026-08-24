@@ -31407,7 +31407,7 @@ const _OBS_SAMPLE = (() => {
 const _OBS_FAMILIES = [
     'homepage', 'prayer-city', 'prayer-country', 'qibla-city', 'qibla-hub',
     'next-prayer-city', 'time-left-city', 'moon-today', 'moon-monthly', 'moon-yearly',
-    'moon-city-hub', 'moon-country', 'moon-hub', 'quran-surah', 'quran-home',
+    'moon-city-hub', 'moon-country', 'moon-hub', 'moon-day', 'quran-surah', 'quran-home',
     'hijri-date', 'hijri-today', 'hijri-calendar', 'azkar-page', 'azkar-hub',
     'static-js', 'static-css', 'static-assets', 'ads-txt', 'robots', 'health',
     'sitemap', 'api-search-place', 'api-geocode', 'api-other', 'trust-page', 'other',
@@ -31435,6 +31435,14 @@ const _OBS_STATIC_FAMILIES = new Set([
     'favicon', 'manifest', 'service-worker', 'static-image',
     'og-image', 'static-font', 'static-audio',
 ]);
+// OBSERVABILITY-MOON-DAY-FAMILY-1 (2026-08-24): families for which a 404 means the request
+//   was a probe, not the route it looked like. Static files qualify because a 404 means the
+//   file is absent. moon-day qualifies because a moon-day-shaped path that 404s is not a day
+//   page -- an unknown city, or a date the calendar rejects (e.g. 2026/02/30, which matches
+//   the shape but is not a real date). Keeping those as moon-day would put cheap 404 probes
+//   in the same family as a 312 KB SSR render, which is exactly the weight-mixing that
+//   REFINEMENT-1 removed from `other`. Built from the static set so the two never drift.
+const _OBS_404_UNKNOWN_FAMILIES = new Set([..._OBS_STATIC_FAMILIES, 'moon-day']);
 const _OBS_AGENTS = [
     'googlebot', 'google-inspection', 'adsbot-google', 'mediapartners-google', 'bingbot',
     'known-seo-crawler', 'known-social-bot', 'other-bot', 'browser', 'unknown',
@@ -31445,6 +31453,13 @@ const _OBS_BUCKET_EDGES = [25, 50, 100, 250, 500, 1000, 3000, 10000];
 const _OBS_BUCKET_LABELS = ['<25', '25-50', '50-100', '100-250', '250-500', '500-1k', '1-3s', '3-10s', '>10s'];
 
 const _OBS_LANG_RE = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/;
+// OBSERVABILITY-MOON-DAY-FAMILY-1 (2026-08-24): mirrors the router's own nested-day matcher
+//   (/^\\/moon\\/([a-z][a-z0-9-]+)\\/([a-z][a-z0-9-]+)\\/(\\d{4})\\/(\\d{2})\\/(\\d{2})$/) and additionally
+//   bounds the month and day to real calendar ranges, so a shaped-but-impossible path such
+//   as /moon/x/y/2026/99/99 never reaches the moon-day family at all. It is matched against
+//   the locale-stripped path, so all ten locales share one pattern.
+const _OBS_MOON_DAY_RE =
+    /^\/moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/\d{4}\/(?:0[1-9]|1[0-2])\/(?:0[1-9]|[12]\d|3[01])$/;
 
 // Country slugs come from the curated data already loaded at startup, so a country page is
 // distinguished from a city page WITHOUT putting either slug into the output.
@@ -31532,7 +31547,15 @@ function _obsFamily(rawPath) {
         if (seg === 3) return 'moon-city-hub';
         if (seg === 4) return p.endsWith('/today') ? 'moon-today' : 'moon-yearly';
         if (seg === 5) return 'moon-monthly';
-        return 'other';
+        // OBSERVABILITY-MOON-DAY-FAMILY-1: the nested day page is a real 200 SSR route in all
+        //   ten locales, but it was never named here, so it fell into `other` -- the single
+        //   remaining producer of that family. Naming it also stops `other` from mixing a
+        //   heavy day render with cheap deep-path 404 probes.
+        if (seg === 6 && _OBS_MOON_DAY_RE.test(p)) return 'moon-day';
+        // Deeper or malformed moon paths fall through to the status-aware resolver, exactly
+        //   like any other unrecognised path: 404 -> unknown-route, anything else ->
+        //   other-valid. `other` now has no runtime producer anywhere in the classifier.
+        return null;
     }
 
     if (p === '/quran') return 'quran-home';
@@ -31699,7 +31722,7 @@ const server = http.createServer(async (req, res) => {
                 const st = res.statusCode;
                 const fam = (_obsFam === null)
                     ? (st === 404 ? 'unknown-route' : 'other-valid')
-                    : ((st === 404 && _OBS_STATIC_FAMILIES.has(_obsFam)) ? 'unknown-route' : _obsFam);
+                    : ((st === 404 && _OBS_404_UNKNOWN_FAMILIES.has(_obsFam)) ? 'unknown-route' : _obsFam);
                 _obsRecord(fam, _obsAg, st,
                            Number(process.hrtime.bigint() - _obsT0) / 1e6);
             } catch (_e) { /* observability must never break a response */ }

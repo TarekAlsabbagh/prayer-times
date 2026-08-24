@@ -17134,7 +17134,186 @@ function renderSeoHeadHtml(seo) {
  * الدالة الموحّدة لتقديم HTML مع حقن SEO كامل.
  * تستبدل جميع الكتل المكررة (readCachedFile → gzip → res.end).
  */
-function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
+// =======================================================================================
+// SSR-RESPONSE-CACHE-PHASE-1A -- master-gated by TP_SSR_CACHE, OFF unless explicitly enabled.
+//
+//   Every SSR request rebuilds the page from scratch: serveHtmlWithSeo is ~11,400 lines of
+//   pure string work (430 .replace() passes over a 500-630 KB document) followed by
+//   compression. Measured on one core: prayer-city = 53.8 ms SSR + 21.9 ms brotli = 75.6 ms.
+//   Under burst traffic that saturates the workers, the event loop backs up, and /health --
+//   which itself costs 0.16 ms -- stops answering inside Render's five-second health-check
+//   window, so Render restarts the instance.
+//
+//   Local measurement, broad mix at 40 r/s, one worker:
+//     without cache : CPU 120%, SSR p95 16,241 ms, /health max 21,165 ms, 101 probes over 5s
+//     with cache    : CPU  67%, SSR p95    118 ms, /health max     66 ms,   0 probes over 5s
+//
+//   WHY THIS IS SAFE, established by measurement rather than assumption:
+//     * urlPath is the ONLY request input that reaches the HTML. serveHtmlWithSeo receives
+//       (htmlBuf, urlPath, res, acceptEnc, qs, req): no cookie is read server-side anywhere
+//       in the handler, accept-language appears only as an OUTBOUND Nominatim parameter, and
+//       User-Agent is used solely for observability. acceptEnc selects the encoding only.
+//     * qs is read in exactly one place in the whole function (the moon ?cal= calendar), so
+//       any request carrying a query string bypasses the cache outright.
+//     * Rendering each Phase-1A family twice 65s apart produced byte-identical output. No
+//       family varied its prayer times, dates, timezone or calculation method.
+//
+//   The family allowlist below is DELIBERATELY INDEPENDENT of the observability classifier.
+//   _obsCountrySet() memoises an empty set when it is first called before the sitemap data is
+//   ready, which is why prayer-country is currently mis-filed as prayer-city. That is a
+//   measurement bug; it must never become a caching bug, so nothing here consults it.
+// =======================================================================================
+const _SC_ON = (() => {
+    const v = String(process.env.TP_SSR_CACHE || '').trim().toLowerCase();
+    return v === '1' || v === 'true' || v === 'yes' || v === 'on';
+})();
+const _SC_TTL_MS = (() => {
+    const n = parseInt(String(process.env.TP_SSR_CACHE_TTL_MS || '').trim(), 10);
+    return Number.isInteger(n) && n > 0 ? Math.min(300000, n) : 60000;
+})();
+const _SC_MAX_ENTRIES = (() => {
+    const n = parseInt(String(process.env.TP_SSR_CACHE_MAX_ENTRIES || '').trim(), 10);
+    return Number.isInteger(n) && n > 0 ? n : 200;
+})();
+const _SC_MAX_BYTES = (() => {
+    const n = parseInt(String(process.env.TP_SSR_CACHE_MAX_MB || '').trim(), 10);
+    return (Number.isInteger(n) && n > 0 ? n : 96) * 1024 * 1024;
+})();
+const _SC_WAIT_MS = 20000;
+
+// Allocated ONLY when the feature is on, so a disabled deploy carries no cache state at all.
+const _scMap = _SC_ON ? new Map() : null;         // key -> entry; Map insertion order = LRU
+const _scWaiters = _SC_ON ? new Map() : null;     // key -> [fn] while a render is in flight
+let _scBytes = 0;
+const _scStat = _SC_ON
+    ? { hit: 0, miss: 0, bypass: 0, render: 0, coalesced: 0, eviction: 0, orphan: 0, skipped: 0 }
+    : null;
+
+const _SC_LANG_RE = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/;
+const _SC_TRUST = new Set(['/about-us', '/contact', '/privacy', '/terms']);
+
+// PHASE 1A families. Seven, all measured byte-stable across a 65s gap. prayer-country is
+//   deliberately EXCLUDED until OBSERVABILITY-COUNTRY-FAMILY-DEAD-SET-1 closes -- it depends
+//   on the same country set that is currently empty, and it never entered the cache during
+//   the measurements either, so excluding it does not invalidate any result above.
+function _scCacheFamily(urlPath) {
+    if (typeof urlPath !== 'string' || urlPath.charCodeAt(0) !== 47) return null;
+    let p = urlPath.replace(_SC_LANG_RE, '');
+    if (p === '') p = '/';
+    if (p === '/') return 'homepage';
+    if (p === '/qibla') return 'qibla-hub';
+    if (p === '/quran') return 'quran-home';
+    if (p === '/prayer-times-worldwide') return 'prayer-worldwide';
+    if (_SC_TRUST.has(p)) return 'trust-page';
+    if (/^\/quran\/[a-z0-9-]+$/.test(p)) return 'quran-surah';
+    if (/^\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/\d{4}$/.test(p)) return 'moon-yearly';
+    return null;
+}
+function _scEncToken(acceptEnc) {
+    const a = acceptEnc || '';
+    if (a.includes('br')) return 'br';
+    if (a.includes('gzip')) return 'gz';
+    return 'id';
+}
+// Conservative request gate. Anything unusual bypasses rather than risking a wrong hit.
+function _scEligible(urlPath, qs, req) {
+    if (!_SC_ON) return false;
+    if (qs) { _scStat.bypass++; return false; }
+    if (!req || req.method !== 'GET') { _scStat.bypass++; return false; }
+    const h = req.headers || {};
+    if (h.range || h.authorization) { _scStat.bypass++; return false; }
+    if (!_scCacheFamily(urlPath)) return false;
+    return true;
+}
+function _scEvict() {
+    while (_scMap.size > _SC_MAX_ENTRIES || _scBytes > _SC_MAX_BYTES) {
+        const k = _scMap.keys().next();
+        if (k.done) break;
+        const e = _scMap.get(k.value);
+        _scMap.delete(k.value);
+        _scBytes -= (e && e.bytes) || 0;
+        _scStat.eviction++;
+    }
+}
+function _scGet(key) {
+    const e = _scMap.get(key);
+    if (!e) return null;
+    if (Date.now() - e.at > _SC_TTL_MS) { _scMap.delete(key); _scBytes -= e.bytes || 0; return null; }
+    _scMap.delete(key); _scMap.set(key, e);       // touch -> most recently used
+    return e;
+}
+function _scSend(res, e) { res.writeHead(200, e.headers); res.end(e.buf); }
+
+// Publish a finished buffer and release anyone who coalesced onto this key.
+function _scResolve(key, buf, headers) {
+    // never store a response that carries per-user state
+    if (headers && (headers['Set-Cookie'] || headers['set-cookie'])) { _scStat.skipped++; _scAbandon(key); return; }
+    const e = { at: Date.now(), buf, headers, bytes: buf.length };
+    const prev = _scMap.get(key);
+    if (prev) _scBytes -= prev.bytes || 0;
+    _scMap.set(key, e);
+    _scBytes += e.bytes;
+    _scEvict();
+    const w = _scWaiters.get(key);
+    if (w) { _scWaiters.delete(key); for (const fn of w) { try { fn(e); } catch (_x) {} } }
+}
+// Release waiters WITHOUT caching, when a render finishes but must not be stored.
+function _scAbandon(key) {
+    const w = _scWaiters.get(key);
+    if (w) { _scWaiters.delete(key); for (const fn of w) { try { fn(null); } catch (_x) {} } }
+}
+if (_SC_ON) {
+    // Aggregate only, once per 5 minutes, per worker. No URL, IP, User-Agent or query string.
+    setInterval(() => {
+        console.log('[ssr-cache] worker=' + (typeof TP_WORKER_ID !== 'undefined' ? TP_WORKER_ID : 1)
+            + ' window=5m'
+            + ' cache_hit=' + _scStat.hit
+            + ' cache_miss=' + _scStat.miss
+            + ' cache_bypass=' + _scStat.bypass
+            + ' cache_render=' + _scStat.render
+            + ' cache_coalesced=' + _scStat.coalesced
+            + ' cache_eviction=' + _scStat.eviction
+            + ' cache_entries=' + _scMap.size
+            + ' cache_bytes=' + _scBytes
+            + ' cache_orphan=' + _scStat.orphan
+            + ' ttl_ms=' + _SC_TTL_MS);
+        for (const k of Object.keys(_scStat)) _scStat[k] = 0;
+    }, 5 * 60 * 1000).unref();
+    console.log('[ssr-cache] ENABLED ttl_ms=' + _SC_TTL_MS
+        + ' max_entries=' + _SC_MAX_ENTRIES + ' max_bytes=' + _SC_MAX_BYTES);
+}
+
+function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
+    // ---- SSR-RESPONSE-CACHE-PHASE-1A --------------------------------------------------
+    let _scKey = null;
+    if (_scEligible(urlPath, qs, req)) {
+        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc);
+        const _hit = _scGet(_scKey);
+        if (_hit) { _scStat.hit++; _scSend(res, _hit); return; }
+        if (_scWaiters.has(_scKey)) {
+            // an identical render is already in flight: wait for its buffer instead of
+            //   rendering the same page again (the render is sync, the compression is not)
+            _scStat.coalesced++;
+            let settled = false;
+            const t = setTimeout(() => {
+                if (settled) return;
+                settled = true; _scStat.orphan++;
+                try { res.writeHead(503, { 'Content-Type': 'text/plain' }); res.end('cache wait timeout'); } catch (_e) {}
+            }, _SC_WAIT_MS);
+            if (typeof t.unref === 'function') t.unref();
+            _scWaiters.get(_scKey).push(e => {
+                if (settled) return;
+                settled = true; clearTimeout(t);
+                try {
+                    if (e && e.buf) _scSend(res, e);
+                    else { res.writeHead(503, { 'Content-Type': 'text/plain' }); res.end('cache render unavailable'); }
+                } catch (_x) {}
+            });
+            return;
+        }
+        _scStat.miss++;
+        _scWaiters.set(_scKey, []);                // mark in flight BEFORE rendering
+    }
     let html = htmlBuf.toString('utf8');
     const seo = buildSeoForPath(urlPath);
 
@@ -28534,17 +28713,22 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs) {
         zlib.brotliCompress(buf, {
             params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } // سرعة جيدة + ضغط عالي
         }, (e, zbuf) => {
-            if (e) { res.writeHead(200, headers); res.end(buf); return; }
-            res.writeHead(200, { ...headers, 'Content-Encoding': 'br' });
+            if (e) { if (_scKey) _scAbandon(_scKey); res.writeHead(200, headers); res.end(buf); return; }
+            const _h = { ...headers, 'Content-Encoding': 'br' };
+            if (_scKey) { _scStat.render++; _scResolve(_scKey, zbuf, _h); }
+            res.writeHead(200, _h);
             res.end(zbuf);
         });
     } else if (acceptEnc.includes('gzip')) {
         zlib.gzip(buf, (e, zbuf) => {
-            if (e) { res.writeHead(200, headers); res.end(buf); return; }
-            res.writeHead(200, { ...headers, 'Content-Encoding': 'gzip' });
+            if (e) { if (_scKey) _scAbandon(_scKey); res.writeHead(200, headers); res.end(buf); return; }
+            const _h = { ...headers, 'Content-Encoding': 'gzip' };
+            if (_scKey) { _scStat.render++; _scResolve(_scKey, zbuf, _h); }
+            res.writeHead(200, _h);
             res.end(zbuf);
         });
     } else {
+        if (_scKey) { _scStat.render++; _scResolve(_scKey, buf, headers); }
         res.writeHead(200, headers);
         res.end(buf);
     }
@@ -32613,7 +32797,7 @@ const server = http.createServer(async (req, res) => {
     if (urlPath === '/index.html') {
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveHtmlWithSeo(html, '/', res, _acceptEnc, qs);
+            serveHtmlWithSeo(html, '/', res, _acceptEnc, qs, req);
         });
         return;
     }
@@ -32977,7 +33161,7 @@ const server = http.createServer(async (req, res) => {
         }
         readCachedFile(path.join(ROOT, 'index.html'), (err, html) => {
             if (err) { res.writeHead(404); res.end('Not Found'); return; }
-            serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
+            serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs, req);
         });
         return;
     }
@@ -33063,7 +33247,7 @@ const server = http.createServer(async (req, res) => {
                     const _langPref = (urlLang === 'ar') ? '' : ('/' + urlLang);
                     htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_langPref}/today-hijri-date"`);
                 }
-                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc, qs);
+                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc, qs, req);
             });
             return;
         }
@@ -33105,7 +33289,7 @@ const server = http.createServer(async (req, res) => {
             if (_mcOk) {
                 readCachedFile(path.join(ROOT, 'prayer-times-cities.html'), (err, html) => {
                     if (err) { res.writeHead(404); res.end('Not Found'); return; }
-                    serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
+                    serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs, req);
                 });
                 return;
             }
@@ -33139,7 +33323,7 @@ const server = http.createServer(async (req, res) => {
             const htmlFile = isCountry ? 'prayer-times-cities.html' : 'index.html';
             readCachedFile(path.join(ROOT, htmlFile), (err, html) => {
                 if (err) { res.writeHead(404); res.end('Not Found'); return; }
-                serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs);
+                serveHtmlWithSeo(html, urlPath, res, _acceptEnc, qs, req);
             });
             return;
         }
@@ -33774,7 +33958,7 @@ const server = http.createServer(async (req, res) => {
                 if (_spaWhitelist.test(urlPath)) {
                     readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
                         if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-                        serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs);
+                        serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs, req);
                     });
                     return;
                 }

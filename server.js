@@ -17206,7 +17206,15 @@ function _scCacheFamily(urlPath) {
     if (p === '/prayer-times-worldwide') return 'prayer-worldwide';
     if (_SC_TRUST.has(p)) return 'trust-page';
     if (/^\/quran\/[a-z0-9-]+$/.test(p)) return 'quran-surah';
-    if (/^\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/\d{4}$/.test(p)) return 'moon-yearly';
+    // SSR-CACHE-PHASE-1A-MOON-YEARLY-EXCLUSION-1 (2026-08-24): moon-yearly is deliberately
+    //   NOT cached. Measured against the full sitemap it carries 3,210 URLs = 9,630 keys once
+    //   the three encodings are counted -- 94.6% of the entire Phase-1A keyspace, against a
+    //   cache holding 200 entries. One family therefore overcommitted the cache by ~48x, so
+    //   crawler sweeps of /moon/{country}/{city}/{yyyy} filled the LRU with single-use keys
+    //   and evicted the genuinely hot pages (homepage = 10 keys, qibla-hub = 10, quran-home
+    //   = 3) before they could be requested a second time. Excluding it drops the keyspace
+    //   from 10,185 to 555 without adding any caching logic. The route itself is untouched:
+    //   it simply bypasses the cache and renders exactly as before.
     return null;
 }
 function _scEncToken(acceptEnc) {

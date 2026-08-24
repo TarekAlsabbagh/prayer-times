@@ -31449,16 +31449,24 @@ const _OBS_LANG_RE = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/;
 // Country slugs come from the curated data already loaded at startup, so a country page is
 // distinguished from a city page WITHOUT putting either slug into the output.
 let _obsCountrySlugs = null;
+// OBSERVABILITY-COUNTRY-FAMILY-DEAD-SET-1 (2026-08-24): this used to call getSitemapData(),
+//   which is NOT declared at module scope -- it is nested inside another function. The call
+//   therefore threw `ReferenceError: getSitemapData is not defined` on the very first
+//   invocation, the empty catch swallowed it, and the empty Set was memoised forever. Every
+//   /prayer-times-in-{country} URL was consequently filed as prayer-city, so prayer-country
+//   was a dead family and prayer-city was inflated by every country page.
+//   (The failure was a SCOPE error, not a startup-ordering race: deferring initialisation
+//    would not have fixed it.)
+//   COUNTRY_NAMES_EN and makeCountrySlugSrv ARE module-scope and fully populated at load, so
+//   the set is now built from them deterministically. No try/catch hides a failure any more:
+//   if this ever breaks it must be visible, not silently degrade to "everything is a city".
 function _obsCountrySet() {
     if (_obsCountrySlugs) return _obsCountrySlugs;
     _obsCountrySlugs = new Set();
-    try {
-        const { countryCodes } = getSitemapData();
-        for (const cc of countryCodes) {
-            const slug = makeCountrySlugSrv(cc);
-            if (slug) _obsCountrySlugs.add(slug);
-        }
-    } catch (_e) { /* fall back to treating everything as a city */ }
+    for (const cc in COUNTRY_NAMES_EN) {
+        const slug = makeCountrySlugSrv(cc);
+        if (slug) _obsCountrySlugs.add(slug);
+    }
     return _obsCountrySlugs;
 }
 

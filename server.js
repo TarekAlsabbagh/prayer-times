@@ -8389,22 +8389,112 @@ function _stripElement(html, lookup) {
    regex would mis-cut on the nested markup these blocks contain.
 
    SCOPE: this ticket calls it on Quran routes ONLY. Every other route keeps the shell exactly as it was. */
+// ADSENSE-SSR-ROUTE-SCOPED-PAGE-STRIPPING-1 (2026-08-26): the balanced end of ONE `.page` block,
+//   using exactly the same walk as _stripElement (depth counter that skips HTML comments whole, so
+//   a documentation comment containing a literal `</div>` cannot cut the removal short). Returns -1
+//   when the markup is unbalanced, which the caller treats as "leave this block alone" -- the same
+//   conservative behaviour _stripElement has.
+function _pageBlockEnd(html, openIdx, openTagLen) {
+    const afterOpen = openIdx + openTagLen;
+    const openTagRe = /<div\b/ig;
+    const closeTagRe = /<\/div\s*>/ig;
+    const commentRe = /<!--/g;
+    let depth = 1, i = afterOpen;
+    while (depth > 0 && i < html.length) {
+        openTagRe.lastIndex = i; closeTagRe.lastIndex = i; commentRe.lastIndex = i;
+        const nextOpen = openTagRe.exec(html);
+        const nextClose = closeTagRe.exec(html);
+        const nextComment = commentRe.exec(html);
+        if (!nextClose) return -1;
+        if (nextComment && nextComment.index < nextClose.index
+            && (!nextOpen || nextComment.index < nextOpen.index)) {
+            const end = html.indexOf('-->', nextComment.index);
+            i = end < 0 ? html.length : end + 3;
+            continue;
+        }
+        if (nextOpen && nextOpen.index < nextClose.index) { depth++; i = nextOpen.index + nextOpen[0].length; continue; }
+        depth--; i = nextClose.index + nextClose[0].length;
+    }
+    return depth === 0 ? i : -1;
+}
 function _stripForeignPageBlocks(html, keepId) {
-    const ids = new Set();
+    // ADSENSE-SSR-ROUTE-SCOPED-PAGE-STRIPPING-1: the original form called _stripElement once per
+    //   foreign id, and each call re-scanned the WHOLE document from position 0 -- 23 full scans of
+    //   a ~550 KB string. The `.page` blocks are siblings, so one forward walk finds them all: scan
+    //   for the next block, compute its balanced end, keep or drop the slice, then resume scanning
+    //   AFTER it. Byte-identical output, one pass. If anything looks unexpected (a block nested in
+    //   another, or unbalanced markup) the loop leaves that block in place rather than guessing.
     const openRe = /<div\b[^>]*\bid="(page-[^"]+)"[^>]*>/gi;
-    let m;
+    const removed = new Set();
+    const parts = [];
+    let cursor = 0, m;
     while ((m = openRe.exec(html))) {
         // only real SPA page blocks (class contains `page`), never some other element that happens to be id="page-…"
-        if (/\bclass="[^"]*\bpage\b[^"]*"/i.test(m[0])) ids.add(m[1]);
+        if (!/\bclass="[^"]*\bpage\b[^"]*"/i.test(m[0])) continue;
+        const id = m[1];
+        if (id === keepId || removed.has(id)) continue;   // keep the route's own block; only the first occurrence of an id is dropped
+        const end = _pageBlockEnd(html, m.index, m[0].length);
+        if (end < 0 || m.index < cursor) continue;        // unbalanced, or overlapping a block already handled
+        removed.add(id);
+        parts.push(html.slice(cursor, m.index));
+        cursor = end;
+        openRe.lastIndex = end;                           // resume after the removed block
     }
-    for (const id of ids) {
-        if (id === keepId) continue;
-        html = _stripElement(html, { type: 'id', value: id });
-    }
-    return html;
+    if (!parts.length) return html;
+    parts.push(html.slice(cursor));
+    return parts.join('');
 }
 function _reEsc(s) {
     return String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
+// ADSENSE-SSR-ROUTE-SCOPED-PAGE-STRIPPING-1 (2026-08-26): extend the Quran-only stripping above
+//   to the other families that still ship all 24 `.page` blocks.
+//
+//   MEASURED, not assumed: on /zakat-calculator the page carries 8,428 visible words, of which
+//   #page-zakat holds 1,299 and #page-prayer-times holds a CONSTANT 1,009 that belong to a
+//   different service. Two pages of different families measured 93.9% identical segment-for-
+//   segment, and two cities of the SAME family 97.3%. The unrelated blocks dominate the text.
+//
+//   SAFETY RULE that shapes this table: a family is listed ONLY when the block the SSR already
+//   marks `class="page active"` is the same block the route is about. Four families
+//   (qibla-city, qibla-hub, tasbih, hijri-today, hijri-date) ship #page-prayer-times as the
+//   active block and let app.js switch to the real one after load; stripping those would leave
+//   the first paint with no active block, so they are deliberately NOT handled here and are
+//   reported for a separate decision instead.
+//
+//   Ids are the ones app.js activates for each path (js/app.js route guards), so the block kept
+//   is exactly the block the user ends up seeing.
+const _PAGE_KEEP_RULES = [
+    // countdown pages -- SSR already activates the matching block
+    [/^\/(?:ramadan)-countdown$/,               'page-ramadan-countdown'],
+    [/^\/(?:eid-al-fitr)-countdown$/,           'page-eid-al-fitr-countdown'],
+    [/^\/(?:eid-al-adha)-countdown$/,           'page-eid-al-adha-countdown'],
+    [/^\/(?:hijri-new-year)-countdown$/,        'page-hijri-new-year-countdown'],
+    // azkar -- SSR already relocates `active` to these
+    [/^\/azkar$/,                               'page-azkar-hub'],
+    [/^\/azkar\/morning-azkar$/,                'page-azkar-morning'],
+    [/^\/azkar\/evening-azkar$/,                'page-azkar-evening'],
+    [/^\/azkar\/prayer-azkar$/,                 'page-azkar-prayer'],
+    // hijri calendar year / month -- SSR already relocates `active`
+    [/^\/hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/, 'page-hijri-month'],
+    [/^\/hijri-calendar(?:\/\d{4})?$/,          'page-hijri-year'],
+    // single-purpose tools -- SSR already relocates `active`
+    [/^\/date-converter$/,                      'page-date-converter'],
+    [/^\/zakat-calculator$/,                    'page-zakat'],
+    // prayer city pages -- #page-prayer-times is BOTH the SSR-active block and the subject
+    [/^\/prayer-times-in-[a-z0-9-]+$/,           'page-prayer-times'],
+];
+const _PAGE_KEEP_LANG_RE = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/;
+function _pageKeepIdFor(urlPath) {
+    if (typeof urlPath !== 'string') return null;
+    let p = urlPath.replace(_PAGE_KEEP_LANG_RE, '');
+    if (p === '') p = '/';
+    if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+    for (let i = 0; i < _PAGE_KEEP_RULES.length; i++) {
+        if (_PAGE_KEEP_RULES[i][0].test(p)) return _PAGE_KEEP_RULES[i][1];
+    }
+    return null;
 }
 
 // ===== 🆕 Level 3+: Time-Left page pruner =====
@@ -28710,6 +28800,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             return 'href="/' + _L + path + qh + '"';
         });
     }
+
+    // ADSENSE-SSR-ROUTE-SCOPED-PAGE-STRIPPING-1: LAST, exactly like the Quran routes above -- after
+    //   every injection, SSR block, JSON-LD and the lang-prefix href rewriter have landed, so
+    //   nothing that was going to be written into a block can be lost. Only inactive `.page`
+    //   blocks of OTHER services are removed; shared chrome (header, sidebar, footer, modals,
+    //   data islands, scripts, styles, SEO metadata) is untouched because none of it is a
+    //   `.page` block. Families whose SSR-active block is not the route's subject are excluded
+    //   by _pageKeepIdFor and keep the shell exactly as before.
+    const _keepPageId = _pageKeepIdFor(urlPath);
+    if (_keepPageId) html = _stripForeignPageBlocks(html, _keepPageId);
 
     const buf = Buffer.from(html, 'utf8');
     const headers = {

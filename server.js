@@ -12078,6 +12078,32 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
         // meta description
         html = html.replace(/<meta name="description" content="[^"]*">/, `<meta name="description" content="${_escHtml(t.metaDesc)}">`);
 
+        // ADSENSE-PRAYER-WORLDWIDE-CANONICAL-HREFLANG-1 (2026-08-26): this family is the ONLY public
+        //   HTML template handler that never reaches serveHtmlWithSeo(). legal.html, index.html and
+        //   prayer-times-cities.html all hand their buffer to it (6 call sites), which is where
+        //   renderSeoHeadHtml() emits canonical + alternates. serveCountriesPage instead writes its
+        //   own response at the end of this function (res.writeHead/res.end), so renderSeoHeadHtml()
+        //   never runs for /prayer-times-worldwide, and countries.html carries no canonical and no
+        //   alternates of its own (0 and 0). The page really does exist in all ten locales and all
+        //   ten return 200, so it was advertising none of them and self-referencing nothing.
+        //   Routing it through serveHtmlWithSeo() was rejected deliberately: that would also rewrite
+        //   title/description and add robots/OG/Twitter/JSON-LD, none of which this ticket may touch.
+        //   So emit exactly the canonical + alternates block renderSeoHeadHtml() emits, in the SAME
+        //   order (ar en fr tr ur de id es bn ms, then x-default -> ar) and nothing else.
+        {
+            const _wwLangs = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+            const _wwUrl = (lg) => getBaseUrl() + (lg === 'ar' ? '' : '/' + lg) + '/prayer-times-worldwide';
+            let _wwSeo = `<link rel="canonical" href="${_escHtml(_wwUrl(lang))}">`;
+            for (const _lg of _wwLangs) {
+                _wwSeo += `\r\n    <link rel="alternate" hreflang="${_lg}" href="${_escHtml(_wwUrl(_lg))}">`;
+            }
+            _wwSeo += `\r\n    <link rel="alternate" hreflang="x-default" href="${_escHtml(_wwUrl('ar'))}">`;
+            html = html.replace(
+                '<link rel="icon" href="/favicon.ico" sizes="32x32">',
+                _wwSeo + '\r\n    <link rel="icon" href="/favicon.ico" sizes="32x32">'
+            );
+        }
+
         // H1
         html = html.replace(/<h1 id="countries-page-title">[^<]*<\/h1>/, `<h1 id="countries-page-title">${_escHtml(t.title)}</h1>`);
 

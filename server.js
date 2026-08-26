@@ -29123,6 +29123,53 @@ const mimeTypes = {
     '.webmanifest': 'application/manifest+json',
 };
 
+// PUBLIC-SERVER-SOURCE-EXPOSURE-FIX-1 (2026-08-24): the static fallback used to be
+//   `path.join(ROOT, urlPath)` -> `fs.readFile`, with no restriction at all. Its only gate was
+//   "can this file be read?", and ROOT is the repository root, so 1,659 of the 1,663 deployed
+//   files were publicly downloadable -- server.js, package.json, the whole of scripts/,
+//   reports/, server/, data/ and 1.54 GB of db/. These two lists are now the ONLY things the
+//   fallback may serve.
+//
+//   DEFAULT DENY: anything not named here is private. A newly added file is private until it is
+//   deliberately added, which is the safe direction to forget in.
+//
+//   Every entry was proven necessary by crawling 26 pages across all ten locales plus the
+//   service-worker precache list, CSS url() references and client-JS path literals. Nothing was
+//   added "just in case".
+const _PUBLIC_STATIC_DIRS = ['js/', 'css/', 'assets/', 'fonts/', 'audio/', 'og-images/'];
+// A directory being public does not make everything dropped into it public. Only these asset
+//   types are, and the list is exactly the extensions the browser was proven to request. It
+//   keeps a stray note, build manifest, backup or -- the one that would actually hurt -- a
+//   generated .map source map from becoming downloadable just because it landed in js/.
+const _PUBLIC_STATIC_EXTS = new Set([
+    '.js', '.css', '.png', '.svg', '.ico', '.webmanifest', '.ttf', '.woff2', '.mp3', '.txt',
+]);
+const _PUBLIC_STATIC_FILES = new Set([
+    'favicon.ico', 'favicon.svg', 'favicon-48x48.png', 'favicon-96x96.png',
+    'apple-touch-icon.png', 'icon-192.png', 'icon-512.png',
+    'og-image.png', 'manifest.webmanifest', 'sw.js', 'ads.txt', 'llms.txt',
+]);
+// Authorises the RESOLVED filesystem path, never the raw URL. That distinction is the whole
+//   point: '/css/../package.json' starts with '/css/' but path.join resolves it to
+//   ROOT/package.json, so a prefix test on the URL would hand out the source tree. Checking
+//   path.relative(ROOT, resolved) also rejects anything that climbs above ROOT.
+function _isPublicStaticPath(fullPath) {
+    let rel;
+    try { rel = path.relative(ROOT, fullPath); } catch (_e) { return false; }
+    if (!rel) return false;                       // ROOT itself
+    rel = rel.split(path.sep).join('/');
+    if (rel === '..' || rel.indexOf('../') === 0) return false;   // climbed out of ROOT
+    if (path.isAbsolute(rel)) return false;                        // different drive/root
+    if (_PUBLIC_STATIC_FILES.has(rel)) return true;   // exact root files, extension implied
+    const dot = rel.lastIndexOf('.');
+    const rext = dot > 0 ? rel.slice(dot).toLowerCase() : '';
+    if (!_PUBLIC_STATIC_EXTS.has(rext)) return false;
+    for (let i = 0; i < _PUBLIC_STATIC_DIRS.length; i++) {
+        if (rel.indexOf(_PUBLIC_STATIC_DIRS[i]) === 0) return true;
+    }
+    return false;
+}
+
 // ===== بيانات ثابتة مدمجة للمدن الكبرى =====
 const STATIC_CITIES = {
   sa: [
@@ -31676,6 +31723,47 @@ if (_OBS_ON) {
     setInterval(_obsFlush, 5 * 60 * 1000).unref();
 }
 
+
+// PUBLIC-SERVER-SOURCE-EXPOSURE-FIX-1: the not-found branch, lifted OUT of the fs.readFile
+//   callback so a denied path and a genuinely missing file produce byte-identical responses.
+//   A denial must not be distinguishable from absence -- that is why this is reused verbatim
+//   rather than answering 403, which would confirm the file exists.
+function _staticNotFound(urlPath, ext, res, req, qs) {
+    if (!ext || ext === '.html') {
+        // HTTP-404 (2026-05-09): previously this branch served
+        // index.html with HTTP 200 as a SPA-style fallback. SEO
+        // scanners (Google, SEOptimer) flag that as a "soft 404"
+        // and de-rank the domain. Now we serve a dedicated 404
+        // page (10-lang, with helpful nav links) and the correct
+        // HTTP 404 status. Real SSR routes (homepage, prayer-
+        // times-in-X, today-hijri-date, etc.) are handled BEFORE
+        // this catch-all and still return 200.
+        //
+        // CTDN-FIX (2026-05-09): countdown pages (/ramadan-countdown,
+        // /eid-al-fitr-countdown, /eid-al-adha-countdown,
+        // /hijri-new-year-countdown — and lang-prefixed variants)
+        // are SPA pages without explicit staticPages entries; they
+        // were relying on the OLD index.html SPA fallback. After
+        // HD-EN-SEO-1 turned the catch-all into a hard 404, those
+        // pages broke. Whitelist them here: serve index.html via
+        // serveHtmlWithSeo (HTTP 200) so the SPA can route to the
+        // correct #page-*-countdown wrapper. /azkar (legacy) and
+        // /msbaha aliases also handled via SPA fallback.
+        const _spaWhitelist = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:ramadan-countdown|eid-al-fitr-countdown|eid-al-adha-countdown|hijri-new-year-countdown)\/?$/;
+        if (_spaWhitelist.test(urlPath)) {
+            readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
+                if (err2) { res.writeHead(404); res.end('Not Found'); return; }
+                serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs, req);
+            });
+            return;
+        }
+        send404Page(urlPath, res, req.headers['accept-encoding'] || '');
+    } else {
+        res.writeHead(404, {'Content-Type':'text/plain'});
+        res.end('Not Found');
+    }
+}
+
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
     // Security Headers — تُطبَّق على كل استجابة
@@ -33943,6 +34031,16 @@ const server = http.createServer(async (req, res) => {
     const ext         = path.extname(filePath).toLowerCase();
     const contentType = mimeTypes[ext] || 'application/octet-stream';
 
+    // PUBLIC-SERVER-SOURCE-EXPOSURE-FIX-1: default deny. This runs BEFORE the _staticCache
+    //   lookup on purpose -- index.html, legal.html, countries.html and
+    //   prayer-times-cities.html are preloaded into that cache as SSR templates, so a guard
+    //   placed after it would still hand them out. Denials go through the ordinary not-found
+    //   path, so the SPA countdown fallback and the branded 404 page behave exactly as before.
+    if (!_isPublicStaticPath(filePath)) {
+        _staticNotFound(urlPath, ext, res, req, qs);
+        return;
+    }
+
     // QURAN-AR-SURAH-PAGE-PERFORMANCE-PRELOAD-MINIFY-FIX-1: .ttf added so the self-hosted
     //   Amiri Quran font (preloaded into _staticCache with a brotli/gzip copy) is served
     //   Content-Encoding: br (~135 KB → ~65 KB). Raw TTF gzips ~50% (unlike woff2, which is
@@ -33995,39 +34093,7 @@ const server = http.createServer(async (req, res) => {
 
     fs.readFile(filePath, (err, data) => {
         if (err) {
-            if (!ext || ext === '.html') {
-                // HTTP-404 (2026-05-09): previously this branch served
-                // index.html with HTTP 200 as a SPA-style fallback. SEO
-                // scanners (Google, SEOptimer) flag that as a "soft 404"
-                // and de-rank the domain. Now we serve a dedicated 404
-                // page (10-lang, with helpful nav links) and the correct
-                // HTTP 404 status. Real SSR routes (homepage, prayer-
-                // times-in-X, today-hijri-date, etc.) are handled BEFORE
-                // this catch-all and still return 200.
-                //
-                // CTDN-FIX (2026-05-09): countdown pages (/ramadan-countdown,
-                // /eid-al-fitr-countdown, /eid-al-adha-countdown,
-                // /hijri-new-year-countdown — and lang-prefixed variants)
-                // are SPA pages without explicit staticPages entries; they
-                // were relying on the OLD index.html SPA fallback. After
-                // HD-EN-SEO-1 turned the catch-all into a hard 404, those
-                // pages broke. Whitelist them here: serve index.html via
-                // serveHtmlWithSeo (HTTP 200) so the SPA can route to the
-                // correct #page-*-countdown wrapper. /azkar (legacy) and
-                // /msbaha aliases also handled via SPA fallback.
-                const _spaWhitelist = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:ramadan-countdown|eid-al-fitr-countdown|eid-al-adha-countdown|hijri-new-year-countdown)\/?$/;
-                if (_spaWhitelist.test(urlPath)) {
-                    readCachedFile(path.join(ROOT, 'index.html'), (err2, html) => {
-                        if (err2) { res.writeHead(404); res.end('Not Found'); return; }
-                        serveHtmlWithSeo(html, urlPath, res, req.headers['accept-encoding'] || '', qs, req);
-                    });
-                    return;
-                }
-                send404Page(urlPath, res, req.headers['accept-encoding'] || '');
-            } else {
-                res.writeHead(404, {'Content-Type':'text/plain'});
-                res.end('Not Found');
-            }
+            _staticNotFound(urlPath, ext, res, req, qs);
             return;
         }
 

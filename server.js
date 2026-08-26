@@ -8484,6 +8484,11 @@ const _PAGE_KEEP_RULES = [
     [/^\/zakat-calculator$/,                    'page-zakat'],
     // prayer city pages -- #page-prayer-times is BOTH the SSR-active block and the subject
     [/^\/prayer-times-in-[a-z0-9-]+$/,           'page-prayer-times'],
+    // ADSENSE-QIBLA-SSR-ACTIVE-SECTION-1: added only AFTER the SSR active-section fix above, so
+    //   #page-qibla is the active block in the raw HTML before anything is removed. The city
+    //   pattern mirrors the server's own _isQiblaCityPage, including the optional -{lat}-{lng}.
+    [/^\/qibla$/,                                'page-qibla'],
+    [/^\/qibla-in-[a-z][a-z0-9.-]+(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/, 'page-qibla'],
 ];
 const _PAGE_KEEP_LANG_RE = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/;
 function _pageKeepIdFor(urlPath) {
@@ -19344,6 +19349,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     // SSR-replace H1 + inject educational H2 with 4 H3 cards before FAQ.
     if (_isQiblaHub) {
         html = _stripHtmlForQiblaHub(html);
+        // ADSENSE-QIBLA-SSR-ACTIVE-SECTION-1 (2026-08-26): mark the Qibla block active in the RAW
+        //   SSR. Until now no `.page` carried `active` on the Hub at all -- the block was visible
+        //   only through `html.qibla-hub-page #page-qibla { display:block !important }`, and the
+        //   `active` class was added later by app.js. The page therefore rendered, but the document
+        //   had no active section, which is inconsistent with every other family and leaves the
+        //   route-scoped stripping below without a keep target it can trust.
+        //   #page-prayer-times is already gone here (_QIBLA_HUB_STRIP_IDS removes it), so this only
+        //   promotes; there is nothing to demote.
+        html = html.replace(
+            '<div class="page" id="page-qibla" data-qibla-mode="hub">',
+            '<div class="page active" id="page-qibla" data-qibla-mode="hub">'
+        );
         html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
             const a = attrs || '';
             if (/\bclass="/.test(a)) {
@@ -20328,6 +20345,24 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         html = html.replace(
             '<div class="page" id="page-qibla" data-qibla-mode="hub">',
             '<div class="page" id="page-qibla" data-qibla-mode="city">'
+        );
+        // ADSENSE-QIBLA-SSR-ACTIVE-SECTION-1 (2026-08-26): the raw SSR used to ship
+        //   #page-prayer-times as the active block on every /qibla-in-* URL, and the only thing
+        //   that hid it was `html.qibla-page-loading`, added by the INLINE HEAD SCRIPT in
+        //   index.html whose test is /\/(?:en\/)?qibla-in-/ -- Arabic and English ONLY. So:
+        //     - JavaScript off, any locale  -> the browser painted the PRAYER TIMES page on a
+        //       Qibla URL (measured: all 10 locales)
+        //     - JavaScript on, the other 8 locales -> the same wrong page until app.js ran
+        //   Moving the active class server-side fixes both, for all ten locales, with no JS, and
+        //   uses the pattern already used for zakat / date-converter / azkar / hijri / countdown.
+        //   Done AFTER the data-qibla-mode rewrite above, so the anchor matches the "city" form.
+        html = html.replace(
+            '<div class="page active" id="page-prayer-times">',
+            '<div class="page" id="page-prayer-times">'
+        );
+        html = html.replace(
+            '<div class="page" id="page-qibla" data-qibla-mode="city">',
+            '<div class="page active" id="page-qibla" data-qibla-mode="city">'
         );
     }
 

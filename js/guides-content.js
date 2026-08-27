@@ -688,4 +688,101 @@ related: [
 
 };
 
-module.exports = { GUIDES };
+// ═══════════════════════════════════════════════════════════════════════════════
+// EDITORIAL GUIDES HUB — /guides and /en/guides
+// ADSENSE-EDITORIAL-GUIDES-HUB-1 (2026-08-27)
+//
+// A real editorial landing page, not a link list. It states what the section is for,
+// groups the guides by the service they explain, and gives each one an original
+// description written FOR the hub -- the article paragraphs are never reproduced here.
+// `cards` reference the live slugs only; no placeholders, no "coming soon".
+// ═══════════════════════════════════════════════════════════════════════════════
+const GUIDES_HUB = {
+
+ar: {
+h1: 'أدلة مواقيت الصلاة والقبلة',
+intro: `<p class="guide-intro">هذا القسم يشرح <strong>كيف يحسب هذا الموقع ما يعرضه عليك</strong>. لا يعِدك بأرقام أدقّ من غيره، بل يريك المعادلة والعتبة والقرار وراء كل وقت واتجاه — بأمثلة محسوبة فعليًا، ومصادر منسوبة لأصحابها.</p>
+<p>كُتبت هذه الأدلّة لأن أكثر ما يربك المستخدم ليس الرقم نفسه، بل <strong>اختلافه</strong> عن رقم آخر رآه. ومعظم هذا الاختلاف له تفسير هندسي أو مؤسسي بسيط، لا خطأ فيه.</p>`,
+sections: [
+  {
+    title: 'مواقيت الصلاة',
+    lead: 'كيف يُشتقّ كل وقت من موضع الشمس، ولماذا تختلف الجهات في تحديده.',
+    cards: [
+      { slug: 'prayer-time-calculation-methods',
+        title: 'طرق حساب مواقيت الصلاة وزوايا الفجر والعشاء',
+        desc: 'ما الذي يُحسب أصلًا، ومعنى «زاوية الفجر»، والفرق بين الزاوية والفاصل الزمني الثابت. مع جدول الطرق السبع عشرة المطبَّقة هنا بزواياها، وتعديلات الدقائق التي تنشرها بعض الجهات الرسمية، وحساب العصر بعاملَي الظل.',
+        cta: 'اقرأ الدليل' },
+      { slug: 'why-prayer-times-differ',
+        title: 'لماذا تختلف مواقيت الصلاة بين التطبيقات والمواقع؟',
+        desc: 'خمسة أسباب شائعة، مرتَّبة من الأكبر أثرًا إلى الأصغر: الزاوية، ودقائق الاحتياط الرسمية، والإحداثيات، والمنطقة الزمنية، والتقريب. ثم حالة العروض العالية حيث قد يبلغ الفارق ساعتين. وفي آخره خطوات لمقارنة مصدرين بإنصاف.',
+        cta: 'اقرأ الدليل' },
+    ]
+  },
+  {
+    title: 'اتجاه القبلة',
+    lead: 'الفرق بين الاتجاه المحسوب هندسيًا وبين ما تشير إليه بوصلة جهازك.',
+    cards: [
+      { slug: 'how-qibla-direction-is-calculated',
+        title: 'كيف يتم حساب اتجاه القبلة؟',
+        desc: 'القبلة اتجاه على سطح كرة لا خط على خريطة مسطّحة — ولهذا تأتي النتائج مخالفة للحدس. الصيغة المستخدمة، وإحداثيات الكعبة، وحساب المسافة، ولماذا لا تنطبق إبرة البوصلة دائمًا على الرقم المحسوب.',
+        cta: 'اقرأ الدليل' },
+    ]
+  }
+],
+editorial: `<h2>كيف تُكتب هذه الأدلّة</h2>
+<p>كل رقم في هذه الصفحات مأخوذ من أحد مصدرين: <strong>شيفرة هذا الموقع نفسها</strong>، أو <strong>حساب أُجري بالمحرّك نفسه</strong> الذي يولّد المواقيت التي تراها — بتاريخ وإحداثيات وطريقة مذكورة صراحةً في كل مثال، لا بأرقام عامة.</p>
+<p>وحين نذكر زاوية أو تعديل دقائق تعتمده جهة رسمية، ننسبه إليها ونضع مصدره في قسم المصادر أسفل كل دليل. وحيث يختلف ما يطبّقه الموقع عمّا تنشره الجهة، نقول ذلك صراحةً بدل إخفائه.</p>
+<p>أما المسائل الفقهية — كاختيار مذهب في العصر، أو حكم الانحراف اليسير عن القبلة — فنعرض الاختلاف ولا نرجّح فيه، والمرجع فيها أهل العلم أو الجهة التي يتبعها القارئ.</p>`,
+back: { title: 'خدمات الموقع', links: [
+  { href: '/', label: 'مواقيت الصلاة' },
+  { href: '/qibla', label: 'اتجاه القبلة' },
+  { href: '/prayer-times-worldwide', label: 'مواقيت الصلاة في دول العالم' },
+  { href: '/moon', label: 'القمر اليوم' },
+]},
+},
+
+en: {
+h1: 'Prayer Times & Qibla Guides',
+intro: `<p class="guide-intro">This section explains <strong>how this site computes what it shows you</strong>. It doesn't claim more accurate numbers than anyone else — it shows you the equation, the threshold and the decision behind every time and bearing, with worked examples and sources attributed to the bodies that publish them.</p>
+<p>These guides exist because what confuses people is rarely the number itself — it's how it <strong>differs</strong> from another number they saw. Most of that difference has a simple geometric or institutional explanation, and nothing is wrong.</p>`,
+sections: [
+  {
+    title: 'Prayer Times',
+    lead: 'How each time is derived from the sun\'s position, and why authorities disagree on the threshold.',
+    cards: [
+      { slug: 'prayer-time-calculation-methods',
+        title: 'Prayer Time Calculation Methods and Angles',
+        desc: 'What is actually being computed, what a "Fajr angle" means, and the difference between an angle and a fixed interval. Includes the table of all seventeen methods implemented here with their angles, the precautionary minutes some authorities publish, and how Asr is derived from shadow length.',
+        cta: 'Read the guide' },
+      { slug: 'why-prayer-times-differ',
+        title: 'Why Prayer Times Differ Between Apps and Websites',
+        desc: 'Five common causes, ordered from largest effect to smallest: the angle, official precautionary minutes, coordinates, time zone and DST, and rounding. Then the high-latitude case, where the gap can reach two hours — and a checklist for comparing two sources fairly.',
+        cta: 'Read the guide' },
+    ]
+  },
+  {
+    title: 'Qibla Direction',
+    lead: 'The difference between a geometrically computed bearing and what your phone\'s compass points at.',
+    cards: [
+      { slug: 'how-qibla-direction-is-calculated',
+        title: 'How Qibla Direction Is Calculated',
+        desc: 'The Qibla is a direction on a sphere, not a line on a flat map — which is why the results defy intuition. The formula used, the Kaaba coordinates, how distance is computed, and why the compass needle does not always land on the computed number.',
+        cta: 'Read the guide' },
+    ]
+  }
+],
+editorial: `<h2>How these guides are written</h2>
+<p>Every figure on these pages comes from one of two places: <strong>this site's own code</strong>, or <strong>a calculation run through the same engine</strong> that produces the times you see — with the date, coordinates and method named explicitly in each example rather than quoted as general figures.</p>
+<p>Where we cite an angle or a minute adjustment used by an official body, we attribute it and list the source at the foot of each guide. Where what this site applies differs from what that body publishes, we say so plainly instead of hiding it.</p>
+<p>Matters of jurisprudence — choosing an Asr definition, or how much deviation from the Qibla is acceptable — are presented as differences, not settled. Those are referred to qualified scholars or the authority a reader follows.</p>`,
+back: { title: 'Site services', links: [
+  { href: '/en/', label: 'Prayer Times' },
+  { href: '/en/qibla', label: 'Qibla Direction' },
+  { href: '/en/prayer-times-worldwide', label: 'Prayer Times Worldwide' },
+  { href: '/en/moon', label: 'Moon Today' },
+]},
+},
+
+};
+
+module.exports = { GUIDES, GUIDES_HUB };

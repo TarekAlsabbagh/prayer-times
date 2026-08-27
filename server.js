@@ -126,7 +126,10 @@ const MoonDaySeo = require('./js/moon-day-seo.js');
 // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1 (2026-08-27): frozen editorial guide content
 //   (3 guides x ar/en). Server-side only -- injected into guides.html, which is then handed
 //   to serveHtmlWithSeo() so these pages get the SAME head pipeline as every other route.
-const { GUIDES: _GUIDES } = require('./js/guides-content.js');
+const { GUIDES: _GUIDES, GUIDES_HUB: _GUIDES_HUB } = require('./js/guides-content.js');
+// ADSENSE-EDITORIAL-GUIDES-HUB-1 (2026-08-27): /guides and /en/guides. Exact match only --
+//   this must never shadow /guides/{slug}, which _GUIDE_ROUTE_RE below owns.
+const _GUIDES_HUB_RE = /^\/(?:(en)\/)?guides$/;
 // Route slugs, in the order they appear in the content module. Used by the router, the
 //   staticPages SEO table and the sitemap so there is ONE list, not three.
 const _GUIDE_SLUGS = Object.keys(_GUIDES);
@@ -12447,6 +12450,8 @@ function buildSeoForPath(urlPath) {
     // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: slug of the editorial guide being rendered
     //   (null on every other route). Drives the Article JSON-LD + the second breadcrumb level.
     let guidePage = null;
+    // ADSENSE-EDITORIAL-GUIDES-HUB-1: true only on /guides and /en/guides. Drives CollectionPage.
+    let guidesHub = false;
     const SITE_NAMES = {
         ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
         tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز', de: 'Gebetszeiten',
@@ -12795,6 +12800,21 @@ function buildSeoForPath(urlPath) {
         //   NOT translated into the other eight languages, so we must not advertise them.
         //   `guidePage` carries the slug through to serveHtmlWithSeo for the Article JSON-LD.
         //   NOTE: /guides and /en/guides (a hub) deliberately do NOT exist yet -- separate ticket.
+        // ADSENSE-EDITORIAL-GUIDES-HUB-1: the section landing page. `hreflangOnly` for the same
+        //   reason as the articles -- the hub exists in ar + en only. `guidesHub` drives the
+        //   CollectionPage JSON-LD and tells the article routes their parent rung now exists.
+        '/guides': {
+            title: {
+                ar: 'أدلة مواقيت الصلاة والقبلة | شروح مبنية على الحساب',
+                en: 'Prayer Times & Qibla Guides — How the Calculations Work',
+            },
+            desc: {
+                ar: 'قسم الأدلّة: شرح كيف يحسب الموقع مواقيت الصلاة واتجاه القبلة — الزوايا وتعديلات الدقائق وأسباب اختلاف المصادر، بأمثلة محسوبة ومصادر منسوبة.',
+                en: 'The guides section: how this site computes prayer times and the Qibla direction — angles, precautionary minutes, and why sources differ, with worked examples and attributed sources.',
+            },
+            hreflangOnly: ['ar', 'en'],
+            guidesHub: true,
+        },
         '/guides/prayer-time-calculation-methods': {
             title: {
                 ar: 'طرق حساب مواقيت الصلاة وزوايا الفجر والعشاء | شرح مفصّل',
@@ -13402,13 +13422,18 @@ function buildSeoForPath(urlPath) {
         if (sp.noindex) robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         if (sp.noHreflang) noHreflang = true;
         if (Array.isArray(sp.hreflangOnly)) _hreflangOnly = sp.hreflangOnly;
-        if (sp.guidePage) guidePage = sp.guidePage;
-        // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: the guides deliberately add NO breadcrumb of
-        //   their own. The generic staticPages push a few lines below already emits exactly the two
-        //   rungs this ticket calls for -- Home > current page -- using the same page title every
-        //   other static page uses. Pushing a second rung here produced a DUPLICATE third level
-        //   pointing at the same URL. The /guides hub rung is a separate, later ticket; until that
-        //   page exists a breadcrumb must not point at it.
+        if (sp.guidesHub) guidesHub = true;
+        if (sp.guidePage) {
+            guidePage = sp.guidePage;
+            // ADSENSE-EDITORIAL-GUIDES-HUB-1: now that /guides is a real 200 page, the articles get
+            //   their parent rung: Home > Guides > Article. The generic staticPages push a few lines
+            //   below still appends the article itself, so this adds exactly ONE middle rung -- it
+            //   does not re-introduce the duplicate third level that was removed in the previous
+            //   ticket, where this push pointed at the SAME url as the generic one.
+            const _hubLp = (lang === 'en') ? '/en' : '';
+            const _hubName = ((_GUIDES_HUB[lang] || _GUIDES_HUB.ar).h1) ? ((lang === 'en') ? 'Guides' : 'أدلة') : 'Guides';
+            breadcrumbs.push({ name: _hubName, item: origin + _hubLp + '/guides' });
+        }
         if (sp.moonFaq) moonFaq = true;
         if (sp.zakatFaq) zakatFaq = true;
         if (sp.tasbihFaq) tasbihFaq = true;
@@ -13489,7 +13514,11 @@ function buildSeoForPath(urlPath) {
                 }
             } catch (_hd8Err) { /* silent — keep static fallback */ }
         }
-        breadcrumbs.push({ name: title, item: canonical });
+        // ADSENSE-EDITORIAL-GUIDES-HUB-1: the hub's own rung reads "Guides", not its full SEO
+        //   title. The article pages already name this exact URL "Guides" as their middle rung --
+        //   letting the generic push label the SAME url with the long title would give one page two
+        //   different names across the site's trails. Every other static page is unaffected.
+        breadcrumbs.push({ name: guidesHub ? ((lang === 'en') ? 'Guides' : 'أدلة') : title, item: canonical });
     }
 
     // ===== HD-1 (2026-05-07): canonical override REMOVED =====
@@ -16003,7 +16032,7 @@ function buildSeoForPath(urlPath) {
         frUrl: _alt('fr', frUrl), trUrl: _alt('tr', trUrl), urUrl: _alt('ur', urUrl),
         deUrl: _alt('de', deUrl), idUrl: _alt('id', idUrl), esUrl: _alt('es', esUrl),
         bnUrl: _alt('bn', bnUrl), msUrl: _alt('ms', msUrl),
-        guidePage, guidesPublishedIso: _GUIDES_PUBLISHED_ISO,
+        guidePage, guidesHub, guidesPublishedIso: _GUIDES_PUBLISHED_ISO,
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, moonCountryListing, cityModified, origin,
@@ -16199,6 +16228,37 @@ function renderSeoHeadHtml(seo) {
                 "name": b.name,
                 "item": b.item
             }))
+        });
+    }
+
+    // ADSENSE-EDITORIAL-GUIDES-HUB-1: the hub is a section index, not a piece of writing, so it
+    //   gets CollectionPage -- NOT Article. The ItemList mirrors the three cards actually rendered
+    //   on the page, in the same order; it is not invented for SEO. Organization is referenced by
+    //   @id rather than duplicated, exactly as the articles do.
+    if (seo.guidesHub) {
+        const _hubLang = seo.lang === 'en' ? 'en' : 'ar';
+        const _hubData = _GUIDES_HUB[_hubLang] || _GUIDES_HUB.ar;
+        const _hubPrefix = (_hubLang === 'en') ? '/en' : '';
+        const _hubItems = [];
+        for (const _sec of _hubData.sections) {
+            for (const _card of _sec.cards) {
+                _hubItems.push({
+                    "@type": "ListItem",
+                    "position": _hubItems.length + 1,
+                    "name": _card.title,
+                    "url": seo.origin + _hubPrefix + '/guides/' + _card.slug
+                });
+            }
+        }
+        ssrGraph.push({
+            "@type": "CollectionPage",
+            "@id": `${seo.canonical}#collection`,
+            "name": _hubData.h1,
+            "description": seo.description,
+            "inLanguage": seo.lang,
+            "url": seo.canonical,
+            "isPartOf": { "@id": orgId },
+            "mainEntity": { "@type": "ItemList", "numberOfItems": _hubItems.length, "itemListElement": _hubItems }
         });
     }
 
@@ -33019,6 +33079,9 @@ const server = http.createServer(async (req, res) => {
             //   (3 slugs x ar/en = 6 URLs). Emitted via arEnUrl -- NOT bilingualUrl -- because
             //   the other eight locales do not exist for these routes. The /guides hub is a
             //   later ticket and is deliberately ABSENT from the sitemap until it is a real page.
+            // ADSENSE-EDITORIAL-GUIDES-HUB-1: the section landing page (ar + en = 2 URLs).
+            //   Slightly higher priority than the articles because it is the section entry point.
+            entries.push(...arEnUrl('/guides', '0.75', 'monthly', today));
             for (const _gs of _GUIDE_SLUGS) {
                 entries.push(...arEnUrl('/guides/' + _gs, '0.7', 'monthly', today));
             }
@@ -33659,6 +33722,65 @@ const server = http.createServer(async (req, res) => {
             const _dest = (_aliasMatch[2] === 'privacy-policy') ? '/privacy' : '/about-us';
             res.writeHead(301, { 'Location': _lg + _dest, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
+            return;
+        }
+    }
+
+    // ===== ADSENSE-EDITORIAL-GUIDES-HUB-1: the guides section landing page =====
+    //   /guides (ar) and /en/guides (en). Same template and same SEO pipeline as the articles --
+    //   it fills the placeholder and hands the buffer to serveHtmlWithSeo(), never writing its own
+    //   response. The regex is an EXACT match on /guides, so /guides/{slug} still reaches the
+    //   article route below untouched.
+    {
+        const _hm = urlPath.match(_GUIDES_HUB_RE);
+        if (_hm) {
+            const _hLang = _hm[1] || 'ar';
+            const _h = _GUIDES_HUB[_hLang];
+            if (!_h) { res.writeHead(404); res.end('Not Found'); return; }
+            readCachedFile(path.join(ROOT, 'guides.html'), (err, html) => {
+                if (err) { res.writeHead(404); res.end('Not Found'); return; }
+                const _hDir = (_hLang === 'ar') ? 'rtl' : 'ltr';
+                const _hPrefix = (_hLang === 'ar') ? '' : ('/' + _hLang);
+                let _body = '<h1>' + _escHtml(_h.h1) + '</h1>' + _h.intro;
+                for (const _sec of _h.sections) {
+                    _body += '<section class="guide-hub-section">'
+                        + '<h2>' + _escHtml(_sec.title) + '</h2>'
+                        + '<p class="guide-hub-lead">' + _escHtml(_sec.lead) + '</p>'
+                        + '<ul class="guide-hub-cards">';
+                    for (const _c of _sec.cards) {
+                        const _href = _hPrefix + '/guides/' + _c.slug;
+                        _body += '<li class="guide-hub-card">'
+                            + '<h3><a href="' + _escHtml(_href) + '">' + _escHtml(_c.title) + '</a></h3>'
+                            + '<p>' + _escHtml(_c.desc) + '</p>'
+                            + '<a class="guide-hub-cta" href="' + _escHtml(_href) + '">' + _escHtml(_c.cta) + '</a>'
+                            + '</li>';
+                    }
+                    _body += '</ul></section>';
+                }
+                _body += '<section class="guide-hub-editorial">' + _h.editorial + '</section>';
+                if (_h.back && _h.back.links && _h.back.links.length) {
+                    _body += '<nav class="guide-related" aria-label="' + _escHtml(_h.back.title) + '">'
+                        + '<h2>' + _escHtml(_h.back.title) + '</h2><ul class="guide-related-list">'
+                        + _h.back.links.map(l => '<li><a href="' + _escHtml(l.href) + '">'
+                             + _escHtml(l.label) + '</a></li>').join('')
+                        + '</ul></nav>';
+                }
+                let htmlStr = html.toString('utf8').replace('{{GUIDE_CONTENT}}', () => _body);
+                htmlStr = htmlStr.replace('<html lang="ar" dir="rtl">', `<html lang="${_hLang}" dir="${_hDir}">`);
+                {
+                    const _langPref = (_hLang === 'ar') ? '' : ('/' + _hLang);
+                    htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_langPref}/today-hijri-date"`);
+                }
+                {
+                    const _hChrome = (_hLang === 'ar') ? 'أدلة' : 'Guides';
+                    htmlStr = htmlStr.replace(
+                        '<div class="city-name" data-i18n="legal.header_label">معلومات قانونية</div>',
+                        '<div class="city-name">' + _escHtml(_hChrome) + '</div>'
+                    );
+                    htmlStr = htmlStr.replace('<use href="#i-map-pin"/>', '<use href="#i-book-open"/>');
+                }
+                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc, qs, req);
+            });
             return;
         }
     }

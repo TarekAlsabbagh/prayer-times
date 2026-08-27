@@ -123,6 +123,17 @@ const MoonCalc   = require('./js/moon.js');
 // for ANY city/month/lang — no hardcoded per-city exceptions). Pure, shared with the matrix test.
 const MoonMonthSeo = require('./js/moon-month-seo.js');
 const MoonDaySeo = require('./js/moon-day-seo.js');
+// ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1 (2026-08-27): frozen editorial guide content
+//   (3 guides x ar/en). Server-side only -- injected into guides.html, which is then handed
+//   to serveHtmlWithSeo() so these pages get the SAME head pipeline as every other route.
+const { GUIDES: _GUIDES } = require('./js/guides-content.js');
+// Route slugs, in the order they appear in the content module. Used by the router, the
+//   staticPages SEO table and the sitemap so there is ONE list, not three.
+const _GUIDE_SLUGS = Object.keys(_GUIDES);
+const _GUIDE_ROUTE_RE = new RegExp('^\\/(?:(en)\\/)?guides\\/(' + _GUIDE_SLUGS.join('|') + ')$');
+// First production publication date for all six pages. Article.datePublished/dateModified
+//   both read this on first release; only a substantive editorial revision moves dateModified.
+const _GUIDES_PUBLISHED_ISO = '2026-08-27';
 const { TRANSLATIONS: I18N } = require('./js/i18n.js');
 // SSR-Prayer-Times: pre-compute the 5 daily prayer times on the server so the
 //   FIRST byte of HTML carries real numbers (07:24, 12:15, …) instead of
@@ -5007,6 +5018,10 @@ const _preloadPaths = [
     'js/i18n/ur.js', 'js/i18n/de.js', 'js/i18n/id.js', 'js/i18n/es.js',
     'js/i18n/bn.js', 'js/i18n/ms.js',
     'index.html', 'prayer-times-cities.html', 'legal.html', 'countries.html',
+    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: the editorial-guides template. MUST be preloaded
+    //   like its siblings -- the shared sidebar/header/footer are injected at cache-load time, so a
+    //   template that is not in this list ships with the <!--SHARED-*--> placeholders unreplaced.
+    'guides.html',
     'sw.js',
     // QURAN-AR-SURAH-PAGE-PERFORMANCE-PRELOAD-MINIFY-FIX-1: the Quran section's own
     //   assets were served RAW (not in this list) — quran.css/quran.js unminified and
@@ -5047,7 +5062,7 @@ const _preloadPaths = [
 // countries.html / prayer-times-cities.html are deliberately NOT wired here —
 // unifying all four templates is a separate follow-up ticket.
 // ============================================================
-const _CHROME_TEMPLATES = new Set(['index.html', 'legal.html']);
+const _CHROME_TEMPLATES = new Set(['index.html', 'legal.html', 'guides.html']);
 
 // the 2 header <symbol>s the non-SPA templates lack. i-moon already ships in
 // _SIDENAV_SPRITE, so re-emitting it would create a duplicate id.
@@ -5067,7 +5082,7 @@ function _renderSiteFooter() {
     return _SITE_FOOTER_HTML;
 }
 
-const _SIDENAV_TEMPLATES = new Set(['index.html', 'legal.html', 'prayer-times-cities.html', 'countries.html']);
+const _SIDENAV_TEMPLATES = new Set(['index.html', 'legal.html', 'prayer-times-cities.html', 'countries.html', 'guides.html']);
 const _SIDENAV_GROUPS = [
     { gi18n: 'nav.group_islamic', gtext: 'الخدمات الإسلامية', gicon: 'i-mosque', items: [
         { href: '/',                 page: 'prayer-times',   icon: 'i-clock',         i18n: 'nav.prayer_times',   text: 'مواقيت الصلاة' },
@@ -12429,6 +12444,9 @@ function buildSeoForPath(urlPath) {
     let canonical = origin + p;
     // robots override: null = default index,follow; otherwise استخدم هذه القيمة
     let robotsOverride = null;
+    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: slug of the editorial guide being rendered
+    //   (null on every other route). Drives the Article JSON-LD + the second breadcrumb level.
+    let guidePage = null;
     const SITE_NAMES = {
         ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
         tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز', de: 'Gebetszeiten',
@@ -12747,6 +12765,11 @@ function buildSeoForPath(urlPath) {
     let webApp = null;           // WebApplication schema metadata (tool pages)
     let qiblaRef = null;         // Kaaba reference for /qibla-in-*
     let cityModified = null;     // dateModified for city pages
+    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: restrict the alternates to a SUBSET of langs.
+    //   `noHreflang` (below) drops the block entirely; this instead keeps only the languages a
+    //   route genuinely has. The editorial guides exist in ar + en ONLY, so advertising the other
+    //   eight would promise pages that 404 -- the same reasoning that made /quran opt out.
+    let _hreflangOnly = null;    // null = all ten (unchanged default for every existing route)
     let noHreflang = false;      // QURAN-AR-SSR-SURAH-GENERALIZATION-1: opt a route out of the hreflang
                                 //   alternates block (Arabic-only routes; the /{lang} twins do not exist)
     let moonFaq = false;         // Round 9: يُفعّل FAQPage schema لصفحات القمر
@@ -12765,6 +12788,49 @@ function buildSeoForPath(urlPath) {
 
     // ── Static tool pages ──
     const staticPages = {
+        // ── ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1 (2026-08-27) ──────────────────────────
+        //   Six editorial guide pages = 3 guides x ar/en. Titles and meta descriptions below
+        //   are the human-approved FROZEN values -- do not re-tune them for SEO here.
+        //   `hreflangOnly: ['ar','en']` is what keeps the alternates honest: these guides are
+        //   NOT translated into the other eight languages, so we must not advertise them.
+        //   `guidePage` carries the slug through to serveHtmlWithSeo for the Article JSON-LD.
+        //   NOTE: /guides and /en/guides (a hub) deliberately do NOT exist yet -- separate ticket.
+        '/guides/prayer-time-calculation-methods': {
+            title: {
+                ar: 'طرق حساب مواقيت الصلاة وزوايا الفجر والعشاء | شرح مفصّل',
+                en: 'Prayer Time Calculation Methods and Angles — A Clear Guide',
+            },
+            desc: {
+                ar: 'شرح عملي لطرق حساب مواقيت الصلاة: معنى زاوية الفجر والعشاء، الفرق بين الزاوية والفاصل الثابت، حساب العصر، و17 طريقة مطبَّقة بأمثلة محسوبة فعليًا.',
+                en: 'How prayer times are calculated: what Fajr and Isha angles mean, angle versus fixed interval, how Asr is derived, and the 17 methods this site implements — with worked examples.',
+            },
+            hreflangOnly: ['ar', 'en'],
+            guidePage: 'prayer-time-calculation-methods',
+        },
+        '/guides/why-prayer-times-differ': {
+            title: {
+                ar: 'لماذا تختلف مواقيت الصلاة بين التطبيقات والمواقع؟',
+                en: 'Why Prayer Times Differ Between Apps and Websites',
+            },
+            desc: {
+                ar: 'خمسة أسباب شائعة لاختلاف مواقيت الصلاة بين المصادر: الزاوية، ودقائق الجهة الرسمية، والإحداثيات، والتوقيت الصيفي، والتقريب — مع قياسات فعلية.',
+                en: 'Five common reasons prayer times differ between sources: the angle, official precautionary minutes, coordinates, time zone and DST, and rounding — with measured examples.',
+            },
+            hreflangOnly: ['ar', 'en'],
+            guidePage: 'why-prayer-times-differ',
+        },
+        '/guides/how-qibla-direction-is-calculated': {
+            title: {
+                ar: 'كيف يتم حساب اتجاه القبلة؟ الطريقة والصيغة',
+                en: 'How Qibla Direction Is Calculated — Method and Formula',
+            },
+            desc: {
+                ar: 'شرح دقيق لحساب اتجاه القبلة: الاتجاه الابتدائي للدائرة العظمى، إحداثيات الكعبة، مسافة Haversine، والفرق الجوهري بين الحساب وبوصلة الجهاز.',
+                en: 'How the Qibla bearing is computed: great-circle initial bearing, the Kaaba\'s coordinates, Haversine distance, and why a device compass is not the same thing.',
+            },
+            hreflangOnly: ['ar', 'en'],
+            guidePage: 'how-qibla-direction-is-calculated',
+        },
         '/qibla': {
             // Phase Q-Hub-A (2026-05-04): extend Title to 50-60 sweet spot and
             // shift emphasis to Hub intent (find Qibla anywhere, NOT a city).
@@ -13335,6 +13401,14 @@ function buildSeoForPath(urlPath) {
         if (sp.app) webApp = { name: title, url: canonical, category: sp.app.category };
         if (sp.noindex) robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         if (sp.noHreflang) noHreflang = true;
+        if (Array.isArray(sp.hreflangOnly)) _hreflangOnly = sp.hreflangOnly;
+        if (sp.guidePage) guidePage = sp.guidePage;
+        // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: the guides deliberately add NO breadcrumb of
+        //   their own. The generic staticPages push a few lines below already emits exactly the two
+        //   rungs this ticket calls for -- Home > current page -- using the same page title every
+        //   other static page uses. Pushing a second rung here produced a DUPLICATE third level
+        //   pointing at the same URL. The /guides hub rung is a separate, later ticket; until that
+        //   page exists a breadcrumb must not point at it.
         if (sp.moonFaq) moonFaq = true;
         if (sp.zakatFaq) zakatFaq = true;
         if (sp.tasbihFaq) tasbihFaq = true;
@@ -15918,8 +15992,18 @@ function buildSeoForPath(urlPath) {
     // isHome: true when visiting language root (ar='/', en='/en/', fr='/fr/', ...)
     const isHome = (corePath === '/');
 
+    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: when a route declares `hreflangOnly`, the
+    //   languages outside that list are returned as null so renderSeoHeadHtml's existing
+    //   `if (seo.frUrl)` guards skip them. ar/en are emitted unconditionally by the emitter and
+    //   are the two languages the guides actually have. Every other route passes _hreflangOnly
+    //   === null and is completely unaffected.
+    const _alt = (l, u) => (!_hreflangOnly || _hreflangOnly.indexOf(l) !== -1) ? u : null;
     return {
-        title, description, canonical, arUrl, enUrl, frUrl, trUrl, urUrl, deUrl, idUrl, esUrl, bnUrl, msUrl,
+        title, description, canonical, arUrl, enUrl,
+        frUrl: _alt('fr', frUrl), trUrl: _alt('tr', trUrl), urUrl: _alt('ur', urUrl),
+        deUrl: _alt('de', deUrl), idUrl: _alt('id', idUrl), esUrl: _alt('es', esUrl),
+        bnUrl: _alt('bn', bnUrl), msUrl: _alt('ms', msUrl),
+        guidePage, guidesPublishedIso: _GUIDES_PUBLISHED_ISO,
         isEn, isRtl, lang, siteName, isHome,
         ogType, ogImageUrl, breadcrumbs, geo, prev, next, article,
         webApp, qiblaRef, countryListing, moonCountryListing, cityModified, origin,
@@ -16115,6 +16199,27 @@ function renderSeoHeadHtml(seo) {
                 "name": b.name,
                 "item": b.item
             }))
+        });
+    }
+
+    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: Article for the six editorial guides.
+    //   Pushed into the SAME @graph as Organization so `author`/`publisher` REFERENCE the existing
+    //   node by @id instead of duplicating a second Organization with a different shape.
+    //   No Person author is invented; no FAQPage is emitted (the guides have no FAQ section).
+    //   datePublished === dateModified on first release; only a substantive editorial revision
+    //   moves dateModified, which is why the date lives in ONE constant.
+    if (seo.guidePage) {
+        ssrGraph.push({
+            "@type": "Article",
+            "@id": `${seo.canonical}#article`,
+            "headline": seo.title,
+            "description": seo.description,
+            "inLanguage": seo.lang,
+            "mainEntityOfPage": seo.canonical,
+            "datePublished": seo.guidesPublishedIso,
+            "dateModified": seo.guidesPublishedIso,
+            "author": { "@id": orgId },
+            "publisher": { "@id": orgId }
         });
     }
 
@@ -32777,6 +32882,24 @@ const server = http.createServer(async (req, res) => {
         return langs.map(l => body(urls[l]));
     }
 
+    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: ar + en ONLY emitter. bilingualUrl() above
+    //   advertises all ten languages; the editorial guides exist in two, so reusing it would put
+    //   eight 404s per guide into the sitemap. Same <url> shape, two locales, x-default -> ar.
+    function arEnUrl(relPath, prio, cf, today) {
+        const langs = ['ar', 'en'];
+        const urls = {};
+        for (const l of langs) {
+            const prefix = (l === 'ar') ? '' : ('/' + l);
+            urls[l] = escapeXml(SITE_URL + prefix + relPath);
+        }
+        const links = langs.map(l =>
+            `    <xhtml:link rel="alternate" hreflang="${l}" href="${urls[l]}"/>`
+        ).join('\n') + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${urls.ar}"/>`;
+        const body = (loc) =>
+            `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${cf}</changefreq>\n    <priority>${prio}</priority>\n${links}\n  </url>`;
+        return langs.map(l => body(urls[l]));
+    }
+
     const URLSET_OPEN = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
     const URLSET_CLOSE = `</urlset>\n`;
 
@@ -32890,6 +33013,14 @@ const server = http.createServer(async (req, res) => {
             ];
             for (const [p, pr, cf] of staticPaths) {
                 entries.push(...bilingualUrl(p, pr, cf, today));
+            }
+
+            // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: the six editorial guide pages
+            //   (3 slugs x ar/en = 6 URLs). Emitted via arEnUrl -- NOT bilingualUrl -- because
+            //   the other eight locales do not exist for these routes. The /guides hub is a
+            //   later ticket and is deliberately ABSENT from the sitemap until it is a real page.
+            for (const _gs of _GUIDE_SLUGS) {
+                entries.push(...arEnUrl('/guides/' + _gs, '0.7', 'monthly', today));
             }
 
             // 1b) QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1:
@@ -33528,6 +33659,65 @@ const server = http.createServer(async (req, res) => {
             const _dest = (_aliasMatch[2] === 'privacy-policy') ? '/privacy' : '/about-us';
             res.writeHead(301, { 'Location': _lg + _dest, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
+            return;
+        }
+    }
+
+    // ===== ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: editorial guides =====
+    //   /guides/{slug} (ar) and /en/guides/{slug} (en) -- ar + en ONLY, by design.
+    //   Built exactly like the legal pages: fill a placeholder in a static template, then hand
+    //   the buffer to serveHtmlWithSeo() so title/canonical/hreflang/OG/robots all come from the
+    //   ONE pipeline. Never writes its own response -- that is the bug class we fixed in PR #65
+    //   on /prayer-times-worldwide, and repeating it here would silently drop canonical+hreflang.
+    {
+        const _gm = urlPath.match(_GUIDE_ROUTE_RE);
+        if (_gm) {
+            const _gLang = _gm[1] || 'ar';
+            const _gSlug = _gm[2];
+            const _g = (_GUIDES[_gSlug] || {})[_gLang];
+            if (!_g) { res.writeHead(404); res.end('Not Found'); return; }
+            readCachedFile(path.join(ROOT, 'guides.html'), (err, html) => {
+                if (err) { res.writeHead(404); res.end('Not Found'); return; }
+                const _dir = (_gLang === 'ar') ? 'rtl' : 'ltr';
+                const _relLabel = (_gLang === 'ar') ? 'أدلّة ذات صلة' : 'Related guides';
+                const _relHtml = (_g.related && _g.related.length)
+                    ? ('<nav class="guide-related" aria-label="' + _escHtml(_relLabel) + '">'
+                       + '<h2>' + _escHtml(_relLabel) + '</h2><ul class="guide-related-list">'
+                       + _g.related.map(r => '<li><a href="' + _escHtml(r.href) + '">'
+                            + _escHtml(r.label) + '</a></li>').join('')
+                       + '</ul></nav>')
+                    : '';
+                const _article = '<h1>' + _escHtml(_g.h1) + '</h1>' + _g.body
+                    + '<section class="guide-sources">' + _g.sources + '</section>' + _relHtml;
+                let htmlStr = html.toString('utf8').replace('{{GUIDE_CONTENT}}', () => _article);
+                htmlStr = htmlStr.replace('<html lang="ar" dir="rtl">', `<html lang="${_gLang}" dir="${_dir}">`);
+                // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: retitle the inherited top-chrome label.
+                //   guides.html reuses legal.html's shared header, whose label reads "Legal
+                //   Information" -- wrong for an editorial guide. Two deliberate details:
+                //   (a) `data-i18n="legal.header_label"` is DROPPED, not re-pointed. Keeping it would
+                //       let the client i18n pass write "Legal Information" straight back over the
+                //       server-rendered label. Adding a new i18n key instead would mean editing
+                //       js/i18n.js + regenerating all ten split bundles + a version bump -- far
+                //       outside this ticket. The guides are ar/en only and the route already knows
+                //       which, so SSR writing the final string is correct and stable.
+                //   (b) DISPLAY LABEL ONLY -- it is deliberately NOT a link, because /guides and
+                //       /en/guides stay 404 until the hub ticket creates them.
+                //   The icon swaps to the EXISTING i-book-open symbol (already in the shared sidenav
+                //   sprite on this page, used by the Quran nav item). No new SVG is introduced.
+                {
+                    const _gChrome = (_gLang === 'ar') ? 'أدلة' : 'Guides';
+                    htmlStr = htmlStr.replace(
+                        '<div class="city-name" data-i18n="legal.header_label">معلومات قانونية</div>',
+                        '<div class="city-name">' + _escHtml(_gChrome) + '</div>'
+                    );
+                    htmlStr = htmlStr.replace('<use href="#i-map-pin"/>', '<use href="#i-book-open"/>');
+                }
+                {
+                    const _langPref = (_gLang === 'ar') ? '' : ('/' + _gLang);
+                    htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_langPref}/today-hijri-date"`);
+                }
+                serveHtmlWithSeo(Buffer.from(htmlStr, 'utf8'), urlPath, res, _acceptEnc, qs, req);
+            });
             return;
         }
     }

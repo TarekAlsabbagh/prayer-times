@@ -8535,6 +8535,11 @@ const _PAGE_KEEP_RULES = [
     // single-purpose tools -- SSR already relocates `active`
     [/^\/date-converter$/,                      'page-date-converter'],
     [/^\/zakat-calculator$/,                    'page-zakat'],
+    // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1: added ONLY after the SSR
+    //   activation above promotes #page-tasbih, so the block this keeps is the
+    //   one actually marked active in the raw HTML. Adding the strip rule first
+    //   would have stripped every block and left the route with no body.
+    [/^\/msbaha$/,                              'page-tasbih'],
     // prayer city pages -- #page-prayer-times is BOTH the SSR-active block and the subject
     [/^\/prayer-times-in-[a-z0-9-]+$/,           'page-prayer-times'],
     // ADSENSE-QIBLA-SSR-ACTIVE-SECTION-1: added only AFTER the SSR active-section fix above, so
@@ -9319,7 +9324,14 @@ function _moonCityLocalNoonSsr(tz, baseDate) {
     }
 }
 
-function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz, calcInstant) {
+// ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 (P1): `outVals` is an optional out-parameter that
+//   receives the phase name and illumination string this function ALREADY computes for the intro
+//   paragraph. The moon FAQ templates (moon.faq.tpl_dq1 / tpl_dq_illum) carry the same
+//   {phaseName}/{illum} tokens but were never substituted server-side, so a crawler read the raw
+//   tokens in visible text. Handing the existing values back lets the caller fill them WITHOUT a
+//   second astronomical computation — same instant (city-local noon), same numbers, so
+//   SSR == DOM == JSON-LD still holds. js/moon.js and the Meeus math are untouched.
+function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijriLabel, tz, calcInstant, outVals) {
     try {
         if (!MoonCalc || !I18N) return null;
         const _hasDate = (dateObj instanceof Date && !isNaN(dateObj.getTime()));
@@ -9393,6 +9405,12 @@ function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijri
             _hijriInlineStr = (lang === 'ar' || lang === 'ur')
                 ? ` (الموافق ${hijriLabel})`
                 : ` (${hijriLabel})`;
+        }
+        if (outVals && typeof outVals === 'object') {
+            outVals.phaseName = phaseName;
+            outVals.phaseIcon = phase.icon || '';
+            outVals.illum = illumStr;
+            outVals.age = ageStr;
         }
         return template
             .replace(/\{city\}/g, cityLabel)
@@ -17673,6 +17691,11 @@ if (_SC_ON) {
 }
 
 function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
+    // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 (P1): carries the phase name and
+    //   illumination that _buildSsrMoonIntro computes for the moon intro down to the
+    //   post-_translateI18nAttrs pass, which is the only point where a substitution
+    //   survives the i18n walker. Stays null on every non-moon route.
+    let _ssrMoonVals = null;
     // ---- SSR-RESPONSE-CACHE-PHASE-1A --------------------------------------------------
     let _scKey = null;
     if (_scEligible(urlPath, qs, req)) {
@@ -22902,6 +22925,36 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         }
     }
 
+    // ──────────────────────────────────────────────────────────────────
+    // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 (P0): /msbaha shipped the
+    // PRAYER-TIMES body as its rendered SSR page. The shell marks
+    // #page-prayer-times `class="page active"` by default and every other
+    // route moves that `active` onto its own block; /msbaha never did, and
+    // although css/style.css already carries the pair
+    //   html.msbaha-page #page-tasbih      { display: block !important }
+    //   html.msbaha-page #page-prayer-times{ display: none  !important }
+    // NOTHING ever added that class — `msbaha-page` appears 0 times in
+    // server.js and its only occurrence in js/app.js is a classList.remove.
+    // So a no-JS crawler rendered a different family's primary content and
+    // saw no H1 at all (#tasbih-h1 sits inside the hidden #page-tasbih);
+    // the SPA only healed it after hydration. Same defect class as the qibla
+    // fix in PR #64. This is the zakat/date-converter pattern verbatim: a
+    // pure CSS-visibility toggle of wrappers already in the DOM (zero CLS),
+    // plus the `active` move so the HTML ends with exactly ONE .page.active.
+    // NO change to the tasbih tool, counter, dhikr text, SEO or i18n.
+    const _isMsbahaPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?msbaha$/.test(urlPath);
+    if (_isMsbahaPage) {
+        html = html.replace(/<html(\s[^>]*)?>/, (match, attrs) => {
+            const a = attrs || '';
+            if (/\bclass="/.test(a)) {
+                return '<html' + a.replace(/\bclass="([^"]*)"/, (mm, cls) => `class="${cls} msbaha-page"`) + '>';
+            }
+            return '<html' + a + ' class="msbaha-page">';
+        });
+        html = html.replace('<div class="page active" id="page-prayer-times">', '<div class="page" id="page-prayer-times">');
+        html = html.replace('<div class="page" id="page-tasbih">', '<div class="page active" id="page-tasbih">');
+    }
+
     // 1f) UAT-Moon-Home: /moon-today → Moon Gateway. Strip heavy moon sections
     //     + entire #page-prayer-times shell. Inject html.moon-today-hub-page so
     //     CSS reveals the new #moon-hub-hero / #moon-hub-faq immediately.
@@ -23998,9 +24051,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // (kept by _downgradeInactiveH1s via the country marker). Fill it with the LOCALIZED country
         // title — matches the client re-fill (no FOUC, no raw-English-name leak). Also fill the
         // navbar #page-title <span> for SSR parity (legacy <h1 id="page-title"> replace kept as no-op).
+        // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 (P2): this replacement used to keep the
+        //   opening tag via `$1`, which preserved data-i18n="cities_page.hero_title". That attribute
+        //   made _translateI18nAttrs — which runs LATER in the pipeline — overwrite the localized
+        //   country title with the generic key value, so the crawler's only visible H1 read
+        //   "مواقيت الصلاة في مدن الدولة" / "Prayer Times in Cities" with no country name at all
+        //   (verified: the served H1 matched the i18n value byte-for-byte in ar/en/fr/id).
+        //   The sibling moon-country block never had the bug because it rewrites the WHOLE element
+        //   and drops the attribute; that is exactly what is mirrored here. The <title> was always
+        //   correct, so this changes the H1 only — no title/meta/canonical/hreflang impact.
         html = html.replace(
-            /(<h1\b[^>]*\bid="loc-hero-title"[^>]*>)[\s\S]*?(<\/h1>)/,
-            `$1${_escHtml(_countryH1)}$2`
+            /<h1\b[^>]*\bid="loc-hero-title"[^>]*>[\s\S]*?<\/h1>/,
+            `<h1 id="loc-hero-title" class="loc-hero-title">${_escHtml(_countryH1)}</h1>`
         );
         html = html.replace(
             /<h1([^>]*)id="page-title"([^>]*)>[^<]*<\/h1>/,
@@ -26204,10 +26266,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 ? _moonCityLocalNoonSsr(_introTz, new Date(_introDateObj.getTime() + 12 * 3600 * 1000))
                 : _moonCityLocalNoonSsr(_introTz))
             : null;
+        const _moonVals = {};
         const _introMoonDynamic = _buildSsrMoonIntro(
             Lm, _cityLabel, seo.moonCity.lat, seo.moonCity.lng,
-            _introDateObj, _introDateLabel, _introHijriLabel, _introTz, _introInstant
+            _introDateObj, _introDateLabel, _introHijriLabel, _introTz, _introInstant, _moonVals
         ) || _introMoon;
+        // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 (P1): hand the values to the
+        //   post-_translateI18nAttrs pass. They CANNOT be substituted here: the i18n
+        //   walker runs later and would re-insert the raw templates, which is exactly
+        //   why the sibling {city} moon fix also lives after the walker.
+        _ssrMoonVals = _moonVals;
         // الفقرة التعريفيّة: استبدال النصّ الافتراضيّ داخل <p class="moon-intro">
         // ملاحظة: نُسقِط data-i18n عمدًا — حتى لا يدوس الـ auto-binder على نصّنا الغنيّ بـ fallback يحوي {city} حرفيًّا.
         // الفقرة ستُحدَّث لاحقًا عبر app.js (#moon-intro by id) بالبيانات الحيّة من المستخدم.
@@ -29048,6 +29116,105 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     if (_isMoonCityPageSsr && seo.moonCity && seo.moonCity.name) {
         const _cityForI18n = String(seo.moonCity.name);
         html = html.replace(/\{city\}/g, _cityForI18n);
+    }
+
+    // ════════════════════════════════════════════════════════════════════════════
+    // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 — visible template tokens.
+    //
+    // Everything below runs AFTER _translateI18nAttrs, because that walker re-inserts
+    // the raw i18n templates over anything substituted earlier. Scope is deliberately
+    // narrow: ONLY tokens the audit proved are rendered to a crawler (measured with
+    // JavaScript disabled). The many {city}/{loc} occurrences that sit inside
+    // display:none .page blocks are NOT touched — they are invisible by construction
+    // and cleaning them would be an unrelated global template change.
+    // ════════════════════════════════════════════════════════════════════════════
+
+    // (P1) moon today / moon day — {phaseName} and {illum} inside the visible
+    //   #moon-faq-city answers. Values come from the intro computation at this page's
+    //   own instant, so FAQ == intro == DOM == JSON-LD.
+    if (_ssrMoonVals && _ssrMoonVals.phaseName) {
+        html = html.replace(/\{phaseName\}/g, _escHtml(_ssrMoonVals.phaseName));
+    }
+    if (_ssrMoonVals && _ssrMoonVals.illum) {
+        html = html.replace(/\{illum\}/g, _escHtml(_ssrMoonVals.illum));
+    }
+
+    // (P1) English moon HUB — moon.upcoming.title is the ONLY moon string whose EN
+    //   value carries "{city}" ("🔮 Upcoming Moon Phases in {city}"); every other
+    //   locale ships a city-less heading ("مواعيد الأطوار القمرية القادمة",
+    //   "Yaklaşan Ay Evreleri", …). On a city route the moon-city pass above already
+    //   filled it; on a HUB route there is no city, so the token survived — visible to
+    //   users, not only crawlers. No city may be invented here, so the fix mirrors the
+    //   clean locales: drop the trailing " in {city}" and keep the generic heading.
+    //   Any residual {city} on a city-less moon route is removed the same way.
+    //   Scoped to the heading element itself, NOT the whole document: the hidden .page
+    //   blocks also contain {city}, and app.js substitutes those at runtime when the SPA
+    //   navigates to a moon city page — blanking them here would break that path.
+    //   The data-i18n binding is dropped along with the token: app.js re-applies
+    //   moon.upcoming.title on hydration, which put "{city}" straight back for a real
+    //   user (this was the one placeholder visible even with JavaScript enabled).
+    //   Same technique the moon hub already uses for its H1 ("Drop data-i18n so
+    //   _translateI18nAttrs does not overwrite the SSR text").
+    if (!(seo.moonCity && seo.moonCity.name)) {
+        html = html.replace(
+            /(<h2\b[^>]*\bid="moon-upcoming-h2"[^>]*>)([\s\S]*?)(<\/h2>)/,
+            (m, open, inner, close) => inner.indexOf('{city}') === -1 ? m
+                : open + inner
+                    .replace(/\sdata-i18n="moon\.upcoming\.title"/g, '')
+                    .replace(/\s*(?:in|à|en|di)?\s*\{city\}/gi, '')
+                    .replace(/\s{2,}/g, ' ')
+                  + close
+        );
+    }
+
+    // (P1) next-prayer + time-left — the hero city span ships a literal em dash and the
+    //   CTA/secondary strings keep {loc}/{city}/{prayer}. app.js fills all three BY ID
+    //   after hydration (and only when the token is still present), so SSR-filling them
+    //   is a no-op for the client and changes no prayer value or countdown logic.
+    if (seo && (seo.timeLeftPage || seo.nextPrayerPage)) {
+        const _pcSlugM = String(urlPath)
+            .replace(/^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/, '')
+            .match(/^\/(?:time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?$/);
+        let _pcCity = '';
+        if (_pcSlugM) {
+            _pcCity = (typeof _resolveCityName === 'function')
+                ? (_resolveCityName(_pcSlugM[1], seo.lang) || _slugToTitle(_pcSlugM[1]))
+                : _slugToTitle(_pcSlugM[1]);
+        }
+        if (!_pcCity && _pcCityLoc) _pcCity = _pcCityLoc;
+        if (_pcCity) {
+            const _pcE = _escHtml(_pcCity);
+            // hero city spans: <b id="tl-city">—</b> and <span id="npt-h1-city">—</span>
+            html = html.replace(
+                /(<(?:b|span)\b[^>]*\bid="(?:tl-city|npt-h1-city)"[^>]*>)[^<]*(<\/(?:b|span)>)/g,
+                (m, open, close) => open + _pcE + close
+            );
+            // Arabic-script locales keep «؟»; every other locale must use its own mark.
+            // The shell hard-codes «؟» right after </b> in the tl-h1, for ALL languages.
+            if (seo.lang !== 'ar' && seo.lang !== 'ur') {
+                html = html.replace(
+                    /(<b\b[^>]*\bid="tl-city"[^>]*>[^<]*<\/b>)؟/g,
+                    (m, g1) => g1 + '?'
+                );
+            }
+            html = html.replace(/\{loc\}/g, _pcE).replace(/\{city\}/g, _pcE);
+            // {prayer} names the NEXT prayer, which is resolved on the client, not in SSR.
+            // Rather than invent one, fall back to the prayer-agnostic wording this site
+            // already ships for the same question (tl.h1_prefix), so the sentence stays
+            // true for a crawler and app.js still refines it to the exact prayer on load.
+            if (html.indexOf('{prayer}') !== -1) {
+                const _tlDict = (I18N && (I18N[seo.lang] || I18N.en)) || {};
+                const _agnostic = _tlDict['tl.h1_prefix'] || '';
+                html = html.replace(
+                    /(<a\b[^>]*\bid="npt-secondary"[^>]*>)[\s\S]*?(<\/a>)/,
+                    (m, open, close) => open
+                        + _escHtml(_agnostic ? (_agnostic.replace(/\s*[—–-]\s*$/, '') + ' ' + _pcCity
+                            + ((seo.lang === 'ar' || seo.lang === 'ur') ? '؟' : '?')) : _pcCity)
+                        + close
+                );
+                html = html.replace(/\{prayer\}/g, '');
+            }
+        }
     }
 
     // NAVBAR-CITY-CONTEXT-LINKS-FOR-CITY-PAGES-1 (2026-06-15): on a CURATED city page,

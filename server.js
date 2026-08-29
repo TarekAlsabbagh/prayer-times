@@ -129,14 +129,45 @@ const MoonDaySeo = require('./js/moon-day-seo.js');
 const { GUIDES: _GUIDES, GUIDES_HUB: _GUIDES_HUB } = require('./js/guides-content.js');
 // ADSENSE-EDITORIAL-GUIDES-HUB-1 (2026-08-27): /guides and /en/guides. Exact match only --
 //   this must never shadow /guides/{slug}, which _GUIDE_ROUTE_RE below owns.
-const _GUIDES_HUB_RE = /^\/(?:(en)\/)?guides$/;
+const _GUIDES_HUB_RE = /^\/(?:(en|fr|tr|ur|de|es|id|bn|ms)\/)?guides$/;
 // Route slugs, in the order they appear in the content module. Used by the router, the
 //   staticPages SEO table and the sitemap so there is ONE list, not three.
 const _GUIDE_SLUGS = Object.keys(_GUIDES);
-const _GUIDE_ROUTE_RE = new RegExp('^\\/(?:(en)\\/)?guides\\/(' + _GUIDE_SLUGS.join('|') + ')$');
+const _GUIDE_ROUTE_RE = new RegExp('^\\/(?:(en|fr|tr|ur|de|es|id|bn|ms)\\/)?guides\\/(' + _GUIDE_SLUGS.join('|') + ')$');
 // First production publication date for all six pages. Article.datePublished/dateModified
 //   both read this on first release; only a substantive editorial revision moves dateModified.
 const _GUIDES_PUBLISHED_ISO = '2026-08-27';
+// ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): the chrome strings the guide
+//   routes render server-side. Section label doubles as the breadcrumb rung name, so one table
+//   keeps the nav label, the header label and the breadcrumb from ever drifting apart.
+const _GUIDES_LABEL = {
+    ar: 'أدلة', en: 'Guides', fr: 'Guides', tr: 'Rehberler', ur: 'رہنما مضامین',
+    de: 'Ratgeber', es: 'Guías', id: 'Panduan', bn: 'গাইড', ms: 'Panduan',
+};
+const _GUIDES_RELATED_LABEL = {
+    ar: 'أدلّة ذات صلة', en: 'Related guides', fr: 'Guides liés', tr: 'İlgili rehberler',
+    ur: 'متعلقہ رہنما مضامین', de: 'Verwandte Ratgeber', es: 'Guías relacionadas',
+    id: 'Panduan terkait', bn: 'সম্পর্কিত গাইড', ms: 'Panduan berkaitan',
+};
+//   Direction comes from the site's locale rules, never inferred from the script: bn is LTR.
+const _GUIDES_RTL = new Set(['ar', 'ur']);
+// ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: a small contextual block linking a city
+//   page to the guides that explain what it shows. STRICTLY same-language: the locale of the page
+//   is the locale of the link, with no cross-language fallback -- every guide exists in all ten.
+//   Link text is the hub CARD TITLE for that locale, so no new translation is introduced here.
+function _guidesCityLinks(lang, slugs) {
+    const L = _GUIDES_HUB[lang] ? lang : 'ar';
+    const hub = _GUIDES_HUB[L];
+    const pre = (L === 'ar') ? '' : ('/' + L);
+    const byslug = {};
+    for (const sec of hub.sections) for (const c of sec.cards) byslug[c.slug] = c.title;
+    const items = slugs.filter(sl => byslug[sl]).map(sl =>
+        '<li><a href="' + _escHtml(pre + '/guides/' + sl) + '">' + _escHtml(byslug[sl]) + '</a></li>').join('');
+    if (!items) return '';
+    const label = _GUIDES_LABEL[L] || _GUIDES_LABEL.ar;
+    return '<nav class="guides-city-links" aria-label="' + _escHtml(label) + '">'
+         + '<h2>' + _escHtml(label) + '</h2><ul>' + items + '</ul></nav>';
+}
 const { TRANSLATIONS: I18N } = require('./js/i18n.js');
 // SSR-Prayer-Times: pre-compute the 5 daily prayer times on the server so the
 //   FIRST byte of HTML carries real numbers (07:24, 12:15, …) instead of
@@ -5090,6 +5121,10 @@ const _SIDENAV_GROUPS = [
     { gi18n: 'nav.group_islamic', gtext: 'الخدمات الإسلامية', gicon: 'i-mosque', items: [
         { href: '/',                 page: 'prayer-times',   icon: 'i-clock',         i18n: 'nav.prayer_times',   text: 'مواقيت الصلاة' },
         { href: '/quran',            page: 'quran',          icon: 'i-book-open',     i18n: 'nav.quran',          text: 'القرآن' },
+        // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: the guides exist in all ten
+        //   locales, so `/guides` is deliberately NOT exempted from the lang-prefix rewriter --
+        //   it becomes /fr/guides, /ur/guides ... automatically, unlike the Arabic-only /quran.
+        { href: '/guides',           page: 'guides',         icon: 'i-book-open',     i18n: 'nav.guides',         text: 'أدلة' },
         { href: '/qibla',            page: 'qibla',          icon: 'i-compass',       i18n: 'nav.qibla',          text: 'إتجاه القبلة' },
         { href: '/moon-today',       page: 'moon',           icon: 'i-moon',          i18n: 'nav.moon',           text: 'القمر اليوم' },
         { href: '/zakat-calculator', page: 'zakat',          icon: 'i-coins',         i18n: 'nav.zakat',          text: 'حاسبة الزكاة' },
@@ -12793,62 +12828,118 @@ function buildSeoForPath(urlPath) {
 
     // ── Static tool pages ──
     const staticPages = {
-        // ── ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1 (2026-08-27) ──────────────────────────
-        //   Six editorial guide pages = 3 guides x ar/en. Titles and meta descriptions below
-        //   are the human-approved FROZEN values -- do not re-tune them for SEO here.
-        //   `hreflangOnly: ['ar','en']` is what keeps the alternates honest: these guides are
-        //   NOT translated into the other eight languages, so we must not advertise them.
-        //   `guidePage` carries the slug through to serveHtmlWithSeo for the Article JSON-LD.
-        //   NOTE: /guides and /en/guides (a hub) deliberately do NOT exist yet -- separate ticket.
-        // ADSENSE-EDITORIAL-GUIDES-HUB-1: the section landing page. `hreflangOnly` for the same
-        //   reason as the articles -- the hub exists in ar + en only. `guidesHub` drives the
-        //   CollectionPage JSON-LD and tells the article routes their parent rung now exists.
+        // ── ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29) ────────────────
+        //   Forty editorial pages = (1 hub + 3 guides) x 10 locales. Titles and descriptions are
+        //   the human-approved FROZEN values from each locale package -- never re-tuned for SEO.
+        //   `hreflangOnly` is GONE on purpose: it existed only while the guides were ar+en, and
+        //   every locale now exists, so these routes advertise the full ten + x-default like the
+        //   rest of the site. Removing it is what makes the cluster reciprocal.
         '/guides': {
             title: {
                 ar: 'أدلة مواقيت الصلاة والقبلة | شروح مبنية على الحساب',
                 en: 'Prayer Times & Qibla Guides — How the Calculations Work',
+                fr: 'Guides des heures de prière et de la Qibla — comment les calculs fonctionnent',
+                tr: 'Namaz Vakti ve Kıble Rehberleri — hesaplar nasıl işliyor',
+                ur: 'اوقاتِ نماز اور قبلہ کے رہنما مضامین — حساب کیسے کام کرتا ہے',
+                de: 'Ratgeber zu Gebetszeiten und Qibla — wie die Berechnungen funktionieren',
+                es: 'Guías de horarios de oración y Qibla: cómo funcionan los cálculos',
+                id: 'Panduan Jadwal Sholat dan Kiblat — cara perhitungannya bekerja',
+                bn: 'নামাজের সময় ও কিবলার গাইড — গণনা কীভাবে কাজ করে',
+                ms: 'Panduan Waktu Solat dan Kiblat — bagaimana pengiraannya berfungsi',
             },
             desc: {
                 ar: 'قسم الأدلّة: شرح كيف يحسب الموقع مواقيت الصلاة واتجاه القبلة — الزوايا وتعديلات الدقائق وأسباب اختلاف المصادر، بأمثلة محسوبة ومصادر منسوبة.',
                 en: 'The guides section: how this site computes prayer times and the Qibla direction — angles, precautionary minutes, and why sources differ, with worked examples and attributed sources.',
+                fr: 'La section guides : comment ce site calcule les heures de prière et la direction de la Qibla — angles, minutes de précaution et raisons des écarts entre sources, avec exemples chiffrés et sources attribuées.',
+                tr: 'Rehberler bölümü: bu site namaz vakitlerini ve kıble yönünü nasıl hesaplıyor — açılar, ihtiyat dakikaları ve kaynakların neden ayrıştığı, hesaplanmış örnekler ve atfedilmiş kaynaklarla.',
+                ur: 'رہنما مضامین کا حصہ: یہ سائٹ اوقاتِ نماز اور سمتِ قبلہ کیسے نکالتی ہے — زاویے، احتیاطی منٹ، اور ذرائع کے مختلف ہونے کی وجوہات، حساب شدہ مثالوں اور منسوب مصادر کے ساتھ۔',
+                de: 'Der Ratgeber-Bereich: wie diese Website Gebetszeiten und die Qibla-Richtung berechnet — Winkel, Vorsichtsminuten und warum Quellen abweichen, mit durchgerechneten Beispielen und zugeschriebenen Quellen.',
+                es: 'La sección de guías: cómo calcula este sitio los horarios de oración y la dirección de la Qibla — ángulos, minutos de precaución y por qué difieren las fuentes, con ejemplos calculados y fuentes atribuidas.',
+                id: 'Bagian panduan: bagaimana situs ini menghitung jadwal sholat dan arah kiblat — sudut, menit kehati-hatian, dan alasan sumber berbeda, dengan contoh terhitung dan sumber yang dinisbahkan.',
+                bn: 'গাইড বিভাগ: এই সাইট কীভাবে নামাজের সময় ও কিবলার দিক গণনা করে — কোণ, সতর্কতামূলক মিনিট, এবং উৎসভেদে পার্থক্যের কারণ, গণনা করা উদাহরণ ও আরোপিত সূত্রসহ।',
+                ms: 'Bahagian panduan: bagaimana laman ini mengira waktu solat dan arah kiblat — sudut, minit ihtiyat, dan sebab sumber berbeza, dengan contoh yang dikira dan sumber yang dinisbahkan.',
             },
-            hreflangOnly: ['ar', 'en'],
             guidesHub: true,
         },
         '/guides/prayer-time-calculation-methods': {
             title: {
                 ar: 'طرق حساب مواقيت الصلاة وزوايا الفجر والعشاء | شرح مفصّل',
                 en: 'Prayer Time Calculation Methods and Angles — A Clear Guide',
+                fr: 'Méthodes de calcul des heures de prière et angles — guide clair',
+                tr: 'Namaz Vakti Hesaplama Yöntemleri ve Açıları — ayrıntılı rehber',
+                ur: 'اوقاتِ نماز کے حساب کے طریقے اور زاویے — مکمل وضاحت',
+                de: 'Berechnungsmethoden für Gebetszeiten und ihre Winkel',
+                es: 'Métodos de cálculo de los horarios de oración y sus ángulos',
+                id: 'Metode Perhitungan Jadwal Sholat dan Sudutnya — panduan lengkap',
+                bn: 'নামাজের সময় গণনার পদ্ধতি ও কোণ — সহজ ব্যাখ্যা',
+                ms: 'Kaedah Pengiraan Waktu Solat dan Sudutnya — panduan ringkas',
             },
             desc: {
                 ar: 'شرح عملي لطرق حساب مواقيت الصلاة: معنى زاوية الفجر والعشاء، الفرق بين الزاوية والفاصل الثابت، حساب العصر، و17 طريقة مطبَّقة بأمثلة محسوبة فعليًا.',
                 en: 'How prayer times are calculated: what Fajr and Isha angles mean, angle versus fixed interval, how Asr is derived, and the 17 methods this site implements — with worked examples.',
+                fr: 'Comment les heures de prière sont calculées : ce que signifient les angles du Fajr et de l\'Isha, angle ou intervalle fixe, le calcul du Asr, et les 17 méthodes appliquées par ce site — avec des exemples chiffrés.',
+                tr: 'Namaz vakitleri nasıl hesaplanır: imsak ve yatsı açılarının anlamı, açı ile sabit sürenin farkı, ikindinin nasıl bulunduğu ve bu sitede uygulanan 17 yöntem — hesaplanmış örneklerle.',
+                ur: 'اوقاتِ نماز کیسے نکالے جاتے ہیں: فجر اور عشاء کے زاویے کا مطلب، زاویے اور مقررہ وقفے کا فرق، عصر کا حساب، اور اس سائٹ پر نافذ 17 طریقے — حساب شدہ مثالوں کے ساتھ۔',
+                de: 'Wie Gebetszeiten berechnet werden: was Fajr- und Isha-Winkel bedeuten, Winkel gegenüber festem Intervall, wie Asr abgeleitet wird und die 17 Methoden dieser Website — mit durchgerechneten Beispielen.',
+                es: 'Cómo se calculan los horarios de oración: qué significan los ángulos del Fayr y del Isha, ángulo frente a intervalo fijo, cómo se deduce el Asr y los 17 métodos que aplica este sitio, con ejemplos calculados.',
+                id: 'Bagaimana jadwal sholat dihitung: arti sudut Subuh dan Isya, sudut versus interval tetap, cara Asar diturunkan, dan 17 metode yang diterapkan situs ini — dengan contoh yang benar-benar dihitung.',
+                bn: 'নামাজের সময় কীভাবে গণনা করা হয়: ফজর ও এশার কোণ বলতে কী বোঝায়, কোণ বনাম নির্দিষ্ট ব্যবধান, আসর কীভাবে নির্ণীত হয়, এবং এই সাইটে প্রয়োগ করা 17টি পদ্ধতি — গণনা করা উদাহরণসহ।',
+                ms: 'Bagaimana waktu solat dikira: maksud sudut Subuh dan Isyak, sudut berbanding selang tetap, cara Asar diperoleh, dan 17 kaedah yang dilaksanakan laman ini — dengan contoh yang dikira.',
             },
-            hreflangOnly: ['ar', 'en'],
             guidePage: 'prayer-time-calculation-methods',
         },
         '/guides/why-prayer-times-differ': {
             title: {
                 ar: 'لماذا تختلف مواقيت الصلاة بين التطبيقات والمواقع؟',
                 en: 'Why Prayer Times Differ Between Apps and Websites',
+                fr: 'Pourquoi les heures de prière diffèrent entre applications et sites',
+                tr: 'Namaz Vakitleri Uygulamalar ve Siteler Arasında Neden Farklı?',
+                ur: 'اوقاتِ نماز ایپس اور ویب سائٹس کے درمیان مختلف کیوں ہوتے ہیں؟',
+                de: 'Warum Gebetszeiten sich zwischen Apps und Websites unterscheiden',
+                es: 'Por qué difieren los horarios de oración entre aplicaciones y sitios web',
+                id: 'Mengapa Jadwal Sholat Berbeda antara Aplikasi dan Situs Web?',
+                bn: 'অ্যাপ ও ওয়েবসাইটে নামাজের সময় ভিন্ন হয় কেন?',
+                ms: 'Mengapa Waktu Solat Berbeza antara Aplikasi dan Laman Web?',
             },
             desc: {
                 ar: 'خمسة أسباب شائعة لاختلاف مواقيت الصلاة بين المصادر: الزاوية، ودقائق الجهة الرسمية، والإحداثيات، والتوقيت الصيفي، والتقريب — مع قياسات فعلية.',
                 en: 'Five common reasons prayer times differ between sources: the angle, official precautionary minutes, coordinates, time zone and DST, and rounding — with measured examples.',
+                fr: 'Cinq raisons courantes pour lesquelles les heures de prière diffèrent d\'une source à l\'autre : l\'angle, les minutes de précaution officielles, les coordonnées, le fuseau horaire et l\'heure d\'été, et l\'arrondi — avec des exemples mesurés.',
+                tr: 'Kaynaklar arasında namaz vakitlerinin farklı olmasının beş yaygın sebebi: açı, resmî ihtiyat dakikaları, koordinatlar, saat dilimi ve yaz saati, yuvarlama — ölçülmüş örneklerle.',
+                ur: 'ذرائع کے درمیان اوقاتِ نماز مختلف ہونے کی پانچ عام وجوہات: زاویہ، سرکاری احتیاطی منٹ، کوآرڈینیٹس، ٹائم زون اور ڈے لائٹ سیونگ، اور تقریب — ناپی ہوئی مثالوں کے ساتھ۔',
+                de: 'Fünf häufige Gründe, warum Gebetszeiten zwischen Quellen abweichen: der Winkel, amtliche Vorsichtsminuten, Koordinaten, Zeitzone und Sommerzeit sowie Rundung — mit gemessenen Beispielen.',
+                es: 'Cinco causas frecuentes de que los horarios de oración difieran entre fuentes: el ángulo, los minutos de precaución oficiales, las coordenadas, la zona horaria y el horario de verano, y el redondeo, con ejemplos medidos.',
+                id: 'Lima penyebab umum jadwal sholat berbeda antarsumber: sudut, menit kehati-hatian resmi, koordinat, zona waktu dan DST, serta pembulatan — dengan contoh yang diukur.',
+                bn: 'উৎসভেদে নামাজের সময় ভিন্ন হওয়ার পাঁচটি সাধারণ কারণ: কোণ, সরকারি সতর্কতামূলক মিনিট, স্থানাঙ্ক, সময় অঞ্চল ও ডেলাইট সেভিং, এবং রাউন্ডিং — পরিমাপ করা উদাহরণসহ।',
+                ms: 'Lima sebab lazim waktu solat berbeza antara sumber: sudut, minit ihtiyat rasmi, koordinat, zon waktu dan waktu jimat siang, serta pembundaran — dengan contoh yang diukur.',
             },
-            hreflangOnly: ['ar', 'en'],
             guidePage: 'why-prayer-times-differ',
         },
         '/guides/how-qibla-direction-is-calculated': {
             title: {
                 ar: 'كيف يتم حساب اتجاه القبلة؟ الطريقة والصيغة',
                 en: 'How Qibla Direction Is Calculated — Method and Formula',
+                fr: 'Comment la direction de la Qibla est calculée — méthode et formule',
+                tr: 'Kıble Yönü Nasıl Hesaplanır — yöntem ve formül',
+                ur: 'سمتِ قبلہ کا حساب کیسے ہوتا ہے؟ طریقہ اور مساوات',
+                de: 'Wie die Qibla-Richtung berechnet wird — Methode und Formel',
+                es: 'Cómo se calcula la dirección de la Qibla: método y fórmula',
+                id: 'Bagaimana Arah Kiblat Dihitung — metode dan rumusnya',
+                bn: 'কিবলার দিক কীভাবে গণনা করা হয় — পদ্ধতি ও সূত্র',
+                ms: 'Bagaimana Arah Kiblat Dikira — kaedah dan formula',
             },
             desc: {
                 ar: 'شرح دقيق لحساب اتجاه القبلة: الاتجاه الابتدائي للدائرة العظمى، إحداثيات الكعبة، مسافة Haversine، والفرق الجوهري بين الحساب وبوصلة الجهاز.',
                 en: 'How the Qibla bearing is computed: great-circle initial bearing, the Kaaba\'s coordinates, Haversine distance, and why a device compass is not the same thing.',
+                fr: 'Comment le cap de la Qibla est calculé : cap initial du grand cercle, coordonnées de la Kaaba, distance de Haversine, et pourquoi la boussole d\'un appareil n\'est pas la même chose.',
+                tr: 'Kıble açısı nasıl hesaplanır: büyük dairenin başlangıç kerterizi, Kâbe\'nin koordinatları, Haversine mesafesi ve cihaz pusulasının neden aynı şey olmadığı.',
+                ur: 'قبلہ زاویہ کیسے نکالا جاتا ہے: عظیم دائرے کی ابتدائی سمت، کعبہ کے کوآرڈینیٹس، <bdi>Haversine</bdi> فاصلہ، اور یہ کہ آلے کا قطب نما اس سے مختلف چیز کیوں ہے۔',
+                de: 'Wie der Qibla-Kurs berechnet wird: Anfangskurs des Großkreises, die Koordinaten der Kaaba, Haversine-Entfernung und warum der Gerätekompass nicht dasselbe ist.',
+                es: 'Cómo se calcula el rumbo de la Qibla: rumbo inicial del círculo máximo, coordenadas de la Kaaba, distancia de Haversine y por qué la brújula del dispositivo no es lo mismo.',
+                id: 'Bagaimana bearing kiblat dihitung: bearing awal lingkaran besar, koordinat Kakbah, jarak Haversine, dan mengapa kompas perangkat bukan hal yang sama.',
+                bn: 'কিবলার দিকমাত্রা কীভাবে গণনা করা হয়: মহাবৃত্তের প্রাথমিক দিকমাত্রা, কাবার স্থানাঙ্ক, Haversine দূরত্ব, এবং ডিভাইসের কম্পাস কেন এক জিনিস নয়।',
+                ms: 'Bagaimana bearing kiblat dikira: bearing awal bulatan agung, koordinat Kaabah, jarak Haversine, dan mengapa kompas peranti bukan perkara yang sama.',
             },
-            hreflangOnly: ['ar', 'en'],
             guidePage: 'how-qibla-direction-is-calculated',
         },
         '/qibla': {
@@ -13431,7 +13522,7 @@ function buildSeoForPath(urlPath) {
             //   does not re-introduce the duplicate third level that was removed in the previous
             //   ticket, where this push pointed at the SAME url as the generic one.
             const _hubLp = (lang === 'en') ? '/en' : '';
-            const _hubName = ((_GUIDES_HUB[lang] || _GUIDES_HUB.ar).h1) ? ((lang === 'en') ? 'Guides' : 'أدلة') : 'Guides';
+            const _hubName = _GUIDES_LABEL[lang] || _GUIDES_LABEL.ar;
             breadcrumbs.push({ name: _hubName, item: origin + _hubLp + '/guides' });
         }
         if (sp.moonFaq) moonFaq = true;
@@ -13518,7 +13609,7 @@ function buildSeoForPath(urlPath) {
         //   title. The article pages already name this exact URL "Guides" as their middle rung --
         //   letting the generic push label the SAME url with the long title would give one page two
         //   different names across the site's trails. Every other static page is unaffected.
-        breadcrumbs.push({ name: guidesHub ? ((lang === 'en') ? 'Guides' : 'أدلة') : title, item: canonical });
+        breadcrumbs.push({ name: guidesHub ? (_GUIDES_LABEL[lang] || _GUIDES_LABEL.ar) : title, item: canonical });
     }
 
     // ===== HD-1 (2026-05-07): canonical override REMOVED =====
@@ -16021,6 +16112,10 @@ function buildSeoForPath(urlPath) {
     // isHome: true when visiting language root (ar='/', en='/en/', fr='/fr/', ...)
     const isHome = (corePath === '/');
 
+    // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: NO route declares `hreflangOnly` any
+    //   more -- the guides were its only consumer and they now exist in all ten locales. The
+    //   mechanism is kept because it is generic and costs nothing: _hreflangOnly stays null, so
+    //   _alt() is the identity for every route. Original note follows.
     // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: when a route declares `hreflangOnly`, the
     //   languages outside that list are returned as null so renderSeoHeadHtml's existing
     //   `if (seo.frUrl)` guards skip them. ar/en are emitted unconditionally by the emitter and
@@ -19464,7 +19559,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     <p>${_escHtml(_csg.s3P1)}</p>
                     <p>${_escHtml(_csg.s3P2)}</p>
                 </section>`;
-                html = html.replace('<!-- CITY-SEO-GUIDE -->', _citySeoGuideHtml);
+                // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: appended, never inserted into
+                //   the existing SEO copy -- the city body itself is untouched.
+                html = html.replace('<!-- CITY-SEO-GUIDE -->', () => _citySeoGuideHtml
+                    + _guidesCityLinks(seo.lang, ['prayer-time-calculation-methods', 'why-prayer-times-differ']));
             }
         } catch (_e) { /* SEO guide is optional — skip on resolver error */ }
     }
@@ -23508,7 +23606,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '207'; // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1 (2026-07-23): bumped 206->207 — added nav.quran ×10 langs in js/i18n.js + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs (shared-sidebar «القرآن» entry label). Labels only; no calc/SEO/route change. | PREV 206 = PRAYER-CITY-LOCALIZED-CITY-CONTEXT-LABELS-1 (2026-07-06): bumped 205->206 — added 7 city-context label keys ×10 langs (banner.next_prayer_city, banner.today_date_hijri_city, banner.today_date_greg_city, sis.imsak_city, sis.fasting_city, sis.last_third_city, summary.next_prefix_city) + edited rls.hijri ×10 (added «اليوم») in js/i18n.js and regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Labels only; no calc/SEO/route change. | PREV 205 = HOME-SEO-PRAYER-TIMES-CONTENT-KEYWORD-CONSISTENCY-ALL-LANGS-1 (2026-07-03): bumped 204->205 — changed home.tagline (homepage H1) value in js/i18n.js + all 10 js/i18n/{lang}.js (direct edit, ONLY home.tagline; no full regen, no bundle drift re-sync). | PREV 204 = ARABIC-SHADDA-REMOVE-SITEWIDE-SEO-CONTENT-1 (2026-07-02): bumped 203->204 — removed Arabic shadda (U+0651) from ALL non-religious rendered AR strings incl. vocalized (رسميًّا→رسميًا) in js/i18n.js + js/i18n/ar.js + js/i18n/en.js. KEPT: verbatim ayah/hadith/dhikr (dense+long+الله-anchor) + الله-forms + صلّى/وسلّم; Urdu + ur.js + comments untouched; acorn-AST scoped. | PREV 203 = MOON-RISE-SET-CARD-NOTES-REVERT-1 (2026-06-13): bumped 200->203 (skipping 201/202 which the reverted, never-deployed MOON-RISE-SET-DAY-CLARITY-1 used locally — avoid any cache collision) — REMOVED the `moon.moonrise_after_midnight_note` key + the #moon-rise-note element/logic (reverting the live in-card moonrise note from MOONRISE-AFTER-MIDNIGHT-CLARITY-1 per user; moon cards now show time only). Regenerated split bundles (key absent). Pre-existing #moon-set-note ("صباح اليوم التالي", MOON-CURRENT-CYCLE-RISE-SET-FIX-1) intentionally KEPT. | PREV 200 = MOONRISE-AFTER-MIDNIGHT-CLARITY-1 (2026-06-13): bumped 199->200 for the new `moon.moonrise_after_midnight_note` key (10 langs) backing the after-midnight moonrise clarity sub-note (#moon-rise-note, mirrors #moon-set-note). Regenerated the split bundles from js/i18n.js via scripts/_phase_e6_a_split_i18n.mjs. | PREV 199 = HOME-I18N-CONTENT-FLICKER-FIX-1 (2026-06-13): bumped 198->199 — regenerated js/i18n-core.js + js/i18n/{lang}.js from js/i18n.js. The documented split was stale since 2026-05-03: client bundle (js/i18n/ar.js) drifted from server source (js/i18n.js) on 7 AR values incl. moon.events.title + 59 AR keys missing entirely (same latent drift across other langs). SSR translates via js/i18n.js, the client applies the stale bundle → AR data-i18n hydration flicker. Now client bundle == server js/i18n.js for ALL 10 langs (verified 0 missing / 0 valDiff via simulated browser load), so SSR==client → no flicker. Also repaired the generator scripts/_phase_e6_a_split_i18n.mjs to route post-IIFE per-lang TRANSLATIONS['xx'] overrides into the bundles (previously dumped verbatim into i18n-core.js → "TRANSLATIONS is not defined" crash). | PREV 198 = COUNTRY-PRAYER-PAGE-SINGLE-CITY-TERRITORY-UX-FIX-1 (2026-06-08): bumped 197->198 for new `cities.single_city_note` key (10 langs) shown when a country/territory has only one curated city = the current city (single-city territory like Macau) so the "cities in country" grid would be empty — now a translated note renders instead of silently hiding. Added NATIVE per lang in js/i18n/{lang}.js + js/i18n.js. | PREV 197 = NEXT-PRAYER-CITY-MULTILANG-I18N-FIX-1 (2026-06-07): bumped 196->197 for the new `npt.eyebrow` badge key (was MISSING in all 10 langs → SSR data-i18n walker left the Arabic HTML default on /next-prayer-in-{city} for every language). Added NATIVE per lang in js/i18n/{lang}.js + js/i18n.js. Country card / calcVal wording / macau tz are server.js-only SSR changes (no bundle impact). | PREV 196 = MSBAHA-MULTILANG-I18N-CONTENT-FIX-1 (2026-06-07): bumped 195->196 for the 54 tasbih.edu/howto/after/when/related/disclaimer/faq.* content keys now NATIVE across the 8 non-AR/EN langs (fr/tr/ur/de/id/es/bn/ms) in js/i18n/{lang}.js + consolidated js/i18n.js. Previously only AR+EN had these keys → /msbaha educational + FAQ blocks showed EN fallback on those 8 langs; now each per-lang bundle carries native text and the server.js SSR data-i18n walker + FAQPage JSON-LD (tasbihFaq flag) render native. No tasbih logic/counter/Arabic dhikr text/Title/Meta/canonical/hreflang/sitemap/azkar pages touched. | PREV 195 = AZKAR-HUB-CARD-L10N-FIX-1 (2026-06-04): bumped 193->194 for hub card chrome localization — full azkar.hub.card_* set NATIVE for fr/tr/ur/de/id/es/bn/ms (had 0) + card_prayer_*/evening+prayer count+time added to all 10. | PREV 193 = // AZKAR-HUB-SEO-UX-CONTENT-ROOT-FIX-1 (2026-06-04): bumped 192->193 for ~76 new azkar.hub.* content keys per lang (intro/steps/types/benefits/timing/links/FAQ) backing the new SSR educational sections on /azkar. ALL 10 per-lang bundles carry NATIVE translations; server.js SSR builder reads I18N to render them into #azkar-hub-seo + FAQPage/ItemList JSON-LD. | PREV 192 = // ZAKAT-CALCULATOR-H1-CONTENT-KEYWORD-ROOT-FIX-1 (2026-06-04): bumped 191→192 for ~40 new zakat.* content keys per lang (guide/zsteps/zstep1-4/zex/zex1-3/znotes/znote1-4/zlinks/zlink1-5/faq.q8-q9) backing the new SSR educational sections + expanded FAQ on /zakat-calculator. ALL 10 per-lang bundles carry NATIVE translations (ar/en/fr/tr/ur/de/id/es/bn/ms); the server.js SSR builder reads the same dictionary (I18N) to render guide/steps/examples/notes/links into #zk-seo + FAQ JSON-LD q8/q9. | PREVIOUS 191/190 = MSBAHA-SEO-CONTENT-UX-EXPANSION-1 (2026-06-01): bumped 189→190 for the ~50 new tasbih.* i18n keys covering the new educational + FAQ blocks added to /msbaha (edu/howto/after/when/related/disclaimer/faq subtrees). AR + EN bundles updated in js/i18n/{ar,en}.js + consolidated js/i18n.js — other 8 langs fall back to EN via the existing _needsEnFallback chain. FAQPage + HowTo JSON-LD emit in server.js reads from the same dictionary (tasbihFaq flag gated on /msbaha staticPages entry). | PREVIOUS 189 = ZAKAT-CALCULATOR-I18N-EXPAND-8-LANGS-1 (2026-05-31): bumped 188→189 for the 8 zakat keys now translated across the OTHER 8 langs (bn/de/fr/tr/ur/id/es/ms). The previous v=188 served EN-fallback text on non-AR/EN pages because only ar.js/en.js had the keys; now all 10 per-lang bundles carry native translations: zakat.hero.title (8 langs replaced with new "...Easily" suffix), zakat.hero.subtitle (8 langs replaced with new "Estimate..." wording), zakat.actions.download_pdf + zakat.empty.subtitle + zakat.compact_disclaimer.text + zakat.edu.title + zakat.edu.intro + zakat.breadcrumb.label (6 new keys × 8 langs = 48 new entries). | PREVIOUS 188 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (follow-up 3, 2026-05-31): bumped 187→188 for one additional new key `zakat.actions.download_pdf` ("تنزيل الزكاة PDF" / "Download Zakat PDF") backing the new full-width PDF download button. AR + EN updated; other 8 langs fall back via _needsEnFallback. | PREVIOUS 187 = ZAKAT-CALCULATOR-UI-CONTENT-UX-IMPROVEMENT-1 (2026-05-31): bumped 186→187 so returning visitors fetch fresh `js/i18n/{lang}.js` containing: (a) updated `zakat.hero.title` ("حاسبة الزكاة — احسب زكاة المال بسهولة" / "Zakat Calculator — Compute Your Zakat Easily"), (b) updated `zakat.hero.subtitle` (now contains "تقديريًّا" / "Estimate"), (c) 5 new keys (`zakat.empty.subtitle`, `zakat.compact_disclaimer.text`, `zakat.edu.title`, `zakat.edu.intro`, `zakat.breadcrumb.label`). Currently only AR + EN per-lang files updated — the other 8 langs fall back via existing _needsEnFallback chain. | PREVIOUS 186 = NEXT-PRAYER-COUNTDOWN-SLUG-SEO-FIX-1 (2026-05-27): bumped 185→186 for rewritten `tl.h1_prefix` + `tl.h1_in` keys. | PREVIOUS 185 = ISLAMIC-EVENTS-COUNTDOWN-LOCAL-TIME-1 (2026-05-26): bumped 184→185 for new `moon.events.ended` key + rewritten `moon.events.notice` text. | PREVIOUS 184 = I18N-VERSION-BUMP-1 (2026-05-26): bumped 183→184 for `method.JAKIM` / `method.KemenagJakarta` / `method.MoroccoAwqaf` keys.
+        const _i18nVersion = '208'; // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -28586,6 +28684,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     + _qaCard1Html + _qaCard2Html + _qaCard3Html + _qaCard4Html
                     + '</div>'
                     + _qaNoteHtml
+                    // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: appended inside the existing
+                    //   qibla SEO section. Purely additive -- no change to the qibla calculation, to the
+                    //   page-stripping rules, or to which .page block is active.
+                    + _guidesCityLinks(seo.lang, ['how-qibla-direction-is-calculated'])
                     + '</section>';
 
                 // Phase Q-A4 fix-order applied: wrapper now built AFTER all section dicts.
@@ -32942,24 +33044,6 @@ const server = http.createServer(async (req, res) => {
         return langs.map(l => body(urls[l]));
     }
 
-    // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: ar + en ONLY emitter. bilingualUrl() above
-    //   advertises all ten languages; the editorial guides exist in two, so reusing it would put
-    //   eight 404s per guide into the sitemap. Same <url> shape, two locales, x-default -> ar.
-    function arEnUrl(relPath, prio, cf, today) {
-        const langs = ['ar', 'en'];
-        const urls = {};
-        for (const l of langs) {
-            const prefix = (l === 'ar') ? '' : ('/' + l);
-            urls[l] = escapeXml(SITE_URL + prefix + relPath);
-        }
-        const links = langs.map(l =>
-            `    <xhtml:link rel="alternate" hreflang="${l}" href="${urls[l]}"/>`
-        ).join('\n') + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${urls.ar}"/>`;
-        const body = (loc) =>
-            `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${cf}</changefreq>\n    <priority>${prio}</priority>\n${links}\n  </url>`;
-        return langs.map(l => body(urls[l]));
-    }
-
     const URLSET_OPEN = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
     const URLSET_CLOSE = `</urlset>\n`;
 
@@ -33076,14 +33160,14 @@ const server = http.createServer(async (req, res) => {
             }
 
             // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: the six editorial guide pages
-            //   (3 slugs x ar/en = 6 URLs). Emitted via arEnUrl -- NOT bilingualUrl -- because
+            //   (1 hub + 3 slugs) x 10 locales = 40 URLs, via bilingualUrl -- the same emitter
             //   the other eight locales do not exist for these routes. The /guides hub is a
             //   later ticket and is deliberately ABSENT from the sitemap until it is a real page.
             // ADSENSE-EDITORIAL-GUIDES-HUB-1: the section landing page (ar + en = 2 URLs).
             //   Slightly higher priority than the articles because it is the section entry point.
-            entries.push(...arEnUrl('/guides', '0.75', 'monthly', today));
+            entries.push(...bilingualUrl('/guides', '0.75', 'monthly', today));
             for (const _gs of _GUIDE_SLUGS) {
-                entries.push(...arEnUrl('/guides/' + _gs, '0.7', 'monthly', today));
+                entries.push(...bilingualUrl('/guides/' + _gs, '0.7', 'monthly', today));
             }
 
             // 1b) QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1:
@@ -33739,7 +33823,7 @@ const server = http.createServer(async (req, res) => {
             if (!_h) { res.writeHead(404); res.end('Not Found'); return; }
             readCachedFile(path.join(ROOT, 'guides.html'), (err, html) => {
                 if (err) { res.writeHead(404); res.end('Not Found'); return; }
-                const _hDir = (_hLang === 'ar') ? 'rtl' : 'ltr';
+                const _hDir = _GUIDES_RTL.has(_hLang) ? 'rtl' : 'ltr';
                 const _hPrefix = (_hLang === 'ar') ? '' : ('/' + _hLang);
                 let _body = '<h1>' + _escHtml(_h.h1) + '</h1>' + _h.intro;
                 for (const _sec of _h.sections) {
@@ -33772,7 +33856,7 @@ const server = http.createServer(async (req, res) => {
                     htmlStr = htmlStr.replace(/href="\/today-hijri-date"/g, `href="${_langPref}/today-hijri-date"`);
                 }
                 {
-                    const _hChrome = (_hLang === 'ar') ? 'أدلة' : 'Guides';
+                    const _hChrome = _GUIDES_LABEL[_hLang] || _GUIDES_LABEL.ar;
                     htmlStr = htmlStr.replace(
                         '<div class="city-name" data-i18n="legal.header_label">معلومات قانونية</div>',
                         '<div class="city-name">' + _escHtml(_hChrome) + '</div>'
@@ -33800,8 +33884,8 @@ const server = http.createServer(async (req, res) => {
             if (!_g) { res.writeHead(404); res.end('Not Found'); return; }
             readCachedFile(path.join(ROOT, 'guides.html'), (err, html) => {
                 if (err) { res.writeHead(404); res.end('Not Found'); return; }
-                const _dir = (_gLang === 'ar') ? 'rtl' : 'ltr';
-                const _relLabel = (_gLang === 'ar') ? 'أدلّة ذات صلة' : 'Related guides';
+                const _dir = _GUIDES_RTL.has(_gLang) ? 'rtl' : 'ltr';
+                const _relLabel = _GUIDES_RELATED_LABEL[_gLang] || _GUIDES_RELATED_LABEL.ar;
                 const _relHtml = (_g.related && _g.related.length)
                     ? ('<nav class="guide-related" aria-label="' + _escHtml(_relLabel) + '">'
                        + '<h2>' + _escHtml(_relLabel) + '</h2><ul class="guide-related-list">'
@@ -33827,7 +33911,7 @@ const server = http.createServer(async (req, res) => {
                 //   The icon swaps to the EXISTING i-book-open symbol (already in the shared sidenav
                 //   sprite on this page, used by the Quran nav item). No new SVG is introduced.
                 {
-                    const _gChrome = (_gLang === 'ar') ? 'أدلة' : 'Guides';
+                    const _gChrome = _GUIDES_LABEL[_gLang] || _GUIDES_LABEL.ar;
                     htmlStr = htmlStr.replace(
                         '<div class="city-name" data-i18n="legal.header_label">معلومات قانونية</div>',
                         '<div class="city-name">' + _escHtml(_gChrome) + '</div>'

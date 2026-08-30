@@ -3196,14 +3196,50 @@ function _ssrTrustedZonesFor(cc) {
     return _SSR_TRUSTED_TZ_BY_CC[String(cc || '').toLowerCase()] || null;
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// SSR-CITY-SLUG-COLLISION-FIX-1 (2026-08-30)
+// A prayer-city page used to describe TWO different cities at once. Its identity chain
+// (`_findPlaceBySlug` → curated) named one place, while its coordinate chain
+// (`_resolveCityForMoon` → FAMOUS → db/cities-*.json → curated) silently picked another,
+// because the db scan is first-match-wins across countries. So /prayer-times-in-boston shipped
+// the H1, breadcrumb, country link, `__PRAYER_CITY__` seed and sitemap entry of Boston, UNITED
+// STATES while computing the prayer times of Boston, KYRGYZSTAN — measured 0 min from the Kyrgyz
+// city and 31 min from the American one. 69 curated slugs were affected, all indexable and in
+// the sitemap (690 locale URLs): san-francisco served Argentina, colombo served Brazil,
+// salem India, cambridge and aberdeen Canada.
+//
+// This resolves the place for the prayer-city SSR chain with the SAME precedence the identity
+// chain already uses (`_cityCcForBreadcrumb`, which chains FAMOUS → curated → coord DB), so both
+// chains describe ONE place:
+//   1. FAMOUS_CITY_OVERRIDES — deliberate, hand-checked, and left highest as it was
+//   2. curated-places        — human-verified countryCode + coordinates + timezone
+//   3. `_resolveCityForMoon` — unchanged existing behaviour for everything else (db, redirects)
+//
+// Deliberately NOT a change to `_resolveCityForMoon` itself: that resolver is shared with the
+// moon, qibla and next-prayer families, and two route gates (`_moonInDb`, `_qInDb`) use its
+// truthiness. Scoping the precedence to the prayer-city callers keeps those semantics untouched.
+// db-only collisions (surrey, las-palmas) have no curated record, so they are unaffected here and
+// stay with their own ticket.
+function _ssrCityPlace(slug) {
+    if (!slug) return null;
+    try {
+        const _fx = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined') ? FAMOUS_CITY_OVERRIDES[slug] : null;
+        if (_fx && isFinite(_fx.lat) && isFinite(_fx.lng)) return _fx;
+        const _cur = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+        if (_cur && isFinite(_cur.lat) && isFinite(_cur.lng)) {
+            return { lat: _cur.lat, lng: _cur.lng, cc: String(_cur.countryCode || '').toLowerCase() };
+        }
+    } catch (_e) { /* fall through to the shared resolver, never a throw */ }
+    return (typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(slug) : null;
+}
+
 // Compute today's prayer times for the city resolved from `slug`.
 //   Returns { fajr, sunrise, dhuhr, asr, maghrib, isha } as 24h "HH:MM"
 //   strings, or `null` if the city can't be resolved (caller falls back to
 //   leaving "--:--" placeholders).
 function _ssrPrayerTimesFor(slug) {
     try {
-        const info = (slug && typeof _resolveCityForMoon === 'function')
-            ? _resolveCityForMoon(slug) : null;
+        const info = _ssrCityPlace(slug);   // curated identity outranks a db namesake
         // Default to Mecca for homepage / unresolved slugs.
         const lat = (info && isFinite(info.lat)) ? info.lat : 21.4225;
         const lng = (info && isFinite(info.lng)) ? info.lng : 39.8262;
@@ -3254,8 +3290,7 @@ function _ssrPrayerTimesFor(slug) {
 function _ssrNextPrayerCountdown(slug, t) {
     if (!t) return null;
     try {
-        const info = (slug && typeof _resolveCityForMoon === 'function')
-            ? _resolveCityForMoon(slug) : null;
+        const info = _ssrCityPlace(slug);   // same place as the times it counts down to
         const cc  = ((info && info.cc) || 'sa').toLowerCase();
         const iana = _ssrCityIana(slug, cc, info && info.lat, info && info.lng);   // must match the times it counts down to
         const now = new Date();
@@ -3332,8 +3367,7 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
     //    columns. We now compute ALL of that SSR-side and inject before
     //    first paint, so JS hydration is a no-op for layout.
     try {
-        const info = (slug && typeof _resolveCityForMoon === 'function')
-            ? _resolveCityForMoon(slug) : null;
+        const info = _ssrCityPlace(slug);   // same place as the hero times
         const cc = ((info && info.cc) || 'sa').toLowerCase();
         // Drives the banner clock AND its Gregorian date line, both of which were on the
         // country's offset while the Hijri line beside them was already on the city's.

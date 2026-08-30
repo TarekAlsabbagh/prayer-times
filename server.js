@@ -29319,6 +29319,32 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         );
     }
 
+    // (P1) prayer-city related-links strip — the five `.rls-text` labels carry only a plain
+    //   `data-i18n`, so `_translateI18nAttrs` writes the raw template and leaves
+    //   "Next prayer in {loc}" in the markup; the strip's heading keeps its literal em dash in
+    //   `#rls-city-label`. The fill right below cannot cover them: it is gated on
+    //   `timeLeftPage || nextPrayerPage`, and a prayer-city route is neither. Only elements
+    //   carrying `data-i18n-city` get the {loc}-interpolated variant, and these do not.
+    //
+    //   app.js rewrites both on hydration (`updateRelatedLinks` sets `.rls-text` and
+    //   `#rls-city-label` BY ID, independently of `data-i18n`), so a real visitor never sees a
+    //   token — the raw-HTML / no-JS surface does, and that is what this fixes. The client keeps
+    //   ownership: `data-i18n` is deliberately left in place, so SPA navigation to another city
+    //   still relabels the strip exactly as before.
+    //
+    //   Scope is ONE element. The same tokens appear many times inside display:none `.page`
+    //   blocks, where they are invisible by construction and app.js substitutes them when the SPA
+    //   navigates there; a document-wide clean would break that path.
+    if (_pcCityLoc && /^\/(?:[a-z]{2}\/)?prayer-times-in-[a-z][a-z0-9.-]+$/.test(String(urlPath))) {
+        html = html.replace(
+            /(<section[^>]*\bid="related-links-section"[^>]*>)([\s\S]*?)(<\/section>)/,
+            (m, open, inner, close) => open + inner
+                .replace(/\{loc\}/g, _pcCityLoc)
+                .replace(/(<span[^>]*\bid="rls-city-label"[^>]*>)\s*—\s*(<\/span>)/, `$1${_pcCityLoc}$2`)
+                + close
+        );
+    }
+
     // (P1) next-prayer + time-left — the hero city span ships a literal em dash and the
     //   CTA/secondary strings keep {loc}/{city}/{prayer}. app.js fills all three BY ID
     //   after hydration (and only when the token is still present), so SSR-filling them

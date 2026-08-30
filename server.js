@@ -3113,7 +3113,87 @@ function _ssrCityIana(slug, cc, lat, lng) {
         const _discTz = _disc && _disc.timezone;
         if (typeof _discTz === 'string' && _discTz.indexOf('/') > 0 && _samePlace(_disc)) return _discTz;
     } catch (_e) { /* any lookup problem → the country zone below, never a throw */ }
+    // SSR-DB-CITY-TIMEZONE-FIX-1 (2026-08-30) — db-only cities.
+    //   Most city pages resolve through `db/cities-*.json`, which stores only
+    //   {nameAr, nameEn, lat, lng} and takes its country code from the FILENAME. Those records
+    //   carry no timezone at all, so both tiers above miss and every one of them fell through to
+    //   the COUNTRY zone: Denver was served New York's times (SSR 07:08 vs a true 05:08), and so
+    //   were San Diego, Tucson, Fresno and Surrey. A local audit of the whole corpus puts it at
+    //   1,510 routable db slugs whose own zone differs from their country's primary.
+    //
+    //   The zone is taken from the SAME `lat`/`lng` the caller is about to hand the prayer engine,
+    //   so it is coherent BY CONSTRUCTION: it always describes the point the times are computed
+    //   for, whichever record supplied that point. That is what makes this safe next to the
+    //   unrelated slug-collision defect (SSR-CITY-SLUG-COLLISION-1): where a slug resolves to a
+    //   namesake abroad, the country code comes from that same record too, so this tier returns
+    //   that place's real zone rather than mixing two places — verified unchanged for `boston`
+    //   (Asia/Bishkek either way), `san-francisco` and `colombo`. It is precisely the mixing case
+    //   that `_samePlace` above still refuses.
+    //
+    //   `tz-lookup` is already a dependency and is already used exactly this way for
+    //   discovered-place ingestion, so no package, data file, or second map is introduced.
+    //   A coordinate lookup is NOT trusted on its own. `tz-lookup` carries a simplified boundary
+    //   map, and where it is coarser than the real border it answers with the NEIGHBOUR's zone:
+    //   the Issyk-Kul shore towns (Tup, Korumdu, Chongtash) come back `Asia/Almaty`, and since
+    //   Kazakhstan moved to UTC+5 while Kyrgyzstan stayed at +6 that would shift correct pages one
+    //   hour WRONG. Same shape for bd/pk -> Asia/Kolkata and gr -> Europe/Tirane. So the candidate
+    //   must clear two independent gates, and anything that fails either keeps today's behaviour.
+    //   Leaving a wrong page unfixed is acceptable here; introducing a new wrong one is not.
+    try {
+        if (_tzLookup && isFinite(lat) && isFinite(lng)) {
+            const _cand = _tzLookup(lat, lng);
+            if (typeof _cand === 'string' && _cand.indexOf('/') > 0) {
+                // GATE 1 — LOCAL STABILITY. A point sitting inside a zone keeps the same answer
+                // when nudged; a point ON a boundary does not. Fixed radius: widening it to raise
+                // the pass rate would defeat the gate.
+                let _stable = true;
+                for (const _d of [[0.15, 0], [-0.15, 0], [0, 0.15], [0, -0.15]]) {
+                    let _n = null;
+                    try { _n = _tzLookup(lat + _d[0], lng + _d[1]); } catch (_e) { _n = null; }
+                    if (_n !== _cand) { _stable = false; break; }
+                }
+                // GATE 2 — COUNTRY COHERENCE. The candidate must be a zone this country is
+                // actually known to use, derived from curated-places.json (verified countryCode +
+                // IANA per city) plus `_CC_TO_PRIMARY_TZ` — no hand-written country map. Gate 1
+                // alone would still admit a zone belonging elsewhere; gate 2 alone would still
+                // admit a wrong zone that happens to be valid in the same multi-zone country.
+                if (_stable) {
+                    const _trusted = _ssrTrustedZonesFor(cc);
+                    if (_trusted && _trusted.has(_cand)) return _cand;
+                }
+            }
+        }
+    } catch (_e) { /* out-of-range coords or a lib hiccup → country zone below */ }
     return (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
+}
+
+// Trusted zones per country, built once from data the site already ships. curated-places.json
+// pairs a verified countryCode with a verified IANA zone on every record, which makes it a sound
+// witness for "does country X use zone Z"; `_CC_TO_PRIMARY_TZ` is added so a country with no
+// curated coverage still has its own primary accepted.
+let _SSR_TRUSTED_TZ_BY_CC = null;
+function _ssrTrustedZonesFor(cc) {
+    if (!_SSR_TRUSTED_TZ_BY_CC) {
+        const _m = Object.create(null);
+        const _add = (_c, _z) => {
+            if (!_c || typeof _z !== 'string' || _z.indexOf('/') < 0) return;
+            const _k = String(_c).toLowerCase();
+            if (!_m[_k]) _m[_k] = new Set();
+            _m[_k].add(_z);
+        };
+        try {
+            if (Array.isArray(_CURATED_PLACES)) {
+                for (const _p of _CURATED_PLACES) if (_p) _add(_p.countryCode, _p.timezone);
+            }
+        } catch (_e) { /* a partial map is still safe — it can only reject more */ }
+        try {
+            if (typeof _CC_TO_PRIMARY_TZ !== 'undefined') {
+                for (const _c of Object.keys(_CC_TO_PRIMARY_TZ)) _add(_c, _CC_TO_PRIMARY_TZ[_c]);
+            }
+        } catch (_e) { /* same */ }
+        _SSR_TRUSTED_TZ_BY_CC = _m;
+    }
+    return _SSR_TRUSTED_TZ_BY_CC[String(cc || '').toLowerCase()] || null;
 }
 
 // Compute today's prayer times for the city resolved from `slug`.

@@ -5031,13 +5031,97 @@ const _GA_MEASUREMENT_ID = (() => {
     return /^G-[A-Z0-9]{4,20}$/i.test(_raw) ? _raw : '';
 })();
 const _GA_ENABLED = _GA_MEASUREMENT_ID !== '';
+
+// ════════════════════════════════════════════════════════════════════════════
+// ADSENSE-GOOGLE-CMP-INTEGRATION-1 (2026-08-30): Google Consent Mode v2 defaults.
+//
+// The consent audit measured GA loading and sending /g/collect BEFORE any choice
+// AND after an explicit Reject: js/footer-cookie.js stored {analytics:false} and
+// set window.__consent, but nothing anywhere read it (the string appears only in
+// that one file), and Consent Mode was never implemented at all. So the site was
+// measuring users who had objected.
+//
+// These defaults are pushed to dataLayer BEFORE gtag.js is requested, which is why
+// the inline block now comes FIRST and the async loader second — the previous order
+// put the loader tag first. gtag.js reads dataLayer when it executes, so a default
+// queued after it can arrive too late; Google's own install guidance is defaults
+// first. Everything starts DENIED, with no region scoping: a global default is the
+// conservative reading and matches the ticket's "not granted by default" rule.
+//
+// wait_for_update gives the CMP a window to publish the user's real choice before
+// any tag acts on the defaults. Google Privacy & Messaging (added below) is what
+// UPDATES these states — this file never grants anything on its own, so there is no
+// second consent system competing with the CMP.
+// ════════════════════════════════════════════════════════════════════════════
+// The 27 EEA member states + Iceland/Liechtenstein/Norway (EEA non-EU) + GB + CH — exactly the
+// territories the published "European regulations" message covers. Kept as an explicit list
+// because Consent Mode matches on ISO codes; there is no "EEA" shorthand.
+const _CONSENT_EU_REGIONS = [
+    'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU',
+    'MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH'
+];
+// Region-scoped default FIRST, then the unscoped fallback — the order Google's own documentation
+// uses. A region-scoped command takes precedence over the unscoped one for matching visitors, so
+// the fallback cannot loosen the European default.
+//
+// Why the fallback is 'granted': a globally-denied default would leave Analytics permanently off
+// everywhere the European message never appears, since nothing outside those regions would ever
+// send an update. That is a silent, unintended measurement outage rather than a privacy gain, so
+// outside the covered regions the site keeps the measurement behaviour it already had.
+//
+// Region resolution is performed by Google's tag from the visitor's own location signal. This file
+// builds NO geolocation logic and reads no IP.
+const _CONSENT_DEFAULT_SNIPPET =
+    '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+    + "gtag('consent','default',{"
+    + "'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied',"
+    + "'analytics_storage':'denied','wait_for_update':500,"
+    + "'region':" + JSON.stringify(_CONSENT_EU_REGIONS) + "});"
+    + "gtag('consent','default',{"
+    + "'ad_storage':'granted','ad_user_data':'granted','ad_personalization':'granted',"
+    + "'analytics_storage':'granted','functionality_storage':'granted',"
+    + "'security_storage':'granted'});"
+    + "gtag('set','ads_data_redaction',true);</script>";
+
 const _GA_HEAD_SNIPPET = _GA_ENABLED
     ? '<!-- Google tag (gtag.js) -->'
+      + "<script>gtag('js',new Date());gtag('config','" + _GA_MEASUREMENT_ID + "');</script>"
       + '<script async src="https://www.googletagmanager.com/gtag/js?id=' + _GA_MEASUREMENT_ID + '"></script>'
-      + '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
-      + "gtag('js',new Date());gtag('config','" + _GA_MEASUREMENT_ID + "');</script>"
     : '';
 if (_GA_ENABLED) console.log('[GA4] Google tag enabled for public pages (id=' + _GA_MEASUREMENT_ID + ')');
+
+// ════════════════════════════════════════════════════════════════════════════
+// ADSENSE-GOOGLE-CMP-INTEGRATION-1: the AdSense page tag.
+//
+// This tag exists here for ONE reason: it is the only transport Google offers for
+// Privacy & Messaging on an AdSense property, and without it the published
+// "European regulations" message cannot be served. Verified on production before
+// this change: ?fc=alwaysshow&fctype=gdpr produced __tcfapi undefined, googlefc
+// undefined, and ZERO requests to pagead2/fundingchoices — because no tag existed.
+// The <meta name="google-adsense-account"> already in the templates only proves
+// ownership; it loads nothing.
+//
+// This does NOT create ad inventory. No ad unit, no <ins class="adsbygoogle">, no
+// adsbygoogle.push(), no layout change anywhere in this diff. Whether ads ever
+// render is an AdSense-console setting, and the account currently reports the site
+// as "Needs attention / Low value content", i.e. not approved to serve.
+//
+// ADSENSE_CLIENT env var overrides the id, and setting it to an empty string is a
+// kill switch that removes the tag (and its CSP origins) without a code change.
+// ════════════════════════════════════════════════════════════════════════════
+const _ADSENSE_CLIENT = (() => {
+    const _raw = (process.env.ADSENSE_CLIENT !== undefined
+        ? String(process.env.ADSENSE_CLIENT)
+        : 'ca-pub-5423625249193539').trim();
+    return /^ca-pub-\d{10,20}$/.test(_raw) ? _raw : '';
+})();
+const _ADSENSE_ENABLED = _ADSENSE_CLIENT !== '';
+const _ADSENSE_HEAD_SNIPPET = _ADSENSE_ENABLED
+    ? '<!-- Google AdSense / Privacy & Messaging (CMP transport only — no ad units) -->'
+      + '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='
+      + _ADSENSE_CLIENT + '" crossorigin="anonymous"></script>'
+    : '';
+if (_ADSENSE_ENABLED) console.log('[AdSense] page tag enabled for Privacy & Messaging (client=' + _ADSENSE_CLIENT + ')');
 
 const _preloadPaths = [
     'css/style.css',
@@ -5251,10 +5335,18 @@ async function _preloadStatic() {
                     // when GA is enabled by a valid GA_MEASUREMENT_ID env var. First-match
                     // replace hits the opening <head> tag (immediately, per Google's install
                     // guidance). No-op when GA is off → templates stay byte-identical.
-                    if (_GA_ENABLED && _SIDENAV_TEMPLATES.has(rel)) {
+                    // ADSENSE-GOOGLE-CMP-INTEGRATION-1: the head block is now assembled in a
+                    //   fixed order — Consent Mode defaults FIRST, then gtag config, then the
+                    //   async loaders. The defaults must be in dataLayer before gtag.js runs,
+                    //   and the AdSense tag is what carries Google Privacy & Messaging.
+                    //   The consent defaults are emitted whenever EITHER Google tag is present:
+                    //   they define gtag()/dataLayer, so emitting the GA config without them
+                    //   would reference an undefined function.
+                    if ((_GA_ENABLED || _ADSENSE_ENABLED) && _SIDENAV_TEMPLATES.has(rel)) {
                         const _src3 = data.toString('utf8');
                         if (_src3.includes('<head>')) {
-                            data = Buffer.from(_src3.replace('<head>', '<head>' + _GA_HEAD_SNIPPET), 'utf8');
+                            const _headBlock = _CONSENT_DEFAULT_SNIPPET + _GA_HEAD_SNIPPET + _ADSENSE_HEAD_SNIPPET;
+                            data = Buffer.from(_src3.replace('<head>', '<head>' + _headBlock), 'utf8');
                         }
                     }
                 }
@@ -32378,13 +32470,23 @@ const server = http.createServer(async (req, res) => {
     // GA4-GOOGLE-TAG-PRODUCTION-INSTALL-1: عند تفعيل GA فقط (GA_MEASUREMENT_ID صالح) تُضاف
     // نطاقات Google Tag/Analytics إلى script-src/img-src/connect-src حتى يعمل gtag دون CSP
     // violation. عند إيقاف GA تبقى السياسة مطابقة تماماً للسابق (لا توسعة).
+    // ADSENSE-GOOGLE-CMP-INTEGRATION-1: origins Google Privacy & Messaging needs. Named hosts
+    //   only — no wildcard relaxation of any directive, and every one of them is added ONLY when
+    //   the AdSense tag is actually enabled, so with ADSENSE_CLIENT="" the policy stays
+    //   byte-identical to before. The audit found NO frame-src/child-src at all, so frames fell
+    //   back to default-src 'self' and the CMP's own iframe would have been refused outright.
+    const _csAds  = _ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com" : "";
+    const _csFrame = _ADSENSE_ENABLED
+        ? "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com"
+        : "frame-src 'self'";
     res.setHeader('Content-Security-Policy', [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline'" + (_GA_ENABLED ? " https://www.googletagmanager.com" : ""),
+        "script-src 'self' 'unsafe-inline'" + (_GA_ENABLED ? " https://www.googletagmanager.com" : "") + _csAds,
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com data:",
-        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com" : ""),
-        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : ""),
+        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com" : "") + (_ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com" : ""),
+        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : "") + _csAds,
+        _csFrame,
         "media-src 'self' https://cdn.islamic.network",
         "manifest-src 'self'",
         "object-src 'none'",

@@ -3067,6 +3067,55 @@ function _ianaOffsetHours(iana, date) {
     } catch (_) { return 0; }
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// SSR-CITY-TIMEZONE-PER-CITY-FIX-1 (2026-08-30)
+// Every SSR prayer-city surface took its UTC offset from `_CC_TO_PRIMARY_TZ[cc]`,
+// which is keyed on the COUNTRY. For the 151 curated places whose own zone differs
+// from their country's primary one that rendered a different city's clock:
+// Los Angeles was served New York's times (Fajr 08:14 instead of 05:14), Anchorage
+// was 4h out, Vladivostok 7h. Client JS recomputes from the city's own zone, so the
+// defect was invisible to ordinary visitors and wrong only in the raw HTML — i.e.
+// exactly what crawlers and no-JS readers get.
+//
+// The city's IANA zone already ships with the repo: curated-places.json carries a
+// valid one on 3118/3118 records, reachable synchronously via `_findPlaceBySlug`.
+// This is the same source HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16) already uses
+// for the banner's Hijri date; its note deliberately left "prayer display out of
+// scope", and this ticket closes precisely that gap. The nested moon builders
+// (`_ycTz` / `_mcTz`) prefer the curated zone the same way.
+//
+// One resolver, so the three call sites cannot drift apart again. Order:
+//   1. curated city zone        — the indexable city pages
+//   2. discovered city zone     — noindex pages, already tz-lookup'd by coordinates
+//   3. `_CC_TO_PRIMARY_TZ[cc]`  — unchanged previous behaviour, and the reason a
+//                                 missing record can never throw or 500 here
+function _ssrCityIana(slug, cc, lat, lng) {
+    // A zone may only be taken from a record that describes THE SAME PLACE the coordinates came
+    // from. `_resolveCityForMoon` reads FAMOUS_CITY_OVERRIDES → db/cities-*.json → curated, and
+    // the db/cities scan is first-match-wins across countries, so a few slugs resolve to a
+    // namesake abroad: "boston" → Boston, KYRGYZSTAN; "san-francisco" → San Francisco, ARGENTINA.
+    // (Pre-existing, tracked separately — SSR-CITY-SLUG-COLLISION-1.) Pairing THIS city's zone
+    // with THAT city's coordinates is worse than either alone, so the record must agree on the
+    // country and sit at effectively the same point before its zone is trusted.
+    const _samePlace = (rec) => {
+        if (!rec) return false;
+        const _rc = String(rec.countryCode || rec.cc || '').toLowerCase();
+        if (!_rc || !cc || _rc !== String(cc).toLowerCase()) return false;
+        if (!isFinite(lat) || !isFinite(lng)) return true;      // no coords to contradict it
+        if (!isFinite(rec.lat) || !isFinite(rec.lng)) return true;
+        return Math.abs(rec.lat - lat) <= 1 && Math.abs(rec.lng - lng) <= 1;
+    };
+    try {
+        const _cur = (slug && typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+        const _curTz = _cur && _cur.timezone;
+        if (typeof _curTz === 'string' && _curTz.indexOf('/') > 0 && _samePlace(_cur)) return _curTz;
+        const _disc = (slug && typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(slug) : null;
+        const _discTz = _disc && _disc.timezone;
+        if (typeof _discTz === 'string' && _discTz.indexOf('/') > 0 && _samePlace(_disc)) return _discTz;
+    } catch (_e) { /* any lookup problem → the country zone below, never a throw */ }
+    return (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
+}
+
 // Compute today's prayer times for the city resolved from `slug`.
 //   Returns { fajr, sunrise, dhuhr, asr, maghrib, isha } as 24h "HH:MM"
 //   strings, or `null` if the city can't be resolved (caller falls back to
@@ -3079,7 +3128,7 @@ function _ssrPrayerTimesFor(slug) {
         const lat = (info && isFinite(info.lat)) ? info.lat : 21.4225;
         const lng = (info && isFinite(info.lng)) ? info.lng : 39.8262;
         const cc  = ((info && info.cc) || 'sa').toLowerCase();
-        const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
+        const iana = _ssrCityIana(slug, cc, lat, lng);   // city zone; country zone as fallback
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3; // sa default
         // PT-METHOD-3 + REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
@@ -3093,7 +3142,16 @@ function _ssrPrayerTimesFor(slug) {
         // 'NightMiddle' into the next non-DE one). DE → NightMiddle; everyone else → 'AngleBased' default.
         PrayerTimesSrv.setHighLats(_HIGHLAT_BY_CC[cc] || 'AngleBased');
         PrayerTimesSrv.setTimeFormat('24h'); // SSR always emits 24h; client formats per-lang
-        const t = PrayerTimesSrv.getTimes(now, lat, lng, tzOffset);
+        // `computeAllTimes` reads date.getFullYear/getMonth/getDate — the SERVER's local
+        // components, i.e. the UTC calendar day on Render. Passing `now` therefore computed
+        // the server's day, not the city's, so a city that had not yet rolled over (or had
+        // already) got the wrong date's times. Hand it the CITY's own day instead, built as
+        // local noon so the three components are exact whatever the host clock is. Identical
+        // day in ⇒ identical values out; only cities genuinely on another date move.
+        const _cityLocalD = new Date(now.getTime() + tzOffset * 3600 * 1000);
+        const _cityDate = new Date(
+            _cityLocalD.getUTCFullYear(), _cityLocalD.getUTCMonth(), _cityLocalD.getUTCDate(), 12, 0, 0);
+        const t = PrayerTimesSrv.getTimes(_cityDate, lat, lng, tzOffset);
         // Validate: NaN-protected by formatTime → returns "--:--", reject those
         const ok = ['fajr','sunrise','dhuhr','asr','maghrib','isha']
             .every(k => /^\d{2}:\d{2}$/.test(t[k] || ''));
@@ -3119,7 +3177,7 @@ function _ssrNextPrayerCountdown(slug, t) {
         const info = (slug && typeof _resolveCityForMoon === 'function')
             ? _resolveCityForMoon(slug) : null;
         const cc  = ((info && info.cc) || 'sa').toLowerCase();
-        const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
+        const iana = _ssrCityIana(slug, cc, info && info.lat, info && info.lng);   // must match the times it counts down to
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3;
         // Current local time-of-day in seconds since 00:00 (city tz).
@@ -3197,7 +3255,9 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
         const info = (slug && typeof _resolveCityForMoon === 'function')
             ? _resolveCityForMoon(slug) : null;
         const cc = ((info && info.cc) || 'sa').toLowerCase();
-        const iana = (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null;
+        // Drives the banner clock AND its Gregorian date line, both of which were on the
+        // country's offset while the Hijri line beside them was already on the city's.
+        const iana = _ssrCityIana(slug, cc, info && info.lat, info && info.lng);
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3;
         const localMs = now.getTime() + (tzOffset * 3600 * 1000);

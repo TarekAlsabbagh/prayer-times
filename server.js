@@ -32476,16 +32476,48 @@ const server = http.createServer(async (req, res) => {
     //   byte-identical to before. The audit found NO frame-src/child-src at all, so frames fell
     //   back to default-src 'self' and the CMP's own iframe would have been refused outright.
     const _csAds  = _ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com" : "";
+    // ADSENSE-CSP-INTEGRATION-FOLLOWUP-1: the AdSense tag posts to Google's ad-traffic-quality
+    //   endpoint, which connect-src refused. Measured on production across 5 routes: exactly ONE
+    //   violation, identical every time -- connect-src <- ep1.adtrafficquality.google -- and zero
+    //   blocked loads otherwise, so this is the whole gap.
+    //   That single violation was misleading: the block itself stopped the flow. Allowing the
+    //   connect let Google's SODAR step advance and reveal a SCRIPT from
+    //   ep2.adtrafficquality.google/sodar/sodar2.js, and allowing that revealed a FRAME. So the
+    //   fix was derived by enumeration instead of guesswork -- Page.setBypassCSP with enforcement
+    //   off showed the complete Google-family surface, which terminates at 7 hosts:
+    //     XHR/Fetch : ep1, www.google-analytics.com
+    //     Script    : ep2, pagead2, www.googletagmanager.com
+    //     Image     : ep1, pagead2
+    //     Document  : ep2, googleads.g.doubleclick.net, www.google.com
+    //   ep1/ep2 are load-balanced siblings, so both are named in all four directives they appear
+    //   in; naming only the one seen would simply move the failure.
+    //   NOT INCLUDED: www.google.com in frame-src. It is a genuinely broader host than these
+    //   Gated on _ADSENSE_ENABLED, so ADSENSE_CLIENT="" still restores the pre-AdSense policy.
+    //   NOTE: this policy is a host allowlist ('unsafe-inline', no nonce/hash/strict-dynamic), so
+    //   naming a host is consistent with the existing architecture. Google does note that its ad
+    //   domains change over time and that a strict nonce-based CSP ages better than a rolling
+    //   allowlist; migrating this site to nonce + strict-dynamic is a materially larger
+    //   architecture change and is tracked separately as ADSENSE-STRICT-CSP-MIGRATION-1
+    //   (post-approval / pre-ad-activation debt), deliberately NOT attempted here.
+    const _csTrafficQuality = _ADSENSE_ENABLED
+        ? " https://ep1.adtrafficquality.google https://ep2.adtrafficquality.google" : "";
+    // ADSENSE-CSP-INTEGRATION-FOLLOWUP-1: the last violation remaining once ep1/ep2 were allowed.
+    //   FRAME ONLY, and kept in its own constant rather than folded into _csTrafficQuality:
+    //   www.google.com is a far broader host than those two narrow endpoints, so it is confined to
+    //   the single directive where a measured violation proved it necessary. The enumeration run
+    //   (CSP bypassed) saw this host used ONLY as a Document/frame -- never as script, connect or
+    //   image -- so it is deliberately absent from those three directives. Same gate.
+    const _csGoogleFrame = _ADSENSE_ENABLED ? " https://www.google.com" : "";
     const _csFrame = _ADSENSE_ENABLED
-        ? "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com"
+        ? "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com" + _csTrafficQuality + _csGoogleFrame
         : "frame-src 'self'";
     res.setHeader('Content-Security-Policy', [
         "default-src 'self'",
-        "script-src 'self' 'unsafe-inline'" + (_GA_ENABLED ? " https://www.googletagmanager.com" : "") + _csAds,
+        "script-src 'self' 'unsafe-inline'" + (_GA_ENABLED ? " https://www.googletagmanager.com" : "") + _csAds + _csTrafficQuality,
         "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
         "font-src 'self' https://fonts.gstatic.com data:",
-        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com" : "") + (_ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com" : ""),
-        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : "") + _csAds,
+        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com" : "") + (_ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com" : "") + _csTrafficQuality,
+        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : "") + _csAds + _csTrafficQuality,
         _csFrame,
         "media-src 'self' https://cdn.islamic.network",
         "manifest-src 'self'",

@@ -19125,10 +19125,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         };
         const _nl = _NPT_LABELS[seo.lang] || _NPT_LABELS.en;
 
-        // City info via _resolveCityForMoon — gives lat/lng/cc; fall back to display name only.
+        // NEXT-PRAYER-CITY-TIMEZONE-FIX-1 (2026-08-31): resolve the place through `_ssrCityPlace`
+        // (FAMOUS → coherent curated → `_resolveCityForMoon`), the same chain prayer-city adopted in
+        // PR #75. Reading `_resolveCityForMoon` directly inherited the db-first slug collision, so
+        // this card announced "Boston, Kyrgyzstan", "San Francisco, Argentina" and
+        // "Colombo, Brazil" while the prayer-city page for the same slug named the curated city.
+        // `_ssrCityPlace` falls back to `_resolveCityForMoon`, so nothing this used to resolve stops
+        // resolving.
         const _slug = (seo.nextPrayerPage && seo.nextPrayerPage.slug) || '';
-        const _cityInfo = (typeof _resolveCityForMoon === 'function')
-            ? _resolveCityForMoon(_slug) : null;
+        const _cityInfo = (typeof _ssrCityPlace === 'function')
+            ? _ssrCityPlace(_slug)
+            : ((typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(_slug) : null);
         // PT-CITY-INFO-1 (2026-05-12): when the slug isn't in the coord
         // DB, fall back to the slug → country-code map so the country
         // and timezone cards show real values instead of "—".
@@ -19163,17 +19170,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             } catch (_e) {}
         }
         if (!_ctryName) _ctryName = (_ccLower && (COUNTRY_NAMES_EN || {})[_ccLower]) || '—';
-        const _tzGuess = _ccLower
-            ? ({ sa: 'Asia/Riyadh', ae: 'Asia/Dubai', eg: 'Africa/Cairo', tr: 'Europe/Istanbul',
-                 jo: 'Asia/Amman', sy: 'Asia/Damascus', iq: 'Asia/Baghdad', kw: 'Asia/Kuwait',
-                 qa: 'Asia/Qatar', bh: 'Asia/Bahrain', om: 'Asia/Muscat', ye: 'Asia/Aden',
-                 lb: 'Asia/Beirut', ps: 'Asia/Gaza', dz: 'Africa/Algiers', ma: 'Africa/Casablanca',
-                 tn: 'Africa/Tunis', ly: 'Africa/Tripoli', sd: 'Africa/Khartoum', so: 'Africa/Mogadishu',
-                 pk: 'Asia/Karachi', in: 'Asia/Kolkata', bd: 'Asia/Dhaka', af: 'Asia/Kabul',
-                 ir: 'Asia/Tehran', my: 'Asia/Kuala_Lumpur', id: 'Asia/Jakarta', sg: 'Asia/Singapore',
-                 us: 'America/New_York', ca: 'America/Toronto', mx: 'America/Mexico_City',
-                 fr: 'Europe/Paris', de: 'Europe/Berlin', gb: 'Europe/London', es: 'Europe/Madrid',
-                 it: 'Europe/Rome', nl: 'Europe/Amsterdam', ru: 'Europe/Moscow', au: 'Australia/Sydney' }[_ccLower] || '—')
+        // The "Local timezone" card used to read from a PRIVATE 38-country literal keyed on the
+        // country, which is a fifth timezone source and the coarsest one: Los Angeles and Denver
+        // both announced America/New_York, Vladivostok announced Europe/Moscow, and any country
+        // outside those 38 (Kyrgyzstan among them) rendered a bare em dash. It is replaced by
+        // `_ssrCityIana` — the one server-side resolver already trusted by the prayer-city SSR
+        // chain (curated zone → discovered zone → gated coordinate lookup → `_CC_TO_PRIMARY_TZ`,
+        // which alone covers 154 countries). No new map, no per-city exception, no new dependency.
+        // This card is a LABEL only: the next-prayer page computes no prayer value, date or
+        // countdown server-side, so nothing else on it moves.
+        const _tzGuess = (_ccLower && typeof _ssrCityIana === 'function')
+            ? (_ssrCityIana(_slug, _ccLower,
+                            _cityInfo && _cityInfo.lat, _cityInfo && _cityInfo.lng) || '—')
             : '—';
 
         // Compute lang prefix locally (NPT block runs before HCAL one).

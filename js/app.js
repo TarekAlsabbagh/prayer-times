@@ -22600,6 +22600,35 @@ function updateMoonInfo() {
         if (window.console && console.warn) console.warn('Moon Round-10 fill failed:', _err2);
     }
 
+    // MOON-CITY-EN-CITY-PLACEHOLDER-FIX-1 (2026-08-31): `moon.current_month_h2` and
+    //   `moon.chart_title` carry a {city} placeholder in the EN dict ONLY — added deliberately
+    //   by EN-MOON-TODAY-CITY-KEYWORD-BALANCE-FIX-2 for keyword balance, and substituted
+    //   server-side. But the generic `[data-i18n]` applier in i18n-core.js re-renders these
+    //   elements with `t(key)` and NO params, so after hydration the literal "{city}" reappeared
+    //   on every /{lang}/moon/{country}/{city} route (hub ×2, dated ×1, month ×1).
+    //   JS-off was already clean — this is a hydration-only regression of the SSR text.
+    //   Fill them from the city this page has already resolved, using the same call shape as
+    //   `moon.upcoming.title_city` just below. Deliberate details:
+    //     • the inner [data-i18n] span is the target, NOT the <h2>, so the heading icon survives;
+    //     • `data-i18n` is deliberately KEPT, so an SPA navigation to another city re-fills it;
+    //     • selecting ON that attribute means the dated/month blocks — which set these headings
+    //       and then drop the attribute — keep winning regardless of execution order;
+    //     • no-op for the other 9 locales: their strings contain no {city}, so `t()` returns
+    //       exactly the text the generic applier already produced.
+    try {
+        if (_citySlug && typeof t === 'function' && typeof _moonCityDisplayName === 'function') {
+            const _cityH2Name = _moonCityDisplayName(_citySlug);
+            if (_cityH2Name) {
+                ['moon.current_month_h2', 'moon.chart_title'].forEach(_k => {
+                    const _elH2 = document.querySelector('[data-i18n="' + _k + '"]');
+                    if (!_elH2) return;
+                    const _vH2 = t(_k, { city: _cityH2Name });
+                    if (_vH2 && _vH2 !== _k) _elH2.textContent = _vH2;
+                });
+            }
+        }
+    } catch (_cityH2Err) { /* silent — never break the moon render */ }
+
     // ── 🆕 Priority C: الأطوار القمريّة القادمة (Timeline) ─────────────
     //     أربع أطوار تالية: كلّ واحد ببطاقة ببصمته ولحظته الدقيقة
     try {

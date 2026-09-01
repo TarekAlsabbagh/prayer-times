@@ -29334,3 +29334,87 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
 .sidebar-logo:focus-visible { outline: 2px solid var(--gold-light, #f5d547); outline-offset: 3px; border-radius: 8px; }
 @media (max-width: 600px) { .sidebar-logo-img { height: 46px; } }
 
+
+/* ════════════════════════════════════════════════════════════════════════════
+   PRAYER-CITY-INTELLIGENCE-1 — derived city sections.
+   Namespaced pci-* only. Every value below is taken from the tokens already
+   defined in :root, so the blocks inherit the site's palette, radius, shadow,
+   spacing and — because no colour is hard-coded — the existing dark theme too.
+   The outer wrapper is the site's own .section-card; nothing here restyles it.
+   ════════════════════════════════════════════════════════════════════════════ */
+.prayer-city-intel > h2 {
+    margin: 0 0 16px;
+}
+.pci-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+}
+.pci-item {
+    background: var(--surface-sunken);
+    border: 1px solid var(--border-light);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    min-width: 0;
+}
+.pci-label {
+    font-size: 0.82rem;
+    color: var(--text-light);
+    line-height: 1.35;
+}
+.pci-value {
+    font-size: 0.98rem;
+    color: var(--text);
+    font-weight: 600;
+    line-height: 1.4;
+    overflow-wrap: anywhere;      /* long method names must never widen the card */
+}
+.pci-strong { color: var(--primary); font-weight: 700; }
+.pci-sub {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 500;
+    color: var(--text-light);
+    margin-top: 2px;
+}
+.pci-rows { display: flex; flex-direction: column; gap: 10px; }
+.pci-row {
+    display: grid;
+    grid-template-columns: minmax(90px, 1.1fr) repeat(3, 1fr);
+    align-items: center;
+    gap: 10px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--border-light);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 12px 14px;
+}
+.pci-row-name { font-weight: 700; color: var(--text); font-size: 0.95rem; }
+.pci-row-cell { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+.pci-row-cell b { font-size: 0.95rem; color: var(--text); font-weight: 600; overflow-wrap: anywhere; }
+.pci-cap { font-size: 0.75rem; color: var(--text-light); }
+.pci-row-delta b { color: var(--text); }
+/* The arrow is decorative only — the change is always written out in words next
+   to it, and no meaning is carried by colour (earlier/later is not good/bad). */
+.pci-arrow { color: var(--text-light); font-weight: 400; }
+.pci-note {
+    margin: 14px 0 0;
+    color: var(--text-light);
+    font-size: 0.92rem;
+    line-height: 1.7;
+}
+.pci-qa { padding: 12px 0; border-bottom: 1px solid var(--border-light); }
+.pci-qa:last-child { border-bottom: 0; padding-bottom: 0; }
+.pci-q { margin: 0 0 6px; font-size: 1rem; font-weight: 700; color: var(--text); line-height: 1.5; }
+.pci-a { margin: 0; color: var(--text-light); font-size: 0.94rem; line-height: 1.7; }
+
+@media (max-width: 640px) {
+    .pci-grid { grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 10px; }
+    /* Four columns cannot stay legible at 375px without shrinking the type, so the
+       row becomes a 2x2 block with its own label on top instead. */
+    .pci-row { grid-template-columns: 1fr 1fr; gap: 8px 12px; }
+    .pci-row-name { grid-column: 1 / -1; }
+    .pci-q { font-size: 0.96rem; }
+}

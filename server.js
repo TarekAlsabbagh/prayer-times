@@ -151,6 +151,35 @@ const _GUIDES_RELATED_LABEL = {
 };
 //   Direction comes from the site's locale rules, never inferred from the script: bn is LTR.
 const _GUIDES_RTL = new Set(['ar', 'ur']);
+// PRAYER-CITY-FINAL-VISUAL-HIERARCHY-1 (2026-09-01): the only NEW strings this ticket adds.
+//   They are wrapper headings for two groups that already existed as separate cards, so no
+//   existing copy is rewritten and nothing is added to the page's information. Server-side
+//   dicts in the same shape as `_GUIDES_LABEL` / `_CITY_SEO_GUIDE` above, so the i18n bundles
+//   and `_i18nVersion` are untouched. `{loc}` is the localized city name.
+const _PCI_TRENDS_TITLE = {
+    ar: 'تغيّر مواقيت الصلاة في {loc}',
+    en: 'Prayer time trends in {loc}',
+    fr: 'Évolution des heures de prière à {loc}',
+    tr: '{loc} namaz vakitlerindeki değişim',
+    ur: '{loc} میں اوقاتِ نماز کی تبدیلی',
+    de: 'Entwicklung der Gebetszeiten in {loc}',
+    es: 'Evolución de los horarios de oración en {loc}',
+    id: 'Perubahan jadwal sholat di {loc}',
+    bn: '{loc}-এ নামাজের সময়ের পরিবর্তন',
+    ms: 'Perubahan waktu solat di {loc}',
+};
+const _PCI_EXPLAIN_TITLE = {
+    ar: 'فهم مواقيت الصلاة في {loc}',
+    en: 'Understanding prayer times in {loc}',
+    fr: 'Comprendre les heures de prière à {loc}',
+    tr: '{loc} namaz vakitlerini anlamak',
+    ur: '{loc} کے اوقاتِ نماز کو سمجھیں',
+    de: 'Gebetszeiten in {loc} verstehen',
+    es: 'Entender los horarios de oración en {loc}',
+    id: 'Memahami jadwal sholat di {loc}',
+    bn: '{loc}-এ নামাজের সময় বোঝা',
+    ms: 'Memahami waktu solat di {loc}',
+};
 // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: a small contextual block linking a city
 //   page to the guides that explain what it shows. STRICTLY same-language: the locale of the page
 //   is the locale of the link, with no cross-language fallback -- every guide exists in all ten.
@@ -159,14 +188,31 @@ function _guidesCityLinks(lang, slugs) {
     const L = _GUIDES_HUB[lang] ? lang : 'ar';
     const hub = _GUIDES_HUB[L];
     const pre = (L === 'ar') ? '' : ('/' + L);
+    // PRAYER-CITY-GUIDES-SECTION-UI-1 (2026-09-01): this used to emit a bare <nav> holding an
+    //   <h2> and two text links. Semantically fine, but it rendered as a heading floating over
+    //   whitespace rather than a designed section. It is now a real `.section-card` whose cards
+    //   mirror `.guide-hub-card` -- the guides hub's OWN card design (card background, 1px border
+    //   with a 3px inline-start accent, 12px radius, primary-dark title, and the hub's
+    //   direction-aware "←/→" CTA arrow). Nothing new is invented: title, `desc` and `cta` are the
+    //   hub's own localized fields for that locale, so no translation key is added and no copy is
+    //   written here; hrefs and same-language semantics are byte-for-byte what they were.
     const byslug = {};
-    for (const sec of hub.sections) for (const c of sec.cards) byslug[c.slug] = c.title;
-    const items = slugs.filter(sl => byslug[sl]).map(sl =>
-        '<li><a href="' + _escHtml(pre + '/guides/' + sl) + '">' + _escHtml(byslug[sl]) + '</a></li>').join('');
-    if (!items) return '';
+    for (const sec of hub.sections) for (const c of sec.cards) byslug[c.slug] = c;
+    // PRAYER-CITY-FINAL-VISUAL-HIERARCHY-1: guides are SUPPORTING content on a city page, so the
+    //   row carries the title and a directional cue only. The hub's `desc` paragraph is
+    //   deliberately not rendered here -- it still exists, and is still shown on /guides itself.
+    const cards = slugs.filter(sl => byslug[sl]).map(sl => {
+        const c = byslug[sl];
+        return '<a class="gcs-card" href="' + _escHtml(pre + '/guides/' + sl) + '">'
+             + '<span class="gcs-title">' + _escHtml(c.title) + '</span></a>';
+    }).join('');
+    if (!cards) return '';
     const label = _GUIDES_LABEL[L] || _GUIDES_LABEL.ar;
-    return '<nav class="guides-city-links" aria-label="' + _escHtml(label) + '">'
-         + '<h2>' + _escHtml(label) + '</h2><ul>' + items + '</ul></nav>';
+    return '<section class="section-card guides-city-section" id="guides-city" aria-labelledby="guides-city-t">'
+         + '<h2 id="guides-city-t">'
+         + '<svg class="icon icon-md" aria-hidden="true"><use href="#i-book-open"/></svg> '
+         + '<span>' + _escHtml(label) + '</span></h2>'
+         + '<div class="gcs-grid">' + cards + '</div></section>';
 }
 const { TRANSLATIONS: I18N } = require('./js/i18n.js');
 // SSR-Prayer-Times: pre-compute the 5 daily prayer times on the server so the
@@ -3587,12 +3633,13 @@ function _buildCityIntelHtml(intel, lang, cityName) {
         } else {
             sentence = fill(tt('pci.week_summary'), { loc: city, fajr: deltaTxt(fd), maghrib: deltaTxt(md) });
         }
-        secWeek = '<section class="section-card prayer-city-intel" id="pci-week" aria-labelledby="pci-week-t">'
-            + '<h2 id="pci-week-t">' + e(fill(tt('pci.week_title'), { loc: city })) + '</h2>'
+        // grouped under #pci-trends below: an inner group, not its own card
+        secWeek = '<div class="pci-group" id="pci-week" aria-labelledby="pci-week-t">'
+            + '<h3 class="pci-group-t" id="pci-week-t">' + e(fill(tt('pci.week_title'), { loc: city })) + '</h3>'
             + '<div class="pci-rows">'
             + row(tt('prayer.fajr'), w.fajr) + row(tt('prayer.sunrise'), w.sunrise)
             + row(tt('prayer.maghrib'), w.maghrib) + row(tt('pci.day_length'), w.dayLen, true)
-            + '</div><p class="pci-note">' + e(sentence) + '</p></section>';
+            + '</div><p class="pci-note">' + e(sentence) + '</p></div>';
     }
 
     // ── C. this month ──────────────────────────────────────────────────────
@@ -3604,16 +3651,16 @@ function _buildCityIntelHtml(intel, lang, cityName) {
             '<div class="pci-item"><span class="pci-label">' + e(label) + '</span>'
             + '<span class="pci-value"><b class="pci-strong">' + e(hm) + '</b>'
             + (day ? '<span class="pci-sub">' + e(day) + '</span>' : '') + '</span></div>';
-        secMonth = '<section class="section-card prayer-city-intel" id="pci-month" aria-labelledby="pci-month-t">'
-            + '<h2 id="pci-month-t">' + e(fill(tt('pci.month_title'), { loc: city })) + '</h2>'
-            + '<div class="pci-grid">'
+        secMonth = '<div class="pci-group" id="pci-month" aria-labelledby="pci-month-t">'
+            + '<h3 class="pci-group-t" id="pci-month-t">' + e(fill(tt('pci.month_title'), { loc: city })) + '</h3>'
+            + '<div class="pci-grid pci-grid-month">'
             + metric(tt('pci.earliest_fajr'), T(m.fajrEarliest.hm), dayOf(m.fajrEarliest.d))
             + metric(tt('pci.latest_fajr'), T(m.fajrLatest.hm), dayOf(m.fajrLatest.d))
             + metric(tt('pci.earliest_maghrib'), T(m.maghribEarliest.hm), dayOf(m.maghribEarliest.d))
             + metric(tt('pci.latest_maghrib'), T(m.maghribLatest.hm), dayOf(m.maghribLatest.d))
             + (m.dayLenFirst != null ? metric(tt('pci.daylen_start'), dur(m.dayLenFirst), '') : '')
             + (m.dayLenLast != null ? metric(tt('pci.daylen_end'), dur(m.dayLenLast), '') : '')
-            + '</div></section>';
+            + '</div></div>';
     }
 
     // ── D. quick questions (visible FAQ; the JSON-LD below mirrors these exactly) ──
@@ -3635,8 +3682,10 @@ function _buildCityIntelHtml(intel, lang, cityName) {
     });
     const secFaq = '<section class="section-card prayer-city-intel pci-faq" id="pci-faq" aria-labelledby="pci-faq-t">'
         + '<h2 id="pci-faq-t">' + e(fill(tt('pci.faq_title'), { loc: city })) + '</h2>'
-        + qa.map(x => '<div class="pci-qa"><h3 class="pci-q">' + e(x.q) + '</h3>'
-            + '<p class="pci-a">' + e(x.a) + '</p></div>').join('')
+        // native <details>: questions visible, answers collapsed but PRESENT in the SSR HTML
+        // (a crawler and a no-JS visitor still read every answer). No JS, no library.
+        + qa.map(x => '<details class="pci-qa"><summary class="pci-q">' + e(x.q) + '</summary>'
+            + '<p class="pci-a">' + e(x.a) + '</p></details>').join('')
         + '</section>';
 
     return { today: secToday, week: secWeek, month: secMonth, faq: secFaq, qa };
@@ -3929,11 +3978,56 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
                     if (i !== -1) out = out.slice(0, i) + payload + out.slice(i);
                 };
                 _before('<section class="section-card city-summary-paragraph', _sec.today);
-                const _guideAnchor = '<section class="city-seo-guide section-card">';
+                const _guideAnchor = '<section class="section-card city-seo-guide-group"';
                 const _chips = '<section class="section-card most-searched-chips"';
-                _before(out.indexOf(_guideAnchor) !== -1 ? _guideAnchor : _chips, _sec.week + _sec.month);
-                const _links = '<nav class="guides-city-links"';
+                // PRAYER-CITY-FINAL-VISUAL-HIERARCHY-1: the 7-day and monthly blocks used to be
+                //   two full-weight cards in a row. They are the same two groups of the same
+                //   data, now inside ONE outer card so the page reads as sections rather than a
+                //   stack of equal cards. Same content, same order, same ids.
+                const _trendsTitle = (_PCI_TRENDS_TITLE[_lg] || _PCI_TRENDS_TITLE.en)
+                    .replace('{loc}', _cityName);
+                const _trends = (_sec.week || _sec.month)
+                    ? '<section class="section-card prayer-city-intel pci-trends" id="pci-trends"'
+                      + ' aria-labelledby="pci-trends-t"><h2 id="pci-trends-t">' + _escHtml(_trendsTitle) + '</h2>'
+                      + '<div class="pci-trends-grid">' + _sec.week + _sec.month + '</div></section>'
+                    : '';
+                _before(out.indexOf(_guideAnchor) !== -1 ? _guideAnchor : _chips, _trends);
+                // PRAYER-CITY-GUIDES-SECTION-UI-1: this anchor must track the guides block's
+                //   markup. When that block became a `.section-card` the old `<nav …>` string
+                //   stopped matching, `_before` silently fell back to `_chips`, and pci-faq
+                //   jumped ahead of the guides section -- breaking the approved page order.
+                const _links = '<section class="section-card guides-city-section"';
                 _before(out.indexOf(_links) !== -1 ? _links : _chips, _sec.faq);
+                // PRAYER-CITY-CORE-FLOW-1 (2026-09-01): "أماكن قريبة" sat between the today
+                //   summary and the prayer timetable, so the reader had to scroll past a
+                //   city-discovery grid to reach the schedule they came for. It is discovery
+                //   content, so it moves BELOW the guides card — the start of the supporting
+                //   zone. Pure relocation of the existing markup: the element, its id, its
+                //   heading, its grid and the client code that fills it are untouched, and it
+                //   stays in the SSR HTML. Prayer-city only: this block is the same one that
+                //   emits the pci-* sections, which no other route family renders.
+                try {
+                    const _nbOpen = '<div class="section-card" id="nearby-section">';
+                    const _nbAt = out.indexOf(_nbOpen);
+                    if (_nbAt !== -1) {
+                        const _nbEnd = out.indexOf('</div>', out.indexOf('id="nearby-grid"', _nbAt));
+                        const _nbClose = out.indexOf('</div>', _nbEnd + 6);   // closes .section-card
+                        if (_nbEnd !== -1 && _nbClose !== -1) {
+                            const _nbHtml = out.slice(_nbAt, _nbClose + 6);
+                            const _rest = out.slice(0, _nbAt) + out.slice(_nbClose + 6);
+                            // re-insert directly AFTER the guides card, i.e. first in the
+                            // supporting zone; fall back to the chips block if guides is absent.
+                            const _anchor = _rest.indexOf(_links) !== -1 ? _links : _chips;
+                            const _aAt = _rest.indexOf(_anchor);
+                            if (_aAt !== -1) {
+                                const _aEnd = _anchor === _links
+                                    ? _rest.indexOf('</section>', _rest.indexOf('class="gcs-grid"', _aAt)) + 10
+                                    : _aAt;
+                                out = _rest.slice(0, _aEnd) + _nbHtml + _rest.slice(_aEnd);
+                            }
+                        }
+                    }
+                } catch (_nbErr) { /* ordering is cosmetic — never break the page for it */ }
                 // Hand the questions to the page's existing FAQPage emitter further down
                 // rather than adding a second block here -- one FAQPage per page.
                 _PCI_LAST_QA = _sec.qa;
@@ -20264,21 +20358,30 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     }),
                 };
                 const _csg = (_CITY_SEO_GUIDE[seo.lang] || _CITY_SEO_GUIDE.en)(_cityNameForGuide);
+                // PRAYER-CITY-FINAL-VISUAL-HIERARCHY-1: these three were three consecutive
+                //   full-weight cards. Same three blocks, same prose word-for-word, now grouped
+                //   under one outer card with the three titles demoted to subsection headings
+                //   and separated by a divider. Nothing is rewritten, shortened or dropped.
+                const _explainTitle = (_PCI_EXPLAIN_TITLE[seo.lang] || _PCI_EXPLAIN_TITLE.en)
+                    .replace('{loc}', _cityNameForGuide);
                 const _citySeoGuideHtml = `
-                <section class="city-seo-guide section-card">
-                    <h2>${_escHtml(_csg.s1Title)}</h2>
-                    <p>${_escHtml(_csg.s1P1)}</p>
-                    <p>${_escHtml(_csg.s1P2)}</p>
-                </section>
-                <section class="city-seo-guide section-card">
-                    <h2>${_escHtml(_csg.s2Title)}</h2>
-                    <p>${_escHtml(_csg.s2P1)}</p>
-                    <p>${_escHtml(_csg.s2P2)}</p>
-                </section>
-                <section class="city-seo-guide section-card">
-                    <h2>${_escHtml(_csg.s3Title)}</h2>
-                    <p>${_escHtml(_csg.s3P1)}</p>
-                    <p>${_escHtml(_csg.s3P2)}</p>
+                <section class="section-card city-seo-guide-group" id="pci-explain" aria-labelledby="pci-explain-t">
+                    <h2 id="pci-explain-t">${_escHtml(_explainTitle)}</h2>
+                    <div class="city-seo-guide-item">
+                        <h3>${_escHtml(_csg.s1Title)}</h3>
+                        <p>${_escHtml(_csg.s1P1)}</p>
+                        <p>${_escHtml(_csg.s1P2)}</p>
+                    </div>
+                    <div class="city-seo-guide-item">
+                        <h3>${_escHtml(_csg.s2Title)}</h3>
+                        <p>${_escHtml(_csg.s2P1)}</p>
+                        <p>${_escHtml(_csg.s2P2)}</p>
+                    </div>
+                    <div class="city-seo-guide-item">
+                        <h3>${_escHtml(_csg.s3Title)}</h3>
+                        <p>${_escHtml(_csg.s3P1)}</p>
+                        <p>${_escHtml(_csg.s3P2)}</p>
+                    </div>
                 </section>`;
                 // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1: appended, never inserted into
                 //   the existing SEO copy -- the city body itself is untouched.

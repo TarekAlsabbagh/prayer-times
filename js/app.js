@@ -5772,6 +5772,18 @@ function initNavigation() {
             // middle-click never fire a 'click' event, so they already use the real href.)
             // Only a plain left-click is intercepted for the in-app SPA navigation below.
             if (e.button !== 0 || e.ctrlKey || e.metaKey || e.shiftKey || e.altKey) return;
+            // PRAYER-CITY-GUIDES-SIDEBAR-NAV-FIX-1 (2026-09-01): `guides` has no in-shell `.page`
+            //   block -- the hub and the articles are their own SSR templates (guides.html). The
+            //   code below preventDefault()s the click, finds no `pageId` branch for it, then
+            //   deactivates EVERY `.page` and looks up `#page-guides`, which does not exist. So
+            //   nothing was activated and the href was never followed: the click left the visitor
+            //   on a blank shell with the loading state up, from every section of the site.
+            //   The sidebar anchor already carries the correct same-language href in all ten
+            //   locales (/guides, /en/guides, /fr/guides ... -- `/guides` is deliberately NOT
+            //   exempted from the lang-prefix rewriter, unlike the Arabic-only /quran), so the
+            //   smallest reliable fix is to stop intercepting it and let the browser navigate.
+            //   No timeout, no location shim, no second source of truth for the URL.
+            if (this.dataset.page === 'guides') { try { closeSidebar(); } catch (_) {} return; }
             e.preventDefault();
             const pageId = this.dataset.page;
             // FIX: ترطيب الموقع الحاليّ قبل أي تنقّل (يحلّ مشكلة "يأخذني إلى مكّة دائماً")

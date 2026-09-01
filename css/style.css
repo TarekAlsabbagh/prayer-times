@@ -10943,6 +10943,137 @@ html:not(.city-page):not(.home-page) #home-quick-access:not(.hqa-on-home) { /* p
 html.city-page #city-related-services { display: none !important; }
 
 /* شبكة الروابط ذات الصلة */
+/* PRAYER-CITY-GUIDES-SECTION-UI-1 (2026-09-01): the city guides block. The card is a copy of
+   `.guide-hub-card` from guides.html -- the guides hub's own design -- so the two surfaces look
+   like one system: same --card-bg, same 1px --border with a 3px --primary inline-start accent,
+   same 12px radius, same --primary-dark title, and the hub's own direction-aware CTA arrow.
+   Logical properties throughout, so RTL and LTR need no direction-specific overrides. The
+   section has NO min-height and NO contain-intrinsic-size: it is exactly as tall as its cards. */
+/* Guides on a city page are SUPPORTING content: one compact row per guide, title + arrow.
+   Same tokens as the sunken metric cells elsewhere on the page, so it sits below the primary
+   content in visual weight instead of competing with it. */
+.guides-city-section .gcs-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+}
+.gcs-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--surface-sunken);
+    border: 1px solid var(--border-light);
+    border-inline-start: 3px solid var(--primary);
+    border-radius: calc(var(--radius) - 4px);
+    padding: 12px 14px;
+    text-decoration: none;
+    color: var(--text);
+    transition: border-color 0.2s, background 0.2s;
+}
+.gcs-card:hover { border-color: var(--primary-light); background: var(--card-bg); }
+.gcs-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    color: var(--primary-dark);
+    flex: 1;
+    min-width: 0;
+}
+/* the directional cue follows the reading direction, matching the guides hub's own convention */
+.gcs-card::after { content: "\2190"; color: var(--primary); font-weight: 700; flex-shrink: 0; }
+html[dir="ltr"] .gcs-card::after { content: "\2192"; }
+@media (min-width: 768px) {
+    .guides-city-section .gcs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* PRAYER-CITY-CORE-FLOW-1 (2026-09-01): the city summary strip sat directly under the today
+   summary as a second full-weight white card, repeating the city/next-prayer line the hero and
+   #pci-today already carry. Same element, same text, same live countdown, same hidden SEO
+   paragraph — only the presentation drops to a quiet strip so it stops competing with the card
+   above it. Tokens only; nothing new enters the palette. */
+.city-summary-paragraph.section-card {
+    background: var(--surface-sunken);
+    box-shadow: none;
+    border: 1px solid var(--border-light);
+    padding: 12px 16px;
+    margin-top: -4px;
+}
+.city-summary-paragraph .city-summary-visible {
+    margin: 0;
+    font-size: 0.9rem;
+    line-height: 1.65;
+    color: var(--text-light);
+}
+.city-summary-paragraph .city-summary-live {
+    margin-top: 6px;
+    font-size: 0.9rem;
+    color: var(--text);
+}
+
+/* ── PRAYER-CITY-FINAL-VISUAL-HIERARCHY-1 — grouping ────────────────────────────────────
+   Two outer cards replace five. Inner groups are flat: a subsection heading plus content,
+   separated by the same --border-light divider already used inside the metric cells. No new
+   colour, radius, shadow or font enters the page. */
+.pci-group-t {
+    margin: 0 0 12px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.5;
+}
+.pci-trends-grid { display: grid; grid-template-columns: 1fr; gap: 22px; }
+.pci-trends-grid > .pci-group { min-width: 0; }
+.pci-grid-month { grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+@media (min-width: 768px) {
+    .pci-trends-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 26px;
+    }
+    /* the divider between the two trend groups follows the writing direction */
+    .pci-trends-grid > .pci-group + .pci-group {
+        border-inline-start: 1px solid var(--border-light);
+        padding-inline-start: 26px;
+    }
+    .pci-grid-month { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* the three explanatory blocks, grouped under one heading */
+.city-seo-guide-item + .city-seo-guide-item {
+    margin-top: 18px;
+    padding-top: 18px;
+    border-top: 1px solid var(--border-light);
+}
+.city-seo-guide-group h3 {
+    margin: 0 0 8px;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.55;
+}
+.city-seo-guide-group p { margin: 0 0 10px; }
+.city-seo-guide-group p:last-child { margin-bottom: 0; }
+
+/* quick questions: native accordion, no JS */
+details.pci-qa > summary {
+    cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+}
+details.pci-qa > summary::-webkit-details-marker { display: none; }
+details.pci-qa > summary::after {
+    content: "+";
+    margin-inline-start: auto;
+    color: var(--primary);
+    font-weight: 700;
+    flex-shrink: 0;
+    line-height: 1.4;
+}
+details.pci-qa[open] > summary::after { content: "\2212"; }
+details.pci-qa[open] > summary { margin-bottom: 8px; }
+details.pci-qa > summary:hover { color: var(--primary-dark); }
+
 .related-services-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -29347,8 +29478,13 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
 }
 .pci-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
+    /* explicit 2 columns; 4 on desktop below. auto-fit produced 5-6 uneven columns on wide
+       screens, which is what made the summary read as a scattered wall of chips. */
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+@media (min-width: 768px) {
+    .pci-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
 }
 .pci-item {
     background: var(--surface-sunken);
@@ -29411,7 +29547,7 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
 .pci-a { margin: 0; color: var(--text-light); font-size: 0.94rem; line-height: 1.7; }
 
 @media (max-width: 640px) {
-    .pci-grid { grid-template-columns: repeat(auto-fit, minmax(132px, 1fr)); gap: 10px; }
+    .pci-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
     /* Four columns cannot stay legible at 375px without shrinking the type, so the
        row becomes a 2x2 block with its own label on top instead. */
     .pci-row { grid-template-columns: 1fr 1fr; gap: 8px 12px; }

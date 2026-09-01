@@ -3279,6 +3279,369 @@ function _ssrPrayerTimesFor(slug) {
     } catch (_e) { return null; }
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// PRAYER-CITY-INTELLIGENCE-1 — derived city data for the prayer-city page.
+//
+// Every value below is DERIVED from the site's existing engine and the site's
+// existing definitions. Nothing here introduces a second prayer engine, a new
+// formula, or new fiqh logic:
+//   • today's six times  -> _ssrPrayerTimesFor(slug), byte-identical to the hero
+//   • imsak              -> Fajr - 10 min          (js/app.js updateSummaryInfoStrip)
+//   • fasting duration   -> Fajr -> Maghrib        (same)
+//   • last third         -> Maghrib + 2/3 * night -> Fajr   (same)
+//   • other days         -> the SAME PrayerTimesSrv.getTimes with the SAME
+//                           method / high-latitude rule / tz offset, only the
+//                           date argument changes
+//
+// PrayerTimesSrv is a require-cached singleton, so method + high-lats are set on
+// EVERY call -- never once per request -- or a previous country's config leaks
+// into the next request.
+// ════════════════════════════════════════════════════════════════════════════
+// The visible City-Intelligence questions for the CURRENT request. The city page emits its
+// FAQPage schema later in serveHtmlWithSeo than the point where these are built, and the two
+// points are separated by NO await -- verified -- so a request-scoped stash is safe here. It is
+// cleared at the top of `serveHtmlWithSeo`, i.e. on EVERY render, so one request can never
+// inherit another's questions. (Clearing it inside `_ssrInjectPrayerTimes` was not enough:
+// that helper is skipped for next-prayer / time-left / home / moon-today-hub, and those pages
+// still emit FAQPage.)
+let _PCI_LAST_QA = null;
+const _PCI_KEYS = ['fajr', 'sunrise', 'dhuhr', 'asr', 'maghrib', 'isha'];
+// The engine's own 12h rendering (js/prayer-times.js formatTime): zero-padded 12-hour clock,
+// period AFTER the digits, and the period localized only for Arabic -- every other locale
+// keeps AM/PM. SSR computes in 24h, so without this the derived sections would print 18:14
+// while the timetable directly above them prints 06:14 م for the very same prayer.
+function _pciFmt(hm, lang) {
+    const m = /^(\d{2}):(\d{2})$/.exec(String(hm || ''));
+    if (!m) return hm;
+    const h = +m[1], mS = m[2];
+    const period = (lang === 'ar') ? (h >= 12 ? 'م' : 'ص') : (h >= 12 ? 'PM' : 'AM');
+    const h12 = h === 0 ? 12 : (h > 12 ? h - 12 : h);
+    return String(h12).padStart(2, '0') + ':' + mS + ' ' + period;
+}
+function _pciHm2Min(s) {
+    const m = /^(\d{2}):(\d{2})$/.exec(String(s || ''));
+    return m ? (+m[1] * 60 + +m[2]) : null;
+}
+function _pciMin2Hm(mins) {
+    let v = ((Math.round(mins) % 1440) + 1440) % 1440;
+    return String(Math.floor(v / 60)).padStart(2, '0') + ':' + String(v % 60).padStart(2, '0');
+}
+/** Resolve the same lat/lng/cc/tz/method context _ssrPrayerTimesFor uses. */
+function _pciCtx(slug) {
+    // PRAYER-CITY-INTELLIGENCE-REBASE-1 (2026-09-01): this resolver was written before PR #72,
+    // #74 and #75 shipped, and carried their superseded logic:
+    //   • identity via `_resolveCityForMoon` -> inherited the db-first slug collision, so
+    //     `boston` resolved cc='kg' and `san-francisco` cc='ar'. The country card (fixed by
+    //     PR #75) said "United States" while THIS context said Kyrgyzstan, which then picked
+    //     the wrong calculation method (MWL instead of ISNA).
+    //   • timezone via `curated.timezone || _CC_TO_PRIMARY_TZ[cc]` -> the unguarded shape PR #74
+    //     rejected: every db-only city fell back to the COUNTRY zone, so Denver announced UTC-4
+    //     (America/New_York) beside a hero table correctly computed for America/Denver.
+    // Resolve through the same two functions `_ssrPrayerTimesFor` uses, so the intelligence
+    // sections and the hero share ONE identity and ONE timezone by construction.
+    const info = (slug && typeof _ssrCityPlace === 'function')
+        ? _ssrCityPlace(slug)
+        : ((slug && typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(slug) : null);
+    const lat = (info && isFinite(info.lat)) ? info.lat : 21.4225;
+    const lng = (info && isFinite(info.lng)) ? info.lng : 39.8262;
+    const cc  = ((info && info.cc) || 'sa').toLowerCase();
+    const iana = (typeof _ssrCityIana === 'function')
+        ? _ssrCityIana(slug, cc, lat, lng)
+        : ((typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null);
+    const now = new Date();
+    const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3;
+    return { lat, lng, cc, iana, tzOffset, method: (_SSR_METHOD_BY_CC[cc] || 'MWL'),
+             highLats: (_HIGHLAT_BY_CC[cc] || 'AngleBased') };
+}
+/** Times for one calendar day, through the SAME engine and config as the hero. */
+function _pciTimesOn(ctx, y, m, d) {
+    try {
+        PrayerTimesSrv.setMethod(ctx.method);
+        PrayerTimesSrv.setHighLats(ctx.highLats);
+        PrayerTimesSrv.setTimeFormat('24h');
+        // Noon UTC of the city's own calendar day: the solar computation needs the
+        // date, and noon keeps it unambiguous either side of the tz shift.
+        const t = PrayerTimesSrv.getTimes(new Date(Date.UTC(y, m - 1, d, 12, 0, 0)), ctx.lat, ctx.lng, ctx.tzOffset);
+        if (!_PCI_KEYS.every(k => /^\d{2}:\d{2}$/.test(t[k] || ''))) return null;
+        const o = {};
+        _PCI_KEYS.forEach(k => { o[k] = t[k]; });
+        return o;
+    } catch (_e) { return null; }
+}
+/** The city's OWN calendar day (never the server's UTC day). */
+function _pciLocalYmd(iana) {
+    try {
+        const [y, m, d] = new Intl.DateTimeFormat('en-CA', {
+            timeZone: iana || 'UTC', year: 'numeric', month: '2-digit', day: '2-digit'
+        }).format(new Date()).split('-').map(Number);
+        if (y && m && d) return { y, m, d };
+    } catch (_e) {}
+    const n = new Date();
+    return { y: n.getUTCFullYear(), m: n.getUTCMonth() + 1, d: n.getUTCDate() };
+}
+/** Day length = sunrise -> maghrib, the pair the page's own timetable shows. */
+function _pciDayLen(t) {
+    const a = _pciHm2Min(t.sunrise), b = _pciHm2Min(t.maghrib);
+    if (a == null || b == null) return null;
+    let v = b - a; if (v <= 0) v += 1440;
+    return v;
+}
+/**
+ * Everything the City Intelligence sections need, computed once per request.
+ * Returns null when the engine cannot produce a valid day (never a placeholder).
+ */
+function _cityIntel(slug) {
+    try {
+        const ctx = _pciCtx(slug);
+        const L = _pciLocalYmd(ctx.iana);
+        // All four sections read from ONE source so they can never disagree with each other:
+        // the same engine and config as the hero, for the city's OWN calendar day and its OWN
+        // zone. (Taking today from `_ssrPrayerTimesFor` instead would reintroduce the country
+        // offset here while the 7-day/monthly loops below used the city offset, so a single
+        // card would have shown Los Angeles at 08:14 and "in 7 days" at 05:20.)
+        const today = _pciTimesOn(ctx, L.y, L.m, L.d);
+        if (!today) return null;
+
+        // ---- derived "today" values, using the site's own definitions ----
+        const fajrM = _pciHm2Min(today.fajr), maghM = _pciHm2Min(today.maghrib);
+        if (fajrM == null || maghM == null) return null;
+        const imsak = _pciMin2Hm(fajrM - 10);
+        let fastMin = maghM - fajrM; if (fastMin <= 0) fastMin += 1440;
+        let nightLen = fajrM - maghM; if (nightLen <= 0) nightLen += 1440;
+        const lastThirdStart = _pciMin2Hm(maghM + Math.round(nightLen * 2 / 3));
+
+        // ---- next prayer (city-local clock) ----
+        const localMs = Date.now() + ctx.tzOffset * 3600 * 1000;
+        const lc = new Date(localMs);
+        const curMin = lc.getUTCHours() * 60 + lc.getUTCMinutes();
+        let nextKey = null, nextTime = null;
+        for (const k of _PCI_KEYS) {
+            if (k === 'sunrise') continue;               // sunrise is not a prayer
+            const v = _pciHm2Min(today[k]);
+            if (v != null && v > curMin) { nextKey = k; nextTime = today[k]; break; }
+        }
+        if (!nextKey) { nextKey = 'fajr'; nextTime = today.fajr; }   // after Isha -> tomorrow's Fajr
+
+        // ---- 7-day change ----
+        const d7 = new Date(Date.UTC(L.y, L.m - 1, L.d + 7));
+        const t7 = _pciTimesOn(ctx, d7.getUTCFullYear(), d7.getUTCMonth() + 1, d7.getUTCDate());
+        let week = null;
+        if (t7) {
+            const mk = k => {
+                const a = _pciHm2Min(today[k]), b = _pciHm2Min(t7[k]);
+                if (a == null || b == null) return null;
+                let dl = b - a; if (dl > 720) dl -= 1440; if (dl < -720) dl += 1440;
+                return { today: today[k], next: t7[k], delta: dl };
+            };
+            const dlA = _pciDayLen(today), dlB = _pciDayLen(t7);
+            week = { fajr: mk('fajr'), sunrise: mk('sunrise'), maghrib: mk('maghrib'),
+                     dayLen: (dlA != null && dlB != null)
+                        ? { today: dlA, next: dlB, delta: dlB - dlA } : null };
+        }
+
+        // ---- month extremes, from the same engine day by day ----
+        const daysInMonth = new Date(Date.UTC(L.y, L.m, 0)).getUTCDate();
+        let fMin = null, fMax = null, mMin = null, mMax = null, dlFirst = null, dlLast = null;
+        for (let d = 1; d <= daysInMonth; d++) {
+            const t = _pciTimesOn(ctx, L.y, L.m, d);
+            if (!t) continue;
+            const f = _pciHm2Min(t.fajr), g = _pciHm2Min(t.maghrib), dl = _pciDayLen(t);
+            if (f != null) {
+                if (!fMin || f < fMin.v) fMin = { v: f, d, hm: t.fajr };
+                if (!fMax || f > fMax.v) fMax = { v: f, d, hm: t.fajr };
+            }
+            if (g != null) {
+                if (!mMin || g < mMin.v) mMin = { v: g, d, hm: t.maghrib };
+                if (!mMax || g > mMax.v) mMax = { v: g, d, hm: t.maghrib };
+            }
+            if (dl != null) { if (d === 1) dlFirst = dl; if (d === daysInMonth) dlLast = dl; }
+        }
+        const month = (fMin && fMax && mMin && mMax)
+            ? { fajrEarliest: fMin, fajrLatest: fMax, maghribEarliest: mMin, maghribLatest: mMax,
+                dayLenFirst: dlFirst, dayLenLast: dlLast, days: daysInMonth, y: L.y, m: L.m }
+            : null;
+
+        return {
+            today, imsak, fastMin, lastThirdStart, lastThirdEnd: today.fajr,
+            next: { key: nextKey, time: nextTime },
+            tzOffset: ctx.tzOffset, iana: ctx.iana, method: ctx.method,
+            local: L, week, month
+        };
+    } catch (_e) { return null; }
+}
+
+// Date labels for the City Intelligence cards. Both reuse the localization tables the site
+// already ships (_HIJRI_MONTHS_L10N / _GREG_MONTHS_L10N) so month names match the rest of the
+// product in all ten locales; no new month vocabulary is introduced.
+function _pciHijriLabel(h, lang) {
+    if (!h || !h.year) return '';
+    const arr = (_HIJRI_MONTHS_L10N && (_HIJRI_MONTHS_L10N[lang] || _HIJRI_MONTHS_L10N.en)) || null;
+    const name = arr ? arr[(h.month || 1) - 1] : '';
+    const sfx = (lang === 'ar' || lang === 'ur') ? ' هـ' : ' AH';
+    return h.day + ' ' + (name || '') + ' ' + h.year + sfx;
+}
+function _pciGregLabel(L, lang, dayOnly) {
+    if (!L || !L.y) return '';
+    const arr = (_GREG_MONTHS_L10N && (_GREG_MONTHS_L10N[lang] || _GREG_MONTHS_L10N.en)) || null;
+    const name = arr ? arr[(L.m || 1) - 1] : String(L.m);
+    return dayOnly ? (L.d + ' ' + name) : (L.d + ' ' + name + ' ' + L.y);
+}
+
+/**
+ * PRAYER-CITY-INTELLIGENCE-1 — render the derived sections.
+ * Markup deliberately reuses the page's own `section-card` + `<h2>` shell so the new blocks sit in
+ * the existing rhythm; the only new classes are namespaced `pci-*` and their CSS is built from the
+ * same custom properties the rest of the page uses. Times are emitted in 24h, exactly like the
+ * existing SSR fill of #time-fajr … #time-isha, so nothing here introduces a second time format.
+ */
+function _buildCityIntelHtml(intel, lang, cityName) {
+    if (!intel) return '';
+    const D = (I18N && (I18N[lang] || I18N.en)) || {};
+    const E = (I18N && I18N.en) || {};
+    const tt = k => (D[k] != null ? D[k] : (E[k] != null ? E[k] : ''));
+    const fill = (s, vars) => String(s || '').replace(/\{(\w+)\}/g, (m, k) => (vars[k] != null ? vars[k] : m));
+    const e = _escHtml;
+    const city = cityName || '';
+    const rtl = (lang === 'ar' || lang === 'ur');
+    // Latin/technical runs (UTC+3, MWL, Diyanet…) inside RTL prose need isolating or the
+    // surrounding Arabic/Urdu reorders around them.
+    const iso = v => rtl ? ('<bdi>' + e(v) + '</bdi>') : e(v);
+    const T = hm => _pciFmt(hm, lang);
+    const dur = mins => {
+        const h = Math.floor(mins / 60), m = mins % 60;
+        const hl = tt(h === 1 ? 'unit.hour' : 'unit.hours') || 'h';
+        const ml = tt('unit.min') || 'min';
+        const and = tt('unit.and') || ' ';
+        return h + ' ' + hl + (m > 0 ? and + m + ' ' + ml : '');
+    };
+    const methodLabel = tt('method.' + intel.method) || intel.method;
+    const tzLabel = 'UTC' + (intel.tzOffset >= 0 ? '+' : '−') + Math.abs(intel.tzOffset);
+    const item = (label, value) =>
+        '<div class="pci-item"><span class="pci-label">' + e(label) + '</span>'
+        + '<span class="pci-value">' + value + '</span></div>';
+
+    // ── A. today summary ───────────────────────────────────────────────────
+    let hijri = '', greg = '';
+    try {
+        const h = _hijriForIana(intel.iana);
+        if (h && h.year) hijri = _pciHijriLabel(h, lang);
+    } catch (_e) {}
+    try { greg = _pciGregLabel(intel.local, lang); } catch (_e) {}
+    const nextName = tt('prayer.' + intel.next.key) || intel.next.key;
+    let todayItems = ''
+        + item(tt('pci.next_prayer'), e(nextName) + ' <b class="pci-strong">' + e(T(intel.next.time)) + '</b>')
+        + item(tt('sis.imsak'), '<b class="pci-strong">' + e(T(intel.imsak)) + '</b>')
+        + item(tt('sis.fasting'), '<b class="pci-strong">' + e(dur(intel.fastMin)) + '</b>')
+        + item(tt('sis.last_third'),
+            '<b class="pci-strong">' + e(T(intel.lastThirdStart)) + (rtl ? ' ← ' : ' → ') + e(T(intel.lastThirdEnd)) + '</b>');
+    if (hijri) todayItems += item(tt('pci.hijri_date'), e(hijri));
+    if (greg)  todayItems += item(tt('pci.greg_date'), e(greg));
+    todayItems += item(tt('pci.timezone'), iso(tzLabel));
+    todayItems += item(tt('sis.calc_method'), iso(methodLabel));
+    const secToday = '<section class="section-card prayer-city-intel" id="pci-today" aria-labelledby="pci-today-t">'
+        + '<h2 id="pci-today-t">' + e(fill(tt('pci.today_title'), { loc: city })) + '</h2>'
+        + '<div class="pci-grid">' + todayItems + '</div></section>';
+
+    // ── B. 7-day change ────────────────────────────────────────────────────
+    let secWeek = '';
+    if (intel.week) {
+        // Arabic inflects the counted noun: 1 singular, 2 dual, 3-10 plural, 11+ singular again.
+        // "4 دقيقة" is simply wrong, so the quantity is built here and the templates carry only {n}.
+        const minQty = n => {
+            if (lang === 'ar') {
+                if (n === 1) return 'دقيقة واحدة';
+                if (n === 2) return 'دقيقتان';
+                if (n >= 3 && n <= 10) return n + ' دقائق';
+                return n + ' دقيقة';
+            }
+            return n + ' ' + (tt('unit.min') || 'min');
+        };
+        // A duration gets longer or shorter; only a clock time gets earlier or later.
+        const deltaTxt = (d, isDur) => {
+            if (d === 0) return tt('pci.no_change');
+            const q = minQty(Math.abs(d));
+            const k = isDur ? (d > 0 ? 'pci.dur_longer' : 'pci.dur_shorter')
+                            : (d > 0 ? 'pci.min_later' : 'pci.min_earlier');
+            return fill(tt(k), { n: q });
+        };
+        const arrow = d => d === 0 ? '→' : (d > 0 ? '↓' : '↑');
+        const row = (label, r, isDur) => {
+            if (!r) return '';
+            const a = isDur ? dur(r.today) : T(r.today);
+            const b = isDur ? dur(r.next) : T(r.next);
+            return '<div class="pci-row">'
+                + '<span class="pci-row-name">' + e(label) + '</span>'
+                + '<span class="pci-row-cell"><span class="pci-cap">' + e(tt('pci.col_today')) + '</span>'
+                + '<b>' + e(a) + '</b></span>'
+                + '<span class="pci-row-cell"><span class="pci-cap">' + e(tt('pci.col_after7')) + '</span>'
+                + '<b>' + e(b) + '</b></span>'
+                + '<span class="pci-row-cell pci-row-delta"><span class="pci-cap">' + e(tt('pci.col_change')) + '</span>'
+                + '<b><span class="pci-arrow" aria-hidden="true">' + arrow(r.delta) + '</span> '
+                + e(deltaTxt(r.delta, isDur)) + '</b></span></div>';
+        };
+        const w = intel.week;
+        let sentence = '';
+        const fd = w.fajr ? w.fajr.delta : 0, md = w.maghrib ? w.maghrib.delta : 0;
+        if (Math.abs(fd) < 2 && Math.abs(md) < 2) {
+            sentence = fill(tt('pci.week_stable'), { loc: city });
+        } else {
+            sentence = fill(tt('pci.week_summary'), { loc: city, fajr: deltaTxt(fd), maghrib: deltaTxt(md) });
+        }
+        secWeek = '<section class="section-card prayer-city-intel" id="pci-week" aria-labelledby="pci-week-t">'
+            + '<h2 id="pci-week-t">' + e(fill(tt('pci.week_title'), { loc: city })) + '</h2>'
+            + '<div class="pci-rows">'
+            + row(tt('prayer.fajr'), w.fajr) + row(tt('prayer.sunrise'), w.sunrise)
+            + row(tt('prayer.maghrib'), w.maghrib) + row(tt('pci.day_length'), w.dayLen, true)
+            + '</div><p class="pci-note">' + e(sentence) + '</p></section>';
+    }
+
+    // ── C. this month ──────────────────────────────────────────────────────
+    let secMonth = '';
+    if (intel.month) {
+        const m = intel.month;
+        const dayOf = d => { try { return _pciGregLabel({ y: m.y, m: m.m, d }, lang, true); } catch (_e) { return String(d); } };
+        const metric = (label, hm, day) =>
+            '<div class="pci-item"><span class="pci-label">' + e(label) + '</span>'
+            + '<span class="pci-value"><b class="pci-strong">' + e(hm) + '</b>'
+            + (day ? '<span class="pci-sub">' + e(day) + '</span>' : '') + '</span></div>';
+        secMonth = '<section class="section-card prayer-city-intel" id="pci-month" aria-labelledby="pci-month-t">'
+            + '<h2 id="pci-month-t">' + e(fill(tt('pci.month_title'), { loc: city })) + '</h2>'
+            + '<div class="pci-grid">'
+            + metric(tt('pci.earliest_fajr'), T(m.fajrEarliest.hm), dayOf(m.fajrEarliest.d))
+            + metric(tt('pci.latest_fajr'), T(m.fajrLatest.hm), dayOf(m.fajrLatest.d))
+            + metric(tt('pci.earliest_maghrib'), T(m.maghribEarliest.hm), dayOf(m.maghribEarliest.d))
+            + metric(tt('pci.latest_maghrib'), T(m.maghribLatest.hm), dayOf(m.maghribLatest.d))
+            + (m.dayLenFirst != null ? metric(tt('pci.daylen_start'), dur(m.dayLenFirst), '') : '')
+            + (m.dayLenLast != null ? metric(tt('pci.daylen_end'), dur(m.dayLenLast), '') : '')
+            + '</div></section>';
+    }
+
+    // ── D. quick questions (visible FAQ; the JSON-LD below mirrors these exactly) ──
+    const qa = [];
+    ['fajr', 'dhuhr', 'asr', 'maghrib', 'isha'].forEach(k => {
+        const pn = tt('prayer.' + k);
+        qa.push({
+            q: fill(tt('pci.q_time'), { prayer: pn, loc: city }),
+            a: fill(tt('pci.a_time'), { prayer: pn, loc: city, time: T(intel.today[k]), method: methodLabel })
+        });
+    });
+    qa.push({
+        q: fill(tt('pci.q_fasting'), { loc: city }),
+        a: fill(tt('pci.a_fasting'), { loc: city, dur: dur(intel.fastMin), fajr: T(intel.today.fajr), maghrib: T(intel.today.maghrib) })
+    });
+    qa.push({
+        q: fill(tt('pci.q_method'), { loc: city }),
+        a: fill(tt('pci.a_method'), { loc: city, method: methodLabel })
+    });
+    const secFaq = '<section class="section-card prayer-city-intel pci-faq" id="pci-faq" aria-labelledby="pci-faq-t">'
+        + '<h2 id="pci-faq-t">' + e(fill(tt('pci.faq_title'), { loc: city })) + '</h2>'
+        + qa.map(x => '<div class="pci-qa"><h3 class="pci-q">' + e(x.q) + '</h3>'
+            + '<p class="pci-a">' + e(x.a) + '</p></div>').join('')
+        + '</section>';
+
+    return { today: secToday, week: secWeek, month: secMonth, faq: secFaq, qa };
+}
+
 // PERF-LCP-1 (2026-05-10): compute the next-prayer countdown SSR-side.
 // Lighthouse flagged #next-prayer-countdown.banner-big-countdown as the
 // LCP element on /prayer-times-in-{city} with a 26-second render delay
@@ -3348,6 +3711,7 @@ function _ssrNextPrayerCountdown(slug, t) {
 // #next-prayer-name (LCP element on city pages). The `lang` parameter
 // localizes the prayer name; if omitted, falls back to AR.
 function _ssrInjectPrayerTimes(html, slug, lang) {
+    _PCI_LAST_QA = null;   // never carry a previous request's questions
     const t = _ssrPrayerTimesFor(slug);
     if (!t) return html;
     // 1) Daily prayer-time grid.
@@ -3525,8 +3889,60 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
             );
         }
     } catch (_e) { /* SSR banner fill is optional; JS hydrates regardless */ }
+
+    // ── PRAYER-CITY-INTELLIGENCE-1 ────────────────────────────────────────────
+    // Fill the summary strip and add the derived sections. The strip already
+    // existed but shipped "—" in SSR and was only filled after hydration, so a
+    // crawler (and a no-JS visitor) saw four empty dashes; those are now real
+    // values in the first byte. Everything is derived from the same engine call
+    // the grid above uses, so the numbers cannot disagree with the cards.
+    try {
+        const _pci = _cityIntel(slug);
+        if (_pci) {
+            const _lg = lang || 'ar';
+            const _D = (I18N && (I18N[_lg] || I18N.en)) || {};
+            const _E = (I18N && I18N.en) || {};
+            const _t = k => (_D[k] != null ? _D[k] : (_E[k] != null ? _E[k] : ''));
+            const _rtl = (_lg === 'ar' || _lg === 'ur');
+            const _h = Math.floor(_pci.fastMin / 60), _m = _pci.fastMin % 60;
+            const _durTxt = _h + ' ' + (_t(_h === 1 ? 'unit.hour' : 'unit.hours') || 'h')
+                + (_m > 0 ? (_t('unit.and') || ' ') + _m + ' ' + (_t('unit.min') || 'min') : '');
+            const _methodTxt = _t('method.' + _pci.method) || _pci.method;
+            // Only replace the literal placeholder, so a value already present is never clobbered.
+            out = out
+                .replace(/(id="sis-imsak"[^>]*>)\s*—\s*(<)/, `$1${_escHtml(_pciFmt(_pci.imsak, _lg))}$2`)
+                .replace(/(id="sis-fasting"[^>]*>)\s*—\s*(<)/, `$1${_escHtml(_durTxt)}$2`)
+                .replace(/(id="sis-last-third"[^>]*>)\s*—\s*(<)/,
+                    `$1${_escHtml(_pciFmt(_pci.lastThirdStart, _lg) + (_rtl ? ' ← ' : ' → ') + _pciFmt(_pci.lastThirdEnd, _lg))}$2`)
+                .replace(/(id="sis-calc-method"[^>]*>)\s*—\s*(<)/, `$1${_escHtml(_methodTxt)}$2`);
+
+            const _cityName = (typeof _resolveCityName === 'function')
+                ? (_resolveCityName(slug, _lg) || _slugToTitle(slug)) : _slugToTitle(slug);
+            const _sec = _buildCityIntelHtml(_pci, _lg, _cityName);
+            if (_sec && _sec.today) {
+                // Section A sits directly under the prayer cards; the 7-day and monthly blocks go
+                // after the timetable, and the questions after the existing explanatory copy —
+                // the discovery grids keep their place further down, untouched.
+                const _before = (needle, payload) => {
+                    if (!payload) return;
+                    const i = out.indexOf(needle);
+                    if (i !== -1) out = out.slice(0, i) + payload + out.slice(i);
+                };
+                _before('<section class="section-card city-summary-paragraph', _sec.today);
+                const _guideAnchor = '<section class="city-seo-guide section-card">';
+                const _chips = '<section class="section-card most-searched-chips"';
+                _before(out.indexOf(_guideAnchor) !== -1 ? _guideAnchor : _chips, _sec.week + _sec.month);
+                const _links = '<nav class="guides-city-links"';
+                _before(out.indexOf(_links) !== -1 ? _links : _chips, _sec.faq);
+                // Hand the questions to the page's existing FAQPage emitter further down
+                // rather than adding a second block here -- one FAQPage per page.
+                _PCI_LAST_QA = _sec.qa;
+            }
+        }
+    } catch (_e) { /* derived sections are additive; the page renders without them */ }
     return out;
 }
+
 
 // ===== UAT-Moon-3: proximity-based slug fallback =====
 // Used when a /moon-today-in-{slug}-{lat}-{lng} URL arrives with a slug
@@ -17957,6 +18373,14 @@ if (_SC_ON) {
 }
 
 function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
+    // PRAYER-CITY-INTELLIGENCE-REBASE-1 (2026-09-01): clear the City-Intelligence question
+    // stash HERE, at the one point every render passes through. It used to be cleared only
+    // inside `_ssrInjectPrayerTimes`, which is guarded off for `nextPrayerPage`,
+    // `timeLeftPage`, `isHome` and the moon-today hub -- yet those pages still reach the
+    // FAQPage emitter below. They therefore published the PREVIOUS request's questions:
+    // /en/next-prayer-in-los-angeles advertised "When is Fajr in Riyadh today?" (in Arabic)
+    // purely because a Riyadh page had been rendered before it. Measured, not theorised.
+    _PCI_LAST_QA = null;
     // ADSENSE-INDEXABLE-SSR-CONTENT-SURFACE-FIX-1 (P1): carries the phase name and
     //   illumination that _buildSsrMoonIntro computes for the moon intro down to the
     //   post-_translateI18nAttrs pass, which is the only point where a substitution
@@ -23933,7 +24357,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '208'; // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
+        const _i18nVersion = '209'; // PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
         let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -24794,7 +25218,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { q: `Bilakah solat seterusnya di ${cityDisplayLoc} hari ini?`, a: `Solat seterusnya di ${cityDisplayLoc} bergantung pada masa sekarang. Anda boleh melihat masa tepatnya dan tiga solat seterusnya di halaman «Solat Seterusnya».` }
                 ]
             };
-            const _faqList = _faqByLang[L] || _faqByLang.en;
+            // PRAYER-CITY-INTELLIGENCE-1: when the derived sections rendered, THEY are the
+            // questions actually on screen, so the schema must describe those and not the
+            // older generic list -- structured data may never advertise unseen questions.
+            const _faqList = (_PCI_LAST_QA && _PCI_LAST_QA.length)
+                ? _PCI_LAST_QA : (_faqByLang[L] || _faqByLang.en);
             const _faqJsonLd = {
                 '@context': 'https://schema.org',
                 '@type': 'FAQPage',

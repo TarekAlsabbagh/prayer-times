@@ -2587,6 +2587,87 @@ html[data-theme="dark"] .ns-item.is-selected {
 /* Hard-fail: hide the unreliable live needle, dim the rose (bearing shown in the card) */
 .compass.compass-unavailable .compass-arrow { display: none; }
 .compass.compass-unavailable { opacity: 0.5; }
+
+/* ===== TRUSTED-DIRECTION-1 — Qibla direction map + secondary live compass =====
+   The map is the authoritative element, so it sits above the compass and gets the visual weight.
+   Everything here uses logical properties (inline-start/end, margin-inline) so Arabic/Urdu RTL
+   mirrors correctly without a second rule set. The SVG scales with the container and is capped, so
+   it never dominates the page or forces horizontal scroll on a 360px phone. */
+.qibla-direction-map { text-align: center; }
+.qdm-title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 800; }
+.qdm-hint { margin: 0 auto 10px; max-width: 46ch; font-size: 0.85rem; opacity: 0.78; line-height: 1.5; }
+.qdm-wrap { width: 100%; max-width: 320px; margin-inline: auto; }
+.qdm-svg { display: block; width: 100%; height: auto; overflow: visible; }
+.qdm-dial { fill: none; stroke: currentColor; stroke-opacity: 0.18; stroke-width: 1.5; }
+.qdm-dial-inner { stroke-dasharray: 3 5; stroke-opacity: 0.12; }
+.qdm-tick { stroke: currentColor; stroke-opacity: 0.35; stroke-width: 2; }
+.qdm-card { font-size: 13px; font-weight: 700; fill: currentColor; fill-opacity: 0.6;
+            text-anchor: middle; dominant-baseline: middle; }
+.qdm-card-n { fill-opacity: 0.95; }
+.qdm-ray { stroke: var(--primary, #0a7c4a); stroke-width: 4; stroke-linecap: round; }
+.qdm-head { fill: var(--primary, #0a7c4a); }
+.qdm-kaaba { font-size: 22px; text-anchor: middle; }
+.qdm-you { fill: var(--primary, #0a7c4a); }
+.qdm-you-label { font-size: 12px; font-weight: 700; fill: currentColor; fill-opacity: 0.8;
+                 text-anchor: middle; }
+.qdm-foot { display: flex; align-items: center; justify-content: center; gap: 12px;
+            flex-wrap: wrap; margin-top: 10px; }
+.qdm-nums { text-align: center; }
+.qdm-readout { font-size: 1.5rem; font-weight: 800; line-height: 1.15; }
+.qdm-distance { font-size: 0.85rem; opacity: 0.75; }
+.qdm-toggle { padding: 7px 14px; border-radius: 999px; border: 1px solid currentColor;
+              background: transparent; color: inherit; font: inherit; font-size: 0.85rem;
+              font-weight: 700; cursor: pointer; opacity: 0.85; }
+.qdm-toggle:hover { opacity: 1; }
+.qdm-toggle:focus-visible { outline: 2px solid var(--primary, #0a7c4a); outline-offset: 2px; }
+
+/* The live compass is framed as assistance, not as the answer. */
+.qibla-live-title { margin: 0 0 2px; font-size: 1rem; font-weight: 800; text-align: center; }
+.qibla-live-note { margin: 0 auto 12px; max-width: 44ch; font-size: 0.82rem; opacity: 0.72;
+                   text-align: center; line-height: 1.5; }
+
+/* Troubleshooting is a collapsed disclosure so it can never become the default instruction. */
+.qch-ts { margin-top: 8px; text-align: start; }
+.qch-ts-sum { cursor: pointer; font-weight: 700; font-size: 0.85rem; }
+.qch-ts-sum:focus-visible { outline: 2px solid var(--primary, #0a7c4a); outline-offset: 2px; }
+.qch-ts-list { margin: 6px 0 0; padding-inline-start: 1.15em; font-size: 0.82rem;
+               line-height: 1.6; opacity: 0.85; }
+.qch-ts-list li { margin-bottom: 3px; }
+
+@media (max-width: 380px) {
+  .qdm-wrap { max-width: 268px; }
+  .qdm-readout { font-size: 1.3rem; }
+  .qdm-foot { gap: 8px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .qdm-svg * { transition: none !important; }
+}
+
+/* ===== FINAL — real geographic map (Leaflet, north-up) =====
+   Height is capped so the map informs the page instead of dominating it on a 360px phone, and the
+   container keeps its reserved box from first paint, so lazy Leaflet init causes no layout shift. */
+.qibla-geo-map { text-align: center; }
+.qgm-title { margin: 0 0 8px; font-size: 1.05rem; font-weight: 800; }
+.qgm-canvas { width: 100%; height: 280px; border-radius: 12px; overflow: hidden;
+              background: rgba(127,127,127,0.10); }
+.qgm-status { margin: 8px 0 0; font-size: 0.85rem; opacity: 0.8; line-height: 1.5; }
+.qgm-foot { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.qgm-btn { padding: 7px 14px; border-radius: 999px; border: 1px solid currentColor;
+           background: transparent; color: inherit; font: inherit; font-size: 0.85rem;
+           font-weight: 700; cursor: pointer; opacity: 0.85; }
+.qgm-btn:hover { opacity: 1; }
+.qgm-btn:focus-visible { outline: 2px solid var(--primary, #0a7c4a); outline-offset: 2px; }
+.qdm-diagram-title { margin: 0 0 6px; font-size: 0.8rem; font-weight: 700; opacity: 0.6; }
+
+/* The Qibla geodesic and the location pin. Leaflet paints paths via SVG, so className works. */
+.qgm-line { stroke: var(--primary, #0a7c4a); stroke-linecap: round; }
+.qgm-pin span { display: block; width: 18px; height: 18px; border-radius: 50%;
+                background: var(--primary, #0a7c4a); box-shadow: 0 0 0 4px rgba(10,124,74,0.25); }
+/* Leaflet's own attribution stays visible and legible in both themes. */
+.qgm-canvas .leaflet-control-attribution { font-size: 10px; }
+
+@media (max-width: 380px) { .qgm-canvas { height: 230px; } }
+
 html[data-theme="dark"] .qibla-compass-help {
     background: rgba(255,255,255,0.05);
     border-color: rgba(255,255,255,0.12);

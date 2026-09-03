@@ -5979,6 +5979,9 @@ function initNavigation() {
             this.classList.add('active');
 
             document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // TRUSTED-DIRECTION-1: leaving Qibla ⇒ stop the sensors. One guarded line; the teardown
+            // itself early-returns when nothing is running, so every other page switch is a no-op.
+            if (pageId !== 'qibla') { try { _qcStopDeviceCompass('spa-nav'); } catch (_e) {} }
             const targetPage = document.getElementById('page-' + pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
@@ -11552,16 +11555,16 @@ function updatePageSEO() {
         else if (_qHS < 50) _qHubTitle = _qHubTitles.medium;
         else _qHubTitle = (_qHF <= 60) ? _qHubTitles.full : _qHubTitles.short;
         const _qHubDescs = ({
-            ar: 'اعرف اتجاه القبلة من موقعي بدقة باستخدام بوصلة القبلة وخريطة تفاعلية، مع زاوية القبلة نحو مكة المكرمة أو اختيار المدينة يدوياً.',
-            en: 'Find the Qibla direction from your location with a Kaaba compass and interactive map, or pick your city manually to locate the Qibla toward Mecca.',
-            fr: 'Trouvez la Qibla depuis votre position avec une boussole de la Kaaba et une carte interactive, ou choisissez votre ville manuellement vers La Mecque.',
-            tr: 'Konumunuzdan kıble yönünü Kâbe pusulası ve etkileşimli harita ile hassas bulun veya şehrinizi manuel seçerek kıbleyi Mekke yönünde belirleyin.',
-            ur: 'اپنے مقام سے قبلہ کی درست سمت کعبہ کے قطب نما اور انٹرایکٹو نقشے سے معلوم کریں، یا مکہ مکرمہ کی طرف سمت جاننے کے لیے اپنا شہر منتخب کریں۔',
-            de: 'Finden Sie die Qibla-Richtung von Ihrem Standort mit einem Kaaba-Kompass und interaktiver Karte, oder wählen Sie Ihre Stadt manuell zur Mekka-Peilung.',
-            id: 'Temukan arah kiblat dari lokasi Anda dengan kompas Kakbah dan peta interaktif, atau pilih kota Anda secara manual untuk menentukan arah ke Mekkah.',
-            es: 'Encuentre la Qibla desde su ubicación con una brújula de la Kaaba y un mapa interactivo, o elija su ciudad manualmente para apuntar hacia La Meca.',
-            bn: 'আপনার অবস্থান থেকে কাবা কম্পাস ও ইন্টারঅ্যাকটিভ মানচিত্র দিয়ে সঠিক কিবলার দিক জানুন, অথবা মক্কার দিকে কিবলা নির্ণয়ে নিজের শহর বেছে নিন।',
-            ms: 'Cari arah kiblat dari lokasi anda dengan kompas Kaabah dan peta interaktif, atau pilih bandar anda secara manual untuk menentukan kiblat ke Makkah.',
+            ar: 'اعرف اتجاه القبلة من موقعي بدقة باستخدام بوصلة القبلة وزاوية محسوبة بدقة، مع زاوية القبلة نحو مكة المكرمة أو اختيار المدينة يدوياً.',
+            en: 'Find the Qibla direction from your location with a Kaaba compass and exact bearing angle, or pick your city manually to locate the Qibla toward Mecca.',
+            fr: 'Trouvez la Qibla depuis votre position avec une boussole de la Kaaba et un azimut exact, ou choisissez votre ville manuellement vers La Mecque.',
+            tr: 'Konumunuzdan kıble yönünü Kâbe pusulası ve tam hesaplanan açı ile hassas bulun veya şehrinizi manuel seçerek kıbleyi Mekke yönünde belirleyin.',
+            ur: 'اپنے مقام سے قبلہ کی درست سمت کعبہ کے قطب نما اور شمار شدہ درست زاویے سے معلوم کریں، یا مکہ مکرمہ کی طرف سمت جاننے کے لیے اپنا شہر منتخب کریں۔',
+            de: 'Finden Sie die Qibla-Richtung von Ihrem Standort mit einem Kaaba-Kompass und exaktem Peilungswinkel, oder wählen Sie Ihre Stadt manuell zur Mekka-Peilung.',
+            id: 'Temukan arah kiblat dari lokasi Anda dengan kompas Kakbah dan sudut kiblat tepat, atau pilih kota Anda secara manual untuk menentukan arah ke Mekkah.',
+            es: 'Encuentre la Qibla desde su ubicación con una brújula de la Kaaba y un ángulo exacto, o elija su ciudad manualmente para apuntar hacia La Meca.',
+            bn: 'আপনার অবস্থান থেকে কাবা কম্পাস ও নির্ভুল গণনাকৃত কোণ দিয়ে সঠিক কিবলার দিক জানুন, অথবা মক্কার দিকে কিবলা নির্ণয়ে নিজের শহর বেছে নিন।',
+            ms: 'Cari arah kiblat dari lokasi anda dengan kompas Kaabah dan sudut kiblat tepat, atau pilih bandar anda secara manual untuk menentukan kiblat ke Makkah.',
         });
         const _qHubName = ({
             ar: 'اتجاه القبلة', en: 'Qibla Direction', fr: 'Direction de la Qibla',
@@ -12018,16 +12021,16 @@ function updateCitySEO(city, englishName, country, lat, lng) {
         else _chosenTitle = (_qFLen <= 60) ? _fullTitlesByLang : _shortTitlesByLang;
         const titles = [_chosenTitle, _chosenTitle];
         const desc = ({
-            ar: `اعرف اتجاه القبلة في ${cityDisplay} بدقة باستخدام بوصلة الكعبة وخريطة تفاعلية تعتمد على موقعك، مع زاوية القبلة والمسافة إلى مكة المكرمة.`,
-            en: `Find the Qibla direction in ${cityDisplay} accurately using a Kaaba compass and interactive map based on your location, with the Qibla bearing and distance to Mecca.`,
-            fr: `Trouvez la direction de la Qibla à ${cityDisplay} avec précision grâce à une boussole de la Kaaba et une carte interactive basée sur votre position, avec l'azimut et la distance à La Mecque.`,
-            tr: `${cityDisplay} için kıble yönünü Kâbe pusulası ve konumunuza dayalı etkileşimli harita ile hassas şekilde bulun; kıble açısı ve Mekke'ye uzaklık dahildir.`,
-            ur: `${cityDisplay} میں قبلہ کی درست سمت معلوم کریں، کعبہ کے قطب نما اور آپ کے مقام پر مبنی انٹرایکٹو نقشے کے ساتھ، قبلہ زاویہ اور مکہ تک فاصلے سمیت۔`,
-            de: `Finden Sie die Qibla-Richtung in ${cityDisplay} präzise mit einem Kaaba-Kompass und einer interaktiven Karte basierend auf Ihrem Standort, mit Qibla-Peilung und Entfernung nach Mekka.`,
-            id: `Temukan arah kiblat di ${cityDisplay} dengan akurat menggunakan kompas Kakbah dan peta interaktif berdasarkan lokasi Anda, lengkap dengan sudut kiblat dan jarak ke Mekkah.`,
-            es: `Encuentre la dirección de la Qibla en ${cityDisplay} con precisión usando una brújula de la Kaaba y un mapa interactivo basado en su ubicación, con el rumbo y la distancia a La Meca.`,
-            bn: `${cityDisplay}-এ কিবলার দিক সঠিকভাবে জানুন কাবা কম্পাস ও আপনার অবস্থান অনুযায়ী ইন্টারঅ্যাকটিভ মানচিত্রের সাহায্যে, কিবলার কোণ ও মক্কার দূরত্বসহ।`,
-            ms: `Cari arah kiblat di ${cityDisplay} dengan tepat menggunakan kompas Kaabah dan peta interaktif berdasarkan lokasi anda, lengkap dengan sudut kiblat dan jarak ke Makkah.`,
+            ar: `اعرف اتجاه القبلة في ${cityDisplay} بدقة باستخدام بوصلة الكعبة وزاوية محسوبة تعتمد على موقعك، مع زاوية القبلة والمسافة إلى مكة المكرمة.`,
+            en: `Find the Qibla direction in ${cityDisplay} accurately using a Kaaba compass and an exact bearing based on your location, with the Qibla bearing and distance to Mecca.`,
+            fr: `Trouvez la direction de la Qibla à ${cityDisplay} avec précision grâce à une boussole de la Kaaba et un azimut exact basé sur votre position, avec l'azimut et la distance à La Mecque.`,
+            tr: `${cityDisplay} için kıble yönünü Kâbe pusulası ve konumunuza dayalı hesaplanan açı ile hassas şekilde bulun; kıble açısı ve Mekke'ye uzaklık dahildir.`,
+            ur: `${cityDisplay} میں قبلہ کی درست سمت معلوم کریں، کعبہ کے قطب نما اور آپ کے مقام پر مبنی شمار شدہ زاویے کے ساتھ، قبلہ زاویہ اور مکہ تک فاصلے سمیت۔`,
+            de: `Finden Sie die Qibla-Richtung in ${cityDisplay} präzise mit einem Kaaba-Kompass und einem exakten Peilungswinkel basierend auf Ihrem Standort, mit Qibla-Peilung und Entfernung nach Mekka.`,
+            id: `Temukan arah kiblat di ${cityDisplay} dengan akurat menggunakan kompas Kakbah dan sudut kiblat tepat berdasarkan lokasi Anda, lengkap dengan sudut kiblat dan jarak ke Mekkah.`,
+            es: `Encuentre la dirección de la Qibla en ${cityDisplay} con precisión usando una brújula de la Kaaba y un ángulo exacto basado en su ubicación, con el rumbo y la distancia a La Meca.`,
+            bn: `${cityDisplay}-এ কিবলার দিক সঠিকভাবে জানুন কাবা কম্পাস ও আপনার অবস্থান অনুযায়ী গণনাকৃত কোণের সাহায্যে, কিবলার কোণ ও মক্কার দূরত্বসহ।`,
+            ms: `Cari arah kiblat di ${cityDisplay} dengan tepat menggunakan kompas Kaabah dan sudut kiblat tepat berdasarkan lokasi anda, lengkap dengan sudut kiblat dan jarak ke Makkah.`,
         })[lang];
         const wpName = ({
             ar: `اتجاه القبلة في ${cityDisplay}`,
@@ -16253,10 +16256,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`ما هي زاوية القبلة من ${ctx.cityName}؟`, `زاوية القبلة من ${ctx.cityName} تساوي تقريباً ${ctx.angle}° باتجاه ${ctx.cardinal}، مُقاسة من الشمال الجغرافي باتجاه عقارب الساعة.`],
             [`كم تبعد ${ctx.cityName} عن الكعبة؟`, `المسافة بين ${ctx.cityName} والكعبة المشرفة في مكة المكرمة تبلغ ${ctx.distanceKm.toLocaleString('ar')} كم تقريباً.`],
-            [`كيف أعرف اتجاه القبلة من ${ctx.cityName}؟`, `يمكنك معرفة اتجاه القبلة من ${ctx.cityName} من خلال خريطة القبلة أو البوصلة الرقمية في الصفحة. تعتمد النتيجة على إحداثيات ${ctx.cityName} وموقع الكعبة المشرفة، ثم يُحسب أقصر اتجاه على سطح الأرض نحو القبلة.`],
+            [`كيف أعرف اتجاه القبلة من ${ctx.cityName}؟`, `يمكنك معرفة اتجاه القبلة من ${ctx.cityName} من خلال زاوية القبلة المحسوبة والبوصلة الرقمية في الصفحة. تعتمد النتيجة على إحداثيات ${ctx.cityName} وموقع الكعبة المشرفة، ثم يُحسب أقصر اتجاه على سطح الأرض نحو القبلة.`],
             [`ما اتجاه القبلة بالبوصلة في ${ctx.cityName}؟`, `اتجاه القبلة بالبوصلة في ${ctx.cityName} يُعرض على الصفحة كزاوية رقمية بالدرجات (${ctx.angle}°). وجه البوصلة حتى تقترب من هذه الزاوية، مع الانتباه إلى أن دقة البوصلة قد تتأثر بالمعادن أو المغناطيس القريبة.`],
             [`هل اتجاه القبلة في ${ctx.cityName} نحو الشمال أم الجنوب؟`, `يعتمد ذلك على موقع ${ctx.cityName} الجغرافي بالنسبة إلى مكة المكرمة. قد يكون اتجاه القبلة من بعض المدن مائلاً نحو الجنوب الشرقي أو الجنوب الغربي أو الشمال الشرقي. تعرض الصفحة زاوية القبلة الدقيقة (${ctx.angle}° — ${ctx.cardinal}) بدل الوصف العام.`],
-            [`هل يمكن تحديد القبلة من الجوال في ${ctx.cityName}؟`, `نعم، يمكن استخدام الجوال لمعرفة اتجاه القبلة في ${ctx.cityName} عبر البوصلة الرقمية أو خريطة القبلة. فعل خدمات الموقع وحرك الهاتف بعيداً عن الأجهزة المعدنية أو المغناطيسية، ثم قارن قراءة البوصلة بالزاوية المعروضة.`],
+            [`هل يمكن تحديد القبلة من الجوال في ${ctx.cityName}؟`, `نعم، يمكن استخدام الجوال لمعرفة اتجاه القبلة في ${ctx.cityName} عبر البوصلة الرقمية أو زاوية القبلة المعروضة في الصفحة. فعل خدمات الموقع وحرك الهاتف بعيداً عن الأجهزة المعدنية أو المغناطيسية، ثم قارن قراءة البوصلة بالزاوية المعروضة.`],
             [`كيف أحدد اتجاه القبلة يدوياً؟`, `استخدم البوصلة أعلاه وأَدِر نفسك حتى يشير السهم إلى ${ctx.angle}°، مع الابتعاد عن المعادن لزيادة الدقة.`],
             [`لماذا تختلف زاوية القبلة بين مدينة وأخرى؟`, `تختلف زاوية القبلة لأن كل مدينة تقع في إحداثيات جغرافية مختلفة. يُحسب الاتجاه من موقع المدينة إلى الكعبة المشرفة، لذلك تختلف زاوية ${ctx.cityName} عن مدينة أخرى داخل الدولة أو خارجها.`],
             [`ما سبب اختلاف اتجاه القبلة بين التطبيقات؟`, `قد يختلف الاتجاه بين التطبيقات بسبب اختلاف طريقة الحساب أو دقة الإحداثيات أو تأثر بوصلة الهاتف بالمجال المغناطيسي. يُفضل الاعتماد على إحداثيات دقيقة ومقارنة الزاوية المعروضة مع البوصلة بعد معايرتها.`],
@@ -16294,10 +16297,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`What is the Qibla angle from ${ctx.cityName}?`, `The Qibla bearing from ${ctx.cityName} is about ${ctx.angle}° toward ${ctx.cardinal}, measured clockwise from true north.`],
             [`How far is ${ctx.cityName} from the Kaaba?`, `The great-circle distance between ${ctx.cityName} and the Kaaba is about ${ctx.distanceKm.toLocaleString('en')} km.`],
-            [`How do I find the Qibla direction from ${ctx.cityName}?`, `You can find the Qibla from ${ctx.cityName} using the digital compass or the Qibla map on this page. The result uses ${ctx.cityName}'s coordinates and the Kaaba's location to compute the shortest bearing on Earth's surface.`],
+            [`How do I find the Qibla direction from ${ctx.cityName}?`, `You can find the Qibla from ${ctx.cityName} using the calculated Qibla angle and the digital compass on this page. The result uses ${ctx.cityName}'s coordinates and the Kaaba's location to compute the shortest bearing on Earth's surface.`],
             [`What is the Qibla compass bearing in ${ctx.cityName}?`, `The Qibla compass bearing in ${ctx.cityName} is shown on the page as a precise angle in degrees (${ctx.angle}°). Align your compass with that angle; accuracy can be affected by nearby metals or magnets.`],
             [`Is the Qibla from ${ctx.cityName} toward the north or south?`, `It depends on ${ctx.cityName}'s position relative to Makkah. The Qibla can tilt toward the south-east, south-west, or north-east depending on the city. The page shows the exact bearing (${ctx.angle}° — ${ctx.cardinal}) instead of a generic direction.`],
-            [`Can I find the Qibla from my phone in ${ctx.cityName}?`, `Yes — use your phone's compass or the on-page Qibla map. Enable location services, keep the phone away from metal/magnets, and compare the compass reading against the angle shown on this page.`],
+            [`Can I find the Qibla from my phone in ${ctx.cityName}?`, `Yes — use your phone's compass, or the calculated Qibla angle shown on this page. Enable location services, keep the phone away from metal/magnets, and compare the compass reading against the angle shown on this page.`],
             [`How do I face the Qibla manually?`, `Use the compass above and turn until the needle points to ${ctx.angle}°; stay away from metal and magnets for better accuracy.`],
             [`Why does the Qibla angle differ from one city to another?`, `Because each city sits at different geographic coordinates. The bearing is computed from each city's location to the Kaaba, so ${ctx.cityName}'s angle differs from another city's, even within the same country.`],
             [`Why does the Qibla direction differ between apps?`, `Different apps may use different formulas, coordinate precision, or compass calibration. Prefer accurate coordinates and compare the shown angle against your compass after calibration.`],
@@ -16329,10 +16332,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Quel est l'angle de la Qibla depuis ${ctx.cityName} ?`, `L'azimut de la Qibla depuis ${ctx.cityName} est d'environ ${ctx.angle}° vers ${ctx.cardinal}, mesuré dans le sens horaire à partir du nord géographique.`],
             [`Quelle est la distance entre ${ctx.cityName} et la Kaaba ?`, `La distance orthodromique entre ${ctx.cityName} et la Kaaba est d'environ ${ctx.distanceKm.toLocaleString('fr')} km.`],
-            [`Comment trouver la direction de la Qibla depuis ${ctx.cityName} ?`, `Vous pouvez trouver la Qibla depuis ${ctx.cityName} via la carte de la Qibla ou la boussole numérique sur cette page. Le résultat utilise les coordonnées de ${ctx.cityName} et la position de la Kaaba pour calculer le cap le plus court sur la surface terrestre.`],
+            [`Comment trouver la direction de la Qibla depuis ${ctx.cityName} ?`, `Vous pouvez trouver la Qibla depuis ${ctx.cityName} via l’angle de la Qibla calculé et la boussole numérique sur cette page. Le résultat utilise les coordonnées de ${ctx.cityName} et la position de la Kaaba pour calculer le cap le plus court sur la surface terrestre.`],
             [`Quel est le cap boussole de la Qibla à ${ctx.cityName} ?`, `Le cap boussole de la Qibla à ${ctx.cityName} est affiché sur la page sous forme d'angle précis en degrés (${ctx.angle}°). Alignez votre boussole sur cet angle ; la précision peut être affectée par des métaux ou aimants à proximité.`],
             [`La Qibla depuis ${ctx.cityName} pointe-t-elle vers le nord ou le sud ?`, `Cela dépend de la position de ${ctx.cityName} par rapport à La Mecque. La Qibla peut pencher vers le sud-est, le sud-ouest ou le nord-est selon la ville. La page affiche le cap exact (${ctx.angle}° — ${ctx.cardinal}) au lieu d'une direction générique.`],
-            [`Puis-je trouver la Qibla depuis mon téléphone à ${ctx.cityName} ?`, `Oui — utilisez la boussole de votre téléphone ou la carte sur la page. Activez la localisation, éloignez le téléphone des métaux/aimants, puis comparez la boussole à l'angle affiché.`],
+            [`Puis-je trouver la Qibla depuis mon téléphone à ${ctx.cityName} ?`, `Oui — utilisez la boussole de votre téléphone ou l’angle de la Qibla affiché sur la page. Activez la localisation, éloignez le téléphone des métaux/aimants, puis comparez la boussole à l'angle affiché.`],
             [`Comment s'orienter vers la Qibla manuellement ?`, `Utilisez la boussole ci-dessus et tournez jusqu'à pointer ${ctx.angle}°; éloignez-vous du métal et des aimants pour plus de précision.`],
             [`Pourquoi l'angle de la Qibla diffère-t-il d'une ville à l'autre ?`, `Parce que chaque ville se trouve à des coordonnées géographiques différentes. Le cap est calculé du lieu de la ville vers la Kaaba, donc l'angle de ${ctx.cityName} diffère de celui d'une autre ville, même dans le même pays.`],
             [`Pourquoi la direction de la Qibla diffère-t-elle entre les applications ?`, `Les applications peuvent utiliser des formules différentes, une précision de coordonnées différente, ou une calibration de boussole différente. Préférez des coordonnées précises et comparez l'angle affiché à votre boussole après calibration.`],
@@ -16364,10 +16367,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`${ctx.cityName} için kıble açısı nedir?`, `${ctx.cityName} için kıble açısı yaklaşık ${ctx.angle}°, ${ctx.cardinal} yönünde; coğrafi kuzeyden saat yönünde ölçülür.`],
             [`${ctx.cityName} Kâbe'ye ne kadar uzak?`, `${ctx.cityName} ile Kâbe arasındaki büyük daire mesafesi yaklaşık ${ctx.distanceKm.toLocaleString('tr')} km'dir.`],
-            [`${ctx.cityName} için kıble yönünü nasıl öğrenebilirim?`, `${ctx.cityName} için kıbleyi sayfadaki dijital pusula veya kıble haritası ile öğrenebilirsiniz. Sonuç, ${ctx.cityName} koordinatları ve Kâbe konumu kullanılarak Dünya yüzeyindeki en kısa rotaya göre hesaplanır.`],
+            [`${ctx.cityName} için kıble yönünü nasıl öğrenebilirim?`, `${ctx.cityName} için kıbleyi sayfadaki hesaplanan kıble açısı ve dijital pusula ile öğrenebilirsiniz. Sonuç, ${ctx.cityName} koordinatları ve Kâbe konumu kullanılarak Dünya yüzeyindeki en kısa rotaya göre hesaplanır.`],
             [`${ctx.cityName}'da pusula ile kıble yönü nedir?`, `${ctx.cityName} için pusula kıble yönü sayfada hassas bir açı (${ctx.angle}°) olarak gösterilir. Pusulanızı bu açıya hizalayın; doğruluk yakındaki metaller veya mıknatıslardan etkilenebilir.`],
             [`${ctx.cityName}'dan kıble kuzeye mi güneye mi bakar?`, `Bu ${ctx.cityName}'nın Mekke'ye göre konumuna bağlıdır. Kıble, şehre göre güneydoğu, güneybatı veya kuzeydoğuya eğilebilir. Sayfa, genel bir yön yerine tam açıyı (${ctx.angle}° — ${ctx.cardinal}) gösterir.`],
-            [`${ctx.cityName}'da telefondan kıbleyi bulabilir miyim?`, `Evet — telefonunuzun pusulasını veya sayfadaki kıble haritasını kullanın. Konum servislerini açın, telefonu metal/mıknatıslardan uzak tutun, sonra pusulayı sayfada gösterilen açıyla karşılaştırın.`],
+            [`${ctx.cityName}'da telefondan kıbleyi bulabilir miyim?`, `Evet — telefonunuzun pusulasını veya sayfada gösterilen kıble açısını kullanın. Konum servislerini açın, telefonu metal/mıknatıslardan uzak tutun, sonra pusulayı sayfada gösterilen açıyla karşılaştırın.`],
             [`Kıbleye manuel olarak nasıl yönelirim?`, `Yukarıdaki pusulayı kullanın ve iğne ${ctx.angle}° gösterene kadar dönün; metal ve mıknatıslardan uzak durun.`],
             [`Kıble açısı şehirden şehre neden değişir?`, `Her şehir farklı coğrafi koordinatlarda bulunduğu için. Yön, şehrin konumundan Kâbe'ye doğru hesaplandığından, ${ctx.cityName} açısı aynı ülkedeki veya başka ülkelerdeki bir şehirden farklıdır.`],
             [`Kıble yönü uygulamalar arasında neden farklı?`, `Uygulamalar farklı formül, koordinat hassasiyeti veya pusula kalibrasyonu kullanabilir. Doğru koordinatlara güvenin ve gösterilen açıyı kalibre edilmiş pusulanızla karşılaştırın.`],
@@ -16399,10 +16402,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`${ctx.cityName} سے قبلہ کا زاویہ کیا ہے؟`, `${ctx.cityName} سے قبلہ کا زاویہ تقریباً ${ctx.angle}° ہے بسمت ${ctx.cardinal}، جغرافیائی شمال سے گھڑی کی سوئی کی سمت ناپا جاتا ہے۔`],
             [`${ctx.cityName} کعبہ سے کتنا دور ہے؟`, `${ctx.cityName} اور کعبہ کے درمیان فاصلہ تقریباً ${ctx.distanceKm.toLocaleString('ur')} کلومیٹر ہے۔`],
-            [`${ctx.cityName} سے قبلہ کی سمت کیسے جانیں؟`, `صفحے پر موجود ڈیجیٹل کمپاس یا قبلہ نقشہ کے ذریعے ${ctx.cityName} سے قبلہ کی سمت جان سکتے ہیں۔ نتیجہ ${ctx.cityName} کے نقاط اور کعبہ کے مقام پر مبنی ہے، پھر زمین کی سطح پر مختصر ترین راستہ شمار کیا جاتا ہے۔`],
+            [`${ctx.cityName} سے قبلہ کی سمت کیسے جانیں؟`, `صفحے پر موجود ڈیجیٹل کمپاس اور شمار شدہ قبلہ زاویے کے ذریعے ${ctx.cityName} سے قبلہ کی سمت جان سکتے ہیں۔ نتیجہ ${ctx.cityName} کے نقاط اور کعبہ کے مقام پر مبنی ہے، پھر زمین کی سطح پر مختصر ترین راستہ شمار کیا جاتا ہے۔`],
             [`${ctx.cityName} میں کمپاس سے قبلہ کی سمت کیا ہے؟`, `${ctx.cityName} میں کمپاس سے قبلہ کی سمت صفحے پر درست زاویے (${ctx.angle}°) کے طور پر دکھائی جاتی ہے۔ کمپاس کو اسی زاویے پر منطبق کریں؛ قریبی دھات یا مقناطیس درستگی کو متاثر کر سکتے ہیں۔`],
             [`کیا ${ctx.cityName} سے قبلہ شمال میں ہے یا جنوب میں؟`, `یہ ${ctx.cityName} کے مکہ مکرمہ سے جغرافیائی موقع پر منحصر ہے۔ قبلہ بعض شہروں سے جنوب مشرق، جنوب مغرب یا شمال مشرق کی طرف مائل ہو سکتا ہے۔ صفحہ عمومی سمت کے بجائے درست زاویہ (${ctx.angle}° — ${ctx.cardinal}) دکھاتا ہے۔`],
-            [`کیا ${ctx.cityName} میں موبائل سے قبلہ معلوم کر سکتے ہیں؟`, `جی ہاں — موبائل کا کمپاس یا صفحے کے قبلہ نقشے کا استعمال کریں۔ لوکیشن سروسز فعال کریں، موبائل کو دھات/مقناطیس سے دور رکھیں، پھر کمپاس کی قراءت کو صفحے پر دکھائے گئے زاویے سے ملائیں۔`],
+            [`کیا ${ctx.cityName} میں موبائل سے قبلہ معلوم کر سکتے ہیں؟`, `جی ہاں — موبائل کا کمپاس یا صفحے پر دکھایا گیا قبلہ زاویہ استعمال کریں۔ لوکیشن سروسز فعال کریں، موبائل کو دھات/مقناطیس سے دور رکھیں، پھر کمپاس کی قراءت کو صفحے پر دکھائے گئے زاویے سے ملائیں۔`],
             [`قبلہ کی سمت کیسے متعین کریں؟`, `اوپر دی گئی بوصلہ استعمال کریں اور اس وقت تک مڑیں جب تک سوئی ${ctx.angle}° کی طرف اشارہ نہ کرے، دھات و مقناطیس سے دور رہیں۔`],
             [`قبلہ کا زاویہ ایک شہر سے دوسرے شہر میں کیوں مختلف ہوتا ہے؟`, `کیونکہ ہر شہر مختلف جغرافیائی نقاط پر واقع ہے۔ سمت کا حساب شہر کے مقام سے کعبہ تک کیا جاتا ہے، اس لیے ${ctx.cityName} کا زاویہ ایک ہی ملک یا دوسرے ملک میں موجود کسی اور شہر سے مختلف ہوتا ہے۔`],
             [`قبلہ کی سمت ایپس کے درمیان مختلف کیوں ہوتی ہے؟`, `ایپس مختلف فارمولے، نقاط کی درستگی یا کمپاس کیلیبریشن استعمال کر سکتی ہیں۔ درست نقاط پر اعتماد کریں اور کمپاس کیلیبریشن کے بعد دکھایا گیا زاویہ موازنہ کریں۔`],
@@ -16434,10 +16437,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Wie groß ist der Qibla-Winkel von ${ctx.cityName}?`, `Die Qibla-Peilung von ${ctx.cityName} beträgt etwa ${ctx.angle}° nach ${ctx.cardinal}, im Uhrzeigersinn vom geografischen Norden gemessen.`],
             [`Wie weit ist ${ctx.cityName} von der Kaaba entfernt?`, `Die Großkreis-Entfernung zwischen ${ctx.cityName} und der Kaaba beträgt etwa ${ctx.distanceKm.toLocaleString('de')} km.`],
-            [`Wie finde ich die Qibla-Richtung von ${ctx.cityName}?`, `Sie können die Qibla von ${ctx.cityName} über den digitalen Kompass oder die Qibla-Karte auf dieser Seite finden. Das Ergebnis nutzt die Koordinaten von ${ctx.cityName} und die Lage der Kaaba, um die kürzeste Peilung auf der Erdoberfläche zu berechnen.`],
+            [`Wie finde ich die Qibla-Richtung von ${ctx.cityName}?`, `Sie können die Qibla von ${ctx.cityName} über den berechneten Qibla-Winkel und den digitalen Kompass auf dieser Seite finden. Das Ergebnis nutzt die Koordinaten von ${ctx.cityName} und die Lage der Kaaba, um die kürzeste Peilung auf der Erdoberfläche zu berechnen.`],
             [`Wie groß ist der Qibla-Kompasswinkel in ${ctx.cityName}?`, `Der Qibla-Kompasswinkel in ${ctx.cityName} wird auf der Seite als präziser Winkel (${ctx.angle}°) angezeigt. Richten Sie Ihren Kompass auf diesen Winkel aus; nahe gelegene Metalle oder Magnete können die Genauigkeit beeinflussen.`],
             [`Zeigt die Qibla von ${ctx.cityName} nach Norden oder Süden?`, `Das hängt von der Lage von ${ctx.cityName} zu Mekka ab. Die Qibla kann je nach Stadt nach Südosten, Südwesten oder Nordosten zeigen. Die Seite zeigt die exakte Peilung (${ctx.angle}° — ${ctx.cardinal}) statt einer allgemeinen Richtung.`],
-            [`Kann ich die Qibla in ${ctx.cityName} mit meinem Handy finden?`, `Ja — nutzen Sie den Handy-Kompass oder die Qibla-Karte auf der Seite. Aktivieren Sie Ortungsdienste, halten Sie das Handy von Metallen/Magneten fern und vergleichen Sie die Kompassanzeige mit dem angezeigten Winkel.`],
+            [`Kann ich die Qibla in ${ctx.cityName} mit meinem Handy finden?`, `Ja — nutzen Sie den Handy-Kompass oder den auf der Seite angezeigten Qibla-Winkel. Aktivieren Sie Ortungsdienste, halten Sie das Handy von Metallen/Magneten fern und vergleichen Sie die Kompassanzeige mit dem angezeigten Winkel.`],
             [`Wie richte ich mich manuell zur Qibla aus?`, `Benutzen Sie den Kompass oben und drehen Sie sich, bis die Nadel auf ${ctx.angle}° zeigt; halten Sie sich von Metall und Magneten fern.`],
             [`Warum unterscheidet sich der Qibla-Winkel zwischen Städten?`, `Weil jede Stadt an unterschiedlichen geografischen Koordinaten liegt. Die Peilung wird vom Stadtstandort zur Kaaba berechnet, daher unterscheidet sich der Winkel von ${ctx.cityName} von dem einer anderen Stadt im gleichen Land oder im Ausland.`],
             [`Warum unterscheidet sich die Qibla-Richtung zwischen Apps?`, `Apps können unterschiedliche Formeln, Koordinaten-Präzisionen oder Kompass-Kalibrierungen verwenden. Vertrauen Sie genauen Koordinaten und vergleichen Sie den angezeigten Winkel nach Kalibrierung mit Ihrem Kompass.`],
@@ -16469,10 +16472,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Berapa sudut kiblat dari ${ctx.cityName}?`, `Sudut kiblat dari ${ctx.cityName} sekitar ${ctx.angle}° ke arah ${ctx.cardinal}, diukur searah jarum jam dari utara sejati.`],
             [`Berapa jarak ${ctx.cityName} ke Kakbah?`, `Jarak lingkaran besar antara ${ctx.cityName} dan Kakbah sekitar ${ctx.distanceKm.toLocaleString('id')} km.`],
-            [`Bagaimana cara mengetahui arah kiblat dari ${ctx.cityName}?`, `Anda dapat mengetahui arah kiblat dari ${ctx.cityName} melalui kompas digital atau peta kiblat di halaman ini. Hasilnya menggunakan koordinat ${ctx.cityName} dan lokasi Kakbah, lalu menghitung jalur terpendek di permukaan bumi.`],
+            [`Bagaimana cara mengetahui arah kiblat dari ${ctx.cityName}?`, `Anda dapat mengetahui arah kiblat dari ${ctx.cityName} melalui sudut kiblat yang dihitung dan kompas digital di halaman ini. Hasilnya menggunakan koordinat ${ctx.cityName} dan lokasi Kakbah, lalu menghitung jalur terpendek di permukaan bumi.`],
             [`Berapa arah kiblat kompas di ${ctx.cityName}?`, `Arah kiblat kompas di ${ctx.cityName} ditampilkan di halaman sebagai sudut presisi (${ctx.angle}°). Selaraskan kompas Anda dengan sudut tersebut; akurasi dapat dipengaruhi oleh logam atau magnet di sekitar.`],
             [`Apakah kiblat dari ${ctx.cityName} ke utara atau selatan?`, `Tergantung pada lokasi geografis ${ctx.cityName} terhadap Makkah. Kiblat bisa miring ke tenggara, barat daya, atau timur laut tergantung kota. Halaman menampilkan sudut tepat (${ctx.angle}° — ${ctx.cardinal}) alih-alih arah umum.`],
-            [`Apakah saya bisa menentukan kiblat dari ponsel di ${ctx.cityName}?`, `Ya — gunakan kompas ponsel atau peta kiblat di halaman. Aktifkan layanan lokasi, jauhkan ponsel dari logam/magnet, lalu bandingkan bacaan kompas dengan sudut yang ditampilkan.`],
+            [`Apakah saya bisa menentukan kiblat dari ponsel di ${ctx.cityName}?`, `Ya — gunakan kompas ponsel atau sudut kiblat yang ditampilkan di halaman. Aktifkan layanan lokasi, jauhkan ponsel dari logam/magnet, lalu bandingkan bacaan kompas dengan sudut yang ditampilkan.`],
             [`Bagaimana menentukan kiblat secara manual?`, `Gunakan kompas di atas dan putar tubuh hingga jarum menunjuk ke ${ctx.angle}°; jauhkan dari logam dan magnet.`],
             [`Mengapa sudut kiblat berbeda antara kota?`, `Karena setiap kota memiliki koordinat geografis berbeda. Sudut dihitung dari lokasi kota ke Kakbah, sehingga sudut ${ctx.cityName} berbeda dari kota lain di dalam negeri maupun luar negeri.`],
             [`Mengapa arah kiblat berbeda antar aplikasi?`, `Aplikasi dapat menggunakan rumus, presisi koordinat, atau kalibrasi kompas yang berbeda. Percayai koordinat akurat dan bandingkan sudut yang ditampilkan dengan kompas setelah kalibrasi.`],
@@ -16504,10 +16507,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`¿Cuál es el ángulo de la Qibla desde ${ctx.cityName}?`, `El rumbo de la Qibla desde ${ctx.cityName} es de unos ${ctx.angle}° hacia ${ctx.cardinal}, medido en sentido horario desde el norte verdadero.`],
             [`¿A qué distancia está ${ctx.cityName} de la Kaaba?`, `La distancia ortodrómica entre ${ctx.cityName} y la Kaaba es de unos ${ctx.distanceKm.toLocaleString('es')} km.`],
-            [`¿Cómo encuentro la dirección de la Qibla desde ${ctx.cityName}?`, `Puede encontrar la Qibla desde ${ctx.cityName} usando la brújula digital o el mapa de la Qibla en esta página. El resultado usa las coordenadas de ${ctx.cityName} y la ubicación de la Kaaba para calcular el rumbo más corto en la superficie terrestre.`],
+            [`¿Cómo encuentro la dirección de la Qibla desde ${ctx.cityName}?`, `Puede encontrar la Qibla desde ${ctx.cityName} usando el ángulo de la Qibla calculado y la brújula digital en esta página. El resultado usa las coordenadas de ${ctx.cityName} y la ubicación de la Kaaba para calcular el rumbo más corto en la superficie terrestre.`],
             [`¿Cuál es el rumbo de brújula de la Qibla en ${ctx.cityName}?`, `El rumbo de brújula de la Qibla en ${ctx.cityName} se muestra en la página como un ángulo preciso (${ctx.angle}°). Alinee su brújula con ese ángulo; la precisión puede verse afectada por metales o imanes cercanos.`],
             [`¿La Qibla desde ${ctx.cityName} apunta al norte o al sur?`, `Depende de la posición de ${ctx.cityName} respecto a La Meca. La Qibla puede inclinarse hacia el sureste, suroeste o noreste según la ciudad. La página muestra el rumbo exacto (${ctx.angle}° — ${ctx.cardinal}) en lugar de una dirección genérica.`],
-            [`¿Puedo determinar la Qibla desde mi móvil en ${ctx.cityName}?`, `Sí — use la brújula del móvil o el mapa de la Qibla en la página. Active los servicios de ubicación, mantenga el móvil lejos de metales/imanes y compare la lectura de la brújula con el ángulo mostrado.`],
+            [`¿Puedo determinar la Qibla desde mi móvil en ${ctx.cityName}?`, `Sí — use la brújula del móvil o el ángulo de la Qibla mostrado en la página. Active los servicios de ubicación, mantenga el móvil lejos de metales/imanes y compare la lectura de la brújula con el ángulo mostrado.`],
             [`¿Cómo oriento manualmente hacia la Qibla?`, `Use la brújula de arriba y gire hasta que la aguja apunte a ${ctx.angle}°; manténgase lejos de metales e imanes.`],
             [`¿Por qué difiere el ángulo de la Qibla entre ciudades?`, `Porque cada ciudad se encuentra en coordenadas geográficas diferentes. El rumbo se calcula desde la ubicación de la ciudad hacia la Kaaba, por lo que el ángulo de ${ctx.cityName} difiere del de otra ciudad, en el mismo país o en otro.`],
             [`¿Por qué difiere la dirección de la Qibla entre aplicaciones?`, `Las aplicaciones pueden usar fórmulas, precisión de coordenadas o calibración de brújula diferentes. Confíe en coordenadas precisas y compare el ángulo mostrado con su brújula tras calibrarla.`],
@@ -16539,10 +16542,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`${ctx.cityName} থেকে কিবলার কোণ কত?`, `${ctx.cityName} থেকে কিবলার কোণ আনুমানিক ${ctx.angle}° ${ctx.cardinal} অভিমুখে, প্রকৃত উত্তর থেকে ঘড়ির কাঁটার দিকে মাপা হয়।`],
             [`${ctx.cityName} কাবা থেকে কত দূরে?`, `${ctx.cityName} এবং কাবার মধ্যে মহাবৃত্তীয় দূরত্ব প্রায় ${ctx.distanceKm.toLocaleString('bn')} কিমি।`],
-            [`${ctx.cityName} থেকে কিবলার দিক কীভাবে জানব?`, `পৃষ্ঠার ডিজিটাল কম্পাস বা কিবলা মানচিত্রের মাধ্যমে ${ctx.cityName} থেকে কিবলার দিক জানতে পারেন। ফলাফল ${ctx.cityName}-এর স্থানাঙ্ক ও কাবার অবস্থানের উপর ভিত্তি করে পৃথিবীর পৃষ্ঠে সবচেয়ে ছোট দিক গণনা করা হয়।`],
+            [`${ctx.cityName} থেকে কিবলার দিক কীভাবে জানব?`, `পৃষ্ঠার ডিজিটাল কম্পাস ও গণনাকৃত কিবলা কোণের মাধ্যমে ${ctx.cityName} থেকে কিবলার দিক জানতে পারেন। ফলাফল ${ctx.cityName}-এর স্থানাঙ্ক ও কাবার অবস্থানের উপর ভিত্তি করে পৃথিবীর পৃষ্ঠে সবচেয়ে ছোট দিক গণনা করা হয়।`],
             [`${ctx.cityName}-এ কম্পাসে কিবলার দিক কী?`, `${ctx.cityName}-এ কম্পাসে কিবলার দিক পৃষ্ঠায় সঠিক কোণ (${ctx.angle}°) হিসেবে প্রদর্শিত হয়। আপনার কম্পাসকে এই কোণের সাথে সারিবদ্ধ করুন; কাছাকাছি ধাতু বা চুম্বক নির্ভুলতাকে প্রভাবিত করতে পারে।`],
             [`${ctx.cityName} থেকে কিবলা কি উত্তরে নাকি দক্ষিণে?`, `এটি মক্কার তুলনায় ${ctx.cityName}-এর ভৌগোলিক অবস্থানের উপর নির্ভর করে। শহর অনুযায়ী কিবলা দক্ষিণ-পূর্ব, দক্ষিণ-পশ্চিম বা উত্তর-পূর্ব দিকে হেলতে পারে। পৃষ্ঠা সাধারণ দিকের পরিবর্তে সঠিক কোণ (${ctx.angle}° — ${ctx.cardinal}) দেখায়।`],
-            [`${ctx.cityName}-এ মোবাইল থেকে কি কিবলা নির্ধারণ করা যায়?`, `হ্যাঁ — আপনার মোবাইলের কম্পাস বা পৃষ্ঠার কিবলা মানচিত্র ব্যবহার করুন। অবস্থান পরিষেবা সক্রিয় করুন, মোবাইল ধাতু/চুম্বক থেকে দূরে রাখুন, তারপর কম্পাসের পাঠ পৃষ্ঠায় দেখানো কোণের সাথে তুলনা করুন।`],
+            [`${ctx.cityName}-এ মোবাইল থেকে কি কিবলা নির্ধারণ করা যায়?`, `হ্যাঁ — আপনার মোবাইলের কম্পাস বা পৃষ্ঠায় দেখানো কিবলা কোণ ব্যবহার করুন। অবস্থান পরিষেবা সক্রিয় করুন, মোবাইল ধাতু/চুম্বক থেকে দূরে রাখুন, তারপর কম্পাসের পাঠ পৃষ্ঠায় দেখানো কোণের সাথে তুলনা করুন।`],
             [`ম্যানুয়ালি কিবলার দিক কীভাবে নির্ধারণ করব?`, `উপরের কম্পাস ব্যবহার করুন এবং সূঁচ ${ctx.angle}° না পৌঁছানো পর্যন্ত ঘুরুন; ধাতু ও চুম্বক থেকে দূরে থাকুন।`],
             [`কেন কিবলার কোণ শহর থেকে শহরে আলাদা?`, `কারণ প্রতিটি শহর ভিন্ন ভৌগোলিক স্থানাঙ্কে অবস্থিত। দিকটি শহরের অবস্থান থেকে কাবা পর্যন্ত গণনা করা হয়, তাই ${ctx.cityName}-এর কোণ একই দেশে বা অন্য দেশে অন্য শহরের কোণ থেকে আলাদা।`],
             [`অ্যাপগুলির মধ্যে কিবলার দিক কেন আলাদা?`, `অ্যাপগুলি ভিন্ন সূত্র, স্থানাঙ্কের নির্ভুলতা বা কম্পাস ক্যালিব্রেশন ব্যবহার করতে পারে। সঠিক স্থানাঙ্কের উপর নির্ভর করুন এবং ক্যালিব্রেশনের পরে কম্পাসের সাথে দেখানো কোণ তুলনা করুন।`],
@@ -16574,10 +16577,10 @@ const _QIBLA_UI = {
         faq: (ctx) => [
             [`Apakah sudut kiblat dari ${ctx.cityName}?`, `Sudut kiblat dari ${ctx.cityName} adalah kira-kira ${ctx.angle}° menuju ${ctx.cardinal}, diukur mengikut arah jam dari utara sebenar.`],
             [`Berapa jauh ${ctx.cityName} dari Kaabah?`, `Jarak bulatan agung antara ${ctx.cityName} dan Kaabah adalah kira-kira ${ctx.distanceKm.toLocaleString('ms')} km.`],
-            [`Bagaimana mencari arah kiblat dari ${ctx.cityName}?`, `Anda boleh mencari kiblat dari ${ctx.cityName} menggunakan kompas digital atau peta kiblat di halaman ini. Hasilnya menggunakan koordinat ${ctx.cityName} dan lokasi Kaabah, kemudian mengira laluan terpendek di permukaan bumi.`],
+            [`Bagaimana mencari arah kiblat dari ${ctx.cityName}?`, `Anda boleh mencari kiblat dari ${ctx.cityName} menggunakan sudut kiblat yang dikira dan kompas digital di halaman ini. Hasilnya menggunakan koordinat ${ctx.cityName} dan lokasi Kaabah, kemudian mengira laluan terpendek di permukaan bumi.`],
             [`Apakah bacaan kompas kiblat di ${ctx.cityName}?`, `Bacaan kompas kiblat di ${ctx.cityName} dipaparkan di halaman sebagai sudut tepat (${ctx.angle}°). Selariskan kompas anda dengan sudut tersebut; ketepatan boleh dipengaruhi oleh logam atau magnet berhampiran.`],
             [`Adakah kiblat dari ${ctx.cityName} ke utara atau selatan?`, `Ini bergantung pada kedudukan ${ctx.cityName} berbanding Mekah. Kiblat boleh condong ke tenggara, barat daya atau timur laut bergantung pada bandar. Halaman memaparkan sudut tepat (${ctx.angle}° — ${ctx.cardinal}) berbanding arah umum.`],
-            [`Bolehkah saya menentukan kiblat dari telefon di ${ctx.cityName}?`, `Ya — gunakan kompas telefon atau peta kiblat di halaman. Aktifkan perkhidmatan lokasi, jauhkan telefon daripada logam/magnet, kemudian bandingkan bacaan kompas dengan sudut yang dipaparkan.`],
+            [`Bolehkah saya menentukan kiblat dari telefon di ${ctx.cityName}?`, `Ya — gunakan kompas telefon atau sudut kiblat yang dipaparkan di halaman. Aktifkan perkhidmatan lokasi, jauhkan telefon daripada logam/magnet, kemudian bandingkan bacaan kompas dengan sudut yang dipaparkan.`],
             [`Bagaimana menentukan kiblat secara manual?`, `Gunakan kompas di atas dan pusing sehingga jarum menunjuk ke ${ctx.angle}°; jauhkan dari logam dan magnet.`],
             [`Mengapa sudut kiblat berbeza antara bandar?`, `Kerana setiap bandar terletak pada koordinat geografi yang berbeza. Sudut dikira dari lokasi bandar ke Kaabah, jadi sudut ${ctx.cityName} berbeza dengan bandar lain di dalam negara atau di luar negara.`],
             [`Mengapa arah kiblat berbeza antara aplikasi?`, `Aplikasi mungkin menggunakan formula, ketepatan koordinat atau penentukuran kompas yang berbeza. Percayai koordinat tepat dan bandingkan sudut yang dipaparkan dengan kompas anda selepas penentukuran.`],
@@ -18017,6 +18020,10 @@ function updateQibla() {
     const arrow = document.getElementById('qibla-arrow');
     if (arrow) arrow.style.transform = `translate(-50%, -100%) rotate(${_qiblaAngle}deg)`;
 
+    // TRUSTED-DIRECTION-1: the authoritative, sensor-free direction map is drawn FIRST and never
+    // depends on the compass starting, so the page is useful even if every sensor path fails.
+    try { _qdmInit(); } catch (_e) {}
+
     // تشغيل البوصلة التلقائية (Android / غير iOS)
     startDeviceCompass();
 }
@@ -18096,23 +18103,35 @@ let _qcAbsoluteSeen  = false;                 // received an ABSOLUTE orientatio
 let _qcHeadingEver   = false;                 // any usable Android heading yet?
 let _qcHelpState     = null;                  // 'ok' | 'low' | 'fail' | null
 let _qcHardFailTimer = null;
+let _qcLastHeadingTs = 0;                     // _qcNow() of the last heading actually rendered
+let _qcStaleTimer    = null;                  // staleness watchdog (see _qcArmStaleWatch)
 
 // Localised help-card strings kept in app.js so this ticket needs NO js/i18n.js / server
 // _i18nVersion change. Falls back to en then ar.
 // UX-REMOVE: `low`/`hint` drive the low-accuracy badge + figure-8 guidance (no manual-calibration prompt).
 // `unavail` + `dirLabel` drive the hard-fallback: hide the needle, show «اتجاه القبلة: 243.8° — <dir>» + a
 // plain "sensor unavailable/unreliable, calculated direction is correct" note.
+// TRUSTED-DIRECTION-1 — all Qibla direction/compass UI strings, ten locales, kept in app.js on
+// purpose: these are client-rendered only, so routing them through js/i18n.js would force a split-
+// bundle regeneration and an _i18nVersion bump for zero SSR benefit.
+//   low        UNSTABLE badge — describes INSTABILITY, never accuracy.
+//   act        secondary action label; the phone calibrates, not this page.
+//   ts*        troubleshooting disclosure (figure-8 is deliberately NOT the headline).
+//   map*/t*    direction-map labels; live/liveNote frame the compass as assistive.
+//   unavail    UNAVAILABLE — states the sensor is gone and points at the bearing + map. No
+//              unhedged 'the calculated direction is correct' claim (removed per the no-
+//              exaggeration rule).
 const _QIBLA_COMPASS_L10N = {
-  ar: { low:'دقة البوصلة منخفضة', hint:'حرّك الهاتف على شكل رقم 8 بعيدًا عن المعادن لتحسين الدقة.', dirLabel:'اتجاه القبلة', unavail:'قد لا تكون بوصلة هذا الجهاز دقيقة. الاتجاه المحسوب صحيح، لكن حسّاس الجهاز غير متاح أو غير موثوق.' },
-  en: { low:'Low compass accuracy', hint:'Move your phone in a figure-8, away from metal, to improve accuracy.', dirLabel:'Qibla direction', unavail:'This device’s compass may not be accurate. The calculated direction is correct, but the device sensor is unavailable or unreliable.' },
-  fr: { low:'Précision de la boussole faible', hint:'Bougez votre téléphone en forme de 8, loin du métal, pour améliorer la précision.', dirLabel:'Direction de la qibla', unavail:'La boussole de cet appareil n’est peut-être pas précise. La direction calculée est correcte, mais le capteur est indisponible ou peu fiable.' },
-  tr: { low:'Pusula doğruluğu düşük', hint:'Doğruluğu artırmak için telefonu metalden uzakta 8 şeklinde hareket ettirin.', dirLabel:'Kıble yönü', unavail:'Bu cihazın pusulası doğru olmayabilir. Hesaplanan yön doğru, ancak cihaz sensörü kullanılamıyor veya güvenilir değil.' },
-  ur: { low:'کمپاس کی درستگی کم ہے', hint:'درستگی بہتر بنانے کے لیے فون کو دھات سے دور 8 کی شکل میں حرکت دیں۔', dirLabel:'قبلہ کی سمت', unavail:'اس آلے کا کمپاس درست نہ ہو۔ حساب شدہ سمت درست ہے، لیکن آلے کا سینسر دستیاب نہیں یا قابلِ اعتماد نہیں۔' },
-  de: { low:'Geringe Kompassgenauigkeit', hint:'Bewegen Sie Ihr Telefon in einer Acht, fern von Metall, um die Genauigkeit zu verbessern.', dirLabel:'Qibla-Richtung', unavail:'Der Kompass dieses Geräts ist möglicherweise ungenau. Die berechnete Richtung ist korrekt, aber der Gerätesensor ist nicht verfügbar oder unzuverlässig.' },
-  id: { low:'Akurasi kompas rendah', hint:'Gerakkan ponsel membentuk angka 8, jauh dari logam, untuk meningkatkan akurasi.', dirLabel:'Arah kiblat', unavail:'Kompas perangkat ini mungkin tidak akurat. Arah yang dihitung sudah benar, tetapi sensor perangkat tidak tersedia atau tidak dapat diandalkan.' },
-  es: { low:'Baja precisión de la brújula', hint:'Mueva el teléfono en forma de 8, lejos del metal, para mejorar la precisión.', dirLabel:'Dirección de la alquibla', unavail:'Puede que la brújula de este dispositivo no sea precisa. La dirección calculada es correcta, pero el sensor no está disponible o no es fiable.' },
-  bn: { low:'কম্পাসের নির্ভুলতা কম', hint:'নির্ভুলতা বাড়াতে ফোনটি ধাতু থেকে দূরে ৮-এর আকারে নাড়ান।', dirLabel:'কিবলার দিক', unavail:'এই ডিভাইসের কম্পাস সঠিক নাও হতে পারে। হিসাবকৃত দিক সঠিক, তবে ডিভাইসের সেন্সর অনুপলব্ধ বা অনির্ভরযোগ্য।' },
-  ms: { low:'Ketepatan kompas rendah', hint:'Gerakkan telefon dalam bentuk angka 8, jauh dari logam, untuk meningkatkan ketepatan.', dirLabel:'Arah kiblat', unavail:'Kompas peranti ini mungkin tidak tepat. Arah yang dikira betul, tetapi penderia peranti tidak tersedia atau tidak boleh dipercayai.' }
+  ar: { low:'قد تتأثر قراءة البوصلة بتشويش مغناطيسي.', act:'تحسين معايرة البوصلة', dirLabel:'اتجاه القبلة', unavail:'حسّاس البوصلة في هذا الجهاز غير متاح أو غير موثوق. ويبقى اتجاه القبلة المحسوب والخريطة متاحين.', tsTitle:'إذا بدا اتجاه البوصلة غير صحيح', tsMetal:'قد تؤثّر المعادن والمغناطيسات والأجهزة الإلكترونية القريبة في قراءة البوصلة.', tsMove:'قد تتحسّن القراءة بالابتعاد بضع خطوات عن مصدر التشويش.', tsDevice:'كما قد تفيد معايرة بوصلة الجهاز نفسه.', tsFallback:'ويبقى اتجاه القبلة المحسوب والخريطة متاحين في كل الأحوال.', mapTitle:'خريطة اتجاه القبلة', mapYou:'موقعك', mapKaaba:'نحو الكعبة', mapNorth:'شمال', tNorth:'الشمال للأعلى', tQibla:'القبلة للأعلى', mapHint:'الاتجاه أدناه محسوب من الإحداثيات ولا يحتاج إلى البوصلة.', live:'البوصلة المباشرة', liveNote:'للمساعدة فقط — الاتجاه المحسوب أعلاه هو المرجع.', tsCta:'هل تواجه مشكلة في البوصلة؟', tsFig:'وقد تساعد حركة الهاتف على شكل رقم 8 بعيدًا عن المعادن.', geoTitle:'خريطة الموقع واتجاه القبلة', geoRecenter:'إعادة التمركز', geoLine:'خط القبلة نحو الكعبة', geoShow:'عرض الخريطة', geoFail:'تعذّر تحميل الخريطة. يبقى الاتجاه المحسوب ورسم الاتجاه أدناه متاحين.', diagTitle:'رسم الاتجاه (يعمل دون إنترنت)' },
+  en: { low:'Compass readings may be affected by magnetic interference.', act:'Improve compass calibration', dirLabel:'Qibla direction', unavail:'This device’s compass sensor is unavailable or unreliable. The calculated Qibla direction and the map stay available.', tsTitle:'If the compass looks wrong', tsMetal:'Nearby metal, magnets or electronics can affect compass readings.', tsMove:'Moving a few steps away from interference may improve the reading.', tsDevice:'Your device’s own compass calibration may also help.', tsFallback:'The calculated Qibla direction and the map stay available either way.', mapTitle:'Qibla direction map', mapYou:'Your location', mapKaaba:'Toward the Kaaba', mapNorth:'North', tNorth:'North up', tQibla:'Qibla up', mapHint:'The direction below is calculated from coordinates and does not need the compass.', live:'Live compass', liveNote:'Assistive only — the calculated direction above is the reference.', tsCta:'Compass not behaving correctly?', tsFig:'Moving the phone in a figure-8, away from metal, can also help.', geoTitle:'Location and Qibla direction map', geoRecenter:'Re-center', geoLine:'Qibla line toward the Kaaba', geoShow:'Show map', geoFail:'The map could not load. The calculated direction and the diagram below remain available.', diagTitle:'Direction diagram (works offline)' },
+  fr: { low:'Les relevés de la boussole peuvent être perturbés par des interférences magnétiques.', act:'Améliorer le calibrage de la boussole', dirLabel:'Direction de la qibla', unavail:'La boussole de cet appareil est indisponible ou peu fiable. La direction de la Qibla calculée et la carte restent disponibles.', tsTitle:'Si la boussole semble erronée', tsMetal:'Le métal, les aimants ou les appareils électroniques à proximité peuvent perturber la boussole.', tsMove:'S’éloigner de quelques pas de la source de perturbation peut améliorer le relevé.', tsDevice:'Le calibrage de la boussole de l’appareil peut aussi aider.', tsFallback:'La direction de la Qibla calculée et la carte restent disponibles dans tous les cas.', mapTitle:'Carte de la direction de la Qibla', mapYou:'Votre position', mapKaaba:'Vers la Kaaba', mapNorth:'Nord', tNorth:'Nord en haut', tQibla:'Qibla en haut', mapHint:'La direction ci-dessous est calculée à partir des coordonnées et ne nécessite pas la boussole.', live:'Boussole en temps réel', liveNote:'Aide seulement — la direction calculée ci-dessus fait référence.', tsCta:'La boussole ne se comporte pas correctement ?', tsFig:'Bouger le téléphone en forme de 8, loin du métal, peut aussi aider.', geoTitle:'Carte de la position et de la direction de la Qibla', geoRecenter:'Recentrer', geoLine:'Ligne de la Qibla vers la Kaaba', geoShow:'Afficher la carte', geoFail:'La carte n’a pas pu se charger. La direction calculée et le schéma ci-dessous restent disponibles.', diagTitle:'Schéma de direction (fonctionne hors ligne)' },
+  tr: { low:'Pusula okumaları manyetik parazitten etkilenebilir.', act:'Pusula kalibrasyonunu iyileştir', dirLabel:'Kıble yönü', unavail:'Bu cihazın pusula sensörü kullanılamıyor veya güvenilir değil. Hesaplanan kıble yönü ve harita kullanılabilir durumda.', tsTitle:'Pusula yanlış görünüyorsa', tsMetal:'Yakındaki metal, mıknatıs veya elektronik cihazlar pusulayı etkileyebilir.', tsMove:'Parazit kaynağından birkaç adım uzaklaşmak okumayı iyileştirebilir.', tsDevice:'Cihazın kendi pusula kalibrasyonu da yardımcı olabilir.', tsFallback:'Hesaplanan kıble yönü ve harita her durumda kullanılabilir.', mapTitle:'Kıble yönü haritası', mapYou:'Konumunuz', mapKaaba:'Kâbe’ye doğru', mapNorth:'Kuzey', tNorth:'Kuzey yukarı', tQibla:'Kıble yukarı', mapHint:'Aşağıdaki yön koordinatlardan hesaplanır, pusulaya ihtiyaç duymaz.', live:'Canlı pusula', liveNote:'Yalnızca yardımcıdır — yukarıdaki hesaplanan yön esas alınır.', tsCta:'Pusula düzgün çalışmıyor mu?', tsFig:'Telefonu metalden uzakta 8 şeklinde hareket ettirmek de yardımcı olabilir.', geoTitle:'Konum ve kıble yönü haritası', geoRecenter:'Yeniden ortala', geoLine:'Kâbe’ye giden kıble çizgisi', geoShow:'Haritayı göster', geoFail:'Harita yüklenemedi. Hesaplanan yön ve aşağıdaki şema kullanılabilir durumda.', diagTitle:'Yön şeması (çevrimdışı çalışır)' },
+  ur: { low:'مقناطیسی مداخلت سے کمپاس کی ریڈنگ متاثر ہو سکتی ہے۔', act:'کمپاس کی کیلیبریشن بہتر بنائیں', dirLabel:'قبلہ کی سمت', unavail:'اس آلے کا کمپاس دستیاب نہیں یا قابلِ اعتماد نہیں۔ حساب شدہ سمتِ قبلہ اور نقشہ دستیاب رہتے ہیں۔', tsTitle:'اگر کمپاس درست نہ لگے', tsMetal:'قریب موجود دھات، مقناطیس یا برقی آلات کمپاس کی ریڈنگ پر اثر ڈال سکتے ہیں۔', tsMove:'مداخلت کے منبع سے چند قدم دور ہٹنے پر ریڈنگ بہتر ہو سکتی ہے۔', tsDevice:'آلے کے اپنے کمپاس کی کیلیبریشن بھی مددگار ہو سکتی ہے۔', tsFallback:'حساب شدہ سمتِ قبلہ اور نقشہ ہر صورت دستیاب رہتے ہیں۔', mapTitle:'سمتِ قبلہ کا نقشہ', mapYou:'آپ کا مقام', mapKaaba:'کعبہ کی جانب', mapNorth:'شمال', tNorth:'شمال اوپر', tQibla:'قبلہ اوپر', mapHint:'نیچے دی گئی سمت عرض و طول البلد سے حساب کی گئی ہے، اس کے لیے کمپاس کی ضرورت نہیں۔', live:'براہِ راست کمپاس', liveNote:'صرف معاون — اوپر دی گئی حساب شدہ سمت ہی بنیاد ہے۔', tsCta:'کیا کمپاس درست کام نہیں کر رہا؟', tsFig:'دھات سے دور فون کو 8 کی شکل میں حرکت دینا بھی مدد دے سکتا ہے۔', geoTitle:'مقام اور سمتِ قبلہ کا نقشہ', geoRecenter:'دوبارہ مرکز میں لائیں', geoLine:'کعبہ کی جانب قبلہ لکیر', geoShow:'نقشہ دکھائیں', geoFail:'نقشہ لوڈ نہیں ہو سکا۔ حساب شدہ سمت اور نیچے دیا خاکہ دستیاب رہتے ہیں۔', diagTitle:'سمت کا خاکہ (آف لائن کام کرتا ہے)' },
+  de: { low:'Die Kompasswerte können durch magnetische Störungen beeinflusst werden.', act:'Kompasskalibrierung verbessern', dirLabel:'Qibla-Richtung', unavail:'Der Kompass dieses Geräts ist nicht verfügbar oder unzuverlässig. Die berechnete Qibla-Richtung und die Karte bleiben verfügbar.', tsTitle:'Wenn der Kompass falsch wirkt', tsMetal:'Metall, Magnete oder Elektronik in der Nähe können den Kompass beeinflussen.', tsMove:'Einige Schritte Abstand zur Störquelle können die Anzeige verbessern.', tsDevice:'Auch die Kompasskalibrierung des Geräts selbst kann helfen.', tsFallback:'Die berechnete Qibla-Richtung und die Karte bleiben in jedem Fall verfügbar.', mapTitle:'Karte der Qibla-Richtung', mapYou:'Ihr Standort', mapKaaba:'Richtung Kaaba', mapNorth:'Norden', tNorth:'Norden oben', tQibla:'Qibla oben', mapHint:'Die Richtung unten wird aus den Koordinaten berechnet und benötigt keinen Kompass.', live:'Live-Kompass', liveNote:'Nur als Hilfe — maßgeblich ist die oben berechnete Richtung.', tsCta:'Verhält sich der Kompass nicht richtig?', tsFig:'Auch eine Acht-Bewegung mit dem Telefon, fern von Metall, kann helfen.', geoTitle:'Karte von Standort und Qibla-Richtung', geoRecenter:'Neu zentrieren', geoLine:'Qibla-Linie zur Kaaba', geoShow:'Karte anzeigen', geoFail:'Die Karte konnte nicht geladen werden. Die berechnete Richtung und die Skizze unten bleiben verfügbar.', diagTitle:'Richtungsskizze (funktioniert offline)' },
+  id: { low:'Pembacaan kompas dapat terpengaruh gangguan magnetik.', act:'Tingkatkan kalibrasi kompas', dirLabel:'Arah kiblat', unavail:'Sensor kompas perangkat ini tidak tersedia atau tidak dapat diandalkan. Arah kiblat hasil perhitungan dan peta tetap tersedia.', tsTitle:'Jika kompas tampak keliru', tsMetal:'Logam, magnet, atau perangkat elektronik di dekat Anda dapat memengaruhi kompas.', tsMove:'Menjauh beberapa langkah dari sumber gangguan dapat memperbaiki pembacaan.', tsDevice:'Kalibrasi kompas bawaan perangkat juga dapat membantu.', tsFallback:'Arah kiblat hasil perhitungan dan peta tetap tersedia dalam kondisi apa pun.', mapTitle:'Peta arah kiblat', mapYou:'Lokasi Anda', mapKaaba:'Menuju Kakbah', mapNorth:'Utara', tNorth:'Utara di atas', tQibla:'Kiblat di atas', mapHint:'Arah di bawah dihitung dari koordinat dan tidak memerlukan kompas.', live:'Kompas langsung', liveNote:'Hanya alat bantu — arah hasil perhitungan di atas menjadi acuan.', tsCta:'Kompas tidak berperilaku semestinya?', tsFig:'Menggerakkan ponsel membentuk angka 8, jauh dari logam, juga dapat membantu.', geoTitle:'Peta lokasi dan arah kiblat', geoRecenter:'Pusatkan ulang', geoLine:'Garis kiblat menuju Kakbah', geoShow:'Tampilkan peta', geoFail:'Peta gagal dimuat. Arah hasil perhitungan dan diagram di bawah tetap tersedia.', diagTitle:'Diagram arah (berfungsi luring)' },
+  es: { low:'Las lecturas de la brújula pueden verse afectadas por interferencias magnéticas.', act:'Mejorar la calibración de la brújula', dirLabel:'Dirección de la Qibla', unavail:'La brújula de este dispositivo no está disponible o no es fiable. La dirección de la Qibla calculada y el mapa siguen disponibles.', tsTitle:'Si la brújula parece incorrecta', tsMetal:'El metal, los imanes o los aparatos electrónicos cercanos pueden afectar a la brújula.', tsMove:'Alejarse unos pasos de la fuente de interferencia puede mejorar la lectura.', tsDevice:'La calibración de la brújula del propio dispositivo también puede ayudar.', tsFallback:'La dirección de la Qibla calculada y el mapa siguen disponibles en cualquier caso.', mapTitle:'Mapa de la dirección de la Qibla', mapYou:'Tu ubicación', mapKaaba:'Hacia la Kaaba', mapNorth:'Norte', tNorth:'Norte arriba', tQibla:'Qibla arriba', mapHint:'La dirección de abajo se calcula a partir de las coordenadas y no necesita la brújula.', live:'Brújula en tiempo real', liveNote:'Solo como ayuda: la dirección calculada arriba es la referencia.', tsCta:'¿La brújula no se comporta bien?', tsFig:'Mover el teléfono en forma de 8, lejos del metal, también puede ayudar.', geoTitle:'Mapa de ubicación y dirección de la Qibla', geoRecenter:'Volver a centrar', geoLine:'Línea de la Qibla hacia la Kaaba', geoShow:'Mostrar mapa', geoFail:'El mapa no se pudo cargar. La dirección calculada y el diagrama de abajo siguen disponibles.', diagTitle:'Diagrama de dirección (funciona sin conexión)' },
+  bn: { low:'চৌম্বকীয় হস্তক্ষেপে কম্পাসের রিডিং প্রভাবিত হতে পারে।', act:'কম্পাসের ক্যালিব্রেশন উন্নত করুন', dirLabel:'কিবলার দিক', unavail:'এই ডিভাইসের কম্পাস অনুপলব্ধ বা অনির্ভরযোগ্য। হিসাবকৃত কিবলার দিক ও মানচিত্র পাওয়া যাবে।', tsTitle:'কম্পাস ভুল মনে হলে', tsMetal:'কাছাকাছি ধাতু, চুম্বক বা ইলেকট্রনিক যন্ত্র কম্পাসের রিডিংয়ে প্রভাব ফেলতে পারে।', tsMove:'হস্তক্ষেপের উৎস থেকে কয়েক পা সরে দাঁড়ালে রিডিং ভালো হতে পারে।', tsDevice:'ডিভাইসের নিজস্ব কম্পাস ক্যালিব্রেশনও সাহায্য করতে পারে।', tsFallback:'হিসাবকৃত কিবলার দিক ও মানচিত্র যেকোনো অবস্থাতেই পাওয়া যাবে।', mapTitle:'কিবলার দিকের মানচিত্র', mapYou:'আপনার অবস্থান', mapKaaba:'কাবার দিকে', mapNorth:'উত্তর', tNorth:'উত্তর উপরে', tQibla:'কিবলা উপরে', mapHint:'নিচের দিকটি স্থানাঙ্ক থেকে হিসাব করা, এতে কম্পাসের প্রয়োজন নেই।', live:'লাইভ কম্পাস', liveNote:'শুধু সহায়ক — উপরের হিসাবকৃত দিকই মূল ভিত্তি।', tsCta:'কম্পাস ঠিকমতো কাজ করছে না?', tsFig:'ধাতু থেকে দূরে ফোনটি ৮-এর আকারে নাড়ালেও সাহায্য হতে পারে।', geoTitle:'অবস্থান ও কিবলার দিকের মানচিত্র', geoRecenter:'পুনরায় কেন্দ্রে', geoLine:'কাবার দিকে কিবলা রেখা', geoShow:'মানচিত্র দেখান', geoFail:'মানচিত্র লোড করা যায়নি। হিসাবকৃত দিক ও নিচের চিত্র পাওয়া যাবে।', diagTitle:'দিকনির্দেশ চিত্র (অফলাইনে কাজ করে)' },
+  ms: { low:'Bacaan kompas boleh terjejas oleh gangguan magnet.', act:'Tingkatkan kalibrasi kompas', dirLabel:'Arah kiblat', unavail:'Penderia kompas peranti ini tidak tersedia atau tidak boleh dipercayai. Arah kiblat yang dikira dan peta kekal tersedia.', tsTitle:'Jika kompas kelihatan salah', tsMetal:'Logam, magnet atau peranti elektronik berdekatan boleh menjejaskan kompas.', tsMove:'Beralih beberapa langkah daripada punca gangguan boleh memperbaiki bacaan.', tsDevice:'Kalibrasi kompas peranti itu sendiri juga boleh membantu.', tsFallback:'Arah kiblat yang dikira dan peta kekal tersedia dalam apa jua keadaan.', mapTitle:'Peta arah kiblat', mapYou:'Lokasi anda', mapKaaba:'Menuju Kaabah', mapNorth:'Utara', tNorth:'Utara di atas', tQibla:'Kiblat di atas', mapHint:'Arah di bawah dikira daripada koordinat dan tidak memerlukan kompas.', live:'Kompas langsung', liveNote:'Hanya sebagai bantuan — arah yang dikira di atas menjadi rujukan.', tsCta:'Kompas tidak berfungsi dengan betul?', tsFig:'Menggerakkan telefon dalam bentuk angka 8, jauh dari logam, juga boleh membantu.', geoTitle:'Peta lokasi dan arah kiblat', geoRecenter:'Pusat semula', geoLine:'Garisan kiblat menuju Kaabah', geoShow:'Papar peta', geoFail:'Peta gagal dimuatkan. Arah yang dikira dan rajah di bawah kekal tersedia.', diagTitle:'Rajah arah (berfungsi luar talian)' },
 };
 function _qcL10n() {
   const ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -18136,10 +18155,14 @@ function _qcScreenAngle() {
 // `alpha` when the phone is flat (β=γ=0) — matching dd94875, so cardinals don't regress — and
 // stays correct when tilted. NO per-device sign guess, NO constant offset.
 function _qcHeadingFromEvent(e) {
-  if (e.alpha == null) return null;
+  // TRUST-HARDENING-1 input validation: `== null` accepted NaN (NaN !== null), so a NaN alpha used to
+  // flow through the no-tilt branch, come back NaN, and still count as a "usable heading" — which
+  // disarmed the static-bearing fallback while nothing was ever rendered. Require finite numbers.
+  if (!Number.isFinite(e.alpha)) return null;
   const scr = _qcScreenAngle();
-  if (e.beta == null || e.gamma == null) {
-    return ((((e.alpha + scr) % 360) + 360) % 360);   // no tilt data → flat: alpha (dd94875-consistent)
+  if (!Number.isFinite(e.beta) || !Number.isFinite(e.gamma)) {
+    const hFlat = (((e.alpha + scr) % 360) + 360) % 360;   // no tilt data → flat: alpha (dd94875-consistent)
+    return Number.isFinite(hFlat) ? hFlat : null;
   }
   const a = e.alpha * _QC_D2R, b = e.beta * _QC_D2R, g = e.gamma * _QC_D2R;
   const sA = Math.sin(a), cA = Math.cos(a);
@@ -18149,30 +18172,83 @@ function _qcHeadingFromEvent(e) {
   const north = cA * cB;                  // Earth-North component
   let h = Math.atan2(east, north) * _QC_R2D;   // 0=N, clockwise
   h += scr;
-  if (isNaN(h)) return null;
+  if (!Number.isFinite(h)) return null;
   return (((h % 360) + 360) % 360);
 }
 
-// Source-aware selection: prefer an ABSOLUTE orientation; once seen, ignore the relative
-// `deviceorientation` event (arbitrary zero). Returns a canonical heading, or null to skip.
+// TRUST-HARDENING-1 — an ABSOLUTE orientation is now REQUIRED, not merely preferred.
+// A relative `deviceorientation` reading is anchored to an ARBITRARY zero (whatever direction the
+// phone happened to face when the listener attached), so it can be off by any amount up to 360°
+// while still tracking the user's turns perfectly — the most convincing way to be wrong. It can
+// therefore never drive a needle that claims a geographic direction.
+// The previous gate was `if (!isAbs && _qcAbsoluteSeen) return null;` — it only rejected a relative
+// reading AFTER an absolute one had already been seen. Two holes followed from that:
+//   (1) a device that never fires an absolute event drove the needle from a relative source, with
+//       nothing but an amber "low accuracy" badge to warn the user;
+//   (2) `_qcAbsoluteSeen` is only written here, and the handler returns earlier while AOS is fresh,
+//       so during normal AOS operation the flag stayed false and the first relative reading after
+//       an AOS dropout was accepted as north.
+// Rejecting every non-absolute reading closes both. When no absolute source exists the compass
+// produces no heading at all, so the existing 4 s hard-fail arms and the page falls back to the
+// deterministic bearing text with the needle hidden. Returns a canonical heading, or null to skip.
+// TRUSTED-DIRECTION-1 — the standards-correct absolute heading, promoted from LAB PATH C.
+// DERIVATION. The W3C DeviceOrientation composition maps device axes into the Earth ENU frame as
+//   R = Rz(alpha)·Rx(beta)·Ry(gamma)
+// The device's top edge is the body +Y axis, so its Earth-frame vector is R·[0,1,0], i.e. the second
+// column of R. Ry's second column is [0,1,0], so that column is unchanged by gamma and equals the
+// second column of Rz·Rx:
+//   R·[0,1,0] = [ -sin(a)·cos(b),  cos(a)·cos(b),  sin(b) ]   (East, North, Up)
+// Its azimuth clockwise from North is therefore
+//   atan2(East, North) = atan2(-sin(a)·cos(b), cos(a)·cos(b)) = atan2(-sin a, cos a) = -alpha
+// for every |beta| < 90 and for EVERY gamma. So the correct heading is (360 - alpha), NOT alpha.
+// The shipped _qcHeadingFromEvent computes atan2(sin(a)cos(g) + cos(a)sin(b)sin(g), cos(a)cos(b)),
+// whose numerator is R[1][0] — the NORTH row dotted with the device X axis, not the East component
+// of the top edge. Flat (b=g=0) it reduces to atan2(sin a, cos a) = +alpha, the exact mirror of the
+// truth: an E<->W swap. Worked values (screen term omitted), correct vs shipped:
+//   (a,b,g)=(0,0,0)     ->   0.0  vs   0.0     (identical only at the fixed points)
+//   (a,b,g)=(90,0,0)    -> 270.0  vs  90.0     mirror
+//   (a,b,g)=(279,0,0)   ->  81.0  vs 279.0     mirror — matches the one numeric on-device capture
+//   (a,b,g)=(45,30,20)  -> 315.0  vs  62.7     neither equal nor a clean mirror once tilted
+//   (a,b,g)=(120,60,-40)-> 240.0  vs 106.8     divergence grows with combined tilt
+// The screen term is UNCHANGED: the renderer needs the azimuth of screen-up, and rotating the screen
+// by screen.orientation.angle rotates screen-up by the same amount relative to the device top edge,
+// so H_screen = -alpha + screenAngle — the same `+ scr` sign the shipped code already uses. Zero
+// lines change there, so no unproven screen-sign correction is being smuggled in.
+// SCOPE: this replaces ONLY the DeviceOrientation fallback. The AOS quaternion path
+// (_qcHeadingFromQuat) is preserved verbatim, as the ticket requires.
+// CALLER CONTRACT: this must only ever be reached for an ABSOLUTE reading; _qcResolveHeading is the
+// sole production caller and gates that immediately below.
+function _qcHeadingAbsW3C(e) {
+  if (!Number.isFinite(e.alpha)) return null;
+  const scr = _qcScreenAngle();
+  const a = e.alpha * _QC_D2R;
+  const b = Number.isFinite(e.beta) ? e.beta * _QC_D2R : 0;   // no tilt data ⇒ treat as flat
+  const cB = Math.cos(b);
+  let h = Math.atan2(-Math.sin(a) * cB, Math.cos(a) * cB) * _QC_R2D;
+  h += scr;
+  if (!Number.isFinite(h)) return null;
+  return (((h % 360) + 360) % 360);
+}
+
 function _qcResolveHeading(e) {
   const isAbs = (e.type === 'deviceorientationabsolute') || (e.absolute === true);
-  if (isAbs) _qcAbsoluteSeen = true;
-  if (!isAbs && _qcAbsoluteSeen) return null;      // don't let a relative reading override absolute
-  const h = _qcHeadingFromEvent(e);
+  if (!isAbs) return null;                         // relative orientation is NEVER a compass heading
+  _qcAbsoluteSeen = true;
+  const h = _qcHeadingAbsW3C(e);                   // TRUSTED-DIRECTION-1: standards-correct sense
   if (h === null) return null;
-  _qcHeadingEver = true;
-  if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
-  // Confidence: the only reliable in-browser signal is source absoluteness. A relative-only
-  // source has an arbitrary zero ⇒ LOW ⇒ show the low-accuracy badge + figure-8 hint (message
-  // only). The user improves it by moving the phone in a figure-8 — there is no calibration button.
-  _qcSetHelp(isAbs ? 'ok' : 'low');
+  _qcNoteHeading();
+  _qcConfPush(h);                                  // feed the confidence detector (pre-stabilizer)
+  // Absoluteness is a PRECONDITION, not a confidence verdict — it says the API claims an
+  // earth-referenced source, nothing about accuracy. The READY/UNSTABLE decision belongs to the
+  // 2 Hz evaluator, so never stamp 'ok' over a live UNSTABLE verdict here.
+  _qcSetHelp('ok');            // READY. Note this asserts availability, never accuracy.
   return h;
 }
 
 // Android-only help card — NO buttons (the user does nothing but allow the compass):
 //   'ok'   → nothing to show, needle is fine ⇒ the card is HIDDEN.
-//   'low'  → amber badge «دقة البوصلة منخفضة» + figure-8 hint (message only).
+//   'low'  → NO LONGER REACHED IN PRODUCTION. Kept so ?qiblaLab=1 can render the same card while
+//            diagnosing; the product never auto-shows it (see the confidence evaluator).
 //   'fail' → hide the live needle + show the static «اتجاه القبلة: 243.8° — <dir>» bearing text.
 // Never shown on iOS (iOS never calls this).
 function _qcSetHelp(state, bearingText) {
@@ -18186,21 +18262,375 @@ function _qcSetHelp(state, bearingText) {
   const L = _qcL10n();
   card.setAttribute('data-state', state);
   if (state === 'fail') {
+    // TRUST-HARDENING-1 a11y ordering: reveal the live region BEFORE writing its text. A change made
+    // while the container is still `hidden` is not announced by assistive tech, and un-hiding
+    // afterwards does not replay it — so the old order would have made role="status" inert.
+    card.hidden = false;
     if (msg) msg.textContent = L.unavail;
     if (bar) bar.textContent = bearingText || '';
     if (compass) compass.classList.add('compass-unavailable');
-    card.hidden = false;
+    _qcRenderTroubleshoot(card, L);
   } else if (state === 'low') {
+    card.hidden = false;
     if (compass) compass.classList.remove('compass-unavailable');
     if (bar) bar.textContent = '';
-    if (msg) msg.textContent = L.low + ' — ' + L.hint;
-    card.hidden = false;
-  } else {                                        // 'ok' — live needle is fine ⇒ nothing to show
+    if (msg) msg.textContent = L.low;
+    _qcRenderTroubleshoot(card, L);
+  } else {                                        // READY — nothing to say ⇒ the card is HIDDEN
     if (compass) compass.classList.remove('compass-unavailable');
     if (bar) bar.textContent = '';
     if (msg) msg.textContent = '';
+    _qcRemoveTroubleshoot(card);
     card.hidden = true;
   }
+}
+
+// Static textual fallback — «اتجاه القبلة: 243.8° — <dir>» with the live needle hidden by
+// _qcSetHelp('fail'). TRUST-HARDENING-1 factored this out of _qcArmHardFail so the staleness
+// watchdog below can reach the same terminal state instead of duplicating it.
+function _qcShowStaticBearing() {
+  let dir = ''; const L = _qcL10n();
+  try { dir = Qibla.getDirection(_qiblaAngle, (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'); } catch (_) {}
+  _qcSetHelp('fail', L.dirLabel + ': ' + _qiblaAngle.toFixed(1) + '° — ' + dir);
+}
+
+// TRUSTED-DIRECTION-1 — the troubleshooting disclosure. Collapsed by default so it never becomes
+// the headline instruction, and worded so nothing implies the page can calibrate the hardware.
+function _qcRenderTroubleshoot(card, L) {
+  if (!card || card.querySelector('.qch-ts')) return;
+  // Collapsed by default and opened by the user. figure-8 may be MENTIONED inside; it is never an
+  // automatic instruction, and nothing here implies the page can calibrate the hardware.
+  const d = document.createElement('details');
+  d.className = 'qch-ts';
+  const sum = document.createElement('summary');
+  sum.className = 'qch-ts-sum';
+  sum.textContent = L.tsCta;
+  d.appendChild(sum);
+  const ul = document.createElement('ul');
+  ul.className = 'qch-ts-list';
+  [L.tsMetal, L.tsMove, L.tsDevice, L.tsFig, L.tsFallback].forEach(function (line) {
+    const li = document.createElement('li'); li.textContent = line; ul.appendChild(li);
+  });
+  d.appendChild(ul);
+  card.appendChild(d);
+}
+function _qcRemoveTroubleshoot(card) {
+  if (!card) return;
+  const d = card.querySelector('.qch-ts');
+  if (d && d.parentNode) d.parentNode.removeChild(d);
+}
+
+// ============================================================================================
+// TRUSTED-DIRECTION-1 — QIBLA DIRECTION MAP (authoritative, sensor-free)
+// --------------------------------------------------------------------------------------------
+// WHY THIS SHAPE. The map is an azimuthal-equidistant plan view centred on the user's city. In that
+// projection a straight ray from the centre IS the great circle, so the drawn line agrees exactly
+// with Qibla.calculate()'s initial bearing. A raster/Mercator basemap would be actively worse here:
+// a straight line on Mercator is a rhumb line, so from much of the world it would point somewhere
+// visibly different from the degree number printed beside it — the opposite of trust hardening.
+// It also needs no tiles, no network, no third-party terms, no attribution obligation, no API key
+// and no CSP change, and it renders identically offline.
+// It NEVER reads a sensor and never binds to deviceorientation: it is drawn from the city
+// coordinates plus _qiblaAngle alone, so it is the same whether the compass is READY, UNSTABLE,
+// UNAVAILABLE or was never permitted. It deliberately does not reuse id="compass", which
+// _applyCompassHeading rotates by -heading — north here stays fixed so the page is readable with
+// the phone flat on a table.
+const _QDM_NS = 'http://www.w3.org/2000/svg';
+let _qdmUp = 'north';          // 'north' | 'qibla' — which way the rose is oriented
+function _qdmEl(tag, attrs) {
+  const el = document.createElementNS(_QDM_NS, tag);
+  for (const k in attrs) el.setAttribute(k, attrs[k]);
+  return el;
+}
+function _qdmRender() {
+  const host = document.getElementById('qibla-map-svg');
+  if (!host || typeof _qiblaAngle !== 'number' || !isFinite(_qiblaAngle)) return;
+  const L = _qcL10n();
+  const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
+  let dirWord = '', distTxt = '';
+  try { dirWord = Qibla.getDirection(_qiblaAngle, lang); } catch (_) {}
+  try {
+    const km = Qibla.getDistance(currentLat, currentLng);
+    distTxt = (typeof t === 'function')
+      ? t('qibla.distance_to_kaaba', { distance: km.toLocaleString('en'), unit: t('unit.km') })
+      : (km.toLocaleString('en') + ' km');
+  } catch (_) {}
+
+  const S = 320, c = S / 2, r = 126;
+  const off = (_qdmUp === 'qibla') ? _qiblaAngle : 0;          // rose rotation, degrees
+  const pt = (deg, rad) => {
+    const a = (deg - off) * _QC_D2R;
+    return [c + rad * Math.sin(a), c - rad * Math.cos(a)];
+  };
+
+  while (host.firstChild) host.removeChild(host.firstChild);
+  host.setAttribute('viewBox', '0 0 ' + S + ' ' + S);
+  host.setAttribute('role', 'img');
+  // One sentence carries the whole meaning for assistive tech; the SVG itself is decorative detail.
+  host.setAttribute('aria-label',
+    L.mapTitle + ': ' + L.mapYou + ' — ' + _qiblaAngle.toFixed(1) + '\u00B0'
+    + (dirWord ? ' (' + dirWord + ')' : '') + ' ' + L.mapKaaba + (distTxt ? ' — ' + distTxt : ''));
+
+  host.appendChild(_qdmEl('circle', { cx: c, cy: c, r: r, class: 'qdm-dial' }));
+  host.appendChild(_qdmEl('circle', { cx: c, cy: c, r: r * 0.62, class: 'qdm-dial qdm-dial-inner' }));
+
+  // cardinal ticks + letters, using the locale's own single-letter rose keys already shipping
+  const card = [[0, 'qibla.N'], [90, 'qibla.E'], [180, 'qibla.S'], [270, 'qibla.W']];
+  card.forEach(function (cd) {
+    const p1 = pt(cd[0], r), p2 = pt(cd[0], r - 12), p3 = pt(cd[0], r + 16);
+    const ln = _qdmEl('line', { x1: p1[0], y1: p1[1], x2: p2[0], y2: p2[1], class: 'qdm-tick' });
+    host.appendChild(ln);
+    const tx = _qdmEl('text', { x: p3[0], y: p3[1], class: 'qdm-card' + (cd[0] === 0 ? ' qdm-card-n' : '') });
+    tx.textContent = (typeof t === 'function') ? t(cd[1]) : ['N', 'E', 'S', 'W'][cd[0] / 90];
+    host.appendChild(tx);
+  });
+
+  // the geodesic ray: centre -> rim at the Qibla bearing
+  const end = pt(_qiblaAngle, r - 4);
+  host.appendChild(_qdmEl('line', { x1: c, y1: c, x2: end[0], y2: end[1], class: 'qdm-ray' }));
+  const headL = pt(_qiblaAngle - 6, r - 26), headR = pt(_qiblaAngle + 6, r - 26);
+  host.appendChild(_qdmEl('polygon',
+    { points: end[0] + ',' + end[1] + ' ' + headL[0] + ',' + headL[1] + ' ' + headR[0] + ',' + headR[1],
+      class: 'qdm-head' }));
+
+  // Kaaba marker just inside the rim
+  const kb = pt(_qiblaAngle, r - 46);
+  const kbT = _qdmEl('text', { x: kb[0], y: kb[1] + 8, class: 'qdm-kaaba' });
+  kbT.textContent = '\uD83D\uDD4B';
+  host.appendChild(kbT);
+
+  // the user / city at the centre
+  host.appendChild(_qdmEl('circle', { cx: c, cy: c, r: 6, class: 'qdm-you' }));
+  const youT = _qdmEl('text', { x: c, y: c + 24, class: 'qdm-you-label' });
+  const cityEl = document.getElementById('qibla-city');
+  const cityName = (cityEl && (cityEl.textContent || '').trim() && cityEl.textContent.trim() !== '--')
+    ? cityEl.textContent.trim() : L.mapYou;
+  youT.textContent = cityName;
+  host.appendChild(youT);
+
+  const readout = document.getElementById('qibla-map-readout');
+  if (readout) readout.textContent = _qiblaAngle.toFixed(1) + '\u00B0' + (dirWord ? ' \u00B7 ' + dirWord : '');
+  const distEl = document.getElementById('qibla-map-distance');
+  if (distEl) distEl.textContent = distTxt;
+  const kL = document.getElementById('qibla-map-kaaba-label');
+  if (kL) kL.textContent = L.mapKaaba;
+}
+
+// ============================================================================================
+// TRUSTED-DIRECTION-1 (final) — REAL GEOGRAPHIC MAP, north-up, lazy, sensor-free
+// --------------------------------------------------------------------------------------------
+// The SVG rose above is a direction DIAGRAM and an offline fallback; it cannot show streets, so it
+// cannot let anyone line the Qibla up against a road or a building. This does: a genuine slippy map
+// centred on the resolved city, with the Qibla drawn as a GEODESIC over real local geography.
+//
+// Deliberate constraints, each with a reason:
+//   * NORTH-UP, ROTATION DISABLED. The whole point is comparing the Qibla line against streets and
+//     buildings; a rotating basemap destroys that reference. Leaflet does not rotate by default and
+//     no rotation plugin is loaded, so this is structural, not a setting someone can flip.
+//   * GEODESIC, NOT A STRAIGHT MERCATOR LINE. A straight polyline between two lat/lngs on Mercator
+//     is a rhumb line; over 790 km it leaves the true great circle, so the drawn direction would
+//     disagree with the printed bearing. The path is sampled along the great circle, and sampled
+//     DENSELY near the origin so the first visible segment carries the exact initial bearing that
+//     Qibla.calculate() returns. The bearing formula and the Kaaba coordinates are untouched.
+//   * LAZY. Nothing — no CSS, no JS, no tile — is requested until the section approaches the
+//     viewport. That is both a performance rule and a tile-provider courtesy: a page view that never
+//     scrolls to the map costs the provider nothing.
+//   * NO BULK ANYTHING. Only the tiles the viewport needs, fetched by Leaflet on demand. No
+//     prefetching, no city pre-warming, no offline tile store; ordinary browser caching only.
+//   * The tile endpoint is a single named constant so it can be repointed later (self-hosted or a
+//     commercial provider) without touching this feature.
+//   * ENHANCEMENT, NEVER THE TRUTH. If the assets fail, the tiles fail or init throws, the page
+//     still shows the calculated bearing and the SVG diagram, and says so plainly.
+const _QGM_TILE_URL  = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png';
+const _QGM_TILE_ATTR = '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors';
+const _QGM_TILE_MAXZ = 19;
+const _QGM_ZOOM      = 15;      // local: streets, a neighbourhood, nearby landmarks
+const _QGM_ASSET_JS  = 'js/leaflet.js?v=1';
+const _QGM_ASSET_CSS = 'css/leaflet.css?v=1';
+let _qgmState = 'idle';         // 'idle' | 'loading' | 'ready' | 'failed'
+let _qgmMap = null, _qgmMarker = null, _qgmLine = null, _qgmObserver = null;
+
+// Great-circle sampling (spherical interpolation). Extra-dense near f=0 so the segment actually
+// visible at street zoom leaves the marker on the true initial bearing.
+function _qgmGeodesic(lat1, lng1, lat2, lng2) {
+  const D = _QC_D2R, R = _QC_R2D;
+  const p1 = lat1 * D, l1 = lng1 * D, p2 = lat2 * D, l2 = lng2 * D;
+  const dv = 2 * Math.asin(Math.sqrt(
+    Math.pow(Math.sin((p2 - p1) / 2), 2) +
+    Math.cos(p1) * Math.cos(p2) * Math.pow(Math.sin((l2 - l1) / 2), 2)));
+  if (!(dv > 1e-12)) return [[lat1, lng1], [lat2, lng2]];
+  const fr = [0, 0.00002, 0.0001, 0.0005, 0.002, 0.006, 0.015, 0.03];
+  for (let i = 1; i <= 64; i++) fr.push(i / 64);
+  const out = [];
+  for (let i = 0; i < fr.length; i++) {
+    const f = fr[i];
+    const A = Math.sin((1 - f) * dv) / Math.sin(dv), B = Math.sin(f * dv) / Math.sin(dv);
+    const x = A * Math.cos(p1) * Math.cos(l1) + B * Math.cos(p2) * Math.cos(l2);
+    const y = A * Math.cos(p1) * Math.sin(l1) + B * Math.cos(p2) * Math.sin(l2);
+    const z = A * Math.sin(p1) + B * Math.sin(p2);
+    out.push([Math.atan2(z, Math.hypot(x, y)) * R, Math.atan2(y, x) * R]);
+  }
+  return out;
+}
+
+function _qgmFail(L) {
+  _qgmState = 'failed';
+  const el = document.getElementById('qibla-geo-status');
+  if (el) { el.textContent = L.geoFail; el.hidden = false; }
+  const cv = document.getElementById('qibla-geo-canvas');
+  if (cv) cv.hidden = true;
+}
+
+function _qgmAsset(tag, attrs) {
+  return new Promise(function (res, rej) {
+    const el = document.createElement(tag);
+    for (const k in attrs) el.setAttribute(k, attrs[k]);
+    el.onload = res; el.onerror = rej;
+    document.head.appendChild(el);
+  });
+}
+
+function _qgmCreate() {
+  const L = _qcL10n();
+  try {
+    if (typeof window.L === 'undefined' || !window.L.map) { _qgmFail(L); return; }
+    const cv = document.getElementById('qibla-geo-canvas');
+    if (!cv || !isFinite(currentLat) || !isFinite(currentLng)) { _qgmFail(L); return; }
+    // The canvas is NEVER `hidden` before boot: it keeps its reserved 280px box from first paint so
+    // the lazy Leaflet init cannot shift the page. Only an outright failure collapses it.
+    _qgmMap = window.L.map(cv, {
+      center: [currentLat, currentLng], zoom: _QGM_ZOOM,
+      zoomControl: true, attributionControl: true,
+      scrollWheelZoom: false,          // never hijack page scroll on mobile
+      // no rotation option is passed and no rotation plugin is loaded: the basemap is north-up.
+    });
+    window.L.tileLayer(_QGM_TILE_URL, {
+      maxZoom: _QGM_TILE_MAXZ, attribution: _QGM_TILE_ATTR, crossOrigin: true
+    }).addTo(_qgmMap);
+
+    _qgmMarker = window.L.marker([currentLat, currentLng], {
+      icon: window.L.divIcon({ className: 'qgm-pin', html: '<span></span>', iconSize: [18, 18], iconAnchor: [9, 9] }),
+      keyboard: false, title: L.mapYou
+    }).addTo(_qgmMap);
+
+    const pts = _qgmGeodesic(currentLat, currentLng, 21.4225, 39.8262);
+    _qgmLine = window.L.polyline(pts, { className: 'qgm-line', weight: 4, opacity: 0.95 }).addTo(_qgmMap);
+    try { _qgmLine.bindTooltip(L.geoLine + ' — ' + _qiblaAngle.toFixed(1) + '\u00B0', { sticky: true }); } catch (_) {}
+
+    const rc = document.getElementById('qibla-geo-recenter');
+    if (rc && !rc.dataset.wired) {
+      rc.dataset.wired = '1';
+      rc.addEventListener('click', function () {
+        try {
+          _qgmMap.setView([currentLat, currentLng], _QGM_ZOOM, { animate: false });
+          rc.dataset.recentered = String((Number(rc.dataset.recentered) || 0) + 1);
+        } catch (_) {}
+      });
+    }
+    _qgmState = 'ready';
+    setTimeout(function () { try { _qgmMap.invalidateSize(); } catch (_) {} }, 200);
+  } catch (_e) { _qgmFail(L); }
+}
+
+function _qgmBoot() {
+  if (_qgmState !== 'idle') return;
+  _qgmState = 'loading';
+  const L = _qcL10n();
+  Promise.resolve()
+    .then(function () { return _qgmAsset('link', { rel: 'stylesheet', href: _QGM_ASSET_CSS }); })
+    .then(function () { return _qgmAsset('script', { src: _QGM_ASSET_JS, defer: 'defer' }); })
+    .then(function () { _qgmCreate(); })
+    .catch(function () { _qgmFail(L); });
+}
+
+// Lazy trigger. IntersectionObserver is the clean architecture here: no extra UI, and the map costs
+// nothing until the user actually scrolls toward it. The explicit button stays as the fallback for
+// browsers without IntersectionObserver, so the feature is never unreachable.
+function _qgmInit() {
+  const sec = document.getElementById('qibla-geo-map');
+  if (!sec) return;
+  const L = _qcL10n();
+  const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('qibla-geo-title', L.geoTitle);
+  set('qibla-geo-recenter', L.geoRecenter);
+  const btn = document.getElementById('qibla-geo-show');
+  if (btn) {
+    btn.textContent = L.geoShow;
+    if (!btn.dataset.wired) {
+      btn.dataset.wired = '1';
+      btn.addEventListener('click', function () { btn.hidden = true; _qgmBoot(); });
+    }
+  }
+  if (typeof IntersectionObserver === 'function') {
+    if (btn) btn.hidden = true;                       // observer will handle it
+    if (_qgmObserver) return;
+    // threshold 0.25 with NO rootMargin: a section whose top edge merely grazes the fold does not
+    // count as "viewed", so a visitor who never scrolls costs the tile provider nothing. Observation
+    // starts on the next frame, because attaching before first layout made the observer fire against
+    // an un-laid-out page (measured: leaflet.js requested 315 ms after navigation, at scroll 0).
+    const arm = function () {
+      if (_qgmObserver) return;
+      _qgmObserver = new IntersectionObserver(function (entries) {
+        for (const en of entries) {
+          if (en.isIntersecting && en.intersectionRatio >= 0.25) {
+            // CONFIRM before committing. Even armed at `load`, this page keeps growing as SSR
+            // content hydrates, and during that transient the document is short enough for a
+            // below-the-fold section to be fully visible. Measured: the observer fired at page top
+            // and pulled tiles the user never asked for. So re-measure after a beat and only boot
+            // if the section is STILL a quarter visible against the settled layout.
+            setTimeout(function () {
+              if (!_qgmObserver) return;
+              try {
+                const r = sec.getBoundingClientRect();
+                const vis = Math.max(0, Math.min(r.bottom, innerHeight) - Math.max(r.top, 0));
+                if (!(r.height > 0) || (vis / r.height) < 0.25) return;   // transient — keep watching
+              } catch (_) { return; }
+              _qgmObserver.disconnect(); _qgmObserver = null;
+              _qgmBoot();
+            }, 500);
+            break;
+          }
+        }
+      }, { rootMargin: '0px', threshold: [0.25] });
+      _qgmObserver.observe(sec);
+    };
+    // Arm only once the document has finished loading. Two rAFs were not enough: this page keeps
+    // growing while SSR content hydrates, so an observer attached early measured a SHORT page in
+    // which the map section was fully visible, fired at ~300 ms and defeated the whole point.
+    if (document.readyState === 'complete') setTimeout(arm, 0);
+    else window.addEventListener('load', function () { setTimeout(arm, 0); }, { once: true });
+  } else if (btn) {
+    btn.hidden = false;                               // no observer ⇒ explicit opt-in
+  }
+}
+
+// Localise the static chrome around the map and wire the orientation toggle.
+function _qdmInit() {
+  const sec = document.getElementById('qibla-direction-map');
+  if (!sec) return;
+  const L = _qcL10n();
+  const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+  set('qibla-map-title', L.mapTitle);
+  set('qibla-map-hint', L.mapHint);
+  const btn = document.getElementById('qibla-map-toggle');
+  if (btn && !btn.dataset.wired) {
+    btn.dataset.wired = '1';
+    btn.addEventListener('click', function () {
+      _qdmUp = (_qdmUp === 'north') ? 'qibla' : 'north';
+      btn.textContent = (_qdmUp === 'north') ? L.tQibla : L.tNorth;
+      btn.setAttribute('aria-pressed', _qdmUp === 'qibla' ? 'true' : 'false');
+      _qdmRender();
+    });
+  }
+  if (btn) {
+    btn.textContent = (_qdmUp === 'north') ? L.tQibla : L.tNorth;
+    btn.setAttribute('aria-pressed', _qdmUp === 'qibla' ? 'true' : 'false');
+  }
+  set('qibla-live-title', L.live);
+  set('qibla-live-note', L.liveNote);
+  set('qibla-diagram-title', L.diagTitle);
+  _qdmRender();
+  try { _qgmInit(); } catch (_e) {}
 }
 
 // Arm a hard-fail: if NO usable heading arrives, switch to the static-bearing fallback.
@@ -18209,11 +18639,174 @@ function _qcArmHardFail() {
   _qcHardFailTimer = setTimeout(function () {
     if (_qcHeadingEver) return;
     _qcActiveSource = 'fallback';
-    let dir = ''; const L = _qcL10n();
-    try { dir = Qibla.getDirection(_qiblaAngle, (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'); } catch (_) {}
-    // UX-REMOVE: static textual fallback — «اتجاه القبلة: 243.8° — <dir>» (needle hidden by _qcSetHelp('fail')).
-    _qcSetHelp('fail', L.dirLabel + ': ' + _qiblaAngle.toFixed(1) + '° — ' + dir);
+    _qcShowStaticBearing();
   }, _QC_HARD_FAIL_MS);
+}
+
+// TRUST-HARDENING-1 — one place to record "a usable heading was produced". Also (re)arms the
+// staleness watchdog, so a source that dies AFTER its first reading can still reach the fallback.
+function _qcNoteHeading() {
+  _qcHeadingEver   = true;
+  _qcLastHeadingTs = _qcNow();
+  if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
+  _qcArmStaleWatch();
+  _qcConfArm();                       // TRUSTED-DIRECTION-1: start the 2 Hz confidence evaluator
+}
+
+// A frozen needle that still claims to be healthy is worse than an honest "unavailable": the old
+// code armed the hard-fail exactly once and its callback returned immediately once any heading had
+// been seen, and `_qcHeadingEver` was never reset — so after the first reading NO path could ever
+// reach the fallback again. This watchdog closes that.
+// Timeout budget: NO new constant. Freshness of the AOS *source* keeps using _QC_AOS_MAX_AGE_MS
+// (500 ms) exactly as before; "the rendered needle has gone stale" reuses _QC_HARD_FAIL_MS (4000 ms),
+// the same budget the page already accepts before showing the static bearing on a cold start.
+function _qcArmStaleWatch() {
+  if (_qcStaleTimer) return;
+  _qcStaleTimer = setInterval(function () {
+    if (!_qcHeadingEver) return;
+    if ((_qcNow() - _qcLastHeadingTs) < _QC_HARD_FAIL_MS) return;
+    clearInterval(_qcStaleTimer); _qcStaleTimer = null;
+    _qcHeadingEver = false;              // hand the UI back to the fallback
+    _qcAosLive     = false;
+    _qcActiveSource = 'stale';
+    _qcShowStaticBearing();
+  }, _QC_HARD_FAIL_MS);
+}
+
+// ============================================================================================
+// TRUSTED-DIRECTION-1 — CONFIDENCE STATES (READY / UNSTABLE / UNAVAILABLE)
+// --------------------------------------------------------------------------------------------
+// The one thing this must NOT do is treat `absolute === true` as an accuracy certificate. Real
+// on-device captures showed two absolute sources agreeing with each other while both sat a large
+// CONSTANT angle away from truth. Nothing measurable in a browser can detect a constant offset, so
+// UNSTABLE deliberately reports only *instability*, never *inaccuracy*, and READY never claims the
+// reading is correct — the calculated bearing and the direction map remain the reference.
+// A false UNSTABLE is worse than a missed one: it re-introduces exactly the nagging this work
+// removed. Every detector below is therefore conservative and heavily gated.
+const _QC_CONF_WIN_MS   = 3000;   // rolling analysis window
+const _QC_CONF_MIN_N    = 24;     // never judge on fewer samples…
+const _QC_CONF_MIN_SPAN = 2000;   // …nor on a window shorter than this
+const _QC_CONF_SD_DEG   = 25;     // circular SD above this = dispersed, ONLY when also holding still
+const _QC_CONF_STILL_NET= 20;     // net turn below this ⇒ the user is not deliberately turning
+const _QC_CONF_STILL_PATH = 120;  // …while total path travelled above this ⇒ the needle is thrashing
+const _QC_CONF_JUMP_DEG = 60;     // implausible step between two samples…
+const _QC_CONF_JUMP_DT  = 50;     // …that arrived within this many ms (so GC/jank cannot fake it)
+const _QC_CONF_JUMP_N   = 4;      // this many jumps inside the window
+const _QC_CONF_FLAP_MS  = 10000;  // source-flapping window
+const _QC_CONF_FLAP_N   = 3;      // AOS <-> DeviceOrientation transitions inside it
+const _QC_CONF_TICK_MS  = 500;    // single evaluator; sensor handlers only fill the buffer
+const _QC_CONF_ENTER_TICKS = 4;   // consecutive unstable ticks before we say anything (2 s)
+const _QC_CONF_EXIT_MS  = 3000;   // continuously calm for this long before returning to READY
+const _QC_CONF_DWELL_MS = 5000;   // minimum time to stay in UNSTABLE once shown
+
+let _qcConfBuf = [];              // [{h, t, scr}]
+let _qcConfTimer = null;
+let _qcConfUnstableTicks = 0;
+let _qcConfCalmSince = 0;
+let _qcConfEnteredAt = 0;
+let _qcConfState = 'ready';       // 'ready' | 'unstable'
+let _qcConfFlaps = [];            // timestamps of source transitions
+let _qcConfLastSource = null;
+
+// Feed the detector with the heading BEFORE the jitter stabilizer. Measuring the stabilizer's
+// output would measure the low-pass filter (deadband 2° + EMA 0.15 + 10°/frame) and hide the very
+// thrashing we are looking for.
+function _qcConfPush(h) {
+  if (!Number.isFinite(h)) return;
+  const now = _qcNow();
+  if (_qcConfLastSource !== null && _qcConfLastSource !== _qcActiveSource) {
+    // AOS quaternion maths and the DeviceOrientation matrix are different pipelines that may differ
+    // by a constant; mixing them inside one window would manufacture a false UNSTABLE out of a
+    // perfectly clean handoff. Start a fresh window and record the transition as its own signal.
+    _qcConfBuf = [];
+    _qcConfFlaps.push(now);
+  }
+  _qcConfLastSource = _qcActiveSource;
+  _qcConfBuf.push({ h: h, t: now, scr: _qcScreenAngle() });
+  const cut = now - _QC_CONF_WIN_MS;
+  while (_qcConfBuf.length && _qcConfBuf[0].t < cut) _qcConfBuf.shift();
+  const fcut = now - _QC_CONF_FLAP_MS;
+  while (_qcConfFlaps.length && _qcConfFlaps[0] < fcut) _qcConfFlaps.shift();
+}
+
+// Circular dispersion. A naive standard deviation on raw degrees is catastrophically wrong here:
+// a phone held still pointing north emits 359.4 / 0.3 / 359.8, whose arithmetic SD is ~180°. We use
+// the mean resultant length R of the unit vectors, then circSD = sqrt(-2 ln R).
+function _qcConfCircSD(arr) {
+  let C = 0, S = 0;
+  for (let i = 0; i < arr.length; i++) { const r = arr[i].h * _QC_D2R; C += Math.cos(r); S += Math.sin(r); }
+  let R = Math.hypot(C, S) / arr.length;
+  if (!(R > 1e-6)) R = 1e-6;
+  if (R > 1) R = 1;
+  return Math.sqrt(-2 * Math.log(R)) * _QC_R2D;
+}
+
+// True only on evidence a browser can actually stand behind.
+function _qcConfIsUnstable() {
+  const buf = _qcConfBuf;
+  if (buf.length < _QC_CONF_MIN_N) return false;
+  const span = buf[buf.length - 1].t - buf[0].t;
+  if (span < _QC_CONF_MIN_SPAN) return false;
+
+  // (1) source flapping — the rose snapping between two pipelines with no guaranteed shared zero
+  if (_qcConfFlaps.length >= _QC_CONF_FLAP_N) return true;
+
+  // (2) implausible jumps. A screen rotation legitimately injects ~90° (the screen angle is added
+  // inside the heading), so any step across a screen-angle change is discarded, not counted.
+  let jumps = 0;
+  for (let i = 1; i < buf.length; i++) {
+    if (buf[i].scr !== buf[i - 1].scr) continue;
+    const dt = buf[i].t - buf[i - 1].t;
+    if (dt > _QC_CONF_JUMP_DT) continue;
+    if (Math.abs(_shortestAngleDiff(buf[i - 1].h, buf[i].h)) > _QC_CONF_JUMP_DEG) jumps++;
+  }
+  if (jumps >= _QC_CONF_JUMP_N) return true;
+
+  // (3) dispersion — ONLY while the user is holding still. Without this gate the detector would
+  // fire on anyone simply turning around, which is normal use, not interference.
+  const netTurn = Math.abs(_shortestAngleDiff(buf[0].h, buf[buf.length - 1].h));
+  let pathLen = 0;
+  for (let i = 1; i < buf.length; i++) pathLen += Math.abs(_shortestAngleDiff(buf[i - 1].h, buf[i].h));
+  const holdingStill = (netTurn < _QC_CONF_STILL_NET) && (pathLen > _QC_CONF_STILL_PATH);
+  if (holdingStill && _qcConfCircSD(buf) > _QC_CONF_SD_DEG) return true;
+
+  return false;
+}
+
+// One evaluator, 2 Hz. Sensor handlers never decide state; they only push samples.
+function _qcConfArm() {
+  if (_qcConfTimer) return;
+  _qcConfTimer = setInterval(function () {
+    try {
+      if (_qcHelpState === 'fail') { _qcConfUnstableTicks = 0; return; }  // UNAVAILABLE owns the UI
+      const now = _qcNow();
+      const bad = _qcConfIsUnstable();
+      if (bad) { _qcConfUnstableTicks++; _qcConfCalmSince = 0; }
+      else { _qcConfUnstableTicks = 0; if (!_qcConfCalmSince) _qcConfCalmSince = now; }
+
+      // PRODUCTION IS DELIBERATELY SILENT HERE.
+      // These thresholds are reasoned from the code's own noise floor, NOT calibrated against real
+      // hardware — and the one thing the product must not do is nag the user to wave the phone in a
+      // figure-8 on the strength of an unvalidated statistic. So the verdict is recorded for the
+      // diagnostic lab (?qiblaLab=1) and NEVER calls _qcSetHelp. The only product states are READY
+      // (compass shown, no accuracy claim) and UNAVAILABLE (needle hidden, bearing + map remain).
+      // Troubleshooting is a user-opened disclosure, never an automatic prompt.
+      if (_qcConfState === 'ready') {
+        if (_qcConfUnstableTicks >= _QC_CONF_ENTER_TICKS) { _qcConfState = 'unstable'; _qcConfEnteredAt = now; }
+      } else {
+        const dwelled = (now - _qcConfEnteredAt) >= _QC_CONF_DWELL_MS;
+        const calm    = _qcConfCalmSince && (now - _qcConfCalmSince) >= _QC_CONF_EXIT_MS;
+        if (dwelled && calm) { _qcConfState = 'ready'; }
+      }
+    } catch (_) {}
+  }, _QC_CONF_TICK_MS);
+}
+
+// Anything that invalidates the window: a screen rotation changes the heading by construction, and
+// a hidden tab stops delivering readings (which would otherwise look like a dead sensor).
+function _qcConfReset() {
+  _qcConfBuf = []; _qcConfFlaps = []; _qcConfLastSource = null;
+  _qcConfUnstableTicks = 0; _qcConfCalmSince = 0;
 }
 
 // UX-REMOVE: recalibrateCompass() and its window global are DELETED — there is no user-facing calibration or
@@ -18254,9 +18847,11 @@ function _qcRotVecQuat(v, q) {
 }
 function _qcHeadingFromQuat(q) {
   if (!q || q.length < 4) return null;
+  // TRUST-HARDENING-1: reject a non-finite quaternion before it becomes a confident-looking angle.
+  for (let i = 0; i < 4; i++) { if (!Number.isFinite(q[i])) return null; }
   const top = _qcRotVecQuat([0,1,0], q);          // device +Y (top edge) in the sensor's world frame
   let h = Math.atan2(top[0], top[1]) * _QC_R2D;   // atan2(East, North) = bearing CW from N
-  return isNaN(h) ? null : (((h%360)+360)%360);
+  return Number.isFinite(h) ? (((h%360)+360)%360) : null;
 }
 // Tilt-compensated azimuth WITHOUT the screen-orientation term (diagnostic candidate only).
 function _qcMatrixNoScreen(e) {
@@ -18282,15 +18877,19 @@ function _qcStartAos() {
     _qcAosSensor.addEventListener('reading', function () {
       try {
         const h = _qcHeadingFromQuat(_qcAosSensor.quaternion);
-        if (h === null || isNaN(h)) return;
+        if (h === null) return;                    // non-finite quaternion / degenerate reading
         _qcAosHeading = h; _qcAosTs = _qcNow(); _qcAosLive = true;
+        // TRUST-HARDENING-1: AbsoluteOrientationSensor is absolute by definition, so record it. The
+        // handler returns early while AOS is fresh, so _qcResolveHeading (the only other writer) never
+        // runs during normal AOS operation and the flag used to stay false for the whole session.
+        _qcAbsoluteSeen = true;
         // AOS-PRIORITY-1: AbsoluteOrientationSensor is the trusted Android source → drive the compass
         // directly (its readings, not the DeviceOrientation event, move the rose). Same jitter stabilizer.
         if (_ANDROID_AOS_PRIORITY) {
           _qcActiveSource = 'aos';
-          _qcHeadingEver = true;
-          if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
-          _qcSetHelp('ok');
+          _qcNoteHeading();
+          _qcConfPush(h);                // TRUSTED-DIRECTION-1: pre-stabilizer sample
+          _qcSetHelp('ok');              // READY — availability only, no accuracy claim
           _androidCompassStabilize(h);   // AOS heading → jitter stabilizer (no manual calibration)
         }
       } catch (_) {}
@@ -18399,8 +18998,238 @@ function _androidCompassFrame() {
     }
 }
 
+// ============================================================================================
+// QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 — PRIVATE DIAGNOSTIC LAB (`?qiblaLab=1`)
+// --------------------------------------------------------------------------------------------
+// OBSERVE-ONLY. It never feeds the production needle: no path below calls _applyCompassHeading or
+// _androidCompassStabilize, and it never writes _qcAosHeading/_qcAosTs/_qcActiveSource. It exists
+// so the four candidate heading sources can be read SIDE BY SIDE on a real phone before we change
+// which one drives the user-facing compass.
+//   PATH A  production AOS            AbsoluteOrientationSensor(), default referenceFrame 'device'
+//                                     → _qcHeadingFromQuat (exactly what ships today)
+//   PATH B  AOS screen-frame          AbsoluteOrientationSensor({ referenceFrame:'screen' })
+//   PATH C  deviceorientationabsolute → W3C-derived heading (see _qlabHeadingW3C)
+//   PATH D  deviceorientation         → same maths, with `absolute` shown explicitly
+// Everything stays on the device: local rendering + a Copy-JSON button. NO network call anywhere.
+// INERT unless activated: every DOM node, listener and sensor below is created inside _qlabInit(),
+// which returns immediately when the flag is absent.
+// ============================================================================================
+const _QLAB_KEY = 'qiblaLab';
+let _qlabActive = false, _qlabEl = null, _qlabRows = null, _qlabCaps = [], _qlabTimer = null;
+let _qlabBSensor = null, _qlabB = { h: null, q: null, ts: 0, state: 'not started', live: false };
+let _qlabC = { h: null, a: null, b: null, g: null, abs: null, ts: 0, n: 0 };
+let _qlabD = { h: null, a: null, b: null, g: null, abs: null, ts: 0, n: 0 };
+
+function _qlabOn() {
+  try { return /[?&]qiblaLab=1\b/.test(location.search); } catch (_) { return false; }
+}
+
+// W3C-derived compass heading, the candidate this ticket does NOT yet ship (§8).
+// From the DeviceOrientation composition R = Rz(alpha)*Rx(beta)*Ry(gamma) mapping device axes into
+// the Earth ENU frame, the device top edge (0,1,0) maps to (-sinA*cosB, cosA*cosB, sinB). Its
+// azimuth is therefore atan2(-sinA*cosB, cosA*cosB) = -alpha for every beta with |beta| < 90 and
+// for every gamma — i.e. heading = 360 - alpha, the OPPOSITE sense from the shipped
+// _qcHeadingFromEvent. Reported here for measurement only; production maths is untouched.
+function _qlabHeadingW3C(a, b) {
+  if (!Number.isFinite(a)) return null;
+  const A = a * _QC_D2R, B = Number.isFinite(b) ? b * _QC_D2R : 0;
+  const h = Math.atan2(-Math.sin(A) * Math.cos(B), Math.cos(A) * Math.cos(B)) * _QC_R2D;
+  return Number.isFinite(h) ? (((h % 360) + 360) % 360) : null;
+}
+const _qlabAddScr = h => (h == null ? null : (((h + _qcScreenAngle()) % 360) + 360) % 360);
+const _qlabFmt = v => (v == null || !Number.isFinite(v)) ? '—' : (Math.round(v * 10) / 10).toString();
+const _qlabAge = ts => (!ts ? '—' : Math.round(_qcNow() - ts) + 'ms');
+
+// PATH B — a SECOND sensor, screen-referenced. Separate instance so PATH A keeps observing the
+// exact object production uses; neither is allowed to drive the needle.
+function _qlabStartB() {
+  if (_qlabBSensor) return;
+  if (typeof window === 'undefined' || !('AbsoluteOrientationSensor' in window)) { _qlabB.state = 'unsupported'; return; }
+  try {
+    _qlabBSensor = new window.AbsoluteOrientationSensor({ frequency: 30, referenceFrame: 'screen' });
+    _qlabBSensor.addEventListener('reading', function () {
+      try {
+        const q = _qlabBSensor.quaternion;
+        const h = _qcHeadingFromQuat(q);
+        if (h === null) return;
+        _qlabB.h = h; _qlabB.q = q ? Array.prototype.slice.call(q) : null;
+        _qlabB.ts = _qcNow(); _qlabB.live = true; _qlabB.state = 'reading';
+      } catch (_) {}
+    });
+    _qlabBSensor.addEventListener('error', function (ev) {
+      _qlabB.state = 'error:' + ((ev.error && ev.error.name) || '?'); _qlabB.live = false;
+    });
+    _qlabBSensor.start();
+    if (_qlabB.state === 'not started') _qlabB.state = 'started';
+  } catch (err) { _qlabB.state = 'exception:' + ((err && err.name) || '?'); }
+}
+
+// PATHS C and D — the lab keeps its OWN listeners so it can tell the two event types apart
+// (production attaches one shared handler to both, which cannot distinguish them).
+function _qlabOnAbsolute(e) {
+  _qlabC.a = e.alpha; _qlabC.b = e.beta; _qlabC.g = e.gamma;
+  _qlabC.abs = (e.absolute === true); _qlabC.h = _qlabHeadingW3C(e.alpha, e.beta);
+  _qlabC.ts = _qcNow(); _qlabC.n++;
+}
+function _qlabOnRelative(e) {
+  _qlabD.a = e.alpha; _qlabD.b = e.beta; _qlabD.g = e.gamma;
+  _qlabD.abs = (e.absolute === true); _qlabD.h = _qlabHeadingW3C(e.alpha, e.beta);
+  _qlabD.ts = _qcNow(); _qlabD.n++;
+}
+
+function _qlabDevice() {
+  let so = null;
+  try { so = (screen.orientation && screen.orientation.type) || null; } catch (_) {}
+  return {
+    userAgent: (navigator && navigator.userAgent) || null,
+    platform: (navigator && (navigator.platform || (navigator.userAgentData && navigator.userAgentData.platform))) || null,
+    screenAngle: _qcScreenAngle(),
+    screenType: so,
+    viewport: (typeof innerWidth === 'number' && typeof innerHeight === 'number')
+      ? (innerWidth + 'x' + innerHeight + ' ' + (innerWidth >= innerHeight ? 'landscape' : 'portrait')) : null,
+    qiblaBearing: (typeof _qiblaAngle === 'number') ? Number(_qiblaAngle.toFixed(2)) : null
+  };
+}
+
+// One consistent snapshot of all four paths (plus what the production needle is actually showing).
+function _qlabSample() {
+  const aQ = (_qcAosSensor && _qcAosSensor.quaternion) ? Array.prototype.slice.call(_qcAosSensor.quaternion) : null;
+  return {
+    t: new Date().toISOString(),
+    device: _qlabDevice(),
+    A_prod_aos: {
+      available: ('AbsoluteOrientationSensor' in window), active: !!_qcAosLive, referenceFrame: 'device (default)',
+      absolute: true, heading: _qcAosHeading, quaternion: aQ, ageMs: _qcAosTs ? Math.round(_qcNow() - _qcAosTs) : null,
+      error: _qcAosState, usableNow: _qcAosUsable()
+    },
+    B_aos_screen: {
+      available: ('AbsoluteOrientationSensor' in window), active: !!_qlabB.live, referenceFrame: 'screen',
+      absolute: true, heading: _qlabB.h, quaternion: _qlabB.q,
+      ageMs: _qlabB.ts ? Math.round(_qcNow() - _qlabB.ts) : null, error: _qlabB.state
+    },
+    C_do_absolute: {
+      available: _qlabC.n > 0, active: _qlabC.n > 0, absolute: _qlabC.abs, events: _qlabC.n,
+      alpha: _qlabC.a, beta: _qlabC.b, gamma: _qlabC.g,
+      headingW3C: _qlabC.h, headingW3CplusScreen: _qlabAddScr(_qlabC.h),
+      headingShipped: (_qlabC.a == null) ? null : _qcHeadingFromEvent({ alpha: _qlabC.a, beta: _qlabC.b, gamma: _qlabC.g }),
+      ageMs: _qlabC.ts ? Math.round(_qcNow() - _qlabC.ts) : null
+    },
+    D_do_relative: {
+      available: _qlabD.n > 0, active: _qlabD.n > 0, absolute: _qlabD.abs, events: _qlabD.n,
+      alpha: _qlabD.a, beta: _qlabD.b, gamma: _qlabD.g,
+      headingW3C: _qlabD.h, headingW3CplusScreen: _qlabAddScr(_qlabD.h),
+      headingShipped: (_qlabD.a == null) ? null : _qcHeadingFromEvent({ alpha: _qlabD.a, beta: _qlabD.b, gamma: _qlabD.g }),
+      ageMs: _qlabD.ts ? Math.round(_qcNow() - _qlabD.ts) : null
+    },
+    production: { activeSource: _qcActiveSource, renderedHeading: _andHeadingSmoothed, helpState: _qcHelpState }
+  };
+}
+
+function _qlabRender() {
+  if (!_qlabActive || !_qlabRows) return;
+  const s = _qlabSample();
+  const tilt = (_qlabC.n ? _qlabC : _qlabD);
+  const row = (k, v) => '<div class="qlab-r"><b>' + k + '</b><span>' + v + '</span></div>';
+  _qlabRows.innerHTML =
+      row('screen', s.device.screenAngle + '° · ' + (s.device.screenType || '—') + ' · ' + (s.device.viewport || '—'))
+    + row('tilt β/γ', _qlabFmt(tilt.b) + ' / ' + _qlabFmt(tilt.g))
+    + row('A prod AOS (device)', _qlabFmt(s.A_prod_aos.heading) + '  [' + (s.A_prod_aos.active ? 'live' : 'off') + ' · ' + _qlabAge(_qcAosTs) + ' · ' + s.A_prod_aos.error + ']')
+    + row('B AOS (screen)', _qlabFmt(s.B_aos_screen.heading) + '  [' + (s.B_aos_screen.active ? 'live' : 'off') + ' · ' + _qlabAge(_qlabB.ts) + ' · ' + s.B_aos_screen.error + ']')
+    + row('C abs W3C', _qlabFmt(s.C_do_absolute.headingW3C) + ' (+scr ' + _qlabFmt(s.C_do_absolute.headingW3CplusScreen) + ')  abs=' + s.C_do_absolute.absolute + ' n=' + s.C_do_absolute.events)
+    + row('C abs shipped', _qlabFmt(s.C_do_absolute.headingShipped) + '  α=' + _qlabFmt(_qlabC.a))
+    + row('D rel W3C', _qlabFmt(s.D_do_relative.headingW3C) + '  abs=' + s.D_do_relative.absolute + ' n=' + s.D_do_relative.events + '  α=' + _qlabFmt(_qlabD.a))
+    + row('production', s.production.activeSource + ' · rendered ' + _qlabFmt(s.production.renderedHeading) + ' · card ' + (s.production.helpState || '—'))
+    + row('captures', _qlabCaps.length);
+}
+
+function _qlabCapture() {
+  try {
+    const lbl = (_qlabEl && _qlabEl.querySelector('.qlab-label')) ? _qlabEl.querySelector('.qlab-label').value : '';
+    const s = _qlabSample(); s.label = lbl || ('capture-' + (_qlabCaps.length + 1));
+    _qlabCaps.push(s);
+    _qlabRender();
+  } catch (_) {}
+}
+function _qlabCopy() {
+  const payload = JSON.stringify({ generated: new Date().toISOString(), device: _qlabDevice(), captures: _qlabCaps, live: _qlabSample() }, null, 2);
+  const done = () => { const b = _qlabEl && _qlabEl.querySelector('.qlab-copy'); if (b) { const o = b.textContent; b.textContent = 'copied ✓'; setTimeout(() => { b.textContent = o; }, 1500); } };
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(payload).then(done).catch(() => _qlabFallbackCopy(payload, done)); return; }
+  } catch (_) {}
+  _qlabFallbackCopy(payload, done);
+}
+function _qlabFallbackCopy(text, done) {
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', 'readonly');
+    ta.style.cssText = 'position:fixed;left:-9999px;top:0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    done();
+  } catch (_) {
+    const box = _qlabEl && _qlabEl.querySelector('.qlab-json');
+    if (box) { box.style.display = 'block'; box.value = text; box.select(); }
+  }
+}
+
+// Entry point. Called ONLY from startDeviceCompass, which itself now runs only when the Qibla
+// compass is on screen — so the lab can never attach anywhere else. Returns immediately (no DOM,
+// no listener, no sensor, no log) unless ?qiblaLab=1 is present.
+function _qlabInit() {
+  if (_qlabActive || !_qlabOn()) return;
+  const host = document.getElementById('page-qibla') || document.getElementById('compass');
+  if (!host) return;
+  _qlabActive = true;
+
+  const el = document.createElement('section');
+  el.id = 'qibla-lab';
+  el.setAttribute('data-qibla-lab', '1');
+  el.style.cssText = 'margin:16px auto;max-width:680px;padding:12px 14px;border:1px solid #b45309;border-radius:12px;'
+    + 'background:#1f2937;color:#f9fafb;font:12px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;direction:ltr;text-align:left';
+  el.innerHTML =
+      '<div style="font-weight:700;margin-bottom:6px">QIBLA SENSOR LAB — observe only (?qiblaLab=1)</div>'
+    + '<div class="qlab-rows"></div>'
+    + '<div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">'
+    + '<input class="qlab-label" placeholder="label e.g. N-portrait-flat" style="flex:1;min-width:170px;padding:6px;border-radius:8px;border:1px solid #4b5563;background:#111827;color:#f9fafb">'
+    + '<button type="button" class="qlab-cap" style="padding:6px 12px;border-radius:8px;border:0;background:#2563eb;color:#fff;font-weight:700">Capture</button>'
+    + '<button type="button" class="qlab-copy" style="padding:6px 12px;border-radius:8px;border:0;background:#059669;color:#fff;font-weight:700">Copy JSON</button>'
+    + '<button type="button" class="qlab-clr" style="padding:6px 12px;border-radius:8px;border:0;background:#6b7280;color:#fff">Clear</button>'
+    + '</div>'
+    + '<textarea class="qlab-json" readonly style="display:none;width:100%;height:160px;margin-top:8px"></textarea>'
+    + '<style>#qibla-lab .qlab-r{display:flex;justify-content:space-between;gap:10px;padding:2px 0;border-bottom:1px dashed #374151}'
+    + '#qibla-lab .qlab-r b{color:#fcd34d;font-weight:700}</style>';
+  host.appendChild(el);
+  _qlabEl = el; _qlabRows = el.querySelector('.qlab-rows');
+  el.querySelector('.qlab-cap').addEventListener('click', _qlabCapture);
+  el.querySelector('.qlab-copy').addEventListener('click', _qlabCopy);
+  el.querySelector('.qlab-clr').addEventListener('click', function () { _qlabCaps = []; _qlabRender(); });
+
+  try { window.addEventListener('deviceorientationabsolute', _qlabOnAbsolute, true); } catch (_) {}
+  try { window.addEventListener('deviceorientation', _qlabOnRelative, true); } catch (_) {}
+  _qlabStartB();
+  _qlabTimer = setInterval(_qlabRender, 250);
+  _qlabRender();
+}
+
+// TRUST-HARDENING-1 — is the Qibla compass actually on screen right now?
+// `updateQibla()` only bails when #qibla-angle is MISSING, but every route ships the whole
+// #page-qibla block (SSR strips foreign .page blocks only on routes that have a keep rule), merely
+// display:none. So on the homepage the readouts existed, updateQibla ran, and startDeviceCompass
+// attached both orientation listeners and started a 30 Hz AbsoluteOrientationSensor to drive a
+// compass nobody could see. Deliberately PERMISSIVE — either signal is enough — so a timing quirk
+// can never leave the real Qibla page without a compass; a later updateQibla() call simply retries,
+// since `_compassListening` is not set when we bail here.
+function _qcCompassOnScreen() {
+    try {
+        const el = document.getElementById('compass');
+        if (el && (el.offsetParent !== null || el.getClientRects().length > 0)) return true;
+        const pg = document.getElementById('page-qibla');
+        return !!(pg && pg.classList.contains('active'));
+    } catch (_) { return true; }   // never block the compass on an unexpected DOM error
+}
+
 function startDeviceCompass() {
     if (_compassListening || !window.DeviceOrientationEvent) return;
+    if (!_qcCompassOnScreen()) return;   // not the Qibla page ⇒ no listeners, no sensor (see above)
 
     const _btn = document.getElementById('compass-permission-btn');
     const _hideBtnOnFirstEvent = () => { if (_btn) _btn.style.display = 'none'; };
@@ -18428,12 +19257,23 @@ function startDeviceCompass() {
         let heading;
         if (_ANDROID_COMPASS_V2) {
             heading = _qcResolveHeading(e);
-            if (heading === null) return;            // relative reading skipped while an absolute source exists
+            if (heading === null) return;            // non-absolute (or invalid) reading — never rendered
             _qcActiveSource = 'deviceorientation-matrix';
-            // AOS is the trusted Android source; on the DeviceOrientation fallback flag lower confidence.
-            if (_ANDROID_AOS_PRIORITY) _qcSetHelp('low');
+            // TRUST-HARDENING-1: the unconditional `if (_ANDROID_AOS_PRIORITY) _qcSetHelp('low');` that
+            // stood here is DELETED. `_ANDROID_AOS_PRIORITY` is a hard-coded `true`, so it was not a
+            // condition at all: it overwrote the honest verdict _qcResolveHeading had just computed and
+            // pinned «دقة البوصلة منخفضة» + the figure-8 hint onto EVERY Android session driven by
+            // DeviceOrientation — including a perfectly good `deviceorientationabsolute` source. That is
+            // what made the figure-8 look mandatory. Confidence is now owned solely by _qcResolveHeading.
         } else {
-            heading = _androidAlphaToHeading(e.alpha); // flag OFF ⇒ exact dd94875 behaviour
+            // Kill-switch path (flag OFF ⇒ exact dd94875 heading math, UNCHANGED). TRUST-HARDENING-1
+            // adds only the absoluteness + finiteness gate in front of it: this branch used to feed a
+            // relative alpha straight to the needle. The formula itself is untouched.
+            if (!((e.type === 'deviceorientationabsolute') || (e.absolute === true))) return;
+            if (!Number.isFinite(e.alpha)) return;
+            heading = _androidAlphaToHeading(e.alpha);
+            _qcAbsoluteSeen = true;
+            _qcNoteHeading();
         }
         _hideBtnOnFirstEvent();
         _androidCompassStabilize(heading);   // DeviceOrientation fallback heading → jitter stabilizer
@@ -18466,6 +19306,9 @@ function startDeviceCompass() {
         if (!_isIOSPermCal && window.localStorage) { localStorage.removeItem('qiblaCalibOffset'); }
     } catch (_) {}
     if (_qiblaDebugOn()) { try { _qcDebugInit(); } catch (_) {} }   // hidden read-only diagnostic
+    // TRUST-HARDENING-1: private sensor lab. Fully inert unless ?qiblaLab=1 — _qlabInit() returns
+    // before creating any DOM, listener, sensor or timer, and it never drives the needle.
+    try { _qlabInit(); } catch (_) {}
 
     // Surface the enable button on iOS or any touchscreen (WebView / strict-policy
     // browsers may need the user gesture to flow). Hides automatically on first event.
@@ -18475,6 +19318,77 @@ function startDeviceCompass() {
         const _isTouch = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0);
         if (_isTouch && _btn) _btn.style.display = 'block';
     }
+}
+
+// TRUSTED-DIRECTION-1 — SENSOR LIFECYCLE (minimal, deliberately contained).
+// Before this, nothing ever stopped the compass: no removeEventListener, no sensor .stop(), and
+// `_compassListening` was set true and never cleared. Leaving the Qibla page therefore left both
+// orientation listeners attached and a 30 Hz AbsoluteOrientationSensor running for the life of the
+// document, driving a compass nobody could see.
+// Deliberate non-goals, each for a concrete reason:
+//   * `_orientationHandler` is NOT nulled. requestCompassPermission() re-attaches it BY REFERENCE,
+//     and addEventListener(type, null) silently attaches nothing — nulling it would make the iOS
+//     permission button permanently inert with no error. `_compassListening = false` is the reset.
+//   * removeEventListener MUST repeat the `true` capture flag used at attach time, or it silently
+//     no-ops and this whole function becomes a placebo that still clears the flags.
+//   * `_qcAosSensor` is stopped AND nulled, because _qcStartAos early-returns on a non-null sensor.
+//     Same for `_qcStaleTimer` / `_qcConfTimer`: clear AND null, or they can never be re-armed.
+//   * `_qcHeadingEver` and `_qcLastHeadingTs` reset together — a stale `true` would disarm the 4 s
+//     hard-fail on the next visit, so a dead sensor would never fall back to the static bearing.
+//   * `_andRafPending` reset to false — left stuck true, _androidCompassStabilize drops every
+//     later heading forever (a silent permanent freeze).
+//   * `_qcSetHelp('ok')` runs BEFORE `_qcHelpState = null`, because _qcSetHelp short-circuits on an
+//     unchanged state and would otherwise leave `.compass-unavailable` stuck on #compass.
+//   * NOT hooked: pagehide/pageshow. A pagehide teardown without a proven pageshow re-arm risks an
+//     iOS BFCache regression (Back would restore a frozen rose, and iOS is explicitly excluded from
+//     the hard-fail safety net). That pair needs real-device evidence and is left as a follow-up.
+//   * The captured lab measurements in `_qlabCaps` are NOT cleared — they are the operator's field
+//     data. Only the lab DOM node is removed so a re-entry cannot append a duplicate #qibla-lab.
+function _qcStopDeviceCompass(reason) {
+    if (!_compassListening && !_qcAosSensor && !_qcStaleTimer && !_qcConfTimer) return;
+    try { if (_orientationHandler) {
+        window.removeEventListener('deviceorientationabsolute', _orientationHandler, true);
+        window.removeEventListener('deviceorientation',         _orientationHandler, true);
+    } } catch (_) {}
+    _compassListening = false;
+    try { if (_qcAosSensor) _qcAosSensor.stop(); } catch (_) {}
+    _qcAosSensor = null; _qcAosLive = false; _qcAosHeading = null; _qcAosTs = 0; _qcAosState = 'n/a';
+    if (_qcHardFailTimer) { clearTimeout(_qcHardFailTimer); _qcHardFailTimer = null; }
+    if (_qcStaleTimer)    { clearInterval(_qcStaleTimer);   _qcStaleTimer = null; }
+    if (_qcConfTimer)     { clearInterval(_qcConfTimer);    _qcConfTimer = null; }
+    _qcHeadingEver = false; _qcLastHeadingTs = 0; _qcAbsoluteSeen = false;
+    _qcActiveSource = 'none';
+    _andHeadingSmoothed = null; _andHeadingTarget = null; _andRafPending = false;
+    _qcConfState = 'ready'; _qcConfReset();
+    try { _qcSetHelp('ok'); } catch (_) {}   // restores the DOM before the state is forgotten
+    _qcHelpState = null;
+    try {
+        if (_qlabEl && _qlabEl.parentNode) _qlabEl.parentNode.removeChild(_qlabEl);
+        if (_qlabTimer) { clearInterval(_qlabTimer); _qlabTimer = null; }
+        try { if (_qlabBSensor) _qlabBSensor.stop(); } catch (_) {}
+        _qlabBSensor = null; _qlabEl = null; _qlabRows = null; _qlabActive = false;
+    } catch (_) {}
+}
+if (typeof window !== 'undefined') {
+    // Both listeners are compass-scoped and cheap; neither touches app-wide navigation.
+    // orientationchange: _qcScreenAngle() is added inside the heading, so a screen rotation injects
+    // a ~90 degree step. Without this the confidence window would read that as a huge jump.
+    window.addEventListener('orientationchange', function () { try { _qcConfReset(); } catch (_) {} });
+    // visibilitychange: a hidden tab stops receiving sensor readings, which the staleness watchdog
+    // would otherwise (correctly but unhelpfully) report as a dead sensor. Pause on hide, and start
+    // from an empty window on show so the first samples back cannot look like instability.
+    document.addEventListener('visibilitychange', function () {
+        try {
+            if (document.visibilityState === 'hidden') {
+                if (_qcStaleTimer) { clearInterval(_qcStaleTimer); _qcStaleTimer = null; }
+                if (_qcConfTimer)  { clearInterval(_qcConfTimer);  _qcConfTimer = null; }
+            } else {
+                _qcConfReset();
+                _qcLastHeadingTs = _qcNow();
+                if (_qcHeadingEver) { _qcArmStaleWatch(); _qcConfArm(); }
+            }
+        } catch (_) {}
+    });
 }
 
 function requestCompassPermission() {

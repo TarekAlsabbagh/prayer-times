@@ -83,14 +83,14 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=843" as="script">
+    <link rel="preload" href="js/app.js?v=844" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=506" as="style">
-    <link rel="stylesheet" href="css/style.css?v=506">
+    <link rel="preload" href="css/style.css?v=507" as="style">
+    <link rel="stylesheet" href="css/style.css?v=507">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -1484,9 +1484,51 @@
                     </div>
                 </div>
 
+                <!-- Section 3a: TRUSTED-DIRECTION-1 — the AUTHORITATIVE Qibla direction. Drawn from the
+                     city coordinates and the calculated bearing only; it never reads a sensor, so it is
+                     identical whether the compass is ready, unsteady, unavailable or never permitted.
+                     It is placed ABOVE the compass on purpose: the calculated direction is the reference
+                     and the live needle is assistance. Empty on purpose — js/app.js fills it. -->
+                <div class="section-card qibla-direction-map qibla-city-only" id="qibla-direction-map">
+                    <h3 class="qdm-title" id="qibla-map-title"></h3>
+                    <p class="qdm-hint" id="qibla-map-hint"></p>
+                    <p class="qdm-diagram-title" id="qibla-diagram-title"></p>
+                    <div class="qdm-wrap">
+                        <svg class="qdm-svg" id="qibla-map-svg" viewBox="0 0 320 320" role="img"></svg>
+                    </div>
+                    <div class="qdm-foot">
+                        <div class="qdm-nums">
+                            <div class="qdm-readout" id="qibla-map-readout">--°</div>
+                            <div class="qdm-distance" id="qibla-map-distance"></div>
+                        </div>
+                        <button type="button" class="qdm-toggle" id="qibla-map-toggle" aria-pressed="false"></button>
+                    </div>
+                </div>
+
+                <!-- Section 3b: FINAL — the REAL geographic map. North-up and rotation-free on purpose,
+                     so the Qibla line can be compared against actual streets and buildings. Leaflet and
+                     its CSS are self-hosted; OpenStreetMap tiles are fetched only after this section
+                     approaches the viewport. It is an ENHANCEMENT: if assets or tiles fail, the
+                     calculated bearing and the offline diagram above still answer the question. -->
+                <div class="section-card qibla-geo-map qibla-city-only" id="qibla-geo-map">
+                    <h3 class="qgm-title" id="qibla-geo-title"></h3>
+                    <div class="qgm-canvas" id="qibla-geo-canvas"></div>
+                    <p class="qgm-status" id="qibla-geo-status" role="status" aria-live="polite" hidden></p>
+                    <div class="qgm-foot">
+                        <button type="button" class="qgm-btn" id="qibla-geo-show" hidden></button>
+                        <button type="button" class="qgm-btn" id="qibla-geo-recenter"></button>
+                    </div>
+                </div>
+
                 <!-- Section 3: Compass (city mode only — IDs preserved for js/qibla.js) -->
                 <div class="section-card qibla-compass-section qibla-city-only">
                     <div class="qibla-container">
+                        <!-- TRUSTED-DIRECTION-1: the live sensor compass is explicitly SECONDARY. The
+                             heading below comes from the phone's magnetometer, which real-device testing
+                             showed can be confidently wrong by a large constant offset, so the map above
+                             stays the reference. Text is localised by js/app.js. -->
+                        <h3 class="qibla-live-title" id="qibla-live-title"></h3>
+                        <p class="qibla-live-note" id="qibla-live-note"></p>
                         <div class="compass" id="compass">
                             <div class="compass-directions">
                                 <span class="north" data-i18n="qibla.N">شمال</span>
@@ -1504,13 +1546,19 @@
                             <div class="distance" id="qibla-distance">--</div>
                         </div>
                         <button class="compass-permission-btn" id="compass-permission-btn" onclick="requestCompassPermission()">
-                            <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
+                            <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.enable_compass">تفعيل البوصلة</span>
                         </button>
                         <!-- QIBLA-ANDROID-COMPASS help card (Android-only, no buttons). Text + visibility are set
                              entirely by js/app.js (localised via _QIBLA_COMPASS_L10N); hidden by default; NEVER
                              shown on iPhone (iOS never calls _qcSetHelp). Low accuracy → figure-8 message only;
                              failed sensor → static textual bearing. No calibration control of any kind. -->
-                        <div class="qibla-compass-help" id="qibla-compass-help" data-state="ok" hidden>
+                        <!-- TRUST-HARDENING-1 a11y: this card is the ONLY information left once the 'fail' state
+                             hides the needle (css .compass-unavailable .compass-arrow{display:none}), so its state
+                             changes must be announced. Same pattern as #qibla-hub-geo-status / #qibla-wow-caption
+                             above. Announces STATUS ONLY (ready / unstable / unavailable / permission) — the live
+                             degree readouts (#qibla-angle, the rotating rose) are deliberately NOT aria-live, since
+                             they change many times per second. -->
+                        <div class="qibla-compass-help" id="qibla-compass-help" data-state="ok" role="status" aria-live="polite" hidden>
                             <div class="qch-bearing" id="qch-bearing"></div>
                             <div class="qch-msg" id="qch-msg"></div>
                         </div>
@@ -5458,7 +5506,7 @@
     <script defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=843"></script>
+    <script defer src="js/app.js?v=844"></script>
     <script defer src="js/footer-cookie.js?v=8"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

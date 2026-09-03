@@ -83,7 +83,7 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=843" as="script">
+    <link rel="preload" href="js/app.js?v=844" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
@@ -1504,13 +1504,19 @@
                             <div class="distance" id="qibla-distance">--</div>
                         </div>
                         <button class="compass-permission-btn" id="compass-permission-btn" onclick="requestCompassPermission()">
-                            <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.enable_compass">تفعيل البوصلة (iPhone)</span>
+                            <svg class="icon" aria-hidden="true"><use href="#i-compass"/></svg> <span data-i18n="qibla.enable_compass">تفعيل البوصلة</span>
                         </button>
                         <!-- QIBLA-ANDROID-COMPASS help card (Android-only, no buttons). Text + visibility are set
                              entirely by js/app.js (localised via _QIBLA_COMPASS_L10N); hidden by default; NEVER
                              shown on iPhone (iOS never calls _qcSetHelp). Low accuracy → figure-8 message only;
                              failed sensor → static textual bearing. No calibration control of any kind. -->
-                        <div class="qibla-compass-help" id="qibla-compass-help" data-state="ok" hidden>
+                        <!-- TRUST-HARDENING-1 a11y: this card is the ONLY information left once the 'fail' state
+                             hides the needle (css .compass-unavailable .compass-arrow{display:none}), so its state
+                             changes must be announced. Same pattern as #qibla-hub-geo-status / #qibla-wow-caption
+                             above. Announces STATUS ONLY (ready / unstable / unavailable / permission) — the live
+                             degree readouts (#qibla-angle, the rotating rose) are deliberately NOT aria-live, since
+                             they change many times per second. -->
+                        <div class="qibla-compass-help" id="qibla-compass-help" data-state="ok" role="status" aria-live="polite" hidden>
                             <div class="qch-bearing" id="qch-bearing"></div>
                             <div class="qch-msg" id="qch-msg"></div>
                         </div>
@@ -5458,7 +5464,7 @@
     <script defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=843"></script>
+    <script defer src="js/app.js?v=844"></script>
     <script defer src="js/footer-cookie.js?v=8"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

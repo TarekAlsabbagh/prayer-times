@@ -2594,6 +2594,16 @@ html[data-theme="dark"] .ns-item.is-selected {
    mirrors correctly without a second rule set. The SVG scales with the container and is capped, so
    it never dominates the page or forces horizontal scroll on a 360px phone. */
 .qibla-direction-map { text-align: center; }
+/* HIERARCHY-HOTFIX-1: the top card is a compact summary in the normal state. The tall SVG block is
+   hidden (the `hidden` attribute collapses it entirely), so no vertical dead space is left behind
+   where the rose used to be. */
+.qdm-summary { display: flex; flex-direction: column; align-items: center; gap: 2px; }
+.qdm-summary .qdm-readout { font-size: 1.75rem; font-weight: 800; line-height: 1.15; }
+.qdm-summary .qdm-distance { font-size: 0.9rem; opacity: 0.75; }
+.qibla-direction-map .qdm-title { margin-bottom: 6px; }
+.qdm-fallback[hidden] { display: none !important; }
+.qdm-fallback .qdm-wrap { margin-top: 6px; }
+@media (max-width: 380px) { .qdm-summary .qdm-readout { font-size: 1.5rem; } }
 .qdm-title { margin: 0 0 4px; font-size: 1.05rem; font-weight: 800; }
 .qdm-hint { margin: 0 auto 10px; max-width: 46ch; font-size: 0.85rem; opacity: 0.78; line-height: 1.5; }
 .qdm-wrap { width: 100%; max-width: 320px; margin-inline: auto; }

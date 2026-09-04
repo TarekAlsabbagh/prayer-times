@@ -18342,6 +18342,17 @@ function _qdmEl(tag, attrs) {
   for (const k in attrs) el.setAttribute(k, attrs[k]);
   return el;
 }
+// HIERARCHY-HOTFIX-1 — the SVG rose is revealed ONLY on a real map failure.
+// States: MAP_NOT_INITIALIZED / MAP_LOADING / MAP_READY -> hidden;  MAP_FAILED -> visible.
+// "Not yet lazily loaded" is deliberately NOT a failure: it leaves the block hidden, so scrolling
+// past the fold never makes a second circular instrument appear.
+function _qdmSetFallbackVisible(show) {
+  const b = document.getElementById('qibla-diagram-block');
+  if (!b) return;
+  b.hidden = !show;
+  if (show) { try { _qdmRender(); } catch (_) {} }   // only draw when it is actually on screen
+}
+
 function _qdmRender() {
   const host = document.getElementById('qibla-map-svg');
   if (!host || typeof _qiblaAngle !== 'number' || !isFinite(_qiblaAngle)) return;
@@ -18479,6 +18490,8 @@ function _qgmFail(L) {
   if (el) { el.textContent = L.geoFail; el.hidden = false; }
   const cv = document.getElementById('qibla-geo-canvas');
   if (cv) cv.hidden = true;
+  // HIERARCHY-HOTFIX-1: this is the ONLY path that reveals the offline direction diagram.
+  try { _qdmSetFallbackVisible(true); } catch (_) {}
 }
 
 function _qgmAsset(tag, attrs) {
@@ -18528,6 +18541,7 @@ function _qgmCreate() {
       });
     }
     _qgmState = 'ready';
+    try { _qdmSetFallbackVisible(false); } catch (_) {}
     setTimeout(function () { try { _qgmMap.invalidateSize(); } catch (_) {} }, 200);
   } catch (_e) { _qgmFail(L); }
 }
@@ -18610,7 +18624,9 @@ function _qdmInit() {
   if (!sec) return;
   const L = _qcL10n();
   const set = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
-  set('qibla-map-title', L.mapTitle);
+  // HIERARCHY-HOTFIX-1: this card is the compact summary now — the map is the section below it, so
+  // it is labelled with the existing direction label rather than "…direction map". No new string.
+  set('qibla-map-title', L.dirLabel);
   set('qibla-map-hint', L.mapHint);
   const btn = document.getElementById('qibla-map-toggle');
   if (btn && !btn.dataset.wired) {
@@ -18629,7 +18645,11 @@ function _qdmInit() {
   set('qibla-live-title', L.live);
   set('qibla-live-note', L.liveNote);
   set('qibla-diagram-title', L.diagTitle);
+  // _qdmRender() fills the COMPACT SUMMARY (bearing, cardinal, distance) as well as drawing the
+  // rose, so it must always run. An earlier revision of this hotfix skipped it while the rose was
+  // hidden and left the summary reading "--" — the numbers are the point of the card.
   _qdmRender();
+  if (_qgmState === 'failed') _qdmSetFallbackVisible(true);
   try { _qgmInit(); } catch (_e) {}
 }
 

@@ -83,14 +83,14 @@
     <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
     <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=844" as="script">
+    <link rel="preload" href="js/app.js?v=845" as="script">
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=507" as="style">
-    <link rel="stylesheet" href="css/style.css?v=507">
+    <link rel="preload" href="css/style.css?v=508" as="style">
+    <link rel="stylesheet" href="css/style.css?v=508">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -1491,17 +1491,24 @@
                      and the live needle is assistance. Empty on purpose — js/app.js fills it. -->
                 <div class="section-card qibla-direction-map qibla-city-only" id="qibla-direction-map">
                     <h3 class="qdm-title" id="qibla-map-title"></h3>
-                    <p class="qdm-hint" id="qibla-map-hint"></p>
-                    <p class="qdm-diagram-title" id="qibla-diagram-title"></p>
-                    <div class="qdm-wrap">
-                        <svg class="qdm-svg" id="qibla-map-svg" viewBox="0 0 320 320" role="img"></svg>
+                    <div class="qdm-summary">
+                        <div class="qdm-readout" id="qibla-map-readout">--°</div>
+                        <div class="qdm-distance" id="qibla-map-distance"></div>
                     </div>
-                    <div class="qdm-foot">
-                        <div class="qdm-nums">
-                            <div class="qdm-readout" id="qibla-map-readout">--°</div>
-                            <div class="qdm-distance" id="qibla-map-distance"></div>
+                    <!-- HIERARCHY-HOTFIX-1: the circular SVG rose is now a FAILURE-ONLY fallback. With the
+                         geographic map working it stays hidden, so the page carries exactly ONE circular
+                         compass-like instrument (the Live Compass) instead of three direction artefacts.
+                         It is only revealed by _qgmFail(), i.e. genuine MAP_FAILED. A map that simply has
+                         not been lazily loaded yet is NOT a failure and must not reveal it. -->
+                    <div class="qdm-fallback" id="qibla-diagram-block" hidden>
+                        <p class="qdm-hint" id="qibla-map-hint"></p>
+                        <p class="qdm-diagram-title" id="qibla-diagram-title"></p>
+                        <div class="qdm-wrap">
+                            <svg class="qdm-svg" id="qibla-map-svg" viewBox="0 0 320 320" role="img"></svg>
                         </div>
-                        <button type="button" class="qdm-toggle" id="qibla-map-toggle" aria-pressed="false"></button>
+                        <div class="qdm-foot">
+                            <button type="button" class="qdm-toggle" id="qibla-map-toggle" aria-pressed="false"></button>
+                        </div>
                     </div>
                 </div>
 
@@ -5506,7 +5513,7 @@
     <script defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script defer src="js/site-search.js?v=4"></script>
-    <script defer src="js/app.js?v=844"></script>
+    <script defer src="js/app.js?v=845"></script>
     <script defer src="js/footer-cookie.js?v=8"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

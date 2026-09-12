@@ -30438,7 +30438,7 @@ const _rlWindowMs = 60 * 1000;
 //   Caveat worth knowing: a keep-alive client stays pinned to one worker, so a single heavy
 //   client sees the divided limit rather than the aggregate -- stricter, never looser.
 const _RL_TIERS_BASE = {
-    cheap:    300,  // /api/cities, /api/cities/add — DB محلي + كاش ذاكرة
+    cheap:    300,  // /api/cities — DB محلي + كاش ذاكرة (قراءة عامة)
     external: 60,   // /api/wiki-* — كاش داخلي 24h/7d
     // PT-SEARCH-AR-4 (2026-05-12): bumped strict 30 → 90 so that an active
     // user searching multiple cities (each search makes 2 Nominatim calls:
@@ -30448,6 +30448,12 @@ const _RL_TIERS_BASE = {
     // re-queries don't actually reach Nominatim. 90/min stays well under
     // the deploy's aggregate Nominatim quota.
     strict:   90,   // /api/geocode — Nominatim policy (1 req/sec avg)
+    // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: state-changing and token-gated routes get
+    // their own, much tighter allowances — a write must never inherit a public-read budget.
+    // 60/min site-wide is ~5× more than the busiest legitimate flow needs (one
+    // /api/place-selected per place a visitor actually picks), and 5× stricter than `cheap`.
+    write:    60,   // /api/cities/add (admin), /api/place-selected — mutate stored state
+    admin:    60,   // /api/admin/*, /admin/* — token-gated, never public
 };
 const _RL_TIERS = (() => {
     const n = Math.max(1, TP_WORKER_COUNT);
@@ -30475,7 +30481,11 @@ function checkRateLimit(ip, tier) {
     return { allowed: true, max, remaining: max - entry.count, reset: Math.ceil((entry.resetAt - now) / 1000) };
 }
 function getTierForPath(urlPath) {
-    if (urlPath === '/api/cities' || urlPath === '/api/cities/add') return 'cheap';
+    // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: WRITE and ADMIN are matched BEFORE the read
+    // tiers, so a mutating route can never fall through into a public-read allowance.
+    if (urlPath === '/api/cities/add' || urlPath === '/api/place-selected') return 'write';
+    if (urlPath.indexOf('/api/admin/') === 0 || urlPath.indexOf('/admin/') === 0) return 'admin';
+    if (urlPath === '/api/cities') return 'cheap';
     if (urlPath.startsWith('/api/wiki-')) return 'external';
     if (urlPath === '/api/geocode') return 'strict';
     // PHASE C (2026-05-12): /api/search-place is MOSTLY in-memory curated
@@ -30485,7 +30495,7 @@ function getTierForPath(urlPath) {
     // `cheap` (300/min) — same as /api/cities — since 99% of its calls
     // never reach an external service. /api/place-selected is also cheap
     // (one Supabase upsert per click). They share the cheap tier.
-    if (urlPath === '/api/search-place' || urlPath === '/api/place-selected'
+    if (urlPath === '/api/search-place'
         || urlPath === '/api/supabase-status'
         // PLACE-SLUG-RESOLUTION-FIX-1 (2026-05-14): /api/place-by-slug is
         // mostly an O(1) in-memory map hit + occasional Supabase single-
@@ -30527,13 +30537,83 @@ function circuitFail(name) {
     _circuits.set(name, c);
 }
 
+// ═══ API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1 (2026-09-12): TRUSTED PROXY MODEL ═══
+// The previous resolver returned `x-forwarded-for.split(',')[0]` — the LEFT-most entry.
+// An edge proxy APPENDS to X-Forwarded-For, it never replaces it, so the left-most entry
+// is whatever the CLIENT chose to put there. Rotating one request header therefore minted
+// an unlimited number of fresh rate-limit buckets, i.e. the limiter could be bypassed at
+// will. (Measured on production before this change: two X-Forwarded-For values alternating
+// inside a single tight loop produced two INDEPENDENT countdowns.)
+//
+// The model below trusts exactly one source, chosen by declared topology:
+//
+//   TP_TRUSTED_PROXY = 'cloudflare'  (default)
+//        Production is fronted by Cloudflare (Render's own edge — `server: cloudflare`
+//        and a `cf-ray` header are returned on both timesprayers.com and the
+//        *.onrender.com hostname). Cloudflare SETS `cf-connecting-ip` to the socket peer
+//        it accepted and DISCARDS any client-supplied value, so it is the one forwarding
+//        header a client cannot influence through the edge.
+//        Fallback when it is absent: the RIGHT-most PUBLIC X-Forwarded-For entry. The
+//        right-hand side of that header is written by infrastructure, the left-hand side
+//        by the client — so the right-most entry is still the real peer even when the
+//        client prepends junk. Private/loopback/CGNAT entries are skipped because an
+//        internal hop appends those. Keeping this fallback is deliberate: falling back to
+//        the socket instead would collapse every visitor into ONE bucket if the edge ever
+//        stopped sending the header, which would 429 the whole site.
+//
+//   TP_TRUSTED_PROXY = 'none'
+//        No proxy is trusted: forwarding headers are ignored entirely and the socket peer
+//        is the identity. Correct whenever the process is directly exposed.
+//
+// Residual risk, stated plainly: if the origin can be reached WITHOUT passing through the
+// edge, a client can forge `cf-connecting-ip` itself. That cannot be closed in application
+// code — it needs an origin-level control (Cloudflare Authenticated Origin Pulls or an
+// edge-injected shared secret), which is a hosting-config change and out of this ticket.
+const _TP_TRUSTED_PROXY = (String(process.env.TP_TRUSTED_PROXY || 'cloudflare').toLowerCase() === 'none')
+    ? 'none' : 'cloudflare';
+const _RE_IPV4_TEXT = /^\d{1,3}(?:\.\d{1,3}){3}$/;
+// Strip the decorations a peer address can carry: [v6]:port, v4:port, ::ffff: mapping.
+function _normIpText(v) {
+    let t = String(v == null ? '' : v).trim();
+    if (!t) return '';
+    if (t.charAt(0) === '[') { const i = t.indexOf(']'); if (i > 0) t = t.slice(1, i); }
+    else { const seg = t.split(':'); if (seg.length === 2 && _RE_IPV4_TEXT.test(seg[0])) t = seg[0]; }
+    if (/^::ffff:/i.test(t)) t = t.slice(7);
+    return t;
+}
+// "Not usable as a public client identity" — private, reserved, or not an IP at all.
+function _isNonPublicIpText(v) {
+    const t = _normIpText(v).toLowerCase();
+    if (!t) return true;
+    if (t === '::1' || t === '::') return true;
+    if (_RE_IPV4_TEXT.test(t)) {
+        const p = t.split('.').map(Number);
+        if (p.some(n => !Number.isFinite(n) || n > 255)) return true;
+        if (p[0] === 0 || p[0] === 10 || p[0] === 127) return true;
+        if (p[0] === 172 && p[1] >= 16 && p[1] <= 31) return true;
+        if (p[0] === 192 && p[1] === 168) return true;
+        if (p[0] === 169 && p[1] === 254) return true;
+        if (p[0] === 100 && p[1] >= 64 && p[1] <= 127) return true;   // CGNAT 100.64/10
+        return false;
+    }
+    if (t.indexOf(':') === -1) return true;                            // not an IP literal
+    return /^(fc|fd|fe8|fe9|fea|feb)/.test(t);                         // ULA + link-local
+}
 function getClientIp(req) {
-    // يدعم وقوف الخادم خلف reverse proxy (Cloudflare/nginx)
-    const xff = req.headers['x-forwarded-for'];
-    if (xff) return xff.split(',')[0].trim();
-    const cf = req.headers['cf-connecting-ip'];
-    if (cf) return cf;
-    return req.socket.remoteAddress || 'unknown';
+    const h = (req && req.headers) || {};
+    if (_TP_TRUSTED_PROXY === 'cloudflare') {
+        const cf = _normIpText(h['cf-connecting-ip']);
+        if (cf && !_isNonPublicIpText(cf)) return cf;
+        const xff = h['x-forwarded-for'];
+        if (xff) {
+            const parts = String(xff).split(',');
+            for (let i = parts.length - 1; i >= 0; i--) {
+                const cand = _normIpText(parts[i]);
+                if (cand && !_isNonPublicIpText(cand)) return cand;
+            }
+        }
+    }
+    return _normIpText(req && req.socket && req.socket.remoteAddress) || 'unknown';
 }
 
 const mimeTypes = {
@@ -31878,7 +31958,14 @@ async function handleCitiesApi(cc, res) {
     res.end(JSON.stringify(sortWithCapitalFirst(result, cc)));
 }
 
-// ===== معالج POST /api/cities/add — إضافة مدن جديدة من العميل =====
+// ===== معالج POST /api/cities/add — admin-only (انظر البوابة في الراوتر) =====
+// API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1 — body ceiling, chosen from real usage rather
+// than picked at random: the largest payload this route has ever been sent is the legacy
+// client's array of freshly-discovered cities (a handful of ~200-byte objects, well under
+// 2 KB). 64 KB is the ceiling the project's other admin write routes already use
+// (/promote-preview, /promote-commit) and still admits ~300 city objects, so it is
+// generous for any legitimate bulk import while capping abuse at one TCP window.
+const _API_CITIES_ADD_MAX_BODY = 64 * 1024;
 async function handleCitiesAdd(cc, body, res) {
     if (!/^[a-z]{2,3}$/.test(cc)) {
         res.writeHead(400, {'Content-Type':'application/json'});
@@ -33488,8 +33575,11 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
-    // Rate Limit متدرّج على /api/* فقط
-    if (urlPath.startsWith('/api/')) {
+    // Rate Limit متدرّج على /api/* و /admin/* فقط.
+    // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: `/admin/*` is token-gated and
+    // `noindex, nofollow`; it is never a public HTML page, so limiting it cannot affect
+    // Googlebot, indexing or SEO. Public HTML routes are deliberately left untouched.
+    if (urlPath.startsWith('/api/') || urlPath.startsWith('/admin/')) {
         const ip   = getClientIp(req);
         const tier = getTierForPath(urlPath);
         const rl   = checkRateLimit(ip, tier);
@@ -33574,7 +33664,15 @@ const server = http.createServer(async (req, res) => {
             res.writeHead(415, _rh); res.end(JSON.stringify({ error: 'json_required' })); return;
         }
         let _rbody = '', _rTooBig = false;
-        req.on('data', c => { _rbody += c; if (_rbody.length > 16384) _rTooBig = true; });
+        // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: the old form set the flag but kept
+        // concatenating, so an oversized body was still held whole in memory before the
+        // 413 was written at 'end'. Now the buffer is dropped at the threshold and the
+        // rest of the stream is drained, so memory stays bounded and the 413 still lands.
+        req.on('data', c => {
+            if (_rTooBig) return;
+            if (_rbody.length + c.length > 16384) { _rTooBig = true; _rbody = ''; req.resume(); return; }
+            _rbody += c;
+        });
         req.on('error', () => { try { res.writeHead(400, _rh); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
         req.on('end', async () => {
             if (_rTooBig) { res.writeHead(413, _rh); res.end(JSON.stringify({ error: 'too_large' })); return; }
@@ -33618,7 +33716,15 @@ const server = http.createServer(async (req, res) => {
         if (req.method !== 'POST') { res.writeHead(405, _nh); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
         if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) { res.writeHead(415, _nh); res.end(JSON.stringify({ error: 'json_required' })); return; }
         let _nbody = '', _nTooBig = false;
-        req.on('data', c => { _nbody += c; if (_nbody.length > 16384) _nTooBig = true; });
+        // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: the old form set the flag but kept
+        // concatenating, so an oversized body was still held whole in memory before the
+        // 413 was written at 'end'. Now the buffer is dropped at the threshold and the
+        // rest of the stream is drained, so memory stays bounded and the 413 still lands.
+        req.on('data', c => {
+            if (_nTooBig) return;
+            if (_nbody.length + c.length > 16384) { _nTooBig = true; _nbody = ''; req.resume(); return; }
+            _nbody += c;
+        });
         req.on('error', () => { try { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
         req.on('end', async () => {
             if (_nTooBig) { res.writeHead(413, _nh); res.end(JSON.stringify({ error: 'too_large' })); return; }
@@ -33661,7 +33767,15 @@ const server = http.createServer(async (req, res) => {
         if (_pstate !== 'ok')       { res.writeHead(401, _ph); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
         if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) { res.writeHead(415, _ph); res.end(JSON.stringify({ error: 'json_required' })); return; }
         let _pbody = '', _pTooBig = false;
-        req.on('data', c => { _pbody += c; if (_pbody.length > 65536) _pTooBig = true; });
+        // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: the old form set the flag but kept
+        // concatenating, so an oversized body was still held whole in memory before the
+        // 413 was written at 'end'. Now the buffer is dropped at the threshold and the
+        // rest of the stream is drained, so memory stays bounded and the 413 still lands.
+        req.on('data', c => {
+            if (_pTooBig) return;
+            if (_pbody.length + c.length > 65536) { _pTooBig = true; _pbody = ''; req.resume(); return; }
+            _pbody += c;
+        });
         req.on('error', () => { try { res.writeHead(400, _ph); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
         req.on('end', async () => {
             if (_pTooBig) { res.writeHead(413, _ph); res.end(JSON.stringify({ error: 'too_large' })); return; }
@@ -33694,7 +33808,15 @@ const server = http.createServer(async (req, res) => {
         if (_cstate !== 'ok')       { res.writeHead(401, _ch); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
         if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) { res.writeHead(415, _ch); res.end(JSON.stringify({ error: 'json_required' })); return; }
         let _cbody = '', _cTooBig = false;
-        req.on('data', c => { _cbody += c; if (_cbody.length > 65536) _cTooBig = true; });
+        // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: the old form set the flag but kept
+        // concatenating, so an oversized body was still held whole in memory before the
+        // 413 was written at 'end'. Now the buffer is dropped at the threshold and the
+        // rest of the stream is drained, so memory stays bounded and the 413 still lands.
+        req.on('data', c => {
+            if (_cTooBig) return;
+            if (_cbody.length + c.length > 65536) { _cTooBig = true; _cbody = ''; req.resume(); return; }
+            _cbody += c;
+        });
         req.on('error', () => { try { res.writeHead(400, _ch); res.end(JSON.stringify({ error: 'read_error' })); } catch (_) {} });
         req.on('end', async () => {
             if (_cTooBig) { res.writeHead(413, _ch); res.end(JSON.stringify({ error: 'too_large' })); return; }
@@ -35174,16 +35296,59 @@ const server = http.createServer(async (req, res) => {
         return;
     }
 
-    if (urlPath === '/api/cities/add' && (req.method === 'POST' || req.method === 'OPTIONS')) {
-        // دعم CORS preflight
-        res.setHeader('Access-Control-Allow-Origin', '*');
-        res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
-        res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-        if (req.method === 'OPTIONS') { res.writeHead(204); res.end(); return; }
-        const cc = (new URLSearchParams(qs)).get('cc') || '';
-        let body = '';
-        req.on('data', chunk => { body += chunk.toString(); });
-        req.on('end', () => handleCitiesAdd(cc.toLowerCase(), body.trim(), res));
+    // ═══ API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: /api/cities/add is ADMIN-ONLY ═══
+    // This route merges caller-supplied objects into db/cities-<cc>.json via dbMerge().
+    // That file is read back by _getCitySlugIndex(), which supplies city names and
+    // coordinates to SSR moon/qibla pages — so an anonymous writer could change text the
+    // site renders. It shipped with NO authentication, `Access-Control-Allow-Origin: *`
+    // and an unbounded body reader.
+    //
+    // Its only in-repo caller — saveToDb() in prayer-times-cities.html — is unreachable:
+    // it is gated on `city._new`, and nothing anywhere in the repository ever assigns
+    // `_new`. Gating this route therefore removes no working behaviour.
+    //
+    // Order matters and is asserted by the smoke test: method → auth → content-type →
+    // body. An unauthenticated request is answered BEFORE a single body byte is read,
+    // so it causes no JSON.parse, no dbMerge, no dbWrite, no sitemap-cache invalidation
+    // and no log line. CORS is not a security control and is no longer advertised here.
+    if (urlPath === '/api/cities/add') {
+        const _ah = { 'Content-Type': 'application/json; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        if (req.method !== 'POST') { res.writeHead(405, _ah); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
+        const _astate = _adminAuthState(req, qs);
+        if (_astate === 'disabled') { res.writeHead(403, _ah); res.end(JSON.stringify({ error: 'admin_disabled' })); return; }
+        if (_astate !== 'ok')       { res.writeHead(401, _ah); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
+        // anti-CSRF, same rule the other admin write routes use: a cross-site form cannot
+        // set this content-type without a preflight, and no preflight is answered here.
+        if (String(req.headers['content-type'] || '').indexOf('application/json') === -1) {
+            res.writeHead(415, _ah); res.end(JSON.stringify({ error: 'json_required' })); return;
+        }
+        const cc = ((new URLSearchParams(qs)).get('cc') || '').toLowerCase();
+        let _abody = '', _aBytes = 0, _aKilled = false;
+        req.on('data', chunk => {
+            if (_aKilled) return;
+            _aBytes += chunk.length;
+            if (_aBytes > _API_CITIES_ADD_MAX_BODY) {
+                // Enforced DURING the stream: stop accumulating and drop what was already
+                // buffered, so the full body is never held in memory, then answer 413.
+                // `req.resume()` — NOT `req.destroy()` — is what makes that status actually
+                // arrive. Measured: destroying the request, or answering with
+                // `Connection: close`, races the client's still-running upload and the
+                // client sees ECONNRESET instead of the status. The remaining bytes are
+                // read and discarded; that costs bandwidth but never memory, and it is the
+                // only way an HTTP response can reach a sender mid-upload.
+                _aKilled = true; _abody = '';
+                try { res.writeHead(413, _ah); res.end(JSON.stringify({ error: 'too_large' })); } catch (_) {}
+                req.resume();
+                return;
+            }
+            _abody += chunk.toString('utf8');
+        });
+        req.on('error', () => {
+            if (_aKilled) return;
+            _aKilled = true;
+            try { if (!res.headersSent) { res.writeHead(400, _ah); res.end(JSON.stringify({ error: 'read_error' })); } } catch (_) {}
+        });
+        req.on('end', () => { if (_aKilled) return; handleCitiesAdd(cc, _abody.trim(), res); });
         return;
     }
 
@@ -35557,10 +35722,16 @@ const server = http.createServer(async (req, res) => {
             if (killed) return;
             bytes += chunk.length;
             if (bytes > 8 * 1024) {
+                // API-WRITE-AUTH-AND-RATELIMIT-HARDENING-1: the 8 KB stream-time cap was
+                // already right; `req.destroy()` was not. Destroying the request races the
+                // client's upload, so the caller saw ECONNRESET rather than this 413.
+                // Drain instead: the buffer is dropped (no memory growth) and the status
+                // actually reaches the sender.
                 killed = true;
+                body = '';
                 res.writeHead(413, { 'Content-Type': 'application/json; charset=utf-8' });
                 res.end('{"ok":false,"error":"too_large"}');
-                req.destroy();
+                req.resume();
                 return;
             }
             body += chunk.toString('utf8');

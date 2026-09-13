@@ -4675,6 +4675,29 @@ function _adminAuthState(req, qs) {
     return ok ? 'ok' : 'unauthorized';
 }
 
+// ADSENSE-CMP-REGIONAL-SUPPRESSION-SERVER-SIGNAL-1: HEADER-ONLY admin auth.
+// `_adminAuthState` above also accepts `?token=`, which writes the token into browser history,
+// access logs, proxy logs and any copied URL. The region-signal diagnostic therefore does its own
+// header-only check and deliberately does NOT reuse that helper. The shared helper is untouched so
+// the existing admin dashboard keeps working exactly as before.
+// Accepts `Authorization: Bearer <token>` or `X-Admin-Token: <token>`. Same fail-closed contract:
+// 'disabled' (ADMIN_TOKEN unset) | 'unauthorized' | 'ok'. The token is never logged, never echoed.
+function _adminAuthHeaderOnly(req) {
+    if (!_ADMIN_TOKEN) return 'disabled';
+    const _hh = (req && req.headers) || {};
+    let provided = '';
+    const _m = /^Bearer\s+(.+)$/i.exec(String(_hh['authorization'] || ''));
+    if (_m) provided = _m[1].trim();
+    else if (_hh['x-admin-token']) provided = String(_hh['x-admin-token']).trim();
+    if (!provided) return 'unauthorized';
+    let ok2 = false;
+    try {
+        const a2 = Buffer.from(provided, 'utf8'), b2 = Buffer.from(_ADMIN_TOKEN, 'utf8');
+        ok2 = a2.length === b2.length && require('crypto').timingSafeEqual(a2, b2);   // constant-time
+    } catch (_) { ok2 = false; }
+    return ok2 ? 'ok' : 'unauthorized';
+}
+
 // Lazy + cached dynamic import of the ESM classifier (CommonJS server → ESM).
 let _reviewModPromise = null;
 function _loadReviewModule() {
@@ -33614,6 +33637,57 @@ const server = http.createServer(async (req, res) => {
     // routes, non-city routes, and when Supabase is disabled; wrapped so a slow
     // or failed Supabase read never blocks or breaks the response.
     try { await _prefetchDiscoveredForSsr(urlPath); } catch (_) { /* never block the response */ }
+
+    // ═══ ADSENSE-CMP-REGIONAL-SUPPRESSION-SERVER-SIGNAL-1 §1 — TEMPORARY region-signal diagnostic ═══
+    // Changes NO visitor-facing behaviour. It answers ONE question before any suppression logic is
+    // written: does a TRUSTED country signal actually reach this Node process in production?
+    //
+    // Why it is needed: Cloudflare's documentation states CF-IPCountry is NOT sent by default — it
+    // requires the "Add visitor location headers" Managed Transform enabled ON THE ZONE. The zone
+    // fronting this site belongs to RENDER (Cloudflare for SaaS), not to us, so we can neither
+    // enable it nor inspect it. Only the origin can answer.
+    //
+    // Why CF-Ray's colo is NOT a substitute (measured, not assumed): requests from Saudi Arabia were
+    // served by the Marseille (-MRS) and Paris (-CDG) PoPs, so a colo-derived region would have
+    // classified those visitors as European. Colo is therefore not reported here at all.
+    //
+    // PRESENCE ALONE IS NOT ENOUGH: the value must also be proven un-spoofable by the client. This
+    // endpoint reports the value verbatim precisely so that a client-supplied CF-IPCountry can be
+    // compared against a normal request. If the client's value comes back, the header is NOT trusted.
+    //
+    // Auth is HEADER-ONLY (no ?token=). Response carries no IP, no cookie, no authorization value,
+    // no token and no full header dump — only a country code, a boolean, a source label, and the
+    // NAMES of country-related headers seen.
+    //
+    // TEMPORARY: remove this route once the signal question is settled and the final solution ships.
+    if (urlPath === '/api/admin/region-signal') {
+        const _rsH = { 'Content-Type': 'application/json; charset=utf-8', 'X-Robots-Tag': 'noindex, nofollow', 'Cache-Control': 'no-store', 'Referrer-Policy': 'no-referrer' };
+        if (req.method !== 'GET') { res.writeHead(405, _rsH); res.end(JSON.stringify({ error: 'method_not_allowed' })); return; }
+        const _rsState = _adminAuthHeaderOnly(req);
+        if (_rsState === 'disabled') { res.writeHead(403, _rsH); res.end(JSON.stringify({ error: 'admin_disabled' })); return; }
+        if (_rsState !== 'ok')       { res.writeHead(401, _rsH); res.end(JSON.stringify({ error: 'unauthorized' })); return; }
+        const _rh = req.headers || {};
+        // Headers a mainstream edge uses to publish the visitor's country, most-specific first.
+        const _rsCountryHeaders = ['cf-ipcountry', 'cloudfront-viewer-country', 'x-vercel-ip-country',
+            'x-country-code', 'x-geo-country', 'fly-client-country', 'x-appengine-country', 'x-client-geo-country'];
+        let _sigName = null, _sigValue = null;
+        for (const k of _rsCountryHeaders) {
+            if (_rh[k] !== undefined) { _sigName = k; _sigValue = String(_rh[k]).slice(0, 8); break; }
+        }
+        // Discovery, NAMES ONLY: any other header whose NAME looks country/geo related, so an edge
+        // we did not anticipate is still visible. Never a value, and never a full header dump.
+        const _candidateNames = Object.keys(_rh)
+            .filter(k => /(^|-)(country|geo|region)/.test(k) || _rsCountryHeaders.indexOf(k) !== -1)
+            .sort();
+        res.writeHead(200, _rsH);
+        res.end(JSON.stringify({
+            trustedCountrySignal: _sigValue,
+            countryHeaderPresent: _sigName !== null,
+            source: _sigName === null ? null : (_sigName === 'cf-ipcountry' ? 'cf-ipcountry' : 'other'),
+            candidateHeaderNames: _candidateNames
+        }, null, 2));
+        return;
+    }
 
     // ── DISCOVERED-CITIES-ADMIN-DASHBOARD-MVP-1: private, noindex,nofollow, read-only ──
     // /admin/discovered-cities (HTML) + /api/admin/discovered-cities (JSON). Gated by

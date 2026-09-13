@@ -33590,6 +33590,26 @@ const server = http.createServer(async (req, res) => {
     //   reported 0 of the site's 552 inline event handlers, while an explicit declaration reported
     //   all of them. Without this line the measurement phase reads falsely clean.
     //
+    //   ─── DEFERRED: CSP-INLINE-EVENT-HANDLERS-HARDENING-1 ────────────────────────────────────
+    //   script-src-attr 'unsafe-inline' below is a TRANSITIONAL allowance, not the end state. It
+    //   keeps 552 live inline event-handler attributes (71 distinct bodies) working while script
+    //   LOADING becomes strict. A nonce can never authorize an event-handler attribute — CSP3
+    //   governs those through script-src-attr — so the handlers are not protected by this policy.
+    //   Scope of the eventual fix, already measured so it need not be re-derived: 7 files, 122
+    //   static handler sites, 74 distinct bodies, 48 of the targets top-level functions in
+    //   js/app.js (loaded as a classic deferred script, so genuinely global). 26 sites pass `this`
+    //   and 9 pass `event`; the precedent already exists in-repo (js/app.js has 133
+    //   addEventListener calls and 9 document-level click delegations). Highest-risk file is the
+    //   101 KB inline block at prayer-times-cities.html:548. Estimated 3-5 days across 3-4
+    //   tickets, ending by tightening this directive to script-src-attr 'none'.
+    //   NOTE: on a browser that does not implement script-src-attr the directive is dropped and
+    //   handler enforcement falls back to script-src, where the nonce voids 'unsafe-inline' — so
+    //   there the handlers are blocked outright. Support is Chrome 75+, Edge 79+, Firefox 108+,
+    //   Safari/iOS 15.4+ (~96% coverage); the widely-repeated "Safari does not support it" claim
+    //   is stale and traces to MDN BCD data that was itself wrong until March 2024.
+    //   DO NOT tighten this directive without doing that refactor first.
+    //   ────────────────────────────────────────────────────────────────────────────────────────
+    //
     //   'unsafe-eval' is present because Google's own AdSense CSP guidance lists it. Our own test
     //   found no first-party need for it, but that test ran with ad serving OFF, so it is kept for
     //   Phase 1 and revisited in ADSENSE-CSP-UNSAFE-EVAL-REMOVAL-1 once ads actually serve.

@@ -495,7 +495,7 @@ function _applyCountryHeaderSiteMatch(html, cc, cn, lang, opts) {
     const _wantSrc = (opts && opts.readSelectedCity)
         ? 'sessionStorage.getItem("selected_city")||sessionStorage.getItem("last_city_context")||sessionStorage.getItem("city_moon")'
         : 'sessionStorage.getItem("last_city_context")||sessionStorage.getItem("city_moon")';
-    const _hdrCitySync = '<script id="moon-country-header-city">(function(){'
+    const _hdrCitySync = '<script' + _TP_NONCE_ATTR + ' id="moon-country-header-city">(function(){'
         + 'var S=document.getElementById("page-subtitle");if(!S)return;'
         + 'var LANG=(document.documentElement.lang||"ar");'
         + 'var CC=' + JSON.stringify((cc || '').toLowerCase()) + ';'
@@ -5604,7 +5604,7 @@ function _renderDiscoveredAdminPage(data) {
         + '<tbody>' + (rowsHtml || '<tr><td colspan="21" class="sm">No discovered cities to show.</td></tr>') + '</tbody></table></div>'
         + '<div id="preview-panel" class="prevpanel" hidden></div>'
         + drawer
-        + '<script>' + SCRIPT + '</scr' + 'ipt></body></html>';
+        + '<script' + _TP_NONCE_ATTR + '>' + SCRIPT + '</scr' + 'ipt></body></html>';
 }
 
 // Pick a curated entry's localized name for `lang`. Walks the same
@@ -5813,15 +5813,64 @@ function _visitorInRegulatedRegion(req) {
 //                                     time, so a CMP that is merely slow is never stolen.
 // The href stays a real privacy URL so the control still works with JavaScript disabled, and every
 // step is wrapped: this can never throw and never blocks navigation dead.
-const _TP_CMP_SETTINGS_FN = '<script>function tpCmpSettings(e){var w=window,h="/privacy";'
-    + 'try{if(e&&e.preventDefault)e.preventDefault();var a=e&&e.currentTarget;'
-    + 'if(a&&a.getAttribute&&a.getAttribute("href"))h=a.getAttribute("href");}catch(_){}'
+// ════════════════════════════════════════════════════════════════════════════
+// ADSENSE-STRICT-CSP-MIGRATION-1 — per-response CSP nonce.
+//
+// WHY A PLACEHOLDER INSTEAD OF STAMPING FINAL HTML:
+//   Three script sources exist and only one of them can see a request:
+//     1. boot-baked  — the Consent Mode / gtag / AdSense / Umm-al-Qura snippets are injected into
+//                      the cached template Buffers ONCE inside _preloadStatic(), long before any
+//                      request, so no per-request value can live there;
+//     2. template    — 14 executable inline scripts sit in the five .html files with no server-side
+//                      string seam at all;
+//     3. per-request — the ~13 scripts built by concatenation in this file.
+//   A regex that stamped nonces onto the finished document would also have to be comment-aware:
+//   prayer-times-cities.html carries the literal text `<script id="country-breadcrumb-schema">`
+//   INSIDE a JavaScript comment (6 `<script` opens vs 5 closes in that file), and index.html has
+//   three fully-formed <script> tags inside an HTML comment. A naive pass corrupts both.
+//   So every source emits this fixed token instead, and each HTML exit swaps it for the real nonce
+//   in ONE pass, after every rewrite has landed. Measured cost: 0.09 ms on the largest document.
+const _TP_NONCE_TOKEN = '__TP_CSP_NONCE__';
+const _TP_NONCE_ATTR  = ' nonce="' + _TP_NONCE_TOKEN + '"';
+const _crypto = require('crypto');
+// 128 bits from a CSPRNG, base64 — the shape MDN and web.dev both specify. Never derived from the
+// URL, a session, or a timestamp, and never reused: a fresh value per HTML response.
+function _mintCspNonce() { return _crypto.randomBytes(16).toString('base64'); }
+// Swap the token for this response's nonce. Called at EVERY exit that can emit HTML carrying it.
+function _applyCspNonce(html, nonce) {
+    if (!html || html.indexOf(_TP_NONCE_TOKEN) === -1) return html;
+    return html.split(_TP_NONCE_TOKEN).join(nonce || '');
+}
+// The i18n bundle tag doubles as a REWRITE ANCHOR in four places (country + moon-country data
+//   islands). Those used to search for the literal '<script src="js/i18n.js'; once the template
+//   carries a nonce attribute that literal no longer matches and the islands would silently vanish
+//   — the country grid and window.__PT_COUNTRY__ with them. Deriving the anchor from the same
+//   constant the template uses makes that class of drift impossible.
+const _I18N_SRC_ANCHOR = '<script' + _TP_NONCE_ATTR + ' src="js/i18n.js';
+// ════════════════════════════════════════════════════════════════════════════
+
+// ADSENSE-STRICT-CSP-MIGRATION-1: this used to define a GLOBAL tpCmpSettings() that the rewritten
+//   anchor called from an inline onclick attribute. A CSP nonce can never authorize an
+//   event-handler attribute — those are governed by script-src-attr — so that control was destined
+//   to die the moment script-src-attr tightens to 'none'. It now BINDS ITSELF with addEventListener
+//   from this nonce-carrying script, which is exactly the shape Google, MDN and OWASP all
+//   recommend. The behaviour is otherwise identical: reopen Google's CMP, and fall back to the
+//   anchor's real href only if Google never loads.
+//   Delegated on document so it does not care when the footer was injected, and guarded by a flag
+//   so a second injection cannot double-bind.
+const _TP_CMP_SETTINGS_FN = '<script' + _TP_NONCE_ATTR + '>(function(){'
+    + 'if(document.__tpCmpBound)return;document.__tpCmpBound=1;'
+    + 'document.addEventListener("click",function(ev){'
+    + 'var a=ev.target&&ev.target.closest&&ev.target.closest("[data-tp-cookie-settings]");if(!a)return;'
+    + 'ev.preventDefault();var w=window,h="/privacy";'
+    + 'try{if(a.getAttribute("href"))h=a.getAttribute("href");}catch(_){}'
     + 'try{w.googlefc=w.googlefc||{};w.googlefc.callbackQueue=w.googlefc.callbackQueue||[];'
     + 'var d=false,t=w.setTimeout(function(){'
     + 'if(!d&&!document.querySelector(".fc-consent-root,[class*=fc-dialog]"))w.location.href=h;},8000);'
     + 'w.googlefc.callbackQueue.push(function(){d=true;w.clearTimeout(t);'
     + 'try{w.googlefc.showRevocationMessage();}catch(_){}});'
-    + '}catch(_){w.location.href=h;}return false;}</script>';
+    + '}catch(_){w.location.href=h;}});'
+    + '})();</script>';
 
 // Remove the custom consent banner from a regulated-region response.
 //   1) Drop the <script ... footer-cookie.js ...> tag. The banner itself is never in the SSR HTML
@@ -5841,9 +5890,14 @@ function _stripCustomConsentBanner(html, urlPath) {
     const _pp = _m ? '/' + _m[1] : '';
     let out = html.replace(/[ \t]*<script\b[^>]*\bsrc="\/?js\/footer-cookie\.js[^"]*"[^>]*><\/script>[ \t]*\r?\n?/g, '');
     const _beforeLink = out;
+    // ADSENSE-STRICT-CSP-MIGRATION-1: the control no longer carries an inline onclick, so this
+    //   matches the data attribute instead and PRESERVES it ($1) — that attribute is what the
+    //   injected helper binds to. Only the href changes, so a no-JS EEA visitor still lands on the
+    //   privacy policy. href is matched as "[^"]*" (not a literal "#") because moon routes have
+    //   already rewritten it to {lang}/privacy by this point.
     out = out.replace(
-        /<a href="[^"]*" onclick="event\.preventDefault\(\);if\(window\.openCookieSettings\)window\.openCookieSettings\(\);"/g,
-        '<a href="' + _pp + '/privacy" onclick="return tpCmpSettings(event)"');
+        /<a href="[^"]*"(\s+data-tp-cookie-settings="1")/g,
+        '<a href="' + _pp + '/privacy"$1');
     if (out !== _beforeLink) out = out.replace('</body>', _TP_CMP_SETTINGS_FN + '</body>');
     return out;
 }
@@ -5859,7 +5913,7 @@ function _stripCustomConsentBanner(html, urlPath) {
 // Region resolution is performed by Google's tag from the visitor's own location signal. This file
 // builds NO geolocation logic and reads no IP.
 const _CONSENT_DEFAULT_SNIPPET =
-    '<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
+    '<script' + _TP_NONCE_ATTR + '>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}'
     + "gtag('consent','default',{"
     + "'ad_storage':'denied','ad_user_data':'denied','ad_personalization':'denied',"
     + "'analytics_storage':'denied','wait_for_update':500,"
@@ -5872,8 +5926,8 @@ const _CONSENT_DEFAULT_SNIPPET =
 
 const _GA_HEAD_SNIPPET = _GA_ENABLED
     ? '<!-- Google tag (gtag.js) -->'
-      + "<script>gtag('js',new Date());gtag('config','" + _GA_MEASUREMENT_ID + "');</script>"
-      + '<script async src="https://www.googletagmanager.com/gtag/js?id=' + _GA_MEASUREMENT_ID + '"></script>'
+      + "<script" + _TP_NONCE_ATTR + ">gtag('js',new Date());gtag('config','" + _GA_MEASUREMENT_ID + "');</script>"
+      + '<script' + _TP_NONCE_ATTR + ' async src="https://www.googletagmanager.com/gtag/js?id=' + _GA_MEASUREMENT_ID + '"></script>'
     : '';
 if (_GA_ENABLED) console.log('[GA4] Google tag enabled for public pages (id=' + _GA_MEASUREMENT_ID + ')');
 
@@ -5905,7 +5959,7 @@ const _ADSENSE_CLIENT = (() => {
 const _ADSENSE_ENABLED = _ADSENSE_CLIENT !== '';
 const _ADSENSE_HEAD_SNIPPET = _ADSENSE_ENABLED
     ? '<!-- Google AdSense / Privacy & Messaging (CMP transport only — no ad units) -->'
-      + '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='
+      + '<script' + _TP_NONCE_ATTR + ' async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client='
       + _ADSENSE_CLIENT + '" crossorigin="anonymous"></script>'
     : '';
 if (_ADSENSE_ENABLED) console.log('[AdSense] page tag enabled for Privacy & Messaging (client=' + _ADSENSE_CLIENT + ')');
@@ -5978,7 +6032,7 @@ const _SITE_HEADER_SPRITE = '<svg width="0" height="0" aria-hidden="true" focusa
 
 const _SITE_HEADER_SPA   = "<div class=\"top-header\">\r\n                <div class=\"location-info\">\r\n                    <svg class=\"icon icon\" aria-hidden=\"true\"><use href=\"#i-map-pin\"/></svg>\r\n                    <div>\r\n                        <div class=\"city-name\" id=\"city-name\" data-i18n=\"header.locating\">جاري تحديد الموقع...</div>\r\n                        <div class=\"country\" id=\"country-name\"></div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"header-actions\">\r\n                    <button class=\"theme-toggle-btn\" type=\"button\" onclick=\"toggleTheme()\" title=\"تبديل الوضع الداكن/الفاتح\" data-i18n-title=\"header.theme_toggle\" aria-label=\"تبديل الوضع الداكن/الفاتح\" data-i18n-aria-label=\"header.theme_toggle\">\r\n                        <svg class=\"icon ttb-icon ttb-icon-moon\" aria-hidden=\"true\"><use href=\"#i-moon\"/></svg>\r\n                        <span class=\"ttb-icon ttb-icon-sun\" aria-hidden=\"true\">☀️</span>\r\n                    </button>\r\n                    <div class=\"lang-switcher\">\r\n                        <button class=\"lang-switcher-btn\" type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" onclick=\"toggleLangMenu(this)\">\r\n                            <img class=\"lang-flag\" src=\"https://flagcdn.com/w40/sa.png\" alt=\"Saudi Arabia flag\" aria-hidden=\"true\" width=\"20\" height=\"15\" loading=\"lazy\" decoding=\"async\">\r\n                            <span class=\"lang-code\">AR</span>\r\n                            <span class=\"lang-caret\" aria-hidden=\"true\">▾</span>\r\n                            <span class=\"visually-hidden\" data-i18n=\"header.change_language\">تغيير اللغة</span>\r\n                        </button>\r\n                        <div class=\"lang-menu\" role=\"menu\"></div>\r\n                    </div>\r\n                    <button class=\"btn btn-outline\" onclick=\"goHome()\" title=\"الصفحة الرئيسية\" data-i18n-title=\"header.home_title\"><svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-home\"/></svg> <span class=\"btn-text\" data-i18n=\"header.home\">الرئيسية</span></button>\r\n                </div>\r\n            </div>";
 const _SITE_HEADER_LEGAL = "<div class=\"top-header\">\r\n                <div class=\"location-info\">\r\n                    <svg class=\"icon icon\" aria-hidden=\"true\"><use href=\"#i-map-pin\"/></svg>\r\n                    <div>\r\n                        <div class=\"city-name\" data-i18n=\"legal.header_label\">معلومات قانونية</div>\r\n                        <div class=\"country\" id=\"legal-page-name\"></div>\r\n                    </div>\r\n                </div>\r\n                <div class=\"header-actions\">\r\n                    <button class=\"theme-toggle-btn\" type=\"button\" onclick=\"toggleTheme()\" title=\"تبديل الوضع الداكن/الفاتح\" data-i18n-title=\"header.theme_toggle\" aria-label=\"تبديل الوضع الداكن/الفاتح\" data-i18n-aria-label=\"header.theme_toggle\">\r\n                        <svg class=\"icon ttb-icon ttb-icon-moon\" aria-hidden=\"true\"><use href=\"#i-moon\"/></svg>\r\n                        <span class=\"ttb-icon ttb-icon-sun\" aria-hidden=\"true\">☀️</span>\r\n                    </button>\r\n                    <div class=\"lang-switcher\">\r\n                        <button class=\"lang-switcher-btn\" type=\"button\" aria-haspopup=\"true\" aria-expanded=\"false\" onclick=\"toggleLangMenu(this)\">\r\n                            <img class=\"lang-flag\" src=\"https://flagcdn.com/w40/sa.png\" alt=\"Saudi Arabia flag\" aria-hidden=\"true\" width=\"20\" height=\"15\" loading=\"lazy\" decoding=\"async\">\r\n                            <span class=\"lang-code\">AR</span>\r\n                            <span class=\"lang-caret\" aria-hidden=\"true\">▾</span>\r\n                            <span class=\"visually-hidden\" data-i18n=\"header.change_language\">تغيير اللغة</span>\r\n                        </button>\r\n                        <div class=\"lang-menu\" role=\"menu\"></div>\r\n                    </div>\r\n                    <button class=\"btn btn-outline\" onclick=\"goHome()\" title=\"الصفحة الرئيسية\" data-i18n-title=\"header.home_title\"><svg class=\"icon\" aria-hidden=\"true\"><use href=\"#i-home\"/></svg> <span class=\"btn-text\" data-i18n=\"header.home\">الرئيسية</span></button>\r\n                </div>\r\n            </div>";
-const _SITE_FOOTER_HTML  = "<footer class=\"footer site-footer\">\r\n                <div class=\"footer-links\">\r\n                    <a href=\"{LANG_PREFIX}/about-us\" data-i18n=\"footer.about\">عن الموقع</a>\r\n                    <a href=\"{LANG_PREFIX}/contact\" data-i18n=\"footer.contact\">اتصل بنا</a>\r\n                    <a href=\"{LANG_PREFIX}/privacy\" data-i18n=\"footer.privacy\">سياسة الخصوصية</a>\r\n                    <a href=\"{LANG_PREFIX}/terms\" data-i18n=\"footer.terms\">شروط الاستخدام</a>\r\n                    <a href=\"#\" onclick=\"event.preventDefault();if(window.openCookieSettings)window.openCookieSettings();\" data-i18n=\"footer.cookie_settings\">إعدادات ملفات الارتباط</a>\r\n                </div>\r\n                <p class=\"footer-copy\"><span data-i18n=\"app.title\">مواقيت الصلاة</span> © <span id=\"footer-year\"></span> - <span data-i18n=\"footer.rights\">جميع الحقوق محفوظة</span></p>\r\n                <p class=\"footer-note\" data-i18n=\"footer.note\">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>\r\n            </footer>";
+const _SITE_FOOTER_HTML  = "<footer class=\"footer site-footer\">\r\n                <div class=\"footer-links\">\r\n                    <a href=\"{LANG_PREFIX}/about-us\" data-i18n=\"footer.about\">عن الموقع</a>\r\n                    <a href=\"{LANG_PREFIX}/contact\" data-i18n=\"footer.contact\">اتصل بنا</a>\r\n                    <a href=\"{LANG_PREFIX}/privacy\" data-i18n=\"footer.privacy\">سياسة الخصوصية</a>\r\n                    <a href=\"{LANG_PREFIX}/terms\" data-i18n=\"footer.terms\">شروط الاستخدام</a>\r\n                    <a href=\"#\" data-tp-cookie-settings=\"1\" data-i18n=\"footer.cookie_settings\">إعدادات ملفات الارتباط</a>\r\n                </div>\r\n                <p class=\"footer-copy\"><span data-i18n=\"app.title\">مواقيت الصلاة</span> © <span id=\"footer-year\"></span> - <span data-i18n=\"footer.rights\">جميع الحقوق محفوظة</span></p>\r\n                <p class=\"footer-note\" data-i18n=\"footer.note\">الأوقات محسوبة بخوارزمية فلكية تعتمد على خطوط الطول والعرض</p>\r\n            </footer>";
 
 function _renderSiteHeader({ spa = false } = {}) {
     return spa ? _SITE_HEADER_SPA : (_SITE_HEADER_SPRITE + _SITE_HEADER_LEGAL);
@@ -6083,7 +6137,10 @@ async function _preloadStatic() {
                     // available synchronously to the deferred script. ~14 KB inline.
                     if (rel === 'index.html') {
                         const src = data.toString('utf8');
-                        const marker = '<script defer src="js/hijri-date.js';
+                        // ADSENSE-STRICT-CSP-MIGRATION-1: anchor #6. index.html now ships this tag
+                        //   with a nonce placeholder, so the marker must include it or the Umm
+                        //   al-Qura table stops being injected — silently, with no error.
+                        const marker = '<script' + _TP_NONCE_ATTR + ' defer src="js/hijri-date.js';
                         if (src.includes(marker) && !src.includes('window._HIJRI_UMM_AL_QURA')) {
                             const injected = src.replace(marker, _HIJRI_INLINE_SCRIPT + '\n    ' + marker);
                             data = Buffer.from(injected, 'utf8');
@@ -7893,7 +7950,7 @@ const _HIJRI_INLINE_SCRIPT = (() => {
     }
     // </script> must be split to avoid premature termination of the inline block.
     const json = JSON.stringify(lean).replace(/<\/script/gi, '<\\/script');
-    return `<script>window._HIJRI_UMM_AL_QURA=${json};</script>`;
+    return `<script${_TP_NONCE_ATTR}>window._HIJRI_UMM_AL_QURA=${json};</script>`;
 })();
 
 function _gregToJD(year, month, day) {
@@ -11404,7 +11461,7 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
                 + `</span></div>`;
             // tiny scoped picker script (CSP allows inline). Leap-aware: Date round-trip rejects e.g. 31 Feb,
             //   so the button stays disabled until a real calendar date is chosen. Values are already 2-digit.
-            const _capScript = `<script>(function(){var b=${JSON.stringify(_capBase + '/')};var y=document.getElementById('mc-cap-y'),m=document.getElementById('mc-cap-m'),d=document.getElementById('mc-cap-d'),g=document.getElementById('mc-cap-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+            const _capScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${JSON.stringify(_capBase + '/')};var y=document.getElementById('mc-cap-y'),m=document.getElementById('mc-cap-m'),d=document.getElementById('mc-cap-d'),g=document.getElementById('mc-cap-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
             below += `<section class="country-seo-block mc-capital" aria-labelledby="mc-cap-title">`
                 + `<h2 id="mc-cap-title">${_escHtml(capSub(cap.title))}</h2>`
                 + `<div class="mc-cap-grid">`
@@ -12049,7 +12106,7 @@ function _buildMoonYearContent(my, lang) {
         + `</div></div>`;
     // Self-contained, idempotent. Matches rows by the chip's own `phase-*` class (shared with the rows) so
     //   no token→class map is needed. Inline is allowed by CSP (script-src 'self' 'unsafe-inline').
-    const _phFilterScript = `<script>(function(){var s=document.getElementById('moon-year-table');if(!s||s.__phf)return;s.__phf=1;var l=s.querySelector('.my-ph-legend');if(!l)return;function c(e){for(var i=0;i<e.classList.length;i++){if(e.classList[i].indexOf('phase-')===0)return e.classList[i];}return null;}function a(){var on=[].filter.call(l.querySelectorAll('[data-phase-filter]'),function(b){return b.getAttribute('aria-pressed')==='true';}).map(c).filter(Boolean);[].forEach.call(s.querySelectorAll('tr.my-ph-row'),function(r){r.style.display=(on.length===0||on.some(function(x){return r.classList.contains(x);}))?'':'none';});}l.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-phase-filter]'):null;if(!b||!l.contains(b))return;var was=b.getAttribute('aria-pressed')==='true';[].forEach.call(l.querySelectorAll('[data-phase-filter]'),function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed',was?'false':'true');a();});})();</scr`+`ipt>`;
+    const _phFilterScript = `<script${_TP_NONCE_ATTR}>(function(){var s=document.getElementById('moon-year-table');if(!s||s.__phf)return;s.__phf=1;var l=s.querySelector('.my-ph-legend');if(!l)return;function c(e){for(var i=0;i<e.classList.length;i++){if(e.classList[i].indexOf('phase-')===0)return e.classList[i];}return null;}function a(){var on=[].filter.call(l.querySelectorAll('[data-phase-filter]'),function(b){return b.getAttribute('aria-pressed')==='true';}).map(c).filter(Boolean);[].forEach.call(s.querySelectorAll('tr.my-ph-row'),function(r){r.style.display=(on.length===0||on.some(function(x){return r.classList.contains(x);}))?'':'none';});}l.addEventListener('click',function(e){var b=e.target.closest?e.target.closest('[data-phase-filter]'):null;if(!b||!l.contains(b))return;var was=b.getAttribute('aria-pressed')==='true';[].forEach.call(l.querySelectorAll('[data-phase-filter]'),function(x){x.setAttribute('aria-pressed','false');});b.setAttribute('aria-pressed',was?'false':'true');a();});})();</scr`+`ipt>`;
     const tableHtml = `<section class="section-card moon-year-table-wrap" id="moon-year-table"><h2>${_e(_S.tableTitle)}</h2>`
         + `<p class="my-table-intro">${_e(_S.tableIntro)}</p>`
         + _phLegend
@@ -13303,6 +13360,12 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
 
         // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 -- same rule as every other template.
         if (_visitorInRegulatedRegion(req)) html = _stripCustomConsentBanner(html, urlPath);
+
+        // ADSENSE-STRICT-CSP-MIGRATION-1: exit B. serveCountriesPage deliberately never reaches the
+        //   shared SEO pipeline (routing it there would rewrite title/description), so it needs its
+        //   own substitution — this is the exact bug class PR #65 had to fix for canonical+hreflang,
+        //   and it is the highest-traffic public route a "patch serveHtmlWithSeo" migration misses.
+        html = _applyCspNonce(html, req && req._cspNonce);
 
         const buf = Buffer.from(html, 'utf8');
         const headers = {
@@ -18398,7 +18461,7 @@ function renderSeoHeadHtml(seo) {
         }
         _slimPCN[_slug] = _slim;
     }
-    parts.push(`<script id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(_slimPCN)};</script>`);
+    parts.push(`<script${_TP_NONCE_ATTR} id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(_slimPCN)};</script>`);
 
     // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the
     // resolved city (lat/lng + 10-lang name table + English DB name) so the client
@@ -18412,7 +18475,7 @@ function renderSeoHeadHtml(seo) {
             englishName: seo.qiblaRef.englishName || '',
             names: seo.qiblaRef.names || {}
         };
-        parts.push(`<script id="ssr-qibla-city">window.__QIBLA_CITY__=${JSON.stringify(_qcPayload)};</script>`);
+        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-qibla-city">window.__QIBLA_CITY__=${JSON.stringify(_qcPayload)};</script>`);
     }
 
     parts.push('<!-- SSR-SEO-END -->');
@@ -18469,6 +18532,10 @@ const _SC_MAX_BYTES = (() => {
     return (Number.isInteger(n) && n > 0 ? n : 96) * 1024 * 1024;
 })();
 const _SC_WAIT_MS = 20000;
+// ADSENSE-STRICT-CSP-MIGRATION-1: while HTML carries a per-response nonce the SSR response cache
+//   must not serve it. Kept as a named constant (rather than inlined) so the day the cache is
+//   redesigned to substitute the nonce after decompression, this is the single flag to flip.
+const _SC_NONCE_BYPASS = true;
 
 // Allocated ONLY when the feature is on, so a disabled deploy carries no cache state at all.
 const _scMap = _SC_ON ? new Map() : null;         // key -> entry; Map insertion order = LRU
@@ -18515,6 +18582,20 @@ function _scEncToken(acceptEnc) {
 // Conservative request gate. Anything unusual bypasses rather than risking a wrong hit.
 function _scEligible(urlPath, qs, req) {
     if (!_SC_ON) return false;
+    // ADSENSE-STRICT-CSP-MIGRATION-1 — HTML IS NEVER CACHED WHILE IT CARRIES A NONCE.
+    //   The cache stores the rendered BODY plus a 3-key header object (Content-Type, Cache-Control,
+    //   Vary [, Content-Encoding]); the CSP header is NOT among them, because it is written per
+    //   request at the top of the http handler, before the router has even parsed urlPath. On a
+    //   cache HIT that means a FRESH header carrying a new nonce would be served against a STALE
+    //   body carrying the old one — every nonced script on the page blocked, not merely degraded.
+    //   The request-coalescing path reproduces the same mismatch even with zero storage, because it
+    //   hands one rendered buffer to N responses that each already carry their own header.
+    //   Per DECISION 1 this takes the smallest safe route: bypass the HTML cache (and therefore
+    //   coalescing) entirely rather than redesign the compressed-buffer cache in this ticket. The
+    //   nonce is deliberately NOT part of the cache key (that would defeat the cache and explode
+    //   the keyspace) and is never pinned to a fixed value. Caching of non-HTML assets is untouched.
+    //   Net effect: correct with TP_SSR_CACHE=0 AND =1.
+    if (_SC_NONCE_BYPASS) { _scStat.bypass++; return false; }
     if (qs) { _scStat.bypass++; return false; }
     if (!req || req.method !== 'GET') { _scStat.bypass++; return false; }
     const h = req.headers || {};
@@ -18664,7 +18745,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // the switcher opens via JS (onclick + .open). With JS off those SSR links would be unreachable —
             // this <noscript> rule (quran route only) lets keyboard focus reveal them. Inert when JS runs.
             '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
-        html = html.replace('</body>', '    <script defer src="/js/quran.js?v=15"></script>\n</body>');
+        html = html.replace('</body>', '    <script' + _TP_NONCE_ATTR + ' defer src="/js/quran.js?v=15"></script>\n</body>');
         // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
         // 23 other .page blocks so this surah is the only page in the raw HTML and in the final DOM.
         html = _stripForeignPageBlocks(html, 'page-quran-surah');
@@ -18696,7 +18777,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // JSON-LD urls and the canonical can never disagree about the host.
             + '    ' + _quranHomeJsonLd(String((seo && seo.canonical) || '').replace(/\/quran$/, '')) + '\n'
             + '    <noscript><style>.lang-switcher:focus-within .lang-menu{display:block}</style></noscript>\n</head>');
-        html = html.replace('</body>', '    <script defer src="/js/quran-home.js?v=4"></script>\n</body>');
+        html = html.replace('</body>', '    <script' + _TP_NONCE_ATTR + ' defer src="/js/quran-home.js?v=4"></script>\n</body>');
         // SHELL-SPA-PAGE-BLOCKS-PER-ROUTE-STRIPPING-1 — LAST, after every injection above has landed: drop the
         // 23 other .page blocks so the index is the only page in the raw HTML and in the final DOM.
         html = _stripForeignPageBlocks(html, 'page-quran-home');
@@ -18789,7 +18870,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             if (!(seo.moonCity && seo.moonCity.slug)) _flhStrip('id="sticky-next-bar"');
             // The single genuine control: footer "cookie settings" → give it a real /privacy href
             // (the inline onclick keeps opening the cookie modal for JS users via preventDefault).
-            html = html.replace(/href="#"(\s+onclick="[^"]*openCookieSettings[^"]*")/, 'href="' + _lpFor + '/privacy"$1');
+            // ADSENSE-STRICT-CSP-MIGRATION-1: keyed off the data attribute now that the inline
+            //   onclick is gone. Without this change the moon routes would silently stop getting a
+            //   real href and the control would degrade to a dead "#" link for JS-less visitors.
+            html = html.replace(/href="#"(\s+data-tp-cookie-settings="1")/, 'href="' + _lpFor + '/privacy"$1');
         }
     }
 
@@ -24585,13 +24669,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
         const _i18nVersion = '210'; // QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
-        let _i18nReplacement = `<script defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
-                               `\n    <script defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
+        let _i18nReplacement = `<script${_TP_NONCE_ATTR} defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
+                               `\n    <script${_TP_NONCE_ATTR} defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
-            _i18nReplacement += `\n    <script defer src="js/i18n/en.js?v=${_i18nVersion}"></script>`;
+            _i18nReplacement += `\n    <script${_TP_NONCE_ATTR} defer src="js/i18n/en.js?v=${_i18nVersion}"></script>`;
         }
+        // ADSENSE-STRICT-CSP-MIGRATION-1: anchor #1. Widened from `<script\s+defer\s+src=` to
+        //   `<script\b[^>]*\bdefer\s+src=` so the nonce attribute the template now carries sits
+        //   harmlessly between the tag name and `defer`. Without this the split i18n bundles are
+        //   never substituted and every non-Arabic page hydrates into Arabic.
         html = html.replace(
-            /<script\s+defer\s+src="js\/i18n\.js\?v=\d+"\s*><\/script>/,
+            /<script\b[^>]*\bdefer\s+src="js\/i18n\.js\?v=\d+"\s*><\/script>/,
             _i18nReplacement
         );
     }
@@ -24779,8 +24867,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         //   pagination / click-context / ItemList schema are all unchanged. Fallback = prior in-head spot.
         const _ccTagM = _countryCitiesScriptTag(seo.moonCountryListing.code);
         if (_ccTagM && html.indexOf('id="country-cities-data"') === -1) {
-            if (html.indexOf('<script src="js/i18n.js') !== -1) {
-                html = html.replace('<script src="js/i18n.js', _ccTagM + '\n<script src="js/i18n.js');
+            if (html.indexOf(_I18N_SRC_ANCHOR) !== -1) {
+                html = html.replace(_I18N_SRC_ANCHOR, _ccTagM + '\n' + _I18N_SRC_ANCHOR);
             } else {
                 html = html.replace('</head>', _ccTagM + '\n</head>');   // fallback: prior in-head placement (correct, just slower)
             }
@@ -24791,9 +24879,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         //   from SSR truth and never falls back to 'sa'. Emitted before js/i18n.js (defined at the client's
         //   countryCode resolution). Server-only; the client already consumes this global since DEPTH-2.
         if (seo.moonCountryListing.names && html.indexOf('data-pt-ctx="1"') === -1) {
-            const _ctxTagM = `<script data-pt-ctx="1">window.__PT_COUNTRY__=${JSON.stringify({ cc: seo.moonCountryListing.code, names: seo.moonCountryListing.names }).replace(/</g, '\\u003c')};</script>`;
-            if (html.indexOf('<script src="js/i18n.js') !== -1) {
-                html = html.replace('<script src="js/i18n.js', _ctxTagM + '\n<script src="js/i18n.js');
+            const _ctxTagM = `<script${_TP_NONCE_ATTR} data-pt-ctx="1">window.__PT_COUNTRY__=${JSON.stringify({ cc: seo.moonCountryListing.code, names: seo.moonCountryListing.names }).replace(/</g, '\\u003c')};</script>`;
+            if (html.indexOf(_I18N_SRC_ANCHOR) !== -1) {
+                html = html.replace(_I18N_SRC_ANCHOR, _ctxTagM + '\n' + _I18N_SRC_ANCHOR);
             } else {
                 html = html.replace('</head>', _ctxTagM + '\n</head>');
             }
@@ -24813,7 +24901,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // + a moon-scoped country search instead of the prayer-times defaults. Absent on the
         // prayer country page → that page stays byte-identical.
         if (html.indexOf('id="moon-country-variant"') === -1) {
-            html = html.replace('</head>', `<script id="moon-country-variant">window.__COUNTRY_PAGE_VARIANT='moon';window.__MOON_COUNTRY_SLUG=${JSON.stringify(seo.moonCountryListing.slug)};</script>\n</head>`);
+            html = html.replace('</head>', `<script${_TP_NONCE_ATTR} id="moon-country-variant">window.__COUNTRY_PAGE_VARIANT='moon';window.__MOON_COUNTRY_SLUG=${JSON.stringify(seo.moonCountryListing.slug)};</script>\n</head>`);
         }
         // Layout marker (moon variant only): drives the compact hero (drops the full-hero CLS
         // min-height reservation, which left empty space after the search/CTA were removed) + a
@@ -24917,8 +25005,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         //   In-head fallback kept. Mirrors the moon variant (MOON-COUNTRY-MOBILE-FCP-LCP-TUNE-1).
         const _ccTag = _countryCitiesScriptTag(seo.countryListing.code);
         if (_ccTag && html.indexOf('id="country-cities-data"') === -1) {
-            if (html.indexOf('<script src="js/i18n.js') !== -1) {
-                html = html.replace('<script src="js/i18n.js', _ccTag + '\n<script src="js/i18n.js');
+            if (html.indexOf(_I18N_SRC_ANCHOR) !== -1) {
+                html = html.replace(_I18N_SRC_ANCHOR, _ccTag + '\n' + _I18N_SRC_ANCHOR);
             } else {
                 html = html.replace('</head>', _ccTag + '\n</head>');   // fallback: prior in-head placement (correct, just slower)
             }
@@ -24929,9 +25017,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         //   pages whose client previously defaulted countryCode → 'sa' → title/H1/meta flipping to Saudi
         //   Arabia after hydration. Client reads it as SSR truth; absent → existing fallback (no regression).
         if (seo.countryListing.names && html.indexOf('data-pt-ctx="1"') === -1) {
-            const _ctxTag = `<script data-pt-ctx="1">window.__PT_COUNTRY__=${JSON.stringify({ cc: seo.countryListing.code, names: seo.countryListing.names }).replace(/</g, '\\u003c')};</script>`;
-            if (html.indexOf('<script src="js/i18n.js') !== -1) {
-                html = html.replace('<script src="js/i18n.js', _ctxTag + '\n<script src="js/i18n.js');
+            const _ctxTag = `<script${_TP_NONCE_ATTR} data-pt-ctx="1">window.__PT_COUNTRY__=${JSON.stringify({ cc: seo.countryListing.code, names: seo.countryListing.names }).replace(/</g, '\\u003c')};</script>`;
+            if (html.indexOf(_I18N_SRC_ANCHOR) !== -1) {
+                html = html.replace(_I18N_SRC_ANCHOR, _ctxTag + '\n' + _I18N_SRC_ANCHOR);
             } else {
                 html = html.replace('</head>', _ctxTag + '\n</head>');
             }
@@ -28408,7 +28496,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                                     +   `</span>`
                                     +   `<button type="button" id="mc-exp-go" class="mc-explore-go" disabled>${_escHtml(_hCap.go)}</button>`
                                     + `</span></div>`;
-                                const _hScript = `<script>(function(){var b=${JSON.stringify(_hCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+                                const _hScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${JSON.stringify(_hCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
                                 _hubExploreHtml = `<section class="section-card mc-explore" id="mc-explore" aria-labelledby="mc-explore-title">`
                                     + `<h2 id="mc-explore-title">${_escHtml(_hCitySub(_hCap.title))}</h2>`
                                     + `<div class="mc-explore-grid">`
@@ -28486,7 +28574,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                         +   `</span>`
                         +   `<button type="button" id="mc-exp-go" class="mc-explore-go" disabled>${_escHtml(_xCap.go)}</button>`
                         + `</span></div>`;
-                    const _xScript = `<script>(function(){var b=${JSON.stringify(_xCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+                    const _xScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${JSON.stringify(_xCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
                     const _xSection = `<section class="section-card mc-explore" id="mc-explore" aria-labelledby="mc-explore-title">`
                         + `<h2 id="mc-explore-title">${_escHtml(_xCitySub(_xCap.title))}</h2>`
                         + `<div class="mc-explore-grid">`
@@ -29985,7 +30073,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                             // place data so the client skips geocodeSlug
                             // entirely. Same shape as `/api/place-by-slug`
                             // result + `geocodeSlug` return value.
-                            const _scriptTag = `<script id="ssr-prayer-city">window.__PRAYER_CITY__=${JSON.stringify(_placeData).replace(/</g, '\\u003c')};</script>`;
+                            const _scriptTag = `<script${_TP_NONCE_ATTR} id="ssr-prayer-city">window.__PRAYER_CITY__=${JSON.stringify(_placeData).replace(/</g, '\\u003c')};</script>`;
                             if (html.indexOf('id="ssr-prayer-city"') === -1) {
                                 html = html.replace('</head>', _scriptTag + '\n</head>');
                             }
@@ -30264,6 +30352,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: LAST, after every injection and every strip
     //   above, so nothing can re-introduce the tag after it has been removed.
     if (_inRegulatedRegion) html = _stripCustomConsentBanner(html, urlPath);
+
+    // ADSENSE-STRICT-CSP-MIGRATION-1: the LAST transform before the bytes are frozen — after every
+    //   injection, every strip and the regional rewrite, so no later pass can reintroduce an
+    //   unsubstituted token. This is exit A, which covers 19 route families.
+    html = _applyCspNonce(html, req && req._cspNonce);
 
     const buf = Buffer.from(html, 'utf8');
     const headers = {
@@ -33430,6 +33523,11 @@ const server = http.createServer(async (req, res) => {
     //   the AdSense tag is actually enabled, so with ADSENSE_CLIENT="" the policy stays
     //   byte-identical to before. The audit found NO frame-src/child-src at all, so frames fell
     //   back to default-src 'self' and the CMP's own iframe would have been refused outright.
+    // ADSENSE-STRICT-CSP-MIGRATION-1: minted BEFORE any header is written and stashed on `req`, so
+    //   every HTML exit downstream substitutes the SAME value the Report-Only header advertises.
+    //   One value per response; the header and the document can never disagree.
+    const _cspNonce = _mintCspNonce();
+    req._cspNonce = _cspNonce;
     const _csAds  = _ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com" : "";
     // ADSENSE-CSP-INTEGRATION-FOLLOWUP-1: the AdSense tag posts to Google's ad-traffic-quality
     //   endpoint, which connect-src refused. Measured on production across 5 routes: exactly ONE
@@ -33475,6 +33573,47 @@ const server = http.createServer(async (req, res) => {
         "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : "") + _csAds + _csTrafficQuality,
         _csFrame,
         "media-src 'self' https://cdn.islamic.network",
+        "manifest-src 'self'",
+        "object-src 'none'",
+        "base-uri 'self'",
+        "frame-ancestors 'self'",
+        "form-action 'self'",
+        "upgrade-insecure-requests"
+    ].join('; '));
+    // ADSENSE-STRICT-CSP-MIGRATION-1 (Phase 1 = REPORT-ONLY, non-breaking).
+    //   The enforcing policy above is deliberately UNCHANGED. This second header observes the
+    //   target policy without blocking anything: measured on production, an enforced + report-only
+    //   pair reports every violation with disposition="report" and ZERO with "enforce".
+    //
+    //   script-src-attr is declared EXPLICITLY and not left to fall back to script-src. That is not
+    //   cosmetic: measured on production, every report-only policy that relied on the fallback
+    //   reported 0 of the site's 552 inline event handlers, while an explicit declaration reported
+    //   all of them. Without this line the measurement phase reads falsely clean.
+    //
+    //   'unsafe-eval' is present because Google's own AdSense CSP guidance lists it. Our own test
+    //   found no first-party need for it, but that test ran with ad serving OFF, so it is kept for
+    //   Phase 1 and revisited in ADSENSE-CSP-UNSAFE-EVAL-REMOVAL-1 once ads actually serve.
+    //
+    //   base-uri stays 'self' rather than Google's documented 'none': <base> is live on 11 of 12
+    //   route families and index.html creates another one at runtime for /en paths, so 'none'
+    //   would break the site.
+    //
+    //   worker-src is declared explicitly. The spec routes a service-worker script through
+    //   worker-src -> child-src -> script-src, and 'strict-dynamic' short-circuits to "allowed"
+    //   before URL matching, so the fallback should work — but Firefox's behaviour here is
+    //   genuinely contested and Safari only understands worker-src from 15.5. Two words remove
+    //   the variance entirely.
+    res.setHeader('Content-Security-Policy-Report-Only', [
+        "default-src 'self'",
+        "script-src 'nonce-" + _cspNonce + "' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:",
+        "script-src-attr 'unsafe-inline'",
+        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+        "font-src 'self' https://fonts.gstatic.com data:",
+        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org https://tile.openstreetmap.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com" : "") + (_ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com" : "") + _csTrafficQuality,
+        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : "") + _csAds + _csTrafficQuality,
+        _csFrame,
+        "media-src 'self' https://cdn.islamic.network",
+        "worker-src 'self'",
         "manifest-src 'self'",
         "object-src 'none'",
         "base-uri 'self'",
@@ -33820,7 +33959,12 @@ const server = http.createServer(async (req, res) => {
             return;
         }
         res.writeHead(200, _h);
-        res.end(_isApi ? JSON.stringify(_adminData) : _renderDiscoveredAdminPage(_adminData));
+        // ADSENSE-STRICT-CSP-MIGRATION-1: exit H. The admin dashboard is the only own-response exit
+        //   that carries a real inline script bundle, so it needs the same substitution as the
+        //   public pipeline or every button on that page would stop working under an enforcing
+        //   policy. Token-free responses pass through untouched.
+        res.end(_isApi ? JSON.stringify(_adminData)
+                       : _applyCspNonce(_renderDiscoveredAdminPage(_adminData), req && req._cspNonce));
         return;
     }
 

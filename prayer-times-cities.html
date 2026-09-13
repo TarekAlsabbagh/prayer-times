@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <script>window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}(function(){try{var s=localStorage.getItem('theme');var d=(s==='dark')||(!s&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.setAttribute('data-theme','dark');}}catch(_e){}})();function toggleTheme(){try{var h=document.documentElement;var d=h.getAttribute('data-theme')==='dark';if(d){h.removeAttribute('data-theme');localStorage.setItem('theme','light');}else{h.setAttribute('data-theme','dark');localStorage.setItem('theme','dark');}var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'#1e5631':'#22272e');}catch(_e){}}</script>
+    <script nonce="__TP_CSP_NONCE__">window.SITE_URL=window.location.origin;if(location.pathname.startsWith('/en')){var b=document.createElement('base');b.href='/';document.head.appendChild(b);}(function(){try{var s=localStorage.getItem('theme');var d=(s==='dark')||(!s&&window.matchMedia&&window.matchMedia('(prefers-color-scheme: dark)').matches);if(d){document.documentElement.setAttribute('data-theme','dark');}}catch(_e){}})();function toggleTheme(){try{var h=document.documentElement;var d=h.getAttribute('data-theme')==='dark';if(d){h.removeAttribute('data-theme');localStorage.setItem('theme','light');}else{h.setAttribute('data-theme','dark');localStorage.setItem('theme','dark');}var m=document.querySelector('meta[name="theme-color"]');if(m)m.setAttribute('content',d?'#1e5631':'#22272e');}catch(_e){}}</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- ADSENSE-SITE-OWNERSHIP-META-VERIFICATION-1: site-ownership proof for AdSense.
@@ -540,12 +540,12 @@
 </div>
 
 <!-- i18n cache-buster: 132→198 (NAVBAR-UNIFICATION) → 199 (CITY-SEARCH-RESTORE: +countryCities.searchPlaceholder). -->
-<script src="js/i18n.js?v=199"></script>
+<script nonce="__TP_CSP_NONCE__" src="js/i18n.js?v=199"></script>
 <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search pipeline (same window.SiteSearch
      module as the homepage). Non-defer → available to the inline scripts below at parse time. -->
-<script src="js/site-search.js?v=4"></script>
-<script defer src="js/footer-cookie.js?v=8"></script>
-<script>
+<script nonce="__TP_CSP_NONCE__" src="js/site-search.js?v=4"></script>
+<script nonce="__TP_CSP_NONCE__" defer src="js/footer-cookie.js?v=8"></script>
+<script nonce="__TP_CSP_NONCE__">
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
 function onCitySearchInput(q) {
     if (q && q.trim().length >= 2) window.location.href = pageUrl('/') + '?search=' + encodeURIComponent(q.trim());

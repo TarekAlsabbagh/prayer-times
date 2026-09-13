@@ -189,6 +189,23 @@
         // Expose public API
         window.openCookieSettings = openModal;
 
+        // ADSENSE-STRICT-CSP-MIGRATION-1: the footer "cookie settings" control used to carry an
+        //   inline onclick. A CSP nonce can never authorize an event-handler ATTRIBUTE — those are
+        //   governed by script-src-attr — so that control would die the moment script-src-attr is
+        //   tightened to 'none'. It is bound here instead, from a nonce-carrying script.
+        //   Delegated on document so it works no matter when the shared footer is injected, and
+        //   marked once so a re-init cannot double-bind. Visible behaviour is unchanged: the same
+        //   modal opens, and the anchor keeps a real href for the no-JS case.
+        if (!document.__tpCookieSettingsBound) {
+            document.__tpCookieSettingsBound = true;
+            document.addEventListener('click', function (ev) {
+                var t = ev.target && ev.target.closest && ev.target.closest('[data-tp-cookie-settings]');
+                if (!t) return;
+                ev.preventDefault();
+                try { openModal(); } catch (_e) {}
+            });
+        }
+
         // Load existing consent (v1 legacy = implied accept-all)
         const existing = readConsent();
         if (existing) {

@@ -1656,7 +1656,14 @@
 // v499 — PRAYER-DE-GERMANY-FAJR-ISHA-MWL-MISMATCH-1: DE-only high-latitude-rule override. Germany keeps
 //   method MWL (18°/17°) but its twilight rule becomes NightMiddle in the CALC (SSR `_HIGHLAT_BY_CC` +
 //   client override in updatePrayerTimes) so Fajr/Isha match Google's MWL; every other country untouched.
-const CACHE_VERSION = 'v554';
+// v555 — ADSENSE-STRICT-CSP-MIGRATION-1: HTML navigation responses are no longer stored in
+//   RUNTIME_CACHE. Under a nonce-based CSP a cached document carries the nonce it was cached with,
+//   and Cache Storage replays the stored Content-Security-Policy header alongside it — so a replay
+//   is a nonce REUSE, which CSP3 §7.1 forbids ("MUST NOT ... put them in caches"). Measured before
+//   this change: 11 HTML documents were sitting in tp-runtime-v554, every one with its CSP header
+//   stored, and an offline navigation really did replay one. The version bump + the activate-time
+//   sweep below evict those pre-existing HTML entries on first load after deploy.
+const CACHE_VERSION = 'v555';
 const STATIC_CACHE  = `tp-static-${CACHE_VERSION}`;
 const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 
@@ -1702,7 +1709,21 @@ self.addEventListener('activate', (event) => {
                     .filter((k) => k !== STATIC_CACHE && k !== RUNTIME_CACHE)
                     .map((k) => caches.delete(k))
             )
-        ).then(() => self.clients.claim())
+        )
+        // ADSENSE-STRICT-CSP-MIGRATION-1: the version bump above already drops the previous
+        //   caches, but a same-version runtime cache can still hold HTML written by an older
+        //   build. Sweep any text/html entry out of RUNTIME_CACHE explicitly so no document
+        //   carrying an old nonce can ever be replayed. Best-effort and fully wrapped: it must
+        //   never block activation.
+        .then(() => caches.open(RUNTIME_CACHE).then((c) =>
+            c.keys().then((reqs) => Promise.all(reqs.map((rq) =>
+                c.match(rq).then((rp) => {
+                    const ct = (rp && rp.headers && rp.headers.get('content-type')) || '';
+                    if (ct.indexOf('text/html') === 0) return c.delete(rq);
+                }).catch(() => {})
+            )))
+        )).catch(() => {})
+        .then(() => self.clients.claim())
          // MOON-CITY-TODAY-MOBILE-MATCH-DATED-MOON-VISUAL-1 (2026-07-01):
          // Notify open pages that a new version activated so they auto-refresh ONCE
          // (client guards against loops via sessionStorage + hadController). Ensures
@@ -1760,16 +1781,17 @@ self.addEventListener('fetch', (event) => {
         return;
     }
 
-    // 3) HTML والصفحات → network-first مع fallback كاش
+    // 3) HTML والصفحات → network-only (لا تخزين)
+    // ADSENSE-STRICT-CSP-MIGRATION-1: every HTML response now carries a per-request CSP nonce, so
+    //   this branch deliberately NO LONGER calls cache.put(). Storing the document would store the
+    //   nonce with it, and a later replay would reuse a nonce that was meant to be used once.
+    //   The cache.match() fallback is kept ONLY so any entry left over from an older SW version is
+    //   still usable until the activate sweep removes it; once that has run it resolves to
+    //   undefined and the browser shows its normal network-error page, exactly as it already did
+    //   for any URL the user had not previously visited.
     if (req.mode === 'navigate' || (req.headers.get('accept') || '').includes('text/html')) {
         event.respondWith(
-            fetch(req).then((resp) => {
-                if (resp && resp.ok) {
-                    const copy = resp.clone();
-                    caches.open(RUNTIME_CACHE).then((c) => c.put(req, copy)).catch(() => {});
-                }
-                return resp;
-            }).catch(() => caches.match(req))
+            fetch(req).catch(() => caches.match(req))
         );
     }
 });

@@ -5767,6 +5767,54 @@ const _CONSENT_EU_REGIONS = [
     'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU',
     'MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH'
 ];
+
+// ═══ ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 (2026-09-13) ══════════════════════════════
+// Inside the regulated region the visitor already gets Google's certified CMP. Shipping our own
+// cookie banner on top of it produced TWO consent dialogs at once -- measured on production: the
+// custom banner at ~1.3 s and the Google CMP at ~11.4 s, both on screen together. The custom
+// banner cannot even move a Consent Mode signal (it never calls gtag('consent','update')), so
+// inside the region it is a second, contradictory question with no legal effect. It is therefore
+// not shipped there at all.
+//
+// The region list is _CONSENT_EU_REGIONS above -- the SAME 32 codes Consent Mode already scopes
+// its denied defaults to. There is deliberately no second country list anywhere in this file.
+//
+// The signal is CF-IPCountry, set by the edge. Proven on production before this shipped: a client
+// that sends its own `CF-IPCountry: DE` is ignored -- the origin still reports the edge's value --
+// so the header is not client-spoofable. (Verified via /api/admin/region-signal.)
+//
+// FAIL-SAFE, by explicit product decision: anything other than a positive, well-formed, covered
+// answer returns false and KEEPS the banner. A missing header, a malformed value, Cloudflare's
+// 'XX' (unknown) and 'T1' (Tor) all fall through to false. We only ever suppress on certainty.
+const _CONSENT_EU_SET = new Set(_CONSENT_EU_REGIONS);
+function _visitorInRegulatedRegion(req) {
+    try {
+        const raw = req && req.headers && req.headers['cf-ipcountry'];
+        if (typeof raw !== 'string') return false;
+        const cc = raw.trim().toUpperCase();
+        if (!/^[A-Z]{2}$/.test(cc)) return false;     // malformed, empty, 'T1'-style junk
+        return _CONSENT_EU_SET.has(cc);               // 'XX' (unknown) is well-formed but not covered
+    } catch (_) { return false; }                     // this must never be able to break a page
+}
+
+// Remove the custom consent banner from a regulated-region response.
+//   1) Drop the <script ... footer-cookie.js ...> tag. The banner itself is never in the SSR HTML
+//      (it is built client-side by that script), so not shipping the tag IS the suppression.
+//      Both spellings are handled: countries.html uses "/js/...", the other four use "js/...".
+//   2) Rewrite the footer "cookie settings" link to the privacy page and drop its inline onclick.
+//      Without this the link would call event.preventDefault() and then do nothing at all, because
+//      window.openCookieSettings is defined ONLY inside footer-cookie.js -- i.e. suppressing the
+//      script alone would ship a visibly dead control to every regulated-region visitor.
+// Outside the region this function is never called, so that path is byte-identical to before.
+function _stripCustomConsentBanner(html, urlPath) {
+    const _m = String(urlPath || '').match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/);
+    const _pp = _m ? '/' + _m[1] : '';
+    let out = html.replace(/[ \t]*<script\b[^>]*\bsrc="\/?js\/footer-cookie\.js[^"]*"[^>]*><\/script>[ \t]*\r?\n?/g, '');
+    out = out.replace(
+        /<a href="#" onclick="event\.preventDefault\(\);if\(window\.openCookieSettings\)window\.openCookieSettings\(\);"/g,
+        '<a href="' + _pp + '/privacy"');
+    return out;
+}
 // Region-scoped default FIRST, then the unscoped fallback — the order Google's own documentation
 // uses. A region-scoped command takes precedence over the unscoped one for matching visitors, so
 // the fallback cannot loosen the European default.
@@ -12928,7 +12976,10 @@ function _buildCountriesGrid(lang) {
 }
 
 // يُقدَّم countries.html مع حقن الـ grid + العناوين حسب اللغة
-function serveCountriesPage(urlPath, res, acceptEnc) {
+// ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: `req` added. This handler writes its OWN response
+//   and never reaches serveHtmlWithSeo(), so without it /prayer-times-worldwide would keep
+//   shipping the custom banner to regulated-region visitors while every other page suppressed it.
+function serveCountriesPage(urlPath, res, acceptEnc, req) {
     readCachedFile(path.join(ROOT, 'countries.html'), (err, htmlBuf) => {
         if (err) { res.writeHead(404); res.end('Not Found'); return; }
         // استنتاج اللغة من الـ URL
@@ -13218,11 +13269,14 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
         // grid content
         html = html.replace(/<!-- COUNTRIES-GRID-CONTENT -->/, _buildCountriesGrid(lang));
 
+        // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 -- same rule as every other template.
+        if (_visitorInRegulatedRegion(req)) html = _stripCustomConsentBanner(html, urlPath);
+
         const buf = Buffer.from(html, 'utf8');
         const headers = {
             'Content-Type': 'text/html; charset=utf-8',
             'Cache-Control': 'no-cache',
-            'Vary': 'Accept-Encoding'
+            'Vary': 'Accept-Encoding, CF-IPCountry'
         };
         if (acceptEnc && acceptEnc.includes('br')) {
             zlib.brotliCompress(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } }, (e, zbuf) => {
@@ -18509,9 +18563,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //   survives the i18n walker. Stays null on every non-moon route.
     let _ssrMoonVals = null;
     // ---- SSR-RESPONSE-CACHE-PHASE-1A --------------------------------------------------
+    // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: resolved BEFORE the cache key is built, because
+    //   the key must carry it (see below).
+    const _inRegulatedRegion = _visitorInRegulatedRegion(req);
     let _scKey = null;
     if (_scEligible(urlPath, qs, req)) {
-        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc);
+        // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: the HTML now varies by ONE more request
+        //   input, so the key must include it. The cache's original safety argument above --
+        //   "urlPath is the ONLY request input that reaches the HTML" -- no longer holds on its
+        //   own. Without this a regulated-region response, with the banner stripped, could be
+        //   served to a visitor outside the region (and the reverse). The flag is binary, so the
+        //   keyspace at most doubles. _SC_ON is env-gated OFF today; this keeps it correct for
+        //   the day it is switched on.
+        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc) + '\u0000' + (_inRegulatedRegion ? 'eu' : 'x');
         const _hit = _scGet(_scKey);
         if (_hit) { _scStat.hit++; _scSend(res, _hit); return; }
         if (_scWaiters.has(_scKey)) {
@@ -30165,11 +30229,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     const _keepPageId = _pageKeepIdFor(urlPath);
     if (_keepPageId) html = _stripForeignPageBlocks(html, _keepPageId);
 
+    // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: LAST, after every injection and every strip
+    //   above, so nothing can re-introduce the tag after it has been removed.
+    if (_inRegulatedRegion) html = _stripCustomConsentBanner(html, urlPath);
+
     const buf = Buffer.from(html, 'utf8');
     const headers = {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'no-cache',
-        'Vary': 'Accept-Encoding'
+        // CF-IPCountry joins Accept-Encoding: this document now genuinely varies by it.
+        'Vary': 'Accept-Encoding, CF-IPCountry'
     };
     if (acceptEnc.includes('br')) {
         zlib.brotliCompress(buf, {
@@ -35203,7 +35272,7 @@ const server = http.createServer(async (req, res) => {
     // ===== صفحة كل دول العالم: /prayer-times-worldwide + /{lang}/prayer-times-worldwide =====
     // يجب أن تأتي قبل route الـ /{country-slug} لضمان عدم الوقوع في أي نمط عام
     if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-worldwide$/.test(urlPath)) {
-        serveCountriesPage(urlPath, res, _acceptEnc);
+        serveCountriesPage(urlPath, res, _acceptEnc, req);
         return;
     }
 

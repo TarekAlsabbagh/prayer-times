@@ -5767,6 +5767,86 @@ const _CONSENT_EU_REGIONS = [
     'AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU',
     'MT','NL','PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH'
 ];
+
+// ═══ ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 (2026-09-13) ══════════════════════════════
+// Inside the regulated region the visitor already gets Google's certified CMP. Shipping our own
+// cookie banner on top of it produced TWO consent dialogs at once -- measured on production: the
+// custom banner at ~1.3 s and the Google CMP at ~11.4 s, both on screen together. The custom
+// banner cannot even move a Consent Mode signal (it never calls gtag('consent','update')), so
+// inside the region it is a second, contradictory question with no legal effect. It is therefore
+// not shipped there at all.
+//
+// The region list is _CONSENT_EU_REGIONS above -- the SAME 32 codes Consent Mode already scopes
+// its denied defaults to. There is deliberately no second country list anywhere in this file.
+//
+// The signal is CF-IPCountry, set by the edge. Proven on production before this shipped: a client
+// that sends its own `CF-IPCountry: DE` is ignored -- the origin still reports the edge's value --
+// so the header is not client-spoofable. (Verified via /api/admin/region-signal.)
+//
+// FAIL-SAFE, by explicit product decision: anything other than a positive, well-formed, covered
+// answer returns false and KEEPS the banner. A missing header, a malformed value, Cloudflare's
+// 'XX' (unknown) and 'T1' (Tor) all fall through to false. We only ever suppress on certainty.
+const _CONSENT_EU_SET = new Set(_CONSENT_EU_REGIONS);
+function _visitorInRegulatedRegion(req) {
+    try {
+        const raw = req && req.headers && req.headers['cf-ipcountry'];
+        if (typeof raw !== 'string') return false;
+        const cc = raw.trim().toUpperCase();
+        if (!/^[A-Z]{2}$/.test(cc)) return false;     // malformed, empty, 'T1'-style junk
+        return _CONSENT_EU_SET.has(cc);               // 'XX' (unknown) is well-formed but not covered
+    } catch (_) { return false; }                     // this must never be able to break a page
+}
+
+// Inside the regulated region the "cookie settings" control must remain a REAL control: it becomes
+// the way to reopen Google's own consent UI. Google's documented mechanism is the Funding Choices
+// callback queue plus showRevocationMessage, and this helper wraps it for the three states a click
+// can land in:
+//   * googlefc already initialised -> our entry drains immediately and the CMP reopens
+//   * googlefc not ready yet       -> we CREATE the queue (the same pre-load pattern dataLayer and
+//                                     adsbygoogle use) and Google drains our entry when it starts.
+//                                     Measured on production: googlefc first appears ~6.3-7.2 s
+//                                     after navigation, so queuing is the only correct response to
+//                                     an early click -- checking "is it ready?" would fail for the
+//                                     first six seconds of every page view.
+//   * Google never loads (blocked) -> after 8 s, and ONLY if no CMP dialog is on screen, the
+//                                     browser follows the href. 8 s is past the measured drain
+//                                     time, so a CMP that is merely slow is never stolen.
+// The href stays a real privacy URL so the control still works with JavaScript disabled, and every
+// step is wrapped: this can never throw and never blocks navigation dead.
+const _TP_CMP_SETTINGS_FN = '<script>function tpCmpSettings(e){var w=window,h="/privacy";'
+    + 'try{if(e&&e.preventDefault)e.preventDefault();var a=e&&e.currentTarget;'
+    + 'if(a&&a.getAttribute&&a.getAttribute("href"))h=a.getAttribute("href");}catch(_){}'
+    + 'try{w.googlefc=w.googlefc||{};w.googlefc.callbackQueue=w.googlefc.callbackQueue||[];'
+    + 'var d=false,t=w.setTimeout(function(){'
+    + 'if(!d&&!document.querySelector(".fc-consent-root,[class*=fc-dialog]"))w.location.href=h;},8000);'
+    + 'w.googlefc.callbackQueue.push(function(){d=true;w.clearTimeout(t);'
+    + 'try{w.googlefc.showRevocationMessage();}catch(_){}});'
+    + '}catch(_){w.location.href=h;}return false;}</script>';
+
+// Remove the custom consent banner from a regulated-region response.
+//   1) Drop the <script ... footer-cookie.js ...> tag. The banner itself is never in the SSR HTML
+//      (it is built client-side by that script), so not shipping the tag IS the suppression.
+//      Both spellings are handled: countries.html uses "/js/...", the other four use "js/...".
+//   2) Re-point the footer "cookie settings" control at Google's revocation UI. Leaving its inline
+//      onclick alone would ship a visibly DEAD control, because window.openCookieSettings is
+//      defined ONLY inside footer-cookie.js.
+//      The href is matched as "[^"]*" and NOT as a literal "#": on moon routes an earlier SSR pass
+//      has already rewritten this same anchor to {lang}/privacy while KEEPING the onclick, so a
+//      "#"-only pattern would silently skip every moon page and leave the dead control there.
+//   3) Ship the helper ONLY on templates that actually carry the control -- prayer-times-cities.html
+//      and countries.html have no shared footer, so they get the script removal and nothing else.
+// Outside the region this function is never called, so that path is byte-identical to before.
+function _stripCustomConsentBanner(html, urlPath) {
+    const _m = String(urlPath || '').match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/);
+    const _pp = _m ? '/' + _m[1] : '';
+    let out = html.replace(/[ \t]*<script\b[^>]*\bsrc="\/?js\/footer-cookie\.js[^"]*"[^>]*><\/script>[ \t]*\r?\n?/g, '');
+    const _beforeLink = out;
+    out = out.replace(
+        /<a href="[^"]*" onclick="event\.preventDefault\(\);if\(window\.openCookieSettings\)window\.openCookieSettings\(\);"/g,
+        '<a href="' + _pp + '/privacy" onclick="return tpCmpSettings(event)"');
+    if (out !== _beforeLink) out = out.replace('</body>', _TP_CMP_SETTINGS_FN + '</body>');
+    return out;
+}
 // Region-scoped default FIRST, then the unscoped fallback — the order Google's own documentation
 // uses. A region-scoped command takes precedence over the unscoped one for matching visitors, so
 // the fallback cannot loosen the European default.
@@ -12928,7 +13008,10 @@ function _buildCountriesGrid(lang) {
 }
 
 // يُقدَّم countries.html مع حقن الـ grid + العناوين حسب اللغة
-function serveCountriesPage(urlPath, res, acceptEnc) {
+// ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: `req` added. This handler writes its OWN response
+//   and never reaches serveHtmlWithSeo(), so without it /prayer-times-worldwide would keep
+//   shipping the custom banner to regulated-region visitors while every other page suppressed it.
+function serveCountriesPage(urlPath, res, acceptEnc, req) {
     readCachedFile(path.join(ROOT, 'countries.html'), (err, htmlBuf) => {
         if (err) { res.writeHead(404); res.end('Not Found'); return; }
         // استنتاج اللغة من الـ URL
@@ -13218,11 +13301,14 @@ function serveCountriesPage(urlPath, res, acceptEnc) {
         // grid content
         html = html.replace(/<!-- COUNTRIES-GRID-CONTENT -->/, _buildCountriesGrid(lang));
 
+        // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 -- same rule as every other template.
+        if (_visitorInRegulatedRegion(req)) html = _stripCustomConsentBanner(html, urlPath);
+
         const buf = Buffer.from(html, 'utf8');
         const headers = {
             'Content-Type': 'text/html; charset=utf-8',
             'Cache-Control': 'no-cache',
-            'Vary': 'Accept-Encoding'
+            'Vary': 'Accept-Encoding, CF-IPCountry'
         };
         if (acceptEnc && acceptEnc.includes('br')) {
             zlib.brotliCompress(buf, { params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 5 } }, (e, zbuf) => {
@@ -18509,9 +18595,19 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //   survives the i18n walker. Stays null on every non-moon route.
     let _ssrMoonVals = null;
     // ---- SSR-RESPONSE-CACHE-PHASE-1A --------------------------------------------------
+    // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: resolved BEFORE the cache key is built, because
+    //   the key must carry it (see below).
+    const _inRegulatedRegion = _visitorInRegulatedRegion(req);
     let _scKey = null;
     if (_scEligible(urlPath, qs, req)) {
-        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc);
+        // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: the HTML now varies by ONE more request
+        //   input, so the key must include it. The cache's original safety argument above --
+        //   "urlPath is the ONLY request input that reaches the HTML" -- no longer holds on its
+        //   own. Without this a regulated-region response, with the banner stripped, could be
+        //   served to a visitor outside the region (and the reverse). The flag is binary, so the
+        //   keyspace at most doubles. _SC_ON is env-gated OFF today; this keeps it correct for
+        //   the day it is switched on.
+        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc) + '\u0000' + (_inRegulatedRegion ? 'eu' : 'x');
         const _hit = _scGet(_scKey);
         if (_hit) { _scStat.hit++; _scSend(res, _hit); return; }
         if (_scWaiters.has(_scKey)) {
@@ -30165,11 +30261,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     const _keepPageId = _pageKeepIdFor(urlPath);
     if (_keepPageId) html = _stripForeignPageBlocks(html, _keepPageId);
 
+    // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: LAST, after every injection and every strip
+    //   above, so nothing can re-introduce the tag after it has been removed.
+    if (_inRegulatedRegion) html = _stripCustomConsentBanner(html, urlPath);
+
     const buf = Buffer.from(html, 'utf8');
     const headers = {
         'Content-Type': 'text/html; charset=utf-8',
         'Cache-Control': 'no-cache',
-        'Vary': 'Accept-Encoding'
+        // CF-IPCountry joins Accept-Encoding: this document now genuinely varies by it.
+        'Vary': 'Accept-Encoding, CF-IPCountry'
     };
     if (acceptEnc.includes('br')) {
         zlib.brotliCompress(buf, {
@@ -35203,7 +35304,7 @@ const server = http.createServer(async (req, res) => {
     // ===== صفحة كل دول العالم: /prayer-times-worldwide + /{lang}/prayer-times-worldwide =====
     // يجب أن تأتي قبل route الـ /{country-slug} لضمان عدم الوقوع في أي نمط عام
     if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-worldwide$/.test(urlPath)) {
-        serveCountriesPage(urlPath, res, _acceptEnc);
+        serveCountriesPage(urlPath, res, _acceptEnc, req);
         return;
     }
 

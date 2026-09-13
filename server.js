@@ -5797,22 +5797,54 @@ function _visitorInRegulatedRegion(req) {
     } catch (_) { return false; }                     // this must never be able to break a page
 }
 
+// Inside the regulated region the "cookie settings" control must remain a REAL control: it becomes
+// the way to reopen Google's own consent UI. Google's documented mechanism is the Funding Choices
+// callback queue plus showRevocationMessage, and this helper wraps it for the three states a click
+// can land in:
+//   * googlefc already initialised -> our entry drains immediately and the CMP reopens
+//   * googlefc not ready yet       -> we CREATE the queue (the same pre-load pattern dataLayer and
+//                                     adsbygoogle use) and Google drains our entry when it starts.
+//                                     Measured on production: googlefc first appears ~6.3-7.2 s
+//                                     after navigation, so queuing is the only correct response to
+//                                     an early click -- checking "is it ready?" would fail for the
+//                                     first six seconds of every page view.
+//   * Google never loads (blocked) -> after 8 s, and ONLY if no CMP dialog is on screen, the
+//                                     browser follows the href. 8 s is past the measured drain
+//                                     time, so a CMP that is merely slow is never stolen.
+// The href stays a real privacy URL so the control still works with JavaScript disabled, and every
+// step is wrapped: this can never throw and never blocks navigation dead.
+const _TP_CMP_SETTINGS_FN = '<script>function tpCmpSettings(e){var w=window,h="/privacy";'
+    + 'try{if(e&&e.preventDefault)e.preventDefault();var a=e&&e.currentTarget;'
+    + 'if(a&&a.getAttribute&&a.getAttribute("href"))h=a.getAttribute("href");}catch(_){}'
+    + 'try{w.googlefc=w.googlefc||{};w.googlefc.callbackQueue=w.googlefc.callbackQueue||[];'
+    + 'var d=false,t=w.setTimeout(function(){'
+    + 'if(!d&&!document.querySelector(".fc-consent-root,[class*=fc-dialog]"))w.location.href=h;},8000);'
+    + 'w.googlefc.callbackQueue.push(function(){d=true;w.clearTimeout(t);'
+    + 'try{w.googlefc.showRevocationMessage();}catch(_){}});'
+    + '}catch(_){w.location.href=h;}return false;}</script>';
+
 // Remove the custom consent banner from a regulated-region response.
 //   1) Drop the <script ... footer-cookie.js ...> tag. The banner itself is never in the SSR HTML
 //      (it is built client-side by that script), so not shipping the tag IS the suppression.
 //      Both spellings are handled: countries.html uses "/js/...", the other four use "js/...".
-//   2) Rewrite the footer "cookie settings" link to the privacy page and drop its inline onclick.
-//      Without this the link would call event.preventDefault() and then do nothing at all, because
-//      window.openCookieSettings is defined ONLY inside footer-cookie.js -- i.e. suppressing the
-//      script alone would ship a visibly dead control to every regulated-region visitor.
+//   2) Re-point the footer "cookie settings" control at Google's revocation UI. Leaving its inline
+//      onclick alone would ship a visibly DEAD control, because window.openCookieSettings is
+//      defined ONLY inside footer-cookie.js.
+//      The href is matched as "[^"]*" and NOT as a literal "#": on moon routes an earlier SSR pass
+//      has already rewritten this same anchor to {lang}/privacy while KEEPING the onclick, so a
+//      "#"-only pattern would silently skip every moon page and leave the dead control there.
+//   3) Ship the helper ONLY on templates that actually carry the control -- prayer-times-cities.html
+//      and countries.html have no shared footer, so they get the script removal and nothing else.
 // Outside the region this function is never called, so that path is byte-identical to before.
 function _stripCustomConsentBanner(html, urlPath) {
     const _m = String(urlPath || '').match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?=\/|$)/);
     const _pp = _m ? '/' + _m[1] : '';
     let out = html.replace(/[ \t]*<script\b[^>]*\bsrc="\/?js\/footer-cookie\.js[^"]*"[^>]*><\/script>[ \t]*\r?\n?/g, '');
+    const _beforeLink = out;
     out = out.replace(
-        /<a href="#" onclick="event\.preventDefault\(\);if\(window\.openCookieSettings\)window\.openCookieSettings\(\);"/g,
-        '<a href="' + _pp + '/privacy"');
+        /<a href="[^"]*" onclick="event\.preventDefault\(\);if\(window\.openCookieSettings\)window\.openCookieSettings\(\);"/g,
+        '<a href="' + _pp + '/privacy" onclick="return tpCmpSettings(event)"');
+    if (out !== _beforeLink) out = out.replace('</body>', _TP_CMP_SETTINGS_FN + '</body>');
     return out;
 }
 // Region-scoped default FIRST, then the unscoped fallback — the order Google's own documentation

@@ -80,10 +80,10 @@
     <!-- (cdn.islamic.network preconnect removed) -->
     <!-- DNS-prefetch لـ nominatim (تمرّ عبر /api/geocode proxy؛ هذا احتياطي لبيئة file://) -->
     <link rel="dns-prefetch" href="https://nominatim.openstreetmap.org">
-    <!-- Preload للـ app.js (يُنفَّذ defer بعد DOMContentLoaded، preload يسرّع الاكتشاف ~100-200ms) -->
-    <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search module (loads before app.js). -->
-    <link rel="preload" href="js/site-search.js?v=4" as="script">
-    <link rel="preload" href="js/app.js?v=845" as="script">
+    <!-- ADSENSE-STRICT-CSP-PRE-ENFORCEMENT-CLEANUP-1: site-search.js and app.js are deliberately NOT
+         preloaded. A link preload hint cannot carry a CSP nonce, so under strict-dynamic the hint itself
+         is blocked (2 Report-Only violations per index-shell route). Both files still load, in the same
+         order, from the nonce-carrying defer script tags at the end of this document. -->
     <!-- Phase E6-b-lite (2026-05-03): preload CSS to give the browser an early
          high-priority hint, even before the HTML parser reaches the <link rel="stylesheet">
          line below. Helps FCP/LCP marginally on slow Render free-tier responses

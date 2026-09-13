@@ -6,7 +6,8 @@
 // prayer-times pages compute from coords; a result missing any field is
 // useless and must never surface.
 //
-// Pre-req: `node server.js` running on localhost:8080.
+// Pre-req: `node server.js` running on localhost:8080 with TP_ENABLE_SEARCH_TEST=1
+// (the /search-test page is a 404 by default).
 
 import http from 'node:http';
 

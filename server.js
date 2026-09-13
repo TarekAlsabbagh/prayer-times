@@ -35698,7 +35698,14 @@ const server = http.createServer(async (req, res) => {
     // db/places/curated-places.json — no external APIs, no discovered
     // storage, no translation. Every result includes the full prayer-
     // times-ready contract: slug + lat + lng + timezone + countryCode.
+    // ADSENSE-STRICT-CSP-PRE-ENFORCEMENT-CLEANUP-1: development testbed only. Production search runs
+    // through /api/search-place + js/site-search.js, never this page, so it is OFF unless explicitly
+    // opted in, and answers exactly like any unknown route (the branded 404, not a soft-404).
     if (urlPath === '/search-test' && req.method === 'GET') {
+        if (process.env.TP_ENABLE_SEARCH_TEST !== '1') {
+            send404Page(urlPath, res, req.headers['accept-encoding'] || '');
+            return;
+        }
         const _pagePath = path.join(ROOT, 'db', 'places', 'search-test.html');
         fs.readFile(_pagePath, (err, html) => {
             if (err) { res.writeHead(404, {'Content-Type':'text/plain'}); res.end('search-test page not found'); return; }

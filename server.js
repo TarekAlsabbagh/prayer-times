@@ -33564,26 +33564,11 @@ const server = http.createServer(async (req, res) => {
     const _csFrame = _ADSENSE_ENABLED
         ? "frame-src 'self' https://googleads.g.doubleclick.net https://tpc.googlesyndication.com https://pagead2.googlesyndication.com https://fundingchoicesmessages.google.com" + _csTrafficQuality + _csGoogleFrame
         : "frame-src 'self'";
-    res.setHeader('Content-Security-Policy', [
-        "default-src 'self'",
-        "script-src 'self' 'unsafe-inline'" + (_GA_ENABLED ? " https://www.googletagmanager.com" : "") + _csAds + _csTrafficQuality,
-        "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
-        "font-src 'self' https://fonts.gstatic.com data:",
-        "img-src 'self' data: blob: https://flagcdn.com https://*.tile.openstreetmap.org https://tile.openstreetmap.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://www.googletagmanager.com" : "") + (_ADSENSE_ENABLED ? " https://pagead2.googlesyndication.com https://tpc.googlesyndication.com https://fundingchoicesmessages.google.com https://www.gstatic.com" : "") + _csTrafficQuality,
-        "connect-src 'self' https://api.open-meteo.com https://nominatim.openstreetmap.org https://api.mymemory.translated.net https://overpass-api.de https://restcountries.com https://ar.wikipedia.org https://en.wikipedia.org" + (_GA_ENABLED ? " https://www.google-analytics.com https://*.google-analytics.com https://*.analytics.google.com https://www.googletagmanager.com" : "") + _csAds + (_ADSENSE_ENABLED ? " https://csi.gstatic.com" : "") + _csTrafficQuality,
-        _csFrame,
-        "media-src 'self' https://cdn.islamic.network",
-        "manifest-src 'self'",
-        "object-src 'none'",
-        "base-uri 'self'",
-        "frame-ancestors 'self'",
-        "form-action 'self'",
-        "upgrade-insecure-requests"
-    ].join('; '));
-    // ADSENSE-STRICT-CSP-MIGRATION-1 (Phase 1 = REPORT-ONLY, non-breaking).
-    //   The enforcing policy above is deliberately UNCHANGED. This second header observes the
-    //   target policy without blocking anything: measured on production, an enforced + report-only
-    //   pair reports every violation with disposition="report" and ZERO with "enforce".
+    // ADSENSE-STRICT-CSP-MIGRATION-1 — Phase 2 = ENFORCED.
+    //   The strict target below passed the Final Pre-Enforcement Gate as Report-Only and is now the
+    //   enforcing Content-Security-Policy. It is built ONCE per response and sent in BOTH headers, so the
+    //   enforcing policy and the temporary Report-Only copy can never differ by a directive or by the nonce.
+    //   The Report-Only copy is removed in a separate cleanup once enforcement is verified on production.
     //
     //   script-src-attr is declared EXPLICITLY and not left to fall back to script-src. That is not
     //   cosmetic: measured on production, every report-only policy that relied on the fallback
@@ -33623,7 +33608,7 @@ const server = http.createServer(async (req, res) => {
     //   before URL matching, so the fallback should work — but Firefox's behaviour here is
     //   genuinely contested and Safari only understands worker-src from 15.5. Two words remove
     //   the variance entirely.
-    res.setHeader('Content-Security-Policy-Report-Only', [
+    const _cspTargetPolicy = [
         "default-src 'self'",
         "script-src 'nonce-" + _cspNonce + "' 'unsafe-inline' 'unsafe-eval' 'strict-dynamic' https: http:",
         "script-src-attr 'unsafe-inline'",
@@ -33640,7 +33625,9 @@ const server = http.createServer(async (req, res) => {
         "frame-ancestors 'self'",
         "form-action 'self'",
         "upgrade-insecure-requests"
-    ].join('; '));
+    ].join('; ');
+    res.setHeader('Content-Security-Policy', _cspTargetPolicy);
+    res.setHeader('Content-Security-Policy-Report-Only', _cspTargetPolicy);
     res.setHeader('X-XSS-Protection', '0'); // modern browsers ignore — CSP أفضل
 
     // 301 redirect: www.* → * (يُصلح duplicate content warning في SEO audits)

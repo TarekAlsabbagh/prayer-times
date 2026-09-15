@@ -3,7 +3,8 @@
 // Arabic-only URLs (/quran + the 114 official surah routes), no hreflang / query / fragment / language
 // prefix, fixed lastmod 2026-07-22, built ONCE + ETag/304 + brotli, and — statically — built from the
 // light _quranShared().routes with NO ayah text / surah-file read / Tanzil load / city generator / call
-// into the site-wide sitemap builder. The site-wide sitemap is NOT modified.
+// into the site-wide sitemap builder. INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: it is now the SOLE Quran listing (the duplicate
+// sitemap-main Quran block was removed).
 //
 //   QURAN_SSR_BASE=http://localhost:8080 node scripts/_smoke_quran_dedicated_sitemap_1.mjs
 import fs from 'fs'; import path from 'path'; import { fileURLToPath } from 'url';
@@ -33,8 +34,15 @@ ok(handler.includes('_normWeakETag') && handler.includes('_ifNoneMatchHit') && /
 ok(handler.includes("split(',')") && handler.includes("tok === '*'"), 'If-None-Match honours a comma-separated ETag list and "*"');
 ok(handler.includes("req.headers['if-modified-since']") && handler.indexOf("req.headers['if-none-match']") < handler.indexOf("req.headers['if-modified-since']"), 'If-Modified-Since is only a fallback — If-None-Match takes precedence');
 ok(!/getCitySitemapChunks|sitemap-main|bilingualUrl/.test(handler), 'the route does NOT invoke the city generator or the site-wide sitemap builder');
-// site-wide sitemap NOT modified — its Quran block is still intact
-ok(/const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';/.test(src) && /entries\.push\(_quranSitemapUrl\('\/quran', '0\.8'\)\);/.test(src), 'the site-wide sitemap-main Quran block is left intact (not modified/removed)');
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the duplicate sitemap-main Quran block was REMOVED on purpose — this dedicated
+//   sitemap is now the SOLE Quran listing (it keeps its own fixed LASTMOD 2026-07-22).
+{
+  const m0 = src.indexOf('// ===== /sitemap-main.xml'), m1 = src.indexOf('// ===== /sitemap-cities-N.xml', m0);
+  const mainHandler = (m0 >= 0 && m1 > m0) ? src.slice(m0, m1) : '';
+  ok(mainHandler.includes('urlPath.match(/^\\/sitemap-main\\.xml(\\.gz)?$/)') && !/_quranShared\(|['"`]\/quran|2026-07-22/.test(mainHandler) && !/QURAN_PUBLIC_RELEASE_LASTMOD|_quranSitemapUrl/.test(src),
+    'sitemap-main carries NO Quran block (no _quranShared / quoted /quran url / 2026-07-22 / QURAN_PUBLIC_RELEASE_LASTMOD) — the dedicated sitemap is the sole Quran listing');
+  ok(/const LASTMOD = '2026-07-22';/.test(body), 'the dedicated builder keeps its fixed LASTMOD 2026-07-22');
+}
 // robots.txt advertises the new sitemap additionally
 ok(/Sitemap: \$\{SITE_URL\}\/sitemap\.xml/.test(src) && /Sitemap: \$\{SITE_URL\}\/sitemap-quran\.xml/.test(src), 'robots.txt keeps the site-wide Sitemap line AND adds the /sitemap-quran.xml line');
 
@@ -112,8 +120,17 @@ async function main() {
   const xml2 = await (await fetch(B + '/sitemap-quran.xml')).text();
   ok([...xml2.matchAll(/<loc>/g)].length === 115, '14) still exactly 115 urls after the fix');
   ok(xml2 === xml, '15) the XML body is byte-identical across requests (deterministic, unchanged)');
-  const smMain2 = await (await fetch(B + '/sitemap-main.xml')).text();
-  ok([...smMain2.matchAll(/<loc>https?:\/\/[^/]+\/quran(\/[a-z0-9-]+)?<\/loc>/g)].length === 115, '16) the general sitemap-main still lists exactly 115 quran urls (unchanged)');
+  // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the dedicated sitemap is the SOLE Quran listing — sitemap-main and every other
+  //   sitemap in the index list 0 Quran urls (any language prefix), while /sitemap-quran.xml keeps its 115 (asserted above).
+  const smIdx = await (await fetch(B + '/sitemap.xml')).text();
+  const smChildren = [...smIdx.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1].replace(/^https?:\/\/[^/]+/, '')).filter(p => p !== '/sitemap-quran.xml');
+  let smChildOk = 0, quranElsewhere = 0;
+  for (const cp of smChildren) {
+    const cr = await fetch(B + cp); const ctext = await cr.text();
+    if (cr.status === 200 && /<urlset\b/.test(ctext)) smChildOk++;
+    quranElsewhere += [...ctext.matchAll(/<loc>https?:\/\/[^/<]+(?:\/[a-z]{2})?\/quran(?:\/[a-z0-9-]+)?<\/loc>/g)].length;
+  }
+  ok(smChildren.includes('/sitemap-main.xml') && smChildOk === smChildren.length && quranElsewhere === 0, '16) sitemap-main + every other index child list 0 quran urls (the dedicated sitemap is the sole Quran listing) — children=' + smChildren.length + ' ok=' + smChildOk + ' quran=' + quranElsewhere);
   // brotli negotiation still works on the 200 path
   const rBr = await fetch(B + '/sitemap-quran.xml', { headers: { 'accept-encoding': 'br' } });
   ok((rBr.headers.get('content-encoding') || '') === 'br', 'serves Content-Encoding: br on the 200 response when requested');

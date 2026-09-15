@@ -181,10 +181,14 @@ ok(html.length < 900_000, 'served HTML is under 900 KB — got ' + Math.round(ht
 ok(!/textUthmani|quran-ayah-flow/.test(html), 'no ayah text or ayah-flow markup on the index');
 
 console.log('\n--- §4 sitemap INCLUDES the Quran section (PUBLIC release) ---');
-const sm = await (await fetch(BASE + '/sitemap-main.xml')).text();
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the Quran urls are listed ONLY in the dedicated /sitemap-quran.xml (the duplicate
+//   sitemap-main block was removed) → count them there, and prove sitemap-main lists none.
+const sm = await (await fetch(BASE + '/sitemap-quran.xml')).text();
 const quranSitemapUrls = (sm.match(/<loc>[^<]*\/quran(?:\/[a-z0-9-]+)?<\/loc>/g) || []);
-ok(quranSitemapUrls.length === 115, 'sitemap-main.xml contains exactly 115 /quran urls (/quran + 114 surahs) — ' + quranSitemapUrls.length);
+ok(quranSitemapUrls.length === 115, 'sitemap-quran.xml contains exactly 115 /quran urls (/quran + 114 surahs) — ' + quranSitemapUrls.length);
 ok(new Set(quranSitemapUrls).size === 115, 'the 115 /quran sitemap urls are all distinct (no duplicates)');
+const smMain = await (await fetch(BASE + '/sitemap-main.xml')).text();
+ok((smMain.match(/<loc>[^<]*\/quran(?:\/[a-z0-9-]+)?<\/loc>/g) || []).length === 0, 'sitemap-main.xml lists 0 /quran urls (the dedicated sitemap is the sole Quran listing)');
 
 console.log(`\nRESULT: ${pass} passed, ${fail} failed`);
 // Set the code and let Node drain its handles instead of calling process.exit(). On Windows this build aborts

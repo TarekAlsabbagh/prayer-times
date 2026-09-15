@@ -20,7 +20,12 @@ const ROBOTS = `${BASE}/robots.txt`;
 
 const data = JSON.parse(fs.readFileSync(path.resolve('db/curated-slugs.json'), 'utf8'));
 const validSlugs = new Set(data.entries.map(e => e.slug));
-const oldSlugs = new Set(Object.keys(data.redirects));
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: server.js drops (at boot) every redirect key that is ALSO a live curated slug
+//   (db/places/curated-places.json — today only "singapore"): that URL is the canonical city page, not an old slug. Each
+//   dropped key is verified LIVE over HTTP below (200, no Location, no noindex); its former target (singapore-city) is an old slug now.
+const liveCuratedSlugs = new Set(JSON.parse(fs.readFileSync(path.resolve('db/places/curated-places.json'), 'utf8')).map(p => p.slug));
+const droppedRedirects = Object.entries(data.redirects).filter(([k]) => liveCuratedSlugs.has(k));
+const oldSlugs = new Set([...Object.keys(data.redirects).filter(k => !liveCuratedSlugs.has(k)), ...droppedRedirects.map(([, to]) => to)]);
 
 let pass = 0, fail = 0;
 const failures = [];
@@ -92,6 +97,19 @@ for (const { urls } of allUrls) {
                 }
             }
         } catch(e) {}
+    }
+}
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: a boot-dropped redirect key must really be LIVE (200, no Location, no noindex) —
+//   otherwise its sitemap URLs still count as leaked old slugs, exactly as before this ticket.
+for (const [k] of droppedRedirects) {
+    const r = await fetch(`${BASE}/prayer-times-in-${k}`, { redirect: 'manual' }).catch(() => null);
+    const html = (r && r.status === 200) ? await r.text() : '';
+    const live = !!r && r.status === 200 && !r.headers.get('location')
+        && !/noindex/i.test(r.headers.get('x-robots-tag') || '') && !/<meta[^>]+name=["']robots["'][^>]+noindex/i.test(html);
+    if (live) continue;
+    for (const { urls } of allUrls) for (const u of urls) {
+        const m = new URL(u).pathname.match(cityUrlRe);
+        if (m && m[1] === k) { oldSlugUsed++; failures.push(`  ✗ dropped redirect key "${k}" is not live (status ${r ? r.status : 'fetch failed'}) but in sitemap: ${u}`); }
     }
 }
 badQuery === 0 ? ok('No URLs contain query strings') : bad(`${badQuery} URLs contain query strings`);

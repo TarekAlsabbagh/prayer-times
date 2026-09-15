@@ -104,8 +104,17 @@ const khartoumState = findEntry({ en: 'Khartoum State' });
 const khartoumCity = findEntry({ en: 'Khartoum' });
 const khartoumWinner = khartoumCity || khartoumState;
 khartoumWinner && khartoumWinner.slug === 'khartoum' ? ok('Khartoum canonical = /prayer-times-in-khartoum') : bad(`Khartoum canonical = ${khartoumWinner?.slug}`);
-const singapore = findEntry({ en: 'Singapore' });
-singapore && singapore.slug === 'singapore-city' ? ok('Singapore canonical = /prayer-times-in-singapore-city') : bad(`Singapore canonical = ${singapore?.slug}`);
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: Singapore's canonical page is /prayer-times-in-singapore — the LIVE curated city
+//   slug in db/places/curated-places.json (the source the server routes + sitemap use). db/curated-slugs.json is a frozen
+//   generated file that still names it singapore-city; that name is NOT curated and no longer canonical.
+const CURATED_PLACES = JSON.parse(fs.readFileSync(path.join(ROOT, 'db/places/curated-places.json'), 'utf8'));
+const LIVE_CURATED_SLUGS = new Set(CURATED_PLACES.map(p => p.slug));
+const sgPlace = CURATED_PLACES.find(p => p.slug === 'singapore');
+const sgClient = LOCAL_CITIES.find(c => c.en === 'Singapore' && c.cc === 'sg');
+const sgClientSlug = sgClient ? buildPrayerTimesSlug(sgClient) : null;
+(sgPlace && sgPlace.type === 'city' && sgPlace.countryCode === 'sg' && !LIVE_CURATED_SLUGS.has('singapore-city') && sgClientSlug === 'singapore')
+    ? ok('Singapore canonical = /prayer-times-in-singapore (live curated city; singapore-city not curated; client slug = singapore)')
+    : bad(`Singapore canonical: curated=${sgPlace ? [sgPlace.slug, sgPlace.type, sgPlace.countryCode].join('/') : 'none'} singapore-city curated=${LIVE_CURATED_SLUGS.has('singapore-city')} client slug=${sgClientSlug}`);
 
 // 2) Slug format validation ───────────────────────────────────────────
 console.log(`\n▌ B) Slug format & structure`);
@@ -161,7 +170,10 @@ for (const item of allRaw) {
     const slug = buildPrayerTimesSlug(item);
     if (!slug) continue;
     // Find entry by slug — must exist
-    if (!slugSet.has(slug)) {
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: narrow exception for Singapore ONLY — its client slug is the live curated slug
+    //   'singapore' (asserted in A), which the frozen db/curated-slugs.json still lists as singapore-city.
+    const sgException = item.en === 'Singapore' && item.cc === 'sg' && slug === 'singapore' && LIVE_CURATED_SLUGS.has('singapore');
+    if (!slugSet.has(slug) && !sgException) {
         mismatch++; failures.push(`  ✗ ${item.en} produces "${slug}" but no entry has that slug`);
     }
     seenChecked.add(slug);
@@ -172,7 +184,8 @@ mismatch === 0 ? ok(`All ${allRaw.length} raw items resolve to a canonical entry
 console.log(`\n▌ G) Required redirects present`);
 const required = {
     'mecca':              'makkah',
-    'singapore':          'singapore-city',
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: 'singapore' → 'singapore-city' is NO LONGER a required redirect (see the explicit
+    //   frozen-redirect check below: its source is a live curated slug, dropped by server.js at boot → no 301).
     'giza-governorate':   'giza',
     'khartoum-state':     'khartoum',
     'eastern-province':   'eastern',
@@ -180,6 +193,18 @@ const required = {
 for (const [from, to] of Object.entries(required)) {
     if (data.redirects[from] === to) ok(`/prayer-times-in-${from} → /prayer-times-in-${to}`);
     else bad(`Missing redirect: ${from} → ${to} (got: ${data.redirects[from] || 'none'})`);
+}
+
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the frozen file still carries "singapore" → "singapore-city". That source is a LIVE
+//   curated slug, so server.js drops it at boot (no 301 — the curated slug IS the indexable page). It must be the ONLY such
+//   key, and the boot guard must be present.
+{
+    const liveRedirectKeys = Object.keys(data.redirects).filter(k => LIVE_CURATED_SLUGS.has(k));
+    const srvSrc = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
+    const bootGuard = /for \(const _rk of Object\.keys\(CURATED_REDIRECTS\)\) \{\s*if \(_CURATED_SLUG_INDEX\[_rk\]\) \{[\s\S]{0,200}?delete CURATED_REDIRECTS\[_rk\];/.test(srvSrc);
+    (data.redirects.singapore === 'singapore-city' && liveRedirectKeys.length === 1 && liveRedirectKeys[0] === 'singapore' && bootGuard)
+        ? ok('frozen redirect singapore → singapore-city: its source is a live curated slug (the only one) → dropped by the server boot guard')
+        : bad(`frozen redirect keys that are live curated slugs = [${liveRedirectKeys.join(',')}] (expected [singapore]); singapore → ${data.redirects.singapore || 'none'}; boot guard present = ${bootGuard}`);
 }
 
 // ── Print all checks ─────────────────────────────────────────────────

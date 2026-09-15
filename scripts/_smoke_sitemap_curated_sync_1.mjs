@@ -20,6 +20,23 @@ const MAX_URLS = 50000;
 
 let pass = 0, fail = 0; const fails = [];
 const ok = (c, m) => { if (c) pass++; else { fail++; fails.push(m); } console.log(`  ${c ? 'PASS' : 'FAIL'}  ${m}`); };
+
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: per-file <lastmod> policy (replaces "every file has <lastmod>"). <lastmod> is emitted
+//   ONLY for a real last-change date, never the request day: sitemap-main → exactly the 20 /[lang/]privacy + /[lang/]terms
+//   entries at the LEGAL_PAGES legal-meta date; every other main entry and every city shard → none.
+const LEGAL_LASTMOD = '2026-08-09';
+function lastmodPolicy(p, text) {
+    const total = (text.match(/<lastmod>/g) || []).length;
+    if (!/\/sitemap-main\.xml$/.test(p)) return { ok: total === 0, detail: `lastmod=${total}` };
+    let legal = 0, legalOk = 0, other = 0;
+    for (const [, b] of text.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+        const loc = (b.match(/<loc>([^<]+)<\/loc>/) || [])[1] || '';
+        const lms = [...b.matchAll(/<lastmod>([^<]*)<\/lastmod>/g)].map(m => m[1]);
+        if (/^https?:\/\/[^/]+(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(?:privacy|terms)$/.test(loc)) { legal++; if (lms.length === 1 && lms[0] === LEGAL_LASTMOD) legalOk++; }
+        else if (lms.length) other++;
+    }
+    return { ok: legal === 20 && legalOk === 20 && other === 0 && total === 20, detail: `legal=${legal} legalAt${LEGAL_LASTMOD}=${legalOk} otherWithLastmod=${other} lastmod=${total}` };
+}
 const get = (p) => new Promise((resolve) => {
     http.get({ host: 'localhost', port: PORT, path: p }, res => {
         const chunks = []; res.on('data', d => chunks.push(d));
@@ -39,6 +56,8 @@ process.on('exit', cleanup);
 
     const idx = await get('/sitemap.xml');
     ok(idx.text.includes('<sitemapindex'), 'sitemap.xml is <sitemapindex>');
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: index children carry no <lastmod> (no reliable last-change date; never the request day)
+    ok(!idx.text.includes('<lastmod>'), 'sitemap.xml index children carry NO <lastmod>');
     const children = [...idx.text.matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
     const mainFile = children.filter(u => /\/sitemap-main\.xml$/.test(u));
     const cityFiles = children.filter(u => /\/sitemap-cities-\d+\.xml$/.test(u));
@@ -56,8 +75,10 @@ process.on('exit', cleanup);
         const offhost = [...r.text.matchAll(/<loc>([^<]+)<\/loc>/g)].filter(m => !m[1].startsWith(HOST)).length;
         const bad = (r.text.match(/onrender|localhost|staging/gi) || []).length;
         const noidx = (r.text.match(/noindex|discovered/gi) || []).length;
-        const good = r.status === 200 && r.ctype.includes('application/xml') && r.bytes < MAX_BYTES && locs < MAX_URLS && r.text.includes('<lastmod>') && offhost === 0 && bad === 0 && noidx === 0;
-        ok(good, `${p} : 200 xml <50MB(${(r.bytes/1048576).toFixed(2)}) <50k(${locs}) lastmod offhost=${offhost} bad=${bad} noidx=${noidx}`);
+        // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: "has <lastmod>" → the per-file lastmod policy (lastmodPolicy above).
+        const lm = lastmodPolicy(p, r.text);
+        const good = r.status === 200 && r.ctype.includes('application/xml') && r.bytes < MAX_BYTES && locs < MAX_URLS && lm.ok && offhost === 0 && bad === 0 && noidx === 0;
+        ok(good, `${p} : 200 xml <50MB(${(r.bytes/1048576).toFixed(2)}) <50k(${locs}) lastmod[${lm.detail}] offhost=${offhost} bad=${bad} noidx=${noidx}`);
         totalLocs += locs; maxBytes = Math.max(maxBytes, r.bytes);
     }
     console.log(`  INFO  city files=${cityFiles.length} | total <loc>=${totalLocs} | largest file=${(maxBytes/1048576).toFixed(2)}MB`);

@@ -8,7 +8,8 @@
 //   5. 11 hreflang (10 لغات + x-default)
 //   6. JSON-LD صالح + يحوي BreadcrumbList
 //   7. روابط داخليّة لـ qibla/moon/time-left/next-prayer/about (نفس المدينة)
-//   8. لا تسرّب slugs قديمة (mecca, giza-governorate, singapore, eastern-province)
+//   8. لا تسرّب slugs قديمة (mecca, giza-governorate, eastern-province, singapore-city)
+//      INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: "singapore" is now a live curated city slug (no longer an old slug).
 //   9. لا query params في روابط المدن
 //
 // تشغيل: تأكّد أن الخادم على :3000 ثم: node scripts/test-page-template-seo.mjs
@@ -30,7 +31,11 @@ const SAMPLE = [
 
 const data = JSON.parse(fs.readFileSync(path.resolve('db/curated-slugs.json'), 'utf8'));
 const validSlugs = new Set(data.entries.map(e => e.slug));
-const oldSlugs = Object.keys(data.redirects);
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: a redirect key that is ALSO a live curated slug (db/places/curated-places.json —
+//   today only "singapore") is dropped by server.js at boot: /prayer-times-in-singapore is the canonical city page, so it
+//   is not an old slug. Its former target "singapore-city" is the non-canonical one → flagged in section 8.
+const liveCuratedSlugs = new Set(JSON.parse(fs.readFileSync(path.resolve('db/places/curated-places.json'), 'utf8')).map(p => p.slug));
+const oldSlugs = Object.keys(data.redirects).filter(s => !liveCuratedSlugs.has(s));
 
 // ── Per-page parse helpers ─────────────────────────────────────────────
 function extractTitle(html) {
@@ -187,6 +192,8 @@ for (const slug of SAMPLE) {
         const m = html.match(re);
         if (m) leaks += m.length;
     }
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no internal link may point at a non-canonical *-singapore-city page.
+    leaks += (html.match(/href=["'][^"']*-singapore-city(?=["'\/?#.])/g) || []).length;
     report.oldSlugLeaks = leaks;
     if (leaks === 0) ok('no-old-slug-leaks');
     else bad(`${slug}: ${leaks} old-slug href leaks (e.g. /prayer-times-in-mecca should be /prayer-times-in-makkah)`);

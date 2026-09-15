@@ -99,7 +99,9 @@ const TESTS = [
     { name: 'Cairo',          lookup: () => findByEn('Cairo'),                   expectSlug: 'cairo' },
     { name: 'London',         lookup: () => findByEn('London', 'gb'),            expectSlug: 'london',     note: 'or london-united-kingdom if conflict' },
     { name: 'Beijing',        lookup: () => findByEn('Beijing'),                 expectSlug: 'beijing' },
-    { name: 'Singapore',      lookup: () => findByEn('Singapore'),               expectSlug: 'singapore-city', note: 'avoids country-slug collision' },
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: Singapore's canonical city slug IS 'singapore' (the live curated city slug the
+    //   prayer route serves as the indexable city page); 'singapore-city' is no longer produced by the client.
+    { name: 'Singapore',      lookup: () => findByEn('Singapore'),               expectSlug: 'singapore',  note: 'live curated city slug (not singapore-city)' },
 
     // ── Governorates (LOCAL_PROVINCES) ──
     { name: 'Al Mithnab',         lookup: () => findByEn('Al Mithnab'),          expectSlug: 'al-mithnab' },

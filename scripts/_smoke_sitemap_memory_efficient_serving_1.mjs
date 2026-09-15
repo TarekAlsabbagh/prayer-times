@@ -5,7 +5,8 @@
 //       — proving the zlib.createGzip() stream produces byte-identical output;
 //   (b) CONTENT unchanged: total <loc> across all files == 175,710; required curated-index cities
 //       present; noindex-legacy + discovered absent; host = https://timesprayers.com only;
-//   (c) SIZE-SPLIT still holds: every file < 50 MB and < 50k URLs, has <lastmod>, is application/xml;
+//   (c) SIZE-SPLIT still holds: every file < 50 MB and < 50k URLs, follows the <lastmod> policy, is application/xml;
+//       (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: "has <lastmod>" became the per-file lastmod policy — see lastmodPolicy)
 //   (d) index lists sitemap-main + sitemap-cities-1..N; sitemap-cities-(N+1) → 404; robots unchanged.
 // Self-contained (spawns + tears down its own server).
 import { spawn } from 'node:child_process';
@@ -24,6 +25,23 @@ const EXPECT_TOTAL_LOC = 175710;
 
 let pass = 0, fail = 0; const fails = [];
 const ok = (c, m) => { if (c) pass++; else { fail++; fails.push(m); } console.log(`  ${c ? 'PASS' : 'FAIL'}  ${m}`); };
+
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: per-file <lastmod> policy (replaces "every file has <lastmod>"). <lastmod> is emitted
+//   ONLY for a real last-change date, never the request day: sitemap-main → exactly the 20 /[lang/]privacy + /[lang/]terms
+//   entries at the LEGAL_PAGES legal-meta date; every other main entry and every city shard → none.
+const LEGAL_LASTMOD = '2026-08-09';
+function lastmodPolicy(p, text) {
+    const total = (text.match(/<lastmod>/g) || []).length;
+    if (!/\/sitemap-main\.xml$/.test(p)) return { ok: total === 0, detail: `lastmod=${total}` };
+    let legal = 0, legalOk = 0, other = 0;
+    for (const [, b] of text.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+        const loc = (b.match(/<loc>([^<]+)<\/loc>/) || [])[1] || '';
+        const lms = [...b.matchAll(/<lastmod>([^<]*)<\/lastmod>/g)].map(m => m[1]);
+        if (/^https?:\/\/[^/]+(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(?:privacy|terms)$/.test(loc)) { legal++; if (lms.length === 1 && lms[0] === LEGAL_LASTMOD) legalOk++; }
+        else if (lms.length) other++;
+    }
+    return { ok: legal === 20 && legalOk === 20 && other === 0 && total === 20, detail: `legal=${legal} legalAt${LEGAL_LASTMOD}=${legalOk} otherWithLastmod=${other} lastmod=${total}` };
+}
 const get = (p, enc) => new Promise((resolve) => {
     http.get({ host: 'localhost', port: PORT, path: p, headers: enc ? { 'Accept-Encoding': enc } : {} }, res => {
         const chunks = []; res.on('data', d => chunks.push(d));
@@ -49,7 +67,9 @@ async function checkFile(p) {
     ok(idn.status === 200 && idn.ctype.includes('application/xml'), `${p} identity: 200 application/xml`);
     ok(gzp.status === 200 && gzp.enc === 'gzip', `${p} gzip: 200 Content-Encoding: gzip`);
     ok(gunz.length > 0 && Buffer.compare(idn.bytes, gunz) === 0, `${p} gzip-stream gunzips to EXACT identity bytes (byte-identical)`);
-    ok(idn.bytes.length < MAX_BYTES && locs < MAX_URLS && text.includes('<lastmod>'), `${p} <50MB(${(idn.bytes.length/1048576).toFixed(2)}) <50k(${locs}) lastmod`);
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: "has <lastmod>" → the per-file lastmod policy (lastmodPolicy above).
+    const lm = lastmodPolicy(p, text);
+    ok(idn.bytes.length < MAX_BYTES && locs < MAX_URLS && lm.ok, `${p} <50MB(${(idn.bytes.length/1048576).toFixed(2)}) <50k(${locs}) lastmod[${lm.detail}]`);
     ok(offhost === 0 && bad === 0 && noidx === 0, `${p} host-clean offhost=${offhost} bad=${bad} noidx=${noidx}`);
     return { locs, text };
 }
@@ -63,6 +83,8 @@ async function checkFile(p) {
     // index
     const idx = await get('/sitemap.xml', 'identity');
     ok(idx.bytes.toString('utf8').includes('<sitemapindex'), 'sitemap.xml is <sitemapindex>');
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: index children carry no <lastmod> (no reliable last-change date; never the request day)
+    ok(!idx.bytes.toString('utf8').includes('<lastmod>'), 'sitemap.xml index children carry NO <lastmod>');
     const children = [...idx.bytes.toString('utf8').matchAll(/<loc>([^<]+)<\/loc>/g)].map(m => m[1]);
     const mainFile = children.filter(u => /\/sitemap-main\.xml$/.test(u));
     const cityFiles = children.filter(u => /\/sitemap-cities-\d+\.xml$/.test(u));

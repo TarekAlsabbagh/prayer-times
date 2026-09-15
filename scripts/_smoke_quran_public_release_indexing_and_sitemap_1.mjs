@@ -18,8 +18,12 @@ const NODE_PATH_FALLBACK = process.env.NODE_PATH || 'C:/Users/Tarek/Downloads/TI
 // ---------------- STATIC (source) ----------------
 const server = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
 ok(!/process\.env\.QURAN_PROTOTYPE_ENABLED/.test(server), 'server.js has ZERO active runtime gate on process.env.QURAN_PROTOTYPE_ENABLED (feature gate removed)');
-ok(/const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';/.test(server), 'server.js defines the FIXED QURAN_PUBLIC_RELEASE_LASTMOD (not `today`)');
-ok(/_quranSitemapUrl\('\/quran'/.test(server) && /_quranShared\(\)\.routes\) entries\.push\(_quranSitemapUrl/.test(server.replace(/\s+/g, ' ')), 'the sitemap builds the 115 Quran urls from _quranShared().routes (no second slug list, no ayah text)');
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the 115 Quran urls are listed ONLY by the dedicated /sitemap-quran.xml builder (the
+//   duplicate sitemap-main block + its QURAN_PUBLIC_RELEASE_LASTMOD were removed) → these source checks target that builder.
+const _qsb0 = server.indexOf('function _getQuranDedicatedSitemap()');
+const _qsBody = _qsb0 >= 0 ? server.slice(_qsb0, server.indexOf('\n}', _qsb0)) : '';
+ok(/const LASTMOD = '2026-07-22';/.test(_qsBody) && !/\btoday\b|toISOString\(\)/.test(_qsBody), 'the dedicated Quran sitemap builder defines the FIXED LASTMOD 2026-07-22 (not `today`)');
+ok(/const entries = \[_u\('\/quran', '0\.8'\)\];/.test(_qsBody) && /for \(const _qr of _quranShared\(\)\.routes\) entries\.push\(_u\(_qr\.path, '0\.7'\)\);/.test(_qsBody) && !/QURAN_PUBLIC_RELEASE_LASTMOD|_quranSitemapUrl/.test(server), 'the dedicated sitemap builds the 115 Quran urls from _quranShared().routes (no second slug list, no ayah text); no sitemap-main Quran builder remains');
 ok(/css\/quran\.css\?v=25\b/.test(server) && !/css\/quran\.css\?v=2[46]/.test(server), 'css/quran.css?v=25 unchanged');
 ok(/js\/quran\.js\?v=15\b/.test(server) && !/js\/quran\.js\?v=1[46]/.test(server), 'js/quran.js?v=15 unchanged');
 ok(/js\/quran-home\.js\?v=4\b/.test(server) && !/js\/quran-home\.js\?v=[23]\b/.test(server), 'js/quran-home.js bumped to v=4 (QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1)');
@@ -41,7 +45,12 @@ async function main() {
   const A = await boot(3197, {});   // env var deleted inside boot()
   if (!A.p) { console.log('SKIP — could not boot a flag-free server'); finish(); return; }
   const hRobots = await fetch(A.base + '/robots.txt').then(r => r.text());
-  const sm = await fetch(A.base + '/sitemap-main.xml').then(r => r.text());
+  // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the Quran urls now live ONLY in the dedicated /sitemap-quran.xml (advertised by
+  //   robots.txt) → the sitemap checks below read it; sitemap-main must list 0 of them (no duplicate listing).
+  const sm = await fetch(A.base + '/sitemap-quran.xml').then(r => r.text());
+  const smMain = await fetch(A.base + '/sitemap-main.xml').then(r => r.text());
+  ok([...smMain.matchAll(/<loc>[^<]*\/quran(?:\/[a-z0-9-]+)?<\/loc>/g)].length === 0, 'sitemap-main: 0 Quran <loc> (the dedicated /sitemap-quran.xml is the sole Quran listing)');
+  ok(/Sitemap:\s*\S+\/sitemap-quran\.xml/.test(hRobots), 'robots.txt advertises /sitemap-quran.xml');
 
   // (1) Sitemap — exactly 115, distinct, fixed lastmod, arabic-only, no query/fragment/lang-prefix/anchor
   const quranLocs = [...sm.matchAll(/<loc>([^<]*\/quran(?:\/[a-z0-9-]+)?)<\/loc>/g)].map(m => m[1]);

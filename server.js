@@ -2176,6 +2176,20 @@ for (const _oldSlug in _MANUAL_PROMOTED_REDIRECTS) {
     if (_oldSlug !== _to && !CURATED_REDIRECTS[_oldSlug]) CURATED_REDIRECTS[_oldSlug] = _to;
 }
 
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (Singapore, decision B′): a redirect key that is ALSO a live curated
+// slug must never 301 — the curated slug IS the indexable page. db/curated-slugs.json is GENERATED from the
+// client LOCAL_CITIES table and still carries "singapore" → "singapore-city", which sent 40 sitemap URLs to a
+// non-curated noindex page. Dropping such keys here (instead of hand-editing the generated file) survives any
+// future regeneration. Today this removes exactly one key: "singapore". No reverse redirect is added on
+// purpose: the old singapore → singapore-city 301 was served with max-age=31536000, so a reverse 301 would
+// loop in browsers that cached it; /…-singapore-city keeps rendering 200 noindex outside the sitemap.
+for (const _rk of Object.keys(CURATED_REDIRECTS)) {
+    if (_CURATED_SLUG_INDEX[_rk]) {
+        console.warn('[Curated] ignoring redirect for live curated slug:', _rk, '->', CURATED_REDIRECTS[_rk]);
+        delete CURATED_REDIRECTS[_rk];
+    }
+}
+
 // ===== UAT-3b — Server-side i18n: load TRANSLATIONS from js/i18n.js =====
 // Runs js/i18n.js inside a vm sandbox at boot. Stub document/window/etc so
 // the DOM-touching helpers (setLanguage, etc.) don't throw — we only need
@@ -6219,6 +6233,24 @@ function readCachedFile(fullPath, cb) {
     fs.readFile(fullPath, cb);
 }
 
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the ONLY real last-updated date for /privacy and /terms is the
+// visible "legal-meta" literal inside LEGAL_PAGES below (single source of truth — no second hardcoded
+// copy). Every locale of both pages must carry the SAME ISO date; otherwise null → the sitemap omits
+// <lastmod> for them (never the request day).
+function _legalLastUpdatedIso() {
+    const _dates = new Set();
+    for (const _k of ['privacy', 'terms']) {
+        const _page = LEGAL_PAGES[_k] || {};
+        const _langs = Object.keys(_page);
+        if (!_langs.length) _dates.add('missing');
+        for (const _lang of _langs) {
+            const _m = String(_page[_lang] || '').match(/class="legal-meta">[^<]*?(\d{4}-\d{2}-\d{2})</);
+            _dates.add(_m ? _m[1] : 'missing');
+        }
+    }
+    return (_dates.size === 1 && !_dates.has('missing')) ? [..._dates][0] : null;
+}
+
 // ============================================================
 // ===== LEGAL PAGES CONTENT (bilingual AR + EN) ===============
 // ============================================================
@@ -10132,7 +10164,7 @@ function _getActiveH1Marker(urlPath) {
         // demoted the hero to <h2> looking for a non-existent #page-h1 → the page rendered H1=0.
         const _ptm = path.match(/^\/prayer-times-in-([a-z][a-z0-9-]+)$/);
         if (_ptm) {
-            const _ptc = _countryFromSlug(_ptm[1]);
+            const _ptc = _prayerCountryFromSlug(_ptm[1]);
             if (_ptc && _ptc.cc && _ptc.cc !== '__') return { kind: 'id', value: 'loc-hero-title' };
         }
         return { kind: 'id', value: 'page-h1' };   // city page (index.html)
@@ -11434,18 +11466,19 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
             const cap = _MOON_COUNTRY_CAPITAL_L10N[lang] || _MOON_COUNTRY_CAPITAL_L10N.en;
             const _capName = (lang === 'ar') ? _capEntry.nameAr : ((_capEntry.names && _capEntry.names[lang]) || _capEntry.nameEn);
             const capSub = s => String(s).split('{C}').join(_capName);
-            // current Y/M in the country's primary timezone (NOT hardcoded), clamped to the 1900–2100 route range
+            // current Y/M in the country's primary timezone (NOT hardcoded), clamped to the supported moon range
             const _capTz = (comp && comp.tz) || (typeof _CC_TO_PRIMARY_TZ !== 'undefined' && _CC_TO_PRIMARY_TZ[cc]) || 'UTC';
-            let _curY = 2026, _curM = 1;
+            const _capRange = getSupportedMoonYearRange();
+            let _curY = _capRange.currentYear, _curM = 1;
             try {
                 const _m = new Intl.DateTimeFormat('en-CA', { timeZone: _capTz, year: 'numeric', month: '2-digit' }).format(new Date()).match(/(\d{4})-(\d{2})/);
-                if (_m) { _curY = Math.min(2100, Math.max(1900, parseInt(_m[1], 10))); _curM = parseInt(_m[2], 10); }
+                if (_m) { _curY = Math.min(_capRange.SUPPORTED_MOON_YEAR_MAX, Math.max(_capRange.SUPPORTED_MOON_YEAR_MIN, parseInt(_m[1], 10))); _curM = parseInt(_m[2], 10); }
             } catch (_) { }
             const _p2 = (n) => String(n).padStart(2, '0');
             const _capBase = `${pfx}/moon/${_ccSlugCap}/${_capSlug}`;
             const _card = (href, ico, lbl, desc) => `<a class="mc-cap-card" href="${href}"><span class="mc-cap-ico" aria-hidden="true">${ico}</span><span class="mc-cap-card-body"><span class="mc-cap-card-title">${_escHtml(capSub(lbl))}</span><span class="mc-cap-card-desc">${_escHtml(capSub(desc))}</span></span><span class="mc-cap-arrow" aria-hidden="true">›</span></a>`;
             const _months = _GREG_MONTHS_L10N[lang] || _GREG_MONTHS_L10N.en;
-            const _yMin = Math.max(1900, _curY - 5), _yMax = Math.min(2100, _curY + 5);
+            const _yMin = Math.max(_capRange.SUPPORTED_MOON_YEAR_MIN, _curY - 5), _yMax = Math.min(_capRange.SUPPORTED_MOON_YEAR_MAX, _curY + 5);
             let _yO = ''; for (let y = _yMin; y <= _yMax; y++) _yO += `<option value="${y}"${y === _curY ? ' selected' : ''}>${y}</option>`;
             let _mO = ''; for (let m = 1; m <= 12; m++) _mO += `<option value="${_p2(m)}"${m === _curM ? ' selected' : ''}>${_escHtml(_months[m - 1] || String(m))}</option>`;
             let _dO = ''; for (let d = 1; d <= 31; d++) _dO += `<option value="${_p2(d)}">${_p2(d)}</option>`;
@@ -11525,6 +11558,64 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
 }
 
 // يأخذ slug دولة (مثل 'saudi-arabia') ويعيد {cc, nameAr, nameEn}
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (Singapore, decision B′): in the PRAYER-TIMES family an APPROVED
+// city-only homonym that is a live curated CITY wins over the same-named country slug (a city-state with one
+// curated city, like Hong Kong and Macau). The list is explicit on purpose: a future curated city named like a
+// country must never silently remove that country's listing page. Used ONLY by the /prayer-times-in-{slug}
+// dispatch, its SEO country branch, its H1 marker, the sitemap prayer-country loop and the observability label;
+// /moon/{slug} country pages and every other _countryFromSlug caller are untouched.
+const PRAYER_CITY_ONLY_COUNTRY_SLUGS = { sg: 'singapore' };
+function _isPrayerCityOnlyCountrySlug(cc, slug) {
+    return !!cc && PRAYER_CITY_ONLY_COUNTRY_SLUGS[cc] === slug && typeof _findPlaceBySlug === 'function' && !!_findPlaceBySlug(slug);
+}
+function _prayerCountryFromSlug(slug) {
+    const _c = _countryFromSlug(slug);
+    if (_c && _c.cc && _c.cc !== '__' && _isPrayerCityOnlyCountrySlug(_c.cc, slug)) return { cc: '__', nameAr: _c.nameAr, nameEn: _c.nameEn };
+    return _c;
+}
+
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4/D5): accepted city-route TAIL shapes for /prayer-times-in-* and
+// /qibla-in-* — the single source for the route gates AND the .html normalizer. A tail is a slug token
+// (lowercase words joined by single hyphens) with an optional -{lat}-{lng} suffix (negative values as '--'),
+// or the client-generated loc-DD.Dn-DDD.De. Anything else (slash tails, uppercase, .HTML/.htm/.php, dotted
+// non-coordinate tails, %, _, digit-first) is not a real route → the normal 404, never a wrong generic 200.
+const _QIBLA_ROUTE_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-(?:loc-\d{1,2}\.\d[ns]-\d{1,3}\.\d[ew]|(?=[a-z][a-z0-9-])[a-z][a-z0-9]*(?:-[a-z0-9]+)*?(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?)$/;
+const _PRAYER_ROUTE_RE = /^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-(loc-\d{1,2}\.\d[ns]-\d{1,3}\.\d[ew]|(?=[a-z][a-z0-9-])[a-z][a-z0-9]*(?:-[a-z0-9]+)*?(?:-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?)$/;
+// SAR / country-CODE slugs on the prayer route → canonical slug (shared by the route and the .html normalizer).
+const _PRAYER_CC_REDIRECT = { mo:'macau', hk:'hong-kong', tw:'taiwan', lv:'latvia',
+    lt:'lithuania', cy:'cyprus', is:'iceland', ee:'estonia', me:'montenegro' };
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): a city URL tail ending in -{int}-{int} is ambiguous. It is a coordinate
+//   variant of a CURATED city when its stem is curated and the full tail is not (/next-prayer-in-riyadh-24-46: the
+//   page rendered default data under an indexable stem) — or a real slug that merely ends in two numbers (e.g. a
+//   discovered 'sector-15-2' from _generateUniqueSlug), which is served exactly as before. Decided synchronously from
+//   the curated index only — never from discovered rows, which anyone can create. Returns the curated stem, or ''.
+function _d4CuratedCoordStem(tail) {
+    const s = String(tail || '');
+    const m = s.match(/--?\d+--?\d+$/);
+    if (!m || s in Object.prototype) return '';
+    const stem = s.slice(0, s.length - m[0].length);
+    return (stem && !(stem in Object.prototype) && _findPlaceBySlug(stem) && !_findPlaceBySlug(s)) ? stem : '';
+}
+// The time-left / next-prayer slug for a prayer-page tail: '' for loc- (no such sibling); the stem for a decimal
+//   -{lat}-{lng} tail (a real slug never contains '.') or a curated coordinate variant; otherwise the tail itself.
+function _tlNptSlugFor(tail) {
+    const s = String(tail || '');
+    if (!s || /^loc-/.test(s)) return '';
+    const d = s.match(/-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?)$/);
+    if (d && d[0].indexOf('.') >= 0) return s.slice(0, s.length - d[0].length);
+    return _d4CuratedCoordStem(s) || s;
+}
+// The canonical 301 target slug of a qibla coordinate URL (shared by the qibla route and the .html normalizer so a
+// .html twin reaches the FINAL URL in one hop). null → no redirect (the page renders with the URL coordinates).
+function _qiblaCoordRedirectSlug(slug, latStr, lngStr) {
+    if (latStr == null || lngStr == null) return null;
+    // An Object.prototype key ('constructor') resolves through the city dictionaries' prototype — never a city.
+    if (slug in Object.prototype) return null;
+    if (_resolveCityForMoon(slug)) return slug;
+    const _near = (typeof _findNearbyDbSlug === 'function') ? _findNearbyDbSlug(parseFloat(latStr), parseFloat(lngStr), 2) : null;
+    // db-index keys can be dotted/digit-first (e.g. '24.7n-46.6e') — never redirect to a shape the qibla gate 404s.
+    return (_near && /^[a-z][a-z0-9-]+$/.test(_near)) ? _near : null;
+}
 function _countryFromSlug(slug) {
     for (const cc in COUNTRY_NAMES_EN) {
         const s = makeCountrySlugSrv(cc);
@@ -11596,8 +11687,8 @@ function _classifyMoonToday(urlPath) {
 // ── MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1 (2026-06-18) ─────────────────────────
 // Classify a /[lang/]moon/{country}/{city}/{yyyy} request (the new city YEAR page).
 // Returns { kind, target?, lp?, countrySlug?, citySlug?, cc?, year? }:
-//   'valid'    → real country slug + city resolves to THAT country + a sane 4-digit
-//                year (1900-2100) → serve the year page (index.html + SSR).
+//   'valid'    → real country slug + city resolves to THAT country + a SUPPORTED 4-digit
+//                year (getSupportedMoonYearRange) → serve the year page (index.html + SSR).
 //   'redirect' → city resolves but to a DIFFERENT country → 301 to the correct
 //                /[lang/]moon/{correctCountry}/{city}/{yyyy} (no mismatched index).
 //   'none'     → not the {country}/{city}/{4-digit-year} shape, OR unknown country/
@@ -11605,8 +11696,36 @@ function _classifyMoonToday(urlPath) {
 // The regex requires EXACTLY a 4-digit final segment, so every other shape stays 404:
 //   …/today · …/{yyyy}/{mm} · …/{yyyy}/{mm}/{dd} · …/{yyyy-mm} · …/{yyyy-mm-dd}
 //   (the dash forms are NOT part of the new structure and must 404 — per spec).
-// Year window 1900-2100 = a safe practical range for a lunar calendar (Meeus 49 is
-// accurate well beyond, but we bound the indexable surface). Decision noted in report.
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the year window is the OFFICIAL supported moon range below
+// (current UTC year ±5). It replaced the old 1900-2100 window, which only bounded the surface while
+// 190 of its 201 years per city rendered a month grid clamped to a DIFFERENT year.
+//
+// ── INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: ONE source of truth for the supported moon years ──
+// The only window in which moon year AND month pages render correctly is the current year ±5 (the
+// month grid and every year picker were already built on it). MIN/MAX are derived PER CALL from the
+// UTC year, so a long-running process never keeps last year's bounds after 1 January; 1900/2100 stay
+// only as hard caps. Every moon route bound, SEO mirror, year/month link, picker, legacy/?cal redirect,
+// the month-grid year and the sitemap year window read this helper. Years outside → clean 404.
+// TP_MOON_RANGE_TEST_NOW is a TEST-ONLY clock seam for the boundary smoke (inert unless set).
+const SUPPORTED_MOON_YEAR_BACK = 5;
+const SUPPORTED_MOON_YEAR_AHEAD = 5;
+function getSupportedMoonYearRange(now) {
+    let _now = now;
+    if (!(_now instanceof Date)) {
+        const _t = process.env.TP_MOON_RANGE_TEST_NOW ? Date.parse(process.env.TP_MOON_RANGE_TEST_NOW) : NaN;
+        _now = Number.isFinite(_t) ? new Date(_t) : new Date();
+    }
+    const _y = _now.getUTCFullYear();
+    return {
+        SUPPORTED_MOON_YEAR_MIN: Math.max(1900, _y - SUPPORTED_MOON_YEAR_BACK),
+        SUPPORTED_MOON_YEAR_MAX: Math.min(2100, _y + SUPPORTED_MOON_YEAR_AHEAD),
+        currentYear: _y
+    };
+}
+function _isSupportedMoonYear(year) {
+    const _r = getSupportedMoonYearRange();
+    return Number.isInteger(year) && year >= _r.SUPPORTED_MOON_YEAR_MIN && year <= _r.SUPPORTED_MOON_YEAR_MAX;
+}
 function _classifyMoonYear(urlPath) {
     const _core = String(urlPath || '').replace(/\.html$/, '');
     const _m = _core.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})$/);
@@ -11615,7 +11734,7 @@ function _classifyMoonYear(urlPath) {
     const _countrySlug = _m[2];
     const _citySlug = _m[3];
     const _year = parseInt(_m[4], 10);
-    if (!(_year >= 1900 && _year <= 2100)) return { kind: 'none' };
+    if (!_isSupportedMoonYear(_year)) return { kind: 'none' };
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
     const _cityCc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_citySlug) : '';
@@ -11642,7 +11761,7 @@ function _classifyMoonMonth(urlPath) {
     const _citySlug = _m[3];
     const _year = parseInt(_m[4], 10);
     const _month = parseInt(_m[5], 10);
-    if (!(_year >= 1900 && _year <= 2100)) return { kind: 'none' };
+    if (!_isSupportedMoonYear(_year)) return { kind: 'none' };
     if (!(_month >= 1 && _month <= 12)) return { kind: 'none' };
     const _country = _countryFromSlug(_countrySlug);
     if (!_country || _country.cc === '__') return { kind: 'none' };
@@ -11672,7 +11791,7 @@ function _classifyMoonDay(urlPath) {
     const _year = parseInt(_m[4], 10);
     const _month = parseInt(_m[5], 10);
     const _day = parseInt(_m[6], 10);
-    if (!(_year >= 1900 && _year <= 2100)) return { kind: 'none' };
+    if (!_isSupportedMoonYear(_year)) return { kind: 'none' };
     if (!(_month >= 1 && _month <= 12)) return { kind: 'none' };
     // days in this month (1-12), leap-Feb aware: day 0 of the next month = last day of this one.
     const _dim = new Date(Date.UTC(_year, _month, 0)).getUTCDate();
@@ -12025,13 +12144,15 @@ function _buildMoonYearContent(my, lang) {
     //   _lp. The select uses an inline onchange handler (CSP allows 'unsafe-inline' scripts) → no app.js.
     const _yPick  = _MOON_YEAR_PICKER_L10N[lang] || _MOON_YEAR_PICKER_L10N.en;
     const _yrLink = (yy) => `${_lp}/moon/${my.countrySlug}/${my.citySlug}/${yy}`;
-    const _yMin = Math.max(1900, _Y - 10), _yMax = Math.min(2100, _Y + 10);
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: every year option/link stays inside the supported range.
+    const _yRange = getSupportedMoonYearRange();
+    const _yMin = Math.max(_yRange.SUPPORTED_MOON_YEAR_MIN, _Y - 10), _yMax = Math.min(_yRange.SUPPORTED_MOON_YEAR_MAX, _Y + 10);
     let _yOpts = '';
     for (let yy = _yMin; yy <= _yMax; yy++) {
         _yOpts += `<option value="${_e(_yrLink(yy))}"${yy === _Y ? ' selected' : ''}>${yy}</option>`;
     }
-    const _yPrevHtml = (_Y - 1 >= 1900) ? `<a class="my-yp-btn my-yp-prev" href="${_e(_yrLink(_Y - 1))}" rel="prev" aria-label="${_e(_yPick.prev)}" title="${_e(_yPick.prev)}">‹</a>` : '';
-    const _yNextHtml = (_Y + 1 <= 2100) ? `<a class="my-yp-btn my-yp-next" href="${_e(_yrLink(_Y + 1))}" rel="next" aria-label="${_e(_yPick.next)}" title="${_e(_yPick.next)}">›</a>` : '';
+    const _yPrevHtml = (_Y - 1 >= _yRange.SUPPORTED_MOON_YEAR_MIN) ? `<a class="my-yp-btn my-yp-prev" href="${_e(_yrLink(_Y - 1))}" rel="prev" aria-label="${_e(_yPick.prev)}" title="${_e(_yPick.prev)}">‹</a>` : '';
+    const _yNextHtml = (_Y + 1 <= _yRange.SUPPORTED_MOON_YEAR_MAX) ? `<a class="my-yp-btn my-yp-next" href="${_e(_yrLink(_Y + 1))}" rel="next" aria-label="${_e(_yPick.next)}" title="${_e(_yPick.next)}">›</a>` : '';
     // HERO-DASHBOARD-REDESIGN: the hero controls are rebuilt as a "Moon Year Dashboard" — a 3-card
     //   grid (NOT a single box): [year-picker card] [section-links card] [today's-moon CTA card].
     //   Same links/ids/route; the WHOLE today card is a single <a href>. Small card descriptions are
@@ -12146,11 +12267,11 @@ function _buildMoonYearContent(my, lang) {
         const _badge = _isCur ? `<span class="my-month-badge">${_e(_curMonthLbl)}</span>` : '';
         _cards += `<a class="my-month-card${_isCur ? ' my-month-card--current' : ''}"${_isCur ? ' aria-current="date"' : ''} href="${_e(_href)}">${_badge}<span class="my-month-name">${_e(_months[m - 1] + ' ' + _Y)}</span>${_lines}<span class="my-month-cta">${_e(_S.viewMonth)} ›</span></a>`;
     }
-    // (5) prev / next year (bounded to 1900-2100) — placed INSIDE the months section as a styled footer
+    // (5) prev / next year (bounded to the supported moon range) — placed INSIDE the months section as a styled footer
     //     (pill buttons) so year navigation lives with the months it controls, not on the grey background.
     let _nav = '';
-    if (_Y - 1 >= 1900) _nav += `<a class="my-yearnav-pill my-yearnav-prev" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y - 1))}" rel="prev">‹ ${_e(_S.prevYear)}</a>`;
-    if (_Y + 1 <= 2100) _nav += `<a class="my-yearnav-pill my-yearnav-next" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y + 1))}" rel="next">${_e(_S.nextYear)} ›</a>`;
+    if (_Y - 1 >= _yRange.SUPPORTED_MOON_YEAR_MIN) _nav += `<a class="my-yearnav-pill my-yearnav-prev" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y - 1))}" rel="prev">‹ ${_e(_S.prevYear)}</a>`;
+    if (_Y + 1 <= _yRange.SUPPORTED_MOON_YEAR_MAX) _nav += `<a class="my-yearnav-pill my-yearnav-next" href="${_e(_lp + '/moon/' + my.countrySlug + '/' + my.citySlug + '/' + (_Y + 1))}" rel="next">${_e(_S.nextYear)} ›</a>`;
     const _yearNavFooter = _nav ? `<nav class="my-year-nav-footer" aria-label="${_e(_S.navTitle)}">${_nav}</nav>` : '';
     const monthCardsHtml = `<section class="section-card moon-year-months" id="moon-year-months"><h2>${_e(_S.monthsTitle)}</h2><div class="my-month-grid">${_cards}</div>${_yearNavFooter}</section>`;
     // (6) FAQ (SSR-visible) + matching FAQPage JSON-LD
@@ -12327,12 +12448,12 @@ function _buildMoonMonthContent(mm, lang) {
         + `<div class="my-table-scroll"><table class="my-table"><thead><tr>`
         + `<th>${_e(_S.thDate)}</th><th>${_e(_S.thDay)}</th><th>${_e(_S.thPhase)}</th><th>${_e(_S.thIllum)}</th><th>${_e(_S.thAge)}</th>`
         + `</tr></thead><tbody>${_rows}</tbody></table></div></section>`;
-    // (4) prev / next month (cross-year, bounded 1900-2100)
+    // (4) prev / next month (cross-year, bounded to the supported moon range)
     let _pm = _Mo - 1, _py = _Y; if (_pm < 1) { _pm = 12; _py = _Y - 1; }
     let _nm = _Mo + 1, _ny = _Y; if (_nm > 12) { _nm = 1; _ny = _Y + 1; }
     let _nav = '';
-    if (_py >= 1900 && _py <= 2100) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + mm.countrySlug + '/' + mm.citySlug + '/' + _py + '/' + _pad2(_pm))}">‹ ${_e(_S.prevMonth)}</a>`;
-    if (_ny >= 1900 && _ny <= 2100) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + mm.countrySlug + '/' + mm.citySlug + '/' + _ny + '/' + _pad2(_nm))}">${_e(_S.nextMonth)} ›</a>`;
+    if (_isSupportedMoonYear(_py)) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + mm.countrySlug + '/' + mm.citySlug + '/' + _py + '/' + _pad2(_pm))}">‹ ${_e(_S.prevMonth)}</a>`;
+    if (_isSupportedMoonYear(_ny)) _nav += `<a class="my-yearnav-link" href="${_e(_lp + '/moon/' + mm.countrySlug + '/' + mm.citySlug + '/' + _ny + '/' + _pad2(_nm))}">${_e(_S.nextMonth)} ›</a>`;
     const prevNextHtml = _nav ? `<nav class="moon-year-nav" aria-label="${_e(_S.navTitle)}">${_nav}</nav>` : '';
     // (5) back links → year + city
     const backHtml = `<nav class="moon-month-back" aria-label="${_e(_S.backTitle)}">`
@@ -15341,7 +15462,7 @@ function buildSeoForPath(urlPath) {
         const _ndCountry = _countryFromSlug(_MNESTED_DAY[1]);
         const _ndCityCc  = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_MNESTED_DAY[2]) : '';
         if (_ndCountry && _ndCountry.cc !== '__' && _ndCityCc && makeCountrySlugSrv(_ndCityCc) === _MNESTED_DAY[1]
-            && _ndY >= 1900 && _ndY <= 2100 && _ndMo >= 1 && _ndMo <= 12 && _ndDd >= 1 && _ndDd <= _ndDim) {
+            && _isSupportedMoonYear(_ndY) && _ndMo >= 1 && _ndMo <= 12 && _ndDd >= 1 && _ndDd <= _ndDim) {
             _isMoonNestedDay = true;
             _moonNestedDayCountrySlug = _MNESTED_DAY[1];
             _moonNestedDayCountryName = _countryNameForLang(_ndCityCc, lang);
@@ -15369,7 +15490,7 @@ function buildSeoForPath(urlPath) {
     //   /moon-in-{city}/{yyyy-mm} (the #page-moon monthly grid) — NOT a bespoke #page-moon-month.
     //   Synthesize a month match below so the legacy monthly-grid renderer runs (_isMoonMonthPage).
     //   The only differences are self-canonical + a 6-level breadcrumb (DOM≡JSON-LD) + nested hreflang
-    //   + nested day-cell links. Validation: year 1900-2100, month 01-12 (mirrors _classifyMoonMonth).
+    //   + nested day-cell links. Validation: supported moon year, month 01-12 (mirrors _classifyMoonMonth).
     const _MNESTED_MONTH = corePath.match(/^\/moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})\/(\d{2})$/);
     let _isMoonNestedMonth = false;
     let _moonNestedMonthCountrySlug = '', _moonNestedMonthCountryName = '';
@@ -15378,7 +15499,7 @@ function buildSeoForPath(urlPath) {
         const _nmCountry = _countryFromSlug(_MNESTED_MONTH[1]);
         const _nmCityCc  = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_MNESTED_MONTH[2]) : '';
         if (_nmCountry && _nmCountry.cc !== '__' && _nmCityCc && makeCountrySlugSrv(_nmCityCc) === _MNESTED_MONTH[1]
-            && _nmY >= 1900 && _nmY <= 2100 && _nmMo >= 1 && _nmMo <= 12) {
+            && _isSupportedMoonYear(_nmY) && _nmMo >= 1 && _nmMo <= 12) {
             _isMoonNestedMonth = true;
             _moonNestedMonthCountrySlug = _MNESTED_MONTH[1];
             _moonNestedMonthCountryName = _countryNameForLang(_nmCityCc, lang);
@@ -16664,7 +16785,7 @@ function buildSeoForPath(urlPath) {
     m = corePath.match(/^\/prayer-times-in-([a-z][a-z0-9-]+)$/);
     if (m) {
         const slug = m[1];
-        const c = _countryFromSlug(slug);
+        const c = _prayerCountryFromSlug(slug);
         if (c && c.cc && c.cc !== '__') {
             // اسم الدولة بـلغة الواجهة (يدعم 6 لغات): ar/en/fr/tr/ur/de
             const cname = _countryNameForLang(c.cc, lang);
@@ -17067,6 +17188,13 @@ function buildSeoForPath(urlPath) {
         if (_cityRouteSlug && _shouldNoindexCityRoute(_cityRouteSlug)) {
             robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         }
+    }
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: functional PRAYER variants — a -{lat}-{lng} coordinate suffix or the
+    //   client-generated loc-DD.Dn-DDD.De — keep 200 (the page works for the user) but never index. A curated or
+    //   country slug never has either shape, so curated city pages and country listings are unaffected.
+    //   A curated slug that itself ends in two numbers (e.g. promoted later) is never demoted by its shape.
+    if (!robotsOverride && /^\/prayer-times-in-(?:loc-\d{1,2}\.\d[ns]-\d{1,3}\.\d[ew]|[a-z][a-z0-9-]*?-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))$/.test(corePath) && !_findPlaceBySlug(corePath.slice('/prayer-times-in-'.length))) {
+        robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
     }
 
     // OG image URL — static 1200x630 raster PNG, LOCALIZED per page language.
@@ -18462,6 +18590,12 @@ function renderSeoHeadHtml(seo) {
         _slimPCN[_slug] = _slim;
     }
     parts.push(`<script${_TP_NONCE_ATTR} id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(_slimPCN)};</script>`);
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): the SAME supported moon year window the routes accept, exposed to
+    //   the client link builders (js/app.js + js/moon-chart.js) on moon city / year / month pages only.
+    if (seo.moonCity || seo.moonYear || seo.moonMonth) {
+        const _mRange = getSupportedMoonYearRange();
+        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-year-range">window.__MOON_YEAR_RANGE__={"min":${_mRange.SUPPORTED_MOON_YEAR_MIN},"max":${_mRange.SUPPORTED_MOON_YEAR_MAX}};</script>`);
+    }
 
     // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the
     // resolved city (lat/lng + 10-lang name table + English DB name) so the client
@@ -24560,11 +24694,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             //   3. client-side slug→Nominatim geocode fallback for cold visits.
             const _qHref = `${_lp}/qibla-in-${_slug}`;
             const _mHref = _nestedMoonTodayLink(_slug, _lp);   // MLRC: nested today, not legacy /moon-today-in-
+            const _tnSlug = _tlNptSlugFor(_slug);   // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4)
             html = html
                 .replace('id="rl-qibla" href="#"',      `id="rl-qibla" href="${_qHref}"`)
                 .replace('id="rl-moon" href="#"',       `id="rl-moon" href="${_mHref}"`)
-                .replace('id="rl-time-left" href="#"',  `id="rl-time-left" href="${_lp}/time-left-until-next-prayer-in-${_slug}"`)
-                .replace('id="rl-next-prayer" href="#"',`id="rl-next-prayer" href="${_lp}/next-prayer-in-${_slug}"`)
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): time-left / next-prayer link the slug _tlNptSlugFor decides
+                //   (a curated coordinate variant or a decimal tail → the stem; a real numeric-tail slug → itself);
+                //   loc- pages have no such sibling → the placeholder stays.
+                .replace('id="rl-time-left" href="#"',  _tnSlug ? `id="rl-time-left" href="${_lp}/time-left-until-next-prayer-in-${_tnSlug}"` : 'id="rl-time-left" href="#"')
+                .replace('id="rl-next-prayer" href="#"', _tnSlug ? `id="rl-next-prayer" href="${_lp}/next-prayer-in-${_tnSlug}"` : 'id="rl-next-prayer" href="#"')
                 // UAT-2.6: compact tools strip after #prayer-cards (mit-* — qibla/moon/hijri-today)
                 .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_qHref}"`)
                 .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_mHref}"`)
@@ -27917,10 +28055,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     } catch (_) {}
                 }
                 const _calM = /^(\d{4})-(\d{1,2})$/.exec(_calQ);
-                const _calY = _calM
-                    ? Math.max(_calTodayD.getFullYear() - 5, Math.min(_calTodayD.getFullYear() + 5, parseInt(_calM[1], 10)))
-                    : _calTodayD.getFullYear();
-                const _calMo = _calM
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the grid year is NEVER silently clamped to a different
+                //   year. A requested year inside the supported moon range is rendered as-is (month pages always
+                //   carry a route-validated year, so URL year === grid year === day-link year); an out-of-range
+                //   or malformed ?cal falls back to the city's CURRENT month (year AND month).
+                const _calRange = getSupportedMoonYearRange();
+                const _calYReq = _calM ? parseInt(_calM[1], 10) : NaN;
+                const _calYOk = !!_calM && _calYReq >= _calRange.SUPPORTED_MOON_YEAR_MIN && _calYReq <= _calRange.SUPPORTED_MOON_YEAR_MAX;
+                const _calY = _calYOk ? _calYReq : _calTodayD.getFullYear();
+                const _calMo = _calYOk
                     ? Math.max(1, Math.min(12, parseInt(_calM[2], 10)))
                     : (_calTodayD.getMonth() + 1);
                 const _calFirstD = new Date(_calY, _calMo - 1, 1, 12, 0, 0);
@@ -28150,7 +28293,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 // Year/Month picker form (no-JS fallback uses cal-y + cal-m;
                 // the JS handler in app.js auto-submits + folds them into cal=YYYY-MM)
                 let _yearOptsHtml = '';
-                for (let y = _calTodayD.getFullYear() - 5; y <= _calTodayD.getFullYear() + 5; y++) {
+                for (let y = _calRange.SUPPORTED_MOON_YEAR_MIN; y <= _calRange.SUPPORTED_MOON_YEAR_MAX; y++) {
                     _yearOptsHtml += `<option value="${y}"${y === _calY ? ' selected' : ''}>${y}</option>`;
                 }
                 let _moOptsHtml = '';
@@ -28170,9 +28313,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     + `<select name="cal-m" aria-label="Month">${_moOptsHtml}</select>`
                     + `<button type="submit">${_escHtml(_calBtn)}</button>`
                     + `</form>`;
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no month link outside the supported moon range
+                //   (MIN/01 has no prev, MAX/12 has no next); an empty span keeps the nav layout.
+                const _prevMoOk = _prevMo.y >= _calRange.SUPPORTED_MOON_YEAR_MIN;
+                const _nextMoOk = _nextMo.y <= _calRange.SUPPORTED_MOON_YEAR_MAX;
                 const _navHtml = `<nav class="moon-hub-cal-nav" aria-label="Month navigation">`
-                    + `<a class="moon-hub-cal-prev" href="${_escHtml(_prevHref)}">${_escHtml(_calPrev)}</a>`
-                    + `<a class="moon-hub-cal-next" href="${_escHtml(_nextHref)}">${_escHtml(_calNext)}</a>`
+                    + (_prevMoOk ? `<a class="moon-hub-cal-prev" href="${_escHtml(_prevHref)}">${_escHtml(_calPrev)}</a>` : `<span class="moon-hub-cal-nav-off" aria-hidden="true"></span>`)
+                    + (_nextMoOk ? `<a class="moon-hub-cal-next" href="${_escHtml(_nextHref)}">${_escHtml(_calNext)}</a>` : `<span class="moon-hub-cal-nav-off" aria-hidden="true"></span>`)
                     + `</nav>`;
                 // ── UAT-Moon-City-Hub-Polish: CTA hub → /moon-today-in-{slug} ──
                 //   The CTA was pointing at /moon-in-{slug}/{today-iso} (the
@@ -28482,7 +28629,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                                 const _hP2 = (n) => String(n).padStart(2, '0');
                                 const _hCard = (href, ico, lbl, desc, sub) => `<a class="mc-explore-card" href="${_escHtml(href)}"><span class="mc-explore-ico" aria-hidden="true">${ico}</span><span class="mc-explore-card-body"><span class="mc-explore-card-title">${_escHtml(sub(lbl))}</span><span class="mc-explore-card-desc">${_escHtml(sub(desc))}</span></span><span class="mc-explore-arrow" aria-hidden="true">›</span></a>`;
                                 const _hMonths = _GREG_MONTHS_L10N[Lm] || _GREG_MONTHS_L10N.en;
-                                const _hYMin = Math.max(1900, _calY - 5), _hYMax = Math.min(2100, _calY + 5);
+                                const _hYMin = Math.max(_calRange.SUPPORTED_MOON_YEAR_MIN, _calY - 5), _hYMax = Math.min(_calRange.SUPPORTED_MOON_YEAR_MAX, _calY + 5);
                                 let _hYO = ''; for (let y = _hYMin; y <= _hYMax; y++) _hYO += `<option value="${y}"${y === _calY ? ' selected' : ''}>${y}</option>`;
                                 let _hMO = ''; for (let m = 1; m <= 12; m++) _hMO += `<option value="${_hP2(m)}"${m === _calMo ? ' selected' : ''}>${_escHtml(_hMonths[m - 1] || String(m))}</option>`;
                                 let _hDO = ''; for (let d = 1; d <= 31; d++) _hDO += `<option value="${_hP2(d)}">${_hP2(d)}</option>`;
@@ -28550,17 +28697,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _xCityBase = _nestedMoonBaseForSlug(seo.moonCity.slug, _xLp);   // /[lang]/moon/{country}/{city}
                 const _xCountryHref = `${_xLp}/moon/${seo.moonCity.nestedTodayCountrySlug}`;
                 if (_xCityBase) {
-                    // current Y/M in the CITY's local tz (NOT device), clamped to the 1900–2100 route range
+                    // current Y/M in the CITY's local tz (NOT device), clamped to the supported moon range
                     const _xTz = seo.moonCity.tz || 'UTC';
-                    let _xY = 2026, _xMo = 1;
+                    const _xRange = getSupportedMoonYearRange();
+                    let _xY = _xRange.currentYear, _xMo = 1;
                     try {
                         const _xm = new Intl.DateTimeFormat('en-CA', { timeZone: _xTz, year: 'numeric', month: '2-digit' }).format(new Date()).match(/(\d{4})-(\d{2})/);
-                        if (_xm) { _xY = Math.min(2100, Math.max(1900, parseInt(_xm[1], 10))); _xMo = parseInt(_xm[2], 10); }
+                        if (_xm) { _xY = Math.min(_xRange.SUPPORTED_MOON_YEAR_MAX, Math.max(_xRange.SUPPORTED_MOON_YEAR_MIN, parseInt(_xm[1], 10))); _xMo = parseInt(_xm[2], 10); }
                     } catch (_) { }
                     const _xP2 = (n) => String(n).padStart(2, '0');
                     const _xCard = (href, ico, lbl, desc, sub) => `<a class="mc-explore-card" href="${_escHtml(href)}"><span class="mc-explore-ico" aria-hidden="true">${ico}</span><span class="mc-explore-card-body"><span class="mc-explore-card-title">${_escHtml(sub(lbl))}</span><span class="mc-explore-card-desc">${_escHtml(sub(desc))}</span></span><span class="mc-explore-arrow" aria-hidden="true">›</span></a>`;
                     const _xMonths = _GREG_MONTHS_L10N[_xLang] || _GREG_MONTHS_L10N.en;
-                    const _xYMin = Math.max(1900, _xY - 5), _xYMax = Math.min(2100, _xY + 5);
+                    const _xYMin = Math.max(_xRange.SUPPORTED_MOON_YEAR_MIN, _xY - 5), _xYMax = Math.min(_xRange.SUPPORTED_MOON_YEAR_MAX, _xY + 5);
                     let _xYO = ''; for (let y = _xYMin; y <= _xYMax; y++) _xYO += `<option value="${y}"${y === _xY ? ' selected' : ''}>${y}</option>`;
                     let _xMO = ''; for (let m = 1; m <= 12; m++) _xMO += `<option value="${_xP2(m)}"${m === _xMo ? ' selected' : ''}>${_escHtml(_xMonths[m - 1] || String(m))}</option>`;
                     let _xDO = ''; for (let d = 1; d <= 31; d++) _xDO += `<option value="${_xP2(d)}">${_xP2(d)}</option>`;
@@ -33133,7 +33281,9 @@ ${_quranLocaleModalHtml()}
 // generator, NO call into the site-wide sitemap builder). The XML + a strong ETag + brotli + gzip
 // are computed ONCE on first request and cached in-process, so every later request is a header
 // compare (→ 304) or a single pre-compressed buffer write — never a rebuild. <lastmod> is the FIXED
-// public-release date (identical to the sitemap-main Quran block); it does not depend on `today`.
+// public-release date; it does not depend on `today`.
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: this dedicated sitemap is the SOLE sitemap listing the 115 Quran
+// URLs (the duplicate block in sitemap-main was removed). Its bytes / ETag / Last-Modified are unchanged.
 let _quranSitemapCache = null;
 function _getQuranDedicatedSitemap() {
     if (_quranSitemapCache) return _quranSitemapCache;
@@ -33275,7 +33425,7 @@ function _obsCountrySet() {
     _obsCountrySlugs = new Set();
     for (const cc in COUNTRY_NAMES_EN) {
         const slug = makeCountrySlugSrv(cc);
-        if (slug) _obsCountrySlugs.add(slug);
+        if (slug && !_isPrayerCityOnlyCountrySlug(cc, slug)) _obsCountrySlugs.add(slug);   // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: singapore = prayer city
     }
     return _obsCountrySlugs;
 }
@@ -33783,7 +33933,9 @@ const server = http.createServer(async (req, res) => {
             }
             if (/^\d{4}-\d{2}$/.test(_calIso)) {
                 const _parts = _calIso.split('-');
-                if (parseInt(_parts[0], 10) >= 1800) {
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: only a supported moon year + real month redirects
+                //   (never a 301 into an unsupported year); anything else falls through to normal handling.
+                if (_isSupportedMoonYear(parseInt(_parts[0], 10)) && parseInt(_parts[1], 10) >= 1 && parseInt(_parts[1], 10) <= 12) {
                     res.writeHead(301, {
                         'Location': `${urlPath}/${_calIso}`,
                         'Cache-Control': 'public, max-age=31536000'
@@ -33812,7 +33964,7 @@ const server = http.createServer(async (req, res) => {
                 }
             }
             const _cm = _calIso.match(/^(\d{4})-(\d{2})$/);
-            if (_cm && parseInt(_cm[1], 10) >= 1900 && parseInt(_cm[1], 10) <= 2100
+            if (_cm && _isSupportedMoonYear(parseInt(_cm[1], 10))
                 && parseInt(_cm[2], 10) >= 1 && parseInt(_cm[2], 10) <= 12) {
                 res.writeHead(301, {
                     'Location': `${urlPath}/${_cm[1]}/${_cm[2]}`,
@@ -34313,9 +34465,69 @@ const server = http.createServer(async (req, res) => {
     }
 
     // ===== SEO: Redirect روابط .html الديناميكية → روابط نظيفة (301) =====
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D10): ONE normalizer for .html twins that have a clean equivalent.
+    //   - /prayer-times-in-* and /qibla-in-* (all 10 locales) and nested moon hub/today/year/month/day (all 10
+    //     locales): 301 straight to the FINAL clean URL — curated renames, SAR-code slugs, qibla coordinate
+    //     canonicalisation and the nested-hub ?cal month redirect are resolved in the same hop; the query string
+    //     is kept verbatim; Cache-Control public, max-age=86400.
+    //   - A tail that is not a real route shape, or a nested moon URL that does not classify (e.g. an unsupported
+    //     year), gets NO redirect → the normal 404 (never a 301 that lands on a 404).
+    //   - The legacy ar/en tool + Hijri members keep their exact previous behaviour (Hijri = audit only).
     if (urlPath !== '/index.html' && urlPath.endsWith('.html')) {
         const _clean = urlPath.replace(/\.html$/, '');
-        if (/^\/(?:en\/)?(?:prayer-times-in-|qibla-in-|msbaha$|today-hijri-date$|date-converter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
+        // The query is kept byte-for-byte: everything after the FIRST '?' (a later '?' is part of the query).
+        const _hQi = req.url.indexOf('?');
+        const _qsKeep = (_hQi >= 0 && _hQi < req.url.length - 1) ? req.url.slice(_hQi) : '';
+        // Own-property lookups only: a tail such as 'constructor' must never resolve through Object.prototype
+        //   (that produced a 301 to "/prayer-times-in-function Object() { [native code] }"). Such a tail is not
+        //   a real route → no redirect → the normal 404.
+        const _hOwn = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
+        let _htmlTarget = null;
+        const _hPm = _clean.match(_PRAYER_ROUTE_RE);
+        if (_hPm) {
+            let _hTail = _hPm[2];
+            if (!(_hTail in Object.prototype)) {
+                if (_hOwn(CURATED_REDIRECTS, _hTail) && CURATED_REDIRECTS[_hTail] !== _hTail) _hTail = CURATED_REDIRECTS[_hTail];
+                else if (_hOwn(_PRAYER_CC_REDIRECT, _hTail)) _hTail = _PRAYER_CC_REDIRECT[_hTail];
+                _htmlTarget = (_hPm[1] ? '/' + _hPm[1] : '') + '/prayer-times-in-' + _hTail + _qsKeep;
+            }
+        } else if (_QIBLA_ROUTE_RE.test(_clean)) {
+            const _hQm = _clean.match(/^(\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?)qibla-in-(.+)$/);
+            let _hTail = _hQm[2];
+            const _hQc = _hTail.match(/^([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
+            if (!(_hTail in Object.prototype) && !(_hQc && _hQc[1] in Object.prototype)) {
+                if (_hQc && _hQc[2] != null) {
+                    const _hQr = _qiblaCoordRedirectSlug(_hQc[1], _hQc[2], _hQc[3]);
+                    if (_hQr) _hTail = _hQr;
+                }
+                if (_hOwn(CURATED_REDIRECTS, _hTail) && CURATED_REDIRECTS[_hTail] !== _hTail) _hTail = CURATED_REDIRECTS[_hTail];
+                _htmlTarget = _hQm[1] + 'qibla-in-' + _hTail + _qsKeep;
+            }
+        } else if (/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z]/.test(_clean)) {
+            for (const _hCls of [_classifyNestedMoonHub, _classifyMoonToday, _classifyMoonYear, _classifyMoonMonth, _classifyMoonDay]) {
+                const _hR = _hCls(urlPath);   // the classifiers strip .html themselves
+                if (_hR && _hR.kind === 'valid') { _htmlTarget = _clean + _qsKeep; break; }
+                if (_hR && _hR.kind === 'redirect') { _htmlTarget = _hR.target + _qsKeep; break; }
+            }
+            // A nested hub .html carrying a valid ?cal=YYYY-MM (or cal-y/cal-m) goes straight to the month page —
+            //   also when the hub itself canonicalises (e.g. a wrong country segment), so it is always ONE hop.
+            const _hHubBase = _htmlTarget ? _htmlTarget.slice(0, _htmlTarget.length - _qsKeep.length) : '';
+            if (_htmlTarget && qs && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+$/.test(_hHubBase) && /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+$/.test(_clean)) {
+                try {
+                    const _hCq = new URLSearchParams(qs);
+                    let _hCal = _hCq.get('cal') || '';
+                    if (!_hCal && /^\d{4}$/.test(_hCq.get('cal-y') || '') && /^\d{1,2}$/.test(_hCq.get('cal-m') || '')) _hCal = _hCq.get('cal-y') + '-' + String(_hCq.get('cal-m')).padStart(2, '0');
+                    const _hCm = _hCal.match(/^(\d{4})-(\d{2})$/);
+                    if (_hCm && _isSupportedMoonYear(parseInt(_hCm[1], 10)) && parseInt(_hCm[2], 10) >= 1 && parseInt(_hCm[2], 10) <= 12) _htmlTarget = _hHubBase + '/' + _hCm[1] + '/' + _hCm[2];
+                } catch (_) { /* malformed query — keep the plain clean target */ }
+            }
+        }
+        if (_htmlTarget) {
+            res.writeHead(301, { 'Location': _htmlTarget, 'Cache-Control': 'public, max-age=86400' });
+            res.end();
+            return;
+        }
+        if (/^\/(?:en\/)?(?:msbaha$|today-hijri-date$|date-converter$|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$|hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$)/.test(_clean)) {
             res.writeHead(301, { 'Location': _clean, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
             return;
@@ -34493,8 +34705,8 @@ const server = http.createServer(async (req, res) => {
         else { const m = String(slug).match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/); baseSlug = m ? m[1] : null; }
         if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
             n += 20; // moon hub (10) + today (10)
-            const _cy = new Date().getFullYear();
-            for (const _yy of [_cy - 1, _cy, _cy + 1]) { if (_yy >= 1900 && _yy <= 2100) n += 130; } // year(10)+12 months(120)
+            const _cy = getSupportedMoonYearRange().currentYear;   // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: same UTC clock as the routes
+            for (const _yy of [_cy - 1, _cy, _cy + 1]) { if (_isSupportedMoonYear(_yy)) n += 130; } // year(10)+12 months(120)
         }
         return n;
     }
@@ -34516,7 +34728,9 @@ const server = http.createServer(async (req, res) => {
     }
 
     // مولّد URL متعدد اللغات (10 لغات) مع hreflang
-    function bilingualUrl(relPath, prio, cf, today) {
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the 4th argument is a REAL last-significant-change date
+    //   (YYYY-MM-DD) or null. <lastmod> is emitted ONLY for a valid real date — never the request day.
+    function bilingualUrl(relPath, prio, cf, lastmod) {
         const langs = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
         const urls = {};
         for (const l of langs) {
@@ -34532,8 +34746,9 @@ const server = http.createServer(async (req, res) => {
         const links = langs.map(l =>
             `    <xhtml:link rel="alternate" hreflang="${l}" href="${urls[l]}"/>`
         ).join('\n') + `\n    <xhtml:link rel="alternate" hreflang="x-default" href="${urls.ar}"/>`;
+        const _lastmodLine = (typeof lastmod === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(lastmod)) ? `    <lastmod>${lastmod}</lastmod>\n` : '';
         const body = (loc) =>
-            `  <url>\n    <loc>${loc}</loc>\n    <lastmod>${today}</lastmod>\n    <changefreq>${cf}</changefreq>\n    <priority>${prio}</priority>\n${links}\n  </url>`;
+            `  <url>\n    <loc>${loc}</loc>\n${_lastmodLine}    <changefreq>${cf}</changefreq>\n    <priority>${prio}</priority>\n${links}\n  </url>`;
         return langs.map(l => body(urls[l]));
     }
 
@@ -34604,12 +34819,13 @@ const server = http.createServer(async (req, res) => {
     {
         const mi = urlPath.match(/^\/sitemap\.xml(\.gz)?$/);
         if (mi) {
-            const today = new Date().toISOString().split('T')[0];
+            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no <lastmod> on index children — the child files are
+            //   regenerated per request and have no reliable last-significant-change date (never the request day).
             const chunks = getCitySitemapChunks();
             const sitemaps = [];
-            sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-main.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
+            sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-main.xml</loc>\n  </sitemap>`);
             for (let i = 0; i < chunks.length; i++) {
-                sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-cities-${i+1}.xml</loc>\n    <lastmod>${today}</lastmod>\n  </sitemap>`);
+                sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-cities-${i+1}.xml</loc>\n  </sitemap>`);
             }
             const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join('\n')}\n</sitemapindex>\n`;
             sendXml(res, xml, req.headers['accept-encoding']||'', !!mi[1]);
@@ -34621,7 +34837,7 @@ const server = http.createServer(async (req, res) => {
     {
         const mm = urlPath.match(/^\/sitemap-main\.xml(\.gz)?$/);
         if (mm) {
-            const today = new Date().toISOString().split('T')[0];
+            const today = null;   // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no reliable lastmod source → <lastmod> omitted (never the request day)
             const entries = [];
 
             // 1) الصفحات الثابتة (AR + EN مع hreflang)
@@ -34648,8 +34864,11 @@ const server = http.createServer(async (req, res) => {
                 ['/privacy', '0.4', 'yearly'],
                 ['/terms', '0.4', 'yearly'],
             ];
+            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: only /privacy and /terms carry a real last-updated date
+            //   (the visible LEGAL_PAGES "legal-meta" literal, read once per request from that single source).
+            const _legalLastmod = _legalLastUpdatedIso();
             for (const [p, pr, cf] of staticPaths) {
-                entries.push(...bilingualUrl(p, pr, cf, today));
+                entries.push(...bilingualUrl(p, pr, cf, (p === '/privacy' || p === '/terms') ? _legalLastmod : today));
             }
 
             // ADSENSE-EDITORIAL-GUIDES-IMPLEMENTATION-1: the six editorial guide pages
@@ -34663,19 +34882,9 @@ const server = http.createServer(async (req, res) => {
                 entries.push(...bilingualUrl('/guides/' + _gs, '0.7', 'monthly', today));
             }
 
-            // 1b) QURAN-AR-PUBLIC-RELEASE-PUSH-MERGE-DEPLOY-INDEXING-AND-PRODUCTION-VERIFICATION-1:
-            //     the Arabic Quran section — /quran + the 114 official surah routes = 115 URLs.
-            //     Arabic-ONLY (the /{lang}/quran twins do not exist) → a SINGLE self-canonical <url> each with
-            //     NO xhtml:link alternates (unlike bilingualUrl, which would emit ten hreflang links). Slugs
-            //     come from the SAME source-derived table the routes use (_quranShared().routes) — no second
-            //     slug list, no ayah text, no surah-file reads. <lastmod> is a FIXED public-release date (NOT
-            //     `today`, NOT the Tanzil source date): the frozen text means it only moves on a real content
-            //     change, never per request.
-            const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';
-            const _quranSitemapUrl = (relPath, prio) =>
-                `  <url>\n    <loc>${escapeXml(SITE_URL + relPath)}</loc>\n    <lastmod>${QURAN_PUBLIC_RELEASE_LASTMOD}</lastmod>\n    <changefreq>monthly</changefreq>\n    <priority>${prio}</priority>\n  </url>`;
-            entries.push(_quranSitemapUrl('/quran', '0.8'));
-            for (const _qr of _quranShared().routes) entries.push(_quranSitemapUrl(_qr.path, '0.7'));
+            // 1b) INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the Arabic Quran URLs (/quran + the 114 surahs) are
+            //     listed ONLY in the dedicated /sitemap-quran.xml (referenced from robots.txt). The former
+            //     duplicate block here (QURAN-AR-PUBLIC-RELEASE-...-1) was removed so each URL lives in ONE sitemap.
 
             // 2) صفحات الدول (نمط موحَّد مع المدن: /prayer-times-in-{slug})
             const { countryCodes } = getSitemapData();
@@ -34686,6 +34895,9 @@ const server = http.createServer(async (req, res) => {
                 if (COUNTRY_SLUG_OVERRIDES[cc]) continue;
                 const slug = makeCountrySlugSrv(cc);
                 if (!slug) continue; // hardened: no raw-cc URLs in sitemap
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: an approved city-only homonym (Singapore) is owned by the
+                //   curated CITY page, emitted once in its city shard — never listed as a country, never twice.
+                if (_isPrayerCityOnlyCountrySlug(cc, slug)) continue;
                 entries.push(...bilingualUrl('/prayer-times-in-' + slug, '0.8', 'weekly', today));
             }
 
@@ -34756,7 +34968,7 @@ const server = http.createServer(async (req, res) => {
         const mc = urlPath.match(/^\/sitemap-cities-(\d+)\.xml(\.gz)?$/);
         if (mc) {
             const idx = parseInt(mc[1], 10) - 1;
-            const today = new Date().toISOString().split('T')[0];
+            const today = null;   // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no reliable lastmod source → <lastmod> omitted (never the request day)
             const chunks = getCitySitemapChunks();
             const chunk = chunks[idx];
             if (!chunk || chunk.length === 0) {
@@ -34816,9 +35028,11 @@ const server = http.createServer(async (req, res) => {
                             // previous, current and next year (bounded crawl surface; the
                             // Meeus engine supports 1900-2100). The deeper today/month/day
                             // nested routes are NOT emitted (they 404 this phase).
-                            const _cy = new Date().getFullYear();
+                            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the window stays current year ±1 (NOT widened);
+                            //   the year comes from the same UTC helper as the routes and must be a supported year.
+                            const _cy = getSupportedMoonYearRange().currentYear;
                             for (const _yy of [_cy - 1, _cy, _cy + 1]) {
-                                if (_yy >= 1900 && _yy <= 2100) {
+                                if (_isSupportedMoonYear(_yy)) {
                                     entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug + '/' + _yy, '0.5', 'monthly', today));
                                     // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the 12 months of each accepted
                                     // year (new nested route). The deeper day/today/dash routes are NOT
@@ -34976,13 +35190,13 @@ const server = http.createServer(async (req, res) => {
         //   /moon/{country}/{city}/today, city resolves to that country).
         (_moonToday.kind === 'valid') ||
         // MOON-CITY-YEAR-ROUTE-STRUCTURE-ADD-1: nested city YEAR page (valid only —
-        //   /moon/{country}/{city}/{yyyy}, city resolves to country, year 1900-2100).
+        //   /moon/{country}/{city}/{yyyy}, city resolves to country, supported moon year).
         (_moonYear.kind === 'valid') ||
         // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: nested city MONTH page (valid only —
-        //   /moon/{country}/{city}/{yyyy}/{mm}, year 1900-2100, month 01-12).
+        //   /moon/{country}/{city}/{yyyy}/{mm}, supported moon year, month 01-12).
         (_moonMonth.kind === 'valid') ||
         // MOON-CITY-DAY-ROUTE-STRUCTURE-ADD-1: nested city DAY page (valid only —
-        //   /moon/{country}/{city}/{yyyy}/{mm}/{dd}, year 1900-2100, month 01-12, valid day-of-month).
+        //   /moon/{country}/{city}/{yyyy}/{mm}/{dd}, supported moon year, month 01-12, valid day-of-month).
         (_moonDay.kind === 'valid') ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?date-converter$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?today-hijri-date$/.test(urlPath) ||
@@ -35017,15 +35231,21 @@ const server = http.createServer(async (req, res) => {
         // ملاحظة: /prayer-times-in-* (لكل اللغات) يُخدَم لاحقاً من الـ route الموحَّد
         // عند السطر ~4224 — حيث يُفحَص الـ slug للتمييز بين دولة (prayer-times-cities.html)
         // ومدينة (index.html). لا نُدرجه هنا لئلا نفرض index.html على جميع الحالات.
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-.+(?:\.html)?$/.test(urlPath) ||
+        // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D5): only REAL qibla shapes route (clean slug, {slug}-{lat}-{lng},
+        //   client loc-). Random tails fall through to the branded 404 instead of a wrong generic 200 page.
+        _QIBLA_ROUTE_RE.test(urlPath) ||
         // 🆕 Polish Round (F): /time-left-until-next-prayer-in-{slug} — صفحة time-left (index.html + SSR overrides)
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-next-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath) ||
+        // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): a CURATED city's {slug}-{int}-{int} coordinate variant is not a
+        //   product route and rendered default data under an indexable stem → 404 (_d4CuratedCoordStem). A real slug
+        //   that ends in two numbers and every clean /time-left-until-next-prayer-in-{slug} route as before.
+        ((m) => !!m && !_d4CuratedCoordStem(m[1]))(urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?time-left-until-next-prayer-in-([a-z][a-z0-9-]+)$/)) ||
         // NPT-FIX (2026-05-09): /next-prayer-in-{slug} — Schedule
         // Awareness page (Round 4 Minimal). Was missing from _isIndexHtmlRoute
         // → fell to the post-HD-EN-SEO-1 hard-404 catch-all → user got 404
         // on every /next-prayer-in-{city} URL. Now treated like
         // /time-left-until-next-prayer-in-{slug}: index.html + SSR overrides.
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-in-[a-z][a-z0-9-]+$/.test(urlPath);
+        // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): same curated coordinate-variant rule as time-left.
+        ((m) => !!m && !_d4CuratedCoordStem(m[1]))(urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?next-prayer-in-([a-z][a-z0-9-]+)$/));
 
     if (_isIndexHtmlRoute) {
         // Round 9 + Round 12 + Round 15 + Round 16: فحص slug لصفحات القمر.
@@ -35084,7 +35304,7 @@ const server = http.createServer(async (req, res) => {
             //    when the city resolves to a known country (coord suffix dropped, language prefix kept):
             //      hub   → /[lang/]moon/{country}/{slug}
             //      today → /[lang/]moon/{country}/{slug}/today
-            //      month → /[lang/]moon/{country}/{slug}/{yyyy}/{mm}      (year 1900-2100, month 01-12)
+            //      month → /[lang/]moon/{country}/{slug}/{yyyy}/{mm}      (supported moon year, month 01-12)
             //      dated → /[lang/]moon/{country}/{slug}/{yyyy}/{mm}/{dd} (range + leap-aware day-of-month)
             //    An invalid legacy date/month on a resolving city → clean 404 (NOT 301, NOT 200), so it
             //    matches the nested validation exactly. A clean-slug legacy route for an UNKNOWN city
@@ -35117,12 +35337,12 @@ const server = http.createServer(async (req, res) => {
                     if (_dyRt) {
                         const _dy = parseInt(_dyRt, 10), _dm = parseInt(_dmRt, 10), _dd = parseInt(_ddRt, 10);
                         const _dim = (_dm >= 1 && _dm <= 12) ? new Date(Date.UTC(_dy, _dm, 0)).getUTCDate() : 0;
-                        if (_dy >= 1900 && _dy <= 2100 && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= _dim) {
+                        if (_isSupportedMoonYear(_dy) && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= _dim) {
                             _legTarget = _legBase + '/' + _dyRt + '/' + _dmRt + '/' + _ddRt;
                         } else { _leg404 = true; }
                     } else if (_isMonthRt) {
                         const _my = parseInt(_myRt, 10), _mm = parseInt(_mmRt, 10);
-                        if (_my >= 1900 && _my <= 2100 && _mm >= 1 && _mm <= 12) {
+                        if (_isSupportedMoonYear(_my) && _mm >= 1 && _mm <= 12) {
                             _legTarget = _legBase + '/' + _myRt + '/' + _mmRt;
                         } else { _leg404 = true; }
                     } else if (_isHubRt) {
@@ -35188,12 +35408,17 @@ const server = http.createServer(async (req, res) => {
                     res.end();
                     return;
                 }
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: a valid date in an unsupported moon year → clean 404.
+                if (!_isSupportedMoonYear(_dy)) { _legacyMoon404(); return; }
             }
             // 3b) UAT-Moon-Hub-Month: validate month — month must be 01-12,
             //    year must be sane (1800-2999). Otherwise 301 to hub.
             if (_isMonthRt) {
                 const _my = parseInt(_myRt, 10);
                 const _mm = parseInt(_mmRt, 10);
+                // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: a real month in an unsupported moon year → clean 404
+                //   (never a 200 month page whose grid cannot show that year).
+                if (_mm >= 1 && _mm <= 12 && !_isSupportedMoonYear(_my)) { _legacyMoon404(); return; }
                 const _monthOk = (_my >= 1800 && _my <= 2999 && _mm >= 1 && _mm <= 12);
                 if (!_monthOk) {
                     const _hubPath = '/' + _moonLangPrefix + 'moon-in-' + _moonSlug;
@@ -35218,20 +35443,10 @@ const server = http.createServer(async (req, res) => {
         const _Qroute = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         if (_Qroute) {
             const _qLangPrefix = _Qroute[1] || '';
-            const _qSlug = _Qroute[2];
-            const _qHasCoord = (_Qroute[3] != null && _Qroute[4] != null);
-            const _qInDb = !!_resolveCityForMoon(_qSlug);
-            let _qResolvedSlug = _qSlug;
-            if (!_qInDb && _qHasCoord) {
-                const _qLat = parseFloat(_Qroute[3]);
-                const _qLng = parseFloat(_Qroute[4]);
-                const _qNearby = (typeof _findNearbyDbSlug === 'function')
-                    ? _findNearbyDbSlug(_qLat, _qLng, 2)
-                    : null;
-                if (_qNearby) _qResolvedSlug = _qNearby;
-            }
-            const _qInDbResolved = (_qResolvedSlug !== _qSlug) || _qInDb;
-            if (_qInDbResolved && _qHasCoord) {
+            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: same resolution as before (DB slug, else a ≤2 km DB neighbour),
+            //   now shared with the .html normalizer and never redirecting to a dotted/digit-first db-index key.
+            const _qResolvedSlug = _qiblaCoordRedirectSlug(_Qroute[2], _Qroute[3], _Qroute[4]);
+            if (_qResolvedSlug) {
                 const _qCanonicalPath = '/' + _qLangPrefix + 'qibla-in-' + _qResolvedSlug;
                 res.writeHead(301, { 'Location': _qCanonicalPath });
                 res.end();
@@ -35259,6 +35474,42 @@ const server = http.createServer(async (req, res) => {
             const _slug = _legacy[2];
             const _coords = _legacy[3] || '';
             const _date = _legacy[4];
+            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no 301 into an unsupported year, and ONE hop for a real date on a
+            //   resolvable city (invalid dates / unknown cities keep their pre-existing hop — LEGACY-MOON-CAL-TWO-HOPS-1).
+            //   A real date in an UNSUPPORTED moon year → clean 404 here (same body as the legacy moon 404).
+            //   A real date in a supported year for a city that resolves to a country (no coord suffix) →
+            //   ONE 301 straight to the final nested day page. Anything else keeps the old single hop.
+            {
+                const _dp = _date.split('-').map((n) => parseInt(n, 10));
+                const _dim = (_dp[1] >= 1 && _dp[1] <= 12) ? new Date(Date.UTC(_dp[0], _dp[1], 0)).getUTCDate() : 0;
+                const _realDate = _dp[2] >= 1 && _dp[2] <= _dim;
+                if (_realDate && !_isSupportedMoonYear(_dp[0])) {
+                    res.writeHead(404, {
+                        'Content-Type': 'text/html; charset=utf-8',
+                        'Cache-Control': 'no-cache, no-store, must-revalidate',
+                        'X-Robots-Tag': 'noindex,nofollow'
+                    });
+                    res.end(
+                        '<!doctype html><html lang="en"><head><meta charset="utf-8"><title>404 Not Found</title>'
+                        + '<meta name="robots" content="noindex,nofollow">'
+                        + '<meta name="viewport" content="width=device-width,initial-scale=1">'
+                        + '<style>body{font-family:system-ui,sans-serif;max-width:640px;margin:80px auto;padding:0 24px;color:#2c3e50;line-height:1.65}h1{color:#1a6b3c;margin-bottom:8px}</style>'
+                        + '</head><body><h1>404 Not Found</h1>'
+                        + '<p>This moon page is not available. Browse the moon phase hub instead.</p>'
+                        + '<p><a href="/moon">→ Moon phases</a></p></body></html>'
+                    );
+                    return;
+                }
+                if (_realDate && !_coords) {
+                    const _tcc = (typeof _resolveCcForMoonSlug === 'function') ? _resolveCcForMoonSlug(_slug) : '';
+                    const _tcs = _tcc ? makeCountrySlugSrv(_tcc) : '';
+                    if (_tcs) {
+                        res.writeHead(301, { 'Location': '/' + _lp + 'moon/' + _tcs + '/' + _slug + '/' + _date.replace(/-/g, '/'), 'Cache-Control': 'public, max-age=31536000' });
+                        res.end();
+                        return;
+                    }
+                }
+            }
             const _newPath = '/' + _lp + 'moon-in-' + _slug + _coords + '/' + _date;
             res.writeHead(301, { 'Location': _newPath, 'Cache-Control': 'public, max-age=31536000' });
             res.end();
@@ -35500,14 +35751,16 @@ const server = http.createServer(async (req, res) => {
     // وإلا → صفحة المدينة (index.html مع SSR للمدينة).
     {
         // نقبل النقاط في الـ slug لتمرير روابط "loc-{lat}.{d}n-{lng}.{d}e" للمدن بأسماء غير لاتينية
-        const _ptMatch = urlPath.match(/^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+)$/);
+        // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: only REAL prayer tail shapes route (clean slug, {slug}-{lat}-{lng},
+        //   client loc-). Random dotted tails (.htm/.php/.x, fr..ms .html twins, riyadh-24.7) no longer render a
+        //   Mecca-default generic page — they fall through to the 404.
+        const _ptMatch = urlPath.match(_PRAYER_ROUTE_RE);
         if (_ptMatch) {
             const slug = _ptMatch[2];
             // COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: a bare territory/country CODE
             // (e.g. /prayer-times-in-mo) is never a valid public slug — 301 it to the canonical
             // country/city slug instead of falling through to an empty SPA city page.
-            const _CC_REDIRECT = { mo:'macau', hk:'hong-kong', tw:'taiwan', lv:'latvia',
-                lt:'lithuania', cy:'cyprus', is:'iceland', ee:'estonia', me:'montenegro' };
+            const _CC_REDIRECT = _PRAYER_CC_REDIRECT;   // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: shared with the .html normalizer
             if (_CC_REDIRECT[slug]) {
                 const _lgR = _ptMatch[1] || '';
                 res.writeHead(301, {
@@ -35517,7 +35770,7 @@ const server = http.createServer(async (req, res) => {
                 res.end();
                 return;
             }
-            const countryCheck = _countryFromSlug(slug);
+            const countryCheck = _prayerCountryFromSlug(slug);
             const isCountry = countryCheck && countryCheck.cc && countryCheck.cc !== '__';
             const htmlFile = isCountry ? 'prayer-times-cities.html' : 'index.html';
             readCachedFile(path.join(ROOT, htmlFile), (err, html) => {

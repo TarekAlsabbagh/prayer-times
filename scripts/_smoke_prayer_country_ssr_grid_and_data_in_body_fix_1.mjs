@@ -60,6 +60,7 @@ const SRV = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
         check('AR /prayer-times-in-qatar ships its ACTUAL count (<26, >0), not padded, not a spinner', qN > 0 && qN < 26 && /data-ssr-grid="1"/.test(qa), String(qN));
         // NOTE: the singapore homonym flat prayer route (/prayer-times-in-singapore) is NOT a country
         //   listing (pre-existing special routing) → no #cities-container; use another small country.
+        //   INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: it is the curated Singapore CITY page (200, index, self-canonical).
         const bh = (await req('/prayer-times-in-bahrain')).body; const bN = cardCount(containerSeg(bh));
         check('AR /prayer-times-in-bahrain (smaller country) ships its ACTUAL count (<26, >0)', bN > 0 && bN < 26 && /data-ssr-grid="1"/.test(bh), String(bN));
 

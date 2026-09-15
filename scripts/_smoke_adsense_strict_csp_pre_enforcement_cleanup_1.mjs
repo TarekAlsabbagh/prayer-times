@@ -233,7 +233,7 @@ async function defaultMode() {
         let apiJson = {}; try { apiJson = JSON.parse(api.body); } catch (_) {}
         ok(api.status === 200 && Array.isArray(apiJson.results) && apiJson.results.length > 0,
             '/api/search-place (production search API) still 200 with results', 'status=' + api.status + ' results=' + (apiJson.results || []).length);
-        for (const asset of ['/js/site-search.js?v=4', '/js/app.js?v=845']) {
+        for (const asset of ['/js/site-search.js?v=4', '/js/app.js?v=846']) {
             const r = await get(port, asset);
             ok(r.status === 200 && /javascript/.test(String(r.headers['content-type'])) && r.body.length > 1000, asset + ' served 200 as JavaScript', 'status=' + r.status);
         }

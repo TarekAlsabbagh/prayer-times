@@ -6543,7 +6543,7 @@ const LOCAL_CITIES = [
     {ar:'بكين',en:'Beijing',lat:39.9042,lng:116.4074,cc:'cn',country:'الصين',type:'city',priority:100,countryEn:'China',aliasEn:['Peking']},
     {ar:'شنغهاي',en:'Shanghai',lat:31.2304,lng:121.4737,cc:'cn',country:'الصين',type:'city',priority:80,countryEn:'China'},
     {ar:'هونغ كونغ',en:'Hong Kong',lat:22.3193,lng:114.1694,cc:'hk',country:'هونغ كونغ',type:'city',priority:100,countryEn:'Hong Kong'},
-    {ar:'سنغافورة',en:'Singapore',lat:1.3521,lng:103.8198,cc:'sg',country:'سنغافورة',slug:'singapore-city',type:'city',priority:100,countryEn:'Singapore'},
+    {ar:'سنغافورة',en:'Singapore',lat:1.3521,lng:103.8198,cc:'sg',country:'سنغافورة',type:'city',priority:100,countryEn:'Singapore'},
     {ar:'بانكوك',en:'Bangkok',lat:13.7563,lng:100.5018,cc:'th',country:'تايلاند',type:'city',priority:100,countryEn:'Thailand'},
     {ar:'مانيلا',en:'Manila',lat:14.5995,lng:120.9842,cc:'ph',country:'الفلبين',type:'city',priority:100,countryEn:'Philippines'},
     // أوروبا الكبرى
@@ -7806,7 +7806,7 @@ function navigateToCity(lat, lng, city, country, englishName = '', countryCode =
         });
         // city-state special cases (Djibouti / Singapore) — لا تُحلّ من LOCAL_CITIES إن لم تكن مضافة
         if (slug === 'djibouti'  && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
-        if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
+        // Singapore: its canonical city slug IS 'singapore' (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
     }
     // sessionStorage seed. Include timezone when v2 supplied it (saves
     // a fetchTimezone round-trip on the prayer-times page).
@@ -9688,6 +9688,21 @@ function _formatDecimalHours(dec, tf) {
  * Phase 2 helper: get current city slug from pathname
  * @returns {string} citySlug (e.g. 'riyadh')
  */
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): the time-left / next-prayer slug for a city URL tail — mirrors the
+//   server's _tlNptSlugFor: '' for loc-; the stem for a decimal -{lat}-{lng} tail; for a -{int}-{int} tail the stem
+//   ONLY when the SSR seeded this page with that stem city (__PRAYER_CITY__ = a curated coordinate variant, whose
+//   own time-left / next-prayer URL is 404); otherwise the tail itself (a real slug such as a discovered
+//   'sector-15-2' has no stem seed).
+function _d4TlNptSlug(raw) {
+    const s = String(raw || '');
+    if (!s || /^loc-/.test(s)) return '';
+    const d = s.match(/-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?)$/);
+    if (!d) return s;
+    const stem = s.slice(0, s.length - d[0].length);
+    if (d[0].indexOf('.') >= 0) return stem;
+    try { const _pc = window.__PRAYER_CITY__; if (_pc && typeof _pc.slug === 'string' && _pc.slug === stem) return stem; } catch (_) {}
+    return s;
+}
 function _getCitySlugFromPath() {
     try {
         const m = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]+?)(?:-\-?\d+(?:\.\d+)?-\-?\d+(?:\.\d+)?)?\/?$/);
@@ -10771,7 +10786,7 @@ let _moonHubNavInProgress = false;
 function navigateToMoonToday(lat, lng, city, country, englishName = '', countryCode = '') {
     let slug = buildPrayerTimesSlug({ en: englishName || city, country, cc: countryCode, lat, lng });
     if (slug === 'djibouti'  && (countryCode || '').toLowerCase() === 'dj') slug = 'djibouti-city';
-    if (slug === 'singapore' && (countryCode || '').toLowerCase() === 'sg') slug = 'singapore-city';
+    // Singapore: its canonical city slug IS 'singapore' (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
     const _payload = JSON.stringify({
         lat, lng, name: city, country, englishName, countryCode, _v: 2
     });
@@ -10895,7 +10910,7 @@ function _wireMoonHubSmartPill() {
                 ? buildPrayerTimesSlug({ en: en || name, country: '', cc: cc || '', lat, lng })
                 : ((typeof makeSlug === 'function') ? makeSlug(en || name, lat, lng) : '');
             if (slug === 'djibouti'  && cc === 'dj') slug = 'djibouti-city';
-            if (slug === 'singapore' && cc === 'sg') slug = 'singapore-city';
+            // Singapore: its canonical city slug IS 'singapore' (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
             if (!slug) return false;
             // MLRC (Option-1): smart-pill carries cc → emit nested today URL.
             const target = pageUrl(_nestedMoonHrefClient(slug, '', 'today', (cc || '').toLowerCase()));
@@ -11373,6 +11388,19 @@ let _ssrSeoPath = null, _ssrSeoTitle = '', _ssrSeoDesc = '', _ssrSeoGuardUsed = 
 // _initCountdownPage keeps the SSR-rendered Title/meta on the direct-landing path
 // (mirrors the _ssrSeoPath guard above); i18n title/meta apply only on SPA nav.
 let _cdSeoGuardUsed = false;
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D12): "server noindex must never become client index".
+//   The SSR robots value and the SSR pathname are captured ONCE at script evaluation (defer ⇒ the SSR <head>
+//   is already parsed and no robots writer has run yet). A page served noindex keeps it after hydration;
+//   a page served index keeps today's client behaviour.
+const _ssrRobotsPath = (function () { try { return window.location.pathname; } catch (_) { return ''; } })();
+const _ssrRobotsContent = (function () {
+    try { const _el = document.head && document.head.querySelector('meta[name="robots"]'); return _el ? (_el.getAttribute('content') || '') : ''; }
+    catch (_) { return ''; }
+})();
+function _robotsForClientWrite(clientValue) {
+    try { if (/\bnoindex\b/i.test(_ssrRobotsContent) && window.location.pathname === _ssrRobotsPath) return _ssrRobotsContent; } catch (_) {}
+    return clientValue;
+}
 
 function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGraph }) {
     if (window.location.protocol === 'file:') return; // لا SEO على ملف محلي
@@ -11424,7 +11452,7 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
     }
 
     // Robots: افتراضياً index, follow (يمكن رفضه لاحقاً لصفحات معيّنة)
-    _seoUpsertMeta('robots', 'name', 'index, follow');
+    _seoUpsertMeta('robots', 'name', _robotsForClientWrite('index, follow'));
 
     // Canonical + hreflang (6 لغات + x-default)
     _seoUpsertLink('canonical', urls.canonical);
@@ -13010,7 +13038,22 @@ function makeCountrySlug(cc, englishName) {
 //   structure) ONLY when the country is unknown or the slug carries a coord suffix (no nested target).
 //   Per the approved Option-1 policy: never infer city→country unsafely on the client.
 //   kind='today'|'hub'|'month'|'day'. For 'month' pass dateStr='YYYY-MM'; for 'day' pass 'YYYY-MM-DD'.
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): the SAME supported moon year window the server routes accept,
+//   read from the SSR island window.__MOON_YEAR_RANGE__ (server getSupportedMoonYearRange). The defensive
+//   fallback mirrors the server formula (current UTC year ±5) for pages without the island.
+function _moonYearRange() {
+    var r = (typeof window !== 'undefined') ? window.__MOON_YEAR_RANGE__ : null;
+    if (r && isFinite(r.min) && isFinite(r.max)) return { min: Number(r.min), max: Number(r.max) };
+    var y = new Date().getUTCFullYear();
+    return { min: Math.max(1900, y - 5), max: Math.min(2100, y + 5) };
+}
+function _moonYearInRange(y) {
+    var n = parseInt(y, 10), r = _moonYearRange();
+    return isFinite(n) && n >= r.min && n <= r.max;
+}
 function _nestedMoonHrefClient(slug, langPrefix, kind, ccOverride, dateStr) {
+    // D11: a dated (month/day) target outside the supported window has no page → '' (callers render no link).
+    if ((kind === 'month' || kind === 'day') && !_moonYearInRange(String(dateStr || '').slice(0, 4))) return '';
     var lp = langPrefix || '';
     var legacy = (kind === 'month' || kind === 'day')
         ? lp + '/moon-in-' + slug + '/' + dateStr
@@ -13475,7 +13518,10 @@ function updateFaqSection() {
 
         // 🆕 Round 4 (Minimal) — q8/a8 رابط time-left + q9/a9 رابط next-prayer-time
         try {
-            const _slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
+            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): link the slug _d4TlNptSlug decides (a curated coordinate
+            //   variant → its stem; a real numeric-tail slug → itself); loc- pages have no such sibling → no link.
+            const _slugRaw = String((typeof getSlugFromURL === 'function') ? (getSlugFromURL() || '') : '');
+            const _slug = _d4TlNptSlug(_slugRaw);
             const _lng = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
             const tlHref = _slug ? (_lng + '/time-left-until-next-prayer-in-' + _slug) : '#';
             const nptHref = _slug ? (_lng + '/next-prayer-in-' + _slug) : '#';
@@ -13690,7 +13736,9 @@ function updateStickyBar(countdownStr) {
 function updateStickyBarHref() {
     const bar = document.getElementById('sticky-next-bar');
     if (!bar || bar.tagName !== 'A') return;
-    let slug = (typeof getSlugFromURL === 'function') ? getSlugFromURL() : '';
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): a curated coordinate variant / decimal tail → the stem; a real
+    //   numeric-tail slug → itself; loc- → '' (falls to the fallback below).
+    let slug = _d4TlNptSlug((typeof getSlugFromURL === 'function') ? (getSlugFromURL() || '') : '');
     // FIX: على الرئيسيّة (لا slug في URL) — استعمل المدينة الحاليّة (currentEnglishName)
     //   ⇒ إن لم تكن متاحة أو كانت loc-/hijri- ⇒ مكّة كافتراضي.
     if (!slug || /^hijri-|^loc-/.test(slug)) {
@@ -22716,7 +22764,7 @@ function updateMoonInfo() {
                         //   `hj.year + '-' + hj.month + '-' + hj.day` (Hijri 1447-12-07
                         //   format) which now returns 404 under the strict route policy.
                         const _hHrefGreg = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
-                        hijriCell = `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>`;
+                        hijriCell = _hHrefGreg ? `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>` : `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
                     } else {
                         hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
                     }
@@ -22733,8 +22781,8 @@ function updateMoonInfo() {
                 //   computed at the top of this loop iteration (hoisted from the
                 //   former local-only `_iso = _fcIso(dp, row.date)`).
                 const _href = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
-                dayCell = `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>`;
-                rowClasses.push('fc-row-clickable');
+                dayCell = _href ? `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>` : `<td>${_escHtml(_dayText)}</td>`;
+                if (_href) rowClasses.push('fc-row-clickable');
             } else {
                 dayCell = `<td>${_escHtml(_dayText)}</td>`;
             }
@@ -23851,8 +23899,11 @@ function updateMoonInfo() {
                 } catch (_) {}
                 return _moonDatePagePath(slug, d);
             };
-            if (_prevEl) _prevEl.href = _useHijriUrl ? _hijriPath(_citySlug, _prevDate) : _moonDatePagePath(_citySlug, _prevDate);
-            if (_nextEl) _nextEl.href = _useHijriUrl ? _hijriPath(_citySlug, _nextDate) : _moonDatePagePath(_citySlug, _nextDate);
+            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): no prev/next link outside the supported moon years —
+            //   the href attribute is removed (not '' which would link to the page itself) and the control is hidden
+            //   in place (visibility keeps the layout) so a dead, still-hoverable button is never shown.
+            if (_prevEl) { const _phD11 = _useHijriUrl ? _hijriPath(_citySlug, _prevDate) : _moonDatePagePath(_citySlug, _prevDate); if (_phD11 && _moonYearInRange(_prevDate.getFullYear())) { _prevEl.href = _phD11; _prevEl.removeAttribute('aria-hidden'); _prevEl.style.visibility = ''; } else { _prevEl.removeAttribute('href'); _prevEl.setAttribute('aria-hidden', 'true'); _prevEl.style.visibility = 'hidden'; } }
+            if (_nextEl) { const _nhD11 = _useHijriUrl ? _hijriPath(_citySlug, _nextDate) : _moonDatePagePath(_citySlug, _nextDate); if (_nhD11 && _moonYearInRange(_nextDate.getFullYear())) { _nextEl.href = _nhD11; _nextEl.removeAttribute('aria-hidden'); _nextEl.style.visibility = ''; } else { _nextEl.removeAttribute('href'); _nextEl.setAttribute('aria-hidden', 'true'); _nextEl.style.visibility = 'hidden'; } }
             if (_todayLinkEl) _todayLinkEl.href = _moonDatePagePath(_citySlug, null);
 
             // نصوص فرعيّة للأيّام السابق/التالي. UAT-Moon-Date: على صفحة هجريّة

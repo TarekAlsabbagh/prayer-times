@@ -50,11 +50,18 @@ console.log('── E) client _nestedMoonHrefClient (extracted from js/app.js) �
 const appSrc = readFileSync(path.join(ROOT, 'js', 'app.js'), 'utf8');
 const fnMatch = appSrc.match(/function _nestedMoonHrefClient\(slug, langPrefix, kind, ccOverride, dateStr\)\s*\{[\s\S]*?\n\}/);
 check('js/app.js defines _nestedMoonHrefClient(slug, langPrefix, kind, ccOverride, dateStr)', !!fnMatch);
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): _nestedMoonHrefClient now calls the shipped supported-year helpers, so the
+//   REAL _moonYearRange() + _moonYearInRange(y) are extracted from js/app.js too (no stub). This sandbox has no window
+//   island, so they use their defensive fallback (current UTC year ±5) and the 2026 month/day cases stay in range.
+const yrRangeMatch = appSrc.match(/function _moonYearRange\(\)\s*\{[\s\S]*?\n\}/);
+const yrInRangeMatch = appSrc.match(/function _moonYearInRange\(y\)\s*\{[\s\S]*?\n\}/);
+check('js/app.js defines _moonYearRange() + _moonYearInRange(y) (called by _nestedMoonHrefClient)', !!yrRangeMatch && !!yrInRangeMatch);
 let _nested = () => '';
 if (fnMatch) {
     // makeCountrySlug stub: 'sa'→'saudi-arabia', 'us'→'united-states', else '' (unknown country → legacy).
     const stub = `var currentCountryCode='';var currentEnglishCountry='';function makeCountrySlug(cc){return ({sa:'saudi-arabia',us:'united-states'})[cc]||'';}`;
-    try { _nested = new Function(stub + '\nreturn (' + fnMatch[0] + ');')(); } catch (e) { check('_nestedMoonHrefClient evaluable', false, e.message); }
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: evaluate together with the extracted range helpers it now depends on.
+    try { _nested = new Function(stub + '\n' + (yrRangeMatch ? yrRangeMatch[0] : '') + '\n' + (yrInRangeMatch ? yrInRangeMatch[0] : '') + '\nreturn (' + fnMatch[0] + ');')(); } catch (e) { check('_nestedMoonHrefClient evaluable', false, e.message); }
 }
 check("hub (cc=sa) → nested hub", _nested('riyadh', '', 'hub', 'sa') === '/moon/saudi-arabia/riyadh', _nested('riyadh', '', 'hub', 'sa'));
 check("today (cc=sa, /en) → nested today w/ lang", _nested('riyadh', '/en', 'today', 'sa') === '/en/moon/saudi-arabia/riyadh/today', _nested('riyadh', '/en', 'today', 'sa'));

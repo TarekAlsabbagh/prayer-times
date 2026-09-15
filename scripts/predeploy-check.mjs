@@ -8,7 +8,7 @@
 //        - عند SITE_URL=https://… → كلّ <loc> https://…
 //        - عند SITE_URL=http://localhost… → http://…
 //   5. اختبار 5 صفحات مدن: title/H1/canonical/hreflang
-//   6. اختبار 3 redirects: mecca→makkah، giza-governorate→giza، singapore→singapore-city
+//   6. اختبار redirects: mecca→makkah، giza-governorate→giza + /prayer-times-in-singapore = 200 index بلا redirect (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
 //
 // تشغيل (مع خادم محلّي):     node scripts/predeploy-check.mjs
 // أو ضدّ staging/production: SITE_URL=https://example.com node scripts/predeploy-check.mjs
@@ -145,7 +145,7 @@ const redirects = [
     { from: '/qibla-in-mecca',                  to: '/qibla-in-makkah' },
     { from: '/moon-today-in-mecca',             to: '/moon-today-in-makkah' },
     { from: '/prayer-times-in-giza-governorate',to: '/prayer-times-in-giza' },
-    { from: '/prayer-times-in-singapore',       to: '/prayer-times-in-singapore-city' },
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: singapore → singapore-city removed — /prayer-times-in-singapore must NOT redirect (checked below).
     { from: '/en/prayer-times-in-mecca',        to: '/en/prayer-times-in-makkah' },
 ];
 for (const r of redirects) {
@@ -164,6 +164,20 @@ for (const r of redirects) {
     } else {
         bad(`${r.from}: HTTP ${resp.status}`);
     }
+}
+
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: /prayer-times-in-singapore is the canonical curated Singapore CITY page — it must
+//   NOT redirect (the former singapore → singapore-city 301 is dropped at boot): 200, no Location, index, self-canonical.
+for (const p of ['/prayer-times-in-singapore']) {
+    const resp = await fetch(`${BASE}${p}`, { redirect: 'manual' }).catch(() => null);
+    if (!resp) { bad(`${p}: fetch failed`); continue; }
+    const html = resp.status === 200 ? await resp.text() : '';
+    const robots = html.match(/<meta[^>]+name=["']robots["'][^>]+content=["']([^"']*)["']/i)?.[1] || '';
+    const xrt = resp.headers.get('x-robots-tag') || '';
+    const canon = html.match(/<link[^>]+rel=["']canonical["'][^>]+href=["']([^"']+)["']/i)?.[1] || '';
+    const canonPath = canon ? new URL(canon, BASE).pathname : '';
+    if (resp.status === 200 && !resp.headers.get('location') && /\bindex\b/i.test(robots) && !/noindex/i.test(robots + ' ' + xrt) && canonPath === p) ok(`${p}: 200, no redirect, index, self-canonical`);
+    else bad(`${p}: status=${resp.status} location=${resp.headers.get('location') || ''} robots="${robots}" x-robots-tag="${xrt}" canonical=${canon}`);
 }
 
 // ── Summary ───────────────────────────────────────────────────────────

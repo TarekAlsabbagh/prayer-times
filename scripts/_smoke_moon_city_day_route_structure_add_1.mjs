@@ -102,7 +102,10 @@ try {
     //   out-of-range pages are noindex + canonical→/moon-today; the nested day keeps self-canonical.
     //   (MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1 — the canonical-override-skip.)
     {
-        const oor = '/moon/saudi-arabia/riyadh/2030/01/15';
+        // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: nested moon years are valid only inside the supported window (current UTC
+        //   year ±5), so a hard-coded year becomes a future 404 date bomb. Jan 15 of (current UTC year + 4) stays inside that
+        //   window AND is always > 90 days ahead of today (outside the day-index window) — the same case as before.
+        const oor = `/moon/saudi-arabia/riyadh/${new Date().getUTCFullYear() + 4}/01/15`;
         const r = await req(oor);
         check(`${oor} (out of range): 200 + self canonical (NOT /moon-today-in-…)`, r.status === 200 && canonOf(r.body) === SITE + oor, `status=${r.status} canon=${canonOf(r.body)}`);
     }

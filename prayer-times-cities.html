@@ -1299,7 +1299,9 @@ function updateCountryListingSEO(lngOrIsEn, countryName) {
     const title = _seoTD.title;
     const desc  = _seoTD.desc;
     upsertMeta('description', 'name', desc);
-    upsertMeta('robots', 'name', 'index, follow');
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D12): never turn an SSR noindex into index (this template never changes
+    //   pathname, so the pre-write DOM value IS the SSR value).
+    { const _rEl = document.head.querySelector('meta[name="robots"]'); const _rC = _rEl ? (_rEl.getAttribute('content') || '') : ''; if (!/\bnoindex\b/i.test(_rC)) upsertMeta('robots', 'name', 'index, follow'); }
     upsertLink('canonical', canonical);
     upsertLink('alternate', langUrl('ar'), 'ar');
     upsertLink('alternate', langUrl('en'), 'en');

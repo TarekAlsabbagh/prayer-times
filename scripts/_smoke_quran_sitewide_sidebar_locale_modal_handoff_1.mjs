@@ -35,7 +35,9 @@ ok(srv.includes("quran-home.js?v=4"), 'server.js bumped the quran-home.js cache-
 ok(/const _i18nVersion = '207'/.test(srv), 'server.js bumped _i18nVersion to 207 (client i18n bundles refreshed)');
 // forbidden-scope guards: the locale modal dict/builder and the dedicated sitemap are untouched here
 ok(srv.includes('_quranLocaleModalHtml') && srv.includes('_QURAN_LOCALE_MODAL_L10N'), 'the existing locale-modal builder + dict are still referenced (reused, not replaced)');
-ok(srv.includes('function _getQuranDedicatedSitemap()') && /const QURAN_PUBLIC_RELEASE_LASTMOD = '2026-07-22';/.test(srv), 'the dedicated sitemap + general sitemap Quran block are left intact');
+// INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the general sitemap-main Quran block was later REMOVED on purpose (the dedicated
+//   sitemap is now the sole Quran listing) → this scope guard pins the dedicated builder + its fixed LASTMOD only.
+ok(srv.includes('function _getQuranDedicatedSitemap()') && /const LASTMOD = '2026-07-22';/.test(srv) && !/QURAN_PUBLIC_RELEASE_LASTMOD/.test(srv), 'the dedicated sitemap (fixed LASTMOD 2026-07-22) is intact; the general sitemap-main Quran block is gone (sole listing)');
 
 // ─────────────── STATIC: js/app.js ───────────────
 const app = rd('js/app.js');

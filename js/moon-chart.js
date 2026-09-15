@@ -19,6 +19,16 @@
 
 (function(global) {
     'use strict';
+    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): the SAME supported moon year window the server routes accept
+    //   (SSR island window.__MOON_YEAR_RANGE__); the defensive fallback mirrors the server formula (UTC year ±5).
+    function _yearInServerRange(isoOrYear) {
+        var r = global && global.__MOON_YEAR_RANGE__;
+        var mn, mx;
+        if (r && isFinite(r.min) && isFinite(r.max)) { mn = Number(r.min); mx = Number(r.max); }
+        else { var cy = new Date().getUTCFullYear(); mn = Math.max(1900, cy - 5); mx = Math.min(2100, cy + 5); }
+        var y = parseInt(String(isoOrYear).slice(0, 4), 10);
+        return isFinite(y) && y >= mn && y <= mx;
+    }
 
     // فهرس مفاتيح أسماء الأشهر (EN) — للـ fallback حين لا تتوفّر i18n
     const GREG_MONTHS_EN = [
@@ -367,7 +377,7 @@
                 pct: pct,
                 label: _shortLabel(d, null),
                 isCenter: iso === centerIso,
-                href: (citySlug && iso !== centerIso) ? (urlBase + '/' + iso) : null,
+                href: (citySlug && iso !== centerIso && _yearInServerRange(iso)) ? (urlBase + '/' + iso) : null,
                 phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || phaseIcon } : null,
                 phaseIcon: phaseIcon,
                 phaseName: phaseName
@@ -429,7 +439,7 @@
             const iso = _isoDate(d);
             const _mm = _pad2(month);
             const _dd = _pad2(day);
-            const href = nestedDayBase ? (nestedDayBase + '/' + year + '/' + _mm + '/' + _dd) : null;
+            const href = (nestedDayBase && _yearInServerRange(String(year))) ? (nestedDayBase + '/' + year + '/' + _mm + '/' + _dd) : null;
             const ev = phaseEvents.find(function(e) {
                 return e.date && _isoDate(e.date) === iso;
             });

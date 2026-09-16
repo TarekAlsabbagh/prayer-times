@@ -130,7 +130,19 @@ async function main() {
     if (cr.status === 200 && /<urlset\b/.test(ctext)) smChildOk++;
     quranElsewhere += [...ctext.matchAll(/<loc>https?:\/\/[^/<]+(?:\/[a-z]{2})?\/quran(?:\/[a-z0-9-]+)?<\/loc>/g)].length;
   }
-  ok(smChildren.includes('/sitemap-main.xml') && smChildOk === smChildren.length && quranElsewhere === 0, '16) sitemap-main + every other index child list 0 quran urls (the dedicated sitemap is the sole Quran listing) — children=' + smChildren.length + ' ok=' + smChildOk + ' quran=' + quranElsewhere);
+  // SITEMAP-SEMANTIC-PARTITIONING-1: the index now lists the semantic family files (no /sitemap-main.xml); the legacy sitemap-main +
+  //   sitemap-cities-1..N are still served, so they are read explicitly (cities probed until the first non-200) and must list 0 quran too.
+  let legacyOk = 0, legacyN = 0, legacyQuran = 0;
+  for (let i = 0; i <= 500; i++) {
+    const lp = i === 0 ? '/sitemap-main.xml' : '/sitemap-cities-' + i + '.xml';
+    const lr = await fetch(B + lp); const ltext = await lr.text();
+    if (i > 0 && lr.status !== 200) break;
+    legacyN++;
+    if (lr.status === 200 && /<urlset\b/.test(ltext)) legacyOk++;
+    legacyQuran += [...ltext.matchAll(/<loc>https?:\/\/[^/<]+(?:\/[a-z]{2})?\/quran(?:\/[a-z0-9-]+)?<\/loc>/g)].length;
+  }
+  ok(smChildren.length > 0 && !smChildren.includes('/sitemap-main.xml') && smChildOk === smChildren.length && quranElsewhere === 0 && legacyN >= 2 && legacyOk === legacyN && legacyQuran === 0,
+    '16) every index child except sitemap-quran + the legacy sitemap-main + sitemap-cities-1..N list 0 quran urls (the dedicated sitemap is the sole Quran listing) — children=' + smChildren.length + ' ok=' + smChildOk + ' quran=' + quranElsewhere + ' | legacy files=' + legacyN + ' ok=' + legacyOk + ' quran=' + legacyQuran);
   // brotli negotiation still works on the 200 path
   const rBr = await fetch(B + '/sitemap-quran.xml', { headers: { 'accept-encoding': 'br' } });
   ok((rBr.headers.get('content-encoding') || '') === 'br', 'serves Content-Encoding: br on the 200 response when requested');

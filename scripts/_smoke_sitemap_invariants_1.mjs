@@ -32,6 +32,19 @@
 //       10 /[lang/]prayer-times-in-singapore country URLs). Without a base these checks FAIL unless
 //       SITEMAP_INV_NO_BASE=1 disables them explicitly (used when the target IS the base).
 //
+//   SITEMAP-SEMANTIC-PARTITIONING-1: /sitemap.xml lists the semantic family URL-set files directly (prayer, qibla, time-left,
+//       next-prayer, moon, hijri, quran, azkar, guides, ramadan, pages — shards -1..N) instead of sitemap-main + sitemap-cities-N.
+//       The legacy files are still served and are read explicitly as the LEGACY corpus (never part of the index entries):
+//       [D] index children === the family plan computed from the legacy stream (ticket rules, <= 25,000 URLs and <= 35,000,000
+//           bytes per file, fewest near-equal parts, a path's 10 locales never split) + sitemap-quran; sitemap-quran is referenced
+//           by robots.txt AND the index (the one allowed double reference); legacy sitemap-main + cities-1..N still 200, next → 404
+//       [C] legacy files vs the data expectation (as before); every family file === the legacy stream filtered to its family, cut
+//           at the plan boundary (same order); index entries total === computed; 2026-09-15 family snapshot
+//       [G]/[Q]/[L] as before on the legacy corpus + the same rules on the index children (by family file)
+//       [B] base = a tree whose index still lists the legacy files (12bae98): robots + sitemap-quran identical; base index children
+//           === the legacy files served on after; legacy files byte-identical; every base <url> block === the index children's
+//           block WITH <lastmod> (no lastmod stripping any more); 0 removed, 0 added (the containment-era approved removals are gone)
+//
 // Usage:
 //   TP_BASE_ROOT=<base checkout> node scripts/_smoke_sitemap_invariants_1.mjs
 //   env: SITEMAP_INV_MODE=sample (default) | full      SITEMAP_INV_ROOT=<tree to boot> (default: this checkout)
@@ -66,6 +79,37 @@ const SNAPSHOT = process.env.SITEMAP_INV_SNAPSHOT !== '0';
 const SITE = 'https://timesprayers.com';
 const LOCALES = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
 const SNAP = { main: 7430, shards: 168590, quran: 115, total: 176135, shardFiles: 23 };   // 2026-09-15 snapshot
+// SITEMAP-SEMANTIC-PARTITIONING-1: the index children in order → URL count (2026-09-15 snapshot; RAMADAN has 0 URLs → no file)
+const SNAP_FAMILY = { '/sitemap-prayer-1.xml': 16410, '/sitemap-prayer-2.xml': 16410, '/sitemap-qibla-1.xml': 15600, '/sitemap-qibla-2.xml': 15590,
+    '/sitemap-time-left-1.xml': 15590, '/sitemap-time-left-2.xml': 15590, '/sitemap-next-prayer-1.xml': 15590, '/sitemap-next-prayer-2.xml': 15590,
+    '/sitemap-moon-1.xml': 22770, '/sitemap-moon-2.xml': 22760, '/sitemap-hijri.xml': 3940, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
+    '/sitemap-guides.xml': 40, '/sitemap-pages.xml': 100 };
+// SITEMAP-SEMANTIC-PARTITIONING-1: the ticket spec — per URL-set file budget, family order, family rules on the locale-stripped path
+const FAMILY_MAX_URLS = 25000;
+const FAMILY_MAX_BYTES = 35000000;
+const FAMILY_ORDER = ['prayer', 'qibla', 'time-left', 'next-prayer', 'moon', 'hijri', 'quran', 'azkar', 'guides', 'ramadan', 'pages'];
+const F_SLUG = '[a-z0-9]+(?:-[a-z0-9]+)*';
+const FAMILY_PAGES = new Set(['/', '/zakat-calculator', '/msbaha', '/date-converter', '/today-hijri-date', '/prayer-times-worldwide', '/about-us', '/contact', '/privacy', '/terms']);
+const FAMILY_RULES = [
+    ['prayer', new RegExp('^/prayer-times-in-' + F_SLUG + '$')],
+    ['qibla', new RegExp('^/qibla(?:-in-' + F_SLUG + ')?$')],
+    ['time-left', new RegExp('^/time-left-until-next-prayer-in-' + F_SLUG + '$')],
+    ['next-prayer', new RegExp('^/next-prayer-in-' + F_SLUG + '$')],
+    ['moon', new RegExp('^/moon(?:/' + F_SLUG + '(?:/' + F_SLUG + '(?:/(?:today|\\d{4}(?:/(?:0[1-9]|1[0-2]))?))?)?)?$')],
+    ['hijri', /^\/(?:hijri-calendar\/\d{4}(?:-(?:0[1-9]|1[0-2]))?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
+    ['quran', new RegExp('^/quran(?:/' + F_SLUG + ')?$')],   // Arabic only (checked in familyOf)
+    ['azkar', /^\/azkar(?:\/(?:morning|evening|prayer)-azkar)?$/],
+    ['guides', /^\/guides(?:\/(?:prayer-time-calculation-methods|why-prayer-times-differ|how-qibla-direction-is-calculated))?$/],
+    ['ramadan', /^\/(?:ramadan|eid-al-fitr|eid-al-adha|hijri-new-year)-countdown$/],
+];
+// a <loc> → its one family, or null when it matches none or more than one (PAGES is an exact allowlist, never a catch-all)
+function familyOf(loc) {
+    const p = pathOf(loc); if (p == null) return null;
+    const { locale, rel } = splitLocale(p);
+    const hits = FAMILY_PAGES.has(rel) ? ['pages'] : [];
+    for (const [fam, re] of FAMILY_RULES) if (re.test(rel) && (fam !== 'quran' || locale === 'ar')) hits.push(fam);
+    return hits.length === 1 ? hits[0] : null;
+}
 const QURAN_LASTMOD = '2026-07-22';
 const LEGAL_LASTMOD = '2026-08-09';
 const MAX_BYTES = 50 * 1024 * 1024;
@@ -332,7 +376,7 @@ function stop(child) {
 
 // ─────────────────────────────── sitemap discovery + parsing ───────────────────────────────
 const attrsOf = (tag) => { const o = {}; for (const m of tag.matchAll(/([a-zA-Z_:][-a-zA-Z0-9_:.]*)\s*=\s*(?:"([^"]*)"|'([^']*)')/g)) { const k = m[1].toLowerCase(); if (!(k in o)) o[k] = m[2] != null ? m[2] : m[3]; } return o; };
-const stripLastmod = (block) => block.replace(/\n[ \t]*<lastmod>[^<]*<\/lastmod>/g, '');
+// SITEMAP-SEMANTIC-PARTITIONING-1: stripLastmod removed — the base comparison keeps <lastmod> (base and after share the lastmod policy).
 
 // light=true keeps only per-file loc → block hash (base comparison)
 async function discover(port, { light = false, keepHashes = false } = {}) {
@@ -356,6 +400,7 @@ async function discover(port, { light = false, keepHashes = false } = {}) {
             urlOpen: 0, urlClose: 0, locTags: 0, urls: 0, lastmodTags: 0, hashes: keepHashes ? new Map() : null, locs: [] };
         out.singaporeCityHits[p] = text.split('singapore-city').length - 1;
         if (p === '/sitemap-quran.xml') f.raw = r.raw;
+        f.sha = crypto.createHash('sha1').update(r.raw).digest('hex');   // SITEMAP-SEMANTIC-PARTITIONING-1: whole-file identity (legacy vs base)
         if (/<sitemapindex\b/.test(text)) {
             f.kind = 'index';
             for (const m of text.matchAll(/<sitemap>([\s\S]*?)<\/sitemap>/g)) {
@@ -378,7 +423,7 @@ async function discover(port, { light = false, keepHashes = false } = {}) {
                 const loc = locMs.length ? xmlUnescape(locMs[0][1].trim()) : '';
                 f.urls++;
                 f.locs.push(loc);
-                if (f.hashes) f.hashes.set(loc, sha1(stripLastmod(block)));
+                if (f.hashes) f.hashes.set(loc, sha1(block));   // SITEMAP-SEMANTIC-PARTITIONING-1: <lastmod> kept
                 if (light) continue;
                 const lastmods = [...block.matchAll(/<lastmod>([^<]*)<\/lastmod>/g)].map(x => x[1]);
                 const pairs = [], rels = [];
@@ -395,36 +440,123 @@ async function discover(port, { light = false, keepHashes = false } = {}) {
     return out;
 }
 
+// SITEMAP-SEMANTIC-PARTITIONING-1: the LEGACY corpus — /sitemap-main.xml, then /sitemap-cities-1.. until the first non-200. No longer
+//   referenced by /sitemap.xml but still served; parsed light (locs, per-block byte size, optional block hashes), never into A.entries.
+async function discoverLegacy(port, { keepHashes = false } = {}) {
+    const out = { files: [], next: null };
+    for (let i = 0; i <= 500; i++) {
+        const p = i === 0 ? '/sitemap-main.xml' : '/sitemap-cities-' + i + '.xml';
+        const r = await request(port, p);
+        if (i > 0 && r.status !== 200) { out.next = { path: p, status: r.status, ctype: String(r.headers['content-type'] || '') }; break; }
+        const text = r.raw.toString('utf8');
+        const f = { url: SITE + p, path: p, from: 'legacy probe', status: r.status, ctype: String(r.headers['content-type'] || ''), bytes: r.raw.length,
+            sha: crypto.createHash('sha1').update(r.raw).digest('hex'), kind: /<urlset\b/.test(text) ? 'urlset' : 'unknown',
+            nsOk: /<urlset xmlns="http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9"/.test(text), urlOpen: (text.match(/<url>/g) || []).length,
+            urlClose: (text.match(/<\/url>/g) || []).length, locTags: (text.match(/<loc>/g) || []).length, lastmodTags: (text.match(/<lastmod>/g) || []).length,
+            urls: 0, locs: [], blockBytes: [], hashes: keepHashes ? new Map() : null, head: 0, tail: 0 };
+        let firstLs = -1, lastEnd = -1;
+        for (const m of text.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+            const lm = m[1].match(/<loc>([^<]*)<\/loc>/);
+            const loc = lm ? xmlUnescape(lm[1].trim()) : '';
+            const ls = text.lastIndexOf('\n', m.index) + 1, end = m.index + m[0].length;
+            if (firstLs < 0) firstLs = ls;
+            lastEnd = end;
+            f.urls++; f.locs.push(loc); f.blockBytes.push(Buffer.byteLength(text.slice(ls, end)) + 1);   // + the '\n' after every block
+            if (f.hashes) f.hashes.set(loc, sha1(m[1]));
+        }
+        f.head = firstLs < 0 ? 0 : Buffer.byteLength(text.slice(0, firstLs));
+        f.tail = lastEnd < 0 ? 0 : Buffer.byteLength(text.slice(lastEnd + 1));
+        out.files.push(f);
+    }
+    return out;
+}
+// SITEMAP-SEMANTIC-PARTITIONING-1: the expected family plan (the spec, computed independently of server.js): the legacy stream
+//   (sitemap-main → sitemap-cities-1..N) filtered per family keeps its order; a path = its adjacent locale <url>s (never split);
+//   a family is cut into the FEWEST N contiguous parts of near-equal path count with every part <= FAMILY_MAX_URLS URLs and
+//   <= FAMILY_MAX_BYTES bytes (header + Σ(block + newline) + footer, measured on the served legacy bytes). One part → sitemap-{f}.xml,
+//   else sitemap-{f}-{k}.xml; an empty family has no file; the quran family is always the untouched /sitemap-quran.xml.
+function buildFamilyPlan(L) {
+    const lf = L.files;
+    const streams = Object.fromEntries(FAMILY_ORDER.map(f => [f, []]));
+    const unclassified = [];
+    for (const f of lf) f.locs.forEach((loc, i) => {
+        const fam = familyOf(loc);
+        if (!fam) { unclassified.push(loc + ' in ' + f.path); return; }
+        const s = streams[fam], rel = splitLocale(pathOf(loc)).rel, last = s[s.length - 1];
+        if (last && last.rel === rel) { last.locs.push(loc); last.bytes += f.blockBytes[i]; }
+        else s.push({ rel, locs: [loc], bytes: f.blockBytes[i] });
+    });
+    const head = lf.length ? lf[0].head : 0, tail = lf.length ? lf[0].tail : 0;
+    const files = [];
+    for (const fam of FAMILY_ORDER) {
+        if (fam === 'quran') { files.push({ path: '/sitemap-quran.xml', fam, locs: null, urls: null, bytes: null }); continue; }
+        const s = streams[fam], D = s.length;
+        if (!D) continue;
+        let U = 0, Bt = 0; for (const x of s) { U += x.locs.length; Bt += x.bytes; }
+        let N = Math.max(1, Math.ceil(U / FAMILY_MAX_URLS), Math.ceil(Bt / (FAMILY_MAX_BYTES - head - tail)));
+        let parts;
+        for (;;) {
+            parts = []; let fits = true, st = 0;
+            for (let k = 0; k < N; k++) {
+                const len = Math.floor(D / N) + (k < D % N ? 1 : 0);
+                let u = 0, b = head + tail; const locs = [];
+                for (let i = st; i < st + len; i++) { u += s[i].locs.length; b += s[i].bytes; for (const l of s[i].locs) locs.push(l); }
+                if (len === 0 || u > FAMILY_MAX_URLS || b > FAMILY_MAX_BYTES) fits = false;
+                parts.push({ locs, urls: u, bytes: b }); st += len;
+            }
+            if (fits || N >= D) break;
+            N++;
+        }
+        parts.forEach((pt, k) => files.push({ path: '/sitemap-' + fam + (parts.length === 1 ? '' : '-' + (k + 1)) + '.xml', fam, locs: pt.locs, urls: pt.urls, bytes: pt.bytes }));
+    }
+    return { files, unclassified, head, tail };
+}
+
 // ─────────────────────────────── static invariants ───────────────────────────────
 function staticChecks(A, E) {
     const files = A.files;
     const byPath = new Map(files.map(f => [f.path, f]));
     const index = byPath.get('/sitemap.xml');
-    const main = byPath.get('/sitemap-main.xml');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: sitemap-main + sitemap-cities-N come from the LEGACY corpus (A.legacy, read explicitly — no longer
+    //   index children); A.files = robots → index → the family files + sitemap-quran; A.plan = the family plan from the legacy stream.
+    const L = A.legacy || { files: [], next: null };
+    const P = A.plan || null;
+    const main = L.files.find(f => f.path === '/sitemap-main.xml');
     const quran = byPath.get('/sitemap-quran.xml');
-    const shards = files.filter(f => /^\/sitemap-cities-\d+\.xml$/.test(f.path)).sort((a, b) => Number(a.path.match(/\d+/)[0]) - Number(b.path.match(/\d+/)[0]));
-    const fileKind = (f) => f === main ? 'main' : f === quran ? 'quran' : /sitemap-cities-/.test(f.path) ? 'shard' : 'other';
+    const shards = L.files.filter(f => /^\/sitemap-cities-\d+\.xml$/.test(f.path)).sort((a, b) => Number(a.path.match(/\d+/)[0]) - Number(b.path.match(/\d+/)[0]));
 
     section('[D] discovery: robots.txt → index → children; per-file limits');
     ok('D', A.robots.status === 200, 'robots.txt → 200');
     ok('D', JSON.stringify(A.robots.lines) === JSON.stringify([SITE + '/sitemap.xml', SITE + '/sitemap-quran.xml']),
         'robots.txt Sitemap lines === [' + SITE + '/sitemap.xml, ' + SITE + '/sitemap-quran.xml]', JSON.stringify(A.robots.lines));
     ok('D', A.foreign.length === 0, 'no sitemap reference on a foreign origin (none fetched)', A.foreign.join(', '));
-    ok('D', A.dupFileRefs.length === 0, 'no sitemap file referenced twice', A.dupFileRefs.join(', '));
+    // SITEMAP-SEMANTIC-PARTITIONING-1: sitemap-quran.xml is referenced by robots.txt AND listed by /sitemap.xml (the index lists every
+    //   URL-set file) — that single double reference is expected, any other is not.
+    ok('D', JSON.stringify(A.dupFileRefs) === JSON.stringify([SITE + '/sitemap-quran.xml (from /sitemap.xml)']), 'no sitemap file referenced twice, except sitemap-quran.xml (robots.txt + /sitemap.xml)', A.dupFileRefs.join(', '));
     ok('D', !!index && index.kind === 'index', '/sitemap.xml is a <sitemapindex>');
-    ok('D', !!main && main.kind === 'urlset' && !!quran && quran.kind === 'urlset', 'sitemap-main.xml and sitemap-quran.xml are <urlset>s');
+    ok('D', !!main && main.kind === 'urlset' && !!quran && quran.kind === 'urlset', 'sitemap-main.xml (legacy, still served) and sitemap-quran.xml are <urlset>s');
     const expShardNames = E ? E.chunks.map((_, i) => SITE + '/sitemap-cities-' + (i + 1) + '.xml') : [];
     if (index) {
-        ok('D', E && JSON.stringify(index.children) === JSON.stringify([SITE + '/sitemap-main.xml', ...expShardNames]),
-            'index children === [sitemap-main, sitemap-cities-1..' + (E ? E.chunks.length : '?') + '] (computed chunking)', index.children.length + ' children: ' + index.children.slice(0, 3).join(', ') + ' …');
+        // SITEMAP-SEMANTIC-PARTITIONING-1: "index children === [sitemap-main, sitemap-cities-1..N]" → the family plan (+ sitemap-quran)
+        const planNames = P ? P.files.map(f => SITE + f.path) : [];
+        ok('D', !!P && JSON.stringify(index.children) === JSON.stringify(planNames),
+            'index children === the family files in family order (plan from the legacy stream: <= ' + FAMILY_MAX_URLS + ' URLs and <= ' + FAMILY_MAX_BYTES + ' bytes per file, fewest near-equal parts) + sitemap-quran',
+            index.children.length + ' children: ' + index.children.map(u => u.slice(SITE.length)).join(' ') + ' | plan: ' + planNames.map(u => u.slice(SITE.length)).join(' '));
         ok('D', index.childLastmods === 0, 'index children carry no <lastmod>', index.childLastmods + ' <lastmod>');
     }
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the legacy files keep being served under the computed chunking; the next shard number → 404
+    ok('D', !!E && JSON.stringify(shards.map(f => f.url)) === JSON.stringify(expShardNames) && !!L.next && L.next.status === 404,
+        'legacy sitemap-cities-1..' + (E ? E.chunks.length : '?') + ' still served (computed chunking), the next shard number → 404', shards.length + ' legacy shards, next ' + (L.next ? L.next.path + ' → ' + L.next.status : 'none'));
     if (SNAPSHOT) ok('D', shards.length === SNAP.shardFiles, 'snapshot: ' + SNAP.shardFiles + ' city shard files', String(shards.length));
+    if (SNAPSHOT && index) {
+        const got = Object.fromEntries(index.children.map(u => [u.slice(SITE.length), (byPath.get(u.slice(SITE.length)) || {}).urls]));
+        ok('D', JSON.stringify(got) === JSON.stringify(SNAP_FAMILY), 'snapshot: index children + URL counts === the 2026-09-15 family layout (' + Object.keys(SNAP_FAMILY).length + ' files)', JSON.stringify(got));
+    }
     const perFile = { status: agg('D', 'every sitemap file → HTTP 200'), ctype: agg('D', 'every sitemap file Content-Type application/xml'),
         size: agg('D', 'every sitemap file uncompressed < 50MB'), count: agg('D', 'every sitemap file < 50,000 entries'),
         wf: agg('D', 'every urlset well-formed (sitemaps 0.9 ns, <url> === </url> === <loc> === parsed urls)') };
     let largest = 0;
-    for (const f of files) {
+    for (const f of [...files, ...L.files]) {   // SITEMAP-SEMANTIC-PARTITIONING-1: + the legacy files (still served)
         perFile.status.test(f.path, f.status === 200, f.status);
         perFile.ctype.test(f.path, /^application\/xml\b/.test(f.ctype), f.ctype);
         perFile.size.test(f.path, f.bytes < MAX_BYTES, f.bytes);
@@ -433,7 +565,14 @@ function staticChecks(A, E) {
         largest = Math.max(largest, f.bytes);
     }
     Object.values(perFile).forEach(a => a.done());
-    info('files=' + files.length + ' | largest=' + (largest / 1048576).toFixed(2) + 'MB | shards=' + shards.length);
+    // SITEMAP-SEMANTIC-PARTITIONING-1: every index child URL set within the family budget; the legacy byte model the plan relies on
+    const budget = agg('D', 'every index child <urlset> within the family budget (<= ' + FAMILY_MAX_URLS + ' URLs, <= ' + FAMILY_MAX_BYTES + ' bytes)');
+    for (const f of files) if (f.kind === 'urlset') budget.test(f.path, f.urls <= FAMILY_MAX_URLS && f.bytes <= FAMILY_MAX_BYTES, f.urls + ' urls / ' + f.bytes + ' bytes');
+    budget.done();
+    const bytesModel = agg('D', 'every legacy file: bytes === header + Σ(<url> block + newline) + footer (the byte model of the family plan)');
+    for (const f of L.files) bytesModel.test(f.path, f.urls > 0 && f.head + f.blockBytes.reduce((a, b) => a + b, 0) + f.tail === f.bytes, f.head + ' + Σ + ' + f.tail + ' vs ' + f.bytes);
+    bytesModel.done();
+    info('files=' + files.length + ' | largest=' + (largest / 1048576).toFixed(2) + 'MB | legacy files=' + L.files.length + ' (shards=' + shards.length + ')');
     const oneLoc = agg('D', 'every <url> has exactly one <loc>');
     for (const e of A.entries) oneLoc.test(e.loc || '(empty)', e.nLoc === 1, e.nLoc);
     oneLoc.done();
@@ -481,14 +620,29 @@ function staticChecks(A, E) {
         ok('C', main && main.urls === E.main.length, 'sitemap-main count === computed ' + E.main.length, String(main && main.urls));
         ok('C', shardTotal === E.shardTotal, 'city shards total === computed ' + E.shardTotal, String(shardTotal));
         ok('C', total === E.total, 'all sitemaps total === computed ' + E.total, String(total));
+        // SITEMAP-SEMANTIC-PARTITIONING-1: the index children (family files + sitemap-quran) carry the same computed total
+        ok('C', A.entries.length === E.total, 'index children total === computed ' + E.total, String(A.entries.length));
     } else {
         ok('C', false, 'computed expectation available', 'expectation could not be built from the target data');
     }
+    // SITEMAP-SEMANTIC-PARTITIONING-1: family files vs the plan — every legacy <url> in exactly one family; each family file === the
+    //   legacy stream (sitemap-main → sitemap-cities-1..N) filtered to its family and cut at the plan boundary, in the same order.
+    ok('C', !!P && P.unclassified.length === 0, 'every legacy <url> matches exactly one family rule (unclassified / double match = 0)', P ? P.unclassified.length + ': ' + P.unclassified.slice(0, 4).join(' ; ') : 'no plan');
+    const famSeq = agg('C', 'every family file <loc> sequence === the legacy stream filtered to its family, cut at the plan boundary');
+    if (P) for (const pf of P.files) {
+        if (!pf.locs) continue;
+        const af = byPath.get(pf.path);
+        const d = af ? af.locs.findIndex((l, i) => l !== pf.locs[i]) : -1;
+        famSeq.test(pf.path, !!af && af.locs.length === pf.locs.length && d === -1,
+            af ? 'got ' + af.locs.length + ' exp ' + pf.locs.length + (d >= 0 ? ' first diff @' + d + ' ' + af.locs[d] + ' vs ' + pf.locs[d] : '') : 'not served as an index child');
+    }
+    famSeq.done();
     if (SNAPSHOT) {
         ok('C', main && main.urls === SNAP.main, 'snapshot: sitemap-main === ' + SNAP.main.toLocaleString('en'), String(main && main.urls));
         ok('C', shardTotal === SNAP.shards, 'snapshot: city shards total === ' + SNAP.shards.toLocaleString('en'), String(shardTotal));
         ok('C', quran && quran.urls === SNAP.quran, 'snapshot: sitemap-quran === ' + SNAP.quran, String(quran && quran.urls));
-        ok('C', total === SNAP.total && firstFile.size === SNAP.total, 'snapshot: ' + SNAP.total.toLocaleString('en') + ' entries === ' + SNAP.total.toLocaleString('en') + ' unique', total + ' entries / ' + firstFile.size + ' unique');
+        // SITEMAP-SEMANTIC-PARTITIONING-1: `total` = legacy main + shards + quran; the index entries must match it too
+        ok('C', total === SNAP.total && A.entries.length === SNAP.total && firstFile.size === SNAP.total, 'snapshot: ' + SNAP.total.toLocaleString('en') + ' entries === ' + SNAP.total.toLocaleString('en') + ' unique', total + ' legacy+quran entries / ' + A.entries.length + ' index entries / ' + firstFile.size + ' unique');
     }
 
     section('[P] path hygiene on every <loc>');
@@ -583,13 +737,25 @@ function staticChecks(A, E) {
     const sgMain = (main ? main.locs : []).filter(l => /\/prayer-times-in-singapore$/.test(l));
     ok('G', sgMain.length === 0, 'singapore is not listed as a prayer country in sitemap-main', sgMain.join(', '));
     const sgExpected = CITY_FAMILIES.flatMap(fam => LOCALES.map(l => locFor('/' + fam + '-singapore', l)));
-    const sgCounts = sgExpected.map(u => [u, A.entries.filter(e => e.loc === u).map(e => files[e.fi].path)]);
+    // SITEMAP-SEMANTIC-PARTITIONING-1: legacy corpus → exactly once in a legacy city shard (as before); index children → exactly once,
+    //   in the file of its own family (prayer / qibla / time-left / next-prayer)
+    const sgCounts = sgExpected.map(u => [u, shards.flatMap(f => f.locs.filter(l => l === u).map(() => f.path))]);
     const sgBad = sgCounts.filter(([, where]) => where.length !== 1 || !/sitemap-cities-/.test(where[0]));
     ok('G', sgBad.length === 0, 'singapore city: 4 families × 10 locales each listed exactly once, in a city shard (40)', sgBad.slice(0, 4).map(([u, w]) => u + ' → [' + w.join(',') + ']').join(' ; '));
+    const famFileRe = (fam) => new RegExp('^/sitemap-' + fam + '(?:-[1-9]\\d*)?\\.xml$');
+    const CITY_FAMILY_NAME = { 'prayer-times-in': 'prayer', 'qibla-in': 'qibla', 'time-left-until-next-prayer-in': 'time-left', 'next-prayer-in': 'next-prayer' };
+    const sgIdx = CITY_FAMILIES.flatMap(fam => LOCALES.map(l => [locFor('/' + fam + '-singapore', l), CITY_FAMILY_NAME[fam]]))
+        .map(([u, fam]) => [u, fam, A.entries.filter(e => e.loc === u).map(e => files[e.fi].path)]);
+    const sgIdxBad = sgIdx.filter(([, fam, where]) => where.length !== 1 || !famFileRe(fam).test(where[0]));
+    ok('G', sgIdxBad.length === 0, 'singapore city in the index children: 4 families × 10 locales each listed exactly once, in its family file (40)', sgIdxBad.slice(0, 4).map(([u, , w]) => u + ' → [' + w.join(',') + ']').join(' ; '));
+    const idxFileOf = new Map(); for (const e of A.entries) if (!idxFileOf.has(e.loc)) idxFileOf.set(e.loc, files[e.fi].path);
     for (const c of SAMPLE_COUNTRIES) {
         const pr = LOCALES.map(l => locFor('/prayer-times-in-' + c, l)), mo = LOCALES.map(l => locFor('/moon/' + c, l));
         const miss = [...pr, ...mo].filter(u => !(main && main.locs.includes(u)));
         ok('G', miss.length === 0, 'country ' + c + ': prayer + moon country page listed in sitemap-main × 10 locales', miss.slice(0, 3).join(', '));
+        // SITEMAP-SEMANTIC-PARTITIONING-1: in the index children the prayer country page sits in a prayer family file, the moon one in a moon file
+        const missIdx = [...pr.map(u => [u, 'prayer']), ...mo.map(u => [u, 'moon'])].filter(([u, fam]) => !famFileRe(fam).test(idxFileOf.get(u) || ''));
+        ok('G', missIdx.length === 0, 'country ' + c + ': prayer / moon country page listed in the prayer / moon family file × 10 locales', missIdx.slice(0, 3).map(([u]) => u + ' → ' + idxFileOf.get(u)).join(', '));
     }
 
     section('[Q] Quran');
@@ -597,6 +763,9 @@ function staticChecks(A, E) {
     const qShard = shards.flatMap(f => f.locs).filter(l => { const p = pathOf(l); return p && isQuranRel(splitLocale(p).rel); });
     ok('Q', qMain.length === 0, 'sitemap-main lists 0 /quran URLs', qMain.length + ': ' + qMain.slice(0, 3).join(', '));
     ok('Q', qShard.length === 0, 'city shards list 0 /quran URLs', String(qShard.length));
+    // SITEMAP-SEMANTIC-PARTITIONING-1: every index child other than sitemap-quran lists 0 /quran URLs
+    const qIdx = A.entries.filter(e => files[e.fi] !== quran).filter(e => { const p = pathOf(e.loc); return p != null && isQuranRel(splitLocale(p).rel); });
+    ok('Q', qIdx.length === 0, 'index children other than sitemap-quran list 0 /quran URLs', qIdx.length + ': ' + qIdx.slice(0, 3).map(e => e.loc + ' in ' + files[e.fi].path).join(', '));
     const qEntries = A.entries.filter(e => files[e.fi] === quran);
     const qAlt = agg('Q', 'every sitemap-quran <url> has 0 alternates');
     const qPath = agg('Q', 'every sitemap-quran <loc> is an ar-only /quran[/slug] URL');
@@ -641,26 +810,31 @@ function staticChecks(A, E) {
     section('[L] lastmod policy');
     const lmFmt = agg('L', 'every <lastmod> is YYYY-MM-DD and at most one per <url>');
     const lmQuran = agg('L', 'sitemap-quran: every <url> has exactly one <lastmod> === ' + QURAN_LASTMOD);
-    const lmMain = agg('L', 'sitemap-main: <lastmod> only on /[lang/]privacy + /[lang/]terms, === ' + LEGAL_LASTMOD);
-    const lmShard = agg('L', 'city shards: 0 <lastmod>');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the index entries are the family files — the sitemap-main rule now applies to every non-Quran index
+    //   child (only the 20 privacy/terms URLs carry <lastmod>, all in the pages family file; this also covers the former "city shards: 0");
+    //   the legacy files are checked by their <lastmod> tag counts below (and block-for-block against the base in [B]).
+    const lmMain = agg('L', 'index children except sitemap-quran: <lastmod> only on /[lang/]privacy + /[lang/]terms, === ' + LEGAL_LASTMOD);
     const lmToday = agg('L', 'no <lastmod> equals the request day (UTC ' + (E ? E.utcYmd : '?') + ' / Riyadh ' + (E ? E.riyadhYmd : '?') + ')');
-    let mainLegal = 0;
+    let mainLegal = 0; const legalFiles = new Set();
     const todayUtc = new Date().toISOString().slice(0, 10), todayRiyadh = ymdIn('Asia/Riyadh');
     for (const e of A.entries) {
         const f = files[e.fi];
         lmFmt.test(e.loc, e.lastmods.length <= 1 && e.lastmods.every(x => /^\d{4}-\d{2}-\d{2}$/.test(x)), e.lastmods.join('|'));
         for (const x of e.lastmods) lmToday.test(e.loc, x !== todayUtc && x !== todayRiyadh, x);
         if (f === quran) lmQuran.test(e.loc, e.lastmods.length === 1 && e.lastmods[0] === QURAN_LASTMOD, e.lastmods.join('|'));
-        else if (f === main) {
+        else {   // SITEMAP-SEMANTIC-PARTITIONING-1: every non-Quran index child (was: f === main, plus the city shards' "0 <lastmod>")
             const rel = splitLocale(pathOf(e.loc) || '').rel;
             const legal = rel === '/privacy' || rel === '/terms';
-            if (legal) mainLegal++;
+            if (legal) { mainLegal++; legalFiles.add(f.path); }
             lmMain.test(e.loc, legal ? (e.lastmods.length === 1 && e.lastmods[0] === LEGAL_LASTMOD) : e.lastmods.length === 0, e.lastmods.join('|') || '(none)');
-        } else if (fileKind(f) === 'shard') lmShard.test(e.loc, e.lastmods.length === 0, e.lastmods.join('|'));
+        }
     }
-    lmFmt.done(); lmQuran.done(); lmMain.done(); lmShard.done();
+    lmFmt.done(); lmQuran.done(); lmMain.done();
     lmToday.done('', true);
-    ok('L', mainLegal === 20, 'sitemap-main lists exactly 20 privacy/terms URLs (2 × 10 locales)', String(mainLegal));
+    ok('L', mainLegal === 20 && legalFiles.size === 1 && /^\/sitemap-pages(?:-[1-9]\d*)?\.xml$/.test([...legalFiles][0] || ''), 'index children list exactly 20 privacy/terms URLs (2 × 10 locales), all in the pages family file', mainLegal + ' in ' + [...legalFiles].join(','));
+    // SITEMAP-SEMANTIC-PARTITIONING-1: legacy corpus (still served) — sitemap-main carries exactly the 20 legal <lastmod>, the city shards none
+    ok('L', !!main && main.lastmodTags === 20 && shards.length > 0 && shards.every(f => f.lastmodTags === 0), 'legacy sitemap-main: 20 <lastmod> (privacy/terms); legacy city shards: 0 <lastmod>',
+        (main ? main.lastmodTags : '-') + ' / ' + shards.filter(f => f.lastmodTags).map(f => f.path + '×' + f.lastmodTags).join(','));
     if (E) ok('L', E.legalDates.length === 20 && E.legalDates.every(d => d === LEGAL_LASTMOD), 'target server.js LEGAL_PAGES legal-meta literals: 20, all === ' + LEGAL_LASTMOD + ' (the lastmod source)', E.legalDates.length + ' ' + [...new Set(E.legalDates)].join(','));
     const totalLastmodTags = files.reduce((a, f) => a + (f.lastmodTags || 0) + (f.childLastmods || 0), 0);
     ok('L', totalLastmodTags === (quran ? quran.urls : 0) + 20, '<lastmod> tags across all sitemaps === ' + ((quran ? quran.urls : 0) + 20) + ' (Quran + privacy/terms only)', String(totalLastmodTags));
@@ -668,7 +842,8 @@ function staticChecks(A, E) {
 
 // ─────────────────────────────── base comparison ───────────────────────────────
 async function baseChecks(A, B, afterPort) {
-    section('[B] base comparison (robots / sitemap-quran identical; <url> blocks identical minus lastmod except approved removals)');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: base = a tree whose index still lists the legacy files (12bae98); lastmod kept, no approved removals
+    section('[B] base comparison (robots / sitemap-quran identical; legacy files byte-identical; every base <url> block === the index children, <lastmod> kept)');
     ok('B', B.robots.status === 200 && Buffer.compare(A.robots.raw, B.robots.raw) === 0, 'robots.txt byte-identical to base', A.robots.raw.length + ' vs ' + B.robots.raw.length + ' bytes');
     const aq = A.files.find(f => f.path === '/sitemap-quran.xml'), bq = B.files.find(f => f.path === '/sitemap-quran.xml');
     ok('B', !!aq && !!bq && !!aq.raw && !!bq.raw && Buffer.compare(aq.raw, bq.raw) === 0, 'sitemap-quran.xml byte-identical to base', (aq && aq.bytes) + ' vs ' + (bq && bq.bytes));
@@ -676,37 +851,42 @@ async function baseChecks(A, B, afterPort) {
     ok('B', !!aq && !!bq && aq.lastModified && aq.lastModified === bq.lastModified && aq.lastModified === new Date(QURAN_LASTMOD + 'T00:00:00Z').toUTCString(), 'sitemap-quran.xml Last-Modified identical to base (= ' + QURAN_LASTMOD + ')', (aq && aq.lastModified) + ' vs ' + (bq && bq.lastModified));
     if (aq && aq.etag) { const r = await request(afterPort, '/sitemap-quran.xml', { headers: { 'If-None-Match': aq.etag } }); ok('B', r.status === 304, 'sitemap-quran.xml → 304 on If-None-Match', String(r.status)); }
     const ai = A.files.find(f => f.path === '/sitemap.xml'), bi = B.files.find(f => f.path === '/sitemap.xml');
-    ok('B', !!ai && !!bi && JSON.stringify(ai.children) === JSON.stringify(bi.children), 'sitemap index children identical to base', (ai && ai.children.length) + ' vs ' + (bi && bi.children.length));
-    const approvedRemoval = (p, loc) => {
-        if (p !== '/sitemap-main.xml') return false;
-        const lp = pathOf(loc); if (lp == null) return false; const rel = splitLocale(lp).rel;
-        return isQuranRel(rel) || rel === '/prayer-times-in-singapore';
-    };
-    const blockAgg = agg('B', 'every sitemap-main / city shard <url> block identical to base once <lastmod> lines are removed (approved removals excepted)');
-    let removed = 0, removedQuran = 0, removedSg = 0;
+    // SITEMAP-SEMANTIC-PARTITIONING-1: "index children identical to base" → the base index lists sitemap-main + sitemap-cities-1..N, which
+    //   are exactly the legacy files still served on after; those are byte-identical, and every base <url> block reappears byte-for-byte
+    //   (<lastmod> kept) in the after index children — 0 removed, 0 added (the containment-era 115 Quran + 10 Singapore removals are history).
+    const legacyFiles = A.legacy ? A.legacy.files : [];
+    ok('B', !!ai && !!bi && bi.children.length > 0 && JSON.stringify(bi.children) === JSON.stringify(legacyFiles.map(f => f.url)), 'base index children === the legacy files still served on after (sitemap-main + sitemap-cities-1..N, same order)',
+        (bi && bi.children.length) + ' base children vs ' + legacyFiles.length + ' legacy files');
+    const fileAgg = agg('B', 'every legacy file (sitemap-main + sitemap-cities-N) byte-identical to the base file of the same name');
+    const blockAgg = agg('B', 'every legacy <url> block identical to base (<lastmod> kept), none missing, none added');
+    const unionAgg = agg('B', 'every base <url> block identical (<lastmod> kept) in the after index children, which add none');
+    const idxHashes = new Map();
+    for (const f of A.files) if (f.kind === 'urlset' && f.path !== '/sitemap-quran.xml' && f.hashes) for (const [l, h] of f.hashes) idxHashes.set(l, h);
+    const baseLocs = new Set(); let removed = 0, added = 0;
     for (const bf of B.files) {
         if (bf.kind !== 'urlset' || bf.path === '/sitemap-quran.xml') continue;
-        const af = A.files.find(f => f.path === bf.path);
-        if (!af) { blockAgg.test(bf.path, false, 'file missing on after'); continue; }
+        const af = legacyFiles.find(f => f.path === bf.path);
+        fileAgg.test(bf.path, !!af && af.sha === bf.sha && af.bytes === bf.bytes, af ? af.bytes + ' vs ' + bf.bytes + ' bytes' : 'legacy file missing on after');
         for (const [loc, h] of bf.hashes) {
-            if (approvedRemoval(bf.path, loc)) {
-                removed++; if (isQuranRel(splitLocale(pathOf(loc)).rel)) removedQuran++; else removedSg++;
-                blockAgg.test(loc, !af.hashes.has(loc), 'approved removal still present on after');
-                continue;
-            }
-            blockAgg.test(loc, af.hashes.get(loc) === h, af.hashes.has(loc) ? 'block differs' : 'missing on after');
+            baseLocs.add(loc);
+            if (af) blockAgg.test(loc, af.hashes.get(loc) === h, af.hashes.has(loc) ? 'block differs' : 'missing on after ' + bf.path);
+            if (!idxHashes.has(loc)) removed++;
+            unionAgg.test(loc, idxHashes.get(loc) === h, idxHashes.has(loc) ? 'block differs' : 'missing from the index children');
         }
-        for (const loc of af.hashes.keys()) if (!bf.hashes.has(loc)) blockAgg.test(loc, false, 'added on after (not in base ' + bf.path + ')');
+        if (af) for (const loc of af.hashes.keys()) if (!bf.hashes.has(loc)) blockAgg.test(loc, false, 'added on after (not in base ' + bf.path + ')');
     }
-    blockAgg.done();
-    ok('B', removed === 125 && removedQuran === 115 && removedSg === 10, 'base → after removed exactly 115 Quran + 10 singapore-country URLs from sitemap-main', 'removed ' + removed + ' (quran ' + removedQuran + ', singapore ' + removedSg + ')');
+    for (const loc of idxHashes.keys()) if (!baseLocs.has(loc)) { added++; unionAgg.test(loc, false, 'added in the index children (not in any base file)'); }
+    fileAgg.done(); blockAgg.done(); unionAgg.done();
+    ok('B', removed === 0 && added === 0 && baseLocs.size > 0, 'base → after: 0 URLs removed, 0 added (base sitemap-main + city shards vs after index children)', 'removed ' + removed + ', added ' + added + ' of ' + baseLocs.size);
 }
 
 // ─────────────────────────────── sample selection ───────────────────────────────
 function selectUrls(A, E) {
     const files = A.files;
     const quran = files.find(f => f.path === '/sitemap-quran.xml');
-    const main = files.find(f => f.path === '/sitemap-main.xml');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: sitemap-main / sitemap-cities-N are the legacy corpus now — they only PICK sample URLs; every
+    //   picked URL must still be an index-child entry (expand() is false otherwise; named picks are then reported missing)
+    const main = (A.legacy ? A.legacy.files : []).find(f => f.path === '/sitemap-main.xml');
     const entryByLoc = new Map(); for (const e of A.entries) if (!entryByLoc.has(e.loc)) entryByLoc.set(e.loc, e);
     const all = [...entryByLoc.keys()];
     if (MODE === 'full') return { urls: all, entryByLoc, missingNamed: [] };
@@ -729,11 +909,13 @@ function selectUrls(A, E) {
     for (const list of [prayerCountries, moonCountries]) if (list.length) { expand(list[0]); expand(list[list.length - 1]); }
     for (const c of SAMPLE_COUNTRIES) for (const rel of ['/prayer-times-in-' + c, '/moon/' + c]) if (!expand(SITE + rel)) missingNamed.push(SITE + rel);
     // 3) first + last city of every shard × the 4 city families (× 10 locales)
-    for (const f of files.filter(x => /^\/sitemap-cities-\d+\.xml$/.test(x.path))) {
+    for (const f of (A.legacy ? A.legacy.files : []).filter(x => /^\/sitemap-cities-\d+\.xml$/.test(x.path))) {   // SITEMAP-SEMANTIC-PARTITIONING-1: legacy shards
         const order = [];
         for (const l of f.locs) { const r = relOf(l); if (r && r.locale === 'ar') { const m = r.rel.match(/^\/prayer-times-in-(.+)$/); if (m && !order.includes(m[1])) order.push(m[1]); } }
         for (const slug of order.length ? [order[0], order[order.length - 1]] : []) for (const fam of CITY_FAMILIES) expand(SITE + '/' + fam + '-' + slug);
     }
+    // SITEMAP-SEMANTIC-PARTITIONING-1: + the first and last <loc> of every index child (each family shard boundary)
+    for (const f of files.filter(x => x.kind === 'urlset' && x !== quran && x.locs.length)) { expand(f.locs[0]); expand(f.locs[f.locs.length - 1]); }
     // 4) Singapore city page (D6/D7) × 4 families
     for (const fam of CITY_FAMILIES) if (!expand(SITE + '/' + fam + '-singapore')) missingNamed.push(SITE + '/' + fam + '-singapore');
     // 5) moon cities: hub / today / 3 years / boundary months (01 + 12)
@@ -873,6 +1055,11 @@ async function main() {
     const baseOn = baseLoopback != null;
     const A = await discover(PORT, { keepHashes: baseOn });
     info('after: ' + A.files.length + ' sitemap files, ' + A.entries.length + ' <url> entries, ' + A.groups.length + ' alternate groups (' + ((Date.now() - t0) / 1000).toFixed(1) + 's)');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the legacy corpus (still served, no longer referenced) + the family plan derived from its stream
+    A.legacy = await discoverLegacy(PORT, { keepHashes: baseOn });
+    A.plan = buildFamilyPlan(A.legacy);
+    info('after legacy: ' + A.legacy.files.length + ' files, ' + A.legacy.files.reduce((a, f) => a + f.urls, 0) + ' <url> | plan: '
+        + A.plan.files.map(f => f.path.slice(1) + (f.urls != null ? '=' + f.urls : '')).join(' ') + ' (' + ((Date.now() - t0) / 1000).toFixed(1) + 's)');
     staticChecks(A, E);
     if (baseOn) {
         const B = await discover(baseLoopback, { light: true, keepHashes: true });
@@ -885,7 +1072,7 @@ async function main() {
         section('[B] base comparison');
         ok('B', false, 'base comparison ran', 'no TP_BASE_ROOT / TP_BASE_URL (set SITEMAP_INV_NO_BASE=1 only when the target IS the base)');
     }
-    for (const f of A.files) f.hashes = null;
+    for (const f of [...A.files, ...A.legacy.files]) f.hashes = null;   // SITEMAP-SEMANTIC-PARTITIONING-1: + the legacy files
     const sel = selectUrls(A, E);
     await httpChecks(PORT, sel, A);
     info('total ' + ((Date.now() - t0) / 1000).toFixed(1) + 's');

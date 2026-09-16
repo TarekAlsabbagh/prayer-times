@@ -2088,7 +2088,9 @@ let _sitemapCache = { data: null, time: 0 };
 // SITEMAP-CITIES-SPLIT-BY-SIZE-FOR-GSC-1: cached city→file chunking (by estimated URL budget)
 let _citySitemapChunks = { data: null, time: 0 };
 const SITEMAP_TTL = 30 * 60 * 1000;
-function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; _citySitemapChunks = { data: null, time: 0 }; }
+// SITEMAP-SEMANTIC-PARTITIONING-1: cached semantic family plan (path descriptors + shard boundaries — never file bodies)
+let _sitemapFamilyPlanCache = { data: null, time: 0, key: '', src: null };
+function invalidateSitemapCache() { _sitemapCache = { data: null, time: 0 }; _citySitemapChunks = { data: null, time: 0 }; _sitemapFamilyPlanCache = { data: null, time: 0, key: '', src: null }; }
 
 // ═════════════════════════════════════════════════════════════════════════════
 // SITEMAP-MEMORY-EFFICIENT-SERVING-1 (2026-07-07): stream a sitemap body to the
@@ -34755,6 +34757,204 @@ const server = http.createServer(async (req, res) => {
     const URLSET_OPEN = `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">`;
     const URLSET_CLOSE = `</urlset>\n`;
 
+    // ===== SITEMAP-SEMANTIC-PARTITIONING-1: semantic family sitemaps =====
+    // The SAME <url> blocks as the legacy files (same bilingualUrl calls; inside a family the same order as the legacy
+    // stream /sitemap-main.xml → /sitemap-cities-1..N.xml filtered to that family), regrouped by product family.
+    // No URL is added, removed, re-prioritised or re-dated. Serving:
+    //   /sitemap.xml               → every family URL-set file directly (+ /sitemap-quran.xml); no <lastmod>, no nested index
+    //   /sitemap-{family}.xml      → the family URL set when it fits ONE file, otherwise a <sitemapindex> of its shards
+    //   /sitemap-{family}-{k}.xml  → shard k of a multi-shard family (a single-file family has no -k alias)
+    // Budget per URL-set file: <= SITEMAP_FAMILY_MAX_URLS URLs AND <= SITEMAP_FAMILY_MAX_BYTES uncompressed bytes (XML
+    // header + footer included). A family is cut into the FEWEST N contiguous parts of near-equal path count that satisfy
+    // both limits; a path's 10 language URLs are never split. Deterministic: same inputs ⇒ same URL → family → shard.
+    const SITEMAP_FAMILY_MAX_URLS = 25000;
+    const SITEMAP_FAMILY_MAX_BYTES = 35000000;
+    const SITEMAP_FAMILY_ORDER = ['prayer', 'qibla', 'time-left', 'next-prayer', 'moon', 'hijri', 'quran', 'azkar', 'guides', 'ramadan', 'pages'];
+    // Path descriptors [relPath, priority, changefreq, lastmod|null] per family. Mirrors the legacy emitters below
+    // (/sitemap-main.xml + /sitemap-cities-N.xml) path for path; scripts/_smoke_sitemap_semantic_partitioning_1.mjs
+    // proves the family files == the legacy files block for block. The quran family is the untouched /sitemap-quran.xml.
+    function _sitemapFamilyDescriptors() {
+        const { countryCodes, cities } = getSitemapData();
+        const F = { prayer: [], qibla: [], 'time-left': [], 'next-prayer': [], moon: [], hijri: [], azkar: [], guides: [], ramadan: [], pages: [] };
+        // 1) static / core entries — legacy sitemap-main staticPaths order; only /privacy + /terms carry the real legal date
+        const _legalLastmod = _legalLastUpdatedIso();
+        F.pages.push(['/', '1.0', 'daily', null]);
+        F.qibla.push(['/qibla', '0.9', 'monthly', null]);
+        F.moon.push(['/moon', '0.8', 'daily', null]);
+        F.pages.push(['/zakat-calculator', '0.8', 'monthly', null]);
+        F.azkar.push(['/azkar', '0.8', 'monthly', null]);
+        F.azkar.push(['/azkar/morning-azkar', '0.75', 'monthly', null]);
+        F.azkar.push(['/azkar/evening-azkar', '0.75', 'monthly', null]);
+        F.azkar.push(['/azkar/prayer-azkar', '0.75', 'monthly', null]);
+        F.pages.push(['/msbaha', '0.7', 'monthly', null]);
+        F.pages.push(['/date-converter', '0.8', 'monthly', null]);
+        F.pages.push(['/today-hijri-date', '0.85', 'daily', null]);
+        F.pages.push(['/prayer-times-worldwide', '0.9', 'weekly', null]);
+        F.pages.push(['/about-us', '0.6', 'monthly', null]);
+        F.pages.push(['/contact', '0.5', 'monthly', null]);
+        F.pages.push(['/privacy', '0.4', 'yearly', _legalLastmod]);
+        F.pages.push(['/terms', '0.4', 'yearly', _legalLastmod]);
+        // 2) editorial guides (hub + articles)
+        F.guides.push(['/guides', '0.75', 'monthly', null]);
+        for (const _gs of _GUIDE_SLUGS) F.guides.push(['/guides/' + _gs, '0.7', 'monthly', null]);
+        // 3) prayer country pages (same gates as legacy sitemap-main)
+        for (const cc of countryCodes) {
+            if (COUNTRY_SLUG_OVERRIDES[cc]) continue;
+            const slug = makeCountrySlugSrv(cc);
+            if (!slug) continue;
+            if (_isPrayerCityOnlyCountrySlug(cc, slug)) continue;
+            F.prayer.push(['/prayer-times-in-' + slug, '0.8', 'weekly', null]);
+        }
+        // 4) moon country pages (only countries with curated cities)
+        for (const cc of countryCodes) {
+            if (COUNTRY_SLUG_OVERRIDES[cc]) continue;
+            const slug = makeCountrySlugSrv(cc);
+            if (!slug) continue;
+            if (_curatedCitiesForCc(cc).length === 0) continue;
+            F.moon.push(['/moon/' + slug, '0.7', 'weekly', null]);
+        }
+        // 5) Hijri calendar (current Hijri year ±1) + Hijri dates (current year) — same table gates as legacy
+        const _pad2S = n => String(n).padStart(2, '0');
+        const _hCurrentYear = _hijriNow().year;
+        for (const hy of [_hCurrentYear - 1, _hCurrentYear, _hCurrentYear + 1]) {
+            if (!_isYearInRange(hy)) continue;
+            F.hijri.push(['/hijri-calendar/' + hy, '0.7', 'monthly', null]);
+            for (let m = 1; m <= 12; m++) {
+                if (!_getDaysInHijriMonth(hy, m)) continue;
+                F.hijri.push([`/hijri-calendar/${hy}-${_pad2S(m)}`, '0.6', 'monthly', null]);
+            }
+        }
+        if (_isYearInRange(_hCurrentYear)) {
+            for (let m = 1; m <= 12; m++) {
+                const _maxD = _getDaysInHijriMonth(_hCurrentYear, m);
+                for (let d = 1; d <= _maxD; d++) {
+                    if (!_isValidHijriDate(_hCurrentYear, m, d)) continue;
+                    F.hijri.push([`/hijri-date/${_hCurrentYear}-${_pad2S(m)}-${_pad2S(d)}`, '0.4', 'yearly', null]);
+                }
+            }
+        }
+        // 6) city families in curated city order (= legacy /sitemap-cities-1..N concatenated)
+        const _cy = getSupportedMoonYearRange().currentYear;
+        for (const slug of cities) {
+            F.prayer.push(['/prayer-times-in-' + slug, '0.7', 'daily', null]);
+            F.qibla.push(['/qibla-in-' + slug, '0.6', 'monthly', null]);
+            if (!/-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.test(slug)) {
+                F['time-left'].push(['/time-left-until-next-prayer-in-' + slug, '0.5', 'hourly', null]);
+                F['next-prayer'].push(['/next-prayer-in-' + slug, '0.75', 'hourly', null]);
+            }
+            let baseSlug = null;
+            if (FAMOUS_CITY_OVERRIDES[slug]) baseSlug = slug;
+            else { const _bm = String(slug).match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/); baseSlug = _bm ? _bm[1] : null; }
+            if (baseSlug && FAMOUS_CITY_OVERRIDES[baseSlug]) {
+                const _mcCc = (typeof _resolveCcForSlug === 'function') ? _resolveCcForSlug(baseSlug) : '';
+                const _mcCountrySlug = _mcCc ? makeCountrySlugSrv(_mcCc) : '';
+                if (_mcCountrySlug) {
+                    const _mb = '/moon/' + _mcCountrySlug + '/' + baseSlug;
+                    F.moon.push([_mb, '0.7', 'weekly', null]);
+                    F.moon.push([_mb + '/today', '0.6', 'weekly', null]);
+                    for (const _yy of [_cy - 1, _cy, _cy + 1]) {
+                        if (!_isSupportedMoonYear(_yy)) continue;
+                        F.moon.push([_mb + '/' + _yy, '0.5', 'monthly', null]);
+                        for (let _mm = 1; _mm <= 12; _mm++) F.moon.push([_mb + '/' + _yy + '/' + (_mm < 10 ? '0' + _mm : String(_mm)), '0.45', 'monthly', null]);
+                    }
+                }
+            }
+        }
+        return F;
+    }
+    // Family plan: descriptors + deterministic shard boundaries with measured URL/byte totals. Cached like the legacy
+    // chunk plan (SITEMAP_TTL) and re-keyed on the inputs that move the URL set (UTC moon year, Hijri year, legal date).
+    // Byte measurement. Materialising every <url> block only to weigh it built ~240 MB of strings and stalled the event
+    // loop ~180 ms on a cold plan, so the size is derived arithmetically from bilingualUrl's FIXED template and the 10
+    // locale URLs (the only variable part). The model is checked against the real emitter on a deterministic sample of
+    // each family; any mismatch — e.g. a future template change — falls back to exact measurement for that family, so
+    // the budget can never be computed from a stale model.
+    const _SM_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+    const _SM_BLOCK_FIXED = Buffer.byteLength('  <url>\n    <loc>') + Buffer.byteLength('</loc>\n')
+        + Buffer.byteLength('    <changefreq>') + Buffer.byteLength('</changefreq>\n    <priority>')
+        + Buffer.byteLength('</priority>\n') + Buffer.byteLength('\n  </url>');
+    const _SM_LINK_FIXED = Buffer.byteLength('    <xhtml:link rel="alternate" hreflang="" href=""/>');
+    function _sitemapDescMeasure(d) {
+        const relPath = d[0], lastmod = d[3];
+        // 10 hreflang lines joined by '\n', then '\n' + the x-default line (the Arabic URL again)
+        let urlB = 0, arB = 0, linksB = _SM_LINK_FIXED + Buffer.byteLength('x-default') + _SM_LANGS.length;
+        for (const l of _SM_LANGS) {
+            const prefix = (l === 'ar') ? '' : ('/' + l);
+            const fullPath = (relPath === '/' && l !== 'ar') ? prefix : (prefix + relPath);
+            const b = Buffer.byteLength(escapeXml(SITE_URL + fullPath));
+            if (l === 'ar') arB = b;
+            urlB += b;
+            linksB += _SM_LINK_FIXED + Buffer.byteLength(l) + b;
+        }
+        linksB += arB;
+        const lastmodB = (typeof lastmod === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(lastmod))
+            ? Buffer.byteLength('    <lastmod></lastmod>\n') + Buffer.byteLength(lastmod) : 0;
+        const perBlock = _SM_BLOCK_FIXED + 1 + lastmodB + Buffer.byteLength(String(d[2])) + Buffer.byteLength(String(d[1])) + linksB;
+        return { n: _SM_LANGS.length, bytes: _SM_LANGS.length * perBlock + urlB };   // '+ 1' per block = the '\n' after it
+    }
+    function _sitemapDescMeasureExact(d) {
+        const blocks = bilingualUrl(d[0], d[1], d[2], d[3]);
+        let b = 0; for (const s of blocks) b += Buffer.byteLength(s) + 1;   // each block is followed by '\n'
+        return { n: blocks.length, bytes: b };
+    }
+    function _sitemapFamilyPlan() {
+        const _src = getSitemapData();
+        const key = [getSupportedMoonYearRange().currentYear, _hijriNow().year, _legalLastUpdatedIso(), SITE_URL].join('|');
+        const now = Date.now();
+        const c = _sitemapFamilyPlanCache;
+        if (c.data && c.key === key && c.src === _src && (now - c.time) < SITEMAP_TTL) return c.data;
+        const F = _sitemapFamilyDescriptors();
+        const HEAD = Buffer.byteLength(URLSET_OPEN + '\n'), TAIL = Buffer.byteLength(URLSET_CLOSE);
+        const families = {};
+        for (const name of SITEMAP_FAMILY_ORDER) {
+            if (name === 'quran') { families.quran = { name, desc: null, files: [{ file: 'sitemap-quran.xml', start: 0, end: 0, urls: null, bytes: null }] }; continue; }
+            const desc = F[name] || [];
+            const urls = new Array(desc.length), bytes = new Array(desc.length);
+            let modelOk = desc.length > 0;
+            for (let i = 0; modelOk && i < desc.length; i += 997) {                 // deterministic sample + the last entry
+                const m = _sitemapDescMeasure(desc[i]), e = _sitemapDescMeasureExact(desc[i]);
+                if (m.n !== e.n || m.bytes !== e.bytes) modelOk = false;
+            }
+            if (modelOk) {
+                const last = desc[desc.length - 1];
+                const m = _sitemapDescMeasure(last), e = _sitemapDescMeasureExact(last);
+                if (m.n !== e.n || m.bytes !== e.bytes) modelOk = false;
+            }
+            if (!modelOk && desc.length) console.warn('[sitemap] family ' + name + ': byte model does not match bilingualUrl — measuring every block exactly');
+            for (let i = 0; i < desc.length; i++) {
+                const m = modelOk ? _sitemapDescMeasure(desc[i]) : _sitemapDescMeasureExact(desc[i]);
+                urls[i] = m.n; bytes[i] = m.bytes;
+            }
+            const D = desc.length;
+            let files = [];
+            if (D > 0) {
+                let totalU = 0, totalB = 0;
+                for (let i = 0; i < D; i++) { totalU += urls[i]; totalB += bytes[i]; }
+                let N = Math.max(1, Math.ceil(totalU / SITEMAP_FAMILY_MAX_URLS), Math.ceil(totalB / (SITEMAP_FAMILY_MAX_BYTES - HEAD - TAIL)));
+                for (;;) {
+                    const parts = []; let ok = true; let s = 0;
+                    for (let k = 0; k < N; k++) {
+                        const len = Math.floor(D / N) + (k < (D % N) ? 1 : 0);
+                        let u = 0, b = HEAD + TAIL;
+                        for (let i = s; i < s + len; i++) { u += urls[i]; b += bytes[i]; }
+                        if (len === 0 || u > SITEMAP_FAMILY_MAX_URLS || b > SITEMAP_FAMILY_MAX_BYTES) ok = false;
+                        parts.push({ start: s, end: s + len, urls: u, bytes: b });
+                        s += len;
+                    }
+                    // N === D is one path per file — the budget cannot be met by splitting further, so say so loudly
+                    if (!ok && N >= D) console.warn('[sitemap] family ' + name + ': a single path exceeds the per-file budget (' + N + ' parts)');
+                    if (ok || N >= D) { files = parts; break; }
+                    N++;
+                }
+                files.forEach((f, k) => { f.file = (files.length === 1) ? ('sitemap-' + name + '.xml') : ('sitemap-' + name + '-' + (k + 1) + '.xml'); });
+            }
+            families[name] = { name, desc, files };
+        }
+        const plan = { families };
+        _sitemapFamilyPlanCache = { data: plan, time: now, key, src: _src };
+        return plan;
+    }
+
     // ===== /sitemap-quran.xml = the Quran section ONLY (115 urls) — light, built-once, ETag/304 =====
     // QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1. Served from _getQuranDedicatedSitemap()'s
     // in-process cache — NEVER runs the city/country generator or the site-wide sitemap builder.
@@ -34821,11 +35021,14 @@ const server = http.createServer(async (req, res) => {
         if (mi) {
             // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: no <lastmod> on index children — the child files are
             //   regenerated per request and have no reliable last-significant-change date (never the request day).
-            const chunks = getCitySitemapChunks();
+            // SITEMAP-SEMANTIC-PARTITIONING-1: list every semantic family URL-set file DIRECTLY (family order, Quran included,
+            //   no nested index). The legacy /sitemap-main.xml + /sitemap-cities-N.xml still respond but are not referenced.
+            const _plan = _sitemapFamilyPlan();
             const sitemaps = [];
-            sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-main.xml</loc>\n  </sitemap>`);
-            for (let i = 0; i < chunks.length; i++) {
-                sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/sitemap-cities-${i+1}.xml</loc>\n  </sitemap>`);
+            for (const _fam of SITEMAP_FAMILY_ORDER) {
+                for (const _f of _plan.families[_fam].files) {
+                    sitemaps.push(`  <sitemap>\n    <loc>${SITE_URL}/${_f.file}</loc>\n  </sitemap>`);
+                }
             }
             const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${sitemaps.join('\n')}\n</sitemapindex>\n`;
             sendXml(res, xml, req.headers['accept-encoding']||'', !!mi[1]);
@@ -35060,6 +35263,44 @@ const server = http.createServer(async (req, res) => {
         }
     }
 
+
+    // ===== /sitemap-{family}[-{k}].xml = SITEMAP-SEMANTIC-PARTITIONING-1 semantic family sitemaps =====
+    {
+        const mf = urlPath.match(/^\/sitemap-(prayer|qibla|time-left|next-prayer|moon|hijri|azkar|guides|ramadan|pages)(?:-([1-9]\d{0,3}))?\.xml$/);
+        if (mf) {
+            const _plan = _sitemapFamilyPlan();
+            const _fam = _plan.families[mf[1]];
+            const _files = (_fam && _fam.files) || [];
+            let _file = null;
+            if (!mf[2]) {
+                if (_files.length > 1) {
+                    // Family index (multi-shard families only): exactly this family's shards; never listed in /sitemap.xml.
+                    const _items = _files.map((f) => `  <sitemap>\n    <loc>${SITE_URL}/${f.file}</loc>\n  </sitemap>`);
+                    const xml = `<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${_items.join('\n')}\n</sitemapindex>\n`;
+                    sendXml(res, xml, req.headers['accept-encoding'] || '', false);
+                    return;
+                }
+                if (_files.length === 1) _file = _files[0];
+            } else if (_files.length > 1) {
+                _file = _files[parseInt(mf[2], 10) - 1] || null;
+            }
+            if (!_file) { res.writeHead(404, {'Content-Type':'text/plain'}); res.end('Not Found'); return; }
+            const _desc = _fam.desc;
+            // Streamed in <=300-URL batches through the shared backpressure-aware gzip stream (same as the legacy shards).
+            await streamSitemap(req, res, false, async (write) => {
+                await write(URLSET_OPEN + '\n');
+                const entries = [];
+                for (let _i = _file.start; _i < _file.end; _i++) {
+                    const _d = _desc[_i];
+                    entries.push(...bilingualUrl(_d[0], _d[1], _d[2], _d[3]));
+                    if (entries.length >= 300) { await write(entries.join('\n') + '\n'); entries.length = 0; }
+                }
+                if (entries.length) await write(entries.join('\n') + '\n');
+                await write(URLSET_CLOSE);
+            });
+            return;
+        }
+    }
 
     // ===== مساعد: تعديل HTML للنسخة الإنجليزية وإرساله =====
     function serveEnglishHtml(htmlBuf, res, acceptEnc) {

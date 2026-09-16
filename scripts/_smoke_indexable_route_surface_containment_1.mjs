@@ -26,6 +26,9 @@
 //
 // Base comparisons boot TP_BASE_ROOT (a clean checkout whose tree === c126604^{tree}) or use TP_BASE_URL.
 // Without one, every base comparison FAILS — never skipped.
+// SITEMAP-SEMANTIC-PARTITIONING-1: the base tree may also be 12bae98^{tree} (TP_BASE_COMMIT=<commit> pins exactly one). /sitemap.xml
+//   now lists the semantic family URL-set files (+ sitemap-quran): [L1]/[S1]/[Q1]/[M5] read the legacy sitemap-main +
+//   sitemap-cities-1..N explicitly (still served, no longer referenced) AND check the same rules on the index children.
 //
 // Usage: TP_BASE_ROOT=<clean base checkout> node scripts/_smoke_indexable_route_surface_containment_1.mjs
 import { spawn, execFileSync } from 'node:child_process';
@@ -37,6 +40,9 @@ import { fileURLToPath } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const BASE_COMMIT = 'c126604';
+// SITEMAP-SEMANTIC-PARTITIONING-1: accepted base trees — c126604 (this ticket's own base) or 12bae98 (origin/main after it merged)
+const BASE_COMMITS = process.env.TP_BASE_COMMIT ? [process.env.TP_BASE_COMMIT] : [BASE_COMMIT, '12bae98'];
+const FAMILY_ORDER = ['prayer', 'qibla', 'time-left', 'next-prayer', 'moon', 'hijri', 'quran', 'azkar', 'guides', 'ramadan', 'pages'];
 const SITE = 'https://timesprayers.com';
 const AFTER_PORT = 8835, BASE_PORT = 8836, SEAM1_PORT = 8837, SEAM2_PORT = 8838;
 const LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
@@ -655,12 +661,24 @@ async function readAllSitemaps(port) {
     const files = [];
     const names = children.map((c) => String(c.loc || '').replace(SITE, ''));
     if (!names.includes('/sitemap-quran.xml')) names.push('/sitemap-quran.xml');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: `legacy` marks the files read explicitly below (not index children)
+    const push = (n, r, legacy) => files.push({ name: n, legacy, status: r.status, totalLastmod: (r.body.match(/<lastmod>/g) || []).length, urls: parseUrlset(r.body), sha: crypto.createHash('sha256').update(r.buf).digest('hex'),
+                     etag: r.headers.etag || null, lastModified: r.headers['last-modified'] || null });
     for (const n of names) {
         const r = await get(port, n);
-        files.push({ name: n, status: r.status, totalLastmod: (r.body.match(/<lastmod>/g) || []).length, urls: parseUrlset(r.body), sha: crypto.createHash('sha256').update(r.buf).digest('hex'),
-                     etag: r.headers.etag || null, lastModified: r.headers['last-modified'] || null });
+        push(n, r, false);
     }
-    return { robots, index, children, files };
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the legacy sitemap-main + sitemap-cities-1..N are no longer index children but still served — read
+    //   them explicitly (cities until the first non-200, recorded as legacyNext)
+    push('/sitemap-main.xml', await get(port, '/sitemap-main.xml'), true);
+    let legacyNext = null;
+    for (let i = 1; i <= 500; i++) {
+        const n = '/sitemap-cities-' + i + '.xml';
+        const r = await get(port, n);
+        if (r.status !== 200) { legacyNext = { name: n, status: r.status }; break; }
+        push(n, r, true);
+    }
+    return { robots, index, children, files, legacyNext };
 }
 const RIYADH_MOON_LOC = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/saudi-arabia\/riyadh\/(\d{4})(?:\/\d{2})?$/;
 function riyadhMoonYears(urls) {
@@ -670,17 +688,32 @@ function riyadhMoonYears(urls) {
 }
 
 async function sitemapChecks(A, B, SM) {
-    const byName = Object.fromEntries(SM.files.map((f) => [f.name, f]));
-    const main = byName['/sitemap-main.xml'], quran = byName['/sitemap-quran.xml'];
-    const shards = SM.files.filter((f) => /^\/sitemap-cities-\d+\.xml$/.test(f.name));
+    // SITEMAP-SEMANTIC-PARTITIONING-1: main + shards = the LEGACY files (read explicitly); quran + the family files = the index children
+    const main = SM.files.find((f) => f.legacy && f.name === '/sitemap-main.xml'), quran = SM.files.find((f) => !f.legacy && f.name === '/sitemap-quran.xml');
+    const shards = SM.files.filter((f) => f.legacy && /^\/sitemap-cities-\d+\.xml$/.test(f.name));
+    const idxFiles = SM.files.filter((f) => !f.legacy);
 
     section('[L1] lastmod policy + counts + <loc> shape on every sitemap file');
     const robotsSitemaps = (SM.robots.body.match(/^Sitemap:\s*(\S+)\s*$/gm) || []).map((l) => l.replace(/^Sitemap:\s*/, '').trim());
     ok('L1', eq(robotsSitemaps, [SITE + '/sitemap.xml', SITE + '/sitemap-quran.xml']), 'robots.txt Sitemap lines = sitemap.xml + sitemap-quran.xml', JSON.stringify(robotsSitemaps));
     ok('L1', SM.index.status === 200 && (SM.index.body.match(/<lastmod>/g) || []).length === 0 && SM.children.every((c) => c.lastmodN === 0),
         'sitemap index: 0 <lastmod> (children carry none)', 'lastmod=' + (SM.index.body.match(/<lastmod>/g) || []).length);
-    ok('L1', eq(SM.children.map((c) => c.loc), [SITE + '/sitemap-main.xml', ...range(1, 23).map((i) => SITE + '/sitemap-cities-' + i + '.xml')]),
-        'sitemap index children = sitemap-main + sitemap-cities-1..23', SM.children.length + ' children');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: "index children = sitemap-main + sitemap-cities-1..23" → the index lists the semantic family URL-set
+    //   files in family order (multi-shard families numbered 1..N) + sitemap-quran, and no legacy name; the legacy files are still served.
+    {
+        const fams = SM.children.map((c) => { const m = String(c.loc).match(/^https:\/\/timesprayers\.com\/sitemap-([a-z]+(?:-[a-z]+)*?)(?:-([1-9]\d*))?\.xml$/); return m && FAMILY_ORDER.includes(m[1]) ? { fam: m[1], k: m[2] ? +m[2] : 0 } : null; });
+        const count = {}; for (const f of fams) if (f) count[f.fam] = (count[f.fam] || 0) + 1;
+        const listed = fams.length > 0 && fams.every((f, i) => {
+            if (!f) return false;
+            const numOk = count[f.fam] === 1 ? f.k === 0 : (f.k >= 1 && f.k <= count[f.fam]);
+            const prev = fams[i - 1];
+            return numOk && (i === 0 ? f.k <= 1 : !!prev && ((prev.fam === f.fam && prev.k + 1 === f.k) || (FAMILY_ORDER.indexOf(prev.fam) < FAMILY_ORDER.indexOf(f.fam) && f.k <= 1)));
+        });
+        ok('L1', listed && count.quran === 1 && !SM.children.some((c) => /\/sitemap-(?:main|cities-\d+)\.xml$/.test(c.loc)),
+            'sitemap index children = semantic family files in family order (shards 1..N) + sitemap-quran, no legacy sitemap-main / sitemap-cities-N', SM.children.map((c) => String(c.loc).replace(SITE, '')).join(' '));
+        ok('L1', eq([main, ...shards].filter(Boolean).map((f) => f.name), ['/sitemap-main.xml', ...range(1, 23).map((i) => '/sitemap-cities-' + i + '.xml')]) && !!SM.legacyNext && SM.legacyNext.status === 404,
+            'legacy sitemap-main + sitemap-cities-1..23 still served, sitemap-cities-24 → 404', [main, ...shards].filter(Boolean).length + ' legacy files, next ' + JSON.stringify(SM.legacyNext));
+    }
     ok('L1', SM.files.every((f) => f.status === 200), 'every sitemap file 200', SM.files.filter((f) => f.status !== 200).map((f) => f.name + '=' + f.status).join(' '));
     const legalDates = [...new Set([...fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8').matchAll(/class="legal-meta">[^<]*?(\d{4}-\d{2}-\d{2})</g)].map((m) => m[1]))];
     ok('L1', legalDates.length === 1 && legalDates[0] === '2026-08-09', 'LEGAL_PAGES legal-meta literals carry ONE date (2026-08-09)', JSON.stringify(legalDates));
@@ -688,6 +721,11 @@ async function sitemapChecks(A, B, SM) {
     const withLm = main ? main.urls.filter((u) => u.lastmodN > 0) : [];
     ok('L1', !!main && main.totalLastmod === 20 && eq(withLm.map((u) => u.loc).sort(), legalLocs.slice().sort()) && withLm.every((u) => u.lastmodN === 1 && u.lastmod === legalDates[0]),
         'sitemap-main: <lastmod> ONLY on /[lang/]privacy + /[lang/]terms (20), each = the legal-meta date', main ? 'total=' + main.totalLastmod + ' ' + JSON.stringify(withLm.slice(0, 3)) : 'no main');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the same policy on the index children — <lastmod> only on the 20 privacy/terms URLs (one file) + sitemap-quran
+    const idxLm = idxFiles.filter((f) => f !== quran).flatMap((f) => f.urls.filter((u) => u.lastmodN > 0).map((u) => ({ loc: u.loc, lastmod: u.lastmod, lastmodN: u.lastmodN, file: f.name })));
+    ok('L1', idxFiles.length > 1 && eq(idxLm.map((u) => u.loc).sort(), legalLocs.slice().sort()) && idxLm.every((u) => u.lastmodN === 1 && u.lastmod === legalDates[0]) && new Set(idxLm.map((u) => u.file)).size === 1
+        && idxFiles.filter((f) => f !== quran).reduce((s, f) => s + f.totalLastmod, 0) === 20,
+        'index children except sitemap-quran: <lastmod> ONLY on /[lang/]privacy + /[lang/]terms (20, in one file), each = the legal-meta date', 'with lastmod=' + idxLm.length + ' files=' + [...new Set(idxLm.map((u) => u.file))].join(','));
     const shardLm = shards.reduce((s, f) => s + f.totalLastmod, 0);
     ok('L1', shards.length === 23 && shardLm === 0, 'sitemap-cities-1..23: 0 <lastmod> in every file (all shards read)', 'files=' + shards.length + ' lastmod=' + shardLm + ' ' + shards.filter((f) => f.totalLastmod).map((f) => f.name).join(' '));
     ok('L1', !!quran && quran.urls.length === 115 && quran.totalLastmod === 115 && quran.urls.every((u) => u.lastmod === '2026-07-22'), 'sitemap-quran: 115 URLs, every <lastmod> = 2026-07-22',
@@ -697,10 +735,18 @@ async function sitemapChecks(A, B, SM) {
         JSON.stringify([...new Set(allLm)]));
     const mainN = main ? main.urls.length : 0, shardN = shards.reduce((s, f) => s + f.urls.length, 0), quranN = quran ? quran.urls.length : 0;
     const all = SM.files.flatMap((f) => f.urls.map((u) => u.loc));
-    const uniq = new Set(all);
-    ok('L1', mainN === 7430 && shardN === 168590 && quranN === 115 && all.length === 176135 && uniq.size === 176135,
+    // SITEMAP-SEMANTIC-PARTITIONING-1: `all` now holds both corpora — the counts are taken per corpus (legacy + quran / index children)
+    const legacyAll = [main, ...shards, quran].filter(Boolean).flatMap((f) => f.urls.map((u) => u.loc));
+    const uniq = new Set(legacyAll);
+    ok('L1', mainN === 7430 && shardN === 168590 && quranN === 115 && legacyAll.length === 176135 && uniq.size === 176135,
         'counts: sitemap-main 7,430 · city shards 168,590 (23 files) · quran 115 · 176,135 entries = 176,135 unique',
-        'main=' + mainN + ' shards=' + shardN + ' quran=' + quranN + ' total=' + all.length + ' unique=' + uniq.size);
+        'main=' + mainN + ' shards=' + shardN + ' quran=' + quranN + ' total=' + legacyAll.length + ' unique=' + uniq.size);
+    {
+        const idxAll = idxFiles.flatMap((f) => f.urls.map((u) => u.loc));
+        const idxUniq = new Set(idxAll);
+        ok('L1', idxAll.length === 176135 && idxUniq.size === 176135 && idxAll.every((l) => uniq.has(l)),
+            'index children: 176,135 entries = 176,135 unique = the legacy files + sitemap-quran set', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
+    }
     const dupWithin = SM.files.filter((f) => new Set(f.urls.map((u) => u.loc)).size !== f.urls.length).map((f) => f.name);
     ok('L1', dupWithin.length === 0, 'no duplicate <loc> within any file', dupWithin.join(' '));
     const badShape = all.filter((l) => !l || !l.startsWith(SITE + '/') || l.includes('?') || /\.html$/i.test(l) || l !== l.toLowerCase() || (l !== SITE + '/' && l.endsWith('/')) || /\s/.test(l));
@@ -711,11 +757,18 @@ async function sitemapChecks(A, B, SM) {
     const sgShard = shards.flatMap((f) => f.urls.filter((u) => /\/prayer-times-in-singapore$/.test(u.loc)).map((u) => u.loc));
     ok('S1', !!main && sgMain.length === 0, 'sitemap-main no longer lists /prayer-times-in-singapore as a country', sgMain.map((u) => u.loc).join(' '));
     ok('S1', eq(sgShard.slice().sort(), LANGS.map((L) => SITE + lp(L) + '/prayer-times-in-singapore').sort()), 'city shards list /prayer-times-in-singapore exactly once per locale (10)', JSON.stringify(sgShard));
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the index children list it exactly once per locale too, in a prayer family file
+    const sgIdx = idxFiles.flatMap((f) => f.urls.filter((u) => /\/prayer-times-in-singapore$/.test(u.loc)).map((u) => [u.loc, f.name]));
+    ok('S1', eq(sgIdx.map(([l]) => l).sort(), LANGS.map((L) => SITE + lp(L) + '/prayer-times-in-singapore').sort()) && sgIdx.every(([, n]) => /^\/sitemap-prayer(?:-[1-9]\d*)?\.xml$/.test(n)),
+        'index children list /prayer-times-in-singapore exactly once per locale (10), in a prayer family file', JSON.stringify(sgIdx));
     ok('S1', all.every((l) => !l.includes('singapore-city')), "no sitemap <loc> contains 'singapore-city'", all.filter((l) => l.includes('singapore-city')).slice(0, 3).join(' '));
 
     section('[Q1] Quran sitemap');
     const qMain = main ? main.urls.filter((u) => /^https:\/\/timesprayers\.com(?:\/[a-z]{2})?\/quran(?:\/|$)/.test(u.loc)) : [];
     ok('Q1', !!main && qMain.length === 0, 'sitemap-main contains 0 /quran URLs', qMain.length + ' found');
+    // SITEMAP-SEMANTIC-PARTITIONING-1: every index child other than sitemap-quran contains 0 /quran URLs
+    const qIdx = idxFiles.filter((f) => f !== quran).flatMap((f) => f.urls.filter((u) => /^https:\/\/timesprayers\.com(?:\/[a-z]{2})?\/quran(?:\/|$)/.test(u.loc)).map((u) => u.loc + ' in ' + f.name));
+    ok('Q1', idxFiles.length > 1 && qIdx.length === 0, 'index children other than sitemap-quran contain 0 /quran URLs', qIdx.length + ' found ' + qIdx.slice(0, 3).join(' '));
     const qa = await get(A, '/sitemap-quran.xml'), qb = B ? await get(B, '/sitemap-quran.xml') : null;
     const sha = (r) => crypto.createHash('sha256').update(r.buf).digest('hex');
     ok('Q1', !!qb && qa.status === 200 && sha(qa) === sha(qb), 'sitemap-quran body sha256 === base', sha(qa) + (qb ? ' vs ' + sha(qb) : ' no base'));
@@ -832,9 +885,10 @@ async function seamChecks(port, nowIso, lo, hi, riyadhShardName, label) {
     let per = {};
     if (riyadhShardName) { const r = await get(port, riyadhShardName); per = riyadhMoonYears(parseUrlset(r.body)); }
     if (!Object.keys(per).length) {
-        const idx = await get(port, '/sitemap.xml');
-        for (const m of idx.body.matchAll(/<loc>https:\/\/timesprayers\.com(\/sitemap-cities-\d+\.xml)<\/loc>/g)) {
-            const r = await get(port, m[1]); const x = riyadhMoonYears(parseUrlset(r.body));
+        // SITEMAP-SEMANTIC-PARTITIONING-1: the index no longer lists sitemap-cities-N — probe the legacy shards directly (still served)
+        for (let i = 1; i <= 500; i++) {
+            const r = await get(port, '/sitemap-cities-' + i + '.xml'); if (r.status !== 200) break;
+            const x = riyadhMoonYears(parseUrlset(r.body));
             if (Object.keys(x).length) { per = x; break; }
         }
     }
@@ -842,6 +896,18 @@ async function seamChecks(port, nowIso, lo, hi, riyadhShardName, label) {
     const wantYears = [seamCur - 1, seamCur, seamCur + 1].map(String);
     ok('M5', eq(Object.keys(per).sort(), wantYears) && wantYears.every((y) => per[y] === 130), label + ': sitemap riyadh moon years = ' + wantYears.join(',') + ' only (130 locs each: year + 12 months × 10 locales)',
         JSON.stringify(per));
+    // SITEMAP-SEMANTIC-PARTITIONING-1: the moon family files the index lists follow the same seam clock window
+    {
+        const idx = await get(port, '/sitemap.xml');
+        const perIdx = {}; let moonFiles = 0;
+        for (const m of idx.body.matchAll(/<loc>https:\/\/timesprayers\.com(\/sitemap-moon(?:-[1-9]\d*)?\.xml)<\/loc>/g)) {
+            moonFiles++;
+            const r = await get(port, m[1]);
+            for (const [y, n] of Object.entries(riyadhMoonYears(parseUrlset(r.body)))) perIdx[y] = (perIdx[y] || 0) + n;
+        }
+        ok('M5', moonFiles > 0 && eq(Object.keys(perIdx).sort(), wantYears) && wantYears.every((y) => perIdx[y] === 130),
+            label + ': index moon family files riyadh moon years = ' + wantYears.join(',') + ' only (130 locs each)', 'moon files=' + moonFiles + ' ' + JSON.stringify(perIdx));
+    }
 }
 
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -857,9 +923,10 @@ async function seamChecks(port, nowIso, lo, hi, riyadhShardName, label) {
         if (!baseUrl && process.env.TP_BASE_ROOT) {
             const broot = process.env.TP_BASE_ROOT;
             const tb = execFileSync('git', ['-C', broot, 'rev-parse', 'HEAD^{tree}'], { encoding: 'utf8' }).trim();
-            const want = execFileSync('git', ['-C', ROOT, 'rev-parse', BASE_COMMIT + '^{tree}'], { encoding: 'utf8' }).trim();
+            // SITEMAP-SEMANTIC-PARTITIONING-1: the tree may equal any accepted base commit (BASE_COMMITS)
+            const wants = BASE_COMMITS.map((c) => execFileSync('git', ['-C', ROOT, 'rev-parse', c + '^{tree}'], { encoding: 'utf8' }).trim());
             const porcelain = execFileSync('git', ['-C', broot, 'status', '--porcelain'], { encoding: 'utf8' }).trim();
-            ok('U', tb === want && porcelain === '', 'TP_BASE_ROOT is clean and its tree === ' + BASE_COMMIT + '^{tree}', tb + ' vs ' + want + ' porcelain=' + porcelain.split('\n').length);
+            ok('U', wants.includes(tb) && porcelain === '', 'TP_BASE_ROOT is clean and its tree === ' + BASE_COMMITS.map((c) => c + '^{tree}').join(' or '), tb + ' vs ' + wants.join(' / ') + ' porcelain=' + porcelain.split('\n').length);
             bootBase = boot(broot, BASE_PORT);
         }
         afterChild = await bootAfter;
@@ -893,6 +960,9 @@ async function seamChecks(port, nowIso, lo, hi, riyadhShardName, label) {
         const wantReal = [CUR - 1, CUR, CUR + 1].map(String);
         ok('M5', eq(Object.keys(perAfter).sort(), wantReal) && wantReal.every((y) => perAfter[y] === 130) && !!perBase && eq(perAfter, perBase),
             'sitemap riyadh moon years = ' + wantReal.join(',') + ' (130 each) and identical to base', JSON.stringify(perAfter) + ' base ' + JSON.stringify(perBase));
+        // SITEMAP-SEMANTIC-PARTITIONING-1: the index children (moon family files) expose the same riyadh window as the legacy shard
+        const perIdx = riyadhMoonYears(SM.files.filter((f) => !f.legacy).flatMap((f) => f.urls));
+        ok('M5', eq(Object.keys(perIdx).sort(), wantReal) && eq(perIdx, perAfter), 'index children riyadh moon years === the legacy shard window (' + wantReal.join(',') + ', 130 each)', JSON.stringify(perIdx));
         await sitemapSampleChecks(A, SM);
         const shardName = riyadhShard ? riyadhShard.name : null;
         SM.files.length = 0;

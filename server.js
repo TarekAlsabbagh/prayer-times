@@ -45,6 +45,11 @@ if (cluster.isPrimary) {
     const tpRestarts = [];                     // timestamps, for restart-storm backoff
     const TP_RESTART_WINDOW_MS = 60000;
     const TP_SHUTDOWN_GRACE_MS = 15000;
+    // NODE-CLUSTER-PRIMARY-RESPAWN-1: fail fast on a bad deploy. Deaths are counted (not windowed) only while NO worker
+    //   has ever listened; at TP_MAX_BOOT_DEATHS the primary exits 1. Once any worker was ready, respawn forever.
+    let tpEverReady = false;
+    let tpBootDeaths = 0;
+    const TP_MAX_BOOT_DEATHS = 6;
 
     const tpSpawn = () => { if (!tpDraining) cluster.fork(); };
 
@@ -52,6 +57,8 @@ if (cluster.isPrimary) {
         + ' forking ' + TP_WORKER_COUNT + ' worker(s)'
         + ' (WEB_CONCURRENCY=' + (process.env.WEB_CONCURRENCY || 'unset') + ')');
     for (let i = 0; i < TP_WORKER_COUNT; i++) tpSpawn();
+
+    cluster.on('listening', () => { tpEverReady = true; });   // NODE-CLUSTER-PRIMARY-RESPAWN-1
 
     cluster.on('exit', (worker, code, signal) => {
         if (tpDraining) {
@@ -72,7 +79,14 @@ if (cluster.isPrimary) {
             + ' code=' + code + ' signal=' + (signal || 'none')
             + ' restarts_in_window=' + tpRestarts.length
             + ' respawn_in_ms=' + delay);
-        setTimeout(tpSpawn, delay).unref();
+        // NODE-CLUSTER-PRIMARY-RESPAWN-1: no infinite crash-at-boot loop (see tpEverReady above).
+        if (!tpEverReady && ++tpBootDeaths >= TP_MAX_BOOT_DEATHS) {
+            console.error('[cluster] ' + tpBootDeaths + ' workers died before any became ready; primary exiting code=1');
+            process.exit(1);
+        }
+        // NODE-CLUSTER-PRIMARY-RESPAWN-1: NOT unref'd. When the dead worker was the primary's last handle
+        //   (WEB_CONCURRENCY=1, or every worker dead) an unref'd timer let the primary exit before the respawn.
+        setTimeout(tpSpawn, delay);
     });
 
     const tpShutdown = (sig) => {
@@ -82,6 +96,11 @@ if (cluster.isPrimary) {
             + '; draining ' + Object.keys(cluster.workers).length + ' worker(s)');
         for (const id of Object.keys(cluster.workers)) {
             try { cluster.workers[id].process.kill(sig); } catch (_e) { /* already gone */ }
+        }
+        // NODE-CLUSTER-PRIMARY-RESPAWN-1: nothing to drain (e.g. only a respawn timer pending) -> exit now.
+        if (Object.keys(cluster.workers).length === 0) {
+            console.log('[cluster] no live workers; primary exiting');
+            process.exit(0);
         }
         setTimeout(() => {
             for (const id of Object.keys(cluster.workers)) {

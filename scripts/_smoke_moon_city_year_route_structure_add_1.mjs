@@ -157,8 +157,12 @@ try {
         // MOON-YEAR-PHASES-TABLE-LINKED-DATES-HIJRI-COLUMN-1: new first-column Hijri date + linked date/hijri/month cells
         const _rowCount = count(b, /<tr class="my-ph-row /g); // MOON-YEAR-PHASES-TABLE-PHASE-ROW-STYLING-1: body rows now tagged <tr class="my-ph-row …"> (header stays bare <tr>)
         check('phases table has Hijri-date column header first (التاريخ الهجري)', /<thead><tr><th>التاريخ الهجري<\/th>/.test(b));
-        check('every row has 3 linked cells (hijri+date+month): my-table-link === rows×3', count(b, /class="my-table-link"/g) === _rowCount * 3, `${count(b, /class="my-table-link"/g)} links / ${_rowCount} rows`);
-        check('hijri+date cells link to nested day page (rows×2)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g) === _rowCount * 2, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g)}`);
+        // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L1): the Hijri cell no longer repeats the date cell's day href
+        //   (same row, same target), so a row now has 2 linked cells (date → day page, month → month page)
+        //   and the Hijri date is plain text in <td class="my-table-hijri">.
+        check('every row has 2 linked cells (date+month): my-table-link === rows×2', count(b, /class="my-table-link"/g) === _rowCount * 2, `${count(b, /class="my-table-link"/g)} links / ${_rowCount} rows`);
+        check('the Hijri cell is text, not a duplicate day link (rows×1)', count(b, /<td class="my-table-hijri">/g) === _rowCount, `${count(b, /<td class="my-table-hijri">/g)}`);
+        check('date cell links to nested day page (rows×1)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g) === _rowCount, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g)}`);
         check('month cell links to nested month page (rows×1)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === _rowCount, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
         check('table cell links never use legacy /moon-in- or /moon-today-in-', !/class="my-table-link" href="[^"]*moon-(?:in|today-in)-/.test(b));
         // MOON-YEAR-PHASES-TABLE-PHASE-ROW-STYLING-1: every event row carries one phase class + data-phase; compact legend above the table

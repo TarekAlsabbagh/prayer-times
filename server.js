@@ -12401,7 +12401,9 @@ function _buildMoonYearContent(my, lang) {
         + _events.map(e => {
             const _dl = _myDayLink(e.m, e.d);
             return `<tr class="my-ph-row ${_phaseCls(e.type)}" data-phase="${_e(e.type)}">`
-                + `<td><a class="my-table-link" href="${_e(_dl)}">${_e(_hijStr(e.m, e.d))}</a></td>`
+                // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L1): the Hijri cell used to repeat the SAME day href as the date cell
+                //   next to it (2 anchors, 1 target, per row). Text only now; the date cell keeps the link.
+                + `<td class="my-table-hijri">${_e(_hijStr(e.m, e.d))}</td>`
                 + `<td><a class="my-table-link" href="${_e(_dl)}">${_e(_dateStr(e))}</a></td>`
                 + `<td>${_e(e.time)}</td>`
                 + `<td><span class="my-ph-ico" aria-hidden="true">${_phaseIcon(e.type)}</span> ${_e(_phaseLbl(e.type))}</td>`

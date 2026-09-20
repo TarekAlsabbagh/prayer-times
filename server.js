@@ -1013,6 +1013,67 @@ const _EXT_TTL_OK        = 7 * 24 * 60 * 60 * 1000;   // 7 d
 const _EXT_TTL_EMPTY     =     24 * 60 * 60 * 1000;   // 24 h
 const _EXT_TTL_ERROR     =          60 * 60 * 1000;   // 1 h
 
+// SERVER-MEMORY-CACHE-BOUNDS-1: EVERY write to _externalMemCache goes through _externalMemSet -- the
+//   two fetch paths AND the two Supabase-hydration paths, which previously skipped the cap entirely
+//   (so in production, where Supabase is on, the Map grew with every distinct hydrated query and the
+//   one-key trim after a fetch could never bring it back under 1,000). Bounds, per worker:
+//   _EXTERNAL_MEM_MAX entries AND an estimated byte budget. Order is LRU: a write or a fresh read
+//   moves the key to the end and eviction takes the first key. Expired entries are dropped on read,
+//   on write and by an unref'd sweep. Hit/miss semantics are exactly the previous ones: an entry is
+//   served only while expiresAt > now, and writing an already-expired entry leaves a miss, as before.
+//   Estimate = 4 x UTF-16 units of key + serialised response + 256. Measured heap on Nominatim jsonv2
+//   limit=10 payloads was 1.8-3.5x those units (7x only for the ~230-byte empty entry), so the
+//   estimate is an upper bound.
+const _EXTERNAL_MEM_MAX_BYTES       = 64 * 1024 * 1024;   // estimated, per worker
+const _EXTERNAL_MEM_MAX_ENTRY_BYTES =  1 * 1024 * 1024;   // a larger response is served, never held
+const _EXTERNAL_MEM_SWEEP_MS        = 10 * 60 * 1000;
+let _externalMemBytes = 0;
+
+function _externalMemDelete(cacheKey) {
+    const e = _externalMemCache.get(cacheKey);
+    if (e === undefined) return;
+    _externalMemCache.delete(cacheKey);
+    _externalMemBytes -= e.bytes || 0;
+}
+
+// The ONE writer. `entry` is { response, status, expiresAt }.
+function _externalMemSet(cacheKey, entry) {
+    const prev = _externalMemCache.get(cacheKey);
+    _externalMemDelete(cacheKey);
+    if (!(entry.expiresAt > Date.now())) return;          // expired on arrival: a read misses, as before
+    // A Supabase row re-hydrated at the SAME version (same expiresAt + status) keeps its estimate, so
+    // the per-request hydration path does not re-serialise an unchanged payload.
+    const bytes = (prev && prev.bytes && prev.expiresAt === entry.expiresAt && prev.status === entry.status)
+        ? prev.bytes
+        : 4 * (String(cacheKey).length + (JSON.stringify(entry.response) || '').length) + 256;
+    if (bytes > _EXTERNAL_MEM_MAX_ENTRY_BYTES) return;
+    entry.bytes = bytes;
+    _externalMemCache.set(cacheKey, entry);
+    _externalMemBytes += bytes;
+    while (_externalMemCache.size > 0
+        && (_externalMemCache.size > _EXTERNAL_MEM_MAX || _externalMemBytes > _EXTERNAL_MEM_MAX_BYTES)) {
+        _externalMemDelete(_externalMemCache.keys().next().value);
+    }
+}
+
+// Reader: returns the entry only while it is fresh (and touches it); an expired entry is removed.
+function _externalMemGet(cacheKey) {
+    const e = _externalMemCache.get(cacheKey);
+    if (e === undefined) return undefined;
+    if (!(e.expiresAt > Date.now())) { _externalMemDelete(cacheKey); return undefined; }
+    _externalMemCache.delete(cacheKey);
+    _externalMemCache.set(cacheKey, e);
+    return e;
+}
+
+function _externalMemSweep() {
+    const now = Date.now();
+    for (const [k, e] of _externalMemCache) {
+        if (!(e.expiresAt > now)) _externalMemDelete(k);
+    }
+}
+setInterval(_externalMemSweep, _EXTERNAL_MEM_SWEEP_MS).unref();
+
 function _buildExternalCacheKey(provider, lang, query) {
     const q = String(query || '').trim().toLowerCase().normalize('NFC');
     return `${provider}|${lang}|${q}`;
@@ -1249,7 +1310,7 @@ async function _searchLocationIQRaw(query, lang) {
     if (_SUPABASE_ENABLED) {
         const row = await _loadExternalCache(cacheKey);
         if (row && row.status !== 'error') {
-            _externalMemCache.set(cacheKey, {
+            _externalMemSet(cacheKey, {
                 response: row.response,
                 status:   row.status,
                 expiresAt: new Date(row.expires_at).getTime()
@@ -1258,7 +1319,7 @@ async function _searchLocationIQRaw(query, lang) {
         }
     }
     // 2. In-process memory cache
-    const memHit = _externalMemCache.get(cacheKey);
+    const memHit = _externalMemGet(cacheKey);
     if (memHit && memHit.expiresAt > Date.now()) {
         return { raw: memHit.response, status: memHit.status };
     }
@@ -1282,15 +1343,11 @@ async function _searchLocationIQRaw(query, lang) {
                 else                            { status = 'error';        ttl = _EXT_TTL_ERROR; }
                 try { console.warn('[external] locationiq', status, 'q=', query, 'err=', e && e.message); } catch (_) {}
             }
-            _externalMemCache.set(cacheKey, {
+            _externalMemSet(cacheKey, {
                 response: raw,
                 status,
                 expiresAt: Date.now() + ttl
             });
-            if (_externalMemCache.size > _EXTERNAL_MEM_MAX) {
-                const firstKey = _externalMemCache.keys().next().value;
-                _externalMemCache.delete(firstKey);
-            }
             if (_SUPABASE_ENABLED) {
                 _saveExternalCache(cacheKey, 'locationiq', 'raw', query, raw, status, ttl)
                     .catch(() => {});
@@ -1400,7 +1457,7 @@ async function _searchExternalPlaces(query, lang, opts) {
         const row = await _loadExternalCache(cacheKey);
         if (row && row.status !== 'error') {
             // Hydrate the in-memory layer so subsequent hits are ms-level.
-            _externalMemCache.set(cacheKey, {
+            _externalMemSet(cacheKey, {
                 response: row.response,
                 status:   row.status,
                 expiresAt: new Date(row.expires_at).getTime()
@@ -1414,7 +1471,7 @@ async function _searchExternalPlaces(query, lang, opts) {
     }
 
     // 3b. In-process memory cache (lifetime of this Node process).
-    const memHit = _externalMemCache.get(cacheKey);
+    const memHit = _externalMemGet(cacheKey);
     if (memHit && memHit.expiresAt > Date.now()) {
         return {
             results: _localizeRawNominatim(memHit.response, langCode),
@@ -1450,16 +1507,12 @@ async function _searchExternalPlaces(query, lang, opts) {
             // Write both cache layers BEFORE clearing the in-flight slot
             // so concurrent waiters return the cached value rather than
             // racing back into a fresh Nominatim call.
-            _externalMemCache.set(cacheKey, {
+            // SERVER-MEMORY-CACHE-BOUNDS-1: bounded LRU writer (cap + byte budget + expiry).
+            _externalMemSet(cacheKey, {
                 response: raw,
                 status,
                 expiresAt: Date.now() + ttl
             });
-            // LRU-ish trim: evict oldest entry once over cap.
-            if (_externalMemCache.size > _EXTERNAL_MEM_MAX) {
-                const firstKey = _externalMemCache.keys().next().value;
-                _externalMemCache.delete(firstKey);
-            }
             // Fire-and-forget Supabase persist (don't block response on it).
             if (_SUPABASE_ENABLED) {
                 _saveExternalCache(cacheKey, 'nominatim', 'raw', q, raw, status, ttl)
@@ -5701,28 +5754,57 @@ function _buildSlugLookupResult(entry, lang, source) {
 
 // كاش في الذاكرة لطلبات Nominatim (يمنع تكرار الطلبات ويتجنب rate limit)
 // LRU محدود (10K مدخل) لمنع النمو اللانهائي تحت حمل كبير
+// SERVER-MEMORY-CACHE-BOUNDS-1: bounded in BYTES as well, with real TTL expiry. Both the key and the
+//   stored response TEXT are client-shaped -- cleanQs is forwarded to Nominatim verbatim, so limit /
+//   polygon_* / extratags can make a single response arbitrarily large -- so the 10K entry cap alone
+//   never bounded memory. Estimate = 2 bytes per UTF-16 unit of key + data + 128; measured heap was
+//   2.02-2.14x the units on Nominatim-shaped text, so it is an upper bound of V8 string storage.
+//   An entry past the caller's own 24 h test is removed on read and by an unref'd sweep; a fresh entry
+//   is returned unchanged (same object) and the TTL itself is untouched.
 const _GEOCACHE_MAX = 10000;
 const _GEOCACHE_TTL = 24 * 60 * 60 * 1000; // 24 ساعة
+const _GEOCACHE_MAX_BYTES = 64 * 1024 * 1024;      // estimated, per worker (entry count is the intended
+                                                   //   limiter; 32 MB evicted at ~3.9k large entries)
+const _GEOCACHE_MAX_ENTRY_BYTES = 1024 * 1024;     // a larger response is served, never cached
+const _GEOCACHE_SWEEP_MS = 10 * 60 * 1000;
 const _geocodeCache = {
-    _m: new Map(),
+    _m: new Map(),                                  // key → { v: { ts, data }, b: estimated bytes }
+    _bytes: 0,
+    _expired(w, now) { return !(w.v && now - w.v.ts < _GEOCACHE_TTL); },
+    _drop(k) {
+        const w = this._m.get(k);
+        if (w === undefined) return;
+        this._m.delete(k);
+        this._bytes -= w.b;
+    },
     get(k) {
-        const v = this._m.get(k);
-        if (v === undefined) return undefined;
+        const w = this._m.get(k);
+        if (w === undefined) return undefined;
+        if (this._expired(w, Date.now())) { this._drop(k); return undefined; }
         // LRU: إعادة الإدراج تنقل المفتاح إلى النهاية (الأحدث استخداماً)
         this._m.delete(k);
-        this._m.set(k, v);
-        return v;
+        this._m.set(k, w);
+        return w.v;
     },
     set(k, v) {
-        if (this._m.has(k)) this._m.delete(k);
-        this._m.set(k, v);
+        this._drop(k);
+        const b = 2 * (String(k).length + (v && typeof v.data === 'string' ? v.data.length : 0)) + 128;
+        if (b > _GEOCACHE_MAX_ENTRY_BYTES) return;
+        this._m.set(k, { v, b });
+        this._bytes += b;
         // طرد الأقدم (أول مفتاح في Map) عند تجاوز الحد
-        while (this._m.size > _GEOCACHE_MAX) {
-            const firstKey = this._m.keys().next().value;
-            this._m.delete(firstKey);
+        while (this._m.size > 0 && (this._m.size > _GEOCACHE_MAX || this._bytes > _GEOCACHE_MAX_BYTES)) {
+            this._drop(this._m.keys().next().value);
+        }
+    },
+    sweep() {
+        const now = Date.now();
+        for (const [k, w] of this._m) {
+            if (this._expired(w, now)) this._drop(k);
         }
     }
 };
+setInterval(() => _geocodeCache.sweep(), _GEOCACHE_SWEEP_MS).unref();
 
 if (!fs.existsSync(DB_DIR)) fs.mkdirSync(DB_DIR, { recursive: true });
 

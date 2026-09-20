@@ -94,6 +94,19 @@ if (cluster.isPrimary) {
     process.on('SIGTERM', () => tpShutdown('SIGTERM'));
     process.on('SIGINT',  () => tpShutdown('SIGINT'));
 
+    // QIBLA-DATA-INDEX-CPU-OPTIMIZATION-1: a worker whose dbWrite() rewrote db/cities-*.json announces it; relay
+    //   the notice to every OTHER worker so each drops its lazy qibla slug->nameEn index. Before that index
+    //   existed every worker re-read those files on each /qibla-in-* request and saw a sibling's write at
+    //   once; the relay keeps that. Message-only: the primary still loads no application code.
+    cluster.on('message', (worker, msg) => {
+        if (!msg || msg.tp !== 'tp:cities-db-changed') return;
+        for (const id of Object.keys(cluster.workers)) {
+            const w = cluster.workers[id];
+            if (!w || w === worker || !w.isConnected()) continue;
+            try { w.send(msg, () => {}); } catch (_e) { /* worker already gone */ }
+        }
+    });
+
     // The primary supervises and nothing else: it never creates an HTTP server, never binds
     //   PORT, and never loads any of the application below.
     return;
@@ -4128,6 +4141,54 @@ function _getCitySlugIndex() {
         }
     } catch { /* لا مُجلَّد db — فارغ */ }
     return _CITY_SLUG_INDEX;
+}
+
+// QIBLA-DATA-INDEX-CPU-OPTIMIZATION-1: worker-resident slug -> nameEn index for the /qibla-in-* SSR englishName. It replaces a
+//   per-request readdirSync + readFileSync + JSON.parse of every db/cities-*.json (113 files, ~4.2 MB) followed by
+//   makeCitySlugSrv over ~26.6k cities. Built once per worker at startup, reproducing that scan exactly:
+//   - same file filter, in the order readdirSync returns at build time, then array order; first match wins;
+//   - same city predicate: truthy nameEn + numeric lat/lng. nameAr is NOT required and legacy slugs are NOT
+//     registered, which is why _getCitySlugIndex() is not a substitute;
+//   - a file that fails to parse, is not an array, or throws part-way contributes only the cities before the
+//     failure (the scan's per-file catch did the same);
+//   - an I/O error while building is not cached: the scan retried on the next request, so does this.
+//   dbWrite(), the only writer of db/cities-*.json, drops it here and (via the cluster primary) in sibling workers;
+//   the next reader rebuilds it.
+let _QIBLA_DB_NAME_EN_INDEX = null;
+function _getQiblaDbNameEnIndex() {
+    if (_QIBLA_DB_NAME_EN_INDEX) return _QIBLA_DB_NAME_EN_INDEX;
+    const idx = new Map();
+    let ioError = false;
+    try {
+        const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
+        for (const f of files) {
+            let raw;
+            try { raw = fs.readFileSync(path.join(DB_DIR, f), 'utf8'); } catch (_e) { ioError = true; continue; }
+            try {
+                const arr = JSON.parse(raw);
+                if (!Array.isArray(arr)) continue;
+                for (const c of arr) {
+                    if (c && c.nameEn && typeof c.lat === 'number' && typeof c.lng === 'number') {
+                        const slug = makeCitySlugSrv(c.nameEn, c.lat, c.lng);
+                        if (!idx.has(slug)) idx.set(slug, c.nameEn);
+                    }
+                }
+            } catch (_e) { /* same per-file skip as the old scan */ }
+        }
+    } catch (_e) { ioError = true; }
+    if (!ioError) _QIBLA_DB_NAME_EN_INDEX = idx;
+    return idx;
+}
+function _qiblaDbNameEnIndexChanged(broadcast) {
+    _QIBLA_DB_NAME_EN_INDEX = null;
+    if (broadcast && cluster.isWorker && process.connected && typeof process.send === 'function') {
+        try { process.send({ tp: 'tp:cities-db-changed' }, () => {}); } catch (_e) { /* IPC closed */ }
+    }
+}
+if (cluster.isWorker) {
+    process.on('message', (msg) => {
+        if (msg && msg.tp === 'tp:cities-db-changed') _qiblaDbNameEnIndexChanged(false);
+    });
 }
 // توافُق رجعيّ مع الـ API القديم (slug → nameAr فقط)
 function _getCitySlugToNameAr() {
@@ -15372,24 +15433,11 @@ function buildSeoForPath(urlPath) {
         } catch (_e) { /* silent */ }
         // Also include the canonical English name from the DB (via cities-*.json) so the
         // client can regenerate a stable slug or show proper English fallbacks.
+        // QIBLA-DATA-INDEX-CPU-OPTIMIZATION-1: was a per-request scan of every db/cities-*.json; the resident index
+        //   yields the identical first-match nameEn ('' when no city produces this slug).
         let _dbNameEn = '';
         try {
-            const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
-            for (const f of files) {
-                try {
-                    const arr = JSON.parse(fs.readFileSync(path.join(DB_DIR, f), 'utf8'));
-                    if (!Array.isArray(arr)) continue;
-                    for (const c of arr) {
-                        if (c && c.nameEn && typeof c.lat === 'number' && typeof c.lng === 'number') {
-                            if (makeCitySlugSrv(c.nameEn, c.lat, c.lng) === citySlug) {
-                                _dbNameEn = c.nameEn;
-                                break;
-                            }
-                        }
-                    }
-                } catch (_e) {}
-                if (_dbNameEn) break;
-            }
+            _dbNameEn = _getQiblaDbNameEnIndex().get(citySlug) || '';
         } catch (_e) { /* silent */ }
         qiblaRef = { cityName: cityDisplay, lat, lng, slug: citySlug, names: _qNames, englishName: _dbNameEn || cityDisplay };
         // Add hub to breadcrumb chain before city (Home › Qibla › {City})
@@ -32224,6 +32272,7 @@ function dbWrite(cc, cities) {
         invalidateSitemapCache();
         return true;
     } catch(e) { console.error(`[DB] خطأ في الكتابة ${cc}:`, e.message); return false; }
+    finally { _qiblaDbNameEnIndexChanged(true); }   // QIBLA-DATA-INDEX-CPU-OPTIMIZATION-1
 }
 
 // دمج مدن جديدة في قاعدة البيانات بدون حذف القديمة
@@ -36757,6 +36806,11 @@ const _tpWorkerShutdown = (sig) => {
 };
 process.on('SIGTERM', () => _tpWorkerShutdown('SIGTERM'));
 process.on('SIGINT',  () => _tpWorkerShutdown('SIGINT'));
+
+// QIBLA-DATA-INDEX-CPU-OPTIMIZATION-1: build the index at worker startup (~32 ms measured) so no user request
+//   ever pays for it. Still lazy-safe: an I/O error is NOT cached, and after dbWrite() invalidation the next
+//   reader rebuilds it. The primary returned long before this line, so only workers build it.
+_getQiblaDbNameEnIndex();
 
 _preloadReady.then(() => {
     server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));

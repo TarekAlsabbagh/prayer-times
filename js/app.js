@@ -22759,15 +22759,11 @@ function updateMoonInfo() {
                     const hj = HijriDate.toHijri(dp.y, dp.m + 1, dp.d);
                     const hMonthName = _hMonthsLang[hj.month - 1] || String(hj.month);
                     const hijriText = hj.day + ' ' + hMonthName + ' ' + hj.year;
-                    if (_citySlug) {
-                        // FIX: href now uses _rowIso (Gregorian) — was previously
-                        //   `hj.year + '-' + hj.month + '-' + hj.day` (Hijri 1447-12-07
-                        //   format) which now returns 404 under the strict route policy.
-                        const _hHrefGreg = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
-                        hijriCell = _hHrefGreg ? `<td class="fc-hijri-cell"><a class="fc-hijri-link" href="${_escHtml(_hHrefGreg)}" aria-label="${_escHtml(hijriText)}"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</a></td>` : `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
-                    } else {
-                        hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
-                    }
+                    // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L2): the Hijri cell used to link to the SAME day URL as the day
+                    //   cell in the same row (14 duplicate anchors per rendered forecast). It is now always
+                    //   the text variant this branch already rendered for slug-less pages; the day cell below
+                    //   keeps the link, so no target became unreachable.
+                    hijriCell = `<td class="fc-hijri-cell"><span class="fc-hijri-icon" aria-hidden="true">🌙</span> ${_escHtml(hijriText)}</td>`;
                 }
             } catch (_e) { /* keep placeholder */ }
 
@@ -23827,11 +23823,25 @@ function updateMoonInfo() {
                 }
             } catch (_) {}
             if (_mChart) {
+                // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3b): collect the day URLs the SSR calendar grid on this
+                //   page already links, so the chart can drop the dots that merely repeat them. The cell for
+                //   the city-local today points at /today, so its date is absent here and its dot keeps the
+                //   only anchor to that day URL - no target is lost.
+                var _mcSkipIso = Object.create(null);
+                try {
+                    var _mcCells = document.querySelectorAll('.moon-hub-cal-cell a[href]');
+                    for (var _mcI = 0; _mcI < _mcCells.length; _mcI++) {
+                        var _mcH = _mcCells[_mcI].getAttribute('href') || '';
+                        var _mcD = _mcH.match(/\/(\d{4})\/(\d{2})\/(\d{2})$/);
+                        if (_mcD) _mcSkipIso[_mcD[1] + '-' + _mcD[2] + '-' + _mcD[3]] = 1;
+                    }
+                } catch (_) {}
                 MoonChart.render(_chartContainer, {
                     monthMode: true,
                     monthYear: _mChart.year,
                     monthMonth: _mChart.month,
                     nestedDayBase: _lpNow + '/moon/' + _mChart.country + '/' + _mChart.city,
+                    skipIso: _mcSkipIso,
                     lang: _langNow
                 });
                 // عنوان/وصف المخطّط على صفحة الشهر (10 لغات) — يستبدل نصّ «— 7 أيّام».
@@ -23845,12 +23855,22 @@ function updateMoonInfo() {
                     if (_sub) { _sub.textContent = _CMS[_langNow] || _CMS.en; _sub.removeAttribute('data-i18n'); }
                 } catch (_) {}
             } else {
+                // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3a): hand the chart the nested day base of the page we
+                //   are on, so its dots link /{lp}/moon/{country}/{city}/{yyyy}/{mm}/{dd} directly instead of
+                //   the legacy /moon-in-{slug}/{iso} form, which only 301s to exactly that URL. Empty on a
+                //   legacy route, where the chart keeps its previous (legacy) hrefs.
+                var _mcNestedBase = '';
+                try {
+                    var _mcM = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]*)\/([a-z0-9][a-z0-9-]*)(?:\/|$)/);
+                    if (_mcM) _mcNestedBase = _lpNow + '/moon/' + _mcM[1] + '/' + _mcM[2];
+                } catch (_) {}
                 MoonChart.render(_chartContainer, {
                     date: today,
                     rangeDays: 7,
                     lang: _langNow,
                     citySlug: _citySlug || '',
                     langPrefix: _lpNow,
+                    nestedDayBase: _mcNestedBase,
                     // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): pass the
                     // city tz so the chart can use city-local-noon sampling for
                     // every point (instead of browser-local noon). `today` above

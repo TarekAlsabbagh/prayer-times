@@ -216,8 +216,10 @@ function staticChecks() {
     const ptcRobotsWrites = ptc.match(/upsertMeta\(\s*'robots'[^;]*\)/g) || [];
     ok('K', ptcRobotsWrites.length === 1 && /if \(!\/\\bnoindex\\b\/i\.test\(_rC\)\) upsertMeta\('robots', 'name', 'index, follow'\);/.test(ptc),
         "prayer-times-cities.html: its single robots write is guarded by the SSR-noindex check", ptcRobotsWrites.join(' || '));
-    ok('K', idx.includes('js/app.js?v=846"') && idx.includes('js/moon-chart.js?v=11"') && !idx.includes('js/app.js?v=845"') && !idx.includes('js/moon-chart.js?v=10"'),
-        'index.html busts app.js?v=846 and moon-chart.js?v=11');
+    // MOON-DAY-INTERNAL-LINK-CLEANUP-1 changed both bundles again and re-busted them (846 -> 847,
+    //   11 -> 12). The pin is kept EXACT, just moved to the versions now shipped.
+    ok('K', idx.includes('js/app.js?v=847"') && idx.includes('js/moon-chart.js?v=12"') && !idx.includes('js/app.js?v=846"') && !idx.includes('js/moon-chart.js?v=11"'),
+        'index.html busts app.js?v=847 and moon-chart.js?v=12');
 
     section('[U] untouched files (git)');
     let quiet = false, detail = '';

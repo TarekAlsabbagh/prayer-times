@@ -292,7 +292,7 @@
      * حساب نقاط المنحنى حول التاريخ المركزيّ.
      * rangeDays = 7 → 3 قبل + 1 مركزيّ + 3 بعد.
      */
-    function _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz) {
+    function _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz, nestedDayBase) {
         // MoonCalc معرَّف كـ const global-script (من moon.js) — نصل إليه بالاسم المباشر
         // لا عبر global.MoonCalc لأنّ const لا يُعلَّق على window.
         const MC = (typeof MoonCalc !== 'undefined') ? MoonCalc : (global.MoonCalc || null);
@@ -320,7 +320,12 @@
         const points = [];
         // Round 15: نقاط المنحنى تشير لأيّام محدَّدة → /moon-in-{slug}/{iso}
         // (النقطة المركزيّة «اليوم» تحصل href=null أسفل، لا تستخدم urlBase).
+        // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3a): prefer the nested clean day URL when the caller knows the country
+        //   (nestedDayBase = '{lp}/moon/{country}/{city}'). The legacy /moon-in-{slug}/{iso} form below is a
+        //   301 to exactly that URL and was the last surface still minting legacy day links; it stays only as
+        //   the fallback for callers without a country (legacy pages), so no dot ever loses its target.
         const urlBase = langPrefix ? (langPrefix + '/moon-in-' + citySlug) : ('/moon-in-' + citySlug);
+        const _nestedBase = nestedDayBase || '';
 
         for (let offset = -half; offset <= half; offset++) {
             let d;
@@ -377,7 +382,9 @@
                 pct: pct,
                 label: _shortLabel(d, null),
                 isCenter: iso === centerIso,
-                href: (citySlug && iso !== centerIso && _yearInServerRange(iso)) ? (urlBase + '/' + iso) : null,
+                href: (citySlug && iso !== centerIso && _yearInServerRange(iso))
+                    ? (_nestedBase ? (_nestedBase + '/' + iso.replace(/-/g, '/')) : (urlBase + '/' + iso))
+                    : null,
                 phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || phaseIcon } : null,
                 phaseIcon: phaseIcon,
                 phaseName: phaseName
@@ -394,7 +401,7 @@
      * /{lang}/moon/{country}/{city}/{yyyy}/{mm}/{dd} (nested — لا روابط legacy).
      * أخذ العيّنة عند ظهر التوقيت المحلّيّ للمتصفّح (مطابق لمسار العيّنة الموجود حين لا يوجد tz).
      */
-    function _computeMonthPoints(year, month, nestedDayBase) {
+    function _computeMonthPoints(year, month, nestedDayBase, skipIso) {
         const MC = (typeof MoonCalc !== 'undefined') ? MoonCalc : (global.MoonCalc || null);
         if (!MC || typeof MC.getMoonIllumination !== 'function') {
             return [];
@@ -439,7 +446,14 @@
             const iso = _isoDate(d);
             const _mm = _pad2(month);
             const _dd = _pad2(day);
-            const href = (nestedDayBase && _yearInServerRange(String(year))) ? (nestedDayBase + '/' + year + '/' + _mm + '/' + _dd) : null;
+            // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3b): a dot whose day URL the calendar grid on the SAME page
+            //   already links is a pure duplicate (28-31 of them per month page), so it is no longer an
+            //   anchor — it keeps its tooltip, value and phase icon. `skipIso` is that grid's set of linked
+            //   dates, read from the DOM by the caller: the one cell the grid sends to /today is NOT in it,
+            //   so its dot keeps the only anchor to that day URL and no target is lost. No set (legacy or
+            //   grid-less callers) = previous behaviour.
+            const href = (nestedDayBase && _yearInServerRange(String(year)) && !(skipIso && skipIso[iso]))
+                ? (nestedDayBase + '/' + year + '/' + _mm + '/' + _dd) : null;
             const ev = phaseEvents.find(function(e) {
                 return e.date && _isoDate(e.date) === iso;
             });
@@ -511,8 +525,8 @@
         // MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1: month page → full-month range;
         // every other moon page keeps the centred 7-day window unchanged.
         const points = (opts.monthMode && opts.monthYear && opts.monthMonth)
-            ? _computeMonthPoints(opts.monthYear, opts.monthMonth, opts.nestedDayBase || '')
-            : _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz);
+            ? _computeMonthPoints(opts.monthYear, opts.monthMonth, opts.nestedDayBase || '', opts.skipIso || null)
+            : _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz, opts.nestedDayBase || '');
         if (!points.length) {
             container.textContent = '';
             return;

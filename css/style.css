@@ -6940,9 +6940,12 @@ html[dir="rtl"] .moon-chart-container svg text { transform: scaleX(-1); transfor
     animation: moonChartHaloPulse 2.4s ease-in-out infinite;
     transform-origin: center;
 }
+/* MOON-DAY-INTERNAL-LINK-CLEANUP-1: the pointer cursor moved to the LINK rule above
+   (.moon-chart-container a circle). A month-chart dot whose day URL the calendar grid
+   on the same page already links is no longer wrapped in <a>, so it must not look
+   clickable; it keeps its hover/tooltip feedback only. Nothing else changed. */
 .moon-chart-container svg circle.moon-chart-dot {
     transition: r 0.15s ease, filter 0.15s ease;
-    cursor: pointer;
 }
 .moon-chart-container svg circle.moon-chart-dot:hover,
 .moon-chart-container svg circle.moon-chart-dot:focus {

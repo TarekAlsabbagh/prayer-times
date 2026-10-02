@@ -97,7 +97,17 @@ try {
     check('homepage navbar moon link = /moon', home.includes('<a href="/moon" data-page="moon"'));
     check('homepage: NO bare href="/moon-today" hub link', !home.includes('href="/moon-today"'));
     check('homepage: NO {LANG_PREFIX} leak', !home.includes('{LANG_PREFIX}'));
-    check('homepage: city moon links intact (e.g. /moon-today-in-makkah)', home.includes('/moon-today-in-'));
+    // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (D4): this check used to be home.includes('/moon-today-in-'), which was a
+    //   FALSE POSITIVE — the only occurrences of that string on the homepage were inside developer HTML comments (no real
+    //   link had that form any more: the city moon links became nested /moon/{country}/{city}/today and the legacy
+    //   /moon-today-in-{city} URLs 301 there). It now asserts REAL <a href> anchors only — comments and <script> bodies
+    //   (inline JS / JSON literals) are removed first — so it fails if the actual city moon links disappear or are
+    //   collapsed into the bare /moon hub.
+    const homeAnchors = [...home.replace(/<!--[\s\S]*?-->/g, '').replace(/<script\b[\s\S]*?<\/script>/gi, '')
+        .matchAll(/<a\b[^>]*\shref="([^"]*)"/gi)].map(m => m[1]);
+    const cityMoonAnchors = homeAnchors.filter(h => /^\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today$/.test(h));
+    check('homepage: city moon links intact (real <a href>, e.g. /moon/saudi-arabia/makkah/today)',
+        cityMoonAnchors.includes('/moon/saudi-arabia/makkah/today') && cityMoonAnchors.length >= 10, `${cityMoonAnchors.length} real city moon anchors`);
     const enHome = (await req('/en')).body;
     check('/en homepage navbar moon link = /en/moon', enHome.includes('<a href="/en/moon" data-page="moon"'));
     const qibla = (await req('/qibla')).body;

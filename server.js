@@ -6019,6 +6019,23 @@ function _applyCspNonce(html, nonce) {
     if (!html || html.indexOf(_TP_NONCE_TOKEN) === -1) return html;
     return html.split(_TP_NONCE_TOKEN).join(nonce || '');
 }
+// BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): drop developer HTML comments from the FINAL document only.
+//   Called at the two public HTML exits (serveHtmlWithSeo, serveCountriesPage) AFTER every SSR pass — several
+//   passes anchor on comment text (<!--SHARED-*-->, <!-- TL-SEO-CONTENT -->, <!-- COUNTRIES-* -->, moon-hub
+//   delimiters, <!-- س1 -->...) — and BEFORE _applyCspNonce. The templates themselves are NOT changed.
+//   • <script>/<style>/<textarea>/<title>/<pre>/<xmp>/<iframe>/<noembed>/<noframes>/<noscript> are matched WHOLE
+//     by the second alternative and returned verbatim, so '<!--' inside JS/JSON/CSS is never touched.
+//   • KEPT: Google tag / AdSense snippet comments, the AdSense site-ownership note, IE conditional comments and
+//     third-party directive comments (google_ad_section_*, googleoff/googleon, email_off, SSI '#').
+//   • Only the comment bytes go; surrounding whitespace is untouched (no inline-spacing change).
+//   • Kill switch: TP_STRIP_HTML_COMMENTS=0 (default ON).
+const _HTML_COMMENT_KEEP_RE = /^<!--(?:#|\/?email_off|\s*(?:\[if\b|<!\[endif\]|Google tag \(gtag\.js\)|Google AdSense\b|ADSENSE-SITE-OWNERSHIP|google_ad_section|googleo(?:ff|n)\b))/;
+const _HTML_COMMENT_OR_RAW_RE = /<!--(?:-?>|[\s\S]*?--!?>)|<(script|style|textarea|title|pre|xmp|iframe|noembed|noframes|noscript)(?=[\s\/>])[^>]*>[\s\S]*?<\/\1\s*>/gi;
+const _STRIP_HTML_COMMENTS = process.env.TP_STRIP_HTML_COMMENTS !== '0';
+function _stripHtmlComments(html) {
+    if (!_STRIP_HTML_COMMENTS || typeof html !== 'string' || html.indexOf('<!--') === -1) return html;
+    return html.replace(_HTML_COMMENT_OR_RAW_RE, (m, rawTag) => (rawTag || _HTML_COMMENT_KEEP_RE.test(m)) ? m : '');
+}
 // The i18n bundle tag doubles as a REWRITE ANCHOR in four places (country + moon-country data
 //   islands). Those used to search for the literal '<script src="js/i18n.js'; once the template
 //   carries a nonce attribute that literal no longer matches and the islands would silently vanish
@@ -9674,6 +9691,13 @@ const _PAGE_KEEP_RULES = [
     [/^\/msbaha$/,                              'page-tasbih'],
     // prayer city pages -- #page-prayer-times is BOTH the SSR-active block and the subject
     [/^\/prayer-times-in-[a-z0-9-]+$/,           'page-prayer-times'],
+    // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (A): time-left / next-prayer. #page-prayer-times is BOTH the
+    //   SSR-active block and the subject (#tl-hero / #npt-hero and the route's H1 live inside it), exactly
+    //   like the prayer city pages above. The tails mirror the routes' own gates ([a-z][a-z0-9-]+, no dot).
+    //   _pageKeepGuardOk() additionally refuses to strip unless that block is really active AND holds the
+    //   route's H1 marker, so any future template drift keeps the full page instead of losing content.
+    [/^\/time-left-until-next-prayer-in-[a-z][a-z0-9-]+$/, 'page-prayer-times'],
+    [/^\/next-prayer-in-[a-z][a-z0-9-]+$/,                'page-prayer-times'],
     // ADSENSE-QIBLA-SSR-ACTIVE-SECTION-1: added only AFTER the SSR active-section fix above, so
     //   #page-qibla is the active block in the raw HTML before anything is removed. The city
     //   pattern mirrors the server's own _isQiblaCityPage, including the optional -{lat}-{lng}.
@@ -9690,6 +9714,58 @@ function _pageKeepIdFor(urlPath) {
         if (_PAGE_KEEP_RULES[i][0].test(p)) return _PAGE_KEEP_RULES[i][1];
     }
     return null;
+}
+// BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (A): fail-safe guard for the time-left / next-prayer rules ONLY (every
+//   pre-existing rule returns true here, i.e. behaves exactly as before). Stripping is allowed only when the
+//   kept block's opening tag is really `active` in this document AND the route's H1 marker (#tl-h1 / #npt-h1)
+//   sits inside that block. If a future template or SSR change breaks either invariant, the page is served
+//   whole (heavier, never emptier).
+const _PAGE_KEEP_TL_RE  = /^\/time-left-until-next-prayer-in-/;
+const _PAGE_KEEP_NPT_RE = /^\/next-prayer-in-/;
+const _PAGE_PRAYER_TIMES_OPEN_RE = /<div\b[^>]*\bid="page-prayer-times"[^>]*>/i;
+function _pageKeepGuardOk(html, urlPath, keepId) {
+    let p = String(urlPath || '').replace(_PAGE_KEEP_LANG_RE, '');
+    if (p.length > 1 && p.endsWith('/')) p = p.slice(0, -1);
+    const marker = _PAGE_KEEP_TL_RE.test(p) ? 'id="tl-h1"' : (_PAGE_KEEP_NPT_RE.test(p) ? 'id="npt-h1"' : null);
+    if (!marker) return true;
+    if (keepId !== 'page-prayer-times') return false;
+    const m = _PAGE_PRAYER_TIMES_OPEN_RE.exec(html);
+    if (!m || !/\bclass="[^"]*\bactive\b/i.test(m[0])) return false;
+    const end = _pageBlockEnd(html, m.index, m[0].length);
+    const k = html.indexOf(marker, m.index + m[0].length);
+    return end > 0 && k !== -1 && k < end;
+}
+// BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (D): js/azkar-data.js (~139 KB gzip as served) and js/azkar-prayer-ui-l10n.js
+//   are read ONLY by the azkar LIST loaders in app.js (_loadAzkarMorning / _loadAzkarEvening / _loadAzkarPrayer)
+//   and the handlers they wire; every entry into those pages is a full document load. So the tags are kept
+//   only on the routes whose kept block is one of those lists (decided from the ROUTE, via _pageKeepIdFor),
+//   and dropped everywhere else. indexOf-based (no document-wide regex scan); independent of nonce, attribute
+//   order and ?v. A missing tag is a no-op (fails safe: the tag stays).
+const _AZKAR_LIST_KEEP_IDS = new Set(['page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer']);
+function _dropScriptTagBySrc(html, srcPrefix) {
+    for (const needle of [' src="' + srcPrefix, ' src="/' + srcPrefix]) {
+        let from = 0, i;
+        while ((i = html.indexOf(needle, from)) !== -1) {
+            from = i + needle.length;
+            const s = html.lastIndexOf('<', i);                  // the tag this attribute sits in must be a <script ...>
+            if (s === -1 || html.slice(s, s + 7).toLowerCase() !== '<script') continue;
+            const gt = html.indexOf('>', i);
+            if (gt === -1) continue;
+            const close = html.indexOf('</script>', gt);
+            if (close === -1 || html.slice(gt + 1, close).trim() !== '') continue;   // external tag only (empty body)
+            let a = s, b = close + 9;
+            while (a > 0 && (html[a - 1] === ' ' || html[a - 1] === '\t')) a--;
+            if (html[b] === '\r') b++;
+            if (html[b] === '\n') b++;
+            return html.slice(0, a) + html.slice(b);
+        }
+    }
+    return html;
+}
+function _scopeAzkarScripts(html, keepId) {
+    if (!_AZKAR_LIST_KEEP_IDS.has(keepId)) html = _dropScriptTagBySrc(html, 'js/azkar-data.js');
+    if (keepId !== 'page-azkar-prayer') html = _dropScriptTagBySrc(html, 'js/azkar-prayer-ui-l10n.js');
+    return html;
 }
 
 // ===== 🆕 Level 3+: Time-Left page pruner =====
@@ -13647,6 +13723,9 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
 
         // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 -- same rule as every other template.
         if (_visitorInRegulatedRegion(req)) html = _stripCustomConsentBanner(html, urlPath);
+
+        // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): COUNTRIES-FAQ-SCHEMA / COUNTRIES-GRID-CONTENT are already consumed above.
+        html = _stripHtmlComments(html);
 
         // ADSENSE-STRICT-CSP-MIGRATION-1: exit B. serveCountriesPage deliberately never reaches the
         //   shared SEO pipeline (routing it there would rewrite title/description), so it needs its
@@ -30648,11 +30727,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //   `.page` block. Families whose SSR-active block is not the route's subject are excluded
     //   by _pageKeepIdFor and keep the shell exactly as before.
     const _keepPageId = _pageKeepIdFor(urlPath);
-    if (_keepPageId) html = _stripForeignPageBlocks(html, _keepPageId);
+    if (_keepPageId && _pageKeepGuardOk(html, urlPath, _keepPageId)) html = _stripForeignPageBlocks(html, _keepPageId);
+    // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (D): azkar data scripts only on the azkar LIST routes.
+    html = _scopeAzkarScripts(html, _keepPageId);
 
     // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: LAST, after every injection and every strip
     //   above, so nothing can re-introduce the tag after it has been removed.
     if (_inRegulatedRegion) html = _stripCustomConsentBanner(html, urlPath);
+
+    // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): every comment-anchored SSR pass above has run; drop the
+    //   developer comments. Must stay AFTER all rewrites and BEFORE the nonce substitution below.
+    html = _stripHtmlComments(html);
 
     // ADSENSE-STRICT-CSP-MIGRATION-1: the LAST transform before the bytes are frozen — after every
     //   injection, every strip and the regional rewrite, so no later pass can reintroduce an
@@ -31197,6 +31282,45 @@ function _isPublicStaticPath(fullPath) {
         if (rel.indexOf(_PUBLIC_STATIC_DIRS[i]) === 0) return true;
     }
     return false;
+}
+
+// BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (F): RFC 9110 single byte-range support for AUDIO (.mp3) only, on the
+//   uncompressed disk-read path (the mp3 is never content-encoded, so byte offsets are representation offsets).
+//   Every other static response is unchanged. GET only (RFC 9110 14.2). If-Range always falls back to the full
+//   200 (no validator exists on the static path). Malformed / unknown unit / multi-range -> ignored -> full 200
+//   (permitted by 14.2). Unsatisfiable -> 416 with Content-Range: bytes */size.
+//   The OPEN-ENDED whole-file forms (Chrome/Firefox's first media request "bytes=0-", or a suffix covering the whole
+//   file) are answered with the normal full 200: a 206 without a validator is not reusable from the browser cache, so it
+//   would re-download the file on every page view, whereas the 200 is cached exactly as before this change. An EXPLICIT
+//   range (also "bytes=0-<size-1>", which WebKit sends after its "bytes=0-1" probe) gets the 206 the client expects.
+//   Returns null (send the full 200) | {start, end} (inclusive, 206) | 'unsatisfiable' (416).
+function _parseSingleByteRange(req, size) {
+    if (req.method !== 'GET') return null;
+    const h = req.headers.range;
+    if (typeof h !== 'string' || h === '') return null;
+    if (req.headers['if-range'] !== undefined) return null;
+    if (!(size > 0)) return null;
+    const eq = h.indexOf('=');
+    if (eq < 0 || h.slice(0, eq).trim().toLowerCase() !== 'bytes') return null;
+    const specs = h.slice(eq + 1).split(',').map(s => s.trim()).filter(Boolean);
+    if (specs.length !== 1) return null;
+    const m = /^(\d*)-(\d*)$/.exec(specs[0]);
+    if (!m || (m[1] === '' && m[2] === '')) return null;
+    if (m[1] === '') {
+        const n = Number(m[2]);
+        if (!Number.isSafeInteger(n)) return null;
+        if (n === 0) return 'unsatisfiable';
+        if (n >= size) return null;                                   // suffix covers the whole file -> full 200
+        return { start: size - n, end: size - 1 };
+    }
+    const start = Number(m[1]);
+    const last = m[2] === '' ? Infinity : Number(m[2]);
+    if (!Number.isSafeInteger(start) || (m[2] !== '' && !Number.isSafeInteger(last))) return null;
+    if (last < start) return null;
+    if (start >= size) return 'unsatisfiable';
+    const end = Math.min(last, size - 1);
+    if (start === 0 && m[2] === '') return null;                     // open-ended whole file -> the cacheable full 200
+    return { start, end };
 }
 
 // ===== بيانات ثابتة مدمجة للمدن الكبرى =====
@@ -36866,6 +36990,30 @@ const server = http.createServer(async (req, res) => {
                 res.end(buf);
             });
         } else {
+            // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (F): honour a single byte range for .mp3 (adhan audio). Without a
+            //   usable Range header the response below is byte- and header-identical to before.
+            const _rng = ext === '.mp3' ? _parseSingleByteRange(req, data.length) : null;
+            if (_rng === 'unsatisfiable') {
+                res.writeHead(416, {
+                    'Content-Range': 'bytes */' + data.length,
+                    'Content-Length': 0,
+                    'Accept-Ranges': 'bytes',
+                    'Cache-Control': 'no-store',
+                });
+                res.end();
+                return;
+            }
+            if (_rng) {
+                res.writeHead(206, {
+                    'Content-Type': contentType,
+                    'Content-Length': _rng.end - _rng.start + 1,
+                    'Content-Range': 'bytes ' + _rng.start + '-' + _rng.end + '/' + data.length,
+                    'Cache-Control': cacheControl,
+                    'Accept-Ranges': 'bytes',
+                });
+                res.end(data.subarray(_rng.start, _rng.end + 1));
+                return;
+            }
             res.writeHead(200, {
                 'Content-Type': contentType,
                 'Content-Length': data.length,

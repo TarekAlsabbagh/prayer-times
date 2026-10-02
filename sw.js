@@ -1680,18 +1680,19 @@ const RUNTIME_CACHE = `tp-runtime-${CACHE_VERSION}`;
 //     path would make addAll() reject and skip the entire precache. Add
 //     a line here in Phase 2 once the file ships.
 //   • /js/duas.js is kept until Phase 2 (compat shim — see js/duas.js).
+// BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (C): five entries removed because NO page requests those exact URLs any
+//   more, so every fresh install downloaded them (~586 KB) and nothing ever read them: /js/i18n.js?v=194 (the
+//   shell loads i18n-core.js + i18n/{lang}.js), /js/prayer-times.js?v=54 (pages: ?v=56), /js/moon-chart.js?v=10
+//   (?v=12), /js/azkar-data.js?v=2 (?v=55, and only on the azkar list pages now) and /js/app.js?v=817 (pages:
+//   ?v=847&b=<build>). /css/style.css?v=502 stays: the country / guides / legal templates still request it.
+//   CACHE_VERSION is deliberately NOT bumped (no cache purge, strategy unchanged).
 const PRECACHE_URLS = [
     '/css/style.css?v=502',
     '/assets/brand/logo-white.svg?v=1',
-    '/js/i18n.js?v=194',
-    '/js/prayer-times.js?v=54',
     '/js/hijri-date.js?v=44',
     '/js/qibla.js?v=44',
     '/js/moon.js?v=55',
-    '/js/moon-chart.js?v=10',
     '/js/duas.js?v=43',
-    '/js/azkar-data.js?v=2',
-    '/js/app.js?v=817',
 ];
 
 self.addEventListener('install', (event) => {
@@ -1702,14 +1703,16 @@ self.addEventListener('install', (event) => {
 });
 
 self.addEventListener('activate', (event) => {
+    // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (D1): only a real purge of an older static cache (a CACHE_VERSION bump) is
+    //   worth the one-time page reload below. A same-version sw.js update (e.g. a precache-list trim) must NOT reload
+    //   the visitor's open tabs (no unrequested page views / ad or analytics re-runs).
+    let purgedOldStatic = false;
     event.waitUntil(
-        caches.keys().then((keys) =>
-            Promise.all(
-                keys
-                    .filter((k) => k !== STATIC_CACHE && k !== RUNTIME_CACHE)
-                    .map((k) => caches.delete(k))
-            )
-        )
+        caches.keys().then((keys) => {
+            const old = keys.filter((k) => k !== STATIC_CACHE && k !== RUNTIME_CACHE);
+            purgedOldStatic = old.some((k) => k.indexOf('tp-static-') === 0);
+            return Promise.all(old.map((k) => caches.delete(k)));
+        })
         // ADSENSE-STRICT-CSP-MIGRATION-1: the version bump above already drops the previous
         //   caches, but a same-version runtime cache can still hold HTML written by an older
         //   build. Sweep any text/html entry out of RUNTIME_CACHE explicitly so no document
@@ -1729,7 +1732,7 @@ self.addEventListener('activate', (event) => {
          // (client guards against loops via sessionStorage + hadController). Ensures
          // no device stays on stale cached CSS/HTML after a deploy. Best-effort;
          // wrapped so it never blocks activation or the cache purge above.
-         .then(() => self.clients.matchAll({ type: 'window' }))
+         .then(() => (purgedOldStatic ? self.clients.matchAll({ type: 'window' }) : []))
          .then((clients) => {
              clients.forEach((c) => { try { c.postMessage({ type: 'SW_ACTIVATED', version: CACHE_VERSION }); } catch (_) {} });
          })

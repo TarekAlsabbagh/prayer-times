@@ -52,6 +52,13 @@ if (cluster.isPrimary) {
     const TP_MAX_BOOT_DEATHS = 6;
 
     const tpSpawn = () => { if (!tpDraining) cluster.fork(); };
+    // WORKER-MEMORY-RECYCLE-1 state (see the block further down): workers retired on purpose, and the one
+    //   replacement in progress { oldId, newId, timer, oldGone }.
+    const tpMemRetired = new Set();
+    const tpMemCancelled = new Set();     // replacements stopped because they never listened
+    let tpMemPending = null;
+    let tpMemBackoffUntil = 0;
+    let tpMemRecycledAll = 0;
 
     console.log('[cluster] primary pid=' + process.pid
         + ' forking ' + TP_WORKER_COUNT + ' worker(s)'
@@ -68,6 +75,35 @@ if (cluster.isPrimary) {
                 console.log('[cluster] all workers drained; primary exiting');
                 process.exit(0);
             }
+            return;
+        }
+        // WORKER-MEMORY-RECYCLE-1: a worker retired on purpose is not respawned -- its replacement already serves.
+        if (tpMemCancelled.delete(worker.id)) {
+            console.log('[mem-recycle] cancelled replacement id=' + worker.id + ' exited code=' + code + ' signal=' + (signal || 'none'));
+            return;
+        }
+        if (tpMemRetired.delete(worker.id)) {
+            tpMemRecycledAll++;
+            console.log('[mem-recycle] worker id=' + worker.id + ' retired code=' + code + ' signal=' + (signal || 'none'));
+            return;
+        }
+        if (tpMemPending && worker.id === tpMemPending.newId) {
+            // the replacement died before it ever listened: cancel the replacement, keep the old worker, back off
+            clearTimeout(tpMemPending.timer);
+            const oldGone = tpMemPending.oldGone;
+            console.error('[mem-recycle] replacement id=' + worker.id + ' died before listening code=' + code
+                + ' signal=' + (signal || 'none') + '; ' + (oldGone ? 'the old worker is gone too: respawning'
+                : 'keeping worker id=' + tpMemPending.oldId) + '; next try in 10 min');
+            tpMemPending = null;
+            tpMemBackoffUntil = Date.now() + 10 * 60000;
+            if (oldGone) setTimeout(tpSpawn, 1000);   // never leave the pool one worker short
+            return;
+        }
+        if (tpMemPending && worker.id === tpMemPending.oldId) {
+            // the worker being replaced died on its own: the booting replacement takes its place, no extra respawn
+            tpMemPending.oldGone = true;
+            console.error('[cluster] worker id=' + worker.id + ' died during its replacement code=' + code
+                + ' signal=' + (signal || 'none') + '; replacement id=' + tpMemPending.newId + ' takes its place');
             return;
         }
         const now = Date.now();
@@ -185,8 +221,9 @@ if (cluster.isPrimary) {
         });
         const tpObsLine = (win) => {
             try {
+                // deaths counts every worker exit; recycled = the exits that were WORKER-MEMORY-RECYCLE-1 retirements
                 const o = { win, rss: tpMB(process.memoryUsage.rss()), workers: Object.keys(cluster.workers).length,
-                    deaths: tpDeathsWin, deaths_all: tpDeathsAll };
+                    deaths: tpDeathsWin, deaths_all: tpDeathsAll, recycled: tpMemRecycledAll };
                 const wr = tpWorkerRss();
                 if (wr.some((x) => x !== null)) o.wrss = wr;
                 const cg = tpCgroup();
@@ -199,6 +236,124 @@ if (cluster.isPrimary) {
         };
         tpObsLine('start');
         setInterval(() => tpObsLine('w'), tpProcS * 1000).unref();
+    }
+
+    // =======================================================================================
+    // WORKER-MEMORY-RECYCLE-1 (2026-10-13): replace a worker before its memory takes the instance down.
+    //   Measured 10-13 on 4c-8g (MOON-LOAD-OBSERVABILITY-1): every worker's resident memory grows outside
+    //   the V8 heap and Buffers (heap 150-560 MB, external + arrayBuffers <= 50 MB, RSS 350 -> 2,085 MB in
+    //   under 3 h) and the container's anon memory rose 2.0 -> 5.5 GB (peak 6.2 GB); the old 4 GB / 2-worker
+    //   plan ran out of memory 48 times since 09-11. The cause is NOT established: this is a safety net,
+    //   not a fix.
+    //   Each worker reports its RSS and event-loop utilisation every 15 s over IPC once it listens. Every
+    //   15 s the primary looks at the largest worker; above the per-worker limit it forks a replacement and,
+    //   only once that replacement LISTENS, asks the old worker to retire over IPC: a soft drain (stop
+    //   accepting, "Connection: close" on every request that still arrives on an existing socket, exit once
+    //   the last socket is gone and at least 3 s after the close, hard stop after 300 s; SIGKILL backstop
+    //   after 330 s). Guards: one replacement at a time, at least TP_WORKER_RECYCLE_GAP_S (default 120 s)
+    //   apart; only when EVERY live worker has listened for at least 120 s (no overlap with a crash respawn's
+    //   boot, never a worker's boot-peak RSS); deferred while the workers' average utilisation is >= 0.90
+    //   (a boot costs ~16 s of a core) unless the worker is 25% over the limit; never while a retired worker
+    //   is still draining or the primary is shutting down. A retired worker is not respawned; a replacement
+    //   that dies before listening, or does not listen within 120 s, only cancels that replacement, with a
+    //   10 min back-off.
+    //   Limit: TP_WORKER_RSS_MAX_MB, else (container limit - 512 MB) / (workers + 1) -- room for every
+    //   worker plus one booting replacement plus the primary -- else (no limit known, or a container of
+    //   1 GB or less) none. There is deliberately no whole-container trigger: memory outside the workers is
+    //   not freed by replacing one.
+    //   Kill switch: TP_WORKER_RECYCLE=0 (also stops the workers' reports).
+    // =======================================================================================
+    const tpMemOn = (() => {
+        const v = String(process.env.TP_WORKER_RECYCLE || '').trim().toLowerCase();
+        return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+    })();
+    if (tpMemOn) {
+        const tpMemFs = require('fs');
+        const tpMemRd = (f) => { try { return tpMemFs.readFileSync(f, 'utf8').trim(); } catch (_e) { return null; } };
+        const tpMemInt = (name, dflt, lo, hi) => {
+            const n = Number.parseInt(String(process.env[name] || '').trim(), 10);
+            return Number.isInteger(n) && n >= lo && n <= hi ? n : dflt;
+        };
+        const MB = 1048576;
+        const tpMemUnlimited = 2 ** 50;
+        // the container's memory limit in bytes (cgroup v2, then v1, then Node's own view), 0 = unknown
+        const tpMemCgLimit = (() => {
+            const v2 = tpMemRd('/sys/fs/cgroup/memory.max');
+            if (v2 !== null && v2 !== 'max' && +v2 > 0 && +v2 < tpMemUnlimited) return +v2;
+            const v1 = +(tpMemRd('/sys/fs/cgroup/memory/memory.limit_in_bytes') || 0);
+            if (v1 > 0 && v1 < tpMemUnlimited) return v1;
+            const cm = typeof process.constrainedMemory === 'function' ? +process.constrainedMemory() || 0 : 0;
+            return cm > 0 && cm < tpMemUnlimited ? cm : 0;
+        })();
+        const tpMemEnvMax = tpMemInt('TP_WORKER_RSS_MAX_MB', 0, 64, 1048576);
+        const tpMemLimit = tpMemEnvMax ? tpMemEnvMax * MB
+            : (tpMemCgLimit > 1024 * MB ? Math.floor((tpMemCgLimit - 512 * MB) / (TP_WORKER_COUNT + 1)) : 0);
+        const tpMemGapMs = tpMemInt('TP_WORKER_RECYCLE_GAP_S', 120, 10, 86400) * 1000;
+        const tpMemSettleMs = 120000;           // a worker counts as settled 120 s after it listened
+        const tpMemRss = new Map();             // worker id -> last reported rss (bytes)
+        const tpMemElu = new Map();             // worker id -> last reported 15 s event-loop utilisation
+        const tpMemReadyAt = new Map();         // worker id -> when it started listening
+        let tpMemLast = 0;
+        cluster.on('listening', (worker) => { tpMemReadyAt.set(worker.id, Date.now()); });
+        cluster.on('message', (worker, msg) => {
+            if (!msg || msg.tp !== 'tp:mem' || typeof msg.rss !== 'number') return;
+            tpMemRss.set(worker.id, msg.rss);
+            if (typeof msg.elu === 'number') tpMemElu.set(worker.id, msg.elu);
+        });
+        cluster.on('exit', (worker) => { tpMemRss.delete(worker.id); tpMemElu.delete(worker.id); tpMemReadyAt.delete(worker.id); });
+        const tpMemCheck = () => {
+            const now = Date.now();
+            // one at a time: also wait until the previous retired worker has actually exited (its soft drain)
+            if (tpDraining || tpMemPending || tpMemRetired.size || now < tpMemBackoffUntil || now - tpMemLast < tpMemGapMs) return;
+            const live = Object.keys(cluster.workers).map(Number);
+            if (live.length < TP_WORKER_COUNT) return;          // a crashed worker is still being respawned
+            // every live worker must have listened for a while: no overlap with a crash respawn's boot, and
+            //   never act on a worker's boot-peak RSS
+            if (live.some((id) => !(now - (tpMemReadyAt.get(id) || now) >= tpMemSettleMs && tpMemRss.has(id)))) return;
+            let big = 0, bigRss = 0;
+            for (const id of live) { const r = tpMemRss.get(id) || 0; if (r > bigRss) { big = id; bigRss = r; } }
+            if (!big || !tpMemLimit || bigRss <= tpMemLimit || !cluster.workers[big]) return;
+            // a boot costs ~16 s of a core: wait for a calmer moment unless the worker is well over the limit
+            let eluSum = 0, eluN = 0;
+            for (const id of live) { const e = tpMemElu.get(id); if (typeof e === 'number') { eluSum += e; eluN++; } }
+            const eluAvg = eluN ? eluSum / eluN : 0;
+            if (eluAvg >= 0.90 && bigRss <= 1.25 * tpMemLimit) return;
+            tpMemLast = now;
+            const nw = cluster.fork();
+            const oldId = big;
+            tpMemPending = { oldId, newId: nw.id, oldGone: false, timer: null };
+            console.log('[mem-recycle] replacing worker id=' + oldId + ' rss_mb=' + Math.round(bigRss / MB)
+                + ' limit_mb=' + Math.round(tpMemLimit / MB) + ' elu_avg=' + eluAvg.toFixed(2) + ' new_id=' + nw.id);
+            tpMemPending.timer = setTimeout(() => {
+                if (!tpMemPending || tpMemPending.newId !== nw.id) return;
+                // the replacement never listened: drop it (not respawned, not counted), keep the old worker, back off
+                const oldGone = tpMemPending.oldGone;
+                console.error('[mem-recycle] replacement id=' + nw.id + ' did not listen within 120 s; '
+                    + (oldGone ? 'the old worker is gone: keeping the replacement' : 'stopping it, keeping worker id=' + oldId));
+                tpMemPending = null;
+                tpMemBackoffUntil = Date.now() + 10 * 60000;
+                if (!oldGone) { tpMemCancelled.add(nw.id); try { nw.process.kill('SIGKILL'); } catch (_e) { /* already gone */ } }
+            }, 120000);
+            nw.once('listening', () => {
+                if (!tpMemPending || tpMemPending.newId !== nw.id) return;
+                clearTimeout(tpMemPending.timer);
+                const oldGone = tpMemPending.oldGone;
+                tpMemPending = null;
+                const old = cluster.workers[oldId];
+                if (oldGone || !old) { console.log('[mem-recycle] worker id=' + nw.id + ' listening; worker id=' + oldId + ' already gone'); return; }
+                tpMemRetired.add(oldId);
+                tpMemRss.delete(oldId);
+                console.log('[mem-recycle] worker id=' + nw.id + ' listening; retiring worker id=' + oldId);
+                try { old.send({ tp: 'tp:retire' }, () => {}); } catch (_e) { /* IPC already closed: the backstop below */ }
+                setTimeout(() => {
+                    const o = cluster.workers[oldId];
+                    if (o) { console.error('[mem-recycle] worker id=' + oldId + ' still alive 330 s after retire: SIGKILL'); try { o.process.kill('SIGKILL'); } catch (_e) { /* gone */ } }
+                }, 330000).unref();
+            });
+        };
+        setInterval(tpMemCheck, 15000).unref();
+        console.log('[mem-recycle] ENABLED limit_mb=' + Math.round(tpMemLimit / MB) + ' container_limit_mb=' + Math.round(tpMemCgLimit / MB)
+            + ' gap_s=' + (tpMemGapMs / 1000) + ' settle_s=' + (tpMemSettleMs / 1000) + ' workers=' + TP_WORKER_COUNT);
     }
 
     // The primary supervises and nothing else: it never creates an HTTP server, never binds
@@ -37564,8 +37719,21 @@ server.headersTimeout   = 125000;   // keepAliveTimeout + 5s margin (buffer/requ
 //   stuck connection can never block a deploy.
 const TP_DRAIN_MS = 10000;
 let _tpDraining = false;
+let _tpRetiring = false;    // WORKER-MEMORY-RECYCLE-1: a soft retire is running (see _tpWorkerRetire)
+let _tpHardDrain = false;
 const _tpWorkerShutdown = (sig) => {
-    if (_tpDraining) return;
+    if (_tpHardDrain) return;
+    _tpHardDrain = true;
+    if (_tpRetiring) {
+        // a real stop (deploy / instance shutdown) during a soft retire: finish with the fast drain
+        console.log('[cluster] worker id=' + TP_WORKER_ID + ' pid=' + process.pid + ' received ' + sig + ' while retiring; draining');
+        try { if (typeof server.closeIdleConnections === 'function') server.closeIdleConnections(); } catch (_e) { /* noop */ }
+        setTimeout(() => {
+            try { if (typeof server.closeAllConnections === 'function') server.closeAllConnections(); } catch (_e) { /* noop */ }
+            process.exit(0);
+        }, TP_DRAIN_MS).unref();
+        return;
+    }
     _tpDraining = true;
     console.log('[cluster] worker id=' + TP_WORKER_ID + ' pid=' + process.pid + ' received ' + sig + '; draining');
     try {
@@ -37579,7 +37747,66 @@ const _tpWorkerShutdown = (sig) => {
 };
 process.on('SIGTERM', () => _tpWorkerShutdown('SIGTERM'));
 process.on('SIGINT',  () => _tpWorkerShutdown('SIGINT'));
-
+// WORKER-MEMORY-RECYCLE-1: report this worker's resident memory and event-loop utilisation to the primary every
+//   15 s once it serves, and drain when the primary retires it (its replacement is already listening). IPC, so it
+//   is graceful on every platform -- a Windows "SIGTERM" from another process is an immediate kill.
+// A retire is a SOFT drain, unlike SIGTERM: the replacement already serves, so there is no hurry. Closing idle
+//   keep-alive sockets ourselves races a client (Render's proxy) that is writing a new request on one of them --
+//   the RENDER-502-KEEPALIVE-TIMEOUT-FIX-1 failure, measured locally as connection errors during retirement. So:
+//   stop accepting (net.Server close only -- http.Server.close would also close every idle socket at once),
+//   answer every request that still arrives on an existing socket with "Connection: close" so that socket
+//   closes cleanly after its response, and let idle sockets be closed by the client, as they are today (our own
+//   keepAliveTimeout closes the rest after 120 s, exactly as in normal operation). Exit once the last connection
+//   is gone but never sooner than TP_RETIRE_MIN_MS after the close, so the primary has processed this worker's
+//   close (a connection it hands over in that window is answered "not accepted" and given to another worker);
+//   TP_RETIRE_DRAIN_MS is only a hard stop for stuck connections. The unsampled counters are flushed first, as on
+//   SIGTERM, so a recycle loses no measurement.
+const TP_RETIRE_MIN_MS = 3000;
+const TP_RETIRE_DRAIN_MS = 300000;
+let _tpFinalFlushed = false;
+const _tpFinalFlush = () => {
+    if (_tpFinalFlushed) return;
+    _tpFinalFlushed = true;
+    try { if (_shedStarted) _shedFlush('final'); } catch (_e) { /* measurement only */ }
+    try { if (_mlStarted) { _mlFlush('final'); _mlProcFlush('final'); } } catch (_e) { /* measurement only */ }
+};
+server.prependListener('request', (req, res) => { if (_tpRetiring) res.setHeader('Connection', 'close'); });
+const _tpWorkerRetire = () => {
+    if (_tpDraining || _tpHardDrain) return;
+    _tpDraining = true;
+    _tpRetiring = true;
+    const t0 = Date.now();
+    console.log('[cluster] worker id=' + TP_WORKER_ID + ' pid=' + process.pid + ' retiring: no new connections, Connection: close on reused ones');
+    const done = () => { _tpFinalFlush(); process.exit(0); };
+    try {
+        require('net').Server.prototype.close.call(server, () => setTimeout(done, Math.max(0, TP_RETIRE_MIN_MS - (Date.now() - t0))));
+    } catch (_e) { setTimeout(done, TP_RETIRE_MIN_MS); }
+    setTimeout(() => {
+        try { if (typeof server.closeAllConnections === 'function') server.closeAllConnections(); } catch (_e) { /* noop */ }
+        done();
+    }, TP_RETIRE_DRAIN_MS).unref();
+};
+if (cluster.isWorker) {
+    process.on('message', (msg) => { if (msg && msg.tp === 'tp:retire') _tpWorkerRetire(); });
+    const _tpMemReportOn = (() => {
+        const v = String(process.env.TP_WORKER_RECYCLE || '').trim().toLowerCase();
+        return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+    })();
+    if (_tpMemReportOn) {
+        server.once('listening', () => {
+            let eluPrev = performance.eventLoopUtilization();
+            const rep = () => {
+                const eluNow = performance.eventLoopUtilization();
+                const elu = performance.eventLoopUtilization(eluNow, eluPrev).utilization;
+                eluPrev = eluNow;
+                if (!process.connected || _tpDraining) return;
+                try { process.send({ tp: 'tp:mem', rss: process.memoryUsage.rss(), elu: +elu.toFixed(3) }, () => {}); } catch (_e) { /* IPC closed */ }
+            };
+            rep();
+            setInterval(rep, 15000).unref();
+        });
+    }
+}
 // QIBLA-DATA-INDEX-CPU-OPTIMIZATION-1: build the index at worker startup (~32 ms measured) so no user request
 //   ever pays for it. Still lazy-safe: an I/O error is NOT cached, and after dbWrite() invalidation the next
 //   reader rebuilds it. The primary returned long before this line, so only workers build it.

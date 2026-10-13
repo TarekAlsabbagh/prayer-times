@@ -34162,6 +34162,32 @@ if (_OBS_ON) {
 //       released once: on 'finish', on 'close' (client gone), or after 30 s as a safety net.
 //   Kill switch: TP_MOON_DAY_SHED=0 (default ON). Per worker by construction (each worker has
 //   its own loop, bucket and state), so the fleet's moon-day rate scales with the worker count.
+//
+// MOON-CALENDAR-OVERLOAD-SHED-2 (2026-10-13): the same rule for EVERY rendered moon-calendar page, with
+//   the indexable pages first.
+//   Why: shedding only day pages leaves the month (46.7 ms locally, heavier than a day page), year and
+//   coordinate-only pages unprotected, and every day page links to them, so a crawl that moves off the
+//   day pages would bring the overload straight back.
+//   Covered, each only when the router itself would render it (its own classifier says 'valid'):
+//     day   /moon/{country}/{city}/{yyyy}/{mm}/{dd}   month  .../{yyyy}/{mm}   year  .../{yyyy}
+//     hub   /moon/{country}/{city}  and  today  .../today -- for NON-curated cities only: a curated
+//           city's hub and today page are its primary moon pages (a small, bounded set) and are
+//           never shed, like the prayer, qibla and other core pages
+//     coord a legacy coordinate-only page /moon[-today]-in-{slug}-{lat}-{lng}[/{date}] that renders
+//           (gate C, in the router, after every 301 / 404 decision)
+//   Tier 1 = what the noindex gate indexes: a curated city (the same _findPlaceBySlug test) and, for a
+//     day page, a date inside UTC today -30 .. +90 (the same arithmetic). Admitted exactly as above.
+//   Tier 2 = every other covered page (noindex): the same rule, plus it is refused (a) while tier-1 requests
+//     are being refused REPEATEDLY (a count of tier-1 refusals decayed x0.95 per tick, ~2 s, at or above 2:
+//     one isolated refusal never triggers it) -- so under real pressure the indexable pages get the capacity -- and (b)
+//     while the slow event-loop-utilisation average (EWMA 0.02 per 100 ms tick, ~5 s) is at or above
+//     TP_MOON_SHED_T2_ELU_MAX (default 0.90). Neither fires at normal load (production 10-13 on 4c-8g:
+//     0 refusals in 2.5 h, ELU 0.53-0.61 per worker per minute), so tier 2 is not refused more often than
+//     today unless the worker is genuinely overloaded: a 503 at normal load would lower the crawl rate
+//     host-wide for nothing. Under pressure the noindex pages give way first. The User-Agent still decides nothing; no crawler exemption of any kind.
+//   Never shed either: a hub URL with a query string (the router 301s ?cal / ?cal-y&cal-m month-picker
+//     submits before anything else, so it is not a render).
+//   TP_MOON_SHED_WIDE=0 restores the day-only gate exactly (a rollback of this widening alone).
 // =======================================================================================
 const _SHED_ON = (() => {
     const v = String(process.env.TP_MOON_DAY_SHED || '').trim().toLowerCase();
@@ -34182,6 +34208,34 @@ const _SHED_ELU_MAX = (() => {
 const _SHED_TICK_MS = 100;
 const _SHED_HOLD_MS = 2000;
 const _SHED_RETRY_AFTER_S = 120;
+// MOON-CALENDAR-OVERLOAD-SHED-2
+const _SHED_WIDE = (() => {
+    const v = String(process.env.TP_MOON_SHED_WIDE || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
+const _SHED_T2_ELU_MAX = (() => {
+    const n = parseFloat(String(process.env.TP_MOON_SHED_T2_ELU_MAX || '').trim());
+    return Number.isFinite(n) && n >= 0.5 && n <= 1 ? n : 0.90;
+})();
+const _SHED_T2_ALPHA = 0.02;   // slow ELU average, ~5 s at the 100 ms tick
+const _SHED_T2_PRESS = 2;      // tier 2 waits while that decayed count is >= 2 (repeated refusals, not one)
+// /[lang/]moon/{country}/{city}[/today | /{yyyy}[/{mm}[/{dd}]]] with real month / day ranges:
+//   1 = locale, 2 = city slug, 3 = 'today' or year, 4 = month, 5 = day
+const _SHED_NESTED_RE = /^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/(today|\d{4})(?:\/(0[1-9]|1[0-2])(?:\/(0[1-9]|[12]\d|3[01]))?)?)?$/;
+// each family's own router classifier
+const _SHED_CLASSIFY = { hub: _classifyNestedMoonHub, today: _classifyMoonToday, year: _classifyMoonYear, month: _classifyMoonMonth, day: _classifyMoonDay };
+const _shedFamilyOf = (m) => m[3] === undefined ? 'hub'
+    : m[3] === 'today' ? (m[4] === undefined ? 'today' : null)
+    : m[4] === undefined ? 'year' : m[5] === undefined ? 'month' : 'day';
+// 1 = indexable (curated city; a day page also inside UTC today -30 .. +90), 2 = noindex
+function _shedTier(fam, citySlug, m) {
+    if (!_findPlaceBySlug(citySlug)) return 2;
+    if (fam !== 'day') return 1;
+    const n = new Date();
+    const t0 = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate());
+    const d = Math.round((Date.UTC(+m[3], +m[4] - 1, +m[5]) - t0) / 86400000);
+    return (d >= -30 && d <= 90) ? 1 : 2;
+}
 // Static bodies, one per locale prefix: no script, no style, no request data -- nothing to nonce,
 //   nothing to escape. Precomputed once, sent with Content-Length.
 const _shedBody = (home, ltr) => Buffer.from('<!DOCTYPE html><html lang="' + (ltr ? 'en' : 'ar') + '" dir="' + (ltr ? 'ltr' : 'rtl')
@@ -34200,17 +34254,25 @@ let _shedSince = 0;        // when the current ON period began (drives the 2 s h
 let _shedAccFrom = 0;      // start of the not-yet-counted part of the current ON period (stats only)
 let _shedTokens = _SHED_BURST;
 let _shedInflight = 0;
-const _shedStat = { shed: 0, admitted: 0, activations: 0, activeMs: 0, maxLagMs: 0, busyTicks: 0 };
+let _shedEluSlow = 0;      // MOON-CALENDAR-OVERLOAD-SHED-2: the ~5 s ELU average that gates tier 2
+let _shedT1Press = 0;      // MOON-CALENDAR-OVERLOAD-SHED-2: recent tier-1 refusals, decayed x0.95 per tick (~2 s)
+const _shedStat = { shed: 0, shedT2: 0, fam: {}, admitted: 0, activations: 0, activeMs: 0, maxLagMs: 0, busyTicks: 0, t2BusyTicks: 0 };
 const _SHED_INFLIGHT_MAX_MS = 30000;      // safety release if a response never finishes or closes
+const _shedCount = (fam, tier) => { _shedStat.shed++; if (tier === 2) _shedStat.shedT2++; _shedStat.fam[fam] = (_shedStat.fam[fam] || 0) + 1; };
 
-// Admit one moon-day render or refuse it (no side effect on refusal). The in-flight slot is
-//   released exactly once: on 'finish', on 'close' (aborted connection) or, if neither ever
-//   happens (a handler error that never answers), after _SHED_INFLIGHT_MAX_MS.
-function _shedAdmit(res) {
+// Admit one moon-calendar render or refuse it (no side effect on refusal). Tier 2 (noindex) is also
+//   refused while the slow ELU average says the worker is under sustained load (MOON-CALENDAR-OVERLOAD-SHED-2).
+//   The in-flight slot is released exactly once: on 'finish', on 'close' (aborted connection) or, if
+//   neither ever happens (a handler error that never answers), after _SHED_INFLIGHT_MAX_MS.
+function _shedAdmit(res, tier) {
     // client already gone (e.g. it left during gate B's Supabase wait): admit without holding a slot;
     //   the router's write is then a no-op, exactly as today
     if (res.destroyed || res.writableEnded) return true;
-    if (_shedActive || _shedTokens <= 0 || _shedInflight >= _SHED_BURST) return false;
+    if (_shedActive || _shedTokens <= 0 || _shedInflight >= _SHED_BURST) {
+        if (tier !== 2) _shedT1Press += 1;   // tier 1 is being refused: tier-2 pressure rises
+        return false;
+    }
+    if (tier === 2 && (_shedEluSlow >= _SHED_T2_ELU_MAX || _shedT1Press >= _SHED_T2_PRESS)) return false;
     _shedTokens--; _shedInflight++; _shedStat.admitted++;
     let held = true;
     const release = () => { if (!held) return; held = false; _shedInflight--; clearTimeout(timer); };
@@ -34229,6 +34291,9 @@ function _shedAdmit(res) {
 //   A day-shaped path whose city is not resolvable YET (a discovered city
 //   that is resolved only after the Supabase prefetch) is marked for gate B instead.
 //   Every non-moon request leaves at the indexOf.
+//   MOON-CALENDAR-OVERLOAD-SHED-2: the same for month, year and non-curated hub/today pages, each with
+//   its own router classifier, plus the tier (see the header). TP_MOON_SHED_WIDE=0 -> day pages only,
+//   all tier 1, exactly as before.
 function _shedReject(req, res) {
     const u = req.url || '';
     if (u.indexOf('/moon/') === -1) return null;
@@ -34237,27 +34302,58 @@ function _shedReject(req, res) {
     if (host && host.length >= 4 && host.slice(0, 4).toLowerCase() === 'www.') return null;
     const q = u.indexOf('?');
     const p = q === -1 ? u : u.slice(0, q);
-    const m = _SHED_DAY_RE.exec(p);
+    if (!_SHED_WIDE) {
+        const m = _SHED_DAY_RE.exec(p);
+        if (!m) return null;
+        const k = _classifyMoonDay(p);
+        if (k.kind !== 'valid') {
+            if (k.kind === 'none') req._shedRecheck = 'day';   // maybe a discovered city: decide after the prefetch
+            return null;
+        }
+        if (_shedAdmit(res, 1)) return null;
+        _shedCount('day', 1);
+        return m[1] || '';
+    }
+    const m = _SHED_NESTED_RE.exec(p);
     if (!m) return null;
-    const k = _classifyMoonDay(p);
+    const fam = _shedFamilyOf(m);
+    if (!fam) return null;
+    if (fam === 'hub' || fam === 'today') {
+        if (_findPlaceBySlug(m[2])) return null;   // a curated city's primary moon pages: never shed
+        if (fam === 'hub' && q !== -1) return null; // the router 301s ?cal / ?cal-y&cal-m month-picker submits first
+    }
+    const k = _SHED_CLASSIFY[fam](p);
     if (k.kind !== 'valid') {
-        if (k.kind === 'none') req._shedRecheck = true;   // maybe a discovered city: decide after the prefetch
+        if (k.kind === 'none') req._shedRecheck = fam;   // maybe a discovered city: decide after the prefetch
         return null;
     }
-    if (_shedAdmit(res)) return null;
-    _shedStat.shed++;
+    const tier = _shedTier(fam, m[2], m);
+    if (_shedAdmit(res, tier)) return null;
+    _shedCount(fam, tier);
     return m[1] || '';
 }
-// Gate B, right after the discovered-city prefetch: the same rule for a day page whose city only
-//   became resolvable through that prefetch. Returns the locale key when it must be shed, else null.
+// Gate B, right after the discovered-city prefetch: the same rule for a page whose city only became
+//   resolvable through that prefetch -- a discovered city, never curated, so tier 2 (noindex) in the
+//   widened gate. Returns the locale key when it must be shed, else null.
 function _shedRecheck(req, res, urlPath) {
-    if (!req._shedRecheck) return null;
+    const fam = req._shedRecheck;
+    if (!fam) return null;
     req._shedRecheck = false;
-    if (_classifyMoonDay(urlPath).kind !== 'valid') return null;   // still unknown -> the router's 404
-    if (_shedAdmit(res)) return null;
-    _shedStat.shed++;
-    const m = _SHED_DAY_RE.exec(urlPath);
+    if (_SHED_CLASSIFY[fam](urlPath).kind !== 'valid') return null;   // still unknown -> the router's 404
+    const tier = _SHED_WIDE ? 2 : 1;
+    if (_shedAdmit(res, tier)) return null;
+    _shedCount(fam, tier);
+    const m = (_SHED_WIDE ? _SHED_NESTED_RE : _SHED_DAY_RE).exec(urlPath);
     return (m && m[1]) || '';
+}
+// Gate C (MOON-CALENDAR-OVERLOAD-SHED-2), called by the router just before a legacy coordinate-only moon
+//   page renders: tier 2. Returns true when the request was answered with the 503.
+function _shedCoordGate(req, res, langPrefix) {
+    if (!_SHED_ON || !_SHED_WIDE) return false;
+    if (_shedAdmit(res, 2)) return false;
+    _shedCount('coord', 2);
+    _shedSend(req, res, String(langPrefix || '').replace(/\/$/, ''), true);
+    return true;
 }
 // afterPrefetch: gate B -- the main request-observability sampler may already cover this request.
 function _shedSend(req, res, lang, afterPrefetch) {
@@ -34274,7 +34370,11 @@ function _shedSend(req, res, lang, afterPrefetch) {
     // measurement only: the sampled share of sheds per agent class, so the logs show who got 503s
     //   (gate A runs before the main sampler; gate B is already covered by it)
     if (!afterPrefetch && _OBS_SAMPLE > 0 && Math.random() < _OBS_SAMPLE) {
-        try { _obsRecord('moon-day', _obsAgent(req.headers['user-agent']), 503, 0); } catch (_e) { /* never break a response */ }
+        try {
+            const u = req.url || '';
+            const q = u.indexOf('?');
+            _obsRecord(_obsFamily(q === -1 ? u : u.slice(0, q)) || 'other-valid', _obsAgent(req.headers['user-agent']), 503, 0);
+        } catch (_e) { /* never break a response */ }
     }
 }
 // Aggregate only, per worker, and only when something happened: every 5 minutes and once more
@@ -34282,17 +34382,21 @@ function _shedSend(req, res, lang, afterPrefetch) {
 function _shedFlush(windowLabel) {
     const nowMs = performance.now();
     const activeMs = _shedStat.activeMs + (_shedActive ? nowMs - _shedAccFrom : 0);
-    if (_shedStat.shed > 0 || _shedStat.activations > 0 || _shedActive) {
+    if (_shedStat.shed > 0 || _shedStat.activations > 0 || _shedActive || _shedStat.t2BusyTicks > 0) {
         console.log('[moon-day-shed]' + _OBS_WTAG + ' window=' + windowLabel + ' shed=' + _shedStat.shed
+            + ' shed_t2=' + _shedStat.shedT2
+            + ' fam=' + (Object.keys(_shedStat.fam).map((f) => f + ':' + _shedStat.fam[f]).join(',') || '-')
             + ' admitted=' + _shedStat.admitted
             + ' activations=' + _shedStat.activations
             + ' active_ms=' + Math.round(activeMs)
             + ' busy_ticks=' + _shedStat.busyTicks
+            + ' t2_busy_ticks=' + _shedStat.t2BusyTicks
             + ' max_lag_ms=' + Math.round(_shedStat.maxLagMs)
             + ' active_now=' + (_shedActive ? 1 : 0));
     }
-    _shedStat.shed = 0; _shedStat.admitted = 0; _shedStat.activations = 0; _shedStat.activeMs = 0;
-    _shedStat.maxLagMs = 0; _shedStat.busyTicks = 0;
+    _shedStat.shed = 0; _shedStat.shedT2 = 0; _shedStat.fam = {};
+    _shedStat.admitted = 0; _shedStat.activations = 0; _shedStat.activeMs = 0;
+    _shedStat.maxLagMs = 0; _shedStat.busyTicks = 0; _shedStat.t2BusyTicks = 0;
     if (_shedActive) _shedAccFrom = nowMs;
 }
 function _shedStart() {
@@ -34305,7 +34409,11 @@ function _shedStart() {
         const lag = Math.max(0, now - last - _SHED_TICK_MS);
         last = now;
         const eluNow = performance.eventLoopUtilization();
-        _shedEluEwma = _shedEluEwma * 0.8 + performance.eventLoopUtilization(eluNow, eluPrev).utilization * 0.2;
+        const util = performance.eventLoopUtilization(eluNow, eluPrev).utilization;
+        _shedEluEwma = _shedEluEwma * 0.8 + util * 0.2;
+        _shedEluSlow = _shedEluSlow * (1 - _SHED_T2_ALPHA) + util * _SHED_T2_ALPHA;
+        _shedT1Press *= 0.95;
+        if (_shedEluSlow >= _SHED_T2_ELU_MAX) _shedStat.t2BusyTicks++;
         eluPrev = eluNow;
         // refilled only here: a late tick means no new admissions; a busy worker adds nothing
         if (_shedEluEwma < _SHED_ELU_MAX) _shedTokens = Math.min(_SHED_BURST, _shedTokens + _SHED_PER_TICK);
@@ -34323,7 +34431,8 @@ function _shedStart() {
     process.once('SIGTERM', () => _shedFlush('final'));
     console.log('[moon-day-shed]' + _OBS_WTAG + ' ENABLED per_tick=' + _SHED_PER_TICK + ' burst=' + _SHED_BURST
         + ' elu_max=' + _SHED_ELU_MAX + ' lag_on_ms=' + _SHED_LAG_ON_MS + ' lag_off_ms=' + _SHED_LAG_OFF_MS
-        + ' retry_after_s=' + _SHED_RETRY_AFTER_S);
+        + ' retry_after_s=' + _SHED_RETRY_AFTER_S
+        + ' wide=' + (_SHED_WIDE ? 1 : 0) + ' t2_elu_max=' + _SHED_T2_ELU_MAX + ' t2_alpha=' + _SHED_T2_ALPHA);
 }
 
 // =======================================================================================
@@ -36622,6 +36731,9 @@ const server = http.createServer(async (req, res) => {
                 }
             }
             // 4) ليست في DB + مع coord-suffix → مرّر (تُرسم كـ noindex من buildSeoFor)
+            // MOON-CALENDAR-OVERLOAD-SHED-2 (gate C): every 301 / 404 above is decided; what is left renders a
+            //   coordinate-only page (200 noindex), so it takes the tier-2 admission rule.
+            if (_shedCoordGate(req, res, _moonLangPrefix)) return;
         }
         // ===== UAT-Q5: same proximity-based fuzzy-match for qibla URLs =====
         //   - /qibla-in-{slug}-{lat}-{lng} → 301 to /qibla-in-{slug}

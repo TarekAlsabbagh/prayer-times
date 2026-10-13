@@ -33886,6 +33886,216 @@ if (_OBS_ON) {
     setInterval(_obsFlush, 5 * 60 * 1000).unref();
 }
 
+// =======================================================================================
+// MOON-DAY-OVERLOAD-SHED-1 (2026-10-13): keep /health and every other page answering while a
+//   worker is saturated by the moon-day crawl.
+//
+//   Incident 2026-10-12/13: the sampled request-observability lines put the nested moon-day
+//   page (/moon/{country}/{city}/{yyyy}/{mm}/{dd}) at 77-92% of all requests, from a mix of
+//   crawlers and browser-like agents, with Googlebot near 0%. A day page is a full SSR render
+//   (~38 ms locally, ~2.5x that on Render) and the reachable day space is far too large for
+//   any cache. The workers saturated, /health missed Render's 5 s probe, Render restarted the
+//   instance (SIGTERM, exit 0) and every request 502'd for minutes at a time.
+//
+//   Rule: a nested moon-day request that the router would RENDER (its own _classifyMoonDay says
+//   'valid') is admitted to SSR only while THIS worker has room; the rest get a short 503 +
+//   Retry-After as the FIRST step of the handler (no nonce, no header build, no SSR, no
+//   Supabase), so /health, the core city pages and everything else keep their CPU. Admitted
+//   requests render exactly as before -- this is load shedding, not a block. Anything the router
+//   answers with a 404 or a 301 (unknown city, impossible date, out-of-range year, wrong country,
+//   www host, .html or trailing slash) is never shed. A discovered city, resolvable only after
+//   the Supabase prefetch, gets the same decision right after that prefetch (gate B).
+//
+//   Decided by this worker's load and the route ONLY. The User-Agent never decides anything;
+//   it is read only to LABEL a sampled shed for request-observability (measurement, as the
+//   agent names above allow). No robots, noindex, canonical, sitemap or redirect change. A 503
+//   is the documented way to tell a crawler "temporarily overloaded, come back later".
+//
+//   "Room" comes from one 100 ms timer, started when the worker starts listening (so the
+//   boot preload stall is never read as load):
+//   (1) a token bucket: up to TP_MOON_DAY_SHED_BURST tokens (default 8), refilled by
+//       TP_MOON_DAY_SHED_PER_TICK (default 2) per tick and ONLY by the tick itself. A backed-up
+//       loop fires the tick late, so it admits nothing new until it has drained; a batch of
+//       queued connections can never start more renders than the tokens left -- this is what
+//       bounds how long /health can wait behind moon-day renders (8 x ~95 ms on Render). The
+//       burst absorbs random arrival clumps at normal load. 8 is the ceiling: a full burst at
+//       Render speed (~0.76 s) must stay below what alone would switch the lag state ON (3).
+//   (2) busy share: no refill while the smoothed event-loop utilisation (EWMA 0.2 of the
+//       per-tick share, ~0.5 s) is >= TP_MOON_DAY_SHED_ELU_MAX (default 0.95), so moon-day
+//       only uses spare capacity and leaves room for brotli/GC threads and the other pages.
+//   (3) the lag state: the tick measures how late it fires (event-loop lag), smoothed (EWMA
+//       0.3). ON at >= TP_MOON_DAY_SHED_LAG_ON_MS (default 250 ms) -- e.g. when OTHER work backs
+//       the loop up -- and then no moon-day request is admitted at all; OFF once the lag falls
+//       below TP_MOON_DAY_SHED_LAG_OFF_MS (default 80 ms) and at least 2 s after switching ON.
+//   (4) in flight: at most TP_MOON_DAY_SHED_BURST admitted moon-day requests may be unfinished
+//       at once, because a discovered-city page awaits Supabase BEFORE it renders. A slot is
+//       released once: on 'finish', on 'close' (client gone), or after 30 s as a safety net.
+//   Kill switch: TP_MOON_DAY_SHED=0 (default ON). Per worker by construction (each worker has
+//   its own loop, bucket and state), so the fleet's moon-day rate scales with the worker count.
+// =======================================================================================
+const _SHED_ON = (() => {
+    const v = String(process.env.TP_MOON_DAY_SHED || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
+const _shedEnvInt = (name, dflt, lo, hi) => {
+    const n = parseInt(String(process.env[name] || '').trim(), 10);
+    return Number.isInteger(n) && n >= lo && n <= hi ? n : dflt;
+};
+const _SHED_LAG_ON_MS = _shedEnvInt('TP_MOON_DAY_SHED_LAG_ON_MS', 250, 10, 5000);
+const _SHED_LAG_OFF_MS = Math.min(_shedEnvInt('TP_MOON_DAY_SHED_LAG_OFF_MS', 80, 10, 5000), Math.floor(_SHED_LAG_ON_MS / 2));
+const _SHED_PER_TICK = _shedEnvInt('TP_MOON_DAY_SHED_PER_TICK', 2, 1, 20);
+const _SHED_BURST = Math.max(_SHED_PER_TICK, _shedEnvInt('TP_MOON_DAY_SHED_BURST', 8, 1, 50));
+const _SHED_ELU_MAX = (() => {
+    const n = parseFloat(String(process.env.TP_MOON_DAY_SHED_ELU_MAX || '').trim());
+    return Number.isFinite(n) && n >= 0.5 && n <= 1 ? n : 0.95;
+})();
+const _SHED_TICK_MS = 100;
+const _SHED_HOLD_MS = 2000;
+const _SHED_RETRY_AFTER_S = 120;
+// Static bodies, one per locale prefix: no script, no style, no request data -- nothing to nonce,
+//   nothing to escape. Precomputed once, sent with Content-Length.
+const _shedBody = (home, ltr) => Buffer.from('<!DOCTYPE html><html lang="' + (ltr ? 'en' : 'ar') + '" dir="' + (ltr ? 'ltr' : 'rtl')
+    + '"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>503</title></head><body>'
+    + (ltr ? '<p>The server is temporarily busy. Please try again in two minutes.</p><p dir="rtl" lang="ar">الخادم مشغول مؤقتًا. أعد المحاولة بعد دقيقتين.</p>'
+           : '<p>الخادم مشغول مؤقتًا. أعد المحاولة بعد دقيقتين.</p><p dir="ltr" lang="en">The server is temporarily busy. Please try again in two minutes.</p>')
+    + '<p><a href="' + home + '">TimesPrayers</a></p></body></html>', 'utf8');
+const _SHED_BODIES = { '': _shedBody('/', false) };
+for (const l of ['en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms']) _SHED_BODIES[l] = _shedBody('/' + l, true);
+const _SHED_DAY_RE = /^\/(?:(en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/(\d{4})\/(?:0[1-9]|1[0-2])\/(?:0[1-9]|[12]\d|3[01])$/;
+let _shedStarted = false;
+let _shedActive = false;
+let _shedLagEwma = 0;
+let _shedEluEwma = 0;
+let _shedSince = 0;        // when the current ON period began (drives the 2 s hold)
+let _shedAccFrom = 0;      // start of the not-yet-counted part of the current ON period (stats only)
+let _shedTokens = _SHED_BURST;
+let _shedInflight = 0;
+const _shedStat = { shed: 0, admitted: 0, activations: 0, activeMs: 0, maxLagMs: 0, busyTicks: 0 };
+const _SHED_INFLIGHT_MAX_MS = 30000;      // safety release if a response never finishes or closes
+
+// Admit one moon-day render or refuse it (no side effect on refusal). The in-flight slot is
+//   released exactly once: on 'finish', on 'close' (aborted connection) or, if neither ever
+//   happens (a handler error that never answers), after _SHED_INFLIGHT_MAX_MS.
+function _shedAdmit(res) {
+    // client already gone (e.g. it left during gate B's Supabase wait): admit without holding a slot;
+    //   the router's write is then a no-op, exactly as today
+    if (res.destroyed || res.writableEnded) return true;
+    if (_shedActive || _shedTokens <= 0 || _shedInflight >= _SHED_BURST) return false;
+    _shedTokens--; _shedInflight++; _shedStat.admitted++;
+    let held = true;
+    const release = () => { if (!held) return; held = false; _shedInflight--; clearTimeout(timer); };
+    const timer = setTimeout(release, _SHED_INFLIGHT_MAX_MS);
+    if (timer.unref) timer.unref();
+    res.once('finish', release);
+    res.once('close', release);
+    return true;
+}
+// Gate A, the first step of the handler. Returns the locale key of the 503 body when this request
+//   must be shed now, else null. Only a request the ROUTER would render as a moon-day page can be
+//   shed: the router's own _classifyMoonDay must say 'valid' (real country, city resolving to that
+//   country, supported year, real day of that month). 'redirect' (wrong country -> 301) and 'none'
+//   (404) always pass untouched, and so do www hosts (301), .html and trailing-slash variants (301).
+//   Every method is treated alike, because the router renders a valid day page for every method.
+//   A day-shaped path whose city is not resolvable YET (a discovered city
+//   that is resolved only after the Supabase prefetch) is marked for gate B instead.
+//   Every non-moon request leaves at the indexOf.
+function _shedReject(req, res) {
+    const u = req.url || '';
+    if (u.indexOf('/moon/') === -1) return null;
+    // the router 301s every www.* host first (it lower-cases the Host header), so mirror that exactly
+    const host = req.headers.host;
+    if (host && host.length >= 4 && host.slice(0, 4).toLowerCase() === 'www.') return null;
+    const q = u.indexOf('?');
+    const p = q === -1 ? u : u.slice(0, q);
+    const m = _SHED_DAY_RE.exec(p);
+    if (!m) return null;
+    const k = _classifyMoonDay(p);
+    if (k.kind !== 'valid') {
+        if (k.kind === 'none') req._shedRecheck = true;   // maybe a discovered city: decide after the prefetch
+        return null;
+    }
+    if (_shedAdmit(res)) return null;
+    _shedStat.shed++;
+    return m[1] || '';
+}
+// Gate B, right after the discovered-city prefetch: the same rule for a day page whose city only
+//   became resolvable through that prefetch. Returns the locale key when it must be shed, else null.
+function _shedRecheck(req, res, urlPath) {
+    if (!req._shedRecheck) return null;
+    req._shedRecheck = false;
+    if (_classifyMoonDay(urlPath).kind !== 'valid') return null;   // still unknown -> the router's 404
+    if (_shedAdmit(res)) return null;
+    _shedStat.shed++;
+    const m = _SHED_DAY_RE.exec(urlPath);
+    return (m && m[1]) || '';
+}
+// afterPrefetch: gate B -- the main request-observability sampler may already cover this request.
+function _shedSend(req, res, lang, afterPrefetch) {
+    const body = _SHED_BODIES[lang] || _SHED_BODIES[''];
+    res._tpShed = true;
+    res.writeHead(503, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': body.length,
+        'Cache-Control': 'no-store',
+        'Retry-After': String(_SHED_RETRY_AFTER_S),
+        'X-Content-Type-Options': 'nosniff',
+    });
+    res.end(body);
+    // measurement only: the sampled share of sheds per agent class, so the logs show who got 503s
+    //   (gate A runs before the main sampler; gate B is already covered by it)
+    if (!afterPrefetch && _OBS_SAMPLE > 0 && Math.random() < _OBS_SAMPLE) {
+        try { _obsRecord('moon-day', _obsAgent(req.headers['user-agent']), 503, 0); } catch (_e) { /* never break a response */ }
+    }
+}
+// Aggregate only, per worker, and only when something happened: every 5 minutes and once more
+//   when the worker is told to stop (so a short-lived worker still reports).
+function _shedFlush(windowLabel) {
+    const nowMs = performance.now();
+    const activeMs = _shedStat.activeMs + (_shedActive ? nowMs - _shedAccFrom : 0);
+    if (_shedStat.shed > 0 || _shedStat.activations > 0 || _shedActive) {
+        console.log('[moon-day-shed]' + _OBS_WTAG + ' window=' + windowLabel + ' shed=' + _shedStat.shed
+            + ' admitted=' + _shedStat.admitted
+            + ' activations=' + _shedStat.activations
+            + ' active_ms=' + Math.round(activeMs)
+            + ' busy_ticks=' + _shedStat.busyTicks
+            + ' max_lag_ms=' + Math.round(_shedStat.maxLagMs)
+            + ' active_now=' + (_shedActive ? 1 : 0));
+    }
+    _shedStat.shed = 0; _shedStat.admitted = 0; _shedStat.activations = 0; _shedStat.activeMs = 0;
+    _shedStat.maxLagMs = 0; _shedStat.busyTicks = 0;
+    if (_shedActive) _shedAccFrom = nowMs;
+}
+function _shedStart() {
+    if (!_SHED_ON || _shedStarted) return;
+    _shedStarted = true;
+    let last = performance.now();
+    let eluPrev = performance.eventLoopUtilization();
+    setInterval(() => {
+        const now = performance.now();
+        const lag = Math.max(0, now - last - _SHED_TICK_MS);
+        last = now;
+        const eluNow = performance.eventLoopUtilization();
+        _shedEluEwma = _shedEluEwma * 0.8 + performance.eventLoopUtilization(eluNow, eluPrev).utilization * 0.2;
+        eluPrev = eluNow;
+        // refilled only here: a late tick means no new admissions; a busy worker adds nothing
+        if (_shedEluEwma < _SHED_ELU_MAX) _shedTokens = Math.min(_SHED_BURST, _shedTokens + _SHED_PER_TICK);
+        else _shedStat.busyTicks++;
+        _shedLagEwma = _shedLagEwma * 0.7 + lag * 0.3;
+        if (lag > _shedStat.maxLagMs) _shedStat.maxLagMs = lag;
+        if (!_shedActive) {
+            if (_shedLagEwma >= _SHED_LAG_ON_MS) { _shedActive = true; _shedSince = now; _shedAccFrom = now; _shedStat.activations++; }
+        } else if (_shedLagEwma < _SHED_LAG_OFF_MS && now - _shedSince >= _SHED_HOLD_MS) {
+            _shedActive = false;
+            _shedStat.activeMs += now - _shedAccFrom;
+        }
+    }, _SHED_TICK_MS).unref();
+    setInterval(() => _shedFlush('5m'), 5 * 60 * 1000).unref();
+    process.once('SIGTERM', () => _shedFlush('final'));
+    console.log('[moon-day-shed]' + _OBS_WTAG + ' ENABLED per_tick=' + _SHED_PER_TICK + ' burst=' + _SHED_BURST
+        + ' elu_max=' + _SHED_ELU_MAX + ' lag_on_ms=' + _SHED_LAG_ON_MS + ' lag_off_ms=' + _SHED_LAG_OFF_MS
+        + ' retry_after_s=' + _SHED_RETRY_AFTER_S);
+}
+
 
 // PUBLIC-SERVER-SOURCE-EXPOSURE-FIX-1: the not-found branch, lifted OUT of the fs.readFile
 //   callback so a denied path and a genuinely missing file produce byte-identical responses.
@@ -33929,6 +34139,10 @@ function _staticNotFound(urlPath, ext, res, req, qs) {
 
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
+    // MOON-DAY-OVERLOAD-SHED-1: the very first step, so a shed request costs almost nothing (no nonce,
+    //   no header build, no regex gates) and never reaches SSR or Supabase. Only nested moon-day paths
+    //   can be shed; /health and every other route pass straight through.
+    if (_SHED_ON) { const _shL = _shedReject(req, res); if (_shL !== null) { _shedSend(req, res, _shL); return; } }
     // Security Headers — تُطبَّق على كل استجابة
     res.setHeader('X-Content-Type-Options', 'nosniff');
     res.setHeader('X-Frame-Options', 'SAMEORIGIN');
@@ -34314,6 +34528,8 @@ const server = http.createServer(async (req, res) => {
     // routes, non-city routes, and when Supabase is disabled; wrapped so a slow
     // or failed Supabase read never blocks or breaks the response.
     try { await _prefetchDiscoveredForSsr(urlPath); } catch (_) { /* never block the response */ }
+    // MOON-DAY-OVERLOAD-SHED-1 gate B: a day page whose city became resolvable only through the prefetch.
+    if (_SHED_ON && req._shedRecheck) { const _shL2 = _shedRecheck(req, res, urlPath); if (_shL2 !== null) { _shedSend(req, res, _shL2, true); return; } }
 
     // ═══ ADSENSE-CMP-REGIONAL-SUPPRESSION-SERVER-SIGNAL-1 §1 — TEMPORARY region-signal diagnostic ═══
     // Changes NO visitor-facing behaviour. It answers ONE question before any suppression logic is
@@ -37063,6 +37279,7 @@ process.on('SIGINT',  () => _tpWorkerShutdown('SIGINT'));
 //   reader rebuilds it. The primary returned long before this line, so only workers build it.
 _getQiblaDbNameEnIndex();
 
+server.once('listening', _shedStart);   // MOON-DAY-OVERLOAD-SHED-1: measure load only once this worker serves
 _preloadReady.then(() => {
     server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 }).catch(err => {

@@ -126,6 +126,81 @@ if (cluster.isPrimary) {
         }
     });
 
+    // MOON-LOAD-OBSERVABILITY-1 (2026-10-13): once a minute (TP_MOON_LOAD_OBS_PROC_S), the container's
+    //   memory as the kernel counts it -- every process, V8 and native alike -- plus each worker's resident
+    //   memory and the worker deaths: the figures the out-of-memory diagnosis needs and no worker can report
+    //   about itself. Linux /sys + /proc reads only (silently absent elsewhere); no request data of any kind.
+    //   Kill switch: TP_MOON_LOAD_OBS=0, shared with the worker-side counters.
+    const tpObsOn = (() => {
+        const v = String(process.env.TP_MOON_LOAD_OBS || '').trim().toLowerCase();
+        return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+    })();
+    if (tpObsOn) {
+        const tpFs = require('fs');
+        const tpRd = (f) => { try { return tpFs.readFileSync(f, 'utf8').trim(); } catch (_e) { return null; } };
+        const tpMB = (b) => Math.round(b / 1048576);
+        const tpKv = (txt, keys) => {
+            const o = {};
+            if (txt) for (const k of keys) { const m = new RegExp('^' + k + ' (\\d+)$', 'm').exec(txt); if (m) o[k] = +m[1]; }
+            return o;
+        };
+        const tpProcS = (() => {
+            const n = Number.parseInt(String(process.env.TP_MOON_LOAD_OBS_PROC_S || '').trim(), 10);
+            return Number.isInteger(n) && n >= 5 && n <= 3600 ? n : 60;
+        })();
+        let tpDeathsWin = 0, tpDeathsAll = 0;
+        cluster.on('exit', () => { tpDeathsWin++; tpDeathsAll++; });
+        const tpCgroup = () => {
+            const cur = tpRd('/sys/fs/cgroup/memory.current');
+            if (cur !== null) {                                   // cgroup v2
+                const mx = tpRd('/sys/fs/cgroup/memory.max');
+                const pk = tpRd('/sys/fs/cgroup/memory.peak');
+                const o = { v: 2, cur: tpMB(+cur), max: (mx === null || mx === 'max') ? null : tpMB(+mx) };
+                if (pk !== null) o.peak = tpMB(+pk);
+                const st = tpKv(tpRd('/sys/fs/cgroup/memory.stat'), ['anon', 'file', 'kernel', 'shmem', 'sock']);
+                for (const k of Object.keys(st)) o[k] = tpMB(st[k]);
+                o.ev = tpKv(tpRd('/sys/fs/cgroup/memory.events'), ['high', 'max', 'oom', 'oom_kill']);
+                return o;
+            }
+            const u1 = tpRd('/sys/fs/cgroup/memory/memory.usage_in_bytes');
+            if (u1 !== null) {                                    // cgroup v1
+                const o = { v: 1, cur: tpMB(+u1), max: tpMB(+(tpRd('/sys/fs/cgroup/memory/memory.limit_in_bytes') || 0)) || null };
+                const pk = tpRd('/sys/fs/cgroup/memory/memory.max_usage_in_bytes');
+                if (pk !== null) o.peak = tpMB(+pk);
+                const st = tpKv(tpRd('/sys/fs/cgroup/memory/memory.stat'), ['total_rss', 'total_cache', 'total_shmem']);
+                if ('total_rss' in st) o.anon = tpMB(st.total_rss);
+                if ('total_cache' in st) o.file = tpMB(st.total_cache);
+                if ('total_shmem' in st) o.shmem = tpMB(st.total_shmem);
+                o.ev = tpKv(tpRd('/sys/fs/cgroup/memory/memory.oom_control'), ['oom_kill']);
+                return o;
+            }
+            return null;
+        };
+        // each live worker's resident memory as the kernel sees it (VmRSS, MB)
+        const tpWorkerRss = () => Object.keys(cluster.workers).map((id) => {
+            const w = cluster.workers[id];
+            const s = (w && w.process && w.process.pid) ? tpRd('/proc/' + w.process.pid + '/status') : null;
+            const m = s ? /^VmRSS:\s+(\d+) kB$/m.exec(s) : null;
+            return m ? Math.round(+m[1] / 1024) : null;
+        });
+        const tpObsLine = (win) => {
+            try {
+                const o = { win, rss: tpMB(process.memoryUsage.rss()), workers: Object.keys(cluster.workers).length,
+                    deaths: tpDeathsWin, deaths_all: tpDeathsAll };
+                const wr = tpWorkerRss();
+                if (wr.some((x) => x !== null)) o.wrss = wr;
+                const cg = tpCgroup();
+                if (cg) o.cg = cg;
+                if (typeof process.constrainedMemory === 'function') { const cm = process.constrainedMemory(); if (cm) o.limit = tpMB(cm); }
+                if (typeof process.availableMemory === 'function') { const am = process.availableMemory(); if (am) o.avail = tpMB(am); }
+                console.log('[proc-primary] ' + JSON.stringify(o));
+            } catch (_e) { /* measurement must never break the primary */ }
+            tpDeathsWin = 0;
+        };
+        tpObsLine('start');
+        setInterval(() => tpObsLine('w'), tpProcS * 1000).unref();
+    }
+
     // The primary supervises and nothing else: it never creates an HTTP server, never binds
     //   PORT, and never loads any of the application below.
     return;
@@ -34096,6 +34171,236 @@ function _shedStart() {
         + ' retry_after_s=' + _SHED_RETRY_AFTER_S);
 }
 
+// =======================================================================================
+// MOON-LOAD-OBSERVABILITY-1 (2026-10-13): unsampled, bounded counters for the moon-calendar load,
+//   plus per-worker process health -- the measurements every moon-calendar scope decision and the
+//   out-of-memory diagnosis rest on.
+//
+//   Why: the 1% request-observability sample cannot say WHICH moon pages the crawl hits (day vs
+//   month vs year vs legacy, curated vs not, inside or outside the index window), and the 4 GB
+//   instance ran out of memory repeatedly with no per-worker memory figures in the logs.
+//
+//   Kept (fixed enums only -- never a URL, slug, date, query string, IP or raw User-Agent):
+//     [moon-load]  family x city x date x outcome x agent -> n, avg ms, max ms, latency buckets
+//       family : country, city, today, year, month, day, legacy-hub, legacy-month, legacy-day,
+//                legacy-today, coord-hub, coord-month, coord-day, coord-today, moon-other
+//       city   : cur (a curated-places entry), db (resolves through the city database, not curated),
+//                disc (a discovered city, resolved by the Supabase prefetch), unk (resolves to
+//                nothing), na (no city in the path)
+//       date   : in = overlaps the moon-day index window (UTC today -30 .. +90, the same arithmetic
+//                as the noindex gate); p1y / pold = entirely before it, within / beyond 365 days of
+//                today; f1y / flate = entirely after it, within / beyond 365 days of today; na.
+//                Used for every family as a DISTANCE measure (month and year pages have their own
+//                index rule).
+//       outcome: 2xx, 3xx, 4xx, 5xx, shed (a MOON-DAY-OVERLOAD-SHED-1 503), abort (client left first)
+//       agent  : a coarse class of the SELF-DECLARED User-Agent -- an approximate signal, not identity
+//       latency buckets: <100 ms, 100-500 ms, 500 ms-2 s, >= 2 s (handler start to response close)
+//     [req-family] every request: the request-observability family x outcome -> n, avg ms
+//     [proc]       per worker: cpu cores used, rss / heap / heap limit / heap spaces / external /
+//                  arrayBuffers MB, event-loop delay p50/p99/max, utilisation, GC count + ms by kind
+//   The cluster primary adds [proc-primary] (container memory, worker deaths -- see the top of the file).
+//   [moon-load] + [req-family] every TP_MOON_LOAD_OBS_WINDOW_S (default 300 s), [proc] every
+//   TP_MOON_LOAD_OBS_PROC_S (default 60 s), and both once more on SIGTERM. Each map is capped at
+//   _ML_MAX_KEYS keys; anything beyond folds into one 'overflow' row, so memory stays bounded.
+//   Measurement only: nothing here changes a response. Kill switch: TP_MOON_LOAD_OBS=0 (default ON).
+// =======================================================================================
+const _ML_ON = (() => {
+    const v = String(process.env.TP_MOON_LOAD_OBS || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
+const _ML_WINDOW_S = _shedEnvInt('TP_MOON_LOAD_OBS_WINDOW_S', 300, 10, 3600);
+const _ML_PROC_S = _shedEnvInt('TP_MOON_LOAD_OBS_PROC_S', 60, 5, 3600);
+const _ML_MAX_KEYS = 3000;
+const _ML_DAY_MS = 86400000;
+const _ML_NESTED_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)(?:\/([a-z][a-z0-9-]+)(?:\/(today|\d{4})(?:\/(\d{2})(?:\/(\d{2}))?)?)?)?$/;
+// the router's own legacy patterns (moon-in-{slug}[-{lat}-{lng}][/{yyyy-mm[-dd]}], moon-today-in-...[/{yyyy-mm-dd}])
+const _ML_LEGACY_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-in-([a-z][a-z0-9.-]+?)(-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/(\d{4})-(\d{2})(?:-(\d{2}))?)?$/;
+const _ML_LEGACY_TODAY_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-([a-z][a-z0-9.-]+?)(-(?:-?\d+(?:\.\d+)?)-(?:-?\d+(?:\.\d+)?))?(?:\/(\d{4})-(\d{2})-(\d{2}))?$/;
+const _ML_MOONISH_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon(?:[\/.-]|$)/;
+// request-observability agent names -> coarse classes (measurement only, never enforcement)
+const _ML_AGENT_CLASS = {
+    'googlebot': 'google', 'google-inspection': 'google', 'adsbot-google': 'google-ads', 'mediapartners-google': 'google-ads',
+    'bingbot': 'bing', 'known-seo-crawler': 'seo', 'known-social-bot': 'social',
+    'gptbot': 'ai', 'claudebot': 'ai', 'ccbot': 'ai', 'bytespider': 'ai', 'amazonbot': 'ai', 'perplexitybot': 'ai',
+    'applebot': 'apple', 'meta-external': 'meta', 'yandexbot': 'yandex',
+    'other-bot': 'other-bot', 'browser': 'browser', 'unknown': 'unknown',
+};
+const _mlAgg = new Map();       // 'family|city|date|outcome|agent' -> [n, msSum, msMax, b<100, b<500, b<2000, b>=2000]
+const _mlFam = new Map();       // 'req-family|outcome' -> [n, msSum, msMax, ...buckets]
+const _mlOutcome = (res, aborted) => aborted ? 'abort' : res._tpShed ? 'shed'
+    : res.statusCode >= 500 ? '5xx' : res.statusCode >= 400 ? '4xx' : res.statusCode >= 300 ? '3xx' : '2xx';
+function _mlBump(map, key, ms) {
+    let e = map.get(key);
+    if (!e) {
+        if (map.size >= _ML_MAX_KEYS) { key = 'overflow'; e = map.get(key); }
+        if (!e) { e = [0, 0, 0, 0, 0, 0, 0]; map.set(key, e); }
+    }
+    e[0]++; e[1] += ms; if (ms > e[2]) e[2] = ms;
+    e[ms < 100 ? 3 : ms < 500 ? 4 : ms < 2000 ? 5 : 6]++;
+}
+// Read at response close, i.e. AFTER the handler's Supabase prefetch, so a discovered city is seen
+//   exactly as the router saw it.
+function _mlCity(slug) {
+    if (!slug) return 'na';
+    if (_findPlaceBySlug(slug)) return 'cur';
+    try {
+        if (_resolveCcForSlug(slug)) return 'db';
+        const d = _getDiscoveredSsrEntry(slug);
+        return (d && d.countryCode) ? 'disc' : 'unk';
+    } catch (_e) { return 'unk'; }
+}
+// date class of [fromMs, toMs] (UTC midnights): see the header for the bands
+function _mlDate(fromMs, toMs) {
+    if (!(fromMs <= toMs)) return 'na';
+    const n = new Date();
+    const t0 = Date.UTC(n.getUTCFullYear(), n.getUTCMonth(), n.getUTCDate());
+    if (toMs < t0 - 30 * _ML_DAY_MS) return toMs >= t0 - 365 * _ML_DAY_MS ? 'p1y' : 'pold';
+    if (fromMs > t0 + 90 * _ML_DAY_MS) return fromMs <= t0 + 365 * _ML_DAY_MS ? 'f1y' : 'flate';
+    return 'in';
+}
+const _mlDay = (y, mo, d) => { const t = Date.UTC(+y, +mo - 1, +d); return _mlDate(t, t); };
+const _mlMonth = (y, mo) => _mlDate(Date.UTC(+y, +mo - 1, 1), Date.UTC(+y, +mo, 0));
+// [family, city, date] for a moon-calendar path, or null for any other path
+function _mlClassify(p) {
+    let m = _ML_NESTED_RE.exec(p);
+    if (m) {
+        if (!m[2]) return ['country', 'na', 'na'];
+        const city = _mlCity(m[2]);
+        if (!m[3]) return ['city', city, 'na'];
+        if (m[3] === 'today') return m[4] ? ['moon-other', 'na', 'na'] : ['today', city, 'na'];
+        if (!m[4]) return ['year', city, _mlDate(Date.UTC(+m[3], 0, 1), Date.UTC(+m[3], 11, 31))];
+        if (!m[5]) return ['month', city, _mlMonth(m[3], m[4])];
+        return ['day', city, _mlDay(m[3], m[4], m[5])];
+    }
+    m = _ML_LEGACY_RE.exec(p);
+    if (m) {
+        const pre = m[2] ? 'coord-' : 'legacy-';
+        const city = m[2] ? 'na' : _mlCity(m[1]);
+        if (!m[3]) return [pre + 'hub', city, 'na'];
+        if (m[5] === undefined) return [pre + 'month', city, _mlMonth(m[3], m[4])];
+        return [pre + 'day', city, _mlDay(m[3], m[4], m[5])];
+    }
+    m = _ML_LEGACY_TODAY_RE.exec(p);
+    if (m) {
+        const pre = m[2] ? 'coord-' : 'legacy-';
+        return [pre + 'today', m[2] ? 'na' : _mlCity(m[1]), m[3] ? _mlDay(m[3], m[4], m[5]) : 'na'];
+    }
+    return _ML_MOONISH_RE.test(p) ? ['moon-other', 'na', 'na'] : null;
+}
+function _mlRecord(req, res, rawUrl, ms, aborted) {
+    const q = rawUrl.indexOf('?');
+    const p = q === -1 ? rawUrl : rawUrl.slice(0, q);
+    const out = _mlOutcome(res, aborted);
+    // the request-observability family, resolved by status exactly as its sampler does
+    const f0 = _obsFamily(p);
+    const sc = res.statusCode;
+    const fam = (f0 === null) ? (sc === 404 ? 'unknown-route' : 'other-valid')
+        : ((sc === 404 && _OBS_404_UNKNOWN_FAMILIES.has(f0)) ? 'unknown-route' : f0);
+    _mlBump(_mlFam, fam + '|' + out, ms);
+    if (p.indexOf('/moon') === -1) return;
+    const cls = _mlClassify(p);
+    if (!cls) return;
+    const ag = _ML_AGENT_CLASS[_obsAgent(req.headers['user-agent'])] || 'unknown';
+    _mlBump(_mlAgg, cls[0] + '|' + cls[1] + '|' + cls[2] + '|' + out + '|' + ag, ms);
+}
+// The first step of the handler: one timestamp and one 'close' listener per request. 'close' fires
+//   once the response is complete or the connection is gone; the URL is captured before any rewrite.
+function _mlStart(req, res) {
+    try {
+        const t0 = performance.now();
+        const rawUrl = req.url || '';
+        res.once('close', () => {
+            try { _mlRecord(req, res, rawUrl, performance.now() - t0, !res.writableFinished); } catch (_e) { /* measurement must never break a response */ }
+        });
+    } catch (_e) { /* never break a request */ }
+}
+// one row per key: the key parts (the 'overflow' key padded with '-') then the counters
+const _mlRows = (map, parts) => [...map.entries()].sort((a, b) => b[1][0] - a[1][0]).map(([k, e]) => {
+    const r = k.split('|');
+    while (r.length < parts) r.push('-');
+    return r.concat([e[0], Math.round(e[1] / e[0]), Math.round(e[2]), e[3], e[4], e[5], e[6]]);
+});
+function _mlFlush(win) {
+    try {
+        const rows = _mlRows(_mlAgg, 5);
+        const tot = rows.reduce((s, r) => s + r[5], 0);
+        // chunks of 60 rows, so no single log line grows without bound
+        for (let i = 0; i === 0 || i < rows.length; i += 60) {
+            console.log('[moon-load] ' + JSON.stringify({ w: TP_WORKER_ID, win, s: _ML_WINDOW_S, total: tot, part: i / 60,
+                cols: 'family,city,date,outcome,agent,n,avg_ms,max_ms,lt100,lt500,lt2000,ge2000', rows: rows.slice(i, i + 60) }));
+        }
+        const fr = _mlRows(_mlFam, 2);
+        console.log('[req-family] ' + JSON.stringify({ w: TP_WORKER_ID, win, s: _ML_WINDOW_S, total: fr.reduce((s, r) => s + r[2], 0),
+            cols: 'family,outcome,n,avg_ms,max_ms,lt100,lt500,lt2000,ge2000', rows: fr }));
+    } catch (_e) { /* measurement must never break the worker */ }
+    _mlAgg.clear(); _mlFam.clear();
+}
+// ---- process health ----
+const _mlMB = (b) => Math.round(b / 1048576);
+const _mlGcKind = (() => {
+    const c = require('perf_hooks').constants || {};
+    const k = {};
+    if (c.NODE_PERFORMANCE_GC_MINOR) k[c.NODE_PERFORMANCE_GC_MINOR] = 'minor';
+    if (c.NODE_PERFORMANCE_GC_MINOR_MARK_SWEEP) k[c.NODE_PERFORMANCE_GC_MINOR_MARK_SWEEP] = 'minor_ms';
+    if (c.NODE_PERFORMANCE_GC_MAJOR) k[c.NODE_PERFORMANCE_GC_MAJOR] = 'major';
+    if (c.NODE_PERFORMANCE_GC_INCREMENTAL) k[c.NODE_PERFORMANCE_GC_INCREMENTAL] = 'incr';
+    if (c.NODE_PERFORMANCE_GC_WEAKCB) k[c.NODE_PERFORMANCE_GC_WEAKCB] = 'weakcb';
+    return k;
+})();
+const _mlProc = { cpu0: null, t0: 0, elu0: null, eld: null, gc: {} };
+const _ML_ELD_RES_MS = 20;
+const _mlLag = (ns) => Math.max(0, +(ns / 1e6 - _ML_ELD_RES_MS).toFixed(1));
+function _mlProcFlush(win) {
+    try {
+        const now = performance.now();
+        const cu = process.cpuUsage(_mlProc.cpu0);
+        const mu = process.memoryUsage();
+        const v8m = require('v8');
+        const hs = v8m.getHeapStatistics();
+        const sp = {};
+        for (const s of v8m.getHeapSpaceStatistics()) {
+            const n = s.space_name.replace(/_space$/, '');
+            if (n === 'old' || n === 'new' || n === 'large_object' || n === 'code') sp[n === 'large_object' ? 'lo' : n] = _mlMB(s.space_used_size);
+        }
+        const eld = _mlProc.eld;
+        const elu = _mlProc.elu0 ? performance.eventLoopUtilization(_mlProc.elu0) : null;
+        const gc = {};
+        for (const k of Object.keys(_mlProc.gc)) gc[k] = [_mlProc.gc[k][0], Math.round(_mlProc.gc[k][1])];
+        console.log('[proc] ' + JSON.stringify({ w: TP_WORKER_ID, win, s: Math.round((now - _mlProc.t0) / 1000), up: Math.round(process.uptime()),
+            cpu: +(((cu.user + cu.system) / 1000) / Math.max(1, now - _mlProc.t0)).toFixed(3),
+            rss: _mlMB(mu.rss), heapUsed: _mlMB(mu.heapUsed), heapTotal: _mlMB(mu.heapTotal), heapLimit: _mlMB(hs.heap_size_limit),
+            spaces: sp, ext: _mlMB(mu.external), ab: _mlMB(mu.arrayBuffers),
+            // event-loop delay BEYOND the 20 ms sampling interval (the histogram records whole intervals)
+            eld: eld ? { p50: _mlLag(eld.percentile(50)), p99: _mlLag(eld.percentile(99)), max: _mlLag(eld.max) } : null,
+            elu: elu ? +elu.utilization.toFixed(3) : null, gc }));
+        _mlProc.cpu0 = process.cpuUsage(); _mlProc.t0 = now; _mlProc.elu0 = performance.eventLoopUtilization();
+        if (eld) eld.reset();
+        _mlProc.gc = {};
+    } catch (_e) { /* measurement must never break the worker */ }
+}
+let _mlStarted = false;
+function _mlStartTimers() {
+    if (!_ML_ON || _mlStarted) return;
+    _mlStarted = true;
+    try {
+        const ph = require('perf_hooks');
+        _mlProc.eld = ph.monitorEventLoopDelay({ resolution: _ML_ELD_RES_MS });
+        _mlProc.eld.enable();
+        new ph.PerformanceObserver((list) => {
+            for (const e of list.getEntries()) {
+                const k = _mlGcKind[(e.detail && e.detail.kind) || e.kind] || 'other';
+                const g = _mlProc.gc[k] || (_mlProc.gc[k] = [0, 0]);
+                g[0]++; g[1] += e.duration;
+            }
+        }).observe({ entryTypes: ['gc'] });
+    } catch (_e) { /* best effort: the counters below still work */ }
+    _mlProc.cpu0 = process.cpuUsage(); _mlProc.t0 = performance.now(); _mlProc.elu0 = performance.eventLoopUtilization();
+    setInterval(() => _mlFlush('w'), _ML_WINDOW_S * 1000).unref();
+    setInterval(() => _mlProcFlush('w'), _ML_PROC_S * 1000).unref();
+    process.once('SIGTERM', () => { _mlFlush('final'); _mlProcFlush('final'); });
+    console.log('[moon-load]' + _OBS_WTAG + ' ENABLED window_s=' + _ML_WINDOW_S + ' proc_s=' + _ML_PROC_S + ' max_keys=' + _ML_MAX_KEYS);
+}
+
 
 // PUBLIC-SERVER-SOURCE-EXPOSURE-FIX-1: the not-found branch, lifted OUT of the fs.readFile
 //   callback so a denied path and a genuinely missing file produce byte-identical responses.
@@ -34139,6 +34444,7 @@ function _staticNotFound(urlPath, ext, res, req, qs) {
 
 // ===== HTTP Server =====
 const server = http.createServer(async (req, res) => {
+    if (_ML_ON) _mlStart(req, res);   // MOON-LOAD-OBSERVABILITY-1: measurement only, counts shed requests too
     // MOON-DAY-OVERLOAD-SHED-1: the very first step, so a shed request costs almost nothing (no nonce,
     //   no header build, no regex gates) and never reaches SSR or Supabase. Only nested moon-day paths
     //   can be shed; /health and every other route pass straight through.
@@ -37280,6 +37586,7 @@ process.on('SIGINT',  () => _tpWorkerShutdown('SIGINT'));
 _getQiblaDbNameEnIndex();
 
 server.once('listening', _shedStart);   // MOON-DAY-OVERLOAD-SHED-1: measure load only once this worker serves
+server.once('listening', _mlStartTimers);   // MOON-LOAD-OBSERVABILITY-1
 _preloadReady.then(() => {
     server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 }).catch(err => {

@@ -34458,7 +34458,8 @@ function _shedStart() {
 //                index rule).
 //       outcome: 2xx, 3xx, 4xx, 5xx, shed (a MOON-DAY-OVERLOAD-SHED-1 503), abort (client left first)
 //       agent  : a coarse class of the SELF-DECLARED User-Agent -- an approximate signal, not identity
-//       latency buckets: <100 ms, 100-500 ms, 500 ms-2 s, >= 2 s (handler start to response close)
+//       latency buckets (MOON-LOAD-OBSERVABILITY-2): <25, <50, <100, <200, <300, <500 ms, <1 s, <2 s, <5 s, >= 5 s
+//                (handler start to response close)
 //     [req-family] every request: the request-observability family x outcome -> n, avg ms
 //     [proc]       per worker: cpu cores used, rss / heap / heap limit / heap spaces / external /
 //                  arrayBuffers MB, event-loop delay p50/p99/max, utilisation, GC count + ms by kind
@@ -34493,14 +34494,20 @@ const _mlAgg = new Map();       // 'family|city|date|outcome|agent' -> [n, msSum
 const _mlFam = new Map();       // 'req-family|outcome' -> [n, msSum, msMax, ...buckets]
 const _mlOutcome = (res, aborted) => aborted ? 'abort' : res._tpShed ? 'shed'
     : res.statusCode >= 500 ? '5xx' : res.statusCode >= 400 ? '4xx' : res.statusCode >= 300 ? '3xx' : '2xx';
+// MOON-LOAD-OBSERVABILITY-2: a finer latency histogram, so p95 / p99 of every family can be read from the logs
+//   (the four buckets of -1 could only bracket them). Upper edges in ms; the last bucket is >= 5 s.
+const _ML_EDGES = [25, 50, 100, 200, 300, 500, 1000, 2000, 5000];
+const _ML_BUCKET_COLS = 'lt25,lt50,lt100,lt200,lt300,lt500,lt1000,lt2000,lt5000,ge5000';
 function _mlBump(map, key, ms) {
     let e = map.get(key);
     if (!e) {
         if (map.size >= _ML_MAX_KEYS) { key = 'overflow'; e = map.get(key); }
-        if (!e) { e = [0, 0, 0, 0, 0, 0, 0]; map.set(key, e); }
+        if (!e) { e = new Array(3 + _ML_EDGES.length + 1).fill(0); map.set(key, e); }
     }
     e[0]++; e[1] += ms; if (ms > e[2]) e[2] = ms;
-    e[ms < 100 ? 3 : ms < 500 ? 4 : ms < 2000 ? 5 : 6]++;
+    let b = 0;
+    while (b < _ML_EDGES.length && ms >= _ML_EDGES[b]) b++;
+    e[3 + b]++;
 }
 // Read at response close, i.e. AFTER the handler's Supabase prefetch, so a discovered city is seen
 //   exactly as the router saw it.
@@ -34582,7 +34589,7 @@ function _mlStart(req, res) {
 const _mlRows = (map, parts) => [...map.entries()].sort((a, b) => b[1][0] - a[1][0]).map(([k, e]) => {
     const r = k.split('|');
     while (r.length < parts) r.push('-');
-    return r.concat([e[0], Math.round(e[1] / e[0]), Math.round(e[2]), e[3], e[4], e[5], e[6]]);
+    return r.concat([e[0], Math.round(e[1] / e[0]), Math.round(e[2])], e.slice(3));
 });
 function _mlFlush(win) {
     try {
@@ -34591,11 +34598,11 @@ function _mlFlush(win) {
         // chunks of 60 rows, so no single log line grows without bound
         for (let i = 0; i === 0 || i < rows.length; i += 60) {
             console.log('[moon-load] ' + JSON.stringify({ w: TP_WORKER_ID, win, s: _ML_WINDOW_S, total: tot, part: i / 60,
-                cols: 'family,city,date,outcome,agent,n,avg_ms,max_ms,lt100,lt500,lt2000,ge2000', rows: rows.slice(i, i + 60) }));
+                cols: 'family,city,date,outcome,agent,n,avg_ms,max_ms,' + _ML_BUCKET_COLS, rows: rows.slice(i, i + 60) }));
         }
         const fr = _mlRows(_mlFam, 2);
         console.log('[req-family] ' + JSON.stringify({ w: TP_WORKER_ID, win, s: _ML_WINDOW_S, total: fr.reduce((s, r) => s + r[2], 0),
-            cols: 'family,outcome,n,avg_ms,max_ms,lt100,lt500,lt2000,ge2000', rows: fr }));
+            cols: 'family,outcome,n,avg_ms,max_ms,' + _ML_BUCKET_COLS, rows: fr }));
     } catch (_e) { /* measurement must never break the worker */ }
     _mlAgg.clear(); _mlFam.clear();
 }

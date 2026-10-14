@@ -13,6 +13,7 @@
 //     comes only from the environment.
 // Self-contained: spawns + tears down its own servers. No external network needed
 // (riyadh / saudi-arabia are curated → served from disk; Supabase off locally).
+// MOON-DAY-PAGES-REMOVAL-1: the moon public page is the hub /moon/saudi-arabia/riyadh (/moon-today-in-riyadh is 410 now).
 import { spawn } from 'node:child_process';
 import http from 'node:http';
 import fs from 'node:fs';
@@ -56,7 +57,7 @@ const boot = (port, extraEnv) => new Promise(async (resolve) => {
     const srvA = await boot(portA, { GA_MEASUREMENT_ID: ID });
 
     console.log('--- public pages: gtag MUST be present in served <head> ---');
-    const publicPaths = ['/', '/en', '/prayer-times-in-riyadh', '/prayer-times-in-saudi-arabia', '/qibla-in-riyadh', '/moon-today-in-riyadh', '/privacy'];
+    const publicPaths = ['/', '/en', '/prayer-times-in-riyadh', '/prayer-times-in-saudi-arabia', '/qibla-in-riyadh', '/moon/saudi-arabia/riyadh', '/privacy'];
     for (const p of publicPaths) {
         const r = await getFollow(portA, p);
         const isHtml = r.ctype.includes('text/html') && r.text.includes('<head>');

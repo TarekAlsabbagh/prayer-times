@@ -5,7 +5,7 @@
 // is serving `noindex`.
 //
 // Run before every production deploy:
-//   node scripts/_audit_noindex.mjs                 → audits prayer-times-d4w8.onrender.com
+//   node scripts/_audit_noindex.mjs                 → audits prayer-times-d4w8.onrender.com  (⚠ FORBIDDEN — see LOCAL ONLY below)
 //   node scripts/_audit_noindex.mjs http://localhost:3000  → audits local
 //
 // Categorization:
@@ -22,8 +22,15 @@
 //     `_isCoordOnlyMoon` branch in server.js needed to be scoped to
 //     `_isCoordOnlyMoon && _hasCoordSuffix`. This script catches that
 //     class of regression by sampling representative URLs.
+//   • MOON-DAY-PAGES-REMOVAL-1: every moon today/day entry left MUST_INDEX / MUST_NOINDEX → MUST_410 (410 in ONE
+//     response, no Location) or, for clean slugs the server cannot resolve without a discovered row (kamikawa),
+//     MUST_404_OR_410 (the router keeps its 404; a discovered row would make it 410). Hub/month entries kept.
+//
+// ⚠⚠⚠ LOCAL ONLY ⚠⚠⚠  The default BASE below is PRODUCTION (historic). Do NOT run this script without an explicit
+//     LOCAL base URL argument (e.g. http://localhost:3000). Standing rule: no production requests (AdSense live,
+//     invalid-traffic safety). The default is left unchanged on purpose; never rely on it.
 
-const BASE = process.argv[2] || 'https://prayer-times-d4w8.onrender.com';
+const BASE = process.argv[2] || 'https://prayer-times-d4w8.onrender.com';   // ⚠ PRODUCTION default — always pass a LOCAL URL
 
 const MUST_INDEX = [
   // Core
@@ -54,19 +61,15 @@ const MUST_INDEX = [
   '/qibla-in-makkah',
   '/qibla-in-cairo',
   '/moon-in-makkah',
-  '/moon-today-in-makkah',
   '/moon-in-makkah/2026-05',          // month page
-  '/moon-in-makkah/2026-05-15',       // in-range date page
-  '/en/moon-today-in-makkah',
   '/fr/qibla-in-cairo',
+  // MOON-DAY-PAGES-REMOVAL-1: /moon-today-in-makkah, /moon-in-makkah/2026-05-15, /en/moon-today-in-makkah → MUST_410.
 
   // City pages — slug-only fallback (real city not yet in moon DB)
   // These were the HC-8 regression. MUST be indexable.
-  '/moon-today-in-kamikawa',
   '/moon-in-kamikawa',
   '/moon-in-kamikawa/2026-05',
-  '/moon-in-kamikawa/2026-05-15',
-  '/en/moon-today-in-kamikawa',
+  // MOON-DAY-PAGES-REMOVAL-1: /moon-today-in-kamikawa, /moon-in-kamikawa/2026-05-15, /en/moon-today-in-kamikawa → MUST_404_OR_410.
 
   // City pages — non-DB city for non-moon routes (already indexable)
   '/qibla-in-kamikawa',
@@ -77,15 +80,40 @@ const MUST_INDEX = [
 // prevents synthetic-URL spam (millions of bogus coord/date combinations
 // being indexed).
 const MUST_NOINDEX = [
-  // Coord-suffix URLs — generated programmatically, not for sharing.
-  '/moon-today-in-kamikawa-43.5-142.7',
-  '/moon-today-in-randomville-50.0-30.0',
-
-  // Out-of-range date URLs — date is too far past or future to be a real
-  // user request. Range is roughly today-30 to today+90 days.
-  '/moon-in-makkah/2024-01-01',  // ~16+ months in the past
-  '/moon-in-makkah/2030-01-01',  // ~3+ years in the future
+  // MOON-DAY-PAGES-REMOVAL-1: the former entries were all moon today/day pages (coord-suffix today URLs and
+  //   out-of-window dated URLs) → moved to MUST_410 below. Nothing moon-day-shaped is "noindex" any more: it is gone.
 ];
+
+// MOON-DAY-PAGES-REMOVAL-1: removed moon day/today pages → HTTP 410 in ONE response (no Location, no redirect follow).
+const MUST_410 = [
+  '/moon-today-in-makkah',
+  '/en/moon-today-in-makkah',
+  '/moon-in-makkah/2026-05-15',          // former in-range date page
+  '/moon-today-in-kamikawa-43.5-142.7',  // coord-suffix today: always 410
+  '/moon-today-in-randomville-50.0-30.0',
+  '/moon-in-makkah/2024-01-01',          // former out-of-window date page (supported year)
+  '/moon-in-makkah/2030-01-01',
+];
+// Clean slugs that resolve only through a discovered (Supabase) row: the router keeps its 404 when there is none,
+// and answers 410 when there is one. Either is correct; a 200 or a redirect is a regression.
+const MUST_404_OR_410 = [
+  '/moon-today-in-kamikawa',
+  '/moon-in-kamikawa/2026-05-15',
+  '/en/moon-today-in-kamikawa',
+];
+
+async function fetchStatus(url) {
+  try {
+    const ctrl = new AbortController();
+    const timeout = setTimeout(() => ctrl.abort(), 20000);
+    const resp = await fetch(url, { redirect: 'manual', signal: ctrl.signal });
+    clearTimeout(timeout);
+    const body = await resp.text().catch(() => '');
+    return { status: resp.status, location: resp.headers.get('location') || '', gone: /data-tp-gone="moon-day"/.test(body) };
+  } catch (e) {
+    return { error: e.message };
+  }
+}
 
 async function fetchRobots(url) {
   try {
@@ -137,6 +165,36 @@ for (const path of MUST_NOINDEX) {
   } else {
     console.log(`  ❌ ${path} — got: ${robots || '(no meta)'}`);
     results.fail.push({ path, expected: 'noindex', got: robots || '(no meta)' });
+  }
+}
+
+console.log(`\n[MUST_410] ${MUST_410.length} removed moon day/today URLs that MUST answer 410 (no redirect):`);
+for (const path of MUST_410) {
+  const { status, location, gone, error } = await fetchStatus(BASE + path);
+  if (error) {
+    console.log(`  ⚠ ${path} — fetch error: ${error}`);
+    results.fail.push({ path, expected: '410', got: 'ERROR: ' + error });
+  } else if (status === 410 && !location && gone) {
+    console.log(`  ✅ ${path}`);
+    results.ok.push(path);
+  } else {
+    console.log(`  ❌ ${path} — got: HTTP ${status}${location ? ' → ' + location : ''}`);
+    results.fail.push({ path, expected: '410 (no Location)', got: `HTTP ${status}${location ? ' → ' + location : ''}` });
+  }
+}
+
+console.log(`\n[MUST_404_OR_410] ${MUST_404_OR_410.length} unresolved-slug moon day/today URLs (404 stays 404; discovered → 410):`);
+for (const path of MUST_404_OR_410) {
+  const { status, location, gone, error } = await fetchStatus(BASE + path);
+  if (error) {
+    console.log(`  ⚠ ${path} — fetch error: ${error}`);
+    results.fail.push({ path, expected: '404 or 410', got: 'ERROR: ' + error });
+  } else if ((status === 404 && !location) || (status === 410 && !location && gone)) {
+    console.log(`  ✅ ${path} (HTTP ${status})`);
+    results.ok.push(path);
+  } else {
+    console.log(`  ❌ ${path} — got: HTTP ${status}${location ? ' → ' + location : ''}`);
+    results.fail.push({ path, expected: '404 or 410 (no Location)', got: `HTTP ${status}${location ? ' → ' + location : ''}` });
   }
 }
 

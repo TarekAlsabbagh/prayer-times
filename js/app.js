@@ -5241,7 +5241,8 @@ function _lastCityForNav() {
 //   new tab" + plain navigation all land on the city page. SKIPPED on city pages — there the
 //   SSR pass (NAVBAR-CITY-CONTEXT-LINKS-FOR-CITY-PAGES-1) already set the correct city hrefs, so
 //   we never overwrite them with a (possibly stale) last_city_context. Moon uses the NESTED
-//   /moon/{country}/{city}/today via _nestedMoonHrefClient (legacy 301 fallback inside it). When
+//   city hub /moon/{country}/{city} via _nestedMoonHrefClient (legacy 301 fallback inside it;
+//   MOON-DAY-PAGES-REMOVAL-1: was /today, now 410). When
 //   there is no real last-used city the generic hub hrefs are left untouched.
 function _applyLastCityNavLinks() {
     try {
@@ -5254,7 +5255,8 @@ function _applyLastCityNavLinks() {
         //   a stale last-city value that site-search.js wrote before app.js loaded. Point the
         //   tabs at THIS page's city (the SSR-seeded __PRAYER_CITY__ = the URL city). This runs
         //   after site-search.js (defer order), so it overrides any stale early rewrite. The
-        //   moon tab uses the nested /moon/{country}/{city}/today form via _nestedMoonHrefClient.
+        //   moon tab uses the nested city hub /moon/{country}/{city} via _nestedMoonHrefClient
+        //   (MOON-DAY-PAGES-REMOVAL-1: the hub, not the removed /today page).
         const _isNestedMoonCity = /\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z]/.test(_p);
         if (_isNestedMoonCity) {
             const _pcNav = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
@@ -5262,7 +5264,7 @@ function _applyLastCityNavLinks() {
                 _set('.sidebar-nav a[data-page="prayer-times"]', pageUrl('/prayer-times-in-' + _pcNav.slug));
                 _set('.sidebar-nav a[data-page="qibla"]', pageUrl('/qibla-in-' + _pcNav.slug));
                 if (typeof _nestedMoonHrefClient === 'function') {
-                    _set('.sidebar-nav a[data-page="moon"]', _nestedMoonHrefClient(_pcNav.slug, _lp, 'today', (_pcNav.countryCode || '').toLowerCase()));
+                    _set('.sidebar-nav a[data-page="moon"]', _nestedMoonHrefClient(_pcNav.slug, _lp, 'hub', (_pcNav.countryCode || '').toLowerCase()));
                 }
             }
             return;
@@ -5277,7 +5279,7 @@ function _applyLastCityNavLinks() {
         _set('.sidebar-nav a[data-page="prayer-times"]', pageUrl('/prayer-times-in-' + _lc.slug));
         _set('.sidebar-nav a[data-page="qibla"]', pageUrl('/qibla-in-' + _lc.slug));
         if (typeof _nestedMoonHrefClient === 'function') {
-            _set('.sidebar-nav a[data-page="moon"]', _nestedMoonHrefClient(_lc.slug, _lp, 'today', _lc.cc));
+            _set('.sidebar-nav a[data-page="moon"]', _nestedMoonHrefClient(_lc.slug, _lp, 'hub', _lc.cc));   // MOON-DAY-PAGES-REMOVAL-1: hub
         }
     } catch (_) {}
 }
@@ -5875,7 +5877,7 @@ function initNavigation() {
                 return;
             }
 
-            // القمر → /moon-today-in-{slug}[-{lat}-{lng}] — يربط دائمًا بمدينة:
+            // القمر → مركز قمر المدينة /moon-in-{slug} (MOON-DAY-PAGES-REMOVAL-1؛ كان /moon-today-in-) — يربط دائمًا بمدينة:
             //   • من صفحة مدينة (prayer-times-in-X / qibla-in-X) → استخدم slugها
             //   • من الرئيسيّة/صفحة عامّة → استخدم المدينة المحدّدة حاليًّا (Mecca افتراضيًّا)
             //   • يبقى كما هو إن كان المستخدم أصلًا على أيّ صفحة قمر
@@ -5890,11 +5892,12 @@ function initNavigation() {
                 if (_moonIsHome) {
                     // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: a real last-used city → go to its
                     //   nested moon-today page, NOT the generic hub. No city → hub (unchanged).
+                    //   MOON-DAY-PAGES-REMOVAL-1: the city HUB (the /today page is gone).
                     const _lcMoon = _lastCityForNav();
                     if (_lcMoon && _lcMoon.slug && typeof _nestedMoonHrefClient === 'function') {
                         const _lpMoon = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
                         _showNavLoadingOverlay('moon');
-                        window.location.href = _nestedMoonHrefClient(_lcMoon.slug, _lpMoon, 'today', _lcMoon.cc);
+                        window.location.href = _nestedMoonHrefClient(_lcMoon.slug, _lpMoon, 'hub', _lcMoon.cc);
                         return;
                     }
                     _showNavLoadingOverlay('moon');
@@ -5937,10 +5940,11 @@ function initNavigation() {
                     // famous cities (mecca/riyadh/…), proximity-snap a fine-
                     // grained Nominatim name (e.g. "Tumayr") to its parent
                     // famous city, coord-suffix only for true long-tail.
+                    // MOON-DAY-PAGES-REMOVAL-1: both paths land on the city HUB (legacy /moon-in- 301s to it).
                     _showNavLoadingOverlay('moon');
                     window.location.href = (typeof _buildMoonCityUrl === 'function')
                         ? _buildMoonCityUrl(currentEnglishName, currentLat, currentLng, _moonSlug)
-                        : pageUrl(`/moon-today-in-${_moonSlug}`);
+                        : pageUrl(`/moon-in-${_moonSlug}`);
                 }
                 return;
             }
@@ -9892,7 +9896,7 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
         ['rl-qibla',        prefix + '/qibla-in-' + _qiblaSlug,                'rls.qibla',        cityName, true],
         // 🔵 Info tier
         ['rl-hijri',     prefix + '/hijri-calendar',                        'rls.hijri',     cityName, true],
-        ['rl-moon',      _nestedMoonHrefClient(_moonSlug, prefix, 'today'), 'rls.moon',      cityName, true],
+        ['rl-moon',      _nestedMoonHrefClient(_moonSlug, prefix, 'hub'), 'rls.moon',      cityName, true],   // MOON-DAY-PAGES-REMOVAL-1: hub (was /today)
         // ⚪ Nav tier — REMOVED in CITY-PRAYER-ISLAMIC-EVENTS-COUNTDOWN-FIX-1
         // (2026-05-31). The DOM elements `rl-weekly` + `rl-country` are
         // gone from index.html; the tier-3 nav block was replaced by a
@@ -10073,7 +10077,7 @@ function updateRelatedLinks(citySlug, cityName, countrySlug, countryName, lang) 
             const _setHref = (id, href) => { const el = document.getElementById(id); if (el) el.setAttribute('href', href); };
             _setHref('pt-tool-azkar', prefix + '/azkar');
             _setHref('pt-tool-qibla', prefix + '/qibla-in-' + citySlug);
-            _setHref('pt-tool-moon',  _nestedMoonHrefClient(citySlug, prefix, 'today'));
+            _setHref('pt-tool-moon',  _nestedMoonHrefClient(citySlug, prefix, 'hub'));   // MOON-DAY-PAGES-REMOVAL-1: hub (was /today)
             _setHref('pt-tool-hijri', prefix + '/today-hijri-date');
             // Reveal
             _ptSec.classList.remove('u-hidden');
@@ -10182,7 +10186,8 @@ function updateMiniIslamicTools(citySlug, lang) {
     const items = [
         { id: 'mit-qibla', href: prefix + '/qibla-in-' + _mitSlug,     key: 'mit.qibla', fallback: { ar:'القبلة',     en:'Qibla',     fr:'Qibla',     tr:'Kıble',    ur:'قبلہ',      de:'Qibla',       id:'Kiblat',     es:'Qibla',   bn:'কিবলা',     ms:'Kiblat' } },
         { id: 'mit-hijri', href: prefix + '/hijri-calendar',           key: 'mit.hijri', fallback: { ar:'التاريخ الهجري', en:'Hijri Date', fr:'Date Hijri', tr:'Hicri Tarih', ur:'ہجری تاریخ', de:'Hidschri',    id:'Tanggal Hijriah', es:'Fecha Hijri', bn:'হিজরি তারিখ', ms:'Tarikh Hijriah' } },
-        { id: 'mit-moon',  href: _nestedMoonHrefClient(_mitSlug, prefix, 'today'), key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
+        // MOON-DAY-PAGES-REMOVAL-1: city hub (was /today) — the hub now carries today's moon.
+        { id: 'mit-moon',  href: _nestedMoonHrefClient(_mitSlug, prefix, 'hub'), key: 'mit.moon',  fallback: { ar:'القمر اليوم',    en:'Moon Today', fr:'Lune aujourd\'hui', tr:'Bugün Ay', ur:'آج کا چاند', de:'Mond heute', id:'Bulan Hari Ini', es:'Luna Hoy', bn:'আজকের চাঁদ',  ms:'Bulan Hari Ini' } },
     ];
 
     items.forEach(it => {
@@ -10448,7 +10453,7 @@ function toggleCountriesFull(btn) {
 
 /**
  * Moon Today Card — compact moon status card (استبدلت Moon Hubs الكاملة).
- * يحدّث: href → /moon-today-in-{city}، phase name، illum + age.
+ * يحدّث: href → city hub (MOON-DAY-PAGES-REMOVAL-1; was /moon-today-in-{city})، phase name، illum + age.
  */
 function updateMoonTodayCard() {
     const cta = document.getElementById('mtc-cta');
@@ -10472,7 +10477,9 @@ function updateMoonTodayCard() {
         const _lngStr = Number(currentLng).toFixed(4);
         _ctaSlug = `${_citySlug}-${_latStr}-${_lngStr}`;
     }
-    cta.setAttribute('href', _nestedMoonHrefClient(_ctaSlug, _langPrefix, 'today'));
+    // MOON-DAY-PAGES-REMOVAL-1: the city HUB (/moon/{c}/{city}, or the coordinate hub
+    //   /moon-in-{slug}-{lat}-{lng}) — the per-city /today page is gone (410).
+    cta.setAttribute('href', _nestedMoonHrefClient(_ctaSlug, _langPrefix, 'hub'));
 
     // ── (2) phase name + illum + age ──────────────────────────
     const phaseEl = document.getElementById('mtc-phase-label');
@@ -10805,12 +10812,13 @@ function navigateToMoonToday(lat, lng, city, country, englishName = '', countryC
             timezone: null, ts: Date.now()
         }));
     } catch (_) {}
+    // MOON-DAY-PAGES-REMOVAL-1: both targets are the city HUB (the per-city /today page is gone).
     if (window.location.protocol === 'file:') {
-        window.location.hash = `moon-today-in-${slug}`;
+        window.location.hash = `moon-in-${slug}`;
     } else {
         _showNavLoadingOverlay('moon');
-        // MLRC (Option-1): search/suggestion transition HAS countryCode → emit nested today URL.
-        window.location.href = pageUrl(_nestedMoonHrefClient(slug, '', 'today', (countryCode || '').toLowerCase()));
+        // MLRC (Option-1): search/suggestion transition HAS countryCode → emit nested hub URL.
+        window.location.href = pageUrl(_nestedMoonHrefClient(slug, '', 'hub', (countryCode || '').toLowerCase()));
     }
 }
 
@@ -10889,7 +10897,7 @@ function _moonHubPickCity() {
 
 /** Smart-redirect pill on the moon hub — populated from sessionStorage
     (last_city_context) or localStorage (lsb_detected). On click → navigate
-    to /moon-today-in-{slug} of that city. Mirrors qibla's smart-pill. */
+    to that city's moon hub (MOON-DAY-PAGES-REMOVAL-1; was /moon-today-in-{slug}). Mirrors qibla's smart-pill. */
 function _wireMoonHubSmartPill() {
     const pillEl = document.getElementById('moon-hub-smart-pill');
     if (!pillEl) return;
@@ -10912,8 +10920,8 @@ function _wireMoonHubSmartPill() {
             if (slug === 'djibouti'  && cc === 'dj') slug = 'djibouti-city';
             // Singapore: its canonical city slug IS 'singapore' (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
             if (!slug) return false;
-            // MLRC (Option-1): smart-pill carries cc → emit nested today URL.
-            const target = pageUrl(_nestedMoonHrefClient(slug, '', 'today', (cc || '').toLowerCase()));
+            // MLRC (Option-1): smart-pill carries cc → emit nested hub URL (MOON-DAY-PAGES-REMOVAL-1: was /today).
+            const target = pageUrl(_nestedMoonHrefClient(slug, '', 'hub', (cc || '').toLowerCase()));
             const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
             const display = _cleanCityForPill(lang === 'ar' ? (name || en) : (en || name));
             // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): on the generic
@@ -10987,7 +10995,7 @@ function _wireMoonHubSmartPill() {
 
 /** Full moon-hub search/geo/pick wiring — verbatim clone of the qibla-hub
     wiring with three changes: (1) IDs are moon-hub-* instead of qibla-hub-*,
-    (2) suggestion-pick navigates to /moon-today-in-{slug} via navigateToMoonToday
+    (2) suggestion-pick navigates to the city moon hub via navigateToMoonToday (MOON-DAY-PAGES-REMOVAL-1)
     instead of _buildQiblaCityUrl, (3) outside-click container is #moon-hub-hero. */
 function _wireMoonHubHero() {
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
@@ -12570,7 +12578,7 @@ function updateCityRelatedServices() {
     };
     const t = L[lang] || L.ar;
 
-    // للقمر: يربط دائمًا بـ /moon-today-in-{slug} (نستخدم اسم المدينة النظيف).
+    // للقمر: يربط دائمًا بمركز قمر المدينة (MOON-DAY-PAGES-REMOVAL-1؛ كان /moon-today-in-{slug}) (نستخدم اسم المدينة النظيف).
     // sessionStorage يحمل الإحداثيّات، لذا لا حاجة لقصر الاختيار على FAMOUS_MOON_CITIES.
     // 1) استخراج slug من URL الحاليّ (prayer-times-in-X / qibla-in-X) → تنظيفه من الإحداثيّات.
     // 2) fallback: من currentEnglishName (lowercase + hyphens).
@@ -12629,7 +12637,8 @@ function updateCityRelatedServices() {
         {
             icon: '🌙',
             label: t.moon,
-            url: _moonCitySlug ? pageUrl(_nestedMoonHrefClient(_moonCitySlug, '', 'today')) : pageUrl('/moon-today')
+            // MOON-DAY-PAGES-REMOVAL-1: the city hub (was /today); the general /moon-today 301s to /moon.
+            url: _moonCitySlug ? pageUrl(_nestedMoonHrefClient(_moonCitySlug, '', 'hub')) : pageUrl('/moon-today')
         },
         {
             icon: '💰',
@@ -13037,7 +13046,10 @@ function makeCountrySlug(cc, englishName) {
 //   countryCode). Falls back to the legacy /moon-today-in-/ /moon-in- form (which 301s to the nested
 //   structure) ONLY when the country is unknown or the slug carries a coord suffix (no nested target).
 //   Per the approved Option-1 policy: never infer city→country unsafely on the client.
-//   kind='today'|'hub'|'month'|'day'. For 'month' pass dateStr='YYYY-MM'; for 'day' pass 'YYYY-MM-DD'.
+//   kind='hub'|'month' (+ retired 'today'|'day'). For 'month' pass dateStr='YYYY-MM'.
+// MOON-DAY-PAGES-REMOVAL-1: the per-city /today page and every dated day page answer 410 Gone.
+//   'today' now returns the city HUB (it shows today's moon; legacy fallback /moon-in-{slug}, never
+//   /moon-today-in-) and 'day' returns '' (no target) — callers render the day as plain text.
 // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): the SAME supported moon year window the server routes accept,
 //   read from the SSR island window.__MOON_YEAR_RANGE__ (server getSupportedMoonYearRange). The defensive
 //   fallback mirrors the server formula (current UTC year ±5) for pages without the island.
@@ -13052,12 +13064,15 @@ function _moonYearInRange(y) {
     return isFinite(n) && n >= r.min && n <= r.max;
 }
 function _nestedMoonHrefClient(slug, langPrefix, kind, ccOverride, dateStr) {
-    // D11: a dated (month/day) target outside the supported window has no page → '' (callers render no link).
-    if ((kind === 'month' || kind === 'day') && !_moonYearInRange(String(dateStr || '').slice(0, 4))) return '';
+    // MOON-DAY-PAGES-REMOVAL-1: no day page exists any more → no URL; 'today' is the hub.
+    if (kind === 'day') return '';
+    if (kind !== 'month') kind = 'hub';
+    // D11: a dated (month) target outside the supported window has no page → '' (callers render no link).
+    if (kind === 'month' && !_moonYearInRange(String(dateStr || '').slice(0, 4))) return '';
     var lp = langPrefix || '';
-    var legacy = (kind === 'month' || kind === 'day')
+    var legacy = (kind === 'month')
         ? lp + '/moon-in-' + slug + '/' + dateStr
-        : lp + (kind === 'hub' ? '/moon-in-' : '/moon-today-in-') + slug;
+        : lp + '/moon-in-' + slug;
     if (/-\-?\d+(?:\.\d+)?-\-?\d+(?:\.\d+)?$/.test(slug)) return legacy;   // coord suffix → no nested target
     var cc = (ccOverride || (typeof currentCountryCode !== 'undefined' ? currentCountryCode : '') || '').toLowerCase();
     if (!cc || typeof makeCountrySlug !== 'function') return legacy;
@@ -13065,8 +13080,7 @@ function _nestedMoonHrefClient(slug, langPrefix, kind, ccOverride, dateStr) {
     if (!cs) return legacy;
     var base = lp + '/moon/' + cs + '/' + slug;
     if (kind === 'hub') return base;
-    if (kind === 'today') return base + '/today';
-    return base + '/' + String(dateStr || '').replace(/-/g, '/');   // month (YYYY-MM) or day (YYYY-MM-DD)
+    return base + '/' + String(dateStr || '').replace(/-/g, '/');   // month (YYYY-MM)
 }
 
 // ========= قاعدة بيانات المدن =========
@@ -16167,17 +16181,22 @@ function _buildQiblaCityUrl(englishName, lat, lng, hintSlug) {
 // We deliberately do NOT snap a long-tail town to the nearest famous
 // city: a place like Tumayr (Saudi Arabia, 137 km from Riyadh) deserves
 // its own moon page based on its own coordinates, not Riyadh's.
+//
+// MOON-DAY-PAGES-REMOVAL-1: every branch now emits the legacy city HUB
+// `/moon-in-{slug}` (same slug shapes as the old `/moon-today-in-{slug}`,
+// incl. loc-XX.X-YY.Y; the server 301s it to /moon/{country}/{city}). The
+// per-city today page answers 410, so it is never a target any more.
 function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
     if (typeof FAMOUS_MOON_CITIES !== 'undefined') {
         // 1) Exact slug match
         if (englishName && typeof makeSlug === 'function') {
             const slug = makeSlug(englishName, lat, lng);
             if (slug && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, slug)) {
-                return pageUrl(`/moon-today-in-${slug}`);
+                return pageUrl(`/moon-in-${slug}`);
             }
         }
         if (hintSlug && Object.prototype.hasOwnProperty.call(FAMOUS_MOON_CITIES, hintSlug)) {
-            return pageUrl(`/moon-today-in-${hintSlug}`);
+            return pageUrl(`/moon-in-${hintSlug}`);
         }
         // 2) Common aliases for the holy cities (URL form → semantic key)
         const ALIASES = {
@@ -16188,9 +16207,9 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
         };
         if (englishName && typeof makeSlug === 'function') {
             const raw = makeSlug(englishName, lat, lng);
-            if (raw && ALIASES[raw]) return pageUrl(`/moon-today-in-${ALIASES[raw]}`);
+            if (raw && ALIASES[raw]) return pageUrl(`/moon-in-${ALIASES[raw]}`);
         }
-        if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-today-in-${ALIASES[hintSlug]}`);
+        if (hintSlug && ALIASES[hintSlug]) return pageUrl(`/moon-in-${ALIASES[hintSlug]}`);
     }
     // 3) UAT-Q5d: ALWAYS emit a clean URL (no coord-suffix). Mirrors the
     //    qibla side. The caller seeds sessionStorage('city_${slug}') / 'city_moon'
@@ -16210,7 +16229,7 @@ function _buildMoonCityUrl(englishName, lat, lng, hintSlug) {
             slug = 'mecca';
         }
     }
-    return pageUrl(`/moon-today-in-${slug}`);
+    return pageUrl(`/moon-in-${slug}`);
 }
 
 function _buildQiblaBreadcrumbOl(cityName, isHub, lang) {
@@ -17827,7 +17846,7 @@ function loadQiblaPage(ctx) {
                         }));
                     }
                 } catch (_) {}
-                moonHref = pageUrl(_nestedMoonHrefClient(citySlugForUrl, '', 'today'));
+                moonHref = pageUrl(_nestedMoonHrefClient(citySlugForUrl, '', 'hub'));   // MOON-DAY-PAGES-REMOVAL-1: hub (was /today)
             } else {
                 moonHref = pageUrl('/moon-today');
             }
@@ -17938,7 +17957,7 @@ function loadQiblaPage(ctx) {
             const prayerHref = citySlugForUrl ? pageUrl(`/prayer-times-in-${citySlugForUrl}`) : pageUrl('/');
             // UAT-Q5d: clean moon URL — sessionStorage seed (above) carries coords.
             const relMoonHref = citySlugForUrl
-                ? pageUrl(_nestedMoonHrefClient(citySlugForUrl, '', 'today'))
+                ? pageUrl(_nestedMoonHrefClient(citySlugForUrl, '', 'hub'))   // MOON-DAY-PAGES-REMOVAL-1: hub (was /today)
                 : pageUrl('/moon-today');
             const hijriHref = pageUrl('/today-hijri-date');
             // QIBLA-RELATED-SERVICES-CARDS-UX-FIX-1 (2026-05-26): switch from
@@ -19668,26 +19687,8 @@ function _moonDateFromPath() {
     return dt;
 }
 
-// يرجع {y, m, d} بصيغة ISO strings (padded) من Date
-function _isoDateStr(d) {
-    const pad = n => n < 10 ? '0' + n : String(n);
-    return d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
-}
-
-// Round 15: ينتج رابط صفحة القمر — today أو dated:
-//   بدون تاريخ → /moon-today-in-{slug}         (صفحة اليوم)
-//   مع تاريخ   → /moon-in-{slug}/{iso}         (صفحة مؤرَّخة)
-// يحافظ على بادئة اللغة الحاليّة.
-function _moonDatePagePath(slug, dateOrNull) {
-    const path = window.location.pathname;
-    const langMatch = path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
-    const prefix = langMatch ? '/' + langMatch[1] : '';
-    // MLRC (Option-1): slug is always the CURRENT moon city, so currentCountryCode applies —
-    //   emit the nested today/day route when the country resolves; legacy 301-fallback otherwise.
-    return dateOrNull
-        ? _nestedMoonHrefClient(slug, prefix, 'day', '', _isoDateStr(dateOrNull))
-        : _nestedMoonHrefClient(slug, prefix, 'today');
-}
+// MOON-DAY-PAGES-REMOVAL-1: _moonDatePagePath (today/day page URL builder for the removed
+//   #moon-date-nav bar) and its only helper _isoDateStr are retired — no day page exists any more.
 
 function _prettifySlug(slug) {
     return String(slug || '')
@@ -20723,6 +20724,8 @@ function updateMoonInfo() {
                     // Phase D3.1.3a: 10-lang lookup mirrors server.js _MOON_MONTH_FAQ_BY_LANG
                     //   (D3.1b SSR JSON-LD source) — visible DOM == JSON-LD avoids GSC mismatch.
                     //   B2-e edu teasers (4 entries per lang) still ar/en — deferred to D3.1.3c.
+                    // MOON-DAY-PAGES-REMOVAL-1: a2/a5 lost their "click any day → that day's page"
+                    //   sentence and edu-p2 (which was only that promise) is '' — keep server JSON-LD equal.
                     try {
                         const _Cm = _cityName;
                         const _MONTH_FAQ_BY_LANG = {
@@ -20731,13 +20734,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `ما هو تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}؟`],
                             [".moon-city-hub-faq-a1", `يَعرض هذا التقويم أطوار القمر اليومية في ${_Cm} خلال شهر ${_mName} ${_mY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكل يوم.`],
                             [".moon-city-hub-faq-q2", `كيف أعرف طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a2", `يَعرض هذا التقويم طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي. اضغط على أي يوم لفتح صفحة تَفاصيل القمر لذلك التاريخ.`],
+                            [".moon-city-hub-faq-a2", `يَعرض هذا التقويم طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.`],
                             [".moon-city-hub-faq-q3", `متى يكون البدر في ${_Cm} خلال ${_mName} ${_mY}؟`],
                             [".moon-city-hub-faq-a3", `قسم "الأطوار القمرية القادمة" أعلاه يَعرض موعد البدر القادم في ${_Cm} مع التاريخ الميلادي والهجري الدقيق. خلال شهر ${_mName} ${_mY}، البدر يَظهر بإضاءة 100٪ في الليلة المحددة.`],
                             [".moon-city-hub-faq-q4", `متى يكون المحاق في ${_Cm} خلال ${_mName} ${_mY}؟`],
                             [".moon-city-hub-faq-a4", `قسم "الأطوار القمرية القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجري الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.`],
                             [".moon-city-hub-faq-q5", `كيف أقرأ تقويم أطوار القمر الشهري؟`],
-                            [".moon-city-hub-faq-a5", `كل خانة في التقويم تُمثل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنية من اليوم الحالي. اضغط على أي يوم لفتح صفحة تَفاصيل ذلك اليوم.`],
+                            [".moon-city-hub-faq-a5", `كل خانة في التقويم تُمثل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنية من اليوم الحالي.`],
                             [".moon-city-hub-faq-q6", `لماذا تَختلف مواعيد شروق وغروب القمر بين المدن؟`],
                             [".moon-city-hub-faq-a6", `يَعتمد شروق وغروب القمر على خط الطول والعرض الجغرافي والمنطقة الزمنية. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة بالتوقيت المحلي لـ ${_Cm}.`],
                             [".moon-city-hub-faq-q7", `هل يَعتمد هذا التقويم على توقيت ${_Cm} المحلي؟`],
@@ -20746,7 +20749,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `التقويم الهجري قمري بالكامل: كل شهر يَبدأ برؤية الهلال بعد المحاق ويَستمر 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقع بداية الشهر الهجري القادم.`],
                             [".moon-city-hub-edu-title", `حول تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `هذا التقويم يَعرض أطوار القمر اليومية في ${_Cm} خلال شهر ${_mName} ${_mY}، مع نسبة الإضاءة لكل يوم.`],
-                            [".moon-city-hub-edu-p2", `اضغط على أي يوم في الجدول أعلاه لفتح صفحة تَفاصيل ذلك اليوم في ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `للمزيد عن قراءة التقويم وأهم الأطوار وعلاقة الشهر بالتقويم الهجري، اقرأ القسم التَفصيلي أدناه.`]
                         ],
                         "en": [
@@ -20754,13 +20757,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `What is the moon calendar in ${_Cm} for ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY} — crescent, gibbous, full and new moon — with illumination and rise/set times for each day.`],
                             [".moon-city-hub-faq-q2", `How do I find the moon phase for each day in ${_Cm} during ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a2", `This calendar shows the moon phase for each day in ${_Cm} during ${_mName} ${_mY}, with illumination percentage and the Hijri and Gregorian dates. Click any day to open that date's moon details page.`],
+                            [".moon-city-hub-faq-a2", `This calendar shows the moon phase for each day in ${_Cm} during ${_mName} ${_mY}, with illumination percentage and the Hijri and Gregorian dates.`],
                             [".moon-city-hub-faq-q3", `When is the full moon in ${_Cm} during ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a3", `The "Upcoming moon phases" section above shows the precise full moon date in ${_Cm}. During ${_mName} ${_mY}, the full moon reaches 100% illumination on the specified night.`],
                             [".moon-city-hub-faq-q4", `When is the new moon in ${_Cm} during ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a4", `The "Upcoming moon phases" section shows the next new moon date — which marks the start of the new Hijri month. New moon is when the Moon lies between Earth and Sun (0% illumination).`],
                             [".moon-city-hub-faq-q5", `How do I read the monthly moon phase calendar?`],
-                            [".moon-city-hub-faq-a5", `Each cell represents one day and shows: the date, moon phase emoji, phase name (new, crescent, quarter, gibbous, full), and relative offset from today. Click any day to open that day's detail page.`],
+                            [".moon-city-hub-faq-a5", `Each cell represents one day and shows: the date, moon phase emoji, phase name (new, crescent, quarter, gibbous, full), and relative offset from today.`],
                             [".moon-city-hub-faq-q6", `Why do moonrise and moonset times differ between cities?`],
                             [".moon-city-hub-faq-a6", `Moonrise and moonset depend on longitude, latitude and timezone. The difference can reach 12 hours between east and west of the globe. Times on this page are computed for ${_Cm}'s local timezone.`],
                             [".moon-city-hub-faq-q7", `Is this calendar in ${_Cm}'s local time?`],
@@ -20769,7 +20772,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "fr": [
@@ -20777,13 +20780,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `Quel est le calendrier lunaire à ${_Cm} pour ${_mName} ${_mY} ?`],
                             [".moon-city-hub-faq-a1", `Ce calendrier affiche les phases lunaires quotidiennes à ${_Cm} durant ${_mName} ${_mY} — croissant, gibbeuse, pleine et nouvelle lune — avec illumination et heures de lever/coucher pour chaque jour.`],
                             [".moon-city-hub-faq-q2", `Comment trouver la phase de la Lune pour chaque jour à ${_Cm} en ${_mName} ${_mY} ?`],
-                            [".moon-city-hub-faq-a2", `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_Cm} en ${_mName} ${_mY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne. Cliquez sur n'importe quel jour pour ouvrir la page de détails de la Lune pour cette date.`],
+                            [".moon-city-hub-faq-a2", `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_Cm} en ${_mName} ${_mY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne.`],
                             [".moon-city-hub-faq-q3", `Quand est la pleine lune à ${_Cm} en ${_mName} ${_mY} ?`],
                             [".moon-city-hub-faq-a3", `La section "Prochaines phases lunaires" ci-dessus affiche la date précise de la pleine lune à ${_Cm}. Pendant ${_mName} ${_mY}, la pleine lune atteint 100 % d'illumination la nuit indiquée.`],
                             [".moon-city-hub-faq-q4", `Quand est la nouvelle lune à ${_Cm} en ${_mName} ${_mY} ?`],
                             [".moon-city-hub-faq-a4", `La section "Prochaines phases lunaires" affiche la prochaine date de nouvelle lune — qui marque le début du nouveau mois hégirien. La nouvelle lune se produit lorsque la Lune est entre la Terre et le Soleil (0 % d'illumination).`],
                             [".moon-city-hub-faq-q5", `Comment lire le calendrier mensuel des phases lunaires ?`],
-                            [".moon-city-hub-faq-a5", `Chaque case représente un jour et affiche : la date, l'emoji de phase lunaire, le nom de la phase (nouvelle, croissant, quartier, gibbeuse, pleine), et le décalage relatif par rapport à aujourd'hui. Cliquez sur n'importe quel jour pour ouvrir sa page de détails.`],
+                            [".moon-city-hub-faq-a5", `Chaque case représente un jour et affiche : la date, l'emoji de phase lunaire, le nom de la phase (nouvelle, croissant, quartier, gibbeuse, pleine), et le décalage relatif par rapport à aujourd'hui.`],
                             [".moon-city-hub-faq-q6", `Pourquoi les heures de lever et coucher de la Lune diffèrent-elles entre villes ?`],
                             [".moon-city-hub-faq-a6", `Le lever et le coucher de la Lune dépendent de la longitude, de la latitude et du fuseau horaire. La différence peut atteindre 12 heures entre l'est et l'ouest du globe. Les heures de cette page sont calculées pour le fuseau horaire local de ${_Cm}.`],
                             [".moon-city-hub-faq-q7", `Ce calendrier est-il à l'heure locale de ${_Cm} ?`],
@@ -20792,7 +20795,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `Le calendrier hégirien est entièrement lunaire — chaque mois commence avec l'observation du croissant après la nouvelle lune et dure 29 ou 30 jours. Les dates de pleine et nouvelle lune dans ce calendrier aident à anticiper le début du prochain mois hégirien.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "tr": [
@@ -20800,13 +20803,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `${_Cm} için ${_mName} ${_mY} ay takvimi nedir?`],
                             [".moon-city-hub-faq-a1", `Bu takvim, ${_Cm}'de ${_mName} ${_mY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma ve doğuş/batış saatleriyle gösterir.`],
                             [".moon-city-hub-faq-q2", `${_Cm}'de ${_mName} ${_mY} boyunca her gün için ay evresini nasıl öğrenirim?`],
-                            [".moon-city-hub-faq-a2", `Bu takvim, ${_Cm}'de ${_mName} ${_mY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir. Herhangi bir güne tıklayarak o tarihin ay ayrıntı sayfasını açabilirsiniz.`],
+                            [".moon-city-hub-faq-a2", `Bu takvim, ${_Cm}'de ${_mName} ${_mY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir.`],
                             [".moon-city-hub-faq-q3", `${_mName} ${_mY} sırasında ${_Cm}'de dolunay ne zaman?`],
                             [".moon-city-hub-faq-a3", `Yukarıdaki "Yaklaşan ay evreleri" bölümü ${_Cm}'de tam dolunay tarihini gösterir. ${_mName} ${_mY} sırasında dolunay belirtilen gece %100 aydınlanmaya ulaşır.`],
                             [".moon-city-hub-faq-q4", `${_mName} ${_mY} sırasında ${_Cm}'de yeni ay ne zaman?`],
                             [".moon-city-hub-faq-a4", `"Yaklaşan ay evreleri" bölümü bir sonraki yeni ay tarihini gösterir — bu yeni hicri ayın başlangıcını işaret eder. Yeni ay, Ay'ın Dünya ve Güneş arasında bulunduğu andır (%0 aydınlanma).`],
                             [".moon-city-hub-faq-q5", `Aylık ay evresi takvimini nasıl okurum?`],
-                            [".moon-city-hub-faq-a5", `Her hücre bir günü temsil eder ve şunları gösterir: tarih, ay evresi emojisi, evre adı (yeni, hilal, dördün, gibbous, dolunay) ve bugüne göre göreceli fark. Herhangi bir güne tıklayarak ayrıntı sayfasını açabilirsiniz.`],
+                            [".moon-city-hub-faq-a5", `Her hücre bir günü temsil eder ve şunları gösterir: tarih, ay evresi emojisi, evre adı (yeni, hilal, dördün, gibbous, dolunay) ve bugüne göre göreceli fark.`],
                             [".moon-city-hub-faq-q6", `Ay doğuşu ve batışı saatleri şehirler arasında neden farklı?`],
                             [".moon-city-hub-faq-a6", `Ay doğuşu ve batışı boylama, enleme ve saat dilimine bağlıdır. Fark, dünyanın doğusu ile batısı arasında 12 saate ulaşabilir. Bu sayfadaki saatler ${_Cm}'in yerel saat dilimi için hesaplanmıştır.`],
                             [".moon-city-hub-faq-q7", `Bu takvim ${_Cm}'in yerel saatinde mi?`],
@@ -20815,7 +20818,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `Hicri takvim tamamen kameridir — her ay yeni aydan sonra hilal görülmesiyle başlar ve 29 veya 30 gün sürer. Bu takvimdeki dolunay ve yeni ay tarihleri, bir sonraki hicri ayın başlangıcını öngörmeye yardımcı olur.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "ur": [
@@ -20823,13 +20826,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `${_Cm} میں ${_mName} ${_mY} کے لیے چاند کا کیلنڈر کیا ہے؟`],
                             [".moon-city-hub-faq-a1", `یہ کیلنڈر ${_Cm} میں ${_mName} ${_mY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی اور مطلع/مغیب کے اوقات کے ساتھ دکھاتا ہے۔`],
                             [".moon-city-hub-faq-q2", `${_Cm} میں ${_mName} ${_mY} کے دوران ہر دن کے لیے چاند کا طور کیسے معلوم کروں؟`],
-                            [".moon-city-hub-faq-a2", `یہ کیلنڈر ${_Cm} میں ${_mName} ${_mY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔ کسی بھی دن پر کلک کر کے اُس تاریخ کی چاند کی تفصیلات کا صفحہ کھولیں۔`],
+                            [".moon-city-hub-faq-a2", `یہ کیلنڈر ${_Cm} میں ${_mName} ${_mY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔`],
                             [".moon-city-hub-faq-q3", `${_mName} ${_mY} کے دوران ${_Cm} میں بدر کب ہوگا؟`],
                             [".moon-city-hub-faq-a3", `اوپر "آنے والی چاند کی اطوار" سیکشن ${_Cm} میں درست بدر کی تاریخ دکھاتا ہے۔ ${_mName} ${_mY} کے دوران بدر مقررہ رات کو 100% روشنی پر پہنچ جاتا ہے۔`],
                             [".moon-city-hub-faq-q4", `${_mName} ${_mY} کے دوران ${_Cm} میں نیا چاند کب ہوگا؟`],
                             [".moon-city-hub-faq-a4", `"آنے والی چاند کی اطوار" سیکشن اگلی نئے چاند کی تاریخ دکھاتا ہے — جو نئے ہجری مہینے کا آغاز ہے۔ نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے (0% روشنی)۔`],
                             [".moon-city-hub-faq-q5", `ماہانہ چاند کی اطوار کا کیلنڈر کیسے پڑھیں؟`],
-                            [".moon-city-hub-faq-a5", `ہر خانہ ایک دن کی نمائندگی کرتا ہے اور دکھاتا ہے: تاریخ، چاند کی طور کا ایموجی، طور کا نام (نیا، ہلال، تربیع، اَحدب، بدر) اور آج سے نسبتی فرق۔ کسی بھی دن پر کلک کر کے اس کی تفصیلی صفحہ کھولیں۔`],
+                            [".moon-city-hub-faq-a5", `ہر خانہ ایک دن کی نمائندگی کرتا ہے اور دکھاتا ہے: تاریخ، چاند کی طور کا ایموجی، طور کا نام (نیا، ہلال، تربیع، اَحدب، بدر) اور آج سے نسبتی فرق۔`],
                             [".moon-city-hub-faq-q6", `چاند کی مطلع و مغیب کے اوقات شہروں کے درمیان کیوں مختلف ہیں؟`],
                             [".moon-city-hub-faq-a6", `چاند کی مطلع و مغیب خط طول، خط عرض اور ٹائم زون پر منحصر ہیں۔ زمین کے مشرق اور مغرب کے درمیان فرق 12 گھنٹے تک پہنچ سکتا ہے۔ اس صفحے کے اوقات ${_Cm} کے مقامی ٹائم زون کے لیے شمار کیے گئے ہیں۔`],
                             [".moon-city-hub-faq-q7", `کیا یہ کیلنڈر ${_Cm} کے مقامی وقت میں ہے؟`],
@@ -20838,7 +20841,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `ہجری تقویم مکمل طور پر قمری ہے — ہر مہینہ نئے چاند کے بعد ہلال کی رؤیت سے شروع ہوتا ہے اور 29 یا 30 دن تک رہتا ہے۔ اس کیلنڈر میں بدر اور نئے چاند کی تاریخیں اگلے ہجری مہینے کے آغاز کا اندازہ لگانے میں مدد کرتی ہیں۔`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "de": [
@@ -20846,13 +20849,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `Was ist der Mondkalender in ${_Cm} für ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a1", `Dieser Kalender zeigt die täglichen Mondphasen in ${_Cm} während ${_mName} ${_mY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit Beleuchtung und Auf-/Untergangszeiten für jeden Tag.`],
                             [".moon-city-hub-faq-q2", `Wie finde ich die Mondphase für jeden Tag in ${_Cm} während ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a2", `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_Cm} während ${_mName} ${_mY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten. Klicken Sie auf einen beliebigen Tag, um die Mond-Detailseite für dieses Datum zu öffnen.`],
+                            [".moon-city-hub-faq-a2", `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_Cm} während ${_mName} ${_mY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten.`],
                             [".moon-city-hub-faq-q3", `Wann ist der Vollmond in ${_Cm} während ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a3", `Der Abschnitt "Kommende Mondphasen" oben zeigt das genaue Vollmonddatum in ${_Cm}. Während ${_mName} ${_mY} erreicht der Vollmond in der angegebenen Nacht 100 % Beleuchtung.`],
                             [".moon-city-hub-faq-q4", `Wann ist der Neumond in ${_Cm} während ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a4", `Der Abschnitt "Kommende Mondphasen" zeigt das nächste Neumonddatum — das den Beginn des neuen Hidschri-Monats markiert. Neumond ist, wenn der Mond zwischen Erde und Sonne liegt (0 % Beleuchtung).`],
                             [".moon-city-hub-faq-q5", `Wie lese ich den monatlichen Mondphasen-Kalender?`],
-                            [".moon-city-hub-faq-a5", `Jede Zelle stellt einen Tag dar und zeigt: das Datum, das Mondphasen-Emoji, den Phasennamen (Neumond, Sichel, Viertel, Gibbös, Vollmond) und den relativen Versatz von heute. Klicken Sie auf einen beliebigen Tag, um seine Detailseite zu öffnen.`],
+                            [".moon-city-hub-faq-a5", `Jede Zelle stellt einen Tag dar und zeigt: das Datum, das Mondphasen-Emoji, den Phasennamen (Neumond, Sichel, Viertel, Gibbös, Vollmond) und den relativen Versatz von heute.`],
                             [".moon-city-hub-faq-q6", `Warum unterscheiden sich Mondaufgangs- und -untergangszeiten zwischen Städten?`],
                             [".moon-city-hub-faq-a6", `Mondaufgang und -untergang hängen von der geografischen Länge, Breite und Zeitzone ab. Der Unterschied kann zwischen Ost und West der Erde 12 Stunden erreichen. Die Zeiten auf dieser Seite werden für die lokale Zeitzone von ${_Cm} berechnet.`],
                             [".moon-city-hub-faq-q7", `Ist dieser Kalender in der Ortszeit von ${_Cm}?`],
@@ -20861,7 +20864,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `Der Hidschri-Kalender ist vollständig mondbasiert — jeder Monat beginnt mit der Sichtung der Mondsichel nach dem Neumond und dauert 29 oder 30 Tage. Vollmond- und Neumonddaten in diesem Kalender helfen, den Beginn des nächsten Hidschri-Monats vorauszusehen.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "id": [
@@ -20869,13 +20872,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `Apa kalender bulan di ${_Cm} untuk ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a1", `Kalender ini menampilkan fase bulan harian di ${_Cm} selama ${_mName} ${_mY} — hilal, gibbus, purnama dan bulan baru — dengan iluminasi dan waktu terbit/terbenam untuk setiap hari.`],
                             [".moon-city-hub-faq-q2", `Bagaimana cara mengetahui fase bulan untuk setiap hari di ${_Cm} selama ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a2", `Kalender ini menampilkan fase bulan untuk setiap hari di ${_Cm} selama ${_mName} ${_mY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi. Klik hari mana pun untuk membuka halaman detail bulan untuk tanggal tersebut.`],
+                            [".moon-city-hub-faq-a2", `Kalender ini menampilkan fase bulan untuk setiap hari di ${_Cm} selama ${_mName} ${_mY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi.`],
                             [".moon-city-hub-faq-q3", `Kapan bulan purnama di ${_Cm} selama ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a3", `Bagian "Fase bulan mendatang" di atas menampilkan tanggal purnama yang tepat di ${_Cm}. Selama ${_mName} ${_mY}, bulan purnama mencapai iluminasi 100% pada malam yang ditentukan.`],
                             [".moon-city-hub-faq-q4", `Kapan bulan baru di ${_Cm} selama ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a4", `Bagian "Fase bulan mendatang" menampilkan tanggal bulan baru berikutnya — yang menandai awal bulan Hijriah baru. Bulan baru adalah saat Bulan berada antara Bumi dan Matahari (iluminasi 0%).`],
                             [".moon-city-hub-faq-q5", `Bagaimana cara membaca kalender fase bulan bulanan?`],
-                            [".moon-city-hub-faq-a5", `Setiap sel mewakili satu hari dan menampilkan: tanggal, emoji fase bulan, nama fase (baru, hilal, kuartal, gibbus, purnama), dan offset relatif dari hari ini. Klik hari mana pun untuk membuka halaman detailnya.`],
+                            [".moon-city-hub-faq-a5", `Setiap sel mewakili satu hari dan menampilkan: tanggal, emoji fase bulan, nama fase (baru, hilal, kuartal, gibbus, purnama), dan offset relatif dari hari ini.`],
                             [".moon-city-hub-faq-q6", `Mengapa waktu terbit dan terbenam Bulan berbeda antar kota?`],
                             [".moon-city-hub-faq-a6", `Terbit dan terbenam Bulan tergantung pada bujur, lintang dan zona waktu. Perbedaannya dapat mencapai 12 jam antara timur dan barat dunia. Waktu di halaman ini dihitung untuk zona waktu lokal ${_Cm}.`],
                             [".moon-city-hub-faq-q7", `Apakah kalender ini dalam waktu lokal ${_Cm}?`],
@@ -20884,7 +20887,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `Kalender Hijriah sepenuhnya berbasis bulan — setiap bulan dimulai dengan rukyat hilal setelah bulan baru dan berlangsung 29 atau 30 hari. Tanggal purnama dan bulan baru dalam kalender ini membantu mengantisipasi awal bulan Hijriah berikutnya.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "es": [
@@ -20892,13 +20895,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `¿Cuál es el calendario lunar en ${_Cm} para ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a1", `Este calendario muestra las fases lunares diarias en ${_Cm} durante ${_mName} ${_mY} — creciente, gibosa, llena y nueva — con iluminación y horarios de salida/puesta para cada día.`],
                             [".moon-city-hub-faq-q2", `¿Cómo conozco la fase lunar para cada día en ${_Cm} durante ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a2", `Este calendario muestra la fase lunar para cada día en ${_Cm} durante ${_mName} ${_mY}, con el porcentaje de iluminación y las fechas hijri y gregoriana. Haga clic en cualquier día para abrir la página de detalles de la Luna para esa fecha.`],
+                            [".moon-city-hub-faq-a2", `Este calendario muestra la fase lunar para cada día en ${_Cm} durante ${_mName} ${_mY}, con el porcentaje de iluminación y las fechas hijri y gregoriana.`],
                             [".moon-city-hub-faq-q3", `¿Cuándo es la luna llena en ${_Cm} durante ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a3", `La sección "Próximas fases lunares" arriba muestra la fecha precisa de luna llena en ${_Cm}. Durante ${_mName} ${_mY}, la luna llena alcanza el 100 % de iluminación la noche especificada.`],
                             [".moon-city-hub-faq-q4", `¿Cuándo es la luna nueva en ${_Cm} durante ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a4", `La sección "Próximas fases lunares" muestra la próxima fecha de luna nueva — que marca el inicio del nuevo mes hijri. La luna nueva es cuando la Luna se sitúa entre la Tierra y el Sol (0 % de iluminación).`],
                             [".moon-city-hub-faq-q5", `¿Cómo leo el calendario mensual de fases lunares?`],
-                            [".moon-city-hub-faq-a5", `Cada celda representa un día y muestra: la fecha, el emoji de fase lunar, el nombre de la fase (nueva, creciente, cuarto, gibosa, llena) y el desfase relativo desde hoy. Haga clic en cualquier día para abrir su página de detalles.`],
+                            [".moon-city-hub-faq-a5", `Cada celda representa un día y muestra: la fecha, el emoji de fase lunar, el nombre de la fase (nueva, creciente, cuarto, gibosa, llena) y el desfase relativo desde hoy.`],
                             [".moon-city-hub-faq-q6", `¿Por qué los horarios de salida y puesta de la Luna difieren entre ciudades?`],
                             [".moon-city-hub-faq-a6", `La salida y puesta de la Luna dependen de la longitud, latitud y zona horaria. La diferencia puede alcanzar 12 horas entre el este y el oeste del globo. Los horarios de esta página se calculan para la zona horaria local de ${_Cm}.`],
                             [".moon-city-hub-faq-q7", `¿Está este calendario en la hora local de ${_Cm}?`],
@@ -20907,7 +20910,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `El calendario hijri es totalmente lunar — cada mes comienza con la observación del creciente tras la luna nueva y dura 29 o 30 días. Las fechas de luna llena y luna nueva en este calendario ayudan a anticipar el inicio del próximo mes hijri.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "bn": [
@@ -20915,13 +20918,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `${_Cm}-এ ${_mName} ${_mY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`],
                             [".moon-city-hub-faq-a1", `এই ক্যালেন্ডার ${_Cm}-এ ${_mName} ${_mY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকন ও উদয়/অস্তের সময় সহ দেখায়।`],
                             [".moon-city-hub-faq-q2", `${_Cm}-এ ${_mName} ${_mY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা কীভাবে জানব?`],
-                            [".moon-city-hub-faq-a2", `এই ক্যালেন্ডার ${_Cm}-এ ${_mName} ${_mY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়। যেকোনো দিনে ক্লিক করে সেই তারিখের চাঁদের বিস্তারিত পৃষ্ঠা খুলুন।`],
+                            [".moon-city-hub-faq-a2", `এই ক্যালেন্ডার ${_Cm}-এ ${_mName} ${_mY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়।`],
                             [".moon-city-hub-faq-q3", `${_mName} ${_mY}-এর সময় ${_Cm}-এ পূর্ণিমা কখন?`],
                             [".moon-city-hub-faq-a3", `উপরের "আসন্ন চাঁদের দশা" বিভাগ ${_Cm}-এ সঠিক পূর্ণিমার তারিখ দেখায়। ${_mName} ${_mY}-এর সময় পূর্ণিমা নির্দিষ্ট রাতে ১০০% আলোকনে পৌঁছায়।`],
                             [".moon-city-hub-faq-q4", `${_mName} ${_mY}-এর সময় ${_Cm}-এ অমাবস্যা কখন?`],
                             [".moon-city-hub-faq-a4", `"আসন্ন চাঁদের দশা" বিভাগ পরবর্তী অমাবস্যার তারিখ দেখায় — যা নতুন হিজরি মাসের শুরু চিহ্নিত করে। অমাবস্যা হল যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে (০% আলোকন)।`],
                             [".moon-city-hub-faq-q5", `মাসিক চাঁদের দশার ক্যালেন্ডার কীভাবে পড়ব?`],
-                            [".moon-city-hub-faq-a5", `প্রতিটি সেল একটি দিন প্রতিনিধিত্ব করে এবং দেখায়: তারিখ, চাঁদের দশার ইমোজি, দশার নাম (অমাবস্যা, হিলাল, কোয়ার্টার, গিব্বাস, পূর্ণিমা) এবং আজ থেকে আপেক্ষিক ব্যবধান। যেকোনো দিনে ক্লিক করে তার বিবরণ পৃষ্ঠা খুলুন।`],
+                            [".moon-city-hub-faq-a5", `প্রতিটি সেল একটি দিন প্রতিনিধিত্ব করে এবং দেখায়: তারিখ, চাঁদের দশার ইমোজি, দশার নাম (অমাবস্যা, হিলাল, কোয়ার্টার, গিব্বাস, পূর্ণিমা) এবং আজ থেকে আপেক্ষিক ব্যবধান।`],
                             [".moon-city-hub-faq-q6", `চাঁদের উদয় ও অস্তের সময় শহরভেদে কেন আলাদা?`],
                             [".moon-city-hub-faq-a6", `চাঁদের উদয় ও অস্ত দ্রাঘিমাংশ, অক্ষাংশ ও টাইমজোনের উপর নির্ভর করে। পার্থক্য বিশ্বের পূর্ব ও পশ্চিমের মধ্যে ১২ ঘণ্টা পর্যন্ত হতে পারে। এই পৃষ্ঠার সময়গুলি ${_Cm}-এর স্থানীয় টাইমজোনের জন্য গণনা করা হয়।`],
                             [".moon-city-hub-faq-q7", `এই ক্যালেন্ডার কি ${_Cm}-এর স্থানীয় সময়ে?`],
@@ -20930,7 +20933,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `হিজরি ক্যালেন্ডার সম্পূর্ণ চান্দ্র — প্রতিটি মাস অমাবস্যার পর হিলাল দেখার মাধ্যমে শুরু হয় এবং ২৯ বা ৩০ দিন স্থায়ী হয়। এই ক্যালেন্ডারে পূর্ণিমা ও অমাবস্যার তারিখগুলি পরবর্তী হিজরি মাসের শুরু অনুমান করতে সাহায্য করে।`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ],
                         "ms": [
@@ -20938,13 +20941,13 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q1", `Apakah kalendar bulan di ${_Cm} untuk ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a1", `Kalendar ini memaparkan fasa bulan harian di ${_Cm} sepanjang ${_mName} ${_mY} — hilal, gibus, bulan purnama dan anak bulan — dengan pencahayaan dan masa terbit/terbenam untuk setiap hari.`],
                             [".moon-city-hub-faq-q2", `Bagaimana saya mengetahui fasa bulan untuk setiap hari di ${_Cm} sepanjang ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a2", `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_Cm} sepanjang ${_mName} ${_mY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi. Klik mana-mana hari untuk membuka halaman butiran Bulan bagi tarikh tersebut.`],
+                            [".moon-city-hub-faq-a2", `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_Cm} sepanjang ${_mName} ${_mY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi.`],
                             [".moon-city-hub-faq-q3", `Bilakah bulan purnama di ${_Cm} sepanjang ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a3", `Bahagian "Fasa bulan akan datang" di atas memaparkan tarikh tepat bulan purnama di ${_Cm}. Sepanjang ${_mName} ${_mY}, bulan purnama mencapai pencahayaan 100% pada malam yang ditetapkan.`],
                             [".moon-city-hub-faq-q4", `Bilakah anak bulan di ${_Cm} sepanjang ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a4", `Bahagian "Fasa bulan akan datang" memaparkan tarikh anak bulan seterusnya — yang menandakan permulaan bulan Hijrah baharu. Anak bulan ialah saat Bulan berada antara Bumi dan Matahari (0% pencahayaan).`],
                             [".moon-city-hub-faq-q5", `Bagaimana saya membaca kalendar fasa bulan bulanan?`],
-                            [".moon-city-hub-faq-a5", `Setiap sel mewakili satu hari dan memaparkan: tarikh, emoji fasa bulan, nama fasa (anak bulan, hilal, suku, gibus, purnama) dan jurang relatif dari hari ini. Klik mana-mana hari untuk membuka halaman butirannya.`],
+                            [".moon-city-hub-faq-a5", `Setiap sel mewakili satu hari dan memaparkan: tarikh, emoji fasa bulan, nama fasa (anak bulan, hilal, suku, gibus, purnama) dan jurang relatif dari hari ini.`],
                             [".moon-city-hub-faq-q6", `Mengapa waktu terbit dan terbenam Bulan berbeza antara bandar?`],
                             [".moon-city-hub-faq-a6", `Terbit dan terbenam Bulan bergantung pada bujur, lintang dan zon waktu. Perbezaannya boleh mencapai 12 jam antara timur dan barat dunia. Waktu pada halaman ini dikira untuk zon waktu tempatan ${_Cm}.`],
                             [".moon-city-hub-faq-q7", `Adakah kalendar ini dalam waktu tempatan ${_Cm}?`],
@@ -20953,7 +20956,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-a8", `Kalendar Hijrah adalah sepenuhnya berdasarkan bulan — setiap bulan bermula dengan rukyah hilal selepas anak bulan dan berlangsung 29 atau 30 hari. Tarikh bulan purnama dan anak bulan dalam kalendar ini membantu menjangka permulaan bulan Hijrah seterusnya.`],
                             [".moon-city-hub-edu-title", `About the moon calendar in ${_Cm} for ${_mName} ${_mY}`],
                             [".moon-city-hub-edu-p1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY}, with illumination percentage for each day.`],
-                            [".moon-city-hub-edu-p2", `Click any day in the calendar above to open that day's detailed page for ${_Cm}.`],
+                            [".moon-city-hub-edu-p2", ``],
                             [".moon-city-hub-edu-p3", `For deeper details on reading the calendar, key phases, and Hijri context, read the educational section below.`]
                         ]
                         };
@@ -20961,6 +20964,9 @@ function updateMoonInfo() {
                         _monthFaq.forEach(([sel, text]) => {
                             const el = document.querySelector(sel);
                             if (el) el.textContent = text;
+                            // MOON-DAY-PAGES-REMOVAL-1: edu-p2 only promised day pages and is now
+                            //   empty — hide the paragraph instead of leaving a blank <p>.
+                            if (el && !text) el.hidden = true;
                         });
                     } catch (_) {}
 
@@ -21001,7 +21007,8 @@ function updateMoonInfo() {
                         const _link3 = document.querySelector('.moon-city-hub-edu-link-hijri');
                         if (_link1) {
                             _link1.textContent = _eduLinkLabels[0];
-                            _link1.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'today'));
+                            // MOON-DAY-PAGES-REMOVAL-1: the city hub (shows today's moon) — same href the SSR sets.
+                            _link1.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'hub'));
                         }
                         if (_link2) {
                             _link2.textContent = _eduLinkLabels[1];
@@ -21046,65 +21053,66 @@ function updateMoonInfo() {
                         //     • أطوار يومية (daily phases — what the table shows)
                         //     • بدر ومحاق (full/new moon milestones + click-cell)
                         //     • ارتباط هجري (Hijri connection + Umm al-Qura note)
+                        // MOON-DAY-PAGES-REMOVAL-1: p2 no longer ends with the click-a-day sentence.
                         const _MONTH_EDU_BY_LANG = {
                             ar: {
                                 title: `فهم تقويم القمر في ${_cityName} لشهر ${_mName} ${_mY}`,
                                 p1: `يَعرض هذا التقويم أطوار القمر اليومية في ${_cityName} خلال ${_mName} ${_mY}، من الهلال والمحاق إلى التربيع والبدر. كل يوم في الجدول يوضح التاريخ، وطور القمر، ونسبة الإضاءة، مع بيانات محسوبة حسب توقيت ${_cityName} المحلي.`,
-                                p2: `تُساعدك هذه الصفحة على متابعة تغير الإضاءة وعمر القمر خلال الشهر، ومعرفة مواعيد المراحل القمرية المهمة مثل البدر والمحاق. اضغط على أي يوم في التقويم لفتح صفحة تفاصيل القمر لذلك التاريخ.`,
+                                p2: `تُساعدك هذه الصفحة على متابعة تغير الإضاءة وعمر القمر خلال الشهر، ومعرفة مواعيد المراحل القمرية المهمة مثل البدر والمحاق.`,
                                 p3: `يَرتبط هذا التقويم أيضًا بالتقويم الهجري، لأن الأشهر الهجرية تعتمد على دورة القمر. لذلك قد يَمتد الشهر الميلادي عبر شهر هجري واحد أو شهرَين، وتُعرض البيانات وفق تقويم أم القرى مع التنبيه إلى أن الرؤية الشرعية قد تختلف محليًا.`
                             },
                             en: {
                                 title: `Understanding the moon calendar in ${_cityName} for ${_mName} ${_mY}`,
                                 p1: `This calendar shows the daily moon phases in ${_cityName} during ${_mName} ${_mY} — from crescent and new moon to quarter and full. Each day in the table shows the date, the moon phase, and the illumination percentage, with data computed in ${_cityName}'s local time.`,
-                                p2: `Use this page to track the changing illumination and moon age across the month, and to find the dates of the key lunar milestones such as full moon and new moon. Click any day in the calendar to open that date's moon details page.`,
+                                p2: `Use this page to track the changing illumination and moon age across the month, and to find the dates of the key lunar milestones such as full moon and new moon.`,
                                 p3: `This calendar also ties to the Hijri calendar, because Hijri months follow the lunar cycle. A Gregorian month may therefore span one or two Hijri months — data is shown per the Umm al-Qura calendar, with the caveat that local moon-sighting jurisprudence may differ.`
                             },
                             fr: {
                                 title: `Comprendre le calendrier lunaire à ${_cityName} pour ${_mName} ${_mY}`,
                                 p1: `Ce calendrier affiche les phases quotidiennes de la Lune à ${_cityName} durant ${_mName} ${_mY} — du croissant et de la nouvelle lune au quartier et à la pleine lune. Chaque jour du tableau indique la date, la phase de la Lune et le pourcentage d'illumination, avec des données calculées à l'heure locale de ${_cityName}.`,
-                                p2: `Cette page vous aide à suivre l'évolution de l'illumination et de l'âge de la Lune au cours du mois, et à repérer les dates des étapes lunaires clés comme la pleine lune et la nouvelle lune. Cliquez sur n'importe quel jour du calendrier pour ouvrir la page de détails de la Lune pour cette date.`,
+                                p2: `Cette page vous aide à suivre l'évolution de l'illumination et de l'âge de la Lune au cours du mois, et à repérer les dates des étapes lunaires clés comme la pleine lune et la nouvelle lune.`,
                                 p3: `Ce calendrier est aussi lié au calendrier hégirien, car les mois hégiriens suivent le cycle lunaire. Un mois grégorien peut donc s'étendre sur un ou deux mois hégiriens — les données sont affichées selon le calendrier d'Umm al-Qura, avec la réserve que la jurisprudence locale d'observation lunaire peut différer.`
                             },
                             tr: {
                                 title: `${_cityName} için ${_mName} ${_mY} ay takvimini anlama`,
                                 p1: `Bu takvim, ${_mName} ${_mY} boyunca ${_cityName}'de Ay'ın günlük evrelerini gösterir — hilal ve yeni aydan dördün ve dolunaya kadar. Tablodaki her gün tarihi, Ay evresini ve aydınlanma yüzdesini, ${_cityName} yerel saati ile hesaplanmış olarak gösterir.`,
-                                p2: `Bu sayfa, ay boyunca aydınlanmanın ve Ay'ın yaşının nasıl değiştiğini takip etmenize ve dolunay ile yeni ay gibi önemli kameri kilometre taşlarının tarihlerini öğrenmenize yardımcı olur. Takvimdeki herhangi bir güne tıklayarak o tarihin Ay ayrıntıları sayfasını açabilirsiniz.`,
+                                p2: `Bu sayfa, ay boyunca aydınlanmanın ve Ay'ın yaşının nasıl değiştiğini takip etmenize ve dolunay ile yeni ay gibi önemli kameri kilometre taşlarının tarihlerini öğrenmenize yardımcı olur.`,
                                 p3: `Bu takvim ayrıca hicri takvimle bağlantılıdır, çünkü hicri aylar kameri döngüyü takip eder. Bu nedenle bir miladi ay, bir veya iki hicri ayı kapsayabilir — veriler Ümmü'l-Kura takvimine göre gösterilir, yerel ay rüyeti fıkıhının farklılık gösterebileceği kaydıyla.`
                             },
                             ur: {
                                 title: `${_cityName} میں ${_mName} ${_mY} کے چاند کے کیلنڈر کو سمجھنا`,
                                 p1: `یہ کیلنڈر ${_cityName} میں ${_mName} ${_mY} کے دوران چاند کی روزانہ اطوار دکھاتا ہے — ہلال اور نئے چاند سے تربیع اور بدر تک۔ جدول کا ہر دن تاریخ، چاند کا طور، اور روشنی کا فیصد دکھاتا ہے، ${_cityName} کے مقامی وقت کے مطابق شمار کردہ۔`,
-                                p2: `یہ صفحہ آپ کو مہینے کے دوران روشنی اور چاند کی عمر کی تبدیلی کا سراغ لگانے، اور بدر و نئے چاند جیسے اہم قمری سنگ میل کی تاریخیں معلوم کرنے میں مدد دیتا ہے۔ کیلنڈر میں کسی بھی دن پر کلک کریں تاکہ اُس تاریخ کے چاند کی تفصیلات کا صفحہ کھل جائے۔`,
+                                p2: `یہ صفحہ آپ کو مہینے کے دوران روشنی اور چاند کی عمر کی تبدیلی کا سراغ لگانے، اور بدر و نئے چاند جیسے اہم قمری سنگ میل کی تاریخیں معلوم کرنے میں مدد دیتا ہے۔`,
                                 p3: `یہ کیلنڈر ہجری تقویم سے بھی منسلک ہے، کیونکہ ہجری مہینے قمری دورہ کی پیروی کرتے ہیں۔ اس لیے ایک عیسوی مہینہ ایک یا دو ہجری مہینوں پر پھیل سکتا ہے — اعداد و شمار تقویم اُمّ القُریٰ کے مطابق دکھائے جاتے ہیں، اس انتباہ کے ساتھ کہ مقامی رؤیتِ ہلال کی فقہ مختلف ہو سکتی ہے۔`
                             },
                             de: {
                                 title: `Den Mondkalender in ${_cityName} für ${_mName} ${_mY} verstehen`,
                                 p1: `Dieser Kalender zeigt die täglichen Mondphasen in ${_cityName} während ${_mName} ${_mY} — von Sichelmond und Neumond bis Viertel und Vollmond. Jeder Tag in der Tabelle zeigt das Datum, die Mondphase und den Beleuchtungsprozentsatz, mit Daten berechnet in der Ortszeit von ${_cityName}.`,
-                                p2: `Diese Seite hilft Ihnen, die Veränderung von Beleuchtung und Mondalter über den Monat zu verfolgen und die Daten wichtiger Mondereignisse wie Vollmond und Neumond zu finden. Klicken Sie auf einen beliebigen Tag im Kalender, um die Mond-Detailseite für dieses Datum zu öffnen.`,
+                                p2: `Diese Seite hilft Ihnen, die Veränderung von Beleuchtung und Mondalter über den Monat zu verfolgen und die Daten wichtiger Mondereignisse wie Vollmond und Neumond zu finden.`,
                                 p3: `Dieser Kalender ist auch mit dem Hidschri-Kalender verbunden, da Hidschri-Monate dem Mondzyklus folgen. Ein gregorianischer Monat kann sich daher über einen oder zwei Hidschri-Monate erstrecken — die Daten werden gemäß dem Umm-al-Qura-Kalender angezeigt, mit dem Vorbehalt, dass die lokale Mondsichtungs-Rechtsprechung abweichen kann.`
                             },
                             id: {
                                 title: `Memahami kalender bulan di ${_cityName} untuk ${_mName} ${_mY}`,
                                 p1: `Kalender ini menampilkan fase bulan harian di ${_cityName} selama ${_mName} ${_mY} — dari hilal dan bulan baru hingga kuartal dan purnama. Setiap hari dalam tabel menunjukkan tanggal, fase bulan, dan persentase iluminasi, dengan data yang dihitung dalam waktu lokal ${_cityName}.`,
-                                p2: `Halaman ini membantu Anda melacak perubahan iluminasi dan usia Bulan sepanjang bulan, serta menemukan tanggal-tanggal momen lunar penting seperti purnama dan bulan baru. Klik hari mana pun di kalender untuk membuka halaman detail Bulan untuk tanggal tersebut.`,
+                                p2: `Halaman ini membantu Anda melacak perubahan iluminasi dan usia Bulan sepanjang bulan, serta menemukan tanggal-tanggal momen lunar penting seperti purnama dan bulan baru.`,
                                 p3: `Kalender ini juga terhubung dengan kalender Hijriah, karena bulan Hijriah mengikuti siklus lunar. Sebuah bulan Masehi karena itu dapat mencakup satu atau dua bulan Hijriah — data ditampilkan sesuai kalender Umm al-Qura, dengan catatan bahwa fikih rukyat hilal lokal mungkin berbeda.`
                             },
                             es: {
                                 title: `Comprender el calendario lunar en ${_cityName} para ${_mName} ${_mY}`,
                                 p1: `Este calendario muestra las fases diarias de la Luna en ${_cityName} durante ${_mName} ${_mY} — desde el creciente y la luna nueva hasta el cuarto y la luna llena. Cada día en la tabla muestra la fecha, la fase lunar y el porcentaje de iluminación, con datos calculados en la hora local de ${_cityName}.`,
-                                p2: `Esta página le ayuda a seguir el cambio de iluminación y edad de la Luna durante el mes, y a encontrar las fechas de los hitos lunares clave como la luna llena y la luna nueva. Haga clic en cualquier día del calendario para abrir la página de detalles de la Luna para esa fecha.`,
+                                p2: `Esta página le ayuda a seguir el cambio de iluminación y edad de la Luna durante el mes, y a encontrar las fechas de los hitos lunares clave como la luna llena y la luna nueva.`,
                                 p3: `Este calendario también se vincula con el calendario hijri, ya que los meses hijri siguen el ciclo lunar. Un mes gregoriano puede por tanto abarcar uno o dos meses hijri — los datos se muestran según el calendario Umm al-Qura, con la advertencia de que la jurisprudencia local de observación lunar puede diferir.`
                             },
                             bn: {
                                 title: `${_cityName}-এ ${_mName} ${_mY}-এর জন্য চাঁদের ক্যালেন্ডার বোঝা`,
                                 p1: `এই ক্যালেন্ডার ${_cityName}-এ ${_mName} ${_mY}-এর সময় চাঁদের দৈনিক দশা দেখায় — হিলাল ও অমাবস্যা থেকে কোয়ার্টার ও পূর্ণিমা পর্যন্ত। টেবিলের প্রতিটি দিন তারিখ, চাঁদের দশা এবং আলোকন শতাংশ দেখায়, যা ${_cityName}-এর স্থানীয় সময়ে গণনা করা হয়েছে।`,
-                                p2: `এই পৃষ্ঠা আপনাকে মাস জুড়ে আলোকন এবং চাঁদের বয়সের পরিবর্তন ট্র্যাক করতে এবং পূর্ণিমা ও অমাবস্যার মতো গুরুত্বপূর্ণ চান্দ্র মাইলফলকের তারিখ খুঁজে পেতে সাহায্য করে। ক্যালেন্ডারের যেকোনো দিনে ক্লিক করে সেই তারিখের চাঁদের বিবরণ পৃষ্ঠা খুলুন।`,
+                                p2: `এই পৃষ্ঠা আপনাকে মাস জুড়ে আলোকন এবং চাঁদের বয়সের পরিবর্তন ট্র্যাক করতে এবং পূর্ণিমা ও অমাবস্যার মতো গুরুত্বপূর্ণ চান্দ্র মাইলফলকের তারিখ খুঁজে পেতে সাহায্য করে।`,
                                 p3: `এই ক্যালেন্ডারটি হিজরি ক্যালেন্ডারের সাথেও সংযুক্ত, কারণ হিজরি মাসগুলি চান্দ্র চক্র অনুসরণ করে। একটি গ্রেগরিয়ান মাস তাই এক বা দুটি হিজরি মাস জুড়ে বিস্তৃত হতে পারে — উম্মুল কুরা ক্যালেন্ডার অনুযায়ী তথ্য দেখানো হয়, এই সতর্কতার সাথে যে স্থানীয় চাঁদ দেখার ফিকহ ভিন্ন হতে পারে।`
                             },
                             ms: {
                                 title: `Memahami kalendar bulan di ${_cityName} untuk ${_mName} ${_mY}`,
                                 p1: `Kalendar ini memaparkan fasa Bulan harian di ${_cityName} sepanjang ${_mName} ${_mY} — daripada hilal dan anak bulan hingga suku dan purnama. Setiap hari dalam jadual menunjukkan tarikh, fasa Bulan, dan peratus pencahayaan, dengan data yang dikira dalam waktu tempatan ${_cityName}.`,
-                                p2: `Halaman ini membantu anda menjejaki perubahan pencahayaan dan usia Bulan sepanjang bulan, serta mencari tarikh peristiwa lunar penting seperti purnama dan anak bulan. Klik mana-mana hari dalam kalendar untuk membuka halaman butiran Bulan bagi tarikh tersebut.`,
+                                p2: `Halaman ini membantu anda menjejaki perubahan pencahayaan dan usia Bulan sepanjang bulan, serta mencari tarikh peristiwa lunar penting seperti purnama dan anak bulan.`,
                                 p3: `Kalendar ini juga berkaitan dengan kalendar Hijrah, kerana bulan Hijrah mengikuti kitaran lunar. Sebulan Masihi oleh itu boleh merangkumi satu atau dua bulan Hijrah — data dipaparkan mengikut kalendar Umm al-Qura, dengan peringatan bahawa fiqh rukyah bulan tempatan mungkin berbeza.`
                             }
                         };
@@ -21287,20 +21295,8 @@ function updateMoonInfo() {
             //   نُحوّل href من "/moon-today-in-{slug}" إلى "/moon-in-{slug}/{YYYY-MM-DD}".
             //   نستخدم الصيغة الميلاديّة دائماً (canonical) حتّى لو كان الرابط الحاليّ هجريّاً —
             //   الـ server يقبل الشكلَين ويعيد canonical للميلاديّ تلقائيّاً.
-            try {
-                const _kindForLinks = _moonDateKindFromPath();
-                if (_kindForLinks && _kindForLinks.gYear) {
-                    const _padN = (n) => String(n).padStart(2, '0');
-                    const _isoG = _kindForLinks.gYear + '-' + _padN(_kindForLinks.gMonth) + '-' + _padN(_kindForLinks.gDay);
-                    const _gridLinks = document.querySelectorAll('.moon-cities-grid a[href^="/moon-today-in-"], .moon-cities-grid a[href*="/moon-today-in-"]');
-                    _gridLinks.forEach(a => {
-                        const _h = a.getAttribute('href') || '';
-                        // ندعم بادئة اللغة: /moon-today-in-X أو /en/moon-today-in-X
-                        const _newHref = _h.replace(/(^|\/)moon-today-in-([a-z0-9-]+)$/, '$1moon-in-$2/' + _isoG);
-                        if (_newHref !== _h) a.setAttribute('href', _newHref);
-                    });
-                }
-            } catch (_e) { /* silent */ }
+            // MOON-DAY-PAGES-REMOVAL-1: rewrite removed — it produced dated /moon-in-{slug}/{date} day
+            //   URLs, which no longer exist; the other-cities grid keeps its static hub links.
 
             // ─────────────────────────────────────────────────────────────
             // UAT-Moon-Day-Page-Polish (2026-04-30): shift copy from "اليوم"
@@ -21857,19 +21853,21 @@ function updateMoonInfo() {
             //   hub-only FAQ + educational section (.moon-city-hub-only).
             //   Per-language inline templates (AR + EN). Other 8 langs fall
             //   back to EN — proper translations can be added later.
+            // MOON-DAY-PAGES-REMOVAL-1: a1/a4 no longer promise nearby-day links or a date page
+            //   (server _MOON_HUB_FAQ_BY_LANG JSON-LD mirrors these answers byte-for-byte).
             try {
                 const _C = _cityName;
                 const _hubFaqByLang = {
                     ar: [
                         ['.moon-city-hub-faq-title-text', `أسئلة شائعة عن القمر في ${_C}`],
                         ['.moon-city-hub-faq-q1', `ما هو طور القمر في ${_C}؟`],
-                        ['.moon-city-hub-faq-a1', `تعرض هذه الصفحة الطور الحالي للقمر في ${_C}، مع نسبة الإضاءة وعمر القمر وروابط للتقويم الشهري والأيام القريبة. يساعدك ذلك على قراءة حالة القمر ضمن سياق أطوار الشهر، بدل الاعتماد على اسم الطور فقط.`],
+                        ['.moon-city-hub-faq-a1', `تعرض هذه الصفحة الطور الحالي للقمر في ${_C}، مع نسبة الإضاءة وعمر القمر وروابط للتقويم الشهري. يساعدك ذلك على قراءة حالة القمر ضمن سياق أطوار الشهر، بدل الاعتماد على اسم الطور فقط.`],
                         ['.moon-city-hub-faq-q2', `متى يكون البدر القادم في ${_C}؟`],
                         ['.moon-city-hub-faq-a2', `تعرض الصفحة موعد البدر القادم في ${_C} بالتاريخ الميلادي والهجري، مع وقت الحدث حسب التوقيت المحلي للمدينة. وقد تختلف مواعيد البدر والمحاق بين المدن بسبب اختلاف المنطقة الزمنية.`],
                         ['.moon-city-hub-faq-q3', `متى يكون المحاق القادم في ${_C}؟`],
                         ['.moon-city-hub-faq-a3', `المحاق هو لحظة وقوع القمر بين الأرض والشمس، وتكون نسبة الإضاءة قريبة من 0%. تعرض هذه الصفحة موعد المحاق القادم في ${_C}، وهو بداية دورة قمرية جديدة.`],
                         ['.moon-city-hub-faq-q4', `كيف أستخدم تقويم القمر في ${_C}؟`],
-                        ['.moon-city-hub-faq-a4', `استخدم روابط الأيام القريبة أو زر التقويم الشهري لمراجعة أطوار القمر خلال الشهر. يمكنك الانتقال إلى صفحة شهر كامل أو صفحة تاريخ محدد إذا أردت تفاصيل أدق عن يوم معين.`],
+                        ['.moon-city-hub-faq-a4', `استخدم زر التقويم الشهري لمراجعة أطوار القمر خلال الشهر. يمكنك الانتقال إلى صفحة شهر كامل إذا أردت تفاصيل أدق عن يوم معين.`],
                         ['.moon-city-hub-faq-q5', `لماذا تختلف مواعيد شروق وغروب القمر بين المدن؟`],
                         ['.moon-city-hub-faq-a5', `تعتمد مواعيد شروق القمر وغروبه على إحداثيات المدينة والمنطقة الزمنية. لذلك قد تختلف أوقات الطلوع والغروب من مدينة إلى أخرى، وتُعرض هنا حسب توقيت ${_C} المحلي.`],
                         ['.moon-city-hub-faq-q6', `ما علاقة القمر بالتقويم الهجري؟`],
@@ -21886,13 +21884,13 @@ function updateMoonInfo() {
                     en: [
                         ['.moon-city-hub-faq-title-text', `FAQ about the Moon in ${_C}`],
                         ['.moon-city-hub-faq-q1', `What is the current moon phase in ${_C}?`],
-                        ['.moon-city-hub-faq-a1', `This page shows the Moon's current phase in ${_C}, along with the illumination percentage, Moon age, and links to the monthly calendar and nearby days. These help you read the Moon's state in the context of the month's phases, rather than relying on the phase name alone.`],
+                        ['.moon-city-hub-faq-a1', `This page shows the Moon's current phase in ${_C}, along with the illumination percentage, Moon age, and links to the monthly calendar. These help you read the Moon's state in the context of the month's phases, rather than relying on the phase name alone.`],
                         ['.moon-city-hub-faq-q2', `When is the next full moon in ${_C}?`],
                         ['.moon-city-hub-faq-a2', `The page shows the next full moon date in ${_C} in both the Gregorian and Hijri calendars, with the event time in the city's local timezone. Full and new moon timings can differ between cities because of timezone offsets.`],
                         ['.moon-city-hub-faq-q3', `When is the next new moon in ${_C}?`],
                         ['.moon-city-hub-faq-a3', `A new moon is the instant the Moon lies between the Earth and the Sun, with illumination close to 0%. This page shows the next new moon date in ${_C} — the start of a new lunar cycle.`],
                         ['.moon-city-hub-faq-q4', `How do I use the moon calendar in ${_C}?`],
-                        ['.moon-city-hub-faq-a4', `Use the nearby-day links or the monthly calendar button to review the Moon's phases through the month. You can jump to a full month page or a specific date page for finer detail on a given day.`],
+                        ['.moon-city-hub-faq-a4', `Use the monthly calendar button to review the Moon's phases through the month. You can jump to a full month page for finer detail on a given day.`],
                         ['.moon-city-hub-faq-q5', `Why do moonrise and moonset times differ between cities?`],
                         ['.moon-city-hub-faq-a5', `Moonrise and moonset times depend on a city's coordinates and timezone. Rise and set times therefore vary from one city to another — the values shown here are in ${_C}'s local time.`],
                         ['.moon-city-hub-faq-q6', `How is the Moon related to the Hijri calendar?`],
@@ -21909,13 +21907,13 @@ function updateMoonInfo() {
                     fr: [
                         ['.moon-city-hub-faq-title-text', `FAQ sur la Lune à ${_C}`],
                         ['.moon-city-hub-faq-q1', `Quelle est la phase actuelle de la Lune à ${_C} ?`],
-                        ['.moon-city-hub-faq-a1', `Cette page affiche la phase actuelle de la Lune à ${_C}, avec le pourcentage d'illumination, l'âge de la Lune et des liens vers le calendrier mensuel et les jours proches. Cela aide à lire l'état de la Lune dans le contexte des phases du mois, plutôt que de se fier au seul nom de la phase.`],
+                        ['.moon-city-hub-faq-a1', `Cette page affiche la phase actuelle de la Lune à ${_C}, avec le pourcentage d'illumination, l'âge de la Lune et des liens vers le calendrier mensuel. Cela aide à lire l'état de la Lune dans le contexte des phases du mois, plutôt que de se fier au seul nom de la phase.`],
                         ['.moon-city-hub-faq-q2', `Quand est la prochaine pleine lune à ${_C} ?`],
                         ['.moon-city-hub-faq-a2', `La page affiche la date de la prochaine pleine lune à ${_C} en calendriers grégorien et hégirien, avec l'heure de l'événement dans le fuseau horaire local de la ville. Les horaires de pleine et nouvelle lune peuvent différer entre villes en raison des décalages horaires.`],
                         ['.moon-city-hub-faq-q3', `Quand est la prochaine nouvelle lune à ${_C} ?`],
                         ['.moon-city-hub-faq-a3', `Une nouvelle lune est l'instant où la Lune se trouve entre la Terre et le Soleil, avec une illumination proche de 0 %. Cette page indique la prochaine date de nouvelle lune à ${_C} — le début d'un nouveau cycle lunaire.`],
                         ['.moon-city-hub-faq-q4', `Comment utiliser le calendrier lunaire à ${_C} ?`],
-                        ['.moon-city-hub-faq-a4', `Utilisez les liens des jours proches ou le bouton du calendrier mensuel pour parcourir les phases lunaires du mois. Vous pouvez accéder à une page de mois complet ou à une page de date précise pour plus de détails sur un jour donné.`],
+                        ['.moon-city-hub-faq-a4', `Utilisez le bouton du calendrier mensuel pour parcourir les phases lunaires du mois. Vous pouvez accéder à une page de mois complet pour plus de détails sur un jour donné.`],
                         ['.moon-city-hub-faq-q5', `Pourquoi les heures de lever et de coucher de la Lune diffèrent-elles entre les villes ?`],
                         ['.moon-city-hub-faq-a5', `Les heures de lever et de coucher de la Lune dépendent des coordonnées de la ville et de son fuseau horaire. Elles varient donc d'une ville à l'autre — les valeurs affichées ici sont à l'heure locale de ${_C}.`],
                         ['.moon-city-hub-faq-q6', `Quel est le rapport entre la Lune et le calendrier hégirien ?`],
@@ -21932,13 +21930,13 @@ function updateMoonInfo() {
                     tr: [
                         ['.moon-city-hub-faq-title-text', `${_C}'de Ay hakkında SSS`],
                         ['.moon-city-hub-faq-q1', `${_C} için Ay'ın güncel evresi nedir?`],
-                        ['.moon-city-hub-faq-a1', `Bu sayfa ${_C} için Ay'ın güncel evresini gösterir; ayrıca aydınlanma yüzdesi, Ay yaşı ve aylık takvim ile yakın günlere bağlantılar sunar. Bu veriler Ay'ın durumunu yalnızca evre adına bakarak değil, ay boyunca evrelerin bağlamında okumanıza yardımcı olur.`],
+                        ['.moon-city-hub-faq-a1', `Bu sayfa ${_C} için Ay'ın güncel evresini gösterir; ayrıca aydınlanma yüzdesi, Ay yaşı ve aylık takvime bağlantılar sunar. Bu veriler Ay'ın durumunu yalnızca evre adına bakarak değil, ay boyunca evrelerin bağlamında okumanıza yardımcı olur.`],
                         ['.moon-city-hub-faq-q2', `${_C} için bir sonraki dolunay ne zaman?`],
                         ['.moon-city-hub-faq-a2', `Sayfa, ${_C} için bir sonraki dolunay tarihini hem miladi hem de hicri takvimde, etkinliğin saati ile şehrin yerel saat diliminde gösterir. Dolunay ve yeni ay zamanlamaları, saat dilimi farkları nedeniyle şehirler arasında değişebilir.`],
                         ['.moon-city-hub-faq-q3', `${_C} için bir sonraki yeni ay ne zaman?`],
                         ['.moon-city-hub-faq-a3', `Yeni ay, Ay'ın Dünya ile Güneş arasında bulunduğu andır; aydınlanma 0%'a yakındır. Bu sayfa ${_C} için bir sonraki yeni ay tarihini gösterir — yeni bir ay döngüsünün başlangıcı.`],
                         ['.moon-city-hub-faq-q4', `${_C} için ay takvimini nasıl kullanırım?`],
-                        ['.moon-city-hub-faq-a4', `Ay boyunca evreleri incelemek için yakın gün bağlantılarını veya aylık takvim düğmesini kullanın. Belirli bir gün için daha ayrıntılı bilgi istiyorsanız tam ay sayfasına veya belirli bir tarih sayfasına geçebilirsiniz.`],
+                        ['.moon-city-hub-faq-a4', `Ay boyunca evreleri incelemek için aylık takvim düğmesini kullanın. Belirli bir gün için daha ayrıntılı bilgi istiyorsanız tam ay sayfasına geçebilirsiniz.`],
                         ['.moon-city-hub-faq-q5', `Şehirler arasında ay doğuş ve batış saatleri neden farklıdır?`],
                         ['.moon-city-hub-faq-a5', `Ay doğuşu ve batışı saatleri şehrin koordinatlarına ve saat dilimine bağlıdır. Doğuş ve batış saatleri bu nedenle şehirden şehre değişir — burada gösterilen değerler ${_C}'in yerel saatiyledir.`],
                         ['.moon-city-hub-faq-q6', `Ay'ın hicri takvim ile ilişkisi nedir?`],
@@ -21955,13 +21953,13 @@ function updateMoonInfo() {
                     ur: [
                         ['.moon-city-hub-faq-title-text', `${_C} میں چاند کے بارے میں اکثر پوچھے جانے والے سوالات`],
                         ['.moon-city-hub-faq-q1', `${_C} میں چاند کا موجودہ مرحلہ کیا ہے؟`],
-                        ['.moon-city-hub-faq-a1', `یہ صفحہ ${_C} میں چاند کا موجودہ مرحلہ دکھاتا ہے، ساتھ ہی روشنی کا فیصد، چاند کی عمر، اور ماہانہ تقویم اور قریبی دنوں کے روابط بھی۔ یہ آپ کو چاند کی حالت ماہ کے مراحل کے سیاق میں پڑھنے میں مدد دیتا ہے، صرف مرحلے کے نام پر بھروسہ کرنے کے بجائے۔`],
+                        ['.moon-city-hub-faq-a1', `یہ صفحہ ${_C} میں چاند کا موجودہ مرحلہ دکھاتا ہے، ساتھ ہی روشنی کا فیصد، چاند کی عمر، اور ماہانہ تقویم کے روابط بھی۔ یہ آپ کو چاند کی حالت ماہ کے مراحل کے سیاق میں پڑھنے میں مدد دیتا ہے، صرف مرحلے کے نام پر بھروسہ کرنے کے بجائے۔`],
                         ['.moon-city-hub-faq-q2', `${_C} میں اگلا بدر کب ہوگا؟`],
                         ['.moon-city-hub-faq-a2', `صفحہ ${_C} میں اگلے بدر کی تاریخ عیسوی اور ہجری دونوں تقویموں میں دکھاتا ہے، اور واقعے کا وقت شہر کے مقامی ٹائم زون میں۔ بدر اور نئے چاند کے اوقات ٹائم زون کے فرق کی وجہ سے شہروں کے درمیان مختلف ہو سکتے ہیں۔`],
                         ['.moon-city-hub-faq-q3', `${_C} میں اگلا نیا چاند کب ہوگا؟`],
                         ['.moon-city-hub-faq-a3', `نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے، اور روشنی 0% کے قریب ہوتی ہے۔ یہ صفحہ ${_C} میں اگلے نئے چاند کی تاریخ دکھاتا ہے — ایک نئے قمری چکر کا آغاز۔`],
                         ['.moon-city-hub-faq-q4', `${_C} میں چاند کی تقویم کیسے استعمال کریں؟`],
-                        ['.moon-city-hub-faq-a4', `ماہ بھر کے چاند کے مراحل دیکھنے کے لیے قریبی دنوں کے روابط یا ماہانہ تقویم کا بٹن استعمال کریں۔ کسی مخصوص دن کی زیادہ تفصیل کے لیے آپ پورے ماہ کے صفحے یا کسی مخصوص تاریخ کے صفحے پر جا سکتے ہیں۔`],
+                        ['.moon-city-hub-faq-a4', `ماہ بھر کے چاند کے مراحل دیکھنے کے لیے ماہانہ تقویم کا بٹن استعمال کریں۔ کسی مخصوص دن کی زیادہ تفصیل کے لیے آپ پورے ماہ کے صفحے پر جا سکتے ہیں۔`],
                         ['.moon-city-hub-faq-q5', `چاند کے طلوع و غروب کے اوقات شہروں کے درمیان کیوں مختلف ہیں؟`],
                         ['.moon-city-hub-faq-a5', `چاند کے طلوع و غروب کے اوقات شہر کے نقاط اور ٹائم زون پر منحصر ہیں۔ اس لیے طلوع و غروب کے اوقات ایک شہر سے دوسرے میں مختلف ہوتے ہیں — یہاں دکھائی گئی قیمتیں ${_C} کے مقامی وقت میں ہیں۔`],
                         ['.moon-city-hub-faq-q6', `چاند کا ہجری تقویم سے کیا تعلق ہے؟`],
@@ -21978,13 +21976,13 @@ function updateMoonInfo() {
                     de: [
                         ['.moon-city-hub-faq-title-text', `FAQ zum Mond in ${_C}`],
                         ['.moon-city-hub-faq-q1', `Wie ist die aktuelle Mondphase in ${_C}?`],
-                        ['.moon-city-hub-faq-a1', `Diese Seite zeigt die aktuelle Mondphase in ${_C}, zusammen mit dem Beleuchtungsanteil, dem Mondalter und Links zum Monatskalender und zu nahen Tagen. Damit lässt sich der Mondstand im Kontext der Monatsphasen lesen, statt sich allein auf den Phasennamen zu verlassen.`],
+                        ['.moon-city-hub-faq-a1', `Diese Seite zeigt die aktuelle Mondphase in ${_C}, zusammen mit dem Beleuchtungsanteil, dem Mondalter und Links zum Monatskalender. Damit lässt sich der Mondstand im Kontext der Monatsphasen lesen, statt sich allein auf den Phasennamen zu verlassen.`],
                         ['.moon-city-hub-faq-q2', `Wann ist der nächste Vollmond in ${_C}?`],
                         ['.moon-city-hub-faq-a2', `Die Seite zeigt das nächste Vollmonddatum in ${_C} sowohl im gregorianischen als auch im Hidschri-Kalender, mit der Uhrzeit in der Ortszeit der Stadt. Voll- und Neumondzeiten können sich zwischen Städten aufgrund von Zeitzonen unterscheiden.`],
                         ['.moon-city-hub-faq-q3', `Wann ist der nächste Neumond in ${_C}?`],
                         ['.moon-city-hub-faq-a3', `Ein Neumond ist der Moment, in dem der Mond zwischen Erde und Sonne liegt; die Beleuchtung liegt nahe 0 %. Diese Seite zeigt das nächste Neumonddatum in ${_C} — den Beginn eines neuen Mondzyklus.`],
                         ['.moon-city-hub-faq-q4', `Wie nutze ich den Mondkalender in ${_C}?`],
-                        ['.moon-city-hub-faq-a4', `Verwenden Sie die Links zu nahen Tagen oder die Schaltfläche zum Monatskalender, um die Mondphasen im Monat zu überprüfen. Für mehr Details zu einem bestimmten Tag wechseln Sie auf die vollständige Monatsseite oder eine konkrete Datumsseite.`],
+                        ['.moon-city-hub-faq-a4', `Verwenden Sie die Schaltfläche zum Monatskalender, um die Mondphasen im Monat zu überprüfen. Für mehr Details zu einem bestimmten Tag wechseln Sie auf die vollständige Monatsseite.`],
                         ['.moon-city-hub-faq-q5', `Warum unterscheiden sich Mondaufgangs- und Mondunterganszeiten zwischen Städten?`],
                         ['.moon-city-hub-faq-a5', `Mondaufgang und -untergang hängen von den Koordinaten der Stadt und ihrer Zeitzone ab. Aufgangs- und Untergangszeiten variieren daher von Stadt zu Stadt — die hier angezeigten Werte sind in der Ortszeit von ${_C}.`],
                         ['.moon-city-hub-faq-q6', `Wie hängt der Mond mit dem Hidschri-Kalender zusammen?`],
@@ -22001,13 +21999,13 @@ function updateMoonInfo() {
                     id: [
                         ['.moon-city-hub-faq-title-text', `FAQ tentang Bulan di ${_C}`],
                         ['.moon-city-hub-faq-q1', `Apa fase Bulan saat ini di ${_C}?`],
-                        ['.moon-city-hub-faq-a1', `Halaman ini menampilkan fase Bulan saat ini di ${_C}, beserta persentase iluminasi, usia Bulan, dan tautan ke kalender bulanan serta hari-hari terdekat. Ini membantu membaca keadaan Bulan dalam konteks fase-fase bulan, bukan hanya bergantung pada nama fase saja.`],
+                        ['.moon-city-hub-faq-a1', `Halaman ini menampilkan fase Bulan saat ini di ${_C}, beserta persentase iluminasi, usia Bulan, dan tautan ke kalender bulanan. Ini membantu membaca keadaan Bulan dalam konteks fase-fase bulan, bukan hanya bergantung pada nama fase saja.`],
                         ['.moon-city-hub-faq-q2', `Kapan bulan purnama berikutnya di ${_C}?`],
                         ['.moon-city-hub-faq-a2', `Halaman menampilkan tanggal bulan purnama berikutnya di ${_C} dalam kalender Masehi dan Hijriah, dengan waktu kejadian dalam zona waktu lokal kota. Waktu purnama dan bulan baru dapat berbeda antar kota karena perbedaan zona waktu.`],
                         ['.moon-city-hub-faq-q3', `Kapan bulan baru berikutnya di ${_C}?`],
                         ['.moon-city-hub-faq-a3', `Bulan baru adalah saat Bulan berada antara Bumi dan Matahari, dengan iluminasi mendekati 0%. Halaman ini menampilkan tanggal bulan baru berikutnya di ${_C} — awal siklus bulan baru.`],
                         ['.moon-city-hub-faq-q4', `Bagaimana cara menggunakan kalender Bulan di ${_C}?`],
-                        ['.moon-city-hub-faq-a4', `Gunakan tautan hari terdekat atau tombol kalender bulanan untuk meninjau fase Bulan sepanjang bulan. Anda dapat membuka halaman bulan penuh atau halaman tanggal tertentu jika ingin detail yang lebih rinci tentang suatu hari.`],
+                        ['.moon-city-hub-faq-a4', `Gunakan tombol kalender bulanan untuk meninjau fase Bulan sepanjang bulan. Anda dapat membuka halaman bulan penuh jika ingin detail yang lebih rinci tentang suatu hari.`],
                         ['.moon-city-hub-faq-q5', `Mengapa waktu terbit dan terbenam Bulan berbeda antar kota?`],
                         ['.moon-city-hub-faq-a5', `Waktu terbit dan terbenam Bulan tergantung pada koordinat kota dan zona waktu. Karena itu waktu terbit/terbenam berbeda dari kota ke kota — nilai yang ditampilkan di sini dalam waktu lokal ${_C}.`],
                         ['.moon-city-hub-faq-q6', `Bagaimana Bulan terkait dengan kalender Hijriah?`],
@@ -22024,13 +22022,13 @@ function updateMoonInfo() {
                     es: [
                         ['.moon-city-hub-faq-title-text', `Preguntas frecuentes sobre la Luna en ${_C}`],
                         ['.moon-city-hub-faq-q1', `¿Cuál es la fase actual de la Luna en ${_C}?`],
-                        ['.moon-city-hub-faq-a1', `Esta página muestra la fase actual de la Luna en ${_C}, junto con el porcentaje de iluminación, la edad de la Luna y enlaces al calendario mensual y a los días cercanos. Esto ayuda a leer el estado de la Luna en el contexto de las fases del mes, en lugar de basarse solo en el nombre de la fase.`],
+                        ['.moon-city-hub-faq-a1', `Esta página muestra la fase actual de la Luna en ${_C}, junto con el porcentaje de iluminación, la edad de la Luna y enlaces al calendario mensual. Esto ayuda a leer el estado de la Luna en el contexto de las fases del mes, en lugar de basarse solo en el nombre de la fase.`],
                         ['.moon-city-hub-faq-q2', `¿Cuándo es la próxima luna llena en ${_C}?`],
                         ['.moon-city-hub-faq-a2', `La página muestra la próxima fecha de luna llena en ${_C} en los calendarios gregoriano e hijri, con la hora del evento en la zona horaria local de la ciudad. Los horarios de luna llena y luna nueva pueden variar entre ciudades por diferencias de zona horaria.`],
                         ['.moon-city-hub-faq-q3', `¿Cuándo es la próxima luna nueva en ${_C}?`],
                         ['.moon-city-hub-faq-a3', `La luna nueva es el instante en que la Luna se sitúa entre la Tierra y el Sol, con una iluminación cercana al 0 %. Esta página muestra la próxima fecha de luna nueva en ${_C} — el inicio de un nuevo ciclo lunar.`],
                         ['.moon-city-hub-faq-q4', `¿Cómo uso el calendario lunar en ${_C}?`],
-                        ['.moon-city-hub-faq-a4', `Usa los enlaces de los días cercanos o el botón del calendario mensual para repasar las fases de la Luna durante el mes. Puedes ir a una página de mes completo o a una página de fecha específica para más detalle sobre un día concreto.`],
+                        ['.moon-city-hub-faq-a4', `Usa el botón del calendario mensual para repasar las fases de la Luna durante el mes. Puedes ir a una página de mes completo para más detalle sobre un día concreto.`],
                         ['.moon-city-hub-faq-q5', `¿Por qué las horas de salida y puesta de la Luna difieren entre ciudades?`],
                         ['.moon-city-hub-faq-a5', `Las horas de salida y puesta de la Luna dependen de las coordenadas de la ciudad y su zona horaria. Por eso varían de una ciudad a otra — los valores mostrados aquí están en la hora local de ${_C}.`],
                         ['.moon-city-hub-faq-q6', `¿Cómo se relaciona la Luna con el calendario hijri?`],
@@ -22047,13 +22045,13 @@ function updateMoonInfo() {
                     bn: [
                         ['.moon-city-hub-faq-title-text', `${_C}-এ চাঁদ সম্পর্কে প্রশ্নোত্তর`],
                         ['.moon-city-hub-faq-q1', `${_C}-এ চাঁদের বর্তমান দশা কী?`],
-                        ['.moon-city-hub-faq-a1', `এই পৃষ্ঠা ${_C}-এ চাঁদের বর্তমান দশা দেখায়, পাশাপাশি আলোকন শতাংশ, চাঁদের বয়স, এবং মাসিক ক্যালেন্ডার ও নিকটবর্তী দিনের লিঙ্কও। এটি আপনাকে কেবল দশার নামের উপর নির্ভর না করে মাসের দশাগুলির প্রসঙ্গে চাঁদের অবস্থা পড়তে সাহায্য করে।`],
+                        ['.moon-city-hub-faq-a1', `এই পৃষ্ঠা ${_C}-এ চাঁদের বর্তমান দশা দেখায়, পাশাপাশি আলোকন শতাংশ, চাঁদের বয়স, এবং মাসিক ক্যালেন্ডার লিঙ্কও। এটি আপনাকে কেবল দশার নামের উপর নির্ভর না করে মাসের দশাগুলির প্রসঙ্গে চাঁদের অবস্থা পড়তে সাহায্য করে।`],
                         ['.moon-city-hub-faq-q2', `${_C}-এ পরবর্তী পূর্ণিমা কখন?`],
                         ['.moon-city-hub-faq-a2', `পৃষ্ঠাটি ${_C}-এ পরবর্তী পূর্ণিমার তারিখ গ্রেগরিয়ান ও হিজরি উভয় ক্যালেন্ডারে দেখায়, এবং ঘটনার সময় শহরের স্থানীয় টাইমজোনে। টাইমজোনের পার্থক্যের কারণে পূর্ণিমা ও অমাবস্যার সময় শহরভেদে আলাদা হতে পারে।`],
                         ['.moon-city-hub-faq-q3', `${_C}-এ পরবর্তী অমাবস্যা কখন?`],
                         ['.moon-city-hub-faq-a3', `অমাবস্যা হল সেই মুহূর্ত যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে, এবং আলোকন প্রায় ০%। এই পৃষ্ঠা ${_C}-এ পরবর্তী অমাবস্যার তারিখ দেখায় — একটি নতুন চান্দ্র চক্রের সূচনা।`],
                         ['.moon-city-hub-faq-q4', `${_C}-এ চাঁদের ক্যালেন্ডার কীভাবে ব্যবহার করব?`],
-                        ['.moon-city-hub-faq-a4', `মাসজুড়ে চাঁদের দশা পর্যালোচনা করতে নিকটবর্তী দিনের লিঙ্ক বা মাসিক ক্যালেন্ডার বোতাম ব্যবহার করুন। কোনো নির্দিষ্ট দিনের আরও বিস্তারিত জানতে চাইলে পূর্ণ মাসের পৃষ্ঠা বা নির্দিষ্ট তারিখের পৃষ্ঠায় যেতে পারেন।`],
+                        ['.moon-city-hub-faq-a4', `মাসজুড়ে চাঁদের দশা পর্যালোচনা করতে মাসিক ক্যালেন্ডার বোতাম ব্যবহার করুন। কোনো নির্দিষ্ট দিনের আরও বিস্তারিত জানতে চাইলে পূর্ণ মাসের পৃষ্ঠায় যেতে পারেন।`],
                         ['.moon-city-hub-faq-q5', `চাঁদের উদয় ও অস্তের সময় শহরভেদে কেন আলাদা?`],
                         ['.moon-city-hub-faq-a5', `চাঁদের উদয় ও অস্তের সময় শহরের স্থানাঙ্ক ও টাইমজোনের উপর নির্ভর করে। তাই উদয় ও অস্তের সময় এক শহর থেকে আরেক শহরে পরিবর্তিত হয় — এখানে প্রদর্শিত মানগুলি ${_C}-এর স্থানীয় সময়ে।`],
                         ['.moon-city-hub-faq-q6', `চাঁদ হিজরি ক্যালেন্ডারের সাথে কীভাবে সম্পর্কিত?`],
@@ -22070,13 +22068,13 @@ function updateMoonInfo() {
                     ms: [
                         ['.moon-city-hub-faq-title-text', `Soalan lazim tentang Bulan di ${_C}`],
                         ['.moon-city-hub-faq-q1', `Apakah fasa Bulan semasa di ${_C}?`],
-                        ['.moon-city-hub-faq-a1', `Halaman ini memaparkan fasa Bulan semasa di ${_C}, beserta peratusan pencahayaan, usia Bulan, dan pautan ke kalendar bulanan dan hari-hari berdekatan. Ini membantu membaca keadaan Bulan dalam konteks fasa-fasa bulan, bukan hanya bergantung pada nama fasa sahaja.`],
+                        ['.moon-city-hub-faq-a1', `Halaman ini memaparkan fasa Bulan semasa di ${_C}, beserta peratusan pencahayaan, usia Bulan, dan pautan ke kalendar bulanan. Ini membantu membaca keadaan Bulan dalam konteks fasa-fasa bulan, bukan hanya bergantung pada nama fasa sahaja.`],
                         ['.moon-city-hub-faq-q2', `Bilakah bulan purnama seterusnya di ${_C}?`],
                         ['.moon-city-hub-faq-a2', `Halaman memaparkan tarikh bulan purnama seterusnya di ${_C} dalam kalendar Masihi dan Hijrah, dengan waktu peristiwa dalam zon waktu tempatan bandar. Waktu purnama dan anak bulan boleh berbeza antara bandar disebabkan perbezaan zon waktu.`],
                         ['.moon-city-hub-faq-q3', `Bilakah anak bulan seterusnya di ${_C}?`],
                         ['.moon-city-hub-faq-a3', `Anak bulan ialah saat Bulan berada antara Bumi dan Matahari, dengan pencahayaan menghampiri 0%. Halaman ini memaparkan tarikh anak bulan seterusnya di ${_C} — permulaan kitaran bulan yang baharu.`],
                         ['.moon-city-hub-faq-q4', `Bagaimana saya menggunakan kalendar Bulan di ${_C}?`],
-                        ['.moon-city-hub-faq-a4', `Gunakan pautan hari berdekatan atau butang kalendar bulanan untuk menyemak fasa Bulan sepanjang bulan. Anda boleh pergi ke halaman bulan penuh atau halaman tarikh tertentu jika mahukan butiran lebih halus untuk satu hari tertentu.`],
+                        ['.moon-city-hub-faq-a4', `Gunakan butang kalendar bulanan untuk menyemak fasa Bulan sepanjang bulan. Anda boleh pergi ke halaman bulan penuh jika mahukan butiran lebih halus untuk satu hari tertentu.`],
                         ['.moon-city-hub-faq-q5', `Mengapa waktu terbit dan terbenam Bulan berbeza antara bandar?`],
                         ['.moon-city-hub-faq-a5', `Waktu terbit dan terbenam Bulan bergantung pada koordinat bandar dan zon waktunya. Oleh itu waktu terbit dan terbenam berbeza dari bandar ke bandar — nilai yang dipaparkan di sini adalah dalam waktu tempatan ${_C}.`],
                         ['.moon-city-hub-faq-q6', `Bagaimana Bulan berkaitan dengan kalendar Hijrah?`],
@@ -22149,10 +22147,9 @@ function updateMoonInfo() {
                 const _link1 = document.querySelector('.moon-city-hub-edu-link-today');
                 const _link2 = document.querySelector('.moon-city-hub-edu-link-other');
                 const _link3 = document.querySelector('.moon-city-hub-edu-link-hijri');
-                if (_link1) {
-                    _link1.textContent = _eduLinks[0];
-                    _link1.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'today'));
-                }
+                // MOON-DAY-PAGES-REMOVAL-1: _link1 ("Moon status today") would only point back at this
+                //   hub — the SSR drops its li on the hub; if it is still present (e.g. a coordinate hub) drop it here.
+                if (_link1 && _link1.closest('li') && !/\/\d{4}-\d{2}$/.test(_moonPathname())) _link1.closest('li').remove();
                 if (_link2) {
                     _link2.textContent = _eduLinks[1];
                     _link2.setAttribute('href', _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'month', '', _eduMonthIso));
@@ -22213,10 +22210,12 @@ function updateMoonInfo() {
                 //   Label order also changed: hijri-today moved from #6 to
                 //   #4; prayer-times → #5; qibla → #6. Matches the user's
                 //   spec order in 10 langs.
+                // MOON-DAY-PAGES-REMOVAL-1: intro no longer mentions "nearby days"; card 1 (today)
+                //   has no target on the hub (its li is dropped in SSR), see the loop below.
                 const _HUB_RELATED_BY_LANG = {
                     ar: {
                         title: `روابط وأدوات مرتبطة بالقمر في ${_cityName}`,
-                        intro: `تساعدك هذه الروابط على الانتقال بين حالة القمر في ${_cityName}، والتقويم الشهري، والأيام القريبة، مع أدوات مرتبطة مثل مواقيت الصلاة واتجاه القبلة والتاريخ الهجري.`,
+                        intro: `تساعدك هذه الروابط على الانتقال بين حالة القمر في ${_cityName}، والتقويم الشهري، مع أدوات مرتبطة مثل مواقيت الصلاة واتجاه القبلة والتاريخ الهجري.`,
                         labels: [
                             `حالة القمر اليوم في ${_cityName}`,
                             `تقويم القمر لشهر ${_curMonthName} ${_curYear}`,
@@ -22228,7 +22227,7 @@ function updateMoonInfo() {
                     },
                     en: {
                         title: `Moon-related links & tools for ${_cityName}`,
-                        intro: `These links help you move between the Moon's status in ${_cityName}, the monthly calendar, and nearby days — alongside related tools like prayer times, Qibla direction, and today's Hijri date.`,
+                        intro: `These links help you move between the Moon's status in ${_cityName} and the monthly calendar — alongside related tools like prayer times, Qibla direction, and today's Hijri date.`,
                         labels: [
                             `Moon status today in ${_cityName}`,
                             `Moon calendar for ${_curMonthName} ${_curYear}`,
@@ -22240,7 +22239,7 @@ function updateMoonInfo() {
                     },
                     fr: {
                         title: `Liens et outils liés à la Lune à ${_cityName}`,
-                        intro: `Ces liens vous aident à naviguer entre l'état de la Lune à ${_cityName}, le calendrier mensuel et les jours proches — avec des outils associés comme les horaires de prière, la direction de la Qibla et la date hégirienne du jour.`,
+                        intro: `Ces liens vous aident à naviguer entre l'état de la Lune à ${_cityName} et le calendrier mensuel — avec des outils associés comme les horaires de prière, la direction de la Qibla et la date hégirienne du jour.`,
                         labels: [
                             `État de la Lune aujourd'hui à ${_cityName}`,
                             `Calendrier lunaire pour ${_curMonthName} ${_curYear}`,
@@ -22252,7 +22251,7 @@ function updateMoonInfo() {
                     },
                     tr: {
                         title: `${_cityName} için Ay'la ilgili bağlantılar ve araçlar`,
-                        intro: `Bu bağlantılar ${_cityName}'deki Ay durumu, aylık takvim ve yakın günler arasında geçiş yapmanıza yardımcı olur — namaz vakitleri, kıble yönü ve bugünün hicri tarihi gibi ilgili araçlarla birlikte.`,
+                        intro: `Bu bağlantılar ${_cityName}'deki Ay durumu ve aylık takvim arasında geçiş yapmanıza yardımcı olur — namaz vakitleri, kıble yönü ve bugünün hicri tarihi gibi ilgili araçlarla birlikte.`,
                         labels: [
                             `${_cityName}'de bugünkü ay durumu`,
                             `${_curMonthName} ${_curYear} ay takvimi`,
@@ -22264,7 +22263,7 @@ function updateMoonInfo() {
                     },
                     ur: {
                         title: `${_cityName} میں چاند سے متعلق روابط اور ٹولز`,
-                        intro: `یہ روابط ${_cityName} میں چاند کی حالت، ماہانہ تقویم اور قریبی دنوں کے درمیان جانے میں مدد دیتے ہیں — اوقاتِ نماز، سمتِ قبلہ اور آج کی ہجری تاریخ جیسے متعلقہ ٹولز کے ساتھ۔`,
+                        intro: `یہ روابط ${_cityName} میں چاند کی حالت اور ماہانہ تقویم کے درمیان جانے میں مدد دیتے ہیں — اوقاتِ نماز، سمتِ قبلہ اور آج کی ہجری تاریخ جیسے متعلقہ ٹولز کے ساتھ۔`,
                         labels: [
                             `${_cityName} میں آج چاند کی حالت`,
                             `${_curMonthName} ${_curYear} کا چاند کیلنڈر`,
@@ -22276,7 +22275,7 @@ function updateMoonInfo() {
                     },
                     de: {
                         title: `Mondbezogene Links und Tools für ${_cityName}`,
-                        intro: `Diese Links helfen Ihnen, zwischen dem Mondstand in ${_cityName}, dem Monatskalender und nahen Tagen zu navigieren — neben verwandten Tools wie Gebetszeiten, Qibla-Richtung und heutigem Hidschri-Datum.`,
+                        intro: `Diese Links helfen Ihnen, zwischen dem Mondstand in ${_cityName} und dem Monatskalender zu navigieren — neben verwandten Tools wie Gebetszeiten, Qibla-Richtung und heutigem Hidschri-Datum.`,
                         labels: [
                             `Mondzustand heute in ${_cityName}`,
                             `Mondkalender für ${_curMonthName} ${_curYear}`,
@@ -22288,7 +22287,7 @@ function updateMoonInfo() {
                     },
                     id: {
                         title: `Tautan & alat terkait Bulan di ${_cityName}`,
-                        intro: `Tautan ini membantu Anda berpindah antara status Bulan di ${_cityName}, kalender bulanan, dan hari-hari terdekat — beserta alat terkait seperti jadwal sholat, arah kiblat, dan tanggal Hijriah hari ini.`,
+                        intro: `Tautan ini membantu Anda berpindah antara status Bulan di ${_cityName} dan kalender bulanan — beserta alat terkait seperti jadwal sholat, arah kiblat, dan tanggal Hijriah hari ini.`,
                         labels: [
                             `Status Bulan hari ini di ${_cityName}`,
                             `Kalender bulan ${_curMonthName} ${_curYear}`,
@@ -22300,7 +22299,7 @@ function updateMoonInfo() {
                     },
                     es: {
                         title: `Enlaces y herramientas relacionadas con la Luna en ${_cityName}`,
-                        intro: `Estos enlaces te ayudan a moverte entre el estado de la Luna en ${_cityName}, el calendario mensual y los días cercanos — junto con herramientas relacionadas como horarios de oración, dirección de la Qibla y la fecha hijri de hoy.`,
+                        intro: `Estos enlaces te ayudan a moverte entre el estado de la Luna en ${_cityName} y el calendario mensual — junto con herramientas relacionadas como horarios de oración, dirección de la Qibla y la fecha hijri de hoy.`,
                         labels: [
                             `Estado de la Luna hoy en ${_cityName}`,
                             `Calendario lunar para ${_curMonthName} ${_curYear}`,
@@ -22312,7 +22311,7 @@ function updateMoonInfo() {
                     },
                     bn: {
                         title: `${_cityName}-এ চাঁদ-সম্পর্কিত লিঙ্ক ও সরঞ্জাম`,
-                        intro: `এই লিঙ্কগুলো আপনাকে ${_cityName}-এ চাঁদের অবস্থা, মাসিক ক্যালেন্ডার এবং নিকটবর্তী দিনগুলোর মধ্যে চলাচল করতে সাহায্য করে — নামাজের সময়, কিবলার দিক ও আজকের হিজরি তারিখের মতো সম্পর্কিত সরঞ্জামের সাথে।`,
+                        intro: `এই লিঙ্কগুলো আপনাকে ${_cityName}-এ চাঁদের অবস্থা এবং মাসিক ক্যালেন্ডারের মধ্যে চলাচল করতে সাহায্য করে — নামাজের সময়, কিবলার দিক ও আজকের হিজরি তারিখের মতো সম্পর্কিত সরঞ্জামের সাথে।`,
                         labels: [
                             `${_cityName}-এ আজ চাঁদের অবস্থা`,
                             `${_curMonthName} ${_curYear}-এর চাঁদের ক্যালেন্ডার`,
@@ -22324,7 +22323,7 @@ function updateMoonInfo() {
                     },
                     ms: {
                         title: `Pautan & alat berkaitan Bulan di ${_cityName}`,
-                        intro: `Pautan ini membantu anda bergerak antara status Bulan di ${_cityName}, kalendar bulanan, dan hari-hari berdekatan — bersama alat berkaitan seperti waktu solat, arah kiblat, dan tarikh Hijrah hari ini.`,
+                        intro: `Pautan ini membantu anda bergerak antara status Bulan di ${_cityName} dan kalendar bulanan — bersama alat berkaitan seperti waktu solat, arah kiblat, dan tarikh Hijrah hari ini.`,
                         labels: [
                             `Status Bulan hari ini di ${_cityName}`,
                             `Kalendar Bulan untuk ${_curMonthName} ${_curYear}`,
@@ -22354,7 +22353,7 @@ function updateMoonInfo() {
                 //   links" spec where prayer-times + qibla move to 5/6 and
                 //   hijri-today gets the more prominent #4 slot.
                 const _hrefs = [
-                    _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'today'),
+                    '',   // MOON-DAY-PAGES-REMOVAL-1: card 1 (today) = this hub → no target (li dropped in SSR)
                     _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'month', '', _curMonthIso),
                     _nestedMoonHrefClient(_citySlug, _langPrefixEdu, 'month', '', _nextMonthIso),
                     _langPrefixEdu + _hijriTodayPath,
@@ -22367,6 +22366,7 @@ function updateMoonInfo() {
                 if (_hubRelIntro) _hubRelIntro.textContent = _HUB_RELATED.intro;
                 for (let i = 1; i <= 6; i++) {
                     const _card = document.querySelector('.moon-hub-related-' + i);
+                    if (i === 1) { if (_card && _card.closest('li') && !/\/\d{4}-\d{2}$/.test(_moonPathname())) _card.closest('li').remove(); continue; }   // MOON-DAY-PAGES-REMOVAL-1: card 1 has no target on a hub → drop its item (SSR already drops it on most hubs)
                     if (_card) {
                         const _lbl = _card.querySelector('.moon-hub-related-label');
                         if (_lbl) _lbl.textContent = _HUB_RELATED.labels[i - 1];
@@ -22375,239 +22375,13 @@ function updateMoonInfo() {
                 }
             } catch (_) { /* silent */ }
 
-            // إخفاء شريط التنقّل بين الأيّام على صفحة hub (لا يوجد «prev/next date»)
-            try {
-                const _navElHub = document.getElementById('moon-date-nav');
-                if (_navElHub) _navElHub.hidden = true;
-            } catch (_e) { /* silent */ }
+            // MOON-DAY-PAGES-REMOVAL-1: the hub-only "hide #moon-date-nav" step is gone with the bar itself.
 
         }
 
-        // UAT-SEO-Phase-B4 (2026-04-30): today-in-city educational section.
-        //   Fires only on /moon-today-in-{city} (NOT date, NOT hub, NOT month).
-        //   Distinct "now/today" voice — bridges the visitor from the today
-        //   snapshot to deeper pages (city hub, current month, today's detail
-        //   page with full Gregorian/Hijri date, today's Hijri-date page).
-        //   AR + EN explicit; other 8 langs follow EN.
-        //   Belt-and-suspenders: gate on html.moon-today-city-page class
-        //   OR URL regex (CSS gate uses the same class so they should agree),
-        //   AND re-run via setTimeout(0)+(100) to defeat any DOM-readiness
-        //   race condition during the first updateMoonInfo() pass.
-        const _runTodayCityEdu = () => {
-        try {
-            const _hasTdcClass = document.documentElement.classList.contains('moon-today-city-page');
-            const _urlMatchesTdc = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon-today-in-/.test(window.location.pathname);
-            const _isTodayCityUrl = (_hasTdcClass || _urlMatchesTdc)
-                && !!_citySlug && !_isDatePage && !_isHubPage;
-            if (_isTodayCityUrl) {
-                // UAT-SEO-Phase-C pre-fix: compute "today" in the CITY's local
-                //   timezone, not the browser's. A user in NYC viewing
-                //   /moon-today-in-jakarta should see Jakarta's current day in
-                //   the cross-link hrefs, not NYC's. Up to ~12hr offset can
-                //   flip the date. Falls back to browser-local on any error.
-                const _padB4 = (n) => String(n).padStart(2, '0');
-                const _cityTodayB4 = (() => {
-                    try {
-                        if (_tz) {
-                            const _p = new Intl.DateTimeFormat('en-CA', {
-                                timeZone: _tz,
-                                year: 'numeric', month: '2-digit', day: '2-digit'
-                            }).formatToParts(new Date());
-                            const _g = (t) => parseInt((_p.find(x => x.type === t) || {}).value || '0', 10);
-                            return { y: _g('year'), m: _g('month'), d: _g('day') };
-                        }
-                    } catch (_) {}
-                    const _b = new Date();
-                    return { y: _b.getFullYear(), m: _b.getMonth() + 1, d: _b.getDate() };
-                })();
-                const _gregISO = _cityTodayB4.y + '-' + _padB4(_cityTodayB4.m) + '-' + _padB4(_cityTodayB4.d);
-                const _gregMonthISO = _cityTodayB4.y + '-' + _padB4(_cityTodayB4.m);
-                let _hijriISO = '';
-                try {
-                    if (typeof HijriDate !== 'undefined' && HijriDate.getToday) {
-                        const _hT = HijriDate.getToday();
-                        _hijriISO = _hT.year + '-' + _padB4(_hT.month) + '-' + _padB4(_hT.day);
-                    }
-                } catch (_) {}
-                const _langPrefixB4 = (_lng_ === 'ar') ? '' : ('/' + _lng_);
-
-                // Resolve current values for interpolation. The phase / illumination
-                // / age vars are in scope from MoonCalc earlier in this function.
-                const _phaseLocB4 = (phase && phase.key && typeof t === 'function') ? t(phase.key) : (phase ? phase.name : '');
-                const _phaseValB4 = (_phaseLocB4 && _phaseLocB4 !== (phase && phase.key)) ? _phaseLocB4 : ((phase && phase.name) || '');
-                const _illumB4 = (typeof illumination === 'number') ? illumination.toFixed(2).replace(/\.?0+$/, '') : '—';
-                const _ageB4 = (typeof age === 'number') ? age.toFixed(2).replace(/\.?0+$/, '') : '—';
-
-                const _gMonthAr = ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'];
-                const _gMonthEn = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-                const _curMonthLbl = (_lng_ === 'ar') ? _gMonthAr[_cityTodayB4.m - 1] : _gMonthEn[_cityTodayB4.m - 1];
-
-                // Phase D3.1.3b: 10-lang lookup (was: _TDC_AR / _TDC_EN ternary)
-                const _TDC_BY_LANG = {
-                    ar: {
-                        title: `ملخص قمر اليوم في ${_cityName}`,
-                        p1: `في ${_cityName} اليوم، يَكون القمر في طور ${_phaseValB4} بإضاءة ${_illumB4}٪ وعمر ${_ageB4} يوم من الدورة القمرية الحالية. هذه القيم لحظية، محسوبة فلكياً وفق منهجيات Jean Meeus حسب إحداثيات ${_cityName} وتوقيتها المحلي، وتَتَجدَد تلقائياً.`,
-                        p2: `تَختلف مَواعيد شروق وغروب القمر بين المدن بحسب خط الطول والمنطقة الزمنية. الأرقام المعروضة هنا خاصة بـ ${_cityName} فقط — قد تَختلف عن مدن أخرى مثل القاهرة أو لندن أو نيويورك.`,
-                        p3: `حالة القمر اليوم في ${_cityName} تَرتبط بالتقويم الهجري، إذ تُساعد على تَوقع موعد رؤية الهلال للشهر الهجري القادم. هذه بيانات فلكية موضوعية — أما ثبوت بدء الشهر الهجري فيَخضع للرؤية الشرعية في كل بلد.`,
-                        p4: `للمتابعة بعد حالة اليوم، يُمكنك تَصفح تقويم القمر الكامل في ${_cityName}، أو الاطلاع على تقويم شهر ${_curMonthLbl}، أو فتح صفحة تَفاصيل قمر اليوم بالتاريخ الميلادي الكامل، أو مُراجعة التاريخ الهجري اليوم.`,
-                        links: [
-                            `تقويم القمر في ${_cityName}`,
-                            `تقويم القمر لشهر ${_curMonthLbl}`,
-                            `تَفاصيل قمر اليوم بالتاريخ`,
-                            `التاريخ الهجري اليوم`
-                        ]
-                    },
-                    en: {
-                        title: `Today's moon snapshot in ${_cityName}`,
-                        p1: `In ${_cityName} today, the Moon is in ${_phaseValB4} phase with ${_illumB4}% illumination and ${_ageB4} days of age in the current lunar cycle. These values are live — computed astronomically using Jean Meeus' methods for ${_cityName}'s coordinates and local timezone, and refresh automatically.`,
-                        p2: `Moonrise and moonset times vary between cities based on longitude and timezone. The figures shown here are specific to ${_cityName} — they will differ from other cities like Cairo, London, or New York.`,
-                        p3: `The Moon's state today in ${_cityName} is tied to the Hijri calendar — it helps anticipate when the crescent of the next Hijri month will be visible. These are objective astronomical data; official confirmation of each Hijri month depends on local jurisprudence in each country.`,
-                        p4: `To go beyond today's snapshot, you can browse the full moon calendar for ${_cityName}, view this month's calendar for ${_curMonthLbl}, open today's detailed page with full Gregorian/Hijri dates, or check today's Hijri date page.`,
-                        links: [
-                            `Moon calendar in ${_cityName}`,
-                            `Moon calendar for ${_curMonthLbl}`,
-                            `Today's moon details by date`,
-                            `Today's Hijri date`
-                        ]
-                    },
-                    fr: {
-                        title: `Aperçu de la Lune aujourd'hui à ${_cityName}`,
-                        p1: `À ${_cityName} aujourd'hui, la Lune est en phase ${_phaseValB4} avec ${_illumB4} % d'illumination et ${_ageB4} jours d'âge dans le cycle lunaire actuel. Ces valeurs sont en direct — calculées astronomiquement avec les méthodes de Jean Meeus pour les coordonnées et le fuseau horaire local de ${_cityName}, et se rafraîchissent automatiquement.`,
-                        p2: `Les heures de lever et coucher de la Lune varient entre les villes selon la longitude et le fuseau horaire. Les chiffres affichés ici sont spécifiques à ${_cityName} — ils diffèrent d'autres villes comme Le Caire, Londres ou New York.`,
-                        p3: `L'état de la Lune aujourd'hui à ${_cityName} est lié au calendrier hégirien — il aide à anticiper quand le croissant du prochain mois hégirien sera visible. Ce sont des données astronomiques objectives ; la confirmation officielle de chaque mois hégirien dépend de la jurisprudence locale dans chaque pays.`,
-                        p4: `Pour aller au-delà de l'aperçu du jour, vous pouvez parcourir le calendrier lunaire complet pour ${_cityName}, voir le calendrier de ce mois (${_curMonthLbl}), ouvrir la page détaillée d'aujourd'hui avec les dates grégorienne/hégirienne complètes, ou consulter la page de la date hégirienne du jour.`,
-                        links: [
-                            `Calendrier lunaire à ${_cityName}`,
-                            `Calendrier lunaire pour ${_curMonthLbl}`,
-                            `Détails de la Lune du jour par date`,
-                            `Date hégirienne du jour`
-                        ]
-                    },
-                    tr: {
-                        title: `${_cityName}'de bugünün ay özeti`,
-                        p1: `${_cityName}'de bugün Ay, mevcut ay döngüsünde ${_phaseValB4} evresinde, %${_illumB4} aydınlanma ve ${_ageB4} günlük yaşla bulunuyor. Bu değerler canlıdır — Jean Meeus yöntemleriyle ${_cityName}'in koordinatları ve yerel saat dilimi için astronomik olarak hesaplanır ve otomatik olarak yenilenir.`,
-                        p2: `Ay doğuş ve batış saatleri boylama ve saat dilimine bağlı olarak şehirler arasında değişir. Burada gösterilen rakamlar ${_cityName}'e özgüdür — Kahire, Londra veya New York gibi diğer şehirlerden farklı olacaktır.`,
-                        p3: `${_cityName}'deki Ay'ın bugünkü durumu hicri takvim ile bağlantılıdır — bir sonraki hicri ayın hilalinin ne zaman görüneceğini öngörmeye yardımcı olur. Bu nesnel astronomik verilerdir; her hicri ayın resmi onayı her ülkedeki yerel fıkıha bağlıdır.`,
-                        p4: `Bugünkü özetin ötesine geçmek için, ${_cityName} için tam ay takvimine göz atabilir, bu ay (${_curMonthLbl}) takvimini görüntüleyebilir, tam miladi/hicri tarihlerle bugünün ayrıntılı sayfasını açabilir veya bugünün hicri tarihi sayfasını kontrol edebilirsiniz.`,
-                        links: [
-                            `${_cityName} ay takvimi`,
-                            `${_curMonthLbl} ay takvimi`,
-                            `Bugünkü ay detayları (tarihe göre)`,
-                            `Bugünün hicri tarihi`
-                        ]
-                    },
-                    ur: {
-                        title: `${_cityName} میں آج چاند کا خلاصہ`,
-                        p1: `${_cityName} میں آج چاند موجودہ قمری چکر میں ${_phaseValB4} طور پر ${_illumB4}٪ روشنی اور ${_ageB4} دن کی عمر کے ساتھ ہے۔ یہ قیمتیں براہِ راست ہیں — Jean Meeus کے طریقوں سے ${_cityName} کے کوآرڈینیٹس اور مقامی ٹائم زون کے لیے فلکیاتی طور پر شمار کی جاتی ہیں اور خود بخود تازہ ہوتی رہتی ہیں۔`,
-                        p2: `چاند کی مطلع و مغیب کے اوقات خط طول اور ٹائم زون کے مطابق شہروں کے درمیان مختلف ہوتے ہیں۔ یہاں دکھائی گئی قیمتیں ${_cityName} کے لیے مخصوص ہیں — یہ دوسرے شہروں جیسے قاہرہ، لندن یا نیویارک سے مختلف ہوں گی۔`,
-                        p3: `${_cityName} میں آج چاند کی حالت ہجری تقویم سے جڑی ہے — یہ اگلے ہجری مہینے کے ہلال کی رؤیت کے وقت کا اندازہ لگانے میں مدد کرتی ہے۔ یہ معروضی فلکیاتی ڈیٹا ہے؛ ہر ہجری مہینے کی سرکاری تصدیق ہر ملک کی مقامی فقہ پر منحصر ہے۔`,
-                        p4: `آج کے خلاصے سے آگے بڑھنے کے لیے، آپ ${_cityName} کے لیے مکمل چاند کے کیلنڈر کو براؤز کر سکتے ہیں، اس مہینے (${_curMonthLbl}) کا کیلنڈر دیکھ سکتے ہیں، مکمل عیسوی/ہجری تاریخوں کے ساتھ آج کا تفصیلی صفحہ کھول سکتے ہیں، یا آج کی ہجری تاریخ کا صفحہ چیک کر سکتے ہیں۔`,
-                        links: [
-                            `${_cityName} میں چاند کیلنڈر`,
-                            `${_curMonthLbl} کا چاند کیلنڈر`,
-                            `تاریخ کے مطابق آج کے چاند کی تفصیلات`,
-                            `آج کی ہجری تاریخ`
-                        ]
-                    },
-                    de: {
-                        title: `Heutige Mond-Übersicht in ${_cityName}`,
-                        p1: `In ${_cityName} ist der Mond heute in der ${_phaseValB4}-Phase mit ${_illumB4} % Beleuchtung und einem Alter von ${_ageB4} Tagen im aktuellen Mondzyklus. Diese Werte sind live — astronomisch mit den Methoden von Jean Meeus für die Koordinaten und Ortszeit von ${_cityName} berechnet und aktualisieren sich automatisch.`,
-                        p2: `Mondaufgangs- und -untergangszeiten variieren zwischen Städten je nach geografischer Länge und Zeitzone. Die hier gezeigten Werte gelten speziell für ${_cityName} — sie unterscheiden sich von anderen Städten wie Kairo, London oder New York.`,
-                        p3: `Der Zustand des Mondes heute in ${_cityName} ist mit dem Hidschri-Kalender verbunden — er hilft vorherzusagen, wann die Mondsichel des nächsten Hidschri-Monats sichtbar sein wird. Dies sind objektive astronomische Daten; die offizielle Bestätigung jedes Hidschri-Monats hängt von der lokalen Rechtsprechung in jedem Land ab.`,
-                        p4: `Um über die heutige Übersicht hinauszugehen, können Sie den vollständigen Mondkalender für ${_cityName} durchsuchen, den Kalender für diesen Monat (${_curMonthLbl}) anzeigen, die heutige Detailseite mit vollständigen gregorianischen/Hidschri-Daten öffnen oder die heutige Hidschri-Datumsseite einsehen.`,
-                        links: [
-                            `Mondkalender in ${_cityName}`,
-                            `Mondkalender für ${_curMonthLbl}`,
-                            `Heutige Monddetails nach Datum`,
-                            `Heutiges Hidschri-Datum`
-                        ]
-                    },
-                    id: {
-                        title: `Ringkasan Bulan hari ini di ${_cityName}`,
-                        p1: `Di ${_cityName} hari ini, Bulan berada dalam fase ${_phaseValB4} dengan iluminasi ${_illumB4}% dan usia ${_ageB4} hari dalam siklus bulan saat ini. Nilai-nilai ini langsung — dihitung secara astronomis menggunakan metode Jean Meeus untuk koordinat dan zona waktu lokal ${_cityName}, dan diperbarui secara otomatis.`,
-                        p2: `Waktu terbit dan terbenam Bulan bervariasi antar kota berdasarkan bujur dan zona waktu. Angka yang ditampilkan di sini spesifik untuk ${_cityName} — akan berbeda dari kota lain seperti Kairo, London, atau New York.`,
-                        p3: `Keadaan Bulan hari ini di ${_cityName} terkait dengan kalender Hijriah — membantu mengantisipasi kapan hilal bulan Hijriah berikutnya akan terlihat. Ini adalah data astronomis objektif; konfirmasi resmi setiap bulan Hijriah tergantung pada fikih lokal di setiap negara.`,
-                        p4: `Untuk melampaui ringkasan hari ini, Anda dapat menjelajahi kalender bulan lengkap untuk ${_cityName}, melihat kalender bulan ini (${_curMonthLbl}), membuka halaman detail hari ini dengan tanggal Masehi/Hijriah lengkap, atau memeriksa halaman tanggal Hijriah hari ini.`,
-                        links: [
-                            `Kalender bulan di ${_cityName}`,
-                            `Kalender bulan ${_curMonthLbl}`,
-                            `Detail Bulan hari ini berdasarkan tanggal`,
-                            `Tanggal Hijriah hari ini`
-                        ]
-                    },
-                    es: {
-                        title: `Resumen de la Luna hoy en ${_cityName}`,
-                        p1: `En ${_cityName} hoy, la Luna se encuentra en fase ${_phaseValB4} con ${_illumB4} % de iluminación y ${_ageB4} días de edad en el ciclo lunar actual. Estos valores son en vivo — calculados astronómicamente con los métodos de Jean Meeus para las coordenadas y zona horaria local de ${_cityName}, y se actualizan automáticamente.`,
-                        p2: `Los horarios de salida y puesta de la Luna varían entre ciudades según la longitud y la zona horaria. Las cifras mostradas aquí son específicas de ${_cityName} — diferirán de otras ciudades como El Cairo, Londres o Nueva York.`,
-                        p3: `El estado de la Luna hoy en ${_cityName} está vinculado al calendario hijri — ayuda a anticipar cuándo será visible el creciente del próximo mes hijri. Estos son datos astronómicos objetivos; la confirmación oficial de cada mes hijri depende de la jurisprudencia local en cada país.`,
-                        p4: `Para ir más allá del resumen de hoy, puede explorar el calendario lunar completo para ${_cityName}, ver el calendario de este mes (${_curMonthLbl}), abrir la página detallada de hoy con fechas gregoriana/hijri completas, o consultar la página de la fecha hijri de hoy.`,
-                        links: [
-                            `Calendario lunar en ${_cityName}`,
-                            `Calendario lunar para ${_curMonthLbl}`,
-                            `Detalles de la Luna de hoy por fecha`,
-                            `Fecha hijri de hoy`
-                        ]
-                    },
-                    bn: {
-                        title: `${_cityName}-এ আজকের চাঁদের সারসংক্ষেপ`,
-                        p1: `${_cityName}-এ আজ, চাঁদ বর্তমান চাঁদের চক্রে ${_phaseValB4} দশায়, ${_illumB4}% আলোকন এবং ${_ageB4} দিনের বয়স সহ রয়েছে। এই মানগুলি লাইভ — Jean Meeus-এর পদ্ধতি ব্যবহার করে ${_cityName}-এর স্থানাঙ্ক ও স্থানীয় টাইমজোনের জন্য জ্যোতির্বিজ্ঞানগতভাবে গণনা করা হয় এবং স্বয়ংক্রিয়ভাবে রিফ্রেশ হয়।`,
-                        p2: `চাঁদের উদয় ও অস্তের সময় দ্রাঘিমাংশ ও টাইমজোন অনুসারে শহরভেদে পরিবর্তিত হয়। এখানে দেখানো সংখ্যাগুলি ${_cityName}-এর জন্য নির্দিষ্ট — এগুলি কায়রো, লন্ডন বা নিউইয়র্কের মতো অন্যান্য শহর থেকে আলাদা হবে।`,
-                        p3: `${_cityName}-এ আজ চাঁদের অবস্থা হিজরি ক্যালেন্ডারের সাথে যুক্ত — এটি পরবর্তী হিজরি মাসের হিলাল কখন দৃশ্যমান হবে তা পূর্বাভাস দিতে সাহায্য করে। এগুলি বস্তুনিষ্ঠ জ্যোতির্বিজ্ঞান ডেটা; প্রতিটি হিজরি মাসের আনুষ্ঠানিক নিশ্চিতকরণ প্রতিটি দেশে স্থানীয় ফিকহের উপর নির্ভর করে।`,
-                        p4: `আজকের সারসংক্ষেপের বাইরে যেতে, আপনি ${_cityName}-এর জন্য সম্পূর্ণ চাঁদের ক্যালেন্ডার ব্রাউজ করতে পারেন, এই মাসের (${_curMonthLbl}) ক্যালেন্ডার দেখতে পারেন, সম্পূর্ণ গ্রেগরিয়ান/হিজরি তারিখ সহ আজকের বিস্তারিত পৃষ্ঠা খুলতে পারেন বা আজকের হিজরি তারিখের পৃষ্ঠা চেক করতে পারেন।`,
-                        links: [
-                            `${_cityName}-এ চাঁদের ক্যালেন্ডার`,
-                            `${_curMonthLbl}-এর চাঁদের ক্যালেন্ডার`,
-                            `তারিখ অনুযায়ী আজকের চাঁদের বিবরণ`,
-                            `আজকের হিজরি তারিখ`
-                        ]
-                    },
-                    ms: {
-                        title: `Ringkasan Bulan hari ini di ${_cityName}`,
-                        p1: `Di ${_cityName} hari ini, Bulan berada dalam fasa ${_phaseValB4} dengan pencahayaan ${_illumB4}% dan usia ${_ageB4} hari dalam kitaran bulan semasa. Nilai-nilai ini adalah langsung — dikira secara astronomi dengan kaedah Jean Meeus untuk koordinat dan zon waktu tempatan ${_cityName}, dan dikemas kini secara automatik.`,
-                        p2: `Waktu terbit dan terbenam Bulan berbeza antara bandar berdasarkan bujur dan zon waktu. Angka yang dipaparkan di sini adalah khusus untuk ${_cityName} — akan berbeza daripada bandar lain seperti Kaherah, London atau New York.`,
-                        p3: `Keadaan Bulan hari ini di ${_cityName} berkaitan dengan kalendar Hijrah — membantu menjangka bila hilal bulan Hijrah seterusnya akan kelihatan. Ini adalah data astronomi objektif; pengesahan rasmi setiap bulan Hijrah bergantung pada fiqh tempatan di setiap negara.`,
-                        p4: `Untuk melangkaui ringkasan hari ini, anda boleh melayari kalendar bulan lengkap untuk ${_cityName}, melihat kalendar bulan ini (${_curMonthLbl}), membuka halaman terperinci hari ini dengan tarikh Masihi/Hijrah penuh, atau memeriksa halaman tarikh Hijrah hari ini.`,
-                        links: [
-                            `Kalendar bulan di ${_cityName}`,
-                            `Kalendar bulan untuk ${_curMonthLbl}`,
-                            `Butiran Bulan hari ini mengikut tarikh`,
-                            `Tarikh Hijrah hari ini`
-                        ]
-                    }
-                };
-                const _tdc = _TDC_BY_LANG[_lng_] || _TDC_BY_LANG.en;
-                const _hrefsB4 = [
-                    _nestedMoonHrefClient(_citySlug, _langPrefixB4, 'hub'),
-                    _nestedMoonHrefClient(_citySlug, _langPrefixB4, 'month', '', _gregMonthISO),
-                    _nestedMoonHrefClient(_citySlug, _langPrefixB4, 'day', '', _gregISO),
-                    _hijriISO ? (_langPrefixB4 + '/hijri-date/' + _hijriISO) : (_langPrefixB4 + '/today-hijri-date')
-                ];
-                const _setTdc = (sel, txt) => {
-                    const el = document.querySelector(sel);
-                    if (el) el.textContent = txt;
-                };
-                _setTdc('#moon-today-city-edu .moon-tdc-edu-title', _tdc.title);
-                _setTdc('#moon-today-city-edu .moon-tdc-edu-p1', _tdc.p1);
-                _setTdc('#moon-today-city-edu .moon-tdc-edu-p2', _tdc.p2);
-                _setTdc('#moon-today-city-edu .moon-tdc-edu-p3', _tdc.p3);
-                _setTdc('#moon-today-city-edu .moon-tdc-edu-p4', _tdc.p4);
-                for (let i = 1; i <= 4; i++) {
-                    const _a = document.querySelector('#moon-today-city-edu .moon-tdc-edu-link-' + i);
-                    if (_a) {
-                        const _lblEl = _a.querySelector('.moon-tdc-edu-label');
-                        if (_lblEl) _lblEl.textContent = _tdc.links[i - 1];
-                        _a.setAttribute('href', _hrefsB4[i - 1]);
-                    }
-                }
-            }
-        } catch (_) { /* silent */ }
-        }; // close _runTodayCityEdu
-        // Run thrice: immediately + 0ms + 100ms — defeats any race condition
-        // where the section is in DOM but i18n.js hasn't finalized translations
-        // or _cityName resolution is async (geocode fallback).
-        _runTodayCityEdu();
-        try { setTimeout(_runTodayCityEdu, 0); } catch (_) {}
-        try { setTimeout(_runTodayCityEdu, 100); } catch (_) {}
+        // MOON-DAY-PAGES-REMOVAL-1: the today-in-city educational section filler (_runTodayCityEdu,
+        //   UAT-SEO-Phase-B4) is removed with the per-city today page — #moon-today-city-edu is gone
+        //   from index.html and its links pointed at the removed today/day pages.
 
         if (_locEl) {
             const _locTemplates = {
@@ -22705,19 +22479,8 @@ function updateMoonInfo() {
             ? MoonCalc.getForecast(today, _lat, _lng, 14, _tz)
             : MoonCalc.get7DayForecast(today, _lat, _lng, _tz);
 
-        // رابط اليوم → صفحة ذلك اليوم لنفس المدينة (فقط إن وُجد slug)
-        const _lngFC = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-        const _langPrefixFC = (_lngFC === 'ar') ? '' : ('/' + _lngFC);
+        // MOON-DAY-PAGES-REMOVAL-1: the day-link URL helpers (_langPrefixFC/_fcIso) are gone — rows are text only.
         const _escHtml = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-        const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
-        const _fcIso = (parts, fallbackDate) => {
-            // parts من _getDayPartsInTz (y/m/d — m is zero-based). fallback للـ date إن لم يتوفّر.
-            if (parts && parts.y != null && parts.m != null && parts.d != null) {
-                return parts.y + '-' + _pad2(parts.m + 1) + '-' + _pad2(parts.d);
-            }
-            const _d = fallbackDate;
-            return _d.getFullYear() + '-' + _pad2(_d.getMonth() + 1) + '-' + _pad2(_d.getDate());
-        };
 
         // أسماء الأشهر الهجريّة باللغة الحاليّة (للعمود الجديد)
         const _hMonthsLang = (typeof hijriMonthsFor === 'function')
@@ -22739,20 +22502,8 @@ function updateMoonInfo() {
             const _isTodayRow = (_nowParts && dp.y === _nowParts.y && dp.m === _nowParts.m && dp.d === _nowParts.d);
             const phaseLabel = (row.phase.key && typeof t === 'function') ? t(row.phase.key) : row.phase.name;
 
-            // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1 (2026-05-24):
-            //   Hoisted the Gregorian ISO date once at the top of the row so
-            //   BOTH the day cell AND the hijri cell can use it for their
-            //   href. Before this fix the hijri cell built its href from the
-            //   Hijri components (`HYYYY-HMM-HDD`), which is now rejected by
-            //   the strict-Gregorian route policy (returns 404). The Hijri
-            //   date stays VISIBLE as text — only the href changes to the
-            //   Gregorian canonical URL.
-            const _rowIso = _citySlug ? _fcIso(dp, row.date) : null;
-
-            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — التاريخ يَظهر بالنصّ
-            // الهجريّ، لكنّ الرابط يَفتح صفحة /moon-in-{city}/{YYYY-MM-DD}
-            // بالصيغة الميلاديّة (canonical موحَّد لكلّ يوم قمر) بَعد سياسة
-            // MOON-DATE-STRICT-GREGORIAN-ROUTE-POLICY-1.
+            // تاريخ هجريّ لهذا اليوم (وفق Umm al-Qura) — يَظهر نصًّا فقط.
+            // MOON-DAY-PAGES-REMOVAL-1: no row date URL (_rowIso) any more — day pages are gone.
             let hijriCell = '<td class="fc-hijri-cell">—</td>';
             try {
                 if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
@@ -22767,21 +22518,12 @@ function updateMoonInfo() {
                 }
             } catch (_e) { /* keep placeholder */ }
 
-            // بناء خليّة اليوم: إن كان لدينا slug → رابط، وإلا نصّ عاديّ
-            // (Round 16b: أُزيل عمود «تفاصيل» — خليّة اليوم والخليّة الهجريّة تبقيان قابلتَين للنقر.)
+            // بناء خليّة اليوم: نصّ عاديّ دائمًا (Round 16b: أُزيل عمود «تفاصيل»).
             let dayCell, rowClasses = [];
             const _dayText = wd + ' ' + dd + ' ' + mm + ' ' + yy;
-            if (_citySlug) {
-                // Round 15: صفحة التاريخ المحدَّد تحت /moon-in- (لا /moon-today-in-).
-                // MOON-INTERNAL-DATE-LINKS-GREGORIAN-CANONICAL-FIX-1: uses _rowIso
-                //   computed at the top of this loop iteration (hoisted from the
-                //   former local-only `_iso = _fcIso(dp, row.date)`).
-                const _href = _nestedMoonHrefClient(_citySlug, _langPrefixFC, 'day', '', _rowIso);
-                dayCell = _href ? `<td class="fc-day-cell"><a class="fc-day-link" href="${_escHtml(_href)}">${_escHtml(_dayText)}</a></td>` : `<td>${_escHtml(_dayText)}</td>`;
-                if (_href) rowClasses.push('fc-row-clickable');
-            } else {
-                dayCell = `<td>${_escHtml(_dayText)}</td>`;
-            }
+            // MOON-DAY-PAGES-REMOVAL-1: no day page exists any more → the day is always plain text
+            //   (no .fc-day-link anchor, no fc-row-clickable row) on every page and city.
+            dayCell = `<td>${_escHtml(_dayText)}</td>`;
             if (_isTodayRow) rowClasses.push('fc-row-today');
             const rowClass = rowClasses.length ? ` class="${rowClasses.join(' ')}"` : '';
             const rowAria  = _isTodayRow ? ' aria-current="date"' : '';
@@ -22989,19 +22731,8 @@ function updateMoonInfo() {
         _setText('moon-sticky-phase', _phaseLabel || phase.name || '');
         _setText('moon-sticky-illum', '· ' + _fmtNum(illumination, 2) + '%');
 
-        // 2) EVENTS — full moon + new moon cards (date + countdown + hijri + clickable link to that day)
-        const _lngLD = (typeof getCurrentLang === 'function') ? getCurrentLang() : (_lng_ || 'ar');
-        const _langPrefixLD = (_lngLD === 'ar') ? '' : ('/' + _lngLD);
-        const _isoOf = (d) => {
-            if (!d) return '';
-            const _p = (n) => (n < 10 ? '0' + n : String(n));
-            return d.getFullYear() + '-' + _p(d.getMonth() + 1) + '-' + _p(d.getDate());
-        };
-        const _eventHref = (d) => {
-            if (!d || !_citySlug) return null;
-            // Round 15: روابط أحداث القمر (بدر/محاق) لتاريخ محدَّد → nested day route (Option-1).
-            return _nestedMoonHrefClient(_citySlug, _langPrefixLD, 'day', '', _isoOf(d));
-        };
+        // MOON-DAY-PAGES-REMOVAL-1: the unused _eventHref day-link helper (+ its _isoOf/_langPrefixLD) is
+        //   removed — full/new moon events stay plain text, no day page exists any more.
 
         // 2) Quick Highlights box (BOND 6 + 8): البدر التالي + المحاق التالي + تقييم الرؤية بالنجوم
         if (nextFull) {
@@ -23805,7 +23536,7 @@ function updateMoonInfo() {
         const _chartContainer = document.getElementById('moon-chart-container');
         if (_chartContainer && typeof MoonChart !== 'undefined' && MoonChart.render) {
             const _langNow = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-            const _lpNow = (_langNow === 'ar') ? '' : ('/' + _langNow);
+            // MOON-DAY-PAGES-REMOVAL-1: _lpNow (lang prefix for dot day links) dropped with those links.
             // MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1: on the nested MONTH page ONLY
             // (/[lang/]moon/{country}/{city}/{yyyy}/{mm}), draw the chart for the FULL
             // month (1 → last day) instead of the centred 7-day window. The month page
@@ -23823,25 +23554,12 @@ function updateMoonInfo() {
                 }
             } catch (_) {}
             if (_mChart) {
-                // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3b): collect the day URLs the SSR calendar grid on this
-                //   page already links, so the chart can drop the dots that merely repeat them. The cell for
-                //   the city-local today points at /today, so its date is absent here and its dot keeps the
-                //   only anchor to that day URL - no target is lost.
-                var _mcSkipIso = Object.create(null);
-                try {
-                    var _mcCells = document.querySelectorAll('.moon-hub-cal-cell a[href]');
-                    for (var _mcI = 0; _mcI < _mcCells.length; _mcI++) {
-                        var _mcH = _mcCells[_mcI].getAttribute('href') || '';
-                        var _mcD = _mcH.match(/\/(\d{4})\/(\d{2})\/(\d{2})$/);
-                        if (_mcD) _mcSkipIso[_mcD[1] + '-' + _mcD[2] + '-' + _mcD[3]] = 1;
-                    }
-                } catch (_) {}
+                // MOON-DAY-PAGES-REMOVAL-1: no nestedDayBase / skipIso (and no scan of the SSR grid's
+                //   '.moon-hub-cal-cell a[href]') — the grid has no day links and the chart dots are never links.
                 MoonChart.render(_chartContainer, {
                     monthMode: true,
                     monthYear: _mChart.year,
                     monthMonth: _mChart.month,
-                    nestedDayBase: _lpNow + '/moon/' + _mChart.country + '/' + _mChart.city,
-                    skipIso: _mcSkipIso,
                     lang: _langNow
                 });
                 // عنوان/وصف المخطّط على صفحة الشهر (10 لغات) — يستبدل نصّ «— 7 أيّام».
@@ -23855,22 +23573,12 @@ function updateMoonInfo() {
                     if (_sub) { _sub.textContent = _CMS[_langNow] || _CMS.en; _sub.removeAttribute('data-i18n'); }
                 } catch (_) {}
             } else {
-                // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3a): hand the chart the nested day base of the page we
-                //   are on, so its dots link /{lp}/moon/{country}/{city}/{yyyy}/{mm}/{dd} directly instead of
-                //   the legacy /moon-in-{slug}/{iso} form, which only 301s to exactly that URL. Empty on a
-                //   legacy route, where the chart keeps its previous (legacy) hrefs.
-                var _mcNestedBase = '';
-                try {
-                    var _mcM = window.location.pathname.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]*)\/([a-z0-9][a-z0-9-]*)(?:\/|$)/);
-                    if (_mcM) _mcNestedBase = _lpNow + '/moon/' + _mcM[1] + '/' + _mcM[2];
-                } catch (_) {}
+                // MOON-DAY-PAGES-REMOVAL-1: citySlug / langPrefix / nestedDayBase existed only to build dot
+                //   day links (now 410) — no longer passed; the 7-day chart keeps its hover/tap tooltips.
                 MoonChart.render(_chartContainer, {
                     date: today,
                     rangeDays: 7,
                     lang: _langNow,
-                    citySlug: _citySlug || '',
-                    langPrefix: _lpNow,
-                    nestedDayBase: _mcNestedBase,
                     // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23): pass the
                     // city tz so the chart can use city-local-noon sampling for
                     // every point (instead of browser-local noon). `today` above
@@ -23886,198 +23594,9 @@ function updateMoonInfo() {
         if (window.console && console.warn) console.warn('Moon chart render failed:', _cerr);
     }
 
-    // شريط التنقّل بين الأيّام — يُملأ دائمًا (hidden على الصفحات غير date-page عبر CSS)
-    // Round 16: لا نُعرِضه على صفحة hub (لا يوجد prev/next date في سياق hub).
-    try {
-        const _navEl = document.getElementById('moon-date-nav');
-        if (_navEl && _citySlug && !_isHubPage) {
-            const _prevDate = new Date(today); _prevDate.setDate(_prevDate.getDate() - 1);
-            const _nextDate = new Date(today); _nextDate.setDate(_nextDate.getDate() + 1);
-
-            const _prevEl = document.getElementById('moon-date-prev');
-            const _nextEl = document.getElementById('moon-date-next');
-            const _todayLinkEl = document.getElementById('moon-date-today');
-            const _prevSubEl = document.getElementById('moon-date-prev-sub');
-            const _nextSubEl = document.getElementById('moon-date-next-sub');
-
-            // UAT-Moon-Date: on Hijri-context URLs, build prev/next links using
-            //   Hijri ISO (HYYY-HMM-HDD) so the visitor stays inside the same
-            //   calendar context after clicking.
-            const _kindForNav = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
-            const _useHijriUrl = !!(_kindForNav && _kindForNav.isHijri);
-            const _pad2N = (n) => (n < 10 ? '0' + n : String(n));
-            const _hijriPath = (slug, d) => {
-                try {
-                    if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
-                        const _hj = HijriDate.toHijri(d.getFullYear(), d.getMonth() + 1, d.getDate());
-                        const _iso = _hj.year + '-' + _pad2N(_hj.month) + '-' + _pad2N(_hj.day);
-                        const path = window.location.pathname;
-                        const langMatch = path.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)\//);
-                        const prefix = langMatch ? '/' + langMatch[1] : '';
-                        return prefix + '/moon-in-' + slug + '/' + _iso;
-                    }
-                } catch (_) {}
-                return _moonDatePagePath(slug, d);
-            };
-            // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): no prev/next link outside the supported moon years —
-            //   the href attribute is removed (not '' which would link to the page itself) and the control is hidden
-            //   in place (visibility keeps the layout) so a dead, still-hoverable button is never shown.
-            if (_prevEl) { const _phD11 = _useHijriUrl ? _hijriPath(_citySlug, _prevDate) : _moonDatePagePath(_citySlug, _prevDate); if (_phD11 && _moonYearInRange(_prevDate.getFullYear())) { _prevEl.href = _phD11; _prevEl.removeAttribute('aria-hidden'); _prevEl.style.visibility = ''; } else { _prevEl.removeAttribute('href'); _prevEl.setAttribute('aria-hidden', 'true'); _prevEl.style.visibility = 'hidden'; } }
-            if (_nextEl) { const _nhD11 = _useHijriUrl ? _hijriPath(_citySlug, _nextDate) : _moonDatePagePath(_citySlug, _nextDate); if (_nhD11 && _moonYearInRange(_nextDate.getFullYear())) { _nextEl.href = _nhD11; _nextEl.removeAttribute('aria-hidden'); _nextEl.style.visibility = ''; } else { _nextEl.removeAttribute('href'); _nextEl.setAttribute('aria-hidden', 'true'); _nextEl.style.visibility = 'hidden'; } }
-            if (_todayLinkEl) _todayLinkEl.href = _moonDatePagePath(_citySlug, null);
-
-            // نصوص فرعيّة للأيّام السابق/التالي. UAT-Moon-Date: على صفحة هجريّة
-            //   نَعرض التواريخ بصيغة هجريّة قصيرة ("13 شوّال") بدلاً من الميلاديّة
-            //   لتطابق سياق الـ URL — وفقًا لقاعدة "كلّ التواريخ بنفس التقويم".
-            const _kindForNavSubs = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
-            const _useHijriSubs   = !!(_kindForNavSubs && _kindForNavSubs.isHijri);
-            // MOON-DAY-NAV-WEEKDAY-LABEL-FIX-1 (2026-05-27):
-            //   Prepend the localized weekday name (e.g. "السبت", "Saturday",
-            //   "samedi") to each nav button's sub-text so the visitor sees
-            //   "الجمعة 29 مايو" instead of just "29 مايو". Uses native
-            //   Intl.DateTimeFormat per app lang — no new i18n keys needed.
-            //   EN uses comma separator ("Friday, May 29"); other langs use
-            //   space separator ("الجمعة 29 مايو"). Works for both Gregorian
-            //   and Hijri-context sub-text (the weekday name is calendar-
-            //   independent — it's derived from the underlying JS Date).
-            //   Scope: only this nav block on /moon-today-in-{slug} and
-            //   /moon-in-{slug}/{date} pages. No effect on prev/next href,
-            //   page date, moon data, or any other page.
-            const _moonNavWeekday = (d, lng) => {
-                try {
-                    const _localeMap = { ar:'ar', en:'en', fr:'fr', tr:'tr', ur:'ur', de:'de', id:'id', es:'es', bn:'bn', ms:'ms' };
-                    const _locale = _localeMap[lng] || 'ar';
-                    return new Intl.DateTimeFormat(_locale, { weekday: 'long' }).format(d);
-                } catch (_) {
-                    const _arFallback = ['الأحد','الإثنين','الثلاثاء','الأربعاء','الخميس','الجمعة','السبت'];
-                    return _arFallback[d.getDay()] || '';
-                }
-            };
-            const _joinWeekdayAndDate = (wd, dateStr, lng) => {
-                if (!wd) return dateStr;
-                // EN convention: "Friday, May 29". Others: "الجمعة 29 مايو".
-                return (lng === 'en') ? (wd + ', ' + dateStr) : (wd + ' ' + dateStr);
-            };
-
-            const _fmtShort = (d) => {
-                const _lng = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                let _dateStr;
-                if (_useHijriSubs) {
-                    try {
-                        if (typeof HijriDate !== 'undefined' && typeof HijriDate.toHijri === 'function') {
-                            const _hj = HijriDate.toHijri(d.getFullYear(), d.getMonth() + 1, d.getDate());
-                            const _hMon = (typeof hijriMonthsFor === 'function')
-                                ? hijriMonthsFor(_lng)[_hj.month - 1]
-                                : (HijriDate.hijriMonths ? HijriDate.hijriMonths[_hj.month - 1] : String(_hj.month));
-                            _dateStr = _hj.day + ' ' + _hMon;
-                        }
-                    } catch (_) { /* fall through to Gregorian */ }
-                }
-                if (!_dateStr) {
-                    let mon = '';
-                    try { if (typeof t === 'function') mon = t('gmonth.' + (d.getMonth() + 1)); } catch(_){}
-                    if (!mon || mon === 'gmonth.' + (d.getMonth() + 1)) {
-                        mon = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getMonth()];
-                    }
-                    // EN convention: "May 29". Others: "29 مايو".
-                    _dateStr = (_lng === 'en') ? (mon + ' ' + d.getDate()) : (d.getDate() + ' ' + mon);
-                }
-                return _joinWeekdayAndDate(_moonNavWeekday(d, _lng), _dateStr, _lng);
-            };
-            if (_prevSubEl) _prevSubEl.textContent = _fmtShort(_prevDate);
-            if (_nextSubEl) _nextSubEl.textContent = _fmtShort(_nextDate);
-
-            // إظهار الشريط على كلّ صفحات المدينة القمريّة (today + date-pages)
-            //   على صفحة اليوم: زرّ "اليوم" يصبح active بصريّاً عبر CSS class.
-            _navEl.hidden = false;
-            const _todayLinkEl2 = document.getElementById('moon-date-today');
-            if (_todayLinkEl2) {
-                if (!_isDatePage) {
-                    _todayLinkEl2.classList.add('moon-date-today-active');
-                    _todayLinkEl2.setAttribute('aria-current', 'page');
-                } else {
-                    _todayLinkEl2.classList.remove('moon-date-today-active');
-                    _todayLinkEl2.removeAttribute('aria-current');
-                }
-            }
-            // MOON-DATED-PAGE-DATE-NAV-CLEANUP-1 (2026-05-24):
-            //   The center button now uses a 2-line status-card format:
-            //     line 1: localized label "اليوم المعروض" / "Currently showing"
-            //             (kept as data-i18n="moon.current_date" — translated by i18n)
-            //     line 2: the actual displayed date (sub-text) — set here
-            //   This replaces the previous Round-14 pattern that overwrote the
-            //   single label element. The label is now translated automatically
-            //   via the data-i18n mechanism; we only fill the sub-line.
-            //   The href stays linked to /moon-today-in-{city} (jump to today's
-            //   moon status from any date) — center is still clickable but
-            //   styled as status-card (CSS) to distinguish from prev/next.
-            // MOON-DATE-TODAY-SUB-FILL-1 (2026-05-26):
-            //   Drop the `_isDatePage` gate. On the city-today page
-            //   (/moon-today-in-{city}) `_isDatePage = false`, so the
-            //   #moon-date-today-sub stayed empty — the center card showed
-            //   just "اليوم المعروض" with no date underneath. We're already
-            //   inside the `_navEl && _citySlug && !_isHubPage` block above,
-            //   so the only branches reaching here are date-pages AND the
-            //   city-today page — both want the sub filled. Hub page
-            //   (`/moon-today` bare) is excluded one level up.
-            //   `today` is already correct: `let today = _requestedDate || new Date()`
-            //   at line ~16836 → it's the requested date on date-pages and
-            //   `new Date()` on city-today pages.
-            if (_todayLinkEl2) {
-                try {
-                    // Compute the formatted date string ONCE — used for the
-                    // sub-line, aria-label, title, and the legacy fallback below.
-                    const _lngNav = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-                    const _kindNav = (function(){ try { return _moonDateKindFromPath(); } catch(_){ return null; } })();
-                    let _midText = '';
-                    if (_kindNav && _kindNav.isHijri && _kindNav.hYear) {
-                        // Hijri-formatted label (unreachable in practice under strict
-                        // Gregorian route policy, kept for forward compatibility)
-                        try { _midText = _formatHijriLabelLang(_kindNav.hYear, _kindNav.hMonth, _kindNav.hDay, _lngNav); } catch(_){}
-                    }
-                    if (!_midText) {
-                        let _gm = '';
-                        try { if (typeof t === 'function') _gm = t('gmonth.' + (today.getMonth() + 1)); } catch(_){}
-                        if (!_gm || _gm === 'gmonth.' + (today.getMonth() + 1)) {
-                            _gm = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][today.getMonth()];
-                        }
-                        // MOON-DAY-NAV-WEEKDAY-LABEL-FIX-1 (2026-05-27):
-                        //   Prepend localized weekday (same helper used in
-                        //   _fmtShort above). Final pattern:
-                        //     EN → "Saturday, May 30, 2026"
-                        //     AR/others → "السبت 30 مايو 2026"
-                        let _dateOnly;
-                        if (_lngNav === 'en') {
-                            _dateOnly = _gm + ' ' + today.getDate() + ', ' + today.getFullYear();
-                        } else {
-                            _dateOnly = today.getDate() + ' ' + _gm + ' ' + today.getFullYear();
-                        }
-                        _midText = _joinWeekdayAndDate(_moonNavWeekday(today, _lngNav), _dateOnly, _lngNav);
-                    }
-                    // Primary: fill the new 2-line status-card sub element
-                    const _subEl = document.getElementById('moon-date-today-sub');
-                    if (_subEl) {
-                        _subEl.textContent = _midText;
-                    } else {
-                        // Legacy fallback: pre-MOON-DATED-PAGE-DATE-NAV-CLEANUP-1
-                        // cached HTML lacks #moon-date-today-sub. Write the date
-                        // into the single .moon-date-label element instead so the
-                        // user doesn't see the raw i18n key.
-                        const _labelEl = _todayLinkEl2.querySelector('.moon-date-label');
-                        if (_labelEl) {
-                            _labelEl.textContent = _midText;
-                            _labelEl.removeAttribute('data-i18n');
-                        }
-                    }
-                    // Aria/title use the formatted date for screen-reader clarity
-                    _todayLinkEl2.setAttribute('aria-label', _midText);
-                    _todayLinkEl2.setAttribute('title', _midText);
-                } catch (_mlerr) { /* silent */ }
-            }
-        }
-    } catch (_nerr) {
-        if (window.console && console.warn) console.warn('Moon date nav fill failed:', _nerr);
-    }
+    // MOON-DAY-PAGES-REMOVAL-1: the prev/today/next DAY navigation bar (#moon-date-nav) is gone.
+    //   Every standalone day page and the per-city /today page answer 410, so nothing here may
+    //   fill or unhide day links any more (the markup is removed from index.html too).
 
     // MOON-DATE-PAGE-HIJRI-TOGGLE-REMOVAL-1 (2026-05-24):
     //   The Gregorian↔Hijri calendar toggle (#moon-cal-toggle) has been
@@ -25407,7 +24926,7 @@ function loadHijriDayPage() {
         // carries coords for the destination page.
         let _moonHref = `${prefix}/moon-today`;
         if (isGeoToday) {
-            _moonHref = _nestedMoonHrefClient(locSlug, prefix, 'today');
+            _moonHref = _nestedMoonHrefClient(locSlug, prefix, 'hub');   // MOON-DAY-PAGES-REMOVAL-1: hub (was /today)
             try {
                 if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/^loc-/.test(locSlug)) {
                     sessionStorage.setItem('city_' + locSlug, JSON.stringify({
@@ -25533,7 +25052,7 @@ function loadHijriDayPage() {
         // UAT-Q5d: clean moon URL (no coord-suffix). Coords go via sessionStorage.
         let _moonRelHref = `${prefix}/moon-today`;
         if (isToday && _cityKnown) {
-            _moonRelHref = `${prefix}/moon-today-in-${_citySlug2}`;
+            _moonRelHref = `${prefix}/moon-in-${_citySlug2}`;   // MOON-DAY-PAGES-REMOVAL-1: legacy hub (unreachable: _cityKnown=false)
             try {
                 if (currentLat != null && currentLng != null && isFinite(currentLat) && isFinite(currentLng) && !/^loc-/.test(_citySlug2)) {
                     sessionStorage.setItem('city_' + _citySlug2, JSON.stringify({

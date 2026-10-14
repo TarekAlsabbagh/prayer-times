@@ -21,6 +21,8 @@
 //
 // Self-contained: spawns its own servers (Supabase OFF). Run:
 //   node scripts/_smoke_api_write_auth_ratelimit_1.mjs
+//
+// MOON-DAY-PAGES-REMOVAL-1: E9b /moon-today-in-riyadh now answers 410 directly (no Location); E9a unchanged.
 
 import http from 'node:http';
 import { spawn } from 'node:child_process';
@@ -366,9 +368,10 @@ try {
         const m1 = await get(PORT_E, '/moon-today');
         check('E9a /moon-today still 301s to /moon', m1.status === 301 && m1.headers.location === '/moon',
             m1.status + ' → ' + (m1.headers.location || 'none'));
+        // MOON-DAY-PAGES-REMOVAL-1: the per-city today page is removed → 410 in ONE response, no Location.
         const m2 = await get(PORT_E, '/moon-today-in-riyadh');
-        check('E9b /moon-today-in-riyadh still 301s to the nested moon route',
-            m2.status === 301 && m2.headers.location === '/moon/saudi-arabia/riyadh/today',
+        check('E9b /moon-today-in-riyadh → 410 (removed today page, no Location)',
+            m2.status === 410 && !m2.headers.location && /data-tp-gone="moon-day"/.test(m2.body),
             m2.status + ' → ' + (m2.headers.location || 'none'));
     }
     {

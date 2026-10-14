@@ -1,4 +1,5 @@
 // ADSENSE-STRICT-CSP-PRE-ENFORCEMENT-CLEANUP-1 — 26-route Chromium matrix.
+// MOON-DAY-PAGES-REMOVAL-1: the 'moon nested' route is the hub /moon/saudi-arabia/riyadh (the /today page is 410 now).
 //
 // Same 26 routes and the same violation categories as the Phase 1 production sweep that measured
 // 37 = 36 PRELOAD + 1 SEARCH-TEST, so before/after numbers compare directly. Beyond counting, every
@@ -36,7 +37,7 @@ const ROUTES = [
     ['city', '/prayer-times-in-riyadh'], ['country', '/prayer-times-in-saudi-arabia'],
     ['worldwide', '/prayer-times-worldwide'], ['quran home', '/quran'], ['quran surah', '/quran/al-fatihah'],
     ['guides hub', '/guides'], ['guides article', '/guides/why-prayer-times-differ'],
-    ['moon', '/moon'], ['moon nested', '/moon/saudi-arabia/riyadh/today'],
+    ['moon', '/moon'], ['moon nested', '/moon/saudi-arabia/riyadh'],
     ['qibla', '/qibla-in-riyadh'], ['azkar', '/azkar'], ['countdown', '/ramadan-countdown'],
     ['trust privacy', '/privacy'], ['trust about', '/about-us'],
     ['404', '/definitely-not-a-real-route-xyz'], ['search-test', '/search-test'],

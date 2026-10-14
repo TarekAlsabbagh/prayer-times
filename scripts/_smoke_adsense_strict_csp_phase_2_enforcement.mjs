@@ -1,4 +1,5 @@
 // ADSENSE-STRICT-CSP-MIGRATION-1 — PHASE 2 ENFORCEMENT — smoke + integration suite.
+// MOON-DAY-PAGES-REMOVAL-1: the 'moon nested' route is the hub /moon/saudi-arabia/riyadh (the /today page is 410 now).
 //
 // Phase 2 promotes the approved strict target (the Report-Only policy that passed the Final Pre-Enforcement Gate)
 // to the ENFORCING Content-Security-Policy, built once per response and sent in both headers.
@@ -36,7 +37,7 @@ const CHROME = 'C:/Program Files/Google/Chrome/Application/chrome.exe';
 const ALLOWED = new Set(['server.js', 'scripts/_smoke_adsense_strict_csp_phase_2_enforcement.mjs',
     'scripts/_red_adsense_strict_csp_phase_2_enforcement.mjs', 'scripts/_browser_adsense_strict_csp_phase_2_enforcement.mjs']);
 const ROUTES = ['/', '/en', '/about-us', '/contact', '/privacy', '/prayer-times-in-riyadh', '/prayer-times-in-saudi-arabia', '/prayer-times-worldwide',
-    '/quran', '/quran/al-fatihah', '/guides', '/guides/why-prayer-times-differ', '/azkar', '/moon', '/moon/saudi-arabia/riyadh/today', '/qibla-in-riyadh',
+    '/quran', '/quran/al-fatihah', '/guides', '/guides/why-prayer-times-differ', '/azkar', '/moon', '/moon/saudi-arabia/riyadh', '/qibla-in-riyadh',
     '/next-prayer-in-riyadh', '/time-left-until-next-prayer-in-riyadh', '/zz-no-such-page/xyz'];
 const REGION_ROUTES = ['/', '/prayer-times-in-saudi-arabia', '/quran', '/guides'];
 

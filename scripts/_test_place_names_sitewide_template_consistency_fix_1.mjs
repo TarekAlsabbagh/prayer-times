@@ -29,6 +29,7 @@
 //   C. /qibla-in-{slug} surfaces still render Urdu (regression of PT-LANG-GUARD-5).
 //   D. Schema element check on a few SSR-served city pages.
 //   E. Regression: homepage + /moon-today + /qibla search boxes still visible.
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -114,7 +115,6 @@ const URLS = [
     { url: '/ur/prayer-times-in-charikar', expected: 'چاریکار' },
     { url: '/ur/qibla-in-charikar',        expected: 'چاریکار' },
     { url: '/ur/moon-in-charikar',         expected: 'چاریکار' },
-    { url: '/ur/moon-today-in-charikar',   expected: 'چاریکار' },
     { url: '/fr/moon-in-london',           expected: 'Londres' },
     { url: '/de/qibla-in-munich',          expected: 'München' },
     { url: '/es/prayer-times-in-new-york', expected: 'Nueva York' },

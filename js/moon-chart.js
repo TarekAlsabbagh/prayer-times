@@ -6,9 +6,11 @@
  *     date: new Date('2026-04-19'),
  *     rangeDays: 7,           // إجماليّ الأيّام (3 قبل + اليوم + 3 بعد)
  *     lang: 'ar',             // لترجمة labels وعكس RTL
- *     citySlug: 'mecca',      // للروابط على كلّ نقطة
- *     urlPrefix: '/moon-in-mecca'  // Round 15: روابط نقاط المنحنى تنتقل إلى /moon-in-{slug}/{iso}
+ *     tz: 'Asia/Riyadh'       // اختياريّ: عيّنة ظهر التوقيت المحلّيّ للمدينة
  *   });
+ *
+ * MOON-DAY-PAGES-REMOVAL-1: no point is a link any more (every standalone day page answers 410) —
+ *   citySlug / langPrefix / nestedDayBase / skipIso are ignored; the hover/tap tooltip stays.
  *
  * يعتمد على:
  *   - window.MoonCalc.getMoonIllumination(date) — محمَّل مسبقًا من moon.js
@@ -19,16 +21,8 @@
 
 (function(global) {
     'use strict';
-    // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): the SAME supported moon year window the server routes accept
-    //   (SSR island window.__MOON_YEAR_RANGE__); the defensive fallback mirrors the server formula (UTC year ±5).
-    function _yearInServerRange(isoOrYear) {
-        var r = global && global.__MOON_YEAR_RANGE__;
-        var mn, mx;
-        if (r && isFinite(r.min) && isFinite(r.max)) { mn = Number(r.min); mx = Number(r.max); }
-        else { var cy = new Date().getUTCFullYear(); mn = Math.max(1900, cy - 5); mx = Math.min(2100, cy + 5); }
-        var y = parseInt(String(isoOrYear).slice(0, 4), 10);
-        return isFinite(y) && y >= mn && y <= mx;
-    }
+    // MOON-DAY-PAGES-REMOVAL-1: _yearInServerRange (window.__MOON_YEAR_RANGE__ gate for dot hrefs) is
+    //   retired with the dot links themselves.
 
     // فهرس مفاتيح أسماء الأشهر (EN) — للـ fallback حين لا تتوفّر i18n
     const GREG_MONTHS_EN = [
@@ -178,7 +172,7 @@
             'stroke-linecap': 'round'
         }));
 
-        // نقاط البيانات + tooltip titles + روابط
+        // نقاط البيانات + tooltip titles (MOON-DAY-PAGES-REMOVAL-1: بلا روابط)
         for (let i = 0; i < N; i++) {
             const p = points[i];
             const cx = xAt(i), cy = yAt(p.pct);
@@ -206,17 +200,9 @@
                 }));
             }
 
-            let dotGroup = svg;
-            if (p.href) {
-                const a = document.createElementNS('http://www.w3.org/2000/svg', 'a');
-                a.setAttribute('href', p.href);
-                // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23):
-                // unified display precision to .toFixed(2) so the chart's
-                // a11y label matches summary + forecast-table format.
-                a.setAttribute('aria-label', p.label + ' — ' + p.pct.toFixed(2) + '%');
-                svg.appendChild(a);
-                dotGroup = a;
-            }
+            // MOON-DAY-PAGES-REMOVAL-1: dots are never wrapped in an SVG <a> any more (no day page to
+            //   link to) — the circle goes straight into the SVG and keeps its tooltip handlers below.
+            const dotGroup = svg;
 
             const circle = _createEl('circle', {
                 cx: cx, cy: cy, r: r,
@@ -231,7 +217,7 @@
             //   كان يُنتج tooltip متصفّح أصليّ (small popup) كان يقطع عند حدود
             //   الشاشة على الجوال. نعتمد فقط على الـ tooltip المخصَّص (HTML)
             //   الذي يدعم الإيقاع والمحاذاة والتنسيق. accessibility مغطّى من
-            //   aria-label على الـ <a> الأبّ.
+            //   aria-label على الـ <svg role="img"> (MOON-DAY-PAGES-REMOVAL-1: لا <a> أبّ بعد الآن).
             dotGroup.appendChild(circle);
 
             // تسمية X-axis تحت كلّ نقطة (مع تخفيف عند الشهر الكامل — البيانات كاملة دومًا)
@@ -292,7 +278,7 @@
      * حساب نقاط المنحنى حول التاريخ المركزيّ.
      * rangeDays = 7 → 3 قبل + 1 مركزيّ + 3 بعد.
      */
-    function _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz, nestedDayBase) {
+    function _computePoints(centerDate, rangeDays, tz) {
         // MoonCalc معرَّف كـ const global-script (من moon.js) — نصل إليه بالاسم المباشر
         // لا عبر global.MoonCalc لأنّ const لا يُعلَّق على window.
         const MC = (typeof MoonCalc !== 'undefined') ? MoonCalc : (global.MoonCalc || null);
@@ -318,14 +304,8 @@
 
         const centerIso = _isoDate(centerDate);
         const points = [];
-        // Round 15: نقاط المنحنى تشير لأيّام محدَّدة → /moon-in-{slug}/{iso}
-        // (النقطة المركزيّة «اليوم» تحصل href=null أسفل، لا تستخدم urlBase).
-        // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3a): prefer the nested clean day URL when the caller knows the country
-        //   (nestedDayBase = '{lp}/moon/{country}/{city}'). The legacy /moon-in-{slug}/{iso} form below is a
-        //   301 to exactly that URL and was the last surface still minting legacy day links; it stays only as
-        //   the fallback for callers without a country (legacy pages), so no dot ever loses its target.
-        const urlBase = langPrefix ? (langPrefix + '/moon-in-' + citySlug) : ('/moon-in-' + citySlug);
-        const _nestedBase = nestedDayBase || '';
+        // MOON-DAY-PAGES-REMOVAL-1: points used to link /moon/{country}/{city}/{yyyy}/{mm}/{dd} (or the legacy
+        //   /moon-in-{slug}/{iso}); those day pages answer 410, so every point has href: null.
 
         for (let offset = -half; offset <= half; offset++) {
             let d;
@@ -382,9 +362,7 @@
                 pct: pct,
                 label: _shortLabel(d, null),
                 isCenter: iso === centerIso,
-                href: (citySlug && iso !== centerIso && _yearInServerRange(iso))
-                    ? (_nestedBase ? (_nestedBase + '/' + iso.replace(/-/g, '/')) : (urlBase + '/' + iso))
-                    : null,
+                href: null,   // MOON-DAY-PAGES-REMOVAL-1: no day page
                 phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || phaseIcon } : null,
                 phaseIcon: phaseIcon,
                 phaseName: phaseName
@@ -397,11 +375,11 @@
      * MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1:
      * حساب نقاط المنحنى لكلّ أيّام شهر محدَّد (من 1 إلى آخر يوم) — لصفحة الشهر فقط.
      * يستعمل نفس محرّك القمر (MoonCalc.getMoonIllumination / Meeus 49) — لا تغيير في الدقّة،
-     * فقط نطاق البيانات (الشهر كاملًا بدل نافذة 7 أيّام). كلّ نقطة تشير لرابط اليوم المتداخل
-     * /{lang}/moon/{country}/{city}/{yyyy}/{mm}/{dd} (nested — لا روابط legacy).
+     * فقط نطاق البيانات (الشهر كاملًا بدل نافذة 7 أيّام). MOON-DAY-PAGES-REMOVAL-1: لا رابط لأيّ نقطة
+     * (صفحات الأيّام أُزيلت — 410)؛ الـ tooltip يبقى.
      * أخذ العيّنة عند ظهر التوقيت المحلّيّ للمتصفّح (مطابق لمسار العيّنة الموجود حين لا يوجد tz).
      */
-    function _computeMonthPoints(year, month, nestedDayBase, skipIso) {
+    function _computeMonthPoints(year, month) {
         const MC = (typeof MoonCalc !== 'undefined') ? MoonCalc : (global.MoonCalc || null);
         if (!MC || typeof MC.getMoonIllumination !== 'function') {
             return [];
@@ -444,16 +422,8 @@
             } catch (_) {}
 
             const iso = _isoDate(d);
-            const _mm = _pad2(month);
-            const _dd = _pad2(day);
-            // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L3b): a dot whose day URL the calendar grid on the SAME page
-            //   already links is a pure duplicate (28-31 of them per month page), so it is no longer an
-            //   anchor — it keeps its tooltip, value and phase icon. `skipIso` is that grid's set of linked
-            //   dates, read from the DOM by the caller: the one cell the grid sends to /today is NOT in it,
-            //   so its dot keeps the only anchor to that day URL and no target is lost. No set (legacy or
-            //   grid-less callers) = previous behaviour.
-            const href = (nestedDayBase && _yearInServerRange(String(year)) && !(skipIso && skipIso[iso]))
-                ? (nestedDayBase + '/' + year + '/' + _mm + '/' + _dd) : null;
+            // MOON-DAY-PAGES-REMOVAL-1: no dot links a day page any more (was nestedDayBase + /yyyy/mm/dd minus
+            //   the grid's skipIso set) — it keeps its tooltip, value and phase icon.
             const ev = phaseEvents.find(function(e) {
                 return e.date && _isoDate(e.date) === iso;
             });
@@ -464,7 +434,7 @@
                 pct: pct,
                 label: _shortLabel(d, null),
                 isCenter: (iso === _todayIso),   // إبراز «اليوم» فقط إن كان ضمن الشهر المعروض
-                href: href,
+                href: null,   // MOON-DAY-PAGES-REMOVAL-1: no day page
                 phaseEvent: ev ? { icon: (ev.phase && ev.phase.icon) || phaseIcon } : null,
                 phaseIcon: phaseIcon,
                 phaseName: phaseName
@@ -511,8 +481,7 @@
         const centerDate = opts.date instanceof Date ? opts.date : new Date();
         const rangeDays = Math.max(3, Math.min(15, opts.rangeDays || 7));
         const lang = opts.lang || 'ar';
-        const citySlug = opts.citySlug || '';
-        const langPrefix = opts.langPrefix || '';
+        // MOON-DAY-PAGES-REMOVAL-1: opts.citySlug / langPrefix / nestedDayBase / skipIso (href inputs) are ignored.
         // MOON-CITY-ILLUMINATION-UNIFICATION-1 (2026-05-23):
         //   When the caller passes a city `tz` (IANA timezone, e.g.
         //   "Asia/Riyadh"), the centre date is treated as the canonical
@@ -525,8 +494,8 @@
         // MOON-MONTH-CHART-FULL-MONTH-RANGE-FIX-1: month page → full-month range;
         // every other moon page keeps the centred 7-day window unchanged.
         const points = (opts.monthMode && opts.monthYear && opts.monthMonth)
-            ? _computeMonthPoints(opts.monthYear, opts.monthMonth, opts.nestedDayBase || '', opts.skipIso || null)
-            : _computePoints(centerDate, rangeDays, citySlug, langPrefix, tz, opts.nestedDayBase || '');
+            ? _computeMonthPoints(opts.monthYear, opts.monthMonth)
+            : _computePoints(centerDate, rangeDays, tz);
         if (!points.length) {
             container.textContent = '';
             return;

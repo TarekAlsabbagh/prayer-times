@@ -28,6 +28,9 @@
 // PART H — non-moon pages are NOT page-moon (server SSR).
 // PART I — Meeus 49 + city tz: Riyadh Jun 2026 (15 المحاق · 16 هلال متزايد · 29 أحدب متزايد · 30 البدر),
 //          a US city moon page renders with city tz, city SSR uses _hijriForIana, Meeus 49 engine present.
+// MOON-DAY-PAGES-REMOVAL-1: day/today pages (nested + legacy) now answer 410 Gone in ONE response (no Location);
+//          legacy month stays 301; month grid has 0 <a> + 0 day/today hrefs; sitemaps carry no /today; Meeus via
+//          month grid cells; US-city tz check via the hub. The 404 lists are unchanged.
 //
 // NOTE on hydration/console: SSR-level "page-moon active + real content" is asserted here;
 // the live hydration + zero-console-errors check is done in the browser during the ticket
@@ -91,6 +94,18 @@ async function waitReady(ms) { const t0 = Date.now(); while (Date.now() - t0 < m
 const pageMoonActive = (b) => /class="page active" id="page-moon"/.test(b);
 const canonOf = (b) => (b.match(/<link rel="canonical" href="([^"]+)"/) || [])[1] || '';
 const h1Count = (b) => (b.match(/<h1\b/g) || []).length;
+// MOON-DAY-PAGES-REMOVAL-1: a removed day/today page = 410 in ONE response, no Location, small static body.
+const is410 = (r) => r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body) && !/id="page-moon"/.test(r.body) && Buffer.byteLength(r.body) < 4096;
+const goneInfo = (r) => `status=${r.status} loc=${r.loc} gone=${/data-tp-gone="moon-day"/.test(r.body)} pm=${/id="page-moon"/.test(r.body)} len=${Buffer.byteLength(r.body)}`;
+// Month grid cell parser — works on the old <a href> cell wrapper AND the new <div class="moon-hub-cal-cell-body">.
+const calGrid = (b) => (b.match(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/) || [])[1] || '';
+const calCells = (b) => [...calGrid(b).matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].filter(m => !/--empty/.test(m[1])).map(m => m[2]);
+const calSpan = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+const calDayNum = (cell) => parseInt((calSpan(cell, 'moon-hub-cal-date').match(/\d+/) || [])[0], 10);
+const calCellOf = (b, d) => calCells(b).find(c => calDayNum(c) === d) || '';
+const gridAnchors = (b) => (calGrid(b).match(/<a\b/g) || []).length;
+const stripComments = (b) => b.replace(/<!--[\s\S]*?-->/g, '');
+const dayTodayHrefs = (b) => stripComments(b).match(/href="(?:https?:\/\/[^"\/]+)?(?:\/[a-z]{2})?\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/(?:today|\d{4}\/\d{2}\/\d{2})(?:\.html)?(?:[?#][^"]*)?"/g) || [];
 
 let exitCode = 1;
 let SITE = `http://localhost:${PORT}`;
@@ -121,21 +136,21 @@ try {
     // ── D) city moon routes — MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 + MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH:
     //        • the city HUB is the nested /moon/{country}/{city} (200);
     //        • the legacy flat hub /moon-in-{city} 301s to it (+langs);
-    //        • ALL legacy flat routes now 301 to their nested equivalent (MLRC, lang-preserved):
-    //            /moon-today-in-{city}        → /moon/{country}/{city}/today
+    //        • legacy flat routes 301 to their nested equivalent (MLRC, lang-preserved):
     //            /moon-in-{city}/{yyyy-mm}    → /moon/{country}/{city}/{yyyy}/{mm}
-    //            /moon-in-{city}/{yyyy-mm-dd} → /moon/{country}/{city}/{yyyy}/{mm}/{dd}
-    console.log('\n── D) city moon routes (nested hub/today/month/day 200 · ALL legacy flat routes 301) ──');
-    // D1) MLRC: legacy flat routes now 301 to their nested equivalent (lang preserved)
+    //        • MOON-DAY-PAGES-REMOVAL-1: /moon-today-in-{city} and /moon-in-{city}/{yyyy-mm-dd} → 410 Gone (no Location)
+    console.log('\n── D) city moon routes (nested hub/month 200 · legacy hub/month 301 · legacy today/dated 410) ──');
+    // D1) MLRC: legacy flat month still 301s to its nested equivalent (lang preserved).
+    //     MOON-DAY-PAGES-REMOVAL-1: legacy today + dated forms used to 301 into a day/today page → now 410, no Location.
     for (const [from, to] of [
-        ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'],
-        ['/en/moon-today-in-riyadh', '/en/moon/saudi-arabia/riyadh/today'],
         ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'],
-        ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'],
-        ['/fr/moon-in-riyadh/2026-06-17', '/fr/moon/saudi-arabia/riyadh/2026/06/17'],
     ]) {
         const r = await req(from);
         check(`${from} → 301 ${to} (MLRC legacy→nested)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    }
+    for (const u of ['/moon-today-in-riyadh', '/en/moon-today-in-riyadh', '/moon-in-riyadh/2026-06-17', '/fr/moon-in-riyadh/2026-06-17']) {
+        const r = await req(u);
+        check(`${u} → 410 Gone, no Location (MOON-DAY-PAGES-REMOVAL-1)`, is410(r), goneInfo(r));
     }
     // D1b) MLRC validation: invalid legacy date/month → 404 (NOT 301), unknown city → 404
     for (const u of ['/moon-in-riyadh/2026-06-32', '/moon-in-riyadh/2026-13', '/moon-in-riyadh/2026-02-30', '/moon-today-in-notacity', '/moon-in-notacity/2026-06']) {
@@ -189,15 +204,17 @@ try {
     // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the city MONTH page
     //   /moon/{country}/{city}/{yyyy}/{mm} is the STRUCTURAL alias of the legacy month page
     //   /moon-in-{city}/{yyyy-mm}. It renders the SAME legacy renderer (#page-moon active — NOT a
-    //   bespoke #page-moon-month) AND the SAME legacy monthly calendar grid (.moon-hub-cal-grid)
-    //   whose day cells link to the nested day route. The calendar is gated month-page-ONLY so the
-    //   city HUB renders no calendar widget.
+    //   bespoke #page-moon-month) AND the SAME legacy monthly calendar grid (.moon-hub-cal-grid).
+    //   MOON-DAY-PAGES-REMOVAL-1: the day cells are plain text now (0 <a> in the grid, 0 day/today hrefs).
+    //   The calendar is gated month-page-ONLY so the city HUB renders no calendar widget.
     {
         const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
         check('/moon/saudi-arabia/riyadh/2026/06 -> 200 (#page-moon active, NO bespoke #page-moon-month, 1 H1)',
             mo.status === 200 && pageMoonActive(mo.body) && !/<[a-z]+[^>]*\bid="page-moon-month"/.test(mo.body) && (mo.body.match(/<h1\b/g) || []).length === 1, `status=${mo.status}`);
-        check('/moon/.../2026/06: legacy calendar grid present (.moon-hub-cal-grid) + nested day links + 0 legacy',
-            mo.body.includes('moon-hub-cal-grid') && /href="\/moon\/saudi-arabia\/riyadh\/2026\/06\/\d{2}"/.test(mo.body) && !/href="\/moon-in-riyadh\/2026-06-\d{2}"/.test(mo.body));
+        const moDT = dayTodayHrefs(mo.body);
+        check('/moon/.../2026/06: calendar grid present (30 day cells) + 0 <a> in the grid + 0 day/today hrefs on the page + 0 legacy (MOON-DAY-PAGES-REMOVAL-1)',
+            mo.body.includes('moon-hub-cal-grid') && calCells(mo.body).length === 30 && gridAnchors(mo.body) === 0 && moDT.length === 0 && !/href="\/moon-in-riyadh\/2026-06-\d{2}"/.test(mo.body),
+            `cells=${calCells(mo.body).length} gridA=${gridAnchors(mo.body)} dayToday=${moDT.length} ${moDT.slice(0, 3).join(' ')}`);
         check('/moon/.../2026/06: 6-level BreadcrumbList JSON-LD', (mo.body.match(/"position":/g) || []).length === 6 && canonOf(mo.body) === SITE + '/moon/saudi-arabia/riyadh/2026/06');
         // The month page IS the legacy #page-moon renderer, so the shared hub sections (hero/faq/
         // related-links/events) are LEGITIMATE legacy content — NOT leaks. We only assert the BESPOKE
@@ -212,50 +229,26 @@ try {
         check('/moon/saudi-arabia/riyadh (hub): compact CTA present + NO full grid',
             hub.status === 200 && hub.body.includes('moon-hub-cal-compact') && !hub.body.includes('moon-hub-cal-grid'), `status=${hub.status}`);
     }
-    // MOON-CITY-DAY-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the city DAY page
-    //   /moon/{country}/{city}/{yyyy}/{mm}/{dd} is the STRUCTURAL alias of the legacy dated page
-    //   /moon-in-{city}/{yyyy-mm-dd}. It renders the SAME legacy renderer (#page-moon active, same
-    //   #moon-page-h1, same #moon-city-answer body) — NOT a bespoke #page-moon-day section. The only
-    //   permitted differences: self-canonical (new URL), hreflang (new URL), 7-level breadcrumb.
-    {
-        const dy = await req('/moon/saudi-arabia/riyadh/2026/06/17');
-        // MLRC: the legacy dated URL now 301s to THIS nested URL (no 200 body to diff against).
-        const lg = await req('/moon-in-riyadh/2026-06-17');
-        check('/moon/saudi-arabia/riyadh/2026/06/17 -> 200 (#page-moon active, 1 H1, legacy renderer)', dy.status === 200 && pageMoonActive(dy.body) && h1Count(dy.body) === 1 && !/id="page-moon-day"/.test(dy.body), `status=${dy.status} pm=${pageMoonActive(dy.body)} h1=${h1Count(dy.body)}`);
-        // legacy renderer markers present (non-empty #moon-page-h1 + #moon-city-answer body); legacy URL 301→here
-        const h1Of = (b) => ((b.match(/id="moon-page-h1"[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]*>/g, '').trim();
-        check('/moon/.../2026/06/17: legacy renderer (non-empty H1 + body container) + legacy URL 301→here (MLRC)', h1Of(dy.body).length > 0 && /id="moon-city-answer"/.test(dy.body) && lg.status === 301 && lg.loc === '/moon/saudi-arabia/riyadh/2026/06/17', `dayH1="${h1Of(dy.body)}" legacy=${lg.status}→${lg.loc}`);
-        // self-canonical to the NEW nested URL (NOT the legacy flat URL)
-        check('/moon/.../2026/06/17: canonical self (new nested URL)', canonOf(dy.body) === SITE + '/moon/saudi-arabia/riyadh/2026/06/17', canonOf(dy.body));
-        // 7-level breadcrumb: Home › Moon Phase › Country › City › Year › Month › Day, DOM ≡ JSON-LD
-        const ldItems = (() => { const m = dy.body.match(/"@type"\s*:\s*"BreadcrumbList"[\s\S]*?"itemListElement"\s*:\s*(\[[\s\S]*?\])\s*\}/); if (!m) return 0; try { return JSON.parse(m[1]).length; } catch { return -1; } })();
-        check('/moon/.../2026/06/17: 7-level BreadcrumbList JSON-LD', ldItems === 7, `ldItems=${ldItems}`);
-        // leap-aware day-of-month: 2024-02-29 valid (leap), 2026-02-29 invalid (non-leap)
-        check('/moon/.../2024/02/29 -> 200 (leap year)', (await req('/moon/saudi-arabia/riyadh/2024/02/29')).status === 200);
+    // MOON-DAY-PAGES-REMOVAL-1: the city DAY page /moon/{country}/{city}/{yyyy}/{mm}/{dd} (any supported real
+    //   date, leap-aware) and its legacy dated form /[lang/]moon-in-{city}/{yyyy-mm-dd} are REMOVED → 410 Gone
+    //   in ONE response: no Location, not the #page-moon shell, small static body. (Was: 200 legacy renderer,
+    //   self-canonical, 7-level breadcrumb; legacy 301→here.) Invalid days stay 404 (list below).
+    for (const u of ['/moon/saudi-arabia/riyadh/2026/06/17', '/en/moon/saudi-arabia/riyadh/2026/06/17', '/moon/saudi-arabia/riyadh/2024/02/29', '/moon-in-riyadh/2026-06-17', '/en/moon-in-riyadh/2026-06-17']) {
+        const r = await req(u);
+        check(`${u} -> 410 Gone (no Location, not page-moon, small body)`, is410(r) && !pageMoonActive(r.body), goneInfo(r));
     }
-    // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: the city TODAY page /moon/{country}/{city}/today is the
-    //   STRUCTURAL alias of the legacy /moon-today-in-{city}. It renders the SAME legacy today renderer
-    //   (#page-moon active, same #moon-page-h1, same #moon-city-answer body) — NOT a bespoke page. The
-    //   only permitted differences: self-canonical (new URL), hreflang (new URL), 5-level breadcrumb.
-    //   /today/anything stays a clean 404.
-    {
-        const td = await req('/moon/saudi-arabia/riyadh/today');
-        // MLRC: the legacy today URL now 301s to THIS nested URL (no 200 body to diff against).
-        const lg = await req('/moon-today-in-riyadh');
-        check('/moon/saudi-arabia/riyadh/today -> 200 (#page-moon active, 1 H1, legacy today renderer)', td.status === 200 && pageMoonActive(td.body) && h1Count(td.body) === 1 && !/id="page-moon-day"/.test(td.body), `status=${td.status} pm=${pageMoonActive(td.body)} h1=${h1Count(td.body)}`);
-        const h1Of = (b) => ((b.match(/id="moon-page-h1"[^>]*>([\s\S]*?)<\/h1>/) || [])[1] || '').replace(/<[^>]*>/g, '').trim();
-        check('/moon/.../today: legacy renderer (non-empty H1 + body container) + legacy URL 301→here (MLRC)', h1Of(td.body).length > 0 && /id="moon-city-answer"/.test(td.body) && lg.status === 301 && lg.loc === '/moon/saudi-arabia/riyadh/today', `todayH1="${h1Of(td.body)}" legacy=${lg.status}→${lg.loc}`);
-        check('/moon/.../today: canonical self (new nested URL)', canonOf(td.body) === SITE + '/moon/saudi-arabia/riyadh/today', canonOf(td.body));
-        // 5-level breadcrumb: Home › Moon Phase › Country › City › Today, DOM ≡ JSON-LD
-        const ldItems = (() => { const m = td.body.match(/"@type"\s*:\s*"BreadcrumbList"[\s\S]*?"itemListElement"\s*:\s*(\[[\s\S]*?\])\s*\}/); if (!m) return 0; try { return JSON.parse(m[1]).length; } catch { return -1; } })();
-        check('/moon/.../today: 5-level BreadcrumbList JSON-LD', ldItems === 5, `ldItems=${ldItems}`);
-        check('/moon/.../today/test -> 404 (nothing nests below today)', (await req('/moon/saudi-arabia/riyadh/today/test')).status === 404);
-        check('/moon-today-in-riyadh now 301 → nested today (MLRC legacy cleanup)', (await req('/moon-today-in-riyadh')).status === 301);
+    // MOON-DAY-PAGES-REMOVAL-1: the city TODAY page /moon/{country}/{city}/today and the legacy
+    //   /[lang/]moon-today-in-{city} are REMOVED → 410 Gone in ONE response (was: 200 legacy today renderer;
+    //   legacy 301→here). /today/anything stays a clean 404.
+    for (const u of ['/moon/saudi-arabia/riyadh/today', '/en/moon/saudi-arabia/riyadh/today', '/moon-today-in-riyadh', '/fr/moon-today-in-riyadh']) {
+        const r = await req(u);
+        check(`${u} -> 410 Gone (no Location, not page-moon, small body)`, is410(r) && !pageMoonActive(r.body), goneInfo(r));
     }
+    check('/moon/.../today/test -> 404 (nothing nests below today)', (await req('/moon/saudi-arabia/riyadh/today/test')).status === 404);
     //   The deeper / invalid routes stay clean 404: today/anything (nothing nests below today —
     //   MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1), dash forms /{yyyy-mm} + /{yyyy-mm-dd}, bad month
     //   (1-digit / 00 / 13), bad day (1-digit / 00 / 32 / Feb 30 / non-leap 29), and anything deeper
-    //   than the day page (/{yyyy}/{mm}/{dd}/extra). NB: /…/today itself is now LIVE 200 (see above).
+    //   than the day page (/{yyyy}/{mm}/{dd}/extra). NB: /…/today itself is 410 now (see above).
     for (const u of ['/moon/saudi-arabia/riyadh/today/test', '/moon/saudi-arabia/riyadh/Today', '/moon/saudi-arabia/riyadh/2026/6', '/moon/saudi-arabia/riyadh/2026/00', '/moon/saudi-arabia/riyadh/2026/13', '/moon/saudi-arabia/riyadh/2026/06/7', '/moon/saudi-arabia/riyadh/2026/06/00', '/moon/saudi-arabia/riyadh/2026/06/32', '/moon/saudi-arabia/riyadh/2026/02/30', '/moon/saudi-arabia/riyadh/2026/02/29', '/moon/saudi-arabia/riyadh/2026/06/17/extra', '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17', '/en/moon/saudi-arabia/riyadh/today/test']) {
         const r = await req(u);
         check(`${u}: 404, not page-moon, small error page (not the 200KB shell)`, r.status === 404 && !pageMoonActive(r.body) && r.body.length < 50000, `status=${r.status} pm=${pageMoonActive(r.body)} len=${r.body.length}`);
@@ -279,11 +272,23 @@ try {
     check('sitemap-main: no day-page flood (no /moon…/{YYYY-MM-DD} locs)', !/\/moon[^<]*\d{4}-\d{2}-\d{2}<\/loc>/.test(sm), `${(sm.match(/\/moon[^<]*\d{4}-\d{2}-\d{2}<\/loc>/g) || []).length} day locs`);
     // F2) cities sitemap — MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 + MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH:
     //     ALL legacy flat moon routes are now dropped from the sitemap (they 301). Only the nested
-    //     /moon/{country}/{city} hub + /…/today are emitted; NO legacy hub, NO legacy today, NO legacy
-    //     dated, and NO bulk day-page flood.
+    //     /moon/{country}/{city} hub is emitted (MOON-DAY-PAGES-REMOVAL-1: the /…/today locs left — 410 now);
+    //     NO legacy hub, NO legacy today, NO legacy dated, and NO bulk day-page flood.
     const smc = (await req('/sitemap-cities-1.xml')).body;
     check('sitemap-cities: nested city hub PRESENT (e.g. /moon/saudi-arabia/medina + /en)', smc.includes(`<loc>${SITE}/moon/saudi-arabia/medina</loc>`) && smc.includes(`<loc>${SITE}/en/moon/saudi-arabia/medina</loc>`));
-    check('sitemap-cities: nested today PRESENT (e.g. /moon/saudi-arabia/medina/today)', /\/moon\/[a-z-]+\/[a-z-]+\/today<\/loc>/.test(smc));
+    check('sitemap-cities: nested today ABSENT (MOON-DAY-PAGES-REMOVAL-1 — /today is 410)', !/\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today<\/loc>/.test(smc), `${(smc.match(/\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today<\/loc>/g) || []).length} nested today locs`);
+    // MOON-DAY-PAGES-REMOVAL-1: the semantic moon family files listed by /sitemap.xml carry no /today and no day loc either.
+    {
+        const idx = (await req('/sitemap.xml')).body;
+        const famFiles = [...new Set([...idx.matchAll(/\/(sitemap-moon(?:-\d+)?\.xml)<\/loc>/g)].map(m => m[1]))];
+        check('sitemap.xml index lists ≥1 moon family file (sitemap-moon[-N].xml)', famFiles.length >= 1, famFiles.join(','));
+        for (const fn of famFiles) {
+            const fr = await req('/' + fn);
+            const nToday = (fr.body.match(/\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today<\/loc>/g) || []).length;
+            const nDay = (fr.body.match(/\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/g) || []).length;
+            check(`/${fn}: 200 + nested today ABSENT + nested day ABSENT (MOON-DAY-PAGES-REMOVAL-1)`, fr.status === 200 && nToday === 0 && nDay === 0, `status=${fr.status} today=${nToday} day=${nDay}`);
+        }
+    }
     check('sitemap-cities: bare /moon-in-{city} hub ABSENT (301 must not be listed)', !/\/moon-in-[a-z-]+<\/loc>/.test(smc), `${(smc.match(/\/moon-in-[a-z-]+<\/loc>/g) || []).length} bare-hub locs`);
     check('sitemap-cities: legacy /moon-today-in-{city} ABSENT (MLRC — now 301)', !/\/moon-today-in-[a-z-]+<\/loc>/.test(smc), `${(smc.match(/\/moon-today-in-[a-z-]+<\/loc>/g) || []).length} legacy-today locs`);
     check('sitemap-cities: legacy dated /moon-in-{city}/{YYYY-MM-DD} ABSENT (MLRC — now 301)', !/\/moon-in-[a-z-]+\/\d{4}-\d{2}-\d{2}<\/loc>/.test(smc), `${(smc.match(/\/moon-in-[a-z-]+\/\d{4}-\d{2}-\d{2}<\/loc>/g) || []).length} legacy-dated locs`);
@@ -306,15 +311,19 @@ try {
     }
 
     // ── I) Meeus 49 + city timezone ──
-    //   MLRC: legacy /moon-in-riyadh/2026-06[-15] all 301 now. Validate the SAME Meeus output via the
-    //   nested DAY pages (they reuse the legacy #page-moon renderer), and the US city via the nested today.
-    console.log('\n── I) Meeus 49 (Riyadh Jun 2026, nested day pages) + US city moon page (nested today) ──');
-    for (const [d, phase] of [['15', 'المحاق'], ['16', 'هلال متزايد'], ['29', 'أحدب متزايد'], ['30', 'البدر']]) {
-        const r = await req('/moon/saudi-arabia/riyadh/2026/06/' + d);
-        check(`Meeus: ${d} Jun = ${phase} (nested day page, legacy renderer)`, r.status === 200 && pageMoonActive(r.body) && r.body.includes(phase), `status=${r.status} has=${r.body.includes(phase)}`);
+    //   MOON-DAY-PAGES-REMOVAL-1: the day/today pages are 410 now. Validate the SAME Meeus output via the
+    //   nested MONTH page grid cells (phase-name span of the cell whose date span is the day number), and
+    //   the US city via its nested HUB (which carries today's moon info).
+    console.log('\n── I) Meeus 49 (Riyadh Jun 2026, month grid cells) + US city moon page (nested hub) ──');
+    {
+        const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
+        for (const [d, phase] of [[15, 'محاق'], [16, 'هلال متزايد'], [29, 'أحدب متزايد'], [30, 'بدر']]) {
+            const pn = calSpan(calCellOf(mo.body, d), 'moon-hub-cal-phase-name');
+            check(`Meeus: ${d} Jun = ${phase} (month grid cell phase-name)`, mo.status === 200 && pn.includes(phase), `status=${mo.status} phaseName="${pn}"`);
+        }
     }
-    const ny = await req('/moon/united-states/new-york/today');
-    check('US city /moon/united-states/new-york/today: 200 + page-moon + hijri banner (city tz)', ny.status === 200 && pageMoonActive(ny.body) && /banner-hijri-date|hijri/i.test(ny.body), `status=${ny.status}`);
+    const ny = await req('/moon/united-states/new-york');
+    check('US city /moon/united-states/new-york (hub): 200 + page-moon + hijri banner (city tz)', ny.status === 200 && pageMoonActive(ny.body) && /banner-hijri-date|hijri/i.test(ny.body), `status=${ny.status}`);
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

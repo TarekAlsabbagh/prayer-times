@@ -7,6 +7,7 @@
 // user decision — the month page ALREADY ships a rich month context (Hijri-range card + month intro +
 // month/phase headings) from prior tickets; we keep ONE natural context, no duplication / stuffing.
 // Table untouched (no fc-month-group; 865f505 not reintroduced).
+// MOON-DAY-PAGES-REMOVAL-1: §G today/day SSR H1 checks replaced by 410 checks (the pages are removed).
 //
 // Run: node scripts/_smoke_moon_city_month_title_and_keyword_consistency_all_langs_fix_1.mjs
 import http from 'node:http';
@@ -20,6 +21,9 @@ let pass = 0, fail = 0;
 const check = (l, ok, x) => { if (ok) pass++; else fail++; console.log(`${ok ? '✓' : '✗'} ${l}${x !== undefined && x !== '' ? '   →  ' + x : ''}`); };
 const PORT = 8303;
 const req = (p) => new Promise((res) => { const r = http.request({ host: 'localhost', port: PORT, path: p, headers: { 'Accept-Encoding': 'identity' } }, rs => { let b = ''; rs.on('data', c => b += c); rs.on('end', () => res(b)); }); r.on('error', () => res('')); r.end(); });
+// MOON-DAY-PAGES-REMOVAL-1: status-aware variant for the removed day/today pages (410, ONE response, no Location)
+const reqS = (p) => new Promise((res) => { const r = http.request({ host: 'localhost', port: PORT, path: p, headers: { 'Accept-Encoding': 'identity' } }, rs => { let b = ''; rs.on('data', c => b += c); rs.on('end', () => res({ status: rs.statusCode, loc: rs.headers.location || '', body: b })); }); r.on('error', () => res({ status: 0, loc: '', body: '' })); r.end(); });
+const is410 = (r) => r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 async function ready(ms){const t=Date.now();while(Date.now()-t<ms){if(await req('/health'))return true;await sleep(400);}return false;}
 const dec = s => (s||'').replace(/&amp;/g,'&').replace(/&#0?39;/g,"'").replace(/&rsquo;/g,'’').replace(/&quot;/g,'"').replace(/&#x27;/g,"'");
@@ -97,9 +101,11 @@ const MLONG = '/moon/mexico/santiago-de-queretaro/2026/06';
         check('month indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(arMp));
         check('month title has NO «اليوم»/Today (distinct from /today)', !titleOf(arMp).includes('اليوم') && !/\bToday\b/i.test(titleOf(enMp)));
 
-        console.log('\n── G) scope: SSR H1 of today/day/year is NOT the month form (untouched) ──');
-        check('/today SSR H1 ≠ month form', !/Moon Phases in[\s\S]*2026/.test(h1Txt(await req('/en/moon/saudi-arabia/riyadh/today'))));
-        check('/day SSR H1 is the date form', /on 14 June 2026/.test(h1Txt(await req('/en/moon/saudi-arabia/riyadh/2026/06/14'))));
+        console.log('\n── G) scope: year page untouched; today/day removed (410) ──');
+        for (const gp of ['/en/moon/saudi-arabia/riyadh/today', '/en/moon/saudi-arabia/riyadh/2026/06/14']) {
+            const gr = await reqS(gp);
+            check(`${gp} → 410 (removed, no Location)`, is410(gr), `${gr.status} loc=${gr.loc}`);
+        }
         check('/year page unaffected (title has 2026)', /2026/.test(titleOf(await req('/en/moon/saudi-arabia/riyadh/2026'))));
         check('global /moon + country /moon/sa unaffected', /اليوم/.test(titleOf(await req('/moon'))) && !/2026/.test(titleOf(await req('/moon/saudi-arabia'))));
 

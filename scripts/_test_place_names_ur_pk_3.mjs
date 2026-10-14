@@ -15,6 +15,7 @@
 //   H. SSR: cross-route (moon-in/moon-today-in/qibla-in) on 3 cities
 //   I. Regression on prior phases
 //   J. Milestone: PK Urdu coverage = 70/70
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -227,7 +228,7 @@ for (const slug of PRIORITY) {
 console.log('\n── Part H — Cross-route SSR (moon-in/moon-today-in/qibla-in) ──');
 
 const CROSS_CITIES = ['gujranwala','bannu','kharian'];
-const CROSS_ROUTES = ['moon-in', 'moon-today-in', 'qibla-in'];
+const CROSS_ROUTES = ['moon-in', 'qibla-in'];   // MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped (410)
 
 for (const slug of CROSS_CITIES) {
     const expected = EXPECTED_UR[slug];

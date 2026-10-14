@@ -15,6 +15,10 @@
 // Server-side only → no app.js / index.html / css / cache-buster. No javascript:void(0), no legacy,
 // no redirect-target hrefs, no /en/en. Scope: moon pages only.
 //
+// MOON-DAY-PAGES-REMOVAL-1: today/day pages (410) dropped from pages[]; §B/§C/§D re-pointed to the city hub
+//   (#moon-date-nav + #moon-today-city-edu left index.html with the today page → asserted absent); related-1 is
+//   never /today (absent on the hub, → hub on the month page). The v=805 pin (§G) is a pre-existing RED, untouched.
+//
 // Run: node scripts/_smoke_moon_friendly_links_href_hash_controls_to_buttons_1.mjs
 import http from 'node:http';
 import fs from 'node:fs';
@@ -60,9 +64,7 @@ const IDX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
             ['/moon/saudi-arabia (country)', '/moon/saudi-arabia', 0],
             ['city hub', CITY, 1],            // 1 = hidden bc-month placeholder
             ['EN city hub', '/en' + CITY, 1],
-            ['today', CITY + '/today', 0],
             ['month', CITY + '/2026/06', 0],
-            ['day', CITY + '/2026/06/14', 0],
             ['year', CITY + '/2026', 0],
         ];
 
@@ -75,15 +77,15 @@ const IDX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
         }
 
         // ── B) bc-month → real nested current-month href on hub/today (was the last href="#") ──
-        console.log('\n── B) bc-month resolved → real nested current-month href on hub/today ──');
-        for (const [nm, pth, lp] of [['hub', CITY, ''], ['EN hub', '/en' + CITY, '/en'], ['today', CITY + '/today', '']]) {
+        console.log('\n── B) bc-month resolved → real nested current-month href on the hub ──');
+        for (const [nm, pth, lp] of [['hub', CITY, ''], ['EN hub', '/en' + CITY, '/en']]) {
             const h = (await req(pth)).body;
             const bm = anchorWith(h, 'id="bc-month"');
             const re = new RegExp('^' + lp.replace(/\//g, '\\/') + '\\/moon\\/saudi-arabia\\/riyadh\\/\\d{4}\\/\\d{2}$');
             check(`${nm}: bc-month → ${lp}/moon/saudi-arabia/riyadh/{YYYY}/{MM} (real, not "#")`, !!bm && re.test(hrefIn(bm)), hrefIn(bm));
         }
-        // month/day: bc-month is NOT touched here (renderer-managed) — never href="#"
-        for (const pth of [CITY + '/2026/06', CITY + '/2026/06/14']) {
+        // month: bc-month is NOT touched here (renderer-managed) — never href="#"
+        for (const pth of [CITY + '/2026/06']) {
             const h = (await req(pth)).body;
             const bm = anchorWith(h, 'id="bc-month"');
             check(`${pth}: bc-month is renderer-managed (never href="#")`, !bm || hrefIn(bm) !== '#', bm ? hrefIn(bm) : '(absent: current rung)');
@@ -91,23 +93,34 @@ const IDX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
 
         // ── C) the drift/dynamic NAV placeholders are STRIPPED (hrefless, NOT href="#") ──
         console.log('\n── C) drift/dynamic nav placeholders stripped to hrefless ──');
-        const today = (await req(CITY + '/today')).body;
-        for (const cls of ['moon-hub-related-4', 'moon-tdc-edu-link-3', 'moon-tdc-edu-link-4']) {
-            const tag = anchorWith(today, cls);
-            check(`today: .${cls} exists & is hrefless (stripped, app.js fills)`, !!tag && !/href=/.test(tag), tag ? tag.replace(/\s+/g, ' ') : '(absent)');
+        // MOON-DAY-PAGES-REMOVAL-1: these were read off the (removed) today page → read off the city hub.
+        const cityHub = (await req(CITY)).body;
+        for (const cls of ['moon-hub-related-4']) {
+            const tag = anchorWith(cityHub, cls);
+            check(`hub: .${cls} exists & is hrefless (stripped, app.js fills)`, !!tag && !/href=/.test(tag), tag ? tag.replace(/\s+/g, ' ') : '(absent)');
         }
-        for (const id of ['moon-date-prev', 'moon-date-next', 'lsb-go-btn', 'moon-hub-smart-pill']) {
-            const tag = anchorWith(today, 'id="' + id + '"');
-            check(`today: #${id} exists & is hrefless (stripped)`, !!tag && !/href="#"/.test(tag) && !/href=/.test(tag), tag ? tag.replace(/\s+/g, ' ') : '(absent)');
+        for (const id of ['lsb-go-btn', 'moon-hub-smart-pill']) {
+            const tag = anchorWith(cityHub, 'id="' + id + '"');
+            check(`hub: #${id} exists & is hrefless (stripped)`, !!tag && !/href="#"/.test(tag) && !/href=/.test(tag), tag ? tag.replace(/\s+/g, ' ') : '(absent)');
+        }
+        // the date nav (#moon-date-prev/next) and the today-city edu block (tdc-edu-1..4) lived on the today page only
+        for (const needle of ['id="moon-date-prev"', 'id="moon-date-next"', 'id="moon-date-nav"', 'moon-tdc-edu-link-']) {
+            check(`hub: ${needle} absent (removed with the today page)`, cityHub.indexOf(needle) === -1);
         }
 
         // ── D) the deterministic-safe nav links are SSR-FILLED with real nested hrefs ──
         console.log('\n── D) deterministic-safe nav links SSR-filled (real nested href) ──');
-        check('today: tdc-edu-1 → city hub', hrefIn(anchorWith(today, 'moon-tdc-edu-link-1')) === '/moon/saudi-arabia/riyadh');
-        check('today: tdc-edu-2 → current month (YYYY/MM)', /^\/moon\/saudi-arabia\/riyadh\/\d{4}\/\d{2}$/.test(hrefIn(anchorWith(today, 'moon-tdc-edu-link-2'))), hrefIn(anchorWith(today, 'moon-tdc-edu-link-2')));
-        check('today: moon-edu-readmore → city hub', hrefIn(anchorWith(today, 'moon-edu-readmore')) === '/moon/saudi-arabia/riyadh');
-        check('today: sticky-next-bar → time-left (city)', hrefIn(anchorWith(today, 'sticky-next-bar')) === '/time-left-until-next-prayer-in-riyadh');
-        check('today: related-1 → today (prior ticket, still filled)', hrefIn(anchorWith(today, 'moon-hub-related-1')) === '/moon/saudi-arabia/riyadh/today');
+        // MOON-DAY-PAGES-REMOVAL-1: moon-edu-readmore was SSR-filled on the today/day pages only (the hub strips that
+        //   block — measured on BASE: absent on the hub and the month page). Those pages are 410 now, so the check is
+        //   inverted to "the hub carries no readmore link to a removed page" (absent, or the hub itself).
+        { const rm = hrefIn(anchorWith(cityHub, 'moon-edu-readmore'));
+          check('hub: moon-edu-readmore absent or → city hub (never a removed page)', !anchorWith(cityHub, 'moon-edu-readmore') || rm === '/moon/saudi-arabia/riyadh', rm); }
+        check('hub: sticky-next-bar → time-left (city)', hrefIn(anchorWith(cityHub, 'sticky-next-bar')) === '/time-left-until-next-prayer-in-riyadh', hrefIn(anchorWith(cityHub, 'sticky-next-bar')));
+        // MOON-DAY-PAGES-REMOVAL-1 (inverted): related-1 never → /today. On the hub its <li> is removed in SSR;
+        //   on the month page it points at the hub.
+        check('hub: related-1 absent (its <li> removed in SSR — no /today, no self-link)', !/class="[^"]*\bmoon-hub-related-1\b/.test(cityHub), hrefIn(anchorWith(cityHub, 'moon-hub-related-1')));
+        const monthPg = (await req(CITY + '/2026/06')).body;
+        check('month: related-1 → city hub (never /today)', hrefIn(anchorWith(monthPg, 'moon-hub-related-1')) === '/moon/saudi-arabia/riyadh', hrefIn(anchorWith(monthPg, 'moon-hub-related-1')));
 
         // ── E) cookie control → real /privacy href (onclick modal preserved); lang-prefixed ──
         console.log('\n── E) footer cookie-settings → real /privacy href (onclick preserved) ──');

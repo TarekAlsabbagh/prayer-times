@@ -543,7 +543,7 @@
 <script nonce="__TP_CSP_NONCE__" src="js/i18n.js?v=199"></script>
 <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared site-search pipeline (same window.SiteSearch
      module as the homepage). Non-defer → available to the inline scripts below at parse time. -->
-<script nonce="__TP_CSP_NONCE__" src="js/site-search.js?v=4"></script>
+<script nonce="__TP_CSP_NONCE__" src="js/site-search.js?v=6"></script>
 <script nonce="__TP_CSP_NONCE__" defer src="js/footer-cookie.js?v=8"></script>
 <script nonce="__TP_CSP_NONCE__">
 /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية ===== */
@@ -638,8 +638,10 @@ function pageUrl(arabicPath) {
 //   variant, city cards + the country search target /moon-today-in-{city} (targetRoute moon-hub).
 const _CPV = (typeof window !== 'undefined' && window.__COUNTRY_PAGE_VARIANT === 'moon') ? 'moon' : 'prayer';
 const _CPV_TARGET_ROUTE = (_CPV === 'moon') ? 'moon-hub' : 'prayer-times';
+// MOON-DAY-PAGES-REMOVAL-1: the moon variant opens the city's moon HUB (the today page is removed): the legacy
+//   hub /moon-in-{city} 301s to /moon/{country}/{city} for curated, city-database and discovered cities alike.
 function _cityHref(slug) {
-    return pageUrl((_CPV === 'moon' ? '/moon-today-in-' : '/prayer-times-in-') + slug);
+    return pageUrl((_CPV === 'moon' ? '/moon-in-' : '/prayer-times-in-') + slug);
 }
 
 // العودة إلى صفحة مواقيت المدينة الحالية
@@ -2210,7 +2212,7 @@ function renderGrid() {
         //   (_cityHref); cross-country chips (last-used) + discovered search keep the universal flat
         //   route (server 301-resolves their country).
         const href = (_CPV === 'moon' && _countryUrlSlug)
-            ? pageUrl('/moon/' + _countryUrlSlug + '/' + slug + '/today')
+            ? pageUrl('/moon/' + _countryUrlSlug + '/' + slug)   // MOON-DAY-PAGES-REMOVAL-1: the city hub (= SSR grid)
             : _cityHref(slug);
         const a = document.createElement('a');
         const cardLabel = _cardLabelFn(city);

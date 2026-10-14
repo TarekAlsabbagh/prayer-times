@@ -17,6 +17,7 @@
 // Cities tested (from the user's acceptance list):
 //   provence-alpes-cote-d-azur, marseille, lyon, paris,
 //   port-de-bouc, london, cairo (sanity check for AR-script-only).
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 import { JSDOM } from 'jsdom';
 import http from 'node:http';
 
@@ -38,7 +39,6 @@ const ROUTES = [
     'time-left-until-next-prayer-in',
     'next-prayer-in',
     'moon-in',
-    'moon-today-in',
 ];
 
 const LATIN_TOKEN_RE = /\b(Provence|Alpes|Cote|D|Azur|Marseille|Lyon|Paris|Port|De|Bouc|London|Cairo|alpes|azur)\b/g;

@@ -6,6 +6,8 @@
 //   city/prayer/qibla/moon routes resolve. Praia is now CURATED (index) instead of discovered.
 //
 // Spawns `node server.js` with Supabase DISABLED + fixture (abu-hardub) for the discovered control.
+// MOON-DAY-PAGES-REMOVAL-1: moon checks moved to the hubs /moon/cape-verde/praia + /moon/namibia/windhoek (canonical
+//   self, index); their today forms (nested + legacy) → 410 in ONE response (no Location).
 // Run: node scripts/_smoke_country_and_cities_coverage_batch12_fix_1.mjs
 
 import http from 'node:http';
@@ -26,6 +28,9 @@ function get(p, depth){return new Promise((res)=>{http.get({host:'localhost',por
     if([301,302,307,308].includes(r.statusCode) && r.headers.location && (depth||0)<3){ r.resume(); const loc=r.headers.location.replace(/^https?:\/\/[^/]+/,''); return res(get(loc,(depth||0)+1)); }
     let b='';r.on('data',c=>b+=c);r.on('end',()=>res({status:r.statusCode,body:b}));
 }).on('error',()=>res({status:0,body:''}));});}
+// MOON-DAY-PAGES-REMOVAL-1: no-follow + body (a removed day/today page answers 410 in ONE response, no Location)
+function getNF(p){return new Promise((res)=>{http.get({host:'localhost',port:PORT,path:p},r=>{let b='';r.on('data',c=>b+=c);r.on('end',()=>res({status:r.statusCode,loc:r.headers.location||'',body:b}));}).on('error',()=>res({status:0,loc:'',body:''}));});}
+const is410=(r)=>r.status===410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function waitReady(t){const t0=Date.now();while(Date.now()-t0<t){const r=await get('/health');if(r.status===200)return true;await sleep(400);}return false;}
 let pass=0,fail=0;
@@ -52,8 +57,10 @@ try {
     check('/qibla-in-praia = 200 + INDEX + برايا', prQ.status===200 && isIndex(prQm.robots) && prQm.title.includes('برايا'), prQ.status+' '+prQm.robots);
     const cvM = await get('/moon/cape-verde');
     check('/moon/cape-verde = 200 (now has curated cities; was 404)', cvM.status===200, cvM.status);
-    const prMn = await get('/moon/cape-verde/praia/today'); const prMnm = meta(prMn.body);
-    check('/moon/cape-verde/praia/today = 200 + INDEX (curated)', prMn.status===200 && isIndex(prMnm.robots), prMn.status+' '+prMnm.robots);
+    const prMn = await get('/moon/cape-verde/praia'); const prMnm = meta(prMn.body);
+    check('/moon/cape-verde/praia (hub) = 200 + INDEX + self-canonical (curated)', prMn.status===200 && isIndex(prMnm.robots) && prMnm.canon==='/moon/cape-verde/praia', prMn.status+' '+prMnm.robots+' '+prMnm.canon);
+    const prMt = await getNF('/moon/cape-verde/praia/today');
+    check('/moon/cape-verde/praia/today → 410 (removed, no Location)', is410(prMt), prMt.status+' loc='+prMt.loc);
 
     // ── BATCH-1 sample (Namibia / Windhoek) ──
     console.log('\n── BATCH-1 sample: Namibia ──');
@@ -63,8 +70,12 @@ try {
         const r=await get(p); const m=meta(r.body);
         check(`windhoek ${label} 200 + index + فيندهوك`, r.status===200 && isIndex(m.robots) && m.title.includes('فيندهوك'), r.status+' '+m.robots);
     }
-    const wMn = await get('/moon-today-in-windhoek'); const wMnm = meta(wMn.body);
-    check('/moon-today-in-windhoek → nested /moon/namibia/... 200 index', wMn.status===200 && wMnm.canon==='/moon/namibia/windhoek/today' && isIndex(wMnm.robots), wMn.status+' '+wMnm.canon);
+    const wMn = await get('/moon/namibia/windhoek'); const wMnm = meta(wMn.body);
+    check('/moon/namibia/windhoek (hub) 200 + index + self-canonical', wMn.status===200 && wMnm.canon==='/moon/namibia/windhoek' && isIndex(wMnm.robots), wMn.status+' '+wMnm.canon);
+    for (const tp of ['/moon-today-in-windhoek', '/moon/namibia/windhoek/today']) {
+        const tr = await getNF(tp);
+        check(`${tp} → 410 in ONE response (no Location)`, is410(tr), tr.status+' loc='+tr.loc);
+    }
 
     // ── BATCH-2 samples ──
     console.log('\n── BATCH-2 samples ──');

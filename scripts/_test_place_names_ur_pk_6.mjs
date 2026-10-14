@@ -4,6 +4,7 @@
 // now have real Urdu names.
 //
 // After this: PK Urdu coverage = 148/148 = 100% ⭐ (matches Arabic 148/148)
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -179,7 +180,7 @@ console.log('\n── Part F — Cross-route SSR (moon/qibla) on 3 cities ──
 const CROSS_CITIES = ['daharki','rabwah','shakargarh'];
 for (const slug of CROSS_CITIES) {
     const expected = EXPECTED_UR[slug];
-    for (const route of ['moon-in','moon-today-in','qibla-in']) {
+    for (const route of ['moon-in','qibla-in']) {   // MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped (410)
         const url = '/ur/' + route + '-' + slug;
         const r = await get(url);
         const seed = extractSeed(r.body);

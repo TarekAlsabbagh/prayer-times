@@ -8,6 +8,9 @@
 // unknown country/city → 404, wrong country → 301, bad/non-4-digit/out-of-range year →
 // 404, and the deeper today/month/day + dash forms stay clean 404. Legacy moon routes
 // and Meeus 49 are untouched.
+// MOON-DAY-PAGES-REMOVAL-1: phase-table date cell is plain text (my-table-link === rows×1, month only; 0 /YYYY/MM/DD
+//   hrefs on the page); #moon-year-today-cta links the hub; highlights link month pages (0 day links); sitemap has no
+//   /today; legacy month 301 stays, legacy today/dated → 410; Meeus via month grid cells; day/today dropped from scope.
 //
 // Run: node scripts/_smoke_moon_city_year_route_structure_add_1.mjs
 import http from 'node:http';
@@ -160,9 +163,13 @@ try {
         // MOON-DAY-INTERNAL-LINK-CLEANUP-1 (L1): the Hijri cell no longer repeats the date cell's day href
         //   (same row, same target), so a row now has 2 linked cells (date → day page, month → month page)
         //   and the Hijri date is plain text in <td class="my-table-hijri">.
-        check('every row has 2 linked cells (date+month): my-table-link === rows×2', count(b, /class="my-table-link"/g) === _rowCount * 2, `${count(b, /class="my-table-link"/g)} links / ${_rowCount} rows`);
+        // MOON-DAY-PAGES-REMOVAL-1: the date cell is plain text now (no day page) → a row has ONE linked cell (month).
+        check('every row has 1 linked cell (month only): my-table-link === rows×1', count(b, /class="my-table-link"/g) === _rowCount, `${count(b, /class="my-table-link"/g)} links / ${_rowCount} rows`);
         check('the Hijri cell is text, not a duplicate day link (rows×1)', count(b, /<td class="my-table-hijri">/g) === _rowCount, `${count(b, /<td class="my-table-hijri">/g)}`);
-        check('date cell links to nested day page (rows×1)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g) === _rowCount, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g)}`);
+        {
+            const _dayHrefs = b.replace(/<!--[\s\S]*?-->/g, '').match(/href="[^"]*\/\d{4}\/\d{2}\/\d{2}(?:\.html)?(?:[?#][^"]*)?"/g) || [];
+            check('date cell is plain text: 0 hrefs matching /YYYY/MM/DD anywhere on the page (MOON-DAY-PAGES-REMOVAL-1)', _dayHrefs.length === 0 && count(b, /class="my-table-link" href="[^"]*\/\d{4}\/\d\d\/\d\d"/g) === 0, `${_dayHrefs.length} ${_dayHrefs.slice(0, 3).join(' ')}`);
+        }
         check('month cell links to nested month page (rows×1)', count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g) === _rowCount, `${count(b, /class="my-table-link" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g)}`);
         check('table cell links never use legacy /moon-in- or /moon-today-in-', !/class="my-table-link" href="[^"]*moon-(?:in|today-in)-/.test(b));
         // MOON-YEAR-PHASES-TABLE-PHASE-ROW-STYLING-1: every event row carries one phase class + data-phase; compact legend above the table
@@ -200,13 +207,23 @@ try {
         check('year summary card present', /id="moon-year-summary"/.test(b));
         // MOON-YEAR-PAGE-UX-CONTENT-STRENGTHEN-1: year picker (hero) + highlights + explainer
         // HERO-DASHBOARD-REDESIGN: controls rebuilt as a 3-card Moon Year Dashboard (year picker / section links / today CTA)
-        check('hero Moon Year Dashboard: 3 cards in order; today CTA is a whole-card <a> to /today', /<div class="my-dash-grid"><div class="my-dash-card my-dash-year">[\s\S]*?id="moon-year-select"[\s\S]*?<div class="my-dash-card my-dash-sections">[\s\S]*?<nav class="my-anchor-nav my-dash-tabs"[\s\S]*?<a class="my-dash-card my-dash-today" id="moon-year-today-cta" href="\/moon\/saudi-arabia\/riyadh\/today">/.test(b));
+        // MOON-DAY-PAGES-REMOVAL-1: the today CTA (#moon-year-today-cta) links the city HUB (it shows today's moon), never /today.
+        check('hero Moon Year Dashboard: 3 cards in order; today CTA is a whole-card <a> to the hub /moon/saudi-arabia/riyadh', /<div class="my-dash-grid"><div class="my-dash-card my-dash-year">[\s\S]*?id="moon-year-select"[\s\S]*?<div class="my-dash-card my-dash-sections">[\s\S]*?<nav class="my-anchor-nav my-dash-tabs"[\s\S]*?<a class="my-dash-card my-dash-today" id="moon-year-today-cta" href="\/moon\/saudi-arabia\/riyadh">/.test(b));
+        check('today CTA never links /today (no /today href on the year page)', !/href="[^"]*\/today(?:[?#][^"]*)?"/.test(b.replace(/<!--[\s\S]*?-->/g, '')), ((b.match(/href="[^"]*\/today(?:[?#][^"]*)?"/g) || []).slice(0, 3).join(' ')));
         check('today CTA whole card is the link (icon + title + sub + arrow inside the <a>)', /<a class="my-dash-card my-dash-today"[^>]*>[\s\S]*?my-dash-today-ico[\s\S]*?my-dash-today-title[\s\S]*?my-dash-today-sub[\s\S]*?my-dash-today-arrow[\s\S]*?<\/a>/.test(b));
         check('year picker <select> present (inline onchange + selected 2026 → nested year route)', /id="moon-year-select"/.test(b) && /onchange="if\(this\.value\)window\.location\.href=this\.value"/.test(b) && /<option value="\/moon\/saudi-arabia\/riyadh\/2026" selected>2026<\/option>/.test(b));
         check('year picker prev + next links (2025 + 2027, nested)', /class="my-yp-btn my-yp-prev" href="\/moon\/saudi-arabia\/riyadh\/2025"/.test(b) && /class="my-yp-btn my-yp-next" href="\/moon\/saudi-arabia\/riyadh\/2027"/.test(b));
         // MOON-YEAR-HIGHLIGHTS-LAST-NEW-MOON-1: highlights now carry 5 cards (first/last full, first/last new, busiest month)
         check('highlights section + exactly 5 cards (incl. last new moon)', /id="moon-year-highlights"/.test(b) && count(b, /class="my-hl-card"/g) === 5, `${count(b, /class="my-hl-card"/g)} cards`);
-        check('highlights: 4 nested day links + 1 nested month link, no legacy', (() => { const hl = b.slice(b.indexOf('id="moon-year-highlights"'), b.indexOf('id="moon-year-table"')); const day = count(hl, /class="my-hl-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d\/\d\d"/g); const mon = count(hl, /class="my-hl-card" href="\/moon\/saudi-arabia\/riyadh\/2026\/\d\d"/g); return day === 4 && mon === 1 && !/moon-in-|moon-today-in-/.test(hl); })());
+        // MOON-DAY-PAGES-REMOVAL-1: the 4 first/last full/new cards link that event's MONTH page (no day page);
+        //   the busiest-month card is unchanged (month link) → 5 month links, 0 day links, no legacy.
+        {
+            const hl = b.slice(b.indexOf('id="moon-year-highlights"'), b.indexOf('id="moon-year-table"'));
+            const hrefs = [...hl.matchAll(/<a\b[^>]*class="my-hl-card"[^>]*>/g)].map(m => (m[0].match(/href="([^"]*)"/) || [])[1] || '');
+            const day = (hl.match(/href="[^"]*\/\d{4}\/\d\d\/\d\d(?:[?#][^"]*)?"/g) || []).length;
+            const mon = hrefs.filter(h => /^\/moon\/saudi-arabia\/riyadh\/2026\/\d\d$/.test(h)).length;
+            check('highlights: 0 day links + 5 nested month links (4 event cards + busiest month), no legacy', day === 0 && mon === 5 && hrefs.length === 5 && !/moon-in-|moon-today-in-|\/today"/.test(hl), `day=${day} mon=${mon} hrefs=${JSON.stringify(hrefs)}`);
+        }
         check('highlights: last-new-moon label present (ar آخر محاق في السنة) + 2 new-moon icons in highlights', (() => { const hl = b.slice(b.indexOf('id="moon-year-highlights"'), b.indexOf('id="moon-year-table"')); return hl.includes('آخر محاق في السنة') && count(hl, /🌑/g) === 2; })());
         check('explainer section present + 4 points', /id="moon-year-explainer"/.test(b) && count(b.slice(b.indexOf('id="moon-year-explainer"')).split('</section>')[0], /<li>/g) === 4);
         // FAQ reuses the today-page moon FAQ styling (.moon-faq-item, same look as /moon-today-in-{city})
@@ -220,8 +237,8 @@ try {
     // ── D) validation: deeper/dash/bad-year 404 · mismatch 301 · unknown 404 ──
     console.log('\n── D) validation (deeper/dash/bad-year 404 · mismatch 301 · unknown 404) ──');
     for (const u of [
-        // /2026/06 (month), /2026/06/17 (day) and /today (today) are now LIVE 200 since the
-        // month + day + today tickets; here only deeper-than-today / dash forms / a path deeper
+        // /2026/06 (month) is LIVE 200; /2026/06/17 (day) and /today (today) are 410 since
+        // MOON-DAY-PAGES-REMOVAL-1; here only deeper-than-today / dash forms / a path deeper
         // than a day stay 404.
         '/moon/saudi-arabia/riyadh/today/test', '/moon/saudi-arabia/riyadh/2026/06/17/extra',
         '/moon/saudi-arabia/riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026-06-17',
@@ -249,24 +266,34 @@ try {
         // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1 §9: month pages /moon/{c}/{city}/{yyyy}/{mm} are now emitted.
         check('sitemap NOW has nested month /moon/saudi-arabia/medina/{yyyy}/{mm} (MCMR)', /\/moon\/saudi-arabia\/medina\/\d{4}\/\d{2}<\/loc>/.test(smc));
         check('sitemap: still NO deeper day /moon/{c}/{city}/{yyyy}/{mm}/{dd}', !/\/moon\/[a-z-]+\/[a-z-]+\/\d{4}\/\d{2}\/\d{2}<\/loc>/.test(smc));
-        // MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1 §8: nested today /moon/{c}/{city}/today is now emitted.
-        check('sitemap NOW has nested today /moon/saudi-arabia/medina/today (MCTR)', /\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc));
+        // MOON-DAY-PAGES-REMOVAL-1: the nested today /moon/{c}/{city}/today is 410 → no longer emitted.
+        check('sitemap: NO nested today (e.g. /moon/saudi-arabia/medina/today) (MOON-DAY-PAGES-REMOVAL-1)', !/\/moon\/saudi-arabia\/medina\/today<\/loc>/.test(smc) && !/\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today<\/loc>/.test(smc), `${count(smc, /\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today<\/loc>/g)} today locs`);
     }
 
     // ── F) legacy routes 301 → nested (MLRC) + Meeus 49 unchanged ──
-    console.log('\n── F) legacy today/month/date 301 → nested (MLRC) + Meeus 49 unchanged ──');
+    console.log('\n── F) legacy month 301 → nested (MLRC) · legacy today/date 410 (MOON-DAY-PAGES-REMOVAL-1) + Meeus 49 unchanged ──');
     check('/moon/saudi-arabia/riyadh: 200 + page-moon active (nested hub)', (await req('/moon/saudi-arabia/riyadh')).status === 200);
-    for (const [u, to] of [['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'], ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'], ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17']]) {
+    for (const [u, to] of [['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06']]) {
         const r = await req(u);
         check(`${u}: 301 → ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    }
+    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06-17']) {
+        const r = await req(u);
+        const gone = r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body) && !/id="page-moon"/.test(r.body) && Buffer.byteLength(r.body) < 4096;
+        check(`${u}: 410 Gone, no Location (MOON-DAY-PAGES-REMOVAL-1)`, gone, `status=${r.status} loc=${r.loc} len=${Buffer.byteLength(r.body)}`);
     }
     check('/moon still 200', (await req('/moon')).status === 200);
     check('/moon/saudi-arabia still 200', (await req('/moon/saudi-arabia')).status === 200);
     check('/moon-today still 301 → /moon', (await req('/moon-today')).status === 301);
     {
-        // MLRC: validate Meeus via nested DAY pages (legacy grid now 301s; same engine, same output).
-        const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
-        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر'));
+        // MOON-DAY-PAGES-REMOVAL-1: validate Meeus via the nested MONTH page grid cells (the day pages are 410):
+        //   the cell whose date span is the day number → its phase-name span (works on <a> and <div> cell wrappers).
+        const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
+        const grid = (mo.body.match(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/) || [])[1] || '';
+        const cells = [...grid.matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].filter(m => !/--empty/.test(m[1])).map(m => m[2]);
+        const span = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+        const phaseOf = (d) => span(cells.find(c => parseInt((span(c, 'moon-hub-cal-date').match(/\d+/) || [])[0], 10) === d) || '', 'moon-hub-cal-phase-name');
+        check('Meeus 49 unchanged: 15 Jun=المحاق · 30 Jun=البدر (month grid cells)', mo.status === 200 && phaseOf(15).includes('المحاق') && phaseOf(30).includes('البدر'), `15="${phaseOf(15)}" 30="${phaseOf(30)}"`);
     }
 
     // ── G) MOON-YEAR-ISLAMIC-OCCASIONS-COUNTDOWN-1: Islamic-occasions countdown below the year FAQ ──
@@ -281,8 +308,8 @@ try {
         // localized + lang-prefixed countdown link on /en/ (must NOT double-prefix to /en/en/)
         const eb = (await req('/en/moon/saudi-arabia/riyadh/2026')).body;
         check('year occasions /en native + /en/ href (no /en/en/)', occTitle(eb).includes('Countdown to Islamic Events') && /href="\/en\/ramadan-countdown"/.test(eb) && !/\/en\/en\//.test(eb));
-        // scope: occasions are year-page only — NOT on month / day / today
-        for (const u of ['/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026/06/15', '/moon/saudi-arabia/riyadh/today']) {
+        // scope: occasions are year-page only — NOT on month (MOON-DAY-PAGES-REMOVAL-1: day/today are 410, dropped)
+        for (const u of ['/moon/saudi-arabia/riyadh/2026/06']) {
             check(`scope: no occasions on ${u}`, !(await req(u)).body.includes('id="mc-occasions"'));
         }
     }

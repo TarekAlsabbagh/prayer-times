@@ -3,6 +3,8 @@
 //   city. The CLIENT rewrite (from sessionStorage last_city_context / city_moon + localStorage
 //   lsb_detected) is browser-verified; this smoke guards the SSR contract + that the client wiring
 //   exists. Run against a local server on :3000.
+//   MOON-DAY-PAGES-REMOVAL-1: city-page moon nav → the nested HUB /moon/japan/tokyo (never /today); site-search.js
+//   code (comments stripped) must not build /moon-today-in- or /today; its ?v in the country template is bumped above 4.
 import http from 'node:http';
 import fs from 'node:fs';
 
@@ -24,6 +26,9 @@ function req(path) {
     const appjs = fs.readFileSync(new URL('../js/app.js', import.meta.url), 'utf8');
     const sitesearch = fs.readFileSync(new URL('../js/site-search.js', import.meta.url), 'utf8');
     const tmpl = fs.readFileSync(new URL('../prayer-times-cities.html', import.meta.url), 'utf8');
+    // MOON-DAY-PAGES-REMOVAL-1: scan CODE only (the removal comments legitimately mention the old shapes)
+    const stripJsComments = (src) => src.replace(/\/\*[\s\S]*?\*\//g, '').replace(/(^|[^:'"\\])\/\/.*$/gm, '$1');
+    const sitesearchCode = stripJsComments(sitesearch);
 
     console.log('\n── SSR contract (homepage generic so the client can deep-link; city page already city-bound) ──');
     check('homepage: prayer-times nav href stays generic (/)', /<a href="\/" data-page="prayer-times"/.test(home));
@@ -31,7 +36,7 @@ function req(path) {
     check('homepage: moon nav href stays generic (/moon)', /<a href="\/moon" data-page="moon"/.test(home));
     check('city page /prayer-times-in-tokyo: prayer nav SSR-rewritten → /prayer-times-in-tokyo', /<a href="\/prayer-times-in-tokyo" data-page="prayer-times"/.test(cityPage));
     check('city page: qibla nav → /qibla-in-tokyo', /<a href="\/qibla-in-tokyo" data-page="qibla"/.test(cityPage));
-    check('city page: moon nav → NESTED /moon/japan/tokyo/today', /<a href="\/moon\/japan\/tokyo\/today" data-page="moon"/.test(cityPage));
+    check('city page: moon nav → NESTED hub /moon/japan/tokyo (never /today)', /<a href="\/moon\/japan\/tokyo" data-page="moon"/.test(cityPage));
     check('country page /moon/saudi-arabia: nav stays generic in SSR (client/site-search updates it)', /<a href="\/" [^>]*>[\s\S]*?<a href="\/qibla"[\s\S]*?<a href="\/moon"/.test(country) || /data-page/.test(country) === false);
 
     console.log('\n── client wiring ──');
@@ -43,8 +48,12 @@ function req(path) {
     check('site-search.js: exposes applyNavCityLinks (country template, no app.js)', /applyNavCityLinks:\s*applyNavCityLinks/.test(sitesearch));
     check('site-search.js: persists slug in last_city_context seed', /slug:\s*r\.slug/.test(sitesearch));
     check('site-search.js: no-ops on the SPA (app.js owns the nav there)', /typeof window\._applyLastCityNavLinks === 'function'\) return/.test(sitesearch));
-    check('site-search.js: moon legacy 301 fallback when countrySlug not derivable', /moon-today-in-/.test(sitesearch));
-    check('country template loads site-search.js?v=4 (the version with applyNavCityLinks + selected_city)', /site-search\.js\?v=4/.test(tmpl));
+    // MOON-DAY-PAGES-REMOVAL-1 (inverted): the legacy fallback must never target the removed today pages.
+    check('site-search.js: code never builds /moon-today-in- (removed today page)', !/moon-today-in-/.test(sitesearchCode));
+    check('site-search.js: code never builds a /today href', !/\/today(?![a-z0-9-])/.test(sitesearchCode));
+    // MOON-DAY-PAGES-REMOVAL-1: site-search.js changes in this ticket → its ?v must be bumped above the old 4.
+    const _ssV = parseInt((tmpl.match(/site-search\.js\?v=(\d+)/) || [])[1] || '0', 10);
+    check('country template loads site-search.js?v=N with N > 4 (bumped above the applyNavCityLinks + selected_city version)', _ssV > 4);
 
     console.log('\n── selected_city: explicit pick persists everywhere (incl. homepage) + outranks lsb_detected ──');
     check('site-search.js: writes selected_city on explicit pick', /setItem\('selected_city'/.test(sitesearch));

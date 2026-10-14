@@ -4,19 +4,20 @@
 //
 //   [K]  static source guards: ONE getSupportedMoonYearRange(); no 1900/2100 year-bound comparisons outside it; the
 //        TP_MOON_RANGE_TEST_NOW seam is read ONLY inside it; client island readers + asset versions present
-//   [U]  unchanged: robots.txt === base; Hijri sample === base; git diff --quiet on js/moon.js js/prayer-times.js db sw.js css
-//   [M1] moon range: in-range year/month/day 200 (3 cities x ar/en/fr, MIN/01 + MAX/12 in all 10 locales);
+//   [U]  unchanged: robots.txt === base; Hijri sample === base; git diff --quiet on js/moon.js js/prayer-times.js db sw.js
+//   [M1] moon range: in-range year/month 200 (3 cities x ar/en/fr, MIN/01 + MAX/12 in all 10 locales); in-range day → 410;
 //        MIN-1 / MAX+1 (year, month, day + .html twins) → branded 404 noindex,follow + X-Robots-Tag
-//   [M2] HARD BLOCKER month correctness: H1 year === grid title year === every grid day-cell year === URL year,
-//        day-link count === days in month (leap aware), breadcrumb year rung (visible + JSON-LD) === URL year
+//   [M2] HARD BLOCKER month correctness: H1 year === grid title year === URL year, 0 <a> in the grid,
+//        day-cell count === days in month (leap aware, days 1..dim in order), breadcrumb year rung (visible + JSON-LD) === URL year
 //   [M3] navigation bounds: no prev at MIN / no next at MAX (year + month), every option / nested moon year in range,
 //        cal-y picker exactly MIN..MAX
-//   [M4] legacy + ?cal: out-of-range legacy → 404 no Location; in range → ONE 301 → 200; nested hub ?cal in/out of range
+//   [M4] legacy + ?cal: out-of-range legacy → 404 no Location; in-range month → ONE 301 → 200; in-range day → 410;
+//        nested hub ?cal in/out of range
 //   [M5] clock seam TP_MOON_RANGE_TEST_NOW (2027-01-01T00:30Z and 2026-12-31T23:30Z): routes, island, sitemap window
-//   [I]  SSR island {min,max} + CSP nonce on moon hub/today/year/month/day; absent elsewhere
+//   [I]  SSR island {min,max} + CSP nonce on moon hub/year/month; absent elsewhere (incl. the 410 day/today pages)
 //   [C1] coordinate/tail matrix (D4/D5/PRAYER) in ar/en/fr + curated/country/discovered-like controls === base
 //   [H1] .html normalizer: ONE 301 to the final clean URL, query verbatim, public max-age=86400, target 200;
-//        non-matching .html → 404; legacy tool/Hijri .html 301s + /index.html === base
+//        day/today .html twins → 410 directly; non-matching .html → 404; legacy tool/Hijri .html 301s + /index.html === base
 //   [S1] Singapore: city pages indexable (10 locales), *-singapore-city 200 noindex, moon unchanged, legacy moon 301s,
 //        /singapore chain, no singapore-city hrefs, sitemap placement, boot guard drops only "singapore"
 //   [Q1] Quran: sitemap-main 0 /quran; sitemap-quran bytes/ETag/Last-Modified === base; 304
@@ -29,6 +30,10 @@
 // SITEMAP-SEMANTIC-PARTITIONING-1: the base tree may also be 12bae98^{tree} (TP_BASE_COMMIT=<commit> pins exactly one). /sitemap.xml
 //   now lists the semantic family URL-set files (+ sitemap-quran): [L1]/[S1]/[Q1]/[M5] read the legacy sitemap-main +
 //   sitemap-cities-1..N explicitly (still served, no longer referenced) AND check the same rules on the index children.
+//
+// MOON-DAY-PAGES-REMOVAL-1: moon day/today pages (nested, .html twins, legacy dated/today-dated, Singapore today) now expect
+//   ONE 410 Gone (expect410); month grid = plain cells (0 <a>); nav/island lists drop day/today; sitemaps 0 /today + 0 day locs,
+//   counts derived (shards 167,520, total 175,065); [K] asset versions "bumped above" 847/12; [U] css dropped from the diff guard.
 //
 // Usage: TP_BASE_ROOT=<clean base checkout> node scripts/_smoke_indexable_route_surface_containment_1.mjs
 import { spawn, execFileSync } from 'node:child_process';
@@ -175,6 +180,16 @@ function expectBranded404(label, r, p) {
     ok(label, r.status === 404 && !r.headers.location && metaRobots(r.body) === 'noindex,follow' && xrt(r) === 'noindex,follow',
         'branded 404 (meta noindex,follow + X-Robots-Tag noindex,follow), no Location  ' + p, brief(r));
 }
+// MOON-DAY-PAGES-REMOVAL-1: a removed moon day/today page answers 410 Gone in ONE response — no Location, the small static
+//   data-tp-gone="moon-day" body (< 4 KB), never the index.html shell (#page-moon) nor the ssr-moon-year-range island.
+//   X-Robots-Tag / Cache-Control / Content-Type are recorded in the failure detail (not pinned here).
+function expect410(label, r, p, name) {
+    const len = r.buf ? r.buf.length : Buffer.byteLength(String(r.body || ''));
+    ok(label, r.status === 410 && !r.headers.location && /data-tp-gone="moon-day"/.test(r.body || '') && !/id="page-moon"/.test(r.body || '')
+        && !String(r.body || '').includes('ssr-moon-year-range') && len < 4096,
+        (name || '410 Gone (data-tp-gone="moon-day"), no Location, no #page-moon, no island, body < 4 KB') + '  ' + p,
+        brief(r) + ' len=' + len + ' cc=' + (r.headers['cache-control'] || '') + ' ct=' + (r.headers['content-type'] || ''));
+}
 function expect404NotIndexable(label, r, p) {
     ok(label, r.status === 404 && !r.headers.location && (metaRobots(r.body) === null || /noindex/i.test(metaRobots(r.body))) && !indexable(r),
         '404, no Location, not indexable  ' + p, brief(r));
@@ -218,14 +233,18 @@ function staticChecks() {
         "prayer-times-cities.html: its single robots write is guarded by the SSR-noindex check", ptcRobotsWrites.join(' || '));
     // MOON-DAY-INTERNAL-LINK-CLEANUP-1 changed both bundles again and re-busted them (846 -> 847,
     //   11 -> 12). The pin is kept EXACT, just moved to the versions now shipped.
-    ok('K', idx.includes('js/app.js?v=847"') && idx.includes('js/moon-chart.js?v=12"') && !idx.includes('js/app.js?v=846"') && !idx.includes('js/moon-chart.js?v=11"'),
-        'index.html busts app.js?v=847 and moon-chart.js?v=12');
+    // MOON-DAY-PAGES-REMOVAL-1: both bundles change again (day/today link builders removed); the new numbers are not
+    //   pinned — every index.html reference must be bumped ABOVE the old 847 / 12.
+    const vApp = [...idx.matchAll(/js\/app\.js\?v=(\d+)"/g)].map((m) => +m[1]), vChart = [...idx.matchAll(/js\/moon-chart\.js\?v=(\d+)"/g)].map((m) => +m[1]);
+    ok('K', vApp.length >= 1 && vApp.every((v) => v > 847) && vChart.length >= 1 && vChart.every((v) => v > 12),
+        'index.html busts app.js?v above 847 and moon-chart.js?v above 12', 'app.js?v=' + JSON.stringify(vApp) + ' moon-chart.js?v=' + JSON.stringify(vChart));
 
     section('[U] untouched files (git)');
+    // MOON-DAY-PAGES-REMOVAL-1: css dropped from the list (this ticket edits css/style.css for the plain grid cells)
     let quiet = false, detail = '';
-    try { execFileSync('git', ['-C', ROOT, 'diff', '--quiet', '--', 'js/moon.js', 'js/prayer-times.js', 'db', 'sw.js', 'css'], { stdio: 'ignore' }); quiet = true; }
+    try { execFileSync('git', ['-C', ROOT, 'diff', '--quiet', '--', 'js/moon.js', 'js/prayer-times.js', 'db', 'sw.js'], { stdio: 'ignore' }); quiet = true; }
     catch (e) { detail = 'exit=' + e.status; }
-    ok('U', quiet, 'git diff --quiet -- js/moon.js js/prayer-times.js db sw.js css (exit 0)', detail);
+    ok('U', quiet, 'git diff --quiet -- js/moon.js js/prayer-times.js db sw.js (exit 0)', detail);
 }
 
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════
@@ -245,26 +264,23 @@ function checkMonthPage(r, L, city, Y, M) {
     if (!ty.length || ty.some((y) => y !== Y)) bad.push('grid title years=' + JSON.stringify(ty));
     const grids = [...b.matchAll(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/g)].map((m) => m[1]);
     if (grids.length !== 1) bad.push('grid count=' + grids.length);
-    const hrefs = [...(grids[0] || '').matchAll(/<a\b[^>]*\bhref="([^"]*)"/g)].map((m) => m[1]);
+    // MOON-DAY-PAGES-REMOVAL-1: the grid cells are plain content (no day/today page to link to). Parser accepts the old
+    //   <a href> wrapper and the new <div class="moon-hub-cal-cell-body"> wrapper alike; the grid must hold 0 <a>.
+    const grid = grids[0] || '';
+    const anchors = (grid.match(/<a\b/g) || []).length;
+    if (anchors !== 0) bad.push('<a> in grid=' + anchors);
     const dim = new Date(Date.UTC(Y, M, 0)).getUTCDate();
-    const dayRe = new RegExp('^' + esc(base) + '/(\\d{4})/(\\d{2})/(\\d{2})$');
-    const days = new Set(); let todayN = 0; const wrong = [];
-    for (const h of hrefs) {
-        const m = h.match(dayRe);
-        if (m) {
-            if (+m[1] !== Y) wrong.push('year ' + h);
-            else if (+m[2] !== M) wrong.push('month ' + h);
-            else if (days.has(+m[3]) || +m[3] < 1 || +m[3] > dim) wrong.push('day ' + h);
-            else days.add(+m[3]);
-        } else if (h === base + '/today') todayN++;
-        else wrong.push('shape ' + h);
-    }
-    if (wrong.length) bad.push('cell hrefs: ' + wrong.slice(0, 3).join(', '));
-    if (hrefs.length !== dim) bad.push('day links=' + hrefs.length + ' daysInMonth=' + dim);
+    const cells = [...grid.matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].filter((m) => !/--empty/.test(m[1]));
+    const cellSpan = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+    // ar "15 يونيو", en "June 15", other locales day-first — the day is the only number in the date span (ASCII digits)
+    const dayNums = cells.map((m) => { const d = cellSpan(m[2], 'moon-hub-cal-date').match(/\d+/); return d ? +d[0] : NaN; });
+    if (cells.length !== dim) bad.push('day cells=' + cells.length + ' daysInMonth=' + dim);
+    if (!eq(dayNums, range(1, dim))) bad.push('cell day numbers not 1..' + dim + ' in order: ' + JSON.stringify(dayNums.slice(0, 5)) + '…' + JSON.stringify(dayNums.slice(-3)));
+    const todayCells = cells.map((m, i) => [m, dayNums[i]]).filter(([m]) => /\bmoon-hub-cal-cell--today\b/.test(m[1]));
     const loc = cityLocalYmd(city.tz);
-    if (todayN > 1) bad.push('today links=' + todayN);
-    if (todayN === 1 && !(loc.y === Y && loc.m === M && !days.has(loc.d))) bad.push('a /today cell on a month that is not the city-local current month');
-    for (let d = 1; d <= dim; d++) if (!days.has(d) && !(todayN === 1 && d === loc.d)) { bad.push('missing day ' + d); break; }
+    const isCurMonth = loc.y === Y && loc.m === M;
+    if (isCurMonth && !(todayCells.length === 1 && todayCells[0][1] === loc.d)) bad.push('city-local current month: --today cells=' + JSON.stringify(todayCells.map(([, d]) => d)) + ' want [' + loc.d + ']');
+    if (!isCurMonth && todayCells.length !== 0) bad.push('a --today cell on a month that is not the city-local current month: ' + JSON.stringify(todayCells.map(([, d]) => d)));
     const bcA = [...b.matchAll(/<a class="bc-link" id="bc-moon-year" href="([^"]*)">([^<]*)<\/a>/g)];
     if (bcA.length !== 1 || bcA[0][1] !== base + '/' + Y || bcA[0][2].trim() !== String(Y)) bad.push('visible breadcrumb year rung=' + JSON.stringify(bcA.map((m) => [m[1], m[2]])));
     const ld5 = b.match(/\{"@type":"ListItem","position":5,"name":"([^"]*)","item":"([^"]*)"\}/);
@@ -278,7 +294,9 @@ async function moonChecks(A) {
     info('supported moon range from the UTC clock: MIN=' + MIN + ' MAX=' + MAX + ' current=' + CUR + ' (today UTC ' + TODAY_ISO + ')');
 
     // ── [M1] ────────────────────────────────────────────────────────────────────────────────────────────────────
-    section('[M1] moon range — in range 200, outside 404');
+    // MOON-DAY-PAGES-REMOVAL-1: in-range DAY pages (MIN/01/01, MAX/12/31, UTC today) are removed → 410; the out-of-range
+    //   day list (MIN-1/12/31, MAX+1/01/01 + .html) was 404 and stays branded 404.
+    section('[M1] moon range — in range 200 (year/month), in-range day 410, outside 404');
     const inYear = [], inMonth = [], inDayNoindex = [], inDayIndex = [], out = [];
     for (const city of CITIES) {
         for (const L of L3) {
@@ -300,8 +318,8 @@ async function moonChecks(A) {
     await prefetch(A, [...inYear, ...inMonth, ...inDayNoindex, ...inDayIndex, ...out]);
     for (const p of [...new Set(inYear)]) expectIndexable200('M1', await cget(A, p), p, 'year page 200 indexable self-canonical');
     for (const p of [...new Set(inMonth)]) expectIndexable200('M1', await cget(A, p), p, 'month page 200 indexable self-canonical');
-    for (const p of [...new Set(inDayNoindex)]) expectNoindex200('M1', await cget(A, p), p, 'day page (outside today-30..+90) 200 noindex,follow self-canonical');
-    for (const p of [...new Set(inDayIndex)]) expectIndexable200('M1', await cget(A, p), p, 'day page (UTC today) 200 indexable self-canonical');
+    for (const p of [...new Set(inDayNoindex)]) expect410('M1', await cget(A, p), p, 'in-range day page (MIN/01/01, MAX/12/31) → 410 Gone, no Location, small data-tp-gone body');
+    for (const p of [...new Set(inDayIndex)]) expect410('M1', await cget(A, p), p, 'in-range day page (UTC today) → 410 Gone, no Location, small data-tp-gone body');
     for (const p of [...new Set(out)]) expectBranded404('M1', await cget(A, p), p);
 
     // ── [M2] ────────────────────────────────────────────────────────────────────────────────────────────────────
@@ -322,18 +340,19 @@ async function moonChecks(A) {
         const p = cityBase(L, city) + '/' + Y + '/' + p2(M);
         const bad = checkMonthPage(await cget(A, p), L, city, Y, M);
         if (M === 2 && new Date(Date.UTC(Y, 2, 0)).getUTCDate() === 29 && !bad.length) febLeap++;
-        ok('M2', bad.length === 0, 'month correct (' + new Date(Date.UTC(Y, M, 0)).getUTCDate() + ' day links, all years ' + Y + ')  ' + p, bad.join(' ; '));
+        ok('M2', bad.length === 0, 'month correct (' + new Date(Date.UTC(Y, M, 0)).getUTCDate() + ' day cells, 0 <a> in the grid, all years ' + Y + ')  ' + p, bad.join(' ; '));
     }
     const leapYears = range(MIN, MAX).filter((y) => new Date(Date.UTC(y, 2, 0)).getUTCDate() === 29);
-    ok('M2', febLeap === leapYears.length && leapYears.length > 0, 'every leap February in range renders 29 linked days (riyadh ar: ' + leapYears.join(',') + ')', 'ok=' + febLeap);
+    ok('M2', febLeap === leapYears.length && leapYears.length > 0, 'every leap February in range renders 29 day cells (riyadh ar: ' + leapYears.join(',') + ')', 'ok=' + febLeap);
 
     // ── [M3] ────────────────────────────────────────────────────────────────────────────────────────────────────
     section('[M3] navigation bounds (SSR)');
     const navPages = [];
+    // MOON-DAY-PAGES-REMOVAL-1: today + day pages left the list (they answer 410, see [M1])
     for (const city of CITIES) for (const L of L3) {
         const b = cityBase(L, city);
-        navPages.push(b, b + '/today', b + '/' + MIN, b + '/' + MAX, b + '/' + CUR, b + '/' + MIN + '/01', b + '/' + MAX + '/12',
-            b + '/' + CUR + '/' + p2(UTC_M), b + '/' + MIN + '/01/01', b + '/' + MAX + '/12/31', b + '/' + TODAY_PATH);
+        navPages.push(b, b + '/' + MIN, b + '/' + MAX, b + '/' + CUR, b + '/' + MIN + '/01', b + '/' + MAX + '/12',
+            b + '/' + CUR + '/' + p2(UTC_M));
     }
     await prefetch(A, navPages);
     for (const city of CITIES) for (const L of L3) {
@@ -390,13 +409,17 @@ async function moonChecks(A) {
             const r = await get(A, P + t);
             ok('M4', r.status === 404 && !r.headers.location && hasNoindex(r), 'out-of-range legacy → 404, NO Location, noindex  ' + P + t, brief(r));
         }
-        for (const [t, target] of [[`/moon-in-${city.c}/${MIN}-01`, `${nb}/${MIN}/01`], [`/moon-in-${city.c}/${MAX}-12`, `${nb}/${MAX}/12`],
-                                   [`/moon-in-${city.c}/${MIN}-01-01`, `${nb}/${MIN}/01/01`], [`/moon-in-${city.c}/${MAX}-12-31`, `${nb}/${MAX}/12/31`],
-                                   [`/moon-today-in-${city.c}/${MIN}-01-01`, `${nb}/${MIN}/01/01`], [`/moon-today-in-${city.c}/${MAX}-12-31`, `${nb}/${MAX}/12/31`]]) {
+        for (const [t, target] of [[`/moon-in-${city.c}/${MIN}-01`, `${nb}/${MIN}/01`], [`/moon-in-${city.c}/${MAX}-12`, `${nb}/${MAX}/12`]]) {
             const r = await get(A, P + t);
             const f = r.headers.location ? await cget(A, r.headers.location) : null;
             ok('M4', r.status === 301 && r.headers.location === target && f && f.status === 200 && !f.headers.location,
                 'in-range legacy → exactly ONE 301 → ' + target + ' (200)  ' + P + t, brief(r) + (f ? ' → ' + brief(f) : ''));
+        }
+        // MOON-DAY-PAGES-REMOVAL-1: the in-range legacy DAY forms (dated + today-dated) used to 301 into a nested day page;
+        //   that page is removed, so they answer 410 in ONE response (no Location).
+        for (const t of [`/moon-in-${city.c}/${MIN}-01-01`, `/moon-in-${city.c}/${MAX}-12-31`,
+                         `/moon-today-in-${city.c}/${MIN}-01-01`, `/moon-today-in-${city.c}/${MAX}-12-31`]) {
+            expect410('M4', await get(A, P + t), P + t, 'in-range legacy day form → 410 Gone in ONE response (no Location)');
         }
         for (const [q, target] of [[`?cal=${MIN}-01`, `${nb}/${MIN}/01`], [`?cal=${MAX}-12`, `${nb}/${MAX}/12`], [`?cal-y=${MAX}&cal-m=12`, `${nb}/${MAX}/12`]]) {
             const r = await get(A, nb + q);
@@ -420,10 +443,17 @@ async function moonChecks(A) {
 async function islandChecks(A) {
     section('[I] SSR island window.__MOON_YEAR_RANGE__');
     const want = `window.__MOON_YEAR_RANGE__={"min":${MIN},"max":${MAX}};`;
-    const pages = [];
+    const pages = [], gonePages = [];
+    // MOON-DAY-PAGES-REMOVAL-1: today + day pages left the island list; they answer 410 and must carry NO island
     for (const L of ['ar', 'en']) {
         const b = cityBase(L, RIYADH);
-        pages.push(b, b + '/today', b + '/' + CUR, b + '/' + CUR + '/' + p2(UTC_M), b + '/' + TODAY_PATH, b + '/' + MIN + '/01/01');
+        pages.push(b, b + '/' + CUR, b + '/' + CUR + '/' + p2(UTC_M));
+        gonePages.push(b + '/today', b + '/' + TODAY_PATH, b + '/' + MIN + '/01/01');
+    }
+    for (const p of gonePages) {
+        const r = await get(A, p);
+        ok('I', r.status === 410 && !r.body.includes('ssr-moon-year-range') && !r.body.includes('__MOON_YEAR_RANGE__=') && !/id="page-moon"/.test(r.body),
+            'removed page → 410 with no island and no #page-moon  ' + p, 'status=' + r.status + ' len=' + r.buf.length);
     }
     pages.push(cityBase('fr', LONDON) + '/' + MAX, cityBase('en', CITIES[2]) + '/' + MIN + '/01');
     for (const p of pages) {
@@ -522,13 +552,17 @@ async function coordChecks(A, B) {
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════
 async function htmlChecks(A, B) {
     section('[H1] .html → ONE 301 to the final clean URL');
-    const H = [];
+    const H = [], H410 = [];
+    // MOON-DAY-PAGES-REMOVAL-1: the today.html and {day}.html twins used to 301 to a page that is now removed → they answer
+    //   410 directly (no Location); see H410 below.
     for (const L of LANGS) {
         const P = lp(L), mb = cityBase(L, RIYADH);
         H.push([P + '/prayer-times-in-riyadh.html', P + '/prayer-times-in-riyadh'], [P + '/qibla-in-riyadh.html', P + '/qibla-in-riyadh'],
-               [mb + '.html', mb], [mb + '/today.html', mb + '/today'], [mb + '/' + CUR + '.html', mb + '/' + CUR],
-               [mb + '/' + CUR + '/' + p2(UTC_M) + '.html', mb + '/' + CUR + '/' + p2(UTC_M)], [mb + '/' + TODAY_PATH + '.html', mb + '/' + TODAY_PATH]);
+               [mb + '.html', mb], [mb + '/' + CUR + '.html', mb + '/' + CUR],
+               [mb + '/' + CUR + '/' + p2(UTC_M) + '.html', mb + '/' + CUR + '/' + p2(UTC_M)]);
+        H410.push(mb + '/today.html', mb + '/' + TODAY_PATH + '.html');
     }
+    H410.push('/fr/moon/united-kingdom/london/' + MIN + '/01/01.html');
     H.push(['/prayer-times-in-riyadh.html?x=1&y=%20z', '/prayer-times-in-riyadh?x=1&y=%20z'],
            ['/prayer-times-in-mecca.html', '/prayer-times-in-makkah'],
            ['/en/prayer-times-in-mecca.html?utm_source=a&b=', '/en/prayer-times-in-makkah?utm_source=a&b='],
@@ -551,7 +585,6 @@ async function htmlChecks(A, B) {
            // constraints review: a country-mismatched nested hub .html with ?cal resolves the month in the SAME hop
            ['/moon/egypt/riyadh.html?cal=' + MIN + '-01', '/moon/saudi-arabia/riyadh/' + MIN + '/01'],
            ['/en/moon/egypt/riyadh.html?cal-y=' + MAX + '&cal-m=12', '/en/moon/saudi-arabia/riyadh/' + MAX + '/12'],
-           ['/fr/moon/united-kingdom/london/' + MIN + '/01/01.html', '/fr/moon/united-kingdom/london/' + MIN + '/01/01'],
            ['/moon/saudi-arabia/an-nabiah/' + MAX + '/12.html', '/moon/saudi-arabia/an-nabiah/' + MAX + '/12'],
            // review F2: the query is kept byte-for-byte, including a second '?'
            ['/prayer-times-in-riyadh.html?a=1?b=2', '/prayer-times-in-riyadh?a=1?b=2'],
@@ -563,6 +596,8 @@ async function htmlChecks(A, B) {
             'ONE 301 → ' + target + ' (public, max-age=86400) → 200  ' + p,
             brief(r) + ' cc=' + r.headers['cache-control'] + (f ? ' → ' + brief(f) : ''));
     });
+    section('[H1] removed day/today .html twins → 410 directly (no Location)');
+    await pool(H410, 6, async (p) => expect410('H1', await get(A, p), p, 'day/today .html twin → 410 Gone in ONE response (no Location)'));
     section('[H1] non-matching .html → 404 without Location');
     for (const p of ['/prayer-times-in-riyadh-24.7.html', '/prayer-times-in-Riyadh.html', '/qibla-in-Riyadh.html', '/qibla-in-riyadh/2026.html',
                      '/moon/saudi-arabia/riyadh/' + (MAX + 1) + '.html', '/moon/saudi-arabia/riyadh/' + (MIN - 1) + '/12.html',
@@ -597,7 +632,8 @@ async function singaporeChecks(A, B, afterChild) {
     for (const L of LANGS) {
         const P = lp(L);
         for (const f of ['/prayer-times-in-', '/qibla-in-', '/time-left-until-next-prayer-in-', '/next-prayer-in-']) { cityPages.push(P + f + 'singapore'); cityNoindex.push(P + f + 'singapore-city'); }
-        moonPages.push(P + '/moon/singapore', P + '/moon/singapore/singapore', P + '/moon/singapore/singapore/today', P + '/moon/singapore/singapore/' + CUR);
+        // MOON-DAY-PAGES-REMOVAL-1: /moon/singapore/singapore/today left the list (removed page, 410)
+        moonPages.push(P + '/moon/singapore', P + '/moon/singapore/singapore', P + '/moon/singapore/singapore/' + CUR);
     }
     await prefetch(A, [...cityPages, ...cityNoindex, ...moonPages], 6);
     if (B) await prefetch(B, moonPages, 6);
@@ -610,12 +646,14 @@ async function singaporeChecks(A, B, afterChild) {
     }
     for (const L of LANGS) {
         const P = lp(L);
-        for (const [src, dst] of [[P + '/moon-in-singapore', P + '/moon/singapore/singapore'], [P + '/moon-today-in-singapore', P + '/moon/singapore/singapore/today']]) {
+        for (const [src, dst] of [[P + '/moon-in-singapore', P + '/moon/singapore/singapore']]) {
             const r = await get(A, src);
             const f = r.headers.location ? await cget(A, r.headers.location) : null;
             ok('S1', r.status === 301 && r.headers.location === dst && f && f.status === 200 && !f.headers.location && indexable(f),
                 'ONE 301 → ' + dst + ' (200 indexable)  ' + src, brief(r) + (f ? ' → ' + brief(f) : ''));
         }
+        // MOON-DAY-PAGES-REMOVAL-1: the legacy today chain used to end at /moon/singapore/singapore/today → 410 directly
+        expect410('S1', await get(A, P + '/moon-today-in-singapore'), P + '/moon-today-in-singapore', 'legacy Singapore today → 410 Gone in ONE response (no Location)');
     }
     {
         const r = await get(A, '/singapore');
@@ -713,6 +751,9 @@ async function sitemapChecks(A, B, SM) {
         });
         ok('L1', listed && count.quran === 1 && !SM.children.some((c) => /\/sitemap-(?:main|cities-\d+)\.xml$/.test(c.loc)),
             'sitemap index children = semantic family files in family order (shards 1..N) + sitemap-quran, no legacy sitemap-main / sitemap-cities-N', SM.children.map((c) => String(c.loc).replace(SITE, '')).join(' '));
+        // MOON-DAY-PAGES-REMOVAL-1: 23 legacy shards kept (derived) — the count may change because server.js _estCityUrlCount
+        //   drops its +10 for today (hub(10)+today(10) → hub(10); the in-flight server.js already has it) and rechunks;
+        //   confirm on the first candidate run.
         ok('L1', eq([main, ...shards].filter(Boolean).map((f) => f.name), ['/sitemap-main.xml', ...range(1, 23).map((i) => '/sitemap-cities-' + i + '.xml')]) && !!SM.legacyNext && SM.legacyNext.status === 404,
             'legacy sitemap-main + sitemap-cities-1..23 still served, sitemap-cities-24 → 404', [main, ...shards].filter(Boolean).length + ' legacy files, next ' + JSON.stringify(SM.legacyNext));
     }
@@ -740,14 +781,26 @@ async function sitemapChecks(A, B, SM) {
     // SITEMAP-SEMANTIC-PARTITIONING-1: `all` now holds both corpora — the counts are taken per corpus (legacy + quran / index children)
     const legacyAll = [main, ...shards, quran].filter(Boolean).flatMap((f) => f.urls.map((u) => u.loc));
     const uniq = new Set(legacyAll);
-    ok('L1', mainN === 7430 && shardN === 168590 && quranN === 115 && legacyAll.length === 176135 && uniq.size === 176135,
-        'counts: sitemap-main 7,430 · city shards 168,590 (23 files) · quran 115 · 176,135 entries = 176,135 unique',
+    // MOON-DAY-PAGES-REMOVAL-1: the 1,070 /[lang/]moon/{c}/{city}/today locs (107 famous moon cities x 10 locales) leave the
+    //   sitemaps: shards 168,590 → 167,520, total/unique 176,135 → 175,065, sitemap-main stays 7,430.
+    //   DERIVED (FAMOUS_CITY_OVERRIDES + curated-places.json, not measured) — derived, confirm on the first candidate run.
+    const EXP_SHARDS = 167520, EXP_TOTAL = 175065;
+    ok('L1', mainN === 7430 && shardN === EXP_SHARDS && quranN === 115 && legacyAll.length === EXP_TOTAL && uniq.size === EXP_TOTAL,
+        'counts: sitemap-main 7,430 · city shards 167,520 (23 files) · quran 115 · 175,065 entries = 175,065 unique (derived)',
         'main=' + mainN + ' shards=' + shardN + ' quran=' + quranN + ' total=' + legacyAll.length + ' unique=' + uniq.size);
     {
         const idxAll = idxFiles.flatMap((f) => f.urls.map((u) => u.loc));
         const idxUniq = new Set(idxAll);
-        ok('L1', idxAll.length === 176135 && idxUniq.size === 176135 && idxAll.every((l) => uniq.has(l)),
-            'index children: 176,135 entries = 176,135 unique = the legacy files + sitemap-quran set', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
+        ok('L1', idxAll.length === EXP_TOTAL && idxUniq.size === EXP_TOTAL && idxAll.every((l) => uniq.has(l)),
+            'index children: 175,065 entries = 175,065 unique = the legacy files + sitemap-quran set (derived)', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
+    }
+    {
+        // MOON-DAY-PAGES-REMOVAL-1: no removed page in ANY sitemap file (legacy + index children): 0 nested /today, 0 nested
+        //   day, 0 legacy /moon-today-in-, 0 legacy dated /moon-in-{slug}/{yyyy-mm-dd}
+        const GONE_LOC = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(?:moon\/[^/]+\/[^/]+\/(?:today|\d{4}\/\d{2}\/\d{2})|moon-today-in-[^/]+(?:\/.*)?|moon-in-[^/]+\/\d{4}-\d{2}-\d{2})$/;
+        const perFile = SM.files.map((f) => [f.name, f.urls.filter((u) => GONE_LOC.test(String(u.loc))).length]).filter(([, n]) => n > 0);
+        ok('L1', perFile.length === 0, 'every sitemap file: 0 /today locs and 0 day locs (' + SM.files.length + ' files)',
+            perFile.slice(0, 6).map(([n, k]) => n + '=' + k).join(' ') + ' e.g. ' + SM.files.flatMap((f) => f.urls.map((u) => u.loc)).filter((l) => GONE_LOC.test(String(l))).slice(0, 3).join(' '));
     }
     const dupWithin = SM.files.filter((f) => new Set(f.urls.map((u) => u.loc)).size !== f.urls.length).map((f) => f.name);
     ok('L1', dupWithin.length === 0, 'no duplicate <loc> within any file', dupWithin.join(' '));
@@ -848,10 +901,13 @@ async function d4FixtureChecks(port) {
 async function seamChecks(port, nowIso, lo, hi, riyadhShardName, label) {
     section('[M5] clock seam TP_MOON_RANGE_TEST_NOW=' + nowIso + ' → expected ' + lo + '..' + hi);
     const b = '/moon/saudi-arabia/riyadh';
+    // MOON-DAY-PAGES-REMOVAL-1: the in-range day lo/01/01 is removed → 410 (proves the 410 matcher uses the same seam clock);
+    //   the out-of-range day (lo-1)/12/31 stays a branded 404.
     for (const [p, want] of [[b + '/' + lo, 200], [b + '/' + (lo - 1), 404], [b + '/' + hi, 200], [b + '/' + (hi + 1), 404],
-                             [b + '/' + hi + '/12', 200], [b + '/' + (hi + 1) + '/01', 404], [b + '/' + (lo - 1) + '/12/31', 404], [b + '/' + lo + '/01/01', 200]]) {
+                             [b + '/' + hi + '/12', 200], [b + '/' + (hi + 1) + '/01', 404], [b + '/' + (lo - 1) + '/12/31', 404], [b + '/' + lo + '/01/01', 410]]) {
         const r = await get(port, p);
         if (want === 200) ok('M5', r.status === 200 && !r.headers.location && canonicalOf(r.body) === SITE + p, label + ': ' + p + ' → 200 self-canonical', brief(r));
+        else if (want === 410) expect410('M5', r, label + ': ' + p);
         else expectBranded404('M5', r, label + ': ' + p);
     }
     {

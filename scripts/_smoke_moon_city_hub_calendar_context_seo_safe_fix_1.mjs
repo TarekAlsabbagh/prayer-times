@@ -8,6 +8,7 @@
 // Moon Phases / Hijri Month / Moon Status / city) around the table WITHOUT touching the table.
 // Hub-only (NOT today/month/day/year/country/global-hub). No app.js / index.html / CSS / cache-buster.
 // The rejected 865f505 group-header table change is NOT reintroduced (no fc-month-group).
+// MOON-DAY-PAGES-REMOVAL-1: today/day URLs dropped from the §B negative scope list (410 pages pass trivially).
 //
 // Run: node scripts/_smoke_moon_city_hub_calendar_context_seo_safe_fix_1.mjs
 import http from 'node:http';
@@ -62,14 +63,11 @@ const lc = s => s.toLowerCase();
             check(`${l}: block + calendar + hijri + phases + city`, ok, blk ? blk.slice(0,70).replace(/\s+/g,' ') : '(no block)');
         }
 
-        console.log('\n── B) hub-only scope: block ABSENT on today/month/day/year/country/global-hub ──');
-        check('/today  no context block', !(await req('/moon/saudi-arabia/riyadh/today')).includes(ID));
+        console.log('\n── B) hub-only scope: block ABSENT on month/year/country/global-hub (today/day are 410) ──');
         check('/month (2026/07)  no context block', !(await req('/moon/saudi-arabia/riyadh/2026/07')).includes(ID));
-        check('/day (2026/07/14)  no context block', !(await req('/moon/saudi-arabia/riyadh/2026/07/14')).includes(ID));
         check('/year (2026)  no context block', !(await req('/moon/saudi-arabia/riyadh/2026')).includes(ID));
         check('/moon global hub  no context block', !(await req('/moon')).includes(ID));
         check('/moon/saudi-arabia country  no context block', !(await req('/moon/saudi-arabia')).includes(ID));
-        check('/en/today  no context block', !(await req('/en/moon/saudi-arabia/riyadh/today')).includes(ID));
 
         console.log('\n── C) the forecast TABLE is untouched (present; 865f505 group-header NOT reintroduced) ──');
         const sa = await req('/moon/saudi-arabia/riyadh');

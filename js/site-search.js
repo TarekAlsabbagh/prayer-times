@@ -53,11 +53,17 @@
         } catch (_) { return ''; }
     }
 
-    function routeFor(targetRoute, slug) {
+    // MOON-DAY-PAGES-REMOVAL-1: a moon pick lands on the city HUB — /moon/{country}/{slug} when the
+    //   country slug resolves from the result's countryCode, else the legacy hub /moon-in-{slug} (301 →
+    //   nested hub). Was /moon-today-in-{slug}, which now ends at a removed (410) today page.
+    function routeFor(targetRoute, slug, countryCode) {
         var lp = langPrefix();
         var s = encodeURIComponent(slug);
         switch (targetRoute) {
-            case 'moon-hub':  return lp + '/moon-today-in-' + s;
+            case 'moon-hub': {
+                var cs = _ccToCountrySlug(String(countryCode || '').toLowerCase());
+                return cs ? (lp + '/moon/' + cs + '/' + s) : (lp + '/moon-in-' + s);
+            }
             case 'qibla-hub': return lp + '/qibla-in-' + s;
             case 'prayer-times':
             default:          return lp + '/prayer-times-in-' + s;
@@ -148,8 +154,8 @@
             var _tz = (r.timezone != null) ? r.timezone : null;
             // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: persist the authoritative `slug` too so the
             //   sidebar-nav deep-link rewriters (app.js + the country-page rewriter below) build
-            //   /prayer-times-in-{slug} · /qibla-in-{slug} · /moon/{country}/{slug}/today without
-            //   re-deriving it from englishName.
+            //   /prayer-times-in-{slug} · /qibla-in-{slug} · /moon/{country}/{slug} (MOON-DAY-PAGES-REMOVAL-1:
+            //   hub, was /today) without re-deriving it from englishName.
             var _seed = JSON.stringify({
                 lat: r.lat, lng: r.lng, name: _name, country: _country,
                 englishName: _en, countryCode: _cc, timezone: _tz, slug: r.slug, _v: 2
@@ -174,7 +180,7 @@
         // navigate defaults to true; opts.navigate === false runs persist+seed WITHOUT routing
         // (used by the country grid-injection so the picked discovered city is added to the
         // page's grid in place instead of leaving the country page).
-        if (opts.navigate !== false) window.location.href = routeFor(targetRoute, r.slug);
+        if (opts.navigate !== false) window.location.href = routeFor(targetRoute, r.slug, r.countryCode);   // MOON-DAY-PAGES-REMOVAL-1: cc → nested moon hub
     }
 
     // Default dropdown renderer — the /search-test <button class="search-test-result">
@@ -307,8 +313,9 @@
     //   On pages that DON'T load js/app.js (the country grid template — /moon/{country},
     //   /prayer-times-in-{country}) rewrite the 3 city-bound sidebar-nav hrefs (prayer-times /
     //   qibla / moon) to the user's last-used city from sessionStorage 'last_city_context' (then
-    //   'city_moon'). Moon prefers the NESTED /moon/{country}/{city}/today when the country slug is
-    //   derivable, else the legacy /moon-today-in-{slug} (301 → nested). No real last-used city →
+    //   'city_moon'). Moon prefers the NESTED city hub /moon/{country}/{city} when the country slug is
+    //   derivable, else the legacy hub /moon-in-{slug} (301 → nested) — MOON-DAY-PAGES-REMOVAL-1: never
+    //   the removed /today or /moon-today-in- pages. No real last-used city →
     //   the generic hub hrefs stay. NO-OP on the SPA (app.js owns the nav there). Same data source
     //   the rest of the site uses; never reintroduces search / "my location".
     function _slugifyEn(s) {
@@ -357,8 +364,9 @@
                     a.setAttribute('href', lp + '/qibla-in-' + lc.slug);
                 } else if (core === '/moon' || core === '/moon-today') {
                     var cs = _ccToCountrySlug(lc.cc);
-                    a.setAttribute('href', cs ? (lp + '/moon/' + cs + '/' + lc.slug + '/today')
-                                              : (lp + '/moon-today-in-' + lc.slug));
+                    // MOON-DAY-PAGES-REMOVAL-1: the city hub (was .../today and /moon-today-in-, now 410).
+                    a.setAttribute('href', cs ? (lp + '/moon/' + cs + '/' + lc.slug)
+                                              : (lp + '/moon-in-' + lc.slug));
                 } else if (core === '' || core === '/') {
                     a.setAttribute('href', lp + '/prayer-times-in-' + lc.slug);
                 }

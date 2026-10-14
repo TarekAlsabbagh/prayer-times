@@ -1,6 +1,8 @@
 // NODE-CLUSTER-PRIMARY-RESPAWN-1 — smoke suite (functional only, not a benchmark; local servers only; never touches production
 // or any external API: a test-only preload blocks every non-loopback socket, fetch and DNS lookup and reports each attempt).
 //
+// MOON-DAY-PAGES-REMOVAL-1: IDENTITY_PATHS uses the month /moon/saudi-arabia/riyadh/2026/06 instead of the removed /today page (410).
+//
 // server.js primary (top of the file) respawns a dead worker with setTimeout(tpSpawn, delay). Before this ticket that timer was
 // unref'd, so when the dead worker was the primary's LAST handle (WEB_CONCURRENCY=1, or every worker dead at once) the primary
 // exited with code 0 before the respawn ran, and the service was gone.
@@ -755,7 +757,7 @@ const IDENTITY_PATHS = [
     '/prayer-times-in-makkah', '/en/prayer-times-in-makkah', '/prayer-times-in-riyadh', '/fr/prayer-times-in-riyadh', '/prayer-times-in-cairo',
     '/prayer-times-in-saudi-arabia', '/de/prayer-times-in-london', '/prayer-times-worldwide',
     '/qibla', '/qibla-in-makkah', '/en/qibla-in-riyadh', '/next-prayer-in-london', '/time-left-until-next-prayer-in-cairo',
-    '/moon', '/moon/saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/2026/09',
+    '/moon', '/moon/saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026/06', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/2026/09',
     '/hijri-calendar/1447', '/today-hijri-date', '/date-converter', '/zakat-calculator', '/msbaha',
     '/quran', '/quran/al-fatihah', '/azkar', '/azkar/morning-azkar', '/azkar/evening-azkar', '/azkar/prayer-azkar',
     '/guides', '/guides/why-prayer-times-differ', '/ramadan-countdown', '/en/eid-al-adha-countdown',

@@ -1,4 +1,5 @@
 // ADSENSE-STRICT-CSP-PRE-ENFORCEMENT-CLEANUP-1 — smoke suite.
+// MOON-DAY-PAGES-REMOVAL-1: the 'moon nested' route is the hub /moon/saudi-arabia/riyadh (the /today page is 410 now).
 //
 // Proves the two cleanups that clear the 37 known Report-Only violations, and that nothing else moved:
 //   PART 1  the two <link rel="preload" as="script"> hints (site-search.js, app.js) are gone from all 18
@@ -24,7 +25,7 @@ const BASE = 'aad6e9f';
 const TOKEN = '__TP_CSP_NONCE__';
 
 const INDEX_SHELL = ['/', '/en', '/fr', '/tr', '/ur', '/de', '/id', '/es', '/bn', '/ms',
-    '/prayer-times-in-riyadh', '/quran', '/quran/al-fatihah', '/moon', '/moon/saudi-arabia/riyadh/today',
+    '/prayer-times-in-riyadh', '/quran', '/quran/al-fatihah', '/moon', '/moon/saudi-arabia/riyadh',
     '/qibla-in-riyadh', '/azkar', '/ramadan-countdown'];
 const OTHER_TEMPLATES = ['/prayer-times-in-saudi-arabia', '/prayer-times-worldwide', '/guides',
     '/guides/why-prayer-times-differ', '/privacy', '/about-us'];

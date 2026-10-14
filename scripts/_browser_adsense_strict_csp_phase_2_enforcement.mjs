@@ -1,4 +1,5 @@
 // ADSENSE-STRICT-CSP-MIGRATION-1 — PHASE 2 ENFORCEMENT — real-enforcement browser matrix.
+// MOON-DAY-PAGES-REMOVAL-1: the 'moon nested' route is the hub /moon/saudi-arabia/riyadh (the /today page is 410 now).
 //
 // The server under test sends the strict policy as the ENFORCING Content-Security-Policy (plus the identical temporary
 // Report-Only copy). This harness NEVER edits either CSP header. Per top-level document it only:
@@ -119,7 +120,7 @@ const FAMILIES = [
     { family: 'GUIDES', routes: ['/guides'], core: ['gtagConsent', 'adsense', 'guidesHub'], interactions: ['cookie', 'handlersAny'] },
     { family: 'GUIDES', routes: ['/guides/why-prayer-times-differ'], core: ['gtagConsent', 'adsense', 'guideArticle'], interactions: ['handlersAny'] },
     { family: 'AZKAR', routes: ['/azkar'], core: ['appRunning', 'gtagConsent', 'adsense', 'azkar'], interactions: ['theme', 'handlersHeader'] },
-    { family: 'MOON', routes: ['/moon', '/moon/saudi-arabia/riyadh/today'], core: ['appRunning', 'gtagConsent', 'adsense', 'moon'], interactions: ['handlersHeader'] },
+    { family: 'MOON', routes: ['/moon', '/moon/saudi-arabia/riyadh'], core: ['appRunning', 'gtagConsent', 'adsense', 'moon'], interactions: ['handlersHeader'] },
     { family: 'QIBLA', routes: ['/qibla-in-riyadh'], core: ['appRunning', 'gtagConsent', 'adsense', 'qibla'], interactions: ['qiblaToggle', 'handlersHeader'] },
     { family: 'NEXT-PRAYER', routes: ['/next-prayer-in-riyadh'], core: ['appRunning', 'gtagConsent', 'adsense', 'nextPrayer'], interactions: ['handlersHeader'] },
     { family: 'TIME-LEFT', routes: ['/time-left-until-next-prayer-in-riyadh'], core: ['appRunning', 'gtagConsent', 'adsense', 'timeLeft'], interactions: ['handlersHeader'] },

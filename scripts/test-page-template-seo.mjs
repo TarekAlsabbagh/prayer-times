@@ -11,6 +11,8 @@
 //   8. لا تسرّب slugs قديمة (mecca, giza-governorate, eastern-province, singapore-city)
 //      INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: "singapore" is now a live curated city slug (no longer an old slug).
 //   9. لا query params في روابط المدن
+//  10. MOON-DAY-PAGES-REMOVAL-1: the moon related link is the nested HUB /[lang/]moon/{country}/{city} (was
+//      /moon-today-in-{slug}); NO href to a removed day/today page (/today, /yyyy/mm/dd, /moon-today-in-, /moon-in-x/yyyy-mm-dd).
 //
 // تشغيل: تأكّد أن الخادم على :3000 ثم: node scripts/test-page-template-seo.mjs
 
@@ -62,7 +64,16 @@ function extractJsonLd(html) {
     return [...html.matchAll(/<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1].trim());
 }
 function extractCityHrefs(html) {
-    return [...html.matchAll(/href=["']([^"']*\/(?:prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-next-prayer-in|next-prayer-in)-[a-z][a-z0-9-]+(?:[/?#][^"']*)?)["']/gi)].map(m => m[1]);
+    return [...html.matchAll(/href=["']([^"']*\/(?:prayer-times-in|qibla-in|moon-today-in|moon-in|about|time-left-until-next-prayer-in|next-prayer-in)-[a-z][a-z0-9-]+(?:[/?#][^"']*)?)["']/gi)].map(m => m[1])
+        // MOON-DAY-PAGES-REMOVAL-1: + nested moon city hrefs (/[lang/]moon/{country}/{city}[/…]) — the moon link is nested now
+        .concat([...html.matchAll(/href=["']((?:https?:\/\/[^/"']+)?(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:[/?#][^"']*)?)["']/gi)].map(m => m[1]));
+}
+// MOON-DAY-PAGES-REMOVAL-1: nested moon city hub (exactly /[lang/]moon/{country}/{city}, query/hash ignored)
+const NESTED_MOON_HUB_RE = /^(?:https?:\/\/[^/]+)?(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:[?#].*)?$/;
+// MOON-DAY-PAGES-REMOVAL-1: any href to a removed moon day/today page (nested day/today, legacy today, legacy dated)
+const REMOVED_MOON_HREF_RE = /^(?:https?:\/\/[^/]+)?(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(?:moon\/[a-z][a-z0-9-]*\/[a-z0-9][a-z0-9-]*\/(?:today|\d{4}\/\d{2}\/\d{2})(?:\.html)?\/?|moon-today-in-[^"'?#]+|moon-in-[^/"'?#]+\/\d{4}-\d{2}-\d{2}[^"'?#]*)(?:[?#].*)?$/;
+function extractAllHrefs(html) {
+    return [...html.matchAll(/href=["']([^"']*)["']/gi)].map(m => m[1]);
 }
 
 const expectedLangs = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms', 'x-default'];
@@ -175,10 +186,16 @@ for (const slug of SAMPLE) {
     // ── 7) Internal links to all related city-page types ──
     const cityHrefs = extractCityHrefs(html);
     const baseSlug = finalPath.match(/^\/(?:[a-z]{2}\/)?prayer-times-in-([a-z][a-z0-9-]+)/)?.[1];
-    const wantedTypes = ['/qibla-in-', '/moon-today-in-', '/time-left-until-next-prayer-in-', '/next-prayer-in-'];
+    // MOON-DAY-PAGES-REMOVAL-1: '/moon-today-in-' (removed today page) → the nested moon hub matcher.
+    const wantedTypes = [
+        ['/qibla-in-', h => h.includes('/qibla-in-')],
+        ['/moon/{country}/{city} (nested hub)', h => NESTED_MOON_HUB_RE.test(h)],
+        ['/time-left-until-next-prayer-in-', h => h.includes('/time-left-until-next-prayer-in-')],
+        ['/next-prayer-in-', h => h.includes('/next-prayer-in-')],
+    ];
     let missingTypes = [];
-    for (const t of wantedTypes) {
-        const hasAnyOfType = cityHrefs.some(h => h.includes(t));
+    for (const [t, isType] of wantedTypes) {
+        const hasAnyOfType = cityHrefs.some(isType);
         if (!hasAnyOfType) missingTypes.push(t);
     }
     report.internals = wantedTypes.length - missingTypes.length;
@@ -203,11 +220,17 @@ for (const slug of SAMPLE) {
     if (queryLeaks === 0) ok('no-query-params');
     else bad(`${slug}: ${queryLeaks} city links contain query params`);
 
+    // ── 10) MOON-DAY-PAGES-REMOVAL-1: no href to a removed moon day/today page ──
+    const removedHrefs = extractAllHrefs(html).filter(h => REMOVED_MOON_HREF_RE.test(h));
+    report.removedMoonHrefs = removedHrefs.length;
+    if (removedHrefs.length === 0) ok('no-moon-day-today-href');
+    else bad(`${slug}: ${removedHrefs.length} href(s) to removed moon day/today pages (e.g. ${removedHrefs[0]})`);
+
     reports.push(report);
 }
 
 // ── Cross-page uniqueness ─────────────────────────────────────────────
-console.log(`▌ Per-page checks (${SAMPLE.length} pages × 9 checks)`);
+console.log(`▌ Per-page checks (${SAMPLE.length} pages × 10 checks)`);
 console.log(`  Passed: ${testsPass}`);
 console.log(`  Failed: ${testsFail}`);
 

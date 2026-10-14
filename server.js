@@ -381,6 +381,34 @@ try { _tzLookup = require('tz-lookup'); } catch (_) { /* lib missing → use cou
 // MoonCalc للـ SSR: حقن أرقام حقيقيّة (إضاءة/عمر/طور) في فقرة /moon-today-in-{slug}
 // TRANSLATIONS للـ SSR: لترجمة أسماء الأطوار والأبراج قبل الإرسال (بدون Googlebot-JS)
 const MoonCalc   = require('./js/moon.js');
+// MOON-RENDER-COST-1 (2026-10-14): MoonCalc.getMonthGrid(year, month, tz) and MoonCalc.getDayPhase(date, tz) are pure
+//   (Meeus; the result depends only on year+month+tz, and on the date's LOCAL day in tz). A month page called
+//   getMonthGrid three times per request with the same arguments, and every language and every city in the same time
+//   zone needs the same result. Bounded memos (Map, oldest-first eviction) in front of them; js/moon.js is untouched.
+//   The results are shared read-only: every caller only reads them.
+const _MOON_GRID_MEMO = new Map(), _MOON_GRID_MEMO_MAX = 256;      // ~7 KB per entry (31 rows) -> ~1.8 MB per worker
+const _MOON_DAY_MEMO = new Map(), _MOON_DAY_MEMO_MAX = 4000;
+const _MOON_YMD_FMT = new Map();                                     // tz -> Intl formatter (one per zone)
+const _moonMemoPut = (map, max, key, val) => { if (map.size >= max) map.delete(map.keys().next().value); map.set(key, val); return val; };
+function _moonMonthGrid(year, month, tz) {
+    const key = year + '|' + month + '|' + tz;
+    const hit = _MOON_GRID_MEMO.get(key);
+    if (hit !== undefined) return hit;
+    const g = MoonCalc.getMonthGrid(year, month, tz);
+    return g ? _moonMemoPut(_MOON_GRID_MEMO, _MOON_GRID_MEMO_MAX, key, g) : g;
+}
+function _moonDayPhase(date, tz) {
+    const z = (typeof tz === 'string' && tz) ? tz : 'UTC';          // the same default getDayPhase applies
+    let key = null;
+    try {
+        let f = _MOON_YMD_FMT.get(z);
+        if (!f) { f = new Intl.DateTimeFormat('en-CA', { timeZone: z, year: 'numeric', month: '2-digit', day: '2-digit' }); _MOON_YMD_FMT.set(z, f); }
+        key = z + '|' + f.format(new Date(date));
+    } catch (_e) { key = null; }                                     // unknown zone: no memo, same call as before
+    if (key !== null) { const hit = _MOON_DAY_MEMO.get(key); if (hit !== undefined) return hit; }
+    const r = MoonCalc.getDayPhase(date, tz);
+    return (key !== null && r) ? _moonMemoPut(_MOON_DAY_MEMO, _MOON_DAY_MEMO_MAX, key, r) : r;
+}
 // MOON-CITY-MONTH-SEO-UNIVERSAL-FIX-1: algorithmic month-page title/meta fitter (50–60 / 120–160
 // for ANY city/month/lang — no hardcoded per-city exceptions). Pure, shared with the matrix test.
 const MoonMonthSeo = require('./js/moon-month-seo.js');
@@ -9779,8 +9807,19 @@ function _stripElement(html, lookup) {
             '<(\\w+)\\b[^>]*?\\sclass="[^"]*\\b' + _reEsc(lookup.value) + '\\b[^"]*"[^>]*?>', 'i'
         );
     }
-    const m = openRe.exec(html);
-    if (!m) return html;
+    // MOON-RENDER-COST-1: openRe used to scan the whole ~500 KB shell from offset 0 on every call. Every match must
+    //   contain its ` id="…"` (or ` class="…word`) attribute inside its tag, and the `[^>]*?` before that attribute
+    //   cannot cross a '>', so no match can start before the last '>' preceding the FIRST occurrence of that attribute
+    //   text (case-insensitive, like openRe): search from there. No occurrence means no element, as before. Same first
+    //   match, same result.
+    const _needle = new RegExp(lookup.type === 'id' ? ('\\sid="' + _reEsc(lookup.value) + '"') : ('\\sclass="[^"]*\\b' + _reEsc(lookup.value) + '\\b'), 'i');
+    const _nm = _needle.exec(html);
+    if (!_nm) return html;
+    const _from = html.lastIndexOf('>', _nm.index) + 1;
+    const _m0 = openRe.exec(_from ? html.slice(_from) : html);
+    if (!_m0) return html;
+    const m = _m0;
+    m.index += _from;
     const tag = m[1].toLowerCase();
     const startIdx = m.index;
     const afterOpen = startIdx + m[0].length;
@@ -10804,7 +10843,7 @@ function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijri
         // local-day labeler (major phases only on their local event day; never a
         // threshold "Full Moon" on a day adjacent to the real full-moon event).
         // Falls back to getPhaseName only if getDayPhase is unavailable.
-        const _dayInfo = (typeof MoonCalc.getDayPhase === 'function') ? MoonCalc.getDayPhase(today, tz) : null;
+        const _dayInfo = (typeof MoonCalc.getDayPhase === 'function') ? _moonDayPhase(today, tz) : null;
         const phase = (_dayInfo && _dayInfo.phase) || MoonCalc.getPhaseName(today); // {name, icon, english, key}
         const illumRaw = MoonCalc.getMoonIllumination(today);       // 0..100
         const ageRaw = MoonCalc.getMoonAge(today);                  // 0..29.53
@@ -11809,7 +11848,7 @@ function _moonCountryComputed(cc, lang) {
         // 2 decimals, matching every other moon page. Phase + next-event dates stay on `now`
         // (getDayPhase is tz-aware; the event dates are day-level and unaffected).
         const _illumInstant = (typeof _moonCityLocalNoonSsr === 'function' && _moonCityLocalNoonSsr(tz)) || now;
-        const _dp = (typeof MoonCalc.getDayPhase === 'function') ? MoonCalc.getDayPhase(now, tz) : null;
+        const _dp = (typeof MoonCalc.getDayPhase === 'function') ? _moonDayPhase(now, tz) : null;
         const phase = (_dp && _dp.phase) || (typeof MoonCalc.getPhaseName === 'function' ? MoonCalc.getPhaseName(now) : null);
         const illum = (typeof MoonCalc.getMoonIllumination === 'function') ? MoonCalc.getMoonIllumination(_illumInstant) : null;
         const loc = { ar: 'ar', en: 'en-GB', fr: 'fr', tr: 'tr', ur: 'ur', de: 'de', id: 'id', es: 'es', bn: 'bn', ms: 'ms' }[lang] || 'en-GB';
@@ -12880,7 +12919,7 @@ function _buildMoonMonthContent(mm, lang) {
     const _pad2 = (n) => (n < 10 ? '0' + n : String(n));
     // ── daily grid (Meeus 49, city tz) — one entry per day of the month ──
     let _grid = [];
-    try { _grid = MoonCalc.getMonthGrid(_Y, _Mo, _tz) || []; } catch (_) { _grid = []; }
+    try { _grid = _moonMonthGrid(_Y, _Mo, _tz) || []; } catch (_) { _grid = []; }
     const _days = _grid.length;   // 28..31 (correct per month)
     const _phaseLbl = (g) => ((L === 'ar' ? (g.phase && g.phase.name) : (g.phase && g.phase.english)) || '');
     const _phaseIcon = (g) => ((g.phase && g.phase.icon) || '🌙');
@@ -19449,7 +19488,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _flhPath = (urlPath || '').split('?')[0];
         const _isAnyMoonPage = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon(?:\/|$)/.test(_flhPath);
         if (_isAnyMoonPage) {
-            const _flhStrip = (needle) => { html = html.replace(new RegExp('(<a\\b[^>]*' + needle + '[^>]*?) href="#"'), '$1'); };
+            // MOON-RENDER-COST-1: search from the last '>' before the needle's first occurrence (no match can start
+            //   earlier; the needles are plain text) instead of scanning the whole shell; no occurrence -> nothing to do.
+            const _flhStrip = (needle) => { const _i = html.indexOf(needle); if (_i === -1) return; const _f = html.lastIndexOf('>', _i) + 1; html = html.slice(0, _f) + html.slice(_f).replace(new RegExp('(<a\\b[^>]*' + needle + '[^>]*?) href="#"'), '$1'); };
             _flhStrip('moon-hub-related-4');     // related card → today's Hijri date (browser-tz → drift)
             _flhStrip('moon-tdc-edu-link-3');    // city-edu link → today's day (browser-tz → drift)
             _flhStrip('moon-tdc-edu-link-4');    // city-edu link → today's Hijri date (browser-tz → drift)
@@ -21242,7 +21283,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //   so the nested month fires the SAME legacy #page-moon renderer as the nested day (NOT the bespoke
     //   #page-moon-month). The nested hub + today shapes are unchanged.
     const _isMoonCityPageSsr = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:moon-today-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?|moon-in-[a-z][a-z0-9.-]+(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}(?:-\d{2})?)?|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}\/\d{2}(?:\/\d{2})?)?)$/.test(urlPath);
-    if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome && !_isMoonTodayHub) {
+    // MOON-RENDER-COST-1: also skipped on the moon city (hub / month) and city year pages: their #page-prayer-times
+    //   block is stripped below (_stripHtmlForMoonCity / _stripHtmlForMoonYear), so the default (Mecca) prayer times
+    //   injected into it never reached the response (~6 ms of CPU per request).
+    if (!seo.timeLeftPage && !seo.nextPrayerPage && !seo.isHome && !_isMoonTodayHub && !_isMoonCityPageSsr && !seo.moonYear) {
         // (UAT-Home-Simplify + UAT-Moon-Home) Skip when the prayer-cards block
         //   will be stripped immediately after (homepage + moon hub).
         let _ssrSlug = 'mecca';
@@ -27617,7 +27661,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         if (_isMoonMonthPageSsr && _monthYearSsr && _monthMonthSsr) {
             try {
                 let _mgrid = [];
-                try { _mgrid = MoonCalc.getMonthGrid(_monthYearSsr, _monthMonthSsr, seo.moonCity.tz || 'Asia/Riyadh') || []; } catch (_e) { _mgrid = []; }
+                try { _mgrid = _moonMonthGrid(_monthYearSsr, _monthMonthSsr, seo.moonCity.tz || 'Asia/Riyadh') || []; } catch (_e) { _mgrid = []; }
                 const _mdays = _mgrid.length || 28;
                 const _phL = (g) => ((Lm === 'ar' ? (g.phase && g.phase.name) : (g.phase && g.phase.english)) || '');
                 const _phSeen = new Set(); const _phItems = [];
@@ -28652,7 +28696,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 //   MOON-CITY-MONTH-CURRENT-DAY-TZ-FIX-1 (city-local "today" needs the tz
                 //   before the calendar loop). Reused here for the event-based phase grid.
                 const _monthGrid = (MoonCalc && typeof MoonCalc.getMonthGrid === 'function')
-                    ? (MoonCalc.getMonthGrid(_calY, _calMo, _moonGridTz) || [])
+                    ? (_moonMonthGrid(_calY, _calMo, _moonGridTz) || [])
                     : [];
                 for (let day = 1; day <= _calLastDay; day++) {
                     const _cellD = new Date(_calY, _calMo - 1, day, 12, 0, 0);
@@ -29365,7 +29409,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _flQibla = _flLp + '/qibla-in-' + _flSlug;
                 const _flTimeLeft = _flLp + '/time-left-until-next-prayer-in-' + _flSlug;
                 const _flHub = _nestedMoonHubLink(_flSlug, _flLp);   // /{lp}/moon/{country}/{city}
-                const _flSet = (cls, url) => { if (url) html = html.replace(new RegExp('(<a\\b[^>]*' + cls + '[^>]*?)href="#"'), '$1href="' + url + '"'); };
+                // MOON-RENDER-COST-1: the same bounded search as _flhStrip (plain-text class needles). Same result.
+                const _flSet = (cls, url) => { if (!url) return; const _i = html.indexOf(cls); if (_i === -1) return; const _f = html.lastIndexOf('>', _i) + 1; html = html.slice(0, _f) + html.slice(_f).replace(new RegExp('(<a\\b[^>]*' + cls + '[^>]*?)href="#"'), '$1href="' + url + '"'); };
                 // MOON-DAY-PAGES-REMOVAL-1: _flToday is the city hub now (the today page is removed). On the hub itself the
                 //   'moon today' related card and edu link would be self-links, so their <li> is removed there (every city
                 //   hub: nested or coordinate; month pages keep them, pointing at the hub).
@@ -29643,7 +29688,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             let _monthSummaryHtml = '';
             try {
                 let _msGrid = [];
-                try { _msGrid = MoonCalc.getMonthGrid(_mY, _mM, seo.moonCity.tz || 'Asia/Riyadh') || []; } catch (_e) { _msGrid = []; }
+                try { _msGrid = _moonMonthGrid(_mY, _mM, seo.moonCity.tz || 'Asia/Riyadh') || []; } catch (_e) { _msGrid = []; }
                 if (_msGrid.length) {
                     // illumination extremes — the brightest / dimmest day of the month
                     let _maxG = _msGrid[0], _minG = _msGrid[0];

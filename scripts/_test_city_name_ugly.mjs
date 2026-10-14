@@ -6,6 +6,7 @@
 // In the WARM-VISIT case (from search), `currentCity` carries the
 // original Arabic name and the JS swap replaces the SSR fallback
 // everywhere. This test exercises that path.
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 import { JSDOM } from 'jsdom';
 import http from 'node:http';
 
@@ -61,7 +62,7 @@ function visibleText(html) {
         .replace(/<[^>]+>/g, ' ');
 }
 
-const routes = ['prayer-times-in', 'time-left-until-next-prayer-in', 'next-prayer-in', 'moon-in', 'moon-today-in'];
+const routes = ['prayer-times-in', 'time-left-until-next-prayer-in', 'next-prayer-in', 'moon-in'];
 
 console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
 console.log(`  Ugly slug: ${UGLY_SLUG}  →  warm-visit goodName: "${GOOD}"`);

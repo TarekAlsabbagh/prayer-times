@@ -1,4 +1,5 @@
 // ADSENSE-STRICT-CSP-MIGRATION-1 — active browser verification.
+// MOON-DAY-PAGES-REMOVAL-1: the 'moon nested' route is the hub /moon/saudi-arabia/riyadh (the /today page is 410 now).
 //
 // There is deliberately NO CSP reporting endpoint in this ticket, so a passive "wait 7-14 days"
 // observation window would collect nothing. This does the active equivalent: drive a real Chromium
@@ -31,7 +32,7 @@ const ROUTES = [
     ['city', '/prayer-times-in-riyadh'], ['country', '/prayer-times-in-saudi-arabia'],
     ['worldwide', '/prayer-times-worldwide'], ['quran home', '/quran'], ['quran surah', '/quran/al-fatihah'],
     ['guides hub', '/guides'], ['guides article', '/guides/why-prayer-times-differ'],
-    ['moon', '/moon'], ['moon nested', '/moon/saudi-arabia/riyadh/today'],
+    ['moon', '/moon'], ['moon nested', '/moon/saudi-arabia/riyadh'],
     ['qibla', '/qibla-in-riyadh'], ['azkar', '/azkar'], ['countdown', '/ramadan-countdown'],
     ['trust privacy', '/privacy'], ['trust about', '/about-us'],
     ['404', '/definitely-not-a-real-route-xyz'], ['search-test', '/search-test'],

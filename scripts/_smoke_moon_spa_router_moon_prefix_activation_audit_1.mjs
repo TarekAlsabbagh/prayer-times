@@ -12,6 +12,8 @@
 // PART B — confirm both activation deciders are wired to `_isMoonPath`
 //   (initApp `_isMoonPage` + the pageshow self-heal `_expectedId`).
 // PART C — regression: the legacy moon routes still serve 200 with #page-moon active + one H1.
+// MOON-DAY-PAGES-REMOVAL-1: Part C renders the nested hub + month (the today/day pages are 410 now); the legacy
+//   today/dated forms answer 410 (no Location) instead of 301. Part A classifier lists unchanged (_isMoonPath only).
 //
 // Run: node scripts/_smoke_moon_spa_router_moon_prefix_activation_audit_1.mjs
 import http from 'node:http';
@@ -75,18 +77,20 @@ try {
     // MOON-TODAY-CONTENT-MOVE-TO-MOON-1: the hub moved /moon-today → /moon (the bare
     //   /moon-today now 301s to /moon, covered by its own smoke). The 200 hub is /moon.
     // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1 + MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the bare flat hub
-    //   /moon-in-{city} 301s to the nested hub; today + dated legacy routes now ALSO 301 to their nested
-    //   equivalent. /moon (global hub) + the NESTED city routes stay the 200 page-moon pages.
-    for (const u of ['/moon', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06/17']) {
+    //   /moon-in-{city} 301s to the nested hub. /moon (global hub) + the NESTED city routes stay the 200
+    //   page-moon pages. MOON-DAY-PAGES-REMOVAL-1: the nested today/day pages are removed (410), so the
+    //   city render regression uses the nested HUB and MONTH pages.
+    for (const u of ['/moon', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026/06']) {
         const r = await get(u);
         const active = r.body.includes('class="page active" id="page-moon"');
         const h1 = (r.body.match(/<h1[^>]*id="(?:moon-hub-h1|moon-page-h1)"/g) || []).length;
         check(`${u}: 200 + #page-moon active + 1 moon H1`, r.status === 200 && active && h1 === 1, `status=${r.status} active=${active} h1=${h1}`);
     }
-    // MLRC: legacy today/dated now 301 → nested (lang preserved)
-    for (const [from, to] of [['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'], ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17']]) {
-        const r = await get(from);
-        check(`${from} → 301 ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    // MOON-DAY-PAGES-REMOVAL-1: legacy today/dated used to 301 → nested today/day; now 410 Gone in ONE response (no Location)
+    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06-17']) {
+        const r = await get(u);
+        const gone = r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body) && !/id="page-moon"/.test(r.body) && Buffer.byteLength(r.body) < 4096;
+        check(`${u} → 410 Gone, no Location (MOON-DAY-PAGES-REMOVAL-1)`, gone, `status=${r.status} loc=${r.loc} len=${Buffer.byteLength(r.body)}`);
     }
     // the bare flat hub /moon-in-{city} 301s to the nested hub /moon/{country}/{city} (lang preserved)
     for (const [from, to] of [['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'], ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh']]) {

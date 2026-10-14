@@ -11,6 +11,9 @@
 // City cards + the in-country search are client-rendered from #country-cities-data; that behavior is
 // verified in the browser during the ticket (cards → /moon-today-in-{city}, search → same). This
 // smoke pins the SSR contract + SEO + the 404 guards + the prayer regression.
+// MOON-DAY-PAGES-REMOVAL-1: capital cards never link /today (first card = the capital HUB); the capital picker is
+//   year + month (no #mc-cap-d, no "d.value"); /moon/saudi-arabia/riyadh/2026/12/09 → 410; Meeus via month grid
+//   cells; /today dropped from the scope lists.
 //
 // Run: node scripts/_smoke_moon_country_pages_ssr_add_1.mjs
 import http from 'node:http';
@@ -135,9 +138,14 @@ try {
     console.log('\n── E) /moon hub + /moon-today + Meeus unchanged ──');
     check('/moon → 200', (await req('/moon')).status === 200);
     { const r = await req('/moon-today'); check('/moon-today → 301 /moon', r.status === 301 && r.loc === '/moon', `${r.status} ${r.loc}`); }
-    { // MLRC: legacy grid now 301s — validate Meeus via nested DAY pages (same engine, same output).
-      const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
-      check('Meeus Riyadh 15=المحاق · 30=البدر (nested day pages)', r15.status === 200 && r15.body.includes('المحاق') && r30.status === 200 && r30.body.includes('البدر')); }
+    { // MOON-DAY-PAGES-REMOVAL-1: the day pages are 410 — validate Meeus via the nested MONTH page grid cells
+      //   (the cell whose date span is the day number → its phase-name span; works on <a> and <div> cell wrappers).
+      const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
+      const grid = (mo.body.match(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/) || [])[1] || '';
+      const cells = [...grid.matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].filter(x => !/--empty/.test(x[1])).map(x => x[2]);
+      const span = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+      const phaseOf = (d) => span(cells.find(c => parseInt((span(c, 'moon-hub-cal-date').match(/\d+/) || [])[0], 10) === d) || '', 'moon-hub-cal-phase-name');
+      check('Meeus Riyadh 15=المحاق · 30=البدر (month grid cells)', mo.status === 200 && phaseOf(15).includes('المحاق') && phaseOf(30).includes('البدر'), `15="${phaseOf(15)}" 30="${phaseOf(30)}"`); }
 
     // ── F) sitemap: /moon/{country} present, /moon-today absent, no nested future routes ──
     console.log('\n── F) sitemap ──');
@@ -194,14 +202,25 @@ try {
         const capTitle = (b) => (b.match(/id="mc-cap-title"[^>]*>([^<]*)</) || [])[1] || '';
         const ar = (await req('/moon/saudi-arabia')).body;
         check('mc-capital section + H2 ("استكشف القمر في الرياض")', /class="country-seo-block mc-capital"/.test(ar) && ar.includes('استكشف القمر في الرياض'));
-        // exactly 3 SSR <a> link cards, all on the capital riyadh (today / year / month)
+        // exactly 3 SSR <a> link cards, all on the capital riyadh (hub / year / month)
+        //   MOON-DAY-PAGES-REMOVAL-1: the "today" card now links the capital HUB (it shows today's moon), never /today.
         const capLinks = [...ar.matchAll(/<a class="mc-cap-card" href="([^"]+)"/g)].map(m => m[1]);
-        check('3 SSR capital link cards on /moon/saudi-arabia/riyadh', capLinks.length === 3 && capLinks.every(h => h.startsWith('/moon/saudi-arabia/riyadh/')), capLinks.join(' '));
-        check('capital today/year/month link shapes', /\/riyadh\/today$/.test(capLinks[0]) && /\/riyadh\/\d{4}$/.test(capLinks[1]) && /\/riyadh\/\d{4}\/\d{2}$/.test(capLinks[2]));
+        check('3 SSR capital link cards on /moon/saudi-arabia/riyadh', capLinks.length === 3 && capLinks.every(h => h === '/moon/saudi-arabia/riyadh' || h.startsWith('/moon/saudi-arabia/riyadh/')), capLinks.join(' '));
+        check('capital hub/year/month link shapes (first card = capital hub /moon/saudi-arabia/riyadh)', capLinks[0] === '/moon/saudi-arabia/riyadh' && /\/riyadh\/\d{4}$/.test(capLinks[1]) && /\/riyadh\/\d{4}\/\d{2}$/.test(capLinks[2]), capLinks.join(' '));
+        check('capital cards contain no /today href', !capLinks.some(h => /\/today(?:[?#]|$)/.test(h)), capLinks.join(' '));
         for (const l of capLinks) check(`capital link 200: ${l}`, (await req(l)).status === 200);
-        check('capital picker day URL 200 (/riyadh/2026/12/09)', (await req('/moon/saudi-arabia/riyadh/2026/12/09')).status === 200);
-        // date picker: y/m/d selects + button disabled by default + scoped inline script with the capital base
-        check('picker: y/m/d selects + disabled button + scoped script', /id="mc-cap-y"/.test(ar) && /id="mc-cap-m"/.test(ar) && /id="mc-cap-d"/.test(ar) && /id="mc-cap-go" class="mc-cap-go" disabled/.test(ar) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(ar));
+        {
+            const r = await req('/moon/saudi-arabia/riyadh/2026/12/09');
+            const gone = r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body) && !/id="page-moon"/.test(r.body) && Buffer.byteLength(r.body) < 4096;
+            check('former capital picker day URL → 410 Gone (/riyadh/2026/12/09, MOON-DAY-PAGES-REMOVAL-1)', gone, `status=${r.status} loc=${r.loc}`);
+        }
+        // date picker: year + month selects (NO day select) + go button + scoped inline script with the capital base;
+        //   the inline script reads no day value (MOON-DAY-PAGES-REMOVAL-1: it can never build a day URL)
+        check('picker: y/m selects (NO #mc-cap-d) + go button + scoped script', /id="mc-cap-y"/.test(ar) && /id="mc-cap-m"/.test(ar) && !/id="mc-cap-d"/.test(ar) && /id="mc-cap-go"/.test(ar) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(ar));
+        {
+            const pScripts = [...ar.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(x => x[1]).filter(t => t.includes('mc-cap-y'));
+            check('picker inline script present and builds no day URL (no "d.value", no mc-cap-d)', pScripts.length >= 1 && pScripts.every(t => !t.includes('d.value') && !t.includes('mc-cap-d')), `${pScripts.length} picker script(s)`);
+        }
         // placement: after "upcoming", before "monthly" — match the rendered <section> markers (NOT bare class
         //   strings, which also appear in the template's inline <style> in the head and would mis-order).
         const _iU = ar.indexOf('class="country-seo-block mc-upcoming"'), _iC = ar.indexOf('class="country-seo-block mc-capital"'), _iM = ar.indexOf('class="country-seo-block mc-monthly"');
@@ -217,7 +236,7 @@ try {
         // scope: NO RENDERED capital section on prayer country / city hub / year / today. Use the section's
         //   unique H2 id (id="mc-cap-title") — the prayer page shares the template so it carries the INERT
         //   .mc-capital CSS in its <style> (like the other .mc-* rules), but never renders the section.
-        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026', '/moon/saudi-arabia/riyadh/today']) {
+        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026']) {   // MOON-DAY-PAGES-REMOVAL-1: /today dropped (410)
             check(`scope: no rendered capital section on ${u}`, !(await req(u)).body.includes('id="mc-cap-title"'));
         }
     }
@@ -245,7 +264,7 @@ try {
         // scope: NO rendered occasions section off the country + year pages. The YEAR page intentionally
         //   carries it too (MOON-YEAR-ISLAMIC-OCCASIONS-COUNTDOWN-1), so it is NOT in this list; prayer /
         //   city hub / today / month must stay clean.
-        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/today', '/moon/saudi-arabia/riyadh/2026/06']) {
+        for (const u of ['/prayer-times-in-saudi-arabia', '/moon/saudi-arabia/riyadh', '/moon/saudi-arabia/riyadh/2026/06']) {   // MOON-DAY-PAGES-REMOVAL-1: /today dropped (410)
             check(`scope: no occasions section on ${u}`, !(await req(u)).body.includes('id="mc-occasions"'));
         }
     }

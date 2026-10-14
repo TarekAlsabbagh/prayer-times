@@ -14,6 +14,8 @@
 //      to their nested equivalent — /moon-today-in-{city}→/…/today, dated→/…/{yyyy}/{mm}[/{dd}],
 //      bare hub /moon-in-{city}→/moon/{country}/{city}.
 //   G) Meeus 49 unchanged (Riyadh Jun 2026: 15=المحاق, 30=البدر) — via nested day pages.
+//   MOON-DAY-PAGES-REMOVAL-1: homepage city moon anchors are nested HUBS (0 /today or /yyyy/mm/dd anchors);
+//      legacy today/dated → 410 Gone (no Location), hub/month legacy 301s stay; Meeus via month grid cells.
 //
 // Run: node scripts/_smoke_moon_today_content_move_to_moon_1.mjs
 import http from 'node:http';
@@ -105,34 +107,47 @@ try {
     //   collapsed into the bare /moon hub.
     const homeAnchors = [...home.replace(/<!--[\s\S]*?-->/g, '').replace(/<script\b[\s\S]*?<\/script>/gi, '')
         .matchAll(/<a\b[^>]*\shref="([^"]*)"/gi)].map(m => m[1]);
-    const cityMoonAnchors = homeAnchors.filter(h => /^\/moon\/[a-z0-9-]+\/[a-z0-9-]+\/today$/.test(h));
-    check('homepage: city moon links intact (real <a href>, e.g. /moon/saudi-arabia/makkah/today)',
-        cityMoonAnchors.includes('/moon/saudi-arabia/makkah/today') && cityMoonAnchors.length >= 10, `${cityMoonAnchors.length} real city moon anchors`);
+    // MOON-DAY-PAGES-REMOVAL-1: inverted — the city moon links now target the nested city HUB
+    //   /moon/{country}/{city}; NO real anchor may end in /today or /{yyyy}/{mm}/{dd} (removed pages, 410).
+    const dayTodayAnchors = homeAnchors.filter(h => /\/today(?:[?#].*)?$/.test(h) || /\/\d{4}\/\d{2}\/\d{2}(?:[?#].*)?$/.test(h));
+    check('homepage: 0 real anchors to a removed day/today page (/today or /{yyyy}/{mm}/{dd})', dayTodayAnchors.length === 0, `${dayTodayAnchors.length} ${dayTodayAnchors.slice(0, 3).join(' ')}`);
+    const cityMoonAnchors = homeAnchors.filter(h => /^\/moon\/[a-z0-9-]+\/[a-z0-9-]+$/.test(h));
+    check('homepage: city moon links intact as nested hubs (real <a href>, e.g. /moon/saudi-arabia/makkah)',
+        cityMoonAnchors.includes('/moon/saudi-arabia/makkah') && cityMoonAnchors.length >= 10, `${cityMoonAnchors.length} real city moon hub anchors`);
     const enHome = (await req('/en')).body;
     check('/en homepage navbar moon link = /en/moon', enHome.includes('<a href="/en/moon" data-page="moon"'));
     const qibla = (await req('/qibla')).body;
     check('/qibla "Moon Today" hub card → /moon', qibla.includes('href="/moon"') && !qibla.includes('href="/moon-today"'));
 
-    // ── F) city routes — MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: ALL legacy flat routes now 301
-    //   (lang-preserved) to their nested equivalent. The bare flat hub /moon-in-{city} → nested hub
-    //   /moon/{country}/{city}; today → /…/today; dated → /…/{yyyy}/{mm}[/{dd}]. ──
-    console.log('\n── F) city moon routes: ALL legacy flat routes 301 → nested (MLRC) ──');
+    // ── F) city routes — MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the legacy flat hub/month routes 301
+    //   (lang-preserved) to their nested equivalent: /moon-in-{city} → /moon/{country}/{city};
+    //   /moon-in-{city}/{yyyy-mm} → /…/{yyyy}/{mm}. MOON-DAY-PAGES-REMOVAL-1: the legacy today and dated
+    //   forms used to 301 into a day/today page → now 410 Gone in ONE response (no Location). ──
+    console.log('\n── F) city moon routes: legacy hub/month 301 → nested (MLRC) · legacy today/dated 410 ──');
     for (const [from, to] of [
-        ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'],
         ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'],
-        ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'],
         ['/moon-in-riyadh', '/moon/saudi-arabia/riyadh'],
         ['/en/moon-in-riyadh', '/en/moon/saudi-arabia/riyadh'],
     ]) {
         const r = await req(from);
         check(`${from} → 301 ${to} (MLRC)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
     }
+    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06-17']) {
+        const r = await req(u);
+        const gone = r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body) && !/id="page-moon"/.test(r.body) && Buffer.byteLength(r.body) < 4096;
+        check(`${u} → 410 Gone, no Location, small body (MOON-DAY-PAGES-REMOVAL-1)`, gone, `status=${r.status} loc=${r.loc} len=${Buffer.byteLength(r.body)}`);
+    }
 
-    // ── G) Meeus 49 unchanged (validated via nested day pages — legacy grid now 301s) ──
-    console.log('\n── G) Meeus 49 unchanged (Riyadh Jun 2026, nested day pages) ──');
-    const r15 = await req('/moon/saudi-arabia/riyadh/2026/06/15'), r30 = await req('/moon/saudi-arabia/riyadh/2026/06/30');
-    check('15 Jun = المحاق (new moon)', r15.status === 200 && r15.body.includes('المحاق'));
-    check('30 Jun = البدر (full moon)', r30.status === 200 && r30.body.includes('البدر'));
+    // ── G) Meeus 49 unchanged — MOON-DAY-PAGES-REMOVAL-1: validated via the nested MONTH page grid cells
+    //   (phase-name span of the cell whose date span is the day number; works on <a> and <div> cell wrappers) ──
+    console.log('\n── G) Meeus 49 unchanged (Riyadh Jun 2026, month grid cells) ──');
+    const mo = await req('/moon/saudi-arabia/riyadh/2026/06');
+    const grid = (mo.body.match(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/) || [])[1] || '';
+    const cells = [...grid.matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].filter(m => !/--empty/.test(m[1])).map(m => m[2]);
+    const span = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+    const phaseOf = (d) => span(cells.find(c => parseInt((span(c, 'moon-hub-cal-date').match(/\d+/) || [])[0], 10) === d) || '', 'moon-hub-cal-phase-name');
+    check('15 Jun = المحاق (new moon)', mo.status === 200 && phaseOf(15).includes('المحاق'), `phaseName="${phaseOf(15)}"`);
+    check('30 Jun = البدر (full moon)', mo.status === 200 && phaseOf(30).includes('البدر'), `phaseName="${phaseOf(30)}"`);
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
     exitCode = fail === 0 ? 0 : 1;

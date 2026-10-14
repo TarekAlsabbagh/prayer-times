@@ -9,6 +9,7 @@
 //   • curated moon country pages inject the correct cc (saudi-arabia = sa, legitimately);
 //   • the prayer country page still injects its own context (DEPTH-2 regression);
 //   • a nested moon CITY page still renders (200) and is not a country listing.
+// MOON-DAY-PAGES-REMOVAL-1: the city-page regression uses the hub /moon/cape-verde/praia; its /today → 410.
 //
 // Run: node scripts/_smoke_moon_country_client_country_parity_1.mjs
 
@@ -20,7 +21,8 @@ import path from 'node:path';
 const PORT = 8205;
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SAUDI = /السعودية|Saudi|Saoudite|Suudi|Arab Saudi|سعودی/i;
-function get(p){ return new Promise(r=>{ http.get({host:'localhost',port:PORT,path:p},x=>{let b='';x.on('data',c=>b+=c);x.on('end',()=>r({status:x.statusCode,body:b}));}).on('error',()=>r({status:0,body:''})); }); }
+function get(p){ return new Promise(r=>{ http.get({host:'localhost',port:PORT,path:p},x=>{let b='';x.on('data',c=>b+=c);x.on('end',()=>r({status:x.statusCode,body:b,loc:x.headers.location||''}));}).on('error',()=>r({status:0,body:'',loc:''})); }); }
+const is410 = (r) => r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function ready(t){const t0=Date.now();while(Date.now()-t0<t){const r=await get('/health');if(r.status===200)return 1;await sleep(400);}return 0;}
 let pass=0,fail=0; const check=(l,ok,x)=>{if(ok)pass++;else fail++;console.log(`${ok?'✓':'✗'} ${l}${x!==undefined?'   →  '+x:''}`);};
@@ -61,8 +63,10 @@ try {
   const pc = await get('/moon/egypt'); // moon country (already covered) + prayer country below
   const prc = await get('/prayer-times-in-cape-verde'); const pctx = ctxOf(prc.body);
   check('prayer /prayer-times-in-cape-verde ctx cc=cv (DEPTH-2 intact)', !!pctx && pctx.cc==='cv', pctx?pctx.cc:'(no ctx)');
-  const mc = await get('/moon/cape-verde/praia/today');
-  check('nested moon city /moon/cape-verde/praia/today 200 + NOT a country ctx', mc.status===200 && ctxOf(mc.body)===null, mc.status);
+  const mc = await get('/moon/cape-verde/praia');
+  check('nested moon city hub /moon/cape-verde/praia 200 + NOT a country ctx', mc.status===200 && ctxOf(mc.body)===null, mc.status);
+  const mt = await get('/moon/cape-verde/praia/today');
+  check('removed /moon/cape-verde/praia/today → 410 (no Location)', is410(mt), mt.status+' loc='+mt.loc);
   const hub = await get('/moon');
   check('global /moon hub 200 (unaffected)', hub.status===200, hub.status);
 

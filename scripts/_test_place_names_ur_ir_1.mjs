@@ -13,6 +13,7 @@
 //   F. Cross-route family: /ur/moon-in-{slug}, /ur/moon-today-in-{slug},
 //      /ur/qibla-in-{slug} all receive the same SSR seed.
 //   G. Regression: critical AR/EN/FR/DE/UR pages from prior phases still work.
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -184,7 +185,7 @@ for (const slug of PRIORITY) {
 // ───────────────────────────────────────────────────────────────────────
 console.log('\n── Part F — Cross-route SSR seed (moon-in / moon-today-in / qibla-in) ──');
 
-const CROSS_ROUTES = ['moon-in', 'moon-today-in', 'qibla-in'];
+const CROSS_ROUTES = ['moon-in', 'qibla-in'];   // MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped (410)
 const CROSS_CITIES = ['karaj', 'zahedan', 'hamadan', 'qaem-shahr'];
 
 for (const slug of CROSS_CITIES) {

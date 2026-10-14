@@ -10,6 +10,7 @@
 //   E. Disk-level: collision/admin-prefix aliases NOT present
 //   F. SSR: 8 priority /ur/prayer-times-in-{slug} pages render correct Urdu seed
 //   G. SSR: cross-route family (moon-in/moon-today-in/qibla-in) on 4 priority cities
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -242,7 +243,7 @@ for (const slug of PRIORITY) {
 console.log('\n── Part G — Cross-route SSR seed (moon-in/moon-today-in/qibla-in) ──');
 
 const CROSS_CITIES = ['bahawalnagar','chishtian','sargodha','sukkur'];
-const CROSS_ROUTES = ['moon-in', 'moon-today-in', 'qibla-in'];
+const CROSS_ROUTES = ['moon-in', 'qibla-in'];   // MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped (410)
 
 for (const slug of CROSS_CITIES) {
     const expected = EXPECTED_UR[slug];

@@ -20,6 +20,7 @@
 //   A. Disk source markers (server.js regex + cache-buster bump).
 //   B. SSR seed injection on 12 sample URLs across 4 route families × 3 langs.
 //   C. Regression: homepage / moon-today hub / qibla hub still serve normally.
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 
 import http from 'node:http';
 import { readFileSync } from 'node:fs';
@@ -92,10 +93,7 @@ const URLS = [
     { url: '/ur/moon-in-charikar',          expected: 'چاریکار' },
     { url: '/fr/moon-in-london',            expected: 'Londres' },
     { url: '/tr/moon-in-makkah',            expected: 'Mekke' },
-    // /moon-today-in-{slug} family (NEW)
-    { url: '/ur/moon-today-in-charikar',    expected: 'چاریکار' },
-    { url: '/fr/moon-today-in-london',      expected: 'Londres' },
-    { url: '/tr/moon-today-in-makkah',      expected: 'Mekke' },
+    // MOON-DAY-PAGES-REMOVAL-1: the /moon-today-in-{slug} family is removed (410) → dropped from this list.
     // /qibla-in-{slug} family (NEW)
     { url: '/ur/qibla-in-charikar',         expected: 'چاریکار' },
     { url: '/fr/qibla-in-london',           expected: 'Londres' },

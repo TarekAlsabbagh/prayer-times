@@ -9,6 +9,8 @@
 //
 // Discovered pages STAY noindex; curated pages STAY index and unchanged. Coords/qibla-calc unchanged.
 // Spawns `node server.js` with Supabase DISABLED + the inert test seam (DISCOVERED_SSR_TEST_FIXTURE).
+// MOON-DAY-PAGES-REMOVAL-1: the Fix N moon title is read from the discovered city's HUB (/moon-in-orig-only-city,
+//   redirects followed → /moon/algeria/orig-only-city); /moon-today-in-orig-only-city → 410 (no-follow request).
 // Run: node scripts/_smoke_discovered_qibla_and_name_fallback_fix_1.mjs
 
 import http from 'node:http';
@@ -37,6 +39,11 @@ function get(p, depth){return new Promise((res)=>{http.get({host:'localhost',por
     if([301,302,307,308].includes(r.statusCode) && r.headers.location && (depth||0)<3){ r.resume(); const loc=r.headers.location.replace(/^https?:\/\/[^/]+/,''); return res(get(loc,(depth||0)+1)); }
     let b='';r.on('data',c=>b+=c);r.on('end',()=>res({status:r.statusCode,body:b}));
 }).on('error',()=>res({status:0,body:''}));});}
+// MOON-DAY-PAGES-REMOVAL-1: no-follow variant (a removed day/today page must answer 410 in ONE response, no Location)
+function getNoFollow(p){return new Promise((res)=>{http.get({host:'localhost',port:PORT,path:p},r=>{
+    let b='';r.on('data',c=>b+=c);r.on('end',()=>res({status:r.statusCode,loc:r.headers.location||'',body:b}));
+}).on('error',()=>res({status:0,loc:'',body:''}));});}
+const is410=(r)=>r.status===410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body);
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 async function waitReady(t){const t0=Date.now();while(Date.now()-t0<t){const r=await get('/health');if(r.status===200)return true;await sleep(400);}return false;}
 let pass=0,fail=0;
@@ -73,8 +80,12 @@ try {
     check('AR orig-only qibla title does NOT leak names.en', !or.title.includes('Orig Only City'));
     const orP = await page('/prayer-times-in-orig-only-city');
     check('AR orig-only PRAYER title also uses originalName (Fix N cross-route)', orP.title.includes('مدينة الاسم الأصلي'), orP.title);
-    const orM = await page('/moon-today-in-orig-only-city');
-    check('AR orig-only MOON title also uses originalName (Fix N cross-route)', orM.title.includes('مدينة الاسم الأصلي'), orM.title);
+    // MOON-DAY-PAGES-REMOVAL-1: the moon today page is removed → read the moon title off the discovered HUB
+    //   (legacy hub /moon-in-orig-only-city 301s to the nested hub /moon/algeria/orig-only-city; get() follows).
+    const orM = await page('/moon-in-orig-only-city');
+    check('AR orig-only MOON hub title also uses originalName (Fix N cross-route)', orM.http === 200 && orM.title.includes('مدينة الاسم الأصلي'), orM.http + ' ' + orM.title);
+    const orMT = await getNoFollow('/moon-today-in-orig-only-city');
+    check('AR /moon-today-in-orig-only-city (discovered) → 410 in ONE response (no Location)', is410(orMT), orMT.status + ' loc=' + orMT.loc);
 
     // ── en-only: no Arabic anywhere → ar must NOT leak names.en; en page uses names.en ──
     console.log('\n── en-only discovered (no ar/alias/orig) ──');

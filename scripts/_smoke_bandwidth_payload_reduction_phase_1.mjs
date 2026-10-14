@@ -6,7 +6,8 @@
    §3 developer HTML comments are gone from every family; only the KEEP list survives
    §4 js/azkar-data.js / js/azkar-prayer-ui-l10n.js ship only on the azkar list routes
    §5 sw.js precache lists no obsolete URL; CACHE_VERSION unchanged
-   §6 /audio/adhan.mp3 honours a single byte range; the open-ended bytes=0- stays the cacheable 200 */
+   §6 /audio/adhan.mp3 honours a single byte range; the open-ended bytes=0- stays the cacheable 200
+   MOON-DAY-PAGES-REMOVAL-1: the day page /moon/egypt/cairo/2026/10/02 (now 410) → the month /moon/egypt/cairo/2026/10 in §3/§4. */
 import fs from 'fs';
 import vm from 'vm';
 
@@ -72,7 +73,7 @@ console.log('\n--- §2 _pageKeepGuardOk fails safe (unit test on the server.js s
 
 console.log('\n--- §3 developer HTML comments are stripped (KEEP list only) ---');
 for (const p of ['/', '/en', '/prayer-times-in-riyadh', '/en/qibla-in-cairo', '/time-left-until-next-prayer-in-riyadh', '/de/next-prayer-in-berlin',
-    '/moon', '/en/moon/egypt/cairo/2026/10', '/moon/egypt/cairo/2026/10/02', '/hijri-date/1448-04-10', '/en/today-hijri-date', '/hijri-calendar/1448',
+    '/moon', '/en/moon/egypt/cairo/2026/10', '/moon/egypt/cairo/2026/10', '/hijri-date/1448-04-10', '/en/today-hijri-date', '/hijri-calendar/1448',
     '/azkar', '/azkar/morning-azkar', '/en/azkar/prayer-azkar', '/quran', '/quran/al-baqarah', '/ramadan-countdown', '/zakat-calculator', '/msbaha',
     '/date-converter', '/prayer-times-worldwide', '/prayer-times-in-egypt', '/en/moon/egypt', '/en/guides', '/en/privacy']) {
     const r = await get(p);
@@ -86,7 +87,7 @@ for (const p of ['/', '/en', '/prayer-times-in-riyadh', '/en/qibla-in-cairo', '/
 console.log('\n--- §4 azkar data scripts only on the azkar list routes ---');
 for (const [p, data, l10n] of [['/azkar/morning-azkar', true, false], ['/en/azkar/evening-azkar', true, false], ['/azkar/prayer-azkar', true, true], ['/bn/azkar/prayer-azkar', true, true],
     ['/azkar', false, false], ['/', false, false], ['/prayer-times-in-riyadh', false, false], ['/time-left-until-next-prayer-in-riyadh', false, false], ['/en/next-prayer-in-london', false, false],
-    ['/qibla-in-cairo', false, false], ['/moon/egypt/cairo/2026/10/02', false, false], ['/hijri-date/1448-04-10', false, false], ['/quran/al-baqarah', false, false], ['/ramadan-countdown', false, false]]) {
+    ['/qibla-in-cairo', false, false], ['/moon/egypt/cairo/2026/10', false, false], ['/hijri-date/1448-04-10', false, false], ['/quran/al-baqarah', false, false], ['/ramadan-countdown', false, false]]) {
     const r = await get(p);
     const hasD = /<script\b[^>]*\bsrc="\/?js\/azkar-data\.js/.test(r.text), hasL = /<script\b[^>]*\bsrc="\/?js\/azkar-prayer-ui-l10n\.js/.test(r.text);
     ok(hasD === data && hasL === l10n, `${p}: azkar-data ${hasD ? 'present' : 'absent'}, l10n ${hasL ? 'present' : 'absent'}`);

@@ -10,6 +10,8 @@
 // Runtime (no spinner→grid growth; cards reused not rebuilt; search/click/pagination work; mobile/RTL)
 // is browser-verified in the PRE-PUSH. This smoke pins the SSR output + the client/server source guards
 // + the scope guards (prayer page unchanged, moon.js / SEO untouched).
+// MOON-DAY-PAGES-REMOVAL-1: the SSR first-page city cards link the nested city HUB /[lang/]moon/{country}/{slug}
+//   (never /today); 0 /today inside #cities-container. The card label text is unchanged.
 //
 // Run: node scripts/_smoke_moon_country_cities_box_cls_fix_1.mjs
 import http from 'node:http';
@@ -40,6 +42,7 @@ const h1Of = (b) => { const m = b.match(/<h1[^>]*>([\s\S]*?)<\/h1>/); return m ?
 // the #cities-container inner segment (up to the pagination sibling)
 const containerSeg = (b) => { const m = b.match(/id="cities-container"[^>]*>([\s\S]*?)<div class="pagination"/); return m ? m[0] : ''; };
 const cardCount = (seg) => (seg.match(/class="city-link"/g) || []).length;
+const cardHrefs = (seg) => [...seg.matchAll(/<a class="city-link" href="([^"]*)"/g)].map(m => m[1]);
 
 const TPL = fs.readFileSync(path.join(ROOT, 'prayer-times-cities.html'), 'utf8');
 const SRV = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
@@ -55,11 +58,14 @@ const MOONJS = fs.readFileSync(path.join(ROOT, 'js', 'moon.js'), 'utf8');
         const sa = (await req('/moon/saudi-arabia')).body; const saSeg = containerSeg(sa);
         check('AR /moon/saudi-arabia #cities-container has data-ssr-grid="1"', /id="cities-container"[^>]*data-ssr-grid="1"/.test(sa));
         check('  …ships 26 real .city-link cards (PER_PAGE), NOT a spinner', cardCount(saSeg) === 26 && !/class="spinner"/.test(saSeg), String(cardCount(saSeg)));
-        // MOON-COUNTRY-CITY-LINKS-NESTED-FRIENDLY-FIX-1: city cards now use the NESTED direct today URL
-        // /moon/{country}/{city}/today (was legacy /moon-today-in-{city} which 301-redirected).
-        check('  …first card = city link with data-slug + nested moon href + AR label', /<a class="city-link" href="\/moon\/saudi-arabia\/[a-z-]+\/today" data-slug="[a-z-]+">قمر اليوم في /.test(saSeg));
+        // MOON-COUNTRY-CITY-LINKS-NESTED-FRIENDLY-FIX-1: city cards use the NESTED moon URL (was legacy /moon-today-in-{city}).
+        // MOON-DAY-PAGES-REMOVAL-1: the card target is the nested city HUB /moon/{country}/{city} (the /today page is 410);
+        //   the card label text stays as it was.
+        check('  …first card = city link with data-slug + nested moon HUB href + AR label', /<a class="city-link" href="\/moon\/saudi-arabia\/[a-z0-9-]+" data-slug="[a-z0-9-]+">قمر اليوم في /.test(saSeg));
+        check('  …ALL cards → ^/moon/saudi-arabia/{slug}$ (hub) + 0 /today in #cities-container', cardHrefs(saSeg).length === 26 && cardHrefs(saSeg).every(h => /^\/moon\/saudi-arabia\/[a-z0-9-]+$/.test(h)) && !saSeg.includes('/today'), cardHrefs(saSeg).filter(h => !/^\/moon\/saudi-arabia\/[a-z0-9-]+$/.test(h)).slice(0, 3).join(' '));
         const egEn = (await req('/en/moon/egypt')).body; const egSeg = containerSeg(egEn);
-        check('EN /en/moon/egypt cards use EN label + nested /en/ href prefix', /<a class="city-link" href="\/en\/moon\/egypt\/[a-z-]+\/today" data-slug="[a-z-]+">Moon Today in /.test(egSeg) && cardCount(egSeg) === 26);
+        check('EN /en/moon/egypt cards use EN label + nested /en/ HUB href prefix', /<a class="city-link" href="\/en\/moon\/egypt\/[a-z0-9-]+" data-slug="[a-z0-9-]+">Moon Today in /.test(egSeg) && cardCount(egSeg) === 26);
+        check('  …ALL EN cards → ^/en/moon/egypt/{slug}$ (hub) + 0 /today in #cities-container', cardHrefs(egSeg).length === 26 && cardHrefs(egSeg).every(h => /^\/en\/moon\/egypt\/[a-z0-9-]+$/.test(h)) && !egSeg.includes('/today'), cardHrefs(egSeg).filter(h => !/^\/en\/moon\/egypt\/[a-z0-9-]+$/.test(h)).slice(0, 3).join(' '));
 
         // ── B) count-aware (small countries: exactly their cards — no padding/gap) ──
         console.log('\n── B) count-aware first page (no gap for small countries) ──');

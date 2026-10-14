@@ -89,8 +89,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=509" as="style">
-    <link rel="stylesheet" href="css/style.css?v=509">
+    <link rel="preload" href="css/style.css?v=510" as="style">
+    <link rel="stylesheet" href="css/style.css?v=510">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -1235,7 +1235,7 @@
                            title="🌙 استكشف القمر"
                            aria-label="استكشف القمر"
                           ><svg class="icon" aria-hidden="true"><use href="#i-moon"/></svg> <span data-i18n="moon.explore_hub">استكشف القمر</span></a>
-                        <a class="mtc-cta mtc-cta-ghost" id="mtc-cta" href="/moon/saudi-arabia/makkah/today"
+                        <a class="mtc-cta mtc-cta-ghost" id="mtc-cta" href="/moon/saudi-arabia/makkah"
                            data-i18n-title="moon.view_in_city"
                            data-i18n-aria-label="moon.view_in_city"
                            title="في مدينتك"
@@ -1899,20 +1899,7 @@
                      button now reads "اليوم المعروض" + date sub-line
                      (status card style), instead of "اليوم" + home icon
                      that looked like another nav button. -->
-                <nav class="moon-date-nav" id="moon-date-nav" aria-label="Moon date navigation" hidden>
-                    <a class="moon-date-link moon-date-prev" id="moon-date-prev" href="#" rel="prev">
-                        <span class="moon-date-label" data-i18n="moon.prev_day">اليوم السابق</span>
-                        <span class="moon-date-sub" id="moon-date-prev-sub"></span>
-                    </a>
-                    <a class="moon-date-link moon-date-today-link" id="moon-date-today" href="#">
-                        <span class="moon-date-label" data-i18n="moon.current_date">اليوم المعروض</span>
-                        <span class="moon-date-sub" id="moon-date-today-sub"></span>
-                    </a>
-                    <a class="moon-date-link moon-date-next" id="moon-date-next" href="#" rel="next">
-                        <span class="moon-date-label" data-i18n="moon.next_day">اليوم التالي</span>
-                        <span class="moon-date-sub" id="moon-date-next-sub"></span>
-                    </a>
-                </nav>
+                <!-- MOON-DAY-PAGES-REMOVAL-1: the previous/today/next DAY navigation bar is removed (day pages are gone). -->
 
                 <!-- القسم الرئيسيّ — الحالة الحاليّة -->
                 <div class="section-card" id="moon-main-card">
@@ -2133,7 +2120,7 @@
                     <h2 id="moon-chart-h2"><svg class="icon icon-md" aria-hidden="true"><use href="#i-trending-up"/></svg> <span data-i18n="moon.chart_title">مخطط إضاءة القمر — 7 أيام</span></h2>
                     <div class="moon-chart-subtitle" id="moon-chart-subtitle" data-i18n="moon.chart_subtitle">نسبة الإضاءة المرئية من ثلاثة أيام قبل إلى ثلاثة أيام بعد</div>
                     <div class="moon-chart-container" id="moon-chart-container" role="img" aria-label="Moon illumination 7-day trend"></div>
-                    <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">اضغط على أي نقطة للانتقال إلى صفحة ذلك اليوم.</p>
+                    <p class="moon-chart-caption" id="moon-chart-caption" data-i18n="moon.chart_caption">مرّر المؤشر أو المس أي نقطة لعرض تفاصيل القمر في ذلك اليوم.</p>
                 </section>
 
                 <!-- 14-day forecast -->
@@ -2162,18 +2149,18 @@
                 <div class="section-card" id="moon-other-cities">
                     <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-globe"/></svg> <span data-i18n="moon.cities_title">القمر اليوم في مدن أخرى</span></h2>
                     <ul class="moon-cities-grid">
-                        <li><a href="/moon/saudi-arabia/makkah/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
-                        <li><a href="/moon/saudi-arabia/medina/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
-                        <li><a href="/moon/saudi-arabia/riyadh/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
-                        <li><a href="/moon/egypt/cairo/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="Egypt flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
-                        <li><a href="/moon/united-arab-emirates/dubai/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="United Arab Emirates flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
-                        <li><a href="/moon/turkey/istanbul/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="Turkey flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
-                        <li><a href="/moon/indonesia/jakarta/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="Indonesia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
-                        <li><a href="/moon/pakistan/karachi/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="Pakistan flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
-                        <li><a href="/moon/united-kingdom/london/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="United Kingdom flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
-                        <li><a href="/moon/france/paris/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
-                        <li><a href="/moon/united-states/new-york/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="United States flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
-                        <li><a href="/moon/malaysia/kuala-lumpur/today"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="Malaysia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
+                        <li><a href="/moon/saudi-arabia/makkah"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.mecca">مكة المكرمة</span></a></li>
+                        <li><a href="/moon/saudi-arabia/medina"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.medina">المدينة المنورة</span></a></li>
+                        <li><a href="/moon/saudi-arabia/riyadh"><img class="moon-city-flag" src="https://flagcdn.com/w40/sa.png" alt="Saudi Arabia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.riyadh">الرياض</span></a></li>
+                        <li><a href="/moon/egypt/cairo"><img class="moon-city-flag" src="https://flagcdn.com/w40/eg.png" alt="Egypt flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.cairo">القاهرة</span></a></li>
+                        <li><a href="/moon/united-arab-emirates/dubai"><img class="moon-city-flag" src="https://flagcdn.com/w40/ae.png" alt="United Arab Emirates flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.dubai">دبي</span></a></li>
+                        <li><a href="/moon/turkey/istanbul"><img class="moon-city-flag" src="https://flagcdn.com/w40/tr.png" alt="Turkey flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.istanbul">إسطنبول</span></a></li>
+                        <li><a href="/moon/indonesia/jakarta"><img class="moon-city-flag" src="https://flagcdn.com/w40/id.png" alt="Indonesia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.jakarta">جاكرتا</span></a></li>
+                        <li><a href="/moon/pakistan/karachi"><img class="moon-city-flag" src="https://flagcdn.com/w40/pk.png" alt="Pakistan flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.karachi">كراتشي</span></a></li>
+                        <li><a href="/moon/united-kingdom/london"><img class="moon-city-flag" src="https://flagcdn.com/w40/gb.png" alt="United Kingdom flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.london">لندن</span></a></li>
+                        <li><a href="/moon/france/paris"><img class="moon-city-flag" src="https://flagcdn.com/w40/fr.png" alt="France flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.paris">باريس</span></a></li>
+                        <li><a href="/moon/united-states/new-york"><img class="moon-city-flag" src="https://flagcdn.com/w40/us.png" alt="United States flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.new_york">نيويورك</span></a></li>
+                        <li><a href="/moon/malaysia/kuala-lumpur"><img class="moon-city-flag" src="https://flagcdn.com/w40/my.png" alt="Malaysia flag" aria-hidden="true" width="24" height="18" loading="lazy" decoding="async"><span class="moon-city-name" data-i18n="city.kuala_lumpur">كوالالمبور</span></a></li>
                     </ul>
                 </div>
 
@@ -2493,19 +2480,7 @@
                      today's detail page, today's Hijri). 4 paragraphs +
                      4 internal cross-links. Adds ~200 words → today-in-city
                      rises from ~550 to ~750 (target 700-1000). -->
-                <div class="section-card moon-today-city-edu" id="moon-today-city-edu">
-                    <h2><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span class="moon-tdc-edu-title">—</span></h2>
-                    <p class="moon-tdc-edu-p1">—</p>
-                    <p class="moon-tdc-edu-p2">—</p>
-                    <p class="moon-tdc-edu-p3">—</p>
-                    <p class="moon-tdc-edu-p4">—</p>
-                    <ul class="moon-tdc-edu-links" aria-label="related">
-                        <li><a class="moon-tdc-edu-link-1" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📅</span><span class="moon-tdc-edu-label">—</span></a></li>
-                        <li><a class="moon-tdc-edu-link-2" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🌙</span><span class="moon-tdc-edu-label">—</span></a></li>
-                        <li><a class="moon-tdc-edu-link-3" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">📆</span><span class="moon-tdc-edu-label">—</span></a></li>
-                        <li><a class="moon-tdc-edu-link-4" href="#"><span class="moon-tdc-edu-icon" aria-hidden="true">🗓️</span><span class="moon-tdc-edu-label">—</span></a></li>
-                    </ul>
-                </div>
+                <!-- MOON-DAY-PAGES-REMOVAL-1: the today-page edu block (#moon-today-city-edu) is removed with the today page. -->
 
                 <!-- UAT-SEO-Phase-B1: date-page educational section — Hijri context.
                      Visible ONLY on /moon-in-{city}/{YYYY-MM-DD} via CSS gate
@@ -5502,7 +5477,7 @@
     <script nonce="__TP_CSP_NONCE__" defer src="js/hijri-date.js?v=44"></script>
     <script nonce="__TP_CSP_NONCE__" defer src="js/qibla.js?v=44"></script>
     <script nonce="__TP_CSP_NONCE__" defer src="js/moon.js?v=55"></script>
-    <script nonce="__TP_CSP_NONCE__" defer src="js/moon-chart.js?v=12"></script>
+    <script nonce="__TP_CSP_NONCE__" defer src="js/moon-chart.js?v=13"></script>
     <!-- Legacy duas.js retained as deprecated compat shim — superseded by
          js/azkar-data.js (AZKAR-RESTRUCTURE-MORNING-PHASE-1, 2026-05-25).
          Will be removed in a future Phase 2 cleanup. -->
@@ -5512,8 +5487,8 @@
          Its own ?v= counter, independent of azkar-data.js so UI edits never bump the card-data buster. -->
     <script nonce="__TP_CSP_NONCE__" defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
-    <script nonce="__TP_CSP_NONCE__" defer src="js/site-search.js?v=4"></script>
-    <script nonce="__TP_CSP_NONCE__" defer src="js/app.js?v=847"></script>
+    <script nonce="__TP_CSP_NONCE__" defer src="js/site-search.js?v=6"></script>
+    <script nonce="__TP_CSP_NONCE__" defer src="js/app.js?v=849"></script>
     <script nonce="__TP_CSP_NONCE__" defer src="js/footer-cookie.js?v=8"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

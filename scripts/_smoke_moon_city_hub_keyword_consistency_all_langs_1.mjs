@@ -9,6 +9,9 @@
 // title keeps NO «اليوم»/today → stays distinct from the /today page. Length ladders still _fit to
 // 50–60 (title) / 120–160 (meta). No design/H1/canonical/route change.
 //
+// MOON-DAY-PAGES-REMOVAL-1: the /today page is removed (410) → its title checks are deleted; the hub
+//   "no «اليوم»/Today" checks stay (hub title/meta unchanged).
+//
 // Run: node scripts/_smoke_moon_city_hub_keyword_consistency_all_langs_1.mjs
 import http from 'node:http';
 import fs from 'node:fs';
@@ -53,15 +56,12 @@ const cityTok = {ar:'الرياض',en:'Riyadh',fr:'Riyad',tr:'Riyad',ur:'ریا�
             check(`${l}: T=${tn}[50-60] M=${dn}[120-160] +calendar +hijri +city`, ok, `T="${t}"`);
         }
 
-        console.log('\n── B) hub↔today differentiation (city HUB has NO «اليوم»/today; /today page DOES) ──');
+        // MOON-DAY-PAGES-REMOVAL-1: the /today page is gone (410) → only the hub side of the differentiation remains.
+        console.log('\n── B) city HUB title has NO «اليوم»/today ──');
         const arHub = titleOf(await req('/moon/saudi-arabia/riyadh'));
-        const arToday = titleOf(await req('/moon/saudi-arabia/riyadh/today'));
         const enHub = titleOf(await req('/en/moon/saudi-arabia/riyadh'));
-        const enToday = titleOf(await req('/en/moon/saudi-arabia/riyadh/today'));
         check('AR city-hub title has NO «اليوم»', !arHub.includes('اليوم'), arHub);
-        check('AR /today title HAS «اليوم» (still distinct)', arToday.includes('اليوم'), arToday);
         check('EN city-hub title has NO "Today"', !/\bToday\b/i.test(enHub), enHub);
-        check('EN /today title HAS "Today"', /\bToday\b/i.test(enToday), enToday);
 
         console.log('\n── C) one H1 + canonical self + indexable (city hub) ──');
         const sa = await req('/moon/saudi-arabia/riyadh');
@@ -69,7 +69,7 @@ const cityTok = {ar:'الرياض',en:'Riyadh',fr:'Riyad',tr:'Riyad',ur:'ریا�
         check('city-hub canonical self', /\/moon\/saudi-arabia\/riyadh$/.test(canonOf(sa)), canonOf(sa));
         check('city-hub indexable (no noindex)', !/<meta name="robots"[^>]*noindex/i.test(sa));
 
-        console.log('\n── D) scope: hub / country / today / year UNCHANGED ──');
+        console.log('\n── D) scope: hub / country / year UNCHANGED ──');
         check('global /moon hub title unchanged (keeps «اليوم» — different page)', /^حالة القمر اليوم: طور القمر وتقويم القمر والشهر الهجري$/.test(titleOf(await req('/moon'))));
         check('country /moon/saudi-arabia title unchanged', /^مراحل القمر في المملكة العربية السعودية/.test(titleOf(await req('/moon/saudi-arabia'))));
         check('year page title unchanged (has 2026)', /2026/.test(titleOf(await req('/moon/saudi-arabia/riyadh/2026'))));

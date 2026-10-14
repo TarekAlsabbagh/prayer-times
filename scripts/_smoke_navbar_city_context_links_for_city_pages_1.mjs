@@ -7,6 +7,11 @@
 // date-converter) stay generic everywhere. SSR-only (the client SPA already navigates
 // city-aware by data-page; this aligns the href). Lang prefix is preserved on /en/… .
 //
+// MOON-DAY-PAGES-REMOVAL-1: on curated city pages the moon nav === the nested HUB /moon/{country}/{slug} (+/en),
+//   never /today and never /moon-today-in-; the /moon-today-in-an-nabiah page row is dropped (prayer-times-in-an-nabiah
+//   already covers it); §5 checks /moon/saudi-arabia/an-nabiah → 200 and the legacy today → 410. (This file was
+//   already RED on the base: it still expected /moon-today-in- nav hrefs and a 200 on the 301ing legacy today.)
+//
 // Run: node scripts/_smoke_navbar_city_context_links_for_city_pages_1.mjs
 
 import http from 'node:http';
@@ -27,10 +32,11 @@ function get(p) {
         const r = http.request({ host: 'localhost', port: PORT, path: p, method: 'GET', headers: { 'Accept-Encoding': 'identity' } }, res => {
             let b = ''; res.on('data', c => b += c); res.on('end', () => resolve({ status: res.statusCode, body: b, loc: res.headers.location || '' }));
         });
-        r.on('error', () => resolve({ status: 0, body: '' }));
+        r.on('error', () => resolve({ status: 0, body: '', loc: '' }));
         r.end();
     });
 }
+const is410 = (r) => r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body);
 const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 async function waitReady(ms) { const t0 = Date.now(); while (Date.now() - t0 < ms) { const r = await get('/health'); if (r.status === 200) return true; await sleep(400); } return false; }
 async function navOf(p) {
@@ -47,12 +53,13 @@ try {
     if (!await waitReady(20000)) { console.error('✗ not ready'); s.kill('SIGKILL'); process.exit(1); }
 
     // ── 1) Curated city pages → city-specific prayer/qibla/moon nav ──
-    for (const [route, slug] of [['/prayer-times-in-an-nabiah', 'an-nabiah'], ['/qibla-in-an-nabiah', 'an-nabiah'], ['/moon-today-in-an-nabiah', 'an-nabiah'], ['/prayer-times-in-makkah', 'makkah']]) {
+    // MOON-DAY-PAGES-REMOVAL-1: [route, slug, country slug]; moon nav = the nested city HUB (never /today).
+    for (const [route, slug, cs] of [['/prayer-times-in-an-nabiah', 'an-nabiah', 'saudi-arabia'], ['/qibla-in-an-nabiah', 'an-nabiah', 'saudi-arabia'], ['/prayer-times-in-makkah', 'makkah', 'saudi-arabia']]) {
         console.log(`-- curated page ${route} --`);
         const n = await navOf(route);
         check(`${route}: prayer-times → /prayer-times-in-${slug}`, n['prayer-times'] === '/prayer-times-in-' + slug, n['prayer-times']);
         check(`${route}: qibla → /qibla-in-${slug}`, n['qibla'] === '/qibla-in-' + slug, n['qibla']);
-        check(`${route}: moon → /moon-today-in-${slug}`, n['moon'] === '/moon-today-in-' + slug, n['moon']);
+        check(`${route}: moon → /moon/${cs}/${slug} (nested hub, never /today)`, n['moon'] === '/moon/' + cs + '/' + slug, n['moon']);
         // non-city-bound items stay generic
         check(`${route}: zakat stays generic /zakat-calculator`, n['zakat'] === '/zakat-calculator', n['zakat']);
         check(`${route}: azkar stays generic /azkar`, n['azkar'] === '/azkar', n['azkar']);
@@ -77,7 +84,7 @@ try {
     const en = await navOf('/en/prayer-times-in-an-nabiah');
     check('EN: prayer-times → /en/prayer-times-in-an-nabiah', en['prayer-times'] === '/en/prayer-times-in-an-nabiah', en['prayer-times']);
     check('EN: qibla → /en/qibla-in-an-nabiah', en['qibla'] === '/en/qibla-in-an-nabiah', en['qibla']);
-    check('EN: moon → /en/moon-today-in-an-nabiah', en['moon'] === '/en/moon-today-in-an-nabiah', en['moon']);
+    check('EN: moon → /en/moon/saudi-arabia/an-nabiah (nested hub, never /today)', en['moon'] === '/en/moon/saudi-arabia/an-nabiah', en['moon']);
     check('EN: zakat stays generic /en/zakat-calculator', en['zakat'] === '/en/zakat-calculator', en['zakat']);
 
     // ── 4) NON-curated city → fallback to generic hubs (no city-specific build) ──
@@ -94,9 +101,14 @@ try {
 
     // ── 5) routes resolve 200 (no redirect-to-home) ──
     console.log('-- routes resolve --');
-    for (const route of ['/prayer-times-in-an-nabiah', '/qibla-in-an-nabiah', '/moon-today-in-an-nabiah']) {
+    for (const route of ['/prayer-times-in-an-nabiah', '/qibla-in-an-nabiah', '/moon/saudi-arabia/an-nabiah']) {
         const r = await get(route);
         check(`${route} → 200`, r.status === 200, r.status);
+    }
+    // MOON-DAY-PAGES-REMOVAL-1: the legacy per-city today page is removed → 410 in ONE response (no Location).
+    for (const route of ['/moon-today-in-an-nabiah', '/en/moon-today-in-an-nabiah']) {
+        const r = await get(route);
+        check(`${route} → 410 (removed, no Location)`, is410(r), `${r.status} loc=${r.loc}`);
     }
 
     // ── 6) curated-source-of-truth = _findPlaceBySlug (server.js) ──

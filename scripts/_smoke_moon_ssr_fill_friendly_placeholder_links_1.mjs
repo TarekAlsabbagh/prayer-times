@@ -12,6 +12,10 @@
 // 8 is browser-verified in the PRE-PUSH. This smoke pins the SSR output + the server.js source guard +
 // the "left as #" exclusion + the no-app.js-change / no-cache-buster invariants.
 //
+// MOON-DAY-PAGES-REMOVAL-1: today/day pages (410) dropped from pages; on the HUB the <li>s holding related-1 and
+//   edu-link-today are removed in SSR (asserted absent), on the MONTH page both → {lp}/moon/saudi-arabia/riyadh (hub).
+//   related-2/3/5/6 + sticky checks kept. The v=805 pin (§E) is a pre-existing RED, untouched.
+//
 // Run: node scripts/_smoke_moon_ssr_fill_friendly_placeholder_links_1.mjs
 import http from 'node:http';
 import fs from 'node:fs';
@@ -50,23 +54,29 @@ const IDX = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
         if (!await waitReady(25000)) { console.error('✗ server not ready'); s.kill('SIGKILL'); process.exit(1); }
 
         const CITY = '/moon/saudi-arabia/riyadh';
+        // MOON-DAY-PAGES-REMOVAL-1: the today/day pages are removed (410) → not in the page list; 4th field = kind.
         const pages = [
-            ['AR hub', CITY, ''],
-            ['EN hub', '/en' + CITY, '/en'],
-            ['AR today', CITY + '/today', ''],
-            ['AR month', CITY + '/2026/06', ''],
-            ['AR day', CITY + '/2026/06/14', ''],
+            ['AR hub', CITY, '', 'hub'],
+            ['EN hub', '/en' + CITY, '/en', 'hub'],
+            ['AR month', CITY + '/2026/06', '', 'month'],
         ];
+        const hasClass = (h, cls) => new RegExp('class="[^"]*\\b' + cls + '\\b').test(h);
 
         // ── A) the 8 deterministic placeholders are SSR-filled with real nested hrefs (not "#") ──
         console.log('── A) 8 deterministic placeholders filled in SSR (per page, lang-prefixed) ──');
-        for (const [name, p, lp] of pages) {
+        for (const [name, p, lp, kind] of pages) {
             const h = (await req(p)).body;
             // none of the 8 is "#"
             const stillHash = FILLED.filter(c => hrefOf(h, c) === '#');
             check(`${name}: all 8 placeholders have a real href (none "#")`, stillHash.length === 0, stillHash.join(',') || 'all filled');
-            // exact nested today + prayer/qibla/time-left with correct lang prefix
-            check(`${name}: related-1/edu-today → ${lp}/moon/saudi-arabia/riyadh/today`, hrefOf(h, 'moon-hub-related-1') === lp + '/moon/saudi-arabia/riyadh/today' && hrefOf(h, 'moon-city-hub-edu-link-today') === lp + '/moon/saudi-arabia/riyadh/today', hrefOf(h, 'moon-hub-related-1'));
+            // MOON-DAY-PAGES-REMOVAL-1: related-1 / edu-link-today never → /today. HUB: their <li>s are removed in SSR
+            //   (would be self-links); MONTH: both → the city hub. prayer/qibla/time-left unchanged, lang-prefixed.
+            if (kind === 'hub') {
+                check(`${name}: related-1 + edu-link-today absent on the hub (<li>s removed in SSR)`, !hasClass(h, 'moon-hub-related-1') && !hasClass(h, 'moon-city-hub-edu-link-today'), `related-1=${hrefOf(h, 'moon-hub-related-1')} edu-today=${hrefOf(h, 'moon-city-hub-edu-link-today')}`);
+            } else {
+                check(`${name}: related-1/edu-today → ${lp}/moon/saudi-arabia/riyadh (hub, never /today)`, hrefOf(h, 'moon-hub-related-1') === lp + '/moon/saudi-arabia/riyadh' && hrefOf(h, 'moon-city-hub-edu-link-today') === lp + '/moon/saudi-arabia/riyadh', `${hrefOf(h, 'moon-hub-related-1')} | ${hrefOf(h, 'moon-city-hub-edu-link-today')}`);
+            }
+            check(`${name}: 0 href ending in /today`, !/href="[^"]*\/today"/.test(h), ((h.match(/href="[^"]*\/today"/g) || [])[0]) || '0');
             check(`${name}: related-5 → ${lp}/prayer-times-in-riyadh`, hrefOf(h, 'moon-hub-related-5') === lp + '/prayer-times-in-riyadh');
             check(`${name}: related-6 → ${lp}/qibla-in-riyadh`, hrefOf(h, 'moon-hub-related-6') === lp + '/qibla-in-riyadh');
             check(`${name}: sticky → ${lp}/time-left-until-next-prayer-in-riyadh`, hrefOf(h, 'sticky-next-bar') === lp + '/time-left-until-next-prayer-in-riyadh');

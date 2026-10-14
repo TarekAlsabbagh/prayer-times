@@ -7,6 +7,7 @@
 // month(s) this Gregorian month spans + an H3 legend of the moon phases ACTUALLY present in the month
 // grid (same MoonCalc engine as the table; AR phase names for ar, English otherwise). MONTH pages only.
 // Server-side: reuses .section-card → no app.js / index.html / css / cache-buster; the table is untouched.
+// MOON-DAY-PAGES-REMOVAL-1: today/day URLs dropped from the §C negative scope list (410 pages pass trivially).
 //
 // Run: node scripts/_smoke_moon_city_month_keyword_consistency_data_driven_context_1.mjs
 import http from 'node:http';
@@ -79,9 +80,9 @@ const CSS = fs.readFileSync(path.join(ROOT, 'css', 'style.css'), 'utf8');
             check(`${name}: canonical self + hreflang present + noindex=false`, /<link rel="canonical"/.test(b) && /hreflang=/.test(b) && !/name="robots"[^>]*noindex/.test(b));
         }
 
-        // ── C) scope: ONLY month pages (not hub/today/day/year/country/home/prayer/qibla) ──
+        // ── C) scope: ONLY month pages (not hub/year/country/home/prayer/qibla; today/day are 410 since MOON-DAY-PAGES-REMOVAL-1) ──
         console.log('\n── C) scope guard — month pages only ──');
-        for (const p of ['/moon/egypt/cairo', '/moon/egypt/cairo/today', '/moon/egypt/cairo/2026/06/14', '/moon/egypt/cairo/2026', '/moon/egypt', '/moon', '/', '/prayer-times-in-cairo', '/qibla-in-cairo']) {
+        for (const p of ['/moon/egypt/cairo', '/moon/egypt/cairo/2026', '/moon/egypt', '/moon', '/', '/prayer-times-in-cairo', '/qibla-in-cairo']) {
             check(`${p}: NO #moon-month-context`, dupCount((await req(p)).body) === 0);
         }
 

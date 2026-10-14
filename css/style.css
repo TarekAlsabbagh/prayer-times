@@ -3927,7 +3927,10 @@ html[data-theme="dark"] #page-qibla #qibla-faq details > p {
     /* Stretch the cell to the row height (set by grid-auto-rows: 1fr) */
     display: flex;
 }
-.moon-hub-cal-cell a { min-width: 0; }
+/* MOON-DAY-PAGES-REMOVAL-1: the month grid cell is a non-link .moon-hub-cal-cell-body (no day pages) —
+   it shares the anchor box/colours below, but never the :hover/:focus affordance. */
+.moon-hub-cal-cell a,
+.moon-hub-cal-cell .moon-hub-cal-cell-body { min-width: 0; }
 /* Cells restore the OLD 3-line content layout (relative label + date + emoji)
    inside a 7-column calendar matrix. Cells are taller than a typical month
    grid so all 3 pieces breathe; the grid still reads as a calendar because
@@ -3938,7 +3941,8 @@ html[data-theme="dark"] #page-qibla #qibla-faq details > p {
    (92 → 100) to comfortably fit the new "{day} {month}" Greg label,
    the Hijri date line, the phase emoji, and the phase name — without
    today/yesterday/tomorrow cells visually growing taller. */
-.moon-hub-cal-cell a {
+.moon-hub-cal-cell a,
+.moon-hub-cal-cell .moon-hub-cal-cell-body {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -4056,7 +4060,8 @@ html[data-theme="dark"] .moon-hub-cal-phase-name {
 html[data-theme="dark"] .moon-hub-cal-watch {
     color: var(--gold-light, #e0c068);
 }
-.moon-hub-cal-cell--today a {
+.moon-hub-cal-cell--today a,
+.moon-hub-cal-cell--today .moon-hub-cal-cell-body {
     background: rgba(46,125,50,0.20);
     border-color: var(--primary);
     border-width: 2px;
@@ -4077,7 +4082,8 @@ html[data-theme="dark"] .moon-hub-cal-watch {
     .moon-hub-calendar-card { padding: 14px 10px; box-sizing: border-box; }
     .moon-hub-cal-grid { gap: 3px; }
     .moon-hub-cal-wd-row { gap: 3px; }
-    .moon-hub-cal-cell a {
+    .moon-hub-cal-cell a,
+    .moon-hub-cal-cell .moon-hub-cal-cell-body {
         min-height: 86px;
         padding: 6px 3px;
         font-size: 0.7rem;
@@ -4108,7 +4114,8 @@ html[data-theme="dark"] .moon-hub-cal-watch {
 @media (max-width: 380px) {
     .moon-hub-calendar-card { padding: 12px 8px; }
     .moon-hub-cal-grid { gap: 2px; }
-    .moon-hub-cal-cell a {
+    .moon-hub-cal-cell a,
+    .moon-hub-cal-cell .moon-hub-cal-cell-body {
         min-height: 64px;
         padding: 4px 1px;
         gap: 1px;
@@ -4120,7 +4127,8 @@ html[data-theme="dark"] .moon-hub-cal-watch {
     .moon-hub-cal-wd { font-size: 0.55rem; }
 }
 /* Dark theme */
-html[data-theme="dark"] .moon-hub-cal-cell a {
+html[data-theme="dark"] .moon-hub-cal-cell a,
+html[data-theme="dark"] .moon-hub-cal-cell .moon-hub-cal-cell-body {
     background: rgba(77,203,140,0.06);
     border-color: rgba(77,203,140,0.18);
 }
@@ -4129,7 +4137,8 @@ html[data-theme="dark"] .moon-hub-cal-cell a:focus {
     background: rgba(77,203,140,0.16);
     border-color: var(--primary-dark);
 }
-html[data-theme="dark"] .moon-hub-cal-cell--today a {
+html[data-theme="dark"] .moon-hub-cal-cell--today a,
+html[data-theme="dark"] .moon-hub-cal-cell--today .moon-hub-cal-cell-body {
     background: rgba(77,203,140,0.22);
     border-color: var(--primary-dark);
 }

@@ -41,6 +41,12 @@
 //   [C]   clock seam TP_MOON_RANGE_TEST_NOW=2027-01-01T00:30:00Z on AFTER and BASE: moon years move to 2026..2028 and the
 //         AFTER moon family === the BASE legacy moon URLs (block-identical, same order, same recomputed shard plan)
 //
+// MOON-DAY-PAGES-REMOVAL-1: kept as a regression tool. The per-city moon /today page is removed (410): the moon family rule
+//   no longer accepts /today; the ONLY approved removals vs BASE are the /[lang/]moon/{c}/{city}/today locs (derived 1,070):
+//   [S1] 176,135 → 175,065 (derived), [S3] removed === exactly the approved set, [S5]/[S16]/[S20] exclude them, [L] per-file
+//   byte identity scoped to legacy files that held none and kept their boundaries + the legacy stream === BASE minus them,
+//   [C] the seam BASE moon set excludes them. [K] stays scoped to SITEMAP-SEMANTIC-PARTITIONING-1's own diff (RED for a later ticket).
+//
 // Usage:  TP_BASE_ROOT=<clean base checkout> node scripts/_smoke_sitemap_semantic_partitioning_1.mjs
 // Env:    TP_BASE_ROOT     clean base checkout (required); its tree must equal <diff base>^{tree}
 //         TP_SSP_DIFF_BASE commit the worktree diff and the base tree are compared against (default HEAD)
@@ -64,7 +70,13 @@ const SITE = 'https://timesprayers.com';
 const AFTER_PORT = 8931, BASE_PORT = 8932, SEAM_PORT = 8933;
 const UA = 'tp-sitemap-semantic-partitioning-smoke/1 (local)';
 // SITEMAP-SEMANTIC-PARTITIONING-1: owner-approved census of the 12bae98 bytes at the 2026-09-15 clock
-const EXPECTED_TOTAL = 176135;
+// MOON-DAY-PAGES-REMOVAL-1: that census is now the BASE side; AFTER = BASE minus the 1,070 /today locs (107 famous moon
+//   cities x 10 locales) — derived, confirm on the first candidate run.
+const EXPECTED_BASE_TOTAL = 176135;
+const EXPECTED_TOTAL = 175065;
+// MOON-DAY-PAGES-REMOVAL-1: the only BASE locs allowed to disappear (removed page → 410)
+const APPROVED_REMOVAL_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z0-9]+(?:-[a-z0-9]+)*\/[a-z0-9]+(?:-[a-z0-9]+)*\/today$/;
+const isApproved = (loc) => APPROVED_REMOVAL_RE.test(String(loc));
 const MAX_URLS = 25000, MAX_BYTES = 35000000;
 const FAMILY_ORDER = ['prayer', 'qibla', 'time-left', 'next-prayer', 'moon', 'hijri', 'quran', 'azkar', 'guides', 'ramadan', 'pages'];
 const LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
@@ -95,7 +107,8 @@ const FAMILY_RULES = [
     ['qibla', new RegExp(`^/qibla(?:-in-${SLUG})?$`)],
     ['time-left', new RegExp(`^/time-left-until-next-prayer-in-${SLUG}$`)],
     ['next-prayer', new RegExp(`^/next-prayer-in-${SLUG}$`)],
-    ['moon', new RegExp(`^/moon(?:/${SLUG}(?:/${SLUG}(?:/(?:today|\\d{4}(?:/(?:0[1-9]|1[0-2]))?))?)?)?$`)],
+    // MOON-DAY-PAGES-REMOVAL-1: no 'today' alternative — a /today loc is UNCLASSIFIED (FAILS [S5] on AFTER)
+    ['moon', new RegExp(`^/moon(?:/${SLUG}(?:/${SLUG}(?:/\\d{4}(?:/(?:0[1-9]|1[0-2]))?)?)?)?$`)],
     ['hijri', /^\/(?:hijri-calendar\/\d{4}(?:-(?:0[1-9]|1[0-2]))?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
     ['quran', new RegExp(`^/quran(?:/${SLUG})?$`)],
     ['azkar', /^\/azkar(?:\/(?:morning|evening|prayer)-azkar)?$/],
@@ -366,15 +379,19 @@ function blockCommon(rec, block) {
 }
 // BASE collector: loc → { sha, lastmod, file, fam, rel, lang, bytes } + the legacy stream per family (Quran file excluded).
 function makeCollector(keepFam) {
-    const col = { byLoc: new Map(), streams: {}, entries: 0, dups: 0, dupSamples: [] };
+    const col = { byLoc: new Map(), streams: {}, entries: 0, dups: 0, dupSamples: [], approved: new Set() };
     col.onBlock = (rec, block) => {
         const b = blockCommon(rec, block); if (!b) return;
+        // MOON-DAY-PAGES-REMOVAL-1: an approved /today removal is recorded; a family collector (seam) skips it, the full
+        //   collector keeps it in byLoc (removal accounting) but never in a family stream (the plan models BASE minus it)
+        const appr = isApproved(b.loc);
+        if (appr) { col.approved.add(b.loc); if (keepFam) return; }
         if (keepFam && b.fam !== keepFam) return;
         col.entries++;
         if (col.byLoc.has(b.loc)) { col.dups++; pushS(col.dupSamples, b.loc); return; }
         const e = { loc: b.loc, sha: b.sha, lastmod: b.lastmod, file: rec.name, fam: b.fam, rel: b.rel, lang: b.lang, bytes: b.bytes, a: 0, aFile: null };
         col.byLoc.set(b.loc, e);
-        if (rec.name !== 'sitemap-quran.xml') (col.streams[b.fam] ||= []).push(e);
+        if (rec.name !== 'sitemap-quran.xml' && !appr) (col.streams[b.fam] ||= []).push(e);
     };
     return col;
 }
@@ -612,17 +629,25 @@ async function main() {
 
         // ── [S1]..[S6] set + families ──
         section('[S1]-[S6] URL set + families');
-        let removed = 0, present = 0; const removedSamples = [];
-        for (const e of baseCol.byLoc.values()) { if (e.a === 0) { removed++; pushS(removedSamples, e.loc + ' (base ' + e.file + ')'); } else present++; }
-        const afterUnique = present + chk.added.size;
-        ok('S1', baseCol.byLoc.size === EXPECTED_TOTAL && afterUnique === baseCol.byLoc.size && chk.entries === afterUnique,
-            baseCol.byLoc.size + ' → ' + afterUnique + ' unique <loc> (expected ' + EXPECTED_TOTAL + ' → ' + EXPECTED_TOTAL + '; AFTER entries ' + chk.entries + ')');
+        // MOON-DAY-PAGES-REMOVAL-1: the approved /today locs are the only allowed removals
+        let removed = 0, present = 0, removedApproved = 0, approvedStill = 0; const removedSamples = [], approvedStillSamples = [];
+        for (const e of baseCol.byLoc.values()) {
+            if (isApproved(e.loc)) { if (e.a === 0) removedApproved++; else { approvedStill++; pushS(approvedStillSamples, e.loc + ' in ' + e.aFile); } continue; }
+            if (e.a === 0) { removed++; pushS(removedSamples, e.loc + ' (base ' + e.file + ')'); } else present++;
+        }
+        const approvedN = baseCol.approved.size;
+        const afterUnique = present + approvedStill + chk.added.size;
+        ok('S1', baseCol.byLoc.size === EXPECTED_BASE_TOTAL && afterUnique === baseCol.byLoc.size - approvedN && afterUnique === EXPECTED_TOTAL && chk.entries === afterUnique,
+            baseCol.byLoc.size + ' → ' + afterUnique + ' unique <loc> (expected ' + EXPECTED_BASE_TOTAL + ' → ' + EXPECTED_TOTAL + ' = BASE minus ' + approvedN + ' approved /today locs, derived; AFTER entries ' + chk.entries + ')');
         ok('S2', chk.added.size === 0, 'ADDED = ' + chk.added.size, chk.addedSamples.join(' | '));
-        ok('S3', removed === 0, 'REMOVED = ' + removed, removedSamples.join(' | '));
+        ok('S3', removed === 0 && approvedStill === 0 && approvedN > 0 && removedApproved === approvedN,
+            'REMOVED = ' + (removed + removedApproved) + ' = exactly the ' + approvedN + ' approved /today locs (other removals ' + removed + ', approved still listed ' + approvedStill + ')',
+            removedSamples.concat(approvedStillSamples).join(' | '));
         ok('S4', chk.dups === 0 && chk.entries === afterUnique, 'DUPLICATES = ' + chk.dups + ' (within and across AFTER files)', chk.dupSamples.join(' | '));
         ok('S5', chk.unclassified === 0, 'UNCLASSIFIED = ' + chk.unclassified, chk.unSamples.join(' | '));
-        const baseUncl = [...baseCol.byLoc.values()].filter((e) => e.fam === 'UNCLASSIFIED' || e.fam === 'MULTI').length;
-        ok('S5', baseUncl === 0, 'BASE set also classifies completely (UNCLASSIFIED+MULTI = ' + baseUncl + ')');
+        // MOON-DAY-PAGES-REMOVAL-1: the approved /today locs no longer match the moon rule — exempt on the BASE side only
+        const baseUncl = [...baseCol.byLoc.values()].filter((e) => (e.fam === 'UNCLASSIFIED' || e.fam === 'MULTI') && !isApproved(e.loc)).length;
+        ok('S5', baseUncl === 0, 'BASE set also classifies completely, the ' + approvedN + ' approved /today locs aside (UNCLASSIFIED+MULTI = ' + baseUncl + ')');
         ok('S6', chk.multi === 0, 'every URL matches exactly one family (multi-family = ' + chk.multi + ')', chk.multiSamples.join(' | '));
         ok('S6', chk.wrongFile === 0, 'every URL sits in a file of its own family (misplaced = ' + chk.wrongFile + ')', chk.wfSamples.join(' | '));
         const badNames = rootPaths.filter((p) => !p || !fileFamily(p.slice(1)));
@@ -680,7 +705,8 @@ async function main() {
 
         // ── [S16] [S17] [S18] ──
         section('[S16]-[S18] block identity, hreflang, loc hygiene');
-        ok('S16', chk.blockChanged === 0 && chk.compared === baseCol.byLoc.size, 'every AFTER <url> block byte-identical to the BASE block for the same loc (' + chk.compared + ' compared, changed ' + chk.blockChanged + ')', chk.bcSamples.join(' | '));
+        // MOON-DAY-PAGES-REMOVAL-1: every BASE block except the approved /today removals is compared
+        ok('S16', chk.blockChanged === 0 && chk.compared === baseCol.byLoc.size - approvedN, 'every AFTER <url> block byte-identical to the BASE block for the same loc (' + chk.compared + ' compared = BASE minus ' + approvedN + ' approved, changed ' + chk.blockChanged + ')', chk.bcSamples.join(' | '));
         ok('S16', chk.altBad === 0, '11 alternates (ar..ms + x-default, exact hrefs, self-href) per non-Quran URL; 0 per Quran URL (bad = ' + chk.altBad + ')', chk.altSamples.join(' | '));
         ok('S17', chk.html === 0, 'no .html in any loc (' + chk.html + ')', chk.htmlSamples.join(' | '));
         ok('S18', chk.query === 0, 'no query / fragment in any loc (' + chk.query + ')', chk.querySamples.join(' | '));
@@ -775,20 +801,52 @@ async function main() {
         const nCities = legacyPaths.length - 1;
         ok('L', legacyPaths[0] === '/sitemap-main.xml' && nCities > 0 && eq(legacyPaths.slice(1), Array.from({ length: nCities }, (_, i) => '/sitemap-cities-' + (i + 1) + '.xml')) && legacyPaths.length === baseRoot.index.paths.length,
             'BASE index = /sitemap-main.xml + /sitemap-cities-1..' + nCities + '.xml', baseRoot.index.paths.join(','));
-        const legacyAfter = await pool(legacyPaths, 3, (p) => streamFile(A, p, {}));
-        legacyPaths.forEach((p, i) => {
-            const br = bw.byPath.get(p), ar = legacyAfter[i];
-            ok('L', !!br && ar.status === 200 && !ar.err && ar.sha === br.sha && ar.bytes === br.bytes && ar.headers['content-type'] === br.ctype,
-                p + ' byte-identical to BASE (' + (br ? br.bytes : '?') + ' bytes, sha256 ' + String(br && br.sha).slice(0, 12) + ')', ar.status + ' ' + ar.bytes + ' ' + ar.sha);
-        });
-        const nextA = await fetchText(A, '/sitemap-cities-' + (nCities + 1) + '.xml'), nextB = await fetchText(B, '/sitemap-cities-' + (nCities + 1) + '.xml');
-        ok('L', is404Text(nextA) && is404Text(nextB), '/sitemap-cities-' + (nCities + 1) + '.xml → 404 text/plain on both', brief(nextA) + ' vs ' + brief(nextB));
+        // MOON-DAY-PAGES-REMOVAL-1: the AFTER legacy files are read in full (main → cities-1.. until the first non-200). Per-file
+        //   byte identity is scoped to BASE files that held no approved /today loc AND whose AFTER twin kept the same first + last
+        //   loc (the lower famous estimate in _estCityUrlCount can move later shard boundaries); the whole AFTER legacy stream
+        //   (loc + block sha, in order) must equal the BASE stream minus the approved locs.
+        const heldApproved = new Set([...baseCol.byLoc.values()].filter((e) => isApproved(e.loc)).map((e) => e.file));
+        const afterLegacySeq = [];
+        const legacyRec = new Map();
+        let nCitiesA = 0;
+        legacyRec.set('/sitemap-main.xml', await parseFile(A, '/sitemap-main.xml', 'legacy', (rec, block) => { const b = blockCommon(rec, block); if (b) afterLegacySeq.push(b.loc + ' ' + b.sha); }));
+        for (let i = 1; i <= 500; i++) {
+            const p = '/sitemap-cities-' + i + '.xml';
+            const seq = [];
+            const rec = await parseFile(A, p, 'legacy', (r2, block) => { const b = blockCommon(r2, block); if (b) seq.push(b.loc + ' ' + b.sha); });
+            if (rec.status !== 200) break;
+            legacyRec.set(p, rec); nCitiesA = i; for (const x of seq) afterLegacySeq.push(x);
+        }
+        info('legacy files: BASE main + ' + nCities + ' shards, AFTER main + ' + nCitiesA + ' shards (' + afterLegacySeq.length + ' <url>)');
+        let scopedN = 0, coveredN = 0;
+        for (const p of legacyPaths) {
+            const br = bw.byPath.get(p), ar = legacyRec.get(p);
+            const held = !!br && heldApproved.has(br.name);
+            const sameBounds = !!br && !!ar && ar.firstLoc === br.firstLoc && ar.lastLoc === br.lastLoc;
+            if (held || (!!ar && !sameBounds)) { coveredN++; continue; }
+            scopedN++;
+            ok('L', !!br && !!ar && ar.status === 200 && !ar.err && ar.sha === br.sha && ar.bytes === br.bytes && ar.ctype === br.ctype,
+                p + ' byte-identical to BASE (' + (br ? br.bytes : '?') + ' bytes, sha256 ' + String(br && br.sha).slice(0, 12) + '; held no /today loc, same boundaries)', ar ? ar.status + ' ' + ar.bytes + ' ' + ar.sha : 'missing on AFTER');
+        }
+        info('[L] byte identity: ' + scopedN + ' legacy files compared, ' + coveredN + ' covered by the stream check (held /today locs or moved boundaries)');
+        {
+            const baseLegacySeq = [];
+            for (const e of baseCol.byLoc.values()) if (e.file !== 'sitemap-quran.xml' && !isApproved(e.loc)) baseLegacySeq.push(e.loc + ' ' + e.sha);
+            const d = afterLegacySeq.length === baseLegacySeq.length ? afterLegacySeq.findIndex((x, i) => x !== baseLegacySeq[i]) : Math.min(afterLegacySeq.length, baseLegacySeq.length);
+            ok('L', afterLegacySeq.length === baseLegacySeq.length && d === -1 && heldApproved.size > 0,
+                'AFTER legacy stream (loc + block, main → cities-1..' + nCitiesA + ') === BASE stream minus the ' + approvedN + ' approved /today locs, same order',
+                'after ' + afterLegacySeq.length + ' vs base−approved ' + baseLegacySeq.length + (d >= 0 ? ' first diff @' + d + ' ' + String(afterLegacySeq[d]).split(' ')[0] + ' vs ' + String(baseLegacySeq[d]).split(' ')[0] : ''));
+        }
+        const nextA = await fetchText(A, '/sitemap-cities-' + (nCitiesA + 1) + '.xml'), nextB = await fetchText(B, '/sitemap-cities-' + (nCities + 1) + '.xml');
+        ok('L', is404Text(nextA) && is404Text(nextB), '/sitemap-cities-(N+1).xml → 404 text/plain on both (AFTER ' + (nCitiesA + 1) + ', BASE ' + (nCities + 1) + ')', brief(nextA) + ' vs ' + brief(nextB));
         const aliases = [['/sitemap-cities-01.xml', '/sitemap-cities-1.xml'], ['/sitemap-main.xml.gz', '/sitemap-main.xml'], ['/sitemap-cities-1.xml.gz', '/sitemap-cities-1.xml']];
         for (const [alias, canon] of aliases) {
             const [xa, xb] = await Promise.all([streamFile(A, alias, {}), streamFile(B, alias, {})]);
-            const br = bw.byPath.get(canon);
-            ok('L', xa.status === 200 && xb.status === 200 && !!br && xa.sha === br.sha && xb.sha === br.sha && xa.gz === xb.gz,
-                alias + ' (alias) decodes to the same bytes as BASE ' + canon, xa.status + '/' + xb.status + ' gz ' + xa.gz + '/' + xb.gz);
+            const br = bw.byPath.get(canon), ar = legacyRec.get(canon);
+            // MOON-DAY-PAGES-REMOVAL-1: the AFTER alias decodes to the AFTER canonical file (=== BASE when that file is unchanged)
+            const mustEqBase = !!br && !heldApproved.has(br.name) && !!ar && ar.firstLoc === br.firstLoc && ar.lastLoc === br.lastLoc;
+            ok('L', xa.status === 200 && xb.status === 200 && !!br && !!ar && xa.sha === ar.sha && xb.sha === br.sha && xa.gz === xb.gz && (!mustEqBase || xa.sha === br.sha),
+                alias + ' (alias) decodes to the same bytes as ' + canon + ' (AFTER vs AFTER, BASE vs BASE' + (mustEqBase ? ', and === BASE' : '') + ')', xa.status + '/' + xb.status + ' gz ' + xa.gz + '/' + xb.gz);
         }
 
         // ── [S19] HTTP sample ──
@@ -858,8 +916,10 @@ async function main() {
         const sParseBad = sRecs.filter((r) => r.status !== 200 || r.type !== 'urlset' || r.xmlErr || r.err || r.badBlocks || r.urls > MAX_URLS || r.bytes > MAX_BYTES);
         ok('C', sRoot.status === 200 && !!sRoot.index && sRoot.index.exact && sMoonPaths.length > 0 && sParseBad.length === 0,
             'seam AFTER root index exact; moon files 200, exact grammar, within limits', sParseBad.map((r) => r.name + ' ' + (r.xmlErr || r.err || r.status)).join(' | '));
-        ok('C', sbCol.byLoc.size > 0 && sChk.entries === sbCol.byLoc.size && sChk.added.size === 0 && sRemoved === 0 && sChk.dups === 0 && sChk.wrongFile === 0 && sChk.unclassified === 0 && sChk.multi === 0,
-            'seam AFTER moon family union === BASE legacy moon URLs (' + sChk.entries + ' vs ' + sbCol.byLoc.size + '; added ' + sChk.added.size + ', removed ' + sRemoved + ', dups ' + sChk.dups + ', misplaced ' + sChk.wrongFile + ')',
+        // MOON-DAY-PAGES-REMOVAL-1: the seam BASE moon set excludes the approved /today locs (recorded in sbCol.approved, never
+        //   compared); a /today loc on the seam AFTER would be UNCLASSIFIED and fail this line
+        ok('C', sbCol.byLoc.size > 0 && sbCol.approved.size > 0 && sChk.entries === sbCol.byLoc.size && sChk.added.size === 0 && sRemoved === 0 && sChk.dups === 0 && sChk.wrongFile === 0 && sChk.unclassified === 0 && sChk.multi === 0,
+            'seam AFTER moon family union === BASE legacy moon URLs minus the ' + sbCol.approved.size + ' approved /today locs (' + sChk.entries + ' vs ' + sbCol.byLoc.size + '; added ' + sChk.added.size + ', removed ' + sRemoved + ', dups ' + sChk.dups + ', misplaced ' + sChk.wrongFile + ', unclassified ' + sChk.unclassified + ')',
             sChk.addedSamples.concat(sChk.wfSamples, sChk.unSamples).join(' | '));
         ok('C', sChk.blockChanged === 0 && sChk.compared === sbCol.byLoc.size && sChk.altBad === 0 && sChk.lmBad === 0, 'seam moon blocks byte-identical to BASE (' + sChk.compared + ' compared, changed ' + sChk.blockChanged + ')', sChk.bcSamples.join(' | '));
         ok('C', eq([...sChk.moonYears].sort((a, b) => a - b), SEAM_YEARS), 'seam AFTER moon years === ' + SEAM_YEARS.join(','), [...sChk.moonYears].join(','));

@@ -2,6 +2,8 @@
 // PART A: pure logic on MoonCalc.getMonthGrid (event-based labels).
 // PART B: SSR check against a spawned server (intentionally NOT TZ=UTC, to prove
 //         the grid is now CITY-tz based, not server-tz based).
+// MOON-DAY-PAGES-REMOVAL-1: Part B counts the month grid's non-empty day cells (=== expDays) and reads the
+//   phase-name / moon-hub-cal-watch spans of the new/full-moon cells on the month page (day pages are 410 now).
 import { createRequire } from 'node:module';
 import http from 'node:http';
 import { spawn } from 'node:child_process';
@@ -106,22 +108,31 @@ console.log('\n════ PART B — SSR grid (spawned server, machine-local T
 try {
   // MOON-CITY-MONTH-ROUTE-STRUCTURE-SCOPE-CORRECTION-FIX-1: the legacy monthly grid /moon-in-{slug}/{ym}
   //   301s to the nested month page /moon/{country}/{slug}/{yyyy}/{mm}, which now renders the SAME legacy
-  //   #page-moon monthly CALENDAR GRID (.moon-hub-cal-grid). Validate the SAME Meeus output via the grid's
-  //   nested day links (the "today" cell links to …/today, so the count is dim or dim-1) + nested DAY pages.
-  const pad = (n) => String(n).padStart(2, '0');
-  for (const [slug, country, ym, expNew, expFull, expDays] of [['riyadh','saudi-arabia','2026-06',15,29,30],['riyadh','saudi-arabia','2026-02',null,2,28],['riyadh','saudi-arabia','2026-07',14,29,31],['riyadh','saudi-arabia','2026-12',9,24,31]]) {
+  //   #page-moon monthly CALENDAR GRID (.moon-hub-cal-grid).
+  // MOON-DAY-PAGES-REMOVAL-1: the day pages are 410 and the grid cells are plain text, so validate the SAME
+  //   Meeus output on the month page itself: non-empty cell count === expDays, and the phase-name span of the
+  //   new/full-moon cells (cell parser works on the old <a href> and the new <div class="moon-hub-cal-cell-body">).
+  //   NB 2026-06 full moon = day 30 in Asia/Riyadh (PART A1); the old tuple said 29, which only passed because the
+  //   day-29 PAGE mentioned "البدر" somewhere in its text — the cell-level check needs the real event day.
+  const calGrid = (b) => (b.match(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/) || [])[1] || '';
+  const calCells = (b) => [...calGrid(b).matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].filter(x => !/--empty/.test(x[1])).map(x => x[2]);
+  const calSpan = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+  const calCellOf = (b, n) => calCells(b).find(c => parseInt((calSpan(c, 'moon-hub-cal-date').match(/\d+/) || [])[0], 10) === n) || '';
+  for (const [slug, country, ym, expNew, expFull, expDays] of [['riyadh','saudi-arabia','2026-06',15,30,30],['riyadh','saudi-arabia','2026-02',null,2,28],['riyadh','saudi-arabia','2026-07',14,29,31],['riyadh','saudi-arabia','2026-12',9,24,31]]) {
     const [y, m] = ym.split('-');
     const html = await get(`/moon/${country}/${slug}/${y}/${m}`);
-    const dayRows = (html.match(new RegExp('href="/moon/' + country + '/' + slug + '/' + y + '/' + m + '/\\d{2}"', 'g')) || []).length;
-    okv(html.includes('moon-hub-cal-grid') && dayRows >= expDays - 1 && dayRows <= expDays, `${ym}: legacy grid + ${expDays}/${expDays - 1} day links (got ${dayRows})`);
-    if (expNew != null) { const d = await get(`/moon/${country}/${slug}/${y}/${m}/${pad(expNew)}`); okv(/محاق/.test(d), `${ym}: محاق on day ${expNew} (nested day page)`); }
-    { const f = await get(`/moon/${country}/${slug}/${y}/${m}/${pad(expFull)}`); okv(/البدر/.test(f), `${ym}: البدر on day ${expFull} (nested day page)`); }
+    const nCells = calCells(html).length, nA = (calGrid(html).match(/<a\b/g) || []).length;
+    okv(html.includes('moon-hub-cal-grid') && nCells === expDays && nA === 0, `${ym}: legacy grid + ${expDays} day cells + 0 <a> in grid (got ${nCells} cells, ${nA} <a>)`);
+    if (expNew != null) { const pn = calSpan(calCellOf(html, expNew), 'moon-hub-cal-phase-name'); okv(/محاق/.test(pn), `${ym}: محاق on day ${expNew} (month grid cell phase-name "${pn}")`); }
+    { const pn = calSpan(calCellOf(html, expFull), 'moon-hub-cal-phase-name'); okv(/البدر/.test(pn), `${ym}: البدر on day ${expFull} (month grid cell phase-name "${pn}")`); }
   }
-  // new-moon day carries the crescent-visibility note (legacy renderer, reused by the nested day page)
-  const junNew = await get('/moon/saudi-arabia/riyadh/2026/06/15');
-  okv(/رؤية|الهلال/.test(junNew), 'June new-moon (day 15) carries the crescent-visibility note');
+  // new-moon day carries the crescent-visibility note — rendered on the month page's new-moon cell only
+  const junMo = await get('/moon/saudi-arabia/riyadh/2026/06');
+  const junNew = calCellOf(junMo, 15);
+  const watch = calSpan(junNew, 'moon-hub-cal-watch');
+  okv(watch.includes('يُتحرى هلال الشهر مساء هذا اليوم') && (calGrid(junMo).match(/class="moon-hub-cal-watch"/g) || []).length === 1, `June new-moon cell (day 15) carries the crescent-visibility note (only once in the grid): "${watch}"`);
   // server-tz independence: Riyadh new-moon day shows المحاق regardless of server tz
-  okv(/المحاق/.test(junNew), 'June Riyadh SSR shows المحاق on day 15 (event-based, server-tz independent)');
+  okv(/المحاق/.test(calSpan(junNew, 'moon-hub-cal-phase-name')), 'June Riyadh SSR shows المحاق on day 15 (event-based, server-tz independent)');
 } finally {
   srv.kill();
 }

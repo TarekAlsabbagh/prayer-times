@@ -6,6 +6,8 @@
 //   • leading-empty-cell count == first weekday (grid alignment)
 //   • how many days carry the major-phase NAME (محاق / بدر) → duplicate detection
 // Pure read-only; no app code touched.
+// MOON-DAY-PAGES-REMOVAL-1: reads the NESTED month page /[lang/]moon/{country}/{city}/{yyyy}/{mm} and parses each
+//   cell's .moon-hub-cal-date text (the cells carry no day href any more; works on <a> and <div> cell wrappers).
 import http from 'node:http';
 const PORT = Number(process.env.PORT || 8132), HOST = '127.0.0.1';
 function get(path, lang) {
@@ -20,27 +22,26 @@ const lastDayOf = (y, m) => new Date(Date.UTC(y, m, 0)).getUTCDate();
 const firstWday = (y, m) => new Date(Date.UTC(y, m - 1, 1, 12)).getUTCDay();
 
 function isolateGrid(html) {
-  const gi = html.indexOf('moon-hub-cal-grid');
-  return gi >= 0 ? html.slice(gi, gi + 12000) : '';
+  return (html.match(/<ul class="moon-hub-cal-grid">([\s\S]*?)<\/ul>/) || [])[1] || '';
 }
-// Each non-empty cell = one <li class="moon-hub-cal-cell"> ... <a href=".../YYYY-MM-DD"> OR today href.
-function cellDays(seg, slug, ym) {
-  // dated cells
-  const re = new RegExp('moon-in-' + slug.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&') + '/' + ym + '-(\\d{2})', 'g');
-  const dated = [...seg.matchAll(re)].map(m => parseInt(m[1], 10));
-  return dated;
+// Every grid cell = one <li class="moon-hub-cal-cell[ --today][ --empty]">; a non-empty cell carries
+//   <span class="moon-hub-cal-date">15 يونيو</span> ("June 15" in en) → the day number is the digits of that text.
+const gridCells = (seg) => [...seg.matchAll(/<li class="(moon-hub-cal-cell[^"]*)"[^>]*>([\s\S]*?)<\/li>/g)].map(m => ({ cls: m[1], html: m[2] }));
+const spanText = (html, cls) => ((html.match(new RegExp('<span class="' + cls + '"[^>]*>([^<]*)</span>')) || [])[1] || '');
+function cellDays(seg) {
+  return gridCells(seg).filter(c => !/--empty/.test(c.cls)).map(c => parseInt((spanText(c.html, 'moon-hub-cal-date').match(/\d+/) || [])[0], 10));
 }
 
 const CASES = [
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 6, note: 'June 2026 (starts Mon, 30d) — reported case' },
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 7, note: 'July 2026 (31d)' },
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 1, note: 'January 2026 (31d, starts Thu)' },
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 2, note: 'February 2026 (28d, starts Sun)' },
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 3, note: 'March 2026 (31d, starts Sun)' },
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 11, note: 'November 2026 (30d, starts Sun)' },
-  { lang: 'ar', slug: 'riyadh', y: 2026, m: 12, note: 'December 2026 (31d, starts Tue)' },
-  { lang: 'en', slug: 'london', y: 2026, m: 6, note: 'June 2026 EN (cross-lang check)' },
-  { lang: 'ar', slug: 'seattle', y: 2026, m: 6, note: 'June 2026 Seattle (city tz check)' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 6, note: 'June 2026 (starts Mon, 30d) — reported case' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 7, note: 'July 2026 (31d)' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 1, note: 'January 2026 (31d, starts Thu)' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 2, note: 'February 2026 (28d, starts Sun)' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 3, note: 'March 2026 (31d, starts Sun)' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 11, note: 'November 2026 (30d, starts Sun)' },
+  { lang: 'ar', country: 'saudi-arabia', slug: 'riyadh', y: 2026, m: 12, note: 'December 2026 (31d, starts Tue)' },
+  { lang: 'en', country: 'united-kingdom', slug: 'london', y: 2026, m: 6, note: 'June 2026 EN (cross-lang check)' },
+  { lang: 'ar', country: 'united-states', slug: 'seattle', y: 2026, m: 6, note: 'June 2026 Seattle (city tz check)' },
 ];
 
 let FAIL = 0;
@@ -53,37 +54,34 @@ const PHASE_EN_NEW = 'New Moon', PHASE_EN_FULL = 'Full Moon';
   console.log('Grid completeness vs SSR (PORT ' + PORT + ', TZ=UTC server)\n');
   for (const c of CASES) {
     const ym = `${c.y}-${String(c.m).padStart(2, '0')}`;
-    const path = `${c.lang === 'ar' ? '' : '/' + c.lang}/moon-in-${c.slug}/${ym}`;
+    // MOON-DAY-PAGES-REMOVAL-1: the legacy /moon-in-{slug}/{ym} only 301s now — read the nested month page directly.
+    const path = `${c.lang === 'ar' ? '' : '/' + c.lang}/moon/${c.country}/${c.slug}/${c.y}/${String(c.m).padStart(2, '0')}`;
     const html = await get(path, c.lang);
     const seg = isolateGrid(html);
-    const total = (seg.match(/moon-hub-cal-cell(?![a-z-])/g) || []).length;
-    const empty = (seg.match(/moon-hub-cal-cell--empty/g) || []).length;
+    const cells = gridCells(seg);
+    const total = cells.length;
+    const empty = cells.filter(x => /--empty/.test(x.cls)).length;
     const real = total - empty;
     const last = lastDayOf(c.y, c.m);
     const fw = firstWday(c.y, c.m);
-    const dated = cellDays(seg, c.slug, ym);
+    const dated = cellDays(seg);   // day numbers from the .moon-hub-cal-date text of every non-empty cell (today cell included)
     const datedSet = [...new Set(dated)];
-    // today (2026-06-16) shows as a today-href cell, so it's absent from dated set; account for it.
-    const todayCells = (seg.match(/moon-today-in-/g) || []).length;
-    const presentCount = datedSet.length + todayCells; // dated unique + today cell
-    // Which 1..last are missing from the dated set (excluding the today day)?
+    const todayCells = cells.filter(x => /--today/.test(x.cls)).length;   // informational only (the today cell has date text too)
+    // Which 1..last are missing from the parsed day numbers?
     const missing = [];
     for (let d = 1; d <= last; d++) if (!datedSet.includes(d)) missing.push(d);
-    // a single missing entry is allowed ONLY if it's "today" and there's a today cell
-    const phaseNewCount = c.lang === 'ar'
-      ? (seg.match(new RegExp(PHASE_AR_NEW, 'g')) || []).length
-      : (seg.match(new RegExp(PHASE_EN_NEW, 'g')) || []).length;
-    const phaseFullCount = c.lang === 'ar'
-      ? (seg.match(new RegExp('>\\s*' + PHASE_AR_FULL, 'g')) || []).length
-      : (seg.match(new RegExp(PHASE_EN_FULL, 'g')) || []).length;
+    const phaseNames = cells.filter(x => !/--empty/.test(x.cls)).map(x => spanText(x.html, 'moon-hub-cal-phase-name'));
+    const phaseNewCount = phaseNames.filter(t => t.includes(c.lang === 'ar' ? PHASE_AR_NEW : PHASE_EN_NEW)).length;
+    const phaseFullCount = phaseNames.filter(t => t.includes(c.lang === 'ar' ? PHASE_AR_FULL : PHASE_EN_FULL)).length;
 
     console.log(`════ ${ym} ${c.slug} [${c.lang}] — ${c.note}`);
     console.log(`   month days=${last} firstWday=${fw} | cells total=${total} empty=${empty} real=${real} | today-cells=${todayCells}`);
     ok(empty === fw, `leading empty cells (${empty}) == first weekday (${fw})`);
     ok(real === last, `real day-cells (${real}) == days in month (${last}) → NO missing/extra day`);
-    ok(datedSet.length === dated.length, `no duplicate dated cell (${dated.length} hrefs, ${datedSet.length} unique)`);
-    ok(missing.length === todayCells, `day 1..${last} all present (missing-from-dated=${JSON.stringify(missing)} explained by ${todayCells} today-cell)`);
-    ok(datedSet.includes(1) || (todayCells && missing.includes(1)), `DAY 1 present (the reported "missing 1 June")`);
+    ok(datedSet.length === dated.length, `no duplicate day cell (${dated.length} cells, ${datedSet.length} unique day numbers)`);
+    ok(missing.length === 0, `day 1..${last} all present (missing=${JSON.stringify(missing)})`);
+    ok(datedSet.includes(1), `DAY 1 present (the reported "missing 1 June")`);
+    ok((seg.match(/<a\b/g) || []).length === 0, `0 <a> inside the grid (day cells are plain text)`);
     console.log(`   phase-name cells: New-Moon-name×${phaseNewCount}  Full-Moon-name×${phaseFullCount}  ${(phaseNewCount>1||phaseFullCount>1)?'❌ duplicate major-phase NAME in grid':''}`);
     console.log('');
   }

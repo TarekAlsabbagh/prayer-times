@@ -2,19 +2,22 @@
 // =====================================================================================================
 // MOON-DAY-INTERNAL-LINK-CLEANUP-1 — smoke suite.
 //
-// The ticket removes DUPLICATE internal links to moon-day URLs and stops minting legacy day URLs. It must
-// not change a single URL, status, robots meta, canonical, hreflang, title, description, JSON-LD or
-// sitemap entry, and it must not make any day URL unreachable.
+// The ticket removed DUPLICATE internal links to moon-day URLs and stopped minting legacy day URLs.
 //
-//   [A] static  the four edits are present, and only those: the year table's Hijri cell is text, the
-//               forecast's Hijri cell is the text variant, the 7-day chart prefers the nested day base,
-//               the month chart's dots are not anchors, and both changed bundles are cache-busted
-//   [B] links   BASE vs THIS TREE over a page matrix (famous + non-famous city, 10 languages, hub /
-//               today / year / month / day in and out of the indexable window): emitted day hrefs go
-//               DOWN, unique day targets stay IDENTICAL, legacy /moon-in-{slug}/{ISO} hrefs go to 0
-//   [C] seo     over the same matrix: status, canonical, every hreflang alternate, robots meta, title,
-//               meta description, every JSON-LD block and the H1 are byte-identical to BASE
-//   [D] sitemap sitemap-moon-*.xml (and sitemap.xml) byte-identical to BASE
+// MOON-DAY-PAGES-REMOVAL-1: the old assertions ("0 unique day targets lost", "year 104 -> 54 day hrefs", "day routes
+//   unchanged", "sitemap-moon byte-identical") are obsolete — the day/today pages are now REMOVED (410). The harness
+//   (outbound guard, boot, page matrix, normLive, regexes, BASE-vs-BASE gate) is kept; the assertions are a BASE-vs-NEW
+//   diff against the removal contract, BASE = the pre-removal tree (--base, unchanged):
+//   [A] static  js/moon.js byte-identical to BASE; js/app.js + js/moon-chart.js changed and every index.html ?v bumped
+//               above BASE; any other index.html js/*.js / css/style.css ?v changes iff its bytes changed
+//   [B] links   kept pages (hub / year / month x famous + non-famous city x 10 languages, + /moon/{country} and /moon):
+//               THIS TREE emits 0 nested day, 0 legacy day, 0 nested /today and 0 /moon-today-in- hrefs (BASE > 0 =
+//               control); today / day page kinds → 200 on BASE, 410 Gone on THIS TREE
+//   [C] seo     kept pages: status, canonical, robots, title, meta description, hreflang identical to BASE
+//               (og:url / JSON-LD / H1 differences are reported, not asserted)
+//   [D] sitemap moon family files (from each sitemap.xml): THIS TREE = BASE minus exactly the /today locs (nothing else
+//               removed or added, kept <url> blocks identical); robots.txt + non-moon index children identical; kept
+//               routes + day-shaped 404s unchanged; day/today routes → 410
 //   [E] guard   every server is started with the frozen outbound guard; 0 non-loopback attempts
 //
 // Local loopback servers only. Nothing here ever touches production.
@@ -149,107 +152,42 @@ function seoOf(r) {
 }
 
 // ================================================================================== A. static assertions
+// MOON-DAY-PAGES-REMOVAL-1: the previous ticket's source-shape checks (year/forecast/chart day-link edits, exact
+//   ?v=847/12/509 pins, the one-declaration CSS delta) describe link builders this ticket removes — replaced by
+//   behavioural/relative checks that need no new source string.
 section('A static');
 {
-    const srv = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
-    const app = fs.readFileSync(path.join(ROOT, 'js/app.js'), 'utf8');
-    const chart = fs.readFileSync(path.join(ROOT, 'js/moon-chart.js'), 'utf8');
     const html = fs.readFileSync(path.join(ROOT, 'index.html'), 'utf8');
-    const bsrv = fs.readFileSync(path.join(BASE, 'server.js'), 'utf8');
-    const bapp = fs.readFileSync(path.join(BASE, 'js/app.js'), 'utf8');
-    const bchart = fs.readFileSync(path.join(BASE, 'js/moon-chart.js'), 'utf8');
-
-    // L1 — year phases table
-    ok(/<td class="my-table-hijri">\$\{_e\(_hijStr\(e\.m, e\.d\)\)\}<\/td>/.test(srv)
-        && !/<td><a class="my-table-link" href="\$\{_e\(_dl\)\}">\$\{_e\(_hijStr/.test(srv),
-        'L1 year table: the Hijri cell is text, not a second anchor to the same day URL');
-    ok(/<td><a class="my-table-link" href="\$\{_e\(_dl\)\}">\$\{_e\(_dateStr\(e\)\)\}<\/a><\/td>/.test(srv),
-        'L1 year table: the DATE cell still links the day page');
-    ok(/<td><a class="my-table-link" href="\$\{_e\(_myMonthLink\(e\.m\)\)\}"/.test(srv),
-        'L1 year table: the MONTH cell link is untouched');
-    // the two anchors shared one _dl variable, so the call count is unchanged by design; what must drop
-    //   is the number of times that variable is interpolated into an href inside the row template.
-    ok((srv.match(/_myDayLink\(/g) || []).length === (bsrv.match(/_myDayLink\(/g) || []).length,
-        'L1 the day-link builder itself is untouched (same call sites as BASE)');
-    ok((srv.match(/href="\$\{_e\(_dl\)\}"/g) || []).length === 1
-        && (bsrv.match(/href="\$\{_e\(_dl\)\}"/g) || []).length === 2,
-        'L1 the row template uses the day href once (BASE used it twice)');
-
-    // L2 — forecast table
-    ok(!/fc-hijri-link/.test(app) && /fc-hijri-cell"><span class="fc-hijri-icon"/.test(app),
-        'L2 forecast: the Hijri cell is the text variant on every page');
-    ok(/const _href = _nestedMoonHrefClient\(_citySlug, _langPrefixFC, 'day', '', _rowIso\);/.test(app)
-        && /fc-day-link/.test(app),
-        'L2 forecast: the DAY cell still links the day page');
-    ok((bapp.match(/_nestedMoonHrefClient\(/g) || []).length - (app.match(/_nestedMoonHrefClient\(/g) || []).length === 1,
-        'L2 exactly one _nestedMoonHrefClient call site disappeared (the duplicate)');
-
-    // L3a — 7-day chart
-    ok(/function _computePoints\(centerDate, rangeDays, citySlug, langPrefix, tz, nestedDayBase\)/.test(chart),
-        'L3a the 7-day point builder takes a nested day base');
-    ok(/_nestedBase \? \(_nestedBase \+ '\/' \+ iso\.replace\(\/-\/g, '\/'\)\) : \(urlBase \+ '\/' \+ iso\)/.test(chart),
-        'L3a a dot links the nested day URL when the base is known, legacy only as fallback');
-    ok(/_computePoints\(centerDate, rangeDays, citySlug, langPrefix, tz, opts\.nestedDayBase \|\| ''\)/.test(chart),
-        'L3a render() forwards the option');
-    ok(/nestedDayBase: _mcNestedBase,/.test(app) && /_mcNestedBase = _lpNow \+ '\/moon\/'/.test(app),
-        'L3a app.js derives the nested day base from the current nested moon path');
-
-    // L3b — month chart: a dot is dropped ONLY when the grid on the same page already links that day
-    ok(/const href = \(nestedDayBase && _yearInServerRange\(String\(year\)\) && !\(skipIso && skipIso\[iso\]\)\)/.test(chart)
-        && /function _computeMonthPoints\(year, month, nestedDayBase, skipIso\)/.test(chart),
-        'L3b a month-chart dot is an anchor only when the grid does not already link that day');
-    ok(/skipIso: _mcSkipIso,/.test(app) && /document\.querySelectorAll\('\.moon-hub-cal-cell a\[href\]'\)/.test(app),
-        'L3b app.js feeds the chart the grid dates read from the DOM (so the /today cell keeps its dot link)');
-    ok(/const href = \(nestedDayBase && _yearInServerRange\(String\(year\)\)\) \?/.test(bchart)
-        && !/skipIso/.test(bchart),
-        'L3b control: the base tree links EVERY month-chart dot');
-
-    // cache busting + blast radius
-    ok(/js\/moon-chart\.js\?v=12/.test(html) && !/js\/moon-chart\.js\?v=11/.test(html), 'moon-chart.js cache-busted to v=12');
-    ok(/js\/app\.js\?v=847/.test(html) && !/js\/app\.js\?v=846/.test(html), 'app.js cache-busted to v=847');
-    ok(srv.split(TAG).length - 1 === 1 && app.split(TAG).length - 1 === 3 && chart.split(TAG).length - 1 === 2,
-        'every edit is tagged with the ticket name', 'server=1 app=3 chart=2');
-
-    // nothing else moved: the moon math, the routes and the sitemap builders are untouched
-    const routeBits = ['SUPPORTED_MOON_YEAR_BACK', '_isMoonNestedDay', 'sitemap-moon', 'robots.txt'];
-    for (const bit of routeBits) {
-        ok((srv.match(new RegExp(bit.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length
-            === (bsrv.match(new RegExp(bit.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'g')) || []).length,
-            'untouched: "' + bit + '" occurrences unchanged vs BASE');
-    }
+    const bhtml = fs.readFileSync(path.join(BASE, 'index.html'), 'utf8');
     ok(fs.readFileSync(path.join(ROOT, 'js/moon.js')).equals(fs.readFileSync(path.join(BASE, 'js/moon.js'))),
         'js/moon.js (Meeus) is byte-identical to BASE');
-    // robots.txt is generated by the server, not a file — it is compared over HTTP in section D.
-
-    // ---- non-link dots must not look, read or behave like links (owner requirement) ----------------
-    const css = fs.readFileSync(path.join(ROOT, 'css/style.css'), 'utf8');
-    const bcss = fs.readFileSync(path.join(BASE, 'css/style.css'), 'utf8');
-    ok(/circle\.moon-chart-dot \{\r?\n    transition: r 0\.15s ease, filter 0\.15s ease;\r?\n\}/.test(css)
-        && !/circle\.moon-chart-dot \{[^}]*cursor: pointer/.test(css),
-        'CSS: a dot that is NOT a link no longer gets cursor:pointer');
-    ok(/\.moon-chart-container a circle \{\s*\r?\n\s*cursor: pointer;/.test(css)
-        && /\.moon-chart-container a:hover circle \{/.test(css),
-        'CSS: the pointer cursor + hover affordance live on the LINK rule, so a linked dot is unchanged');
-    {
-        // the ONLY css delta is that one declaration (plus this ticket's comment)
-        const strip = (s) => s.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\s+/g, ' ').trim();
-        const a = strip(bcss), b = strip(css);
-        const i = (() => { let k = 0; while (k < a.length && k < b.length && a[k] === b[k]) k++; return k; })();
-        ok(a.length - b.length === 'cursor: pointer; '.length && a.slice(i, i + 17) === 'cursor: pointer; ',
-            'css/style.css differs from BASE by exactly one removed declaration', 'delta=' + (a.length - b.length)
-            + ' at ' + i + ' -> ' + JSON.stringify(a.slice(i - 40, i + 20)));
+    // every versioned js/*.js + css/style.css ref in index.html: bytes changed vs BASE <=> ?v bumped above BASE
+    const verMap = (h) => {
+        const o = {};
+        for (const m of h.matchAll(/(?:src|href)="((?:js\/[a-z0-9-]+\.js)|(?:css\/style\.css))\?v=(\d+)"/g)) (o[m[1]] = o[m[1]] || []).push(+m[2]);
+        return o;
+    };
+    const vn = verMap(html), vb = verMap(bhtml);
+    ok(Object.keys(vb).length > 0 && JSON.stringify(Object.keys(vn).sort()) === JSON.stringify(Object.keys(vb).sort()),
+        'index.html references the same versioned js/css files as BASE', Object.keys(vn).sort().join(','));
+    for (const f of Object.keys(vb).sort()) {
+        const nv = vn[f] || [], bv = vb[f];
+        let same = false;
+        try { same = fs.readFileSync(path.join(ROOT, f)).equals(fs.readFileSync(path.join(BASE, f))); } catch (_e) { same = false; }
+        const bumped = nv.length === bv.length && nv.every((v) => v > Math.max(...bv));
+        const detail = 'BASE ?v=' + bv.join(',') + ' NEW ?v=' + nv.join(',') + ' bytes ' + (same ? 'identical' : 'changed');
+        if (f === 'js/app.js' || f === 'js/moon-chart.js') {
+            ok(!same && bumped, f + ' changed (day/today link builders removed) and every index.html ref is bumped above BASE', detail);
+        } else if (f === 'js/i18n.js') {
+            // the full i18n bundle is cache-busted by the server's automatic &b=<build sha> (server.js appends it to
+            //   (app|i18n).js?v=N on every deploy); its split bundles are versioned by _i18nVersion. A manual ?v bump is optional.
+            ok(nv.length === bv.length && nv.every((v) => v >= Math.max(...bv)), f + ' ?v kept or bumped (busted by the automatic &b=<build sha>)', detail);
+        } else if (same) {
+            ok(JSON.stringify(nv) === JSON.stringify(bv), f + ' unchanged bytes -> same ?v as BASE', detail);
+        } else {
+            ok(bumped, f + ' changed bytes -> every index.html ref bumped above BASE', detail);
+        }
     }
-    ok(/css\/style\.css\?v=509/.test(html) && !/css\/style\.css\?v=508/.test(html)
-        && (html.split('css/style.css?v=509').length - 1) === 2,
-        'style.css cache-busted to v=509 on both refs (preload + stylesheet)');
-    ok(!/role\s*=\s*["']link["']/.test(chart) && !/tabindex/i.test(chart) && !/setAttribute\('tabindex'/.test(chart),
-        'the chart never sets role="link" or tabindex on a dot');
-    ok(/if \(p\.href\) \{[\s\S]{0,400}?createElementNS\('http:\/\/www\.w3\.org\/2000\/svg', 'a'\)[\s\S]{0,300}?a\.setAttribute\('aria-label'/.test(chart),
-        'only a dot WITH an href is wrapped in <a> and carries the aria-label');
-    ok(/dot\.addEventListener\('mouseenter'/.test(chart) && /dot\.addEventListener\('focus'/.test(chart)
-        && !/dot\.addEventListener\('click'/.test(chart) && !/dot\.addEventListener\('key/.test(chart)
-        && !/location\.href/.test(chart),
-        'dots carry tooltip listeners only — no click, no key handler, no programmatic navigation');
 }
 
 // ================================================================================ boot both trees
@@ -280,6 +218,11 @@ const MATRIX = [];
 for (const lp of LANGS) for (const c of CITIES) for (const k of KINDS) {
     MATRIX.push({ url: lp + '/moon/' + c.country + '/' + c.city + k.suffix, lang: lp || '/ar', city: c.label, kind: k.kind });
 }
+// MOON-DAY-PAGES-REMOVAL-1: the country page and the general /moon page must not link a removed page either
+for (const lp of LANGS) {
+    MATRIX.push({ url: lp + '/moon/saudi-arabia', lang: lp || '/ar', city: '-', kind: 'country' });
+    MATRIX.push({ url: lp + '/moon', lang: lp || '/ar', city: '-', kind: 'moon' });
+}
 
 // ---- determinism gate: BASE vs BASE on the same fields, so a later diff cannot be a live value -------
 section('gate BASE vs BASE');
@@ -299,72 +242,128 @@ section('gate BASE vs BASE');
         gateDiffs ? gateEx.join(' | ') : 'gate clean');
 }
 
+// MOON-DAY-PAGES-REMOVAL-1: B/C/D assert the removal contract (BASE = pre-removal tree).
+const GONE_KINDS = new Set(['today', 'day-in-window', 'day-out-of-window']);
+const NESTED_TODAY_HREF = /href="([^"]*?\/moon\/[a-z][a-z0-9-]*\/[a-z0-9][a-z0-9-]*\/today)(?:[?#][^"]*)?"/g;
+const LEGACY_TODAY_HREF = /href="([^"]*?\/moon-today-in-[^"]*)"/g;
+const goneHrefs = (s) => [...all(NESTED_DAY_HREF, s), ...all(LEGACY_DAY_HREF, s), ...all(NESTED_TODAY_HREF, s), ...all(LEGACY_TODAY_HREF, s)];
+const is410 = (r) => r.status === 410 && !r.headers.location && /data-tp-gone="moon-day"/.test(r.body);
+const SEO_KEYS = ['status', 'canonical', 'robots', 'title', 'description', 'hreflang'];
+const INFO_KEYS = ['ogUrl', 'jsonld', 'h1'];
+const firstDiff = (x, y) => { let i = 0; while (i < x.length && i < y.length && x[i] === y[i]) i++; return i; };
+
 section('B links + C seo (' + MATRIX.length + ' pages x 2 trees)');
-let emittedBase = 0, emittedNew = 0, legacyBase = 0, legacyNew = 0;
-let uniqueLostTotal = 0, seoDiffs = 0, statusDiffs = 0;
+let goneBase = 0, goneNew = 0, seoDiffs = 0, infoDiffs = 0, removedOk = 0, removedBad = 0, keptPages = 0;
 const perKind = {};
-const lostExamples = [], seoExamples = [];
+const leakExamples = [], seoExamples = [], infoExamples = [], removedExamples = [];
 for (const m of MATRIX) {
     const [a, b] = [await req(PORTS[0], m.url), await req(PORTS[1], m.url)];
-    const ua = uniq(all(NESTED_DAY_HREF, a.body)), ub = uniq(all(NESTED_DAY_HREF, b.body));
-    const la = all(LEGACY_DAY_HREF, a.body), lb = all(LEGACY_DAY_HREF, b.body);
-    const ea = all(NESTED_DAY_HREF, a.body).length, eb = all(NESTED_DAY_HREF, b.body).length;
-    emittedBase += ea; emittedNew += eb; legacyBase += la.length; legacyNew += lb.length;
-    const lost = ua.filter((u) => !ub.includes(u));
-    if (lost.length) { uniqueLostTotal += lost.length; if (lostExamples.length < 5) lostExamples.push(m.url + ' -> ' + lost.slice(0, 3).join(', ')); }
-    if (a.status !== b.status) statusDiffs++;
+    const k = perKind[m.kind] || (perKind[m.kind] = { pages: 0, base: 0, neu: 0, st: {} });
+    k.pages++;
+    const stKey = a.status + '->' + b.status; k.st[stKey] = (k.st[stKey] || 0) + 1;
+    if (GONE_KINDS.has(m.kind)) {
+        // removed page kinds: 200 on BASE, 410 Gone in ONE response on THIS TREE
+        if (a.status === 200 && is410(b)) removedOk++;
+        else { removedBad++; if (removedExamples.length < 5) removedExamples.push(m.url + ' BASE ' + a.status + ' NEW ' + b.status + (b.headers.location ? ' -> ' + b.headers.location : '')); }
+        continue;
+    }
+    keptPages++;
+    const ga = goneHrefs(a.body), gb = goneHrefs(b.body);
+    k.base += ga.length; k.neu += gb.length; goneBase += ga.length; goneNew += gb.length;
+    if (gb.length && leakExamples.length < 5) leakExamples.push(m.url + ' -> ' + uniq(gb).slice(0, 3).join(', '));
     const sa = seoOf(a), sb = seoOf(b);
-    for (const key of Object.keys(sa)) {
+    for (const key of SEO_KEYS) {
         if (JSON.stringify(sa[key]) !== JSON.stringify(sb[key])) {
             seoDiffs++;
             if (seoExamples.length < 5) {
-                const x = String(sa[key] || ''), y = String(sb[key] || '');
-                let i = 0; while (i < x.length && i < y.length && x[i] === y[i]) i++;
+                const x = String(sa[key] || ''), y = String(sb[key] || ''), i = firstDiff(x, y);
                 seoExamples.push(m.url + ' :: ' + key + ' @' + i
                     + ' BASE=' + JSON.stringify(x.slice(Math.max(0, i - 60), i + 80))
                     + ' NEW=' + JSON.stringify(y.slice(Math.max(0, i - 60), i + 80)));
             }
         }
     }
-    const k = perKind[m.kind] || (perKind[m.kind] = { pages: 0, base: 0, neu: 0, uBase: 0, uNew: 0, legacy: 0 });
-    k.pages++; k.base += ea; k.neu += eb; k.uBase += ua.length; k.uNew += ub.length; k.legacy += la.length;
+    for (const key of INFO_KEYS) {
+        if (JSON.stringify(sa[key]) !== JSON.stringify(sb[key])) {
+            infoDiffs++;
+            if (infoExamples.length < 3) { const x = String(sa[key] || ''), y = String(sb[key] || ''), i = firstDiff(x, y);
+                infoExamples.push(m.url + ' :: ' + key + ' @' + i + ' BASE=' + JSON.stringify(x.slice(Math.max(0, i - 40), i + 60)) + ' NEW=' + JSON.stringify(y.slice(Math.max(0, i - 40), i + 60))); }
+        }
+    }
 }
-ok(statusDiffs === 0, 'every page returns the same HTTP status as BASE', String(statusDiffs) + ' differences');
-ok(seoDiffs === 0, 'status/canonical/robots/title/description/og:url/hreflang/JSON-LD/H1 identical to BASE',
-    seoDiffs ? seoExamples.join(' | ') : MATRIX.length + ' pages x 10 SEO fields');
-ok(uniqueLostTotal === 0, 'UNIQUE day targets per page: 0 lost', uniqueLostTotal ? lostExamples.join(' | ') : 'checked ' + MATRIX.length + ' pages');
-ok(emittedNew < emittedBase, 'emitted day hrefs went down', 'BASE ' + emittedBase + ' -> ' + emittedNew
-    + ' (-' + (emittedBase - emittedNew) + ', -' + (((emittedBase - emittedNew) / emittedBase) * 100).toFixed(2) + '%)');
-ok(legacyNew === 0 && legacyBase === 0, 'no legacy /moon-in-{slug}/{ISO} href in SSR on either tree (they are client-side)',
-    'BASE ' + legacyBase + ' NEW ' + legacyNew);
+ok(removedBad === 0 && removedOk > 0, 'today / day page kinds: 200 on BASE -> 410 Gone on THIS TREE (no Location, data-tp-gone="moon-day")',
+    removedBad ? removedExamples.join(' | ') : removedOk + ' pages');
+ok(goneNew === 0, 'kept pages (hub/year/month/country//moon): 0 nested day, 0 legacy day, 0 nested /today, 0 /moon-today-in- hrefs on THIS TREE',
+    goneNew ? goneNew + ' hrefs :: ' + leakExamples.join(' | ') : keptPages + ' pages');
+ok(goneBase > 0, 'control: BASE emitted day/today hrefs on the same kept pages (the scan sees them)', 'BASE ' + goneBase + ' -> NEW ' + goneNew);
+ok(seoDiffs === 0, 'kept pages: status/canonical/robots/title/description/hreflang identical to BASE',
+    seoDiffs ? seoExamples.join(' | ') : keptPages + ' pages x ' + SEO_KEYS.length + ' SEO fields');
+console.log('  INFO og:url / JSON-LD / H1 differences on kept pages (not asserted): ' + infoDiffs + (infoExamples.length ? '  e.g. ' + infoExamples.join(' | ') : ''));
 console.log('\n  per page kind (both cities, 10 languages):');
-console.log('  kind                 pages  emitted BASE  emitted NEW  unique BASE  unique NEW');
+console.log('  kind                 pages  day/today hrefs BASE  day/today hrefs NEW  status BASE->NEW');
 for (const [kind, v] of Object.entries(perKind)) {
-    console.log('  ' + kind.padEnd(20) + ' ' + String(v.pages).padStart(5) + ' ' + String(v.base).padStart(13)
-        + ' ' + String(v.neu).padStart(12) + ' ' + String(v.uBase).padStart(12) + ' ' + String(v.uNew).padStart(11));
-}
-{
-    const y = perKind['year'];
-    ok(y && y.base === y.pages * 104 && y.neu === y.pages * 54,
-        'year page: 104 -> 54 emitted day hrefs per page (the 50 duplicates are gone)',
-        y ? (y.base / y.pages) + ' -> ' + (y.neu / y.pages) : 'missing');
-    ok(y && y.uBase === y.uNew, 'year page: the 50 unique day targets are unchanged', y ? y.uBase + ' -> ' + y.uNew : 'missing');
+    console.log('  ' + kind.padEnd(20) + ' ' + String(v.pages).padStart(5) + ' ' + String(v.base).padStart(21)
+        + ' ' + String(v.neu).padStart(20) + '  ' + Object.entries(v.st).map(([s, n]) => s + ' x' + n).join(', '));
 }
 
 // =============================================================================== D sitemap + routes
 section('D sitemap / routes');
-for (const u of ['/sitemap.xml', '/sitemap-moon-1.xml', '/sitemap-moon-2.xml', '/robots.txt']) {
-    const [a, b] = [await req(PORTS[0], u), await req(PORTS[1], u)];
-    const norm = (s) => s.replace(/<lastmod>[^<]*<\/lastmod>/g, '<lastmod>X</lastmod>');
-    ok(a.status === b.status && norm(a.body) === norm(b.body), 'identical to BASE: ' + u,
-        'status ' + a.status + '/' + b.status + ' bytes ' + a.body.length + '/' + b.body.length);
+{
+    const [a, b] = [await req(PORTS[0], '/robots.txt'), await req(PORTS[1], '/robots.txt')];
+    ok(a.status === b.status && a.body === b.body, 'identical to BASE: /robots.txt', 'status ' + a.status + '/' + b.status + ' bytes ' + a.body.length + '/' + b.body.length);
 }
-for (const u of ['/moon/saudi-arabia/makkah/2026/09/20', '/moon/saudi-arabia/khafji/2026/02/11',
-    '/moon-in-makkah/2026-09-21', '/moon/egypt/makkah/2026', '/moon/egypt/zzz-not-a-city/2026',
-    '/moon/saudi-arabia/makkah/2032/01', '/moon/saudi-arabia/makkah/2026/09']) {
+{
+    const TODAY_LOC = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z][a-z0-9-]*\/[a-z0-9][a-z0-9-]*\/today$/;
+    const DAY_LOC = /\/moon\/[a-z][a-z0-9-]*\/[a-z0-9][a-z0-9-]*\/\d{4}\/\d{2}\/\d{2}$|\/moon-today-in-|\/moon-in-[^/]+\/\d{4}-\d{2}-\d{2}$/;
+    const family = async (port) => {
+        const idx = await req(port, '/sitemap.xml');
+        const children = [...idx.body.matchAll(/<loc>([^<]*)<\/loc>/g)].map((x) => x[1]);
+        const moonNames = children.map((l) => (l.match(/(\/sitemap-moon(?:-[1-9]\d*)?\.xml)$/) || [])[1]).filter(Boolean);
+        const blocks = new Map(); let n = 0;
+        for (const f of moonNames) {
+            const r = await req(port, f);
+            for (const u of r.body.matchAll(/<url>([\s\S]*?)<\/url>/g)) {
+                const loc = (u[1].match(/<loc>([^<]*)<\/loc>/) || [])[1] || '';
+                n++; blocks.set(loc, u[1].replace(/<lastmod>[^<]*<\/lastmod>/g, '<lastmod>X</lastmod>').trim());
+            }
+        }
+        return { idx, children, moonNames, blocks, n };
+    };
+    const [fa, fb] = [await family(PORTS[0]), await family(PORTS[1])];
+    ok(fa.moonNames.length > 0 && fb.moonNames.length > 0, 'both trees list sitemap-moon family files in sitemap.xml',
+        'BASE ' + fa.moonNames.join(',') + ' NEW ' + fb.moonNames.join(','));
+    const nonMoon = (c) => c.filter((l) => !/\/sitemap-moon(?:-[1-9]\d*)?\.xml$/.test(l));
+    ok(JSON.stringify(nonMoon(fa.children)) === JSON.stringify(nonMoon(fb.children)), 'sitemap.xml: every non-moon child identical to BASE (same order)',
+        nonMoon(fa.children).length + ' / ' + nonMoon(fb.children).length + ' children');
+    const baseToday = [...fa.blocks.keys()].filter((l) => TODAY_LOC.test(l));
+    const removed = [...fa.blocks.keys()].filter((l) => !fb.blocks.has(l));
+    const added = [...fb.blocks.keys()].filter((l) => !fa.blocks.has(l));
+    const changed = [...fb.blocks.keys()].filter((l) => fa.blocks.has(l) && fa.blocks.get(l) !== fb.blocks.get(l));
+    const newGone = [...fb.blocks.keys()].filter((l) => TODAY_LOC.test(l) || DAY_LOC.test(l));
+    ok(baseToday.length > 0, 'control: BASE moon family lists /today locs', String(baseToday.length));
+    ok(newGone.length === 0, 'THIS TREE moon family: 0 /today and 0 day locs', newGone.slice(0, 3).join(' '));
+    ok(added.length === 0, 'THIS TREE moon family: 0 locs added vs BASE', added.slice(0, 3).join(' '));
+    ok(removed.length === baseToday.length && removed.every((l) => TODAY_LOC.test(l)),
+        'THIS TREE moon family = BASE minus exactly the /today locs (no other loc removed)',
+        'removed ' + removed.length + ' / BASE /today ' + baseToday.length + ' (derived 1,070 sitemap-wide, confirm on the first candidate run)'
+        + ' non-today removed: ' + removed.filter((l) => !TODAY_LOC.test(l)).slice(0, 3).join(' '));
+    ok(changed.length === 0 && fb.n === fb.blocks.size, 'every kept moon <url> block identical to BASE (lastmod normalised), no duplicate loc',
+        'changed ' + changed.length + ' ' + changed.slice(0, 2).join(' ') + ' dup ' + (fb.n - fb.blocks.size));
+    console.log('  INFO moon family: BASE ' + fa.n + ' locs in ' + fa.moonNames.length + ' files -> NEW ' + fb.n + ' locs in ' + fb.moonNames.length + ' files');
+}
+// kept routes + day-shaped requests that are 404 on BASE: unchanged
+for (const u of ['/moon/egypt/makkah/2026', '/moon/egypt/zzz-not-a-city/2026', '/moon/saudi-arabia/makkah/2032/01', '/moon/saudi-arabia/makkah/2026/09',
+    '/moon/saudi-arabia/makkah/2032/01/01', '/moon/saudi-arabia/makkah/2026/02/30', '/moon/saudi-arabia/makkah/today/x', '/moon/egypt/zzz-not-a-city/today']) {
     const [a, b] = [await req(PORTS[0], u), await req(PORTS[1], u)];
     ok(a.status === b.status && String(a.headers.location || '') === String(b.headers.location || ''),
         'route behaviour unchanged: ' + u, a.status + (a.headers.location ? ' -> ' + a.headers.location : ''));
+}
+// day / today routes (200, or a 301 that ended at a day/today page on BASE) -> 410 directly
+for (const u of ['/moon/saudi-arabia/makkah/2026/09/20', '/moon/saudi-arabia/khafji/2026/02/11', '/moon-in-makkah/2026-09-21',
+    '/moon-today-in-makkah', '/moon/egypt/makkah/today', '/moon/saudi-arabia/makkah/today']) {
+    const [a, b] = [await req(PORTS[0], u), await req(PORTS[1], u)];
+    ok((a.status === 200 || a.status === 301) && is410(b), 'removed route -> 410 Gone in ONE response: ' + u,
+        'BASE ' + a.status + (a.headers.location ? ' -> ' + a.headers.location : '') + ' NEW ' + b.status + (b.headers.location ? ' -> ' + b.headers.location : ''));
 }
 
 // =============================================================================== E outbound guard

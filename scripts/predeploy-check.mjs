@@ -9,6 +9,8 @@
 //        - عند SITE_URL=http://localhost… → http://…
 //   5. اختبار 5 صفحات مدن: title/H1/canonical/hreflang
 //   6. اختبار redirects: mecca→makkah، giza-governorate→giza + /prayer-times-in-singapore = 200 index بلا redirect (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
+//   MOON-DAY-PAGES-REMOVAL-1: sample moon page = the hub /moon/saudi-arabia/riyadh; the curated alias of a removed
+//     today route (/moon-today-in-mecca) now answers 410 directly → checked in a small GONE_410 list (no 301 row).
 //
 // تشغيل (مع خادم محلّي):     node scripts/predeploy-check.mjs
 // أو ضدّ staging/production: SITE_URL=https://example.com node scripts/predeploy-check.mjs
@@ -114,7 +116,7 @@ const samplePages = [
     '/prayer-times-in-riyadh',
     '/prayer-times-in-makkah',
     '/qibla-in-makkah',
-    '/moon-today-in-riyadh',
+    '/moon/saudi-arabia/riyadh',   // MOON-DAY-PAGES-REMOVAL-1: was /moon-today-in-riyadh (removed today page, 410)
     '/time-left-until-next-prayer-in-cairo',
     '/next-prayer-in-london',
 ];
@@ -143,7 +145,7 @@ console.log(`\n▌ F) 301 Redirect tests`);
 const redirects = [
     { from: '/prayer-times-in-mecca',           to: '/prayer-times-in-makkah' },
     { from: '/qibla-in-mecca',                  to: '/qibla-in-makkah' },
-    { from: '/moon-today-in-mecca',             to: '/moon-today-in-makkah' },
+    // MOON-DAY-PAGES-REMOVAL-1: '/moon-today-in-mecca' left this table → GONE_410 below (410 directly, no 301 chain).
     { from: '/prayer-times-in-giza-governorate',to: '/prayer-times-in-giza' },
     // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: singapore → singapore-city removed — /prayer-times-in-singapore must NOT redirect (checked below).
     { from: '/en/prayer-times-in-mecca',        to: '/en/prayer-times-in-makkah' },
@@ -164,6 +166,17 @@ for (const r of redirects) {
     } else {
         bad(`${r.from}: HTTP ${resp.status}`);
     }
+}
+
+// MOON-DAY-PAGES-REMOVAL-1: removed moon today/day pages (incl. the curated alias of a today route, which used to 301 to
+//   /moon-today-in-makkah) answer 410 in ONE response: no Location, the static gone body.
+const GONE_410 = ['/moon-today-in-mecca'];
+for (const p of GONE_410) {
+    const resp = await fetch(`${BASE}${p}`, { redirect: 'manual' }).catch(() => null);
+    if (!resp) { bad(`${p}: fetch failed`); continue; }
+    const body = await resp.text().catch(() => '');
+    if (resp.status === 410 && !resp.headers.get('location') && /data-tp-gone="moon-day"/.test(body)) ok(`${p} → 410 (gone, no redirect)`);
+    else bad(`${p}: status=${resp.status} location=${resp.headers.get('location') || ''} (expected 410, no Location)`);
 }
 
 // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: /prayer-times-in-singapore is the canonical curated Singapore CITY page — it must

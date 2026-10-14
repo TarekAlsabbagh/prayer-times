@@ -6,6 +6,9 @@
 // canonical + 10-lang hreflang, page-moon active (not footer-only), single H1, the
 // __PRAYER_CITY__ seed, the 301 old→new (+langs), mismatch→301, validation 404s, and
 // the legacy today/month/date routes left UNTOUCHED (200, not migrated).
+// MOON-DAY-PAGES-REMOVAL-1: the hub keeps today's moon block (#moon-main-card …); its explore section = 3 cards
+//   (country, year, month) + a year/month picker (no #mc-exp-d, no day URL); day/today and legacy today/dated → 410;
+//   legacy month 301 stays; the month page detail-CTA never links /today. The 404 list is unchanged.
 //
 // Run: node scripts/_smoke_moon_city_hub_route_structure_add_1.mjs
 import http from 'node:http';
@@ -33,6 +36,8 @@ const sleep = (ms) => new Promise(r => setTimeout(r, ms));
 async function waitReady(ms) { const t0 = Date.now(); while (Date.now() - t0 < ms) { const r = await req('/health'); if (r.status === 200) return true; await sleep(400); } return false; }
 
 const pageMoonActive = (b) => /class="page active" id="page-moon"/.test(b);
+// MOON-DAY-PAGES-REMOVAL-1: a removed day/today page = 410 in ONE response, no Location, small static body.
+const is410 = (r) => r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body) && !/id="page-moon"/.test(r.body) && Buffer.byteLength(r.body) < 4096;
 const canonOf = (b) => (b.match(/<link rel="canonical" href="([^"]+)"/) || [])[1] || '';
 const h1Count = (b) => (b.match(/<h1\b/g) || []).length;
 const attrOf = (b, id, attr) => { const m = b.match(new RegExp('id="' + id + '"[^>]*' + attr + '="([^"]*)"')); return m ? m[1] : null; };
@@ -171,40 +176,58 @@ try {
 
     // ── E) legacy routes — MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: ALL legacy flat routes now 301
     //        (lang-preserved) to their nested equivalent (was 200 before MLRC). /moon + /moon/{country} 200.
-    console.log('\n── E) legacy today/month/date now 301 → nested · /moon · /moon/{country} 200 ──');
+    //        MOON-DAY-PAGES-REMOVAL-1: legacy today + dated used to 301 into a day/today page → now 410 Gone (no Location).
+    console.log('\n── E) legacy month 301 → nested · legacy today/date 410 · /moon · /moon/{country} 200 ──');
     for (const [u, to] of [
-        ['/moon-today-in-riyadh', '/moon/saudi-arabia/riyadh/today'],
         ['/moon-in-riyadh/2026-06', '/moon/saudi-arabia/riyadh/2026/06'],
-        ['/moon-in-riyadh/2026-06-17', '/moon/saudi-arabia/riyadh/2026/06/17'],
     ]) {
         const r = await req(u);
         check(`${u}: 301 → ${to} (MLRC legacy cleanup)`, r.status === 301 && r.loc === to, `status=${r.status} loc=${r.loc}`);
+    }
+    for (const u of ['/moon-today-in-riyadh', '/moon-in-riyadh/2026-06-17']) {
+        const r = await req(u);
+        check(`${u}: 410 Gone, no Location (MOON-DAY-PAGES-REMOVAL-1)`, is410(r), `status=${r.status} loc=${r.loc} len=${Buffer.byteLength(r.body)}`);
     }
     check('/moon still 200 (global hub)', (await req('/moon')).status === 200);
     check('/moon/saudi-arabia still 200 (country page)', (await req('/moon/saudi-arabia')).status === 200);
 
     // ── F) MOON-CITY-HUB-EXPLORE-SECTION-1: "Explore the Moon in {city}" section below #moon-main-card ──
-    console.log('\n── F) hub explore section (5 cards) below #moon-main-card; year-CTA + detail-CTA removed ──');
+    console.log('\n── F) hub explore section (3 link cards + y/m picker) below #moon-main-card; year-CTA + detail-CTA removed ──');
     {
         const xTitle = (x) => (x.match(/id="mc-explore-title"[^>]*>([^<]*)</) || [])[1] || '';
         const hb = (await req('/moon/saudi-arabia/riyadh')).body;
         check('hub: #mc-explore section + title ("استكشف القمر في الرياض")', /id="mc-explore"/.test(hb) && hb.includes('استكشف القمر في الرياض'));
+        // MOON-DAY-PAGES-REMOVAL-1: the today card is gone — 3 link cards (country, year, month), 0 /today hrefs.
         const xHrefs = [...hb.matchAll(/<a class="mc-explore-card" href="([^"]+)"/g)].map(m => m[1]);
-        check('hub: 4 link cards — FIRST → country, then today/year/month', xHrefs.length === 4 && xHrefs[0] === '/moon/saudi-arabia' && /\/riyadh\/today$/.test(xHrefs[1]) && /\/riyadh\/\d{4}$/.test(xHrefs[2]) && /\/riyadh\/\d{4}\/\d{2}$/.test(xHrefs[3]), xHrefs.join(' '));
+        const _xi = hb.indexOf('id="mc-explore"'), xSec = _xi >= 0 ? hb.slice(_xi, hb.indexOf('</section>', _xi)) : '';
+        check('hub: 3 link cards — FIRST → country, then year/month (no today card)', xHrefs.length === 3 && xHrefs[0] === '/moon/saudi-arabia' && /\/riyadh\/\d{4}$/.test(xHrefs[1]) && /\/riyadh\/\d{4}\/\d{2}$/.test(xHrefs[2]), xHrefs.join(' '));
+        check('hub: explore section has 0 /today hrefs', !/href="[^"]*\/today(?:[?#][^"]*)?"/.test(xSec) && !xHrefs.some(h => /\/today$/.test(h)), xHrefs.join(' '));
         check('hub: first-card label = "moon in cities of {country}"', hb.includes('القمر في مدن المملكة العربية السعودية'));
-        check('hub: "moon today" card KEPT (قمر اليوم في الرياض)', hb.includes('قمر اليوم في الرياض'));
-        check('hub: date picker present (y/m/d + disabled go + scoped base)', /id="mc-exp-y"/.test(hb) && /id="mc-exp-go" class="mc-explore-go" disabled/.test(hb) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(hb));
+        check('hub: "moon today" card REMOVED from the explore section (no قمر اليوم في الرياض card)', !xSec.includes('قمر اليوم في الرياض'));
+        // the picker is year + month → month page: #mc-exp-y + #mc-exp-m, NO #mc-exp-d, and its inline script reads no day value
+        {
+            const pScripts = [...hb.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/g)].map(m => m[1]).filter(t => t.includes('mc-exp-y'));
+            check('hub: date picker present (y/m + go + scoped base), NO day select #mc-exp-d', /id="mc-exp-y"/.test(hb) && /id="mc-exp-m"/.test(hb) && !/id="mc-exp-d"/.test(hb) && /id="mc-exp-go"/.test(hb) && /b="\/moon\/saudi-arabia\/riyadh\/"/.test(hb));
+            check('hub: picker inline script present and builds no day URL (no "d.value", no mc-exp-d)', pScripts.length >= 1 && pScripts.every(t => !t.includes('d.value') && !t.includes('mc-exp-d')), `${pScripts.length} picker script(s)`);
+        }
+        // the hub still carries today's moon information (main card + phase/illumination + 14-day forecast)
+        check('hub: today-moon block present (#moon-main-card + #moon-phase-name + #moon-illumination + #moon-forecast)', /id="moon-main-card"/.test(hb) && /id="moon-phase-name"/.test(hb) && /id="moon-illumination"/.test(hb) && /id="moon-forecast"/.test(hb));
         check('hub: explore BELOW #moon-main-card (main < explore < month-h2)', hb.indexOf('id="moon-main-card"') > 0 && hb.indexOf('id="mc-explore"') > hb.indexOf('id="moon-main-card"') && hb.indexOf('id="moon-current-month-h2"') > hb.indexOf('id="mc-explore"'));
         check('hub: standalone year-CTA + detail-CTA REMOVED, compact-cal KEPT', !/id="moon-hub-year-cta"/.test(hb) && !/moon-hub-detail-cta/.test(hb) && /id="moon-hub-cal"/.test(hb));
-        for (const u of [xHrefs[0], xHrefs[1], xHrefs[2], xHrefs[3], '/moon/saudi-arabia/riyadh/2026/12/09']) check(`hub: link 200 ${u}`, (await req(u)).status === 200);
+        for (const u of xHrefs) check(`hub: link 200 ${u}`, (await req(u)).status === 200);
+        { const r = await req('/moon/saudi-arabia/riyadh/2026/12/09'); check('/moon/saudi-arabia/riyadh/2026/12/09 → 410 Gone (no day page; MOON-DAY-PAGES-REMOVAL-1)', is410(r), `status=${r.status} loc=${r.loc}`); }
         const xNat = { en: 'Explore the Moon in', fr: 'Explorez la Lune', tr: 'Keşfedin', ur: 'دریافت کریں', de: 'entdecken', id: 'Jelajahi Bulan', es: 'Explora la Luna', bn: 'অন্বেষণ করুন', ms: 'Terokai Bulan' };
         for (const [lang, sent] of Object.entries(xNat)) {
             const b = (await req(`/${lang}/moon/saudi-arabia/riyadh`)).body;
             const fh = (b.match(/<a class="mc-explore-card" href="([^"]+)"/) || [])[1] || '';
             check(`hub explore native ${lang} + /${lang}/ country href`, xTitle(b).includes(sent) && fh === `/${lang}/moon/saudi-arabia` && !/\/en\/en\//.test(b));
         }
-        // the MONTH page keeps its own detail-CTA (only the HUB's standalone CTAs were removed)
-        check('month page detail-CTA untouched (only hub CTAs removed)', (await req('/moon/saudi-arabia/riyadh/2026/06')).body.includes('moon-hub-detail-cta'));
+        // MOON-DAY-PAGES-REMOVAL-1: the MONTH page has no detail-CTA to /today; if .moon-hub-detail-cta is still rendered it links the hub
+        {
+            const mb = (await req('/moon/saudi-arabia/riyadh/2026/06')).body;
+            const ctas = [...mb.matchAll(/<a\b[^>]*class="moon-hub-detail-cta"[^>]*>/g)].map(m => (m[0].match(/href="([^"]*)"/) || [])[1] || '');
+            check('month page: no detail-CTA to /today (.moon-hub-detail-cta absent, or links the hub /moon/saudi-arabia/riyadh)', ctas.every(h => h === '/moon/saudi-arabia/riyadh'), `ctas=${JSON.stringify(ctas)}`);
+        }
     }
 
     console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);

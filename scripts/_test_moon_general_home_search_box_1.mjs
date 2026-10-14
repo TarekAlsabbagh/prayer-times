@@ -17,6 +17,7 @@
 //      the cities the user listed (charikar/london/makkah).
 //   E. Existing /moon-today-in-{slug} + /moon-in-{slug} routes still
 //      work (regression — these are server-side routes, untouched).
+//      MOON-DAY-PAGES-REMOVAL-1: Part E — /moon-today-in-{slug} is a removed today page → 410, no Location.
 //
 // Pre-req: `node server.js` on localhost:8080.
 
@@ -172,9 +173,9 @@ for (const url of MOON_IN_PAGES) {
 }
 
 // ───────────────────────────────────────────────────────────────────────
-// PART E — /moon-today-in-{slug} now 301 → nested today (MLRC)
+// PART E — /moon-today-in-{slug} → 410 Gone (MOON-DAY-PAGES-REMOVAL-1; was a 301 → nested today since MLRC)
 // ───────────────────────────────────────────────────────────────────────
-console.log('\n── Part E — /moon-today-in-{slug} now 301 → nested today (MLRC) ──');
+console.log('\n── Part E — /moon-today-in-{slug} → 410 (removed today page, no Location) ──');
 
 const MOON_TODAY_IN_PAGES = [
     '/moon-today-in-charikar',
@@ -184,8 +185,7 @@ const MOON_TODAY_IN_PAGES = [
 
 for (const url of MOON_TODAY_IN_PAGES) {
     const r = await get(url);
-    const nested = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z-]+\/[a-z-]+\/today$/.test(r.loc);
-    ok(url.padEnd(32) + ' 301 → nested today', r.status === 301 && nested, `status=${r.status} loc=${r.loc}`);
+    ok(url.padEnd(32) + ' 410 (no Location)', r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body), `status=${r.status} loc=${r.loc}`);
 }
 
 // ───────────────────────────────────────────────────────────────────────

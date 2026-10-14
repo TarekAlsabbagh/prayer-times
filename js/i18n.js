@@ -922,7 +922,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'اليوم المعروض',
         'moon.chart_title': 'مخطط إضاءة القمر — 7 أيام',
         'moon.chart_subtitle': 'نسبة إضاءة القمر من 3 أيام قبل التاريخ المعروض إلى 3 أيام بعده.',
-        'moon.chart_caption': 'اختر أي نقطة لعرض تفاصيل القمر في ذلك التاريخ.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'مرّر المؤشر أو المس أي نقطة لعرض تفاصيل القمر في ذلك اليوم.',
         'moon.chart_a11y': 'مخطط إضاءة القمر — 7 أيام',
         'moon.h1_date_template': 'حالة القمر في {city} يوم {date}',
         'moon.title_date_template': 'حالة القمر في {city} يوم {date} — الطور والإضاءة والعمر',
@@ -2500,7 +2501,8 @@ const TRANSLATIONS = {
         // other 8 langs UNCHANGED (still ship without {city}).
         'moon.chart_title': 'Moon Illumination in {city} — 7-Day Chart',
         'moon.chart_subtitle': 'Moon illumination percentage from 3 days before the shown date to 3 days after.',
-        'moon.chart_caption': 'Tap any point to view the moon details for that date.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'Hover or tap any point to see the moon details for that day.',
         'moon.chart_a11y': 'Moon illumination chart — 7 days',
         'moon.h1_date_template': 'Moon in {city} on {date}',
         'moon.title_date_template': 'Moon in {city} on {date} — Phase, Illumination & Age',
@@ -3940,7 +3942,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'Date affich\u00e9e',
         'moon.chart_title': 'Graphique d\u2019illumination de la Lune — 7 jours',
         'moon.chart_subtitle': 'Pourcentage d\u2019illumination de la Lune de 3 jours avant la date affichée à 3 jours après.',
-        'moon.chart_caption': 'Choisissez un point pour voir les détails de la Lune à cette date.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'Survolez ou touchez un point pour voir les détails de la Lune ce jour-là.',
         'moon.chart_a11y': 'Graphique d\u2019illumination de la Lune — 7 jours',
         'moon.h1_date_template': 'La Lune à {city} le {date}',
         'moon.title_date_template': 'La Lune à {city} le {date} — Phase, illumination et âge',
@@ -5281,7 +5284,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'Görüntülenen tarih',
         'moon.chart_title': 'Ay Aydınlatma Grafiği — 7 gün',
         'moon.chart_subtitle': 'Gösterilen tarihten 3 gün önce ile 3 gün sonra arasındaki Ay aydınlanma yüzdesi.',
-        'moon.chart_caption': 'O tarihin Ay ayrıntılarını görmek için herhangi bir noktaya dokunun.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'O günün Ay ayrıntılarını görmek için herhangi bir noktanın üzerine gelin veya dokunun.',
         'moon.chart_a11y': 'Ay aydınlatma grafiği — 7 gün',
         'moon.h1_date_template': '{city} için {date} tarihinde Ay',
         'moon.title_date_template': '{city} için {date} tarihinde Ay — Evre, Aydınlatma ve Yaş',
@@ -6622,7 +6626,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'موجودہ تاریخ',
         'moon.chart_title': 'چاند کی روشنی کا چارٹ — 7 دن',
         'moon.chart_subtitle': 'دکھائی گئی تاریخ سے 3 دن پہلے سے 3 دن بعد تک چاند کی روشنی کا فیصد۔',
-        'moon.chart_caption': 'اس تاریخ کے لیے چاند کی تفصیلات دیکھنے کے لیے کسی بھی نقطے کا انتخاب کریں۔',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'اس دن کی چاند کی تفصیلات دیکھنے کے لیے کسی بھی نقطے پر کرسر لے جائیں یا اسے چھوئیں۔',
         'moon.chart_a11y': 'چاند کی روشنی کا چارٹ — 7 دن',
         'moon.h1_date_template': '{city} میں {date} کو چاند',
         'moon.title_date_template': '{city} میں {date} کو چاند — مرحلہ، روشنی اور عمر',
@@ -7957,7 +7962,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'Angezeigtes Datum',
         'moon.chart_title': 'Mond-Beleuchtungsdiagramm — 7 Tage',
         'moon.chart_subtitle': 'Mondbeleuchtungsprozent von 3 Tagen vor dem angezeigten Datum bis 3 Tage danach.',
-        'moon.chart_caption': 'Wählen Sie einen Punkt aus, um die Monddetails für dieses Datum anzuzeigen.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'Fahren Sie mit der Maus über einen Punkt oder tippen Sie darauf, um die Monddetails für diesen Tag zu sehen.',
         'moon.chart_a11y': 'Mond-Beleuchtungsdiagramm — 7 Tage',
         'moon.h1_date_template': 'Der Mond in {city} am {date}',
         'moon.title_date_template': 'Der Mond in {city} am {date} — Phase, Beleuchtung & Alter',
@@ -9353,7 +9359,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'Tanggal yang ditampilkan',
         'moon.chart_title': 'Grafik Iluminasi Bulan — 7 Hari',
         'moon.chart_subtitle': 'Persentase iluminasi Bulan dari 3 hari sebelum tanggal yang ditampilkan hingga 3 hari setelahnya.',
-        'moon.chart_caption': 'Pilih titik mana pun untuk melihat detail Bulan pada tanggal tersebut.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'Arahkan kursor atau ketuk titik mana pun untuk melihat detail Bulan pada hari itu.',
         'moon.chart_a11y': 'Grafik iluminasi Bulan — 7 hari',
         'moon.h1_date_template': 'Bulan di {city} pada {date}',
         'moon.title_date_template': 'Bulan di {city} pada {date} — Fase, Iluminasi & Usia',
@@ -10749,7 +10756,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'Fecha mostrada',
         'moon.chart_title': 'Gráfico de iluminación de la Luna — 7 días',
         'moon.chart_subtitle': 'Porcentaje de iluminación de la Luna desde 3 días antes de la fecha mostrada hasta 3 días después.',
-        'moon.chart_caption': 'Elige cualquier punto para ver los detalles de la Luna en esa fecha.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'Pasa el cursor o toca cualquier punto para ver los detalles de la Luna de ese día.',
         'moon.chart_a11y': 'Gráfico de iluminación de la Luna — 7 días',
         'moon.h1_date_template': 'La Luna en {city} el {date}',
         'moon.title_date_template': 'La Luna en {city} el {date} — Fase, iluminación y edad',
@@ -12145,7 +12153,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'প্রদর্শিত তারিখ',
         'moon.chart_title': 'চাঁদের আলোকসজ্জা চার্ট — ৭ দিন',
         'moon.chart_subtitle': 'প্রদর্শিত তারিখের 3 দিন আগে থেকে 3 দিন পর পর্যন্ত চাঁদের আলোকন শতাংশ।',
-        'moon.chart_caption': 'সেই তারিখের জন্য চাঁদের বিবরণ দেখতে যেকোনো বিন্দু নির্বাচন করুন।',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'সেই দিনের চাঁদের বিবরণ দেখতে যেকোনো বিন্দুর ওপর কার্সর রাখুন বা স্পর্শ করুন।',
         'moon.chart_a11y': 'চাঁদের আলোকসজ্জা চার্ট — ৭ দিন',
         'moon.h1_date_template': '{city}-এ {date}-এ চাঁদ',
         'moon.title_date_template': '{city}-এ {date}-এ চাঁদ — দশা, আলোকসজ্জা ও বয়স',
@@ -13541,7 +13550,8 @@ const TRANSLATIONS = {
         'moon.current_date': 'Tarikh dipaparkan',
         'moon.chart_title': 'Carta Pencahayaan Bulan — 7 Hari',
         'moon.chart_subtitle': 'Peratusan pencahayaan Bulan dari 3 hari sebelum tarikh yang dipaparkan hingga 3 hari selepasnya.',
-        'moon.chart_caption': 'Pilih mana-mana titik untuk melihat butiran Bulan pada tarikh tersebut.',
+        // MOON-DAY-PAGES-REMOVAL-1: tooltip-only hint (day pages are gone).
+        'moon.chart_caption': 'Halakan kursor atau ketik mana-mana titik untuk melihat butiran Bulan pada hari itu.',
         'moon.chart_a11y': 'Carta pencahayaan Bulan — 7 hari',
         'moon.h1_date_template': 'Bulan di {city} pada {date}',
         'moon.title_date_template': 'Bulan di {city} pada {date} — Fasa, Pencahayaan & Usia',

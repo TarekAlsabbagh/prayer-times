@@ -8,6 +8,7 @@
 // phase timeline (the existing #moon-upcoming-section already lists the 4 major phases → no duplication,
 // no repeated phase names). Reuses .section-card / .moon-seo-grid / .moon-stat → server-side only:
 // no app.js / index.html / css change, no cache-buster. /today, /day, /year and the hub keep the table.
+// MOON-DAY-PAGES-REMOVAL-1: /today + /day pages are removed (410) → the keep-forecast scope list is the hub only.
 //
 // Run: node scripts/_smoke_moon_city_month_remove_14day_table_add_month_summary_1.mjs
 import http from 'node:http';
@@ -107,9 +108,10 @@ const AR_PHASES = ['بدر', 'محاق', 'تربيع', 'أحدب', 'هلال'];
             check(`${lang}: summary H2 present + 4 stat values`, /<h2[^>]*id="moon-month-stats-h2"/.test(sec) && vals(sec).length === 4);
         }
 
-        // ── D) scope: /today & /day keep the forecast (no summary); hub/year/country/home/prayer/qibla no summary ──
+        // ── D) scope: the hub keeps the forecast (no summary); year/country/home/prayer/qibla no summary ──
+        // MOON-DAY-PAGES-REMOVAL-1: /today and /day are 410 now → dropped from keepFc.
         console.log('\n── D) scope guard ──');
-        const keepFc = ['/moon/egypt/cairo/today', '/moon/egypt/cairo/2026/06/14', '/moon/egypt/cairo'];
+        const keepFc = ['/moon/egypt/cairo'];
         for (const p of keepFc) {
             const b = (await req(p)).body;
             check(`${p}: keeps #moon-forecast + NO summary`, b.includes('id="moon-forecast"') && dup(b) === 0);

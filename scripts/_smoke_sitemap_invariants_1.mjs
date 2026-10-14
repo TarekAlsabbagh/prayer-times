@@ -8,7 +8,7 @@
 //       well-formed urlset (one <loc> per <url>), index children = main + city shards, next shard number → 404
 //   [C] exact loc SETS and counts vs the set computed from the data files (curated-places.json, curated-slugs.json,
 //       umm-al-qura.json, guides-content.js, surah-routes.json + the server.js literals FAMOUS_CITY_OVERRIDES /
-//       COUNTRY_NAMES_EN / COUNTRY_SLUG_OVERRIDES / SITEMAP_URL_BUDGET), + today's snapshot 7,430 / 168,590 / 115 / 176,135
+//       COUNTRY_NAMES_EN / COUNTRY_SLUG_OVERRIDES / SITEMAP_URL_BUDGET), + the snapshot 7,430 / 167,520 / 115 / 175,065 (derived)
 //   [U] uniqueness within each file and across files
 //   [P] path hygiene: https apex, no query / # / .html / '.' / '//' / % / uppercase / whitespace / non-canonical
 //       trailing slash, no /ar/ prefix, loc === origin + pathname
@@ -45,6 +45,11 @@
 //           === the legacy files served on after; legacy files byte-identical; every base <url> block === the index children's
 //           block WITH <lastmod> (no lastmod stripping any more); 0 removed, 0 added (the containment-era approved removals are gone)
 //
+//   MOON-DAY-PAGES-REMOVAL-1: the per-city moon /today page is removed (410) → no /today loc anywhere (moon family rule, [M]
+//       shape and the computed expectation drop it, so a stray /today loc FAILS); snapshots DERIVED (shards 167,520, total
+//       175,065, moon family 44,460 = 2 x 22,230); est() mirrors server _estCityUrlCount via EST_FAMOUS_MOON; [B] approves
+//       exactly the base /[lang/]moon/{c}/{city}/today locs as removals (derived 1,070), 0 added, legacy byte identity scoped.
+//
 // Usage:
 //   TP_BASE_ROOT=<base checkout> node scripts/_smoke_sitemap_invariants_1.mjs
 //   env: SITEMAP_INV_MODE=sample (default) | full      SITEMAP_INV_ROOT=<tree to boot> (default: this checkout)
@@ -78,11 +83,24 @@ const SNAPSHOT = process.env.SITEMAP_INV_SNAPSHOT !== '0';
 
 const SITE = 'https://timesprayers.com';
 const LOCALES = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
-const SNAP = { main: 7430, shards: 168590, quran: 115, total: 176135, shardFiles: 23 };   // 2026-09-15 snapshot
+// MOON-DAY-PAGES-REMOVAL-1: 2026-09-15 snapshot minus the 1,070 /today locs (107 famous moon cities x 10 locales):
+//   shards 168,590 → 167,520, total 176,135 → 175,065, main stays 7,430 — derived, confirm on the first candidate run.
+//   shardFiles: kept at 23 (greedy 7,500-URL packing of 167,520 still needs 23 files by estimate) — it may change if the
+//   lower famous estimate (EST_FAMOUS_MOON 20 → 10) rechunks; confirm on the first candidate run.
+const SNAP = { main: 7430, shards: 167520, quran: 115, total: 175065, shardFiles: 23 };   // derived from the 2026-09-15 snapshot
+// MOON-DAY-PAGES-REMOVAL-1: the moon family = hub/year/month only after the removal (+ the general /moon + country pages, in main).
+//   Server _estCityUrlCount emits per famous city: hub (10) [+ today (10) before this ticket] + 130 per window year. This constant
+//   MUST mirror it (the shard chunking depends on it). The in-flight server.js (2026-10-13) already has `n += 10; // moon hub (10)`.
+const EST_FAMOUS_MOON = 10;   // hub(10) — was 20 = hub(10)+today(10); set back to 20 only if server.js _estCityUrlCount keeps today
+// MOON-DAY-PAGES-REMOVAL-1: the 1,070 approved /today removals vs base (derived, confirm on the first candidate run)
+const APPROVED_TODAY_N = 1070;
 // SITEMAP-SEMANTIC-PARTITIONING-1: the index children in order → URL count (2026-09-15 snapshot; RAMADAN has 0 URLs → no file)
+// MOON-DAY-PAGES-REMOVAL-1: moon family 45,530 → 44,460 = 4,446 ten-locale path groups; fewest near-equal parts <= 25,000 URLs
+//   with a path's 10 locales never split → 2 parts of 2,223 groups = 22,230 + 22,230 (was 22,770 + 22,760) — derived, confirm on
+//   the first candidate run. Every other family is unchanged.
 const SNAP_FAMILY = { '/sitemap-prayer-1.xml': 16410, '/sitemap-prayer-2.xml': 16410, '/sitemap-qibla-1.xml': 15600, '/sitemap-qibla-2.xml': 15590,
     '/sitemap-time-left-1.xml': 15590, '/sitemap-time-left-2.xml': 15590, '/sitemap-next-prayer-1.xml': 15590, '/sitemap-next-prayer-2.xml': 15590,
-    '/sitemap-moon-1.xml': 22770, '/sitemap-moon-2.xml': 22760, '/sitemap-hijri.xml': 3940, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
+    '/sitemap-moon-1.xml': 22230, '/sitemap-moon-2.xml': 22230, '/sitemap-hijri.xml': 3940, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
     '/sitemap-guides.xml': 40, '/sitemap-pages.xml': 100 };
 // SITEMAP-SEMANTIC-PARTITIONING-1: the ticket spec — per URL-set file budget, family order, family rules on the locale-stripped path
 const FAMILY_MAX_URLS = 25000;
@@ -95,7 +113,8 @@ const FAMILY_RULES = [
     ['qibla', new RegExp('^/qibla(?:-in-' + F_SLUG + ')?$')],
     ['time-left', new RegExp('^/time-left-until-next-prayer-in-' + F_SLUG + '$')],
     ['next-prayer', new RegExp('^/next-prayer-in-' + F_SLUG + '$')],
-    ['moon', new RegExp('^/moon(?:/' + F_SLUG + '(?:/' + F_SLUG + '(?:/(?:today|\\d{4}(?:/(?:0[1-9]|1[0-2]))?))?)?)?$')],
+    // MOON-DAY-PAGES-REMOVAL-1: no 'today' alternative — a stray /today loc matches no family and FAILS [C]
+    ['moon', new RegExp('^/moon(?:/' + F_SLUG + '(?:/' + F_SLUG + '(?:/\\d{4}(?:/(?:0[1-9]|1[0-2]))?)?)?)?$')],
     ['hijri', /^\/(?:hijri-calendar\/\d{4}(?:-(?:0[1-9]|1[0-2]))?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
     ['quran', new RegExp('^/quran(?:/' + F_SLUG + ')?$')],   // Arabic only (checked in familyOf)
     ['azkar', /^\/azkar(?:\/(?:morning|evening|prayer)-azkar)?$/],
@@ -291,7 +310,8 @@ function buildExpectation(root) {
 
     // city shards: same chunking as server.js (_estCityUrlCount + SITEMAP_URL_BUDGET) and the same emission gates
     const baseOf = (s) => FAMOUS[s] ? s : ((s.match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/) || [])[1] || null);
-    const est = (s) => { let n = 20; if (!COORD_TAIL_RE.test(s)) n += 20; const b = baseOf(s); if (b && FAMOUS[b]) { n += 20; n += 130 * moonYears.length; } return n; };
+    // MOON-DAY-PAGES-REMOVAL-1: the famous moon estimate is EST_FAMOUS_MOON (mirrors server _estCityUrlCount; was a literal 20)
+    const est = (s) => { let n = 20; if (!COORD_TAIL_RE.test(s)) n += 20; const b = baseOf(s); if (b && FAMOUS[b]) { n += EST_FAMOUS_MOON; n += 130 * moonYears.length; } return n; };
     const chunkSlugs = []; let cur = [], curCount = 0;
     for (const s of slugs) { const c = est(s); if (cur.length > 0 && curCount + c > BUDGET) { chunkSlugs.push(cur); cur = []; curCount = 0; } cur.push(s); curCount += c; }
     if (cur.length) chunkSlugs.push(cur);
@@ -308,7 +328,7 @@ function buildExpectation(root) {
                 if (cs) {
                     famousEmitted.push(b);
                     out.push(...all10('/moon/' + cs + '/' + b));
-                    out.push(...all10('/moon/' + cs + '/' + b + '/today'));
+                    // MOON-DAY-PAGES-REMOVAL-1: the /today loc is no longer emitted (removed page)
                     for (const yy of moonYears) { out.push(...all10('/moon/' + cs + '/' + b + '/' + yy)); for (let mm = 1; mm <= 12; mm++) out.push(...all10('/moon/' + cs + '/' + b + '/' + yy + '/' + pad2(mm))); }
                 }
             }
@@ -607,7 +627,7 @@ function staticChecks(A, E) {
         };
         cmpSet('sitemap-main loc set === computed (static + guides + countries − singapore + moon countries + Hijri ±1 + hijri-date)', locsOf(main), E.main);
         ok('C', shards.length === E.chunks.length, 'city shard file count === computed chunking (' + E.chunks.length + ')', String(shards.length));
-        const shardAgg = agg('C', 'every sitemap-cities-N loc set === computed chunk N (prayer/qibla/time-left/next-prayer + famous moon hub/today/years/months)');
+        const shardAgg = agg('C', 'every sitemap-cities-N loc set === computed chunk N (prayer/qibla/time-left/next-prayer + famous moon hub/years/months)');
         for (let i = 0; i < Math.max(shards.length, E.chunks.length); i++) {
             const got = shards[i] ? shards[i].locs : []; const exp = E.chunks[i] || [];
             const g = new Set(got), x = new Set(exp);
@@ -683,7 +703,8 @@ function staticChecks(A, E) {
     ok('K', scHits.length === 0, "0 'singapore-city' occurrences in robots.txt and every sitemap body", scHits.map(([p, n]) => p + '×' + n).join(', '));
 
     section('[M] moon URLs');
-    const moonShape = agg('M', 'moon locs are hub / country / city hub / today / year / month only (no day URL)');
+    // MOON-DAY-PAGES-REMOVAL-1: /today is no longer an allowed shape (removed page) — a stray today loc FAILS here
+    const moonShape = agg('M', 'moon locs are hub / country / city hub / year / month only (no day URL, no /today)');
     const legacy = agg('M', 'no legacy flat /moon-in- or /moon-today-in- URL');
     const moonYear = agg('M', 'nested moon year/month: year ∈ UTC year ±1' + (E ? ' {' + E.moonYears.join(',') + '}' : ''));
     const moonRange = agg('M', 'nested moon year/month: year inside the supported range (UTC year ±5)' + (E ? ' [' + E.moonMin + ',' + E.moonMax + ']' : ''));
@@ -692,7 +713,7 @@ function staticChecks(A, E) {
         const p = pathOf(e.loc); if (p == null) continue; const rel = splitLocale(p).rel;
         legacy.test(e.loc, !/^\/moon-(?:today-)?in-/.test(rel));
         if (!/^\/moon(?:\/|$)/.test(rel)) continue;
-        const ok1 = /^\/moon$/.test(rel) || /^\/moon\/[a-z][a-z0-9-]*$/.test(rel) || /^\/moon\/[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*(?:\/today|\/\d{4}|\/\d{4}\/(?:0[1-9]|1[0-2]))?$/.test(rel);
+        const ok1 = /^\/moon$/.test(rel) || /^\/moon\/[a-z][a-z0-9-]*$/.test(rel) || /^\/moon\/[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*(?:\/\d{4}|\/\d{4}\/(?:0[1-9]|1[0-2]))?$/.test(rel);
         moonShape.test(e.loc, ok1, rel);
         const ym = rel.match(/^\/moon\/[^/]+\/[^/]+\/(\d{4})(?:\/(\d{2}))?$/);
         if (ym && E) {
@@ -843,7 +864,8 @@ function staticChecks(A, E) {
 // ─────────────────────────────── base comparison ───────────────────────────────
 async function baseChecks(A, B, afterPort) {
     // SITEMAP-SEMANTIC-PARTITIONING-1: base = a tree whose index still lists the legacy files (12bae98); lastmod kept, no approved removals
-    section('[B] base comparison (robots / sitemap-quran identical; legacy files byte-identical; every base <url> block === the index children, <lastmod> kept)');
+    // MOON-DAY-PAGES-REMOVAL-1: + the approved /today removals (the only base locs allowed to disappear)
+    section('[B] base comparison (robots / sitemap-quran identical; legacy files byte-identical (scoped); every base <url> block except the approved /today removals === the index children, <lastmod> kept)');
     ok('B', B.robots.status === 200 && Buffer.compare(A.robots.raw, B.robots.raw) === 0, 'robots.txt byte-identical to base', A.robots.raw.length + ' vs ' + B.robots.raw.length + ' bytes');
     const aq = A.files.find(f => f.path === '/sitemap-quran.xml'), bq = B.files.find(f => f.path === '/sitemap-quran.xml');
     ok('B', !!aq && !!bq && !!aq.raw && !!bq.raw && Buffer.compare(aq.raw, bq.raw) === 0, 'sitemap-quran.xml byte-identical to base', (aq && aq.bytes) + ' vs ' + (bq && bq.bytes));
@@ -855,29 +877,61 @@ async function baseChecks(A, B, afterPort) {
     //   are exactly the legacy files still served on after; those are byte-identical, and every base <url> block reappears byte-for-byte
     //   (<lastmod> kept) in the after index children — 0 removed, 0 added (the containment-era 115 Quran + 10 Singapore removals are history).
     const legacyFiles = A.legacy ? A.legacy.files : [];
+    // MOON-DAY-PAGES-REMOVAL-1: this name-by-name equality assumes the after tree still serves 23 legacy shards (SNAP.shardFiles)
     ok('B', !!ai && !!bi && bi.children.length > 0 && JSON.stringify(bi.children) === JSON.stringify(legacyFiles.map(f => f.url)), 'base index children === the legacy files still served on after (sitemap-main + sitemap-cities-1..N, same order)',
         (bi && bi.children.length) + ' base children vs ' + legacyFiles.length + ' legacy files');
-    const fileAgg = agg('B', 'every legacy file (sitemap-main + sitemap-cities-N) byte-identical to the base file of the same name');
-    const blockAgg = agg('B', 'every legacy <url> block identical to base (<lastmod> kept), none missing, none added');
-    const unionAgg = agg('B', 'every base <url> block identical (<lastmod> kept) in the after index children, which add none');
+    // MOON-DAY-PAGES-REMOVAL-1: the ONLY approved removals = the base /[lang/]moon/{country}/{city}/today locs (removed page, 410).
+    //   Per-file byte identity is scoped to legacy files that held NO approved loc and whose shard boundaries did not move (same
+    //   first + last loc; the lower famous estimate can move later boundaries) — every other file is covered by the stream
+    //   (order) check and the per-block checks below.
+    const APPROVED_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*\/today$/;
+    const approved = new Set();
+    for (const bf of B.files) if (bf.kind === 'urlset' && bf.path !== '/sitemap-quran.xml') for (const loc of bf.hashes.keys()) if (APPROVED_RE.test(loc)) approved.add(loc);
+    const fileAgg = agg('B', 'every legacy file that held no approved /today loc and kept its boundaries is byte-identical to the base file of the same name');
+    const blockAgg = agg('B', 'every legacy <url> block identical to base (<lastmod> kept), none missing except the approved /today removals, none added');
+    const unionAgg = agg('B', 'every base <url> block except the approved /today removals identical (<lastmod> kept) in the after index children, which add none');
     const idxHashes = new Map();
     for (const f of A.files) if (f.kind === 'urlset' && f.path !== '/sitemap-quran.xml' && f.hashes) for (const [l, h] of f.hashes) idxHashes.set(l, h);
-    const baseLocs = new Set(); let removed = 0, added = 0;
+    const legacyHashes = new Map();
+    for (const f of legacyFiles) if (f.hashes) for (const [l, h] of f.hashes) legacyHashes.set(l, h);
+    const baseLocs = new Set(), removedSet = new Set(); let added = 0, scoped = 0, skipped = 0;
+    const baseStream = [];
     for (const bf of B.files) {
         if (bf.kind !== 'urlset' || bf.path === '/sitemap-quran.xml') continue;
         const af = legacyFiles.find(f => f.path === bf.path);
-        fileAgg.test(bf.path, !!af && af.sha === bf.sha && af.bytes === bf.bytes, af ? af.bytes + ' vs ' + bf.bytes + ' bytes' : 'legacy file missing on after');
+        const heldApproved = bf.locs.some(l => approved.has(l));
+        const sameBounds = !!af && af.locs.length > 0 && bf.locs.length > 0 && af.locs[0] === bf.locs[0] && af.locs[af.locs.length - 1] === bf.locs[bf.locs.length - 1];
+        if (!heldApproved && (sameBounds || !af)) { scoped++; fileAgg.test(bf.path, !!af && af.sha === bf.sha && af.bytes === bf.bytes, af ? af.bytes + ' vs ' + bf.bytes + ' bytes' : 'legacy file missing on after'); }
+        else skipped++;
+        for (const loc of bf.locs) if (!approved.has(loc)) baseStream.push(loc);
         for (const [loc, h] of bf.hashes) {
             baseLocs.add(loc);
-            if (af) blockAgg.test(loc, af.hashes.get(loc) === h, af.hashes.has(loc) ? 'block differs' : 'missing on after ' + bf.path);
-            if (!idxHashes.has(loc)) removed++;
-            unionAgg.test(loc, idxHashes.get(loc) === h, idxHashes.has(loc) ? 'block differs' : 'missing from the index children');
+            if (approved.has(loc)) {
+                blockAgg.test(loc, !legacyHashes.has(loc), 'approved /today removal still listed in a legacy file');
+                unionAgg.test(loc, !idxHashes.has(loc), 'approved /today removal still listed in the index children');
+            } else {
+                blockAgg.test(loc, legacyHashes.get(loc) === h, legacyHashes.has(loc) ? 'block differs' : 'missing from the after legacy files');
+                unionAgg.test(loc, idxHashes.get(loc) === h, idxHashes.has(loc) ? 'block differs' : 'missing from the index children');
+            }
+            if (!idxHashes.has(loc)) removedSet.add(loc);
         }
-        if (af) for (const loc of af.hashes.keys()) if (!bf.hashes.has(loc)) blockAgg.test(loc, false, 'added on after (not in base ' + bf.path + ')');
     }
+    for (const loc of legacyHashes.keys()) if (!baseLocs.has(loc)) blockAgg.test(loc, false, 'added on after (not in any base legacy file)');
     for (const loc of idxHashes.keys()) if (!baseLocs.has(loc)) { added++; unionAgg.test(loc, false, 'added in the index children (not in any base file)'); }
     fileAgg.done(); blockAgg.done(); unionAgg.done();
-    ok('B', removed === 0 && added === 0 && baseLocs.size > 0, 'base → after: 0 URLs removed, 0 added (base sitemap-main + city shards vs after index children)', 'removed ' + removed + ', added ' + added + ' of ' + baseLocs.size);
+    info('[B] legacy byte identity: ' + scoped + ' files compared, ' + skipped + ' covered by the stream/block checks (held /today locs or moved boundaries)');
+    {
+        // the after legacy stream (sitemap-main → sitemap-cities-1..N) === the base stream minus the approved locs, same order
+        const afterStream = legacyFiles.flatMap(f => f.locs);
+        const d = afterStream.length === baseStream.length ? afterStream.findIndex((l, i) => l !== baseStream[i]) : Math.min(afterStream.length, baseStream.length);
+        ok('B', afterStream.length === baseStream.length && d === -1, 'after legacy <loc> stream === base stream minus the approved /today locs (same order)',
+            'after ' + afterStream.length + ' vs base−approved ' + baseStream.length + (d >= 0 ? ' first diff @' + d + ' ' + afterStream[d] + ' vs ' + baseStream[d] : ''));
+    }
+    const removedNotApproved = [...removedSet].filter(l => !approved.has(l)), approvedKept = [...approved].filter(l => !removedSet.has(l));
+    ok('B', removedNotApproved.length === 0 && approvedKept.length === 0 && removedSet.size === approved.size && added === 0 && baseLocs.size > 0 && approved.size > 0,
+        'base → after: removed === exactly the approved /today set (' + approved.size + '), 0 added (base sitemap-main + city shards vs after index children)',
+        'removed ' + removedSet.size + ' (not approved ' + removedNotApproved.length + ' e.g. ' + removedNotApproved.slice(0, 2).join(' ') + '; approved still listed ' + approvedKept.length + '), added ' + added + ' of ' + baseLocs.size);
+    if (SNAPSHOT) ok('B', approved.size === APPROVED_TODAY_N, 'snapshot: approved /today removals === ' + APPROVED_TODAY_N.toLocaleString('en') + ' (107 famous moon cities x 10 locales, derived)', String(approved.size));
 }
 
 // ─────────────────────────────── sample selection ───────────────────────────────
@@ -918,13 +972,14 @@ function selectUrls(A, E) {
     for (const f of files.filter(x => x.kind === 'urlset' && x !== quran && x.locs.length)) { expand(f.locs[0]); expand(f.locs[f.locs.length - 1]); }
     // 4) Singapore city page (D6/D7) × 4 families
     for (const fam of CITY_FAMILIES) if (!expand(SITE + '/' + fam + '-singapore')) missingNamed.push(SITE + '/' + fam + '-singapore');
-    // 5) moon cities: hub / today / 3 years / boundary months (01 + 12)
+    // 5) moon cities: hub / 3 years / boundary months (01 + 12)
+    // MOON-DAY-PAGES-REMOVAL-1: /today dropped from the pick (removed page) → expected 1 + years x 3 ar locs
     const moonPick = (city) => {
-        const hits = all.filter(l => { const r = relOf(l); return r && r.locale === 'ar' && new RegExp('^/moon/[^/]+/' + city + '(?:/today|/\\d{4}|/\\d{4}/(?:01|12))?$').test(r.rel); });
+        const hits = all.filter(l => { const r = relOf(l); return r && r.locale === 'ar' && new RegExp('^/moon/[^/]+/' + city + '(?:/\\d{4}|/\\d{4}/(?:01|12))?$').test(r.rel); });
         hits.forEach(expand); return hits.length;
     };
     const moonInfo = [];
-    for (const c of SAMPLE_MOON_CITIES_REQUIRED) { const n = moonPick(c); moonInfo.push(c + '=' + n); if (n !== 2 + (E ? E.moonYears.length * 3 : 9)) missingNamed.push('moon ' + c + ' hub/today/years/boundary months: ' + n + ' ar locs'); }
+    for (const c of SAMPLE_MOON_CITIES_REQUIRED) { const n = moonPick(c); moonInfo.push(c + '=' + n); if (n !== 1 + (E ? E.moonYears.length * 3 : 9)) missingNamed.push('moon ' + c + ' hub/years/boundary months: ' + n + ' ar locs'); }
     for (const c of SAMPLE_MOON_CITIES_OPTIONAL) moonInfo.push(c + '=' + moonPick(c) + ' (optional)');
     // 6) Hijri boundaries
     if (E) {

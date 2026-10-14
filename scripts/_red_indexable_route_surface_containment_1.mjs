@@ -23,6 +23,7 @@
 //
 // Usage:
 //   node scripts/_red_indexable_route_surface_containment_1.mjs                       (control + all 14 cases)
+// MOON-DAY-PAGES-REMOVAL-1: the DRY copy guard drops css (the ticket edits css/style.css, matching the smoke's [U]).
 //   TP_RED_ONLY=R0,R7 node scripts/_red_indexable_route_surface_containment_1.mjs    (subset; R0 = control)
 //   TP_RED_DRY=1 node scripts/_red_indexable_route_surface_containment_1.mjs         (mutations apply+parse, copy cycle)
 // Env:
@@ -98,6 +99,9 @@ const HTML_LEGACY_RULE_OLD = String.raw`        if (/^\/(?:en\/)?(?:prayer-times
 const CASES = [
     { id: 'R1', expect: ['M1'], name: 'SUPPORTED_MOON_YEAR_BACK = 100 (range widened backwards)',
       edits: [{ file: SRV, find: 'const SUPPORTED_MOON_YEAR_BACK = 5;', replace: 'const SUPPORTED_MOON_YEAR_BACK = 100;', count: 1 }] },
+    // MOON-DAY-PAGES-REMOVAL-1: R2's anchors are the month SELECTION lines (_calY / _calMo), not the cell markup the
+    //   ticket rewrites; checked present exactly once in the in-flight server.js (2026-10-13). [M2] still reads the year
+    //   from the H1 / grid title / breadcrumb, so the clamp still turns it red under the seam clock.
     { id: 'R2', expect: ['M2'], name: 'month grid: the old city-today ±5 clamp restored',
       note: 'under the REAL clock the old clamp (city-local year ±5) equals the new range (UTC year ±5) except around New Year, so [M2] can only see it when the smoke checks month pages with a shifted range',
       edits: [
@@ -112,6 +116,8 @@ const CASES = [
           { file: SRV, find: 'if (_Y - 1 >= _yRange.SUPPORTED_MOON_YEAR_MIN) _nav +=', replace: 'if (_Y - 1 >= 1900) _nav +=', count: 1 },
           { file: SRV, find: 'if (_Y + 1 <= _yRange.SUPPORTED_MOON_YEAR_MAX) _nav +=', replace: 'if (_Y + 1 <= 2100) _nav +=', count: 1 },
       ] },
+    // MOON-DAY-PAGES-REMOVAL-1: still valid: in-range legacy day forms now answer 410, but an UNSUPPORTED year still reaches
+    //   these router lines (the gate leaves unsupported years to the router), so this mutation still turns [M4] red.
     { id: 'R4', expect: ['M4'], name: 'legacy dated moon routes use 1900/2100 again (301 into a 404)',
       edits: [
           { file: SRV, find: 'if (_isSupportedMoonYear(_dy) && _dm >= 1 && _dm <= 12 && _dd >= 1 && _dd <= _dim) {',
@@ -364,7 +370,8 @@ function printRow(r) {
         try {
             if (fs.existsSync(path.join(c.dir, SMOKE_REL))) { adaptSmokeInCopy(c.dir, [8841, 8842, 8843, 8844]); smokeOk = fs.readFileSync(path.join(c.dir, SMOKE_REL), 'utf8').includes('const AFTER_PORT = 8841, BASE_PORT = 8842, SEAM1_PORT = 8843, SEAM2_PORT = 8844;'); }
             gitOk = gitIn(c.dir, ['rev-parse', 'c126604^{tree}']).trim() === git(['rev-parse', 'c126604^{tree}']).toString().trim();
-            execFileSync('git', ['-C', c.dir, 'diff', '--quiet', '--', 'js/moon.js', 'js/prayer-times.js', 'db', 'sw.js', 'css'], { stdio: 'ignore' });
+            // MOON-DAY-PAGES-REMOVAL-1: same guarded paths as the smoke's [U] (css dropped)
+            execFileSync('git', ['-C', c.dir, 'diff', '--quiet', '--', 'js/moon.js', 'js/prayer-times.js', 'db', 'sw.js'], { stdio: 'ignore' });
         } catch (e) { gitOk = false; console.log('  ✗ copy git/smoke adapt: ' + String(e.message).split('\n')[0]); }
         removeCopy(c.dir);
         const fp1 = fingerprint();

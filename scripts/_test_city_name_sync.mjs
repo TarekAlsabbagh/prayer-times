@@ -5,6 +5,7 @@
 // Mirror of `_syncCityNameInDom` from js/app.js, inlined into the
 // JSDOM test harness so we don't pull the giant app.js into the
 // page context.
+// MOON-DAY-PAGES-REMOVAL-1: 'moon-today-in' dropped from the route list(s) — the per-city today page is removed (410).
 import { JSDOM } from 'jsdom';
 import http from 'node:http';
 
@@ -66,7 +67,6 @@ const routes = [
     'time-left-until-next-prayer-in',
     'next-prayer-in',
     'qibla-in',
-    'moon-today-in',
     'moon-in',
 ];
 

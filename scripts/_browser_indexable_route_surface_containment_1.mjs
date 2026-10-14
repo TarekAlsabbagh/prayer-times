@@ -13,9 +13,12 @@
 //         proven to RUN (MutationObserver on meta[name=robots]); BASE kamikawa prayer page flips to 'index, follow'.
 //         Index controls keep index after hydration, identical to BASE.
 //   [D11] window.__MOON_YEAR_RANGE__ === UTC year ±5 (nonce'd island); every year-bearing moon link (HTML + SVG, nested,
-//         legacy, ?cal) on MIN/MAX day/month/year + current month/day pages is inside [MIN,MAX]; #moon-date-prev/next lose
-//         href + aria-hidden + visibility:hidden at the edges; forecast rows beyond MAX have no link; month grid DOM === SSR grid; year/month
-//         nav edges; mid-range day page href list byte-identical to BASE; BASE shows the out-of-range links (proof).
+//         legacy, ?cal) on MIN/MAX month/year + current month pages is inside [MIN,MAX]; month grid DOM === SSR grid (plain
+//         cells, 0 <a>, days 1..dim); 0 .fc-day-link, 0 SVG day anchors, 0 day/today hrefs; year/month nav edges; BASE day
+//         pages show the out-of-range links (proof).
+//         MOON-DAY-PAGES-REMOVAL-1: the day/today browser tasks are gone (MIN/MAX/current/mid day pages + /today answer
+//         410 — checked over raw HTTP, not in the browser); navigateToMoonToday(Singapore) lands on the HUB
+//         /moon/singapore/singapore (200); both servers boot with ADSENSE_CLIENT=off (no real ad tag in the HTML).
 //   [D7]  client slug for the LOCAL_CITIES Singapore entry === 'singapore'; navigateToCity lands on /prayer-times-in-singapore
 //         (200); navigateToMoonToday never targets singapore-city; no href containing 'singapore-city' in the hydrated DOM of
 //         /, /prayer-times-in-singapore, /moon/singapore, /qibla-in-singapore; Singapore city pages stay index + self-canonical.
@@ -82,7 +85,8 @@ function httpGet(port, p, headers = {}) {
 }
 async function bootServer(root, port, label) {
     if ((await httpGet(port, '/health')).status !== 0) throw new Error('port ' + port + ' already in use — refusing to test a foreign server');
-    const env = { ...process.env, PORT: String(port), SITE_URL: SITE, SUPABASE_URL: '', SUPABASE_SERVICE_ROLE_KEY: '', WEB_CONCURRENCY: '1' };
+    // MOON-DAY-PAGES-REMOVAL-1: ADSENSE_CLIENT=off (any non-ca-pub value) so the served HTML carries no real ad tag
+    const env = { ...process.env, PORT: String(port), SITE_URL: SITE, SUPABASE_URL: '', SUPABASE_SERVICE_ROLE_KEY: '', WEB_CONCURRENCY: '1', ADSENSE_CLIENT: 'off' };
     delete env.TP_ENABLE_SEARCH_TEST;
     delete env.TP_MOON_RANGE_TEST_NOW;   // real clock only
     const p = spawn(process.execPath, ['server.js'], { cwd: root, env, stdio: ['ignore', 'ignore', 'ignore'] });
@@ -124,10 +128,15 @@ function COLLECT() {
     }
     // review F3: an out-of-range day control has no href, aria-hidden="true" and visibility:hidden (layout kept).
     const nav = (e) => e ? { has: e.hasAttribute('href'), href: e.getAttribute('href'), aria: e.getAttribute('aria-hidden'), vis: e.style.visibility, oldAria: e.getAttribute('aria-disabled') } : null;
+    // MOON-DAY-PAGES-REMOVAL-1: grid cells are plain content — collect the non-empty cells' date text + today flag and
+    //   count any <a> left inside the cells / the grid (must be 0).
+    const realCells = [...document.querySelectorAll('li.moon-hub-cal-cell:not(.moon-hub-cal-cell--empty)')];
     const grid = {
         titles: [...document.querySelectorAll('.moon-hub-cal-title')].map((t) => t.textContent.trim()),
-        cells: [...document.querySelectorAll('li.moon-hub-cal-cell > a')].map((a) => a.getAttribute('href')),
-        todayFlags: [...document.querySelectorAll('li.moon-hub-cal-cell > a')].map((a) => a.parentElement.classList.contains('moon-hub-cal-cell--today')),
+        cells: realCells.map((li) => { const s = li.querySelector('.moon-hub-cal-date'); return s ? s.textContent.trim() : ''; }),
+        todayFlags: realCells.map((li) => li.classList.contains('moon-hub-cal-cell--today')),
+        cellAnchors: document.querySelectorAll('li.moon-hub-cal-cell > a').length,
+        gridAnchors: document.querySelectorAll('ul.moon-hub-cal-grid a').length,
         prev: document.querySelectorAll('a.moon-hub-cal-prev').length, next: document.querySelectorAll('a.moon-hub-cal-next').length,
         off: document.querySelectorAll('span.moon-hub-cal-nav-off').length,
     };
@@ -137,6 +146,7 @@ function COLLECT() {
         canon: [...document.querySelectorAll('link[rel="canonical"]')].map((l) => l.getAttribute('href')),
         prev: nav(document.getElementById('moon-date-prev')), next: nav(document.getElementById('moon-date-next')),
         fcRows: [...document.querySelectorAll('#moon-forecast-body tr')].map((tr) => { const td = tr.querySelector('td'); return { text: td ? td.textContent.trim() : '', dayLink: tr.querySelectorAll('a.fc-day-link').length, links: [...tr.querySelectorAll('a')].map((a) => a.getAttribute('href')) }; }),
+        fcDayLinks: document.querySelectorAll('a.fc-day-link').length,
         options: [...document.querySelectorAll('option')].map((o) => ({ v: o.getAttribute('value'), t: o.textContent.trim(), selName: (o.closest('select') && o.closest('select').getAttribute('name')) || '' })),
         grid,
         yearNav: { ypPrev: document.querySelectorAll('.my-yp-prev').length, ypNext: document.querySelectorAll('.my-yp-next').length, pillPrev: document.querySelectorAll('.my-yearnav-prev').length, pillNext: document.querySelectorAll('.my-yearnav-next').length },
@@ -151,7 +161,10 @@ function COLLECT() {
 function SSR_GRID() {
     return fetch(location.pathname, { cache: 'no-store', credentials: 'same-origin' }).then((r) => r.text()).then((t) => {
         const d = new DOMParser().parseFromString(t, 'text/html');
-        return { titles: [...d.querySelectorAll('.moon-hub-cal-title')].map((x) => x.textContent.trim()), cells: [...d.querySelectorAll('li.moon-hub-cal-cell > a')].map((a) => a.getAttribute('href')) };
+        // MOON-DAY-PAGES-REMOVAL-1: same shape as COLLECT's grid (non-empty cell date texts + anchor counts)
+        return { titles: [...d.querySelectorAll('.moon-hub-cal-title')].map((x) => x.textContent.trim()),
+                 cells: [...d.querySelectorAll('li.moon-hub-cal-cell:not(.moon-hub-cal-cell--empty)')].map((li) => { const s = li.querySelector('.moon-hub-cal-date'); return s ? s.textContent.trim() : ''; }),
+                 cellAnchors: d.querySelectorAll('li.moon-hub-cal-cell > a').length, gridAnchors: d.querySelectorAll('ul.moon-hub-cal-grid a').length };
     });
 }
 
@@ -227,7 +240,9 @@ const RE_NESTED = new RegExp('^(?:https?:\\/\\/[^/]+)?\\/' + LP + 'moon\\/[a-z][
 const RE_LEGACY = new RegExp('^(?:https?:\\/\\/[^/]+)?\\/' + LP + 'moon-(?:today-)?in-[^/?#]+\\/(\\d{4})-');
 const RE_CAL = /[?&](?:cal=|cal-y=)(\d{4})/;
 function yearOf(h) { const s = String(h || ''); let m = s.match(RE_NESTED) || s.match(RE_LEGACY) || s.match(RE_CAL); return m ? parseInt(m[1], 10) : null; }
-const hostPaths = (list) => list.map((x) => (typeof x === 'string' ? x : x.h));
+// MOON-DAY-PAGES-REMOVAL-1: an href to a removed page — nested /today or /{yyyy}/{mm}/{dd} (+.html), legacy /moon-today-in-,
+//   legacy dated /moon-in-{slug}/{yyyy-mm-dd}. /moon-today (general, 301 → /moon) is NOT a removed page.
+const GONE_HREF = /\/moon\/[a-z][a-z0-9-]*\/[a-z0-9][a-z0-9-]*\/(?:today|\d{4}\/\d{2}\/\d{2})(?:[?#./]|$)|moon-today-in-|\/moon-in-[^/?#]+\/\d{4}-\d{2}-\d{2}/;
 
 // ════════════════════════════════════════════════════════════════════════════
 let chrome = null;
@@ -261,10 +276,13 @@ try {
     };
     const D12_NOINDEX = Object.keys(SEEDS);
     const D12_CONTROLS = ['/prayer-times-in-makkah', '/en/qibla-in-riyadh', '/qibla', '/moon', '/today-hijri-date', '/prayer-times-in-saudi-arabia'];
+    // MOON-DAY-PAGES-REMOVAL-1: the day pages (dayMin/dayMax/dayCur) + MID_DAY + /today left the AFTER browser tasks — they
+    //   answer 410 (checked over raw HTTP in [D11]); BASE keeps its dayMin/dayMax tasks for the out-of-range proof only.
     const D11_PAGES = {
-        dayMin: `${RIY}/${MIN}/01/01`, dayMax: `${RIY}/${MAX}/12/31`, monthMin: `${RIY}/${MIN}/01`, monthMax: `${RIY}/${MAX}/12`,
-        yearMin: `${RIY}/${MIN}`, yearMax: `${RIY}/${MAX}`, monthCur: `${RIY}/${CY}/${CM}`, dayCur: `${RIY}/${CY}/${CM}/${CD}`,
+        monthMin: `${RIY}/${MIN}/01`, monthMax: `${RIY}/${MAX}/12`,
+        yearMin: `${RIY}/${MIN}`, yearMax: `${RIY}/${MAX}`, monthCur: `${RIY}/${CY}/${CM}`,
     };
+    const D11_GONE = { dayMin: `${RIY}/${MIN}/01/01`, dayMax: `${RIY}/${MAX}/12/31`, dayCur: `${RIY}/${CY}/${CM}/${CD}`, today: `${RIY}/today` };
     const MID_DAY = `${RIY}/2026/09/15`;
     const SG_PAGES = ['/', '/prayer-times-in-singapore', '/moon/singapore', '/qibla-in-singapore'];
     // routes review (D4 client): FAQ a8/a9 + sticky bar on coordinate prayer pages follow _d4TlNptSlug.
@@ -292,7 +310,6 @@ try {
     for (const r of D12_NOINDEX) T('A' + r, A, r, { seed: SEEDS });
     for (const r of D12_CONTROLS) T('A' + r, A, r);
     for (const [k, r] of Object.entries(D11_PAGES)) T('A:' + k, A, r, { act: async (S) => ({ ...(await evalIn(S, COLLECT)), ssrGrid: /\/\d{4}\/\d{2}$/.test(r) ? await evalIn(S, SSR_GRID, undefined, true) : null }) });
-    T('A:mid', A, MID_DAY);
     for (const r of SG_PAGES) T('A:sg' + r, A, r);
     T('A:sgSlug', A, '/', { act: sgSlugAct });
     T('A:sgNavCity', A, '/', { act: navAct("navigateToCity(1.3521, 103.8198, 'سنغافورة', 'سنغافورة', 'Singapore', 'sg');") });
@@ -304,7 +321,7 @@ try {
         T('B/prayer-times-in-loc-24.7n-46.7e', B, '/prayer-times-in-loc-24.7n-46.7e', { seed: SEEDS });
         T('B/prayer-times-in-riyadh-24.71-46.67', B, '/prayer-times-in-riyadh-24.71-46.67', { seed: SEEDS });
         for (const r of D12_CONTROLS) T('B' + r, B, r);
-        T('B:dayMin', B, D11_PAGES.dayMin); T('B:dayMax', B, D11_PAGES.dayMax); T('B:mid', B, MID_DAY);
+        T('B:dayMin', B, D11_GONE.dayMin); T('B:dayMax', B, D11_GONE.dayMax);
         T('B:sgSlug', B, '/', { act: sgSlugAct });
         for (const r of Object.keys(D4_PAGES)) T('B:d4' + r, B, r, { seed: D4_SEEDS });
         T('B:sgNavCity', B, '/', { act: navAct("navigateToCity(1.3521, 103.8198, 'سنغافورة', 'سنغافورة', 'Singapore', 'sg');") });
@@ -355,7 +372,6 @@ try {
 
     // ════ [D11] ════
     console.log('\n[D11] moon client links bounded by the supported year range');
-    const dayRx = /\/(\d{4})\/(\d{2})\/(\d{2})$/;
     for (const [k, r] of Object.entries(D11_PAGES)) {
         const id = 'A:' + k; if (!need('[D11]', id)) continue; const d = R[id];
         check('[D11]', r + ' window.__MOON_YEAR_RANGE__ === {min:' + MIN + ',max:' + MAX + '} (UTC year ±5), one island', d.range && d.range.min === MIN && d.range.max === MAX && d.islandCount === 1, { range: d.range, islandCount: d.islandCount });
@@ -364,42 +380,27 @@ try {
         check('[D11]', r + ' every year-bearing moon link (HTML + SVG) inside [' + MIN + ',' + MAX + '] (' + yl.length + ' links, ' + yl.filter((a) => a.svg).length + ' SVG)', yl.length > 0 && bad.length === 0, bad.slice(0, 8));
         const badOpt = d.options.map((o) => ({ ...o, y: yearOf(o.v) !== null ? yearOf(o.v) : (o.selName === 'cal-y' && /^\d{4}$/.test(o.v || '') ? parseInt(o.v, 10) : null) })).filter((o) => o.y !== null && (o.y < MIN || o.y > MAX));
         check('[D11]', r + ' no picker option (nested year URL or cal-y) outside the range', badOpt.length === 0, badOpt.slice(0, 6));
-        if (/^day/.test(k)) {
-            const [, yy, mm, dd] = r.match(dayRx);
-            const svgLinks = d.anchors.filter((a) => a.svg && yearOf(a.h) !== null);
-            check('[D11]', r + ' moon chart rendered SVG day links', svgLinks.length > 0, d.anchors.filter((a) => a.svg).length);
-            check('[D11]', r + ' forecast table rendered 14 rows', d.fcRows.length === 14, d.fcRows.length);
-            for (const row of d.fcRows) {
-                const ry = parseInt((row.text.match(/(\d{4})\s*$/) || [])[1], 10);
-                if (!(ry >= MIN && ry <= MAX)) { if (row.links.length) { check('[D11]', r + ' forecast row "' + row.text + '" beyond range renders no link', false, row.links); } }
-                else if (row.dayLink !== 1) check('[D11]', r + ' forecast row "' + row.text + '" in range keeps its .fc-day-link', false, row);
-            }
-            const beyond = d.fcRows.filter((row) => { const ry = parseInt((row.text.match(/(\d{4})\s*$/) || [])[1], 10); return !(ry >= MIN && ry <= MAX); });
-            check('[D11]', r + ' forecast rows beyond range have no .fc-day-link / no link (' + beyond.length + ' such rows)', beyond.every((row) => row.dayLink === 0 && row.links.length === 0) && (k !== 'dayMax' || beyond.length === 13), beyond);
-            check('[D11]', r + ' forecast rows in range all keep .fc-day-link', d.fcRows.filter((row) => !beyond.includes(row)).every((row) => row.dayLink === 1), d.fcRows.filter((row) => !beyond.includes(row) && row.dayLink !== 1));
-            if (k === 'dayMin') {
-                check('[D11]', r + ' #moon-date-prev has NO href, aria-hidden="true", visibility hidden', d.prev && d.prev.has === false && d.prev.aria === 'true' && d.prev.vis === 'hidden' && d.prev.oldAria === null, d.prev);
-                check('[D11]', r + ' #moon-date-next keeps href to ' + MIN + '/01/02 without aria-hidden', d.next && d.next.has && /\/moon\/saudi-arabia\/riyadh\/\d{4}\/01\/02$/.test(d.next.href) && yearOf(d.next.href) === MIN && d.next.aria === null && d.next.vis === '', d.next);
-            }
-            if (k === 'dayMax') {
-                check('[D11]', r + ' #moon-date-next has NO href, aria-hidden="true", visibility hidden', d.next && d.next.has === false && d.next.aria === 'true' && d.next.vis === 'hidden' && d.next.oldAria === null, d.next);
-                check('[D11]', r + ' #moon-date-prev keeps href to ' + MAX + '/12/30 without aria-hidden', d.prev && d.prev.has && /\/moon\/saudi-arabia\/riyadh\/\d{4}\/12\/30$/.test(d.prev.href) && yearOf(d.prev.href) === MAX && d.prev.aria === null && d.prev.vis === '', d.prev);
-            }
-            if (k === 'dayCur') check('[D11]', r + ' (current day) prev + next both keep href, visible, no aria-hidden', d.prev && d.next && d.prev.has && d.next.has && d.prev.aria === null && d.next.aria === null && d.prev.vis === '' && d.next.vis === '', { prev: d.prev, next: d.next });
-            void yy; void mm; void dd;
-        }
+        // MOON-DAY-PAGES-REMOVAL-1: no link (HTML or SVG, crawlable or client-built) to a removed day/today page
+        check('[D11]', r + ' 0 a.fc-day-link in the hydrated DOM', d.fcDayLinks === 0, { fcDayLinks: d.fcDayLinks });
+        const svgDay = d.anchors.filter((a) => a.svg && GONE_HREF.test(a.h));
+        check('[D11]', r + ' 0 SVG day/today anchors (moon-chart.js)', svgDay.length === 0, svgDay.slice(0, 6));
+        const goneHrefs = d.allHref.filter((h) => GONE_HREF.test(h));
+        check('[D11]', r + ' 0 day/today hrefs anywhere in the hydrated DOM (' + d.allHref.length + ' hrefs scanned)', d.allHref.length > 0 && goneHrefs.length === 0, goneHrefs.slice(0, 6));
         if (/^month/.test(k)) {
             const [, yy, mm] = r.match(/\/(\d{4})\/(\d{2})$/);
-            const g = d.grid, sg = d.ssrGrid || { titles: [], cells: [] };
-            check('[D11]', r + ' month grid DOM === SSR grid (titles + ordered day hrefs, ' + g.cells.length + ' cells)', g.cells.length >= 28 && JSON.stringify(g.titles) === JSON.stringify(sg.titles) && JSON.stringify(g.cells) === JSON.stringify(sg.cells), { dom: g, ssr: sg });
+            const g = d.grid, sg = d.ssrGrid || { titles: [], cells: [], cellAnchors: -1, gridAnchors: -1 };
+            check('[D11]', r + ' month grid DOM === SSR grid (titles + ordered cell date texts, ' + g.cells.length + ' cells)', g.cells.length >= 28 && JSON.stringify(g.titles) === JSON.stringify(sg.titles) && JSON.stringify(g.cells) === JSON.stringify(sg.cells), { dom: g, ssr: sg });
+            check('[D11]', r + ' li.moon-hub-cal-cell > a count === 0 (and 0 <a> in ul.moon-hub-cal-grid) in the DOM and in the SSR grid', g.cellAnchors === 0 && g.gridAnchors === 0 && sg.cellAnchors === 0 && sg.gridAnchors === 0,
+                { dom: [g.cellAnchors, g.gridAnchors], ssr: [sg.cellAnchors, sg.gridAnchors] });
             const titleYears = g.titles.flatMap((t) => (t.match(/\d{4}/g) || []).map(Number));
             check('[D11]', r + ' grid title year === URL year ' + yy, g.titles.length >= 1 && titleYears.length >= 1 && titleYears.every((y) => y === Number(yy)), g.titles);
             const dim = new Date(Date.UTC(Number(yy), Number(mm), 0)).getUTCDate();
-            // The city-local TODAY cell links to /today by design (server.js month grid: _isToday ? base + '/today'); every other cell is the nested day URL.
+            // The city-local TODAY cell is marked by the --today class only (no link any more).
             const todayIdx = g.todayFlags.map((f, i) => f ? i : -1).filter((i) => i >= 0);
-            const expCells = Array.from({ length: dim }, (_, i) => todayIdx.includes(i) ? `${RIY}/today` : `${RIY}/${yy}/${mm}/${P2(i + 1)}`);
+            const dayNums = g.cells.map((t) => { const m = String(t).match(/\d+/); return m ? +m[0] : null; });
+            const expNums = Array.from({ length: dim }, (_, i) => i + 1);
             check('[D11]', r + ' grid has ' + dim + ' day cells and at most one city-local today cell (' + todayIdx.length + ')', g.cells.length === dim && g.todayFlags.length === dim && todayIdx.length <= 1, { cells: g.cells.length, todayIdx });
-            check('[D11]', r + ' every grid day-cell href is ' + RIY + '/' + yy + '/' + mm + '/01..' + dim + ' in order (today cell -> /today); every dated cell year === ' + yy, JSON.stringify(g.cells) === JSON.stringify(expCells) && g.cells.every((h) => yearOf(h) === null ? h === RIY + '/today' : yearOf(h) === Number(yy)), g.cells.map((h, i) => h === expCells[i] ? null : { i, got: h, want: expCells[i] }).filter(Boolean).slice(0, 5));
+            check('[D11]', r + ' grid cell day numbers (.moon-hub-cal-date) are 1..' + dim + ' in order', JSON.stringify(dayNums) === JSON.stringify(expNums), dayNums.map((n, i) => n === expNums[i] ? null : { i, got: n, text: g.cells[i] }).filter(Boolean).slice(0, 5));
             if (k !== 'monthCur') check('[D11]', r + ' (not the current month) has no today cell', todayIdx.length === 0, todayIdx);
             if (k === 'monthMin') check('[D11]', r + ' no prev-month link at MIN/01 (span.moon-hub-cal-nav-off keeps layout), next present', g.prev === 0 && g.next === 1 && g.off === 1, g);
             if (k === 'monthMax') check('[D11]', r + ' no next-month link at MAX/12 (span.moon-hub-cal-nav-off keeps layout), prev present', g.next === 0 && g.prev === 1 && g.off === 1, g);
@@ -417,18 +418,19 @@ try {
     }
     if (needBase('[D11]', 'B:dayMin')) {
         const d = R['B:dayMin'];
-        check('[D11]', 'BASE ' + D11_PAGES.dayMin + ' #moon-date-prev links to ' + (MIN - 1) + ' and the page carries out-of-range links (proves the fix)', d.prev && d.prev.has && yearOf(d.prev.href) === MIN - 1 && d.anchors.some((a) => { const y = yearOf(a.h); return y !== null && y < MIN; }), { prev: d.prev });
+        check('[D11]', 'BASE ' + D11_GONE.dayMin + ' #moon-date-prev links to ' + (MIN - 1) + ' and the page carries out-of-range links (proves the fix)', d.prev && d.prev.has && yearOf(d.prev.href) === MIN - 1 && d.anchors.some((a) => { const y = yearOf(a.h); return y !== null && y < MIN; }), { prev: d.prev });
     }
     if (needBase('[D11]', 'B:dayMax')) {
         const d = R['B:dayMax'];
         const linkedBeyond = d.fcRows.filter((row) => { const ry = parseInt((row.text.match(/(\d{4})\s*$/) || [])[1], 10); return ry > MAX && row.dayLink === 1; }).length;
-        check('[D11]', 'BASE ' + D11_PAGES.dayMax + ' #moon-date-next links to ' + (MAX + 1) + ' and forecast rows beyond MAX are linked (proves the fix)', d.next && d.next.has && yearOf(d.next.href) === MAX + 1 && linkedBeyond > 0, { next: d.next, linkedBeyond });
+        check('[D11]', 'BASE ' + D11_GONE.dayMax + ' #moon-date-next links to ' + (MAX + 1) + ' and forecast rows beyond MAX are linked (proves the fix)', d.next && d.next.has && yearOf(d.next.href) === MAX + 1 && linkedBeyond > 0, { next: d.next, linkedBeyond });
     }
-    if (need('[D11]', 'A:mid') && needBase('[D11]', 'B:mid')) {
-        const a = hostPaths(R['A:mid'].anchors), b = hostPaths(R['B:mid'].anchors);
-        let firstDiff = -1; for (let i = 0; i < Math.max(a.length, b.length); i++) if (a[i] !== b[i]) { firstDiff = i; break; }
-        check('[D11]', MID_DAY + ' hydrated href list byte-identical to BASE (' + a.length + ' anchors)', a.length > 0 && JSON.stringify(a) === JSON.stringify(b),
-            firstDiff < 0 ? { lenA: a.length, lenB: b.length } : { at: firstDiff, after: a.slice(firstDiff, firstDiff + 4), base: b.slice(firstDiff, firstDiff + 4), lenA: a.length, lenB: b.length, onlyAfter: a.filter((x) => !b.includes(x)).slice(0, 8), onlyBase: b.filter((x) => !a.includes(x)).slice(0, 8) });
+    // MOON-DAY-PAGES-REMOVAL-1: the AFTER day/today pages (MIN/MAX/current/mid day + /today) answer 410 in ONE response —
+    //   checked over raw HTTP (a browser load of a 410 adds Chrome's own network error log line, which is not a page defect).
+    for (const r of [...Object.values(D11_GONE), MID_DAY]) {
+        const s = await ssr(PORT, r);
+        check('[D11]', r + ' → 410 Gone, no Location, data-tp-gone="moon-day", no #page-moon, no island', s.status === 410 && !s.headers.location && /data-tp-gone="moon-day"/.test(s.body) && !/id="page-moon"/.test(s.body) && !s.body.includes('ssr-moon-year-range'),
+            { status: s.status, location: s.headers.location || null, len: s.body.length, xrt: s.headers['x-robots-tag'] || null, cc: s.headers['cache-control'] || null });
     }
 
     // ════ [D7] ════
@@ -446,7 +448,9 @@ try {
     if (needBase('[D7]', 'B:sgNavCity')) info('[D7]', 'BASE navigateToCity(Singapore) landed on ' + R['B:sgNavCity'].path + ' (redirects ' + JSON.stringify(R['B:sgNavCity'].st.redirects) + ')');
     if (need('[D7]', 'A:sgNavMoon')) {
         const d = R['A:sgNavMoon']; const lastDoc = d.st.docs[d.st.docs.length - 1] || {};
-        check('[D7]', 'navigateToMoonToday(Singapore, sg) never targets singapore-city and lands on a 200 page (' + d.path + ')', d.path !== '/' && !/singapore-city/.test(d.path) && lastDoc.status === 200 && d.st.redirects.every((x) => !/singapore-city/.test(x.to)) && !d.ssKeys.some((x) => /singapore-city/.test(x)), { path: d.path, lastDoc, redirects: d.st.redirects, ssKeys: d.ssKeys });
+        // MOON-DAY-PAGES-REMOVAL-1: "moon today" now means the city HUB — it must land on /moon/singapore/singapore (200),
+        //   never on a removed /today page (also not via a redirect hop).
+        check('[D7]', 'navigateToMoonToday(Singapore, sg) never targets singapore-city and lands on the hub /moon/singapore/singapore (200) (' + d.path + ')', d.path === '/moon/singapore/singapore' && !/singapore-city/.test(d.path) && lastDoc.status === 200 && d.st.redirects.every((x) => !/singapore-city/.test(x.to) && !GONE_HREF.test(x.to)) && !d.ssKeys.some((x) => /singapore-city/.test(x)), { path: d.path, lastDoc, redirects: d.st.redirects, ssKeys: d.ssKeys });
     }
     for (const r of SG_PAGES) {
         const id = 'A:sg' + r; if (!need('[D7]', id)) continue; const d = R[id]; const lastDoc = d.st.docs[d.st.docs.length - 1] || {};

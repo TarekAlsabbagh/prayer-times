@@ -12,6 +12,11 @@
 //     stay indexable — only city-on-non-curated routes are noindex'd.
 //   • Sitemap stays curated-only: non-curated slug absent from sitemap-cities; curated present.
 //
+// MOON-DAY-PAGES-REMOVAL-1: moon-today + moon-dated left CITY_ROUTES (the pages are removed). New expectation:
+//   curated slugs (makkah, an-nabiah) → 410 in ONE response on both legacy forms; the non-curated slugs
+//   (kamikawa, del-rio: not curated / FAMOUS / db / slug-fallback) do not resolve without Supabase, so the router
+//   keeps its 404 there ("404 stays 404"); with a Supabase env a discovered row may turn them into 410.
+//
 // Run: node scripts/_smoke_discovered_cities_noindex_consistency_across_city_pages_1.mjs
 
 import http from 'node:http';
@@ -29,9 +34,9 @@ const PORT = 8195;
 function get(p) {
     return new Promise((resolve) => {
         const r = http.request({ host: 'localhost', port: PORT, path: p, method: 'GET' }, res => {
-            let b = ''; res.on('data', c => b += c); res.on('end', () => resolve({ status: res.statusCode, body: b }));
+            let b = ''; res.on('data', c => b += c); res.on('end', () => resolve({ status: res.statusCode, body: b, loc: res.headers.location || '' }));
         });
-        r.on('error', () => resolve({ status: 0, body: '' }));
+        r.on('error', () => resolve({ status: 0, body: '', loc: '' }));
         r.end();
     });
 }
@@ -45,15 +50,19 @@ async function robotsOf(p) {
 }
 
 // City route families that take a {slug}.
+// MOON-DAY-PAGES-REMOVAL-1: moon-today / moon-dated removed from this list (410 pages) → REMOVED_MOON_ROUTES below.
 const CITY_ROUTES = (slug) => ([
     ['prayer-times', '/prayer-times-in-' + slug],
     ['qibla',        '/qibla-in-' + slug],
-    ['moon-today',   '/moon-today-in-' + slug],
     ['moon-hub',     '/moon-in-' + slug],
-    ['moon-dated',   '/moon-in-' + slug + '/2026-06-20'],
     ['time-left',    '/time-left-until-next-prayer-in-' + slug],
     ['next-prayer',  '/next-prayer-in-' + slug],
 ]);
+const REMOVED_MOON_ROUTES = (slug) => ([
+    ['moon-today',   '/moon-today-in-' + slug],
+    ['moon-dated',   '/moon-in-' + slug + '/2026-06-20'],
+]);
+const is410 = (r) => r.status === 410 && !r.loc && /data-tp-gone="moon-day"/.test(r.body);
 
 let exitCode = 1;
 const s = spawn(process.execPath, ['server.js'], { cwd: ROOT, env: { ...process.env, PORT: String(PORT) }, stdio: ['ignore', 'ignore', 'ignore'] });
@@ -78,6 +87,22 @@ try {
         for (const [name, p] of CITY_ROUTES(slug)) {
             const { robots, status } = await robotsOf(p);
             check(`${slug} ${name}: noindex + 200`, robots === 'noindex' && status === 200, `${robots} / ${status}`);
+        }
+    }
+
+    // ── MOON-DAY-PAGES-REMOVAL-1: removed moon today / dated pages ──
+    console.log('-- removed moon today / dated pages (curated → 410; unresolved non-curated → stays 404) --');
+    for (const slug of ['makkah', 'an-nabiah']) {
+        for (const [name, p] of REMOVED_MOON_ROUTES(slug)) {
+            const r = await get(p);
+            check(`${slug} ${name}: 410 in ONE response (no Location)`, is410(r), `${r.status} loc=${r.loc}`);
+        }
+    }
+    const _supaOn = !!(process.env.SUPABASE_URL || '').trim();
+    for (const slug of ['kamikawa', 'del-rio']) {
+        for (const [name, p] of REMOVED_MOON_ROUTES(slug)) {
+            const r = await get(p);
+            check(`${slug} ${name}: ${_supaOn ? '404 or 410' : 'stays 404'} (never 200 / never a 301)`, r.status === 404 || (_supaOn && is410(r)), `${r.status} loc=${r.loc}`);
         }
     }
 

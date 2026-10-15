@@ -85,7 +85,8 @@ function stripForeign(html, keepId) {
 const mask = (b) => b.replace(/nonce="[^"]*"/g, 'nonce="N"').replace(/(article:modified_time" content=")[^"]*/g, '$1T')
     .replace(/("date(?:Modified|Published)":\s*")[^"]*/g, '$1T').replace(/(id="current-time">)\d{1,2}:\d{2}(?::\d{2})?/g, '$1CLOCK')
     .replace(/(id="next-prayer-countdown">)[\d:]+/g, '$1COUNTDOWN')    // the two live clocks of the full (BEFORE) shell
-    .replace(/js\/app\.js\?v=\d+/g, 'js/app.js?v=V');                   // the app.js cache-buster (bumped by this ticket for the sidebar fix)
+    .replace(/js\/app\.js\?v=\d+/g, 'js/app.js?v=V')                    // the app.js cache-buster (bumped by this ticket for the sidebar fix)
+    .replace(/(\b(?:app|i18n)\.js\?v=[\dV]+)&b=[0-9a-f]+/g, '$1&b=SHA');   // the build stamp: the git HEAD of each checkout
 const norm = (b) => mask(b).replace(/\s+/g, ' ');
 // the shell items AFTER does not send on these routes, applied to the BEFORE body
 const SHELL = (b) => b.replace('<audio id="adhan-audio" preload="metadata"', '<audio id="adhan-audio" preload="none"')

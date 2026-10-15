@@ -6211,6 +6211,9 @@ function initNavigation() {
                     window.location.href = pageUrl('/azkar');
                     return;
                 }
+                // HIJRI-PAGES-SLIM-1: already on the azkar hub (#page-azkar-hub, not #page-azkar) → stay, no reload.
+                closeSidebar();
+                return;
             }
 
             // HIJRI-PAGES-SLIM-1: the target section is not in this document and no branch above navigated (e.g. a visitor
@@ -6218,7 +6221,7 @@ function initNavigation() {
             //   points at the last-used city or the generic hub, instead of leaving the main area empty.
             if (!targetPage && window.location.protocol !== 'file:') {
                 const _rawHref = this.getAttribute('href') || '';
-                if (_rawHref && _rawHref !== '#' && !/^javascript:/i.test(_rawHref)) {
+                if (_rawHref && !_rawHref.startsWith('#') && !/^javascript:/i.test(_rawHref)) {
                     try { if (typeof _showNavLoadingOverlay === 'function') _showNavLoadingOverlay(pageId); } catch (_) {}
                     try { closeSidebar(); } catch (_) {}
                     window.location.href = this.href;

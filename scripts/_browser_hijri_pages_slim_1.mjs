@@ -40,6 +40,8 @@ const TYPES = { today: { path: '/today-hijri-date', id: 'page-hijri-today' }, hu
     year: { path: '/hijri-calendar/1448', id: 'page-hijri-year' }, month: { path: '/hijri-calendar/1448-04', id: 'page-hijri-month' } };
 setTimeout(() => { console.log('WATCHDOG: exceeded 40 min'); cleanup(); process.exit(3); }, 40 * 60 * 1000).unref();
 
+// TP_SLIM_ONLY=F,J,M,A,N,N2,X runs only the listed sections (default: all)
+const RUN = (tag) => !process.env.TP_SLIM_ONLY || process.env.TP_SLIM_ONLY.split(',').includes(tag);
 let pass = 0, fail = 0; const failures = []; const SEC = {};
 function check(tag, ok, label, detail) {
     const s = SEC[tag] || (SEC[tag] = { pass: 0, fail: 0 });
@@ -221,6 +223,7 @@ try {
     if (!wsu) throw new Error('chrome never came up');
     br = await CDP.open(wsu);
 
+    if (RUN('F')) {
     console.log('\n-- [F] JS on, desktop, 10 locales: AFTER === BEFORE in content --');
     for (const [k, t] of Object.entries(TYPES)) {
         for (const L of LANGS) {
@@ -240,6 +243,8 @@ try {
             check('F', issues.length === 0, k + ' ' + route + '  (DOM ' + b.dom + '→' + a.dom + ', blocks ' + b.pages.length + '→' + a.pages.length + ', exceptions ' + b.st.exceptions.length + '→' + a.st.exceptions.length + ')', issues.join(' ; '));
         }
     }
+    }
+    if (RUN('J')) {
     console.log('\n-- [J] JS off: the route block paints, with the same text as BEFORE (JS on) --');
     for (const [k, t] of Object.entries(TYPES)) {
         for (const L of ['ar', 'en', 'fr', 'ur', 'bn']) {
@@ -256,6 +261,8 @@ try {
             check('J', issues.length === 0, k + ' ' + route + '  BEFORE without JS: block visible=' + bOff.keepVisible + ', visible blocks ' + bOff.pages.filter((p) => p.endsWith('+')).join(','), issues.join(' ; '));
         }
     }
+    }
+    if (RUN('M')) {
     console.log('\n-- [M] mobile 375x812, empty cache: requests, bytes, FCP / LCP / CLS (3 runs each, medians) --');
     const table = [];
     for (const [k, t] of Object.entries(TYPES)) {
@@ -283,6 +290,8 @@ try {
         }
     }
 
+    }
+    if (RUN('A')) {
     console.log('\n-- [A] adhan audio on demand --');
     for (const route of ['/today-hijri-date', '/hijri-calendar/1448-04', '/en/hijri-calendar']) {
         const a = await withPage(A, route, route.includes('today') ? 'page-hijri-today' : (route.endsWith('-04') ? 'page-hijri-month' : 'page-hijri-year'), { adhan: true });
@@ -292,6 +301,8 @@ try {
     const ctl = await withPage(A, '/prayer-times-in-riyadh', 'page-prayer-times');
     check('A', ctl.audioPreload === 'metadata', 'control /prayer-times-in-riyadh keeps preload=metadata (scope = the four Hijri routes only)', ctl.audioPreload);
 
+    }
+    if (RUN('N')) {
     console.log('\n-- [N] sidebar navigation from the slimmed pages: Prayer times / Qibla, then Back (no city, and a known city) --');
     const NAVROUTES = [['/today-hijri-date', 'page-hijri-today'], ['/en/today-hijri-date', 'page-hijri-today'], ['/hijri-calendar', 'page-hijri-year'], ['/ur/hijri-calendar/1448', 'page-hijri-year'], ['/hijri-calendar/1448-04', 'page-hijri-month'], ['/fr/hijri-calendar/1448-04', 'page-hijri-month']];
     for (const [route, id] of NAVROUTES) {
@@ -316,10 +327,39 @@ try {
         }
     }
 
+    }
+    if (RUN('N2')) {
+    console.log('\n-- [N] sidebar: a click on the section already shown stays put; other sections still navigate (review follow-up) --');
+    // [route, keepId, pageId, expect]: 'stay' = no new document and the same block still shown; otherwise the expected landing path
+    const SELF = [['/azkar', 'page-azkar-hub', 'azkar', 'stay'], ['/en/azkar', 'page-azkar-hub', 'azkar', 'stay'], ['/azkar/morning-azkar', 'page-azkar-morning', 'azkar', '/azkar'],
+        ['/msbaha', 'page-tasbih', 'tasbih', 'stay'], ['/qibla-in-makkah', 'page-qibla', 'qibla', 'stay'], ['/qibla', 'page-qibla', 'qibla', '/qibla-in-makkah'], ['/today-hijri-date', 'page-hijri-today', 'hijri-today', 'stay'], ['/today-hijri-date', 'page-hijri-today', 'tasbih', '/msbaha']];
+    for (const [route, id, pageId, expect] of SELF) {
+        const r = await withPage(A, route, id, { act: navAct(pageId) });
+        const issues = [];
+        if (expect === 'stay') {
+            if (r.navigated || r.landingStatus !== null) issues.push('a new document was loaded (status ' + r.landingStatus + ', path ' + (r.afterClick && r.afterClick.path) + ')');
+            if (!(r.afterClick && r.afterClick.visibleBlocks.includes(id) && r.afterClick.visibleText > 200)) issues.push('the shown block changed: ' + JSON.stringify(r.afterClick));
+        } else {
+            if (!(r.navigated && r.afterClick && r.afterClick.path === expect && r.landingStatus === 200 && r.afterClick.visibleText > 200)) issues.push('expected ' + expect + ' with content: ' + JSON.stringify({ nav: r.navigated, st: r.landingStatus, a: r.afterClick }));
+            if (!(r.back && r.back.path === route && r.back.visibleBlocks.includes(id) && r.back.visibleText > 200)) issues.push('Back did not restore ' + route + ': ' + JSON.stringify(r.back));
+        }
+        if (r.exceptions.length) issues.push('exceptions ' + r.exceptions.slice(0, 3).join(' | '));
+        check('N', issues.length === 0, route + ' → ' + pageId + ': ' + (expect === 'stay' ? 'stays, no reload, ' + id + ' shown' : r.startPath + ' → ' + (r.afterClick && r.afterClick.path) + ' [' + r.landingStatus + '] → back ' + (r.back && r.back.path)), issues.join(' ; '));
+    }
+    {   // the same self-click on BEFORE (informational): the old handler hid every block
+        const r = await withPage(B, '/azkar', 'page-azkar-hub', { act: navAct('azkar') });
+        const q = await withPage(B, '/qibla', 'page-qibla', { act: navAct('qibla') });
+        check('N', q.navigated && q.afterClick && q.afterClick.path === '/qibla-in-makkah', 'BEFORE /qibla → qibla also lands on /qibla-in-makkah (pre-existing qibla branch, unchanged)', JSON.stringify({ nav: q.navigated, p: q.afterClick && q.afterClick.path }));
+        info('BEFORE /azkar → azkar: new document ' + (r.landingStatus !== null) + ', visible blocks ' + JSON.stringify(r.afterClick && r.afterClick.visibleBlocks) + ' text ' + (r.afterClick && r.afterClick.visibleText));
+    }
+
+    }
+    if (RUN('X')) {
     console.log('\n-- [X] isolation --');
     info('non-loopback attempts by host: ' + JSON.stringify(Object.fromEntries(NET.attempts)));
     check('X', NET.okResponses.length === 0, '0 successful responses from a non-loopback host', NET.okResponses.slice(0, 5).join(' | '));
     check('X', ![...NET.attempts.keys()].some((h) => /googlesyndication|doubleclick|adtrafficquality/.test(h)), 'no ad-network request attempted');
+    }
 } catch (e) {
     check('run', false, 'unexpected error', String(e && e.stack || e));
 } finally {

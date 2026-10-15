@@ -192,7 +192,7 @@ const CRITICAL_PATTERNS = [
     /^#htoday-breadcrumbs$/,
     /^#hijri-today-info-grid$/,
     /^#hijri-today-footer-seo$/,
-    /^#hijri-today-nav$/,
+    // HIJRI-DAY-PAGES-REMOVAL-1: #hijri-today-nav (prev/next day card) removed with the day pages.
     /^#page-hijri-today\s+\.hpage-hero\.ht-hero$/,
 ];
 

@@ -614,7 +614,7 @@
                 <section class="section-card mini-islamic-tools u-hidden" id="mini-islamic-tools" aria-labelledby="mit-title">
                     <h3 class="mit-title" id="mit-title"><svg class="icon icon-md" aria-hidden="true"><use href="#i-mosque"/></svg> <span data-i18n="mit.title">أدوات إسلامية سريعة</span></h3>
                     <div class="mit-grid">
-                        <!-- href values are real canonical landings; on city pages, server.js Phase I rewrites them to /qibla-in-{slug}, /moon-today-in-{slug}, /hijri-date/YYYY-MM-DD. On homepage they remain the generic landings. -->
+                        <!-- href values are real canonical landings; on city pages, server.js Phase I rewrites them to /qibla-in-{slug}, /moon-today-in-{slug}; mit-hijri stays /today-hijri-date. On homepage they remain the generic landings. -->
                         <a class="mit-item" id="mit-qibla" href="/qibla" data-tool="qibla" aria-label="اتجاه القبلة" data-i18n-aria-label="home.qibla">
                             <svg class="icon mit-icon" aria-hidden="true"><use href="#i-compass"/></svg>
                             <span class="mit-label" data-i18n="mit.qibla">اتجاه القبلة</span>
@@ -3188,13 +3188,7 @@
                     <div id="hijri-today-cta" class="u-flex-center"></div>
                 </div>
 
-                <!-- 4. Prev / Next Day Navigation — HD-4 (2026-05-07): heading
-                     anchor HD4-NAV-HEADING is replaced server-side per-lang
-                     ("التنقل بين الأيام الهجرية" / "Navigate Hijri Days" / …). -->
-                <div class="section-card" id="hijri-today-nav-card">
-                    <!-- HD4-NAV-HEADING -->
-                    <div id="hijri-today-nav" class="u-flex-btns"></div>
-                </div>
+                <!-- 4. [REMOVED HIJRI-DAY-PAGES-REMOVAL-1] Prev / Next day navigation card. -->
 
                 <!-- HD-4 (2026-05-07): HD-1-CONTENT anchor moved here (was after
                      Footer SEO) so the visual order on /today-hijri-date is:
@@ -5488,7 +5482,7 @@
     <script nonce="__TP_CSP_NONCE__" defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script nonce="__TP_CSP_NONCE__" defer src="js/site-search.js?v=6"></script>
-    <script nonce="__TP_CSP_NONCE__" defer src="js/app.js?v=849"></script>
+    <script nonce="__TP_CSP_NONCE__" defer src="js/app.js?v=850"></script>
     <script nonce="__TP_CSP_NONCE__" defer src="js/footer-cookie.js?v=8"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

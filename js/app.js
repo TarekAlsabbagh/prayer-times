@@ -1822,7 +1822,7 @@ const _HYEAR_UI = {
           intro: c => `يعرض هذا التقويم الهجري لعام ${c.year}${c.hSfx} جميع الأشهر الهجرية مع التواريخ الميلادية المقابلة، ويتيح الانتقال السريع إلى تقويم أي شهر هجري أو إلى أداة تحويل التاريخ.`,
           table_title: c => `📊 جميع أشهر السنة الهجرية ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 تصفح أشهر السنة الهجرية ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 التاريخ الهجري اليوم: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 التاريخ الهجري اليوم: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 تصفح السنوات الهجرية',
           years_current: ()=>'سنوات قريبة:',
           years_active_suffix: '',
@@ -1859,7 +1859,7 @@ const _HYEAR_UI = {
           intro: c => `This calendar displays all Hijri months of ${c.year}${c.hSfx} with their corresponding Gregorian dates, and lets you jump quickly to any monthly Hijri calendar or to the date converter tool.`,
           table_title: c => `📊 All Months of Hijri Year ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Browse Months of ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Today's Hijri Date: <strong><a href="${href}">${mn} ${d}, ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Today's Hijri Date: <strong>${mn} ${d}, ${y}${hSfx}</strong>`,
           years_title: '📆 Browse Hijri Years',
           years_current: ()=>'Nearby years:',
           years_active_suffix: '',
@@ -1896,7 +1896,7 @@ const _HYEAR_UI = {
           intro: c => `Ce calendrier affiche tous les mois hégiriens de ${c.year}${c.hSfx} avec leurs dates grégoriennes correspondantes, et permet d'accéder rapidement au calendrier d'un mois hégirien ou au convertisseur de dates.`,
           table_title: c => `📊 Tous les mois de l'année hégirienne ${c.year}${c.hSfx} :`,
           months_grid_title: c => `📅 Parcourir les mois de ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Date hégirienne d'aujourd'hui : <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Date hégirienne d'aujourd'hui : <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 Parcourir les années hégiriennes',
           years_current: ()=>'Années proches :',
           years_active_suffix: '',
@@ -1933,7 +1933,7 @@ const _HYEAR_UI = {
           intro: c => `Bu takvim, ${c.year}${c.hSfx} yılının tüm hicri aylarını miladi karşılıklarıyla birlikte gösterir ve aylık hicri takvime veya tarih dönüştürücüye hızlı erişim sağlar.`,
           table_title: c => `📊 ${c.year}${c.hSfx} Hicri Yılının Tüm Ayları:`,
           months_grid_title: c => `📅 ${c.year}${c.hSfx} Aylarına Göz At`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Bugünün Hicri Tarihi: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Bugünün Hicri Tarihi: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 Hicri Yıllarına Göz At',
           years_current: ()=>'Yakın yıllar:',
           years_active_suffix: '',
@@ -1970,7 +1970,7 @@ const _HYEAR_UI = {
           intro: c => `یہ کیلنڈر ${c.year}${c.hSfx} کے تمام ہجری مہینے عیسوی تاریخوں کے ساتھ دکھاتا ہے اور آپ کو ماہانہ ہجری کیلنڈر یا تاریخ کنورٹر تک تیز رسائی فراہم کرتا ہے۔`,
           table_title: c => `📊 ${c.year}${c.hSfx} ہجری سال کے تمام مہینے:`,
           months_grid_title: c => `📅 ${c.year}${c.hSfx} کے مہینے دیکھیں`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 آج کی ہجری تاریخ: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 آج کی ہجری تاریخ: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 ہجری سال دیکھیں',
           years_current: ()=>'قریبی سال:',
           years_active_suffix: '',
@@ -2007,7 +2007,7 @@ const _HYEAR_UI = {
           intro: c => `Dieser Kalender zeigt alle Hidschri-Monate des Jahres ${c.year}${c.hSfx} mit ihren entsprechenden gregorianischen Daten und ermöglicht den schnellen Zugriff auf den monatlichen Hidschri-Kalender oder den Datumsumrechner.`,
           table_title: c => `📊 Alle Monate des Hidschri-Jahres ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Monate von ${c.year}${c.hSfx} durchsuchen`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Heutiges Hidschri-Datum: <strong><a href="${href}">${d}. ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Heutiges Hidschri-Datum: <strong>${d}. ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 Hidschri-Jahre durchsuchen',
           years_current: ()=>'Benachbarte Jahre:',
           years_active_suffix: '',
@@ -2044,7 +2044,7 @@ const _HYEAR_UI = {
           intro: c => `Kalender ini menampilkan semua bulan Hijriah tahun ${c.year}${c.hSfx} beserta tanggal Masehi yang bertepatan, dan memberikan akses cepat ke kalender Hijriah bulanan atau alat konversi tanggal.`,
           table_title: c => `📊 Semua Bulan Tahun Hijriah ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Jelajahi Bulan-bulan ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Tanggal Hijriah Hari Ini: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Tanggal Hijriah Hari Ini: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 Jelajahi Tahun Hijriah',
           years_current: ()=>'Tahun terdekat:',
           years_active_suffix: '',
@@ -2081,7 +2081,7 @@ const _HYEAR_UI = {
           intro: c => `Este calendario muestra todos los meses del calendario Hégira del año ${c.year}${c.hSfx} con sus fechas gregorianas correspondientes, y permite acceder rápidamente al calendario Hégira mensual o al convertidor de fechas.`,
           table_title: c => `📊 Todos los meses del año Hégira ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Explorar meses de ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Fecha Hégira de hoy: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Fecha Hégira de hoy: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 Explorar años Hégira',
           years_current: ()=>'Años cercanos:',
           years_active_suffix: '',
@@ -2118,7 +2118,7 @@ const _HYEAR_UI = {
           intro: c => `এই ক্যালেন্ডার ${c.year}${c.hSfx} সনের সব হিজরি মাস ও সেগুলোর সংশ্লিষ্ট খ্রিস্টীয় তারিখ প্রদর্শন করে এবং মাসিক হিজরি ক্যালেন্ডার বা তারিখ রূপান্তরকারীতে দ্রুত প্রবেশ দেয়।`,
           table_title: c => `📊 ${c.year}${c.hSfx} হিজরি বর্ষের সব মাস:`,
           months_grid_title: c => `📅 ${c.year}${c.hSfx} সনের মাস ব্রাউজ করুন`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 আজকের হিজরি তারিখ: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 আজকের হিজরি তারিখ: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 হিজরি বছর ব্রাউজ করুন',
           years_current: ()=>'কাছাকাছি বছর:',
           years_active_suffix: '',
@@ -2155,7 +2155,7 @@ const _HYEAR_UI = {
           intro: c => `Kalendar ini memaparkan semua bulan Hijrah bagi tahun ${c.year}${c.hSfx} dengan tarikh Masihi yang bersamaan, dan memberikan akses pantas ke kalendar Hijrah bulanan atau alat penukaran tarikh.`,
           table_title: c => `📊 Semua Bulan Tahun Hijrah ${c.year}${c.hSfx}:`,
           months_grid_title: c => `📅 Layari Bulan-bulan ${c.year}${c.hSfx}`,
-          today_in_year: (d, mn, y, hSfx, href) => `📌 Tarikh Hijrah Hari Ini: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_year: (d, mn, y, hSfx) => `📌 Tarikh Hijrah Hari Ini: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           years_title: '📆 Layari Tahun Hijrah',
           years_current: ()=>'Tahun berdekatan:',
           years_active_suffix: '',
@@ -2199,7 +2199,7 @@ const _HMONTH_UI = {
           // to FAQ JSON-LD (lines 1819 below) are NOT changed — only these
           // UI surface strings. No data / no calc / no link / no SEO impact.
           //   section_days: was static "أيام هذا الشهر الهجري" → now includes month/year
-          //   today_in_month: format changed to "اليوم الهجري الحالي: ..." with year inside the link
+          //   today_in_month: format changed to "اليوم الهجري الحالي: ..." (plain text since HIJRI-DAY-PAGES-REMOVAL-1)
           //   days_summary: colon instead of "هو", "يومًا" tanwin orthography
           section_info:'📋 معلومات الشهر', section_days:c=>`📅 أيام شهر ${c.monthName} ${c.year}${c.hSfx}`, section_links:'🔗 روابط مرتبطة',
           th_hijri:'التاريخ الهجري', th_greg:'التاريخ الميلادي',
@@ -2210,7 +2210,7 @@ const _HMONTH_UI = {
           // month page. Other 9 languages unchanged.
           link_year:(y,hSfx)=>`📅 تقويم عام ${y}${hSfx}`,
           link_moon:'🌙 حالة القمر اليوم',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 اليوم الهجري الحالي: <strong><a href="${href}">${d} ${mn} ${y}${hSfx}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 اليوم الهجري الحالي: <strong>${d} ${mn} ${y}${hSfx}</strong>`,
           day_row_title:(hDate,gDate)=>`التاريخ الهجري ${hDate} الموافق ${gDate}`,
           title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} يومًا)`,
           subtitle:c=>`يوافق الفترة من ${c.gFirstStr} إلى ${c.gLastStr} حسب تقويم أم القرى`,
@@ -2241,7 +2241,7 @@ const _HMONTH_UI = {
           // phrasing. Kept: anchor to the year calendar (yearUrl) — the
           // primary continuation path. The "today" link is already
           // exposed elsewhere (hero CTA + related links + breadcrumb).
-          footer:c=>`يعرض هذا التقويم أيام شهر ${c.monthName} ${c.year}${c.hSfx} مع التواريخ الميلادية المقابلة حسب تقويم أم القرى، ويمكنك من خلاله الانتقال إلى تفاصيل أي يوم داخل الشهر أو الرجوع إلى <a href="${c.yearUrl}">التقويم الهجري لعام ${c.year}${c.hSfx}</a>.`,
+          footer:c=>`يعرض هذا التقويم أيام شهر ${c.monthName} ${c.year}${c.hSfx} مع التواريخ الميلادية المقابلة حسب تقويم أم القرى، ويمكنك الرجوع إلى <a href="${c.yearUrl}">التقويم الهجري لعام ${c.year}${c.hSfx}</a>.`,
           headline:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`التقويم الهجري الكامل لشهر ${c.monthName} ${c.year}${c.hSfx} مع التاريخ الميلادي لكل يوم حسب تقويم أم القرى.`,
           meta_title:c=>`التقويم الهجري لشهر ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2262,7 +2262,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Convert Hijri ↔ Gregorian', link_today:'📌 Today\'s Hijri Date',
           link_year:(y,hSfx)=>`📅 Year ${y}${hSfx} Calendar`,
           link_moon:'🌙 Moon Today',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 Today in ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 Today in ${mn} ${y}${hSfx}: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Hijri date ${hDate} equivalent to ${gDate}`,
           title:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} days)`,
           subtitle:c=>`Covers ${c.gFirstStr} to ${c.gLastStr} per the Umm al-Qura calendar`,
@@ -2273,7 +2273,7 @@ const _HMONTH_UI = {
           years_current:()=>'Nearby years:',
           years_active_suffix:'',
           years_all_link:'→ View Full Hijri Calendar',
-          footer:c=>`This calendar lists every day of ${c.monthName} ${c.year}${c.hSfx} with its Gregorian equivalent per the Umm al-Qura calendar, helping you track the Hijri date and Islamic occasions easily. You can also check <a href="${c.todayUrl}">today's Hijri date</a>, browse the <a href="${c.yearUrl}">full Hijri calendar for ${c.year}${c.hSfx}</a>, or jump to any day within the month.`,
+          footer:c=>`This calendar lists every day of ${c.monthName} ${c.year}${c.hSfx} with its Gregorian equivalent per the Umm al-Qura calendar, helping you track the Hijri date and Islamic occasions easily. You can also check <a href="${c.todayUrl}">today's Hijri date</a> or browse the <a href="${c.yearUrl}">full Hijri calendar for ${c.year}${c.hSfx}</a>.`,
           headline:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`Full Hijri calendar for ${c.monthName} ${c.year}${c.hSfx} with Gregorian date for each day, per the Umm al-Qura calendar.`,
           meta_title:c=>`Hijri Calendar: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2294,7 +2294,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Convertir hégirien ↔ grégorien', link_today:'📌 Date hégirienne d\'aujourd\'hui',
           link_year:(y,hSfx)=>`📅 Calendrier de l'an ${y}${hSfx}`,
           link_moon:'🌙 État de la lune aujourd\'hui',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 Aujourd'hui dans ${mn} ${y}${hSfx} : <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 Aujourd'hui dans ${mn} ${y}${hSfx} : <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Date hégirienne ${hDate} correspondant au ${gDate}`,
           title:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} jours)`,
           subtitle:c=>`Couvre du ${c.gFirstStr} au ${c.gLastStr} selon le calendrier Umm al-Qura`,
@@ -2305,7 +2305,7 @@ const _HMONTH_UI = {
           years_current:()=>'Années proches :',
           years_active_suffix:'',
           years_all_link:'→ Voir le calendrier hégirien complet',
-          footer:c=>`Ce calendrier répertorie tous les jours du mois de ${c.monthName} ${c.year}${c.hSfx} avec leur équivalent grégorien selon le calendrier Umm al-Qura, vous aidant à suivre la date hégirienne et les occasions islamiques facilement. Vous pouvez aussi consulter <a href="${c.todayUrl}">la date hégirienne d'aujourd'hui</a>, parcourir le <a href="${c.yearUrl}">calendrier hégirien complet de l'an ${c.year}${c.hSfx}</a>, ou accéder à n'importe quel jour du mois.`,
+          footer:c=>`Ce calendrier répertorie tous les jours du mois de ${c.monthName} ${c.year}${c.hSfx} avec leur équivalent grégorien selon le calendrier Umm al-Qura, vous aidant à suivre la date hégirienne et les occasions islamiques facilement. Vous pouvez aussi consulter <a href="${c.todayUrl}">la date hégirienne d'aujourd'hui</a> ou parcourir le <a href="${c.yearUrl}">calendrier hégirien complet de l'an ${c.year}${c.hSfx}</a>.`,
           headline:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`Calendrier hégirien complet de ${c.monthName} ${c.year}${c.hSfx} avec la date grégorienne de chaque jour, selon le calendrier Umm al-Qura.`,
           meta_title:c=>`Calendrier hégirien : ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2326,7 +2326,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Hicri ↔ Miladi Dönüştür', link_today:'📌 Bugünün Hicri Tarihi',
           link_year:(y,hSfx)=>`📅 ${y}${hSfx} Yılı Takvimi`,
           link_moon:'🌙 Bugün Ay Durumu',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 ${mn} ${y}${hSfx} ayındaki bugün: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 ${mn} ${y}${hSfx} ayındaki bugün: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Hicri tarih ${hDate}, ${gDate} tarihine karşılık gelir`,
           title:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} gün)`,
           subtitle:c=>`${c.gFirstStr} ile ${c.gLastStr} tarihleri arasını kapsar (Ümmülkura takvimine göre)`,
@@ -2337,7 +2337,7 @@ const _HMONTH_UI = {
           years_current:()=>'Yakın yıllar:',
           years_active_suffix:'',
           years_all_link:'→ Tam Hicri Takvimi Görüntüle',
-          footer:c=>`Bu takvim, ${c.monthName} ${c.year}${c.hSfx} ayının her gününü miladi karşılığıyla Ümmülkura takvimine göre listeler ve hicri tarihi ile İslami münasebetleri kolayca takip etmenize yardımcı olur. <a href="${c.todayUrl}">Bugünün hicri tarihini</a> kontrol edebilir, <a href="${c.yearUrl}">${c.year}${c.hSfx} yılının tam hicri takvimini</a> görüntüleyebilir veya ay içindeki herhangi bir güne geçebilirsiniz.`,
+          footer:c=>`Bu takvim, ${c.monthName} ${c.year}${c.hSfx} ayının her gününü miladi karşılığıyla Ümmülkura takvimine göre listeler ve hicri tarihi ile İslami münasebetleri kolayca takip etmenize yardımcı olur. <a href="${c.todayUrl}">Bugünün hicri tarihini</a> kontrol edebilir veya <a href="${c.yearUrl}">${c.year}${c.hSfx} yılının tam hicri takvimini</a> görüntüleyebilirsiniz.`,
           headline:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx} için tam hicri takvim, her günün miladi tarihiyle, Ümmülkura takvimine göre.`,
           meta_title:c=>`Hicri Takvim: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2358,7 +2358,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 ہجری اور عیسوی تاریخ کی تبدیلی', link_today:'📌 آج کی ہجری تاریخ',
           link_year:(y,hSfx)=>`📅 ${y}${hSfx} کا کیلنڈر`,
           link_moon:'🌙 آج چاند کی حالت',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 ${mn} ${y}${hSfx} میں آج کا دن: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 ${mn} ${y}${hSfx} میں آج کا دن: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`ہجری تاریخ ${hDate} مطابق ${gDate}`,
           title:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} دن)`,
           subtitle:c=>`${c.gFirstStr} سے ${c.gLastStr} تک (ام القری کیلنڈر کے مطابق)`,
@@ -2369,7 +2369,7 @@ const _HMONTH_UI = {
           years_current:()=>'قریبی سال:',
           years_active_suffix:'',
           years_all_link:'→ مکمل ہجری کیلنڈر دیکھیں',
-          footer:c=>`یہ کیلنڈر ${c.monthName} ${c.year}${c.hSfx} کے تمام دنوں کو ان کی عیسوی تاریخ کے ساتھ ام القری کیلنڈر کے مطابق درج کرتا ہے، جس سے آپ ہجری تاریخ اور اسلامی مواقع کی آسانی سے پیروی کر سکتے ہیں۔ آپ <a href="${c.todayUrl}">آج کی ہجری تاریخ</a> دیکھ سکتے ہیں، <a href="${c.yearUrl}">${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر</a> براؤز کر سکتے ہیں، یا مہینے کے کسی بھی دن پر جا سکتے ہیں۔`,
+          footer:c=>`یہ کیلنڈر ${c.monthName} ${c.year}${c.hSfx} کے تمام دنوں کو ان کی عیسوی تاریخ کے ساتھ ام القری کیلنڈر کے مطابق درج کرتا ہے، جس سے آپ ہجری تاریخ اور اسلامی مواقع کی آسانی سے پیروی کر سکتے ہیں۔ آپ <a href="${c.todayUrl}">آج کی ہجری تاریخ</a> دیکھ سکتے ہیں یا <a href="${c.yearUrl}">${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر</a> براؤز کر سکتے ہیں۔`,
           headline:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx} کا مکمل ہجری کیلنڈر، ہر دن کی عیسوی تاریخ کے ساتھ، ام القری کیلنڈر کے مطابق۔`,
           meta_title:c=>`ہجری کیلنڈر: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2390,7 +2390,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Hidschri ↔ Gregorianisch umrechnen', link_today:'📌 Heutiges Hidschri-Datum',
           link_year:(y,hSfx)=>`📅 Kalender für das Jahr ${y}${hSfx}`,
           link_moon:'🌙 Mond heute',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 Heute im ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 Heute im ${mn} ${y}${hSfx}: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Hidschri-Datum ${hDate} entspricht ${gDate}`,
           title:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} Tage)`,
           subtitle:c=>`Umfasst den Zeitraum vom ${c.gFirstStr} bis zum ${c.gLastStr} gemäß dem Umm-al-Qura-Kalender`,
@@ -2401,7 +2401,7 @@ const _HMONTH_UI = {
           years_current:()=>'Nahegelegene Jahre:',
           years_active_suffix:'',
           years_all_link:'→ Vollständigen Hidschri-Kalender anzeigen',
-          footer:c=>`Dieser Kalender listet alle Tage des Monats ${c.monthName} ${c.year}${c.hSfx} mit ihrem gregorianischen Äquivalent gemäß dem Umm-al-Qura-Kalender auf und hilft Ihnen, das Hidschri-Datum und islamische Anlässe einfach nachzuverfolgen. Sie können auch <a href="${c.todayUrl}">das heutige Hidschri-Datum</a> prüfen, den <a href="${c.yearUrl}">vollständigen Hidschri-Kalender für ${c.year}${c.hSfx}</a> durchsuchen oder zu einem beliebigen Tag des Monats springen.`,
+          footer:c=>`Dieser Kalender listet alle Tage des Monats ${c.monthName} ${c.year}${c.hSfx} mit ihrem gregorianischen Äquivalent gemäß dem Umm-al-Qura-Kalender auf und hilft Ihnen, das Hidschri-Datum und islamische Anlässe einfach nachzuverfolgen. Sie können auch <a href="${c.todayUrl}">das heutige Hidschri-Datum</a> prüfen oder den <a href="${c.yearUrl}">vollständigen Hidschri-Kalender für ${c.year}${c.hSfx}</a> durchsuchen.`,
           headline:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`Vollständiger Hidschri-Kalender für ${c.monthName} ${c.year}${c.hSfx} mit gregorianischem Datum für jeden Tag, gemäß dem Umm-al-Qura-Kalender.`,
           meta_title:c=>`Hidschri-Kalender: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2422,7 +2422,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Konversi Hijriah ↔ Masehi', link_today:'📌 Tanggal Hijriah Hari Ini',
           link_year:(y,hSfx)=>`📅 Kalender Tahun ${y}${hSfx}`,
           link_moon:'🌙 Kondisi Bulan Hari Ini',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 Hari ini di ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 Hari ini di ${mn} ${y}${hSfx}: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Tanggal Hijriah ${hDate} bertepatan dengan ${gDate}`,
           title:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} hari)`,
           subtitle:c=>`Mencakup ${c.gFirstStr} hingga ${c.gLastStr} menurut kalender Umm al-Qura`,
@@ -2433,7 +2433,7 @@ const _HMONTH_UI = {
           years_current:()=>'Tahun terdekat:',
           years_active_suffix:'',
           years_all_link:'→ Lihat Kalender Hijriah Lengkap',
-          footer:c=>`Kalender ini menampilkan seluruh hari bulan ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masehinya menurut kalender Umm al-Qura, membantu Anda mengikuti tanggal Hijriah dan momen-momen Islam dengan mudah. Anda juga dapat melihat <a href="${c.todayUrl}">tanggal Hijriah hari ini</a>, menjelajahi <a href="${c.yearUrl}">kalender Hijriah lengkap tahun ${c.year}${c.hSfx}</a>, atau menuju hari apa pun dalam bulan ini.`,
+          footer:c=>`Kalender ini menampilkan seluruh hari bulan ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masehinya menurut kalender Umm al-Qura, membantu Anda mengikuti tanggal Hijriah dan momen-momen Islam dengan mudah. Anda juga dapat melihat <a href="${c.todayUrl}">tanggal Hijriah hari ini</a> atau menjelajahi <a href="${c.yearUrl}">kalender Hijriah lengkap tahun ${c.year}${c.hSfx}</a>.`,
           headline:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`Kalender Hijriah lengkap untuk ${c.monthName} ${c.year}${c.hSfx} dengan tanggal Masehi setiap hari, menurut kalender Umm al-Qura.`,
           meta_title:c=>`Kalender Hijriah: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2454,7 +2454,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Convertir Hégira ↔ Gregoriano', link_today:'📌 Fecha Hégira de hoy',
           link_year:(y,hSfx)=>`📅 Calendario del año ${y}${hSfx}`,
           link_moon:'🌙 Estado de la luna hoy',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 Hoy en ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 Hoy en ${mn} ${y}${hSfx}: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Fecha Hégira ${hDate}, equivalente a ${gDate}`,
           title:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} días)`,
           subtitle:c=>`Abarca desde el ${c.gFirstStr} hasta el ${c.gLastStr} según el calendario Umm al-Qura`,
@@ -2465,7 +2465,7 @@ const _HMONTH_UI = {
           years_current:()=>'Años cercanos:',
           years_active_suffix:'',
           years_all_link:'→ Ver calendario Hégira completo',
-          footer:c=>`Este calendario enumera todos los días de ${c.monthName} ${c.year}${c.hSfx} con su equivalente gregoriano según el calendario Umm al-Qura, ayudándole a seguir la fecha Hégira y las ocasiones islámicas con facilidad. También puede consultar <a href="${c.todayUrl}">la fecha Hégira de hoy</a>, explorar el <a href="${c.yearUrl}">calendario Hégira completo del año ${c.year}${c.hSfx}</a>, o ir a cualquier día del mes.`,
+          footer:c=>`Este calendario enumera todos los días de ${c.monthName} ${c.year}${c.hSfx} con su equivalente gregoriano según el calendario Umm al-Qura, ayudándole a seguir la fecha Hégira y las ocasiones islámicas con facilidad. También puede consultar <a href="${c.todayUrl}">la fecha Hégira de hoy</a> o explorar el <a href="${c.yearUrl}">calendario Hégira completo del año ${c.year}${c.hSfx}</a>.`,
           headline:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`Calendario Hégira completo de ${c.monthName} ${c.year}${c.hSfx} con la fecha gregoriana de cada día, según el calendario Umm al-Qura.`,
           meta_title:c=>`Calendario Hégira: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2486,7 +2486,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 হিজরি ও খ্রিস্টীয় তারিখ রূপান্তর', link_today:'📌 আজকের হিজরি তারিখ',
           link_year:(y,hSfx)=>`📅 ${y}${hSfx} সনের ক্যালেন্ডার`,
           link_moon:'🌙 আজকের চাঁদের অবস্থা',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 ${mn} ${y}${hSfx}-এর আজকের দিন: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 ${mn} ${y}${hSfx}-এর আজকের দিন: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`হিজরি তারিখ ${hDate}, ${gDate}-এর সংশ্লিষ্ট`,
           title:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} দিন)`,
           subtitle:c=>`${c.gFirstStr} থেকে ${c.gLastStr} পর্যন্ত (উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী)`,
@@ -2497,7 +2497,7 @@ const _HMONTH_UI = {
           years_current:()=>'নিকটবর্তী সন:',
           years_active_suffix:'',
           years_all_link:'→ সম্পূর্ণ হিজরি ক্যালেন্ডার দেখুন',
-          footer:c=>`এই ক্যালেন্ডার ${c.monthName} ${c.year}${c.hSfx} মাসের প্রতিটি দিন সংশ্লিষ্ট খ্রিস্টীয় তারিখসহ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী প্রদর্শন করে, যা আপনাকে হিজরি তারিখ এবং ইসলামী উপলক্ষ সহজে অনুসরণ করতে সাহায্য করে। আপনি <a href="${c.todayUrl}">আজকের হিজরি তারিখ</a> দেখতে পারেন, <a href="${c.yearUrl}">${c.year}${c.hSfx} সনের সম্পূর্ণ হিজরি ক্যালেন্ডার</a> ব্রাউজ করতে পারেন, বা মাসের যেকোনো দিনে যেতে পারেন।`,
+          footer:c=>`এই ক্যালেন্ডার ${c.monthName} ${c.year}${c.hSfx} মাসের প্রতিটি দিন সংশ্লিষ্ট খ্রিস্টীয় তারিখসহ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী প্রদর্শন করে, যা আপনাকে হিজরি তারিখ এবং ইসলামী উপলক্ষ সহজে অনুসরণ করতে সাহায্য করে। আপনি <a href="${c.todayUrl}">আজকের হিজরি তারিখ</a> দেখতে পারেন বা <a href="${c.yearUrl}">${c.year}${c.hSfx} সনের সম্পূর্ণ হিজরি ক্যালেন্ডার</a> ব্রাউজ করতে পারেন।`,
           headline:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`${c.monthName} ${c.year}${c.hSfx}-এর সম্পূর্ণ হিজরি ক্যালেন্ডার প্রতিটি দিনের খ্রিস্টীয় তারিখসহ, উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী।`,
           meta_title:c=>`হিজরি ক্যালেন্ডার: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -2518,7 +2518,7 @@ const _HMONTH_UI = {
           link_convert:'🔄 Tukar Hijrah ↔ Masihi', link_today:'📌 Tarikh Hijrah Hari Ini',
           link_year:(y,hSfx)=>`📅 Kalendar Tahun ${y}${hSfx}`,
           link_moon:'🌙 Keadaan Bulan Hari Ini',
-          today_in_month:(d,mn,y,hSfx,href)=>`📌 Hari ini dalam ${mn} ${y}${hSfx}: <strong><a href="${href}">${d} ${mn}</a></strong>`,
+          today_in_month:(d,mn,y,hSfx)=>`📌 Hari ini dalam ${mn} ${y}${hSfx}: <strong>${d} ${mn}</strong>`,
           day_row_title:(hDate,gDate)=>`Tarikh Hijrah ${hDate} bersamaan dengan ${gDate}`,
           title:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx} (${c.totalDays} hari)`,
           subtitle:c=>`Meliputi ${c.gFirstStr} hingga ${c.gLastStr} mengikut kalendar Umm al-Qura`,
@@ -2529,7 +2529,7 @@ const _HMONTH_UI = {
           years_current:()=>'Tahun berdekatan:',
           years_active_suffix:'',
           years_all_link:'→ Lihat Kalendar Hijrah Penuh',
-          footer:c=>`Kalendar ini menyenaraikan semua hari bulan ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masihinya mengikut kalendar Umm al-Qura, membantu anda mengikuti tarikh Hijrah dan peristiwa Islam dengan mudah. Anda boleh menyemak <a href="${c.todayUrl}">tarikh Hijrah hari ini</a>, melayari <a href="${c.yearUrl}">kalendar Hijrah penuh tahun ${c.year}${c.hSfx}</a>, atau pergi ke mana-mana hari dalam bulan ini.`,
+          footer:c=>`Kalendar ini menyenaraikan semua hari bulan ${c.monthName} ${c.year}${c.hSfx} beserta padanan Masihinya mengikut kalendar Umm al-Qura, membantu anda mengikuti tarikh Hijrah dan peristiwa Islam dengan mudah. Anda boleh menyemak <a href="${c.todayUrl}">tarikh Hijrah hari ini</a> atau melayari <a href="${c.yearUrl}">kalendar Hijrah penuh tahun ${c.year}${c.hSfx}</a>.`,
           headline:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx}`,
           meta_desc:c=>`Kalendar Hijrah lengkap bagi ${c.monthName} ${c.year}${c.hSfx} dengan tarikh Masihi bagi setiap hari, mengikut kalendar Umm al-Qura.`,
           meta_title:c=>`Kalendar Hijrah: ${c.monthName} ${c.year}${c.hSfx}`,
@@ -4936,24 +4936,19 @@ async function initApp() {
                 // EID-COUNTDOWN-TABLE-LINKS-AND-NOTE-STYLING-ALL-LANGS-1:
                 // On the Hijri-New-Year AND the two Eid pages (_P ∈ ny|fitr|adha),
                 // deep-link the Hijri-year cell to the existing Hijri-year page
-                // (/hijri-calendar/{hy}) and the occasion's Gregorian-date cell to
-                // the existing Hijri-date page. The Hijri-date suffix is DERIVED
-                // from cfg.hMonth/hDay — the SAME values that compute the displayed
-                // date — so each link matches its own row exactly: ny 01-01,
-                // fitr 10-01 (1 Shawwal), adha 12-10 (10 Dhul-Hijjah). Ramadan
-                // (_P==='ram') stays unlinked. Both lang-prefixed; range-guarded to
+                // (/hijri-calendar/{hy}); the occasion's Gregorian-date cell is plain
+                // text (HIJRI-DAY-PAGES-REMOVAL-1: the day pages answer 410). Ramadan
+                // (_P==='ram') stays unlinked. Lang-prefixed; range-guarded to
                 // the Umm-al-Qura data range (1356–1500) so a link can never 404.
                 // On these pages the note cell also drops .countdown-small-note so
                 // the column matches the other cells (size/color/weight + start-align).
                 let _hyCell = hy + ' ' + (_lang === 'ar' ? 'هـ' : 'AH');
                 let _dtCell = _fmtGreg(gd);
                 const _cdLinkable = (_P === 'ny' || _P === 'fitr' || _P === 'adha');
+                // HIJRI-DAY-PAGES-REMOVAL-1: the Gregorian-date cell is plain text now (the day pages answer 410).
                 if (_cdLinkable && hy >= 1356 && hy <= 1500) {
                     const _lp = (_lang === 'ar') ? '' : ('/' + _lang);
-                    const _mm = ('0' + cfg.hMonth).slice(-2);
-                    const _dd = ('0' + cfg.hDay).slice(-2);
                     _hyCell = '<a class="cd-years-link" href="' + _lp + '/hijri-calendar/' + hy + '">' + _hyCell + '</a>';
-                    _dtCell = '<a class="cd-years-link" href="' + _lp + '/hijri-date/' + hy + '-' + _mm + '-' + _dd + '">' + _dtCell + '</a>';
                 }
                 const _noteAttr = _cdLinkable ? '' : ' class="countdown-small-note"';
                 rows.push(
@@ -6220,18 +6215,7 @@ function initNavigation() {
         });
     });
 
-    // اعتراض روابط /hijri-date/ لحفظ المدينة الحالية قبل التنقل
-    document.addEventListener('click', function(e) {
-        const a = e.target.closest('a[href*="/hijri-date/"]');
-        if (!a || window.location.protocol === 'file:') return;
-        if (currentLat && currentEnglishName) {
-            sessionStorage.setItem('city_hijri-day', JSON.stringify({
-                lat: currentLat, lng: currentLng, name: currentCity,
-                country: currentCountry, englishName: currentEnglishName,
-                countryCode: currentCountryCode, timezone: currentTimezone
-            }));
-        }
-    }, true);
+    // HIJRI-DAY-PAGES-REMOVAL-1: the /hijri-date/ click interceptor (saved the city for the day page) is gone with the day pages.
 }
 
 // ========= الشريط الجانبي (موبايل) =========
@@ -11196,8 +11180,7 @@ function injectHomepageSchema() {
     const origin      = window.SITE_URL || window.location.origin;
     const _hToday     = HijriDate.getToday();
     const hijriYear   = _hToday.year;
-    const _p2         = (n) => String(n).padStart(2, '0');
-    const hijriDated  = `/hijri-date/${_hToday.year}-${_p2(_hToday.month)}-${_p2(_hToday.day)}`;
+    // HIJRI-DAY-PAGES-REMOVAL-1: the Hijri nav entry points at the hub /today-hijri-date (the day pages answer 410).
     const siteName    = 'مواقيت الصلاة';
     const siteDesc    = 'منصة إسلامية تعرض مواقيت الصلاة، التاريخ الهجري، تحويل التاريخ، اتجاه القبلة، القمر اليوم، وحاسبة الزكاة.';
 
@@ -11263,7 +11246,7 @@ function injectHomepageSchema() {
             { "@type": "SiteNavigationElement", "name": _navName('nav.zakat',          "حاسبة الزكاة"),        "url": `${origin}${_langPath}/zakat-calculator`                            },
             { "@type": "SiteNavigationElement", "name": _navName('nav.duas',           "الأذكار"),             "url": `${origin}${_langPath}/azkar`                                       },
             { "@type": "SiteNavigationElement", "name": _navName('nav.tasbih',         "المسبحة الإلكترونية"), "url": `${origin}${_langPath}/msbaha`                                      },
-            { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_today',    "التاريخ الهجري"),      "url": `${origin}${_langPath}${hijriDated}`                              },
+            { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_today',    "التاريخ الهجري"),      "url": `${origin}${_langPath}/today-hijri-date`                          },
             { "@type": "SiteNavigationElement", "name": _navName('nav.hijri_calendar', "التقويم الهجري"),      "url": `${origin}${_langPath}/hijri-calendar/${hijriYear}`               },
             { "@type": "SiteNavigationElement", "name": _navName('nav.date_converter', "تحويل التاريخ"),       "url": `${origin}${_langPath}/date-converter`                              }
         ]
@@ -12999,14 +12982,14 @@ function renderPrayerSchedule(days, btn) {
         const isToday = `${dayDate.getFullYear()}-${dayDate.getMonth()}-${dayDate.getDate()}` === todayStr;
         const tr = document.createElement('tr');
         if (isToday) tr.classList.add('today-row');
-        const dayHref = hijriDayUrl(hijri.year, hijri.month, hijri.day);
+        // HIJRI-DAY-PAGES-REMOVAL-1: the day cell keeps its text; the standalone day page it linked to is gone (410)
         tr.innerHTML = `
             <td>
-                <a class="sched-day-link" href="${dayHref}">
+                <div class="sched-day-cell">
                     <div class="sched-day">${dayName}</div>
                     <div class="sched-greg">${greg}</div>
                     <div class="sched-hijri">${hijriStr}</div>
-                </a>
+                </div>
             </td>
             <td>${times.fajr}</td>
             <td>${times.sunrise}</td>
@@ -22335,18 +22318,9 @@ function updateMoonInfo() {
                     }
                 };
                 const _HUB_RELATED = _HUB_RELATED_BY_LANG[_lng_] || _HUB_RELATED_BY_LANG.en;
-                // UAT-SEO-Phase-B3.1 hotfix: use canonical dated form
-                //   /hijri-date/{HIJRI-YYYY-MM-DD} instead of legacy
-                //   /today-hijri-date redirect. Site policy is "no user-facing
-                //   link should lead to /today-hijri-date" (see app.js:2630
-                //   auto-rewriter). Compute today's Hijri date directly.
-                let _hijriTodayPath = '/today-hijri-date';
-                try {
-                    if (typeof HijriDate !== 'undefined' && HijriDate.getToday) {
-                        const _hT = HijriDate.getToday();
-                        _hijriTodayPath = '/hijri-date/' + _hT.year + '-' + _padN(_hT.month) + '-' + _padN(_hT.day);
-                    }
-                } catch (_) { /* keep legacy path; auto-rewriter will fix it */ }
+                // HIJRI-DAY-PAGES-REMOVAL-1: the dated /hijri-date/{today} form answers 410,
+                //   so the card points at the /today-hijri-date hub (a first-class page).
+                const _hijriTodayPath = '/today-hijri-date';
                 // MOON-CITY-HUB-RELATED-LINKS-MERGE-1 (2026-05-24):
                 //   Reordered hrefs so the 4th position is Today's Hijri Date
                 //   (was previously at #6) — per the user's "consolidated
@@ -24602,38 +24576,8 @@ function updateHijriToday() {
     // ── 5. [REMOVED Round 9] OTD historical events — different intent, moved off this page.
     //      (Kept loadWikiOTD() and HT_I18N.otd* strings intact for future standalone page.)
 
-    // ── 6. Prev / Next Navigation ─────────────────────────────────
-    const navEl = document.getElementById('hijri-today-nav');
-    if (navEl) {
-        let prevD = hijri.day - 1, prevM = hijri.month, prevY = hijri.year;
-        if (prevD < 1) {
-            prevM--;
-            if (prevM < 1) { prevM = 12; prevY--; }
-            prevD = HijriDate.getDaysInHijriMonth(prevY, prevM);
-        }
-        let nextD = hijri.day + 1, nextM = hijri.month, nextY = hijri.year;
-        if (nextD > totalDays) {
-            nextD = 1; nextM++;
-            if (nextM > 12) { nextM = 1; nextY++; }
-        }
-        const prevMN = T.hM[prevM-1];
-        const nextMN = T.hM[nextM-1];
-        // HD-5 (2026-05-08): RTL-aware arrows. In Arabic/Urdu, "previous" =
-        //   going back = pointing right (→); "next" = going forward = pointing
-        //   left (←). LTR (en/fr/de/es/id/ms/bn) keeps the original ←/→ layout.
-        const _rtl = (lang === 'ar' || lang === 'ur');
-        const _arPrev = _rtl ? '→' : '←';
-        const _arNext = _rtl ? '←' : '→';
-        navEl.innerHTML = `
-            <a href="${hijriDayUrl(prevY, prevM, prevD)}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${_arPrev} ${T.prev}</span>
-                <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevD} ${prevMN} ${prevY}${T.hSfx}</span>
-            </a>
-            <a href="${hijriDayUrl(nextY, nextM, nextD)}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
-                <span style="font-size:0.75rem;color:var(--text-light);">${T.next} ${_arNext}</span>
-                <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextD} ${nextMN} ${nextY}${T.hSfx}</span>
-            </a>`;
-    }
+    // ── 6. [REMOVED HIJRI-DAY-PAGES-REMOVAL-1] Prev / Next day navigation — the standalone day pages it
+    //      linked to answer 410; the card and its #hijri-today-nav container are gone.
 
     // ── 7. [REMOVED Round 9] Mini Calendar 3-row table — redundant with Prev/Next navigation.
 
@@ -25425,7 +25369,6 @@ function loadHijriYearPage() {
     //  matches because the same Umm al-Qura engine + _GREG_MONTHS feed both.)
     if (tbody && tbody.getAttribute('data-ssr-rendered') !== '1') {
         tbody.innerHTML = '';
-        const _pad2 = (n) => String(n).padStart(2, '0');
         const gSfx = (typeof gSfxFor === 'function') ? gSfxFor(lang) : '';
         for (let m = 1; m <= 12; m++) {
             const mDays   = HijriDate.getDaysInHijriMonth(year, m);
@@ -25437,9 +25380,7 @@ function loadHijriYearPage() {
             const gm2     = gregMonthFor(lang, gLast.month - 1);
             const startStr = `${gFirst.day} ${gm1} ${gFirst.year}`;
             const endStr   = `${gLast.day} ${gm2} ${gLast.year}`;
-            // Each Gregorian boundary links to its specific Hijri day page (long-tail SEO + UX).
-            const startHref = `${prefix}/hijri-date/${year}-${_pad2(m)}-01`;
-            const endHref   = `${prefix}/hijri-date/${year}-${_pad2(m)}-${_pad2(mDays)}`;
+            // HIJRI-DAY-PAGES-REMOVAL-1: the Gregorian boundaries are plain text (the day pages answer 410).
             const isCurrentMonth = (() => { const h = HijriDate.getToday(); return h.year === year && h.month === m; })();
             const rowBg  = isCurrentMonth ? 'background:var(--primary-light);' : (m % 2 === 0 ? 'background:var(--bg);' : '');
             const lnkClr = isCurrentMonth ? 'color:#fff;font-weight:700;text-decoration:none;' : 'color:var(--primary);text-decoration:none;';
@@ -25456,8 +25397,8 @@ function loadHijriYearPage() {
             const endTitleAttr   = endTitle   ? ` title="${endTitle.replace(/"/g, '&quot;')}"`   : '';
             tbody.innerHTML += `<tr style="${rowBg}">
                 <td style="${td}${txtClr}"><a href="${mUrl}" style="${lnkClr}">${mName} ${year}${hSfx}</a></td>
-                <td style="${td}${txtClr}"><a href="${startHref}"${startTitleAttr} style="${lnkClr}">${startStr}</a></td>
-                <td style="${td}${txtClr}"><a href="${endHref}"${endTitleAttr} style="${lnkClr}">${endStr}</a></td>
+                <td style="${td}${txtClr}"${startTitleAttr}>${startStr}</td>
+                <td style="${td}${txtClr}"${endTitleAttr}>${endStr}</td>
                 <td style="${td}${txtClr}"><a href="${mUrl}" style="${lnkClr}">${mDays}</a></td>
             </tr>`;
         }
@@ -25469,9 +25410,8 @@ function loadHijriYearPage() {
         const todayH = HijriDate.getToday();
         if (todayH.year === year && typeof ui.today_in_year === 'function') {
             const _todayMN = hijriNames[todayH.month - 1];
-            const _pad2 = (n) => String(n).padStart(2, '0');
-            const _todayHref = `${prefix}/hijri-date/${todayH.year}-${_pad2(todayH.month)}-${_pad2(todayH.day)}`;
-            todayInYearEl.innerHTML = ui.today_in_year(todayH.day, _todayMN, todayH.year, hSfx, _todayHref);
+            // HIJRI-DAY-PAGES-REMOVAL-1: the date is plain text (the day pages answer 410).
+            todayInYearEl.innerHTML = ui.today_in_year(todayH.day, _todayMN, todayH.year, hSfx);
             todayInYearEl.hidden = false;
         } else {
             todayInYearEl.innerHTML = '';
@@ -25767,14 +25707,13 @@ function loadHijriMonthPage() {
     }
 
     // 3b. "Today in this month" indicator — only when the rendered month IS the current hijri month.
-    // The date itself is a link to the day page (hijri-date/YYYY-MM-DD).
+    // HIJRI-DAY-PAGES-REMOVAL-1: the date is plain text (the day pages answer 410).
     const todayInMonthEl = document.getElementById('hmonth-today-in-month');
     if (todayInMonthEl) {
         const _isCurrentMonth = (todayH.year === year && todayH.month === month);
         if (_isCurrentMonth && typeof ui.today_in_month === 'function') {
             const _todayMN   = hijriNames[todayH.month - 1];
-            const _todayHref = hijriDayUrl(todayH.year, todayH.month, todayH.day);
-            todayInMonthEl.innerHTML = ui.today_in_month(todayH.day, _todayMN, todayH.year, hSfx, _todayHref);
+            todayInMonthEl.innerHTML = ui.today_in_month(todayH.day, _todayMN, todayH.year, hSfx);
             todayInMonthEl.hidden = false;
         } else {
             todayInMonthEl.innerHTML = '';
@@ -25791,8 +25730,7 @@ function loadHijriMonthPage() {
             const isToday = (d === todayH.day && month === todayH.month && year === todayH.year);
             const tr      = document.createElement('tr');
             tr.style.cssText = isToday ? 'background:var(--primary-light);color:#fff;font-weight:700;' : (d % 2 === 0 ? 'background:var(--bg);' : '');
-            const dayUrl    = hijriDayUrl(year, month, d);
-            const linkStyle = isToday ? 'color:#fff;text-decoration:none;font-weight:700;' : 'color:var(--primary);text-decoration:none;';
+            // HIJRI-DAY-PAGES-REMOVAL-1: the day pages answer 410, so each row keeps its data as plain text (no link).
             const dowIdx    = new Date(greg.year, greg.month - 1, greg.day).getDay();
             const dayName   = dayNameFor(lang, dowIdx);
             const gmLoc     = gregMonthFor(lang, greg.month - 1);
@@ -25802,12 +25740,8 @@ function loadHijriMonthPage() {
             const _rowTitle = (typeof ui.day_row_title === 'function') ? ui.day_row_title(_hDate, _gDate) : '';
             const _titleAttr = _rowTitle ? ` title="${_rowTitle.replace(/"/g, '&quot;')}"` : '';
             tr.innerHTML = `
-                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;">
-                    <a href="${dayUrl}"${_titleAttr} style="${linkStyle}">${d} ${monthName} ${year}${hSfx} (${dayName})</a>
-                </td>
-                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;">
-                    <a href="${dayUrl}"${_titleAttr} style="${linkStyle}">${dayName} ${greg.day} ${gmLoc} ${greg.year}</a>
-                </td>`;
+                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;"${_titleAttr}>${d} ${monthName} ${year}${hSfx} (${dayName})</td>
+                <td style="padding:9px 14px;border-bottom:1px solid var(--border);text-align:center;"${_titleAttr}>${dayName} ${greg.day} ${gmLoc} ${greg.year}</td>`;
             tbody.appendChild(tr);
         }
     }

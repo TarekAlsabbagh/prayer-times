@@ -643,12 +643,6 @@ html.hijri-day-page #hday-breadcrumbs{
 @media (max-width: 768px){#hijri-today-footer-seo{
         min-height: 134px;
     }}
-#hijri-today-nav{
-    min-height: 80px;
-}
-@media (max-width: 768px){#hijri-today-nav{
-        min-height: 106px;
-    }}
 html.hijri-day-page #hday-info-grid{ min-height: 280px; }
 html.hijri-day-page #hday-faq{ min-height: 320px; }
 @media (max-width: 768px){html.hijri-day-page #hday-info-grid{ min-height: 480px; }

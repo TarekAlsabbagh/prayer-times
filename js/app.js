@@ -5977,11 +5977,14 @@ function initNavigation() {
             navLinks.forEach(l => l.classList.remove('active'));
             this.classList.add('active');
 
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            // HIJRI-PAGES-SLIM-1: the in-page switch only happens when the target section is in this document. Routes
+            //   served without it (the slimmed Hijri pages, the calendar pages) keep their own section visible and, when no
+            //   branch below navigates, follow the link's real href (see the end of this handler) -- never an empty page.
+            const targetPage = document.getElementById('page-' + pageId);
+            if (targetPage) document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
             // TRUSTED-DIRECTION-1: leaving Qibla ⇒ stop the sensors. One guarded line; the teardown
             // itself early-returns when nothing is running, so every other page switch is a no-op.
             if (pageId !== 'qibla') { try { _qcStopDeviceCompass('spa-nav'); } catch (_e) {} }
-            const targetPage = document.getElementById('page-' + pageId);
             if (targetPage) {
                 targetPage.classList.add('active');
                 targetPage.classList.add('fade-in');
@@ -6181,7 +6184,7 @@ function initNavigation() {
                         return;
                     }
                 }
-                startDeviceCompass();
+                if (targetPage) startDeviceCompass();   // HIJRI-PAGES-SLIM-1: no #page-qibla here → the href fallback below
             }
 
             // عند الضغط على المسبحة → انتقل لصفحة /msbaha
@@ -6206,6 +6209,19 @@ function initNavigation() {
                     _saveCityCtxFor('azkar');
                     _showNavLoadingOverlay('azkar');
                     window.location.href = pageUrl('/azkar');
+                    return;
+                }
+            }
+
+            // HIJRI-PAGES-SLIM-1: the target section is not in this document and no branch above navigated (e.g. a visitor
+            //   with no known city clicking Prayer times / Qibla on a Hijri page) → follow the link's real href, which already
+            //   points at the last-used city or the generic hub, instead of leaving the main area empty.
+            if (!targetPage && window.location.protocol !== 'file:') {
+                const _rawHref = this.getAttribute('href') || '';
+                if (_rawHref && _rawHref !== '#' && !/^javascript:/i.test(_rawHref)) {
+                    try { if (typeof _showNavLoadingOverlay === 'function') _showNavLoadingOverlay(pageId); } catch (_) {}
+                    try { closeSidebar(); } catch (_) {}
+                    window.location.href = this.href;
                     return;
                 }
             }

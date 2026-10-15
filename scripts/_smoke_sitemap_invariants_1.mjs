@@ -87,7 +87,8 @@ const LOCALES = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
 //   shards 168,590 → 167,520, total 176,135 → 175,065, main stays 7,430 — derived, confirm on the first candidate run.
 //   shardFiles: kept at 23 (greedy 7,500-URL packing of 167,520 still needs 23 files by estimate) — it may change if the
 //   lower famous estimate (EST_FAMOUS_MOON 20 → 10) rechunks; confirm on the first candidate run.
-const SNAP = { main: 7430, shards: 167520, quran: 115, total: 175065, shardFiles: 23 };   // derived from the 2026-09-15 snapshot
+// HIJRI-DAY-PAGES-REMOVAL-1: the 3,550 current-year /hijri-date/ locs left sitemap-main → main 7,430 → 3,880, total 175,065 → 171,515
+const SNAP = { main: 3880, shards: 167520, quran: 115, total: 171515, shardFiles: 23 };   // derived from the 2026-09-15 snapshot
 // MOON-DAY-PAGES-REMOVAL-1: the moon family = hub/year/month only after the removal (+ the general /moon + country pages, in main).
 //   Server _estCityUrlCount emits per famous city: hub (10) [+ today (10) before this ticket] + 130 per window year. This constant
 //   MUST mirror it (the shard chunking depends on it). The in-flight server.js (2026-10-13) already has `n += 10; // moon hub (10)`.
@@ -98,9 +99,10 @@ const APPROVED_TODAY_N = 1070;
 // MOON-DAY-PAGES-REMOVAL-1: moon family 45,530 → 44,460 = 4,446 ten-locale path groups; fewest near-equal parts <= 25,000 URLs
 //   with a path's 10 locales never split → 2 parts of 2,223 groups = 22,230 + 22,230 (was 22,770 + 22,760) — derived, confirm on
 //   the first candidate run. Every other family is unchanged.
+// HIJRI-DAY-PAGES-REMOVAL-1: hijri family 3,940 → 390 (the current-year day URLs left; 3 years + 36 months × 10 locales).
 const SNAP_FAMILY = { '/sitemap-prayer-1.xml': 16410, '/sitemap-prayer-2.xml': 16410, '/sitemap-qibla-1.xml': 15600, '/sitemap-qibla-2.xml': 15590,
     '/sitemap-time-left-1.xml': 15590, '/sitemap-time-left-2.xml': 15590, '/sitemap-next-prayer-1.xml': 15590, '/sitemap-next-prayer-2.xml': 15590,
-    '/sitemap-moon-1.xml': 22230, '/sitemap-moon-2.xml': 22230, '/sitemap-hijri.xml': 3940, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
+    '/sitemap-moon-1.xml': 22230, '/sitemap-moon-2.xml': 22230, '/sitemap-hijri.xml': 390, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
     '/sitemap-guides.xml': 40, '/sitemap-pages.xml': 100 };
 // SITEMAP-SEMANTIC-PARTITIONING-1: the ticket spec — per URL-set file budget, family order, family rules on the locale-stripped path
 const FAMILY_MAX_URLS = 25000;
@@ -244,6 +246,13 @@ function hijriFromTable(table, y, m, d) {
     return null;
 }
 const ymdIn = (tz) => new Intl.DateTimeFormat('en-CA', { timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date());
+// HIJRI-DAY-PAGES-REMOVAL-1: the base's current-year /hijri-date/ loc count (days in the current Hijri year × 10 locales)
+function E_HIJRI_DAY_LOCS() {
+    const t = JSON.parse(fs.readFileSync(path.join(TARGET_ROOT, 'db', 'hijri', 'umm-al-qura.json'), 'utf8'));
+    const [y, m, d] = ymdIn('Asia/Riyadh').split('-').map(Number);
+    const h = hijriFromTable(t, y, m, d);
+    return h ? t.years[String(h.year)].months.reduce((a, b) => a + b, 0) * 10 : -1;
+}
 
 function buildExpectation(root) {
     const req = createRequire(import.meta.url);
@@ -305,8 +314,8 @@ function buildExpectation(root) {
         main.push(...all10('/hijri-calendar/' + hy));
         for (let m = 1; m <= 12; m++) if (hMonthDays(hy, m)) main.push(...all10('/hijri-calendar/' + hy + '-' + pad2(m)));
     }
-    let hijriDayCount = 0;
-    if (hInRange(hNow.year)) for (let m = 1; m <= 12; m++) for (let d = 1; d <= hMonthDays(hNow.year, m); d++) { hijriDayCount++; main.push(...all10('/hijri-date/' + hNow.year + '-' + pad2(m) + '-' + pad2(d))); }
+    // HIJRI-DAY-PAGES-REMOVAL-1: the /hijri-date/ day pages answer 410 and are no longer listed
+    const hijriDayCount = 0;
 
     // city shards: same chunking as server.js (_estCityUrlCount + SITEMAP_URL_BUDGET) and the same emission gates
     const baseOf = (s) => FAMOUS[s] ? s : ((s.match(/^([a-z][a-z0-9-]+?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/) || [])[1] || null);
@@ -729,25 +738,25 @@ function staticChecks(A, E) {
     section('[J] Hijri URLs');
     if (E) {
         const calA = agg('J', 'hijri-calendar year/month locs: year ∈ current Hijri year ±1 {' + E.hijriCalYears.join(',') + '}, month valid');
-        const dayA = agg('J', 'hijri-date locs: current Hijri year ' + E.hNow.year + ' only, valid table date');
-        const otherA = agg('J', 'no other Hijri URL shape (only /hijri-calendar/{y}, /hijri-calendar/{y}-{mm}, /hijri-date/{y}-{mm}-{dd})');
+        const dayA = agg('J', 'hijri-date locs: none (HIJRI-DAY-PAGES-REMOVAL-1: the day pages answer 410)');
+        const otherA = agg('J', 'no other Hijri URL shape (only /hijri-calendar/{y}, /hijri-calendar/{y}-{mm})');
         const calYearsSeen = new Set(); let dayCount = 0;
         for (const e of A.entries) {
             const p = pathOf(e.loc); if (p == null) continue; const rel = splitLocale(p).rel;
             if (!/^\/hijri-(?:calendar|date)(?:\/|$)/.test(rel)) continue;
-            otherA.test(e.loc, /^\/hijri-calendar\/\d{4}(?:-\d{2})?$/.test(rel) || /^\/hijri-date\/\d{4}-\d{2}-\d{2}$/.test(rel), rel);
+            otherA.test(e.loc, /^\/hijri-calendar\/\d{4}(?:-\d{2})?$/.test(rel), rel);
             let m;
             if ((m = rel.match(/^\/hijri-calendar\/(\d{4})(?:-(\d{2}))?$/))) {
                 const y = Number(m[1]); calYearsSeen.add(y);
                 calA.test(e.loc, E.hijriCalYears.includes(y) && (!m[2] || E.hMonthDays(y, Number(m[2])) > 0), rel);
             } else if ((m = rel.match(/^\/hijri-date\/(\d{4})-(\d{2})-(\d{2})$/))) {
-                const y = Number(m[1]), mo = Number(m[2]), d = Number(m[3]); dayCount++;
-                dayA.test(e.loc, y === E.hNow.year && d >= 1 && d <= E.hMonthDays(y, mo), rel);
+                dayCount++;
+                dayA.test(e.loc, false, rel);
             }
         }
-        calA.done(); dayA.done(); otherA.done();
+        calA.done(); dayA.done('', true); otherA.done();
         ok('J', E.hijriCalYears.every(y => calYearsSeen.has(y)) && calYearsSeen.size === E.hijriCalYears.length, 'every Hijri calendar year ' + E.hijriCalYears.join(',') + ' is listed (and no other)', [...calYearsSeen].sort().join(','));
-        ok('J', dayCount === E.hijriDayCount * 10, 'hijri-date count === days in ' + E.hNow.year + ' (' + E.hijriDayCount + ') × 10 locales', String(dayCount));
+        ok('J', dayCount === 0, 'hijri-date count === 0 (HIJRI-DAY-PAGES-REMOVAL-1)', String(dayCount));
     }
 
     section('[G] Singapore + country listings');
@@ -884,7 +893,8 @@ async function baseChecks(A, B, afterPort) {
     //   Per-file byte identity is scoped to legacy files that held NO approved loc and whose shard boundaries did not move (same
     //   first + last loc; the lower famous estimate can move later boundaries) — every other file is covered by the stream
     //   (order) check and the per-block checks below.
-    const APPROVED_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*\/today$/;
+    // HIJRI-DAY-PAGES-REMOVAL-1: + the base /[lang/]hijri-date/YYYY-MM-DD locs (removed page, 410)
+    const APPROVED_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(?:moon\/[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*\/today|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/;
     const approved = new Set();
     for (const bf of B.files) if (bf.kind === 'urlset' && bf.path !== '/sitemap-quran.xml') for (const loc of bf.hashes.keys()) if (APPROVED_RE.test(loc)) approved.add(loc);
     const fileAgg = agg('B', 'every legacy file that held no approved /today loc and kept its boundaries is byte-identical to the base file of the same name');
@@ -931,7 +941,12 @@ async function baseChecks(A, B, afterPort) {
     ok('B', removedNotApproved.length === 0 && approvedKept.length === 0 && removedSet.size === approved.size && added === 0 && baseLocs.size > 0 && approved.size > 0,
         'base → after: removed === exactly the approved /today set (' + approved.size + '), 0 added (base sitemap-main + city shards vs after index children)',
         'removed ' + removedSet.size + ' (not approved ' + removedNotApproved.length + ' e.g. ' + removedNotApproved.slice(0, 2).join(' ') + '; approved still listed ' + approvedKept.length + '), added ' + added + ' of ' + baseLocs.size);
-    if (SNAPSHOT) ok('B', approved.size === APPROVED_TODAY_N, 'snapshot: approved /today removals === ' + APPROVED_TODAY_N.toLocaleString('en') + ' (107 famous moon cities x 10 locales, derived)', String(approved.size));
+    // HIJRI-DAY-PAGES-REMOVAL-1: against production a6fb163 the /today locs are already gone; the approved set is the 3,550
+    //   current-year /hijri-date/ locs (355 days x 10 locales). Against an older base the moon count applies.
+    const approvedToday = [...approved].filter((l) => /\/today$/.test(l)).length, approvedHijri = approved.size - approvedToday;
+    if (SNAPSHOT) ok('B', approvedToday === 0 ? approvedHijri === E_HIJRI_DAY_LOCS() : approvedToday === APPROVED_TODAY_N,
+        'snapshot: approved removals === ' + (approvedToday === 0 ? 'the current-year hijri-date locs (' + E_HIJRI_DAY_LOCS() + ')' : APPROVED_TODAY_N.toLocaleString('en') + ' /today (107 famous moon cities x 10 locales, derived)'),
+        'today=' + approvedToday + ' hijri=' + approvedHijri);
 }
 
 // ─────────────────────────────── sample selection ───────────────────────────────
@@ -985,8 +1000,6 @@ function selectUrls(A, E) {
     if (E) {
         const pad2 = (n) => String(n).padStart(2, '0');
         for (const y of E.hijriCalYears) for (const rel of ['/hijri-calendar/' + y, '/hijri-calendar/' + y + '-01', '/hijri-calendar/' + y + '-12']) if (!expand(SITE + rel)) missingNamed.push(SITE + rel);
-        const H = E.hNow.year;
-        for (const rel of ['/hijri-date/' + H + '-01-01', '/hijri-date/' + H + '-12-' + pad2(E.hMonthDays(H, 12)), '/hijri-date/' + H + '-' + pad2(E.hNow.month) + '-' + pad2(E.hNow.day)]) if (!expand(SITE + rel)) missingNamed.push(SITE + rel);
     }
     // 7) deterministic hash stride
     let stride = 0;

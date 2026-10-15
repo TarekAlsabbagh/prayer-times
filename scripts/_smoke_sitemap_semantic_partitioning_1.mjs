@@ -72,11 +72,14 @@ const UA = 'tp-sitemap-semantic-partitioning-smoke/1 (local)';
 // SITEMAP-SEMANTIC-PARTITIONING-1: owner-approved census of the 12bae98 bytes at the 2026-09-15 clock
 // MOON-DAY-PAGES-REMOVAL-1: that census is now the BASE side; AFTER = BASE minus the 1,070 /today locs (107 famous moon
 //   cities x 10 locales) — derived, confirm on the first candidate run.
-const EXPECTED_BASE_TOTAL = 176135;
-const EXPECTED_TOTAL = 175065;
+// HIJRI-DAY-PAGES-REMOVAL-1: BASE = production a6fb163 (175,065, no /today left); the 3,550 /hijri-date/ day locs are the
+//   approved removal now → 171,515
+const EXPECTED_BASE_TOTAL = 175065;
+const EXPECTED_TOTAL = 171515;
 // MOON-DAY-PAGES-REMOVAL-1: the only BASE locs allowed to disappear (removed page → 410)
 const APPROVED_REMOVAL_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z0-9]+(?:-[a-z0-9]+)*\/[a-z0-9]+(?:-[a-z0-9]+)*\/today$/;
-const isApproved = (loc) => APPROVED_REMOVAL_RE.test(String(loc));
+const APPROVED_HIJRI_DAY_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30)$/;   // HIJRI-DAY-PAGES-REMOVAL-1
+const isApproved = (loc) => APPROVED_REMOVAL_RE.test(String(loc)) || APPROVED_HIJRI_DAY_RE.test(String(loc));
 const MAX_URLS = 25000, MAX_BYTES = 35000000;
 const FAMILY_ORDER = ['prayer', 'qibla', 'time-left', 'next-prayer', 'moon', 'hijri', 'quran', 'azkar', 'guides', 'ramadan', 'pages'];
 const LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];

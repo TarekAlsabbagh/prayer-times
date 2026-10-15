@@ -22650,12 +22650,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 );
             }
         } catch (_hd13Err) { /* silent — JS fallback fills as before */ }
-        // HD-4 (2026-05-07): Replace the Prev/Next heading anchor with a
-        //   per-lang title ("التنقل بين الأيام الهجرية" / "Navigate Hijri Days" / …).
-        html = html.replace(
-            '<!-- HD4-NAV-HEADING -->',
-            `<h2 class="hd4-nav-heading"><svg class="icon icon-md" aria-hidden="true"><use href="#i-arrows-left-right"/></svg> ${_escHtml(_hd.navTitle)}</h2>`
-        );
+        // HIJRI-DAY-PAGES-REMOVAL-1: the Prev/Next day-navigation card (and its HD4-NAV-HEADING anchor) is removed.
         // HD-4 (2026-05-07): rebuilt content block with the user's preferred
         //   structure: ONE Tools card (icon + title + short desc per tool),
         //   ONE Guide card containing 3 sub-blocks (3-col on desktop, stacked
@@ -23537,8 +23532,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _startStr = `${_gF.day} ${_gm1} ${_gF.year}`;
                 const _endStr   = `${_gL.day} ${_gm2} ${_gL.year}`;
                 const _mUrl     = `${_hyPfx}/hijri-calendar/${_hyTblY}-${_hyPad2(_m)}`;
-                const _startHref = `${_hyPfx}/hijri-date/${_hyTblY}-${_hyPad2(_m)}-01`;
-                const _endHref   = `${_hyPfx}/hijri-date/${_hyTblY}-${_hyPad2(_m)}-${_hyPad2(_mDays)}`;
+                // HIJRI-DAY-PAGES-REMOVAL-1: the first/last-day cells keep their Gregorian date and tooltip as plain
+                //   text; the standalone day pages they linked to now answer 410.
                 const _isCur  = (_hyNow.year === _hyTblY && _hyNow.month === _m);
                 const _rowBg  = _isCur ? 'background:var(--primary-light);' : (_m % 2 === 0 ? 'background:var(--bg);' : '');
                 const _lnkClr = _isCur ? 'color:#fff;font-weight:700;text-decoration:none;' : 'color:var(--primary);text-decoration:none;';
@@ -23550,8 +23545,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 _hyRows +=
                     `<tr style="${_rowBg}">` +
                     `<td style="${_hyTd}${_txtClr}"><a href="${_mUrl}" style="${_lnkClr}">${_escHtml(_mName)} ${_escHtml(_yLbl)}</a></td>` +
-                    `<td style="${_hyTd}${_txtClr}"><a href="${_startHref}"${_stTA} style="${_lnkClr}">${_escHtml(_startStr)}</a></td>` +
-                    `<td style="${_hyTd}${_txtClr}"><a href="${_endHref}"${_enTA} style="${_lnkClr}">${_escHtml(_endStr)}</a></td>` +
+                    `<td style="${_hyTd}${_txtClr}"${_stTA}>${_escHtml(_startStr)}</td>` +
+                    `<td style="${_hyTd}${_txtClr}"${_enTA}>${_escHtml(_endStr)}</td>` +
                     `<td style="${_hyTd}${_txtClr}"><a href="${_mUrl}" style="${_lnkClr}">${_mDays}</a></td>` +
                     `</tr>`;
             }
@@ -25203,10 +25198,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         if (_slugMatch) {
             const _slug = _slugMatch[1];
             const _lp = (seo.lang === 'ar') ? '' : `/${seo.lang}`;
-            // UAT-2.6: compute today's hijri date for the canonical /hijri-date/{YYYY-MM-DD} URL
-            const _hToday = _hijriNow();
-            const _hPad = n => String(n).padStart(2, '0');
-            const _hijriDated = `/hijri-date/${_hToday.year}-${_hPad(_hToday.month)}-${_hPad(_hToday.day)}`;
+            // HIJRI-DAY-PAGES-REMOVAL-1: the mini-tools Hijri link stays the shell's /today-hijri-date (the dated
+            //   /hijri-date/{today} rewrite that used to live here never matched and now points at a removed page).
             // UAT-Q5d: always emit canonical clean URLs (no coord-suffix).
             // The destination qibla/moon page resolves coords via:
             //   1. SSR __QIBLA_CITY__ / __MOON_CITY__ when slug is in DB,
@@ -25226,8 +25219,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 .replace('id="rl-next-prayer" href="#"', _tnSlug ? `id="rl-next-prayer" href="${_lp}/next-prayer-in-${_tnSlug}"` : 'id="rl-next-prayer" href="#"')
                 // UAT-2.6: compact tools strip after #prayer-cards (mit-* — qibla/moon/hijri-today)
                 .replace('id="mit-qibla" href="#"',     `id="mit-qibla" href="${_qHref}"`)
-                .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_mHref}"`)
-                .replace('id="mit-hijri" href="#"',     `id="mit-hijri" href="${_lp}${_hijriDated}"`);
+                .replace('id="mit-moon" href="#"',      `id="mit-moon" href="${_mHref}"`);
         }
     }
     // 1e) 🆕 Round 7 (Homepage Audit): homepage (distribution hub) → strip same dead-weight.
@@ -34635,7 +34627,7 @@ function _mlRecord(req, res, rawUrl, ms, aborted) {
     // the request-observability family, resolved by status exactly as its sampler does
     const f0 = _obsFamily(p);
     const sc = res.statusCode;
-    const fam = res._tpGone ? 'moon-gone'      // MOON-DAY-PAGES-REMOVAL-1: every removed form, nested or legacy
+    const fam = res._tpGone ? (res._tpGone === 'hijri' ? 'hijri-gone' : 'moon-gone')   // MOON-DAY / HIJRI-DAY-PAGES-REMOVAL-1
         : (f0 === null) ? (sc === 404 ? 'unknown-route' : 'other-valid')
         : ((sc === 404 && _OBS_404_UNKNOWN_FAMILIES.has(f0)) ? 'unknown-route' : f0);
     _mlBump(_mlFam, fam + '|' + out, ms);
@@ -34935,7 +34927,10 @@ function _goneSend(req, res, g) {
         'Content-Security-Policy': "default-src 'none'; frame-ancestors 'self'",
     });
     res.end(req.method === 'HEAD' ? undefined : body);
-    // measurement only: the 1% request-observability sampler runs later in the handler, so record a sample here
+    _goneObsSample(req);
+}
+// measurement only: the 1% request-observability sampler runs later in the handler, so record a sample here
+function _goneObsSample(req) {
     if (_OBS_SAMPLE > 0 && Math.random() < _OBS_SAMPLE) {
         try {
             const u = req.url || '';
@@ -34943,6 +34938,81 @@ function _goneSend(req, res, g) {
             _obsRecord(_obsFamily(q === -1 ? u : u.slice(0, q)) || 'other-valid', _obsAgent(req.headers['user-agent']), 410, 0);
         } catch (_e) { /* never break a response */ }
     }
+}
+
+// =======================================================================================
+// HIJRI-DAY-PAGES-REMOVAL-1 (owner directive 2026-10-15): every standalone Hijri day page
+//   /[lang/]hijri-date/YYYY-MM-DD — past, current and future days, all 10 languages — is removed for good
+//   and answers 410 Gone here, before the shed, the header build, the router, any calendar or prayer
+//   computation, the SSR template and compression. Validity is the Umm al-Qura table lookup only (no clock,
+//   no window). The forms that used to END at a day page answer 410 in one response: the trailing-slash run
+//   (with the router's file-extension guard), the ar/en .html twin, a query string, and any host (www too).
+//   Everything that was a 404 before — a date that is not in the table, a malformed shape, fr..ms .html,
+//   case/encoding variants — is left to the router and keeps its exact old answer (and chain).
+//   Kept, unchanged: /today-hijri-date, /hijri-calendar (hub, year, month), /date-converter.
+//   Rollback: revert the merge commit.
+// =======================================================================================
+const _HGONE_RE = /^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|30)$/;
+function _hijriGoneFor(req) {
+    const u = req.url || '';
+    if (u.indexOf('hijri-date/') === -1) return null;
+    const q = u.indexOf('?');
+    let p = q === -1 ? u : u.slice(0, q);
+    if (p.length > 1 && p.endsWith('/') && !/\.[a-z0-9]+\/$/i.test(p)) {
+        let e = p.length;                        // a loop, not /\/+$/ (quadratic on long runs of '/')
+        while (e > 1 && p.charCodeAt(e - 1) === 47) e--;
+        p = p.slice(0, e);
+    }
+    let html = false;
+    if (p.endsWith('.html')) { html = true; p = p.slice(0, -5); }
+    const m = _HGONE_RE.exec(p);
+    if (!m) return null;
+    const lp = m[1] || '';
+    if (html && lp !== '' && lp !== 'en/') return null;      // fr..ms .html twins were always a plain 404
+    if (!_isValidHijriDate(+m[2], +m[3], +m[4])) return null;  // not in the table: the router's own 404
+    return { lp, y: m[2], mo: m[3] };
+}
+// The month page a removed day belongs to, linked from the 410 body only when that month page is served.
+function _hijriMonthPageServed(y, mo) {
+    return _isYearInRange(y) && !!_getDaysInHijriMonth(y, mo);
+}
+const _HGONE_TEXT = {
+    '':  { lang: 'ar', dir: 'rtl', msg: 'أُلغيت صفحات الأيام الهجرية المستقلة نهائيًا. تجد التاريخ الهجري لكل يوم في جدول الشهر، وتاريخ اليوم في صفحة التاريخ الهجري اليوم.', cal: 'التقويم الهجري', month: 'تقويم هذا الشهر', today: 'التاريخ الهجري اليوم' },
+    en:  { lang: 'en', dir: 'ltr', msg: 'Standalone Hijri day pages have been permanently removed. Every day’s Hijri date is in the monthly table, and today’s date is on the today’s Hijri date page.', cal: 'Hijri calendar', month: 'This month’s calendar', today: 'Today’s Hijri date' },
+    fr:  { lang: 'fr', dir: 'ltr', msg: 'Les pages individuelles des jours hégiriens ont été définitivement supprimées. La date hégirienne de chaque jour figure dans le tableau mensuel, et celle d’aujourd’hui sur la page de la date hégirienne du jour.', cal: 'Calendrier hégirien', month: 'Calendrier de ce mois', today: 'Date hégirienne du jour' },
+    tr:  { lang: 'tr', dir: 'ltr', msg: 'Ayrı Hicri gün sayfaları kalıcı olarak kaldırıldı. Her günün Hicri tarihi aylık tabloda, bugünün tarihi ise bugünün Hicri tarihi sayfasında yer alır.', cal: 'Hicri takvim', month: 'Bu ayın takvimi', today: 'Bugünün Hicri tarihi' },
+    ur:  { lang: 'ur', dir: 'rtl', msg: 'ہجری دنوں کے الگ صفحات مستقل طور پر ہٹا دیے گئے ہیں۔ ہر دن کی ہجری تاریخ ماہانہ جدول میں ہے، اور آج کی تاریخ آج کی ہجری تاریخ کے صفحے پر ہے۔', cal: 'ہجری کیلنڈر', month: 'اس مہینے کا کیلنڈر', today: 'آج کی ہجری تاریخ' },
+    de:  { lang: 'de', dir: 'ltr', msg: 'Die einzelnen Seiten für Hidschri-Tage wurden dauerhaft entfernt. Das Hidschri-Datum jedes Tages steht in der Monatstabelle, das heutige Datum auf der Seite zum heutigen Hidschri-Datum.', cal: 'Hidschri-Kalender', month: 'Kalender dieses Monats', today: 'Heutiges Hidschri-Datum' },
+    id:  { lang: 'id', dir: 'ltr', msg: 'Halaman hari Hijriah tersendiri telah dihapus secara permanen. Tanggal Hijriah setiap hari ada di tabel bulanan, dan tanggal hari ini ada di halaman tanggal Hijriah hari ini.', cal: 'Kalender Hijriah', month: 'Kalender bulan ini', today: 'Tanggal Hijriah hari ini' },
+    es:  { lang: 'es', dir: 'ltr', msg: 'Las páginas individuales de los días de la Hégira se han eliminado de forma permanente. La fecha de la Hégira de cada día está en la tabla mensual, y la de hoy en la página de la fecha de la Hégira de hoy.', cal: 'Calendario de la Hégira', month: 'Calendario de este mes', today: 'Fecha de la Hégira de hoy' },
+    bn:  { lang: 'bn', dir: 'ltr', msg: 'হিজরি দিনের আলাদা পাতাগুলো স্থায়ীভাবে সরানো হয়েছে। প্রতিটি দিনের হিজরি তারিখ মাসিক সারণিতে, আর আজকের তারিখ আজকের হিজরি তারিখের পাতায় পাওয়া যাবে।', cal: 'হিজরি ক্যালেন্ডার', month: 'এই মাসের ক্যালেন্ডার', today: 'আজকের হিজরি তারিখ' },
+    ms:  { lang: 'ms', dir: 'ltr', msg: 'Halaman hari Hijrah yang berasingan telah dibuang secara kekal. Tarikh Hijrah setiap hari ada dalam jadual bulanan, dan tarikh hari ini di halaman tarikh Hijrah hari ini.', cal: 'Kalendar Hijrah', month: 'Kalendar bulan ini', today: 'Tarikh Hijrah hari ini' },
+};
+function _hijriGoneSend(req, res, g) {
+    const key = (g.lp || '').replace(/\/$/, '');
+    const t = _HGONE_TEXT[key] || _HGONE_TEXT[''];
+    const base = key ? '/' + key : '';
+    let links = '<li><a href="' + base + '/hijri-calendar">' + t.cal + '</a></li>';
+    if (/^\d{4}$/.test(g.y) && /^\d{2}$/.test(g.mo) && _hijriMonthPageServed(+g.y, +g.mo)) {
+        links += '<li><a href="' + base + '/hijri-calendar/' + g.y + '-' + g.mo + '">' + t.month + '</a></li>';
+    }
+    links += '<li><a href="' + base + '/today-hijri-date">' + t.today + '</a></li>';
+    const body = Buffer.from('<!DOCTYPE html><html lang="' + t.lang + '" dir="' + t.dir + '" data-tp-gone="hijri-day"><head><meta charset="utf-8">'
+        + '<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>410</title></head>'
+        + '<body><h1>410</h1><p>' + t.msg + '</p><ul>' + links + '</ul></body></html>', 'utf8');
+    res._tpGone = 'hijri';
+    res.writeHead(410, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': body.length,
+        'Cache-Control': 'public, max-age=3600',
+        'X-Robots-Tag': 'noindex',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Content-Security-Policy': "default-src 'none'; frame-ancestors 'self'",
+    });
+    res.end(req.method === 'HEAD' ? undefined : body);
+    if (!g.noSample) _goneObsSample(req);
 }
 
 
@@ -34995,6 +35065,9 @@ const server = http.createServer(async (req, res) => {
         let _g = _moonGoneFor(req);
         if (_g && _g.defer) { await _prefetchDiscoveredSlug(_g.defer); _g = _moonGoneFor(req); if (_g && _g.defer) _g = null; }
         if (_g) { _goneSend(req, res, _g); return; }
+        // HIJRI-DAY-PAGES-REMOVAL-1: a removed Hijri day page, fully synchronous (a table lookup, no I/O)
+        const _hg = _hijriGoneFor(req);
+        if (_hg) { _hijriGoneSend(req, res, _hg); return; }
     }
     // MOON-DAY-OVERLOAD-SHED-1: the very first step, so a shed request costs almost nothing (no nonce,
     //   no header build, no regex gates) and never reaches SSR or Supabase. Only nested moon-day paths
@@ -35244,10 +35317,13 @@ const server = http.createServer(async (req, res) => {
             });
         };
         // /hijri-date/{YYYY}-{MM}-{DD}
-        const _hd = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
+        const _hd = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/(\d{4})-(\d{2})-(\d{2})$/);
         if (_hd) {
-            const y = +_hd[1], mo = +_hd[2], dd = +_hd[3];
+            const y = +_hd[2], mo = +_hd[3], dd = +_hd[4];
             if (!_isValidHijriDate(y, mo, dd)) { _sendHijri404('date'); return; }
+            // HIJRI-DAY-PAGES-REMOVAL-1 backstop: the early gate answers every valid day; should a future reordering
+            //   ever let one reach the router, it still gets the 410 and never a rendered day page.
+            _hijriGoneSend(req, res, { lp: _hd[1] || '', y: _hd[2], mo: _hd[3], noSample: true }); return;   // the router's sampler already ran
         }
         // /hijri-calendar/{YYYY} (year page)
         const _hy = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})$/);
@@ -36170,7 +36246,8 @@ const server = http.createServer(async (req, res) => {
             if (_curatedCitiesForCc(cc).length === 0) continue;
             F.moon.push(['/moon/' + slug, '0.7', 'weekly', null]);
         }
-        // 5) Hijri calendar (current Hijri year ±1) + Hijri dates (current year) — same table gates as legacy
+        // 5) Hijri calendar (current Hijri year ±1) — same table gates as legacy. HIJRI-DAY-PAGES-REMOVAL-1: the
+        //   standalone /hijri-date/ day pages answer 410 and are no longer listed.
         const _pad2S = n => String(n).padStart(2, '0');
         const _hCurrentYear = _hijriNow().year;
         for (const hy of [_hCurrentYear - 1, _hCurrentYear, _hCurrentYear + 1]) {
@@ -36179,15 +36256,6 @@ const server = http.createServer(async (req, res) => {
             for (let m = 1; m <= 12; m++) {
                 if (!_getDaysInHijriMonth(hy, m)) continue;
                 F.hijri.push([`/hijri-calendar/${hy}-${_pad2S(m)}`, '0.6', 'monthly', null]);
-            }
-        }
-        if (_isYearInRange(_hCurrentYear)) {
-            for (let m = 1; m <= 12; m++) {
-                const _maxD = _getDaysInHijriMonth(_hCurrentYear, m);
-                for (let d = 1; d <= _maxD; d++) {
-                    if (!_isValidHijriDate(_hCurrentYear, m, d)) continue;
-                    F.hijri.push([`/hijri-date/${_hCurrentYear}-${_pad2S(m)}-${_pad2S(d)}`, '0.4', 'yearly', null]);
-                }
             }
         }
         // 6) city families in curated city order (= legacy /sitemap-cities-1..N concatenated)
@@ -36496,18 +36564,7 @@ const server = http.createServer(async (req, res) => {
                 }
             }
 
-            // 4) صفحات اليوم الهجري — السنة الحالية فقط، عدد الأيام الفعلي من الجدول
-            if (_isYearInRange(_hCurrentYear)) {
-                for (let m = 1; m <= 12; m++) {
-                    const _maxD = _getDaysInHijriMonth(_hCurrentYear, m);
-                    for (let d = 1; d <= _maxD; d++) {
-                        // Defensive — already guaranteed by _maxD, but explicit gate
-                        // protects against any future month-anomaly (e.g. 1364-08=28).
-                        if (!_isValidHijriDate(_hCurrentYear, m, d)) continue;
-                        entries.push(...bilingualUrl(`/hijri-date/${_hCurrentYear}-${_pad2S(m)}-${_pad2S(d)}`, '0.4', 'yearly', today));
-                    }
-                }
-            }
+            // 4) HIJRI-DAY-PAGES-REMOVAL-1: the standalone Hijri day pages answer 410 and are no longer listed.
 
             // SITEMAP-MEMORY-EFFICIENT-SERVING-1: stream the (pre-built) entries array in
             // ~300-URL batches through a gzip stream — avoids the extra ~10 MB joined string
@@ -36816,7 +36873,7 @@ const server = http.createServer(async (req, res) => {
         /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)\/?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar(?:\/\d{4})?$/.test(urlPath) ||
         /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/\d{4}-(?:0[1-9]|1[0-2])$/.test(urlPath) ||
-        /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12][0-9]|30)$/.test(urlPath) ||
+        // HIJRI-DAY-PAGES-REMOVAL-1: /hijri-date/YYYY-MM-DD is no longer an SSR route; the early gate answers 410.
         // ملاحظة: /prayer-times-in-* (لكل اللغات) يُخدَم لاحقاً من الـ route الموحَّد
         // عند السطر ~4224 — حيث يُفحَص الـ slug للتمييز بين دولة (prayer-times-cities.html)
         // ومدينة (index.html). لا نُدرجه هنا لئلا نفرض index.html على جميع الحالات.

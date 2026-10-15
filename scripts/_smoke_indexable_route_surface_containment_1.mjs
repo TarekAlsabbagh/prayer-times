@@ -611,9 +611,11 @@ async function htmlChecks(A, B) {
         ok('H1', r.status === 404 && !r.headers.location, '404, no Location  ' + p, brief(r));
     }
     section('[H1] legacy tool / Hijri .html 301s + /index.html === base');
+    // HIJRI-DAY-PAGES-REMOVAL-1: the /hijri-date/ .html twins left this list (a valid day answers 410 in one response;
+    //   scripts/_smoke_hijri_day_pages_removal_1.mjs covers them).
     for (const p of ['/msbaha.html', '/en/msbaha.html', '/today-hijri-date.html', '/en/today-hijri-date.html', '/date-converter.html', '/en/date-converter.html',
-                     '/hijri-date/1448-01-01.html', '/en/hijri-date/1448-01-01.html', '/hijri-calendar/1447-03.html', '/en/hijri-calendar/1447-03.html',
-                     '/msbaha.html?x=1', '/hijri-date/1448-01-01.html?y=2']) {
+                     '/hijri-calendar/1447-03.html', '/en/hijri-calendar/1447-03.html',
+                     '/msbaha.html?x=1']) {
         const a = await get(A, p), b = B ? await get(B, p) : null;
         const clean = p.split('?')[0].replace(/\.html$/, '');
         ok('H1', !!b && eq(redir(a), redir(b)) && a.status === 301 && a.headers.location === clean && a.headers['cache-control'] === 'public, max-age=31536000',
@@ -784,15 +786,16 @@ async function sitemapChecks(A, B, SM) {
     // MOON-DAY-PAGES-REMOVAL-1: the 1,070 /[lang/]moon/{c}/{city}/today locs (107 famous moon cities x 10 locales) leave the
     //   sitemaps: shards 168,590 → 167,520, total/unique 176,135 → 175,065, sitemap-main stays 7,430.
     //   DERIVED (FAMOUS_CITY_OVERRIDES + curated-places.json, not measured) — derived, confirm on the first candidate run.
-    const EXP_SHARDS = 167520, EXP_TOTAL = 175065;
-    ok('L1', mainN === 7430 && shardN === EXP_SHARDS && quranN === 115 && legacyAll.length === EXP_TOTAL && uniq.size === EXP_TOTAL,
-        'counts: sitemap-main 7,430 · city shards 167,520 (23 files) · quran 115 · 175,065 entries = 175,065 unique (derived)',
+    // HIJRI-DAY-PAGES-REMOVAL-1: the 3,550 current-year /hijri-date/ locs left sitemap-main → 7,430 → 3,880, total 175,065 → 171,515
+    const EXP_SHARDS = 167520, EXP_TOTAL = 171515;
+    ok('L1', mainN === 3880 && shardN === EXP_SHARDS && quranN === 115 && legacyAll.length === EXP_TOTAL && uniq.size === EXP_TOTAL,
+        'counts: sitemap-main 3,880 · city shards 167,520 (23 files) · quran 115 · 171,515 entries = 171,515 unique (derived)',
         'main=' + mainN + ' shards=' + shardN + ' quran=' + quranN + ' total=' + legacyAll.length + ' unique=' + uniq.size);
     {
         const idxAll = idxFiles.flatMap((f) => f.urls.map((u) => u.loc));
         const idxUniq = new Set(idxAll);
         ok('L1', idxAll.length === EXP_TOTAL && idxUniq.size === EXP_TOTAL && idxAll.every((l) => uniq.has(l)),
-            'index children: 175,065 entries = 175,065 unique = the legacy files + sitemap-quran set (derived)', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
+            'index children: 171,515 entries = 171,515 unique = the legacy files + sitemap-quran set (derived)', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
     }
     {
         // MOON-DAY-PAGES-REMOVAL-1: no removed page in ANY sitemap file (legacy + index children): 0 nested /today, 0 nested
@@ -860,8 +863,9 @@ async function unchangedChecks(A, B) {
     const ra = await get(A, '/robots.txt'), rb = B ? await get(B, '/robots.txt') : null;
     ok('U', !!rb && ra.status === 200 && ra.body === rb.body && ra.headers['content-type'] === rb.headers['content-type'] && ra.headers['cache-control'] === rb.headers['cache-control'],
         'robots.txt byte-identical to base (status, content-type, cache-control, body)', rb ? 'len ' + ra.body.length + ' vs ' + rb.body.length : 'no base');
-    for (const p of ['/hijri-date/1448-01-01', '/hijri-calendar/1447', '/hijri-calendar/1449-12', '/hijri-date/1356-01-01', '/hijri-calendar/1501',
-                     '/en/hijri-date/1448-01-01', '/en/hijri-calendar/1447']) {
+    // HIJRI-DAY-PAGES-REMOVAL-1: the /hijri-date/ day pages left this list (410 now; covered by _smoke_hijri_day_pages_removal_1.mjs)
+    for (const p of ['/hijri-calendar/1447', '/hijri-calendar/1449-12', '/hijri-calendar/1501',
+                     '/en/hijri-calendar/1447']) {
         const a = await get(A, p), b = B ? await get(B, p) : null;
         const sa = { status: a.status, location: a.headers.location || null, robots: metaRobots(a.body), xrt: xrt(a), canonical: canonicalOf(a.body) };
         const sb = b ? { status: b.status, location: b.headers.location || null, robots: metaRobots(b.body), xrt: xrt(b), canonical: canonicalOf(b.body) } : null;

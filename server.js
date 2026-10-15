@@ -35899,6 +35899,13 @@ const server = http.createServer(async (req, res) => {
             'Disallow: /*?lng=',
             'Disallow: /*?q=',
             '',
+            // GPTBOT-ROBOTS-BLOCK-1 (owner directive 2026-10-15): a dedicated group for OpenAI's training crawler
+            //   only. A crawler obeys the single group that names it (RFC 9309), so GPTBot is disallowed everywhere
+            //   while every other agent (Googlebot, Bingbot, OAI-SearchBot, ChatGPT-User, PerplexityBot,
+            //   Perplexity-User, ...) keeps the * group above unchanged. No generic AI-crawler block.
+            'User-agent: GPTBot',
+            'Disallow: /',
+            '',
             `Sitemap: ${SITE_URL}/sitemap.xml`,
             // QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1: additional discovery hint for the
             // Quran-only sitemap (multiple Sitemap lines are valid). Purely additive — the existing

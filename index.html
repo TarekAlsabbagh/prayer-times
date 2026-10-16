@@ -89,8 +89,8 @@
          line below. Helps FCP/LCP marginally on slow Render free-tier responses
          where the HTML body is large and the stylesheet ref is later in the doc.
          No FOUC risk because we keep the regular stylesheet link (synchronous). -->
-    <link rel="preload" href="css/style.css?v=511" as="style">
-    <link rel="stylesheet" href="css/style.css?v=511">
+    <link rel="preload" href="css/style.css?v=512" as="style">
+    <link rel="stylesheet" href="css/style.css?v=512">
     <!-- MOON-CITY-AND-TODAY-MOON-HALO-NO-ANIMATION-FOLLOWUP-1 (2026-07-01):
          Cache-proof critical freeze for the moon disc + its wrapper + halo.
          This inline block lives in the SSR <head> (served network-first =
@@ -1370,10 +1370,10 @@
                                 <span class="home-service-desc" data-i18n="footer.svc_hijri_today_desc">اعرف تاريخ اليوم الهجري مباشرة.</span>
                             </div>
                         </a>
-                        <a class="home-service-card" href="/hijri-calendar/1447">
+                        <a class="home-service-card" href="/hijri-calendar">
                             <svg class="icon home-service-icon" aria-hidden="true"><use href="#i-calendar-grid"/></svg>
                             <div class="home-service-body">
-                                <span class="home-service-title" data-i18n="footer.link_hijri_year">التقويم الهجري 1447</span>
+                                <span class="home-service-title" data-i18n="footer.link_hijri_year">التقويم الهجري</span>
                                 <span class="home-service-desc" data-i18n="footer.svc_hijri_year_desc">استعرض أشهر السنة الهجرية.</span>
                             </div>
                         </a>
@@ -5418,7 +5418,7 @@
     <script nonce="__TP_CSP_NONCE__" defer src="js/azkar-prayer-ui-l10n.js?v=1"></script>
     <!-- COUNTRY-PRAYER-PAGE-SEARCH-PIPELINE-PARITY-FIX-1: shared search pipeline; MUST load before app.js (defer = in-order). -->
     <script nonce="__TP_CSP_NONCE__" defer src="js/site-search.js?v=6"></script>
-    <script nonce="__TP_CSP_NONCE__" defer src="js/app.js?v=852"></script>
+    <script nonce="__TP_CSP_NONCE__" defer src="js/app.js?v=853"></script>
     <script nonce="__TP_CSP_NONCE__" defer src="js/footer-cookie.js?v=8"></script>
 
     <!-- Service Worker Registration (cache-first للأصول versioned) -->

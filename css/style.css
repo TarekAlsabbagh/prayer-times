@@ -28315,3 +28315,9 @@ html[data-theme="dark"] #page-qibla .qibla-quicklinks > li:first-child > a {
     .pci-row-name { grid-column: 1 / -1; }
     .pci-q { font-size: 0.96rem; }
 }
+
+/* HIJRI-CALENDAR-RANGE-1: a neighbour year outside the calendar window is not linked; the server renders an empty
+   placeholder in its place so the year panel keeps its layout. */
+#page-hijri-year .hyear-year-nav-btn.hyear-year-nav-off { visibility: hidden; pointer-events: none; }
+/* on phones the nav row is a stacked column: drop the placeholder there instead of leaving an empty 44px row */
+@media (max-width: 767px) { #page-hijri-year .hyear-year-nav-btn.hyear-year-nav-off { display: none !important; } }

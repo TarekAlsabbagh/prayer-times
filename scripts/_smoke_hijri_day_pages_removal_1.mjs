@@ -29,6 +29,11 @@
 //   [V]  static: app.js ?v bumped, js/moon.js byte-identical, removed emitters gone from index.html / app.js / CSS
 //   [N]  outbound guard: 0 non-loopback attempts by either server
 //
+// HIJRI-CALENDAR-RANGE-1: the calendar serves the previous / current / next Hijri year only (Riyadh date via the table): the
+//   410 body links its month page ONLY when that month's year is inside the window (mid + today + day30 rows keep it; past /
+//   future / table MIN / MAX rows link the hub + /today-hijri-date only); [E] sitemap-hijri.xml = 400 locs (+ the 10 hub locs)
+//   and the subject loc sets === BASE minus BASE's day locs PLUS exactly the 10 hub locs /[lang/]hijri-calendar.
+//
 // Boot (both servers, same env): node -r <guard.cjs> server.js with PORT, WEB_CONCURRENCY=1, TP_SSR_CACHE=0,
 //   SITE_URL=https://timesprayers.com, SUPABASE_URL='', SUPABASE_SERVICE_ROLE_KEY='', ADSENSE_CLIENT=off,
 //   TP_MOON_LOAD_OBS_WINDOW_S=10, GUARD_OUT=<temp log>, TP_MOON_DAY_SHED=0 (sequential renders; the gate-before-shed
@@ -104,6 +109,10 @@ const D = {
     min: [T_MIN, 1, 1], max: [T_MAX, 12, mdays(T_MAX, 12)], day30: [HY, M30, 30],
 };
 const D_BAD30 = [HY, M29, 30];
+// HIJRI-CALENDAR-RANGE-1: the served calendar window (server _hijriCalWindow: current Hijri year ±1 by the Riyadh date, clipped
+//   to the table) — a 410 body links a month page only inside it
+const W_MIN = Math.max(T_MIN, HY - 1), W_MAX = Math.min(T_MAX, HY + 1);
+const inWindow = (y) => y >= W_MIN && y <= W_MAX;
 const RM_DAY = /\/hijri-date\/\d{4}-\d{2}-\d{2}(?:[?#"'\s/.<]|$)/;
 const isRemovedTarget = (s) => RM_DAY.test(String(s));
 const DAY_PAGE_PATH = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30)$/;
@@ -292,7 +301,10 @@ function check410(r, row, dirOf) {
     if (/googlesyndication|googletagmanager/.test(b)) bad.push('has ad / analytics tag');
     const links = [...b.matchAll(/\bhref="([^"]*)"/g)].map((m) => m[1].replace(/&amp;/g, '&'));
     const P = lp(row.L);
-    const want = [P + '/hijri-calendar', P + '/hijri-calendar/' + row.d[0] + '-' + p2(row.d[1]), P + '/today-hijri-date'];
+    // HIJRI-CALENDAR-RANGE-1: the month link only when the month's year is inside the calendar window (was: always, table-valid);
+    //   when it is not, the body links the date converter instead (it still converts any historical date)
+    const want = [P + '/hijri-calendar', ...(inWindow(row.d[0]) ? [P + '/hijri-calendar/' + row.d[0] + '-' + p2(row.d[1])] : []), P + '/today-hijri-date',
+        ...(inWindow(row.d[0]) ? [] : [P + '/date-converter'])];
     if (!eq(links, want)) bad.push('links ' + JSON.stringify(links) + ' want ' + JSON.stringify(want));
     const rm = links.filter(isRemovedTarget);
     if (rm.length) bad.push('links to removed pages ' + JSON.stringify(rm));
@@ -545,16 +557,20 @@ async function sectionE(subj, base) {
     const s = await sitemapScan(subj, 'subject');
     ok('E', s.idxStatus === 200 && s.files.length > 2, '/sitemap.xml is 200 and lists children', 'status=' + s.idxStatus + ' files=' + s.files.length);
     for (const f of s.files) ok('E', f.status === 200 && f.bad === 0, f.grp + ' ' + f.p + ': ' + f.locs + ' locs, ' + f.hrefs + ' alternates, 0 day URLs', 'status=' + f.status + ' removed=' + f.bad + ' ' + f.sample.join(' '));
-    ok('E', !!s.hijriFile && s.hijriFile.locs === 390, '/sitemap-hijri.xml = 390 locs (3 years + 36 months × 10 locales)', JSON.stringify(s.hijriFile));
+    // HIJRI-CALENDAR-RANGE-1: 390 → 400 (+ the hub /[lang/]hijri-calendar × 10)
+    ok('E', !!s.hijriFile && s.hijriFile.locs === 400, '/sitemap-hijri.xml = 400 locs (hub + 3 years + 36 months × 10 locales)', JSON.stringify(s.hijriFile));
     if (subj === base) return;
     const b = await sitemapScan(base, 'BASE');
     for (const [nm, A, B] of [['index children', s.childLocs, b.childLocs], ['legacy files', s.legacyLocs, b.legacyLocs]]) {
         const removed = [...B].filter((u) => !A.has(u)), added = [...A].filter((u) => !B.has(u));
         const baseDay = [...B].filter(isRemovedTarget);
         const removedNonDay = removed.filter((u) => !isRemovedTarget(u));
-        ok('E', added.length === 0 && removedNonDay.length === 0 && removed.length === baseDay.length && baseDay.length > 0,
-            nm + ': subject loc set === BASE minus exactly BASE\'s ' + baseDay.length + ' day locs (BASE ' + B.size + ' → subject ' + A.size + ')',
-            'added=' + added.length + ' ' + added.slice(0, 3).join(' ') + ' removedNonDay=' + removedNonDay.length + ' ' + removedNonDay.slice(0, 3).join(' '));
+        // HIJRI-CALENDAR-RANGE-1: was `added.length === 0`; now the additions === exactly the 10 hub locs /[lang/]hijri-calendar
+        const HUB = LANGS.map((L) => SITE + lp(L) + '/hijri-calendar');
+        const addedOk = added.length === HUB.length && HUB.every((u) => added.includes(u));
+        ok('E', addedOk && removedNonDay.length === 0 && removed.length === baseDay.length && baseDay.length > 0,
+            nm + ': subject loc set === BASE minus exactly BASE\'s ' + baseDay.length + ' day locs plus exactly the 10 hub locs (BASE ' + B.size + ' → subject ' + A.size + ')',
+            'added=' + added.length + ' ' + added.filter((u) => !HUB.includes(u)).slice(0, 3).join(' ') + ' removedNonDay=' + removedNonDay.length + ' ' + removedNonDay.slice(0, 3).join(' '));
     }
 }
 
@@ -634,7 +650,9 @@ async function timing(subj) {
     agent.destroy();
     info('month render median ' + median(monMs).toFixed(1) + ' ms; ratio ' + (median(monMs) / median(goneRaw)).toFixed(0) + 'x');
     ok('G', non200 === 0, 'all 30 month renders answered 200', 'non-200=' + non200);
-    ok('G', median(goneRaw) * 10 < median(monMs), '410 median at least 10x cheaper than a month render', median(goneRaw).toFixed(3) + ' vs ' + median(monMs).toFixed(1) + ' ms');
+    // HIJRI-PAGES-SLIM-1 (batch A) made the month render ~4x cheaper (58.7 -> ~14 ms locally), so the old 10x ratio no longer
+    //   holds although the 410 itself did not change; the absolute bars above (< 2 ms, < 1 ms over /health) carry the cost claim.
+    ok('G', median(goneRaw) * 5 < median(monMs), '410 median at least 5x cheaper than a month render', median(goneRaw).toFixed(3) + ' vs ' + median(monMs).toFixed(1) + ' ms');
 }
 async function reqFamily(child, subj) {
     section('[G3] [req-family] — every 410 counted as family "hijri-gone", no hijri-date page rendered');

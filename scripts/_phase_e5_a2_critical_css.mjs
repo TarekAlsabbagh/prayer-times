@@ -53,14 +53,14 @@ const CRITICAL_PATTERNS = [
     /^html\.qibla-page-loading\s/,
     /^html\.msbaha-page\s/,
     /^html\.date-converter-page\s/,
-    /^html\.hijri-(year|month|today|day)-page\s/,
+    /^html\.hijri-(year|month|today)-page\s/,   // HIJRI-PAGES-SLIM-1: the day page (html.hijri-day-page) is gone
 
     // HCal-A2 (2026-05-05): #page-hijri-{year|month|today|day}-scoped
     // reservations that survive the JS html-class-removal sequence
     // (app.js:2987/2999/3011 etc remove the html.hijri-*-page class
     // after activation, which would un-apply html-class-based reservations
     // and cause collapse-shift). The #page-hijri-* selector persists.
-    /^#page-hijri-(year|month|today|day)(\s|$)/,
+    /^#page-hijri-(year|month|today)(\s|$)/,   // HIJRI-PAGES-SLIM-1: #page-hijri-day is gone
 
     // HD-10 (2026-05-08): /today-hijri-date Info Cards CLS reservation.
     // The #hijri-today-info-card SSR ships an EMPTY <div class="info-grid">;

@@ -16,6 +16,7 @@
 //       the server drops that key at boot; today only 'singapore'), no SAR/country-code prayer slug, 0 'singapore-city'
 //   [M] moon: no day URL, no legacy flat URL, nested year/month years == UTC year ±1, inside the supported range (±5)
 //   [J] Hijri: calendar years == current Hijri year (Asia/Riyadh date, table-driven) ±1, hijri-date == current year only
+//       (HIJRI-DAY-PAGES-REMOVAL-1: no hijri-date loc; HIJRI-CALENDAR-RANGE-1: + the hub /[lang/]hijri-calendar × 10, once each)
 //   [G] Singapore / countries: no /prayer-times-in-X in both sitemap-main and a shard; singapore is a city (4 families
 //       × 10 locales, once each, in a shard), never a country; named country samples are listed
 //   [Q] Quran: only in sitemap-quran, 0 alternates, ar-only paths
@@ -49,6 +50,12 @@
 //       shape and the computed expectation drop it, so a stray /today loc FAILS); snapshots DERIVED (shards 167,520, total
 //       175,065, moon family 44,460 = 2 x 22,230); est() mirrors server _estCityUrlCount via EST_FAMOUS_MOON; [B] approves
 //       exactly the base /[lang/]moon/{c}/{city}/today locs as removals (derived 1,070), 0 added, legacy byte identity scoped.
+//
+//   HIJRI-CALENDAR-RANGE-1: base = the production tree (ac98319: no /today, no /hijri-date/ loc left). sitemap-hijri.xml and the
+//       legacy sitemap-main gain exactly the 10 hub locs /[lang/]hijri-calendar (hijri family 390 → 400, main 3,880 → 3,890, total
+//       171,515 → 171,525); the year/month locs are exactly the served window (previous/current/next Hijri year by the Riyadh date,
+//       clipped to the table). [J] accepts the hub shape and requires the 10 hub locs exactly once each; [B] approves exactly those
+//       10 locs as additions and NO removal (0 against production).
 //
 // Usage:
 //   TP_BASE_ROOT=<base checkout> node scripts/_smoke_sitemap_invariants_1.mjs
@@ -88,7 +95,8 @@ const LOCALES = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
 //   shardFiles: kept at 23 (greedy 7,500-URL packing of 167,520 still needs 23 files by estimate) — it may change if the
 //   lower famous estimate (EST_FAMOUS_MOON 20 → 10) rechunks; confirm on the first candidate run.
 // HIJRI-DAY-PAGES-REMOVAL-1: the 3,550 current-year /hijri-date/ locs left sitemap-main → main 7,430 → 3,880, total 175,065 → 171,515
-const SNAP = { main: 3880, shards: 167520, quran: 115, total: 171515, shardFiles: 23 };   // derived from the 2026-09-15 snapshot
+// HIJRI-CALENDAR-RANGE-1: + the 10 hub locs /[lang/]hijri-calendar in sitemap-main → main 3,880 → 3,890, total 171,515 → 171,525
+const SNAP = { main: 3890, shards: 167520, quran: 115, total: 171525, shardFiles: 23 };   // derived from the 2026-09-15 snapshot
 // MOON-DAY-PAGES-REMOVAL-1: the moon family = hub/year/month only after the removal (+ the general /moon + country pages, in main).
 //   Server _estCityUrlCount emits per famous city: hub (10) [+ today (10) before this ticket] + 130 per window year. This constant
 //   MUST mirror it (the shard chunking depends on it). The in-flight server.js (2026-10-13) already has `n += 10; // moon hub (10)`.
@@ -100,9 +108,10 @@ const APPROVED_TODAY_N = 1070;
 //   with a path's 10 locales never split → 2 parts of 2,223 groups = 22,230 + 22,230 (was 22,770 + 22,760) — derived, confirm on
 //   the first candidate run. Every other family is unchanged.
 // HIJRI-DAY-PAGES-REMOVAL-1: hijri family 3,940 → 390 (the current-year day URLs left; 3 years + 36 months × 10 locales).
+// HIJRI-CALENDAR-RANGE-1: hijri family 390 → 400 (+ the hub /[lang/]hijri-calendar × 10 locales, listed first).
 const SNAP_FAMILY = { '/sitemap-prayer-1.xml': 16410, '/sitemap-prayer-2.xml': 16410, '/sitemap-qibla-1.xml': 15600, '/sitemap-qibla-2.xml': 15590,
     '/sitemap-time-left-1.xml': 15590, '/sitemap-time-left-2.xml': 15590, '/sitemap-next-prayer-1.xml': 15590, '/sitemap-next-prayer-2.xml': 15590,
-    '/sitemap-moon-1.xml': 22230, '/sitemap-moon-2.xml': 22230, '/sitemap-hijri.xml': 390, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
+    '/sitemap-moon-1.xml': 22230, '/sitemap-moon-2.xml': 22230, '/sitemap-hijri.xml': 400, '/sitemap-quran.xml': 115, '/sitemap-azkar.xml': 40,
     '/sitemap-guides.xml': 40, '/sitemap-pages.xml': 100 };
 // SITEMAP-SEMANTIC-PARTITIONING-1: the ticket spec — per URL-set file budget, family order, family rules on the locale-stripped path
 const FAMILY_MAX_URLS = 25000;
@@ -117,7 +126,8 @@ const FAMILY_RULES = [
     ['next-prayer', new RegExp('^/next-prayer-in-' + F_SLUG + '$')],
     // MOON-DAY-PAGES-REMOVAL-1: no 'today' alternative — a stray /today loc matches no family and FAILS [C]
     ['moon', new RegExp('^/moon(?:/' + F_SLUG + '(?:/' + F_SLUG + '(?:/\\d{4}(?:/(?:0[1-9]|1[0-2]))?)?)?)?$')],
-    ['hijri', /^\/(?:hijri-calendar\/\d{4}(?:-(?:0[1-9]|1[0-2]))?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
+    // HIJRI-CALENDAR-RANGE-1: + the hub /hijri-calendar (no year) — the server's hijri family now starts with it
+    ['hijri', /^\/(?:hijri-calendar(?:\/\d{4}(?:-(?:0[1-9]|1[0-2]))?)?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
     ['quran', new RegExp('^/quran(?:/' + F_SLUG + ')?$')],   // Arabic only (checked in familyOf)
     ['azkar', /^\/azkar(?:\/(?:morning|evening|prayer)-azkar)?$/],
     ['guides', /^\/guides(?:\/(?:prayer-time-calculation-methods|why-prayer-times-differ|how-qibla-direction-is-calculated))?$/],
@@ -309,7 +319,11 @@ function buildExpectation(root) {
         const s = countrySlug(cc); if (!s) continue;
         moonCountrySlugs.push(s); main.push(...all10('/moon/' + s));
     }
+    // HIJRI-CALENDAR-RANGE-1: the served window = previous/current/next Hijri year by the Riyadh date, clipped to the table
+    //   (server _hijriCalWindow: min = max(startYear, cur-1), max = min(endYear, cur+1)) — the same three-year filter as before;
+    //   the hub /[lang/]hijri-calendar is emitted first, right before the window years (server legacy main + family hijri)
     const hijriCalYears = [hNow.year - 1, hNow.year, hNow.year + 1].filter(hInRange);
+    main.push(...all10('/hijri-calendar'));
     for (const hy of hijriCalYears) {
         main.push(...all10('/hijri-calendar/' + hy));
         for (let m = 1; m <= 12; m++) if (hMonthDays(hy, m)) main.push(...all10('/hijri-calendar/' + hy + '-' + pad2(m)));
@@ -634,7 +648,8 @@ function staticChecks(A, E) {
             ok('C', missing.length === 0 && extra.length === 0 && got.length === exp.length, label + ' — got ' + got.length + ', expected ' + exp.length,
                 'missing ' + missing.length + ' (e.g. ' + missing.slice(0, 3).join(', ') + ') extra ' + extra.length + ' (e.g. ' + extra.slice(0, 3).join(', ') + ')');
         };
-        cmpSet('sitemap-main loc set === computed (static + guides + countries − singapore + moon countries + Hijri ±1 + hijri-date)', locsOf(main), E.main);
+        // HIJRI-CALENDAR-RANGE-1: + the Hijri hub (no hijri-date since HIJRI-DAY-PAGES-REMOVAL-1)
+        cmpSet('sitemap-main loc set === computed (static + guides + countries − singapore + moon countries + Hijri hub + Hijri ±1)', locsOf(main), E.main);
         ok('C', shards.length === E.chunks.length, 'city shard file count === computed chunking (' + E.chunks.length + ')', String(shards.length));
         const shardAgg = agg('C', 'every sitemap-cities-N loc set === computed chunk N (prayer/qibla/time-left/next-prayer + famous moon hub/years/months)');
         for (let i = 0; i < Math.max(shards.length, E.chunks.length); i++) {
@@ -739,14 +754,18 @@ function staticChecks(A, E) {
     if (E) {
         const calA = agg('J', 'hijri-calendar year/month locs: year ∈ current Hijri year ±1 {' + E.hijriCalYears.join(',') + '}, month valid');
         const dayA = agg('J', 'hijri-date locs: none (HIJRI-DAY-PAGES-REMOVAL-1: the day pages answer 410)');
-        const otherA = agg('J', 'no other Hijri URL shape (only /hijri-calendar/{y}, /hijri-calendar/{y}-{mm})');
+        // HIJRI-CALENDAR-RANGE-1: + the hub shape /hijri-calendar (no year)
+        const otherA = agg('J', 'no other Hijri URL shape (only /hijri-calendar, /hijri-calendar/{y}, /hijri-calendar/{y}-{mm})');
         const calYearsSeen = new Set(); let dayCount = 0;
+        const hubSeen = [];   // HIJRI-CALENDAR-RANGE-1: [loc, file] of every hub entry in the index children
         for (const e of A.entries) {
             const p = pathOf(e.loc); if (p == null) continue; const rel = splitLocale(p).rel;
             if (!/^\/hijri-(?:calendar|date)(?:\/|$)/.test(rel)) continue;
-            otherA.test(e.loc, /^\/hijri-calendar\/\d{4}(?:-\d{2})?$/.test(rel), rel);
+            otherA.test(e.loc, /^\/hijri-calendar(?:\/\d{4}(?:-\d{2})?)?$/.test(rel), rel);
             let m;
-            if ((m = rel.match(/^\/hijri-calendar\/(\d{4})(?:-(\d{2}))?$/))) {
+            if (rel === '/hijri-calendar') {
+                hubSeen.push([e.loc, A.files[e.fi].path]);
+            } else if ((m = rel.match(/^\/hijri-calendar\/(\d{4})(?:-(\d{2}))?$/))) {
                 const y = Number(m[1]); calYearsSeen.add(y);
                 calA.test(e.loc, E.hijriCalYears.includes(y) && (!m[2] || E.hMonthDays(y, Number(m[2])) > 0), rel);
             } else if ((m = rel.match(/^\/hijri-date\/(\d{4})-(\d{2})-(\d{2})$/))) {
@@ -757,6 +776,15 @@ function staticChecks(A, E) {
         calA.done(); dayA.done('', true); otherA.done();
         ok('J', E.hijriCalYears.every(y => calYearsSeen.has(y)) && calYearsSeen.size === E.hijriCalYears.length, 'every Hijri calendar year ' + E.hijriCalYears.join(',') + ' is listed (and no other)', [...calYearsSeen].sort().join(','));
         ok('J', dayCount === 0, 'hijri-date count === 0 (HIJRI-DAY-PAGES-REMOVAL-1)', String(dayCount));
+        // HIJRI-CALENDAR-RANGE-1: the hub is listed exactly once per locale (10), all in /sitemap-hijri.xml, and in legacy sitemap-main
+        const hubExp = LOCALES.map(l => locFor('/hijri-calendar', l));
+        const hubLocs = hubSeen.map(([l]) => l);
+        ok('J', hubLocs.length === 10 && new Set(hubLocs).size === 10 && hubExp.every(u => hubLocs.includes(u)) && hubSeen.every(([, f]) => f === '/sitemap-hijri.xml'),
+            'Hijri hub /[lang/]hijri-calendar: exactly the 10 locale locs, once each, all in /sitemap-hijri.xml (HIJRI-CALENDAR-RANGE-1)',
+            hubSeen.length + ': ' + hubSeen.slice(0, 4).map(([l, f]) => l + ' in ' + f).join(' ; '));
+        const legacyMain = (A.legacy ? A.legacy.files : []).find(f => f.path === '/sitemap-main.xml');
+        const hubMain = legacyMain ? legacyMain.locs.filter(l => { const p = pathOf(l); return p != null && splitLocale(p).rel === '/hijri-calendar'; }) : [];
+        ok('J', hubMain.length === 10 && hubExp.every(u => hubMain.includes(u)), 'legacy sitemap-main lists the 10 hub locs, once each (HIJRI-CALENDAR-RANGE-1)', hubMain.length + ': ' + hubMain.slice(0, 3).join(', '));
     }
 
     section('[G] Singapore + country listings');
@@ -895,11 +923,17 @@ async function baseChecks(A, B, afterPort) {
     //   (order) check and the per-block checks below.
     // HIJRI-DAY-PAGES-REMOVAL-1: + the base /[lang/]hijri-date/YYYY-MM-DD locs (removed page, 410)
     const APPROVED_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(?:moon\/[a-z][a-z0-9-]*\/[a-z][a-z0-9-]*\/today|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/;
+    // HIJRI-CALENDAR-RANGE-1: the ONLY approved additions = the 10 hub locs /[lang/]hijri-calendar (sitemap-hijri + legacy sitemap-main);
+    //   against the production base (ac98319) there is NO approved removal (no /today, no /hijri-date/ loc is left there)
+    const APPROVED_ADD_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/hijri-calendar$/;
+    const HUB10 = LOCALES.map(l => locFor('/hijri-calendar', l));
+    const addedIdxApproved = new Set(), addedLegacyApproved = new Set(); let addedOther = 0;
     const approved = new Set();
     for (const bf of B.files) if (bf.kind === 'urlset' && bf.path !== '/sitemap-quran.xml') for (const loc of bf.hashes.keys()) if (APPROVED_RE.test(loc)) approved.add(loc);
     const fileAgg = agg('B', 'every legacy file that held no approved /today loc and kept its boundaries is byte-identical to the base file of the same name');
-    const blockAgg = agg('B', 'every legacy <url> block identical to base (<lastmod> kept), none missing except the approved /today removals, none added');
-    const unionAgg = agg('B', 'every base <url> block except the approved /today removals identical (<lastmod> kept) in the after index children, which add none');
+    // HIJRI-CALENDAR-RANGE-1: "none added" → none added except the 10 approved hub locs
+    const blockAgg = agg('B', 'every legacy <url> block identical to base (<lastmod> kept), none missing except the approved /today removals, none added except the 10 approved hub locs');
+    const unionAgg = agg('B', 'every base <url> block except the approved /today removals identical (<lastmod> kept) in the after index children, which add none except the 10 approved hub locs');
     const idxHashes = new Map();
     for (const f of A.files) if (f.kind === 'urlset' && f.path !== '/sitemap-quran.xml' && f.hashes) for (const [l, h] of f.hashes) idxHashes.set(l, h);
     const legacyHashes = new Map();
@@ -926,27 +960,36 @@ async function baseChecks(A, B, afterPort) {
             if (!idxHashes.has(loc)) removedSet.add(loc);
         }
     }
-    for (const loc of legacyHashes.keys()) if (!baseLocs.has(loc)) blockAgg.test(loc, false, 'added on after (not in any base legacy file)');
-    for (const loc of idxHashes.keys()) if (!baseLocs.has(loc)) { added++; unionAgg.test(loc, false, 'added in the index children (not in any base file)'); }
+    // HIJRI-CALENDAR-RANGE-1: an addition passes only when it is one of the 10 approved hub locs; any other addition FAILS as before
+    for (const loc of legacyHashes.keys()) if (!baseLocs.has(loc)) { const ap = APPROVED_ADD_RE.test(loc); if (ap) addedLegacyApproved.add(loc); blockAgg.test(loc, ap, 'added on after (not in any base legacy file)'); }
+    for (const loc of idxHashes.keys()) if (!baseLocs.has(loc)) { added++; const ap = APPROVED_ADD_RE.test(loc); if (ap) addedIdxApproved.add(loc); else addedOther++; unionAgg.test(loc, ap, 'added in the index children (not in any base file)'); }
     fileAgg.done(); blockAgg.done(); unionAgg.done();
     info('[B] legacy byte identity: ' + scoped + ' files compared, ' + skipped + ' covered by the stream/block checks (held /today locs or moved boundaries)');
     {
         // the after legacy stream (sitemap-main → sitemap-cities-1..N) === the base stream minus the approved locs, same order
-        const afterStream = legacyFiles.flatMap(f => f.locs);
+        // HIJRI-CALENDAR-RANGE-1: the after stream is read without the 10 approved hub additions
+        const afterStream = legacyFiles.flatMap(f => f.locs).filter(l => !APPROVED_ADD_RE.test(l));
         const d = afterStream.length === baseStream.length ? afterStream.findIndex((l, i) => l !== baseStream[i]) : Math.min(afterStream.length, baseStream.length);
-        ok('B', afterStream.length === baseStream.length && d === -1, 'after legacy <loc> stream === base stream minus the approved /today locs (same order)',
+        ok('B', afterStream.length === baseStream.length && d === -1, 'after legacy <loc> stream minus the approved hub additions === base stream minus the approved /today locs (same order)',
             'after ' + afterStream.length + ' vs base−approved ' + baseStream.length + (d >= 0 ? ' first diff @' + d + ' ' + afterStream[d] + ' vs ' + baseStream[d] : ''));
     }
     const removedNotApproved = [...removedSet].filter(l => !approved.has(l)), approvedKept = [...approved].filter(l => !removedSet.has(l));
-    ok('B', removedNotApproved.length === 0 && approvedKept.length === 0 && removedSet.size === approved.size && added === 0 && baseLocs.size > 0 && approved.size > 0,
-        'base → after: removed === exactly the approved /today set (' + approved.size + '), 0 added (base sitemap-main + city shards vs after index children)',
-        'removed ' + removedSet.size + ' (not approved ' + removedNotApproved.length + ' e.g. ' + removedNotApproved.slice(0, 2).join(' ') + '; approved still listed ' + approvedKept.length + '), added ' + added + ' of ' + baseLocs.size);
+    // HIJRI-CALENDAR-RANGE-1: was `added === 0 && approved.size > 0` (removal-only tickets); now NO removal at all against the
+    //   production base, and the additions === exactly the 10 hub locs, in the index children AND in the legacy files
+    const sameSet = (set, list) => set.size === list.length && list.every(u => set.has(u));
+    ok('B', removedNotApproved.length === 0 && approvedKept.length === 0 && removedSet.size === approved.size && removedSet.size === 0 && approved.size === 0
+            && addedOther === 0 && added === HUB10.length && sameSet(addedIdxApproved, HUB10) && sameSet(addedLegacyApproved, HUB10) && baseLocs.size > 0,
+        'base → after: 0 removed (production base), added === exactly the 10 approved hub locs /[lang/]hijri-calendar (index children + legacy files)',
+        'removed ' + removedSet.size + ' (not approved ' + removedNotApproved.length + ' e.g. ' + removedNotApproved.slice(0, 2).join(' ') + '; approved still listed ' + approvedKept.length + '), added ' + added
+            + ' (hub idx ' + addedIdxApproved.size + ', hub legacy ' + addedLegacyApproved.size + ', other ' + addedOther + ') of ' + baseLocs.size);
     // HIJRI-DAY-PAGES-REMOVAL-1: against production a6fb163 the /today locs are already gone; the approved set is the 3,550
     //   current-year /hijri-date/ locs (355 days x 10 locales). Against an older base the moon count applies.
     const approvedToday = [...approved].filter((l) => /\/today$/.test(l)).length, approvedHijri = approved.size - approvedToday;
-    if (SNAPSHOT) ok('B', approvedToday === 0 ? approvedHijri === E_HIJRI_DAY_LOCS() : approvedToday === APPROVED_TODAY_N,
-        'snapshot: approved removals === ' + (approvedToday === 0 ? 'the current-year hijri-date locs (' + E_HIJRI_DAY_LOCS() + ')' : APPROVED_TODAY_N.toLocaleString('en') + ' /today (107 famous moon cities x 10 locales, derived)'),
-        'today=' + approvedToday + ' hijri=' + approvedHijri);
+    // HIJRI-CALENDAR-RANGE-1: base = production ac98319 (both removals are live there) → 0 approved removals (was: the
+    //   E_HIJRI_DAY_LOCS() current-year hijri-date locs vs a6fb163, or APPROVED_TODAY_N /today vs an older base); 10 approved additions
+    if (SNAPSHOT) ok('B', approvedToday === 0 && approvedHijri === 0 && addedIdxApproved.size === 10 && addedLegacyApproved.size === 10,
+        'snapshot: approved removals === 0 (production base), approved additions === the 10 hub locs (HIJRI-CALENDAR-RANGE-1)',
+        'today=' + approvedToday + ' hijri=' + approvedHijri + ' hub idx=' + addedIdxApproved.size + ' hub legacy=' + addedLegacyApproved.size);
 }
 
 // ─────────────────────────────── sample selection ───────────────────────────────
@@ -1000,6 +1043,8 @@ function selectUrls(A, E) {
     if (E) {
         const pad2 = (n) => String(n).padStart(2, '0');
         for (const y of E.hijriCalYears) for (const rel of ['/hijri-calendar/' + y, '/hijri-calendar/' + y + '-01', '/hijri-calendar/' + y + '-12']) if (!expand(SITE + rel)) missingNamed.push(SITE + rel);
+        // HIJRI-CALENDAR-RANGE-1: the newly listed hub (× 10 locales via its alternates) is HTTP-checked like every other named loc
+        if (!expand(SITE + '/hijri-calendar')) missingNamed.push(SITE + '/hijri-calendar');
     }
     // 7) deterministic hash stride
     let stride = 0;

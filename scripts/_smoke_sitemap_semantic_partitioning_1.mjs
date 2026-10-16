@@ -47,6 +47,12 @@
 //   byte identity scoped to legacy files that held none and kept their boundaries + the legacy stream === BASE minus them,
 //   [C] the seam BASE moon set excludes them. [K] stays scoped to SITEMAP-SEMANTIC-PARTITIONING-1's own diff (RED for a later ticket).
 //
+// HIJRI-CALENDAR-RANGE-1: BASE = the production tree (ac98319: no /today and no /hijri-date/ loc left → 171,515, 0 approved
+//   removals). The ONLY approved additions are the 10 hub locs /[lang/]hijri-calendar (sitemap-hijri.xml 390 → 400, total
+//   171,515 → 171,525): the hijri family rule accepts the hub; [S1] = BASE + 10; [S2] ADDED === exactly the 10 hub locs, all in
+//   sitemap-hijri.xml; [S3] REMOVED = 0 with 0 approved; [S20] the recomputed hijri part = the 10 hub blocks (served first, as
+//   the server emits them) + the BASE hijri stream; [L] the legacy stream is read without the hub; [C] seam: 0 approved removals.
+//
 // Usage:  TP_BASE_ROOT=<clean base checkout> node scripts/_smoke_sitemap_semantic_partitioning_1.mjs
 // Env:    TP_BASE_ROOT     clean base checkout (required); its tree must equal <diff base>^{tree}
 //         TP_SSP_DIFF_BASE commit the worktree diff and the base tree are compared against (default HEAD)
@@ -74,8 +80,9 @@ const UA = 'tp-sitemap-semantic-partitioning-smoke/1 (local)';
 //   cities x 10 locales) — derived, confirm on the first candidate run.
 // HIJRI-DAY-PAGES-REMOVAL-1: BASE = production a6fb163 (175,065, no /today left); the 3,550 /hijri-date/ day locs are the
 //   approved removal now → 171,515
-const EXPECTED_BASE_TOTAL = 175065;
-const EXPECTED_TOTAL = 171515;
+// HIJRI-CALENDAR-RANGE-1: BASE = production ac98319 (171,515, already without the /hijri-date/ locs); AFTER = BASE + the 10 hub locs
+const EXPECTED_BASE_TOTAL = 171515;
+const EXPECTED_TOTAL = 171525;
 // MOON-DAY-PAGES-REMOVAL-1: the only BASE locs allowed to disappear (removed page → 410)
 const APPROVED_REMOVAL_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon\/[a-z0-9]+(?:-[a-z0-9]+)*\/[a-z0-9]+(?:-[a-z0-9]+)*\/today$/;
 const APPROVED_HIJRI_DAY_RE = /^https:\/\/timesprayers\.com(?:\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30)$/;   // HIJRI-DAY-PAGES-REMOVAL-1
@@ -83,6 +90,9 @@ const isApproved = (loc) => APPROVED_REMOVAL_RE.test(String(loc)) || APPROVED_HI
 const MAX_URLS = 25000, MAX_BYTES = 35000000;
 const FAMILY_ORDER = ['prayer', 'qibla', 'time-left', 'next-prayer', 'moon', 'hijri', 'quran', 'azkar', 'guides', 'ramadan', 'pages'];
 const LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+// HIJRI-CALENDAR-RANGE-1: the ONLY approved additions vs BASE — the calendar hub in the 10 locales (ar unprefixed), in this order
+const HUB_LOCS = LANGS.map((l) => 'https://timesprayers.com' + (l === 'ar' ? '' : '/' + l) + '/hijri-calendar');
+const isApprovedAdd = (loc) => HUB_LOCS.includes(String(loc));
 const LEGAL_LASTMOD = '2026-08-09', QURAN_LASTMOD = '2026-07-22';
 const SEAM_NOW = '2027-01-01T00:30:00Z';
 const SEAM_YEARS = [2026, 2027, 2028];
@@ -112,7 +122,8 @@ const FAMILY_RULES = [
     ['next-prayer', new RegExp(`^/next-prayer-in-${SLUG}$`)],
     // MOON-DAY-PAGES-REMOVAL-1: no 'today' alternative — a /today loc is UNCLASSIFIED (FAILS [S5] on AFTER)
     ['moon', new RegExp(`^/moon(?:/${SLUG}(?:/${SLUG}(?:/\\d{4}(?:/(?:0[1-9]|1[0-2]))?)?)?)?$`)],
-    ['hijri', /^\/(?:hijri-calendar\/\d{4}(?:-(?:0[1-9]|1[0-2]))?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
+    // HIJRI-CALENDAR-RANGE-1: + the hub /hijri-calendar (no year)
+    ['hijri', /^\/(?:hijri-calendar(?:\/\d{4}(?:-(?:0[1-9]|1[0-2]))?)?|hijri-date\/\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|30))$/],
     ['quran', new RegExp(`^/quran(?:/${SLUG})?$`)],
     ['azkar', /^\/azkar(?:\/(?:morning|evening|prayer)-azkar)?$/],
     ['guides', /^\/guides(?:\/(?:prayer-time-calculation-methods|why-prayer-times-differ|how-qibla-direction-is-calculated))?$/],
@@ -400,7 +411,8 @@ function makeCollector(keepFam) {
 }
 // AFTER checker: compares every block against the BASE collector on the fly (no raw block is retained).
 function makeAfterChecker(baseCol) {
-    const A = { entries: 0, compared: 0, added: new Set(), addedSamples: [], dups: 0, dupSamples: [], blockChanged: 0, bcSamples: [],
+    // HIJRI-CALENDAR-RANGE-1: addedEntries keeps every added block (served order) for [S2] and the [S20] plan
+    const A = { entries: 0, compared: 0, added: new Set(), addedSamples: [], addedEntries: [], dups: 0, dupSamples: [], blockChanged: 0, bcSamples: [],
         lastmodChanged: 0, unclassified: 0, unSamples: [], multi: 0, multiSamples: [], wrongFile: 0, wfSamples: [],
         lmBad: 0, lmSamples: [], legal: 0, legalNotBase: 0, quranLm: 0, lmValues: new Set(), altBad: 0, altSamples: [],
         html: 0, htmlSamples: [], query: 0, querySamples: [], moonYears: new Set(), famCounts: {} };
@@ -414,7 +426,7 @@ function makeAfterChecker(baseCol) {
         const e = baseCol.byLoc.get(b.loc);
         if (!e) {
             if (A.added.has(b.loc)) { A.dups++; pushS(A.dupSamples, b.loc + ' (twice, not in base)'); }
-            else { A.added.add(b.loc); pushS(A.addedSamples, b.loc + ' in ' + rec.name); }
+            else { A.added.add(b.loc); pushS(A.addedSamples, b.loc + ' in ' + rec.name); A.addedEntries.push({ loc: b.loc, sha: b.sha, bytes: b.bytes, rel: b.rel, lang: b.lang, fam: b.fam, file: rec.name }); }
         } else {
             if (e.a > 0) { A.dups++; pushS(A.dupSamples, b.loc + ' (' + e.aFile + ' & ' + rec.name + ')'); }
             else {
@@ -640,10 +652,15 @@ async function main() {
         }
         const approvedN = baseCol.approved.size;
         const afterUnique = present + approvedStill + chk.added.size;
-        ok('S1', baseCol.byLoc.size === EXPECTED_BASE_TOTAL && afterUnique === baseCol.byLoc.size - approvedN && afterUnique === EXPECTED_TOTAL && chk.entries === afterUnique,
-            baseCol.byLoc.size + ' → ' + afterUnique + ' unique <loc> (expected ' + EXPECTED_BASE_TOTAL + ' → ' + EXPECTED_TOTAL + ' = BASE minus ' + approvedN + ' approved /today locs, derived; AFTER entries ' + chk.entries + ')');
-        ok('S2', chk.added.size === 0, 'ADDED = ' + chk.added.size, chk.addedSamples.join(' | '));
-        ok('S3', removed === 0 && approvedStill === 0 && approvedN > 0 && removedApproved === approvedN,
+        // HIJRI-CALENDAR-RANGE-1: AFTER = BASE minus the approved removals (0 against production) PLUS the 10 approved hub locs
+        ok('S1', baseCol.byLoc.size === EXPECTED_BASE_TOTAL && afterUnique === baseCol.byLoc.size - approvedN + HUB_LOCS.length && afterUnique === EXPECTED_TOTAL && chk.entries === afterUnique,
+            baseCol.byLoc.size + ' → ' + afterUnique + ' unique <loc> (expected ' + EXPECTED_BASE_TOTAL + ' → ' + EXPECTED_TOTAL + ' = BASE minus ' + approvedN + ' approved /today locs plus the ' + HUB_LOCS.length + ' approved hub locs; AFTER entries ' + chk.entries + ')');
+        // HIJRI-CALENDAR-RANGE-1: was ADDED = 0; now ADDED === exactly the 10 hub locs, each once, all in sitemap-hijri.xml
+        const addedNotHub = [...chk.added].filter((l) => !isApprovedAdd(l));
+        ok('S2', chk.added.size === HUB_LOCS.length && addedNotHub.length === 0 && HUB_LOCS.every((u) => chk.added.has(u)) && chk.addedEntries.length === HUB_LOCS.length && chk.addedEntries.every((e) => e.file === 'sitemap-hijri.xml'),
+            'ADDED = ' + chk.added.size + ' = exactly the ' + HUB_LOCS.length + ' approved hub locs /[lang/]hijri-calendar, all in sitemap-hijri.xml', chk.addedSamples.join(' | ') + (addedNotHub.length ? ' not approved: ' + addedNotHub.slice(0, 5).join(' ') : ''));
+        // HIJRI-CALENDAR-RANGE-1: `approvedN > 0` (removal tickets) → approvedN === 0: the production BASE holds no approved removal
+        ok('S3', removed === 0 && approvedStill === 0 && approvedN === 0 && removedApproved === approvedN,
             'REMOVED = ' + (removed + removedApproved) + ' = exactly the ' + approvedN + ' approved /today locs (other removals ' + removed + ', approved still listed ' + approvedStill + ')',
             removedSamples.concat(approvedStillSamples).join(' | '));
         ok('S4', chk.dups === 0 && chk.entries === afterUnique, 'DUPLICATES = ' + chk.dups + ' (within and across AFTER files)', chk.dupSamples.join(' | '));
@@ -718,7 +735,13 @@ async function main() {
         section('[S20] shard names + INDEPENDENT plan recomputation from the BASE legacy stream');
         const legacyStreamFiles = bw.files.filter((r) => r.name !== 'sitemap-quran.xml').map((r) => r.name);
         info('base legacy stream order: ' + legacyStreamFiles.join(' '));
-        const plan = recomputePlan(baseCol.streams);
+        // HIJRI-CALENDAR-RANGE-1: the recomputed hijri part = the 10 approved hub blocks (as served, in ar..ms order, first — the
+        //   server emits the hub before the window years) + the BASE hijri stream; every other family is the BASE stream as before
+        const hubEntries = chk.addedEntries.filter((e) => isApprovedAdd(e.loc));
+        ok('S20', eq(hubEntries.map((e) => e.loc), HUB_LOCS) && hubEntries.every((e) => e.fam === 'hijri' && e.rel === '/hijri-calendar'),
+            'the 10 approved hub blocks are served in ar..ms order as one hijri path group', hubEntries.map((e) => e.loc + ' ' + e.fam).join(' | '));
+        const planStreams = { ...baseCol.streams, hijri: [...hubEntries, ...(baseCol.streams.hijri || [])] };
+        const plan = recomputePlan(planStreams);
         for (const f of FAMILY_ORDER) if (plan.detail[f]) info('plan ' + f.padEnd(12) + JSON.stringify(plan.detail[f]));
         ok('S20', plan.errors.length === 0, 'BASE legacy stream groups into complete 10-language path groups (ar..ms) for every family', plan.errors.join(' | '));
         const strayStreams = Object.keys(baseCol.streams).filter((k) => !FAMILY_ORDER.includes(k) || k === 'quran');
@@ -812,7 +835,8 @@ async function main() {
         const afterLegacySeq = [];
         const legacyRec = new Map();
         let nCitiesA = 0;
-        legacyRec.set('/sitemap-main.xml', await parseFile(A, '/sitemap-main.xml', 'legacy', (rec, block) => { const b = blockCommon(rec, block); if (b) afterLegacySeq.push(b.loc + ' ' + b.sha); }));
+        // HIJRI-CALENDAR-RANGE-1: the 10 approved hub additions (legacy sitemap-main) are left out of the AFTER legacy sequence
+        legacyRec.set('/sitemap-main.xml', await parseFile(A, '/sitemap-main.xml', 'legacy', (rec, block) => { const b = blockCommon(rec, block); if (b && !isApprovedAdd(b.loc)) afterLegacySeq.push(b.loc + ' ' + b.sha); }));
         for (let i = 1; i <= 500; i++) {
             const p = '/sitemap-cities-' + i + '.xml';
             const seq = [];
@@ -836,8 +860,9 @@ async function main() {
             const baseLegacySeq = [];
             for (const e of baseCol.byLoc.values()) if (e.file !== 'sitemap-quran.xml' && !isApproved(e.loc)) baseLegacySeq.push(e.loc + ' ' + e.sha);
             const d = afterLegacySeq.length === baseLegacySeq.length ? afterLegacySeq.findIndex((x, i) => x !== baseLegacySeq[i]) : Math.min(afterLegacySeq.length, baseLegacySeq.length);
-            ok('L', afterLegacySeq.length === baseLegacySeq.length && d === -1 && heldApproved.size > 0,
-                'AFTER legacy stream (loc + block, main → cities-1..' + nCitiesA + ') === BASE stream minus the ' + approvedN + ' approved /today locs, same order',
+            // HIJRI-CALENDAR-RANGE-1: `heldApproved.size > 0` → === 0 (the production BASE holds no approved removal)
+            ok('L', afterLegacySeq.length === baseLegacySeq.length && d === -1 && heldApproved.size === 0,
+                'AFTER legacy stream minus the approved hub locs (loc + block, main → cities-1..' + nCitiesA + ') === BASE stream minus the ' + approvedN + ' approved /today locs, same order',
                 'after ' + afterLegacySeq.length + ' vs base−approved ' + baseLegacySeq.length + (d >= 0 ? ' first diff @' + d + ' ' + String(afterLegacySeq[d]).split(' ')[0] + ' vs ' + String(baseLegacySeq[d]).split(' ')[0] : ''));
         }
         const nextA = await fetchText(A, '/sitemap-cities-' + (nCitiesA + 1) + '.xml'), nextB = await fetchText(B, '/sitemap-cities-' + (nCities + 1) + '.xml');
@@ -921,7 +946,8 @@ async function main() {
             'seam AFTER root index exact; moon files 200, exact grammar, within limits', sParseBad.map((r) => r.name + ' ' + (r.xmlErr || r.err || r.status)).join(' | '));
         // MOON-DAY-PAGES-REMOVAL-1: the seam BASE moon set excludes the approved /today locs (recorded in sbCol.approved, never
         //   compared); a /today loc on the seam AFTER would be UNCLASSIFIED and fail this line
-        ok('C', sbCol.byLoc.size > 0 && sbCol.approved.size > 0 && sChk.entries === sbCol.byLoc.size && sChk.added.size === 0 && sRemoved === 0 && sChk.dups === 0 && sChk.wrongFile === 0 && sChk.unclassified === 0 && sChk.multi === 0,
+        // HIJRI-CALENDAR-RANGE-1: `sbCol.approved.size > 0` → === 0 (the production seam BASE lists no /today or /hijri-date/ loc)
+        ok('C', sbCol.byLoc.size > 0 && sbCol.approved.size === 0 && sChk.entries === sbCol.byLoc.size && sChk.added.size === 0 && sRemoved === 0 && sChk.dups === 0 && sChk.wrongFile === 0 && sChk.unclassified === 0 && sChk.multi === 0,
             'seam AFTER moon family union === BASE legacy moon URLs minus the ' + sbCol.approved.size + ' approved /today locs (' + sChk.entries + ' vs ' + sbCol.byLoc.size + '; added ' + sChk.added.size + ', removed ' + sRemoved + ', dups ' + sChk.dups + ', misplaced ' + sChk.wrongFile + ', unclassified ' + sChk.unclassified + ')',
             sChk.addedSamples.concat(sChk.wfSamples, sChk.unSamples).join(' | '));
         ok('C', sChk.blockChanged === 0 && sChk.compared === sbCol.byLoc.size && sChk.altBad === 0 && sChk.lmBad === 0, 'seam moon blocks byte-identical to BASE (' + sChk.compared + ' compared, changed ' + sChk.blockChanged + ')', sChk.bcSamples.join(' | '));

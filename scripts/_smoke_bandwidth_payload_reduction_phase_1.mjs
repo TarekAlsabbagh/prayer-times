@@ -5,6 +5,7 @@
    §2 _pageKeepGuardOk fails SAFE (unit test on the function source extracted from server.js)
    §3 developer HTML comments are gone from every family; only the KEEP list survives
    §4 js/azkar-data.js / js/azkar-prayer-ui-l10n.js ship only on the azkar list routes
+   §4b HIJRI-CALENDAR-RANGE-1 package (batch B): js/qibla.js is not sent on the four Hijri routes, still sent elsewhere
    §5 sw.js precache lists no obsolete URL; CACHE_VERSION unchanged
    §6 /audio/adhan.mp3 honours a single byte range; the open-ended bytes=0- stays the cacheable 200
    MOON-DAY-PAGES-REMOVAL-1: the day page /moon/egypt/cairo/2026/10/02 (now 410) → the month /moon/egypt/cairo/2026/10 in §3/§4. */
@@ -91,6 +92,16 @@ for (const [p, data, l10n] of [['/azkar/morning-azkar', true, false], ['/en/azka
     const r = await get(p);
     const hasD = /<script\b[^>]*\bsrc="\/?js\/azkar-data\.js/.test(r.text), hasL = /<script\b[^>]*\bsrc="\/?js\/azkar-prayer-ui-l10n\.js/.test(r.text);
     ok(hasD === data && hasL === l10n, `${p}: azkar-data ${hasD ? 'present' : 'absent'}, l10n ${hasL ? 'present' : 'absent'}`);
+}
+// HIJRI-CALENDAR-RANGE-1 package (batch B of HIJRI-PAGES-SLIM-1): js/qibla.js is not sent on the four Hijri routes
+//   (/[lang/]today-hijri-date, the calendar hub, year and month pages); every other shell page still ships it.
+console.log('\n--- §4b js/qibla.js not sent on the four Hijri routes ---');
+for (const [p, want] of [['/today-hijri-date', false], ['/en/today-hijri-date', false], ['/hijri-calendar', false], ['/fr/hijri-calendar', false],
+    ['/hijri-calendar/1448', false], ['/hijri-calendar/1448-04', false], ['/ur/hijri-calendar/1447-01', false],
+    ['/', true], ['/qibla-in-cairo', true], ['/prayer-times-in-riyadh', true], ['/moon/egypt/cairo/2026/10', true], ['/date-converter', true]]) {
+    const r = await get(p);
+    const has = /<script\b[^>]*\bsrc="\/?js\/qibla\.js/.test(r.text);
+    ok(r.status === 200 && has === want, `${p}: js/qibla.js ${has ? 'present' : 'absent'} (expected ${want ? 'present' : 'absent'})`);
 }
 {
     const idx = fs.readFileSync(new URL('../index.html', import.meta.url), 'utf8');

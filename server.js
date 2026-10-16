@@ -8541,11 +8541,19 @@ function _jdToHijri(jd) {
 // السعوديّة +3 لم يتخطَّ منتصف الليل بعد.
 // الدالّة تُعيد Date بقيم UTC مُماثِلة لجدار وقت السعوديّة → استعمل
 // getUTCFullYear/getUTCMonth/getUTCDate/getUTCDay فقط معها.
+// HIJRI-CALENDAR-RANGE-1: TEST-ONLY clock seam for the rollover smoke, read on every call (inert unless set; never set
+//   in production). TP_HIJRI_RANGE_TEST_NOW = a fixed ISO instant; TP_HIJRI_RANGE_TEST_OFFSET_MS = a shift of the live
+//   clock, so one running process can cross a boundary.
+function _hijriClockNow() {
+    const iso = process.env.TP_HIJRI_RANGE_TEST_NOW;
+    if (iso) { const t = Date.parse(iso); if (Number.isFinite(t)) return new Date(t); }
+    const off = Number(process.env.TP_HIJRI_RANGE_TEST_OFFSET_MS);
+    return (off && Number.isFinite(off)) ? new Date(Date.now() + off) : new Date();
+}
+// one formatter for the process (building it costs ~40 µs, formatting with it ~1 µs); the calendar window reads it per render
+const _RIYADH_YMD_FMT = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh', year: 'numeric', month: '2-digit', day: '2-digit' });
 function _nowMeccaDate() {
-    const [y, m, d] = new Intl.DateTimeFormat('en-CA', {
-        timeZone: 'Asia/Riyadh',
-        year: 'numeric', month: '2-digit', day: '2-digit'
-    }).format(new Date()).split('-').map(Number);
+    const [y, m, d] = _RIYADH_YMD_FMT.format(_hijriClockNow()).split('-').map(Number);
     return new Date(Date.UTC(y, m - 1, d));
 }
 function _hijriNow() {
@@ -8553,6 +8561,25 @@ function _hijriNow() {
     const jd = _gregToJD(now.getUTCFullYear(), now.getUTCMonth() + 1, now.getUTCDate());
     return _jdToHijri(jd);
 }
+// HIJRI-CALENDAR-RANGE-1 (owner directive 2026-10-15/16): the Hijri calendar serves the previous, the current and the
+//   next Hijri year only — by the Asia/Riyadh civil date and the Umm al-Qura table (_hijriNow), clipped to the table.
+//   Recomputed on every call (no memo), so on 1 Muharram at Riyadh midnight one year enters and another leaves with no
+//   restart and no purge. The one source for the early gate, the router backstop, rel=prev/next, the SSR links, the
+//   410 bodies, both sitemaps and the client (the <meta name="tp-hijri-window"> each page carries).
+function _hijriCalWindow() {
+    const h = _hijriNow();
+    if (!h || !Number.isInteger(h.year)) return null;        // past the table's last day: no year is served
+    const r = _HIJRI_TABLE.range;
+    return { cur: h.year, min: Math.max(r.startYear, h.year - 1), max: Math.min(r.endYear, h.year + 1) };
+}
+// 'in' = served (200) · 'past' = 410 · 'future' = 404 until it enters · 'invalid' = not in the table (the existing 404)
+function _hijriCalStatus(y, win) {
+    if (!_isYearInRange(y)) return 'invalid';
+    const w = (win === undefined) ? _hijriCalWindow() : win;
+    if (!w) return 'past';
+    return y < w.min ? 'past' : (y > w.max ? 'future' : 'in');
+}
+function _hijriCalServed(y, win) { return _hijriCalStatus(y, win) === 'in'; }
 // HIJRI-DATE-CITY-TIMEZONE-FIX-1 (2026-06-16): the current Hijri date AT A CITY's
 // local civil time. City pages must show the Hijri date by the city's own
 // timezone (e.g. Seattle stays 29 Dhul-Hijjah while Mecca has rolled to 1
@@ -8564,7 +8591,7 @@ function _hijriForIana(iana) {
     try {
         const [y, m, d] = new Intl.DateTimeFormat('en-CA', {
             timeZone: iana, year: 'numeric', month: '2-digit', day: '2-digit'
-        }).format(new Date()).split('-').map(Number);
+        }).format(_hijriClockNow()).split('-').map(Number);
         return _jdToHijri(_gregToJD(y, m, d)) || _hijriNow();
     } catch (_e) { return _hijriNow(); }
 }
@@ -13914,52 +13941,52 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
         const _cFooterI18n = {
             ar: { pop:'🕌 مواقيت الصلاة في أبرز المدن', srv:'🧭 خدمات إسلامية أخرى', share:'🔗 شارك الموقع',
                   follow:'📣 تابعنا', followX:'@TIMESPRAYESRS على X',
-                  l_hijri_today:'التاريخ الهجري اليوم', l_hijri_year:'التقويم الهجري 1447',
+                  l_hijri_today:'التاريخ الهجري اليوم', l_hijri_year:'التقويم الهجري',
                   l_date_conv:'تحويل التاريخ', l_tasbih:'المسبحة الإلكترونية',
                   x:'تويتر/X', fb:'فيسبوك', wa:'واتساب', tg:'تلغرام', popAria:'المدن الشائعة', svcAria:'الخدمات الإسلامية' },
             en: { pop:'🕌 Prayer Times in Major Cities', srv:'🧭 Other Islamic Services', share:'🔗 Share This Site',
                   follow:'📣 Follow Us', followX:'@TIMESPRAYESRS on X',
-                  l_hijri_today:"Today's Hijri Date", l_hijri_year:'Hijri Calendar 1447',
+                  l_hijri_today:"Today's Hijri Date", l_hijri_year:'Hijri Calendar',
                   l_date_conv:'Date Converter', l_tasbih:'Digital Tasbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Popular cities', svcAria:'Islamic services' },
             fr: { pop:'🕌 Heures de prière dans les grandes villes', srv:'🧭 Autres services islamiques', share:'🔗 Partager ce site',
                   follow:'📣 Suivez-nous', followX:'@TIMESPRAYESRS sur X',
-                  l_hijri_today:"Date Hijri d'aujourd'hui", l_hijri_year:'Calendrier Hijri 1447',
+                  l_hijri_today:"Date Hijri d'aujourd'hui", l_hijri_year:'Calendrier Hijri',
                   l_date_conv:'Convertisseur de date', l_tasbih:'Tasbih numérique',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Villes populaires', svcAria:'Services islamiques' },
             tr: { pop:'🕌 Büyük Şehirlerde Namaz Vakitleri', srv:'🧭 Diğer İslami Hizmetler', share:'🔗 Bu siteyi paylaş',
                   follow:'📣 Bizi takip edin', followX:'X\'te @TIMESPRAYESRS',
-                  l_hijri_today:'Bugünün Hicri Tarihi', l_hijri_year:'Hicri Takvim 1447',
+                  l_hijri_today:'Bugünün Hicri Tarihi', l_hijri_year:'Hicri Takvim',
                   l_date_conv:'Tarih Dönüştürücü', l_tasbih:'Dijital Tesbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Popüler şehirler', svcAria:'İslami hizmetler' },
             ur: { pop:'🕌 بڑے شہروں میں اوقاتِ نماز', srv:'🧭 دیگر اسلامی خدمات', share:'🔗 سائٹ شیئر کریں',
                   follow:'📣 ہمیں فالو کریں', followX:'X پر @TIMESPRAYESRS',
-                  l_hijri_today:'آج کی ہجری تاریخ', l_hijri_year:'ہجری کیلنڈر 1447',
+                  l_hijri_today:'آج کی ہجری تاریخ', l_hijri_year:'ہجری کیلنڈر',
                   l_date_conv:'تاریخ کنورٹر', l_tasbih:'ڈیجیٹل تسبیح',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'مشہور شہر', svcAria:'اسلامی خدمات' },
             de: { pop:'🕌 Gebetszeiten in großen Städten', srv:'🧭 Weitere islamische Dienste', share:'🔗 Diese Seite teilen',
                   follow:'📣 Folgen Sie uns', followX:'@TIMESPRAYESRS auf X',
-                  l_hijri_today:'Heutiges Hidschri-Datum', l_hijri_year:'Hidschri-Kalender 1447',
+                  l_hijri_today:'Heutiges Hidschri-Datum', l_hijri_year:'Hidschri-Kalender',
                   l_date_conv:'Datumsumrechner', l_tasbih:'Digitale Tasbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Beliebte Städte', svcAria:'Islamische Dienste' },
             id: { pop:'🕌 Jadwal Sholat di Kota-Kota Besar', srv:'🧭 Layanan Islami Lainnya', share:'🔗 Bagikan situs ini',
                   follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X',
-                  l_hijri_today:'Tanggal Hijriyah Hari Ini', l_hijri_year:'Kalender Hijriyah 1447',
+                  l_hijri_today:'Tanggal Hijriyah Hari Ini', l_hijri_year:'Kalender Hijriyah',
                   l_date_conv:'Konverter Tanggal', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Kota-kota populer', svcAria:'Layanan Islami' },
             es: { pop:'🕌 Horarios de Oración en Ciudades Principales', srv:'🧭 Otros Servicios Islámicos', share:'🔗 Compartir este sitio',
                   follow:'📣 Síguenos', followX:'@TIMESPRAYESRS en X',
-                  l_hijri_today:'Fecha Hijri de Hoy', l_hijri_year:'Calendario Hijri 1447',
+                  l_hijri_today:'Fecha Hijri de Hoy', l_hijri_year:'Calendario Hijri',
                   l_date_conv:'Conversor de Fechas', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Ciudades populares', svcAria:'Servicios islámicos' },
             bn: { pop:'🕌 প্রধান শহরগুলোতে নামাজের সময়', srv:'🧭 অন্যান্য ইসলামিক সেবা', share:'🔗 এই সাইট শেয়ার করুন',
                   follow:'📣 আমাদের ফলো করুন', followX:'X-এ @TIMESPRAYESRS',
-                  l_hijri_today:'আজকের হিজরি তারিখ', l_hijri_year:'হিজরি ক্যালেন্ডার 1447',
+                  l_hijri_today:'আজকের হিজরি তারিখ', l_hijri_year:'হিজরি ক্যালেন্ডার',
                   l_date_conv:'তারিখ রূপান্তরকারী', l_tasbih:'ডিজিটাল তাসবিহ',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'জনপ্রিয় শহর', svcAria:'ইসলামিক সেবা' },
             ms: { pop:'🕌 Waktu Solat di Bandar-Bandar Utama', srv:'🧭 Perkhidmatan Islam Lain', share:'🔗 Kongsi laman ini',
                   follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X',
-                  l_hijri_today:'Tarikh Hijrah Hari Ini', l_hijri_year:'Kalendar Hijrah 1447',
+                  l_hijri_today:'Tarikh Hijrah Hari Ini', l_hijri_year:'Kalendar Hijrah',
                   l_date_conv:'Penukar Tarikh', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram', popAria:'Bandar popular', svcAria:'Perkhidmatan Islam' },
         };
@@ -14055,8 +14082,8 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
         html = html
             .replace(/<a href="[^"]*\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(_f.l_hijri_today)}</a>`)
-            .replace(/<a href="[^"]*\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
-                `<a href="${_langPrefix}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(_f.l_hijri_year)}</a>`)
+            .replace(/<a href="[^"]*\/hijri-calendar(?:\/\d{4})?" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
+                `<a href="${_langPrefix}/hijri-calendar" data-i18n="footer.link_hijri_year">${_escHtml(_f.l_hijri_year)}</a>`)
             .replace(/<a href="[^"]*\/date-converter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
                 `<a href="${_langPrefix}/date-converter" data-i18n="footer.link_date_converter">${_escHtml(_f.l_date_conv)}</a>`)
             .replace(/<a href="[^"]*\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
@@ -14133,8 +14160,9 @@ function _shouldNoindexCityRoute(slug) {
  *    ogType, ogImageUrl, robots, breadcrumbs: [{name, item}],
  *    geo: {lat, lng, country} | null, prev: url|null, next: url|null, article: {published, modified} | null }
  */
-function buildSeoForPath(urlPath) {
+function buildSeoForPath(urlPath, hcw) {
     const origin = SITE_URL;
+    const _hcwB = (hcw === undefined) ? _hijriCalWindow() : hcw;   // HIJRI-CALENDAR-RANGE-1: rel=prev/next stay inside the window
     let p = urlPath.replace(/\.html$/, '');
     if (p === '' || p === '/index') p = '/';
 
@@ -17029,7 +17057,7 @@ function buildSeoForPath(urlPath) {
     m = corePath.match(/^\/hijri-calendar(?:\/(\d{4}))?$/);
     if (m) {
         // إن لم تُحدَّد السنة في المسار → استخدم السنة الهجرية الحالية
-        const year = m[1] || String(_hijriNow().year);
+        const year = m[1] || String(_hcwB ? _hcwB.cur : _hijriNow().year);   // HIJRI-CALENDAR-RANGE-1: the hub shows the window's year
         // قوالب متعدّدة اللغات
         // HCAL-1 (2026-05-09): extended Title (was 27 chars in AR — too short
         // for SEOptimer) to ~50-60 char range with the dominant keywords:
@@ -17076,8 +17104,8 @@ function buildSeoForPath(urlPath) {
         // (above range) — those would be 404 per B1 dispatcher.
         if (m[1]) {
             const _pY = parseInt(year) - 1, _nY = parseInt(year) + 1;
-            if (_isYearInRange(_pY)) prev = origin + langPrefix + `/hijri-calendar/${_pY}`;
-            if (_isYearInRange(_nY)) next = origin + langPrefix + `/hijri-calendar/${_nY}`;
+            if (_hijriCalServed(_pY, _hcwB)) prev = origin + langPrefix + `/hijri-calendar/${_pY}`;
+            if (_hijriCalServed(_nY, _hcwB)) next = origin + langPrefix + `/hijri-calendar/${_nY}`;
         }
         article = { published: `${parseInt(year)}-01-01T00:00:00Z`, modified: new Date().toISOString() };
     }
@@ -17177,8 +17205,8 @@ function buildSeoForPath(urlPath) {
             const prevYear  = monthNum === 1 ? parseInt(year) - 1 : parseInt(year);
             const nextOrder = monthNum === 12 ? 1 : monthNum + 1;
             const nextYear  = monthNum === 12 ? parseInt(year) + 1 : parseInt(year);
-            if (_isYearInRange(prevYear)) prev = origin + langPrefix + `/hijri-calendar/${prevYear}-${_pad2(prevOrder)}`;
-            if (_isYearInRange(nextYear)) next = origin + langPrefix + `/hijri-calendar/${nextYear}-${_pad2(nextOrder)}`;
+            if (_hijriCalServed(prevYear, _hcwB)) prev = origin + langPrefix + `/hijri-calendar/${prevYear}-${_pad2(prevOrder)}`;
+            if (_hijriCalServed(nextYear, _hcwB)) next = origin + langPrefix + `/hijri-calendar/${nextYear}-${_pad2(nextOrder)}`;
         }
     }
 
@@ -19220,6 +19248,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: resolved BEFORE the cache key is built, because
     //   the key must carry it (see below).
     const _inRegulatedRegion = _visitorInRegulatedRegion(req);
+    // HIJRI-CALENDAR-RANGE-1: the calendar window, computed ONCE for this render (a page never mixes two windows at
+    //   Riyadh midnight); part of the SSR cache key so no cached page outlives a rollover.
+    const _hcwRender = _hijriCalWindow();
     let _scKey = null;
     if (_scEligible(urlPath, qs, req)) {
         // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1: the HTML now varies by ONE more request
@@ -19229,7 +19260,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         //   served to a visitor outside the region (and the reverse). The flag is binary, so the
         //   keyspace at most doubles. _SC_ON is env-gated OFF today; this keeps it correct for
         //   the day it is switched on.
-        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc) + '\u0000' + (_inRegulatedRegion ? 'eu' : 'x');
+        _scKey = urlPath + '\u0000' + _scEncToken(acceptEnc) + '\u0000' + (_inRegulatedRegion ? 'eu' : 'x')
+            + '\u0000' + (_hcwRender ? _hcwRender.min + '-' + _hcwRender.max : 'none');
         const _hit = _scGet(_scKey);
         if (_hit) { _scStat.hit++; _scSend(res, _hit); return; }
         if (_scWaiters.has(_scKey)) {
@@ -19257,7 +19289,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         _scWaiters.set(_scKey, []);                // mark in flight BEFORE rendering
     }
     let html = htmlBuf.toString('utf8');
-    const seo = buildSeoForPath(urlPath);
+    const seo = buildSeoForPath(urlPath, _hcwRender);
     // HIJRI-PAGES-SLIM-1: remove the foreign blocks of the Hijri pages before any SSR pass runs (see _hijriSlimEarlyStrip).
     //   _hijriSlimKeep is set only when the strip really happened, so the dependent skips (the Mecca prayer fill, the
     //   shell items) never apply to a page the guard left whole -- that fallback stays the previous output.
@@ -21906,7 +21938,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'مواقيت الصلاة', desc: 'مواقيت اليوم لأي مدينة', href: '/' },
                     { icon: '🗓️', label: 'التاريخ الهجري اليوم', desc: 'التاريخ الهجري الحالي بدقة', href: '/today-hijri-date' },
                     { icon: '🌙', label: 'حالة القمر اليوم', desc: 'الطور والإضاءة وعمر القمر', href: '/moon-today' },
-                    { icon: '📅', label: 'التقويم الهجري', desc: 'تقويم سنة 1447 هجرية كاملاً', href: '/hijri-calendar/1447' },
+                    { icon: '📅', label: 'التقويم الهجري', desc: `تقويم سنة ${_hcwRender ? _hcwRender.cur : ''} هجرية كاملاً`, href: '/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'رمضان القادم', fitr: 'عيد الفطر', adha: 'عيد الأضحى', newyear: 'رأس السنة الهجرية' },
                 helpers: [
@@ -21926,7 +21958,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Prayer Times', desc: "Today's times for any city", href: '/en/' },
                     { icon: '🗓️', label: 'Hijri Date Today', desc: 'Current Islamic date with precision', href: '/en/today-hijri-date' },
                     { icon: '🌙', label: 'Moon Today', desc: 'Phase, illumination and lunar age', href: '/en/moon-today' },
-                    { icon: '📅', label: 'Hijri Calendar', desc: 'Full Islamic calendar 1447 AH', href: '/en/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Hijri Calendar', desc: `Full Islamic calendar ${_hcwRender ? _hcwRender.cur : ''} AH`, href: '/en/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Next Ramadan', fitr: 'Eid al-Fitr', adha: 'Eid al-Adha', newyear: 'Hijri New Year' },
                 helpers: [
@@ -21946,7 +21978,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Heures de prière', desc: 'Heures du jour pour toute ville', href: '/fr/' },
                     { icon: '🗓️', label: 'Date hégirienne', desc: 'Date islamique actuelle précise', href: '/fr/today-hijri-date' },
                     { icon: '🌙', label: 'Lune aujourd\u2019hui', desc: 'Phase, illumination et âge lunaire', href: '/fr/moon-today' },
-                    { icon: '📅', label: 'Calendrier hégirien', desc: 'Calendrier islamique complet 1447 H', href: '/fr/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Calendrier hégirien', desc: `Calendrier islamique complet ${_hcwRender ? _hcwRender.cur : ''} H`, href: '/fr/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Prochain Ramadan', fitr: 'Aïd al-Fitr', adha: 'Aïd al-Adha', newyear: 'Nouvel an hégirien' },
                 helpers: [
@@ -21966,7 +21998,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Namaz Vakitleri', desc: 'Bugünün vakitleri her şehir için', href: '/tr/' },
                     { icon: '🗓️', label: 'Hicri Tarih', desc: 'Bugünkü Hicri tarihi hassas olarak', href: '/tr/today-hijri-date' },
                     { icon: '🌙', label: 'Bugün Ay', desc: 'Evre, aydınlanma ve ay yaşı', href: '/tr/moon-today' },
-                    { icon: '📅', label: 'Hicri Takvim', desc: 'Tam Hicri 1447 takvimi', href: '/tr/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Hicri Takvim', desc: `Tam Hicri ${_hcwRender ? _hcwRender.cur : ''} takvimi`, href: '/tr/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Ramazan', fitr: 'Ramazan Bayramı', adha: 'Kurban Bayramı', newyear: 'Hicri Yılbaşı' },
                 helpers: [
@@ -21986,7 +22018,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'نماز کے اوقات', desc: 'کسی بھی شہر کے آج کے اوقات', href: '/ur/' },
                     { icon: '🗓️', label: 'آج کی ہجری تاریخ', desc: 'موجودہ ہجری تاریخ درست', href: '/ur/today-hijri-date' },
                     { icon: '🌙', label: 'آج چاند', desc: 'مرحلہ، روشنی اور چاند کی عمر', href: '/ur/moon-today' },
-                    { icon: '📅', label: 'ہجری کیلنڈر', desc: 'مکمل 1447 ہجری کیلنڈر', href: '/ur/hijri-calendar/1447' },
+                    { icon: '📅', label: 'ہجری کیلنڈر', desc: `مکمل ${_hcwRender ? _hcwRender.cur : ''} ہجری کیلنڈر`, href: '/ur/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'رمضان', fitr: 'عید الفطر', adha: 'عید الاضحیٰ', newyear: 'نیا ہجری سال' },
                 helpers: [
@@ -22006,7 +22038,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Gebetszeiten', desc: 'Heutige Zeiten für jede Stadt', href: '/de/' },
                     { icon: '🗓️', label: 'Hidschri-Datum heute', desc: 'Aktuelles islamisches Datum präzise', href: '/de/today-hijri-date' },
                     { icon: '🌙', label: 'Mond heute', desc: 'Phase, Beleuchtung und Mondalter', href: '/de/moon-today' },
-                    { icon: '📅', label: 'Hidschri-Kalender', desc: 'Vollständiger Kalender 1447 AH', href: '/de/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Hidschri-Kalender', desc: `Vollständiger Kalender ${_hcwRender ? _hcwRender.cur : ''} AH`, href: '/de/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Ramadan', fitr: 'Eid al-Fitr', adha: 'Eid al-Adha', newyear: 'Islamisches Neujahr' },
                 helpers: [
@@ -22026,7 +22058,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Jadwal Salat', desc: 'Waktu hari ini untuk setiap kota', href: '/id/' },
                     { icon: '🗓️', label: 'Tanggal Hijriah', desc: 'Tanggal Islam saat ini akurat', href: '/id/today-hijri-date' },
                     { icon: '🌙', label: 'Bulan Hari Ini', desc: 'Fase, pencahayaan dan usia bulan', href: '/id/moon-today' },
-                    { icon: '📅', label: 'Kalender Hijriah', desc: 'Kalender lengkap 1447 H', href: '/id/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Kalender Hijriah', desc: `Kalender lengkap ${_hcwRender ? _hcwRender.cur : ''} H`, href: '/id/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Ramadan', fitr: 'Idul Fitri', adha: 'Idul Adha', newyear: 'Tahun Baru Hijriah' },
                 helpers: [
@@ -22046,7 +22078,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Horarios de oración', desc: 'Horarios de hoy para cualquier ciudad', href: '/es/' },
                     { icon: '🗓️', label: 'Fecha hégira de hoy', desc: 'Fecha islámica actual precisa', href: '/es/today-hijri-date' },
                     { icon: '🌙', label: 'Luna hoy', desc: 'Fase, iluminación y edad lunar', href: '/es/moon-today' },
-                    { icon: '📅', label: 'Calendario hégira', desc: 'Calendario islámico completo 1447 H', href: '/es/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Calendario hégira', desc: `Calendario islámico completo ${_hcwRender ? _hcwRender.cur : ''} H`, href: '/es/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Ramadán', fitr: 'Eid al-Fitr', adha: 'Eid al-Adha', newyear: 'Año Nuevo Hégira' },
                 helpers: [
@@ -22066,7 +22098,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'নামাজের সময়', desc: 'যে কোন শহরের আজকের সময়', href: '/bn/' },
                     { icon: '🗓️', label: 'আজকের হিজরি তারিখ', desc: 'বর্তমান ইসলামিক তারিখ সঠিকভাবে', href: '/bn/today-hijri-date' },
                     { icon: '🌙', label: 'আজ চাঁদ', desc: 'দশা, আলোকসজ্জা ও চাঁদের বয়স', href: '/bn/moon-today' },
-                    { icon: '📅', label: 'হিজরি ক্যালেন্ডার', desc: 'সম্পূর্ণ হিজরি 1447 ক্যালেন্ডার', href: '/bn/hijri-calendar/1447' },
+                    { icon: '📅', label: 'হিজরি ক্যালেন্ডার', desc: `সম্পূর্ণ হিজরি ${_hcwRender ? _hcwRender.cur : ''} ক্যালেন্ডার`, href: '/bn/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'রমজান', fitr: 'ঈদুল ফিতর', adha: 'ঈদুল আযহা', newyear: 'হিজরি নববর্ষ' },
                 helpers: [
@@ -22086,7 +22118,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     { icon: '🕌', label: 'Waktu Solat', desc: 'Waktu hari ini untuk mana-mana bandar', href: '/ms/' },
                     { icon: '🗓️', label: 'Tarikh Hijrah', desc: 'Tarikh Islam semasa dengan tepat', href: '/ms/today-hijri-date' },
                     { icon: '🌙', label: 'Bulan Hari Ini', desc: 'Fasa, pencahayaan dan usia bulan', href: '/ms/moon-today' },
-                    { icon: '📅', label: 'Kalendar Hijrah', desc: 'Kalendar lengkap 1447 H', href: '/ms/hijri-calendar/1447' },
+                    { icon: '📅', label: 'Kalendar Hijrah', desc: `Kalendar lengkap ${_hcwRender ? _hcwRender.cur : ''} H`, href: '/ms/hijri-calendar' },
                 ],
                 countdownLabels: { ramadan: 'Ramadan', fitr: 'Aidilfitri', adha: 'Aidiladha', newyear: 'Tahun Baharu Hijrah' },
                 helpers: [
@@ -23224,7 +23256,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     // accordion / hidden text. 10-lang dict — strict per-lang lookup.
     if (_isHijriYearHub) {
         const _hcalYearMatch = urlPath.match(/\/hijri-calendar\/(\d{4})$/);
-        const _hcalYear = _hcalYearMatch ? _hcalYearMatch[1] : String(_hijriNow().year);
+        const _hcalYear = _hcalYearMatch ? _hcalYearMatch[1] : String(_hcwRender ? _hcwRender.cur : _hijriNow().year);   // HIJRI-CALENDAR-RANGE-1
         const _hSfxByLang = {
             ar: 'هـ', en: 'AH', fr: 'H', tr: 'H', ur: 'ہجری',
             de: 'AH', id: 'H', es: 'H', bn: 'হিজরি', ms: 'H',
@@ -23661,6 +23693,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _yearInt = parseInt(_hcalYear, 10);
         const _prevHref = `${_hcalLangPrefix}/hijri-calendar/${_yearInt - 1}`;
         const _nextHref = `${_hcalLangPrefix}/hijri-calendar/${_yearInt + 1}`;
+        // HIJRI-CALENDAR-RANGE-1: only years inside the calendar window are linked
+        const _prevOn = _hijriCalServed(_yearInt - 1, _hcwRender), _nextOn = _hijriCalServed(_yearInt + 1, _hcwRender);
         // Replace panel title + label text
         html = html.replace(
             /<div id="hyear-panel-title" class="hyear-panel-title">[^<]*<\/div>/,
@@ -23673,11 +23707,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // Fill prev/next hrefs + labels
         html = html.replace(
             /<a id="hyear-prev-link"[^>]*>[^<]*<\/a>/,
-            `<a id="hyear-prev-link" class="hyear-year-nav-btn" href="${_prevHref}" rel="prev">${_escHtml(_hp.prev)}</a>`
+            _prevOn ? `<a id="hyear-prev-link" class="hyear-year-nav-btn" href="${_prevHref}" rel="prev">${_escHtml(_hp.prev)}</a>`
+                    : '<span id="hyear-prev-link" class="hyear-year-nav-btn hyear-year-nav-off" aria-hidden="true"></span>'
         );
         html = html.replace(
             /<a id="hyear-next-link"[^>]*>[^<]*<\/a>/,
-            `<a id="hyear-next-link" class="hyear-year-nav-btn" href="${_nextHref}" rel="next">${_escHtml(_hp.next)}</a>`
+            _nextOn ? `<a id="hyear-next-link" class="hyear-year-nav-btn" href="${_nextHref}" rel="next">${_escHtml(_hp.next)}</a>`
+                    : '<span id="hyear-next-link" class="hyear-year-nav-btn hyear-year-nav-off" aria-hidden="true"></span>'
         );
     }
 
@@ -24681,7 +24717,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '211'; // MOON-DAY-PAGES-REMOVAL-1 (2026-10-13): bumped 210->211 — moon.chart_caption reworded in all ten langs (the chart points are no longer links). Previous: QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
+        const _i18nVersion = '212'; // HIJRI-CALENDAR-RANGE-1 (2026-10-16): bumped 211->212 — footer.link_hijri_year drops the pinned year 1447 in all ten langs (the link now targets the calendar hub). Previous: MOON-DAY-PAGES-REMOVAL-1 (2026-10-13): bumped 210->211 — moon.chart_caption reworded in all ten langs (the chart points are no longer links). Previous: QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
         let _i18nReplacement = `<script${_TP_NONCE_ATTR} defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script${_TP_NONCE_ATTR} defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -24702,6 +24738,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //      فائدة: كسر الـcache عند أيّ deploy حتّى لو نسي المطوّر bump يدويّاً
     if (BUILD_HASH && BUILD_HASH !== 'dev') {
         html = html.replace(/(\b(?:app|i18n)\.js\?v=\d+)(?=["'\s])/g, `$1&b=${BUILD_HASH}`);
+    }
+    // HIJRI-CALENDAR-RANGE-1: the window this response was built with, for the client's calendar links (year chips,
+    //   month prev/next, year pickers, countdown year cells) — the same source as the server's links and gate.
+    if (_hcwRender && html.indexOf('js/app.js?v=') !== -1) {
+        const _hi = html.indexOf('</head>');
+        if (_hi !== -1) html = html.slice(0, _hi) + '<meta name="tp-hijri-window" content="' + _hcwRender.min + ',' + _hcwRender.max + ',' + _hcwRender.cur + '">\n' + html.slice(_hi);
     }
 
     // 5) SSR نص #seo-line-1 و #seo-line-2 لصفحات المدن (LCP fix: -3.5s render delay)
@@ -26239,7 +26281,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'الصلاة على ويكيبيديا ↗',
                   share:'🔗 شارك الموقع',
                   follow:'📣 تابعنا', followX:'@TIMESPRAYESRS على X', followYT:'@TIMESPRAYESRS على يوتيوب', followLI:'Times Prayers على لينكد إن',
-                  l_hijri_today:'التاريخ الهجري اليوم', l_hijri_year:'التقويم الهجري 1447',
+                  l_hijri_today:'التاريخ الهجري اليوم', l_hijri_year:'التقويم الهجري',
                   l_date_conv:'تحويل التاريخ', l_tasbih:'المسبحة الإلكترونية',
                   x:'تويتر/X', fb:'فيسبوك', wa:'واتساب', tg:'تلغرام' },
             en: { pop:'🕌 Prayer Times in Major Cities', srv:'🧭 Other Islamic Services',
@@ -26248,7 +26290,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Salah on Wikipedia ↗',
                   share:'🔗 Share This Site',
                   follow:'📣 Follow Us', followX:'@TIMESPRAYESRS on X', followYT:'@TIMESPRAYESRS on YouTube', followLI:'Times Prayers on LinkedIn',
-                  l_hijri_today:"Today's Hijri Date", l_hijri_year:'Hijri Calendar 1447',
+                  l_hijri_today:"Today's Hijri Date", l_hijri_year:'Hijri Calendar',
                   l_date_conv:'Date Converter', l_tasbih:'Digital Tasbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             fr: { pop:'🕌 Heures de prière dans les grandes villes', srv:'🧭 Autres services islamiques',
@@ -26257,7 +26299,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Salat sur Wikipedia ↗',
                   share:'🔗 Partager ce site',
                   follow:'📣 Suivez-nous', followX:'@TIMESPRAYESRS sur X', followYT:'@TIMESPRAYESRS sur YouTube', followLI:'Times Prayers sur LinkedIn',
-                  l_hijri_today:"Date Hijri d'aujourd'hui", l_hijri_year:'Calendrier Hijri 1447',
+                  l_hijri_today:"Date Hijri d'aujourd'hui", l_hijri_year:'Calendrier Hijri',
                   l_date_conv:'Convertisseur de date', l_tasbih:'Tasbih numérique',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             tr: { pop:'🕌 Büyük Şehirlerde Namaz Vakitleri', srv:'🧭 Diğer İslami Hizmetler',
@@ -26266,7 +26308,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Wikipedia\'da Namaz ↗',
                   share:'🔗 Bu siteyi paylaş',
                   follow:'📣 Bizi takip edin', followX:'X\'te @TIMESPRAYESRS', followYT:'YouTube\'da @TIMESPRAYESRS', followLI:'LinkedIn\'de Times Prayers',
-                  l_hijri_today:'Bugünün Hicri Tarihi', l_hijri_year:'Hicri Takvim 1447',
+                  l_hijri_today:'Bugünün Hicri Tarihi', l_hijri_year:'Hicri Takvim',
                   l_date_conv:'Tarih Dönüştürücü', l_tasbih:'Dijital Tesbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             ur: { pop:'🕌 بڑے شہروں میں اوقاتِ نماز', srv:'🧭 دیگر اسلامی خدمات',
@@ -26275,7 +26317,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'نماز ویکیپیڈیا پر ↗',
                   share:'🔗 سائٹ شیئر کریں',
                   follow:'📣 ہمیں فالو کریں', followX:'X پر @TIMESPRAYESRS', followYT:'یوٹیوب پر @TIMESPRAYESRS', followLI:'لنکڈ ان پر Times Prayers',
-                  l_hijri_today:'آج کی ہجری تاریخ', l_hijri_year:'ہجری کیلنڈر 1447',
+                  l_hijri_today:'آج کی ہجری تاریخ', l_hijri_year:'ہجری کیلنڈر',
                   l_date_conv:'تاریخ کنورٹر', l_tasbih:'ڈیجیٹل تسبیح',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             de: { pop:'🕌 Gebetszeiten in großen Städten', srv:'🧭 Weitere islamische Dienste',
@@ -26284,7 +26326,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Salah auf Wikipedia ↗',
                   share:'🔗 Diese Seite teilen',
                   follow:'📣 Folgen Sie uns', followX:'@TIMESPRAYESRS auf X', followYT:'@TIMESPRAYESRS auf YouTube', followLI:'Times Prayers auf LinkedIn',
-                  l_hijri_today:'Heutiges Hidschri-Datum', l_hijri_year:'Hidschri-Kalender 1447',
+                  l_hijri_today:'Heutiges Hidschri-Datum', l_hijri_year:'Hidschri-Kalender',
                   l_date_conv:'Datumsumrechner', l_tasbih:'Digitale Tasbih',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             id: { pop:'🕌 Jadwal Sholat di Kota-Kota Besar', srv:'🧭 Layanan Islami Lainnya',
@@ -26293,7 +26335,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Sholat di Wikipedia ↗',
                   share:'🔗 Bagikan situs ini',
                   follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X', followYT:'@TIMESPRAYESRS di YouTube', followLI:'Times Prayers di LinkedIn',
-                  l_hijri_today:'Tanggal Hijriyah Hari Ini', l_hijri_year:'Kalender Hijriyah 1447',
+                  l_hijri_today:'Tanggal Hijriyah Hari Ini', l_hijri_year:'Kalender Hijriyah',
                   l_date_conv:'Konverter Tanggal', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             es: { pop:'🕌 Horarios de Oración en Ciudades Principales', srv:'🧭 Otros Servicios Islámicos',
@@ -26302,7 +26344,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Salah en Wikipedia ↗',
                   share:'🔗 Compartir este sitio',
                   follow:'📣 Síguenos', followX:'@TIMESPRAYESRS en X', followYT:'@TIMESPRAYESRS en YouTube', followLI:'Times Prayers en LinkedIn',
-                  l_hijri_today:'Fecha Hijri de Hoy', l_hijri_year:'Calendario Hijri 1447',
+                  l_hijri_today:'Fecha Hijri de Hoy', l_hijri_year:'Calendario Hijri',
                   l_date_conv:'Conversor de Fechas', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             bn: { pop:'🕌 প্রধান শহরগুলোতে নামাজের সময়', srv:'🧭 অন্যান্য ইসলামিক সেবা',
@@ -26311,7 +26353,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'উইকিপিডিয়ায় সালাত ↗',
                   share:'🔗 এই সাইট শেয়ার করুন',
                   follow:'📣 আমাদের ফলো করুন', followX:'X-এ @TIMESPRAYESRS', followYT:'YouTube-এ @TIMESPRAYESRS', followLI:'LinkedIn-এ Times Prayers',
-                  l_hijri_today:'আজকের হিজরি তারিখ', l_hijri_year:'হিজরি ক্যালেন্ডার 1447',
+                  l_hijri_today:'আজকের হিজরি তারিখ', l_hijri_year:'হিজরি ক্যালেন্ডার',
                   l_date_conv:'তারিখ রূপান্তরকারী', l_tasbih:'ডিজিটাল তাসবিহ',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
             ms: { pop:'🕌 Waktu Solat di Bandar-Bandar Utama', srv:'🧭 Perkhidmatan Islam Lain',
@@ -26320,7 +26362,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                   wikiText:'Solat di Wikipedia ↗',
                   share:'🔗 Kongsi laman ini',
                   follow:'📣 Ikuti kami', followX:'@TIMESPRAYESRS di X', followYT:'@TIMESPRAYESRS di YouTube', followLI:'Times Prayers di LinkedIn',
-                  l_hijri_today:'Tarikh Hijrah Hari Ini', l_hijri_year:'Kalendar Hijrah 1447',
+                  l_hijri_today:'Tarikh Hijrah Hari Ini', l_hijri_year:'Kalendar Hijrah',
                   l_date_conv:'Penukar Tarikh', l_tasbih:'Tasbih Digital',
                   x:'Twitter/X', fb:'Facebook', wa:'WhatsApp', tg:'Telegram' },
         };
@@ -26346,8 +26388,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // not to the dated form. The label is still translated per-lang.
             .replace(/<a href="\/today-hijri-date" data-i18n="footer\.link_hijri_today">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/today-hijri-date" data-i18n="footer.link_hijri_today">${_escHtml(f.l_hijri_today)}</a>`)
-            .replace(/<a href="\/hijri-calendar\/1447" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
-                `<a href="${Lf==='ar'?'':'/'+Lf}/hijri-calendar/1447" data-i18n="footer.link_hijri_year">${_escHtml(f.l_hijri_year)}</a>`)
+            .replace(/<a href="\/hijri-calendar(?:\/\d{4})?" data-i18n="footer\.link_hijri_year">[^<]*<\/a>/,
+                `<a href="${Lf==='ar'?'':'/'+Lf}/hijri-calendar" data-i18n="footer.link_hijri_year">${_escHtml(f.l_hijri_year)}</a>`)
             .replace(/<a href="\/date-converter" data-i18n="footer\.link_date_converter">[^<]*<\/a>/,
                 `<a href="${Lf==='ar'?'':'/'+Lf}/date-converter" data-i18n="footer.link_date_converter">${_escHtml(f.l_date_conv)}</a>`)
             .replace(/<a href="\/msbaha" data-i18n="footer\.link_tasbih">[^<]*<\/a>/,
@@ -33991,7 +34033,8 @@ function _mlRecord(req, res, rawUrl, ms, aborted) {
     // the request-observability family, resolved by status exactly as its sampler does
     const f0 = _obsFamily(p);
     const sc = res.statusCode;
-    const fam = res._tpGone ? (res._tpGone === 'hijri' ? 'hijri-gone' : 'moon-gone')   // MOON-DAY / HIJRI-DAY-PAGES-REMOVAL-1
+    const fam = res._tpGone ? (res._tpGone === 'hijri' ? 'hijri-gone' : res._tpGone === 'hijri-cal' ? 'hijri-cal-gone' : 'moon-gone')   // MOON-DAY / HIJRI-DAY-PAGES-REMOVAL-1 / HIJRI-CALENDAR-RANGE-1
+        : res._tpHcalFuture ? 'hijri-cal-future'
         : (f0 === null) ? (sc === 404 ? 'unknown-route' : 'other-valid')
         : ((sc === 404 && _OBS_404_UNKNOWN_FAMILIES.has(f0)) ? 'unknown-route' : f0);
     _mlBump(_mlFam, fam + '|' + out, ms);
@@ -34294,12 +34337,12 @@ function _goneSend(req, res, g) {
     _goneObsSample(req);
 }
 // measurement only: the 1% request-observability sampler runs later in the handler, so record a sample here
-function _goneObsSample(req) {
+function _goneObsSample(req, status) {
     if (_OBS_SAMPLE > 0 && Math.random() < _OBS_SAMPLE) {
         try {
             const u = req.url || '';
             const q = u.indexOf('?');
-            _obsRecord(_obsFamily(q === -1 ? u : u.slice(0, q)) || 'other-valid', _obsAgent(req.headers['user-agent']), 410, 0);
+            _obsRecord(_obsFamily(q === -1 ? u : u.slice(0, q)) || 'other-valid', _obsAgent(req.headers['user-agent']), status || 410, 0);
         } catch (_e) { /* never break a response */ }
     }
 }
@@ -34336,9 +34379,10 @@ function _hijriGoneFor(req) {
     if (!_isValidHijriDate(+m[2], +m[3], +m[4])) return null;  // not in the table: the router's own 404
     return { lp, y: m[2], mo: m[3] };
 }
-// The month page a removed day belongs to, linked from the 410 body only when that month page is served.
+// The month page a removed day belongs to, linked from the 410 body only when that month page is served
+//   (HIJRI-CALENDAR-RANGE-1: inside the calendar window now, not merely in the table).
 function _hijriMonthPageServed(y, mo) {
-    return _isYearInRange(y) && !!_getDaysInHijriMonth(y, mo);
+    return _hijriCalServed(y) && !!_getDaysInHijriMonth(y, mo);
 }
 const _HGONE_TEXT = {
     '':  { lang: 'ar', dir: 'rtl', msg: 'أُلغيت صفحات الأيام الهجرية المستقلة نهائيًا. تجد التاريخ الهجري لكل يوم في جدول الشهر، وتاريخ اليوم في صفحة التاريخ الهجري اليوم.', cal: 'التقويم الهجري', month: 'تقويم هذا الشهر', today: 'التاريخ الهجري اليوم' },
@@ -34352,23 +34396,53 @@ const _HGONE_TEXT = {
     bn:  { lang: 'bn', dir: 'ltr', msg: 'হিজরি দিনের আলাদা পাতাগুলো স্থায়ীভাবে সরানো হয়েছে। প্রতিটি দিনের হিজরি তারিখ মাসিক সারণিতে, আর আজকের তারিখ আজকের হিজরি তারিখের পাতায় পাওয়া যাবে।', cal: 'হিজরি ক্যালেন্ডার', month: 'এই মাসের ক্যালেন্ডার', today: 'আজকের হিজরি তারিখ' },
     ms:  { lang: 'ms', dir: 'ltr', msg: 'Halaman hari Hijrah yang berasingan telah dibuang secara kekal. Tarikh Hijrah setiap hari ada dalam jadual bulanan, dan tarikh hari ini di halaman tarikh Hijrah hari ini.', cal: 'Kalendar Hijrah', month: 'Kalendar bulan ini', today: 'Tarikh Hijrah hari ini' },
 };
+// HIJRI-CALENDAR-RANGE-1 (owner decision 2026-10-16): the day-410 text when its month page is not served (outside the calendar
+//   window): it points to the date converter, which the body then links, instead of a monthly table it cannot link.
+const _HGONE_CONV_MSG = {
+    '':  'أُلغيت صفحات الأيام الهجرية المستقلة نهائيًا. يمكنك معرفة التاريخ الهجري لأي يوم عبر تحويل التاريخ، وتاريخ اليوم في صفحة التاريخ الهجري اليوم.',
+    en:  'Standalone Hijri day pages have been permanently removed. You can find the Hijri date of any day with the Date Converter, and today’s date is on the today’s Hijri date page.',
+    fr:  'Les pages individuelles des jours hégiriens ont été définitivement supprimées. Le convertisseur de date donne la date hégirienne de n’importe quel jour, et celle d’aujourd’hui figure sur la page de la date hégirienne du jour.',
+    tr:  'Ayrı Hicri gün sayfaları kalıcı olarak kaldırıldı. Herhangi bir günün Hicri tarihini Tarih Dönüştürücü ile bulabilirsiniz; bugünün tarihi ise bugünün Hicri tarihi sayfasında yer alır.',
+    ur:  'ہجری دنوں کے الگ صفحات مستقل طور پر ہٹا دیے گئے ہیں۔ کسی بھی دن کی ہجری تاریخ تاریخ کنورٹر سے معلوم کی جا سکتی ہے، اور آج کی تاریخ آج کی ہجری تاریخ کے صفحے پر ہے۔',
+    de:  'Die einzelnen Seiten für Hidschri-Tage wurden dauerhaft entfernt. Das Hidschri-Datum jedes Tages liefert der Datumsumrechner, das heutige Datum steht auf der Seite zum heutigen Hidschri-Datum.',
+    id:  'Halaman hari Hijriah tersendiri telah dihapus secara permanen. Tanggal Hijriah hari apa pun dapat dicari dengan Konversi Tanggal, dan tanggal hari ini ada di halaman tanggal Hijriah hari ini.',
+    es:  'Las páginas individuales de los días de la Hégira se han eliminado de forma permanente. El Conversor de Fechas da la fecha de la Hégira de cualquier día, y la de hoy está en la página de la fecha de la Hégira de hoy.',
+    bn:  'হিজরি দিনের আলাদা পাতাগুলো স্থায়ীভাবে সরানো হয়েছে। যেকোনো দিনের হিজরি তারিখ তারিখ রূপান্তরকারী দিয়ে জানা যাবে, আর আজকের তারিখ আজকের হিজরি তারিখের পাতায় পাওয়া যাবে।',
+    ms:  'Halaman hari Hijrah yang berasingan telah dibuang secara kekal. Tarikh Hijrah bagi mana-mana hari boleh didapati dengan Penukar Tarikh, dan tarikh hari ini di halaman tarikh Hijrah hari ini.',
+};
+// HIJRI-CALENDAR-RANGE-1 (owner decision 2026-10-16): a cacheable response whose links depend on the calendar window must not be
+//   kept past the next window change (1 Muharram, 00:00 Asia/Riyadh). Returns the Cache-Control value: public, max-age = the
+//   smaller of 'cap' and the seconds left until that instant; 'no-cache' in the last minute before it.
+function _hijriWindowCacheControl(cap) {
+    let secs = cap;
+    try {
+        const h = _hijriNow(); const e = h && _yearEntry(h.year + 1);
+        if (e && e.yearStart) {
+            const [y, m, d] = e.yearStart.split('-').map(Number);
+            secs = Math.min(cap, Math.floor((Date.UTC(y, m - 1, d) - 3 * 3600e3 - _hijriClockNow().getTime()) / 1000));
+        }
+    } catch (_e) { /* the cap stays */ }
+    return secs >= 60 ? 'public, max-age=' + secs : 'no-cache';
+}
 function _hijriGoneSend(req, res, g) {
     const key = (g.lp || '').replace(/\/$/, '');
     const t = _HGONE_TEXT[key] || _HGONE_TEXT[''];
     const base = key ? '/' + key : '';
     let links = '<li><a href="' + base + '/hijri-calendar">' + t.cal + '</a></li>';
-    if (/^\d{4}$/.test(g.y) && /^\d{2}$/.test(g.mo) && _hijriMonthPageServed(+g.y, +g.mo)) {
+    const _monthOn = /^\d{4}$/.test(g.y) && /^\d{2}$/.test(g.mo) && _hijriMonthPageServed(+g.y, +g.mo);
+    if (_monthOn) {
         links += '<li><a href="' + base + '/hijri-calendar/' + g.y + '-' + g.mo + '">' + t.month + '</a></li>';
     }
     links += '<li><a href="' + base + '/today-hijri-date">' + t.today + '</a></li>';
+    if (!_monthOn) links += '<li><a href="' + base + '/date-converter">' + (_HCALG_TEXT[key] || _HCALG_TEXT['']).conv + '</a></li>';   // HIJRI-CALENDAR-RANGE-1
     const body = Buffer.from('<!DOCTYPE html><html lang="' + t.lang + '" dir="' + t.dir + '" data-tp-gone="hijri-day"><head><meta charset="utf-8">'
         + '<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>410</title></head>'
-        + '<body><h1>410</h1><p>' + t.msg + '</p><ul>' + links + '</ul></body></html>', 'utf8');
+        + '<body><h1>410</h1><p>' + (_monthOn ? t.msg : (_HGONE_CONV_MSG[key] || _HGONE_CONV_MSG[''])) + '</p><ul>' + links + '</ul></body></html>', 'utf8');
     res._tpGone = 'hijri';
     res.writeHead(410, {
         'Content-Type': 'text/html; charset=utf-8',
         'Content-Length': body.length,
-        'Cache-Control': 'public, max-age=3600',
+        'Cache-Control': _hijriWindowCacheControl(3600),   // its month link follows the calendar window
         'X-Robots-Tag': 'noindex',
         'X-Content-Type-Options': 'nosniff',
         'X-Frame-Options': 'SAMEORIGIN',
@@ -34377,6 +34451,116 @@ function _hijriGoneSend(req, res, g) {
     });
     res.end(req.method === 'HEAD' ? undefined : body);
     if (!g.noSample) _goneObsSample(req);
+}
+
+// =======================================================================================
+// HIJRI-CALENDAR-RANGE-1 (owner directive 2026-10-15/16): the calendar year and month pages are served for the
+//   previous, current and next Hijri year only (_hijriCalWindow, Asia/Riyadh). Answered here, before the shed and
+//   the router, in one light response with no script, style, ads or canonical:
+//   - a PAST year or month (below the window, in the table) → 410 Gone, noindex, Cache-Control public, max-age=3600;
+//   - a FUTURE year or month (above the window, in the table) → 404, noindex, Cache-Control no-store (nothing may
+//     keep it once the year enters the window at Riyadh midnight), with the date it becomes available;
+//   - years outside the table, malformed shapes and the fr..ms .html twins keep their exact old answers (router 404).
+//   The forms that used to end at such a page (query, trailing-slash run, the ar/en .html twin of a MONTH, any host or
+//   method) get the same answer directly: range state is never answered with a redirect. In-window pages are untouched.
+//   Both bodies link the calendar hub, the current year, today's Hijri date and the date converter (which still
+//   converts any historical date). robots.txt is unchanged so crawlers can read the 410.
+// =======================================================================================
+const _HCALG_RE = /^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})(?:-(0[1-9]|1[0-2]))?$/;
+function _hijriCalGateFor(req) {
+    const u = req.url || '';
+    if (u.indexOf('hijri-calendar/') === -1) return null;
+    const q = u.indexOf('?');
+    let p = q === -1 ? u : u.slice(0, q);
+    if (p.length > 1 && p.endsWith('/') && !/\.[a-z0-9]+\/$/i.test(p)) {
+        let e = p.length;                        // a loop, not /\/+$/ (quadratic on long runs of '/')
+        while (e > 1 && p.charCodeAt(e - 1) === 47) e--;
+        p = p.slice(0, e);
+    }
+    let html = false;
+    if (p.endsWith('.html')) { html = true; p = p.slice(0, -5); }
+    const m = _HCALG_RE.exec(p);
+    if (!m) return null;
+    const lp = m[1] || '';
+    if (html && lp !== '' && lp !== 'en/') return null;      // fr..ms .html twins were always a plain 404
+    if (html && !m[3]) return null;                          // so were the year .html twins (only month twins 301)
+    const win = _hijriCalWindow();
+    const st = _hijriCalStatus(+m[2], win);
+    if (st === 'in' || st === 'invalid') return null;        // served page, or not in the table: the router decides
+    return { lp, y: +m[2], mo: m[3] || '', st, win };
+}
+const _HCALG_LOCALE = { '': 'ar', en: 'en-GB', fr: 'fr-FR', tr: 'tr-TR', ur: 'ur-PK', de: 'de-DE', id: 'id-ID', es: 'es-ES', bn: 'bn-BD', ms: 'ms-MY' };
+const _HCALG_TEXT = {
+    '':  { past: 'لم تعد صفحات تقويم السنوات الهجرية السابقة متاحة. يعرض الموقع تقويم السنة الهجرية السابقة والحالية والقادمة فقط، ويمكنك تحويل أي تاريخ قديم في محوّل التاريخ.',
+           future: (y, d) => 'تقويم سنة ' + y + ' هـ غير متاح بعد، وسيُتاح ابتداءً من ' + d + ' بتوقيت مكة المكرمة.',
+           year: (y) => 'التقويم الهجري ' + y + ' هـ', conv: 'تحويل التاريخ' },
+    en:  { past: 'Calendar pages for past Hijri years are no longer available. The site shows the previous, current and next Hijri year only; any older date can still be converted in the date converter.',
+           future: (y, d) => 'The ' + y + ' AH calendar is not available yet. It will be available from ' + d + ' (Mecca time).',
+           year: (y) => 'Hijri calendar ' + y + ' AH', conv: 'Date Converter' },
+    fr:  { past: 'Les pages de calendrier des années hégiriennes passées ne sont plus disponibles. Le site présente uniquement l’année hégirienne précédente, l’année en cours et la suivante ; toute date plus ancienne reste convertible dans le convertisseur de dates.',
+           future: (y, d) => 'Le calendrier de l’année ' + y + ' H n’est pas encore disponible. Il le sera à partir du ' + d + ' (heure de La Mecque).',
+           year: (y) => 'Calendrier hégirien ' + y + ' H', conv: 'Convertisseur de Date' },
+    tr:  { past: 'Geçmiş Hicri yılların takvim sayfaları artık yayında değil. Site yalnızca önceki, içinde bulunulan ve sonraki Hicri yılı gösterir; daha eski her tarihi tarih dönüştürücüde çevirebilirsiniz.',
+           future: (y, d) => y + ' H takvimi henüz yayında değil. ' + d + ' tarihinden itibaren (Mekke saati) yayında olacak.',
+           year: (y) => 'Hicri takvim ' + y + ' H', conv: 'Tarih dönüştürücü' },
+    ur:  { past: 'گزشتہ ہجری برسوں کے کیلنڈر صفحات اب دستیاب نہیں ہیں۔ سائٹ صرف پچھلا، موجودہ اور اگلا ہجری سال دکھاتی ہے؛ کسی بھی پرانی تاریخ کو تاریخ کنورٹر میں تبدیل کیا جا سکتا ہے۔',
+           future: (y, d) => y + ' ہجری کا کیلنڈر ابھی دستیاب نہیں ہے۔ یہ ' + d + ' (مکہ کے وقت) سے دستیاب ہوگا۔',
+           year: (y) => 'ہجری کیلنڈر ' + y + ' ہجری', conv: 'تاریخ کنورٹر' },
+    de:  { past: 'Kalenderseiten vergangener Hidschri-Jahre sind nicht mehr verfügbar. Die Website zeigt nur das vorherige, das aktuelle und das nächste Hidschri-Jahr; jedes ältere Datum lässt sich weiterhin im Datumsumrechner umrechnen.',
+           future: (y, d) => 'Der Kalender für ' + y + ' AH ist noch nicht verfügbar. Er ist ab dem ' + d + ' (Mekka-Zeit) verfügbar.',
+           year: (y) => 'Hidschri-Kalender ' + y + ' AH', conv: 'Datumsumrechner' },
+    id:  { past: 'Halaman kalender untuk tahun-tahun Hijriah yang telah lalu tidak lagi tersedia. Situs ini hanya menampilkan tahun Hijriah sebelumnya, tahun berjalan, dan tahun berikutnya; tanggal lama mana pun tetap dapat dikonversi dengan Konversi Tanggal.',
+           future: (y, d) => 'Kalender tahun ' + y + ' H belum tersedia. Kalender ini akan tersedia mulai ' + d + ' (waktu Mekah).',
+           year: (y) => 'Kalender Hijriah ' + y + ' H', conv: 'Konversi Tanggal' },
+    es:  { past: 'Las páginas del calendario de los años de la Hégira pasados ya no están disponibles. El sitio muestra solo el año de la Hégira anterior, el actual y el siguiente; cualquier fecha anterior se puede seguir convirtiendo en el Conversor de Fechas.',
+           future: (y, d) => 'El calendario del año ' + y + ' H aún no está disponible. Estará disponible a partir del ' + d + ' (hora de La Meca).',
+           year: (y) => 'Calendario de la Hégira ' + y + ' H', conv: 'Conversor de Fechas' },
+    bn:  { past: 'অতীতের হিজরি বছরগুলোর ক্যালেন্ডার পাতা আর পাওয়া যায় না। সাইটে কেবল আগের, চলতি ও পরের হিজরি বছর দেখানো হয়; যেকোনো পুরোনো তারিখ তারিখ রূপান্তরকারীতে রূপান্তর করা যায়।',
+           future: (y, d) => y + ' হিজরির ক্যালেন্ডার এখনো পাওয়া যাচ্ছে না। এটি ' + d + ' (মক্কার সময়) থেকে পাওয়া যাবে।',
+           year: (y) => 'হিজরি ক্যালেন্ডার ' + y + ' হিজরি', conv: 'তারিখ রূপান্তরকারী' },
+    ms:  { past: 'Halaman kalendar bagi tahun-tahun Hijrah yang lalu tidak lagi tersedia. Laman ini hanya memaparkan tahun Hijrah sebelumnya, semasa dan seterusnya; sebarang tarikh lama masih boleh ditukar dalam penukar tarikh.',
+           future: (y, d) => 'Kalendar tahun ' + y + ' H belum tersedia. Ia akan tersedia mulai ' + d + ' (waktu Makkah).',
+           year: (y) => 'Kalendar Hijrah ' + y + ' H', conv: 'Penukar Tarikh' },
+};
+// The Gregorian date a future year y enters the window: 1 Muharram of y-1 (the window is current ±1), from the table.
+function _hijriCalEntryDate(y, key) {
+    const e = _yearEntry(y - 1);
+    if (!e || !e.yearStart) return '';
+    const [gy, gm, gd] = e.yearStart.split('-').map(Number);
+    try {
+        const s = new Intl.DateTimeFormat((_HCALG_LOCALE[key] || 'en-GB') + '-u-ca-gregory-nu-latn', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' })
+            .format(new Date(Date.UTC(gy, gm - 1, gd)));
+        return (key === 'fr' && gd === 1) ? s.replace(/^1(?=\s)/, '1er') : s;
+    } catch (_e) { return e.yearStart; }
+}
+function _hijriCalGateSend(req, res, g) {
+    const key = (g.lp || '').replace(/\/$/, '');
+    const t0 = _HGONE_TEXT[key] || _HGONE_TEXT[''];            // lang, dir and the hub / today labels of the day 410
+    const t = _HCALG_TEXT[key] || _HCALG_TEXT[''];
+    const base = key ? '/' + key : '';
+    const past = g.st === 'past';
+    let links = '<li><a href="' + base + '/hijri-calendar">' + t0.cal + '</a></li>';
+    if (g.win) links += '<li><a href="' + base + '/hijri-calendar/' + g.win.cur + '">' + t.year(g.win.cur) + '</a></li>';
+    links += '<li><a href="' + base + '/today-hijri-date">' + t0.today + '</a></li>';
+    links += '<li><a href="' + base + '/date-converter">' + t.conv + '</a></li>';
+    const msg = past ? t.past : t.future(g.y, _hijriCalEntryDate(g.y, key));
+    const code = past ? 410 : 404;
+    const body = Buffer.from('<!DOCTYPE html><html lang="' + t0.lang + '" dir="' + t0.dir + '" data-tp-hcal="' + g.st + '"><head><meta charset="utf-8">'
+        + '<meta name="viewport" content="width=device-width, initial-scale=1"><meta name="robots" content="noindex"><title>' + code + '</title></head>'
+        + '<body><h1>' + code + '</h1><p>' + msg + '</p><ul>' + links + '</ul></body></html>', 'utf8');
+    if (past) res._tpGone = 'hijri-cal'; else res._tpHcalFuture = true;
+    res.writeHead(code, {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Content-Length': body.length,
+        'Cache-Control': past ? _hijriWindowCacheControl(3600) : 'no-store',   // the 410 links the current year
+        'X-Robots-Tag': 'noindex',
+        'X-Content-Type-Options': 'nosniff',
+        'X-Frame-Options': 'SAMEORIGIN',
+        'Referrer-Policy': 'strict-origin-when-cross-origin',
+        'Content-Security-Policy': "default-src 'none'; frame-ancestors 'self'",
+    });
+    res.end(req.method === 'HEAD' ? undefined : body);
+    if (!g.noSample) _goneObsSample(req, code);
 }
 
 
@@ -34432,6 +34616,9 @@ const server = http.createServer(async (req, res) => {
         // HIJRI-DAY-PAGES-REMOVAL-1: a removed Hijri day page, fully synchronous (a table lookup, no I/O)
         const _hg = _hijriGoneFor(req);
         if (_hg) { _hijriGoneSend(req, res, _hg); return; }
+        // HIJRI-CALENDAR-RANGE-1: a calendar year / month outside the window (410 past, 404 future), synchronous too
+        const _hcg = _hijriCalGateFor(req);
+        if (_hcg) { _hijriCalGateSend(req, res, _hcg); return; }
     }
     // MOON-DAY-OVERLOAD-SHED-1: the very first step, so a shed request costs almost nothing (no nonce,
     //   no header build, no regex gates) and never reaches SSR or Supabase. Only nested moon-day paths
@@ -34690,16 +34877,22 @@ const server = http.createServer(async (req, res) => {
             _hijriGoneSend(req, res, { lp: _hd[1] || '', y: _hd[2], mo: _hd[3], noSample: true }); return;   // the router's sampler already ran
         }
         // /hijri-calendar/{YYYY} (year page)
-        const _hy = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})$/);
+        const _hy = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})$/);
         if (_hy) {
-            const y = +_hy[1];
+            const y = +_hy[2];
             if (!_isYearInRange(y)) { _sendHijri404('year'); return; }
+            // HIJRI-CALENDAR-RANGE-1 backstop: the early gate answers every year outside the window; should a future
+            //   reordering ever let one through, it still gets the 410 / 404 and never a rendered page.
+            const _w = _hijriCalWindow(), _st = _hijriCalStatus(y, _w);
+            if (_st !== 'in') { _hijriCalGateSend(req, res, { lp: _hy[1] || '', y, mo: '', st: _st, win: _w, noSample: true }); return; }
         }
         // /hijri-calendar/{YYYY}-{MM} (month page)
-        const _hm = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(0[1-9]|1[0-2])$/);
+        const _hm = urlPath.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?hijri-calendar\/(\d{4})-(0[1-9]|1[0-2])$/);
         if (_hm) {
-            const y = +_hm[1], mo = +_hm[2];
+            const y = +_hm[2], mo = +_hm[3];
             if (!_isYearInRange(y) || mo < 1 || mo > 12) { _sendHijri404('month'); return; }
+            const _w = _hijriCalWindow(), _st = _hijriCalStatus(y, _w);
+            if (_st !== 'in') { _hijriCalGateSend(req, res, { lp: _hm[1] || '', y, mo: _hm[3], st: _st, win: _w, noSample: true }); return; }
         }
     }
 
@@ -35610,11 +35803,13 @@ const server = http.createServer(async (req, res) => {
             if (_curatedCitiesForCc(cc).length === 0) continue;
             F.moon.push(['/moon/' + slug, '0.7', 'weekly', null]);
         }
-        // 5) Hijri calendar (current Hijri year ±1) — same table gates as legacy. HIJRI-DAY-PAGES-REMOVAL-1: the
-        //   standalone /hijri-date/ day pages answer 410 and are no longer listed.
+        // 5) Hijri calendar — HIJRI-CALENDAR-RANGE-1: the hub, then exactly the served window (_hijriCalWindow: the
+        //   previous, current and next Hijri year by the Riyadh date, clipped to the table). HIJRI-DAY-PAGES-REMOVAL-1:
+        //   the standalone /hijri-date/ day pages answer 410 and are no longer listed.
         const _pad2S = n => String(n).padStart(2, '0');
-        const _hCurrentYear = _hijriNow().year;
-        for (const hy of [_hCurrentYear - 1, _hCurrentYear, _hCurrentYear + 1]) {
+        F.hijri.push(['/hijri-calendar', '0.75', 'weekly', null]);
+        const _hcwS = _hijriCalWindow();
+        for (let hy = _hcwS ? _hcwS.min : 1, hyEnd = _hcwS ? _hcwS.max : 0; hy <= hyEnd; hy++) {
             if (!_isYearInRange(hy)) continue;
             F.hijri.push(['/hijri-calendar/' + hy, '0.7', 'monthly', null]);
             for (let m = 1; m <= 12; m++) {
@@ -35688,7 +35883,8 @@ const server = http.createServer(async (req, res) => {
     }
     function _sitemapFamilyPlan() {
         const _src = getSitemapData();
-        const key = [getSupportedMoonYearRange().currentYear, _hijriNow().year, _legalLastUpdatedIso(), SITE_URL].join('|');
+        const _hcwK = _hijriCalWindow();   // HIJRI-CALENDAR-RANGE-1: null-safe past the table end
+        const key = [getSupportedMoonYearRange().currentYear, _hcwK ? _hcwK.min + '-' + _hcwK.max : 'none', _legalLastUpdatedIso(), SITE_URL].join('|');
         const now = Date.now();
         const c = _sitemapFamilyPlanCache;
         if (c.data && c.key === key && c.src === _src && (now - c.time) < SITEMAP_TTL) return c.data;
@@ -35915,10 +36111,11 @@ const server = http.createServer(async (req, res) => {
             //     can never sneak back into sitemap.xml either).
             //   - Day range now derived from `_getDaysInHijriMonth(y, m)`
             //     instead of the unconditional `1..30` loop.
+            //   HIJRI-CALENDAR-RANGE-1: the hub, then exactly the served window (the same helper as the family sitemap).
             const _pad2S = n => String(n).padStart(2, '0');
-            const _hNow = _hijriNow();
-            const _hCurrentYear = _hNow.year;
-            for (const hy of [_hCurrentYear - 1, _hCurrentYear, _hCurrentYear + 1]) {
+            entries.push(...bilingualUrl('/hijri-calendar', '0.75', 'weekly', today));
+            const _hcwL = _hijriCalWindow();
+            for (let hy = _hcwL ? _hcwL.min : 1, hyEnd = _hcwL ? _hcwL.max : 0; hy <= hyEnd; hy++) {
                 if (!_isYearInRange(hy)) continue;
                 entries.push(...bilingualUrl('/hijri-calendar/' + hy, '0.7', 'monthly', today));
                 for (let m = 1; m <= 12; m++) {

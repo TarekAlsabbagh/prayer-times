@@ -1983,6 +1983,27 @@ function hijriMonthUrl(year, month) {
     return `${base}/hijri-calendar/${year}-${_pad2(month)}`;
 }
 
+// HIJRI-CALENDAR-RANGE-1: the calendar years the server serves (previous, current and next Hijri year by the Riyadh
+//   date), read from this page's <meta name="tp-hijri-window" content="min,max,cur"> — the server's own window for
+//   this response. Every client calendar link below is gated by it, so the browser never links a year the server
+//   answers with 410 (past) or 404 (future). No meta (an old cached page): the Riyadh date (Intl) ±1 clipped to the table
+//   1356–1500; the device date only if Intl itself fails.
+let _hijriCalWinCache;
+function _hijriCalWin() {
+    if (_hijriCalWinCache !== undefined) return _hijriCalWinCache;
+    let w = null;
+    try {
+        const m = document.querySelector('meta[name="tp-hijri-window"]');
+        const p = m ? String(m.getAttribute('content') || '').split(',').map(Number) : [];
+        if (p.length === 3 && p.every(Number.isInteger)) w = { min: p[0], max: p[1], cur: p[2] };
+    } catch (_) {}
+    if (!w) {
+        try { const c = HijriDate.getTodayInTimezone('Asia/Riyadh').year; if (Number.isInteger(c) && c >= 1356 && c <= 1500) w = { min: Math.max(1356, c - 1), max: Math.min(1500, c + 1), cur: c }; } catch (_) {}
+    }
+    return (_hijriCalWinCache = w);
+}
+function _hijriCalServedC(y) { const w = _hijriCalWin(); return !!w && y >= w.min && y <= w.max; }
+
 /** يبني <ol class="breadcrumb-list"> بنفس تصميم city-breadcrumb لصفحات التقويم الهجري */
 function _buildHijriBreadcrumbOl(items) {
     const parts = ['<ol class="breadcrumb-list">'];
@@ -4348,7 +4369,7 @@ async function initApp() {
                 let _dtCell = _fmtGreg(gd);
                 const _cdLinkable = (_P === 'ny' || _P === 'fitr' || _P === 'adha');
                 // HIJRI-DAY-PAGES-REMOVAL-1: the Gregorian-date cell is plain text now (the day pages answer 410).
-                if (_cdLinkable && hy >= 1356 && hy <= 1500) {
+                if (_cdLinkable && _hijriCalServedC(hy)) {   // HIJRI-CALENDAR-RANGE-1: served years only (was the table range)
                     const _lp = (_lang === 'ar') ? '' : ('/' + _lang);
                     _hyCell = '<a class="cd-years-link" href="' + _lp + '/hijri-calendar/' + hy + '">' + _hyCell + '</a>';
                 }
@@ -12032,7 +12053,7 @@ function updateCityRelatedServices() {
         {
             icon: '🗓️',
             label: t.hijri_cal,
-            url: pageUrl(`/hijri-calendar/${HijriDate.getToday().year}`)
+            url: pageUrl(`/hijri-calendar/${((_hijriCalWin() || {}).cur) || HijriDate.getToday().year}`)   // HIJRI-CALENDAR-RANGE-1
         },
         {
             icon: '🌙',
@@ -20424,7 +20445,7 @@ function updateMoonInfo() {
                             // inside the dominant Hijri month for that range.
                             try {
                                 const _hjMid = HijriDate.toHijri(_mY, _mM, 15);
-                                if (_hjMid && _hjMid.year && _hjMid.month) {
+                                if (_hjMid && _hjMid.year && _hjMid.month && _hijriCalServedC(_hjMid.year)) {   // HIJRI-CALENDAR-RANGE-1: served months only
                                     const _hMmPad = String(_hjMid.month).padStart(2, '0');
                                     _link3.setAttribute('href',
                                         _langPrefixEdu + '/hijri-calendar/' + _hjMid.year + '-' + _hMmPad);
@@ -24086,7 +24107,7 @@ function loadHijriYearPage() {
         }
     } catch (_) {}
     // إن لم تُحدَّد السنة في الـ URL → استخدم السنة الهجرية الحالية
-    const year   = match[1] ? parseInt(match[1]) : HijriDate.getToday().year;
+    const year   = match[1] ? parseInt(match[1]) : (((_hijriCalWin() || {}).cur) || HijriDate.getToday().year);   // HIJRI-CALENDAR-RANGE-1
     const lang   = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const ui     = hyearUi(lang);
     const hijriNames = hijriMonthsFor(lang);
@@ -24143,9 +24164,11 @@ function loadHijriYearPage() {
     // ── 2.5 Year Picker ──────────────────────────────────────────
     const yrSel = document.getElementById('hyear-year-select');
     if (yrSel) {
-        const todayYear = HijriDate.getToday().year;
-        const min = todayYear - 20;
-        const max = todayYear + 20;
+        // HIJRI-CALENDAR-RANGE-1: only the served years (was the device year ±20)
+        const _hw = _hijriCalWin();
+        const todayYear = _hw ? _hw.cur : HijriDate.getToday().year;
+        const min = _hw ? _hw.min : todayYear;
+        const max = _hw ? _hw.max : todayYear;
         let html = '';
         for (let y = min; y <= max; y++) {
             const selected = (y === year) ? ' selected' : '';
@@ -24285,7 +24308,7 @@ function loadHijriYearPage() {
         // styling at #page-hijri-year #hyear-years-grid a). The previous
         // inline styles overrode the chip styling and produced empty
         // section-card space below.
-        const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1);
+        const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1 && _hijriCalServedC(y));   // HIJRI-CALENDAR-RANGE-1
         yearsGridEl.innerHTML = yearsWindow.map((y) => {
             const isActive = (y === year);
             const cls = isActive ? 'class="current" aria-current="page"' : '';
@@ -24641,7 +24664,7 @@ function loadHijriMonthPage() {
         // styling at #page-hijri-year #hyear-years-grid a). The previous
         // inline styles overrode the chip styling and produced empty
         // section-card space below.
-        const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1);
+        const yearsWindow = [year - 2, year - 1, year, year + 1, year + 2].filter(y => y >= 1 && _hijriCalServedC(y));   // HIJRI-CALENDAR-RANGE-1
         yearsGridEl.innerHTML = yearsWindow.map((y) => {
             const isActive = (y === year);
             const cls = isActive ? 'class="current" aria-current="page"' : '';
@@ -24668,15 +24691,17 @@ function loadHijriMonthPage() {
         const _rtlM = (lang === 'ar' || lang === 'ur');
         const _arPrevM = _rtlM ? '→' : '←';
         const _arNextM = _rtlM ? '←' : '→';
-        navEl.innerHTML = `
+        // HIJRI-CALENDAR-RANGE-1: across a year edge of the window the neighbour month is not linked
+        const _navGap = '<span style="flex:1" aria-hidden="true"></span>';
+        navEl.innerHTML = (_hijriCalServedC(prevY) ? `
             <a href="${prevUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-start;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
                 <span style="font-size:0.75rem;color:var(--text-light);">${_arPrevM} ${ui.prev_label}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${prevName} ${prevY}${hSfx}</span>
-            </a>
+            </a>` : _navGap) + (_hijriCalServedC(nextY) ? `
             <a href="${nextUrl}" style="flex:1;display:flex;flex-direction:column;align-items:flex-end;gap:4px;padding:14px 18px;background:var(--bg);border-radius:12px;text-decoration:none;border:1px solid var(--border);">
                 <span style="font-size:0.75rem;color:var(--text-light);">${ui.next_label} ${_arNextM}</span>
                 <span style="font-weight:700;color:var(--primary);font-size:0.95rem;">${nextName} ${nextY}${hSfx}</span>
-            </a>`;
+            </a>` : _navGap);
     }
 
     // 9. Footer SEO — dynamic paragraph with inline internal links (today + year calendar)
@@ -25029,9 +25054,11 @@ async function loadConverterOTD(/* hijriDay, hijriMonthIndex, hijriYear */) {
 function populateHijriYearSelect() {
     const sel = document.getElementById('calendar-year-select');
     if (!sel) return;
-    const todayYear = HijriDate.getToday().year;
-    const min = todayYear - 20;
-    const max = todayYear + 20;
+    // HIJRI-CALENDAR-RANGE-1: only the served years (was the device year ±20)
+    const _hw = _hijriCalWin();
+    const todayYear = _hw ? _hw.cur : HijriDate.getToday().year;
+    const min = _hw ? _hw.min : todayYear;
+    const max = _hw ? _hw.max : todayYear;
     let html = '';
     for (let y = min; y <= max; y++) {
         const selected = (y === calendarYear) ? ' selected' : '';

@@ -35,6 +35,13 @@
 //   ONE 410 Gone (expect410); month grid = plain cells (0 <a>); nav/island lists drop day/today; sitemaps 0 /today + 0 day locs,
 //   counts derived (shards 167,520, total 175,065); [K] asset versions "bumped above" 847/12; [U] css dropped from the diff guard.
 //
+// HIJRI-CALENDAR-RANGE-1: base = the production tree (TP_BASE_COMMIT=ac98319). The Hijri calendar serves the previous, current and
+//   next Hijri year only (Asia/Riyadh date via the Umm al-Qura table, clipped to the table): [L1] counts gain the 10 hub locs
+//   (sitemap-main 3,880 → 3,890, total 171,515 → 171,525); [HC] new: out-of-window years/months → 410 (below, public, max-age=3600)
+//   or 404 (above, no-store), X-Robots-Tag noindex, light body, no Location (also for the slash / query / ar+en MONTH .html forms),
+//   where BASE served them; year .html twins, fr..ms .html twins, table-invalid and malformed shapes, and every in-window form
+//   (200 pages and their 301s) answer exactly as BASE.
+//
 // Usage: TP_BASE_ROOT=<clean base checkout> node scripts/_smoke_indexable_route_surface_containment_1.mjs
 import { spawn, execFileSync } from 'node:child_process';
 import http from 'node:http';
@@ -787,15 +794,16 @@ async function sitemapChecks(A, B, SM) {
     //   sitemaps: shards 168,590 → 167,520, total/unique 176,135 → 175,065, sitemap-main stays 7,430.
     //   DERIVED (FAMOUS_CITY_OVERRIDES + curated-places.json, not measured) — derived, confirm on the first candidate run.
     // HIJRI-DAY-PAGES-REMOVAL-1: the 3,550 current-year /hijri-date/ locs left sitemap-main → 7,430 → 3,880, total 175,065 → 171,515
-    const EXP_SHARDS = 167520, EXP_TOTAL = 171515;
-    ok('L1', mainN === 3880 && shardN === EXP_SHARDS && quranN === 115 && legacyAll.length === EXP_TOTAL && uniq.size === EXP_TOTAL,
-        'counts: sitemap-main 3,880 · city shards 167,520 (23 files) · quran 115 · 171,515 entries = 171,515 unique (derived)',
+    // HIJRI-CALENDAR-RANGE-1: + the 10 hub locs /[lang/]hijri-calendar in sitemap-main → 3,890, total 171,515 → 171,525
+    const EXP_MAIN = 3890, EXP_SHARDS = 167520, EXP_TOTAL = 171525;
+    ok('L1', mainN === EXP_MAIN && shardN === EXP_SHARDS && quranN === 115 && legacyAll.length === EXP_TOTAL && uniq.size === EXP_TOTAL,
+        'counts: sitemap-main 3,890 · city shards 167,520 (23 files) · quran 115 · 171,525 entries = 171,525 unique (derived)',
         'main=' + mainN + ' shards=' + shardN + ' quran=' + quranN + ' total=' + legacyAll.length + ' unique=' + uniq.size);
     {
         const idxAll = idxFiles.flatMap((f) => f.urls.map((u) => u.loc));
         const idxUniq = new Set(idxAll);
         ok('L1', idxAll.length === EXP_TOTAL && idxUniq.size === EXP_TOTAL && idxAll.every((l) => uniq.has(l)),
-            'index children: 171,515 entries = 171,515 unique = the legacy files + sitemap-quran set (derived)', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
+            'index children: 171,525 entries = 171,525 unique = the legacy files + sitemap-quran set (derived)', 'total=' + idxAll.length + ' unique=' + idxUniq.size + ' notInLegacy=' + idxAll.filter((l) => !uniq.has(l)).length);
     }
     {
         // MOON-DAY-PAGES-REMOVAL-1: no removed page in ANY sitemap file (legacy + index children): 0 nested /today, 0 nested
@@ -871,6 +879,71 @@ async function unchangedChecks(A, B) {
         const sb = b ? { status: b.status, location: b.headers.location || null, robots: metaRobots(b.body), xrt: xrt(b), canonical: canonicalOf(b.body) } : null;
         ok('U', !!sb && eq(sa, sb), 'Hijri status/Location/robots/canonical identical to base  ' + p + '  (' + sa.status + ')', sb ? (diffKeys(sa, sb) || '') : 'no base');
     }
+    await hijriCalendarWindowChecks(A, B);
+}
+
+// ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════
+// HIJRI-CALENDAR-RANGE-1: the calendar window, computed like the server's _hijriCalWindow (Asia/Riyadh civil date through
+//   db/hijri/umm-al-qura.json; min = max(startYear, cur - 1), max = min(endYear, cur + 1)) — never a hard-coded year
+function hijriCalWindow() {
+    const t = JSON.parse(fs.readFileSync(path.join(ROOT, 'db', 'hijri', 'umm-al-qura.json'), 'utf8'));
+    const g2jd = (y, m, d) => { if (m <= 2) { y--; m += 12; } const a = Math.floor(y / 100), b = 2 - a + Math.floor(a / 4); return Math.floor(365.25 * (y + 4716)) + Math.floor(30.6001 * (m + 1)) + d + b - 1524; };
+    const { y, m, d } = cityLocalYmd('Asia/Riyadh');
+    const jd = g2jd(y, m, d);
+    let cur = null;
+    for (const [k, v] of Object.entries(t.years)) {
+        const [sy, sm, sd] = v.yearStart.split('-').map(Number), s0 = g2jd(sy, sm, sd);
+        const len = typeof v.yearLength === 'number' ? v.yearLength : v.months.reduce((a, b) => a + b, 0);
+        if (jd >= s0 && jd < s0 + len) { cur = Number(k); break; }
+    }
+    const tMin = t.range.startYear, tMax = t.range.endYear;
+    return cur === null ? null : { cur, min: Math.max(tMin, cur - 1), max: Math.min(tMax, cur + 1), tMin, tMax };
+}
+async function hijriCalendarWindowChecks(A, B) {
+    const W = hijriCalWindow();
+    section('[HC] HIJRI-CALENDAR-RANGE-1 — calendar window ' + (W ? W.min + '..' + W.max + ' (current ' + W.cur + ', table ' + W.tMin + '..' + W.tMax + ')' : '(none)'));
+    ok('HC', !!W && W.min === W.cur - 1 && W.max === W.cur + 1, 'window = previous / current / next Hijri year by the Riyadh date (inside the table)', JSON.stringify(W));
+    if (!W) return;
+    const past = W.min - 1, fut = W.max + 1;
+    // out of the window: ONE light response (410 below / 404 above), never a redirect, never indexable; BASE served the page
+    const gone = [
+        // [path, expected status, BASE status (200 = served indexable page, 301 = the slash / .html form redirecting to it)]
+        ['/hijri-calendar/' + past, 410, 200], ['/en/hijri-calendar/' + past + '-06', 410, 200], ['/ms/hijri-calendar/' + W.tMin, 410, 200],
+        ['/hijri-calendar/' + past + '/', 410, 301], ['/hijri-calendar/' + past + '-03?x=1', 410, 200],
+        ['/hijri-calendar/' + past + '-03.html', 410, 301], ['/en/hijri-calendar/' + past + '-03.html', 410, 301],
+        ['/hijri-calendar/' + fut, 404, 200], ['/fr/hijri-calendar/' + fut + '-01', 404, 200], ['/hijri-calendar/' + W.tMax + '-12', 404, 200],
+        ['/hijri-calendar/' + fut + '/', 404, 301], ['/en/hijri-calendar/' + fut + '-03.html', 404, 301],
+    ];
+    for (const [p, code, baseSt] of gone) {
+        const r = await get(A, p), b = B ? await get(B, p) : null;
+        const len = r.buf ? r.buf.length : 0;
+        const why = [];
+        if (r.status !== code) why.push('status ' + r.status);
+        if (r.headers.location) why.push('Location ' + r.headers.location);
+        if ((r.headers['cache-control'] || '') !== (code === 410 ? 'public, max-age=3600' : 'no-store')) why.push('cache-control ' + r.headers['cache-control']);
+        if (xrt(r) !== 'noindex') why.push('x-robots-tag ' + xrt(r));
+        if (metaRobots(r.body) !== 'noindex') why.push('meta robots ' + metaRobots(r.body));
+        if (canonicalOf(r.body) !== null) why.push('canonical ' + canonicalOf(r.body));
+        if (/<script/i.test(r.body) || len >= 4096) why.push('script or body ' + len + ' B');
+        // BASE (production) still served it: the page (and its ?query form) 200 indexable, the slash / .html forms a 301 to it
+        if (!b) why.push('no base');
+        else if (baseSt === 200 ? !(b.status === 200 && indexable(b)) : b.status !== 301) why.push('BASE ' + brief(b));
+        ok('HC', why.length === 0, (code === 410 ? '410 (below the window, public, max-age=3600)' : '404 (above the window, no-store)') + ', X-Robots-Tag noindex, light body, no Location; BASE ' + (baseSt === 200 ? '200 indexable' : '301') + '  ' + p, why.join(' ; '));
+    }
+    // unchanged: the exact BASE answer (status, Location, Cache-Control, robots meta, X-Robots-Tag, canonical)
+    const keepSeo = (r) => ({ status: r.status, location: r.headers.location || null, cacheControl: r.headers['cache-control'] || null, robots: metaRobots(r.body), xrt: xrt(r), canonical: canonicalOf(r.body) });
+    const same = [
+        '/hijri-calendar/' + past + '.html', '/en/hijri-calendar/' + fut + '.html', '/fr/hijri-calendar/' + past + '-03.html', '/ms/hijri-calendar/' + fut + '-03.html',
+        '/hijri-calendar/' + (W.tMin - 1), '/en/hijri-calendar/' + (W.tMax + 1) + '-01', '/hijri-calendar/' + past + '-13', '/hijri-calendar/' + past + '-3',
+        '/hijri-calendar/' + W.min, '/hijri-calendar/' + W.max + '-12', '/en/hijri-calendar/' + W.cur, '/de/hijri-calendar/' + W.min + '-01',
+        '/hijri-calendar/' + W.min + '-03.html', '/en/hijri-calendar/' + W.max + '-03.html', '/hijri-calendar/' + W.max + '/', '/en/hijri-calendar/' + W.cur + '-05/',
+    ];
+    for (const p of same) {
+        const r = await get(A, p), b = B ? await get(B, p) : null;
+        const sa = keepSeo(r), sb = b ? keepSeo(b) : null;
+        ok('HC', !!sb && eq(sa, sb), 'unchanged answer === BASE  ' + p + '  (' + sa.status + (sa.location ? ' → ' + sa.location : '') + ')', sb ? (diffKeys(sa, sb) || '') : 'no base');
+    }
+    for (const p of ['/hijri-calendar/' + W.min, '/hijri-calendar/' + W.max + '-12', '/en/hijri-calendar/' + W.cur, '/hijri-calendar']) expectIndexable200('HC', await get(A, p), p, 'in-window page / hub stays 200 indexable self-canonical');
 }
 
 // ═════════════════════════════════════════════════════════════════════════════════════════════════════════════════

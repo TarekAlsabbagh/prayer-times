@@ -10074,6 +10074,7 @@ function _hijriSlimEarlyStrip(html, keepId) {
 // HIJRI-PAGES-SLIM-1: shell items these four routes never use, removed LATE (next to _scopeAzkarScripts):
 //   (a) the adhan <audio> stops preloading (preload="none"; play() still fetches it on demand, so the adhan works);
 //   (b) js/moon-chart.js (moon charts only) and js/duas.js (legacy duas widget, not on these pages) are not loaded;
+//       nor is js/qibla.js (batch B): these pages have no qibla readout, and updateQibla() returns when Qibla is undefined;
 //   (c) #sticky-next-bar: its pivot (.next-prayer-banner) lives in #page-prayer-times, already removed by the early strip, so the bar
 //       can never show (initStickyNextBar returns); every reader is null-safe;
 //   (d) the Q-A11 /qibla-in- initial-load overlay script (body), which returns at once on any other path.
@@ -10084,6 +10085,7 @@ function _hijriSlimShell(html) {
     html = html.replace(_ADHAN_AUDIO_TAG, '<audio id="adhan-audio" preload="none"');
     html = _dropScriptTagBySrc(html, 'js/moon-chart.js');
     html = _dropScriptTagBySrc(html, 'js/duas.js');
+    html = _dropScriptTagBySrc(html, 'js/qibla.js');
     if (html.indexOf('id="sticky-next-bar"') !== -1) html = _stripElement(html, { type: 'id', value: 'sticky-next-bar' });
     const q = html.indexOf(_QIBLA_IN_OVERLAY_LINE);
     if (q !== -1) {
@@ -10370,7 +10372,6 @@ const _MOON_HUB_STRIP_IDS = [
     'page-azkar-prayer',
     'page-tasbih',
     'page-hijri-today',
-    'page-hijri-day',
     'page-hijri-year',
     'page-hijri-month',
     'page-date-converter',
@@ -10463,7 +10464,6 @@ const _MOON_CITY_STRIP_IDS = [
     'page-azkar-prayer',
     'page-tasbih',
     'page-hijri-today',
-    'page-hijri-day',
     'page-hijri-year',
     'page-hijri-month',
     'page-date-converter',
@@ -10502,7 +10502,7 @@ function _stripHtmlForQiblaHub(htmlIn) {
 // /hijri-calendar (year) and /hijri-calendar/{YYYY-MM} pages used to
 // inherit the entire SPA shell SSR HTML — meaning all 13 inactive page
 // wrappers (#page-prayer-times, #page-qibla, #page-moon, #page-zakat,
-// #page-tasbih, #page-azkar, #page-hijri-today, #page-hijri-day,
+// #page-tasbih, #page-azkar, #page-hijri-today, #page-hijri-day (deleted since),
 // #page-date-converter, 4 countdown pages, etc.) were sent in the body
 // even though only #page-hijri-year (or #page-hijri-month) is active.
 //
@@ -10536,10 +10536,8 @@ const _HCAL_HUB_STRIP_IDS = [
     'page-hijri-calendar',
     'page-duas',
     'page-all-cities',
-    // Hijri sibling pages (today + dated day) — kept on /today-hijri-date
-    // and /hijri-date/{date}, stripped on /hijri-calendar
+    // Hijri sibling page (today) — kept on /today-hijri-date, stripped on /hijri-calendar
     'page-hijri-today',
-    'page-hijri-day',
     // Countdown pages
     'page-eid-al-adha-countdown',
     'page-eid-al-fitr-countdown',
@@ -10585,7 +10583,7 @@ const _MOON_YEAR_STRIP_IDS = [
     'page-qibla', 'page-zakat',
     'page-azkar-hub', 'page-azkar-morning', 'page-azkar-evening', 'page-azkar-prayer',
     'page-tasbih',
-    'page-hijri-today', 'page-hijri-day', 'page-hijri-year', 'page-hijri-month', 'page-hijri-calendar',
+    'page-hijri-today', 'page-hijri-year', 'page-hijri-month', 'page-hijri-calendar',
     'page-date-converter', 'page-all-cities',
     'page-eid-al-adha-countdown', 'page-eid-al-fitr-countdown', 'page-hijri-new-year-countdown', 'page-ramadan-countdown',
 ];

@@ -36526,15 +36526,18 @@ const server = http.createServer(async (req, res) => {
     // ===== robots.txt =====
     if (urlPath === '/robots.txt') {
         // Phase H: حظر الـ query params + /search لتفادي فهرسة روابط غير canonical
+        // SHAPBOT-ROBOTS-BLOCK-1: the * rules live in ONE list; the * group and the ShapBot group are both built from it,
+        //   so a future change of the * rules reaches ShapBot too (scripts/_smoke_shapbot_robots_1.mjs checks it).
+        const _ROBOTS_STAR_RULES = ['Allow: /', 'Disallow: /api/', 'Disallow: /search', 'Disallow: /*?city=', 'Disallow: /*?lat=', 'Disallow: /*?lng=', 'Disallow: /*?q='];
+        const _ROBOTS_SHAPBOT_MOON = [
+            'Disallow: /moon/*/*/1', 'Disallow: /moon/*/*/2', 'Disallow: /*/moon/*/*/1', 'Disallow: /*/moon/*/*/2',
+            'Disallow: /moon/*/*?cal', 'Disallow: /*/moon/*/*?cal',
+            'Disallow: /moon-in-*/1', 'Disallow: /moon-in-*/2', 'Disallow: /*/moon-in-*/1', 'Disallow: /*/moon-in-*/2',
+            'Disallow: /moon-in-*?cal', 'Disallow: /*/moon-in-*?cal',
+        ];
         const body = [
             'User-agent: *',
-            'Allow: /',
-            'Disallow: /api/',
-            'Disallow: /search',
-            'Disallow: /*?city=',
-            'Disallow: /*?lat=',
-            'Disallow: /*?lng=',
-            'Disallow: /*?q=',
+            ..._ROBOTS_STAR_RULES,
             '',
             // GPTBOT-ROBOTS-BLOCK-1 (owner directive 2026-10-15): a dedicated group for OpenAI's training crawler
             //   only. A crawler obeys the single group that names it (RFC 9309), so GPTBot is disallowed everywhere
@@ -36542,6 +36545,31 @@ const server = http.createServer(async (req, res) => {
             //   Perplexity-User, ...) keeps the * group above unchanged. No generic AI-crawler block.
             'User-agent: GPTBot',
             'Disallow: /',
+            '',
+            // SHAPBOT-ROBOTS-BLOCK-1 (owner decision 2026-10-17): a dedicated group for Parallel Web Systems' crawler
+            //   (CRAWL-SOURCE-OBSERVABILITY-1: ~90 % of the rendered moon month/year pages, ~60k/h, half of them HEAD).
+            //   Scope = the moon MONTH and YEAR pages only, every language and equivalent form; everything else stays
+            //   as the * group allows it. A crawler obeys the single group that names it (RFC 9309), so this group
+            //   repeats the * Disallow rules, adds the month / year patterns ('*' matches any run, incl. '/'), and ends
+            //   with the * Allow rule -- last, so a crawler that reads rules in order (first match) still meets the
+            //   Disallows first; under RFC 9309 / Google longest-match the position changes nothing:
+            //     /moon/*/*/2, /*/moon/*/*/2 (+ /1): nested year / month in every language, + trailing slash / .html
+            //       twins. They also match the removed DAY pages under the same prefix (owner-accepted side effect; the
+            //       pages keep answering 410 and every other crawler keeps reading them): e.g. '/moon/*/*/2' matches
+            //       '/moon/saudi-arabia/riyadh/2026/10/14' ('*' = 'saudi-arabia', '*' = 'riyadh', then '/2026/10/14'
+            //       starts with '/2'), and '/moon-in-*/2' matches '/moon-in-riyadh/2026-10-14'. Re-opening the days
+            //       would need a longer Allow such as '/moon/*/*/*/*/*', which would also re-open the month form with
+            //       a trailing slash ('/moon/a/b/2026/10/'), so it is deliberately not added.
+            //     /moon/*/*?cal, /*/moon/*/*?cal: the city hub (and hub.html) with ?cal / ?cal-y, which 301s to a month
+            //       (the country page with a stray ?cal stays open).
+            //     /moon-in-*/2 (+ /1), /moon-in-*?cal and their language forms: the legacy month forms.
+            //   The moon hub, country and city pages, every other page, the 'Shap-User' agent and every other crawler
+            //   (Googlebot, the ads crawlers, Bingbot, Applebot, ...) are untouched. Statuses, canonical, noindex and
+            //   sitemaps are unchanged: this only limits what ShapBot crawls.
+            'User-agent: ShapBot',
+            ..._ROBOTS_STAR_RULES.filter((r) => r.startsWith('Disallow:')),
+            ..._ROBOTS_SHAPBOT_MOON,
+            ..._ROBOTS_STAR_RULES.filter((r) => r.startsWith('Allow:')),
             '',
             `Sitemap: ${SITE_URL}/sitemap.xml`,
             // QURAN-DEDICATED-SITEMAP-LOW-RESOURCE-GSC-SUBMISSION-1: additional discovery hint for the

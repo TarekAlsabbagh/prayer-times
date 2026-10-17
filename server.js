@@ -34038,10 +34038,17 @@ function _mlRecord(req, res, rawUrl, ms, aborted) {
         : (f0 === null) ? (sc === 404 ? 'unknown-route' : 'other-valid')
         : ((sc === 404 && _OBS_404_UNKNOWN_FAMILIES.has(f0)) ? 'unknown-route' : f0);
     _mlBump(_mlFam, fam + '|' + out, ms);
+    // CRAWL-SOURCE-OBSERVABILITY-1 (a): who gets the early 410 / 404 gate answers (measurement only)
+    //   (_csRecord returns the _obsAgent name of the User-Agent from its per-window cache; the agent class below reuses it)
+    const csA = _CS_ON && (res._tpGone || res._tpHcalFuture);
+    let csD;
+    if (csA) { try { csD = _csRecord(req, res, p, fam, out, ms, undefined, undefined, rawUrl); } catch (_e) { /* measurement must never break a response */ } }
     if (p.indexOf('/moon') === -1) return;
     const cls = _mlClassify(p);
     if (!cls) return;
-    const ag = _ML_AGENT_CLASS[_obsAgent(req.headers['user-agent'])] || 'unknown';
+    // CRAWL-SOURCE-OBSERVABILITY-1 (b): who requests the moon month and year pages, every outcome (measurement only)
+    if (_CS_ON && !csA && (cls[0] === 'month' || cls[0] === 'year')) { try { csD = _csRecord(req, res, p, 'moon-' + cls[0], out, ms, cls[1], cls[2], rawUrl); } catch (_e) { /* measurement only */ } }
+    const ag = _ML_AGENT_CLASS[typeof csD === 'string' ? csD : _obsAgent(req.headers['user-agent'])] || 'unknown';
     _mlBump(_mlAgg, cls[0] + '|' + cls[1] + '|' + cls[2] + '|' + out + '|' + ag, ms);
 }
 // The first step of the handler: one timestamp and one 'close' listener per request. 'close' fires
@@ -34075,6 +34082,7 @@ function _mlFlush(win) {
             cols: 'family,outcome,n,avg_ms,max_ms,' + _ML_BUCKET_COLS, rows: fr }));
     } catch (_e) { /* measurement must never break the worker */ }
     _mlAgg.clear(); _mlFam.clear();
+    if (_CS_ON) { try { _csFlush(win); } catch (_e) { /* measurement only */ } }   // CRAWL-SOURCE-OBSERVABILITY-1
 }
 // ---- process health ----
 const _mlMB = (b) => Math.round(b / 1048576);
@@ -34140,6 +34148,1002 @@ function _mlStartTimers() {
     setInterval(() => _mlProcFlush('w'), _ML_PROC_S * 1000).unref();
     process.once('SIGTERM', () => { _mlFlush('final'); _mlProcFlush('final'); });
     console.log('[moon-load]' + _OBS_WTAG + ' ENABLED window_s=' + _ML_WINDOW_S + ' proc_s=' + _ML_PROC_S + ' max_keys=' + _ML_MAX_KEYS);
+    if (_CS_ON) { try { _csStart(); } catch (_e) { /* measurement only */ } }   // CRAWL-SOURCE-OBSERVABILITY-1
+}
+
+// =======================================================================================
+// CRAWL-SOURCE-OBSERVABILITY-1 (owner directive 2026-10-16): READ AND MEASURE ONLY. Who requests
+//   (a) the early 410 / 404 gate answers -- moon day 'moon-gone', Hijri day 'hijri-gone', Hijri calendar
+//       'hijri-cal-gone' (410, past years) and 'hijri-cal-future' (404, future years) -- and
+//   (b) the moon MONTH and YEAR pages ('moon-month', 'moon-year'), every outcome (2xx, 3xx, 4xx, shed, abort, 5xx):
+//   declared User-Agent, verified operator, network source, path, status and rate, AGGREGATED per worker window.
+//   Nothing here changes a response, blocks, rate-limits, ranks or decides anything: every field is a label for
+//   the logs only (a User-Agent is self-declared, trivially spoofed, and is never used for enforcement).
+//
+//   Recorded at response close from the MOON-LOAD-OBSERVABILITY-1 'close' listener (_mlRecord -- no listener of
+//   its own), so it needs TP_MOON_LOAD_OBS on. Per request, only into bounded counters:
+//     declared  the _obsAgent name of the User-Agent (googlebot, bingbot, gptbot, ..., other-bot, browser, unknown)
+//     token     for other-bot / unknown / browser / known-seo-crawler / known-social-bot (the classes that group several
+//               products; a named class such as googlebot or gptbot is its own token, '-'): a sanitised product token,
+//               never the raw string -- the first '...bot|crawler|spider|fetcher|scraper|agent' word, else the
+//               'compatible; X' name, else the first name/version product that is not a browser engine or browser
+//               name, else (a declared browser) 'browser:<family>-<major>:<os>'; 'empty' for no User-Agent.
+//               Lower-case [a-z0-9._-], <= 40 chars. The first rule runs in time linear in the length (_csBotWord:
+//               keyword occurrences + a 40-character look-back -- the same result as the regex in its comment).
+//               Read up to 256 characters; cached per User-Agent (<= 2,000 entries, cleared at every flush) under a
+//               32-bit hash of its first 512 characters, checked against a second independent hash and the length
+//               (a mismatch is classified afresh, never mixed up); the cache never keeps the string itself, only a
+//               64-slot memo of the last User-Agent of each length class (<= 64 strings of <= 256 characters).
+//               Once the cache is full, a NEW User-Agent keeps its declared name and ver but skips the token rules: a
+//               grouping class above is counted under its 'overflow' token, a named class keeps '-' (meta.ua_ovf: the
+//               requests classified beyond the cache), so a crawl that sends a fresh User-Agent with every request costs
+//               about what a repeated one costs. The declared name
+//               found here is handed back to [moon-load] (it is the same _obsAgent value), so a moon request classifies
+//               its User-Agent once, not twice.
+//     ver       VERIFIED identity, kept apart from the declared one, for a User-Agent that claims a crawler:
+//               'v'   the client IP is inside the published list of THAT crawler (not the company's other lists);
+//               'x'   it is NOT inside the loaded list (a mismatch with the loaded list -- NOT proof of spoofing: the
+//                     list may be stale or incomplete, the crawler may use addresses it does not publish);
+//               'np'  no published list is loaded for that crawler (a named crawler whose list is not in the snapshot:
+//                     meta-externalagent / -fetcher, Amazonbot, ClaudeBot, CCBot, Bytespider, YandexBot, or a listed one
+//                     whose list is missing from it);
+//               'u'   the client IP is not edge-attested, so it is not checked: verification needs a request that came
+//                     through Render's Cloudflare edge -- on Render (RENDER=true), with a cf-ray header, the IP taken
+//                     from cf-connecting-ip (the edge sets it and rejects a client-supplied one with 403; audit
+//                     2026-09-13). A direct request with forged headers, a local server, or an IP from
+//                     x-forwarded-for / the socket is 'u'. (TP_CRAWL_SOURCE_EDGE_TEST=1 = test-only stand-in for RENDER.)
+//               'err' the snapshot is absent or unreadable, so nothing can be checked;
+//               'na'  the User-Agent names none of the crawlers below (a browser, python-requests, an unnamed bot ...).
+//               The claim -> list: the declared name's list (googlebot / google-inspection -> google-common,
+//               adsbot-google / mediapartners-google -> google-special, bingbot -> bing, gptbot -> openai-gptbot,
+//               applebot -> apple, perplexitybot -> perplexity-bot, and claudebot / ccbot / bytespider / amazonbot /
+//               yandexbot / meta-external -> a list of their own, none in the snapshot today, so 'np' -- read from the
+//               whole User-Agent, so a long one cannot hide its claim), else the first crawler substring in the first
+//               256 characters (googleother / storebot -> google-common, apis-google / google-safety ->
+//               google-special, feedfetcher / google-read-aloud / site-verification / googleproducer -> google-user,
+//               oai-searchbot -> openai-searchbot, chatgpt-user -> openai-chatgpt-user, perplexity-user ->
+//               perplexity-user, bingpreview / adidxbot / msnbot -> bing, + any list key named in the snapshot).
+//               Ranges: the snapshot data/crawler-ip-ranges.json ({ "date": "YYYY-MM-DD", "lists": { "<key>": { source,
+//               creationTime } }, "operators": { "<key>": ["CIDR", ...] } }; TP_CRAWL_RANGES_FILE overrides the path),
+//               compiled once per worker into sorted numeric IPv4 / IPv6 ranges and looked up by binary search, only
+//               for a claim from an edge-attested source. No DNS, no network: the server never downloads the snapshot.
+//     bcls      for a declared browser only, whether its request headers look like a browser's: 'full'
+//               (sec-fetch-mode, sec-fetch-dest, accept-language and an Accept with text/html), 'partial' (some),
+//               'bare' (none), plus '+ch' when sec-ch-ua is present. A consistency label, NEVER "human".
+//     country   cf-ipcountry (a letter + a letter or digit, e.g. US, XX, T1; upper-cased) else '??'
+//     prefix    the client IP (getClientIp) cut to its IPv4 /24 or IPv6 /48, emitted only when that prefix made
+//               >= TP_CRAWL_SOURCE_MIN_N (default 20) requests in the worker window -- and, for a declared browser's
+//               row, only when that row itself made >= MIN_N (so one visitor never shows up next to a busy crawler
+//               prefix) -- else folded into '*'. A full IP is never kept or emitted: distinct IPs are counted by a
+//               HyperLogLog of a 32-bit hash of a per-process random salt + the IP (the salt never leaves memory).
+//               'pseudo' counts Cloudflare pseudo-IPv4 traffic (cf-connecting-ipv6 present, or an IP in 240.0.0.0/4).
+//     also      method (GET / HEAD / other), referer CLASS (none / self / search / other -- never the referer),
+//               Accept-Encoding class (br / gzip / none), latency buckets, distinct-URL HyperLogLogs, whether the URL
+//               carried a query string (never the query itself; the cache-key HyperLogLog hashes path + query).
+//   Lines: '[crawl-src] ' + JSON with v (format 1), t (kind), w, boot (a random 6-hex id per process, so workers,
+//   restarts and the two overlapping instances of a deploy stay apart), seq (this process's flush number), ts (the
+//   flush time, UTC, to the second), win, s, until, ranges (snapshot date or null), part, cols (the column legend) and
+//   rows -- at most 60 rows and 8 KB per line -- per worker window, and only when the window recorded something:
+//     src   family|declared|token|ver|bcls|country|prefix -> n, outcome counts, latency, distinct URLs / IPs,
+//           per-minute max, method / referer / encoding counts, requests with a query string. At most 1,500 keys (on
+//           the cap, once per window, rows of prefixes below the threshold are folded into '*' early; beyond that one
+//           'overflow' row per family); the top 150 rows by n are emitted plus one 'rest' row per family x declared.
+//     uurl  family|declared|token|ver -> n, distinct URLs and their HyperLogLog p=6 registers (64 base-32 characters,
+//           '0'-'9a-v'; the path hash has no salt, so windows, workers and processes merge offline by register max):
+//           the top 100 by n plus one 'rest' row per family x declared.
+//     fam   family|outcome -> n, latency, method counts, distinct URLs (HyperLogLog p=11 whose registers are emitted
+//           as base64 deflate-raw, so workers and windows merge offline by register max), repeat ratio n / distinct,
+//           requests with a query string, distinct cache keys (path + query, the same kind of HyperLogLog) and n / keys.
+//     rate  per family: n, the max requests in any one minute, the minutes with >= 1 request.
+//     cd    moon-month / moon-year: the [moon-load] city class x date class x outcome -> n.
+//     yr    moon-month / moon-year: year offset (the page's year minus the current UTC year: '<-5', '-5' .. '+5', '>+5';
+//           the server serves -5 .. +5) x outcome x agent (the [moon-load] class of the declared name) x ver -> n; the
+//           top 300 by n plus one 'rest' row per family.
+//     top   per family: Space-Saving top-32 paths (public URL paths; no query string, no fragment), n and error bound.
+//           Tracked by a 32-bit hash of the path (a collision -- about 32 in 2^32 per new path -- would count a request
+//           for the tracked path it collides with); the text is sanitised (printable ASCII, <= 160 characters) at the flush.
+//     tok   declared|token -> n, distinct User-Agent strings (HyperLogLog p=4), and ONE sanitised sample of <= 160
+//           characters, only for a User-Agent that is not browser-shaped: never for a declared browser, nor for one
+//           with a browser engine (applewebkit/, gecko/, trident/, presto/) and no crawler signature (no operator claim,
+//           no http:// / https:// / www. / @ contact) -- a phone model with 'bot' in it (CUBOT), an in-app browser
+//           (Pinterest) and the like, which _obsAgent files under a bot class.
+//   Retention: the state lives for one window (TP_MOON_LOAD_OBS_WINDOW_S, 300 s) per worker and is discarded at every
+//   flush (the window, SIGTERM and retire flushes of _mlFlush); only these aggregates reach the logs. Expires by
+//   itself: nothing is recorded from TP_CRAWL_SOURCE_OBS_UNTIL on (an ISO date, 00:00 UTC; default 2026-11-15), and
+//   each worker logs one '[crawl-src] worker=N EXPIRED' line. Kill switch: TP_CRAWL_SOURCE_OBS=0 (default ON).
+//   Lines already written stay in the Render log store for the plan's retention (about 7 days observed), after the
+//   window ends and after the expiry; neither deletes them.
+//   Hot path: no string is built and no string-keyed map is consulted for a request whose User-Agent, prefix and key
+//   were already seen in the window (numeric keys; the row texts are decoded only at the flush). State <= ~1.5 MB a
+//   worker with every cap reached, dropped at each flush (CRAWL-SOURCE-OBSERVABILITY-1 report: the measured cost).
+// =======================================================================================
+const _CS_ON = _ML_ON && (() => {
+    const v = String(process.env.TP_CRAWL_SOURCE_OBS || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
+const _CS_UNTIL = (() => {
+    const v = String(process.env.TP_CRAWL_SOURCE_OBS_UNTIL || '').trim();
+    if (/^\d{4}-\d{2}-\d{2}$/.test(v) && Number.isFinite(Date.parse(v + 'T00:00:00Z'))) return { label: v, ms: Date.parse(v + 'T00:00:00Z') };
+    if (/^\d{4}-\d{2}-\d{2}T/.test(v) && Number.isFinite(Date.parse(v))) return { label: new Date(Date.parse(v)).toISOString(), ms: Date.parse(v) };
+    return { label: '2026-11-15', ms: Date.parse('2026-11-15T00:00:00Z') };
+})();
+const _CS_MAX_KEYS = _shedEnvInt('TP_CRAWL_SOURCE_TEST_MAX_KEYS', 1500, 2, 1500);   // test-only override (a smaller cap)
+const _CS_MIN_N = _shedEnvInt('TP_CRAWL_SOURCE_MIN_N', 20, 2, 1000000);
+const _CS_TOP_ROWS = 150;
+const _CS_UA_CACHE_MAX = 2000;
+const _CS_UA_READ_LEN = 256;
+const _CS_TOKENS_MAX = 300;
+const _CS_PFX_MAX = 4096;
+const _CS_TOP_PATHS = 32;
+const _CS_PATH_MAX = 160;
+const _CS_SAMPLE_MAX = 160;
+const _CS_LINE_MAX = 8000;
+const _CS_LINE_ROWS = 60;
+const _CS_OUT_IDX = { '2xx': 0, '3xx': 1, '4xx': 2, gone: 3, shed: 4, abort: 5, '5xx': 6 };
+const _CS_OUTS = ['2xx', '3xx', '4xx', 'gone', 'shed', 'abort', '5xx'];
+const _CS_FAMS = ['moon-gone', 'hijri-gone', 'hijri-cal-gone', 'hijri-cal-future', 'moon-month', 'moon-year'];
+const _CS_FAM_IDX = { 'moon-gone': 0, 'hijri-gone': 1, 'hijri-cal-gone': 2, 'hijri-cal-future': 3, 'moon-month': 4, 'moon-year': 5 };
+const _CS_VERS = ['na', 'v', 'x', 'np', 'u', 'err'];   // 3 bits in a source key and a yr index
+const _CS_BCLS = ['bare', 'bare+ch', 'partial', 'partial+ch', 'full', 'full+ch', '-'];
+const _CS_CITIES = ['cur', 'db', 'disc', 'unk', 'na'], _CS_CITY_IDX = { cur: 0, db: 1, disc: 2, unk: 3, na: 4 };
+const _CS_DATES = ['in', 'p1y', 'pold', 'f1y', 'flate', 'na'], _CS_DATE_IDX = { in: 0, p1y: 1, pold: 2, f1y: 3, flate: 4, na: 5 };
+const _CS_YOFF = ['<-5', '-5', '-4', '-3', '-2', '-1', '0', '+1', '+2', '+3', '+4', '+5', '>+5'];   // page year - current UTC year
+// the [moon-load] agent classes (the values of _ML_AGENT_CLASS), for the yr table; a declared name maps through it
+const _CS_ACLS = ['google', 'google-ads', 'bing', 'seo', 'social', 'ai', 'apple', 'meta', 'yandex', 'other-bot', 'browser', 'unknown'];
+const _CS_DECL_ACLS = (() => {
+    const m = {};
+    for (const d of Object.keys(_ML_AGENT_CLASS)) { const i = _CS_ACLS.indexOf(_ML_AGENT_CLASS[d]); m[d] = i === -1 ? _CS_ACLS.length - 1 : i; }
+    return m;
+})();
+const _CS_YR_N = 2 * _CS_YOFF.length * 7 * _CS_ACLS.length * 8;
+const _CS_UURL_ROWS = 100, _CS_YR_ROWS = 300;
+const _CS_B32 = '0123456789abcdefghijklmnopqrstuv';
+const _CS_BOOT = require('crypto').randomBytes(3).toString('hex');   // this process, in every line (never request data)
+// The source table lives in two slabs, one slot per key (the cap + one overflow row per family, with headroom),
+//   allocated at the first record of a window and dropped at its flush: _csC Uint32 counters (layout below) +
+//   _csMs Float64 [ms sum, ms max], and _csRg Uint8 HyperLogLog registers (96 a slot: URLs p=6, then IPs p=5).
+//   Counter layout: 0 n | 1-7 outcomes | 8-17 latency buckets | 18 current minute | 19 its count | 20 per-minute max |
+//   21-23 method | 24-27 referer class | 28-30 encoding class | 31 pseudo | 32 keys merged | 33 per-minute max is a lower bound |
+//   34 requests with a query string
+//   A source key is one number: ((((family * 512 + token entry) * 8 + ver) * 8 + bcls) * 1024 + country) * 8192 + prefix
+//   index (the prefix's number in this window, _CS_STAR for '*'); an overflow row is (_CS_OVF_G + family) * 8192.
+const _CS_O = 1, _CS_B = 8, _CS_CMIN = 18, _CS_CCNT = 19, _CS_PMAX = 20, _CS_ME = 21, _CS_RF = 24, _CS_EN = 28, _CS_PS = 31,
+    _CS_KY = 32, _CS_LB = 33, _CS_QS = 34, _CS_CN = 35;
+const _CS_SLOTS = _CS_MAX_KEYS + 16;
+const _CS_STAR = _CS_PFX_MAX;          // the prefix index of '*'
+const _CS_OVF_G = 268435456;           // 2^28: above every real key group (6 x 512 x 8 x 8 x 1024 < 2^28)
+const _CS_SRC_COLS = 'family,declared,token,ver,bcls,country,prefix,n,2xx,3xx,4xx,gone,shed,abort,5xx,avg_ms,max_ms,'
+    + _ML_BUCKET_COLS + ',urls,ips,max_min,max_min_lb,get,head,other,ref_none,ref_self,ref_search,ref_other,enc_br,enc_gzip,enc_none,pseudo,keys,qs';
+// Crawler LISTS a User-Agent claim is verified against (each crawler against its own published list, never the union of
+//   a company's lists): google-common = googlebot.json (Googlebot, StoreBot, Google-InspectionTool, GoogleOther,
+//   Google-CloudVertexBot), google-special = special-crawlers.json (AdsBot-Google, Mediapartners-Google, APIs-Google,
+//   Google-Safety), google-user = user-triggered-fetchers*.json (FeedFetcher-Google, Google-Read-Aloud,
+//   Google-Site-Verification, GoogleProducer), bing = bingbot.json, openai-gptbot / openai-searchbot / openai-chatgpt-user,
+//   apple = applebot.json, perplexity-bot / perplexity-user; then the named crawlers that publish no list in the snapshot
+//   (claudebot, ccbot, bytespider, amazonbot, yandexbot, meta-external): a list key of their own that stays empty unless a
+//   snapshot names it, so their claim is 'np' (no list loaded), never 'na'.
+const _CS_OPS = ['google-common', 'google-special', 'google-user', 'bing', 'openai-gptbot', 'openai-searchbot', 'openai-chatgpt-user',
+    'apple', 'perplexity-bot', 'perplexity-user', 'claudebot', 'ccbot', 'bytespider', 'amazonbot', 'yandexbot', 'meta-external'];
+// [lower-case User-Agent substring, list index, contains 'google'] -- first match in this order wins
+const _CS_CLAIMS = [
+    ['googlebot', 0, 1], ['storebot-google', 0, 1], ['google-inspectiontool', 0, 1], ['googleother', 0, 1], ['google-cloudvertexbot', 0, 1],
+    ['adsbot-google', 1, 1], ['mediapartners-google', 1, 1], ['apis-google', 1, 1], ['google-safety', 1, 1],
+    ['feedfetcher-google', 2, 1], ['google-read-aloud', 2, 1], ['google-site-verification', 2, 1], ['googleproducer', 2, 1],
+    ['bingbot', 3, 0], ['adidxbot', 3, 0], ['bingpreview', 3, 0], ['msnbot', 3, 0],
+    ['gptbot', 4, 0], ['oai-searchbot', 5, 0], ['chatgpt-user', 6, 0],
+    ['applebot', 7, 0],
+    ['perplexitybot', 8, 0], ['perplexity-user', 9, 0],
+];
+// the list a declared name stands for: its claim, wherever in the User-Agent _obsAgent found the name
+const _CS_DECL_OP = { 'googlebot': 0, 'google-inspection': 0, 'adsbot-google': 1, 'mediapartners-google': 1, 'bingbot': 3,
+    'gptbot': 4, 'applebot': 7, 'perplexitybot': 8, 'claudebot': 10, 'ccbot': 11, 'bytespider': 12, 'amazonbot': 13, 'yandexbot': 14,
+    'meta-external': 15 };
+// Verification needs an edge-attested source (see 'ver'): on Render, behind its Cloudflare edge, Cloudflare proxying
+const _CS_EDGE_TRUST = _TP_TRUSTED_PROXY === 'cloudflare' && (String(process.env.RENDER || '').toLowerCase() === 'true'
+    || String(process.env.TP_CRAWL_SOURCE_EDGE_TEST || '') === '1');
+// the declared classes that group several products, so their rows carry a product token (a named class is its own)
+const _CS_TOKEN_DECL = new Set(['other-bot', 'unknown', 'browser', 'known-seo-crawler', 'known-social-bot']);
+const _CS_BOT_KW = ['bot', 'crawler', 'spider', 'fetcher', 'scraper', 'agent'];   // token rule 1 (_csBotWord)
+const _CS_COMPAT_RE = /compatible\s*;\s*([a-z][a-z0-9._!+ -]{0,39}?)\s*(?=[\/;)]|$)/i;
+// products that never name the client: browser engines and the browsers themselves (a browser is described by rule 4)
+const _CS_SKIP = new Set(['mozilla', 'applewebkit', 'khtml', 'gecko', 'safari', 'chrome', 'version', 'mobile',
+    'edg', 'edge', 'edga', 'edgios', 'firefox', 'fxios', 'crios', 'opr', 'opera', 'opios', 'samsungbrowser', 'yabrowser',
+    'ucbrowser', 'vivaldi', 'brave', 'chromium', 'trident', 'presto']);
+const _CS_BROWSERS = [['edg/', 'edge'], ['edga/', 'edge'], ['edgios/', 'edge'], ['opr/', 'opera'], ['opera/', 'opera'],
+    ['samsungbrowser/', 'samsung'], ['yabrowser/', 'yandex'], ['ucbrowser/', 'uc'], ['firefox/', 'firefox'], ['fxios/', 'firefox'],
+    ['crios/', 'chrome'], ['chromium/', 'chrome'], ['chrome/', 'chrome'], ['version/', 'safari']];
+// window state (cleared at every flush)
+const _csSrc = new Map();       // source key (number) -> slot
+let _csC = null, _csMs = null, _csRg = null, _csUsed = 0;
+const _csFree = [];             // slots freed by a merge (zeroed), reused first
+const _csFamRows = new Array(_CS_FAMS.length * 7);   // family x outcome -> { c: Float64Array(17), h: URL + k: cache-key registers }
+const _csFamSts = new Array(_CS_FAMS.length);        // family -> { r: rate, top-path Space-Saving slots }
+const _csCd = new Uint32Array(2 * _CS_CITIES.length * _CS_DATES.length * 7);   // moon-month / moon-year x city x date x outcome
+const _csYr = new Uint32Array(_CS_YR_N);   // moon-month / moon-year x year offset x outcome x agent class x ver
+let _csCurY = 0, _csCurYUntil = 0;        // the current UTC year, and the time it ends
+let _csSeq = 0, _csTs = null;             // this process's flushes with data; the time of the current one
+const _csTok = new Map();       // 'declared|token' -> token entry (its index e.r: registers + source key)
+const _csTokOvf = new Map();    // 'declared|overflow' -> token entry (beyond _CS_TOKENS_MAX)
+const _csTokByIdx = [];         // token entry index -> entry
+const _csUa = new Map();        // User-Agent hash (int32) -> { te, op, h, h2, len, sm (a sample may be taken), uo (overflow) }
+const _csUaMemoS = new Array(64), _csUaMemoE = new Array(64);   // length & 63 -> the last User-Agent (<= 256 chars) and its entry
+const _csPfx = new Map();       // prefix number (IPv4: the /24; IPv6: 2^24 + the /48; -1 unknown) -> prefix index
+const _csPfxStr = [];           // prefix index -> its text (built once a window)
+let _csPfxCnt = null, _csPfxN = 0;   // prefix index -> requests (allocated per window); prefixes registered
+let _csTokRg = null, _csTokN = 0;   // token HyperLogLog registers, 16 a token entry (allocated per window)
+let _csTotal = 0, _csCompactN = 0, _csOvf = 0, _csPfxFull = 0, _csUaOvf = 0, _csUnatt = 0;
+let _csStarted = false, _csExpired = false;
+let _csRanges = [];             // list index -> compiled ranges (undefined: none loaded for that list)
+let _csRangesDate = null;
+let _csRangesState = 'absent';  // 'ok' | 'absent' | 'unreadable': anything but 'ok' makes every claim 'err'
+const _csW6 = new Uint32Array(4);   // scratch: the IPv6 address being looked up
+const _csG6 = new Uint16Array(8), _csT6 = new Uint16Array(8);
+let _csIp4 = -1;                // scratch: the client IPv4 of the request being recorded, or -1
+// ---- hashing + HyperLogLog ----
+const _CS_FNV0 = 0x811c9dc5 | 0;
+function _csFnv(s, h) {   // FNV-1a 32 over UTF-16 code units, continued from state h
+    for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h;
+}
+function _csFnvAt(s, i, e, h) {   // the same over s[i, e)
+    for (; i < e; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619); }
+    return h;
+}
+function _csMix(h) {      // murmur3 finaliser, so every bit of the FNV state reaches the register index
+    h ^= h >>> 16; h = Math.imul(h, 0x85ebca6b); h ^= h >>> 13; h = Math.imul(h, 0xc2b2ae35); h ^= h >>> 16;
+    return h >>> 0;
+}
+// A table keeps only flat copies of the strings it stores (never a slice that would pin the request's URL or headers).
+const _csFlat = (x) => (' ' + x).slice(1);
+// The User-Agent cache key: a 32-bit FNV-1a of the first 512 characters (int32, a small-integer Map key); a second,
+//   independent 32-bit hash (_csUaH2) and the length are checked on every hit, so two strings can share a key but never
+//   an entry. Also leaves the hash the distinct-User-Agent HyperLogLog uses in _csUaH.
+let _csUaH = 0, _csUaH2 = 0;
+function _csUaKey(ua) {
+    const L = ua.length < 512 ? ua.length : 512;
+    let h1 = _CS_FNV0, h2 = 0x9747b28c ^ ua.length;
+    for (let i = 0; i < L; i++) {
+        const c = ua.charCodeAt(i);
+        h1 ^= c; h1 = Math.imul(h1, 16777619);
+        h2 = Math.imul(h2 ^ c, 0x5bd1e995); h2 ^= h2 >>> 15;
+    }
+    _csUaH = _csMix(h1 ^ ua.length);
+    _csUaH2 = h2 | 0;
+    return h1 | 0;
+}
+// the FNV state after a per-process random 64-bit salt: an IP hash continues from it (salt + IP); never logged
+const _csIpH0 = (() => {
+    let h = _CS_FNV0;
+    const b = require('crypto').randomBytes(8);
+    for (let i = 0; i < b.length; i++) { h ^= b[i]; h = Math.imul(h, 16777619); }
+    return h;
+})();
+function _csHllAdd(reg, off, p, h) {
+    const w = (h << p) >>> 0;
+    const r = w === 0 ? 33 - p : Math.clz32(w) + 1;
+    const i = off + (h >>> (32 - p));
+    if (r > reg[i]) reg[i] = r;
+}
+function _csHllEst(reg, off, p) {
+    const m = 1 << p;
+    let s = 0, z = 0;
+    for (let i = 0; i < m; i++) { const v = reg[off + i]; s += Math.pow(2, -v); if (v === 0) z++; }
+    const a = m === 16 ? 0.673 : m === 32 ? 0.697 : m === 64 ? 0.709 : 0.7213 / (1 + 1.079 / m);
+    let e = a * m * m / s;
+    if (e <= 2.5 * m && z > 0) e = m * Math.log(m / z);
+    else if (e > 143165576.53) e = -4294967296 * Math.log(1 - e / 4294967296);
+    return Math.round(e);
+}
+// ---- IP parsing (no allocation for IPv4) ----
+function _csParse4(s) {
+    if (typeof s !== 'string' || s.length < 7 || s.length > 15) return -1;
+    let n = 0, oct = 0, dots = 0, dig = 0;
+    for (let i = 0; i < s.length; i++) {
+        const c = s.charCodeAt(i);
+        if (c === 46) { if (!dig || oct > 255 || ++dots > 3) return -1; n = n * 256 + oct; oct = 0; dig = 0; }
+        else if (c >= 48 && c <= 57) { oct = oct * 10 + (c - 48); if (++dig > 3) return -1; }
+        else return -1;
+    }
+    return (dots === 3 && dig && oct <= 255) ? n * 256 + oct : -1;
+}
+function _csHex(x) {
+    if (x.length < 1 || x.length > 4) return -1;
+    let v = 0;
+    for (let i = 0; i < x.length; i++) {
+        const c = x.charCodeAt(i);
+        const d = (c >= 48 && c <= 57) ? c - 48 : (c >= 97 && c <= 102) ? c - 87 : (c >= 65 && c <= 70) ? c - 55 : -1;
+        if (d < 0) return -1;
+        v = v * 16 + d;
+    }
+    return v;
+}
+// IPv6 literal -> out (4 x 32-bit words, most significant first); false when s is not one
+function _csParse6(s, out) {
+    if (typeof s !== 'string' || s.length < 2 || s.length > 64 || s.indexOf(':') === -1) return false;
+    let t = s;
+    const pc = t.indexOf('%'); if (pc !== -1) t = t.slice(0, pc);
+    const dbl = t.indexOf('::');
+    if (dbl !== -1 && t.indexOf('::', dbl + 1) !== -1) return false;
+    const a = dbl === -1 ? t.split(':') : (dbl === 0 ? [] : t.slice(0, dbl).split(':'));
+    const b = (dbl === -1 || dbl + 2 >= t.length) ? [] : t.slice(dbl + 2).split(':');
+    let na = 0, nb = 0;
+    for (let i = 0; i < a.length; i++) {
+        if (dbl === -1 && i === a.length - 1 && a[i].indexOf('.') !== -1) {   // an IPv4 tail
+            const v = _csParse4(a[i]); if (v < 0 || na > 6) return false;
+            _csG6[na++] = Math.floor(v / 65536); _csG6[na++] = v % 65536; continue;
+        }
+        const v = _csHex(a[i]); if (v < 0 || na >= 8) return false;
+        _csG6[na++] = v;
+    }
+    for (let i = 0; i < b.length; i++) {
+        if (i === b.length - 1 && b[i].indexOf('.') !== -1) {
+            const v = _csParse4(b[i]); if (v < 0 || nb > 6) return false;
+            _csT6[nb++] = Math.floor(v / 65536); _csT6[nb++] = v % 65536; continue;
+        }
+        const v = _csHex(b[i]); if (v < 0 || nb >= 8) return false;
+        _csT6[nb++] = v;
+    }
+    if (dbl === -1) { if (na !== 8) return false; }
+    else {
+        if (na + nb > 7) return false;
+        for (let i = na; i < 8 - nb; i++) _csG6[i] = 0;
+        for (let i = 0; i < nb; i++) _csG6[8 - nb + i] = _csT6[i];
+    }
+    for (let k = 0; k < 4; k++) out[k] = _csG6[2 * k] * 65536 + _csG6[2 * k + 1];
+    return true;
+}
+// ---- the crawler-range snapshot ----
+const _csCmpQ = (x, y) => { for (let k = 0; k < 4; k++) { const d = x[k] - y[k]; if (d !== 0) return d; } return 0; };
+function _csCidr(str, v4, v6) {
+    const s = String(str == null ? '' : str).trim();
+    const sl = s.indexOf('/');
+    const addr = sl === -1 ? s : s.slice(0, sl);
+    const ls = sl === -1 ? '' : s.slice(sl + 1);
+    if (sl !== -1 && !/^\d{1,3}$/.test(ls)) return false;
+    const ip4 = _csParse4(addr);
+    if (ip4 >= 0) {
+        const len = sl === -1 ? 32 : +ls;
+        if (len > 32) return false;
+        const size = Math.pow(2, 32 - len), lo = Math.floor(ip4 / size) * size;
+        v4.push([lo, lo + size - 1]);
+        return true;
+    }
+    const w = new Uint32Array(4);
+    if (!_csParse6(addr, w)) return false;
+    const len = sl === -1 ? 128 : +ls;
+    if (len > 128) return false;
+    const lo = [0, 0, 0, 0], hi = [0, 0, 0, 0];
+    for (let k = 0; k < 4; k++) {
+        const bits = Math.max(0, Math.min(32, len - 32 * k));
+        const mask = bits === 0 ? 0 : bits === 32 ? 0xffffffff : (0xffffffff << (32 - bits)) >>> 0;
+        lo[k] = (w[k] & mask) >>> 0;
+        hi[k] = (lo[k] | (~mask >>> 0)) >>> 0;
+    }
+    v6.push([lo, hi]);
+    return true;
+}
+function _csCompile(list) {
+    const v4 = [], v6 = [];
+    let bad = 0;
+    for (let i = 0; i < list.length && i < 50000; i++) if (!_csCidr(list[i], v4, v6)) bad++;
+    v4.sort((x, y) => x[0] - y[0]);
+    const m4 = [];
+    for (const r of v4) { const t = m4[m4.length - 1]; if (t && r[0] <= t[1] + 1) { if (r[1] > t[1]) t[1] = r[1]; } else m4.push([r[0], r[1]]); }
+    v6.sort((x, y) => _csCmpQ(x[0], y[0]));
+    const m6 = [];
+    for (const r of v6) { const t = m6[m6.length - 1]; if (t && _csCmpQ(r[0], t[1]) <= 0) { if (_csCmpQ(r[1], t[1]) > 0) t[1] = r[1]; } else m6.push([r[0], r[1]]); }
+    const c = { n4: m4.length, a4: new Float64Array(m4.length), b4: new Float64Array(m4.length),
+        n6: m6.length, a6: new Float64Array(4 * m6.length), b6: new Float64Array(4 * m6.length), bad };
+    m4.forEach((r, i) => { c.a4[i] = r[0]; c.b4[i] = r[1]; });
+    m6.forEach((r, i) => { for (let k = 0; k < 4; k++) { c.a6[4 * i + k] = r[0][k]; c.b6[4 * i + k] = r[1][k]; } });
+    return c;
+}
+function _csIn4(r, v) {
+    let lo = 0, hi = r.n4 - 1, f = -1;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (r.a4[m] <= v) { f = m; lo = m + 1; } else hi = m - 1; }
+    return f !== -1 && v <= r.b4[f];
+}
+function _csCmp6(arr, i, w) { const o = 4 * i; for (let k = 0; k < 4; k++) { const d = arr[o + k] - w[k]; if (d !== 0) return d; } return 0; }
+function _csIn6(r, w) {
+    let lo = 0, hi = r.n6 - 1, f = -1;
+    while (lo <= hi) { const m = (lo + hi) >> 1; if (_csCmp6(r.a6, m, w) <= 0) { f = m; lo = m + 1; } else hi = m - 1; }
+    return f !== -1 && _csCmp6(r.b6, f, w) >= 0;
+}
+// Loads the snapshot once per worker. Returns a short summary for the ENABLED line (operator range counts, never a range).
+function _csLoadRanges() {
+    const file = process.env.TP_CRAWL_RANGES_FILE ? String(process.env.TP_CRAWL_RANGES_FILE) : path.join(ROOT, 'data', 'crawler-ip-ranges.json');
+    let raw;
+    try { raw = fs.readFileSync(file, 'utf8'); } catch (_e) { _csRangesState = 'absent'; return 'ranges_error=absent'; }   // every claim: 'err'
+    let j = null;
+    try { j = JSON.parse(raw); } catch (_e) { j = null; }
+    if (!j || typeof j !== 'object' || !/^\d{4}-\d{2}-\d{2}$/.test(String(j.date || '')) || !j.operators || typeof j.operators !== 'object') { _csRangesState = 'unreadable'; return 'ranges_error=unreadable'; }
+    const out = [];
+    for (const op of Object.keys(j.operators).sort()) {
+        const list = j.operators[op];
+        if (!/^[a-z0-9][a-z0-9._-]{2,39}$/.test(op) || !Array.isArray(list)) continue;
+        let i = _CS_OPS.indexOf(op);
+        if (i === -1) { i = _CS_OPS.length; _CS_OPS.push(op); _CS_CLAIMS.push([op, i, op.indexOf('google') !== -1 ? 1 : 0]); }   // a snapshot list: its key is the claim
+        const c = _csCompile(list);
+        if (c.n4 + c.n6 > 0) _csRanges[i] = c;                     // an operator with no usable range stays 'np'
+        out.push(op + ':' + c.n4 + '+' + c.n6 + (c.bad ? '-bad' + c.bad : ''));
+    }
+    _csRangesDate = String(j.date);
+    _csRangesState = 'ok';
+    return 'ops=' + (out.join(',') || '-') + ' edge_trust=' + (_CS_EDGE_TRUST ? 1 : 0);
+}
+// ---- the declared identity (per raw User-Agent string) ----
+const _csTokSafe = (s) => s.toLowerCase().replace(/[^a-z0-9._-]+/g, '-').replace(/^[-._]+|[-._]+$/g, '').slice(0, 40);
+// Token rule 1 on the lower-cased User-Agent u: exactly the match of
+//   /[a-z0-9][a-z0-9._-]{0,39}(?:bot|crawler|spider|fetcher|scraper|agent)\b/i (leftmost start, then the farthest keyword
+//   that start reaches), or null -- but found from the keyword occurrences (indexOf) and a <= 40-character look-back, so
+//   it is linear in the length: the regex itself retries ~40 x 6 steps at every position of a long [a-z0-9._-] run
+//   (tens of microseconds on a 250-character one). u has the positions of the raw string (a header is Latin-1, which
+//   lower-cases one character to one). The smoke checks it against the regex.
+function _csBotWord(u) {
+    let bs = -1, bq = -1, be = -1;
+    for (let w = 0; w < _CS_BOT_KW.length; w++) {
+        const kw = _CS_BOT_KW[w];
+        for (let q = u.indexOf(kw, 1); q !== -1; q = u.indexOf(kw, q + 1)) {
+            const e = q + kw.length;
+            if (e < u.length) { const c = u.charCodeAt(e); if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57) || c === 95) continue; }   // no \b
+            let s = -1;
+            for (let i = q - 1; i >= 0 && i >= q - 40; i--) {
+                const c = u.charCodeAt(i);
+                if ((c >= 97 && c <= 122) || (c >= 65 && c <= 90) || (c >= 48 && c <= 57)) s = i;
+                else if (c !== 46 && c !== 95 && c !== 45) break;
+            }
+            if (s !== -1 && (bs === -1 || s < bs || (s === bs && q > bq))) { bs = s; bq = q; be = e; }
+        }
+    }
+    return bs === -1 ? null : u.slice(bs, be);
+}
+function _csToken(s, u, d) {
+    if (!s) return 'empty';
+    const bw = _csBotWord(u);
+    if (bw !== null) { const t = _csTokSafe(bw); if (t) return t; }
+    const m = u.indexOf('compatible') === -1 ? null : _CS_COMPAT_RE.exec(s);
+    if (m) { const t = _csTokSafe(m[1]); if (t && t.indexOf('msie') !== 0) return t; }
+    const parts = s.replace(/\([^)]*\)?/g, ' ').split(/\s+/);
+    for (let i = 0; i < parts.length; i++) {
+        const sl = parts[i].indexOf('/');
+        if (sl <= 0) continue;
+        const t = _csTokSafe(parts[i].slice(0, sl));
+        if (t && !_CS_SKIP.has(t)) return t;
+    }
+    if (d === 'browser') {
+        let fam = 'other', major = 'x';
+        for (let i = 0; i < _CS_BROWSERS.length; i++) {
+            const k = u.indexOf(_CS_BROWSERS[i][0]);
+            if (k === -1) continue;
+            if (_CS_BROWSERS[i][1] === 'safari' && u.indexOf('safari/') === -1) continue;
+            fam = _CS_BROWSERS[i][1];
+            const mm = /^\d{1,3}/.exec(u.slice(k + _CS_BROWSERS[i][0].length, k + _CS_BROWSERS[i][0].length + 3));
+            if (mm) major = mm[0];
+            break;
+        }
+        const os = u.indexOf('windows') !== -1 ? 'windows' : u.indexOf('android') !== -1 ? 'android'
+            : (u.indexOf('iphone') !== -1 || u.indexOf('ipad') !== -1 || u.indexOf('ipod') !== -1) ? 'ios'
+            : (u.indexOf('macintosh') !== -1 || u.indexOf('mac os x') !== -1) ? 'mac'
+            : u.indexOf('cros ') !== -1 ? 'cros' : u.indexOf('linux') !== -1 ? 'linux' : 'other';
+        return 'browser:' + fam + '-' + major + ':' + os;
+    }
+    const w = /[a-z0-9][a-z0-9._-]{0,39}/.exec(u);
+    return w ? _csTokSafe(w[0]) || 'misc' : 'misc';
+}
+const _csAcls = (d) => { const i = _CS_DECL_ACLS[d]; return i === undefined ? _CS_ACLS.length - 1 : i; };
+function _csTokOvfEntry(d) {      // the 'overflow' token entry of a declared class (token cap, or the User-Agent cache full)
+    const ko = d + '|overflow';
+    let e = _csTokOvf.get(ko);
+    if (e === undefined) { e = { k: ko, d, b: d === 'browser', o: true, a: _csAcls(d), n: 0, r: _csTokSlot(), s: null }; _csTokOvf.set(ko, e); _csTokByIdx[e.r] = e; }
+    return e;
+}
+function _csTokEntry(d, tok) {
+    const k = d + '|' + tok;
+    let e = _csTok.get(k);
+    if (e !== undefined) return e;
+    if (_csTok.size >= _CS_TOKENS_MAX) return _csTokOvfEntry(d);      // beyond the cap: one overflow entry per declared class
+    e = { k: _csFlat(k), d, b: d === 'browser', o: false, a: _csAcls(d), n: 0, r: _csTokSlot(), s: null };
+    _csTok.set(e.k, e);
+    _csTokByIdx[e.r] = e;
+    return e;
+}
+function _csTokSlot() {           // the index of a new token entry: <= 300 + one overflow entry per declared class (< 512)
+    if (_csTokRg === null) { _csTokRg = new Uint8Array((_CS_TOKENS_MAX + 64) * 16); _csTokN = 0; }
+    return _csTokN < _CS_TOKENS_MAX + 64 ? _csTokN++ : _CS_TOKENS_MAX + 63;   // (cannot run out: <= 20 declared classes)
+}
+function _csUaClaim(d, u) {      // the crawler list the User-Agent claims (an index into _CS_OPS), -1 for none: see 'ver' above
+    const o = _CS_DECL_OP[d];
+    if (o !== undefined) return o;
+    if (!u) return -1;
+    const g = u.indexOf('google') !== -1;     // every Google claim contains it: skip those when it is absent
+    for (let i = 0; i < _CS_CLAIMS.length; i++) {
+        const c = _CS_CLAIMS[i];
+        if ((g || c[2] !== 1) && u.indexOf(c[0]) !== -1) return c[1];
+    }
+    return -1;
+}
+// browser-shaped: a browser engine and no crawler signature (no operator claim, no contact URL / address); no sample then
+function _csBrowserShaped(u, op) {
+    return op < 0 && (u.indexOf('applewebkit/') !== -1 || u.indexOf('gecko/') !== -1 || u.indexOf('trident/') !== -1 || u.indexOf('presto/') !== -1)
+        && u.indexOf('http://') === -1 && u.indexOf('https://') === -1 && u.indexOf('www.') === -1 && u.indexOf('@') === -1;
+}
+// full: the token rules (a User-Agent the cache has room for). Otherwise (the cache is full; uo) no token rules: a grouping
+//   class goes to its 'overflow' token, a named class keeps its own '-' token (nothing is lost there), and no sample
+function _csUaInfo(ua, h, h2, full) {
+    const d = _obsAgent(ua);
+    const grp = _CS_TOKEN_DECL.has(d), od = _CS_DECL_OP[d];
+    if (!full && od !== undefined) return { te: _csTokEntry(d, '-'), op: od, h, h2, len: ua.length, sm: false, uo: true };
+    const s = ua.length > _CS_UA_READ_LEN ? ua.slice(0, _CS_UA_READ_LEN) : ua;   // read up to 256 characters
+    const u = s.toLowerCase();
+    const op = _csUaClaim(d, u);
+    if (!full) return { te: grp ? _csTokOvfEntry(d) : _csTokEntry(d, '-'), op, h, h2, len: ua.length, sm: false, uo: true };
+    return { te: _csTokEntry(d, grp ? _csToken(s, u, d) : '-'), op, h, h2, len: ua.length, sm: d !== 'browser' && ua !== '' && !_csBrowserShaped(u, op), uo: false };
+}
+// one sanitised raw sample (User-Agents that are not browser-shaped only): printable ASCII, no quote / backslash, <= 160 characters
+function _csSample(ua) {
+    // an address or e-mail a client wrote INTO its User-Agent is masked too (never an IP or a mailbox in a sample)
+    const s = (ua.length > 400 ? ua.slice(0, 400) : ua).replace(/[\x00-\x1f\x7f]+/g, '').replace(/\s+/g, ' ')
+        .replace(/"/g, "'").replace(/\\/g, '/').replace(/[^\x20-\x7e]/g, '?')
+        .replace(/\b\d{1,3}(?:\.\d{1,3}){3}\b/g, 'n.n.n.n')
+        .replace(/[0-9a-f]{1,4}(?::[0-9a-f]{0,4}){2,7}/gi, 'ipv6')
+        .replace(/[a-z0-9._%+-]+@([a-z0-9.-]+\.[a-z]{2,})/gi, 'x@$1').trim();
+    return _csFlat(s.length > _CS_SAMPLE_MAX ? s.slice(0, _CS_SAMPLE_MAX) : s);
+}
+// ---- request classes ----
+function _csCountryIdx(v) {      // cf-ipcountry -> 0 ('??') or 1 + letter x 36 + letter-or-digit (upper-cased)
+    if (typeof v !== 'string' || v.length !== 2) return 0;
+    let a = v.charCodeAt(0), b = v.charCodeAt(1);
+    if (a >= 97 && a <= 122) a -= 32;
+    if (b >= 97 && b <= 122) b -= 32;
+    if (a < 65 || a > 90) return 0;
+    const bv = (b >= 48 && b <= 57) ? b - 48 : (b >= 65 && b <= 90) ? b - 55 : -1;
+    return bv < 0 ? 0 : 1 + (a - 65) * 36 + bv;
+}
+const _csCountryStr = (i) => { if (i === 0) return '??'; const x = i - 1, b = x % 36; return String.fromCharCode(65 + (x - b) / 36, b < 10 ? 48 + b : 55 + b); };
+// getClientIp(req), with a fast path for the usual case -- a plain dotted-quad public IPv4 in cf-connecting-ip -- which
+//   getClientIp would return unchanged (_normIpText leaves such a string as it is and _isNonPublicIpText says public
+//   for exactly the ranges _csPrivate4 rejects). Anything else goes through getClientIp itself. Sets _csIp4.
+function _csPrivate4(v) {
+    const a = Math.floor(v / 16777216), b = Math.floor(v / 65536) % 256;
+    return a === 0 || a === 10 || a === 127 || (a === 172 && b >= 16 && b <= 31) || (a === 192 && b === 168)
+        || (a === 169 && b === 254) || (a === 100 && b >= 64 && b <= 127);
+}
+function _csClientIp(req, h) {
+    if (_TP_TRUSTED_PROXY === 'cloudflare') {
+        const cf = h['cf-connecting-ip'];
+        if (typeof cf === 'string') { const v = _csParse4(cf); if (v >= 0 && !_csPrivate4(v)) { _csIp4 = v; return cf; } }
+    }
+    const ip = getClientIp(req);
+    _csIp4 = _csParse4(ip);
+    return ip;
+}
+// edge-attested source (see 'ver'): this process trusts the edge (on Render), the request carries a cf-ray, and the IP being
+//   checked is the one in cf-connecting-ip (not x-forwarded-for, not the socket)
+function _csEdgeAttested(h, ip) {
+    if (!_CS_EDGE_TRUST) return false;
+    const ray = h['cf-ray'], cf = h['cf-connecting-ip'];
+    if (typeof ray !== 'string' || ray === '' || typeof cf !== 'string' || cf === '') return false;
+    return ip === cf || _normIpText(cf) === _normIpText(ip);
+}
+function _csRefClass(r, host) {   // 0 none, 1 self, 2 search, 3 other -- the referer itself is never kept
+    if (typeof r !== 'string' || r === '') return 0;
+    const s = r.indexOf('://');
+    if (s === -1 || s > 10) return 3;
+    let e = s + 3;
+    const L = Math.min(r.length, s + 3 + 255);
+    while (e < L) { const c = r.charCodeAt(e); if (c === 47 || c === 58 || c === 63 || c === 35 || c === 64) break; e++; }
+    const hn = r.slice(s + 3, e).toLowerCase();
+    if (hn === 'timesprayers.com' || hn.endsWith('.timesprayers.com') || (host !== '' && hn === host)) return 1;
+    if (hn.indexOf('google.') !== -1 || hn.indexOf('bing.') !== -1 || hn.indexOf('yandex.') !== -1
+        || hn.indexOf('duckduckgo.') !== -1 || hn.indexOf('baidu.') !== -1 || hn.indexOf('yahoo.') !== -1) return 2;
+    return 3;
+}
+function _csPathKey(p) {          // a public URL path as kept in the top-paths table: printable ASCII, <= 160 characters
+    let s = p;
+    const f = s.indexOf('#'); if (f !== -1) s = s.slice(0, f);
+    if (!/^[\x21-\x7e]*$/.test(s) || s.indexOf('"') !== -1 || s.indexOf('\\') !== -1) s = s.replace(/[^\x21-\x7e]|["\\]/g, '?');
+    return s.length > _CS_PATH_MAX ? s.slice(0, _CS_PATH_MAX - 1) + '~' : s;
+}
+// ---- the tables ----
+function _csSlot() {               // a zeroed slot, or -1 (cannot happen below _CS_SLOTS keys)
+    if (_csC === null) { _csC = new Uint32Array(_CS_SLOTS * _CS_CN); _csMs = new Float64Array(_CS_SLOTS * 2); _csRg = new Uint8Array(_CS_SLOTS * 96); _csUsed = 0; _csFree.length = 0; }
+    const s = _csFree.length ? _csFree.pop() : (_csUsed < _CS_SLOTS ? _csUsed++ : -1);
+    if (s >= 0) _csC[s * _CS_CN + _CS_KY] = 1;
+    return s;
+}
+function _csMerge(t, s) {          // fold slot s into slot t, then free s
+    const a = t * _CS_CN, b = s * _CS_CN;
+    for (let i = 0; i < _CS_CMIN; i++) _csC[a + i] += _csC[b + i];          // n, outcomes, buckets
+    if (_csC[b + _CS_PMAX] > _csC[a + _CS_PMAX]) _csC[a + _CS_PMAX] = _csC[b + _CS_PMAX];   // a merged row's per-minute max: a lower bound
+    for (let i = _CS_ME; i <= _CS_KY; i++) _csC[a + i] += _csC[b + i];
+    _csC[a + _CS_QS] += _csC[b + _CS_QS];
+    _csC[a + _CS_LB] = 1;
+    _csMs[2 * t] += _csMs[2 * s]; if (_csMs[2 * s + 1] > _csMs[2 * t + 1]) _csMs[2 * t + 1] = _csMs[2 * s + 1];
+    const ra = t * 96, rb = s * 96;
+    for (let i = 0; i < 96; i++) if (_csRg[rb + i] > _csRg[ra + i]) _csRg[ra + i] = _csRg[rb + i];
+    _csC.fill(0, b, b + _CS_CN); _csMs[2 * s] = 0; _csMs[2 * s + 1] = 0; _csRg.fill(0, rb, rb + 96);
+    _csFree.push(s);
+}
+// a source key whose prefix is real and below the threshold -> the same key with '*' (else -1)
+function _csColdStar(k) {
+    if (k >= _CS_OVF_G * 8192) return -1;
+    const pi = k % 8192;
+    return (pi < _CS_STAR && _csPfxCnt[pi] < _CS_MIN_N) ? k - pi + _CS_STAR : -1;
+}
+// the same, and also a declared browser's row (bcls set: the 8-value field above the country) that made < MIN_N requests
+//   itself -- used where whole rows are folded (the flush, the compaction), never to route a new request
+function _csFoldKey(k, slot) {
+    const k2 = _csColdStar(k);
+    if (k2 >= 0 || k >= _CS_OVF_G * 8192) return k2;
+    const pi = k % 8192;
+    return (pi < _CS_STAR && Math.floor(k / 8388608) % 8 < 6 && _csC[slot * _CS_CN] < _CS_MIN_N) ? k - pi + _CS_STAR : -1;
+}
+// On the key cap, once per window: fold the rows of prefixes still below the threshold (and the small browser rows)
+//   into their group's '*' row (what the flush does anyway). From then on a NEW key of a prefix below the threshold goes
+//   straight to its group's '*' row, so a prefix that crosses the threshold later in that window keeps its earlier
+//   requests in '*' (its own row then counts from the crossing on; meta.compact says when this happened).
+function _csCompact() {
+    _csCompactN++;
+    const moved = [];
+    for (const [k, slot] of _csSrc) { const k2 = _csFoldKey(k, slot); if (k2 >= 0) moved.push(k, k2); }
+    for (let i = 0; i < moved.length; i += 2) {
+        const k = moved[i], k2 = moved[i + 1], slot = _csSrc.get(k);
+        _csSrc.delete(k);
+        const t = _csSrc.get(k2);
+        if (t === undefined) _csSrc.set(k2, slot); else _csMerge(t, slot);
+    }
+}
+function _csSrcRow(key, fi) {      // the slot of a source key (-1: none)
+    let slot = _csSrc.get(key);
+    if (slot !== undefined) return slot;
+    if (_csCompactN === 0 && _csSrc.size >= _CS_MAX_KEYS) _csCompact();
+    if (_csCompactN > 0) {                                          // after the compaction: a cold prefix joins its group's '*' row
+        const k2 = _csColdStar(key);
+        if (k2 >= 0) { key = k2; slot = _csSrc.get(key); if (slot !== undefined) return slot; }
+    }
+    if (_csSrc.size >= _CS_MAX_KEYS) {                               // one overflow row per family (<= 6 extra keys)
+        _csOvf++;
+        key = (_CS_OVF_G + fi) * 8192;
+        slot = _csSrc.get(key);
+        if (slot !== undefined) return slot;
+    }
+    slot = _csSlot();
+    if (slot >= 0) _csSrc.set(key, slot);
+    return slot;
+}
+function _csFamState(fi) {
+    let s = _csFamSts[fi];
+    if (s === undefined) {
+        s = { r: new Float64Array(5), slot: new Map(), hk: new Int32Array(_CS_TOP_PATHS), path: new Array(_CS_TOP_PATHS),
+            cnt: new Float64Array(_CS_TOP_PATHS), err: new Float64Array(_CS_TOP_PATHS), used: 0 };
+        _csFamSts[fi] = s;
+    }
+    return s;
+}
+// Space-Saving over the path hash hk (int32): an untracked path replaces the smallest counter (count = min + 1,
+//   error = min). own = pp is the request's own URL string (no query / fragment cut off), so keeping it pins nothing
+//   larger; a cut one, or one longer than 160 characters, is copied (at most 161 characters), so a table never pins
+//   a URL with its query or more than 161 characters a slot.
+function _csTopAdd(s, hk, pp, own) {
+    const i = s.slot.get(hk);
+    if (i !== undefined) { s.cnt[i]++; return; }
+    const path = (own && pp.length <= _CS_PATH_MAX) ? pp : _csFlat(pp.length > _CS_PATH_MAX ? pp.slice(0, _CS_PATH_MAX + 1) : pp);
+    if (s.used < _CS_TOP_PATHS) { const j = s.used++; s.hk[j] = hk; s.path[j] = path; s.cnt[j] = 1; s.err[j] = 0; s.slot.set(hk, j); return; }
+    let m = 0;
+    for (let j = 1; j < _CS_TOP_PATHS; j++) if (s.cnt[j] < s.cnt[m]) m = j;
+    s.slot.delete(s.hk[m]);
+    s.hk[m] = hk; s.path[m] = path; s.err[m] = s.cnt[m]; s.cnt[m]++;
+    s.slot.set(hk, m);
+}
+// One recorded request (called at close by _mlRecord, inside a try).
+function _csRecord(req, res, p, fam, out, ms, city, date, rawUrl) {
+    if (_csExpired) return;
+    const fi = _CS_FAM_IDX[fam];
+    if (fi === undefined) return;
+    const now = Date.now();
+    if (now >= _CS_UNTIL.ms) { _csExpire(); return; }
+    const h = req.headers;
+    const ua = typeof h['user-agent'] === 'string' ? h['user-agent'] : '';
+    const ml = ua.length & 63;
+    let ue = (ua.length <= _CS_UA_READ_LEN && _csUaMemoS[ml] === ua) ? _csUaMemoE[ml] : undefined;
+    if (ue === undefined) {
+        const uk = _csUaKey(ua);
+        ue = _csUa.get(uk);
+        if (ue === undefined || ue.h2 !== _csUaH2 || ue.len !== ua.length) {
+            // a new User-Agent: the token rules while the cache has room (then cached), else its class's overflow token
+            const room = _csUa.size < _CS_UA_CACHE_MAX;
+            const fresh = _csUaInfo(ua, _csUaH, _csUaH2, room || ue !== undefined);
+            if (ue === undefined && room && ua.length <= 512) _csUa.set(uk, fresh);   // > 512: classified afresh (the key hashes 512)
+            ue = fresh;
+        }
+        if (ua.length <= _CS_UA_READ_LEN) { _csUaMemoS[ml] = ua; _csUaMemoE[ml] = ue; }
+    }
+    if (ue.uo) _csUaOvf++;
+    const te = ue.te;
+    // network source: the /24 or /48 only, interned once per window
+    const ip = _csClientIp(req, h);
+    const v4 = _csIp4;
+    let kind = 0, pn = -1;
+    if (v4 >= 0) { kind = 4; pn = v4 >>> 8; }
+    else if (_csParse6(ip, _csW6)) { kind = 6; pn = 16777216 + _csW6[0] * 65536 + (_csW6[1] >>> 16); }
+    let pi = _csPfx.get(pn);
+    if (pi === undefined) {
+        if (_csPfxN < _CS_PFX_MAX) {
+            pi = _csPfxN++;
+            _csPfx.set(pn, pi);
+            _csPfxStr[pi] = kind === 4 ? (v4 >>> 24) + '.' + ((v4 >>> 16) & 255) + '.' + ((v4 >>> 8) & 255) + '.0/24'
+                : kind === 6 ? (_csW6[0] >>> 16).toString(16) + ':' + (_csW6[0] & 0xffff).toString(16) + ':' + (_csW6[1] >>> 16).toString(16) + '::/48' : 'unknown';
+        } else { pi = _CS_STAR; _csPfxFull++; }
+    }
+    if (pi < _CS_STAR) { if (_csPfxCnt === null) _csPfxCnt = new Uint32Array(_CS_PFX_MAX); _csPfxCnt[pi]++; }
+    // verified identity, only when the User-Agent claims a crawler: err (no usable snapshot) / u (source not edge-attested) /
+    //   np (no list for it) / v (inside its list) / x (not inside the loaded list)
+    let vi = 0;
+    if (ue.op >= 0) {
+        if (_csRangesState !== 'ok') vi = 5;
+        else if (!_csEdgeAttested(h, ip)) { vi = 4; _csUnatt++; }
+        else {
+            const r = _csRanges[ue.op];
+            vi = r === undefined ? 3 : ((kind === 4 ? _csIn4(r, v4) : kind === 6 ? _csIn6(r, _csW6) : false) ? 1 : 2);
+        }
+    }
+    let bi = 6;
+    if (te.b) {
+        const a = h.accept;
+        const k = (h['sec-fetch-mode'] !== undefined ? 1 : 0) + (h['sec-fetch-dest'] !== undefined ? 1 : 0)
+            + (h['accept-language'] ? 1 : 0) + ((typeof a === 'string' && a.indexOf('text/html') !== -1) ? 1 : 0);
+        bi = (k === 4 ? 4 : k === 0 ? 0 : 2) + (h['sec-ch-ua'] !== undefined ? 1 : 0);
+    }
+    const slot = _csSrcRow(((((fi * 512 + te.r) * 8 + vi) * 8 + bi) * 1024 + _csCountryIdx(h['cf-ipcountry'])) * 8192 + pi, fi);
+    // per-request classes
+    const oi = _CS_OUT_IDX[out]; const o = oi === undefined ? 6 : oi;
+    let b = 0;
+    while (b < _ML_EDGES.length && ms >= _ML_EDGES[b]) b++;
+    const mt = req.method === 'GET' ? 0 : req.method === 'HEAD' ? 1 : 2;
+    const ae = h['accept-encoding'];
+    const en = typeof ae !== 'string' ? 2 : ae.indexOf('br') !== -1 ? 0 : ae.indexOf('gzip') !== -1 ? 1 : 2;
+    let rf = 0;
+    if (typeof h.referer === 'string' && h.referer !== '') {
+        let host = typeof h.host === 'string' ? h.host.toLowerCase() : '';
+        const c = host.lastIndexOf(':'); if (c > 0 && host.indexOf(']') < c) host = host.slice(0, c);
+        rf = _csRefClass(h.referer, host);
+    }
+    const pseudo = h['cf-connecting-ipv6'] !== undefined || (kind === 4 && v4 >= 4026531840);
+    const fx = p.indexOf('#');
+    const pp = fx === -1 ? p : p.slice(0, fx);
+    const hp = _csFnv(pp, _CS_FNV0);
+    const uh = _csMix(hp);
+    // a query string (rawUrl = p + '?' + query): counted, and hashed on into the cache key (path + query); never kept
+    const qs = fx === -1 && rawUrl.length > p.length && rawUrl.charCodeAt(p.length) === 63;
+    let kh = uh;
+    if (qs) { const qe = rawUrl.indexOf('#', p.length); kh = _csMix(_csFnvAt(rawUrl, p.length, qe === -1 ? rawUrl.length : qe, hp)); }
+    const mn = Math.floor(now / 60000);
+    // source row
+    if (slot >= 0) {
+        const c = _csC, q = slot * _CS_CN;
+        c[q]++; c[q + _CS_O + o]++; c[q + _CS_B + b]++;
+        if (c[q + _CS_CMIN] !== mn) { c[q + _CS_CMIN] = mn; c[q + _CS_CCNT] = 0; }
+        if (++c[q + _CS_CCNT] > c[q + _CS_PMAX]) c[q + _CS_PMAX] = c[q + _CS_CCNT];
+        c[q + _CS_ME + mt]++; c[q + _CS_RF + rf]++; c[q + _CS_EN + en]++;
+        if (pseudo) c[q + _CS_PS]++;
+        if (qs) c[q + _CS_QS]++;
+        _csMs[2 * slot] += ms; if (ms > _csMs[2 * slot + 1]) _csMs[2 * slot + 1] = ms;
+        _csHllAdd(_csRg, slot * 96, 6, uh);
+        _csHllAdd(_csRg, slot * 96 + 64, 5, _csMix(_csFnv(ip, _csIpH0)));
+    }
+    // family table
+    const fx2 = fi * 7 + o;
+    let fr = _csFamRows[fx2];
+    if (fr === undefined) { fr = { c: new Float64Array(17), h: new Uint8Array(2048), k: new Uint8Array(2048) }; _csFamRows[fx2] = fr; }
+    const f = fr.c;
+    f[0]++; f[1] += ms; if (ms > f[2]) f[2] = ms; f[3 + b]++; f[13 + mt]++;
+    if (qs) f[16]++;
+    _csHllAdd(fr.h, 0, 11, uh);
+    _csHllAdd(fr.k, 0, 11, kh);
+    // per-family rate + top paths
+    const st = _csFamState(fi);
+    const r = st.r;
+    r[0]++;
+    if (r[4] === 0 || r[1] !== mn) { r[1] = mn; r[2] = 0; r[4]++; }
+    if (++r[2] > r[3]) r[3] = r[2];
+    _csTopAdd(st, uh | 0, pp, pp === rawUrl);
+    // moon month / year: city class x date class
+    if (fi >= 4 && city !== undefined) {
+        const ci = _CS_CITY_IDX[city], di = _CS_DATE_IDX[date];
+        if (ci !== undefined && di !== undefined) _csCd[(((fi - 4) * _CS_CITIES.length + ci) * _CS_DATES.length + di) * 7 + o]++;
+    }
+    // moon month / year: year offset x outcome x agent class x ver (the page's year: the digits of '/yyyy' or '/yyyy/mm')
+    if (fi >= 4) {
+        const yo = pp.length - (fi === 4 ? 7 : 4);
+        if (yo > 0 && pp.charCodeAt(yo - 1) === 47 && (fi === 5 || pp.charCodeAt(yo + 4) === 47)) {
+            let y = 0;
+            for (let i = yo; i < yo + 4; i++) { const c = pp.charCodeAt(i) - 48; y = (c >= 0 && c <= 9 && y >= 0) ? y * 10 + c : -1; }
+            if (y >= 0) {
+                if (now >= _csCurYUntil) { _csCurY = new Date(now).getUTCFullYear(); _csCurYUntil = Date.UTC(_csCurY + 1, 0, 1); }
+                const dy = y - _csCurY, yi = dy < -5 ? 0 : dy > 5 ? 12 : dy + 6;
+                _csYr[((((fi - 4) * _CS_YOFF.length + yi) * 7 + o) * _CS_ACLS.length + te.a) * 8 + vi]++;
+            }
+        }
+    }
+    // token table
+    te.n++;
+    _csHllAdd(_csTokRg, te.r * 16, 4, ue.h);
+    if (te.s === null && ue.sm && !te.o) te.s = _csSample(ua);
+    _csTotal++;
+    return te.d;
+}
+function _csExpire() {
+    if (_csExpired) return;
+    _csExpired = true;
+    console.log('[crawl-src]' + _OBS_WTAG + ' EXPIRED until=' + _CS_UNTIL.label + ' (nothing is recorded from now on) boot=' + _CS_BOOT);
+}
+// ---- flush: aggregates only, chunked (<= 60 rows, <= 8 KB a line) ----
+function _csLines(t, win, cols, rows, meta) {
+    let i = 0, part = 0;
+    do {
+        const head = { v: 1, t, w: TP_WORKER_ID, boot: _CS_BOOT, seq: _csSeq, ts: _csTs, win, s: _ML_WINDOW_S, until: _CS_UNTIL.label, ranges: _csRangesDate, part };
+        if (part === 0 && meta) head.meta = meta;
+        head.cols = cols;
+        let line = '[crawl-src] ' + JSON.stringify(head).slice(0, -1) + ',"rows":[';
+        let n = 0;
+        while (i < rows.length && n < _CS_LINE_ROWS) {
+            const rs = JSON.stringify(rows[i]);
+            if (n > 0 && line.length + rs.length + 3 > _CS_LINE_MAX) break;
+            line += (n ? ',' : '') + rs; n++; i++;
+        }
+        console.log(line + ']}');
+        part++;
+    } while (i < rows.length);
+}
+// a source key -> its seven texts [family, declared, token, ver, bcls, country, prefix]
+function _csKeyParts(k) {
+    const pi = k % 8192;
+    let g = (k - pi) / 8192;
+    if (g >= _CS_OVF_G) return [_CS_FAMS[g - _CS_OVF_G], 'overflow', '-', '-', '-', '-', '-'];
+    const ci = g % 1024; g = (g - ci) / 1024;
+    const bi = g % 8; g = (g - bi) / 8;
+    const vi = g % 8; g = (g - vi) / 8;
+    const ti = g % 512;
+    const te = _csTokByIdx[ti];
+    return [_CS_FAMS[(g - ti) / 512], te.d, te.k.slice(te.d.length + 1), _CS_VERS[vi], _CS_BCLS[bi], _csCountryStr(ci), pi === _CS_STAR ? '*' : _csPfxStr[pi]];
+}
+function _csSrcOut(parts, slot) {
+    const c = _csC, q = slot * _CS_CN, r = parts.slice();
+    r.push(c[q]);
+    for (let i = 0; i < 7; i++) r.push(c[q + _CS_O + i]);
+    r.push(Math.round(_csMs[2 * slot] / Math.max(1, c[q])), Math.round(_csMs[2 * slot + 1]));
+    for (let i = 0; i < 10; i++) r.push(c[q + _CS_B + i]);
+    r.push(_csHllEst(_csRg, slot * 96, 6), _csHllEst(_csRg, slot * 96 + 64, 5), c[q + _CS_PMAX], c[q + _CS_LB]);
+    for (let i = _CS_ME; i <= _CS_KY; i++) r.push(c[q + i]);
+    r.push(c[q + _CS_QS]);
+    return r;
+}
+function _csEmit(win) {
+    _csSeq++;
+    _csTs = new Date().toISOString().slice(0, 19) + 'Z';
+    // src: prefixes below the threshold (and the small rows of a declared browser) fold into '*', then the top rows by n
+    //   and one 'rest' row per family x declared
+    const fold = new Map();
+    for (const [k, slot] of _csSrc) {
+        const k2s = _csFoldKey(k, slot), k2 = k2s >= 0 ? k2s : k;
+        const t = fold.get(k2);
+        if (t === undefined) fold.set(k2, slot); else _csMerge(t, slot);
+    }
+    const ent = [...fold.entries()].sort((x, y) => _csC[y[1] * _CS_CN] - _csC[x[1] * _CS_CN]);
+    const parts = ent.map((e) => _csKeyParts(e[0]));
+    // uurl: the URL registers (p=6: the first 64 of a slot) merged per family|declared|token|ver, before the 'rest' merge
+    const ug = new Map();
+    for (let i = 0; i < ent.length; i++) {
+        const pa = parts[i], gk = pa[0] + '|' + pa[1] + '|' + pa[2] + '|' + pa[3], o = ent[i][1] * 96;
+        let g = ug.get(gk);
+        if (g === undefined) { g = { p: pa.slice(0, 4), n: 0, r: new Uint8Array(64) }; ug.set(gk, g); }
+        g.n += _csC[ent[i][1] * _CS_CN];
+        for (let j = 0; j < 64; j++) if (_csRg[o + j] > g.r[j]) g.r[j] = _csRg[o + j];
+    }
+    const rows = [], rest = new Map();
+    for (let i = 0; i < ent.length; i++) {
+        if (i < _CS_TOP_ROWS) { rows.push(_csSrcOut(parts[i], ent[i][1])); continue; }
+        const rk = parts[i][0] + '|' + parts[i][1];
+        const t = rest.get(rk);
+        if (t === undefined) rest.set(rk, ent[i][1]); else _csMerge(t, ent[i][1]);
+    }
+    for (const [rk, slot] of rest) { const p2 = rk.split('|'); rows.push(_csSrcOut([p2[0], p2[1], 'rest', '-', '-', '-', '-'], slot)); }
+    _csLines('src', win, _CS_SRC_COLS, rows, { total: _csTotal, keys: _csSrc.size, folded: fold.size, compact: _csCompactN,
+        ovf: _csOvf, pfx: _csPfxN, pfx_full: _csPfxFull, min_n: _CS_MIN_N, ua_cache: _csUa.size, ua_ovf: _csUaOvf, tokens: _csTok.size,
+        ranges_state: _csRangesState, edge_trust: _CS_EDGE_TRUST ? 1 : 0, unattested: _csUnatt });
+    // uurl: the top 100 groups by n, the others merged into one 'rest' row per family x declared
+    const b32 = (r) => { let s = ''; for (let j = 0; j < r.length; j++) s += _CS_B32[r[j]]; return s; };
+    const ge = [...ug.values()].sort((x, y) => y.n - x.n), ur = [], urest = new Map();
+    for (let i = 0; i < ge.length; i++) {
+        const g = ge[i];
+        if (i < _CS_UURL_ROWS) { ur.push([g.p[0], g.p[1], g.p[2], g.p[3], g.n, _csHllEst(g.r, 0, 6), b32(g.r)]); continue; }
+        const rk = g.p[0] + '|' + g.p[1];
+        let t = urest.get(rk);
+        if (t === undefined) { t = { p: [g.p[0], g.p[1], 'rest', '-'], n: 0, r: new Uint8Array(64) }; urest.set(rk, t); }
+        t.n += g.n;
+        for (let j = 0; j < 64; j++) if (g.r[j] > t.r[j]) t.r[j] = g.r[j];
+    }
+    for (const t of urest.values()) ur.push([t.p[0], t.p[1], t.p[2], t.p[3], t.n, _csHllEst(t.r, 0, 6), b32(t.r)]);
+    _csLines('uurl', win, 'family,declared,token,ver,n,urls,regs_p6_b32', ur);
+    // fam
+    const fr = [];
+    for (let x = 0; x < _csFamRows.length; x++) {
+        const e = _csFamRows[x];
+        if (e === undefined) continue;
+        const f = e.c, est = _csHllEst(e.h, 0, 11), kest = f[16] === 0 ? est : _csHllEst(e.k, 0, 11);
+        const r = [_CS_FAMS[(x - (x % 7)) / 7], _CS_OUTS[x % 7], f[0], Math.round(f[1] / Math.max(1, f[0])), Math.round(f[2])];
+        for (let i = 3; i < 16; i++) r.push(f[i]);
+        r.push(est, +(f[0] / Math.max(1, est)).toFixed(2), zlib.deflateRawSync(Buffer.from(e.h.buffer, e.h.byteOffset, e.h.byteLength), { level: 9 }).toString('base64'));
+        // the cache-key registers equal the URL ones when no request of the row had a query string: '=' then
+        r.push(f[16], kest, +(f[0] / Math.max(1, kest)).toFixed(2),
+            f[16] === 0 ? '=' : zlib.deflateRawSync(Buffer.from(e.k.buffer, e.k.byteOffset, e.k.byteLength), { level: 9 }).toString('base64'));
+        fr.push(r);
+    }
+    fr.sort((x, y) => y[2] - x[2]);
+    _csLines('fam', win, 'family,outcome,n,avg_ms,max_ms,' + _ML_BUCKET_COLS + ',get,head,other,urls,repeat,regs_p11_deflateraw_b64,qs,keys,key_repeat,key_regs_p11_deflateraw_b64', fr);
+    // rate, cd, top
+    const rr = [], tr = [];
+    for (let fi = 0; fi < _csFamSts.length; fi++) {
+        const s = _csFamSts[fi];
+        if (s === undefined) continue;
+        rr.push([_CS_FAMS[fi], s.r[0], s.r[3], s.r[4]]);
+        const idx = [];
+        for (let j = 0; j < s.used; j++) idx.push(j);
+        idx.sort((x, y) => s.cnt[y] - s.cnt[x]);
+        for (const j of idx) tr.push([_CS_FAMS[fi], _csPathKey(s.path[j]), s.cnt[j], s.err[j]]);
+    }
+    rr.sort((x, y) => y[1] - x[1]);
+    _csLines('rate', win, 'family,n,max_per_min,active_min', rr);
+    const cd = [];
+    for (let x = 0; x < _csCd.length; x++) {
+        if (_csCd[x] === 0) continue;
+        const o = x % 7, x1 = (x - o) / 7, di = x1 % _CS_DATES.length, x2 = (x1 - di) / _CS_DATES.length, ci = x2 % _CS_CITIES.length;
+        cd.push([_CS_FAMS[4 + (x2 - ci) / _CS_CITIES.length], _CS_CITIES[ci], _CS_DATES[di], _CS_OUTS[o], _csCd[x]]);
+    }
+    if (cd.length) _csLines('cd', win, 'family,city,date,outcome,n', cd.sort((x, y) => y[4] - x[4]));
+    // yr: the top 300 cells by n, the others in one 'rest' row per family
+    const ye = [];
+    for (let x = 0; x < _csYr.length; x++) if (_csYr[x] !== 0) ye.push(x);
+    ye.sort((a, b) => _csYr[b] - _csYr[a]);
+    const yr = [], yrest = new Map();
+    for (let i = 0; i < ye.length; i++) {
+        const x = ye[i], vi = x % 8, x1 = (x - vi) / 8, ai = x1 % _CS_ACLS.length, x2 = (x1 - ai) / _CS_ACLS.length, o = x2 % 7, x3 = (x2 - o) / 7,
+            yi = x3 % _CS_YOFF.length, fam = _CS_FAMS[4 + (x3 - yi) / _CS_YOFF.length];
+        if (i < _CS_YR_ROWS) yr.push([fam, _CS_YOFF[yi], _CS_OUTS[o], _CS_ACLS[ai], _CS_VERS[vi], _csYr[x]]);
+        else yrest.set(fam, (yrest.get(fam) || 0) + _csYr[x]);
+    }
+    for (const [fam, n] of yrest) yr.push([fam, 'rest', '-', '-', '-', n]);
+    if (yr.length) _csLines('yr', win, 'family,year_off,outcome,agent,ver,n', yr);
+    _csLines('top', win, 'family,path,n,err', tr);
+    // tok
+    const tk = [..._csTok.values(), ..._csTokOvf.values()].sort((x, y) => y.n - x.n)
+        .map((e) => [e.d, e.k.slice(e.d.length + 1), e.n, _csHllEst(_csTokRg, e.r * 16, 4), e.b ? null : e.s]);
+    _csLines('tok', win, 'declared,token,n,ua_strings,sample', tk);
+}
+function _csClear() {
+    _csSrc.clear(); _csC = null; _csMs = null; _csRg = null; _csUsed = 0; _csFree.length = 0;
+    _csFamRows.fill(undefined); _csFamSts.fill(undefined); _csCd.fill(0); _csYr.fill(0);
+    _csTok.clear(); _csTokOvf.clear(); _csTokByIdx.length = 0; _csUa.clear(); _csUaMemoS.fill(undefined); _csUaMemoE.fill(undefined); _csTokRg = null; _csTokN = 0;
+    _csPfx.clear(); _csPfxStr.length = 0; _csPfxCnt = null; _csPfxN = 0;
+    _csTotal = 0; _csCompactN = 0; _csOvf = 0; _csPfxFull = 0; _csUaOvf = 0; _csUnatt = 0;
+}
+// called by _mlFlush (so the 300 s window, the SIGTERM and the retire flushes all apply)
+function _csFlush(win) {
+    if (!_csExpired && _csStarted && Date.now() >= _CS_UNTIL.ms) _csExpire();
+    if (_csTotal > 0) { try { _csEmit(win); } catch (_e) { /* measurement must never break the worker */ } }
+    _csClear();
+}
+// called by _mlStartTimers once the worker listens
+function _csStart() {
+    if (!_CS_ON || _csStarted) return;
+    _csStarted = true;
+    if (Date.now() >= _CS_UNTIL.ms) { _csExpire(); return; }
+    let info = '';
+    try { info = _csLoadRanges(); } catch (_e) { info = 'ranges_error=load'; }
+    console.log('[crawl-src]' + _OBS_WTAG + ' ENABLED window_s=' + _ML_WINDOW_S + ' max_keys=' + _CS_MAX_KEYS + ' top_rows=' + _CS_TOP_ROWS
+        + ' min_n=' + _CS_MIN_N + ' ua_cache=' + _CS_UA_CACHE_MAX + ' tokens=' + _CS_TOKENS_MAX + ' prefixes=' + _CS_PFX_MAX
+        + ' top_paths=' + _CS_TOP_PATHS + ' until=' + _CS_UNTIL.label + ' ranges=' + (_csRangesDate || 'none') + (info ? ' ' + info : '')
+        + ' boot=' + _CS_BOOT);
 }
 
 

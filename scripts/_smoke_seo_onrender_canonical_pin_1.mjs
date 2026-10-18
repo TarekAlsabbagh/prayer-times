@@ -39,7 +39,7 @@ const META = '<meta name="tp-seo-origin" content="' + ORIGIN + '">';
 const norm = (s) => s.replace(/nonce="[^"]*"/g, 'nonce=""')
     .replace(/("article:modified_time" content=")[^"]*/g, '$1T')
     .replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z/g, 'ISO')
-    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS')
+    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS').replace(/(id="next-prayer-countdown">)[\d:]+/g, '$1COUNTDOWN')
     .replace(/((?:&amp;|&|\?)b=)[0-9a-f]{7,40}/g, '$1SHA')
     .replace(/js\/app\.js\?v=\d+/g, 'js/app.js?v=N')
     // the country template (prayer-times-cities.html) carries the changed client writer inline: compare around it

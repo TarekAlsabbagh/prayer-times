@@ -1428,7 +1428,7 @@ async function _fetchNominatimWithTimeout(query, lang, timeoutMs) {
         const resp = await fetch(url, {
             signal: ctrl.signal,
             headers: {
-                'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
+                'User-Agent': 'PrayerTimesApp/1.0 (+https://timesprayers.com)',
                 'Accept': 'application/json'
             }
         });
@@ -1527,7 +1527,7 @@ async function _fetchLocationIQWithTimeout(query, lang, timeoutMs) {
                 // LocationIQ does NOT require a User-Agent (unlike public
                 // Nominatim) but sending one is good etiquette + helps
                 // their support track abusive accounts if our key leaks.
-                'User-Agent': 'PrayerTimesApp/1.0 (+https://prayer-times-d4w8.onrender.com)',
+                'User-Agent': 'PrayerTimesApp/1.0 (+https://timesprayers.com)',
                 'Accept': 'application/json'
             }
         });
@@ -6307,6 +6307,50 @@ const _SEO_ORIGIN_META = (() => {
         return (/^https?:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(origin)) ? ('<meta name="tp-seo-origin" content="' + _escHtml(origin) + '">') : '';
     } catch (_) { return ''; }
 })();
+// SEO-BREADCRUMB-HOME-LABEL-1 (2026-10-18): the breadcrumb «Home» label, ONE value per language — the JSON-LD home
+//   name (buildSeoForPath) and the client (i18n breadcrumb.home) already used these; the prayer-city SSR crumb, the
+//   moon / zakat / country template crumbs (nav.home, literal Arabic) and the Hijri ms crumbs said something else.
+const _BC_HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };
+
+// SEO-MOON-BREADCRUMB-PLACEHOLDERS-1 (2026-10-18): on the nested moon city pages (/moon/{country}/{city}[/{yyyy}[/{mm}]])
+//   the template breadcrumb keeps its year / month / day rungs as HIDDEN placeholders ("—" → /moon, an empty anchor
+//   to the current month, an empty day item). They are never shown there (the client skips its rebuild on nested
+//   routes) but ship as links in the HTML. Drop every rung that is still `hidden` once the SSR fills have run; the
+//   visible rungs (== the BreadcrumbList JSON-LD) are untouched. The template stays as it is (the home page's inactive
+//   moon copy and the legacy client builder still reference these ids).
+const _MOON_NESTED_CITY_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z0-9-]+\/[a-z0-9-]+(?:\/\d{4}(?:\/\d{2})?)?\/?$/;
+const _MOON_HIDDEN_RUNG_RE = /<li class="[^"]*" id="bc-(?:moon-year-sep|moon-year-li|month-sep|month-li|date-sep|date)"[^>]*\shidden(?=[\s>])[^>]*>(?:(?!<\/li>)[\s\S])*<\/li>[ \t]*\r?\n?/g;
+function _stripHiddenMoonCrumbs(html, urlPath) {
+    if (typeof html !== 'string' || !_MOON_NESTED_CITY_RE.test(String(urlPath || '').split('?')[0])) return html;
+    return html.replace(_MOON_HIDDEN_RUNG_RE, '');
+}
+
+// SEO-SHARE-LINKS-OFFICIAL-1 (2026-10-18): the 4 share buttons (index.html / countries.html) hard-coded the Render
+//   hostname (https://prayer-times-d4w8.onrender.com/) and one Arabic text on every page and language, so every share
+//   published a link to the duplicate host's Arabic home. They now share THIS page: its canonical URL (official
+//   domain, same path and language prefix; the canonical keeps no tracking / UI-state query) with the page's own
+//   <title> (already in the page language) as the text. The client never uses pushState — every page is a full
+//   load — so the server value is always the page being viewed. Called at both final exits (serveHtmlWithSeo,
+//   serveCountriesPage) just before the comment strip.
+function _rewriteShareLinks(html, pageUrl) {
+    if (typeof html !== 'string' || html.indexOf('home-share-btn') === -1) return html;
+    const url = String(pageUrl || '');
+    if (!/^https?:\/\/[^\s"<>]+$/i.test(url)) return html;
+    const tm = html.match(/<title>([^<]*)<\/title>/);
+    const text = tm ? tm[1].replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim() : '';
+    const u = encodeURIComponent(url), t = encodeURIComponent(text);
+    const hrefs = {
+        'share-twitter':  'https://twitter.com/intent/tweet?url=' + u + (t ? '&amp;text=' + t : ''),
+        'share-facebook': 'https://www.facebook.com/sharer/sharer.php?u=' + u,
+        'share-whatsapp': 'https://api.whatsapp.com/send?text=' + (t ? t + '%20' : '') + u,
+        'share-telegram': 'https://t.me/share/url?url=' + u + (t ? '&amp;text=' + t : ''),
+    };
+    for (const id of Object.keys(hrefs)) {
+        html = html.replace(new RegExp('(<a class="home-share-btn" id="' + id + '" href=")[^"]*(")'), (m, a, b) => a + hrefs[id] + b);
+    }
+    return html;
+}
+
 // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): drop developer HTML comments from the FINAL document only.
 //   Called at the two public HTML exits (serveHtmlWithSeo, serveCountriesPage) AFTER every SSR pass — several
 //   passes anchor on comment text (<!--SHARED-*-->, <!-- TL-SEO-CONTENT -->, <!-- COUNTRIES-* -->, moon-hub
@@ -14057,7 +14101,7 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
             `<p class="countries-intro" id="countries-intro" data-i18n="countries.intro">${_escHtml(t.intro)}</p>`);
 
         // back link (href يحترم الـ locale)
-        const backHref = (lang === 'ar') ? '/' : `/${lang}/`;
+        const backHref = (lang === 'ar') ? '/' : `/${lang}`;   // SEO-HOME-URL-NO-SLASH-1
         html = html.replace(/<a href="\/" class="countries-back-link"[^>]*>[^<]*<\/a>/,
             `<a href="${backHref}" class="countries-back-link" id="countries-back-link" data-i18n="countries.back">${_escHtml(t.back)}</a>`);
 
@@ -14115,6 +14159,7 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
 
         // {LANG_PREFIX} للروابط الداخلية في قسمَي home-quick-access و home-footer-links
         const _langPrefix = (lang === 'ar') ? '' : '/' + lang;
+        html = html.split('{HOME_HREF}').join(_langPrefix || '/');   // SEO-HOME-URL-NO-SLASH-1 (before {LANG_PREFIX})
         html = html.split('{LANG_PREFIX}').join(_langPrefix);
 
         // ====== SSR i18n لأقسام home-footer-links + popular-cities ======
@@ -14290,6 +14335,8 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
         // ADSENSE-CMP-REGIONAL-BANNER-SUPPRESSION-1 -- same rule as every other template.
         if (_visitorInRegulatedRegion(req)) html = _stripCustomConsentBanner(html, urlPath);
 
+        // SEO-SHARE-LINKS-OFFICIAL-1: share buttons → this page's canonical URL (same rule as its <link rel=canonical>).
+        html = _rewriteShareLinks(html, getBaseUrl() + (lang === 'ar' ? '' : '/' + lang) + '/prayer-times-worldwide');
         // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): COUNTRIES-FAQ-SCHEMA / COUNTRIES-GRID-CONTENT are already consumed above.
         html = _stripHtmlComments(html);
 
@@ -14721,9 +14768,10 @@ function buildSeoForPath(urlPath, hcw) {
     //   so the generic _HOME_DESCS dict above is the single source of truth.
     //   Mecca-as-keyword now lives ONLY on /prayer-times-in-makkah.
 
-    const HOME_LABELS = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'ہوم', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Utama' };
+    const HOME_LABELS = _BC_HOME_LABELS;   // SEO-BREADCRUMB-HOME-LABEL-1: one module-level source (== i18n breadcrumb.home)
     // Breadcrumb «Home» يجب أن يشير دائماً إلى الصفحة الرئيسيّة (/ أو /{lang}/) لا إلى الصفحة الحاليّة.
-    const breadcrumbs = [{ name: HOME_LABELS[lang] || HOME_LABELS.ar, item: origin + (lang === 'ar' ? '/' : '/' + lang + '/') }];
+    // SEO-HOME-URL-NO-SLASH-1: /{lang} (200), not /{lang}/ (301 → /{lang}).
+    const breadcrumbs = [{ name: HOME_LABELS[lang] || HOME_LABELS.ar, item: origin + (lang === 'ar' ? '/' : '/' + lang) }];
 
     // ── Static tool pages ──
     const staticPages = {
@@ -22666,7 +22714,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _bc = _BC_LABELS[_lng] || _BC_LABELS.en;
                 const _pad2 = (n) => String(n).padStart(2, '0');
                 const _langPrefBC = (_lng === 'ar') ? '' : ('/' + _lng);
-                const _homeUrl = (_lng === 'ar') ? '/' : (_langPrefBC + '/');
+                const _homeUrl = (_lng === 'ar') ? '/' : _langPrefBC;   // SEO-HOME-URL-NO-SLASH-1
                 const _calHubUrl = `${_langPrefBC}/hijri-calendar`;
                 const _yearUrl = `${_langPrefBC}/hijri-calendar/${_h.year}`;
                 const _monthUrl = `${_langPrefBC}/hijri-calendar/${_h.year}-${_pad2(_h.month)}`;
@@ -22727,7 +22775,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                                 <span class="hd1-tool-desc">${_escHtml(_hd.tool_calendar_desc)}</span>
                             </span>
                         </a>
-                        <a class="hd1-tool-card" href="${_langPrefHd1}/">
+                        <a class="hd1-tool-card" href="${_langPrefHd1 || '/'}">
                             <span class="hd1-tool-icon" aria-hidden="true">🕌</span>
                             <span class="hd1-tool-body">
                                 <span class="hd1-tool-name">${_escHtml(_hd.tool_prayertimes)}</span>
@@ -23071,7 +23119,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     for(let i=1;i<=5;i++){ const w=_at('azkar.hub.time'+i+'_when'); if(!w)continue; _tm += `<div class="hd1-tool-card azkar-time-card"><span class="hd1-tool-icon" aria-hidden="true">${_tmIcons[i-1]||'🕘'}</span><span class="hd1-tool-body"><span class="hd1-tool-name">${_e(w)}</span><span class="hd1-tool-desc">${_e(_at('azkar.hub.time'+i+'_what'))}</span></span></div>`; }
                     if(_tm) _h += `<section class="section-card hd1-tools-section azkar-hub-timing" aria-labelledby="azh-time-t"><h2 id="azh-time-t" class="hd1-section-title">${_e(_at('azkar.hub.timing_title'))}</h2><div class="hd1-tools-grid">${_tm}</div></section>`;
                     // useful links (6 anchors)
-                    const _aHrefs=[(seo.lang==='ar')?'/':(_pfx+'/'), `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/msbaha`, `${_pfx}/zakat-calculator`];
+                    const _aHrefs=[(seo.lang==='ar')?'/':_pfx, `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/msbaha`, `${_pfx}/zakat-calculator`];
                     const _aIcons=['🕌','📅','🗓','🔄','📿','🪙'];
                     let _links='';
                     // AZKAR-USEFUL-LINKS-PRAYER-TIMES-HREF-FIX-1 (2026-06-07): mark the
@@ -23267,13 +23315,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                         fr:{home:'Accueil',cal:'Calendrier hégirien'}, tr:{home:'Ana Sayfa',cal:'Hicri Takvim'},
                         ur:{home:'ہوم',cal:'ہجری کیلنڈر'}, de:{home:'Startseite',cal:'Hidschri-Kalender'},
                         id:{home:'Beranda',cal:'Kalender Hijriah'}, es:{home:'Inicio',cal:'Calendario Hégira'},
-                        bn:{home:'হোম',cal:'হিজরি ক্যালেন্ডার'}, ms:{home:'Laman Utama',cal:'Kalendar Hijrah'},
+                        bn:{home:'হোম',cal:'হিজরি ক্যালেন্ডার'}, ms:{home:'Utama',cal:'Kalendar Hijrah'},
                     };
                     const _hmBcSfx = { ar:' هـ', en:' AH', fr:' H', tr:' H', ur:' ہجری', de:' AH', id:' H', es:' H', bn:' হিজরি', ms:' H' };
                     const _hmBcu = _hmBcLbl[_hmLang] || _hmBcLbl.en;
                     const _hmSfx2 = (_hmBcSfx[_hmLang] !== undefined) ? _hmBcSfx[_hmLang] : ' AH';
                     const _hmPfx = (_hmLang === 'ar') ? '' : ('/' + _hmLang);
-                    const _hmHomeUrl = (_hmLang === 'ar') ? '/' : (_hmPfx + '/');
+                    const _hmHomeUrl = (_hmLang === 'ar') ? '/' : _hmPfx;   // SEO-HOME-URL-NO-SLASH-1
                     const _hmBcItems = [
                         { href: _hmHomeUrl, text: _hmBcu.home },
                         { href: `${_hmPfx}/hijri-calendar`, text: _hmBcu.cal },
@@ -23446,13 +23494,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 ar: { home: 'الرئيسية', cal: 'التقويم الهجري' },
                 en: { home: 'Home', cal: 'Hijri Calendar' },
                 fr: { home: 'Accueil', cal: 'Calendrier hégirien' },
-                tr: { home: 'Anasayfa', cal: 'Hicri Takvim' },
+                tr: { home: 'Ana Sayfa', cal: 'Hicri Takvim' },   // SEO-BREADCRUMB-HOME-LABEL-1 (was 'Anasayfa' ≠ JSON-LD 'Ana Sayfa')
                 ur: { home: 'ہوم', cal: 'ہجری کیلنڈر' },
                 de: { home: 'Startseite', cal: 'Hidschri-Kalender' },
                 id: { home: 'Beranda', cal: 'Kalender Hijriah' },
                 es: { home: 'Inicio', cal: 'Calendario Hégira' },
                 bn: { home: 'হোম', cal: 'হিজরি ক্যালেন্ডার' },
-                ms: { home: 'Laman Utama', cal: 'Kalendar Hijrah' },
+                ms: { home: 'Utama', cal: 'Kalendar Hijrah' },   // SEO-BREADCRUMB-HOME-LABEL-1
             };
             const _hyIntroTpl = {
                 ar: (y) => `يعرض هذا التقويم الهجري لعام ${y} جميع الأشهر الهجرية مع التواريخ الميلادية المقابلة، ويتيح الانتقال السريع إلى تقويم أي شهر هجري أو إلى أداة تحويل التاريخ.`,
@@ -23468,7 +23516,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             };
             const _hyBCu = _hyBC[seo.lang] || _hyBC.en;
             const _hyLangPref = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
-            const _hyHomeUrl = (seo.lang === 'ar') ? '/' : (_hyLangPref + '/');
+            const _hyHomeUrl = (seo.lang === 'ar') ? '/' : _hyLangPref;   // SEO-HOME-URL-NO-SLASH-1
             const _hyCalUrl = `${_hyLangPref}/hijri-calendar/${_hcalYear}`;
             const _hyBcItems = [
                 { href: _hyHomeUrl, text: _hyBCu.home },
@@ -23854,7 +23902,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             };
             const _esc = _escHtml;
             const _dc = _DC[_dcL] || _DC.en;
-            const _dcHrefs = [`${_dcPfx}/today-hijri-date`, `${_dcPfx}/hijri-calendar`, _dcMonthHref, (_dcL === 'ar') ? '/' : (_dcPfx + '/'), `${_dcPfx}/moon-today`];
+            const _dcHrefs = [`${_dcPfx}/today-hijri-date`, `${_dcPfx}/hijri-calendar`, _dcMonthHref, (_dcL === 'ar') ? '/' : _dcPfx, `${_dcPfx}/moon-today`];
             // Live, accurate example conversions (server-side; same tables as the tool;
             // fixed inputs ⇒ stable output). Jalali mirrors js/app.js gregorianToJalali.
             const _g2j = (gy, gm, gd) => {
@@ -23998,7 +24046,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             if (_zt('zakat.guide.title')) {
                 const _e = _escHtml;
                 const _pfx = (seo.lang === 'ar') ? '' : ('/' + seo.lang);
-                const _zHrefs = [(seo.lang==='ar')?'/':(_pfx+'/'), `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/azkar`];
+                const _zHrefs = [(seo.lang==='ar')?'/':_pfx, `${_pfx}/today-hijri-date`, `${_pfx}/hijri-calendar`, `${_pfx}/date-converter`, `${_pfx}/azkar`];
                 const _zIcons = ['🕌','📅','🗓','🔄','📿'];
                 // guide card
                 let _h = `<div class="section-card dconv-guide"><div class="dconv-guide-icon" aria-hidden="true">🪙</div><div class="dconv-guide-body"><h2>${_e(_zt('zakat.guide.title'))}</h2><p>${_e(_zt('zakat.guide.text'))}</p></div></div>`;
@@ -25459,7 +25507,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         } catch (_e) { /* silent */ }
         // ملء bc-home-name حسب اللغة (قد يظلّ "الرئيسية" في AR، أو "Home" في EN, إلخ)
         try {
-            const _homeByLang = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'صفحۂ اوّل', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Laman Utama' };
+            const _homeByLang = _BC_HOME_LABELS;   // SEO-BREADCRUMB-HOME-LABEL-1 (was ur 'صفحۂ اوّل' / ms 'Laman Utama' ≠ the JSON-LD + client label)
             const _homeLbl = _homeByLang[L] || 'Home';
             html = html.replace(
                 '<span itemprop="name" id="bc-home-name" data-i18n="breadcrumb.home">الرئيسية</span>',
@@ -25551,10 +25599,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             }
             const _origin = (typeof SITE_URL !== 'undefined' && SITE_URL) ? SITE_URL : '';
             const _prefix = (L === 'ar') ? '' : ('/' + L);
-            const _homeByLangJL = { ar: 'الرئيسية', en: 'Home', fr: 'Accueil', tr: 'Ana Sayfa', ur: 'صفحۂ اوّل', de: 'Startseite', id: 'Beranda', es: 'Inicio', bn: 'হোম', ms: 'Laman Utama' };
+            const _homeByLangJL = _BC_HOME_LABELS;   // SEO-BREADCRUMB-HOME-LABEL-1
             const _homeLblJL = _homeByLangJL[L] || 'Home';
             const _bcItems = [
-                { name: _homeLblJL, item: `${_origin}${_prefix}/` },
+                { name: _homeLblJL, item: _prefix ? `${_origin}${_prefix}` : `${_origin}/` },   // SEO-HOME-URL-NO-SLASH-1
             ];
             if (_countryNameJL && _countrySlugJL) {
                 _bcItems.push({ name: _countryNameJL, item: `${_origin}${_prefix}/prayer-times-in-${_countrySlugJL}` });
@@ -30399,6 +30447,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //   above, so nothing can re-introduce the tag after it has been removed.
     if (_inRegulatedRegion) html = _stripCustomConsentBanner(html, urlPath);
 
+    // SEO-MOON-BREADCRUMB-PLACEHOLDERS-1: drop the still-hidden year / month / day rungs on nested moon city pages.
+    html = _stripHiddenMoonCrumbs(html, urlPath);
+    // SEO-SHARE-LINKS-OFFICIAL-1: share buttons → this page's canonical URL + its <title> (see _rewriteShareLinks).
+    html = _rewriteShareLinks(html, seo.canonical);
     // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): every comment-anchored SSR pass above has run; drop the
     //   developer comments. Must stay AFTER all rewrites and BEFORE the nonce substitution below.
     html = _stripHtmlComments(html);
@@ -30570,7 +30622,7 @@ function send404Page(urlPath, res, acceptEnc, options) {
         const o = options.textOverrides[lang] || options.textOverrides.ar || null;
         if (o) t = Object.assign({}, t, o);
     }
-    const home    = (lang === 'ar') ? '/' : (langPrefix + '/');
+    const home    = (lang === 'ar') ? '/' : langPrefix;   // SEO-HOME-URL-NO-SLASH-1
     const prayer  = (lang === 'ar') ? '/prayer-times-worldwide' : (langPrefix + '/prayer-times-worldwide');
     const qibla   = langPrefix + '/qibla';
     const hijri   = langPrefix + '/today-hijri-date';

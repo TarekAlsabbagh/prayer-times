@@ -6,17 +6,17 @@
   German, Indonesian, Spanish, Bengali, and Malay.
 
 ## Main pages
-- [Home (Arabic)](https://prayer-times-d4w8.onrender.com/)
-- [Home (English)](https://prayer-times-d4w8.onrender.com/en/)
-- [Home (French)](https://prayer-times-d4w8.onrender.com/fr/)
-- [Home (Turkish)](https://prayer-times-d4w8.onrender.com/tr/)
-- [Home (Urdu)](https://prayer-times-d4w8.onrender.com/ur/)
-- [Home (German)](https://prayer-times-d4w8.onrender.com/de/)
-- [Home (Indonesian)](https://prayer-times-d4w8.onrender.com/id/)
-- [Home (Spanish)](https://prayer-times-d4w8.onrender.com/es/)
-- [Home (Bengali)](https://prayer-times-d4w8.onrender.com/bn/)
-- [Home (Malay)](https://prayer-times-d4w8.onrender.com/ms/)
-- [Sitemap](https://prayer-times-d4w8.onrender.com/sitemap.xml)
+- [Home (Arabic)](https://timesprayers.com/)
+- [Home (English)](https://timesprayers.com/en)
+- [Home (French)](https://timesprayers.com/fr)
+- [Home (Turkish)](https://timesprayers.com/tr)
+- [Home (Urdu)](https://timesprayers.com/ur)
+- [Home (German)](https://timesprayers.com/de)
+- [Home (Indonesian)](https://timesprayers.com/id)
+- [Home (Spanish)](https://timesprayers.com/es)
+- [Home (Bengali)](https://timesprayers.com/bn)
+- [Home (Malay)](https://timesprayers.com/ms)
+- [Sitemap](https://timesprayers.com/sitemap.xml)
 
 ## Features
 - Prayer times for any city via coordinates or search

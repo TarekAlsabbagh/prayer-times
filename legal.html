@@ -92,7 +92,7 @@
         /* ===== goHome (locale-aware) ===== */
         function goHome() {
             const l = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-            window.location.href = (l === 'ar') ? '/' : ('/' + l + '/');
+            window.location.href = (l === 'ar') ? '/' : ('/' + l);
         }
         /* ===== Stub functions للبحث/الموقع — تعيد التوجيه للرئيسية (locale-aware) ===== */
         function _homePrefix() {

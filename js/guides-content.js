@@ -3472,7 +3472,7 @@ editorial: `<h2>How these guides are written</h2>
 <p>Where we cite an angle or a minute adjustment used by an official body, we attribute it and list the source at the foot of each guide. Where what this site applies differs from what that body publishes, we say so plainly instead of hiding it.</p>
 <p>Matters of jurisprudence — choosing an Asr definition, or how much deviation from the Qibla is acceptable — are presented as differences, not settled. Those are referred to qualified scholars or the authority a reader follows.</p>`,
 back: { title: 'Site services', links: [
-  { href: '/en/', label: 'Prayer Times' },
+  { href: '/en', label: 'Prayer Times' },
   { href: '/en/qibla', label: 'Qibla Direction' },
   { href: '/en/prayer-times-worldwide', label: 'Prayer Times Worldwide' },
   { href: '/en/moon', label: 'Moon Today' },
@@ -3514,7 +3514,7 @@ editorial: `<h2>Comment ces guides sont écrits</h2>
 <p>Lorsque nous citons un angle ou un ajustement en minutes employé par un organisme officiel, nous le lui attribuons et indiquons la source au bas de chaque guide. Là où ce que ce site applique diffère de ce que cet organisme publie, nous le disons clairement au lieu de le masquer.</p>
 <p>Quant aux questions de jurisprudence — choisir une définition du Asr, ou déterminer quel écart par rapport à la Qibla est acceptable — elles sont présentées comme des divergences, non comme des points tranchés. Elles sont renvoyées aux savants qualifiés ou à l'autorité que suit le lecteur.</p>`,
 back: { title: 'Services du site', links: [
-  { href: '/fr/', label: 'Heures de Prière' },
+  { href: '/fr', label: 'Heures de Prière' },
   { href: '/fr/qibla', label: 'Direction de la Qibla' },
   { href: '/fr/prayer-times-worldwide', label: 'Heures de prière dans le monde' },
   { href: '/fr/moon', label: 'La lune aujourd\'hui' },
@@ -3556,7 +3556,7 @@ editorial: `<h2>Bu rehberler nasıl yazılıyor</h2>
 <p>Resmî bir kurumun kullandığı bir açıyı ya da dakika düzeltmesini andığımızda, bunu o kuruma atfeder ve kaynağını her rehberin altında veririz. Bu sitenin uyguladığı, o kurumun yayımladığından ayrıldığı yerlerde bunu gizlemek yerine açıkça söyleriz.</p>
 <p>Fıkhî meselelere gelince — ikindi tanımının seçimi ya da kıbleden ne kadar sapmanın kabul edilebilir olduğu — bunlar çözülmüş konular olarak değil, görüş farkı olarak sunulur. Bu hususlarda mercii ehil âlimler ya da okurun bağlı olduğu kurumdur.</p>`,
 back: { title: 'Site hizmetleri', links: [
-  { href: '/tr/', label: 'Namaz Vakitleri' },
+  { href: '/tr', label: 'Namaz Vakitleri' },
   { href: '/tr/qibla', label: 'Kıble Yönü' },
   { href: '/tr/prayer-times-worldwide', label: 'Dünya Genelinde Namaz Vakitleri' },
   { href: '/tr/moon', label: 'Bugün Ay' },
@@ -3598,7 +3598,7 @@ editorial: `<h2>یہ رہنما مضامین کیسے لکھے جاتے ہیں</
 <p>جہاں ہم کسی سرکاری ادارے کا استعمال کردہ زاویہ یا منٹ کی ترمیم ذکر کرتے ہیں، وہاں اسے اُسی کی طرف منسوب کرتے ہیں اور ہر رہنما مضمون کے نیچے اس کا مصدر درج کرتے ہیں۔ جہاں یہ سائٹ جو نافذ کرتی ہے وہ اُس ادارے کے شائع کردہ سے مختلف ہو، ہم اسے چھپانے کے بجائے صاف کہہ دیتے ہیں۔</p>
 <p>رہے فقہی مسائل — عصر کی تعریف کا انتخاب، یا قبلہ سے کتنا انحراف قابلِ قبول ہے — تو انہیں اختلاف کے طور پر پیش کیا جاتا ہے، طے شدہ کے طور پر نہیں۔ ان معاملات میں رہنمائی کے لیے اہلِ علم یا اُس ادارے سے رجوع کیا جاتا ہے جس کی پیروی قاری کرتا ہے۔</p>`,
 back: { title: 'سائٹ کی خدمات', links: [
-  { href: '/ur/', label: 'اوقاتِ نماز' },
+  { href: '/ur', label: 'اوقاتِ نماز' },
   { href: '/ur/qibla', label: 'سمتِ قبلہ' },
   { href: '/ur/prayer-times-worldwide', label: 'دنیا بھر کے اوقاتِ نماز' },
   { href: '/ur/moon', label: 'آج کا چاند' },
@@ -3640,7 +3640,7 @@ editorial: `<h2>Wie diese Ratgeber entstehen</h2>
 <p>Wenn wir einen Winkel oder eine Minutenanpassung nennen, die eine amtliche Institution verwendet, schreiben wir sie ihr zu und führen die Quelle am Fuß jedes Ratgebers auf. Wo das, was diese Website anwendet, von dem abweicht, was diese Institution veröffentlicht, sagen wir es offen, statt es zu verbergen.</p>
 <p>Fragen der Rechtswissenschaft dagegen — die Wahl einer Asr-Definition oder wie viel Abweichung von der Qibla hinnehmbar ist — werden als Meinungsunterschiede dargestellt, nicht als entschieden. Maßgeblich sind dafür qualifizierte Gelehrte oder die Institution, der ein Leser folgt.</p>`,
 back: { title: 'Angebote der Website', links: [
-  { href: '/de/', label: 'Gebetszeiten' },
+  { href: '/de', label: 'Gebetszeiten' },
   { href: '/de/qibla', label: 'Qibla-Richtung' },
   { href: '/de/prayer-times-worldwide', label: 'Gebetszeiten weltweit' },
   { href: '/de/moon', label: 'Der Mond heute' },
@@ -3682,7 +3682,7 @@ editorial: `<h2>Cómo se escriben estas guías</h2>
 <p>Cuando mencionamos un ángulo o un ajuste en minutos que emplea un organismo oficial, se lo atribuimos y anotamos la fuente al pie de cada guía. Allí donde lo que aplica este sitio difiere de lo que ese organismo publica, lo decimos con claridad en lugar de ocultarlo.</p>
 <p>En cuanto a las cuestiones de jurisprudencia —elegir una definición del Asr o cuánta desviación respecto a la Qibla es admisible—, se presentan como diferencias de criterio, no como asuntos zanjados. La referencia en ellas son los sabios cualificados o la autoridad que siga el lector.</p>`,
 back: { title: 'Servicios del sitio', links: [
-  { href: '/es/', label: 'Horarios de Oración' },
+  { href: '/es', label: 'Horarios de Oración' },
   { href: '/es/qibla', label: 'Dirección de la Qibla' },
   { href: '/es/prayer-times-worldwide', label: 'Horarios de oración en el mundo' },
   { href: '/es/moon', label: 'La Luna Hoy' },
@@ -3724,7 +3724,7 @@ editorial: `<h2>Bagaimana panduan ini ditulis</h2>
 <p>Ketika kami menyebut sudut atau penyesuaian menit yang dipakai sebuah lembaga resmi, kami menisbahkannya kepada lembaga itu dan mencantumkan sumbernya di bagian bawah tiap panduan. Di titik mana pun penerapan situs ini berbeda dari yang diterbitkan lembaga tersebut, kami menyatakannya terang-terangan alih-alih menyembunyikannya.</p>
 <p>Adapun perkara fikih — memilih definisi Asar, atau seberapa besar penyimpangan dari kiblat yang bisa diterima — disajikan sebagai perbedaan pendapat, bukan sebagai perkara yang sudah diputuskan. Untuk itu, rujukannya adalah ulama yang berkompeten atau otoritas yang diikuti pembaca.</p>`,
 back: { title: 'Layanan situs', links: [
-  { href: '/id/', label: 'Jadwal Sholat' },
+  { href: '/id', label: 'Jadwal Sholat' },
   { href: '/id/qibla', label: 'Arah Kiblat' },
   { href: '/id/prayer-times-worldwide', label: 'Jadwal Sholat Seluruh Dunia' },
   { href: '/id/moon', label: 'Bulan Hari Ini' },
@@ -3766,7 +3766,7 @@ editorial: `<h2>এই গাইডগুলো কীভাবে লেখা 
 <p>কোনো সরকারি প্রতিষ্ঠানের ব্যবহৃত কোণ বা মিনিট-সমন্বয়ের উল্লেখ করলে আমরা তা সেই প্রতিষ্ঠানের প্রতি আরোপ করি এবং প্রতিটি গাইডের নিচে তার সূত্র দিই। এই সাইট যা প্রয়োগ করে তা যেখানে ওই প্রতিষ্ঠানের প্রকাশিত থেকে ভিন্ন, সেখানে আমরা তা লুকানোর বদলে স্পষ্ট করে বলি।</p>
 <p>আর ফিকহি বিষয়গুলো — আসরের সংজ্ঞা বাছাই, কিংবা কিবলা থেকে কতটা বিচ্যুতি গ্রহণযোগ্য — মতভেদ হিসেবেই উপস্থাপিত হয়, মীমাংসিত হিসেবে নয়। এসব বিষয়ে ফিরে যেতে হয় যোগ্য আলেমগণের কাছে, অথবা পাঠক যে কর্তৃপক্ষ অনুসরণ করেন তাঁদের কাছে।</p>`,
 back: { title: 'সাইটের সেবা', links: [
-  { href: '/bn/', label: 'নামাজের সময়সূচী' },
+  { href: '/bn', label: 'নামাজের সময়সূচী' },
   { href: '/bn/qibla', label: 'কিবলার দিক' },
   { href: '/bn/prayer-times-worldwide', label: 'বিশ্বজুড়ে নামাজের সময়' },
   { href: '/bn/moon', label: 'আজকের চাঁদ' },
@@ -3808,7 +3808,7 @@ editorial: `<h2>Bagaimana panduan ini ditulis</h2>
 <p>Apabila kami menyebut sudut atau pelarasan minit yang digunakan sesebuah badan rasmi, kami menisbahkannya kepada badan itu dan menyenaraikan sumbernya di bawah setiap panduan. Di mana apa yang laman ini gunakan berbeza daripada apa yang diterbitkan badan tersebut, kami menyatakannya dengan terang dan bukan menyembunyikannya.</p>
 <p>Adapun perkara fiqh — memilih takrif Asar, atau sebanyak mana sisihan daripada kiblat yang boleh diterima — ia dibentangkan sebagai perbezaan pendapat, bukan sebagai perkara yang sudah diputuskan. Untuk itu, rujukannya ialah ulama yang berkelayakan atau pihak berkuasa yang diikuti pembaca.</p>`,
 back: { title: 'Perkhidmatan laman', links: [
-  { href: '/ms/', label: 'Waktu Solat' },
+  { href: '/ms', label: 'Waktu Solat' },
   { href: '/ms/qibla', label: 'Arah Kiblat' },
   { href: '/ms/prayer-times-worldwide', label: 'Waktu Solat Seluruh Dunia' },
   { href: '/ms/moon', label: 'Bulan Hari Ini' },

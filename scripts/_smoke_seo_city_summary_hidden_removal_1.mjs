@@ -42,7 +42,7 @@ const HIDDEN_RE = /\r?\n\r?\n[ \t]*(?:<!--[^\n]*-->)?\r?\n[ \t]*<p id="city-summ
 const norm = (s) => s.replace(/nonce="[^"]*"/g, 'nonce=""')
     .replace(/("article:modified_time" content=")[^"]*/g, '$1T')
     .replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z/g, 'ISO')   // Article datePublished/dateModified = render instant (moon pages)
-    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS')   // banner clock, seconds
+    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS').replace(/(id="next-prayer-countdown">)[\d:]+/g, '$1COUNTDOWN')   // banner clock, seconds
     .replace(/((?:&amp;|&|\?)b=)[0-9a-f]{7,40}/g, '$1SHA')
     .replace(/js\/app\.js\?v=\d+/g, 'js/app.js?v=N');
 const boot = (root, port) => spawn(process.execPath, ['-r', GUARD, 'server.js'], { cwd: root, stdio: 'ignore',

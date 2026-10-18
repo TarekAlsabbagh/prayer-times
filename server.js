@@ -22688,8 +22688,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _dayName = _info.days[_gMecca.getUTCDay()];
                 const _gregStr = `${_gMecca.getUTCDate()} ${_info.gM[_gMecca.getUTCMonth()]} ${_gMecca.getUTCFullYear()}`;
                 const _monthName = _info.hM[_hNow.month - 1];
-                // Hijri leap year: ((11*y + 14) % 30) < 11 — standard tabular formula.
-                const _isLeap = ((11 * _hNow.year + 14) % 30) < 11;
+                // Year length from the Umm al-Qura table (the site's calendar), same rule as the client's
+                //   HijriDate.isHijriLeapYear (yearLength === 355) - never a tabular 30-year-cycle formula.
+                const _isLeap = (_getHijriYearLength(_hNow.year) === 355);
                 const _cards = [
                     { icon: '📅', label: _info.labels[0], value: _dayName },
                     { icon: '🗓', label: _info.labels[1], value: `${_hNow.day} ${_monthName} ${_hNow.year}${_info.hSfx}` },

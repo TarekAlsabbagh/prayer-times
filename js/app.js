@@ -326,6 +326,14 @@ const COUNTRY_EN_NAMES = {
     mc:'Monaco', sm:'San Marino', va:'Vatican City', ad:'Andorra',
 };
 
+// COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: SAR/territory codes whose curated entry is a
+// single city sharing the would-be country slug — they stay city-only, so the "country" link
+// points at the existing city slug. Mirrors server COUNTRY_SLUG_OVERRIDES.
+// TODAY-PAGES-ACCURACY-1 (2b): declared up here, above every load-time caller. _autoWireMoonHub runs the
+// moon-hub smart pill (-> makeCountrySlug) while this deferred file is still evaluating; declared further
+// down (next to makeCountrySlug) the const was still in its TDZ and the pill threw a swallowed ReferenceError.
+const COUNTRY_SLUG_OVERRIDES = { mo: 'macau', hk: 'hong-kong' };
+
 // ===== خرائط أسماء الدول المترجَمة (بديل إذا Nominatim لم يعد ترجمة محلية) =====
 const COUNTRY_NAMES_BN = {
     sa:'সৌদি আরব', eg:'মিশর', sy:'সিরিয়া', iq:'ইরাক', jo:'জর্ডান', lb:'লেবানন',
@@ -12435,11 +12443,6 @@ function renderPrayerSchedule(days, btn) {
         tbody.appendChild(tr);
     }
 }
-
-// COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: SAR/territory codes whose curated entry is a
-// single city sharing the would-be country slug — they stay city-only, so the "country" link
-// points at the existing city slug. Mirrors server COUNTRY_SLUG_OVERRIDES.
-const COUNTRY_SLUG_OVERRIDES = { mo: 'macau', hk: 'hong-kong' };
 
 function makeCountrySlug(cc, englishName) {
     // 0) COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: explicit override (collision territories)

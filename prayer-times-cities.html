@@ -129,6 +129,7 @@
         main.main-content:not(.moon-country-layout) > #location-hero,
         main.main-content:not(.moon-country-layout) > .cities-search-card,
         main.main-content:not(.moon-country-layout) > .cities-main-card,
+        main.main-content:not(.moon-country-layout) > .cities-more-card,
         main.main-content:not(.moon-country-layout) > #country-seo-content {
             width: calc(100% - 48px);
             align-self: center;
@@ -139,6 +140,7 @@
             main.main-content:not(.moon-country-layout) > #location-hero,
             main.main-content:not(.moon-country-layout) > .cities-search-card,
             main.main-content:not(.moon-country-layout) > .cities-main-card,
+            main.main-content:not(.moon-country-layout) > .cities-more-card,
             main.main-content:not(.moon-country-layout) > #country-seo-content {
                 width: calc(100% - 24px);
             }
@@ -186,6 +188,13 @@
         }
 
         /* ===== شبكة المدن ===== */
+        /* SEO-COUNTRY-CITY-CRAWL-PATHS-1: the rest of the country's cities (beyond the 26 cards) as plain links. */
+        .cities-more-card { background: var(--card-bg); border-radius: var(--radius); padding: 16px 20px; box-shadow: var(--shadow); margin-top: 16px; }
+        .cities-more-card h2 { font-size: 1.05rem; margin: 0 0 10px; color: var(--text); }
+        .cities-more-links { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.92rem; line-height: 1.8; }
+        /* --primary-dark is the site's TEXT green in both themes (#0d4a28 light, #4dcb8c dark ≈ 6:1 on the dark card); --primary is a button fill (3.2:1 on dark). */
+        .cities-more-links a { color: var(--primary-dark); text-decoration: none; }
+        .cities-more-links a:hover, .cities-more-links a:focus-visible { text-decoration: underline; }
         .cities-main-card {
             background: var(--card-bg);
             border-radius: var(--radius);

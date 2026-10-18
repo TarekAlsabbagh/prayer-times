@@ -41,7 +41,7 @@ const ok = (c, n, d) => { if (c) { pass++; console.log('  ✓ ' + n); } else { f
 const norm = (s) => s.replace(/nonce="[^"]*"/g, 'nonce=""')
     .replace(/("article:modified_time" content=")[^"]*/g, '$1T')
     .replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z/g, 'ISO')
-    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS')
+    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS').replace(/(id="next-prayer-countdown">)[\d:]+/g, '$1COUNTDOWN')
     .replace(/((?:&amp;|&|\?)b=)[0-9a-f]{7,40}/g, '$1SHA')
     // the inline CSS rules this ticket adds to the country template
     .replace(/\r?\n[ \t]*main\.main-content:not\(\.moon-country-layout\) > \.cities-more-card,/g, '')

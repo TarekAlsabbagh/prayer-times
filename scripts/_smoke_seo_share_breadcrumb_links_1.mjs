@@ -41,7 +41,7 @@ let pass = 0, fail = 0;
 const ok = (c, n, d) => { if (c) { pass++; console.log('  ✓ ' + n); } else { fail++; console.log('  ✗ ' + n + (d ? '  :: ' + String(d).slice(0, 700) : '')); } };
 const dec = (s) => String(s).replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
 const noise = (s) => s.replace(/nonce="[^"]*"/g, 'nonce=""').replace(/("article:modified_time" content=")[^"]*/g, '$1T')
-    .replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z/g, 'ISO').replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS')
+    .replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z/g, 'ISO').replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS').replace(/(id="next-prayer-countdown">)[\d:]+/g, '$1COUNTDOWN')
     .replace(/((?:&amp;|&|\?)b=)[0-9a-f]{7,40}/g, '$1SHA').replace(/js\/app\.js\?v=\d+/g, 'js/app.js?v=N');
 // normalise exactly the four intended changes, applied to BOTH sides
 const intended = (s) => noise(s)

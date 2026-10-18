@@ -25538,30 +25538,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const cityDisplayLoc = (typeof _resolveCityName === 'function')
             ? (_resolveCityName(cityMatchSsr[1], L) || cityDisplay)
             : cityDisplay;
-        // cc → IANA timezone map (أساسيّ لـCity Summary — لا يعود "UTC" لمدن نعرف منطقتها)
-        const _CC_TZ_MAP = {
-            sa:'Asia/Riyadh', eg:'Africa/Cairo', ae:'Asia/Dubai', qa:'Asia/Qatar', bh:'Asia/Bahrain',
-            om:'Asia/Muscat', kw:'Asia/Kuwait', jo:'Asia/Amman', lb:'Asia/Beirut', ps:'Asia/Hebron',
-            sy:'Asia/Damascus', iq:'Asia/Baghdad', ye:'Asia/Aden', tr:'Europe/Istanbul',
-            ir:'Asia/Tehran', pk:'Asia/Karachi', in:'Asia/Kolkata', bd:'Asia/Dhaka',
-            id:'Asia/Jakarta', my:'Asia/Kuala_Lumpur', sg:'Asia/Singapore', bn:'Asia/Brunei',
-            ma:'Africa/Casablanca', dz:'Africa/Algiers', tn:'Africa/Tunis', ly:'Africa/Tripoli',
-            sd:'Africa/Khartoum', so:'Africa/Mogadishu', ng:'Africa/Lagos', et:'Africa/Addis_Ababa',
-            ke:'Africa/Nairobi', sn:'Africa/Dakar', gb:'Europe/London', fr:'Europe/Paris',
-            de:'Europe/Berlin', es:'Europe/Madrid', it:'Europe/Rome', nl:'Europe/Amsterdam',
-            be:'Europe/Brussels', ch:'Europe/Zurich', at:'Europe/Vienna', gr:'Europe/Athens',
-            ru:'Europe/Moscow', ua:'Europe/Kyiv', us:'America/New_York', ca:'America/Toronto',
-            mx:'America/Mexico_City', br:'America/Sao_Paulo', ar:'America/Argentina/Buenos_Aires',
-            au:'Australia/Sydney', jp:'Asia/Tokyo', cn:'Asia/Shanghai', hk:'Asia/Hong_Kong',
-            kr:'Asia/Seoul', th:'Asia/Bangkok', ph:'Asia/Manila', vn:'Asia/Ho_Chi_Minh',
-            af:'Asia/Kabul', az:'Asia/Baku', kz:'Asia/Almaty', uz:'Asia/Tashkent'
-        };
-        // cc → calc method (لمدن الدول المعروفة نعرض الطريقة المحلّيّة)
-        const _CC_METHOD_MAP = {
-            sa:'Makkah', eg:'Egyptian', tr:'Diyanet', ir:'Tehran', pk:'Karachi',
-            my:'JAKIM', id:'Kemenag', ru:'Russia', kw:'Kuwait', qa:'Qatar',
-            ae:'Dubai', sg:'Singapore', fr:'UOIF', gb:'ISNA', us:'ISNA', ca:'ISNA'
-        };
         // PT-CITY-AR-SAFE-1: use localized city display (cityDisplayLoc)
         // instead of raw English Title-Case (cityDisplay). For Arabic
         // pages this is now backed by `_AR_CITY_OVERRIDES_SAFE` +
@@ -25661,45 +25637,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         } catch (_e) { /* silent */ }
 
         // ═══ Phase 2 — SSR حقن City Summary Paragraph (فقرة SEO غنيّة) ═══
+        // SEO-CITY-SUMMARY-HIDDEN-REMOVAL-1 (2026-10-18): only the VISIBLE one-line summary is rendered now. The
+        //   visually-hidden long paragraph (#city-summary-text) repeated visible content for crawlers only and named
+        //   a method from its own cc table — another method than the displayed #sis-calc-method on 1,397 / 3,118
+        //   city pages — so it was removed with its two tables (tz / method) and its 10-lang label map.
         try {
-            const _citySlug = cityMatchSsr[1];
-            const _override = (typeof FAMOUS_CITY_OVERRIDES !== 'undefined' && FAMOUS_CITY_OVERRIDES[_citySlug]) ? FAMOUS_CITY_OVERRIDES[_citySlug] : null;
-            // 🔧 (د) الـtimezone الحقيقيّة: من override إن كانت، ثمّ cc-map، ثمّ fallback
-            const _ccSummary = (_override && _override.cc) ? String(_override.cc).toLowerCase() : '';
-            const _tz = (_override && _override.tz) || _CC_TZ_MAP[_ccSummary] || 'UTC';
-            // الـcalc method الحقيقيّة: من override، ثمّ حسب cc، ثمّ MWL
-            const _method = (_override && _override.method) || _CC_METHOD_MAP[_ccSummary] || 'MWL';
-            let _countryNameForSummary = '';
-            if (_override && _override.cc && typeof _countryNameForLang === 'function') {
-                _countryNameForSummary = _countryNameForLang(_override.cc, L) || '';
-            }
-            // ═══ Polish Round (B) — تعريب method label (بدل "MWL" → "رابطة العالم الإسلامي") ═══
-            const _METHOD_LABELS_BY_LANG = {
-                ar: { 'Makkah':'أم القرى - مكة المكرمة', 'MWL':'رابطة العالم الإسلامي', 'ISNA':'أمريكا الشمالية (ISNA)', 'Egyptian':'الهيئة المصرية العامة للمساحة', 'Karachi':'جامعة العلوم الإسلامية - كراتشي', 'Tehran':'معهد الجيوفيزياء - طهران', 'Kuwait':'الكويت', 'Qatar':'قطر', 'Singapore':'سنغافورة', 'Diyanet':'تركيا - ديانت', 'UOIF':'اتحاد المنظمات الإسلامية في فرنسا', 'Russia':'روسيا', 'JAKIM':'ماليزيا - جاكيم', 'Kemenag':'إندونيسيا - كمناج', 'Dubai':'دبي' },
-                en: { 'Makkah':'Umm Al-Qura University', 'MWL':'Muslim World League', 'ISNA':'Islamic Society of North America', 'Egyptian':'Egyptian General Authority', 'Karachi':'University of Islamic Sciences - Karachi', 'Tehran':'Tehran Geophysics Institute', 'Kuwait':'Kuwait', 'Qatar':'Qatar', 'Singapore':'Singapore', 'Diyanet':'Turkey - Diyanet', 'UOIF':'France - UOIF', 'Russia':'Russia', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Indonesia - Kemenag', 'Dubai':'Dubai' },
-                fr: { 'Makkah':'Université Umm Al-Qura', 'MWL':'Ligue islamique mondiale', 'ISNA':'Société islamique d\u2019Amérique du Nord', 'Egyptian':'Autorité égyptienne générale', 'Karachi':'Université de Karachi', 'Tehran':'Institut de géophysique de Téhéran', 'Kuwait':'Koweït', 'Qatar':'Qatar', 'Singapore':'Singapour', 'Diyanet':'Turquie - Diyanet', 'UOIF':'UOIF France', 'Russia':'Russie', 'JAKIM':'Malaisie - JAKIM', 'Kemenag':'Indonésie - Kemenag', 'Dubai':'Dubaï' },
-                tr: { 'Makkah':'Ümmü\u2019l-Kura Üniversitesi', 'MWL':'İslam Dünyası Birliği', 'ISNA':'Kuzey Amerika İslam Birliği (ISNA)', 'Egyptian':'Mısır Genel Otoritesi', 'Karachi':'Karaçi Üniversitesi', 'Tehran':'Tahran Jeofizik Enstitüsü', 'Kuwait':'Kuveyt', 'Qatar':'Katar', 'Singapore':'Singapur', 'Diyanet':'Türkiye - Diyanet', 'UOIF':'Fransa - UOIF', 'Russia':'Rusya', 'JAKIM':'Malezya - JAKIM', 'Kemenag':'Endonezya - Kemenag', 'Dubai':'Dubai' },
-                ur: { 'Makkah':'جامعہ ام القریٰ', 'MWL':'رابطۃ العالم الاسلامی', 'ISNA':'شمالی امریکہ (ISNA)', 'Egyptian':'مصری جنرل اتھارٹی', 'Karachi':'جامعہ علومِ اسلامیہ کراچی', 'Tehran':'تہران جیوفزکس انسٹیٹیوٹ', 'Kuwait':'کویت', 'Qatar':'قطر', 'Singapore':'سنگاپور', 'Diyanet':'ترکی - دیانت', 'UOIF':'فرانس - UOIF', 'Russia':'روس', 'JAKIM':'ملائیشیا - جاکم', 'Kemenag':'انڈونیشیا - کمناج', 'Dubai':'دبئی' },
-                de: { 'Makkah':'Umm Al-Qura Universität', 'MWL':'Islamische Weltliga', 'ISNA':'Islamic Society of North America', 'Egyptian':'Ägyptische Behörde', 'Karachi':'Universität Karatschi', 'Tehran':'Teheran Geophysik-Institut', 'Kuwait':'Kuwait', 'Qatar':'Katar', 'Singapore':'Singapur', 'Diyanet':'Türkei - Diyanet', 'UOIF':'Frankreich - UOIF', 'Russia':'Russland', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Indonesien - Kemenag', 'Dubai':'Dubai' },
-                id: { 'Makkah':'Universitas Umm Al-Qura', 'MWL':'Liga Muslim Dunia', 'ISNA':'Masyarakat Islam Amerika Utara', 'Egyptian':'Otoritas Mesir', 'Karachi':'Universitas Karachi', 'Tehran':'Institut Geofisika Tehran', 'Kuwait':'Kuwait', 'Qatar':'Qatar', 'Singapore':'Singapura', 'Diyanet':'Turki - Diyanet', 'UOIF':'Prancis - UOIF', 'Russia':'Rusia', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Kementerian Agama RI', 'Dubai':'Dubai' },
-                es: { 'Makkah':'Universidad Umm Al-Qura', 'MWL':'Liga Mundial Islámica', 'ISNA':'Sociedad Islámica de Norteamérica', 'Egyptian':'Autoridad Egipcia', 'Karachi':'Universidad de Karachi', 'Tehran':'Instituto de Geofísica de Teherán', 'Kuwait':'Kuwait', 'Qatar':'Catar', 'Singapore':'Singapur', 'Diyanet':'Turquía - Diyanet', 'UOIF':'Francia - UOIF', 'Russia':'Rusia', 'JAKIM':'Malasia - JAKIM', 'Kemenag':'Indonesia - Kemenag', 'Dubai':'Dubái' },
-                bn: { 'Makkah':'উম্মুল কুরা বিশ্ববিদ্যালয়', 'MWL':'মুসলিম ওয়ার্ল্ড লীগ', 'ISNA':'উত্তর আমেরিকা (ISNA)', 'Egyptian':'মিশরীয় কর্তৃপক্ষ', 'Karachi':'করাচি বিশ্ববিদ্যালয়', 'Tehran':'তেহরান ভূপদার্থবিদ্যা ইনস্টিটিউট', 'Kuwait':'কুয়েত', 'Qatar':'কাতার', 'Singapore':'সিঙ্গাপুর', 'Diyanet':'তুরস্ক - দিয়ানেত', 'UOIF':'ফ্রান্স - UOIF', 'Russia':'রাশিয়া', 'JAKIM':'মালয়েশিয়া - জাকিম', 'Kemenag':'ইন্দোনেশিয়া - কেমেনাগ', 'Dubai':'দুবাই' },
-                ms: { 'Makkah':'Universiti Umm Al-Qura', 'MWL':'Liga Dunia Islam', 'ISNA':'Masyarakat Islam Amerika Utara', 'Egyptian':'Pihak Berkuasa Mesir', 'Karachi':'Universiti Karachi', 'Tehran':'Institut Geofizik Tehran', 'Kuwait':'Kuwait', 'Qatar':'Qatar', 'Singapore':'Singapura', 'Diyanet':'Turki - Diyanet', 'UOIF':'Perancis - UOIF', 'Russia':'Rusia', 'JAKIM':'Malaysia - JAKIM', 'Kemenag':'Indonesia - Kemenag', 'Dubai':'Dubai' }
-            };
-            const _methodLabel = (_METHOD_LABELS_BY_LANG[L] && _METHOD_LABELS_BY_LANG[L][_method]) || _method;
-            // 🔧 (Polish Round B) استبدال ${_tz} IANA → "بالتوقيت المحلّي لـ{city}" (لغة طبيعيّة) + _methodLabel بدل رمز الـmethod
-            const _summaryTpl = ({
-                ar: `تعرض هذه الصفحة مواقيت الصلاة لمدينة ${cityDisplayLoc}${_countryNameForSummary ? '، ' + _countryNameForSummary : ''}، وفق طريقة ${_methodLabel}، بالتوقيت المحلي لـ${cityDisplayLoc}. تُحدَث المواقيت يومياً وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء.`,
-                en: `This page shows prayer times for ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} using the ${_methodLabel} method, in the local time of ${cityDisplayLoc}. Times are updated daily and include Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.`,
-                fr: `Cette page affiche les heures de prière pour ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} selon la méthode ${_methodLabel}, à l'heure locale de ${cityDisplayLoc}.`,
-                tr: `${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} için namaz vakitleri — ${_methodLabel} yöntemi, ${cityDisplayLoc} yerel saati.`,
-                ur: `یہ صفحہ ${cityDisplayLoc}${_countryNameForSummary ? '، ' + _countryNameForSummary : ''} کے اوقاتِ نماز دکھاتا ہے — طریقہ ${_methodLabel}, ${cityDisplayLoc} کے مقامی وقت کے مطابق۔`,
-                de: `Diese Seite zeigt die Gebetszeiten für ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} nach der ${_methodLabel}-Methode, in der Ortszeit von ${cityDisplayLoc}.`,
-                id: `Halaman ini menampilkan jadwal sholat untuk ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} menggunakan metode ${_methodLabel}, waktu setempat ${cityDisplayLoc}.`,
-                es: `Esta página muestra los horarios de oración para ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} usando el método ${_methodLabel}, en la hora local de ${cityDisplayLoc}.`,
-                bn: `এই পৃষ্ঠায় ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''}-এর নামাজের সময় দেখানো হয়েছে — পদ্ধতি ${_methodLabel}, ${cityDisplayLoc}-এর স্থানীয় সময় অনুযায়ী।`,
-                ms: `Halaman ini menunjukkan waktu solat untuk ${cityDisplayLoc}${_countryNameForSummary ? ', ' + _countryNameForSummary : ''} menggunakan kaedah ${_methodLabel}, waktu tempatan ${cityDisplayLoc}.`,
-            })[L] || `Prayer times for ${cityDisplayLoc} using ${_methodLabel} method, local time of ${cityDisplayLoc}.`;
             // 🆕 Round 2.1: SHORT visible summary — humanized + Hijri+Gregorian keywords (SEO boost)
             const _summaryShortTpl = ({
                 ar: `مواقيت الصلاة اليوم في ${cityDisplayLoc} بالتوقيت المحلي — مع التاريخ الهجري والميلادي.`,
@@ -25713,10 +25655,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 bn: `আজ ${cityDisplayLoc}-এ নামাজের সময় স্থানীয় সময়ে — হিজরি ও গ্রেগরিয়ান তারিখসহ।`,
                 ms: `Waktu solat hari ini di ${cityDisplayLoc} dalam waktu tempatan — dengan tarikh Hijrah dan Masihi.`,
             })[L] || `Today's prayer times in ${cityDisplayLoc} in local time — with Hijri and Gregorian dates.`;
-            html = html.replace(
-                '<p id="city-summary-text" class="city-summary-hidden-seo"><!-- SSR:CITY_SUMMARY --></p>',
-                `<p id="city-summary-text" class="city-summary-hidden-seo">${_escHtml(_summaryTpl)}</p>`
-            );
             html = html.replace(
                 '<p id="city-summary-visible" class="city-summary-visible"><!-- SSR:CITY_SUMMARY_SHORT --></p>',
                 `<p id="city-summary-visible" class="city-summary-visible">${_escHtml(_summaryShortTpl)}</p>`

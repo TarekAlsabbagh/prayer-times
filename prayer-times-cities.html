@@ -1242,7 +1242,17 @@ function updatePageHeader() {
 /** SEO meta كامل لصفحة قائمة مدن الدولة */
 function updateCountryListingSEO(lngOrIsEn, countryName) {
     if (window.location.protocol === 'file:') return;
-    const origin = window.SITE_URL || window.location.origin;
+    // CLIENT-CANONICAL-ORIGIN-PIN-1: canonical / hreflang / og:url use the server's SEO origin
+    //   (<meta name="tp-seo-origin">, the SSR canonical origin) when present; otherwise the previous
+    //   behaviour. Only this SEO writer changes — updateCountryBreadcrumb / the ItemList JSON-LD keep window.SITE_URL.
+    const origin = (function () {
+        try {
+            const m = document.querySelector('meta[name="tp-seo-origin"]');
+            const v = (m && m.getAttribute('content') || '').trim();
+            if (/^https?:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(v)) return v;
+        } catch (_) { /* fall through */ }
+        return window.SITE_URL || window.location.origin;
+    })();
     let p = window.location.pathname.replace(/\.html$/, '');
     if (p === '') p = '/';
     // 10 لغات: ar (افتراضي)، en، fr، tr، ur، de، id، es، bn، ms

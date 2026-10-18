@@ -10776,10 +10776,27 @@ function _seoRemoveSchema(id) {
     if (el) el.remove();
 }
 
+// CLIENT-CANONICAL-ORIGIN-PIN-1 (SEO-VISIBILITY-BATCH-1, 2026-10-18): the origin used for canonical / hreflang / og:url / og:image.
+//   The server publishes its own SITE_URL origin as <meta name="tp-seo-origin"> (the same origin the SSR canonical
+//   uses), so the values the client writes after hydration match the raw SSR HTML on EVERY host, instead of being
+//   rebuilt from window.location.origin on a mirror host. Dedicated to the two SEO writers below — window.SITE_URL
+//   itself (breadcrumb anchors, client JSON-LD) is untouched. The tag is validated; without it (or with a malformed
+//   value) the previous behaviour (window.SITE_URL || location.origin) applies unchanged.
+let _seoOriginCache;
+function _seoOrigin() {
+    if (_seoOriginCache !== undefined) return _seoOriginCache;
+    let v = '';
+    try {
+        const m = document.querySelector('meta[name="tp-seo-origin"]');
+        v = (m && m.getAttribute('content') || '').trim();
+    } catch (_) { v = ''; }
+    _seoOriginCache = /^https?:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(v) ? v : (window.SITE_URL || window.location.origin);
+    return _seoOriginCache;
+}
 // يُعطي الروابط المقابلة لكل لغة (للـ hreflang) + canonical
 // يدعم 10 لغات: ar (افتراضي بدون prefix)، en، fr، tr، ur، de، id، es، bn، ms
 function _seoGetBilingualUrls() {
-    const origin = window.SITE_URL || window.location.origin;
+    const origin = _seoOrigin();
     let path = window.location.pathname.replace(/\.html$/, '');
     if (path === '') path = '/';
     const LANGS = ['en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
@@ -10866,7 +10883,7 @@ function setSEOMeta({ title, description, ogType = 'website', schemaId, schemaGr
     // ──────────────────────────────────────────────────────────────────────
     const urls = _seoGetBilingualUrls();
     const lang = urls.lang;
-    const origin = window.SITE_URL || window.location.origin;
+    const origin = _seoOrigin();   // CLIENT-CANONICAL-ORIGIN-PIN-1: og:image below uses the server origin too
     const SITE_NAMES = {
         ar: 'مواقيت الصلاة', en: 'Prayer Times', fr: 'Heures de Prière',
         tr: 'Namaz Vakitleri', ur: 'اوقاتِ نماز', de: 'Gebetszeiten',

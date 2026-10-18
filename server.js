@@ -6294,6 +6294,19 @@ function _applyCspNonce(html, nonce) {
     if (!html || html.indexOf(_TP_NONCE_TOKEN) === -1) return html;
     return html.split(_TP_NONCE_TOKEN).join(nonce || '');
 }
+// CLIENT-CANONICAL-ORIGIN-PIN-1 (SEO-ONRENDER-CANONICAL-PIN-1, 2026-10-18; first prepared and reviewed locally 10-13): js/app.js builds canonical, the 11 hreflang alternates,
+//   og:url and og:image from `window.SITE_URL`, which the templates set to window.location.origin — so on any mirror
+//   host the rendered DOM becomes self-canonical to that host while the raw SSR HTML says SITE_URL. The server now
+//   publishes its own origin as a DEDICATED SEO setting (one <meta>, no script, no CSP change) and only the two SEO
+//   writers in app.js (_seoGetBilingualUrls / setSEOMeta) read it. window.SITE_URL itself is NOT changed: the
+//   breadcrumb anchors and the client JSON-LD keep building from it, so no navigation target or data request moves.
+//   Only a validated absolute origin is published; otherwise no tag is emitted and the client keeps today's behaviour.
+const _SEO_ORIGIN_META = (() => {
+    try {
+        const origin = new URL(SITE_URL).origin;
+        return (/^https?:\/\/[a-z0-9.-]+(?::\d+)?$/i.test(origin)) ? ('<meta name="tp-seo-origin" content="' + _escHtml(origin) + '">') : '';
+    } catch (_) { return ''; }
+})();
 // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): drop developer HTML comments from the FINAL document only.
 //   Called at the two public HTML exits (serveHtmlWithSeo, serveCountriesPage) AFTER every SSR pass — several
 //   passes anchor on comment text (<!--SHARED-*-->, <!-- TL-SEO-CONTENT -->, <!-- COUNTRIES-* -->, moon-hub
@@ -13852,7 +13865,8 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
         {
             const _wwLangs = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
             const _wwUrl = (lg) => getBaseUrl() + (lg === 'ar' ? '' : '/' + lg) + '/prayer-times-worldwide';
-            let _wwSeo = `<link rel="canonical" href="${_escHtml(_wwUrl(lang))}">`;
+            // CLIENT-CANONICAL-ORIGIN-PIN-1: same dedicated SEO-origin tag as renderSeoHeadHtml() (exit B).
+            let _wwSeo = (_SEO_ORIGIN_META ? _SEO_ORIGIN_META + '\r\n    ' : '') + `<link rel="canonical" href="${_escHtml(_wwUrl(lang))}">`;
             for (const _lg of _wwLangs) {
                 _wwSeo += `\r\n    <link rel="alternate" hreflang="${_lg}" href="${_escHtml(_wwUrl(_lg))}">`;
             }
@@ -17693,6 +17707,8 @@ function renderSeoHeadHtml(seo) {
     // robots: استخدم override (noindex للتواريخ خارج النطاق مثلاً) وإلا القيمة الافتراضيّة
     const _robots = seo.robotsOverride || 'index,follow,max-snippet:-1,max-image-preview:large,max-video-preview:-1';
     parts.push(`<meta name="robots" content="${esc(_robots)}">`);
+    // CLIENT-CANONICAL-ORIGIN-PIN-1: the server origin the client SEO writers must use (same origin as `canonical`).
+    if (_SEO_ORIGIN_META) parts.push(_SEO_ORIGIN_META);
     // NOTE: لا نضيف preconnect لـ nominatim — جميع طلبات الـ geocoding تمرّ عبر proxy محلي (/api/geocode)
     parts.push(`<link rel="canonical" href="${esc(seo.canonical)}">`);
     // QURAN-AR-SSR-SURAH-GENERALIZATION-1 — `noHreflang` opts a route OUT of the alternates block entirely.

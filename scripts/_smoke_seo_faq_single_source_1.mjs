@@ -48,7 +48,7 @@ const AR_RE = /[\u0600-\u06FF]/;
 const norm = (s) => s.replace(/nonce="[^"]*"/g, 'nonce=""')
     .replace(/("article:modified_time" content=")[^"]*/g, '$1T')
     .replace(/\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d\.\d{3}Z/g, 'ISO')
-    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS')
+    .replace(/(id="current-time">)\d\d:\d\d:\d\d/g, '$1HMS').replace(/(id="next-prayer-countdown">)[\d:]+/g, '$1COUNTDOWN')
     .replace(/((?:&amp;|&|\?)b=)[0-9a-f]{7,40}/g, '$1SHA')
     .replace(/(i18n(?:-core)?(?:\/[a-z]{2})?\.js\?v=)\d+/g, '$1V');
 const ldBlocks = (html) => [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)].map((m) => { try { return JSON.parse(m[1]); } catch (_) { return null; } }).filter(Boolean);

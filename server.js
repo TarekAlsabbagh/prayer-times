@@ -741,6 +741,45 @@ function _prayerCountryFirstPageGridHtml(cc, L) {
     } catch (_) { return ''; }
 }
 
+// SEO-COUNTRY-CITY-CRAWL-PATHS-1 (2026-10-18): the prayer country page linked only its first 26 curated
+//   cities in HTML (the rest came from in-memory JS pagination: <button>s, no href), so 1,293 cities of the 30
+//   countries with more than 26 had no crawlable path at all (e.g. /prayer-times-in-kolkata, 44th in India).
+//   This renders the REMAINING cities as one visible section of plain links under the 26 cards — one <a> per
+//   city, alphabetical by the localized name, no new URL, no query/sort variants. Countries with <= 26 cities
+//   get nothing (their page stays byte-identical). Heading = the existing cities.more_btn_country string.
+// Growth guard (owner condition): the section lists EVERY remaining city — never truncated. Above this many links a
+//   country must move to extra crawlable pages (plain <a> links, stable URLs, prev/next) BEFORE that data ships; the
+//   warning below and the batch smoke test (max remaining <= cap) catch it. Today's max: India, 173.
+const _MORE_CITIES_SOFT_CAP = 250;
+const _moreCitiesCapWarned = new Set();
+function _prayerCountryMoreCitiesHtml(cc, L, countryName) {
+    try {
+        const all = _curatedCitiesForCc(cc);
+        if (!all || all.length <= _MC_FIRST_PAGE) return '';
+        if (all.length - _MC_FIRST_PAGE > _MORE_CITIES_SOFT_CAP && !_moreCitiesCapWarned.has(cc)) {
+            _moreCitiesCapWarned.add(cc);
+            console.warn('[country-more-cities] ' + cc + ': ' + (all.length - _MC_FIRST_PAGE) + ' links > ' + _MORE_CITIES_SOFT_CAP + ' — split into extra crawlable pages before shipping this data (no city may be dropped)');
+        }
+        const pfx = (L === 'ar') ? '' : '/' + L;
+        const rest = all.slice(_MC_FIRST_PAGE).map((c) => {
+            const nm = c.names || {};
+            const label = (L === 'ar') ? (nm.ar || c.nameAr || nm.en || c.slug) : (nm[L] || nm.en || c.nameEn || c.slug);
+            return { slug: c.slug, label };
+        });
+        let coll = null;
+        try { coll = new Intl.Collator(L, { sensitivity: 'base' }); } catch (_) { coll = null; }
+        rest.sort((a, b) => (coll ? coll.compare(a.label, b.label) : String(a.label).localeCompare(String(b.label))) || a.slug.localeCompare(b.slug));
+        const D = (I18N && (I18N[L] || I18N.en)) || {};
+        const E = (I18N && I18N.en) || {};
+        const tpl = String(D['cities.more_btn_country'] || E['cities.more_btn_country'] || 'More Cities of {country}')
+            .replace(/[\s\u2190\u2192]+$/u, '');
+        const title = tpl.replace('{country}', countryName || '') + ' (' + rest.length + ')';
+        const links = rest.map((c) => `<a href="${_escHtml(pfx + '/prayer-times-in-' + c.slug)}">${_escHtml(c.label)}</a>`).join('');
+        return `<section class="cities-more-card" id="country-more-cities" aria-labelledby="country-more-cities-h">`
+            + `<h2 id="country-more-cities-h">${_escHtml(title)}</h2><nav class="cities-more-links" aria-labelledby="country-more-cities-h">${links}</nav></section>`;
+    } catch (_) { return ''; }
+}
+
 // PRAYER-COUNTRY-HEADER-MATCH-MOON-COUNTRY-1 (2026-06-24): the country-grid template
 // (prayer-times-cities.html) serves BOTH /moon/{country} (moon variant) AND the prayer
 // country page /prayer-times-in-{country}. The moon variant unifies its .top-header with
@@ -11790,7 +11829,9 @@ function _buildCountryQuickGuide(cc, cn, L) {
         let linkCards = `<a class="pc-link-card" href="${_escHtml(pfx + '/qibla')}">`
             + `<span class="pc-link-title">${_escHtml(sub(G.qiblaTitle))}</span>`
             + `<span class="pc-link-desc">${_escHtml(sub(G.qiblaDesc))}</span></a>`;
-        if (countrySlug) {
+        // SEO-COUNTRY-CITY-CRAWL-PATHS-1: /moon/{country} answers 404 without curated cities (moonCountryListing
+        //   gate), so the 26 city-less country pages linked a 404 here — link it only when that page exists.
+        if (countrySlug && _curatedCitiesForCc(cc).length > 0) {
             linkCards += `<a class="pc-link-card" href="${_escHtml(pfx + '/moon/' + countrySlug)}">`
                 + `<span class="pc-link-title">${_escHtml(sub(G.moonTitle))}</span>`
                 + `<span class="pc-link-desc">${_escHtml(sub(G.moonDesc))}</span></a>`;
@@ -13382,6 +13423,8 @@ const _REGION_TITLES = {
     europe:   { ar:'🌍 أوروبا',            en:'🌍 Europe',            fr:'🌍 Europe',            tr:'🌍 Avrupa',              ur:'🌍 یورپ',              de:'🌍 Europa',             id:'🌍 Eropa',              es:'🌍 Europa',            bn:'🌍 ইউরোপ',                  ms:'🌍 Eropah' },
     americas: { ar:'🌎 الأمريكتان',        en:'🌎 The Americas',      fr:'🌎 Amériques',         tr:'🌎 Amerika Kıtası',      ur:'🌎 امریکہ',            de:'🌎 Amerika',            id:'🌎 Benua Amerika',      es:'🌎 Las Américas',      bn:'🌎 আমেরিকা মহাদেশ',         ms:'🌎 Benua Amerika' },
     oceania:  { ar:'🌏 أوقيانوسيا',        en:'🌏 Oceania',           fr:'🌏 Océanie',           tr:'🌏 Okyanusya',           ur:'🌏 اوشیانیا',          de:'🌏 Ozeanien',           id:'🌏 Oseania',            es:'🌏 Oceanía',           bn:'🌏 ওশেনিয়া',               ms:'🌏 Oceania' },
+    // SEO-COUNTRY-CITY-CRAWL-PATHS-1: neutral group for curated countries without an explicit region (see _worldwideRegions).
+    other:    { ar:'🌐 دول أخرى',          en:'🌐 Other countries',   fr:'🌐 Autres pays',        tr:'🌐 Diğer ülkeler',       ur:'🌐 دیگر ممالک',       de:'🌐 Weitere Länder',     id:'🌐 Negara lainnya',     es:'🌐 Otros países',      bn:'🌐 অন্যান্য দেশ',           ms:'🌐 Negara lain' },
 };
 
 // ترجمات أسماء الدول لغير العربية (لغير AR — نعتمد على COUNTRY_NAMES_EN كأساس،
@@ -14056,11 +14099,53 @@ function _countryNameForLang(cc, lang) {
     return COUNTRY_NAMES_EN[cc] || cc.toUpperCase();
 }
 
+// SEO-COUNTRY-CITY-CRAWL-PATHS-1 (2026-10-18): _COUNTRIES_REGIONS is hand-kept and was not updated when later
+//   city batches added countries, so 46 countries that HAVE curated cities (and a 200 country page in the
+//   sitemap) were missing from /prayer-times-worldwide — and, linked only from their own cities' breadcrumbs,
+//   had no crawlable path at all (e.g. /prayer-times-in-iceland). The grid now also lists every curated
+//   country with a country page that the regions miss: explicit placement for the 46 known ones; any future
+//   unmapped country goes to a neutral "other" group (never guessed from its timezone) and is logged.
+const _COUNTRIES_REGIONS_EXTRA = {
+    europe:   ['is','lu','lt','ee','cy','mt','me','lv','by','md'],
+    asia:     ['tw'],
+    africa:   ['cv','na','bw','ga','cg','cf','bi','ls','gw','gq','sz','st','sc'],
+    americas: ['hn','ni','sv','ag','bs','bb','bz','dm','gd','kn','lc','vc'],
+    oceania:  ['ws','to','vu','sb','ki','mh','fm','nr','pw','tv'],
+};
+let _countriesRegionsFull = null;
+function _worldwideRegions() {
+    if (_countriesRegionsFull) return _countriesRegionsFull;
+    const out = {};
+    const seen = new Set();
+    for (const r of Object.keys(_COUNTRIES_REGIONS)) { out[r] = _COUNTRIES_REGIONS[r].slice(); out[r].forEach((c) => seen.add(c)); }
+    const hasPage = (cc) => !!(COUNTRY_NAMES_EN[cc] && makeCountrySlugSrv(cc));
+    for (const r of Object.keys(_COUNTRIES_REGIONS_EXTRA)) {
+        for (const cc of _COUNTRIES_REGIONS_EXTRA[r]) { if (!seen.has(cc) && hasPage(cc) && _curatedCitiesForCc(cc).length) { out[r].push(cc); seen.add(cc); } }
+    }
+    // A curated country with a country page but no EXPLICIT region is never guessed into a region (an IANA zone
+    //   prefix is not a region: Atlantic/*, Indian/*, Asia/Nicosia…). It goes to a neutral, clearly titled "other"
+    //   group so it stays reachable, and a warning asks for an explicit entry in _COUNTRIES_REGIONS_EXTRA. The group
+    //   is only emitted when non-empty (today: empty — every curated country is mapped).
+    const late = [];
+    for (const p of _CURATED_PLACES) {
+        const cc = p.countryCode;
+        if (!cc || seen.has(cc) || !hasPage(cc)) continue;
+        late.push(cc); seen.add(cc);
+    }
+    if (late.length) {
+        out.other = late;
+        console.warn('[worldwide] curated countries without an explicit region (listed under "other"; add them to _COUNTRIES_REGIONS_EXTRA): ' + late.join(' '));
+    }
+    _countriesRegionsFull = out;
+    return out;
+}
+
 function _buildCountriesGrid(lang) {
     const urlPrefix = (lang === 'ar') ? '' : '/' + lang;
     let out = '';
-    for (const region of Object.keys(_COUNTRIES_REGIONS)) {
-        const codes = _COUNTRIES_REGIONS[region];
+    const _regions = _worldwideRegions();
+    for (const region of Object.keys(_regions)) {
+        const codes = _regions[region];
         const regionTitle = (_REGION_TITLES[region] && _REGION_TITLES[region][lang]) || _REGION_TITLES[region].en;
         out += `\n<section class="region-block" data-region="${region}">`;
         out += `\n    <h2>${_escHtml(regionTitle)}</h2>`;
@@ -25306,6 +25391,15 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 /<div id="cities-container">[\s\S]*?<\/div>\s*<\/div>\s*(?=<div class="pagination")/,
                 `<div id="cities-container" data-ssr-grid="1">${_pcGrid}</div>\n            `
             );
+        }
+        // SEO-COUNTRY-CITY-CRAWL-PATHS-1: the remaining cities (beyond the 26 cards) as plain links, at the end of the
+        //   page right before the footer (after the guide + FAQ, so the long list never splits the page content).
+        //   Prayer variant only; nothing for countries with <= 26 cities.
+        {
+            const _pcMore = _prayerCountryMoreCitiesHtml(seo.countryListing.code, L, cn);
+            if (_pcMore) {
+                html = html.replace('<footer class="site-footer">', () => _pcMore + '\r\n\r\n        <footer class="site-footer">');
+            }
         }
         // SSR للعنوان الرئيسي لـ prayer-times-cities.html (id="page-title" — مكتوب بالعربية في القالب)
         const _countryH1 = {

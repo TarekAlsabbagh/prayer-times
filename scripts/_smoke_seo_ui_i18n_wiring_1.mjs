@@ -1,6 +1,6 @@
 // SEO-UI-I18N-WIRING — local regression guard (no network: outbound guard, non-loopback hosts unresolvable, ads off).
 //   BASE = clean production tree (env TP_BASE_ROOT), CAND = this tree.
-//   [W] /{lang}/prayer-times-worldwide: the shared chrome is translated (no Arabic script on the 7 Latin-script langs
+//   [W] /{lang}/prayer-times-worldwide (app.js / i18n.js carry the build stamp &b=): the shared chrome is translated (no Arabic script on the 7 Latin-script langs
 //       + bn), every internal href carries the language prefix (except /quran and assets), no /moon-today or
 //       /prayer-times-in-mecca link (both 301), and every internal link answers 200.
 //   [H] top-bar Hijri date (city pages × 10 langs) == "{wday}{sep}{day} {hmonth} {year}{suffix}" from i18n, weekday in
@@ -99,6 +99,20 @@ try {
         if (href === pfx(L) + '/moon' && r.st === 200 && hl === L) mDest++; else mDestBad.push(L + ' href=' + href + ' st=' + r.st + ' lang=' + hl);
     }
     ok(mDest === 10, '[W] the moon card points to /{lang}/moon, which answers 200 in the same language (10 langs, raw HTML)', mDestBad.join(' | '));
+    // build stamp: the worldwide page loads /js/i18n.js?v=… served immutable for a year; without &b=<build> a returning
+    //   visitor keeps the old file and never sees the new translations. BASE has no stamp there (control).
+    let sOk = 0; const sBad = [];
+    for (const L of LANGS) {
+        const c = await get(PORT.cand, pfx(L) + '/prayer-times-worldwide');
+        const refs = [...c.b.matchAll(/src="([^"]*\/(?:app|i18n)\.js\?v=[^"]*)"/g)].map((m) => m[1]);
+        const good = refs.some((u) => /\/i18n\.js\?/.test(u)) && refs.every((u) => /\?v=\d+&b=[0-9a-f]{7,40}$/.test(u));
+        if (good) sOk++; else sBad.push(L + ' ' + (refs.join(' ') || 'no app/i18n script'));
+    }
+    const wb = await get(PORT.base, '/en/prayer-times-worldwide');
+    const stampedUrl = ((await get(PORT.cand, '/en/prayer-times-worldwide')).b.match(/src="([^"]*\/i18n\.js\?v=\d+&b=[0-9a-f]+)"/) || [])[1];
+    const sf = stampedUrl ? await get(PORT.cand, stampedUrl) : { st: 0, h: {} };
+    ok(sOk === 10 && !/\/(?:app|i18n)\.js\?v=\d+&b=/.test(wb.b), '[W] worldwide page: app.js / i18n.js carry the build stamp &b= in 10 langs (BASE: none)', sBad.join(' | '));
+    ok(sf.st === 200 && /immutable/.test(String(sf.h['cache-control'] || '')), '[W] the stamped i18n.js URL answers 200 (immutable cache)', stampedUrl + ' ' + sf.st + ' ' + sf.h['cache-control']);
     // ---------------------------------------------------------------- [H]
     console.log('-- [H] top-bar Hijri date');
     let hOk = 0, hN = 0; const hBad = [];

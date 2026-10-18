@@ -19558,19 +19558,28 @@ function _moonCityLocalNoon(tz, baseDate) {
     if (!(d instanceof Date) || isNaN(d.getTime())) d = new Date();
     try {
         // Step 1: extract the city-local calendar date (Y/M/D) at `d`
-        const parts = new Intl.DateTimeFormat('en-CA', {
+        const ymdFmt = new Intl.DateTimeFormat('en-CA', {
             timeZone: tz,
             year: 'numeric', month: '2-digit', day: '2-digit'
-        }).format(d).split('-').map(Number);
+        });
+        const parts = ymdFmt.format(d).split('-').map(Number);
         const [y, m, day] = parts;
         // Step 2: build an instant at 12:00 UTC of that day, then shift by
         // the difference between that instant's tz-local hour and 12.
         const noonUtc = Date.UTC(y, m - 1, day, 12, 0, 0, 0);
         const seenH = parseInt(new Intl.DateTimeFormat('en-GB', {
             timeZone: tz, hour: '2-digit', hour12: false
-        }).format(new Date(noonUtc)), 10);
+        }).format(new Date(noonUtc)), 10) % 24;
         if (!Number.isFinite(seenH)) return null;
-        return new Date(noonUtc + (12 - seenH) * 3600 * 1000);
+        // TODAY-PAGES-ACCURACY-1 (1a): at UTC+12 and beyond (Auckland, Apia, Tarawa…) 12:00 UTC
+        // of the city date is already the NEXT local day, so the hour alone landed on TOMORROW's
+        // noon all year. Count the local hours from the start of the city date (+24 per day the
+        // local date at 12:00 UTC is ahead of it). Everywhere else that day difference is 0, so
+        // the instant is exactly the one this function returned before (server.js mirror).
+        const seenParts = ymdFmt.format(new Date(noonUtc)).split('-').map(Number);
+        const dayDiff = Math.round((Date.UTC(seenParts[0], seenParts[1] - 1, seenParts[2]) - Date.UTC(y, m - 1, day)) / 86400000);
+        if (!Number.isFinite(dayDiff)) return null;
+        return new Date(noonUtc + (12 - (seenH + 24 * dayDiff)) * 3600 * 1000);
     } catch (_) {
         return null;
     }

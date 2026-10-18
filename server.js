@@ -11207,16 +11207,25 @@ function _moonCityLocalNoonSsr(tz, baseDate) {
         // client _moonCityLocalNoon(tz, baseDate)) → resolves 12:00 local noon of baseDate's
         // city-local calendar day. Omitted → today. Used for dated day pages (page date's noon).
         const d = (baseDate instanceof Date && !isNaN(baseDate.getTime())) ? baseDate : new Date();
-        const parts = new Intl.DateTimeFormat('en-CA', {
+        const ymdFmt = new Intl.DateTimeFormat('en-CA', {
             timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
-        }).format(d).split('-').map(Number);
+        });
+        const parts = ymdFmt.format(d).split('-').map(Number);
         const [y, m, day] = parts;
         const noonUtc = Date.UTC(y, m - 1, day, 12, 0, 0, 0);
         const seenH = parseInt(new Intl.DateTimeFormat('en-GB', {
             timeZone: tz, hour: '2-digit', hour12: false
-        }).format(new Date(noonUtc)), 10);
+        }).format(new Date(noonUtc)), 10) % 24;
         if (!Number.isFinite(seenH)) return null;
-        return new Date(noonUtc + (12 - seenH) * 3600 * 1000);
+        // TODAY-PAGES-ACCURACY-1 (1a): at UTC+12 and beyond (Auckland, Apia, Tarawa…) 12:00 UTC
+        // of the city date is already the NEXT local day, so the hour alone landed on TOMORROW's
+        // noon all year. Count the local hours from the start of the city date (+24 per day the
+        // local date at 12:00 UTC is ahead of it). Everywhere else that day difference is 0, so
+        // the instant is exactly the one this function returned before (js/app.js mirror).
+        const seenParts = ymdFmt.format(new Date(noonUtc)).split('-').map(Number);
+        const dayDiff = Math.round((Date.UTC(seenParts[0], seenParts[1] - 1, seenParts[2]) - Date.UTC(y, m - 1, day)) / 86400000);
+        if (!Number.isFinite(dayDiff)) return null;
+        return new Date(noonUtc + (12 - (seenH + 24 * dayDiff)) * 3600 * 1000);
     } catch (_) {
         return null;
     }
@@ -17245,8 +17254,14 @@ function buildSeoForPath(urlPath, hcw) {
             // null → العميل سيستعمل _tzFromLongitude fallback (Etc/GMT±N).
             const _moonCc = (cityGeo.cc || '').toLowerCase();
             // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1: prefer the discovered row's EXACT IANA
-            // tz (e.g. Asia/Damascus) when present; else the curated cc→primary-tz map (unchanged).
-            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null);
+            // tz (e.g. Asia/Damascus) when present.
+            // TODAY-PAGES-ACCURACY-1 (1a): otherwise the CITY's own zone from `_ssrCityIana` — the
+            // resolver the prayer-city pages already use (curated zone → discovered → gated
+            // coordinate lookup → `_CC_TO_PRIMARY_TZ[cc]`). The bare country zone gave Seattle New
+            // York's clock in <meta name="moon.city.tz">, which the client computes the whole card
+            // with, and left cities of countries missing from that map (Riga) with no zone at all.
+            // No country code (Mecca / coord-only fallback) still means no zone, as before.
+            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_ssrCityIana(citySlug, _moonCc, cityGeo.lat, cityGeo.lng) || null) : null);
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
                 tz: _moonTz,                          // Asia/Tokyo إلخ — أو null عند عدم التوفّر
@@ -17818,9 +17833,12 @@ function buildSeoForPath(urlPath, hcw) {
             // real coords/tz so the year calendar binds to the actual city (the Mecca fallback was the
             // bug). Page stays noindex via the unified nested-moon city-route gate below.
             const _ycDisc = (!_ycGeo && !_ycCurated && typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(_yc.citySlug) : null;
-            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_CC_TO_PRIMARY_TZ[_yc.cc] || null);
             const _ycLat = _ycGeo ? _ycGeo.lat : (_ycCurated ? _ycCurated.lat : (_ycDisc && typeof _ycDisc.lat === 'number' ? _ycDisc.lat : 21.4225));
             const _ycLng = _ycGeo ? _ycGeo.lng : (_ycCurated ? _ycCurated.lng : (_ycDisc && typeof _ycDisc.lng === 'number' ? _ycDisc.lng : 39.8262));
+            // TODAY-PAGES-ACCURACY-1 (1a): a city with no curated / discovered zone (db/cities-only,
+            // e.g. denver) takes its own zone from `_ssrCityIana` (gated coordinate lookup, country
+            // zone last) instead of the bare country zone. Curated / discovered tiers unchanged.
+            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_ssrCityIana(_yc.citySlug, _yc.cc, _ycLat, _ycLng) || null);
             const _Y = _yc.year;
             // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
             // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.

@@ -4220,12 +4220,8 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
         const hijri = _cityIanaPL
             ? _hijriForIana(_cityIanaPL)
             : ((typeof _hijriNow === 'function') ? _hijriNow() : null);
-        const hMonthAr = hijri ? ((_HIJRI_MONTHS[hijri.month] || {}).ar || '') : '';
-        const hMonthEn = hijri ? ((_HIJRI_MONTHS[hijri.month] || {}).en || '') : '';
-        const isRTL = (lang === 'ar' || lang === 'ur');
-        const hijriStr = !hijri ? '' : (isRTL
-            ? `${hijri.day} ${hMonthAr} ${hijri.year} هـ`
-            : `${hijri.day} ${hMonthEn} ${hijri.year} AH`);
+        // SEO-BANNER-HIJRI-DATE-I18N-1: same text as the client (was Arabic on ur, English on bn/fr/tr/de/id/es/ms).
+        const hijriStr = !hijri ? '' : _bannerHijriText(lang, hijri, _weekdayIdxIn(_cityIanaPL || 'Asia/Riyadh'));
         const gMonths = _GREG_MONTHS[lang] || _GREG_MONTHS.en;
         const gMonthLabel = gMonths[localD.getUTCMonth()];
         const gregStr = `${localD.getUTCDate()} ${gMonthLabel} ${localD.getUTCFullYear()}`;
@@ -6349,6 +6345,50 @@ function _rewriteShareLinks(html, pageUrl) {
         html = html.replace(new RegExp('(<a class="home-share-btn" id="' + id + '" href=")[^"]*(")'), (m, a, b) => a + hrefs[id] + b);
     }
     return html;
+}
+
+// SEO-WORLDWIDE-I18N-WIRING-1 (2026-10-18): MOON-TODAY-CONTENT-MOVE-TO-MOON-1 rewrite moved verbatim out of serveHtmlWithSeo
+//   so serveCountriesPage runs it too: href="/moon-today" | href="/{lang}/moon-today" → …/moon (the hub moved; the old URL
+//   answers 301). Anchored on the closing quote, so /moon-today-in-{slug} never matches; href= only (JSON-LD untouched).
+function _moonTodayHrefToMoon(html) {
+    return html.replace(/href="(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon-today"/g,
+        (full, lp) => 'href="' + (lp || '') + '/moon"');
+}
+
+// SEO-WORLDWIDE-I18N-WIRING-1 (2026-10-18): the non-Arabic language-prefix pass for internal hrefs, moved verbatim out
+//   of serveHtmlWithSeo (exit A) so serveCountriesPage (exit B) runs the SAME rules: only double-quoted href="/…";
+//   "/" → "/{lang}"; skips already-prefixed paths, /api/, /quran (Arabic-only) and static assets.
+function _langPrefixInternalHrefs(html, _L) {
+    if (_L && _L !== 'ar') {
+        const _alreadyPrefixed = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/;
+        const _staticExt = /\.(?:js|mjs|css|json|xml|png|jpe?g|gif|svg|webp|ico|webmanifest|txt|woff2?|ttf|otf|map|pdf|mp[34]|webm)$/i;
+        html = html.replace(/href="(\/[^"?#]*)((?:[?#][^"]*)?)"/g, (full, path, qh) => {
+            if (path === '/') return 'href="/' + _L + '"';      // home/logo
+            if (_alreadyPrefixed.test(path)) return full;        // already /xx/…
+            if (path.startsWith('/api/')) return full;           // API endpoints
+            if (path === '/quran' || path.startsWith('/quran/')) return full; // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1: the Quran section is Arabic-only → keep /quran unprefixed on every non-Arabic page (a /{lang}/quran path is a 404)
+            if (_staticExt.test(path)) return full;              // static assets
+            return 'href="/' + _L + path + qh + '"';
+        });
+    }
+    return html;
+}
+
+// SEO-BANNER-HIJRI-DATE-I18N-1 (2026-10-18): the top-bar Hijri date exactly as the client writes it (app.js banner:
+//   `${dayName}${sep}${day} ${hijriMonthName} ${year}${hSfx}`), from the same i18n keys, so SSR == hydrated text in
+//   every language. Weekday in the given IANA zone (the zone the Hijri day itself was computed in).
+const _WD_IDX = { Sun: 0, Mon: 1, Tue: 2, Wed: 3, Thu: 4, Fri: 5, Sat: 6 };
+function _weekdayIdxIn(iana, now) {
+    try { const w = new Intl.DateTimeFormat('en-US', { timeZone: iana || 'Asia/Riyadh', weekday: 'short' }).format(now || new Date()); if (w in _WD_IDX) return _WD_IDX[w]; } catch (_) { /* fall through */ }
+    return (now || new Date()).getUTCDay();
+}
+function _bannerHijriText(lang, h, wd) {
+    const D = (I18N && (I18N[lang] || I18N.en)) || {};
+    const E = (I18N && I18N.en) || {};
+    const t = (k) => (D[k] != null ? D[k] : (E[k] != null ? E[k] : ''));
+    const sep = (lang === 'ar' || lang === 'ur') ? '، ' : ', ';
+    const day = t('wday.' + wd);
+    return (day ? day + sep : '') + h.day + ' ' + t('hmonth.' + h.month) + ' ' + h.year + t('date.hijri_suffix');
 }
 
 // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): drop developer HTML comments from the FINAL document only.
@@ -10541,6 +10581,7 @@ const _HOME_STRIP_IDS = [
     'country-cities-section',
     'city-related-services',
     'related-links-section',
+    'pt-related-tools',   // SEO-UI-I18N-WIRING (10c): city-page tools block (filled only on city pages by app.js), shipped hidden + Arabic on home
     'other-trending-cities',
     'home-quick-access',
     'moon-today-card',
@@ -14053,6 +14094,9 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
 
         // <html lang + dir>
         html = html.replace(/<html lang="[^"]*" dir="[^"]*">/, `<html lang="${lang}" dir="${dir}">`);
+        // SEO-WORLDWIDE-I18N-WIRING-1: the shared chrome (sidebar, header, quick access, footer) is data-i18n-tagged like
+        //   every other template; translate it here too (the page-specific replacements below still own their regions).
+        html = _translateI18nAttrs(html, lang, '');
 
         // <title>
         html = html.replace(/<title>[^<]*<\/title>/, `<title>${_escHtml(t.title)}</title>`);
@@ -14337,6 +14381,13 @@ function serveCountriesPage(urlPath, res, acceptEnc, req) {
 
         // SEO-SHARE-LINKS-OFFICIAL-1: share buttons → this page's canonical URL (same rule as its <link rel=canonical>).
         html = _rewriteShareLinks(html, getBaseUrl() + (lang === 'ar' ? '' : '/' + lang) + '/prayer-times-worldwide');
+        // SEO-WORLDWIDE-I18N-WIRING-1: same build-hash cache-buster as serveHtmlWithSeo (4.6) — this exit never ran it, so
+        //   the worldwide page kept a fixed /js/i18n.js?v=133 (immutable for a year) while js/i18n.js changes on deploys.
+        if (BUILD_HASH && BUILD_HASH !== 'dev') html = html.replace(/(\b(?:app|i18n)\.js\?v=\d+)(?=["'\s])/g, `$1&b=${BUILD_HASH}`);
+        // SEO-WORLDWIDE-I18N-WIRING-1: same /moon-today → /moon rewrite and internal-link language prefix as every
+        //   serveHtmlWithSeo page (in that order).
+        html = _moonTodayHrefToMoon(html);
+        html = _langPrefixInternalHrefs(html, lang);
         // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): COUNTRIES-FAQ-SCHEMA / COUNTRIES-GRID-CONTENT are already consumed above.
         html = _stripHtmlComments(html);
 
@@ -24871,7 +24922,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '213'; // SEO-I18N-BATCH-A (2026-10-18): bumped 212->213 — hijri_ny.faq_a5 / info_h3_body (+ bn info_h1_body) carried U+FEFA (the lam-alef ligature) where U+FDFA (salla Allahu alayhi wa sallam) was meant, 17 strings in 8 langs; split bundles regenerated. NOTE: SEO batch A2 also bumps 212->213 — whichever merges second takes the next value (214) and regenerates the bundles from the merged js/i18n.js. Previous: HIJRI-CALENDAR-RANGE-1 (2026-10-16): bumped 211->212 — footer.link_hijri_year drops the pinned year 1447 in all ten langs (the link now targets the calendar hub). Previous: MOON-DAY-PAGES-REMOVAL-1 (2026-10-13): bumped 210->211 — moon.chart_caption reworded in all ten langs (the chart points are no longer links). Previous: QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
+        const _i18nVersion = '214'; // SEO-UI-I18N-WIRING (2026-10-18): bumped 213->214 — countries.more added for fr/tr/ur/de/id/es/bn/ms (was the English fallback); split bundles regenerated from the merged js/i18n.js. Previous: SEO-I18N-BATCH-A (2026-10-18): bumped 212->213 — hijri_ny.faq_a5 / info_h3_body (+ bn info_h1_body) carried U+FEFA (the lam-alef ligature) where U+FDFA (salla Allahu alayhi wa sallam) was meant, 17 strings in 8 langs; split bundles regenerated. NOTE: SEO batch A2 also bumps 212->213 — whichever merges second takes the next value (214) and regenerates the bundles from the merged js/i18n.js. Previous: HIJRI-CALENDAR-RANGE-1 (2026-10-16): bumped 211->212 — footer.link_hijri_year drops the pinned year 1447 in all ten langs (the link now targets the calendar hub). Previous: MOON-DAY-PAGES-REMOVAL-1 (2026-10-13): bumped 210->211 — moon.chart_caption reworded in all ten langs (the chart points are no longer links). Previous: QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
         let _i18nReplacement = `<script${_TP_NONCE_ATTR} defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script${_TP_NONCE_ATTR} defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -25791,11 +25842,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 ? _hijriForIana(_cityIanaSsr)
                 : ((typeof _hijriNow === 'function') ? _hijriNow() : null);
             if (_hSsr && _hSsr.year && _hSsr.month && _hSsr.day) {
-                const _hMArSsr = (_HIJRI_MONTHS[_hSsr.month] || {}).ar || '';
-                const _hMEnSsr = (_HIJRI_MONTHS[_hSsr.month] || {}).en || '';
-                const _hijriTextSsr = (L === 'ar')
-                    ? `${_hSsr.day} ${_hMArSsr} ${_hSsr.year} هـ`
-                    : `${_hSsr.day} ${_hMEnSsr} ${_hSsr.year} AH`;
+                const _hijriTextSsr = _bannerHijriText(L, _hSsr, _weekdayIdxIn(_cityIanaSsr || 'Asia/Riyadh'));   // SEO-BANNER-HIJRI-DATE-I18N-1
                 html = html.replace(
                     '<div class="banner-date-hijri" id="banner-hijri-date">--</div>',
                     `<div class="banner-date-hijri" id="banner-hijri-date">${_escHtml(_hijriTextSsr)}</div>`
@@ -30386,8 +30433,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //       lang-prefix pass below (which then prefixes the bare /moon on non-AR).
     //     • Only href="/…" values match; absolute canonical/hreflang/og:url and
     //       JSON-LD "item"/"url" keys (no href=) are NOT touched.
-    html = html.replace(/href="(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/moon-today"/g,
-        (full, lp) => 'href="' + (lp || '') + '/moon"');
+    html = _moonTodayHrefToMoon(html);   // SEO-WORLDWIDE-I18N-WIRING-1: same rewrite, now shared with serveCountriesPage
 
     // ISLAMIC-EVENT-CARDS-LANG-ROUTING-FIX-1 (2026-06-05): GENERALIZED the
     //   unified language-prefix pass to EVERY non-AR SSR page. Originally
@@ -30415,19 +30461,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //     • JSON-LD uses "url"/"item" keys (not href=) → untouched.
     //     • "/" (home/logo) → "/{lang}" (no trailing slash, avoids 301 hop).
     //     • Slugs/event-IDs stay English; only the lang prefix is added.
-    if (seo && seo.lang && seo.lang !== 'ar') {
-        const _L = seo.lang;
-        const _alreadyPrefixed = /^\/(?:en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/;
-        const _staticExt = /\.(?:js|mjs|css|json|xml|png|jpe?g|gif|svg|webp|ico|webmanifest|txt|woff2?|ttf|otf|map|pdf|mp[34]|webm)$/i;
-        html = html.replace(/href="(\/[^"?#]*)((?:[?#][^"]*)?)"/g, (full, path, qh) => {
-            if (path === '/') return 'href="/' + _L + '"';      // home/logo
-            if (_alreadyPrefixed.test(path)) return full;        // already /xx/…
-            if (path.startsWith('/api/')) return full;           // API endpoints
-            if (path === '/quran' || path.startsWith('/quran/')) return full; // QURAN-SITEWIDE-SIDEBAR-ENTRY-AND-EXISTING-LOCALE-MODAL-HANDOFF-1: the Quran section is Arabic-only → keep /quran unprefixed on every non-Arabic page (a /{lang}/quran path is a 404)
-            if (_staticExt.test(path)) return full;              // static assets
-            return 'href="/' + _L + path + qh + '"';
-        });
-    }
+    html = _langPrefixInternalHrefs(html, seo && seo.lang);   // SEO-WORLDWIDE-I18N-WIRING-1: same pass, now shared with serveCountriesPage
 
     // ADSENSE-SSR-ROUTE-SCOPED-PAGE-STRIPPING-1: LAST, exactly like the Quran routes above -- after
     //   every injection, SSR block, JSON-LD and the lang-prefix href rewriter have landed, so
@@ -30451,6 +30485,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     html = _stripHiddenMoonCrumbs(html, urlPath);
     // SEO-SHARE-LINKS-OFFICIAL-1: share buttons → this page's canonical URL + its <title> (see _rewriteShareLinks).
     html = _rewriteShareLinks(html, seo.canonical);
+    // SEO-UI-I18N-WIRING (10e): the iOS home-screen title was the Arabic site name on every language → the page
+    //   language's site name (SITE_NAMES, the og:site_name value).
+    //   Qibla routes are skipped: standing rule — no qibla HTML change without a real production bug.
+    if (seo && seo.siteName && !/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?qibla(?:$|[-\/.])/.test(String(urlPath || ''))) html = html.replace('<meta name="apple-mobile-web-app-title" content="مواقيت الصلاة">', '<meta name="apple-mobile-web-app-title" content="' + _escHtml(seo.siteName) + '">');
+
     // BANDWIDTH-PAYLOAD-REDUCTION-PHASE-1 (B): every comment-anchored SSR pass above has run; drop the
     //   developer comments. Must stay AFTER all rewrites and BEFORE the nonce substitution below.
     html = _stripHtmlComments(html);

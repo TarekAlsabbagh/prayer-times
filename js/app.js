@@ -9225,14 +9225,16 @@ function updateCityHeroCountdown(countdownText) {
 }
 
 /**
- * 🆕 updateCitySummaryParagraph — فقرة SEO بعد Summary Strip.
- * إذا تمّ حقنها SSR لا نلمسها (detection via text length > 30).
+ * 🆕 updateCitySummaryParagraph — the visible one-line city summary after the Summary Strip.
+ * SEO-CITY-SUMMARY-HIDDEN-REMOVAL-1 (2026-10-18): the visually-hidden long paragraph (#city-summary-text) is
+ * gone — it repeated the visible content for crawlers only and, being SSR-only, kept naming the country-default
+ * method after a user picked another one (#sis-calc-method shows the method actually in use). The extra
+ * arguments are kept so the caller stays unchanged.
  */
 function updateCitySummaryParagraph(cityName, countryName, methodLabel, tz) {
     const sec = document.getElementById('city-summary-paragraph');
-    const el  = document.getElementById('city-summary-text');
     const visEl = document.getElementById('city-summary-visible');
-    if (!sec || !el || !_isCityPagePhase2()) return;
+    if (!sec || !_isCityPagePhase2()) return;
     const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
 
     // 🆕 Round 2.1: ملء النصّ القصير المرئيّ (humanized + Hijri keyword للـSEO)
@@ -9252,30 +9254,6 @@ function updateCitySummaryParagraph(cityName, countryName, methodLabel, tz) {
         visEl.textContent = shortTpl;
     }
 
-    // إن كان SSR حقنه — اكتفِ بإزالة u-hidden
-    if ((el.textContent || '').trim().length > 30) {
-        sec.classList.remove('u-hidden');
-        return;
-    }
-    const _t = (typeof t === 'function') ? t : null;
-    const tpl = (_t ? _t('city.summary.tpl') : '') ||
-        (({
-            ar: 'تعرض هذه الصفحة مواقيت الصلاة لمدينة {city}, {country}, وفق طريقة {method}, بتوقيت {tz}. تُحدَث المواقيت يومياً وتشمل الفجر والشروق والظهر والعصر والمغرب والعشاء.',
-            en: 'This page shows prayer times for {city}, {country} using the {method} method, in timezone {tz}. Times are updated daily and include Fajr, Sunrise, Dhuhr, Asr, Maghrib, and Isha.',
-            fr: "Cette page affiche les heures de prière pour {city}, {country} selon la méthode {method}, fuseau horaire {tz}. Mises à jour quotidiennement.",
-            tr: '{city}, {country} için namaz vakitleri — {method} yöntemi, {tz} zaman dilimi. Günlük güncellenir.',
-            ur: 'یہ صفحہ {city}, {country} کے اوقاتِ نماز دکھاتا ہے — طریقہ {method}, ٹائم زون {tz}۔',
-            de: 'Diese Seite zeigt die Gebetszeiten für {city}, {country} nach der {method}-Methode, Zeitzone {tz}.',
-            id: 'Halaman ini menampilkan jadwal sholat untuk {city}, {country} menggunakan metode {method}, zona waktu {tz}.',
-            es: 'Esta página muestra los horarios de oración para {city}, {country} usando el método {method}, zona horaria {tz}.',
-            bn: 'এই পৃষ্ঠায় {city}, {country}-এর নামাজের সময় দেখানো হয়েছে — পদ্ধতি {method}, টাইমজোন {tz}।',
-            ms: 'Halaman ini menunjukkan waktu solat untuk {city}, {country} menggunakan kaedah {method}, zon waktu {tz}.',
-        })[lang] || 'This page shows prayer times for {city}, {country} using the {method} method, timezone {tz}.');
-    el.textContent = tpl
-        .replace(/\{city\}/g,    cityName    || '')
-        .replace(/\{country\}/g, countryName || '')
-        .replace(/\{method\}/g,  methodLabel || '')
-        .replace(/\{tz\}/g,      tz          || '');
     sec.classList.remove('u-hidden');
 }
 

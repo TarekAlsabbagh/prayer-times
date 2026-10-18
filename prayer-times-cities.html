@@ -450,10 +450,10 @@
         </div>
 
         <!-- ===== مسار التنقل (Breadcrumb) ===== -->
-        <nav class="country-breadcrumb" id="country-breadcrumb" aria-label="مسار التنقل">
+        <nav class="country-breadcrumb" id="country-breadcrumb" aria-label="مسار التنقل" data-i18n-aria-label="common.breadcrumb">
             <ol class="breadcrumb-list">
                 <li class="bc-item">
-                    <a class="bc-link" id="cbc-home" href="/">الرئيسية</a>
+                    <a class="bc-link" id="cbc-home" href="/" data-i18n="breadcrumb.home">الرئيسية</a>
                 </li>
                 <li class="bc-sep" aria-hidden="true">›</li>
                 <li class="bc-item bc-current" id="cbc-country" aria-current="page">--</li>
@@ -1424,7 +1424,7 @@ function updateCountryBreadcrumb() {
         || _prayerTimesInFallback[lang] || _prayerTimesInFallback.en;
 
     // روابط حسب اللغة
-    const homeHref    = `${origin}${langPrefix}`;
+    const homeHref    = origin + (isAr ? '/' : '/' + lang);   // SEO-HOME-URL-NO-SLASH-1 (country links keep langPrefix)
     // MOON-COUNTRY-PAGES-SSR-ADD-1: on /moon/{country} the breadcrumb is Home > Moon > {Country}.
     const _isMoonCP   = (typeof _CPV !== 'undefined' && _CPV === 'moon');
     const countryHref = _isMoonCP ? `${origin}${langPrefix}moon/${slug}` : `${origin}${langPrefix}prayer-times-in-${slug}`;

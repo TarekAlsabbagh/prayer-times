@@ -1349,7 +1349,7 @@ const _HYEAR_UI = {
           headline: c => `Calendrier hégirien de l'année ${c.year}${c.hSfx}`,
           meta_desc: c => `Calendrier hégirien complet de ${c.year}${c.hSfx} avec les 12 mois et les dates grégoriennes correspondantes, selon le calendrier Umm al-Qura à ${c.country}.`,
           meta_title: c => `Calendrier hégirien ${c.year}${c.hSfx} | Mois islamiques et dates grégoriennes` },
-    tr: { home:'Anasayfa', cal:'Hicri Takvim', faq_title:'❓ Sıkça Sorulan Sorular', seo_title:'🌙 Hicri Takvim Hakkında',
+    tr: { home:'Ana Sayfa', cal:'Hicri Takvim', faq_title:'❓ Sıkça Sorulan Sorular', seo_title:'🌙 Hicri Takvim Hakkında',
           site:'Namaz Vakitleri ve Hicri Takvim',
           card_labels:['Yıl','Toplam Gün','Yıl Tipi','Ay Sayısı'],
           months_val:'12 ay', days_word:'gün',
@@ -1571,7 +1571,7 @@ const _HYEAR_UI = {
           headline: c => `${c.year}${c.hSfx} সনের হিজরি ক্যালেন্ডার`,
           meta_desc: c => `${c.year}${c.hSfx} এর সম্পূর্ণ হিজরি ক্যালেন্ডার — সব ১২টি মাস এবং ${c.country}-এ উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী সংশ্লিষ্ট খ্রিস্টীয় তারিখ।`,
           meta_title: c => `হিজরি ক্যালেন্ডার ${c.year}${c.hSfx} | ইসলামি মাস ও খ্রিস্টীয় তারিখ` },
-    ms: { home:'Laman Utama', cal:'Kalendar Hijrah', faq_title:'❓ Soalan Lazim', seo_title:'🌙 Mengenai Kalendar Hijrah',
+    ms: { home:'Utama', cal:'Kalendar Hijrah', faq_title:'❓ Soalan Lazim', seo_title:'🌙 Mengenai Kalendar Hijrah',
           site:'Waktu Solat & Kalendar Hijrah',
           card_labels:['Tahun','Jumlah Hari','Jenis Tahun','Bilangan Bulan'],
           months_val:'12 bulan', days_word:'hari',
@@ -1938,7 +1938,7 @@ const _HMONTH_UI = {
               [`${c.monthName} ${c.year}${c.hSfx} কখন শুরু হয়?`, `${c.monthName} ${c.year}${c.hSfx} উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.gFirstStr}${c.gSfx}-এ শুরু হয়।`],
               [`${c.monthName} ${c.year}${c.hSfx} কখন শেষ হয়?`, `${c.monthName} ${c.year}${c.hSfx} উম্ম আল-কুরা ক্যালেন্ডার অনুযায়ী ${c.gLastStr}${c.gSfx}-এ শেষ হয়।`]
           ] },
-    ms: { home:'Laman Utama', cal:'Kalendar Hijrah', site:'Waktu Solat & Kalendar Hijrah',
+    ms: { home:'Utama', cal:'Kalendar Hijrah', site:'Waktu Solat & Kalendar Hijrah',
           card_labels:['📅 Jumlah Hari','🗓️ Bermula','🗓️ Berakhir'],
           days_word_n:(n)=>`${n} hari`,
           section_info:'📋 Maklumat Bulan', section_days:'📅 Hari-hari Bulan Hijrah Ini', section_links:'🔗 Pautan Berkaitan',
@@ -2081,6 +2081,7 @@ function pageUrl(arabicPath) {
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     const _clean = arabicPath.replace(/\.html$/, '');
     if (_ln === 'ar') return _clean;
+    if (_clean === '/') return '/' + _ln;   // SEO-HOME-URL-NO-SLASH-1: the home is /{lang} (200); /{lang}/ answers 301
     return '/' + _ln + _clean;
 }
 
@@ -8650,7 +8651,7 @@ function updateBreadcrumb() {
 
     if (bcHomeName) bcHomeName.textContent = homeLabel;
     else if (bcHome) bcHome.textContent = homeLabel;
-    if (bcHome) bcHome.href = `${origin}${langPrefix}`;
+    if (bcHome) bcHome.href = origin + (isAr ? '/' : '/' + lang);   // SEO-HOME-URL-NO-SLASH-1
 
     if (bcCountryName) bcCountryName.textContent = countryFinal;
     else if (bcCountry) bcCountry.textContent = countryFinal;
@@ -8704,7 +8705,7 @@ function updateBreadcrumb() {
 }
 
 /** يحقن أو يُحدِّث <script id="breadcrumb-schema"> في <head> */
-function _injectBreadcrumbSchema({ origin, homeLabel, countryLabel, countryHref, countrySlug, finalLabel }) {
+function _injectBreadcrumbSchema({ origin, homeLabel, countryLabel, countryHref, countrySlug, finalLabel, lang }) {
     // لا تحقن Schema في وضع الملف المحلي
     if (window.location.protocol === 'file:') return;
 
@@ -8712,7 +8713,7 @@ function _injectBreadcrumbSchema({ origin, homeLabel, countryLabel, countryHref,
     //   → never emit a broken `item:"…/prayer-times-in-"` (empty slug). Positions stay sequential, and the
     //   JSON-LD mirrors the visible breadcrumb (server SSR emits the same 3-rung / 2-rung shape).
     const _items = [
-        { "@type": "ListItem", "position": 1, "name": homeLabel, "item": `${origin}/` }
+        { "@type": "ListItem", "position": 1, "name": homeLabel, "item": origin + ((lang && lang !== 'ar') ? '/' + lang : '/') }   // SEO-HOME-URL-NO-SLASH-1: same home as the visible link
     ];
     let _pos = 2;
     if (countrySlug) {
@@ -14680,7 +14681,7 @@ function goHome() {
     }
     const _ln = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
     _showNavLoadingOverlay('prayer-times');
-    window.location.href = (_ln === 'ar') ? '/' : ('/' + _ln + '/');
+    window.location.href = (_ln === 'ar') ? '/' : ('/' + _ln);   // SEO-HOME-URL-NO-SLASH-1
 }
 
 // ========= الإعدادات (محجوز للتوافق) =========
@@ -16680,7 +16681,7 @@ function _loadQiblaHubPage(ctx) {
     if (bcOl) {
         try {
             const prefix = (lang === 'ar') ? '' : ('/' + lang);
-            const homeHref = (lang === 'ar') ? '/' : (prefix + '/');
+            const homeHref = (lang === 'ar') ? '/' : prefix;
             bcOl.outerHTML = _buildQiblaBreadcrumbOl('', true, lang) ||
                 `<ol class="breadcrumb-list"><li class="bc-item"><a href="${homeHref}">${ui.bc_home}</a></li><li class="bc-item bc-current" aria-current="page">${ui.bc_qibla}</li></ol>`;
         } catch (_e) { /* silent */ }
@@ -16962,7 +16963,7 @@ function _loadQiblaHubPage(ctx) {
                 : (window.location.origin || '');
             const pageUrlAbs = origin + window.location.pathname;
             const prefix = (lang === 'ar') ? '' : ('/' + lang);
-            const homeUrlAbs = origin + ((lang === 'ar') ? '/' : (prefix + '/'));
+            const homeUrlAbs = origin + ((lang === 'ar') ? '/' : prefix);
             const graph = [
                 {
                     '@type': 'BreadcrumbList',
@@ -23916,7 +23917,7 @@ function updateHijriToday() {
     if (htBcEl && !_ssrHeroFilled) {
         const yearUrl   = `${prefix}/hijri-calendar/${hijri.year}`;
         const monthUrl0 = hijriMonthUrl(hijri.year, hijri.month);
-        const homeUrl   = (lang === 'ar') ? '/' : (prefix + '/');
+        const homeUrl   = (lang === 'ar') ? '/' : prefix;
         const calHubUrl = `${prefix}/hijri-calendar`;
         const _t        = (typeof t === 'function') ? t : (k) => k;
         const homeL     = _t('breadcrumb.home') || T.bcHome;
@@ -23999,7 +24000,7 @@ function updateHijriToday() {
         } catch (_) {}
         const _prayerHref = _citySlug
             ? `${prefix}/prayer-times-in-${_citySlug}`
-            : ((lang === 'ar') ? '/' : (prefix + '/'));
+            : ((lang === 'ar') ? '/' : prefix);
         const ctas = [
             [`${prefix}/date-converter`,           T.ctaConv,   true],   // primary
             [`${prefix}/moon-today`,              T.ctaMoon,   false],
@@ -24056,7 +24057,7 @@ function updateHijriToday() {
         } catch (_) {}
         const _prayerHref2 = _citySlug2
             ? `${prefix}/prayer-times-in-${_citySlug2}`
-            : ((lang === 'ar') ? '/' : (prefix + '/'));
+            : ((lang === 'ar') ? '/' : prefix);
         // Only truly-related secondary links. Month + Year (hierarchy) render above under the Hero.
         const extras = [
             [`${prefix}/date-converter`,  T.extraConv],
@@ -24159,7 +24160,7 @@ function loadHijriYearPage() {
     const bcEl = document.getElementById('hyear-breadcrumbs');
     if (bcEl) {
         const calPath = `${prefix}/hijri-calendar/${year}`;
-        const homeUrl = (lang === 'ar') ? '/' : (prefix + '/');
+        const homeUrl = (lang === 'ar') ? '/' : prefix;
         const _t      = (typeof t === 'function') ? t : (k) => k;
         const homeL   = _t('breadcrumb.home') || ui.home;
         const calL    = ui.cal;
@@ -24392,7 +24393,7 @@ function loadHijriYearPage() {
     const _siteName = ui.site;
     const _hyearHeadline = ui.headline(ctx);
     const _hyearDesc = ui.meta_desc(ctx);
-    const _homeUrl = _origin + ((lang === 'ar') ? '/' : ('/' + lang + '/'));
+    const _homeUrl = _origin + ((lang === 'ar') ? '/' : ('/' + lang));   // SEO-HOME-URL-NO-SLASH-1
     const _hyearNowIso = new Date().toISOString();
     const _faqItems = ui.faq(ctx).map(([q, a]) => ({
         "@type":"Question", "name": q,
@@ -24522,7 +24523,7 @@ function loadHijriMonthPage() {
         } else {
             const calPath  = `${prefix}/hijri-calendar`;
             const yearPath = `${prefix}/hijri-calendar/${year}`;
-            const homeUrl  = (lang === 'ar') ? '/' : (prefix + '/');
+            const homeUrl  = (lang === 'ar') ? '/' : prefix;
             bcEl.innerHTML = _buildHijriBreadcrumbOl([
                 { href: homeUrl, text: ui.home },
                 { href: calPath, text: ui.cal },
@@ -24750,7 +24751,7 @@ function loadHijriMonthPage() {
                 "@type": "BreadcrumbList",
                 "@id": `${pageUrl_}#breadcrumb`,
                 "itemListElement": [
-                    {"@type":"ListItem","position":1,"name": ui.home,                     "item": _origin + (lang==='ar' ? '/' : (prefix+'/'))},
+                    {"@type":"ListItem","position":1,"name": ui.home,                     "item": _origin + (lang==='ar' ? '/' : prefix)},
                     {"@type":"ListItem","position":2,"name": ui.cal,                      "item": calUrl_},
                     {"@type":"ListItem","position":3,"name": `${year}${hSfx}`,            "item": yearUrl_},
                     {"@type":"ListItem","position":4,"name": `${monthName} ${year}${hSfx}`,"item": pageUrl_}
@@ -24767,7 +24768,7 @@ function loadHijriMonthPage() {
                 "isPartOf": {
                     "@type": "WebSite",
                     "name": siteName_,
-                    "url": _origin + (lang==='ar' ? '/' : (prefix+'/'))
+                    "url": _origin + (lang==='ar' ? '/' : prefix)
                 },
                 "breadcrumb": {"@id": `${pageUrl_}#breadcrumb`},
                 "about": { "@type": "Thing", "name": ui.about(ctx) },

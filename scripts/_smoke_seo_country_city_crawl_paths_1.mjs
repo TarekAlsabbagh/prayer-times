@@ -45,7 +45,7 @@ const norm = (s) => s.replace(/nonce="[^"]*"/g, 'nonce=""')
     .replace(/((?:&amp;|&|\?)b=)[0-9a-f]{7,40}/g, '$1SHA')
     // the inline CSS rules this ticket adds to the country template
     .replace(/\r?\n[ \t]*main\.main-content:not\(\.moon-country-layout\) > \.cities-more-card,/g, '')
-    .replace(/[ \t]*\/\* SEO-COUNTRY-CITY-CRAWL-PATHS-1:[^\n]*\*\/\r?\n(?:[ \t]*(?:\.cities-more-|\/\* --primary-dark is the site's TEXT green)[^\n]*\r?\n)+/g, '');
+    .replace(/[ \t]*\/\* SEO-COUNTRY-CITY-CRAWL-PATHS-1:[^\n]*\*\/\r?\n(?:[ \t]*(?:\.cities-more-|\/\* --primary-dark is the site's TEXT green|\/\* same column \+ card look|@media \(max-width: 480px\) \{ \.cities-more-card)[^\n]*\r?\n)+/g, '');
 const boot = (root, port, logf) => {
     const out = fs.openSync(logf, 'w');
     return spawn(process.execPath, ['-r', GUARD, 'server.js'], { cwd: root, stdio: ['ignore', out, out],

@@ -9822,6 +9822,170 @@ const _HD1_BY_LANG = {
         ]
     }
 };
+// SEO-FAQ-SINGLE-SOURCE-1 (2026-10-18): the home FAQ, ONE source for the visible FAQ (serveHtmlWithSeo, homepage
+//   block) and the FAQPage JSON-LD (buildJsonLd). Texts moved verbatim from the Round-7f visible dict.
+const _HOME_FAQ_BY_LANG = {
+    ar: [
+        { q: 'كيف تُحسب مواقيت الصلاة؟',
+          a: 'تُحسب المواقيت اعتمادًا على الموقع الجغرافي، زاوية الشمس، المنطقة الزمنية، وطريقة الحساب المختارة لكل صلاة.' },
+        { q: 'لماذا تختلف مواقيت الصلاة من مكان لآخر؟',
+          a: 'تختلف المواقيت بسبب اختلاف خط العرض والطول، وقت الشروق والغروب، وطول الليل والنهار بحسب الموقع والفصل.' },
+        { q: 'ما الفرق بين طرق حساب مواقيت الصلاة؟',
+          a: 'تختلف الطرق في الزوايا المعتمدة لحساب الفجر والعشاء، لذلك قد تظهر فروقات بسيطة بين طريقة وأخرى.' },
+        { q: 'ما المقصود باختيار المذهب في وقت العصر؟',
+          a: 'يؤثر اختيار المذهب على حساب وقت العصر، حيث تختلف بعض المعايير الفقهية في تحديد بداية وقت العصر.' },
+        { q: 'هل يمكن تحديد مواقيت الصلاة من موقعي تلقائيًا؟',
+          a: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقة أعلى، مع إمكانية اختيار المدينة يدويًا عند الحاجة.' },
+        { q: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
+          a: 'تتوفر أدوات مثل اتجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.' },
+        { q: 'هل تتغير مواقيت الصلاة يوميًا؟',
+          a: 'نعم، تتغير المواقيت يوميًا بدرجات بسيطة نتيجة تغير موقع الشمس وطول النهار والليل خلال السنة.' },
+    ],
+    en: [
+        { q: 'How are prayer times calculated?',
+          a: 'Times are calculated using your geographic location, the sun\'s angle, the time zone, and the calculation method chosen for each prayer.' },
+        { q: 'Why do prayer times differ between places?',
+          a: 'Times differ because of latitude and longitude, sunrise and sunset moments, and night/day length that change with the location and season.' },
+        { q: 'What\'s the difference between prayer time calculation methods?',
+          a: 'Methods differ in the angles used for Fajr and Isha, so small differences may appear between one method and another.' },
+        { q: 'What does choosing the school of jurisprudence for Asr mean?',
+          a: 'The juristic school affects how Asr is computed, since some scholarly criteria differ in defining the start of Asr.' },
+        { q: 'Can prayer times be set automatically from my location?',
+          a: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.' },
+        { q: 'What Islamic tools are available alongside prayer times?',
+          a: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.' },
+        { q: 'Do prayer times change daily?',
+          a: 'Yes, prayer times shift slightly each day as the sun\'s position and the length of day and night change over the year.' },
+    ],
+    fr: [
+        { q: 'Comment les heures de prière sont-elles calculées ?',
+          a: "Les heures sont calculées à partir de votre emplacement géographique, de l'angle du soleil, du fuseau horaire et de la méthode de calcul choisie pour chaque prière." },
+        { q: 'Pourquoi les heures de prière diffèrent-elles d’un endroit à un autre ?',
+          a: "Les heures changent selon la latitude et la longitude, les moments du lever et du coucher du soleil, et la durée du jour et de la nuit qui varient selon le lieu et la saison." },
+        { q: 'Quelle est la différence entre les méthodes de calcul des heures de prière ?',
+          a: "Les méthodes diffèrent par les angles utilisés pour le Fajr et l'Isha, ce qui peut entraîner de petites différences entre une méthode et une autre." },
+        { q: 'Que signifie choisir l’école juridique pour le Asr ?',
+          a: "Le choix de l'école juridique influe sur le calcul du Asr, car certains critères diffèrent dans la définition du début de cette prière." },
+        { q: 'Les heures de prière peuvent-elles être réglées automatiquement depuis ma position ?',
+          a: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.' },
+        { q: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
+          a: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.' },
+        { q: 'Les heures de prière changent-elles chaque jour ?',
+          a: 'Oui, les heures changent légèrement chaque jour selon la position du soleil et la durée du jour et de la nuit au fil de l\'année.' },
+    ],
+    tr: [
+        { q: 'Namaz vakitleri nasıl hesaplanır?',
+          a: 'Vakitler; coğrafi konum, güneş açısı, saat dilimi ve her vakit için seçilen hesaplama yöntemine göre hesaplanır.' },
+        { q: 'Namaz vakitleri neden yerden yere değişir?',
+          a: 'Vakitler; enlem ve boylam, güneşin doğuş ve batış zamanları ve konuma ile mevsime göre değişen gece-gündüz uzunluğu nedeniyle farklılaşır.' },
+        { q: 'Namaz vakitleri hesaplama yöntemleri arasındaki fark nedir?',
+          a: 'Yöntemler, Fecir ve Yatsı için kullanılan açılarda farklıdır; bu nedenle yöntemler arasında küçük farklar görülebilir.' },
+        { q: 'İkindi vakti için mezhep seçimi ne anlama gelir?',
+          a: 'Mezhep seçimi İkindi’nin hesaplanmasını etkiler; bazı fıkhi ölçütler İkindi’nin başlangıç zamanını farklı tanımlar.' },
+        { q: 'Namaz vakitleri konumumdan otomatik olarak ayarlanabilir mi?',
+          a: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.' },
+        { q: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
+          a: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.' },
+        { q: 'Namaz vakitleri her gün değişir mi?',
+          a: 'Evet, vakitler her gün hafifçe değişir; güneşin konumu ve gün-gece uzunluğu yıl boyunca değiştiği için.' },
+    ],
+    ur: [
+        { q: 'اوقاتِ نماز کیسے شمار ہوتے ہیں؟',
+          a: 'اوقات کا تعین جغرافیائی مقام، سورج کے زاویے، ٹائم زون اور ہر نماز کے لیے منتخب طریقۂ حساب کی بنیاد پر ہوتا ہے۔' },
+        { q: 'نماز کے اوقات جگہ بدلنے سے کیوں مختلف ہوتے ہیں؟',
+          a: 'اوقات خط عرض و خط طول، طلوع و غروبِ آفتاب، اور دن و رات کی لمبائی کی وجہ سے بدلتے ہیں جو مقام اور موسم کے ساتھ مختلف ہوتی ہیں۔' },
+        { q: 'نماز کے اوقات کے حساب کے طریقوں میں کیا فرق ہے؟',
+          a: 'طریقے فجر اور عشاء کے لیے استعمال ہونے والے زاویوں میں مختلف ہوتے ہیں، اس لیے ایک طریقے اور دوسرے کے درمیان معمولی فرق ظاہر ہو سکتا ہے۔' },
+        { q: 'عصر کے وقت میں مذہب کے انتخاب کا کیا مطلب ہے؟',
+          a: 'مذہب کا انتخاب عصر کے حساب پر اثر ڈالتا ہے کیونکہ کچھ فقہی معیار عصر کے آغاز کی تعریف میں مختلف ہیں۔' },
+        { q: 'کیا میرے مقام سے نماز کے اوقات خودکار طریقے سے طے ہو سکتے ہیں؟',
+          a: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔' },
+        { q: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
+          a: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔' },
+        { q: 'کیا نماز کے اوقات روزانہ تبدیل ہوتے ہیں؟',
+          a: 'جی ہاں، اوقات روزانہ معمولی طور پر تبدیل ہوتے ہیں کیونکہ سورج کی پوزیشن اور دن و رات کی لمبائی سال بھر بدلتی رہتی ہے۔' },
+    ],
+    de: [
+        { q: 'Wie werden die Gebetszeiten berechnet?',
+          a: 'Die Zeiten werden anhand des geografischen Standorts, des Sonnenwinkels, der Zeitzone und der für jedes Gebet gewählten Berechnungsmethode bestimmt.' },
+        { q: 'Warum unterscheiden sich die Gebetszeiten von Ort zu Ort?',
+          a: 'Die Zeiten unterscheiden sich aufgrund von Breiten- und Längengrad, Sonnenauf- und -untergang sowie der Tag- und Nachtlänge, die je nach Ort und Jahreszeit variieren.' },
+        { q: 'Worin unterscheiden sich die Berechnungsmethoden für die Gebetszeiten?',
+          a: 'Die Methoden unterscheiden sich in den Winkeln, die für Fajr und Isha verwendet werden, sodass kleine Unterschiede zwischen den Methoden auftreten können.' },
+        { q: 'Was bedeutet die Wahl der Rechtsschule für Asr?',
+          a: 'Die Wahl der Rechtsschule beeinflusst die Berechnung von Asr, da einige Kriterien den Beginn von Asr unterschiedlich definieren.' },
+        { q: 'Können die Gebetszeiten automatisch von meinem Standort gesetzt werden?',
+          a: 'Ja, Ihr geografischer Standort kann für höhere Genauigkeit verwendet werden, mit der Möglichkeit, bei Bedarf eine Stadt manuell auszuwählen.' },
+        { q: 'Welche islamischen Werkzeuge gibt es neben den Gebetszeiten?',
+          a: 'Werkzeuge wie Qibla-Richtung, Hidschri-Datum, Hidschri-Kalender, Mondphase und Datumsumrechnung stehen zur Verfügung.' },
+        { q: 'Ändern sich die Gebetszeiten täglich?',
+          a: 'Ja, die Zeiten ändern sich täglich geringfügig, da sich die Sonnenposition sowie Tag- und Nachtlänge im Jahresverlauf verschieben.' },
+    ],
+    id: [
+        { q: 'Bagaimana jadwal sholat dihitung?',
+          a: 'Waktu dihitung berdasarkan lokasi geografis, sudut matahari, zona waktu, dan metode perhitungan yang dipilih untuk setiap sholat.' },
+        { q: 'Mengapa jadwal sholat berbeda antara satu tempat dan tempat lainnya?',
+          a: 'Waktu berbeda karena perbedaan lintang dan bujur, waktu matahari terbit dan terbenam, serta panjang siang dan malam yang berubah sesuai lokasi dan musim.' },
+        { q: 'Apa perbedaan antara metode perhitungan jadwal sholat?',
+          a: 'Metode berbeda dalam sudut yang digunakan untuk Subuh dan Isya, sehingga dapat muncul perbedaan kecil antara satu metode dan metode lainnya.' },
+        { q: 'Apa maksud memilih mazhab untuk waktu Asar?',
+          a: 'Pilihan mazhab memengaruhi perhitungan waktu Asar, karena beberapa kriteria fikih berbeda dalam menentukan awal waktu Asar.' },
+        { q: 'Apakah jadwal sholat dapat ditentukan otomatis dari lokasi saya?',
+          a: 'Ya, lokasi geografis dapat digunakan untuk akurasi yang lebih tinggi, dengan pilihan untuk memilih kota secara manual jika diperlukan.' },
+        { q: 'Alat Islami apa saja yang tersedia bersama jadwal sholat?',
+          a: 'Tersedia alat seperti arah Kiblat, tanggal Hijriyah, kalender Hijriyah, fase bulan, dan konversi tanggal.' },
+        { q: 'Apakah jadwal sholat berubah setiap hari?',
+          a: 'Ya, waktu berubah sedikit setiap hari karena posisi matahari serta panjang siang dan malam berubah sepanjang tahun.' },
+    ],
+    es: [
+        { q: '¿Cómo se calculan los horarios de oración?',
+          a: 'Los horarios se calculan a partir de la ubicación geográfica, el ángulo del sol, la zona horaria y el método de cálculo elegido para cada oración.' },
+        { q: '¿Por qué los horarios de oración varían según el lugar?',
+          a: 'Los horarios cambian por la latitud y la longitud, el momento del amanecer y el atardecer, y la duración del día y la noche que varían con la ubicación y la estación.' },
+        { q: '¿Cuál es la diferencia entre los métodos de cálculo de los horarios de oración?',
+          a: 'Los métodos difieren en los ángulos usados para Fayr e Isha, por lo que pueden aparecer pequeñas diferencias entre un método y otro.' },
+        { q: '¿Qué significa elegir la escuela jurídica para Asr?',
+          a: 'La elección de la escuela jurídica afecta el cálculo de Asr, ya que algunos criterios difieren al definir el inicio de Asr.' },
+        { q: '¿Pueden los horarios de oración ajustarse automáticamente desde mi ubicación?',
+          a: 'Sí, tu ubicación geográfica puede usarse para mayor precisión, con la opción de elegir manualmente una ciudad cuando lo necesites.' },
+        { q: '¿Qué herramientas islámicas hay disponibles junto a los horarios de oración?',
+          a: 'Hay herramientas como dirección de la Qibla, fecha hégira, calendario hégira, fase lunar y conversión de fechas.' },
+        { q: '¿Cambian los horarios de oración cada día?',
+          a: 'Sí, los horarios cambian ligeramente cada día porque la posición del sol y la duración del día y la noche varían a lo largo del año.' },
+    ],
+    bn: [
+        { q: 'নামাজের সময়সূচী কীভাবে গণনা করা হয়?',
+          a: 'সময় গণনা করা হয় ভৌগোলিক অবস্থান, সূর্যের কোণ, সময় অঞ্চল এবং প্রতিটি নামাজের জন্য নির্বাচিত গণনা পদ্ধতির ভিত্তিতে।' },
+        { q: 'নামাজের সময় এক জায়গা থেকে অন্য জায়গায় কেন আলাদা হয়?',
+          a: 'অক্ষাংশ ও দ্রাঘিমাংশ, সূর্যোদয় ও সূর্যাস্তের সময়, এবং অবস্থান ও ঋতু অনুযায়ী রাত-দিনের দৈর্ঘ্যের পার্থক্যের কারণে সময় ভিন্ন হয়।' },
+        { q: 'নামাজের সময় গণনার পদ্ধতিগুলোর মধ্যে পার্থক্য কী?',
+          a: 'পদ্ধতিগুলো ফজর ও এশার জন্য ব্যবহৃত কোণে আলাদা, তাই এক পদ্ধতি ও অন্যটির মধ্যে ছোটখাটো পার্থক্য দেখা দিতে পারে।' },
+        { q: 'আসরের সময়ের জন্য মাযহাব বেছে নেওয়ার অর্থ কী?',
+          a: 'মাযহাব নির্বাচন আসরের গণনাকে প্রভাবিত করে, কারণ কিছু ফিকহি মানদণ্ড আসরের শুরু নির্ধারণে ভিন্ন।' },
+        { q: 'আমার অবস্থান থেকে কি নামাজের সময় স্বয়ংক্রিয়ভাবে নির্ধারণ করা যায়?',
+          a: 'হ্যাঁ, ভৌগোলিক অবস্থান উচ্চতর নির্ভুলতার জন্য ব্যবহার করা যায়, এবং প্রয়োজন হলে শহর ম্যানুয়ালি নির্বাচন করা যায়।' },
+        { q: 'নামাজের সময়ের পাশাপাশি কোন ইসলামিক টুলগুলো পাওয়া যায়?',
+          a: 'কিবলার দিক, হিজরি তারিখ, হিজরি ক্যালেন্ডার, চাঁদের অবস্থা এবং তারিখ রূপান্তরের মতো টুল উপলব্ধ।' },
+        { q: 'নামাজের সময় কি প্রতিদিন পরিবর্তিত হয়?',
+          a: 'হ্যাঁ, প্রতিদিন সময় সামান্য পরিবর্তিত হয় কারণ সূর্যের অবস্থান এবং দিন-রাতের দৈর্ঘ্য বছরজুড়ে পরিবর্তিত হয়।' },
+    ],
+    ms: [
+        { q: 'Bagaimana waktu solat dikira?',
+          a: 'Waktu dikira berdasarkan lokasi geografi, sudut matahari, zon waktu, dan kaedah pengiraan yang dipilih untuk setiap solat.' },
+        { q: 'Mengapakah waktu solat berbeza antara satu tempat dengan tempat lain?',
+          a: 'Waktu berbeza disebabkan latitud dan longitud, masa matahari terbit dan terbenam, serta panjang siang dan malam yang berubah mengikut lokasi dan musim.' },
+        { q: 'Apakah perbezaan antara kaedah pengiraan waktu solat?',
+          a: 'Kaedah-kaedah berbeza dalam sudut yang digunakan untuk Subuh dan Isyak, sehingga perbezaan kecil mungkin muncul antara satu kaedah dengan kaedah lain.' },
+        { q: 'Apakah maksud memilih mazhab untuk waktu Asar?',
+          a: 'Pilihan mazhab mempengaruhi pengiraan waktu Asar, kerana sebahagian piawaian fiqh berbeza dalam menentukan permulaan Asar.' },
+        { q: 'Bolehkah waktu solat ditentukan secara automatik daripada lokasi saya?',
+          a: 'Ya, lokasi geografi anda boleh digunakan untuk ketepatan yang lebih tinggi, dengan pilihan untuk memilih bandar secara manual apabila diperlukan.' },
+        { q: 'Apakah alat Islam yang tersedia bersama waktu solat?',
+          a: 'Alat seperti arah Kiblat, tarikh Hijrah, kalendar Hijrah, fasa bulan, dan penukaran tarikh tersedia.' },
+        { q: 'Adakah waktu solat berubah setiap hari?',
+          a: 'Ya, waktu berubah sedikit setiap hari kerana kedudukan matahari serta panjang siang dan malam berubah sepanjang tahun.' },
+    ],
+};
 const _FAQ_HD1_BY_LANG = (() => {
     const out = {};
     for (const lang of ['ar','en','fr','tr','ur','de','id','es','bn','ms']) {
@@ -10369,6 +10533,7 @@ function _stripHtmlForHome(html) {
 //   #moon-hub-faq sections are kept (they have class .hub-only — default
 //   display:none, shown via html.moon-today-hub-page CSS).
 const _MOON_HUB_STRIP_IDS = [
+    'moon-general-faq',   // SEO-FAQ-SINGLE-SOURCE-1 (1c): wrapper left empty once #moon-faq-general is stripped (orphan H2)
     'page-prayer-times',          // entire prayer shell
     'moon-page-h1',               // original moon H1 (replaced by hero #moon-hub-h1)
     'moon-subtitle',
@@ -10494,6 +10659,7 @@ function _stripPagePrayerTimesOnly(html) {
 // only deletes wrapper <div id="page-..."> blocks at the SPA-shell level.
 // ──────────────────────────────────────────────────────────────────────────
 const _MOON_CITY_STRIP_IDS = [
+    'moon-hub-faq',   // SEO-FAQ-SINGLE-SOURCE-1 (1b): hub-only FAQ, shipped hidden here (en/ar text on every lang)
     'page-prayer-times',
     // Same 12 inactive SPA wrappers as MOON-TODAY-KEYWORD-CONSISTENCY-FIX-1
     'page-qibla',
@@ -17881,9 +18047,12 @@ function renderSeoHeadHtml(seo) {
     //   on the page, in the same order; it is not invented for SEO. Organization is referenced by
     //   @id rather than duplicated, exactly as the articles do.
     if (seo.guidesHub) {
-        const _hubLang = seo.lang === 'en' ? 'en' : 'ar';
+        // SEO-FAQ-SINGLE-SOURCE-1 (10a): same language as the visible hub (the /guides route renders _GUIDES_HUB[page
+        //   lang]). This was still the ar/en-only rule from before the 10-locale guides, so the 8 other hubs described
+        //   Arabic cards with unprefixed Arabic URLs while their visible cards are localized and language-prefixed.
+        const _hubLang = _GUIDES_HUB[seo.lang] ? seo.lang : 'ar';
         const _hubData = _GUIDES_HUB[_hubLang] || _GUIDES_HUB.ar;
-        const _hubPrefix = (_hubLang === 'en') ? '/en' : '';
+        const _hubPrefix = (_hubLang === 'ar') ? '' : '/' + _hubLang;
         const _hubItems = [];
         for (const _sec of _hubData.sections) {
             for (const _card of _sec.cards) {
@@ -17987,89 +18156,10 @@ function renderSeoHeadHtml(seo) {
         // visible FAQ in the i18n dict at server.js:8889+. SAME 6 questions,
         // SAME answers — no city names, kept generic. When the visible FAQ is
         // updated, this dict MUST be updated in lockstep.
-        const FAQ_I18N = {
-            ar: [
-                { q: 'كيف تُحسب مواقيت الصلاة؟',
-                  a: 'تُحسب المواقيت اعتمادًا على الموقع الجغرافي، زاوية الشمس، المنطقة الزمنية، وطريقة الحساب المختارة لكل صلاة.' },
-                { q: 'لماذا تختلف مواقيت الصلاة من مكان لآخر؟',
-                  a: 'تختلف المواقيت بسبب اختلاف خط العرض والطول، وقت الشروق والغروب، وطول الليل والنهار بحسب الموقع والفصل.' },
-                { q: 'ما الفرق بين طرق حساب مواقيت الصلاة؟',
-                  a: 'تختلف الطرق في الزوايا المعتمدة لحساب الفجر والعشاء، لذلك قد تظهر فروقات بسيطة بين طريقة وأخرى.' },
-                { q: 'ما المقصود باختيار المذهب في وقت العصر؟',
-                  a: 'يؤثر اختيار المذهب على حساب وقت العصر، حيث تختلف بعض المعايير الفقهية في تحديد بداية وقت العصر.' },
-                { q: 'هل يمكن تحديد مواقيت الصلاة من موقعي تلقائيًا؟',
-                  a: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقة أعلى، مع إمكانية اختيار المدينة يدويًا عند الحاجة.' },
-                { q: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
-                  a: 'تتوفر أدوات مثل اتجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.' },
-                { q: 'هل تتغير مواقيت الصلاة يوميًا؟',
-                  a: 'نعم، تتغير المواقيت يوميًا بدرجات بسيطة نتيجة تغير موقع الشمس وطول النهار والليل خلال السنة.' }
-            ],
-            en: [
-                { q: 'How are prayer times calculated?',
-                  a: 'Times are calculated using your geographic location, the sun\'s angle, the time zone, and the calculation method chosen for each prayer.' },
-                { q: 'Why do prayer times differ between places?',
-                  a: 'Times differ because of latitude and longitude, sunrise and sunset moments, and night/day length that change with the location and season.' },
-                { q: "What's the difference between prayer time calculation methods?",
-                  a: 'Methods differ in the angles used for Fajr and Isha, so small differences may appear between one method and another.' },
-                { q: 'What does choosing the school of jurisprudence for Asr mean?',
-                  a: 'The juristic school affects how Asr is computed, since some scholarly criteria differ in defining the start of Asr.' },
-                { q: 'Can prayer times be set automatically from my location?',
-                  a: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.' },
-                { q: 'What Islamic tools are available alongside prayer times?',
-                  a: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.' },
-                { q: 'Do prayer times change daily?',
-                  a: 'Yes, prayer times shift slightly each day as the sun\'s position and the length of day and night change over the year.' }
-            ],
-            fr: [
-                { q: 'Comment les heures de prière sont-elles calculées ?',
-                  a: "Les heures sont calculées à partir de votre emplacement géographique, de l'angle du soleil, du fuseau horaire et de la méthode de calcul choisie pour chaque prière." },
-                { q: 'Pourquoi les heures de prière diffèrent-elles d’un endroit à un autre ?',
-                  a: "Les heures changent selon la latitude et la longitude, les moments du lever et du coucher du soleil, et la durée du jour et de la nuit qui varient selon le lieu et la saison." },
-                { q: 'Quelle est la différence entre les méthodes de calcul des heures de prière ?',
-                  a: "Les méthodes diffèrent par les angles utilisés pour le Fajr et l'Isha, ce qui peut entraîner de petites différences entre une méthode et une autre." },
-                { q: 'Que signifie choisir l’école juridique pour le Asr ?',
-                  a: "Le choix de l'école juridique influe sur le calcul du Asr, car certains critères diffèrent dans la définition du début de cette prière." },
-                { q: 'Les heures de prière peuvent-elles être réglées automatiquement depuis ma position ?',
-                  a: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.' },
-                { q: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
-                  a: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.' },
-                { q: 'Les heures de prière changent-elles chaque jour ?',
-                  a: 'Oui, les heures changent légèrement chaque jour selon la position du soleil et la durée du jour et de la nuit au fil de l\'année.' }
-            ],
-            tr: [
-                { q: 'Namaz vakitleri nasıl hesaplanır?',
-                  a: 'Vakitler; coğrafi konum, güneş açısı, saat dilimi ve her vakit için seçilen hesaplama yöntemine göre hesaplanır.' },
-                { q: 'Namaz vakitleri neden yerden yere değişir?',
-                  a: 'Vakitler; enlem ve boylam, güneşin doğuş ve batış zamanları ve konuma ile mevsime göre değişen gece-gündüz uzunluğu nedeniyle farklılaşır.' },
-                { q: 'Namaz vakitleri hesaplama yöntemleri arasındaki fark nedir?',
-                  a: 'Yöntemler, Fecir ve Yatsı için kullanılan açılarda farklıdır; bu nedenle yöntemler arasında küçük farklar görülebilir.' },
-                { q: 'İkindi vakti için mezhep seçimi ne anlama gelir?',
-                  a: 'Mezhep seçimi İkindi’nin hesaplanmasını etkiler; bazı fıkhi ölçütler İkindi’nin başlangıç zamanını farklı tanımlar.' },
-                { q: 'Namaz vakitleri konumumdan otomatik olarak ayarlanabilir mi?',
-                  a: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.' },
-                { q: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
-                  a: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.' },
-                { q: 'Namaz vakitleri her gün değişir mi?',
-                  a: 'Evet, vakitler her gün hafifçe değişir; güneşin konumu ve gün-gece uzunluğu yıl boyunca değiştiği için.' }
-            ],
-            ur: [
-                { q: 'اوقاتِ نماز کیسے شمار ہوتے ہیں؟',
-                  a: 'اوقات کا تعین جغرافیائی مقام، سورج کے زاویے، ٹائم زون اور ہر نماز کے لیے منتخب طریقۂ حساب کی بنیاد پر ہوتا ہے۔' },
-                { q: 'نماز کے اوقات جگہ بدلنے سے کیوں مختلف ہوتے ہیں؟',
-                  a: 'اوقات خط عرض و خط طول، طلوع و غروبِ آفتاب، اور دن و رات کی لمبائی کی وجہ سے بدلتے ہیں جو مقام اور موسم کے ساتھ مختلف ہوتی ہیں۔' },
-                { q: 'نماز کے اوقات کے حساب کے طریقوں میں کیا فرق ہے؟',
-                  a: 'طریقے فجر اور عشاء کے لیے استعمال ہونے والے زاویوں میں مختلف ہوتے ہیں، اس لیے ایک طریقے اور دوسرے کے درمیان معمولی فرق ظاہر ہو سکتا ہے۔' },
-                { q: 'عصر کے وقت میں مذہب کے انتخاب کا کیا مطلب ہے؟',
-                  a: 'مذہب کا انتخاب عصر کے حساب پر اثر ڈالتا ہے کیونکہ کچھ فقہی معیار عصر کے آغاز کی تعریف میں مختلف ہیں۔' },
-                { q: 'کیا میرے مقام سے نماز کے اوقات خودکار طریقے سے طے ہو سکتے ہیں؟',
-                  a: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔' },
-                { q: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
-                  a: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔' },
-                { q: 'کیا نماز کے اوقات روزانہ تبدیل ہوتے ہیں؟',
-                  a: 'جی ہاں، اوقات روزانہ معمولی طور پر تبدیل ہوتے ہیں کیونکہ سورج کی پوزیشن اور دن و رات کی لمبائی سال بھر بدلتی رہتی ہے۔' }
-            ],
-        };
-        const faqs = FAQ_I18N[seo.lang] || FAQ_I18N.ar;
+        // SEO-FAQ-SINGLE-SOURCE-1 (2026-10-18): the FAQPage reads the SAME list the visible home FAQ renders
+        //   (_HOME_FAQ_BY_LANG, 10 langs). The old separate FAQ_I18N had 5 langs and an Arabic fallback, so
+        //   /de /id /es /bn /ms shipped Arabic Q/A under inLanguage de/id/es/bn/ms — text not on the page.
+        const faqs = _HOME_FAQ_BY_LANG[seo.lang] || _HOME_FAQ_BY_LANG.ar;
         ssrGraph.push({
             "@type": "FAQPage",
             "@id": `${seo.canonical}#faq`,
@@ -24733,7 +24823,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         const _i18nLangMatch = urlPath.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?:\/|$)/);
         const _i18nLang = _i18nLangMatch ? _i18nLangMatch[1] : 'ar';
         const _needsEnFallback = (_i18nLang !== 'ar' && _i18nLang !== 'en');
-        const _i18nVersion = '212'; // HIJRI-CALENDAR-RANGE-1 (2026-10-16): bumped 211->212 — footer.link_hijri_year drops the pinned year 1447 in all ten langs (the link now targets the calendar hub). Previous: MOON-DAY-PAGES-REMOVAL-1 (2026-10-13): bumped 210->211 — moon.chart_caption reworded in all ten langs (the chart points are no longer links). Previous: QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
+        const _i18nVersion = '213'; // SEO-I18N-BATCH-A (2026-10-18): bumped 212->213 — hijri_ny.faq_a5 / info_h3_body (+ bn info_h1_body) carried U+FEFA (the lam-alef ligature) where U+FDFA (salla Allahu alayhi wa sallam) was meant, 17 strings in 8 langs; split bundles regenerated. NOTE: SEO batch A2 also bumps 212->213 — whichever merges second takes the next value (214) and regenerates the bundles from the merged js/i18n.js. Previous: HIJRI-CALENDAR-RANGE-1 (2026-10-16): bumped 211->212 — footer.link_hijri_year drops the pinned year 1447 in all ten langs (the link now targets the calendar hub). Previous: MOON-DAY-PAGES-REMOVAL-1 (2026-10-13): bumped 210->211 — moon.chart_caption reworded in all ten langs (the chart points are no longer links). Previous: QIBLA-ANDROID-COMPASS-TRUST-HARDENING-AND-LAB-1 (2026-09-02): bumped 209->210 — qibla.enable_compass drops the "(iPhone)" suffix in all ten locales (platform-neutral control), so the split bundles must not be served from cache. PREV 209 = PRAYER-CITY-INTELLIGENCE-1 (2026-08-30): bumped 208->209 — added 31 pci.* keys x10 langs in js/i18n.js (City Intelligence sections: today summary, 7-day change, monthly summary, quick questions) + regenerated all js/i18n/{lang}.js via scripts/_phase_e6_a_split_i18n.mjs. Content keys only; no calc/SEO/route change. | PREV 208 = // ADSENSE-EDITORIAL-GUIDES-10-LOCALE-IMPLEMENTATION-1 (2026-08-29): bumped 207->208 — added nav.guides to all ten locales, so the split bundles must not be served from cache
         let _i18nReplacement = `<script${_TP_NONCE_ATTR} defer src="js/i18n-core.js?v=${_i18nVersion}"></script>` +
                                `\n    <script${_TP_NONCE_ATTR} defer src="js/i18n/${_i18nLang}.js?v=${_i18nVersion}"></script>`;
         if (_needsEnFallback) {
@@ -25771,20 +25861,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'موقع مواقيت الصلاة والتاريخ الهجري يوفر جدولاً يومياً دقيقاً لمواعيد الصلوات الخمس (الفجر، الشروق، الظهر، العصر، المغرب، العشاء) في أكثر من 50 ألف مدينة حول العالم، وذلك بالاعتماد على إحداثيات GPS الخاصة بموقعك أو بالبحث اليدوي عن اسم مدينتك.',
                     aboutP2: 'يدعم الموقع عدة طرق حساب معتمَدة عالمياً: رابطة العالم الإسلامي، هيئة أم القرى بمكة المكرمة، الهيئة المصرية العامة للمساحة، الجمعية الإسلامية لأمريكا الشمالية (ISNA)، إضافةً إلى خيارات مذاهب الفقه (الشافعي/الحنفي) لحساب وقت صلاة العصر.',
                     aboutP3: 'إلى جانب مواقيت الصلاة اليوم، يقدم الموقع أدوات إسلامية متكاملة: التقويم الهجري بأشهره الاثني عشر (محرم، صفر، ربيع الأول، ربيع الآخر، جمادى الأولى، جمادى الآخرة، رجب، شعبان، رمضان، شوال، ذو القعدة، ذو الحجة)، تحويل التاريخ بين الهجري والميلادي، اتجاه القبلة نحو الكعبة المشرفة، حاسبة الزكاة، والأدعية والأذكار الصحيحة من الكتاب والسنة.',
-                    faqQ1: 'كيف تُحسب مواقيت الصلاة؟',
-                    faqA1: 'تُحسب المواقيت اعتمادًا على الموقع الجغرافي، زاوية الشمس، المنطقة الزمنية، وطريقة الحساب المختارة لكل صلاة.',
-                    faqQ2: 'لماذا تختلف مواقيت الصلاة من مكان لآخر؟',
-                    faqA2: 'تختلف المواقيت بسبب اختلاف خط العرض والطول، وقت الشروق والغروب، وطول الليل والنهار بحسب الموقع والفصل.',
-                    faqQ3: 'ما الفرق بين طرق حساب مواقيت الصلاة؟',
-                    faqA3: 'تختلف الطرق في الزوايا المعتمدة لحساب الفجر والعشاء، لذلك قد تظهر فروقات بسيطة بين طريقة وأخرى.',
-                    faqQ4: 'ما المقصود باختيار المذهب في وقت العصر؟',
-                    faqA4: 'يؤثر اختيار المذهب على حساب وقت العصر، حيث تختلف بعض المعايير الفقهية في تحديد بداية وقت العصر.',
-                    faqQ5: 'هل يمكن تحديد مواقيت الصلاة من موقعي تلقائيًا؟',
-                    faqA5: 'نعم، يمكن استخدام الموقع الجغرافي لتحديد المواقيت بدقة أعلى، مع إمكانية اختيار المدينة يدويًا عند الحاجة.',
-                    faqQ6: 'ما الأدوات الإسلامية المتوفرة بجانب مواقيت الصلاة؟',
-                    faqA6: 'تتوفر أدوات مثل اتجاه القبلة، التاريخ الهجري، التقويم الهجري، حالة القمر، وتحويل التاريخ.',
-                    faqQ7: 'هل تتغير مواقيت الصلاة يوميًا؟',
-                    faqA7: 'نعم، تتغير المواقيت يوميًا بدرجات بسيطة نتيجة تغير موقع الشمس وطول النهار والليل خلال السنة.',
                 },
                 en: {
                     worldCities: 'Cities Worldwide', upcomingPrayer: 'Upcoming Prayer',
@@ -25795,20 +25871,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'Prayer Times & Hijri Calendar website provides an accurate daily schedule for the five prayers (Fajr, Sunrise, Dhuhr, Asr, Maghrib, Isha) in over 50,000 cities worldwide, using your GPS coordinates or manual city search.',
                     aboutP2: 'The site supports globally recognized calculation methods: Muslim World League, Umm al-Qura (Mecca), Egyptian General Authority of Survey, Islamic Society of North America (ISNA), plus Shafi/Hanafi juristic options for Asr prayer calculation.',
                     aboutP3: 'Beyond today\'s prayer times, the site offers integrated Islamic tools: the Hijri calendar with its twelve months (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha\'ban, Ramadan, Shawwal, Dhu al-Qi\'dah, Dhu al-Hijjah), Hijri-Gregorian date converter, Qibla direction to the Kaaba, Zakat calculator, and authentic duas and adhkar from the Quran and Sunnah.',
-                    faqQ1: 'How are prayer times calculated?',
-                    faqA1: 'Times are calculated using your geographic location, the sun\'s angle, the time zone, and the calculation method chosen for each prayer.',
-                    faqQ2: 'Why do prayer times differ between places?',
-                    faqA2: 'Times differ because of latitude and longitude, sunrise and sunset moments, and night/day length that change with the location and season.',
-                    faqQ3: 'What\'s the difference between prayer time calculation methods?',
-                    faqA3: 'Methods differ in the angles used for Fajr and Isha, so small differences may appear between one method and another.',
-                    faqQ4: 'What does choosing the school of jurisprudence for Asr mean?',
-                    faqA4: 'The juristic school affects how Asr is computed, since some scholarly criteria differ in defining the start of Asr.',
-                    faqQ5: 'Can prayer times be set automatically from my location?',
-                    faqA5: 'Yes, your geographic location can be used for higher accuracy, with the option to pick a city manually whenever needed.',
-                    faqQ6: 'What Islamic tools are available alongside prayer times?',
-                    faqA6: 'Tools available include Qibla direction, the Hijri date, the Hijri calendar, the moon phase, and date conversion.',
-                    faqQ7: 'Do prayer times change daily?',
-                    faqA7: 'Yes, prayer times shift slightly each day as the sun\'s position and the length of day and night change over the year.',
                 },
                 fr: {
                     worldCities: 'Villes du Monde', upcomingPrayer: 'Prochaine prière',
@@ -25819,20 +25881,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: "Le site Heures de prière et Calendrier Hégirien fournit un horaire quotidien précis des cinq prières (Fajr, Dhuhr, Asr, Maghrib, Isha) dans plus de 50 000 villes du monde, en utilisant vos coordonnées GPS ou la recherche manuelle de ville.",
                     aboutP2: "Le site prend en charge les méthodes de calcul reconnues mondialement : Ligue Islamique Mondiale, Umm al-Qura (La Mecque), Autorité Égyptienne, ISNA, avec options juristiques Shafi/Hanafi pour Asr.",
                     aboutP3: "Au-delà des heures de prière, le site offre des outils islamiques intégrés : calendrier hégirien (Muharram, Safar, Rabi' al-Awwal, Rabi' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sha'ban, Ramadan, Shawwal, Dhu al-Qi'dah, Dhu al-Hijjah), convertisseur de date, direction de la Qibla vers la Kaaba, calculateur de Zakat, et douas et adhkar authentiques.",
-                    faqQ1: 'Comment les heures de prière sont-elles calculées ?',
-                    faqA1: "Les heures sont calculées à partir de votre emplacement géographique, de l'angle du soleil, du fuseau horaire et de la méthode de calcul choisie pour chaque prière.",
-                    faqQ2: 'Pourquoi les heures de prière diffèrent-elles d’un endroit à un autre ?',
-                    faqA2: "Les heures changent selon la latitude et la longitude, les moments du lever et du coucher du soleil, et la durée du jour et de la nuit qui varient selon le lieu et la saison.",
-                    faqQ3: 'Quelle est la différence entre les méthodes de calcul des heures de prière ?',
-                    faqA3: "Les méthodes diffèrent par les angles utilisés pour le Fajr et l'Isha, ce qui peut entraîner de petites différences entre une méthode et une autre.",
-                    faqQ4: 'Que signifie choisir l’école juridique pour le Asr ?',
-                    faqA4: "Le choix de l'école juridique influe sur le calcul du Asr, car certains critères diffèrent dans la définition du début de cette prière.",
-                    faqQ5: 'Les heures de prière peuvent-elles être réglées automatiquement depuis ma position ?',
-                    faqA5: 'Oui, votre position géographique peut être utilisée pour une plus grande précision, avec la possibilité de choisir manuellement une ville si nécessaire.',
-                    faqQ6: 'Quels outils islamiques sont disponibles à côté des heures de prière ?',
-                    faqA6: 'Des outils comme la direction de la Qibla, la date hégirienne, le calendrier hégirien, la phase de la lune et la conversion de date sont disponibles.',
-                    faqQ7: 'Les heures de prière changent-elles chaque jour ?',
-                    faqA7: 'Oui, les heures changent légèrement chaque jour selon la position du soleil et la durée du jour et de la nuit au fil de l\'année.',
                 },
                 tr: {
                     worldCities: 'Dünya Şehirleri', upcomingPrayer: 'Sonraki Namaz',
@@ -25843,20 +25891,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'Namaz Vakitleri ve Hicri Takvim sitesi, dünya genelinde 50.000\'den fazla şehir için beş vakit namazı (Fecir, Öğle, İkindi, Akşam, Yatsı) GPS koordinatları veya manuel şehir araması kullanarak sunar.',
                     aboutP2: "Site, dünya çapında tanınan hesaplama yöntemlerini destekler: Müslüman Dünya Birliği, Ümmü'l-Kura (Mekke), Mısır Otoritesi, ISNA; ayrıca İkindi için Şafi/Hanefi seçenekleri.",
                     aboutP3: "Namaz vakitlerinin yanı sıra site, Hicri takvim (Muharrem, Safer, Rabiülevvel, Rabiülahir, Cemaziyelevvel, Cemaziyelahir, Recep, Şaban, Ramazan, Şevval, Zilkade, Zilhicce), tarih dönüştürücü, Kâbe yönünde kıble, zekât hesaplayıcı ve sahih dualar sunar.",
-                    faqQ1: 'Namaz vakitleri nasıl hesaplanır?',
-                    faqA1: 'Vakitler; coğrafi konum, güneş açısı, saat dilimi ve her vakit için seçilen hesaplama yöntemine göre hesaplanır.',
-                    faqQ2: 'Namaz vakitleri neden yerden yere değişir?',
-                    faqA2: 'Vakitler; enlem ve boylam, güneşin doğuş ve batış zamanları ve konuma ile mevsime göre değişen gece-gündüz uzunluğu nedeniyle farklılaşır.',
-                    faqQ3: 'Namaz vakitleri hesaplama yöntemleri arasındaki fark nedir?',
-                    faqA3: 'Yöntemler, Fecir ve Yatsı için kullanılan açılarda farklıdır; bu nedenle yöntemler arasında küçük farklar görülebilir.',
-                    faqQ4: 'İkindi vakti için mezhep seçimi ne anlama gelir?',
-                    faqA4: 'Mezhep seçimi İkindi’nin hesaplanmasını etkiler; bazı fıkhi ölçütler İkindi’nin başlangıç zamanını farklı tanımlar.',
-                    faqQ5: 'Namaz vakitleri konumumdan otomatik olarak ayarlanabilir mi?',
-                    faqA5: 'Evet, daha yüksek doğruluk için coğrafi konumunuz kullanılabilir; gerektiğinde bir şehir manuel olarak da seçilebilir.',
-                    faqQ6: 'Namaz vakitlerinin yanında hangi İslami araçlar var?',
-                    faqA6: 'Kıble yönü, Hicri tarih, Hicri takvim, ay evresi ve tarih dönüşümü gibi araçlar mevcuttur.',
-                    faqQ7: 'Namaz vakitleri her gün değişir mi?',
-                    faqA7: 'Evet, vakitler her gün hafifçe değişir; güneşin konumu ve gün-gece uzunluğu yıl boyunca değiştiği için.',
                 },
                 ur: {
                     worldCities: 'دنیا کے شہر', upcomingPrayer: 'اگلی نماز',
@@ -25867,20 +25901,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'اوقاتِ نماز اور ہجری کیلنڈر سائٹ دنیا بھر کے 50,000 سے زائد شہروں میں پانچوں نمازوں (فجر، ظہر، عصر، مغرب، عشاء) کا درست روزانہ شیڈول آپ کے GPS کوآرڈینیٹس یا دستی شہر تلاش کے ذریعے فراہم کرتی ہے۔',
                     aboutP2: 'سائٹ عالمی سطح پر تسلیم شدہ حساب کے طریقوں کی حمایت کرتی ہے: مسلم ورلڈ لیگ، ام القریٰ (مکہ)، مصری اتھارٹی، ISNA؛ علاوہ ازیں عصر کے لیے شافعی/حنفی اختیارات۔',
                     aboutP3: 'اوقاتِ نماز کے علاوہ، سائٹ مربوط اسلامی ٹولز پیش کرتی ہے: ہجری کیلنڈر (محرم، صفر، ربیع الاول، ربیع الآخر، جمادی الاولیٰ، جمادی الآخرہ، رجب، شعبان، رمضان، شوال، ذوالقعدہ، ذوالحجہ)، تاریخ کنورٹر، کعبہ کی طرف قبلہ، زکاۃ کیلکولیٹر، اور صحیح دعائیں اور اذکار۔',
-                    faqQ1: 'اوقاتِ نماز کیسے شمار ہوتے ہیں؟',
-                    faqA1: 'اوقات کا تعین جغرافیائی مقام، سورج کے زاویے، ٹائم زون اور ہر نماز کے لیے منتخب طریقۂ حساب کی بنیاد پر ہوتا ہے۔',
-                    faqQ2: 'نماز کے اوقات جگہ بدلنے سے کیوں مختلف ہوتے ہیں؟',
-                    faqA2: 'اوقات خط عرض و خط طول، طلوع و غروبِ آفتاب، اور دن و رات کی لمبائی کی وجہ سے بدلتے ہیں جو مقام اور موسم کے ساتھ مختلف ہوتی ہیں۔',
-                    faqQ3: 'نماز کے اوقات کے حساب کے طریقوں میں کیا فرق ہے؟',
-                    faqA3: 'طریقے فجر اور عشاء کے لیے استعمال ہونے والے زاویوں میں مختلف ہوتے ہیں، اس لیے ایک طریقے اور دوسرے کے درمیان معمولی فرق ظاہر ہو سکتا ہے۔',
-                    faqQ4: 'عصر کے وقت میں مذہب کے انتخاب کا کیا مطلب ہے؟',
-                    faqA4: 'مذہب کا انتخاب عصر کے حساب پر اثر ڈالتا ہے کیونکہ کچھ فقہی معیار عصر کے آغاز کی تعریف میں مختلف ہیں۔',
-                    faqQ5: 'کیا میرے مقام سے نماز کے اوقات خودکار طریقے سے طے ہو سکتے ہیں؟',
-                    faqA5: 'ہاں، زیادہ درستگی کے لیے آپ کے جغرافیائی مقام کا استعمال ممکن ہے، اور ضرورت پڑنے پر شہر دستی طور پر بھی منتخب کیا جا سکتا ہے۔',
-                    faqQ6: 'نماز کے اوقات کے ساتھ کون سے اسلامی آلات دستیاب ہیں؟',
-                    faqA6: 'قبلہ کی سمت، ہجری تاریخ، ہجری کیلنڈر، چاند کا مرحلہ، اور تاریخ کی تبدیلی جیسے آلات دستیاب ہیں۔',
-                    faqQ7: 'کیا نماز کے اوقات روزانہ تبدیل ہوتے ہیں؟',
-                    faqA7: 'جی ہاں، اوقات روزانہ معمولی طور پر تبدیل ہوتے ہیں کیونکہ سورج کی پوزیشن اور دن و رات کی لمبائی سال بھر بدلتی رہتی ہے۔',
                 },
                 de: {
                     worldCities: 'Städte weltweit', upcomingPrayer: 'Nächstes Gebet',
@@ -25891,20 +25911,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'Die Webseite Gebetszeiten und Hidschri-Kalender bietet einen präzisen täglichen Zeitplan für die fünf Pflichtgebete (Fajr, Sonnenaufgang, Dhuhr, Asr, Maghrib, Isha) in über 50.000 Städten weltweit, basierend auf Ihren GPS-Koordinaten oder der manuellen Stadtsuche.',
                     aboutP2: "Die Seite unterstützt weltweit anerkannte Berechnungsmethoden: Muslimische Weltliga, Umm al-Qura (Mekka), Ägyptische Generalbehörde für Vermessung, Islamische Gesellschaft Nordamerikas (ISNA), sowie schafiitische/hanafitische Rechtsschul-Optionen für die Berechnung des Asr-Gebets.",
                     aboutP3: "Neben den Gebetszeiten bietet die Seite integrierte islamische Werkzeuge: Den Hidschri-Kalender mit seinen zwölf Monaten (Muharram, Safar, Rabi' al-Awwal, Rabi' al-Thani, Dschumada al-Ula, Dschumada al-Thani, Radschab, Schaban, Ramadan, Schawwal, Dhul-Qa'da, Dhul-Hidscha), Datumsumrechnung zwischen Hidschri und Gregorianisch, Qibla-Richtung zur Kaaba, Zakat-Rechner sowie authentische Duas und Adhkar aus Koran und Sunna.",
-                    faqQ1: 'Wie werden die Gebetszeiten berechnet?',
-                    faqA1: 'Die Zeiten werden anhand des geografischen Standorts, des Sonnenwinkels, der Zeitzone und der für jedes Gebet gewählten Berechnungsmethode bestimmt.',
-                    faqQ2: 'Warum unterscheiden sich die Gebetszeiten von Ort zu Ort?',
-                    faqA2: 'Die Zeiten unterscheiden sich aufgrund von Breiten- und Längengrad, Sonnenauf- und -untergang sowie der Tag- und Nachtlänge, die je nach Ort und Jahreszeit variieren.',
-                    faqQ3: 'Worin unterscheiden sich die Berechnungsmethoden für die Gebetszeiten?',
-                    faqA3: 'Die Methoden unterscheiden sich in den Winkeln, die für Fajr und Isha verwendet werden, sodass kleine Unterschiede zwischen den Methoden auftreten können.',
-                    faqQ4: 'Was bedeutet die Wahl der Rechtsschule für Asr?',
-                    faqA4: 'Die Wahl der Rechtsschule beeinflusst die Berechnung von Asr, da einige Kriterien den Beginn von Asr unterschiedlich definieren.',
-                    faqQ5: 'Können die Gebetszeiten automatisch von meinem Standort gesetzt werden?',
-                    faqA5: 'Ja, Ihr geografischer Standort kann für höhere Genauigkeit verwendet werden, mit der Möglichkeit, bei Bedarf eine Stadt manuell auszuwählen.',
-                    faqQ6: 'Welche islamischen Werkzeuge gibt es neben den Gebetszeiten?',
-                    faqA6: 'Werkzeuge wie Qibla-Richtung, Hidschri-Datum, Hidschri-Kalender, Mondphase und Datumsumrechnung stehen zur Verfügung.',
-                    faqQ7: 'Ändern sich die Gebetszeiten täglich?',
-                    faqA7: 'Ja, die Zeiten ändern sich täglich geringfügig, da sich die Sonnenposition sowie Tag- und Nachtlänge im Jahresverlauf verschieben.',
                 },
                 id: {
                     worldCities: 'Kota-Kota Dunia', upcomingPrayer: 'Sholat Berikutnya',
@@ -25915,20 +25921,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'Situs Jadwal Sholat dan Kalender Hijriyah menyediakan jadwal harian yang akurat untuk lima waktu sholat (Subuh, Matahari Terbit, Zuhur, Asar, Magrib, Isya) di lebih dari 50.000 kota di seluruh dunia, menggunakan koordinat GPS Anda atau pencarian kota secara manual.',
                     aboutP2: 'Situs ini mendukung metode perhitungan yang diakui secara global: Liga Dunia Muslim, Umm al-Qura (Mekkah), Otoritas Umum Mesir, Islamic Society of North America (ISNA), ditambah opsi mazhab Syafi\'i/Hanafi untuk perhitungan waktu sholat Asar.',
                     aboutP3: 'Selain jadwal sholat hari ini, situs ini menawarkan perangkat Islam terpadu: kalender Hijriyah dengan dua belas bulannya (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Jumada al-Awwal, Jumada al-Thani, Rajab, Sya\'ban, Ramadan, Syawal, Dzulkaidah, Dzulhijah), konverter tanggal Hijriyah-Masehi, arah Kiblat menuju Ka\'bah, kalkulator Zakat, serta doa dan dzikir otentik dari Al-Qur\'an dan Sunnah.',
-                    faqQ1: 'Bagaimana jadwal sholat dihitung?',
-                    faqA1: 'Waktu dihitung berdasarkan lokasi geografis, sudut matahari, zona waktu, dan metode perhitungan yang dipilih untuk setiap sholat.',
-                    faqQ2: 'Mengapa jadwal sholat berbeda antara satu tempat dan tempat lainnya?',
-                    faqA2: 'Waktu berbeda karena perbedaan lintang dan bujur, waktu matahari terbit dan terbenam, serta panjang siang dan malam yang berubah sesuai lokasi dan musim.',
-                    faqQ3: 'Apa perbedaan antara metode perhitungan jadwal sholat?',
-                    faqA3: 'Metode berbeda dalam sudut yang digunakan untuk Subuh dan Isya, sehingga dapat muncul perbedaan kecil antara satu metode dan metode lainnya.',
-                    faqQ4: 'Apa maksud memilih mazhab untuk waktu Asar?',
-                    faqA4: 'Pilihan mazhab memengaruhi perhitungan waktu Asar, karena beberapa kriteria fikih berbeda dalam menentukan awal waktu Asar.',
-                    faqQ5: 'Apakah jadwal sholat dapat ditentukan otomatis dari lokasi saya?',
-                    faqA5: 'Ya, lokasi geografis dapat digunakan untuk akurasi yang lebih tinggi, dengan pilihan untuk memilih kota secara manual jika diperlukan.',
-                    faqQ6: 'Alat Islami apa saja yang tersedia bersama jadwal sholat?',
-                    faqA6: 'Tersedia alat seperti arah Kiblat, tanggal Hijriyah, kalender Hijriyah, fase bulan, dan konversi tanggal.',
-                    faqQ7: 'Apakah jadwal sholat berubah setiap hari?',
-                    faqA7: 'Ya, waktu berubah sedikit setiap hari karena posisi matahari serta panjang siang dan malam berubah sepanjang tahun.',
                 },
                 es: {
                     worldCities: 'Ciudades del Mundo', upcomingPrayer: 'Próxima Oración',
@@ -25939,20 +25931,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'El sitio Horarios de Oración y Calendario Hijri ofrece un horario diario preciso para las cinco oraciones (Fayr, Amanecer, Dhuhr, Asr, Magrib, Isha) en más de 50 000 ciudades del mundo, utilizando tus coordenadas GPS o la búsqueda manual por nombre de ciudad.',
                     aboutP2: 'El sitio admite métodos de cálculo reconocidos mundialmente: Liga Mundial Musulmana, Umm al-Qura (La Meca), Autoridad General Egipcia, Islamic Society of North America (ISNA), además de las opciones jurídicas Shafi\'i/Hanafi para el cálculo del Asr.',
                     aboutP3: 'Además de los horarios de oración de hoy, el sitio ofrece herramientas islámicas integradas: el calendario Hijri con sus doce meses (Muharram, Safar, Rabi\' al-Awwal, Rabi\' al-Thani, Yumada al-Awwal, Yumada al-Thani, Rayab, Sha\'ban, Ramadán, Shawwal, Dhu al-Qi\'dah, Dhu al-Hiyyah), conversor de fechas Hijri-Gregoriano, dirección de la Qibla hacia la Kaaba, calculadora de Zakat y duas y adhkar auténticos del Corán y la Sunna.',
-                    faqQ1: '¿Cómo se calculan los horarios de oración?',
-                    faqA1: 'Los horarios se calculan a partir de la ubicación geográfica, el ángulo del sol, la zona horaria y el método de cálculo elegido para cada oración.',
-                    faqQ2: '¿Por qué los horarios de oración varían según el lugar?',
-                    faqA2: 'Los horarios cambian por la latitud y la longitud, el momento del amanecer y el atardecer, y la duración del día y la noche que varían con la ubicación y la estación.',
-                    faqQ3: '¿Cuál es la diferencia entre los métodos de cálculo de los horarios de oración?',
-                    faqA3: 'Los métodos difieren en los ángulos usados para Fayr e Isha, por lo que pueden aparecer pequeñas diferencias entre un método y otro.',
-                    faqQ4: '¿Qué significa elegir la escuela jurídica para Asr?',
-                    faqA4: 'La elección de la escuela jurídica afecta el cálculo de Asr, ya que algunos criterios difieren al definir el inicio de Asr.',
-                    faqQ5: '¿Pueden los horarios de oración ajustarse automáticamente desde mi ubicación?',
-                    faqA5: 'Sí, tu ubicación geográfica puede usarse para mayor precisión, con la opción de elegir manualmente una ciudad cuando lo necesites.',
-                    faqQ6: '¿Qué herramientas islámicas hay disponibles junto a los horarios de oración?',
-                    faqA6: 'Hay herramientas como dirección de la Qibla, fecha hégira, calendario hégira, fase lunar y conversión de fechas.',
-                    faqQ7: '¿Cambian los horarios de oración cada día?',
-                    faqA7: 'Sí, los horarios cambian ligeramente cada día porque la posición del sol y la duración del día y la noche varían a lo largo del año.',
                 },
                 bn: {
                     worldCities: 'বিশ্বের শহরসমূহ', upcomingPrayer: 'পরবর্তী নামাজ',
@@ -25963,20 +25941,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'নামাজের সময়সূচী ও হিজরি ক্যালেন্ডার ওয়েবসাইট বিশ্বজুড়ে ৫০,০০০-এর বেশি শহরের জন্য পাঁচ ওয়াক্ত নামাজের (ফজর, সূর্যোদয়, জোহর, আসর, মাগরিব, এশা) সঠিক দৈনিক সময়সূচী সরবরাহ করে, আপনার GPS স্থানাঙ্ক বা ম্যানুয়াল শহর অনুসন্ধানের ভিত্তিতে।',
                     aboutP2: 'এই সাইটটি বিশ্বব্যাপী স্বীকৃত গণনা পদ্ধতি সমর্থন করে: মুসলিম ওয়ার্ল্ড লীগ, উম্মুল কুরা (মক্কা), মিশরের সাধারণ কর্তৃপক্ষ, Islamic Society of North America (ISNA), এবং আসরের সময় গণনার জন্য শাফেয়ী/হানাফি মাজহাব বিকল্প।',
                     aboutP3: 'আজকের নামাজের সময় ছাড়াও, সাইটটি সমন্বিত ইসলামী সরঞ্জাম অফার করে: বারো মাসের হিজরি ক্যালেন্ডার (মহররম, সফর, রবিউল আউয়াল, রবিউস সানি, জমাদিউল আউয়াল, জমাদিউস সানি, রজব, শাবান, রমজান, শাওয়াল, জিলকদ, জিলহজ), হিজরি-গ্রেগরিয়ান তারিখ রূপান্তরকারী, কাবার দিকে কিবলার দিক, যাকাত ক্যালকুলেটর এবং কুরআন ও সুন্নাহ থেকে সহীহ দোয়া ও জিকির।',
-                    faqQ1: 'নামাজের সময়সূচী কীভাবে গণনা করা হয়?',
-                    faqA1: 'সময় গণনা করা হয় ভৌগোলিক অবস্থান, সূর্যের কোণ, সময় অঞ্চল এবং প্রতিটি নামাজের জন্য নির্বাচিত গণনা পদ্ধতির ভিত্তিতে।',
-                    faqQ2: 'নামাজের সময় এক জায়গা থেকে অন্য জায়গায় কেন আলাদা হয়?',
-                    faqA2: 'অক্ষাংশ ও দ্রাঘিমাংশ, সূর্যোদয় ও সূর্যাস্তের সময়, এবং অবস্থান ও ঋতু অনুযায়ী রাত-দিনের দৈর্ঘ্যের পার্থক্যের কারণে সময় ভিন্ন হয়।',
-                    faqQ3: 'নামাজের সময় গণনার পদ্ধতিগুলোর মধ্যে পার্থক্য কী?',
-                    faqA3: 'পদ্ধতিগুলো ফজর ও এশার জন্য ব্যবহৃত কোণে আলাদা, তাই এক পদ্ধতি ও অন্যটির মধ্যে ছোটখাটো পার্থক্য দেখা দিতে পারে।',
-                    faqQ4: 'আসরের সময়ের জন্য মাযহাব বেছে নেওয়ার অর্থ কী?',
-                    faqA4: 'মাযহাব নির্বাচন আসরের গণনাকে প্রভাবিত করে, কারণ কিছু ফিকহি মানদণ্ড আসরের শুরু নির্ধারণে ভিন্ন।',
-                    faqQ5: 'আমার অবস্থান থেকে কি নামাজের সময় স্বয়ংক্রিয়ভাবে নির্ধারণ করা যায়?',
-                    faqA5: 'হ্যাঁ, ভৌগোলিক অবস্থান উচ্চতর নির্ভুলতার জন্য ব্যবহার করা যায়, এবং প্রয়োজন হলে শহর ম্যানুয়ালি নির্বাচন করা যায়।',
-                    faqQ6: 'নামাজের সময়ের পাশাপাশি কোন ইসলামিক টুলগুলো পাওয়া যায়?',
-                    faqA6: 'কিবলার দিক, হিজরি তারিখ, হিজরি ক্যালেন্ডার, চাঁদের অবস্থা এবং তারিখ রূপান্তরের মতো টুল উপলব্ধ।',
-                    faqQ7: 'নামাজের সময় কি প্রতিদিন পরিবর্তিত হয়?',
-                    faqA7: 'হ্যাঁ, প্রতিদিন সময় সামান্য পরিবর্তিত হয় কারণ সূর্যের অবস্থান এবং দিন-রাতের দৈর্ঘ্য বছরজুড়ে পরিবর্তিত হয়।',
                 },
                 ms: {
                     worldCities: 'Bandar Dunia', upcomingPrayer: 'Solat Seterusnya',
@@ -25987,20 +25951,6 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     aboutP1: 'Laman Waktu Solat dan Kalendar Hijrah menyediakan jadual harian yang tepat untuk lima waktu solat (Subuh, Syuruk, Zohor, Asar, Maghrib, Isyak) di lebih 50,000 bandar seluruh dunia, menggunakan koordinat GPS anda atau carian bandar secara manual.',
                     aboutP2: 'Laman ini menyokong kaedah pengiraan yang diiktiraf di peringkat global: Liga Dunia Muslim, Umm al-Qura (Makkah), Pihak Berkuasa Am Mesir, Islamic Society of North America (ISNA), serta pilihan mazhab Syafie/Hanafi untuk pengiraan waktu Asar.',
                     aboutP3: 'Selain waktu solat hari ini, laman ini menawarkan alatan Islam bersepadu: Kalendar Hijrah dengan dua belas bulannya (Muharram, Safar, Rabiulawal, Rabiulakhir, Jamadilawal, Jamadilakhir, Rejab, Syaaban, Ramadan, Syawal, Zulkaedah, Zulhijah), penukar tarikh Hijrah-Masihi, arah Kiblat ke Kaabah, kalkulator Zakat, serta doa dan zikir sahih daripada Al-Quran dan Sunnah.',
-                    faqQ1: 'Bagaimana waktu solat dikira?',
-                    faqA1: 'Waktu dikira berdasarkan lokasi geografi, sudut matahari, zon waktu, dan kaedah pengiraan yang dipilih untuk setiap solat.',
-                    faqQ2: 'Mengapakah waktu solat berbeza antara satu tempat dengan tempat lain?',
-                    faqA2: 'Waktu berbeza disebabkan latitud dan longitud, masa matahari terbit dan terbenam, serta panjang siang dan malam yang berubah mengikut lokasi dan musim.',
-                    faqQ3: 'Apakah perbezaan antara kaedah pengiraan waktu solat?',
-                    faqA3: 'Kaedah-kaedah berbeza dalam sudut yang digunakan untuk Subuh dan Isyak, sehingga perbezaan kecil mungkin muncul antara satu kaedah dengan kaedah lain.',
-                    faqQ4: 'Apakah maksud memilih mazhab untuk waktu Asar?',
-                    faqA4: 'Pilihan mazhab mempengaruhi pengiraan waktu Asar, kerana sebahagian piawaian fiqh berbeza dalam menentukan permulaan Asar.',
-                    faqQ5: 'Bolehkah waktu solat ditentukan secara automatik daripada lokasi saya?',
-                    faqA5: 'Ya, lokasi geografi anda boleh digunakan untuk ketepatan yang lebih tinggi, dengan pilihan untuk memilih bandar secara manual apabila diperlukan.',
-                    faqQ6: 'Apakah alat Islam yang tersedia bersama waktu solat?',
-                    faqA6: 'Alat seperti arah Kiblat, tarikh Hijrah, kalendar Hijrah, fasa bulan, dan penukaran tarikh tersedia.',
-                    faqQ7: 'Adakah waktu solat berubah setiap hari?',
-                    faqA7: 'Ya, waktu berubah sedikit setiap hari kerana kedudukan matahari serta panjang siang dan malam berubah sepanjang tahun.',
                 },
             }[Lh] || {};
 
@@ -26070,48 +26020,49 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // —— FAQ (نحافظ على IDs الأصلية faq-q1/faq-a1-intro/faq-times-list/faq-q2/faq-a2
             //      حتّى يستطيع updateFaqSection() الـ client-side استبدال Q1+Q2 بمحتوى خاصّ بالمدينة.
             //      Q3-Q6 جديدة بدون IDs — تبقى ثابتة كـ SEO content للـ LLM crawlers) ——
-            const _faqHtml = i18n.faqQ1 ? `
+            const _hf = _HOME_FAQ_BY_LANG[Lh] || _HOME_FAQ_BY_LANG.ar;   // SEO-FAQ-SINGLE-SOURCE-1: same list as the FAQPage JSON-LD
+            const _faqHtml = _hf.length === 7 ? `
                     <!-- س1 — ID محفوظ للـ JS -->
                     <div class="faq-item">
-                        <div class="faq-question" id="faq-q1">${_escHtml(i18n.faqQ1)}</div>
+                        <div class="faq-question" id="faq-q1">${_escHtml(_hf[0].q)}</div>
                         <div class="faq-answer">
-                            <p id="faq-a1-intro">${_escHtml(i18n.faqA1)}</p>
+                            <p id="faq-a1-intro">${_escHtml(_hf[0].a)}</p>
                             <ul class="faq-times-list" id="faq-times-list"></ul>
                         </div>
                     </div>
                     <div class="faq-divider"></div>
                     <!-- س2 — ID محفوظ للـ JS -->
                     <div class="faq-item">
-                        <div class="faq-question" id="faq-q2">${_escHtml(i18n.faqQ2)}</div>
+                        <div class="faq-question" id="faq-q2">${_escHtml(_hf[1].q)}</div>
                         <div class="faq-answer">
-                            <p id="faq-a2">${_escHtml(i18n.faqA2)}</p>
+                            <p id="faq-a2">${_escHtml(_hf[1].a)}</p>
                         </div>
                     </div>
                     <div class="faq-divider"></div>
                     <!-- Q3-Q6 SEO-only (لا IDs، لا تُعدَل من JS) -->
                     <div class="faq-item">
-                        <div class="faq-question">${_escHtml(i18n.faqQ3)}</div>
-                        <div class="faq-answer"><p>${_escHtml(i18n.faqA3)}</p></div>
+                        <div class="faq-question">${_escHtml(_hf[2].q)}</div>
+                        <div class="faq-answer"><p>${_escHtml(_hf[2].a)}</p></div>
                     </div>
                     <div class="faq-divider"></div>
                     <div class="faq-item">
-                        <div class="faq-question">${_escHtml(i18n.faqQ4)}</div>
-                        <div class="faq-answer"><p>${_escHtml(i18n.faqA4)}</p></div>
+                        <div class="faq-question">${_escHtml(_hf[3].q)}</div>
+                        <div class="faq-answer"><p>${_escHtml(_hf[3].a)}</p></div>
                     </div>
                     <div class="faq-divider"></div>
                     <div class="faq-item">
-                        <div class="faq-question">${_escHtml(i18n.faqQ5)}</div>
-                        <div class="faq-answer"><p>${_escHtml(i18n.faqA5)}</p></div>
+                        <div class="faq-question">${_escHtml(_hf[4].q)}</div>
+                        <div class="faq-answer"><p>${_escHtml(_hf[4].a)}</p></div>
                     </div>
                     <div class="faq-divider"></div>
                     <div class="faq-item">
-                        <div class="faq-question">${_escHtml(i18n.faqQ6)}</div>
-                        <div class="faq-answer"><p>${_escHtml(i18n.faqA6)}</p></div>
+                        <div class="faq-question">${_escHtml(_hf[5].q)}</div>
+                        <div class="faq-answer"><p>${_escHtml(_hf[5].a)}</p></div>
                     </div>
                     <div class="faq-divider"></div>
                     <div class="faq-item">
-                        <div class="faq-question">${_escHtml(i18n.faqQ7)}</div>
-                        <div class="faq-answer"><p>${_escHtml(i18n.faqA7)}</p></div>
+                        <div class="faq-question">${_escHtml(_hf[6].q)}</div>
+                        <div class="faq-answer"><p>${_escHtml(_hf[6].a)}</p></div>
                     </div>` : '';
             // نستبدل الكتلتين الفارغتين الأصليّتين (faq-q1 و faq-q2) بـ 6 أسئلة/أجوبة معلوماتيّة
             // مع الحفاظ على IDs الأصلية في أول سؤالين لتوافق JS

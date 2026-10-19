@@ -21917,6 +21917,24 @@ function updateMoonInfo() {
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
             const dp = _getDayPartsInTz(row.date, row.tz || _tz);
+            // TODAY-PAGES-ACCURACY-1 (1b): moonrise / moonset of the row's OWN city date (dp, the date printed in
+            //   this row). getForecast (js/moon.js, untouched) steps its day windows by a fixed 86400000 ms from the
+            //   first local midnight, so after a clock change row.dayStart sits at 23:00 of the PREVIOUS city date
+            //   (and on a spring-forward day that switches at/before 00:00 UTC - Sydney, Jerusalem, Beirut, Cairo -
+            //   the first window already starts at 23:00 the evening before): row.rise / row.set were that day's,
+            //   i.e. one repeated row, then every later row one day behind. Only when row.dayStart is on another
+            //   city date than the row, take the engine's times for the row's own date (getMoonTimes keys on the
+            //   city date of the instant it gets; row.date is mid-day of the printed date). Every other row keeps
+            //   getForecast's values untouched; phase / illumination / event stay as they are (decision #11).
+            let rowRise = row.rise, rowSet = row.set;
+            const _rowTz = row.tz || _tz;
+            if (_rowTz && row.dayStart && typeof MoonCalc.getMoonTimes === 'function') {
+                const sp = _getDayPartsInTz(row.dayStart, _rowTz);
+                if (sp.y !== dp.y || sp.m !== dp.m || sp.d !== dp.d) {
+                    const own = MoonCalc.getMoonTimes(row.date, _lat, _lng, _rowTz);
+                    if (own) { rowRise = own.rise; rowSet = own.set; }
+                }
+            }
             const wd = _wk[dp.wd];
             const dd = dp.d;
             const mm = _gm[dp.m];
@@ -21955,8 +21973,8 @@ function updateMoonInfo() {
                 + hijriCell
                 + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
                 + `<td>${row.illumination}%</td>`
-                + `<td>${row.rise}</td>`
-                + `<td>${row.set}</td>`
+                + `<td>${rowRise}</td>`
+                + `<td>${rowSet}</td>`
                 + `</tr>`;
         }
         _fcBody.innerHTML = html;

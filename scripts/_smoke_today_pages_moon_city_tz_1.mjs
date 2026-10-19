@@ -13,8 +13,10 @@
 //   keep the country zone exactly as before (decision #14 / SSR-CITY-SLUG-COLLISION-1); the year page's last tier
 //   the same; both noon helpers add 24 h per day the local date at 12:00 UTC is ahead of the city date (0 below +12
 //   -> same instant). js/moon.js untouched; no visible string, i18n or ?v change.
-//   Visible on purpose (decision #13, registered data used as is, owner approval pending): al-quneitra
-//   Asia/Damascus -> Asia/Jerusalem and sokhumi Asia/Tbilisi -> Europe/Moscow (printed by [X]).
+//   TEMPORARY exemption (owner decision 2026-10-19 on #13, not an endorsement of the previous zone): the moon pages of
+//   the exact curated keys sy/al-quneitra and ge/sokhumi keep BASE's country zone (Asia/Damascus / Asia/Tbilisi), their
+//   doubtful registered zones (Asia/Jerusalem / Europe/Moscow) are not used; [X] expects them byte-identical to BASE.
+//   Dedicated checks: scripts/_smoke_today_pages_tz_exempt_1.mjs.
 //   BASE = clean production tree (env TP_BASE_ROOT), CAND = this tree. One BASE + one CAND server; both read the
 //   SAME test clock (a TEST-ONLY preload written to a temp dir by this script, never in the repo, inert unless
 //   TP_SMOKE_CLOCK_FILE is set: Date.now()/new Date() = T + real time since the clock file was written). Chrome
@@ -114,7 +116,8 @@ ok(srvB.includes(BASE_YC) && srvC.includes(CAND_YC) && !srvC.includes(BASE_YC) &
     ok(!!fIB && fI === fIB, '[S] _ssrCityIana (the prayer-city resolver) byte-identical to BASE');
     ok(!!sp(fM) && sp(fM) === sp(fI), '[S] _ssrMoonCityIana applies the very same `_samePlace` test (verbatim copy of _ssrCityIana\'s)');
     const body = fM.replace(/\r/g, '');
-    ok(/if \(_cur && !_samePlace\(_cur\)\) return \(typeof _CC_TO_PRIMARY_TZ !== 'undefined'\) \? \(_CC_TO_PRIMARY_TZ\[cc\] \|\| null\) : null;/.test(body) && /\n    return _ssrCityIana\(slug, cc, lat, lng\);\n\}$/.test(body), '[S] _ssrMoonCityIana: curated record of ANOTHER place -> the country zone (BASE behaviour); otherwise exactly _ssrCityIana');
+    ok(body.includes("\n    const _countryZone = () => (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;\n") && /if \(_cur && !_samePlace\(_cur\)\) return _countryZone\(\);/.test(body) && /\n    return _ssrCityIana\(slug, cc, lat, lng\);\n\}$/.test(body), '[S] _ssrMoonCityIana: curated record of ANOTHER place -> the country zone (_countryZone() = BASE\'s _CC_TO_PRIMARY_TZ[cc] || null); otherwise exactly _ssrCityIana');
+    ok(body.split('\n')[2] === "    if ((slug === 'al-quneitra' && cc === 'sy') || (slug === 'sokhumi' && cc === 'ge')) return _countryZone();   // TEMPORARY, see above", '[S] _ssrMoonCityIana: TEMPORARY exemption first, exact curated slug + country code sy/al-quneitra, ge/sokhumi -> the country zone (owner decision 2026-10-19 on #13)');
 }
 const cntPrim = (s) => (s.split(/\r?\n/).map((l) => l.replace(/^\s*\/\/.*$/, '')).join('\n').match(/_CC_TO_PRIMARY_TZ\[/g) || []).length;   // code lines only
 ok(cntPrim(srvB) - cntPrim(srvC) === 1, '[S] the two moon-page country-zone lookups are gone, the only new one is the collision fallback (' + cntPrim(srvB) + ' -> ' + cntPrim(srvC) + ' _CC_TO_PRIMARY_TZ[...] uses)');
@@ -201,7 +204,7 @@ try {
     console.log('\n-- [X] raw SSR of every curated city hub at ' + T_SCAN + ' (en; ar every 7th city)');
     await setClock(T_SCAN);
     const tScan = Date.parse(T_SCAN);
-    const cls = { same: 0, zone: 0, added: 0, plus12: 0, collision: 0, skipped: 0, non200: 0 }; const non200 = []; const bad = { same: [], zone: [], added: [], plus12: [], collision: [] }; const skipped = [];
+    const cls = { same: 0, zone: 0, added: 0, plus12: 0, collision: 0, exempt: 0, skipped: 0, non200: 0 }; const non200 = []; const bad = { same: [], zone: [], added: [], plus12: [], collision: [], exempt: [] }; const skipped = [];
     let arChecked = 0; const arBad = []; const collisionLog = []; const d13 = {};
     const one = async (cur, L) => {
         const lp = L === 'ar' ? '' : '/' + L;
@@ -223,7 +226,10 @@ try {
         const collision = !geo || Math.abs(geo.lat - cur.lat) > 1 || Math.abs(geo.lng - cur.lng) > 1 || bm !== ptz;
         const p12 = offMin(tScan, ctz) >= 720;
         let kind, good, why = '';
-        if (collision) {
+        if (EXEMPT_KEYS.has(cc + '/' + cur.slug)) {
+            // TEMPORARY exemption (owner decision 2026-10-19 on #13): BASE's country zone, page byte-identical to BASE
+            kind = 'exempt'; good = bm === ptz && cm === ptz && nb === nc; why = 'meta ' + bm + ' -> ' + cm + ' ' + firstDiff(nb, nc).slice(0, 400);
+        } else if (collision) {
             // decision #14 not done: the meta stays BASE's and the page is byte-identical; the only tolerated difference
             // is the shared noon helper moving JSON-LD / FAQ numbers when a zone the page uses is at UTC+12 or beyond
             kind = 'collision';
@@ -255,10 +261,11 @@ try {
     };
     const jobs = [];
     const AR_ALWAYS = new Set(['al-quneitra', 'sokhumi', 'orlando', 'columbia']);
+    const EXEMPT_KEYS = new Set(['sy/al-quneitra', 'ge/sokhumi']);
     CUR.forEach((cur, i) => { jobs.push([cur, 'en']); if (i % 7 === 0 || AR_ALWAYS.has(cur.slug)) jobs.push([cur, 'ar']); });
     let next = 0;
     await Promise.all(Array.from({ length: 4 }, async () => { while (next < jobs.length) { const j = jobs[next++]; await one(j[0], j[1]); } }));
-    console.log(`   en: ${CUR.length} curated cities -> zone == country zone ${cls.same}, other zone ${cls.zone}, country without primary zone ${cls.added}, UTC+12 and beyond ${cls.plus12}, slug collisions ${cls.collision}, non-200 on both ${cls.non200}, not a nested moon hub ${cls.skipped}`);
+    console.log(`   en: ${CUR.length} curated cities -> zone == country zone ${cls.same}, other zone ${cls.zone}, country without primary zone ${cls.added}, UTC+12 and beyond ${cls.plus12}, slug collisions ${cls.collision}, temporary exemptions ${cls.exempt}, non-200 on both ${cls.non200}, not a nested moon hub ${cls.skipped}`);
     if (skipped.length) console.log('   not served as /moon/{country}/{city}: ' + skipped.slice(0, 12).join(' | '));
     if (non200.length) console.log('   pre-existing non-200 nested hubs (identical BASE / CAND): ' + non200.join(' | '));
     ok(cls.same > 2000 && bad.same.length === 0, '[X] ' + cls.same + ' cities whose zone == the country zone (below +12): HTML byte-identical BASE vs CAND (noise normalised)', bad.same.slice(0, 4).join(' ; '));
@@ -269,13 +276,14 @@ try {
     ok(cls.collision > 50 && bad.collision.length === 0, '[X] ' + cls.collision + ' slug-collision pages (namesake coordinates / another country): CAND meta == BASE meta and the page byte-identical (SSR-CITY-SLUG-COLLISION-1 / decision #14 not done)', bad.collision.slice(0, 6).join(' ; '));
     for (const [s, st] of [['orlando', 'Florida'], ['columbia', 'South Carolina']]) ok(collisionLog.includes(s + ' America/New_York'), '[X] collision ' + s + ' (curated: ' + st + '; page coordinates: a db/cities-us namesake > 1 deg away) keeps BASE meta America/New_York, page byte-identical');
     ok(arChecked > 400 && arBad.length === 0, '[X] ar: ' + arChecked + ' city hubs (every 7th + al-quneitra, sokhumi, orlando, columbia) follow the same rule as en', arBad.slice(0, 4).join(' ; '));
-    // decision #13 (owner approval pending): the two doubtful REGISTERED zones now reach the moon pages exactly as the
-    // prayer pages / JSON-LD already use them — a visible change, listed here on purpose, not hidden
+    // decision #13 (owner 2026-10-19): TEMPORARY exemption — the two doubtful REGISTERED zones are NOT carried to the moon
+    // pages; they keep BASE's country zone until the data review decides (their prayer pages keep the registered zone)
+    ok(cls.exempt === 2 && bad.exempt.length === 0, '[X] the 2 temporarily exempt cities (sy/al-quneitra, ge/sokhumi): CAND meta == BASE meta == the country zone, page byte-identical', bad.exempt.join(' ; '));
     const D13 = { 'al-quneitra': ['Asia/Damascus', 'Asia/Jerusalem'], sokhumi: ['Asia/Tbilisi', 'Europe/Moscow'] };
     for (const s of Object.keys(D13)) for (const L of ['en', 'ar']) {
         const r = d13[s + ' ' + L];
-        console.log('   decision #13 visible change: ' + (r ? r.loc + ' meta ' + r.bm + ' -> ' + r.cm + ' (curated ' + r.ctz + ')' : s + ' ' + L + ' not reached'));
-        ok(r && r.bm === D13[s][0] && r.cm === D13[s][1] && r.ctz === D13[s][1], '[X] decision #13 (VISIBLE, owner approval pending): ' + s + ' ' + L + ' meta ' + D13[s][0] + ' -> ' + D13[s][1] + ' = the registered curated zone, as on its prayer page');
+        console.log('   decision #13 temporary exemption: ' + (r ? r.loc + ' meta ' + r.bm + ' -> ' + r.cm + ' (curated ' + r.ctz + ', not used)' : s + ' ' + L + ' not reached'));
+        ok(r && r.bm === D13[s][0] && r.cm === D13[s][0] && r.ctz === D13[s][1], '[X] decision #13 TEMPORARY exemption: ' + s + ' ' + L + ' meta stays ' + D13[s][0] + ' (BASE), the registered ' + D13[s][1] + ' is not used on the moon page');
     }
     // ------------------------------------------------------------ [M]
     console.log('\n-- [M] month / year / country pages');

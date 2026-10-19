@@ -2,7 +2,7 @@
 //   Owner decision 2026-10-19 (item 3): prove the fixes work TOGETHER on the final head, separately from the per-commit
 //   file-identity smokes (those compare against intermediate commits; they are NOT used here). Local only: outbound
 //   guard on both servers, every non-loopback host unresolvable in Chrome (+ dead proxy), ad / analytics URLs blocked,
-//   ADSENSE_CLIENT=off, ports 9700-9799 only, js/moon.js and the Umm al-Qura table never written.
+//   ADSENSE_CLIENT=off, ports 9800-9849 only, js/moon.js and the Umm al-Qura table never written.
 //   BASE = clean production tree (2db11f5, env TP_BASE_ROOT), CAND = this tree (branch head). Both servers read the SAME
 //   test clock (TEST-ONLY preload written to a temp dir by this script, never in the repo, inert unless
 //   TP_SMOKE_CLOCK_FILE is set: Date.now()/new Date() = T + real time since the clock file was written). Chrome gets the
@@ -31,15 +31,18 @@
 //       article:modified_time, ISO ms stamps, live clocks only). Each one is CHECKED, not masked:
 //       (a) build identity: js/app.js?v=856 -> 857 and the &b= stamp (each tree's own git HEAD) on app.js / i18n.js;
 //       (b) /today-hijri-date card 6: leapNo -> leapYes (1448 = 355 days in the table), 10 languages;
-//       (c) moon city pages whose zone != the country zone (not slug collisions, not the 2 exempt cities): the
+//       (c) moon city pages whose zone != the country zone (not slug collisions, not the 3 exempt cities): the
 //           moon.city.tz meta (added where the country has no primary zone) + the month page values computed in that
 //           zone (summary stats, phase list: re-computed with js/moon.js) + month links at a month boundary (the CAND
 //           page == the BASE page of the city's own date);
 //       (d) UTC+12 and beyond (same noon fix): Article JSON-LD values of those city pages (re-rendered with js/moon.js
 //           at the city's noon) and the illumination card of their country page;
 //       (e) /moon hub (10 languages): the Hong Kong / Macau smart-pill island (owner decision 19-10 item 1), exact content.
+//       The 3 cities of the TEMPORARY moon-zone exemption (owner decisions 19-10 on #13: sy/al-quneitra, ge/sokhumi and
+//       sy/katzrin, the db/cities-sy entry) are NOT an expected difference: every one of their URLs must equal production
+//       apart from the build identity (katzrin is not curated, so any zone change there is unexplained by construction).
 //       Any other byte difference = FAIL.
-//   node scripts/_smoke_today_pages_final_1.mjs   (env TP_BASE_ROOT, TP_GUARD, TP_SMOKE_PORT (9700-9790), TP_CHROME)
+//   node scripts/_smoke_today_pages_final_1.mjs   (env TP_BASE_ROOT, TP_GUARD, TP_SMOKE_PORT (9800-9840), TP_CHROME)
 import http from 'node:http';
 import fs from 'node:fs';
 import os from 'node:os';
@@ -53,8 +56,8 @@ const BASE_ROOT = process.env.TP_BASE_ROOT || 'C:/Users/Tarek/Downloads/timespra
 const BASE_REF = '2db11f5';
 const GUARD = process.env.TP_GUARD || 'C:/Users/Tarek/Downloads/timesprayers-shed-qa/guard.cjs';
 const CHROME = process.env.TP_CHROME || 'C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
-const P0 = Number(process.env.TP_SMOKE_PORT || 9780);
-if (!(P0 >= 9700 && P0 + 9 <= 9799)) throw new Error('TP_SMOKE_PORT must keep every port inside 9700-9799');
+const P0 = Number(process.env.TP_SMOKE_PORT || 9830);
+if (!(P0 >= 9800 && P0 + 9 <= 9849)) throw new Error('TP_SMOKE_PORT must keep every port inside 9800-9849');
 const PORT = { base: P0, cand: P0 + 1, cdp: P0 + 9 };
 const AD_BLOCK = ['*googlesyndication.com*', '*doubleclick.net*', '*googleadservices.com*', '*adtrafficquality.google*', '*fundingchoicesmessages.google.com*', '*googletagmanager.com*', '*google-analytics.com*', '*google.com/pagead*', '*gstatic.com/ads*'];
 const LANGS10 = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
@@ -116,11 +119,11 @@ const LEAP = {   // the card's existing wording [yes (355), no (354)] (server _H
     id: ['Ya (355 hari)', 'Tidak (354 hari)'], es: ['Sí (355 días)', 'No (354 días)'], bn: ['হ্যাঁ (৩৫৫ দিন)', 'না (৩৫৪ দিন)'],
     ms: ['Ya (355 hari)', 'Tidak (354 hari)']
 };
-const EXEMPT = new Set(['sy/al-quneitra', 'ge/sokhumi']);     // owner decision 2026-10-19 on #13 (temporary)
+const EXEMPT = new Set(['sy/al-quneitra', 'ge/sokhumi', 'sy/katzrin']);     // owner decisions 2026-10-19 on #13 (temporary); katzrin = db/cities-sy
 // the 10 cities of [1]: expected zone = the curated record's zone (checked against this explicit list)
 const CITY10 = { seattle: 'America/Los_Angeles', 'new-york': 'America/New_York', 'los-angeles': 'America/Los_Angeles', jayapura: 'Asia/Jayapura', jakarta: 'Asia/Jakarta', auckland: 'Pacific/Auckland', apia: 'Pacific/Apia', riga: 'Europe/Riga', london: 'Europe/London', riyadh: 'Asia/Riyadh' };
 const CONTROLS = new Set(['new-york', 'los-angeles', 'jakarta', 'london', 'riyadh']);
-const EXTRA = ['orlando', 'columbia', 'al-quneitra', 'sokhumi', 'hong-kong', 'macau', 'jerusalem', 'cairo', 'sydney'];
+const EXTRA = ['orlando', 'columbia', 'al-quneitra', 'sokhumi', 'katzrin', 'hong-kong', 'macau', 'jerusalem', 'cairo', 'sydney'];
 const SHA = (root) => execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: root }).toString().trim();
 const SHA_B = SHA(BASE_ROOT), SHA_C = SHA(ROOT);
 // ---------------------------------------------------------------- [S]
@@ -336,7 +339,7 @@ try {
         for (const c of [...new Set(countries)]) urls.push(lp + '/moon/' + c);
         for (const s of Object.keys(CITY10).concat(EXTRA)) {
             const h = HUB[s]; if (!h) continue;
-            const full = Object.prototype.hasOwnProperty.call(CITY10, s) || ['orlando', 'columbia', 'al-quneitra', 'sokhumi'].includes(s);
+            const full = Object.prototype.hasOwnProperty.call(CITY10, s) || ['orlando', 'columbia', 'al-quneitra', 'sokhumi', 'katzrin'].includes(s);
             const tails = full ? ['', '/2021', '/2026', '/2031', '/2020', '/2032', '/2040', '/2026/10', '/2026/11', '/2021/01', '/2031/12', '/2020/12', '/2032/01', '/2026/13', '/2026/10/19', '/2026/10/20', '/2031/12/31', '/today']
                 : ['', '/2026', '/2026/10', '/2026/10/19', '/today'];
             for (const t of tails) urls.push(lp + h + t);
@@ -426,9 +429,14 @@ try {
         ok('[6]', LANGS3.every((L) => has(lpOf(L) + HUB.seattle + '/2026/10', 'stats') && has(lpOf(L) + HUB.jayapura + '/2026/11', 'stats')), '(c) month summary values re-computed in the city zone (Seattle 2026/10, Jayapura 2026/11)');
         ok('[6]', LANGS3.every((L) => has(lpOf(L) + HUB.auckland, 'article') && has(lpOf(L) + HUB.apia, 'article')), '(d) Auckland + Apia (UTC+13 at ' + T_SCAN + '): Article JSON-LD re-rendered at the city\'s own noon (BASE: tomorrow\'s)');
         ok('[6]', LANGS3.every((L) => has(lpOf(L) + '/moon/new-zealand', 'country-illum')), '(d) /moon/new-zealand illumination card at Auckland\'s own noon (BASE: tomorrow\'s)');
-        const ctrl = ['new-york', 'jakarta', 'london', 'riyadh', 'orlando', 'columbia', 'al-quneitra', 'sokhumi', 'hong-kong', 'macau', 'cairo', 'sydney'];
+        const ctrl = ['new-york', 'jakarta', 'london', 'riyadh', 'orlando', 'columbia', 'al-quneitra', 'sokhumi', 'katzrin', 'hong-kong', 'macau', 'cairo', 'sydney'];
         const ctrlBad = []; for (const L of LANGS3) for (const s of ctrl) for (const t of ['', '/2026', '/2026/10']) { const u = lpOf(L) + HUB[s] + t; if (scan.find((y) => y.u === u) && !none(u)) ctrlBad.push(u); }
-        ok('[6]', ctrlBad.length === 0, 'controls, slug collisions (orlando, columbia, hong-kong, macau under china), the 2 exempt cities (al-quneitra, sokhumi): hub / year / month identical apart from the build identity', ctrlBad.join(' '));
+        ok('[6]', ctrlBad.length === 0, 'controls, slug collisions (orlando, columbia, hong-kong, macau under china), the 3 exempt cities (al-quneitra, sokhumi, katzrin): hub / year / month identical apart from the build identity', ctrlBad.join(' '));
+        // the 3 exempt cities: EVERY scanned URL (hub, years and months in / out of the window, removed day / today, legacy
+        //   /moon-in- + /moon-today-in-, prayer / qibla / next-prayer / time-left) = production apart from the build identity
+        const exU = scan.filter((x) => /\/(?:al-quneitra|sokhumi|katzrin)(?:[/?]|$)|-in-(?:al-quneitra|sokhumi|katzrin)(?:[/?]|$)/.test(x.u));
+        const exBad = exU.filter((x) => !(x.r.ok && x.r.cats.every((k) => k === 'build-identity'))).map((x) => x.u + ' ' + (x.r.why || x.r.cats.join(',')));
+        ok('[6]', exU.length >= 3 * 3 * 26 && exU.some((x) => /katzrin/.test(x.u) && x.c.st === 200) && exBad.length === 0, 'the 3 exempt cities (al-quneitra, sokhumi, katzrin): all ' + exU.length + ' of their URLs (ar, en, fr) identical to production apart from the build identity', exBad.slice(0, 6).join(' ; '));
         const qBad = pages((x) => /\/(?:prayer-times|qibla|next-prayer|time-left-until-next-prayer)-in-/.test(x.u) && !none(x.u));
         ok('[6]', qBad.length === 0, 'prayer / qibla / next-prayer / time-left city pages: identical apart from the build identity', qBad.join(' '));
         const tagged = scan.filter((x) => x.r.cats.some((k) => k !== 'build-identity')).map((x) => x.u + ' {' + [...new Set(x.r.cats)].filter((k) => k !== 'build-identity').join(',') + '}');

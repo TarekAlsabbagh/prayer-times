@@ -13,9 +13,10 @@
 //   keep the country zone exactly as before (decision #14 / SSR-CITY-SLUG-COLLISION-1); the year page's last tier
 //   the same; both noon helpers add 24 h per day the local date at 12:00 UTC is ahead of the city date (0 below +12
 //   -> same instant). js/moon.js untouched; no visible string, i18n or ?v change.
-//   TEMPORARY exemption (owner decision 2026-10-19 on #13, not an endorsement of the previous zone): the moon pages of
-//   the exact curated keys sy/al-quneitra and ge/sokhumi keep BASE's country zone (Asia/Damascus / Asia/Tbilisi), their
-//   doubtful registered zones (Asia/Jerusalem / Europe/Moscow) are not used; [X] expects them byte-identical to BASE.
+//   TEMPORARY exemption (owner decisions 2026-10-19 on #13, not an endorsement of the previous zone): the moon pages of
+//   the exact keys sy/al-quneitra and ge/sokhumi (curated) and sy/katzrin (db/cities-sy) keep BASE's country zone
+//   (Asia/Damascus / Asia/Tbilisi); the doubtful zones (Asia/Jerusalem / Europe/Moscow) are not used; [X] expects the two
+//   curated ones byte-identical to BASE (katzrin is not curated: scripts/_smoke_today_pages_tz_exempt_1.mjs covers it).
 //   Dedicated checks: scripts/_smoke_today_pages_tz_exempt_1.mjs.
 //   BASE = clean production tree (env TP_BASE_ROOT), CAND = this tree. One BASE + one CAND server; both read the
 //   SAME test clock (a TEST-ONLY preload written to a temp dir by this script, never in the repo, inert unless
@@ -117,7 +118,7 @@ ok(srvB.includes(BASE_YC) && srvC.includes(CAND_YC) && !srvC.includes(BASE_YC) &
     ok(!!sp(fM) && sp(fM) === sp(fI), '[S] _ssrMoonCityIana applies the very same `_samePlace` test (verbatim copy of _ssrCityIana\'s)');
     const body = fM.replace(/\r/g, '');
     ok(body.includes("\n    const _countryZone = () => (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;\n") && /if \(_cur && !_samePlace\(_cur\)\) return _countryZone\(\);/.test(body) && /\n    return _ssrCityIana\(slug, cc, lat, lng\);\n\}$/.test(body), '[S] _ssrMoonCityIana: curated record of ANOTHER place -> the country zone (_countryZone() = BASE\'s _CC_TO_PRIMARY_TZ[cc] || null); otherwise exactly _ssrCityIana');
-    ok(body.split('\n')[2] === "    if ((slug === 'al-quneitra' && cc === 'sy') || (slug === 'sokhumi' && cc === 'ge')) return _countryZone();   // TEMPORARY, see above", '[S] _ssrMoonCityIana: TEMPORARY exemption first, exact curated slug + country code sy/al-quneitra, ge/sokhumi -> the country zone (owner decision 2026-10-19 on #13)');
+    ok(body.split('\n')[2] === "    if ((slug === 'al-quneitra' && cc === 'sy') || (slug === 'sokhumi' && cc === 'ge') || (slug === 'katzrin' && cc === 'sy')) return _countryZone();   // TEMPORARY, see above", '[S] _ssrMoonCityIana: TEMPORARY exemption first, exact slug + country code sy/al-quneitra, ge/sokhumi, sy/katzrin -> the country zone (owner decisions 2026-10-19 on #13)');
 }
 const cntPrim = (s) => (s.split(/\r?\n/).map((l) => l.replace(/^\s*\/\/.*$/, '')).join('\n').match(/_CC_TO_PRIMARY_TZ\[/g) || []).length;   // code lines only
 ok(cntPrim(srvB) - cntPrim(srvC) === 1, '[S] the two moon-page country-zone lookups are gone, the only new one is the collision fallback (' + cntPrim(srvB) + ' -> ' + cntPrim(srvC) + ' _CC_TO_PRIMARY_TZ[...] uses)');

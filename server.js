@@ -3643,17 +3643,20 @@ function _ssrCityIana(slug, cc, lat, lng) {
 // the namesake's coordinate zone made the card contradict its own JSON-LD and the month summary its own
 // calendar. Their zone is owner decision #14 / SSR-CITY-SLUG-COLLISION-1 — not changed here.
 //
-// TEMPORARY EXEMPTION (owner decision 2026-10-19 on #13 — remove once their zone is decided): the moon pages of
-// exactly two curated cities keep the zone they had before this ticket (the country zone, as on production
-// 2db11f5), matched on the EXACT curated slug + country code, never on a name: sy/al-quneitra (registered
-// Asia/Jerusalem) and ge/sokhumi (registered Europe/Moscow). Both registered zones are doubtful and the right one
-// is not decided, so moving these pages to them would be an unverified visible change. This is NOT an endorsement
-// of the previous zone (Asia/Damascus / Asia/Tbilisi): the data review, and the prayer-vs-moon consistency of these
-// two cities (their prayer pages use the registered zone), stay open. Namesakes are deliberately not matched
-// (kenitra/ma = «القنيطرة», the db/cities-sy quneitra). Callers pass the lower-case country code.
+// TEMPORARY EXEMPTION (owner decisions 2026-10-19 on #13 — remove once their zone is decided): the moon pages of
+// exactly three cities keep the zone they had before this ticket (the country zone, as on production 2db11f5),
+// matched on the EXACT slug + country code the moon route resolved, never on a name: the curated sy/al-quneitra
+// (registered Asia/Jerusalem) and ge/sokhumi (registered Europe/Moscow), and sy/katzrin (db/cities-sy, no zone of
+// its own: its coordinate zone Asia/Jerusalem passes the country gate of _ssrCityIana only because the al-quneitra
+// record adds that zone to Syria's trusted set). Those zones are doubtful and the right one is not decided, so
+// moving these pages to them would be an unverified visible change. This is NOT an endorsement of the previous zone
+// (Asia/Damascus / Asia/Tbilisi): the data review, and the prayer-vs-moon consistency of these cities (their prayer
+// pages use the other zone), stay open. Namesakes are deliberately not matched (kenitra/ma = «القنيطرة», the
+// db/cities-sy quneitra). Coverage: only these known, tested cities; the data of other discovered cities needs its
+// own audit, and this exemption is not a general fix for them. Callers pass the lower-case country code.
 function _ssrMoonCityIana(slug, cc, lat, lng) {
     const _countryZone = () => (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
-    if ((slug === 'al-quneitra' && cc === 'sy') || (slug === 'sokhumi' && cc === 'ge')) return _countryZone();   // TEMPORARY, see above
+    if ((slug === 'al-quneitra' && cc === 'sy') || (slug === 'sokhumi' && cc === 'ge') || (slug === 'katzrin' && cc === 'sy')) return _countryZone();   // TEMPORARY, see above
     const _samePlace = (rec) => {
         if (!rec) return false;
         const _rc = String(rec.countryCode || rec.cc || '').toLowerCase();

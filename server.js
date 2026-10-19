@@ -3371,6 +3371,27 @@ function _nestedMoonMonthLink(slug, lpSlash, y, m) { const b = _nestedMoonBaseFo
 // MOON-DAY-PAGES-REMOVAL-1: _nestedMoonDayLink removed (day pages are gone; it had no callers).
 // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: nested year link /moon/{country}/{city}/{yyyy}.
 function _nestedMoonYearLink(slug, lpSlash, y) { const b = _nestedMoonBaseForSlug(slug, lpSlash); return b ? (b + '/' + y) : ((lpSlash || '') + '/moon'); }
+// TODAY-PAGES-ACCURACY-1 (moon-hub smart pill, Hong Kong / Macau): the client cannot build the moon URL of a city
+//   in a collision territory (COUNTRY_SLUG_OVERRIDES: hk, mo). Its makeCountrySlug returns the CITY slug
+//   'hong-kong' / 'macau', which is no moon country (/moon/hong-kong/... answers 404), while this server files
+//   those cities under the country its own resolver finds (hong-kong, macau -> /moon/china/{city}). So the /moon
+//   hub ships, for every curated city of those territories, the hub path this server's link builder
+//   (_nestedMoonBaseForSlug, no language prefix) emits, kept ONLY when the moon route itself accepts that path
+//   (_classifyNestedMoonHub 'valid'); '' = no moon page answers 200 for the city -> the pill stays hidden.
+//   Read by _wireMoonHubSmartPill (js/app.js) only. Curated + city DB are load-once -> computed once.
+let _moonHubSarPathsCache = null;
+function _moonHubSarPaths() {
+    if (_moonHubSarPathsCache) return _moonHubSarPathsCache;
+    const out = {};
+    for (const p of _CURATED_PLACES) {
+        const cc = String((p && p.countryCode) || '').toLowerCase();
+        if (!COUNTRY_SLUG_OVERRIDES[cc] || !p.slug) continue;
+        const base = _nestedMoonBaseForSlug(p.slug, '');
+        out[p.slug] = (base && _classifyNestedMoonHub(base).kind === 'valid') ? base : '';
+    }
+    _moonHubSarPathsCache = out;
+    return out;
+}
 // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: short, contextual cross-page CTA labels (10 langs).
 //   Used by the distributed in-page navigation links added between moon page families
 //   (hub→year, today→month, today→year, year→today). Kept terse — these are nav CTAs,
@@ -3611,6 +3632,44 @@ function _ssrCityIana(slug, cc, lat, lng) {
         }
     } catch (_e) { /* out-of-range coords or a lib hiccup → country zone below */ }
     return (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
+}
+
+// TODAY-PAGES-ACCURACY-1 (1a) — the zone of a MOON city page (seo.moonCity.tz → <meta name="moon.city.tz">,
+// and the year page's last tier). `_ssrCityIana` above, with one exception: a SLUG COLLISION keeps the
+// country zone it had before. A collision is a slug whose curated record describes ANOTHER place than the
+// one the page resolved to (other country, or more than 1° away — the `_samePlace` test of `_ssrCityIana`,
+// copied verbatim): /moon/united-states/orlando renders Orlando, OKLAHOMA (first match in db/cities-us)
+// while the curated orlando is Florida. Those pages' intro / JSON-LD / calendar read the curated zone, so
+// the namesake's coordinate zone made the card contradict its own JSON-LD and the month summary its own
+// calendar. Their zone is owner decision #14 / SSR-CITY-SLUG-COLLISION-1 — not changed here.
+//
+// TEMPORARY EXEMPTION (owner decisions 2026-10-19 on #13 — remove once their zone is decided): the moon pages of
+// exactly three cities keep the zone they had before this ticket (the country zone, as on production 2db11f5),
+// matched on the EXACT slug + country code the moon route resolved, never on a name: the curated sy/al-quneitra
+// (registered Asia/Jerusalem) and ge/sokhumi (registered Europe/Moscow), and sy/katzrin (db/cities-sy, no zone of
+// its own: its coordinate zone Asia/Jerusalem passes the country gate of _ssrCityIana only because the al-quneitra
+// record adds that zone to Syria's trusted set). Those zones are doubtful and the right one is not decided, so
+// moving these pages to them would be an unverified visible change. This is NOT an endorsement of the previous zone
+// (Asia/Damascus / Asia/Tbilisi): the data review, and the prayer-vs-moon consistency of these cities (their prayer
+// pages use the other zone), stay open. Namesakes are deliberately not matched (kenitra/ma = «القنيطرة», the
+// db/cities-sy quneitra). Coverage: only these known, tested cities; the data of other discovered cities needs its
+// own audit, and this exemption is not a general fix for them. Callers pass the lower-case country code.
+function _ssrMoonCityIana(slug, cc, lat, lng) {
+    const _countryZone = () => (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
+    if ((slug === 'al-quneitra' && cc === 'sy') || (slug === 'sokhumi' && cc === 'ge') || (slug === 'katzrin' && cc === 'sy')) return _countryZone();   // TEMPORARY, see above
+    const _samePlace = (rec) => {
+        if (!rec) return false;
+        const _rc = String(rec.countryCode || rec.cc || '').toLowerCase();
+        if (!_rc || !cc || _rc !== String(cc).toLowerCase()) return false;
+        if (!isFinite(lat) || !isFinite(lng)) return true;      // no coords to contradict it
+        if (!isFinite(rec.lat) || !isFinite(rec.lng)) return true;
+        return Math.abs(rec.lat - lat) <= 1 && Math.abs(rec.lng - lng) <= 1;
+    };
+    try {
+        const _cur = (slug && typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+        if (_cur && !_samePlace(_cur)) return _countryZone();
+    } catch (_e) { /* lookup problem → the shared resolver below */ }
+    return _ssrCityIana(slug, cc, lat, lng);
 }
 
 // Trusted zones per country, built once from data the site already ships. curated-places.json
@@ -11207,16 +11266,25 @@ function _moonCityLocalNoonSsr(tz, baseDate) {
         // client _moonCityLocalNoon(tz, baseDate)) → resolves 12:00 local noon of baseDate's
         // city-local calendar day. Omitted → today. Used for dated day pages (page date's noon).
         const d = (baseDate instanceof Date && !isNaN(baseDate.getTime())) ? baseDate : new Date();
-        const parts = new Intl.DateTimeFormat('en-CA', {
+        const ymdFmt = new Intl.DateTimeFormat('en-CA', {
             timeZone: tz, year: 'numeric', month: '2-digit', day: '2-digit'
-        }).format(d).split('-').map(Number);
+        });
+        const parts = ymdFmt.format(d).split('-').map(Number);
         const [y, m, day] = parts;
         const noonUtc = Date.UTC(y, m - 1, day, 12, 0, 0, 0);
         const seenH = parseInt(new Intl.DateTimeFormat('en-GB', {
             timeZone: tz, hour: '2-digit', hour12: false
-        }).format(new Date(noonUtc)), 10);
+        }).format(new Date(noonUtc)), 10) % 24;
         if (!Number.isFinite(seenH)) return null;
-        return new Date(noonUtc + (12 - seenH) * 3600 * 1000);
+        // TODAY-PAGES-ACCURACY-1 (1a): at UTC+12 and beyond (Auckland, Apia, Tarawa…) 12:00 UTC
+        // of the city date is already the NEXT local day, so the hour alone landed on TOMORROW's
+        // noon all year. Count the local hours from the start of the city date (+24 per day the
+        // local date at 12:00 UTC is ahead of it). Everywhere else that day difference is 0, so
+        // the instant is exactly the one this function returned before (js/app.js mirror).
+        const seenParts = ymdFmt.format(new Date(noonUtc)).split('-').map(Number);
+        const dayDiff = Math.round((Date.UTC(seenParts[0], seenParts[1] - 1, seenParts[2]) - Date.UTC(y, m - 1, day)) / 86400000);
+        if (!Number.isFinite(dayDiff)) return null;
+        return new Date(noonUtc + (12 - (seenH + 24 * dayDiff)) * 3600 * 1000);
     } catch (_) {
         return null;
     }
@@ -17245,8 +17313,15 @@ function buildSeoForPath(urlPath, hcw) {
             // null → العميل سيستعمل _tzFromLongitude fallback (Etc/GMT±N).
             const _moonCc = (cityGeo.cc || '').toLowerCase();
             // DISCOVERED-PLACE-MOON-ROUTES-NOINDEX-FIX-1: prefer the discovered row's EXACT IANA
-            // tz (e.g. Asia/Damascus) when present; else the curated cc→primary-tz map (unchanged).
-            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null);
+            // tz (e.g. Asia/Damascus) when present.
+            // TODAY-PAGES-ACCURACY-1 (1a): otherwise the CITY's own zone from `_ssrCityIana` — the
+            // resolver the prayer-city pages already use (curated zone → discovered → gated
+            // coordinate lookup → `_CC_TO_PRIMARY_TZ[cc]`). The bare country zone gave Seattle New
+            // York's clock in <meta name="moon.city.tz">, which the client computes the whole card
+            // with, and left cities of countries missing from that map (Riga) with no zone at all.
+            // No country code (Mecca / coord-only fallback) still means no zone, as before.
+            // Slug collisions (curated record = another place) keep the country zone: `_ssrMoonCityIana`.
+            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_ssrMoonCityIana(citySlug, _moonCc, cityGeo.lat, cityGeo.lng) || null) : null);
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
                 tz: _moonTz,                          // Asia/Tokyo إلخ — أو null عند عدم التوفّر
@@ -17818,9 +17893,12 @@ function buildSeoForPath(urlPath, hcw) {
             // real coords/tz so the year calendar binds to the actual city (the Mecca fallback was the
             // bug). Page stays noindex via the unified nested-moon city-route gate below.
             const _ycDisc = (!_ycGeo && !_ycCurated && typeof _getDiscoveredSsrEntry === 'function') ? _getDiscoveredSsrEntry(_yc.citySlug) : null;
-            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_CC_TO_PRIMARY_TZ[_yc.cc] || null);
             const _ycLat = _ycGeo ? _ycGeo.lat : (_ycCurated ? _ycCurated.lat : (_ycDisc && typeof _ycDisc.lat === 'number' ? _ycDisc.lat : 21.4225));
             const _ycLng = _ycGeo ? _ycGeo.lng : (_ycCurated ? _ycCurated.lng : (_ycDisc && typeof _ycDisc.lng === 'number' ? _ycDisc.lng : 39.8262));
+            // TODAY-PAGES-ACCURACY-1 (1a): a city with no curated / discovered zone (db/cities-only,
+            // e.g. denver) takes its own zone from `_ssrCityIana` (gated coordinate lookup, country
+            // zone last) instead of the bare country zone. Curated / discovered tiers unchanged.
+            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_ssrMoonCityIana(_yc.citySlug, _yc.cc, _ycLat, _ycLng) || null);
             const _Y = _yc.year;
             // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
             // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.
@@ -18033,6 +18111,7 @@ function buildSeoForPath(urlPath, hcw) {
         moonMonth,  // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: city month page (null otherwise)
         moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride, noHreflang,
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
+        moonGeneralHub: (corePath === '/moon'),   // TODAY-PAGES-ACCURACY-1: the bare /[lang/]moon hub (smart-pill island)
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
         nextPrayerPage,
@@ -19320,6 +19399,11 @@ function renderSeoHeadHtml(seo) {
     if (seo.moonCity || seo.moonYear || seo.moonMonth) {
         const _mRange = getSupportedMoonYearRange();
         parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-year-range">window.__MOON_YEAR_RANGE__={"min":${_mRange.SUPPORTED_MOON_YEAR_MIN},"max":${_mRange.SUPPORTED_MOON_YEAR_MAX}};</script>`);
+    }
+    // TODAY-PAGES-ACCURACY-1: on the bare /moon hub only — the smart pill's server-built hub paths for the curated
+    //   Hong Kong / Macau cities (see _moonHubSarPaths; '' = no moon page -> no pill).
+    if (seo.moonGeneralHub) {
+        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-hub-sar">window.__MOON_HUB_SAR__=${JSON.stringify(_moonHubSarPaths())};</script>`);
     }
 
     // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the
@@ -22688,8 +22772,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _dayName = _info.days[_gMecca.getUTCDay()];
                 const _gregStr = `${_gMecca.getUTCDate()} ${_info.gM[_gMecca.getUTCMonth()]} ${_gMecca.getUTCFullYear()}`;
                 const _monthName = _info.hM[_hNow.month - 1];
-                // Hijri leap year: ((11*y + 14) % 30) < 11 — standard tabular formula.
-                const _isLeap = ((11 * _hNow.year + 14) % 30) < 11;
+                // Year length from the Umm al-Qura table (the site's calendar), same rule as the client's
+                //   HijriDate.isHijriLeapYear (yearLength === 355) - never a tabular 30-year-cycle formula.
+                const _isLeap = (_getHijriYearLength(_hNow.year) === 355);
                 const _cards = [
                     { icon: '📅', label: _info.labels[0], value: _dayName },
                     { icon: '🗓', label: _info.labels[1], value: `${_hNow.day} ${_monthName} ${_hNow.year}${_info.hSfx}` },

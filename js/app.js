@@ -326,6 +326,14 @@ const COUNTRY_EN_NAMES = {
     mc:'Monaco', sm:'San Marino', va:'Vatican City', ad:'Andorra',
 };
 
+// COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: SAR/territory codes whose curated entry is a
+// single city sharing the would-be country slug — they stay city-only, so the "country" link
+// points at the existing city slug. Mirrors server COUNTRY_SLUG_OVERRIDES.
+// TODAY-PAGES-ACCURACY-1 (2b): declared up here, above every load-time caller. _autoWireMoonHub runs the
+// moon-hub smart pill (-> makeCountrySlug) while this deferred file is still evaluating; declared further
+// down (next to makeCountrySlug) the const was still in its TDZ and the pill threw a swallowed ReferenceError.
+const COUNTRY_SLUG_OVERRIDES = { mo: 'macau', hk: 'hong-kong' };
+
 // ===== خرائط أسماء الدول المترجَمة (بديل إذا Nominatim لم يعد ترجمة محلية) =====
 const COUNTRY_NAMES_BN = {
     sa:'সৌদি আরব', eg:'মিশর', sy:'সিরিয়া', iq:'ইরাক', jo:'জর্ডান', lb:'লেবানন',
@@ -10325,8 +10333,24 @@ function _wireMoonHubSmartPill() {
             if (slug === 'djibouti'  && cc === 'dj') slug = 'djibouti-city';
             // Singapore: its canonical city slug IS 'singapore' (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
             if (!slug) return false;
-            // MLRC (Option-1): smart-pill carries cc → emit nested hub URL (MOON-DAY-PAGES-REMOVAL-1: was /today).
-            const target = pageUrl(_nestedMoonHrefClient(slug, '', 'hub', (cc || '').toLowerCase()));
+            // TODAY-PAGES-ACCURACY-1 (Hong Kong / Macau): for a city of a collision territory (COUNTRY_SLUG_OVERRIDES)
+            //   _nestedMoonHrefClient would emit /moon/hong-kong/... or /moon/macau/... — no such moon country (404).
+            //   Take the hub path the server's own link builder emits for that city (SSR island on the /moon hub,
+            //   checked against the moon route); '' or no entry → keep the pill hidden, never a known-404 link.
+            //   Every other city: the unchanged call below.
+            const _sar = (typeof window !== 'undefined' && window.__MOON_HUB_SAR__) || null;
+            const _ccEff = (cc || (typeof currentCountryCode !== 'undefined' ? currentCountryCode : '') || '').toLowerCase();
+            let _hubPath;
+            if (_sar && Object.prototype.hasOwnProperty.call(_sar, slug)) {
+                _hubPath = _sar[slug];
+                if (!_hubPath) return false;
+            } else if (COUNTRY_SLUG_OVERRIDES[_ccEff]) {
+                return false;
+            } else {
+                // MLRC (Option-1): smart-pill carries cc → emit nested hub URL (MOON-DAY-PAGES-REMOVAL-1: was /today).
+                _hubPath = _nestedMoonHrefClient(slug, '', 'hub', (cc || '').toLowerCase());
+            }
+            const target = pageUrl(_hubPath);
             const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
             const display = _cleanCityForPill(lang === 'ar' ? (name || en) : (en || name));
             // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): on the generic
@@ -12435,11 +12459,6 @@ function renderPrayerSchedule(days, btn) {
         tbody.appendChild(tr);
     }
 }
-
-// COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: SAR/territory codes whose curated entry is a
-// single city sharing the would-be country slug — they stay city-only, so the "country" link
-// points at the existing city slug. Mirrors server COUNTRY_SLUG_OVERRIDES.
-const COUNTRY_SLUG_OVERRIDES = { mo: 'macau', hk: 'hong-kong' };
 
 function makeCountrySlug(cc, englishName) {
     // 0) COUNTRY-PRAYER-PAGE-COUNTRY-SLUG-MAPPING-FIX-1: explicit override (collision territories)
@@ -19555,19 +19574,28 @@ function _moonCityLocalNoon(tz, baseDate) {
     if (!(d instanceof Date) || isNaN(d.getTime())) d = new Date();
     try {
         // Step 1: extract the city-local calendar date (Y/M/D) at `d`
-        const parts = new Intl.DateTimeFormat('en-CA', {
+        const ymdFmt = new Intl.DateTimeFormat('en-CA', {
             timeZone: tz,
             year: 'numeric', month: '2-digit', day: '2-digit'
-        }).format(d).split('-').map(Number);
+        });
+        const parts = ymdFmt.format(d).split('-').map(Number);
         const [y, m, day] = parts;
         // Step 2: build an instant at 12:00 UTC of that day, then shift by
         // the difference between that instant's tz-local hour and 12.
         const noonUtc = Date.UTC(y, m - 1, day, 12, 0, 0, 0);
         const seenH = parseInt(new Intl.DateTimeFormat('en-GB', {
             timeZone: tz, hour: '2-digit', hour12: false
-        }).format(new Date(noonUtc)), 10);
+        }).format(new Date(noonUtc)), 10) % 24;
         if (!Number.isFinite(seenH)) return null;
-        return new Date(noonUtc + (12 - seenH) * 3600 * 1000);
+        // TODAY-PAGES-ACCURACY-1 (1a): at UTC+12 and beyond (Auckland, Apia, Tarawa…) 12:00 UTC
+        // of the city date is already the NEXT local day, so the hour alone landed on TOMORROW's
+        // noon all year. Count the local hours from the start of the city date (+24 per day the
+        // local date at 12:00 UTC is ahead of it). Everywhere else that day difference is 0, so
+        // the instant is exactly the one this function returned before (server.js mirror).
+        const seenParts = ymdFmt.format(new Date(noonUtc)).split('-').map(Number);
+        const dayDiff = Math.round((Date.UTC(seenParts[0], seenParts[1] - 1, seenParts[2]) - Date.UTC(y, m - 1, day)) / 86400000);
+        if (!Number.isFinite(dayDiff)) return null;
+        return new Date(noonUtc + (12 - (seenH + 24 * dayDiff)) * 3600 * 1000);
     } catch (_) {
         return null;
     }
@@ -21905,6 +21933,24 @@ function updateMoonInfo() {
         for (let i = 0; i < fc.length; i++) {
             const row = fc[i];
             const dp = _getDayPartsInTz(row.date, row.tz || _tz);
+            // TODAY-PAGES-ACCURACY-1 (1b): moonrise / moonset of the row's OWN city date (dp, the date printed in
+            //   this row). getForecast (js/moon.js, untouched) steps its day windows by a fixed 86400000 ms from the
+            //   first local midnight, so after a clock change row.dayStart sits at 23:00 of the PREVIOUS city date
+            //   (and on a spring-forward day that switches at/before 00:00 UTC - Sydney, Jerusalem, Beirut, Cairo -
+            //   the first window already starts at 23:00 the evening before): row.rise / row.set were that day's,
+            //   i.e. one repeated row, then every later row one day behind. Only when row.dayStart is on another
+            //   city date than the row, take the engine's times for the row's own date (getMoonTimes keys on the
+            //   city date of the instant it gets; row.date is mid-day of the printed date). Every other row keeps
+            //   getForecast's values untouched; phase / illumination / event stay as they are (decision #11).
+            let rowRise = row.rise, rowSet = row.set;
+            const _rowTz = row.tz || _tz;
+            if (_rowTz && row.dayStart && typeof MoonCalc.getMoonTimes === 'function') {
+                const sp = _getDayPartsInTz(row.dayStart, _rowTz);
+                if (sp.y !== dp.y || sp.m !== dp.m || sp.d !== dp.d) {
+                    const own = MoonCalc.getMoonTimes(row.date, _lat, _lng, _rowTz);
+                    if (own) { rowRise = own.rise; rowSet = own.set; }
+                }
+            }
             const wd = _wk[dp.wd];
             const dd = dp.d;
             const mm = _gm[dp.m];
@@ -21943,8 +21989,8 @@ function updateMoonInfo() {
                 + hijriCell
                 + `<td><span class="fc-phase-icon" aria-hidden="true">${row.phase.icon}</span> ${_escHtml(phaseLabel)}</td>`
                 + `<td>${row.illumination}%</td>`
-                + `<td>${row.rise}</td>`
-                + `<td>${row.set}</td>`
+                + `<td>${rowRise}</td>`
+                + `<td>${rowSet}</td>`
                 + `</tr>`;
         }
         _fcBody.innerHTML = html;

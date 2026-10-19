@@ -3371,6 +3371,27 @@ function _nestedMoonMonthLink(slug, lpSlash, y, m) { const b = _nestedMoonBaseFo
 // MOON-DAY-PAGES-REMOVAL-1: _nestedMoonDayLink removed (day pages are gone; it had no callers).
 // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: nested year link /moon/{country}/{city}/{yyyy}.
 function _nestedMoonYearLink(slug, lpSlash, y) { const b = _nestedMoonBaseForSlug(slug, lpSlash); return b ? (b + '/' + y) : ((lpSlash || '') + '/moon'); }
+// TODAY-PAGES-ACCURACY-1 (moon-hub smart pill, Hong Kong / Macau): the client cannot build the moon URL of a city
+//   in a collision territory (COUNTRY_SLUG_OVERRIDES: hk, mo). Its makeCountrySlug returns the CITY slug
+//   'hong-kong' / 'macau', which is no moon country (/moon/hong-kong/... answers 404), while this server files
+//   those cities under the country its own resolver finds (hong-kong, macau -> /moon/china/{city}). So the /moon
+//   hub ships, for every curated city of those territories, the hub path this server's link builder
+//   (_nestedMoonBaseForSlug, no language prefix) emits, kept ONLY when the moon route itself accepts that path
+//   (_classifyNestedMoonHub 'valid'); '' = no moon page answers 200 for the city -> the pill stays hidden.
+//   Read by _wireMoonHubSmartPill (js/app.js) only. Curated + city DB are load-once -> computed once.
+let _moonHubSarPathsCache = null;
+function _moonHubSarPaths() {
+    if (_moonHubSarPathsCache) return _moonHubSarPathsCache;
+    const out = {};
+    for (const p of _CURATED_PLACES) {
+        const cc = String((p && p.countryCode) || '').toLowerCase();
+        if (!COUNTRY_SLUG_OVERRIDES[cc] || !p.slug) continue;
+        const base = _nestedMoonBaseForSlug(p.slug, '');
+        out[p.slug] = (base && _classifyNestedMoonHub(base).kind === 'valid') ? base : '';
+    }
+    _moonHubSarPathsCache = out;
+    return out;
+}
 // MOON-INTERNAL-NAVIGATION-DISTRIBUTED-CTA-ADD-1: short, contextual cross-page CTA labels (10 langs).
 //   Used by the distributed in-page navigation links added between moon page families
 //   (hub→year, today→month, today→year, year→today). Kept terse — these are nav CTAs,
@@ -18076,6 +18097,7 @@ function buildSeoForPath(urlPath, hcw) {
         moonMonth,  // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: city month page (null otherwise)
         moonFaq, moonCity, zakatFaq, tasbihFaq, robotsOverride, noHreflang,
         isTodayHijriDateHub,    // HD-1: gates FAQPage JSON-LD + SSR content for /today-hijri-date
+        moonGeneralHub: (corePath === '/moon'),   // TODAY-PAGES-ACCURACY-1: the bare /[lang/]moon hub (smart-pill island)
         canonicalOverride: _canonicalOverride,
         timeLeftPage,
         nextPrayerPage,
@@ -19363,6 +19385,11 @@ function renderSeoHeadHtml(seo) {
     if (seo.moonCity || seo.moonYear || seo.moonMonth) {
         const _mRange = getSupportedMoonYearRange();
         parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-year-range">window.__MOON_YEAR_RANGE__={"min":${_mRange.SUPPORTED_MOON_YEAR_MIN},"max":${_mRange.SUPPORTED_MOON_YEAR_MAX}};</script>`);
+    }
+    // TODAY-PAGES-ACCURACY-1: on the bare /moon hub only — the smart pill's server-built hub paths for the curated
+    //   Hong Kong / Macau cities (see _moonHubSarPaths; '' = no moon page -> no pill).
+    if (seo.moonGeneralHub) {
+        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-hub-sar">window.__MOON_HUB_SAR__=${JSON.stringify(_moonHubSarPaths())};</script>`);
     }
 
     // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the

@@ -10333,8 +10333,24 @@ function _wireMoonHubSmartPill() {
             if (slug === 'djibouti'  && cc === 'dj') slug = 'djibouti-city';
             // Singapore: its canonical city slug IS 'singapore' (INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1)
             if (!slug) return false;
-            // MLRC (Option-1): smart-pill carries cc → emit nested hub URL (MOON-DAY-PAGES-REMOVAL-1: was /today).
-            const target = pageUrl(_nestedMoonHrefClient(slug, '', 'hub', (cc || '').toLowerCase()));
+            // TODAY-PAGES-ACCURACY-1 (Hong Kong / Macau): for a city of a collision territory (COUNTRY_SLUG_OVERRIDES)
+            //   _nestedMoonHrefClient would emit /moon/hong-kong/... or /moon/macau/... — no such moon country (404).
+            //   Take the hub path the server's own link builder emits for that city (SSR island on the /moon hub,
+            //   checked against the moon route); '' or no entry → keep the pill hidden, never a known-404 link.
+            //   Every other city: the unchanged call below.
+            const _sar = (typeof window !== 'undefined' && window.__MOON_HUB_SAR__) || null;
+            const _ccEff = (cc || (typeof currentCountryCode !== 'undefined' ? currentCountryCode : '') || '').toLowerCase();
+            let _hubPath;
+            if (_sar && Object.prototype.hasOwnProperty.call(_sar, slug)) {
+                _hubPath = _sar[slug];
+                if (!_hubPath) return false;
+            } else if (COUNTRY_SLUG_OVERRIDES[_ccEff]) {
+                return false;
+            } else {
+                // MLRC (Option-1): smart-pill carries cc → emit nested hub URL (MOON-DAY-PAGES-REMOVAL-1: was /today).
+                _hubPath = _nestedMoonHrefClient(slug, '', 'hub', (cc || '').toLowerCase());
+            }
+            const target = pageUrl(_hubPath);
             const lang = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
             const display = _cleanCityForPill(lang === 'ar' ? (name || en) : (en || name));
             // MOON-TODAY-HUB-TEXT-REFINEMENT-1 (2026-05-23): on the generic

@@ -7,10 +7,14 @@
 //   at all, db-only cities (denver) the country zone. Separately the city-local-noon helpers
 //   (_moonCityLocalNoonSsr / _moonCityLocalNoon) read the hour alone and returned TOMORROW's noon all year at
 //   UTC+12 and beyond (Auckland, Apia), on the server (intro / JSON-LD) and in the client alike.
-//   Fix: seo.moonCity.tz = discovered zone || _ssrCityIana(slug, cc, lat, lng) (the prayer pages' resolver: curated
-//   zone -> discovered -> gated coordinate lookup -> country zone); the year page's last tier the same; both noon
-//   helpers add 24 h per day the local date at 12:00 UTC is ahead of the city date (0 below +12 -> same instant).
-//   js/moon.js untouched; no visible string, i18n or ?v change.
+//   Fix: seo.moonCity.tz = discovered zone || _ssrMoonCityIana(slug, cc, lat, lng) = _ssrCityIana (the prayer pages'
+//   resolver: curated zone -> discovered -> gated coordinate lookup -> country zone) EXCEPT on slug collisions
+//   (the slug's curated record describes another place: other country or > 1 deg away, the `_samePlace` test), which
+//   keep the country zone exactly as before (decision #14 / SSR-CITY-SLUG-COLLISION-1); the year page's last tier
+//   the same; both noon helpers add 24 h per day the local date at 12:00 UTC is ahead of the city date (0 below +12
+//   -> same instant). js/moon.js untouched; no visible string, i18n or ?v change.
+//   Visible on purpose (decision #13, registered data used as is, owner approval pending): al-quneitra
+//   Asia/Damascus -> Asia/Jerusalem and sokhumi Asia/Tbilisi -> Europe/Moscow (printed by [X]).
 //   BASE = clean production tree (env TP_BASE_ROOT), CAND = this tree. One BASE + one CAND server; both read the
 //   SAME test clock (a TEST-ONLY preload written to a temp dir by this script, never in the repo, inert unless
 //   TP_SMOKE_CLOCK_FILE is set: Date.now()/new Date() = T + real time since the clock file was written). Chrome
@@ -23,13 +27,16 @@
 //       BASE = tomorrow on 100% of the >= +12 samples (defect reproduced).
 //   [X] raw SSR, all curated cities (en; ar every 7th): zone == country zone -> byte-identical; other zone -> only
 //       the meta value; country without primary zone -> only the meta line added; >= +12 -> meta + JSON-LD numbers
-//       (CAND == engine at the city's noon, BASE == tomorrow's); slug collisions -> intro/JSON-LD untouched (#14).
-//   [M] month page summary vs its own calendar (Seattle), month links at 22:30 PDT Oct 31, year page of a db-only
-//       city (denver), country pages (only New Zealand moves: same noon helper), other pages identical.
+//       (CAND == engine at the city's noon, BASE == tomorrow's); slug collisions -> meta == BASE and the page
+//       byte-identical (#14 not done).
+//   [M] month page summary vs its own calendar (Seattle; collisions orlando / columbia: summary == calendar and
+//       BASE == CAND), month links at 22:30 PDT Oct 31, year page of a db-only city (denver), country pages (only
+//       New Zealand moves: same noon helper), other pages identical.
 //   [B] headless Chrome, post-JS values vs the engine called with the CITY zone at the city's noon (in-page
 //       MoonCalc, independent noon): Seattle vs New York, Jayapura vs Jakarta, Auckland (+13 / +12 / DST start),
 //       Riga, denver; Seattle 1 min before / after its own midnight and New York's midnight; Seattle DST end
-//       (2026-11-01) and start (2027-03-14). BASE wrong / CAND right; controls identical; visitor-zone independent.
+//       (2026-11-01) and start (2027-03-14). BASE wrong / CAND right; controls identical; visitor-zone independent;
+//       slug collisions orlando (en + ar) / columbia: card == JSON-LD and BASE == CAND.
 //   node scripts/_smoke_today_pages_moon_city_tz_1.mjs   (env TP_BASE_ROOT, TP_GUARD, TP_SMOKE_PORT, TP_CHROME)
 import http from 'node:http';
 import fs from 'node:fs';
@@ -94,14 +101,23 @@ const CUR = (() => { const j = JSON.parse(fs.readFileSync(path.join(ROOT, 'db/pl
 // ---------------------------------------------------------------- [S]
 console.log('-- [S] source');
 const BASE_TZ_LINE = "const _moonTz = _moonDiscoveredTz || (_moonCc ? (_CC_TO_PRIMARY_TZ[_moonCc] || null) : null);";
-const CAND_TZ_LINE = "const _moonTz = _moonDiscoveredTz || (_moonCc ? (_ssrCityIana(citySlug, _moonCc, cityGeo.lat, cityGeo.lng) || null) : null);";
+const CAND_TZ_LINE = "const _moonTz = _moonDiscoveredTz || (_moonCc ? (_ssrMoonCityIana(citySlug, _moonCc, cityGeo.lat, cityGeo.lng) || null) : null);";
 ok(srvB.includes(BASE_TZ_LINE), '[S] BASE: seo.moonCity.tz = discovered zone || the COUNTRY zone _CC_TO_PRIMARY_TZ[cc] (defect premise)');
-ok(srvC.split(CAND_TZ_LINE).length === 2 && !srvC.includes(BASE_TZ_LINE), '[S] CAND: seo.moonCity.tz = discovered zone || _ssrCityIana(citySlug, cc, lat, lng) (the prayer-city resolver), once');
+ok(srvC.split(CAND_TZ_LINE).length === 2 && !srvC.includes(BASE_TZ_LINE), '[S] CAND: seo.moonCity.tz = discovered zone || _ssrMoonCityIana(citySlug, cc, lat, lng), once');
 const BASE_YC = "|| (_ycDisc && _ycDisc.timezone) || (_CC_TO_PRIMARY_TZ[_yc.cc] || null);";
-const CAND_YC = "|| (_ycDisc && _ycDisc.timezone) || (_ssrCityIana(_yc.citySlug, _yc.cc, _ycLat, _ycLng) || null);";
-ok(srvB.includes(BASE_YC) && srvC.includes(CAND_YC) && !srvC.includes(BASE_YC) && srvC.indexOf('const _ycLng = ') < srvC.indexOf(CAND_YC), '[S] year page _ycTz: curated / discovered tiers unchanged, last tier _ssrCityIana instead of the country zone (declared after _ycLat/_ycLng)');
+const CAND_YC = "|| (_ycDisc && _ycDisc.timezone) || (_ssrMoonCityIana(_yc.citySlug, _yc.cc, _ycLat, _ycLng) || null);";
+ok(srvB.includes(BASE_YC) && srvC.includes(CAND_YC) && !srvC.includes(BASE_YC) && srvC.indexOf('const _ycLng = ') < srvC.indexOf(CAND_YC), '[S] year page _ycTz: curated / discovered tiers unchanged, last tier _ssrMoonCityIana instead of the country zone (declared after _ycLat/_ycLng)');
+// _ssrMoonCityIana = the prayer resolver (untouched) + the collision guard, which applies `_samePlace` copied verbatim
+{
+    const fM = grabFn(srvC, '_ssrMoonCityIana'), fI = grabFn(srvC, '_ssrCityIana'), fIB = grabFn(srvB, '_ssrCityIana');
+    const sp = (f) => { const a = f.indexOf('const _samePlace = (rec) => {'); return a < 0 ? null : f.slice(a, f.indexOf('};', a) + 2).replace(/\r/g, ''); };
+    ok(!!fIB && fI === fIB, '[S] _ssrCityIana (the prayer-city resolver) byte-identical to BASE');
+    ok(!!sp(fM) && sp(fM) === sp(fI), '[S] _ssrMoonCityIana applies the very same `_samePlace` test (verbatim copy of _ssrCityIana\'s)');
+    const body = fM.replace(/\r/g, '');
+    ok(/if \(_cur && !_samePlace\(_cur\)\) return \(typeof _CC_TO_PRIMARY_TZ !== 'undefined'\) \? \(_CC_TO_PRIMARY_TZ\[cc\] \|\| null\) : null;/.test(body) && /\n    return _ssrCityIana\(slug, cc, lat, lng\);\n\}$/.test(body), '[S] _ssrMoonCityIana: curated record of ANOTHER place -> the country zone (BASE behaviour); otherwise exactly _ssrCityIana');
+}
 const cntPrim = (s) => (s.split(/\r?\n/).map((l) => l.replace(/^\s*\/\/.*$/, '')).join('\n').match(/_CC_TO_PRIMARY_TZ\[/g) || []).length;   // code lines only
-ok(cntPrim(srvB) - cntPrim(srvC) === 2, '[S] exactly the two moon-page country-zone lookups are gone (' + cntPrim(srvB) + ' -> ' + cntPrim(srvC) + ' _CC_TO_PRIMARY_TZ[...] uses)');
+ok(cntPrim(srvB) - cntPrim(srvC) === 1, '[S] the two moon-page country-zone lookups are gone, the only new one is the collision fallback (' + cntPrim(srvB) + ' -> ' + cntPrim(srvC) + ' _CC_TO_PRIMARY_TZ[...] uses)');
 for (const f of ['js/moon.js', 'db/hijri/umm-al-qura.json', 'index.html', 'sw.js', 'js/i18n.js', 'js/i18n/en.js', 'js/i18n/ar.js', 'db/places/curated-places.json', 'js/hijri-date.js']) {
     const pb = path.join(BASE_ROOT, f), pc = path.join(ROOT, f);
     if (!fs.existsSync(pb) && !fs.existsSync(pc)) continue;
@@ -186,7 +202,7 @@ try {
     await setClock(T_SCAN);
     const tScan = Date.parse(T_SCAN);
     const cls = { same: 0, zone: 0, added: 0, plus12: 0, collision: 0, skipped: 0, non200: 0 }; const non200 = []; const bad = { same: [], zone: [], added: [], plus12: [], collision: [] }; const skipped = [];
-    let arChecked = 0; const arBad = [];
+    let arChecked = 0; const arBad = []; const collisionLog = []; const d13 = {};
     const one = async (cur, L) => {
         const lp = L === 'ar' ? '' : '/' + L;
         const r = await get(PORT.cand, lp + '/moon-in-' + cur.slug);
@@ -200,6 +216,7 @@ try {
         }
         const cc = String(cur.countryCode || '').toLowerCase(), ctz = cur.timezone, ptz = PRIMARY[cc] || null;
         const bm = metaOf(b.b), cm = metaOf(c.b), geo = geoOf(c.b);
+        if (cur.slug === 'al-quneitra' || cur.slug === 'sokhumi') d13[cur.slug + ' ' + L] = { loc, bm, cm, ctz };
         const nb = noise(b.b), nc = noise(c.b);
         // collision = the page describes another place than the curated record: coordinates of a namesake abroad, or the
         // page resolved under another country (BASE meta = that country's zone, e.g. /moon/china/hong-kong, /moon/syria/saida)
@@ -207,9 +224,13 @@ try {
         const p12 = offMin(tScan, ctz) >= 720;
         let kind, good, why = '';
         if (collision) {
+            // decision #14 not done: the meta stays BASE's and the page is byte-identical; the only tolerated difference
+            // is the shared noon helper moving JSON-LD / FAQ numbers when a zone the page uses is at UTC+12 or beyond
             kind = 'collision';
-            const eq = (bm && cm) ? noise(setMeta(b.b, cm)) === nc : (!bm && cm ? noise(dropMeta(c.b)) === nb : nb === nc);
-            good = eq; why = 'meta ' + bm + ' -> ' + cm;
+            let same = nb === nc, dl = null;
+            if (!same && bm === cm) { dl = diffLines(nb, nc); same = !!dl && dl.every(([x, y]) => /ssr-moon-article-schema|FAQPage|moon-faq|"@type":"Question"/.test(x + y)) && [ctz, bm].some((z) => z && offMin(tScan, z) >= 720); }
+            good = bm === cm && same; why = 'meta ' + bm + ' -> ' + cm + (nb === nc ? '' : ' ' + firstDiff(nb, nc).slice(0, 400));
+            if (L === 'en') collisionLog.push(cur.slug + (nb === nc ? '' : '*') + ' ' + (bm || 'no meta'));
         } else if (p12) {
             kind = 'plus12';
             const nb2 = bm ? noise(setMeta(b.b, cm || '')) : nb, nc2 = bm ? nc : noise(dropMeta(c.b));
@@ -233,7 +254,8 @@ try {
         else { arChecked++; if (!good) arBad.push(loc + ' [' + kind + '] ' + why); }
     };
     const jobs = [];
-    CUR.forEach((cur, i) => { jobs.push([cur, 'en']); if (i % 7 === 0) jobs.push([cur, 'ar']); });
+    const AR_ALWAYS = new Set(['al-quneitra', 'sokhumi', 'orlando', 'columbia']);
+    CUR.forEach((cur, i) => { jobs.push([cur, 'en']); if (i % 7 === 0 || AR_ALWAYS.has(cur.slug)) jobs.push([cur, 'ar']); });
     let next = 0;
     await Promise.all(Array.from({ length: 4 }, async () => { while (next < jobs.length) { const j = jobs[next++]; await one(j[0], j[1]); } }));
     console.log(`   en: ${CUR.length} curated cities -> zone == country zone ${cls.same}, other zone ${cls.zone}, country without primary zone ${cls.added}, UTC+12 and beyond ${cls.plus12}, slug collisions ${cls.collision}, non-200 on both ${cls.non200}, not a nested moon hub ${cls.skipped}`);
@@ -243,8 +265,18 @@ try {
     ok(cls.zone > 100 && bad.zone.length === 0, '[X] ' + cls.zone + ' cities in another zone of their country: BASE meta = country zone, CAND meta = the city\'s curated zone, nothing else differs', bad.zone.slice(0, 4).join(' ; '));
     ok(cls.added > 100 && bad.added.length === 0, '[X] ' + cls.added + ' cities of countries missing from _CC_TO_PRIMARY_TZ: BASE no meta, CAND adds <meta name="moon.city.tz"> = the curated zone, nothing else differs', bad.added.slice(0, 4).join(' ; '));
     ok(cls.plus12 > 5 && bad.plus12.length === 0, '[X] ' + cls.plus12 + ' cities at UTC+12 and beyond: CAND meta = curated zone; JSON-LD illumination CAND == engine at the city\'s noon, BASE == tomorrow\'s noon; only those value lines differ', bad.plus12.slice(0, 4).join(' ; '));
-    ok(bad.collision.length === 0, '[X] ' + cls.collision + ' slug-collision pages (coordinates of a namesake abroad): at most the meta line differs, intro / JSON-LD untouched (SSR-CITY-SLUG-COLLISION-1 / decision #14 not done)', bad.collision.slice(0, 4).join(' ; '));
-    ok(arChecked > 400 && arBad.length === 0, '[X] ar: ' + arChecked + ' city hubs (every 7th) follow the same rule as en', arBad.slice(0, 4).join(' ; '));
+    console.log('   slug collisions (meta; * = JSON-LD numbers moved by the +12 noon fix): ' + collisionLog.sort().join(' | '));
+    ok(cls.collision > 50 && bad.collision.length === 0, '[X] ' + cls.collision + ' slug-collision pages (namesake coordinates / another country): CAND meta == BASE meta and the page byte-identical (SSR-CITY-SLUG-COLLISION-1 / decision #14 not done)', bad.collision.slice(0, 6).join(' ; '));
+    for (const [s, st] of [['orlando', 'Florida'], ['columbia', 'South Carolina']]) ok(collisionLog.includes(s + ' America/New_York'), '[X] collision ' + s + ' (curated: ' + st + '; page coordinates: a db/cities-us namesake > 1 deg away) keeps BASE meta America/New_York, page byte-identical');
+    ok(arChecked > 400 && arBad.length === 0, '[X] ar: ' + arChecked + ' city hubs (every 7th + al-quneitra, sokhumi, orlando, columbia) follow the same rule as en', arBad.slice(0, 4).join(' ; '));
+    // decision #13 (owner approval pending): the two doubtful REGISTERED zones now reach the moon pages exactly as the
+    // prayer pages / JSON-LD already use them — a visible change, listed here on purpose, not hidden
+    const D13 = { 'al-quneitra': ['Asia/Damascus', 'Asia/Jerusalem'], sokhumi: ['Asia/Tbilisi', 'Europe/Moscow'] };
+    for (const s of Object.keys(D13)) for (const L of ['en', 'ar']) {
+        const r = d13[s + ' ' + L];
+        console.log('   decision #13 visible change: ' + (r ? r.loc + ' meta ' + r.bm + ' -> ' + r.cm + ' (curated ' + r.ctz + ')' : s + ' ' + L + ' not reached'));
+        ok(r && r.bm === D13[s][0] && r.cm === D13[s][1] && r.ctz === D13[s][1], '[X] decision #13 (VISIBLE, owner approval pending): ' + s + ' ' + L + ' meta ' + D13[s][0] + ' -> ' + D13[s][1] + ' = the registered curated zone, as on its prayer page');
+    }
     // ------------------------------------------------------------ [M]
     console.log('\n-- [M] month / year / country pages');
     {
@@ -263,6 +295,15 @@ try {
         const b2 = await get(PORT.base, ny), c2 = await get(PORT.cand, ny);
         ok(b2.st === 200 && noise(b2.b) === noise(c2.b), '[M] New York month page (zone == country zone) byte-identical', firstDiff(noise(b2.b), noise(c2.b)));
         ok(nb !== nc, '[M] (Seattle month page differs only where the zone is used)');
+        // slug collisions (decision #14 not done): the month summary must keep agreeing with its own calendar, as on BASE
+        await setClock('2026-10-19T06:00:00Z');
+        for (const p2 of ['/en/moon/united-states/orlando/2026/10', '/en/moon/united-states/columbia/2026/10', '/moon/united-states/orlando/2026/10']) {
+            const bb = await get(PORT.base, p2), cc2 = await get(PORT.cand, p2);
+            const en = p2.startsWith('/en/');
+            const hiC = en ? hi(cc2.b) : null, cellC = en ? fullCell(cc2.b) : null;
+            console.log(`   ${p2} at 2026-10-19T06:00Z: meta BASE ${metaOf(bb.b)} CAND ${metaOf(cc2.b)}` + (en ? `; "Highest illumination" BASE ${hi(bb.b)} CAND ${hiC}; calendar Full Moon cell BASE ${fullCell(bb.b)} CAND ${cellC}` : ''));
+            ok(bb.st === 200 && cc2.st === 200 && metaOf(cc2.b) === metaOf(bb.b) && noise(bb.b) === noise(cc2.b) && (!en || (hiC && hiC === cellC)), '[M] collision ' + p2 + ': meta == BASE (' + metaOf(cc2.b) + '), page byte-identical' + (en ? ', month summary ' + hiC + ' Oct == calendar cell ' + cellC : ''), firstDiff(noise(bb.b), noise(cc2.b)));
+        }
     }
     {
         await setClock('2026-11-01T05:30:00Z');   // 22:30 PDT Oct 31 = 01:30 EDT Nov 1
@@ -389,7 +430,13 @@ try {
         { T: '2026-11-01T19:00:00Z', label: '11:00 PST Nov 1 (Seattle DST end day)', pages: [{ ...SEA, kind: 'DST end' }] },
         { T: '2026-11-02T07:30:00Z', label: '23:30 PST Nov 1 (DST end day evening)', pages: [{ ...SEA, kind: 'DST end' }] },
         { T: '2027-03-14T19:00:00Z', label: '12:00 PDT Mar 14 2027 (Seattle DST start day)', pages: [{ ...SEA, kind: 'DST start' }] },
-        { T: '2027-03-15T05:30:00Z', label: '22:30 PDT Mar 14 2027 (DST start day evening)', pages: [{ ...SEA, kind: 'DST start' }] }
+        { T: '2027-03-15T05:30:00Z', label: '22:30 PDT Mar 14 2027 (DST start day evening)', pages: [{ ...SEA, kind: 'DST start' }] },
+        // slug collisions (decision #14 not done): curated orlando = Florida, columbia = South Carolina, but the page renders the
+        // first db/cities-us namesake (Orlando OK, Columbia MO). The card must stay on BASE's zone and agree with its own JSON-LD
+        { T: '2026-10-19T06:00:00Z', label: '02:00 EDT / 01:00 CDT Oct 19 (slug collisions orlando / columbia)', pages: [
+            { p: '/en/moon/united-states/orlando', tz: 'America/New_York', kind: 'collision' },
+            { p: '/moon/united-states/orlando', tz: 'America/New_York', kind: 'collision', ar: true },
+            { p: '/en/moon/united-states/columbia', tz: 'America/New_York', kind: 'collision' }] }
     ];
     const F = ['phase', 'illum', 'age', 'rise', 'set'];
     for (const C of CASES) {
@@ -414,17 +461,21 @@ try {
                 console.log(`       BASE: ${show(B.got)}`);
                 console.log(`       CAND: ${show(Cc.got)}`);
                 const g = Cc.got;
-                const candRight = g && exp && F.every((k) => g[k] === exp[k]) && g.row0 === label && g.todayRow === label && g.meta === P.tz && g.tzNote.includes('(' + P.tz + ')') && String(g.hijriGreg || '').includes(shortDate);
-                ok(candRight, '[B] CAND ' + P.p + ' (' + V + '): day ' + label + ', phase / illumination / age / rise / set == engine with ' + P.tz + '; today row, zone note and the page\'s own Hijri card agree', JSON.stringify({ got: g && { ...g, fcHtml: undefined }, exp }));
+                // (the Arabic page prints Arabic labels: there only the zone is checked here, the values via JSON-LD and BASE == CAND)
+                const candRight = P.ar ? (g && g.meta === P.tz && g.tzNote.includes('(' + P.tz + ')'))
+                    : (g && exp && F.every((k) => g[k] === exp[k]) && g.row0 === label && g.todayRow === label && g.meta === P.tz && g.tzNote.includes('(' + P.tz + ')') && String(g.hijriGreg || '').includes(shortDate));
+                ok(candRight, '[B] CAND ' + P.p + ' (' + V + '): ' + (P.ar ? 'meta and zone note ' + P.tz : 'day ' + label + ', phase / illumination / age / rise / set == engine with ' + P.tz + '; today row, zone note and the page\'s own Hijri card agree'), JSON.stringify({ got: g && { ...g, fcHtml: undefined }, exp }));
                 const bg = B.got;
-                if (P.kind === 'control') {
-                    ok(bg && g && F.every((k) => bg[k] === g[k]) && bg.row0 === g.row0 && bg.todayRow === g.todayRow && bg.tzNote === g.tzNote && bg.fcHtml === g.fcHtml && bg.meta === g.meta, '[B] control ' + P.p + ': BASE == CAND (card, zone note and the whole 14-day table)', firstDiff(String(bg && bg.fcHtml), String(g && g.fcHtml)));
+                if (P.kind === 'control' || P.kind === 'collision') {
+                    ok(bg && g && F.every((k) => bg[k] === g[k]) && bg.row0 === g.row0 && bg.todayRow === g.todayRow && bg.tzNote === g.tzNote && bg.fcHtml === g.fcHtml && bg.meta === g.meta, '[B] ' + P.kind + ' ' + P.p + ': BASE == CAND (card, zone note and the whole 14-day table)', firstDiff(String(bg && bg.fcHtml), String(g && g.fcHtml)));
+                    if (P.kind === 'collision') summary.push(`   ${C.T} collision ${P.p} [${V}]  BASE ${bg && bg.illum} rise ${bg && bg.rise} meta ${bg && bg.meta}  ==  CAND ${g && g.illum} rise ${g && g.rise} meta ${g && g.meta}  (JSON-LD ${articleIllum(rc.b)}%)`);
                 } else {
                     const wrong = bg && exp ? F.filter((k) => bg[k] !== exp[k]).concat(bg.row0 !== label ? ['day'] : []).concat(bg.meta !== P.tz ? ['meta'] : []) : ['n/a'];
                     ok(wrong.length > 0 && bg.meta === (P.baseTz === undefined ? bg.meta : P.baseTz), '[B] BASE reproduces the defect on ' + P.p + ': wrong ' + wrong.join(', ') + ' (meta ' + (bg && bg.meta) + ')');
                     summary.push(`   ${C.T} ${P.p.replace('/en/moon/', '')} [${V}]  BASE ${bg && bg.row0} ${bg && bg.illum} rise ${bg && bg.rise} set ${bg && bg.set}  ->  CAND ${g && g.row0} ${g && g.illum} rise ${g && g.rise} set ${g && g.set}  (engine ${exp && exp.illum} ${exp && exp.rise} ${exp && exp.set})`);
                 }
-                const jsonld = articleIllum(rc.b), gNum = g ? Number(String(g.illum).replace('%', '')) : NaN;
+                const asNum = (x) => Number(String(x).replace(/[٠-٩]/g, (d) => String(d.charCodeAt(0) - 0x660)).replace('٫', '.').replace(/[%٪\s]/g, ''));
+                const jsonld = articleIllum(rc.b), gNum = g ? asNum(g.illum) : NaN;
                 ok(jsonld != null && gNum === jsonld, '[B] CAND ' + P.p + ': server JSON-LD illumination (' + jsonld + '%) == the post-JS card (' + (g && g.illum) + ')');
                 ok(JSON.stringify(B.uncaught.slice().sort()) === JSON.stringify(Cc.uncaught.slice().sort()), '[B] same uncaught exceptions BASE / CAND (' + B.uncaught.length + ' / ' + Cc.uncaught.length + ')', B.uncaught.join(' | ') + ' vs ' + Cc.uncaught.join(' | '));
             }

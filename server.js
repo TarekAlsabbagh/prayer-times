@@ -3613,6 +3613,30 @@ function _ssrCityIana(slug, cc, lat, lng) {
     return (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
 }
 
+// TODAY-PAGES-ACCURACY-1 (1a) — the zone of a MOON city page (seo.moonCity.tz → <meta name="moon.city.tz">,
+// and the year page's last tier). `_ssrCityIana` above, with one exception: a SLUG COLLISION keeps the
+// country zone it had before. A collision is a slug whose curated record describes ANOTHER place than the
+// one the page resolved to (other country, or more than 1° away — the `_samePlace` test of `_ssrCityIana`,
+// copied verbatim): /moon/united-states/orlando renders Orlando, OKLAHOMA (first match in db/cities-us)
+// while the curated orlando is Florida. Those pages' intro / JSON-LD / calendar read the curated zone, so
+// the namesake's coordinate zone made the card contradict its own JSON-LD and the month summary its own
+// calendar. Their zone is owner decision #14 / SSR-CITY-SLUG-COLLISION-1 — not changed here.
+function _ssrMoonCityIana(slug, cc, lat, lng) {
+    const _samePlace = (rec) => {
+        if (!rec) return false;
+        const _rc = String(rec.countryCode || rec.cc || '').toLowerCase();
+        if (!_rc || !cc || _rc !== String(cc).toLowerCase()) return false;
+        if (!isFinite(lat) || !isFinite(lng)) return true;      // no coords to contradict it
+        if (!isFinite(rec.lat) || !isFinite(rec.lng)) return true;
+        return Math.abs(rec.lat - lat) <= 1 && Math.abs(rec.lng - lng) <= 1;
+    };
+    try {
+        const _cur = (slug && typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+        if (_cur && !_samePlace(_cur)) return (typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? (_CC_TO_PRIMARY_TZ[cc] || null) : null;
+    } catch (_e) { /* lookup problem → the shared resolver below */ }
+    return _ssrCityIana(slug, cc, lat, lng);
+}
+
 // Trusted zones per country, built once from data the site already ships. curated-places.json
 // pairs a verified countryCode with a verified IANA zone on every record, which makes it a sound
 // witness for "does country X use zone Z"; `_CC_TO_PRIMARY_TZ` is added so a country with no
@@ -17261,7 +17285,8 @@ function buildSeoForPath(urlPath, hcw) {
             // York's clock in <meta name="moon.city.tz">, which the client computes the whole card
             // with, and left cities of countries missing from that map (Riga) with no zone at all.
             // No country code (Mecca / coord-only fallback) still means no zone, as before.
-            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_ssrCityIana(citySlug, _moonCc, cityGeo.lat, cityGeo.lng) || null) : null);
+            // Slug collisions (curated record = another place) keep the country zone: `_ssrMoonCityIana`.
+            const _moonTz = _moonDiscoveredTz || (_moonCc ? (_ssrMoonCityIana(citySlug, _moonCc, cityGeo.lat, cityGeo.lng) || null) : null);
             moonCity = {
                 slug: citySlug, name: cityDisplay, lat: cityGeo.lat, lng: cityGeo.lng,
                 tz: _moonTz,                          // Asia/Tokyo إلخ — أو null عند عدم التوفّر
@@ -17838,7 +17863,7 @@ function buildSeoForPath(urlPath, hcw) {
             // TODAY-PAGES-ACCURACY-1 (1a): a city with no curated / discovered zone (db/cities-only,
             // e.g. denver) takes its own zone from `_ssrCityIana` (gated coordinate lookup, country
             // zone last) instead of the bare country zone. Curated / discovered tiers unchanged.
-            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_ssrCityIana(_yc.citySlug, _yc.cc, _ycLat, _ycLng) || null);
+            const _ycTz  = (_ycCurated && _ycCurated.timezone) || (_ycDisc && _ycDisc.timezone) || (_ssrMoonCityIana(_yc.citySlug, _yc.cc, _ycLat, _ycLng) || null);
             const _Y = _yc.year;
             // MOON-CITY-YEAR-…-HERO: SEO title carries a value-add suffix (full/new moon dates).
             // The on-page H1 stays without the suffix (see _myH1) so H1 matches page intent.

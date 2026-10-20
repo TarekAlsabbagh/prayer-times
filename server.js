@@ -34218,6 +34218,8 @@ function _mlRecord(req, res, rawUrl, ms, aborted) {
     const csA = _CS_ON && (res._tpGone || res._tpHcalFuture);
     let csD;
     if (csA) { try { csD = _csRecord(req, res, p, fam, out, ms, undefined, undefined, rawUrl); } catch (_e) { /* measurement must never break a response */ } }
+    // PAGE-SOURCE-OBSERVABILITY-1: who requests the prayer / qibla / next-prayer / time-left pages (measurement only; its own switch and end)
+    if (_PS_ON) { const pf = _PS_FAM_IDX[fam]; if (pf !== undefined) { try { _psRecord(req, pf, p, out, ms); } catch (_e) { /* measurement only */ } } }
     if (p.indexOf('/moon') === -1) return;
     const cls = _mlClassify(p);
     if (!cls) return;
@@ -34258,6 +34260,7 @@ function _mlFlush(win) {
     } catch (_e) { /* measurement must never break the worker */ }
     _mlAgg.clear(); _mlFam.clear();
     if (_CS_ON) { try { _csFlush(win); } catch (_e) { /* measurement only */ } }   // CRAWL-SOURCE-OBSERVABILITY-1
+    if (_PS_ON) { try { _psFlush(win); } catch (_e) { /* measurement only */ } }   // PAGE-SOURCE-OBSERVABILITY-1
 }
 // ---- process health ----
 const _mlMB = (b) => Math.round(b / 1048576);
@@ -34324,6 +34327,7 @@ function _mlStartTimers() {
     process.once('SIGTERM', () => { _mlFlush('final'); _mlProcFlush('final'); });
     console.log('[moon-load]' + _OBS_WTAG + ' ENABLED window_s=' + _ML_WINDOW_S + ' proc_s=' + _ML_PROC_S + ' max_keys=' + _ML_MAX_KEYS);
     if (_CS_ON) { try { _csStart(); } catch (_e) { /* measurement only */ } }   // CRAWL-SOURCE-OBSERVABILITY-1
+    if (_PS_ON) { try { _psStart(); } catch (_e) { /* measurement only */ } }   // PAGE-SOURCE-OBSERVABILITY-1
 }
 
 // =======================================================================================
@@ -35319,6 +35323,492 @@ function _csStart() {
         + ' min_n=' + _CS_MIN_N + ' ua_cache=' + _CS_UA_CACHE_MAX + ' tokens=' + _CS_TOKENS_MAX + ' prefixes=' + _CS_PFX_MAX
         + ' top_paths=' + _CS_TOP_PATHS + ' until=' + _CS_UNTIL.label + ' ranges=' + (_csRangesDate || 'none') + (info ? ' ' + info : '')
         + ' boot=' + _CS_BOOT);
+}
+
+
+// =======================================================================================
+// PAGE-SOURCE-OBSERVABILITY-1 (SG-TRAFFIC-INVESTIGATION-1, owner approval 2026-10-19): READ AND MEASURE ONLY, TEMPORARY.
+//   Who requests the prayer, qibla, next-prayer and time-left pages -- prayer-city (/prayer-times-in-{city}),
+//   prayer-country (/prayer-times-in-{country}: the same URL family, which the wave also walks, e.g.
+//   /es/prayer-times-in-australia), qibla-city (/qibla-in-, /qibla-direction-in-), next-prayer-city (/next-prayer-in-)
+//   and time-left-city (/time-left-until-) -- in all ten languages, aggregated per worker window, so the wave GA4 shows
+//   from 2026-10-18 04:00Z (Singapore, Windows + Chrome, one page a session, /es/ and /ms/ pages) can be set against what
+//   the server itself received.
+//   Nothing here changes a response, blocks, rate-limits, ranks or decides anything: every field is a label for the logs
+//   only. A User-Agent is self-declared and a network prefix is not an identity; neither is ever used for enforcement,
+//   and the rows are never input to an automatic block.
+//   SEPARATE from CRAWL-SOURCE-OBSERVABILITY-1 ([crawl-src], moon / Hijri families, ends at TP_CRAWL_SOURCE_OBS_UNTIL):
+//   its own switch, end date, tables and log tag, so it neither extends nor widens that measurement and never writes to
+//   its tables. Reused from it, as pure helpers: the declared name (_obsAgent), the crawler claim (_csUaClaim), the
+//   client-IP fast path (_csClientIp), the edge attestation (_csEdgeAttested over _CS_EDGE_TRUST), the IP parsers, the
+//   crawler-range snapshot and its lookups (_csLoadRanges -- only when [crawl-src] has not loaded it -- _csIn4 / _csIn6),
+//   the country index, the User-Agent hash, the HyperLogLog helpers, the browser-family list and the per-process boot id.
+//
+//   SCOPE (owner, closure round 2026-10-19): rows -- and with them every network detail -- only for SINGAPORE traffic:
+//   an edge-attested request with cf-ipcountry SG. Any other request of these families (another country, no country, or
+//   not edge-attested) is only counted: meta.total (every request recorded, to set against [req-family]) and
+//   meta.unattested (those not edge-attested); nothing else of it enters the tables (no User-Agent class, no prefix, no
+//   row). Per window: the sum of n over the rows = the SG requests, and meta.total - meta.unattested - the sum of n = the
+//   edge-attested requests from any other country (or none).
+//
+//   Recorded at response close from the MOON-LOAD-OBSERVABILITY-1 'close' listener (_mlRecord, which already resolves the
+//   request-observability family, so every status of these families is seen), hence it needs TP_MOON_LOAD_OBS on
+//   (default). One row per
+//     hour      the UTC hour of the request, 'YYYY-MM-DDTHH' (a window that spans an hour boundary has rows for both)
+//     family    prayer-city | qibla-city | next-prayer-city | time-left-city | prayer-country (the request-observability
+//               family: a /prayer-times-in- slug that names a country is prayer-country, any other prayer-city)
+//     lang      the URL language prefix: ar (none) | en | fr | tr | ur | de | id | es | bn | ms
+//     declared  the _obsAgent name of the User-Agent (googlebot, bingbot, ..., other-bot, browser, unknown)
+//     token     a FIXED vocabulary only -- no product name or other text taken from a User-Agent is printed, whatever its
+//               count (owner 2026-10-19). '-' for a declared class that names one product (googlebot, gptbot, ...). For
+//               the classes that group several (browser, other-bot, unknown, known-seo-crawler, known-social-bot):
+//               a declared browser of a known family (_CS_BROWSERS: Chrome, Edge, Firefox, Safari, Opera, Samsung,
+//               Yandex, UC) -> 'browser:<family>-<major>:<os>' (family and os from fixed lists, major 1..199, else 'x');
+//               else the canonical name of the first _PS_CANON entry the User-Agent contains (a constant of that list:
+//               chatgpt-user, python-requests, curl, ahrefsbot, ...); else a generic label: 'browser:other-x:<os>' for a
+//               declared browser, the declared class itself ('unknown', 'other-bot', 'known-seo-crawler',
+//               'known-social-bot') otherwise; 'empty' for no User-Agent; 'overflow' beyond 300 tokens or 2,000 cached
+//               User-Agents; 'rest' on the folded rest rows. Only the first 512 characters of a User-Agent are read (a
+//               crawler name past them is not seen; [crawl-src] reads the whole header)
+//     ver       verified identity of a crawler claim, exactly as [crawl-src]: 'v' inside that crawler's published list,
+//               'x' NOT inside the loaded list (a mismatch, not proof of spoofing), 'np' no list loaded for it, 'err' no
+//               usable snapshot, 'na' the User-Agent claims no crawler
+//     bcls      a declared browser's request-header completeness: 'full' (sec-fetch-mode, sec-fetch-dest,
+//               accept-language and an Accept with text/html), 'partial', 'bare', + '+ch' with sec-ch-ua; else '-'.
+//               A consistency label, NEVER "human"
+//     country   'SG' (the edge's cf-ipcountry: the only country with rows, see SCOPE)
+//     prefix    the cf-connecting-ip network: IPv4 /24 'a.b.c.0/24' (an IPv4-mapped address ::ffff:0:0/96 counts as its
+//               IPv4); IPv6 /32 'h:h::/32' on EVERY row; shown only when that prefix made >= TP_PAGE_SRC_MIN_N (default
+//               and floor 5) requests to these families in the worker window AND the row itself made >= MIN_N (one rule
+//               for every row, browser or not), else folded into '*'. The /32 is printed for a global unicast address
+//               only (2000::/3). 'v6x' -- no part of the address -- for every other IPv6 address: anything outside
+//               2000::/3, whose /32 may spell a whole IPv4 address in hex (808:808::/32 = 8.8.8.8): ::/8 incl.
+//               IPv4-compatible ::/96, NAT64 64:ff9b::/96 and 64:ff9b:1::/48, 100::/64, fc00::/7, fe80::/10, fec0::/10,
+//               ff00::/8 and unassigned space; the non-global blocks inside 2000::/3 (2001::/23 incl. Teredo 2001::/32,
+//               2001:db8::/32, 6to4 2002::/16, 3fff::/20); an address that does not parse. 'pseudo' for a
+//               Cloudflare pseudo IPv4 (240.0.0.0/4) or a request carrying cf-connecting-ipv6 (no network meaning;
+//               counted in meta.pseudo). The 5-request threshold aggregates and reduces detail; it is NOT a guarantee of
+//               anonymity
+//   -> n, the status classes 2xx / 3xx / 4xx / 5xx / abort (the client left first), HEAD requests, avg / max ms (handler
+//   start to response close) and pfx: how many distinct prefixes the row holds (HyperLogLog p=5 over the prefix text;
+//   1 for a row with its own prefix, the networks folded into a '*' row, 0 for 'pseudo' and 'v6x').
+//   Edge-attested: this process trusts the edge (TP_TRUSTED_PROXY=cloudflare and RENDER=true -- or the test-only
+//   TP_CRAWL_SOURCE_EDGE_TEST=1), the request carries a cf-ray, and the client IP is the cf-connecting-ip value. These
+//   are header checks behind Render's own Cloudflare edge, not an independent proof that the headers are genuine.
+//   Not printed in any [page-src] line (the smoke's [P] and [R] scans check every line they produce): a full IP address,
+//   an IPv6 prefix longer than /32 or outside the global unicast space above, a path, a query string, a cookie, a referer, an Accept-Language value, a user /
+//   session identifier, a User-Agent or any piece of one (only its declared class and the fixed token above). Held in
+//   memory for one window at most (dropped at every flush): the tables below -- prefix texts (/24 and /32 only) and, per
+//   cached User-Agent, its hash, length and token entry (never the string). Transient while a request is recorded, in
+//   memory only and never logged: the request's own headers and the IP parsers' scratch values (the last parsed address
+//   stays in them until the next request overwrites it).
+//   Linking these rows to GA4 is approximate by construction: GA4 counts JavaScript sessions (screen resolution, device
+//   brand, client / session ids, engagement), the server counts requests (no JavaScript, no screen, no GA ids). The
+//   shared fields are the hour, the page family + language, the country (GA4 from its own IP geolocation, ours from the
+//   edge) and the browser / OS family; Windows 10 and 11 send the same User-Agent.
+//   Lines: '[page-src] ' + JSON with v (format 1), t 'src', w, boot (random per process), seq (this process's flush
+//   number), ts (flush time, UTC), win, s, until, ranges (snapshot date or null), part, meta (part 0 only), cols and rows
+//   -- the top 150 rows by n plus one 'rest' row per hour x family x declared, at most 60 rows and 8 KB a line -- per
+//   worker window (TP_MOON_LOAD_OBS_WINDOW_S, 300 s), only when the window recorded something (a window without an SG
+//   request prints its meta and no rows).
+//   Bounds, per worker: <= 1,500 keys a window (on the cap, once a window, rows of prefixes below MIN_N and rows below
+//   MIN_N fold into their '*' row; beyond that one 'overflow' row per hour x family), <= 4,096 prefixes, <= 300 tokens
+//   (+ one overflow token per declared class), <= 2,000 cached User-Agents (hash, length and entry; never the string).
+//   Everything is dropped at every flush (window, SIGTERM and retire flushes of _mlFlush).
+//   Duration: nothing is recorded from TP_PAGE_SRC_OBS_UNTIL on (an ISO date = 00:00 UTC, or a full ISO time). Default
+//   AND hard end 2026-10-23T00:00Z: a value may only shorten it; a later one is clamped to it, an unreadable one falls
+//   back to it, and neither is silent -- each worker logs one fixed '[page-src] worker=N WARN ...' line at start (never
+//   the value itself). At the end each worker logs one '[page-src] worker=N EXPIRED' line. Kill switch:
+//   TP_PAGE_SRC_OBS=0 (default ON: it starts with the deploy and stops by itself). Both are read once at boot, so
+//   changing either on Render takes effect only when the workers restart. Lines already written stay in Render's log
+//   store for its retention; neither the expiry nor the kill switch deletes them.
+// =======================================================================================
+const _PS_ON = _ML_ON && (() => {
+    const v = String(process.env.TP_PAGE_SRC_OBS || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
+// the end: default AND hard end 2026-10-23T00:00Z (owner 2026-10-19: no extension; a value may only shorten it).
+//   warn: '' | 'invalid' (unreadable -> the default) | 'clamped' (later than the hard end -> the hard end); _psStart logs
+//   one fixed WARN line per worker for either, without the value
+const _PS_UNTIL_MAX = Date.parse('2026-10-23T00:00:00Z');
+const _PS_UNTIL = (() => {
+    const v = String(process.env.TP_PAGE_SRC_OBS_UNTIL || '').trim();
+    const dflt = (warn) => ({ label: '2026-10-23', ms: _PS_UNTIL_MAX, clamped: warn === 'clamped', warn });
+    if (v === '') return dflt('');
+    let ms = NaN, label = v;
+    if (/^\d{4}-\d{2}-\d{2}$/.test(v)) { ms = Date.parse(v + 'T00:00:00Z'); if (Number.isFinite(ms) && new Date(ms).toISOString().slice(0, 10) !== v) ms = NaN; }
+    else if (/^\d{4}-\d{2}-\d{2}T/.test(v)) { ms = Date.parse(v); if (Number.isFinite(ms)) label = new Date(ms).toISOString(); }
+    if (!Number.isFinite(ms)) return dflt('invalid');
+    if (ms > _PS_UNTIL_MAX) return dflt('clamped');
+    return { label, ms, clamped: false, warn: '' };
+})();
+const _PS_MAX_KEYS = _shedEnvInt('TP_PAGE_SRC_TEST_MAX_KEYS', 1500, 2, 1500);   // test-only override (a smaller cap)
+const _PS_MIN_N = _shedEnvInt('TP_PAGE_SRC_MIN_N', 5, 5, 1000000);   // floor 5 (review 2026-10-19): a smaller value -> 5
+const _PS_TOP_ROWS = 150;
+const _PS_UA_CACHE_MAX = 2000;
+const _PS_TOKENS_MAX = 300;
+const _PS_PFX_MAX = 4096;
+const _PS_STAR = _PS_PFX_MAX;          // the prefix index of '*'
+const _PS_PSEUDO = _PS_PFX_MAX + 2;    // the prefix index of 'pseudo' (Cloudflare pseudo IPv4, cf-connecting-ipv6)
+const _PS_V6X = _PS_PFX_MAX + 3;       // the prefix index of 'v6x' (an IPv6 form that embeds an IPv4 address; unparsable)
+const _PS_SG = _csCountryIdx('SG');    // the only country with rows (SCOPE)
+const _PS_LINE_MAX = 8000, _PS_LINE_ROWS = 60;
+const _PS_FAMS = ['prayer-city', 'qibla-city', 'next-prayer-city', 'time-left-city', 'prayer-country'];
+const _PS_FAM_IDX = Object.assign(Object.create(null), { 'prayer-city': 0, 'qibla-city': 1, 'next-prayer-city': 2, 'time-left-city': 3, 'prayer-country': 4 });
+const _PS_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+const _PS_LANG_IDX = Object.assign(Object.create(null), { en: 1, fr: 2, tr: 3, ur: 4, de: 5, id: 6, es: 7, bn: 8, ms: 9 });
+// _mlOutcome -> status class (gone / shed cannot happen on these families; folded into 4xx / 5xx all the same)
+const _PS_OUT_IDX = Object.assign(Object.create(null), { '2xx': 0, '3xx': 1, '4xx': 2, gone: 2, '5xx': 3, shed: 3, abort: 4 });
+// counters a slot: 0 n | 1-5 2xx, 3xx, 4xx, 5xx, abort | 6 HEAD; + _psMs [ms sum, ms max] + _psRg 32 HyperLogLog registers
+const _PS_CW = 7;
+const _PS_COLS = 'hour,family,lang,declared,token,ver,bcls,country,prefix,n,2xx,3xx,4xx,5xx,abort,head,avg_ms,max_ms,pfx';
+// The canonical product names (owner 2026-10-19): [lower-case User-Agent substring, the name printed], the first entry
+//   the User-Agent contains wins, and a printed token is always one of these constants. The crawlers _obsAgent names are
+//   a declared class of their own (token '-'); this list covers products inside its grouping classes: the
+//   known-seo-crawler and known-social-bot names and the residual tools it matches, the other crawler / fetcher names
+//   of the [crawl-src] claim table, and widely used crawlers, monitors and HTTP clients. Anything else prints its class.
+const _PS_CANON = [
+    ['googleother', 'googleother'], ['google-cloudvertexbot', 'google-cloudvertexbot'], ['apis-google', 'apis-google'],
+    ['google-safety', 'google-safety'], ['feedfetcher-google', 'feedfetcher-google'], ['google-read-aloud', 'google-read-aloud'],
+    ['google-site-verification', 'google-site-verification'], ['googleproducer', 'googleproducer'], ['bingpreview', 'bingpreview'],
+    ['msnbot', 'msnbot'], ['oai-searchbot', 'oai-searchbot'], ['chatgpt-user', 'chatgpt-user'], ['perplexity-user', 'perplexity-user'],
+    ['claude-user', 'claude-user'], ['claude-searchbot', 'claude-searchbot'], ['claude-web', 'claude-web'], ['anthropic-ai', 'anthropic-ai'],
+    ['facebookbot', 'facebookbot'],
+    ['ahrefsbot', 'ahrefsbot'], ['ahrefssiteaudit', 'ahrefssiteaudit'], ['semrushbot', 'semrushbot'], ['siteauditbot', 'siteauditbot'],
+    ['mj12bot', 'mj12bot'], ['dotbot', 'dotbot'], ['seokicks', 'seokicks'], ['screaming frog', 'screaming-frog'], ['petalbot', 'petalbot'],
+    ['dataforseo', 'dataforseobot'], ['blexbot', 'blexbot'], ['serpstatbot', 'serpstatbot'], ['barkrowler', 'barkrowler'], ['rogerbot', 'rogerbot'],
+    ['facebookexternalhit', 'facebookexternalhit'], ['twitterbot', 'twitterbot'], ['whatsapp', 'whatsapp'], ['telegrambot', 'telegrambot'],
+    ['linkedinbot', 'linkedinbot'], ['slackbot', 'slackbot'], ['discordbot', 'discordbot'], ['pinterest', 'pinterest'],
+    ['duckduckbot', 'duckduckbot'], ['duckassistbot', 'duckassistbot'], ['baiduspider', 'baiduspider'], ['yisouspider', 'yisouspider'],
+    ['360spider', '360spider'], ['sogou', 'sogou'], ['seznambot', 'seznambot'], ['qwantbot', 'qwantbot'], ['mojeekbot', 'mojeekbot'],
+    ['yandex', 'yandex'], ['shapbot', 'shapbot'], ['archive.org_bot', 'archive-org-bot'], ['ia_archiver', 'ia-archiver'], ['diffbot', 'diffbot'],
+    ['cohere-ai', 'cohere-ai'], ['timpibot', 'timpibot'], ['youbot', 'youbot'], ['censysinspect', 'censysinspect'],
+    ['uptimerobot', 'uptimerobot'], ['pingdom', 'pingdom'], ['statuscake', 'statuscake'], ['site24x7', 'site24x7'], ['betteruptime', 'betteruptime'],
+    ['python-requests', 'python-requests'], ['headlesschrome', 'headlesschrome'], ['scrapy', 'scrapy'], ['curl', 'curl'], ['wget', 'wget'],
+    ['python-urllib', 'python-urllib'], ['python-httpx', 'python-httpx'], ['aiohttp', 'aiohttp'], ['go-http-client', 'go-http-client'],
+    ['okhttp', 'okhttp'], ['axios', 'axios'], ['node-fetch', 'node-fetch'], ['undici', 'undici'], ['apache-httpclient', 'apache-httpclient'],
+    ['java/', 'java'], ['libwww-perl', 'libwww-perl'], ['guzzlehttp', 'guzzlehttp'], ['postmanruntime', 'postman'], ['insomnia', 'insomnia'],
+    ['httpie', 'httpie'], ['windowspowershell', 'powershell'], ['phantomjs', 'phantomjs'], ['lighthouse', 'lighthouse'],
+];
+// one pass over the User-Agent: is any entry in it at all? (the ordered loop then picks the first entry; ~7x cheaper
+//   than the loop alone on a User-Agent that names none)
+const _PS_CANON_RE = new RegExp(_PS_CANON.map((x) => x[0].replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|'));
+// A source key is one number: ((((((((hour bit * 8 + family) * 10 + lang) * 512 + token entry) * 8 + ver) * 8 + bcls)
+//   * 1024 + country) * 8192 + prefix index (< 2^46); an overflow row is -(1 + hour bit * 8 + family).
+// window state (dropped at every flush)
+const _psSrc = new Map();       // source key -> slot
+let _psC = null, _psMs = null, _psRg = null, _psUsed = 0;
+const _psFree = [];
+// a token entry: d declared, t token (a constant of the fixed vocabulary), b a declared browser, r its index
+const _psTok = new Map();       // 'declared|token' -> token entry { d, t, b, r }
+const _psTokOvf = new Map();    // declared -> its 'overflow' token entry
+const _psTokByIdx = [];
+let _psTokN = 0;
+const _psUa = new Map();        // User-Agent hash (int32) -> { te, op, h2, len, uo }
+// prefix number (IPv4: the /24; IPv6: 2^24 + the /32) -> prefix index
+const _psPfx = new Map();
+const _psPfxStr = [];
+let _psPfxCnt = null, _psPfxH = null, _psPfxN = 0;
+let _psTotal = 0, _psCompactN = 0, _psOvf = 0, _psPfxFull = 0, _psUaOvf = 0, _psUnatt = 0, _psHr0 = -1, _psHrLate = 0, _psPseudo = 0;
+let _psSeq = 0, _psTs = null, _psStarted = false, _psExpired = false;
+const _psW6 = new Uint32Array(4);
+function _psTokOvfEntry(d) {
+    let e = _psTokOvf.get(d);
+    if (e === undefined) { e = { d, t: 'overflow', b: d === 'browser', r: _psTokN++ }; _psTokOvf.set(d, e); _psTokByIdx[e.r] = e; }
+    return e;
+}
+function _psTokEntry(d, tok) {    // <= 300 entries + one overflow entry per declared class (< 512)
+    const k = d + '|' + tok;
+    let e = _psTok.get(k);
+    if (e !== undefined) return e;
+    if (_psTok.size >= _PS_TOKENS_MAX) return _psTokOvfEntry(d);
+    e = { d, t: _csFlat(tok), b: d === 'browser', r: _psTokN++ };
+    _psTok.set(_csFlat(k), e);
+    _psTokByIdx[e.r] = e;
+    return e;
+}
+const _psOs = (u) => u.indexOf('windows') !== -1 ? 'windows' : u.indexOf('android') !== -1 ? 'android'
+    : (u.indexOf('iphone') !== -1 || u.indexOf('ipad') !== -1 || u.indexOf('ipod') !== -1) ? 'ios'
+    : (u.indexOf('macintosh') !== -1 || u.indexOf('mac os x') !== -1) ? 'mac'
+    : u.indexOf('cros ') !== -1 ? 'cros' : u.indexOf('linux') !== -1 ? 'linux' : 'other';
+// a declared browser of a known family -> 'browser:<family>-<major>:<os>' (family and os from fixed lists, major 1..199
+//   else 'x'), whatever other product the User-Agent names; null when no known family is in it
+function _psBrowserTok(u) {
+    for (let i = 0; i < _CS_BROWSERS.length; i++) {
+        const k = u.indexOf(_CS_BROWSERS[i][0]);
+        if (k === -1) continue;
+        if (_CS_BROWSERS[i][1] === 'safari' && u.indexOf('safari/') === -1) continue;
+        const L = _CS_BROWSERS[i][0].length, mm = /^\d{1,3}/.exec(u.slice(k + L, k + L + 3));
+        const mj = mm ? +mm[0] : 0;
+        return 'browser:' + _CS_BROWSERS[i][1] + '-' + (mj >= 1 && mj <= 199 ? mj : 'x') + ':' + _psOs(u);
+    }
+    return null;
+}
+// the page-src token of a grouping class (u = the lower-cased User-Agent, <= 512 characters): only fixed values
+function _psToken(u, d) {
+    if (u === '') return 'empty';
+    if (d === 'browser') { const bt = _psBrowserTok(u); if (bt !== null) return bt; }
+    if (_PS_CANON_RE.test(u)) for (let i = 0; i < _PS_CANON.length; i++) if (u.indexOf(_PS_CANON[i][0]) !== -1) return _PS_CANON[i][1];
+    return d === 'browser' ? 'browser:other-x:' + _psOs(u) : d;
+}
+// full: the token rules (the User-Agent cache has room); otherwise a grouping class goes to its 'overflow' token.
+//   Only the first 512 characters are read (the part the cache key hashes, _csUaKey), so a long header is classified once
+//   a window like any other instead of afresh on every request; len stays the full length (a cache hit checks it). A
+//   crawler name past character 512 is therefore not seen here ([crawl-src] reads the whole header for its declared name).
+function _psUaInfo(ua, h2, full) {
+    const len = ua.length;
+    if (len > 512) ua = ua.slice(0, 512);
+    const d = _obsAgent(ua);
+    const grp = _CS_TOKEN_DECL.has(d), od = _CS_DECL_OP[d];
+    if (!full && od !== undefined) return { te: _psTokEntry(d, '-'), op: od, h2, len, uo: true };
+    const u = ua.toLowerCase();
+    const op = _csUaClaim(d, u.length > _CS_UA_READ_LEN ? u.slice(0, _CS_UA_READ_LEN) : u);
+    if (!full) return { te: grp ? _psTokOvfEntry(d) : _psTokEntry(d, '-'), op, h2, len, uo: true };
+    return { te: _psTokEntry(d, grp ? _psToken(u, d) : '-'), op, h2, len, uo: false };
+}
+function _psSlot() {
+    if (_psC === null) { _psC = new Uint32Array((_PS_MAX_KEYS + 16) * _PS_CW); _psMs = new Float64Array((_PS_MAX_KEYS + 16) * 2); _psRg = new Uint8Array((_PS_MAX_KEYS + 16) * 32); _psUsed = 0; _psFree.length = 0; }
+    return _psFree.length ? _psFree.pop() : (_psUsed < _PS_MAX_KEYS + 16 ? _psUsed++ : -1);
+}
+function _psMerge(t, s) {          // fold slot s into slot t, then free s
+    const a = t * _PS_CW, b = s * _PS_CW;
+    for (let i = 0; i < _PS_CW; i++) _psC[a + i] += _psC[b + i];
+    _psMs[2 * t] += _psMs[2 * s]; if (_psMs[2 * s + 1] > _psMs[2 * t + 1]) _psMs[2 * t + 1] = _psMs[2 * s + 1];
+    const ra = t * 32, rb = s * 32;
+    for (let i = 0; i < 32; i++) if (_psRg[rb + i] > _psRg[ra + i]) _psRg[ra + i] = _psRg[rb + i];
+    _psC.fill(0, b, b + _PS_CW); _psMs[2 * s] = 0; _psMs[2 * s + 1] = 0; _psRg.fill(0, rb, rb + 32);
+    _psFree.push(s);
+}
+// a key whose prefix is real and below the threshold -> the same key with '*' (else -1)
+function _psColdStar(k) {
+    if (k < 0 || _psPfxCnt === null) return -1;
+    const pi = k % 8192;
+    return (pi < _PS_STAR && _psPfxCnt[pi] < _PS_MIN_N) ? k - pi + _PS_STAR : -1;
+}
+// the same, and also ANY row that made < MIN_N requests itself (owner 2026-10-19: one rule for every row, so no crawler
+//   or unknown row shows a prefix a browser row of the same size would not); whole rows only: flush, cap
+function _psFoldKey(k, slot) {
+    const k2 = _psColdStar(k);
+    if (k2 >= 0 || k < 0) return k2;
+    const pi = k % 8192;
+    return (pi < _PS_STAR && _psC[slot * _PS_CW] < _PS_MIN_N) ? k - pi + _PS_STAR : -1;
+}
+function _psCompact() {             // on the key cap, once a window (what the flush does anyway)
+    _psCompactN++;
+    const moved = [];
+    for (const [k, slot] of _psSrc) { const k2 = _psFoldKey(k, slot); if (k2 >= 0) moved.push(k, k2); }
+    for (let i = 0; i < moved.length; i += 2) {
+        const k = moved[i], k2 = moved[i + 1], slot = _psSrc.get(k);
+        _psSrc.delete(k);
+        const t = _psSrc.get(k2);
+        if (t === undefined) _psSrc.set(k2, slot); else _psMerge(t, slot);
+    }
+}
+function _psSrcRow(key, g) {        // the slot of a key (-1: none); g = hour bit * 8 + family, for the overflow row
+    let slot = _psSrc.get(key);
+    if (slot !== undefined) return slot;
+    if (_psCompactN === 0 && _psSrc.size >= _PS_MAX_KEYS) _psCompact();
+    if (_psCompactN > 0) {
+        const k2 = _psColdStar(key);
+        if (k2 >= 0) { key = k2; slot = _psSrc.get(key); if (slot !== undefined) return slot; }
+    }
+    if (_psSrc.size >= _PS_MAX_KEYS) {
+        _psOvf++;
+        key = -1 - g;
+        slot = _psSrc.get(key);
+        if (slot !== undefined) return slot;
+    }
+    slot = _psSlot();
+    if (slot >= 0) _psSrc.set(key, slot);
+    return slot;
+}
+// One recorded request (called at close by _mlRecord, inside a try). fi = family index, p = path (no query), out = outcome.
+function _psRecord(req, fi, p, out, ms) {
+    if (_psExpired) return;
+    const now = Date.now();
+    if (now >= _PS_UNTIL.ms) { _psExpire(); return; }
+    _psTotal++;
+    const h = req.headers;
+    // SCOPE: only an edge-attested request with cf-ipcountry SG goes on; any other is counted (meta.total, and
+    //   meta.unattested when it is not edge-attested) and nothing else of it enters the tables
+    if (!_CS_EDGE_TRUST) { _psUnatt++; return; }
+    const ip = _csClientIp(req, h);
+    if (!_csEdgeAttested(h, ip)) { _psUnatt++; return; }
+    if (_csCountryIdx(h['cf-ipcountry']) !== _PS_SG) return;
+    // declared identity: classified once per User-Agent per window (the cache keeps hashes, never the string)
+    const ua = typeof h['user-agent'] === 'string' ? h['user-agent'] : '';
+    const uk = _csUaKey(ua), h2 = _csUaH2;
+    let ue = _psUa.get(uk);
+    if (ue === undefined || ue.h2 !== h2 || ue.len !== ua.length) {
+        const room = _psUa.size < _PS_UA_CACHE_MAX;
+        const fresh = _psUaInfo(ua, h2, room || ue !== undefined);
+        if (ue === undefined && room) _psUa.set(uk, fresh);   // the key hashes 512 characters, all that _psUaInfo reads
+        ue = fresh;
+    }
+    if (ue.uo) _psUaOvf++;
+    const te = ue.te;
+    // network source: IPv4 /24 (an IPv4-mapped address ::ffff:0:0/96 as its IPv4, checked first); IPv6 /32 for a global
+    //   unicast address only; kind 7 = any other IPv6 address -> 'v6x': outside 2000::/3 (w0 >>> 29 !== 1 -- its /32 may
+    //   spell an IPv4 address, 808:808:: = 8.8.8.8; this takes in ::/32 IPv4-compatible, NAT64 64:ff9b::, fc00::/7,
+    //   fe80::/10, ff00::/8) or a non-global block inside it (2001::/23 incl. Teredo 2001::/32, 2001:db8::/32, 6to4
+    //   2002::/16, 3fff::/20); kind 0 = no parsable address -> 'v6x'
+    let kind = 0, v4 = _csIp4;
+    if (v4 >= 0) kind = 4;
+    else if (_csParse6(ip, _psW6)) {
+        const w0 = _psW6[0];
+        if (w0 === 0 && _psW6[1] === 0 && _psW6[2] === 0xffff) { kind = 4; v4 = _psW6[3]; }
+        else kind = ((w0 >>> 29) !== 1 || (w0 >>> 9) === 0x100080 || w0 === 0x20010db8 || (w0 >>> 16) === 0x2002 || (w0 >>> 12) === 0x3fff0) ? 7 : 6;
+    }
+    let pi;
+    // a Cloudflare pseudo IPv4 (240.0.0.0/4) or cf-connecting-ipv6: no network meaning -> 'pseudo' (the [crawl-src] test)
+    if (h['cf-connecting-ipv6'] !== undefined || (kind === 4 && v4 >= 4026531840)) { pi = _PS_PSEUDO; _psPseudo++; }
+    else if (kind === 4 || kind === 6) {
+        const pn = kind === 4 ? v4 >>> 8 : 16777216 + _psW6[0];
+        pi = _psPfx.get(pn);
+        if (pi === undefined) {
+            if (_psPfxN < _PS_PFX_MAX) {
+                pi = _psPfxN++;
+                _psPfx.set(pn, pi);
+                const s = kind === 4 ? (v4 >>> 24) + '.' + ((v4 >>> 16) & 255) + '.' + ((v4 >>> 8) & 255) + '.0/24'
+                    : (_psW6[0] >>> 16).toString(16) + ':' + (_psW6[0] & 0xffff).toString(16) + '::/32';
+                _psPfxStr[pi] = s;
+                if (_psPfxCnt === null) { _psPfxCnt = new Uint32Array(_PS_PFX_MAX); _psPfxH = new Int32Array(_PS_PFX_MAX); }
+                _psPfxH[pi] = _csMix(_csFnv(s, _CS_FNV0)) | 0;
+            } else { pi = _PS_STAR; _psPfxFull++; }
+        }
+        if (pi < _PS_STAR) _psPfxCnt[pi]++;
+    } else pi = _PS_V6X;
+    // verified identity, only for a crawler claim: err (no usable snapshot) / np / v / x
+    let vi = 0;
+    if (ue.op >= 0) {
+        if (_csRangesState !== 'ok') vi = 5;
+        else {
+            const r = _csRanges[ue.op];
+            vi = r === undefined ? 3 : ((kind === 4 ? _csIn4(r, v4) : (kind === 6 || kind === 7) ? _csIn6(r, _psW6) : false) ? 1 : 2);
+        }
+    }
+    let bi = 6;
+    if (te.b) {
+        const a = h.accept;
+        const k = (h['sec-fetch-mode'] !== undefined ? 1 : 0) + (h['sec-fetch-dest'] !== undefined ? 1 : 0)
+            + (h['accept-language'] ? 1 : 0) + ((typeof a === 'string' && a.indexOf('text/html') !== -1) ? 1 : 0);
+        bi = (k === 4 ? 4 : k === 0 ? 0 : 2) + (h['sec-ch-ua'] !== undefined ? 1 : 0);
+    }
+    // the UTC hour, relative to the window's first one (a window spans at most two)
+    const hr = Math.floor(now / 3600000);
+    if (_psHr0 < 0) _psHr0 = hr;
+    let hb = hr - _psHr0;
+    if (hb !== 0) { if (hb < 0) hb = 0; else if (hb > 1) { hb = 1; _psHrLate++; } }
+    let li = 0;
+    if (p.length > 3 && p.charCodeAt(3) === 47) { const x = _PS_LANG_IDX[p.slice(1, 3)]; if (x !== undefined) li = x; }
+    const g = hb * 8 + fi;
+    const slot = _psSrcRow((((((((g * 10 + li) * 512 + te.r) * 8 + vi) * 8 + bi) * 1024 + _PS_SG) * 8192) + pi), g);
+    if (slot >= 0) {
+        const q = slot * _PS_CW;
+        const oi = _PS_OUT_IDX[out];
+        _psC[q]++; _psC[q + 1 + (oi === undefined ? 3 : oi)]++;
+        if (req.method === 'HEAD') _psC[q + 6]++;
+        _psMs[2 * slot] += ms; if (ms > _psMs[2 * slot + 1]) _psMs[2 * slot + 1] = ms;
+        if (pi < _PS_STAR) _csHllAdd(_psRg, slot * 32, 5, _psPfxH[pi]);
+    }
+}
+function _psExpire() {
+    if (_psExpired) return;
+    _psExpired = true;
+    console.log('[page-src]' + _OBS_WTAG + ' EXPIRED until=' + _PS_UNTIL.label + ' (nothing is recorded from now on) boot=' + _CS_BOOT);
+}
+// ---- flush: aggregates only, chunked (<= 60 rows, <= 8 KB a line) ----
+const _psHour = (hb) => new Date((_psHr0 + hb) * 3600000).toISOString().slice(0, 13);
+const _psCountryStr = (ci) => ci === 0 ? 'na' : _csCountryStr(ci);
+function _psKeyParts(k) {           // a key -> [hour, family, lang, declared, token, ver, bcls, country, prefix]
+    if (k < 0) { const g = -1 - k, fi = g % 8; return [_psHour((g - fi) / 8), _PS_FAMS[fi], '-', 'overflow', '-', '-', '-', '-', '-']; }
+    const pi = k % 8192;
+    let g = (k - pi) / 8192;
+    const ci = g % 1024; g = (g - ci) / 1024;
+    const bi = g % 8; g = (g - bi) / 8;
+    const vi = g % 8; g = (g - vi) / 8;
+    const ti = g % 512; g = (g - ti) / 512;
+    const li = g % 10; g = (g - li) / 10;
+    const fi = g % 8;
+    const te = _psTokByIdx[ti];
+    return [_psHour((g - fi) / 8), _PS_FAMS[fi], _PS_LANGS[li], te.d, te.t, _CS_VERS[vi], _CS_BCLS[bi], _psCountryStr(ci),
+        pi === _PS_STAR ? '*' : pi === _PS_PSEUDO ? 'pseudo' : pi === _PS_V6X ? 'v6x' : _psPfxStr[pi]];
+}
+function _psRowOut(parts, slot) {
+    const q = slot * _PS_CW, r = parts.slice();
+    for (let i = 0; i < _PS_CW; i++) r.push(_psC[q + i]);
+    r.push(Math.round(_psMs[2 * slot] / Math.max(1, _psC[q])), Math.round(_psMs[2 * slot + 1]), _csHllEst(_psRg, slot * 32, 5));
+    return r;
+}
+function _psLines(win, rows, meta) {
+    let i = 0, part = 0;
+    do {
+        const head = { v: 1, t: 'src', w: TP_WORKER_ID, boot: _CS_BOOT, seq: _psSeq, ts: _psTs, win, s: _ML_WINDOW_S, until: _PS_UNTIL.label,
+            ranges: _csRangesState === 'ok' ? _csRangesDate : null, part };
+        if (part === 0) head.meta = meta;
+        head.cols = _PS_COLS;
+        let line = '[page-src] ' + JSON.stringify(head).slice(0, -1) + ',"rows":[';
+        let n = 0;
+        while (i < rows.length && n < _PS_LINE_ROWS) {
+            const rs = JSON.stringify(rows[i]);
+            if (n > 0 && line.length + rs.length + 3 > _PS_LINE_MAX) break;
+            line += (n ? ',' : '') + rs; n++; i++;
+        }
+        console.log(line + ']}');
+        part++;
+    } while (i < rows.length);
+}
+function _psEmit(win) {
+    _psSeq++;
+    _psTs = new Date().toISOString().slice(0, 19) + 'Z';
+    // prefixes below the threshold and rows below it fold into '*', then the top rows by n and one 'rest' row per
+    //   hour x family x declared
+    const fold = new Map();
+    for (const [k, slot] of _psSrc) {
+        const k2 = _psFoldKey(k, slot), ek = k2 >= 0 ? k2 : k;
+        const t = fold.get(ek);
+        if (t === undefined) fold.set(ek, slot); else _psMerge(t, slot);
+    }
+    const ent = [...fold.entries()].sort((x, y) => _psC[y[1] * _PS_CW] - _psC[x[1] * _PS_CW]);
+    const rows = [], rest = new Map();
+    for (let i = 0; i < ent.length; i++) {
+        const parts = _psKeyParts(ent[i][0]);
+        if (i < _PS_TOP_ROWS) { rows.push(_psRowOut(parts, ent[i][1])); continue; }
+        const rk = parts[0] + '|' + parts[1] + '|' + parts[3];
+        const t = rest.get(rk);
+        if (t === undefined) rest.set(rk, ent[i][1]); else _psMerge(t, ent[i][1]);
+    }
+    for (const [rk, slot] of rest) { const p2 = rk.split('|'); rows.push(_psRowOut([p2[0], p2[1], '-', p2[2], 'rest', '-', '-', '-', '-'], slot)); }
+    _psLines(win, rows, { total: _psTotal, keys: _psSrc.size, folded: fold.size, compact: _psCompactN, ovf: _psOvf, pfx: _psPfxN,
+        pfx_full: _psPfxFull, min_n: _PS_MIN_N, ua_cache: _psUa.size, ua_ovf: _psUaOvf, tokens: _psTok.size, ranges_state: _csRangesState,
+        edge_trust: _CS_EDGE_TRUST ? 1 : 0, unattested: _psUnatt, hr_late: _psHrLate, pseudo: _psPseudo });
+}
+function _psClear() {
+    _psSrc.clear(); _psC = null; _psMs = null; _psRg = null; _psUsed = 0; _psFree.length = 0;
+    _psTok.clear(); _psTokOvf.clear(); _psTokByIdx.length = 0; _psTokN = 0; _psUa.clear();
+    _psPfx.clear(); _psPfxStr.length = 0; _psPfxCnt = null; _psPfxH = null; _psPfxN = 0;
+    _psTotal = 0; _psCompactN = 0; _psOvf = 0; _psPfxFull = 0; _psUaOvf = 0; _psUnatt = 0; _psHr0 = -1; _psHrLate = 0; _psPseudo = 0;
+}
+// called by _mlFlush (so the window, SIGTERM and retire flushes all apply)
+function _psFlush(win) {
+    if (!_psExpired && _psStarted && Date.now() >= _PS_UNTIL.ms) _psExpire();
+    if (_psTotal > 0) { try { _psEmit(win); } catch (_e) { /* measurement must never break the worker */ } }
+    _psClear();
+}
+// called by _mlStartTimers once the worker listens, after _csStart (which loads the snapshot while [crawl-src] runs)
+function _psStart() {
+    if (!_PS_ON || _psStarted) return;
+    _psStarted = true;
+    // an unreadable or a clamped end date is not silent: one fixed line per worker, never the value itself
+    if (_PS_UNTIL.warn === 'invalid') console.log('[page-src]' + _OBS_WTAG + ' WARN invalid TP_PAGE_SRC_OBS_UNTIL, using 2026-10-23T00:00Z');
+    else if (_PS_UNTIL.warn === 'clamped') console.log('[page-src]' + _OBS_WTAG + ' WARN TP_PAGE_SRC_OBS_UNTIL later than the hard end, using 2026-10-23T00:00Z');
+    if (Date.now() >= _PS_UNTIL.ms) { _psExpire(); return; }
+    let info = '';
+    if (_csRangesState !== 'ok') { try { info = ' ' + _csLoadRanges(); } catch (_e) { info = ' ranges_error=load'; } }
+    console.log('[page-src]' + _OBS_WTAG + ' ENABLED window_s=' + _ML_WINDOW_S + ' families=' + _PS_FAMS.join(',') + ' max_keys=' + _PS_MAX_KEYS
+        + ' top_rows=' + _PS_TOP_ROWS + ' min_n=' + _PS_MIN_N + ' ua_cache=' + _PS_UA_CACHE_MAX + ' tokens=' + _PS_TOKENS_MAX + ' prefixes=' + _PS_PFX_MAX
+        + ' until=' + _PS_UNTIL.label + (_PS_UNTIL.clamped ? '(clamped)' : '') + ' ranges=' + (_csRangesState === 'ok' ? _csRangesDate : 'none')
+        + ' edge_trust=' + (_CS_EDGE_TRUST ? 1 : 0) + info + ' boot=' + _CS_BOOT);
 }
 
 

@@ -125,14 +125,16 @@ new MutationObserver(ms=>{for(const m of ms){if(m.type==='childList')m.addedNode
 
     const SEL = ['#city-suggestions', '#faq-section', '#seo-line-1', '#seo-line-2', '#seo-line-3', '#nearby-grid', '#city-country-flag',
         '#loc-hero-smart-pill', '#qibla-breadcrumb', '#qibla-hero-title', '#qibla-main-cta', '#qibla-quicklinks', '#qibla-faq', '#qibla-related',
-        '#qibla-hub-smart-pill', '#qibla-hub-visited-grid', '#related-services-grid', '#city-breadcrumb'];
+        '#qibla-hub-smart-pill', '#qibla-hub-visited-grid', '#related-services-grid', '#city-breadcrumb',
+        '#cities-container', '#cities-suggestions'];   // country page (prayer-times-cities.html)
     const SNAP = `(()=>{const o={};for(const s of ${JSON.stringify(SEL)}){const e=document.querySelector(s);if(e)o[s]={html:e.innerHTML,text:e.textContent.replace(/\\s+/g,' ').trim()}}
 const where=e=>{const a=[];for(let p=e.parentElement;p&&a.length<4;p=p.parentElement)a.push(p.tagName.toLowerCase()+(p.id?'#'+p.id:'')+(p.className&&typeof p.className==='string'?'.'+p.className.split(' ')[0]:''));return a.join('<')};const fin=[...document.querySelectorAll('zqmark,[data-zq]')].map(e=>e.tagName+' in '+where(e)+' '+e.outerHTML.slice(0,90));
 return {snap:o,muts:[...new Set((window.__zq||{}).muts||[])].slice(0,12),final:fin.slice(0,12),h1:(document.querySelector('h1')||{}).textContent||''}})()`;
     const norm = s => String(s).replace(/http:\/\/127\.0\.0\.1:\d+/g, 'ORIGIN').replace(/\?v=\d+(&b=[0-9a-f]+)?/g, '?v=N');
 
     // scenario runner: storage = {session:{}, local:{}}; action = JS evaluated after load
-    const run = async (name, { path: p, storage, action, wait = 2500, expectText = [], kind }) => {
+    // check(actionResult) → '' when fine, else a reason (counted as a failure for that scenario)
+    const run = async (name, { path: p, storage, action, wait = 2500, expectText = [], kind, check }) => {
         if (process.env.ONLY && !new RegExp(process.env.ONLY).test(name)) return null;
         await send('Storage.clearDataForOrigin', { origin: BASE, storageTypes: 'all' });
         await send('Network.clearBrowserCache');
@@ -144,15 +146,17 @@ return {snap:o,muts:[...new Set((window.__zq||{}).muts||[])].slice(0,12),final:f
         loaded = false; await send('Page.navigate', { url: BASE + p });
         for (let i = 0; i < 120 && !loaded; i++) await sleep(250);
         await sleep(3500);
-        if (action) { const _ar = await ev(action); if (process.env.DEBUGF) console.log("action ->", JSON.stringify(_ar).slice(0, 400)); await sleep(wait); }
+        let _ar;
+        if (action) { _ar = await ev(action); if (process.env.DEBUGF) console.log("action ->", JSON.stringify(_ar).slice(0, 400)); await sleep(wait); }
         const r = await ev(SNAP);
         const allText = Object.values(r.snap || {}).map(v => v.text).join(' | ') + ' | ' + r.h1;
         const missing = expectText.filter(t => !allText.includes(t));
         const injected = (r.muts || []).length + (r.final || []).length;
-        const rec = { name, kind, path: p, injected, muts: r.muts, final: r.final, missingText: missing, dialogs: [...dialogs], exceptions: [...exceptions],
+        const checkFail = check ? (check(_ar) || '') : '';
+        const rec = { name, kind, path: p, injected, muts: r.muts, final: r.final, missingText: missing, checkFail, actionResult: _ar, dialogs: [...dialogs], exceptions: [...exceptions],
             containers: Object.keys(r.snap || {}), snap: Object.fromEntries(Object.entries(r.snap || {}).map(([k, v]) => [k, norm(v.html)])) };
         results.push(rec);
-        console.log((injected ? 'INJECTED ' : 'clean    ') + name.padEnd(34) + ' containers=' + rec.containers.length + ' missingText=' + missing.length + ' dialogs=' + dialogs.length + ' mocked=' + mocked);
+        console.log((injected ? 'INJECTED ' : 'clean    ') + name.padEnd(34) + ' containers=' + rec.containers.length + ' missingText=' + missing.length + ' dialogs=' + dialogs.length + ' mocked=' + mocked + (checkFail ? ' CHECK=' + checkFail : ''));
         return rec;
     };
 
@@ -179,6 +183,23 @@ return {snap:o,muts:[...new Set((window.__zq||{}).muts||[])].slice(0,12),final:f
         session: { last_city_context: JSON.stringify({ lat: 21.5, lng: 39.2, name: TAG, englishName: TAG, country: 'Zqland', countryCode: 'sa' }) },
         local: { qibla_visited_cities: JSON.stringify([{ slug: 'zq" data-zq="s', englishName: TAG, lat: 21.5, lng: 39.2, ts: Date.now() }]) } }, wait: 500, expectText: [LIT] });
     await run('home-lsb-detected-pill', { kind: 'mal', path: '/en', storage: { local: { lsb_detected: JSON.stringify({ lat: 21.5, lng: 39.2, enName: TAG, arCity: TAG, names: { en: TAG }, ts: Date.now() }) } }, wait: 500, expectText: [LIT] });
+    // country page (prayer-times-cities.html): last-location pill (lsb_detected = reverse-geocode name),
+    //   discovered pick → grid card, hero "no local results for <query>", hero-dropdown row country code.
+    const LSB = (o) => ({ local: { lsb_detected: JSON.stringify(Object.assign({ lat: 21.5, lng: 39.2, ts: Date.now() }, o)) } });
+    const PICK = (q) => `(async()=>{const i=document.getElementById('country-city-filter');if(!i)return 'no-filter';i.value=${JSON.stringify(q)};onCountryCityFilter();await new Promise(r=>setTimeout(r,1800));const a=document.querySelector('#cities-container .city-link');if(!a)return 'no-result';a.click();await new Promise(r=>setTimeout(r,800));return 'picked'})()`;
+    const NOLOCAL = (q) => `(()=>{const i=document.getElementById('search-input');if(!i)return 'no-input';i.value=${JSON.stringify(q)};onSearch();return 'ok'})()`;
+    const HEROCC = (rows) => `(()=>{const b=document.getElementById('cities-suggestions');_heroSearchRender(b,${JSON.stringify(rows)},()=>{});return [...b.querySelectorAll('img.sugg-flag')].map(i=>i.getAttribute('src'))})()`;
+    const ccRows = [{ displayName: 'ZqccBad', countryName: 'Zqland', countryCode: CC_BAD }, { displayName: 'ZqccUpper', countryName: 'X', countryCode: 'SA' }, { displayName: 'ZqccSpace', countryName: 'X', countryCode: ' fr ' }];
+    const ccCheck = (srcs) => JSON.stringify(srcs) === JSON.stringify(['https://flagcdn.com/28x21/sa.png', 'https://flagcdn.com/28x21/fr.png']) ? '' : 'flags=' + JSON.stringify(srcs);
+    MOCK.v2.zqpick = [v2row(TAG, 'Zqland', 'sa', 'City', 0)];
+    MOCK.v2.zqpicka = [v2row('Zqar', 'Zqland', 'sa', 'City', 1)];
+    MOCK.v2.zqpicka[0].names = { ar: TAG, en: TAG };
+    await run('country-lsb-pill', { kind: 'mal', path: '/en/prayer-times-in-saudi-arabia', storage: LSB({ enName: TAG, arCity: TAG, names: { en: TAG } }), wait: 500, expectText: [LIT] });
+    await run('country-ar-lsb-pill', { kind: 'mal', path: '/prayer-times-in-saudi-arabia', storage: LSB({ enName: 'Zq', arCity: TAG, names: { ar: TAG } }), wait: 500, expectText: [LIT] });
+    await run('country-discovered-pick', { kind: 'mal', path: '/en/prayer-times-in-saudi-arabia', action: PICK('zqpick'), wait: 800, expectText: [LIT] });
+    await run('country-ar-discovered-pick', { kind: 'mal', path: '/prayer-times-in-saudi-arabia', action: PICK('zqpicka'), wait: 800, expectText: [LIT] });
+    await run('country-no-local-query', { kind: 'mal', path: '/en/prayer-times-in-saudi-arabia', action: NOLOCAL('zq' + TAG), wait: 1500, expectText: [LIT] });
+    await run('country-hero-row-cc', { kind: 'mal', path: '/en/prayer-times-in-saudi-arabia', action: HEROCC(ccRows), wait: 300, expectText: ['ZqccBad', 'ZqccUpper', 'ZqccSpace'], check: ccCheck });
 
     // ── legitimate names: same text as before (and, across trees, the same markup) ──
     MOCK = { search: { zqlega: LEGIT.slice(0, 6).map((n, i) => place(n, 'Legitland', 'fr', i)), zqlegb: LEGIT.slice(6).map((n, i) => place(n, 'Côte d\u2019Ivoire & Co', 'ci', 10 + i)) },
@@ -195,13 +216,24 @@ return {snap:o,muts:[...new Set((window.__zq||{}).muts||[])].slice(0,12),final:f
     await run('legit-ar-city', { kind: 'legit', path: '/prayer-times-in-zqlegar', storage: { session: { city_zqlegar: seed('العُلا', 'السعودية', 'sa') } }, wait: 300, expectText: ['العُلا'] });
     await run('legit-ur-city', { kind: 'legit', path: '/ur/prayer-times-in-zqlegur', storage: { session: { city_zqlegur: seed('لاہور', 'پاکستان', 'pk') } }, wait: 300, expectText: [] });
     await run('legit-bn-city', { kind: 'legit', path: '/bn/prayer-times-in-zqlegbn', storage: { session: { city_zqlegbn: seed('চট্টগ্রাম', 'বাংলাদেশ', 'bd') } }, wait: 300, expectText: ['চট্টগ্রাম'] });
+    // country page, legitimate names (& ' / accents / Arabic): shown as the same text
+    MOCK.v2.zqpickl = [v2row("Xi'an & Co", 'Saudi Arabia', 'sa', 'City', 40)];
+    MOCK.v2.zqpickla = [v2row('Zqlar', 'Saudi Arabia', 'sa', 'City', 41)];
+    MOCK.v2.zqpickla[0].names = { ar: 'العُلا', en: "Al-'Ula & Co" };
+    await run('legit-country-lsb-pill', { kind: 'legit', path: '/en/prayer-times-in-saudi-arabia', storage: LSB({ enName: 'Saint-Pierre & Miquelon', arCity: 'x', names: { en: 'Saint-Pierre & Miquelon' } }), wait: 500, expectText: ['Saint-Pierre & Miquelon'] });
+    await run('legit-country-ar-lsb-pill', { kind: 'legit', path: '/prayer-times-in-saudi-arabia', storage: LSB({ enName: "Xi'an", arCity: 'العُلا', names: { ar: 'العُلا' } }), wait: 500, expectText: ['العُلا'] });
+    await run('legit-country-fr-lsb-pill', { kind: 'legit', path: '/fr/prayer-times-in-saudi-arabia', storage: LSB({ enName: "L'Aquila", arCity: 'x', names: { fr: 'Saint-Étienne & L’Isle' } }), wait: 500, expectText: ['Saint-Étienne & L’Isle'] });
+    await run('legit-country-discovered-pick', { kind: 'legit', path: '/en/prayer-times-in-saudi-arabia', action: PICK('zqpickl'), wait: 800, expectText: ["Prayer Times in Xi'an & Co"] });
+    await run('legit-country-ar-discovered-pick', { kind: 'legit', path: '/prayer-times-in-saudi-arabia', action: PICK('zqpickla'), wait: 800, expectText: ['العُلا', "Al-'Ula & Co"] });
+    await run('legit-country-no-local-query', { kind: 'legit', path: '/en/prayer-times-in-saudi-arabia', action: NOLOCAL("Zq Xi'an & Co"), wait: 1500, expectText: ['No local results for "Zq Xi\'an & Co"'] });
     // curated pages (no mocked names) — markup parity only
-    for (const p of ['/en/prayer-times-in-riyadh', '/prayer-times-in-riyadh', '/en/qibla-in-riyadh', '/qibla-in-riyadh', '/en', '/qibla'])
+    for (const p of ['/en/prayer-times-in-riyadh', '/prayer-times-in-riyadh', '/en/qibla-in-riyadh', '/qibla-in-riyadh', '/en', '/qibla',
+        '/en/prayer-times-in-saudi-arabia', '/prayer-times-in-saudi-arabia', '/fr/prayer-times-in-canada', '/en/prayer-times-in-canada', '/bn/prayer-times-in-bangladesh', '/en/moon/saudi-arabia'])
         await run('curated ' + p, { kind: 'legit', path: p, wait: 0 });
 
     const offsiteList = [...offsite];
     const mal = results.filter(r => r.kind === 'mal'), leg = results.filter(r => r.kind === 'legit');
-    const malInjected = mal.filter(r => r.injected), legBad = leg.filter(r => r.injected || r.missingText.length);
+    const malInjected = mal.filter(r => r.injected || r.checkFail), legBad = leg.filter(r => r.injected || r.missingText.length || r.checkFail);
     const anyDialogs = results.filter(r => r.dialogs.length);
     fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify({ tree: TREE, offsite: offsiteList, results }, null, 1));
     console.log('\nmalicious scenarios: ' + mal.length + ', injected: ' + malInjected.length + ' [' + malInjected.map(r => r.name).join(', ') + ']');

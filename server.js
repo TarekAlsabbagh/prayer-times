@@ -2073,6 +2073,7 @@ async function _supabaseFetch(pathAndQuery, opts) {
 // and external, so the response shape is identical regardless of source.
 function _mapDiscoveredRow(row, lang) {
     if (!row || !row.slug) return null;
+    row = _cleanDiscoveredPlaceText(row);   // SSR-DISCOVERED-NAME-ESCAPE-1: read-side clean
     if (!isFinite(row.lat) || !isFinite(row.lng)) return null;
     if (!row.timezone || !row.country_code) return null;
     const code = String(lang || 'ar').toLowerCase();
@@ -2154,11 +2155,55 @@ async function _searchDiscoveredPlaces(query, lang) {
     return mapped;
 }
 
+// SSR-DISCOVERED-NAME-ESCAPE-1 (2026-11-08): discovered names / aliases / admin labels are written by
+//   an ANONYMOUS POST /api/place-selected, so they are untrusted text. No real place or country name
+//   needs < > " = \ or a control / U+2028 / U+2029 character, so a value carrying one is DROPPED
+//   (never rewritten into a new name). Every letter of every script stays legal, and so do ' & . , -
+//   ( ) / and the backtick some sources use for an ayn (L'Aquila, N'Djamena, Biel/Bienne, Al-`Ula,
+//   Trinidad & Tobago ...). Applied on WRITE (the payload
+//   before validation, and the merged row before the PATCH) and on READ (every discovered row before
+//   it reaches SSR, /api/place-by-slug or /api/search-place), so a row stored before this fix is inert
+//   as well. This is the second layer: the SSR output is also escaped by context (_escHtml for HTML
+//   text/attributes, _jsonForScript for JSON-LD and JSON inside <script>).
+const _DISCOVERED_UNSAFE_TEXT_RE = /[<>"=\\\u0000-\u001f\u007f\u2028\u2029]/;
+function _cleanDiscoveredText(v, depth) {
+    const d = depth || 0;
+    if (typeof v === 'string') return _DISCOVERED_UNSAFE_TEXT_RE.test(v) ? undefined : v;
+    if (!v || typeof v !== 'object') return v;
+    if (d >= 4) return undefined;                     // names/aliases/admin are 1-3 levels deep
+    if (Array.isArray(v)) return v.map(x => _cleanDiscoveredText(x, d + 1)).filter(x => x !== undefined);
+    const out = {};
+    for (const k of Object.keys(v)) {
+        if (_DISCOVERED_UNSAFE_TEXT_RE.test(k)) continue;
+        const c = _cleanDiscoveredText(v[k], d + 1);
+        if (c !== undefined) out[k] = c;
+    }
+    return out;
+}
+// Works on both shapes: the POST payload (names/aliases/admin/originalName) and a stored row
+// (names/aliases/admin, originalName inside admin). Returns a shallow copy; other fields untouched.
+function _cleanDiscoveredPlaceText(p) {
+    if (!p || typeof p !== 'object') return p;
+    const out = Object.assign({}, p);
+    for (const f of ['names', 'aliases', 'admin']) {
+        if (out[f] && typeof out[f] === 'object') out[f] = _cleanDiscoveredText(out[f]) || {};
+    }
+    if (typeof out.originalName === 'string' && _DISCOVERED_UNSAFE_TEXT_RE.test(out.originalName)) out.originalName = '';
+    return out;
+}
+function _discoveredPlaceTextIsClean(p) {
+    const c = _cleanDiscoveredPlaceText(p);
+    return ['names', 'aliases', 'admin', 'originalName'].every(f => JSON.stringify(c[f]) === JSON.stringify(p[f]));
+}
+
 // Validator for incoming /api/place-selected payload. Independent of
 // Supabase (test-friendly). Mirrors the prayer-times contract: every
 // field needed to actually compute prayer times.
 function _isValidDiscoveredInput(p) {
     if (!p || typeof p !== 'object') return false;
+    // SSR-DISCOVERED-NAME-ESCAPE-1: the handler drops unsafe name values first; anything still
+    // carrying markup characters here (a caller that skipped the clean) is refused outright.
+    if (!_discoveredPlaceTextIsClean(p)) return false;
     if (typeof p.slug !== 'string' || !/^[a-z0-9][a-z0-9-]{0,79}$/.test(p.slug)) return false;
     const cc = String(p.countryCode || '').toLowerCase();
     if (!/^[a-z]{2}$/.test(cc)) return false;
@@ -2225,9 +2270,11 @@ async function _upsertDiscoveredPlace(place) {
     if (Array.isArray(existing) && existing.length > 0) {
         const row = existing[0];
         // Merge names + aliases (don't drop existing langs)
-        const mergedNames    = Object.assign({}, row.names   || {}, place.names   || {});
-        const mergedAliases  = _mergeAliases(row.aliases || {}, place.aliases || {});
-        const mergedAdmin    = Object.assign({}, row.admin || {}, place.admin   || {});
+        // SSR-DISCOVERED-NAME-ESCAPE-1: the stored side may predate the write-time clean, so the
+        // merged maps are cleaned too (an unsafe value already in the row is dropped by this PATCH).
+        const mergedNames    = _cleanDiscoveredText(Object.assign({}, row.names   || {}, place.names   || {})) || {};
+        const mergedAliases  = _cleanDiscoveredText(_mergeAliases(row.aliases || {}, place.aliases || {})) || {};
+        const mergedAdmin    = _cleanDiscoveredText(Object.assign({}, row.admin || {}, place.admin   || {})) || {};
         // L10N-SCRIPT-FALLBACK-1: pull top-level `originalName` into admin
         // if not already set (and not already populated on the row).
         if (typeof place.originalName === 'string' && place.originalName.trim()
@@ -5115,6 +5162,12 @@ async function _fetchDiscoveredSlug(slug) {
             if (resp && resp.ok && Array.isArray(resp.data) && resp.data.length === 1) row = resp.data[0];
         } else if (_DISCOVERED_SSR_TEST_ROWS) {
             row = _DISCOVERED_SSR_TEST_ROWS[slug] || null;     // test seam (see above)
+        }
+        // SSR-DISCOVERED-NAME-ESCAPE-1: read-side clean of the names. TEST SEAM (inert in production,
+        //   honoured only with Supabase disabled + the fixture above): DISCOVERED_SSR_TEST_RAW_NAMES=1
+        //   skips the clean so the local smoke can prove the SSR escaping holds on its own.
+        if (row && !(!_SUPABASE_ENABLED && _DISCOVERED_SSR_TEST_ROWS && process.env.DISCOVERED_SSR_TEST_RAW_NAMES === '1')) {
+            row = _cleanDiscoveredPlaceText(row);
         }
         if (row) {
             entry = {
@@ -8915,6 +8968,20 @@ function _escHtml(s) {
         .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
+// SSR-DISCOVERED-NAME-ESCAPE-1 (2026-11-08): JSON for the body of a <script> element (JSON-LD,
+//   application/json, or `window.__X__=...;`). Inside a <script> the HTML parser only looks for
+//   `</script` and `<!--`, so escaping every `<` as < makes the body impossible to close or
+//   comment out early, whatever the data holds (e.g. a discovered city name written by an
+//   anonymous POST /api/place-selected). U+2028/U+2029 are escaped too so the same text is also a
+//   valid JS literal on old engines. `>` and `&` are inert in this context and are left as they are,
+//   so pages whose data holds no `<` / U+2028 / U+2029 keep identical bytes. The result is still the
+//   same JSON value (JSON.parse gives back the original string).
+function _jsonForScript(v) {
+    const s = JSON.stringify(v);
+    if (s === undefined) return s;
+    return s.replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): server-side render of the
 // 25-dhikr list inside #azkar-morning-list. Before this, the list was
@@ -11637,7 +11704,7 @@ function _buildCountrySeoContent(cn, lang, cc) {
         html += `<details class="country-faq-item"><summary><h3>${_escHtml(sub(q))}</h3></summary><p>${_escHtml(sub(a))}</p></details>`;
     }
     html += '</div></section></div>';
-    const faqJsonLd = JSON.stringify({
+    const faqJsonLd = _jsonForScript({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
         mainEntity: data.faq.map(([q, a]) => ({
@@ -12493,7 +12560,7 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
                 + `</span></div>`;
             // tiny scoped picker script (CSP allows inline). Leap-aware: Date round-trip rejects e.g. 31 Feb,
             //   so the button stays disabled until a real calendar date is chosen. Values are already 2-digit.
-            const _capScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${JSON.stringify(_capBase + '/')};var y=document.getElementById('mc-cap-y'),m=document.getElementById('mc-cap-m'),g=document.getElementById('mc-cap-go');if(!y||!m||!g)return;function ok(){var yy=+y.value,mm=+m.value;return !!yy&&mm>=1&&mm<=12;}function u(){g.disabled=!ok();}[y,m].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value;});u();})();</script>`;
+            const _capScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${_jsonForScript(_capBase + '/')};var y=document.getElementById('mc-cap-y'),m=document.getElementById('mc-cap-m'),g=document.getElementById('mc-cap-go');if(!y||!m||!g)return;function ok(){var yy=+y.value,mm=+m.value;return !!yy&&mm>=1&&mm<=12;}function u(){g.disabled=!ok();}[y,m].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value;});u();})();</script>`;
             below += `<section class="country-seo-block mc-capital" aria-labelledby="mc-cap-title">`
                 + `<h2 id="mc-cap-title">${_escHtml(capSub(cap.title))}</h2>`
                 + `<div class="mc-cap-grid">`
@@ -12545,7 +12612,7 @@ function _buildMoonCountrySeoContent(cn, lang, cc) {
     below += _buildMoonOccasionsCountdownHtml(lang);
     below += '</div>';
 
-    const faqJsonLd = JSON.stringify({
+    const faqJsonLd = _jsonForScript({
         '@context': 'https://schema.org',
         '@type': 'FAQPage',
         mainEntity: data.faq.map(([q, a]) => ({
@@ -13287,7 +13354,7 @@ function _buildMoonYearContent(my, lang) {
         _faqItems += `<details class="moon-faq-item"><summary><h3 class="moon-faq-q">${_e(q)}</h3></summary><p>${_e(a)}</p></details>`;
     }
     const faqHtml = `<section class="section-card moon-faq-city-card moon-year-faq" id="moon-year-faq"><h2>${_e(_S.faqTitle)}</h2><div class="moon-faq">${_faqItems}</div></section>`;
-    const faqJsonLd = JSON.stringify({
+    const faqJsonLd = _jsonForScript({
         '@context': 'https://schema.org', '@type': 'FAQPage',
         mainEntity: _S.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
     });
@@ -13465,7 +13532,7 @@ function _buildMoonMonthContent(mm, lang) {
     let _faqItems = '';
     for (const [q, a] of _S.faq) _faqItems += `<details class="moon-faq-item"><summary>${_e(q)}</summary><p>${_e(a)}</p></details>`;
     const faqHtml = `<section class="section-card moon-faq-city-card moon-year-faq" id="moon-month-faq"><h2>${_e(_S.faqTitle)}</h2><div class="moon-faq">${_faqItems}</div></section>`;
-    const faqJsonLd = JSON.stringify({
+    const faqJsonLd = _jsonForScript({
         '@context': 'https://schema.org', '@type': 'FAQPage',
         mainEntity: _S.faq.map(([q, a]) => ({ '@type': 'Question', name: q, acceptedAnswer: { '@type': 'Answer', text: a } })),
     });
@@ -19370,7 +19437,7 @@ function renderSeoHeadHtml(seo) {
 
     if (ssrGraph.length) {
         const graphSchema = { "@context": "https://schema.org", "@graph": ssrGraph };
-        parts.push(`<script id="ssr-graph-schema" type="application/ld+json">${JSON.stringify(graphSchema)}</script>`);
+        parts.push(`<script id="ssr-graph-schema" type="application/ld+json">${_jsonForScript(graphSchema)}</script>`);
     }
 
     // Phase MM2 (2026-05-03): SLIM inject — was a full 10-lang × 80-city dump
@@ -19393,7 +19460,7 @@ function renderSeoHeadHtml(seo) {
         }
         _slimPCN[_slug] = _slim;
     }
-    parts.push(`<script${_TP_NONCE_ATTR} id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${JSON.stringify(_slimPCN)};</script>`);
+    parts.push(`<script${_TP_NONCE_ATTR} id="ssr-popular-city-names">window.__POPULAR_CITY_NAMES__=${_jsonForScript(_slimPCN)};</script>`);
     // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D11): the SAME supported moon year window the routes accept, exposed to
     //   the client link builders (js/app.js + js/moon-chart.js) on moon city / year / month pages only.
     if (seo.moonCity || seo.moonYear || seo.moonMonth) {
@@ -19403,7 +19470,7 @@ function renderSeoHeadHtml(seo) {
     // TODAY-PAGES-ACCURACY-1: on the bare /moon hub only — the smart pill's server-built hub paths for the curated
     //   Hong Kong / Macau cities (see _moonHubSarPaths; '' = no moon page -> no pill).
     if (seo.moonGeneralHub) {
-        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-hub-sar">window.__MOON_HUB_SAR__=${JSON.stringify(_moonHubSarPaths())};</script>`);
+        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-moon-hub-sar">window.__MOON_HUB_SAR__=${_jsonForScript(_moonHubSarPaths())};</script>`);
     }
 
     // Round 34 (qibla clean-URL hydration): for /qibla-in-{slug} pages, expose the
@@ -19418,7 +19485,7 @@ function renderSeoHeadHtml(seo) {
             englishName: seo.qiblaRef.englishName || '',
             names: seo.qiblaRef.names || {}
         };
-        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-qibla-city">window.__QIBLA_CITY__=${JSON.stringify(_qcPayload)};</script>`);
+        parts.push(`<script${_TP_NONCE_ATTR} id="ssr-qibla-city">window.__QIBLA_CITY__=${_jsonForScript(_qcPayload)};</script>`);
     }
 
     parts.push('<!-- SSR-SEO-END -->');
@@ -24194,7 +24261,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             html = html.replace('<div id="dconv-seo"></div>', `<div id="dconv-seo">${_aboutHtml}${_worksHtml}${_bgHtml}${_cmpHtml}${_exHtml}${_whenHtml}${_accHtml}${_linksHtml}${_faqHtml}</div>`);
             // ── FAQPage JSON-LD (matches the visible FAQ exactly) ──
             const _faqLd = { '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: _dc.faq.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })) };
-            html = html.replace('</head>', `<script type="application/ld+json">${JSON.stringify(_faqLd)}</script>\n</head>`);
+            html = html.replace('</head>', `<script type="application/ld+json">${_jsonForScript(_faqLd)}</script>\n</head>`);
         } catch (_e) { /* silent — SSR enrichment optional; tool still works */ }
         // ──────────────────────────────────────────────────────────────────
         // MULTILANG-DATE-CONVERTER-H1-CONTENT-FIX-1 (2026-06-03):
@@ -24349,7 +24416,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                         '@type': 'FAQPage',
                         mainEntity: _faqs.map(f => ({ '@type': 'Question', name: f.q, acceptedAnswer: { '@type': 'Answer', text: f.a } })),
                     };
-                    html = html.replace('</body>', '<script type="application/ld+json">' + JSON.stringify(_ld) + '</script></body>');
+                    html = html.replace('</body>', '<script type="application/ld+json">' + _jsonForScript(_ld) + '</script></body>');
                 }
                 // (4) educational sections from data/countdown-seo.js → #cd-edu-{occ}
                 html = _injectCountdownEdu(html, _cdCfg.occ, seo.lang, _params);
@@ -25331,7 +25398,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // + a moon-scoped country search instead of the prayer-times defaults. Absent on the
         // prayer country page → that page stays byte-identical.
         if (html.indexOf('id="moon-country-variant"') === -1) {
-            html = html.replace('</head>', `<script${_TP_NONCE_ATTR} id="moon-country-variant">window.__COUNTRY_PAGE_VARIANT='moon';window.__MOON_COUNTRY_SLUG=${JSON.stringify(seo.moonCountryListing.slug)};</script>\n</head>`);
+            html = html.replace('</head>', `<script${_TP_NONCE_ATTR} id="moon-country-variant">window.__COUNTRY_PAGE_VARIANT='moon';window.__MOON_COUNTRY_SLUG=${_jsonForScript(seo.moonCountryListing.slug)};</script>\n</head>`);
         }
         // Layout marker (moon variant only): drives the compact hero (drops the full-hero CLS
         // min-height reservation, which left empty space after the search/CTA were removed) + a
@@ -25791,7 +25858,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             //   .remove() before re-injecting its own — so sharing the id lets the client DEDUPE this SSR
             //   block instead of leaving two BreadcrumbList scripts in the hydrated DOM. Crawlers with no
             //   JS still see exactly this one (SSR=1); JS-rendering crawlers see the client's one (hydrated=1).
-            const _ld = `<script type="application/ld+json" id="breadcrumb-schema">${JSON.stringify(_bcJsonLd)}</script>`;
+            const _ld = `<script type="application/ld+json" id="breadcrumb-schema">${_jsonForScript(_bcJsonLd)}</script>`;
             html = html.replace('</head>', _ld + '</head>');
         } catch (_e) { /* silent */ }
 
@@ -25924,7 +25991,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     'acceptedAnswer': { '@type': 'Answer', 'text': it.a }
                 }))
             };
-            const _faqLd = `<script type="application/ld+json" id="city-faq-schema-ssr">${JSON.stringify(_faqJsonLd)}</script>`;
+            const _faqLd = `<script type="application/ld+json" id="city-faq-schema-ssr">${_jsonForScript(_faqJsonLd)}</script>`;
             html = html.replace('</head>', _faqLd + '</head>');
         } catch (_e) { /* silent */ }
 
@@ -27557,7 +27624,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 "mainEntityOfPage": seo.canonical,
                 "articleBody": _introMoonDynamic
             };
-            const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
+            const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${_jsonForScript(articleSchema)}</script>`;
             // أدرِج قبل </head>
             html = html.replace('</head>', `    ${articleJsonLd}\n</head>`);
         } catch(_e) { /* silent */ }
@@ -28740,7 +28807,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                                     +   `</span>`
                                     +   `<button type="button" id="mc-exp-go" class="mc-explore-go" disabled>${_escHtml(_hCap.go)}</button>`
                                     + `</span></div>`;
-                                const _hScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${JSON.stringify(_hCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),g=document.getElementById('mc-exp-go');if(!y||!m||!g)return;function ok(){var yy=+y.value,mm=+m.value;return !!yy&&mm>=1&&mm<=12;}function u(){g.disabled=!ok();}[y,m].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value;});u();})();</script>`;
+                                const _hScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${_jsonForScript(_hCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),g=document.getElementById('mc-exp-go');if(!y||!m||!g)return;function ok(){var yy=+y.value,mm=+m.value;return !!yy&&mm>=1&&mm<=12;}function u(){g.disabled=!ok();}[y,m].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value;});u();})();</script>`;
                                 _hubExploreHtml = `<section class="section-card mc-explore" id="mc-explore" aria-labelledby="mc-explore-title">`
                                     + `<h2 id="mc-explore-title">${_escHtml(_hCitySub(_hCap.title))}</h2>`
                                     + `<div class="mc-explore-grid">`
@@ -28819,7 +28886,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                         +   `</span>`
                         +   `<button type="button" id="mc-exp-go" class="mc-explore-go" disabled>${_escHtml(_xCap.go)}</button>`
                         + `</span></div>`;
-                    const _xScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${JSON.stringify(_xCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
+                    const _xScript = `<script${_TP_NONCE_ATTR}>(function(){var b=${_jsonForScript(_xCityBase + '/')};var y=document.getElementById('mc-exp-y'),m=document.getElementById('mc-exp-m'),d=document.getElementById('mc-exp-d'),g=document.getElementById('mc-exp-go');if(!y||!m||!d||!g)return;function ok(){var yy=+y.value,mm=+m.value,dd=+d.value;if(!yy||!mm||!dd)return false;var t=new Date(yy,mm-1,dd);return t.getFullYear()===yy&&t.getMonth()===mm-1&&t.getDate()===dd;}function u(){g.disabled=!ok();}[y,m,d].forEach(function(e){e.addEventListener('change',u);});g.addEventListener('click',function(){if(ok())window.location.href=b+y.value+'/'+m.value+'/'+d.value;});u();})();</script>`;
                     const _xSection = `<section class="section-card mc-explore" id="mc-explore" aria-labelledby="mc-explore-title">`
                         + `<h2 id="mc-explore-title">${_escHtml(_xCitySub(_xCap.title))}</h2>`
                         + `<div class="mc-explore-grid">`
@@ -30115,7 +30182,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 "mainEntityOfPage": seo.canonical,
                 "articleBody": _introMoonGeneric
             };
-            const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${JSON.stringify(articleSchema)}</script>`;
+            const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${_jsonForScript(articleSchema)}</script>`;
             html = html.replace('</head>', `    ${articleJsonLd}\n</head>`);
         } catch(_e) { /* silent */ }
     }
@@ -30385,8 +30452,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     // duplicating moon-math at every page render.
     // ────────────────────────────────────────────────────────────────────────
     if (_isMoonCityPageSsr && seo.moonCity && seo.moonCity.name) {
-        const _cityForI18n = String(seo.moonCity.name);
-        html = html.replace(/\{city\}/g, _cityForI18n);
+        // SSR-DISCOVERED-NAME-ESCAPE-1: the token sits in HTML text (and i18n-filled double-quoted
+        //   attributes), so the name is escaped for that context (& " < — the same set as the
+        //   attribute helper; ' stays literal so curated names like Xi'an / N'Djamena keep their
+        //   bytes). A function replacer, so a `$&`-style sequence in a name is never expanded.
+        const _cityForI18n = _escAttr(String(seo.moonCity.name));
+        html = html.replace(/\{city\}/g, () => _cityForI18n);
     }
 
     // ════════════════════════════════════════════════════════════════════════════
@@ -33022,8 +33093,8 @@ function _quranHomeJsonLd(origin) {
             url: origin + sh.byNumber.get(c.number).path,
         })),
     };
-    return '<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>\n'
-         + '<script type="application/ld+json">' + JSON.stringify(list) + '</script>';
+    return '<script type="application/ld+json">' + _jsonForScript(crumbs) + '</script>\n'
+         + '<script type="application/ld+json">' + _jsonForScript(list) + '</script>';
 }
 // QURAN-AR-SURAH-TO-HOME-NAVIGATION-AND-BREADCRUMB-FIX-1 — the 114 surah pages emitted NO BreadcrumbList at
 // all (the generic @graph one never reaches this section, and unlike /quran they had no dedicated emitter).
@@ -33043,7 +33114,7 @@ function _quranSurahJsonLd(origin, n) {
             { '@type': 'ListItem', position: 3, name: 'سورة ' + _quranCleanName(ch.nameAr), item: origin + rec.path },
         ],
     };
-    return '<script type="application/ld+json">' + JSON.stringify(crumbs) + '</script>';
+    return '<script type="application/ld+json">' + _jsonForScript(crumbs) + '</script>';
 }
 // The ONE distinctive "browse all surahs" CTA — rendered in TWO places (hero + after the surah-end nav cards),
 // both opening the SAME index modal via the shared trigger. Inline open-mushaf SVG (currentColor → light/dark),
@@ -39078,7 +39149,7 @@ const server = http.createServer(async (req, res) => {
                             { method: 'GET' }
                         );
                         if (resp.ok && Array.isArray(resp.data) && resp.data.length === 1) {
-                            const row = resp.data[0];
+                            const row = _cleanDiscoveredPlaceText(resp.data[0]);   // SSR-DISCOVERED-NAME-ESCAPE-1
                             // Map the discovered row into the same curated
                             // shape so `_buildSlugLookupResult` can use it.
                             const _entry = {
@@ -39264,6 +39335,9 @@ const server = http.createServer(async (req, res) => {
                     // PALESTINE-DISPLAY-NORMALIZATION-FIX-1: never persist an Israel identity —
                     // il→ps (+ admin.country→Palestine) before validate/upsert. Geo/tz untouched.
                     place = _placeDisplay.normalizeStorePayload(place);
+                    // SSR-DISCOVERED-NAME-ESCAPE-1: drop any name / alias / admin label carrying
+                    // markup characters before validation (a payload left with no name is invalid).
+                    place = _cleanDiscoveredPlaceText(place);
                     if (!_isValidDiscoveredInput(place)) {
                         res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
                         res.end('{"ok":false,"error":"invalid"}');

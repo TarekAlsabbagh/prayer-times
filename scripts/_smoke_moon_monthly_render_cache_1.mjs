@@ -71,7 +71,7 @@ console.log('[S] source');
     const src = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
     ok('S', !/(^|[^\r])\n/.test(src), 'server.js keeps CRLF line endings');
     ok('S', (src.match(/_moonMonthShell\(/g) || []).length === 2, '_moonMonthShell defined once and called once');
-    ok('S', /process\.env\.TP_MOON_SHELL_MEMO !== '0'/.test(src) && /TP_MOON_SHELL_MEMO_MAX_BYTES/.test(src), 'kill switch + byte cap env');
+    ok('S', /String\(process\.env\.TP_MOON_SHELL_MEMO \|\| ''\)\.trim\(\)\.toLowerCase\(\)/.test(src) && /v === 'off' \|\| v === 'false' \|\| v === 'no'/.test(src) && /TP_MOON_SHELL_MEMO_MAX_BYTES/.test(src), 'kill switch + byte cap env');
 }
 
 // ---------------------------------------------------------------- [U] memo unit (extracted)
@@ -135,6 +135,7 @@ const SRC = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
         const t = mk({ TP_MOON_SHELL_MEMO: '0' });
         const buf = Buffer.from(TPL); t.cache.set(idx, { data: buf });
         ok('U', t.api.on === false && t.api.shell(buf, M) === null && t.strips() === 0, 'TP_MOON_SHELL_MEMO=0 -> null, no strip');
+        for (const v of ['off', 'false', 'no', ' 0 ', 'OFF']) { const t2 = mk({ TP_MOON_SHELL_MEMO: v }); const b2 = Buffer.from(TPL); t2.cache.set(idx, { data: b2 }); ok('U', t2.api.on === false && t2.api.shell(b2, M) === null, 'TP_MOON_SHELL_MEMO=' + JSON.stringify(v) + ' -> off'); }
         t.api.flush('5m');
         ok('U', t.timers.length === 0 && t.once.length === 0 && t.logs.length === 0, 'switched off: no timer, no counter, no line');
     }

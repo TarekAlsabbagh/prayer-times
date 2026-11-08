@@ -10879,7 +10879,10 @@ function _stripHtmlForMoonCity(html) {
 //   it; a deploy is a new process); any other buffer (a disk read) takes the old path. Bounded in bytes: a shell
 //   over TP_MOON_SHELL_MEMO_MAX_BYTES (default 1 MiB; measured 172 KB) is not kept and the request takes the old
 //   path. TP_MOON_SHELL_MEMO=0 restores the old path verbatim. [moon-shell] carries counts and one size only.
-const _MSM_ON = process.env.TP_MOON_SHELL_MEMO !== '0';
+const _MSM_ON = (() => {
+    const v = String(process.env.TP_MOON_SHELL_MEMO || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
 const _MSM_MAX_BYTES = (() => {
     const n = parseInt(process.env.TP_MOON_SHELL_MEMO_MAX_BYTES || '', 10);
     return (Number.isFinite(n) && n >= 0) ? n : 1048576;

@@ -10868,6 +10868,60 @@ function _stripHtmlForMoonCity(html) {
     }
     return html;
 }
+// MOON-MONTH-SHELL-MEMO-1 (2026-11-08): the strip above is a pure function of the index.html template, yet the
+//   month page ran it on every request (3.2 ms) and every SSR pass before it walked the whole 465k-char template.
+//   For /[lang/]moon/{country}/{city}/{yyyy}/{mm} only, serveHtmlWithSeo now starts from the template ALREADY
+//   stripped, computed once per worker, and skips the late strip. The shell holds the template and nothing else:
+//   no request input, no time, no nonce (the __TP_CSP_NONCE__ marker stays a marker and is filled per response),
+//   so every per-request value is injected after it exactly as before. It is an input of the render, not a
+//   response, and is used only after _shedReject admitted the request.
+//   One entry per worker, keyed by the identity of the preloaded index.html Buffer (_staticCache never replaces
+//   it; a deploy is a new process); any other buffer (a disk read) takes the old path. Bounded in bytes: a shell
+//   over TP_MOON_SHELL_MEMO_MAX_BYTES (default 1 MiB; measured 172 KB) is not kept and the request takes the old
+//   path. TP_MOON_SHELL_MEMO=0 restores the old path verbatim. [moon-shell] carries counts and one size only.
+const _MSM_ON = process.env.TP_MOON_SHELL_MEMO !== '0';
+const _MSM_MAX_BYTES = (() => {
+    const n = parseInt(process.env.TP_MOON_SHELL_MEMO_MAX_BYTES || '', 10);
+    return (Number.isFinite(n) && n >= 0) ? n : 1048576;
+})();
+// the nested month shape only; a subset of _isMoonCityPageSsr, so the late strip it replaces always applied
+const _MSM_MONTH_RE = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+\/\d{4}\/\d{2}$/;
+let _msmSlot = null;               // { buf, shell, bytes } -- shell null: over the byte cap, not kept
+const _msmStat = { hit: 0, build: 0, skip: 0 };
+let _msmTimers = false;
+function _msmFlush(win) {
+    if (_msmStat.hit + _msmStat.build + _msmStat.skip === 0) return;
+    console.log('[moon-shell] worker=' + TP_WORKER_ID + ' window=' + win + ' hit=' + _msmStat.hit
+        + ' build=' + _msmStat.build + ' skip=' + _msmStat.skip
+        + ' bytes=' + (_msmSlot && _msmSlot.shell !== null ? _msmSlot.bytes : 0));
+    _msmStat.hit = 0; _msmStat.build = 0; _msmStat.skip = 0;
+}
+// The stripped shell for this render, or null = take the old path (toString here, strip late).
+function _moonMonthShell(htmlBuf, urlPath) {
+    if (!_MSM_ON || !_MSM_MONTH_RE.test(urlPath)) return null;
+    if (!_msmTimers) {
+        _msmTimers = true;
+        setInterval(() => _msmFlush('5m'), 5 * 60 * 1000).unref();
+        process.once('SIGTERM', () => _msmFlush('final'));
+    }
+    if (_msmSlot && _msmSlot.buf === htmlBuf) {
+        if (_msmSlot.shell === null) { _msmStat.skip++; return null; }
+        _msmStat.hit++;
+        return _msmSlot.shell;
+    }
+    const cached = _staticCache.get(path.join(ROOT, 'index.html'));
+    if (!cached || cached.data !== htmlBuf) { _msmStat.skip++; return null; }
+    const shell = _stripHtmlForMoonCity(htmlBuf.toString('utf8'));
+    const bytes = Buffer.byteLength(shell, 'utf8');
+    if (bytes > _MSM_MAX_BYTES) {
+        _msmSlot = { buf: htmlBuf, shell: null, bytes };   // remembered so the next request skips without a strip
+        _msmStat.skip++;
+        return null;
+    }
+    _msmSlot = { buf: htmlBuf, shell, bytes };          // replaces the previous entry: never more than one
+    _msmStat.build++;
+    return shell;
+}
 
 // ── Phase Q-Hub-A (2026-05-04): Qibla Hub gateway strip ──
 // SEOptimer was indexing #page-prayer-times content (مواقيت الصلاة, التاريخ
@@ -19662,7 +19716,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         _scStat.miss++;
         _scWaiters.set(_scKey, []);                // mark in flight BEFORE rendering
     }
-    let html = htmlBuf.toString('utf8');
+    // MOON-MONTH-SHELL-MEMO-1: the month page starts from the memoised stripped shell (null on every other route,
+    //   when switched off, or over the byte cap -- then the template is decoded here and stripped late, as before).
+    const _msmShell = _moonMonthShell(htmlBuf, urlPath);
+    let html = (_msmShell !== null) ? _msmShell : htmlBuf.toString('utf8');
     const seo = buildSeoForPath(urlPath, _hcwRender);
     // HIJRI-PAGES-SLIM-1: remove the foreign blocks of the Hijri pages before any SSR pass runs (see _hijriSlimEarlyStrip).
     //   _hijriSlimKeep is set only when the strip really happened, so the dependent skips (the Mecca prayer fill, the
@@ -24777,7 +24834,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //    every moon section inside #page-moon untouched (chart, forecast,
     //    FAQ, evergreen, events countdown). See definition above for full
     //    rationale.
-    if (_isMoonCityPageSsr) {
+    // MOON-MONTH-SHELL-MEMO-1: a render that started from the memoised shell is already stripped.
+    if (_isMoonCityPageSsr && _msmShell === null) {
         html = _stripHtmlForMoonCity(html);
     }
     // ── Phase E4-city-b (2026-05-02): SSR active-class for #page-moon
@@ -39509,6 +39567,7 @@ const _tpFinalFlush = () => {
     _tpFinalFlushed = true;
     try { if (_shedStarted) _shedFlush('final'); } catch (_e) { /* measurement only */ }
     try { if (_mlStarted) { _mlFlush('final'); _mlProcFlush('final'); } } catch (_e) { /* measurement only */ }
+    try { if (_msmTimers) _msmFlush('final'); } catch (_e) { /* measurement only */ }
 };
 server.prependListener('request', (req, res) => { if (_tpRetiring) res.setHeader('Connection', 'close'); });
 const _tpWorkerRetire = () => {

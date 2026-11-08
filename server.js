@@ -2073,7 +2073,7 @@ async function _supabaseFetch(pathAndQuery, opts) {
 // and external, so the response shape is identical regardless of source.
 function _mapDiscoveredRow(row, lang) {
     if (!row || !row.slug) return null;
-    row = _cleanDiscoveredPlaceText(row);   // SSR-DISCOVERED-NAME-ESCAPE-1: read-side clean
+    row = _cleanDiscoveredRow(row);   // SSR-DISCOVERED-NAME-ESCAPE-1: read-side clean (text + type / timezone)
     if (!isFinite(row.lat) || !isFinite(row.lng)) return null;
     if (!row.timezone || !row.country_code) return null;
     const code = String(lang || 'ar').toLowerCase();
@@ -2165,7 +2165,15 @@ async function _searchDiscoveredPlaces(query, lang) {
 //   it reaches SSR, /api/place-by-slug or /api/search-place), so a row stored before this fix is inert
 //   as well. This is the second layer: the SSR output is also escaped by context (_escHtml for HTML
 //   text/attributes, _jsonForScript for JSON-LD and JSON inside <script>).
-const _DISCOVERED_UNSAFE_TEXT_RE = /[<>"=\\\u0000-\u001f\u007f\u2028\u2029]/;
+// Round 2: `$` is unsafe too. No real place name needs it, and inside a plain-string replacement
+//   `$\`` / `$'` / `$&` expand to parts of the page (a page of hundreds of MB from one name); the SSR
+//   call sites that insert a name now also use function replacers (_rlit), so either layer holds alone.
+//   The same clean covers the other free-text fields of the payload / row: source, sourceId /
+//   source_id, and the keys of nameQuality / name_quality. type and timezone are checked against a
+//   whitelist / the IANA database instead (_DISCOVERED_PLACE_TYPES, _isValidIanaTimeZone).
+//   A lone UTF-16 surrogate is unsafe as well (encodeURIComponent throws on it; the page request was
+//   left unanswered); paired surrogates (supplementary-plane letters, emoji) stay legal.
+const _DISCOVERED_UNSAFE_TEXT_RE = /[<>"=\\$\u0000-\u001f\u007f\u2028\u2029]|[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/;
 function _cleanDiscoveredText(v, depth) {
     const d = depth || 0;
     if (typeof v === 'string') return _DISCOVERED_UNSAFE_TEXT_RE.test(v) ? undefined : v;
@@ -2180,20 +2188,57 @@ function _cleanDiscoveredText(v, depth) {
     }
     return out;
 }
-// Works on both shapes: the POST payload (names/aliases/admin/originalName) and a stored row
-// (names/aliases/admin, originalName inside admin). Returns a shallow copy; other fields untouched.
+// Works on both shapes: the POST payload (names/aliases/admin/originalName/nameQuality/source/sourceId)
+// and a stored row (names/aliases/admin/name_quality/source/source_id, originalName inside admin).
+// Returns a shallow copy; other fields untouched. An unsafe source / source id becomes null (the insert
+// then stores its default), an unsafe nameQuality key is dropped.
+const _DISCOVERED_TEXT_MAPS = ['names', 'aliases', 'admin', 'nameQuality', 'name_quality'];
+const _DISCOVERED_TEXT_IDS  = ['source', 'sourceId', 'source_id'];
 function _cleanDiscoveredPlaceText(p) {
     if (!p || typeof p !== 'object') return p;
     const out = Object.assign({}, p);
-    for (const f of ['names', 'aliases', 'admin']) {
+    for (const f of _DISCOVERED_TEXT_MAPS) {
         if (out[f] && typeof out[f] === 'object') out[f] = _cleanDiscoveredText(out[f]) || {};
     }
     if (typeof out.originalName === 'string' && _DISCOVERED_UNSAFE_TEXT_RE.test(out.originalName)) out.originalName = '';
+    for (const f of _DISCOVERED_TEXT_IDS) {
+        if (typeof out[f] === 'string' && _DISCOVERED_UNSAFE_TEXT_RE.test(out[f])) out[f] = null;
+    }
     return out;
 }
 function _discoveredPlaceTextIsClean(p) {
     const c = _cleanDiscoveredPlaceText(p);
-    return ['names', 'aliases', 'admin', 'originalName'].every(f => JSON.stringify(c[f]) === JSON.stringify(p[f]));
+    return ['names', 'aliases', 'admin', 'originalName', 'nameQuality', 'source', 'sourceId']
+        .every(f => JSON.stringify(c[f]) === JSON.stringify(p[f]));
+}
+// SSR-DISCOVERED-NAME-ESCAPE-1 (round 2): `type` and `timezone` of a discovered place are not free
+//   text. type must be one of the settlement types the external search can return (the same list
+//   _resolveExternalType picks from); timezone must be a real IANA zone. A WRITE with anything else is
+//   refused (_isValidDiscoveredInput); on READ a stored row's unknown type is shown as 'city' and an
+//   unknown timezone is blanked, which makes the row unusable (every reader requires a timezone).
+const _DISCOVERED_PLACE_TYPES = _EXTERNAL_ALLOWED_TYPES;
+const _IANA_TZ_SHAPE_RE = /^[A-Za-z][A-Za-z0-9_+\-]*(?:\/[A-Za-z0-9][A-Za-z0-9_+\-]*){0,2}$/;
+const _IANA_TZ_OK = new Map();          // tz -> boolean (bounded)
+function _isValidIanaTimeZone(tz) {
+    if (typeof tz !== 'string' || !tz || tz.length > 64 || !_IANA_TZ_SHAPE_RE.test(tz)) return false;
+    const hit = _IANA_TZ_OK.get(tz);
+    if (hit !== undefined) return hit;
+    let ok = false;
+    try { new Intl.DateTimeFormat('en-US', { timeZone: tz }); ok = true; } catch (_) { ok = false; }
+    if (_IANA_TZ_OK.size >= 512) _IANA_TZ_OK.clear();
+    _IANA_TZ_OK.set(tz, ok);
+    return ok;
+}
+function _cleanDiscoveredRowMeta(row) {
+    if (!row || typeof row !== 'object') return row;
+    const out = Object.assign({}, row);
+    if (out.type != null && out.type !== '' && !_DISCOVERED_PLACE_TYPES.has(String(out.type))) out.type = 'city';
+    if (out.timezone != null && out.timezone !== '' && !_isValidIanaTimeZone(out.timezone)) out.timezone = '';
+    return out;
+}
+// Every READ of a stored discovered row goes through this (text clean + type / timezone check).
+function _cleanDiscoveredRow(row) {
+    return _cleanDiscoveredRowMeta(_cleanDiscoveredPlaceText(row));
 }
 
 // Validator for incoming /api/place-selected payload. Independent of
@@ -2210,8 +2255,9 @@ function _isValidDiscoveredInput(p) {
     const lat = Number(p.lat), lng = Number(p.lng);
     if (!isFinite(lat) || lat < -90 || lat > 90) return false;
     if (!isFinite(lng) || lng < -180 || lng > 180) return false;
-    if (typeof p.timezone !== 'string' || !p.timezone) return false;
-    if (typeof p.type !== 'string' || !p.type) return false;
+    // SSR-DISCOVERED-NAME-ESCAPE-1 (round 2): a real IANA zone and a known settlement type only.
+    if (typeof p.timezone !== 'string' || !_isValidIanaTimeZone(p.timezone)) return false;
+    if (typeof p.type !== 'string' || !_DISCOVERED_PLACE_TYPES.has(p.type)) return false;
     // REJECT POI types — never persist a shop / road / etc.
     if (_EXTERNAL_BLOCKED_TYPES && _EXTERNAL_BLOCKED_TYPES.has(p.type)) return false;
     if (!p.names || typeof p.names !== 'object') return false;
@@ -2284,7 +2330,7 @@ async function _upsertDiscoveredPlace(place) {
         // L10N-PIPELINE: name_quality — prefer existing 'curated'/'official'/'reviewed'
         // over incoming 'transliterated'/'fallback_*'. Only overwrite if incoming
         // tier is BETTER. Phase D admin review writes 'reviewed' which is sticky.
-        const mergedQuality  = _mergeNameQuality(row.name_quality || {}, place.nameQuality || {});
+        const mergedQuality  = _cleanDiscoveredText(_mergeNameQuality(row.name_quality || {}, place.nameQuality || {})) || {};   // round 2: unsafe stored keys dropped
         const patchedResp = await _supabaseFetch(
             '/rest/v1/discovered_places?id=eq.' + encodeURIComponent(row.id),
             {
@@ -2727,7 +2773,7 @@ function _translateI18nAttrs(html, lang, cityLoc) {
     const _transEl = (attrs, key) => {
         if (cityLoc) {
             const cm = /\bdata-i18n-city=["']([^"']+)["']/.exec(attrs);
-            if (cm) { const cv = _trans(cm[1]); if (cv !== null) return cv.replace(/\{loc\}/g, cityLoc); }
+            if (cm) { const cv = _trans(cm[1]); if (cv !== null) return cv.replace(/\{loc\}/g, _rlit(cityLoc)); }
         }
         return _trans(key);
     };
@@ -4394,7 +4440,7 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
         if (cityName) {
             out = out.replace(
                 /(id="banner-city-name"[^>]*>)\s*--\s*(<)/,
-                `$1${_escHtml(cityName)}$2`
+                (m, g1, g2) => g1 + _escHtml(cityName) + g2   // SSR-DISCOVERED-NAME-ESCAPE-1: no $-expansion of the name
             );
         }
         // 2e) Hijri + Gregorian dates (right column — biggest CLS source: 2-line wrap when "--" → real text)
@@ -4487,7 +4533,7 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
                 //   data, now inside ONE outer card so the page reads as sections rather than a
                 //   stack of equal cards. Same content, same order, same ids.
                 const _trendsTitle = (_PCI_TRENDS_TITLE[_lg] || _PCI_TRENDS_TITLE.en)
-                    .replace('{loc}', _cityName);
+                    .replace('{loc}', _rlit(_cityName));
                 const _trends = (_sec.week || _sec.month)
                     ? '<section class="section-card prayer-city-intel pci-trends" id="pci-trends"'
                       + ' aria-labelledby="pci-trends-t"><h2 id="pci-trends-t">' + _escHtml(_trendsTitle) + '</h2>'
@@ -5169,6 +5215,10 @@ async function _fetchDiscoveredSlug(slug) {
         if (row && !(!_SUPABASE_ENABLED && _DISCOVERED_SSR_TEST_ROWS && process.env.DISCOVERED_SSR_TEST_RAW_NAMES === '1')) {
             row = _cleanDiscoveredPlaceText(row);
         }
+        // Round 2: type / timezone check, always (also under the raw-names seam). A row left without a
+        //   valid timezone is treated as absent, like _mapDiscoveredRow does.
+        if (row) row = _cleanDiscoveredRowMeta(row);
+        if (row && !row.timezone) row = null;
         if (row) {
             entry = {
                 slug:        row.slug,
@@ -6485,7 +6535,11 @@ function _rewriteShareLinks(html, pageUrl) {
     if (!/^https?:\/\/[^\s"<>]+$/i.test(url)) return html;
     const tm = html.match(/<title>([^<]*)<\/title>/);
     const text = tm ? tm[1].replace(/&quot;/g, '"').replace(/&#39;/g, "'").replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&').trim() : '';
-    const u = encodeURIComponent(url), t = encodeURIComponent(text);
+    const u = encodeURIComponent(url);
+    // SSR-DISCOVERED-NAME-ESCAPE-1 (round 2): a title holding a lone UTF-16 surrogate (a discovered city name)
+    //   made encodeURIComponent throw URIError, uncaught, so the request was never answered. Share without text then.
+    let t = '';
+    try { t = encodeURIComponent(text); } catch (_) { t = ''; }
     const hrefs = {
         'share-twitter':  'https://twitter.com/intent/tweet?url=' + u + (t ? '&amp;text=' + t : ''),
         'share-facebook': 'https://www.facebook.com/sharer/sharer.php?u=' + u,
@@ -8982,6 +9036,16 @@ function _jsonForScript(v) {
     return s.replace(/</g, '\\u003c').replace(/\u2028/g, '\\u2028').replace(/\u2029/g, '\\u2029');
 }
 
+// SSR-DISCOVERED-NAME-ESCAPE-1 (round 2, 2026-11-08): a replacement inserted LITERALLY. With a plain
+//   string replacement, String.prototype.replace expands $& $` $' $$ $1 ... inside it, so a city name
+//   carrying `$\`` or `$'` copied the whole page before / after the match into the page (hundreds of MB
+//   from one request). A function replacer never expands anything. The value is computed once, at the
+//   call, exactly as before (same coercion to string), so pages whose text holds no `$` keep their bytes.
+function _rlit(s) {
+    const v = String(s);
+    return () => v;
+}
+
 // ════════════════════════════════════════════════════════════════════════════
 // AZKAR-MORNING-SSR-RENDER-LIST-1 (2026-05-26): server-side render of the
 // 25-dhikr list inside #azkar-morning-list. Before this, the list was
@@ -11446,7 +11510,7 @@ function _buildSsrMoonIntro(lang, cityLabel, lat, lng, dateObj, dateLabel, hijri
             outVals.age = ageStr;
         }
         return template
-            .replace(/\{city\}/g, cityLabel)
+            .replace(/\{city\}/g, _rlit(cityLabel))
             .replace(/\{date\}/g, _dateStr)
             .replace(/\{hijriInline\}/g, _hijriInlineStr)
             .replace(/\{phaseIcon\}/g, phase.icon || '')
@@ -13225,7 +13289,7 @@ function _buildMoonYearContent(my, lang) {
     //   Same links/ids/route; the WHOLE today card is a single <a href>. Small card descriptions are
     //   10-lang native (_MOON_YEAR_DASH_L10N); section-button labels stay on _moonYearStrings (AR/EN).
     const _yDash = _MOON_YEAR_DASH_L10N[lang] || _MOON_YEAR_DASH_L10N.en;
-    const _yTodaySub = String(_yDash.todayDesc || '').replace('{city}', _city);
+    const _yTodaySub = String(_yDash.todayDesc || '').replace('{city}', _rlit(_city));
     const _dashYearCard = `<div class="my-dash-card my-dash-year">`
         + `<div class="my-dash-head"><span class="my-dash-title">${_e(_yPick.label)}</span><span class="my-dash-sub">${_e(_yDash.yearDesc)}</span></div>`
         + `<div class="my-yp-group" role="group" aria-label="${_e(_yPick.label)}">`
@@ -13362,7 +13426,7 @@ function _buildMoonYearContent(my, lang) {
     //   the already-computed _events (NO new astronomy): first/last full moon → day page, first new
     //   moon → day page, busiest month → month page. All nested + lang-preserved. Placed BEFORE the table.
     const _hl = _MOON_YEAR_HIGHLIGHTS_L10N[lang] || _MOON_YEAR_HIGHLIGHTS_L10N.en;
-    const _hlTitle = String(_hl.title || '').replace('{city}', _city).replace('{year}', String(_Y));
+    const _hlTitle = String(_hl.title || '').replace('{city}', _rlit(_city)).replace('{year}', String(_Y));
     const _firstFull = _fulls[0] || null;
     const _lastFull  = _fulls.length ? _fulls[_fulls.length - 1] : null;
     const _firstNew  = _news[0] || null;
@@ -17518,7 +17582,7 @@ function buildSeoForPath(urlPath, hcw) {
             const _moonBcNodate = { ar:'القمر في {city}', en:'Moon in {city}', fr:'La Lune à {city}', tr:'{city}’de Ay', ur:'{city} میں چاند', de:'Mond in {city}', id:'Bulan di {city}', es:'La Luna en {city}', bn:'চাঁদ {city}-এ', ms:'Bulan di {city}' };
             const _moonBcToday  = { ar:'القمر اليوم في {city}', en:'Moon Today in {city}', fr:'La Lune aujourd’hui à {city}', tr:'Bugün {city}’de Ay', ur:'آج {city} میں چاند', de:'Mond heute in {city}', id:'Bulan Hari Ini di {city}', es:'La Luna hoy en {city}', bn:'আজকের চাঁদ {city}-এ', ms:'Bulan Hari Ini di {city}' };
             const _moonBcDict = _cityIsHubFamily ? _moonBcNodate : _moonBcToday;
-            const _moonCityBcName = (_moonBcDict[lang] || _moonBcDict.en).replace('{city}', cityDisplay);
+            const _moonCityBcName = (_moonBcDict[lang] || _moonBcDict.en).replace('{city}', _rlit(cityDisplay));
             breadcrumbs.push({ name: _moonCityBcName, item: origin + (lang === 'ar' ? '' : '/' + lang) + _cityBcHref });
             }
             // ── UAT-Moon-Hub-Month: insert {MonthName Year} rung between city and day ──
@@ -20532,7 +20596,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     <a href="${_tlMoonHref}">${_escHtml(_tlL.relMoon(_tlCity))}</a>
                 </nav>
                 </div>`;
-        html = html.replace('<!-- TL-SEO-CONTENT -->', _tlSeoBlock);
+        html = html.replace('<!-- TL-SEO-CONTENT -->', _rlit(_tlSeoBlock));
     }
     // 1c) 🆕 Round 4 (Minimal): حقن class="next-prayer-time-page" في <html> لصفحة NPT
     //     CSS يستخدم html.next-prayer-time-page لإظهار .npt-hero وإخفاء .city-hero-answer + .tl-hero
@@ -20945,11 +21009,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // Inject hero subtitle + note (SSR-fill the new placeholders inside #npt-hero)
         html = html.replace(
             /<p class="next-hero-subtitle" id="npt-hero-subtitle"[^>]*><\/p>/,
-            `<p class="next-hero-subtitle" id="npt-hero-subtitle">${_escHtml(_nl.subtitle(_cityForSeo))}</p>`
+            _rlit(`<p class="next-hero-subtitle" id="npt-hero-subtitle">${_escHtml(_nl.subtitle(_cityForSeo))}</p>`)
         );
         html = html.replace(
             /<p class="next-note" id="npt-hero-note"[^>]*><\/p>/,
-            `<p class="next-note" id="npt-hero-note">${_escHtml(_nl.note(_cityForSeo))}</p>`
+            _rlit(`<p class="next-note" id="npt-hero-note">${_escHtml(_nl.note(_cityForSeo))}</p>`)
         );
 
         // NPT-CONTENT-EXPAND-2 (2026-05-09): per-lang Practical Guide section.
@@ -21426,7 +21490,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     <a href="${_moonHref}">${_escHtml(_nl.relMoon(_cityForSeo))}</a>
                     <a href="${_hijriHref}">${_escHtml(_nl.relHijri)}</a>
                 </nav>`;
-        html = html.replace('<!-- NPT-SEO-1-CONTENT -->', _nptSeoBlock);
+        html = html.replace('<!-- NPT-SEO-1-CONTENT -->', _rlit(_nptSeoBlock));
     }
     // 1d) 🆕 Round 6 (City Audit): city page (not TL, not NPT) → strip dead-weight heroes.
     //     صفحة /prayer-times-in-{city} كانت تُرسِل #tl-hero + #tl-sticky + #npt-hero مخفيّة بـ CSS.
@@ -21595,7 +21659,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 //   under one outer card with the three titles demoted to subsection headings
                 //   and separated by a divider. Nothing is rewritten, shortened or dropped.
                 const _explainTitle = (_PCI_EXPLAIN_TITLE[seo.lang] || _PCI_EXPLAIN_TITLE.en)
-                    .replace('{loc}', _cityNameForGuide);
+                    .replace('{loc}', _rlit(_cityNameForGuide));
                 const _citySeoGuideHtml = `
                 <section class="section-card city-seo-guide-group" id="pci-explain" aria-labelledby="pci-explain-t">
                     <h2 id="pci-explain-t">${_escHtml(_explainTitle)}</h2>
@@ -24890,7 +24954,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         }[_Lmy] || `Moon Calendar in ${_my.cityName} for ${_my.year}`;
         html = html.replace(
             /<h1 class="page-h1" id="moon-year-h1">[\s\S]*?<\/h1>/,
-            `<h1 class="page-h1" id="moon-year-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span>${_escHtml(_myH1)}</span></h1>`
+            _rlit(`<h1 class="page-h1" id="moon-year-h1"><svg class="icon icon-md" aria-hidden="true"><use href="#i-moon"/></svg> <span>${_escHtml(_myH1)}</span></h1>`)
         );
         // Breadcrumb rungs — DOM ≡ JSON-LD. Home keeps data-i18n (server-translated).
         const _myMoonLbl = _MOON_PHASE_CRUMB_L10N[_Lmy] || _MOON_PHASE_CRUMB_L10N.en;
@@ -24904,7 +24968,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         );
         html = html.replace(
             /<a class="bc-link" id="bc-my-city" href="[^"]*">[^<]*<\/a>/,
-            `<a class="bc-link" id="bc-my-city" href="${_escHtml(_myLp + '/moon/' + _my.countrySlug + '/' + _my.citySlug)}">${_escHtml(_my.cityName)}</a>`
+            _rlit(`<a class="bc-link" id="bc-my-city" href="${_escHtml(_myLp + '/moon/' + _my.countrySlug + '/' + _my.citySlug)}">${_escHtml(_my.cityName)}</a>`)
         );
         html = html.replace(
             /<li class="bc-item bc-current" id="bc-my-year" aria-current="page">[^<]*<\/li>/,
@@ -24916,14 +24980,14 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             const _yc = _buildMoonYearContent(_my, _Lmy);
             html = html.replace(
                 /<div id="moon-year-hero-body">[\s\S]*?<\/div>/,
-                `<div id="moon-year-hero-body">${_yc.heroBodyHtml}</div>`
+                _rlit(`<div id="moon-year-hero-body">${_yc.heroBodyHtml}</div>`)
             );
             html = html.replace(
                 /<div id="moon-year-content">[\s\S]*?<\/div>/,
-                `<div id="moon-year-content">${_yc.belowHtml}</div>`
+                _rlit(`<div id="moon-year-content">${_yc.belowHtml}</div>`)
             );
             if (_yc.faqJsonLd && html.indexOf('"@type":"FAQPage"') === -1) {
-                html = html.replace('</head>', `<script type="application/ld+json">${_yc.faqJsonLd}</script>\n</head>`);
+                html = html.replace('</head>', _rlit(`<script type="application/ld+json">${_yc.faqJsonLd}</script>\n</head>`));
             }
         } catch (_e) { try { console.warn('[moon-year] content inject failed:', _e && _e.message); } catch (_) {} }
     }
@@ -25082,12 +25146,12 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         html = html.replace('<head>', '<head>\n    <base href="/">');
     }
     // 3) استبدال <title> و <meta name="description"> الموجودين
-    html = html.replace(/<title>[^<]*<\/title>/, `<title>${_escHtml(seo.title)}</title>`);
+    html = html.replace(/<title>[^<]*<\/title>/, _rlit(`<title>${_escHtml(seo.title)}</title>`));
     html = html.replace(/<meta\s+name="description"\s+content="[^"]*"\s*\/?>/i,
-                        `<meta name="description" content="${_escHtml(seo.description)}">`);
+                        _rlit(`<meta name="description" content="${_escHtml(seo.description)}">`));
     // 4) حقن كتلة SEO قبل </head>
     const seoBlock = renderSeoHeadHtml(seo);
-    html = html.replace('</head>', `${seoBlock}\n</head>`);
+    html = html.replace('</head>', _rlit(`${seoBlock}\n</head>`));
 
     // 4.45) Phase E5-a2 (2026-05-03): inject Critical CSS Hybrid.
     //   Inline ~15 KiB of critical CSS (extracted by scripts/_phase_e5_a2_critical_css.mjs)
@@ -25298,7 +25362,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         }
         html = html.replace(
             /<h1 class="page-h1" id="page-h1">[^<]*<\/h1>/,
-            `<h1 class="page-h1" id="page-h1">${_escHtml(_h1Text)}</h1>`
+            _rlit(`<h1 class="page-h1" id="page-h1">${_escHtml(_h1Text)}</h1>`)
         );
     }
 
@@ -25340,7 +25404,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // downgraded). The regex matches any tag name to be future-proof.
         html = html.replace(
             /(<(?:h1|h2|h3)\b[^>]*\bid="loc-hero-title"[^>]*>)[^<]*(<\/(?:h1|h2|h3)>)/,
-            `$1${_escHtml(_taglineText)}$2`
+            (m, g1, g2) => g1 + _escHtml(_taglineText) + g2   // SSR-DISCOVERED-NAME-ESCAPE-1: no $-expansion of the name
         );
     }
 
@@ -25715,11 +25779,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         }[L] || `Today's prayer times in ${cityDisplayLoc}.`;
         html = html.replace(
             '<p class="seo-line" id="seo-line-1"></p>',
-            `<p class="seo-line" id="seo-line-1">${_escHtml(line1)}</p>`
+            _rlit(`<p class="seo-line" id="seo-line-1">${_escHtml(line1)}</p>`)
         );
         html = html.replace(
             '<p class="seo-line" id="seo-line-2"></p>',
-            `<p class="seo-line" id="seo-line-2">${_escHtml(line2)}</p>`
+            _rlit(`<p class="seo-line" id="seo-line-2">${_escHtml(line2)}</p>`)
         );
 
         // SSR نصوص البانر المعروفة → يُزيل CLS الناتج عن استبدال "--" بالنصوص client-side.
@@ -25745,7 +25809,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         })[L] || `Prayer Times in ${cityDisplayLoc}`;
         html = html.replace(
             '<span itemprop="name" id="bc-city" aria-current="page">--</span>',
-            `<span itemprop="name" id="bc-city" aria-current="page">${_escHtml(_ssrFinal)}</span>`
+            _rlit(`<span itemprop="name" id="bc-city" aria-current="page">${_escHtml(_ssrFinal)}</span>`)
         );
         // Phase 2: ملء bc-country-name (المستوى الأوسط) لـbreadcrumb 3-levels
         // نحتاج الدولة من lookup — نستخدم FAMOUS_CITY_OVERRIDES + _countryNameForLang
@@ -25809,7 +25873,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             })[L] || `Today's prayer times in ${cityDisplayLoc} in local time — with Hijri and Gregorian dates.`;
             html = html.replace(
                 '<p id="city-summary-visible" class="city-summary-visible"><!-- SSR:CITY_SUMMARY_SHORT --></p>',
-                `<p id="city-summary-visible" class="city-summary-visible">${_escHtml(_summaryShortTpl)}</p>`
+                _rlit(`<p id="city-summary-visible" class="city-summary-visible">${_escHtml(_summaryShortTpl)}</p>`)
             );
             // إزالة u-hidden من city-summary-paragraph لأن المحتوى SSR موجود
             html = html.replace(
@@ -25859,7 +25923,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             //   block instead of leaving two BreadcrumbList scripts in the hydrated DOM. Crawlers with no
             //   JS still see exactly this one (SSR=1); JS-rendering crawlers see the client's one (hydrated=1).
             const _ld = `<script type="application/ld+json" id="breadcrumb-schema">${_jsonForScript(_bcJsonLd)}</script>`;
-            html = html.replace('</head>', _ld + '</head>');
+            html = html.replace('</head>', _rlit(_ld + '</head>'));
         } catch (_e) { /* silent */ }
 
         // ═══ Phase 2 (ج) — FAQPage JSON-LD لصفحات المدن (Google Rich Results) ═══
@@ -25992,7 +26056,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 }))
             };
             const _faqLd = `<script type="application/ld+json" id="city-faq-schema-ssr">${_jsonForScript(_faqJsonLd)}</script>`;
-            html = html.replace('</head>', _faqLd + '</head>');
+            html = html.replace('</head>', _rlit(_faqLd + '</head>'));
         } catch (_e) { /* silent */ }
 
         try {
@@ -27223,7 +27287,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // doesn't break client-side rendering either.
         html = html.replace(
             /<h1 class="page-h1" id="moon-page-h1"[^>]*>[\s\S]*?<\/h1>/,
-            `<h1 class="page-h1" id="moon-page-h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`
+            _rlit(`<h1 class="page-h1" id="moon-page-h1">${_escHtml(_h1Moon)}</h1>${_subtitleHtmlSsr}${_badgeHtmlSsr}`)
         );
         // MOON-CITY-EVERGREEN-HERO-CONTENT-UI-POLISH-1 follow-up (2026-05-24):
         //   Inject the hub-specific evergreen SUBTITLE via SSR for all 10
@@ -27248,7 +27312,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             const _subHubSsr = _SUBTITLE_HUB_SSR[Lm] || _SUBTITLE_HUB_SSR.en;
             html = html.replace(
                 /<h2\s+class="moon-subtitle"\s+id="moon-subtitle"[^>]*>[\s\S]*?<\/h2>/,
-                `<h2 class="moon-subtitle" id="moon-subtitle">${_escHtml(_subHubSsr)}</h2>`
+                _rlit(`<h2 class="moon-subtitle" id="moon-subtitle">${_escHtml(_subHubSsr)}</h2>`)
             );
         }
         // ── MOON-CITY-HUB-CALENDAR-CONTEXT-SEO-SAFE-FIX-1 (2026-06-28) ──
@@ -27287,7 +27351,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 + `<p class="moon-hub-calendar-context-desc">${_escHtml(_cc.desc)}</p>`
                 + `</section>`;
             // Prepend before the 14-day forecast card — the table element is left byte-identical.
-            html = html.replace('<div class="section-card" id="moon-forecast">', _ctxHtml + '<div class="section-card" id="moon-forecast">');
+            html = html.replace('<div class="section-card" id="moon-forecast">', _rlit(_ctxHtml + '<div class="section-card" id="moon-forecast">'));
         }
         // ── MOON-CITY-MONTH-KEYWORD-CONSISTENCY-DATA-DRIVEN-CONTEXT-1 (2026-06-29) ──
         //   MONTH pages ONLY (/moon/{country}/{city}/{yyyy}/{mm}). The forecast + daily calendar repeat
@@ -27338,7 +27402,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                         + (_hijList.length ? `<h3 class="moon-month-context-h3">${_escHtml(_mc.hijriLbl)}</h3><p class="moon-month-context-hijri">${_escHtml(_hijList.join(' · '))}</p>` : '')
                         + `<h3 class="moon-month-context-h3">${_escHtml(_mc.phasesLbl)}</h3><p class="moon-month-context-phases">${_escHtml(_phItems.join(' · '))}</p>`
                         + `</section>`;
-                    html = html.replace('<div class="section-card" id="moon-forecast">', _mctx + '<div class="section-card" id="moon-forecast">');
+                    html = html.replace('<div class="section-card" id="moon-forecast">', _rlit(_mctx + '<div class="section-card" id="moon-forecast">'));
                 }
             } catch (_e) { try { console.warn('[moon-month-ctx] inject failed:', _e && _e.message); } catch (_) {} }
         }
@@ -27414,7 +27478,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // (c) Level 4 — City (current page): plain localized city name, no link.
             html = html.replace(
                 /<a class="bc-link bc-moon" id="bc-moon" href="[^"]*"[^>]*>[^<]*<\/a>/,
-                `<a class="bc-link bc-moon" id="bc-moon" aria-current="page">${_escHtml(cityName)}</a>`
+                _rlit(`<a class="bc-link bc-moon" id="bc-moon" aria-current="page">${_escHtml(cityName)}</a>`)
             );
         }
         // ── MOON-CITY-TODAY-ROUTE-STRUCTURE-ADD-1: SSR the 5-level breadcrumb on the nested TODAY
@@ -27528,7 +27592,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // Level 4 — City → /moon/{country}/{city}
             html = html.replace(
                 /<a class="bc-link bc-moon" id="bc-moon"[^>]*>[^<]*<\/a>/,
-                `<a class="bc-link bc-moon" id="bc-moon" href="${_escHtml(_nmCityBase)}">${_escHtml(cityName)}</a>`
+                _rlit(`<a class="bc-link bc-moon" id="bc-moon" href="${_escHtml(_nmCityBase)}">${_escHtml(cityName)}</a>`)
             );
             // Level 5 — Year → /moon/{country}/{city}/{yyyy}
             html = html.replace(/<li class="bc-sep" id="bc-moon-year-sep" aria-hidden="true" hidden>›<\/li>/, '<li class="bc-sep" id="bc-moon-year-sep" aria-hidden="true">›</li>');
@@ -27599,7 +27663,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // الفقرة ستُحدَّث لاحقًا عبر app.js (#moon-intro by id) بالبيانات الحيّة من المستخدم.
         html = html.replace(
             /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
-            `<p class="moon-intro" id="moon-intro">${_escHtml(_introMoonDynamic)}</p>`
+            _rlit(`<p class="moon-intro" id="moon-intro">${_escHtml(_introMoonDynamic)}</p>`)
         );
         // MOON-LEGACY-ROUTES-CLEANUP-BEFORE-LAUNCH: the static "popular cities" grid
         //   (index.html <ul class="moon-cities-grid">) now hard-codes NESTED today links
@@ -27626,7 +27690,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             };
             const articleJsonLd = `<script id="ssr-moon-article-schema" type="application/ld+json">${_jsonForScript(articleSchema)}</script>`;
             // أدرِج قبل </head>
-            html = html.replace('</head>', `    ${articleJsonLd}\n</head>`);
+            html = html.replace('</head>', _rlit(`    ${articleJsonLd}\n</head>`));
         } catch(_e) { /* silent */ }
 
         // ═════════════════════════════════════════════════════════════════════
@@ -27730,7 +27794,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             const _hubH1Text = _hubH1Builder(cityName || '');
             html = html.replace(
                 /<span data-i18n="moon\.h1">القمر اليوم<\/span>/,
-                `<span>${_escHtml(_hubH1Text)}</span>`
+                _rlit(`<span>${_escHtml(_hubH1Text)}</span>`)
             );
             // MOON-HUB-SEO-7 (2026-05-11): strip residual "اليوم" surfaces
             // that survive on /moon-in-{city} Hub. Each strip drops the
@@ -28076,7 +28140,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 // after large link-heavy tables.
                 html = html.replace(
                     /<section class="section-card moon-upcoming-section"/,
-                    _moonHubGuideHtml + '<section class="section-card moon-upcoming-section"'
+                    _rlit(_moonHubGuideHtml + '<section class="section-card moon-upcoming-section"')
                 );
             } catch (_e) { /* silent — Hub guide injection optional */ }
         }
@@ -28558,7 +28622,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     // Round 19: Month page → full calendar grid before upcoming.
                     html = html.replace(
                         /(<section class="section-card moon-upcoming-section")/,
-                        _hubCalHtml + '\n                $1'
+                        (m, g1) => _hubCalHtml + '\n                ' + g1   // SSR-DISCOVERED-NAME-ESCAPE-1: no $-expansion
                     );
                 } else {
                     // Hub page → compact CTA card. No 31-day grid, no
@@ -28824,7 +28888,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     //   explore section is absent (the section's own year card supersedes it).
                     html = html.replace(
                         /(<div[^>]*\sid="moon-main-card")/,
-                        _hubCalCompactHtml + (_hubExploreHtml ? '' : ('\n                ' + _hubYearCtaHtml)) + '\n                $1'
+                        (m, g1) => _hubCalCompactHtml + (_hubExploreHtml ? '' : ('\n                ' + _hubYearCtaHtml)) + '\n                ' + g1   // SSR-DISCOVERED-NAME-ESCAPE-1
                     );
                     // Explore section goes BELOW moon-main-card (before the "phases this month" heading).
                     if (_hubExploreHtml) {
@@ -28998,7 +29062,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             const _hubIntroText = _hubIntroTpl[Lm] || _hubIntroTpl.en;
             html = html.replace(
                 /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
-                `<p class="moon-intro" id="moon-intro">${_escHtml(_hubIntroText)}</p>`
+                _rlit(`<p class="moon-intro" id="moon-intro">${_escHtml(_hubIntroText)}</p>`)
             );
         }
         // ═════════════════════════════════════════════════════════════════════
@@ -29131,7 +29195,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             const _monthIntroText = _MONTH_INTRO_TPL[Lm] || _MONTH_INTRO_TPL.en;
             html = html.replace(
                 /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
-                `<p class="moon-intro" id="moon-intro" data-month-page="1">${_escHtml(_monthIntroText)}</p>`
+                _rlit(`<p class="moon-intro" id="moon-intro" data-month-page="1">${_escHtml(_monthIntroText)}</p>`)
             );
             // ────────────────────────────────────────────────────────────────
             // 2) Summary line — month-overview chip row (replaces today-snapshot)
@@ -29383,7 +29447,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // new month summary renders immediately after the Hijri-range card.
             html = html.replace(
                 /<div class="moon-hijri-today"[^>]*id="moon-hijri-today"[^>]*>[\s\S]*?<div class="moon-hijri-notice"[^>]*>[^<]*<\/div>\s*<\/div>/,
-                _hijriCardReplacement + _monthSummaryHtml
+                _rlit(_hijriCardReplacement + _monthSummaryHtml)
             );
             // Remove the 14-day forecast table on MONTH pages only. Runs AFTER the
             // MOON-CITY-MONTH-KEYWORD-CONSISTENCY-DATA-DRIVEN-CONTEXT-1 injection
@@ -29603,7 +29667,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _m1AllSections = '<div class="moon-seo-grid">' + _m1Sec1Html + _m1Sec2Html + _m1Sec3Html + '</div>';
                 html = html.replace(
                     /<div class="section-card" id="moon-other-cities"/,
-                    _m1AllSections + '<div class="section-card" id="moon-other-cities"'
+                    _rlit(_m1AllSections + '<div class="section-card" id="moon-other-cities"')
                 );
             } catch (_e) { /* silent — M1 SSR injection optional, page still serves */ }
         }
@@ -29633,7 +29697,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 bn: '📅 {city}-এর চাঁদের পঞ্জিকা — যেকোনো তারিখ বেছে নিন',
                 ms: '📅 Kalendar Bulan untuk {city} — Pilih mana-mana tarikh'
             };
-            const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', cityName);
+            const _hubCtaText = (_hubCtaTpl[Lm] || _hubCtaTpl.en).replace('{city}', _rlit(cityName));
             const _hubCtaHref = _nestedMoonHubLink(seo.moonCity.slug, (Lm === 'ar' ? '' : '/' + Lm));   // MLRC: nested hub
             // UAT-Moon-Today-City-Polish: refactor giant pulsing button into a
             //   compact CARD with title + description + button label. Less
@@ -29716,7 +29780,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 };
                 html = html.replace(
                     /<span data-i18n="qibla\.title">[^<]*<\/span>/,
-                    `<span>${_escHtml(_qaPick(_qaH1))}</span>`
+                    _rlit(`<span>${_escHtml(_qaPick(_qaH1))}</span>`)
                 );
 
                 // ── Q3 helper: server-side qibla bearing + distance ──
@@ -29775,7 +29839,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 const _qiblaCityNameStr = _escHtml(seo.qiblaRef.cityName || '');
                 html = html.replace(
                     /<div class="info-value" id="qibla-city">--<\/div>/,
-                    `<div class="info-value" id="qibla-city">${_qiblaCityNameStr}</div>`
+                    _rlit(`<div class="info-value" id="qibla-city">${_qiblaCityNameStr}</div>`)
                 );
                 html = html.replace(
                     /<div class="info-value" id="qibla-exact-angle">--<\/div>/,
@@ -30113,7 +30177,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 if (_qaCityChipsAnchor.test(html)) {
                     html = html.replace(
                         _qaCityChipsAnchor,
-                        _qaAllSections + '<div class="section-card qibla-city-only">\n                    <h2 id="qibla-other-cities-title"'
+                        _rlit(_qaAllSections + '<div class="section-card qibla-city-only">\n                    <h2 id="qibla-other-cities-title"')
                     );
                 } else {
                     // Fallback to the old anchor (if HTML structure changed)
@@ -30271,7 +30335,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 // Inject right before </head> so the meta is available before
                 // app.js executes (preload + defer).
                 if (html.indexOf(_metaTag) === -1) {
-                    html = html.replace('</head>', _metaTag + '\n</head>');
+                    html = html.replace('</head>', _rlit(_metaTag + '\n</head>'));
                 }
             }
 
@@ -30372,23 +30436,23 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                             // doesn't overwrite with "header.locating" key.
                             html = html.replace(
                                 /<div class="city-name" id="city-name"[^>]*>[^<]*<\/div>/,
-                                `<div class="city-name" id="city-name">${_cityEsc}</div>`
+                                _rlit(`<div class="city-name" id="city-name">${_cityEsc}</div>`)
                             );
                             // 2) #country-name
                             html = html.replace(
                                 /<div class="country" id="country-name"[^>]*>[^<]*<\/div>/,
-                                `<div class="country" id="country-name">${_countryEsc}</div>`
+                                _rlit(`<div class="country" id="country-name">${_countryEsc}</div>`)
                             );
                             // 3) Breadcrumb city + country placeholders.
                             // bc-city: `<span itemprop="name" id="bc-city" aria-current="page">--</span>`
                             html = html.replace(
                                 /<span itemprop="name" id="bc-city" aria-current="page">[^<]*<\/span>/,
-                                `<span itemprop="name" id="bc-city" aria-current="page">${_cityEsc}</span>`
+                                _rlit(`<span itemprop="name" id="bc-city" aria-current="page">${_cityEsc}</span>`)
                             );
                             // bc-country-name: `<span itemprop="name" id="bc-country-name">--</span>`
                             html = html.replace(
                                 /<span itemprop="name" id="bc-country-name">[^<]*<\/span>/,
-                                `<span itemprop="name" id="bc-country-name">${_countryEsc}</span>`
+                                _rlit(`<span itemprop="name" id="bc-country-name">${_countryEsc}</span>`)
                             );
                             // 4) `window.__PRAYER_CITY__` script — authoritative
                             // place data so the client skips geocodeSlug
@@ -30396,7 +30460,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                             // result + `geocodeSlug` return value.
                             const _scriptTag = `<script${_TP_NONCE_ATTR} id="ssr-prayer-city">window.__PRAYER_CITY__=${JSON.stringify(_placeData).replace(/</g, '\\u003c')};</script>`;
                             if (html.indexOf('id="ssr-prayer-city"') === -1) {
-                                html = html.replace('</head>', _scriptTag + '\n</head>');
+                                html = html.replace('</head>', _rlit(_scriptTag + '\n</head>'));
                             }
                             // COUNTRY-PRAYER-PAGE-PREHYDRATED-CITIES-DATA-FIX-1: prehydrate this
                             // city's country curated cities so the "cities in country" section
@@ -30529,8 +30593,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         html = html.replace(
             /(<section[^>]*\bid="related-links-section"[^>]*>)([\s\S]*?)(<\/section>)/,
             (m, open, inner, close) => open + inner
-                .replace(/\{loc\}/g, _pcCityLoc)
-                .replace(/(<span[^>]*\bid="rls-city-label"[^>]*>)\s*—\s*(<\/span>)/, `$1${_pcCityLoc}$2`)
+                .replace(/\{loc\}/g, _rlit(_pcCityLoc))
+                .replace(/(<span[^>]*\bid="rls-city-label"[^>]*>)\s*—\s*(<\/span>)/, (m, g1, g2) => g1 + _pcCityLoc + g2)
                 + close
         );
     }
@@ -30565,7 +30629,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     (m, g1) => g1 + '?'
                 );
             }
-            html = html.replace(/\{loc\}/g, _pcE).replace(/\{city\}/g, _pcE);
+            html = html.replace(/\{loc\}/g, _rlit(_pcE)).replace(/\{city\}/g, _rlit(_pcE));
             // {prayer} names the NEXT prayer, which is resolved on the client, not in SSR.
             // Rather than invent one, fall back to the prayer-agnostic wording this site
             // already ships for the same question (tl.h1_prefix), so the sentence stays
@@ -39148,8 +39212,9 @@ const server = http.createServer(async (req, res) => {
                             + '&limit=1',
                             { method: 'GET' }
                         );
-                        if (resp.ok && Array.isArray(resp.data) && resp.data.length === 1) {
-                            const row = _cleanDiscoveredPlaceText(resp.data[0]);   // SSR-DISCOVERED-NAME-ESCAPE-1
+                        const row = (resp.ok && Array.isArray(resp.data) && resp.data.length === 1)
+                            ? _cleanDiscoveredRow(resp.data[0]) : null;   // SSR-DISCOVERED-NAME-ESCAPE-1 (text + type / timezone)
+                        if (row && row.timezone) {
                             // Map the discovered row into the same curated
                             // shape so `_buildSlugLookupResult` can use it.
                             const _entry = {

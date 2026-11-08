@@ -5665,8 +5665,37 @@ function _buildPromoteCandidate(raw, cls, review, override) {
     };
 }
 
+// SSR-DISCOVERED-NAME-ESCAPE-1 (promote guard): the promote path must never write an unsafe name
+//   into the curated data, whatever the source (a row stored before the write clean existed, an
+//   admin name override, a future code change). Two layers:
+//   (a) read: _buildPromotePreview passes every stored row through _cleanDiscoveredRow (the same
+//       text clean + type / timezone check every other reader uses) and records which of the
+//       fields below the clean had to change -> check 'stored_text_safe' refuses that item;
+//   (b) write (decisive): _validatePromoteItem walks every string and key of the candidate entry
+//       that would be written ('text_safe'), and checks type ('type_allowed') and timezone
+//       ('timezone_valid'). Any failing check marks the item invalid -> the whole batch is
+//       'blocked' (preview) / 422 (commit), as for every other promote check.
+const _PROMOTE_STORED_TEXT_FIELDS = ['names', 'aliases', 'admin', 'originalName', 'type', 'timezone'];
+function _discoveredRowUnsafeFields(stored, cleaned) {
+    if (!stored || typeof stored !== 'object') return [];
+    return _PROMOTE_STORED_TEXT_FIELDS.filter(f => JSON.stringify(stored[f]) !== JSON.stringify(cleaned[f]));
+}
+// Paths (e.g. 'names.en', 'aliases.fr.0') of every unsafe string / key in v. Values are never echoed.
+function _promoteUnsafeTextPaths(v, at, out, depth) {
+    const d = depth || 0;
+    if (typeof v === 'string') { if (_DISCOVERED_UNSAFE_TEXT_RE.test(v)) out.push(at || '(value)'); return out; }
+    if (!v || typeof v !== 'object') return out;
+    if (d >= 6) { out.push((at || '(value)') + ' (too deep)'); return out; }
+    for (const k of Object.keys(v)) {
+        if (_DISCOVERED_UNSAFE_TEXT_RE.test(k)) { out.push((at ? at + '.' : '') + '(unsafe key)'); continue; }
+        _promoteUnsafeTextPaths(v[k], at ? at + '.' + k : k, out, d + 1);
+    }
+    return out;
+}
+
 // Run the 12 promotion validations server-side. Returns {valid, checks, errors, warnings}.
-function _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review) {
+// storedUnsafeFields (optional): fields of the stored row the read clean had to change (layer a).
+function _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review, storedUnsafeFields) {
     const checks = [], errors = [], warnings = [];
     const add = (name, ok, detail) => { checks.push({ name, ok: !!ok, detail: detail || '' }); if (!ok) errors.push(name + (detail ? (': ' + detail) : '')); };
     if (!cand) { add('candidate_built', false, 'could not build entry'); return { valid: false, checks, errors, warnings }; }
@@ -5687,6 +5716,13 @@ function _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review) {
     // script-trustworthiness (mirrors promote-discovered-sa-batch namesTrustworthy)
     if (cand.names && cand.names.ar) add('ar_script_clean', review && review.isCleanScript(cand.names.ar, 'ar'), cand.names.ar);
     if (cand.names && cand.names.en) add('en_script_clean', review && review.isCleanScript(cand.names.en, 'en'), cand.names.en);
+    // SSR-DISCOVERED-NAME-ESCAPE-1 promote guard (see _promoteUnsafeTextPaths above).
+    const _su = Array.isArray(storedUnsafeFields) ? storedUnsafeFields : [];
+    add('stored_text_safe', _su.length === 0, _su.length ? ('stored row carries unsafe text / type / timezone in: ' + _su.join(', ') + ' (fix the row before promoting)') : '');
+    const _up = _promoteUnsafeTextPaths(cand, '', []);
+    add('text_safe', _up.length === 0, _up.length ? ('unsafe characters (< > " = \\ $ control, lone surrogate) in: ' + _up.join(', ')) : '');
+    add('type_allowed', typeof cand.type === 'string' && _DISCOVERED_PLACE_TYPES.has(cand.type), _DISCOVERED_PLACE_TYPES.has(String(cand.type)) ? cand.type : 'type not in the allowed list');
+    add('timezone_valid', _isValidIanaTimeZone(cand.timezone), _isValidIanaTimeZone(cand.timezone) ? cand.timezone : 'not a valid IANA time zone');
     const valid = checks.every(c => c.ok);
     return { valid, checks, errors, warnings };
 }
@@ -5694,7 +5730,19 @@ function _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review) {
 // Orchestrate the preview for a list of {slug, countryCode}. NO write/commit/push.
 async function _buildPromotePreview(items) {
     const review = await _loadReviewModule();
-    const { rows: rawRows } = await _fetchDiscoveredRawRows();
+    const { rows: storedRows } = await _fetchDiscoveredRawRows();
+    // SSR-DISCOVERED-NAME-ESCAPE-1 promote guard, layer (a): every stored row is cleaned like any
+    //   other read (text + type / timezone); the fields the clean changed are kept per row so the
+    //   item is refused ('stored_text_safe') instead of being promoted with silently dropped names.
+    const rawRows = [];
+    const storedUnsafe = new Map();                 // cleaned row -> [field, ...]
+    for (const s of (Array.isArray(storedRows) ? storedRows : [])) {
+        if (!s || typeof s !== 'object') continue;
+        const c = _cleanDiscoveredRow(s);
+        const bad = _discoveredRowUnsafeFields(s, c);
+        if (bad.length) storedUnsafe.set(c, bad);
+        rawRows.push(c);
+    }
     // DISCOVERED-CITIES-PROMOTE-PREVIEW-CLEAN-SLUG-RAW-KEY-FIX-1: index discovered rows
     // by BOTH the raw slug key (r.slug|cc) AND the clean slug key (cleanSlugFor(r.slug)|cc).
     // The dashboard checkbox emits the CLEAN slug (cleanSlugFor strips a discovery "-{cc}"
@@ -5735,7 +5783,7 @@ async function _buildPromotePreview(items) {
         if (!raw) { outItems.push({ slug, countryCode: cc, reviewDecision, valid: false, checks: [{ name: 'discovered_row_exists', ok: false }], errors: ['discovered row not found'], warnings: [] }); errors.push(slug + ': discovered row not found'); continue; }
         let cls = null; try { cls = review.classifyRow(raw, idx, {}); } catch (_) { cls = null; }
         const cand = _buildPromoteCandidate(raw, cls, review, nameOverrides[key]);
-        const v = _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review);
+        const v = _validatePromoteItem(cand, cls, raw, reviewDecision, idx, review, storedUnsafe.get(raw) || []);
         if (cand && v.valid) candidates.push(cand);
         outItems.push({
             slug, countryCode: cc, reviewDecision, status: cls && cls.class, valid: v.valid, checks: v.checks, errors: v.errors, warnings: v.warnings,
@@ -5783,6 +5831,16 @@ let _adminPromoteLock = false;                                   // serialise pr
 // failure at a given stage for local diagnostics testing ("stage:status:message").
 // Inert in prod (only honoured alongside PROMOTE_GITHUB_TEST_MODE).
 const _PROMOTE_GITHUB_TEST_FAIL = process.env.PROMOTE_GITHUB_TEST_FAIL || '';
+// SSR-DISCOVERED-NAME-ESCAPE-1 test seam (honoured only with PROMOTE_GITHUB_TEST_MODE): a scratch
+//   copy of curated-places.json the test-mode commit reads as its base AND writes its result to
+//   (+ '.report.md'), so a test can compare the file bytes before / after a promote.
+//   A path inside this checkout is ignored, so the seam can never rewrite the repo's own data.
+const _PROMOTE_GITHUB_TEST_CURATED_FILE = (() => {
+    if (!_PROMOTE_GITHUB_TEST_MODE || !process.env.PROMOTE_GITHUB_TEST_CURATED_FILE) return '';
+    const p = path.resolve(process.env.PROMOTE_GITHUB_TEST_CURATED_FILE);
+    const root = path.resolve(ROOT) + path.sep;
+    return (p.toLowerCase().startsWith(root.toLowerCase())) ? '' : p;
+})();
 
 async function _githubFetch(method, apiPath, body) {
     const headers = {
@@ -5873,10 +5931,20 @@ function _buildBatchReport(candidates, beforeCount, afterCount, commitMessage, t
 async function _promoteCommitViaGitHub(opts) {
     const { candidates, branchName, commitMessage, reportPath, reportContent } = opts;
     const curatedRepoPath = 'db/places/curated-places.json';
+    // SSR-DISCOVERED-NAME-ESCAPE-1 promote guard at the write point itself: whatever the caller,
+    //   no entry with unsafe text, an unknown type or an invalid timezone is written.
+    const _unsafe = (Array.isArray(candidates) ? candidates : []).filter(c => !c || typeof c !== 'object'
+        || _promoteUnsafeTextPaths(c, '', []).length > 0
+        || !_DISCOVERED_PLACE_TYPES.has(String(c.type)) || !_isValidIanaTimeZone(c.timezone));
+    if (_unsafe.length) {
+        const e = new Error('unsafe_candidate'); e.code = 'unsafe_candidate'; e.httpStatus = 422;
+        e.slugs = _unsafe.map(c => (c && typeof c.slug === 'string' && /^[a-z0-9-]{1,80}$/.test(c.slug)) ? c.slug : '?');
+        throw e;
+    }
     // 1. base curated content (LATEST main — avoids overwriting newer commits)
     let baseText;
     if (_PROMOTE_GITHUB_TEST_MODE) {
-        baseText = fs.readFileSync(path.join(DB_DIR, 'places', 'curated-places.json'), 'utf8');
+        baseText = fs.readFileSync(_PROMOTE_GITHUB_TEST_CURATED_FILE || path.join(DB_DIR, 'places', 'curated-places.json'), 'utf8');
     } else {
         // curated-places.json is > 1 MB, so the Contents API omits the base64
         // `content` field (returns metadata only). Fetch the file's blob SHA from
@@ -5906,6 +5974,11 @@ async function _promoteCommitViaGitHub(opts) {
             const st = parseInt(parts[1], 10) || 422;
             const msg = parts.slice(2).join(':') || 'simulated failure';
             _ghThrow(stg, { ok: false, status: st, data: { message: msg } }, branchName);
+        }
+        // Test seam: write the would-be commit to a scratch copy (never the repo's db/).
+        if (_PROMOTE_GITHUB_TEST_CURATED_FILE) {
+            fs.writeFileSync(_PROMOTE_GITHUB_TEST_CURATED_FILE, newCuratedText, 'utf8');
+            fs.writeFileSync(_PROMOTE_GITHUB_TEST_CURATED_FILE + '.report.md', reportContent, 'utf8');
         }
         return { commitSha: 'test-' + String(Date.now()).slice(-10), branchName, filesChanged, citiesPromoted,
                  githubCommitUrl: '(test-mode — no real commit)', githubBranchUrl: '(test-mode)', beforeCount: baseArr.length, afterCount: newArr.length, testMode: true };
@@ -37005,6 +37078,9 @@ const server = http.createServer(async (req, res) => {
             const enTrim = hasEn ? String(p.name_en).trim() : '';
             if (hasAr && (!arTrim || arTrim.length > 200)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'invalid_name_ar' })); return; }
             if (hasEn && (!enTrim || enTrim.length > 200)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'invalid_name_en' })); return; }
+            // SSR-DISCOVERED-NAME-ESCAPE-1: an override feeds the promote candidate -> same unsafe-text rule.
+            if (hasAr && _DISCOVERED_UNSAFE_TEXT_RE.test(arTrim)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'unsafe_name_ar' })); return; }
+            if (hasEn && _DISCOVERED_UNSAFE_TEXT_RE.test(enTrim)) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'unsafe_name_en' })); return; }
             if (!arTrim && !enTrim) { res.writeHead(400, _nh); res.end(JSON.stringify({ error: 'no_name_provided' })); return; }
             const rec = { slug: p.slug, country_code: p.countryCode.toLowerCase(), updated_at: new Date().toISOString() };
             if (arTrim) rec.name_ar = arTrim;

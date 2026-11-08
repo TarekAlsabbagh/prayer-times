@@ -57,6 +57,20 @@ function isReady(p) {
     return true;
 }
 
+// SSR-DISCOVERED-NAME-ESCAPE-1: never write unsafe text / an unknown type / an invalid zone into
+// curated data. Mirrors server.js _DISCOVERED_UNSAFE_TEXT_RE, _EXTERNAL_ALLOWED_TYPES, _isValidIanaTimeZone.
+const UNSAFE_TEXT_RE = /[<>"=\\$\u0000-\u001f\u007f\u2028\u2029]|[\ud800-\udbff](?![\udc00-\udfff])|(?<![\ud800-\udbff])[\udc00-\udfff]/;
+const ALLOWED_TYPES = new Set(['city', 'town', 'village', 'hamlet', 'locality', 'municipality', 'suburb', 'subdistrict',
+    'district', 'county', 'state_district', 'province', 'state', 'region', 'governorate', 'administrative']);
+function textSafe(v, d = 0) {
+    if (typeof v === 'string') return !UNSAFE_TEXT_RE.test(v);
+    if (!v || typeof v !== 'object') return true;
+    if (d >= 6) return false;
+    return Object.keys(v).every(k => !UNSAFE_TEXT_RE.test(k) && textSafe(v[k], d + 1));
+}
+function tzValid(tz) { try { new Intl.DateTimeFormat('en-US', { timeZone: tz }); return true; } catch (_) { return false; } }
+function entrySafe(p) { return textSafe(p) && ALLOWED_TYPES.has(p.type) && tzValid(p.timezone); }
+
 function namesAndAliases(p) {
     const out = [];
     if (p.names) for (const v of Object.values(p.names)) if (v) out.push(String(v));
@@ -77,6 +91,7 @@ function main() {
         if (bySlug.has(slug)) { console.log(`SKIP ${slug}: already in curated`); continue; }
         // readiness
         if (!isReady(city)) { console.error(`REJECT ${slug}: fails isReady`); process.exitCode = 1; continue; }
+        if (!entrySafe(city)) { console.error(`REJECT ${slug}: unsafe text, type or timezone`); process.exitCode = 1; continue; }
         // countryCode shape
         const cc = city.countryCode.toLowerCase();
         // near-duplicate (same cc, <0.15° lat & lng)

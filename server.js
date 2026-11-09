@@ -5832,8 +5832,8 @@ let _adminPromoteLock = false;                                   // serialise pr
 // Inert in prod (only honoured alongside PROMOTE_GITHUB_TEST_MODE).
 const _PROMOTE_GITHUB_TEST_FAIL = process.env.PROMOTE_GITHUB_TEST_FAIL || '';
 // SSR-DISCOVERED-NAME-ESCAPE-1 test seam (honoured only with PROMOTE_GITHUB_TEST_MODE): a scratch
-//   copy of curated-places.json the test-mode commit reads as its base AND writes its result to
-//   (+ '.report.md'), so a test can compare the file bytes before / after a promote.
+//   copy of curated-places.json the test-mode commit reads as its base AND hands its result to the
+//   test-only preloaded sink (+ '.report.md'), so a test can compare the file bytes before / after a promote.
 //   A path inside this checkout is ignored, so the seam can never rewrite the repo's own data.
 const _PROMOTE_GITHUB_TEST_CURATED_FILE = (() => {
     if (!_PROMOTE_GITHUB_TEST_MODE || !process.env.PROMOTE_GITHUB_TEST_CURATED_FILE) return '';
@@ -5975,10 +5975,10 @@ async function _promoteCommitViaGitHub(opts) {
             const msg = parts.slice(2).join(':') || 'simulated failure';
             _ghThrow(stg, { ok: false, status: st, data: { message: msg } }, branchName);
         }
-        // Test seam: write the would-be commit to a scratch copy (never the repo's db/).
-        if (_PROMOTE_GITHUB_TEST_CURATED_FILE) {
-            fs.writeFileSync(_PROMOTE_GITHUB_TEST_CURATED_FILE, newCuratedText, 'utf8');
-            fs.writeFileSync(_PROMOTE_GITHUB_TEST_CURATED_FILE + '.report.md', reportContent, 'utf8');
+        // Test seam: hand the would-be commit to a sink that only the test preloads (-r), so the
+        //   writing stays outside server.js (dbWrite remains its only file-writing call).
+        if (_PROMOTE_GITHUB_TEST_CURATED_FILE && typeof globalThis.__TP_PROMOTE_TEST_SINK__ === 'function') {
+            globalThis.__TP_PROMOTE_TEST_SINK__(_PROMOTE_GITHUB_TEST_CURATED_FILE, newCuratedText, reportContent);
         }
         return { commitSha: 'test-' + String(Date.now()).slice(-10), branchName, filesChanged, citiesPromoted,
                  githubCommitUrl: '(test-mode — no real commit)', githubBranchUrl: '(test-mode)', beforeCount: baseArr.length, afterCount: newArr.length, testMode: true };

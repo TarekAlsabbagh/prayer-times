@@ -335,8 +335,15 @@ try {
         fs.copyFileSync(REPO_CURATED, COPY);
         const copy0 = fs.readFileSync(COPY);
         const TOKEN = crypto.randomBytes(24).toString('hex');            // this run only, never stored
+        // test-only sink: server.js hands the would-be commit here (it never writes it itself)
+        const SINK = path.join(TMP, 'promote-test-sink.cjs');
+        fs.writeFileSync(SINK, ["const fs = require('fs');",
+            "globalThis.__TP_PROMOTE_TEST_SINK__ = (file, curatedText, reportText) => {",
+            "  fs.writeFileSync(file, curatedText, 'utf8');",
+            "  fs.writeFileSync(file + '.report.md', reportText, 'utf8');",
+            "};", ""].join(String.fromCharCode(10)));
         C = await boot(PORT_C, { SUPABASE_URL: 'http://127.0.0.1:' + SUPA_PORT, SUPABASE_SERVICE_ROLE_KEY: PROMOTE_KEY,
-            ADMIN_TOKEN: TOKEN, PROMOTE_GITHUB_TEST_MODE: '1', PROMOTE_GITHUB_TEST_CURATED_FILE: COPY });
+            ADMIN_TOKEN: TOKEN, PROMOTE_GITHUB_TEST_MODE: '1', PROMOTE_GITHUB_TEST_CURATED_FILE: COPY }, [SINK]);
         const api = async (p, body) => {
             const r = await fetch(C.base + p, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + TOKEN }, body: JSON.stringify(body) });
             const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch (_) {}

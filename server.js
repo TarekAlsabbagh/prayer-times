@@ -3918,7 +3918,9 @@ function _prayerCoordPlaceUncached(s, latStr, lngStr) {
         if (d < dN) { dN = d; best = r; }
     }
     if (Math.min(dI, dN) > _PRAYER_COORD_KM) return { kind: 'far', place: null };
-    if (Math.abs(dI - dN) < _PRAYER_COORD_GAP_KM) return { kind: 'both', place: null };
+    // nearIdentity: the point is ALSO within 25 km of the identity (two records close together, e.g. hong-kong / cn):
+    //   the identity content is right for it within the same 25 km rule, so no unresolved note (see the 1d call site).
+    if (Math.abs(dI - dN) < _PRAYER_COORD_GAP_KM) return { kind: 'both', place: null, nearIdentity: dI <= _PRAYER_COORD_KM };
     if (dI < dN) return { kind: 'identity', place: null };
     // namesake: a curated twin (same country, <= 2 km) supplies a verified zone and localized names.
     let twin = null;
@@ -3928,10 +3930,63 @@ function _prayerCoordPlaceUncached(s, latStr, lngStr) {
             if (_haversineKmSrv(p.lat, p.lng, best.lat, best.lng) <= 2) { twin = p; break; }
         }
     } catch (_e) { twin = null; }
-    const iana = (twin && typeof twin.timezone === 'string' && twin.timezone.indexOf('/') > 0)
-        ? twin.timezone : _ssrCityIana(s, best.cc, lat, lng);
+    let iana = (twin && typeof twin.timezone === 'string' && twin.timezone.indexOf('/') > 0) ? twin.timezone : null;
+    if (!iana) {
+        // A documented, record-keyed zone exception (faro, Yukon) comes first; else the gated coordinate zone.
+        const exc = _prayerCoordZoneException(best);
+        iana = exc ? exc.iana : _ssrCityIana(s, best.cc, lat, lng);
+        // The gates of _ssrCityIana fall back to the COUNTRY zone when they reject the coordinate zone. When that
+        // fallback keeps another UTC offset than the point's own zone (Yukon, Reunion, Crimea, ...), the times
+        // would be wrong by whole hours while looking trustworthy, so the point is NOT presented as resolved: the
+        // page gets the honest unresolved state instead (kind 'zone-unverified').
+        if (!exc) {
+            let raw = null;
+            try { raw = _tzLookup ? _tzLookup(lat, lng) : null; } catch (_e) { raw = null; }
+            if (typeof raw === 'string' && raw.indexOf('/') > 0 && raw !== iana && !_prayerCoordSameOffsets(raw, iana)) {
+                return { kind: 'zone-unverified', place: null, cc: best.cc, zone: raw, fallback: iana || '' };
+            }
+        }
+    }
     const names = (twin && twin.names && typeof twin.names === 'object') ? twin.names : { ar: best.nameAr, en: best.nameEn };
     return { kind: 'namesake', place: { lat, lng, cc: best.cc, iana, names, curatedSlug: twin ? twin.slug : '' } };
+}
+// PRAYER-COORD-LINK-CONSISTENCY-1 — zone exceptions for namesake coordinate links (owner decision 2026-11-09).
+// Keyed on ONE db/cities-{cc}.json RECORD (its country file + its own stored coordinates, tolerance 0.001 deg ~ 100 m),
+// never on a name alone and never on a value the visitor sends: the URL point only selects the record through the
+// 25 km / 50 km rule above. The zone is also re-checked against tz-lookup AT THE RECORD (not the URL point), so a data
+// change that moves the record makes the exception lapse (unresolved state) instead of applying a stale zone.
+// It does NOT widen `_ssrCityIana` or `_ssrTrustedZonesFor`: no other city, page or route sees this zone.
+//   faro / ca — Faro, Yukon (db/cities-ca.json: 62.233055555556, -133.33305555556). IANA tz database, zone.tab:
+//     America/Whitehorse = "MST - Yukon (east)"; Faro (133.3 W, central Yukon) is in that zone, as tz-lookup also says.
+//     Yukon kept UTC-7 all year from 2020-03-08 on (no fall-back on 2020-11-01; the territory's 2020 decision); the
+//     IANA tz database (2020 releases) records America/Whitehorse at a fixed -07:00 since then, which the Node/ICU
+//     data in use confirms (January and July both -07:00; checked by scripts/_smoke_prayer_coord_link_consistency_1).
+//     The gate rejects it only because no curated Canadian city uses it, so the country zone America/Toronto
+//     (UTC-5/-4) would put every prayer 2-3 hours off.
+const _PRAYER_COORD_ZONE_EXCEPTIONS = [
+    { cc: 'ca', lat: 62.233055555556, lng: -133.33305555556, iana: 'America/Whitehorse', place: 'Faro, Yukon' },
+];
+const _PRAYER_COORD_EXC_TOL_DEG = 0.001;
+function _prayerCoordZoneException(rec) {
+    if (!rec) return null;
+    for (const e of _PRAYER_COORD_ZONE_EXCEPTIONS) {
+        if (rec.cc !== e.cc || !(Math.abs(rec.lat - e.lat) <= _PRAYER_COORD_EXC_TOL_DEG) || !(Math.abs(rec.lng - e.lng) <= _PRAYER_COORD_EXC_TOL_DEG)) continue;
+        let atRec = null;
+        try { atRec = _tzLookup ? _tzLookup(rec.lat, rec.lng) : null; } catch (_e) { atRec = null; }
+        return atRec === e.iana ? e : null;
+    }
+    return null;
+}
+// Same UTC offset now, in January and in July of this year (DST rules included) -> the zones are interchangeable.
+function _prayerCoordSameOffsets(a, b) {
+    if (!a || !b) return false;
+    try {
+        const now = new Date(), y = now.getUTCFullYear();
+        for (const d of [now, new Date(Date.UTC(y, 0, 15, 12)), new Date(Date.UTC(y, 6, 15, 12))]) {
+            if (_ianaOffsetHours(a, d) !== _ianaOffsetHours(b, d)) return false;
+        }
+        return true;
+    } catch (_e) { return false; }
 }
 // The override for a coordinate prayer path (or null): the only thing the SSR call sites need.
 function _prayerCoordOverride(slug, latStr, lngStr) {
@@ -3943,7 +3998,7 @@ function _prayerCoordOverride(slug, latStr, lngStr) {
 // method dropdown's default and an Open-Meteo / longitude offset). `slug` stays the URL stem: the client matches
 // its own slug against it before trusting the seed's name. The name is the curated twin's when there is one,
 // else the localized name the page itself already prints for that word.
-function _prayerCoordSeed(stem, place, lang) {
+function _prayerCoordSeed(stem, place, lang, tail) {
     if (!place) return null;
     const twin = place.curatedSlug ? _findPlaceBySlug(place.curatedSlug) : null;
     const name = (twin && _pickCuratedName(twin, lang)) || (typeof _resolveCityName === 'function' ? _resolveCityName(stem, lang) : '') || (place.names && place.names.en) || '';
@@ -3956,7 +4011,137 @@ function _prayerCoordSeed(stem, place, lang) {
         type: 'city', originalName: '', source: twin ? 'curated' : 'db'
     };
     if (countrySlug) out.countrySlug = countrySlug;
+    // The client applies the same tool-link rule as `_prayerCoordRewriteToolLinks` (js/app.js `_pcMapToolHref`).
+    const ct = _prayerCoordToolCtx(stem, tail, place);
+    if (ct) out.coordTools = { stem: ct.stem, tail: ct.tail, own: ct.own, ownMoon: ct.ownMoon };
     return out;
+}
+
+// PRAYER-COORD-LINK-CONSISTENCY-1 — the tool links of a namesake coordinate page. The page describes the URL point
+// (e.g. Boston, KYRGYZSTAN), but its links were built from the slug alone and so led to the pages of the slug's
+// identity (Boston, United States: /prayer-times-in-boston, /qibla-in-boston, next-prayer, time-left) or to the
+// collision-affected moon / qibla pages of that word. A link may only point at a page that is right for the point:
+//   * the point has its own curated page (salem -> salem-in, bharatpur -> bharatpur-in, cambridge -> cambridge-ca):
+//     every tool link goes to that page's prayer / qibla / moon hub / next-prayer / time-left page;
+//   * otherwise: prayer -> this coordinate page itself; qibla / moon -> the general hub, but ONLY for links whose
+//     label names no city (sidebar nav, the mini tools); a link whose label names the city ("Qibla direction in
+//     Boston", "Time left until prayer in Boston", ...) has no right destination and is removed (no href, hidden).
+// Only links to THIS stem's city routes are touched; every other link (other cities, countries, hubs, share links,
+// the other-language versions of this page) is left exactly as it was.
+function _prayerCoordToolCtx(stem, tail, place) {
+    if (!place || !stem || !tail) return null;
+    const own = place.curatedSlug || '';
+    const ownMoon = own && typeof _nestedMoonBaseForSlug === 'function' ? (_nestedMoonBaseForSlug(own, '') || '') : '';
+    return { stem, tail, own, ownMoon };
+}
+const _PC_COORD_SFX = '(?:-(?:-?\\d+(?:\\.\\d+)?)-(?:-?\\d+(?:\\.\\d+)?))?';
+// null = not a tool link of this stem | { href, hub } = the destination | { drop: true } = no right destination.
+function _prayerCoordToolHref(href, ct) {
+    const m = /^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?(\/[^?#]*)$/.exec(String(href || ''));
+    if (!m || !ct || !/^[a-z][a-z0-9-]*$/.test(ct.stem)) return null;
+    const lp = m[1] || '', p = m[2], st = ct.stem, own = ct.own;
+    if (p === '/prayer-times-in-' + st) return { href: lp + '/prayer-times-in-' + (own || ct.tail), hub: false };
+    if (new RegExp('^/qibla-in-' + st + _PC_COORD_SFX + '$').test(p)) return own ? { href: lp + '/qibla-in-' + own, hub: false } : { href: lp + '/qibla', hub: true };
+    if (new RegExp('^/(?:moon-in|moon-today-in)-' + st + _PC_COORD_SFX + '(?:/.*)?$').test(p) || new RegExp('^/moon/[a-z0-9-]+/' + st + '(?:/.*)?$').test(p)) {
+        return (own && ct.ownMoon) ? { href: lp + ct.ownMoon, hub: false } : { href: lp + '/moon', hub: true };
+    }
+    const tn = new RegExp('^/(next-prayer-in|time-left-until-next-prayer-in)-' + st + _PC_COORD_SFX + '$').exec(p);
+    if (tn) return own ? { href: lp + '/' + tn[1] + '-' + own, hub: false } : { drop: true };
+    return null;
+}
+function _prayerCoordRewriteToolLinks(html, ct) {
+    if (!ct) return html;
+    // The four "related links" items name the city in their label: without an own page there is no right target.
+    if (!ct.own) html = html.replace(/<li><a id="rl-(?:time-left|next-prayer|qibla|moon)"[\s\S]*?<\/li>/g, '');
+    const unlink = (tag, hrefAttr) => tag.replace(hrefAttr, '').replace(/^<a\b/, '<a hidden style="display:none" aria-disabled="true" data-pc-unlinked="1"');
+    return html.replace(/<a\b[^>]*>/g, (tag) => {
+        const hm = /\shref="([^"]*)"/.exec(tag);
+        if (!hm) return tag;
+        // The qibla / moon cards and items of a coordinate page carry the general hub in the HTML (the client fills
+        //   the city target and, for the cards, a label naming the city): the place's own page when it has one; the
+        //   cards (city label) are removed without one; the mini tools (no city in the label) keep the hub.
+        const idm = /\sid="((?:rl|mit|pt-tool)-(?:qibla|moon))"/.exec(tag);
+        const hub = /^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(qibla|moon)$/.exec(hm[1]);
+        if (idm && hub) {
+            if (ct.own) {
+                const to = hub[2] === 'qibla' ? '/qibla-in-' + ct.own : ct.ownMoon;
+                return to ? tag.replace(hm[0], ' href="' + (hub[1] || '') + to + '"') : tag;
+            }
+            return /^pt-tool-/.test(idm[1]) ? unlink(tag, hm[0]) : tag;
+        }
+        const r = _prayerCoordToolHref(hm[1], ct);
+        if (!r) return tag;
+        const generic = /\sdata-page="/.test(tag) || /\sid="mit-/.test(tag);
+        if (r.href && (!r.hub || generic)) return tag.replace(hm[0], ' href="' + r.href + '"');
+        return unlink(tag, hm[0]);
+    });
+}
+// PRAYER-COORD-LINK-CONSISTENCY-1 — the honest state of a coordinate link whose point is NOT resolved:
+//   far / both / invalid      — the coordinates match no record of the word (or two records equally; a 'both' point
+//                               that is also within 25 km of the identity is right for the identity: no note);
+//   zone-unverified           — they match another record, but its zone was rejected by the gates of _ssrCityIana and
+//                               the country fallback keeps another UTC offset, so its times would be hours off;
+//   no-identity               — the word itself is unknown (the page used to show the Makkah default times).
+// The content of the first three stays the word's identity (as before) and the client is seeded with that identity, so
+// the page shows ONE place, named with its country, before and after JavaScript, plus a note that says so. No time is
+// presented as the time of the URL point. An unknown word gets no times in the HTML (no Makkah default) and the note.
+const _PRAYER_COORD_UNRESOLVED = new Set(['far', 'both', 'invalid', 'zone-unverified', 'no-identity']);
+const _PRAYER_COORD_NOTE_L10N = {
+    known: {
+        ar: 'الإحداثيات في هذا الرابط ({coords}) لا تطابق {city} ولا أي مكان آخر بهذا الاسم نستطيع التحقق منه. مواقيت الصلاة في هذه الصفحة هي لمدينة {city}، {country}، وليست لتلك الإحداثيات.',
+        en: 'The coordinates in this link ({coords}) do not match {city} or any other place of this name that we can verify. The prayer times on this page are for {city}, {country}, not for those coordinates.',
+        fr: 'Les coordonnées de ce lien ({coords}) ne correspondent ni à {city} ni à aucun autre lieu de ce nom que nous pouvons vérifier. Les horaires de prière de cette page sont ceux de {city}, {country}, et non de ces coordonnées.',
+        tr: 'Bu bağlantıdaki koordinatlar ({coords}) {city} ile ya da bu adı taşıyan ve doğrulayabildiğimiz başka bir yerle eşleşmiyor. Bu sayfadaki namaz vakitleri bu koordinatlar için değil, {city}, {country} içindir.',
+        ur: 'اس لنک کے نقاط ({coords}) نہ {city} سے ملتے ہیں اور نہ اس نام کی کسی ایسی دوسری جگہ سے جس کی ہم تصدیق کر سکیں۔ اس صفحے پر اوقاتِ نماز {city}، {country} کے ہیں، ان نقاط کے نہیں۔',
+        de: 'Die Koordinaten in diesem Link ({coords}) passen weder zu {city} noch zu einem anderen Ort dieses Namens, den wir prüfen können. Die Gebetszeiten auf dieser Seite gelten für {city}, {country}, nicht für diese Koordinaten.',
+        id: 'Koordinat dalam tautan ini ({coords}) tidak cocok dengan {city} maupun tempat lain bernama sama yang dapat kami verifikasi. Jadwal sholat di halaman ini adalah untuk {city}, {country}, bukan untuk koordinat tersebut.',
+        es: 'Las coordenadas de este enlace ({coords}) no coinciden con {city} ni con ningún otro lugar de este nombre que podamos verificar. Los horarios de oración de esta página son los de {city}, {country}, no los de esas coordenadas.',
+        bn: 'এই লিংকের স্থানাঙ্ক ({coords}) {city} বা এই নামের এমন অন্য কোনো স্থানের সাথে মেলে না, যা আমরা যাচাই করতে পারি। এই পৃষ্ঠার নামাজের সময় {city}, {country}-এর জন্য, ওই স্থানাঙ্কের জন্য নয়।',
+        ms: 'Koordinat dalam pautan ini ({coords}) tidak sepadan dengan {city} atau mana-mana tempat lain bernama sama yang dapat kami sahkan. Waktu solat di halaman ini adalah untuk {city}, {country}, bukan untuk koordinat tersebut.'
+    },
+    zone: {
+        ar: 'تشير الإحداثيات في هذا الرابط ({coords}) إلى مكان اسمه {city} في {pcountry}، ولا نستطيع التحقق من منطقته الزمنية، فلا نعرض له مواقيت. مواقيت الصلاة في هذه الصفحة هي لمدينة {city}، {country}.',
+        en: 'The coordinates in this link ({coords}) point to a place named {city} in {pcountry} whose time zone we cannot verify, so no times are shown for it. The prayer times on this page are for {city}, {country}.',
+        fr: 'Les coordonnées de ce lien ({coords}) désignent un lieu nommé {city} en {pcountry} dont nous ne pouvons pas vérifier le fuseau horaire ; aucun horaire n’est donc affiché pour ce lieu. Les horaires de prière de cette page sont ceux de {city}, {country}.',
+        tr: 'Bu bağlantıdaki koordinatlar ({coords}) {pcountry} ülkesinde {city} adlı bir yeri gösteriyor; bu yerin saat dilimini doğrulayamadığımız için ona ait vakit gösterilmiyor. Bu sayfadaki namaz vakitleri {city}, {country} içindir.',
+        ur: 'اس لنک کے نقاط ({coords}) {pcountry} میں {city} نامی ایک جگہ کی طرف اشارہ کرتے ہیں جس کے ٹائم زون کی ہم تصدیق نہیں کر سکتے، اس لیے اس کے اوقات نہیں دکھائے جاتے۔ اس صفحے پر اوقاتِ نماز {city}، {country} کے ہیں۔',
+        de: 'Die Koordinaten in diesem Link ({coords}) zeigen auf einen Ort namens {city} in {pcountry}, dessen Zeitzone wir nicht prüfen können; daher werden für ihn keine Zeiten angezeigt. Die Gebetszeiten auf dieser Seite gelten für {city}, {country}.',
+        id: 'Koordinat dalam tautan ini ({coords}) menunjuk ke tempat bernama {city} di {pcountry} yang zona waktunya tidak dapat kami verifikasi, sehingga jadwalnya tidak ditampilkan. Jadwal sholat di halaman ini adalah untuk {city}, {country}.',
+        es: 'Las coordenadas de este enlace ({coords}) señalan un lugar llamado {city} en {pcountry} cuya zona horaria no podemos verificar, por lo que no se muestran sus horarios. Los horarios de oración de esta página son los de {city}, {country}.',
+        bn: 'এই লিংকের স্থানাঙ্ক ({coords}) {pcountry}-এর {city} নামের একটি স্থান নির্দেশ করে, যার সময় অঞ্চল আমরা যাচাই করতে পারি না, তাই সেটির সময় দেখানো হয় না। এই পৃষ্ঠার নামাজের সময় {city}, {country}-এর জন্য।',
+        ms: 'Koordinat dalam pautan ini ({coords}) menunjuk kepada tempat bernama {city} di {pcountry} yang zon waktunya tidak dapat kami sahkan, jadi waktunya tidak dipaparkan. Waktu solat di halaman ini adalah untuk {city}, {country}.'
+    },
+    unknown: {
+        ar: 'لم نتمكن من تحديد المكان في هذا الرابط ({coords}). مواقيت الصلاة في هذه الصفحة غير متحقق منها لهذا المكان؛ ابحث عن مدينتك لتحصل على المواقيت الدقيقة.',
+        en: 'We could not identify the place in this link ({coords}). The prayer times on this page are not verified for it; search for your city to get exact times.',
+        fr: 'Nous n’avons pas pu identifier le lieu de ce lien ({coords}). Les horaires de prière de cette page ne sont pas vérifiés pour ce lieu ; recherchez votre ville pour obtenir des horaires exacts.',
+        tr: 'Bu bağlantıdaki yeri ({coords}) belirleyemedik. Bu sayfadaki namaz vakitleri bu yer için doğrulanmış değildir; doğru vakitler için şehrinizi arayın.',
+        ur: 'ہم اس لنک میں موجود جگہ ({coords}) کی شناخت نہیں کر سکے۔ اس صفحے پر اوقاتِ نماز اس جگہ کے لیے تصدیق شدہ نہیں ہیں؛ درست اوقات کے لیے اپنا شہر تلاش کریں۔',
+        de: 'Wir konnten den Ort in diesem Link ({coords}) nicht bestimmen. Die Gebetszeiten auf dieser Seite sind für ihn nicht geprüft; suche deine Stadt, um genaue Zeiten zu erhalten.',
+        id: 'Kami tidak dapat mengenali tempat dalam tautan ini ({coords}). Jadwal sholat di halaman ini belum terverifikasi untuk tempat tersebut; cari kota Anda untuk mendapatkan jadwal yang tepat.',
+        es: 'No pudimos identificar el lugar de este enlace ({coords}). Los horarios de oración de esta página no están verificados para él; busca tu ciudad para obtener horarios exactos.',
+        bn: 'এই লিংকের স্থানটি ({coords}) আমরা শনাক্ত করতে পারিনি। এই পৃষ্ঠার নামাজের সময় ওই স্থানের জন্য যাচাই করা নয়; সঠিক সময় পেতে আপনার শহর খুঁজুন।',
+        ms: 'Kami tidak dapat mengenal pasti tempat dalam pautan ini ({coords}). Waktu solat di halaman ini tidak disahkan untuknya; cari bandar anda untuk mendapatkan waktu yang tepat.'
+    }
+};
+function _prayerCoordInjectNote(html, res, stem, latStr, lngStr, lang) {
+    try {
+        const L = _PRAYER_COORD_NOTE_L10N, lg = (L.known[lang] ? lang : 'en');
+        const id = (res.kind === 'no-identity') ? null : _ssrCityPlace(stem);
+        const idCc = id && id.cc ? String(id.cc).toLowerCase() : '';
+        const city = (typeof _resolveCityName === 'function' ? _resolveCityName(stem, lang) : '') || stem;
+        const country = idCc ? (_getCountryName(idCc, lang) || '') : '';
+        let tpl;
+        if (!idCc || !country) tpl = L.unknown[lg];
+        else if (res.kind === 'zone-unverified' && res.cc && _getCountryName(res.cc, lang)) tpl = L.zone[lg];
+        else tpl = L.known[lg];
+        const sep = (lang === 'ar' || lang === 'ur') ? '، ' : ', ';
+        const text = tpl.replace(/\{coords\}/g, latStr + sep + lngStr).replace(/\{city\}/g, city).replace(/\{country\}/g, country)
+            .replace(/\{pcountry\}/g, res.cc ? (_getCountryName(res.cc, lang) || '') : '');
+        const note = '<p class="moon-location-note" id="pc-coord-note" role="note">' + _escHtml(text) + '</p>';
+        if (html.indexOf('id="pc-coord-note"') !== -1) return html;
+        return html.replace(/(<h1 class="page-h1" id="page-h1">[^<]*<\/h1>)/, (m) => m + note);
+    } catch (_e) { return html; }
 }
 
 // Compute today's prayer times for the city resolved from `slug`.
@@ -21996,7 +22181,13 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         // PRAYER-COORD-LINK-CONSISTENCY-1: the coordinates were captured here but never used -- the content
         //   of a coordinate link naming another place of the same name now describes THAT place.
         const _coordPlaceT = _slugForTimes ? _prayerCoordOverride(_slugForTimes[1], _slugForTimes[2], _slugForTimes[3]) : null;
-        html = _ssrInjectPrayerTimes(html, _ssrSlug, seo.lang, _coordPlaceT);
+        //   Unresolved coordinate links get an honest note; an unknown word with coordinates no longer shows the
+        //   Makkah default times as if they were the times of that place (the cards keep their "--:--").
+        const _coordResT = (_slugForTimes && _slugForTimes[2] != null) ? _prayerCoordPlace(_slugForTimes[1], _slugForTimes[2], _slugForTimes[3]) : null;
+        if (!(_coordResT && _coordResT.kind === 'no-identity')) html = _ssrInjectPrayerTimes(html, _ssrSlug, seo.lang, _coordPlaceT);
+        if (_coordResT && _PRAYER_COORD_UNRESOLVED.has(_coordResT.kind) && !_coordResT.nearIdentity) {
+            html = _prayerCoordInjectNote(html, _coordResT, _slugForTimes[1], _slugForTimes[2], _slugForTimes[3], seo.lang);
+        }
     }
     // 1e) UAT-Home-Simplify: homepage → minimal gateway (Hero + 4 tools + 8
     //     countries + 2 generic FAQ + slim footer). Strip all city-flavored
@@ -30682,7 +30873,11 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 //   bare-route seed they had before.
                 const _coordRes = _coordRouteM
                     ? _prayerCoordPlace(_coordRouteM[1], _coordRouteM[2], _coordRouteM[3]) : null;
-                const _coordSeedable = !!(_coordRes && (_coordRes.kind === 'identity' || _coordRes.kind === 'namesake'));
+                //   Unresolved points of a KNOWN word (far / both / invalid / zone-unverified) show the identity in the HTML
+                //   (with the note of _prayerCoordInjectNote); seeding that identity keeps the page on ONE place after
+                //   JavaScript too, instead of the client computing the URL point with no country and the dropdown default.
+                const _coordSeedable = !!(_coordRes && (_coordRes.kind === 'identity' || _coordRes.kind === 'namesake'
+                    || _coordRes.kind === 'far' || _coordRes.kind === 'both' || _coordRes.kind === 'invalid' || _coordRes.kind === 'zone-unverified'));
                 if ((_bareCityRoute || _coordSeedable) && typeof _findPlaceBySlug === 'function') {
                     // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13):
                     // seed curated FIRST (unchanged), else a prefetched discovered
@@ -30692,7 +30887,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     // Bengali hero (#city-name/#bc-city). The noindex guard is
                     // independent — discovered pages stay noindex,follow.
                     const _coordSeed = (_coordRes && _coordRes.kind === 'namesake')
-                        ? _prayerCoordSeed(_coordRouteM[1], _coordRes.place, seo.lang) : null;
+                        ? _prayerCoordSeed(_coordRouteM[1], _coordRes.place, seo.lang, _coordRouteM[1] + '-' + _coordRouteM[2] + '-' + _coordRouteM[3]) : null;
                     let _seedEntry = _coordSeed ? { countryCode: _coordSeed.countryCode } : _findPlaceBySlug(_ssrCitySlug);
                     let _seedSource = 'curated';
                     if (!_seedEntry && typeof _getDiscoveredSsrEntry === 'function') {
@@ -30998,6 +31193,17 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
     //     • "/" (home/logo) → "/{lang}" (no trailing slash, avoids 301 hop).
     //     • Slugs/event-IDs stay English; only the lang prefix is added.
     html = _langPrefixInternalHrefs(html, seo && seo.lang);   // SEO-WORLDWIDE-I18N-WIRING-1: same pass, now shared with serveCountriesPage
+
+    // PRAYER-COORD-LINK-CONSISTENCY-1: on a coordinate prayer link naming ANOTHER place of the same word, the tool
+    //   links must not lead to the word's identity (see _prayerCoordRewriteToolLinks). After the lang-prefix pass, so
+    //   every href is final. Every other page: one regex test on the path, nothing else.
+    {
+        const _pcM = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]*?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.exec(String(urlPath).replace(/\.html$/, ''));
+        const _pcR = _pcM ? _prayerCoordPlace(_pcM[1], _pcM[2], _pcM[3]) : null;
+        if (_pcR && _pcR.kind === 'namesake') {
+            html = _prayerCoordRewriteToolLinks(html, _prayerCoordToolCtx(_pcM[1], _pcM[1] + '-' + _pcM[2] + '-' + _pcM[3], _pcR.place));
+        }
+    }
 
     // ADSENSE-SSR-ROUTE-SCOPED-PAGE-STRIPPING-1: LAST, exactly like the Quran routes above -- after
     //   every injection, SSR block, JSON-LD and the lang-prefix href rewriter have landed, so

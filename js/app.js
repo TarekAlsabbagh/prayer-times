@@ -4618,7 +4618,7 @@ async function initApp() {
 //   مثل /ramadan-countdown و /eid-* و /hijri-* لتُحافظ على المدينة بدل العودة لمكّة.
 function _saveLastCityContextNow() {
     try {
-        if (currentLat && currentLng && currentEnglishName) {
+        if (currentLat && currentLng && currentEnglishName && _pcKeepCtx()) {   // PRAYER-COORD-LINK-CONSISTENCY-1
             sessionStorage.setItem('last_city_context', JSON.stringify({
                 lat: currentLat, lng: currentLng,
                 name: currentCity, country: currentCountry,
@@ -4694,6 +4694,103 @@ function _lastCityForNav() {
     } catch (_) {}
     return null;
 }
+
+// PRAYER-COORD-LINK-CONSISTENCY-1 — tool links of a coordinate prayer link naming ANOTHER place of the same word
+//   (/prayer-times-in-boston-41.03-72.96 = Boston, Kyrgyzstan). The server seeds `__PRAYER_CITY__.coordTools`
+//   ({stem, tail, own, ownMoon}) and already rewrote the links in the HTML (server.js _prayerCoordRewriteToolLinks);
+//   this applies the SAME rule to every link the client writes later (related links, mini tools, tool cards, sticky
+//   bar, FAQ links, sidebar clicks), so no link leads from the times of the point to the pages of the other city:
+//   own curated page (salem-in, bharatpur-in, cambridge-ca) -> that page's tools; else prayer -> this page, qibla /
+//   moon -> the general hub for links whose label names no city, and links whose label names the city are removed.
+function _pcCoordTools() {
+    try {
+        const s = (typeof window !== 'undefined') && window.__PRAYER_CITY__;
+        const ct = s && s.coordTools;
+        if (!ct || !ct.tail || !ct.stem) return null;
+        const m = window.location.pathname.replace(/\.html$/, '').match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-(.+)$/);
+        if (!m || m[1] !== ct.tail) return null;
+        return { stem: ct.stem, tail: ct.tail, own: ct.own || '', ownMoon: ct.ownMoon || '', lat: s.lat, lng: s.lng };
+    } catch (_) { return null; }
+}
+var _PC_COORD_SFX = '(?:-(?:-?\\d+(?:\\.\\d+)?)-(?:-?\\d+(?:\\.\\d+)?))?';
+// Same rule as server.js _prayerCoordToolHref: null = not a tool link of this stem | {href, hub} | {drop}.
+function _pcMapToolHref(href, ct) {
+    const m = /^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?(\/[^?#]*)$/.exec(String(href || ''));
+    if (!m || !ct || !/^[a-z][a-z0-9-]*$/.test(ct.stem)) return null;
+    const lp = m[1] || '', p = m[2], st = ct.stem, own = ct.own;
+    if (p === '/prayer-times-in-' + st) return { href: lp + '/prayer-times-in-' + (own || ct.tail), hub: false };
+    if (new RegExp('^/qibla-in-' + st + _PC_COORD_SFX + '$').test(p)) return own ? { href: lp + '/qibla-in-' + own, hub: false } : { href: lp + '/qibla', hub: true };
+    if (new RegExp('^/(?:moon-in|moon-today-in)-' + st + _PC_COORD_SFX + '(?:/.*)?$').test(p) || new RegExp('^/moon/[a-z0-9-]+/' + st + '(?:/.*)?$').test(p)) {
+        return (own && ct.ownMoon) ? { href: lp + ct.ownMoon, hub: false } : { href: lp + '/moon', hub: true };
+    }
+    const tn = new RegExp('^/(next-prayer-in|time-left-until-next-prayer-in)-' + st + _PC_COORD_SFX + '$').exec(p);
+    if (tn) return own ? { href: lp + '/' + tn[1] + '-' + own, hub: false } : { drop: true };
+    return null;
+}
+function _pcUnlink(a) {
+    a.removeAttribute('href');
+    a.setAttribute('aria-disabled', 'true');
+    a.setAttribute('data-pc-unlinked', '1');
+    if (a.id === 'sticky-next-bar') return;   // the bar keeps its countdown; it only leads nowhere
+    const li = /^rl-/.test(a.id || '') ? a.closest('li') : null;
+    (li || a).style.display = 'none';
+}
+function _pcGuardAnchor(a, ct) {
+    const raw = a.getAttribute('href');
+    if (!raw) return;
+    let h = raw;
+    if (/^https?:/i.test(h)) { try { const u = new URL(h); if (u.origin !== window.location.origin) return; h = u.pathname; } catch (_) { return; } }
+    const id = a.id || '';
+    const hub = /^(\/(?:en|fr|tr|ur|de|id|es|bn|ms))?\/(qibla|moon)$/.exec(h);
+    if (hub && /^(?:rl|mit|pt-tool)-(?:qibla|moon)$/.test(id)) {
+        if (ct.own) {
+            const to = hub[2] === 'qibla' ? '/qibla-in-' + ct.own : ct.ownMoon;
+            if (to && raw !== (hub[1] || '') + to) a.setAttribute('href', (hub[1] || '') + to);
+        } else if (/^pt-tool-/.test(id)) _pcUnlink(a);
+        return;
+    }
+    const r = _pcMapToolHref(h, ct);
+    if (!r) return;
+    const generic = a.hasAttribute('data-page') || /^mit-/.test(id);
+    if (r.href && (!r.hub || generic)) { if (raw !== r.href) a.setAttribute('href', r.href); return; }
+    _pcUnlink(a);
+}
+function _pcInstallToolGuard() {
+    const ct = _pcCoordTools();
+    if (!ct) return;
+    const run = (root) => { try { root.querySelectorAll('a[href]').forEach((a) => _pcGuardAnchor(a, ct)); } catch (_) {} };
+    run(document);
+    try {
+        new MutationObserver((muts) => {
+            for (const m of muts) {
+                if (m.type === 'attributes') { if (m.target && m.target.tagName === 'A') _pcGuardAnchor(m.target, ct); continue; }
+                for (const n of m.addedNodes) {
+                    if (!n || n.nodeType !== 1) continue;
+                    if (n.tagName === 'A') _pcGuardAnchor(n, ct);
+                    run(n);
+                }
+            }
+        }).observe(document.documentElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['href'] });
+    } catch (_) {}
+}
+// The three sidebar targets (prayer-times / qibla / moon) of such a page (null = the normal rules apply).
+function _pcNavTargets() {
+    try {
+        const ct = _pcCoordTools();
+        if (!ct) return null;
+        const lp = (typeof getCurrentLang === 'function' && getCurrentLang() !== 'ar') ? '/' + getCurrentLang() : '';
+        return {
+            'prayer-times': lp + '/prayer-times-in-' + (ct.own || ct.tail),
+            qibla: ct.own ? lp + '/qibla-in-' + ct.own : lp + '/qibla',
+            moon: (ct.own && ct.ownMoon) ? lp + ct.ownMoon : lp + '/moon'
+        };
+    } catch (_) { return null; }
+}
+// false on such a page: it must not become the "last city" of the visit. Every reader of that context (the sidebar of
+//   the next pages, the early nav rewrite of site-search.js, the qibla / moon hub smart pills) rebuilds the URL from
+//   the city NAME (makeSlug('Boston') = the word's identity), so the context would send the visitor from the times of
+//   the point to the pages of the other city. Production never stored it on load for these links (no seed there).
+function _pcKeepCtx() { return !_pcCoordTools(); }
 
 // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: rewrite the 3 city-bound sidebar-nav hrefs
 //   (prayer-times / qibla / moon) to the last-used city so right-click / Ctrl+click "open in
@@ -5223,6 +5320,7 @@ function initNavigation() {
     //   and again on pageshow (BFCache restore) so a Back/Forward shows fresh hrefs.
     try { _applyLastCityNavLinks(); } catch (_) {}
     try { window.addEventListener('pageshow', function () { try { _applyLastCityNavLinks(); } catch (_) {} }); } catch (_) {}
+    try { _pcInstallToolGuard(); } catch (_) {}   // PRAYER-COORD-LINK-CONSISTENCY-1 (no-op on every other page)
     navLinks.forEach(link => {
         link.addEventListener('click', function(e) {
             // NAVBAR-LINKS-OPEN-IN-NEW-TAB-REAL-HREF-FIX-1: the nav items are now real
@@ -5245,6 +5343,20 @@ function initNavigation() {
             //   smallest reliable fix is to stop intercepting it and let the browser navigate.
             //   No timeout, no location shim, no second source of truth for the URL.
             if (this.dataset.page === 'guides') { try { closeSidebar(); } catch (_) {} return; }
+            // PRAYER-COORD-LINK-CONSISTENCY-1: the in-app branches below build the target from the city NAME
+            //   (makeSlug(currentEnglishName) = the word's identity); for a coordinate point of another place of that
+            //   word, go to its own targets instead (_pcNavTargets; null = the normal branches).
+            {
+                const _pcT = _pcNavTargets();
+                const _pcTo = _pcT && _pcT[this.dataset.page];
+                if (_pcTo) {
+                    e.preventDefault();
+                    try { closeSidebar(); } catch (_) {}
+                    try { _showNavLoadingOverlay(this.dataset.page); } catch (_) {}
+                    window.location.href = _pcTo;
+                    return;
+                }
+            }
             e.preventDefault();
             const pageId = this.dataset.page;
             // FIX: ترطيب الموقع الحاليّ قبل أي تنقّل (يحلّ مشكلة "يأخذني إلى مكّة دائماً")
@@ -5257,6 +5369,7 @@ function initNavigation() {
             //   يضمن أن الصفحة الوجهة (Zakat/Duas/Hijri-…) تجد سياقاً = موقع المستخدم،
             //   لا Mecca defaults.
             const _saveCityCtxFor = (key) => {
+                if (!_pcKeepCtx()) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: see _pcKeepCtx
                 try {
                     // Use globals first; if they're still empty/Mecca-default,
                     //   try lsb_detected (user's last detected location).
@@ -7823,7 +7936,7 @@ async function loadCityData(lat, lng, city, country, countryCode = '', englishNa
     //   صفحة لاحقة. القاعدة: من الرئيسيّة → مكّة (لا يُحفظ سياق)؛ من صفحة
     //   سياق → نحفظ ونحمِّل لاحقًا. loadCityData هو choke point مشترك.
     try {
-        if (lat && lng && englishName) {
+        if (lat && lng && englishName && _pcKeepCtx()) {   // PRAYER-COORD-LINK-CONSISTENCY-1
             sessionStorage.setItem('last_city_context', JSON.stringify({
                 lat: lat, lng: lng, name: city, country: country,
                 englishName: englishName, countryCode: countryCode,
@@ -13233,6 +13346,7 @@ function updateStickyBar(countdownStr) {
 function updateStickyBarHref() {
     const bar = document.getElementById('sticky-next-bar');
     if (!bar || bar.tagName !== 'A') return;
+    if (bar.hasAttribute('data-pc-unlinked')) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: no right target (see _pcUnlink)
     // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1 (D4): a curated coordinate variant / decimal tail → the stem; a real
     //   numeric-tail slug → itself; loc- → '' (falls to the fallback below).
     let slug = _d4TlNptSlug((typeof getSlugFromURL === 'function') ? (getSlugFromURL() || '') : '');

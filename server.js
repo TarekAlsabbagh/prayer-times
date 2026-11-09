@@ -3831,18 +3831,147 @@ function _ssrCityPlace(slug) {
     return (typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(slug) : null;
 }
 
+// ════════════════════════════════════════════════════════════════════════════
+// PRAYER-COORD-LINK-CONSISTENCY-1 (2026-11-09)
+// A coordinate prayer link /prayer-times-in-{slug}-{lat}-{lng} (legacy bookmarks; noindex,follow, self-canonical)
+// took ONLY the slug for its content: the hero times, the banner clock, the city-intelligence zone + method and
+// the breadcrumb country all came from the slug's identity (`_ssrCityPlace`), while <meta geo.position> carried
+// the URL point. For a point that is ANOTHER place of the same name (boston-41.03-72.96 = Boston, Kyrgyzstan)
+// the page showed Boston, United States: its coordinates, UTC-5 and ISNA. After JavaScript the client had no
+// seed for coordinate routes, so it computed the URL point with no country, the Umm al-Qura default of the
+// method dropdown and an Open-Meteo / longitude-based offset.
+//
+// This resolves which place the coordinates name, with the rule SSR-CITY-SLUG-COLLISION-2 uses for the moon
+// coordinate links (25 km, 50 km gap), but over ALL db/cities-*.json records of the slug (no frozen list):
+//   identity  — within 25 km of the identity and >= 50 km nearer to it than to any other record of the slug
+//               -> content unchanged (identity); the client gets the identity seed the bare route already gets
+//   namesake  — within 25 km of another record of the slug and >= 50 km nearer to it than to the identity
+//               -> point = the URL point, country = that record's country (its db file), zone = its curated twin's
+//                  zone when one exists (same country, <= 2 km), else `_ssrCityIana` (the gated coordinate zone,
+//                  country zone as fallback), method = `_SSR_METHOD_BY_CC[cc] || 'MWL'` (the existing rule)
+//   far / both / invalid / no-identity — NOT guessed: content unchanged, no seed (the previous behaviour).
+// No method or zone is invented here: every value comes from the maps and resolvers the bare city pages use.
+// Routing, status, canonical and robots of these URLs are untouched.
+const _PRAYER_COORD_KM = 25;
+const _PRAYER_COORD_GAP_KM = 50;
+// slug -> every db/cities-*.json record of that slug, kept ONLY for slugs that occur more than once (the
+// first-match `_getCitySlugIndex` already holds the single ones). Same file filter and record predicate.
+let _DB_SLUG_MULTI_INDEX = null;
+function _getDbSlugMultiIndex() {
+    if (_DB_SLUG_MULTI_INDEX) return _DB_SLUG_MULTI_INDEX;
+    const all = new Map();
+    let ioError = false;
+    try {
+        const files = fs.readdirSync(DB_DIR).filter(f => /^cities-[a-z]{2}\.json$/.test(f));
+        for (const f of files) {
+            const cc = f.slice(7, 9);
+            let arr;
+            try { arr = JSON.parse(fs.readFileSync(path.join(DB_DIR, f), 'utf8')); } catch (_e) { ioError = true; continue; }
+            if (!Array.isArray(arr)) continue;
+            for (const c of arr) {
+                if (!(c && c.nameAr && c.nameEn && typeof c.lat === 'number' && typeof c.lng === 'number')) continue;
+                const slug = makeCitySlugSrv(c.nameEn, c.lat, c.lng);
+                if (!slug) continue;
+                const rec = { cc, lat: c.lat, lng: c.lng, nameAr: c.nameAr, nameEn: c.nameEn };
+                const list = all.get(slug);
+                if (list) list.push(rec); else all.set(slug, [rec]);
+            }
+        }
+    } catch (_e) { ioError = true; }
+    const multi = new Map();
+    for (const [k, v] of all) if (v.length > 1) multi.set(k, v);
+    if (!ioError) _DB_SLUG_MULTI_INDEX = multi;
+    return multi;
+}
+const _PRAYER_COORD_MEMO = new Map(), _PRAYER_COORD_MEMO_MAX = 512;
+// null = not a coordinate link. Else { kind, place } where place (namesake only) =
+//   { lat, lng, cc, iana, names: {ar, en}, curatedSlug } — the point the page must describe.
+function _prayerCoordPlace(slug, latStr, lngStr) {
+    if (!slug || latStr == null || lngStr == null) return null;
+    const s = String(slug).toLowerCase();
+    const key = s + '|' + latStr + '|' + lngStr;
+    if (_PRAYER_COORD_MEMO.has(key)) return _PRAYER_COORD_MEMO.get(key);
+    let out;
+    try { out = _prayerCoordPlaceUncached(s, latStr, lngStr); } catch (_e) { out = { kind: 'error', place: null }; }
+    if (_PRAYER_COORD_MEMO.size >= _PRAYER_COORD_MEMO_MAX) _PRAYER_COORD_MEMO.delete(_PRAYER_COORD_MEMO.keys().next().value);
+    _PRAYER_COORD_MEMO.set(key, out);
+    return out;
+}
+function _prayerCoordPlaceUncached(s, latStr, lngStr) {
+    // A curated slug that itself ends in two numbers is a city, not a coordinate link (robots rule exemption).
+    if (_findPlaceBySlug(s + '-' + latStr + '-' + lngStr)) return { kind: 'curated-tail', place: null };
+    const lat = Number(latStr), lng = Number(lngStr);
+    if (!isFinite(lat) || !isFinite(lng) || lat < -90 || lat > 90 || lng < -180 || lng > 180) return { kind: 'invalid', place: null };
+    const id = _ssrCityPlace(s);
+    const idCc = (id && id.cc) ? String(id.cc).toLowerCase() : '';
+    if (!id || !idCc || !isFinite(id.lat) || !isFinite(id.lng)) return { kind: 'no-identity', place: null };
+    const dI = _haversineKmSrv(lat, lng, id.lat, id.lng);
+    // Other records of the slug: every db record except the identity's own twin (same country, within 25 km of it).
+    const recs = [];
+    const multi = _getDbSlugMultiIndex().get(s);
+    if (multi) recs.push(...multi);
+    else { const one = _getCitySlugIndex()[s]; if (one) recs.push(one); }
+    let best = null, dN = Infinity;
+    for (const r of recs) {
+        if (r.cc === idCc && _haversineKmSrv(r.lat, r.lng, id.lat, id.lng) <= _PRAYER_COORD_KM) continue;
+        const d = _haversineKmSrv(lat, lng, r.lat, r.lng);
+        if (d < dN) { dN = d; best = r; }
+    }
+    if (Math.min(dI, dN) > _PRAYER_COORD_KM) return { kind: 'far', place: null };
+    if (Math.abs(dI - dN) < _PRAYER_COORD_GAP_KM) return { kind: 'both', place: null };
+    if (dI < dN) return { kind: 'identity', place: null };
+    // namesake: a curated twin (same country, <= 2 km) supplies a verified zone and localized names.
+    let twin = null;
+    try {
+        for (const p of (Array.isArray(_CURATED_PLACES) ? _CURATED_PLACES : [])) {
+            if (!p || String(p.countryCode || '').toLowerCase() !== best.cc || !isFinite(p.lat) || !isFinite(p.lng)) continue;
+            if (_haversineKmSrv(p.lat, p.lng, best.lat, best.lng) <= 2) { twin = p; break; }
+        }
+    } catch (_e) { twin = null; }
+    const iana = (twin && typeof twin.timezone === 'string' && twin.timezone.indexOf('/') > 0)
+        ? twin.timezone : _ssrCityIana(s, best.cc, lat, lng);
+    const names = (twin && twin.names && typeof twin.names === 'object') ? twin.names : { ar: best.nameAr, en: best.nameEn };
+    return { kind: 'namesake', place: { lat, lng, cc: best.cc, iana, names, curatedSlug: twin ? twin.slug : '' } };
+}
+// The override for a coordinate prayer path (or null): the only thing the SSR call sites need.
+function _prayerCoordOverride(slug, latStr, lngStr) {
+    const r = _prayerCoordPlace(slug, latStr, lngStr);
+    return (r && r.kind === 'namesake') ? r.place : null;
+}
+// The `window.__PRAYER_CITY__` seed for a namesake coordinate link, in the `_buildSlugLookupResult` shape, so the
+// client keeps the SAME point / country / zone instead of re-resolving the URL (no seed made it fall back to the
+// method dropdown's default and an Open-Meteo / longitude offset). `slug` stays the URL stem: the client matches
+// its own slug against it before trusting the seed's name. The name is the curated twin's when there is one,
+// else the localized name the page itself already prints for that word.
+function _prayerCoordSeed(stem, place, lang) {
+    if (!place) return null;
+    const twin = place.curatedSlug ? _findPlaceBySlug(place.curatedSlug) : null;
+    const name = (twin && _pickCuratedName(twin, lang)) || (typeof _resolveCityName === 'function' ? _resolveCityName(stem, lang) : '') || (place.names && place.names.en) || '';
+    const englishName = (twin && _pickCuratedName(twin, 'en')) || (place.names && place.names.en) || '';
+    const country = _getCountryName(place.cc, lang) || '';
+    const countrySlug = (typeof makeCountrySlugSrv === 'function') ? (makeCountrySlugSrv(place.cc) || '') : '';
+    const out = {
+        slug: stem, lat: place.lat, lng: place.lng, name, englishName, country, countryCode: place.cc,
+        timezone: place.iana || '', timezoneOffset: place.iana ? _ianaOffsetHours(place.iana, new Date()) : null,
+        type: 'city', originalName: '', source: twin ? 'curated' : 'db'
+    };
+    if (countrySlug) out.countrySlug = countrySlug;
+    return out;
+}
+
 // Compute today's prayer times for the city resolved from `slug`.
 //   Returns { fajr, sunrise, dhuhr, asr, maghrib, isha } as 24h "HH:MM"
 //   strings, or `null` if the city can't be resolved (caller falls back to
 //   leaving "--:--" placeholders).
-function _ssrPrayerTimesFor(slug) {
+function _ssrPrayerTimesFor(slug, coordPlace) {
     try {
-        const info = _ssrCityPlace(slug);   // curated identity outranks a db namesake
+        // PRAYER-COORD-LINK-CONSISTENCY-1: a coordinate link naming another place passes that place.
+        const info = coordPlace || _ssrCityPlace(slug);   // curated identity outranks a db namesake
         // Default to Mecca for homepage / unresolved slugs.
         const lat = (info && isFinite(info.lat)) ? info.lat : 21.4225;
         const lng = (info && isFinite(info.lng)) ? info.lng : 39.8262;
         const cc  = ((info && info.cc) || 'sa').toLowerCase();
-        const iana = _ssrCityIana(slug, cc, lat, lng);   // city zone; country zone as fallback
+        const iana = coordPlace ? coordPlace.iana : _ssrCityIana(slug, cc, lat, lng);   // city zone; country zone as fallback
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3; // sa default
         // PT-METHOD-3 + REGIONAL-DEFAULT-CALC-METHODS-APPLY-1 (2026-05-26):
@@ -3925,7 +4054,7 @@ function _pciMin2Hm(mins) {
     return String(Math.floor(v / 60)).padStart(2, '0') + ':' + String(v % 60).padStart(2, '0');
 }
 /** Resolve the same lat/lng/cc/tz/method context _ssrPrayerTimesFor uses. */
-function _pciCtx(slug) {
+function _pciCtx(slug, coordPlace) {
     // PRAYER-CITY-INTELLIGENCE-REBASE-1 (2026-09-01): this resolver was written before PR #72,
     // #74 and #75 shipped, and carried their superseded logic:
     //   • identity via `_resolveCityForMoon` -> inherited the db-first slug collision, so
@@ -3937,13 +4066,14 @@ function _pciCtx(slug) {
     //     (America/New_York) beside a hero table correctly computed for America/Denver.
     // Resolve through the same two functions `_ssrPrayerTimesFor` uses, so the intelligence
     // sections and the hero share ONE identity and ONE timezone by construction.
-    const info = (slug && typeof _ssrCityPlace === 'function')
+    // PRAYER-COORD-LINK-CONSISTENCY-1: a coordinate link naming another place passes that place.
+    const info = coordPlace ? coordPlace : (slug && typeof _ssrCityPlace === 'function')
         ? _ssrCityPlace(slug)
         : ((slug && typeof _resolveCityForMoon === 'function') ? _resolveCityForMoon(slug) : null);
     const lat = (info && isFinite(info.lat)) ? info.lat : 21.4225;
     const lng = (info && isFinite(info.lng)) ? info.lng : 39.8262;
     const cc  = ((info && info.cc) || 'sa').toLowerCase();
-    const iana = (typeof _ssrCityIana === 'function')
+    const iana = coordPlace ? coordPlace.iana : (typeof _ssrCityIana === 'function')
         ? _ssrCityIana(slug, cc, lat, lng)
         : ((typeof _CC_TO_PRIMARY_TZ !== 'undefined') ? _CC_TO_PRIMARY_TZ[cc] : null);
     const now = new Date();
@@ -3988,9 +4118,9 @@ function _pciDayLen(t) {
  * Everything the City Intelligence sections need, computed once per request.
  * Returns null when the engine cannot produce a valid day (never a placeholder).
  */
-function _cityIntel(slug) {
+function _cityIntel(slug, coordPlace) {
     try {
-        const ctx = _pciCtx(slug);
+        const ctx = _pciCtx(slug, coordPlace);
         const L = _pciLocalYmd(ctx.iana);
         // All four sections read from ONE source so they can never disagree with each other:
         // the same engine and config as the hero, for the city's OWN calendar day and its OWN
@@ -4311,9 +4441,10 @@ function _ssrNextPrayerCountdown(slug, t) {
 // PERF-LCP-1 (2026-05-10): also pre-fills #next-prayer-countdown +
 // #next-prayer-name (LCP element on city pages). The `lang` parameter
 // localizes the prayer name; if omitted, falls back to AR.
-function _ssrInjectPrayerTimes(html, slug, lang) {
+function _ssrInjectPrayerTimes(html, slug, lang, coordPlace) {
     _PCI_LAST_QA = null;   // never carry a previous request's questions
-    const t = _ssrPrayerTimesFor(slug);
+    // PRAYER-COORD-LINK-CONSISTENCY-1: coordPlace = the other place a coordinate link names (else null).
+    const t = _ssrPrayerTimesFor(slug, coordPlace);
     if (!t) return html;
     // 1) Daily prayer-time grid.
     let out = html
@@ -4332,11 +4463,11 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
     //    columns. We now compute ALL of that SSR-side and inject before
     //    first paint, so JS hydration is a no-op for layout.
     try {
-        const info = _ssrCityPlace(slug);   // same place as the hero times
+        const info = coordPlace || _ssrCityPlace(slug);   // same place as the hero times
         const cc = ((info && info.cc) || 'sa').toLowerCase();
         // Drives the banner clock AND its Gregorian date line, both of which were on the
         // country's offset while the Hijri line beside them was already on the city's.
-        const iana = _ssrCityIana(slug, cc, info && info.lat, info && info.lng);
+        const iana = coordPlace ? coordPlace.iana : _ssrCityIana(slug, cc, info && info.lat, info && info.lng);
         const now = new Date();
         const tzOffset = iana ? _ianaOffsetHours(iana, now) : 3;
         const localMs = now.getTime() + (tzOffset * 3600 * 1000);
@@ -4405,7 +4536,7 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
         // (_hijriNow) is a SAFE FALLBACK only when no curated IANA. (The banner's
         // current-time/countdown still use the existing country-level localD —
         // prayer display is out of scope; the client refines it to city time.)
-        const _cityIanaPL = (slug && typeof _findPlaceBySlug === 'function')
+        const _cityIanaPL = coordPlace ? (coordPlace.iana || '') : (slug && typeof _findPlaceBySlug === 'function')
             ? ((_findPlaceBySlug(slug) || {}).timezone || '')
             : '';
         const hijri = _cityIanaPL
@@ -4494,7 +4625,7 @@ function _ssrInjectPrayerTimes(html, slug, lang) {
     // values in the first byte. Everything is derived from the same engine call
     // the grid above uses, so the numbers cannot disagree with the cards.
     try {
-        const _pci = _cityIntel(slug);
+        const _pci = _cityIntel(slug, coordPlace);
         if (_pci) {
             const _lg = lang || 'ar';
             const _D = (I18N && (I18N[_lg] || I18N.en)) || {};
@@ -21862,7 +21993,10 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
         let _ssrSlug = 'mecca';
         const _slugForTimes = urlPath.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?$/);
         if (_slugForTimes) _ssrSlug = _slugForTimes[1];
-        html = _ssrInjectPrayerTimes(html, _ssrSlug, seo.lang);
+        // PRAYER-COORD-LINK-CONSISTENCY-1: the coordinates were captured here but never used -- the content
+        //   of a coordinate link naming another place of the same name now describes THAT place.
+        const _coordPlaceT = _slugForTimes ? _prayerCoordOverride(_slugForTimes[1], _slugForTimes[2], _slugForTimes[3]) : null;
+        html = _ssrInjectPrayerTimes(html, _ssrSlug, seo.lang, _coordPlaceT);
     }
     // 1e) UAT-Home-Simplify: homepage → minimal gateway (Hero + 4 tools + 8
     //     countries + 2 generic FAQ + slim footer). Strip all city-flavored
@@ -25952,7 +26086,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: resolve the country from the AUTHORITATIVE chain
             //   (famous → curated-places → coord/slug), not just FAMOUS_CITY_OVERRIDES — so new curated
             //   cities (praia/windhoek/…) get a real country crumb link, not a dead href="#".
-            const _bcCc = _cityCcForBreadcrumb(_citySlug);
+            // PRAYER-COORD-LINK-CONSISTENCY-1: a coordinate link naming another place shows THAT place's country.
+            const _bcCoord = (cityMatchSsr[2] != null) ? _prayerCoordOverride(_citySlug, cityMatchSsr[2], cityMatchSsr[3]) : null;
+            const _bcCc = _bcCoord ? _bcCoord.cc : _cityCcForBreadcrumb(_citySlug);
             const _bcCountryName = (_bcCc && typeof _countryNameForLang === 'function') ? (_countryNameForLang(_bcCc, L) || '') : '';
             const _bcCountrySlug = (_bcCc && typeof makeCountrySlugSrv === 'function') ? (makeCountrySlugSrv(_bcCc) || '') : '';
             if (_bcCountryName) {
@@ -26023,7 +26159,8 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             //   the JSON-LD country item matches the visible breadcrumb (present for curated cities, absent
             //   — no broken URL — when unresolved). The `if (_countryNameJL && _countrySlugJL)` push below
             //   already gates on both, so an unresolved city yields a clean 2-item list.
-            const _bcCcJL = _cityCcForBreadcrumb(_citySlug);
+            const _bcCoordJL = (cityMatchSsr[2] != null) ? _prayerCoordOverride(_citySlug, cityMatchSsr[2], cityMatchSsr[3]) : null;   // PRAYER-COORD-LINK-CONSISTENCY-1
+            const _bcCcJL = _bcCoordJL ? _bcCoordJL.cc : _cityCcForBreadcrumb(_citySlug);
             let _countryNameJL = '';
             let _countrySlugJL = '';
             if (_bcCcJL) {
@@ -30535,7 +30672,18 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 //   the client Tier-0 finds the authoritative lang-correct name and
                 //   skips geocodeSlug — same as the flat /moon-in-{city} hub.
                 const _bareCityRoute = /^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:(?:prayer-times-in|moon-in|moon-today-in|qibla-in)-[a-z][a-z0-9-]+|moon\/[a-z][a-z0-9-]+\/[a-z][a-z0-9-]+(?:\/today|\/\d{4}(?:\/\d{2}(?:\/\d{2})?)?)?)$/.test(urlPath.replace(/\.html$/, ''));
-                if (_bareCityRoute && typeof _findPlaceBySlug === 'function') {
+                // PRAYER-COORD-LINK-CONSISTENCY-1: a coordinate prayer link whose point is resolved (identity, or another
+                //   record of the same slug) is seeded too, with the place its SSR content describes; far / both /
+                //   invalid points keep the previous unseeded flow. A curated slug that itself ends in two numbers is a
+                //   bare route, never a coordinate link (same exemption as the robots rule).
+                const _coordRouteM = urlPath.replace(/\.html$/, '').match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?prayer-times-in-([a-z][a-z0-9-]*?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/);
+                //   Integer coordinates (…-10-10) also match `_bareCityRoute`; they are resolved here too so the seed
+                //   always agrees with the SSR times (which resolve them the same way); unresolved ones keep the
+                //   bare-route seed they had before.
+                const _coordRes = _coordRouteM
+                    ? _prayerCoordPlace(_coordRouteM[1], _coordRouteM[2], _coordRouteM[3]) : null;
+                const _coordSeedable = !!(_coordRes && (_coordRes.kind === 'identity' || _coordRes.kind === 'namesake'));
+                if ((_bareCityRoute || _coordSeedable) && typeof _findPlaceBySlug === 'function') {
                     // DISCOVERED-CITY-SSR-NAME-RESOLUTION-FIX-1 (2026-06-13):
                     // seed curated FIRST (unchanged), else a prefetched discovered
                     // entry — but ONLY when the page lang has a script-acceptable
@@ -30543,7 +30691,9 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                     // we never paint a Latin names.en fallback into an Arabic/Urdu/
                     // Bengali hero (#city-name/#bc-city). The noindex guard is
                     // independent — discovered pages stay noindex,follow.
-                    let _seedEntry = _findPlaceBySlug(_ssrCitySlug);
+                    const _coordSeed = (_coordRes && _coordRes.kind === 'namesake')
+                        ? _prayerCoordSeed(_coordRouteM[1], _coordRes.place, seo.lang) : null;
+                    let _seedEntry = _coordSeed ? { countryCode: _coordSeed.countryCode } : _findPlaceBySlug(_ssrCitySlug);
                     let _seedSource = 'curated';
                     if (!_seedEntry && typeof _getDiscoveredSsrEntry === 'function') {
                         const _discSeed = _getDiscoveredSsrEntry(_ssrCitySlug);
@@ -30552,7 +30702,7 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                         }
                     }
                     if (_seedEntry) {
-                        const _placeData = _buildSlugLookupResult(_seedEntry, seo.lang, _seedSource);
+                        const _placeData = _coordSeed || _buildSlugLookupResult(_seedEntry, seo.lang, _seedSource);
                         // PRAYER-CITY-COUNTRY-BREADCRUMB-LINK-FIX-1: seed the AUTHORITATIVE country slug so the
                         //   client breadcrumb links the country crumb from SSR truth (no reliance on the client's
                         //   partial COUNTRY_EN_NAMES map, no 'sa' fallback). Derived from the city's countryCode

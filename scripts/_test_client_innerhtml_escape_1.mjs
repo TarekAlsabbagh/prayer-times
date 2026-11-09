@@ -13,6 +13,9 @@
 // are answered by the test (CDP Fetch) — nothing reaches the server's Nominatim proxy, nothing is written.
 // Markers are INERT: a made-up <zqmark> element and a data-zq attribute. If a renderer turns a name into
 // markup, the marker becomes a real element / attribute (detected); if it escapes, the marker stays text.
+// REAL-FLOW section (last): user interaction only (open a link, type, click, wait; location allowed), no render
+// call, no DOM / storage write by the test. /api/geocode and /api/search-place reach the server; the server's
+// outbound Nominatim fetch is answered in-process by a second -r stand-in (local JSON, never the network).
 import { spawn, execSync } from 'node:child_process';
 import net from 'node:net';
 import fs from 'node:fs';
@@ -37,6 +40,27 @@ if(o&&typeof o==='object'&&!Array.isArray(o))h=o.host||(o.path?'pipe':'localhost
 if(h!=='pipe'&&!L(h)){const s=this;process.nextTick(()=>{const e=new Error('qa guard '+h);e.code='ECONNREFUSED';s.destroy(e)});return this}return c.apply(this,a)};
 const lk=dns.lookup;dns.lookup=function(n,o,cb){if(typeof o==='function'){cb=o;o={}}if(!L(n)){const e=new Error('ENOTFOUND '+n);e.code='ENOTFOUND';process.nextTick(()=>cb(e));return}return lk.call(dns,n,o,cb)};
 if(typeof fetch==='function'){const f=fetch;globalThis.fetch=function(i,n){let h='';try{h=new URL(typeof i==='string'?i:(i&&i.url)||String(i)).hostname}catch(_){}if(!L(h))return Promise.reject(new TypeError('qa guard'));return f.call(this,i,n)}}`);
+
+// ── Nominatim stand-in for the REAL-FLOW section (second -r, loaded after the guard) ──
+// The server's own /api/geocode proxy calls fetch('https://nominatim.openstreetmap.org/...'). Inside this
+// local server process only, that call is answered here with local JSON (never the network): three queries
+// carry the inert marker in their names, every other Nominatim request gets the empty shape. Each answer is
+// logged as "[zq-nominatim] <type> <fixture|empty>" so the test can prove the name came through the proxy.
+const NOMI = path.join(os.tmpdir(), 'tp-client-escape-nominatim.cjs');
+fs.writeFileSync(NOMI, `'use strict';
+const M='<zqmark data-zq="1">ZQ</zqmark>';
+const P=(n,lat,lon,i)=>({place_id:880000+i,osm_type:'node',osm_id:880000+i,lat,lon,name:n,display_name:n+', Zqland',class:'place',type:'city',addresstype:'city',importance:0.6,
+ address:{city:n,country:'Zqland',country_code:'sa'},namedetails:{name:n,'name:en':n,'name:ar':n}});
+const prev=globalThis.fetch;
+globalThis.fetch=function(i,o){let u;try{u=new URL(typeof i==='string'?i:(i&&i.url)||String(i))}catch(_){return prev.call(this,i,o)}
+if(u.hostname!=='nominatim.openstreetmap.org')return prev.call(this,i,o);
+const t=u.pathname.replace(/^\\//,''),q=((u.searchParams.get('q')||'')+' '+(u.searchParams.get('city')||'')).toLowerCase();
+let body=t==='reverse'?{}:[],hit='';
+if(t==='search'&&q.includes('zqtestplace')){body=[P('Zqlink'+M,'23.1100','41.3700',1)];hit='link'}
+else if(t==='search'&&q.includes('zqtest')){body=[P('Zqsearch'+M,'23.2200','41.4800',2)];hit='search'}
+else if(t==='reverse'&&String(u.searchParams.get('lat')||'').startsWith('23.33')){body=P('Zqgeo'+M,'23.3312','41.4423',3);hit='geo'}
+process.stderr.write('[zq-nominatim] '+t+' '+(hit?'fixture:'+hit:'empty')+'\\n');
+return Promise.resolve(new Response(JSON.stringify(body),{status:200,headers:{'content-type':'application/json; charset=utf-8'}}))};`);
 
 const canListen = (p, h) => new Promise(res => { const s = net.createServer(); s.once('error', () => res(false)); s.listen(p, h, () => s.close(() => res(true))); });
 const freePort = async (list) => { for (const p of list) if (await canListen(p, '127.0.0.1') && await canListen(p, '::')) return p; throw new Error('no free port in ' + list); };
@@ -73,7 +97,7 @@ const SRVP = await freePort([9960, 9961, 9962, 9963, 9964, 9965]);
 const DBG = await freePort([9966, 9967, 9968, 9969]);
 const env = Object.assign({}, process.env, { PORT: String(SRVP), ADSENSE_CLIENT: 'off', SUPABASE_URL: '', SUPABASE_SERVICE_ROLE_KEY: '',
     SUPABASE_ANON_KEY: '', TZ: 'UTC', SITE_URL: 'https://timesprayers.com', WEB_CONCURRENCY: '1' });
-const srv = spawn(process.execPath, ['-r', GUARD, 'server.js'], { cwd: TREE, env, stdio: ['ignore', 'pipe', 'pipe'] });
+const srv = spawn(process.execPath, ['-r', GUARD, '-r', NOMI, 'server.js'], { cwd: TREE, env, stdio: ['ignore', 'pipe', 'pipe'] });
 let slog = ''; srv.stdout.on('data', d => slog += d); srv.stderr.on('data', d => slog += d);
 const BASE = 'http://127.0.0.1:' + SRVP;
 let chrome, sock; const prof = path.join(os.tmpdir(), 'tp-client-escape-prof-' + SRVP);
@@ -231,17 +255,124 @@ return {snap:o,muts:[...new Set((window.__zq||{}).muts||[])].slice(0,12),final:f
         '/en/prayer-times-in-saudi-arabia', '/prayer-times-in-saudi-arabia', '/fr/prayer-times-in-canada', '/en/prayer-times-in-canada', '/bn/prayer-times-in-bangladesh', '/en/moon/saudi-arabia'])
         await run('curated ' + p, { kind: 'legit', path: p, wait: 0 });
 
+    // ── REAL FLOWS: link → proxy → render, user interaction only ──
+    // No render function is called and the test never writes to the DOM or to storage: it opens links, clicks
+    // and types through CDP Input events, and waits. /api/geocode is NOT intercepted here — the browser's
+    // request reaches the server's real proxy, whose outbound Nominatim fetch is answered by the -r stand-in
+    // above. Only /api/place-selected (a write endpoint) stays answered by the test; ads / prod host / sw.js stay failed.
+    // Marker: <zqmark data-zq="1">ZQ</zqmark>. Injected = a real <zqmark> element appears (seen by the
+    // MutationObserver or in the final DOM); escaped = the literal text "<zqmark" is visible on the page.
+    const realResults = [];
+    {
+        const fr = await send('Fetch.enable', { patterns: ['/api/place-selected',
+            'googlesyndication.com', 'doubleclick.net', 'googleadservices.com', 'adtrafficquality.google', 'fundingchoicesmessages.google.com',
+            'googletagmanager.com', 'google-analytics.com', 'timesprayers.com', '/sw.js'].map(p => ({ urlPattern: '*' + p + '*', requestStage: 'Request' })) });
+        if (fr.error) throw new Error('Fetch.enable (real flows): ' + JSON.stringify(fr.error));
+        const nomiHits = () => (slog.match(/\[zq-nominatim\] \w+ fixture:\w+/g) || []).length;
+        const waitFor = async (expr, ms = 15000) => { for (let t = 0; t < ms; t += 250) { if (await ev(expr) === true) return true; await sleep(250); } return false; };
+        const open = async (p) => { loaded = false; await send('Page.navigate', { url: BASE + p }); for (let i = 0; i < 120 && !loaded; i++) await sleep(250); };
+        // centre of the first element matching sel (optionally containing text); scrolls with the mouse wheel if needed
+        const rectOf = (sel, txt) => ev(`(()=>{const e=[...document.querySelectorAll(${JSON.stringify(sel)})].find(x=>${txt ? 'x.textContent.includes(' + JSON.stringify(txt) + ')' : 'true'});if(!e)return null;const r=e.getBoundingClientRect();return r.width&&r.height?{x:r.left+r.width/2,y:r.top+r.height/2,h:innerHeight}:null})()`);
+        const click = async (sel, txt) => {
+            let r = await rectOf(sel, txt);
+            for (let i = 0; i < 8 && r && (r.y < 5 || r.y > r.h - 5); i++) {
+                await send('Input.dispatchMouseEvent', { type: 'mouseWheel', x: 640, y: 450, deltaX: 0, deltaY: r.y > r.h ? Math.min(600, r.y - r.h / 2) : -400 });
+                await sleep(300); r = await rectOf(sel, txt);
+            }
+            if (!r) return false;
+            for (const type of ['mouseMoved', 'mousePressed', 'mouseReleased'])
+                await send('Input.dispatchMouseEvent', { type, x: r.x, y: r.y, button: 'left', buttons: type === 'mousePressed' ? 1 : 0, clickCount: 1 });
+            return true;
+        };
+        const typeText = async (s) => { for (const ch of s) { await send('Input.dispatchKeyEvent', { type: 'keyDown', key: ch, text: ch, unmodifiedText: ch }); await send('Input.dispatchKeyEvent', { type: 'keyUp', key: ch }); await sleep(40); } };
+        const RSNAP = (works) => `(()=>{const Z=window.__zq||{muts:[]};const S=${JSON.stringify(SEL)};const inj=[],lit=[];
+for(const s of S){const e=document.querySelector(s);if(!e)continue;if(e.querySelector('zqmark'))inj.push(s);if(e.textContent.includes('<zqmark'))lit.push(s)}
+const h1=document.querySelector('h1');
+return {url:location.pathname,title:document.title,h1:h1?h1.textContent.replace(/\\s+/g,' ').trim().slice(0,120):'',
+zqmarkFinal:document.querySelectorAll('zqmark').length,zqmarkSeen:[...new Set(Z.muts)].filter(m=>/^ZQMARK/.test(m)).length,dataZq:document.querySelectorAll('[data-zq]').length,
+muts:[...new Set(Z.muts)].slice(0,8),injectedIn:inj,literalIn:lit,literalVisible:(document.body.innerText||'').includes('<zqmark'),literalInDom:(document.body.textContent||'').includes('<zqmark'),works:!!(${works})}})()`;
+        const CITY_WORKS = `/\\d{1,2}:\\d{2}/.test((document.getElementById('time-fajr')||{}).textContent||'')`;
+        const checkpoint = async (scn, step, works, hits0, extra = {}) => {
+            await sleep(1200);
+            const r = await ev(RSNAP(works));
+            const rec = Object.assign({ scenario: scn, step, proxyFixtureHits: nomiHits() - hits0, mockedPaths: [...mockedPaths], exceptions: [...exceptions], dialogs: [...dialogs] }, r, extra);
+            rec.zqmark = Math.max(rec.zqmarkFinal, rec.zqmarkSeen);
+            realResults.push(rec);
+            console.log((rec.zqmark ? 'INJECTED ' : 'clean    ') + (scn + ' / ' + step).padEnd(44) + ' zqmark=' + rec.zqmark + ' literal=' + rec.literalVisible + ' works=' + rec.works + ' proxyHits=' + rec.proxyFixtureHits + ' url=' + rec.url);
+            return rec;
+        };
+        const fresh = async () => { await send('Storage.clearDataForOrigin', { origin: BASE, storageTypes: 'all' }); await send('Network.clearBrowserCache');
+            dialogs.length = 0; exceptions.length = 0; mocked = 0; mockedPaths.clear(); await send('Page.navigate', { url: 'about:blank' }); await sleep(200); };
+        const want = (n) => !process.env.ONLY || new RegExp(process.env.ONLY).test(n);
+
+        // R1 — open the link of a city the server does not know: app.js resolves the slug through /api/geocode
+        if (want('real-link-unknown-city')) {
+            await fresh(); const h = nomiHits();
+            await open('/en/prayer-times-in-zqtestplace');
+            await waitFor(`document.body.innerText.includes('Zqlink')`);
+            await checkpoint('real-link-unknown-city', 'city page', CITY_WORKS, h);
+        }
+        // R2 — homepage: type in the visible search box, wait for the suggestions, click one, check the city page.
+        //   The visible homepage box (#loc-hero-search) goes to /api/search-place, whose external cascade makes the
+        //   server's own Nominatim fetch (answered by the stand-in). Its dropdown renderer (site-search.js) already
+        //   escaped on the old tree, so that step is informational; the defect shows on the city page after the click.
+        //   (#city-search-input — the v1 /api/geocode box — is not displayed on /en nor on /en/prayer-times-in-riyadh, so no user types in it there.)
+        const searchFlow = async (scn, page, input, box, item, dropdownInfo) => {
+            if (!want(scn)) return;
+            await fresh(); const h = nomiHits();
+            await open(page); await sleep(2500);
+            const focused = await click(input);
+            await typeText('zqtest');
+            const has = `(document.getElementById(${JSON.stringify(box)})||{textContent:''}).textContent.includes('Zqsearch')`;
+            await waitFor(has);
+            await checkpoint(scn, 'suggestions', has, h, dropdownInfo ? { focused, info: true } : { focused });
+            const clicked = await click('#' + box + ' ' + item, 'Zqsearch');
+            await waitFor(`/prayer-times-in-zq/.test(location.pathname)&&document.readyState==='complete'`); await sleep(2500);
+            await waitFor(CITY_WORKS, 6000);
+            await checkpoint(scn, 'city page after click', CITY_WORKS, h, { clicked });
+        };
+        await searchFlow('real-home-search-type-click', '/en', '#loc-hero-search', 'loc-hero-suggestions', '.search-test-result', true);        // R3 — homepage with location allowed: detectLocation → reverse geocode through the proxy writes
+        //   lsb_detected (app.js); then open the country-page link, whose "last location" pill renders it.
+        if (want('real-geo-then-country')) {
+            await fresh(); const h = nomiHits();
+            await send('Browser.grantPermissions', { origin: BASE, permissions: ['geolocation'] });
+            await send('Emulation.setGeolocationOverride', { latitude: 23.3312, longitude: 41.4423, accuracy: 30 });
+            await open('/en');
+            const saved = await waitFor(`(()=>{try{return (localStorage.getItem('lsb_detected')||'').includes('Zqgeo')}catch(_){return false}})()`, 20000);
+            // informational: this bar is written with textContent on both trees (not part of the defect)
+            await checkpoint('real-geo-then-country', 'home location bar', `(document.getElementById('lsb-city-name')||{textContent:''}).textContent.includes('Zqgeo')`, h, { lsbSaved: saved, info: true });
+            await open('/en/prayer-times-in-saudi-arabia');
+            await waitFor(`(()=>{const p=document.getElementById('loc-hero-smart-pill');return !!p&&!p.hidden&&p.textContent.includes('Zqgeo')})()`, 8000);
+            await checkpoint('real-geo-then-country', 'country page pill', `(()=>{const p=document.getElementById('loc-hero-smart-pill');return !!p&&!p.hidden&&p.textContent.includes('Zqgeo')&&!!document.querySelector('#cities-container a')})()`, h, { lsbSaved: saved });
+            await send('Emulation.clearGeolocationOverride'); await send('Browser.resetPermissions');
+        }
+    }
+
     const offsiteList = [...offsite];
     const mal = results.filter(r => r.kind === 'mal'), leg = results.filter(r => r.kind === 'legit');
     const malInjected = mal.filter(r => r.injected || r.checkFail), legBad = leg.filter(r => r.injected || r.missingText.length || r.checkFail);
     const anyDialogs = results.filter(r => r.dialogs.length);
-    fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify({ tree: TREE, offsite: offsiteList, results }, null, 1));
+    fs.writeFileSync(path.join(OUT, 'results.json'), JSON.stringify({ tree: TREE, offsite: offsiteList, results, realResults }, null, 1));
+    // real-flow verdicts
+    const realNoProxy = realResults.filter(r => !r.proxyFixtureHits || r.mockedPaths.includes('/api/geocode'));
+    // escaped = the literal marker text is visible (info checkpoints: present as text, the bar may still be hidden)
+    for (const r of realResults) r.literalOk = r.info ? r.literalInDom : r.literalVisible;
+    const realBad = realResults.filter(r => r.zqmark || r.dataZq || !r.literalOk || !r.works || r.dialogs.length);
+    const realDefect = realResults.filter(r => !r.info && r.zqmark > 0);
+    const realDefectMissing = realResults.filter(r => !r.info && !r.zqmark);
+    console.log('\nreal flows: ' + realResults.length + ' checkpoints; name via server proxy in all: ' + !realNoProxy.length
+        + '; injected: ' + realDefect.length + ' [' + realDefect.map(r => r.scenario + '/' + r.step).join(', ') + ']');
     console.log('\nmalicious scenarios: ' + mal.length + ', injected: ' + malInjected.length + ' [' + malInjected.map(r => r.name).join(', ') + ']');
     console.log('malicious scenarios rendered as text (marker visible): ' + mal.filter(r => !r.missingText.length).length + '/' + mal.length);
     console.log('legit scenarios: ' + leg.length + ', wrong (injected or text missing): ' + legBad.length + ' [' + legBad.map(r => r.name + ':' + r.missingText.join('/')).join(', ') + ']');
     console.log('native dialogs: ' + anyDialogs.length + '; off-site hosts attempted (all unresolvable): ' + offsiteList.join(', '));
-    if (EXPECT_DEFECT) { if (!malInjected.length) { console.log('FAIL: defect not detected on this tree'); fail++; } else console.log('OK: defect detected (' + malInjected.length + ' scenarios)'); }
-    else {
+    if (realNoProxy.length) { console.log('FAIL: real flow did not take the name from the server proxy: ' + realNoProxy.map(r => r.scenario + '/' + r.step).join(', ')); fail++; }
+    if (EXPECT_DEFECT) {
+        if (!malInjected.length) { console.log('FAIL: defect not detected on this tree'); fail++; } else console.log('OK: defect detected (' + malInjected.length + ' scenarios)');
+        if (realDefectMissing.length) { console.log('FAIL: real flow defect not detected: ' + realDefectMissing.map(r => r.scenario + '/' + r.step).join(', ')); fail++; }
+        else if (realResults.length) console.log('OK: real-flow defect detected (' + realDefect.length + ' checkpoints)');
+    } else {
+        if (realBad.length) { console.log('FAIL: real flows: ' + realBad.map(r => r.scenario + '/' + r.step + (r.zqmark ? ' zqmark=' + r.zqmark : '') + (r.literalOk ? '' : ' no-literal') + (r.works ? '' : ' not-working')).join(', ')); fail++; }
         if (malInjected.length) { console.log('FAIL: names became markup'); fail++; }
         if (mal.some(r => r.missingText.length)) { console.log('FAIL: a malicious name was not shown as text: ' + mal.filter(r => r.missingText.length).map(r => r.name).join(', ')); fail++; }
         if (legBad.length) { console.log('FAIL: legitimate names'); fail++; }

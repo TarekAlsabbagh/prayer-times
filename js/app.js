@@ -2012,6 +2012,38 @@ function _hijriCalWin() {
 }
 function _hijriCalServedC(y) { const w = _hijriCalWin(); return !!w && y >= w.min && y <= w.max; }
 
+// CLIENT-INNERHTML-ESCAPE-1 (2026-11-09): one module-level escaper for every renderer that builds
+//   markup from a place name or code. These values reach the browser on paths the server never
+//   cleans: the /api/geocode proxy passes Nominatim bytes through as they are, nearby places come
+//   from Nominatim / Overpass, and the city / qibla / moon pages also read names from the legacy
+//   ?name= query, from sessionStorage seeds and from localStorage (lsb_detected, qibla visits, the
+//   cached reverse geocodes). Escaping at render time is the protection; no character is rejected,
+//   so every legitimate name (Xi'an, Saint-Pierre & Miquelon, Biel/Bienne, Al-`Ula, any script)
+//   still renders as the same text. Inside text and inside a quoted attribute the five escaped
+//   characters decode back to themselves, so a name without < > & " ' gives identical markup.
+function _tpEsc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+        return c === '&' ? '&amp;' : c === '<' ? '&lt;' : c === '>' ? '&gt;' : c === '"' ? '&quot;' : '&#39;';
+    });
+}
+// A country code goes into a flag URL and an alt attribute: ISO 3166 alpha-2 only, lower-cased;
+//   anything else gives '' and the caller shows its no-flag fallback.
+function _tpCc(cc) {
+    const s = String(cc == null ? '' : cc).trim().toLowerCase();
+    return /^[a-z]{2}$/.test(s) ? s : '';
+}
+// A link built into markup: an http(s) URL or a path on this site (resolved against the page) is
+//   returned unchanged; javascript:, data:, vbscript: or anything unparsable becomes '#'. The caller
+//   still escapes the result for the attribute.
+function _tpHref(h) {
+    const s = String(h == null ? '' : h);
+    try {
+        const p = new URL(s, window.location.href).protocol;
+        if (p === 'http:' || p === 'https:' || (p === 'file:' && window.location.protocol === 'file:')) return s;
+    } catch (_) {}
+    return '#';
+}
+
 /** يبني <ol class="breadcrumb-list"> بنفس تصميم city-breadcrumb لصفحات التقويم الهجري */
 function _buildHijriBreadcrumbOl(items) {
     const parts = ['<ol class="breadcrumb-list">'];
@@ -5799,10 +5831,11 @@ function onCitySearchInput(query, ctx) {
             div.className = 'suggestion-item';
             const displayName = isEnSearch ? city.en : city.ar;
             const countryName = isEnSearch ? (city.countryEn || city.country) : city.country;
-            const flagImg = city.cc
-                ? `<img src="https://flagcdn.com/28x21/${city.cc}.png" class="sugg-flag" alt="${city.cc}" onerror="this.style.display='none'">`
+            const _cc = _tpCc(city.cc);   // CLIENT-INNERHTML-ESCAPE-1
+            const flagImg = _cc
+                ? `<img src="https://flagcdn.com/28x21/${_cc}.png" class="sugg-flag" alt="${_cc}" onerror="this.style.display='none'">`
                 : `<span style="font-size:1.2rem">🌍</span>`;
-            div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayName}</div><div class="sugg-country">${countryName}</div></div>`;
+            div.innerHTML = `${flagImg}<div><div class="sugg-name">${_tpEsc(displayName)}</div><div class="sugg-country">${_tpEsc(countryName)}</div></div>`;
             div.addEventListener('click', async () => {
                 const inputEl = document.getElementById(ctx.inputId);
                 if (inputEl) inputEl.value = displayName;
@@ -6563,15 +6596,17 @@ function _renderV2Row(r, suggestionsEl, lang, ctx) {
     div.setAttribute('data-tz',       r.timezone || '');
     div.setAttribute('data-source',   r.source || '');
     div.setAttribute('data-provider', r.provider || '');
-    const cc = (r.countryCode || '').toLowerCase();
+    // CLIENT-INNERHTML-ESCAPE-1: the code is validated before it reaches the URL / alt, and the
+    //   name and subtitle are escaped (the old /[<>]/ strip was a denylist, not an escape).
+    const cc = _tpCc(r.countryCode);
     const flagImg = cc
         ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
         : `<span style="font-size:1.2rem">🌍</span>`;
     const subText = r.typeLabel
         ? `${r.countryName || ''} · ${r.typeLabel}`
         : (r.countryName || '');
-    const safeName = String(r.displayName || '').replace(/[<>]/g, '');
-    const safeSub  = String(subText).replace(/[<>]/g, '');
+    const safeName = _tpEsc(r.displayName || '');
+    const safeSub  = _tpEsc(subText);
     div.innerHTML = `${flagImg}<div><div class="sugg-name">${safeName}</div><div class="sugg-country">${safeSub}</div></div>`;
     div.addEventListener('click', async () => {
         try {
@@ -6710,10 +6745,11 @@ function fetchCitySuggestions(query, ctx) {
         const countryName = isEnSugg ? (city.countryEn || city.country) : city.country;
         const typeLbl = _smartTypeLabel(city.type || 'city');
         const subText = typeLbl ? `${countryName} · ${typeLbl}` : countryName;
-        const flagImg = city.cc
-            ? `<img src="https://flagcdn.com/28x21/${city.cc}.png" class="sugg-flag" alt="${city.cc}" onerror="this.style.display='none'">`
+        const _cc = _tpCc(city.cc);   // CLIENT-INNERHTML-ESCAPE-1
+        const flagImg = _cc
+            ? `<img src="https://flagcdn.com/28x21/${_cc}.png" class="sugg-flag" alt="${_cc}" onerror="this.style.display='none'">`
             : `<span style="font-size:1.2rem">🌍</span>`;
-        div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayName}</div><div class="sugg-country">${subText}</div></div>`;
+        div.innerHTML = `${flagImg}<div><div class="sugg-name">${_tpEsc(displayName)}</div><div class="sugg-country">${_tpEsc(subText)}</div></div>`;
         div.addEventListener('click', async () => {
             const inputEl = document.getElementById(ctx.inputId);
             if (inputEl) inputEl.value = displayName;
@@ -6765,7 +6801,7 @@ function fetchCitySuggestions(query, ctx) {
             btn.className = 'sugg-online-btn';
             // FIX i18n: نصّ البحث الأونلاين لكل اللغات
             const _onlineLbl = (typeof t === 'function' ? t('search.online_for') : null) || 'Search online for';
-            btn.innerHTML = `<span>🌐</span> ${_onlineLbl} "${query}"`;
+            btn.innerHTML = `<span>🌐</span> ${_onlineLbl} "${_tpEsc(query)}"`;   // CLIENT-INNERHTML-ESCAPE-1
             btn.addEventListener('click', () => {
                 const _searchingLbl = (typeof t === 'function' ? t('search.loading') : null) || '⏳ Searching...';
                 btn.innerHTML = `<span>⏳</span> ${_searchingLbl}`;
@@ -6851,7 +6887,7 @@ function fetchCitySuggestions(query, ctx) {
             const enCityMain = _stripAdminPrefix(rawEnCity.replace(/\s*District\b/gi, '').trim());
 
             const country     = addr.country || '';
-            const countryCode = (addr.country_code || '').toLowerCase();
+            const countryCode = _tpCc(addr.country_code);   // CLIENT-INNERHTML-ESCAPE-1: alpha-2 or ''
             const placeLat = parseFloat(place.lat);
             const placeLng = parseFloat(place.lon);
             const placeType = _smartTypeFromNominatim(place) || 'city';
@@ -6881,7 +6917,8 @@ function fetchCitySuggestions(query, ctx) {
 
             const div = document.createElement('div');
             div.className = 'suggestion-item';
-            div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayCity}</div><div class="sugg-country">${subText}</div></div>`;
+            // CLIENT-INNERHTML-ESCAPE-1: Nominatim text (raw from /api/geocode) is escaped here.
+            div.innerHTML = `${flagImg}<div><div class="sugg-name">${_tpEsc(displayCity)}</div><div class="sugg-country">${_tpEsc(subText)}</div></div>`;
             div.addEventListener('click', async () => {
                 const _inputEl = document.getElementById(ctx.inputId);
                 if (_inputEl) _inputEl.value = displayCity;
@@ -7099,7 +7136,7 @@ function fetchCityOnlineBroader(query) {
                         || place.display_name.split(',')[0];
                 const englishName = _stripAdminPrefix(rawEnName.replace(/\s*District\b/gi, '').trim());
                 const country     = addr.country || '';
-                const cc          = (addr.country_code || '').toLowerCase();
+                const cc          = _tpCc(addr.country_code);   // CLIENT-INNERHTML-ESCAPE-1: alpha-2 or ''
                 const placeLat    = parseFloat(place.lat);
                 const placeLng    = parseFloat(place.lon);
                 const placeType   = _smartTypeFromNominatim(place) || 'city';
@@ -7115,7 +7152,8 @@ function fetchCityOnlineBroader(query) {
 
                 const div = document.createElement('div');
                 div.className = 'suggestion-item';
-                div.innerHTML = `${flagImg}<div><div class="sugg-name">${displayCity}</div><div class="sugg-country">${subText}</div></div>`;
+                // CLIENT-INNERHTML-ESCAPE-1: Nominatim text (raw from /api/geocode) is escaped here.
+                div.innerHTML = `${flagImg}<div><div class="sugg-name">${_tpEsc(displayCity)}</div><div class="sugg-country">${_tpEsc(subText)}</div></div>`;
                 div.addEventListener('click', async () => {
                     document.getElementById('city-search-input').value = displayCity;
                     suggestionsEl.classList.remove('open');
@@ -10158,7 +10196,7 @@ function _wireLocHeroExtras() {
                 pill.innerHTML =
                     `<span class="lhsp-icon" aria-hidden="true">📍</span>` +
                     `<span class="lhsp-prefix">${prefix}:</span>` +
-                    `<strong class="lhsp-city">${localized}</strong>` +
+                    `<strong class="lhsp-city">${_tpEsc(localized)}</strong>` +   // CLIENT-INNERHTML-ESCAPE-1 (localStorage lsb_detected)
                     `<span class="lhsp-arrow" aria-hidden="true">→</span>` +
                     `<span class="lhsp-cta">${cta}</span>`;
                 pill.hidden = false;
@@ -10381,7 +10419,7 @@ function _wireMoonHubSmartPill() {
             pillEl.innerHTML =
                 `<span class="mhsp-icon" aria-hidden="true"><svg class="icon" aria-hidden="true"><use href="#i-map-pin"/></svg></span>` +
                 `<span class="mhsp-prefix">${prefix}</span>` +
-                `<strong class="mhsp-city">${display}</strong>` +
+                `<strong class="mhsp-city">${_tpEsc(display)}</strong>` +   // CLIENT-INNERHTML-ESCAPE-1 (session/localStorage seed)
                 `<span class="mhsp-arrow" aria-hidden="true">→</span>` +
                 `<span class="mhsp-cta">${cta}</span>`;
             pillEl.hidden = false;
@@ -12088,10 +12126,12 @@ function updateCityRelatedServices() {
         }
     ];
 
+    // CLIENT-INNERHTML-ESCAPE-1: the qibla label carries getDisplayCity() and the moon / qibla links
+    //   carry the path slug, so label and link are escaped here.
     grid.innerHTML = services.map(s =>
-        `<a class="rel-service-link" href="${s.url}">
+        `<a class="rel-service-link" href="${_tpEsc(_tpHref(s.url))}">
             <span class="rel-service-icon">${s.icon}</span>
-            <span>${s.label}</span>
+            <span>${_tpEsc(s.label)}</span>
         </a>`
     ).join('');
 
@@ -12873,8 +12913,12 @@ function updateFaqSection() {
         // q1/q2 + a1/a2 already filled by _translateI18nAttrs via faq.home.* keys.
         return;
     }
-    const city    = getDisplayCity();
-    const country = getDisplayCountry();
+    // CLIENT-INNERHTML-ESCAPE-1: every use below is markup (t() substitutes without escaping and the
+    //   result goes to innerHTML), so the name is escaped once here. currentCity can come from the
+    //   legacy ?name= query, a sessionStorage seed or a Nominatim reverse geocode — none cleaned by
+    //   the server.
+    const city    = _tpEsc(getDisplayCity());
+    const country = _tpEsc(getDisplayCountry());
     const sep     = (lang === 'ar' || lang === 'ur') ? '، ' : ', ';
     const loc     = country
         ? `<strong>${city}</strong>${sep}<strong>${country}</strong>`
@@ -12976,9 +13020,11 @@ function updateFaqSection() {
             const tlHref = _slug ? (_lng + '/time-left-until-next-prayer-in-' + _slug) : '#';
             const nptHref = _slug ? (_lng + '/next-prayer-in-' + _slug) : '#';
             _fill('faq-q8', 'faq.city.q8', { loc });
-            _fill('faq-a8', 'faq.city.a8', { loc, tlHref });
+            // CLIENT-INNERHTML-ESCAPE-1: the slug is the page path (a city path matches any text), so the
+            //   link is escaped for its href attribute.
+            _fill('faq-a8', 'faq.city.a8', { loc, tlHref: _tpEsc(_tpHref(tlHref)) });
             _fill('faq-q9', 'faq.city.q9', { loc });
-            _fill('faq-a9', 'faq.city.a9', { loc, nptHref });
+            _fill('faq-a9', 'faq.city.a9', { loc, nptHref: _tpEsc(_tpHref(nptHref)) });
         } catch (_e) {}
     }
 }
@@ -13011,8 +13057,9 @@ function updateSeoSection() {
     if (!currentPrayerTimes || !currentCity) return;
 
     const lang    = (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar';
-    const city    = getDisplayCity();
-    const country = getDisplayCountry();
+    // CLIENT-INNERHTML-ESCAPE-1: both only reach innerHTML below (via t()), so they are escaped here.
+    const city    = _tpEsc(getDisplayCity());
+    const country = _tpEsc(getDisplayCountry());
     const fajr    = currentPrayerTimes.fajr;
     const isha    = currentPrayerTimes.isha;
 
@@ -14919,8 +14966,10 @@ async function updateCityCountryInfo() {
 
     // العلم
     const flagEl = document.getElementById('city-country-flag');
-    if (flagEl && cc && cc.length === 2) {
-        flagEl.innerHTML = `<img src="https://flagcdn.com/64x48/${cc}.png" alt="${currentCountry}" style="border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15)">`;
+    // CLIENT-INNERHTML-ESCAPE-1: length === 2 let '">' through; the code must be alpha-2 and the
+    //   country name (Nominatim / seed text) is escaped for the alt attribute.
+    if (flagEl && _tpCc(cc)) {
+        flagEl.innerHTML = `<img src="https://flagcdn.com/64x48/${_tpCc(cc)}.png" alt="${_tpEsc(currentCountry)}" style="border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,0.15)">`;
     }
 
     // ===== معلومات المدينة =====
@@ -15160,7 +15209,10 @@ function renderNearbyGrid(places, grid) {
             if (_try && _try !== 'nearby.item_today') _nearbyTpl = _try;
         }
         if (!_nearbyTpl) _nearbyTpl = _nearbyTplFallback[_nLng] || _nearbyTplFallback.en;
-        const nearbyTitle = _nearbyTpl.replace(/\{loc\}/g, placeLabel);
+        // CLIENT-INNERHTML-ESCAPE-1: a function replacer inserts the name literally (a string replacement
+        //   would expand $& $` $' inside it); the title is plain text here and is escaped at the
+        //   innerHTML below (placeLabel comes from Nominatim / Overpass, fetched by the browser).
+        const nearbyTitle = _nearbyTpl.replace(/\{loc\}/g, () => String(placeLabel));
 
         const a = document.createElement('a');
         a.className = 'nearby-item';
@@ -15174,7 +15226,7 @@ function renderNearbyGrid(places, grid) {
         a.innerHTML = `
             <span class="nearby-flag">${place.icon}</span>
             <div class="nearby-info">
-                <span class="nearby-label">${nearbyTitle}</span>
+                <span class="nearby-label">${_tpEsc(nearbyTitle)}</span>
                 <span class="nearby-dist">${distLabel}</span>
             </div>
         `;
@@ -16704,7 +16756,7 @@ function _loadQiblaHubPage(ctx) {
                     pillEl.innerHTML =
                         `<span class="qhsp-icon" aria-hidden="true">📍</span>` +
                         `<span class="qhsp-prefix">${ui.smart_pill_prefix}:</span>` +
-                        `<strong class="qhsp-city">${localized}</strong>` +
+                        `<strong class="qhsp-city">${_tpEsc(localized)}</strong>` +   // CLIENT-INNERHTML-ESCAPE-1 (last_city_context)
                         `<span class="qhsp-arrow" aria-hidden="true">→</span>` +
                         `<span class="qhsp-cta">${ui.smart_pill_cta}</span>`;
                     pillEl.hidden = false;
@@ -16896,9 +16948,10 @@ function _loadQiblaHubPage(ctx) {
             visitedGrid.innerHTML = visited.map(v => {
                 const display = _resolveCityNameClient(v.slug, lang, v.englishName || v.slug);
                 const href = _buildQiblaCityUrl(v.englishName || v.slug, v.lat, v.lng, v.slug);
-                return `<a class="qhv-chip" href="${href}" data-slug="${v.slug}">`
+                // CLIENT-INNERHTML-ESCAPE-1: slug and name come from localStorage (qibla_visited_cities).
+                return `<a class="qhv-chip" href="${_tpEsc(_tpHref(href))}" data-slug="${_tpEsc(v.slug)}">`
                      + `<span class="qhv-icon" aria-hidden="true">🕓</span>`
-                     + `<span class="qhv-name">${display}</span>`
+                     + `<span class="qhv-name">${_tpEsc(display)}</span>`
                      + `<span class="qhv-arrow" aria-hidden="true">→</span></a>`;
             }).join('');
             visitedGrid.removeAttribute('data-qhh-placeholder');
@@ -17178,10 +17231,14 @@ function loadQiblaPage(ctx) {
         //   of UI language, for consistency with the angle (243.8°) which already uses
         //   Latin digits via toFixed().
         const _distLocale = 'en';
+        // CLIENT-INNERHTML-ESCAPE-1: cityName can come from a sessionStorage seed or a Nominatim
+        //   lookup (geocodeSlug), neither cleaned by the server. Every markup sink below takes this
+        //   escaped copy; textContent sinks and the JSON-LD keep the plain cityName.
+        const cityNameHtml = _tpEsc(cityName);
 
         // ── 3. Breadcrumb ──
         const bcOl = document.querySelector('#qibla-breadcrumb > ol.breadcrumb-list');
-        if (bcOl) bcOl.outerHTML = _buildQiblaBreadcrumbOl(cityName, mode === 'hub', lang);
+        if (bcOl) bcOl.outerHTML = _buildQiblaBreadcrumbOl(cityNameHtml, mode === 'hub', lang);
 
         // ── 4. H1 + one-line summary ──
         // Phase Q-Hub-G (2026-05-05): on /qibla Hub, the SSR-injected H1 is
@@ -17193,7 +17250,7 @@ function loadQiblaPage(ctx) {
         // dynamic per-city H1 updates.
         const h1El = document.getElementById('qibla-hero-title');
         const sumEl = document.getElementById('qibla-summary-line');
-        if (h1El && mode !== 'hub') h1El.innerHTML = ui.h1(cityName, false); // UAT-ICON-5: SVG markup
+        if (h1El && mode !== 'hub') h1El.innerHTML = ui.h1(cityNameHtml, false); // UAT-ICON-5: SVG markup
         if (sumEl) sumEl.textContent = ui.summary(angleDisplay, cardinalLabel, distanceKm, _distLocale);
 
         // ── 5. Compass init (unchanged) ──
@@ -17209,7 +17266,7 @@ function loadQiblaPage(ctx) {
             mainCtaEl.href = citySlugForUrl
                 ? pageUrl(`/prayer-times-in-${citySlugForUrl}`)
                 : pageUrl('/');
-            mainCtaEl.innerHTML = ui.cta_prayer(cityName); // UAT-ICON-5: SVG markup
+            mainCtaEl.innerHTML = ui.cta_prayer(cityNameHtml); // UAT-ICON-5: SVG markup
         }
         // Round 27: CTA microcopy (short reassurance line under the button)
         const ctaNoteEl = document.getElementById('qibla-main-cta-note');
@@ -17250,7 +17307,7 @@ function loadQiblaPage(ctx) {
                 el.removeAttribute('data-icon');
                 // Set HTML: SVG + space + existing text
                 const txt = el.textContent || '';
-                el.innerHTML = iconMap[id] + ' ' + txt;
+                el.innerHTML = iconMap[id] + ' ' + _tpEsc(txt);   // CLIENT-INNERHTML-ESCAPE-1: text back into markup
             });
             // Mark the ANGLE card as primary — it's the true hero readout.
             const angleCard = document.getElementById('qibla-info-label-angle')?.closest('.info-card');
@@ -17289,7 +17346,7 @@ function loadQiblaPage(ctx) {
             const hijriHref = pageUrl('/today-hijri-date');
             const homeHref  = pageUrl('/') || '/';
             qlEl.innerHTML = [
-                `<li><a href="${moonHref}">${ui.link_moon(cityName)}</a></li>`,
+                `<li><a href="${_tpEsc(_tpHref(moonHref))}">${ui.link_moon(cityNameHtml)}</a></li>`,
                 `<li><a href="${hijriHref}">${ui.link_hijri}</a></li>`,
                 `<li><a href="${homeHref}">${ui.link_home}</a></li>`
             ].join('');
@@ -17353,7 +17410,7 @@ function loadQiblaPage(ctx) {
                              (lang === 'bn') ? 'কিমি' : 'كم';
             otherEl.innerHTML = merged.map(e => {
                 const href = _buildQiblaUrl(e.key, e.lat, e.lng);
-                const safe = String(e.name || e.key).replace(/</g, '&lt;');
+                const safe = _tpEsc(e.name || e.key);   // CLIENT-INNERHTML-ESCAPE-1 (was a '<'-only replace)
                 if (typeof e._distKm === 'number' && isFinite(e._distKm) && e._distKm > 0) {
                     const d = e._distKm.toLocaleString(_distLoc);
                     return `<a href="${href}">${safe} <span class="chip-dist">· ${d} ${_kmLabel}</span></a>`;
@@ -17377,7 +17434,11 @@ function loadQiblaPage(ctx) {
         let faqItems = [];
         try { faqItems = ui.faq(faqCtx) || []; } catch (_e) { faqItems = []; }
         if (faqEl) {
-            faqEl.innerHTML = faqItems.map(([q, a]) =>
+            // CLIENT-INNERHTML-ESCAPE-1: the visible FAQ is markup — built from the escaped name; the
+            //   JSON-LD below keeps faqItems (plain text, serialized with JSON.stringify).
+            let faqItemsHtml = [];
+            try { faqItemsHtml = ui.faq(Object.assign({}, faqCtx, { cityName: cityNameHtml })) || []; } catch (_e) { faqItemsHtml = []; }
+            faqEl.innerHTML = faqItemsHtml.map(([q, a]) =>
                 `<details><summary>${q}</summary><div>${a}</div></details>`
             ).join('');
         }
@@ -17405,12 +17466,12 @@ function loadQiblaPage(ctx) {
             const _cardsFn = (typeof ui.related_cards === 'function') ? ui.related_cards : null;
             if (_cardsFn) {
                 const _hrefs = [prayerHref, relMoonHref, hijriHref];
-                const _cards = _cardsFn(cityName) || [];
+                const _cards = _cardsFn(cityNameHtml) || [];   // CLIENT-INNERHTML-ESCAPE-1: title/desc go to markup
                 relatedEl.classList.add('qibla-related-cards');
                 relatedEl.classList.remove('qibla-related-pills');
                 relatedEl.innerHTML = _cards.map((c, i) => {
                     const iconHtml = _Q_ICON[c.icon] || '';
-                    const href = _hrefs[i] || '#';
+                    const href = _tpEsc(_tpHref(_hrefs[i] || '#'));   // CLIENT-INNERHTML-ESCAPE-1: slug from the path
                     const ariaLabel = (c.title || '').replace(/"/g, '&quot;');
                     return `<li><a class="qrc-card" href="${href}" aria-label="${ariaLabel}">` +
                         `<span class="qrc-icon" aria-hidden="true">${iconHtml}</span>` +
@@ -17424,14 +17485,14 @@ function loadQiblaPage(ctx) {
             } else {
                 // Legacy fallback (shouldn't happen — kept for safety).
                 const _labels = (typeof ui.related_labels === 'function')
-                    ? ui.related_labels(cityName)
+                    ? ui.related_labels(cityNameHtml)
                     : (ui.related_labels || []);
                 const rels = [
                     { href: prayerHref, label: _labels[0] || '' },
                     { href: relMoonHref, label: _labels[1] || '' },
                     { href: hijriHref, label: _labels[2] || '' }
                 ];
-                relatedEl.innerHTML = rels.map(r => `<li><a href="${r.href}">${r.label}</a></li>`).join('');
+                relatedEl.innerHTML = rels.map(r => `<li><a href="${_tpEsc(_tpHref(r.href))}">${r.label}</a></li>`).join('');
             }
         }
 

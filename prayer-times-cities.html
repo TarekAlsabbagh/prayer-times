@@ -622,7 +622,7 @@ function _wireLocHeroExtras() {
                 pill.innerHTML =
                     '<span class="lhsp-icon" aria-hidden="true">📍</span>' +
                     '<span class="lhsp-prefix">' + prefix + ':</span>' +
-                    '<strong class="lhsp-city">' + localized + '</strong>' +
+                    '<strong class="lhsp-city">' + _dscEsc(localized) + '</strong>' +   // CLIENT-INNERHTML-ESCAPE-1: lsb_detected comes from reverse geocode (untrusted)
                     '<span class="lhsp-arrow" aria-hidden="true">→</span>' +
                     '<span class="lhsp-cta">' + cta + '</span>';
                 pill.hidden = false;
@@ -1778,7 +1778,9 @@ function onSearchKeyDown(e) {
 // current country. Discovered places persist via the approved /api/place-selected (Supabase
 // discovered_places, verified:false) — NEVER written to curated-places.json. Duplicates against
 // the current country's curated list (allCities by slug) are dropped.
-function _dscEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;'); }
+// CLIENT-INNERHTML-ESCAPE-1: escapes all five HTML-special characters; hoisted, so the last-location
+//   pill (_wireLocHeroExtras), the grid cards (renderGrid) and the no-local-results message use it too.
+function _dscEsc(s) { return String(s == null ? '' : s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#39;'); }
 function _dscLng() { return (typeof getCurrentLang === 'function') ? getCurrentLang() : 'ar'; }
 function _dscSearchingLabel() {
     switch (_dscLng()) {
@@ -1880,7 +1882,8 @@ function _heroSearchRender(box, results, pick) {
     results.forEach(r => {
         const div = document.createElement('div');
         div.className = 'sugg-item';
-        const cc = (r.countryCode || '').toLowerCase();
+        const _ccRaw = String(r.countryCode || '').trim().toLowerCase();
+        const cc = /^[a-z]{2}$/.test(_ccRaw) ? _ccRaw : '';   // CLIENT-INNERHTML-ESCAPE-1: cc goes into src/alt
         const flag = cc
             ? `<img src="https://flagcdn.com/28x21/${cc}.png" class="sugg-flag" alt="${cc}" onerror="this.style.display='none'">`
             : `<span style="font-size:1.2rem">🌍</span>`;
@@ -2159,7 +2162,7 @@ function renderGrid() {
 
     if (page.length === 0) {
         container.innerHTML = lastQuery
-            ? `<div class="status-msg">${_noLocalFor(lastQuery)}</div>`
+            ? `<div class="status-msg">${_noLocalFor(_dscEsc(lastQuery))}</div>`   // CLIENT-INNERHTML-ESCAPE-1
             : `<div class="status-msg">${_noResultsLabel()}</div>`;
         paginationEl.style.display = 'none';
         return;
@@ -2244,7 +2247,8 @@ function renderGrid() {
         // DISCOVERED-CITY-SEARCH-HOMONYM-MERGE-FIX-1: mark UI-injected discovered cities (no loud
         // badge — a subtle dashed accent in CSS); same card shape/label as curated grid cards.
         if (city._discovered) a.setAttribute('data-source', 'discovered');
-        a.innerHTML = `${cardLabel}<span class="city-type">${cardSub}${city._new ? ' ✦' : ''}</span>`;
+        // CLIENT-INNERHTML-ESCAPE-1: names (incl. a picked /api/search-place result) are data → escape.
+        a.innerHTML = `${_dscEsc(cardLabel)}<span class="city-type">${_dscEsc(cardSub)}${city._new ? ' ✦' : ''}</span>`;
         _wireCityCardContext(a, city, slug, href);
         grid.appendChild(a);
     });

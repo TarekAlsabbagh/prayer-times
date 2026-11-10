@@ -4112,7 +4112,7 @@ const _PRAYER_COORD_UNAVAIL_L10N = {
     heading: {
         ar: 'مواقيت الصلاة غير متاحة لهذا الرابط',
         en: 'Prayer times are not available for this link',
-        fr: 'Horaires de prière indisponibles pour ce lien',
+        fr: 'Heures de prière indisponibles pour ce lien',
         tr: 'Bu bağlantı için namaz vakitleri gösterilemiyor',
         ur: 'اس لنک کے لیے اوقاتِ نماز دستیاب نہیں',
         de: 'Für diesen Link sind keine Gebetszeiten verfügbar',
@@ -4124,7 +4124,7 @@ const _PRAYER_COORD_UNAVAIL_L10N = {
     message: {
         ar: 'لا نستطيع حاليًا التحقق من مواقيت الصلاة للنقطة الواردة في هذا الرابط ({coords})، لذلك لا تعرض هذه الصفحة أي مواقيت.',
         en: 'We cannot currently verify the prayer times for the point in this link ({coords}), so this page shows no prayer times.',
-        fr: 'Nous ne pouvons pas vérifier pour le moment les horaires de prière du point indiqué dans ce lien ({coords}) ; cette page n’affiche donc aucun horaire.',
+        fr: 'Nous ne pouvons pas vérifier pour le moment les heures de prière du point indiqué dans ce lien ({coords}) ; cette page n’affiche donc aucune heure de prière.',
         tr: 'Bu bağlantıdaki nokta ({coords}) için namaz vakitlerini şu anda doğrulayamıyoruz; bu nedenle bu sayfada hiçbir vakit gösterilmiyor.',
         ur: 'ہم فی الحال اس لنک میں دیے گئے مقام ({coords}) کے اوقاتِ نماز کی تصدیق نہیں کر سکتے، اس لیے اس صفحے پر کوئی اوقات نہیں دکھائے جا رہے۔',
         de: 'Die Gebetszeiten für den Punkt in diesem Link ({coords}) können wir derzeit nicht überprüfen; deshalb zeigt diese Seite keine Gebetszeiten an.',
@@ -4148,7 +4148,7 @@ const _PRAYER_COORD_UNAVAIL_L10N = {
     altLink: {
         ar: 'مواقيت الصلاة في {city}، {country}',
         en: 'Prayer times in {city}, {country}',
-        fr: 'Horaires de prière à {city}, {country}',
+        fr: 'Heures de prière à {city}, {country}',
         tr: '{city}, {country} namaz vakitleri',
         ur: '{city}، {country} کے اوقاتِ نماز',
         de: 'Gebetszeiten in {city}, {country}',

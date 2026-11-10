@@ -219,6 +219,19 @@ try {
   check('unknown word WITHOUT coordinates: not a coordinate link — unchanged, no note', !note(unkBare.body));
   const arFar = await get('/prayer-times-in-boston-10.5-10.5');
   check('Arabic far point: Arabic note naming بوسطن، الولايات المتحدة', /بوسطن، الولايات المتحدة/.test(note(arFar.body)), note(arFar.body).slice(0, 80));
+  // The three notes in all 10 languages (the texts live in server.js _PRAYER_COORD_NOTE_L10N and wait for the owner's
+  //   language review): every language renders its own text, shows the URL coordinates, and leaves no placeholder.
+  const NOTE_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+  for (const [kind, p0, la, lo] of [['known word, far point', '/prayer-times-in-boston-10.5-10.5', '10.5', '10.5'], ['zone not verified', '/prayer-times-in-sydney-46.14--60.18', '46.14', '-60.18'], ['unknown word', '/prayer-times-in-zzznotarealcity-12.3-45.6', '12.3', '45.6']]) {
+    const bad = [], seen = new Set();
+    for (const L of NOTE_LANGS) {
+      const r = await get((L === 'ar' ? '' : '/' + L) + p0), n = note(r.body);
+      const coords = '(' + la + ((L === 'ar' || L === 'ur') ? '، ' : ', ') + lo + ')';
+      if (r.status !== 200 || !n || /[{}]/.test(n) || !n.includes(coords) || seen.has(n)) bad.push(L + ': ' + (n || '(no note)').slice(0, 50));
+      seen.add(n);
+    }
+    check('note (' + kind + '): rendered in all 10 languages, each its own text, URL coordinates shown, no unfilled placeholder', bad.length === 0, bad.join(' | '));
+  }
   check('namesake pages carry no note', !note(bos.body));
   const hk = await get('/en/prayer-times-in-hong-kong-22.28-114.16');
   check('ambiguous point that is also within 25 km of the identity (hong-kong: curated hk + db cn record): identity content + seed, no note', !note(hk.body) && (seedOf(hk.body) || {}).countryCode === 'hk' && !(seedOf(hk.body) || {}).coordTools, `${(seedOf(hk.body) || {}).countryCode} note=${note(hk.body).slice(0, 40)}`);

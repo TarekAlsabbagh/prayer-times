@@ -83,6 +83,9 @@ function _isMoonMonthPath(p) {
 //   (no makeSlug, no _moonCityDisplayName), so it's safe to run pre-init.
 (function _initialSyncHydrate() {
     try {
+        // PRAYER-COORD-LINK-CONSISTENCY-1: on an unavailable-state page the URL names no resolved place -- its word and
+        //   numbers must not become the current city, not even in memory (see _pcUnavailable).
+        if (_pcUnavailable()) return;
         const _p = (typeof window !== 'undefined' && window.location && window.location.pathname) || '';
         const _m = _p.match(/^\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
         // MOON-CITY-HUB-ROUTE-STRUCTURE-ADD-1: the nested city moon hub
@@ -2770,6 +2773,7 @@ async function _revalidateCachedCity(lat, lng, slug, expectedEn) {
 }
 
 async function initFromURL() {
+    if (_pcUnavailable()) return false;   // PRAYER-COORD-LINK-CONSISTENCY-1: no place is resolved on an unavailable-state page
     const slug = getSlugFromURL();
     if (!slug) return false;
     // HIJRI-PAGES-SLIM-1 (B): 'hijri-today' / 'hijri-year' / 'hijri-month' are route keys, not city
@@ -3189,6 +3193,23 @@ window._islamicEventDaysLabel = function (n, lang) {
 };
 
 async function initApp() {
+    // PRAYER-COORD-LINK-CONSISTENCY-1: an unavailable-state document (see _pcUnavailable) starts no place logic at all.
+    //   Only the footer year is filled; the header, sidebar and footer links are plain links the browser follows itself.
+    if (_pcUnavailable()) {
+        try { const _fy = document.getElementById('footer-year'); if (_fy) _fy.textContent = new Date().getFullYear(); } catch (_) {}
+        //   js/site-search.js runs before this file and, finding no app.js yet, points the three city-bound sidebar links
+        //   at the visitor's saved city; this page keeps the general links the server sent (same page for every visitor).
+        try {
+            const _lg = (window.location.pathname.match(/^\/(en|fr|tr|ur|de|id|es|bn|ms)(?=\/)/) || [])[1] || '';
+            const _lp = _lg ? '/' + _lg : '';
+            const _gen = { 'prayer-times': _lp || '/', qibla: _lp + '/qibla', moon: _lp + '/moon' };
+            document.querySelectorAll('.sidebar-nav a[data-page]').forEach((a) => {
+                const _to = _gen[a.dataset.page];
+                if (_to && a.getAttribute('href') !== _to) a.setAttribute('href', _to);
+            });
+        } catch (_) {}
+        return;
+    }
     // UAT-FOUC: hydrate currentLat/Lng/EnglishName/etc. from the URL slug
     //   FIRST THING — before any rendering. Otherwise the Mecca defaults
     //   (currentCity = 'مكة المكرمة', currentLat = 21.4225, …) leak into
@@ -4617,6 +4638,7 @@ async function initApp() {
 // FIX: يحفظ السياق الحاليّ في last_city_context — تستعمله صفحات أخرى عند التنقّل
 //   مثل /ramadan-countdown و /eid-* و /hijri-* لتُحافظ على المدينة بدل العودة لمكّة.
 function _saveLastCityContextNow() {
+    if (_pcUnavailable()) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: an unresolved link never becomes the "last city"
     try {
         if (currentLat && currentLng && currentEnglishName && _pcKeepCtx()) {   // PRAYER-COORD-LINK-CONSISTENCY-1
             sessionStorage.setItem('last_city_context', JSON.stringify({
@@ -4791,6 +4813,16 @@ function _pcNavTargets() {
 //   the city NAME (makeSlug('Boston') = the word's identity), so the context would send the visitor from the times of
 //   the point to the pages of the other city. Production never stored it on load for these links (no seed there).
 function _pcKeepCtx() { return !_pcCoordTools(); }
+// PRAYER-COORD-LINK-CONSISTENCY-1 — the "unavailable" state (owner decisions 2026-11-10, items 3 + 4). The server marks a
+//   coordinate prayer link whose point it could not resolve and verify with <html data-pc-unavailable="1"> and sends a
+//   page with no times, no clock and no place (server.js _prayerCoordUnavailableHtml). On such a document the client
+//   starts NONE of its place logic: no URL / storage hydration, no geocoding, no geolocation request, no default
+//   (Umm al-Qura, UTC+3) computation, no saved-city read or write, no navigation. The page after JavaScript is the page
+//   the server sent, for a new and for a returning visitor alike. The site has no client-side routing, so the marker
+//   belongs to this document for its whole life (direct load, back / forward and bfcache restore included).
+function _pcUnavailable() {
+    try { return document.documentElement.getAttribute('data-pc-unavailable') === '1'; } catch (_) { return false; }
+}
 
 // GLOBAL-NAV-LAST-CITY-CONTEXT-DEEP-LINKS-1: rewrite the 3 city-bound sidebar-nav hrefs
 //   (prayer-times / qibla / moon) to the last-used city so right-click / Ctrl+click "open in
@@ -5131,6 +5163,7 @@ function _enhanceConverterSteppers() {
 }
 
 function _hydrateCurrentCityFromUrlOrStorage() {
+    if (_pcUnavailable()) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: the URL of that page names no resolved place
     const _p = window.location.pathname;
     // UAT-Q5h: include `.` in slug class for loc-XX.X-YY.Y (Persian/Asian).
     const _m = _p.match(/\/(?:(?:en|fr|tr|ur|de|id|es|bn|ms)\/)?(?:qibla-in|prayer-times-in|moon-today-in|moon-in|time-left-until-next-prayer-in|next-prayer-in)-([a-z][a-z0-9.-]+?)(?:-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?))?(?:\/\d{4}-\d{2}-\d{2})?(?:\.html)?$/);
@@ -5269,6 +5302,9 @@ function _hydrateCurrentCityFromUrlOrStorage() {
 (function _wireGlobalCityCtxOnNav() {
     document.addEventListener('click', function(e) {
         try {
+            // PRAYER-COORD-LINK-CONSISTENCY-1: leaving an unavailable-state page stores nothing and clears nothing --
+            //   the place of that link was never resolved, and the visitor's saved city is not this page's to touch.
+            if (_pcUnavailable()) return;
             const a = e.target.closest('a[href]');
             if (!a) return;
             const href = a.getAttribute('href') || '';
@@ -7882,6 +7918,7 @@ async function fetchLocalizedCityName(lat, lng) {
 
 // تحميل بيانات المدينة وتحديث كل الواجهة (بدون تنقل)
 async function loadCityData(lat, lng, city, country, countryCode = '', englishName = '', timezone = null) {
+    if (_pcUnavailable()) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: no city is loaded into (or stored from) that page
     currentLat = lat;
     currentLng = lng;
     // HIJRI-DATE-CITY-TIMEZONE-FIX-1: keep the city IANA (if supplied as a zone
@@ -8363,6 +8400,7 @@ document.addEventListener('click', function(e) {
 let _locationInProgress = false;
 
 function detectLocation() {
+    if (_pcUnavailable()) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: never ask for the device location on that page
     // منع الطلبات المتزامنة عند الضغط المتكرر على "موقعي"
     if (_locationInProgress) return;
     _locationInProgress = true;
@@ -14212,6 +14250,7 @@ function updateCityInfoLabels() {
 
 // ========= تغيير اللغة — إعادة رسم المحتوى الديناميكي =========
 function onLanguageChange(lang) {
+    if (_pcUnavailable()) return;   // PRAYER-COORD-LINK-CONSISTENCY-1: nothing place- or clock-bound is rendered on that page
     updateSidebar();
     updateCityDisplay();
     if (currentPrayerTimes) {

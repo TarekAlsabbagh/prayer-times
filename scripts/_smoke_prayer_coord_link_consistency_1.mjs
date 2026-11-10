@@ -9,8 +9,13 @@
 // in, the zone is written out per case (checked against tz-lookup), and the method is the documented country default
 // written out per case (checked against server.js `_SSR_METHOD_BY_CC`, so a map change fails loudly here instead of
 // silently moving the expectation). Times are recomputed with js/prayer-times.js for the URL point.
-// Unchanged behaviour is asserted too: identity-point links, far points, invalid points, bare city routes, robots,
-// canonical and status.
+// A coordinate link whose point is NOT resolved and verified (unknown word; coordinates far from / ambiguous with /
+// invalid for the word; another record whose time zone is not verified) is the "unavailable" state (owner decisions
+// 2026-11-10): no prayer time, countdown, clock, date, city or country anywhere in the document, a message, an optional
+// link to the word's known city (name AND country) and a link to the home page search (sections 2, 3, 5, 5b).
+// Unchanged behaviour is asserted too: identity-point links, bare city routes, robots, canonical and status.
+// What the BROWSER does on such a page (no geolocation, no storage write, no navigation, back / forward) is measured
+// in headless Chrome by timesprayers-shed-qa/prayer-coord-3/unavail-probe.mjs, not here.
 //
 // Run: node scripts/_smoke_prayer_coord_link_consistency_1.mjs        (PORT env overrides the default 8231; PORT+1 and PORT+2 run the winter / summer clocks)
 import http from 'node:http';
@@ -46,6 +51,67 @@ const pci = (b, lab) => one(b, new RegExp('<span class="pci-label">' + lab + '<\
 const seedOf = (b) => { const s = one(b, /window\.__PRAYER_CITY__=(\{[\s\S]*?\});<\/script>/); try { return s ? JSON.parse(s) : null; } catch (_e) { return null; } };
 const bcCountry = (b) => one(b, /id="bc-country-name">([^<]*)</);
 const note = (b) => one(b, /id="pc-coord-note" role="note">([^<]*)</);
+
+// ── The "unavailable" state (owner decisions 2026-11-10, items 3 + 4): what the HTML of an UNRESOLVED coordinate link
+//    must be. No prayer time, countdown, sticky bar, monthly table, clock, date, city or country anywhere in the document
+//    (body, <title>, meta, JSON-LD, client seed); a message; an optional link to the word's known city with its name AND
+//    country; a link to the home page search. Robots / canonical / hreflang / status as before. ──
+const UN = (() => { try { return grabMap('_PRAYER_COORD_UNAVAIL_L10N'); } catch (_e) { return null; } })();   // null on a tree without the fix: the checks fail, they do not crash
+const LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
+const deEnt = (s) => String(s || '').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&amp;/g, '&');
+const stripTags = (s) => deEnt(String(s || '').replace(/<[^>]*>/g, '')).replace(/\s+/g, ' ').trim();
+const elText = (b, id) => { const m = new RegExp('<([a-z0-9]+)\\b[^>]*\\sid="' + id + '"[^>]*>([\\s\\S]*?)</\\1>').exec(b); return m ? stripTags(m[2]) : ''; };
+const elHtml = (b, id) => { const m = new RegExp('<([a-z0-9]+)\\b[^>]*\\sid="' + id + '"[^>]*>([\\s\\S]*?)</\\1>').exec(b); return m ? m[2] : ''; };
+const aHref = (b, id) => { const m = new RegExp('<a\\b[^>]*\\sid="' + id + '"[^>]*>').exec(b); return m ? ((/\shref="([^"]*)"/.exec(m[0]) || [])[1] || '') : ''; };
+const metaC = (b, key) => deEnt(one(b, new RegExp('<meta (?:name|property)="' + key.replace(/[.:]/g, '\\$&') + '" content="([^"]*)"')));
+// the document without what a visitor (or a crawler reading text) never sees as content: scripts, styles, icons, and the
+// one render-time stamp every page carries (article:modified_time)
+const visibleDoc = (b) => b.replace(/<script\b[\s\S]*?<\/script>/g, '').replace(/<style\b[\s\S]*?<\/style>/g, '').replace(/<svg\b[\s\S]*?<\/svg>/g, '').replace(/<meta property="article:modified_time"[^>]*>/g, '');
+// element ids that hold a time, a clock, a date or a place on a prayer page
+const TIME_PLACE_IDS = ['time-fajr', 'time-sunrise', 'time-dhuhr', 'time-asr', 'time-maghrib', 'time-isha', 'next-prayer-countdown', 'next-prayer-name', 'current-time', 'sticky-next-bar', 'snb-remaining', 'snb-prayer-name', 'snb-city', 'prayer-schedule-section', 'schedule-table', 'schedule-body', 'city-name', 'country-name', 'bc-city', 'bc-country-name', 'city-breadcrumb', 'location-suggestion-bar', 'calc-method', 'asr-method', 'time-format', 'settings-modal-overlay', 'adhan-popup', 'adhan-audio', 'notif-prompt'];
+// [] = the document IS the unavailable state.  o = { lang, la, lo, tail, kind?, alt: {stem, city, country} | null, names: [strings that must not appear outside the alt link] }
+function unavailProblems(r, o) {
+  const b = r.body, P = [], L = o.lang, lp = L === 'ar' ? '' : '/' + L, T = UN || {};
+  if (r.status !== 200) P.push('status ' + r.status);
+  if (!/<html\b[^>]*\sdata-pc-unavailable="1"/.test(b)) P.push('no data-pc-unavailable marker on <html>');
+  const kind = one(b, /id="pc-unavailable" data-pc-kind="([^"]*)"/);
+  if (!/id="pc-unavailable"/.test(b)) P.push('no panel'); else if (o.kind && kind !== o.kind) P.push('kind=' + kind + ' (expected ' + o.kind + ')');
+  const head = T.heading && T.heading[L], wantMsg = T.message && T.message[L] ? T.message[L].replace('{coords}', o.la + ', ' + o.lo) : null;
+  if (!head || elText(b, 'page-h1') !== head) P.push('h1=' + elText(b, 'page-h1'));
+  if (!head || stripTags(one(b, /<title>([\s\S]*?)<\/title>/)) !== head) P.push('title=' + one(b, /<title>([\s\S]*?)<\/title>/));
+  if (!wantMsg || elText(b, 'pc-coord-note') !== wantMsg) P.push('message=' + elText(b, 'pc-coord-note'));
+  if (!elHtml(b, 'pc-coord-note').includes('<bdi dir="ltr">' + o.la + ', ' + o.lo + '</bdi>')) P.push('coordinates not direction-isolated');
+  for (const k of ['og:title', 'twitter:title', 'og:image:alt']) if (!head || metaC(b, k) !== head) P.push(k + '=' + metaC(b, k));
+  for (const k of ['description', 'og:description', 'twitter:description']) if (!wantMsg || metaC(b, k).replace(/[⁦⁩]/g, '') !== wantMsg) P.push(k + '=' + metaC(b, k));
+  if (o.alt) {
+    const want = T.altLink && T.altLink[L] ? T.altLink[L].replace('{city}', o.alt.city).replace('{country}', o.alt.country) : null;
+    if (aHref(b, 'pc-alt-city') !== lp + '/prayer-times-in-' + o.alt.stem) P.push('alt href=' + aHref(b, 'pc-alt-city'));
+    if (!want || elText(b, 'pc-alt-city') !== want) P.push('alt label=' + elText(b, 'pc-alt-city'));
+    if (!T.altLead || elText(b, 'pc-alt-lead') !== T.altLead[L]) P.push('alt lead=' + elText(b, 'pc-alt-lead'));
+  } else if (/id="pc-alt-city"/.test(b) || /id="pc-alt-lead"/.test(b)) P.push('alt link present for an unknown word');
+  if (aHref(b, 'pc-search-link') !== (lp || '/') || !T.search || elText(b, 'pc-search-link') !== T.search[L]) P.push('search link=' + aHref(b, 'pc-search-link') + ' ' + elText(b, 'pc-search-link'));
+  const vis = visibleDoc(b);
+  const tm = vis.match(/\b\d{1,2}:\d{2}(?::\d{2})?\b/g); if (tm) P.push('time text ' + tm.slice(0, 4).join(' '));
+  const ids = TIME_PLACE_IDS.filter((id) => b.includes('id="' + id + '"')); if (ids.length) P.push('elements ' + ids.join(','));
+  if (/class="pci-/.test(b)) P.push('city-intelligence block');
+  const pages = (b.match(/<div\b[^>]*\bclass="page\b[^"]*"[^>]*\bid="page-[^"]*"/g) || []).length; if (pages !== 1) P.push('page blocks=' + pages);
+  if (/__PRAYER_CITY__\s*=/.test(b) || /id="ssr-prayer-city"/.test(b)) P.push('client seed');
+  if (/id="country-cities-data"/.test(b)) P.push('country cities data');
+  if (/application\/ld\+json/.test(b)) P.push('JSON-LD');
+  if (/name="ssr-city-name"/.test(b)) P.push('ssr-city-name meta');
+  if (/name="geo\.position"|name="ICBM"/.test(b)) P.push('geo meta');
+  if (elText(b, 'sidebar-hijri-date') || elText(b, 'sidebar-greg-date')) P.push('sidebar date');
+  const nav = (pg) => { const m = new RegExp('<a\\b[^>]*\\sdata-page="' + pg + '"[^>]*>').exec(b); return m ? ((/\shref="([^"]*)"/.exec(m[0]) || [])[1] || '') : ''; };
+  if (nav('prayer-times') !== (lp || '/') || nav('qibla') !== lp + '/qibla' || nav('moon') !== lp + '/moon') P.push('sidebar links ' + [nav('prayer-times'), nav('qibla'), nav('moon')].join(' '));
+  if (!/^noindex,follow/.test(one(b, /name="robots" content="([^"]*)"/))) P.push('robots=' + one(b, /name="robots" content="([^"]*)"/));
+  if (!one(b, /rel="canonical" href="([^"]*)"/).endsWith(lp + '/prayer-times-in-' + o.tail)) P.push('canonical=' + one(b, /rel="canonical" href="([^"]*)"/));
+  const hl = [...b.matchAll(/<link rel="alternate" hreflang="[^"]*" href="([^"]*)"/g)].map((m) => m[1]);
+  if (hl.length !== 11 || !hl.every((h) => h.endsWith('/prayer-times-in-' + o.tail))) P.push('hreflang=' + hl.length);
+  // no place name outside the alternative-city link (URLs excepted: the link's own word is part of this page's address)
+  const text = stripTags(vis.replace(/<a\b[^>]*\sid="pc-alt-city"[\s\S]*?<\/a>/, '').replace(/\s(?:href|content|src|action)="[^"]*"/g, ''));
+  for (const n of (o.names || [])) if (n && text.toLowerCase().includes(String(n).toLowerCase())) P.push('place name outside the alt link: ' + n);
+  return P;
+}
 // every <a> of a page: { tag, id, page, href, unlinked }
 const anchors = (b) => [...b.matchAll(/<a\b([^>]*)>/g)].map((m) => ({ tag: m[1], id: (/\sid="([^"]*)"/.exec(m[1]) || [])[1] || '', page: (/\sdata-page="([^"]*)"/.exec(m[1]) || [])[1] || '', href: (/\shref="([^"]*)"/.exec(m[1]) || [])[1], unlinked: /data-pc-unlinked="1"/.test(m[1]) }));
 // a link to one of the stem's city routes (any language, any coordinate tail), the page's own URL excepted
@@ -130,17 +196,24 @@ try {
   const idp = await get('/en/prayer-times-in-boston-42.36--71.06'); const idT = ssrTimes(idp.body);
   check('identity point boston-42.36--71.06: same times as the bare route', K.every((k) => idT[k] === bareT[k]), JSON.stringify(idT));
   check('identity point: United States + ISNA, seeded with the identity', bcCountry(idp.body) === 'United States' && pci(idp.body, 'Calculation Method') === METHOD_LABEL.ISNA && (seedOf(idp.body) || {}).countryCode === 'us');
-  const far = await get('/en/prayer-times-in-boston-10.5-10.5'); const farT = ssrTimes(far.body);
-  // Owner decision 4 (2026-11-09): an unresolved point is never presented as resolved -- the page keeps the identity's
-  //   content, is seeded with that identity (ONE place before and after JavaScript) and says so in a note.
-  check('far point boston-10.5-10.5: not guessed — identity times, identity seed (us), note naming Boston, United States', far.status === 200 && K.every((k) => farT[k] === bareT[k]) && (seedOf(far.body) || {}).countryCode === 'us' && !(seedOf(far.body) || {}).coordTools && /do not match Boston .*Boston, United States/.test(note(far.body)), `${far.status} seed=${(seedOf(far.body) || {}).countryCode} note=${note(far.body).slice(0, 60)}`);
+  // Owner decisions 2026-11-10 (items 3 + 4) REPLACE the 2026-11-09 expectation "identity times + identity seed + note":
+  //   an unresolved point shows NO times at all and no other city's data -- the unavailable state. The identity city is
+  //   only offered as a link (name AND country), which the visitor may or may not follow.
+  const BOS_ALT = { stem: 'boston', city: 'Boston', country: 'United States' };
+  const far = await get('/en/prayer-times-in-boston-10.5-10.5');
+  { const p = unavailProblems(far, { lang: 'en', la: '10.5', lo: '10.5', tail: 'boston-10.5-10.5', kind: 'far', alt: BOS_ALT, names: ['Boston', 'United States', 'Kyrgyzstan'] });
+    check('far point boston-10.5-10.5: unavailable state — no times, no place, no seed; link "Prayer times in Boston, United States" only as an offer', p.length === 0, p.join(' | ')); }
+  check('far point boston-10.5-10.5: none of the identity\'s times of the bare page appears anywhere in the document', K.every((k) => /^\d\d:\d\d$/.test(bareT[k])) && !K.some((k) => visibleDoc(far.body).includes(bareT[k])), JSON.stringify(bareT));
   const inv = await get('/en/prayer-times-in-boston-95.5-200.5');
-  check('invalid point boston-95.5-200.5: no crash, identity content + identity seed + note', inv.status === 200 && K.every((k) => ssrTimes(inv.body)[k] === bareT[k]) && (seedOf(inv.body) || {}).countryCode === 'us' && !!note(inv.body), inv.status);
+  { const p = unavailProblems(inv, { lang: 'en', la: '95.5', lo: '200.5', tail: 'boston-95.5-200.5', kind: 'invalid', alt: BOS_ALT, names: ['Boston', 'United States'] });
+    check('invalid point boston-95.5-200.5: no crash, unavailable state (no identity content, no seed)', p.length === 0, p.join(' | ')); }
   const intN = await get('/en/prayer-times-in-boston-41-73');
   check('integer namesake point boston-41-73 (also matches the bare-route shape): seed agrees with the SSR (kg, Kyrgyzstan)', (seedOf(intN.body) || {}).countryCode === 'kg' && bcCountry(intN.body) === 'Kyrgyzstan' && pci(intN.body, 'Calculation Method') === METHOD_LABEL.MWL, `${(seedOf(intN.body) || {}).countryCode} / ${bcCountry(intN.body)}`);
   const intF = await get('/en/prayer-times-in-boston-10-10');
-  check('integer far point boston-10-10: identity times + identity seed (as before) + note', K.every((k) => ssrTimes(intF.body)[k] === bareT[k]) && (seedOf(intF.body) || {}).countryCode === 'us' && !!note(intF.body));
-  check('bare boston + identity point: no note', !note(bare.body) && !note(idp.body));
+  { const p = unavailProblems(intF, { lang: 'en', la: '10', lo: '10', tail: 'boston-10-10', kind: 'far', alt: BOS_ALT, names: ['Boston', 'United States'] });
+    check('integer far point boston-10-10 (shares the bare-route shape): unavailable state, NOT seeded through the bare route', p.length === 0, p.join(' | ')); }
+  const isResolved = (b) => !/data-pc-unavailable/.test(b) && !/id="pc-unavailable"/.test(b) && K.every((k) => /^\d\d:\d\d$/.test(ssrTimes(b)[k]));
+  check('bare boston + identity point: resolved pages, not the unavailable state (times present, no marker, no panel)', isResolved(bare.body) && isResolved(idp.body));
   const ar = await get('/prayer-times-in-boston-41.03-72.96');
   const en = await get('/en/prayer-times-in-boston-41.03-72.96');
   check('ar namesake link: same times as en (language-independent)', K.every((k) => ssrTimes(ar.body)[k] === ssrTimes(en.body)[k]), JSON.stringify(ssrTimes(ar.body)));
@@ -162,10 +235,15 @@ try {
   const fbare = await get('/en/prayer-times-in-faro');
   check('faro bare page: no Whitehorse anywhere (the exception never reaches the word)', !fbare.body.includes('America/Whitehorse'));
   // The exception does not widen the gate: another Canadian record whose zone the gate rejects stays unresolved.
+  //   (2026-11-10: unresolved now means the unavailable state -- no Sydney (Australia) / Okara (Pakistan) times any more.)
   const syd = await get('/en/prayer-times-in-sydney-46.14--60.18');
-  check('sydney-46.14--60.18 (Sydney, Nova Scotia: tz-lookup America/Halifax, gate fallback America/Toronto): zone-unverified — identity content + note, no namesake seed', !(seedOf(syd.body) || {}).coordTools && /time zone we cannot verify/.test(note(syd.body)), note(syd.body).slice(0, 80));
+  { const p = unavailProblems(syd, { lang: 'en', la: '46.14', lo: '-60.18', tail: 'sydney-46.14--60.18', kind: 'zone-unverified', alt: { stem: 'sydney', city: 'Sydney', country: 'Australia' }, names: ['Sydney', 'Australia', 'Canada', 'Nova Scotia'] });
+    check('sydney-46.14--60.18 (Sydney, Nova Scotia: tz-lookup America/Halifax, gate fallback America/Toronto): zone not verified — unavailable state, no Whitehorse-style exception, no times of Sydney, Australia', p.length === 0 && !syd.body.includes('America/Halifax') && !syd.body.includes('America/Toronto'), p.join(' | ')); }
   const okr = await get('/en/prayer-times-in-okara-40.26-71.01');
-  check('okara-40.26-71.01 (record filed under Kyrgyzstan, point on the Uzbek border: tz-lookup Asia/Tashkent, unstable): zone-unverified — identity Okara (Pakistan) + note', (seedOf(okr.body) || {}).countryCode === 'pk' && !(seedOf(okr.body) || {}).coordTools && /time zone we cannot verify/.test(note(okr.body)), note(okr.body).slice(0, 80));
+  { const p = unavailProblems(okr, { lang: 'en', la: '40.26', lo: '71.01', tail: 'okara-40.26-71.01', kind: 'zone-unverified', alt: { stem: 'okara', city: 'Okara', country: 'Pakistan' }, names: ['Okara', 'Pakistan', 'Kyrgyzstan', 'Karachi'] });
+    check('okara-40.26-71.01 (record filed under Kyrgyzstan; tz-lookup Asia/Tashkent, unstable): zone not verified — unavailable state, no times of Okara, Pakistan (owner decision 3)', p.length === 0, p.join(' | ')); }
+  const okrBare = await get('/en/prayer-times-in-okara');
+  check('okara bare page (the destination of the offered link): Okara, Pakistan — resolved, unchanged', isResolved(okrBare.body) && bcCountry(okrBare.body) === 'Pakistan' && (seedOf(okrBare.body) || {}).countryCode === 'pk', bcCountry(okrBare.body));
 
   console.log('\n── (4) tool links of a namesake coordinate page never lead to the other same-name city ──');
   const bos = await get('/en/prayer-times-in-boston-41.03-72.96'), A = anchors(bos.body);
@@ -212,35 +290,127 @@ try {
     && srvMap('/en/prayer-times-in-bostonia', CTS[0]) === null && srvMap('/en/prayer-times-in-boston-42.36--71.06', CTS[0]) === null
     && JSON.stringify(srvMap('/en/next-prayer-in-salem', CTS[1])) === JSON.stringify({ href: '/en/next-prayer-in-salem-in', hub: false }));
 
-  console.log('\n── (5) unresolved coordinate links: honest state, never another city\'s times as the point\'s ──');
+  console.log('\n── (5) unresolved coordinate links: the unavailable state — no times, no other city\'s data, anywhere ──');
+  // (a) unknown word + coordinates   (b) known word whose coordinates are far from / ambiguous with / invalid for it
+  // (c) another record of the word whose time zone is not verified.   Expected names are written out here (independent
+  //     of server.js); `kind` is the resolver's reason, shown in data-pc-kind.
+  const UNAV = [
+    ['a', 'unknown word, valid coordinates', 'zzznotarealcity', '12.3', '45.6', 'no-identity', null, ['zzznotarealcity', 'Makkah', 'Mecca']],
+    ['a', 'unknown word, valid coordinates in UTC-6', 'zzznotarealcity', '40.0', '-100.0', 'no-identity', null, ['zzznotarealcity']],
+    ['a', 'unknown one-letter word', 'a', '12.3', '45.6', 'no-identity', null, ['Makkah', 'Mecca']],
+    ['a', 'unknown word, integer coordinates', 'zzz', '12', '45', 'no-identity', null, ['Makkah', 'Mecca']],
+    ['a', 'known word followed by three numbers (the word "boston-1" is unknown)', 'boston-1', '2', '3', 'no-identity', null, ['Boston', 'United States']],
+    ['b', 'known word, negative coordinates far from it', 'boston', '-10.5', '-10.5', 'far', BOS_ALT, ['Boston', 'United States']],
+    ['b', 'known word, point ambiguous between two records (jampur)', 'jampur', '29.38', '70.35', 'both', { stem: 'jampur', city: 'Jampur', country: 'Pakistan' }, ['Jampur', 'Pakistan']],
+    ['b', 'known word, point ambiguous between two records (fordham)', 'fordham', '52.57', '0.38', 'both', { stem: 'fordham', city: 'Fordham', country: 'United Kingdom' }, ['Fordham', 'United Kingdom']],
+    ['c', 'zone not verified (petra: point in Jordan, the word\'s known city is in Greece)', 'petra', '30.33', '35.44', 'zone-unverified', { stem: 'petra', city: 'Petra', country: 'Greece' }, ['Petra', 'Greece', 'Jordan']],
+    ['c', 'zone not verified (san-juan: point in Puerto Rico)', 'san-juan', '18.47', '-66.12', 'zone-unverified', { stem: 'san-juan', city: 'San Juan', country: 'Argentina' }, ['San Juan', 'Argentina', 'Puerto Rico']],
+  ];
   const unk = await get('/en/prayer-times-in-zzznotarealcity-12.3-45.6');
-  check('unknown word with coordinates: no Makkah default times in the HTML ("--:--"), no seed, note "could not identify"', unk.status === 200 && K.every((k) => ssrTimes(unk.body)[k] === '--:--') && !seedOf(unk.body) && /could not identify/.test(note(unk.body)), JSON.stringify(ssrTimes(unk.body)));
-  const unkBare = await get('/en/prayer-times-in-zzznotarealcity');
-  check('unknown word WITHOUT coordinates: not a coordinate link — unchanged, no note', !note(unkBare.body));
-  const arFar = await get('/prayer-times-in-boston-10.5-10.5');
-  check('Arabic far point: Arabic note naming بوسطن، الولايات المتحدة', /بوسطن، الولايات المتحدة/.test(note(arFar.body)), note(arFar.body).slice(0, 80));
-  // The three notes in all 10 languages (the texts live in server.js _PRAYER_COORD_NOTE_L10N and wait for the owner's
-  //   language review): every language renders its own text, shows the URL coordinates, and leaves no placeholder.
-  const NOTE_LANGS = ['ar', 'en', 'fr', 'tr', 'ur', 'de', 'id', 'es', 'bn', 'ms'];
-  for (const [kind, p0, la, lo] of [['known word, far point', '/prayer-times-in-boston-10.5-10.5', '10.5', '10.5'], ['zone not verified', '/prayer-times-in-sydney-46.14--60.18', '46.14', '-60.18'], ['unknown word', '/prayer-times-in-zzznotarealcity-12.3-45.6', '12.3', '45.6']]) {
-    const bad = [], seen = new Set();
-    for (const L of NOTE_LANGS) {
-      const r = await get((L === 'ar' ? '' : '/' + L) + p0), n = note(r.body);
-      const coords = '(' + la + ((L === 'ar' || L === 'ur') ? '، ' : ', ') + lo + ')';
-      if (r.status !== 200 || !n || /[{}]/.test(n) || !n.includes(coords) || seen.has(n)) bad.push(L + ': ' + (n || '(no note)').slice(0, 50));
-      seen.add(n);
-    }
-    check('note (' + kind + '): rendered in all 10 languages, each its own text, URL coordinates shown, no unfilled placeholder', bad.length === 0, bad.join(' | '));
+  for (const [grp, what, stem, la, lo, kind, alt, names] of UNAV) {
+    const tail = stem + '-' + la + '-' + lo, r = (stem === 'zzznotarealcity' && la === '12.3') ? unk : await get('/en/prayer-times-in-' + tail);
+    const p = unavailProblems(r, { lang: 'en', la, lo, tail, kind, alt, names });
+    check(`(${grp}) ${what} — ${tail}: unavailable state`, p.length === 0, p.join(' | '));
   }
-  check('namesake pages carry no note', !note(bos.body));
+  check('unknown word with coordinates: no Makkah default times, no "--:--" placeholders left to fill, no seed', !/--:--/.test(visibleDoc(unk.body)) && !seedOf(unk.body) && !/id="time-fajr"/.test(unk.body));
+  const unkBare = await get('/en/prayer-times-in-zzznotarealcity');
+  check('unknown word WITHOUT coordinates: not a coordinate link — unchanged by this ticket (no marker, no panel; separate ticket UNKNOWN-PLACE-CLIENT-FALLBACK-1)', !/data-pc-unavailable/.test(unkBare.body) && !/id="pc-unavailable"/.test(unkBare.body));
+  // Every unresolved record of the full scan (2026-11-10: 25 zone-not-verified + 7 far / ambiguous) and okara.
+  const SCAN = ['san-juan-18.47--66.12', 'san-jose-14.97-145.63', 'sydney-46.14--60.18', 'montreal-46.43--90.24', 'saintpaul--21.01-55.27', 'pingxiang-22.1-106.75', 'borodino-45.64-34.68', 'saintnazaire-4.92--53.2', 'petra-30.33-35.44', 'tama-44.97-34.61', 'kurama-41-72.23', 'aleksandrovka-45.28-36.37', 'orlovka-45.4-36.28', 'romanovka-45.13-35.07', 'frunze-45.3-34.71', 'petrovka-45.11-35.31', 'pravda-45.78-33.85', 'sovetskoe-45.43-33.65', 'vasilyevka-45.27-36.35', 'novopokrovka-45.16-35.24', 'tula--14.26--170.56', 'san-antonio-15.13-145.69', 'vladislavivka-45.47-34.6', 'azovske-45.4-35.88', 'la-victoria-7.03--71.44',
+    'frslev-55.29-12.32', 'fordham-52.57-0.38', 'al-mushayrifah-31.5-35.87', 'jampur-29.38-70.35', 'al-kamil-22.26-39.8', 'al-muwayh-22.43-41.75', 'mawqaq-27.39-41.18', 'okara-40.26-71.01'];
+  const scanBad = [];
+  for (const tail of SCAN) {
+    const m = /^(.*?)-(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$/.exec(tail), r = await get('/en/prayer-times-in-' + tail), b = r.body;
+    const kind = one(b, /id="pc-unavailable" data-pc-kind="([^"]*)"/), altT = elText(b, 'pc-alt-city'), am = /^Prayer times in (.+), (.+)$/.exec(altT);
+    const core = unavailProblems(r, { lang: 'en', la: m[2], lo: m[3], tail, alt: am ? { stem: m[1], city: am[1], country: am[2] } : null, names: am ? [am[1]] : [] });
+    if (core.length || !am || !/^(zone-unverified|both|far)$/.test(kind)) scanBad.push(tail + ' [' + kind + '] ' + core.slice(0, 2).join('; ') + (am ? '' : ' no alt link with name + country'));
+  }
+  check(`all ${SCAN.length} unresolved records of the full scan (25 zone not verified + 7 far / ambiguous + okara): unavailable state, the offered city named with its country`, scanBad.length === 0, scanBad.slice(0, 4).join(' || '));
+  // The offered link says where it goes: its label must be the name and the country the destination page itself shows.
+  const altBad = [];
+  //   (The destination's breadcrumb country and its H1 are in the HTML of every city page, curated or not.)
+  const reEsc = (s) => String(s).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  for (const [L, tail, stem] of [['en', 'boston-10.5-10.5', 'boston'], ['ar', 'boston-10.5-10.5', 'boston'], ['ur', 'okara-40.26-71.01', 'okara'], ['bn', 'sydney-46.14--60.18', 'sydney'], ['fr', 'petra-30.33-35.44', 'petra'], ['tr', 'jampur-29.38-70.35', 'jampur']]) {
+    const lp = L === 'ar' ? '' : '/' + L, pg = await get(lp + '/prayer-times-in-' + tail), dest = await get(aHref(pg.body, 'pc-alt-city') || '/__none__');
+    const label = elText(pg.body, 'pc-alt-city');
+    const lm = UN ? new RegExp('^' + reEsc(UN.altLink[L]).replace('\\{city\\}', '(.+?)').replace('\\{country\\}', '(.+)') + '$').exec(label) : null;
+    const byName = lm ? (UN.altLink[L].indexOf('{city}') < UN.altLink[L].indexOf('{country}') ? { city: lm[1], country: lm[2] } : { city: lm[2], country: lm[1] }) : null;
+    const destCountry = bcCountry(dest.body), destH1 = elText(dest.body, 'page-h1');
+    if (dest.status !== 200 || !isResolved(dest.body) || aHref(pg.body, 'pc-alt-city') !== lp + '/prayer-times-in-' + stem || !byName || !byName.city || byName.country !== destCountry || !destH1.includes(byName.city)) altBad.push(L + ' ' + tail + ': "' + label + '" vs destination h1 "' + destH1 + '" / country "' + destCountry + '" (' + dest.status + ')');
+  }
+  check('the offered link: 200, a resolved prayer page, and its label = the city (as in that page\'s H1) AND the country (that page\'s breadcrumb) (en, ar, ur, bn, fr, tr)', altBad.length === 0, altBad.join(' || '));
+  const arFar = await get('/prayer-times-in-boston-10.5-10.5');
+  { const p = unavailProblems(arFar, { lang: 'ar', la: '10.5', lo: '10.5', tail: 'boston-10.5-10.5', kind: 'far', alt: { stem: 'boston', city: 'بوسطن', country: 'الولايات المتحدة' }, names: ['بوسطن', 'الولايات المتحدة', 'Boston'] });
+    check('Arabic far point: Arabic unavailable state; the offered link names بوسطن، الولايات المتحدة', p.length === 0, p.join(' | ')); }
+  // All 10 languages x the three groups: each language its own texts (exactly the table of server.js
+  //   _PRAYER_COORD_UNAVAIL_L10N, which waits for an independent language review), the URL coordinates, no unfilled
+  //   placeholder, no times, the same structure. Names of the offered city are read from the destination page.
+  for (const [what, tail, stem, la, lo, kind] of [['(a) unknown word', 'zzznotarealcity-12.3-45.6', '', '12.3', '45.6', 'no-identity'], ['(b) known word, far point', 'boston-10.5-10.5', 'boston', '10.5', '10.5', 'far'], ['(c) zone not verified', 'okara-40.26-71.01', 'okara', '40.26', '71.01', 'zone-unverified']]) {
+    const bad = [], seenH = new Set(), seenM = new Set();
+    for (const L of LANGS) {
+      const lp = L === 'ar' ? '' : '/' + L, r = await get(lp + '/prayer-times-in-' + tail);
+      let alt = null;
+      if (stem) { const d = await get(lp + '/prayer-times-in-' + stem); alt = { stem, city: elText(d.body, 'city-name'), country: elText(d.body, 'country-name') }; if (!alt.city || !alt.country) bad.push(L + ': destination shows no name / country'); }
+      const p = unavailProblems(r, { lang: L, la, lo, tail, kind, alt, names: alt ? [alt.city] : ['zzznotarealcity'] });
+      const h = elText(r.body, 'page-h1'), m = elText(r.body, 'pc-coord-note');
+      if (p.length) bad.push(L + ': ' + p.slice(0, 2).join('; '));
+      if (/[{}]/.test(stripTags(elHtml(r.body, 'pc-unavailable')))) bad.push(L + ': unfilled placeholder');
+      if (seenH.has(h) || seenM.has(m)) bad.push(L + ': text repeated from another language');
+      if (!new RegExp('<html lang="' + L + '" dir="' + ((L === 'ar' || L === 'ur') ? 'rtl' : 'ltr') + '"').test(r.body)) bad.push(L + ': lang / dir');
+      seenH.add(h); seenM.add(m);
+    }
+    check(`${what} — ${tail}: unavailable state in all 10 languages, each its own text, coordinates shown, no placeholder`, bad.length === 0, bad.slice(0, 4).join(' || '));
+  }
+  // The texts table itself: complete, and no wording that promises anything.
+  { const bad = [];
+    if (!UN) bad.push('table _PRAYER_COORD_UNAVAIL_L10N not found');
+    else {
+      for (const k of ['heading', 'message', 'altLead', 'altLink', 'search']) for (const L of LANGS) { const s = UN[k] && UN[k][L]; if (!s || typeof s !== 'string' || s.trim() !== s || s.length < 8) bad.push(k + '.' + L + ' missing'); }
+      if (Object.keys(UN).sort().join() !== 'altLead,altLink,heading,message,search') bad.push('keys ' + Object.keys(UN).join());
+      for (const L of LANGS) {
+        const ph = (s) => (String(s || '').match(/\{[a-z]+\}/g) || []).sort().join();
+        if (ph(UN.message && UN.message[L]) !== '{coords}') bad.push('message.' + L + ' placeholders ' + ph(UN.message && UN.message[L]));
+        if (ph(UN.altLink && UN.altLink[L]) !== '{city},{country}') bad.push('altLink.' + L + ' placeholders ' + ph(UN.altLink && UN.altLink[L]));
+        for (const k of ['heading', 'altLead', 'search']) if (ph(UN[k] && UN[k][L])) bad.push(k + '.' + L + ' has a placeholder');
+        for (const k of Object.keys(UN)) if (/\d/.test(UN[k][L] || '')) bad.push(k + '.' + L + ' contains a digit');
+      }
+      for (const w of ['exact', 'accurate', 'precise', 'guarantee', 'verified times']) for (const k of Object.keys(UN)) if (new RegExp(w, 'i').test(UN[k].en || '')) bad.push('en ' + k + ' promises: ' + w);
+    }
+    check('texts table (server.js _PRAYER_COORD_UNAVAIL_L10N): 5 texts x 10 languages, placeholders {coords} / {city} + {country} only, no digit, no promise of accuracy', bad.length === 0, bad.slice(0, 5).join(' | ')); }
+  check('the texts of the rejected "identity city + note" state are gone from server.js', !SRC.includes('_PRAYER_COORD_NOTE_L10N') && !SRC.includes('_prayerCoordInjectNote') && !/The prayer times on this page are for \{city\}/.test(SRC) && !/search for your city to get exact times/.test(SRC));
+  check('namesake page (boston-41.03-72.96): resolved, not the unavailable state', isResolved(bos.body) && (seedOf(bos.body) || {}).countryCode === 'kg');
   const hk = await get('/en/prayer-times-in-hong-kong-22.28-114.16');
-  check('ambiguous point that is also within 25 km of the identity (hong-kong: curated hk + db cn record): identity content + seed, no note', !note(hk.body) && (seedOf(hk.body) || {}).countryCode === 'hk' && !(seedOf(hk.body) || {}).coordTools, `${(seedOf(hk.body) || {}).countryCode} note=${note(hk.body).slice(0, 40)}`);
+  check('ambiguous point that is also within 25 km of the identity (hong-kong: curated hk + db cn record): resolved — identity content + seed, not the unavailable state', isResolved(hk.body) && (seedOf(hk.body) || {}).countryCode === 'hk' && !(seedOf(hk.body) || {}).coordTools, `${(seedOf(hk.body) || {}).countryCode}`);
+  const faroY = await get('/en/prayer-times-in-faro-62.23--133.33');
+  check('faro, Yukon (the one zone exception): resolved, not the unavailable state', isResolved(faroY.body) && (seedOf(faroY.body) || {}).timezone === 'America/Whitehorse');
+
+  console.log('\n── (5b) the unavailable transform fails closed, and the client gate is in place ──');
+  // The transform is a pure function of (html, parts): run the real one, taken from server.js, on a template that has lost
+  //   its prayer block and on one whose output would still carry a time element. It must THROW (the caller then serves
+  //   the bare page) -- never return the city content.
+  const tf = load(() => (0, eval)('(function(){' + ['_reEsc', '_escHtml', '_stripElement', '_pageBlockEnd', '_stripForeignPageBlocks', '_prayerCoordUnavailableTransform', '_prayerCoordUnavailableBare'].map((n) => grabFn(SRC, n)).join('\n') + ';return { t: _prayerCoordUnavailableTransform, bare: _prayerCoordUnavailableBare };})()'));
+  const PARTS = { title: 'T', description: 'D', panel: '<section id="pc-unavailable"><h1 id="page-h1">T</h1></section>', homeHref: '/en', qiblaHref: '/en/qibla', moonHref: '/en/moon' };
+  const threw = (html) => { try { tf.t(html, PARTS); return false; } catch (_e) { return true; } };
+  const okDoc = '<html lang="en"><head><title>Prayer Times in X</title></head><body><div class="page active" id="page-prayer-times"><div id="time-fajr">05:00</div></div><div class="page" id="page-qibla"><div>q</div></div></body></html>';
+  const outOk = (() => { try { return tf.t(okDoc, PARTS); } catch (e) { return 'THREW ' + e.message; } })();
+  check('transform on a well-formed template: panel in, times out, other page blocks out, title replaced, marker set', typeof tf.t === 'function' && /data-pc-unavailable="1"/.test(outOk) && /id="pc-unavailable"/.test(outOk) && !/05:00/.test(outOk) && !/page-qibla/.test(outOk) && /<title>T<\/title>/.test(outOk), String(outOk).slice(0, 120));
+  check('transform fails closed: no prayer block -> throws; unbalanced block -> throws; a time element left outside the block -> throws', typeof tf.t === 'function' && threw('<html><head><title>x</title></head><body><p>no block</p></body></html>') && threw('<html><head><title>x</title></head><body><div class="page active" id="page-prayer-times"><div>open') && threw(okDoc.replace('<body>', '<body><span id="next-prayer-countdown">01:02:03</span>')));
+  const bareDoc = (() => { try { return tf.bare({ lang: 'ur', rtl: true }, PARTS); } catch (e) { return 'THREW ' + e.message; } })();
+  check('the bare fallback page: marker, noindex, the panel, right-to-left for ur, no time', /<html lang="ur" dir="rtl" data-pc-unavailable="1">/.test(bareDoc) && /noindex,follow/.test(bareDoc) && /id="pc-unavailable"/.test(bareDoc) && !/\d{1,2}:\d{2}/.test(bareDoc), String(bareDoc).slice(0, 100));
+  // The client: every entry point that could resolve, compute, store or ask for a place starts with the gate. (What the
+  //   browser then really does is measured in headless Chrome: timesprayers-shed-qa/prayer-coord-3/unavail-probe.mjs.)
+  const fnHead = (src, name) => { const i = src.indexOf('function ' + name + '('); return i < 0 ? '' : src.slice(i, i + 900); };
+  const gated = (name) => /_pcUnavailable\(\)/.test(fnHead(APP, name));
+  const GATES = ['initApp', 'initFromURL', 'onLanguageChange', 'detectLocation', 'loadCityData', '_saveLastCityContextNow', '_hydrateCurrentCityFromUrlOrStorage', '_initialSyncHydrate', '_wireGlobalCityCtxOnNav'];
+  check(`client gate _pcUnavailable() at the top of ${GATES.length} entry points (${GATES.join(', ')})`, GATES.every(gated), GATES.filter((g) => !gated(g)).join(', '));
+  check('client gate reads the server marker <html data-pc-unavailable="1">', /getAttribute\('data-pc-unavailable'\) === '1'/.test(fnHead(APP, '_pcUnavailable')));
 
   console.log('\n── (6) asset version: the served page and the served js/app.js ──');
   const vm = /js\/app\.js\?v=(\d+)/.exec(bos.body);
   check('served HTML references js/app.js?v=863', !!vm && vm[1] === '863', vm && vm[1]);
   const js = await get('/js/app.js?v=863');
   check('served js/app.js?v=863: 200 and carries the client guard (coordTools / data-pc-unlinked)', js.status === 200 && js.body.includes('coordTools') && js.body.includes('data-pc-unlinked'), js.status + ' ' + js.body.length);
+  check('served js/app.js?v=863 carries the unavailable-state gate (data-pc-unavailable), and the unavailable page itself loads that file', js.status === 200 && js.body.includes('data-pc-unavailable') && (/js\/app\.js\?v=(\d+)/.exec(unk.body) || [])[1] === '863', (/js\/app\.js\?v=(\d+)/.exec(unk.body) || [])[1]);
 
   console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
   code = fail === 0 ? 0 : 1;

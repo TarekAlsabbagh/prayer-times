@@ -17,7 +17,7 @@
 // What the BROWSER does on such a page (no geolocation, no storage write, no navigation, back / forward) is measured
 // in headless Chrome by timesprayers-shed-qa/prayer-coord-3/unavail-probe.mjs, not here.
 //
-// Run: node scripts/_smoke_prayer_coord_link_consistency_1.mjs        (PORT env overrides the default 8231; PORT+1 and PORT+2 run the winter / summer clocks)
+// Run: node scripts/_smoke_prayer_coord_link_consistency_1.mjs        (PORT env overrides the default 8231; PORT+1 and PORT+2 run the winter / summer clocks; PORT+3 runs with dummy Google ids)
 import http from 'node:http';
 import { spawn, execSync } from 'node:child_process';
 import os from 'node:os';
@@ -159,11 +159,15 @@ fs.writeFileSync(FAKE, "'use strict';const iso=process.env.FAKE_NOW;if(iso){cons
 const WIN = '2026-01-15T20:00:00Z', SUM = '2026-07-15T20:00:00Z';
 const srvW = spawn(process.execPath, ['-r', FAKE, 'server.js'], { cwd: ROOT, env: { ...ENV, PORT: String(PORT + 1), FAKE_NOW: WIN }, stdio: ['ignore', 'ignore', 'ignore'] });
 const srvS = spawn(process.execPath, ['-r', FAKE, 'server.js'], { cwd: ROOT, env: { ...ENV, PORT: String(PORT + 2), FAKE_NOW: SUM }, stdio: ['ignore', 'ignore', 'ignore'] });
+// A fourth server with DUMMY Google ids (local only; the server makes no outbound request at render time): the Google tags
+//   the templates get at load time are then present, so their absence on unavailable pages can be checked (owner 2026-11-11).
+const DUMMY_ADS = 'ca-pub-0000000000000000', DUMMY_GA = 'G-TEST000000';
+const srvG = spawn(process.execPath, ['server.js'], { cwd: ROOT, env: { ...ENV, PORT: String(PORT + 3), ADSENSE_CLIENT: DUMMY_ADS, GA_MEASUREMENT_ID: DUMMY_GA }, stdio: ['ignore', 'ignore', 'ignore'] });
 // The server forks a worker: kill the whole tree (a plain kill of the primary can leave the worker listening on Windows).
 const killTree = (p) => { try { if (process.platform === 'win32') execSync('taskkill /PID ' + p.pid + ' /T /F', { stdio: 'ignore' }); else p.kill('SIGKILL'); } catch (_e) { try { p.kill('SIGKILL'); } catch (_) {} } };
 let code = 1;
 try {
-  if (!await ready(60000) || !await ready(60000, PORT + 1) || !await ready(60000, PORT + 2)) { console.error('server not ready'); process.exit(1); }
+  if (!await ready(60000) || !await ready(60000, PORT + 1) || !await ready(60000, PORT + 2) || !await ready(60000, PORT + 3)) { console.error('server not ready'); process.exit(1); }
   console.log('═══ PRAYER-COORD-LINK-CONSISTENCY-1 ═══\n');
 
   console.log('── (1) namesake coordinate links describe the POINT (times, zone, method, country, seed) ──');
@@ -388,12 +392,15 @@ try {
   // The transform is a pure function of (html, parts): run the real one, taken from server.js, on a template that has lost
   //   its prayer block and on one whose output would still carry a time element. It must THROW (the caller then serves
   //   the bare page) -- never return the city content.
-  const tf = load(() => (0, eval)('(function(){' + ['_reEsc', '_escHtml', '_stripElement', '_pageBlockEnd', '_stripForeignPageBlocks', '_prayerCoordUnavailableTransform', '_prayerCoordUnavailableBare'].map((n) => grabFn(SRC, n)).join('\n') + ';return { t: _prayerCoordUnavailableTransform, bare: _prayerCoordUnavailableBare };})()'));
+  //   The transform also removes the template's Google head snippets (module constants of server.js); stand-ins with the
+  //   same shape are defined here and placed in the sample document, so their removal is checked too.
+  const SN = { c: "<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('consent','default',{});</script>", g: '<script async src="https://www.googletagmanager.com/gtag/js?id=G-X"></script>', a: '<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-0"></script>' };
+  const tf = load(() => (0, eval)('(function(){var _CONSENT_DEFAULT_SNIPPET=' + JSON.stringify(SN.c) + ',_GA_HEAD_SNIPPET=' + JSON.stringify(SN.g) + ',_ADSENSE_HEAD_SNIPPET=' + JSON.stringify(SN.a) + ';' + ['_reEsc', '_escHtml', '_stripElement', '_pageBlockEnd', '_stripForeignPageBlocks', '_prayerCoordUnavailableTransform', '_prayerCoordUnavailableBare'].map((n) => grabFn(SRC, n)).join('\n') + ';return { t: _prayerCoordUnavailableTransform, bare: _prayerCoordUnavailableBare };})()'));
   const PARTS = { title: 'T', description: 'D', panel: '<section id="pc-unavailable"><h1 id="page-h1">T</h1></section>', homeHref: '/en', qiblaHref: '/en/qibla', moonHref: '/en/moon' };
   const threw = (html) => { try { tf.t(html, PARTS); return false; } catch (_e) { return true; } };
-  const okDoc = '<html lang="en"><head><title>Prayer Times in X</title></head><body><div class="page active" id="page-prayer-times"><div id="time-fajr">05:00</div></div><div class="page" id="page-qibla"><div>q</div></div></body></html>';
+  const okDoc = '<html lang="en"><head>' + SN.c + SN.g + SN.a + '<meta name="google-adsense-account" content="ca-pub-0"><title>Prayer Times in X</title></head><body><div class="page active" id="page-prayer-times"><div id="time-fajr">05:00</div></div><div class="page" id="page-qibla"><div>q</div></div></body></html>';
   const outOk = (() => { try { return tf.t(okDoc, PARTS); } catch (e) { return 'THREW ' + e.message; } })();
-  check('transform on a well-formed template: panel in, times out, other page blocks out, title replaced, marker set', typeof tf.t === 'function' && /data-pc-unavailable="1"/.test(outOk) && /id="pc-unavailable"/.test(outOk) && !/05:00/.test(outOk) && !/page-qibla/.test(outOk) && /<title>T<\/title>/.test(outOk), String(outOk).slice(0, 120));
+  check('transform on a well-formed template: panel in, times out, other page blocks out, title replaced, marker set, Google head snippets + account meta removed', typeof tf.t === 'function' && /data-pc-unavailable="1"/.test(outOk) && /id="pc-unavailable"/.test(outOk) && !/05:00/.test(outOk) && !/page-qibla/.test(outOk) && /<title>T<\/title>/.test(outOk) && !/adsbygoogle|googletagmanager|gtag|dataLayer|google-adsense-account/.test(outOk), String(outOk).slice(0, 120));
   check('transform fails closed: no prayer block -> throws; unbalanced block -> throws; a time element left outside the block -> throws', typeof tf.t === 'function' && threw('<html><head><title>x</title></head><body><p>no block</p></body></html>') && threw('<html><head><title>x</title></head><body><div class="page active" id="page-prayer-times"><div>open') && threw(okDoc.replace('<body>', '<body><span id="next-prayer-countdown">01:02:03</span>')));
   const bareDoc = (() => { try { return tf.bare({ lang: 'ur', rtl: true }, PARTS); } catch (e) { return 'THREW ' + e.message; } })();
   check('the bare fallback page: marker, noindex, the panel, right-to-left for ur, no time', /<html lang="ur" dir="rtl" data-pc-unavailable="1">/.test(bareDoc) && /noindex,follow/.test(bareDoc) && /id="pc-unavailable"/.test(bareDoc) && !/\d{1,2}:\d{2}/.test(bareDoc), String(bareDoc).slice(0, 100));
@@ -405,6 +412,31 @@ try {
   check(`client gate _pcUnavailable() at the top of ${GATES.length} entry points (${GATES.join(', ')})`, GATES.every(gated), GATES.filter((g) => !gated(g)).join(', '));
   check('client gate reads the server marker <html data-pc-unavailable="1">', /getAttribute\('data-pc-unavailable'\) === '1'/.test(fnHead(APP, '_pcUnavailable')));
 
+  console.log('\n── (5c) Google tags: unavailable pages carry what the 404 / 410 pages carry (none); resolved pages are unchanged ──');
+  //   G = the Google pieces of a page: AdSense loader, GA loader, consent-default snippet, any gtag / dataLayer, AdSense account meta.
+  const G = (b) => ({ adsense: (b.match(/adsbygoogle/g) || []).length, gtm: (b.match(/googletagmanager\.com/g) || []).length, consent: (b.match(/gtag\('consent','default'/g) || []).length,
+    dataLayer: (b.match(/dataLayer/g) || []).length, acct: (b.match(/google-adsense-account/g) || []).length, client: (b.match(/ca-pub-\d+/g) || []).length, gaId: (b.match(/G-TEST000000/g) || []).length });
+  const none = (g) => Object.values(g).every((v) => v === 0);
+  const g404 = G((await get('/en/this-page-does-not-exist', PORT + 3)).body), g410 = G((await get('/en/moon-today-in-boston', PORT + 3)).body);
+  check('dummy-id server: the 404 and 410 pages carry no Google piece (the parity target)', none(g404) && none(g410), JSON.stringify(g404) + ' ' + JSON.stringify(g410));
+  const gCity = G((await get('/en/prayer-times-in-boston', PORT + 3)).body);
+  check('dummy-id server: a normal city page DOES carry them (so the check can see the tags): AdSense, GA, consent default, account meta', gCity.adsense >= 1 && gCity.gtm >= 1 && gCity.consent >= 1 && gCity.acct === 1 && gCity.gaId >= 1, JSON.stringify(gCity));
+  { const bad = [];
+    for (const tail of ['zzznotarealcity-12.3-45.6', 'boston-10.5-10.5', 'okara-40.26-71.01']) for (const L of LANGS) {
+      const r = await get((L === 'ar' ? '' : '/' + L) + '/prayer-times-in-' + tail, PORT + 3), g = G(r.body);
+      // id="sidebar": the full page, not the fail-closed bare page (which would also carry no tag)
+      if (r.status !== 200 || !/data-pc-unavailable="1"/.test(r.body) || !/id="pc-unavailable"/.test(r.body) || !/id="sidebar"/.test(r.body) || !none(g)) bad.push(L + ' ' + tail + ' ' + r.status + ' ' + JSON.stringify(g));
+    }
+    check('unavailable pages, 3 kinds x 10 languages, dummy AdSense + GA ids: no adsbygoogle, googletagmanager, consent snippet, gtag / dataLayer, account meta (= the 404 / 410 set)', bad.length === 0, bad.slice(0, 3).join(' || ')); }
+  // Resolved pages keep exactly the Google head they have today: same Google pieces as the home page (untouched by this
+  //   ticket). Byte identity against the reference tree is measured separately (timesprayers-shed-qa/prayer-coord-3).
+  const headG = (b) => { const h = b.slice(0, b.indexOf('</head>')); return (h.match(/<script[^>]*>[^<]*(?:gtag|dataLayer)[^<]*<\/script>|<script[^>]*(?:adsbygoogle|googletagmanager)[^>]*><\/script>|<meta name="google-adsense-account"[^>]*>/g) || []).map((x) => x.replace(/nonce="[^"]*"/g, 'nonce=""')).join('\n'); };
+  const hHome = headG((await get('/en', PORT + 3)).body);
+  for (const [lab, u] of [['resolved namesake coordinate page', '/en/prayer-times-in-boston-41.03-72.96'], ['identity coordinate page', '/en/prayer-times-in-boston-42.36--71.06'], ['normal city page', '/en/prayer-times-in-boston'], ['faro, Yukon', '/en/prayer-times-in-faro-62.23--133.33']]) {
+    const h = headG((await get(u, PORT + 3)).body);
+    check(lab + ': the same Google head pieces as the home page (consent default + GA + AdSense + account meta), unchanged', h === hHome && /adsbygoogle/.test(h) && /googletagmanager/.test(h) && /gtag\('consent','default'/.test(h) && /google-adsense-account/.test(h), h.length + ' vs ' + hHome.length);
+  }
+
   console.log('\n── (6) asset version: the served page and the served js/app.js ──');
   const vm = /js\/app\.js\?v=(\d+)/.exec(bos.body);
   check('served HTML references js/app.js?v=863', !!vm && vm[1] === '863', vm && vm[1]);
@@ -414,5 +446,5 @@ try {
 
   console.log(`\n${fail === 0 ? '✅ PASS' : '❌ FAIL'}  ${pass} passed, ${fail} failed`);
   code = fail === 0 ? 0 : 1;
-} finally { killTree(srv); killTree(srvW); killTree(srvS); try { fs.unlinkSync(FAKE); } catch (_e) {} }
+} finally { killTree(srv); killTree(srvW); killTree(srvS); killTree(srvG); try { fs.unlinkSync(FAKE); } catch (_e) {} }
 process.exit(code);

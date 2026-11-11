@@ -4118,7 +4118,7 @@ const _PRAYER_COORD_UNAVAIL_L10N = {
         de: 'Für diesen Link sind keine Gebetszeiten verfügbar',
         id: 'Jadwal sholat tidak tersedia untuk tautan ini',
         es: 'Horarios de oración no disponibles para este enlace',
-        bn: 'এই লিংকের জন্য নামাজের সময় পাওয়া যাচ্ছে না',
+        bn: 'এই লিঙ্কের জন্য নামাজের সময় পাওয়া যাচ্ছে না',
         ms: 'Waktu solat tidak tersedia untuk pautan ini'
     },
     message: {
@@ -4130,20 +4130,20 @@ const _PRAYER_COORD_UNAVAIL_L10N = {
         de: 'Die Gebetszeiten für den Punkt in diesem Link ({coords}) können wir derzeit nicht überprüfen; deshalb zeigt diese Seite keine Gebetszeiten an.',
         id: 'Saat ini kami tidak dapat memverifikasi jadwal sholat untuk titik dalam tautan ini ({coords}), sehingga halaman ini tidak menampilkan jadwal sholat.',
         es: 'Por ahora no podemos verificar los horarios de oración del punto indicado en este enlace ({coords}), por lo que esta página no muestra ningún horario.',
-        bn: 'এই লিংকে দেওয়া বিন্দুর ({coords}) নামাজের সময় আমরা এই মুহূর্তে যাচাই করতে পারছি না, তাই এই পৃষ্ঠায় কোনো নামাজের সময় দেখানো হচ্ছে না।',
+        bn: 'এই লিঙ্কে দেওয়া স্থানাঙ্কের ({coords}) নামাজের সময় আমরা এই মুহূর্তে যাচাই করতে পারছি না, তাই এই পৃষ্ঠায় কোনো নামাজের সময় দেখানো হচ্ছে না।',
         ms: 'Buat masa ini kami tidak dapat mengesahkan waktu solat bagi titik dalam pautan ini ({coords}), jadi halaman ini tidak memaparkan sebarang waktu solat.'
     },
     altLead: {
-        ar: 'مدينة تحمل الاسم نفسه، في موقع آخر:',
-        en: 'A city with the same name, at a different location:',
-        fr: 'Une ville du même nom, à un autre endroit :',
-        tr: 'Aynı adı taşıyan, başka bir konumdaki şehir:',
-        ur: 'اسی نام کا ایک شہر، جو کسی دوسری جگہ واقع ہے:',
-        de: 'Eine Stadt mit demselben Namen an einem anderen Ort:',
-        id: 'Kota dengan nama yang sama, di lokasi lain:',
-        es: 'Una ciudad con el mismo nombre, en otra ubicación:',
-        bn: 'একই নামের একটি শহর, ভিন্ন অবস্থানে:',
-        ms: 'Bandar dengan nama yang sama, di lokasi lain:'
+        ar: 'مدينة تحمل الاسم الوارد في هذا الرابط، لكن في موقع آخر:',
+        en: 'A city with the name used in this link, but at a different location:',
+        fr: 'Une ville qui porte le nom figurant dans ce lien, mais à un autre endroit :',
+        tr: 'Bu bağlantıdaki adı taşıyan, ancak başka bir konumdaki şehir:',
+        ur: 'اس لنک میں دیے گئے نام کا ایک شہر، جو کسی دوسری جگہ واقع ہے:',
+        de: 'Eine Stadt mit dem Namen aus diesem Link, aber an einem anderen Ort:',
+        id: 'Kota dengan nama yang ada di tautan ini, tetapi di lokasi lain:',
+        es: 'Una ciudad con el nombre que aparece en este enlace, pero en otra ubicación:',
+        bn: 'এই লিঙ্কে থাকা নামের একটি শহর, তবে ভিন্ন অবস্থানে:',
+        ms: 'Bandar dengan nama yang terdapat dalam pautan ini, tetapi di lokasi lain:'
     },
     altLink: {
         ar: 'مواقيت الصلاة في {city}، {country}',
@@ -4162,7 +4162,7 @@ const _PRAYER_COORD_UNAVAIL_L10N = {
         en: 'Search for a city on the home page',
         fr: 'Rechercher une ville sur la page d’accueil',
         tr: 'Ana sayfada şehir ara',
-        ur: 'ہوم پیج پر شہر تلاش کریں',
+        ur: 'صفحۂ اوّل پر شہر تلاش کریں',
         de: 'Stadt auf der Startseite suchen',
         id: 'Cari kota di halaman utama',
         es: 'Buscar una ciudad en la página de inicio',
@@ -4240,8 +4240,14 @@ function _prayerCoordUnavailableTransform(html, P) {
     out = out.replace(/<script\b[^>]*\btype="application\/ld\+json"[^>]*>[\s\S]*?<\/script>/gi, '');
     out = out.replace(/<script\b[^>]*\bid="(?:ssr-prayer-city|country-cities-data)"[^>]*>[\s\S]*?<\/script>/gi, '');
     out = out.replace(/<meta\s+name="(?:ssr-city-name|geo\.position|geo\.placename|geo\.region|ICBM)"[^>]*>/gi, '');
+    //   Google tags: parity with the site's 404 / 410 pages (owner decision 2026-11-11), which carry NONE of the head
+    //   block the templates get at load time (_headBlock: consent defaults + GA + AdSense) and no AdSense account meta.
+    //   The exact snippets are removed; nothing else about ads, consent, CSP or the client id changes, on any page.
+    for (const sn of [_CONSENT_DEFAULT_SNIPPET, _GA_HEAD_SNIPPET, _ADSENSE_HEAD_SNIPPET]) if (sn) out = out.split(sn).join('');
+    out = out.replace(/<meta\s+name="google-adsense-account"[^>]*>/gi, '');
     out = out.replace(/<html\b([^>]*)>/i, (m, a) => (/\sdata-pc-unavailable=/.test(a) ? m : '<html' + a + ' data-pc-unavailable="1">'));
-    for (const bad of ['id="time-fajr"', 'id="next-prayer-countdown"', 'id="current-time"', 'id="sticky-next-bar"', 'id="city-name"', 'id="country-name"', 'id="ssr-prayer-city"', 'id="prayer-schedule', 'id="calc-method"', 'type="application/ld+json"']) {
+    for (const bad of ['id="time-fajr"', 'id="next-prayer-countdown"', 'id="current-time"', 'id="sticky-next-bar"', 'id="city-name"', 'id="country-name"', 'id="ssr-prayer-city"', 'id="prayer-schedule', 'id="calc-method"', 'type="application/ld+json"',
+        'adsbygoogle', 'googletagmanager.com', "gtag('consent'", 'google-adsense-account']) {
         if (out.indexOf(bad) !== -1) throw new Error('pc-unavailable: residue ' + bad);
     }
     if (!/<html\b[^>]*\sdata-pc-unavailable="1"/.test(out) || out.indexOf('id="pc-unavailable"') === -1 || !/<title>/.test(out)) throw new Error('pc-unavailable: marker missing');

@@ -57,6 +57,11 @@ function isPrebuildable(rel) {
     return typeof rel === 'string' && path.extname(rel).toLowerCase() !== '.html';
 }
 
+// Defence in depth for the same rule: a file that carries the per-response CSP nonce placeholder is
+//   finished per request and must never be prebuilt, whatever its extension. None of today's 25 do.
+const NONCE_PLACEHOLDER = '__TP_CSP_NONCE__';
+function carriesRequestPlaceholder(buf) { return Buffer.isBuffer(buf) && buf.includes(NONCE_PLACEHOLDER); }
+
 function sha256(buf) { return crypto.createHash('sha256').update(buf).digest('hex'); }
 
 function _pkgVersion(name) {
@@ -147,6 +152,7 @@ function openPrebuilt(root, opts) {
         if (!manifest) return miss(rel, globalReason || 'manifest-missing');
         try {
             const e = manifest.files[rel];
+            if (carriesRequestPlaceholder(srcBuf)) return miss(rel, 'request-placeholder');
             if (!e || !e.out) return miss(rel, 'not-in-manifest');
             if (!Buffer.isBuffer(srcBuf) || e.src !== sha256(srcBuf)) return miss(rel, 'source-changed');
             const data = _readOut(e.out.raw);
@@ -218,6 +224,6 @@ function readPreloadPathsFromServer(serverSrc) {
 module.exports = {
     FORMAT, RECIPE_ID, CACHE_DIR_NAME, MANIFEST_NAME,
     terserOptions, cleanCssOptions, brotliOptions,
-    isPrebuildable, sha256, recipeInfo, recipeFingerprint, cacheDir, artifactName,
+    isPrebuildable, carriesRequestPlaceholder, NONCE_PLACEHOLDER, sha256, recipeInfo, recipeFingerprint, cacheDir, artifactName,
     openPrebuilt, computeOne, readPreloadPathsFromServer,
 };

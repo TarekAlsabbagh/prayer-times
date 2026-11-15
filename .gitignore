@@ -142,3 +142,7 @@ hafsData_v2-0.json
 
 # QURAN-AR — dev-only screenshot output (PNGs + throwaway headless-Chrome profile). Never committed.
 .quran-shots/
+
+# PERF-PRELOAD-PRECOMPUTE-1 -- build-time static preload artifacts (npm postinstall), never committed.
+.preload-cache/
+.preload-cache.tmp-*/

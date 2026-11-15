@@ -7581,20 +7581,44 @@ const _SIDENAV_SPRITE = '<svg class="svg-sprite-host" id="sidenav-svg-sprite" ar
 
 // Preload + minify + compress async (terser is Promise-based)
 // server.listen() awaits this via _preloadReady
-const _cleanCss = new CleanCSS({ returnPromise: false, level: 2 });
+// PERF-PRELOAD-PRECOMPUTE-1: the minify/compress options come from server/preload-prebuilt.js (same
+//   values as before) so the build-time cache and this boot-time path share ONE recipe.
+const _preloadRecipe = require('./server/preload-prebuilt');
+const _cleanCss = new CleanCSS(_preloadRecipe.cleanCssOptions());
 async function _preloadStatic() {
     const _t0 = Date.now();
     let minSavings = 0;
+    // PERF-PRELOAD-PRECOMPUTE-1: static (non-HTML) files whose build-time artifacts match the source
+    //   bytes, the recipe and their own checksums are taken from .preload-cache/ instead of being
+    //   minified + gzipped + brotli-q11'd again in every worker. Anything absent, stale or damaged
+    //   falls through to the unchanged code below, file by file. HTML templates never take this path.
+    const _prebuilt = _preloadRecipe.openPrebuilt(ROOT, { disabled: process.env.TP_PRELOAD_PREBUILT === 'off' });
+    let _prebuildable = 0;
     for (const rel of _preloadPaths) {
         try {
             const full = path.join(ROOT, rel);
             let data = fs.readFileSync(full);
             const originalSize = data.length;
             const ext = path.extname(rel).toLowerCase();
+            if (_preloadRecipe.isPrebuildable(rel)) {
+                _prebuildable++;
+                const _pb = _prebuilt.take(rel, data);
+                if (_pb) {
+                    if (_pb.minified && rel === 'css/style.css') _inlineCssText = _pb.data.toString('utf8');
+                    if (_pb.minified && rel === 'css/critical.css') _criticalCssText = _pb.data.toString('utf8');
+                    minSavings += (originalSize - _pb.data.length);
+                    _staticCache.set(full, { data: _pb.data, gzipped: _pb.gzipped, brotli: _pb.brotli });
+                    // Keep the yield the Terser await gave: the HTML templates later in the list read
+                    //   consts defined further down this file (_HIJRI_INLINE_SCRIPT, ...), which exist
+                    //   only once module evaluation has finished.
+                    if (ext === '.js') await null;
+                    continue;
+                }
+            }
             try {
                 if (ext === '.js') {
                     const src = data.toString('utf8');
-                    const result = await Terser.minify(src, { compress: true, mangle: true });
+                    const result = await Terser.minify(src, _preloadRecipe.terserOptions());
                     if (result && result.code) data = Buffer.from(result.code, 'utf8');
                 } else if (ext === '.css') {
                     const src = data.toString('utf8');
@@ -7676,13 +7700,13 @@ async function _preloadStatic() {
             minSavings += (originalSize - data.length);
             let gzipped = null, brotli = null;
             try { gzipped = zlib.gzipSync(data); } catch(e) {}
-            try { brotli = zlib.brotliCompressSync(data, {
-                params: { [zlib.constants.BROTLI_PARAM_QUALITY]: 11 } // أقصى ضغط — مرة واحدة عند الإقلاع فقط
-            }); } catch(e) {}
+            try { brotli = zlib.brotliCompressSync(data, _preloadRecipe.brotliOptions() // أقصى ضغط (q11) — مرة واحدة عند الإقلاع فقط
+            ); } catch(e) {}
             _staticCache.set(full, { data, gzipped, brotli });
         } catch(e) { /* الملف قد لا يكون موجوداً، تجاهل */ }
     }
     const _dt = Date.now() - _t0;
+    console.log(_prebuilt.summary(_prebuildable));
     console.log(`[Cache] Preloaded ${_staticCache.size} files in ${_dt}ms — minified (saved ${(minSavings/1024).toFixed(1)} KB) + gzip + brotli`);
 }
 const _preloadReady = _preloadStatic();

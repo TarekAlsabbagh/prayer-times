@@ -56,6 +56,10 @@ async function buildInto(P, tools, rels, tmpDir, finalDir, t0) {
         const full = path.join(ROOT, rel);
         let src;
         try { src = fs.readFileSync(full); } catch (_e) { skipped++; continue; }   // boot path ignores missing files too
+        if (P.carriesRequestPlaceholder(src)) {                                       // finished per request: never prebuilt
+            console.warn('[preload-prebuild] not prebuilt (carries the CSP nonce placeholder): ' + rel);
+            skipped++; continue;
+        }
         const r = await P.computeOne(rel, src, tools);
         if (r.minifyError) console.warn('[preload-prebuild] minify skipped ' + rel + ': ' + r.minifyError);
         if (!r.gzipped || !r.brotli) { skipped++; continue; }                       // leave it to the boot path

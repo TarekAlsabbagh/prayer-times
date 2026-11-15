@@ -43,6 +43,9 @@ const htmls = rels.filter(r => !P.isPrebuildable(r));
 console.log('\n--- A) static wiring ---');
 ok(htmls.length === 5 && htmls.every(r => r.endsWith('.html')), 'HTML templates are excluded from prebuilding: ' + htmls.join(' '));
 ok(statics.length === 25 && statics.every(r => !r.endsWith('.html')), '25 static files are prebuildable (css/js/sw.js/ttf)');
+ok(P.NONCE_PLACEHOLDER === (src.match(/const _TP_NONCE_TOKEN = '([^']+)'/) || [])[1], 'the module guards on the same nonce placeholder server.js emits');
+ok(statics.every(r => !P.carriesRequestPlaceholder(fs.readFileSync(path.join(ROOT, r)))), 'none of the 25 static files carries the nonce placeholder');
+ok(htmls.every(r => P.carriesRequestPlaceholder(fs.readFileSync(path.join(ROOT, r)))), 'every excluded HTML template carries it (why they are excluded)');
 ok(/const _preloadRecipe = require\('\.\/server\/preload-prebuilt'\);/.test(src), 'server.js loads the shared recipe module');
 ok(/new CleanCSS\(_preloadRecipe\.cleanCssOptions\(\)\)/.test(src) && /Terser\.minify\(src, _preloadRecipe\.terserOptions\(\)\)/.test(src)
   && /brotliCompressSync\(data, _preloadRecipe\.brotliOptions\(\)/.test(src), 'the boot-time path uses the SAME option factories as the build');
@@ -75,6 +78,8 @@ const A = path.join(scratch, 'valid');
   ok(fs.existsSync(path.join(A, 'manifest.json')) && !fs.readdirSync(scratch).some(f => f.includes('.tmp-')), 'manifest written, no temp dir left behind');
   const m = JSON.parse(fs.readFileSync(path.join(A, 'manifest.json'), 'utf8'));
   ok(Object.keys(m.files).sort().join() === statics.slice().sort().join(), 'manifest lists exactly the prebuildable files');
+  const bsrc = fs.readFileSync(path.join(ROOT, 'scripts', 'build-preload-cache.js'), 'utf8');
+  ok(/carriesRequestPlaceholder\(src\)/.test(bsrc), 'the build step also skips any source carrying the nonce placeholder');
   ok(m.recipe === P.recipeFingerprint() && m.recipeInfo.terser && m.recipeInfo.cleancss && m.recipeInfo.node === process.version, 'manifest carries the recipe fingerprint (Node/zlib/brotli/Terser/clean-css + options)');
   const off = spawnSync(process.execPath, [path.join(ROOT, 'scripts', 'build-preload-cache.js')], { cwd: ROOT, env: baseEnv({ TP_PRELOAD_CACHE_DIR: path.join(scratch, 'off'), TP_PRELOAD_PREBUILD: 'off' }), encoding: 'utf8' });
   ok(off.status === 0 && !fs.existsSync(path.join(scratch, 'off')), 'TP_PRELOAD_PREBUILD=off skips the build step');
@@ -118,6 +123,8 @@ const readSrc = (rel) => fs.readFileSync(path.join(ROOT, rel));
   const changed = Buffer.concat([readSrc('js/app.js'), Buffer.from('\n// edited after the build\n')]);
   ok(pb.take('js/app.js', changed) === null && pb.stats.reasons['source-changed'] === 1, 'B2 source edited after the build: falls back (source-changed)');
   ok(pb.take('js/i18n.js', readSrc('js/i18n.js')) !== null, 'B2 the other, unchanged files are still taken');
+  ok(pb.take('js/duas.js', Buffer.concat([readSrc('js/duas.js'), Buffer.from('/* __TP_CSP_NONCE__ */')])) === null && pb.stats.reasons['request-placeholder'] === 1,
+    'B2 a source that now carries the nonce placeholder is never taken (request-placeholder)');
   const R = path.join(scratch, 'recipe'); copyDir(A, R);
   const m = JSON.parse(fs.readFileSync(path.join(R, 'manifest.json'), 'utf8')); m.recipe = sha(Buffer.from('terser 5.0.0 / other options')); fs.writeFileSync(path.join(R, 'manifest.json'), JSON.stringify(m));
   const pbR = P.openPrebuilt(ROOT, { dir: R });

@@ -4,7 +4,8 @@
   "description": "مواقيت الصلاة",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "node scripts/build-preload-cache.js"
   },
   "engines": {
     "node": ">=16.0.0"

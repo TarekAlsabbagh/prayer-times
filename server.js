@@ -19484,7 +19484,7 @@ function renderSeoHeadHtml(seo) {
             const _MOON_MONTH_FAQ_BY_LANG = {
                 ar: [
                 { q: `ما هو تقويم القمر في ${_mthCity} لشهر ${_mthName} ${_mthY}؟`,
-                  a: `يَعرض هذا التقويم أطوار القمر اليومية في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكل يوم.` },
+                  a: `يَعرض هذا التقويم أطوار القمر اليومية في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة لكل يوم.` },
                 { q: `كيف أعرف طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
                   a: `يَعرض هذا التقويم طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.` },
                 { q: `متى يكون البدر في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
@@ -19502,7 +19502,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 en: [
                 { q: `What is the moon calendar in ${_mthCity} for ${_mthName} ${_mthY}?`,
-                  a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with illumination and rise/set times for each day.` },
+                  a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with the illumination percentage for each day.` },
                 { q: `How do I find the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}?`,
                   a: `This calendar shows the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}, with illumination percentage and the Hijri and Gregorian dates.` },
                 { q: `When is the full moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
@@ -19520,7 +19520,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 fr: [
                     { q: `Quel est le calendrier lunaire à ${_mthCity} pour ${_mthName} ${_mthY} ?`,
-                      a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec illumination et heures de lever/coucher pour chaque jour.` },
+                      a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec le pourcentage d'illumination de chaque jour.` },
                     { q: `Comment trouver la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY} ?`,
                       a: `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne.` },
                     { q: `Quand est la pleine lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
@@ -19538,7 +19538,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 tr: [
                     { q: `${_mthCity} için ${_mthName} ${_mthY} ay takvimi nedir?`,
-                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma ve doğuş/batış saatleriyle gösterir.` },
+                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma yüzdesiyle gösterir.` },
                     { q: `${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini nasıl öğrenirim?`,
                       a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir.` },
                     { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de dolunay ne zaman?`,
@@ -19556,7 +19556,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 ur: [
                     { q: `${_mthCity} میں ${_mthName} ${_mthY} کے لیے چاند کا کیلنڈر کیا ہے؟`,
-                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی اور مطلع/مغیب کے اوقات کے ساتھ دکھاتا ہے۔` },
+                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی کے فیصد کے ساتھ دکھاتا ہے۔` },
                     { q: `${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور کیسے معلوم کروں؟`,
                       a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔` },
                     { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں بدر کب ہوگا؟`,
@@ -19574,7 +19574,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 de: [
                     { q: `Was ist der Mondkalender in ${_mthCity} für ${_mthName} ${_mthY}?`,
-                      a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit Beleuchtung und Auf-/Untergangszeiten für jeden Tag.` },
+                      a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit dem Beleuchtungsprozentsatz für jeden Tag.` },
                     { q: `Wie finde ich die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}?`,
                       a: `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten.` },
                     { q: `Wann ist der Vollmond in ${_mthCity} während ${_mthName} ${_mthY}?`,
@@ -19592,7 +19592,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 id: [
                     { q: `Apa kalender bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
-                      a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan iluminasi dan waktu terbit/terbenam untuk setiap hari.` },
+                      a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan persentase iluminasi untuk setiap hari.` },
                     { q: `Bagaimana cara mengetahui fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}?`,
                       a: `Kalender ini menampilkan fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi.` },
                     { q: `Kapan bulan purnama di ${_mthCity} selama ${_mthName} ${_mthY}?`,
@@ -19610,7 +19610,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 es: [
                     { q: `¿Cuál es el calendario lunar en ${_mthCity} para ${_mthName} ${_mthY}?`,
-                      a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con iluminación y horarios de salida/puesta para cada día.` },
+                      a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con el porcentaje de iluminación de cada día.` },
                     { q: `¿Cómo conozco la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}?`,
                       a: `Este calendario muestra la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}, con el porcentaje de iluminación y las fechas hijri y gregoriana.` },
                     { q: `¿Cuándo es la luna llena en ${_mthCity} durante ${_mthName} ${_mthY}?`,
@@ -19628,7 +19628,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 bn: [
                     { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`,
-                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকন ও উদয়/অস্তের সময় সহ দেখায়।` },
+                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকনের শতাংশ সহ দেখায়।` },
                     { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা কীভাবে জানব?`,
                       a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়।` },
                     { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ পূর্ণিমা কখন?`,
@@ -19646,7 +19646,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 ms: [
                     { q: `Apakah kalendar bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
-                      a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan pencahayaan dan masa terbit/terbenam untuk setiap hari.` },
+                      a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan peratus pencahayaan untuk setiap hari.` },
                     { q: `Bagaimana saya mengetahui fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
                       a: `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi.` },
                     { q: `Bilakah bulan purnama di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
@@ -29817,16 +29817,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // 1) Intro paragraph — month context (NO "today" framing)
             // ────────────────────────────────────────────────────────────────
             const _MONTH_INTRO_TPL = {
-                ar: `يعرض هذا التقويم أطوار القمر في ${cityName} خلال ${_mName} ${_mY}، مع التواريخ اليومية ونسبة الإضاءة ومواعيد طلوع القمر وغروبه حسب توقيت ${cityName} المحلي.`,
-                en: `This calendar shows the moon's phases in ${cityName} during ${_mName} ${_mY}, with daily dates, illumination percentages, and moonrise/moonset times in ${cityName}'s local timezone.`,
-                fr: `Ce calendrier présente les phases de la Lune à ${cityName} durant ${_mName} ${_mY}, avec les dates quotidiennes, les pourcentages d'illumination et les heures de lever et de coucher de la Lune selon le fuseau horaire local de ${cityName}.`,
-                tr: `Bu takvim, ${cityName}'in yerel saatine göre ${_mName} ${_mY} boyunca ${cityName}'de ay evrelerini, günlük tarihleri, aydınlanma yüzdelerini ve ay doğuş/batış zamanlarını gösterir.`,
-                ur: `یہ تقویم ${cityName} میں ${_mName} ${_mY} کے دوران چاند کے مراحل دکھاتی ہے، روزانہ تاریخوں، روشنی کی فیصد، اور ${cityName} کے مقامی وقت کے مطابق چاند کے طلوع و غروب کے اوقات کے ساتھ۔`,
-                de: `Dieser Kalender zeigt die Mondphasen in ${cityName} während ${_mName} ${_mY}, mit täglichen Daten, Beleuchtungsprozentsätzen und Mondaufgangs- und -untergangszeiten in der Ortszeit von ${cityName}.`,
-                id: `Kalender ini menampilkan fase Bulan di ${cityName} selama ${_mName} ${_mY}, dengan tanggal harian, persentase iluminasi, dan waktu terbit/terbenam Bulan menurut zona waktu lokal ${cityName}.`,
-                es: `Este calendario muestra las fases de la Luna en ${cityName} durante ${_mName} ${_mY}, con fechas diarias, porcentajes de iluminación y horarios de salida y puesta de la Luna según la zona horaria local de ${cityName}.`,
-                bn: `এই ক্যালেন্ডারটি ${cityName}-এ ${_mName} ${_mY}-এর সময় চাঁদের দশা দেখায়, দৈনিক তারিখ, আলোকনের শতাংশ এবং ${cityName}-এর স্থানীয় সময় অনুযায়ী চাঁদের উদয়/অস্তের সময়সহ।`,
-                ms: `Kalendar ini menunjukkan fasa Bulan di ${cityName} sepanjang ${_mName} ${_mY}, dengan tarikh harian, peratus pencahayaan, dan waktu terbit/terbenam Bulan mengikut zon waktu tempatan ${cityName}.`
+                ar: `يعرض هذا التقويم أطوار القمر في ${cityName} خلال ${_mName} ${_mY}، مع التواريخ اليومية ونسبة الإضاءة حسب توقيت ${cityName} المحلي.`,
+                en: `This calendar shows the moon's phases in ${cityName} during ${_mName} ${_mY}, with daily dates and illumination percentages in ${cityName}'s local timezone.`,
+                fr: `Ce calendrier présente les phases de la Lune à ${cityName} durant ${_mName} ${_mY}, avec les dates quotidiennes et les pourcentages d'illumination selon le fuseau horaire local de ${cityName}.`,
+                tr: `Bu takvim, ${cityName}'in yerel saatine göre ${_mName} ${_mY} boyunca ${cityName}'de ay evrelerini, günlük tarihleri ve aydınlanma yüzdelerini gösterir.`,
+                ur: `یہ تقویم ${cityName} میں ${_mName} ${_mY} کے دوران چاند کے مراحل دکھاتی ہے، ${cityName} کے مقامی وقت کے مطابق روزانہ تاریخوں اور روشنی کی فیصد کے ساتھ۔`,
+                de: `Dieser Kalender zeigt die Mondphasen in ${cityName} während ${_mName} ${_mY}, mit täglichen Daten und Beleuchtungsprozentsätzen in der Ortszeit von ${cityName}.`,
+                id: `Kalender ini menampilkan fase Bulan di ${cityName} selama ${_mName} ${_mY}, dengan tanggal harian dan persentase iluminasi menurut zona waktu lokal ${cityName}.`,
+                es: `Este calendario muestra las fases de la Luna en ${cityName} durante ${_mName} ${_mY}, con fechas diarias y porcentajes de iluminación según la zona horaria local de ${cityName}.`,
+                bn: `এই ক্যালেন্ডারটি ${cityName}-এ ${_mName} ${_mY}-এর সময় চাঁদের দশা দেখায়, ${cityName}-এর স্থানীয় সময় অনুযায়ী দৈনিক তারিখ ও আলোকনের শতাংশসহ।`,
+                ms: `Kalendar ini menunjukkan fasa Bulan di ${cityName} sepanjang ${_mName} ${_mY}, dengan tarikh harian dan peratus pencahayaan mengikut zon waktu tempatan ${cityName}.`
             };
             const _monthIntroText = _MONTH_INTRO_TPL[Lm] || _MONTH_INTRO_TPL.en;
             html = html.replace(

@@ -13427,6 +13427,48 @@ function _isSupportedMoonYear(year) {
     const _r = getSupportedMoonYearRange();
     return Number.isInteger(year) && year >= _r.SUPPORTED_MOON_YEAR_MIN && year <= _r.SUPPORTED_MOON_YEAR_MAX;
 }
+// ── MOON-INDEX-SCOPE-H-1 (owner 2026-11-17) ──
+// Which nested moon YEAR / MONTH pages of a curated city stay INDEXABLE. Every other year/month page that
+// renders today keeps HTTP 200 and its content, and only becomes noindex,follow. The render window
+// (_isSupportedMoonYear, ±5) and every 404/410 are untouched.
+//   • years: the current and next UTC year; during January (UTC) also the previous year (grace month).
+//   • months: the months of those same years, ONLY for the cities in db/moon-month-index-cities.json
+//     (a FIXED list for this batch: identity = slug + country code, re-checked against curated here).
+// One rule for the robots meta and the moon sitemap (_sitemapFamilyDescriptors). The clock is the same
+// test seam as getSupportedMoonYearRange (TP_MOON_RANGE_TEST_NOW), so a long-running worker flips on
+// 1 January / 1 February without a restart.
+function _moonIndexYearWindow(now) {
+    let _now = now;
+    if (!(_now instanceof Date)) {
+        const _t = process.env.TP_MOON_RANGE_TEST_NOW ? Date.parse(process.env.TP_MOON_RANGE_TEST_NOW) : NaN;
+        _now = Number.isFinite(_t) ? new Date(_t) : new Date();
+    }
+    const _y = _now.getUTCFullYear();
+    return { min: (_now.getUTCMonth() === 0) ? _y - 1 : _y, max: _y + 1, currentYear: _y };
+}
+let _moonMonthIndexCities = null;   // slug -> cc (lazy; curated is loaded after this file section)
+function _getMoonMonthIndexCities() {
+    if (_moonMonthIndexCities) return _moonMonthIndexCities;
+    const _m = new Map();
+    try {
+        const _j = JSON.parse(fs.readFileSync(path.join(__dirname, 'db', 'moon-month-index-cities.json'), 'utf8'));
+        for (const c of (_j && Array.isArray(_j.cities)) ? _j.cities : []) {
+            if (c && typeof c.slug === 'string' && typeof c.cc === 'string') _m.set(c.slug, c.cc.toLowerCase());
+        }
+    } catch (e) { console.warn('[moon-index-scope] month city list not loaded:', e && e.message); }
+    _moonMonthIndexCities = _m;
+    return _m;
+}
+// true = the nested year (isMonth=false) or month (isMonth=true) page of this curated slug stays indexable.
+function _isMoonYearMonthIndexable(slug, year, isMonth) {
+    const _w = _moonIndexYearWindow();
+    if (!Number.isInteger(year) || year < _w.min || year > _w.max) return false;
+    if (!isMonth) return true;
+    const _cc = _getMoonMonthIndexCities().get(slug);
+    if (!_cc) return false;
+    const _place = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+    return !!(_place && String(_place.countryCode || '').toLowerCase() === _cc);
+}
 function _classifyMoonYear(urlPath) {
     const _core = String(urlPath || '').replace(/\.html$/, '');
     const _m = _core.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})$/);
@@ -18765,6 +18807,15 @@ function buildSeoForPath(urlPath, hcw) {
             // like their prayer/qibla siblings. The sitemap is unaffected (built curated-only elsewhere).
             || (corePath.match(/^\/moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)(?:\/(?:today|\d{4}(?:\/\d{2}(?:\/\d{2})?)?))?$/) || [])[1];
         if (_cityRouteSlug && _shouldNoindexCityRoute(_cityRouteSlug)) {
+            robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+        }
+    }
+    // MOON-INDEX-SCOPE-H-1: a curated city's nested YEAR / MONTH page outside the index scope stays 200 and
+    //   unchanged for the visitor, but is noindex,follow (same robots string as every other kept-but-not-indexed
+    //   page). Hub (/moon/{country}/{city}), country pages, /moon and the removed day pages (410) are not matched.
+    if (!robotsOverride) {
+        const _mym = corePath.match(/^\/moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/(\d{4})(\/\d{2})?$/);
+        if (_mym && !_isMoonYearMonthIndexable(_mym[1], parseInt(_mym[2], 10), !!_mym[3])) {
             robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         }
     }
@@ -38290,9 +38341,14 @@ const server = http.createServer(async (req, res) => {
                     const _mb = '/moon/' + _mcCountrySlug + '/' + baseSlug;
                     F.moon.push([_mb, '0.7', 'weekly', null]);
                     // MOON-DAY-PAGES-REMOVAL-1: no /today entry (the per-city today page is removed, 410)
-                    for (const _yy of [_cy - 1, _cy, _cy + 1]) {
+                    // MOON-INDEX-SCOPE-H-1: list ONLY year/month pages that are indexable (same rule as the robots
+                    //   meta) — the window is the current + next UTC year (+ the previous year in January). The
+                    //   month entries also require the fixed month-city list; no city is ADDED to the sitemap here.
+                    const _miw = _moonIndexYearWindow();
+                    for (let _yy = _miw.min; _yy <= _miw.max; _yy++) {
                         if (!_isSupportedMoonYear(_yy)) continue;
-                        F.moon.push([_mb + '/' + _yy, '0.5', 'monthly', null]);
+                        if (_isMoonYearMonthIndexable(baseSlug, _yy, false)) F.moon.push([_mb + '/' + _yy, '0.5', 'monthly', null]);
+                        if (!_isMoonYearMonthIndexable(baseSlug, _yy, true)) continue;
                         for (let _mm = 1; _mm <= 12; _mm++) F.moon.push([_mb + '/' + _yy + '/' + (_mm < 10 ? '0' + _mm : String(_mm)), '0.45', 'monthly', null]);
                     }
                 }
@@ -38338,7 +38394,8 @@ const server = http.createServer(async (req, res) => {
     function _sitemapFamilyPlan() {
         const _src = getSitemapData();
         const _hcwK = _hijriCalWindow();   // HIJRI-CALENDAR-RANGE-1: null-safe past the table end
-        const key = [getSupportedMoonYearRange().currentYear, _hcwK ? _hcwK.min + '-' + _hcwK.max : 'none', _legalLastUpdatedIso(), SITE_URL].join('|');
+        const _miwK = _moonIndexYearWindow();   // MOON-INDEX-SCOPE-H-1: the January grace month changes the URL set
+        const key = [getSupportedMoonYearRange().currentYear, _miwK.min + '-' + _miwK.max, _hcwK ? _hcwK.min + '-' + _hcwK.max : 'none', _legalLastUpdatedIso(), SITE_URL].join('|');
         const now = Date.now();
         const c = _sitemapFamilyPlanCache;
         if (c.data && c.key === key && c.src === _src && (now - c.time) < SITEMAP_TTL) return c.data;
@@ -38662,10 +38719,13 @@ const server = http.createServer(async (req, res) => {
                             // nested routes are NOT emitted (they 404 this phase).
                             // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the window stays current year ±1 (NOT widened);
                             //   the year comes from the same UTC helper as the routes and must be a supported year.
-                            const _cy = getSupportedMoonYearRange().currentYear;
-                            for (const _yy of [_cy - 1, _cy, _cy + 1]) {
-                                if (_isSupportedMoonYear(_yy)) {
+                            // MOON-INDEX-SCOPE-H-1: same window + month-city rule as _sitemapFamilyDescriptors and the
+                            //   robots meta (only indexable year/month pages are listed; no city is added).
+                            const _miw = _moonIndexYearWindow();
+                            for (let _yy = _miw.min; _yy <= _miw.max; _yy++) {
+                                if (_isSupportedMoonYear(_yy) && _isMoonYearMonthIndexable(baseSlug, _yy, false)) {
                                     entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug + '/' + _yy, '0.5', 'monthly', today));
+                                    if (!_isMoonYearMonthIndexable(baseSlug, _yy, true)) continue;
                                     // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the 12 months of each accepted
                                     // year (new nested route). The deeper day/today/dash routes are NOT
                                     // emitted (day pages stay discoverable from the month page only — no

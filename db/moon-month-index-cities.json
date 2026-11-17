@@ -1,0 +1,1498 @@
+{
+ "ticket": "MOON-INDEX-SCOPE-H-1",
+ "frozen": "2026-11-17",
+ "note": "Fixed list for this batch (owner 2026-11-17). Month pages of these cities stay indexable for the moon index window; any change needs a documented review, never automatic. Identity = slug + countryCode, checked against curated at boot. Evidence per city: timesprayers-gsc-qa/investigation-2026-10-21/surface-2026-11-17/moon-month-cities-frozen.json",
+ "counts": {
+  "total": 297,
+  "famous": 107,
+  "alias": 8,
+  "demandOnly": 182
+ },
+ "cities": [
+  {
+   "slug": "aachen",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "abidjan",
+   "cc": "ci",
+   "source": "demand"
+  },
+  {
+   "slug": "abu-dhabi",
+   "cc": "ae",
+   "source": "famous"
+  },
+  {
+   "slug": "abuja",
+   "cc": "ng",
+   "source": "famous"
+  },
+  {
+   "slug": "acre",
+   "cc": "ps",
+   "source": "demand"
+  },
+  {
+   "slug": "addis-ababa",
+   "cc": "et",
+   "source": "famous-alias:addis"
+  },
+  {
+   "slug": "aenew",
+   "cc": "tm",
+   "source": "demand"
+  },
+  {
+   "slug": "afif",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "afyonkarahisar",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "aileu",
+   "cc": "tl",
+   "source": "demand"
+  },
+  {
+   "slug": "aktobe",
+   "cc": "kz",
+   "source": "demand"
+  },
+  {
+   "slug": "akureyri",
+   "cc": "is",
+   "source": "demand"
+  },
+  {
+   "slug": "al-hanakiyah",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "al-hayer",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "al-jadid",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "al-madinah",
+   "cc": "iq",
+   "source": "demand"
+  },
+  {
+   "slug": "al-majmaah",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "al-qaim",
+   "cc": "iq",
+   "source": "demand"
+  },
+  {
+   "slug": "aleppo",
+   "cc": "sy",
+   "source": "famous"
+  },
+  {
+   "slug": "alexandria",
+   "cc": "eg",
+   "source": "famous"
+  },
+  {
+   "slug": "algiers",
+   "cc": "dz",
+   "source": "famous"
+  },
+  {
+   "slug": "almaty",
+   "cc": "kz",
+   "source": "famous"
+  },
+  {
+   "slug": "amman",
+   "cc": "jo",
+   "source": "famous"
+  },
+  {
+   "slug": "amsterdam",
+   "cc": "nl",
+   "source": "famous"
+  },
+  {
+   "slug": "ankara",
+   "cc": "tr",
+   "source": "famous"
+  },
+  {
+   "slug": "aqaba",
+   "cc": "jo",
+   "source": "famous"
+  },
+  {
+   "slug": "ar-rahad",
+   "cc": "sd",
+   "source": "demand"
+  },
+  {
+   "slug": "astana",
+   "cc": "kz",
+   "source": "famous"
+  },
+  {
+   "slug": "bac-ninh",
+   "cc": "vn",
+   "source": "demand"
+  },
+  {
+   "slug": "badr-al-janub",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "baghdad",
+   "cc": "iq",
+   "source": "famous"
+  },
+  {
+   "slug": "baku",
+   "cc": "az",
+   "source": "famous"
+  },
+  {
+   "slug": "bandar-seri-begawan",
+   "cc": "bn",
+   "source": "famous-alias:bandar"
+  },
+  {
+   "slug": "bandung",
+   "cc": "id",
+   "source": "famous"
+  },
+  {
+   "slug": "bangkok",
+   "cc": "th",
+   "source": "demand"
+  },
+  {
+   "slug": "barcelona",
+   "cc": "es",
+   "source": "famous"
+  },
+  {
+   "slug": "basra",
+   "cc": "iq",
+   "source": "famous"
+  },
+  {
+   "slug": "beirut",
+   "cc": "lb",
+   "source": "famous"
+  },
+  {
+   "slug": "beja",
+   "cc": "tn",
+   "source": "demand"
+  },
+  {
+   "slug": "bekasi",
+   "cc": "id",
+   "source": "demand"
+  },
+  {
+   "slug": "belmopan",
+   "cc": "bz",
+   "source": "demand"
+  },
+  {
+   "slug": "bengaluru",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "berlin",
+   "cc": "de",
+   "source": "famous"
+  },
+  {
+   "slug": "bethlehem",
+   "cc": "ps",
+   "source": "demand"
+  },
+  {
+   "slug": "bhakkar",
+   "cc": "pk",
+   "source": "demand"
+  },
+  {
+   "slug": "bima",
+   "cc": "id",
+   "source": "demand"
+  },
+  {
+   "slug": "birmingham",
+   "cc": "gb",
+   "source": "famous"
+  },
+  {
+   "slug": "bishkek",
+   "cc": "kg",
+   "source": "famous"
+  },
+  {
+   "slug": "boghni",
+   "cc": "dz",
+   "source": "demand"
+  },
+  {
+   "slug": "bogota",
+   "cc": "co",
+   "source": "demand"
+  },
+  {
+   "slug": "bolu",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "bourges",
+   "cc": "fr",
+   "source": "demand"
+  },
+  {
+   "slug": "brussels",
+   "cc": "be",
+   "source": "famous"
+  },
+  {
+   "slug": "bukhara",
+   "cc": "uz",
+   "source": "famous"
+  },
+  {
+   "slug": "bur-dubai",
+   "cc": "ae",
+   "source": "demand"
+  },
+  {
+   "slug": "bursa",
+   "cc": "tr",
+   "source": "famous"
+  },
+  {
+   "slug": "busan",
+   "cc": "kr",
+   "source": "demand"
+  },
+  {
+   "slug": "cabimas",
+   "cc": "ve",
+   "source": "demand"
+  },
+  {
+   "slug": "cagliari",
+   "cc": "it",
+   "source": "demand"
+  },
+  {
+   "slug": "cairo",
+   "cc": "eg",
+   "source": "famous"
+  },
+  {
+   "slug": "calgary",
+   "cc": "ca",
+   "source": "famous"
+  },
+  {
+   "slug": "calliaqua",
+   "cc": "vc",
+   "source": "demand"
+  },
+  {
+   "slug": "cancun",
+   "cc": "mx",
+   "source": "demand"
+  },
+  {
+   "slug": "cape-town",
+   "cc": "za",
+   "source": "demand"
+  },
+  {
+   "slug": "caracas",
+   "cc": "ve",
+   "source": "demand"
+  },
+  {
+   "slug": "casablanca",
+   "cc": "ma",
+   "source": "famous"
+  },
+  {
+   "slug": "chicago",
+   "cc": "us",
+   "source": "famous"
+  },
+  {
+   "slug": "chihuahua",
+   "cc": "mx",
+   "source": "demand"
+  },
+  {
+   "slug": "chittagong",
+   "cc": "bd",
+   "source": "famous"
+  },
+  {
+   "slug": "chorzow",
+   "cc": "pl",
+   "source": "demand"
+  },
+  {
+   "slug": "chunian",
+   "cc": "pk",
+   "source": "demand"
+  },
+  {
+   "slug": "cologne",
+   "cc": "de",
+   "source": "famous"
+  },
+  {
+   "slug": "colombo",
+   "cc": "lk",
+   "source": "demand"
+  },
+  {
+   "slug": "copenhagen",
+   "cc": "dk",
+   "source": "famous"
+  },
+  {
+   "slug": "copiapo",
+   "cc": "cl",
+   "source": "demand"
+  },
+  {
+   "slug": "corum",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "coxs-bazar",
+   "cc": "bd",
+   "source": "demand"
+  },
+  {
+   "slug": "dallas",
+   "cc": "us",
+   "source": "famous"
+  },
+  {
+   "slug": "damascus",
+   "cc": "sy",
+   "source": "famous"
+  },
+  {
+   "slug": "dammam",
+   "cc": "sa",
+   "source": "famous"
+  },
+  {
+   "slug": "dar-es-salaam",
+   "cc": "tz",
+   "source": "famous-alias:dar"
+  },
+  {
+   "slug": "darnah",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "detroit",
+   "cc": "us",
+   "source": "famous"
+  },
+  {
+   "slug": "dhaka",
+   "cc": "bd",
+   "source": "famous"
+  },
+  {
+   "slug": "djibouti-city",
+   "cc": "dj",
+   "source": "famous"
+  },
+  {
+   "slug": "doha",
+   "cc": "qa",
+   "source": "famous"
+  },
+  {
+   "slug": "dong-ha",
+   "cc": "vn",
+   "source": "demand"
+  },
+  {
+   "slug": "dubai",
+   "cc": "ae",
+   "source": "famous"
+  },
+  {
+   "slug": "duma",
+   "cc": "sy",
+   "source": "demand"
+  },
+  {
+   "slug": "dushanbe",
+   "cc": "tj",
+   "source": "famous"
+  },
+  {
+   "slug": "el-bayadh",
+   "cc": "dz",
+   "source": "demand"
+  },
+  {
+   "slug": "el-fasher",
+   "cc": "sd",
+   "source": "demand"
+  },
+  {
+   "slug": "el-jadida",
+   "cc": "ma",
+   "source": "demand"
+  },
+  {
+   "slug": "erzurum",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "esna",
+   "cc": "eg",
+   "source": "demand"
+  },
+  {
+   "slug": "famagusta",
+   "cc": "cy",
+   "source": "demand"
+  },
+  {
+   "slug": "farah",
+   "cc": "af",
+   "source": "demand"
+  },
+  {
+   "slug": "faridabad",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "fier",
+   "cc": "al",
+   "source": "demand"
+  },
+  {
+   "slug": "fonadhoo",
+   "cc": "mv",
+   "source": "demand"
+  },
+  {
+   "slug": "frankfurt",
+   "cc": "de",
+   "source": "famous"
+  },
+  {
+   "slug": "gaziantep",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "george-town",
+   "cc": "my",
+   "source": "famous-alias:penang"
+  },
+  {
+   "slug": "ghat",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "giza",
+   "cc": "eg",
+   "source": "famous"
+  },
+  {
+   "slug": "gouyave",
+   "cc": "gd",
+   "source": "demand"
+  },
+  {
+   "slug": "guadalajara",
+   "cc": "mx",
+   "source": "demand"
+  },
+  {
+   "slug": "gwangju",
+   "cc": "kr",
+   "source": "demand"
+  },
+  {
+   "slug": "hamburg",
+   "cc": "de",
+   "source": "famous"
+  },
+  {
+   "slug": "hanau",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "hangzhou",
+   "cc": "cn",
+   "source": "demand"
+  },
+  {
+   "slug": "hanoi",
+   "cc": "vn",
+   "source": "demand"
+  },
+  {
+   "slug": "hapur",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "herat",
+   "cc": "af",
+   "source": "famous"
+  },
+  {
+   "slug": "homs",
+   "cc": "sy",
+   "source": "demand"
+  },
+  {
+   "slug": "houston",
+   "cc": "us",
+   "source": "famous"
+  },
+  {
+   "slug": "huancayo",
+   "cc": "pe",
+   "source": "demand"
+  },
+  {
+   "slug": "hurghada",
+   "cc": "eg",
+   "source": "demand"
+  },
+  {
+   "slug": "idri",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "inak",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "isfahan",
+   "cc": "ir",
+   "source": "famous"
+  },
+  {
+   "slug": "islamabad",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "ismayilli",
+   "cc": "az",
+   "source": "demand"
+  },
+  {
+   "slug": "istanbul",
+   "cc": "tr",
+   "source": "famous"
+  },
+  {
+   "slug": "izmir",
+   "cc": "tr",
+   "source": "famous"
+  },
+  {
+   "slug": "jablah",
+   "cc": "sy",
+   "source": "demand"
+  },
+  {
+   "slug": "jakarta",
+   "cc": "id",
+   "source": "famous"
+  },
+  {
+   "slug": "jeddah",
+   "cc": "sa",
+   "source": "famous"
+  },
+  {
+   "slug": "jenin",
+   "cc": "ps",
+   "source": "demand"
+  },
+  {
+   "slug": "jerusalem",
+   "cc": "ps",
+   "source": "famous"
+  },
+  {
+   "slug": "johannesburg",
+   "cc": "za",
+   "source": "demand"
+  },
+  {
+   "slug": "johor-bahru",
+   "cc": "my",
+   "source": "famous-alias:johor"
+  },
+  {
+   "slug": "kabul",
+   "cc": "af",
+   "source": "famous"
+  },
+  {
+   "slug": "kahramanmaras",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "kandahar",
+   "cc": "af",
+   "source": "famous"
+  },
+  {
+   "slug": "kano",
+   "cc": "ng",
+   "source": "famous"
+  },
+  {
+   "slug": "karachi",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "kassel",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "keelung",
+   "cc": "tw",
+   "source": "demand"
+  },
+  {
+   "slug": "khan-yunis",
+   "cc": "ps",
+   "source": "demand"
+  },
+  {
+   "slug": "khartoum",
+   "cc": "sd",
+   "source": "famous"
+  },
+  {
+   "slug": "khost",
+   "cc": "af",
+   "source": "demand"
+  },
+  {
+   "slug": "klang",
+   "cc": "my",
+   "source": "demand"
+  },
+  {
+   "slug": "kofu",
+   "cc": "jp",
+   "source": "demand"
+  },
+  {
+   "slug": "konstanz",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "kota",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "kotri",
+   "cc": "pk",
+   "source": "demand"
+  },
+  {
+   "slug": "kuala-lumpur",
+   "cc": "my",
+   "source": "famous"
+  },
+  {
+   "slug": "kunduz",
+   "cc": "af",
+   "source": "demand"
+  },
+  {
+   "slug": "kuwait-city",
+   "cc": "kw",
+   "source": "famous"
+  },
+  {
+   "slug": "la-serena",
+   "cc": "cl",
+   "source": "demand"
+  },
+  {
+   "slug": "laborie",
+   "cc": "lc",
+   "source": "demand"
+  },
+  {
+   "slug": "lagos",
+   "cc": "ng",
+   "source": "famous"
+  },
+  {
+   "slug": "lahore",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "layyah",
+   "cc": "pk",
+   "source": "demand"
+  },
+  {
+   "slug": "liege",
+   "cc": "be",
+   "source": "demand"
+  },
+  {
+   "slug": "lisbon",
+   "cc": "pt",
+   "source": "demand"
+  },
+  {
+   "slug": "liwa",
+   "cc": "om",
+   "source": "demand"
+  },
+  {
+   "slug": "loei",
+   "cc": "th",
+   "source": "demand"
+  },
+  {
+   "slug": "london",
+   "cc": "gb",
+   "source": "famous"
+  },
+  {
+   "slug": "los-angeles",
+   "cc": "us",
+   "source": "famous"
+  },
+  {
+   "slug": "luanda",
+   "cc": "ao",
+   "source": "demand"
+  },
+  {
+   "slug": "lviv",
+   "cc": "ua",
+   "source": "demand"
+  },
+  {
+   "slug": "lyon",
+   "cc": "fr",
+   "source": "famous"
+  },
+  {
+   "slug": "madrid",
+   "cc": "es",
+   "source": "famous"
+  },
+  {
+   "slug": "mainz",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "makkah",
+   "cc": "sa",
+   "source": "famous-alias:mecca"
+  },
+  {
+   "slug": "malabo",
+   "cc": "gq",
+   "source": "demand"
+  },
+  {
+   "slug": "malaga",
+   "cc": "es",
+   "source": "demand"
+  },
+  {
+   "slug": "malappuram",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "managua",
+   "cc": "ni",
+   "source": "demand"
+  },
+  {
+   "slug": "manama",
+   "cc": "bh",
+   "source": "famous"
+  },
+  {
+   "slug": "manchester",
+   "cc": "gb",
+   "source": "famous"
+  },
+  {
+   "slug": "manila",
+   "cc": "ph",
+   "source": "famous"
+  },
+  {
+   "slug": "mannheim",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "marrakesh",
+   "cc": "ma",
+   "source": "famous-alias:marrakech"
+  },
+  {
+   "slug": "marseille",
+   "cc": "fr",
+   "source": "famous"
+  },
+  {
+   "slug": "mashhad",
+   "cc": "ir",
+   "source": "famous"
+  },
+  {
+   "slug": "maturin",
+   "cc": "ve",
+   "source": "demand"
+  },
+  {
+   "slug": "mawqaq",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "medan",
+   "cc": "id",
+   "source": "famous"
+  },
+  {
+   "slug": "medina",
+   "cc": "sa",
+   "source": "famous"
+  },
+  {
+   "slug": "mehtar-lam",
+   "cc": "af",
+   "source": "demand"
+  },
+  {
+   "slug": "melbourne",
+   "cc": "au",
+   "source": "famous"
+  },
+  {
+   "slug": "mersin",
+   "cc": "tr",
+   "source": "demand"
+  },
+  {
+   "slug": "miami",
+   "cc": "us",
+   "source": "demand"
+  },
+  {
+   "slug": "milan",
+   "cc": "it",
+   "source": "famous"
+  },
+  {
+   "slug": "mogadishu",
+   "cc": "so",
+   "source": "famous"
+  },
+  {
+   "slug": "montevideo",
+   "cc": "uy",
+   "source": "demand"
+  },
+  {
+   "slug": "montpellier",
+   "cc": "fr",
+   "source": "demand"
+  },
+  {
+   "slug": "montreal",
+   "cc": "ca",
+   "source": "famous"
+  },
+  {
+   "slug": "moscow",
+   "cc": "ru",
+   "source": "famous"
+  },
+  {
+   "slug": "mosul",
+   "cc": "iq",
+   "source": "famous"
+  },
+  {
+   "slug": "mpanda-bi",
+   "cc": "bi",
+   "source": "demand"
+  },
+  {
+   "slug": "msalatah",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "muan",
+   "cc": "kr",
+   "source": "demand"
+  },
+  {
+   "slug": "multan",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "mumbai",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "munich",
+   "cc": "de",
+   "source": "famous"
+  },
+  {
+   "slug": "murzuk",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "muscat",
+   "cc": "om",
+   "source": "famous"
+  },
+  {
+   "slug": "myeik",
+   "cc": "mm",
+   "source": "demand"
+  },
+  {
+   "slug": "nabeul",
+   "cc": "tn",
+   "source": "demand"
+  },
+  {
+   "slug": "nairobi",
+   "cc": "ke",
+   "source": "famous"
+  },
+  {
+   "slug": "neiafu",
+   "cc": "to",
+   "source": "demand"
+  },
+  {
+   "slug": "new-delhi",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "new-york",
+   "cc": "us",
+   "source": "famous"
+  },
+  {
+   "slug": "nkayi",
+   "cc": "cg",
+   "source": "demand"
+  },
+  {
+   "slug": "noida",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "nouakchott",
+   "cc": "mr",
+   "source": "famous"
+  },
+  {
+   "slug": "oral",
+   "cc": "kz",
+   "source": "demand"
+  },
+  {
+   "slug": "oran",
+   "cc": "dz",
+   "source": "demand"
+  },
+  {
+   "slug": "orange",
+   "cc": "us",
+   "source": "demand"
+  },
+  {
+   "slug": "oslo",
+   "cc": "no",
+   "source": "famous"
+  },
+  {
+   "slug": "ottawa",
+   "cc": "ca",
+   "source": "famous"
+  },
+  {
+   "slug": "palanpur",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "parepare",
+   "cc": "id",
+   "source": "demand"
+  },
+  {
+   "slug": "paris",
+   "cc": "fr",
+   "source": "famous"
+  },
+  {
+   "slug": "pekanbaru",
+   "cc": "id",
+   "source": "demand"
+  },
+  {
+   "slug": "perth",
+   "cc": "au",
+   "source": "famous"
+  },
+  {
+   "slug": "peshawar",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "pforzheim",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "phan-rang-thap-cham",
+   "cc": "vn",
+   "source": "demand"
+  },
+  {
+   "slug": "pollachi",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "puno",
+   "cc": "pe",
+   "source": "demand"
+  },
+  {
+   "slug": "purwokerto",
+   "cc": "id",
+   "source": "demand"
+  },
+  {
+   "slug": "qarshi",
+   "cc": "uz",
+   "source": "demand"
+  },
+  {
+   "slug": "qom",
+   "cc": "ir",
+   "source": "famous"
+  },
+  {
+   "slug": "quetta",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "qurayyat",
+   "cc": "om",
+   "source": "demand"
+  },
+  {
+   "slug": "rabat",
+   "cc": "ma",
+   "source": "famous"
+  },
+  {
+   "slug": "rawalpindi",
+   "cc": "pk",
+   "source": "famous"
+  },
+  {
+   "slug": "reims",
+   "cc": "fr",
+   "source": "demand"
+  },
+  {
+   "slug": "reykjavik",
+   "cc": "is",
+   "source": "demand"
+  },
+  {
+   "slug": "riyadh",
+   "cc": "sa",
+   "source": "famous"
+  },
+  {
+   "slug": "rome",
+   "cc": "it",
+   "source": "famous"
+  },
+  {
+   "slug": "rouen",
+   "cc": "fr",
+   "source": "demand"
+  },
+  {
+   "slug": "rovaniemi",
+   "cc": "fi",
+   "source": "demand"
+  },
+  {
+   "slug": "saarbruecken",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "saint-petersburg",
+   "cc": "ru",
+   "source": "famous-alias:st-petersburg"
+  },
+  {
+   "slug": "saitama",
+   "cc": "jp",
+   "source": "demand"
+  },
+  {
+   "slug": "sakaka",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "sakon-nakhon",
+   "cc": "th",
+   "source": "demand"
+  },
+  {
+   "slug": "samarkand",
+   "cc": "uz",
+   "source": "famous"
+  },
+  {
+   "slug": "sanaa",
+   "cc": "ye",
+   "source": "famous"
+  },
+  {
+   "slug": "santiago-cl",
+   "cc": "cl",
+   "source": "demand"
+  },
+  {
+   "slug": "sarajevo",
+   "cc": "ba",
+   "source": "demand"
+  },
+  {
+   "slug": "sari",
+   "cc": "ir",
+   "source": "demand"
+  },
+  {
+   "slug": "satun",
+   "cc": "th",
+   "source": "demand"
+  },
+  {
+   "slug": "semey",
+   "cc": "kz",
+   "source": "demand"
+  },
+  {
+   "slug": "seoul",
+   "cc": "kr",
+   "source": "demand"
+  },
+  {
+   "slug": "setif",
+   "cc": "dz",
+   "source": "demand"
+  },
+  {
+   "slug": "sharjah",
+   "cc": "ae",
+   "source": "famous"
+  },
+  {
+   "slug": "shkoder",
+   "cc": "al",
+   "source": "demand"
+  },
+  {
+   "slug": "singapore",
+   "cc": "sg",
+   "source": "famous"
+  },
+  {
+   "slug": "sirjan",
+   "cc": "ir",
+   "source": "demand"
+  },
+  {
+   "slug": "sitrah",
+   "cc": "bh",
+   "source": "demand"
+  },
+  {
+   "slug": "sivakasi",
+   "cc": "in",
+   "source": "demand"
+  },
+  {
+   "slug": "stockholm",
+   "cc": "se",
+   "source": "famous"
+  },
+  {
+   "slug": "subang-jaya",
+   "cc": "my",
+   "source": "demand"
+  },
+  {
+   "slug": "suehbaatar",
+   "cc": "mn",
+   "source": "demand"
+  },
+  {
+   "slug": "suong",
+   "cc": "kh",
+   "source": "demand"
+  },
+  {
+   "slug": "surabaya",
+   "cc": "id",
+   "source": "famous"
+  },
+  {
+   "slug": "suwayhan",
+   "cc": "ae",
+   "source": "demand"
+  },
+  {
+   "slug": "swieqi",
+   "cc": "mt",
+   "source": "demand"
+  },
+  {
+   "slug": "sydney",
+   "cc": "au",
+   "source": "famous"
+  },
+  {
+   "slug": "taif",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "tandil",
+   "cc": "ar",
+   "source": "demand"
+  },
+  {
+   "slug": "tashkent",
+   "cc": "uz",
+   "source": "famous"
+  },
+  {
+   "slug": "tathlith",
+   "cc": "sa",
+   "source": "demand"
+  },
+  {
+   "slug": "teboulba",
+   "cc": "tn",
+   "source": "demand"
+  },
+  {
+   "slug": "tehran",
+   "cc": "ir",
+   "source": "famous"
+  },
+  {
+   "slug": "terrassa",
+   "cc": "es",
+   "source": "demand"
+  },
+  {
+   "slug": "tokar",
+   "cc": "sd",
+   "source": "demand"
+  },
+  {
+   "slug": "tokyo",
+   "cc": "jp",
+   "source": "demand"
+  },
+  {
+   "slug": "toronto",
+   "cc": "ca",
+   "source": "famous"
+  },
+  {
+   "slug": "trashigang",
+   "cc": "bt",
+   "source": "demand"
+  },
+  {
+   "slug": "tripoli-ly",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "tromso",
+   "cc": "no",
+   "source": "demand"
+  },
+  {
+   "slug": "tunis",
+   "cc": "tn",
+   "source": "famous"
+  },
+  {
+   "slug": "turmero",
+   "cc": "ve",
+   "source": "demand"
+  },
+  {
+   "slug": "ubari",
+   "cc": "ly",
+   "source": "demand"
+  },
+  {
+   "slug": "ulan-bator",
+   "cc": "mn",
+   "source": "demand"
+  },
+  {
+   "slug": "umea",
+   "cc": "se",
+   "source": "demand"
+  },
+  {
+   "slug": "urganch",
+   "cc": "uz",
+   "source": "demand"
+  },
+  {
+   "slug": "vancouver",
+   "cc": "ca",
+   "source": "famous"
+  },
+  {
+   "slug": "verona",
+   "cc": "it",
+   "source": "demand"
+  },
+  {
+   "slug": "veymandoo",
+   "cc": "mv",
+   "source": "demand"
+  },
+  {
+   "slug": "vienna",
+   "cc": "at",
+   "source": "famous"
+  },
+  {
+   "slug": "warsaw",
+   "cc": "pl",
+   "source": "demand"
+  },
+  {
+   "slug": "wolfsburg",
+   "cc": "de",
+   "source": "demand"
+  },
+  {
+   "slug": "wuhan",
+   "cc": "cn",
+   "source": "demand"
+  },
+  {
+   "slug": "yaounde",
+   "cc": "cm",
+   "source": "demand"
+  },
+  {
+   "slug": "yevlakh",
+   "cc": "az",
+   "source": "demand"
+  },
+  {
+   "slug": "zardob",
+   "cc": "az",
+   "source": "demand"
+  },
+  {
+   "slug": "zarzis",
+   "cc": "tn",
+   "source": "demand"
+  },
+  {
+   "slug": "zefta",
+   "cc": "eg",
+   "source": "demand"
+  }
+ ]
+}

@@ -20393,7 +20393,7 @@ function updateMoonInfo() {
                         "ar": [
                             [".moon-city-hub-faq-title-text", `أسئلة شائعة عن تقويم القمر في ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `ما هو تقويم القمر في ${_Cm} لشهر ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a1", `يَعرض هذا التقويم أطوار القمر اليومية في ${_Cm} خلال شهر ${_mName} ${_mY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكل يوم.`],
+                            [".moon-city-hub-faq-a1", `يَعرض هذا التقويم أطوار القمر اليومية في ${_Cm} خلال شهر ${_mName} ${_mY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة لكل يوم.`],
                             [".moon-city-hub-faq-q2", `كيف أعرف طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}؟`],
                             [".moon-city-hub-faq-a2", `يَعرض هذا التقويم طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.`],
                             [".moon-city-hub-faq-q3", `متى يكون البدر في ${_Cm} خلال ${_mName} ${_mY}؟`],
@@ -20416,7 +20416,7 @@ function updateMoonInfo() {
                         "en": [
                             [".moon-city-hub-faq-title-text", `FAQ about the moon calendar in ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `What is the moon calendar in ${_Cm} for ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY} — crescent, gibbous, full and new moon — with illumination and rise/set times for each day.`],
+                            [".moon-city-hub-faq-a1", `This calendar shows daily moon phases in ${_Cm} during ${_mName} ${_mY} — crescent, gibbous, full and new moon — with the illumination percentage for each day.`],
                             [".moon-city-hub-faq-q2", `How do I find the moon phase for each day in ${_Cm} during ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a2", `This calendar shows the moon phase for each day in ${_Cm} during ${_mName} ${_mY}, with illumination percentage and the Hijri and Gregorian dates.`],
                             [".moon-city-hub-faq-q3", `When is the full moon in ${_Cm} during ${_mName} ${_mY}?`],
@@ -20439,7 +20439,7 @@ function updateMoonInfo() {
                         "fr": [
                             [".moon-city-hub-faq-title-text", `FAQ sur le calendrier lunaire à ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `Quel est le calendrier lunaire à ${_Cm} pour ${_mName} ${_mY} ?`],
-                            [".moon-city-hub-faq-a1", `Ce calendrier affiche les phases lunaires quotidiennes à ${_Cm} durant ${_mName} ${_mY} — croissant, gibbeuse, pleine et nouvelle lune — avec illumination et heures de lever/coucher pour chaque jour.`],
+                            [".moon-city-hub-faq-a1", `Ce calendrier affiche les phases lunaires quotidiennes à ${_Cm} durant ${_mName} ${_mY} — croissant, gibbeuse, pleine et nouvelle lune — avec le pourcentage d'illumination de chaque jour.`],
                             [".moon-city-hub-faq-q2", `Comment trouver la phase de la Lune pour chaque jour à ${_Cm} en ${_mName} ${_mY} ?`],
                             [".moon-city-hub-faq-a2", `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_Cm} en ${_mName} ${_mY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne.`],
                             [".moon-city-hub-faq-q3", `Quand est la pleine lune à ${_Cm} en ${_mName} ${_mY} ?`],
@@ -20462,7 +20462,7 @@ function updateMoonInfo() {
                         "tr": [
                             [".moon-city-hub-faq-title-text", `${_Cm} ay takvimi SSS — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `${_Cm} için ${_mName} ${_mY} ay takvimi nedir?`],
-                            [".moon-city-hub-faq-a1", `Bu takvim, ${_Cm}'de ${_mName} ${_mY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma ve doğuş/batış saatleriyle gösterir.`],
+                            [".moon-city-hub-faq-a1", `Bu takvim, ${_Cm}'de ${_mName} ${_mY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma yüzdesiyle gösterir.`],
                             [".moon-city-hub-faq-q2", `${_Cm}'de ${_mName} ${_mY} boyunca her gün için ay evresini nasıl öğrenirim?`],
                             [".moon-city-hub-faq-a2", `Bu takvim, ${_Cm}'de ${_mName} ${_mY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir.`],
                             [".moon-city-hub-faq-q3", `${_mName} ${_mY} sırasında ${_Cm}'de dolunay ne zaman?`],
@@ -20485,7 +20485,7 @@ function updateMoonInfo() {
                         "ur": [
                             [".moon-city-hub-faq-title-text", `${_Cm} میں ${_mName} ${_mY} کے چاند کے کیلنڈر کے بارے میں اکثر پوچھے جانے والے سوالات`],
                             [".moon-city-hub-faq-q1", `${_Cm} میں ${_mName} ${_mY} کے لیے چاند کا کیلنڈر کیا ہے؟`],
-                            [".moon-city-hub-faq-a1", `یہ کیلنڈر ${_Cm} میں ${_mName} ${_mY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی اور مطلع/مغیب کے اوقات کے ساتھ دکھاتا ہے۔`],
+                            [".moon-city-hub-faq-a1", `یہ کیلنڈر ${_Cm} میں ${_mName} ${_mY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی کے فیصد کے ساتھ دکھاتا ہے۔`],
                             [".moon-city-hub-faq-q2", `${_Cm} میں ${_mName} ${_mY} کے دوران ہر دن کے لیے چاند کا طور کیسے معلوم کروں؟`],
                             [".moon-city-hub-faq-a2", `یہ کیلنڈر ${_Cm} میں ${_mName} ${_mY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔`],
                             [".moon-city-hub-faq-q3", `${_mName} ${_mY} کے دوران ${_Cm} میں بدر کب ہوگا؟`],
@@ -20508,7 +20508,7 @@ function updateMoonInfo() {
                         "de": [
                             [".moon-city-hub-faq-title-text", `FAQ zum Mondkalender in ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `Was ist der Mondkalender in ${_Cm} für ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a1", `Dieser Kalender zeigt die täglichen Mondphasen in ${_Cm} während ${_mName} ${_mY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit Beleuchtung und Auf-/Untergangszeiten für jeden Tag.`],
+                            [".moon-city-hub-faq-a1", `Dieser Kalender zeigt die täglichen Mondphasen in ${_Cm} während ${_mName} ${_mY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit dem Beleuchtungsprozentsatz für jeden Tag.`],
                             [".moon-city-hub-faq-q2", `Wie finde ich die Mondphase für jeden Tag in ${_Cm} während ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a2", `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_Cm} während ${_mName} ${_mY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten.`],
                             [".moon-city-hub-faq-q3", `Wann ist der Vollmond in ${_Cm} während ${_mName} ${_mY}?`],
@@ -20531,7 +20531,7 @@ function updateMoonInfo() {
                         "id": [
                             [".moon-city-hub-faq-title-text", `FAQ kalender bulan di ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `Apa kalender bulan di ${_Cm} untuk ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a1", `Kalender ini menampilkan fase bulan harian di ${_Cm} selama ${_mName} ${_mY} — hilal, gibbus, purnama dan bulan baru — dengan iluminasi dan waktu terbit/terbenam untuk setiap hari.`],
+                            [".moon-city-hub-faq-a1", `Kalender ini menampilkan fase bulan harian di ${_Cm} selama ${_mName} ${_mY} — hilal, gibbus, purnama dan bulan baru — dengan persentase iluminasi untuk setiap hari.`],
                             [".moon-city-hub-faq-q2", `Bagaimana cara mengetahui fase bulan untuk setiap hari di ${_Cm} selama ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a2", `Kalender ini menampilkan fase bulan untuk setiap hari di ${_Cm} selama ${_mName} ${_mY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi.`],
                             [".moon-city-hub-faq-q3", `Kapan bulan purnama di ${_Cm} selama ${_mName} ${_mY}?`],
@@ -20554,7 +20554,7 @@ function updateMoonInfo() {
                         "es": [
                             [".moon-city-hub-faq-title-text", `Preguntas frecuentes sobre el calendario lunar en ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `¿Cuál es el calendario lunar en ${_Cm} para ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a1", `Este calendario muestra las fases lunares diarias en ${_Cm} durante ${_mName} ${_mY} — creciente, gibosa, llena y nueva — con iluminación y horarios de salida/puesta para cada día.`],
+                            [".moon-city-hub-faq-a1", `Este calendario muestra las fases lunares diarias en ${_Cm} durante ${_mName} ${_mY} — creciente, gibosa, llena y nueva — con el porcentaje de iluminación de cada día.`],
                             [".moon-city-hub-faq-q2", `¿Cómo conozco la fase lunar para cada día en ${_Cm} durante ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a2", `Este calendario muestra la fase lunar para cada día en ${_Cm} durante ${_mName} ${_mY}, con el porcentaje de iluminación y las fechas hijri y gregoriana.`],
                             [".moon-city-hub-faq-q3", `¿Cuándo es la luna llena en ${_Cm} durante ${_mName} ${_mY}?`],
@@ -20577,7 +20577,7 @@ function updateMoonInfo() {
                         "bn": [
                             [".moon-city-hub-faq-title-text", `${_Cm}-এ ${_mName} ${_mY} চাঁদের ক্যালেন্ডার সম্পর্কে প্রশ্নোত্তর`],
                             [".moon-city-hub-faq-q1", `${_Cm}-এ ${_mName} ${_mY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`],
-                            [".moon-city-hub-faq-a1", `এই ক্যালেন্ডার ${_Cm}-এ ${_mName} ${_mY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকন ও উদয়/অস্তের সময় সহ দেখায়।`],
+                            [".moon-city-hub-faq-a1", `এই ক্যালেন্ডার ${_Cm}-এ ${_mName} ${_mY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকনের শতাংশ সহ দেখায়।`],
                             [".moon-city-hub-faq-q2", `${_Cm}-এ ${_mName} ${_mY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা কীভাবে জানব?`],
                             [".moon-city-hub-faq-a2", `এই ক্যালেন্ডার ${_Cm}-এ ${_mName} ${_mY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়।`],
                             [".moon-city-hub-faq-q3", `${_mName} ${_mY}-এর সময় ${_Cm}-এ পূর্ণিমা কখন?`],
@@ -20600,7 +20600,7 @@ function updateMoonInfo() {
                         "ms": [
                             [".moon-city-hub-faq-title-text", `Soalan lazim tentang kalendar bulan di ${_Cm} — ${_mName} ${_mY}`],
                             [".moon-city-hub-faq-q1", `Apakah kalendar bulan di ${_Cm} untuk ${_mName} ${_mY}?`],
-                            [".moon-city-hub-faq-a1", `Kalendar ini memaparkan fasa bulan harian di ${_Cm} sepanjang ${_mName} ${_mY} — hilal, gibus, bulan purnama dan anak bulan — dengan pencahayaan dan masa terbit/terbenam untuk setiap hari.`],
+                            [".moon-city-hub-faq-a1", `Kalendar ini memaparkan fasa bulan harian di ${_Cm} sepanjang ${_mName} ${_mY} — hilal, gibus, bulan purnama dan anak bulan — dengan peratus pencahayaan untuk setiap hari.`],
                             [".moon-city-hub-faq-q2", `Bagaimana saya mengetahui fasa bulan untuk setiap hari di ${_Cm} sepanjang ${_mName} ${_mY}?`],
                             [".moon-city-hub-faq-a2", `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_Cm} sepanjang ${_mName} ${_mY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi.`],
                             [".moon-city-hub-faq-q3", `Bilakah bulan purnama di ${_Cm} sepanjang ${_mName} ${_mY}?`],

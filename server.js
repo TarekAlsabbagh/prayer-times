@@ -13427,6 +13427,48 @@ function _isSupportedMoonYear(year) {
     const _r = getSupportedMoonYearRange();
     return Number.isInteger(year) && year >= _r.SUPPORTED_MOON_YEAR_MIN && year <= _r.SUPPORTED_MOON_YEAR_MAX;
 }
+// ── MOON-INDEX-SCOPE-H-1 (owner 2026-11-17) ──
+// Which nested moon YEAR / MONTH pages of a curated city stay INDEXABLE. Every other year/month page that
+// renders today keeps HTTP 200 and its content, and only becomes noindex,follow. The render window
+// (_isSupportedMoonYear, ±5) and every 404/410 are untouched.
+//   • years: the current and next UTC year; during January (UTC) also the previous year (grace month).
+//   • months: the months of those same years, ONLY for the cities in db/moon-month-index-cities.json
+//     (a FIXED list for this batch: identity = slug + country code, re-checked against curated here).
+// One rule for the robots meta and the moon sitemap (_sitemapFamilyDescriptors). The clock is the same
+// test seam as getSupportedMoonYearRange (TP_MOON_RANGE_TEST_NOW), so a long-running worker flips on
+// 1 January / 1 February without a restart.
+function _moonIndexYearWindow(now) {
+    let _now = now;
+    if (!(_now instanceof Date)) {
+        const _t = process.env.TP_MOON_RANGE_TEST_NOW ? Date.parse(process.env.TP_MOON_RANGE_TEST_NOW) : NaN;
+        _now = Number.isFinite(_t) ? new Date(_t) : new Date();
+    }
+    const _y = _now.getUTCFullYear();
+    return { min: (_now.getUTCMonth() === 0) ? _y - 1 : _y, max: _y + 1, currentYear: _y };
+}
+let _moonMonthIndexCities = null;   // slug -> cc (lazy; curated is loaded after this file section)
+function _getMoonMonthIndexCities() {
+    if (_moonMonthIndexCities) return _moonMonthIndexCities;
+    const _m = new Map();
+    try {
+        const _j = JSON.parse(fs.readFileSync(path.join(__dirname, 'db', 'moon-month-index-cities.json'), 'utf8'));
+        for (const c of (_j && Array.isArray(_j.cities)) ? _j.cities : []) {
+            if (c && typeof c.slug === 'string' && typeof c.cc === 'string') _m.set(c.slug, c.cc.toLowerCase());
+        }
+    } catch (e) { console.warn('[moon-index-scope] month city list not loaded:', e && e.message); }
+    _moonMonthIndexCities = _m;
+    return _m;
+}
+// true = the nested year (isMonth=false) or month (isMonth=true) page of this curated slug stays indexable.
+function _isMoonYearMonthIndexable(slug, year, isMonth) {
+    const _w = _moonIndexYearWindow();
+    if (!Number.isInteger(year) || year < _w.min || year > _w.max) return false;
+    if (!isMonth) return true;
+    const _cc = _getMoonMonthIndexCities().get(slug);
+    if (!_cc) return false;
+    const _place = (typeof _findPlaceBySlug === 'function') ? _findPlaceBySlug(slug) : null;
+    return !!(_place && String(_place.countryCode || '').toLowerCase() === _cc);
+}
 function _classifyMoonYear(urlPath) {
     const _core = String(urlPath || '').replace(/\.html$/, '');
     const _m = _core.match(/^\/((?:en|fr|tr|ur|de|id|es|bn|ms)\/)?moon\/([a-z][a-z0-9-]+)\/([a-z][a-z0-9-]+)\/(\d{4})$/);
@@ -18768,6 +18810,15 @@ function buildSeoForPath(urlPath, hcw) {
             robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
         }
     }
+    // MOON-INDEX-SCOPE-H-1: a curated city's nested YEAR / MONTH page outside the index scope stays 200 and
+    //   unchanged for the visitor, but is noindex,follow (same robots string as every other kept-but-not-indexed
+    //   page). Hub (/moon/{country}/{city}), country pages, /moon and the removed day pages (410) are not matched.
+    if (!robotsOverride) {
+        const _mym = corePath.match(/^\/moon\/[a-z][a-z0-9-]+\/([a-z][a-z0-9-]+)\/(\d{4})(\/\d{2})?$/);
+        if (_mym && !_isMoonYearMonthIndexable(_mym[1], parseInt(_mym[2], 10), !!_mym[3])) {
+            robotsOverride = 'noindex,follow,max-snippet:-1,max-image-preview:large';
+        }
+    }
     // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: functional PRAYER variants — a -{lat}-{lng} coordinate suffix or the
     //   client-generated loc-DD.Dn-DDD.De — keep 200 (the page works for the user) but never index. A curated or
     //   country slug never has either shape, so curated city pages and country listings are unaffected.
@@ -19433,7 +19484,7 @@ function renderSeoHeadHtml(seo) {
             const _MOON_MONTH_FAQ_BY_LANG = {
                 ar: [
                 { q: `ما هو تقويم القمر في ${_mthCity} لشهر ${_mthName} ${_mthY}؟`,
-                  a: `يَعرض هذا التقويم أطوار القمر اليومية في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة ومواعيد الشروق والغروب لكل يوم.` },
+                  a: `يَعرض هذا التقويم أطوار القمر اليومية في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة لكل يوم.` },
                 { q: `كيف أعرف طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
                   a: `يَعرض هذا التقويم طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.` },
                 { q: `متى يكون البدر في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
@@ -19451,7 +19502,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 en: [
                 { q: `What is the moon calendar in ${_mthCity} for ${_mthName} ${_mthY}?`,
-                  a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with illumination and rise/set times for each day.` },
+                  a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with the illumination percentage for each day.` },
                 { q: `How do I find the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}?`,
                   a: `This calendar shows the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}, with illumination percentage and the Hijri and Gregorian dates.` },
                 { q: `When is the full moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
@@ -19469,7 +19520,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 fr: [
                     { q: `Quel est le calendrier lunaire à ${_mthCity} pour ${_mthName} ${_mthY} ?`,
-                      a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec illumination et heures de lever/coucher pour chaque jour.` },
+                      a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec le pourcentage d'illumination de chaque jour.` },
                     { q: `Comment trouver la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY} ?`,
                       a: `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne.` },
                     { q: `Quand est la pleine lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
@@ -19487,7 +19538,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 tr: [
                     { q: `${_mthCity} için ${_mthName} ${_mthY} ay takvimi nedir?`,
-                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma ve doğuş/batış saatleriyle gösterir.` },
+                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma yüzdesiyle gösterir.` },
                     { q: `${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini nasıl öğrenirim?`,
                       a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir.` },
                     { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de dolunay ne zaman?`,
@@ -19505,7 +19556,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 ur: [
                     { q: `${_mthCity} میں ${_mthName} ${_mthY} کے لیے چاند کا کیلنڈر کیا ہے؟`,
-                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی اور مطلع/مغیب کے اوقات کے ساتھ دکھاتا ہے۔` },
+                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی کے فیصد کے ساتھ دکھاتا ہے۔` },
                     { q: `${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور کیسے معلوم کروں؟`,
                       a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔` },
                     { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں بدر کب ہوگا؟`,
@@ -19523,7 +19574,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 de: [
                     { q: `Was ist der Mondkalender in ${_mthCity} für ${_mthName} ${_mthY}?`,
-                      a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit Beleuchtung und Auf-/Untergangszeiten für jeden Tag.` },
+                      a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit dem Beleuchtungsprozentsatz für jeden Tag.` },
                     { q: `Wie finde ich die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}?`,
                       a: `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten.` },
                     { q: `Wann ist der Vollmond in ${_mthCity} während ${_mthName} ${_mthY}?`,
@@ -19541,7 +19592,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 id: [
                     { q: `Apa kalender bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
-                      a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan iluminasi dan waktu terbit/terbenam untuk setiap hari.` },
+                      a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan persentase iluminasi untuk setiap hari.` },
                     { q: `Bagaimana cara mengetahui fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}?`,
                       a: `Kalender ini menampilkan fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi.` },
                     { q: `Kapan bulan purnama di ${_mthCity} selama ${_mthName} ${_mthY}?`,
@@ -19559,7 +19610,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 es: [
                     { q: `¿Cuál es el calendario lunar en ${_mthCity} para ${_mthName} ${_mthY}?`,
-                      a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con iluminación y horarios de salida/puesta para cada día.` },
+                      a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con el porcentaje de iluminación de cada día.` },
                     { q: `¿Cómo conozco la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}?`,
                       a: `Este calendario muestra la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}, con el porcentaje de iluminación y las fechas hijri y gregoriana.` },
                     { q: `¿Cuándo es la luna llena en ${_mthCity} durante ${_mthName} ${_mthY}?`,
@@ -19577,7 +19628,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 bn: [
                     { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`,
-                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকন ও উদয়/অস্তের সময় সহ দেখায়।` },
+                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকনের শতাংশ সহ দেখায়।` },
                     { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা কীভাবে জানব?`,
                       a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়।` },
                     { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ পূর্ণিমা কখন?`,
@@ -19595,7 +19646,7 @@ function renderSeoHeadHtml(seo) {
                 ],
                 ms: [
                     { q: `Apakah kalendar bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
-                      a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan pencahayaan dan masa terbit/terbenam untuk setiap hari.` },
+                      a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan peratus pencahayaan untuk setiap hari.` },
                     { q: `Bagaimana saya mengetahui fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
                       a: `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi.` },
                     { q: `Bilakah bulan purnama di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
@@ -29766,16 +29817,16 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
             // 1) Intro paragraph — month context (NO "today" framing)
             // ────────────────────────────────────────────────────────────────
             const _MONTH_INTRO_TPL = {
-                ar: `يعرض هذا التقويم أطوار القمر في ${cityName} خلال ${_mName} ${_mY}، مع التواريخ اليومية ونسبة الإضاءة ومواعيد طلوع القمر وغروبه حسب توقيت ${cityName} المحلي.`,
-                en: `This calendar shows the moon's phases in ${cityName} during ${_mName} ${_mY}, with daily dates, illumination percentages, and moonrise/moonset times in ${cityName}'s local timezone.`,
-                fr: `Ce calendrier présente les phases de la Lune à ${cityName} durant ${_mName} ${_mY}, avec les dates quotidiennes, les pourcentages d'illumination et les heures de lever et de coucher de la Lune selon le fuseau horaire local de ${cityName}.`,
-                tr: `Bu takvim, ${cityName}'in yerel saatine göre ${_mName} ${_mY} boyunca ${cityName}'de ay evrelerini, günlük tarihleri, aydınlanma yüzdelerini ve ay doğuş/batış zamanlarını gösterir.`,
-                ur: `یہ تقویم ${cityName} میں ${_mName} ${_mY} کے دوران چاند کے مراحل دکھاتی ہے، روزانہ تاریخوں، روشنی کی فیصد، اور ${cityName} کے مقامی وقت کے مطابق چاند کے طلوع و غروب کے اوقات کے ساتھ۔`,
-                de: `Dieser Kalender zeigt die Mondphasen in ${cityName} während ${_mName} ${_mY}, mit täglichen Daten, Beleuchtungsprozentsätzen und Mondaufgangs- und -untergangszeiten in der Ortszeit von ${cityName}.`,
-                id: `Kalender ini menampilkan fase Bulan di ${cityName} selama ${_mName} ${_mY}, dengan tanggal harian, persentase iluminasi, dan waktu terbit/terbenam Bulan menurut zona waktu lokal ${cityName}.`,
-                es: `Este calendario muestra las fases de la Luna en ${cityName} durante ${_mName} ${_mY}, con fechas diarias, porcentajes de iluminación y horarios de salida y puesta de la Luna según la zona horaria local de ${cityName}.`,
-                bn: `এই ক্যালেন্ডারটি ${cityName}-এ ${_mName} ${_mY}-এর সময় চাঁদের দশা দেখায়, দৈনিক তারিখ, আলোকনের শতাংশ এবং ${cityName}-এর স্থানীয় সময় অনুযায়ী চাঁদের উদয়/অস্তের সময়সহ।`,
-                ms: `Kalendar ini menunjukkan fasa Bulan di ${cityName} sepanjang ${_mName} ${_mY}, dengan tarikh harian, peratus pencahayaan, dan waktu terbit/terbenam Bulan mengikut zon waktu tempatan ${cityName}.`
+                ar: `يعرض هذا التقويم أطوار القمر في ${cityName} خلال ${_mName} ${_mY}، مع التواريخ اليومية ونسبة الإضاءة حسب توقيت ${cityName} المحلي.`,
+                en: `This calendar shows the moon's phases in ${cityName} during ${_mName} ${_mY}, with daily dates and illumination percentages in ${cityName}'s local timezone.`,
+                fr: `Ce calendrier présente les phases de la Lune à ${cityName} durant ${_mName} ${_mY}, avec les dates quotidiennes et les pourcentages d'illumination selon le fuseau horaire local de ${cityName}.`,
+                tr: `Bu takvim, ${cityName}'in yerel saatine göre ${_mName} ${_mY} boyunca ${cityName}'de ay evrelerini, günlük tarihleri ve aydınlanma yüzdelerini gösterir.`,
+                ur: `یہ تقویم ${cityName} میں ${_mName} ${_mY} کے دوران چاند کے مراحل دکھاتی ہے، ${cityName} کے مقامی وقت کے مطابق روزانہ تاریخوں اور روشنی کی فیصد کے ساتھ۔`,
+                de: `Dieser Kalender zeigt die Mondphasen in ${cityName} während ${_mName} ${_mY}, mit täglichen Daten und Beleuchtungsprozentsätzen in der Ortszeit von ${cityName}.`,
+                id: `Kalender ini menampilkan fase Bulan di ${cityName} selama ${_mName} ${_mY}, dengan tanggal harian dan persentase iluminasi menurut zona waktu lokal ${cityName}.`,
+                es: `Este calendario muestra las fases de la Luna en ${cityName} durante ${_mName} ${_mY}, con fechas diarias y porcentajes de iluminación según la zona horaria local de ${cityName}.`,
+                bn: `এই ক্যালেন্ডারটি ${cityName}-এ ${_mName} ${_mY}-এর সময় চাঁদের দশা দেখায়, ${cityName}-এর স্থানীয় সময় অনুযায়ী দৈনিক তারিখ ও আলোকনের শতাংশসহ।`,
+                ms: `Kalendar ini menunjukkan fasa Bulan di ${cityName} sepanjang ${_mName} ${_mY}, dengan tarikh harian dan peratus pencahayaan mengikut zon waktu tempatan ${cityName}.`
             };
             const _monthIntroText = _MONTH_INTRO_TPL[Lm] || _MONTH_INTRO_TPL.en;
             html = html.replace(
@@ -38290,9 +38341,14 @@ const server = http.createServer(async (req, res) => {
                     const _mb = '/moon/' + _mcCountrySlug + '/' + baseSlug;
                     F.moon.push([_mb, '0.7', 'weekly', null]);
                     // MOON-DAY-PAGES-REMOVAL-1: no /today entry (the per-city today page is removed, 410)
-                    for (const _yy of [_cy - 1, _cy, _cy + 1]) {
+                    // MOON-INDEX-SCOPE-H-1: list ONLY year/month pages that are indexable (same rule as the robots
+                    //   meta) — the window is the current + next UTC year (+ the previous year in January). The
+                    //   month entries also require the fixed month-city list; no city is ADDED to the sitemap here.
+                    const _miw = _moonIndexYearWindow();
+                    for (let _yy = _miw.min; _yy <= _miw.max; _yy++) {
                         if (!_isSupportedMoonYear(_yy)) continue;
-                        F.moon.push([_mb + '/' + _yy, '0.5', 'monthly', null]);
+                        if (_isMoonYearMonthIndexable(baseSlug, _yy, false)) F.moon.push([_mb + '/' + _yy, '0.5', 'monthly', null]);
+                        if (!_isMoonYearMonthIndexable(baseSlug, _yy, true)) continue;
                         for (let _mm = 1; _mm <= 12; _mm++) F.moon.push([_mb + '/' + _yy + '/' + (_mm < 10 ? '0' + _mm : String(_mm)), '0.45', 'monthly', null]);
                     }
                 }
@@ -38338,7 +38394,8 @@ const server = http.createServer(async (req, res) => {
     function _sitemapFamilyPlan() {
         const _src = getSitemapData();
         const _hcwK = _hijriCalWindow();   // HIJRI-CALENDAR-RANGE-1: null-safe past the table end
-        const key = [getSupportedMoonYearRange().currentYear, _hcwK ? _hcwK.min + '-' + _hcwK.max : 'none', _legalLastUpdatedIso(), SITE_URL].join('|');
+        const _miwK = _moonIndexYearWindow();   // MOON-INDEX-SCOPE-H-1: the January grace month changes the URL set
+        const key = [getSupportedMoonYearRange().currentYear, _miwK.min + '-' + _miwK.max, _hcwK ? _hcwK.min + '-' + _hcwK.max : 'none', _legalLastUpdatedIso(), SITE_URL].join('|');
         const now = Date.now();
         const c = _sitemapFamilyPlanCache;
         if (c.data && c.key === key && c.src === _src && (now - c.time) < SITEMAP_TTL) return c.data;
@@ -38662,10 +38719,13 @@ const server = http.createServer(async (req, res) => {
                             // nested routes are NOT emitted (they 404 this phase).
                             // INDEXABLE-ROUTE-SURFACE-CONTAINMENT-1: the window stays current year ±1 (NOT widened);
                             //   the year comes from the same UTC helper as the routes and must be a supported year.
-                            const _cy = getSupportedMoonYearRange().currentYear;
-                            for (const _yy of [_cy - 1, _cy, _cy + 1]) {
-                                if (_isSupportedMoonYear(_yy)) {
+                            // MOON-INDEX-SCOPE-H-1: same window + month-city rule as _sitemapFamilyDescriptors and the
+                            //   robots meta (only indexable year/month pages are listed; no city is added).
+                            const _miw = _moonIndexYearWindow();
+                            for (let _yy = _miw.min; _yy <= _miw.max; _yy++) {
+                                if (_isSupportedMoonYear(_yy) && _isMoonYearMonthIndexable(baseSlug, _yy, false)) {
                                     entries.push(...bilingualUrl('/moon/' + _mcCountrySlug + '/' + baseSlug + '/' + _yy, '0.5', 'monthly', today));
+                                    if (!_isMoonYearMonthIndexable(baseSlug, _yy, true)) continue;
                                     // MOON-CITY-MONTH-ROUTE-STRUCTURE-ADD-1: the 12 months of each accepted
                                     // year (new nested route). The deeper day/today/dash routes are NOT
                                     // emitted (day pages stay discoverable from the month page only — no

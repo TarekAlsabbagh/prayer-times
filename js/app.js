@@ -20397,7 +20397,7 @@ function updateMoonInfo() {
                             [".moon-city-hub-faq-q2", `كيف أعرف طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}؟`],
                             [".moon-city-hub-faq-a2", `يَعرض هذا التقويم طور القمر لكل يوم في ${_Cm} خلال ${_mName} ${_mY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.`],
                             [".moon-city-hub-faq-q3", `متى يكون البدر في ${_Cm} خلال ${_mName} ${_mY}؟`],
-                            [".moon-city-hub-faq-a3", `قسم "الأطوار القمرية القادمة" أعلاه يَعرض موعد البدر القادم في ${_Cm} مع التاريخ الميلادي والهجري الدقيق. خلال شهر ${_mName} ${_mY}، البدر يَظهر بإضاءة 100٪ في الليلة المحددة.`],
+                            [".moon-city-hub-faq-a3", `قسم "الأطوار القمرية القادمة" في الصفحة يَعرض موعد البدر القادم في ${_Cm} مع التاريخ الميلادي والهجري الدقيق. خلال شهر ${_mName} ${_mY}، البدر يَظهر بإضاءة 100٪ في الليلة المحددة.`],
                             [".moon-city-hub-faq-q4", `متى يكون المحاق في ${_Cm} خلال ${_mName} ${_mY}؟`],
                             [".moon-city-hub-faq-a4", `قسم "الأطوار القمرية القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجري الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.`],
                             [".moon-city-hub-faq-q5", `كيف أقرأ تقويم أطوار القمر الشهري؟`],
@@ -20622,7 +20622,12 @@ function updateMoonInfo() {
                         ]
                         };
                         const _monthFaq = _MONTH_FAQ_BY_LANG[_lng_] || _MONTH_FAQ_BY_LANG.en;
+                        // MOON-MONTH-FAQ-VISIBLE-1: the server now writes the month FAQ into the
+                        //   HTML from the same source as its FAQPage JSON-LD and marks the section
+                        //   data-ssr-month-faq="1" — keep that text (only the edu entries are set here).
+                        const _faqSsr = !!document.querySelector('#moon-city-hub-faq[data-ssr-month-faq="1"]');
                         _monthFaq.forEach(([sel, text]) => {
+                            if (_faqSsr && sel.indexOf('.moon-city-hub-faq-') === 0) return;
                             const el = document.querySelector(sel);
                             if (el) el.textContent = text;
                             // MOON-DAY-PAGES-REMOVAL-1: edu-p2 only promised day pages and is now

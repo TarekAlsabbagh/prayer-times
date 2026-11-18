@@ -18878,6 +18878,230 @@ function buildSeoForPath(urlPath, hcw) {
     };
 }
 
+// MOON-MONTH-FAQ-VISIBLE-1 (2026-11-17): ONE source for the month-page FAQ
+//   (/[lang/]moon/{country}/{city}/{yyyy}/{mm} and the legacy /moon-in-{city}/YYYY-MM).
+//   renderSeoHeadHtml() builds the FAQPage JSON-LD from .items, and serveHtmlWithSeo()
+//   writes .title + the same .items into the visible #moon-city-hub-faq block, so the
+//   visitor sees real answers without JavaScript and DOM == JSON-LD by construction.
+//   (Before: the visible answers were only filled by js/app.js on the flat route, so
+//   the nested month pages kept the "—" placeholders.) Text is unchanged from the
+//   former inline table; the title strings are the ones js/app.js used.
+function _moonMonthFaq(lang, _mthCity, _mthY, _mthMo) {
+    // Phase D3.1b: 10-lang month-name table (was: AR+EN only)
+    const _MTH_NAMES_BY_LANG = {
+        ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
+        en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
+        fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
+        tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
+        ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
+        de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
+        id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
+        es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
+        bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
+        ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
+    };
+    const _mthName = (_MTH_NAMES_BY_LANG[lang] || _MTH_NAMES_BY_LANG.en)[_mthMo - 1];
+    // Phase D3.1b: 10-lang month FAQ (was: AR+EN only — 8 langs fell back to en)
+    const _MOON_MONTH_FAQ_BY_LANG = {
+        ar: [
+        { q: `ما هو تقويم القمر في ${_mthCity} لشهر ${_mthName} ${_mthY}؟`,
+          a: `يَعرض هذا التقويم أطوار القمر اليومية في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة لكل يوم.` },
+        { q: `كيف أعرف طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
+          a: `يَعرض هذا التقويم طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.` },
+        { q: `متى يكون البدر في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
+          a: `قسم "الأطوار القمرية القادمة" في الصفحة يَعرض موعد البدر القادم في ${_mthCity} مع التاريخ الميلادي والهجري الدقيق. خلال شهر ${_mthName} ${_mthY}، البدر يَظهر بإضاءة 100٪ في الليلة المحددة.` },
+        { q: `متى يكون المحاق في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
+          a: `قسم "الأطوار القمرية القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجري الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.` },
+        { q: 'كيف أقرأ تقويم أطوار القمر الشهري؟',
+          a: 'كل خانة في التقويم تُمثل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنية من اليوم الحالي.' },
+        { q: 'لماذا تَختلف مواعيد شروق وغروب القمر بين المدن؟',
+          a: `يَعتمد شروق وغروب القمر على خط الطول والعرض الجغرافي والمنطقة الزمنية. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة بالتوقيت المحلي لـ ${_mthCity}.` },
+        { q: `هل يَعتمد هذا التقويم على توقيت ${_mthCity} المحلي؟`,
+          a: `نعم. كل مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلي لـ ${_mthCity}. الإحداثيات الجغرافية لهذه المدينة تُؤثر على الاتجاه والارتفاع أيضًا.` },
+        { q: 'ما علاقة أطوار القمر بالتقويم الهجري؟',
+          a: 'التقويم الهجري قمري بالكامل: كل شهر يَبدأ برؤية الهلال بعد المحاق ويَستمر 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقع بداية الشهر الهجري القادم.' }
+        ],
+        en: [
+        { q: `What is the moon calendar in ${_mthCity} for ${_mthName} ${_mthY}?`,
+          a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with the illumination percentage for each day.` },
+        { q: `How do I find the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}?`,
+          a: `This calendar shows the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}, with illumination percentage and the Hijri and Gregorian dates.` },
+        { q: `When is the full moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
+          a: `The "Upcoming moon phases" section above shows the precise full moon date in ${_mthCity}. During ${_mthName} ${_mthY}, the full moon reaches 100% illumination on the specified night.` },
+        { q: `When is the new moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
+          a: `The "Upcoming moon phases" section shows the next new moon date — which marks the start of the new Hijri month. New moon is when the Moon lies between Earth and Sun (0% illumination).` },
+        { q: 'How do I read the monthly moon phase calendar?',
+          a: 'Each cell represents one day and shows: the date, moon phase emoji, phase name (new, crescent, quarter, gibbous, full), and relative offset from today.' },
+        { q: 'Why do moonrise and moonset times differ between cities?',
+          a: `Moonrise and moonset depend on longitude, latitude and timezone. The difference can reach 12 hours between east and west of the globe. Times on this page are computed for ${_mthCity}'s local timezone.` },
+        { q: `Is this calendar in ${_mthCity}'s local time?`,
+          a: `Yes. All moonrise/moonset and full/new moon times are computed in ${_mthCity}'s local timezone. The city's geographic coordinates also affect direction and altitude.` },
+        { q: 'How are moon phases related to the Hijri calendar?',
+          a: 'The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.' }
+        ],
+        fr: [
+            { q: `Quel est le calendrier lunaire à ${_mthCity} pour ${_mthName} ${_mthY} ?`,
+              a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec le pourcentage d'illumination de chaque jour.` },
+            { q: `Comment trouver la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY} ?`,
+              a: `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne.` },
+            { q: `Quand est la pleine lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
+              a: `La section "Prochaines phases lunaires" ci-dessus affiche la date précise de la pleine lune à ${_mthCity}. Pendant ${_mthName} ${_mthY}, la pleine lune atteint 100 % d'illumination la nuit indiquée.` },
+            { q: `Quand est la nouvelle lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
+              a: `La section "Prochaines phases lunaires" affiche la prochaine date de nouvelle lune — qui marque le début du nouveau mois hégirien. La nouvelle lune se produit lorsque la Lune est entre la Terre et le Soleil (0 % d'illumination).` },
+            { q: `Comment lire le calendrier mensuel des phases lunaires ?`,
+              a: `Chaque case représente un jour et affiche : la date, l'emoji de phase lunaire, le nom de la phase (nouvelle, croissant, quartier, gibbeuse, pleine), et le décalage relatif par rapport à aujourd'hui.` },
+            { q: `Pourquoi les heures de lever et coucher de la Lune diffèrent-elles entre villes ?`,
+              a: `Le lever et le coucher de la Lune dépendent de la longitude, de la latitude et du fuseau horaire. La différence peut atteindre 12 heures entre l'est et l'ouest du globe. Les heures de cette page sont calculées pour le fuseau horaire local de ${_mthCity}.` },
+            { q: `Ce calendrier est-il à l'heure locale de ${_mthCity} ?`,
+              a: `Oui. Toutes les heures de lever/coucher de la Lune et de pleine/nouvelle lune sont calculées dans le fuseau horaire local de ${_mthCity}. Les coordonnées géographiques de la ville affectent également la direction et l'altitude.` },
+            { q: `Comment les phases lunaires sont-elles liées au calendrier hégirien ?`,
+              a: `Le calendrier hégirien est entièrement lunaire — chaque mois commence avec l'observation du croissant après la nouvelle lune et dure 29 ou 30 jours. Les dates de pleine et nouvelle lune dans ce calendrier aident à anticiper le début du prochain mois hégirien.` }
+        ],
+        tr: [
+            { q: `${_mthCity} için ${_mthName} ${_mthY} ay takvimi nedir?`,
+              a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma yüzdesiyle gösterir.` },
+            { q: `${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini nasıl öğrenirim?`,
+              a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir.` },
+            { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de dolunay ne zaman?`,
+              a: `Yukarıdaki "Yaklaşan ay evreleri" bölümü ${_mthCity}'de tam dolunay tarihini gösterir. ${_mthName} ${_mthY} sırasında dolunay belirtilen gece %100 aydınlanmaya ulaşır.` },
+            { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de yeni ay ne zaman?`,
+              a: `"Yaklaşan ay evreleri" bölümü bir sonraki yeni ay tarihini gösterir — bu yeni hicri ayın başlangıcını işaret eder. Yeni ay, Ay'ın Dünya ve Güneş arasında bulunduğu andır (%0 aydınlanma).` },
+            { q: `Aylık ay evresi takvimini nasıl okurum?`,
+              a: `Her hücre bir günü temsil eder ve şunları gösterir: tarih, ay evresi emojisi, evre adı (yeni, hilal, dördün, gibbous, dolunay) ve bugüne göre göreceli fark.` },
+            { q: `Ay doğuşu ve batışı saatleri şehirler arasında neden farklı?`,
+              a: `Ay doğuşu ve batışı boylama, enleme ve saat dilimine bağlıdır. Fark, dünyanın doğusu ile batısı arasında 12 saate ulaşabilir. Bu sayfadaki saatler ${_mthCity}'in yerel saat dilimi için hesaplanmıştır.` },
+            { q: `Bu takvim ${_mthCity}'in yerel saatinde mi?`,
+              a: `Evet. Tüm ay doğuşu/batışı ve dolunay/yeni ay saatleri ${_mthCity}'in yerel saat diliminde hesaplanır. Şehrin coğrafi koordinatları da yön ve yüksekliği etkiler.` },
+            { q: `Ay evreleri hicri takvim ile nasıl ilişkilidir?`,
+              a: `Hicri takvim tamamen kameridir — her ay yeni aydan sonra hilal görülmesiyle başlar ve 29 veya 30 gün sürer. Bu takvimdeki dolunay ve yeni ay tarihleri, bir sonraki hicri ayın başlangıcını öngörmeye yardımcı olur.` }
+        ],
+        ur: [
+            { q: `${_mthCity} میں ${_mthName} ${_mthY} کے لیے چاند کا کیلنڈر کیا ہے؟`,
+              a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی کے فیصد کے ساتھ دکھاتا ہے۔` },
+            { q: `${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور کیسے معلوم کروں؟`,
+              a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔` },
+            { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں بدر کب ہوگا؟`,
+              a: `اوپر "آنے والی چاند کی اطوار" سیکشن ${_mthCity} میں درست بدر کی تاریخ دکھاتا ہے۔ ${_mthName} ${_mthY} کے دوران بدر مقررہ رات کو 100% روشنی پر پہنچ جاتا ہے۔` },
+            { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں نیا چاند کب ہوگا؟`,
+              a: `"آنے والی چاند کی اطوار" سیکشن اگلی نئے چاند کی تاریخ دکھاتا ہے — جو نئے ہجری مہینے کا آغاز ہے۔ نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے (0% روشنی)۔` },
+            { q: `ماہانہ چاند کی اطوار کا کیلنڈر کیسے پڑھیں؟`,
+              a: `ہر خانہ ایک دن کی نمائندگی کرتا ہے اور دکھاتا ہے: تاریخ، چاند کی طور کا ایموجی، طور کا نام (نیا، ہلال، تربیع، اَحدب، بدر) اور آج سے نسبتی فرق۔` },
+            { q: `چاند کی مطلع و مغیب کے اوقات شہروں کے درمیان کیوں مختلف ہیں؟`,
+              a: `چاند کی مطلع و مغیب خط طول، خط عرض اور ٹائم زون پر منحصر ہیں۔ زمین کے مشرق اور مغرب کے درمیان فرق 12 گھنٹے تک پہنچ سکتا ہے۔ اس صفحے کے اوقات ${_mthCity} کے مقامی ٹائم زون کے لیے شمار کیے گئے ہیں۔` },
+            { q: `کیا یہ کیلنڈر ${_mthCity} کے مقامی وقت میں ہے؟`,
+              a: `جی ہاں۔ تمام مطلع/مغیبِ چاند اور بدر/نئے چاند کے اوقات ${_mthCity} کے مقامی ٹائم زون میں شمار کیے جاتے ہیں۔ شہر کی جغرافیائی محل وقوع بھی اتجاہ اور ارتفاع کو متاثر کرتی ہے۔` },
+            { q: `چاند کی اطوار کا ہجری تقویم سے کیا تعلق ہے؟`,
+              a: `ہجری تقویم مکمل طور پر قمری ہے — ہر مہینہ نئے چاند کے بعد ہلال کی رؤیت سے شروع ہوتا ہے اور 29 یا 30 دن تک رہتا ہے۔ اس کیلنڈر میں بدر اور نئے چاند کی تاریخیں اگلے ہجری مہینے کے آغاز کا اندازہ لگانے میں مدد کرتی ہیں۔` }
+        ],
+        de: [
+            { q: `Was ist der Mondkalender in ${_mthCity} für ${_mthName} ${_mthY}?`,
+              a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit dem Beleuchtungsprozentsatz für jeden Tag.` },
+            { q: `Wie finde ich die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}?`,
+              a: `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten.` },
+            { q: `Wann ist der Vollmond in ${_mthCity} während ${_mthName} ${_mthY}?`,
+              a: `Der Abschnitt "Kommende Mondphasen" oben zeigt das genaue Vollmonddatum in ${_mthCity}. Während ${_mthName} ${_mthY} erreicht der Vollmond in der angegebenen Nacht 100 % Beleuchtung.` },
+            { q: `Wann ist der Neumond in ${_mthCity} während ${_mthName} ${_mthY}?`,
+              a: `Der Abschnitt "Kommende Mondphasen" zeigt das nächste Neumonddatum — das den Beginn des neuen Hidschri-Monats markiert. Neumond ist, wenn der Mond zwischen Erde und Sonne liegt (0 % Beleuchtung).` },
+            { q: `Wie lese ich den monatlichen Mondphasen-Kalender?`,
+              a: `Jede Zelle stellt einen Tag dar und zeigt: das Datum, das Mondphasen-Emoji, den Phasennamen (Neumond, Sichel, Viertel, Gibbös, Vollmond) und den relativen Versatz von heute.` },
+            { q: `Warum unterscheiden sich Mondaufgangs- und -untergangszeiten zwischen Städten?`,
+              a: `Mondaufgang und -untergang hängen von der geografischen Länge, Breite und Zeitzone ab. Der Unterschied kann zwischen Ost und West der Erde 12 Stunden erreichen. Die Zeiten auf dieser Seite werden für die lokale Zeitzone von ${_mthCity} berechnet.` },
+            { q: `Ist dieser Kalender in der Ortszeit von ${_mthCity}?`,
+              a: `Ja. Alle Mondaufgangs-/-untergangszeiten und Vollmond-/Neumondzeiten werden in der lokalen Zeitzone von ${_mthCity} berechnet. Die geografischen Koordinaten der Stadt beeinflussen auch Richtung und Höhe.` },
+            { q: `Wie hängen Mondphasen mit dem Hidschri-Kalender zusammen?`,
+              a: `Der Hidschri-Kalender ist vollständig mondbasiert — jeder Monat beginnt mit der Sichtung der Mondsichel nach dem Neumond und dauert 29 oder 30 Tage. Vollmond- und Neumonddaten in diesem Kalender helfen, den Beginn des nächsten Hidschri-Monats vorauszusehen.` }
+        ],
+        id: [
+            { q: `Apa kalender bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
+              a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan persentase iluminasi untuk setiap hari.` },
+            { q: `Bagaimana cara mengetahui fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}?`,
+              a: `Kalender ini menampilkan fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi.` },
+            { q: `Kapan bulan purnama di ${_mthCity} selama ${_mthName} ${_mthY}?`,
+              a: `Bagian "Fase bulan mendatang" di atas menampilkan tanggal purnama yang tepat di ${_mthCity}. Selama ${_mthName} ${_mthY}, bulan purnama mencapai iluminasi 100% pada malam yang ditentukan.` },
+            { q: `Kapan bulan baru di ${_mthCity} selama ${_mthName} ${_mthY}?`,
+              a: `Bagian "Fase bulan mendatang" menampilkan tanggal bulan baru berikutnya — yang menandai awal bulan Hijriah baru. Bulan baru adalah saat Bulan berada antara Bumi dan Matahari (iluminasi 0%).` },
+            { q: `Bagaimana cara membaca kalender fase bulan bulanan?`,
+              a: `Setiap sel mewakili satu hari dan menampilkan: tanggal, emoji fase bulan, nama fase (baru, hilal, kuartal, gibbus, purnama), dan offset relatif dari hari ini.` },
+            { q: `Mengapa waktu terbit dan terbenam Bulan berbeda antar kota?`,
+              a: `Terbit dan terbenam Bulan tergantung pada bujur, lintang dan zona waktu. Perbedaannya dapat mencapai 12 jam antara timur dan barat dunia. Waktu di halaman ini dihitung untuk zona waktu lokal ${_mthCity}.` },
+            { q: `Apakah kalender ini dalam waktu lokal ${_mthCity}?`,
+              a: `Ya. Semua waktu terbit/terbenam Bulan dan purnama/bulan baru dihitung dalam zona waktu lokal ${_mthCity}. Koordinat geografis kota juga memengaruhi arah dan ketinggian.` },
+            { q: `Bagaimana fase bulan terkait dengan kalender Hijriah?`,
+              a: `Kalender Hijriah sepenuhnya berbasis bulan — setiap bulan dimulai dengan rukyat hilal setelah bulan baru dan berlangsung 29 atau 30 hari. Tanggal purnama dan bulan baru dalam kalender ini membantu mengantisipasi awal bulan Hijriah berikutnya.` }
+        ],
+        es: [
+            { q: `¿Cuál es el calendario lunar en ${_mthCity} para ${_mthName} ${_mthY}?`,
+              a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con el porcentaje de iluminación de cada día.` },
+            { q: `¿Cómo conozco la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}?`,
+              a: `Este calendario muestra la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}, con el porcentaje de iluminación y las fechas hijri y gregoriana.` },
+            { q: `¿Cuándo es la luna llena en ${_mthCity} durante ${_mthName} ${_mthY}?`,
+              a: `La sección "Próximas fases lunares" arriba muestra la fecha precisa de luna llena en ${_mthCity}. Durante ${_mthName} ${_mthY}, la luna llena alcanza el 100 % de iluminación la noche especificada.` },
+            { q: `¿Cuándo es la luna nueva en ${_mthCity} durante ${_mthName} ${_mthY}?`,
+              a: `La sección "Próximas fases lunares" muestra la próxima fecha de luna nueva — que marca el inicio del nuevo mes hijri. La luna nueva es cuando la Luna se sitúa entre la Tierra y el Sol (0 % de iluminación).` },
+            { q: `¿Cómo leo el calendario mensual de fases lunares?`,
+              a: `Cada celda representa un día y muestra: la fecha, el emoji de fase lunar, el nombre de la fase (nueva, creciente, cuarto, gibosa, llena) y el desfase relativo desde hoy.` },
+            { q: `¿Por qué los horarios de salida y puesta de la Luna difieren entre ciudades?`,
+              a: `La salida y puesta de la Luna dependen de la longitud, latitud y zona horaria. La diferencia puede alcanzar 12 horas entre el este y el oeste del globo. Los horarios de esta página se calculan para la zona horaria local de ${_mthCity}.` },
+            { q: `¿Está este calendario en la hora local de ${_mthCity}?`,
+              a: `Sí. Todos los horarios de salida/puesta de la Luna y de luna llena/nueva se calculan en la zona horaria local de ${_mthCity}. Las coordenadas geográficas de la ciudad también afectan la dirección y la altitud.` },
+            { q: `¿Cómo se relacionan las fases lunares con el calendario hijri?`,
+              a: `El calendario hijri es totalmente lunar — cada mes comienza con la observación del creciente tras la luna nueva y dura 29 o 30 días. Las fechas de luna llena y luna nueva en este calendario ayudan a anticipar el inicio del próximo mes hijri.` }
+        ],
+        bn: [
+            { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`,
+              a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকনের শতাংশ সহ দেখায়।` },
+            { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা কীভাবে জানব?`,
+              a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়।` },
+            { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ পূর্ণিমা কখন?`,
+              a: `উপরের "আসন্ন চাঁদের দশা" বিভাগ ${_mthCity}-এ সঠিক পূর্ণিমার তারিখ দেখায়। ${_mthName} ${_mthY}-এর সময় পূর্ণিমা নির্দিষ্ট রাতে ১০০% আলোকনে পৌঁছায়।` },
+            { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ অমাবস্যা কখন?`,
+              a: `"আসন্ন চাঁদের দশা" বিভাগ পরবর্তী অমাবস্যার তারিখ দেখায় — যা নতুন হিজরি মাসের শুরু চিহ্নিত করে। অমাবস্যা হল যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে (০% আলোকন)।` },
+            { q: `মাসিক চাঁদের দশার ক্যালেন্ডার কীভাবে পড়ব?`,
+              a: `প্রতিটি সেল একটি দিন প্রতিনিধিত্ব করে এবং দেখায়: তারিখ, চাঁদের দশার ইমোজি, দশার নাম (অমাবস্যা, হিলাল, কোয়ার্টার, গিব্বাস, পূর্ণিমা) এবং আজ থেকে আপেক্ষিক ব্যবধান।` },
+            { q: `চাঁদের উদয় ও অস্তের সময় শহরভেদে কেন আলাদা?`,
+              a: `চাঁদের উদয় ও অস্ত দ্রাঘিমাংশ, অক্ষাংশ ও টাইমজোনের উপর নির্ভর করে। পার্থক্য বিশ্বের পূর্ব ও পশ্চিমের মধ্যে ১২ ঘণ্টা পর্যন্ত হতে পারে। এই পৃষ্ঠার সময়গুলি ${_mthCity}-এর স্থানীয় টাইমজোনের জন্য গণনা করা হয়।` },
+            { q: `এই ক্যালেন্ডার কি ${_mthCity}-এর স্থানীয় সময়ে?`,
+              a: `হ্যাঁ। সমস্ত চাঁদের উদয়/অস্ত এবং পূর্ণিমা/অমাবস্যার সময় ${_mthCity}-এর স্থানীয় টাইমজোনে গণনা করা হয়। শহরের ভৌগোলিক স্থানাঙ্কও দিকনির্দেশ এবং উচ্চতাকে প্রভাবিত করে।` },
+            { q: `চাঁদের দশা হিজরি ক্যালেন্ডারের সাথে কীভাবে সম্পর্কিত?`,
+              a: `হিজরি ক্যালেন্ডার সম্পূর্ণ চান্দ্র — প্রতিটি মাস অমাবস্যার পর হিলাল দেখার মাধ্যমে শুরু হয় এবং ২৯ বা ৩০ দিন স্থায়ী হয়। এই ক্যালেন্ডারে পূর্ণিমা ও অমাবস্যার তারিখগুলি পরবর্তী হিজরি মাসের শুরু অনুমান করতে সাহায্য করে।` }
+        ],
+        ms: [
+            { q: `Apakah kalendar bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
+              a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan peratus pencahayaan untuk setiap hari.` },
+            { q: `Bagaimana saya mengetahui fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
+              a: `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi.` },
+            { q: `Bilakah bulan purnama di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
+              a: `Bahagian "Fasa bulan akan datang" di atas memaparkan tarikh tepat bulan purnama di ${_mthCity}. Sepanjang ${_mthName} ${_mthY}, bulan purnama mencapai pencahayaan 100% pada malam yang ditetapkan.` },
+            { q: `Bilakah anak bulan di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
+              a: `Bahagian "Fasa bulan akan datang" memaparkan tarikh anak bulan seterusnya — yang menandakan permulaan bulan Hijrah baharu. Anak bulan ialah saat Bulan berada antara Bumi dan Matahari (0% pencahayaan).` },
+            { q: `Bagaimana saya membaca kalendar fasa bulan bulanan?`,
+              a: `Setiap sel mewakili satu hari dan memaparkan: tarikh, emoji fasa bulan, nama fasa (anak bulan, hilal, suku, gibus, purnama) dan jurang relatif dari hari ini.` },
+            { q: `Mengapa waktu terbit dan terbenam Bulan berbeza antara bandar?`,
+              a: `Terbit dan terbenam Bulan bergantung pada bujur, lintang dan zon waktu. Perbezaannya boleh mencapai 12 jam antara timur dan barat dunia. Waktu pada halaman ini dikira untuk zon waktu tempatan ${_mthCity}.` },
+            { q: `Adakah kalendar ini dalam waktu tempatan ${_mthCity}?`,
+              a: `Ya. Semua waktu terbit/terbenam Bulan dan bulan purnama/anak bulan dikira dalam zon waktu tempatan ${_mthCity}. Koordinat geografi bandar juga mempengaruhi arah dan ketinggian.` },
+            { q: `Bagaimana fasa bulan berkaitan dengan kalendar Hijrah?`,
+              a: `Kalendar Hijrah adalah sepenuhnya berdasarkan bulan — setiap bulan bermula dengan rukyah hilal selepas anak bulan dan berlangsung 29 atau 30 hari. Tarikh bulan purnama dan anak bulan dalam kalendar ini membantu menjangka permulaan bulan Hijrah seterusnya.` }
+        ]
+    };
+    const _MOON_MONTH_FAQ_TITLE_BY_LANG = {
+        ar: `أسئلة شائعة عن تقويم القمر في ${_mthCity} — ${_mthName} ${_mthY}`,
+        en: `FAQ about the moon calendar in ${_mthCity} — ${_mthName} ${_mthY}`,
+        fr: `FAQ sur le calendrier lunaire à ${_mthCity} — ${_mthName} ${_mthY}`,
+        tr: `${_mthCity} ay takvimi SSS — ${_mthName} ${_mthY}`,
+        ur: `${_mthCity} میں ${_mthName} ${_mthY} کے چاند کے کیلنڈر کے بارے میں اکثر پوچھے جانے والے سوالات`,
+        de: `FAQ zum Mondkalender in ${_mthCity} — ${_mthName} ${_mthY}`,
+        id: `FAQ kalender bulan di ${_mthCity} — ${_mthName} ${_mthY}`,
+        es: `Preguntas frecuentes sobre el calendario lunar en ${_mthCity} — ${_mthName} ${_mthY}`,
+        bn: `${_mthCity}-এ ${_mthName} ${_mthY} চাঁদের ক্যালেন্ডার সম্পর্কে প্রশ্নোত্তর`,
+        ms: `Soalan lazim tentang kalendar bulan di ${_mthCity} — ${_mthName} ${_mthY}`
+    };
+    return {
+        title: _MOON_MONTH_FAQ_TITLE_BY_LANG[lang] || _MOON_MONTH_FAQ_TITLE_BY_LANG.en,
+        items: _MOON_MONTH_FAQ_BY_LANG[lang] || _MOON_MONTH_FAQ_BY_LANG.en
+    };
+}
+
 /**
  * يبني كتلة HTML لحقنها داخل <head> قبل </head>.
  * تشمل: robots, canonical, hreflang×3, OG×8+, Twitter×3, BreadcrumbList, geo, prev/next, article:*.
@@ -19466,204 +19690,9 @@ function renderSeoHeadHtml(seo) {
             const _mthCity = (seo.moonCity && seo.moonCity.name) || '';
             const _mthY    = seo.moonCity.monthYear;
             const _mthMo   = seo.moonCity.monthMonth;
-            // Phase D3.1b: 10-lang month-name table (was: AR+EN only)
-            const _MTH_NAMES_BY_LANG = {
-                ar: ['يناير','فبراير','مارس','أبريل','مايو','يونيو','يوليو','أغسطس','سبتمبر','أكتوبر','نوفمبر','ديسمبر'],
-                en: ['January','February','March','April','May','June','July','August','September','October','November','December'],
-                fr: ['janvier','février','mars','avril','mai','juin','juillet','août','septembre','octobre','novembre','décembre'],
-                tr: ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'],
-                ur: ['جنوری','فروری','مارچ','اپریل','مئی','جون','جولائی','اگست','ستمبر','اکتوبر','نومبر','دسمبر'],
-                de: ['Januar','Februar','März','April','Mai','Juni','Juli','August','September','Oktober','November','Dezember'],
-                id: ['Januari','Februari','Maret','April','Mei','Juni','Juli','Agustus','September','Oktober','November','Desember'],
-                es: ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'],
-                bn: ['জানুয়ারি','ফেব্রুয়ারি','মার্চ','এপ্রিল','মে','জুন','জুলাই','আগস্ট','সেপ্টেম্বর','অক্টোবর','নভেম্বর','ডিসেম্বর'],
-                ms: ['Januari','Februari','Mac','April','Mei','Jun','Julai','Ogos','September','Oktober','November','Disember']
-            };
-            const _mthName = (_MTH_NAMES_BY_LANG[seo.lang] || _MTH_NAMES_BY_LANG.en)[_mthMo - 1];
-            // Phase D3.1b: 10-lang month FAQ (was: AR+EN only — 8 langs fell back to en)
-            const _MOON_MONTH_FAQ_BY_LANG = {
-                ar: [
-                { q: `ما هو تقويم القمر في ${_mthCity} لشهر ${_mthName} ${_mthY}؟`,
-                  a: `يَعرض هذا التقويم أطوار القمر اليومية في ${_mthCity} خلال شهر ${_mthName} ${_mthY}، من الهلال والأحدب إلى البدر والمحاق، مع نسبة الإضاءة لكل يوم.` },
-                { q: `كيف أعرف طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
-                  a: `يَعرض هذا التقويم طور القمر لكل يوم في ${_mthCity} خلال ${_mthName} ${_mthY}، مع نسبة الإضاءة والتاريخ الهجري والميلادي.` },
-                { q: `متى يكون البدر في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
-                  a: `قسم "الأطوار القمرية القادمة" في الصفحة يَعرض موعد البدر القادم في ${_mthCity} مع التاريخ الميلادي والهجري الدقيق. خلال شهر ${_mthName} ${_mthY}، البدر يَظهر بإضاءة 100٪ في الليلة المحددة.` },
-                { q: `متى يكون المحاق في ${_mthCity} خلال ${_mthName} ${_mthY}؟`,
-                  a: `قسم "الأطوار القمرية القادمة" يَعرض موعد المحاق القادم — وهو الذي يَبدأ به الشهر الهجري الجديد. المحاق هو لحظة وقوع القمر بين الأرض والشمس بإضاءة 0٪.` },
-                { q: 'كيف أقرأ تقويم أطوار القمر الشهري؟',
-                  a: 'كل خانة في التقويم تُمثل يومًا واحدًا وتُظهر: التاريخ، إيموجي طور القمر، اسم الطور (محاق، هلال، تربيع، أحدب، بدر)، والمسافة الزمنية من اليوم الحالي.' },
-                { q: 'لماذا تَختلف مواعيد شروق وغروب القمر بين المدن؟',
-                  a: `يَعتمد شروق وغروب القمر على خط الطول والعرض الجغرافي والمنطقة الزمنية. الفرق قد يَصل إلى 12 ساعة بين شرق وغرب الأرض. بيانات هذه الصفحة محسوبة بالتوقيت المحلي لـ ${_mthCity}.` },
-                { q: `هل يَعتمد هذا التقويم على توقيت ${_mthCity} المحلي؟`,
-                  a: `نعم. كل مواعيد الشروق والغروب وأوقات البدر/المحاق محسوبة بالتوقيت المحلي لـ ${_mthCity}. الإحداثيات الجغرافية لهذه المدينة تُؤثر على الاتجاه والارتفاع أيضًا.` },
-                { q: 'ما علاقة أطوار القمر بالتقويم الهجري؟',
-                  a: 'التقويم الهجري قمري بالكامل: كل شهر يَبدأ برؤية الهلال بعد المحاق ويَستمر 29 أو 30 يومًا. مَواعيد البدر والمحاق في هذا التقويم تُساعد على تَوقع بداية الشهر الهجري القادم.' }
-                ],
-                en: [
-                { q: `What is the moon calendar in ${_mthCity} for ${_mthName} ${_mthY}?`,
-                  a: `This calendar shows daily moon phases in ${_mthCity} during ${_mthName} ${_mthY} — crescent, gibbous, full and new moon — with the illumination percentage for each day.` },
-                { q: `How do I find the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}?`,
-                  a: `This calendar shows the moon phase for each day in ${_mthCity} during ${_mthName} ${_mthY}, with illumination percentage and the Hijri and Gregorian dates.` },
-                { q: `When is the full moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
-                  a: `The "Upcoming moon phases" section above shows the precise full moon date in ${_mthCity}. During ${_mthName} ${_mthY}, the full moon reaches 100% illumination on the specified night.` },
-                { q: `When is the new moon in ${_mthCity} during ${_mthName} ${_mthY}?`,
-                  a: `The "Upcoming moon phases" section shows the next new moon date — which marks the start of the new Hijri month. New moon is when the Moon lies between Earth and Sun (0% illumination).` },
-                { q: 'How do I read the monthly moon phase calendar?',
-                  a: 'Each cell represents one day and shows: the date, moon phase emoji, phase name (new, crescent, quarter, gibbous, full), and relative offset from today.' },
-                { q: 'Why do moonrise and moonset times differ between cities?',
-                  a: `Moonrise and moonset depend on longitude, latitude and timezone. The difference can reach 12 hours between east and west of the globe. Times on this page are computed for ${_mthCity}'s local timezone.` },
-                { q: `Is this calendar in ${_mthCity}'s local time?`,
-                  a: `Yes. All moonrise/moonset and full/new moon times are computed in ${_mthCity}'s local timezone. The city's geographic coordinates also affect direction and altitude.` },
-                { q: 'How are moon phases related to the Hijri calendar?',
-                  a: 'The Hijri calendar is fully lunar — each month begins with the crescent sighting after the new moon and lasts 29 or 30 days. Full moon and new moon dates in this calendar help anticipate the start of the next Hijri month.' }
-                ],
-                fr: [
-                    { q: `Quel est le calendrier lunaire à ${_mthCity} pour ${_mthName} ${_mthY} ?`,
-                      a: `Ce calendrier affiche les phases lunaires quotidiennes à ${_mthCity} durant ${_mthName} ${_mthY} — croissant, gibbeuse, pleine et nouvelle lune — avec le pourcentage d'illumination de chaque jour.` },
-                    { q: `Comment trouver la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY} ?`,
-                      a: `Ce calendrier affiche la phase de la Lune pour chaque jour à ${_mthCity} en ${_mthName} ${_mthY}, avec le pourcentage d'illumination et les dates hégirienne et grégorienne.` },
-                    { q: `Quand est la pleine lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
-                      a: `La section "Prochaines phases lunaires" ci-dessus affiche la date précise de la pleine lune à ${_mthCity}. Pendant ${_mthName} ${_mthY}, la pleine lune atteint 100 % d'illumination la nuit indiquée.` },
-                    { q: `Quand est la nouvelle lune à ${_mthCity} en ${_mthName} ${_mthY} ?`,
-                      a: `La section "Prochaines phases lunaires" affiche la prochaine date de nouvelle lune — qui marque le début du nouveau mois hégirien. La nouvelle lune se produit lorsque la Lune est entre la Terre et le Soleil (0 % d'illumination).` },
-                    { q: `Comment lire le calendrier mensuel des phases lunaires ?`,
-                      a: `Chaque case représente un jour et affiche : la date, l'emoji de phase lunaire, le nom de la phase (nouvelle, croissant, quartier, gibbeuse, pleine), et le décalage relatif par rapport à aujourd'hui.` },
-                    { q: `Pourquoi les heures de lever et coucher de la Lune diffèrent-elles entre villes ?`,
-                      a: `Le lever et le coucher de la Lune dépendent de la longitude, de la latitude et du fuseau horaire. La différence peut atteindre 12 heures entre l'est et l'ouest du globe. Les heures de cette page sont calculées pour le fuseau horaire local de ${_mthCity}.` },
-                    { q: `Ce calendrier est-il à l'heure locale de ${_mthCity} ?`,
-                      a: `Oui. Toutes les heures de lever/coucher de la Lune et de pleine/nouvelle lune sont calculées dans le fuseau horaire local de ${_mthCity}. Les coordonnées géographiques de la ville affectent également la direction et l'altitude.` },
-                    { q: `Comment les phases lunaires sont-elles liées au calendrier hégirien ?`,
-                      a: `Le calendrier hégirien est entièrement lunaire — chaque mois commence avec l'observation du croissant après la nouvelle lune et dure 29 ou 30 jours. Les dates de pleine et nouvelle lune dans ce calendrier aident à anticiper le début du prochain mois hégirien.` }
-                ],
-                tr: [
-                    { q: `${_mthCity} için ${_mthName} ${_mthY} ay takvimi nedir?`,
-                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca günlük ay evrelerini — hilal, gibbous, dolunay ve yeni ay — her gün için aydınlanma yüzdesiyle gösterir.` },
-                    { q: `${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini nasıl öğrenirim?`,
-                      a: `Bu takvim, ${_mthCity}'de ${_mthName} ${_mthY} boyunca her gün için ay evresini, aydınlanma yüzdesini ve hicri ile miladi tarihleri gösterir.` },
-                    { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de dolunay ne zaman?`,
-                      a: `Yukarıdaki "Yaklaşan ay evreleri" bölümü ${_mthCity}'de tam dolunay tarihini gösterir. ${_mthName} ${_mthY} sırasında dolunay belirtilen gece %100 aydınlanmaya ulaşır.` },
-                    { q: `${_mthName} ${_mthY} sırasında ${_mthCity}'de yeni ay ne zaman?`,
-                      a: `"Yaklaşan ay evreleri" bölümü bir sonraki yeni ay tarihini gösterir — bu yeni hicri ayın başlangıcını işaret eder. Yeni ay, Ay'ın Dünya ve Güneş arasında bulunduğu andır (%0 aydınlanma).` },
-                    { q: `Aylık ay evresi takvimini nasıl okurum?`,
-                      a: `Her hücre bir günü temsil eder ve şunları gösterir: tarih, ay evresi emojisi, evre adı (yeni, hilal, dördün, gibbous, dolunay) ve bugüne göre göreceli fark.` },
-                    { q: `Ay doğuşu ve batışı saatleri şehirler arasında neden farklı?`,
-                      a: `Ay doğuşu ve batışı boylama, enleme ve saat dilimine bağlıdır. Fark, dünyanın doğusu ile batısı arasında 12 saate ulaşabilir. Bu sayfadaki saatler ${_mthCity}'in yerel saat dilimi için hesaplanmıştır.` },
-                    { q: `Bu takvim ${_mthCity}'in yerel saatinde mi?`,
-                      a: `Evet. Tüm ay doğuşu/batışı ve dolunay/yeni ay saatleri ${_mthCity}'in yerel saat diliminde hesaplanır. Şehrin coğrafi koordinatları da yön ve yüksekliği etkiler.` },
-                    { q: `Ay evreleri hicri takvim ile nasıl ilişkilidir?`,
-                      a: `Hicri takvim tamamen kameridir — her ay yeni aydan sonra hilal görülmesiyle başlar ve 29 veya 30 gün sürer. Bu takvimdeki dolunay ve yeni ay tarihleri, bir sonraki hicri ayın başlangıcını öngörmeye yardımcı olur.` }
-                ],
-                ur: [
-                    { q: `${_mthCity} میں ${_mthName} ${_mthY} کے لیے چاند کا کیلنڈر کیا ہے؟`,
-                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران چاند کے روزانہ اطوار — ہلال، اَحدب، بدر اور نیا چاند — ہر دن کے لیے روشنی کے فیصد کے ساتھ دکھاتا ہے۔` },
-                    { q: `${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور کیسے معلوم کروں؟`,
-                      a: `یہ کیلنڈر ${_mthCity} میں ${_mthName} ${_mthY} کے دوران ہر دن کے لیے چاند کا طور، روشنی کا فیصد، اور ہجری و عیسوی تاریخیں دکھاتا ہے۔` },
-                    { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں بدر کب ہوگا؟`,
-                      a: `اوپر "آنے والی چاند کی اطوار" سیکشن ${_mthCity} میں درست بدر کی تاریخ دکھاتا ہے۔ ${_mthName} ${_mthY} کے دوران بدر مقررہ رات کو 100% روشنی پر پہنچ جاتا ہے۔` },
-                    { q: `${_mthName} ${_mthY} کے دوران ${_mthCity} میں نیا چاند کب ہوگا؟`,
-                      a: `"آنے والی چاند کی اطوار" سیکشن اگلی نئے چاند کی تاریخ دکھاتا ہے — جو نئے ہجری مہینے کا آغاز ہے۔ نیا چاند وہ لمحہ ہے جب چاند زمین اور سورج کے درمیان ہوتا ہے (0% روشنی)۔` },
-                    { q: `ماہانہ چاند کی اطوار کا کیلنڈر کیسے پڑھیں؟`,
-                      a: `ہر خانہ ایک دن کی نمائندگی کرتا ہے اور دکھاتا ہے: تاریخ، چاند کی طور کا ایموجی، طور کا نام (نیا، ہلال، تربیع، اَحدب، بدر) اور آج سے نسبتی فرق۔` },
-                    { q: `چاند کی مطلع و مغیب کے اوقات شہروں کے درمیان کیوں مختلف ہیں؟`,
-                      a: `چاند کی مطلع و مغیب خط طول، خط عرض اور ٹائم زون پر منحصر ہیں۔ زمین کے مشرق اور مغرب کے درمیان فرق 12 گھنٹے تک پہنچ سکتا ہے۔ اس صفحے کے اوقات ${_mthCity} کے مقامی ٹائم زون کے لیے شمار کیے گئے ہیں۔` },
-                    { q: `کیا یہ کیلنڈر ${_mthCity} کے مقامی وقت میں ہے؟`,
-                      a: `جی ہاں۔ تمام مطلع/مغیبِ چاند اور بدر/نئے چاند کے اوقات ${_mthCity} کے مقامی ٹائم زون میں شمار کیے جاتے ہیں۔ شہر کی جغرافیائی محل وقوع بھی اتجاہ اور ارتفاع کو متاثر کرتی ہے۔` },
-                    { q: `چاند کی اطوار کا ہجری تقویم سے کیا تعلق ہے؟`,
-                      a: `ہجری تقویم مکمل طور پر قمری ہے — ہر مہینہ نئے چاند کے بعد ہلال کی رؤیت سے شروع ہوتا ہے اور 29 یا 30 دن تک رہتا ہے۔ اس کیلنڈر میں بدر اور نئے چاند کی تاریخیں اگلے ہجری مہینے کے آغاز کا اندازہ لگانے میں مدد کرتی ہیں۔` }
-                ],
-                de: [
-                    { q: `Was ist der Mondkalender in ${_mthCity} für ${_mthName} ${_mthY}?`,
-                      a: `Dieser Kalender zeigt die täglichen Mondphasen in ${_mthCity} während ${_mthName} ${_mthY} — Sichelmond, abnehmender/zunehmender Mond, Vollmond und Neumond — mit dem Beleuchtungsprozentsatz für jeden Tag.` },
-                    { q: `Wie finde ich die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}?`,
-                      a: `Dieser Kalender zeigt die Mondphase für jeden Tag in ${_mthCity} während ${_mthName} ${_mthY}, mit Beleuchtungsprozentsatz und Hidschri- sowie gregorianischen Daten.` },
-                    { q: `Wann ist der Vollmond in ${_mthCity} während ${_mthName} ${_mthY}?`,
-                      a: `Der Abschnitt "Kommende Mondphasen" oben zeigt das genaue Vollmonddatum in ${_mthCity}. Während ${_mthName} ${_mthY} erreicht der Vollmond in der angegebenen Nacht 100 % Beleuchtung.` },
-                    { q: `Wann ist der Neumond in ${_mthCity} während ${_mthName} ${_mthY}?`,
-                      a: `Der Abschnitt "Kommende Mondphasen" zeigt das nächste Neumonddatum — das den Beginn des neuen Hidschri-Monats markiert. Neumond ist, wenn der Mond zwischen Erde und Sonne liegt (0 % Beleuchtung).` },
-                    { q: `Wie lese ich den monatlichen Mondphasen-Kalender?`,
-                      a: `Jede Zelle stellt einen Tag dar und zeigt: das Datum, das Mondphasen-Emoji, den Phasennamen (Neumond, Sichel, Viertel, Gibbös, Vollmond) und den relativen Versatz von heute.` },
-                    { q: `Warum unterscheiden sich Mondaufgangs- und -untergangszeiten zwischen Städten?`,
-                      a: `Mondaufgang und -untergang hängen von der geografischen Länge, Breite und Zeitzone ab. Der Unterschied kann zwischen Ost und West der Erde 12 Stunden erreichen. Die Zeiten auf dieser Seite werden für die lokale Zeitzone von ${_mthCity} berechnet.` },
-                    { q: `Ist dieser Kalender in der Ortszeit von ${_mthCity}?`,
-                      a: `Ja. Alle Mondaufgangs-/-untergangszeiten und Vollmond-/Neumondzeiten werden in der lokalen Zeitzone von ${_mthCity} berechnet. Die geografischen Koordinaten der Stadt beeinflussen auch Richtung und Höhe.` },
-                    { q: `Wie hängen Mondphasen mit dem Hidschri-Kalender zusammen?`,
-                      a: `Der Hidschri-Kalender ist vollständig mondbasiert — jeder Monat beginnt mit der Sichtung der Mondsichel nach dem Neumond und dauert 29 oder 30 Tage. Vollmond- und Neumonddaten in diesem Kalender helfen, den Beginn des nächsten Hidschri-Monats vorauszusehen.` }
-                ],
-                id: [
-                    { q: `Apa kalender bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
-                      a: `Kalender ini menampilkan fase bulan harian di ${_mthCity} selama ${_mthName} ${_mthY} — hilal, gibbus, purnama dan bulan baru — dengan persentase iluminasi untuk setiap hari.` },
-                    { q: `Bagaimana cara mengetahui fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}?`,
-                      a: `Kalender ini menampilkan fase bulan untuk setiap hari di ${_mthCity} selama ${_mthName} ${_mthY}, dengan persentase iluminasi serta tanggal Hijriah dan Masehi.` },
-                    { q: `Kapan bulan purnama di ${_mthCity} selama ${_mthName} ${_mthY}?`,
-                      a: `Bagian "Fase bulan mendatang" di atas menampilkan tanggal purnama yang tepat di ${_mthCity}. Selama ${_mthName} ${_mthY}, bulan purnama mencapai iluminasi 100% pada malam yang ditentukan.` },
-                    { q: `Kapan bulan baru di ${_mthCity} selama ${_mthName} ${_mthY}?`,
-                      a: `Bagian "Fase bulan mendatang" menampilkan tanggal bulan baru berikutnya — yang menandai awal bulan Hijriah baru. Bulan baru adalah saat Bulan berada antara Bumi dan Matahari (iluminasi 0%).` },
-                    { q: `Bagaimana cara membaca kalender fase bulan bulanan?`,
-                      a: `Setiap sel mewakili satu hari dan menampilkan: tanggal, emoji fase bulan, nama fase (baru, hilal, kuartal, gibbus, purnama), dan offset relatif dari hari ini.` },
-                    { q: `Mengapa waktu terbit dan terbenam Bulan berbeda antar kota?`,
-                      a: `Terbit dan terbenam Bulan tergantung pada bujur, lintang dan zona waktu. Perbedaannya dapat mencapai 12 jam antara timur dan barat dunia. Waktu di halaman ini dihitung untuk zona waktu lokal ${_mthCity}.` },
-                    { q: `Apakah kalender ini dalam waktu lokal ${_mthCity}?`,
-                      a: `Ya. Semua waktu terbit/terbenam Bulan dan purnama/bulan baru dihitung dalam zona waktu lokal ${_mthCity}. Koordinat geografis kota juga memengaruhi arah dan ketinggian.` },
-                    { q: `Bagaimana fase bulan terkait dengan kalender Hijriah?`,
-                      a: `Kalender Hijriah sepenuhnya berbasis bulan — setiap bulan dimulai dengan rukyat hilal setelah bulan baru dan berlangsung 29 atau 30 hari. Tanggal purnama dan bulan baru dalam kalender ini membantu mengantisipasi awal bulan Hijriah berikutnya.` }
-                ],
-                es: [
-                    { q: `¿Cuál es el calendario lunar en ${_mthCity} para ${_mthName} ${_mthY}?`,
-                      a: `Este calendario muestra las fases lunares diarias en ${_mthCity} durante ${_mthName} ${_mthY} — creciente, gibosa, llena y nueva — con el porcentaje de iluminación de cada día.` },
-                    { q: `¿Cómo conozco la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}?`,
-                      a: `Este calendario muestra la fase lunar para cada día en ${_mthCity} durante ${_mthName} ${_mthY}, con el porcentaje de iluminación y las fechas hijri y gregoriana.` },
-                    { q: `¿Cuándo es la luna llena en ${_mthCity} durante ${_mthName} ${_mthY}?`,
-                      a: `La sección "Próximas fases lunares" arriba muestra la fecha precisa de luna llena en ${_mthCity}. Durante ${_mthName} ${_mthY}, la luna llena alcanza el 100 % de iluminación la noche especificada.` },
-                    { q: `¿Cuándo es la luna nueva en ${_mthCity} durante ${_mthName} ${_mthY}?`,
-                      a: `La sección "Próximas fases lunares" muestra la próxima fecha de luna nueva — que marca el inicio del nuevo mes hijri. La luna nueva es cuando la Luna se sitúa entre la Tierra y el Sol (0 % de iluminación).` },
-                    { q: `¿Cómo leo el calendario mensual de fases lunares?`,
-                      a: `Cada celda representa un día y muestra: la fecha, el emoji de fase lunar, el nombre de la fase (nueva, creciente, cuarto, gibosa, llena) y el desfase relativo desde hoy.` },
-                    { q: `¿Por qué los horarios de salida y puesta de la Luna difieren entre ciudades?`,
-                      a: `La salida y puesta de la Luna dependen de la longitud, latitud y zona horaria. La diferencia puede alcanzar 12 horas entre el este y el oeste del globo. Los horarios de esta página se calculan para la zona horaria local de ${_mthCity}.` },
-                    { q: `¿Está este calendario en la hora local de ${_mthCity}?`,
-                      a: `Sí. Todos los horarios de salida/puesta de la Luna y de luna llena/nueva se calculan en la zona horaria local de ${_mthCity}. Las coordenadas geográficas de la ciudad también afectan la dirección y la altitud.` },
-                    { q: `¿Cómo se relacionan las fases lunares con el calendario hijri?`,
-                      a: `El calendario hijri es totalmente lunar — cada mes comienza con la observación del creciente tras la luna nueva y dura 29 o 30 días. Las fechas de luna llena y luna nueva en este calendario ayudan a anticipar el inicio del próximo mes hijri.` }
-                ],
-                bn: [
-                    { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর জন্য চাঁদের ক্যালেন্ডার কী?`,
-                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় দৈনিক চাঁদের দশা — হিলাল, গিব্বাস, পূর্ণিমা ও অমাবস্যা — প্রতিদিনের জন্য আলোকনের শতাংশ সহ দেখায়।` },
-                    { q: `${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা কীভাবে জানব?`,
-                      a: `এই ক্যালেন্ডার ${_mthCity}-এ ${_mthName} ${_mthY}-এর সময় প্রতিদিনের জন্য চাঁদের দশা, আলোকন শতাংশ এবং হিজরি ও খ্রিস্টীয় তারিখ দেখায়।` },
-                    { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ পূর্ণিমা কখন?`,
-                      a: `উপরের "আসন্ন চাঁদের দশা" বিভাগ ${_mthCity}-এ সঠিক পূর্ণিমার তারিখ দেখায়। ${_mthName} ${_mthY}-এর সময় পূর্ণিমা নির্দিষ্ট রাতে ১০০% আলোকনে পৌঁছায়।` },
-                    { q: `${_mthName} ${_mthY}-এর সময় ${_mthCity}-এ অমাবস্যা কখন?`,
-                      a: `"আসন্ন চাঁদের দশা" বিভাগ পরবর্তী অমাবস্যার তারিখ দেখায় — যা নতুন হিজরি মাসের শুরু চিহ্নিত করে। অমাবস্যা হল যখন চাঁদ পৃথিবী ও সূর্যের মাঝে থাকে (০% আলোকন)।` },
-                    { q: `মাসিক চাঁদের দশার ক্যালেন্ডার কীভাবে পড়ব?`,
-                      a: `প্রতিটি সেল একটি দিন প্রতিনিধিত্ব করে এবং দেখায়: তারিখ, চাঁদের দশার ইমোজি, দশার নাম (অমাবস্যা, হিলাল, কোয়ার্টার, গিব্বাস, পূর্ণিমা) এবং আজ থেকে আপেক্ষিক ব্যবধান।` },
-                    { q: `চাঁদের উদয় ও অস্তের সময় শহরভেদে কেন আলাদা?`,
-                      a: `চাঁদের উদয় ও অস্ত দ্রাঘিমাংশ, অক্ষাংশ ও টাইমজোনের উপর নির্ভর করে। পার্থক্য বিশ্বের পূর্ব ও পশ্চিমের মধ্যে ১২ ঘণ্টা পর্যন্ত হতে পারে। এই পৃষ্ঠার সময়গুলি ${_mthCity}-এর স্থানীয় টাইমজোনের জন্য গণনা করা হয়।` },
-                    { q: `এই ক্যালেন্ডার কি ${_mthCity}-এর স্থানীয় সময়ে?`,
-                      a: `হ্যাঁ। সমস্ত চাঁদের উদয়/অস্ত এবং পূর্ণিমা/অমাবস্যার সময় ${_mthCity}-এর স্থানীয় টাইমজোনে গণনা করা হয়। শহরের ভৌগোলিক স্থানাঙ্কও দিকনির্দেশ এবং উচ্চতাকে প্রভাবিত করে।` },
-                    { q: `চাঁদের দশা হিজরি ক্যালেন্ডারের সাথে কীভাবে সম্পর্কিত?`,
-                      a: `হিজরি ক্যালেন্ডার সম্পূর্ণ চান্দ্র — প্রতিটি মাস অমাবস্যার পর হিলাল দেখার মাধ্যমে শুরু হয় এবং ২৯ বা ৩০ দিন স্থায়ী হয়। এই ক্যালেন্ডারে পূর্ণিমা ও অমাবস্যার তারিখগুলি পরবর্তী হিজরি মাসের শুরু অনুমান করতে সাহায্য করে।` }
-                ],
-                ms: [
-                    { q: `Apakah kalendar bulan di ${_mthCity} untuk ${_mthName} ${_mthY}?`,
-                      a: `Kalendar ini memaparkan fasa bulan harian di ${_mthCity} sepanjang ${_mthName} ${_mthY} — hilal, gibus, bulan purnama dan anak bulan — dengan peratus pencahayaan untuk setiap hari.` },
-                    { q: `Bagaimana saya mengetahui fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
-                      a: `Kalendar ini memaparkan fasa bulan untuk setiap hari di ${_mthCity} sepanjang ${_mthName} ${_mthY}, dengan peratus pencahayaan dan tarikh Hijrah serta Masihi.` },
-                    { q: `Bilakah bulan purnama di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
-                      a: `Bahagian "Fasa bulan akan datang" di atas memaparkan tarikh tepat bulan purnama di ${_mthCity}. Sepanjang ${_mthName} ${_mthY}, bulan purnama mencapai pencahayaan 100% pada malam yang ditetapkan.` },
-                    { q: `Bilakah anak bulan di ${_mthCity} sepanjang ${_mthName} ${_mthY}?`,
-                      a: `Bahagian "Fasa bulan akan datang" memaparkan tarikh anak bulan seterusnya — yang menandakan permulaan bulan Hijrah baharu. Anak bulan ialah saat Bulan berada antara Bumi dan Matahari (0% pencahayaan).` },
-                    { q: `Bagaimana saya membaca kalendar fasa bulan bulanan?`,
-                      a: `Setiap sel mewakili satu hari dan memaparkan: tarikh, emoji fasa bulan, nama fasa (anak bulan, hilal, suku, gibus, purnama) dan jurang relatif dari hari ini.` },
-                    { q: `Mengapa waktu terbit dan terbenam Bulan berbeza antara bandar?`,
-                      a: `Terbit dan terbenam Bulan bergantung pada bujur, lintang dan zon waktu. Perbezaannya boleh mencapai 12 jam antara timur dan barat dunia. Waktu pada halaman ini dikira untuk zon waktu tempatan ${_mthCity}.` },
-                    { q: `Adakah kalendar ini dalam waktu tempatan ${_mthCity}?`,
-                      a: `Ya. Semua waktu terbit/terbenam Bulan dan bulan purnama/anak bulan dikira dalam zon waktu tempatan ${_mthCity}. Koordinat geografi bandar juga mempengaruhi arah dan ketinggian.` },
-                    { q: `Bagaimana fasa bulan berkaitan dengan kalendar Hijrah?`,
-                      a: `Kalendar Hijrah adalah sepenuhnya berdasarkan bulan — setiap bulan bermula dengan rukyah hilal selepas anak bulan dan berlangsung 29 atau 30 hari. Tarikh bulan purnama dan anak bulan dalam kalendar ini membantu menjangka permulaan bulan Hijrah seterusnya.` }
-                ]
-            };
-            moonFaqs = _MOON_MONTH_FAQ_BY_LANG[seo.lang] || _MOON_MONTH_FAQ_BY_LANG.en;
+            // MOON-MONTH-FAQ-VISIBLE-1: the 8 Q/A come from _moonMonthFaq() — the same source
+            //   fills the visible FAQ block in serveHtmlWithSeo (DOM == JSON-LD).
+            moonFaqs = _moonMonthFaq(seo.lang, _mthCity, _mthY, _mthMo).items;
         } else if (_isMoonDateFaq) {
             // UAT-Moon-Day-Page-Polish: 6-Q date-specific FAQ that mirrors the
             //   visible DOM filled by app.js _DATE_FAQ_AR / _DATE_FAQ_EN.
@@ -29833,6 +29862,46 @@ function serveHtmlWithSeo(htmlBuf, urlPath, res, acceptEnc, qs, req) {
                 /<p class="moon-intro" id="moon-intro"[^>]*>[^<]*<\/p>/,
                 _rlit(`<p class="moon-intro" id="moon-intro" data-month-page="1">${_escHtml(_monthIntroText)}</p>`)
             );
+            // MOON-MONTH-FAQ-VISIBLE-1 (2026-11-17): fill the visible month FAQ in SSR.
+            //   index.html ships #moon-city-hub-faq with "—" placeholders; js/app.js only
+            //   filled them on the flat /moon-in-{city}/YYYY-MM path, so the nested month
+            //   pages showed "—" to every visitor while the FAQPage JSON-LD had the answers.
+            //   Same source + same inputs as the JSON-LD (_moonMonthFaq with seo.lang,
+            //   seo.moonCity.name/monthYear/monthMonth) → visible text == JSON-LD text.
+            //   Every string is HTML-escaped (city names are data). The work is bounded to
+            //   the section's own slice. data-ssr-month-faq="1" tells app.js not to
+            //   overwrite it. If the section is absent the page is unchanged.
+            try {
+                const _mfqAt = html.indexOf('id="moon-city-hub-faq"');
+                const _mfqS0 = (_mfqAt === -1) ? -1 : html.lastIndexOf('<section', _mfqAt);
+                const _mfqS1 = (_mfqAt === -1) ? -1 : html.indexOf('</section>', _mfqAt);
+                if (_mfqS0 !== -1 && _mfqS1 !== -1) {
+                    const _mfq = _moonMonthFaq(Lm, seo.moonCity.name || '', seo.moonCity.monthYear, seo.moonCity.monthMonth);
+                    let _mfqSec = html.slice(_mfqS0, _mfqS1);
+                    const _mfqSet = (cls, tag, txt) => {
+                        _mfqSec = _mfqSec.replace(
+                            new RegExp('(<' + tag + ' class="' + cls + '"[^>]*>)[^<]*(</' + tag + '>)'),
+                            (_m0, _open, _close) => _open + _escHtml(txt) + _close
+                        );
+                    };
+                    _mfqSet('moon-city-hub-faq-title-text', 'span', _mfq.title);
+                    _mfq.items.forEach((_it, _i) => {
+                        _mfqSet('moon-city-hub-faq-q' + (_i + 1), 'summary', _it.q);
+                        _mfqSet('moon-city-hub-faq-a' + (_i + 1), 'p', _it.a);
+                    });
+                    // Visibility: the section is .moon-city-hub-only (display:none unless
+                    //   html.moon-hub-page, which the inline head script sets only on the flat
+                    //   routes), so on the nested month pages it was hidden as well as empty.
+                    //   Month pages drop that class from THIS section only, so the filled FAQ
+                    //   shows on every month URL; the edu block and the CSS are untouched.
+                    const _mfqOpenEnd = _mfqSec.indexOf('>');
+                    _mfqSec = _mfqSec.slice(0, _mfqOpenEnd)
+                        .replace(/^<section\b/, '<section data-ssr-month-faq="1"')
+                        .replace(/\bclass="section-card moon-city-hub-only"/, 'class="section-card"')
+                        + _mfqSec.slice(_mfqOpenEnd);
+                    html = html.slice(0, _mfqS0) + _mfqSec + html.slice(_mfqS1);
+                }
+            } catch (_mfqErr) { /* keep the placeholders */ }
             // ────────────────────────────────────────────────────────────────
             // 2) Summary line — month-overview chip row (replaces today-snapshot)
             //    Safe template: daysInMonth · Hijri-range · city timezone hint.

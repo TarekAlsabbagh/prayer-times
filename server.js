@@ -36,9 +36,13 @@ const TP_WORKER_COUNT = (() => {
 })();
 
 if (cluster.isPrimary) {
-    // SCHED_RR distributes accepted connections round-robin. It is the default on Linux
-    //   (Render) but NOT on Windows, where it is ignored -- so local Windows runs prove
-    //   correctness only, never load distribution.
+    // SCHED_RR: the primary accepts every connection and hands it to a worker, round-robin.
+    //   It is Node's DEFAULT on Linux (Render) but not on Windows -- yet set explicitly, as here,
+    //   Windows honours it too: Node 24 setupPrimary() (internal/cluster/primary.js) applies
+    //   cluster.schedulingPolicy as set, and locally the listening socket belongs to the primary
+    //   (reports/health-restart-1/DIAG-2026-11-11.md 3.1). So local Windows runs DO go through the
+    //   same primary accept queue and hand-off as production; only the I/O layer underneath
+    //   differs (IOCP vs epoll), and timings do not transfer one to one.
     cluster.schedulingPolicy = cluster.SCHED_RR;
 
     let tpDraining = false;

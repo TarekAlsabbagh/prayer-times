@@ -283,7 +283,7 @@ if (cluster.isPrimary) {
             const st = a[3];
             if (st === '0A') {                                       // LISTEN: rx_queue = accept queue now, tx_queue = backlog
                 const q = a[4].split(':');
-                c.lq += parseInt(q[1], 16) || 0;
+                c.lq = (c.lq || 0) + (parseInt(q[1], 16) || 0);    // stays null while no listener on PORT was seen
                 const b = parseInt(q[0], 16);
                 if (Number.isInteger(b)) c.bl = Math.max(c.bl || 0, b);
             } else c[ST[st] || 'oth']++;
@@ -323,7 +323,8 @@ if (cluster.isPrimary) {
         const tcpOn = process.platform === 'linux' && tcpFiles.length > 0;
         const TCP_KEYS = ['lq', 'est', 'syn', 'cw', 'tw', 'oth'];
         const tpHoTcp = () => {
-            const c = { lq: 0, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 };
+            // lq / bl are null until the listening socket on PORT is found: "unavailable", never a misleading 0
+            const c = { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 };
             let any = false;
             for (const f of tcpFiles) {
                 let txt;

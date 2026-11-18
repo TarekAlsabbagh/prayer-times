@@ -75,7 +75,7 @@ if (!SKIP.has('U1')) {
         + '   7: 0A00000B:2710 110A0A0A:D437 04 00000000:00000000 00:00000000 00000000  1000        0 5 1 0 20 4 30 10 -1\n'
         + '   8: 0A00000B:C350 22222222:01BB 01 00000000:00000000 00:00000000 00000000  1000        0 6 1 0 20 4 30 10 -1\n'
         + '   9: 00000000:1F90 00000000:0000 0A 00000080:00000009 00:00000000 00000000  1000        0 7 1 0 100 0 0 10 0';
-    const c4 = tpHoParseTcp(tcp4, '2710', { lq: 0, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
+    const c4 = tpHoParseTcp(tcp4, '2710', { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
     ok('U1', JSON.stringify(c4) === JSON.stringify({ lq: 3, bl: 511, est: 2, syn: 1, cw: 1, tw: 2, oth: 1 }), 'tcp4: listener queue/backlog + state counts on PORT only', JSON.stringify(c4));
     const tcp6 = hdr
         + '   0: 00000000000000000000000000000000:2710 00000000000000000000000000000000:0000 0A 000001FF:00000002 00:00000000 00000000  1000        0 11 1 0 100 0 0 10 0\n'
@@ -83,8 +83,12 @@ if (!SKIP.has('U1')) {
     const c6 = tpHoParseTcp(tcp6, '2710', { ...c4 });
     ok('U1', c6.lq === 5 && c6.bl === 511 && c6.est === 3, 'tcp6 (dual-stack listener) adds to the same counters', JSON.stringify(c6));
     ok('U1', Object.keys(c6).join(',') === 'lq,bl,est,syn,cw,tw,oth' && Object.values(c6).every((v) => typeof v === 'number'), 'result holds counts only (no address field)', JSON.stringify(c6));
-    const c0 = tpHoParseTcp(hdr, '2710', { lq: 0, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
-    ok('U1', c0.lq === 0 && c0.bl === null && c0.est === 0, 'header only -> zeros, no backlog');
+    const c0 = tpHoParseTcp(hdr, '2710', { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
+    ok('U1', c0.lq === null && c0.bl === null && c0.est === 0, 'header only (no listener on PORT) -> lq / bl null = unavailable, never a misleading 0; state counts 0', JSON.stringify(c0));
+    const cOther = tpHoParseTcp(hdr + '   0: 00000000:1F90 00000000:0000 0A 00000005:00000080 00:00000000 00000000  1000        0 7 1 0 100 0 0 10 0\n', '2710', { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
+    ok('U1', cOther.lq === null && cOther.bl === null, 'a listener on ANOTHER port leaves lq / bl null', JSON.stringify(cOther));
+    const sSrc = fs.readFileSync(path.join(ROOT, 'server.js'), 'utf8');
+    ok('U1', /const c = \{ lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 \};/.test(sSrc), 'server.js starts each tcp sample with lq / bl null (unavailable until the listener is seen)');
     const netstat = 'TcpExt: SyncookiesSent SyncookiesRecv ListenOverflows ListenDrops TCPBacklogDrop\nTcpExt: 0 0 17 21 3\nIpExt: InNoRoutes\nIpExt: 0\n';
     const snmp = 'Ip: Forwarding DefaultTTL\nIp: 1 64\nTcp: RtoAlgorithm RtoMin ActiveOpens EstabResets CurrEstab\nTcp: 1 200 50 9 4\nUdp: InDatagrams\nUdp: 5\n';
     const o = {};

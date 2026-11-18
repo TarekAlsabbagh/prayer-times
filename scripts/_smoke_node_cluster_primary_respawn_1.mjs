@@ -43,6 +43,7 @@
 // Usage:  TP_BASE_ROOT=<clean base checkout> node scripts/_smoke_node_cluster_primary_respawn_1.mjs
 // Env:    TP_TEST_ROOT          tree under test (default: this script's repo); point it at BASE for a negative-control run
 //         TP_BASE_ROOT          clean base checkout for [N*] and [S5] (required: missing → FAIL, never skipped)
+//         TP_S5_BASE_ROOT       optional: the tree right before the change under test, for [S5] only (default TP_BASE_ROOT)
 //         TP_RESPAWN_PORT_BASE  first of 10 consecutive local ports (default 9220)
 //         TP_RESPAWN_CRASH_S    [S4c] maximum wait in seconds for the crash-at-boot primary to exit (default 60)
 //         TP_RESPAWN_ONLY       comma list of groups: S0,S1,S2,S3,S4,S4d,S4c,S6,S5 (default all; each N* runs with its group,
@@ -62,6 +63,9 @@ const require = createRequire(import.meta.url);
 const REPO = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const TEST_ROOT = path.resolve(process.env.TP_TEST_ROOT || REPO);
 const BASE_ROOT = process.env.TP_BASE_ROOT ? path.resolve(process.env.TP_BASE_ROOT) : '';
+// [S5] compares normal operation with the tree right before the change under test (default: TP_BASE_ROOT, as before);
+//   the [N*] controls need the pre-respawn-fix tree, which is months older than any later change under test
+const S5_BASE_ROOT = process.env.TP_S5_BASE_ROOT ? path.resolve(process.env.TP_S5_BASE_ROOT) : BASE_ROOT;
 const PORT_BASE = Number(process.env.TP_RESPAWN_PORT_BASE || 9220);
 const CRASH_S = Number(process.env.TP_RESPAWN_CRASH_S || 60);
 const ONLY = new Set(String(process.env.TP_RESPAWN_ONLY || 'S0,S1,S2,S3,S4,S4d,S4c,S6,S5').split(',').map((s) => s.trim()).filter(Boolean));
@@ -798,7 +802,7 @@ function compareResp(a, b) {
     return diffs;
 }
 const normBootLine = (l, srv) => l.split(srv.root).join('<ROOT>').split(srv.root.replace(/\\/g, '/')).join('<ROOT>')
-    .replace(/pid=\d+/g, 'pid=<PID>').replace(new RegExp('\\b' + srv.port + '\\b', 'g'), '<PORT>').replace(/\b\d+(?:\.\d+)?\s?ms\b/g, '<N>ms')
+    .replace(/pid=\d+/g, 'pid=<PID>').replace(/\bboot=[0-9a-f]{6}\b/g, 'boot=<ID>').replace(/"(rss|avail)":\d+/g, '"$1":<N>').replace(new RegExp('\\b' + srv.port + '\\b', 'g'), '<PORT>').replace(/\b\d+(?:\.\d+)?\s?ms\b/g, '<N>ms')
     .replace(/\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:?\d{2})?/g, '<ISO>');
 
 async function scenarioS5() {
@@ -814,11 +818,13 @@ async function scenarioS5() {
     const iShut = src.findIndex((l) => /const tpShutdown = \(sig\) => \{/.test(l)); const iShutEnd = src.findIndex((l, i) => i > iShut && /^\s{4}\};\s*$/.test(l));
     const iNoLive = src.findIndex((l) => /no live workers; primary exiting/.test(l));
     const listenLines = src.filter((l) => /cluster\.on\('listening'/.test(l));
-    ok('S5', iFail > iRet && iFail < iTimer && iNoLive > iShut && iNoLive < iShutEnd && listenLines.length === 1 && /\{ tpEverReady = true; \}\);/.test(listenLines[0]),
-        'fail-fast only in the "exit" handler (after the draining return); no-live-workers exit only inside tpShutdown; the \'listening\' listener only sets a boolean',
-        'fail-fast L' + (iFail + 1) + ', tpShutdown L' + (iShut + 1) + '-L' + (iShutEnd + 1) + ', no-live exit L' + (iNoLive + 1) + ', listening: ' + (listenLines[0] || '').trim());
+    // MEM-RECYCLE added a 2nd listener that only timestamps readiness (cleared on exit); any other body still fails
+    const LISTEN_OK = [/cluster\.on\('listening', \(\) => \{ tpEverReady = true; \}\);/, /cluster\.on\('listening', \(worker\) => \{ tpMemReadyAt\.set\(worker\.id, Date\.now\(\)\); \}\);/];
+    ok('S5', iFail > iRet && iFail < iTimer && iNoLive > iShut && iNoLive < iShutEnd && listenLines.length >= 1 && listenLines.every((l) => LISTEN_OK.some((re) => re.test(l))) && listenLines.filter((l) => /tpEverReady = true/.test(l)).length === 1,
+        'fail-fast only in the "exit" handler (after the draining return); no-live-workers exit only inside tpShutdown; every \'listening\' listener is bookkeeping only (the tpEverReady boolean, once; the recycler\'s tpMemReadyAt timestamp)',
+        'fail-fast L' + (iFail + 1) + ', tpShutdown L' + (iShut + 1) + '-L' + (iShutEnd + 1) + ', no-live exit L' + (iNoLive + 1) + ', listening: ' + listenLines.map((l) => l.trim()).join(' | '));
     if (!needBase('S5')) return;
-    const [t, b] = await Promise.all([boot('S5-test-2w', TEST_ROOT, P(8), 2), boot('S5-base-2w', BASE_ROOT, P(9), 2)]);
+    const [t, b] = await Promise.all([boot('S5-test-2w', TEST_ROOT, P(8), 2), boot('S5-base-2w', S5_BASE_ROOT, P(9), 2)]);
     try {
         await sleep(2000);
         const bootT = t.lines.map((l) => normBootLine(l.line, t)); const bootB = b.lines.map((l) => normBootLine(l.line, b));

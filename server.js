@@ -36,9 +36,13 @@ const TP_WORKER_COUNT = (() => {
 })();
 
 if (cluster.isPrimary) {
-    // SCHED_RR distributes accepted connections round-robin. It is the default on Linux
-    //   (Render) but NOT on Windows, where it is ignored -- so local Windows runs prove
-    //   correctness only, never load distribution.
+    // SCHED_RR: the primary accepts every connection and hands it to a worker, round-robin.
+    //   It is Node's DEFAULT on Linux (Render) but not on Windows -- yet set explicitly, as here,
+    //   Windows honours it too: Node 24 setupPrimary() (internal/cluster/primary.js) applies
+    //   cluster.schedulingPolicy as set, and locally the listening socket belongs to the primary
+    //   (reports/health-restart-1/DIAG-2026-11-11.md 3.1). So local Windows runs DO go through the
+    //   same primary accept queue and hand-off as production; only the I/O layer underneath
+    //   differs (IOCP vs epoll), and timings do not transfer one to one.
     cluster.schedulingPolicy = cluster.SCHED_RR;
 
     let tpDraining = false;
@@ -237,6 +241,192 @@ if (cluster.isPrimary) {
         tpObsLine('start');
         setInterval(() => tpObsLine('w'), tpProcS * 1000).unref();
     }
+
+    // =======================================================================================
+    // HEALTH-OBSERVABILITY-1 (2026-11-15): COUNTERS ONLY -- nothing here answers a request, changes a response or
+    //   touches /health. The primary accepts every connection and queues it for a worker (SCHED_RR); until now nothing
+    //   measured that layer (reports/health-restart-1/DIAG-2026-11-11.md, sections 2 and 7.5). Once a minute, one
+    //   '[health-obs]' line with fixed keys (no address, path, User-Agent, query, cookie or identifier of any kind):
+    //     cpu / elu     the primary's own CPU (cores) and event-loop utilisation over the window
+    //     eld           the primary's event-loop delay beyond the 20 ms sampling interval: p99 and max (ms)
+    //     fd            open file descriptors of the primary, /proc/self/fd sampled every 10 s: last and max (Linux only,
+    //                   null elsewhere). Every connection the primary holds -- queued for a worker or in its hand-off --
+    //                   is one of them.
+    //     tcp           the sockets of the container's network namespace on PORT (/proc/net/tcp + tcp6, sampled every
+    //                   10 s; state counts only, the addresses are never kept): lq = the kernel accept queue of the
+    //                   listening socket (connections waiting for the primary to accept them), bl = its backlog limit,
+    //                   est / syn / cw / tw / oth = ESTABLISHED / SYN_RECV / CLOSE_WAIT / TIME_WAIT / other: last and max
+    //     net           deltas of the namespace's ListenOverflows, ListenDrops (TcpExt) and EstabResets (Tcp)
+    //     probe         a self-check of the whole local path -- kernel queue, primary, hand-off, worker -- with a GET
+    //                   127.0.0.1:PORT/health every TP_HEALTH_OBS_PROBE_S (10-30 s, default 15; 0 = no probe), 5 s
+    //                   timeout, never two at once. Logged only: it answers nobody and Render never sees it.
+    //   Plus one 'final' line on SIGTERM. Kill switch: TP_HEALTH_OBS=0|off|false|no -> none of this is created (no
+    //   timer, no listener, no histogram, no probe). The workers' half is next to the HTTP server (search HEALTH-OBS).
+    // =======================================================================================
+    const tpHoOn = (() => {
+        const v = String(process.env.TP_HEALTH_OBS || '').trim().toLowerCase();
+        return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+    })();
+    // pure parsers (unit-tested by scripts/_smoke_health_obs_1.mjs, which extracts them from this file)
+    // /proc/net/tcp{,6}: "sl local_address rem_address st tx_queue:rx_queue ..." -- only the local port, the state and
+    //   (for the listener) the queues are read; the remote address column is skipped and never stored
+    const tpHoParseTcp = (txt, portHex, c) => {
+        const ST = { '01': 'est', '03': 'syn', '06': 'tw', '08': 'cw' };
+        let i = txt.indexOf('\n') + 1;                               // skip the header line
+        while (i > 0 && i < txt.length) {
+            let j = txt.indexOf('\n', i); if (j === -1) j = txt.length;
+            const a = txt.slice(i, j).trim().split(/\s+/);
+            i = j + 1;
+            if (a.length < 5) continue;
+            const lp = a[1].slice(a[1].lastIndexOf(':') + 1);
+            if (lp !== portHex) continue;
+            const st = a[3];
+            if (st === '0A') {                                       // LISTEN: rx_queue = accept queue now, tx_queue = backlog
+                const q = a[4].split(':');
+                c.lq = (c.lq || 0) + (parseInt(q[1], 16) || 0);    // stays null while no listener on PORT was seen
+                const b = parseInt(q[0], 16);
+                if (Number.isInteger(b)) c.bl = Math.max(c.bl || 0, b);
+            } else c[ST[st] || 'oth']++;
+        }
+        return c;
+    };
+    // /proc/net/netstat and /proc/net/snmp: a "Sect: names" line followed by a "Sect: values" line
+    const tpHoParseNet = (txt, sect, names, o) => {
+        const ls = txt.split('\n').filter((l) => l.startsWith(sect + ':'));
+        if (ls.length < 2) return o;
+        const h = ls[0].trim().split(/\s+/), v = ls[1].trim().split(/\s+/);
+        for (const [k, n] of names) { const ix = h.indexOf(n); if (ix > 0 && v[ix] !== undefined) o[k] = Number(v[ix]); }
+        return o;
+    };
+    // end tpHoParse
+    const tpHoPrimaryStart = () => {
+        const tpHoFs = require('fs');
+        const tpHoPh = require('perf_hooks');
+        const tpHoInt = (name, dflt, lo, hi, zeroOk) => {
+            const n = Number.parseInt(String(process.env[name] || '').trim(), 10);
+            if (zeroOk && n === 0) return 0;
+            return Number.isInteger(n) && n >= lo && n <= hi ? n : dflt;
+        };
+        const winS = tpHoInt('TP_HEALTH_OBS_S', 60, 10, 600);
+        const probeS = tpHoInt('TP_HEALTH_OBS_PROBE_S', 15, 10, 30, true);
+        const port = Number.parseInt(String(process.env.PORT || 8080), 10) || 8080;
+        const portHex = port.toString(16).toUpperCase().padStart(4, '0');
+        const r1 = (x) => Math.round(x * 10) / 10;
+        const eld = tpHoPh.monitorEventLoopDelay({ resolution: 20 });
+        eld.enable();
+        const lag = (ns) => Math.max(0, r1(ns / 1e6 - 20));
+        let cpu0 = process.cpuUsage(), elu0 = performance.eventLoopUtilization(), t0 = performance.now(), w0 = Date.now();
+        // ---- fd + tcp samples (Linux /proc only; probed once, so no sampler exists where they are absent) ----
+        const tpHoFd = () => { try { return tpHoFs.readdirSync('/proc/self/fd').length - 1; } catch (_e) { return null; } };   // - the readdir's own fd
+        const fdOn = process.platform === 'linux' && tpHoFd() !== null;
+        const tcpFiles = ['/proc/net/tcp', '/proc/net/tcp6'].filter((f) => { try { tpHoFs.accessSync(f, tpHoFs.constants.R_OK); return true; } catch (_e) { return false; } });
+        const tcpOn = process.platform === 'linux' && tcpFiles.length > 0;
+        const TCP_KEYS = ['lq', 'est', 'syn', 'cw', 'tw', 'oth'];
+        const tpHoTcp = () => {
+            // lq / bl are null until the listening socket on PORT is found: "unavailable", never a misleading 0
+            const c = { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 };
+            let any = false;
+            for (const f of tcpFiles) {
+                let txt;
+                try { txt = tpHoFs.readFileSync(f, 'latin1'); } catch (_e) { continue; }
+                any = true;
+                tpHoParseTcp(txt, portHex, c);
+            }
+            return any ? c : null;
+        };
+        const mk = () => ({ last: null, max: null });
+        const put = (o, v) => { if (v === null) return; o.last = v; if (o.max === null || v > o.max) o.max = v; };
+        let fdS = mk(), tcpS = null, bl = null;
+        const tcpNew = () => { const o = {}; for (const k of TCP_KEYS) o[k] = mk(); return o; };
+        const sample = () => {
+            try {
+                if (fdOn) put(fdS, tpHoFd());
+                if (tcpOn) {
+                    const c = tpHoTcp();
+                    if (c) { if (!tcpS) tcpS = tcpNew(); for (const k of TCP_KEYS) put(tcpS[k], c[k]); if (c.bl !== null) bl = c.bl; }
+                }
+            } catch (_e) { /* measurement must never break the primary */ }
+        };
+        // ---- namespace TCP counters (deltas per window) ----
+        const tpHoNet = () => {
+            const o = {};
+            const grab = (file, sect, names) => {
+                let txt; try { txt = tpHoFs.readFileSync(file, 'latin1'); } catch (_e) { return; }
+                tpHoParseNet(txt, sect, names, o);
+            };
+            grab('/proc/net/netstat', 'TcpExt', [['lo', 'ListenOverflows'], ['ld', 'ListenDrops']]);
+            grab('/proc/net/snmp', 'Tcp', [['er', 'EstabResets']]);
+            return Object.keys(o).length ? o : null;
+        };
+        const netOn = process.platform === 'linux' && tpHoNet() !== null;
+        let net0 = netOn ? tpHoNet() : null;
+        // ---- self-probe ----
+        const pr0 = () => ({ n: 0, ok: 0, to: 0, ref: 0, err: 0, bad: 0, skip: 0, max: null, conn_max: null, last: null });
+        let pr = probeS ? pr0() : null;
+        let prBusy = false;
+        const tpHoProbe = () => {
+            if (tpDraining) return;
+            if (prBusy) { pr.skip++; return; }
+            prBusy = true;
+            const s0 = performance.now();
+            let conn = null, done = false;
+            const fin = (kind, ms) => {
+                if (done) return;
+                done = true; prBusy = false; clearTimeout(tm);
+                pr.n++; pr[kind]++;
+                pr.last = r1(ms);
+                if (pr.max === null || ms > pr.max) pr.max = r1(ms);
+                if (conn !== null && (pr.conn_max === null || conn > pr.conn_max)) pr.conn_max = r1(conn);
+            };
+            let rq;
+            const tm = setTimeout(() => { fin('to', performance.now() - s0); try { rq.destroy(); } catch (_e) { /* gone */ } }, 5000);
+            try {
+                rq = require('http').request({ host: '127.0.0.1', port, path: '/health', method: 'GET', agent: false,
+                    headers: { 'x-tp-health-obs': '1', connection: 'close' } }, (rs) => {
+                    rs.resume();
+                    rs.on('end', () => fin(rs.statusCode === 200 ? 'ok' : 'bad', performance.now() - s0));
+                    rs.on('error', () => fin('err', performance.now() - s0));
+                });
+                rq.on('socket', (sk) => sk.once('connect', () => { conn = performance.now() - s0; }));
+                rq.on('error', (e) => fin(e && e.code === 'ECONNREFUSED' ? 'ref' : 'err', performance.now() - s0));
+                rq.end();
+            } catch (_e) { fin('err', performance.now() - s0); }
+        };
+        // ---- the line ----
+        const flush = (win) => {
+            try {
+                const now = performance.now();
+                const cu = process.cpuUsage(cpu0);
+                const elu = performance.eventLoopUtilization(elu0);
+                const o = { p: 'primary', win, t0: Math.floor(w0 / 1000), s: Math.round((now - t0) / 1000),
+                    cpu: +(((cu.user + cu.system) / 1000) / Math.max(1, now - t0)).toFixed(3), elu: +elu.utilization.toFixed(3),
+                    eld: { p99: lag(eld.percentile(99)), max: lag(eld.max) },
+                    fd: fdOn ? fdS : null, tcp: null, net: null, probe: pr };
+                if (tcpOn && tcpS) { o.tcp = { bl }; for (const k of TCP_KEYS) o.tcp[k] = tcpS[k]; }
+                if (netOn) {
+                    const n1 = tpHoNet();
+                    if (n1 && net0) { o.net = {}; for (const k of ['lo', 'ld', 'er']) o.net[k] = (k in n1 && k in net0) ? n1[k] - net0[k] : null; }
+                    net0 = n1 || net0;
+                }
+                console.log('[health-obs] ' + JSON.stringify(o));
+                cpu0 = process.cpuUsage(); elu0 = performance.eventLoopUtilization(); t0 = now; w0 = Date.now();
+                eld.reset();
+                // the last sample carries over as the next window's starting point
+                fdS = { last: fdS.last, max: fdS.last };
+                if (tcpS) for (const k of TCP_KEYS) tcpS[k] = { last: tcpS[k].last, max: tcpS[k].last };
+                if (pr) pr = pr0();
+            } catch (_e) { /* measurement must never break the primary */ }
+        };
+        if (fdOn || tcpOn) { sample(); setInterval(function tpHoSample() { sample(); }, 10000).unref(); }
+        // windows aligned to the wall-clock minute (with the default 60 s), so primary and worker lines line up
+        setTimeout(function tpHoAlign() { flush('w'); setInterval(function tpHoTick() { flush('w'); }, winS * 1000).unref(); },
+            (winS * 1000) - (Date.now() % (winS * 1000))).unref();
+        if (probeS) cluster.once('listening', function tpHoProbeStart() { setInterval(tpHoProbe, probeS * 1000).unref(); });
+        process.prependListener('SIGTERM', function tpHoOnSigterm() { flush('final'); });
+        console.log('[health-obs] ENABLED p=primary win_s=' + winS + ' probe_s=' + probeS + ' fd=' + (fdOn ? 1 : 0)
+            + ' tcp=' + (tcpOn ? 1 : 0) + ' net=' + (netOn ? 1 : 0));
+    };
+    if (tpHoOn) tpHoPrimaryStart();
 
     // =======================================================================================
     // WORKER-MEMORY-RECYCLE-1 (2026-10-13): replace a worker before its memory takes the instance down.
@@ -37561,6 +37751,7 @@ const server = http.createServer(async (req, res) => {
     // routes, non-city routes, and when Supabase is disabled; wrapped so a slow
     // or failed Supabase read never blocks or breaks the response.
     try { await _prefetchDiscoveredForSsr(urlPath); } catch (_) { /* never block the response */ }
+    if (_HO_ON) _hoMark(req, res);   // HEALTH-OBS: the render-start point of the abort counters (counter only)
     // MOON-DAY-OVERLOAD-SHED-1 gate B: a day page whose city became resolvable only through the prefetch.
     if (_SHED_ON && req._shedRecheck) { const _shL2 = _shedRecheck(req, res, urlPath); if (_shL2 !== null) { _shedSend(req, res, _shL2, true); return; } }
 
@@ -40343,6 +40534,176 @@ const server = http.createServer(async (req, res) => {
 server.keepAliveTimeout = 120000;   // 120s: longer than any common proxy idle timeout
 server.headersTimeout   = 125000;   // keepAliveTimeout + 5s margin (buffer/requestTimeout untouched)
 
+// =======================================================================================
+// HEALTH-OBSERVABILITY-1 (2026-11-15), the worker half (the primary half is at the top of the file). COUNTERS ONLY:
+//   no response, header, status or /health answer changes, and no render is ever cancelled. Once a minute (wall-clock
+//   aligned, TP_HEALTH_OBS_S), one '[health-obs]' line per worker with fixed keys -- counts and times only, never an
+//   address, a path, a User-Agent, a query, a cookie or an identifier:
+//     k0 / h10  /health requests from outside (Render's checker, uptime monitors) in 10 s slots starting at k0
+//               (epoch s): [n, n on a NEW connection, max wait ms, max handle ms]. wait = the worker accepting the
+//               connection (the server's 'connection' event, i.e. after the primary's queue and hand-off) -> the request
+//               handler starting; only defined for the first request of a connection. handle = handler start ->
+//               response closed. An empty slot is a 10 s stretch in which no /health reached this worker at all.
+//     hp        the primary's own self-probe (/health with x-tp-health-obs: 1): [n, max wait ms, max handle ms]
+//     acc       every other request: n = first request of a new connection (wait measured), ka = on a reused
+//               connection, max wait ms, b = wait buckets <10, <100, <1000, <5000, >=5000 ms
+//     conn      now = server.getConnections() at the flush, max = most open at once, new = accepted, c0 = closed
+//               without a single request (e.g. given up by the client while it waited in the primary's queue)
+//     ab        requests whose client left before the response finished, per request-observability family:
+//               [pre, mid, post, preR]. pre = before the render-start point (just after the discovered-city prefetch,
+//               where the router and SSR begin), mid = after it but before any header was written (e.g. during async
+//               compression), post = after the response started. preR = the 'pre' ones that went on to render anyway
+//               (the cost a cancel could save -- measured here, never acted on). A sync SSR runs to its end before the
+//               event loop can see a disconnect, so a client lost DURING a synchronous render shows up as 'post'.
+//   Plus one 'final' line on SIGTERM and on a recycle retire. Kill switch: TP_HEALTH_OBS=0|off|false|no -> no
+//   listener, no timer, and the render-start hook is a single boolean test.
+// =======================================================================================
+const _HO_ON = (() => {
+    const v = String(process.env.TP_HEALTH_OBS || '').trim().toLowerCase();
+    return !(v === '0' || v === 'off' || v === 'false' || v === 'no');
+})();
+const _HO_WIN_S = (() => {
+    const n = Number.parseInt(String(process.env.TP_HEALTH_OBS_S || '').trim(), 10);
+    return Number.isInteger(n) && n >= 10 && n <= 600 ? n : 60;
+})();
+const _HO_SLOTS_MAX = 60;                  // 10 min of 10 s slots: a line never grows beyond this, however late a flush runs
+const _HO_FAM_MAX = 64;
+const _HO_ACC_EDGES = [10, 100, 1000, 5000];
+const _hoT = Symbol('hoAcceptedAt'), _hoN = Symbol('hoRequests'), _hoS = Symbol('hoState'), _hoMk = Symbol('hoMark');
+let _hoStarted = false, _hoFinalDone = false;
+let _ho = null;                            // the current window
+const _hoNew = (open) => ({ w0: Date.now(), slots: new Map(), hp: [0, 0, 0], acc: { n: 0, ka: 0, max: 0, b: [0, 0, 0, 0, 0] },
+    open, openMax: open, cNew: 0, c0: 0, ab: new Map() });
+const _hoR1 = (x) => Math.round(x * 10) / 10;
+function _hoOnConn(sock) {
+    try {
+        sock[_hoT] = performance.now(); sock[_hoN] = 0;
+        _ho.cNew++; _ho.open++; if (_ho.open > _ho.openMax) _ho.openMax = _ho.open;
+        sock.once('close', _hoOnSockClose);
+    } catch (_e) { /* measurement only */ }
+}
+function _hoOnSockClose() {
+    try { _ho.open--; if (!this[_hoN]) _ho.c0++; } catch (_e) { /* measurement only */ }
+}
+// mirrors the family resolution of _mlRecord (MOON-LOAD-OBSERVABILITY-1): a fixed family name, never the path itself
+function _hoFamily(rawUrl, res) {
+    const q = rawUrl.indexOf('?');
+    const p = q === -1 ? rawUrl : rawUrl.slice(0, q);
+    const f0 = _obsFamily(p);
+    const sc = res.statusCode;
+    return res._tpGone ? (res._tpGone === 'hijri' ? 'hijri-gone' : res._tpGone === 'hijri-cal' ? 'hijri-cal-gone' : 'moon-gone')
+        : res._tpHcalFuture ? 'hijri-cal-future'
+        : (f0 === null) ? (sc === 404 ? 'unknown-route' : 'other-valid')
+        : ((sc === 404 && _OBS_404_UNKNOWN_FAMILIES.has(f0)) ? 'unknown-route' : f0);
+}
+function _hoAb(fam, ix) {
+    let e = _ho.ab.get(fam);
+    if (!e) {
+        if (_ho.ab.size >= _HO_FAM_MAX) { fam = 'overflow'; e = _ho.ab.get(fam); }
+        if (!e) { e = [0, 0, 0, 0]; _ho.ab.set(fam, e); }
+    }
+    e[ix]++;
+}
+// prepended 'request' listener: runs just before the handler (state on the response, one shared close handler)
+function _hoOnRequest(req, res) {
+    try {
+        const t = performance.now();
+        const s = req.socket;
+        let wait = -1;
+        if (s && s[_hoN] !== undefined) { if (s[_hoN] === 0 && s[_hoT] !== undefined) wait = t - s[_hoT]; s[_hoN]++; }
+        const url = req.url || '';
+        const kind = (url === '/health') ? (req.headers['x-tp-health-obs'] === '1' ? 2 : 1) : 0;
+        if (kind === 0) {
+            if (wait >= 0) {
+                const a = _ho.acc; a.n++; if (wait > a.max) a.max = wait;
+                let b = 0; while (b < _HO_ACC_EDGES.length && wait >= _HO_ACC_EDGES[b]) b++;
+                a.b[b]++;
+            } else _ho.acc.ka++;
+        }
+        res[_hoS] = { t, wait, kind, url, slot: Math.floor(Date.now() / 10000) };
+        res.once('close', _hoOnClose);
+    } catch (_e) { /* measurement only */ }
+}
+function _hoOnClose() {
+    const res = this;
+    try {
+        const st = res[_hoS];
+        if (!st) return;
+        const handle = performance.now() - st.t;
+        if (st.kind === 1) {
+            let e = _ho.slots.get(st.slot);
+            if (!e) { e = [0, 0, 0, 0]; _ho.slots.set(st.slot, e); }
+            e[0]++;
+            if (st.wait >= 0) { e[1]++; if (st.wait > e[2]) e[2] = st.wait; }
+            if (handle > e[3]) e[3] = handle;
+        } else if (st.kind === 2) {
+            const h = _ho.hp; h[0]++;
+            if (st.wait > h[1]) h[1] = st.wait;
+            if (handle > h[2]) h[2] = handle;
+        }
+        if (!res.writableFinished) {
+            const req = res.req;
+            const mk = req ? req[_hoMk] : undefined;
+            const fam = _hoFamily(st.url, res);
+            if (mk === undefined) { _hoAb(fam, 0); if (req) req[_hoMk] = 3; }      // left before the render-start point
+            else if (mk === 2) { _hoAb(fam, 0); _hoAb(fam, 3); }                    // already gone at that point, rendered anyway
+            else if (!res.headersSent) _hoAb(fam, 1);
+            else _hoAb(fam, 2);
+        }
+    } catch (_e) { /* measurement only */ }
+}
+// the render-start point (after the discovered-city prefetch): 1 = client still there, 2 = already gone;
+//   3 (set by _hoOnClose) = counted as 'pre' already, so reaching this point now means it renders anyway
+function _hoMark(req, res) {
+    try {
+        if (!_hoStarted) return;
+        if (req[_hoMk] === 3) { const st = res[_hoS]; if (st) _hoAb(_hoFamily(st.url, res), 3); req[_hoMk] = 4; return; }
+        const s = req.socket;
+        req[_hoMk] = (s && s.destroyed) ? 2 : 1;
+    } catch (_e) { /* measurement only */ }
+}
+function _hoFlush(win) {
+    if (!_ho) return;
+    if (win === 'final') { if (_hoFinalDone) return; _hoFinalDone = true; }
+    const w = _ho;
+    const now = Date.now();
+    _ho = _hoNew(w.open);
+    const emit = (cnow) => {
+        try {
+            let k0 = Math.floor(w.w0 / 10000);
+            let k1 = Math.floor(now / 10000);
+            if (k1 > k0 && !w.slots.has(k1)) k1--;                          // the slot the flush itself opened is empty
+            if (k1 - k0 + 1 > _HO_SLOTS_MAX) k0 = k1 - _HO_SLOTS_MAX + 1;   // older slots are dropped from the line, never kept
+            const h10 = [];
+            for (let k = k0; k <= k1; k++) {
+                const e = w.slots.get(k);
+                h10.push(e ? [e[0], e[1], _hoR1(e[2]), _hoR1(e[3])] : [0, 0, 0, 0]);
+            }
+            const ab = {};
+            let abN = 0;
+            for (const [f, e] of [...w.ab.entries()].sort((a, b) => (b[1][0] + b[1][1] + b[1][2]) - (a[1][0] + a[1][1] + a[1][2]))) { ab[f] = e; abN += e[0] + e[1] + e[2]; }
+            console.log('[health-obs] ' + JSON.stringify({ p: 'w', w: TP_WORKER_ID, win, t0: Math.floor(w.w0 / 1000), s: Math.round((now - w.w0) / 1000),
+                k0: k0 * 10, h10, hp: [w.hp[0], _hoR1(w.hp[1]), _hoR1(w.hp[2])],
+                acc: { n: w.acc.n, ka: w.acc.ka, max: _hoR1(w.acc.max), b: w.acc.b },
+                conn: { now: cnow, max: w.openMax, new: w.cNew, c0: w.c0 }, abN, ab }));
+        } catch (_e) { /* measurement must never break the worker */ }
+    };
+    // getConnections answers asynchronously; the final line cannot wait for it (the process is about to exit)
+    if (win === 'final') { emit(w.open); return; }
+    try { server.getConnections((err, n) => emit(err ? null : n)); } catch (_e) { emit(null); }
+}
+function _hoStart() {
+    if (!_HO_ON || _hoStarted) return;
+    _hoStarted = true;
+    _ho = _hoNew(0);
+    server.prependListener('connection', _hoOnConn);
+    server.prependListener('request', _hoOnRequest);
+    const ms = _HO_WIN_S * 1000;
+    setTimeout(function _hoAlign() { _hoFlush('w'); setInterval(function _hoTick() { _hoFlush('w'); }, ms).unref(); }, ms - (Date.now() % ms)).unref();
+    process.once('SIGTERM', function _hoOnSigterm() { _hoFlush('final'); });
+    console.log('[health-obs]' + _OBS_WTAG + ' ENABLED p=w win_s=' + _HO_WIN_S);
+}
+
 // NODE-TWO-WORKER-RENDER-1: Render stops an instance with SIGTERM. Stop accepting new
 //   connections, let in-flight responses finish, and close idle keep-alive sockets, which
 //   would otherwise hold the process open for the full 120s keepAliveTimeout. Bounded, so a
@@ -40400,6 +40761,7 @@ const _tpFinalFlush = () => {
     try { if (_shedStarted) _shedFlush('final'); } catch (_e) { /* measurement only */ }
     try { if (_mlStarted) { _mlFlush('final'); _mlProcFlush('final'); } } catch (_e) { /* measurement only */ }
     try { if (_msmTimers) _msmFlush('final'); } catch (_e) { /* measurement only */ }
+    try { if (_hoStarted) _hoFlush('final'); } catch (_e) { /* measurement only */ }   // HEALTH-OBS
 };
 server.prependListener('request', (req, res) => { if (_tpRetiring) res.setHeader('Connection', 'close'); });
 const _tpWorkerRetire = () => {
@@ -40445,6 +40807,7 @@ _getQiblaDbNameEnIndex();
 
 server.once('listening', _shedStart);   // MOON-DAY-OVERLOAD-SHED-1: measure load only once this worker serves
 server.once('listening', _mlStartTimers);   // MOON-LOAD-OBSERVABILITY-1
+if (_HO_ON) server.once('listening', _hoStart);   // HEALTH-OBSERVABILITY-1 (off: not even this listener)
 _preloadReady.then(() => {
     server.listen(PORT, () => console.log(`Server running at http://localhost:${PORT}`));
 }).catch(err => {

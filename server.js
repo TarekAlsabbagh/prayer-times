@@ -254,7 +254,7 @@ if (cluster.isPrimary) {
     //                   is one of them.
     //     tcp           the sockets of the container's network namespace on PORT (/proc/net/tcp + tcp6, sampled every
     //                   10 s; state counts only, the addresses are never kept): lq = the kernel accept queue of the
-    //                   listening socket (connections waiting for the primary to accept them), bl = its backlog limit,
+    //                   listening socket (connections waiting for the primary to accept them), bl = always null (the backlog limit is not in /proc/net/tcp),
     //                   est / syn / cw / tw / oth = ESTABLISHED / SYN_RECV / CLOSE_WAIT / TIME_WAIT / other: last and max
     //     net           deltas of the namespace's ListenOverflows, ListenDrops (TcpExt) and EstabResets (Tcp)
     //     probe         a self-check of the whole local path -- kernel queue, primary, hand-off, worker -- with a GET
@@ -281,11 +281,12 @@ if (cluster.isPrimary) {
             const lp = a[1].slice(a[1].lastIndexOf(':') + 1);
             if (lp !== portHex) continue;
             const st = a[3];
-            if (st === '0A') {                                       // LISTEN: rx_queue = accept queue now, tx_queue = backlog
+            if (st === '0A') {                                       // LISTEN: rx_queue = accept queue now
                 const q = a[4].split(':');
                 c.lq = (c.lq || 0) + (parseInt(q[1], 16) || 0);    // stays null while no listener on PORT was seen
-                const b = parseInt(q[0], 16);
-                if (Number.isInteger(b)) c.bl = Math.max(c.bl || 0, b);
+                // HEALTH-OBS-BL-UNAVAILABLE-1: the backlog LIMIT is not in /proc/net/tcp -- for a listener the kernel writes
+                //   tx_queue = write_seq - snd_una = 0, and exposes the limit only through inet_diag (what `ss` reads). So bl
+                //   is never read here and stays null = "unavailable"; no zero and no inferred value is reported.
             } else c[ST[st] || 'oth']++;
         }
         return c;
@@ -323,7 +324,8 @@ if (cluster.isPrimary) {
         const tcpOn = process.platform === 'linux' && tcpFiles.length > 0;
         const TCP_KEYS = ['lq', 'est', 'syn', 'cw', 'tw', 'oth'];
         const tpHoTcp = () => {
-            // lq / bl are null until the listening socket on PORT is found: "unavailable", never a misleading 0
+            // lq is null until the listening socket on PORT is found, and bl is always null (its source is not in /proc/net/tcp):
+            //   "unavailable", never a misleading 0
             const c = { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 };
             let any = false;
             for (const f of tcpFiles) {

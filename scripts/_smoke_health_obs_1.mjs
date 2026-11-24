@@ -62,7 +62,7 @@ if (!SKIP.has('U1')) {
     const src = between('const tpHoParseTcp = (', '// end tpHoParse');
     const { tpHoParseTcp, tpHoParseNet } = new Function(src + '; return { tpHoParseTcp, tpHoParseNet };')();
     const hdr = '  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode\n';
-    // PORT 10000 = 0x2710; a LISTEN with 3 waiting / backlog 511, 2 ESTABLISHED, 1 SYN_RECV, 1 CLOSE_WAIT, 2 TIME_WAIT,
+    // PORT 10000 = 0x2710; a LISTEN with 3 waiting (and a non-zero tx_queue that is NOT a backlog), 2 ESTABLISHED, 1 SYN_RECV, 1 CLOSE_WAIT, 2 TIME_WAIT,
     //   1 FIN_WAIT1 (other); plus sockets on other ports (an outbound 443 connection, a listener on 8080) that must not count
     const tcp4 = hdr
         + '   0: 00000000:2710 00000000:0000 0A 000001FF:00000003 00:00000000 00000000  1000        0 1 1 0 100 0 0 10 0\n'
@@ -76,13 +76,16 @@ if (!SKIP.has('U1')) {
         + '   8: 0A00000B:C350 22222222:01BB 01 00000000:00000000 00:00000000 00000000  1000        0 6 1 0 20 4 30 10 -1\n'
         + '   9: 00000000:1F90 00000000:0000 0A 00000080:00000009 00:00000000 00000000  1000        0 7 1 0 100 0 0 10 0';
     const c4 = tpHoParseTcp(tcp4, '2710', { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
-    ok('U1', JSON.stringify(c4) === JSON.stringify({ lq: 3, bl: 511, est: 2, syn: 1, cw: 1, tw: 2, oth: 1 }), 'tcp4: listener queue/backlog + state counts on PORT only', JSON.stringify(c4));
+    // HEALTH-OBS-BL-UNAVAILABLE-1: the listener row carries tx_queue 0x1FF here on purpose -- a non-zero tx_queue must NOT be
+    //   read as a backlog (Linux writes 0 there for a listener and keeps the limit out of /proc/net/tcp): bl stays null
+    ok('U1', JSON.stringify(c4) === JSON.stringify({ lq: 3, bl: null, est: 2, syn: 1, cw: 1, tw: 2, oth: 1 }), 'tcp4: listener queue + state counts on PORT only; bl stays null (unavailable) even with a non-zero tx_queue', JSON.stringify(c4));
     const tcp6 = hdr
         + '   0: 00000000000000000000000000000000:2710 00000000000000000000000000000000:0000 0A 000001FF:00000002 00:00000000 00000000  1000        0 11 1 0 100 0 0 10 0\n'
         + '   1: 0000000000000000FFFF00000B00000A:2710 0000000000000000FFFF00000B0A0A0A:D431 01 00000000:00000000 00:00000000 00000000  1000        0 12 1 0 20 4 30 10 -1\n';
     const c6 = tpHoParseTcp(tcp6, '2710', { ...c4 });
-    ok('U1', c6.lq === 5 && c6.bl === 511 && c6.est === 3, 'tcp6 (dual-stack listener) adds to the same counters', JSON.stringify(c6));
-    ok('U1', Object.keys(c6).join(',') === 'lq,bl,est,syn,cw,tw,oth' && Object.values(c6).every((v) => typeof v === 'number'), 'result holds counts only (no address field)', JSON.stringify(c6));
+    ok('U1', c6.lq === 5 && c6.bl === null && c6.est === 3, 'tcp6 (dual-stack listener) adds to the same counters; bl stays null', JSON.stringify(c6));
+    ok('U1', Object.keys(c6).join(',') === 'lq,bl,est,syn,cw,tw,oth' && c6.bl === null && Object.entries(c6).every(([k, v]) => k === 'bl' || typeof v === 'number'), 'result holds counts only (no address field); bl is null, never a number', JSON.stringify(c6));
+    ok('U1', !/\bc\.bl\s*=/.test(src), 'the parser never assigns bl (no backlog value is read or inferred from /proc/net/tcp)');
     const c0 = tpHoParseTcp(hdr, '2710', { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
     ok('U1', c0.lq === null && c0.bl === null && c0.est === 0, 'header only (no listener on PORT) -> lq / bl null = unavailable, never a misleading 0; state counts 0', JSON.stringify(c0));
     const cOther = tpHoParseTcp(hdr + '   0: 00000000:1F90 00000000:0000 0A 00000005:00000080 00:00000000 00000000  1000        0 7 1 0 100 0 0 10 0\n', '2710', { lq: null, bl: null, est: 0, syn: 0, cw: 0, tw: 0, oth: 0 });
